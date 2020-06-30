@@ -2,185 +2,386 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA09920F924
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 18:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD2E520F940
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 18:17:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgF3QLL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 12:11:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41094 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726117AbgF3QLK (ORCPT
+        id S1732604AbgF3QQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 12:16:51 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1105 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728290AbgF3QQu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 12:11:10 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2986CC061755
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 09:11:10 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 23A3F265B28
-Subject: Re: [RFC v3 1/2] v4l2: add support for colorspace conversion for
- video capture
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <HansVerkuil@cisco.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, laurent.pinchart@ideasonboard.com,
-        linux-rockchip@lists.infradead.org, sakari.ailus@linux.intel.com,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
- <20200604173901.GA76282@chromium.org>
- <dba58521-a619-91fe-2b60-ea5ce85a9fa2@collabora.com>
- <20200610133411.GA192932@chromium.org>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <a4754496-2074-046a-1532-f9d697e200c1@collabora.com>
-Date:   Tue, 30 Jun 2020 18:11:04 +0200
+        Tue, 30 Jun 2020 12:16:50 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5efb653e0000>; Tue, 30 Jun 2020 09:15:58 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 30 Jun 2020 09:16:47 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 09:16:47 -0700
+Received: from [10.2.167.193] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
+ 2020 16:16:46 +0000
+Subject: Re: [RFC PATCH v2 00/18] Support for Tegra video capture from
+ external sensor
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <robh+dt@kernel.org>, <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
+ <b3f63f3f-50b2-e818-2c59-8009c31a9825@xs4all.nl>
+ <f5c84071-46ad-aa6f-0820-1813d4a907c9@nvidia.com>
+ <a60d8f80-312d-fce3-61f5-328e7f2a7a64@xs4all.nl>
+ <72ca3b09-7ca6-7421-4a9d-98326d1af087@nvidia.com>
+Message-ID: <e8a8a678-e9e8-e941-8dcb-0e747616ba59@nvidia.com>
+Date:   Tue, 30 Jun 2020 09:17:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200610133411.GA192932@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <72ca3b09-7ca6-7421-4a9d-98326d1af087@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593533758; bh=XSg2qN4yyT+tMT1zZSUfxAuzNf/qjGAod/D3XjDMvSc=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=U+a1y8stOypxAdDAGLd5xIiLrymaSl8aPTN1kxmJUrS9wEYXFMas9Ch5VQm9SctGm
+         R0yM7ZtBEKkamZWP78XKiZZSLpB9D9FSbPM7WCOotCpboKVRvmY38ODbjgErm3pRl4
+         bWY4e0JEohyIUej65fA0LjiyAFMybb6fCTSffr3e9cWYRezGjWZUByRoJvc21UsfPq
+         lG7I3PNbeqYClJaOvA3foL+rBhIgiqryUFMljtlLVERYwfLWSmdVF6E8L8M+dy83xr
+         a3EpT1GmZ2Wd5qtSf830KYTMa9L9mWyjggO89I2xos7m7Mdw8FKrpVGsGvCrt4l1lu
+         bU+ubzvEZmttw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-
-On 10.06.20 15:34, Tomasz Figa wrote:
-> On Fri, Jun 05, 2020 at 12:11:33PM +0200, Dafna Hirschfeld wrote:
->> Hi,
->>
->> On 04.06.20 19:39, Tomasz Figa wrote:
->>> Hi Dafna,
->>>
->>> On Thu, Apr 16, 2020 at 04:56:04PM +0200, Dafna Hirschfeld wrote:
->>>> From: Philipp Zabel <p.zabel@pengutronix.de>
+On 6/30/20 8:44 AM, Sowjanya Komatineni wrote:
+>
+> On 6/30/20 8:13 AM, Hans Verkuil wrote:
+>> On 30/06/2020 16:58, Sowjanya Komatineni wrote:
+>>> On 6/30/20 2:21 AM, Hans Verkuil wrote:
+>>>> On 17/06/2020 03:41, Sowjanya Komatineni wrote:
+>>>>> This series adds support for video capture from external camera=20
+>>>>> sensor to
+>>>>> Tegra video driver.
+>>>>>
+>>>>> Jetson TX1 has camera expansion connector and supports custom=20
+>>>>> camera module
+>>>>> designed as per TX1 design specification.
+>>>>>
+>>>>> This series also enables camera capture support for Jetson Nano=20
+>>>>> which has
+>>>>> Raspberry PI camera header.
+>>>>>
+>>>>> This series is tested with IMX219 camera sensor.
+>>>> Which tree did you base this on? The media_tree master? Or the=20
+>>>> mainline kernel?
+>>> These patches are with linux-next base at the time I sent them out=20
+>>> which
+>>> are on 20200616
+>>>> I now have the imx219 detected, but if I try to stream I get this:
 >>>>
->>>> For video capture it is the driver that reports the colorspace,
->>>> Y'CbCr/HSV encoding, quantization range and transfer function
->>>> used by the video, and there is no way to request something
->>>> different, even though many HDTV receivers have some sort of
->>>> colorspace conversion capabilities.
+>>>> $ v4l2-ctl --stream-mmap
+>>>> <[=C2=A0 512.840944] video4linux video0: MW_ACK_DONE syncpt timeout: -=
+11
+>>>> [=C2=A0 512.972975] video4linux video0: frame start syncpt timeout: -1=
+1
+>>>> <VIDIOC_DQBUF: failed: Input/output error
+>>>> [=C2=A0 513.180770] video4linux video0: MW_ACK_DONE syncpt timeout: -1=
+1
 >>>>
->>>
->>> Thanks for working on this! Please see my comments inline.
->>>
->>>> For output video this feature already exists since the application
->>>> specifies this information for the video format it will send out, and
->>>> the transmitter will enable any available CSC if a format conversion has
->>>> to be performed in order to match the capabilities of the sink.
+>>>> And then everything hangs and I need to reset.
 >>>>
->>>> For video capture we propose adding new pix_format flag:
->>>> V4L2_PIX_FMT_FLAG_HAS_CSC. The flag is set by the application,
->>>> the driver will interpret the ycbcr_enc/hsv_enc, and quantization fields
->>>> as the requested colorspace information and will attempt to
->>>> do the conversion it supports.
+>>>> I'm testing with the media_tree master with your patches on top.
 >>>>
->>>> Drivers set the flags
->>>> V4L2_FMT_FLAG_CSC_YCBCR_ENC,
->>>> V4L2_FMT_FLAG_CSC_HSV_ENC,
->>>> V4L2_FMT_FLAG_CSC_HSV_QUANTIZATION,
+>>>> Regards,
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0Hans
+>>> Are you using same device tree as I sent offline? It uses CSI A for=20
+>>> IMX219.
 >>>
->>> Do we need this level of granularity? The drivers would ignore
->>> unsupported encoding/quantization settings and reset them to supported
->>> ones anyway, so if one doesn't support changing given parameter, it
->>> would just return back the original stream parameter.
->>
->> I think this granularity allows userspace to know ahead what is supported
->> and what is not so it doesn't have to guess.
->>
-> 
-> The userspace needs to guess anyway, because there is no way to
-> enumerate the supported target parameters. For example, even if the
-> CSC_YCBCR_ENC bit is set, only only DEFAULT, 601 and BT2020 could be
-> supported. If the userspace wants to get the 709 encoding, it needs to
-> explicitly try setting it and see if the TRY_FMT/S_FMT operation accepts
-> the setting.
-
-yes, indeed, Hans Verkuil suggested those flags. Maybe it is indeed enough
-to have one flag.
-
-> 
-> [snip]
->>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> index a376b351135f..51e009936aad 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> @@ -477,6 +477,13 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>>>    	case VIDIOC_SUBDEV_S_FMT: {
->>>>    		struct v4l2_subdev_format *format = arg;
->>>> +		if (!(format->format.flags & V4L2_MBUS_FRAMEFMT_HAS_CSC)) {
->>>> +			format->format.colorspace = V4L2_COLORSPACE_DEFAULT;
->>>> +			format->format.xfer_func = V4L2_XFER_FUNC_DEFAULT;
->>>> +			format->format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
->>>> +			format->format.quantization = V4L2_QUANTIZATION_DEFAULT;
->>>> +		}
+>>> Does you setup also uses CSI-A as x2 for IMX219?
 >>>
->>> Wouldn't this break setting the colorspaces on the sink pads, for which
->>> the flag isn't required? Actually there is some unfortunate statement in
->>> the documentation related to this:
+>>> I tested them on Jetson Nano + IMX219 rasp PI module and also on Jetson
+>>> TX1 + IMX274.
 >>>
->>> "This information supplements the colorspace and must be set by the
->>> driver for capture streams and by the application for output streams,
->>> see Colorspaces."
+>>> I did not see any issue and am able to capture from both.
 >>>
->>> However, I don't think there is any notion of "capture" and "output" for
->>> subdevices, right? Instead, the pad direction would have to be checked,
->>> but AFAICT there is no access to this kind of information from this
->>> wrapper.
+>>> Will try again on my side with today's latest linux-next and update=20
+>>> result.
+>> Please use the media_tree master, that's what I use as well.
 >>
->> Actually in coming v4 there is no new code added accept of the new fields and
->> macros of the API. I think there is no need to change any code.
+>> I did some more testing and there is something weird going on.
+>>
+>> I have a Leopard Imaging camera expansion board (LI-JTX1-MIPI-ADPT) with
+>> three camera connectors. See here for the datasheet:
+>>
+>> https://www.leopardimaging.com/uploads/LI-TX1-KIT-IMX274M12-T_datasheet.=
+pdf=20
 >>
 >>
-> 
-> Agreed.
-> 
->>>
->>>> +
->>>>    		memset(format->reserved, 0, sizeof(format->reserved));
->>>>    		memset(format->format.reserved, 0, sizeof(format->format.reserved));
->>>>    		return v4l2_subdev_call(sd, pad, set_fmt, subdev_fh->pad, format);
->>>> diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
->>>> index 123a231001a8..89ff0ad6a631 100644
->>>> --- a/include/uapi/linux/v4l2-mediabus.h
->>>> +++ b/include/uapi/linux/v4l2-mediabus.h
->>>> @@ -16,6 +16,8 @@
->>>>    #include <linux/types.h>
->>>>    #include <linux/videodev2.h>
->>>> +#define V4L2_MBUS_FRAMEFMT_HAS_CSC	0x0001
->>>> +
->>>>    /**
->>>>     * struct v4l2_mbus_framefmt - frame format on the media bus
->>>>     * @width:	image width
->>>> @@ -36,7 +38,8 @@ struct v4l2_mbus_framefmt {
->>>>    	__u16			ycbcr_enc;
->>>>    	__u16			quantization;
->>>>    	__u16			xfer_func;
->>>> -	__u16			reserved[11];
->>>> +	__u16			flags;
->>>
->>> Are we okay with a u16 for flags?
+>> The first connector (with an IMX274) causes this error:
 >>
->> I am fine with it, though don't mind changing it if there are objections.
+>> $ v4l2-ctl -d1 --stream-mmap
+>> [=C2=A0 599.265885] video4linux video1: MW_ACK_DONE syncpt timeout: -11
+>> [=C2=A0 599.473883] video4linux video1: MW_ACK_DONE syncpt timeout: -11
+>> [=C2=A0 599.681904] video4linux video1: frame start syncpt timeout: -11
+>> [=C2=A0 599.681909] video4linux video1: MW_ACK_DONE syncpt timeout: -11
+>> <VIDIOC_DQBUF: failed: Input/output error
+>> [=C2=A0 599.897884] video4linux video1: MW_ACK_DONE syncpt timeout: -11
 >>
-> 
-> I'd suggest making it a u32 to be a bit more future-proof.
+>> Similar to the test above where I had an IMX219 connected. Except it=20
+>> didn't
+>> hang with the IMX274 (I'm beginning to suspect a locking issue in the=20
+>> imx219
+>> driver that is causing the hang, I'll look at that tomorrow).
+>>
+>> If I connect the IMX219 to the middle camera connector, then it works=20
+>> fine.
+>> I think I tested this with the IMX274 as well, but I'm not 100%=20
+>> certain, also
+>> something to double check tomorrow.
+>>
+>> If I connect the IMX219 or IMX274 to the third camera connector, then=20
+>> I get this:
+>
+> Would like to know CSI port mapping to connectors as mipi calibrate=20
+> pads cells need to be updated in device tree based on CSI port in use.
+>
+> Will see if I can find that from DS link you sent above.
+>
+>>
+>> $ v4l2-ctl -d0 --stream-mmap
+>> [=C2=A0 820.513866] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>>
+>> [=C2=A0 820.525354] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>>
+>> [=C2=A0 820.536780] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>>
+>> [=C2=A0 820.548222] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>>
+>> [=C2=A0 820.559639] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> <[=C2=A0 820.646931] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 820.658355] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 820.669797] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 820.681216] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 820.692601] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> <<<<<<<<<<<<<<< 14.50 fps
+>> <<<<<<<<<<<<<<< 14.75 fps
+>> <<<<<<<<<<<<<<< 14.73 fps
+>> <<<<<<<<<<<<<<< 14.80 fps
+>> <<<<<<<<<<<<<[ 825.517854] tegra_mc_irq: 133437 callbacks suppressed
+>> [=C2=A0 825.517874] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.534395] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.545833] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.557280] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.579346] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.590764] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.602188] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.613649] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.625075] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> [=C2=A0 825.645983] tegra-mc 70019000.memory-controller: viw: write=20
+>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
+>> < 14.64 fps
+>> <<<<<<<<<<<<<<<< 14.87 fps
+>> <<<<<<<<<<<<<<< 14.89 fps
+>>
+>> Something is producing EMEM address decode errors. But it is streaming.
+>
+> above memory controller errors may be due to access faults and not=20
+> sure why these show up on your setup. I never have these with my testing.
+>
+> Also I am using CMA alloc of 256MB and not sure if low CMA alloc size=20
+> is causing this. Can you try with CMA alloc size of 256MB?
+>
+>>
+>> If I enable the TPG then everything is fine.
+>>
+>> So I have currently three different behaviors for three camera=20
+>> connectors.
+>>
+>> Do you have a datasheet for your Jetson TX1 camera board? It could be=20
+>> useful
+>> to compare the two.
+>
+> Yeah we have and will send it offline.
+>
+> Also based on connector mapping to corresponding CSI port,=20
+> mipi-calibrate pad cell value also need to be changed.
+>
+> Below is for CSI-A
+>
+> nvidia,mipi-calibrate =3D <&mipi 0x001>
+>> Regards,
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0Hans
+Connector-1 is CSI-AB where you had timeouts.
 
-ok, I see that just changing the type to __u32 and the reserved array
-to 'reserved[9]' increases the struct size from 48 to 52 because of padding.
-There are two ways to solve it,
-- move the flags field to be just above 'ycbcr_enc'
-- change reserve to 'reserve[8]'
+Connector-2 is CSI-CD and this works for you.
 
-Is moving fields order in a struct ok? If so it save us 2 bytes.
+Connector-3 is CSI-EF and this works for streaming from above but=20
+there's memory access fault errors (EMEM address decode errors)
 
-Thanks,
-Dafna
+These EMEM decode errors are not related to connector but its just they=20
+showed up during connector-3 testing I believe. Can you also keep CMA=20
+size to 256MB and try?
 
-> 
-> Best regards,
-> Tomasz
-> 
+Not sure if CSI-AB issue with FS and MW_ACK sp timeouts are due to some=20
+HW/setup issue. Streaming should work on CSI-AB ports as well just like=20
+CSI-CD/EF with proper device tree change for port index and mipi=20
+calibrate cells for corresponding ports.
+
+On my setup that I tested IMX274 is on CSI-AB.
+
+Will update my side test results with today's linux-next
+
+>>
+>>>>> This series include,
+>>>>>
+>>>>> VI I2C related fixes
+>>>>> - Camera sensor programming happens through VI I2C which is on=20
+>>>>> host1x bus.
+>>>>> - These patches includes device tree and I2C driver fixes for VI I2C.
+>>>>>
+>>>>> Tegra video driver updates
+>>>>> - TPG Vs Non-TPG based on Kconfig
+>>>>> - Support for external sensor video capture based on device graph=20
+>>>>> from DT.
+>>>>> - Support for selection ioctl operations
+>>>>> - Tegra MIPI CSI pads calibration
+>>>>> - CSI T-CLK and T-HS settle time computation based on clock rates.
+>>>>>
+>>>>> Host1x driver updates
+>>>>> - Adds API to allow creating mipi device for specific device node.
+>>>>> - Splits MIPI pads calibrate start and waiting for calibration to=20
+>>>>> be done.
+>>>>>
+>>>>> Device tree updates
+>>>>> - Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson=20
+>>>>> TX1 DT.
+>>>>> - Enabled VI and CSI support in Jetson Nano DT.
+>>>>>
+>>>>>
+>>>>> Delta between patch versions:
+>>>>>
+>>>>> [v2]:=C2=A0=C2=A0=C2=A0 Includes below changes based on v1 feedback
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- dt-binding document and the driver update f=
+or device graph=20
+>>>>> to use
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 separate ports for sink endpoint and s=
+ource endpoint for csi.
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Use data-lanes endpoint property for csi.
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Update tegra_mipi_request() to take device =
+node pointer=20
+>>>>> argument
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rather than adding extra API.
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Remove checking for clk pointer before clk_=
+disable.
+>>>>>
+>>>>>
+>>>>> Sowjanya Komatineni (18):
+>>>>> =C2=A0=C2=A0=C2=A0 dt-bindings: i2c: tegra: Document Tegra210 VI I2C =
+clocks and
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 power-domains
+>>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: Add missing clocks and power-domains=
+ to Tegra210=20
+>>>>> VI I2C
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Don't mark VI I2C as IRQ safe runtime =
+PM
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Fix the error path in tegra_i2c_runtim=
+e_resume
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Fix runtime resume to re-init VI I2C
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra21=
+0 vi i2c
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Fix channel format alignment
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Enable TPG based on kernel con=
+fig
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Update format lookup to offset=
+ based
+>>>>> =C2=A0=C2=A0=C2=A0 dt-bindings: tegra: Update VI and CSI bindings wit=
+h port info
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add support for external senso=
+r capture
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add support for selection ioct=
+l ops
+>>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Update tegra_mipi_request() to =
+be node based
+>>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Split tegra_mipi_calibrate and =
+tegra_mipi_wait
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add CSI MIPI pads calibration
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Compute settle times based on =
+the clock rate
+>>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: jetson-tx1: Add camera supplies
+>>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: Enable Tegra VI CSI support for Jets=
+on Nano
+>>>>>
+>>>>> =C2=A0=C2=A0 .../display/tegra/nvidia,tegra20-host1x.txt=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 92 ++-
+>>>>> =C2=A0=C2=A0 .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt | 19 =
++-
+>>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 41 ++
+>>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 10 =
++
+>>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210.dtsi=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 +
+>>>>> =C2=A0=C2=A0 drivers/gpu/drm/tegra/dsi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 9 +-
+>>>>> =C2=A0=C2=A0 drivers/gpu/host1x/mipi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 30 +-
+>>>>> =C2=A0=C2=A0 drivers/i2c/busses/i2c-tegra.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 39 +-
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/Kconfig=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 +
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/csi.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 245 ++++++-
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/csi.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 8 +
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/tegra210.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 25 +-
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/vi.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 770=20
+>>>>> +++++++++++++++++++--
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/vi.h=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +-
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/video.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +-
+>>>>> =C2=A0=C2=A0 include/linux/host1x.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 +-
+>>>>> =C2=A0=C2=A0 16 files changed, 1251 insertions(+), 100 deletions(-)
+>>>>>
