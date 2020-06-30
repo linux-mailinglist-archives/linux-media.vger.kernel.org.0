@@ -2,406 +2,479 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA5A120F98D
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 18:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B28C720F996
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 18:36:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388981AbgF3QeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 12:34:14 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2651 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726639AbgF3QeO (ORCPT
+        id S2389318AbgF3QgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 12:36:13 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35524 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389026AbgF3QgM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 12:34:14 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5efb69540000>; Tue, 30 Jun 2020 09:33:24 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 30 Jun 2020 09:34:13 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 30 Jun 2020 09:34:13 -0700
-Received: from [10.2.167.193] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 16:34:12 +0000
-Subject: Re: [RFC PATCH v2 00/18] Support for Tegra video capture from
- external sensor
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
-        <robh+dt@kernel.org>, <helen.koike@collabora.com>
-CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
-References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
- <b3f63f3f-50b2-e818-2c59-8009c31a9825@xs4all.nl>
- <f5c84071-46ad-aa6f-0820-1813d4a907c9@nvidia.com>
- <a60d8f80-312d-fce3-61f5-328e7f2a7a64@xs4all.nl>
- <72ca3b09-7ca6-7421-4a9d-98326d1af087@nvidia.com>
- <e8a8a678-e9e8-e941-8dcb-0e747616ba59@nvidia.com>
-Message-ID: <a606ac84-e0bc-aa85-5799-eeeb544d130d@nvidia.com>
-Date:   Tue, 30 Jun 2020 09:34:41 -0700
+        Tue, 30 Jun 2020 12:36:12 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id BFF7E2A0717
+Subject: Re: [RFC v4 4/8] v4l2: add support for colorspace conversion API
+ (CSC) for video capture and subdevices
+To:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        hverkuil@xs4all.nl, Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org, skhan@linuxfoundation.org,
+        p.zabel@pengutronix.de
+References: <20200605172625.19777-1-dafna.hirschfeld@collabora.com>
+ <20200605172625.19777-5-dafna.hirschfeld@collabora.com>
+ <510295b3-39f2-dd23-6aa0-be838c731cef@collabora.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <0945d46b-2c92-fdd7-972d-81e5d92f1532@collabora.com>
+Date:   Tue, 30 Jun 2020 18:36:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <e8a8a678-e9e8-e941-8dcb-0e747616ba59@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <510295b3-39f2-dd23-6aa0-be838c731cef@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1593534804; bh=PWBaDihnXUkhqgEp7eQw5PvGQIG295oKjcUZ9voI88k=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=FPNBZp1isbBVgoD5K5uZbx5d+6WZN/KVsRyb16g6lwAYO+36o4GMb2wgDPLqfTF8K
-         B49GPfBVf5HgHluBd8RmRSxPkztp1oNDj3C9nK3YSF9MfwZ+/mX9GRfYo5WVbboTEc
-         JeQCuSpSmkgn5xwHgDFjB9Z1N3BGpBXjuY+WJpeHi6kGPAi7ymAoXCHJlKQ7s1cTN+
-         PFEBtCqIZMZ0WcHs9DCe8alCrcK5DOT+kEzTSKduPA+tsvg9R6dGrn7XCni/h80IZ2
-         DJzBL4T8zmlu4tA4VDk4eHVaSulbHp8T7z0FQibE6Jxk3v9mF4DsYfvaqogwhEY3TU
-         uqUR0vQ4EwNXg==
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans and everyone,
 
-On 6/30/20 9:17 AM, Sowjanya Komatineni wrote:
->
-> On 6/30/20 8:44 AM, Sowjanya Komatineni wrote:
+On 26.06.20 01:29, Helen Koike wrote:
+> 
+> 
+> On 6/5/20 2:26 PM, Dafna Hirschfeld wrote:
+>> From: Philipp Zabel <p.zabel@pengutronix.de>
 >>
->> On 6/30/20 8:13 AM, Hans Verkuil wrote:
->>> On 30/06/2020 16:58, Sowjanya Komatineni wrote:
->>>> On 6/30/20 2:21 AM, Hans Verkuil wrote:
->>>>> On 17/06/2020 03:41, Sowjanya Komatineni wrote:
->>>>>> This series adds support for video capture from external camera=20
->>>>>> sensor to
->>>>>> Tegra video driver.
->>>>>>
->>>>>> Jetson TX1 has camera expansion connector and supports custom=20
->>>>>> camera module
->>>>>> designed as per TX1 design specification.
->>>>>>
->>>>>> This series also enables camera capture support for Jetson Nano=20
->>>>>> which has
->>>>>> Raspberry PI camera header.
->>>>>>
->>>>>> This series is tested with IMX219 camera sensor.
->>>>> Which tree did you base this on? The media_tree master? Or the=20
->>>>> mainline kernel?
->>>> These patches are with linux-next base at the time I sent them out=20
->>>> which
->>>> are on 20200616
->>>>> I now have the imx219 detected, but if I try to stream I get this:
->>>>>
->>>>> $ v4l2-ctl --stream-mmap
->>>>> <[=C2=A0 512.840944] video4linux video0: MW_ACK_DONE syncpt timeout: =
--11
->>>>> [=C2=A0 512.972975] video4linux video0: frame start syncpt timeout: -=
-11
->>>>> <VIDIOC_DQBUF: failed: Input/output error
->>>>> [=C2=A0 513.180770] video4linux video0: MW_ACK_DONE syncpt timeout: -=
-11
->>>>>
->>>>> And then everything hangs and I need to reset.
->>>>>
->>>>> I'm testing with the media_tree master with your patches on top.
->>>>>
->>>>> Regards,
->>>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0Hans
->>>> Are you using same device tree as I sent offline? It uses CSI A for=20
->>>> IMX219.
->>>>
->>>> Does you setup also uses CSI-A as x2 for IMX219?
->>>>
->>>> I tested them on Jetson Nano + IMX219 rasp PI module and also on=20
->>>> Jetson
->>>> TX1 + IMX274.
->>>>
->>>> I did not see any issue and am able to capture from both.
->>>>
->>>> Will try again on my side with today's latest linux-next and update=20
->>>> result.
->>> Please use the media_tree master, that's what I use as well.
->>>
->>> I did some more testing and there is something weird going on.
->>>
->>> I have a Leopard Imaging camera expansion board (LI-JTX1-MIPI-ADPT)=20
->>> with
->>> three camera connectors. See here for the datasheet:
->>>
->>> https://www.leopardimaging.com/uploads/LI-TX1-KIT-IMX274M12-T_datasheet=
-.pdf=20
->>>
->>>
->>> The first connector (with an IMX274) causes this error:
->>>
->>> $ v4l2-ctl -d1 --stream-mmap
->>> [=C2=A0 599.265885] video4linux video1: MW_ACK_DONE syncpt timeout: -11
->>> [=C2=A0 599.473883] video4linux video1: MW_ACK_DONE syncpt timeout: -11
->>> [=C2=A0 599.681904] video4linux video1: frame start syncpt timeout: -11
->>> [=C2=A0 599.681909] video4linux video1: MW_ACK_DONE syncpt timeout: -11
->>> <VIDIOC_DQBUF: failed: Input/output error
->>> [=C2=A0 599.897884] video4linux video1: MW_ACK_DONE syncpt timeout: -11
->>>
->>> Similar to the test above where I had an IMX219 connected. Except it=20
->>> didn't
->>> hang with the IMX274 (I'm beginning to suspect a locking issue in=20
->>> the imx219
->>> driver that is causing the hang, I'll look at that tomorrow).
->>>
->>> If I connect the IMX219 to the middle camera connector, then it=20
->>> works fine.
->>> I think I tested this with the IMX274 as well, but I'm not 100%=20
->>> certain, also
->>> something to double check tomorrow.
->>>
->>> If I connect the IMX219 or IMX274 to the third camera connector,=20
->>> then I get this:
+>> For video capture it is the driver that reports the colorspace,
+>> Y'CbCr/HSV encoding, quantization range and transfer function
+>> used by the video, and there is no way to request something
+>> different, even though many HDTV receivers have some sort of
+>> colorspace conversion capabilities.
 >>
->> Would like to know CSI port mapping to connectors as mipi calibrate=20
->> pads cells need to be updated in device tree based on CSI port in use.
+>> For output video this feature already exists since the application
+>> specifies this information for the video format it will send out, and
+>> the transmitter will enable any available CSC if a format conversion has
+>> to be performed in order to match the capabilities of the sink.
 >>
->> Will see if I can find that from DS link you sent above.
+>> For video capture we propose adding new v4l2_pix_format flag:
+>> V4L2_PIX_FMT_FLAG_SET_CSC. The flag is set by the application,
+>> the driver will interpret the ycbcr_enc/hsv_enc, and quantization fields
+>> as the requested colorspace information and will attempt to
+>> do the conversion it supports.
 >>
->>>
->>> $ v4l2-ctl -d0 --stream-mmap
->>> [=C2=A0 820.513866] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>>
->>> [=C2=A0 820.525354] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>>
->>> [=C2=A0 820.536780] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>>
->>> [=C2=A0 820.548222] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>>
->>> [=C2=A0 820.559639] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> <[=C2=A0 820.646931] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 820.658355] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 820.669797] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 820.681216] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 820.692601] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> <<<<<<<<<<<<<<< 14.50 fps
->>> <<<<<<<<<<<<<<< 14.75 fps
->>> <<<<<<<<<<<<<<< 14.73 fps
->>> <<<<<<<<<<<<<<< 14.80 fps
->>> <<<<<<<<<<<<<[ 825.517854] tegra_mc_irq: 133437 callbacks suppressed
->>> [=C2=A0 825.517874] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.534395] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.545833] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.557280] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.579346] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.590764] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.602188] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.613649] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.625075] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> [=C2=A0 825.645983] tegra-mc 70019000.memory-controller: viw: write=20
->>> @0x00000001b5fd08c0: EMEM address decode error (EMEM decode error)
->>> < 14.64 fps
->>> <<<<<<<<<<<<<<<< 14.87 fps
->>> <<<<<<<<<<<<<<< 14.89 fps
->>>
->>> Something is producing EMEM address decode errors. But it is streaming.
+>> Drivers set the flags
+>> V4L2_FMT_FLAG_CSC_YCBCR_ENC,
+>> V4L2_FMT_FLAG_CSC_HSV_ENC,
+>> V4L2_FMT_FLAG_CSC_QUANTIZATION,
+>> in the flags field of the struct v4l2_fmtdesc during enumeration to
+>> indicate that they support colorspace conversion for the respective field.
+>> Currently the conversion of the fields 'colorspace' and 'xfer_func' is not
+>> supported since there are no drivers that support it.
 >>
->> above memory controller errors may be due to access faults and not=20
->> sure why these show up on your setup. I never have these with my=20
->> testing.
+>> The same API is added for the subdevices. With the flag
+>> V4L2_MBUS_FRAMEFMT_SET_CSC set by the application in VIDIOC_SUBDEV_S_FMT
+>> ioctl and the flags V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC,
+>> V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION set by the driver in the
+>> VIDIOC_SUBDEV_ENUM_MBUS_CODE ioctl.
 >>
->> Also I am using CMA alloc of 256MB and not sure if low CMA alloc size=20
->> is causing this. Can you try with CMA alloc size of 256MB?
+>> For subdevices, new 'flags' fields were added to the structs
+>> v4l2_subdev_mbus_code_enum, v4l2_mbus_framefmt which are borrowed from the
+>> 'reserved' field
 >>
->>>
->>> If I enable the TPG then everything is fine.
->>>
->>> So I have currently three different behaviors for three camera=20
->>> connectors.
->>>
->>> Do you have a datasheet for your Jetson TX1 camera board? It could=20
->>> be useful
->>> to compare the two.
+>> Drivers do not have to actually look at the flagsr. If the flags are not
+>> set, then the colorspace, ycbcr_enc and quantization fields are set to
+>> the default values by the core, i.e. just pass on the received format
+>> without conversion.
 >>
->> Yeah we have and will send it offline.
+>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>>   .../media/v4l/pixfmt-v4l2-mplane.rst          | 16 ++----
+>>   .../userspace-api/media/v4l/pixfmt-v4l2.rst   | 46 ++++++++++++++--
+>>   .../media/v4l/subdev-formats.rst              | 52 +++++++++++++++++--
+>>   .../media/v4l/vidioc-enum-fmt.rst             | 22 +++++++-
+>>   .../v4l/vidioc-subdev-enum-mbus-code.rst      | 28 ++++++++++
+>>   .../media/videodev2.h.rst.exceptions          |  3 ++
+>>   include/uapi/linux/v4l2-mediabus.h            |  5 +-
+>>   include/uapi/linux/v4l2-subdev.h              |  5 +-
+>>   include/uapi/linux/videodev2.h                |  4 ++
+>>   9 files changed, 160 insertions(+), 21 deletions(-)
 >>
->> Also based on connector mapping to corresponding CSI port,=20
->> mipi-calibrate pad cell value also need to be changed.
->>
->> Below is for CSI-A
->>
->> nvidia,mipi-calibrate =3D <&mipi 0x001>
->>> Regards,
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0Hans
-> Connector-1 is CSI-AB where you had timeouts.
->
-> Connector-2 is CSI-CD and this works for you.
->
-> Connector-3 is CSI-EF and this works for streaming from above but=20
-> there's memory access fault errors (EMEM address decode errors)
->
-> These EMEM decode errors are not related to connector but its just=20
-> they showed up during connector-3 testing I believe. Can you also keep=20
-> CMA size to 256MB and try?
->
-> Not sure if CSI-AB issue with FS and MW_ACK sp timeouts are due to=20
-> some HW/setup issue. Streaming should work on CSI-AB ports as well=20
-> just like CSI-CD/EF with proper device tree change for port index and=20
-> mipi calibrate cells for corresponding ports.
->
-> On my setup that I tested IMX274 is on CSI-AB.
->
-> Will update my side test results with today's linux-next
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst b/Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst
+>> index 444b4082684c..66f3365d7b72 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst
+>> @@ -105,29 +105,21 @@ describing all planes of that format.
+>>       * - __u8
+>>         - ``ycbcr_enc``
+>>         - Y'CbCr encoding, from enum :c:type:`v4l2_ycbcr_encoding`.
+>> -        This information supplements the ``colorspace`` and must be set by
+>> -	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	See struct :c:type:`v4l2_pix_format`.
+>>       * - __u8
+>>         - ``hsv_enc``
+>>         - HSV encoding, from enum :c:type:`v4l2_hsv_encoding`.
+>> -        This information supplements the ``colorspace`` and must be set by
+>> -	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	See struct :c:type:`v4l2_pix_format`.
+>>       * - }
+>>         -
+>>       * - __u8
+>>         - ``quantization``
+>>         - Quantization range, from enum :c:type:`v4l2_quantization`.
+>> -        This information supplements the ``colorspace`` and must be set by
+>> -	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	See struct :c:type:`v4l2_pix_format`.
+>>       * - __u8
+>>         - ``xfer_func``
+>>         - Transfer function, from enum :c:type:`v4l2_xfer_func`.
+>> -        This information supplements the ``colorspace`` and must be set by
+>> -	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	See struct :c:type:`v4l2_pix_format`.
+>>       * - __u8
+>>         - ``reserved[7]``
+>>         - Reserved for future extensions. Should be zeroed by drivers and
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst b/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
+>> index ffa539592822..f23404efd90f 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
+>> @@ -148,13 +148,29 @@ Single-planar format structure
+>>         - Y'CbCr encoding, from enum :c:type:`v4l2_ycbcr_encoding`.
+>>           This information supplements the ``colorspace`` and must be set by
+>>   	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	streams, see :ref:`colorspaces`. If the application sets the
+>> +	flag ``V4L2_PIX_FMT_FLAG_SET_CSC`` then the application can set
+>> +	this field for a capture stream to request a specific Y'CbCr encoding
+>> +	for the captured image data. If the driver cannot handle requested
+>> +	conversion, it will return another supported encoding.
+>> +	This field is ignored for HSV pixelformats. The driver indicates that
+>> +	ycbcr_enc conversion is supported by setting the flag
+>> +	V4L2_FMT_FLAG_CSC_YCBCR_ENC in the corresponding struct
+>> +	:c:type:`v4l2_fmtdesc` during enumeration. See :ref:`fmtdesc-flags`
+>>       * - __u32
+>>         - ``hsv_enc``
+>>         - HSV encoding, from enum :c:type:`v4l2_hsv_encoding`.
+>>           This information supplements the ``colorspace`` and must be set by
+>>   	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	streams, see :ref:`colorspaces`. If the application sets the flag
+>> +	``V4L2_PIX_FMT_FLAG_SET_CSC`` then the application can set this
+>> +	field for a capture stream to request a specific HSV encoding for the
+>> +	captured image data. If the driver cannot handle requested
+>> +	conversion, it will return another supported encoding.
+>> +	This field is ignored for non-HSV pixelformats. The driver indicates
+>> +	that hsv_enc conversion is supported by setting the flag
+>> +	V4L2_FMT_FLAG_CSC_HSV_ENC in the corresponding struct
+>> +	:c:type:`v4l2_fmtdesc` during enumeration. See :ref:`fmtdesc-flags`
+>>       * - }
+>>         -
+>>       * - __u32
+>> @@ -162,7 +178,14 @@ Single-planar format structure
+>>         - Quantization range, from enum :c:type:`v4l2_quantization`.
+>>           This information supplements the ``colorspace`` and must be set by
+>>   	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	streams, see :ref:`colorspaces`. If the application sets the flag
+>> +	``V4L2_PIX_FMT_FLAG_SET_CSC`` then the application can set
+>> +	this field for a capture stream to request a specific quantization
+>> +	range for the captured image data. If the driver cannot handle requested
+>> +	conversion, it will return another supported encoding.
+>> +	The driver indicates that quantization conversion is supported by setting
+>> +	the flag V4L2_FMT_FLAG_CSC_QUANTIZATION in the corresponding struct
+>> +	:c:type:`v4l2_fmtdesc` during enumeration. See :ref:`fmtdesc-flags`
+>>       * - __u32
+>>         - ``xfer_func``
+>>         - Transfer function, from enum :c:type:`v4l2_xfer_func`.
+>> @@ -186,3 +209,20 @@ Single-planar format structure
+>>   	by RGBA values (128, 192, 255, 128), the same pixel described with
+>>   	premultiplied colors would be described by RGBA values (64, 96,
+>>   	128, 128)
+>> +    * .. _`v4l2-pix-fmt-flag-set-csc`:
+>> +
+>> +      - ``V4L2_PIX_FMT_FLAG_SET_CSC``
+>> +      - 0x00000002
+>> +      - Set by the application. It is only used for capture and is
+>> +        ignored for output streams. If set, then request the device to do
+>> +	colorspace conversion from the received colorspace to the requested
+>> +	colorspace values. If colorimetry field (``ycncr_enc``, ``hsv_enc``
+>> +	or ``quantization``) is set to 0, then that colorimetry setting will
+>> +	remain unchanged from what was received. So to change the quantization
+>> +	only the ``quantization`` field shall be set to non-zero values
+>> +	(``V4L2_QUANTIZATION_FULL_RANGE`` or ``V4L2_QUANTIZATION_LIM_RANGE``)
+>> +	and all other colorimetry fields shall be set to 0. The API does not
+>> +	support the conversion of the fields ``colorspace`` and ``xfer_func``
+>> +
+>> +	To check which conversions are supported by the hardware for the current
+>> +	pixel format, see :ref:`fmtdesc-flags`.
+>> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+>> index 9a4d61b0d76f..75eb7f8bb4c5 100644
+>> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+>> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+>> @@ -49,13 +49,32 @@ Media Bus Formats
+>>         - Y'CbCr encoding, from enum :c:type:`v4l2_ycbcr_encoding`.
+>>           This information supplements the ``colorspace`` and must be set by
+>>   	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	streams, see :ref:`colorspaces`. If the application sets the
+>> +	flag ``V4L2_MBUS_FRAMEFMT_SET_CSC`` then the application can set
+>> +	this field for a capture stream to request a specific Y'CbCr encoding
 
-Hans,
+As Tomasz already mentioned, the terms 'capture/output stream' is not relevant to
+sub-devices, right?
+I wonder if there is any subdevice that looks at the colorspace fields
+from userspace? maybe the doc can change to:
 
-We have this module as well. Will try to get this today for testing and=20
-will update just to make sure of this combo as well on my side.
+This information supplements the ``colorspace`` and must be set by the driver,
+see :ref:`colorspaces`. If the application sets the flag ``V4L2_MBUS_FRAMEFMT_SET_CSC``
+then the application can set this field to request a specific Y'CbCr encoding.
+...
 
-https://www.leopardimaging.com/uploads/LI-TX1-KIT-IMX274M12-T_datasheet.pdf
+Thanks,
+Dafna
 
-Thanks
 
-Sowjanya
 
->
->>>
->>>>>> This series include,
->>>>>>
->>>>>> VI I2C related fixes
->>>>>> - Camera sensor programming happens through VI I2C which is on=20
->>>>>> host1x bus.
->>>>>> - These patches includes device tree and I2C driver fixes for VI=20
->>>>>> I2C.
->>>>>>
->>>>>> Tegra video driver updates
->>>>>> - TPG Vs Non-TPG based on Kconfig
->>>>>> - Support for external sensor video capture based on device graph=20
->>>>>> from DT.
->>>>>> - Support for selection ioctl operations
->>>>>> - Tegra MIPI CSI pads calibration
->>>>>> - CSI T-CLK and T-HS settle time computation based on clock rates.
->>>>>>
->>>>>> Host1x driver updates
->>>>>> - Adds API to allow creating mipi device for specific device node.
->>>>>> - Splits MIPI pads calibrate start and waiting for calibration to=20
->>>>>> be done.
->>>>>>
->>>>>> Device tree updates
->>>>>> - Adds camera connector 2V8, 1V8, 1V2 regulator supplies to=20
->>>>>> Jetson TX1 DT.
->>>>>> - Enabled VI and CSI support in Jetson Nano DT.
->>>>>>
->>>>>>
->>>>>> Delta between patch versions:
->>>>>>
->>>>>> [v2]:=C2=A0=C2=A0=C2=A0 Includes below changes based on v1 feedback
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- dt-binding document and the driver update =
-for device graph=20
->>>>>> to use
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 separate ports for sink endpoint and =
-source endpoint for csi.
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Use data-lanes endpoint property for csi.
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Update tegra_mipi_request() to take device=
- node pointer=20
->>>>>> argument
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rather than adding extra API.
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Remove checking for clk pointer before clk=
-_disable.
->>>>>>
->>>>>>
->>>>>> Sowjanya Komatineni (18):
->>>>>> =C2=A0=C2=A0=C2=A0 dt-bindings: i2c: tegra: Document Tegra210 VI I2C=
- clocks and
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 power-domains
->>>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: Add missing clocks and power-domain=
-s to=20
->>>>>> Tegra210 VI I2C
->>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Don't mark VI I2C as IRQ safe runtime=
- PM
->>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Fix the error path in tegra_i2c_runti=
-me_resume
->>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Fix runtime resume to re-init VI I2C
->>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra2=
-10 vi i2c
->>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Fix channel format alignment
->>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Enable TPG based on kernel co=
-nfig
->>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Update format lookup to offse=
-t based
->>>>>> =C2=A0=C2=A0=C2=A0 dt-bindings: tegra: Update VI and CSI bindings wi=
-th port info
->>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add support for external sens=
-or capture
->>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add support for selection ioc=
-tl ops
->>>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Update tegra_mipi_request() to=
- be node based
->>>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Split tegra_mipi_calibrate and=
-=20
->>>>>> tegra_mipi_wait
->>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add CSI MIPI pads calibration
->>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Compute settle times based on=
- the clock rate
->>>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: jetson-tx1: Add camera supplies
->>>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: Enable Tegra VI CSI support for Jet=
-son Nano
->>>>>>
->>>>>> =C2=A0=C2=A0 .../display/tegra/nvidia,tegra20-host1x.txt=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 92 ++-
->>>>>> =C2=A0=C2=A0 .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt | 19=
- +-
->>>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 41 ++
->>>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 10=
- +
->>>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210.dtsi=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 +
->>>>>> =C2=A0=C2=A0 drivers/gpu/drm/tegra/dsi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 9 +-
->>>>>> =C2=A0=C2=A0 drivers/gpu/host1x/mipi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 30 +-
->>>>>> =C2=A0=C2=A0 drivers/i2c/busses/i2c-tegra.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 39 +-
->>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/Kconfig=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 +
->>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/csi.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 245 ++++++-
->>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/csi.h=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 8 +
->>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/tegra210.c=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 25 +-
->>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/vi.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 770=20
->>>>>> +++++++++++++++++++--
->>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/vi.h=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +-
->>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/video.c=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +-
->>>>>> =C2=A0=C2=A0 include/linux/host1x.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 +-
->>>>>> =C2=A0=C2=A0 16 files changed, 1251 insertions(+), 100 deletions(-)
->>>>>>
+>> +	for the media bus data. If the driver cannot handle requested
+>> +	conversion, it will return another supported encoding.
+>> +	This field is ignored for HSV media bus formats. The driver indicates
+>> +	that ycbcr_enc conversion is supported by setting the flag
+>> +	V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC in the corresponding struct
+>> +	:c:type:`v4l2_subdev_mbus_code_enum` during enumeration.
+>> +	See :ref:`v4l2-subdev-mbus-code-flags`
+>> +
+>>       * - __u16
+>>         - ``quantization``
+>>         - Quantization range, from enum :c:type:`v4l2_quantization`.
+>>           This information supplements the ``colorspace`` and must be set by
+>>   	the driver for capture streams and by the application for output
+>> -	streams, see :ref:`colorspaces`.
+>> +	streams, see :ref:`colorspaces`. If the application sets the
+>> +	flag ``V4L2_MBUS_FRAMEFMT_SET_CSC`` then the application can set
+>> +	this field for a capture stream to request a specific quantization
+>> +	encoding for the media bus data. If the driver cannot handle requested
+>> +	conversion, it will return another supported encoding.
+>> +	The driver indicates that quantization conversion is supported by
+>> +	setting the flag V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION in the
+>> +	corresponding struct :c:type:`v4l2_subdev_mbus_code_enum`
+>> +	during enumeration. See :ref:`v4l2-subdev-mbus-code-flags`
+>> +
+>>       * - __u16
+>>         - ``xfer_func``
+>>         - Transfer function, from enum :c:type:`v4l2_xfer_func`.
+>> @@ -63,10 +82,37 @@ Media Bus Formats
+>>   	the driver for capture streams and by the application for output
+>>   	streams, see :ref:`colorspaces`.
+>>       * - __u16
+>> -      - ``reserved``\ [11]
+>> +      - ``flags``
+>> +      - flags See:  :ref:v4l2-mbus-framefmt-flags
+>> +    * - __u16
+>> +      - ``reserved``\ [10]
+>>         - Reserved for future extensions. Applications and drivers must set
+>>   	the array to zero.
+>>   
+>> +.. _v4l2-mbus-framefmt-flags:
+>> +
+>> +.. flat-table:: v4l2_mbus_framefmt Flags
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       3 1 4
+>> +
+>> +    * .. _`mbus-framefmt-set-csc`:
+>> +
+>> +      - ``V4L2_MBUS_FRAMEFMT_SET_CSC``
+>> +      - 0x0001
+>> +      - Set by the application. It is only used for capture and is
+>> +	ignored for output streams. If set, then request the subdevice to do
+>> +	colorspace conversion from the received colorspace to the requested
+>> +	colorspace values. If colorimetry field (``ycbcr_enc`` or
+>> +	``quantization``) is set to 0, then that colorimetry setting will remain
+>> +	unchanged from what was received. So to change the quantization, only the
+>> +	``quantization`` field shall be set to non-zero values
+>> +	(``V4L2_QUANTIZATION_FULL_RANGE`` or ``V4L2_QUANTIZATION_LIM_RANGE``)
+>> +	and all other colorimetry fields shall be set to 0. The API does not
+>> +	support the conversion of the fields ``colorspace`` and ``xfer_func``.
+>> +
+>> +	To check which conversions are supported by the hardware for the current
+>> +	media bus frame format, see :ref:`v4l2-mbus-framefmt-flags`.
+>>   
+>>   
+>>   .. _v4l2-mbus-pixelcode:
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> index a53dd3d7f7e2..11323755d41b 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> @@ -178,7 +178,27 @@ the ``mbus_code`` field is handled differently:
+>>   	parameters are detected. This flag can only be used in combination
+>>   	with the ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to
+>>   	compressed formats only. It is also only applies to stateful codecs.
+>> -
+>> +    * - ``V4L2_FMT_FLAG_CSC_YCBCR_ENC``
+>> +      - 0x0010
+>> +      - The driver allows the application to try to change the default
+>> +	Y'CbCr encoding. This flag is relevant only for capture devices.
+>> +	The application can ask to configure the ycbcr_enc of the capture device
+>> +	when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
+>> +	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
+>> +    * - ``V4L2_FMT_FLAG_CSC_HSV_ENC``
+>> +      - 0x0010
+>> +      - The driver allows the application to try to change the default
+>> +	HSV encoding. This flag is relevant only for capture devices.
+>> +	The application can ask to configure the hsv_enc of the capture device
+>> +	when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
+>> +	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
+>> +    * - ``V4L2_FMT_FLAG_CSC_QUANTIZATION``
+>> +      - 0x0020
+>> +      - The driver allows the application to try to change the default
+>> +	quantization. This flag is relevant only for capture devices.
+>> +	The application can ask to configure the quantization of the capture
+>> +	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
+>> +	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
+>>   
+>>   Return Value
+>>   ============
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+>> index 35b8607203a4..3d3430bdd71f 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+>> @@ -78,12 +78,40 @@ information about the try formats.
+>>         - ``which``
+>>         - Media bus format codes to be enumerated, from enum
+>>   	:ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+>> +    * - __u32
+>> +      - ``flags``
+>> +      - See :ref:`v4l2-subdev-mbus-code-flags`
+>>       * - __u32
+>>         - ``reserved``\ [8]
+>>         - Reserved for future extensions. Applications and drivers must set
+>>   	the array to zero.
+>>   
+>>   
+>> +
+>> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{7.7cm}|
+>> +
+>> +.. _v4l2-subdev-mbus-code-flags:
+>> +
+>> +.. flat-table:: Subdev Media Bus Code Enumerate Flags
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC
+>> +      - 0x00000001
+>> +      - The driver allows the application to try to change the default Y'CbCr
+>> +	encoding. The application can ask to configure the ycbcr_enc of the
+>> +	subdevice when calling the :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>`
+>> +	ioctl with :ref:`V4L2_MBUS_FRAMEFMT_SET_CSC <mbus-framefmt-set-csc>` set.
+>> +	See :ref:`v4l2-mbus-format` on how to do this.
+>> +    * - V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION
+>> +      - 0x00000002
+>> +      - The driver allows the application to try to change the default
+>> +	quantization. The application can ask to configure the quantization of
+>> +	the subdevice when calling the :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>`
+>> +	ioctl with :ref:`V4L2_MBUS_FRAMEFMT_SET_CSC <mbus-framefmt-set-csc>` set.
+>> +	See :ref:`v4l2-mbus-format` on how to do this.
+>> +
+>>   Return Value
+>>   ============
+>>   
+>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> index 564a3bf5bc6d..f7be008cd479 100644
+>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> @@ -187,6 +187,9 @@ replace define V4L2_FMT_FLAG_COMPRESSED fmtdesc-flags
+>>   replace define V4L2_FMT_FLAG_EMULATED fmtdesc-flags
+>>   replace define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM fmtdesc-flags
+>>   replace define V4L2_FMT_FLAG_DYN_RESOLUTION fmtdesc-flags
+>> +replace define V4L2_FMT_FLAG_CSC_YCBCR_ENC fmtdesc-flags
+>> +replace define V4L2_FMT_FLAG_CSC_HSV_ENC fmtdesc-flags
+>> +replace define V4L2_FMT_FLAG_CSC_QUANTIZATION fmtdesc-flags
+>>   
+>>   # V4L2 timecode types
+>>   replace define V4L2_TC_TYPE_24FPS timecode-type
+>> diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
+>> index 123a231001a8..0f916278137a 100644
+>> --- a/include/uapi/linux/v4l2-mediabus.h
+>> +++ b/include/uapi/linux/v4l2-mediabus.h
+>> @@ -16,6 +16,8 @@
+>>   #include <linux/types.h>
+>>   #include <linux/videodev2.h>
+>>   
+>> +#define V4L2_MBUS_FRAMEFMT_SET_CSC	0x0001
+>> +
+>>   /**
+>>    * struct v4l2_mbus_framefmt - frame format on the media bus
+>>    * @width:	image width
+>> @@ -36,7 +38,8 @@ struct v4l2_mbus_framefmt {
+>>   	__u16			ycbcr_enc;
+>>   	__u16			quantization;
+>>   	__u16			xfer_func;
+>> -	__u16			reserved[11];
+>> +	__u16			flags;
+>> +	__u16			reserved[10];
+>>   };
+>>   
+>>   #ifndef __KERNEL__
+>> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+>> index 5d2a1dab7911..972e64d8b54e 100644
+>> --- a/include/uapi/linux/v4l2-subdev.h
+>> +++ b/include/uapi/linux/v4l2-subdev.h
+>> @@ -65,6 +65,8 @@ struct v4l2_subdev_crop {
+>>   	__u32 reserved[8];
+>>   };
+>>   
+>> +#define V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC	0x00000001
+>> +#define V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION	0x00000002
+>>   /**
+>>    * struct v4l2_subdev_mbus_code_enum - Media bus format enumeration
+>>    * @pad: pad number, as reported by the media API
+>> @@ -77,7 +79,8 @@ struct v4l2_subdev_mbus_code_enum {
+>>   	__u32 index;
+>>   	__u32 code;
+>>   	__u32 which;
+>> -	__u32 reserved[8];
+>> +	__u32 flags;
+>> +	__u32 reserved[7];
+>>   };
+>>   
+>>   /**
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index c3a1cf1c507f..15824316e0ca 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -774,6 +774,7 @@ struct v4l2_pix_format {
+>>   
+>>   /* Flags */
+>>   #define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA	0x00000001
+>> +#define V4L2_PIX_FMT_FLAG_SET_CSC	0x00000002
+>>   
+>>   /*
+>>    *	F O R M A T   E N U M E R A T I O N
+>> @@ -792,6 +793,9 @@ struct v4l2_fmtdesc {
+>>   #define V4L2_FMT_FLAG_EMULATED			0x0002
+>>   #define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM	0x0004
+>>   #define V4L2_FMT_FLAG_DYN_RESOLUTION		0x0008
+>> +#define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0010
+>> +#define V4L2_FMT_FLAG_CSC_HSV_ENC		0x0010
+> 
+> Shouldn't those have different values? Or is this intentional?
+> 
+> Regards,
+> Helen
+> 
+>> +#define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0020
+>>   
+>>   	/* Frame Size and frame rate enumeration */
+>>   /*
+>>
