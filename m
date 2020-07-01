@@ -2,113 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3B662103D6
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2020 08:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D073F210478
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2020 09:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727769AbgGAGV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jul 2020 02:21:57 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57956 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727098AbgGAGV4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jul 2020 02:21:56 -0400
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F41B3556;
-        Wed,  1 Jul 2020 08:21:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1593584514;
-        bh=ZXmZeOMlyIK5uh+kb+tTJmBOVLqlNieOxSIOw+OWs1I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dMlHG/Z950kh4Tl86nTO7d8tksyPJPdIp8z9BYZl8O+sjpPg+w74t4OkX46v5xyYW
-         j5V3bYW/8Phqw2he2twe2TpP6Hf977W8P9srJw6qPk9YhE3f6vCaLYggQSRWSIbeSW
-         72GfL0CWUS7NNfzRamO5bx0m3jgh4cjWBV2JfLsY=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH v4 4/4] media: v4l2-async: Log message in case of heterogeneous fwnode match
-Date:   Wed,  1 Jul 2020 09:21:40 +0300
-Message-Id: <20200701062140.12953-5-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200701062140.12953-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20200701062140.12953-1-laurent.pinchart+renesas@ideasonboard.com>
+        id S1727969AbgGAHGm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jul 2020 03:06:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37982 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727847AbgGAHGm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jul 2020 03:06:42 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48FB4C061755
+        for <linux-media@vger.kernel.org>; Wed,  1 Jul 2020 00:06:42 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1jqWpC-00022p-6y; Wed, 01 Jul 2020 09:06:30 +0200
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1jqWpB-0007vN-7U; Wed, 01 Jul 2020 09:06:29 +0200
+Date:   Wed, 1 Jul 2020 09:06:29 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: allegro: Fix some NULL vs IS_ERR() checks in probe
+Message-ID: <20200701070629.GA16164@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel-janitors@vger.kernel.org
+References: <20200619143007.GC267142@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200619143007.GC267142@mwanda>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:05:04 up 132 days, 14:35, 107 users,  load average: 0.07, 0.20,
+ 0.16
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When a notifier supplies a device fwnode and a subdev supplies an
-endpoint fwnode, incorrect matches may occur if multiple subdevs
-correspond to the same device fwnode. This can't be handled
-transparently in the framework, and requires the notifier to switch to
-endpoint fwnodes. Log a message to notify of this problem. A second
-message is added to help accelerating the transition to endpoint
-matching.
+On Fri, 19 Jun 2020 17:30:07 +0300, Dan Carpenter wrote:
+> The devm_ioremap() function doesn't return error pointers, it returns
+> NULL on error.
+> 
+> Fixes: f20387dfd065 ("media: allegro: add Allegro DVT video IP core driver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-Changes since v2:
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 
-- Use dev_warn() and dev_notice()
-- Fix typo
----
- drivers/media/v4l2-core/v4l2-async.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 60833822ee89..e3ab003a6c85 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -77,6 +77,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
- 	struct fwnode_handle *dev_fwnode;
- 	bool asd_fwnode_is_ep;
- 	bool sd_fwnode_is_ep;
-+	struct device *dev;
- 
- 	/*
- 	 * Both the subdev and the async subdev can provide either an endpoint
-@@ -114,7 +115,28 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
- 
- 	fwnode_handle_put(dev_fwnode);
- 
--	return dev_fwnode == other_fwnode;
-+	if (dev_fwnode != other_fwnode)
-+		return false;
-+
-+	/*
-+	 * We have a heterogeneous match. Retrieve the struct device of the side
-+	 * that matched on a device fwnode to print its driver name.
-+	 */
-+	if (sd_fwnode_is_ep)
-+		dev = notifier->v4l2_dev ? notifier->v4l2_dev->dev
-+		    : notifier->sd->dev;
-+	else
-+		dev = sd->dev;
-+
-+	if (dev && dev->driver) {
-+		if (sd_fwnode_is_ep)
-+			dev_warn(dev, "Driver %s uses device fwnode, incorrect match may occur\n",
-+				 dev->driver->name);
-+		dev_notice(dev, "Consider updating driver %s to match on endpoints\n",
-+			   dev->driver->name);
-+	}
-+
-+	return true;
- }
- 
- static bool match_custom(struct v4l2_async_notifier *notifier,
--- 
-Regards,
-
-Laurent Pinchart
-
+> ---
+>  drivers/staging/media/allegro-dvt/allegro-core.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
+> index 70f133a842dd..3ed66aae741d 100644
+> --- a/drivers/staging/media/allegro-dvt/allegro-core.c
+> +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
+> @@ -3065,9 +3065,9 @@ static int allegro_probe(struct platform_device *pdev)
+>  		return -EINVAL;
+>  	}
+>  	regs = devm_ioremap(&pdev->dev, res->start, resource_size(res));
+> -	if (IS_ERR(regs)) {
+> +	if (!regs) {
+>  		dev_err(&pdev->dev, "failed to map registers\n");
+> -		return PTR_ERR(regs);
+> +		return -ENOMEM;
+>  	}
+>  	dev->regmap = devm_regmap_init_mmio(&pdev->dev, regs,
+>  					    &allegro_regmap_config);
+> @@ -3085,9 +3085,9 @@ static int allegro_probe(struct platform_device *pdev)
+>  	sram_regs = devm_ioremap(&pdev->dev,
+>  				 sram_res->start,
+>  				 resource_size(sram_res));
+> -	if (IS_ERR(sram_regs)) {
+> +	if (!sram_regs) {
+>  		dev_err(&pdev->dev, "failed to map sram\n");
+> -		return PTR_ERR(sram_regs);
+> +		return -ENOMEM;
+>  	}
+>  	dev->sram = devm_regmap_init_mmio(&pdev->dev, sram_regs,
+>  					  &allegro_sram_config);
+> -- 
+> 2.27.0
+> 
+> 
