@@ -2,96 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04680210BFA
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2020 15:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20B33210BF8
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2020 15:17:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730999AbgGANRu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jul 2020 09:17:50 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45850 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730997AbgGANRu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jul 2020 09:17:50 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 0294F2A56D0
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
-Subject: [PATCH v2] v4l2-core: Print control name in VIDIOC_S/G_(EXT)_CTRL(S)
-Date:   Wed,  1 Jul 2020 10:17:30 -0300
-Message-Id: <20200701131730.122209-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.26.0.rc2
-In-Reply-To: <20200609121514.9414-1-ezequiel@collabora.com>
-References: <20200609121514.9414-1-ezequiel@collabora.com>
+        id S1729633AbgGANRo convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 1 Jul 2020 09:17:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39600 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728399AbgGANRn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jul 2020 09:17:43 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC62C03E979
+        for <linux-media@vger.kernel.org>; Wed,  1 Jul 2020 06:17:43 -0700 (PDT)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1jqccQ-0005PS-Au; Wed, 01 Jul 2020 15:17:42 +0200
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1jqccQ-0003Eq-1w; Wed, 01 Jul 2020 15:17:42 +0200
+Message-ID: <d03728db2e41225acf70202da0a990de686f605e.camel@pengutronix.de>
+Subject: Re: [PATCH v2 0/6] Hantro low-hanging cleanups
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     kernel@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>
+Date:   Wed, 01 Jul 2020 15:17:41 +0200
+In-Reply-To: <20200701131607.121988-1-ezequiel@collabora.com>
+References: <20200701131607.121988-1-ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While debugging, it's currently really hard to identify controls
-by their ID. Print the control name making the print more helpful.
+On Wed, 2020-07-01 at 10:16 -0300, Ezequiel Garcia wrote:
+> Second iteration, just addressing Philipp's and Robin's
+> feedback on patch 3.
 
-With this change, the print changes from:
+Thank you, feel free to add
 
-video1: VIDIOC_S_EXT_CTRLS: which=0xf010000, count=5, error_idx=4, request_fd=45, id/size=0x990ce8/1048, id/size=0x990ce9/12, id/size=0x990cea/480, id/size=0x990ceb/896, id/size=0x990cec/400
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-to:
+for the series.
 
-video1: VIDIOC_S_EXT_CTRLS: which=0xf010000, count=5, error_idx=4, request_fd=42, name=H264 Sequence Parameter Set, id/size=0x990ce8/1048, name=H264 Picture Parameter Set, id/size=0x990ce9/12, name=H264 Scaling Matrix, id/size=0x990cea/480, name=H264 Slice Parameters, id/size=0x990ceb/896, name=H264 Decode Parameters, id/size=0x990cec/400
-
-For instance, this is specially helpful when the ioctl fails. Consider
-the following example:
-
-v4l2-ctrls: prepare_ext_ctrls: video1: pointer control id 0x990cec size too small, 400 bytes but 784 bytes needed
-v4l2-ctrls: try_set_ext_ctrls: video1: video1: try_set_ext_ctrls_common failed (-14)
-video1: VIDIOC_S_EXT_CTRLS: error -14: which=0xf010000, count=5, error_idx=5, request_fd=39, name=H264 Sequence Parameter Set, id/size=0x990ce8/1048, name=H264 Picture Parameter Set, id/size=0x990ce9/12, name=H264 Scaling Matrix, id/size=0x990cea/480, name=H264 Slice Parameters, id/size=0x990ceb/896, name=H264 Decode Parameters, id/size=0x990cec/400
-
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
-v2:
-* As requested by Hans, only print the name if non-null.
----
- drivers/media/v4l2-core/v4l2-ioctl.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 02bfef0da76d..a556880f225a 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -582,7 +582,10 @@ static void v4l_print_querymenu(const void *arg, bool write_only)
- static void v4l_print_control(const void *arg, bool write_only)
- {
- 	const struct v4l2_control *p = arg;
-+	const char *name = v4l2_ctrl_get_name(p->id);
- 
-+	if (name)
-+		pr_cont("name=%s, ", name);
- 	pr_cont("id=0x%x, value=%d\n", p->id, p->value);
- }
- 
-@@ -594,12 +597,15 @@ static void v4l_print_ext_controls(const void *arg, bool write_only)
- 	pr_cont("which=0x%x, count=%d, error_idx=%d, request_fd=%d",
- 			p->which, p->count, p->error_idx, p->request_fd);
- 	for (i = 0; i < p->count; i++) {
-+		unsigned int id = p->controls[i].id;
-+		const char *name = v4l2_ctrl_get_name(id);
-+
-+		if (name)
-+			pr_cont(", name=%s", name);
- 		if (!p->controls[i].size)
--			pr_cont(", id/val=0x%x/0x%x",
--				p->controls[i].id, p->controls[i].value);
-+			pr_cont(", id/val=0x%x/0x%x", id, p->controls[i].value);
- 		else
--			pr_cont(", id/size=0x%x/%u",
--				p->controls[i].id, p->controls[i].size);
-+			pr_cont(", id/size=0x%x/%u", id, p->controls[i].size);
- 	}
- 	pr_cont("\n");
- }
--- 
-2.26.0.rc2
-
+regards
+Philipp
