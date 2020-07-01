@@ -2,174 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 232C321029B
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2020 05:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CBE2210392
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2020 08:03:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbgGADtO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 23:49:14 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:55279 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725862AbgGADtN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 23:49:13 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id qTkCjuN2VcVLFqTkEjfwR6; Wed, 01 Jul 2020 05:49:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593575350; bh=rJ99CIrQ+BuSkCwu4j3XXIHYZ0EHRII/jF4ITA/BAJo=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=u9sB4IJIKGU2m6EGCO8MsLLrkACHOE1GIeAvk1yN/7aSjQIHbbxBs+L9NPlBdZLcG
-         yaRFtXjshwjwtptaT9iK+GgEOg51vZZon3a+s4bXUXj/tfuQSoqTJlwhfmEjWb27aX
-         RoloZ7mGJ3aL+AZlGQ8qxMwxQNVm233oI2/SIDUfdOwbRBwLLeZIWU/0jJfT1Fpsvd
-         CmwIg4P7FgqfEshYp4DiRJPPzFQDsEuFvchhPhi9qgpTdGfZPxRT2U9kVoh1Yukt6f
-         TWf8T3xt3bNIsiQ4QdqTM79qI0/r32+FdNLRBYVh79TEfWcItt2QkQkCDtht+Mwy2G
-         N0bVGhR0XTayA==
-Message-ID: <9e6cba31ae18ce0a9de38ddd9fadb405@smtp-cloud7.xs4all.net>
-Date:   Wed, 01 Jul 2020 05:49:08 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfOnSfRH19WqY7Jq+WoCMWJb0/9BEsdjy1Sl38kklU7b1CD8ZUVpf6VYOs7A0KqjQlyg5Rt0zhuCJdPfL01hXQpcA7UD3zibcHIOhq1+uxIlomg1yysOb
- r+KoLu8lUlZaZdninTovha9elCVzGyPkdveeelYMmD6fSCK+GELy2QyYHyFA9AsGs/YrK+J/q2FPfYcoPTAGRqe+cP/ObWIjkXspr0qiOXPNRlLxDg0XDGCG
+        id S1727013AbgGAGDy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jul 2020 02:03:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56516 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725272AbgGAGDy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jul 2020 02:03:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31EC7C061755;
+        Tue, 30 Jun 2020 23:03:54 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B120556;
+        Wed,  1 Jul 2020 08:03:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1593583432;
+        bh=naXE3zIg5k6kDhcCHdIpnplNruV+dU9WPA06Q/zqCr8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IppIhBkjuQQKoYOHNSl47fqCkVvM/QNktmdaKvAWwxQynYZpgo4YKhTEsa/pO6gRG
+         lASyzidgcC9BTOI6QtBdr/ZoDA6H6zmk+pT+6ljqZRTGgKPXklKT8AFc6p9AQp/BHX
+         oy4X8EQcGYBMU+gnHdC1PwZ5d6cm+Dc78u/iiIQk=
+Date:   Wed, 1 Jul 2020 09:03:49 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2 1/8] dt-bindings: media: renesas,fcp: Convert binding
+ to YAML
+Message-ID: <20200701060349.GE5963@pendragon.ideasonboard.com>
+References: <20200621004734.28602-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621004734.28602-2-laurent.pinchart+renesas@ideasonboard.com>
+ <20200630204918.GA2365286@oden.dyn.berto.se>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200630204918.GA2365286@oden.dyn.berto.se>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Niklas,
 
-Results of the daily build of media_tree:
+On Tue, Jun 30, 2020 at 10:49:18PM +0200, Niklas Söderlund wrote:
+> On 2020-06-21 03:47:27 +0300, Laurent Pinchart wrote:
+> > Convert the Renesas R-Car FCP text binding to YAML.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Changes since v1:
+> > 
+> > - Simplify comments on compatible strings
+> > - Update MAINTAINERS
+> > ---
+> >  .../devicetree/bindings/media/renesas,fcp.txt | 34 -----------
+> >  .../bindings/media/renesas,fcp.yaml           | 56 +++++++++++++++++++
+> >  MAINTAINERS                                   |  2 +-
+> >  3 files changed, 57 insertions(+), 35 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.txt b/Documentation/devicetree/bindings/media/renesas,fcp.txt
+> > deleted file mode 100644
+> > index 79c37395b396..000000000000
+> > --- a/Documentation/devicetree/bindings/media/renesas,fcp.txt
+> > +++ /dev/null
+> > @@ -1,34 +0,0 @@
+> > -Renesas R-Car Frame Compression Processor (FCP)
+> > ------------------------------------------------
+> > -
+> > -The FCP is a companion module of video processing modules in the Renesas R-Car
+> > -Gen3 and RZ/G2 SoCs. It provides data compression and decompression, data
+> > -caching, and conversion of AXI transactions in order to reduce the memory
+> > -bandwidth.
+> > -
+> > -There are three types of FCP: FCP for Codec (FCPC), FCP for VSP (FCPV) and FCP
+> > -for FDP (FCPF). Their configuration and behaviour depend on the module they
+> > -are paired with. These DT bindings currently support the FCPV and FCPF.
+> > -
+> > - - compatible: Must be one or more of the following
+> > -
+> > -   - "renesas,fcpv" for generic compatible 'FCP for VSP'
+> > -   - "renesas,fcpf" for generic compatible 'FCP for FDP'
+> > -
+> > - - reg: the register base and size for the device registers
+> > - - clocks: Reference to the functional clock
+> > -
+> > -Optional properties:
+> > - - power-domains : power-domain property defined with a power domain specifier
+> > -		   to respective power domain.
+> > -
+> > -
+> > -Device node example
+> > --------------------
+> > -
+> > -	fcpvd1: fcp@fea2f000 {
+> > -		compatible = "renesas,fcpv";
+> > -		reg = <0 0xfea2f000 0 0x200>;
+> > -		clocks = <&cpg CPG_MOD 602>;
+> > -		power-domains = <&sysc R8A7795_PD_A3VP>;
+> > -	};
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > new file mode 100644
+> > index 000000000000..9241bf3c5efc
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > @@ -0,0 +1,56 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/renesas,fcp.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas R-Car Frame Compression Processor (FCP)
+> > +
+> > +maintainers:
+> > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > +
+> > +description: |
+> > +  The FCP is a companion module of video processing modules in the Renesas
+> > +  R-Car Gen3 and RZ/G2 SoCs. It provides data compression and decompression,
+> > +  data caching, and conversion of AXI transactions in order to reduce the
+> > +  memory bandwidth.
+> > +
+> > +  There are three types of FCP: FCP for Codec (FCPC), FCP for VSP (FCPV) and
+> > +  FCP for FDP (FCPF). Their configuration and behaviour depend on the module
+> > +  they are paired with. These DT bindings currently support the FCPV and FCPF.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - renesas,fcpv # FCP for VSP
+> > +      - renesas,fcpf # FCP for FDP
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  # R8A7790 (R-Car H2) VSP1-S
+> 
+> Hum, R8A7790 is H2 but the example below is from H3 R8A7795[01] is it 
+> not? With this fixed,
 
-date:			Wed Jul  1 05:06:41 CEST 2020
-media-tree git hash:	e30cc79cc80fd919b697a15c5000d9f57487de8e
-media_build git hash:	39a7ce1e32308668ff1493247747e26b4367c6fe
-v4l-utils git hash:	eb147329b96b5d8f8f3638a159d1b3bcec22f0f0
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6154-g2f65f604
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Absolutely. I don't know how it ended there. I'll fix this.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: ERRORS
-sparse: OK
-smatch: ERRORS
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> > +  - |
+> > +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> > +    #include <dt-bindings/power/r8a7795-sysc.h>
+> > +
+> > +    fcp@fea2f000 {
+> > +        compatible = "renesas,fcpv";
+> > +        reg = <0xfea2f000 0x200>;
+> > +        clocks = <&cpg CPG_MOD 602>;
+> > +        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> > +    };
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 68f21d46614c..660ed6606de2 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -10700,7 +10700,7 @@ L:	linux-media@vger.kernel.org
+> >  L:	linux-renesas-soc@vger.kernel.org
+> >  S:	Supported
+> >  T:	git git://linuxtv.org/media_tree.git
+> > -F:	Documentation/devicetree/bindings/media/renesas,fcp.txt
+> > +F:	Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> >  F:	drivers/media/platform/rcar-fcp.c
+> >  F:	include/media/rcar-fcp.h
+> >  
 
-Detailed results are available here:
+-- 
+Regards,
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Laurent Pinchart
