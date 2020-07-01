@@ -2,97 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE9B5210C07
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2020 15:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57B25210C40
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2020 15:30:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730783AbgGANVk convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 1 Jul 2020 09:21:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40206 "EHLO
+        id S1731063AbgGANaJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jul 2020 09:30:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728399AbgGANVk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jul 2020 09:21:40 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 842D2C03E979
-        for <linux-media@vger.kernel.org>; Wed,  1 Jul 2020 06:21:39 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jqcgE-0005n3-5u; Wed, 01 Jul 2020 15:21:38 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jqcg7-0003ZN-FA; Wed, 01 Jul 2020 15:21:31 +0200
-Message-ID: <bf6f168cc34d1bd09b6f6af52fa4662c70b4c10e.camel@pengutronix.de>
-Subject: Re: [RFC v4 4/8] v4l2: add support for colorspace conversion API
- (CSC) for video capture and subdevices
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com
-Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org, skhan@linuxfoundation.org,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Date:   Wed, 01 Jul 2020 15:21:31 +0200
-In-Reply-To: <8fd5417b-970d-e9d5-824a-31658fe50c99@collabora.com>
-References: <20200605172625.19777-1-dafna.hirschfeld@collabora.com>
-         <20200605172625.19777-5-dafna.hirschfeld@collabora.com>
-         <973edb0c-4c52-c29c-4b22-54a05eca6f7a@xs4all.nl>
-         <e55548ad47eacd9acf3aa94cc98a46b3f4924cd9.camel@pengutronix.de>
-         <8fd5417b-970d-e9d5-824a-31658fe50c99@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        with ESMTP id S1730705AbgGAN3r (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jul 2020 09:29:47 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A52C08C5C1
+        for <linux-media@vger.kernel.org>; Wed,  1 Jul 2020 06:29:47 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id 207so10827419pfu.3
+        for <linux-media@vger.kernel.org>; Wed, 01 Jul 2020 06:29:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=YgnZaQZA95kZa9eD6Aa+cAMcR8VkfrVLM4dfgiEOVdc=;
+        b=MdZcrTH6R7MypetoKPIS7cwWYBfzncRlX/sj2B9Le2wEQOCNOg4KG6n50/jSWJEOxs
+         +7GNqsDV/bHIBjpT5cozeyY2oUgsjkE3FNWIs0FgrJsMlA/p8ztSG124NdHpDRUaNlP4
+         rzofCw55+49xl5hgBjeZujfO29hSiUs0pBiVJ6Bw/mNB9Ub3sDXwld2HN0MuTrcof4L8
+         UN5vKGx4J8XpOQrE82rZISBEb9O9xxgIX5iOPxMzhrSHQy2mBe3NYempIKDw+ge6GvdT
+         Qp+ZrmpucNycajR8CggchRLto9h0WzX7bP7YzNKNTkFVPLH70byI2LmUsnp7TcZI/H6U
+         bh5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=YgnZaQZA95kZa9eD6Aa+cAMcR8VkfrVLM4dfgiEOVdc=;
+        b=hcf9ef++3uKJ+A2esgfZiOHZhUOSfRosxKxsZUa+ghkHz1p94nPiauDq6huSnQGcl9
+         7GDlbFACa9wMfqF88fqICe5NL0VavQr+bebCc7UsXa0ENzGajylZoRKxQxAFoxB03aoP
+         b3VyG79dp0FE5vK9TuMrOD1WpWwj/kNLU1qIC7rNbyjsmCBX2n6FoY5e1F0xhs4qGXfZ
+         QDfeww6OmB5m9GnH4EqMArMO+j6vWoilK4viUX22mu/Bh+1qa8mg4rMWkwmWmLRaqD5O
+         YKXeAZqHCFI2ZHDgdevx1s8IEXfxRmYtlFyAKkzk4AWxI2xKcSnoVZuHNYWMoAxfSg/w
+         Rf2Q==
+X-Gm-Message-State: AOAM533PqwV2Kz+NwJ+oEYWY0YZ63Jxrak7rlD5w/82RolWvwZjo92Hg
+        UNmcnBwtWlhcArfp30NE8pQzfg==
+X-Google-Smtp-Source: ABdhPJzj1O+Xr/fxUrf64PQVVVa1YDdBRm8l3RGZQknYVJhKvV48RBcDh7B1AvfcxXVX4n4OooNCmA==
+X-Received: by 2002:aa7:871a:: with SMTP id b26mr17825125pfo.294.1593610186566;
+        Wed, 01 Jul 2020 06:29:46 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
+        by smtp.gmail.com with ESMTPSA id l22sm5154330pjq.20.2020.07.01.06.29.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2020 06:29:46 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        hverkuil@xs4all.nl
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Subject: [PATCH v9 0/3] media: Add colors' order and other info over test image
+Date:   Wed,  1 Jul 2020 18:59:37 +0530
+Message-Id: <20200701132940.21257-1-kgupta@es.iitr.ac.in>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-06-30 at 17:23 +0200, Dafna Hirschfeld wrote:
-> 
-> On 26.06.20 14:22, Philipp Zabel wrote:
-> > Hi Dafna,
-> > 
-> > On Mon, 2020-06-08 at 12:00 +0200, Hans Verkuil wrote:
-> > [...]
-> > > > diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
-> > > > index 123a231001a8..0f916278137a 100644
-> > > > --- a/include/uapi/linux/v4l2-mediabus.h
-> > > > +++ b/include/uapi/linux/v4l2-mediabus.h
-> > > > @@ -16,6 +16,8 @@
-> > > >   #include <linux/types.h>
-> > > >   #include <linux/videodev2.h>
-> > > >   
-> > > > +#define V4L2_MBUS_FRAMEFMT_SET_CSC	0x0001
-> > > > +
-> > > >   /**
-> > > >    * struct v4l2_mbus_framefmt - frame format on the media bus
-> > > >    * @width:	image width
+This patchset aims to add a method to display the correct order of
+colors for a test image generated. It does so by adding a function
+which returns a string of correct order of the colors for a test
+pattern. It then adds a control in vimc which displays the string
+over test image. It also displays some other information like saturation,
+hue, contrast brightness and time since the stream started over test
+image generated by vimc.
 
-             ^^^^^
-             this one
+Changes since v8:
+	In patch 1:
+	- Add more details to commit message.
+	In patch 3:
+	- Formatting nits.
 
-> > > > @@ -36,7 +38,8 @@ struct v4l2_mbus_framefmt {
-> > > >   	__u16			ycbcr_enc;
-> > > >   	__u16			quantization;
-> > > >   	__u16			xfer_func;
-> > > > -	__u16			reserved[11];
-> > > > +	__u16			flags;
-> > > > +	__u16			reserved[10];
-> > > >   };
-> > 
-> > The the flags field should also be added to the kerneldoc comment.
-> 
-> Hi, Which kerneldoc comment do you mean?
-> I added to the doc of the v4l2-mbus-framefmt:
+Changes since v7:
+        In patch 3:
+        - Use fallthrough; to indicate a fall through in switch-case
+        - Use enum type instead of int for osd_value
+        - Change varaible to osd_value instead of osd_mode as the enum
+          osd_mode defines the modes.
 
-See above, I meant the comment right above the structure definition.
+Changes since v6:
+        In patch 3:
+        - Use switch case instead of if()
+        - reorder declarartions.
 
-regards
-Philipp
+Changes since v5:
+        In patch 2:
+        - Add missing EXPORT_SYMBOL_GPL()
+        In patch 3:
+        - Renamed varaibles.
+        - use u64 instead of int for getting current time in
+          nanoseconds.
+        - Use enum instead of numbers to describe the state of osd_mode
+          control in code.
+
+Changes since v4:
+        - Add another patch which changes char argument to const char
+        in function tpg_gen_text()
+        - Return const char * from function tpg_g_color_order() in patch
+          2
+        In 3rd patch:
+        - Check font in probe() instead of s_stream()
+        - Use dev_err instead of pr_err
+        - Fix errors in commit message.
+        - Base VIMC_CID_SHOW_INFO on VIVID_CID_OSD_TEXT_MODE
+
+Changes since v3:
+        In 1st patch:
+        -Improved formatting of returned string.
+
+        In 2nd patch:
+         - Add CID prefix in control name and change it to a more
+           generic name.
+         - Rename bool variable to a generic name.
+         - Disable text rendering instead of stopping stream if no
+           font found.
+         - Display more info like VIVID in VIMC.
+
+Changes since v2:
+        In 1st patch:
+        - Create a 'define' to prevent repetition of the common color
+          sequence string.
+        - Use 'fallthrough' on case statement to prevent repetition of
+          code.
+
+Changes since v1:
+        - Divided the patch into two patches.
+        - Returned NULL for patterns whose color order cannot be
+          defined. (Reported-by: kernel test robot <lkp@intel.com>)
+        - Made separate switch cases for separate test patterns
+         (Reported-by: kernel test robot <lkp@intel.com>)
+        - Renamed variables from camelcase to use '_'
+        - prefixed 'media' to the patches.
+
+Kaaira Gupta (3):
+  media: tpg: change char argument to const char
+  media: tpg: Add function to return colors' order of test image
+  media: vimc: Add a control to display info on test image
+
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 40 +++++++++--
+ drivers/media/test-drivers/vimc/Kconfig       |  2 +
+ drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+ drivers/media/test-drivers/vimc/vimc-core.c   | 10 +++
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 71 +++++++++++++++++++
+ include/media/tpg/v4l2-tpg.h                  |  3 +-
+ 6 files changed, 119 insertions(+), 8 deletions(-)
+
+-- 
+2.17.1
+
