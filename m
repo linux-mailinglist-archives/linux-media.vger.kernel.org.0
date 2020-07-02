@@ -2,21 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9960E212A6F
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2020 18:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AC50212A73
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2020 18:54:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbgGBQye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Jul 2020 12:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726140AbgGBQyd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Jul 2020 12:54:33 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DB9C08C5C1;
-        Thu,  2 Jul 2020 09:54:33 -0700 (PDT)
+        id S1727082AbgGBQyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Jul 2020 12:54:39 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60848 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726140AbgGBQyj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Jul 2020 12:54:39 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 610742A5FA5
+        with ESMTPSA id DBE802A6038
 From:   Helen Koike <helen.koike@collabora.com>
 To:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
         linux-rockchip@lists.infradead.org
@@ -27,9 +24,9 @@ Cc:     linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
         karthik.poduval@gmail.com, jbx6244@gmail.com, kishon@ti.com,
         tfiga@chromium.org, eddie.cai.linux@gmail.com,
         zhengsq@rock-chips.com
-Subject: [PATCH v3 2/9] media: staging: dt-bindings: rkisp1: add required items in i2c example
-Date:   Thu,  2 Jul 2020 13:54:03 -0300
-Message-Id: <20200702165410.2583375-3-helen.koike@collabora.com>
+Subject: [PATCH v3 3/9] media: staging: dt-bindings: rkisp1: re-order properties
+Date:   Thu,  2 Jul 2020 13:54:04 -0300
+Message-Id: <20200702165410.2583375-4-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200702165410.2583375-1-helen.koike@collabora.com>
 References: <20200702165410.2583375-1-helen.koike@collabora.com>
@@ -40,36 +37,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing required items in Rockchip ISP1 dt-bindings example for
-a complete i2c node.
+Organize properties order in dt-binbings to move it out of staging.
+
+On top: compatible, reg and interrupts.
+Then alphabetical order, then properties starting with '#'.
 
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
----
 
-Changes in v3: None
-
-Changes in v2:
-- new patch in the series
 ---
- .../devicetree/bindings/media/rockchip-isp1.yaml             | 5 +++++
- 1 file changed, 5 insertions(+)
+V3: none
+
+V2:
+- this is a new patch in the series
+---
+ .../bindings/media/rockchip-isp1.yaml         | 32 +++++++++----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-index a77b6ec500c95..8c7904845788d 100644
+index 8c7904845788d..e5b9c0574e352 100644
 --- a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
 +++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-@@ -169,6 +169,11 @@ examples:
-         };
+@@ -23,19 +23,6 @@ properties:
+   interrupts:
+     maxItems: 1
  
-         i2c7: i2c@ff160000 {
-+            compatible = "rockchip,rk3399-i2c";
-+            reg = <0x0 0xff160000 0x0 0x1000>;
-+            interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH 0>;
-+            clocks = <&cru SCLK_I2C7>, <&cru PCLK_I2C7>;
-+            clock-names = "i2c", "pclk";
-             clock-frequency = <400000>;
-             #address-cells = <1>;
-             #size-cells = <0>;
+-  iommus:
+-    maxItems: 1
+-
+-  power-domains:
+-    maxItems: 1
+-
+-  phys:
+-    maxItems: 1
+-    description: phandle for the PHY port
+-
+-  phy-names:
+-    const: dphy
+-
+   clocks:
+     items:
+       - description: ISP clock
+@@ -52,6 +39,19 @@ properties:
+       - const: hclk_isp
+       - const: hclk_isp_wrap
+ 
++  iommus:
++    maxItems: 1
++
++  phys:
++    maxItems: 1
++    description: phandle for the PHY port
++
++  phy-names:
++    const: dphy
++
++  power-domains:
++    maxItems: 1
++
+   # See ./video-interfaces.txt for details
+   ports:
+     type: object
+@@ -110,10 +110,10 @@ required:
+   - interrupts
+   - clocks
+   - clock-names
+-  - power-domains
+   - iommus
+   - phys
+   - phy-names
++  - power-domains
+   - ports
+ 
+ additionalProperties: false
+@@ -139,19 +139,19 @@ examples:
+             clock-names = "clk_isp",
+                           "aclk_isp", "aclk_isp_wrap",
+                           "hclk_isp", "hclk_isp_wrap";
+-            power-domains = <&power RK3399_PD_ISP0>;
+             iommus = <&isp0_mmu>;
+             phys = <&dphy>;
+             phy-names = "dphy";
++            power-domains = <&power RK3399_PD_ISP0>;
+ 
+             ports {
+                 #address-cells = <1>;
+                 #size-cells = <0>;
+ 
+                 port@0 {
++                    reg = <0>;
+                     #address-cells = <1>;
+                     #size-cells = <0>;
+-                    reg = <0>;
+ 
+                     mipi_in_wcam: endpoint@0 {
+                         reg = <0>;
 -- 
 2.26.0
 
