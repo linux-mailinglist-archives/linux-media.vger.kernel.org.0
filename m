@@ -2,96 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C35E5211963
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2020 03:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 770552119CD
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2020 03:51:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728225AbgGBBei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jul 2020 21:34:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56426 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727917AbgGBBZb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Jul 2020 21:25:31 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4868B20884;
-        Thu,  2 Jul 2020 01:25:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593653131;
-        bh=t14ieBLjcRC8mGAiZegb7Cr7kUc2KlBM9DA1w+vutoM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1oXUp9wzNcRNNnwrckzit2GEfwWFu+UfjWuR9nCt19oi7MXiGAIdU5pz+4bswUwtI
-         j3Z/A7ECNwnqIqUmFzLvit4dJ6ZrQ5KpXfIXdmclBUwKX5HB0XykY8LwVdic0sm9od
-         WV0QX9DlyE0hFD1lbfD5S9J3a9xjciVdSV8f70Vc=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Xiyu Yang <xiyuyang19@fudan.edu.cn>,
-        Xin Tan <tanxin.ctf@gmail.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.4 05/40] drm/ttm: Fix dma_fence refcnt leak when adding move fence
-Date:   Wed,  1 Jul 2020 21:23:26 -0400
-Message-Id: <20200702012402.2701121-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200702012402.2701121-1-sashal@kernel.org>
-References: <20200702012402.2701121-1-sashal@kernel.org>
+        id S1727778AbgGBBvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jul 2020 21:51:18 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:35902 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726735AbgGBBvR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Jul 2020 21:51:17 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id C942361FB4DC5C89F11F;
+        Thu,  2 Jul 2020 09:51:15 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 2 Jul 2020 09:51:07 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     Alex Deucher <alexander.deucher@amd.com>,
+        <christian.koenig@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+        <sumit.semwal@linaro.org>, <tianci.yin@amd.com>,
+        <kraxel@redhat.com>, <Likun.Gao@amd.com>, <Felix.Kuehling@amd.com>,
+        <jgg@ziepe.ca>, <Hawking.Zhang@amd.com>
+CC:     YueHaibing <yuehaibing@huawei.com>,
+        <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+        <kernel-janitors@vger.kernel.org>
+Subject: [PATCH -next] drm/amdgpu: remove set but not used variable 'adev'
+Date:   Thu, 2 Jul 2020 01:55:52 +0000
+Message-ID: <20200702015552.42377-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-[ Upstream commit 11425c4519e2c974a100fc984867046d905b9380 ]
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c: In function 'amdgpu_init_mem_type':
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:81:24: warning:
+ variable 'adev' set but not used [-Wunused-but-set-variable]
+  struct amdgpu_device *adev;
+                        ^
 
-ttm_bo_add_move_fence() invokes dma_fence_get(), which returns a
-reference of the specified dma_fence object to "fence" with increased
-refcnt.
-
-When ttm_bo_add_move_fence() returns, local variable "fence" becomes
-invalid, so the refcount should be decreased to keep refcount balanced.
-
-The reference counting issue happens in one exception handling path of
-ttm_bo_add_move_fence(). When no_wait_gpu flag is equals to true, the
-function forgets to decrease the refcnt increased by dma_fence_get(),
-causing a refcnt leak.
-
-Fix this issue by calling dma_fence_put() when no_wait_gpu flag is
-equals to true.
-
-Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/370221/
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index abf165b2f64fc..3ce8ad7603c7f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -941,8 +941,10 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
- 	if (!fence)
- 		return 0;
- 
--	if (no_wait_gpu)
-+	if (no_wait_gpu) {
-+		dma_fence_put(fence);
- 		return -EBUSY;
-+	}
- 
- 	dma_resv_add_shared_fence(bo->base.resv, fence);
- 
--- 
-2.25.1
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index bb95627ad2cc..8199702d3354 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -78,10 +78,6 @@
+ static int amdgpu_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
+ 				struct ttm_mem_type_manager *man)
+ {
+-	struct amdgpu_device *adev;
+-
+-	adev = amdgpu_ttm_adev(bdev);
+-
+ 	switch (type) {
+ 	case TTM_PL_SYSTEM:
+ 		/* System memory */
+
+
+
+
 
