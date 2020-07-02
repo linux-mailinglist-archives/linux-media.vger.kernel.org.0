@@ -2,75 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 770552119CD
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2020 03:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 765BD211AAE
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2020 05:41:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727778AbgGBBvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jul 2020 21:51:18 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:35902 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726735AbgGBBvR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Jul 2020 21:51:17 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id C942361FB4DC5C89F11F;
-        Thu,  2 Jul 2020 09:51:15 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 2 Jul 2020 09:51:07 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     Alex Deucher <alexander.deucher@amd.com>,
-        <christian.koenig@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <sumit.semwal@linaro.org>, <tianci.yin@amd.com>,
-        <kraxel@redhat.com>, <Likun.Gao@amd.com>, <Felix.Kuehling@amd.com>,
-        <jgg@ziepe.ca>, <Hawking.Zhang@amd.com>
-CC:     YueHaibing <yuehaibing@huawei.com>,
-        <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-        <kernel-janitors@vger.kernel.org>
-Subject: [PATCH -next] drm/amdgpu: remove set but not used variable 'adev'
-Date:   Thu, 2 Jul 2020 01:55:52 +0000
-Message-ID: <20200702015552.42377-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+        id S1726042AbgGBDlQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jul 2020 23:41:16 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:54851 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725988AbgGBDlQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Jul 2020 23:41:16 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id qq64j3ICKcVLFqq65jkyEY; Thu, 02 Jul 2020 05:41:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1593661273; bh=/R80TMCy1PVubyX5D6ql1RJf2AAIYSwnnydLb5sFbYs=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=sY6y2g5bLRJAIdHkOD5RVxRKj7FJgpOWer1RaurKwLPfYNb8cK2spv83OPRjUTYL3
+         SjzfyGiFcGOfdxl7/bYphSpqTvA8p2lwMBq5/ZJSPoAXFU7QPitB6GMp3IhJYb+dsG
+         m+ML8oYfGFe28vot9ie08IlIZrYOs9IG0c/MccOERrqQS0q6SEjOqzkVc4A3IRJAOJ
+         WltHk71SSnsmLht1YlauvZ5RonqcKUiMFnCJtXPbEbtpcv9bpIgZkjpqZss74w4WfU
+         CIcINfChfCMTcM7oDSjCMYcL6qP75kqfLzxTysohRdeQ61ldCHMIppvfj7cx0f6yl2
+         T69W2HJmdSggw==
+Message-ID: <f67d70bea77e6f453f63c44e6f72ae84@smtp-cloud7.xs4all.net>
+Date:   Thu, 02 Jul 2020 05:41:12 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfHXSvQc6OoG+ZOMZ+eUaKr6q3hVJXp1Rh01/8zm0JowVwfLrtIgByqtVYe+r+q+KoXlLC+cXcAJXG+So6R4lhE9ICKsP6bAPclLuuHHDRnSjrIC69ig6
+ IwHJsLNMDRD3JZ+DVfssfkIZa/Z0gB7miaUPSDkY7lx5IsnyiWggIniB4dOo8ldGx5imyBddrn3sKrWU5r3Rt6X0kPiQKk+/Qs3qdDd/oFnL05nk/HZ4LZXI
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes gcc '-Wunused-but-set-variable' warning:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c: In function 'amdgpu_init_mem_type':
-drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:81:24: warning:
- variable 'adev' set but not used [-Wunused-but-set-variable]
-  struct amdgpu_device *adev;
-                        ^
+Results of the daily build of media_tree:
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 ----
- 1 file changed, 4 deletions(-)
+date:			Thu Jul  2 05:00:09 CEST 2020
+media-tree git hash:	e30cc79cc80fd919b697a15c5000d9f57487de8e
+media_build git hash:	39a7ce1e32308668ff1493247747e26b4367c6fe
+v4l-utils git hash:	eb147329b96b5d8f8f3638a159d1b3bcec22f0f0
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6154-g2f65f604
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index bb95627ad2cc..8199702d3354 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -78,10 +78,6 @@
- static int amdgpu_init_mem_type(struct ttm_bo_device *bdev, uint32_t type,
- 				struct ttm_mem_type_manager *man)
- {
--	struct amdgpu_device *adev;
--
--	adev = amdgpu_ttm_adev(bdev);
--
- 	switch (type) {
- 	case TTM_PL_SYSTEM:
- 		/* System memory */
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: ERRORS
 
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
