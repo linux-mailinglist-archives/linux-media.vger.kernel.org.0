@@ -2,160 +2,578 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E2F021259F
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2020 16:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55234212957
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2020 18:27:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729597AbgGBOIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Jul 2020 10:08:30 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:42999 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729363AbgGBOI3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Jul 2020 10:08:29 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id qzt0jn3b440yDqzt4jeqgH; Thu, 02 Jul 2020 16:08:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593698906; bh=YbrKDKDrYrRzvVj8n7Fz5eB1BDFoNuvmIvPFBVetx9Y=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fMVopOQiTMtcetcuVUrXIKdiyuHJYWb2h+XCm34OU4yIsyexCv59J4LW+5gg4iPsO
-         4BSdRwNVmhTK8E4P765G/SWvetZeYOTxEuqpvYOq2acLhjIyFoCW9uECiDIAizm4g8
-         82sx7B6mV5NTWJL/UWqBM+1b4QPhN/Btu4C5rwaIozQMtiUEr06huW/Afu/G/67zxC
-         4om83V3w4RKr9hyUSmyGwNjwR1H0G7UVnvA1jC20azZS/vuoeLZpnpn3lsh88yJrCx
-         lFo3H0h/1muwcrKC6LyJ5ZrwCqVMknWbUamYT3ggPp9SrkHGkW4k4eM04bnfHBsTks
-         S0PW4m76ZCx5w==
-Subject: Re: [RFC PATCH v2 00/18] Support for Tegra video capture from
- external sensor
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com
-Cc:     digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <68d5b863-2ff1-203c-bd30-9ad0dcdf76f7@xs4all.nl>
-Date:   Thu, 2 Jul 2020 16:08:22 +0200
+        id S1726379AbgGBQ1l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Jul 2020 12:27:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726199AbgGBQ1l (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Jul 2020 12:27:41 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD16C08C5C1;
+        Thu,  2 Jul 2020 09:27:40 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 8EF4D2A6013
+Subject: Re: [PATCH v2 3/3] ARM: dts: rockchip: add rk3288 ISP and DPHY
+To:     Johan Jonker <jbx6244@gmail.com>,
+        karthik poduval <karthik.poduval@gmail.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        heiko@sntech.de, linux-rockchip@lists.infradead.org,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+References: <karthik.poduval@gmail.com>
+ <20200406073017.19462-1-karthik.poduval@gmail.com>
+ <20200406073017.19462-4-karthik.poduval@gmail.com>
+ <2fc95890-f938-30a5-a163-bf3fa2e223df@gmail.com>
+ <CAFP0Ok-NxDDF8TMP4pN=xn6w3H=TYqN3DMfGW-vuiC5qB-Oj5g@mail.gmail.com>
+ <CAFP0Ok9XGzVbghbnOOyfXiOOc5-a94uFRu7sD5wXz9sr-+AYEA@mail.gmail.com>
+ <9407b6c3-b932-5904-18ff-7c6cbf6bcc8b@gmail.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <ec0e43f0-95af-c0b0-c51b-ea2db4194931@collabora.com>
+Date:   Thu, 2 Jul 2020 13:27:32 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <9407b6c3-b932-5904-18ff-7c6cbf6bcc8b@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKPAXFkDnxoSLDYBjfJeoAAFc03OoAuvfRzpQ+w2Y7O+lm0lkCJAlJOnu84ZS64EIo04hA8CJAGMfyEhYrpWdSlgjVb3N+SjvJpXIdu0M/gFont2G2qx
- picHlkg04U3RYKtrnCHQ9Ex6yD71nqZdpejZu1m3ooqZ592K/DFkDJL3HrYJO+XT3wNso3mGMkKTWgAkyjrEDOg1ZxwxsYo9IHlQmDYMCFMj0et5TzbOftCf
- V666qozCduFdQv7SNApaEe+6976AbQL9B65DUc3Fz16s+J0e2OsRFPWk1noD4noynZNehvHtXf6L6cclabYamnGMTdFU8ViHRljuOFZ6sQ5LHVbeXLrLrXGi
- u73lZirlaAufMoqi7oRj2R5J3YVskfj5cXAPQiOmmLEdJf0ISZWP+1rx1ZoePCu4CAn80VjbIAH0Jo9dcdRldP5p9QO0DLA5G0lrEcxOYsLIBuE99liOus+9
- ji/F0Ebh+FZjfuc4ZQA+3G0jm4iij/NxWVqJpDeWhDti0EW7srLsQe+Slj8aSbs20sPVzuu4S2Qvy5IkJ/Brnfj6Nscbv7x0mA6piml/gpPkQwuW/sfCHWRQ
- KHK4F08RjRXmh7fhMiu+vCjKIaWi7FDMi/mPUzc93zvKIlIGUN+1gaJvGC4z8FRTWwQ0S3URxz3jjy1lZ3u6Lg/s
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sowjanya,
+Hello all,
 
-On 17/06/2020 03:41, Sowjanya Komatineni wrote:
-> This series adds support for video capture from external camera sensor to
-> Tegra video driver.
-> 
-> Jetson TX1 has camera expansion connector and supports custom camera module
-> designed as per TX1 design specification.
-> 
-> This series also enables camera capture support for Jetson Nano which has
-> Raspberry PI camera header.
-> 
-> This series is tested with IMX219 camera sensor.
-> 
-> This series include,
-> 
-> VI I2C related fixes
-> - Camera sensor programming happens through VI I2C which is on host1x bus.
-> - These patches includes device tree and I2C driver fixes for VI I2C.
-> 
-> Tegra video driver updates
-> - TPG Vs Non-TPG based on Kconfig
-> - Support for external sensor video capture based on device graph from DT.
-> - Support for selection ioctl operations
-> - Tegra MIPI CSI pads calibration
-> - CSI T-CLK and T-HS settle time computation based on clock rates.
-> 
-> Host1x driver updates
-> - Adds API to allow creating mipi device for specific device node.
-> - Splits MIPI pads calibrate start and waiting for calibration to be done.
-> 
-> Device tree updates
-> - Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson TX1 DT.
-> - Enabled VI and CSI support in Jetson Nano DT.
+Sorry for my late reply, please see below,
 
-I tested all this with imx219 and imx274. It all looks good. I'll do a last
-code review on Monday.
+On 4/23/20 8:12 AM, Johan Jonker wrote:
+> Hi robh, Heiko, Karthik, Helen and others,
+> 
+> See comments below.
+> Should we change Helen's patch serie a little bit to accommodate other
+> isp1 compatibles as well? Could you give advise here? Thanks!
+> 
+> Johan
+> 
+> 
+> On 4/23/20 7:10 AM, karthik poduval wrote:
+>> Hi Johan/Helen,
+>>
+>> I was attempting to fix the yaml to work for both platforms rk3288 and
+>> rk3399. I couldn't find any specific example in the existing yaml files
+>> that deal with this exact scenario common driver but different clocks for
+>> different chipsets. Could you point me to an appropriate example ?
+>>
+>> Meanwhile here is the patch I was trying out.
+>> diff --git a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>> b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>> index af246b71eac6..4ca76a1bbb63 100644
+>> --- a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>> +++ b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>> @@ -15,7 +15,11 @@ description: |
+>>
+>>  properties:
+>>    compatible:
+>> -    const: rockchip,rk3399-cif-isp
+>> +    items:
+>> +      - enum:
+>> +        - rockchip,rk3288-cif-isp
+>> +        - rockchip,rk3399-cif-isp
+>> +      - const: rockchip,rk3399-cif-isp
+>>
+>>    reg:
+>>      maxItems: 1
+>> @@ -37,20 +41,38 @@ properties:
+>>      const: dphy
+>>
+> 
+>>    clocks:
+>> -    items:
+>> -      - description: ISP clock
+>> -      - description: ISP AXI clock clock
+>> -      - description: ISP AXI clock  wrapper clock
+>> -      - description: ISP AHB clock clock
+>> -      - description: ISP AHB wrapper clock
+>> +    oneOf:
+>> +      # rk3399 clocks
+>> +      - items:
+>> +        - description: ISP clock
+>> +        - description: ISP AXI clock clock
+>> +        - description: ISP AXI clock  wrapper clock
+>> +        - description: ISP AHB clock clock
+>> +        - description: ISP AHB wrapper clock
+>> +      # rk3288 clocks
+>> +      - items:
+>> +        - description: ISP clock
+>> +        - description: ISP AXI clock clock
+>> +        - description: ISP AHB clock clock
+>> +        - description: ISP Pixel clock
+>> +        - description: ISP JPEG source clock
+>>
+> 
+> We can expect a few more clocks here, so just use:
+> 
+>   clocks:
+>     minItems: 4
+>     maxItems: 5
+> 
+> or
+> 
+> See question for Helen about 'pclk_isp_wrap':
+> 
+>   clocks:
+>     minItems: 4
+>     maxItems: 6
+> 
+> 
+> From Rockchip tree:
+> 
+> static const char * const rk1808_isp_clks[] = {
+> 	"clk_isp",
+> 	"aclk_isp",
+> 	"hclk_isp",
+> 	"pclk_isp",
+> };
+> 
+> static const char * const rk3288_isp_clks[] = {
+> 	"clk_isp",
+> 	"aclk_isp",
+> 	"hclk_isp",
+> 	"pclk_isp_in",
+> 	"sclk_isp_jpe",
+> };
+> 
+> static const char * const rk3326_isp_clks[] = {
+> 	"clk_isp",
+> 	"aclk_isp",
+> 	"hclk_isp",
+> 	"pclk_isp",
+> };
+> 
+> static const char * const rk3368_isp_clks[] = {
+> 	"clk_isp",
+> 	"aclk_isp",
+> 	"hclk_isp",
+> 	"pclk_isp",
+> };
+> 
+> static const char * const rk3399_isp_clks[] = {
+> 	"clk_isp",
+> 	"aclk_isp",
+> 	"hclk_isp",
+> 	"aclk_isp_wrap",
+> 	"hclk_isp_wrap",
+> 	"pclk_isp_wrap"
+> };
 
-I posted a few imx219 and imx274 patches to fix v4l2-compliance issues (also
-updated that tool itself since it had a bug).
+I was checking the clock topology, and we don't need aclk_isp and hclk_isp,
+since they are parents of the "wrap" versions:
 
-There is one remaining compliance failure with the imx274, but that is also
-due to a bug in the imx274: it's missing a bunch of enum ops and it is doing
-weird things with the COMPOSE selection. I think that's completely wrong, but
-I need more time to dig into that.
+ xin24m
+...
+    pll_npll
+       npll
+          clk_isp1
+          clk_isp0
+...
+    pll_cpll
+...
+       cpll
+          aclk_isp1
+             aclk_isp1_noc
+             hclk_isp1
+                aclk_isp1_wrapper
+                hclk_isp1_noc
+          aclk_isp0
+             hclk_isp1_wrapper
+             aclk_isp0_wrapper
+             aclk_isp0_noc
+             hclk_isp0
+                hclk_isp0_wrapper
+                hclk_isp0_noc
+...
+ pclkin_isp1_wrapper
+
+
+(it is a bit weird that hclk_isp1_wrapper is a child of aclk_isp0, but this is how
+is described in the SoC TRM)
+
+I tested with only:
+
+static const char * const rk3399_isp_clks[] = {
+	"clk_isp",
+	"aclk_isp_wrap",
+	"hclk_isp_wrap",
+};
+
+And it works, and it doesn't work when removing any of those.
+
+> 
+> Question for Helen:
+> 
+> Where did 'pclk_isp_wrap' go in your patch serie?
+
+There are two instances of the ISPv1 in the SoC (isp0 and isp1), but I can only test
+isp0 on rk3399
+
+It seems that isp1 requires pclk_isp_wrap, so we can add it as optional in the bindings (see below).
+
+> 
+>>    clock-names:
+>> -    items:
+>> -      - const: clk_isp
+>> -      - const: aclk_isp
+>> -      - const: aclk_isp_wrap
+>> -      - const: hclk_isp
+>> -      - const: hclk_isp_wrap
+>> +    oneOf:
+>> +      # rk3399 clocks
+> 
+> sort on SoC
+> 
+>> +      - items:
+>> +        - const: clk_isp
+>> +        - const: aclk_isp
+>> +        - const: aclk_isp_wrap
+>> +        - const: hclk_isp
+>> +        - const: hclk_isp_wrap
+>> +      # rk3288 clocks
+> 
+> sort on SoC
+> 
+>> +      - items:
+>> +        - const: clk_isp
+>> +        - const: aclk_isp
+>> +        - const: hclk_isp
+>> +        - const: pclk_isp_in
+>> +        - const: sclk_isp_jpe
+> 
+>   clock-names:
+>     oneOf:
+>       # rk3288 clocks
+>       - items:
+>         - const: clk_isp
+>           description: ISP clock
+>         - const: aclk_isp
+>           description: ISP AXI clock clock
+>         - const: hclk_isp
+>           description: ISP AHB clock clock
+>         - const: pclk_isp_in
+>           description: ISP Pixel clock
+>         - const: sclk_isp_jpe
+>           description: ISP JPEG source clock
+>       # rk3399 clocks
+>       - items:
+>         - const: clk_isp
+>           description: ISP clock
+>         - const: aclk_isp
+>           description: ISP AXI clock clock
+>         - const: aclk_isp_wrap
+>           description: ISP AXI clock  wrapper clock
+>         - const: hclk_isp
+>           description: ISP AHB clock clock
+>         - const: hclk_isp_wrap
+>           description: ISP AHB wrapper clock
+
+
+I suggest this:
+
+  clocks:
+    maxItems: 5
+    minItems: 3
+    description:
+      rk3288 clocks
+        ISP clock
+        ISP AXI clock
+        ISP AHB clock
+        ISP Pixel clock
+        ISP JPEG source clock
+      rk3399 isp0 clocks
+        ISP clock
+        ISP AXI wrapper clock
+        ISP AHB wrapper clock
+      rk3399 isp1 clocks
+        ISP clock
+        ISP AXI wrapper clock
+        ISP AHB wrapper clock
+        ISP Pixel wrapper clock
+
+  clock-names:
+    oneOf:
+      # rk3288 clocks
+      - items:
+        - const: clk_isp
+        - const: aclk_isp
+        - const: hclk_isp
+        - const: pclk_isp_in
+        - const: sclk_isp_jpe
+      # rk3399 isp0 clocks
+      - items:
+        - const: clk_isp
+        - const: aclk_isp_wrap
+        - const: hclk_isp_wrap
+      # rk3399 isp1 clocks
+      - items:
+        - const: clk_isp
+        - const: aclk_isp_wrap
+        - const: hclk_isp_wrap
+        - const: pclk_isp_wrap
+
+Where "# rk3288 clocks", "# rk3399 isp0 clocks" and "# rk3399 isp1 clocks" could be
+added in separated patchsets that are sure those works corretly.
 
 Regards,
+Helen
 
-	Hans
-
 > 
+> Question for robh:
+> Is this a proper way to add description or is there a beter way?
 > 
-> Delta between patch versions:
+>>
+>> on running command.
+>> make ARCH=arm dtbs_check
+>> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>>
+>> I see following messages for dts nodes.
+>>  DTC     arch/arm/boot/dts/rk3288-firefly-beta.dt.yaml
+>>   CHECK   arch/arm/boot/dts/rk3288-firefly-beta.dt.yaml
+>> /home/kpoduval/workspace/tinkerboard-yocto/build/tmp/work/tinker_board-poky-linux-gnueabi/linux-stable/5.5.7+gitAUTOINC+ceab3ac1e6-r0/linux-tinker_board-standard-build/arch/arm/boot/dts/rk3288-firefly-beta.dt.yaml:
+>> isp@ff910000: clocks: [[7, 107], [7, 205], [7, 469], [7, 371], [7, 108]] is
+>> valid under each of {'additionalItems': False, 'items': [{}, {}, {}, {},
+>> {}], 'maxItems': 5, 'minItems': 5, 'type': 'array'}, {'additionalItems':
+>> False, 'items': [{}, {}, {}, {}, {}], 'maxItems': 5, 'minItems': 5, 'type':
+>> 'array'}
+>> /home/kpoduval/workspace/tinkerboard-yocto/build/tmp/work/tinker_board-poky-linux-gnueabi/linux-stable/5.5.7+gitAUTOINC+ceab3ac1e6-r0/linux-tinker_board-standard-build/arch/arm/boot/dts/rk3288-firefly-beta.dt.yaml:
+>> isp@ff910000: compatible: ['rockchip,rk3288-cif-isp'] is too short
+>>
+>> Are these cosidered as error messages ? The "too short" is being alerted
+>> for the orgianl yaml for rk3399 without any of my chnages.
+>> Kindly advise.
+>>
+>> --
+>> Regards,
+>> Karthik Poduval
+>>
+>> On Sat, Apr 11, 2020 at 10:13 PM karthik poduval <karthik.poduval@gmail.com>
+>> wrote:
+>>
+>>> Thanks Johan for your valuable comments.
+>>>
+>>> On Wed, Apr 8, 2020 at 6:19 PM Johan Jonker <jbx6244@gmail.com> wrote:
+>>>>
+>>>> Hi Karthik and others,
+>>>>
+>>>> Include all mail lists found with:
+>>>> ./scripts/get_maintainer.pl --nogit-fallback --nogit
+>>>>
+>>>> Helen is moving isp1 bindings out of staging.
+>>>> Clocks and other things don't fit with her patch serie.
+>>>> Maybe fix this while still in staging?
+>>>>
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+>>>> 'phys' is a required property
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+>>>> 'phy-names' is a required property
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+>>>> 'ports' is a required property
+>>>>
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+>>>> 'assigned-clock-rates', 'assigned-clocks'
+>>>> do not match any of the regexes: 'pinctrl-[0-9]+'
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+>>>> clock-names:2: 'aclk_isp_wrap' was expected
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+>>>> clock-names:3: 'hclk_isp' was expected
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+>>>> clock-names:4: 'hclk_isp_wrap' was expected
+>>>>
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: 'power-domains'
+>>>> is a required property
+>>>>
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clock-names:1:
+>>>> 'dphy-cfg' was expected
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clock-names:
+>>>> ['dphy-ref', 'pclk'] is too short
+>>>> arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clocks: [[7,
+>>>> 126], [7, 358]] is too short
+>>>>
+>>>>
+>>>> Inside yaml:
+>>>> Use enum and sort.
+>>>>>>  properties:
+>>>>>>    compatible:
+>>>>
+>>>>>>      const: rockchip,rk3399-cif-isp
+>>>>>> +    const: rockchip,rk3288-rkisp1
+>>>>
+>>>>     enum:
+>>>>       - rockchip,rk3288-rkisp1
+>>>>       - rockchip,rk3399-cif-isp
+>>>>
+>>>>>>  properties:
+>>>>>>    compatible:
+>>>>>>      const: rockchip,rk3399-mipi-dphy-rx0
+>>>>>> +    const: rockchip,rk3288-mipi-dphy-rx0
+>>>>
+>>>>     enum:
+>>>>       - rockchip,rk3288-mipi-dphy-rx0
+>>>>       - rockchip,rk3399-mipi-dphy-rx0
+>>>>
+>>>>>
+>>>>> Please, keep consistency, or rk3288-cif-isp, or we change
+>>> rk3399-cif-isp to be rk3399-rkisp1.
+>>>>
+>>>>
+>>>> On 4/6/20 9:30 AM, Karthik Poduval wrote:
+>>>>> ISP and DPHY device entries missing so add them.
+>>>>>
+>>>>
+>>>>> tested on tinkerbaord with ov5647 using command
+>>>>> cam -c 1 -C -F cap
+>>>>
+>>>> Disclose dts node for ov5647 in cover letter, so people can reproduce
+>>>> this experiment.
+>>>>
+>>>> Caution!
+>>>> Without dts node this command doesn't work correct.
+>>>>
+>>>> make ARCH=arm dtbs_check
+>>>>
+>>> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>>>>
+>>>> make ARCH=arm dtbs_check
+>>>>
+>>> DT_SCHEMA_FILES=Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
+>>>>
+>>>> Needed to detect missing: phys, phy-names and ports ,etc.
+>>>>
+>>>> &isp {
+>>>>         status = "okay";
+>>>> };
+>>>>
+>>> Makes sense, that's why my kernel compilation passed and I didn't
+>>> these errors. Thanks for the command, I will verify dts for
+>>> correctness in next patch series.
+>>>
+>>>> Needed to detect missing: power-domains, etc.
+>>>>
+>>>> &mipi_phy_rx0 {
+>>>>         status = "okay";
+>>>> };
+>>>>
+>>>>>
+>>>>> Reported-by: Karthik Poduval <karthik.poduval@gmail.com>
+>>>>> Signed-off-by: Karthik Poduval <karthik.poduval@gmail.com>
+>>>>> ---
+>>>>>  arch/arm/boot/dts/rk3288.dtsi | 25 +++++++++++++++++++++++++
+>>>>>  1 file changed, 25 insertions(+)
+>>>>>
+>>>>> diff --git a/arch/arm/boot/dts/rk3288.dtsi
+>>> b/arch/arm/boot/dts/rk3288.dtsi
+>>>>> index 9beb662166aa..adea8189abd9 100644
+>>>>> --- a/arch/arm/boot/dts/rk3288.dtsi
+>>>>> +++ b/arch/arm/boot/dts/rk3288.dtsi
+>>>>> @@ -247,6 +247,23 @@
+>>>>>               ports = <&vopl_out>, <&vopb_out>;
+>>>>>       };
+>>>>>
+>>>>
+>>>>> +     isp: isp@ff910000 {
+>>>>
+>>>> For nodes:
+>>>> Sort things without reg alphabetical first,
+>>>> then sort the rest by reg address.
+>>>>
+>>> Sure
+>>>>> +             compatible = "rockchip,rk3288-rkisp1";
+>>>>> +             reg = <0x0 0xff910000 0x0 0x4000>;
+>>>>> +             interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
+>>>>> +             clocks = <&cru SCLK_ISP>, <&cru ACLK_ISP>,
+>>>>> +                      <&cru HCLK_ISP>, <&cru PCLK_ISP_IN>,
+>>>>> +                      <&cru SCLK_ISP_JPE>;
+>>>>> +             clock-names = "clk_isp", "aclk_isp",
+>>>>> +                           "hclk_isp", "pclk_isp_in",
+>>>>> +                           "sclk_isp_jpe";
+>>>>> +             assigned-clocks = <&cru SCLK_ISP>, <&cru SCLK_ISP_JPE>;
+>>>>> +             assigned-clock-rates = <400000000>, <400000000>;
+>>>>
+>>>>> +             power-domains = <&power RK3288_PD_VIO>;
+>>>>> +             iommus = <&isp_mmu>;
+>>>>
+>>>> sort
+>>>>
+>>>> Something missing?
+>>>> Where are the ports and port nodes?
+>>>
+>>> I was assuming that this would be a part of the board specific dtsi or
+>>> dts entry where the isp node would be overriden and the i2c camera
+>>> port
+>>> and the isp port remote-endpoints would be connected. I had this as a
+>>> part of my first patch series. However I was advised by Helen to not
+>>> include the ov5647
+>>> dtsi as it isn't hardwired to the SoC and resides on an camera adapter
+>>> board.
+>>>
+>>> Should this be defined without the remote-endpoint phandle since we
+>>> don't know exactly which sensor gets connected in this dtsi file ?
+>>>
+>>>>
+>>>>> +             status = "disabled";
 > 
-> [v2]:	Includes below changes based on v1 feedback
-> 	- dt-binding document and the driver update for device graph to use
-> 	  separate ports for sink endpoint and source endpoint for csi.
-> 	- Use data-lanes endpoint property for csi.
-> 	- Update tegra_mipi_request() to take device node pointer argument
-> 	  rather than adding extra API.
-> 	- Remove checking for clk pointer before clk_disable.
+> Question for Heiko:
+> Should we add status to Helen's serie as well?
 > 
+>>>>> +     };
+>>>>> +
+>>>>>       sdmmc: mmc@ff0c0000 {
+>>>>>               compatible = "rockchip,rk3288-dw-mshc";
+>>>>>               max-frequency = <150000000>;
+>>>>> @@ -891,6 +908,14 @@
+>>>>>                       status = "disabled";
+>>>>>               };
+>>>>>
+>>>>
+>>>>> +             mipi_phy_rx0: mipi-phy-rx0 {
+>>>>
+>>>> Use separate patch.
+>>>>
+>>>> For nodes:
+>>>> Sort things without reg alphabetical first,
+>>>> then sort the rest by reg address.
+>>>>
+>>> Sure
+>>>
+>>>>> +                     compatible = "rockchip,rk3288-mipi-dphy-rx0";
+>>>>> +                     clocks = <&cru SCLK_MIPIDSI_24M>, <&cru
+>>> PCLK_MIPI_CSI>;
+>>>>> +                     clock-names = "dphy-ref", "pclk";
+>>>> Something missing?
+>>>> Does this phy have a power domain?
+>>> The tinkerboard debian kernel (where I referred to for this patch)
+>>> didn't have it defined for the DPHY. I would guess that it would be
+>>> the same as the ISP i.e. RK3288_PD_VIO,
+>>> does anyone know the answer to this or do I have to reach out to
+>>> Rockchip engineering ?
+>>>>
+>>>>> +                     #phy-cells = <0>;
+>>>>> +                     status = "disabled";
+>>>>> +             };
+>>>>> +
+>>>>>               io_domains: io-domains {
+>>>>>                       compatible = "rockchip,rk3288-io-voltage-domain";
+>>>>>                       status = "disabled";
+>>>>>
+>>>>
+>>>
+>>>
+>>> --
+>>> Regards,
+>>> Karthik Poduval
+>>>
+>>
+>>
 > 
-> Sowjanya Komatineni (18):
->   dt-bindings: i2c: tegra: Document Tegra210 VI I2C clocks and
->     power-domains
->   arm64: tegra: Add missing clocks and power-domains to Tegra210 VI I2C
->   i2c: tegra: Don't mark VI I2C as IRQ safe runtime PM
->   i2c: tegra: Fix the error path in tegra_i2c_runtime_resume
->   i2c: tegra: Fix runtime resume to re-init VI I2C
->   i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra210 vi i2c
->   media: tegra-video: Fix channel format alignment
->   media: tegra-video: Enable TPG based on kernel config
->   media: tegra-video: Update format lookup to offset based
->   dt-bindings: tegra: Update VI and CSI bindings with port info
->   media: tegra-video: Add support for external sensor capture
->   media: tegra-video: Add support for selection ioctl ops
->   gpu: host1x: mipi: Update tegra_mipi_request() to be node based
->   gpu: host1x: mipi: Split tegra_mipi_calibrate and tegra_mipi_wait
->   media: tegra-video: Add CSI MIPI pads calibration
->   media: tegra-video: Compute settle times based on the clock rate
->   arm64: tegra: jetson-tx1: Add camera supplies
->   arm64: tegra: Enable Tegra VI CSI support for Jetson Nano
-> 
->  .../display/tegra/nvidia,tegra20-host1x.txt        |  92 ++-
->  .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt |  19 +-
->  arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |  41 ++
->  arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |  10 +
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   6 +
->  drivers/gpu/drm/tegra/dsi.c                        |   9 +-
->  drivers/gpu/host1x/mipi.c                          |  30 +-
->  drivers/i2c/busses/i2c-tegra.c                     |  39 +-
->  drivers/staging/media/tegra-video/Kconfig          |   7 +
->  drivers/staging/media/tegra-video/csi.c            | 245 ++++++-
->  drivers/staging/media/tegra-video/csi.h            |   8 +
->  drivers/staging/media/tegra-video/tegra210.c       |  25 +-
->  drivers/staging/media/tegra-video/vi.c             | 770 +++++++++++++++++++--
->  drivers/staging/media/tegra-video/vi.h             |  23 +-
->  drivers/staging/media/tegra-video/video.c          |  23 +-
->  include/linux/host1x.h                             |   4 +-
->  16 files changed, 1251 insertions(+), 100 deletions(-)
-> 
-
