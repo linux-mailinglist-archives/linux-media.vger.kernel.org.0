@@ -2,126 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF03E21349A
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 09:04:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01618213566
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 09:47:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726081AbgGCHEA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jul 2020 03:04:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50236 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725764AbgGCHD7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Jul 2020 03:03:59 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 57B4A206DF;
-        Fri,  3 Jul 2020 07:03:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593759838;
-        bh=OnqYeeLDkLVTTdrfYGx84bxSdL6vSKVYH4IYcErCpHU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VOXctAaE2VR2kSEm2Y3wmxasnbWAWwm1kcY5sdtt+tfJr76ii7o3hWr7PHQF/erQE
-         rD7+fZOLbqa4fIqVXviPRrY8BQ9gD5iWu2qXhAG5OYQGWrMQUAfXF2Kox8luHMbxTT
-         C8IKmIOWz2ym35LjMWpuaBz41jUU6+Mk2vV/2XVg=
-Date:   Fri, 3 Jul 2020 09:04:03 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     driverdevel <devel@driverdev.osuosl.org>,
-        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
-        Todd Kjos <tkjos@android.com>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-        Laura Abbott <labbott@redhat.com>,
-        Anders Pedersen <anders.pedersen@arm.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        "Darren Hart (VMware)" <dvhart@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        nd <nd@arm.com>, Martijn Coenen <maco@android.com>,
-        Laura Abbott <laura@labbott.name>,
-        Christian Brauner <christian@brauner.io>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
-Message-ID: <20200703070403.GB2221524@kroah.com>
-References: <20200414134629.54567-1-orjan.eide@arm.com>
- <20200414141849.55654-1-orjan.eide@arm.com>
- <20200414142810.GA958163@kroah.com>
- <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
- <20200416102508.GA820251@kroah.com>
- <20200420082207.ui7iyg7dsnred2vv@wittgenstein>
- <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
- <20200421080544.GA611314@kroah.com>
+        id S1726347AbgGCHqm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jul 2020 03:46:42 -0400
+Received: from esa2.microchip.iphmx.com ([68.232.149.84]:51125 "EHLO
+        esa2.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725779AbgGCHqm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 03:46:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1593762401; x=1625298401;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Qe3AsKz/1NWtVp1Lygpm/UXyvvks8ItOId5LZbRDzSE=;
+  b=yyklb0++eQ5MbSXtAogkfn1kylatS8DUgSxNSgDV0yHMGg8pdw84mb4t
+   hcpei09jp/DvHab2M+W1BNssXTnHjfOWQXqPcCtyL+Q1ffF3qEyX6s1t1
+   9DocxPzIeS2pXSNU9EiEM2pi7xlwxUEn8CLYwH8LyumUKPOXyfeAL1FBw
+   4xUiIttu3duCo7XbHBA5adEkw3WjaKMk7xhnzWGoEdhLYaMp4TdLuWxAW
+   eInrrgL6DbRuhKcmP6qZfYELuiihSdr/iSfNr67t3cLZHuWxI4wUP/Da7
+   8M4yN9BD/kTmZsNIEa3s2q0X0tU18zGptAmfU111dQ5FmQ0wrC6PWViHi
+   w==;
+IronPort-SDR: AfTzNOcXbRjSM3KS+KI3U/gtKHXSrMqBkFwBiCYJNjQMzDG0zc1q7RvSLo6ksFiDlZnyMJvVAC
+ 5ouKWWhV+IbsIlil6Zu4QdH8vX6OW2GXIUE7saiPq75jeSHXTUlTyvAUvnuqjFnvP7578tYV85
+ RNV1vgd5Fib+L0KA1hzxgBS6lOtAKhaJkmrjEaZU93MZsfAnjrewxIna1tCi4Vswi4jPhI3902
+ BNAYFHeJsKiUcQJokCf/WGfDy9b10yRUJ3i92kgOh+gxh3oasQHhV82U2QDy9e2iiS/mOrYjOD
+ LWw=
+X-IronPort-AV: E=Sophos;i="5.75,307,1589266800"; 
+   d="scan'208";a="80602013"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 03 Jul 2020 00:46:41 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Fri, 3 Jul 2020 00:46:39 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.1979.3 via Frontend Transport; Fri, 3 Jul 2020 00:46:14 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <mchehab@kernel.org>, <hverkuil@xs4all.nl>, <robh+dt@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+CC:     Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH v2 0/4] media: introduce microchip csi2dc driver
+Date:   Fri, 3 Jul 2020 10:44:12 +0300
+Message-ID: <20200703074416.55272-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200421080544.GA611314@kroah.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 10:05:44AM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Apr 20, 2020 at 01:03:39PM -0700, John Stultz wrote:
-> > On Mon, Apr 20, 2020 at 1:22 AM Christian Brauner
-> > <christian.brauner@ubuntu.com> wrote:
-> > > On Thu, Apr 16, 2020 at 12:25:08PM +0200, Greg Kroah-Hartman wrote:
-> > > > On Tue, Apr 14, 2020 at 09:41:31PM -0700, John Stultz wrote:
-> > > > > But I do think we can mark it as deprecated and let folks know that
-> > > > > around the end of the year it will be deleted.
-> > > >
-> > > > No one ever notices "depreciated" things, they only notice if the code
-> > > > is no longer there :)
-> > > >
-> > > > So I'm all for just deleting it and seeing who even notices...
-> > >
-> > > Agreed.
-> > 
-> > I mean, I get there's not much love for ION in staging, and I too am
-> > eager to see it go, but I also feel like in the discussions around
-> > submitting the dmabuf heaps at talks, etc, that there was clear value
-> > in removing ION after a short time so that folks could transition
-> > being able to test both implementations against the same kernel so
-> > performance regressions, etc could be worked out.
-> > 
-> > I am actively getting many requests for help for vendors who are
-> > looking at dmabuf heaps and are starting the transition process, and
-> > I'm trying my best to motivate them to directly work within the
-> > community so their needed heap functionality can go upstream. But it's
-> > going to be a process, and their first attempts aren't going to
-> > magically land upstream.  I think being able to really compare their
-> > implementations as they iterate and push things upstream will help in
-> > order to be able to have upstream solutions that are also properly
-> > functional for production usage.
-> 
-> But we are not accepting any new ion allocators or changes at the
-> moment, so I don't see how the ion code in the kernel is helping/hurting
-> anything here.
-> 
-> There has been a bunch of changes to the ion code recently, in the
-> Android kernel trees, in order to get a lot of the different
-> manufacturer "forks" of ion back together into one place.  But again,
-> those patches are not going to be sent upstream for merging so how is
-> ion affecting the dmabuf code at all here?
-> 
-> > The dmabuf heaps have been in an official kernel now for all of three
-> > weeks. So yea, we can "delete [ION] and see who even notices", but I
-> > worry that may seem a bit like contempt for the folks doing the work
-> > on transitioning over, which doesn't help getting them to participate
-> > within the community.
-> 
-> But they aren't participating in the community today as no one is
-> touching the ion code.  So I fail to see how keeping a dead-end-version
-> of ion in the kernel tree really affects anyone these days.
+Hi,
 
-So, any thoughts here?  What's the timeline for ion being able to be
-removed that you are comfortable with?
+This series adds support for the Microchip csi2dc csi-2 demux controller.
 
-thanks,
+I was not fully sure where is the best place for such a helper chip, thus
+I added the driver in a separate 'misc' menu under the media menu.
 
-greg k-h
+There are references in the binding driver to the Synopsys IDI interface,
+which is not yet in kernel mainline, as per the patch series at [1].
+
+As this driver is still new, it still can get plenty of improvement, so,
+waiting for feedback.
+
+Thanks everyone for reviewing !
+
+Changes in v2:
+- fixed warnings for binding yaml check
+
+[1] https://lwn.net/Articles/790917/
+
+Eugen Hristev (4):
+  dt-bindings: media: csi2dc: add bindings for microchip csi2dc
+  media: misc: introduce miscellaneous menu for helper chips
+  media: misc: introduce microchip_csi2dc driver
+  MAINTAINERS: add microchip csi2dc
+
+ .../bindings/media/microchip,csi2dc.yaml      | 185 +++++
+ MAINTAINERS                                   |   7 +
+ drivers/media/Kconfig                         |   1 +
+ drivers/media/Makefile                        |   2 +-
+ drivers/media/misc/Kconfig                    |  22 +
+ drivers/media/misc/Makefile                   |   2 +
+ drivers/media/misc/microchip_csi2dc.c         | 705 ++++++++++++++++++
+ 7 files changed, 923 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+ create mode 100644 drivers/media/misc/Kconfig
+ create mode 100644 drivers/media/misc/Makefile
+ create mode 100644 drivers/media/misc/microchip_csi2dc.c
+
+-- 
+2.25.1
+
