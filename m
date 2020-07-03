@@ -2,36 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88F2A2131F8
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 05:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A4C821320F
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 05:14:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726074AbgGCDB2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Jul 2020 23:01:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725915AbgGCDB2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Jul 2020 23:01:28 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14817C08C5C1;
-        Thu,  2 Jul 2020 20:01:28 -0700 (PDT)
+        id S1726035AbgGCDOr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Jul 2020 23:14:47 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37632 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725915AbgGCDOq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Jul 2020 23:14:46 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 5F65A2A5573
-Message-ID: <151c4930973dbec938f2e1ff135149f40e4cc7de.camel@collabora.com>
-Subject: Re: [PATCH 2/9] media: rkvdec: h264: Fix reference frame_num wrap
- for second field
+        with ESMTPSA id 4E34E2A054D
+Message-ID: <67a130a8fd8874c5dc639c924de959f88357b480.camel@collabora.com>
+Subject: Re: [PATCH 8/9] media: rkvdec: Add validate_fmt ops for pixelformat
+ validation
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@collabora.com>
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
 Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Tomasz Figa <tfiga@chromium.org>,
         Alexandre Courbot <acourbot@chromium.org>
-Date:   Fri, 03 Jul 2020 00:01:17 -0300
-In-Reply-To: <20200701215616.30874-3-jonas@kwiboo.se>
+Date:   Fri, 03 Jul 2020 00:14:36 -0300
+In-Reply-To: <20200701215616.30874-9-jonas@kwiboo.se>
 References: <20200701215616.30874-1-jonas@kwiboo.se>
-         <20200701215616.30874-3-jonas@kwiboo.se>
+         <20200701215616.30874-9-jonas@kwiboo.se>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.0-1 
@@ -42,54 +38,75 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+Boris
+Hi Jonas,
+
+Thanks for working on this.
 
 On Wed, 2020-07-01 at 21:56 +0000, Jonas Karlman wrote:
-> When decoding the second field in a complementary field pair the second
-> field is sharing the same frame_num with the first field.
+> Add an optional validate_fmt operation that is used to validate the
+> pixelformat of CAPTURE buffers.
 > 
-> Currently the frame_num for the first field is wrapped when it matches the
-> field being decoded, this cause issues to decode the second field in a
-> complementary field pair.
-> 
-> Fix this by using inclusive comparison, less than or equal.
+> This is used in next patch to ensure correct pixelformat is used for 10-bit
+> and 4:2:2 content.
 > 
 > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 > ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/media/rkvdec/rkvdec.c | 8 ++++++++
+>  drivers/staging/media/rkvdec/rkvdec.h | 1 +
+>  2 files changed, 9 insertions(+)
 > 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index 7b66e2743a4f..f0cfed84d60d 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -754,7 +754,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
->  			continue;
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index b1de55aa6535..465444c58f13 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -239,6 +239,14 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
+>  	if (WARN_ON(!coded_desc))
+>  		return -EINVAL;
 >  
+> +	if (coded_desc->ops->validate_fmt) {
+> +		int ret;
+> +
+> +		ret = coded_desc->ops->validate_fmt(ctx, pix_mp->pixelformat);
+> +		if (ret)
+> +			return ret;
+> +	}
+> + 
 
-Taking a closer look here, I see this comment:
+I don't think this approach will be enough. Unless I'm mistaken,
+it's perfectly legal as per the stateless spec to first
+call S_FMT on the OUTPUT queue (which is propagated to the CAPTURE side),
+and then set the SPS and other controls.
 
-        /*
-         * Assign an invalid pic_num if DPB entry at that position is inactive.
-         * If we assign 0 in that position hardware will treat that as a real
-         * reference picture with pic_num 0, triggering output picture
-         * corruption.
-         */
+The application is not required to do a TRY_FMT after S_EXT_CTRLS.
 
-ChromeOS driver was setting 0xff on a non-active hw_rps table entry,
-but we are not doing so.
+What I believe is needed is for the S_EXT_CTRLS to modify
+and restrict the CAPTURE format accordingly, so the application
+gets the correct format on G_FMT (and restrict future TRY_FMT).
 
-Are we missing anything, or is this not really required
-(and so the comment is outdated)?
+Also, V4L2 spec asks drivers not to fail on S_FMT
+format mismatch, but instead to adjust and return a legal format
+back to the application [1].
 
-Thanks,
+Let me know what you think and thanks again.
+
 Ezequiel
 
->  		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
-> -		    dpb[i].frame_num < sl_params->frame_num) {
-> +		    dpb[i].frame_num <= sl_params->frame_num) {
->  			p[i] = dpb[i].frame_num;
->  			continue;
->  		}
+[1] Documentation/userspace-api/media/v4l/vidioc-g-fmt.rst
+
+>  	for (i = 0; i < coded_desc->num_decoded_fmts; i++) {
+>  		if (coded_desc->decoded_fmts[i] == pix_mp->pixelformat)
+>  			break;
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> index 2fc9f46b6910..be4fc3645cde 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.h
+> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> @@ -64,6 +64,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
+>  struct rkvdec_coded_fmt_ops {
+>  	int (*adjust_fmt)(struct rkvdec_ctx *ctx,
+>  			  struct v4l2_format *f);
+> +	int (*validate_fmt)(struct rkvdec_ctx *ctx, u32 pixelformat);
+>  	int (*start)(struct rkvdec_ctx *ctx);
+>  	void (*stop)(struct rkvdec_ctx *ctx);
+>  	int (*run)(struct rkvdec_ctx *ctx);
 
 
