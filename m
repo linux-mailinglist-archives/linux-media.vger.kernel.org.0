@@ -2,46 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 213E421394F
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 13:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0017C213978
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 13:40:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726382AbgGCL2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jul 2020 07:28:16 -0400
-Received: from o1.b.az.sendgrid.net ([208.117.55.133]:30588 "EHLO
+        id S1726310AbgGCLkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jul 2020 07:40:06 -0400
+Received: from o1.b.az.sendgrid.net ([208.117.55.133]:6479 "EHLO
         o1.b.az.sendgrid.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726035AbgGCL2P (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 07:28:15 -0400
+        with ESMTP id S1725984AbgGCLkF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 07:40:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
         h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
         content-transfer-encoding;
-        s=001; bh=rag6RijV9TeiOIlsz8mX0V9zwQwneqNwPAR2reKybCg=;
-        b=kt7yE439G6k1rzT8VB9uoscQM7cz3sqrff4LucL4TGVzp4VvWiwhHwOZf/RWqZeyluwP
-        xZgy4MwswLkSMmaqkEHgGWs4Rh2ViXRDuG2iwdP/o3aU6aCBAoI4sMxi+32jH6csX6jvZH
-        CFTLnro82uO5hjB6gzl5rceXSGSC1MtVM=
-Received: by filterdrecv-p3iad2-5b55dcd864-m99xc with SMTP id filterdrecv-p3iad2-5b55dcd864-m99xc-18-5EFF164E-31
-        2020-07-03 11:28:14.610105909 +0000 UTC m=+584329.215054177
+        s=001; bh=wsZs8l2jsZpG5p2pmDzzBj240/dRHkP1AbxbABY0TAg=;
+        b=SZxBPUErkbng44f9FOzJPKJsy3s+NKlFRpxShe3lFQb5/PdAq0SUEDOozciH4i0wE5Vu
+        wZLk+5bH3DNfu4cJ4bE9CNbuxHUDrfOGyxVKYekTUxetJL6/cYS9HYkj4tOc/0Ym6PKvRn
+        3dyfrlL20lTZayCv2ZVeMiDEjDGILFxuM=
+Received: by filterdrecv-p3iad2-5b55dcd864-9xqm9 with SMTP id filterdrecv-p3iad2-5b55dcd864-9xqm9-19-5EFF1913-7D
+        2020-07-03 11:40:03.915577276 +0000 UTC m=+585042.874662400
 Received: from [10.13.72.108] (unknown)
-        by ismtpd0008p1lon1.sendgrid.net (SG) with ESMTP
-        id BdWamlxBStGtxZSk8Y6P_w
-        Fri, 03 Jul 2020 11:28:14.136 +0000 (UTC)
-Subject: Re: [PATCH 3/9] media: rkvdec: h264: Fix pic width and height in mbs
+        by ismtpd0002p1lon1.sendgrid.net (SG) with ESMTP
+        id QFsYjQUNReGTJlkvFINDvw
+        Fri, 03 Jul 2020 11:40:03.570 +0000 (UTC)
+Subject: Re: [PATCH 7/9] media: rkvdec: h264: Use bytesperline and buffer
+ height to calculate stride
 References: <20200701215616.30874-1-jonas@kwiboo.se>
- <20200701215616.30874-4-jonas@kwiboo.se>
- <abfa036dc0c997bb68280195b2cc422e88c6f4b5.camel@collabora.com>
+ <20200701215616.30874-8-jonas@kwiboo.se>
+ <d34520b6799ddf84d9bd6de1cc6352f28c665c9a.camel@collabora.com>
 From:   Jonas Karlman <jonas@kwiboo.se>
-Message-ID: <3534f9a4-2151-447f-069c-4a277a810535@kwiboo.se>
-Date:   Fri, 03 Jul 2020 11:28:14 +0000 (UTC)
+Message-ID: <957479f7-6427-1cc6-700c-b3efe0cb6ff1@kwiboo.se>
+Date:   Fri, 03 Jul 2020 11:40:04 +0000 (UTC)
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <abfa036dc0c997bb68280195b2cc422e88c6f4b5.camel@collabora.com>
+In-Reply-To: <d34520b6799ddf84d9bd6de1cc6352f28c665c9a.camel@collabora.com>
 X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hwI80fPjPVYIZ5loW?=
- =?us-ascii?Q?4kKfi4jaVDhLR8zCwFHhYeuZQDLKcZ5qF6UfWG6?=
- =?us-ascii?Q?RPRt4wQERf8VlTk5BZI=2FH96cA6TzBNZLbky2uem?=
- =?us-ascii?Q?gjpEuAutm7SB=2FDrPqxSlowDGI0ozvlkGztxO9Ic?=
- =?us-ascii?Q?xJq4jNm1rKCljHHWWLRU07ueLziEsfe2g=2F8FoIh?=
- =?us-ascii?Q?wvAIXHdgELWCNBWmrqEZw=3D=3D?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hyX2muiWjmuL9K719?=
+ =?us-ascii?Q?h1plRDgy9Akh4eiapuPAt3js9=2F7sjca2qqnDVs0?=
+ =?us-ascii?Q?vRzrrSZeUcvcHhLZTaYTIjJwaQ4PFRf+WwWWFLZ?=
+ =?us-ascii?Q?yz07PBJ5StIPM=2F7CJGFQ+zmp7=2Fiyf4EljoaVauI?=
+ =?us-ascii?Q?hJ=2FoA6UC+rnWWYiNObZtW=2FL62MbnmNELNPs34Fm?=
+ =?us-ascii?Q?tFfCi4U9d0A2U1m7jk22Q=3D=3D?=
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-kernel@vger.kernel.org
@@ -57,131 +58,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-07-03 04:48, Ezequiel Garcia wrote:
+On 2020-07-03 05:21, Ezequiel Garcia wrote:
+> Hi Jonas,
+> 
 > On Wed, 2020-07-01 at 21:56 +0000, Jonas Karlman wrote:
->> The width and height in mbs is currently configured based on OUTPUT buffer
->> resolution, this works for frame pictures but can cause issues for field
->> pictures or when frmsize step_width is changed to support 10-bit decoding.
+>> Use bytesperline and buffer height to calculate the strides configured.
 >>
->> When frame_mbs_only_flag is 0 the height in mbs should be height of
->> the field instead of height of frame.
+>> This does not really change anything other than ensuring the bytesperline
+>> that is signaled to userspace matches was is configured in HW.
 >>
->> Validate pic_width_in_mbs_minus1 and pic_height_in_map_units_minus1
->> against CAPTURE buffer resolution and use these values to configure HW.
->>
+> 
+> Are you seeing any issue due to this?
+
+Not seeing any issue, I just feelt more confident when both the driver and
+application use the same value to configure the stride and when used for
+drm framebuffer pitch.
+
+> 
 >> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 >> ---
->>  drivers/staging/media/rkvdec/rkvdec-h264.c | 44 +++++++++++++++++++---
->>  1 file changed, 39 insertions(+), 5 deletions(-)
+>>  drivers/staging/media/rkvdec/rkvdec-h264.c | 27 +++++++++++++---------
+>>  1 file changed, 16 insertions(+), 11 deletions(-)
 >>
 >> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
->> index f0cfed84d60d..c9aebeb8f9b3 100644
+>> index 9c8e49642cd9..1cb6af590138 100644
 >> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
 >> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
->> @@ -672,8 +672,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
->>  		  LOG2_MAX_PIC_ORDER_CNT_LSB_MINUS4);
->>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO),
->>  		  DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG);
->> -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.width, 16), PIC_WIDTH_IN_MBS);
->> -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.height, 16), PIC_HEIGHT_IN_MBS);
->> +	WRITE_PPS(sps->pic_width_in_mbs_minus1 + 1, PIC_WIDTH_IN_MBS);
->> +	WRITE_PPS(sps->pic_height_in_map_units_minus1 + 1, PIC_HEIGHT_IN_MBS);
->>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY),
->>  		  FRAME_MBS_ONLY_FLAG);
->>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD),
->> @@ -1058,10 +1058,33 @@ static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
->>  	kfree(h264_ctx);
->>  }
+>> @@ -891,10 +891,11 @@ static void config_registers(struct rkvdec_ctx *ctx,
+>>  	dma_addr_t rlc_addr;
+>>  	dma_addr_t refer_addr;
+>>  	u32 rlc_len;
+>> -	u32 hor_virstride = 0;
+>> -	u32 ver_virstride = 0;
+>> -	u32 y_virstride = 0;
+>> -	u32 yuv_virstride = 0;
+>> +	u32 hor_virstride;
+>> +	u32 ver_virstride;
+>> +	u32 y_virstride;
+>> +	u32 uv_virstride;
+>> +	u32 yuv_virstride;
+>>  	u32 offset;
+>>  	dma_addr_t dst_addr;
+>>  	u32 reg, i;
+>> @@ -904,16 +905,20 @@ static void config_registers(struct rkvdec_ctx *ctx,
 >>  
->> -static void rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
->> -				     struct rkvdec_h264_run *run)
->> +static int validate_sps(struct rkvdec_ctx *ctx,
->> +			const struct v4l2_ctrl_h264_sps *sps)
->> +{
->> +	unsigned int width, height;
->> +
->> +	if (WARN_ON(!sps))
->> +		return -EINVAL;
->> +
->> +	width = (sps->pic_width_in_mbs_minus1 + 1) * 16;
->> +	height = (sps->pic_height_in_map_units_minus1 + 1) * 16;
->> +
->> +	if (width > ctx->decoded_fmt.fmt.pix_mp.width ||
->> +	    height > ctx->decoded_fmt.fmt.pix_mp.height) {
+>>  	f = &ctx->decoded_fmt;
+>>  	dst_fmt = &f->fmt.pix_mp;
+>> -	hor_virstride = (sps->bit_depth_luma_minus8 + 8) * dst_fmt->width / 8;
+>> -	ver_virstride = round_up(dst_fmt->height, 16);
+>> +	hor_virstride = dst_fmt->plane_fmt[0].bytesperline;
+>> +	ver_virstride = dst_fmt->height;
+>>  	y_virstride = hor_virstride * ver_virstride;
+>>  
 > 
-> Why using decoded_fmt instead of coded_fmt?
-
-I used decoded_fmt because that would be the outer limits of what can be
-decoded into in the CAPTURE buffer. Not sure if or how coded_fmt is validated
-that it does not exceed the decoded_fmt resolution.
-
+> So far so good.
 > 
-> Also, by the time the SPS control is passed, the OUTPUT
-> and CAPTURE formats should be already set, so it should be
-> possible to validate the SPS at TRY_EXT_CTRLS, using
-> v4l2_ctrl_ops.try_ctrl.
+>> -	if (sps->chroma_format_idc == 0)
+>> -		yuv_virstride = y_virstride;
+>> -	else if (sps->chroma_format_idc == 1)
+>> -		yuv_virstride += y_virstride + y_virstride / 2;
+>> +	if (sps->chroma_format_idc == 1)
+>> +		uv_virstride = y_virstride / 2;
+>>  	else if (sps->chroma_format_idc == 2)
+>> -		yuv_virstride += 2 * y_virstride;
+>> +		uv_virstride = y_virstride;
+>> +	else if (sps->chroma_format_idc == 3)
+>> +		uv_virstride = 2 * y_virstride;
+>> +	else
+>> +		uv_virstride = 0;
+>> +
+>> +	yuv_virstride = y_virstride + uv_virstride;
+>>  
+> 
+> Is the chunk above related to the patch, or mostly
+> cleaning/improving the code?
 
-I was not sure how to access the rkvdec_ctx from v4l2_ctrl_ops.try_ctrl
-so I went with similar approach as was done in the VP9 series, looks like
-we can use container_of and ctrl->handler to find rkvdec_ctx.
+You are correct it is mostly cleaning/improving the code,
+this should probably be moved to a separate patch or skipped altogether.
 
-Will try to move the validation into rkvdec_try_ctrl for v2.
+Initial 10-bit implementation was made for HEVC so I just backported the code
+I ended up with for HEVC back to H.264. Will skip this cleaning/improving in
+this series and possible include it as part of a future HEVC series.
 
 Regards,
 Jonas
 
 > 
-> That would be much better, since once the application
-> calls STREAMON on both queues, I think things are
-> expected to be validated as much as possible.
-> 
 > Thanks,
 > Ezequiel
 > 
->> +		dev_err(ctx->dev->dev,
->> +			"unexpected bitstream resolution %ux%u\n",
->> +			width, height);
->> +		return -EINVAL;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
->> +				    struct rkvdec_h264_run *run)
->>  {
->>  	struct v4l2_ctrl *ctrl;
->> +	int ret;
->>  
->>  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->>  			      V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS);
->> @@ -1080,6 +1103,12 @@ static void rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
->>  	run->scaling_matrix = ctrl ? ctrl->p_cur.p : NULL;
->>  
->>  	rkvdec_run_preamble(ctx, &run->base);
->> +
->> +	ret = validate_sps(ctx, run->sps);
->> +	if (ret)
->> +		return ret;
->> +
->> +	return 0;
->>  }
->>  
->>  static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
->> @@ -1088,8 +1117,13 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
->>  	struct rkvdec_dev *rkvdec = ctx->dev;
->>  	struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
->>  	struct rkvdec_h264_run run;
->> +	int ret;
->>  
->> -	rkvdec_h264_run_preamble(ctx, &run);
->> +	ret = rkvdec_h264_run_preamble(ctx, &run);
->> +	if (ret) {
->> +		rkvdec_run_postamble(ctx, &run.base);
->> +		return ret;
->> +	}
->>  
->>  	/* Build the P/B{0,1} ref lists. */
->>  	v4l2_h264_init_reflist_builder(&reflist_builder, run.decode_params,
+>>  	reg = RKVDEC_Y_HOR_VIRSTRIDE(hor_virstride / 16) |
+>>  	      RKVDEC_UV_HOR_VIRSTRIDE(hor_virstride / 16) |
 > 
 > 
