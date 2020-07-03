@@ -2,155 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 894CE213C33
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 16:58:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB0A8213D9D
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 18:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726639AbgGCO6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jul 2020 10:58:47 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45070 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726291AbgGCO6r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 10:58:47 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id E2D432A62E7
-Message-ID: <7abec9992460dcd84a2c951fce55bc8e46f2a0ed.camel@collabora.com>
-Subject: Re: [PATCH 8/9] media: rkvdec: Add validate_fmt ops for pixelformat
- validation
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>
-Date:   Fri, 03 Jul 2020 11:58:35 -0300
-In-Reply-To: <f817d682-ec76-1879-4324-39cf7993493e@kwiboo.se>
-References: <20200701215616.30874-1-jonas@kwiboo.se>
-         <20200701215616.30874-9-jonas@kwiboo.se>
-         <67a130a8fd8874c5dc639c924de959f88357b480.camel@collabora.com>
-         <f817d682-ec76-1879-4324-39cf7993493e@kwiboo.se>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
+        id S1726147AbgGCQd1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jul 2020 12:33:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33340 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726098AbgGCQd1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 12:33:27 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02D8529E;
+        Fri,  3 Jul 2020 18:33:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1593794003;
+        bh=Nwh0YN0KeqC0InYjn2BqTnLR9TGdn4HVickM9LbHxRY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rlpj94BXVfWK3mFgx5+5HjqPxdUp01z3HFl0V9wyDfgH+Qc5CGkIlnr128MVJnjKT
+         Jp8A7iypgOSUL3ye1A/W0MVXg3d+BBVoPoU76HFmt9Ou6+OetRj/jfJk+X9dag7ZEE
+         59yNJ6iPYF6nXCoBQf+5pQ+SauWjDj1cLaQKEsWs=
+Date:   Fri, 3 Jul 2020 19:33:18 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil@xs4all.nl, roman.kovalivskyi@globallogic.com,
+        dave.stevenson@raspberrypi.org, naush@raspberrypi.com,
+        mrodin@de.adit-jv.com, hugues.fruchet@st.com, mripard@kernel.org,
+        aford173@gmail.com, sudipi@jp.adit-jv.com,
+        andrew_gabbasov@mentor.com, erosca@de.adit-jv.com,
+        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
+        dafna Hirschfeld <dafna3@gmail.com>
+Subject: Re: [PATCH 20/25] media: ov5647: Program mode only if it has changed
+Message-ID: <20200703163318.GF14255@pendragon.ideasonboard.com>
+References: <20200623165550.45835-1-jacopo@jmondi.org>
+ <80139e40-914f-c547-922f-91fe3f611202@collabora.com>
+ <20200630074305.soctqoaqirfdnvv2@uno.localdomain>
+ <e3dfbf68-f81b-3349-b3ad-dd9e5f6a0f5f@collabora.com>
+ <20200630100651.ikjcazgbvoq2hab4@uno.localdomain>
+ <de712b61-4b20-cfbd-ab79-d71bd1b7fc56@collabora.com>
+ <20200630120528.xffvivfriblc6a2y@uno.localdomain>
+ <ae93796f-dd9d-730b-008a-13f90ff1f5cd@collabora.com>
+ <20200701072554.GH5963@pendragon.ideasonboard.com>
+ <20200703122150.7mrsl3sw3hblcldv@uno.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200703122150.7mrsl3sw3hblcldv@uno.localdomain>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2020-07-03 at 06:55 +0000, Jonas Karlman wrote:
-> On 2020-07-03 05:14, Ezequiel Garcia wrote:
-> > Hi Jonas,
-> > 
-> > Thanks for working on this.
-> > 
-> > On Wed, 2020-07-01 at 21:56 +0000, Jonas Karlman wrote:
-> > > Add an optional validate_fmt operation that is used to validate the
-> > > pixelformat of CAPTURE buffers.
-> > > 
-> > > This is used in next patch to ensure correct pixelformat is used for 10-bit
-> > > and 4:2:2 content.
-> > > 
-> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > > ---
-> > >  drivers/staging/media/rkvdec/rkvdec.c | 8 ++++++++
-> > >  drivers/staging/media/rkvdec/rkvdec.h | 1 +
-> > >  2 files changed, 9 insertions(+)
-> > > 
-> > > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> > > index b1de55aa6535..465444c58f13 100644
-> > > --- a/drivers/staging/media/rkvdec/rkvdec.c
-> > > +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> > > @@ -239,6 +239,14 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
-> > >  	if (WARN_ON(!coded_desc))
-> > >  		return -EINVAL;
-> > >  
-> > > +	if (coded_desc->ops->validate_fmt) {
-> > > +		int ret;
-> > > +
-> > > +		ret = coded_desc->ops->validate_fmt(ctx, pix_mp->pixelformat);
-> > > +		if (ret)
-> > > +			return ret;
-> > > +	}
-> > > + 
-> > 
-> > I don't think this approach will be enough. Unless I'm mistaken,
-> > it's perfectly legal as per the stateless spec to first
-> > call S_FMT on the OUTPUT queue (which is propagated to the CAPTURE side),
-> > and then set the SPS and other controls.
-> 
-> I agree that this will not be enough to cover all use cases stated in the spec.
-> 
-> > The application is not required to do a TRY_FMT after S_EXT_CTRLS.
-> 
-> If I remember correctly we were required to implement a TRY_FMT loop in
-> ffmpeg due to cedrus defaulting to SUNXI_TILED_NV12 instead of linear NV12
-> on platforms where display controller did not support the tiled modifier.
-> 
-> So having TRY_FMT as part of the init sequence has been my only test-case.
-> 
-> > What I believe is needed is for the S_EXT_CTRLS to modify
-> > and restrict the CAPTURE format accordingly, so the application
-> > gets the correct format on G_FMT (and restrict future TRY_FMT).
-> 
-> This sounds like a proper solution, I do belive we may have a chicken or
-> the egg problem depending on if application call S_EXT_CTRLS or S_FMT first.
-> 
+Hi Jacopo,
 
-IIUC, the order is specified in the stateless spec [1].
+On Fri, Jul 03, 2020 at 02:21:50PM +0200, Jacopo Mondi wrote:
+> On Wed, Jul 01, 2020 at 10:25:54AM +0300, Laurent Pinchart wrote:
+> > On Tue, Jun 30, 2020 at 03:01:21PM +0200, Dafna Hirschfeld wrote:
+> >> On 30.06.20 14:05, Jacopo Mondi wrote:
+> >>> On Tue, Jun 30, 2020 at 12:56:44PM +0200, Dafna Hirschfeld wrote:
+> >>>> On 30.06.20 12:06, Jacopo Mondi wrote:
+> >>>>> On Tue, Jun 30, 2020 at 11:32:12AM +0200, Dafna Hirschfeld wrote:
+> >>>>>> On 30.06.20 09:43, Jacopo Mondi wrote:
+> >>>>>>> On Mon, Jun 29, 2020 at 07:48:16PM +0200, Dafna Hirschfeld wrote:
+> >>>>>>>> On 23.06.20 18:55, Jacopo Mondi wrote:
+> >>>>>>>>> Store in the driver structure a pointer to the currently applied mode
+> >>>>>>>>> and program a new one at s_stream(1) time only if it has changed.
+> >>>>>>>>
+> >>>>>>>> Hi,
+> >>>>>>>> I think this can be more readably implemented with a 'is_streaming' boolean
+> >>>>>>>> field.
+> >>>>>>>
+> >>>>>>> How would you like to use an 'is_streaming' flag to decide if the
+> >>>>>>> sensor mode has to be updated ?
+> >>>>>>
+> >>>>>> since 'current_mode' is set to NULL upon `ov5647_stream_off`
+> >>>>>> and you return from 'ov5647_set_stream' immediately if 'mode == current_mode'
+> >>>>>> it seem very similar to returning immediately from 'ov5647_set_stream' if the
+> >>>>>> device is currently streaming.
+> >>>>>
+> >>>>> No, the code returns immediately from ov5647_set_mode() if mode ==
+> >>>>> current_mode. The modes comparison makes sure the sensor is not
+> >>>>> reprogrammed if the mode hasn't changed. The remaning part of
+> >>>>> s_stream() is executed regardless of the mode configuration. Am I
+> >>>>> missing some part of the picture ?
+> >>>>>
+> >>>>>> But actually in this patch it seems to be possible to change the mode
+> >>>>>> while streaming, if the callbacks are executed:
+> >>>>>>
+> >>>>>> s_stream(1)
+> >>>>>> s_fmt
+> >>>>>> s_stream(1)
+> >>>>>>
+> >>>>>> which is maybe a bug?
+> >>>>>
+> >>>>> The new format is stored in sensor->mode, and applied at the next
+> >>>>> s_stream(1) operation if it differs from the already programmed one,
+> >>>>> at least, this is how it is intended to work, have you found any
+> >>>>> failing s_stream/set_fmt/s_stream which could be caused by a bug ?
+> >>>>
+> >>>> What I meant is that there could be valid sequence of calls
+> >>>>
+> >>>> s_stream(enable=1)
+> >>>> s_fmt
+> >>>> s_stream(enable=1)
+> >>>>
+> >>>> For example if two video devices are connected to the sensor and they
+> >>>> stream simultaneously. There was a discussion about adding a code to the core
+> >>>
+> >>> I'm not sure it is possible, given that the subdev has a single source
+> >>> pad
+> >>
+> >> Video devices should not be connected directly to the sensor, they can also
+> >> be connected to the sensor through an isp entity that is connected to the sensor
+> >> from one side and to two video devices from the other side.
+> >
+> > I don't think it should be the job of the sensor driver to handle this.
+> > A sensor can be streaming or not streaming, and a .s_stream(1) call
+> > while already streaming shouldn't happen. It's the job of the ISP driver
+> > (with help from core code) to ensure this won't happen. Otherwise we
+> > would have to protect against that case in all sensor drivers,
+> > duplicating code in many places and opening the door to bugs. Subdev
+> > drivers should be as simple as possible.
+> 
+> Most of the sensor driver I've briefly looked at implement a simple
+> check to avoid double stream(1) but they do not implement any form of
+> refcounting. I think that does more harm than good to be honest, as it
+> would hide  potential problematic start stream sequences, but would
+> stop the sensor at the first stream(0), leaving one of the multiple
+> receivers stuck.
+> 
+> I would prefer avoid doing this here.
+> 
+> However the driver already refcounting on s_power(), which if I'm not
+> mistaken could be avoided, as bridges should use
+> v4l2_pipeline_pm_get(), which already does refcounting, if I'm not
+> mistaken.
 
-1) S_FMT on OUTPUT (to set the coded pixelformat). CAPTURE format
-format is propagated here and a default format is set.
+.s_power() can also be called when opening the subdev device node from
+userspace, through sd->internal_ops->open(). In new drivers, I'd
+recommend implementing .s_power() based on runtime PM, with .s_power(1)
+calling pm_runtime_get_sync() and .s_power(0) calling pm_runtime_put().
+.s_stream() should call the runtime PM functions too. That way all the
+refcounting will be handled by runtime PM.
 
-2) S_EXT_CTRLS, parameters are set. We don't do anything here,
-but here we'd validate the SPS and restrict the CAPTURE pixelformat
-(and perhaps reset the default CAPTURE pixelformat).
+.s_stream() should not be refcounted, the caller should ensure that a
+started sensor doesn't get started again and that a stopped sensor
+doesn't receive a .s_stream(0) call.
 
-3) G_FMT on CAPTURE.
+> To me, grasping how s_stream() and s_start() work for real is still hard,
+> as those are the only two operation propagated along the pipeline by
+> briges, even for MC platforms, and it seems looking at the existing
+> driver, the confusion is big, as all of them handle things slightly
+> differently :/
 
-4) (optional) ENUM_FMT / S_FMT on CAPTURE, to negotiate
-something different from default.
+None of this has ever been really documented, and APIs have evolved over
+time without fixing drivers, hence today's mess.
 
+> >>>> to follow the s_stream callback and call it only if the subdev is not streaming
+> >>>> but currently subdevs should support it themselves.
+> >>>
+> >>> Oh, so you're concerned about the fact userspace can call s_stream(1)
+> >>> twice consecutively! it's indipendent from s_ftm if I got your point.
+> >>>
+> >>> In this case a flag to control if the device is streaming already should
+> >>> help, yes, I overlooked that indeed.
+> >>>
+> >>>>>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> >>>>>>>>> ---
+> >>>>>>>>>      drivers/media/i2c/ov5647.c | 16 +++++++++++++++-
+> >>>>>>>>>      1 file changed, 15 insertions(+), 1 deletion(-)
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> >>>>>>>>> index 39e320f321bd8..ac114269e1c73 100644
+> >>>>>>>>> --- a/drivers/media/i2c/ov5647.c
+> >>>>>>>>> +++ b/drivers/media/i2c/ov5647.c
+> >>>>>>>>> @@ -96,6 +96,7 @@ struct ov5647 {
+> >>>>>>>>>      	bool				clock_ncont;
+> >>>>>>>>>      	struct v4l2_ctrl_handler	ctrls;
+> >>>>>>>>>      	struct ov5647_mode		*mode;
+> >>>>>>>>> +	struct ov5647_mode		*current_mode;
+> >>>>>>>>>      };
+> >>>>>>>>>      static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
+> >>>>>>>>> @@ -750,9 +751,13 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
+> >>>>>>>>>      static int ov5647_set_mode(struct v4l2_subdev *sd)
+> >>>>>>>>>      {
+> >>>>>>>>>      	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> >>>>>>>>> +	struct ov5647 *sensor = to_sensor(sd);
+> >>>>>>>>>      	u8 resetval, rdval;
+> >>>>>>>>>      	int ret;
+> >>>>>>>>> +	if (sensor->mode == sensor->current_mode)
+> >>>>>>>>> +		return 0;
+> >>>>>>>>> +
+> >>>>>>>>>      	ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
+> >>>>>>>>>      	if (ret < 0)
+> >>>>>>>>>      		return ret;
+> >>>>>>>>> @@ -778,6 +783,8 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
+> >>>>>>>>>      			return ret;
+> >>>>>>>>>      	}
+> >>>>>>>>> +	sensor->current_mode = sensor->mode;
+> >>>>>>>>> +
+> >>>>>>>>>      	return 0;
+> >>>>>>>>>      }
+> >>>>>>>>> @@ -816,6 +823,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
+> >>>>>>>>>      static int ov5647_stream_off(struct v4l2_subdev *sd)
+> >>>>>>>>>      {
+> >>>>>>>>> +	struct ov5647 *sensor = to_sensor(sd);
+> >>>>>>>>>      	int ret;
+> >>>>>>>>>      	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_CLOCK_LANE_GATE |
+> >>>>>>>>> @@ -827,7 +835,13 @@ static int ov5647_stream_off(struct v4l2_subdev *sd)
+> >>>>>>>>>      	if (ret < 0)
+> >>>>>>>>>      		return ret;
+> >>>>>>>>> -	return ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
+> >>>>>>>>> +	ret = ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
+> >>>>>>>>> +	if (ret < 0)
+> >>>>>>>>> +		return ret;
+> >>>>>>>>> +
+> >>>>>>>>> +	sensor->current_mode = NULL;
+> >>>>>>>>> +
+> >>>>>>>>> +	return 0;
+> >>>>>>>>>      }
+> >>>>>>>>>      static int set_sw_standby(struct v4l2_subdev *sd, bool standby)
+> >>>>>>>>>
+
+-- 
 Regards,
-Ezequiel 
 
-[1] Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
-
-> I guess we may need to lock down on a format at whatever comes first,
-> S_FMT on CAPTURE or S_EXT_CTRLS with SPS ctrl.
-> 
-> I have an idea on how this could be addressed, will explore and see
-> if I can come up with something new.
-> 
-> Regards,
-> Jonas
-> 
-> > Also, V4L2 spec asks drivers not to fail on S_FMT
-> > format mismatch, but instead to adjust and return a legal format
-> > back to the application [1].
-> > 
-> > Let me know what you think and thanks again.
-> > 
-> > Ezequiel
-> > 
-> > [1] Documentation/userspace-api/media/v4l/vidioc-g-fmt.rst
-> > 
-> > >  	for (i = 0; i < coded_desc->num_decoded_fmts; i++) {
-> > >  		if (coded_desc->decoded_fmts[i] == pix_mp->pixelformat)
-> > >  			break;
-> > > diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> > > index 2fc9f46b6910..be4fc3645cde 100644
-> > > --- a/drivers/staging/media/rkvdec/rkvdec.h
-> > > +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> > > @@ -64,6 +64,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
-> > >  struct rkvdec_coded_fmt_ops {
-> > >  	int (*adjust_fmt)(struct rkvdec_ctx *ctx,
-> > >  			  struct v4l2_format *f);
-> > > +	int (*validate_fmt)(struct rkvdec_ctx *ctx, u32 pixelformat);
-> > >  	int (*start)(struct rkvdec_ctx *ctx);
-> > >  	void (*stop)(struct rkvdec_ctx *ctx);
-> > >  	int (*run)(struct rkvdec_ctx *ctx);
-
-
+Laurent Pinchart
