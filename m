@@ -2,163 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7545921383E
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 11:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 213E421394F
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 13:28:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726324AbgGCJzq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jul 2020 05:55:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbgGCJzp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 05:55:45 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F33D4C08C5C1
-        for <linux-media@vger.kernel.org>; Fri,  3 Jul 2020 02:55:44 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id rk21so33588448ejb.2
-        for <linux-media@vger.kernel.org>; Fri, 03 Jul 2020 02:55:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pQYKVipN6WWa9Jevaw4SfxJC0LyLoitPbDxTwSWvSWI=;
-        b=Jn3/32I03rvuuTtHe4CbgvMEuyW3m2fuhOLsaxZMSDaRO/Oq0P5mU7WixlqCJuZK4D
-         MFWhE1cQX6cXHkciBf9z/H4nuOXEg3gSyJ+/FSs+DlU2G4wluNR8tS1Wii2sQ5t1Neek
-         IcdNQht1shaNooMun9Djk/HUHw9t8Mx2o2Sqc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pQYKVipN6WWa9Jevaw4SfxJC0LyLoitPbDxTwSWvSWI=;
-        b=MCYlfZVTZPPT03Vl5VYo8fA934UFwLOMVW2EEU2v5oFswSELYhMW7lZ4z6Q4p+nk7b
-         6S0h4Z32v1VRrMjLU9saCKf358AsCLxeMujY4CGjuMXLaZld2WwktoeGCJIGkxpEcUxm
-         j86+KNFp6LSWFxrFgh8CgRZ+xlRwXHeG3yktUkgzUgyr/6IP1N+Sz5bQJILpQUwQjtxl
-         mz2HvFncx4CfFbkMI5TvrlCGXwM4XH5Buv5t5WNXyxTatMa3AqBJFY/330XFOiHGYHRC
-         Ps2p+LQOLRciJLit9Mj8ZpTgM6mUH6W/AZEiDnsv3EeEeo+cGTR9MdlYmXwezSGHPheo
-         Q4pw==
-X-Gm-Message-State: AOAM530WwSz28kTo+QXSaJ90/t9ER8YwWsUQpRd7SUiQZhWKfsIxTJ3U
-        nGY1fS1Y299B2WYhBNkD4mltnKoPJOxkYg==
-X-Google-Smtp-Source: ABdhPJx/BivPMG9QHh6V3EAeYlHdj4aN6iEzS72QZB/TYyMpaVtpnNAeh0UPBYtf72tKB+gm917s0g==
-X-Received: by 2002:a17:906:8392:: with SMTP id p18mr33388799ejx.24.1593770143275;
-        Fri, 03 Jul 2020 02:55:43 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id di20sm12362774edb.26.2020.07.03.02.55.42
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2020 02:55:42 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id z13so32010748wrw.5
-        for <linux-media@vger.kernel.org>; Fri, 03 Jul 2020 02:55:42 -0700 (PDT)
-X-Received: by 2002:adf:dfcd:: with SMTP id q13mr35885221wrn.295.1593770141671;
- Fri, 03 Jul 2020 02:55:41 -0700 (PDT)
+        id S1726382AbgGCL2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jul 2020 07:28:16 -0400
+Received: from o1.b.az.sendgrid.net ([208.117.55.133]:30588 "EHLO
+        o1.b.az.sendgrid.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726035AbgGCL2P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 07:28:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+        h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
+        content-transfer-encoding;
+        s=001; bh=rag6RijV9TeiOIlsz8mX0V9zwQwneqNwPAR2reKybCg=;
+        b=kt7yE439G6k1rzT8VB9uoscQM7cz3sqrff4LucL4TGVzp4VvWiwhHwOZf/RWqZeyluwP
+        xZgy4MwswLkSMmaqkEHgGWs4Rh2ViXRDuG2iwdP/o3aU6aCBAoI4sMxi+32jH6csX6jvZH
+        CFTLnro82uO5hjB6gzl5rceXSGSC1MtVM=
+Received: by filterdrecv-p3iad2-5b55dcd864-m99xc with SMTP id filterdrecv-p3iad2-5b55dcd864-m99xc-18-5EFF164E-31
+        2020-07-03 11:28:14.610105909 +0000 UTC m=+584329.215054177
+Received: from [10.13.72.108] (unknown)
+        by ismtpd0008p1lon1.sendgrid.net (SG) with ESMTP
+        id BdWamlxBStGtxZSk8Y6P_w
+        Fri, 03 Jul 2020 11:28:14.136 +0000 (UTC)
+Subject: Re: [PATCH 3/9] media: rkvdec: h264: Fix pic width and height in mbs
+References: <20200701215616.30874-1-jonas@kwiboo.se>
+ <20200701215616.30874-4-jonas@kwiboo.se>
+ <abfa036dc0c997bb68280195b2cc422e88c6f4b5.camel@collabora.com>
+From:   Jonas Karlman <jonas@kwiboo.se>
+Message-ID: <3534f9a4-2151-447f-069c-4a277a810535@kwiboo.se>
+Date:   Fri, 03 Jul 2020 11:28:14 +0000 (UTC)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200623111325.237158-1-keiichiw@chromium.org>
- <2850781.lI95146Gml@os-lin-dmo> <CAD90VcbmrismAXW0t7K6M-=a2-P+OCOw8PvBr6r8S_3LNYu=pw@mail.gmail.com>
- <3163123.i8GTTo9gJ5@os-lin-dmo> <CAPBb6MWqYHidfaaTKq43yDtjOmKEi=AMC3O9vLdWpPBd_vFrUA@mail.gmail.com>
- <20200703051756-mutt-send-email-mst@kernel.org> <CAPBb6MXju_cc3FdWF60Ndx6aYfHmaGbQxu2a3QMxTfnLrXJxYQ@mail.gmail.com>
-In-Reply-To: <CAPBb6MXju_cc3FdWF60Ndx6aYfHmaGbQxu2a3QMxTfnLrXJxYQ@mail.gmail.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 3 Jul 2020 11:55:29 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CQuDgvZrYC53yKEYBY1LOX2QO8+7eRAscN5wQFmHmkZQ@mail.gmail.com>
-Message-ID: <CAAFQd5CQuDgvZrYC53yKEYBY1LOX2QO8+7eRAscN5wQFmHmkZQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 0/1] Virtio Video Device Specification
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>,
-        Saket Sinha <saket.sinha89@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <abfa036dc0c997bb68280195b2cc422e88c6f4b5.camel@collabora.com>
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hwI80fPjPVYIZ5loW?=
+ =?us-ascii?Q?4kKfi4jaVDhLR8zCwFHhYeuZQDLKcZ5qF6UfWG6?=
+ =?us-ascii?Q?RPRt4wQERf8VlTk5BZI=2FH96cA6TzBNZLbky2uem?=
+ =?us-ascii?Q?gjpEuAutm7SB=2FDrPqxSlowDGI0ozvlkGztxO9Ic?=
+ =?us-ascii?Q?xJq4jNm1rKCljHHWWLRU07ueLziEsfe2g=2F8FoIh?=
+ =?us-ascii?Q?wvAIXHdgELWCNBWmrqEZw=3D=3D?=
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Language: sv
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 3, 2020 at 11:27 AM Alexandre Courbot <acourbot@chromium.org> wrote:
->
-> On Fri, Jul 3, 2020 at 6:18 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Fri, Jul 03, 2020 at 02:45:15PM +0900, Alexandre Courbot wrote:
-> > > Hi Dmitry,
-> > >
-> > > On Thu, Jul 2, 2020 at 10:47 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
-> > > >
-> > > > Hi Keiichi,
-> > > >
-> > > > Thanks for the clarification. I believe we should explicitly describe this in
-> > > > the VIRTIO_VIDEO_CMD_RESOURCE_ATTACH section. And I also still see a problem
-> > > > there. If it is a guest allocated resource, we cannot consider it to be free
-> > > > until the device really releases it. And it won't happen until we issue the
-> > > > next ATTACH call. Also, as we discussed before, it might be not possible to
-> > > > free individual buffers, but the whole queue only.
-> > >
-> > > In the case of the encoder, a V4L2 driver is not supposed to let
-> > > user-space dequeue an input frame while it is used as reference for
-> > > the encoding process. So if we add a similar rule in the virtio-video
-> > > specification, I suppose this would solve the problem?
-> > >
-> > > For the decoder case, we have a bigger problem though. Since DMABUFs
-> > > can be arbitrarily attached to any V4L2 buffer ID, we may end up
-> > > re-queueing the DMABUF of a decoded frame that is still used as
-> > > reference under a different V4L2 buffer ID. In this case I don't think
-> > > the driver has a way to know that the memory resource should not be
-> > > overwritten, and it will thus happily use it as a decode target. The
-> > > easiest fix is probably to update the V4L2 stateful specification to
-> > > require that reused DMABUFs must always be assigned to the same V4L2
-> > > buffer ID, and must be kept alive as long as decoding is in progress,
-> > > or until a resolution change event is received. We can then apply a
-> > > similar rule to the virtio device.
-> >
-> >
-> > Sounds like a generic kind of problem - how do other devices solve it?
->
-> Most users of V4L2 drivers use MMAP buffers, which don't suffer from
-> this problem: since MMAP buffers are managed by V4L2 and the same V4L2
-> buffer ID always corresponds to the same backing memory, the driver
-> just needs to refrain from decoding into a given V4L2 buffer as long
-> as it is used as a reference frames. This is something that all
-> drivers currently do AFAICT.
->
-> The problem only occurs if you let userspace map anything to V4L2
-> buffers (USERPTR or DMABUF buffers). In order to guarantee the same
-> reliable behavior as with MMAP buffers, you must enforce the same
-> rule: always the same backing memory for a given V4L2 buffer.
->
-> ... or you can rotate between a large enough number of buffers to
-> leave enough space for the reference tag to expire on your frames, but
-> that's clearly not a good way to address the problem.
+On 2020-07-03 04:48, Ezequiel Garcia wrote:
+> On Wed, 2020-07-01 at 21:56 +0000, Jonas Karlman wrote:
+>> The width and height in mbs is currently configured based on OUTPUT buffer
+>> resolution, this works for frame pictures but can cause issues for field
+>> pictures or when frmsize step_width is changed to support 10-bit decoding.
+>>
+>> When frame_mbs_only_flag is 0 the height in mbs should be height of
+>> the field instead of height of frame.
+>>
+>> Validate pic_width_in_mbs_minus1 and pic_height_in_map_units_minus1
+>> against CAPTURE buffer resolution and use these values to configure HW.
+>>
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>> ---
+>>  drivers/staging/media/rkvdec/rkvdec-h264.c | 44 +++++++++++++++++++---
+>>  1 file changed, 39 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> index f0cfed84d60d..c9aebeb8f9b3 100644
+>> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> @@ -672,8 +672,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+>>  		  LOG2_MAX_PIC_ORDER_CNT_LSB_MINUS4);
+>>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO),
+>>  		  DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG);
+>> -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.width, 16), PIC_WIDTH_IN_MBS);
+>> -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.height, 16), PIC_HEIGHT_IN_MBS);
+>> +	WRITE_PPS(sps->pic_width_in_mbs_minus1 + 1, PIC_WIDTH_IN_MBS);
+>> +	WRITE_PPS(sps->pic_height_in_map_units_minus1 + 1, PIC_HEIGHT_IN_MBS);
+>>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY),
+>>  		  FRAME_MBS_ONLY_FLAG);
+>>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD),
+>> @@ -1058,10 +1058,33 @@ static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
+>>  	kfree(h264_ctx);
+>>  }
+>>  
+>> -static void rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
+>> -				     struct rkvdec_h264_run *run)
+>> +static int validate_sps(struct rkvdec_ctx *ctx,
+>> +			const struct v4l2_ctrl_h264_sps *sps)
+>> +{
+>> +	unsigned int width, height;
+>> +
+>> +	if (WARN_ON(!sps))
+>> +		return -EINVAL;
+>> +
+>> +	width = (sps->pic_width_in_mbs_minus1 + 1) * 16;
+>> +	height = (sps->pic_height_in_map_units_minus1 + 1) * 16;
+>> +
+>> +	if (width > ctx->decoded_fmt.fmt.pix_mp.width ||
+>> +	    height > ctx->decoded_fmt.fmt.pix_mp.height) {
+> 
+> Why using decoded_fmt instead of coded_fmt?
 
-FWIW, it's typically solved with regular devices by completely
-disallowing the DMABUF/USERPTR modes and only allowing the
-V4L2-managed MMAP mode for affected buffer queues.
+I used decoded_fmt because that would be the outer limits of what can be
+decoded into in the CAPTURE buffer. Not sure if or how coded_fmt is validated
+that it does not exceed the decoded_fmt resolution.
 
-However, that's quite a severe limitation and with a careful API
-extension, DMABUF could be still handled. Namely:
- - pre-registration of buffers at initialization time: that would
-likely mean mandating VIDIOC_QBUF for all indexes before any
-decoding/encoding can start,
- - enforcement of index-buffer mapping: VIDIOC_QBUF would have to fail
-if one attempts to queue another buffer at the same index,
- - ability to explicitly release existing buffers: there is
-VIDIOC_RELEASE_BUF in the works which could be used to release a
-specific index,
- - ability to explicitly add new buffers: a combination of
-VIDIOC_CREATEBUFS + VIDIOC_QBUF could be already used to achieve this.
+> 
+> Also, by the time the SPS control is passed, the OUTPUT
+> and CAPTURE formats should be already set, so it should be
+> possible to validate the SPS at TRY_EXT_CTRLS, using
+> v4l2_ctrl_ops.try_ctrl.
 
-Best regards,
-Tomasz
+I was not sure how to access the rkvdec_ctx from v4l2_ctrl_ops.try_ctrl
+so I went with similar approach as was done in the VP9 series, looks like
+we can use container_of and ctrl->handler to find rkvdec_ctx.
+
+Will try to move the validation into rkvdec_try_ctrl for v2.
+
+Regards,
+Jonas
+
+> 
+> That would be much better, since once the application
+> calls STREAMON on both queues, I think things are
+> expected to be validated as much as possible.
+> 
+> Thanks,
+> Ezequiel
+> 
+>> +		dev_err(ctx->dev->dev,
+>> +			"unexpected bitstream resolution %ux%u\n",
+>> +			width, height);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
+>> +				    struct rkvdec_h264_run *run)
+>>  {
+>>  	struct v4l2_ctrl *ctrl;
+>> +	int ret;
+>>  
+>>  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
+>>  			      V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS);
+>> @@ -1080,6 +1103,12 @@ static void rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
+>>  	run->scaling_matrix = ctrl ? ctrl->p_cur.p : NULL;
+>>  
+>>  	rkvdec_run_preamble(ctx, &run->base);
+>> +
+>> +	ret = validate_sps(ctx, run->sps);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return 0;
+>>  }
+>>  
+>>  static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+>> @@ -1088,8 +1117,13 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+>>  	struct rkvdec_dev *rkvdec = ctx->dev;
+>>  	struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
+>>  	struct rkvdec_h264_run run;
+>> +	int ret;
+>>  
+>> -	rkvdec_h264_run_preamble(ctx, &run);
+>> +	ret = rkvdec_h264_run_preamble(ctx, &run);
+>> +	if (ret) {
+>> +		rkvdec_run_postamble(ctx, &run.base);
+>> +		return ret;
+>> +	}
+>>  
+>>  	/* Build the P/B{0,1} ref lists. */
+>>  	v4l2_h264_init_reflist_builder(&reflist_builder, run.decode_params,
+> 
+> 
