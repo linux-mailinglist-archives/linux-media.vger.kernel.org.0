@@ -2,258 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E052135C1
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 10:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E22F821364D
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 10:21:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbgGCIGU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jul 2020 04:06:20 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:46349 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725891AbgGCIGT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Jul 2020 04:06:19 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id rGi2j86C1mVFqrGi5j7GWZ; Fri, 03 Jul 2020 10:06:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593763575; bh=b4jvdZMiRl+wQlE8aK7iGvK92VjV3a/6aX4pFQUlAY4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=uqKM0qgkfVWerqlbG6o3xBiv6+lkwTSdn60vng7VtUX2pCKAfz2b12dNbn4UJ5vsi
-         /B3ivaZOlPPDlw+I9/SyuEsyK9WRAdLWaQ+O/4mfNSw49CA0uoFERSqBRcpNXwADUU
-         s2DYzRfN8c1z9hSRV8JWH8szoCVvgtfCFZy0lsDDaQyYSbb2dOQZvHYY4F6HRnA2fm
-         p/knxlfOEA3ND2IsaeHeX87zsidWl/1CprmWYbzWMu5NCm+X+gspdYYjA+/lIH6ipM
-         F2J4TffZHGM6u99C2dz41Z6HQADENLofvftmn1nACb499MaCVYEomW1emX8Y/7ExNv
-         QMNhQ80petZlw==
-Subject: Re: [RFC PATCH v2 12/18] media: tegra-video: Add support for
- selection ioctl ops
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com
-Cc:     digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
- <1592358094-23459-13-git-send-email-skomatineni@nvidia.com>
- <efc84cff-76d5-78a2-e84e-0342459d3756@xs4all.nl>
- <c82a000a-7766-c933-fd69-24eb4885fc14@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a95717b6-e2ee-78df-5145-de265805b3d4@xs4all.nl>
-Date:   Fri, 3 Jul 2020 10:06:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1726142AbgGCIVy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jul 2020 04:21:54 -0400
+Received: from gofer.mess.org ([88.97.38.141]:33939 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725915AbgGCIVy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Jul 2020 04:21:54 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id A7D6CC637E; Fri,  3 Jul 2020 09:21:52 +0100 (BST)
+Date:   Fri, 3 Jul 2020 09:21:52 +0100
+From:   Sean Young <sean@mess.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [linux-next:master 2656/5054] drivers/media/rc/ir_toy.c:410:6:
+ warning: Variable 'err' is reassigned a value before the old one has been
+ used.
+Message-ID: <20200703082152.GA17903@gofer.mess.org>
+References: <202007030201.uf3Bi4RQ%lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <c82a000a-7766-c933-fd69-24eb4885fc14@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJibOq/j4tqoc36sc4WrtRfP/A0osTMUl1TNKLANrgu56/SySM9PwU8/7zlFaI92I2Zm+b7yAimCBtoVhEq0JGdG/Qu6rWHiZR2VRfdU8v3TAesoYmCf
- 12+lmuLHRoPvH8otC/RKqgD6o2UUMxNGygKPVInnM34BF/htxuI8rRF6jG8IbW+Y05Ebu5IdKMwEu/FtgiAnQCvhSLMvGxIVTMF01lScqwjNQ/P/elK9XYLK
- DCsRPHwA+4jMO4dF+3QmpcHeAsKsAdN3bjqSYSho3E6zHZYEP9a7V4HEjL2J66sJ/IYpfJD8zVYapSUiU9Si6ArWPuN1OkLmpmzy+07A1MybGJJf5TrZuz4/
- mvSK/CItcwqWHuLoxQDh2IbdL7+Hp52d7L6QTMFWZQoXBXQujIRJckCIgnZDvueyk+AyhjMt8ZGAViX6dB01sBUyIzznC1nEweu7Rw5EkEJmj2UFrhJJfHUN
- 5HtqnX3wzLVieIf0NHPwb0Fdj1ddMehpgkMmA4w0PzD1DLe4Ideui72Y7suyfaEy7GXK0/WwkTTu1C7/wlrLvMwUrQEVIMcxMyc080Eyo6CeFoje9z4iuiHy
- USmgj20dEE+T9RxO/0IEl8dU61xTek0qZACAwgVjimcDDrD4JCV+RfscsZjN3urSkOLgUPAQlyOySgTitx1SJKDV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202007030201.uf3Bi4RQ%lkp@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/07/2020 23:20, Sowjanya Komatineni wrote:
+On Fri, Jul 03, 2020 at 02:16:04AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   d37d57041350dff35dd17cbdf9aef4011acada38
+> commit: 261463dbc34ff0acafe4d84df04535b48a15afea [2656/5054] media: rc: add support for Infrared Toy and IR Droid devices
+> compiler: gcc-9 (Debian 9.3.0-14) 9.3.0
 > 
-> On 7/2/20 6:54 AM, Hans Verkuil wrote:
->> On 17/06/2020 03:41, Sowjanya Komatineni wrote:
->>> This patch adds selection v4l2 ioctl operations to allow configuring
->>> a selection rectangle in the sensor through the Tegra video device
->>> node.
->>>
->>> Some sensor drivers supporting crop uses try_crop rectangle from
->>> v4l2_subdev_pad_config during try format for computing binning.
->>>
->>> So with selection ops support, this patch also updates try format
->>> to use try crop rectangle either from subdev frame size enumeration
->>> or from subdev crop boundary.
->>>
->>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>> ---
->>>   drivers/staging/media/tegra-video/vi.c | 106 +++++++++++++++++++++++++++++++++
->>>   1 file changed, 106 insertions(+)
->>>
->>> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
->>> index 506c263..f9eb96b 100644
->>> --- a/drivers/staging/media/tegra-video/vi.c
->>> +++ b/drivers/staging/media/tegra-video/vi.c
->>> @@ -427,6 +427,13 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
->>>   	struct v4l2_subdev *subdev;
->>>   	struct v4l2_subdev_format fmt;
->>>   	struct v4l2_subdev_pad_config *pad_cfg;
->>> +	struct v4l2_subdev_frame_size_enum fse = {
->>> +		.which = V4L2_SUBDEV_FORMAT_TRY,
->>> +	};
->>> +	struct v4l2_subdev_selection sdsel = {
->>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +		.target = V4L2_SEL_TGT_CROP_BOUNDS,
->>> +	};
->>>   	int ret;
->>>   
->>>   	subdev = tegra_channel_get_remote_subdev(chan, true);
->>> @@ -449,6 +456,24 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
->>>   	fmt.which = V4L2_SUBDEV_FORMAT_TRY;
->>>   	fmt.pad = 0;
->>>   	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
->>> +
->>> +	/*
->>> +	 * Attempt to obtain the format size from subdev.
->>> +	 * If not available, try to get crop boundary from subdev.
->>> +	 */
->>> +	fse.code = fmtinfo->code;
->>> +	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, pad_cfg, &fse);
->>> +	if (ret) {
->>> +		ret = v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel);
->>> +		if (ret)
->>> +			return -EINVAL;
->>> +		pad_cfg->try_crop.width = sdsel.r.width;
->>> +		pad_cfg->try_crop.height = sdsel.r.height;
->>> +	} else {
->>> +		pad_cfg->try_crop.width = fse.max_width;
->>> +		pad_cfg->try_crop.height = fse.max_height;
->>> +	}
->>> +
->>>   	ret = v4l2_subdev_call(subdev, pad, set_fmt, pad_cfg, &fmt);
->>>   	if (ret < 0)
->>>   		return ret;
->>> @@ -540,6 +565,85 @@ static int tegra_channel_set_subdev_active_fmt(struct tegra_vi_channel *chan)
->>>   	return 0;
->>>   }
->>>   
->>> +static int tegra_channel_g_selection(struct file *file, void *priv,
->>> +				     struct v4l2_selection *sel)
->>> +{
->>> +	struct tegra_vi_channel *chan = video_drvdata(file);
->>> +	struct v4l2_subdev *subdev;
->>> +	struct v4l2_subdev_format fmt = {
->>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +	};
->>> +	struct v4l2_subdev_selection sdsel = {
->>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +		.target = sel->target,
->>> +	};
->>> +	int ret;
->>> +
->>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
->>> +		return -ENOTTY;
->>> +
->>> +	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->>> +		return -EINVAL;
->>> +	/*
->>> +	 * Try the get selection operation and fallback to get format if not
->>> +	 * implemented.
->>> +	 */
->>> +	subdev = tegra_channel_get_remote_subdev(chan, true);
->>> +	ret = v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel);
->>> +	if (!ret)
->>> +		sel->r = sdsel.r;
->>> +	if (ret != -ENOIOCTLCMD)
->>> +		return ret;
->>> +
->>> +	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
->>> +	if (ret < 0)
->>> +		return ret;
->>> +
->>> +	sel->r.left = 0;
->>> +	sel->r.top = 0;
->>> +	sel->r.width = fmt.format.width;
->>> +	sel->r.height = fmt.format.height;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int tegra_channel_s_selection(struct file *file, void *fh,
->>> +				     struct v4l2_selection *sel)
->>> +{
->>> +	struct tegra_vi_channel *chan = video_drvdata(file);
->>> +	struct v4l2_subdev *subdev;
->>> +	int ret;
->>> +	struct v4l2_subdev_selection sdsel = {
->>> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +		.target = sel->target,
->>> +		.flags = sel->flags,
->>> +		.r = sel->r,
->>> +	};
->>> +
->> This function doesn't check if the subdev actually supports set_selection.
->> The imx219 is one such driver: it supports get_selection, but not set_selection.
->>
->> So this code should add these lines to fix the v4l2-compliance fail:
->>
->>         subdev = tegra_channel_get_remote_subdev(chan, true);
->>
->>         if (!v4l2_subdev_has_op(subdev, pad, set_selection))
->>                 return -ENOTTY;
->>
-> v4l2_subdev_call() does that check and returns -ENOIOCTLCMD when 
-> specified subdev ops does not exist.
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> 
+> cppcheck warnings: (new ones prefixed by >>)
+> 
+> >> drivers/media/rc/ir_toy.c:410:6: warning: Variable 'err' is reassigned a value before the old one has been used. [redundantAssignment]
+>     err = usb_submit_urb(irtoy->urb_in, GFP_KERNEL);
+>         ^
+>    drivers/media/rc/ir_toy.c:352:0: note: Variable 'err' is reassigned a value before the old one has been used.
+>     int i, pipe, err = -ENOMEM;
+>    ^
+>    drivers/media/rc/ir_toy.c:410:6: note: Variable 'err' is reassigned a value before the old one has been used.
+>     err = usb_submit_urb(irtoy->urb_in, GFP_KERNEL);
+>         ^
+> 
 
-But that test happens too late. In the v4l2-compliance test it fails in the
-sel->type test below, so it returns EINVAL instead of ENOTTY.
+I think gcc is confused here. err does get used in an error path. On code path
+line 377, goto free_irtoy; err is returned from the function. Interestingly
+if you remove the err initializer (' = -ENOMEM') then gcc does not warn
+about uninitialized data being returned (gcc 10.1.1 on Fedora 32).
 
->>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
->>> +		return -ENOTTY;
+clang on the other does the right thing. No warnings on the original code,
+and if you remove the err initializer then you get:
 
-I think this test should come before the v4l2_subdev_has_op test since there
-is probably no subdev if the TPG is enabled. So:
-
-	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
-		return -ENOTTY;
-
-        subdev = tegra_channel_get_remote_subdev(chan, true);
-        if (!v4l2_subdev_has_op(subdev, pad, set_selection))
-                return -ENOTTY;
+drivers/media/rc/ir_toy.c:474:9: note: uninitialized use occurs here
+        return err;
+               ^~~
 
 
-Regards,
+Sean
 
-	Hans
-
->>> +
->>> +	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->>> +		return -EINVAL;
->>> +
->>> +	if (vb2_is_busy(&chan->queue))
->>> +		return -EBUSY;
->>> +
->>> +	subdev = tegra_channel_get_remote_subdev(chan, true);
->> And this line can be dropped.
->>
->> Regards,
->>
->> 	Hans
->>
->>> +	ret = v4l2_subdev_call(subdev, pad, set_selection, NULL, &sdsel);
->>> +	if (!ret) {
->>> +		sel->r = sdsel.r;
->>> +		/*
->>> +		 * Subdev active format resolution may have changed during
->>> +		 * set selection operation. So, update channel format to
->>> +		 * the sub-device active format.
->>> +		 */
->>> +		return tegra_channel_set_subdev_active_fmt(chan);
->>> +	}
->>> +
->>> +	return ret;
->>> +}
->>> +
->>>   static int tegra_channel_enum_input(struct file *file, void *fh,
->>>   				    struct v4l2_input *inp)
->>>   {
->>> @@ -597,6 +701,8 @@ static const struct v4l2_ioctl_ops tegra_channel_ioctl_ops = {
->>>   	.vidioc_streamoff		= vb2_ioctl_streamoff,
->>>   	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
->>>   	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
->>> +	.vidioc_g_selection		= tegra_channel_g_selection,
->>> +	.vidioc_s_selection		= tegra_channel_s_selection,
->>>   };
->>>   
->>>   /*
->>>
-
+> vim +/err +410 drivers/media/rc/ir_toy.c
+> 
+>    340	
+>    341	static int irtoy_probe(struct usb_interface *intf,
+>    342			       const struct usb_device_id *id)
+>    343	{
+>    344		struct usb_host_interface *idesc = intf->cur_altsetting;
+>    345		struct usb_device *usbdev = interface_to_usbdev(intf);
+>    346		struct usb_endpoint_descriptor *ep_in = NULL;
+>    347		struct usb_endpoint_descriptor *ep_out = NULL;
+>    348		struct usb_endpoint_descriptor *ep = NULL;
+>    349		struct irtoy *irtoy;
+>    350		struct rc_dev *rc;
+>    351		struct urb *urb;
+>    352		int i, pipe, err = -ENOMEM;
+>    353	
+>    354		for (i = 0; i < idesc->desc.bNumEndpoints; i++) {
+>    355			ep = &idesc->endpoint[i].desc;
+>    356	
+>    357			if (!ep_in && usb_endpoint_is_bulk_in(ep) &&
+>    358			    usb_endpoint_maxp(ep) == MAX_PACKET)
+>    359				ep_in = ep;
+>    360	
+>    361			if (!ep_out && usb_endpoint_is_bulk_out(ep) &&
+>    362			    usb_endpoint_maxp(ep) == MAX_PACKET)
+>    363				ep_out = ep;
+>    364		}
+>    365	
+>    366		if (!ep_in || !ep_out) {
+>    367			dev_err(&intf->dev, "required endpoints not found\n");
+>    368			return -ENODEV;
+>    369		}
+>    370	
+>    371		irtoy = kzalloc(sizeof(*irtoy), GFP_KERNEL);
+>    372		if (!irtoy)
+>    373			return -ENOMEM;
+>    374	
+>    375		irtoy->in = kmalloc(MAX_PACKET,  GFP_KERNEL);
+>    376		if (!irtoy->in)
+>    377			goto free_irtoy;
+>    378	
+>    379		irtoy->out = kmalloc(MAX_PACKET,  GFP_KERNEL);
+>    380		if (!irtoy->out)
+>    381			goto free_irtoy;
+>    382	
+>    383		rc = rc_allocate_device(RC_DRIVER_IR_RAW);
+>    384		if (!rc)
+>    385			goto free_irtoy;
+>    386	
+>    387		urb = usb_alloc_urb(0, GFP_KERNEL);
+>    388		if (!urb)
+>    389			goto free_rcdev;
+>    390	
+>    391		pipe = usb_rcvbulkpipe(usbdev, ep_in->bEndpointAddress);
+>    392		usb_fill_bulk_urb(urb, usbdev, pipe, irtoy->in, MAX_PACKET,
+>    393				  irtoy_in_callback, irtoy);
+>    394		irtoy->urb_in = urb;
+>    395	
+>    396		urb = usb_alloc_urb(0, GFP_KERNEL);
+>    397		if (!urb)
+>    398			goto free_rcdev;
+>    399	
+>    400		pipe = usb_sndbulkpipe(usbdev, ep_out->bEndpointAddress);
+>    401		usb_fill_bulk_urb(urb, usbdev, pipe, irtoy->out, MAX_PACKET,
+>    402				  irtoy_out_callback, irtoy);
+>    403	
+>    404		irtoy->dev = &intf->dev;
+>    405		irtoy->usbdev = usbdev;
+>    406		irtoy->rc = rc;
+>    407		irtoy->urb_out = urb;
+>    408		irtoy->pulse = true;
+>    409	
+>  > 410		err = usb_submit_urb(irtoy->urb_in, GFP_KERNEL);
+>    411		if (err != 0) {
+>    412			dev_err(irtoy->dev, "fail to submit in urb: %d\n", err);
+>    413			return err;
+>    414		}
+>    415	
+>    416		err = irtoy_setup(irtoy);
+>    417		if (err)
+>    418			goto free_rcdev;
+>    419	
+>    420		dev_info(irtoy->dev, "version: hardware %u, firmware %u, protocol %u",
+>    421			 irtoy->hw_version, irtoy->sw_version, irtoy->proto_version);
+>    422	
+>    423		if (irtoy->sw_version < MIN_FW_VERSION) {
+>    424			dev_err(irtoy->dev, "need firmware V%02u or higher",
+>    425				MIN_FW_VERSION);
+>    426			err = -ENODEV;
+>    427			goto free_rcdev;
+>    428		}
+>    429	
+>    430		usb_make_path(usbdev, irtoy->phys, sizeof(irtoy->phys));
+>    431	
+>    432		rc->device_name = "Infrared Toy";
+>    433		rc->driver_name = KBUILD_MODNAME;
+>    434		rc->input_phys = irtoy->phys;
+>    435		usb_to_input_id(usbdev, &rc->input_id);
+>    436		rc->dev.parent = &intf->dev;
+>    437		rc->priv = irtoy;
+>    438		rc->tx_ir = irtoy_tx;
+>    439		rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
+>    440		rc->map_name = RC_MAP_RC6_MCE;
+>    441		rc->rx_resolution = UNIT_NS;
+>    442		rc->timeout = IR_DEFAULT_TIMEOUT;
+>    443	
+>    444		/*
+>    445		 * end of transmission is detected by absence of a usb packet
+>    446		 * with more pulse/spaces. However, each usb packet sent can
+>    447		 * contain 32 pulse/spaces, which can be quite lengthy, so there
+>    448		 * can be a delay between usb packets. For example with nec there is a
+>    449		 * 17ms gap between packets.
+>    450		 *
+>    451		 * So, make timeout a largish minimum which works with most protocols.
+>    452		 */
+>    453		rc->min_timeout = MS_TO_NS(40);
+>    454		rc->max_timeout = MAX_TIMEOUT_NS;
+>    455	
+>    456		err = rc_register_device(rc);
+>    457		if (err)
+>    458			goto free_rcdev;
+>    459	
+>    460		usb_set_intfdata(intf, irtoy);
+>    461	
+>    462		return 0;
+>    463	
+>    464	free_rcdev:
+>    465		usb_kill_urb(irtoy->urb_out);
+>    466		usb_free_urb(irtoy->urb_out);
+>    467		usb_kill_urb(irtoy->urb_in);
+>    468		usb_free_urb(irtoy->urb_in);
+>    469		rc_free_device(rc);
+>    470	free_irtoy:
+>    471		kfree(irtoy->in);
+>    472		kfree(irtoy->out);
+>    473		kfree(irtoy);
+>    474		return err;
+>    475	}
+>    476	
+> 
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
