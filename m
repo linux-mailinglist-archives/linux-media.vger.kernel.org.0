@@ -2,230 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB0A8213D9D
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 18:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B23B4213E48
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 19:10:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726147AbgGCQd1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jul 2020 12:33:27 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33340 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726098AbgGCQd1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 12:33:27 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02D8529E;
-        Fri,  3 Jul 2020 18:33:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1593794003;
-        bh=Nwh0YN0KeqC0InYjn2BqTnLR9TGdn4HVickM9LbHxRY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rlpj94BXVfWK3mFgx5+5HjqPxdUp01z3HFl0V9wyDfgH+Qc5CGkIlnr128MVJnjKT
-         Jp8A7iypgOSUL3ye1A/W0MVXg3d+BBVoPoU76HFmt9Ou6+OetRj/jfJk+X9dag7ZEE
-         59yNJ6iPYF6nXCoBQf+5pQ+SauWjDj1cLaQKEsWs=
-Date:   Fri, 3 Jul 2020 19:33:18 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil@xs4all.nl, roman.kovalivskyi@globallogic.com,
-        dave.stevenson@raspberrypi.org, naush@raspberrypi.com,
-        mrodin@de.adit-jv.com, hugues.fruchet@st.com, mripard@kernel.org,
-        aford173@gmail.com, sudipi@jp.adit-jv.com,
-        andrew_gabbasov@mentor.com, erosca@de.adit-jv.com,
-        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        dafna Hirschfeld <dafna3@gmail.com>
-Subject: Re: [PATCH 20/25] media: ov5647: Program mode only if it has changed
-Message-ID: <20200703163318.GF14255@pendragon.ideasonboard.com>
-References: <20200623165550.45835-1-jacopo@jmondi.org>
- <80139e40-914f-c547-922f-91fe3f611202@collabora.com>
- <20200630074305.soctqoaqirfdnvv2@uno.localdomain>
- <e3dfbf68-f81b-3349-b3ad-dd9e5f6a0f5f@collabora.com>
- <20200630100651.ikjcazgbvoq2hab4@uno.localdomain>
- <de712b61-4b20-cfbd-ab79-d71bd1b7fc56@collabora.com>
- <20200630120528.xffvivfriblc6a2y@uno.localdomain>
- <ae93796f-dd9d-730b-008a-13f90ff1f5cd@collabora.com>
- <20200701072554.GH5963@pendragon.ideasonboard.com>
- <20200703122150.7mrsl3sw3hblcldv@uno.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200703122150.7mrsl3sw3hblcldv@uno.localdomain>
+        id S1726956AbgGCRKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jul 2020 13:10:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39556 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726910AbgGCRKa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 13:10:30 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75DAEC061794
+        for <linux-media@vger.kernel.org>; Fri,  3 Jul 2020 10:10:29 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 3C0452A65B6
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: [PATCH v5 0/7] v4l2: add support for colorspace conversion API (CSC) for video capture and subdevices
+Date:   Fri,  3 Jul 2020 19:10:12 +0200
+Message-Id: <20200703171019.19270-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+For video capture it is the driver that reports the colorspace,
+Y'CbCr/HSV encoding, quantization range and transfer function
+used by the video, and there is no way to request something
+different, even though many HDTV receivers have some sort of
+colorspace conversion capabilities.
 
-On Fri, Jul 03, 2020 at 02:21:50PM +0200, Jacopo Mondi wrote:
-> On Wed, Jul 01, 2020 at 10:25:54AM +0300, Laurent Pinchart wrote:
-> > On Tue, Jun 30, 2020 at 03:01:21PM +0200, Dafna Hirschfeld wrote:
-> >> On 30.06.20 14:05, Jacopo Mondi wrote:
-> >>> On Tue, Jun 30, 2020 at 12:56:44PM +0200, Dafna Hirschfeld wrote:
-> >>>> On 30.06.20 12:06, Jacopo Mondi wrote:
-> >>>>> On Tue, Jun 30, 2020 at 11:32:12AM +0200, Dafna Hirschfeld wrote:
-> >>>>>> On 30.06.20 09:43, Jacopo Mondi wrote:
-> >>>>>>> On Mon, Jun 29, 2020 at 07:48:16PM +0200, Dafna Hirschfeld wrote:
-> >>>>>>>> On 23.06.20 18:55, Jacopo Mondi wrote:
-> >>>>>>>>> Store in the driver structure a pointer to the currently applied mode
-> >>>>>>>>> and program a new one at s_stream(1) time only if it has changed.
-> >>>>>>>>
-> >>>>>>>> Hi,
-> >>>>>>>> I think this can be more readably implemented with a 'is_streaming' boolean
-> >>>>>>>> field.
-> >>>>>>>
-> >>>>>>> How would you like to use an 'is_streaming' flag to decide if the
-> >>>>>>> sensor mode has to be updated ?
-> >>>>>>
-> >>>>>> since 'current_mode' is set to NULL upon `ov5647_stream_off`
-> >>>>>> and you return from 'ov5647_set_stream' immediately if 'mode == current_mode'
-> >>>>>> it seem very similar to returning immediately from 'ov5647_set_stream' if the
-> >>>>>> device is currently streaming.
-> >>>>>
-> >>>>> No, the code returns immediately from ov5647_set_mode() if mode ==
-> >>>>> current_mode. The modes comparison makes sure the sensor is not
-> >>>>> reprogrammed if the mode hasn't changed. The remaning part of
-> >>>>> s_stream() is executed regardless of the mode configuration. Am I
-> >>>>> missing some part of the picture ?
-> >>>>>
-> >>>>>> But actually in this patch it seems to be possible to change the mode
-> >>>>>> while streaming, if the callbacks are executed:
-> >>>>>>
-> >>>>>> s_stream(1)
-> >>>>>> s_fmt
-> >>>>>> s_stream(1)
-> >>>>>>
-> >>>>>> which is maybe a bug?
-> >>>>>
-> >>>>> The new format is stored in sensor->mode, and applied at the next
-> >>>>> s_stream(1) operation if it differs from the already programmed one,
-> >>>>> at least, this is how it is intended to work, have you found any
-> >>>>> failing s_stream/set_fmt/s_stream which could be caused by a bug ?
-> >>>>
-> >>>> What I meant is that there could be valid sequence of calls
-> >>>>
-> >>>> s_stream(enable=1)
-> >>>> s_fmt
-> >>>> s_stream(enable=1)
-> >>>>
-> >>>> For example if two video devices are connected to the sensor and they
-> >>>> stream simultaneously. There was a discussion about adding a code to the core
-> >>>
-> >>> I'm not sure it is possible, given that the subdev has a single source
-> >>> pad
-> >>
-> >> Video devices should not be connected directly to the sensor, they can also
-> >> be connected to the sensor through an isp entity that is connected to the sensor
-> >> from one side and to two video devices from the other side.
-> >
-> > I don't think it should be the job of the sensor driver to handle this.
-> > A sensor can be streaming or not streaming, and a .s_stream(1) call
-> > while already streaming shouldn't happen. It's the job of the ISP driver
-> > (with help from core code) to ensure this won't happen. Otherwise we
-> > would have to protect against that case in all sensor drivers,
-> > duplicating code in many places and opening the door to bugs. Subdev
-> > drivers should be as simple as possible.
-> 
-> Most of the sensor driver I've briefly looked at implement a simple
-> check to avoid double stream(1) but they do not implement any form of
-> refcounting. I think that does more harm than good to be honest, as it
-> would hide  potential problematic start stream sequences, but would
-> stop the sensor at the first stream(0), leaving one of the multiple
-> receivers stuck.
-> 
-> I would prefer avoid doing this here.
-> 
-> However the driver already refcounting on s_power(), which if I'm not
-> mistaken could be avoided, as bridges should use
-> v4l2_pipeline_pm_get(), which already does refcounting, if I'm not
-> mistaken.
+For output video this feature already exists since the application
+specifies this information for the video format it will send out, and
+the transmitter will enable any available CSC if a format conversion has
+to be performed in order to match the capabilities of the sink.
 
-.s_power() can also be called when opening the subdev device node from
-userspace, through sd->internal_ops->open(). In new drivers, I'd
-recommend implementing .s_power() based on runtime PM, with .s_power(1)
-calling pm_runtime_get_sync() and .s_power(0) calling pm_runtime_put().
-.s_stream() should call the runtime PM functions too. That way all the
-refcounting will be handled by runtime PM.
+For video capture we propose adding new v4l2_pix_format flag:
+V4L2_PIX_FMT_FLAG_SET_CSC. The flag is set by the application,
+the driver will interpret the fields 'colorspace', 'ycbcr_enc/hsv_enc',
+'quantization' and 'xfer_func' as the requested colorspace information
+and will attempt to do the conversion it supports.
 
-.s_stream() should not be refcounted, the caller should ensure that a
-started sensor doesn't get started again and that a stopped sensor
-doesn't receive a .s_stream(0) call.
+Drivers set the flags
+V4L2_FMT_FLAG_CSC_COLORSPACE,
+V4L2_FMT_FLAG_CSC_YCBCR_ENC,
+V4L2_FMT_FLAG_CSC_HSV_ENC,
+V4L2_FMT_FLAG_CSC_QUANTIZATION,
+V4L2_FMT_FLAG_CSC_XFER_FUNC,
+in the flags field of the struct v4l2_fmtdesc during enumeration to
+indicate that they support colorspace conversion for the respective field.
 
-> To me, grasping how s_stream() and s_start() work for real is still hard,
-> as those are the only two operation propagated along the pipeline by
-> briges, even for MC platforms, and it seems looking at the existing
-> driver, the confusion is big, as all of them handle things slightly
-> differently :/
+The same API is added for the subdevices. With the flag
+V4L2_MBUS_FRAMEFMT_SET_CSC set by the application in VIDIOC_SUBDEV_S_FMT
+ioctl and the flags
+V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE,
+V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC,
+V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION,
+V4L2_SUBDEV_MBUS_CODE_CSC_XFER_FUNC,
+V4L2_SUBDEV_MBUS_CODE_CSC_HSV_ENC
+set by the driver in the VIDIOC_SUBDEV_ENUM_MBUS_CODE ioctl.
 
-None of this has ever been really documented, and APIs have evolved over
-time without fixing drivers, hence today's mess.
+For subdevices, new 'flags' fields were added to the structs
+v4l2_subdev_mbus_code_enum, v4l2_mbus_framefmt which are borrowed from the
+'reserved' field. In the struct 'v4l2_mbus_framefmt' and reserved2 field
+is added before the flags due to padding.
 
-> >>>> to follow the s_stream callback and call it only if the subdev is not streaming
-> >>>> but currently subdevs should support it themselves.
-> >>>
-> >>> Oh, so you're concerned about the fact userspace can call s_stream(1)
-> >>> twice consecutively! it's indipendent from s_ftm if I got your point.
-> >>>
-> >>> In this case a flag to control if the device is streaming already should
-> >>> help, yes, I overlooked that indeed.
-> >>>
-> >>>>>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> >>>>>>>>> ---
-> >>>>>>>>>      drivers/media/i2c/ov5647.c | 16 +++++++++++++++-
-> >>>>>>>>>      1 file changed, 15 insertions(+), 1 deletion(-)
-> >>>>>>>>>
-> >>>>>>>>> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> >>>>>>>>> index 39e320f321bd8..ac114269e1c73 100644
-> >>>>>>>>> --- a/drivers/media/i2c/ov5647.c
-> >>>>>>>>> +++ b/drivers/media/i2c/ov5647.c
-> >>>>>>>>> @@ -96,6 +96,7 @@ struct ov5647 {
-> >>>>>>>>>      	bool				clock_ncont;
-> >>>>>>>>>      	struct v4l2_ctrl_handler	ctrls;
-> >>>>>>>>>      	struct ov5647_mode		*mode;
-> >>>>>>>>> +	struct ov5647_mode		*current_mode;
-> >>>>>>>>>      };
-> >>>>>>>>>      static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
-> >>>>>>>>> @@ -750,9 +751,13 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
-> >>>>>>>>>      static int ov5647_set_mode(struct v4l2_subdev *sd)
-> >>>>>>>>>      {
-> >>>>>>>>>      	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> >>>>>>>>> +	struct ov5647 *sensor = to_sensor(sd);
-> >>>>>>>>>      	u8 resetval, rdval;
-> >>>>>>>>>      	int ret;
-> >>>>>>>>> +	if (sensor->mode == sensor->current_mode)
-> >>>>>>>>> +		return 0;
-> >>>>>>>>> +
-> >>>>>>>>>      	ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
-> >>>>>>>>>      	if (ret < 0)
-> >>>>>>>>>      		return ret;
-> >>>>>>>>> @@ -778,6 +783,8 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
-> >>>>>>>>>      			return ret;
-> >>>>>>>>>      	}
-> >>>>>>>>> +	sensor->current_mode = sensor->mode;
-> >>>>>>>>> +
-> >>>>>>>>>      	return 0;
-> >>>>>>>>>      }
-> >>>>>>>>> @@ -816,6 +823,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
-> >>>>>>>>>      static int ov5647_stream_off(struct v4l2_subdev *sd)
-> >>>>>>>>>      {
-> >>>>>>>>> +	struct ov5647 *sensor = to_sensor(sd);
-> >>>>>>>>>      	int ret;
-> >>>>>>>>>      	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_CLOCK_LANE_GATE |
-> >>>>>>>>> @@ -827,7 +835,13 @@ static int ov5647_stream_off(struct v4l2_subdev *sd)
-> >>>>>>>>>      	if (ret < 0)
-> >>>>>>>>>      		return ret;
-> >>>>>>>>> -	return ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
-> >>>>>>>>> +	ret = ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
-> >>>>>>>>> +	if (ret < 0)
-> >>>>>>>>> +		return ret;
-> >>>>>>>>> +
-> >>>>>>>>> +	sensor->current_mode = NULL;
-> >>>>>>>>> +
-> >>>>>>>>> +	return 0;
-> >>>>>>>>>      }
-> >>>>>>>>>      static int set_sw_standby(struct v4l2_subdev *sd, bool standby)
-> >>>>>>>>>
+Drivers do not have to actually look at the flags. If the flags are not
+set, then the colorspace, ycbcr_enc/hsv_enc, quantization and xfer_func
+fields are set to the default values by the core, i.e. just pass on the
+received format without conversion.
+
+The patchset includes a patch in vivid that implements the API for video capture devices
+and a patch in rkisp1 driver that implement the API for subdevices.
+
+In rkisp1, the API is used to allow userspace to set the quantizaion for
+YUV formats on the source pad of the isp entity. The quantization is read-only
+on the other entities and pads and do not habe to propagate.
+
+I also removed the TODO item 'Handle quantization'
+and added the TODO item 'Add uapi docs. Remeber to add documentation of how quantization is handled.'
+
+The patchset is rebased on top of v4 of the patchset
+"media: staging: rkisp1: bugs fixes and vars renames"
+https://patchwork.kernel.org/cover/11611867/
+
+A patchset for v4l-utils to support the API will also be sent
+
+Patches Summary:
+----------------
+patch 1 - moves the description of the v4l2_pix_format flags in the Documentation to the right
+place where it should be. This is just a fix.
+
+patch 2 - Adds the API for video devices - Adds the new macros and fields and their documentation.
+This is only for video devices.
+
+patch 3 - uses the API in the capture device of vivid. Using the API, userspace is allowed to:
+1. Set the ycbcr_enc function for YUV formats.
+2. Set the hsv_enc function for HSV formats
+3. Set the quantization for YUV and RGB formats.
+4. Set the colorspace
+5. set the xfer_func
+
+patch 4 - add the API for subdevices - Adds the new macros and fields and their documentation.
+
+patch 5 - replace the ycbcr_enc field of 'struct v4l2_mbus_framefmt' with a union that includes
+	  also hsv_enc and add support for CSC on hsv_enc for subdevices.
+
+patch 6 - use the API to allow userspace to set the quantizaion on the isp source pad.
+
+patch 7 - sets the flags to 0 in the mbus enumeration of the resizer.
+
+Changes from v4:
+----------------
+- This time I didn't to this patchset the patches from 'media: staging: rkisp1: bugs fixes and vars renames'
+but note that this patchset is rebased on that patchset.
+
+- I added the fields 'colorspace' 'xfer_func' to the list of fields that the CSC API supports due to
+comment from Hans Verkuil. Also the vivid implementation is extended to support those fields.
+
+- I split the patch that adds the API into two patches. One for video devices and one patch for subdevices.
+This is because the two APIs are actually independent and it is easier to maintain and review two small patches
+than one big patch.
+Also, it can be decided that only one of those patches be accpeted.
+
+- I changed the flags fields in 'struct v4l2_mbus_framefmt'  to __u32 and added a reserved2 field before it due to
+padding.
+
+- I changed the patch for rkisp1 so that the quantizaion can be set by userspace only on the source pad of
+the isp entity and is read-only and set always to default for all other entities and pads.
+The driver also does not validate matching of the quantizaion between entities.
+
+- Added a patch to the rkisp1-resizer that sets the flags to 0 when enumerating the mbus codes.
+This is because the resizer reports the same formats as the source pad of the isp entity but does
+not support the quantizaion conversion.
+
+- various small fixes due to feedback.
+
+Changes from v3:
+----------------
+- patches 1,2,3,7,8 are new (rkisp1 bug fixes, move v4l2-pixfmt flags docs, vivid patch, support for HSV media bus)
+
+- patch 4 (The API):
+1) reformulate the Documentation according to comments from Verkuil and Tomasz Figa
+2) remove the code in drivers/media/v4l2-core/v4l2-subdev.c and drivers/media/v4l2-core/v4l2-ioctl.c
+so that except of the new macros and fields no new code is added to the core
+
+- patches 5,6 - refactor the rkisp1 implementation so that the userspace should set the quantization separately
+to each entity. In patch 6 the validation callbacks make sure the quantizations matche.
+
+
+Dafna Hirschfeld (7):
+  media: Documentation: v4l: move table of v4l2_pix_format(_mplane)
+    flags to pixfmt-v4l2.rst
+  v4l2: add support for colorspace conversion API (CSC) for video
+    capture
+  media: vivid: Add support to the CSC API
+  v4l2: extend the CSC API to subdevice.
+  media: v4l2: add support for the subdev CSC API for hsv_enc on
+    mediabus
+  media: staging: rkisp1: allow quantization setting by userspace on the
+    isp source pad
+  media: staging: rkisp1: rsz: set flags to 0 in enum_mbus_code cb
+
+ .../media/v4l/pixfmt-reserved.rst             | 17 ----
+ .../media/v4l/pixfmt-v4l2-mplane.rst          | 16 +--
+ .../userspace-api/media/v4l/pixfmt-v4l2.rst   | 81 +++++++++++++++-
+ .../media/v4l/subdev-formats.rst              | 97 +++++++++++++++++--
+ .../media/v4l/vidioc-enum-fmt.rst             | 35 +++++++
+ .../v4l/vidioc-subdev-enum-mbus-code.rst      | 44 ++++++++-
+ .../media/videodev2.h.rst.exceptions          |  7 +-
+ .../media/test-drivers/vivid/vivid-vid-cap.c  | 74 ++++++++++++--
+ .../test-drivers/vivid/vivid-vid-common.c     | 24 +++++
+ drivers/staging/media/rkisp1/TODO             |  2 +-
+ drivers/staging/media/rkisp1/rkisp1-capture.c | 10 --
+ drivers/staging/media/rkisp1/rkisp1-isp.c     | 18 +++-
+ drivers/staging/media/rkisp1/rkisp1-resizer.c |  1 +
+ include/uapi/linux/v4l2-mediabus.h            | 17 +++-
+ include/uapi/linux/v4l2-subdev.h              |  9 +-
+ include/uapi/linux/videodev2.h                |  6 ++
+ 16 files changed, 391 insertions(+), 67 deletions(-)
 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
