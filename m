@@ -2,452 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAD6B213B05
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 15:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 894CE213C33
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 16:58:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbgGCNaV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jul 2020 09:30:21 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:40031 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbgGCNaU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 09:30:20 -0400
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 6B415200017;
-        Fri,  3 Jul 2020 13:30:12 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        sakari.ailus@iki.fi, Rob Herring <robh@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v10.1] dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
-Date:   Fri,  3 Jul 2020 15:33:32 +0200
-Message-Id: <20200703133332.171912-1-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200612144713.502006-2-kieran.bingham+renesas@ideasonboard.com>
-References: <20200612144713.502006-2-kieran.bingham+renesas@ideasonboard.com>
+        id S1726639AbgGCO6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jul 2020 10:58:47 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45070 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726291AbgGCO6r (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 10:58:47 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id E2D432A62E7
+Message-ID: <7abec9992460dcd84a2c951fce55bc8e46f2a0ed.camel@collabora.com>
+Subject: Re: [PATCH 8/9] media: rkvdec: Add validate_fmt ops for pixelformat
+ validation
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>
+Date:   Fri, 03 Jul 2020 11:58:35 -0300
+In-Reply-To: <f817d682-ec76-1879-4324-39cf7993493e@kwiboo.se>
+References: <20200701215616.30874-1-jonas@kwiboo.se>
+         <20200701215616.30874-9-jonas@kwiboo.se>
+         <67a130a8fd8874c5dc639c924de959f88357b480.camel@collabora.com>
+         <f817d682-ec76-1879-4324-39cf7993493e@kwiboo.se>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Fri, 2020-07-03 at 06:55 +0000, Jonas Karlman wrote:
+> On 2020-07-03 05:14, Ezequiel Garcia wrote:
+> > Hi Jonas,
+> > 
+> > Thanks for working on this.
+> > 
+> > On Wed, 2020-07-01 at 21:56 +0000, Jonas Karlman wrote:
+> > > Add an optional validate_fmt operation that is used to validate the
+> > > pixelformat of CAPTURE buffers.
+> > > 
+> > > This is used in next patch to ensure correct pixelformat is used for 10-bit
+> > > and 4:2:2 content.
+> > > 
+> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > > ---
+> > >  drivers/staging/media/rkvdec/rkvdec.c | 8 ++++++++
+> > >  drivers/staging/media/rkvdec/rkvdec.h | 1 +
+> > >  2 files changed, 9 insertions(+)
+> > > 
+> > > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> > > index b1de55aa6535..465444c58f13 100644
+> > > --- a/drivers/staging/media/rkvdec/rkvdec.c
+> > > +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> > > @@ -239,6 +239,14 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
+> > >  	if (WARN_ON(!coded_desc))
+> > >  		return -EINVAL;
+> > >  
+> > > +	if (coded_desc->ops->validate_fmt) {
+> > > +		int ret;
+> > > +
+> > > +		ret = coded_desc->ops->validate_fmt(ctx, pix_mp->pixelformat);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > > + 
+> > 
+> > I don't think this approach will be enough. Unless I'm mistaken,
+> > it's perfectly legal as per the stateless spec to first
+> > call S_FMT on the OUTPUT queue (which is propagated to the CAPTURE side),
+> > and then set the SPS and other controls.
+> 
+> I agree that this will not be enough to cover all use cases stated in the spec.
+> 
+> > The application is not required to do a TRY_FMT after S_EXT_CTRLS.
+> 
+> If I remember correctly we were required to implement a TRY_FMT loop in
+> ffmpeg due to cedrus defaulting to SUNXI_TILED_NV12 instead of linear NV12
+> on platforms where display controller did not support the tiled modifier.
+> 
+> So having TRY_FMT as part of the init sequence has been my only test-case.
+> 
+> > What I believe is needed is for the S_EXT_CTRLS to modify
+> > and restrict the CAPTURE format accordingly, so the application
+> > gets the correct format on G_FMT (and restrict future TRY_FMT).
+> 
+> This sounds like a proper solution, I do belive we may have a chicken or
+> the egg problem depending on if application call S_EXT_CTRLS or S_FMT first.
+> 
 
-The MAX9286 deserializes video data received on up to 4 Gigabit
-Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
-to 4 data lanes.
+IIUC, the order is specified in the stateless spec [1].
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
+1) S_FMT on OUTPUT (to set the coded pixelformat). CAPTURE format
+format is propagated here and a default format is set.
 
-Small updated compared to v10 to silence a warning due to the reg property
-of the i2c node in example being 2 cells long
+2) S_EXT_CTRLS, parameters are set. We don't do anything here,
+but here we'd validate the SPS and restrict the CAPTURE pixelformat
+(and perhaps reset the default CAPTURE pixelformat).
 
+3) G_FMT on CAPTURE.
 
--      reg = <0 0xe66d8000 0 0x40>;
-+      reg = <0 0xe66d8000>;
+4) (optional) ENUM_FMT / S_FMT on CAPTURE, to negotiate
+something different from default.
 
-Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: example-0: i2c@e66d8000:reg:0: [0, 3865935872, 0, 64] is too long
+Regards,
+Ezequiel 
 
----
- .../bindings/media/i2c/maxim,max9286.yaml     | 366 ++++++++++++++++++
- 1 file changed, 366 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+[1] Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-new file mode 100644
-index 000000000000..e7b543159d15
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-@@ -0,0 +1,366 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2019 Renesas Electronics Corp.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/maxim,max9286.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Maxim Integrated Quad GMSL Deserializer
-+
-+maintainers:
-+  - Jacopo Mondi <jacopo+renesas@jmondi.org>
-+  - Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-+
-+description: |
-+  The MAX9286 deserializer receives video data on up to 4 Gigabit Multimedia
-+  Serial Links (GMSL) and outputs them on a CSI-2 D-PHY port using up to 4 data
-+  lanes.
-+
-+  In addition to video data, the GMSL links carry a bidirectional control
-+  channel that encapsulates I2C messages. The MAX9286 forwards all I2C traffic
-+  not addressed to itself to the other side of the links, where a GMSL
-+  serializer will output it on a local I2C bus. In the other direction all I2C
-+  traffic received over GMSL by the MAX9286 is output on the local I2C bus.
-+
-+properties:
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+  compatible:
-+    const: maxim,max9286
-+
-+  reg:
-+    description: I2C device address
-+    maxItems: 1
-+
-+  poc-supply:
-+    description: Regulator providing Power over Coax to the cameras
-+    maxItems: 1
-+
-+  enable-gpios:
-+    description: GPIO connected to the \#PWDN pin with inverted polarity
-+    maxItems: 1
-+
-+  gpio-controller: true
-+
-+  '#gpio-cells':
-+      const: 2
-+
-+  ports:
-+    type: object
-+    description: |
-+      The connections to the MAX9286 GMSL and its endpoint nodes are modelled
-+      using the OF graph bindings in accordance with the video interface
-+      bindings defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt.
-+
-+      The following table lists the port number corresponding to each device
-+      port.
-+
-+        Port            Description
-+        ----------------------------------------
-+        Port 0          GMSL Input 0
-+        Port 1          GMSL Input 1
-+        Port 2          GMSL Input 2
-+        Port 3          GMSL Input 3
-+        Port 4          CSI-2 Output
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+      port@[0-3]:
-+        type: object
-+        properties:
-+          reg:
-+            enum: [ 0, 1, 2, 3 ]
-+
-+          endpoint:
-+            type: object
-+
-+            properties:
-+              remote-endpoint:
-+                description: |
-+                 phandle to the remote GMSL source endpoint subnode in the
-+                 remote node port.
-+
-+            required:
-+              - remote-endpoint
-+
-+        required:
-+          - reg
-+          - endpoint
-+
-+        additionalProperties: false
-+
-+      port@4:
-+        type: object
-+        properties:
-+          reg:
-+            const: 4
-+
-+          endpoint:
-+            type: object
-+
-+            properties:
-+              remote-endpoint:
-+                description: phandle to the remote CSI-2 sink endpoint.
-+
-+              data-lanes:
-+                description: array of physical CSI-2 data lane indexes.
-+
-+            required:
-+              - remote-endpoint
-+              - data-lanes
-+
-+        required:
-+          - reg
-+          - endpoint
-+
-+        additionalProperties: false
-+
-+    required:
-+      - port@4
-+
-+  i2c-mux:
-+    type: object
-+    description: |
-+      Each GMSL link is modelled as a child bus of an i2c bus
-+      multiplexer/switch, in accordance with bindings described in
-+      Documentation/devicetree/bindings/i2c/i2c-mux.txt.
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+    patternProperties:
-+      "^i2c@[0-3]$":
-+        type: object
-+        description: |
-+          Child node of the i2c bus multiplexer which represents a GMSL link.
-+          Each serializer device on the GMSL link remote end is represented with
-+          an i2c-mux child node. The MAX9286 chip supports up to 4 GMSL
-+          channels.
-+
-+        properties:
-+          '#address-cells':
-+            const: 1
-+
-+          '#size-cells':
-+            const: 0
-+
-+          reg:
-+            description: The index of the GMSL channel.
-+            maxItems: 1
-+
-+        patternProperties:
-+          "^camera@[a-f0-9]+$":
-+            type: object
-+            description: |
-+              The remote camera device, composed by a GMSL serializer and a
-+              connected video source.
-+
-+            properties:
-+              compatible:
-+                description: The remote device compatible string.
-+
-+              reg:
-+                minItems: 2
-+                maxItems: 3
-+                description: |
-+                  The I2C addresses to be assigned to the remote devices through
-+                  address reprogramming. The number of entries depends on the
-+                  requirements of the currently connected remote device.
-+
-+              port:
-+                type: object
-+
-+                properties:
-+                  endpoint:
-+                    type: object
-+
-+                    properties:
-+                      remote-endpoint:
-+                        description: phandle to the MAX9286 sink endpoint.
-+
-+                    required:
-+                      - remote-endpoint
-+
-+                    additionalProperties: false
-+
-+                required:
-+                  - endpoint
-+
-+                additionalProperties: false
-+
-+            required:
-+              - compatible
-+              - reg
-+              - port
-+
-+            additionalProperties: false
-+
-+        additionalProperties: false
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - ports
-+  - i2c-mux
-+  - gpio-controller
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c@e66d8000 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      reg = <0 0xe66d8000>;
-+
-+      gmsl-deserializer@2c {
-+        compatible = "maxim,max9286";
-+        reg = <0x2c>;
-+        poc-supply = <&camera_poc_12v>;
-+        enable-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
-+
-+        gpio-controller;
-+        #gpio-cells = <2>;
-+
-+        ports {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          port@0 {
-+            reg = <0>;
-+
-+            max9286_in0: endpoint {
-+              remote-endpoint = <&rdacm20_out0>;
-+            };
-+          };
-+
-+          port@1 {
-+            reg = <1>;
-+
-+            max9286_in1: endpoint {
-+              remote-endpoint = <&rdacm20_out1>;
-+            };
-+          };
-+
-+          port@2 {
-+            reg = <2>;
-+
-+            max9286_in2: endpoint {
-+              remote-endpoint = <&rdacm20_out2>;
-+            };
-+          };
-+
-+          port@3 {
-+            reg = <3>;
-+
-+            max9286_in3: endpoint {
-+              remote-endpoint = <&rdacm20_out3>;
-+            };
-+          };
-+
-+          port@4 {
-+            reg = <4>;
-+
-+            max9286_out: endpoint {
-+              data-lanes = <1 2 3 4>;
-+              remote-endpoint = <&csi40_in>;
-+            };
-+          };
-+        };
-+
-+        i2c-mux {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          i2c@0 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            reg = <0>;
-+
-+            camera@51 {
-+              compatible = "imi,rdacm20";
-+              reg = <0x51>, <0x61>;
-+
-+              port {
-+                rdacm20_out0: endpoint {
-+                  remote-endpoint = <&max9286_in0>;
-+                };
-+              };
-+
-+            };
-+          };
-+
-+          i2c@1 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            reg = <1>;
-+
-+            camera@52 {
-+              compatible = "imi,rdacm20";
-+              reg = <0x52>, <0x62>;
-+
-+              port {
-+                rdacm20_out1: endpoint {
-+                  remote-endpoint = <&max9286_in1>;
-+                };
-+              };
-+            };
-+          };
-+
-+          i2c@2 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            reg = <2>;
-+
-+            camera@53 {
-+              compatible = "imi,rdacm20";
-+              reg = <0x53>, <0x63>;
-+
-+              port {
-+                rdacm20_out2: endpoint {
-+                  remote-endpoint = <&max9286_in2>;
-+                };
-+              };
-+            };
-+          };
-+
-+          i2c@3 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            reg = <3>;
-+
-+            camera@54 {
-+              compatible = "imi,rdacm20";
-+              reg = <0x54>, <0x64>;
-+
-+              port {
-+                rdacm20_out3: endpoint {
-+                  remote-endpoint = <&max9286_in3>;
-+                };
-+              };
-+            };
-+          };
-+        };
-+      };
-+    };
---
-2.27.0
+> I guess we may need to lock down on a format at whatever comes first,
+> S_FMT on CAPTURE or S_EXT_CTRLS with SPS ctrl.
+> 
+> I have an idea on how this could be addressed, will explore and see
+> if I can come up with something new.
+> 
+> Regards,
+> Jonas
+> 
+> > Also, V4L2 spec asks drivers not to fail on S_FMT
+> > format mismatch, but instead to adjust and return a legal format
+> > back to the application [1].
+> > 
+> > Let me know what you think and thanks again.
+> > 
+> > Ezequiel
+> > 
+> > [1] Documentation/userspace-api/media/v4l/vidioc-g-fmt.rst
+> > 
+> > >  	for (i = 0; i < coded_desc->num_decoded_fmts; i++) {
+> > >  		if (coded_desc->decoded_fmts[i] == pix_mp->pixelformat)
+> > >  			break;
+> > > diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> > > index 2fc9f46b6910..be4fc3645cde 100644
+> > > --- a/drivers/staging/media/rkvdec/rkvdec.h
+> > > +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> > > @@ -64,6 +64,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
+> > >  struct rkvdec_coded_fmt_ops {
+> > >  	int (*adjust_fmt)(struct rkvdec_ctx *ctx,
+> > >  			  struct v4l2_format *f);
+> > > +	int (*validate_fmt)(struct rkvdec_ctx *ctx, u32 pixelformat);
+> > >  	int (*start)(struct rkvdec_ctx *ctx);
+> > >  	void (*stop)(struct rkvdec_ctx *ctx);
+> > >  	int (*run)(struct rkvdec_ctx *ctx);
+
 
