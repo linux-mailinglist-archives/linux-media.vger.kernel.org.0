@@ -2,155 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD6A213488
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 08:55:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF03E21349A
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2020 09:04:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726039AbgGCGzo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jul 2020 02:55:44 -0400
-Received: from o1.b.az.sendgrid.net ([208.117.55.133]:29038 "EHLO
-        o1.b.az.sendgrid.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725786AbgGCGzo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jul 2020 02:55:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
-        h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
-        content-transfer-encoding;
-        s=001; bh=bXBX9AqKrpqo2PvMRRcHawGUdglyj9K4bWgKMbLBmSA=;
-        b=b4lGXOZ+rGATeNBg/RrABOYpi2F1tlLKmD/2P57/GzWMy4jYzMZMywZGnJZgnEbq7AeN
-        HeeGW91YLI9sR/4/2hegUb4LWLwgaJg5LHs4A+cxEKyQVy8JLrqdAVmCRgPOIZgLlMNqhX
-        M77njjWCqajYBJCDx5FPCbT5EViNNLtSY=
-Received: by filterdrecv-p3iad2-5b55dcd864-t97fw with SMTP id filterdrecv-p3iad2-5b55dcd864-t97fw-17-5EFED66F-9
-        2020-07-03 06:55:43.176672884 +0000 UTC m=+567984.810966751
-Received: from [192.168.1.14] (unknown)
-        by ismtpd0007p1lon1.sendgrid.net (SG) with ESMTP
-        id M5lUjmBcRDyWB4rIzm5Tdw
-        Fri, 03 Jul 2020 06:55:42.063 +0000 (UTC)
-Subject: Re: [PATCH 8/9] media: rkvdec: Add validate_fmt ops for pixelformat
- validation
-References: <20200701215616.30874-1-jonas@kwiboo.se>
- <20200701215616.30874-9-jonas@kwiboo.se>
- <67a130a8fd8874c5dc639c924de959f88357b480.camel@collabora.com>
-From:   Jonas Karlman <jonas@kwiboo.se>
-Message-ID: <f817d682-ec76-1879-4324-39cf7993493e@kwiboo.se>
-Date:   Fri, 03 Jul 2020 06:55:43 +0000 (UTC)
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726081AbgGCHEA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jul 2020 03:04:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50236 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725764AbgGCHD7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Jul 2020 03:03:59 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 57B4A206DF;
+        Fri,  3 Jul 2020 07:03:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593759838;
+        bh=OnqYeeLDkLVTTdrfYGx84bxSdL6vSKVYH4IYcErCpHU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VOXctAaE2VR2kSEm2Y3wmxasnbWAWwm1kcY5sdtt+tfJr76ii7o3hWr7PHQF/erQE
+         rD7+fZOLbqa4fIqVXviPRrY8BQ9gD5iWu2qXhAG5OYQGWrMQUAfXF2Kox8luHMbxTT
+         C8IKmIOWz2ym35LjMWpuaBz41jUU6+Mk2vV/2XVg=
+Date:   Fri, 3 Jul 2020 09:04:03 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     driverdevel <devel@driverdev.osuosl.org>,
+        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+        Todd Kjos <tkjos@android.com>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Laura Abbott <labbott@redhat.com>,
+        Anders Pedersen <anders.pedersen@arm.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        "Darren Hart (VMware)" <dvhart@infradead.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        nd <nd@arm.com>, Martijn Coenen <maco@android.com>,
+        Laura Abbott <laura@labbott.name>,
+        Christian Brauner <christian@brauner.io>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+Message-ID: <20200703070403.GB2221524@kroah.com>
+References: <20200414134629.54567-1-orjan.eide@arm.com>
+ <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200414142810.GA958163@kroah.com>
+ <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
+ <20200416102508.GA820251@kroah.com>
+ <20200420082207.ui7iyg7dsnred2vv@wittgenstein>
+ <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
+ <20200421080544.GA611314@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <67a130a8fd8874c5dc639c924de959f88357b480.camel@collabora.com>
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h6sHjUdwPJ2Gv904R?=
- =?us-ascii?Q?cSBw1tmCZqqkY+AOXJh=2FTNkFHeTtWLg9RIc7mVK?=
- =?us-ascii?Q?sznxuZOh=2FgL2IIT3stWUvJuEs=2FnHP=2Fjx5ZEwBqC?=
- =?us-ascii?Q?UPFwEXsEtXUR6yjjbBsxE3Eh1M5HTqq0LU1+Cp1?=
- =?us-ascii?Q?1K8gkL8pCntX=2FpoOl7OIyNgk2KnMvbiSurreYY0?=
- =?us-ascii?Q?7rC8temyRzHNHtykoTVnw=3D=3D?=
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>
 Content-Type: text/plain; charset=us-ascii
-Content-Language: sv
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200421080544.GA611314@kroah.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-07-03 05:14, Ezequiel Garcia wrote:
-> Hi Jonas,
+On Tue, Apr 21, 2020 at 10:05:44AM +0200, Greg Kroah-Hartman wrote:
+> On Mon, Apr 20, 2020 at 01:03:39PM -0700, John Stultz wrote:
+> > On Mon, Apr 20, 2020 at 1:22 AM Christian Brauner
+> > <christian.brauner@ubuntu.com> wrote:
+> > > On Thu, Apr 16, 2020 at 12:25:08PM +0200, Greg Kroah-Hartman wrote:
+> > > > On Tue, Apr 14, 2020 at 09:41:31PM -0700, John Stultz wrote:
+> > > > > But I do think we can mark it as deprecated and let folks know that
+> > > > > around the end of the year it will be deleted.
+> > > >
+> > > > No one ever notices "depreciated" things, they only notice if the code
+> > > > is no longer there :)
+> > > >
+> > > > So I'm all for just deleting it and seeing who even notices...
+> > >
+> > > Agreed.
+> > 
+> > I mean, I get there's not much love for ION in staging, and I too am
+> > eager to see it go, but I also feel like in the discussions around
+> > submitting the dmabuf heaps at talks, etc, that there was clear value
+> > in removing ION after a short time so that folks could transition
+> > being able to test both implementations against the same kernel so
+> > performance regressions, etc could be worked out.
+> > 
+> > I am actively getting many requests for help for vendors who are
+> > looking at dmabuf heaps and are starting the transition process, and
+> > I'm trying my best to motivate them to directly work within the
+> > community so their needed heap functionality can go upstream. But it's
+> > going to be a process, and their first attempts aren't going to
+> > magically land upstream.  I think being able to really compare their
+> > implementations as they iterate and push things upstream will help in
+> > order to be able to have upstream solutions that are also properly
+> > functional for production usage.
 > 
-> Thanks for working on this.
+> But we are not accepting any new ion allocators or changes at the
+> moment, so I don't see how the ion code in the kernel is helping/hurting
+> anything here.
 > 
-> On Wed, 2020-07-01 at 21:56 +0000, Jonas Karlman wrote:
->> Add an optional validate_fmt operation that is used to validate the
->> pixelformat of CAPTURE buffers.
->>
->> This is used in next patch to ensure correct pixelformat is used for 10-bit
->> and 4:2:2 content.
->>
->> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->> ---
->>  drivers/staging/media/rkvdec/rkvdec.c | 8 ++++++++
->>  drivers/staging/media/rkvdec/rkvdec.h | 1 +
->>  2 files changed, 9 insertions(+)
->>
->> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->> index b1de55aa6535..465444c58f13 100644
->> --- a/drivers/staging/media/rkvdec/rkvdec.c
->> +++ b/drivers/staging/media/rkvdec/rkvdec.c
->> @@ -239,6 +239,14 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
->>  	if (WARN_ON(!coded_desc))
->>  		return -EINVAL;
->>  
->> +	if (coded_desc->ops->validate_fmt) {
->> +		int ret;
->> +
->> +		ret = coded_desc->ops->validate_fmt(ctx, pix_mp->pixelformat);
->> +		if (ret)
->> +			return ret;
->> +	}
->> + 
+> There has been a bunch of changes to the ion code recently, in the
+> Android kernel trees, in order to get a lot of the different
+> manufacturer "forks" of ion back together into one place.  But again,
+> those patches are not going to be sent upstream for merging so how is
+> ion affecting the dmabuf code at all here?
 > 
-> I don't think this approach will be enough. Unless I'm mistaken,
-> it's perfectly legal as per the stateless spec to first
-> call S_FMT on the OUTPUT queue (which is propagated to the CAPTURE side),
-> and then set the SPS and other controls.
+> > The dmabuf heaps have been in an official kernel now for all of three
+> > weeks. So yea, we can "delete [ION] and see who even notices", but I
+> > worry that may seem a bit like contempt for the folks doing the work
+> > on transitioning over, which doesn't help getting them to participate
+> > within the community.
+> 
+> But they aren't participating in the community today as no one is
+> touching the ion code.  So I fail to see how keeping a dead-end-version
+> of ion in the kernel tree really affects anyone these days.
 
-I agree that this will not be enough to cover all use cases stated in the spec.
+So, any thoughts here?  What's the timeline for ion being able to be
+removed that you are comfortable with?
 
-> 
-> The application is not required to do a TRY_FMT after S_EXT_CTRLS.
+thanks,
 
-If I remember correctly we were required to implement a TRY_FMT loop in
-ffmpeg due to cedrus defaulting to SUNXI_TILED_NV12 instead of linear NV12
-on platforms where display controller did not support the tiled modifier.
-
-So having TRY_FMT as part of the init sequence has been my only test-case.
-
-> 
-> What I believe is needed is for the S_EXT_CTRLS to modify
-> and restrict the CAPTURE format accordingly, so the application
-> gets the correct format on G_FMT (and restrict future TRY_FMT).
-
-This sounds like a proper solution, I do belive we may have a chicken or
-the egg problem depending on if application call S_EXT_CTRLS or S_FMT first.
-
-I guess we may need to lock down on a format at whatever comes first,
-S_FMT on CAPTURE or S_EXT_CTRLS with SPS ctrl.
-
-I have an idea on how this could be addressed, will explore and see
-if I can come up with something new.
-
-Regards,
-Jonas
-
-> 
-> Also, V4L2 spec asks drivers not to fail on S_FMT
-> format mismatch, but instead to adjust and return a legal format
-> back to the application [1].
-> 
-> Let me know what you think and thanks again.
-> 
-> Ezequiel
-> 
-> [1] Documentation/userspace-api/media/v4l/vidioc-g-fmt.rst
-> 
->>  	for (i = 0; i < coded_desc->num_decoded_fmts; i++) {
->>  		if (coded_desc->decoded_fmts[i] == pix_mp->pixelformat)
->>  			break;
->> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
->> index 2fc9f46b6910..be4fc3645cde 100644
->> --- a/drivers/staging/media/rkvdec/rkvdec.h
->> +++ b/drivers/staging/media/rkvdec/rkvdec.h
->> @@ -64,6 +64,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
->>  struct rkvdec_coded_fmt_ops {
->>  	int (*adjust_fmt)(struct rkvdec_ctx *ctx,
->>  			  struct v4l2_format *f);
->> +	int (*validate_fmt)(struct rkvdec_ctx *ctx, u32 pixelformat);
->>  	int (*start)(struct rkvdec_ctx *ctx);
->>  	void (*stop)(struct rkvdec_ctx *ctx);
->>  	int (*run)(struct rkvdec_ctx *ctx);
-> 
-> 
+greg k-h
