@@ -2,152 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD7F42145E1
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2020 14:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C4A42145E5
+	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2020 14:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728013AbgGDMbV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Jul 2020 08:31:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48334 "EHLO
+        id S1727915AbgGDMgd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Jul 2020 08:36:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726738AbgGDMbU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Jul 2020 08:31:20 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F6D9C061794;
-        Sat,  4 Jul 2020 05:31:20 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id e13so30999188qkg.5;
-        Sat, 04 Jul 2020 05:31:20 -0700 (PDT)
+        with ESMTP id S1726738AbgGDMgc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Jul 2020 08:36:32 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88CC9C061794
+        for <linux-media@vger.kernel.org>; Sat,  4 Jul 2020 05:36:32 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id n5so28482979otj.1
+        for <linux-media@vger.kernel.org>; Sat, 04 Jul 2020 05:36:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wXVeQpxCI+iwkYlezHWcf0l5BZQJCmNvUa2xktmhOME=;
-        b=E1+xoB3rYQ0NBSpfC4fscDTPs9mkC68MYowA8nh/JRikBI2XWSsFtvSpAqy9F494RE
-         0leKOD5qmSi0BkobZ42sbTeyMRO7wxm14RZRZOhOxIkiX3nPIdCcI07bLj4olC9wYduq
-         4uzBC4jqPKxwUhCHDDzrmTxxBr2d8T2olx/cn7pGcxJV0QBlkCfqUQ1Z4WLwivN3O4AS
-         I4IC7dmrAZnY0A3r6sKrIcJAKFfJ5q/E6PEw3Ki+nZJnq+/3of4oB/1jISH3toeyuS33
-         oW2FXmHLG7fLa359OKo8IrsP7AmFyTc4Cg0SKXtooxgf9uEF1gpG0pbPkyOSx9tEkoXI
-         Ujcw==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OiMRaaF7xQe01D0K4G/ajZqNXBnr3GRE68W057m1m6g=;
+        b=GjBoxNliBZ5RFYHjAFdw/X8vNki+bVFRUdP3EVTrVWqzBPUj3fwkJPSsDKd/JRXZuE
+         Q49HuaNZose82NcMfwNnuIsIyMFvhhpyCkRJWVsKuEMVIdkE0Nn2qAucHoAxZQeceypF
+         BS51mfiSCstCD8gn/mUuqCZi1EsXqpZLes6hY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wXVeQpxCI+iwkYlezHWcf0l5BZQJCmNvUa2xktmhOME=;
-        b=cXeXnrW8rCJvnx00uR3VuX6ptamlzVDZPVasyNNkV8B6pfHk2Jgj6ZeeUV0/eQlT3G
-         05YiRkiIOXsMMfkg+1XqMYzRi5rpNP3LtugYraQFfHYAcY6hzw8uID7+Sa8qbCdk119Q
-         g/VjtpezpOcizJ91IHaxD4MosEILchlxXUDOm4bmjFXhRQkelOwBIPRiVmiX/EhW1b9U
-         Kp/Aj3EOL9ImvkYlarngoyisKuOZ9nD104JqsuQidr9dUTCR7Va7Ea2lcunIIzgv4+Fx
-         nAumeDqcZjTpSZkeU/37Kz+lV7T6pBwNmS/ilEvSduDoRHwOVnGSVbr4b2sh+wwnaIB8
-         QoQg==
-X-Gm-Message-State: AOAM530JipXxAEbQJ4UKV1xcvSNCd/cvmZayADwnl8th5A5YweFne69s
-        Jkl/hOsFD/ILR3oidmHKx6g=
-X-Google-Smtp-Source: ABdhPJxUcAycygrd/AP+v+wLXYj/t4ZGB/H3x+bdq/DHUXVvrvZSnflEAQw0KbOs9WzSAMnXvd0YaQ==
-X-Received: by 2002:a37:6589:: with SMTP id z131mr39309316qkb.235.1593865879534;
-        Sat, 04 Jul 2020 05:31:19 -0700 (PDT)
-Received: from shinobu (072-189-064-225.res.spectrum.com. [72.189.64.225])
-        by smtp.gmail.com with ESMTPSA id a25sm14159031qtk.40.2020.07.04.05.31.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2020 05:31:18 -0700 (PDT)
-Date:   Sat, 4 Jul 2020 08:31:16 -0400
-From:   William Breathitt Gray <vilhelm.gray@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        dmaengine@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-iio@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>, linux-ntb@googlegroups.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, linux-nvdimm@lists.01.org,
-        linux-usb@vger.kernel.org, Eli Billauer <eli.billauer@gmail.com>
-Subject: Re: [PATCH 00/17] Documentation/driver-api: eliminate duplicated
- words
-Message-ID: <20200704123116.GB5194@shinobu>
-References: <20200704034502.17199-1-rdunlap@infradead.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OiMRaaF7xQe01D0K4G/ajZqNXBnr3GRE68W057m1m6g=;
+        b=ErRyAI8BmxcbRglabVMGpwGEitDwpbj++kFeAgImJF4XCx1dxnt0WC4YNWEtdJxkaK
+         9FWhACIjwiDXd0di7ynKNml6lswwfPp+4xS2ideLGX7Kj1s0uubU/E4cHz7CTLIfySX+
+         b0At9SsqpVo2s5YesR51a97whkIhqdhSwk0G4uiLHPDdQ/HMKtAJlieaKyliDkDg9z0c
+         wSCZhZgJis1/3IyvKmiJIHzpOHLM4pYCBojt2kAUtiVqX78iwq+PZuq2rTVNEP89mo7f
+         tQcWl50/ymHfMoK6dZMOITrvj1Jc3RYJ8h079AqZjF6aC5R6md87d6Qlo1W5DqgeaHkV
+         U2Qg==
+X-Gm-Message-State: AOAM531AeERRmeOCSrb+pYpxwj2rCEPKqWWC+vpPrk7w31GKWEH0jU6g
+        /Zv/wm5mBf44ZG5HGj8GxZCGUGi/oZU=
+X-Google-Smtp-Source: ABdhPJxpUBJAt+18gFP/EsRGcCjHJ4bSPrqUMgJHxRKPGt3jx69op9AZGD0QgAzYHgs1IEKaL7B+PQ==
+X-Received: by 2002:a9d:2f0a:: with SMTP id h10mr1012872otb.314.1593866190480;
+        Sat, 04 Jul 2020 05:36:30 -0700 (PDT)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com. [209.85.167.172])
+        by smtp.gmail.com with ESMTPSA id s12sm3881452otq.77.2020.07.04.05.36.28
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Jul 2020 05:36:29 -0700 (PDT)
+Received: by mail-oi1-f172.google.com with SMTP id k4so28576987oik.2
+        for <linux-media@vger.kernel.org>; Sat, 04 Jul 2020 05:36:28 -0700 (PDT)
+X-Received: by 2002:a05:6808:646:: with SMTP id z6mr28913132oih.71.1593866188277;
+ Sat, 04 Jul 2020 05:36:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cvVnyQ+4j833TQvp"
-Content-Disposition: inline
-In-Reply-To: <20200704034502.17199-1-rdunlap@infradead.org>
+References: <20200626080442.292309-1-acourbot@chromium.org>
+ <20200626080442.292309-17-acourbot@chromium.org> <84068e20-9a34-6d03-61e6-6c243680749c@xs4all.nl>
+In-Reply-To: <84068e20-9a34-6d03-61e6-6c243680749c@xs4all.nl>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Sat, 4 Jul 2020 21:36:15 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MW9deo11+YH9Mh3u08sEt7ShAF_a+S0-Jb_VDGhCQot_Q@mail.gmail.com>
+Message-ID: <CAPBb6MW9deo11+YH9Mh3u08sEt7ShAF_a+S0-Jb_VDGhCQot_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 16/18] media: mtk-vcodec: venc: make S_PARM return
+ -ENOTTY for CAPTURE queue
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Rui Wang <gtk_ruiwang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Pi-Hsun Shih <pihsun@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Jul 3, 2020 at 5:30 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 26/06/2020 10:04, Alexandre Courbot wrote:
+> > v4l2-compliance expects ENOTTY to be returned when a given queue does
+> > not support S_PARM.
+> >
+> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> > ---
+> >  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> > index aae610e6d4e8..346a33c6869d 100644
+> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> > @@ -200,7 +200,7 @@ static int vidioc_venc_s_parm(struct file *file, void *priv,
+> >       struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
+> >
+> >       if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> > -             return -EINVAL;
+> > +             return -ENOTTY;
+>
+> This doesn't look right: S_PARM *is* supported, just not for this buffer type.
+> So -EINVAL is the correct error code.
+>
+> What is the exact v4l2-compliance failure? It might be a bug in the test.
 
---cvVnyQ+4j833TQvp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The error is as follows:
 
-On Fri, Jul 03, 2020 at 08:44:45PM -0700, Randy Dunlap wrote:
-> Remove occurrences of duplicated words in Documentation/driver-api/.
->=20
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: dmaengine@vger.kernel.org
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: William Breathitt Gray <vilhelm.gray@gmail.com>
-> Cc: linux-iio@vger.kernel.org
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: Jon Mason <jdmason@kudzu.us>
-> Cc: Dave Jiang <dave.jiang@intel.com>
-> Cc: Allen Hubbe <allenbh@gmail.com>
-> Cc: linux-ntb@googlegroups.com
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Vishal Verma <vishal.l.verma@intel.com>
-> Cc: Dave Jiang <dave.jiang@intel.com>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Cc: linux-nvdimm@lists.01.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: Eli Billauer <eli.billauer@gmail.com>
->=20
->=20
->  Documentation/driver-api/dmaengine/provider.rst        |    2 +-
->  Documentation/driver-api/driver-model/platform.rst     |    2 +-
->  Documentation/driver-api/firmware/built-in-fw.rst      |    2 +-
->  Documentation/driver-api/firmware/direct-fs-lookup.rst |    2 +-
->  Documentation/driver-api/firmware/firmware_cache.rst   |    2 +-
->  Documentation/driver-api/firmware/request_firmware.rst |    2 +-
->  Documentation/driver-api/generic-counter.rst           |    2 +-
->  Documentation/driver-api/iio/buffers.rst               |    2 +-
->  Documentation/driver-api/media/cec-core.rst            |    2 +-
->  Documentation/driver-api/media/dtv-frontend.rst        |    6 +++---
->  Documentation/driver-api/media/v4l2-controls.rst       |    4 ++--
->  Documentation/driver-api/media/v4l2-dev.rst            |    2 +-
->  Documentation/driver-api/ntb.rst                       |    2 +-
->  Documentation/driver-api/nvdimm/nvdimm.rst             |    2 +-
->  Documentation/driver-api/uio-howto.rst                 |    2 +-
->  Documentation/driver-api/usb/URB.rst                   |    2 +-
->  Documentation/driver-api/xillybus.rst                  |    2 +-
->  17 files changed, 20 insertions(+), 20 deletions(-)
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+                fail: v4l2-test-formats.cpp(1336): got error 22 when
+setting parms for buftype 9
+        test VIDIOC_G/S_PARM: FAIL
 
-Acked-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+Maybe we need to check for EINVAL and return ENOTTY in that case, like
+what is done on line 1305 of v4l2-test-formats.cpp for VIDIOC_G_PARM?
 
---cvVnyQ+4j833TQvp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAl8AdpQACgkQhvpINdm7
-VJIBvxAAqwgnnmzKHJ8nY2Ip3r9kE7Fygjzlzj9bHCF7iXLQVTYqC4W7cN0q0Bfu
-QotqGgl0sAWKftn9qkvUzFI6TFRROjPuzPdDPucm+pQ5pW2m6HIEOgK42qjcuHLn
-wvVJmYNuV3L+Y6NQtUS1PBulobtAYL8fMMhtQiG6rialiiB6yaJeHkpU7BP5cdUn
-+n6i9IJIdl9//biQjBd5FQy7wqPLr+aXBZLAMSWT+hKl0huWGUXmFBTmcGLkGhAT
-OEKrj9H7j8U7CmavcpNe0bHRLlucKl3a1wQTtf6CV+SwfaaFEtKhaEKEIsB4M9QI
-sRvbV0gY9yJX2y3DabCS61B/EcCA2htBnk++AlNY+HvfXckvW9+g4xaMcCAU0cow
-1EFaMIVEGWrEuaBIRDQJX5f9n97Wvc0Zp2B/hlxYvSo1xmaCObehZ9+UecKCW1C0
-71A8NFc0cYiELXFZmQ+Vf7I9K3UeaRBaeoB8r4YEBNOO3JhmHq9E8re8ULoMvEse
-HKZyuoGyoOhW27cZXoBw1ymZZ07Nnmpupyukmh9wQllQcMj5smqQAcbCtBNCcqXb
-L+dlXBeIpE+KZHRFJ/2RtmDX903PaDcZ0Y5+NZUJsvt/KJCzg1rASkGcHC6lVTLj
-4jBBZt4JmxUWKLxsdnkHXb12eTXPB7DkjhCiSThpm1A2Re9P4Jg=
-=6Gqy
------END PGP SIGNATURE-----
-
---cvVnyQ+4j833TQvp--
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >       ctx->enc_params.framerate_num =
+> >                       a->parm.output.timeperframe.denominator;
+> >
+>
