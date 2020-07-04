@@ -2,88 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62FE121474A
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2020 18:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE161214857
+	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2020 21:23:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbgGDQJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Jul 2020 12:09:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55050 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726682AbgGDQJM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 4 Jul 2020 12:09:12 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DDA2B20739;
-        Sat,  4 Jul 2020 16:09:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593878951;
-        bh=X+m5w31XgirTMtq+0fLAVoWC/VZ/4PksqUd3bRP4osw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PBrbiXvDtehCfX5k4RSS1bunkU9TjzLHpz75ntSnDLev19/7BPsM8T2FwwUBkb8GX
-         BgT16U9iJujXeGG4tieMLxIgRkWiZo7qej694rBvYa31S5rjRhuhwxpPyBz5yq1h1+
-         cCyJ/oei5B7r6m0I06g/K/Mn5qcrUcLIdnvEYixY=
-Date:   Sat, 4 Jul 2020 17:09:05 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        dmaengine@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        linux-iio@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>, linux-ntb@googlegroups.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, linux-nvdimm@lists.01.org,
-        linux-usb@vger.kernel.org, Eli Billauer <eli.billauer@gmail.com>
-Subject: Re: [PATCH 07/17] Documentation/driver-api: iio/buffers: drop
- doubled word
-Message-ID: <20200704170905.7e596707@archlinux>
-In-Reply-To: <20200704034502.17199-8-rdunlap@infradead.org>
-References: <20200704034502.17199-1-rdunlap@infradead.org>
-        <20200704034502.17199-8-rdunlap@infradead.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726922AbgGDTXT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Jul 2020 15:23:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55102 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726153AbgGDTXS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Jul 2020 15:23:18 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8CC1C061794
+        for <linux-media@vger.kernel.org>; Sat,  4 Jul 2020 12:23:18 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 98C24C64ED; Sat,  4 Jul 2020 20:23:14 +0100 (BST)
+Date:   Sat, 4 Jul 2020 20:23:14 +0100
+From:   Sean Young <sean@mess.org>
+To:     Hans Petter Selasky <hps@selasky.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [FYI] Unaligned memory access in DVB-X code causes immediate
+ kernel panic on arm 32-bit
+Message-ID: <20200704192314.GA31798@gofer.mess.org>
+References: <91056726-81c7-3f82-7985-66c283ad3fc6@selasky.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <91056726-81c7-3f82-7985-66c283ad3fc6@selasky.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri,  3 Jul 2020 20:44:52 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi,
 
-> Drop the doubled word "struct".
+On Sat, Jul 04, 2020 at 03:39:50PM +0200, Hans Petter Selasky wrote:
+> Hi,
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: William Breathitt Gray <vilhelm.gray@gmail.com>
-> Cc: linux-iio@vger.kernel.org
-Applied to the togreg branch of iio.git.
-
-Thanks,
-
-Jonathan
-
-> ---
->  Documentation/driver-api/iio/buffers.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Plugging the "TeVii S660" on ARM v7 (32-bit) causes an immediate kernel
+> panic, because of unaligned memory access.
 > 
-> --- linux-next-20200701.orig/Documentation/driver-api/iio/buffers.rst
-> +++ linux-next-20200701/Documentation/driver-api/iio/buffers.rst
-> @@ -88,7 +88,7 @@ fields in iio_chan_spec definition::
->  The driver implementing the accelerometer described above will have the
->  following channel definition::
->  
-> -   struct struct iio_chan_spec accel_channels[] = {
-> +   struct iio_chan_spec accel_channels[] = {
->             {
->                     .type = IIO_ACCEL,
->  		   .modified = 1,
+> For more information see the following thread:
+> 
+> https://forums.freebsd.org/threads/tevii-s660-usb-dvb-s2-working.75977/
+> 
+> The backtrace goes like this (Linux 5.7, Torvald's)
+> 
+> #0  0x002dafbc in ts2020_read_tuner_gain (fe=<optimized out>, v_agc=0,
+> _gain=0x207b31de)
+>     at media_tree/drivers/media/dvb-frontends/ts2020.c:380
+> 380         *_gain = -((__s64)gain1 * 2650 +
 
+So this is a reference to s64 svalue in struct dtv_stats. This is unaligned
+because the struct is packed. Making the struct packed seems like a terrible
+idea, but it's in the uapi so we can't change it.
+
+Now, what I don't understand is why this hasn't been spotted before. There
+are a few dvb drivers that use struct dtv_stats, and surely someone must
+have tried them on arm at some point. Unless they just return bogus stats
+on Linux since unaligned does not trap?
+
+The correct solution is wrap all of these in {get,put}_unaligned().
+
+It would be nice to hear what happens on Linux (arm) rather than FreeBSD.
+
+
+Sean
+
+> [Current thread is 1 (LWP 100158)]
+> (gdb) bt
+> #0  0x002dafbc in ts2020_read_tuner_gain (fe=<optimized out>, v_agc=0,
+> _gain=0x207b31de)
+>     at media_tree/drivers/media/dvb-frontends/ts2020.c:380
+> #1  ts2020_get_tuner_gain (fe=<optimized out>, _gain=0x207b31de)
+>     at media_tree/drivers/media/dvb-frontends/ts2020.c:421
+> #2  ts2020_stat_work (work=<optimized out>) at
+> media_tree/drivers/media/dvb-frontends/ts2020.c:437
+> #3  0x002db21c in ts2020_init (fe=<optimized out>) at
+> media_tree/drivers/media/dvb-frontends/ts2020.c:148
+> #4  0x00350cc4 in dvb_frontend_init (fe=0x207b2f08) at
+> media_tree/drivers/media/dvb-core/dvb_frontend.c:336
+> #5  dvb_frontend_thread (data=0x207b2f08) at
+> media_tree/drivers/media/dvb-core/dvb_frontend.c:664
+> #6  0x00113d98 in kthread_wrapper (arg=0x20c56000) at
+> kernel/linux_thread.c:531
+> #7  0x2058cd84 in thread_start (curthread=0x20c57000) at
+> /usr/src/lib/libthr/thread/thr_create.c:292
+> #8  0x2058c830 in _pthread_create (thread=<error reading variable: Cannot
+> access memory at address 0xbdae500c>,
+>     attr=<optimized out>, start_routine=<optimized out>, arg=<optimized
+> out>)
+>     at /usr/src/lib/libthr/thread/thr_create.c:188
+> 
+> --HPS
