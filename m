@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DF14214C5C
-	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2020 14:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A32C5214C5F
+	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2020 14:12:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727062AbgGEMMJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Jul 2020 08:12:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39994 "EHLO
+        id S1727064AbgGEMMM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Jul 2020 08:12:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727052AbgGEMMJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Jul 2020 08:12:09 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C891CC08C5DF
-        for <linux-media@vger.kernel.org>; Sun,  5 Jul 2020 05:12:08 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id by13so22272376edb.11
-        for <linux-media@vger.kernel.org>; Sun, 05 Jul 2020 05:12:08 -0700 (PDT)
+        with ESMTP id S1727063AbgGEMML (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Jul 2020 08:12:11 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A74C08C5DF
+        for <linux-media@vger.kernel.org>; Sun,  5 Jul 2020 05:12:11 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id lx13so20879957ejb.4
+        for <linux-media@vger.kernel.org>; Sun, 05 Jul 2020 05:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=PCNLmGR8sMtBYV74iVoiny++gKyFU6QKve9J6ft8KaU=;
-        b=K/7rA4K4EI8hH3WgLD9Nf1fvOjaQ2N3MAe9A9/Q+DJx/2ssL1Qe4HiABlOUCSkqgWw
-         JAlYHMnQbaZkFA1GCxToq1heUQvMw4zBb1asjEsuCMT7CyN/hpN4eFNbkGR3uMO6NVyV
-         KmSWfYWLxCVEipYByTksOCBLMyMtwvaLO1xmibJFqSdDo45h5/2bNFh7mE8epKXLn5M1
-         UX7W4uTFx38idvXGt1L1olIZTTv3YXLtyeqTNxrJ8rbQseZwicHF6JvvrMkldIazkioa
-         +UObmDI13lhx1SB+NXQBsWu/Qh7Wqe2DblVQ2aOiUw5R3qu1kb/QSyoQMo42cXONv2Oz
-         A1yw==
+        bh=7mX8hu/WWjnwnEyPTlU3MGnHpJuzqdu2Apw48vMC6z4=;
+        b=FynBPSjDhveS96iN5Y0RalC1idg3UpwKXyEYfOeZzLo2ogVhqEy87dxLuAgtsox3SM
+         0whLGGo62pu83HJdLhY3CrWldzxYFN460mOqGomto6LXz36fymnmJfA5Mufh+qQx9M/W
+         ao69skQFA9ywZgRdnrpEF6yM9wnsf97mBvIohYf4H8h/2UmxfVy6d2dv+9Zl4T/ysM8E
+         S4LCilQdYEyxH4J8KMn/ILcOUrCmy9HSb+B6nLw+zXb8sywWxFkWREcJul+F5CNwIMmW
+         B7xIeo2WhAv5C0/kge5WGslynFQ1q32Ve9xBUaGvTvhJTtG61gKKXs1wvOeX+de/Shzy
+         w+pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=PCNLmGR8sMtBYV74iVoiny++gKyFU6QKve9J6ft8KaU=;
-        b=rZJbT5d6mh+1Bm66hyndTZYK7uJ3nVJZYQXyBGsl0nfhH34VXhWex0W1Bzab41i8/R
-         cGXJb4f1nKLoLlJe3uS3XsW9pM1otm5xj1X8dgzplhLuj9kTPr92xkSfbbQuVNy+uMMi
-         JwOoOB55BH1uUWEZJ2PPQHVzl6Q+3zQkadOr2n6BIxKRAwd5RjF+aeZfJX/6c9SERhF9
-         HidXUeWV3OaupIrLUZvBnyhrVgsDHdXgD3fDhIeHpjVONHbzfKInpOBzlFPtVrSheseO
-         YnWL2LiV3G5ZJXh0LWTt/+nkzUoCvWzASkdnItl/WOBcoBVbp4eecy3Eu2/liymCKOko
-         n8MA==
-X-Gm-Message-State: AOAM532Jl1MF2qF5xJfMpOVtOmxc0qwpkFMVrzgKy9PIxJivk3J2xikE
-        FsoXeee2HRTZGsy2W9KsaFCT9H3IaibogQ==
-X-Google-Smtp-Source: ABdhPJxUphOOcj51GIKZWPtS46QmBw6AGzkKHIdyv2GSwmDoikz7HE47hcK37iqB3e+CWv/7FyxzEw==
-X-Received: by 2002:aa7:c2cf:: with SMTP id m15mr25321916edp.27.1593951127381;
-        Sun, 05 Jul 2020 05:12:07 -0700 (PDT)
+        bh=7mX8hu/WWjnwnEyPTlU3MGnHpJuzqdu2Apw48vMC6z4=;
+        b=ki3We/OTFV8m5/MVy3bYqvk/z5+DjT56LXZzKVDcY8hdbaaY5+CBREeL225E+YAseW
+         2/FYWmh1U51TnqTtSI73sfXeAJCmEUjqv/ypD/AgTzyODii3dz1781mL9gquPyd/jUMv
+         59qAZowc2PlAGAkqSf9fY9yXJrBtAjAq/x9mMKjKP7TFA2IeokMd2/sdiqzVuE5T7LYq
+         rs/J5lZr6SajsBMxkm5ONCGkz4NyuwBUoOoZHQmt0aHZ/CMEy+Q+/srgr2eOUaPGGjlq
+         i3R10gvyMTza9FsZeaRgPZM/pGEUO5VRGj/GtULOYSde+9Y3W7Z0VfIgImPhS2Xeuxzj
+         2CTg==
+X-Gm-Message-State: AOAM5334vsxSOsR80GYoFutQdMk+L8VmuDv6sfhIHJQJKmVMxYF2iMGt
+        Or7qkuhejJuFKU+O+6qGiywLpaboWhZ6ww==
+X-Google-Smtp-Source: ABdhPJxbbizoo6eyMSZAaCuAXhtp8LdMYWIATAGhR85b9Jl9t3L4F4IQXUwdy/72ySrxdyoGZO3coQ==
+X-Received: by 2002:a17:906:5006:: with SMTP id s6mr38495933ejj.294.1593951129593;
+        Sun, 05 Jul 2020 05:12:09 -0700 (PDT)
 Received: from localhost.localdomain (212-5-158-133.ip.btc-net.bg. [212.5.158.133])
-        by smtp.gmail.com with ESMTPSA id j64sm1517458edd.61.2020.07.05.05.12.05
+        by smtp.gmail.com with ESMTPSA id j64sm1517458edd.61.2020.07.05.05.12.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2020 05:12:06 -0700 (PDT)
+        Sun, 05 Jul 2020 05:12:09 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
@@ -56,9 +56,9 @@ Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Maheshwar Ajja <majja@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 3/4] media: s5p-mfc: Use standard frame skip mode control
-Date:   Sun,  5 Jul 2020 15:11:27 +0300
-Message-Id: <20200705121128.5250-4-stanimir.varbanov@linaro.org>
+Subject: [PATCH 4/4] media: docs: Depricate mfc frame skip control
+Date:   Sun,  5 Jul 2020 15:11:28 +0300
+Message-Id: <20200705121128.5250-5-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200705121128.5250-1-stanimir.varbanov@linaro.org>
 References: <20200705121128.5250-1-stanimir.varbanov@linaro.org>
@@ -67,39 +67,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the standard menu control for frame skip mode in the MFC
-driver. The legacy private menu control is kept for backward
-compatibility.
+Depricate mfc private frame skip mode control for new
+clients and use the standard one instead.
 
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- drivers/media/platform/s5p-mfc/s5p_mfc_enc.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
-index 912fe0c5ab18..3092eb6777a5 100644
---- a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
-+++ b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
-@@ -261,6 +261,11 @@ static struct mfc_control controls[] = {
- 		.menu_skip_mask = 0,
- 		.default_value = V4L2_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE_DISABLED,
- 	},
-+	{
-+		.id = V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE,
-+		.maximum = V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT,
-+		.default_value = V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED,
-+	},
- 	{
- 		.id = V4L2_CID_MPEG_MFC51_VIDEO_RC_FIXED_TARGET_BIT,
- 		.type = V4L2_CTRL_TYPE_BOOLEAN,
-@@ -1849,6 +1854,7 @@ static int s5p_mfc_enc_s_ctrl(struct v4l2_ctrl *ctrl)
- 		p->seq_hdr_mode = ctrl->val;
- 		break;
- 	case V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE:
-+	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
- 		p->frame_skip_mode = ctrl->val;
- 		break;
- 	case V4L2_CID_MPEG_MFC51_VIDEO_RC_FIXED_TARGET_BIT:
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index a8b4c0b40747..c0760bfc54d4 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -2805,6 +2805,11 @@ MFC 5.1 Control IDs
+ ``V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE``
+     (enum)
+ 
++    .. note::
++
++       This control is depricated. Use the standard one
++       ``V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE`` instead.
++
+ enum v4l2_mpeg_mfc51_video_frame_skip_mode -
+     Indicates in what conditions the encoder should skip frames. If
+     encoding a frame would cause the encoded stream to be larger then a
 -- 
 2.17.1
 
