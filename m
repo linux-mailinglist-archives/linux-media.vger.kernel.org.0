@@ -2,95 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A32C5214C5F
-	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2020 14:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFC62214CD4
+	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2020 15:53:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgGEMMM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Jul 2020 08:12:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40006 "EHLO
+        id S1726924AbgGENx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Jul 2020 09:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727063AbgGEMML (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Jul 2020 08:12:11 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A74C08C5DF
-        for <linux-media@vger.kernel.org>; Sun,  5 Jul 2020 05:12:11 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id lx13so20879957ejb.4
-        for <linux-media@vger.kernel.org>; Sun, 05 Jul 2020 05:12:10 -0700 (PDT)
+        with ESMTP id S1726804AbgGENx1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Jul 2020 09:53:27 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93ACC061794
+        for <linux-media@vger.kernel.org>; Sun,  5 Jul 2020 06:53:24 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id b92so15882709pjc.4
+        for <linux-media@vger.kernel.org>; Sun, 05 Jul 2020 06:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=7mX8hu/WWjnwnEyPTlU3MGnHpJuzqdu2Apw48vMC6z4=;
-        b=FynBPSjDhveS96iN5Y0RalC1idg3UpwKXyEYfOeZzLo2ogVhqEy87dxLuAgtsox3SM
-         0whLGGo62pu83HJdLhY3CrWldzxYFN460mOqGomto6LXz36fymnmJfA5Mufh+qQx9M/W
-         ao69skQFA9ywZgRdnrpEF6yM9wnsf97mBvIohYf4H8h/2UmxfVy6d2dv+9Zl4T/ysM8E
-         S4LCilQdYEyxH4J8KMn/ILcOUrCmy9HSb+B6nLw+zXb8sywWxFkWREcJul+F5CNwIMmW
-         B7xIeo2WhAv5C0/kge5WGslynFQ1q32Ve9xBUaGvTvhJTtG61gKKXs1wvOeX+de/Shzy
-         w+pA==
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=Zvrrr/jCdVtqukzvrk9NHKvKUQCbdo2phy68HZUCPiA=;
+        b=g1MDiuJ23X0nii/rFRT2Hzg6WO7+PSVHLhMc6XTp62YJD9yA+bhg61khgfMKZ6Wfo5
+         u/zIS8CW2tw1JV/Ijd8AFYgvw2r+yM3fGVRYjT2qaPnUZbLa4aCQrKpL0YhNPh/ocylg
+         rAir8Ja7fIiSFRLgibpK9Et3VE1Q14V3bRkCPV1j4LfCQxj98cMR83R0HBG5qDPq8oO+
+         GdxnXtd1fwcfeVbVKNHwPzCi5BtvunA0T16ti2JepTuqy3ouSopdY3oqDoUOSdIhHReW
+         Vn0rTvddMiZ3+79XQUazTSl/F0Et8ChPWygNVNtOowUoczHyfNADWTyBzTmChA4ee4SC
+         bxVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=7mX8hu/WWjnwnEyPTlU3MGnHpJuzqdu2Apw48vMC6z4=;
-        b=ki3We/OTFV8m5/MVy3bYqvk/z5+DjT56LXZzKVDcY8hdbaaY5+CBREeL225E+YAseW
-         2/FYWmh1U51TnqTtSI73sfXeAJCmEUjqv/ypD/AgTzyODii3dz1781mL9gquPyd/jUMv
-         59qAZowc2PlAGAkqSf9fY9yXJrBtAjAq/x9mMKjKP7TFA2IeokMd2/sdiqzVuE5T7LYq
-         rs/J5lZr6SajsBMxkm5ONCGkz4NyuwBUoOoZHQmt0aHZ/CMEy+Q+/srgr2eOUaPGGjlq
-         i3R10gvyMTza9FsZeaRgPZM/pGEUO5VRGj/GtULOYSde+9Y3W7Z0VfIgImPhS2Xeuxzj
-         2CTg==
-X-Gm-Message-State: AOAM5334vsxSOsR80GYoFutQdMk+L8VmuDv6sfhIHJQJKmVMxYF2iMGt
-        Or7qkuhejJuFKU+O+6qGiywLpaboWhZ6ww==
-X-Google-Smtp-Source: ABdhPJxbbizoo6eyMSZAaCuAXhtp8LdMYWIATAGhR85b9Jl9t3L4F4IQXUwdy/72ySrxdyoGZO3coQ==
-X-Received: by 2002:a17:906:5006:: with SMTP id s6mr38495933ejj.294.1593951129593;
-        Sun, 05 Jul 2020 05:12:09 -0700 (PDT)
-Received: from localhost.localdomain (212-5-158-133.ip.btc-net.bg. [212.5.158.133])
-        by smtp.gmail.com with ESMTPSA id j64sm1517458edd.61.2020.07.05.05.12.08
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Zvrrr/jCdVtqukzvrk9NHKvKUQCbdo2phy68HZUCPiA=;
+        b=Xv/l6YJAD8DIJpuQjb0CtPtRDHxN3/jCxXhg0at0l87OBO+fKHhb0tCT0abf9zt29l
+         7ril504kG/OrBvQf+aDUUXJhUpkwaSY5FwYXmva690sNFRgtAljlOXmgS3OyHG7IyGaz
+         GguObx3WmEqfiNHve76DE0049bZ7pVZToAcUbjUpCFYt7pe76WWvjdWl7h39DDlYIW4r
+         z0r34wjUZU0g+AuEU9MkYi2tjO/h288idxpFnFLQwvbc6no9oEO1JCNoqcpFsN32EQBV
+         0C8+44+R+UNS+7V8Rs/dYs1XzquaPdXrdGRHSHl9fZatcHlR9KaQNbgGfDdQ94L8qUA0
+         dmXQ==
+X-Gm-Message-State: AOAM531l+b/7w1NrKc8iIQOp4xTleM5dRKNH21qoPg5nAWg3GeH0UZQZ
+        jo4Pp8/ISoWGCqcjEzIj/jTjVw==
+X-Google-Smtp-Source: ABdhPJxTz+jrSeP8MQVahpcbg0RfDLC109NfjNL4vDMt5Y4HTPswmnhzYHvTY6hAS5kgt65zBOev7A==
+X-Received: by 2002:a17:90a:254f:: with SMTP id j73mr36672053pje.16.1593957204192;
+        Sun, 05 Jul 2020 06:53:24 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
+        by smtp.gmail.com with ESMTPSA id f14sm16560916pgj.62.2020.07.05.06.53.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2020 05:12:09 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Maheshwar Ajja <majja@codeaurora.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 4/4] media: docs: Depricate mfc frame skip control
-Date:   Sun,  5 Jul 2020 15:11:28 +0300
-Message-Id: <20200705121128.5250-5-stanimir.varbanov@linaro.org>
+        Sun, 05 Jul 2020 06:53:23 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Subject: [PATCH v10 0/3] media: Add colors' order and other info over test image
+Date:   Sun,  5 Jul 2020 19:23:03 +0530
+Message-Id: <20200705135307.27564-1-kgupta@es.iitr.ac.in>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200705121128.5250-1-stanimir.varbanov@linaro.org>
-References: <20200705121128.5250-1-stanimir.varbanov@linaro.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Depricate mfc private frame skip mode control for new
-clients and use the standard one instead.
+This patchset aims to add a method to display the correct order of
+colors for a test image generated. It does so by adding a function
+which returns a string of correct order of the colors for a test
+pattern. It then adds a control in vimc which displays the string
+over test image. It also displays some other information like saturation,
+hue, contrast brightness and time since the stream started over test
+image generated by vimc.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+Changes since v9:
+	In patch 3:
+	- Use div_u64() instead of "/" to divide a u64 divident with a
+	  constant (u32)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index a8b4c0b40747..c0760bfc54d4 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -2805,6 +2805,11 @@ MFC 5.1 Control IDs
- ``V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE``
-     (enum)
- 
-+    .. note::
-+
-+       This control is depricated. Use the standard one
-+       ``V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE`` instead.
-+
- enum v4l2_mpeg_mfc51_video_frame_skip_mode -
-     Indicates in what conditions the encoder should skip frames. If
-     encoding a frame would cause the encoded stream to be larger then a
+Changes since v8:
+        In patch 1:
+        - Add more details to commit message.
+        In patch 3:
+        - Formatting nits.
+
+Changes since v7:
+        In patch 3:
+        - Use fallthrough; to indicate a fall through in switch-case
+        - Use enum type instead of int for osd_value
+        - Change varaible to osd_value instead of osd_mode as the enum
+          osd_mode defines the modes.
+
+Changes since v6:
+        In patch 3:
+        - Use switch case instead of if()
+        - reorder declarartions.
+
+Changes since v5:
+        In patch 2:
+        - Add missing EXPORT_SYMBOL_GPL()
+        In patch 3:
+        - Renamed varaibles.
+        - use u64 instead of int for getting current time in
+          nanoseconds.
+        - Use enum instead of numbers to describe the state of osd_mode
+          control in code.
+
+Changes since v4:
+        - Add another patch which changes char argument to const char
+        in function tpg_gen_text()
+        - Return const char * from function tpg_g_color_order() in patch
+          2
+        In 3rd patch:
+        - Check font in probe() instead of s_stream()
+        - Use dev_err instead of pr_err
+        - Fix errors in commit message.
+        - Base VIMC_CID_SHOW_INFO on VIVID_CID_OSD_TEXT_MODE
+
+Changes since v3:
+        In 1st patch:
+        -Improved formatting of returned string.
+
+        In 2nd patch:
+         - Add CID prefix in control name and change it to a more
+           generic name.
+         - Rename bool variable to a generic name.
+         - Disable text rendering instead of stopping stream if no
+           font found.
+         - Display more info like VIVID in VIMC.
+
+Changes since v2:
+        In 1st patch:
+        - Create a 'define' to prevent repetition of the common color
+          sequence string.
+        - Use 'fallthrough' on case statement to prevent repetition of
+          code.
+
+Changes since v1:
+        - Divided the patch into two patches.
+        - Returned NULL for patterns whose color order cannot be
+          defined. (Reported-by: kernel test robot <lkp@intel.com>)
+        - Made separate switch cases for separate test patterns
+         (Reported-by: kernel test robot <lkp@intel.com>)
+        - Renamed variables from camelcase to use '_'
+        - prefixed 'media' to the patches.
+
+Kaaira Gupta (3):
+  media: tpg: change char argument to const char
+  media: tpg: Add function to return colors' order of test image
+  media: vimc: Add a control to display info on test image
+
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 40 +++++++++--
+ drivers/media/test-drivers/vimc/Kconfig       |  2 +
+ drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+ drivers/media/test-drivers/vimc/vimc-core.c   | 10 +++
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 71 +++++++++++++++++++
+ include/media/tpg/v4l2-tpg.h                  |  3 +-
+ 6 files changed, 119 insertions(+), 8 deletions(-)
+
 -- 
 2.17.1
 
