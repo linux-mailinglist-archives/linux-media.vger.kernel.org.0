@@ -2,283 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBD6F215784
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 14:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBFEA2157DB
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 14:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729283AbgGFMoA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jul 2020 08:44:00 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:33351 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729095AbgGFMn6 (ORCPT
+        id S1729129AbgGFM5G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jul 2020 08:57:06 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([62.140.7.102]:37327 "EHLO
+        de-smtp-delivery-102.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729100AbgGFM5F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Jul 2020 08:43:58 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id sQRDj8pEgBncFsQRHjvK6S; Mon, 06 Jul 2020 14:43:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594039434; bh=8F2TmOn83d1FtryLiBajmS/9uywwC87cqE1qHI2tvC4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=N9WVyPfUlPhycanOZAtZgecKkq80qFh+oJXgyoVY3wWWPN2yoVbcYkxWUZZX+Pp8U
-         d4JgPgeJKw7aYKrGEZZ+q8u1BYOKlNMxEKLZNKsoUZAphxZnR5IwP+URp4Z6KroS+2
-         SsRqe8ddv1Rm1miIvL87p31gHObGSAc6RiuDstOjaGbFk/1v/F74zoWvGj92KFVg3I
-         aqZj689O9jI6QwCHTuTFurSBX4qsCzEEjUqkz1aggsdpLS3D2zPA/fK6z/nLDQa5Kg
-         I+xxe6aSe6QpG+4VnXYyLPbHC0N0E0neG7+TCZUJ38nSu4vLVvTcT3NlUKHTf68peq
-         CH2rwlH2ryTKg==
-Subject: Re: [PATCH v2 16/18] media: mtk-vcodec: venc: make S_PARM return
- -ENOTTY for CAPTURE queue
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Rui Wang <gtk_ruiwang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Pi-Hsun Shih <pihsun@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20200626080442.292309-1-acourbot@chromium.org>
- <20200626080442.292309-17-acourbot@chromium.org>
- <84068e20-9a34-6d03-61e6-6c243680749c@xs4all.nl>
- <CAPBb6MW9deo11+YH9Mh3u08sEt7ShAF_a+S0-Jb_VDGhCQot_Q@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <74652f57-8dd8-6b24-9889-59bec389464e@xs4all.nl>
-Date:   Mon, 6 Jul 2020 14:41:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Mon, 6 Jul 2020 08:57:05 -0400
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04lp2051.outbound.protection.outlook.com [104.47.14.51]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ de-mta-18-kyQW1u4ePpGd2mFQWuazlQ-1; Mon, 06 Jul 2020 14:50:46 +0200
+X-MC-Unique: kyQW1u4ePpGd2mFQWuazlQ-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Av40yiNvxzuZfnHj2Z3K6/vnqpls4rs9Cpef7mhM58i5alcbEDFx73mndTCRtJj2Uo7QwABIYXX4KaqJjsD8dHsUQsOy0e1ACKDXPzMOCU9mJ4wCPeHZniLcZkT8Nd2JMK8tFk9FeN4V6dQ7V0F6/nEFrRSTfMEjjYeGyEETehcZrxVc3SJsXhtk4WgwptoDoOXDRIwzmcwMv0h5X6ZietaMxJ51DicYI0vz+1bLt3Iz6FsdZyX8SYMXClffqhZjJJZ5FgRJHxNnRTMDjoUii5Eb6t1D/dfjsx0kvG/Ny2yF9kiKRTmwsDy5C8x3ONGse8fGWKh2HtJ4gPluA754zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5wXx1fomwPRGhWNiBlZVNG4MTyfJX1vHSR2d0J6JKFo=;
+ b=QU1UY3bwjHikX4YFS2tFGGO0aut33fW5MVOJ7M1IQx8bkw8BzVgAuDQYvSB4cycR9VY3FiBBkJm1niIfr3kwuhbPG2lktz0zUkJ1ys73EV6S6Z7vdrXZAXGwGjJxrC+x4oz1D+bu03cPiAUF0YfA6p09Vsg2383Hj+YagODPpQ5e7CZTztdXpSoMhVM9/bFwtkTUQMOT4jvnq/ns2v3882D/SsHWvmPKZBmTG1OIJHdD9YkbrIZ2qG2RlZReT3hm0zfHIubH1M6U4qBmhGimtEc0b+p7TpFOIATMMWFOfjsVE5WLoVA+y39Yg/WFZ+BeM6YtFKMjorF71w7RbI98sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=suse.com;
+Received: from VI1PR04MB5325.eurprd04.prod.outlook.com (2603:10a6:803:60::14)
+ by VI1PR04MB6173.eurprd04.prod.outlook.com (2603:10a6:803:ff::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23; Mon, 6 Jul
+ 2020 12:50:45 +0000
+Received: from VI1PR04MB5325.eurprd04.prod.outlook.com
+ ([fe80::dcff:4fd4:7403:f1b4]) by VI1PR04MB5325.eurprd04.prod.outlook.com
+ ([fe80::dcff:4fd4:7403:f1b4%5]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
+ 12:50:44 +0000
+Date:   Mon, 6 Jul 2020 12:50:36 +0000
+From:   Luis Chamberlain <mcgrof@suse.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        dmaengine@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        linux-iio@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
+        Allen Hubbe <allenbh@gmail.com>, linux-ntb@googlegroups.com,
+        linux-nvdimm@lists.01.org, linux-usb@vger.kernel.org,
+        Eli Billauer <eli.billauer@gmail.com>
+Subject: Re: [PATCH 02/17] Documentation/driver-api: firmware/built-in-fw:
+ drop doubled word
+Message-ID: <20200706125036.llvg2mgmr7a4ydni@ergon.do-not-panic.com>
+References: <20200704034502.17199-1-rdunlap@infradead.org>
+ <20200704034502.17199-3-rdunlap@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200704034502.17199-3-rdunlap@infradead.org>
+X-ClientProxiedBy: BY3PR05CA0028.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::33) To VI1PR04MB5325.eurprd04.prod.outlook.com
+ (2603:10a6:803:60::14)
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MW9deo11+YH9Mh3u08sEt7ShAF_a+S0-Jb_VDGhCQot_Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKcKT/KYVZiOxynAIfVI3ssaFh/UuQ5Kaf/XdhEeyookvFHb5HtVQlFVZdimI3i10tefi121PTR+fBcUS4grLGxynpn7k+9eILtm5mz80NClvVS0n9WE
- 24ovQragdB9gw1o4cxDswZxfhjANOJ9sbfV5jQ1QVVAgjQVHldSkdq1x10CZZneSq1qJzi4PTAEbr9/slIFDxG5ZQI4fcN4SGZNj8LV/D/6wrqoyJOZKvcv0
- 88n8XGejBhvSg/m9P6e3OQeuWy2Bfwrb8KfxnqwTkPCry2DxZFc9kX/1tgdvoo+stj98fVC6PnHaq3E3PhYwW63EmXODtln/ypwpTuwKNDUISsUEBtG04EAL
- DiLI+IfALI+fGSRV9iMXSUNwE1pOmU8SOCFQfQWbrxtiGJ00V4q/VFyE5osW+aga1UbGWz8yaHZv3/IjeVvguBgc9nrbtQg0tNevCUqhn8zIWypN7M6nzs+K
- aODiw6L1CRwORMOrAvxE5rEGbrBnV2xRzzTXQKetQ5/vw9Gq9H/ikMAYdps=
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ergon.do-not-panic.com (178.128.74.135) by BY3PR05CA0028.namprd05.prod.outlook.com (2603:10b6:a03:254::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.8 via Frontend Transport; Mon, 6 Jul 2020 12:50:44 +0000
+Received: by ergon.do-not-panic.com (Postfix, from userid 1000) id EC0FEA2856; Mon,  6 Jul 2020 12:50:36 +0000 (UTC)
+X-Originating-IP: [178.128.74.135]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 743f4daf-1c58-4b23-fd3d-08d821ab327d
+X-MS-TrafficTypeDiagnostic: VI1PR04MB6173:
+X-Microsoft-Antispam-PRVS: <VI1PR04MB6173A4766C59D95B10831F90F0690@VI1PR04MB6173.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Forefront-PRVS: 04569283F9
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8QKd0IN2aSMYsWoYj52PX5PysF/dW//lGCEbeH0Fi5uGqHDI6tYacudyeB5xMRDbCpnHVPYyAZevMDiwx0zb8lQ1EhKJjoyFBJ/17Ur4sZt3MsE0heFvlA9y2sT9UM5vD0uf+WU3xxOi5IcUtOXpt+1FjX5EC/7xE5jj4o1CSlkBxb3jHh4dgrofUhiT+bNZy4C6X2Y8+ikp9XHHe23U4aRzsuwjgaJn5LS4j1zhSbuPCrMEXFFEcUKtyZ94tlJbY1V8vTIAMqlYlVuqUCJ51/To+dWmHARUDryp43DTyn2vnmUS/gsW4yoUHs/gCJuEAKqdlI6bZPktcUO3TPq5xg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5325.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(396003)(39860400002)(376002)(136003)(366004)(346002)(6916009)(9686003)(52116002)(186003)(7416002)(42186006)(316002)(6266002)(4326008)(8936002)(26005)(54906003)(8676002)(478600001)(4744005)(66556008)(66476007)(66946007)(2906002)(1076003)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: Mb8GQRRldTCnyvM8Adi7uHnOb037Eld+uNceQL9ruoX6sJ5NLsKMj3JTCl2aKNTIuUCRTMAH1KuH0/buN08WyQUWU+lBv28VgI6mf5uSMtWrNSGeWnXjl/fMoZ7wZM24AxEVJFFKFAF0FN9k3NOyJoITaJ0SQy7GnWIjEA/+GkSWZ8jrkwAHNv05ZQbI8lrKN0HFhg712cSVD1iCGah2UELlj6u6twBmOxuz0vBFhapWZZV7YIP7UOchbc6z671YKHT3cu4gQ7BmmbmyMNlOMcU4mudyCF+wQ5CNXFIToczMgOQF280BZ0xbFVoPfAJJVy8rRTKoOcA/Pi2CorVhtTZV4jhRB7b6d+neiDBDiZZ89ZALZibx+/spVUSfgaYoFG7sLxkzzzX5PYvVk9NkSFonqYb1Tu8Ce+zbzeHj+w3k04XUBGPAs/HyvRpdguixT9WUjGrQZFemEAk7nGLItviw9y0f2uvJBXacylqloNam879Wlq+HJHNJuU2TiZcN
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 743f4daf-1c58-4b23-fd3d-08d821ab327d
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5325.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2020 12:50:44.8174
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZL/MSPQ7vF6G817vDWiCPHaUz/7g1QBwypX6CWbRGwuxqbC0IzBzB/o11VDOQnRsD+XcmWon58h2h0S4bSPOYh9U6QTaSZC0p+rcOYFddDA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6173
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/07/2020 14:36, Alexandre Courbot wrote:
-> On Fri, Jul 3, 2020 at 5:30 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 26/06/2020 10:04, Alexandre Courbot wrote:
->>> v4l2-compliance expects ENOTTY to be returned when a given queue does
->>> not support S_PARM.
->>>
->>> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
->>> ---
->>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->>> index aae610e6d4e8..346a33c6869d 100644
->>> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->>> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->>> @@ -200,7 +200,7 @@ static int vidioc_venc_s_parm(struct file *file, void *priv,
->>>       struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
->>>
->>>       if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
->>> -             return -EINVAL;
->>> +             return -ENOTTY;
->>
->> This doesn't look right: S_PARM *is* supported, just not for this buffer type.
->> So -EINVAL is the correct error code.
->>
->> What is the exact v4l2-compliance failure? It might be a bug in the test.
+On Fri, Jul 03, 2020 at 08:44:47PM -0700, Randy Dunlap wrote:
+> Drop the doubled word "for".
 > 
-> The error is as follows:
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->                 fail: v4l2-test-formats.cpp(1336): got error 22 when
-> setting parms for buftype 9
->         test VIDIOC_G/S_PARM: FAIL
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-This is due to bugs in the compliance test that do not take into account the
-stateful encoder spec.
+For all the firmware patches you sent:
 
-The compliance test should check for the following:
+Acked-by: Luis Chamberlain <mcgrof@kernel.org>
 
-If ENUM_FRAMEINTERVALS is implemented, then G/S_PARM shall be supported for OUTPUT.
+  Luis
 
-If ENUM_FRAMEINTERVALS is not implemented, then G/S_PARM is optional for OUTPUT. But if
-G_PARM is implemented, then S_PARM shall also be implemented. In this case the
-frame interval range is determined by the codec standard.
-
-If V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL is set for one or more pixel formats,
-then G/S_PARM shall be implemented for both CAPTURE and OUTPUT.
-
-For backwards compatibility: if G/S_PARM is supported for OUTPUT, then it may be
-supported for CAPTURE as well.
-
-Can you try with the following patch?
-
-With this v4l2-compliance patch you should be able to drop patches 15/18 and 16/18
-of your series.
-
-Regards,
-
-	Hans
-
--------------------------- cut here ------------------------------
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index b5bde2f4..d0441651 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1250,6 +1250,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		node.frmsizes.clear();
- 		node.frmsizes_count.clear();
- 		node.has_frmintervals = false;
-+		node.has_enc_cap_frame_interval = false;
- 		node.valid_buftypes = 0;
- 		node.valid_memorytype = 0;
- 		node.buf_caps = 0;
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 21e31872..ae10bdf9 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -141,6 +141,7 @@ struct base_node {
- 	frmsizes_set frmsizes;
- 	frmsizes_count_map frmsizes_count;
- 	bool has_frmintervals;
-+	bool has_enc_cap_frame_interval;
- 	__u32 valid_buftypes;
- 	__u32 valid_buftype;
- 	__u32 valid_memorytype;
-diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
-index 3dfc593e..edf1536e 100644
---- a/utils/v4l2-compliance/v4l2-test-formats.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
-@@ -71,6 +71,8 @@ static int testEnumFrameIntervals(struct node *node, __u32 pixfmt,
- 		ret = doioctl(node, VIDIOC_ENUM_FRAMEINTERVALS, &frmival);
- 		if (ret == ENOTTY)
- 			return ret;
-+		// M2M devices don't support this, except for stateful encoders
-+		fail_on_test(node->is_m2m && !(node->codec_mask & STATEFUL_ENCODER));
- 		if (f == 0 && ret == EINVAL) {
- 			if (type == V4L2_FRMSIZE_TYPE_DISCRETE)
- 				warn("found framesize %dx%d, but no frame intervals\n", w, h);
-@@ -264,16 +266,22 @@ static int testEnumFormatsType(struct node *node, unsigned type)
- 			return fail("drivers must never set the emulated flag\n");
- 		if (fmtdesc.flags & ~(V4L2_FMT_FLAG_COMPRESSED | V4L2_FMT_FLAG_EMULATED |
- 				      V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM |
--				      V4L2_FMT_FLAG_DYN_RESOLUTION))
-+				      V4L2_FMT_FLAG_DYN_RESOLUTION |
-+				      V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL))
- 			return fail("unknown flag %08x returned\n", fmtdesc.flags);
- 		if (!(fmtdesc.flags & V4L2_FMT_FLAG_COMPRESSED))
- 			fail_on_test(fmtdesc.flags & (V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM |
--						      V4L2_FMT_FLAG_DYN_RESOLUTION));
-+						      V4L2_FMT_FLAG_DYN_RESOLUTION |
-+						      V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL));
- 		ret = testEnumFrameSizes(node, fmtdesc.pixelformat);
- 		if (ret)
- 			fail_on_test(node->codec_mask & STATEFUL_ENCODER);
- 		if (ret && ret != ENOTTY)
- 			return ret;
-+		if (fmtdesc.flags & V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL) {
-+			fail_on_test(!(node->codec_mask & STATEFUL_ENCODER));
-+			node->has_enc_cap_frame_interval = true;
-+		}
- 		f++;
- 		if (type == V4L2_BUF_TYPE_PRIVATE)
- 			continue;
-@@ -1222,6 +1230,7 @@ int testSlicedVBICap(struct node *node)
-
- static int testParmStruct(struct node *node, struct v4l2_streamparm &parm)
- {
-+	bool is_stateful_enc = node->codec_mask & STATEFUL_ENCODER;
- 	struct v4l2_captureparm *cap = &parm.parm.capture;
- 	struct v4l2_outputparm *out = &parm.parm.output;
- 	int ret;
-@@ -1239,6 +1248,7 @@ static int testParmStruct(struct node *node, struct v4l2_streamparm &parm)
- 			fail_on_test(!cap->readbuffers);
- 		fail_on_test(cap->capability & ~V4L2_CAP_TIMEPERFRAME);
- 		fail_on_test(node->has_frmintervals && !cap->capability);
-+		fail_on_test(is_stateful_enc && !cap->capability);
- 		fail_on_test(cap->capturemode & ~V4L2_MODE_HIGHQUALITY);
- 		if (cap->capturemode & V4L2_MODE_HIGHQUALITY)
- 			warn("V4L2_MODE_HIGHQUALITY is poorly defined\n");
-@@ -1257,6 +1267,7 @@ static int testParmStruct(struct node *node, struct v4l2_streamparm &parm)
- 		else if (node->g_caps() & V4L2_CAP_STREAMING)
- 			fail_on_test(!out->writebuffers);
- 		fail_on_test(out->capability & ~V4L2_CAP_TIMEPERFRAME);
-+		fail_on_test(is_stateful_enc && !out->capability);
- 		fail_on_test(out->outputmode);
- 		fail_on_test(out->extendedmode);
- 		if (out->capability & V4L2_CAP_TIMEPERFRAME)
-@@ -1271,6 +1282,7 @@ static int testParmStruct(struct node *node, struct v4l2_streamparm &parm)
- static int testParmType(struct node *node, unsigned type)
- {
- 	struct v4l2_streamparm parm;
-+	bool is_stateful_enc = node->codec_mask & STATEFUL_ENCODER;
- 	int ret;
-
- 	memset(&parm, 0, sizeof(parm));
-@@ -1288,10 +1300,10 @@ static int testParmType(struct node *node, unsigned type)
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
--		if (type && (node->g_caps() & buftype2cap[type]))
-+		if (node->g_caps() & buftype2cap[type]) {
- 			fail_on_test(ret && node->has_frmintervals);
--		if (ret)
--			break;
-+			fail_on_test(ret && node->has_enc_cap_frame_interval);
-+		}
- 		break;
- 	default:
- 		fail_on_test(ret == 0);
-@@ -1300,8 +1312,15 @@ static int testParmType(struct node *node, unsigned type)
- 		fail_on_test(!doioctl(node, VIDIOC_S_PARM, &parm));
- 		break;
- 	}
-+	if (ret == ENOTTY) {
-+		memset(&parm, 0, sizeof(parm));
-+		parm.type = type;
-+		fail_on_test(doioctl(node, VIDIOC_S_PARM, &parm) != ENOTTY);
-+	}
- 	if (ret == ENOTTY)
- 		return ret;
-+	// M2M devices don't support this, except for stateful encoders
-+	fail_on_test(node->is_m2m && !is_stateful_enc);
- 	if (ret == EINVAL)
- 		return ENOTTY;
- 	if (ret)
-@@ -1327,11 +1346,29 @@ static int testParmType(struct node *node, unsigned type)
- 		cap = parm.parm.output.capability;
- 	else
- 		cap = parm.parm.capture.capability;
--	fail_on_test(ret && node->has_frmintervals);
--	if (!ret && (cap & V4L2_CAP_TIMEPERFRAME) && !node->has_frmintervals)
-+
-+	if (is_stateful_enc) {
-+		fail_on_test(ret && node->has_enc_cap_frame_interval);
-+		if (V4L2_TYPE_IS_OUTPUT(type))
-+			fail_on_test(ret);
-+	} else {
-+		fail_on_test(ret && node->has_frmintervals);
-+	}
-+
-+	/*
-+	 * Stateful encoders can support S_PARM without ENUM_FRAMEINTERVALS.
-+	 * being present. In that case the limits of the chosen codec apply.
-+	 */
-+	if (!ret && (cap & V4L2_CAP_TIMEPERFRAME) && !node->has_frmintervals && !is_stateful_enc)
- 		warn("S_PARM is supported for buftype %d, but not for ENUM_FRAMEINTERVALS\n", type);
- 	if (ret == ENOTTY)
- 		return 0;
-+	/*
-+	 * S_PARM(CAPTURE) is optional for stateful encoders, so EINVAL is a
-+	 * valid error code in that case.
-+	 */
-+	if (is_stateful_enc && !V4L2_TYPE_IS_OUTPUT(type) && ret == -EINVAL)
-+		return 0;
- 	if (ret)
- 		return fail("got error %d when setting parms for buftype %d\n", ret, type);
- 	fail_on_test(parm.type != type);
--------------------------- cut here ------------------------------
