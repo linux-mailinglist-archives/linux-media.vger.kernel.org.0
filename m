@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9026A215EB5
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 20:38:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75B2C215EB7
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 20:38:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729981AbgGFSih (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jul 2020 14:38:37 -0400
+        id S1729985AbgGFSii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jul 2020 14:38:38 -0400
 Received: from perceval.ideasonboard.com ([213.167.242.64]:45202 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729968AbgGFSig (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jul 2020 14:38:36 -0400
+        with ESMTP id S1729980AbgGFSih (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jul 2020 14:38:37 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E0B01968;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8588E197C;
         Mon,  6 Jul 2020 20:38:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1594060694;
-        bh=fncyAv9+/Otyo9caEMqPS2EWO1WCNDqQiOaEvbDwMM0=;
+        bh=XYpHObCxH78AkEwfW2qPtnVqceHwh8+viOl727xpJIA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uixWKEV7VH5dGSyhBUxCiqDR0CSXbQkHuTspAZ0EtE+X1q6cuKR5DAbtm6Rv+OA8h
-         QfhzSJ5LRkjh5K+yr83pvGwOFOga6W2JzxmjArJmanDSmoLneRP+6LniaHrlnorJBW
-         duA9QTv0EoeoZJmZhPsN4cVz8M7Mo2YoDiLLfkRs=
+        b=Kme43I8qywJrf8ZKatF6X5HYiEg4CVTybFRmbZugOg1zhi41NkW+Yb/w7+URPUPrw
+         NwRTFqZKTHENdS5bmtFtxtK5Nat4sJ/zEHrK6g3AW6no8u/8OUlgxM++xhCyuTM5v9
+         xjDcFz8x9aIY9iWzfffeQEHt4zgWtmCre86zvnns=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v2 070/108] media: ti-vpe: cal: Read hardware revision earlier during probe
-Date:   Mon,  6 Jul 2020 21:36:31 +0300
-Message-Id: <20200706183709.12238-71-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 071/108] media: ti-vpe: cal: Print revision and hwinfo in a more readable format
+Date:   Mon,  6 Jul 2020 21:36:32 +0300
+Message-Id: <20200706183709.12238-72-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
 References: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
@@ -38,72 +38,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Read the hardware revision and info right after allocating resources, as
-there's no need to delay doing so until all initialization is complete.
+Print the hardware revision in the X.Y.R format, which is more readable
+that the 32-bit hex value. For the hardware info register, only print
+its value if it doesn't contain what we expect.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 340cbf385d42..fca591a94aca 100644
+index fca591a94aca..ec52cb7f3039 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -2408,6 +2408,15 @@ static int cal_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
+@@ -2342,21 +2342,36 @@ static const struct of_device_id cal_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, cal_of_match);
  
-+	/* Read the revision and hardware info to verify hardware access. */
-+	pm_runtime_enable(&pdev->dev);
-+	ret = pm_runtime_get_sync(&pdev->dev);
-+	if (ret)
-+		goto error_pm_runtime;
+-/*
+- * Get Revision and HW info
+- */
++/* Get hardware revision and info. */
 +
-+	cal_get_hwinfo(cal);
-+	pm_runtime_put_sync(&pdev->dev);
++#define CAL_HL_HWINFO_VALUE		0xa3c90469
 +
- 	/* Create CAMERARX PHYs. */
- 	for (i = 0; i < cal->data->num_csi2_phy; ++i) {
- 		cal->phy[i] = cal_camerarx_create(cal, i);
-@@ -2445,25 +2454,13 @@ static int cal_probe(struct platform_device *pdev)
- 		}
- 	}
+ static void cal_get_hwinfo(struct cal_dev *cal)
+ {
+ 	u32 revision;
+ 	u32 hwinfo;
  
--	/* Read the revision and hardware info to verify hardware access. */
--	pm_runtime_enable(&pdev->dev);
--	ret = pm_runtime_get_sync(&pdev->dev);
--	if (ret)
--		goto error_pm_runtime;
--
--	cal_get_hwinfo(cal);
--	pm_runtime_put_sync(&pdev->dev);
--
- 	/* Register the media device. */
- 	ret = cal_media_register(cal);
- 	if (ret)
--		goto error_pm_runtime;
-+		goto error_context;
- 
- 	return 0;
- 
--error_pm_runtime:
--	pm_runtime_disable(&pdev->dev);
--
- error_context:
- 	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
- 		ctx = cal->ctx[i];
-@@ -2477,6 +2474,9 @@ static int cal_probe(struct platform_device *pdev)
- 	for (i = 0; i < ARRAY_SIZE(cal->phy); i++)
- 		cal_camerarx_destroy(cal->phy[i]);
- 
-+error_pm_runtime:
-+	pm_runtime_disable(&pdev->dev);
+ 	revision = reg_read(cal, CAL_HL_REVISION);
+-	cal_dbg(3, cal, "CAL_HL_REVISION = 0x%08x (expecting 0x40000200)\n",
+-		revision);
++	switch (FIELD_GET(CAL_HL_REVISION_SCHEME_MASK, revision)) {
++	case CAL_HL_REVISION_SCHEME_H08:
++		cal_dbg(3, cal, "CAL HW revision %lu.%lu.%lu (0x%08x)\n",
++			FIELD_GET(CAL_HL_REVISION_MAJOR_MASK, revision),
++			FIELD_GET(CAL_HL_REVISION_MINOR_MASK, revision),
++			FIELD_GET(CAL_HL_REVISION_RTL_MASK, revision),
++			revision);
++		break;
 +
- 	return ret;
++	case CAL_HL_REVISION_SCHEME_LEGACY:
++	default:
++		cal_info(cal, "Unexpected CAL HW revision 0x%08x\n",
++			 revision);
++		break;
++	}
+ 
+ 	hwinfo = reg_read(cal, CAL_HL_HWINFO);
+-	cal_dbg(3, cal, "CAL_HL_HWINFO = 0x%08x (expecting 0xA3C90469)\n",
+-		hwinfo);
++	if (hwinfo != CAL_HL_HWINFO_VALUE)
++		cal_info(cal, "CAL_HL_HWINFO = 0x%08x, expected 0x%08x\n",
++			 hwinfo, CAL_HL_HWINFO_VALUE);
  }
  
+ static int cal_probe(struct platform_device *pdev)
 -- 
 Regards,
 
