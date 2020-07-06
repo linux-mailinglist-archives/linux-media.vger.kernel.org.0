@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBC6A215EBA
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 20:38:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D17D1215EBC
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 20:38:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729991AbgGFSil (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jul 2020 14:38:41 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45202 "EHLO
+        id S1729993AbgGFSin (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jul 2020 14:38:43 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45198 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729973AbgGFSik (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jul 2020 14:38:40 -0400
+        with ESMTP id S1729790AbgGFSim (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jul 2020 14:38:42 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41B8A2182;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A92ED2183;
         Mon,  6 Jul 2020 20:38:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1594060696;
-        bh=RCAq18Jag6k9hyjNJhrq2KV8slWbZ6fJOEk3DhVHSDQ=;
+        bh=IdfkyvxBNPb4SkYaNM5ugZLW8ogj3xlLEW1OKHlDXho=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kRnEJhgPE2xc4+qwSF8urhDGnJf9M2rTvH3uouX/h+nlMNyPYF3/cvnZ8vnsCtk3t
-         x030198zlrvEaGNV4kgYnbWXG7mybAVFRHdkz6rjwHGRpwt8m/VDBc54xZ9GMjcrBi
-         4G7e9v8wsj1CIxhAEm9nXC8gDYoHkU9KnN6wIGBE=
+        b=BYSik5Sk05BkOOEw1bqivzfmmUYUZ5RbQAgjBKGF+u+tKbF65L87sbkZ8EoLGOtFO
+         I6pcepKn5WXRzqW/ZaBrS+zftA0SZuoHqJBOgCj4o8yE3P/PGj00HvnEp5hlVmcmLH
+         MpvPOrJlrYBYVDtF7Bfa3a1yF8RgJz4yqI1mURGg=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v2 075/108] media: ti-vpe: cal: Allocate cal_ctx active_fmt array dynamically
-Date:   Mon,  6 Jul 2020 21:36:36 +0300
-Message-Id: <20200706183709.12238-76-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 076/108] media: ti-vpe: cal: Inline cal_camerarx_max_lanes() in its only caller
+Date:   Mon,  6 Jul 2020 21:36:37 +0300
+Message-Id: <20200706183709.12238-77-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
 References: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
@@ -38,43 +38,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To avoid making the cal_ctx structure layoug depend on the size of the
-cal_formats array, allocate the active_fmt array dynamically. This
-prepares for splitting the driver in multiple files.
+The cal_camerarx_max_lanes() function is a one-liner that has a single
+caller. It doesn't improve readability. Inline it in its caller.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/media/platform/ti-vpe/cal.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 26747e6da358..31878a32f6a1 100644
+index 31878a32f6a1..4be1fa7e8197 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -325,7 +325,7 @@ struct cal_ctx {
- 	struct v4l2_mbus_framefmt	m_fmt;
+@@ -481,19 +481,13 @@ static void cal_quickdump_regs(struct cal_dev *cal)
+  * ------------------------------------------------------------------
+  */
  
- 	/* Current subdev enumerated format */
--	const struct cal_fmt	*active_fmt[ARRAY_SIZE(cal_formats)];
-+	const struct cal_fmt	**active_fmt;
- 	unsigned int		num_active_fmt;
+-static u32 cal_camerarx_max_lanes(struct cal_camerarx *phy)
+-{
+-	return phy->cal->data->camerarx[phy->instance].num_lanes;
+-}
+-
+ static void cal_camerarx_enable(struct cal_camerarx *phy)
+ {
+-	u32 max_lanes;
++	u32 num_lanes = phy->cal->data->camerarx[phy->instance].num_lanes;
  
- 	unsigned int		sequence;
-@@ -1957,7 +1957,13 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
- 	int ret = 0;
- 
- 	/* Enumerate sub device formats and enable all matching local formats */
-+	ctx->active_fmt = devm_kcalloc(ctx->cal->dev, ARRAY_SIZE(cal_formats),
-+				       sizeof(*ctx->active_fmt), GFP_KERNEL);
-+	if (!ctx->active_fmt)
-+		return -ENOMEM;
-+
- 	ctx->num_active_fmt = 0;
-+
- 	for (j = 0, i = 0; ret != -EINVAL; ++j) {
- 
- 		memset(&mbus_code, 0, sizeof(mbus_code));
+ 	regmap_field_write(phy->fields[F_CAMMODE], 0);
+ 	/* Always enable all lanes at the phy control level */
+-	max_lanes = (1 << cal_camerarx_max_lanes(phy)) - 1;
+-	regmap_field_write(phy->fields[F_LANEENABLE], max_lanes);
++	regmap_field_write(phy->fields[F_LANEENABLE], (1 << num_lanes) - 1);
+ 	/* F_CSI_MODE is not present on every architecture */
+ 	if (phy->fields[F_CSI_MODE])
+ 		regmap_field_write(phy->fields[F_CSI_MODE], 1);
 -- 
 Regards,
 
