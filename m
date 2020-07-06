@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F47E215E8B
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 20:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F9D5215E8D
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 20:38:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729902AbgGFSh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jul 2020 14:37:56 -0400
+        id S1729906AbgGFSh5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jul 2020 14:37:57 -0400
 Received: from perceval.ideasonboard.com ([213.167.242.64]:45198 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729897AbgGFShz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jul 2020 14:37:55 -0400
+        with ESMTP id S1729899AbgGFSh5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jul 2020 14:37:57 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D6CED6E;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76777D98;
         Mon,  6 Jul 2020 20:37:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1594060666;
-        bh=2MWQ48+Dl4BVH3M8aCqzUdtKehlpP1y6raVuymvTggE=;
+        bh=pVZPvfgD2GuPGe7gV5oEC/bL2L0s1jCOvKh8IjW7qx4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mVQOrgKDQgEHKLOuO+rCoEqDyRbsDQVmwBykR7+K+VNc0AXRnyKLgPkHkJIvLfbXk
-         mh/CWENKrILLR64UL/phbCRDfcdUp1HpIjLOnKFjV5prU6o/aW+0SH9EgHW0vRlnpM
-         noejNu45Lwd05G/c1f7F4gbyeSFzT5QzdnGab2Rg=
+        b=FsSeeVd7OflIRl6r/wCPwlDgQt0yLVqjNLLHyX+ll02OYnHNLKLa1zdAHTzAikOJd
+         pY0xx/F204Pb8TL2TiCp3uCT3NT3NBbGJciZiaEnlCFSsTDggNMWB4zAGK75HIW/27
+         1WE+hTlMefW7h5qiKKnh4/17MW1/sC5Sm5RtlZr8=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v2 028/108] media: ti-vpe: cal: Remove internal phy structure from cal_camerarx
-Date:   Mon,  6 Jul 2020 21:35:49 +0300
-Message-Id: <20200706183709.12238-29-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 029/108] media: ti-vpe: cal: Store instance ID and cal pointer in cal_camerarx
+Date:   Mon,  6 Jul 2020 21:35:50 +0300
+Message-Id: <20200706183709.12238-30-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
 References: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
@@ -38,79 +38,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The cal_camerarx structure describes the PHY, there's no need for an
-internal structure named phy. Removed that level of indirection.
+Store a pointer to the cal_dev and the cal_camerarx instance number in
+the cal_camerarx structure. This prepares for passing a cal_camerarx
+pointer instead of a cal_ctx pointer to multiple functions that deal
+with the CAMERARX.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index d376cdd32f72..471e2581b28b 100644
+index 471e2581b28b..ff9bc3ae58ba 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -324,10 +324,7 @@ struct cal_camerarx {
- 	void __iomem		*base;
+@@ -325,6 +325,9 @@ struct cal_camerarx {
  	struct resource		*res;
  	struct platform_device	*pdev;
--
--	struct {
--		struct regmap_field *fields[F_MAX_FIELDS];
--	} phy;
-+	struct regmap_field	*fields[F_MAX_FIELDS];
+ 	struct regmap_field	*fields[F_MAX_FIELDS];
++
++	struct cal_dev		*cal;
++	unsigned int		instance;
  };
  
  struct cal_dev {
-@@ -491,12 +488,12 @@ static int cal_camerarx_regmap_init(struct cal_dev *cal,
- 		 * Here we update the reg offset with the
- 		 * value found in DT
- 		 */
--		phy->phy.fields[i] = devm_regmap_field_alloc(&cal->pdev->dev,
--							     cal->syscon_camerrx,
--							     field);
--		if (IS_ERR(phy->phy.fields[i])) {
-+		phy->fields[i] = devm_regmap_field_alloc(&cal->pdev->dev,
-+							 cal->syscon_camerrx,
-+							 field);
-+		if (IS_ERR(phy->fields[i])) {
- 			cal_err(cal, "Unable to allocate regmap fields\n");
--			return PTR_ERR(phy->phy.fields[i]);
-+			return PTR_ERR(phy->fields[i]);
- 		}
- 	}
- 
-@@ -543,14 +540,14 @@ static void camerarx_phy_enable(struct cal_ctx *ctx)
- 	struct cal_camerarx *phy = ctx->cal->phy[phy_id];
- 	u32 max_lanes;
- 
--	regmap_field_write(phy->phy.fields[F_CAMMODE], 0);
-+	regmap_field_write(phy->fields[F_CAMMODE], 0);
- 	/* Always enable all lanes at the phy control level */
- 	max_lanes = (1 << cal_data_get_phy_max_lanes(ctx)) - 1;
--	regmap_field_write(phy->phy.fields[F_LANEENABLE], max_lanes);
-+	regmap_field_write(phy->fields[F_LANEENABLE], max_lanes);
- 	/* F_CSI_MODE is not present on every architecture */
--	if (phy->phy.fields[F_CSI_MODE])
--		regmap_field_write(phy->phy.fields[F_CSI_MODE], 1);
--	regmap_field_write(phy->phy.fields[F_CTRLCLKEN], 1);
-+	if (phy->fields[F_CSI_MODE])
-+		regmap_field_write(phy->fields[F_CSI_MODE], 1);
-+	regmap_field_write(phy->fields[F_CTRLCLKEN], 1);
+@@ -466,8 +469,7 @@ static u32 cal_data_get_num_csi2_phy(struct cal_dev *cal)
  }
  
- static void camerarx_phy_disable(struct cal_ctx *ctx)
-@@ -558,7 +555,7 @@ static void camerarx_phy_disable(struct cal_ctx *ctx)
- 	u32 phy_id = ctx->csi2_port;
- 	struct cal_camerarx *phy = ctx->cal->phy[phy_id];
+ static int cal_camerarx_regmap_init(struct cal_dev *cal,
+-				    struct cal_camerarx *phy,
+-				    unsigned int idx)
++				    struct cal_camerarx *phy)
+ {
+ 	const struct cal_camerarx_data *phy_data;
+ 	unsigned int i;
+@@ -475,7 +477,7 @@ static int cal_camerarx_regmap_init(struct cal_dev *cal,
+ 	if (!cal->data)
+ 		return -EINVAL;
  
--	regmap_field_write(phy->phy.fields[F_CTRLCLKEN], 0);
-+	regmap_field_write(phy->fields[F_CTRLCLKEN], 0);
- }
+-	phy_data = &cal->data->camerarx[idx];
++	phy_data = &cal->data->camerarx[phy->instance];
  
+ 	for (i = 0; i < F_MAX_FIELDS; i++) {
+ 		struct reg_field field = {
+@@ -561,7 +563,8 @@ static void camerarx_phy_disable(struct cal_ctx *ctx)
  /*
+  * Camera Instance access block
+  */
+-static struct cal_camerarx *cc_create(struct cal_dev *cal, unsigned int core)
++static struct cal_camerarx *cc_create(struct cal_dev *cal,
++				      unsigned int instance)
+ {
+ 	struct platform_device *pdev = cal->pdev;
+ 	struct cal_camerarx *phy;
+@@ -571,8 +574,11 @@ static struct cal_camerarx *cc_create(struct cal_dev *cal, unsigned int core)
+ 	if (!phy)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	phy->cal = cal;
++	phy->instance = instance;
++
+ 	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+-						(core == 0) ?
++						(instance == 0) ?
+ 						"cal_rx_core0" :
+ 						"cal_rx_core1");
+ 	phy->base = devm_ioremap_resource(&pdev->dev, phy->res);
+@@ -584,7 +590,7 @@ static struct cal_camerarx *cc_create(struct cal_dev *cal, unsigned int core)
+ 	cal_dbg(1, cal, "ioresource %s at %pa - %pa\n",
+ 		phy->res->name, &phy->res->start, &phy->res->end);
+ 
+-	ret = cal_camerarx_regmap_init(cal, phy, core);
++	ret = cal_camerarx_regmap_init(cal, phy);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
 -- 
 Regards,
 
