@@ -2,131 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E0B92154E4
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 11:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 013C82155D4
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 12:49:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728580AbgGFJps (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jul 2020 05:45:48 -0400
-Received: from o1.b.az.sendgrid.net ([208.117.55.133]:32121 "EHLO
-        o1.b.az.sendgrid.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728299AbgGFJpr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jul 2020 05:45:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
-        h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
-        content-transfer-encoding;
-        s=001; bh=rvLDHxfrHlo3Otfv/kTs7QJwT/t3WC4PX7Ybs44eM+I=;
-        b=jbZOEYwz91P6/LEMqcDKxkPB8I3dcATl6ZugqIrh0HXQdYpdDkSLR9RIO/P7d5hI5OgK
-        3L8L2Nms/CDlJjQ4qfxPp3ETZWJpAWQFb9xnr65ppX3qs0oJh/nTLBKSk/iHbAS5xy3nQ0
-        vqmaCbFKoKvkiEdJkeK1yHqMYD/LOmvR0=
-Received: by filterdrecv-p3mdw1-75c584b9c6-4xwkm with SMTP id filterdrecv-p3mdw1-75c584b9c6-4xwkm-18-5F02F2CA-A
-        2020-07-06 09:45:46.161499776 +0000 UTC m=+837368.642959845
-Received: from [192.168.1.14] (unknown)
-        by ismtpd0005p1lon1.sendgrid.net (SG) with ESMTP
-        id ZYAMUW8kRXGzWA_jlRz-5g
-        Mon, 06 Jul 2020 09:45:45.891 +0000 (UTC)
-Subject: Re: [PATCH 1/2] rkvdec: h264: Refuse to decode unsupported bitstream
-References: <20200626171130.27346-1-ezequiel@collabora.com>
- <20200626171130.27346-2-ezequiel@collabora.com>
-From:   Jonas Karlman <jonas@kwiboo.se>
-Message-ID: <551304f5-88bd-a673-a0ef-47af65700fe7@kwiboo.se>
-Date:   Mon, 06 Jul 2020 09:45:46 +0000 (UTC)
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728525AbgGFKtg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jul 2020 06:49:36 -0400
+Received: from plasma2.jpberlin.de ([91.198.250.140]:35757 "EHLO
+        plasma2.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728441AbgGFKtg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jul 2020 06:49:36 -0400
+Received: from spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122])
+        by plasma.jpberlin.de (Postfix) with ESMTP id 0C8C3B9F39;
+        Mon,  6 Jul 2020 12:49:31 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id 2TYxBK4JO2OK; Mon,  6 Jul 2020 12:49:29 +0200 (CEST)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "Let's Encrypt Authority X3" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id C4B92A6F28;
+        Mon,  6 Jul 2020 12:49:28 +0200 (CEST)
+Received: from os-lin-dmo.localnet (10.25.255.1) by webmail.opensynergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 6 Jul 2020
+ 12:49:28 +0200
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>
+CC:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        <virtio-dev@lists.oasis-open.org>,
+        "Linux Media Mailing List" <linux-media@vger.kernel.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        "David Staessens" <dstaessens@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "Gerd Hoffmann" <kraxel@redhat.com>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        <spice-devel@lists.freedesktop.org>,
+        David Stevens <stevensd@chromium.org>, <uril@redhat.com>,
+        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+        Kiran Pawar <kiran.pawar@opensynergy.com>,
+        Saket Sinha <saket.sinha89@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Subject: Re: [PATCH RFC v4 0/1] Virtio Video Device Specification
+Date:   Mon, 6 Jul 2020 12:49:27 +0200
+Message-ID: <5365344.WxEP8abb2G@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAAFQd5CQuDgvZrYC53yKEYBY1LOX2QO8+7eRAscN5wQFmHmkZQ@mail.gmail.com>
+References: <20200623111325.237158-1-keiichiw@chromium.org> <CAPBb6MXju_cc3FdWF60Ndx6aYfHmaGbQxu2a3QMxTfnLrXJxYQ@mail.gmail.com> <CAAFQd5CQuDgvZrYC53yKEYBY1LOX2QO8+7eRAscN5wQFmHmkZQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200626171130.27346-2-ezequiel@collabora.com>
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h2vJGzwXeGW+hCLrj?=
- =?us-ascii?Q?dhOVvE6NWrUK6wFWeiUTqhwTnvLUFyzDIZaB8lm?=
- =?us-ascii?Q?aJqcyCVh4Z8Bl772YUAcGAX576Qsb5qQqHbfpNB?=
- =?us-ascii?Q?L5bJAF+2spZBrBmCctDWy79T7r=2FGD0saK0xx37P?=
- =?us-ascii?Q?BJiURZ4j5RPU4+skcv33yaKpeGvsiZ7HXcAELnp?=
- =?us-ascii?Q?0RuEbJ7Td7CGvJKqYFNjg=3D=3D?=
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com
-Content-Type: text/plain; charset=us-ascii
-Content-Language: sv
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
+X-MBO-SPAM-Probability: 0
+X-Rspamd-Score: -5.16 / 15.00 / 200.00
+X-Rspamd-Queue-Id: 0C8C3B9F39
+X-Rspamd-UID: 81d474
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-06-26 19:11, Ezequiel Garcia wrote:
-> The hardware only supports 4:2:2, 4:2:0 or 4:0:0 (monochrome),
-> 8-bit or 10-bit depth content.
+Hi Alexandre, Tomasz,
+
+Thank  you very much for your feedback.
+
+Yes, unfortunately we cannot disable dmabuf mode as it is currently mandatory 
+for Android.
+
+AFAIU the work to have this ready in the main v4l2 spec requires time. But in 
+the virtio-video spec we indeed can mention something like that the device 
+does not expected the backing memory for an existing resource id to change.
+
+Best regards,
+Dmitry.
+
+On Freitag, 3. Juli 2020 11:55:29 CEST Tomasz Figa wrote:
+> On Fri, Jul 3, 2020 at 11:27 AM Alexandre Courbot <acourbot@chromium.org> 
+wrote:
+> > On Fri, Jul 3, 2020 at 6:18 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > On Fri, Jul 03, 2020 at 02:45:15PM +0900, Alexandre Courbot wrote:
+> > > > Hi Dmitry,
+> > > > 
+> > > > On Thu, Jul 2, 2020 at 10:47 PM Dmitry Sepp 
+<dmitry.sepp@opensynergy.com> wrote:
+> > > > > Hi Keiichi,
+> > > > > 
+> > > > > Thanks for the clarification. I believe we should explicitly
+> > > > > describe this in the VIRTIO_VIDEO_CMD_RESOURCE_ATTACH section. And
+> > > > > I also still see a problem there. If it is a guest allocated
+> > > > > resource, we cannot consider it to be free until the device really
+> > > > > releases it. And it won't happen until we issue the next ATTACH
+> > > > > call. Also, as we discussed before, it might be not possible to
+> > > > > free individual buffers, but the whole queue only.
+> > > > 
+> > > > In the case of the encoder, a V4L2 driver is not supposed to let
+> > > > user-space dequeue an input frame while it is used as reference for
+> > > > the encoding process. So if we add a similar rule in the virtio-video
+> > > > specification, I suppose this would solve the problem?
+> > > > 
+> > > > For the decoder case, we have a bigger problem though. Since DMABUFs
+> > > > can be arbitrarily attached to any V4L2 buffer ID, we may end up
+> > > > re-queueing the DMABUF of a decoded frame that is still used as
+> > > > reference under a different V4L2 buffer ID. In this case I don't think
+> > > > the driver has a way to know that the memory resource should not be
+> > > > overwritten, and it will thus happily use it as a decode target. The
+> > > > easiest fix is probably to update the V4L2 stateful specification to
+> > > > require that reused DMABUFs must always be assigned to the same V4L2
+> > > > buffer ID, and must be kept alive as long as decoding is in progress,
+> > > > or until a resolution change event is received. We can then apply a
+> > > > similar rule to the virtio device.
+> > > 
+> > > Sounds like a generic kind of problem - how do other devices solve it?
+> > 
+> > Most users of V4L2 drivers use MMAP buffers, which don't suffer from
+> > this problem: since MMAP buffers are managed by V4L2 and the same V4L2
+> > buffer ID always corresponds to the same backing memory, the driver
+> > just needs to refrain from decoding into a given V4L2 buffer as long
+> > as it is used as a reference frames. This is something that all
+> > drivers currently do AFAICT.
+> > 
+> > The problem only occurs if you let userspace map anything to V4L2
+> > buffers (USERPTR or DMABUF buffers). In order to guarantee the same
+> > reliable behavior as with MMAP buffers, you must enforce the same
+> > rule: always the same backing memory for a given V4L2 buffer.
+> > 
+> > ... or you can rotate between a large enough number of buffers to
+> > leave enough space for the reference tag to expire on your frames, but
+> > that's clearly not a good way to address the problem.
 > 
-> Verify that the PPS refers to a supported bitstream, and refuse
-
-This should be SPS not PPS, same for hantro patch.
-
-> unsupported bitstreams by failing at TRY_EXT_CTRLS time.
+> FWIW, it's typically solved with regular devices by completely
+> disallowing the DMABUF/USERPTR modes and only allowing the
+> V4L2-managed MMAP mode for affected buffer queues.
 > 
-> The driver is currently broken on 10-bit and 4:2:2
-> so disallow those as well.
+> However, that's quite a severe limitation and with a careful API
+> extension, DMABUF could be still handled. Namely:
+>  - pre-registration of buffers at initialization time: that would
+> likely mean mandating VIDIOC_QBUF for all indexes before any
+> decoding/encoding can start,
+>  - enforcement of index-buffer mapping: VIDIOC_QBUF would have to fail
+> if one attempts to queue another buffer at the same index,
+>  - ability to explicitly release existing buffers: there is
+> VIDIOC_RELEASE_BUF in the works which could be used to release a
+> specific index,
+>  - ability to explicitly add new buffers: a combination of
+> VIDIOC_CREATEBUFS + VIDIOC_QBUF could be already used to achieve this.
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 225eeca73356..0f81b47792f6 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -27,6 +27,32 @@
->  #include "rkvdec.h"
->  #include "rkvdec-regs.h"
->  
-> +static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	if (ctrl->id == V4L2_CID_MPEG_VIDEO_H264_SPS) {
-> +		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_cur.p;
+> Best regards,
+> Tomasz
 
-This should be p_new and not p_cur to validate the new ctrl value, same for hantro patch.
 
-With both fixed this and the hantro patch is,
-
-Reviewed-by: Jonas Karlman <jonas@kwiboo.se>
-
-Regards,
-Jonas
-
-> +		/*
-> +		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
-> +		 * but it's currently broken in the driver.
-> +		 * Reject them for now, until it's fixed.
-> +		 */
-> +		if (sps->chroma_format_idc > 1)
-> +			/* Only 4:0:0 and 4:2:0 are supported */
-> +			return -EINVAL;
-> +		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-> +			/* Luma and chroma bit depth mismatch */
-> +			return -EINVAL;
-> +		if (sps->bit_depth_luma_minus8 != 0)
-> +			/* Only 8-bit is supported */
-> +			return -EINVAL;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
-> +	.try_ctrl = rkvdec_try_ctrl,
-> +};
-> +
->  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->  	{
->  		.per_request = true,
-> @@ -42,6 +68,7 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->  		.per_request = true,
->  		.mandatory = true,
->  		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SPS,
-> +		.cfg.ops = &rkvdec_ctrl_ops,
->  	},
->  	{
->  		.per_request = true,
-> 
