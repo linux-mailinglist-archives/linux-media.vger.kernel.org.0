@@ -2,301 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5677214F4F
-	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2020 22:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D065215160
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2020 05:36:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728305AbgGEUbx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Jul 2020 16:31:53 -0400
-Received: from mga11.intel.com ([192.55.52.93]:2993 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728090AbgGEUbx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 5 Jul 2020 16:31:53 -0400
-IronPort-SDR: xCV+Ql9+K/W3glPnpOI41Quf4P8zEPBQedEqerGj7VWQ+e6wE+YGjc+T1XE/voXI1ET8SDKVsF
- rFwv11zp2//A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9673"; a="145443385"
-X-IronPort-AV: E=Sophos;i="5.75,317,1589266800"; 
-   d="scan'208";a="145443385"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2020 13:31:45 -0700
-IronPort-SDR: 6h+ZCS29DqyC7XgZMqQX1tM9mQxKRjRfsuuJjbvrbO5WkHwBIo49ov4yECH9EiLznnQaFW+YJf
- Y3mqGk/Z6lIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,317,1589266800"; 
-   d="scan'208";a="279076343"
-Received: from lkp-server01.sh.intel.com (HELO 6dc8ab148a5d) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 05 Jul 2020 13:31:44 -0700
-Received: from kbuild by 6dc8ab148a5d with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jsBId-0001vj-80; Sun, 05 Jul 2020 20:31:43 +0000
-Date:   Mon, 06 Jul 2020 04:31:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- 6f01dfb760c027d5dd6199d91ee9599f2676b5c6
-Message-ID: <5f02389c.kj98xDSpIZND6OA9%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        id S1728714AbgGFDgI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Jul 2020 23:36:08 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:39797 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728634AbgGFDgI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 5 Jul 2020 23:36:08 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id sHvJjMQWkmVFqsHvKjCLZK; Mon, 06 Jul 2020 05:36:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594006566; bh=PZwKVXm56WfOLcJt6K3xrjKSoeFVG58QRdpNBvjvx8U=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=ZwKKJNY3MfLc90s1LtVJ+QXvAjnvCeZDMBUUM1Dnw2Ur5P/2AQDK7IA4C1JBUe7av
+         ISoci+kM3pKPV2oSMAdg6SFqM3ZRdux92yZrSUnf3tyUSSItdGO0hvv6oE34GLoBpO
+         EFRaeYooyn1HQfkyzmiQBDxPqJj6BL5+k97L5MAhTlwfyzhuUMQ1O1oM/2n+zMNZMV
+         BIa45xMeJB5Y7Kdl6M5NzW/V9G6scsqxWM7fPXRvJ4M020A9Up68Wyofp42SAyQMNL
+         C5ewxzV9md/qX5dp770N5IxOIRigZZ22zKR1Dr5X6w05NUJwmihRvGjfXbkGFHiShW
+         Fr/pwnzhIdZ7A==
+Message-ID: <06357314f628ce20f14c591d3f2a0064@smtp-cloud8.xs4all.net>
+Date:   Mon, 06 Jul 2020 05:36:05 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfDvelNQ0tLRXfw/sBBj2WL6EehnjokbqdibSQiTgKylcpZprimdGUY8jVBDf3tI7qcLxVPLRzAjFc5xKrNzOK+9gLQJAGeIZvT/teX4lKFj8y4Gfo0/p
+ Un2Q3aG+RoZemOesC7He3kDMArv/aZiQos2CWOKas3D+ph8nGHBDN5lVl2mBbDd7fUI2He7NxwL8BTh4ow+OssMldHxdLIfUtao2SzWTzckB9MC4uXYuMxJ2
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: 6f01dfb760c027d5dd6199d91ee9599f2676b5c6  media: cros-ec-cec: do not bail on device_init_wakeup failure
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-elapsed time: 2011m
+Results of the daily build of media_tree:
 
-configs tested: 239
-configs skipped: 31
+date:			Mon Jul  6 05:00:09 CEST 2020
+media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
+media_build git hash:	39a7ce1e32308668ff1493247747e26b4367c6fe
+v4l-utils git hash:	54e1a8008ed1ca9076e89b1c750d6727324d545b
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6154-g2f65f604
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.169-i686: ERRORS
+linux-4.14.169-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: ERRORS
 
-arm                                 defconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-mips                           ip28_defconfig
-powerpc                     pq2fads_defconfig
-arm                         at91_dt_defconfig
-sh                           cayman_defconfig
-arm                       aspeed_g4_defconfig
-m68k                         amcore_defconfig
-arc                             nps_defconfig
-arm                        trizeps4_defconfig
-microblaze                    nommu_defconfig
-m68k                        m5407c3_defconfig
-sh                               allmodconfig
-arm                         s5pv210_defconfig
-arm                             ezx_defconfig
-arm                  colibri_pxa270_defconfig
-h8300                       h8s-sim_defconfig
-arc                        nsim_700_defconfig
-c6x                        evmc6472_defconfig
-m68k                        m5272c3_defconfig
-arc                        nsimosci_defconfig
-mips                      malta_kvm_defconfig
-arm                          ep93xx_defconfig
-openrisc                 simple_smp_defconfig
-riscv                            alldefconfig
-h8300                    h8300h-sim_defconfig
-arm                         s3c2410_defconfig
-mips                        vocore2_defconfig
-mips                           ip27_defconfig
-sh                         apsh4a3a_defconfig
-arc                 nsimosci_hs_smp_defconfig
-sh                            titan_defconfig
-powerpc                     skiroot_defconfig
-arm                         assabet_defconfig
-powerpc                      ppc40x_defconfig
-arm                         cm_x300_defconfig
-sh                 kfr2r09-romimage_defconfig
-mips                         tb0219_defconfig
-sh                               j2_defconfig
-arm                          lpd270_defconfig
-h8300                     edosk2674_defconfig
-nios2                         10m50_defconfig
-arm                          pxa3xx_defconfig
-arm                       imx_v6_v7_defconfig
-mips                          ath25_defconfig
-powerpc                      ppc6xx_defconfig
-ia64                             allmodconfig
-xtensa                              defconfig
-arm                      jornada720_defconfig
-powerpc                       maple_defconfig
-mips                      pistachio_defconfig
-h8300                               defconfig
-arm                          simpad_defconfig
-xtensa                         virt_defconfig
-sh                          landisk_defconfig
-m68k                        stmark2_defconfig
-sh                           se7780_defconfig
-sh                          rsk7264_defconfig
-arm                           efm32_defconfig
-sh                               alldefconfig
-powerpc                    mvme5100_defconfig
-mips                          rb532_defconfig
-xtensa                          iss_defconfig
-m68k                       m5475evb_defconfig
-arm                        vexpress_defconfig
-arm                         lpc32xx_defconfig
-mips                   sb1250_swarm_defconfig
-powerpc                  mpc885_ads_defconfig
-arm                   milbeaut_m10v_defconfig
-sh                        dreamcast_defconfig
-openrisc                    or1ksim_defconfig
-arc                        vdk_hs38_defconfig
-mips                         bigsur_defconfig
-arm                           tegra_defconfig
-m68k                             alldefconfig
-arc                      axs103_smp_defconfig
-ia64                          tiger_defconfig
-arm                         vf610m4_defconfig
-mips                        jmr3927_defconfig
-arm                         nhk8815_defconfig
-arm                             pxa_defconfig
-powerpc                      mgcoge_defconfig
-arm                         bcm2835_defconfig
-mips                        maltaup_defconfig
-m68k                            mac_defconfig
-sh                     magicpanelr2_defconfig
-mips                             allyesconfig
-arc                           tb10x_defconfig
-ia64                         bigsur_defconfig
-sh                           se7705_defconfig
-parisc                           alldefconfig
-arm                          imote2_defconfig
-nios2                               defconfig
-arm                        clps711x_defconfig
-xtensa                    xip_kc705_defconfig
-mips                         rt305x_defconfig
-sparc64                          alldefconfig
-powerpc                         wii_defconfig
-sh                          rsk7269_defconfig
-sparc                            alldefconfig
-arm                           viper_defconfig
-arm                         orion5x_defconfig
-m68k                          multi_defconfig
-arm                       imx_v4_v5_defconfig
-arm                             rpc_defconfig
-arm                         mv78xx0_defconfig
-s390                                defconfig
-arm                         socfpga_defconfig
-mips                            e55_defconfig
-powerpc                     powernv_defconfig
-arm                         s3c6400_defconfig
-m68k                          atari_defconfig
-arm                           u8500_defconfig
-mips                    maltaup_xpa_defconfig
-arm                              zx_defconfig
-powerpc                          g5_defconfig
-arc                          axs103_defconfig
-arc                                 defconfig
-arm                          prima2_defconfig
-powerpc                      ppc64e_defconfig
-h8300                            alldefconfig
-sh                      rts7751r2d1_defconfig
-mips                     loongson1b_defconfig
-mips                           xway_defconfig
-ia64                              allnoconfig
-arm                          tango4_defconfig
-sh                            shmin_defconfig
-mips                     cu1000-neo_defconfig
-alpha                            allyesconfig
-powerpc                      ppc44x_defconfig
-powerpc                        cell_defconfig
-um                            kunit_defconfig
-powerpc                          alldefconfig
-arm                           stm32_defconfig
-arc                            hsdk_defconfig
-powerpc                     mpc5200_defconfig
-i386                             alldefconfig
-mips                      fuloong2e_defconfig
-mips                           jazz_defconfig
-parisc                generic-64bit_defconfig
-arm                           spitz_defconfig
-powerpc                          allyesconfig
-mips                         db1xxx_defconfig
-arm                         lubbock_defconfig
-arm                          iop32x_defconfig
-sh                             espt_defconfig
-um                             i386_defconfig
-sh                           se7721_defconfig
-powerpc                  storcenter_defconfig
-m68k                       m5249evb_defconfig
-sh                          r7785rp_defconfig
-arm                      footbridge_defconfig
-arm                          badge4_defconfig
-m68k                            q40_defconfig
-arc                    vdk_hs38_smp_defconfig
-arc                     nsimosci_hs_defconfig
-sh                              ul2_defconfig
-arm                          pxa168_defconfig
-powerpc                          allmodconfig
-mips                           gcw0_defconfig
-nios2                         3c120_defconfig
-c6x                        evmc6678_defconfig
-sh                   sh7770_generic_defconfig
-sparc64                          allmodconfig
-microblaze                        allnoconfig
-sparc                               defconfig
-arm                             mxs_defconfig
-riscv                            allyesconfig
-m68k                          sun3x_defconfig
-sparc                       sparc32_defconfig
-ia64                        generic_defconfig
-arm                           sunxi_defconfig
-powerpc                      chrp32_defconfig
-mips                 pnx8335_stb225_defconfig
-riscv                             allnoconfig
-sh                         ecovec24_defconfig
-mips                 decstation_r4k_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-arc                              allyesconfig
-sh                                allnoconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                          rhel-kconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc                            allyesconfig
-sparc64                          allyesconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
+Detailed results are available here:
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
