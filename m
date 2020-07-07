@@ -2,88 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01E43216D7C
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 15:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18CAE216D96
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 15:21:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbgGGNK5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jul 2020 09:10:57 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:41531 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725944AbgGGNK5 (ORCPT
+        id S1726951AbgGGNV0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jul 2020 09:21:26 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:50789 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726900AbgGGNV0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Jul 2020 09:10:57 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id snMVjDAkJBncFsnMZjwRjB; Tue, 07 Jul 2020 15:10:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594127455; bh=pd3a3+tEKDT43eb/Wrq0L50i+p5wtv9fUZJAnoZ+LG8=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=dc9SnNiqx9PMcKKDrS5v0yHh5kuk7+vKs1m3SicQHhpEPdJuIBpSrDu4uszffwRDU
-         LK9ngfO99k0sRJhoqyhQHm+wWRpzS5SYyt7JiWfDTP7MDgiiAnNC9ptpSkGfgMkRm+
-         0tCNUq8qYlQFqyR6EuOGQrppbXqq4ras6m5YwkleXIzzpsSMhCqhZT0acjMZjvjHi2
-         dGthOMLObGhToGjStTp/LIYwoXVhDjWbwC0IyW0suitjD6XofSuDd18/8YBknzx4+G
-         ZOjUhPFDxUKnBVWVz7SdHk4imGgjja0+h6cFPzMEogpOa4JtHgLYluBPPTJ/x9AN4+
-         F/L4q6M7wQ8Iw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Maxime Ripard <mripard@kernel.org>,
+        Tue, 7 Jul 2020 09:21:26 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 512BE5C0232;
+        Tue,  7 Jul 2020 09:21:25 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Tue, 07 Jul 2020 09:21:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=O
+        5woqjW31r+xUUJXaDTZAQv37JGdpLetM3NmoBX1eUc=; b=m2k6zMlWBaeEpH6nY
+        eCecCg3NschnJnE+gnzuq4feCrGzSJ30g1ID+AOTfs8Jvxd9k9VfzPugQjaGBUPW
+        KQ3MyKXVefBrslSV/MEWXn3KIbSnOOpLNUrMVC6VffxzfwtJ1pajPGKp+IQC7FYw
+        JG7Ln/Qd+Qe7A+zaI6QwvJHQB89PLJq3p3bSJ7+4U6QJfAOpWHhXRwVgPSePcpr1
+        cLA9dDvswDB4ygNXUvh89F+VptkfXNHYZGuJqdckEnXd/OdRtGD+7M6+Eli131o/
+        rcxFD1U7j/wFgLvi99aYguvkMjLQkow6GJWNzY+LMNpmQSOo88d35ZRi6bWFWCih
+        12f5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=O5woqjW31r+xUUJXaDTZAQv37JGdpLetM3NmoBX1e
+        Uc=; b=axvmMILo8HsaJ1RSJqZdhhlUMcnTKZ9DDaANx2yT/31WWn6aVwJyvIXCz
+        hZdj6B+7hBeod87r55hFjKlrqXIm1ohMpf9nOBZ3Iw8WY1reVB+yr/5EKTfzpuQ2
+        Vc2y6v80i8BIbBVR/9IMx8/qefvTsGln8qtUV1uUWqJsqD2RdUyFPfBvs5WdXN98
+        WFEb60IRRRGMfTeprf6tUvVpA3T/itJrr57N9LmEEo6qXoFBajPPZDnm/PIJjLfj
+        rGPuuMDTKR6HjCWylzMLvoYAnlic3PxNzqEMC/P1n65qXuXzp64LWZ+aptaBpJQm
+        +d5qJ3YGuSBx1hoffpT/Fcdpi1Geg==
+X-ME-Sender: <xms:1HYEX6L4Bq2FFcG7Qc2KKjgFBAOHqGsodrq2vbJEJ9rIV_ex63vnOg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehgdehkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeeludeg
+    vddunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:1HYEXyKFp-iM2kyoFEVYJcrMm4qTHgzHw6nybQG5cAtEUq_5axHDQQ>
+    <xmx:1HYEX6uTqL9OVdnu2e5u-YRswyIhWXGlDM5Hk77_6DpmZSfhLhWA4w>
+    <xmx:1HYEX_bt-b9rDJbMUHP1vafRejMrdA6nhGiuWo23koHkzDaNdiNbYA>
+    <xmx:1XYEXz169tT1WFcQxFApmZpQURMb28oahobGDrpaW2A1wgDtir3qlA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 602BF30600A9;
+        Tue,  7 Jul 2020 09:21:24 -0400 (EDT)
+Date:   Tue, 7 Jul 2020 15:21:22 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Yong Deng <yong.deng@magewell.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] sunxi-csi: fill in bus_info of media device
-Message-ID: <94a6af12-23b5-435c-8604-6eedfb5aa41c@xs4all.nl>
-Date:   Tue, 7 Jul 2020 15:10:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Subject: Re: [PATCH] sunxi-csi: fill in bus_info of media device
+Message-ID: <20200707132122.dnfv5lcysppxjbjl@gilmour.lan>
+References: <94a6af12-23b5-435c-8604-6eedfb5aa41c@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGhYw2tv9W4XA7T76rJJ8rYnySuzTnM3dv7hTuAu/gYuIkpsH6kxzXL3ysYbEjBSSPfPLR30X4VGPHeutuujDxeoUqEC73Ayus+1RW2h/94SPjNuLGz+
- QXu59TAIAbHJ4OG6gXgIRhjOqE6Kk/ennqrnYEYYX5hTlKHT0jR68ya/p0iheB0W+fv5iWRU5MMBK9N6RduuPsR/JTyDxuBTjxaDd21dnYge+5z/NRc5ZYL+
- 8OYQ+YVQ/HHAjQGQ53edjg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <94a6af12-23b5-435c-8604-6eedfb5aa41c@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This fixes a v4l2-compliance warning:
+On Tue, Jul 07, 2020 at 03:10:15PM +0200, Hans Verkuil wrote:
+> This fixes a v4l2-compliance warning:
+>=20
+> Required ioctls:
+>                 warn: v4l2-test-media.cpp(52): empty bus_info
+>         test MEDIA_IOC_DEVICE_INFO: OK
+>=20
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Required ioctls:
-                warn: v4l2-test-media.cpp(52): empty bus_info
-        test MEDIA_IOC_DEVICE_INFO: OK
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 2 ++
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 2 ++
- 2 files changed, 4 insertions(+)
-
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-index eff34ded6305..5319eb1ab309 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-@@ -191,6 +191,8 @@ static int sun4i_csi_probe(struct platform_device *pdev)
- 	strscpy(csi->mdev.model, "Allwinner Video Capture Device",
- 		sizeof(csi->mdev.model));
- 	csi->mdev.hw_revision = 0;
-+	snprintf(csi->mdev.bus_info, sizeof(csi->mdev.bus_info), "platform:%s",
-+		 dev_name(csi->dev));
- 	media_device_init(&csi->mdev);
- 	csi->v4l.mdev = &csi->mdev;
-
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index 055eb0b8e396..28e89340fed9 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -733,6 +733,8 @@ static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
- 	strscpy(csi->media_dev.model, "Allwinner Video Capture Device",
- 		sizeof(csi->media_dev.model));
- 	csi->media_dev.hw_revision = 0;
-+	snprintf(csi->media_dev.bus_info, sizeof(csi->media_dev.bus_info),
-+		 "platform:%s", dev_name(csi->dev));
-
- 	media_device_init(&csi->media_dev);
- 	v4l2_async_notifier_init(&csi->notifier);
--- 
-2.27.0
-
+Thanks!
+Maxime
