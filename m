@@ -2,67 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B90782178AA
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 22:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EAD02178B1
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 22:12:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728508AbgGGUMr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jul 2020 16:12:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49502 "EHLO
+        id S1728521AbgGGUMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jul 2020 16:12:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728303AbgGGUMq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jul 2020 16:12:46 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94308C08C5DC
-        for <linux-media@vger.kernel.org>; Tue,  7 Jul 2020 13:12:46 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id z15so35313410wrl.8
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2020 13:12:46 -0700 (PDT)
+        with ESMTP id S1728509AbgGGUMs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jul 2020 16:12:48 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7373C08C5E1
+        for <linux-media@vger.kernel.org>; Tue,  7 Jul 2020 13:12:47 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id s10so46549955wrw.12
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2020 13:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UGBGWvdQ7uikeFllACLNz+UTtRSJGowmgwCHMdSNNLo=;
-        b=i4Wbb9D5vWR7ZvrtLwuYGSomQJsW13PdSzmWff3tCkJHGhMCGQ/HSW5yxVH79pV46L
-         tGbdgX4hG3qDBztTT4nSZm/jRw+NGvkWAW3puj/5aI3ocSr0a9lVgHUIRWXjL5Q4bmcC
-         ymy40QVqyUlP61mFf/kASiA4K6cTSnd36TinU=
+        bh=R7r8HkxhAltQkANshfUVKOa4w7KadUqkfySsv01pqsM=;
+        b=lUb6/2C1t/0BczmmAESZFVy3ccpSWX6DXL3EcY8slzPmYihQSo/azW2t3/M5JiH14J
+         aK/7fLcwD1euBZpHzS+NZC/FqjYxHmtJM/bpV67xREte7QpEJy9IidpYszMIjAJr487d
+         v4lWU+54O3CYmSUq2eU5Xu9GSbBwur2KbYexU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UGBGWvdQ7uikeFllACLNz+UTtRSJGowmgwCHMdSNNLo=;
-        b=f0OPwO8T/lrorM/ErLzQ3KO3JjI2ifQ5RemGHoqAk6zd2al32r6W7WiOLJ6Q9ZZwXk
-         vXSQf6fz4CGYd+QgXHXHp5qjImev5CgJROv+H/A3xd4vTJCeQ7BdVgB956+4Hnrw2NQ/
-         VXsg7A4943LFlfWZ0PLS7XnonDceTY2HyTK5tt8ikbsPDoJr8KsSCWQ4FmYhDi8LOi/s
-         rH/Etz7YN06c8/rtW7WwenG0wbaTHWqKc3r9Fp3i7uXSOo35RjY9/19pNw2EbDuWR6Mf
-         QZzbvaOu30SkXxpDY14xPsYFtWU6ofaQu20Zk46rXV7iqEYmUVSfJXV3j89Al49DcKc5
-         lFhA==
-X-Gm-Message-State: AOAM532dsEjYf3h8Y/JtI+bP7SnpfU29SMxWKSNIKZCyd2rZAq2BKING
-        NOz2qolrt+K0LlWqcmyOorKdGQ==
-X-Google-Smtp-Source: ABdhPJw3cwqPDCwSU2yLmYLAHgb/GZDKN9L46jfNXwWcxmwRn2v90lLr2GiOpy9wcdxv9hJWpyyOJQ==
-X-Received: by 2002:a5d:40cb:: with SMTP id b11mr56759235wrq.263.1594152765245;
-        Tue, 07 Jul 2020 13:12:45 -0700 (PDT)
+        bh=R7r8HkxhAltQkANshfUVKOa4w7KadUqkfySsv01pqsM=;
+        b=TyiotpWvUH5qR6rJfIY8mDR5W0+iLyf3zhWk5qIUEe3rogxOEFUG2HZ1GKRoKerlEB
+         kB3t2zLq0M5MQH6qCLLCRzywlO5k+G1T6/NeevFp1SerknB9kq6Isl6nkQF76aZpaU+n
+         Hlu5QoDy96k5aHUJf1zw6fhb4ozidAXfMPt8YjMmMJ6nb8Tg8zbkyyC6zq3Mq855e5u7
+         DGMXeE+6teHNlxgAO79XwPf8GX2rJ3YUAmASaAgI1rUhsiE8C13s984wleb39Awhofqb
+         yo+dkUVl6t4W4pmlTgCKlK6EadkGFR9CF7i0HYI2bbr1qpRdmIatdCNt0MGJdY5ayB+Z
+         Nx8A==
+X-Gm-Message-State: AOAM531EiYvK9tAe1AmcPyPTn/AVbL4y4WqdWKgoW2Z+T7+qKyISHLki
+        9j3LcEdFNQ4x28WtXIYPW8ccDQ==
+X-Google-Smtp-Source: ABdhPJxvUfhaain32DYJto8+g+k8DFNdTCbiLFr70tdNRSjr9MfRuytRxDtClvyHP2uJMy0wP4RbzQ==
+X-Received: by 2002:adf:e38b:: with SMTP id e11mr54679740wrm.65.1594152766573;
+        Tue, 07 Jul 2020 13:12:46 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id q7sm2515262wra.56.2020.07.07.13.12.43
+        by smtp.gmail.com with ESMTPSA id q7sm2515262wra.56.2020.07.07.13.12.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2020 13:12:44 -0700 (PDT)
+        Tue, 07 Jul 2020 13:12:46 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Jesse Natalie <jenatali@microsoft.com>,
-        Steve Pronovost <spronovo@microsoft.com>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         amd-gfx@lists.freedesktop.org,
         Chris Wilson <chris@chris-wilson.co.uk>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 03/25] dma-buf.rst: Document why idenfinite fences are a bad idea
-Date:   Tue,  7 Jul 2020 22:12:07 +0200
-Message-Id: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 04/25] drm/vkms: Annotate vblank timer
+Date:   Tue,  7 Jul 2020 22:12:08 +0200
+Message-Id: <20200707201229.472834-5-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
 References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
@@ -74,21 +71,12 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Comes up every few years, gets somewhat tedious to discuss, let's
-write this down once and for all.
+This is needed to signal the fences from page flips, annotate it
+accordingly. We need to annotate entire timer callback since if we get
+stuck anywhere in there, then the timer stops, and hence fences stop.
+Just annotating the top part that does the vblank handling isn't
+enough.
 
-What I'm not sure about is whether the text should be more explicit in
-flat out mandating the amdkfd eviction fences for long running compute
-workloads or workloads where userspace fencing is allowed.
-
-v2: Now with dot graph!
-
-Cc: Jesse Natalie <jenatali@microsoft.com>
-Cc: Steve Pronovost <spronovo@microsoft.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: Mika Kuoppala <mika.kuoppala@intel.com>
-Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Cc: linux-rdma@vger.kernel.org
@@ -98,127 +86,45 @@ Cc: Chris Wilson <chris@chris-wilson.co.uk>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Christian König <christian.koenig@amd.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- Documentation/driver-api/dma-buf.rst     | 70 ++++++++++++++++++++++++
- drivers/gpu/drm/virtio/virtgpu_display.c | 20 -------
- 2 files changed, 70 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/vkms/vkms_crtc.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index f8f6decde359..037ba0078bb4 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -178,3 +178,73 @@ DMA Fence uABI/Sync File
- .. kernel-doc:: include/linux/sync_file.h
-    :internal:
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index ac85e17428f8..a53a40848a72 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -1,5 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0+
  
-+Idefinite DMA Fences
-+~~~~~~~~~~~~~~~~~~~~
++#include <linux/dma-fence.h>
 +
-+At various times &dma_fence with an indefinite time until dma_fence_wait()
-+finishes have been proposed. Examples include:
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_probe_helper.h>
+@@ -14,7 +16,9 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ 	struct drm_crtc *crtc = &output->crtc;
+ 	struct vkms_crtc_state *state;
+ 	u64 ret_overrun;
+-	bool ret;
++	bool ret, fence_cookie;
 +
-+* Future fences, used in HWC1 to signal when a buffer isn't used by the display
-+  any longer, and created with the screen update that makes the buffer visible.
-+  The time this fence completes is entirely under userspace's control.
++	fence_cookie = dma_fence_begin_signalling();
+ 
+ 	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
+ 					  output->period_ns);
+@@ -49,6 +53,8 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ 			DRM_DEBUG_DRIVER("Composer worker already queued\n");
+ 	}
+ 
++	dma_fence_end_signalling(fence_cookie);
 +
-+* Proxy fences, proposed to handle &drm_syncobj for which the fence has not yet
-+  been set. Used to asynchronously delay command submission.
-+
-+* Userspace fences or gpu futexes, fine-grained locking within a command buffer
-+  that userspace uses for synchronization across engines or with the CPU, which
-+  are then imported as a DMA fence for integration into existing winsys
-+  protocols.
-+
-+* Long-running compute command buffers, while still using traditional end of
-+  batch DMA fences for memory management instead of context preemption DMA
-+  fences which get reattached when the compute job is rescheduled.
-+
-+Common to all these schemes is that userspace controls the dependencies of these
-+fences and controls when they fire. Mixing indefinite fences with normal
-+in-kernel DMA fences does not work, even when a fallback timeout is included to
-+protect against malicious userspace:
-+
-+* Only the kernel knows about all DMA fence dependencies, userspace is not aware
-+  of dependencies injected due to memory management or scheduler decisions.
-+
-+* Only userspace knows about all dependencies in indefinite fences and when
-+  exactly they will complete, the kernel has no visibility.
-+
-+Furthermore the kernel has to be able to hold up userspace command submission
-+for memory management needs, which means we must support indefinite fences being
-+dependent upon DMA fences. If the kernel also support indefinite fences in the
-+kernel like a DMA fence, like any of the above proposal would, there is the
-+potential for deadlocks.
-+
-+.. kernel-render:: DOT
-+   :alt: Indefinite Fencing Dependency Cycle
-+   :caption: Indefinite Fencing Dependency Cycle
-+
-+   digraph "Fencing Cycle" {
-+      node [shape=box bgcolor=grey style=filled]
-+      kernel [label="Kernel DMA Fences"]
-+      userspace [label="userspace controlled fences"]
-+      kernel -> userspace [label="memory management"]
-+      userspace -> kernel [label="Future fence, fence proxy, ..."]
-+
-+      { rank=same; kernel userspace }
-+   }
-+
-+This means that the kernel might accidentally create deadlocks
-+through memory management dependencies which userspace is unaware of, which
-+randomly hangs workloads until the timeout kicks in. Workloads, which from
-+userspace's perspective, do not contain a deadlock.  In such a mixed fencing
-+architecture there is no single entity with knowledge of all dependencies.
-+Thefore preventing such deadlocks from within the kernel is not possible.
-+
-+The only solution to avoid dependencies loops is by not allowing indefinite
-+fences in the kernel. This means:
-+
-+* No future fences, proxy fences or userspace fences imported as DMA fences,
-+  with or without a timeout.
-+
-+* No DMA fences that signal end of batchbuffer for command submission where
-+  userspace is allowed to use userspace fencing or long running compute
-+  workloads. This also means no implicit fencing for shared buffers in these
-+  cases.
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index f3ce49c5a34c..af55b334be2f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -314,25 +314,6 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
- 	return &virtio_gpu_fb->base;
+ 	return HRTIMER_RESTART;
  }
  
--static void vgdev_atomic_commit_tail(struct drm_atomic_state *state)
--{
--	struct drm_device *dev = state->dev;
--
--	drm_atomic_helper_commit_modeset_disables(dev, state);
--	drm_atomic_helper_commit_modeset_enables(dev, state);
--	drm_atomic_helper_commit_planes(dev, state, 0);
--
--	drm_atomic_helper_fake_vblank(state);
--	drm_atomic_helper_commit_hw_done(state);
--
--	drm_atomic_helper_wait_for_vblanks(dev, state);
--	drm_atomic_helper_cleanup_planes(dev, state);
--}
--
--static const struct drm_mode_config_helper_funcs virtio_mode_config_helpers = {
--	.atomic_commit_tail = vgdev_atomic_commit_tail,
--};
--
- static const struct drm_mode_config_funcs virtio_gpu_mode_funcs = {
- 	.fb_create = virtio_gpu_user_framebuffer_create,
- 	.atomic_check = drm_atomic_helper_check,
-@@ -346,7 +327,6 @@ void virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
- 	drm_mode_config_init(vgdev->ddev);
- 	vgdev->ddev->mode_config.quirk_addfb_prefer_host_byte_order = true;
- 	vgdev->ddev->mode_config.funcs = &virtio_gpu_mode_funcs;
--	vgdev->ddev->mode_config.helper_private = &virtio_mode_config_helpers;
- 
- 	/* modes will be validated against the framebuffer size */
- 	vgdev->ddev->mode_config.min_width = XRES_MIN;
 -- 
 2.27.0
 
