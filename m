@@ -2,132 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CE322175B0
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 19:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAA0C2175EA
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 20:07:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728471AbgGGRzW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jul 2020 13:55:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728388AbgGGRzV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jul 2020 13:55:21 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D2D9C08C5DC
-        for <linux-media@vger.kernel.org>; Tue,  7 Jul 2020 10:55:21 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id 22so16672wmg.1
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2020 10:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Sc9g6wGOzRwu+DnLXFZTX5cameYasawGNk3OVO7epl8=;
-        b=D7QOnmbuxoxljwvQGT3yaEZJaRFUBDlp64fFWQE1ERpsuzJiBMUztTHlfqlUQ9so2Z
-         H7kFoFEJ3xOi1f0Gb89ost5aAWVhD+vA8aUCzwj2K4+uwU3UHrSHDAkKsLiHN8KfECz7
-         jyc+yQUOvIi3JJY9mZvnaj8Mfqu4S6MDdLTFY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Sc9g6wGOzRwu+DnLXFZTX5cameYasawGNk3OVO7epl8=;
-        b=q7uuBdojgSv2MTb1/U0+me6vTLExh5AUluG0HNx7CXB44gDNZ+K48WQSIp+hSaVlr+
-         P2SaNzJrRuD9NEYwwIqJ1gCFoyN5gnTb3cpsmIqnr3UDZQDOTcUD0BOoFif5kr3zW4aM
-         du8OCnWF7RWhzOsh7AXcTu/hNMNq2b7puqKXFOShlTjeKPnG2eX9OkcmC+UYa1r4ox+O
-         CyBmHERJyREtrGwHDQfLpyPUA3YZ60RWAKNqIp3dL7wrR4CfilcYWGIxWvC+O4UBgPqd
-         fD7nAq71x9fZILU12JSLw7vD8wBqtRkD+EbnAi2Aty6dIp/4+JXVXVRyl9GIB8XMAF5x
-         M3DA==
-X-Gm-Message-State: AOAM531Q25it/OznjQgM6Nd4PSQbQFR/98XQejZh2XqYqCnSlAYqMCJg
-        hxtbcrvA2KMxgHIDjqhYyhC/1g==
-X-Google-Smtp-Source: ABdhPJz88/m48rj8/5SglwbXt+8ksYS3fKh8+pilMr/CD6s/J2Lz8aV+iwPGIQEZ51STz91WaC41TA==
-X-Received: by 2002:a7b:cb92:: with SMTP id m18mr3606166wmi.94.1594144519752;
-        Tue, 07 Jul 2020 10:55:19 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id f16sm1980411wmf.17.2020.07.07.10.55.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2020 10:55:19 -0700 (PDT)
-Date:   Tue, 7 Jul 2020 17:55:17 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Jonathan Bakker <xc-racer2@live.ca>
-Cc:     kyungmin.park@samsung.com, s.nawrocki@samsung.com,
-        mchehab@kernel.org, kgene@kernel.org, krzk@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/11] media: exynos4-is: Fix nullptr when no CSIS device
- present
-Message-ID: <20200707175517.GC2621465@chromium.org>
-References: <20200426022650.10355-1-xc-racer2@live.ca>
- <BN6PR04MB0660EE7304C2BB2E603A8824A3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN6PR04MB0660EE7304C2BB2E603A8824A3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
+        id S1728266AbgGGSHv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jul 2020 14:07:51 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35566 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728036AbgGGSHv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jul 2020 14:07:51 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id C62662A00D5
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: [PATCH] media: staging: rkisp1: improve documentation in file rkisp1-config.h
+Date:   Tue,  7 Jul 2020 20:07:41 +0200
+Message-Id: <20200707180741.23816-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonathan,
+There is some missing documentation of structs and
+fields in rkisp1-config.h. This patch improves the
+documentation.
 
-On Sat, Apr 25, 2020 at 07:26:42PM -0700, Jonathan Bakker wrote:
-> Not all devices use the CSIS device, some may use the FIMC directly in
-> which case the CSIS device isn't registered.  This leads to a nullptr
-> exception when starting the stream as the CSIS device is always
-> referenced.  Instead, if getting the CSIS device fails, try getting the
-> FIMC directly to check if we are using the subdev API
-> 
-> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
-> ---
->  drivers/media/platform/exynos4-is/media-dev.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ .../staging/media/rkisp1/uapi/rkisp1-config.h | 87 ++++++++++++++++---
+ 1 file changed, 73 insertions(+), 14 deletions(-)
 
-Thank you for the patch. Please see my comments inline.
+diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+index b2923b2833d3..7983498bda24 100644
+--- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
++++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+@@ -102,6 +102,7 @@
+  */
+ #define RKISP1_CIF_ISP_LSC_GRAD_TBL_SIZE           8
+ #define RKISP1_CIF_ISP_LSC_SIZE_TBL_SIZE           8
++
+ /*
+  * The following matches the tuning process,
+  * not the max capabilities of the chip.
+@@ -176,6 +177,17 @@ enum rkisp1_cif_isp_exp_meas_mode {
+ 
+ /*---------- PART1: Input Parameters ------------*/
+ 
++/**
++ * struct rkisp1_cif_isp_window -  measurement window.
++ *
++ * Measurements are calculated per window inside the frame.
++ * This struct represents a window for a measurement.
++ *
++ * @h_offs: the horizontal offset of the window from the left of the frame in pixels.
++ * @v_offs: the vertical offset of the window from the top of the frame in pixels.
++ * @h_size: the horizontal size of the window in pixels
++ * @v_size: the vertical size of the window in pixels.
++ */
+ struct rkisp1_cif_isp_window {
+ 	__u16 h_offs;
+ 	__u16 v_offs;
+@@ -265,10 +277,29 @@ struct rkisp1_cif_isp_dpcc_config {
+ 	__u32 rnd_offs;
+ } __packed;
+ 
++/**
++ * struct rkisp1_cif_isp_gamma_corr_curve - gamma curve point definition y-axis (output).
++ *
++ * The reset values define a linear curve which has the same effect as bypass. Reset values are:
++ * gamma_y[0] = 0x0000, gamma_y[1] = 0x0100, ... gamma_y[15] = 0x0f00, gamma_y[16] = 0xfff
++ *
++ * @gamma_y: the values for the y-axis of gamma curve points. Each value is 12 bit.
++ */
+ struct rkisp1_cif_isp_gamma_corr_curve {
+ 	__u16 gamma_y[RKISP1_CIF_ISP_DEGAMMA_CURVE_SIZE];
+ } __packed;
+ 
++/**
++ * struct rkisp1_cif_isp_gamma_curve_x_axis_pnts - De-Gamma Curve definition x increments
++ *		(sampling points). gamma_dx0 is for the lower samples (1-8), gamma_dx1 is for the
++ *		higher samples (9-16). The reset values for both fields is 0x44444444. This means
++ *		that each sample is 4 units away from the previous one on the x-axis.
++ *
++ * @gamma_dx0: gamma curve sample points definitions. Bits 0:2 for sample 1. Bit 3 unused.
++ *		Bits 4:6 for sample 2. bit 7 unused ... Bits 28:30 for sample 8. Bit 31 unused
++ * @gamma_dx1: gamma curve sample points definitions. Bits 0:2 for sample 9. Bit 3 unused.
++ *		Bits 4:6 for sample 10. bit 7 unused ... Bits 28:30 for sample 16. Bit 31 unused
++ */
+ struct rkisp1_cif_isp_gamma_curve_x_axis_pnts {
+ 	__u32 gamma_dx0;
+ 	__u32 gamma_dx1;
+@@ -277,8 +308,10 @@ struct rkisp1_cif_isp_gamma_curve_x_axis_pnts {
+ /**
+  * struct rkisp1_cif_isp_sdg_config - Configuration used by sensor degamma
+  *
+- * @curve_x: gamma curve point definition axis for x
+- * @xa_pnts: x increments
++ * @curve_r: gamma curve point definition axis for red
++ * @curve_g: gamma curve point definition axis for green
++ * @curve_b: gamma curve point definition axis for blue
++ * @xa_pnts: x axis increments
+  */
+ struct rkisp1_cif_isp_sdg_config {
+ 	struct rkisp1_cif_isp_gamma_corr_curve curve_r;
+@@ -310,6 +343,11 @@ struct rkisp1_cif_isp_lsc_config {
+ /**
+  * struct rkisp1_cif_isp_ie_config - Configuration used by image effects
+  *
++ * @effect: values from 'enum v4l2_colorfx'. Possible values are: V4L2_COLORFX_SEPIA,
++ *		V4L2_COLORFX_SET_CBCR, V4L2_COLORFX_AQUA, V4L2_COLORFX_EMBOSS,
++ *		V4L2_COLORFX_SKETCH,   V4L2_COLORFX_BW,   V4L2_COLORFX_NEGATIVE
++ * @color_sel: bits 0:2 - colors bitmask (001 - blue, 010 - green, 100 - red).
++ *		bits 8:15 - Threshold value of the RGB colors for the color selection effect.
+  * @eff_mat_1: 3x3 Matrix Coefficients for Emboss Effect 1
+  * @eff_mat_2: 3x3 Matrix Coefficients for Emboss Effect 2
+  * @eff_mat_3: 3x3 Matrix Coefficients for Emboss 3/Sketch 1
+@@ -353,8 +391,8 @@ struct rkisp1_cif_isp_cproc_config {
+ /**
+  * struct rkisp1_cif_isp_awb_meas_config - Configuration used by auto white balance
+  *
++ * @awb_mode: the awb meas mode. From enum rkisp1_cif_isp_awb_mode_type.
+  * @awb_wnd: white balance measurement window (in pixels)
+- *	     (from enum rkisp1_cif_isp_awb_mode_type)
+  * @max_y: only pixels values < max_y contribute to awb measurement, set to 0
+  *	   to disable this feature
+  * @min_y: only pixels values > min_y contribute to awb measurement
+@@ -366,6 +404,7 @@ struct rkisp1_cif_isp_cproc_config {
+  *	    (ucFrames=0 means 1 Frame)
+  * @awb_ref_cr: reference Cr value for AWB regulation, target for AWB
+  * @awb_ref_cb: reference Cb value for AWB regulation, target for AWB
++ * @enable_ymax_cmp: enable Y_MAX compare (Not valid in RGB measurement mode.)
+  */
+ struct rkisp1_cif_isp_awb_meas_config {
+ 	/*
+@@ -386,7 +425,15 @@ struct rkisp1_cif_isp_awb_meas_config {
+ /**
+  * struct rkisp1_cif_isp_awb_gain_config - Configuration used by auto white balance gain
+  *
+- * out_data_x = ( AWB_GEAIN_X * in_data + 128) >> 8
++ * All fields in this struct are 10 bit, where:
++ * 0x100h = 1, unsigned integer value, range 0 to 4 with 8 bit fractional part.
++ *
++ * out_data_x = ( AWB_GAIN_X * in_data + 128) >> 8
++ *
++ * @gain_red: gain value for red component.
++ * @gain_green_r: gain value for green component in red line.
++ * @gain_blue: gain value for blue component.
++ * @gain_green_b: gain value for green component in blue line.
+  */
+ struct rkisp1_cif_isp_awb_gain_config {
+ 	__u16 gain_red;
+@@ -398,12 +445,24 @@ struct rkisp1_cif_isp_awb_gain_config {
+ /**
+  * struct rkisp1_cif_isp_flt_config - Configuration used by ISP filtering
+  *
++ * All 4 threshold fields (thresh_*) are 10 bits.
++ * All 6 factor fields (fac_*) are 6 bits.
++ *
+  * @mode: ISP_FILT_MODE register fields (from enum rkisp1_cif_isp_flt_mode)
+- * @grn_stage1: ISP_FILT_MODE register fields
+- * @chr_h_mode: ISP_FILT_MODE register fields
+- * @chr_v_mode: ISP_FILT_MODE register fields
++ * @grn_stage1: Green filter stage 1 select (range 0x0...0x8)
++ * @chr_h_mode: Chroma filter horizontal mode
++ * @chr_v_mode: Chroma filter vertical mode
++ * @thresh_bl0: If thresh_bl1 < sum_grad < thresh_bl0 then fac_bl0 is selected (blurring th)
++ * @thresh_bl1: If sum_grad < thresh_bl1 then fac_bl1 is selected (blurring th)
++ * @thresh_sh0: If thresh_sh0 < sum_grad < thresh_sh1 then thresh_sh0 is selected (sharpening th)
++ * @thresh_sh1: If thresh_sh1 < sum_grad then thresh_sh1 is selected (sharpening th)
++ * @lum_weight: Parameters for luminance weight function.
++ * @fac_sh1: filter factor for sharp1 level
++ * @fac_sh0: filter factor for sharp0 level
++ * @fac_mid: filter factor for mid level and for static filter mode
++ * @fac_bl0: filter factor for blur 0 level
++ * @fac_bl1: filter factor for blur 1 level (max blur)
+  *
+- * refer to REF_01 for details.
+  */
+ 
+ struct rkisp1_cif_isp_flt_config {
+@@ -799,12 +858,12 @@ struct rkisp1_cif_isp_hist_stat {
+ } __packed;
+ 
+ /**
+- * struct rkisp1_stat_buffer - Rockchip ISP1 Statistics Data
++ * struct rkisp1_cif_isp_stat - Rockchip ISP1 Statistics Data
+  *
+- * @rkisp1_cif_isp_awb_stat: statistics data for automatic white balance
+- * @rkisp1_cif_isp_ae_stat: statistics data for auto exposure
+- * @rkisp1_cif_isp_af_stat: statistics data for auto focus
+- * @rkisp1_cif_isp_hist_stat: statistics histogram data
++ * @awb: statistics data for automatic white balance
++ * @ae: statistics data for auto exposure
++ * @af: statistics data for auto focus
++ * @hist: statistics histogram data
+  */
+ struct rkisp1_cif_isp_stat {
+ 	struct rkisp1_cif_isp_awb_stat awb;
+@@ -816,7 +875,7 @@ struct rkisp1_cif_isp_stat {
+ /**
+  * struct rkisp1_stat_buffer - Rockchip ISP1 Statistics Meta Data
+  *
+- * @meas_type: measurement types (RKISP1_CIF_ISP_STAT_ definitions)
++ * @meas_type: measurement types (RKISP1_CIF_ISP_STAT_* definitions)
+  * @frame_id: frame ID for sync
+  * @params: statistics data
+  */
+-- 
+2.17.1
 
-> diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-> index 9aaf3b8060d5..5c32abc7251b 100644
-> --- a/drivers/media/platform/exynos4-is/media-dev.c
-> +++ b/drivers/media/platform/exynos4-is/media-dev.c
-> @@ -289,11 +289,26 @@ static int __fimc_pipeline_s_stream(struct exynos_media_pipeline *ep, bool on)
->  		{ IDX_CSIS, IDX_FLITE, IDX_FIMC, IDX_SENSOR, IDX_IS_ISP },
->  	};
->  	struct fimc_pipeline *p = to_fimc_pipeline(ep);
-> -	struct fimc_md *fmd = entity_to_fimc_mdev(&p->subdevs[IDX_CSIS]->entity);
->  	enum fimc_subdev_index sd_id;
->  	int i, ret = 0;
->  
->  	if (p->subdevs[IDX_SENSOR] == NULL) {
-> +		struct fimc_md *fmd;
-> +		struct v4l2_subdev *sd = p->subdevs[IDX_CSIS];
-> +
-> +		if (!sd)
-> +			sd = p->subdevs[IDX_FIMC];
-> +
-> +		if (!sd) {
-> +			/*
-> +			 * If neither CSIS nor FIMC was set up,
-> +			 * it's impossible to have any sensors
-> +			 */
-> +			return -ENODEV;
-> +		}
-> +
-> +		fmd = entity_to_fimc_mdev(&sd->entity);
-> +
-
-Are you sure this is the correct thing to do here? In general, the media
-controller should be instantiated only if there are sensors in the system.
-
-What do you mean by using "the FIMC directly"? Do you mean using it only as
-an m2m image processor or with a sensor, but without the CSIS, which would
-be the case for parallel I/F sensors?
-
-Could you point me to the place where CSIS is always dereferenced? A quick
-look through the code only revealed that everywhere it seems to be guarded
-by a NULL check.
-
-Another thought from looking at the implementation of
-__fimc_pipeline_s_stream() is that it probably shouldn't call s_stream on
-all the subdevices included in seq[], but only on those that are actually
-included as a part of the pipeline. It would be quite a waste of power to
-enable unnecessary hardware.
-
-Best regards,
-Tomasz
