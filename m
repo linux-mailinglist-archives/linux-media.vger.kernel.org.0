@@ -2,86 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18CAE216D96
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 15:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 000F2216DC4
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 15:33:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726951AbgGGNV0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jul 2020 09:21:26 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:50789 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726900AbgGGNV0 (ORCPT
+        id S1727058AbgGGNdc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jul 2020 09:33:32 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:37319 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725944AbgGGNdc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Jul 2020 09:21:26 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 512BE5C0232;
-        Tue,  7 Jul 2020 09:21:25 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 07 Jul 2020 09:21:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=O
-        5woqjW31r+xUUJXaDTZAQv37JGdpLetM3NmoBX1eUc=; b=m2k6zMlWBaeEpH6nY
-        eCecCg3NschnJnE+gnzuq4feCrGzSJ30g1ID+AOTfs8Jvxd9k9VfzPugQjaGBUPW
-        KQ3MyKXVefBrslSV/MEWXn3KIbSnOOpLNUrMVC6VffxzfwtJ1pajPGKp+IQC7FYw
-        JG7Ln/Qd+Qe7A+zaI6QwvJHQB89PLJq3p3bSJ7+4U6QJfAOpWHhXRwVgPSePcpr1
-        cLA9dDvswDB4ygNXUvh89F+VptkfXNHYZGuJqdckEnXd/OdRtGD+7M6+Eli131o/
-        rcxFD1U7j/wFgLvi99aYguvkMjLQkow6GJWNzY+LMNpmQSOo88d35ZRi6bWFWCih
-        12f5w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=O5woqjW31r+xUUJXaDTZAQv37JGdpLetM3NmoBX1e
-        Uc=; b=axvmMILo8HsaJ1RSJqZdhhlUMcnTKZ9DDaANx2yT/31WWn6aVwJyvIXCz
-        hZdj6B+7hBeod87r55hFjKlrqXIm1ohMpf9nOBZ3Iw8WY1reVB+yr/5EKTfzpuQ2
-        Vc2y6v80i8BIbBVR/9IMx8/qefvTsGln8qtUV1uUWqJsqD2RdUyFPfBvs5WdXN98
-        WFEb60IRRRGMfTeprf6tUvVpA3T/itJrr57N9LmEEo6qXoFBajPPZDnm/PIJjLfj
-        rGPuuMDTKR6HjCWylzMLvoYAnlic3PxNzqEMC/P1n65qXuXzp64LWZ+aptaBpJQm
-        +d5qJ3YGuSBx1hoffpT/Fcdpi1Geg==
-X-ME-Sender: <xms:1HYEX6L4Bq2FFcG7Qc2KKjgFBAOHqGsodrq2vbJEJ9rIV_ex63vnOg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehgdehkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeeludeg
-    vddunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:1HYEXyKFp-iM2kyoFEVYJcrMm4qTHgzHw6nybQG5cAtEUq_5axHDQQ>
-    <xmx:1HYEX6uTqL9OVdnu2e5u-YRswyIhWXGlDM5Hk77_6DpmZSfhLhWA4w>
-    <xmx:1HYEX_bt-b9rDJbMUHP1vafRejMrdA6nhGiuWo23koHkzDaNdiNbYA>
-    <xmx:1XYEXz169tT1WFcQxFApmZpQURMb28oahobGDrpaW2A1wgDtir3qlA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 602BF30600A9;
-        Tue,  7 Jul 2020 09:21:24 -0400 (EDT)
-Date:   Tue, 7 Jul 2020 15:21:22 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Yong Deng <yong.deng@magewell.com>
-Subject: Re: [PATCH] sunxi-csi: fill in bus_info of media device
-Message-ID: <20200707132122.dnfv5lcysppxjbjl@gilmour.lan>
-References: <94a6af12-23b5-435c-8604-6eedfb5aa41c@xs4all.nl>
+        Tue, 7 Jul 2020 09:33:32 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id sniVjDFFXBncFsniYjwTGS; Tue, 07 Jul 2020 15:33:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594128810; bh=WamJANEyfL7WdCjxpcgs/P4vsX2osJ0WQh/vL4rQIvM=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=FYrejD48yPCkm8dgyqxQvu9YG+rK4HGsWEZPH5s7mFSlXmPCqALWjBtyVjH7siL3s
+         u4d4+W+xn+HzkWHNlZ1mvl99DLKFUsmBJ4DZWroFIGOVIn8habvGU24yYyCPmyHWP3
+         7e7MIDtJN3UYVkLnVQY4cw0pzHtFP+oLmZmGsqQJ6WqrOtjFs7tF8BKoI2ficjhi4j
+         UXGi2t3+xswasBWBZFP+2MRpxyPIFV4GMnMDUUCaDl+4IgUtCQTv74DyAXtdqcklpb
+         RRte0nOUJ+i3QKJFmsJqzporObucfAtpN7t1dQL+cVJzDcja/AVp+nG8dpo59i5uE7
+         4rFZPSX8Wugyg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Maxime Ripard <mripard@kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] sun4i-csi: drop read/write, enable VB2_DMABUF
+Message-ID: <8bd3a727-f264-5605-906e-62aafbc76e6c@xs4all.nl>
+Date:   Tue, 7 Jul 2020 15:32:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <94a6af12-23b5-435c-8604-6eedfb5aa41c@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCg6gqsUr47v8AWznfuIWPWV8n15oEwErB5AoO9s4IpeN/Q+Gi+bSfV8m3kb4Yndi9o3nvJobedgrjZ9CqGRUGjOu1LazFCmMlbZs7uUom7jZ7C9Lo57
+ fghPbxVYkeb+4pUXeKHj75wEnFh0a1jyHqiEOyKyNigrgwyVa5Gsr3rl6nU3JYiQkk4I0CcdDNd1pexQrKT3ShvB4rYd+Dt5hNE=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 07, 2020 at 03:10:15PM +0200, Hans Verkuil wrote:
-> This fixes a v4l2-compliance warning:
->=20
-> Required ioctls:
->                 warn: v4l2-test-media.cpp(52): empty bus_info
->         test MEDIA_IOC_DEVICE_INFO: OK
->=20
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+For no obvious reason VB2_DMABUF was not enabled. Add this.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Also both read and write file ops were set, but this was not enabled
+in the vb2 io_modes or in the device_caps capabilities. Drop this.
 
-Thanks!
-Maxime
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+index dbc9fe254ffd..2c39cd7f2862 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+@@ -413,7 +413,7 @@ int sun4i_csi_dma_register(struct sun4i_csi *csi, int irq)
+
+ 	q->min_buffers_needed = 3;
+ 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+-	q->io_modes = VB2_MMAP;
++	q->io_modes = VB2_MMAP | VB2_DMABUF;
+ 	q->lock = &csi->lock;
+ 	q->drv_priv = csi;
+ 	q->buf_struct_size = sizeof(struct sun4i_csi_buffer);
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+index 1721e5aee9c6..06bf0d170904 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+@@ -256,8 +256,6 @@ static const struct v4l2_file_operations sun4i_csi_fops = {
+ 	.open		= sun4i_csi_open,
+ 	.release	= sun4i_csi_release,
+ 	.unlocked_ioctl	= video_ioctl2,
+-	.read		= vb2_fop_read,
+-	.write		= vb2_fop_write,
+ 	.poll		= vb2_fop_poll,
+ 	.mmap		= vb2_fop_mmap,
+ };
+
