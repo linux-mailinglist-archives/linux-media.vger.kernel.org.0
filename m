@@ -2,132 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3532C2167F4
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 10:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E132216987
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2020 11:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728300AbgGGIDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jul 2020 04:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726817AbgGGIDs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jul 2020 04:03:48 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2EDBC061755
-        for <linux-media@vger.kernel.org>; Tue,  7 Jul 2020 01:03:47 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id z2so21857278wrp.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2020 01:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vi8QIB3allPIgtc+g0TQIDBLQpQq3t8N/dpOokskUIo=;
-        b=TqS6r/FOFqwjyy0ZYLrNgewmD/GW5FRT6IK4DchWcSREKSGX/AnlKCZxH+MbHoVEY8
-         FpT6X4Wjt2Z510SzVrsKwyLl6iwreWo8yAXQR/YQNKVP++DJ9b6viH/ajhIqp2lCC/vM
-         PaabZ1UTLZ0w/upJq0sj3FeLdn0huKm8VIgG/6FmhUoX8Qo3CWtEcM0JKbLkJu9PgJ5d
-         Bo+hH0tHtIZ6jLcotPdMZ8mK0qS/CqHLHO2sXQS02vuhcsjThc6j0LEdSKRIvcLCKUDl
-         vgjItvckjEDVh6Z0OM+f+lKIXT4YV4grEn/HzhS5dXvuMR38OlhVGl0y5l7A4FWu+kvl
-         VhTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vi8QIB3allPIgtc+g0TQIDBLQpQq3t8N/dpOokskUIo=;
-        b=mysg7npqc+kyam2p/t7Qg+ldd4FyAeMW4CLuczCybCI49FQDv6weghMwDvoFQvSR4Z
-         lOZeO2Pu41tqedTyYIf4zeZ6W/0LVRfInEIDgZE8PnUG2IBEBozrxu7ogVRcZgNi/mPH
-         RdDP0IKo8uFKlg0R+msneoGZD3avx/6hlmkQYDDVFZDPtCPwzBjK7gXZ0Wi0jRK1F8u8
-         PZ93z6qvxTIFhxzb5XlcpHbFyRSMsxiQZ62XXS1JUXeHh/aqi6JfSeGuVKg2wlBTqa/o
-         fVa2xP+CZNJtYLh6Qlp71ih/tHRn0tmR8FMlC4/q+In6qyeCeGDR4gA5VBdz/bStykU8
-         dcBA==
-X-Gm-Message-State: AOAM5304IIlToa/GPQJO5/zJFUNRqU3aJYPYR53OMfIWdU0gd9bJBoie
-        mtwrpYeQTMMovzbZ1Wfv3z1+247AXePGb9Xww3Yuhw==
-X-Google-Smtp-Source: ABdhPJyl4Q71vOqumcQz4YfC1YAuHs6zh2eiNBQQqOIQUkflwCRnOimvIwqwTX7hst2UVshvN1suVKbkXvoRi7qE8O4=
-X-Received: by 2002:adf:b6a4:: with SMTP id j36mr53365270wre.260.1594109026427;
- Tue, 07 Jul 2020 01:03:46 -0700 (PDT)
+        id S1728061AbgGGJvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jul 2020 05:51:37 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53993 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727989AbgGGJvg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 Jul 2020 05:51:36 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id skG9ja2t7udYLskGCjDpn8; Tue, 07 Jul 2020 11:51:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594115494; bh=wrW2ndMvRf9746t4gTaXirXlMPYiGUkGLJPp8M560NU=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=EJLYmExNdtwef0n2X4Oy/yBqwa+9+mStjwO1ogiCb1hlNRFJ732xldEH9FipyaKKO
+         wcrB0KOOF3HkuyHvSa/Ti0EuveBF2NnSi5rzo+RwSQDZsnIlbgudmIvd3rjzFhnTp0
+         M4lKD2P5Gf0tKQuD6jLsRtmo1LvRChlwrI4VXMdyNPXys3nI6th2ycfAXNXwoiMHzg
+         VcWcMnMi1GhyuXlQMCQbXIiiNQhEGoRI1yn1RCZXgmzMX5QMyMOxDTwuHo1GJpiipt
+         JMum+uf/NWg9mteUD2VrrOS0zYppV4xBKBORcwbTE3DjpRHKpU3W1S417iQ+KlS7xq
+         KEhc0t2IJhu2Q==
+Subject: Re: [RFC PATCH v2 11/18] media: tegra-video: Add support for external
+ sensor capture
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com
+Cc:     digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
+ <1592358094-23459-12-git-send-email-skomatineni@nvidia.com>
+ <50deca28-c198-703c-96e2-82c53f48cd65@xs4all.nl>
+ <6e09f5d3-85ca-5bf9-8617-b9c8bec36615@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <64622861-c9e7-c158-a2c3-0db8c65fd29f@xs4all.nl>
+Date:   Tue, 7 Jul 2020 11:51:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200706085240.1979622-1-darekm@google.com> <20200706090056.GI6538@piout.net>
-In-Reply-To: <20200706090056.GI6538@piout.net>
-From:   Dariusz Marcinkiewicz <darekm@google.com>
-Date:   Tue, 7 Jul 2020 10:03:34 +0200
-Message-ID: <CALFZZQH3NaMVuaxt8noWcpWToxwYWdWO_jUOQPvwdtFBPaNLRw@mail.gmail.com>
-Subject: Re: [PATCH] media: cros-ec-cec: disable the device wakeup on remove
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Dariusz Marcinkiewicz <darekm@chromium.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <6e09f5d3-85ca-5bf9-8617-b9c8bec36615@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfHR4Jx+ft4syIU+8bWlQadLr1VYDvYjXsOTuMjwrrwYY2Kz3r4xjX0PLOJfK5CxGpHbXMGybg/CVIFRxxmqO9Cr21dX7AhNAWoXHB61FF0YuSAMEyecw
+ fj8OO2eZCOdhU6DRzs7MknM2mkeJBZpZZW9fsGD8Iw0vGAAhFG1NPFfzTgfF0GDBXa1XqlKwIokMUAhgxZqPq6HA8FO3wTP0oWi8vxUifQYibHu8QUiz9mC7
+ HJF8SUnS3vP1WH6pA5TEHAwIced3F0YPGH2qM9IGyjKsur0h8ZfGpI6dXg9sySexTK905aCYnCDMWT89uWKkNjEJVpa0GVReCDG5i8N3qLcGXUtNTPjFUzw+
+ Av1ChQzesb8gJMFDv+sU1EUc/NAAs+8BoJha7d6Zc76yFbod/+MCryRq5vJM2eCEpIPXApsshy0WtFi76MHo1Q1VhKkAimY7ePAEtBxvKF9w871mORaysguR
+ dBn5XaXhG2WPwD4wjYkcZ0QVJQQKQGuFH1vux2s3/NAFCDesDKXDTlaFSxRWxIt7pwupXIdNkDpJ9eJegttdlUge9wQqAG00+jpiAvxUnRZFuEu6qG4NMMfu
+ PzZIgyZG68UY1eM1SlKiU8COeEmVfUal0u/X+94pr2uIMEXZQVhgdatzZIQPQI1PhC85oUAhSYks6dSeaMPdnvb1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 6, 2020 at 11:00 AM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> On 06/07/2020 10:52:38+0200, Dariusz Marcinkiewicz wrote:
-> > The device is enabled for wake up while the driver is loaded.
-> > For symmetry, disable wakeup when it is removed.
-> >
->
-> This is not necessary as it is handled by the core properly. There are
-> currently 73 calls to device_init_wakeup that are not necessary, this
-> would add one more.
->
-Thank you.
+On 07/07/2020 11:40, Sowjanya Komatineni wrote:
+> 
+> On 7/6/20 2:10 AM, Hans Verkuil wrote:
+>>> +static int tegra_vi_graph_notify_complete(struct v4l2_async_notifier *notifier)
+>>> +{
+>>> +	struct tegra_vi_graph_entity *entity;
+>>> +	struct v4l2_async_subdev *asd;
+>>> +	struct v4l2_subdev *subdev;
+>>> +	struct tegra_vi_channel *chan;
+>>> +	struct tegra_vi *vi;
+>>> +	int ret;
+>>> +
+>>> +	chan = container_of(notifier, struct tegra_vi_channel, notifier);
+>>> +	vi = chan->vi;
+>>> +
+>>> +	dev_dbg(vi->dev, "notify complete, all subdevs registered\n");
+>>> +
+>>> +	ret = video_register_device(&chan->video, VFL_TYPE_VIDEO, -1);
+>> This should be done last after the tegra_vi_graph_build and tegra_channel_setup_ctrl_handler
+>> calls. The video device is immediately accessible after this call, so don't
+>> call it until everything is setup (i.e. until just before the 'return 0;' below).
+>>
+>>> +	if (ret < 0) {
+>>> +		dev_err(vi->dev,
+>>> +			"failed to register video device: %d\n", ret);
+>>> +		goto unregister_video;
+>>> +	}
+>>> +
+>>> +	/* create links between the entities */
+>>> +	list_for_each_entry(asd, &chan->notifier.asd_list, asd_list) {
+>>> +		entity = to_tegra_vi_graph_entity(asd);
+>>> +		ret = tegra_vi_graph_build(chan, entity);
+>>> +		if (ret < 0)
+>>> +			goto unregister_video;
+>>> +	}
+>>> +
+> Hi Hans,
+> 
+> Currently Tegra video driver sets v4l2_dev->mdev prior to graph parse and building links to let media_device_register_entity() to happen
+> during video_register_device() -> video_register_media_controller() and media_device_unregister_entity() to happen during v4l2_device_release()
+> 
+> TPG also does the same of letting media entity register/unregister to happen during video device register and release callback.
+> 
+> So, registering video device prior to media links creation as media_device_register_entity() will happen during video_register_device()
+> 
+> To register video device after creating media links, it need to change for both TPG and Non-TPG to not set v4l2_dev->mdev and Tegra video
+> driver should explicitly take care of media_device_register_entity() and media_device_unregister_entity().
+> 
+> Prior to making this change to both TPG and Non-TPG, would like to understand on possibility of using video device node prior to finishing
+> complete driver probe()
+> 
+> As video device register happens during async notifier complete callback, and all the device graph build happens during video driver probe()
+> what exactly will be the issue of having video device node prior to creating media links?
 
-To make sure - your comment applies even if the device node in
-question is not actually removed, as it is the case here? This is a
-platform dev, which won't be freed when the driver is unloaded.
+It's not the 'create links between the entities' bit that's the problem, it is what follows:
 
-Regards.
++	ret = tegra_channel_setup_ctrl_handler(chan);
++	if (ret < 0) {
++		dev_err(vi->dev,
++			"failed to setup channel controls: %d\n", ret);
++		goto unregister_video;
++	}
++
++	vi_fmts_bitmap_init(chan);
++	subdev = tegra_channel_get_remote_subdev(chan, false);
++	v4l2_set_subdev_hostdata(subdev, chan);
 
+That should be done before the video_register_device call.
 
+Because otherwise the /dev/videoX doesn't have the full set of controls, and
+I am also not certain which ioctls might use the subdev hostdata.
 
-> > Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> > ---
-> >  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> > index 2d95e16cd248..3881ed7bc3d9 100644
-> > --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> > +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> > @@ -277,8 +277,6 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
-> >       platform_set_drvdata(pdev, cros_ec_cec);
-> >       cros_ec_cec->cros_ec = cros_ec;
-> >
-> > -     device_init_wakeup(&pdev->dev, 1);
-> > -
-> >       cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
-> >                                                DRV_NAME,
-> >                                                CEC_CAP_DEFAULTS |
-> > @@ -306,6 +304,8 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
-> >       if (ret < 0)
-> >               goto out_probe_notify;
-> >
-> > +     device_init_wakeup(&pdev->dev, 1);
-> > +
-> >       return 0;
-> >
-> >  out_probe_notify:
-> > @@ -335,6 +335,8 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
-> >                                        cros_ec_cec->adap);
-> >       cec_unregister_adapter(cros_ec_cec->adap);
-> >
-> > +     device_init_wakeup(&pdev->dev, 0);
-> > +
-> >       return 0;
-> >  }
-> >
-> > --
-> > 2.27.0.212.ge8ba1cc988-goog
-> >
->
-> --
-> Alexandre Belloni, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+The core problem is really that video_register_device should have been split
+into an init function and a register function, so it is possible to set
+everything up before registering the video device. Oh well...
+
+Regards,
+
+	Hans
+
+> 
+> I see some other drivers also doing the same order of registering video device prior to creating media links and also we are doing the same
+> in L4T driver as well.
+> 
+> Thanks
+> 
+> Sowjanya
+> 
+> 
+
