@@ -2,109 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F205B218C37
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 17:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 066A3218C53
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 17:57:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730333AbgGHPtK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 11:49:10 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:55959 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730114AbgGHPtI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 11:49:08 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200708154906euoutp01076d69dad2b14a2fe006c8251624f1bd~f0a-htoUK1111411114euoutp01S
-        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 15:49:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200708154906euoutp01076d69dad2b14a2fe006c8251624f1bd~f0a-htoUK1111411114euoutp01S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1594223346;
-        bh=e47WUtElI6NLP2XC8SW6uhTopwHfPoZ79ohPTaIjU74=;
-        h=Subject:To:From:Date:In-Reply-To:References:From;
-        b=ubQ7QgPR+WO2FCPoCTEljPo00kuEqPPs82Kd2zLYmW9kt8b2OA4FWpkshzJ+212RO
-         J7oBchgTib4Ucr+vCibmZgVcOphiSkll5+zI5qnq9FOpEf+GiS+/OJ6ceBV90VLBHr
-         3JZ8PcdqoPrYUIh4hZ7y66ArXlmlQfJM3iNK3gJo=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200708154906eucas1p2ecaf88c8a196c97367658706dce62c38~f0a-PSoVF2185821858eucas1p2p;
-        Wed,  8 Jul 2020 15:49:06 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 6B.5B.06318.2FAE50F5; Wed,  8
-        Jul 2020 16:49:06 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200708154905eucas1p17c549a663b60afe6553a5e36fc79529f~f0a_6oCi41669116691eucas1p1N;
-        Wed,  8 Jul 2020 15:49:05 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200708154905eusmtrp15917e249f0b245d805ba99b11c91db73~f0a_0Kl1h2084320843eusmtrp1Q;
-        Wed,  8 Jul 2020 15:49:05 +0000 (GMT)
-X-AuditID: cbfec7f5-371ff700000018ae-5f-5f05eaf2203f
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 98.F7.06314.1FAE50F5; Wed,  8
-        Jul 2020 16:49:05 +0100 (BST)
-Received: from [106.210.123.115] (unknown [106.210.123.115]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200708154904eusmtip23d1da2cec441403b409b918e6dbcf5fa~f0a_JbAFp0494704947eusmtip2J;
-        Wed,  8 Jul 2020 15:49:04 +0000 (GMT)
-Subject: Re: [PATCH 09/11] media: exynos4-is: Remove unused struct member
- input_index
-To:     Jonathan Bakker <xc-racer2@live.ca>, kyungmin.park@samsung.com,
-        mchehab@kernel.org, kgene@kernel.org, krzk@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
-Message-ID: <273bc27c-666c-3469-131a-b6663cd99913@samsung.com>
-Date:   Wed, 8 Jul 2020 17:49:04 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-        Thunderbird/68.10.0
+        id S1730315AbgGHP5U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 11:57:20 -0400
+Received: from mailoutvs2.siol.net ([185.57.226.193]:39664 "EHLO mail.siol.net"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729022AbgGHP5U (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 Jul 2020 11:57:20 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id D1C385245C3;
+        Wed,  8 Jul 2020 17:57:15 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id eJi2L-kAwrmu; Wed,  8 Jul 2020 17:57:15 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 41CAA52483D;
+        Wed,  8 Jul 2020 17:57:15 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net [194.152.20.232])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id 197785245C3;
+        Wed,  8 Jul 2020 17:57:11 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devel@driverdev.osuosl.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 1/3] media: uapi: h264: update reference lists
+Date:   Wed, 08 Jul 2020 17:57:11 +0200
+Message-ID: <3602665.eG79kSnugm@jernej-laptop>
+In-Reply-To: <CAAEAJfAx4=RGJBVPccVFNYxNUqom7tkQD=J9oMfqajGxn6k+Zg@mail.gmail.com>
+References: <20200604185745.23568-1-jernej.skrabec@siol.net> <20200604185745.23568-2-jernej.skrabec@siol.net> <CAAEAJfAx4=RGJBVPccVFNYxNUqom7tkQD=J9oMfqajGxn6k+Zg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <BN6PR04MB0660C45D4EA577F9D5BD6434A3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUhUYRTte9s8l7HPUfGiZjUZqJRmJjwypMRgfvYjEMylKV9qOmrz1Fx+
-        ZCmWuyY0OgrFpGWCKS83jCyFlHCZNpcWS1DLbUzToFQyx6fkv3PPOfe791w+llSItBMbE5/E
-        a+PVcUrGkmrp/mM8/HOGjjgylctwxeOzJGc0Nsq4/htzMk4cH6K5d+1VDFfQ2Exz5cYOgnsg
-        rhHcm9JR6qSFSqzLZVRPqq+pDB9+U6qipjqkWhJdz9Ahlici+biYFF7rHXDeMvrt5HVZ4ghK
-        NXW7Z6JmlIcsWMDHoKyvks5DlqwC1yIYrv1CmgUFXkbQWekhCUsIdFN3iO2OrIVqQjI9RNA0
-        clkyLSLIWRjceJZl7XAw6AZkZt4eZxHwrbaCMTcw2AcKXxZtjpbjAOisebyJKewGndmlmx4H
-        HA4N062E5LGFVxUTlBlb4DAo7xjd9JDYET5O3CUkvBdaTVWkeRjgFhk8f7HKSJsGgdhTLpOw
-        Hcz0NG1hF+gtK6CkhiwEBU8/yaSiBMHXnntbl/GHzwMrjDkOiT2god1bok9B8f1BmZkGbAMj
-        JltpCRu43aIjJVoOt3IUktsNVut0W4dzgvyJdUrCKihr6SNL0H79jpj6HdH0O6Lp/+9wD1F1
-        yJFPFjRRvOAbz1/1EtQaITk+yutigkZEGz+p92/PrzbUsXahC2EWKa3lUyIdoaDVKUKapgsB
-        Syrt5YH9veEKeaQ6LZ3XJkRok+N4oQs5s5TSUe5rmA5T4Ch1Eh/L84m8dlslWAunTJQiWp0d
-        DgkIPD1/bjQx+FAesrLLcBG8lCnpFTPCGLgOtc1Priwu+zmbdjfAmMFndWTfvHei6ZnHrL7J
-        JReY4fz3RGixwfFAc216ao2bLmadzjLsCU7wy5gr9GRnHR4VXVr5EYrrx0rqs/sPfo/014a/
-        DtrlHntzYtxaOH70ipISotU+nqRWUP8D8lqlfUUDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBIsWRmVeSWpSXmKPExsVy+t/xe7ofX7HGGyxerGbR//g1s8X58xvY
-        Lc42vWG32PT4GqvF5V1z2Cx6NmxltZhxfh+TxbJNf5gsLk68y+LA6bFpVSebx+Yl9R6Lbv5g
-        8ejbsorR4/MmuQDWKD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj81grI1MlfTublNSc
-        zLLUIn27BL2MS08b2QtuMFa8PabRwLiVsYuRk0NCwESi+cMSJhBbSGApo8SeT0ldjBxAcSmJ
-        +S1KECXCEn+udbF1MXIBlbxnlFjSNo0NpEZYIFxi+jl2kLiIQDOTxP/l21ggiu4ySrzY+5oF
-        pJtNwFCi92gf2DJeATuJg0vXgdksAioSB1smsoHYogJxEsu3zGeHqBGUODnzCVgvp0CsxIx9
-        d8FqmAXUJf7Mu8QMYYtL3HoynwnClpfY/nYO8wRGwVlI2mchaZmFpGUWkpYFjCyrGEVSS4tz
-        03OLDfWKE3OLS/PS9ZLzczcxAmNt27Gfm3cwXtoYfIhRgINRiYf3xSbWeCHWxLLiytxDjBIc
-        zEoivE5nT8cJ8aYkVlalFuXHF5XmpBYfYjQFem4is5Rocj4wDeSVxBuaGppbWBqaG5sbm1ko
-        ifN2CByMERJITyxJzU5NLUgtgulj4uCUamAUv2ycevXE8qsBjDM53D4nVMy5773jotSLX/sO
-        bLJdlppyM7790uEYNuGgu/q1fIEhgvOS/pb+vl9p48z27vKupb1ZzIafMi4vW2FXKF24pi7j
-        3rq4uH8lP+q4T1ddzJ759OXpnpWH/Zg7BWQyzy/98PLp1OubTM3Pbrjd4Rw+59Jsc6EiOaaD
-        SizFGYmGWsxFxYkA/asPbssCAAA=
-X-CMS-MailID: 20200708154905eucas1p17c549a663b60afe6553a5e36fc79529f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200426022746eucas1p1960766a3b9a7caee4e83afbb3d8c3e8c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200426022746eucas1p1960766a3b9a7caee4e83afbb3d8c3e8c
-References: <20200426022650.10355-1-xc-racer2@live.ca>
-        <CGME20200426022746eucas1p1960766a3b9a7caee4e83afbb3d8c3e8c@eucas1p1.samsung.com>
-        <BN6PR04MB0660C45D4EA577F9D5BD6434A3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26.04.2020 04:26, Jonathan Bakker wrote:
-> This is no longer used since the conversion to DT
-> 
-> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
+Hi!
 
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Dne sreda, 08. julij 2020 ob 15:28:52 CEST je Ezequiel Garcia napisal(a):
+> Hello Jernej,
+> 
+> I'd like to post a new H264 uAPI cleanup series soon,
+> would you mind resending this, or otherwise do you
+> mind if I include this patch in the series?
+
+I don't mind at all. Currently my focus was elsewhere...
+
+> 
+> See below for a tiny comment.
+> 
+> On Thu, 4 Jun 2020 at 15:55, Jernej Skrabec <jernej.skrabec@siol.net> wrote:
+> > When dealing with with interlaced frames, reference lists must tell if
+> > each particular reference is meant for top or bottom field. This info
+> > is currently not provided at all in the H264 related controls.
+> > 
+> > Make reference lists hold a structure which will also hold flags along
+> > index into DPB array. Flags will tell if reference is meant for top or
+> > bottom field.
+> > 
+> > Currently the only user of these lists is Cedrus which is just compile
+> > fixed here. Actual usage of newly introduced flags will come in
+> > following commit.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> > 
+> >  .../media/v4l/ext-ctrls-codec.rst             | 40 ++++++++++++++++++-
+> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 +--
+> >  include/media/h264-ctrls.h                    | 12 +++++-
+> >  3 files changed, 51 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+> > d0d506a444b1..6c36d298db20 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -1843,10 +1843,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type
+> > -> 
+> >      * - __u32
+> >      
+> >        - ``slice_group_change_cycle``
+> >        -
+> > 
+> > -    * - __u8
+> > +    * - struct :c:type:`v4l2_h264_reference`
+> > 
+> >        - ``ref_pic_list0[32]``
+> >        - Reference picture list after applying the per-slice modifications
+> > 
+> > -    * - __u8
+> > +    * - struct :c:type:`v4l2_h264_reference`
+> > 
+> >        - ``ref_pic_list1[32]``
+> >        - Reference picture list after applying the per-slice modifications
+> >      
+> >      * - __u32
+> > 
+> > @@ -1926,6 +1926,42 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type
+> > -
+> > 
+> >        - ``chroma_offset[32][2]``
+> >        -
+> > 
+> > +``Picture Reference``
+> > +
+> > +.. c:type:: v4l2_h264_reference
+> > +
+> > +.. cssclass:: longtable
+> > +
+> > +.. flat-table:: struct v4l2_h264_reference
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +    :widths:       1 1 2
+> > +
+> > +    * - __u16
+> > +      - ``flags``
+> > +      - See :ref:`Picture Reference Flags <h264_reference_flags>`
+> > +    * - __u8
+> > +      - ``index``
+> > +      -
+> > +
+> > +.. _h264_reference_flags:
+> > +
+> > +``Picture Reference Flags``
+> > +
+> > +.. cssclass:: longtable
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +    :widths:       1 1 2
+> > +
+> > +    * - ``V4L2_H264_REFERENCE_FLAG_TOP_FIELD``
+> > +      - 0x00000001
+> > +      -
+> > +    * - ``V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD``
+> > +      - 0x00000002
+> > +      -
+> > +
+> > 
+> >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS (struct)``
+> >  
+> >      Specifies the decode parameters (as extracted from the bitstream)
+> >      for the associated H264 slice data. This includes the necessary
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
+> > 54ee2aa423e2..cce527bbdf86 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > @@ -166,8 +166,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx
+> > *ctx,> 
+> >  static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+> >  
+> >                                    struct cedrus_run *run,
+> > 
+> > -                                  const u8 *ref_list, u8 num_ref,
+> > -                                  enum cedrus_h264_sram_off sram)
+> > +                                  const struct v4l2_h264_reference
+> > *ref_list, +                                  u8 num_ref, enum
+> > cedrus_h264_sram_off sram)> 
+> >  {
+> >  
+> >         const struct v4l2_ctrl_h264_decode_params *decode =
+> >         run->h264.decode_params; struct vb2_queue *cap_q;
+> > 
+> > @@ -188,7 +188,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx
+> > *ctx,> 
+> >                 int buf_idx;
+> >                 u8 dpb_idx;
+> > 
+> > -               dpb_idx = ref_list[i];
+> > +               dpb_idx = ref_list[i].index;
+> > 
+> >                 dpb = &decode->dpb[dpb_idx];
+> >                 
+> >                 if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> > 
+> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> > index 080fd1293c42..9b1cbc9bc38e 100644
+> > --- a/include/media/h264-ctrls.h
+> > +++ b/include/media/h264-ctrls.h
+> > @@ -140,6 +140,14 @@ struct v4l2_h264_pred_weight_table {
+> > 
+> >  #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED    0x04
+> >  #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH             0x08
+> > 
+> > +#define V4L2_H264_REFERENCE_FLAG_TOP_FIELD             0x01
+> > +#define V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD          0x02
+> > +
+> > +struct v4l2_h264_reference {
+> > +       __u8 flags;
+> > +       __u8 index;
+> > +};
+> > +
+> > 
+> >  struct v4l2_ctrl_h264_slice_params {
+> >  
+> >         /* Size in bytes, including header */
+> >         __u32 size;
+> > 
+> > @@ -182,8 +190,8 @@ struct v4l2_ctrl_h264_slice_params {
+> > 
+> >          * Entries on each list are indices into
+> >          * v4l2_ctrl_h264_decode_params.dpb[].
+> >          */
+> > 
+> > -       __u8 ref_pic_list0[32];
+> > -       __u8 ref_pic_list1[32];
+> > +       struct v4l2_h264_reference ref_pic_list0[32];
+> > +       struct v4l2_h264_reference ref_pic_list1[32];
+> 
+> Could we use a macro for "32" here? Something like:
+> 
+> #define V4L2_H264_REF_PIC_LIST_LEN (V4L2_H264_NUM_DPB_ENTRIES * 2).
+> 
+> Does it make sense to add a comment as well?
+> 
+> I was thinking something along these lines:
+> 
+> """
+> Pictures in the DPB can be a frame, a complementary field pair or a
+> single field.
+
+To be honest, I don't know if user has a free choice to select same or 
+different destination (capture) buffer for another field. I never tested it and 
+I'm not sure how to test it with ffmpeg. HW deinterlacing cores on Allwinner 
+SoCs support only interleaved fields as a input, that's why I never though 
+about separate fields.
+
+Best regards,
+Jernej
+
+> Therefore, reference pictures lists need twice as much entries, so it
+> can reference
+> either field of a field pair.
+> """
+> 
+> While it doesn't replace proper H264 specification reading,
+> it would add some clarity.
+> 
+> Thanks,
+> Ezequiel
+
+
+
+
