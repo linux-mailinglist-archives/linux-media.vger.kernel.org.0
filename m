@@ -2,156 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D48BC218C28
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 17:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC135218C2D
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 17:47:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730268AbgGHPpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 11:45:52 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:36439 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730157AbgGHPpv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 11:45:51 -0400
+        id S1730311AbgGHPqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 11:46:49 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:55444 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730071AbgGHPqt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 11:46:49 -0400
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200708154549euoutp02db86dca6313362a860aa56bb4d525d0b~f0YIYgSf42289922899euoutp02S
-        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 15:45:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200708154549euoutp02db86dca6313362a860aa56bb4d525d0b~f0YIYgSf42289922899euoutp02S
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200708154647euoutp01056562d127c62d3449574ca9bf1c6bfe~f0Y_NYIIt0668906689euoutp01a
+        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 15:46:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200708154647euoutp01056562d127c62d3449574ca9bf1c6bfe~f0Y_NYIIt0668906689euoutp01a
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1594223149;
-        bh=HMJ3yByH9x8u/WfLOKpCRZRkPGqJDTK6bo8fYkMKWOk=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=Zgu9aTFQI5AqoudAGxXbvvDh1jfSE+Mg/1gY3f3v/50lrX31irRUimTZGab2N5Ky8
-         VNbiRTbvzdGXJrFXrEVYxhKacosCS2xYdNRGbxJlUXRRojtwNA21MEJ4VPv1YChZU4
-         7Knaz/aQ9nuD9mCEqtbqb2YzIzorUg2d3dejpta8=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        s=mail20170921; t=1594223207;
+        bh=8UYjgIC4s42kEpwbg4AQF/Erybejcy2vPCZCsfSKt1k=;
+        h=Subject:To:From:Date:In-Reply-To:References:From;
+        b=oCYnI0GGMg1sI6jh7fZdFWO7Kfl0vLpXTG+os6zheEFxszJ6JrvNGBH5v2MnLqU/j
+         MdbbSyRgW7tzY/Qn48VWTOhR3EilTo8/040p3zJ/ycDLAY9HidVsOn0vYDSNgILRTq
+         kM5P6ma/YlSEyjAHPocv63cBH+MXo6bc2EEYXFF0=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
         eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200708154549eucas1p192dfbf443e4f9478ff2c7f1e0d9ae060~f0YH11yGo0235002350eucas1p12;
-        Wed,  8 Jul 2020 15:45:49 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 52.60.05997.D2AE50F5; Wed,  8
-        Jul 2020 16:45:49 +0100 (BST)
+        20200708154647eucas1p118e3edc13777ca1c2cdff5f70ede7426~f0Y_CG1n83001130011eucas1p1p;
+        Wed,  8 Jul 2020 15:46:47 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 83.2B.06318.76AE50F5; Wed,  8
+        Jul 2020 16:46:47 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
         eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200708154548eucas1p2de7a70ca8516dc9ce735e7d41cd7e176~f0YHeGl8j1915419154eucas1p2p;
-        Wed,  8 Jul 2020 15:45:48 +0000 (GMT)
+        20200708154646eucas1p239d761cb198f46a64b86617907cec800~f0Y9oP2bP0511205112eucas1p2n;
+        Wed,  8 Jul 2020 15:46:46 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
         eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200708154548eusmtrp21e0a5faebc277bf84e2fe9b1ac93878a~f0YHXEscj2612426124eusmtrp2R;
-        Wed,  8 Jul 2020 15:45:48 +0000 (GMT)
-X-AuditID: cbfec7f4-65dff7000000176d-4a-5f05ea2dba3c
+        20200708154646eusmtrp2565eb3d54c950bdd163b1f0e3e68f412~f0Y9njynU2618426184eusmtrp2s;
+        Wed,  8 Jul 2020 15:46:46 +0000 (GMT)
+X-AuditID: cbfec7f5-371ff700000018ae-18-5f05ea677cde
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id DC.17.06017.C2AE50F5; Wed,  8
-        Jul 2020 16:45:48 +0100 (BST)
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 45.37.06017.66AE50F5; Wed,  8
+        Jul 2020 16:46:46 +0100 (BST)
 Received: from [106.210.123.115] (unknown [106.210.123.115]) by
         eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200708154547eusmtip27ceef9549db8107c1b038000425ba4b9~f0YGtIgUk0555205552eusmtip2V;
-        Wed,  8 Jul 2020 15:45:47 +0000 (GMT)
+        20200708154645eusmtip2c92455d951a7686a833a96e90c25dae5~f0Y8rlzbM0401804018eusmtip2N;
+        Wed,  8 Jul 2020 15:46:45 +0000 (GMT)
 Subject: Re: [PATCH 06/11] media: exynos4-is: Properly set JPEG options when
  not using CSIS
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Jonathan Bakker <xc-racer2@live.ca>
-Cc:     kyungmin.park@samsung.com, mchehab@kernel.org, kgene@kernel.org,
-        krzk@kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+To:     Jonathan Bakker <xc-racer2@live.ca>, kyungmin.park@samsung.com,
+        mchehab@kernel.org, kgene@kernel.org, krzk@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
-Message-ID: <e60ff1bb-730a-11b5-f870-61a4f24f6195@samsung.com>
-Date:   Wed, 8 Jul 2020 17:45:47 +0200
+Message-ID: <f741b326-b1f1-858d-ca39-2ef1694541bd@samsung.com>
+Date:   Wed, 8 Jul 2020 17:46:45 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
         Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200707182322.GF2621465@chromium.org>
+In-Reply-To: <BN6PR04MB06606F63C7ACE765B57331A1A3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHe3bv7u5Gk6dpeLDIWIoY+VrUjcIyLBYiSB/6kKgtvankpuz6
-        WoSiJqVOLYhyMxQzrRFpc7nSMhJrlU2TTDRNBUe+5EvijEx7cbtJfvud8/zOPf8DlyZkz4Ue
-        dJI6jdWolclySkI2v1rq8vObEsYGWm0UUzb2lWC6uxtFjDVvWsQYx/qEzIeWSoopaXwkZG52
-        twmYOuOKgFm49Jtieq5+Jg9LFPrcHlJhNFyhFE21OYqagR+kotRkQIoF47ZI6pTkYDybnJTB
-        agJCTksSbVMjKLUeZ03Y35O56Km0CIlpwHugOd9KFiEJLcN3EYzW9P4r7AjejWopvlhA0HTb
-        SKyNFFTMCB0sw/UITPqjvDSPoK//llNyxdHQfnkcOdgNH4e+0ULCIRF4GMGzxftOicJBoH1Z
-        6pSkOAR+zplIB5PYC14XjDt5M46BhkmzgHc2wZsKm7MvXk0xMPHLmYLA7vDJViXg2RPMM5XO
-        ZYC7RDDU+5DiY4fBVJWF5NkVpiwmEc9b4c8Tx7BjIB9BSeugiC/KEYxYqhFvHYChrp+rX6JX
-        V/hCQ0sA3w6F/mEDcrQBu0D/zCY+hAtca75B8G0pXC6U8bYXLBtuCHj2gGLbH7IcyXXrTtOt
-        O0e37hzd/73ViDQgdzadUyWwXLCazfTnlCouXZ3gH5eiMqLV36rzt8X+GLWsnGlHmEbyjdIJ
-        ozBWJlRmcNmqdgQ0IXeTHrF2xsik8crs86wmJVaTnsxy7WgLTcrdpbtrJqNlOEGZxp5j2VRW
-        s/YqoMUeuWjXx9nM6Z4TYZHe8ymDs3r1vdC26+PmC6mHFN7f2+j+6zPD6kNnv4R/K1uZN4Xv
-        a9TWZf2wVB/TXQy8s7Rg3t+anRdUHPdgtLd2OGdrVvDGAXvDPbVnh37HW6zVv8i2Fi7uDTg5
-        Zw7w7dBGLBt9F1Xc9gofn8UIcZS4MrNpQ1fUgJzkEpVBOwkNp/wLi9wPKVIDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRmVeSWpSXmKPExsVy+t/xe7o6r1jjDb5dULPof/ya2eL8+Q3s
-        Fmeb3rBbbHp8jdXi8q45bBY9G7ayWsw4v4/JYtmmP0wWn1v/sVlcnHiXxYHLY3bDRRaPTas6
-        2Tw2L6n3WHTzB4tH35ZVjB6fN8kFsEXp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvH
-        WhmZKunb2aSk5mSWpRbp2yXoZTx5dZ+xYLlAxYsvF1gaGPfwdjFyckgImEi0zHzLCmILCSxl
-        lNj9Rq6LkQMoLiUxv0UJokRY4s+1LrYuRi6gkveMEhMn9DCBJIQFYiUOdTxnBLFFBDwlrj1o
-        YwYpYha4xyjxdEYDVEc7k8SvX4fANrAJGEr0Hu0D6+AVsJP49X4LC4jNIqAicaLlOZgtKhAn
-        sXzLfHaIGkGJkzOfgMU5gS69+eIv2BxmAXWJP/MuMUPY4hK3nsxngrDlJba/ncM8gVFoFpL2
-        WUhaZiFpmYWkZQEjyypGkdTS4tz03GIjveLE3OLSvHS95PzcTYzA2Nx27OeWHYxd74IPMQpw
-        MCrx8L7YxBovxJpYVlyZe4hRgoNZSYTX6ezpOCHelMTKqtSi/Pii0pzU4kOMpkDPTWSWEk3O
-        B6aNvJJ4Q1NDcwtLQ3Njc2MzCyVx3g6BgzFCAumJJanZqakFqUUwfUwcnFINjK4i1wuSX7lt
-        PbKQ+diF6U4RHW8s7SvUM9ucTtQc0ju4ZNqE+wk7rGPFmNk5Pz2QjmmeVOHqscNU5l6OipLd
-        /r2/xXyDj+6Vybb/ItPBEyT7ZKlNxrHieQ7zo/wdOlL1X1wQvFB2hKnmcsTzRuWzx0UNp7Be
-        2tq+9LWgNLNLuMS3W+uN3woHK7EUZyQaajEXFScCABAvYkvjAgAA
-X-CMS-MailID: 20200708154548eucas1p2de7a70ca8516dc9ce735e7d41cd7e176
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMKsWRmVeSWpSXmKPExsWy7djP87rpr1jjDdYcELXof/ya2eL8+Q3s
+        Fmeb3rBbbHp8jdXi8q45bBY9G7ayWsw4v4/JYtmmP0wWFyfeZXHg9Ni0qpPNY/OSeo9FN3+w
+        ePRtWcXo8XmTXABrFJdNSmpOZllqkb5dAlfGmXlb2AuuM1Wcu1jSwDiPqYuRk0NCwETiTNtH
+        5i5GLg4hgRWMEj07X0A5Xxgl/t+bwwpSJSTwmVFi38pCmI6Xe+6yQRQtZ5T4/PU4C0TRR0aJ
+        U8uLQWxhgViJQx3PGUGKRASamSSerZjJBpJgEzCU6D3axwhi8wrYSXTdbgFrZhFQkfhy7DdY
+        XFQgTmL9y+1MEDWCEidnPgGr4QQaOmHqMbAaZgFxiVtP5jNB2PIS29/OATtbQmATu8Sft3vZ
+        IE51kfjRu4QFwhaWeHV8CzuELSPxfydIM0hDM9DTu2+zQzgTGCXuH1/ACFFlLXHn3C+gSRxA
+        KzQl1u/Shwg7SnQf/AcWlhDgk7jxVhDiCD6JSdumM0OEeSU62oQgqlUkfq+aDg1rKYnuJ/+h
+        zvGQeDT/HusERsVZSN6cheS1WUhem4VwwwJGllWM4qmlxbnpqcXGeanlesWJucWleel6yfm5
+        mxiBSen0v+NfdzDu+5N0iFGAg1GJh/fFJtZ4IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW
+        5ccXleakFh9ilOZgURLnNV70MlZIID2xJDU7NbUgtQgmy8TBKdXA6JOc3X0is4xrm7KR6KQ6
+        3d2uHe4cKk8yzRbtXeZWMXu3eeTKGZbmbztiNyyu9H3XvEzV5YNY8ZbMma8C4i8elkuxrdvw
+        I+NWn2f9j1Uzd8nujlz5TuXc/2P72I8c7vz37vHzq5lcSkKtdro3Z+1Tb5vfasG40emi+ryl
+        qqp1M9w41yWwi/ZWKrEUZyQaajEXFScCAEiX7mlGAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRmVeSWpSXmKPExsVy+t/xe7ppr1jjDXqaLSz6H79mtjh/fgO7
+        xdmmN+wWmx5fY7W4vGsOm0XPhq2sFjPO72OyWLbpD5PFxYl3WRw4PTat6mTz2Lyk3mPRzR8s
+        Hn1bVjF6fN4kF8AapWdTlF9akqqQkV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtlZKqkb2eTkpqT
+        WZZapG+XoJdxZt4W9oLrTBXnLpY0MM5j6mLk5JAQMJF4uecuWxcjF4eQwFJGidmf5wA5HEAJ
+        KYn5LUoQNcISf651QdW8Z5Q4t+keWLOwQKzEoY7njCAJEYFmJon/y7exQFTdZZSYdmwvO0gV
+        m4ChRO/RPkYQm1fATqLrdgsLiM0ioCLx5dhvsLioQJzE8i3z2SFqBCVOznwCVsMJtGHC1GNg
+        NcwC6hJ/5l1ihrDFJW49mc8EYctLbH87h3kCo+AsJO2zkLTMQtIyC0nLAkaWVYwiqaXFuem5
+        xUZ6xYm5xaV56XrJ+bmbGIHxtu3Yzy07GLveBR9iFOBgVOLhfbGJNV6INbGsuDL3EKMEB7OS
+        CK/T2dNxQrwpiZVVqUX58UWlOanFhxhNgZ6byCwlmpwPTAV5JfGGpobmFpaG5sbmxmYWSuK8
+        HQIHY4QE0hNLUrNTUwtSi2D6mDg4pRoYr1+SuOu4hv3ILN4ZO6ZVxs80fn3F5JK6+o2brl1h
+        jlk7pA3XbmO4aVN/JiLy/xNRl7RVLxqmpXw1Oeylq/co48XC+mmV9nKsPq92KT1VFZiUZXxa
+        llmNZaLW951+VsG/S41iS3eWKd2cfFssPeOAne5apySlj2eZ+Y+sqUnewZSw996zvt4VSizF
+        GYmGWsxFxYkAatWuPs0CAAA=
+X-CMS-MailID: 20200708154646eucas1p239d761cb198f46a64b86617907cec800
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200707182328eucas1p284f1ed2d1d10a67c88e15ce01653885b
+X-RootMTR: 20200426022740eucas1p132625bc68acf42ee44a69e2a39e80ac9
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200707182328eucas1p284f1ed2d1d10a67c88e15ce01653885b
+X-CMS-RootMailID: 20200426022740eucas1p132625bc68acf42ee44a69e2a39e80ac9
 References: <20200426022650.10355-1-xc-racer2@live.ca>
+        <CGME20200426022740eucas1p132625bc68acf42ee44a69e2a39e80ac9@eucas1p1.samsung.com>
         <BN6PR04MB06606F63C7ACE765B57331A1A3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
-        <CGME20200707182328eucas1p284f1ed2d1d10a67c88e15ce01653885b@eucas1p2.samsung.com>
-        <20200707182322.GF2621465@chromium.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 07.07.2020 20:23, Tomasz Figa wrote:
-> On Sat, Apr 25, 2020 at 07:26:45PM -0700, Jonathan Bakker wrote:
->> Commit ee7160e57c98 ("[media] s5p-fimc: Add support for JPEG capture")
->> added support for JPEG capture, but missed setting a register when the
->> CSIS device wasn't in use.
-
-> nit: Since this isn't really about using the CSIS device or not, but
-> rather about the interface that the sensor is connected with, could we
-> instead say "when a parallel interface is used"?
-
->> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
->> ---
->>  drivers/media/platform/exynos4-is/fimc-reg.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/media/platform/exynos4-is/fimc-reg.c b/drivers/media/platform/exynos4-is/fimc-reg.c
->> index 5ce2bdebd424..269a98fca1e8 100644
->> --- a/drivers/media/platform/exynos4-is/fimc-reg.c
->> +++ b/drivers/media/platform/exynos4-is/fimc-reg.c
->> @@ -606,6 +606,11 @@ int fimc_hw_set_camera_source(struct fimc_dev *fimc,
->>  	switch (source->fimc_bus_type) {
->>  	case FIMC_BUS_TYPE_ITU_601:
->>  	case FIMC_BUS_TYPE_ITU_656:
->> +		if (fimc_fmt_is_user_defined(f->fmt->color)) {
->> +			cfg |= FIMC_REG_CISRCFMT_ITU601_8BIT;
->> +			break;
->> +		}
->> +
->>  		for (i = 0; i < ARRAY_SIZE(pix_desc); i++) {
->>  			if (vc->ci_fmt.code == pix_desc[i].pixelcode) {
->>  				cfg = pix_desc[i].cisrcfmt;
->> @@ -707,6 +712,8 @@ int fimc_hw_set_camera_type(struct fimc_dev *fimc,
->>  	case FIMC_BUS_TYPE_ITU_601...FIMC_BUS_TYPE_ITU_656:
->>  		if (source->mux_id == 0) /* ITU-A, ITU-B: 0, 1 */
->>  			cfg |= FIMC_REG_CIGCTRL_SELCAM_ITU_A;
->> +		if (vid_cap->ci_fmt.code == MEDIA_BUS_FMT_JPEG_1X8)
->> +			cfg |= FIMC_REG_CIGCTRL_CAM_JPEG;
+On 26.04.2020 04:26, Jonathan Bakker wrote:
+> Commit ee7160e57c98 ("[media] s5p-fimc: Add support for JPEG capture")
+> added support for JPEG capture, but missed setting a register when the
+> CSIS device wasn't in use.
 > 
-> Should we also handle MEDIA_BUS_FMT_S5C_UYVY_JPEG_1X8 as in the CSI
-> case? The S5C73M3 sensor supports the parallel interface as well.
+> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
 
-The parallel interface has too low bandwidth to transfer image data
-with the maximum supported resolution and frame rate, I doubt anyone would
-ever use S5C73MC in such a configuration.
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 
--- 
-Regards,
-Sylwester
