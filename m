@@ -2,176 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4978217E67
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 06:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4236217F3F
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 07:48:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728834AbgGHEfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 00:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42368 "EHLO
+        id S1729616AbgGHFsh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 01:48:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728688AbgGHEfp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 00:35:45 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E90C061755
-        for <linux-media@vger.kernel.org>; Tue,  7 Jul 2020 21:35:45 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id h17so36775817oie.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2020 21:35:45 -0700 (PDT)
+        with ESMTP id S1725794AbgGHFsh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 01:48:37 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DFF3C061755
+        for <linux-media@vger.kernel.org>; Tue,  7 Jul 2020 22:48:37 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id j80so40469289qke.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2020 22:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1XbR8hdW5apDShmwJkURNynuMtZvWuauFKyiRicLKLU=;
-        b=MBI7kpBNnws2lkIkxAI1TXg9weVckgH+DRh2jmehNAenn5bPaJ4jWIsQ/c90i+jL/N
-         NuKhC9K/Ig3wSNwm7Q9KA4UDPwGAhAsMMWlZjC8GPgaJuNW/EiAwQhGFHDZofgYFQUKK
-         s+woVolBF3XOCdip/4eD2tuXgFnTznjiaeeLo=
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=tAGGn78VvmkmAYYh5X32WK8ZEzbgonzZVZtBFXvjrSI=;
+        b=chnVhqwWvTZTRtVIel8UDocDzwJIlf6nrOBQsucbYokeTZpslBRuDhjUzRhiNaaqfc
+         ttidtHAfy1LrnXPbrhUGOH2/hJCzhQCvSMRY8l28ubnwBF67ZtcUBVfkzlWudgD+50th
+         YoklzO9wRaT9yC0sONJrd+Lnkc5/a2ohJZB6dSnQFeJOyk58qQb6cKkqBIQnpT+FZ81b
+         Ne1uhm4SKRWMw5L9gzLqtefTkzolqDzHYzVt+6imdclXkgzg4swvYG62bc0YgTxKiSqW
+         RuR5+JDgHluyarY4lHmSSsLKftGh8UAe4by19WEEIWwL6M2VlHTSFDnAYEJYOZZ8TPtg
+         9pAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1XbR8hdW5apDShmwJkURNynuMtZvWuauFKyiRicLKLU=;
-        b=tQOuaicvplbSAFFWSxPkZkEKbvV3SAuOoZamzkbr2MVX6cAYddoy67flZr66EvZRBv
-         LYP/euclm9YgXPcQvCwxJq3NjODVx2UTMuZUP3uAx2V+oEmgLlg8Ya5qYNEkx1Hei7PX
-         2GqQgV9e91O2y0dUYbg6rUwI34/OH2M/kCd67gab4Taj4yGuTkS0mPfe6cDuVAL0Xw87
-         pYikPAagm0zlJ9refqDwmkJDvHuzyGbwO/1D4zP7fQGVJMIT60eN7ZDrm7E964sT6vQP
-         PeLqqOjAQ33jMuJEjLMN93pnc29/IaB1drZw3FgVPPFDYb8JoNqvu92i1VZoIHhqBIsG
-         v0Lw==
-X-Gm-Message-State: AOAM532VDuyCZ9kNUrwcN4XfpSFw4zGvcoD823pQNvCysa1cHPw9aJrM
-        lvtevgtp8UR9aj0SnLWmF8byewGTewtTwg==
-X-Google-Smtp-Source: ABdhPJx3PJfgyUUmKnVeBydSV8Yju3977+Mn5NTSggS3ccxNldNWGcDX0m0JSpGHxyY0XwT9bKFb0g==
-X-Received: by 2002:aca:4905:: with SMTP id w5mr6048726oia.172.1594182944268;
-        Tue, 07 Jul 2020 21:35:44 -0700 (PDT)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com. [209.85.167.177])
-        by smtp.gmail.com with ESMTPSA id r25sm579272oot.38.2020.07.07.21.35.42
-        for <linux-media@vger.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=tAGGn78VvmkmAYYh5X32WK8ZEzbgonzZVZtBFXvjrSI=;
+        b=JPm8ev05INTjDVFXOJo5FB/yZ4xj78FnrvyR8wenX0V6sZZIdPnNunzYf1Us/Yr0T7
+         +pIsR+QVr+XfcdQwpkWACK3iZ7NMsn4NzAuJ70meMjypb9m1pUDRxK8p0lPY9cGn8Da1
+         FTwrlYApPYmmE7gv9ssA2njRVRkdnCj6hzVNS+8E8+xqvBh7CZI5op5rmVySyXJOI+w+
+         K/CocOWGa+8swGEefCw7zBUZzlpAHh8ww3WcR/mNPtkrc05OcKk97963z0cq9yVryJ1a
+         h5YUvOhDFufg0p6e1BiH2kDhe0fnBIH6XoSRUr0RTle2mjjUtaptFxTtvc0ytz7LbazX
+         U2rg==
+X-Gm-Message-State: AOAM530Dd0rqgSf91ZVfFu+OMgCtGHWctEw5VQ2ybYpqjZuejYZ3d898
+        LcNxSiaAlN32veYkEQEZSlJMCg==
+X-Google-Smtp-Source: ABdhPJziIvLCesmW4GYgGw108SH5y8/+2P8uDX/THYshnAQI9o/PjoDb1kfbK434HmN8IRObCYnscA==
+X-Received: by 2002:a05:620a:148d:: with SMTP id w13mr47138517qkj.215.1594187315128;
+        Tue, 07 Jul 2020 22:48:35 -0700 (PDT)
+Received: from [192.168.0.102] ([186.136.155.69])
+        by smtp.gmail.com with ESMTPSA id f41sm29254826qtk.55.2020.07.07.22.48.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2020 21:35:42 -0700 (PDT)
-Received: by mail-oi1-f177.google.com with SMTP id x83so29208904oif.10
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2020 21:35:42 -0700 (PDT)
-X-Received: by 2002:a05:6808:646:: with SMTP id z6mr5797953oih.71.1594182941910;
- Tue, 07 Jul 2020 21:35:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200623111325.237158-1-keiichiw@chromium.org>
- <2850781.lI95146Gml@os-lin-dmo> <CAD90VcbmrismAXW0t7K6M-=a2-P+OCOw8PvBr6r8S_3LNYu=pw@mail.gmail.com>
- <3163123.i8GTTo9gJ5@os-lin-dmo> <CAPBb6MWqYHidfaaTKq43yDtjOmKEi=AMC3O9vLdWpPBd_vFrUA@mail.gmail.com>
- <20200703051756-mutt-send-email-mst@kernel.org> <CAPBb6MXju_cc3FdWF60Ndx6aYfHmaGbQxu2a3QMxTfnLrXJxYQ@mail.gmail.com>
- <CAAFQd5CQuDgvZrYC53yKEYBY1LOX2QO8+7eRAscN5wQFmHmkZQ@mail.gmail.com>
-In-Reply-To: <CAAFQd5CQuDgvZrYC53yKEYBY1LOX2QO8+7eRAscN5wQFmHmkZQ@mail.gmail.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Wed, 8 Jul 2020 13:35:29 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MXMFQe2Qg1_O01-9OcOEOwv+A0UFu9wBf1ctjVevHAWrg@mail.gmail.com>
-Message-ID: <CAPBb6MXMFQe2Qg1_O01-9OcOEOwv+A0UFu9wBf1ctjVevHAWrg@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 0/1] Virtio Video Device Specification
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com,
-        Kiran Pawar <kiran.pawar@opensynergy.com>,
-        Saket Sinha <saket.sinha89@gmail.com>,
+        Tue, 07 Jul 2020 22:48:34 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] Add support for meson building
+To:     Gregor Jasny <gjasny@googlemail.com>,
+        Xavier Claessens <xavier.claessens@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        nicolas@ndufresne.ca,
+        nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
+ <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
+ <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
+ <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
+ <20200619144229.GD5823@pendragon.ideasonboard.com>
+ <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
+ <93bf1b72-0108-1dfa-22b4-f2194660129c@googlemail.com>
+ <0d3450f0-8883-e094-3c1b-d8f93c2e4833@googlemail.com>
+ <1586973f-5f69-fed0-4ad8-266cdd8e818b@vanguardiasur.com.ar>
+ <f4c5552e-c639-8e71-968e-1cd8fe5152cb@vanguardiasur.com.ar>
+ <6f598f9e-cb1b-2dd4-6a95-efe0895da0dc@googlemail.com>
+From:   Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
+Message-ID: <0d9bd469-d23d-cef0-9e69-ea0b57e3f3b8@vanguardiasur.com.ar>
+Date:   Wed, 8 Jul 2020 02:48:37 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <6f598f9e-cb1b-2dd4-6a95-efe0895da0dc@googlemail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 3, 2020 at 6:55 PM Tomasz Figa <tfiga@chromium.org> wrote:
->
-> On Fri, Jul 3, 2020 at 11:27 AM Alexandre Courbot <acourbot@chromium.org> wrote:
-> >
-> > On Fri, Jul 3, 2020 at 6:18 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Fri, Jul 03, 2020 at 02:45:15PM +0900, Alexandre Courbot wrote:
-> > > > Hi Dmitry,
-> > > >
-> > > > On Thu, Jul 2, 2020 at 10:47 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
-> > > > >
-> > > > > Hi Keiichi,
-> > > > >
-> > > > > Thanks for the clarification. I believe we should explicitly describe this in
-> > > > > the VIRTIO_VIDEO_CMD_RESOURCE_ATTACH section. And I also still see a problem
-> > > > > there. If it is a guest allocated resource, we cannot consider it to be free
-> > > > > until the device really releases it. And it won't happen until we issue the
-> > > > > next ATTACH call. Also, as we discussed before, it might be not possible to
-> > > > > free individual buffers, but the whole queue only.
-> > > >
-> > > > In the case of the encoder, a V4L2 driver is not supposed to let
-> > > > user-space dequeue an input frame while it is used as reference for
-> > > > the encoding process. So if we add a similar rule in the virtio-video
-> > > > specification, I suppose this would solve the problem?
-> > > >
-> > > > For the decoder case, we have a bigger problem though. Since DMABUFs
-> > > > can be arbitrarily attached to any V4L2 buffer ID, we may end up
-> > > > re-queueing the DMABUF of a decoded frame that is still used as
-> > > > reference under a different V4L2 buffer ID. In this case I don't think
-> > > > the driver has a way to know that the memory resource should not be
-> > > > overwritten, and it will thus happily use it as a decode target. The
-> > > > easiest fix is probably to update the V4L2 stateful specification to
-> > > > require that reused DMABUFs must always be assigned to the same V4L2
-> > > > buffer ID, and must be kept alive as long as decoding is in progress,
-> > > > or until a resolution change event is received. We can then apply a
-> > > > similar rule to the virtio device.
-> > >
-> > >
-> > > Sounds like a generic kind of problem - how do other devices solve it?
-> >
-> > Most users of V4L2 drivers use MMAP buffers, which don't suffer from
-> > this problem: since MMAP buffers are managed by V4L2 and the same V4L2
-> > buffer ID always corresponds to the same backing memory, the driver
-> > just needs to refrain from decoding into a given V4L2 buffer as long
-> > as it is used as a reference frames. This is something that all
-> > drivers currently do AFAICT.
-> >
-> > The problem only occurs if you let userspace map anything to V4L2
-> > buffers (USERPTR or DMABUF buffers). In order to guarantee the same
-> > reliable behavior as with MMAP buffers, you must enforce the same
-> > rule: always the same backing memory for a given V4L2 buffer.
-> >
-> > ... or you can rotate between a large enough number of buffers to
-> > leave enough space for the reference tag to expire on your frames, but
-> > that's clearly not a good way to address the problem.
->
-> FWIW, it's typically solved with regular devices by completely
-> disallowing the DMABUF/USERPTR modes and only allowing the
-> V4L2-managed MMAP mode for affected buffer queues.
->
-> However, that's quite a severe limitation and with a careful API
-> extension, DMABUF could be still handled. Namely:
->  - pre-registration of buffers at initialization time: that would
-> likely mean mandating VIDIOC_QBUF for all indexes before any
-> decoding/encoding can start,
+Hey Gregor,
 
-Can't we get around this by just requiring that DMABUFs passed to
-VIDIOC_QBUFs are always the same for a given index? Why would it be
-necessary to require all buffers to be queued before starting the
-codec?
+On 6/29/20 3:56 PM, Gregor Jasny wrote:
+> Hello,
+> 
+> On 6/25/20 8:52 PM, Ariel D'Alessandro wrote:
+>> The Doxygen m4 script provides several features, like:
+>>
+>>      $ git grep 'DX_ARG_ABLE(' m4/ax_prog_doxygen.m4
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(doc, [generate any doxygen
+>> documentation],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(dot, [generate graphics for doxygen
+>> documentation],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(man, [generate doxygen manual pages],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(rtf, [generate doxygen RTF
+>> documentation],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(xml, [generate doxygen XML
+>> documentation],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(chm, [generate doxygen compressed HTML
+>> help documentation],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(chi, [generate doxygen seperate
+>> compressed HTML help index file],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(html, [generate doxygen plain HTML
+>> documentation],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(ps, [generate doxygen PostScript
+>> documentation],
+>>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(pdf, [generate doxygen PDF
+>> documentation],
+>>
+>> I could port them all to meson and have options for each one. But, do we really
+>> need all of them or just a subset?
+>>
+>> For instance, from [0]:
+>>
+>>      $ git grep CONFIGURE_FLAGS.*doxygen
+>>        rules:CONFIGURE_FLAGS += --enable-doxygen-man --disable-doxygen-ps
+>> --disable-doxygen-pdf
+> 
+> I think we need html (Debian) and man (Fedora).
 
->  - enforcement of index-buffer mapping: VIDIOC_QBUF would have to fail
-> if one attempts to queue another buffer at the same index,
->  - ability to explicitly release existing buffers: there is
-> VIDIOC_RELEASE_BUF in the works which could be used to release a
-> specific index,
->  - ability to explicitly add new buffers: a combination of
-> VIDIOC_CREATEBUFS + VIDIOC_QBUF could be already used to achieve this.
+I've pushed meson Doxygen support to:
+    https://gitlab.com/adalessandro/v4l-utils/-/tree/v4l-utils-1.20.0-meson-v1
 
-Even without these I guess we can probably get something working at
-the cost of higher restrictions to clients (i.e. purely static set of
-buffers).
+The following options were added, supporting html and man.
 
->
-> Best regards,
-> Tomasz
+    # Doxygen options
+    option('doxygen-doc', type : 'feature', value : 'auto',
+           description : 'Generate doxygen project documentation')
+    option('doxygen-html', type : 'boolean',
+           description : 'Generate doxygen plain HTML documentation')
+    option('doxygen-man', type : 'boolean', value : false,
+           description : 'Generate doxygen manual pages')
+
+So, you should get html and man documentation using:
+
+    CONFIGURE_FLAGS += -Ddoxygen-doc=enabled -Ddoxygen-man=enabled
+
+Note that documentation will be installed to:
+
+    doxygen_install_dir = join_paths(get_option('datadir'), 'doc',
+                                     '@0@-@1@'.format(meson.project_name(),
+                                                      as_version))
+
+Using default values, that'd be: /usr/local/share/doc/v4l-utils-1.20.0/
+
+Hopefully, there will be a doxygen module for meson at some point in the future.
+
+Anyway, let me know if you have any comments.
+
+Regards,
+Ariel
