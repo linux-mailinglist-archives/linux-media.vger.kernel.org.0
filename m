@@ -2,233 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31A782188FB
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 15:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B2A9218A57
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 16:45:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729564AbgGHN3E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 09:29:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40870 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729279AbgGHN3E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 09:29:04 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DAC2C061A0B
-        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 06:29:04 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id d4so21675830pgk.4
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2020 06:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wN3EWgk/x5NoifjZbV2/MdXn6UXBSWUU/L+JDx5urmA=;
-        b=Ck5EclqdTPhVTMFgg6o2aa4zQ3r7sKrPXh6IA93ELVlTG2AZl7EFcBYb+N/gLwYjHX
-         Bm0/kaPLgwbKxHy5njCl9vz03Naus7hVgS6d89ulhKVVyrIbjuu4UmeQlr43Vdi59hv/
-         fbO2EB06AGjRn4djiqh0weKEcBqT8NJXz8iElkjVljjKwahe/RbJp2XalZh8664e6oh5
-         +IgBhD1OlDYIg5cA47MdzJIoZtCWNFgzddNttpZ5j7LqyB0e4f11g3jyvruslhrh1xzP
-         M2RvCiYOAkYJ4Wlb0hJ6AaKqE0Ou9tm844RGkwG3AHBkvriw4SCU4sCTHLdgAFBgG6Iq
-         dmug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wN3EWgk/x5NoifjZbV2/MdXn6UXBSWUU/L+JDx5urmA=;
-        b=b21spMYrAehiyA4GWTqNzoZIyBDGhBoHeYVburPJoPVcM3QGDErudfdPMhMEmxboI8
-         0/naZwd8Wnc0srJklC4UIY42IjQkd+vbXt7WYwvdww9/mClgwDNODNDyt3/oarK6Xay3
-         mYowOeSpMZV5LcCHADm2ascUsPReMlIfopYq/6FSjqCnG29CIhq8lMZAAN7vuX9j2R6L
-         I3HLK6muj12/oK0XKKL7O+QT5ZJIiZxCocQxZAaT6J52jiDLjkjC3So+xh9xfo++ioRI
-         T8rt62ZtgMZBOOXZbxEaJ2hrJzBCI7G8IjUKrRAGrgD/7k9PET0ClwzruOVmo4MjUncX
-         3ihg==
-X-Gm-Message-State: AOAM533UT92BUznH58kKzliFGyknSIFurpCIQC1VI/HSocedf7xe64Oh
-        mhvGxSCdvq4KKeydeGyYvm/qmbIhdmWeBCOi2/Hhuw==
-X-Google-Smtp-Source: ABdhPJy6eI1/TSJpreDxCQpqeyG6XeOm5xpbcgLAF1WPOQZyO2y0sMxOp79n/z1Tey4/S/Cd6hAidyyvLZgG66GhGlo=
-X-Received: by 2002:a63:8c18:: with SMTP id m24mr51276927pgd.289.1594214943466;
- Wed, 08 Jul 2020 06:29:03 -0700 (PDT)
+        id S1729919AbgGHOpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 10:45:34 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:47319 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729899AbgGHOpe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 10:45:34 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200708144532euoutp02c6ac876df1e242c879c7cfd9d7bb8782~fzjfmIPbH1968519685euoutp02U
+        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 14:45:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200708144532euoutp02c6ac876df1e242c879c7cfd9d7bb8782~fzjfmIPbH1968519685euoutp02U
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1594219532;
+        bh=YBwMR+1cTI/+5nGmGVzzQP31lKTZwJfbm6Wde/Ufl4A=;
+        h=Subject:To:From:Date:In-Reply-To:References:From;
+        b=PL5cI5quI6staJfHOmmKGhIaJO34dXKTXMQe6A2lZHo8sFXDG8u7zJvRkt+VBSlCs
+         IwhBQ/9435Q8ni4H/kvNTqhtQBDTKX8NaV99fqbFV3YJrzm+MEHw7fEQ+Pr9on+2qr
+         NEgK9HVKP/L3aoTMx3hIarOCbmR9W1/pHd86ElIw=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200708144532eucas1p221e9f49e596935cc2446d90228401a3f~fzjfPTn_W1367413674eucas1p2C;
+        Wed,  8 Jul 2020 14:45:32 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id DD.11.06456.C0CD50F5; Wed,  8
+        Jul 2020 15:45:32 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200708144531eucas1p282845354a7c2be8f70f4ef33a4d6bb1d~fzjej49pg1036510365eucas1p2i;
+        Wed,  8 Jul 2020 14:45:31 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200708144531eusmtrp2ef4e5df9d1dadc6a8f4a07e032e94097~fzjejK8C_2076020760eusmtrp2O;
+        Wed,  8 Jul 2020 14:45:31 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-5d-5f05dc0c78d0
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id A5.70.06314.B0CD50F5; Wed,  8
+        Jul 2020 15:45:31 +0100 (BST)
+Received: from [106.210.123.115] (unknown [106.210.123.115]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200708144530eusmtip2637227708c7bfcdd7c9c536e8be47371~fzjd7MV-g0039100391eusmtip2D;
+        Wed,  8 Jul 2020 14:45:30 +0000 (GMT)
+Subject: Re: [PATCH 01/11] media: exynos4-is: Remove static driver data for
+ S5PV210 FIMC variants
+To:     Jonathan Bakker <xc-racer2@live.ca>, kyungmin.park@samsung.com,
+        mchehab@kernel.org, kgene@kernel.org, krzk@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
+Message-ID: <9dae0088-e7ab-8d20-617d-7922d86f0d43@samsung.com>
+Date:   Wed, 8 Jul 2020 16:45:29 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200604185745.23568-1-jernej.skrabec@siol.net> <20200604185745.23568-2-jernej.skrabec@siol.net>
-In-Reply-To: <20200604185745.23568-2-jernej.skrabec@siol.net>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Wed, 8 Jul 2020 10:28:52 -0300
-Message-ID: <CAAEAJfAx4=RGJBVPccVFNYxNUqom7tkQD=J9oMfqajGxn6k+Zg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: uapi: h264: update reference lists
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devel@driverdev.osuosl.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <BN6PR04MB06603A626BB6D54D11CB502CA3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjmO+dsOw4nx2n5pmI5/ZOUt/xxIhOVfgwiEUoIRW3qQcVrO95D
+        lBQ1L2v6Q1MMTeZai3BMnWaReE+Ws4zsomYwC69kXiKzNOdR8t/zPhfe9/n4SFzcyXMkE1Mz
+        GHmqLFnCFxKG4S3TWetpXrT36CMhfde8hNPj4zoBPXZ7WUDrzZM8+m1PI5+u1HXy6HvjLzBa
+        rf+D0W+qZ4hAK6lee4cvbVcVSFs+/iKkig4tkq7rXUJ54UL/OCY5MYuRewXcECboVWO89Fks
+        Z7tOiRciFVaOrEig/ODloIZfjoSkmNIg0BWXI27YQFB7fwjjhnUEqxq14DAy87nmQHiIwPjA
+        uC+IqR8IJndiLNiOioXabbPAYrKnijD4pqnnWwQ+5QNVQwpkwSIqAAa+LxEWTFDuYJjQ7PPH
+        qChoW+jCOI8tjNbP7XusqEhoNw7iFoxTDvBprgnj8EnoWmnELcuAMghAv9iHuFMvwczzn3wO
+        28HiSMdBBWfYfdqEcYEiBJXPpgTcoEQwO9J8kL4A06bfe2lyb8VpaOvx4uggaH2twCw0UDbw
+        YcWWO8IGagx1OEeLoKxEzLndYVtbd/DYjlAxt0twWAom9TxfiVwbjtRsOFKt4Ui1hv83NCNC
+        ixyYTDYlnmF9UplsT1aWwmamxnvGpqXo0d5nMu6MrHWjzYmYfkSRSGItUup40WKeLIvNTelH
+        QOISe1HwmDFKLIqT5eYx8rRoeWYyw/YjJ5KQOIjOtSxEiql4WQaTxDDpjPxQxUgrx0LkHbGc
+        SLeXDodnjJkHMqkCWzD15VweCMu+svb3lH/32vUTvfNq5abeN9C0FNiuKlw4vlW++PhWx8b7
+        r/l+icVPQi+6+ay+CwlxFURIXaryztdX9970zTdOVkSWBZeuVm+WjLu0Jim01blXS7+EeXgo
+        2VfNztfIMzlBXm6tq074lIRgE2Q+Hriclf0DXTCoDEgDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNIsWRmVeSWpSXmKPExsVy+t/xe7rcd1jjDe5flrDof/ya2eL8+Q3s
+        Fmeb3rBbbHp8jdXi8q45bBY9G7ayWsw4v4/JYtmmP0wWFyfeZXHg9Ni0qpPNY/OSeo9FN3+w
+        ePRtWcXo8XmTXABrlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpO
+        Zllqkb5dgl7GpiVnWQvuM1X8nj6BuYFxCVMXIyeHhICJxN17k4BsLg4hgaWMEls//wJyOIAS
+        UhLzW5QgaoQl/lzrYoOoec8osXzSbTaQhLBAssS034/ZQRIiAs1MEv+Xb2OBqLrLKNH9+BZY
+        FZuAoUTv0T5GEJtXwE7i8PvXLCA2i4CKxLZLK8DiogJxEsu3zGeHqBGUODnzCVgNp0CsxObT
+        R5hBbGYBdYk/8y5B2eISt57MZ4Kw5SW2v53DPIFRcBaS9llIWmYhaZmFpGUBI8sqRpHU0uLc
+        9NxiQ73ixNzi0rx0veT83E2MwIjbduzn5h2MlzYGH2IU4GBU4uF9sYk1Xog1say4MvcQowQH
+        s5IIr9PZ03FCvCmJlVWpRfnxRaU5qcWHGE2BnpvILCWanA9MBnkl8YamhuYWlobmxubGZhZK
+        4rwdAgdjhATSE0tSs1NTC1KLYPqYODilGhjVMu6LtLdk3ZvdECKTfDuKq5ihe82V1zd1T+x9
+        MVn8V+qx/3aNXB0KTRMncrMYzGmQejRTqWXJiidc4cKHSu+8V9zKpXrO/hsbj8qN300XHukY
+        Lch09eV5Z8CxOJPVoe755WX9b7atK1hbqJP6X6fjw50VYcvrbZ+x+N4I1+ZKEf3q+kjgYo4S
+        S3FGoqEWc1FxIgAxbc5IzgIAAA==
+X-CMS-MailID: 20200708144531eucas1p282845354a7c2be8f70f4ef33a4d6bb1d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200426022721eucas1p1d5cbdc4946279aeff7d6c11f93a56f74
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200426022721eucas1p1d5cbdc4946279aeff7d6c11f93a56f74
+References: <20200426022650.10355-1-xc-racer2@live.ca>
+        <CGME20200426022721eucas1p1d5cbdc4946279aeff7d6c11f93a56f74@eucas1p1.samsung.com>
+        <BN6PR04MB06603A626BB6D54D11CB502CA3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Jernej,
+On 26.04.2020 04:26, Jonathan Bakker wrote:
+> The S5PV210 platform only supports device tree based booting
+> where the FIMC variant data is parsed directly from
+> the device tree, hence the now unused static data can be removed.
+> 
+> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
 
-I'd like to post a new H264 uAPI cleanup series soon,
-would you mind resending this, or otherwise do you
-mind if I include this patch in the series?
-
-See below for a tiny comment.
-
-On Thu, 4 Jun 2020 at 15:55, Jernej Skrabec <jernej.skrabec@siol.net> wrote:
->
-> When dealing with with interlaced frames, reference lists must tell if
-> each particular reference is meant for top or bottom field. This info
-> is currently not provided at all in the H264 related controls.
->
-> Make reference lists hold a structure which will also hold flags along
-> index into DPB array. Flags will tell if reference is meant for top or
-> bottom field.
->
-> Currently the only user of these lists is Cedrus which is just compile
-> fixed here. Actual usage of newly introduced flags will come in
-> following commit.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             | 40 ++++++++++++++++++-
->  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 +--
->  include/media/h264-ctrls.h                    | 12 +++++-
->  3 files changed, 51 insertions(+), 7 deletions(-)
->
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index d0d506a444b1..6c36d298db20 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1843,10 +1843,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->      * - __u32
->        - ``slice_group_change_cycle``
->        -
-> -    * - __u8
-> +    * - struct :c:type:`v4l2_h264_reference`
->        - ``ref_pic_list0[32]``
->        - Reference picture list after applying the per-slice modifications
-> -    * - __u8
-> +    * - struct :c:type:`v4l2_h264_reference`
->        - ``ref_pic_list1[32]``
->        - Reference picture list after applying the per-slice modifications
->      * - __u32
-> @@ -1926,6 +1926,42 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->        - ``chroma_offset[32][2]``
->        -
->
-> +``Picture Reference``
-> +
-> +.. c:type:: v4l2_h264_reference
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_h264_reference
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``flags``
-> +      - See :ref:`Picture Reference Flags <h264_reference_flags>`
-> +    * - __u8
-> +      - ``index``
-> +      -
-> +
-> +.. _h264_reference_flags:
-> +
-> +``Picture Reference Flags``
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_H264_REFERENCE_FLAG_TOP_FIELD``
-> +      - 0x00000001
-> +      -
-> +    * - ``V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD``
-> +      - 0x00000002
-> +      -
-> +
->  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS (struct)``
->      Specifies the decode parameters (as extracted from the bitstream)
->      for the associated H264 slice data. This includes the necessary
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> index 54ee2aa423e2..cce527bbdf86 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -166,8 +166,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
->
->  static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
->                                    struct cedrus_run *run,
-> -                                  const u8 *ref_list, u8 num_ref,
-> -                                  enum cedrus_h264_sram_off sram)
-> +                                  const struct v4l2_h264_reference *ref_list,
-> +                                  u8 num_ref, enum cedrus_h264_sram_off sram)
->  {
->         const struct v4l2_ctrl_h264_decode_params *decode = run->h264.decode_params;
->         struct vb2_queue *cap_q;
-> @@ -188,7 +188,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
->                 int buf_idx;
->                 u8 dpb_idx;
->
-> -               dpb_idx = ref_list[i];
-> +               dpb_idx = ref_list[i].index;
->                 dpb = &decode->dpb[dpb_idx];
->
->                 if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> index 080fd1293c42..9b1cbc9bc38e 100644
-> --- a/include/media/h264-ctrls.h
-> +++ b/include/media/h264-ctrls.h
-> @@ -140,6 +140,14 @@ struct v4l2_h264_pred_weight_table {
->  #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED    0x04
->  #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH             0x08
->
-> +#define V4L2_H264_REFERENCE_FLAG_TOP_FIELD             0x01
-> +#define V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD          0x02
-> +
-> +struct v4l2_h264_reference {
-> +       __u8 flags;
-> +       __u8 index;
-> +};
-> +
->  struct v4l2_ctrl_h264_slice_params {
->         /* Size in bytes, including header */
->         __u32 size;
-> @@ -182,8 +190,8 @@ struct v4l2_ctrl_h264_slice_params {
->          * Entries on each list are indices into
->          * v4l2_ctrl_h264_decode_params.dpb[].
->          */
-> -       __u8 ref_pic_list0[32];
-> -       __u8 ref_pic_list1[32];
-> +       struct v4l2_h264_reference ref_pic_list0[32];
-> +       struct v4l2_h264_reference ref_pic_list1[32];
->
-
-Could we use a macro for "32" here? Something like:
-
-#define V4L2_H264_REF_PIC_LIST_LEN (V4L2_H264_NUM_DPB_ENTRIES * 2).
-
-Does it make sense to add a comment as well?
-
-I was thinking something along these lines:
-
-"""
-Pictures in the DPB can be a frame, a complementary field pair or a
-single field.
-Therefore, reference pictures lists need twice as much entries, so it
-can reference
-either field of a field pair.
-"""
-
-While it doesn't replace proper H264 specification reading,
-it would add some clarity.
-
-Thanks,
-Ezequiel
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
