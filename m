@@ -2,97 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EA90217D77
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 05:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FCFB217DAD
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 05:41:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728679AbgGHDTQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jul 2020 23:19:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728335AbgGHDTQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jul 2020 23:19:16 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889C8C061755;
-        Tue,  7 Jul 2020 20:19:16 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id C13EA2A4F7D
-Message-ID: <97a4c51aa5cfcdef7f4c96fcf84f85bd7c8b3729.camel@collabora.com>
-Subject: Re: [PATCH v2 12/12] media: rkvdec: h264: Support profile and level
- controls
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>
-Date:   Wed, 08 Jul 2020 00:19:05 -0300
-In-Reply-To: <20200706215430.22859-13-jonas@kwiboo.se>
-References: <20200701215616.30874-1-jonas@kwiboo.se>
-         <20200706215430.22859-1-jonas@kwiboo.se>
-         <20200706215430.22859-13-jonas@kwiboo.se>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1729280AbgGHDlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jul 2020 23:41:37 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:51851 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728949AbgGHDlh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 Jul 2020 23:41:37 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id t0xhjaFYY5flqt0xijZbdB; Wed, 08 Jul 2020 05:41:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594179695; bh=Qv3A02ZjTxKSZs3LSjFD5YHMZ8ElmscUA9XdUssQ5N4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=R/qLBimnDqITlP899k7qlp1kGK+oDHG67dy83Siiv41CmM9I9gDoGXrmhFO6Wjzu7
+         3xHlIJhmMYtOswii/iyaNnHguhewhsfivPmGudL4iIkgCV9IQg7uEINaFlQ41HZRf2
+         Y8Rm2GuwebQhXqGCRccwR/FMfX94b3WaZ1C1nlLVa3/gLm5zu0gUjNoQ1Yxz7Q7BOC
+         YlF9Aa3qN9faaLeS8bn89+yPxeVVKmwG0het6O2cm80ZwS1lQ09Ozuct0CHhNoY/w7
+         W+/vVzLfFDSOedlxwlSrOafltDS/CjUTzmySs6MI04BNp1hbZtvrq8OjuvYhaY/sYP
+         se2gxKD61M3Sg==
+Message-ID: <07f9aaf986e20eff44d0a252c36c524b@smtp-cloud9.xs4all.net>
+Date:   Wed, 08 Jul 2020 05:41:33 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfO9T8QcRGzBaoBEucgiDgyZ+XQkW4k7J0VNvx3BRAjTlkgxhwfXpWLuUuprtzus2Rx2Isrvv7MZWI7i4EfZuDylC8whdmubZnY7Tw/K4UHH6KcnsNnnZ
+ fPXJsREJbcRh26TvEcwOorK3UxE/TPbUmhFOhYydnwPGElaHEXYo4coRFxpNTrQhmoBx8ijX7ImD+BMomagQabjfKg7NpR7/lAFBd47RjwSAddNtlp/p/g0J
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2020-07-06 at 21:54 +0000, Jonas Karlman wrote:
-> The Rockchip Video Decoder used in RK3399 supports H.264 profiles from
-> Baseline to High 4:2:2 up to Level 5.1, except for the Extended profile.
-> 
-> Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE and the
-> V4L2_CID_MPEG_VIDEO_H264_LEVEL control, so that userspace can query the
-> driver for the list of supported profiles and level.
-> 
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
-> Changes in v2:
-> - Moved to end
-> - Collect r-b tag
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 4faee9262392..b21031535330 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -144,6 +144,19 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->  		.cfg.def = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->  		.cfg.max = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->  	},
-> +	{
-> +		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-> +		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Nicolas recently pointed out to me that our drivers
-can't support ASO/FMO baseline features, and so
-seems we need to leave baseline out.
+Results of the daily build of media_tree:
 
-(Applies to Hantro as well).
+date:			Wed Jul  8 05:00:09 CEST 2020
+media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
+media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
+v4l-utils git hash:	c7531641d234370d7a81c0334a90d62a94760c93
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6154-g2f65f604
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-Thanks,
-Ezequiel
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: OK
+smatch: ERRORS
 
-> +		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422,
-> +		.cfg.menu_skip_mask =
-> +			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
-> +		.cfg.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
-> +	},
-> +	{
-> +		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_LEVEL,
-> +		.cfg.min = V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
-> +		.cfg.max = V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
-> +	},
->  };
->  
->  static const struct rkvdec_ctrls rkvdec_h264_ctrls = {
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
