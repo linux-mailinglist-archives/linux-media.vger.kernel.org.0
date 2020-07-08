@@ -2,104 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3AF9218F34
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 19:52:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19A252190A6
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 21:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726771AbgGHRvA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 13:51:00 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:33429 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725937AbgGHRvA (ORCPT
+        id S1726497AbgGHTcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 15:32:55 -0400
+Received: from rnd-relay.smtp.broadcom.com ([192.19.229.170]:60736 "EHLO
+        rnd-relay.smtp.broadcom.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725903AbgGHTc1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Jul 2020 13:51:00 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 19E2CFE4;
-        Wed,  8 Jul 2020 13:50:59 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:50:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=sW9qNXF/Wbt9ggnvbeJ0z8JAeAr
-        7jzttPRNhTjMBYZk=; b=aH/TkJtfbVtx+tQjjWge5obdlvK0p9hJL3hj1+gQ3mr
-        GGkvzH2Dsqw9DG1mQaN41LQMc7oWD+IwAsigzWLpRGNdvVsIzO5FyPfuhX3KE3MA
-        ++zQI5CnVB5uSz5T9Wh26Td959pwJTHJId2vD0Y8X5Rx8Q+QFjkvwTUOnctCqRhO
-        mRXYRlzkXFjwKg9VTD166MH9TRpnJQ4zHlR/jE2nCNY1g22oi/N/bpTrRo3uibZe
-        xmmCmhEC2b2gmbGB+BWnE8Hzx5Mv67a0Vtlr67zIeirBsHsqmOFxCMU7jCFDyzhg
-        +EPldf3NBQB4y4j2ystrMqkMIWa9Hw2n4YeYf85ILYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=sW9qNX
-        F/Wbt9ggnvbeJ0z8JAeAr7jzttPRNhTjMBYZk=; b=K/dRfK3TCK1yVjBKbvOh2u
-        yhUFxzRf4niS6LK2DJYEMJCneWPpUU6SOd93fQy5qWwLoJk6NBl+XYtzrHfqljuX
-        wWMT7dwiHV6i1kl5W2+cY/BOALoUElzNx5RkpdIG7iGzsz6b0o8EI+AuA4wuF3Qv
-        aGmhd6Uhuoq0nMGR24bd1GwBZJCSZNml4Aj6Ik6oUCAv7rgnRmY6i+kJ96Pu+K4v
-        lEvJ4d7dLrNe/NwHAVPbeeXpGeMkLMFVQs2sTsnENTo5tW9c1J9ynQTak5A2qEqM
-        Vkkbzpds9jSRJ3cH5kikp7b9//NvuPV6Xl5k5Oo3XgdxYAKDRT3PRG7eTasqmjYg
-        ==
-X-ME-Sender: <xms:ggcGX9V0PRm4DHZWnW0hlLzss7U8cLxrXNijbMzUFMz1nmMMFENmdQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ggcGX9k4dKi853A739-0zF1_gj9mP1plZAxqmhqi4_sLf4MLCKdylw>
-    <xmx:ggcGX5aC-7Gx67plLgdO9Kt6ovDPzr8vlTqVHeak1hiiI3XdOD-ywg>
-    <xmx:ggcGXwXKlHrCfCufqAclq7lRgLQVi67CY9kBW95W3rVR1dNbRrYuwQ>
-    <xmx:ggcGXzzFlSZiVUYZjUUT4ZxooFr92HzVBaqIzah3ovSsN79E5EVmNw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 348063280065;
-        Wed,  8 Jul 2020 13:50:58 -0400 (EDT)
-Date:   Wed, 8 Jul 2020 19:50:56 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] sun4i-csi: call _vb2_fop_release instead of
- v4l2_fh_release
-Message-ID: <20200708175056.5l6lqwm62bg5pvll@gilmour.lan>
-References: <8002e999-feb5-8715-9e1a-ed67165ade7e@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2oaar24fdq5upq63"
-Content-Disposition: inline
-In-Reply-To: <8002e999-feb5-8715-9e1a-ed67165ade7e@xs4all.nl>
+        Wed, 8 Jul 2020 15:32:27 -0400
+Received: from mail-irv-17.broadcom.com (mail-irv-17.lvn.broadcom.net [10.75.242.48])
+        by rnd-relay.smtp.broadcom.com (Postfix) with ESMTP id 8117D30C0C0;
+        Wed,  8 Jul 2020 12:32:25 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 rnd-relay.smtp.broadcom.com 8117D30C0C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+        s=dkimrelay; t=1594236745;
+        bh=EwUpHpRkQBD8sV+nVCn/MQ7dk/rrClGaFM9+jr1cZU8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=drvkI27/fHhYXEkdId7+vJ5i7ud2y2ikwR+y7AE/J9w55EFR8sPGecnB7IsWGC5uz
+         QYnOtjYQKHGABcozhyAcYfAE4G1Ji4EbwN/BE2eVF+TGJcKtGInC4j8GhvM9G92paa
+         KZakrRTm8TE2epxp2zFEUFWeyuw6NGfh/Z+0hNrk=
+Received: from stbsrv-and-01.and.broadcom.net (stbsrv-and-01.and.broadcom.net [10.28.16.211])
+        by mail-irv-17.broadcom.com (Postfix) with ESMTP id 039BE140069;
+        Wed,  8 Jul 2020 12:32:21 -0700 (PDT)
+From:   Jim Quinlan <james.quinlan@broadcom.com>
+To:     linux-pci@vger.kernel.org,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        bcm-kernel-feedback-list@broadcom.com, james.quinlan@broadcom.com
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE),
+        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER
+        A10), Florian Fainelli <f.fainelli@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS),
+        Jens Axboe <axboe@kernel.dk>, Joerg Roedel <jroedel@suse.de>,
+        Julien Grall <julien.grall@arm.com>,
+        linux-acpi@vger.kernel.org (open list:ACPI FOR ARM64 (ACPI/arm64)),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
+        linux-ide@vger.kernel.org (open list:LIBATA SUBSYSTEM (Serial and
+        Parallel ATA drivers)), linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER),
+        linux-remoteproc@vger.kernel.org (open list:REMOTE PROCESSOR
+        (REMOTEPROC) SUBSYSTEM),
+        linux-rpi-kernel@lists.infradead.org (moderated list:BROADCOM
+        BCM2711/BCM2835 ARM ARCHITECTURE),
+        linux-sh@vger.kernel.org (open list:SUPERH),
+        linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
+        Oliver Neukum <oneukum@suse.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Rob Herring <robh@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Saravana Kannan <saravanak@google.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [PATCH v7 00/12] PCI: brcmstb: enable PCIe for STB chips
+Date:   Wed,  8 Jul 2020 15:31:53 -0400
+Message-Id: <20200708193219.47134-1-james.quinlan@broadcom.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---2oaar24fdq5upq63
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Patchset Summary:
+  Enhance a PCIe host controller driver.  Because of its unusual design
+  we are foced to change dev->dma_pfn_offset into a more general role
+  allowing multiple offsets.  See the 'v1' notes below for more info.
 
-Hi Hans,
+v7:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- remove second kcalloc/copy in device.c (AndyS)
+  -- use PTR_ERR_OR_ZERO() and PHYS_PFN() (AndyS)
+  -- indentation, sizeof(struct ...) => sizeof(*r) (AndyS)
+  -- add pfn.h definitions: PFN_DMA_ADDR(), DMA_ADDR_PFN() (AndyS)
+  -- Fixed compile error in "sun6i_csi.c" (kernel test robot)
+  Commit "ata: ahci_brcm: Fix use of BCM7216 reset controller"
+  -- correct name of function in the commit msg (SergeiS)
+  
+v6:
+  Commit "device core: Introduce DMA range map":
+  -- of_dma_get_range() now takes a single argument and returns either
+     NULL, a valid map, or an ERR_PTR. (Robin)
+  -- offsets are no longer a PFN value but an actual address. (Robin)
+  -- the bus_dma_region struct stores the range size instead of
+     the cpu_end and pci_end values. (Robin)
+  -- devices that were setting a single offset with no boundaries
+     have been modified to have boundaries; in a few places
+     where this informatino was unavilable a /* FIXME: ... */
+     comment was added. (Robin)
+  -- dma_attach_offset_range() can be called when an offset
+     map already exists; if it's range is already present
+     nothing is done and success is returned. (Robin)
+  All commits:
+  -- Man name/style/corrections/etc changed (Bjorn)
+  -- rebase to Torvalds master
 
-On Tue, Jul 07, 2020 at 03:36:47PM +0200, Hans Verkuil wrote:
-> This driver didn't call _vb2_fop_release in the sun4i_csi_release
-> function. Without that call the vb2 queue is not properly canceled and
-> buffers may not be freed.
->=20
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+v5:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  -- in of/address.c: "map_size = 0" => "*map_size = 0"
+  -- use kcalloc instead of kzalloc (AndyS)
+  -- use PHYS_ADDR_MAX instead of "~(phys_addr_t)0"
+  Commit "PCI: brcmstb: Set internal memory viewport sizes"
+  -- now gives error on missing dma-ranges property.
+  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+  -- removed "Allof:" from brcm,scb-sizes definition (RobH)
+  All Commits:
+  -- indentation style, use max chars 100 (AndyS)
+  -- rebased to torvalds master
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+v4:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  -- of_dma_get_range() does not take a dev param but instead
+     takes two "out" params: map and map_size.  We do this so
+     that the code that parses dma-ranges is separate from
+     the code that modifies 'dev'.   (Nicolas)
+  -- the separate case of having a single pfn offset has
+     been removed and is now processed by going through the
+     map array. (Nicolas)
+  -- move attach_uniform_dma_pfn_offset() from of/address.c to
+     dma/mapping.c so that it does not depend on CONFIG_OF. (Nicolas)
+  -- devm_kcalloc => devm_kzalloc (DanC)
+  -- add/fix assignment to dev->dma_pfn_offset_map for func
+     attach_uniform_dma_pfn_offset() (DanC, Nicolas)
+  -- s/struct dma_pfn_offset_region/struct bus_dma_region/ (Nicolas)
+  -- s/attach_uniform_dma_pfn_offset/dma_attach_uniform_pfn_offset/
+  -- s/attach_dma_pfn_offset_map/dma_attach_pfn_offset_map/
+  -- More use of PFN_{PHYS,DOWN,UP}. (AndyS)
+  Commit "of: Include a dev param in of_dma_get_range()"
+  -- this commit was sqaushed with "device core: Introduce ..."
 
-Thanks!
-Maxime
+v3:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  Commit "arm: dma-mapping: Invoke dma offset func if needed"
+  -- The above two commits have been squashed.  More importantly,
+     the code has been modified so that the functionality for
+     multiple pfn offsets subsumes the use of dev->dma_pfn_offset.
+     In fact, dma_pfn_offset is removed and supplanted by
+     dma_pfn_offset_map, which is a pointer to an array.  The
+     more common case of a uniform offset is now handled as
+     a map with a single entry, while cases requiring multiple
+     pfn offsets use a map with multiple entries.  Code paths
+     that used to do this:
 
---2oaar24fdq5upq63
-Content-Type: application/pgp-signature; name="signature.asc"
+         dev->dma_pfn_offset = mydrivers_pfn_offset;
 
------BEGIN PGP SIGNATURE-----
+     have been changed to do this:
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXwYHgAAKCRDj7w1vZxhR
-xZzSAPoDLQe5omh+eZel+d6LL7jB6VFxVwbyT1gKjYLaLXiizAD/cZeohWCUnCy7
-GYFeRPNz74qrVOh+yBFnOyzTKirINww=
-=NfAk
------END PGP SIGNATURE-----
+         attach_uniform_dma_pfn_offset(dev, pfn_offset);
 
---2oaar24fdq5upq63--
+  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+  -- Add if/then clause for required props: resets, reset-names (RobH)
+  -- Change compatible list from const to enum (RobH)
+  -- Change list of u32-tuples to u64 (RobH)
+
+  Commit "of: Include a dev param in of_dma_get_range()"
+  -- modify of/unittests.c to add NULL param in of_dma_get_range() call.
+
+  Commit "device core: Add ability to handle multiple dma offsets"
+  -- align comment in device.h (AndyS).
+  -- s/cpu_beg/cpu_start/ and s/dma_beg/dma_start/ in struct
+     dma_pfn_offset_region (AndyS).
+
+v2:
+Commit: "device core: Add ability to handle multiple dma offsets"
+  o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
+  o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
+  o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
+  o dev->dma_pfn_map => dev->dma_pfn_offset_map
+  o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
+  o In device.h: s/const void */const struct dma_pfn_offset_region */
+  o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
+    guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
+  o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
+    dev->dma_pfn_offset_map is copied as well.
+  o Merged two of the DMA commits into one (Christoph).
+
+Commit "arm: dma-mapping: Invoke dma offset func if needed":
+  o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
+
+Other commits' changes:
+  o Removed need for carrying of_id var in priv (Nicolas)
+  o Commit message rewordings (Bjorn)
+  o Commit log messages filled to 75 chars (Bjorn)
+  o devm_reset_control_get_shared())
+    => devm_reset_control_get_optional_shared (Philipp)
+  o Add call to reset_control_assert() in PCIe remove routines (Philipp)
+
+v1:
+This patchset expands the usefulness of the Broadcom Settop Box PCIe
+controller by building upon the PCIe driver used currently by the
+Raspbery Pi.  Other forms of this patchset were submitted by me years
+ago and not accepted; the major sticking point was the code required
+for the DMA remapping needed for the PCIe driver to work [1].
+
+There have been many changes to the DMA and OF subsystems since that
+time, making a cleaner and less intrusive patchset possible.  This
+patchset implements a generalization of "dev->dma_pfn_offset", except
+that instead of a single scalar offset it provides for multiple
+offsets via a function which depends upon the "dma-ranges" property of
+the PCIe host controller.  This is required for proper functionality
+of the BrcmSTB PCIe controller and possibly some other devices.
+
+[1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
+
+Jim Quinlan (12):
+  PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
+  ata: ahci_brcm: Fix use of BCM7216 reset controller
+  dt-bindings: PCI: Add bindings for more Brcmstb chips
+  PCI: brcmstb: Add bcm7278 register info
+  PCI: brcmstb: Add suspend and resume pm_ops
+  PCI: brcmstb: Add bcm7278 PERST# support
+  PCI: brcmstb: Add control of rescal reset
+  device core: Introduce DMA range map, supplanting dma_pfn_offset
+  PCI: brcmstb: Set additional internal memory DMA viewport sizes
+  PCI: brcmstb: Accommodate MSI for older chips
+  PCI: brcmstb: Set bus max burst size by chip type
+  PCI: brcmstb: Add bcm7211, bcm7216, bcm7445, bcm7278 to match list
+
+ .../bindings/pci/brcm,stb-pcie.yaml           |  56 ++-
+ arch/arm/include/asm/dma-mapping.h            |   9 +-
+ arch/arm/mach-keystone/keystone.c             |  17 +-
+ arch/sh/drivers/pci/pcie-sh7786.c             |   9 +-
+ arch/sh/kernel/dma-coherent.c                 |  16 +-
+ arch/x86/pci/sta2x11-fixup.c                  |   7 +-
+ drivers/acpi/arm64/iort.c                     |   5 +-
+ drivers/ata/ahci_brcm.c                       |  11 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |   7 +-
+ drivers/iommu/io-pgtable-arm.c                |   2 +-
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   6 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   5 +-
+ drivers/of/address.c                          |  95 ++--
+ drivers/of/device.c                           |  47 +-
+ drivers/of/of_private.h                       |   9 +-
+ drivers/of/unittest.c                         |  35 +-
+ drivers/pci/controller/Kconfig                |   3 +-
+ drivers/pci/controller/pcie-brcmstb.c         | 408 +++++++++++++++---
+ drivers/remoteproc/remoteproc_core.c          |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   8 +-
+ drivers/usb/core/message.c                    |   4 +-
+ drivers/usb/core/usb.c                        |   2 +-
+ include/linux/device.h                        |   4 +-
+ include/linux/dma-direct.h                    |  10 +-
+ include/linux/dma-mapping.h                   |  37 ++
+ include/linux/pfn.h                           |   2 +
+ kernel/dma/coherent.c                         |  10 +-
+ kernel/dma/mapping.c                          |  53 +++
+ 28 files changed, 682 insertions(+), 197 deletions(-)
+
+-- 
+2.17.1
+
