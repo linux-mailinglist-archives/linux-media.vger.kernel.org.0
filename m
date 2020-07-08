@@ -2,183 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79BBB218860
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 15:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31A782188FB
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 15:29:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729006AbgGHNDC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 09:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
+        id S1729564AbgGHN3E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 09:29:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728997AbgGHNDC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 09:03:02 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C81C6C08C5DC
-        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 06:03:01 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id ga4so50383871ejb.11
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2020 06:03:01 -0700 (PDT)
+        with ESMTP id S1729279AbgGHN3E (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 09:29:04 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DAC2C061A0B
+        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 06:29:04 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id d4so21675830pgk.4
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2020 06:29:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mK9nGtyk1yXoa5XhSZVTSHCPTsC0YOOqucSMxb5VkhE=;
-        b=a0ofPs1E/HUWWrRpwOHL4ISSH+v/JkxQQzo5htYFmAZ6R7EqxA+leosg/wqZ0Opx0Q
-         nGt3rO/W61bsiAIpQqNSLS23xfuCYTmFKyScd6tDXPy+zZ6FbREaYEg+wgjdjfvdhhFH
-         7yfiOkMIPhqBprUxeFRtGiAxCzGhJM+OqBg+w=
+        bh=wN3EWgk/x5NoifjZbV2/MdXn6UXBSWUU/L+JDx5urmA=;
+        b=Ck5EclqdTPhVTMFgg6o2aa4zQ3r7sKrPXh6IA93ELVlTG2AZl7EFcBYb+N/gLwYjHX
+         Bm0/kaPLgwbKxHy5njCl9vz03Naus7hVgS6d89ulhKVVyrIbjuu4UmeQlr43Vdi59hv/
+         fbO2EB06AGjRn4djiqh0weKEcBqT8NJXz8iElkjVljjKwahe/RbJp2XalZh8664e6oh5
+         +IgBhD1OlDYIg5cA47MdzJIoZtCWNFgzddNttpZ5j7LqyB0e4f11g3jyvruslhrh1xzP
+         M2RvCiYOAkYJ4Wlb0hJ6AaKqE0Ou9tm844RGkwG3AHBkvriw4SCU4sCTHLdgAFBgG6Iq
+         dmug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mK9nGtyk1yXoa5XhSZVTSHCPTsC0YOOqucSMxb5VkhE=;
-        b=Z102ZP/bXNXAJoqy4Ly6f1G19yqDAstmL/vjx/nnoNdcZy0B5OOUScApeyO0QJwMpk
-         5ClnjUAPapPOH0dCOU/d24RYoRuuCFXdsFBXA1cipxquFchLdxFwBeBf++Qjal6wmcaE
-         wuI/mOAGNtcK1FrNqal2b0LD1XmJFfuGt6crCWoAoWDLIznndof+CgySGiImg3KaU4Ev
-         U7F/mc9IWl9Zv3Ce7zdxi/t1nz/uKHBCssVj4Ut7jGlBnNfyzF2OwLuqqtV9QNzG24c2
-         k43K8MDko8uamKgQgJb9Umm/mbnrRw9YquZ5BTP7K/85qYyW2FTWyTF2YuYC7CkhzLwi
-         4KPw==
-X-Gm-Message-State: AOAM5321Q1LxplMa6jb4jNrP8TUIhnr+4EX8wyxwl7pg6QP+2HxQZvFd
-        ZZWXms22fDJXG4xA7dcwcJXXTCcSE2r2Fg==
-X-Google-Smtp-Source: ABdhPJyQiZl0HOURsWIzs1YCkyLTrJV5X4VtoRtKsUeWo4HZU6qRVva1xPeS/5WJyVqGAzA/zEO3rQ==
-X-Received: by 2002:a17:906:9716:: with SMTP id k22mr32893890ejx.200.1594213380095;
-        Wed, 08 Jul 2020 06:03:00 -0700 (PDT)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
-        by smtp.gmail.com with ESMTPSA id i10sm26875492edx.42.2020.07.08.06.02.59
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jul 2020 06:02:59 -0700 (PDT)
-Received: by mail-ed1-f46.google.com with SMTP id e15so41725883edr.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2020 06:02:59 -0700 (PDT)
-X-Received: by 2002:adf:dfcd:: with SMTP id q13mr58570699wrn.295.1594212933528;
- Wed, 08 Jul 2020 05:55:33 -0700 (PDT)
+        bh=wN3EWgk/x5NoifjZbV2/MdXn6UXBSWUU/L+JDx5urmA=;
+        b=b21spMYrAehiyA4GWTqNzoZIyBDGhBoHeYVburPJoPVcM3QGDErudfdPMhMEmxboI8
+         0/naZwd8Wnc0srJklC4UIY42IjQkd+vbXt7WYwvdww9/mClgwDNODNDyt3/oarK6Xay3
+         mYowOeSpMZV5LcCHADm2ascUsPReMlIfopYq/6FSjqCnG29CIhq8lMZAAN7vuX9j2R6L
+         I3HLK6muj12/oK0XKKL7O+QT5ZJIiZxCocQxZAaT6J52jiDLjkjC3So+xh9xfo++ioRI
+         T8rt62ZtgMZBOOXZbxEaJ2hrJzBCI7G8IjUKrRAGrgD/7k9PET0ClwzruOVmo4MjUncX
+         3ihg==
+X-Gm-Message-State: AOAM533UT92BUznH58kKzliFGyknSIFurpCIQC1VI/HSocedf7xe64Oh
+        mhvGxSCdvq4KKeydeGyYvm/qmbIhdmWeBCOi2/Hhuw==
+X-Google-Smtp-Source: ABdhPJy6eI1/TSJpreDxCQpqeyG6XeOm5xpbcgLAF1WPOQZyO2y0sMxOp79n/z1Tey4/S/Cd6hAidyyvLZgG66GhGlo=
+X-Received: by 2002:a63:8c18:: with SMTP id m24mr51276927pgd.289.1594214943466;
+ Wed, 08 Jul 2020 06:29:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200623111325.237158-1-keiichiw@chromium.org>
- <2850781.lI95146Gml@os-lin-dmo> <CAD90VcbmrismAXW0t7K6M-=a2-P+OCOw8PvBr6r8S_3LNYu=pw@mail.gmail.com>
- <3163123.i8GTTo9gJ5@os-lin-dmo> <CAPBb6MWqYHidfaaTKq43yDtjOmKEi=AMC3O9vLdWpPBd_vFrUA@mail.gmail.com>
- <20200703051756-mutt-send-email-mst@kernel.org> <CAPBb6MXju_cc3FdWF60Ndx6aYfHmaGbQxu2a3QMxTfnLrXJxYQ@mail.gmail.com>
- <CAAFQd5CQuDgvZrYC53yKEYBY1LOX2QO8+7eRAscN5wQFmHmkZQ@mail.gmail.com> <CAPBb6MXMFQe2Qg1_O01-9OcOEOwv+A0UFu9wBf1ctjVevHAWrg@mail.gmail.com>
-In-Reply-To: <CAPBb6MXMFQe2Qg1_O01-9OcOEOwv+A0UFu9wBf1ctjVevHAWrg@mail.gmail.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 8 Jul 2020 14:55:21 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CUsk2F3RgUKhCzXxkbMSxLwp+_Cox+apA750hy5svYrQ@mail.gmail.com>
-Message-ID: <CAAFQd5CUsk2F3RgUKhCzXxkbMSxLwp+_Cox+apA750hy5svYrQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 0/1] Virtio Video Device Specification
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com,
-        Kiran Pawar <kiran.pawar@opensynergy.com>,
-        Saket Sinha <saket.sinha89@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <20200604185745.23568-1-jernej.skrabec@siol.net> <20200604185745.23568-2-jernej.skrabec@siol.net>
+In-Reply-To: <20200604185745.23568-2-jernej.skrabec@siol.net>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 8 Jul 2020 10:28:52 -0300
+Message-ID: <CAAEAJfAx4=RGJBVPccVFNYxNUqom7tkQD=J9oMfqajGxn6k+Zg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: uapi: h264: update reference lists
+To:     Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devel@driverdev.osuosl.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 8, 2020 at 6:35 AM Alexandre Courbot <acourbot@chromium.org> wrote:
+Hello Jernej,
+
+I'd like to post a new H264 uAPI cleanup series soon,
+would you mind resending this, or otherwise do you
+mind if I include this patch in the series?
+
+See below for a tiny comment.
+
+On Thu, 4 Jun 2020 at 15:55, Jernej Skrabec <jernej.skrabec@siol.net> wrote:
 >
-> On Fri, Jul 3, 2020 at 6:55 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> >
-> > On Fri, Jul 3, 2020 at 11:27 AM Alexandre Courbot <acourbot@chromium.org> wrote:
-> > >
-> > > On Fri, Jul 3, 2020 at 6:18 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > On Fri, Jul 03, 2020 at 02:45:15PM +0900, Alexandre Courbot wrote:
-> > > > > Hi Dmitry,
-> > > > >
-> > > > > On Thu, Jul 2, 2020 at 10:47 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
-> > > > > >
-> > > > > > Hi Keiichi,
-> > > > > >
-> > > > > > Thanks for the clarification. I believe we should explicitly describe this in
-> > > > > > the VIRTIO_VIDEO_CMD_RESOURCE_ATTACH section. And I also still see a problem
-> > > > > > there. If it is a guest allocated resource, we cannot consider it to be free
-> > > > > > until the device really releases it. And it won't happen until we issue the
-> > > > > > next ATTACH call. Also, as we discussed before, it might be not possible to
-> > > > > > free individual buffers, but the whole queue only.
-> > > > >
-> > > > > In the case of the encoder, a V4L2 driver is not supposed to let
-> > > > > user-space dequeue an input frame while it is used as reference for
-> > > > > the encoding process. So if we add a similar rule in the virtio-video
-> > > > > specification, I suppose this would solve the problem?
-> > > > >
-> > > > > For the decoder case, we have a bigger problem though. Since DMABUFs
-> > > > > can be arbitrarily attached to any V4L2 buffer ID, we may end up
-> > > > > re-queueing the DMABUF of a decoded frame that is still used as
-> > > > > reference under a different V4L2 buffer ID. In this case I don't think
-> > > > > the driver has a way to know that the memory resource should not be
-> > > > > overwritten, and it will thus happily use it as a decode target. The
-> > > > > easiest fix is probably to update the V4L2 stateful specification to
-> > > > > require that reused DMABUFs must always be assigned to the same V4L2
-> > > > > buffer ID, and must be kept alive as long as decoding is in progress,
-> > > > > or until a resolution change event is received. We can then apply a
-> > > > > similar rule to the virtio device.
-> > > >
-> > > >
-> > > > Sounds like a generic kind of problem - how do other devices solve it?
-> > >
-> > > Most users of V4L2 drivers use MMAP buffers, which don't suffer from
-> > > this problem: since MMAP buffers are managed by V4L2 and the same V4L2
-> > > buffer ID always corresponds to the same backing memory, the driver
-> > > just needs to refrain from decoding into a given V4L2 buffer as long
-> > > as it is used as a reference frames. This is something that all
-> > > drivers currently do AFAICT.
-> > >
-> > > The problem only occurs if you let userspace map anything to V4L2
-> > > buffers (USERPTR or DMABUF buffers). In order to guarantee the same
-> > > reliable behavior as with MMAP buffers, you must enforce the same
-> > > rule: always the same backing memory for a given V4L2 buffer.
-> > >
-> > > ... or you can rotate between a large enough number of buffers to
-> > > leave enough space for the reference tag to expire on your frames, but
-> > > that's clearly not a good way to address the problem.
-> >
-> > FWIW, it's typically solved with regular devices by completely
-> > disallowing the DMABUF/USERPTR modes and only allowing the
-> > V4L2-managed MMAP mode for affected buffer queues.
-> >
-> > However, that's quite a severe limitation and with a careful API
-> > extension, DMABUF could be still handled. Namely:
-> >  - pre-registration of buffers at initialization time: that would
-> > likely mean mandating VIDIOC_QBUF for all indexes before any
-> > decoding/encoding can start,
+> When dealing with with interlaced frames, reference lists must tell if
+> each particular reference is meant for top or bottom field. This info
+> is currently not provided at all in the H264 related controls.
 >
-> Can't we get around this by just requiring that DMABUFs passed to
-> VIDIOC_QBUFs are always the same for a given index? Why would it be
-> necessary to require all buffers to be queued before starting the
-> codec?
+> Make reference lists hold a structure which will also hold flags along
+> index into DPB array. Flags will tell if reference is meant for top or
+> bottom field.
+>
+> Currently the only user of these lists is Cedrus which is just compile
+> fixed here. Actual usage of newly introduced flags will come in
+> following commit.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> ---
+>  .../media/v4l/ext-ctrls-codec.rst             | 40 ++++++++++++++++++-
+>  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 +--
+>  include/media/h264-ctrls.h                    | 12 +++++-
+>  3 files changed, 51 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index d0d506a444b1..6c36d298db20 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -1843,10 +1843,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+>      * - __u32
+>        - ``slice_group_change_cycle``
+>        -
+> -    * - __u8
+> +    * - struct :c:type:`v4l2_h264_reference`
+>        - ``ref_pic_list0[32]``
+>        - Reference picture list after applying the per-slice modifications
+> -    * - __u8
+> +    * - struct :c:type:`v4l2_h264_reference`
+>        - ``ref_pic_list1[32]``
+>        - Reference picture list after applying the per-slice modifications
+>      * - __u32
+> @@ -1926,6 +1926,42 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+>        - ``chroma_offset[32][2]``
+>        -
+>
+> +``Picture Reference``
+> +
+> +.. c:type:: v4l2_h264_reference
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table:: struct v4l2_h264_reference
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - __u16
+> +      - ``flags``
+> +      - See :ref:`Picture Reference Flags <h264_reference_flags>`
+> +    * - __u8
+> +      - ``index``
+> +      -
+> +
+> +.. _h264_reference_flags:
+> +
+> +``Picture Reference Flags``
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - ``V4L2_H264_REFERENCE_FLAG_TOP_FIELD``
+> +      - 0x00000001
+> +      -
+> +    * - ``V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD``
+> +      - 0x00000002
+> +      -
+> +
+>  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS (struct)``
+>      Specifies the decode parameters (as extracted from the bitstream)
+>      for the associated H264 slice data. This includes the necessary
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> index 54ee2aa423e2..cce527bbdf86 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -166,8 +166,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
+>
+>  static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+>                                    struct cedrus_run *run,
+> -                                  const u8 *ref_list, u8 num_ref,
+> -                                  enum cedrus_h264_sram_off sram)
+> +                                  const struct v4l2_h264_reference *ref_list,
+> +                                  u8 num_ref, enum cedrus_h264_sram_off sram)
+>  {
+>         const struct v4l2_ctrl_h264_decode_params *decode = run->h264.decode_params;
+>         struct vb2_queue *cap_q;
+> @@ -188,7 +188,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+>                 int buf_idx;
+>                 u8 dpb_idx;
+>
+> -               dpb_idx = ref_list[i];
+> +               dpb_idx = ref_list[i].index;
+>                 dpb = &decode->dpb[dpb_idx];
+>
+>                 if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> index 080fd1293c42..9b1cbc9bc38e 100644
+> --- a/include/media/h264-ctrls.h
+> +++ b/include/media/h264-ctrls.h
+> @@ -140,6 +140,14 @@ struct v4l2_h264_pred_weight_table {
+>  #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED    0x04
+>  #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH             0x08
+>
+> +#define V4L2_H264_REFERENCE_FLAG_TOP_FIELD             0x01
+> +#define V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD          0x02
+> +
+> +struct v4l2_h264_reference {
+> +       __u8 flags;
+> +       __u8 index;
+> +};
+> +
+>  struct v4l2_ctrl_h264_slice_params {
+>         /* Size in bytes, including header */
+>         __u32 size;
+> @@ -182,8 +190,8 @@ struct v4l2_ctrl_h264_slice_params {
+>          * Entries on each list are indices into
+>          * v4l2_ctrl_h264_decode_params.dpb[].
+>          */
+> -       __u8 ref_pic_list0[32];
+> -       __u8 ref_pic_list1[32];
+> +       struct v4l2_h264_reference ref_pic_list0[32];
+> +       struct v4l2_h264_reference ref_pic_list1[32];
 >
 
-There are decoders (e.g. s5p-mfc) which require all the framebuffers
-to be registered beforehands.
+Could we use a macro for "32" here? Something like:
 
-> >  - enforcement of index-buffer mapping: VIDIOC_QBUF would have to fail
-> > if one attempts to queue another buffer at the same index,
-> >  - ability to explicitly release existing buffers: there is
-> > VIDIOC_RELEASE_BUF in the works which could be used to release a
-> > specific index,
-> >  - ability to explicitly add new buffers: a combination of
-> > VIDIOC_CREATEBUFS + VIDIOC_QBUF could be already used to achieve this.
->
-> Even without these I guess we can probably get something working at
-> the cost of higher restrictions to clients (i.e. purely static set of
-> buffers).
+#define V4L2_H264_REF_PIC_LIST_LEN (V4L2_H264_NUM_DPB_ENTRIES * 2).
 
-I suppose you mean without the last two?
+Does it make sense to add a comment as well?
 
-Best regards,
-Tomasz
+I was thinking something along these lines:
+
+"""
+Pictures in the DPB can be a frame, a complementary field pair or a
+single field.
+Therefore, reference pictures lists need twice as much entries, so it
+can reference
+either field of a field pair.
+"""
+
+While it doesn't replace proper H264 specification reading,
+it would add some clarity.
+
+Thanks,
+Ezequiel
