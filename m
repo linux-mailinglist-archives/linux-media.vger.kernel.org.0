@@ -2,264 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A252190A6
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 21:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E897F2192AC
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 23:43:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbgGHTcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 15:32:55 -0400
-Received: from rnd-relay.smtp.broadcom.com ([192.19.229.170]:60736 "EHLO
-        rnd-relay.smtp.broadcom.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725903AbgGHTc1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Jul 2020 15:32:27 -0400
-Received: from mail-irv-17.broadcom.com (mail-irv-17.lvn.broadcom.net [10.75.242.48])
-        by rnd-relay.smtp.broadcom.com (Postfix) with ESMTP id 8117D30C0C0;
-        Wed,  8 Jul 2020 12:32:25 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 rnd-relay.smtp.broadcom.com 8117D30C0C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
-        s=dkimrelay; t=1594236745;
-        bh=EwUpHpRkQBD8sV+nVCn/MQ7dk/rrClGaFM9+jr1cZU8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=drvkI27/fHhYXEkdId7+vJ5i7ud2y2ikwR+y7AE/J9w55EFR8sPGecnB7IsWGC5uz
-         QYnOtjYQKHGABcozhyAcYfAE4G1Ji4EbwN/BE2eVF+TGJcKtGInC4j8GhvM9G92paa
-         KZakrRTm8TE2epxp2zFEUFWeyuw6NGfh/Z+0hNrk=
-Received: from stbsrv-and-01.and.broadcom.net (stbsrv-and-01.and.broadcom.net [10.28.16.211])
-        by mail-irv-17.broadcom.com (Postfix) with ESMTP id 039BE140069;
-        Wed,  8 Jul 2020 12:32:21 -0700 (PDT)
-From:   Jim Quinlan <james.quinlan@broadcom.com>
-To:     linux-pci@vger.kernel.org,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        bcm-kernel-feedback-list@broadcom.com, james.quinlan@broadcom.com
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dan Williams <dan.j.williams@intel.com>,
-        devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE),
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER
-        A10), Florian Fainelli <f.fainelli@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS),
-        Jens Axboe <axboe@kernel.dk>, Joerg Roedel <jroedel@suse.de>,
-        Julien Grall <julien.grall@arm.com>,
-        linux-acpi@vger.kernel.org (open list:ACPI FOR ARM64 (ACPI/arm64)),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
-        linux-ide@vger.kernel.org (open list:LIBATA SUBSYSTEM (Serial and
-        Parallel ATA drivers)), linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER),
-        linux-remoteproc@vger.kernel.org (open list:REMOTE PROCESSOR
-        (REMOTEPROC) SUBSYSTEM),
-        linux-rpi-kernel@lists.infradead.org (moderated list:BROADCOM
-        BCM2711/BCM2835 ARM ARCHITECTURE),
-        linux-sh@vger.kernel.org (open list:SUPERH),
-        linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
-        Oliver Neukum <oneukum@suse.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Saravana Kannan <saravanak@google.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v7 00/12] PCI: brcmstb: enable PCIe for STB chips
-Date:   Wed,  8 Jul 2020 15:31:53 -0400
-Message-Id: <20200708193219.47134-1-james.quinlan@broadcom.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726151AbgGHVnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 17:43:17 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:50256 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725915AbgGHVnQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 17:43:16 -0400
+Received: by mail-io1-f70.google.com with SMTP id 14so19101532ioz.17
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2020 14:43:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=eoAn1HlYkwtbVVLjbIq4KVlzt4T6kCE2zsNOQ24E920=;
+        b=suxw7+X18O8fBVpgy95zTisexGsreyEBBQIJ/ftzY3rU4Equy/sKErThkcB3O966XV
+         hXrJBoeQ3H6PjqfGM94gm+sE/m159XvoJXO7AMsRM+sSlR+OhwQnmjz9WelKj5BD3Ose
+         EBkiDvvoUasGjX6bpBnXhNeaHzTcbezULbU+0NTS0raBiKqiEs84YW0fzSFAixxtE85G
+         DodlIOE/SfOXWl6e+McPmGRGgItxeHakwi4Io6/M/65xl2GCBKiJgeKkIpVN49I429Oh
+         yasXETsIVzLsSgq30bz0Eh+L6kPtlCDCdkFpyIJNHb8sDCUWZ5DPgbssRygmZP8VnTpa
+         jbeg==
+X-Gm-Message-State: AOAM533szmwQVFuLWOa8pHYZf0vpHKlaIUuJftGCccnnpZY6mMSJ5ZVN
+        PAG+JKEzxUnrF+irTHIaAcMbVo6UjPKW51uAQo/wul0uVj8E
+X-Google-Smtp-Source: ABdhPJxtVs90avTmLhHuFTbp9SwkoETCGdzxpP2pm4glRJJsiB5Q8iHRT7JN6fzz2qPUpuTsElQF6l6PkypUKN+lP0QL06V+vWaG
+MIME-Version: 1.0
+X-Received: by 2002:a92:4101:: with SMTP id o1mr32609484ila.53.1594244595688;
+ Wed, 08 Jul 2020 14:43:15 -0700 (PDT)
+Date:   Wed, 08 Jul 2020 14:43:15 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000cfab3705a9f4fef7@google.com>
+Subject: general protection fault in dma_buf_release
+From:   syzbot <syzbot+4342719956b367864c91@syzkaller.appspotmail.com>
+To:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
-Patchset Summary:
-  Enhance a PCIe host controller driver.  Because of its unusual design
-  we are foced to change dev->dma_pfn_offset into a more general role
-  allowing multiple offsets.  See the 'v1' notes below for more info.
+syzbot found the following crash on:
 
-v7:
-  Commit: "device core: Introduce DMA range map, supplanting ..."
-  -- remove second kcalloc/copy in device.c (AndyS)
-  -- use PTR_ERR_OR_ZERO() and PHYS_PFN() (AndyS)
-  -- indentation, sizeof(struct ...) => sizeof(*r) (AndyS)
-  -- add pfn.h definitions: PFN_DMA_ADDR(), DMA_ADDR_PFN() (AndyS)
-  -- Fixed compile error in "sun6i_csi.c" (kernel test robot)
-  Commit "ata: ahci_brcm: Fix use of BCM7216 reset controller"
-  -- correct name of function in the commit msg (SergeiS)
-  
-v6:
-  Commit "device core: Introduce DMA range map":
-  -- of_dma_get_range() now takes a single argument and returns either
-     NULL, a valid map, or an ERR_PTR. (Robin)
-  -- offsets are no longer a PFN value but an actual address. (Robin)
-  -- the bus_dma_region struct stores the range size instead of
-     the cpu_end and pci_end values. (Robin)
-  -- devices that were setting a single offset with no boundaries
-     have been modified to have boundaries; in a few places
-     where this informatino was unavilable a /* FIXME: ... */
-     comment was added. (Robin)
-  -- dma_attach_offset_range() can be called when an offset
-     map already exists; if it's range is already present
-     nothing is done and success is returned. (Robin)
-  All commits:
-  -- Man name/style/corrections/etc changed (Bjorn)
-  -- rebase to Torvalds master
+HEAD commit:    9e50b94b Add linux-next specific files for 20200703
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=121cf755100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f99cc0faa1476ed6
+dashboard link: https://syzkaller.appspot.com/bug?extid=4342719956b367864c91
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1467c5e3100000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=153f2283100000
 
-v5:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  -- in of/address.c: "map_size = 0" => "*map_size = 0"
-  -- use kcalloc instead of kzalloc (AndyS)
-  -- use PHYS_ADDR_MAX instead of "~(phys_addr_t)0"
-  Commit "PCI: brcmstb: Set internal memory viewport sizes"
-  -- now gives error on missing dma-ranges property.
-  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
-  -- removed "Allof:" from brcm,scb-sizes definition (RobH)
-  All Commits:
-  -- indentation style, use max chars 100 (AndyS)
-  -- rebased to torvalds master
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+4342719956b367864c91@syzkaller.appspotmail.com
 
-v4:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  -- of_dma_get_range() does not take a dev param but instead
-     takes two "out" params: map and map_size.  We do this so
-     that the code that parses dma-ranges is separate from
-     the code that modifies 'dev'.   (Nicolas)
-  -- the separate case of having a single pfn offset has
-     been removed and is now processed by going through the
-     map array. (Nicolas)
-  -- move attach_uniform_dma_pfn_offset() from of/address.c to
-     dma/mapping.c so that it does not depend on CONFIG_OF. (Nicolas)
-  -- devm_kcalloc => devm_kzalloc (DanC)
-  -- add/fix assignment to dev->dma_pfn_offset_map for func
-     attach_uniform_dma_pfn_offset() (DanC, Nicolas)
-  -- s/struct dma_pfn_offset_region/struct bus_dma_region/ (Nicolas)
-  -- s/attach_uniform_dma_pfn_offset/dma_attach_uniform_pfn_offset/
-  -- s/attach_dma_pfn_offset_map/dma_attach_pfn_offset_map/
-  -- More use of PFN_{PHYS,DOWN,UP}. (AndyS)
-  Commit "of: Include a dev param in of_dma_get_range()"
-  -- this commit was sqaushed with "device core: Introduce ..."
+RBP: 00000000000103d6 R08: 0000000000000001 R09: 00000000004002c8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000402170
+R13: 0000000000402200 R14: 0000000000000000 R15: 0000000000000000
+general protection fault, probably for non-canonical address 0xdffffc0000000017: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x00000000000000b8-0x00000000000000bf]
+CPU: 1 PID: 6798 Comm: syz-executor223 Not tainted 5.8.0-rc3-next-20200703-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:dma_buf_release+0x51/0x3f0 drivers/dma-buf/dma-buf.c:63
+Code: 03 80 3c 02 00 0f 85 30 03 00 00 48 8b ad e8 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 8d bd b8 00 00 00 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e e3 02 00 00 8b 9d b8 00 00 00
+RSP: 0018:ffffc90001b87aa0 EFLAGS: 00010206
+RAX: dffffc0000000000 RBX: ffffffff847e30a0 RCX: ffffffff81c58a83
+RDX: 0000000000000017 RSI: ffffffff847e30b0 RDI: 00000000000000b8
+RBP: 0000000000000000 R08: 0000000000000001 R09: ffff88808a53c80b
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88808b7dc550
+R13: ffff88808b7dc4d8 R14: ffff88808b7dc520 R15: 0000000000000000
+FS:  0000000001f09880(0000) GS:ffff8880ae700000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000006cc090 CR3: 00000000a87d2000 CR4: 00000000001506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ __dentry_kill+0x42b/0x640 fs/dcache.c:584
+ dentry_kill fs/dcache.c:705 [inline]
+ dput+0x725/0xbc0 fs/dcache.c:878
+ path_put+0x2d/0x60 fs/namei.c:496
+ alloc_file_pseudo+0x20d/0x250 fs/file_table.c:236
+ dma_buf_getfile drivers/dma-buf/dma-buf.c:439 [inline]
+ dma_buf_export+0x5d8/0xae0 drivers/dma-buf/dma-buf.c:555
+ udmabuf_create+0xb9d/0xe30 drivers/dma-buf/udmabuf.c:228
+ udmabuf_ioctl_create_list drivers/dma-buf/udmabuf.c:284 [inline]
+ udmabuf_ioctl+0x265/0x2c0 drivers/dma-buf/udmabuf.c:299
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ ksys_ioctl+0x11a/0x180 fs/ioctl.c:753
+ __do_sys_ioctl fs/ioctl.c:762 [inline]
+ __se_sys_ioctl fs/ioctl.c:760 [inline]
+ __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:760
+ do_syscall_64+0x60/0xe0 arch/x86/entry/common.c:367
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x441229
+Code: Bad RIP value.
+RSP: 002b:00007ffe24394848 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 0000000000441229
+RDX: 0000000020000000 RSI: 0000000040087543 RDI: 0000000000000004
+RBP: 00000000000103d6 R08: 0000000000000001 R09: 00000000004002c8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000402170
+R13: 0000000000402200 R14: 0000000000000000 R15: 0000000000000000
+Modules linked in:
+---[ end trace 1a68562902844a66 ]---
+RIP: 0010:dma_buf_release+0x51/0x3f0 drivers/dma-buf/dma-buf.c:63
+Code: 03 80 3c 02 00 0f 85 30 03 00 00 48 8b ad e8 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 8d bd b8 00 00 00 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e e3 02 00 00 8b 9d b8 00 00 00
+RSP: 0018:ffffc90001b87aa0 EFLAGS: 00010206
+RAX: dffffc0000000000 RBX: ffffffff847e30a0 RCX: ffffffff81c58a83
+RDX: 0000000000000017 RSI: ffffffff847e30b0 RDI: 00000000000000b8
+RBP: 0000000000000000 R08: 0000000000000001 R09: ffff88808a53c80b
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88808b7dc550
+R13: ffff88808b7dc4d8 R14: ffff88808b7dc520 R15: 0000000000000000
+FS:  0000000001f09880(0000) GS:ffff8880ae700000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000006cc090 CR3: 00000000a87d2000 CR4: 00000000001506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-v3:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  Commit "arm: dma-mapping: Invoke dma offset func if needed"
-  -- The above two commits have been squashed.  More importantly,
-     the code has been modified so that the functionality for
-     multiple pfn offsets subsumes the use of dev->dma_pfn_offset.
-     In fact, dma_pfn_offset is removed and supplanted by
-     dma_pfn_offset_map, which is a pointer to an array.  The
-     more common case of a uniform offset is now handled as
-     a map with a single entry, while cases requiring multiple
-     pfn offsets use a map with multiple entries.  Code paths
-     that used to do this:
 
-         dev->dma_pfn_offset = mydrivers_pfn_offset;
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-     have been changed to do this:
-
-         attach_uniform_dma_pfn_offset(dev, pfn_offset);
-
-  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
-  -- Add if/then clause for required props: resets, reset-names (RobH)
-  -- Change compatible list from const to enum (RobH)
-  -- Change list of u32-tuples to u64 (RobH)
-
-  Commit "of: Include a dev param in of_dma_get_range()"
-  -- modify of/unittests.c to add NULL param in of_dma_get_range() call.
-
-  Commit "device core: Add ability to handle multiple dma offsets"
-  -- align comment in device.h (AndyS).
-  -- s/cpu_beg/cpu_start/ and s/dma_beg/dma_start/ in struct
-     dma_pfn_offset_region (AndyS).
-
-v2:
-Commit: "device core: Add ability to handle multiple dma offsets"
-  o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
-  o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
-  o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
-  o dev->dma_pfn_map => dev->dma_pfn_offset_map
-  o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
-  o In device.h: s/const void */const struct dma_pfn_offset_region */
-  o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
-    guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
-  o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
-    dev->dma_pfn_offset_map is copied as well.
-  o Merged two of the DMA commits into one (Christoph).
-
-Commit "arm: dma-mapping: Invoke dma offset func if needed":
-  o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
-
-Other commits' changes:
-  o Removed need for carrying of_id var in priv (Nicolas)
-  o Commit message rewordings (Bjorn)
-  o Commit log messages filled to 75 chars (Bjorn)
-  o devm_reset_control_get_shared())
-    => devm_reset_control_get_optional_shared (Philipp)
-  o Add call to reset_control_assert() in PCIe remove routines (Philipp)
-
-v1:
-This patchset expands the usefulness of the Broadcom Settop Box PCIe
-controller by building upon the PCIe driver used currently by the
-Raspbery Pi.  Other forms of this patchset were submitted by me years
-ago and not accepted; the major sticking point was the code required
-for the DMA remapping needed for the PCIe driver to work [1].
-
-There have been many changes to the DMA and OF subsystems since that
-time, making a cleaner and less intrusive patchset possible.  This
-patchset implements a generalization of "dev->dma_pfn_offset", except
-that instead of a single scalar offset it provides for multiple
-offsets via a function which depends upon the "dma-ranges" property of
-the PCIe host controller.  This is required for proper functionality
-of the BrcmSTB PCIe controller and possibly some other devices.
-
-[1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
-
-Jim Quinlan (12):
-  PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
-  ata: ahci_brcm: Fix use of BCM7216 reset controller
-  dt-bindings: PCI: Add bindings for more Brcmstb chips
-  PCI: brcmstb: Add bcm7278 register info
-  PCI: brcmstb: Add suspend and resume pm_ops
-  PCI: brcmstb: Add bcm7278 PERST# support
-  PCI: brcmstb: Add control of rescal reset
-  device core: Introduce DMA range map, supplanting dma_pfn_offset
-  PCI: brcmstb: Set additional internal memory DMA viewport sizes
-  PCI: brcmstb: Accommodate MSI for older chips
-  PCI: brcmstb: Set bus max burst size by chip type
-  PCI: brcmstb: Add bcm7211, bcm7216, bcm7445, bcm7278 to match list
-
- .../bindings/pci/brcm,stb-pcie.yaml           |  56 ++-
- arch/arm/include/asm/dma-mapping.h            |   9 +-
- arch/arm/mach-keystone/keystone.c             |  17 +-
- arch/sh/drivers/pci/pcie-sh7786.c             |   9 +-
- arch/sh/kernel/dma-coherent.c                 |  16 +-
- arch/x86/pci/sta2x11-fixup.c                  |   7 +-
- drivers/acpi/arm64/iort.c                     |   5 +-
- drivers/ata/ahci_brcm.c                       |  11 +-
- drivers/gpu/drm/sun4i/sun4i_backend.c         |   7 +-
- drivers/iommu/io-pgtable-arm.c                |   2 +-
- .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   6 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   5 +-
- drivers/of/address.c                          |  95 ++--
- drivers/of/device.c                           |  47 +-
- drivers/of/of_private.h                       |   9 +-
- drivers/of/unittest.c                         |  35 +-
- drivers/pci/controller/Kconfig                |   3 +-
- drivers/pci/controller/pcie-brcmstb.c         | 408 +++++++++++++++---
- drivers/remoteproc/remoteproc_core.c          |   2 +-
- .../staging/media/sunxi/cedrus/cedrus_hw.c    |   8 +-
- drivers/usb/core/message.c                    |   4 +-
- drivers/usb/core/usb.c                        |   2 +-
- include/linux/device.h                        |   4 +-
- include/linux/dma-direct.h                    |  10 +-
- include/linux/dma-mapping.h                   |  37 ++
- include/linux/pfn.h                           |   2 +
- kernel/dma/coherent.c                         |  10 +-
- kernel/dma/mapping.c                          |  53 +++
- 28 files changed, 682 insertions(+), 197 deletions(-)
-
--- 
-2.17.1
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
