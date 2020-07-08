@@ -2,174 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FCFB217DAD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 05:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C4EF217DB4
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2020 05:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729280AbgGHDlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jul 2020 23:41:37 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:51851 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728949AbgGHDlh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Jul 2020 23:41:37 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id t0xhjaFYY5flqt0xijZbdB; Wed, 08 Jul 2020 05:41:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594179695; bh=Qv3A02ZjTxKSZs3LSjFD5YHMZ8ElmscUA9XdUssQ5N4=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=R/qLBimnDqITlP899k7qlp1kGK+oDHG67dy83Siiv41CmM9I9gDoGXrmhFO6Wjzu7
-         3xHlIJhmMYtOswii/iyaNnHguhewhsfivPmGudL4iIkgCV9IQg7uEINaFlQ41HZRf2
-         Y8Rm2GuwebQhXqGCRccwR/FMfX94b3WaZ1C1nlLVa3/gLm5zu0gUjNoQ1Yxz7Q7BOC
-         YlF9Aa3qN9faaLeS8bn89+yPxeVVKmwG0het6O2cm80ZwS1lQ09Ozuct0CHhNoY/w7
-         W+/vVzLfFDSOedlxwlSrOafltDS/CjUTzmySs6MI04BNp1hbZtvrq8OjuvYhaY/sYP
-         se2gxKD61M3Sg==
-Message-ID: <07f9aaf986e20eff44d0a252c36c524b@smtp-cloud9.xs4all.net>
-Date:   Wed, 08 Jul 2020 05:41:33 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfO9T8QcRGzBaoBEucgiDgyZ+XQkW4k7J0VNvx3BRAjTlkgxhwfXpWLuUuprtzus2Rx2Isrvv7MZWI7i4EfZuDylC8whdmubZnY7Tw/K4UHH6KcnsNnnZ
- fPXJsREJbcRh26TvEcwOorK3UxE/TPbUmhFOhYydnwPGElaHEXYo4coRFxpNTrQhmoBx8ijX7ImD+BMomagQabjfKg7NpR7/lAFBd47RjwSAddNtlp/p/g0J
+        id S1729553AbgGHDnm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jul 2020 23:43:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34326 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728369AbgGHDnm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jul 2020 23:43:42 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07C63C061755
+        for <linux-media@vger.kernel.org>; Tue,  7 Jul 2020 20:43:42 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id d4so35980087otk.2
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2020 20:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mHwnZGqBxO1eR5fw/gOLrflI6sKMZmZB5dQJW/fz1OI=;
+        b=Fe+Nkt75c5SHX6EoJc25ohkfwpVvt9Shez4gGJsFcnlofCj1p4EV0/9LYeXnB7Ps5I
+         GbuUp7Z9dTQ77ECCS2E3WkR/9ObL4djO5nw+5lALHOqtF+X3XwCoWSAyNqBy41djgYc+
+         E36Ge2uQyBowWhOaERpqgUrExPkfmEUp60YAiYcfYIoCEJ4GxhSXJM4C44UUVdAKgptU
+         BzkgjU5yxVVL/jD+u5cU4WT57KieNFDZ/83O+CbyRoYpVJ5FSBPy6+vLcAmH+5aLHsrU
+         2d644BAm8cYMwpkzlShwpkcSY0FWHEBC8SU+QSuKgaTjXfzcJJnkF3rYniKnfCr8PmW8
+         LRjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mHwnZGqBxO1eR5fw/gOLrflI6sKMZmZB5dQJW/fz1OI=;
+        b=gyfyx8/Ui/Ww7l1U8NQLSsE486RLCOF2PVEAfs46idV5T0zXFH9QgvaCXEB2jq+P+n
+         cor5B81Jdf8xd1HE1yiPLspOItsteqORK0BACP7xopDhNXe1HbMFykgyOP3dyUeyg7cJ
+         s5HWr9PnZXx5VISp83w7fV6Wyhg21/Smef3t52pyJJsXwE0GtDte9ZDJZ3/GzAxcerhd
+         zk+3sWMZOssHHYCKUTZDhh1n2WF6zgJTCkRx0RrPWvEESkoHovNKczyN1G6YBPFEVe9W
+         ALoSrbF2hiLF/yB3wJ7Nmr6PDNS5WZfhq6ZGcskdE5JqoqOdszHJN8x0RalebunvgUFm
+         cq6A==
+X-Gm-Message-State: AOAM530/pE41p0K8BiEbMxhKPRyjNac3UV3SchXGgWz6Z1vuNYMEXNkN
+        5uyhmt4uZkqcfcHcRazy31Dx4lwUPDXIe6J276pI9w==
+X-Google-Smtp-Source: ABdhPJzAu9QJrh4zqPuK1ULgvhkk3S7kmolCzNiGAneauQgVnQWUl8xkvWerju6/BQBeQKcs2e83J8fINMSb4CvYdms=
+X-Received: by 2002:a9d:7303:: with SMTP id e3mr40868563otk.221.1594179821275;
+ Tue, 07 Jul 2020 20:43:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200414134629.54567-1-orjan.eide@arm.com> <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200414142810.GA958163@kroah.com> <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
+ <20200416102508.GA820251@kroah.com> <20200420082207.ui7iyg7dsnred2vv@wittgenstein>
+ <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
+ <20200421080544.GA611314@kroah.com> <20200703070403.GB2221524@kroah.com>
+In-Reply-To: <20200703070403.GB2221524@kroah.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Tue, 7 Jul 2020 20:43:30 -0700
+Message-ID: <CALAqxLUHT=CGNxffz+3G-bUNc2FM_TawDrymFN+S=ZiPcM9pkg@mail.gmail.com>
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     driverdevel <devel@driverdev.osuosl.org>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Todd Kjos <tkjos@android.com>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Laura Abbott <labbott@redhat.com>,
+        Anders Pedersen <anders.pedersen@arm.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        "Darren Hart (VMware)" <dvhart@infradead.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        nd <nd@arm.com>, Martijn Coenen <maco@android.com>,
+        Laura Abbott <laura@labbott.name>,
+        Christian Brauner <christian@brauner.io>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Fri, Jul 3, 2020 at 12:03 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Tue, Apr 21, 2020 at 10:05:44AM +0200, Greg Kroah-Hartman wrote:
+> > On Mon, Apr 20, 2020 at 01:03:39PM -0700, John Stultz wrote:
+> > > The dmabuf heaps have been in an official kernel now for all of three
+> > > weeks. So yea, we can "delete [ION] and see who even notices", but I
+> > > worry that may seem a bit like contempt for the folks doing the work
+> > > on transitioning over, which doesn't help getting them to participate
+> > > within the community.
+> >
+> > But they aren't participating in the community today as no one is
+> > touching the ion code.  So I fail to see how keeping a dead-end-version
+> > of ion in the kernel tree really affects anyone these days.
+>
+> So, any thoughts here?  What's the timeline for ion being able to be
+> removed that you are comfortable with?
 
-Results of the daily build of media_tree:
+Sorry for the slow reply.  So my earlier plan was to drop it after the next LTS?
 
-date:			Wed Jul  8 05:00:09 CEST 2020
-media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
-media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
-v4l-utils git hash:	c7531641d234370d7a81c0334a90d62a94760c93
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6154-g2f65f604
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+thanks
+-john
