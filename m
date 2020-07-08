@@ -2,279 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95FB7219379
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 00:32:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 770E121938C
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 00:36:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbgGHWcW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 18:32:22 -0400
-Received: from iodev.co.uk ([193.29.56.124]:35192 "EHLO iodev.co.uk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725903AbgGHWcW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Jul 2020 18:32:22 -0400
-X-Greylist: delayed 327 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 Jul 2020 18:32:21 EDT
-Date:   Thu, 9 Jul 2020 00:28:20 +0200
-From:   Ismael Luceno <ismael@iodev.co.uk>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     maintainers@bluecherrydvr.com, anton@corp.bluecherry.net,
-        andrey.utkin@corp.bluecherry.net, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: SOFTLOGIC 6x10 MPEG
- CODEC
-Message-ID: <20200708222820.GB4815@abuya>
-References: <20200708062420.12047-1-grandmaster@al2klimov.de>
+        id S1726171AbgGHWgq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 18:36:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40970 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725903AbgGHWgp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 18:36:45 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7171C061A0B
+        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 15:36:45 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id d4so353443otk.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2020 15:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=hmO9GyPcXh/ZkBPEMHmuX83N/KJmuAIwdfILuua87Rk=;
+        b=ALVIRMQN9p4Wadv3WcQFOf23UBhxqLRB4G+IXd7of5XRcHB6ToOkLRCc0CQcK47GgD
+         pngZ9zu8crQmzrhVf7fmcRKlW6xs6rNVysCF0t41dVQVUfkVNBsSw99ImkMmaXiH4uEV
+         0UcKyk2OjYXt8hgoXf7m1rOJKIIv5fcnruWaooUg8ZPVSBdSFajMXp25/hpoPpssg7o2
+         d9+r+4YU7uvAkXvzFX70JHKjNXzIHzdGoWsZ3D92aAknkExMfm1D5lYs3X+ImHTmEllD
+         S7/Cl/PpBavr7kdUs18EvQWSW6uiMycvOgXmmDp5F8UCrk6FNksdyA1pzowDo1ndUo/h
+         y7aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=hmO9GyPcXh/ZkBPEMHmuX83N/KJmuAIwdfILuua87Rk=;
+        b=h3RTel4Qxco2DWvdzpMJ/q2bWzKSQIduRlcfzc+jDZb6UhP3H6cSTkWkqv9ncILD0+
+         n2ls2kesxYPp8VQh6IMdSFQCH0P05z7IHa68okW+xNL1ohkfwVBjjKHsTlQLIVjM7vmK
+         fE49NYlmu2hzpTgvG63jGRQ1Y1xkn4W6ST7M9wxMLJADa3xsVcHvav3cTLyTNySqH4yn
+         W93/pc7WlQkSMHsg77KSFHLx16sff8mZxK1/BXj1P4XU9zeQPlyUbppIGySJe3eKbWde
+         ezNHRCTCEzLFscWUzGGH3wmQOnB7+tIS4fNTj6c98uCUzXZ5AUAkYPSyku2My7jrQwA5
+         ISzw==
+X-Gm-Message-State: AOAM53009UNKpd5Mzv06sjnMK3LSW7hVPJjqi1tyYqy0p0mdA+ls6Fye
+        x6S6vSgtpkpzsPewjP6IGxtijhVGpwV/oogJPic=
+X-Google-Smtp-Source: ABdhPJxLjSLopOg8qEBOLunndpyQ42Pgjj731OR4jilIOW8SjqHo4+4GRdQDTMpIpMyoC3Ll/ATYAW/tH93q38xK5Xg=
+X-Received: by 2002:a05:6830:1daa:: with SMTP id z10mr3040652oti.36.1594247805092;
+ Wed, 08 Jul 2020 15:36:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200708062420.12047-1-grandmaster@al2klimov.de>
+Received: by 2002:a8a:487:0:0:0:0:0 with HTTP; Wed, 8 Jul 2020 15:36:44 -0700 (PDT)
+From:   Ali Sabyani <alisabyani5@gmail.com>
+Date:   Wed, 8 Jul 2020 15:36:44 -0700
+Message-ID: <CAKdE_2kb9NPQHf+0fQwx=4JX=gYMnhK9yR_eJij3fSZZOtwzkg@mail.gmail.com>
+Subject: GET BACK TO ME URGENTLY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/Jul/2020 08:24, Alexander A. Klimov wrote:
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
-> 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->             If both the HTTP and HTTPS versions
->             return 200 OK and serve the same content:
->               Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> ---
->  Continuing my work started at 93431e0607e5.
->  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
->  (Actually letting a shell for loop submit all this stuff for me.)
-> 
->  If there are any URLs to be removed completely or at least not HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also: https://lkml.org/lkml/2020/6/27/64
-> 
->  If there are any valid, but yet not changed URLs:
->  See: https://lkml.org/lkml/2020/6/26/837
-> 
->  If you apply the patch, please let me know.
-> 
-> 
->  drivers/media/pci/solo6x10/solo6x10-core.c     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-disp.c     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-eeprom.c   | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-enc.c      | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-g723.c     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-gpio.c     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-i2c.c      | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-jpeg.h     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-offsets.h  | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-p2m.c      | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-regs.h     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-tw28.c     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-tw28.h     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-v4l2.c     | 2 +-
->  drivers/media/pci/solo6x10/solo6x10.h          | 2 +-
->  16 files changed, 16 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-core.c b/drivers/media/pci/solo6x10/solo6x10-core.c
-> index 6e1ba4846ea4..c6e0090f27e8 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-core.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-core.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-disp.c b/drivers/media/pci/solo6x10/solo6x10-disp.c
-> index 4e28bf927de5..ad98ca7fb98b 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-disp.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-disp.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-eeprom.c b/drivers/media/pci/solo6x10/solo6x10-eeprom.c
-> index 9aba64395a6b..0d864b8ca0ab 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-eeprom.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-eeprom.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-enc.c b/drivers/media/pci/solo6x10/solo6x10-enc.c
-> index a9c56897f7bc..14a1d51cfad4 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-enc.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-enc.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-g723.c b/drivers/media/pci/solo6x10/solo6x10-g723.c
-> index d6d16e8fd997..906ce86437ae 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-g723.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-g723.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-gpio.c b/drivers/media/pci/solo6x10/solo6x10-gpio.c
-> index 526d67cf9942..084c30760e45 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-gpio.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-gpio.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-i2c.c b/drivers/media/pci/solo6x10/solo6x10-i2c.c
-> index df1e3f2e9c05..f86f12fa6350 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-i2c.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-i2c.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-jpeg.h b/drivers/media/pci/solo6x10/solo6x10-jpeg.h
-> index e35aad16ad33..e212f4828c09 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-jpeg.h
-> +++ b/drivers/media/pci/solo6x10/solo6x10-jpeg.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0-or-later */
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-offsets.h b/drivers/media/pci/solo6x10/solo6x10-offsets.h
-> index e3ae6a02dbb9..f414ee1316f2 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-offsets.h
-> +++ b/drivers/media/pci/solo6x10/solo6x10-offsets.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0-or-later */
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-p2m.c b/drivers/media/pci/solo6x10/solo6x10-p2m.c
-> index e2816e2629f8..db2afc6a5fcb 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-p2m.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-p2m.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-regs.h b/drivers/media/pci/solo6x10/solo6x10-regs.h
-> index 804505d01b25..12e0ac190416 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-regs.h
-> +++ b/drivers/media/pci/solo6x10/solo6x10-regs.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0-or-later */
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-tw28.c b/drivers/media/pci/solo6x10/solo6x10-tw28.c
-> index 126cd1b01266..1b7c22a9bc94 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-tw28.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-tw28.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-tw28.h b/drivers/media/pci/solo6x10/solo6x10-tw28.h
-> index edbad194d31e..4a8ede3139a8 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-tw28.h
-> +++ b/drivers/media/pci/solo6x10/solo6x10-tw28.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0-or-later */
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> index cbf85231b708..3cf7bd6186aa 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2.c b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> index 54434f3c428d..24ef0c446bef 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> diff --git a/drivers/media/pci/solo6x10/solo6x10.h b/drivers/media/pci/solo6x10/solo6x10.h
-> index 9f2314688cec..126f6fb7b755 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10.h
-> +++ b/drivers/media/pci/solo6x10/solo6x10.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0-or-later */
->  /*
-> - * Copyright (C) 2010-2013 Bluecherry, LLC <http://www.bluecherrydvr.com>
-> + * Copyright (C) 2010-2013 Bluecherry, LLC <https://www.bluecherrydvr.com>
->   *
->   * Original author:
->   * Ben Collins <bcollins@ubuntu.com>
-> -- 
-> 2.27.0
-> 
+Dear Sir/Madam
 
-Signed-off-by: Ismael Luceno <ismael@iodev.co.uk>
+
+RE;$15,200,000.00 (FIFTEEN MILLION, TWO HUNDRED THOUSAND U.S DOLLARS)
+INVESTMENT PROJECT.
+
+I wish this proposal will not embarrass you as I had know previous
+correspondence with you.
+
+I am Mr. Ali Sabyani, a Syrian national. My objective is to establish
+a liable business relationship with you. I am Personal Assistant to
+Late General Daoud Rajha (Former Syria Defence Minister) who was
+killed in a mounted bomb explosion on Wednesday, 18th July, 2012
+inside the Syrian National Security headquarters in Damascus which
+targeted Ministers of President Bashar Assad's regime who were meeting
+with Defense Officials.
+
+Whilst I am in a hideout since Wednesday, 18th July, 2012 trying to
+find my way out of Syria territory, from there I got a Muslim Africa
+brother who helped me. In the process of the ongoing war I lost my
+father and mother. In other to proof to you about the genuineity of my
+business, Please contact me on this email address:- alissy1964@gmail.com
+
+Thanks.
+
+Yours Sincerely
+Mr. Ali Sabyani.
