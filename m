@@ -2,306 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE646219575
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 02:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B55712196BF
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 05:38:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726223AbgGIA7i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jul 2020 20:59:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726107AbgGIA7h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jul 2020 20:59:37 -0400
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81BE6C061A0B
-        for <linux-media@vger.kernel.org>; Wed,  8 Jul 2020 17:59:37 -0700 (PDT)
-Received: by mail-qv1-xf41.google.com with SMTP id h18so248647qvl.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2020 17:59:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Lwy/TUmMO5Z/1GlX8cJ31apZHSAxwS7d7SzRutu1MJ0=;
-        b=ET/M19TQjjEkmefFj2CMQwprybD/BLQRr97CSRxnIaNeqxpWggWTX79xfT98AbQksA
-         Itn1U3XblGbyN5j01FOIE4COxzij3/ecEXBQ28/B3+CkSLP6156pYvXrcd9CPuCCrBf8
-         n0mDyma6G/7AKmGDpNpG26QB2tYJpdGGDyjw5QnUSGIHsgk0KzHNRGSYODCLhHp9Botr
-         CYYMkVsktfwHvdQP20FXID0+qLH/uu6vuahRLeJp0cwqJ9cUy/pOJwRPdRx1rm0mrVcs
-         Q3bAcXL4kZRewbwjGVA2WDWRgVSfv/FkqzbwSk7U4je+rx/wZK5QqNKnHREnvbRWQbyC
-         SCSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Lwy/TUmMO5Z/1GlX8cJ31apZHSAxwS7d7SzRutu1MJ0=;
-        b=LkwD82Z9cHKA44meQEPYxr1Wv7EH6CQqEKJlGvKssbZiGxW/sIbgPvMkjPypZGr9HM
-         UK3G4kO0Pdu30NfS6wKCoUG9vgRJEkUybQb0iGMgoQIMpZ/PGs6WcuMoSFzorcG89sZc
-         dbKY5maP9uSZ9CEcTkwQvCXLHsdPtcGec8a57RWTc60z4uA3Kr+Op9ZD64Bj2fItFkMn
-         jpLBFTJH/fIoREEkryuWMy2LFP8N+Nz+v0Z9EV6AXaKh3lyCJlriwJrlLt1w2+123dM+
-         8j3l3scaCQhEBP4EAxSpIGm9ybPPFgw8CzYD/xLKPDbSasejXVnfUqLtNWEAACW8yUEb
-         GW8g==
-X-Gm-Message-State: AOAM531oZhmRraQtOhubMvLLogjGIMuVzjD6Ex9+Y35OE9YgtpNSS7fz
-        W+KMTVpezxCLqd3AdJsDb7h82Q==
-X-Google-Smtp-Source: ABdhPJy0dhosaYd4+tncZ23pF3TfazXsuH+2tE7yu4vVoTb7EieibAGJOCdi09ESkIvxyCpS/aQFVA==
-X-Received: by 2002:ad4:57c7:: with SMTP id y7mr61409102qvx.124.1594256376656;
-        Wed, 08 Jul 2020 17:59:36 -0700 (PDT)
-Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id g17sm1593649qto.73.2020.07.08.17.59.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 17:59:35 -0700 (PDT)
-Message-ID: <f485930bb8d8a5506e9ffd6804d08945920fce61.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/3] media: uapi: h264: update reference lists
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devel@driverdev.osuosl.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Date:   Wed, 08 Jul 2020 20:59:34 -0400
-In-Reply-To: <3602665.eG79kSnugm@jernej-laptop>
-References: <20200604185745.23568-1-jernej.skrabec@siol.net>
-         <20200604185745.23568-2-jernej.skrabec@siol.net>
-         <CAAEAJfAx4=RGJBVPccVFNYxNUqom7tkQD=J9oMfqajGxn6k+Zg@mail.gmail.com>
-         <3602665.eG79kSnugm@jernej-laptop>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726276AbgGIDiu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jul 2020 23:38:50 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:46025 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726122AbgGIDit (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 Jul 2020 23:38:49 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id tNOXjhvDx5flqtNOZjf296; Thu, 09 Jul 2020 05:38:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594265927; bh=1CnI9fYAs+2zSeeKVaoLlNdDq4nRnweeNXfS2G2w/uA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=hBEwUgwxLrXdquJQHQy/KHh/mGZIuWSj1LGvvlK5kdG9JRRNtKbKY7skF1dPouFSc
+         QFCWqa/bBvJ0mAQFebbw4jvltlNXWOI4WBDE9hFCmkaW/N4wDf6VdL0UYHjZ2LNUM+
+         sC4ikIYHvwNFHfTravYEexBVgAmThN9F7cGrP2QTLyHoRURLg0PP+jQ518hBPht9eQ
+         LCn78y5lulF2+JKz5Dbde4mtHbUwaEp59eqM95t3J9AjhTxRJEw3gDCrSuu/SqGP54
+         Obqi6NcrGHR/StOxREALoBcPQLMzr7yObs/27wx1A9+OdUWjyDlnCjmPrIuGnDmyAc
+         d4nTikfDdn9mg==
+Message-ID: <4597c0c7f534b4fa9844c150a53d8a01@smtp-cloud9.xs4all.net>
+Date:   Thu, 09 Jul 2020 05:38:45 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfLNLvPm9qeWxp/0kDolDCG6uxzNbaj1vEPsNfcBQ8pnqodC4lAApY3p2/UdkFFG07aPeE7/zIJwQ101t5C0I1x3LP1WWGG8YvcNw73FQtO3cp7XZ3s1l
+ r+cBrYGROD9kJykwaqfkMAyu97FBpKMsgMjpSbbMSr3ymdoEFkh+WGvTmJh/jYUFenZ4pBPpmKbQrUrvdGX8d8f50JmhwoRFCxXenzI99lXq5YC3ggipWHMy
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 08 juillet 2020 à 17:57 +0200, Jernej Škrabec a écrit :
-> Hi!
-> 
-> Dne sreda, 08. julij 2020 ob 15:28:52 CEST je Ezequiel Garcia napisal(a):
-> > Hello Jernej,
-> > 
-> > I'd like to post a new H264 uAPI cleanup series soon,
-> > would you mind resending this, or otherwise do you
-> > mind if I include this patch in the series?
-> 
-> I don't mind at all. Currently my focus was elsewhere...
-> 
-> > See below for a tiny comment.
-> > 
-> > On Thu, 4 Jun 2020 at 15:55, Jernej Skrabec <jernej.skrabec@siol.net> wrote:
-> > > When dealing with with interlaced frames, reference lists must tell if
-> > > each particular reference is meant for top or bottom field. This info
-> > > is currently not provided at all in the H264 related controls.
-> > > 
-> > > Make reference lists hold a structure which will also hold flags along
-> > > index into DPB array. Flags will tell if reference is meant for top or
-> > > bottom field.
-> > > 
-> > > Currently the only user of these lists is Cedrus which is just compile
-> > > fixed here. Actual usage of newly introduced flags will come in
-> > > following commit.
-> > > 
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > ---
-> > > 
-> > >  .../media/v4l/ext-ctrls-codec.rst             | 40 ++++++++++++++++++-
-> > >  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 +--
-> > >  include/media/h264-ctrls.h                    | 12 +++++-
-> > >  3 files changed, 51 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
-> > > d0d506a444b1..6c36d298db20 100644
-> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > @@ -1843,10 +1843,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type
-> > > -> 
-> > >      * - __u32
-> > >      
-> > >        - ``slice_group_change_cycle``
-> > >        -
-> > > 
-> > > -    * - __u8
-> > > +    * - struct :c:type:`v4l2_h264_reference`
-> > > 
-> > >        - ``ref_pic_list0[32]``
-> > >        - Reference picture list after applying the per-slice modifications
-> > > 
-> > > -    * - __u8
-> > > +    * - struct :c:type:`v4l2_h264_reference`
-> > > 
-> > >        - ``ref_pic_list1[32]``
-> > >        - Reference picture list after applying the per-slice modifications
-> > >      
-> > >      * - __u32
-> > > 
-> > > @@ -1926,6 +1926,42 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type
-> > > -
-> > > 
-> > >        - ``chroma_offset[32][2]``
-> > >        -
-> > > 
-> > > +``Picture Reference``
-> > > +
-> > > +.. c:type:: v4l2_h264_reference
-> > > +
-> > > +.. cssclass:: longtable
-> > > +
-> > > +.. flat-table:: struct v4l2_h264_reference
-> > > +    :header-rows:  0
-> > > +    :stub-columns: 0
-> > > +    :widths:       1 1 2
-> > > +
-> > > +    * - __u16
-> > > +      - ``flags``
-> > > +      - See :ref:`Picture Reference Flags <h264_reference_flags>`
-> > > +    * - __u8
-> > > +      - ``index``
-> > > +      -
-> > > +
-> > > +.. _h264_reference_flags:
-> > > +
-> > > +``Picture Reference Flags``
-> > > +
-> > > +.. cssclass:: longtable
-> > > +
-> > > +.. flat-table::
-> > > +    :header-rows:  0
-> > > +    :stub-columns: 0
-> > > +    :widths:       1 1 2
-> > > +
-> > > +    * - ``V4L2_H264_REFERENCE_FLAG_TOP_FIELD``
-> > > +      - 0x00000001
-> > > +      -
-> > > +    * - ``V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD``
-> > > +      - 0x00000002
-> > > +      -
-> > > +
-> > > 
-> > >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS (struct)``
-> > >  
-> > >      Specifies the decode parameters (as extracted from the bitstream)
-> > >      for the associated H264 slice data. This includes the necessary
-> > > 
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
-> > > 54ee2aa423e2..cce527bbdf86 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > @@ -166,8 +166,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx
-> > > *ctx,> 
-> > >  static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
-> > >  
-> > >                                    struct cedrus_run *run,
-> > > 
-> > > -                                  const u8 *ref_list, u8 num_ref,
-> > > -                                  enum cedrus_h264_sram_off sram)
-> > > +                                  const struct v4l2_h264_reference
-> > > *ref_list, +                                  u8 num_ref, enum
-> > > cedrus_h264_sram_off sram)> 
-> > >  {
-> > >  
-> > >         const struct v4l2_ctrl_h264_decode_params *decode =
-> > >         run->h264.decode_params; struct vb2_queue *cap_q;
-> > > 
-> > > @@ -188,7 +188,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx
-> > > *ctx,> 
-> > >                 int buf_idx;
-> > >                 u8 dpb_idx;
-> > > 
-> > > -               dpb_idx = ref_list[i];
-> > > +               dpb_idx = ref_list[i].index;
-> > > 
-> > >                 dpb = &decode->dpb[dpb_idx];
-> > >                 
-> > >                 if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> > > 
-> > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > > index 080fd1293c42..9b1cbc9bc38e 100644
-> > > --- a/include/media/h264-ctrls.h
-> > > +++ b/include/media/h264-ctrls.h
-> > > @@ -140,6 +140,14 @@ struct v4l2_h264_pred_weight_table {
-> > > 
-> > >  #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED    0x04
-> > >  #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH             0x08
-> > > 
-> > > +#define V4L2_H264_REFERENCE_FLAG_TOP_FIELD             0x01
-> > > +#define V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD          0x02
-> > > +
-> > > +struct v4l2_h264_reference {
-> > > +       __u8 flags;
-> > > +       __u8 index;
-> > > +};
-> > > +
-> > > 
-> > >  struct v4l2_ctrl_h264_slice_params {
-> > >  
-> > >         /* Size in bytes, including header */
-> > >         __u32 size;
-> > > 
-> > > @@ -182,8 +190,8 @@ struct v4l2_ctrl_h264_slice_params {
-> > > 
-> > >          * Entries on each list are indices into
-> > >          * v4l2_ctrl_h264_decode_params.dpb[].
-> > >          */
-> > > 
-> > > -       __u8 ref_pic_list0[32];
-> > > -       __u8 ref_pic_list1[32];
-> > > +       struct v4l2_h264_reference ref_pic_list0[32];
-> > > +       struct v4l2_h264_reference ref_pic_list1[32];
-> > 
-> > Could we use a macro for "32" here? Something like:
-> > 
-> > #define V4L2_H264_REF_PIC_LIST_LEN (V4L2_H264_NUM_DPB_ENTRIES * 2).
-> > 
-> > Does it make sense to add a comment as well?
-> > 
-> > I was thinking something along these lines:
-> > 
-> > """
-> > Pictures in the DPB can be a frame, a complementary field pair or a
-> > single field.
-> 
-> To be honest, I don't know if user has a free choice to select same or 
-> different destination (capture) buffer for another field. I never tested it and 
-> I'm not sure how to test it with ffmpeg. HW deinterlacing cores on Allwinner 
-> SoCs support only interleaved fields as a input, that's why I never though 
-> about separate fields.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-When setting the format, one will choose V4L2_FIELD_INTERLACED_TB/BT.
-Most driver will support that, but if not, they can update field in the
-structure. Interlaced being very common, I think it's fine to only
-support that, but the drive must enforce this field value.
+Results of the daily build of media_tree:
 
-But I know the Xilinx ZynqMP will do ALTERNATE instead, which would be
-each field get decoded in it's own buffer. That, to be honest, I
-haven't though about. The tricky part is for H264, since it means 1
-slice may populate two capture buffers and I don't know if we can
-support this right now.
+date:			Thu Jul  9 05:00:09 CEST 2020
+media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
+media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
+v4l-utils git hash:	7af53a4c5552451f4069abebfa5fbda0fd364c7b
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-For now I'd say we should just ensure that whatever userspace ask, we
-enforce V4L2_FIELD_INTERLACED_TB/BT appropriately. That is likely not
-complete, just look at how interlacing is signal in the bitstream.
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: ERRORS
 
-> 
-> Best regards,
-> Jernej
-> 
-> > Therefore, reference pictures lists need twice as much entries, so it
-> > can reference
-> > either field of a field pair.
-> > """
-> > 
-> > While it doesn't replace proper H264 specification reading,
-> > it would add some clarity.
-> > 
-> > Thanks,
-> > Ezequiel
-> 
-> 
-> 
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
