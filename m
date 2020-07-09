@@ -2,124 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DA5221A608
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 19:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5138C21A63D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 19:47:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbgGIRnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jul 2020 13:43:53 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60892 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726765AbgGIRnx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 13:43:53 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 0522B2A65C0
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH] media: videobuf2: Print videobuf2 buffer state by name
-Date:   Thu,  9 Jul 2020 14:43:36 -0300
-Message-Id: <20200709174336.79112-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.27.0
+        id S1728709AbgGIRrf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jul 2020 13:47:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728492AbgGIRqI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 13:46:08 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70C4C08C5CE
+        for <linux-media@vger.kernel.org>; Thu,  9 Jul 2020 10:46:07 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id k6so3302925wrn.3
+        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2020 10:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=t/zzBO2Jyh9x8BHnEJvhlwlew5qspE/Jnd9v9TqHGYM=;
+        b=H1Gd2QcePmOch/qjxRoMvW6JpS/d1uxfjssBsju4ijWuNBYeYhSLPGusubNnj64R5d
+         lBPC0Qh+tijB0657/8ocUTQZ6VlX4DDoXTQNRPhiWMmbtic0pnF8hwgMWiOEy3krR6EG
+         MM9qZbNhjzJosugv5Xct60LzcQ6H/ERwD1FmetEC+68lox6HzXQQqchkvRA86EEmgID1
+         u+CtA6elQsQtcnQ0i//PmrJwD9zmThbvWktCDt4ictyJiPhxsvrXz2JYtkVT0KLaaPAB
+         70Up4s7t49cja8tJgfdrv/f/xjbyjE6WcN1PZ9nN2M1ioLlvyDRNj9Mo4nYJDzXMOdEN
+         Up0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=t/zzBO2Jyh9x8BHnEJvhlwlew5qspE/Jnd9v9TqHGYM=;
+        b=YEKibm4ZzcpXgd/hS85ierpR4fZm/MvMJ3Xn9954ots0BiVjYSABxL1uKEaX93IUt0
+         90vTVqV51x4WcPCI0YV0+hSxud1LkooPjahuZV2IzhW/pB1sK7HBz2lhKyuqh7kiDXU4
+         38hVtcoKbKA5VrwUngeVyDt7sJN1+5Bqg4sU+/dui1x+PXIs1UNafmxVzEjl1RmhyxSQ
+         k60KYCEY2QQAVdWqVyyND9X+v8VjIFDggn/X2mozcJVIyjcAt0IJS0MVspMAp3Uag44a
+         ytZkZOcKAcu1p38+E+3Y6JrrVKWg1MBJXS/uRT7l36GNnU+3PRpsD77G0Yssa7O+yxva
+         rOpA==
+X-Gm-Message-State: AOAM532oxrQyGoYRft46I+WHBdjj6alDhf/RqHODdnb/lzXBymS9lxaB
+        oeiyRwJg5MZ3g2vy9uBUOw10Ow==
+X-Google-Smtp-Source: ABdhPJw/z+CbiouBYdlTZxBgt9fyrvU1bnWHwSoZXHlYLQw4mSjV7jsGybDb0S7HlMNgxmDi9+MCLQ==
+X-Received: by 2002:a5d:5341:: with SMTP id t1mr68373388wrv.207.1594316766614;
+        Thu, 09 Jul 2020 10:46:06 -0700 (PDT)
+Received: from localhost.localdomain ([2.27.35.206])
+        by smtp.gmail.com with ESMTPSA id f15sm6063854wrx.91.2020.07.09.10.46.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2020 10:46:05 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     jejb@linux.ibm.com, martin.petersen@oracle.com,
+        linux-scsi@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+        Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        "PMC-Sierra, Inc" <aacraid@pmc-sierra.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 07/24] scsi: aacraid: commsup: Fix a bunch of function header issues
+Date:   Thu,  9 Jul 2020 18:45:39 +0100
+Message-Id: <20200709174556.7651-8-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200709174556.7651-1-lee.jones@linaro.org>
+References: <20200709174556.7651-1-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For debugging purposes, seeing the state integer
-representation is really inconvenient.
+Some parameters not documented.  Others misspelled.
 
-Improve this and be developer-friendly by printing
-the state name instead.
+Also, functions must follow directly after the header that documents them.
 
-Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/scsi/aacraid/commsup.c:223: warning: Function parameter or member 'scmd' not described in 'aac_fib_alloc_tag'
+ drivers/scsi/aacraid/commsup.c:421: warning: Function parameter or member 'qid' not described in 'aac_queue_get'
+ drivers/scsi/aacraid/commsup.c:421: warning: Function parameter or member 'hw_fib' not described in 'aac_queue_get'
+ drivers/scsi/aacraid/commsup.c:421: warning: Excess function parameter 'priority' description in 'aac_queue_get'
+ drivers/scsi/aacraid/commsup.c:421: warning: Excess function parameter 'fib' description in 'aac_queue_get'
+ drivers/scsi/aacraid/commsup.c:943: warning: Function parameter or member 'fibptr' not described in 'aac_fib_complete'
+ drivers/scsi/aacraid/commsup.c:943: warning: Excess function parameter 'fib' description in 'aac_fib_complete'
+ drivers/scsi/aacraid/commsup.c:1061: warning: Excess function parameter 'dev' description in 'AIF_SNIFF_TIMEOUT'
+ drivers/scsi/aacraid/commsup.c:1061: warning: Excess function parameter 'fibptr' description in 'AIF_SNIFF_TIMEOUT'
+ drivers/scsi/aacraid/commsup.c:2428: warning: Function parameter or member 'data' not described in 'aac_command_thread'
+ drivers/scsi/aacraid/commsup.c:2428: warning: Excess function parameter 'dev' description in 'aac_command_thread'
+
+Cc: Adaptec OEM Raid Solutions <aacraid@microsemi.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "PMC-Sierra, Inc" <aacraid@pmc-sierra.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- .../media/common/videobuf2/videobuf2-core.c   | 32 ++++++++++++++-----
- 1 file changed, 24 insertions(+), 8 deletions(-)
+ drivers/scsi/aacraid/commsup.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index abaf28e057eb..8480772d58c6 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -191,6 +191,20 @@ module_param(debug, int, 0644);
- static void __vb2_queue_cancel(struct vb2_queue *q);
- static void __enqueue_in_driver(struct vb2_buffer *vb);
+diff --git a/drivers/scsi/aacraid/commsup.c b/drivers/scsi/aacraid/commsup.c
+index 8ee4e1abe568d..adbdc3b7c7a70 100644
+--- a/drivers/scsi/aacraid/commsup.c
++++ b/drivers/scsi/aacraid/commsup.c
+@@ -214,6 +214,7 @@ int aac_fib_setup(struct aac_dev * dev)
+ /**
+  *	aac_fib_alloc_tag-allocate a fib using tags
+  *	@dev: Adapter to allocate the fib for
++ *	@scmd: SCSI command
+  *
+  *	Allocate a fib from the adapter fib pool using tags
+  *	from the blk layer.
+@@ -405,8 +406,8 @@ static int aac_get_entry (struct aac_dev * dev, u32 qid, struct aac_entry **entr
+  *	aac_queue_get		-	get the next free QE
+  *	@dev: Adapter
+  *	@index: Returned index
+- *	@priority: Priority of fib
+- *	@fib: Fib to associate with the queue entry
++ *	@qid: Queue number
++ *	@hw_fib: Fib to associate with the queue entry
+  *	@wait: Wait if queue full
+  *	@fibptr: Driver fib object to go with fib
+  *	@nonotify: Don't notify the adapter
+@@ -934,7 +935,7 @@ int aac_fib_adapter_complete(struct fib *fibptr, unsigned short size)
  
-+static const char * const vb2_state_names[] = {
-+	[VB2_BUF_STATE_DEQUEUED] = "dequeued",
-+	[VB2_BUF_STATE_IN_REQUEST] = "in request",
-+	[VB2_BUF_STATE_PREPARING] = "preparing",
-+	[VB2_BUF_STATE_QUEUED] = "queued",
-+	[VB2_BUF_STATE_ACTIVE] = "active",
-+	[VB2_BUF_STATE_DONE] = "done",
-+	[VB2_BUF_STATE_ERROR] = "error",
-+};
-+
-+#define vb2_state_name(s) \
-+	(((unsigned int)(s)) < ARRAY_SIZE(vb2_state_names) ? \
-+	 vb2_state_names[s] : "unknown")
-+
- /*
-  * __vb2_buf_mem_alloc() - allocate video memory for the given buffer
+ /**
+  *	aac_fib_complete	-	fib completion handler
+- *	@fib: FIB to complete
++ *	@fibptr: FIB to complete
+  *
+  *	Will do all necessary work to complete a FIB.
   */
-@@ -1015,8 +1029,8 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
- 	 */
- 	vb->cnt_buf_done++;
- #endif
--	dprintk(q, 4, "done processing on buffer %d, state: %d\n",
--			vb->index, state);
-+	dprintk(q, 4, "done processing on buffer %d, state: %s\n",
-+		vb->index, vb2_state_name(state));
- 
- 	if (state != VB2_BUF_STATE_QUEUED)
- 		__vb2_buf_mem_finish(vb);
-@@ -1490,8 +1504,8 @@ int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
- 
- 	vb = q->bufs[index];
- 	if (vb->state != VB2_BUF_STATE_DEQUEUED) {
--		dprintk(q, 1, "invalid buffer state %d\n",
--			vb->state);
-+		dprintk(q, 1, "invalid buffer state %s\n",
-+			vb2_state_name(vb->state));
- 		return -EINVAL;
+@@ -1049,6 +1050,7 @@ static void aac_handle_aif_bu(struct aac_dev *dev, struct aac_aifcmd *aifcmd)
  	}
- 	if (vb->prepared) {
-@@ -1670,7 +1684,8 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
- 		dprintk(q, 1, "buffer still being prepared\n");
- 		return -EINVAL;
- 	default:
--		dprintk(q, 1, "invalid buffer state %d\n", vb->state);
-+		dprintk(q, 1, "invalid buffer state %s\n",
-+			vb2_state_name(vb->state));
- 		return -EINVAL;
- 	}
+ }
  
-@@ -1884,7 +1899,8 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
- 		dprintk(q, 3, "returning done buffer with errors\n");
- 		break;
- 	default:
--		dprintk(q, 1, "invalid buffer state\n");
-+		dprintk(q, 1, "invalid buffer state %s\n",
-+			vb2_state_name(vb->state));
- 		return -EINVAL;
- 	}
++#define AIF_SNIFF_TIMEOUT	(500*HZ)
+ /**
+  *	aac_handle_aif		-	Handle a message from the firmware
+  *	@dev: Which adapter this fib is from
+@@ -1057,8 +1059,6 @@ static void aac_handle_aif_bu(struct aac_dev *dev, struct aac_aifcmd *aifcmd)
+  *	This routine handles a driver notify fib from the adapter and
+  *	dispatches it to the appropriate routine for handling.
+  */
+-
+-#define AIF_SNIFF_TIMEOUT	(500*HZ)
+ static void aac_handle_aif(struct aac_dev * dev, struct fib * fibptr)
+ {
+ 	struct hw_fib * hw_fib = fibptr->hw_fib_va;
+@@ -2416,7 +2416,7 @@ static int aac_send_hosttime(struct aac_dev *dev, struct timespec64 *now)
  
-@@ -1915,8 +1931,8 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
- 		media_request_put(vb->request);
- 	vb->request = NULL;
- 
--	dprintk(q, 2, "dqbuf of buffer %d, with state %d\n",
--			vb->index, vb->state);
-+	dprintk(q, 2, "dqbuf of buffer %d, state: %s\n",
-+		vb->index, vb2_state_name(vb->state));
- 
- 	return 0;
- 
+ /**
+  *	aac_command_thread	-	command processing thread
+- *	@dev: Adapter to monitor
++ *	@data: Adapter to monitor
+  *
+  *	Waits on the commandready event in it's queue. When the event gets set
+  *	it will pull FIBs off it's queue. It will continue to pull FIBs off
 -- 
-2.27.0
+2.25.1
 
