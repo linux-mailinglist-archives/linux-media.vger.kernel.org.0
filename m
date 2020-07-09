@@ -2,194 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC0C121A090
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 15:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25E0021A21C
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 16:28:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726796AbgGINNE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jul 2020 09:13:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46932 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726768AbgGINNC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Jul 2020 09:13:02 -0400
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D15B8207DA;
-        Thu,  9 Jul 2020 13:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594300382;
-        bh=WBbJU/KkFXQZfDG744P7nPPYpZA0DJCr2tyu1VZTvTA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0mv/pzeQI/VIqe/m3D1mkdxV2+NosLJryzznIod0FRcZUjdfL6KjoJOTpqw9hFq0S
-         ClUfzGM/2GSP4XyiYW7fbv2+gCv4HwSKXyhchJZS1fmPpOS7poh7q4Pn2KlgPd0JwP
-         v0RFSJ1EuKrFu99hrIFt2WOf6W3JlJFEH78CkQmM=
-Received: by mail-ej1-f42.google.com with SMTP id o18so2202894eje.7;
-        Thu, 09 Jul 2020 06:13:01 -0700 (PDT)
-X-Gm-Message-State: AOAM532h6sXEpBPR6EQ3h5LsV8glocHkPaNHLxz/EFlE1q+vptM/o912
-        n/++aw5ARBcwHQrnovv9o3vXeOf/X69cdj4V8Q==
-X-Google-Smtp-Source: ABdhPJyUxRrhc1z4ZHhofevSZxzBYzCXYv8JpRTyGRhKckyUoVMmTH4L7nw7p3INYz0y0YJL3aK6Bg1WNoVpWz1+8Do=
-X-Received: by 2002:a17:906:856:: with SMTP id f22mr53938906ejd.245.1594300380228;
- Thu, 09 Jul 2020 06:13:00 -0700 (PDT)
+        id S1726818AbgGIO2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jul 2020 10:28:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46612 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726722AbgGIO2l (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 10:28:41 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B17C08C5CE;
+        Thu,  9 Jul 2020 07:28:41 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id b6so2591844wrs.11;
+        Thu, 09 Jul 2020 07:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=7tqZDmODxpfwBrZOHP4mWeKzffcGLgXr9vfeGZmKNBU=;
+        b=UrpSVLa3i4fx+oUjE8nAxb4rXdCD53H/8bOIv4xQumhe0e7CQ8MSbyobjYuUDN+elj
+         5ckDUsYJlUFwMBITNVVhAuDD1ntL6R5si8UkCbrFwBa1o23XClPoW3CKS4dWxyoxcntP
+         dJqsDgcKZ7AO7FkD0aTnLTbBnG66j8oAWeBRelevedSmD8Zs032jXTG9snLK4ogose0T
+         xszt4fue3yxbEy3JONwHirds5693uN2B9BDJL9fArtc7BMdD97zIbltXJ8ct7rLVTDTB
+         mAZaIj2edOMdCqYTfAGZZGyWQ0m80neg9YFUm9WSoDmvWI989Ihja/q5tJJwk4C760/1
+         ToVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=7tqZDmODxpfwBrZOHP4mWeKzffcGLgXr9vfeGZmKNBU=;
+        b=YDX2afeudN8Im1/PInxF/yp8DldpG8q8RFnKL3z0R/wsXap+xcHsiYjlalATIAV3ef
+         f9TSF7V61h8w6DrOiE+htTQcFZ53I/9UvnQG9t6kN3GMV4HBC2/PsCy7ur/w6UhaC2TH
+         NF+e1GUyNzY60XcNqE+pTI1hYKaEW/3D5mHqUFdzDIIt3ci1zxR/2G9GV5/Xag2eMKYA
+         ME+f/BSPem9dp1ZErgg3btPio7qpsozqUfnvCmd5XvRbdFXhxYLscPPP9ma5Ifliwn9H
+         d+8WzA3qhCMYWIG6olw5IuYFXX0cAg/N0CaGeT0wY5JrsbxIGrLaqw437FdkxO9slu4y
+         fW3g==
+X-Gm-Message-State: AOAM530YCuHFnwqkgYbrBeejGgZ/4cdfZTu59nM6UigoN99M3QL+72kx
+        2VH8x7uO22FvnEFq9kTFBSb9t/eV
+X-Google-Smtp-Source: ABdhPJyn8DKog/l6kOIY+x27ufbwVcpLzTGrf++rITJqcgOZsb4u39XLOgBaVXLNO9Fzi5QL+9FCzw==
+X-Received: by 2002:adf:f14c:: with SMTP id y12mr62667346wro.30.1594304919952;
+        Thu, 09 Jul 2020 07:28:39 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id d28sm4735671wrc.50.2020.07.09.07.28.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 Jul 2020 07:28:39 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [Intel-gfx] [PATCH 03/25] dma-buf.rst: Document why idenfinite
+ fences are a bad idea
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Stone <daniel@fooishbar.org>
+Cc:     Felix Kuehling <Felix.Kuehling@amd.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Steve Pronovost <spronovo@microsoft.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
+ <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+ <CAPj87rO4mm-+sQbP07cgM8-=b6Q8Jbh5G0FsV8rwYx2hnEzPkA@mail.gmail.com>
+ <20200709080458.GO3278063@phenom.ffwll.local>
+ <CAPj87rPtD04099=sBzL2jKN6NNFNnM-hH3qfOLL10nPoF==VbA@mail.gmail.com>
+ <CAKMK7uG6T+86+11CKpRpEY8v6_Xrm=hWv01tzPPLHq_H7p-AuA@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <4f42300f-9733-5536-ef25-95ed8f25bcf8@gmail.com>
+Date:   Thu, 9 Jul 2020 16:28:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200708104023.3225-1-louis.kuo@mediatek.com> <20200708104023.3225-2-louis.kuo@mediatek.com>
-In-Reply-To: <20200708104023.3225-2-louis.kuo@mediatek.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Thu, 9 Jul 2020 21:12:48 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-+v_t3Vv-Ms7k9jCxJ+0B9qb93tBkL=3OmpMLeyAdV-g@mail.gmail.com>
-Message-ID: <CAAOTY_-+v_t3Vv-Ms7k9jCxJ+0B9qb93tBkL=3OmpMLeyAdV-g@mail.gmail.com>
-Subject: Re: [RFC PATCH V7 1/3] media: platform: mtk-isp: Add Mediatek sensor
- interface driver
-To:     Louis Kuo <louis.kuo@mediatek.com>
-Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
-        Tomasz Figa <tfiga@chromium.org>, keiichiw@chromium.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org,
-        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
-        <Sean.Cheng@mediatek.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        =?UTF-8?B?SmVycnktY2ggQ2hlbiAo6Zmz5pWs5oayKQ==?= 
-        <Jerry-ch.Chen@mediatek.com>,
-        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
-        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
-        yuzhao@chromium.org,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>, zwisler@chromium.org,
-        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
-        <christie.yu@mediatek.com>,
-        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
-        <frederic.chen@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAKMK7uG6T+86+11CKpRpEY8v6_Xrm=hWv01tzPPLHq_H7p-AuA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Louis:
+Am 09.07.20 um 14:31 schrieb Daniel Vetter:
+> On Thu, Jul 9, 2020 at 2:11 PM Daniel Stone <daniel@fooishbar.org> wrote:
+>> On Thu, 9 Jul 2020 at 09:05, Daniel Vetter <daniel@ffwll.ch> wrote:
+>>> On Thu, Jul 09, 2020 at 08:36:43AM +0100, Daniel Stone wrote:
+>>>> On Tue, 7 Jul 2020 at 21:13, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>>>>> Comes up every few years, gets somewhat tedious to discuss, let's
+>>>>> write this down once and for all.
+>>>> Thanks for writing this up! I wonder if any of the notes from my reply
+>>>> to the previous-version thread would be helpful to more explicitly
+>>>> encode the carrot of dma-fence's positive guarantees, rather than just
+>>>> the stick of 'don't do this'. ;) Either way, this is:
+>>> I think the carrot should go into the intro section for dma-fence, this
+>>> section here is very much just the "don't do this" part. The previous
+>>> patches have an attempt at encoding this a bit, maybe see whether there's
+>>> a place for your reply (or parts of it) to fit?
+>> Sounds good to me.
+>>
+>>>> Acked-by: Daniel Stone <daniels@collabora.com>
+>>>>
+>>>>> What I'm not sure about is whether the text should be more explicit in
+>>>>> flat out mandating the amdkfd eviction fences for long running compute
+>>>>> workloads or workloads where userspace fencing is allowed.
+>>>> ... or whether we just say that you can never use dma-fence in
+>>>> conjunction with userptr.
+>>> Uh userptr is entirely different thing. That one is ok. It's userpsace
+>>> fences or gpu futexes or future fences or whatever we want to call them.
+>>> Or is there some other confusion here?.
+>> I mean generating a dma_fence from a batch which will try to page in
+>> userptr. Given that userptr could be backed by absolutely anything at
+>> all, it doesn't seem smart to allow fences to rely on a pointer to an
+>> mmap'ed NFS file. So it seems like batches should be mutually
+>> exclusive between arbitrary SVM userptr and generating a dma-fence?
+> Locking is Tricky (tm) but essentially what at least amdgpu does is
+> pull in the backing storage before we publish any dma-fence. And then
+> some serious locking magic to make sure that doesn't race with a core
+> mm invalidation event. So for your case here the cs ioctl just blocks
+> until the nfs pages are pulled in.
 
-Louis Kuo <louis.kuo@mediatek.com> =E6=96=BC 2020=E5=B9=B47=E6=9C=888=E6=97=
-=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:41=E5=AF=AB=E9=81=93=EF=BC=9A
+Yeah, we had some iterations until all was settled.
+
+Basic idea is the following:
+1. Have a sequence counter increased whenever a change to the page 
+tables happens.
+2. During CS grab the current value of this counter.
+3. Get all the pages you need in an array.
+4. Prepare CS, grab the low level lock the MM notifier waits for and 
+double check the counter.
+5. If the counter is still the same all is well and the DMA-fence pushed 
+to the hardware.
+6. If the counter has changed repeat.
+
+Can result in a nice live lock when you constantly page things in/out, 
+but that is expected behavior.
+
+Christian.
+
 >
-> This patch adds Mediatek's sensor interface driver. Sensor interface
-> driver is a MIPI-CSI2 host driver, namely, a HW camera interface controll=
-er.
-> It support a widely adopted, simple, high-speed protocol primarily intend=
-ed
-> for point-to-point image and video transmission between cameras and host
-> devices. The mtk-isp directory will contain drivers for multiple IP block=
-s
-> found in Mediatek ISP system. It will include ISP Pass 1 driver, sensor
-> interface driver, DIP driver and face detection driver.
+> Once we've committed for the dma-fence it's only the other way round,
+> i.e. core mm will stall on the dma-fence if it wants to throw out
+> these pages again. More or less at least. That way we never have a
+> dma-fence depending upon any core mm operations. The only pain here is
+> that this severely limits what you can do in the critical path towards
+> signalling a dma-fence, because the tldr is "no interacting with core
+> mm at all allowed".
 >
-> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
-> ---
->  drivers/media/platform/Makefile               |    1 +
->  drivers/media/platform/mtk-isp/Kconfig        |   18 +
->  drivers/media/platform/mtk-isp/Makefile       |    3 +
->  .../media/platform/mtk-isp/seninf/Makefile    |    7 +
->  .../platform/mtk-isp/seninf/mtk_seninf.c      |  974 +++++++++++
->  .../platform/mtk-isp/seninf/mtk_seninf_dphy.c |  353 ++++
-
-I think phy driver should be placed in drivers/phy/mediatek and
-separate phy driver to an independent patch.
-
->  .../platform/mtk-isp/seninf/mtk_seninf_reg.h  | 1491 +++++++++++++++++
->  .../mtk-isp/seninf/mtk_seninf_rx_reg.h        |  515 ++++++
->  8 files changed, 3362 insertions(+)
->  create mode 100644 drivers/media/platform/mtk-isp/Kconfig
->  create mode 100644 drivers/media/platform/mtk-isp/Makefile
->  create mode 100644 drivers/media/platform/mtk-isp/seninf/Makefile
->  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf.c
->  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf_dphy=
-.c
->  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf_reg.=
-h
->  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf_rx_r=
-eg.h
+>> Speaking of entirely different things ... the virtio-gpu bit really
+>> doesn't belong in this patch.
+> Oops, dunno where I lost that as a sparate patch. Will split out again :-(
+> -Daniel
+>
+>> Cheers,
+>> Daniel
+>
 >
 
-[snip]
-
-> +
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/of_irq.h>
-
-No irq handler, so remove this.
-
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/slab.h>
-> +#include <linux/videodev2.h>
-> +#include <media/v4l2-async.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-subdev.h>
-> +#include <linux/phy/phy.h>
-> +#include "mtk_seninf_reg.h"
-> +
-
-[snip]
-
-> +
-> +static int seninf_set_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +       struct mtk_seninf *priv =3D container_of(ctrl->handler,
-> +                                            struct mtk_seninf, ctrl_hand=
-ler);
-> +
-> +       switch (ctrl->id) {
-> +       case V4L2_CID_TEST_PATTERN:
-> +               if (ctrl->val =3D=3D TEST_GEN_PATTERN)
-> +                       return seninf_enable_test_pattern(priv);
-
-Without this, this driver still works, so move this to an independent patch=
-.
-
-> +               else if (ctrl->val =3D=3D TEST_DUMP_DEBUG_INFO)
-> +                       return seninf_dump_debug_info(priv);
-
-Ditto.
-
-> +               else
-> +                       return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-
-[snip]
-
-> +
-> +#ifdef CONFIG_OF
-> +static const struct of_device_id mtk_mipi_dphy_of_match[] =3D {
-> +       {.compatible =3D "mediatek,mt8183-mipi_dphy"},
-
-Where is the definition of "mediatek,mt8183-mipi_dphy"?
-
-Regards,
-Chun-Kuang.
-
-> +       {},
-> +};
-> +MODULE_DEVICE_TABLE(of, mtk_mipi_dphy_of_match);
-> +#endif
-> +
-> +static struct platform_driver mipi_dphy_pdrv =3D {
-> +       .probe  =3D mipi_dphy_probe,
-> +       .driver =3D {
-> +               .name   =3D "mipi_dphy",
-> +               .of_match_table =3D of_match_ptr(mtk_mipi_dphy_of_match),
-> +       },
-> +};
-> +
-> +module_platform_driver(mipi_dphy_pdrv);
-> +
