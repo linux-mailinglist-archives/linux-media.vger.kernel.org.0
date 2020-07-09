@@ -2,291 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7243219A8E
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 10:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5582F219B56
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 10:43:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726299AbgGIIJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jul 2020 04:09:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726245AbgGIIJP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 04:09:15 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5F5C08C5CE
-        for <linux-media@vger.kernel.org>; Thu,  9 Jul 2020 01:09:15 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id r12so1294029wrj.13
-        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2020 01:09:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=xILi+P7oxRN9bsl9W4i3+0ke3SSO/cGJKcOayGROABg=;
-        b=Z8SGMwegjGqLUQQfKqZmW8OnZt4atfyK+euHQ66oyCKzXXabJQBna2CgnG6gYEwSxx
-         JTBXk5cMDf6pHwZTG/X54Jme6aPmwyba+D85KHNMCZiewSxIUuN5gy8I1HAZsFiE5L39
-         Zasqwt5fVM3jrkrCUHQ9O5XKDxbXPWsMXZZ4Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=xILi+P7oxRN9bsl9W4i3+0ke3SSO/cGJKcOayGROABg=;
-        b=lZc6xcawA0G9EQdiLPpX5+p9qM8oW/ByUV6kD09ZkOPaU8qhkiSKOq/RUiSna51+r/
-         l/HG2KFxHFyPBuZYqWOELKoihwBEZtTWpRZ8guljPSgF9/MYQQFyOPD3K+WdZgKXjUCP
-         m3WyjmZsLdtX5OfKastzudwWpvzxNUDzU1+NB9tkHaxrhjRcn/bJfdxYwO9xs9hSt0Ss
-         3voIlFCgJhvXygjKCTnmL59fBJh0ZTda5j6RTcbXahzvq+BMs+coKXdL8VLAN7/JHCK3
-         qe6ZN3weN3tp0D+LI1qX1td9iiCrQGT/F/i/jIvvt+IqCdTMR0PPQzCM1ulIfyw6TlSg
-         aloQ==
-X-Gm-Message-State: AOAM530yTPaHr09dEa5GW8kfj20MEcJH47TyDbehSg/ezo4ruuIDL9lJ
-        qK5eJPrwg9470shQtYhppzL3Pg==
-X-Google-Smtp-Source: ABdhPJyXjosHa1e1FEUu0z2TQteu7t+nU4sUeh2Velm8Y72+jQHU242c3Oro8DJvZSDfcbp2iGZgaA==
-X-Received: by 2002:adf:828b:: with SMTP id 11mr66734825wrc.58.1594282154016;
-        Thu, 09 Jul 2020 01:09:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id d132sm3541640wmd.35.2020.07.09.01.09.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 01:09:13 -0700 (PDT)
-Date:   Thu, 9 Jul 2020 10:09:11 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Jason Gunthorpe <jgg@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        kernel test robot <lkp@intel.com>,
-        Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: [PATCH 02/25] dma-fence: prime lockdep annotations
-Message-ID: <20200709080911.GP3278063@phenom.ffwll.local>
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-3-daniel.vetter@ffwll.ch>
+        id S1726311AbgGIInO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jul 2020 04:43:14 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51536 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726193AbgGIInO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 04:43:14 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC265289;
+        Thu,  9 Jul 2020 10:43:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1594284191;
+        bh=/VoKmI/DiBrtBJiaTvk1IXoOMWdrKG9Lxw4goxipK6Y=;
+        h=Subject:To:References:From:Reply-To:Date:In-Reply-To:From;
+        b=ETwEaFeE4nHWgv3yOt5Q4Pa0ZjXfQiEIGfmQS9Emqs3f7vG43WziN/s4rARiu64pZ
+         C3Fnbv0mo3jdm2Q6gyqO61f9Yhe/WHPSbcjWCYy8RC1pRQIO7EXtbwr/mPrNreK2WG
+         JDQKA6ntcmaqms3+Qz6DTJ55pyTiy+9nCxJn6Wbc=
+Subject: Re: [PATCH] TI DAVINCI SERIES MEDIA DRIVER: Replace HTTP links with
+ HTTPS ones
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        prabhakar.csengg@gmail.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200709072814.24218-1-grandmaster@al2klimov.de>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <dab6510d-4b3a-7439-bff0-e927ddd2622f@ideasonboard.com>
+Date:   Thu, 9 Jul 2020 09:43:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200707201229.472834-3-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200709072814.24218-1-grandmaster@al2klimov.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jason,
+Hi Alexander,
 
-Below the paragraph I've added after our discussions around dma-fences
-outside of drivers/gpu. Good enough for an ack on this, or want something
-changed?
+On 09/07/2020 08:28, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+> 
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
-Thanks, Daniel
+This non-https link redirects to the https link already with a 301, so
+the content is expectedly the same.
 
-> + * Note that only GPU drivers have a reasonable excuse for both requiring
-> + * &mmu_interval_notifier and &shrinker callbacks at the same time as having to
-> + * track asynchronous compute work using &dma_fence. No driver outside of
-> + * drivers/gpu should ever call dma_fence_wait() in such contexts.
+I doubt many people click on these links, as I guess they're usually
+rendered as text so it depends on the editor, I expect as much as
+anything it's 'advertising' or confirmation of the copyright notice.
 
+But still, I've just clicked on them ... and I think this is a
+reasonable step.
 
-On Tue, Jul 07, 2020 at 10:12:06PM +0200, Daniel Vetter wrote:
-> Two in one go:
-> - it is allowed to call dma_fence_wait() while holding a
->   dma_resv_lock(). This is fundamental to how eviction works with ttm,
->   so required.
-> 
-> - it is allowed to call dma_fence_wait() from memory reclaim contexts,
->   specifically from shrinker callbacks (which i915 does), and from mmu
->   notifier callbacks (which amdgpu does, and which i915 sometimes also
->   does, and probably always should, but that's kinda a debate). Also
->   for stuff like HMM we really need to be able to do this, or things
->   get real dicey.
-> 
-> Consequence is that any critical path necessary to get to a
-> dma_fence_signal for a fence must never a) call dma_resv_lock nor b)
-> allocate memory with GFP_KERNEL. Also by implication of
-> dma_resv_lock(), no userspace faulting allowed. That's some supremely
-> obnoxious limitations, which is why we need to sprinkle the right
-> annotations to all relevant paths.
-> 
-> The one big locking context we're leaving out here is mmu notifiers,
-> added in
-> 
-> commit 23b68395c7c78a764e8963fc15a7cfd318bf187f
-> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Date:   Mon Aug 26 22:14:21 2019 +0200
-> 
->     mm/mmu_notifiers: add a lockdep map for invalidate_range_start/end
-> 
-> that one covers a lot of other callsites, and it's also allowed to
-> wait on dma-fences from mmu notifiers. But there's no ready-made
-> functions exposed to prime this, so I've left it out for now.
-> 
-> v2: Also track against mmu notifier context.
-> 
-> v3: kerneldoc to spec the cross-driver contract. Note that currently
-> i915 throws in a hard-coded 10s timeout on foreign fences (not sure
-> why that was done, but it's there), which is why that rule is worded
-> with SHOULD instead of MUST.
-> 
-> Also some of the mmu_notifier/shrinker rules might surprise SoC
-> drivers, I haven't fully audited them all. Which is infeasible anyway,
-> we'll need to run them with lockdep and dma-fence annotations and see
-> what goes boom.
-> 
-> v4: A spelling fix from Mika
-> 
-> v5: #ifdef for CONFIG_MMU_NOTIFIER. Reported by 0day. Unfortunately
-> this means lockdep enforcement is slightly inconsistent, it won't spot
-> GFP_NOIO and GFP_NOFS allocations in the wrong spot if
-> CONFIG_MMU_NOTIFIER is disabled in the kernel config. Oh well.
-> 
-> v5: Note that only drivers/gpu has a reasonable (or at least
-> historical) excuse to use dma_fence_wait() from shrinker and mmu
-> notifier callbacks. Everyone else should either have a better memory
-> manager model, or better hardware. This reflects discussions with
-> Jason Gunthorpe.
-> 
-> Cc: Jason Gunthorpe <jgg@mellanox.com>
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: kernel test robot <lkp@intel.com>
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@intel.com> (v4)
-> Cc: Mika Kuoppala <mika.kuoppala@intel.com>
-> Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
 > ---
->  Documentation/driver-api/dma-buf.rst |  6 ++++
->  drivers/dma-buf/dma-fence.c          | 46 ++++++++++++++++++++++++++++
->  drivers/dma-buf/dma-resv.c           |  8 +++++
->  include/linux/dma-fence.h            |  1 +
->  4 files changed, 61 insertions(+)
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
 > 
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 05d856131140..f8f6decde359 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -133,6 +133,12 @@ DMA Fences
->  .. kernel-doc:: drivers/dma-buf/dma-fence.c
->     :doc: DMA fences overview
->  
-> +DMA Fence Cross-Driver Contract
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> +   :doc: fence cross-driver contract
-> +
->  DMA Fence Signalling Annotations
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 0005bc002529..af1d8ea926b3 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -64,6 +64,52 @@ static atomic64_t dma_fence_context_counter = ATOMIC64_INIT(1);
->   *   &dma_buf.resv pointer.
+>  If there are any URLs to be removed completely or at least not HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
+> 
+> 
+>  drivers/media/platform/davinci/vpbe_display.c | 2 +-
+>  drivers/media/platform/davinci/vpif.c         | 2 +-
+>  drivers/media/platform/davinci/vpif.h         | 2 +-
+>  drivers/media/platform/davinci/vpif_display.c | 2 +-
+>  drivers/media/platform/davinci/vpif_display.h | 2 +-
+>  include/media/davinci/vpbe_display.h          | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/davinci/vpbe_display.c b/drivers/media/platform/davinci/vpbe_display.c
+> index 7ab13eb7527d..d19bad997f30 100644
+> --- a/drivers/media/platform/davinci/vpbe_display.c
+> +++ b/drivers/media/platform/davinci/vpbe_display.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+> + * Copyright (C) 2010 Texas Instruments Incorporated - https://www.ti.com/
 >   */
->  
-> +/**
-> + * DOC: fence cross-driver contract
-> + *
-> + * Since &dma_fence provide a cross driver contract, all drivers must follow the
-> + * same rules:
-> + *
-> + * * Fences must complete in a reasonable time. Fences which represent kernels
-> + *   and shaders submitted by userspace, which could run forever, must be backed
-> + *   up by timeout and gpu hang recovery code. Minimally that code must prevent
-> + *   further command submission and force complete all in-flight fences, e.g.
-> + *   when the driver or hardware do not support gpu reset, or if the gpu reset
-> + *   failed for some reason. Ideally the driver supports gpu recovery which only
-> + *   affects the offending userspace context, and no other userspace
-> + *   submissions.
-> + *
-> + * * Drivers may have different ideas of what completion within a reasonable
-> + *   time means. Some hang recovery code uses a fixed timeout, others a mix
-> + *   between observing forward progress and increasingly strict timeouts.
-> + *   Drivers should not try to second guess timeout handling of fences from
-> + *   other drivers.
-> + *
-> + * * To ensure there's no deadlocks of dma_fence_wait() against other locks
-> + *   drivers should annotate all code required to reach dma_fence_signal(),
-> + *   which completes the fences, with dma_fence_begin_signalling() and
-> + *   dma_fence_end_signalling().
-> + *
-> + * * Drivers are allowed to call dma_fence_wait() while holding dma_resv_lock().
-> + *   This means any code required for fence completion cannot acquire a
-> + *   &dma_resv lock. Note that this also pulls in the entire established
-> + *   locking hierarchy around dma_resv_lock() and dma_resv_unlock().
-> + *
-> + * * Drivers are allowed to call dma_fence_wait() from their &shrinker
-> + *   callbacks. This means any code required for fence completion cannot
-> + *   allocate memory with GFP_KERNEL.
-> + *
-> + * * Drivers are allowed to call dma_fence_wait() from their &mmu_notifier
-> + *   respectively &mmu_interval_notifier callbacks. This means any code required
-> + *   for fence completeion cannot allocate memory with GFP_NOFS or GFP_NOIO.
-> + *   Only GFP_ATOMIC is permissible, which might fail.
-> + *
-> + * Note that only GPU drivers have a reasonable excuse for both requiring
-> + * &mmu_interval_notifier and &shrinker callbacks at the same time as having to
-> + * track asynchronous compute work using &dma_fence. No driver outside of
-> + * drivers/gpu should ever call dma_fence_wait() in such contexts.
-> + */
-> +
->  static const char *dma_fence_stub_get_name(struct dma_fence *fence)
->  {
->          return "stub";
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index e7d7197d48ce..0e6675ec1d11 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -36,6 +36,7 @@
->  #include <linux/export.h>
->  #include <linux/mm.h>
->  #include <linux/sched/mm.h>
-> +#include <linux/mmu_notifier.h>
->  
->  /**
->   * DOC: Reservation Object Overview
-> @@ -116,6 +117,13 @@ static int __init dma_resv_lockdep(void)
->  	if (ret == -EDEADLK)
->  		dma_resv_lock_slow(&obj, &ctx);
->  	fs_reclaim_acquire(GFP_KERNEL);
-> +#ifdef CONFIG_MMU_NOTIFIER
-> +	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
-> +	__dma_fence_might_wait();
-> +	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
-> +#else
-> +	__dma_fence_might_wait();
-> +#endif
->  	fs_reclaim_release(GFP_KERNEL);
->  	ww_mutex_unlock(&obj.lock);
->  	ww_acquire_fini(&ctx);
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 3f288f7db2ef..09e23adb351d 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -360,6 +360,7 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
->  #ifdef CONFIG_LOCKDEP
->  bool dma_fence_begin_signalling(void);
->  void dma_fence_end_signalling(bool cookie);
-> +void __dma_fence_might_wait(void);
->  #else
->  static inline bool dma_fence_begin_signalling(void)
->  {
-> -- 
-> 2.27.0
+>  #include <linux/kernel.h>
+>  #include <linux/init.h>
+> diff --git a/drivers/media/platform/davinci/vpif.c b/drivers/media/platform/davinci/vpif.c
+> index df66461f5d4f..e9794c9fc7fe 100644
+> --- a/drivers/media/platform/davinci/vpif.c
+> +++ b/drivers/media/platform/davinci/vpif.c
+> @@ -5,7 +5,7 @@
+>   * The hardware supports SDTV, HDTV formats, raw data capture.
+>   * Currently, the driver supports NTSC and PAL standards.
+>   *
+> - * Copyright (C) 2009 Texas Instruments Incorporated - http://www.ti.com/
+> + * Copyright (C) 2009 Texas Instruments Incorporated - https://www.ti.com/
+>   *
+>   * This program is free software; you can redistribute it and/or
+>   * modify it under the terms of the GNU General Public License as
+> diff --git a/drivers/media/platform/davinci/vpif.h b/drivers/media/platform/davinci/vpif.h
+> index 2466c7c77deb..c6d1d890478a 100644
+> --- a/drivers/media/platform/davinci/vpif.h
+> +++ b/drivers/media/platform/davinci/vpif.h
+> @@ -1,7 +1,7 @@
+>  /*
+>   * VPIF header file
+>   *
+> - * Copyright (C) 2009 Texas Instruments Incorporated - http://www.ti.com/
+> + * Copyright (C) 2009 Texas Instruments Incorporated - https://www.ti.com/
+>   *
+>   * This program is free software; you can redistribute it and/or
+>   * modify it under the terms of the GNU General Public License as
+> diff --git a/drivers/media/platform/davinci/vpif_display.c b/drivers/media/platform/davinci/vpif_display.c
+> index 7d55fd45240e..46afc029138f 100644
+> --- a/drivers/media/platform/davinci/vpif_display.c
+> +++ b/drivers/media/platform/davinci/vpif_display.c
+> @@ -2,7 +2,7 @@
+>   * vpif-display - VPIF display driver
+>   * Display driver for TI DaVinci VPIF
+>   *
+> - * Copyright (C) 2009 Texas Instruments Incorporated - http://www.ti.com/
+> + * Copyright (C) 2009 Texas Instruments Incorporated - https://www.ti.com/
+>   * Copyright (C) 2014 Lad, Prabhakar <prabhakar.csengg@gmail.com>
+>   *
+>   * This program is free software; you can redistribute it and/or
+> diff --git a/drivers/media/platform/davinci/vpif_display.h b/drivers/media/platform/davinci/vpif_display.h
+> index af2765fdcea8..f731a65eefd6 100644
+> --- a/drivers/media/platform/davinci/vpif_display.h
+> +++ b/drivers/media/platform/davinci/vpif_display.h
+> @@ -1,7 +1,7 @@
+>  /*
+>   * VPIF display header file
+>   *
+> - * Copyright (C) 2009 Texas Instruments Incorporated - http://www.ti.com/
+> + * Copyright (C) 2009 Texas Instruments Incorporated - https://www.ti.com/
+>   *
+>   * This program is free software; you can redistribute it and/or
+>   * modify it under the terms of the GNU General Public License as
+> diff --git a/include/media/davinci/vpbe_display.h b/include/media/davinci/vpbe_display.h
+> index 56d05a855140..6d2a93740130 100644
+> --- a/include/media/davinci/vpbe_display.h
+> +++ b/include/media/davinci/vpbe_display.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+> + * Copyright (C) 2010 Texas Instruments Incorporated - https://www.ti.com/
+>   */
+>  #ifndef VPBE_DISPLAY_H
+>  #define VPBE_DISPLAY_H
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
