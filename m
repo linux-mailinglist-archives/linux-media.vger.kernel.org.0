@@ -2,189 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA8221A018
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 14:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0C121A090
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 15:13:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726445AbgGIMdx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jul 2020 08:33:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbgGIMdw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 08:33:52 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C10C061A0B
-        for <linux-media@vger.kernel.org>; Thu,  9 Jul 2020 05:33:52 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id o2so1626791wmh.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2020 05:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9ml7yu61orPGiyeLHj7KPJdBGRuwIj4VGf7RIdg6+6E=;
-        b=FT1zeqK0F6re7x3hxU6WuwKnuhLdZTTGsE6uj0ZmBrbf9TVkVqTK3LOGBYbBEjYddX
-         UQxsmufvcNCR+EiwLcPUmPYWFaC5pZ5CGfGNvzGthBXT2lli8Ur+GfzSgeLxXbdC//jm
-         w7Dqku33+bwbEzRQvB6e/WItr0k784kTvA0/0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9ml7yu61orPGiyeLHj7KPJdBGRuwIj4VGf7RIdg6+6E=;
-        b=GT3w3s3yltUXcvazdAQPe/XONh2SKAFWTWNS6oEl1etJEdnAF+rNYQqwjKU9hw/GIR
-         BC6TMGRC7Jhgqkgc+9TQX7TAjvQyZ4Es+byecRCv+Dosk44tygm2C/CFBFkqkIwrsF2l
-         6NNcawhXd0g4/JEq0nob+kxTWIEjNPDBRYAkQyNfRzJDavrKqwBX1UXjTc6TN/6e5hdY
-         GD7vuJA2KBGXN9V+X+SHI6yWZZA4Vs8UMoQUw81CLJtuidADk/pu+MPPjhjKPk24Kv1l
-         XoAoQZAIrasQWQF/zbHUWR2+nIeD6Z+yEz1JXhdbm6sBB9xZU+Z2k7X2cTLh95FULabD
-         jOQg==
-X-Gm-Message-State: AOAM5334xMV1ctQGo0iUDqkWF6pw7rCnGFBnpJGktqZDq5sW39ZUHP8b
-        e/8iPVCiNsAThUZ5fBflJ5Dieg==
-X-Google-Smtp-Source: ABdhPJyW1X39siqvN1tXyO+a5xJDhtYxZB7qgF8t/3W1eiXrhQsMLgXCOAKI1Lx9mgsJn2P0+ZV+SQ==
-X-Received: by 2002:a7b:c313:: with SMTP id k19mr14181981wmj.67.1594298030902;
-        Thu, 09 Jul 2020 05:33:50 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id o205sm4925347wme.24.2020.07.09.05.33.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 05:33:50 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Stone <daniels@collabora.com>,
-        Jesse Natalie <jenatali@microsoft.com>,
-        Steve Pronovost <spronovo@microsoft.com>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 1/2] dma-buf.rst: Document why indefinite fences are a bad idea
-Date:   Thu,  9 Jul 2020 14:33:38 +0200
-Message-Id: <20200709123339.547390-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+        id S1726796AbgGINNE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jul 2020 09:13:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46932 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726768AbgGINNC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Jul 2020 09:13:02 -0400
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D15B8207DA;
+        Thu,  9 Jul 2020 13:13:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594300382;
+        bh=WBbJU/KkFXQZfDG744P7nPPYpZA0DJCr2tyu1VZTvTA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=0mv/pzeQI/VIqe/m3D1mkdxV2+NosLJryzznIod0FRcZUjdfL6KjoJOTpqw9hFq0S
+         ClUfzGM/2GSP4XyiYW7fbv2+gCv4HwSKXyhchJZS1fmPpOS7poh7q4Pn2KlgPd0JwP
+         v0RFSJ1EuKrFu99hrIFt2WOf6W3JlJFEH78CkQmM=
+Received: by mail-ej1-f42.google.com with SMTP id o18so2202894eje.7;
+        Thu, 09 Jul 2020 06:13:01 -0700 (PDT)
+X-Gm-Message-State: AOAM532h6sXEpBPR6EQ3h5LsV8glocHkPaNHLxz/EFlE1q+vptM/o912
+        n/++aw5ARBcwHQrnovv9o3vXeOf/X69cdj4V8Q==
+X-Google-Smtp-Source: ABdhPJyUxRrhc1z4ZHhofevSZxzBYzCXYv8JpRTyGRhKckyUoVMmTH4L7nw7p3INYz0y0YJL3aK6Bg1WNoVpWz1+8Do=
+X-Received: by 2002:a17:906:856:: with SMTP id f22mr53938906ejd.245.1594300380228;
+ Thu, 09 Jul 2020 06:13:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200708104023.3225-1-louis.kuo@mediatek.com> <20200708104023.3225-2-louis.kuo@mediatek.com>
+In-Reply-To: <20200708104023.3225-2-louis.kuo@mediatek.com>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Thu, 9 Jul 2020 21:12:48 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-+v_t3Vv-Ms7k9jCxJ+0B9qb93tBkL=3OmpMLeyAdV-g@mail.gmail.com>
+Message-ID: <CAAOTY_-+v_t3Vv-Ms7k9jCxJ+0B9qb93tBkL=3OmpMLeyAdV-g@mail.gmail.com>
+Subject: Re: [RFC PATCH V7 1/3] media: platform: mtk-isp: Add Mediatek sensor
+ interface driver
+To:     Louis Kuo <louis.kuo@mediatek.com>
+Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
+        Tomasz Figa <tfiga@chromium.org>, keiichiw@chromium.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devicetree@vger.kernel.org,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <Sean.Cheng@mediatek.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        =?UTF-8?B?SmVycnktY2ggQ2hlbiAo6Zmz5pWs5oayKQ==?= 
+        <Jerry-ch.Chen@mediatek.com>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        yuzhao@chromium.org,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, zwisler@chromium.org,
+        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
+        <christie.yu@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <frederic.chen@mediatek.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Comes up every few years, gets somewhat tedious to discuss, let's
-write this down once and for all.
+Hi, Louis:
 
-What I'm not sure about is whether the text should be more explicit in
-flat out mandating the amdkfd eviction fences for long running compute
-workloads or workloads where userspace fencing is allowed.
+Louis Kuo <louis.kuo@mediatek.com> =E6=96=BC 2020=E5=B9=B47=E6=9C=888=E6=97=
+=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:41=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> This patch adds Mediatek's sensor interface driver. Sensor interface
+> driver is a MIPI-CSI2 host driver, namely, a HW camera interface controll=
+er.
+> It support a widely adopted, simple, high-speed protocol primarily intend=
+ed
+> for point-to-point image and video transmission between cameras and host
+> devices. The mtk-isp directory will contain drivers for multiple IP block=
+s
+> found in Mediatek ISP system. It will include ISP Pass 1 driver, sensor
+> interface driver, DIP driver and face detection driver.
+>
+> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+> ---
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/mtk-isp/Kconfig        |   18 +
+>  drivers/media/platform/mtk-isp/Makefile       |    3 +
+>  .../media/platform/mtk-isp/seninf/Makefile    |    7 +
+>  .../platform/mtk-isp/seninf/mtk_seninf.c      |  974 +++++++++++
+>  .../platform/mtk-isp/seninf/mtk_seninf_dphy.c |  353 ++++
 
-v2: Now with dot graph!
+I think phy driver should be placed in drivers/phy/mediatek and
+separate phy driver to an independent patch.
 
-v3: Typo (Dave Airlie)
+>  .../platform/mtk-isp/seninf/mtk_seninf_reg.h  | 1491 +++++++++++++++++
+>  .../mtk-isp/seninf/mtk_seninf_rx_reg.h        |  515 ++++++
+>  8 files changed, 3362 insertions(+)
+>  create mode 100644 drivers/media/platform/mtk-isp/Kconfig
+>  create mode 100644 drivers/media/platform/mtk-isp/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf.c
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf_dphy=
+.c
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf_reg.=
+h
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf_rx_r=
+eg.h
+>
 
-Acked-by: Christian König <christian.koenig@amd.com>
-Acked-by: Daniel Stone <daniels@collabora.com>
-Cc: Jesse Natalie <jenatali@microsoft.com>
-Cc: Steve Pronovost <spronovo@microsoft.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: Mika Kuoppala <mika.kuoppala@intel.com>
-Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-rdma@vger.kernel.org
-Cc: amd-gfx@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Christian König <christian.koenig@amd.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- Documentation/driver-api/dma-buf.rst | 70 ++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+[snip]
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index f8f6decde359..100bfd227265 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -178,3 +178,73 @@ DMA Fence uABI/Sync File
- .. kernel-doc:: include/linux/sync_file.h
-    :internal:
- 
-+Indefinite DMA Fences
-+~~~~~~~~~~~~~~~~~~~~
-+
-+At various times &dma_fence with an indefinite time until dma_fence_wait()
-+finishes have been proposed. Examples include:
-+
-+* Future fences, used in HWC1 to signal when a buffer isn't used by the display
-+  any longer, and created with the screen update that makes the buffer visible.
-+  The time this fence completes is entirely under userspace's control.
-+
-+* Proxy fences, proposed to handle &drm_syncobj for which the fence has not yet
-+  been set. Used to asynchronously delay command submission.
-+
-+* Userspace fences or gpu futexes, fine-grained locking within a command buffer
-+  that userspace uses for synchronization across engines or with the CPU, which
-+  are then imported as a DMA fence for integration into existing winsys
-+  protocols.
-+
-+* Long-running compute command buffers, while still using traditional end of
-+  batch DMA fences for memory management instead of context preemption DMA
-+  fences which get reattached when the compute job is rescheduled.
-+
-+Common to all these schemes is that userspace controls the dependencies of these
-+fences and controls when they fire. Mixing indefinite fences with normal
-+in-kernel DMA fences does not work, even when a fallback timeout is included to
-+protect against malicious userspace:
-+
-+* Only the kernel knows about all DMA fence dependencies, userspace is not aware
-+  of dependencies injected due to memory management or scheduler decisions.
-+
-+* Only userspace knows about all dependencies in indefinite fences and when
-+  exactly they will complete, the kernel has no visibility.
-+
-+Furthermore the kernel has to be able to hold up userspace command submission
-+for memory management needs, which means we must support indefinite fences being
-+dependent upon DMA fences. If the kernel also support indefinite fences in the
-+kernel like a DMA fence, like any of the above proposal would, there is the
-+potential for deadlocks.
-+
-+.. kernel-render:: DOT
-+   :alt: Indefinite Fencing Dependency Cycle
-+   :caption: Indefinite Fencing Dependency Cycle
-+
-+   digraph "Fencing Cycle" {
-+      node [shape=box bgcolor=grey style=filled]
-+      kernel [label="Kernel DMA Fences"]
-+      userspace [label="userspace controlled fences"]
-+      kernel -> userspace [label="memory management"]
-+      userspace -> kernel [label="Future fence, fence proxy, ..."]
-+
-+      { rank=same; kernel userspace }
-+   }
-+
-+This means that the kernel might accidentally create deadlocks
-+through memory management dependencies which userspace is unaware of, which
-+randomly hangs workloads until the timeout kicks in. Workloads, which from
-+userspace's perspective, do not contain a deadlock.  In such a mixed fencing
-+architecture there is no single entity with knowledge of all dependencies.
-+Thefore preventing such deadlocks from within the kernel is not possible.
-+
-+The only solution to avoid dependencies loops is by not allowing indefinite
-+fences in the kernel. This means:
-+
-+* No future fences, proxy fences or userspace fences imported as DMA fences,
-+  with or without a timeout.
-+
-+* No DMA fences that signal end of batchbuffer for command submission where
-+  userspace is allowed to use userspace fencing or long running compute
-+  workloads. This also means no implicit fencing for shared buffers in these
-+  cases.
--- 
-2.27.0
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/of_irq.h>
 
+No irq handler, so remove this.
+
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/slab.h>
+> +#include <linux/videodev2.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-subdev.h>
+> +#include <linux/phy/phy.h>
+> +#include "mtk_seninf_reg.h"
+> +
+
+[snip]
+
+> +
+> +static int seninf_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +       struct mtk_seninf *priv =3D container_of(ctrl->handler,
+> +                                            struct mtk_seninf, ctrl_hand=
+ler);
+> +
+> +       switch (ctrl->id) {
+> +       case V4L2_CID_TEST_PATTERN:
+> +               if (ctrl->val =3D=3D TEST_GEN_PATTERN)
+> +                       return seninf_enable_test_pattern(priv);
+
+Without this, this driver still works, so move this to an independent patch=
+.
+
+> +               else if (ctrl->val =3D=3D TEST_DUMP_DEBUG_INFO)
+> +                       return seninf_dump_debug_info(priv);
+
+Ditto.
+
+> +               else
+> +                       return -EINVAL;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+
+[snip]
+
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id mtk_mipi_dphy_of_match[] =3D {
+> +       {.compatible =3D "mediatek,mt8183-mipi_dphy"},
+
+Where is the definition of "mediatek,mt8183-mipi_dphy"?
+
+Regards,
+Chun-Kuang.
+
+> +       {},
+> +};
+> +MODULE_DEVICE_TABLE(of, mtk_mipi_dphy_of_match);
+> +#endif
+> +
+> +static struct platform_driver mipi_dphy_pdrv =3D {
+> +       .probe  =3D mipi_dphy_probe,
+> +       .driver =3D {
+> +               .name   =3D "mipi_dphy",
+> +               .of_match_table =3D of_match_ptr(mtk_mipi_dphy_of_match),
+> +       },
+> +};
+> +
+> +module_platform_driver(mipi_dphy_pdrv);
+> +
