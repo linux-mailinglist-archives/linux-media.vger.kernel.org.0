@@ -2,257 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB78F219F9C
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 14:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E34EF219FB8
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 14:11:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbgGIMHH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jul 2020 08:07:07 -0400
-Received: from esa5.microchip.iphmx.com ([216.71.150.166]:39074 "EHLO
-        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbgGIMHH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 08:07:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1594296427; x=1625832427;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nMXHAEiiHgSyP1gAXee7wbBvM3umUxrAW5Djn1qOTmo=;
-  b=GgK/XsGdI1/7t3zP/qfWhtUm2FkC5yAMbFz256hdw7X0aNR/j5c80EPs
-   J2Jy+ktfPvWggWqI5FrludWs2lBF5bkC7JUCN0mBwx1W7+aQcfXjW09KM
-   jgAubtDjhRIiwfbMiFvTlhiGUexUXzhxMvgLqnzoKTCHfbunhkkyRnjQR
-   ejMzDbXX3iojuIi/nG3MkezKTylqp/2k/iRcBxuxKTkV84Mm5GNro7agk
-   XRgj3g9+/0PsGtBMjXzT7/LkivuoJdhEAy1J9H/B36EXPyjfVwRfVCs+s
-   ho50cR5irH1nZXFN+3dSM0iwtB5OKoBKG6/HYvo6sNoKGN6kd/QOuZZu9
-   A==;
-IronPort-SDR: zOtJlZVehELzb7drAJcSub/6wfazWuco71VPtOB6UqKCuDwSTngRPcK3kGJkBPd29TFe9J2Wj5
- 8cb7/lR3JQX0ENT3SoKBHN1pVbETiBIVgiq3bJs3Tp6A702sVsgEPlKhZu4zDF2XEFMIFXtMri
- VzQWFxtbrzNYniYzkYAOiVfk2rLwbi3tsI7cG+vULvYKUbyNnDngZQ7N+FEc3RrtbuDzqNkyLT
- nrZer/5P84mvb2AL1Ia7wnLrxre37e3rs/mgSAcFolPNlFSTob9USX2Fs+/RGlTK+f3nmJJ4Jd
- 6lg=
-X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; 
-   d="scan'208";a="82409225"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 09 Jul 2020 05:07:06 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Thu, 9 Jul 2020 05:07:05 -0700
-Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.1979.3 via Frontend Transport; Thu, 9 Jul 2020 05:06:38 -0700
-From:   Eugen Hristev <eugen.hristev@microchip.com>
-To:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH] media: atmel: atmel-isc: rework component offsets
-Date:   Thu, 9 Jul 2020 15:06:45 +0300
-Message-ID: <20200709120645.104796-1-eugen.hristev@microchip.com>
-X-Mailer: git-send-email 2.25.1
+        id S1726599AbgGIMLZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jul 2020 08:11:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726891AbgGIMLZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 08:11:25 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B70E8C08C5DC
+        for <linux-media@vger.kernel.org>; Thu,  9 Jul 2020 05:11:24 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id 17so1557249wmo.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2020 05:11:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=76Pr5Imry6Y6+NQUV46pzWGDfBUpjBEUH8MLbXYDtq8=;
+        b=PoAXES+V23Wh8eM1RMa1gjv7mPdB9CHvXYOhFE06xOw/lMwbG/HZ53PABoY8YaxIgs
+         /ROsDCtb7CcSWl99Acc2lIZyw7vhas2ZIGL3Ki1AJDgM2rGMRUCDI/AexHfuV+OrjnL9
+         topSv19nW8QIm2JsuBwLzSSpnHvj8hrxQXpLFQxSMcLqXF+fDV3ORupMLNE5TMh+r0OA
+         Trg8XRN/fVokthVccXXppm7BJJEK3Jz9QMSYfIc/fW3D04yKmMZTU52iAFdp/4EmW3zi
+         HGAW53jITOccHxT8InC62n+akeJnp3riy7+EacBJAzuqWSCYVf+xDufoR7bXUJg6y/oD
+         z3vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=76Pr5Imry6Y6+NQUV46pzWGDfBUpjBEUH8MLbXYDtq8=;
+        b=XOB6udkuixQSUx2M9ZxzyZbTYdloGGCd7FcQ8YBfNzrspsWDW89wjogZN8iK+Rlnnb
+         OCKMeM0u/8+UjJEApmrQkLzLJWBqO5yIT31leg9Ofam9z+pTCU85V0p25He6++owXznt
+         nHZfzEYR3TxBaLCwLuZa8PwXteF5gpX/kjb6IPVMU+JQDLyl1YX5ui9cFjVMA9KfnOvO
+         QBSCT+WPI/30+RWOG/tQ+un+VgSCp7Uod6h5GKbUow6LPI2TVfhTkweNrEorQxSQJkqi
+         dhj6C3By565h4+mm5cpaEefvw5Y0c+ZYsWj/JXDt5WcqLb3gmnJOyaLy+zuK7upxlgnn
+         17LQ==
+X-Gm-Message-State: AOAM532kBq7zwIhuRjeiUxe7Ot3dIxy2LTrX58snOhwPIxsPnFVpuAKb
+        iz0Zet1xt6TvAYgc/3+E0ELlYRTwdUHuLI32j4OxUw==
+X-Google-Smtp-Source: ABdhPJxv2bOOBtwBiOGYgL5OIERVoKiGIkkOEtt5HovOBMNjbTSQatsMIYv39pPFy2HfkEl1IbeCaLvATVq/PpV25+k=
+X-Received: by 2002:a1c:bdc3:: with SMTP id n186mr13815672wmf.84.1594296683336;
+ Thu, 09 Jul 2020 05:11:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
+ <20200707201229.472834-4-daniel.vetter@ffwll.ch> <CAPj87rO4mm-+sQbP07cgM8-=b6Q8Jbh5G0FsV8rwYx2hnEzPkA@mail.gmail.com>
+ <20200709080458.GO3278063@phenom.ffwll.local>
+In-Reply-To: <20200709080458.GO3278063@phenom.ffwll.local>
+From:   Daniel Stone <daniel@fooishbar.org>
+Date:   Thu, 9 Jul 2020 13:11:12 +0100
+Message-ID: <CAPj87rPtD04099=sBzL2jKN6NNFNnM-hH3qfOLL10nPoF==VbA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 03/25] dma-buf.rst: Document why idenfinite
+ fences are a bad idea
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Steve Pronovost <spronovo@microsoft.com>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The component offsets were computed in a negative way: they were
-subtracted from the actual color component value.
-So, a higher offset was reducing the component value.
-This is not really desirable, as the offset is a 2's complements
-number with 1 bit for sign and 12 value bits, so we would like to be able
-to also add to the component, not only subtract.
-The reported number in v4l2 is fine, a range from -4095 to +4095.
-However when configuring a negative value for the offset, this would in fact
-not function, because with the old code, the number was subtracted from the
-max value. By setting something negative, it was overflowing in fact.
-Reworked the component offsets by placing the real value as the v4l2 ctrls.
+On Thu, 9 Jul 2020 at 09:05, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Jul 09, 2020 at 08:36:43AM +0100, Daniel Stone wrote:
+> > On Tue, 7 Jul 2020 at 21:13, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > Comes up every few years, gets somewhat tedious to discuss, let's
+> > > write this down once and for all.
+> >
+> > Thanks for writing this up! I wonder if any of the notes from my reply
+> > to the previous-version thread would be helpful to more explicitly
+> > encode the carrot of dma-fence's positive guarantees, rather than just
+> > the stick of 'don't do this'. ;) Either way, this is:
+>
+> I think the carrot should go into the intro section for dma-fence, this
+> section here is very much just the "don't do this" part. The previous
+> patches have an attempt at encoding this a bit, maybe see whether there's
+> a place for your reply (or parts of it) to fit?
 
-Now, the values are the real number that is added or subtracted from
-the component.
-The negative values received from v4l2 are already in 2's complements, so
-there is no need for conversion.
-This actually simplifies a lot the computation procedure, eliminating the
-need for the macros that convert from v4l2 values to ISC values and
-viceversa.
-Also the ZERO_VAL is eliminated, as 0 is now 0, as it's supposed to be.
+Sounds good to me.
 
-Example after this change:
+> > Acked-by: Daniel Stone <daniels@collabora.com>
+> >
+> > > What I'm not sure about is whether the text should be more explicit in
+> > > flat out mandating the amdkfd eviction fences for long running compute
+> > > workloads or workloads where userspace fencing is allowed.
+> >
+> > ... or whether we just say that you can never use dma-fence in
+> > conjunction with userptr.
+>
+> Uh userptr is entirely different thing. That one is ok. It's userpsace
+> fences or gpu futexes or future fences or whatever we want to call them.
+> Or is there some other confusion here?.
 
- # v4l2-ctl --set-ctrl=red_component_offset=-150 -L
+I mean generating a dma_fence from a batch which will try to page in
+userptr. Given that userptr could be backed by absolutely anything at
+all, it doesn't seem smart to allow fences to rely on a pointer to an
+mmap'ed NFS file. So it seems like batches should be mutually
+exclusive between arbitrary SVM userptr and generating a dma-fence?
 
-User Controls
+Speaking of entirely different things ... the virtio-gpu bit really
+doesn't belong in this patch.
 
-                     brightness 0x00980900 (int)    : min=-1024 max=1023 step=1 default=0 value=0 flags=slider
-                       contrast 0x00980901 (int)    : min=-2048 max=2047 step=1 default=16 value=20 flags=slider
-        white_balance_automatic 0x0098090c (bool)   : default=1 value=0 flags=update
-               do_white_balance 0x0098090d (button) : flags=inactive, write-only, execute-on-write
-                          gamma 0x00980910 (int)    : min=0 max=3 step=1 default=3 value=3 flags=slider
-             red_component_gain 0x009819c0 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
-            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
-       green_red_component_gain 0x009819c2 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
-      green_blue_component_gain 0x009819c3 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
-           red_component_offset 0x009819c4 (int)    : min=-4095 max=4095 step=1 default=0 value=-150 flags=slider
-          blue_component_offset 0x009819c5 (int)    : min=-4095 max=4095 step=1 default=0 value=0 flags=slider
-     green_red_component_offset 0x009819c6 (int)    : min=-4095 max=4095 step=1 default=0 value=0 flags=slider
-    green_blue_component_offset 0x009819c7 (int)    : min=-4095 max=4095 step=1 default=0 value=0 flags=slider
-
-The auto white balance algorithm is unchanged, but the obtained value to
-'subtract' is now converted to negative and saved as a v4l2 control and
-displayed properly.
-
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
----
- drivers/media/platform/atmel/atmel-isc-base.c | 60 ++++++++-----------
- drivers/media/platform/atmel/atmel-isc-regs.h |  2 -
- drivers/media/platform/atmel/atmel-isc.h      |  2 +-
- 3 files changed, 25 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index a6e9797a0ec9..fe3ec8d0eaee 100644
---- a/drivers/media/platform/atmel/atmel-isc-base.c
-+++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -225,9 +225,6 @@ const u32 isc_gamma_table[GAMMA_MAX + 1][GAMMA_ENTRIES] = {
- 	(((mbus_code) == MEDIA_BUS_FMT_Y10_1X10) | \
- 	(((mbus_code) == MEDIA_BUS_FMT_Y8_1X8)))
- 
--#define ISC_CTRL_ISC_TO_V4L2(x) ((x) == ISC_WB_O_ZERO_VAL ? 0 : (x))
--#define ISC_CTRL_V4L2_TO_ISC(x) ((x) ? (x) : ISC_WB_O_ZERO_VAL)
--
- static inline void isc_update_v4l2_ctrls(struct isc_device *isc)
- {
- 	struct isc_ctrls *ctrls = &isc->ctrls;
-@@ -238,14 +235,10 @@ static inline void isc_update_v4l2_ctrls(struct isc_device *isc)
- 	v4l2_ctrl_s_ctrl(isc->gr_gain_ctrl, ctrls->gain[ISC_HIS_CFG_MODE_GR]);
- 	v4l2_ctrl_s_ctrl(isc->gb_gain_ctrl, ctrls->gain[ISC_HIS_CFG_MODE_GB]);
- 
--	v4l2_ctrl_s_ctrl(isc->r_off_ctrl,
--			 ISC_CTRL_ISC_TO_V4L2(ctrls->offset[ISC_HIS_CFG_MODE_R]));
--	v4l2_ctrl_s_ctrl(isc->b_off_ctrl,
--			 ISC_CTRL_ISC_TO_V4L2(ctrls->offset[ISC_HIS_CFG_MODE_B]));
--	v4l2_ctrl_s_ctrl(isc->gr_off_ctrl,
--			 ISC_CTRL_ISC_TO_V4L2(ctrls->offset[ISC_HIS_CFG_MODE_GR]));
--	v4l2_ctrl_s_ctrl(isc->gb_off_ctrl,
--			 ISC_CTRL_ISC_TO_V4L2(ctrls->offset[ISC_HIS_CFG_MODE_GB]));
-+	v4l2_ctrl_s_ctrl(isc->r_off_ctrl, ctrls->offset[ISC_HIS_CFG_MODE_R]);
-+	v4l2_ctrl_s_ctrl(isc->b_off_ctrl, ctrls->offset[ISC_HIS_CFG_MODE_B]);
-+	v4l2_ctrl_s_ctrl(isc->gr_off_ctrl, ctrls->offset[ISC_HIS_CFG_MODE_GR]);
-+	v4l2_ctrl_s_ctrl(isc->gb_off_ctrl, ctrls->offset[ISC_HIS_CFG_MODE_GB]);
- }
- 
- static inline void isc_update_awb_ctrls(struct isc_device *isc)
-@@ -255,11 +248,11 @@ static inline void isc_update_awb_ctrls(struct isc_device *isc)
- 	/* In here we set our actual hw pipeline config */
- 
- 	regmap_write(isc->regmap, ISC_WB_O_RGR,
--		     (ISC_WB_O_ZERO_VAL - (ctrls->offset[ISC_HIS_CFG_MODE_R])) |
--		     ((ISC_WB_O_ZERO_VAL - ctrls->offset[ISC_HIS_CFG_MODE_GR]) << 16));
-+		     ((ctrls->offset[ISC_HIS_CFG_MODE_R])) |
-+		     ((ctrls->offset[ISC_HIS_CFG_MODE_GR]) << 16));
- 	regmap_write(isc->regmap, ISC_WB_O_BGB,
--		     (ISC_WB_O_ZERO_VAL - (ctrls->offset[ISC_HIS_CFG_MODE_B])) |
--		     ((ISC_WB_O_ZERO_VAL - ctrls->offset[ISC_HIS_CFG_MODE_GB]) << 16));
-+		     ((ctrls->offset[ISC_HIS_CFG_MODE_B])) |
-+		     ((ctrls->offset[ISC_HIS_CFG_MODE_GB]) << 16));
- 	regmap_write(isc->regmap, ISC_WB_G_RGR,
- 		     ctrls->gain[ISC_HIS_CFG_MODE_R] |
- 		     (ctrls->gain[ISC_HIS_CFG_MODE_GR] << 16));
-@@ -275,12 +268,8 @@ static inline void isc_reset_awb_ctrls(struct isc_device *isc)
- 	for (c = ISC_HIS_CFG_MODE_GR; c <= ISC_HIS_CFG_MODE_B; c++) {
- 		/* gains have a fixed point at 9 decimals */
- 		isc->ctrls.gain[c] = 1 << 9;
--		/* offsets are in 2's complements, the value
--		 * will be substracted from ISC_WB_O_ZERO_VAL to obtain
--		 * 2's complement of a value between 0 and
--		 * ISC_WB_O_ZERO_VAL >> 1
--		 */
--		isc->ctrls.offset[c] = ISC_WB_O_ZERO_VAL;
-+		/* offsets are in 2's complements */
-+		isc->ctrls.offset[c] = 0;
- 	}
- }
- 
-@@ -1774,9 +1763,12 @@ static void isc_wb_update(struct isc_ctrls *ctrls)
- 		 */
- 		ctrls->offset[c] = (offset[c] - 1) << 3;
- 
--		/* the offset is then taken and converted to 2's complements */
--		if (!ctrls->offset[c])
--			ctrls->offset[c] = ISC_WB_O_ZERO_VAL;
-+		/*
-+		 * the offset is then taken and converted to 2's complements,
-+		 * and must be negative, as we subtract this value from the
-+		 * color components
-+		 */
-+		ctrls->offset[c] = -ctrls->offset[c];
- 
- 		/*
- 		 * the stretch gain is the total number of histogram bins
-@@ -1938,17 +1930,13 @@ static int isc_s_awb_ctrl(struct v4l2_ctrl *ctrl)
- 			ctrls->gain[ISC_HIS_CFG_MODE_GB] = isc->gb_gain_ctrl->val;
- 
- 		if (ctrl->cluster[ISC_CTRL_R_OFF]->is_new)
--			ctrls->offset[ISC_HIS_CFG_MODE_R] =
--				ISC_CTRL_V4L2_TO_ISC(isc->r_off_ctrl->val);
-+			ctrls->offset[ISC_HIS_CFG_MODE_R] = isc->r_off_ctrl->val;
- 		if (ctrl->cluster[ISC_CTRL_B_OFF]->is_new)
--			ctrls->offset[ISC_HIS_CFG_MODE_B] =
--				ISC_CTRL_V4L2_TO_ISC(isc->b_off_ctrl->val);
-+			ctrls->offset[ISC_HIS_CFG_MODE_B] = isc->b_off_ctrl->val;
- 		if (ctrl->cluster[ISC_CTRL_GR_OFF]->is_new)
--			ctrls->offset[ISC_HIS_CFG_MODE_GR] =
--				ISC_CTRL_V4L2_TO_ISC(isc->gr_off_ctrl->val);
-+			ctrls->offset[ISC_HIS_CFG_MODE_GR] = isc->gr_off_ctrl->val;
- 		if (ctrl->cluster[ISC_CTRL_GB_OFF]->is_new)
--			ctrls->offset[ISC_HIS_CFG_MODE_GB] =
--				ISC_CTRL_V4L2_TO_ISC(isc->gb_off_ctrl->val);
-+			ctrls->offset[ISC_HIS_CFG_MODE_GB] = isc->gb_off_ctrl->val;
- 
- 		isc_update_awb_ctrls(isc);
- 
-@@ -2010,13 +1998,13 @@ static int isc_g_volatile_awb_ctrl(struct v4l2_ctrl *ctrl)
- 					ctrls->gain[ISC_HIS_CFG_MODE_GB];
- 
- 		ctrl->cluster[ISC_CTRL_R_OFF]->val =
--			ISC_CTRL_ISC_TO_V4L2(ctrls->offset[ISC_HIS_CFG_MODE_R]);
-+			ctrls->offset[ISC_HIS_CFG_MODE_R];
- 		ctrl->cluster[ISC_CTRL_B_OFF]->val =
--			ISC_CTRL_ISC_TO_V4L2(ctrls->offset[ISC_HIS_CFG_MODE_B]);
-+			ctrls->offset[ISC_HIS_CFG_MODE_B];
- 		ctrl->cluster[ISC_CTRL_GR_OFF]->val =
--			ISC_CTRL_ISC_TO_V4L2(ctrls->offset[ISC_HIS_CFG_MODE_GR]);
-+			ctrls->offset[ISC_HIS_CFG_MODE_GR];
- 		ctrl->cluster[ISC_CTRL_GB_OFF]->val =
--			ISC_CTRL_ISC_TO_V4L2(ctrls->offset[ISC_HIS_CFG_MODE_GB]);
-+			ctrls->offset[ISC_HIS_CFG_MODE_GB];
- 		break;
- 	}
- 	return 0;
-diff --git a/drivers/media/platform/atmel/atmel-isc-regs.h b/drivers/media/platform/atmel/atmel-isc-regs.h
-index c1283fb21bf6..f1e160ed4351 100644
---- a/drivers/media/platform/atmel/atmel-isc-regs.h
-+++ b/drivers/media/platform/atmel/atmel-isc-regs.h
-@@ -108,8 +108,6 @@
- /* ISC White Balance Gain for B, GB Register */
- #define ISC_WB_G_BGB	0x0000006c
- 
--#define ISC_WB_O_ZERO_VAL	(1 << 13)
--
- /* ISC Color Filter Array Control Register */
- #define ISC_CFA_CTRL    0x00000070
- 
-diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
-index fc56a745c7d1..24b784b893d6 100644
---- a/drivers/media/platform/atmel/atmel-isc.h
-+++ b/drivers/media/platform/atmel/atmel-isc.h
-@@ -133,7 +133,7 @@ struct isc_ctrls {
- 
- 	/* one for each component : GR, R, GB, B */
- 	u32 gain[HIST_BAYER];
--	u32 offset[HIST_BAYER];
-+	s32 offset[HIST_BAYER];
- 
- 	u32 hist_entry[HIST_ENTRIES];
- 	u32 hist_count[HIST_BAYER];
--- 
-2.25.1
-
+Cheers,
+Daniel
