@@ -2,155 +2,242 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B192199B2
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 09:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28D152199E4
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2020 09:29:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbgGIH2Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jul 2020 03:28:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37996 "EHLO
+        id S1726698AbgGIH3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jul 2020 03:29:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726006AbgGIH2Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 03:28:24 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4573EC061A0B;
-        Thu,  9 Jul 2020 00:28:24 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 4EBD1BC070;
-        Thu,  9 Jul 2020 07:28:21 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     prabhakar.csengg@gmail.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] TI DAVINCI SERIES MEDIA DRIVER: Replace HTTP links with HTTPS ones
-Date:   Thu,  9 Jul 2020 09:28:14 +0200
-Message-Id: <20200709072814.24218-1-grandmaster@al2klimov.de>
+        with ESMTP id S1726624AbgGIH3f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jul 2020 03:29:35 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B1EC08C5CE
+        for <linux-media@vger.kernel.org>; Thu,  9 Jul 2020 00:29:34 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id s10so1175892wrw.12
+        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2020 00:29:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QLf3JWPj0alwMi3/QRK8jDSx0ygp/lxS9WUKSf5Y9tw=;
+        b=mWsbJ7c1Re2d9RBWekoBuMXpKqp4ZN8n8E5QnYOQ7I8pw4whUhM43DgUPhtiKn/f6z
+         155YPwfhIjA7johhSPICPnskx/exhclt3ZpMgwyJyDBrwu8YpMxeDC8DUsjUCB1V+vpR
+         KVKDTIiLovHqY8AQ7BhTLDBLYAnsXJzhBJw/5G4tWNKBTrIvmd9GNRgczysicPPyOwPf
+         Q0mRSSrrSm+MC6laNfVmjJoQEbVGHte2dV2HYa1DBfvP8MWGysE/+jj+RoShwSTP99BG
+         NfNEIlpR59Yf7DEyJIyhO/QpvszamWuFoiEgSOhk9JP/ag7Vk1NUbg6eFJfVh1OKr2UG
+         EnNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QLf3JWPj0alwMi3/QRK8jDSx0ygp/lxS9WUKSf5Y9tw=;
+        b=II50z7/kDz2GuIMfwuRPHjF6qEAMkCiQvhBPNfNG5SWaiGs/22PzT/1ZULqZfWzl/h
+         a7S97+b6W1mSAwzDE0ADyx6ye7DdxjipXigms8hzz7yDg1WtdN3uZwSTXO4tRStKJD5p
+         2I1QIQk9CXDeoW2vBmCq+sY7iXVHah84JYPv50FJYTVwLmzKSKhtHtJcYPlf1hlReqQ8
+         b5Rs6FBIvx+iz1Zmj7jj1amfNabm5bKUqQQOsBEwMZm+OrOfb7b38mppTOAlASdEtmkF
+         l+JRWmDqGESD3Q/COwESWyUAxi6hUEPWY5d6CocZk99tAP0+ZRDHnlCDLsVi6PaOt5eh
+         kIBA==
+X-Gm-Message-State: AOAM5328twoA7p02OVGepI8krJ1Mkw6arMuliiio4fuMq6XZ0IuCSqka
+        csB+9FLxc5eBbHP6kc3OmbKa/z9RcTh90NcR2EUUrA==
+X-Google-Smtp-Source: ABdhPJyvjHsNIlAxHFL2C3MHVJKQZNLaDmrtK3luRNyuNIM3xw0dKhfnraR2CdqxwXkaHTztP0s2DSUpfaQvwqc35Hg=
+X-Received: by 2002:a5d:664e:: with SMTP id f14mr62231186wrw.6.1594279773059;
+ Thu, 09 Jul 2020 00:29:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
-X-Spam-Level: ******
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-4-daniel.vetter@ffwll.ch> <159186243606.1506.4437341616828968890@build.alporthouse.com>
+ <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
+ <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
+ <159255511144.7737.12635440776531222029@build.alporthouse.com>
+ <CAKMK7uHEwj6jiZkRZ5PaCUNWcuU9oE4KYm4XHZwHnFzEuChZ7w@mail.gmail.com>
+ <159255801588.7737.4425728073225310839@build.alporthouse.com> <20200619094309.GT20149@phenom.ffwll.local>
+In-Reply-To: <20200619094309.GT20149@phenom.ffwll.local>
+From:   Daniel Stone <daniel@fooishbar.org>
+Date:   Thu, 9 Jul 2020 08:29:21 +0100
+Message-ID: <CAPj87rOMzBUBWv7kJRvbX3tor-v=3=ZuGeRu0Ws8BOJ=OxX3XA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
+To:     Chris Wilson <chris@chris-wilson.co.uk>,
+        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+Hi,
+Jumping in after a couple of weeks where I've paged most everything
+out of my brain ...
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+On Fri, 19 Jun 2020 at 10:43, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Fri, Jun 19, 2020 at 10:13:35AM +0100, Chris Wilson wrote:
+> > > The proposed patches might very well encode the wrong contract, that's
+> > > all up for discussion. But fundamentally questioning that we need one
+> > > is missing what upstream is all about.
+> >
+> > Then I have not clearly communicated, as my opinion is not that
+> > validation is worthless, but that the implementation is enshrining a
+> > global property on a low level primitive that prevents it from being
+> > used elsewhere. And I want to replace completion [chains] with fences, and
+> > bio with fences, and closures with fences, and what other equivalencies
+> > there are in the kernel. The fence is as central a locking construct as
+> > struct completion and deserves to be a foundational primitive provided
+> > by kernel/ used throughout all drivers for discrete problem domains.
+> >
+> > This is narrowing dma_fence whereby adding
+> >       struct lockdep_map *dma_fence::wait_map
+> > and annotating linkage, allows you to continue to specify that all
+> > dma_fence used for a particular purpose must follow common rules,
+> > without restricting the primitive for uses outside of this scope.
+>
+> Somewhere else in this thread I had discussions with Jason Gunthorpe about
+> this topic. It might maybe change somewhat depending upon exact rules, but
+> his take is very much "I don't want dma_fence in rdma". Or pretty close to
+> that at least.
+>
+> Similar discussions with habanalabs, they're using dma_fence internally
+> without any of the uapi. Discussion there has also now concluded that it's
+> best if they remove them, and simply switch over to a wait_queue or
+> completion like every other driver does.
+>
+> The next round of the patches already have a paragraph to at least
+> somewhat limit how non-gpu drivers use dma_fence. And I guess actual
+> consensus might be pointing even more strongly at dma_fence being solely
+> something for gpus and closely related subsystem (maybe media) for syncing
+> dma-buf access.
+>
+> So dma_fence as general replacement for completion chains I think just
+> wont happen.
+>
+> What might make sense is if e.g. the lockdep annotations could be reused,
+> at least in design, for wait_queue or completion or anything else
+> really. I do think that has a fair chance compared to the automagic
+> cross-release annotations approach, which relied way too heavily on
+> guessing where barriers are. My experience from just a bit of playing
+> around with these patches here and discussing them with other driver
+> maintainers is that accurately deciding where critical sections start and
+> end is a job for humans only. And if you get it wrong, you will have a
+> false positive.
+>
+> And you're indeed correct that if we'd do annotations for completions and
+> wait queues, then that would need to have a class per semantically
+> equivalent user, like we have lockdep classes for mutexes, not just one
+> overall.
+>
+> But dma_fence otoh is something very specific, which comes with very
+> specific rules attached - it's not a generic wait_queue at all. Originally
+> it did start out as one even, but it is a very specialized wait_queue.
+>
+> So there's imo two cases:
+>
+> - Your completion is entirely orthogonal of dma_fences, and can never ever
+>   block a dma_fence. Don't use dma_fence for this, and no problem. It's
+>   just another wait_queue somewhere.
+>
+> - Your completion can eventually, maybe through lots of convolutions and
+>   depdencies, block a dma_fence. In that case full dma_fence rules apply,
+>   and the only thing you can do with a custom annotation is make the rules
+>   even stricter. E.g. if a sub-timeline in the scheduler isn't allowed to
+>   take certain scheduler locks. But the userspace visible/published fence
+>   do take them, maybe as part of command submission or retirement.
+>   Entirely hypotethical, no idea any driver actually needs this.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+I don't claim to understand the implementation of i915's scheduler and
+GEM handling, and it seems like there's some public context missing
+here. But to me, the above is a good statement of what I (and a lot of
+other userspace) have been relying on - that dma-fence is a very
+tightly scoped thing which is very predictable but in extremis.
 
- If there are any URLs to be removed completely or at least not HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
+It would be great to have something like this enshrined in dma-fence
+documentation, visible to both kernel and external users. The
+properties we've so far been assuming for the graphics pipeline -
+covering production & execution of vertex/fragment workloads on the
+GPU, framebuffer display, and to the extent this is necessary
+involving compute - are something like this:
 
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
+A single dma-fence with no dependencies represents (the tail of) a
+unit of work, which has been all but committed to the hardware. Once
+committed to the hardware, this work will complete (successfully or in
+error) in bounded time. The unit of work referred to by a dma-fence
+may carry dependencies on other dma-fences, which must of course be
+subject to the same restrictions as above. No action from any
+userspace component is required to ensure that the completion occurs.
 
- If you apply the patch, please let me know.
+The cases I know of which legitimately blow holes in this are:
+  - the work is scheduled but GPU execution resource contention
+prevents it from completion, e.g. something on a higher-priority
+context repeatedly gets scheduled in front of it - this is OK because
+by definition it's what should happen
+  - the work is scheduled but CPU execution resource contention
+prevents it from completion, e.g. the DRM scheduler does not get to
+trigger the hardware to execute the work - this is OK because at this
+point we have a big system-wide problem
+  - the work is scheduled but non-execution resource contention
+prevents it from making progress, e.g. VRAM contention and/or a paging
+storm - this is OK because again we have a larger problem here and we
+can't reasonably expect the driver to solve this
+  - the work is executed but execution does not complete due to the
+nature of the work, e.g. a chain of work contains a hostile compute
+shader which does not complete in any reasonable time - this is OK
+because we require TDR; even without a smart compositor detecting
+based on fence waits that the work is unsuitable and should not hold
+up other work, the driver will probably ban the context and lock it
+out anyway
 
+The first three are general system resource-overload cases, no
+different from the CPU-side equivalent where it's up to the admin to
+impose ulimits to prevent forkbombs or runaway memory usage, or up to
+the user to run fewer Electron apps. The last one is more difficult,
+because we can't solve the halting problem to know ahead of time that
+the user has submitted an infinite workload, so we have to live with
+that as a real hazard and mitigate it where we can (by returning -EIO
+and killing the app from inside Mesa).
 
- drivers/media/platform/davinci/vpbe_display.c | 2 +-
- drivers/media/platform/davinci/vpif.c         | 2 +-
- drivers/media/platform/davinci/vpif.h         | 2 +-
- drivers/media/platform/davinci/vpif_display.c | 2 +-
- drivers/media/platform/davinci/vpif_display.h | 2 +-
- include/media/davinci/vpbe_display.h          | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+If repurposing dma-fence for non-graphics uses (like general-purpose
+compute or driver-internal tracking for things other than GPU
+workloads) makes it more difficult to guarantee the above properties,
+then I don't want to do it. Maybe the answer is that dma-fence gets
+split into its core infrastructure which can be used for completion
+chains, with actual dma-fence being layered above generic completion
+APIs: other-completion-API can consume fences, but fences _cannot_
+consume non-fence things.
 
-diff --git a/drivers/media/platform/davinci/vpbe_display.c b/drivers/media/platform/davinci/vpbe_display.c
-index 7ab13eb7527d..d19bad997f30 100644
---- a/drivers/media/platform/davinci/vpbe_display.c
-+++ b/drivers/media/platform/davinci/vpbe_display.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2010 Texas Instruments Incorporated - https://www.ti.com/
-  */
- #include <linux/kernel.h>
- #include <linux/init.h>
-diff --git a/drivers/media/platform/davinci/vpif.c b/drivers/media/platform/davinci/vpif.c
-index df66461f5d4f..e9794c9fc7fe 100644
---- a/drivers/media/platform/davinci/vpif.c
-+++ b/drivers/media/platform/davinci/vpif.c
-@@ -5,7 +5,7 @@
-  * The hardware supports SDTV, HDTV formats, raw data capture.
-  * Currently, the driver supports NTSC and PAL standards.
-  *
-- * Copyright (C) 2009 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2009 Texas Instruments Incorporated - https://www.ti.com/
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU General Public License as
-diff --git a/drivers/media/platform/davinci/vpif.h b/drivers/media/platform/davinci/vpif.h
-index 2466c7c77deb..c6d1d890478a 100644
---- a/drivers/media/platform/davinci/vpif.h
-+++ b/drivers/media/platform/davinci/vpif.h
-@@ -1,7 +1,7 @@
- /*
-  * VPIF header file
-  *
-- * Copyright (C) 2009 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2009 Texas Instruments Incorporated - https://www.ti.com/
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU General Public License as
-diff --git a/drivers/media/platform/davinci/vpif_display.c b/drivers/media/platform/davinci/vpif_display.c
-index 7d55fd45240e..46afc029138f 100644
---- a/drivers/media/platform/davinci/vpif_display.c
-+++ b/drivers/media/platform/davinci/vpif_display.c
-@@ -2,7 +2,7 @@
-  * vpif-display - VPIF display driver
-  * Display driver for TI DaVinci VPIF
-  *
-- * Copyright (C) 2009 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2009 Texas Instruments Incorporated - https://www.ti.com/
-  * Copyright (C) 2014 Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  *
-  * This program is free software; you can redistribute it and/or
-diff --git a/drivers/media/platform/davinci/vpif_display.h b/drivers/media/platform/davinci/vpif_display.h
-index af2765fdcea8..f731a65eefd6 100644
---- a/drivers/media/platform/davinci/vpif_display.h
-+++ b/drivers/media/platform/davinci/vpif_display.h
-@@ -1,7 +1,7 @@
- /*
-  * VPIF display header file
-  *
-- * Copyright (C) 2009 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2009 Texas Instruments Incorporated - https://www.ti.com/
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU General Public License as
-diff --git a/include/media/davinci/vpbe_display.h b/include/media/davinci/vpbe_display.h
-index 56d05a855140..6d2a93740130 100644
---- a/include/media/davinci/vpbe_display.h
-+++ b/include/media/davinci/vpbe_display.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2010 Texas Instruments Incorporated - https://www.ti.com/
-  */
- #ifndef VPBE_DISPLAY_H
- #define VPBE_DISPLAY_H
--- 
-2.27.0
+This does force a split between graphics (GL/Vulkan/display) workloads
+and compute (CL/oneAPI/HSA/CUDA), which I get is really difficult to
+resolve in the driver. But the two are hard split anyway: graphics
+requires upfront and explicit buffer management, in return dangling
+the carrot that you can pipeline your workloads and expect completion
+in reasonable time. General-purpose compute lets you go far more YOLO
+on resource access, including full userptr SVM, but the flipside is
+that your execution time might be measured in weeks; as a result you
+don't get to do execution pipelining because even if you could, it's
+not a big enough win relative to your execution time to be worth the
+extra driver and system complexity. I don't think there's a reasonable
+lowest common denominator between the two that we can try to reuse a
+generic model for both, because you make too many compromises to try
+to fit conflicting interests.
 
+In the pre-syncobj days, we did look at what we called 'empty fences'
+or 'future fences' with the ChromeOS team: a synchronisation object
+which wasn't backed by a promise of completion as dma-fence is, but
+instead by the meta-promise (from userspace) of a promise of
+completion. Ultimately it never became a real thing for the same
+reason that swsync isn't either; it needed so much special-case
+handling and so many disclaimers and opt-ins everywhere that by the
+end, we weren't sure why we were trying to shoehorn it into dma-fence
+apart from dma-fence already existing - but by removing all its
+guarantees, we also removed all its usefulness as a primitive.
+
+Cheers,
+Daniel
