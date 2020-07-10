@@ -2,37 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84F2821B5AA
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 14:59:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7E121B5AB
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 14:59:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727865AbgGJM7N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 08:59:13 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:41736 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726820AbgGJM7N (ORCPT
+        id S1727975AbgGJM7T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 08:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726820AbgGJM7S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 08:59:13 -0400
+        Fri, 10 Jul 2020 08:59:18 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A16C08C5CE
+        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2020 05:59:18 -0700 (PDT)
 Received: from [IPv6:2804:14c:483:73a8::1002] (unknown [IPv6:2804:14c:483:73a8::1002])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0084E2A69A6;
-        Fri, 10 Jul 2020 13:59:08 +0100 (BST)
-Subject: Re: [PATCH] media: staging: rkisp1: remove duplicate macro definition
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 26B152A69DA;
+        Fri, 10 Jul 2020 13:59:13 +0100 (BST)
+Subject: Re: [PATCH] media: staging: rkisp1: fix typos in file rkisp1-config.h
 To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
 Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
         dafna3@gmail.com, sakari.ailus@linux.intel.com,
         linux-rockchip@lists.infradead.org, mchehab@kernel.org,
         tfiga@chromium.org
-References: <20200707181053.24134-1-dafna.hirschfeld@collabora.com>
+References: <20200707181630.24514-1-dafna.hirschfeld@collabora.com>
 From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <66d18b0a-6528-9a67-ab4a-864141b0e459@collabora.com>
-Date:   Fri, 10 Jul 2020 09:59:04 -0300
+Message-ID: <bba7cac8-7ce3-2314-dc88-9e0e69c2aab8@collabora.com>
+Date:   Fri, 10 Jul 2020 09:59:10 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200707181053.24134-1-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20200707181630.24514-1-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -43,28 +46,37 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 7/7/20 3:10 PM, Dafna Hirschfeld wrote:
-> The macro RKISP1_CIF_ISP_AWB_MODE_YCBCR_EN is defined twice.
-> Remove the second define.
+On 7/7/20 3:16 PM, Dafna Hirschfeld wrote:
+> Fix two spelling typos in file rkisp1-config.h.
 > 
 > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
 Acked-by: Helen Koike <helen.koike@collabora.com>
 
 > ---
->  drivers/staging/media/rkisp1/rkisp1-regs.h | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/staging/media/rkisp1/uapi/rkisp1-config.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-regs.h b/drivers/staging/media/rkisp1/rkisp1-regs.h
-> index 46018f435b6f..9b8e616ea24c 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-regs.h
-> +++ b/drivers/staging/media/rkisp1/rkisp1-regs.h
-> @@ -398,7 +398,6 @@
->  #define RKISP1_CIF_ISP_AWB_YMAX_READ(x)			(((x) >> 2) & 1)
->  #define RKISP1_CIF_ISP_AWB_MODE_RGB_EN			((1 << 31) | (0x2 << 0))
->  #define RKISP1_CIF_ISP_AWB_MODE_YCBCR_EN		((0 << 31) | (0x2 << 0))
-> -#define RKISP1_CIF_ISP_AWB_MODE_YCBCR_EN		((0 << 31) | (0x2 << 0))
->  #define RKISP1_CIF_ISP_AWB_MODE_MASK_NONE		0xFFFFFFFC
->  #define RKISP1_CIF_ISP_AWB_MODE_READ(x)			((x) & 3)
->  /* ISP_AWB_GAIN_RB, ISP_AWB_GAIN_G  */
+> diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> index 7983498bda24..e68175c7c154 100644
+> --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> @@ -86,7 +86,7 @@
+>  #define RKISP1_CIF_ISP_BLS_FIX_MASK                0x00001fff
+>  
+>  /*
+> - * Automatic white balance measurments
+> + * Automatic white balance measurements
+>   */
+>  #define RKISP1_CIF_ISP_AWB_MAX_GRID                1
+>  #define RKISP1_CIF_ISP_AWB_MAX_FRAMES              7
+> @@ -485,7 +485,7 @@ struct rkisp1_cif_isp_flt_config {
+>  /**
+>   * struct rkisp1_cif_isp_bdm_config - Configuration used by Bayer DeMosaic
+>   *
+> - * @demosaic_th: threshod for bayer demosaicing texture detection
+> + * @demosaic_th: threshold for bayer demosaicing texture detection
+>   */
+>  struct rkisp1_cif_isp_bdm_config {
+>  	__u8 demosaic_th;
 > 
