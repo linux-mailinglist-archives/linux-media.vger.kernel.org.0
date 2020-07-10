@@ -2,59 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 050E821AFA9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 08:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 901D721AFB7
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 08:48:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727121AbgGJGpi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 02:45:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56856 "EHLO
+        id S1727942AbgGJGsE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 02:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726369AbgGJGph (ORCPT
+        with ESMTP id S1727932AbgGJGsD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 02:45:37 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8F5C08C5DC
-        for <linux-media@vger.kernel.org>; Thu,  9 Jul 2020 23:45:37 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id e18so2097334pgn.7
-        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2020 23:45:37 -0700 (PDT)
+        Fri, 10 Jul 2020 02:48:03 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3970AC08C5DD
+        for <linux-media@vger.kernel.org>; Thu,  9 Jul 2020 23:48:03 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id e18so2100339pgn.7
+        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2020 23:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=HJUQ2Pd7TJkImq79MbbmeRR4vOSl3IUThdPOJ2RuPkM=;
-        b=UYFps1qc9r4yUJciGWoc6eYA8p17nl0cKxmW5fNy55sBoKDNEy6mttr1/iezNHu2Ys
-         dSGM2vNXaEB60P3PSceO79MgqvVFSqlobE0EDna6S4jfOtTYszpaGxN02R2NLo08RF94
-         PCoq8LXIptWbC/T89YXodZjGubAkTp1PapvIY=
+        bh=gSZJQMAGEnmb2CqHFz1MNS8tMejxPEXsK0YNj8SWBOU=;
+        b=iRwK09LZ3BJmibGsyHoCPM9GNX9trLKrPSXtExFzQHWVgWOR89O1D/k+PuICQMvp0k
+         8uI373R2c7W9fJJzkJkk6O7AAPxjodaRHJ1NFg3f71hMp4vWwopxlU8XspS9hh2O5GS/
+         bBX7mQl430mHjYbVQaIpKkORhNrosYA0kCQXE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=HJUQ2Pd7TJkImq79MbbmeRR4vOSl3IUThdPOJ2RuPkM=;
-        b=DKJb+nsSoHa5iG80qwwQ+PUqOed56O4dFwg945Ugn1iT4E9xZYbycOQx7Tm4p+Kdou
-         khBEl427Rs4/dWOMRZD4KKnzGUHtLmPbGJ7ofHiQvp7CxRgtnaU6iuNJ2FijLohyfI+g
-         yCTp3ODo0OWxCyb8jXLdQB40b8tXl3OPV56spKLy0pLSbi0vTQY1EYkSZSx3HSTrPaqI
-         8ySblhvfz15nLBGwizcvBwHGq5cNqkKyNFdtFGsMD+z6187F9g+WXPLqM0++xwbC9p16
-         ZQ7HPPCCkHPtuu2M1AJ8w2ZAU+eNh1NLvoGrlDiVH/I9c3A3FSmVo2A152hv1vGEsNWh
-         exMw==
-X-Gm-Message-State: AOAM532ueS7ueUCkLAV5SHzN4SeBkYu5aotDLvNpCWmxlI/sMKNA5KWv
-        2o5ZJIuojut6+LWB5oGRXZsK4w==
-X-Google-Smtp-Source: ABdhPJzM+mh9VDZS1ApjNT2oXZNIWcf2wPn7lRZ1OaFiAESlm/XJ5L+agLdQ2nCEk/plUCh78OX1oA==
-X-Received: by 2002:a62:5bc5:: with SMTP id p188mr64279447pfb.56.1594363536634;
-        Thu, 09 Jul 2020 23:45:36 -0700 (PDT)
+        bh=gSZJQMAGEnmb2CqHFz1MNS8tMejxPEXsK0YNj8SWBOU=;
+        b=JWVDuqwvb2m9qOCY6LG+Ed1gpge/L3NiD28nK63quKHtsY8HCSRI9EolTVBfUv2w+u
+         kYS9sipIeu6BTboJvRFZSKl3oghcbWqoTenGSzEL2o2KJ+HzIjLjEHwfXM+ApfZjNvwW
+         DikFWvx2dYdJe+AhYW9An4bLZE+fEfs8486xf6ZmS8Fy1Nin8huh5AL3LZ2Qf0V6c7HO
+         rZIgmjQPRclDnG2THhBIXll9GouOrhEqflirt4jIFYcfe8CPXntfwA2XOFEadTLKY2e4
+         dAfjYXIyNmAMuYcGI/WGddf22QjIn7al78Lvq6SciqsRClv1nenFKxGZqVAz5KuXGAtJ
+         U6gQ==
+X-Gm-Message-State: AOAM533bkGL+P1Fa3GO4I4c7BmT5z/I99z2EnhmDNhK3NPgWn5vtgW1S
+        0I2y6MnrAe3Lj7U3P0vEavuROA==
+X-Google-Smtp-Source: ABdhPJwhX2wS73T6Qup7iqhhvrnjvxKp1seCyklGjzfwCEpwkX280YDw9Yjg2xyo/YXFrjL5wGtLeA==
+X-Received: by 2002:a63:4f4d:: with SMTP id p13mr53250980pgl.400.1594363682668;
+        Thu, 09 Jul 2020 23:48:02 -0700 (PDT)
 Received: from drinkcat2.tpe.corp.google.com ([2401:fa00:1:b:7220:84ff:fe09:41dc])
-        by smtp.gmail.com with ESMTPSA id e8sm4955029pfl.125.2020.07.09.23.45.34
+        by smtp.gmail.com with ESMTPSA id 190sm4639423pfz.41.2020.07.09.23.48.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 23:45:36 -0700 (PDT)
+        Thu, 09 Jul 2020 23:48:02 -0700 (PDT)
 From:   Nicolas Boichat <drinkcat@chromium.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Andy Gross <agross@kernel.org>
 Cc:     Nicolas Boichat <drinkcat@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        Todor Tomov <todor.too@gmail.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: [RESEND PATCH] media: atomisp: Replace trace_printk by pr_info
-Date:   Fri, 10 Jul 2020 14:45:29 +0800
-Message-Id: <20200710144520.RESEND.1.Id0f52f486e277b5af30babac8ba6b09589962a68@changeid>
+Subject: [RESEND PATCH] media: camss: vfe: Use trace_printk for debugging only
+Date:   Fri, 10 Jul 2020 14:47:51 +0800
+Message-Id: <20200710144747.RESEND.1.Ifae7abaacb81af1cdc6475986cc788d71de8a13c@changeid>
 X-Mailer: git-send-email 2.27.0.383.g050319c2ae-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,8 +64,10 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-trace_printk should not be used in production code, replace it
-call with pr_info.
+trace_printk should not be used in production code. Since
+tracing interrupts is presumably latency sensitive, pr_dbg is
+not appropriate, so guard the call with a preprocessor symbol
+that can be defined for debugging purpose.
 
 Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
 ---
@@ -72,30 +75,40 @@ Sent this before as part of a series (whose 4th patch was a
 change that allows to detect such trace_printk), but maybe it's
 easier to get individual maintainer attention by splitting it.
 
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c | 2 ++
+ drivers/media/platform/qcom/camss/camss-vfe-4-7.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 42fef17798622f1..2bd39b4939f16d2 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -735,11 +735,11 @@ ia_css_ptr hmm_host_vaddr_to_hrt_vaddr(const void *ptr)
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
+index 174a36be6f5d866..0c57171fae4f9e9 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
+@@ -936,8 +936,10 @@ static irqreturn_t vfe_isr(int irq, void *dev)
  
- void hmm_show_mem_stat(const char *func, const int line)
- {
--	trace_printk("tol_cnt=%d usr_size=%d res_size=%d res_cnt=%d sys_size=%d  dyc_thr=%d dyc_size=%d.\n",
--		     hmm_mem_stat.tol_cnt,
--		     hmm_mem_stat.usr_size, hmm_mem_stat.res_size,
--		     hmm_mem_stat.res_cnt, hmm_mem_stat.sys_size,
--		     hmm_mem_stat.dyc_thr, hmm_mem_stat.dyc_size);
-+	pr_info("tol_cnt=%d usr_size=%d res_size=%d res_cnt=%d sys_size=%d  dyc_thr=%d dyc_size=%d.\n",
-+		hmm_mem_stat.tol_cnt,
-+		hmm_mem_stat.usr_size, hmm_mem_stat.res_size,
-+		hmm_mem_stat.res_cnt, hmm_mem_stat.sys_size,
-+		hmm_mem_stat.dyc_thr, hmm_mem_stat.dyc_size);
- }
+ 	vfe->ops->isr_read(vfe, &value0, &value1);
  
- void hmm_init_mem_stat(int res_pgnr, int dyc_en, int dyc_pgnr)
++#ifdef CAMSS_VFE_TRACE_IRQ
+ 	trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
+ 		     value0, value1);
++#endif
+ 
+ 	if (value0 & VFE_0_IRQ_STATUS_0_RESET_ACK)
+ 		vfe->isr_ops.reset_ack(vfe);
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
+index 0dca8bf9281e774..307675925e5c779 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
+@@ -1058,8 +1058,10 @@ static irqreturn_t vfe_isr(int irq, void *dev)
+ 
+ 	vfe->ops->isr_read(vfe, &value0, &value1);
+ 
++#ifdef CAMSS_VFE_TRACE_IRQ
+ 	trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
+ 		     value0, value1);
++#endif
+ 
+ 	if (value0 & VFE_0_IRQ_STATUS_0_RESET_ACK)
+ 		vfe->isr_ops.reset_ack(vfe);
 -- 
 2.27.0.383.g050319c2ae-goog
 
