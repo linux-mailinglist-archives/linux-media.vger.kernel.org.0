@@ -2,270 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8283421B44C
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 13:53:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D67B21B4A9
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 14:05:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726955AbgGJLxg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 07:53:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726820AbgGJLxg (ORCPT
+        id S1727038AbgGJMFL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 08:05:11 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41218 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726828AbgGJMFK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 07:53:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BFE8C08C5CE
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2020 04:53:36 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF3512C0;
-        Fri, 10 Jul 2020 13:53:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594382014;
-        bh=JKXmyWuyT7DNlbLOuzb7Oj+lr5QfmXzEuNqoRmU/p3c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GMmdg5fFfsTkYTwF8WXntU/eh6SOI775Lt6N4VrmEGVgQjDdhIbLMp71L0iVxoHZd
-         aaEa38W2FMYMfxu5Ag2dDUELBhtNg6xOK3P+J84n/QQyAV794Le73FwXAO8AkJ+Q8b
-         6l3woc7R09JrXkTRnWrnnzd2PaPxlREUOGwm8h0g=
-Date:   Fri, 10 Jul 2020 14:53:28 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Benoit Parrot <bparrot@ti.com>
-Subject: Re: [PATCH v2 069/108] media: ti-vpe: cal: Split media
- initialization and cleanup to functions
-Message-ID: <20200710115328.GM5964@pendragon.ideasonboard.com>
-References: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
- <20200706183709.12238-70-laurent.pinchart@ideasonboard.com>
- <26317f49-d060-c4e2-d40c-90fd5eccdfb3@xs4all.nl>
+        Fri, 10 Jul 2020 08:05:10 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2C6AB2A694F;
+        Fri, 10 Jul 2020 13:05:06 +0100 (BST)
+Date:   Fri, 10 Jul 2020 14:05:02 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Jonas Karlman <jonas@kwiboo.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 07/12] media: uapi: h264: Add DPB entry field reference
+ flags
+Message-ID: <20200710140502.627b2b54@collabora.com>
+In-Reply-To: <6232d8475e169ee53b5864959af21d14bf0fc620.camel@collabora.com>
+References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+        <20190901124531.23645-1-jonas@kwiboo.se>
+        <HE1PR06MB4011559BF2447047C66285D2ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+        <233509924f72d69824920d9312373eced68674c0.camel@collabora.com>
+        <20200710101333.05077f18@collabora.com>
+        <6232d8475e169ee53b5864959af21d14bf0fc620.camel@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <26317f49-d060-c4e2-d40c-90fd5eccdfb3@xs4all.nl>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Fri, 10 Jul 2020 08:50:28 -0300
+Ezequiel Garcia <ezequiel@collabora.com> wrote:
 
-On Fri, Jul 10, 2020 at 01:26:36PM +0200, Hans Verkuil wrote:
-> On 06/07/2020 20:36, Laurent Pinchart wrote:
-> > Create four functions to handle initialization, cleanup, registration
-> > and unregistration of the V4L2 (and soon media controller) objects:
+> On Fri, 2020-07-10 at 10:13 +0200, Boris Brezillon wrote:
+> > On Fri, 10 Jul 2020 01:21:07 -0300
+> > Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> >   
+> > > Hello Jonas,
+> > > 
+> > > In the context of the uAPI cleanup,
+> > > I'm revisiting this patch.
+> > > 
+> > > On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:  
+> > > > Add DPB entry flags to help indicate when a reference frame is a field picture
+> > > > and how the DPB entry is referenced, top or bottom field or full frame.
+> > > > 
+> > > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > > > ---
+> > > >  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 12 ++++++++++++
+> > > >  include/media/h264-ctrls.h                       |  4 ++++
+> > > >  2 files changed, 16 insertions(+)
+> > > > 
+> > > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > index bc5dd8e76567..eb6c32668ad7 100644
+> > > > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > @@ -2022,6 +2022,18 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+> > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
+> > > >        - 0x00000004
+> > > >        - The DPB entry is a long term reference frame
+> > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE``
+> > > > +      - 0x00000008
+> > > > +      - The DPB entry is a field picture
+> > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_TOP``
+> > > > +      - 0x00000010
+> > > > +      - The DPB entry is a top field reference
+> > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM``
+> > > > +      - 0x00000020
+> > > > +      - The DPB entry is a bottom field reference
+> > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME``
+> > > > +      - 0x00000030
+> > > > +      - The DPB entry is a reference frame
+> > > >  
+> > > >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
+> > > >      Specifies the decoding mode to use. Currently exposes slice-based and
+> > > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> > > > index e877bf1d537c..76020ebd1e6c 100644
+> > > > --- a/include/media/h264-ctrls.h
+> > > > +++ b/include/media/h264-ctrls.h
+> > > > @@ -185,6 +185,10 @@ struct v4l2_ctrl_h264_slice_params {
+> > > >  #define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
+> > > >  #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
+> > > >  #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
+> > > > +#define V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE	0x08
+> > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_TOP	0x10
+> > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM	0x20
+> > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME	0x30
+> > > >      
+> > > 
+> > > I've been going thru the H264 spec and I'm unsure,
+> > > are all these flags semantically needed?
+> > > 
+> > > For instance, if one of REF_BOTTOM or REF_TOP (or both)
+> > > are set, doesn't that indicate it's a field picture?
+> > > 
+> > > Or conversely, if neither REF_BOTTOM or REF_TOP are set,
+> > > then it's a frame picture?  
 > > 
-> > - init() is meant to be called early at probe time to initialize the
-> >   objects, before they get used from within the kernel
+> > I think that's what I was trying to do here [1]
 > > 
-> > - cleanup() is the counterpart of init, and is meant to be called at the
-> >   end of the remove sequence to free all objects
-> > 
-> > - register() is meant to be called at the end of the probe sequence, to
-> >   register the userspace-facing devices
-> > 
-> > - unregister() is the counterpart of register, and is meant to be called
-> >   at the beginning for the remove sequence, to disallow access from
-> >   userspace
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v1:
-> > 
-> > - Typo fix in commit message
-> > ---
-> >  drivers/media/platform/ti-vpe/cal.c | 116 +++++++++++++++++++++-------
-> >  1 file changed, 90 insertions(+), 26 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> > index 617b17133071..340cbf385d42 100644
-> > --- a/drivers/media/platform/ti-vpe/cal.c
-> > +++ b/drivers/media/platform/ti-vpe/cal.c
-> > @@ -2213,6 +2213,88 @@ static void cal_async_notifier_unregister(struct cal_dev *cal)
-> >  	v4l2_async_notifier_cleanup(&cal->notifier);
-> >  }
-> >  
-> > +/* ------------------------------------------------------------------
-> > + *	Media and V4L2 device handling
-> > + * ------------------------------------------------------------------
-> > + */
-> > +
-> > +/*
-> > + * Register user-facing devices. To be called at the end of the probe function
-> > + * when all resources are initialized and ready.
-> > + */
-> > +static int cal_media_register(struct cal_dev *cal)
-> > +{
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Register the async notifier. This may trigger registration of the
-> > +	 * V4L2 video devices if all subdevs are ready.
-> > +	 */
-> > +	ret = cal_async_notifier_register(cal);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return 0;
+> > [1]https://patchwork.kernel.org/patch/11392095/  
 > 
-> You can just for 'return cal_async_notifier_register(cal);' here.
+> Right. Aren't we missing a DPB_ENTRY_FLAG_TOP_FIELD?
+> 
+> If I understand correctly, the DPB can contain:
+> 
+> * frames (FLAG_FIELD not set)
+> * a field pair, with a single field (FLAG_FIELD and either TOP or BOTTOM).
+> * a field pair, with boths fields (FLAG_FIELD and both TOP or BOTTOM).
 
-Patch "media: ti-vpe: cal: Register a media device" later adds more code
-in the error handling path, so this construct would have to come back
-anyway.
+Well, my understand is that, if the buffer contains both a TOP and
+BOTTOM field, it actually becomes a full frame, so you actually have
+those cases:
 
-> > +}
-> > +
-> > +/*
-> > + * Unregister the user-facing devices, but don't free memory yet. To be called
-> > + * at the beginning of the remove function, to disallow access from userspace.
-> > + */
-> > +static void cal_media_unregister(struct cal_dev *cal)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	/* Unregister all the V4L2 video devices. */
-> > +	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
-> > +		if (cal->ctx[i])
-> > +			cal_ctx_v4l2_unregister(cal->ctx[i]);
-> > +	}
-> > +
-> > +	cal_async_notifier_unregister(cal);
-> > +}
-> > +
-> > +/*
-> > + * Initialize the in-kernel objects. To be called at the beginning of the probe
-> > + * function, before the V4L2 device is used by the driver.
-> > + */
-> > +static int cal_media_init(struct cal_dev *cal)
-> > +{
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Initialize the V4L2 device (despite the function name, this performs
-> > +	 * initialization, not registration).
-> > +	 */
-> > +	ret = v4l2_device_register(&cal->pdev->dev, &cal->v4l2_dev);
-> > +	if (ret) {
-> > +		cal_err(cal, "Failed to register V4L2 device\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	vb2_dma_contig_set_max_seg_size(&cal->pdev->dev, DMA_BIT_MASK(32));
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * Cleanup the in-kernel objects, freeing memory. To be called at the very end
-> > + * of the remove sequence, when nothing (including userspace) can access the
-> > + * objects anymore.
-> > + */
-> > +static void cal_media_cleanup(struct cal_dev *cal)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
-> > +		if (cal->ctx[i])
-> > +			cal_ctx_v4l2_cleanup(cal->ctx[i]);
-> > +	}
-> > +
-> > +	v4l2_device_unregister(&cal->v4l2_dev);
-> > +	vb2_dma_contig_clear_max_seg_size(&cal->pdev->dev);
-> > +}
-> > +
-> >  /* ------------------------------------------------------------------
-> >   *	Initialization and module stuff
-> >   * ------------------------------------------------------------------
-> > @@ -2345,12 +2427,10 @@ static int cal_probe(struct platform_device *pdev)
-> >  		goto error_camerarx;
-> >  	}
-> >  
-> > -	/* Register the V4L2 device. */
-> > -	ret = v4l2_device_register(&pdev->dev, &cal->v4l2_dev);
-> > -	if (ret) {
-> > -		cal_err(cal, "Failed to register V4L2 device\n");
-> > +	/* Initialize the media device. */
-> > +	ret = cal_media_init(cal);
-> > +	if (ret < 0)
-> >  		goto error_camerarx;
-> > -	}
-> >  
-> >  	/* Create contexts. */
-> >  	for (i = 0; i < cal->data->num_csi2_phy; ++i) {
-> > @@ -2365,8 +2445,6 @@ static int cal_probe(struct platform_device *pdev)
-> >  		}
-> >  	}
-> >  
-> > -	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-> > -
-> >  	/* Read the revision and hardware info to verify hardware access. */
-> >  	pm_runtime_enable(&pdev->dev);
-> >  	ret = pm_runtime_get_sync(&pdev->dev);
-> > @@ -2376,16 +2454,14 @@ static int cal_probe(struct platform_device *pdev)
-> >  	cal_get_hwinfo(cal);
-> >  	pm_runtime_put_sync(&pdev->dev);
-> >  
-> > -	/* Register the async notifier. */
-> > -	ret = cal_async_notifier_register(cal);
-> > +	/* Register the media device. */
-> > +	ret = cal_media_register(cal);
-> >  	if (ret)
-> >  		goto error_pm_runtime;
-> >  
-> >  	return 0;
-> >  
-> >  error_pm_runtime:
-> > -	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
-> > -
-> >  	pm_runtime_disable(&pdev->dev);
-> >  
-> >  error_context:
-> > @@ -2395,7 +2471,7 @@ static int cal_probe(struct platform_device *pdev)
-> >  			cal_ctx_v4l2_cleanup(ctx);
-> >  	}
-> >  
-> > -	v4l2_device_unregister(&cal->v4l2_dev);
-> > +	cal_media_cleanup(cal);
-> >  
-> >  error_camerarx:
-> >  	for (i = 0; i < ARRAY_SIZE(cal->phy); i++)
-> > @@ -2413,24 +2489,14 @@ static int cal_remove(struct platform_device *pdev)
-> >  
-> >  	pm_runtime_get_sync(&pdev->dev);
-> >  
-> > -	cal_async_notifier_unregister(cal);
-> > -
-> > -	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
-> > -		if (cal->ctx[i])
-> > -			cal_ctx_v4l2_unregister(cal->ctx[i]);
-> > -	}
-> > +	cal_media_unregister(cal);
-> >  
-> >  	for (i = 0; i < ARRAY_SIZE(cal->phy); i++) {
-> >  		if (cal->phy[i])
-> >  			cal_camerarx_disable(cal->phy[i]);
-> >  	}
-> >  
-> > -	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
-> > -		if (cal->ctx[i])
-> > -			cal_ctx_v4l2_cleanup(cal->ctx[i]);
-> > -	}
-> > -
-> > -	v4l2_device_unregister(&cal->v4l2_dev);
-> > +	cal_media_cleanup(cal);
-> >  
-> >  	for (i = 0; i < ARRAY_SIZE(cal->phy); i++)
-> >  		cal_camerarx_destroy(cal->phy[i]);
-> > @@ -2438,8 +2504,6 @@ static int cal_remove(struct platform_device *pdev)
-> >  	pm_runtime_put_sync(&pdev->dev);
-> >  	pm_runtime_disable(&pdev->dev);
-> >  
-> > -	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
-> > -
-> >  	return 0;
-> >  }
-> >  
+* FLAG_FIELD not set: this a frame (note that a TOP/BOTTOM field
+  decoded buffer can become of frame if it's complemented with the
+  missing field later during the decoding)
+* FLAG_FIELD set + BOTTOM_FIELD not set: this is a TOP field
+* FLAG_FIELD set + BOTTOM_FIELD set: this is a BOTTOM field
+* FLAG_FIELD not set + BOTTOM_FIELD set: invalid combination
 
--- 
-Regards,
-
-Laurent Pinchart
+but I might be wrong.
