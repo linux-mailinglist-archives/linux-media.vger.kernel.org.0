@@ -2,159 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23C4C21B4F4
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 14:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1686721B514
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 14:30:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726965AbgGJMZm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 08:25:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726725AbgGJMZl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 08:25:41 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABCEC08C5CE;
-        Fri, 10 Jul 2020 05:25:41 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 4DAE42A698B
-Message-ID: <05b6cff6ba230c0ab6a562e17926d8503e2dfadd.camel@collabora.com>
-Subject: Re: [RFC 07/12] media: uapi: h264: Add DPB entry field reference
- flags
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Boris Brezillon <boris.brezillon@collabora.com>,
-        nicolas.dufresne@collabora.com
-Cc:     Jonas Karlman <jonas@kwiboo.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date:   Fri, 10 Jul 2020 09:25:29 -0300
-In-Reply-To: <20200710140502.627b2b54@collabora.com>
-References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <20190901124531.23645-1-jonas@kwiboo.se>
-         <HE1PR06MB4011559BF2447047C66285D2ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <233509924f72d69824920d9312373eced68674c0.camel@collabora.com>
-         <20200710101333.05077f18@collabora.com>
-         <6232d8475e169ee53b5864959af21d14bf0fc620.camel@collabora.com>
-         <20200710140502.627b2b54@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        id S1727059AbgGJMaj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 08:30:39 -0400
+Received: from mga07.intel.com ([134.134.136.100]:42882 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726664AbgGJMaj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 10 Jul 2020 08:30:39 -0400
+IronPort-SDR: ODehUNdGJs4nVO609EFbS6cGcQn+JCWiIS/qDxMM7fgZ13HCUem4HuTqdurJ4N43yJ8Z3ccl+1
+ R2v9hS6WuHvQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9677"; a="213074042"
+X-IronPort-AV: E=Sophos;i="5.75,335,1589266800"; 
+   d="scan'208";a="213074042"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2020 05:30:37 -0700
+IronPort-SDR: cftD1yfh/1nQA1PDZMmZn1DC4qquNxaY/8BnGAe2+5lxp8nPb91koWGednsCdzSMuEPYsc/Mkl
+ 0PHDoh3FWFCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,335,1589266800"; 
+   d="scan'208";a="484163756"
+Received: from dedwards-mobl.ger.corp.intel.com (HELO [10.249.32.130]) ([10.249.32.130])
+  by fmsmga006.fm.intel.com with ESMTP; 10 Jul 2020 05:30:33 -0700
+Subject: Re: [PATCH 1/2] dma-buf.rst: Document why indefinite fences are a bad
+ idea
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        linux-rdma@vger.kernel.org,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Stone <daniels@collabora.com>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Steve Pronovost <spronovo@microsoft.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Daniel Vetter <daniel.vetter@intel.com>
+References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+ <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+From:   Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <42dafd6d-cd8e-2de9-4d34-47aff76f5640@linux.intel.com>
+Date:   Fri, 10 Jul 2020 14:30:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+Nicolas
+Op 09-07-2020 om 14:33 schreef Daniel Vetter:
+> Comes up every few years, gets somewhat tedious to discuss, let's
+> write this down once and for all.
+>
+> What I'm not sure about is whether the text should be more explicit in
+> flat out mandating the amdkfd eviction fences for long running compute
+> workloads or workloads where userspace fencing is allowed.
+>
+> v2: Now with dot graph!
+>
+> v3: Typo (Dave Airlie)
 
-On Fri, 2020-07-10 at 14:05 +0200, Boris Brezillon wrote:
-> On Fri, 10 Jul 2020 08:50:28 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> 
-> > On Fri, 2020-07-10 at 10:13 +0200, Boris Brezillon wrote:
-> > > On Fri, 10 Jul 2020 01:21:07 -0300
-> > > Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > >   
-> > > > Hello Jonas,
-> > > > 
-> > > > In the context of the uAPI cleanup,
-> > > > I'm revisiting this patch.
-> > > > 
-> > > > On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:  
-> > > > > Add DPB entry flags to help indicate when a reference frame is a field picture
-> > > > > and how the DPB entry is referenced, top or bottom field or full frame.
-> > > > > 
-> > > > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > > > > ---
-> > > > >  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 12 ++++++++++++
-> > > > >  include/media/h264-ctrls.h                       |  4 ++++
-> > > > >  2 files changed, 16 insertions(+)
-> > > > > 
-> > > > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > > index bc5dd8e76567..eb6c32668ad7 100644
-> > > > > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > > @@ -2022,6 +2022,18 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
-> > > > >        - 0x00000004
-> > > > >        - The DPB entry is a long term reference frame
-> > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE``
-> > > > > +      - 0x00000008
-> > > > > +      - The DPB entry is a field picture
-> > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_TOP``
-> > > > > +      - 0x00000010
-> > > > > +      - The DPB entry is a top field reference
-> > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM``
-> > > > > +      - 0x00000020
-> > > > > +      - The DPB entry is a bottom field reference
-> > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME``
-> > > > > +      - 0x00000030
-> > > > > +      - The DPB entry is a reference frame
-> > > > >  
-> > > > >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
-> > > > >      Specifies the decoding mode to use. Currently exposes slice-based and
-> > > > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > > > > index e877bf1d537c..76020ebd1e6c 100644
-> > > > > --- a/include/media/h264-ctrls.h
-> > > > > +++ b/include/media/h264-ctrls.h
-> > > > > @@ -185,6 +185,10 @@ struct v4l2_ctrl_h264_slice_params {
-> > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
-> > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
-> > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
-> > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE	0x08
-> > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_TOP	0x10
-> > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM	0x20
-> > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME	0x30
-> > > > >      
-> > > > 
-> > > > I've been going thru the H264 spec and I'm unsure,
-> > > > are all these flags semantically needed?
-> > > > 
-> > > > For instance, if one of REF_BOTTOM or REF_TOP (or both)
-> > > > are set, doesn't that indicate it's a field picture?
-> > > > 
-> > > > Or conversely, if neither REF_BOTTOM or REF_TOP are set,
-> > > > then it's a frame picture?  
-> > > 
-> > > I think that's what I was trying to do here [1]
-> > > 
-> > > [1]https://patchwork.kernel.org/patch/11392095/  
-> > 
-> > Right. Aren't we missing a DPB_ENTRY_FLAG_TOP_FIELD?
-> > 
-> > If I understand correctly, the DPB can contain:
-> > 
-> > * frames (FLAG_FIELD not set)
-> > * a field pair, with a single field (FLAG_FIELD and either TOP or BOTTOM).
-> > * a field pair, with boths fields (FLAG_FIELD and both TOP or BOTTOM).
-> 
-> Well, my understand is that, if the buffer contains both a TOP and
-> BOTTOM field, it actually becomes a full frame, so you actually have
-> those cases:
-> 
-> * FLAG_FIELD not set: this a frame (note that a TOP/BOTTOM field
->   decoded buffer can become of frame if it's complemented with the
->   missing field later during the decoding)
-> * FLAG_FIELD set + BOTTOM_FIELD not set: this is a TOP field
-> * FLAG_FIELD set + BOTTOM_FIELD set: this is a BOTTOM field
-> * FLAG_FIELD not set + BOTTOM_FIELD set: invalid combination
-> 
-> but I might be wrong.
+For first 5 patches, and patch 16, 17:
 
-Yes, perhaps that's correct. I was trying to think strictly
-in terms of the H264 semantics, to define a clean interface.
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-From the mpp code, looks like the above is enough for rkvdec
-(although I haven't done any tests).
-
-Ezequiel
-
+> Acked-by: Christian König <christian.koenig@amd.com>
+> Acked-by: Daniel Stone <daniels@collabora.com>
+> Cc: Jesse Natalie <jenatali@microsoft.com>
+> Cc: Steve Pronovost <spronovo@microsoft.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+> Cc: Mika Kuoppala <mika.kuoppala@intel.com>
+> Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  Documentation/driver-api/dma-buf.rst | 70 ++++++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+>
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index f8f6decde359..100bfd227265 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -178,3 +178,73 @@ DMA Fence uABI/Sync File
+>  .. kernel-doc:: include/linux/sync_file.h
+>     :internal:
+>  
+> +Indefinite DMA Fences
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +At various times &dma_fence with an indefinite time until dma_fence_wait()
+> +finishes have been proposed. Examples include:
+> +
+> +* Future fences, used in HWC1 to signal when a buffer isn't used by the display
+> +  any longer, and created with the screen update that makes the buffer visible.
+> +  The time this fence completes is entirely under userspace's control.
+> +
+> +* Proxy fences, proposed to handle &drm_syncobj for which the fence has not yet
+> +  been set. Used to asynchronously delay command submission.
+> +
+> +* Userspace fences or gpu futexes, fine-grained locking within a command buffer
+> +  that userspace uses for synchronization across engines or with the CPU, which
+> +  are then imported as a DMA fence for integration into existing winsys
+> +  protocols.
+> +
+> +* Long-running compute command buffers, while still using traditional end of
+> +  batch DMA fences for memory management instead of context preemption DMA
+> +  fences which get reattached when the compute job is rescheduled.
+> +
+> +Common to all these schemes is that userspace controls the dependencies of these
+> +fences and controls when they fire. Mixing indefinite fences with normal
+> +in-kernel DMA fences does not work, even when a fallback timeout is included to
+> +protect against malicious userspace:
+> +
+> +* Only the kernel knows about all DMA fence dependencies, userspace is not aware
+> +  of dependencies injected due to memory management or scheduler decisions.
+> +
+> +* Only userspace knows about all dependencies in indefinite fences and when
+> +  exactly they will complete, the kernel has no visibility.
+> +
+> +Furthermore the kernel has to be able to hold up userspace command submission
+> +for memory management needs, which means we must support indefinite fences being
+> +dependent upon DMA fences. If the kernel also support indefinite fences in the
+> +kernel like a DMA fence, like any of the above proposal would, there is the
+> +potential for deadlocks.
+> +
+> +.. kernel-render:: DOT
+> +   :alt: Indefinite Fencing Dependency Cycle
+> +   :caption: Indefinite Fencing Dependency Cycle
+> +
+> +   digraph "Fencing Cycle" {
+> +      node [shape=box bgcolor=grey style=filled]
+> +      kernel [label="Kernel DMA Fences"]
+> +      userspace [label="userspace controlled fences"]
+> +      kernel -> userspace [label="memory management"]
+> +      userspace -> kernel [label="Future fence, fence proxy, ..."]
+> +
+> +      { rank=same; kernel userspace }
+> +   }
+> +
+> +This means that the kernel might accidentally create deadlocks
+> +through memory management dependencies which userspace is unaware of, which
+> +randomly hangs workloads until the timeout kicks in. Workloads, which from
+> +userspace's perspective, do not contain a deadlock.  In such a mixed fencing
+> +architecture there is no single entity with knowledge of all dependencies.
+> +Thefore preventing such deadlocks from within the kernel is not possible.
+> +
+> +The only solution to avoid dependencies loops is by not allowing indefinite
+> +fences in the kernel. This means:
+> +
+> +* No future fences, proxy fences or userspace fences imported as DMA fences,
+> +  with or without a timeout.
+> +
+> +* No DMA fences that signal end of batchbuffer for command submission where
+> +  userspace is allowed to use userspace fencing or long running compute
+> +  workloads. This also means no implicit fencing for shared buffers in these
+> +  cases.
 
 
