@@ -2,162 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D174C21B2FB
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 12:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E8F221B31E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 12:19:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727092AbgGJKK7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 06:10:59 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:40097 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727046AbgGJKK4 (ORCPT
+        id S1726933AbgGJKTm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 06:19:42 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:63182 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726496AbgGJKTl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 06:10:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id tpzWjrq9CGLmCtpzaj5VDx; Fri, 10 Jul 2020 12:10:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594375854; bh=ZhpEwiw3I4VVLC0B0NIMkWX5kI44jFvoGcVeHILDDCw=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ouaaTKdqWuHnrkgDEIdJ5Y09MWyZ7kfACnMLu3sqSzT5ae6NrcD68jm7r5Z62QFk1
-         U4mGvaf9j62Y0GhHBJ0//kL6BIUx25Lwv8tv5bk1naIklbNgkIt1fqQOVOzb7FKn6l
-         qkQd9Djks/17K3HEjR+1Rsf60xDtSy22paPa8tWc5jkAeFQ+NEzI6DV9t3Fl2Pl/YQ
-         b+F/3RjJtWmHr4+BAJg89q1XQldiVJdEAWbtXUrD+NAc9P+l19DTpOWsBL1uJgEVJm
-         gEHqIKyH1rqMW+2JYas7KMe/czz2LAYtxDKTKnRbaMJaMZAhyivCPbN2UMqSbR5ynN
-         wRFUidmeRbGoQ==
-Subject: Re: [PATCH] media: videobuf2: Print videobuf2 buffer state by name
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20200709174336.79112-1-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <161b6b37-1380-833c-1d74-efed75450f5f@xs4all.nl>
-Date:   Fri, 10 Jul 2020 12:10:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Fri, 10 Jul 2020 06:19:41 -0400
+X-UUID: 6556c6b5225b4e2fad2239bdccab265c-20200710
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=CqFYCV4H7t0aImWcS2mYr0/XneJOwb8BbgC6yqbQIlM=;
+        b=Cow9P2Hfqh8FBFlc43D21u3PJDFRr5q3nqoM5OCyH8TJoVYMyEYphklqYRKvHHA8FdzPvyr6DsKoLO1mwr45hLMWd2kZU9bfJGpWc8VKR1JK71lqzCZo3j68YftsVje+Ck4TtIa+v9As6nQwKXb0i8XppGh5E+ZHhfAbo/xA6F0=;
+X-UUID: 6556c6b5225b4e2fad2239bdccab265c-20200710
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 754923263; Fri, 10 Jul 2020 18:19:36 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 10 Jul 2020 18:19:34 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 10 Jul 2020 18:19:33 +0800
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
+        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
+        <bingbu.cao@intel.com>
+CC:     <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>, <1095088256@qq.com>,
+        <matrix.zhu@aliyun.com>
+Subject: [PATCH v13 0/2] media: i2c: Add support for OV02A10 sensor
+Date:   Fri, 10 Jul 2020 18:18:48 +0800
+Message-ID: <20200710101850.4604-1-dongchun.zhu@mediatek.com>
+X-Mailer: git-send-email 2.9.2
 MIME-Version: 1.0
-In-Reply-To: <20200709174336.79112-1-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNh3lMxH1XmGnAWZhPkSnc2T1g7L/W/LHJ9eSOW4RV4pgHklkVNNk303u//E5PYyKKDiqja6FjClLTf2mFS6+7UsT/tXbkAkRQCCtB/6O8J5nvMJDCLh
- 3ISnuWjFXRjY/+GwsBuJ6tEcIJVTVkAN8NSaJgY4NFqja8C93zmL69EAJ1QpyfNT8AkS+egAmNfhveQFr8AyknuPvTpQ/psvugSh8SvloGpg4AX0Yn9+/5+4
- 5b2GOYwPLzqcwcKNStG0jBhk26AJNABc76QcYFiyqIUdLQuVzCOfLHwmzBtPvdXC
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/07/2020 19:43, Ezequiel Garcia wrote:
-> For debugging purposes, seeing the state integer
-> representation is really inconvenient.
-> 
-> Improve this and be developer-friendly by printing
-> the state name instead.
-> 
-> Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 32 ++++++++++++++-----
->  1 file changed, 24 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index abaf28e057eb..8480772d58c6 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -191,6 +191,20 @@ module_param(debug, int, 0644);
->  static void __vb2_queue_cancel(struct vb2_queue *q);
->  static void __enqueue_in_driver(struct vb2_buffer *vb);
->  
-> +static const char * const vb2_state_names[] = {
-> +	[VB2_BUF_STATE_DEQUEUED] = "dequeued",
-> +	[VB2_BUF_STATE_IN_REQUEST] = "in request",
-> +	[VB2_BUF_STATE_PREPARING] = "preparing",
-> +	[VB2_BUF_STATE_QUEUED] = "queued",
-> +	[VB2_BUF_STATE_ACTIVE] = "active",
-> +	[VB2_BUF_STATE_DONE] = "done",
-> +	[VB2_BUF_STATE_ERROR] = "error",
-> +};
-> +
-> +#define vb2_state_name(s) \
-> +	(((unsigned int)(s)) < ARRAY_SIZE(vb2_state_names) ? \
-> +	 vb2_state_names[s] : "unknown")
-
-Can you turn this into a function?
-
-That avoids this checkpatch warning:
-
-CHECK: Macro argument reuse 's' - possible side-effects?
-#37: FILE: drivers/media/common/videobuf2/videobuf2-core.c:204:
-+#define vb2_state_name(s) \
-+       (((unsigned int)(s)) < ARRAY_SIZE(vb2_state_names) ? \
-+        vb2_state_names[s] : "unknown")
-
-And I think a function is cleaner as well.
-
-This looks good otherwise.
-
-Regards,
-
-	Hans
-
-> +
->  /*
->   * __vb2_buf_mem_alloc() - allocate video memory for the given buffer
->   */
-> @@ -1015,8 +1029,8 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
->  	 */
->  	vb->cnt_buf_done++;
->  #endif
-> -	dprintk(q, 4, "done processing on buffer %d, state: %d\n",
-> -			vb->index, state);
-> +	dprintk(q, 4, "done processing on buffer %d, state: %s\n",
-> +		vb->index, vb2_state_name(state));
->  
->  	if (state != VB2_BUF_STATE_QUEUED)
->  		__vb2_buf_mem_finish(vb);
-> @@ -1490,8 +1504,8 @@ int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
->  
->  	vb = q->bufs[index];
->  	if (vb->state != VB2_BUF_STATE_DEQUEUED) {
-> -		dprintk(q, 1, "invalid buffer state %d\n",
-> -			vb->state);
-> +		dprintk(q, 1, "invalid buffer state %s\n",
-> +			vb2_state_name(vb->state));
->  		return -EINVAL;
->  	}
->  	if (vb->prepared) {
-> @@ -1670,7 +1684,8 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
->  		dprintk(q, 1, "buffer still being prepared\n");
->  		return -EINVAL;
->  	default:
-> -		dprintk(q, 1, "invalid buffer state %d\n", vb->state);
-> +		dprintk(q, 1, "invalid buffer state %s\n",
-> +			vb2_state_name(vb->state));
->  		return -EINVAL;
->  	}
->  
-> @@ -1884,7 +1899,8 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
->  		dprintk(q, 3, "returning done buffer with errors\n");
->  		break;
->  	default:
-> -		dprintk(q, 1, "invalid buffer state\n");
-> +		dprintk(q, 1, "invalid buffer state %s\n",
-> +			vb2_state_name(vb->state));
->  		return -EINVAL;
->  	}
->  
-> @@ -1915,8 +1931,8 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
->  		media_request_put(vb->request);
->  	vb->request = NULL;
->  
-> -	dprintk(q, 2, "dqbuf of buffer %d, with state %d\n",
-> -			vb->index, vb->state);
-> +	dprintk(q, 2, "dqbuf of buffer %d, state: %s\n",
-> +		vb->index, vb2_state_name(vb->state));
->  
->  	return 0;
->  
-> 
+SGVsbG8sDQoNClRoaXMgc2VyaWVzIGFkZHMgWUFNTCBEVCBiaW5kaW5nIGFuZCBWNEwyIHN1Yi1k
+ZXZpY2UgZHJpdmVyIGZvciBPbW5pdmlzaW9uJ3MNCk9WMDJBMTAgMi1tZWdhcGl4ZWwgMTAtYml0
+IFJBVyBDTU9TIDEvNSIgc2Vuc29yLCB3aGljaCBoYXMgYSBzaW5nbGUgTUlQSSBsYW5lDQppbnRl
+cmZhY2UgYW5kIHVzZXMgdGhlIEkyQyBidXMgZm9yIGNvbnRyb2wgYW5kIHRoZSBDU0ktMiBidXMg
+Zm9yIGRhdGEuDQoNClRoZSBkcml2ZXIgaXMgaW1wbGVtZW50ZWQgd2l0aCBWNEwyIGZyYW1ld29y
+ay4NCiAtIEFzeW5jIHJlZ2lzdGVyZWQgYXMgYSBWNEwyIHN1Yi1kZXZpY2UuDQogLSBBcyB0aGUg
+Zmlyc3QgY29tcG9uZW50IG9mIGNhbWVyYSBzeXN0ZW0gaW5jbHVkaW5nIFNlbmluZiwgSVNQIHBp
+cGVsaW5lLg0KIC0gQSBtZWRpYSBlbnRpdHkgdGhhdCBwcm92aWRlcyBvbmUgc291cmNlIHBhZCBp
+biBjb21tb24gYW5kIHR3byBmb3IgZHVhbC1jYW0uDQogLSBVc2VkIGluIGNhbWVyYSBmZWF0dXJl
+cyBvbiBDck9TIGFwcGxpY2F0aW9uLg0KDQpBbHNvIHRoaXMgZHJpdmVyIHN1cHBvcnRzIGZvbGxv
+d2luZyBmZWF0dXJlczoNCiAtIG1hbnVhbCBleHBvc3VyZSBhbmQgYW5hbG9nIGdhaW4gY29udHJv
+bCBzdXBwb3J0DQogLSB2ZXJ0aWNhbCBibGFua2luZyBjb250cm9sIHN1cHBvcnQNCiAtIHRlc3Qg
+cGF0dGVybiBzdXBwb3J0DQogLSBtZWRpYSBjb250cm9sbGVyIHN1cHBvcnQNCiAtIHJ1bnRpbWUg
+UE0gc3VwcG9ydA0KIC0gc3VwcG9ydCByZXNvbHV0aW9uOiAxNjAweDEyMDAgYXQgMzBGUFMNCiAN
+ClByZXZpb3VzIHZlcnNpb25zIG9mIHRoaXMgcGF0Y2gtc2V0IGNhbiBiZSBmb3VuZCBoZXJlOg0K
+IHYxMjogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAyMDA3MDIxMTUyMjMu
+MjE1MDctMS1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYxMTogaHR0cHM6Ly9sb3JlLmtl
+cm5lbC5vcmcvbGludXgtbWVkaWEvMjAyMDA2MzAwMjQ5NDIuMjA4OTEtMS1kb25nY2h1bi56aHVA
+bWVkaWF0ZWsuY29tLw0KIHYxMDogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEv
+MjAyMDA2MTUxMjI5MzcuMTg5NjUtMy1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYwOTog
+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAyMDA1MjMwODQxMDMuMzEyNzYt
+MS1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYwODogaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvbGludXgtbWVkaWEvMjAyMDA1MDkwODA2MjcuMjMyMjItMS1kb25nY2h1bi56aHVAbWVkaWF0
+ZWsuY29tLw0KIHYwNzogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAyMDA0
+MzAwODA5MjQuMTE0MC0xLWRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20vDQogdjA2OiBodHRwczov
+L2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDE5MTIxMTExMjg0OS4xNjcwNS0xLWRvbmdj
+aHVuLnpodUBtZWRpYXRlay5jb20vDQogdjA1OiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51
+eC1tZWRpYS8yMDE5MTEwNDEwNTcxMy4yNDMxMS0xLWRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20v
+DQogdjA0OiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDE5MDkwNzA5Mjcy
+OC4yMzg5Ny0xLWRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20vDQogdjAzOiBodHRwczovL2xvcmUu
+a2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDE5MDgxOTAzNDMzMS4xMzA5OC0xLWRvbmdjaHVuLnpo
+dUBtZWRpYXRlay5jb20vDQogdjAyOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRp
+YS8yMDE5MDcwNDA4NDY1MS4zMTA1LTEtZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbS8NCiB2MDE6
+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMTkwNTIzMTAyMjA0LjI0MTEy
+LTEtZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbS8NCg0KQ2hhbmdlcyBvZiB2MTMgbWFpbmx5IGFk
+ZHJlc3MgY29tbWVudHMgZnJvbSBSb2IuDQpDb21wYXJlZCB0byB2MTI6DQogLSBBZGQgcmV2aWV3
+ZWQtYnkgZm9yIHNlbnNvciBkcml2ZXINCiAtIEZpeCBhIGJ1aWxkLXdhcm5pbmcgYW5kIHRoZSB3
+YXJuaW5nIHdoZW4gYXBwbHlpbmcgdGhlIHBhdGNoIHdpdGggZ2l0IGFtDQoNClBsZWFzZSByZXZp
+ZXcuDQpUaGFua3MuDQoNCkRvbmdjaHVuIFpodSAoMik6DQogIG1lZGlhOiBkdC1iaW5kaW5nczog
+bWVkaWE6IGkyYzogRG9jdW1lbnQgT1YwMkExMCBiaW5kaW5ncw0KICBtZWRpYTogaTJjOiBBZGQg
+T1YwMkExMCBpbWFnZSBzZW5zb3IgZHJpdmVyDQoNCiAuLi4vYmluZGluZ3MvbWVkaWEvaTJjL292
+dGksb3YwMmExMC55YW1sICAgICAgICAgICB8ICAxNzIgKysrKw0KIE1BSU5UQUlORVJTICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgOCArDQogZHJpdmVycy9tZWRp
+YS9pMmMvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDEzICsNCiBkcml2ZXJz
+L21lZGlhL2kyYy9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDEgKw0KIGRy
+aXZlcnMvbWVkaWEvaTJjL292MDJhMTAuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgMTA1MCAr
+KysrKysrKysrKysrKysrKysrKw0KIDUgZmlsZXMgY2hhbmdlZCwgMTI0NCBpbnNlcnRpb25zKCsp
+DQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9t
+ZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwNCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9t
+ZWRpYS9pMmMvb3YwMmExMC5jDQoNCi0tIA0KMi45LjINCg==
 
