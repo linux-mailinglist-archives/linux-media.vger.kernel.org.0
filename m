@@ -2,121 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F73021BE3C
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 22:02:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39F4021BF65
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 23:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728406AbgGJUCd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 16:02:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38904 "EHLO
+        id S1726291AbgGJVtY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 17:49:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727941AbgGJUCc (ORCPT
+        with ESMTP id S1726245AbgGJVtY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 16:02:32 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1777C08C5DD
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2020 13:02:32 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id x83so5746037oif.10
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2020 13:02:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hlzdQKgtPmO74k0pNR7vHuIZBrt/Pc63RtVTndWe5dA=;
-        b=SqNPnTQbjsymEOAYWvf7HTkD0FI+HW6j/e6KRe6XGJh3lSuGZ0C7kP/iBUFjVJ03M5
-         t8w6HTmvlfEqaW7ZR4/WDh2zFfGdT+tuiUcDAyD+AEP04wFuCMGfRQQM26yq17Soms89
-         nnpW0b1zmvAznK5+R6nx5wurVKlahUyCP/oLY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hlzdQKgtPmO74k0pNR7vHuIZBrt/Pc63RtVTndWe5dA=;
-        b=VRDjcy71Sm0pSQ+6SF58n5ULUZKISdvwoISLnG88mt2G+tRqHq5YExMeHBRtAG785X
-         eRl4Eq/9hp4tfPi+VEkxnEeWqeiJhMeAuJhDtPFqQuv9Ux39eMeoQ8MDzrfbWGdOAXb6
-         vzwIQ88tIfD0r2feFC4imH2gVwvWoYbYJaUOPIMwxD1orJLSAkhtCFutMtS3bOTAa8iT
-         o1HN8jBShqDKZA6accya4bgLf1RVgOjC/GIDdBExHlBquAfjqppXqVAl1hO87XgLqujx
-         h3Eb7a+YzM3s5c2qt7rbzTEs+gyCEftzj03MyQ2azKJ9ZTjUkXC6ys12/nzY97MT/fj4
-         /m3A==
-X-Gm-Message-State: AOAM5301lrKgj824r8opfGXOoknwxFXA8xnd9wbQ+l4i1C/Cwc8/zt+u
-        9PrOPQhw82MCgcCnuvaRsThzv6x4vwN5BvKHUUx+Iw==
-X-Google-Smtp-Source: ABdhPJyXe/UuJLRx5f5TlPpv/BPhnkWHORX2InNLi0AlJObIla3gh+GkiBljOI27Z+bfXCvGSQK4tsearkrRp5oifn8=
-X-Received: by 2002:aca:da03:: with SMTP id r3mr5553679oig.14.1594411351996;
- Fri, 10 Jul 2020 13:02:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-3-daniel.vetter@ffwll.ch> <20200709080911.GP3278063@phenom.ffwll.local>
- <20200710124357.GB23821@mellanox.com> <5c163d74-4a28-1d74-be86-099b4729a2e0@amd.com>
- <20200710125453.GC23821@mellanox.com> <4f4a2cf7-f505-8494-1461-bd467870481e@amd.com>
- <20200710134826.GD23821@mellanox.com> <CAKMK7uGSUULTmL=bDXty6U4e37dzLHzu7wgUyOxo2CvR9KvXGg@mail.gmail.com>
- <20200710142347.GE23821@mellanox.com>
-In-Reply-To: <20200710142347.GE23821@mellanox.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri, 10 Jul 2020 22:02:20 +0200
-Message-ID: <CAKMK7uFK6Os5ALHEBr7tqCMtmHS1FpuDeOvqs40GVMv2kqJ90g@mail.gmail.com>
-Subject: Re: [PATCH 02/25] dma-fence: prime lockdep annotations
-To:     Jason Gunthorpe <jgg@mellanox.com>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        kernel test robot <lkp@intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
+        Fri, 10 Jul 2020 17:49:24 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C324C08C5DC;
+        Fri, 10 Jul 2020 14:49:24 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id BAA9D2A6AC8
+Message-ID: <9a897ef99048077233685b121b03bd750e4d4a83.camel@collabora.com>
+Subject: Re: [RFC 07/12] media: uapi: h264: Add DPB entry field reference
+ flags
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Jonas Karlman <jonas@kwiboo.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Fri, 10 Jul 2020 17:49:07 -0400
+In-Reply-To: <05b6cff6ba230c0ab6a562e17926d8503e2dfadd.camel@collabora.com>
+References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <20190901124531.23645-1-jonas@kwiboo.se>
+         <HE1PR06MB4011559BF2447047C66285D2ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <233509924f72d69824920d9312373eced68674c0.camel@collabora.com>
+         <20200710101333.05077f18@collabora.com>
+         <6232d8475e169ee53b5864959af21d14bf0fc620.camel@collabora.com>
+         <20200710140502.627b2b54@collabora.com>
+         <05b6cff6ba230c0ab6a562e17926d8503e2dfadd.camel@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 10, 2020 at 4:23 PM Jason Gunthorpe <jgg@mellanox.com> wrote:
->
-> On Fri, Jul 10, 2020 at 04:02:35PM +0200, Daniel Vetter wrote:
->
-> > > dma_fence only possibly makes some sense if you intend to expose the
-> > > completion outside a single driver.
-> > >
-> > > The prefered kernel design pattern for this is to connect things with
-> > > a function callback.
-> > >
-> > > So the actual use case of dma_fence is quite narrow and tightly linked
-> > > to DRM.
-> > >
-> > > I don't think we should spread this beyond DRM, I can't see a reason.
-> >
-> > Yeah v4l has a legit reason to use dma_fence, android wants that
-> > there.
->
-> 'legit' in the sense the v4l is supposed to trigger stuff in DRM when
-> V4L DMA completes? I would still see that as part of DRM
+Le vendredi 10 juillet 2020 à 09:25 -0300, Ezequiel Garcia a écrit :
+> +Nicolas
+> 
+> On Fri, 2020-07-10 at 14:05 +0200, Boris Brezillon wrote:
+> > On Fri, 10 Jul 2020 08:50:28 -0300
+> > Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > 
+> > > On Fri, 2020-07-10 at 10:13 +0200, Boris Brezillon wrote:
+> > > > On Fri, 10 Jul 2020 01:21:07 -0300
+> > > > Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > > >   
+> > > > > Hello Jonas,
+> > > > > 
+> > > > > In the context of the uAPI cleanup,
+> > > > > I'm revisiting this patch.
+> > > > > 
+> > > > > On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:  
+> > > > > > Add DPB entry flags to help indicate when a reference frame is a
+> > > > > > field picture
+> > > > > > and how the DPB entry is referenced, top or bottom field or full
+> > > > > > frame.
+> > > > > > 
+> > > > > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > > > > > ---
+> > > > > >  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 12 ++++++++++++
+> > > > > >  include/media/h264-ctrls.h                       |  4 ++++
+> > > > > >  2 files changed, 16 insertions(+)
+> > > > > > 
+> > > > > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > > > b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > > > index bc5dd8e76567..eb6c32668ad7 100644
+> > > > > > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > > > @@ -2022,6 +2022,18 @@ enum
+> > > > > > v4l2_mpeg_video_h264_hierarchical_coding_type -
+> > > > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
+> > > > > >        - 0x00000004
+> > > > > >        - The DPB entry is a long term reference frame
+> > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE``
+> > > > > > +      - 0x00000008
+> > > > > > +      - The DPB entry is a field picture
+> > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_TOP``
+> > > > > > +      - 0x00000010
+> > > > > > +      - The DPB entry is a top field reference
+> > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM``
+> > > > > > +      - 0x00000020
+> > > > > > +      - The DPB entry is a bottom field reference
+> > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME``
+> > > > > > +      - 0x00000030
+> > > > > > +      - The DPB entry is a reference frame
+> > > > > >  
+> > > > > >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
+> > > > > >      Specifies the decoding mode to use. Currently exposes slice-
+> > > > > > based and
+> > > > > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> > > > > > index e877bf1d537c..76020ebd1e6c 100644
+> > > > > > --- a/include/media/h264-ctrls.h
+> > > > > > +++ b/include/media/h264-ctrls.h
+> > > > > > @@ -185,6 +185,10 @@ struct v4l2_ctrl_h264_slice_params {
+> > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
+> > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
+> > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
+> > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE	0x08
+> > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_TOP	0x10
+> > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM	0x20
+> > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME	0x30
+> > > > > >      
+> > > > > 
+> > > > > I've been going thru the H264 spec and I'm unsure,
+> > > > > are all these flags semantically needed?
+> > > > > 
+> > > > > For instance, if one of REF_BOTTOM or REF_TOP (or both)
+> > > > > are set, doesn't that indicate it's a field picture?
+> > > > > 
+> > > > > Or conversely, if neither REF_BOTTOM or REF_TOP are set,
+> > > > > then it's a frame picture?  
+> > > > 
+> > > > I think that's what I was trying to do here [1]
+> > > > 
+> > > > [1]https://patchwork.kernel.org/patch/11392095/  
+> > > 
+> > > Right. Aren't we missing a DPB_ENTRY_FLAG_TOP_FIELD?
+> > > 
+> > > If I understand correctly, the DPB can contain:
+> > > 
+> > > * frames (FLAG_FIELD not set)
+> > > * a field pair, with a single field (FLAG_FIELD and either TOP or BOTTOM).
+> > > * a field pair, with boths fields (FLAG_FIELD and both TOP or BOTTOM).
+> > 
+> > Well, my understand is that, if the buffer contains both a TOP and
+> > BOTTOM field, it actually becomes a full frame, so you actually have
+> > those cases:
+> > 
+> > * FLAG_FIELD not set: this a frame (note that a TOP/BOTTOM field
+> >   decoded buffer can become of frame if it's complemented with the
+> >   missing field later during the decoding)
+> > * FLAG_FIELD set + BOTTOM_FIELD not set: this is a TOP field
+> > * FLAG_FIELD set + BOTTOM_FIELD set: this is a BOTTOM field
+> > * FLAG_FIELD not set + BOTTOM_FIELD set: invalid combination
 
-Yes, and also the other way around. But thus far it didn't land.
--Daniel
+Let's admit, while this work, it's odd. Can we just move to that instewad ?
 
-> Or is it building a parallel DRM like DMA completion graph?
->
-> > > Trying to improve performance of limited HW by using sketchy
-> > > techniques at the cost of general system stability should be a NAK.
-> >
-> > Well that's pretty much gpu drivers, all the horrors for a bit more speed :-)
-> >
-> > On the text itself, should I upgrade to "must not" instead of "should
-> > not"? Or more needed?
->
-> Fundamentally having some unknowable graph of dependencies where parts
-> of the graph can be placed in critical regions like notifiers is a
-> complete maintenance nightmare.
->
-> I think building systems like this should be discouraged :\
+  FLAG_TOP_FIELD
+  FLAG_BOTTOM_FIELD
+  FLAG_FRAME = (FLAG_TOP_FIELD | FLAG_BOTTOM_FIELD)
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+So it can be used as a flag, but also is a proper enum and there is no longer an
+invalid combination.
+  
+> > 
+> > but I might be wrong.
+> 
+> Yes, perhaps that's correct. I was trying to think strictly
+> in terms of the H264 semantics, to define a clean interface.
+> 
+> From the mpp code, looks like the above is enough for rkvdec
+> (although I haven't done any tests).
+> 
+> Ezequiel
+> 
+> 
+> 
+
