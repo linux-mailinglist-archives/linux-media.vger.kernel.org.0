@@ -2,27 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D67B21B4A9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 14:05:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C239721B4DF
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 14:18:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727038AbgGJMFL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 08:05:11 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:41218 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726828AbgGJMFK (ORCPT
+        id S1726977AbgGJMSd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 08:18:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51842 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726664AbgGJMSd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 08:05:10 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2C6AB2A694F;
-        Fri, 10 Jul 2020 13:05:06 +0100 (BST)
-Date:   Fri, 10 Jul 2020 14:05:02 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Jonas Karlman <jonas@kwiboo.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Fri, 10 Jul 2020 08:18:33 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8468C08C5CE;
+        Fri, 10 Jul 2020 05:18:32 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id AA8432A6973
+Message-ID: <ec409a20cf266938fa804bd685a8ed3f1e30b0be.camel@collabora.com>
+Subject: Re: [RFC 07/12] media: uapi: h264: Add DPB entry field reference
+ flags
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Jonas Karlman <jonas@kwiboo.se>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
@@ -30,39 +32,35 @@ Cc:     Jonas Karlman <jonas@kwiboo.se>,
         "linux-rockchip@lists.infradead.org" 
         <linux-rockchip@lists.infradead.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 07/12] media: uapi: h264: Add DPB entry field reference
- flags
-Message-ID: <20200710140502.627b2b54@collabora.com>
-In-Reply-To: <6232d8475e169ee53b5864959af21d14bf0fc620.camel@collabora.com>
+Date:   Fri, 10 Jul 2020 09:18:20 -0300
+In-Reply-To: <4e91d580-98a8-0ba8-dbb9-6af3a2634d8e@kwiboo.se>
 References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-        <20190901124531.23645-1-jonas@kwiboo.se>
-        <HE1PR06MB4011559BF2447047C66285D2ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-        <233509924f72d69824920d9312373eced68674c0.camel@collabora.com>
-        <20200710101333.05077f18@collabora.com>
-        <6232d8475e169ee53b5864959af21d14bf0fc620.camel@collabora.com>
+         <20190901124531.23645-1-jonas@kwiboo.se>
+         <HE1PR06MB4011559BF2447047C66285D2ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <233509924f72d69824920d9312373eced68674c0.camel@collabora.com>
+         <20200710101333.05077f18@collabora.com>
+         <4e91d580-98a8-0ba8-dbb9-6af3a2634d8e@kwiboo.se>
 Organization: Collabora
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 10 Jul 2020 08:50:28 -0300
-Ezequiel Garcia <ezequiel@collabora.com> wrote:
-
-> On Fri, 2020-07-10 at 10:13 +0200, Boris Brezillon wrote:
+On Fri, 2020-07-10 at 08:48 +0000, Jonas Karlman wrote:
+> On 2020-07-10 10:13, Boris Brezillon wrote:
 > > On Fri, 10 Jul 2020 01:21:07 -0300
 > > Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> >   
+> > 
 > > > Hello Jonas,
 > > > 
 > > > In the context of the uAPI cleanup,
 > > > I'm revisiting this patch.
 > > > 
-> > > On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:  
+> > > On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:
 > > > > Add DPB entry flags to help indicate when a reference frame is a field picture
 > > > > and how the DPB entry is referenced, top or bottom field or full frame.
 > > > > 
@@ -107,38 +105,79 @@ Ezequiel Garcia <ezequiel@collabora.com> wrote:
 > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_TOP	0x10
 > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM	0x20
 > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME	0x30
-> > > >      
+> > > >    
 > > > 
 > > > I've been going thru the H264 spec and I'm unsure,
 > > > are all these flags semantically needed?
 > > > 
 > > > For instance, if one of REF_BOTTOM or REF_TOP (or both)
 > > > are set, doesn't that indicate it's a field picture?
-> > > 
+> 
+> These flags would only indicate how the frame / field pair / field is
+> referenced and not if the DPB entry was decoded as a frame or field pair.
+> 
+
+I believe _how_ the picture is referenced shouldn't (or can't?) be signaled
+in the DPB representation. It seems Jernej's [1] which properly adds a
+flag for each entry in ref_pic_list0 is the right way.
+
+https://patchwork.linuxtv.org/patch/64289/
+
+> Both hantro and rkvdec needs to know how the referenced frame / field pair
+> was decoded (not how it is referenced), my best guess is that MV is stored
+> differently for a frame (linear) and field pair (buffer split in two).
+> 
+> I think we should be able to track how the buffer was decoded similar to
+> how VP9 keep track of buffer width/height.
+> 
+> When I played with interlaced decoding of rkvdec a few weeks ago I
+> reverted flags to something similar as my initial rfc patch, see [1].
+> I guess it should be possible to keep current flags and track field_pic
+> in driver, some macro to simplify check for top/bottom ref could be
+> useful if flags is kept as-is.
+> 
+> I am hoping to find some time next week to revisit hantro interlaced
+> and refine rkvdec interlaced support.
+> 
+> [1] https://github.com/Kwiboo/linux-rockchip/compare/da52ca6f8d2284aebea2d0b99d254b64922faa2d...c9f04cd9bc65eda0da713f4ce1c77eeb1960bd70
+> 
+
+Yup, I noticed this and it's why I started looking at the uAPI side
+of the DPB.
+
+It seems to me all we are missing is further clarification
+of the meaning of each DPB_ENTRY_FLAG (possibly adding/removing
+flags).
+
+From this snippet:
+
+		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD_PIC)
+			refer_addr |= RKVDEC_FIELD_REF;
+		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_TOP_REF)
+			refer_addr |= RKVDEC_TOPFIELD_USED_REF;
+		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_REF)
+			refer_addr |= RKVDEC_BOTFIELD_USED_REF;
+		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+			refer_addr |= RKVDEC_COLMV_USED_FLAG_REF;
+
+Which of these flags are needed, i.e. which are required to fully
+describe a picture stored in the DPB?
+
+Also, since we are here, I wonder what is exactly RKVDEC COLMV
+and what's the condition for RKVDEC_COLMV_USED_FLAG_REF.
+
+Thanks a lot!
+Ezequiel
+
+> Regards,
+> Jonas
+> 
 > > > Or conversely, if neither REF_BOTTOM or REF_TOP are set,
-> > > then it's a frame picture?  
+> > > then it's a frame picture?
 > > 
 > > I think that's what I was trying to do here [1]
 > > 
-> > [1]https://patchwork.kernel.org/patch/11392095/  
-> 
-> Right. Aren't we missing a DPB_ENTRY_FLAG_TOP_FIELD?
-> 
-> If I understand correctly, the DPB can contain:
-> 
-> * frames (FLAG_FIELD not set)
-> * a field pair, with a single field (FLAG_FIELD and either TOP or BOTTOM).
-> * a field pair, with boths fields (FLAG_FIELD and both TOP or BOTTOM).
+> > [1]https://patchwork.kernel.org/patch/11392095/
+> > 
 
-Well, my understand is that, if the buffer contains both a TOP and
-BOTTOM field, it actually becomes a full frame, so you actually have
-those cases:
 
-* FLAG_FIELD not set: this a frame (note that a TOP/BOTTOM field
-  decoded buffer can become of frame if it's complemented with the
-  missing field later during the decoding)
-* FLAG_FIELD set + BOTTOM_FIELD not set: this is a TOP field
-* FLAG_FIELD set + BOTTOM_FIELD set: this is a BOTTOM field
-* FLAG_FIELD not set + BOTTOM_FIELD set: invalid combination
-
-but I might be wrong.
