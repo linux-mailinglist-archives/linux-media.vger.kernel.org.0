@@ -2,144 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2096D21B874
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 16:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1267E21B89E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 16:28:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728519AbgGJOX6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 10:23:58 -0400
-Received: from mail-eopbgr130079.outbound.protection.outlook.com ([40.107.13.79]:59518
-        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728493AbgGJOX4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 10:23:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Oh89sztPYZ+0BG8IiCrSx/Iq8Eq1nXjGauB9lnldukmNwIcGfPbMl0g7kyUx3/RjVWeB0RM79082aiB8BIR94sVisA//GlXuUjVQpugWjiowg0y83pTDETxbiWMH27hfgrdRr5YVZXW2/GbBl3/kC1U7jXa44gqTllkquySTHQIf2wG2PZ5Iiuh+R0FtZioF65hBc6RWZV57kLKVyI/LJRngrmHsAJ/WYYSYJTPUdBVlDTo6LnhXkye6yR+/cY1R69WJliN32VKkQtTUf/AIcHtDYrwYzFDTNOEhX0nQGMZ1o83S6TlYH1cMaVTQU1nSOHX3RLzBZui+0KW/5Fszcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JFytuY/EUc+LqnEc77x9oWQqtc40rlGKmYy91akT1SY=;
- b=RXUrNj42ZJCGfeaPHENanBd7w1DS3gJOOq3LvGH9qSG7/RApCXPUAE3xJO6aDorpjPGp2AoITdEj1Ag0BJpZM0SIBNpguTJhJZVQUJ/TmkhLoOorxTh2aIk1yD3/LL4MGHqlqIGWm0LNGXWk5TTgpye4qt6CVevbcC/6CbQAmdQLEyx+OREtADeplyOwbLlIxf2UaHae6uURiu4WDLdTzRD9LhPOvJ4TD55elHJZwpV2LQXy/aYeHfkXg/5a5uxOe3jFBMvCRJRSdeFdBNY081WLkiIyDtbreXqVCMOIEC68fhcoCkLbIQcLeswTGeEbnQBh39sgKTyw1rKIkxWqlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JFytuY/EUc+LqnEc77x9oWQqtc40rlGKmYy91akT1SY=;
- b=mA0M4MBUoBxBwLHtPVcGHxYa3oKbpbQyWnit3rpp0HRCCuQSOcNgwbtafymAFu01faQQ9VTIudxbJcZRy3ZTtt8MYpDJAUi5sMKcpeO3MUa+uJW3605hxAAWuSgL0n847kqNFzEfWBPukn0Uhwoh4V6q6MRkbP36BMAO0ZcHOHg=
-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=mellanox.com;
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (2603:10a6:803:44::15)
- by VI1PR05MB5583.eurprd05.prod.outlook.com (2603:10a6:803:99::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23; Fri, 10 Jul
- 2020 14:23:51 +0000
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::848b:fcd0:efe3:189e]) by VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::848b:fcd0:efe3:189e%7]) with mapi id 15.20.3174.022; Fri, 10 Jul 2020
- 14:23:51 +0000
-Date:   Fri, 10 Jul 2020 11:23:47 -0300
-From:   Jason Gunthorpe <jgg@mellanox.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        kernel test robot <lkp@intel.com>,
-        Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: [PATCH 02/25] dma-fence: prime lockdep annotations
-Message-ID: <20200710142347.GE23821@mellanox.com>
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-3-daniel.vetter@ffwll.ch>
- <20200709080911.GP3278063@phenom.ffwll.local>
- <20200710124357.GB23821@mellanox.com>
- <5c163d74-4a28-1d74-be86-099b4729a2e0@amd.com>
- <20200710125453.GC23821@mellanox.com>
- <4f4a2cf7-f505-8494-1461-bd467870481e@amd.com>
- <20200710134826.GD23821@mellanox.com>
- <CAKMK7uGSUULTmL=bDXty6U4e37dzLHzu7wgUyOxo2CvR9KvXGg@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGSUULTmL=bDXty6U4e37dzLHzu7wgUyOxo2CvR9KvXGg@mail.gmail.com>
-X-ClientProxiedBy: BL1PR13CA0060.namprd13.prod.outlook.com
- (2603:10b6:208:257::35) To VI1PR05MB4141.eurprd05.prod.outlook.com
- (2603:10a6:803:44::15)
+        id S1727061AbgGJO2q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 10:28:46 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51987 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726896AbgGJO2q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 10 Jul 2020 10:28:46 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id tu13jnYP3JcNHtu16jsE56; Fri, 10 Jul 2020 16:28:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594391324; bh=nJHdorJHF3YcO6eS7DzhJdt7fHlfN68sWWCLuit3rG4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=IJHYsDaVRBpLQW2/0LeC5GQO4KR2xfPg4usDVkJZ6C4SbKmgXp09cgKYnyF/wY8UW
+         e6/Vm4d+1dgcQnK9w+n3DmBKCSBdGRWmv18P+ejRBdQrDImI5JXlt5x7oRIQpGBZvm
+         QN06WnTHU7FCYsnnee1/c8NgSmgP7aflkaQHbmrUZVDs0pok4wh3Qac70vN4057vrP
+         +CfgkGdv3wzpv/Iq+qxDaB5gNZfLIYHxsT5+Au02M/ZYyS/3M1hWuRfQAr3ghEPkLr
+         F6zKqwjWvc0sYsbN8PPzvW9/vGX3LZVwHJPB3tgmxUEx/5DW3Qf7V3lI/zJ478e8jM
+         1TKvu8Hk+HObg==
+Subject: Re: Range values for V4L2_CID_* commands
+To:     Lucas <lucasavdantas1992@gmail.com>, linux-media@vger.kernel.org
+References: <ab88a3cf-bc05-d43b-dfe2-5f9e78422132@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <01fd7935-2793-c1a5-5aa3-4f453019394c@xs4all.nl>
+Date:   Fri, 10 Jul 2020 16:28:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by BL1PR13CA0060.namprd13.prod.outlook.com (2603:10b6:208:257::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.9 via Frontend Transport; Fri, 10 Jul 2020 14:23:51 +0000
-Received: from jgg by mlx with local (Exim 4.93)        (envelope-from <jgg@mellanox.com>)      id 1jttwJ-008I6d-H5; Fri, 10 Jul 2020 11:23:47 -0300
-X-Originating-IP: [156.34.48.30]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 765aa671-94f1-4fce-ce18-08d824dcde35
-X-MS-TrafficTypeDiagnostic: VI1PR05MB5583:
-X-Microsoft-Antispam-PRVS: <VI1PR05MB558313F48966B67B238810F0CF650@VI1PR05MB5583.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 046060344D
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sJ3mBl5qubWb0h+JRWVh2IO4BddLMQv+Br478jHO0mdF+Gmj7sFN1+udP6Lb8Zqggj0yJZLqE2FGhKfGNdrRc6lbK6Vdu/Jkixz8onYhPqxxSRDD7VYlbF2Rasc2AMoZ5TcM6+LQ4MoXQ9+uKIOXBCb7chk1QBdTOSaPuajkI+FEWFE4PoaCGjogbXe2zQIdJImpdqbLzeq5QuBRpcI1DXW9Cm9DLTaz14gWccVdj3W3SanXwt8Zik5eJhxr9qKOupN3IILpho6HhWW/Wfh0VaQyqEVZeh7TYaPHu1EEJI3nhOiamGPfD+ZpiqHiwmhbJLJRLiwiRNQpyQrWpa+96Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR05MB4141.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(376002)(396003)(366004)(346002)(39860400002)(5660300002)(86362001)(36756003)(7416002)(26005)(6916009)(316002)(478600001)(83380400001)(2616005)(186003)(1076003)(2906002)(8936002)(426003)(4326008)(54906003)(66476007)(66946007)(66556008)(9746002)(8676002)(9786002)(33656002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: cppyrSEFdAgkQ1i7W9q/voX0DbtbyyOVjwrEIOo4B7uYYODS8hmJEImRWNNtUiiOZNbaGtDnkKXCJRabgq7Bp4V5pamVdLqGNBMZzoizlzvRIc4PSgtdlF+13VePfAl+oWKQk9qlVh9blVl6PeuQYddj/USevZucky7iGVoqrg2GZ5DN2jMpZhpOaAXMbPu2PunbQ5KcLnjeYp1oJ5ZFWvNgBeIsmktajZlGxvfjkOhMNcqpA0LNpCo5GIpwIT52tIiYKLwRLQ0phw422o6y72JoJWSAwKGLaxj+zVWRs9pmtw6lHvYZwCwaoBSM2OZQeoLsZ7j0uncXth5RBLfm+/2Bv3rmRL42O8pmdQQ2NsxdQPoCFIy/30Yb5MD2tdELN2LR1o4k3i7R1AdJsyZqLM5BvRmDpRJbdg3Nwu/FEhp378GOFB8T6hAOnKknTA8vl95ONAs2NyV2N0CubuBtYkdKjh39nFGqTwJCU9QwM2Q=
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 765aa671-94f1-4fce-ce18-08d824dcde35
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR05MB4141.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2020 14:23:51.4197
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zwF71M+iqtNMffEf9NDildz9GQ391BR6YYfGlkhI/j0w0yOozGHG4f48p0kC5CNi1e2iLtFsRIITXUxwN0ma/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB5583
+In-Reply-To: <ab88a3cf-bc05-d43b-dfe2-5f9e78422132@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfHighm/7htOgnxLfQirybAOJabrr4Of/dPxZIGc7uegNGY3sVTrrfk8JLJTr0AEzW1u5NuMys8NlQRr8Hgbbk04q5UJwiml4lICEhD9sbb+DfVHqipto
+ TEnEdNGrPZsNtmU+ADnIpw5eH7W0vCDkLEAo12a35Vk1mhJ92FRBq48klNUpDFWIlkMnYL/DjADSjPABHBW71mYPHlRenYm6Fxp1sCk9raLtxrdzdgCdW+aP
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 10, 2020 at 04:02:35PM +0200, Daniel Vetter wrote:
+On 10/07/2020 16:18, Lucas wrote:
+> Hello, how do I obtain the accepted range of values for each V4L2_CID 
+> command? Take V4L2_CID_BRIGHTNESS as an example, how do I know what is 
+> the maximum and minimum values accepted for it? I have tried to use 
+> 'v4l2_ioctl(fd, VIDIOC_G_CTRL, &query);' thinking that would be stored 
+> in the maximum and minimum members for the struct v4l2_queryctrl but 
+> that does not appear to be the case as the values for those members are 
+> always zero.
 
-> > dma_fence only possibly makes some sense if you intend to expose the
-> > completion outside a single driver.
-> >
-> > The prefered kernel design pattern for this is to connect things with
-> > a function callback.
-> >
-> > So the actual use case of dma_fence is quite narrow and tightly linked
-> > to DRM.
-> >
-> > I don't think we should spread this beyond DRM, I can't see a reason.
-> 
-> Yeah v4l has a legit reason to use dma_fence, android wants that
-> there. 
+Use VIDIOC_QUERYCTRL for that. See:
 
-'legit' in the sense the v4l is supposed to trigger stuff in DRM when
-V4L DMA completes? I would still see that as part of DRM
+https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/vidioc-queryctrl.html
 
-Or is it building a parallel DRM like DMA completion graph?
+Regards,
 
-> > Trying to improve performance of limited HW by using sketchy
-> > techniques at the cost of general system stability should be a NAK.
->
-> Well that's pretty much gpu drivers, all the horrors for a bit more speed :-)
-> 
-> On the text itself, should I upgrade to "must not" instead of "should
-> not"? Or more needed?
-
-Fundamentally having some unknowable graph of dependencies where parts
-of the graph can be placed in critical regions like notifiers is a
-complete maintenance nightmare.
-
-I think building systems like this should be discouraged :\
-
-Jason
+	Hans
