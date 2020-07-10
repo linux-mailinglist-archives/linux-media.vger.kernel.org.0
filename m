@@ -2,130 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D18E821B726
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 15:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9905D21B799
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 16:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727061AbgGJNvv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 09:51:51 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49974 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726962AbgGJNvv (ORCPT
+        id S1728387AbgGJOCu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 10:02:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728374AbgGJOCs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 09:51:51 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D8C52C0;
-        Fri, 10 Jul 2020 15:51:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594389109;
-        bh=R+NM0nqLcR7Lr0Ysx7XNbWYyxhdl/5r9f5ggsf4vdLQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=b7BJVkABDsAm++7bTgotzjcjmcA3/oDWdqaxtmMXrA5TXWOps2gfPGdCK0uvD54Xm
-         85Jb+fsVapJFP6z3pi1v0/UcNbL4wZmcyg9LfcJDXZW7wgWqA1WzOdYI3mORiAGn9R
-         wVAZznRjH2K3/NwiaNGh9nL9vPha7QyI2KlrAen8=
-Date:   Fri, 10 Jul 2020 16:51:42 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] v4l2-compliance: Add version command
-Message-ID: <20200710135142.GZ5964@pendragon.ideasonboard.com>
-References: <20200710131813.452513-1-paul.elder@ideasonboard.com>
- <20200710132536.GX5964@pendragon.ideasonboard.com>
- <3b0dd8f8-00b0-2a94-f040-c9619a99e201@xs4all.nl>
+        Fri, 10 Jul 2020 10:02:48 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE584C08C5CE
+        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2020 07:02:47 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id j11so4831377oiw.12
+        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2020 07:02:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xTQ5MsJnerH24IzbOibKIVgALQbQ6fBLEFDFGaudNHc=;
+        b=WU2W6d+TZkpC2bQ5QGHyZU588I4aYRy0pgR/0jf5dsrsdUKzG7CHHQbdXmPQGYQqUL
+         nasfBbJ4/UbxjUPNH17KzLPCu8/hid/VouoHAy2Rs5LX3JMX0PseWupYbCGix+YrbFIN
+         0G929NaZD66foWbG+h37GXj5alNoKzzHEG+Eg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xTQ5MsJnerH24IzbOibKIVgALQbQ6fBLEFDFGaudNHc=;
+        b=QGBmiPD8MuQl0ZjnIhDm6oTIwaEEFCrd2JuX4bSjJUOO1xApGJVqwpLkmy7bOUiqvo
+         VmcRwoDPFxYSASRFPEOmaeNYOTdzSmsnLI8t9j3DMjdsipD79KdrYZktEoBYHPy16zda
+         HC7vYBE2s20It4juzzHANE5K/s6UHyqv5sVmUfQTVrtO0uw7aof4MLu0euxYzDCVPDQ3
+         B9NNyX28B8d47vo/ms3ILjCsizYvFp9YmAnEcEWpH7RiFAvXOBPJxQYgI3L5kaHhW9YW
+         AljlXvD69NhzkSmnXc52ruJ0SXl6Y/o62cXAs4n1Y7tUKvq8vyFzKmn847I7s6hYeHAc
+         CvNg==
+X-Gm-Message-State: AOAM5311ZJHDLegWr3p/YzqtVosWRCC/JxLkjVMTBmJ4p3m/+vz696ta
+        Hs4FK5se29TeKNR1i5K7RPnCRwhWCgX2ZM8DDnFIeQ==
+X-Google-Smtp-Source: ABdhPJz9ueO/NwCXWq4u05bld/A1Jzmv30JDZLkssowFodTQImkU08xp+BW6yONjBlhlRH0STky3grfq96MK+YXxz58=
+X-Received: by 2002:aca:cc8e:: with SMTP id c136mr4296478oig.128.1594389767031;
+ Fri, 10 Jul 2020 07:02:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3b0dd8f8-00b0-2a94-f040-c9619a99e201@xs4all.nl>
+References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
+ <20200707201229.472834-3-daniel.vetter@ffwll.ch> <20200709080911.GP3278063@phenom.ffwll.local>
+ <20200710124357.GB23821@mellanox.com> <5c163d74-4a28-1d74-be86-099b4729a2e0@amd.com>
+ <20200710125453.GC23821@mellanox.com> <4f4a2cf7-f505-8494-1461-bd467870481e@amd.com>
+ <20200710134826.GD23821@mellanox.com>
+In-Reply-To: <20200710134826.GD23821@mellanox.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri, 10 Jul 2020 16:02:35 +0200
+Message-ID: <CAKMK7uGSUULTmL=bDXty6U4e37dzLHzu7wgUyOxo2CvR9KvXGg@mail.gmail.com>
+Subject: Re: [PATCH 02/25] dma-fence: prime lockdep annotations
+To:     Jason Gunthorpe <jgg@mellanox.com>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        kernel test robot <lkp@intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Fri, Jul 10, 2020 at 3:48 PM Jason Gunthorpe <jgg@mellanox.com> wrote:
+>
+> On Fri, Jul 10, 2020 at 03:01:10PM +0200, Christian K=C3=B6nig wrote:
+> > Am 10.07.20 um 14:54 schrieb Jason Gunthorpe:
+> > > On Fri, Jul 10, 2020 at 02:48:16PM +0200, Christian K=C3=B6nig wrote:
+> > > > Am 10.07.20 um 14:43 schrieb Jason Gunthorpe:
+> > > > > On Thu, Jul 09, 2020 at 10:09:11AM +0200, Daniel Vetter wrote:
+> > > > > > Hi Jason,
+> > > > > >
+> > > > > > Below the paragraph I've added after our discussions around dma=
+-fences
+> > > > > > outside of drivers/gpu. Good enough for an ack on this, or want=
+ something
+> > > > > > changed?
+> > > > > >
+> > > > > > Thanks, Daniel
+> > > > > >
+> > > > > > > + * Note that only GPU drivers have a reasonable excuse for b=
+oth requiring
+> > > > > > > + * &mmu_interval_notifier and &shrinker callbacks at the sam=
+e time as having to
+> > > > > > > + * track asynchronous compute work using &dma_fence. No driv=
+er outside of
+> > > > > > > + * drivers/gpu should ever call dma_fence_wait() in such con=
+texts.
+> > > > > I was hoping we'd get to 'no driver outside GPU should even use
+> > > > > dma_fence()'
+> > > > My last status was that V4L could come use dma_fences as well.
+> > > I'm sure lots of places *could* use it, but I think I understood that
+> > > it is a bad idea unless you have to fit into the DRM uAPI?
+> >
+> > It would be a bit questionable if you use the container objects we came=
+ up
+> > with in the DRM subsystem outside of it.
+> >
+> > But using the dma_fence itself makes sense for everything which could d=
+o
+> > async DMA in general.
+>
+> dma_fence only possibly makes some sense if you intend to expose the
+> completion outside a single driver.
+>
+> The prefered kernel design pattern for this is to connect things with
+> a function callback.
+>
+> So the actual use case of dma_fence is quite narrow and tightly linked
+> to DRM.
+>
+> I don't think we should spread this beyond DRM, I can't see a reason.
 
-On Fri, Jul 10, 2020 at 03:33:25PM +0200, Hans Verkuil wrote:
-> On 10/07/2020 15:25, Laurent Pinchart wrote:
-> > On Fri, Jul 10, 2020 at 10:18:12PM +0900, Paul Elder wrote:
-> >> Add a --version option to v4l2-compliance to retrieve the version of
-> >> v4l2-compliance.
-> >>
-> >> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> >> ---
-> >>  utils/v4l2-compliance/v4l2-compliance.cpp | 11 +++++++++++
-> >>  1 file changed, 11 insertions(+)
-> >>
-> >> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-> >> index 4b45f110..72b9768f 100644
-> >> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
-> >> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-> >> @@ -79,6 +79,7 @@ enum Option {
-> >>  	OptMediaBusInfo = 'z',
-> >>  	OptStreamFrom = 128,
-> >>  	OptStreamFromHdr,
-> >> +	OptVersion,
-> >>  	OptLast = 256
-> >>  };
-> >>  
-> >> @@ -153,9 +154,15 @@ static struct option long_options[] = {
-> >>  	{"stream-all-formats", optional_argument, 0, OptStreamAllFormats},
-> >>  	{"stream-all-io", no_argument, 0, OptStreamAllIO},
-> >>  	{"stream-all-color", required_argument, 0, OptStreamAllColorTest},
-> >> +	{"version", no_argument, 0, OptVersion},
-> >>  	{0, 0, 0, 0}
-> >>  };
-> >>  
-> >> +static void version()
-> >> +{
-> >> +	printf("v4l2-compliance " PACKAGE_VERSION "\n");
-> > 
-> > Is it enough to rely on the v4l-utils package version, or should we add
-> > a git commit count as well ? The traditional version number will make it
-> > difficult to test for features added between two released versions.
-> 
-> If you add a version option, then v4l2-compliance should also show the SHA.
-> It's already available (grep for SHA), so easy enough to add here.
+Yeah v4l has a legit reason to use dma_fence, android wants that
+there. There's even been patches proposed years ago, but never landed
+because android is using some vendor hack horror show for camera
+drivers right now.
 
-The issue with the SHA is that, while it identifies the exact commit, it
-is useless to compare versions. We are using v4l2-compliance to test the
-libcamera V4L2 compatibility layer, and this depends on recent features
-merged in the master branch but not available in a release yet. We would
-like the test to be skipped if the v4l2-compliance is too old. Printing
-the package version is a good step forward, but would require waiting
-for the next release before the test can be enabled. That's probably OK
-overall, but it's a bit annoying during development. That's why I was
-wondering if a commit count (as output by git rev-list --count HEAD)
-would be useful too. In our case, the fact that v4l2-compliance supports
-the --version option will be enough to know it's recent enough, but I'm
-thinking about the future (for libcamera and other users).
+But there is an effort going on to fix that (under the libcamera
+heading), and I expect that once we have that, it'll want dma_fence
+support. So outright excluding everyone from dma_fence is a bit too
+much. They definitely shouldn't be used though for entirely
+independent stuff.
 
-> Also, if you add --version here, then it really should be added to most
-> other utils as well (certainly media-ctl and cec-follower/ctl/compliance).
-> 
-> >> +}
-> >> +
-> >>  static void usage()
-> >>  {
-> >>  	printf("Usage:\n");
-> >> @@ -244,6 +251,7 @@ static void usage()
-> >>  	printf("  -P, --no-progress  Turn off progress messages.\n");
-> >>  	printf("  -T, --trace        Trace all called ioctls.\n");
-> >>  	printf("  -v, --verbose      Turn on verbose reporting.\n");
-> >> +	printf("  --version          Show version information.\n");
-> >>  #ifndef NO_LIBV4L2
-> >>  	printf("  -w, --wrapper      Use the libv4l2 wrapper library.\n");
-> >>  #endif
-> >> @@ -1664,6 +1672,9 @@ int main(int argc, char **argv)
-> >>  		case OptNoProgress:
-> >>  			no_progress = true;
-> >>  			break;
-> >> +		case OptVersion:
-> >> +			version();
-> >> +			std::exit(EXIT_SUCCESS);
-> >>  		case ':':
-> >>  			fprintf(stderr, "Option `%s' requires a value\n",
-> >>  				argv[optind]);
+> > > You are better to do something contained in the single driver where
+> > > locking can be analyzed.
+> > >
+> > > > I'm not 100% sure, but wouldn't MMU notifier + dma_fence be a valid=
+ use case
+> > > > for things like custom FPGA interfaces as well?
+> > > I don't think we should expand the list of drivers that use this
+> > > technique.
+> > > Drivers that can't suspend should pin memory, not use blocked
+> > > notifiers to created pinned memory.
+> >
+> > Agreed totally, it's a complete pain to maintain even for the GPU drive=
+rs.
+> >
+> > Unfortunately that doesn't change users from requesting it. So I'm pret=
+ty
+> > sure we are going to see more of this.
+>
+> Kernel maintainers need to say no.
+>
+> The proper way to do DMA on no-faulting hardware is page pinning.
+>
+> Trying to improve performance of limited HW by using sketchy
+> techniques at the cost of general system stability should be a NAK.
 
--- 
-Regards,
+Well that's pretty much gpu drivers, all the horrors for a bit more speed :=
+-)
 
-Laurent Pinchart
+On the text itself, should I upgrade to "must not" instead of "should
+not"? Or more needed?
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
