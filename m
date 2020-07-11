@@ -2,176 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39F4021BF65
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2020 23:49:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4022A21C1F1
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2020 05:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726291AbgGJVtY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jul 2020 17:49:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55404 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726245AbgGJVtY (ORCPT
+        id S1726829AbgGKDnQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jul 2020 23:43:16 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:47537 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726709AbgGKDnQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jul 2020 17:49:24 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C324C08C5DC;
-        Fri, 10 Jul 2020 14:49:24 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id BAA9D2A6AC8
-Message-ID: <9a897ef99048077233685b121b03bd750e4d4a83.camel@collabora.com>
-Subject: Re: [RFC 07/12] media: uapi: h264: Add DPB entry field reference
- flags
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Jonas Karlman <jonas@kwiboo.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date:   Fri, 10 Jul 2020 17:49:07 -0400
-In-Reply-To: <05b6cff6ba230c0ab6a562e17926d8503e2dfadd.camel@collabora.com>
-References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <20190901124531.23645-1-jonas@kwiboo.se>
-         <HE1PR06MB4011559BF2447047C66285D2ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <233509924f72d69824920d9312373eced68674c0.camel@collabora.com>
-         <20200710101333.05077f18@collabora.com>
-         <6232d8475e169ee53b5864959af21d14bf0fc620.camel@collabora.com>
-         <20200710140502.627b2b54@collabora.com>
-         <05b6cff6ba230c0ab6a562e17926d8503e2dfadd.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 10 Jul 2020 23:43:16 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id u6Pwjxse45flqu6PxjqB4D; Sat, 11 Jul 2020 05:43:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594438993; bh=4m5sKIJkIj8bymvgSAuGFpdBYsZAxs3UKJ8WfcPEMVc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=j0Mlw/IrZz0vi7xHCEpku28VwWrSibaZsHSkN+z4qV+/kfcD664Q8scQuKdOJt4dj
+         O5/qjnj8JYXa0Wn5NzpIqycGCi8l9sAYW3oqV5aXDsCjPNyLewyF2/bhV24TALTvfe
+         0SvtAhF7H4bJZf1eqbTzOxSS5kbRwJlwiIAlLja3BEnK/BCUjdRscwHH8+FdBhvivr
+         oz1IXFM0RCJ/CZGplprT/h/oSqHWdIK6SjiJjjqGVC8ZR8Q1GqKGbzS2q6XvIQ71aQ
+         24uvKZZXdFUMIjqBMezqgZQxTQGg5fVppCLQgLdpcD5p54hersBWZ+a+HkUGL683qd
+         2Jjs8m3H/TvUA==
+Message-ID: <8b469128fca1eff84a7b9c959b1ead0e@smtp-cloud9.xs4all.net>
+Date:   Sat, 11 Jul 2020 05:43:12 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfBtu8ZU1JyiOHizqBApABNFXHho22gRpJNKp4W61A0lXpt1WHOSn+TuvlMGLHDZPoKsx9hNgM65lKRBa6gHBB5CjlgnK/uEIn/b3Zk6oblNePXKBwkqa
+ s5j9mHowEW+MrzwG08YafroawzyO0G4uJRamwJP0UIJNdcDxG9fK51ngFfdFSYibwpLqvx3TQ5H7h0rMnOTSRLs22xZx+DVqemU/f0DPtsXODcT/xOAzRtpW
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 10 juillet 2020 à 09:25 -0300, Ezequiel Garcia a écrit :
-> +Nicolas
-> 
-> On Fri, 2020-07-10 at 14:05 +0200, Boris Brezillon wrote:
-> > On Fri, 10 Jul 2020 08:50:28 -0300
-> > Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > 
-> > > On Fri, 2020-07-10 at 10:13 +0200, Boris Brezillon wrote:
-> > > > On Fri, 10 Jul 2020 01:21:07 -0300
-> > > > Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > > >   
-> > > > > Hello Jonas,
-> > > > > 
-> > > > > In the context of the uAPI cleanup,
-> > > > > I'm revisiting this patch.
-> > > > > 
-> > > > > On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:  
-> > > > > > Add DPB entry flags to help indicate when a reference frame is a
-> > > > > > field picture
-> > > > > > and how the DPB entry is referenced, top or bottom field or full
-> > > > > > frame.
-> > > > > > 
-> > > > > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > > > > > ---
-> > > > > >  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 12 ++++++++++++
-> > > > > >  include/media/h264-ctrls.h                       |  4 ++++
-> > > > > >  2 files changed, 16 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > > > b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > > > index bc5dd8e76567..eb6c32668ad7 100644
-> > > > > > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > > > @@ -2022,6 +2022,18 @@ enum
-> > > > > > v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > > > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
-> > > > > >        - 0x00000004
-> > > > > >        - The DPB entry is a long term reference frame
-> > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE``
-> > > > > > +      - 0x00000008
-> > > > > > +      - The DPB entry is a field picture
-> > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_TOP``
-> > > > > > +      - 0x00000010
-> > > > > > +      - The DPB entry is a top field reference
-> > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM``
-> > > > > > +      - 0x00000020
-> > > > > > +      - The DPB entry is a bottom field reference
-> > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME``
-> > > > > > +      - 0x00000030
-> > > > > > +      - The DPB entry is a reference frame
-> > > > > >  
-> > > > > >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
-> > > > > >      Specifies the decoding mode to use. Currently exposes slice-
-> > > > > > based and
-> > > > > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > > > > > index e877bf1d537c..76020ebd1e6c 100644
-> > > > > > --- a/include/media/h264-ctrls.h
-> > > > > > +++ b/include/media/h264-ctrls.h
-> > > > > > @@ -185,6 +185,10 @@ struct v4l2_ctrl_h264_slice_params {
-> > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
-> > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
-> > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
-> > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE	0x08
-> > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_TOP	0x10
-> > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM	0x20
-> > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME	0x30
-> > > > > >      
-> > > > > 
-> > > > > I've been going thru the H264 spec and I'm unsure,
-> > > > > are all these flags semantically needed?
-> > > > > 
-> > > > > For instance, if one of REF_BOTTOM or REF_TOP (or both)
-> > > > > are set, doesn't that indicate it's a field picture?
-> > > > > 
-> > > > > Or conversely, if neither REF_BOTTOM or REF_TOP are set,
-> > > > > then it's a frame picture?  
-> > > > 
-> > > > I think that's what I was trying to do here [1]
-> > > > 
-> > > > [1]https://patchwork.kernel.org/patch/11392095/  
-> > > 
-> > > Right. Aren't we missing a DPB_ENTRY_FLAG_TOP_FIELD?
-> > > 
-> > > If I understand correctly, the DPB can contain:
-> > > 
-> > > * frames (FLAG_FIELD not set)
-> > > * a field pair, with a single field (FLAG_FIELD and either TOP or BOTTOM).
-> > > * a field pair, with boths fields (FLAG_FIELD and both TOP or BOTTOM).
-> > 
-> > Well, my understand is that, if the buffer contains both a TOP and
-> > BOTTOM field, it actually becomes a full frame, so you actually have
-> > those cases:
-> > 
-> > * FLAG_FIELD not set: this a frame (note that a TOP/BOTTOM field
-> >   decoded buffer can become of frame if it's complemented with the
-> >   missing field later during the decoding)
-> > * FLAG_FIELD set + BOTTOM_FIELD not set: this is a TOP field
-> > * FLAG_FIELD set + BOTTOM_FIELD set: this is a BOTTOM field
-> > * FLAG_FIELD not set + BOTTOM_FIELD set: invalid combination
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Let's admit, while this work, it's odd. Can we just move to that instewad ?
+Results of the daily build of media_tree:
 
-  FLAG_TOP_FIELD
-  FLAG_BOTTOM_FIELD
-  FLAG_FRAME = (FLAG_TOP_FIELD | FLAG_BOTTOM_FIELD)
+date:			Sat Jul 11 05:00:09 CEST 2020
+media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
+media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
+v4l-utils git hash:	12e59bb30f24c1dcb9e5303b4a53514c22552823
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-So it can be used as a flag, but also is a proper enum and there is no longer an
-invalid combination.
-  
-> > 
-> > but I might be wrong.
-> 
-> Yes, perhaps that's correct. I was trying to think strictly
-> in terms of the H264 semantics, to define a clean interface.
-> 
-> From the mpp code, looks like the above is enough for rkvdec
-> (although I haven't done any tests).
-> 
-> Ezequiel
-> 
-> 
-> 
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: ERRORS
+sparse: OK
+smatch: ERRORS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
