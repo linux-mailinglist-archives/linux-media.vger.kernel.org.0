@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C493921C25B
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2020 07:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D235C21C25C
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2020 07:24:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726973AbgGKFY2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Jul 2020 01:24:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40678 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726786AbgGKFY2 (ORCPT
+        id S1727785AbgGKFYb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Jul 2020 01:24:31 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41174 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726786AbgGKFYb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Jul 2020 01:24:28 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8679BC08C5DD
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2020 22:24:27 -0700 (PDT)
+        Sat, 11 Jul 2020 01:24:31 -0400
 Received: from pyrite.rasen.tech (unknown [IPv6:2400:4051:61:600:2c71:1b79:d06d:5032])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B29A62FD;
-        Sat, 11 Jul 2020 07:24:23 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 420B272C;
+        Sat, 11 Jul 2020 07:24:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594445065;
-        bh=GQ0UKwuElZ86bFSHuqmWhD/73vBUmM9CvnlidCyMDXw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=mNOm2lXFRDg0vN9Yf6NGRPTCRcGuP/etEKoegRa/Pd8rwgj6KibP8wQr6bX6I+7sS
-         TLUHGkoLJs8dEyq/dPUg3OG8/ELxVvINczb4E7thaTJYdtMP8woEaWtCtr1XSwcscV
-         GUMjzsB6ZbWspwclKLHEEAmWZNkHl2RT3tF2eRd4=
+        s=mail; t=1594445068;
+        bh=FQOD3dys9oUJGL7BVMiDHKD6tDhGGpN2w1Aq1iBNmF0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=h5/w4tXaLAdwk+a3Rcp2IuRfdaVBWdLBXmfHmkETh2pmsRdYi56FmC22SUHRlmgDO
+         qbQQx3vXG1Z5Q2LoAxAZKpqZDQ9BbQGj0MIp5vA44GeEX6+fMWsE4A588dOLS9Ct92
+         uPdHiL8MStj2lUyFLpsoec9GvMQz2SqLYwsZgg1k=
 From:   Paul Elder <paul.elder@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Paul Elder <paul.elder@ideasonboard.com>,
         laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Subject: [PATCH v3 1/6] v4l2-compliance: Add version command
-Date:   Sat, 11 Jul 2020 14:24:09 +0900
-Message-Id: <20200711052414.492535-1-paul.elder@ideasonboard.com>
+Subject: [PATCH v3 2/6] v4l2-ctl: Add version command
+Date:   Sat, 11 Jul 2020 14:24:10 +0900
+Message-Id: <20200711052414.492535-2-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200711052414.492535-1-paul.elder@ideasonboard.com>
+References: <20200711052414.492535-1-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -40,107 +39,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a --version option to v4l2-compliance to retrieve the version of
-v4l2-compliance. While at it, factor out and reorder printing the SHA to
-after argument parsing.
+Add a --version option to v4l2-ctl to retrieve the version of v4l2-ctl.
 
 Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 ---
 Changes in v3:
 - embed PACKAGE_VERSION instead of string concatenation
 ---
- utils/v4l2-compliance/v4l2-compliance.cpp | 40 ++++++++++++++++-------
- 1 file changed, 29 insertions(+), 11 deletions(-)
+ utils/v4l2-ctl/v4l2-ctl-common.cpp | 1 +
+ utils/v4l2-ctl/v4l2-ctl.cpp        | 9 +++++++++
+ utils/v4l2-ctl/v4l2-ctl.h          | 1 +
+ 3 files changed, 11 insertions(+)
 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index df46e86f..38d77d07 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -79,6 +79,7 @@ enum Option {
- 	OptMediaBusInfo = 'z',
- 	OptStreamFrom = 128,
- 	OptStreamFromHdr,
-+	OptVersion,
- 	OptLast = 256
- };
+diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+index 47f5da1a..9b785cbf 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+@@ -121,6 +121,7 @@ void common_usage()
+ 	       "  --silent           only set the result code, do not print any messages\n"
+ 	       "  --sleep <secs>     sleep <secs>, call QUERYCAP and close the file handle\n"
+ 	       "  --verbose          turn on verbose ioctl status reporting\n"
++	       "  --version          show version information\n"
+ 	       );
+ }
  
-@@ -153,9 +154,29 @@ static struct option long_options[] = {
- 	{"stream-all-formats", optional_argument, 0, OptStreamAllFormats},
- 	{"stream-all-io", no_argument, 0, OptStreamAllIO},
- 	{"stream-all-color", required_argument, 0, OptStreamAllColorTest},
+diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+index 4972591e..ac66b814 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+@@ -284,6 +284,7 @@ static struct option long_options[] = {
+ 	{"stream-out-user", optional_argument, 0, OptStreamOutUser},
+ 	{"stream-out-dmabuf", no_argument, 0, OptStreamOutDmaBuf},
+ 	{"list-patterns", no_argument, 0, OptListPatterns},
 +	{"version", no_argument, 0, OptVersion},
  	{0, 0, 0, 0}
  };
  
-+static void print_sha()
-+{
-+#ifdef SHA
-+#define STR(x) #x
-+#define STRING(x) STR(x)
-+	printf("v4l2-compliance SHA: %s", STRING(SHA));
-+#else
-+	printf("v4l2-compliance SHA: not available");
-+#endif
-+
-+	printf(", %zd bits, %zd-bit time_t\n", sizeof(void *) * 8, sizeof(time_t) * 8);
-+	printf("\n");
-+}
-+
+@@ -306,6 +307,11 @@ static void usage_all()
+        edid_usage();
+ }
+ 
 +static void version()
 +{
-+	printf("v4l2-compliance %s\n", PACKAGE_VERSION);
++	printf("v4l2-ctl %s\n", PACKAGE_VERSION);
 +}
 +
- static void usage()
+ int test_ioctl(int fd, unsigned long cmd, void *arg)
  {
- 	printf("Usage:\n");
-@@ -244,6 +265,7 @@ static void usage()
- 	printf("  -P, --no-progress  Turn off progress messages.\n");
- 	printf("  -T, --trace        Trace all called ioctls.\n");
- 	printf("  -v, --verbose      Turn on verbose reporting.\n");
-+	printf("  --version          Show version information.\n");
- #ifndef NO_LIBV4L2
- 	printf("  -w, --wrapper      Use the libv4l2 wrapper library.\n");
- #endif
-@@ -1485,17 +1507,6 @@ int main(int argc, char **argv)
- 	char *value, *subs;
- 	int idx = 0;
- 
--#ifdef SHA
--#define STR(x) #x
--#define STRING(x) STR(x)
--	printf("v4l2-compliance SHA: %s", STRING(SHA));
--#else
--	printf("v4l2-compliance SHA: not available");
--#endif
--
--	printf(", %zd bits, %zd-bit time_t\n", sizeof(void *) * 8, sizeof(time_t) * 8);
--	printf("\n");
--
- 	if (!env_media_apps_color || !strcmp(env_media_apps_color, "auto"))
- 		show_colors = isatty(STDOUT_FILENO);
- 	else if (!strcmp(env_media_apps_color, "always"))
-@@ -1664,6 +1675,10 @@ int main(int argc, char **argv)
- 		case OptNoProgress:
- 			no_progress = true;
+ 	return options[OptUseWrapper] ? v4l2_ioctl(fd, cmd, arg) : ioctl(fd, cmd, arg);
+@@ -1245,6 +1251,9 @@ int main(int argc, char **argv)
+ 		case OptSleep:
+ 			secs = strtoul(optarg, 0L, 0);
  			break;
 +		case OptVersion:
 +			version();
-+			print_sha();
-+			std::exit(EXIT_SUCCESS);
++			return 0;
  		case ':':
- 			fprintf(stderr, "Option `%s' requires a value\n",
- 				argv[optind]);
-@@ -1685,6 +1700,9 @@ int main(int argc, char **argv)
- 		usage();
- 		std::exit(EXIT_FAILURE);
- 	}
-+
-+	print_sha();
-+
- 	bool direct = !options[OptUseWrapper];
- 	int fd;
+ 			fprintf(stderr, "Option '%s' requires a value\n",
+ 					argv[optind]);
+diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+index 28e50471..27a3ca35 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.h
++++ b/utils/v4l2-ctl/v4l2-ctl.h
+@@ -263,6 +263,7 @@ enum Option {
+ 	OptHelpStreaming,
+ 	OptHelpEdid,
+ 	OptHelpAll,
++	OptVersion,
+ 	OptLast = 512
+ };
  
 -- 
 2.27.0
