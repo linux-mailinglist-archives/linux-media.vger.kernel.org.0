@@ -2,184 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D82121CBD6
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 00:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF3C21CBF2
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 00:59:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728118AbgGLW1V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Jul 2020 18:27:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49606 "EHLO
+        id S1727983AbgGLW7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Jul 2020 18:59:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727785AbgGLW1U (ORCPT
+        with ESMTP id S1727785AbgGLW7c (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Jul 2020 18:27:20 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C5AC061794;
-        Sun, 12 Jul 2020 15:27:20 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id w27so8615409qtb.7;
-        Sun, 12 Jul 2020 15:27:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WS4czs1S7z/S4i1CeSrQi39XH87K6UhLeLrvORLLGds=;
-        b=bv2MpgsaTGH2o45aR1J0SJ7DwGg+Ovy7LF253JrxTHMYLlEfhgFhgVh2dQTvBpi2fN
-         1Lywsn9gbR8KPmplzbe+wQjpC32bGsnBzua2XhmGBGkFrHsxPVPO6HI6omyo4Z+XVMKQ
-         pwmTFM/5N1GwRsTiF661tb19+zIGI73c8VEhHwNyGVSIjS30JdEb6s4dqFbtryabzK1l
-         gzilnNQCK1yaAt1K94d5zvD7UehrWgno8GzjkYh9oxlJSPFjllbRqJmqCGEEYCH07ps4
-         qkgUssUzPKYaM0MlDf30AKFcuW6p9RjQ0yh1fAMNVCaTys+BcvbUnS6hwOuYs9+oU0vd
-         I0/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WS4czs1S7z/S4i1CeSrQi39XH87K6UhLeLrvORLLGds=;
-        b=Z4g14TFGh8/GbzdoQln5SVqh3a9xcuPco0wkjEAH/09zIHcIzvsWp6GDydsFIG5ort
-         TJ3qwbbpKM6tJ6YMqbKOTi2imM6VGDrEhSZtODYF1mTo39QHNDSuS4Etk5BCtOIRf6IQ
-         aAHBRM5w81F0DN44vwdzSU288JMSf+vYNnmSmg0rkaU9nlLtQlhCFL287DzZBYeaV8Is
-         Rgfo49lWwwoc1Id2CJVNMdzCAh0iuhYPzmwzC1k9gAQKkYfMANlQxJUMDnKqjpA/6JCJ
-         m2uvKO/WtgEhmVC83Q90CSiVemVmBJB/NMASWFAeH1OeMJ+LOXeh51fmXqWZZp+FhZUi
-         L+7g==
-X-Gm-Message-State: AOAM532v35WZsbx6fanCF/j3yw1OuUrUcXYbeuOjH47QDdcRV7/KxuCD
-        1z7n/M/KSm6roH2Ft5AxXlnILg61C4w=
-X-Google-Smtp-Source: ABdhPJy52PZBv0zWblkDW5dp8wKcBJnMAwMVHXh05rklPXhNddZJ2Qs404D1UqB3Upk5t7kdYVRiNw==
-X-Received: by 2002:ac8:5691:: with SMTP id h17mr80166131qta.35.1594592839889;
-        Sun, 12 Jul 2020 15:27:19 -0700 (PDT)
-Received: from smtp.gmail.com ([2607:fea8:56a0:8440::b10e])
-        by smtp.gmail.com with ESMTPSA id e203sm16257002qkb.87.2020.07.12.15.27.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2020 15:27:19 -0700 (PDT)
-Date:   Sun, 12 Jul 2020 18:27:16 -0400
-From:   Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Trevor Woerner <twoerner@gmail.com>
-Subject: Re: [PATCH 04/25] drm/vkms: Annotate vblank timer
-Message-ID: <20200712222716.4rhvj7hryiecjthv@smtp.gmail.com>
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-5-daniel.vetter@ffwll.ch>
+        Sun, 12 Jul 2020 18:59:32 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4AA9C061794;
+        Sun, 12 Jul 2020 15:59:31 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 5603B27DFE1
+Message-ID: <c10bb0992a8bfb751edf66bdb7752da842877281.camel@collabora.com>
+Subject: Re: [RFC 07/12] media: uapi: h264: Add DPB entry field reference
+ flags
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Sun, 12 Jul 2020 19:59:07 -0300
+In-Reply-To: <cf4a5d3f-934f-de59-b5df-97b23e30cb1b@kwiboo.se>
+References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <20190901124531.23645-1-jonas@kwiboo.se>
+         <HE1PR06MB4011559BF2447047C66285D2ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <233509924f72d69824920d9312373eced68674c0.camel@collabora.com>
+         <20200710101333.05077f18@collabora.com>
+         <6232d8475e169ee53b5864959af21d14bf0fc620.camel@collabora.com>
+         <20200710140502.627b2b54@collabora.com>
+         <05b6cff6ba230c0ab6a562e17926d8503e2dfadd.camel@collabora.com>
+         <9a897ef99048077233685b121b03bd750e4d4a83.camel@collabora.com>
+         <cf4a5d3f-934f-de59-b5df-97b23e30cb1b@kwiboo.se>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3-1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="s3o5eamueeyjdnal"
-Content-Disposition: inline
-In-Reply-To: <20200707201229.472834-5-daniel.vetter@ffwll.ch>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sat, 2020-07-11 at 10:21 +0000, Jonas Karlman wrote:
+> On 2020-07-10 23:49, Nicolas Dufresne wrote:
+> > Le vendredi 10 juillet 2020 à 09:25 -0300, Ezequiel Garcia a écrit :
+> > > +Nicolas
+> > > 
+> > > On Fri, 2020-07-10 at 14:05 +0200, Boris Brezillon wrote:
+> > > > On Fri, 10 Jul 2020 08:50:28 -0300
+> > > > Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > > > 
+> > > > > On Fri, 2020-07-10 at 10:13 +0200, Boris Brezillon wrote:
+> > > > > > On Fri, 10 Jul 2020 01:21:07 -0300
+> > > > > > Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > > > > >   
+> > > > > > > Hello Jonas,
+> > > > > > > 
+> > > > > > > In the context of the uAPI cleanup,
+> > > > > > > I'm revisiting this patch.
+> > > > > > > 
+> > > > > > > On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:  
+> > > > > > > > Add DPB entry flags to help indicate when a reference frame is a
+> > > > > > > > field picture
+> > > > > > > > and how the DPB entry is referenced, top or bottom field or full
+> > > > > > > > frame.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > > > > > > > ---
+> > > > > > > >  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 12 ++++++++++++
+> > > > > > > >  include/media/h264-ctrls.h                       |  4 ++++
+> > > > > > > >  2 files changed, 16 insertions(+)
+> > > > > > > > 
+> > > > > > > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > > > > > b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > > > > > index bc5dd8e76567..eb6c32668ad7 100644
+> > > > > > > > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > > > > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > > > > > > @@ -2022,6 +2022,18 @@ enum
+> > > > > > > > v4l2_mpeg_video_h264_hierarchical_coding_type -
+> > > > > > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
+> > > > > > > >        - 0x00000004
+> > > > > > > >        - The DPB entry is a long term reference frame
+> > > > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE``
+> > > > > > > > +      - 0x00000008
+> > > > > > > > +      - The DPB entry is a field picture
+> > > > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_TOP``
+> > > > > > > > +      - 0x00000010
+> > > > > > > > +      - The DPB entry is a top field reference
+> > > > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM``
+> > > > > > > > +      - 0x00000020
+> > > > > > > > +      - The DPB entry is a bottom field reference
+> > > > > > > > +    * - ``V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME``
+> > > > > > > > +      - 0x00000030
+> > > > > > > > +      - The DPB entry is a reference frame
+> > > > > > > >  
+> > > > > > > >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
+> > > > > > > >      Specifies the decoding mode to use. Currently exposes slice-
+> > > > > > > > based and
+> > > > > > > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> > > > > > > > index e877bf1d537c..76020ebd1e6c 100644
+> > > > > > > > --- a/include/media/h264-ctrls.h
+> > > > > > > > +++ b/include/media/h264-ctrls.h
+> > > > > > > > @@ -185,6 +185,10 @@ struct v4l2_ctrl_h264_slice_params {
+> > > > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
+> > > > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
+> > > > > > > >  #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
+> > > > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_FIELD_PICTURE	0x08
+> > > > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_TOP	0x10
+> > > > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_BOTTOM	0x20
+> > > > > > > > +#define V4L2_H264_DPB_ENTRY_FLAG_REF_FRAME	0x30
+> > > > > > > >      
+> > > > > > > 
+> > > > > > > I've been going thru the H264 spec and I'm unsure,
+> > > > > > > are all these flags semantically needed?
+> > > > > > > 
+> > > > > > > For instance, if one of REF_BOTTOM or REF_TOP (or both)
+> > > > > > > are set, doesn't that indicate it's a field picture?
+> > > > > > > 
+> > > > > > > Or conversely, if neither REF_BOTTOM or REF_TOP are set,
+> > > > > > > then it's a frame picture?  
+> > > > > > 
+> > > > > > I think that's what I was trying to do here [1]
+> > > > > > 
+> > > > > > [1]https://patchwork.kernel.org/patch/11392095/  
+> > > > > 
+> > > > > Right. Aren't we missing a DPB_ENTRY_FLAG_TOP_FIELD?
+> > > > > 
+> > > > > If I understand correctly, the DPB can contain:
+> > > > > 
+> > > > > * frames (FLAG_FIELD not set)
+> > > > > * a field pair, with a single field (FLAG_FIELD and either TOP or BOTTOM).
+> > > > > * a field pair, with boths fields (FLAG_FIELD and both TOP or BOTTOM).
+> > > > 
+> > > > Well, my understand is that, if the buffer contains both a TOP and
+> > > > BOTTOM field, it actually becomes a full frame, so you actually have
+> > > > those cases:
+> > > > 
+> > > > * FLAG_FIELD not set: this a frame (note that a TOP/BOTTOM field
+> > > >   decoded buffer can become of frame if it's complemented with the
+> > > >   missing field later during the decoding)
+> > > > * FLAG_FIELD set + BOTTOM_FIELD not set: this is a TOP field
+> > > > * FLAG_FIELD set + BOTTOM_FIELD set: this is a BOTTOM field
+> > > > * FLAG_FIELD not set + BOTTOM_FIELD set: invalid combination
+> > 
+> > Let's admit, while this work, it's odd. Can we just move to that instewad ?
+> > 
+> >   FLAG_TOP_FIELD
+> >   FLAG_BOTTOM_FIELD
+> >   FLAG_FRAME = (FLAG_TOP_FIELD | FLAG_BOTTOM_FIELD)
+> > 
+> > So it can be used as a flag, but also is a proper enum and there is no longer an
+> > invalid combination.
+> >   
+> > > > but I might be wrong.
+> 
+> There seems to be some misunderstanding here, the top/bottom flagging should
+> not be used to describe if the picture is a field, field pair or frame, it
+> should be used to flag if a frame or the top and/or bottom field (in case of
+> a field pair) is "used for short-term reference".
+> 
 
---s3o5eamueeyjdnal
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm not sure why "used for short-term reference" instead
+of "used for reference".
 
-Hi,
+> FLAG_TOP_REF
+> FLAG_BOTTOM_REF
+> FLAG_FRAME_REF = (FLAG_TOP_REF | FLAG_BOTTOM_REF)
+> 
+> Would be a more appropriate naming.
+> 
+> The FIELD_PIC flag would then be used to describe if the picture is a
+> reference frame or a complementary reference field pair.
+> 
+> As described in hantro h264 driver [1] the MV buffer is split in two
+> for field encoded frames, and I guess the rkvdec block does something
+> similar and therefore the HW blocks probably needs to know if the reference
+> picture is a reference frame or a complementary reference field pair.
+> It should be possible to keep such state in driver but since such information
+> was easily available in ffmpeg and the driver being "stateless" using a flag
+> seamed like a good choice at the time.
+> 
+> Please note that I have not done any test without the "field pic" flagging
+> but both mpp and the imx/hantro reference code are configuring this bit.
+> 
+> [1] https://git.linuxtv.org/media_tree.git/tree/drivers/staging/media/hantro/hantro_g1_h264_dec.c#n265
+> 
 
-Everything looks fine to me, I just noticed that the amdgpu patches did
-not apply smoothly, however it was trivial to fix the issues.
+How about this:
 
-Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+#define V4L2_H264_DPB_ENTRY_FLAG_VALID          0x01
+#define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE         0x02
+#define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM      0x04
+#define V4L2_H264_DPB_ENTRY_FLAG_FIELD          0x08
 
-Melissa,
-Since you are using vkms regularly, could you test this patch and review
-it? Remember to add your Tested-by when you finish.
+enum v4l2_h264_dpb_reference {
+        V4L2_H264_DPB_TOP_REF = 0x1,
+        V4L2_H264_DPB_BOTTOM_REF = 0x2,
+        V4L2_H264_DPB_FRAME_REF = 0x3,
+};
 
-Thanks
+With the following semantics (which should be
+specified in the documentation):
 
-On 07/07, Daniel Vetter wrote:
-> This is needed to signal the fences from page flips, annotate it
-> accordingly. We need to annotate entire timer callback since if we get
-> stuck anywhere in there, then the timer stops, and hence fences stop.
-> Just annotating the top part that does the vblank handling isn't
-> enough.
->=20
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian K=F6nig <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  drivers/gpu/drm/vkms/vkms_crtc.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
-_crtc.c
-> index ac85e17428f8..a53a40848a72 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -1,5 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0+
-> =20
-> +#include <linux/dma-fence.h>
-> +
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_probe_helper.h>
-> @@ -14,7 +16,9 @@ static enum hrtimer_restart vkms_vblank_simulate(struct=
- hrtimer *timer)
->  	struct drm_crtc *crtc =3D &output->crtc;
->  	struct vkms_crtc_state *state;
->  	u64 ret_overrun;
-> -	bool ret;
-> +	bool ret, fence_cookie;
-> +
-> +	fence_cookie =3D dma_fence_begin_signalling();
-> =20
->  	ret_overrun =3D hrtimer_forward_now(&output->vblank_hrtimer,
->  					  output->period_ns);
-> @@ -49,6 +53,8 @@ static enum hrtimer_restart vkms_vblank_simulate(struct=
- hrtimer *timer)
->  			DRM_DEBUG_DRIVER("Composer worker already queued\n");
->  	}
-> =20
-> +	dma_fence_end_signalling(fence_cookie);
-> +
->  	return HRTIMER_RESTART;
->  }
-> =20
-> --=20
-> 2.27.0
->=20
+* VALID: non-empty DPB entry.
+* ACTIVE: picture is marked as "used for reference" (short-term or long-term).
+* LONG_TERM: picture is marked as "used for long-term".
+* FIELD: picture is a single field, or a complementary field pair. 
 
---=20
-Rodrigo Siqueira
-https://siqueira.tech
+The v4l2_h264_dpb_reference enum would flag which
+of the fields as used for reference.
 
---s3o5eamueeyjdnal
-Content-Type: application/pgp-signature; name="signature.asc"
+This enum seems less ambiguous and easier to use for both
+drivers and applications.
 
------BEGIN PGP SIGNATURE-----
+I am not exactly sure why a driver would ever need to
+configure an "unused for reference" decoded picture
+(i.e. VALID=1, ACTIVE=0), but I guess it's just clearer
+to include this in the interface.
 
-iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl8LjjsACgkQWJzP/com
-vP/qCQ//VX54bTnpR0wsE6qMjBDXqGJZtsOc04CystIQ37mW+onGPy7yyfYy/YUQ
-5gQ4ZfyflcnwHTZZrBciXCxvtSmFucki/3EqHkzZcQ9f4Z6/NRVQrwZea6Ff2B7r
-5Ob9tL4NBU4+TDaGJ3szQ89NY87cEDx4lfR5oM3y/Oo2kSk5dl5wvEmnwmu/Tizv
-goVPRu8hsRgZtNImREh9mdGtF340jkn4osozLGd5fm9MtcL8U4IeWGtcOlFB2iYQ
-meLWRuepZaf1yYJrZ/4wtYWtr+b6/Vpvp+vXLuZOIzhpRqt9FItweQDaY3kPFqWf
-Cw1WbDrbx/6er3Up5JfN3+Stvsf0/5Ar62GGlng/dHiz5dcV/OA5Ybfgs9WryiKb
-JbgdJ1619CmL5BELMk3+Yp8Ldwo+rQYdoyBx0yLYOK4jXjYYCsZOZtB9FZOSnr0r
-2oFVObJ6ZZ5XTdiFa6/wioCuES/HDAWabIJofZByTtf6MTN3HLSnqvaJBmCKsz67
-469KEtuiPTRbFIqdyy4I0OH8sXfG+3El8oNbZsYn5iaYyInX7kUngimK0J8FsgL/
-AIMS9rVcessTIiRrMoPOj2h10uJzkEtcK4O9+8XaIA8ur/4WAjdvw7qWdLTtp9Jr
-Gie0jIZIIJaJ3vYrC4AIeukVVMxOFJvF1YfROSiAfJU/YxZZutE=
-=G0js
------END PGP SIGNATURE-----
+Thanks,
+Ezequiel
 
---s3o5eamueeyjdnal--
+> Regards,
+> Jonas
+> 
+> > > Yes, perhaps that's correct. I was trying to think strictly
+> > > in terms of the H264 semantics, to define a clean interface.
+> > > 
+> > > From the mpp code, looks like the above is enough for rkvdec
+> > > (although I haven't done any tests).
+> > > 
+> > > Ezequiel
+> > > 
+> > > 
+> > > 
+
+
