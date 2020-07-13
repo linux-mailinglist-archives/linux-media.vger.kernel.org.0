@@ -2,158 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A3921CC02
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 01:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30E9721CDD7
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 05:41:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727919AbgGLXOo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Jul 2020 19:14:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41536 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727785AbgGLXOo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Jul 2020 19:14:44 -0400
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1287D207BB;
-        Sun, 12 Jul 2020 23:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594595683;
-        bh=JJcu9UGyZSmnY8MG9Tb8lOo8zhSv3HDqhkH2NhNsK9k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nFOpIko9y3x8JaPjoj5+5x2bHF0GjI/PiZtHtJWFV9YMbHsEhhZjIGrO8VJ/o00u5
-         ZDL1vzgPDibwrFtdZkOQTxdeDzTYESo772+A/vB2VLhG6sfH6imgPzMi9oOv/Gadsl
-         41SEsGk4sQ2hxJ5baQ1oJsZTSX8bxb2Vd0BQkwSg=
-Received: by mail-ed1-f50.google.com with SMTP id dg28so10381336edb.3;
-        Sun, 12 Jul 2020 16:14:42 -0700 (PDT)
-X-Gm-Message-State: AOAM530Lj1YIYh4YbBQDh7AAY20ALP05ufmLWrO+n2xTjNwlEfZ0IsJW
-        l8iiCtAANnCXBaz5xbthxnnO71OVt6NH+9cooA==
-X-Google-Smtp-Source: ABdhPJwWEw89a3TPBeDtbrMxC83/9R66XtgjlsU1MmE822OJ1v3FtQUjP7YI/JkTftCHfeXxfej+3oDaYrfbYHp9aP8=
-X-Received: by 2002:aa7:c3d6:: with SMTP id l22mr87628185edr.148.1594595681551;
- Sun, 12 Jul 2020 16:14:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200708104023.3225-1-louis.kuo@mediatek.com> <20200708104023.3225-2-louis.kuo@mediatek.com>
-In-Reply-To: <20200708104023.3225-2-louis.kuo@mediatek.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Mon, 13 Jul 2020 07:14:29 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__fRjytz9w4zA6rOoYKzjyRH-j=ASFqNMVNShBYGd6-5Q@mail.gmail.com>
-Message-ID: <CAAOTY__fRjytz9w4zA6rOoYKzjyRH-j=ASFqNMVNShBYGd6-5Q@mail.gmail.com>
-Subject: Re: [RFC PATCH V7 1/3] media: platform: mtk-isp: Add Mediatek sensor
- interface driver
-To:     Louis Kuo <louis.kuo@mediatek.com>
-Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
-        Tomasz Figa <tfiga@chromium.org>, keiichiw@chromium.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org,
-        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
-        <Sean.Cheng@mediatek.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        =?UTF-8?B?SmVycnktY2ggQ2hlbiAo6Zmz5pWs5oayKQ==?= 
-        <Jerry-ch.Chen@mediatek.com>,
-        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
-        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
-        yuzhao@chromium.org,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>, zwisler@chromium.org,
-        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
-        <christie.yu@mediatek.com>,
-        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
-        <frederic.chen@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1726843AbgGMDl4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Jul 2020 23:41:56 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53081 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726465AbgGMDl4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 12 Jul 2020 23:41:56 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id upLljASGV5flqupLmjxYaW; Mon, 13 Jul 2020 05:41:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594611714; bh=JJ0QYrF4TQBUHLXcNN/OXwgjrh0dI1BnAjwgc1Ribcc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=iBpaZIcuKdsJD4+xeZ9E6/C2r/IfTpamAHXHa8gglfxdpeX1Q+ePHGs8nV5cfbSQs
+         YCJlHseQeujTKjAjjrwtAl4gs1DOk9yervcor8ZSCRTEq1shbfu76YVtRO731eMvFf
+         FgYCLQnSWL/eSInIJ9hhwDkxhI/8cS3P0CuTIf+hRcrqniELW7flZY8AMxw1lxmUiT
+         z8urxDdbSmeUzvcWOZ5kKosjYv62jJCsHI33jESfXlSUcrRlHdBAhTMLWZFt59IOdQ
+         zjK+3n8SoEvVTPYFJ//bFWN2Nnsk2+2JldYYDGKk/pgBKzeU7TJ+3wFXZkZ9+9zBV5
+         8XwSukuyDreMw==
+Message-ID: <2ffc9fee9e95295fe168e0b3ad16902c@smtp-cloud9.xs4all.net>
+Date:   Mon, 13 Jul 2020 05:41:53 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfJ2VaQTFZor7HyP7vyZ6klQtBL50A2HXD4RlEgEo20cJdd5Hdro/Xlo63OJwxy4eJ/tfDBE/HJ1+KZyjH+q9RNZFg4YMvZxGfdhvZ27Bq2FfgGSw3h8D
+ iRE1gt3C1LuBjNB/Qp7dSBhz3gneyFcGCGy4vbSsUsypVuKp5sMbRXXNmOVdKCdAqimPDMS9LsK0ohg3uaEm5yp4aWmLBhPph3SN4v2IcMJsBsv+QlQgOsmE
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Louis:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Louis Kuo <louis.kuo@mediatek.com> =E6=96=BC 2020=E5=B9=B47=E6=9C=888=E6=97=
-=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:41=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> This patch adds Mediatek's sensor interface driver. Sensor interface
-> driver is a MIPI-CSI2 host driver, namely, a HW camera interface controll=
-er.
-> It support a widely adopted, simple, high-speed protocol primarily intend=
-ed
-> for point-to-point image and video transmission between cameras and host
-> devices. The mtk-isp directory will contain drivers for multiple IP block=
-s
-> found in Mediatek ISP system. It will include ISP Pass 1 driver, sensor
-> interface driver, DIP driver and face detection driver.
->
-> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
-> ---
+Results of the daily build of media_tree:
 
-[snip]
+date:			Mon Jul 13 05:00:09 CEST 2020
+media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
+media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
+v4l-utils git hash:	b94e7ab3f3fac58c63491e4892a2e0a983166bbf
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-> +
-> +enum CFG_CSI_PORT {
-> +       CFG_CSI_PORT_0 =3D 0x0,   /* 4D1C */
-> +       CFG_CSI_PORT_1,         /* 4D1C */
-> +       CFG_CSI_PORT_2,         /* 4D1C */
-> +       CFG_CSI_PORT_0A,        /* 2D1C */
-> +       CFG_CSI_PORT_0B,        /* 2D1C */
-> +       CFG_CSI_PORT_MAX_NUM,
-> +       CFG_CSI_PORT_NONE       /*for non-MIPI sensor */
-> +};
-> +
-> +enum PIXEL_MODE {
-> +       ONE_PIXEL_MODE  =3D 0x0,
-> +       TWO_PIXEL_MODE  =3D 0x1,
-> +       FOUR_PIXEL_MODE =3D 0x2,
-> +};
-> +
-> +enum SENINF_ID {
-> +       SENINF_1 =3D 0x0,
-> +       SENINF_2 =3D 0x1,
-> +       SENINF_3 =3D 0x2,
-> +       SENINF_4 =3D 0x3,
-> +       SENINF_5 =3D 0x4,
-> +       SENINF_NUM,
-> +};
-> +
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: OK
+smatch: ERRORS
 
-[snip]
+Detailed results are available here:
 
-> +
-> +static int seninf_link_setup(struct media_entity *entity,
-> +                            const struct media_pad *local,
-> +                            const struct media_pad *remote, u32 flags)
-> +{
-> +       struct v4l2_subdev *sd;
-> +       struct mtk_seninf *priv;
-> +       struct device *dev;
-> +
-> +       sd =3D media_entity_to_v4l2_subdev(entity);
-> +       priv =3D v4l2_get_subdevdata(sd);
-> +       dev =3D priv->dev;
-> +
-> +       if (!(flags & MEDIA_LNK_FL_ENABLED))
-> +               return 0;
-> +
-> +       if (local->flags & MEDIA_PAD_FL_SOURCE) {
-> +               priv->mux_sel =3D local->index - CAM_MUX_IDX_MIN;
-> +       } else {
-> +               /* Select port */
-> +               priv->port =3D local->index;
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
-I don't understand V4L2 much, but the port definition is inside this
-file, how does the caller know what to pass to here? Could you explain
-how does it work?
+Detailed regression test results are available here:
 
-Regards,
-Chun-Kuang.
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
 
-> +               if (priv->port >=3D NUM_SENSORS) {
-> +                       dev_err(dev, "port index is over number of ports\=
-n");
-> +                       return -EINVAL;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
