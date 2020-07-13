@@ -2,107 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A55321CF61
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 08:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7193421CF90
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 08:20:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729416AbgGMGKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 02:10:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729409AbgGMGKA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 02:10:00 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73173C061794
-        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2020 23:10:00 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id 207so5557741pfu.3
-        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2020 23:10:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gB83jD2FpTYfBDRkUJH8DvVVofs2yRFQbXc2yeSZvmk=;
-        b=mQneNRTvRh7TEV8oSckX8BzrplvT9JWTPgTge++Ykp1B5RphqvW7GoZJ7CuLCG5NUG
-         ALY50gHRt/NcNRLiQoXmQFstFkEHgQkNYkl7cQQe6wc1diyCVsgb0FDopMACd33C9vqe
-         SGZDpkH8trEfdC9w/dw0KWhHA4PTUTO9iYCas=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gB83jD2FpTYfBDRkUJH8DvVVofs2yRFQbXc2yeSZvmk=;
-        b=s6Oy+bjBGb3fWvwIf10gfyVaATaNTYF2nIxBrRwQbizZbTyDHjCliMvY3i6akyT1qT
-         AgXXvnFyB1uf9L7LHb1ly9F5lLnrTTavgHvKd4E0XsKrdAi91YY1oog4gZQ66WXT4BdL
-         VZerjgLNU9xa2D0y08ZJYteMEhNqRaBVwLRFwEShHazUbifLl04+yzEBckdRZnAaLYWl
-         cQ/+wWayWDSfnO0kRnDgHJBHsUb73yy5wspVobXPiWYFcxO56oOeAGN4AaRGR1GF3JjV
-         JJFXrFkggHqh+8r5TUp0HFPn1njCTNa0I5g7oXVsLVz4xbGB81FAiW9n3DMcl+Rg4oCR
-         G/vg==
-X-Gm-Message-State: AOAM53210mSlA7aEaYwvJbxPZugIu/9DwCcSS17QRwWOjgGyVB8XusW3
-        fh1IgVK52eB2LoFvRUmj621M/A==
-X-Google-Smtp-Source: ABdhPJw7xh/m0JWlcTmFBX/gTdG+Hj4V1YLkVAmb10CsnxvzrbYdCbIFz51djjnYzpvhScMv8yE81Q==
-X-Received: by 2002:a63:fe0a:: with SMTP id p10mr66187991pgh.255.1594620600025;
-        Sun, 12 Jul 2020 23:10:00 -0700 (PDT)
-Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:eeb1:d7ff:fe57:b7e5])
-        by smtp.gmail.com with ESMTPSA id c134sm13134934pfc.115.2020.07.12.23.09.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2020 23:09:59 -0700 (PDT)
-From:   Alexandre Courbot <acourbot@chromium.org>
-To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        id S1729041AbgGMGUV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 02:20:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49566 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728488AbgGMGUU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Jul 2020 02:20:20 -0400
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0C14720674;
+        Mon, 13 Jul 2020 06:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594621220;
+        bh=WuqdpFUcq4uF0/RIHZ+88zR6TAiC4uqqH38bj35kais=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=mAHy2i16DHnsjtZOV9CiFKZ8CB6E94YhMONfe1eYB8cgTEYhjamHkCxYaxqhpNEpV
+         fGje76CwK0714jEll/wPYDMz/deqygPuGMeSMnIvkbfJ+0+VcMd+/8ldR5U4k4ERYt
+         NjDeFeKkyR2QPSj9g5FGo+LVWq3C0yRijSnJSTTY=
+Received: by mail-lj1-f182.google.com with SMTP id e4so15451448ljn.4;
+        Sun, 12 Jul 2020 23:20:19 -0700 (PDT)
+X-Gm-Message-State: AOAM532by/n0cQogQYUYwdv8n4KWvfxFZzpilIj6gKRb5OcPi8+/j+8k
+        L23y3q56gghv84zKQNW0DJi0Q7+fgEh4S6a7nXk=
+X-Google-Smtp-Source: ABdhPJwb9dJ9VZo72PEXS5lIrY6ZN22jA33AQiuxNlQxQodB1qXlHopTmumJdSl0lOT2r+0ZQLDwGAu+Y+IPRKaEWJE=
+X-Received: by 2002:a05:651c:200f:: with SMTP id s15mr36978008ljo.125.1594621218404;
+ Sun, 12 Jul 2020 23:20:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200713060842.471356-1-acourbot@chromium.org> <20200713060842.471356-3-acourbot@chromium.org>
+In-Reply-To: <20200713060842.471356-3-acourbot@chromium.org>
+From:   Chen-Yu Tsai <wens@kernel.org>
+Date:   Mon, 13 Jul 2020 14:20:06 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66rFAb6eczD=ct68b7Q60ZvFyMCRN6XdY-rUAbk6zVupw@mail.gmail.com>
+Message-ID: <CAGb2v66rFAb6eczD=ct68b7Q60ZvFyMCRN6XdY-rUAbk6zVupw@mail.gmail.com>
+Subject: Re: [PATCH v3 02/16] dt-bindings: media: mtk-vcodec: document SCP node
+To:     Alexandre Courbot <acourbot@chromium.org>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Yunfei Dong <yunfei.dong@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>
-Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>
-Subject: [PATCH v3 16/16] media: mtk-vcodec: venc: fix invalid time per frame in S_PARM
-Date:   Mon, 13 Jul 2020 15:08:42 +0900
-Message-Id: <20200713060842.471356-17-acourbot@chromium.org>
-X-Mailer: git-send-email 2.27.0.383.g050319c2ae-goog
-In-Reply-To: <20200713060842.471356-1-acourbot@chromium.org>
-References: <20200713060842.471356-1-acourbot@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v4l2-compliance expects the driver to adjust the time per frame if it is
-invalid (numerator or denominator set to 0). Adjust it to the default
-value in these cases.
+On Mon, Jul 13, 2020 at 2:09 PM Alexandre Courbot <acourbot@chromium.org> wrote:
+>
+> The mediatek codecs can use either the VPU or the SCP as their interface
+> to firmware. Reflect this in the DT bindings.
+>
+> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
+> ---
+>  Documentation/devicetree/bindings/media/mediatek-vcodec.txt | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> index b6b5dde6abd8..7aef0a4fe207 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> +++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> @@ -19,7 +19,9 @@ Required properties:
+>  - iommus : should point to the respective IOMMU block with master port as
+>    argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+>    for details.
+> -- mediatek,vpu : the node of video processor unit
+> +One of the two following nodes:
+> +- mediatek,vpu : the node of the video processor unit, if using VPU.
+> +- mediatek,scp : the noode of the SCP unit, if using SCP.
 
-Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+                         ^ typo / extra o
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-index 09baac2dbc36..82b04714f750 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-@@ -200,14 +200,18 @@ static int vidioc_venc_s_parm(struct file *file, void *priv,
- 			      struct v4l2_streamparm *a)
- {
- 	struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
-+	struct v4l2_fract *timeperframe = &a->parm.output.timeperframe;
- 
- 	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
- 		return -EINVAL;
- 
--	ctx->enc_params.framerate_num =
--			a->parm.output.timeperframe.denominator;
--	ctx->enc_params.framerate_denom =
--			a->parm.output.timeperframe.numerator;
-+	if (timeperframe->numerator == 0 || timeperframe->denominator == 0) {
-+		timeperframe->numerator = MTK_DEFAULT_FRAMERATE_NUM;
-+		timeperframe->denominator = MTK_DEFAULT_FRAMERATE_DENOM;
-+	}
-+
-+	ctx->enc_params.framerate_num = timeperframe->denominator;
-+	ctx->enc_params.framerate_denom = timeperframe->numerator;
- 	ctx->param_change |= MTK_ENCODE_PARAM_FRAMERATE;
- 
- 	a->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
--- 
-2.27.0.383.g050319c2ae-goog
-
+ChenYu
