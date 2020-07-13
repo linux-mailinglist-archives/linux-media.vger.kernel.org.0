@@ -2,212 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8CA521D177
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 10:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0B8D21D2D1
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 11:31:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729027AbgGMIPT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 04:15:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54850 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728833AbgGMIPQ (ORCPT
+        id S1729219AbgGMJbN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 05:31:13 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:53941 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727834AbgGMJbM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 04:15:16 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 307EFC061794
-        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2020 01:15:16 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id br7so1632316ejb.5
-        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2020 01:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=QmsCPrjsmF9ge6HxrBzs06s6K7Fzeye/XmayjmsFHts=;
-        b=o4W3X0HWod6I8G+MqrbvI720nnYRbPalw90Q4ujasVKbLO0fEGRyAnhUNWCXWL1/9+
-         fWYzZvnX5BrfksAvL/o4bBt9ykx/q3H3vXjURDZAV8WznnRMZf8FqV9Lty912PKBoOLi
-         zEoy8osXqbQ3vFRlsrsy554DJlX/tl7W9gLMRkjjccOH1o5Xhhgi9J4fYbVGvi77a8s0
-         uupbghw2wCl0NCGmPMonPtalDsyn2DhFbd/Z1nVssYQcLbLL8oWWDYFXy/Ga4TpyeXVP
-         Zxwuw29DcQYUgYtdmMhtDEIRVyjMHBqgTdvaLYeP/jVG9wvnErzgFg2qGZI0Ve077/8b
-         bC5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=QmsCPrjsmF9ge6HxrBzs06s6K7Fzeye/XmayjmsFHts=;
-        b=o2aGi8JDdMYLwUijeRW5cb6sHgiYTTCsTXAJTykZrJpWbgnItuh5h/6PlaTkGoWKbZ
-         TyltaVP2hUi9SUF1f2mo4qwiwTq0DfALXYxuKViIub8wnC3rV1AaMnhky/MD/6wpaa/B
-         LPAcoUaJexlPkLfqb0WfHwTnqlafm3nplrGY3ssPlnCK5xvPapQIyEZ433d/ydS0WC96
-         zEpj7w8eCGSahGFTvHeyt6OSbOWj9XLiVA3xPpjGAZTzdhikobbAHkb5zUc4m+6EeLOp
-         Me0+8GgBp7x76ZT6281iHUtFPbIvvZjzmMamxJd484NQok5bumjuoWTfO4YI0mqlZ6A+
-         LWzw==
-X-Gm-Message-State: AOAM530LQI/HUMG4+CZ0rbOjIfkweCX0pid3E0JmEMecLvmJbUw9l6vX
-        efHoMa+PMR8QGYiuvJlSjnPLuIyt1U0ZUA==
-X-Google-Smtp-Source: ABdhPJyrc4lrFNKmJoah8Opz7rVlPN6JXN7FEpuxIPb+M5Z5QWxTLOJildCJSTLH8zHcsCDdFcfUuA==
-X-Received: by 2002:a17:906:2799:: with SMTP id j25mr58883707ejc.466.1594628114456;
-        Mon, 13 Jul 2020 01:15:14 -0700 (PDT)
-Received: from localhost.localdomain (212-5-158-188.ip.btc-net.bg. [212.5.158.188])
-        by smtp.gmail.com with ESMTPSA id q3sm10721085eds.41.2020.07.13.01.15.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2020 01:15:13 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH] v4l2-ctrl: Add VP9 codec levels
-Date:   Mon, 13 Jul 2020 11:15:01 +0300
-Message-Id: <20200713081501.28609-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        Mon, 13 Jul 2020 05:31:12 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id uunij6VjzGLmCuunljArPs; Mon, 13 Jul 2020 11:31:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594632669; bh=V9P6DossB42VSwcwGGArhjKZRArsFnE8CF4WV9FWoMo=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=URCZ/fO094gbKiC7cE/M2hRMjSc4djFCaKMmG1rwY8Hy2fqMzwkhGNHcscsTCrW+A
+         3jpZKf7iJdOX6jzEwgZZ+YFc9axADyy+GJpHfAtFcZvxF5T1tpm1dE2SRuFg7ZP/bg
+         DJrzCuzuH4eTDd4facIHZEatIwhuyIb9sujBmjYTm4cGHreNGYInX43lVVug2M9at9
+         8oZi/n7eSlsglDLSMh4G4a/chUzC/ZDxJRr2juq33PEhOz2GHYFEK2I38ovrOS6nmq
+         dDHk+96pdTe7wdUaR3Eet9iAX6uwmhjvaPEVUDIkMdGj/keZG9X5KAlelVEj/9CJYU
+         VwlGwtwSa2sLQ==
+Subject: Re: [PATCH v3] media: videobuf2: Print videobuf2 buffer state by name
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20200710125129.159710-1-ezequiel@collabora.com>
+ <20200710130010.160712-1-ezequiel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <cf01d95f-d9fb-5b0f-a81e-e97d3deabb18@xs4all.nl>
+Date:   Mon, 13 Jul 2020 11:31:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200710130010.160712-1-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGqkcJv6C7QhHvtUuLkKD24ZmuHU1sEq4Y6Axy8q7G0ow6UbK2kHh2bRJYiLDVyuPZ1685HYOH5gmrTbOPZJvS3Ul0qgZhbXZGr5J9Z/grK7sdjpRffh
+ dTAsg21n1J6XxNENsjrKXc7J17PTUwWsU1LBsqliXtzaPzf9TQOroQzufS4EAr5HVe49SDCGlNzTar4O1NratS7V/6zAw4az99zASPMQKpyl22kG4+u+9f9j
+ sAgJH+AmvA8SNyFCmQT4OF9SDoBZzac4G9sRuo8Ccdh35i9IdRUTnY1T9Pq0L03S
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add menu control for VP9 codec levels. A total of 14 levels are
-defined for Profile 0 (8bit) and Profile 2 (10bit). Each level
-is a set of constrained bitstreams coded with targeted resolutions,
-frame rates, and bitrates.
+On 10/07/2020 15:00, Ezequiel Garcia wrote:
+> For debugging purposes, seeing the state integer
+> representation is really inconvenient.
+> 
+> Improve this and be developer-friendly by printing
+> the state name instead.
+> 
+> Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+> v3:
+> * Drop static modifier from the now local name array.
+> v2:
+> * Use a proper function instead of a C macro.
+> 
+>  .../media/common/videobuf2/videobuf2-core.c   | 35 ++++++++++++++-----
+>  1 file changed, 27 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index abaf28e057eb..d5942cd455bf 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -191,6 +191,23 @@ module_param(debug, int, 0644);
+>  static void __vb2_queue_cancel(struct vb2_queue *q);
+>  static void __enqueue_in_driver(struct vb2_buffer *vb);
+>  
+> +static inline const char *vb2_state_name(enum vb2_buffer_state s)
 
-The definition has been taken from webm project.
+Why inline? That adds nothing of value. It's too big for an inline
+anyway and it's only used when debug is on.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- .../media/v4l/ext-ctrls-codec.rst             | 42 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-ctrls.c          | 21 ++++++++++
- include/uapi/linux/v4l2-controls.h            | 17 ++++++++
- 3 files changed, 80 insertions(+)
+> +{
+> +	const char * const state_names[] = {
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index d0d506a444b1..d49bdafa768a 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -3316,6 +3316,48 @@ enum v4l2_mpeg_video_vp9_profile -
-     * - ``V4L2_MPEG_VIDEO_VP9_PROFILE_3``
-       - Profile 3
- 
-+.. _v4l2-mpeg-video-vp9-level:
-+
-+``V4L2_CID_MPEG_VIDEO_VP9_LEVEL (enum)``
-+
-+enum v4l2_mpeg_video_vp9_level -
-+    This control allows selecting the level for VP9 encoder.
-+    This is also used to enumerate supported levels by VP9 encoder or decoder.
-+    Possible values are:
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_1_0``
-+      - Level 1
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_1_1``
-+      - Level 1.1
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_2_0``
-+      - Level 2
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_2_1``
-+      - Level 2.1
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_3_0``
-+      - Level 3
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_3_1``
-+      - Level 3.1
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_4_0``
-+      - Level 4
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_4_1``
-+      - Level 4.1
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_5_0``
-+      - Level 5
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_5_1``
-+      - Level 5.1
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_5_2``
-+      - Level 5.2
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_0``
-+      - Level 6
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_1``
-+      - Level 6.1
-+    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_2``
-+      - Level 6.2
-+
- 
- High Efficiency Video Coding (HEVC/H.265) Control Reference
- ===========================================================
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 3f3fbcd60cc6..359dc737053d 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -474,6 +474,23 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		"3",
- 		NULL,
- 	};
-+	static const char * const vp9_level[] = {
-+		"1",
-+		"1.1",
-+		"2",
-+		"2.1",
-+		"3",
-+		"3.1",
-+		"4",
-+		"4.1",
-+		"5",
-+		"5.1",
-+		"5.2",
-+		"6",
-+		"6.1",
-+		"6.2",
-+		NULL,
-+	};
- 
- 	static const char * const flash_led_mode[] = {
- 		"Off",
-@@ -685,6 +702,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		return vp8_profile;
- 	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:
- 		return vp9_profile;
-+	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:
-+		return vp9_level;
- 	case V4L2_CID_JPEG_CHROMA_SUBSAMPLING:
- 		return jpeg_chroma_subsampling;
- 	case V4L2_CID_DV_TX_MODE:
-@@ -938,6 +957,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_MPEG_VIDEO_VPX_P_FRAME_QP:		return "VPX P-Frame QP Value";
- 	case V4L2_CID_MPEG_VIDEO_VP8_PROFILE:			return "VP8 Profile";
- 	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:			return "VP9 Profile";
-+	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:			return "VP9 Level";
- 	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:		return "VP8 Frame Header";
- 
- 	/* HEVC controls */
-@@ -1294,6 +1314,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_MPEG_VIDEO_VPX_GOLDEN_FRAME_SEL:
- 	case V4L2_CID_MPEG_VIDEO_VP8_PROFILE:
- 	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:
-+	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:
- 	case V4L2_CID_DETECT_MD_MODE:
- 	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
- 	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 62271418c1be..1b0bc79c1bc3 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -650,6 +650,23 @@ enum v4l2_mpeg_video_vp9_profile {
- 	V4L2_MPEG_VIDEO_VP9_PROFILE_2				= 2,
- 	V4L2_MPEG_VIDEO_VP9_PROFILE_3				= 3,
- };
-+#define V4L2_CID_MPEG_VIDEO_VP9_LEVEL			(V4L2_CID_MPEG_BASE+513)
-+enum v4l2_mpeg_video_vp9_level {
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_1_0	= 0,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_1_1	= 1,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_2_0	= 2,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_2_1	= 3,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_3_0	= 4,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_3_1	= 5,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_4_0	= 6,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_4_1	= 7,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_5_0	= 8,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_5_1	= 9,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_5_2	= 10,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_6_0	= 11,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_6_1	= 12,
-+	V4L2_MPEG_VIDEO_VP9_LEVEL_6_2	= 13,
-+};
- 
- /* CIDs for HEVC encoding. */
- 
--- 
-2.17.1
+This really should be static, local or not. I'm not sure why you dropped
+that. Possibly because of the inline?
+
+Regards,
+
+	Hans
+
+> +		[VB2_BUF_STATE_DEQUEUED] = "dequeued",
+> +		[VB2_BUF_STATE_IN_REQUEST] = "in request",
+> +		[VB2_BUF_STATE_PREPARING] = "preparing",
+> +		[VB2_BUF_STATE_QUEUED] = "queued",
+> +		[VB2_BUF_STATE_ACTIVE] = "active",
+> +		[VB2_BUF_STATE_DONE] = "done",
+> +		[VB2_BUF_STATE_ERROR] = "error",
+> +	};
+> +
+> +	if ((unsigned int)(s) < ARRAY_SIZE(state_names))
+> +		return state_names[s];
+> +	return "unknown";
+> +}
+> +
+>  /*
+>   * __vb2_buf_mem_alloc() - allocate video memory for the given buffer
+>   */
+> @@ -1015,8 +1032,8 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
+>  	 */
+>  	vb->cnt_buf_done++;
+>  #endif
+> -	dprintk(q, 4, "done processing on buffer %d, state: %d\n",
+> -			vb->index, state);
+> +	dprintk(q, 4, "done processing on buffer %d, state: %s\n",
+> +		vb->index, vb2_state_name(state));
+>  
+>  	if (state != VB2_BUF_STATE_QUEUED)
+>  		__vb2_buf_mem_finish(vb);
+> @@ -1490,8 +1507,8 @@ int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
+>  
+>  	vb = q->bufs[index];
+>  	if (vb->state != VB2_BUF_STATE_DEQUEUED) {
+> -		dprintk(q, 1, "invalid buffer state %d\n",
+> -			vb->state);
+> +		dprintk(q, 1, "invalid buffer state %s\n",
+> +			vb2_state_name(vb->state));
+>  		return -EINVAL;
+>  	}
+>  	if (vb->prepared) {
+> @@ -1670,7 +1687,8 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+>  		dprintk(q, 1, "buffer still being prepared\n");
+>  		return -EINVAL;
+>  	default:
+> -		dprintk(q, 1, "invalid buffer state %d\n", vb->state);
+> +		dprintk(q, 1, "invalid buffer state %s\n",
+> +			vb2_state_name(vb->state));
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -1884,7 +1902,8 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
+>  		dprintk(q, 3, "returning done buffer with errors\n");
+>  		break;
+>  	default:
+> -		dprintk(q, 1, "invalid buffer state\n");
+> +		dprintk(q, 1, "invalid buffer state %s\n",
+> +			vb2_state_name(vb->state));
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -1915,8 +1934,8 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
+>  		media_request_put(vb->request);
+>  	vb->request = NULL;
+>  
+> -	dprintk(q, 2, "dqbuf of buffer %d, with state %d\n",
+> -			vb->index, vb->state);
+> +	dprintk(q, 2, "dqbuf of buffer %d, state: %s\n",
+> +		vb->index, vb2_state_name(vb->state));
+>  
+>  	return 0;
+>  
+> 
 
