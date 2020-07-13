@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C6D21DB55
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 18:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7163A21DB9F
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 18:23:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729751AbgGMQMr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 12:12:47 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:52226 "EHLO smtp.al2klimov.de"
+        id S1730000AbgGMQWz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 12:22:55 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:55544 "EHLO smtp.al2klimov.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729027AbgGMQMr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 12:12:47 -0400
+        id S1729933AbgGMQWz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Jul 2020 12:22:55 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 8BC57BC06E;
-        Mon, 13 Jul 2020 16:12:44 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 83998BC053;
+        Mon, 13 Jul 2020 16:22:52 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     hverkuil@xs4all.nl, mchehab@kernel.org,
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] [media] tw68: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 18:12:38 +0200
-Message-Id: <20200713161238.35687-1-grandmaster@al2klimov.de>
+Subject: [PATCH] media: uvcvideo: Replace HTTP links with HTTPS ones
+Date:   Mon, 13 Jul 2020 18:22:46 +0200
+Message-Id: <20200713162246.35758-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -70,22 +70,22 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- drivers/media/pci/tw68/tw68-core.c | 2 +-
+ drivers/media/usb/uvc/uvc_driver.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/tw68/tw68-core.c b/drivers/media/pci/tw68/tw68-core.c
-index b45f3ffa3de5..30c1ea87f0e8 100644
---- a/drivers/media/pci/tw68/tw68-core.c
-+++ b/drivers/media/pci/tw68/tw68-core.c
-@@ -57,7 +57,7 @@ static atomic_t tw68_instance = ATOMIC_INIT(0);
- /* ------------------------------------------------------------------ */
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 431d86e1c94b..5676dc7bc319 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -284,7 +284,7 @@ void uvc_simplify_fraction(u32 *numerator, u32 *denominator,
+ 		return;
  
- /*
-- * Please add any new PCI IDs to: http://pci-ids.ucw.cz.  This keeps
-+ * Please add any new PCI IDs to: https://pci-ids.ucw.cz.  This keeps
-  * the PCI ID database up to date.  Note that the entries must be
-  * added under vendor 0x1797 (Techwell Inc.) as subsystem IDs.
-  */
+ 	/* Convert the fraction to a simple continued fraction. See
+-	 * http://mathforum.org/dr.math/faq/faq.fractions.html
++	 * https://mathforum.org/dr.math/faq/faq.fractions.html
+ 	 * Stop if the current term is bigger than or equal to the given
+ 	 * threshold.
+ 	 */
 -- 
 2.27.0
 
