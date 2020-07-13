@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E015321CF55
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 08:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2ED121CF65
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 08:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729321AbgGMGJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 02:09:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35364 "EHLO
+        id S1729408AbgGMGKL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 02:10:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729313AbgGMGJp (ORCPT
+        with ESMTP id S1729341AbgGMGJs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 02:09:45 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A3D6C08C5DD
-        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2020 23:09:45 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id k27so5586247pgm.2
-        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2020 23:09:45 -0700 (PDT)
+        Mon, 13 Jul 2020 02:09:48 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A53C061794
+        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2020 23:09:48 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id z3so5526620pfn.12
+        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2020 23:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8vtvohJFj5DhHOwcKV42+FAe6eItys47TuzDpZd6Sp0=;
-        b=JbHX0YdTuTKPraV5j0+Ujs09z3xmVLzJBs5dtbV2ca2zlEIpw9/Xwx2cr8kRrzd5zL
-         WMhXzbgQmxy4ma6ZB4meDw7ruUpf5RClj2KFH+fzH/rThCe+0uM0s0+va0IQqpPBd0+n
-         FimYaQ9nAce5kSkWg50D4Onk1O0RXwlS7HOHA=
+        bh=il4DpcD/apPDl2cTCXc8/jfWcqySO11EC2m8fJv5U88=;
+        b=hhS/XVomC66uSGacbR44AJu4XX8RglVUnHbYRQFol+JOwVlyO4zmLPxjZJVS2QAdPG
+         f5e0TK74oOqb0gaxzYWjWU7yYwwdWiPjdfvbvDKizkxbdcHPi5xoVRDGXk7gTs4fly6H
+         ULSsSLkR05CHdOA7/iNUCTpSeSaZU/O2iRGl4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8vtvohJFj5DhHOwcKV42+FAe6eItys47TuzDpZd6Sp0=;
-        b=rYhoIzOoF2iA3afypw6F8nOyYhoZsPk7y9daWZQCfSsXrsfR5X7Et/NRSMfT/MhngR
-         RYKl095HBpf35cfqF/3jGaqV3YC1alwzJ+VUiHyIwNNte1C0Q7Yd6U8fgUZCcMoTHLQq
-         1cswbIbdHsOgs1s1IO7R34xLTF2Av48nOXfehbr7lbvm70gzF0V0QJK7tHkh2MPPFGiQ
-         txi82CYKkbXHMT4oMpECVSyE8gIVcz3CwuLv7vcS8qijqmPCVs3FBMVc/7F1xPDJ3O47
-         Z/pFtsZbiQmgL07prdKx1LexajsvsDe/nFJPhsJKBdDBZMo9qbLlKmv5TTR8IwHydOTE
-         6BOg==
-X-Gm-Message-State: AOAM531w3cap6OglVmcdoKNK/eqv0cKAyvwWKWPPT7CV3eATjHVz+FF6
-        K4aGdavPOBbq6Kb7L6pSRqhojQ==
-X-Google-Smtp-Source: ABdhPJx40QbqJZpmVOJjZEznYEBEY1KsemgvYMG41NmDSjiFnZj8wuKUzbGtLGNNdplayD3iq4xSFQ==
-X-Received: by 2002:a63:757:: with SMTP id 84mr68486625pgh.275.1594620584647;
-        Sun, 12 Jul 2020 23:09:44 -0700 (PDT)
+        bh=il4DpcD/apPDl2cTCXc8/jfWcqySO11EC2m8fJv5U88=;
+        b=JZKvzfpDk7HdC08zlVT2m3Tl8wjwKLivJsqNAMpAslQilKfW2hEu70/B1MUp9dWnX6
+         OQucce60qn+YlAZv7fwTdpMXMrquxcZS1O2Dz0PBd+El/VNKkQ5TmgQ5SBzeLGWQWj0P
+         lpehARv4VGWsEFMulmEzWHDekrWbHVqQ3MdG9pOyybheX0YMHh+SxyuWI0Eq5a9Hcj2B
+         JjALubRpfpLDIaTvSupqnwsl/bsJSdvdCuRauw/yIxxLuOdT5FWUmQZX+t0yxOba+lKF
+         xgv3pgdcaeFjdB/JrHKm5LhQO3eWxOKx41TvEIv2W2/QCmBthIB/WTQp5nx6AVYMvUoj
+         I7hQ==
+X-Gm-Message-State: AOAM533JXeBr7XM3p8uKL3CG3DsNUM2J4lSCma78NKR3CMpdA/C+O9lY
+        C1xTDKsL0YoIZYHgqxkMZuWFZw==
+X-Google-Smtp-Source: ABdhPJw4BuEKfXc1u9J80dnCet+O2HF62eLmMroTE4/+eQtDNPiyJisvtCiuH9Xyms3zgoFcD2wLwA==
+X-Received: by 2002:a62:1610:: with SMTP id 16mr8378715pfw.113.1594620587680;
+        Sun, 12 Jul 2020 23:09:47 -0700 (PDT)
 Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:eeb1:d7ff:fe57:b7e5])
-        by smtp.gmail.com with ESMTPSA id c134sm13134934pfc.115.2020.07.12.23.09.41
+        by smtp.gmail.com with ESMTPSA id c134sm13134934pfc.115.2020.07.12.23.09.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2020 23:09:43 -0700 (PDT)
+        Sun, 12 Jul 2020 23:09:47 -0700 (PDT)
 From:   Alexandre Courbot <acourbot@chromium.org>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -54,9 +54,9 @@ To:     Tiffany Lin <tiffany.lin@mediatek.com>,
 Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alexandre Courbot <acourbot@chromium.org>
-Subject: [PATCH v3 11/16] media: mtk-vcodec: venc support MIN_OUTPUT_BUFFERS control
-Date:   Mon, 13 Jul 2020 15:08:37 +0900
-Message-Id: <20200713060842.471356-12-acourbot@chromium.org>
+Subject: [PATCH v3 12/16] media: mtk-vcodec: venc: set OUTPUT buffers field to V4L2_FIELD_NONE
+Date:   Mon, 13 Jul 2020 15:08:38 +0900
+Message-Id: <20200713060842.471356-13-acourbot@chromium.org>
 X-Mailer: git-send-email 2.27.0.383.g050319c2ae-goog
 In-Reply-To: <20200713060842.471356-1-acourbot@chromium.org>
 References: <20200713060842.471356-1-acourbot@chromium.org>
@@ -67,28 +67,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This control is required by v4l2-compliance for encoders. A value of 1
-should be suitable for all scenarios.
+A default value of 0 means V4L2_FIELD_ANY, which is not correct.
+Reported by v4l2-compliance.
 
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-index f2ba19c32400..f833aee4a06f 100644
+index f833aee4a06f..1a981d842c19 100644
 --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
 +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-@@ -1206,6 +1206,8 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
+@@ -893,8 +893,17 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
+ 	ctx->state = MTK_STATE_FREE;
+ }
  
- 	v4l2_ctrl_handler_init(handler, MTK_MAX_CTRLS_HINT);
- 
-+	v4l2_ctrl_new_std(handler, ops, V4L2_CID_MIN_BUFFERS_FOR_OUTPUT,
-+			  1, 1, 1, 1);
- 	v4l2_ctrl_new_std(handler, ops, V4L2_CID_MPEG_VIDEO_BITRATE,
- 			  ctx->dev->venc_pdata->min_bitrate,
- 			  ctx->dev->venc_pdata->max_bitrate, 1, 4000000);
++static int vb2ops_venc_buf_out_validate(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++
++	vbuf->field = V4L2_FIELD_NONE;
++	return 0;
++}
++
+ static const struct vb2_ops mtk_venc_vb2_ops = {
+ 	.queue_setup		= vb2ops_venc_queue_setup,
++	.buf_out_validate	= vb2ops_venc_buf_out_validate,
+ 	.buf_prepare		= vb2ops_venc_buf_prepare,
+ 	.buf_queue		= vb2ops_venc_buf_queue,
+ 	.wait_prepare		= vb2_ops_wait_prepare,
 -- 
 2.27.0.383.g050319c2ae-goog
 
