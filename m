@@ -2,29 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05F8D21D9FC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 17:22:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CB3F21DA16
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 17:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729764AbgGMPVz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 11:21:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37738 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729027AbgGMPVy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 11:21:54 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80A7BC061755;
-        Mon, 13 Jul 2020 08:21:54 -0700 (PDT)
+        id S1729910AbgGMPcC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 11:32:02 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:38450 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729027AbgGMPcC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Jul 2020 11:32:02 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id E1098BC06E;
-        Mon, 13 Jul 2020 15:21:51 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id DEBC2BC0FD;
+        Mon, 13 Jul 2020 15:31:59 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     awalls@md.metrocast.net, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     sean@mess.org, mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] [media] cx18: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 17:21:45 +0200
-Message-Id: <20200713152145.35329-1-grandmaster@al2klimov.de>
+Subject: [PATCH] media: imon: Replace HTTP links with HTTPS ones
+Date:   Mon, 13 Jul 2020 17:31:53 +0200
+Message-Id: <20200713153153.35397-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -74,22 +70,22 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- drivers/media/pci/cx18/cx18-cards.c | 2 +-
+ drivers/media/rc/imon.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/cx18/cx18-cards.c b/drivers/media/pci/cx18/cx18-cards.c
-index ecbe76f1ca63..f5a30959a367 100644
---- a/drivers/media/pci/cx18/cx18-cards.c
-+++ b/drivers/media/pci/cx18/cx18-cards.c
-@@ -35,7 +35,7 @@ static struct cx18_card_tuner_i2c cx18_i2c_nxp = {
- 	.tv    = { 0x61, 0x60, I2C_CLIENT_END },
- };
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index ed95244da894..a7962ca2ac8e 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -795,7 +795,7 @@ static ssize_t show_associate_remote(struct device *d,
+ 	else
+ 		strscpy(buf, "closed\n", PAGE_SIZE);
  
--/* Please add new PCI IDs to: http://pci-ids.ucw.cz/
-+/* Please add new PCI IDs to: https://pci-ids.ucw.cz/
-    This keeps the PCI ID database up to date. Note that the entries
-    must be added under vendor 0x4444 (Conexant) as subsystem IDs.
-    New vendor IDs should still be added to the vendor ID list. */
+-	dev_info(d, "Visit http://www.lirc.org/html/imon-24g.html for instructions on how to associate your iMON 2.4G DT/LT remote\n");
++	dev_info(d, "Visit https://www.lirc.org/html/imon-24g.html for instructions on how to associate your iMON 2.4G DT/LT remote\n");
+ 	mutex_unlock(&ictx->lock);
+ 	return strlen(buf);
+ }
 -- 
 2.27.0
 
