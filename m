@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21CB621D8C2
+	by mail.lfdr.de (Postfix) with ESMTP id 9980E21D8C3
 	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 16:42:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729983AbgGMOmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 10:42:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59832 "EHLO
+        id S1730011AbgGMOme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 10:42:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729992AbgGMOmd (ORCPT
+        with ESMTP id S1729988AbgGMOmd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 13 Jul 2020 10:42:33 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77908C08C5E3
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72304C08C5E2
         for <linux-media@vger.kernel.org>; Mon, 13 Jul 2020 07:42:33 -0700 (PDT)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1juzf5-0001mV-M8; Mon, 13 Jul 2020 16:42:31 +0200
+        id 1juzf5-0001mW-P3; Mon, 13 Jul 2020 16:42:31 +0200
 Received: from mtr by dude02.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1juzf4-0007rn-NP; Mon, 13 Jul 2020 16:42:30 +0200
+        id 1juzf4-0007rz-Om; Mon, 13 Jul 2020 16:42:30 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH v2 08/12] media: allegro: add config blob for channel
-Date:   Mon, 13 Jul 2020 16:42:25 +0200
-Message-Id: <20200713144229.30057-9-m.tretter@pengutronix.de>
+Subject: [PATCH v2 09/12] media: allegro: set num_ref_idx using response of configured channels
+Date:   Mon, 13 Jul 2020 16:42:26 +0200
+Message-Id: <20200713144229.30057-10-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713144229.30057-1-m.tretter@pengutronix.de>
 References: <20200713144229.30057-1-m.tretter@pengutronix.de>
@@ -45,167 +45,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Firmware versions >= 2019.2 do not configure the channel via the mailbox
-interface anymore, but use a separate chunk of memory that is only
-referenced by the message. As the configuration must be in a format that
-is understood by the firmware and this format can change between
-firmware versions, handle it similar to the message and treat is as a
-blob.
-
-In order to support both methods in the driver, always use a separate
-blob for the channel configuration and copy that blob into the mailbox
-if the firmware requires it and otherwise reference it.
+The firmware decides how many reference frames shall be used und returns
+this information via the config blob. In order to set the number of
+reference frames in the PPS, the driver has to read these values from
+the config blob after the channel has been created in the firmware.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-
 ---
-Changelog:
-
-v1 -> v2:
-- add missing string.h
----
- .../staging/media/allegro-dvt/allegro-core.c  | 20 ++++++++++++++++++-
- .../staging/media/allegro-dvt/allegro-mail.c  | 18 +++++++++++------
- .../staging/media/allegro-dvt/allegro-mail.h  |  9 ++++++++-
- 3 files changed, 39 insertions(+), 8 deletions(-)
+ drivers/staging/media/allegro-dvt/allegro-core.c | 10 ++++++++--
+ drivers/staging/media/allegro-dvt/allegro-mail.c |  6 +++++-
+ drivers/staging/media/allegro-dvt/allegro-mail.h |  5 ++++-
+ 3 files changed, 17 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-index e6d64151e4fe..51e85cad9941 100644
+index 51e85cad9941..07deb5ba13dc 100644
 --- a/drivers/staging/media/allegro-dvt/allegro-core.c
 +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-@@ -206,6 +206,8 @@ struct allegro_channel {
- 	unsigned int cpb_size;
- 	unsigned int gop_size;
+@@ -208,6 +208,9 @@ struct allegro_channel {
  
-+	struct allegro_buffer config_blob;
+ 	struct allegro_buffer config_blob;
+ 
++	unsigned int num_ref_idx_l0;
++	unsigned int num_ref_idx_l1;
 +
  	struct v4l2_ctrl *mpeg_video_h264_profile;
  	struct v4l2_ctrl *mpeg_video_h264_level;
  	struct v4l2_ctrl *mpeg_video_h264_i_frame_qp;
-@@ -978,6 +980,14 @@ static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
- 					   struct allegro_channel *channel)
- {
- 	struct mcu_msg_create_channel msg;
-+	struct allegro_buffer *blob = &channel->config_blob;
-+	struct create_channel_param param;
-+	size_t size;
-+
-+	memset(&param, 0, sizeof(param));
-+	fill_create_channel_param(channel, &param);
-+	allegro_alloc_buffer(dev, blob, sizeof(struct create_channel_param));
-+	size = allegro_encode_config_blob(blob->vaddr, &param);
+@@ -1336,8 +1339,8 @@ static ssize_t allegro_h264_write_pps(struct allegro_channel *channel,
+ 	pps->entropy_coding_mode_flag = 0;
+ 	pps->bottom_field_pic_order_in_frame_present_flag = 0;
+ 	pps->num_slice_groups_minus1 = 0;
+-	pps->num_ref_idx_l0_default_active_minus1 = 2;
+-	pps->num_ref_idx_l1_default_active_minus1 = 2;
++	pps->num_ref_idx_l0_default_active_minus1 = channel->num_ref_idx_l0 - 1;
++	pps->num_ref_idx_l1_default_active_minus1 = channel->num_ref_idx_l1 - 1;
+ 	pps->weighted_pred_flag = 0;
+ 	pps->weighted_bipred_idc = 0;
+ 	pps->pic_init_qp_minus26 = 0;
+@@ -1639,6 +1642,9 @@ allegro_handle_create_channel(struct allegro_dev *dev,
+ 	if (err)
+ 		goto out;
  
- 	memset(&msg, 0, sizeof(msg));
- 
-@@ -986,7 +996,9 @@ static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
- 
- 	msg.user_id = channel->user_id;
- 
--	fill_create_channel_param(channel, &msg.param);
-+	msg.blob = blob->vaddr;
-+	msg.blob_size = size;
-+	msg.blob_mcu_addr = to_mcu_addr(dev, blob->paddr);
- 
- 	allegro_mbox_send(dev->mbox_command, &msg);
- 
-@@ -1596,6 +1608,7 @@ allegro_handle_create_channel(struct allegro_dev *dev,
- {
- 	struct allegro_channel *channel;
- 	int err = 0;
-+	struct create_channel_param param;
- 
- 	channel = allegro_find_channel_by_user_id(dev, msg->user_id);
- 	if (IS_ERR(channel)) {
-@@ -1621,6 +1634,11 @@ allegro_handle_create_channel(struct allegro_dev *dev,
- 		 "user %d: channel has channel id %d\n",
- 		 channel->user_id, channel->mcu_channel_id);
- 
-+	err = allegro_decode_config_blob(&param, msg, channel->config_blob.vaddr);
-+	allegro_free_buffer(channel->dev, &channel->config_blob);
-+	if (err)
-+		goto out;
++	channel->num_ref_idx_l0 = param.num_ref_idx_l0;
++	channel->num_ref_idx_l1 = param.num_ref_idx_l1;
 +
  	v4l2_dbg(1, debug, &dev->v4l2_dev,
  		 "channel %d: intermediate buffers: %d x %d bytes\n",
  		 channel->mcu_channel_id,
 diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.c b/drivers/staging/media/allegro-dvt/allegro-mail.c
-index 7121f128aff3..c55b9339f9c6 100644
+index c55b9339f9c6..bb15de080431 100644
 --- a/drivers/staging/media/allegro-dvt/allegro-mail.c
 +++ b/drivers/staging/media/allegro-dvt/allegro-mail.c
-@@ -9,6 +9,7 @@
- #include <linux/bitfield.h>
- #include <linux/export.h>
- #include <linux/errno.h>
-+#include <linux/string.h>
- #include <linux/videodev2.h>
- 
- #include "allegro-mail.h"
-@@ -65,8 +66,8 @@ static inline u32 settings_get_mcu_codec(struct create_channel_param *param)
- 	}
- }
- 
--static ssize_t
--allegro_encode_channel_config(u32 *dst, struct create_channel_param *param)
-+ssize_t
-+allegro_encode_config_blob(u32 *dst, struct create_channel_param *param)
+@@ -173,6 +173,9 @@ ssize_t allegro_decode_config_blob(struct create_channel_param *param,
+ 				   struct mcu_msg_create_channel_response *msg,
+ 				   u32 *src)
  {
- 	unsigned int i = 0;
- 	u32 val;
-@@ -158,18 +159,23 @@ allegro_encode_channel_config(u32 *dst, struct create_channel_param *param)
- static ssize_t
- allegro_enc_create_channel(u32 *dst, struct mcu_msg_create_channel *msg)
- {
--	struct create_channel_param *param = &msg->param;
--	ssize_t size = 0;
- 	unsigned int i = 0;
- 
- 	dst[i++] = msg->user_id;
- 
--	size = allegro_encode_channel_config(&dst[i], param);
--	i += size / sizeof(*dst);
-+	memcpy(&dst[i], msg->blob, msg->blob_size);
-+	i += msg->blob_size / sizeof(*dst);
- 
- 	return i * sizeof(*dst);
- }
- 
-+ssize_t allegro_decode_config_blob(struct create_channel_param *param,
-+				   struct mcu_msg_create_channel_response *msg,
-+				   u32 *src)
-+{
-+	return 0;
-+}
++	param->num_ref_idx_l0 = msg->num_ref_idx_l0;
++	param->num_ref_idx_l1 = msg->num_ref_idx_l1;
 +
- static ssize_t
- allegro_enc_destroy_channel(u32 *dst, struct mcu_msg_destroy_channel *msg)
- {
+ 	return 0;
+ }
+ 
+@@ -273,7 +276,8 @@ allegro_dec_create_channel(struct mcu_msg_create_channel_response *msg,
+ 	msg->user_id = src[i++];
+ 	msg->options = src[i++];
+ 	msg->num_core = src[i++];
+-	msg->pps_param = src[i++];
++	msg->num_ref_idx_l0 = FIELD_GET(GENMASK(7, 4), src[i]);
++	msg->num_ref_idx_l1 = FIELD_GET(GENMASK(11, 8), src[i++]);
+ 	msg->int_buffers_count = src[i++];
+ 	msg->int_buffers_size = src[i++];
+ 	msg->rec_buffers_count = src[i++];
 diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.h b/drivers/staging/media/allegro-dvt/allegro-mail.h
-index 239fd8a20a69..07ed0a8d3de3 100644
+index 07ed0a8d3de3..a4d829f6f99d 100644
 --- a/drivers/staging/media/allegro-dvt/allegro-mail.h
 +++ b/drivers/staging/media/allegro-dvt/allegro-mail.h
-@@ -116,7 +116,9 @@ struct create_channel_param {
- struct mcu_msg_create_channel {
- 	struct mcu_msg_header header;
+@@ -55,6 +55,8 @@ struct create_channel_param {
+ 	u32 log2_max_frame_num;
+ 	u32 temporal_mvp_enable;
+ 	u32 dbf_ovr_en;
++	u32 num_ref_idx_l0;
++	u32 num_ref_idx_l1;
+ 	u32 rdo_cost_mode;
+ 	u32 lf;
+ 	u32 lf_x_tile;
+@@ -127,7 +129,8 @@ struct mcu_msg_create_channel_response {
  	u32 user_id;
--	struct create_channel_param param;
-+	u32 *blob;
-+	size_t blob_size;
-+	u32 blob_mcu_addr;
- };
- 
- struct mcu_msg_create_channel_response {
-@@ -249,6 +251,11 @@ union mcu_msg_response {
- 	struct mcu_msg_encode_frame_response encode_frame;
- };
- 
-+ssize_t allegro_encode_config_blob(u32 *dst, struct create_channel_param *param);
-+ssize_t allegro_decode_config_blob(struct create_channel_param *param,
-+				   struct mcu_msg_create_channel_response *msg,
-+				   u32 *src);
-+
- int allegro_decode_mail(void *msg, u32 *src);
- ssize_t allegro_encode_mail(u32 *dst, void *msg);
- 
+ 	u32 options;
+ 	u32 num_core;
+-	u32 pps_param;
++	u32 num_ref_idx_l0;
++	u32 num_ref_idx_l1;
+ 	u32 int_buffers_count;
+ 	u32 int_buffers_size;
+ 	u32 rec_buffers_count;
 -- 
 2.20.1
 
