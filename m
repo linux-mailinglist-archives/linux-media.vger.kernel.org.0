@@ -2,192 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0D4E21D773
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 15:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEC9F21D8CA
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 16:42:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729856AbgGMNpd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 09:45:33 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:41681 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728950AbgGMNpc (ORCPT
+        id S1730049AbgGMOml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 10:42:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59818 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729689AbgGMOmd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 09:45:32 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id uylrjEcO05flquyluj0vql; Mon, 13 Jul 2020 15:45:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594647930; bh=55qKzuUVLIDKWl3ypb4HXUPqMSZ9yHHADOpO7HsTkww=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=TQQYk3fKebd82NCcOHsoHdy/yAkCBVa5cap1ndHUR4/WFRJjdzipBx/L/YTI8L3lb
-         SgkqDuNGrFceln8TNbozELpVBIYXNa8adPRup/f2Qedbvs9VUNmVdkL2pyA/YVHMot
-         ld9DWAebROY4Zz9wOYxNIK18JAFktykTbaBEbs4TV9ozuruGLeYwsvyIxQUrn0dFAU
-         NUaI1kpauAFyYNO0T9uRH2I9ixudQRi4F3AdUNPA4hJhGH+WpOCnG06Kheb9PaF0tK
-         z7VExRQhi/9Tj6fiE1TmiFasyQR88kQPvRUlYlGdpWgyxbDzrDzOuOnGffu2YffuNf
-         KRpD7K8zh04vg==
-Subject: Re: [PATCH v3] media: videobuf2: Print videobuf2 buffer state by name
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20200710125129.159710-1-ezequiel@collabora.com>
- <20200710130010.160712-1-ezequiel@collabora.com>
- <cf01d95f-d9fb-5b0f-a81e-e97d3deabb18@xs4all.nl>
- <2e6b728bf8360a06025a1057568102ed40919bb7.camel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <afc88186-1381-4379-c145-fa47da28380e@xs4all.nl>
-Date:   Mon, 13 Jul 2020 15:45:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 13 Jul 2020 10:42:33 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A790C08C5DD
+        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2020 07:42:33 -0700 (PDT)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1juzf5-0001mN-CN; Mon, 13 Jul 2020 16:42:31 +0200
+Received: from mtr by dude02.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1juzf4-0007rJ-IV; Mon, 13 Jul 2020 16:42:30 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH v2 00/12] media: allegro: Add support for firmware 2019.2
+Date:   Mon, 13 Jul 2020 16:42:17 +0200
+Message-Id: <20200713144229.30057-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <2e6b728bf8360a06025a1057568102ed40919bb7.camel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNuCpzRDdd8pxEaT8hShpNgbe4nuwjs7xuJH/hZPz8jeM3XjfGi2A0IYyhtU+wPlIN3cyHtbsErmG7Ay/dTAaL0ygCWb1VCgTAyWYsCI7rbT1RrP4wx0
- kSO80anfJ+QCwDjPzeCAnH2juPYPa2gKDDl9GkY+KnBTnOOSAlwD9kOHyQ4uXQfDq7Vpl6u5sS/JmYdPpToQIHHfVCM6u7dmMEsYa07SSOPP/x6EgoUnNNbs
- S+AZJ9H/xPfeLJpMt3eiApNkooFAEdiWtkDn99QQpFaC2QL5nXuly+q0vOjsP67o
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/07/2020 15:10, Ezequiel Garcia wrote:
-> On Mon, 2020-07-13 at 11:31 +0200, Hans Verkuil wrote:
->> On 10/07/2020 15:00, Ezequiel Garcia wrote:
->>> For debugging purposes, seeing the state integer
->>> representation is really inconvenient.
->>>
->>> Improve this and be developer-friendly by printing
->>> the state name instead.
->>>
->>> Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->>> ---
->>> v3:
->>> * Drop static modifier from the now local name array.
->>> v2:
->>> * Use a proper function instead of a C macro.
->>>
->>>  .../media/common/videobuf2/videobuf2-core.c   | 35 ++++++++++++++-----
->>>  1 file changed, 27 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>> index abaf28e057eb..d5942cd455bf 100644
->>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>> @@ -191,6 +191,23 @@ module_param(debug, int, 0644);
->>>  static void __vb2_queue_cancel(struct vb2_queue *q);
->>>  static void __enqueue_in_driver(struct vb2_buffer *vb);
->>>  
->>> +static inline const char *vb2_state_name(enum vb2_buffer_state s)
->>
->> Why inline? That adds nothing of value. It's too big for an inline
->> anyway and it's only used when debug is on.
->>
-> 
-> Yes, you're right.
-> 
->>> +{
->>> +	const char * const state_names[] = {
->>
->> This really should be static, local or not. I'm not sure why you dropped
->> that. Possibly because of the inline?
->>
-> 
-> I was hesitant about this, as you can see. After some thought,
-> it seemed a waste of space to have this array allocated statically.
-> 
-> Could you clarify this for me? Why do you believe it should be static?
+This is v2 of the series to add support for the firmware version 2019.2 to the
+allegro driver.
 
-If it is not static, then the compiler could create this array every time you
-enter this function. It probably is smart enough to avoid that, but there is
-no guarantee. This array is constant, will never change, so why not make it
-static? I'm not really should what you waste here.
+The changes compared to v1:
 
-Regards,
+- Change the return type of allegro_mbox_notify() to void. The return
+  value was neither checked, nor is there anything we can do, if an error
+  occurs, thus there is no need to return an error.
 
-	Hans
+- Add the string.h to allegro-mail.c, which is necessary for memcpy().
 
-> 
-> Thanks,
-> Ezequiel
-> 
->> Regards,
->>
->> 	Hans
->>
->>> +		[VB2_BUF_STATE_DEQUEUED] = "dequeued",
->>> +		[VB2_BUF_STATE_IN_REQUEST] = "in request",
->>> +		[VB2_BUF_STATE_PREPARING] = "preparing",
->>> +		[VB2_BUF_STATE_QUEUED] = "queued",
->>> +		[VB2_BUF_STATE_ACTIVE] = "active",
->>> +		[VB2_BUF_STATE_DONE] = "done",
->>> +		[VB2_BUF_STATE_ERROR] = "error",
->>> +	};
->>> +
->>> +	if ((unsigned int)(s) < ARRAY_SIZE(state_names))
->>> +		return state_names[s];
->>> +	return "unknown";
->>> +}
->>> +
->>>  /*
->>>   * __vb2_buf_mem_alloc() - allocate video memory for the given buffer
->>>   */
->>> @@ -1015,8 +1032,8 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
->>>  	 */
->>>  	vb->cnt_buf_done++;
->>>  #endif
->>> -	dprintk(q, 4, "done processing on buffer %d, state: %d\n",
->>> -			vb->index, state);
->>> +	dprintk(q, 4, "done processing on buffer %d, state: %s\n",
->>> +		vb->index, vb2_state_name(state));
->>>  
->>>  	if (state != VB2_BUF_STATE_QUEUED)
->>>  		__vb2_buf_mem_finish(vb);
->>> @@ -1490,8 +1507,8 @@ int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
->>>  
->>>  	vb = q->bufs[index];
->>>  	if (vb->state != VB2_BUF_STATE_DEQUEUED) {
->>> -		dprintk(q, 1, "invalid buffer state %d\n",
->>> -			vb->state);
->>> +		dprintk(q, 1, "invalid buffer state %s\n",
->>> +			vb2_state_name(vb->state));
->>>  		return -EINVAL;
->>>  	}
->>>  	if (vb->prepared) {
->>> @@ -1670,7 +1687,8 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
->>>  		dprintk(q, 1, "buffer still being prepared\n");
->>>  		return -EINVAL;
->>>  	default:
->>> -		dprintk(q, 1, "invalid buffer state %d\n", vb->state);
->>> +		dprintk(q, 1, "invalid buffer state %s\n",
->>> +			vb2_state_name(vb->state));
->>>  		return -EINVAL;
->>>  	}
->>>  
->>> @@ -1884,7 +1902,8 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
->>>  		dprintk(q, 3, "returning done buffer with errors\n");
->>>  		break;
->>>  	default:
->>> -		dprintk(q, 1, "invalid buffer state\n");
->>> +		dprintk(q, 1, "invalid buffer state %s\n",
->>> +			vb2_state_name(vb->state));
->>>  		return -EINVAL;
->>>  	}
->>>  
->>> @@ -1915,8 +1934,8 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
->>>  		media_request_put(vb->request);
->>>  	vb->request = NULL;
->>>  
->>> -	dprintk(q, 2, "dqbuf of buffer %d, with state %d\n",
->>> -			vb->index, vb->state);
->>> +	dprintk(q, 2, "dqbuf of buffer %d, state: %s\n",
->>> +		vb->index, vb2_state_name(vb->state));
->>>  
->>>  	return 0;
->>>  
->>>
-> 
-> 
+Motivation of the patch series in the cover letter of v1:
+
+The updated firmware contains updates and bugfixes. For example, VBR encoding
+works much more reliable than with the firmware 2018.2. Unfortunately, I was
+not able to find an actual changelog that lists the firmware changes. Even
+more unfortunately, the firmware ABI is not stable across firmware versions.
+
+Therefore, this series changes how messages for the mailbox are created.
+Previously, the driver defined a struct mcu_msg_* for each message that can be
+written directly into the mailbox. This approach is incompatible with support
+for more than one firmware version. Now the driver converts the struct
+mcu_msg_* into the binary format that is expected by the firmware. The struct
+mcu_msg_* are still the same to reduce changes to the code that is used to
+prepare the messages.
+
+This separation allows to change the struct mcu_msg_* more freely, because it
+is not bound to the firmware ABI anymore and allows to get rid of ugly hacks
+like using the message size to determine the number of elements in the
+PUSH_BUFFER_INTERMEDIATE and PUSH_BUFFER_REFERENCE message.
+
+Updated v4l2-compliance result:
+
+v4l2-compliance SHA: d366a4e439599450ae1a82b23a37fc8e6b38d1ab, 64 bits, 64-bit time_t
+
+Compliance test for allegro device /dev/video3:
+
+Driver Info:
+	Driver name      : allegro
+	Card type        : Allegro DVT Video Encoder
+	Bus info         : platform:a0009000.video-codec
+	Driver version   : 5.8.0
+	Capabilities     : 0x84208000
+		Video Memory-to-Memory
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04208000
+		Video Memory-to-Memory
+		Streaming
+		Extended Pix Format
+	Detected Stateful Encoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video3 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 16 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture: Captured 60 buffers
+	test MMAP (select): OK
+	Video Capture: Captured 60 buffers
+	test MMAP (epoll): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for allegro device /dev/video3: 50, Succeeded: 50, Failed: 0, Warnings: 0
+
+Michael
+
+Changelog:
+
+v1 -> v2:
+
+- change allegro_mbox_notify() to void
+- add missing string.h header
+
+Michael Tretter (12):
+  media: allegro: rework mbox handling
+  media: allegro: rework read/write to mailbox
+  media: allegro: add explicit mail encoding and decoding
+  media: allegro: add field for number of buffers
+  media: allegro: don't pack MCU messages
+  media: allegro: support handling firmware dependent values
+  media: allegro: encode bit fields separately
+  media: allegro: add config blob for channel
+  media: allegro: set num_ref_idx using response of configured channels
+  media: allegro: drop length field from message header
+  media: allegro: add a version field to mcu messages
+  media: allegro: add support for allegro firmware 2019.2
+
+ .../staging/media/allegro-dvt/allegro-core.c  | 383 +++++++------
+ .../staging/media/allegro-dvt/allegro-mail.c  | 507 ++++++++++++++++++
+ .../staging/media/allegro-dvt/allegro-mail.h  | 111 ++--
+ 3 files changed, 800 insertions(+), 201 deletions(-)
+
+-- 
+2.20.1
 
