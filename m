@@ -2,107 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 785F021D4FA
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 13:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C48CB21D4FC
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 13:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728714AbgGMLay (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 07:30:54 -0400
+        id S1729545AbgGMLa5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 07:30:57 -0400
 Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:39095 "EHLO
         lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727890AbgGMLax (ORCPT
+        by vger.kernel.org with ESMTP id S1727890AbgGMLa4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 07:30:53 -0400
+        Mon, 13 Jul 2020 07:30:56 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id uwfYj6z2lGLmCuwfbjB4tK; Mon, 13 Jul 2020 13:30:51 +0200
+        id uwfYj6z2lGLmCuwfbjB4tM; Mon, 13 Jul 2020 13:30:54 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594639851; bh=jyA+70r3Q3Sno8H2+1OYpHs6iSwppMHGl/ApNAs08e0=;
+        t=1594639854; bh=N3j2GzSmLbl6NCGSZ9HQsaaUJLTGBPxk+tjiPRkrRfE=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=WYqoD0CbJRt+K/NTAddBU/xguLr4q5PxW5ywlJ8wZlh+ILNoE54KXTD0Enzy6o6E1
-         E+pCzlqrTr/43koonU+R3G2bYg4liI/HAf9PbUmx+ZOsdWVfUwgBeHGa60R2cpOWWe
-         ADZxrCsUmbN6qGsmHeneyyO0mzH3SXrtRPTA+rS9M8s9fG+6m/6Ugiy7VlOPnwSPSq
-         GitnSxspEmtAOI6vpmddT7evPmtLz4MQZVDUjbDIGWINWC5H48FZ2G8T49fhHjp71V
-         ORXpPCj5AYWfGdYUb70YYUhfErrnZ7H7yBUGpjmhFTvXwkRc5b72AOZoUBghpWuuWh
-         mGBrqhHg90bXA==
+        b=SQNpE6EC2lxOsUrn4O2MdQb6BWDFYLskFWpLNZXOfqnIsiYMyeuCxjFNjCVYY8rhp
+         Y+hLSmmZcQMzmDvel30Xir4WMDnEK8EKy551XpR0L17hcJZEPC75uJR1h7dnFOEtKg
+         Yv5WS6QZJZI9I55KAQSylOXpuvRU0FG6EK+Rtaq6tF+RIJAw+lWyo+qAHKJxfarb8M
+         BMbIyh/H50jRChiSzEQF9NRNkkEH788KWipXOyPsvyWNzENp+PsDKEHsa32Cwk+Jxh
+         7eDj1ulDDjWxDGy0cjDFLxCNjYOPXQcZKakInGPxR8cRrn/UxaW3I6A3mUpH3igSOK
+         xvG6n+VMEUQAA==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Subject: [PATCHv3 0/7] media: use vb2_video_unregister_device()
-Date:   Mon, 13 Jul 2020 13:30:41 +0200
-Message-Id: <20200713113048.1150542-1-hverkuil-cisco@xs4all.nl>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Robert Foss <robert.foss@linaro.org>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Eddie James <eajames@linux.vnet.ibm.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCHv3 1/7] videobuf2-v4l2.c: add vb2_video_unregister_device helper function
+Date:   Mon, 13 Jul 2020 13:30:42 +0200
+Message-Id: <20200713113048.1150542-2-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200713113048.1150542-1-hverkuil-cisco@xs4all.nl>
+References: <20200713113048.1150542-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfOZxkyoHLYAmRBqX+0ux6JbIPr9IU5drBDSMO2NlpN9QmCUJU+SSZNKCt2hVmWxUMhexWBgrs9ZHAVZgDrFjfo/JTjOW1mvcPNNLqNXqZEWrzIQBxV4l
- xXPnW6Jkbjp/wM7WkEx6CzlOF8qLWkN8+AvPs/I7ShCm496frtNpHWFhqTTiIxSFpW74GEzoMGKG2w==
+X-CMAE-Envelope: MS4wfMGjLj2W68T9S41ABpylCO2HeD9mOSfSufutuAV/LqHukRMFxZAdQilW2K+j5cHuErszXK3Vy/rfl2vXtGS72ttOjv34Pepbs3sxOAYygQVpJTu9tLGf
+ jbXRQ/ghbRewl/3X/fZt4glxj2MRh1yeDHe+jUdNWSBtFSGc6CQ9OCQNN7IEr7L3DeTi4IHBQtiAkWze3cPcBaCa7ZBittzzmy91z/Zw+7aa9qgnwuUuehf4
+ TrqP5wcLU6CGGYLwKLopUKaKQ9YEw9UJBmVTSgUEQ8vei4VrNj7jSQmvsKD5ctikT2zixtf6hIDFwAICaZT/UFNsqNV3g1P0+aPAXOcg6FBemg7uc+sXOyn3
+ lC3XCxbM1b8eKAy40vMTrwAODH5wm9YDH+L19kiOTUSt1hyqFD3BdsTGECikhAg0ZM7iXjJI7HwVUL4V8RTFypisAjBgKzsMY/63ZrywGkzeufpbihwzeNhi
+ 9AkNgSn4RXXnHaSIBaCvkRLFAvhuSB1Tnbl8P2Bif+PfWu2bPqHoiFzTIWpk1Q8x/wfHvNazrN3mZ7e1u4qXeN+NFj1pBqZzMWjnwkHArx6WX2soeMCX6tZC
+ zLqSr949NzjHxw5JVieD9kxodgygh8ieYifXR9ErJjvGLvQtLN9D4mqxeGCKMksloJA6dZf2lw37sDU3b5Zx04go
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series supersedes this patch:
+If a driver calls (_)vb2_fop_release(), then such a driver should also
+call vb2_video_unregister_device() instead of video_unregister_device().
+This helper will all vb2_queue_release() if a filehandle is marked as
+owner of the queue. This ensures that at unregister time any streaming
+is cancelled and all buffers are returned to userspace.
 
-https://patchwork.linuxtv.org/project/linux-media/patch/7e7e9841-7f3a-468b-01c8-5921e5c14df8@xs4all.nl/
+This is very useful for complex drivers since this stops all streaming
+in all subdevs in the pipeline controlled by this video device. Otherwise
+this would happen until the owner filehandle is closed, which can be quite
+some time later.
 
-This series checks drivers that use vb2_queue_release() incorrectly
-and fixes them, and calls vb2_video_unregister_device() as well if the
-driver set vdev->queue.
+Bonus points for ordering the includes :-)
 
-There are a lot more drivers that set vdev->queue and can probably
-benefit from using vb2_video_unregister_device(), but that's something
-for a future series.
-
-The main focus of this series is to check for incorrect use of
-vb2_queue_release().
-
-Changes since v2: add patches 2-7.
-
-Regards,
-
-	Hans
-
-Hans Verkuil (7):
-  videobuf2-v4l2.c: add vb2_video_unregister_device helper function
-  qcom/camss: use vb2_video_unregister_device()
-  media/pci: use vb2_video_unregister_device()
-  media/platform: drop vb2_queue_release()
-  media/usb: use vb2_video_unregister_device()
-  vimc: use vb2_video_unregister_device()
-  staging/media: drop vb2_queue_release()
-
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Helen Koike <helen.koike@collabora.com>
+Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Eddie James <eajames@linux.vnet.ibm.com>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Alexandre Courbot <acourbot@chromium.org>
+Cc: Tiffany Lin <tiffany.lin@mediatek.com>
+Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
  .../media/common/videobuf2/videobuf2-v4l2.c   | 51 ++++++++++++++++---
- drivers/media/pci/dt3155/dt3155.c             |  3 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  9 ++--
- drivers/media/pci/saa7134/saa7134-core.c      |  6 +--
- drivers/media/pci/saa7134/saa7134-empress.c   |  3 +-
- drivers/media/pci/saa7134/saa7134-go7007.c    |  2 +-
- drivers/media/pci/saa7134/saa7134-video.c     |  2 -
- drivers/media/pci/sta2x11/sta2x11_vip.c       |  6 +--
- drivers/media/pci/tw5864/tw5864-video.c       |  4 +-
- drivers/media/platform/aspeed-video.c         |  5 +-
- .../platform/mtk-vcodec/mtk_vcodec_dec.c      |  4 +-
- drivers/media/platform/qcom/camss/camss-vfe.c |  8 ---
- drivers/media/platform/qcom/camss/camss-vfe.h |  2 -
- .../media/platform/qcom/camss/camss-video.c   | 12 +----
- .../media/platform/qcom/camss/camss-video.h   |  2 -
- drivers/media/platform/qcom/camss/camss.c     |  5 --
- drivers/media/platform/qcom/venus/vdec.c      |  8 +--
- drivers/media/platform/qcom/venus/venc.c      |  8 +--
- .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  1 +
- .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  6 +--
- .../platform/sunxi/sun6i-csi/sun6i_video.c    |  7 +--
- .../media/test-drivers/vimc/vimc-capture.c    |  7 +--
- drivers/media/test-drivers/vivid/vivid-core.c | 32 ++++++------
- drivers/media/usb/au0828/au0828-video.c       | 12 ++---
- drivers/media/usb/dvb-usb/cxusb-analog.c      | 13 ++---
- drivers/media/usb/usbtv/usbtv-video.c         |  4 +-
- drivers/staging/media/meson/vdec/vdec.c       |  8 +--
- drivers/staging/media/rkisp1/rkisp1-capture.c |  2 +-
- drivers/staging/media/rkisp1/rkisp1-params.c  |  7 +--
- drivers/staging/media/rkisp1/rkisp1-stats.c   |  6 +--
- drivers/staging/media/tegra-video/vi.c        |  8 +--
  include/media/videobuf2-v4l2.h                | 17 +++++++
- 32 files changed, 118 insertions(+), 152 deletions(-)
+ 2 files changed, 62 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 57aa183bd198..576057132d3e 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -14,21 +14,22 @@
+  * the Free Software Foundation.
+  */
+ 
++#include <linux/device.h>
+ #include <linux/err.h>
++#include <linux/freezer.h>
+ #include <linux/kernel.h>
+-#include <linux/module.h>
++#include <linux/kthread.h>
+ #include <linux/mm.h>
++#include <linux/module.h>
+ #include <linux/poll.h>
+-#include <linux/slab.h>
+ #include <linux/sched.h>
+-#include <linux/freezer.h>
+-#include <linux/kthread.h>
++#include <linux/slab.h>
+ 
++#include <media/v4l2-common.h>
+ #include <media/v4l2-dev.h>
+ #include <media/v4l2-device.h>
+-#include <media/v4l2-fh.h>
+ #include <media/v4l2-event.h>
+-#include <media/v4l2-common.h>
++#include <media/v4l2-fh.h>
+ 
+ #include <media/videobuf2-v4l2.h>
+ 
+@@ -1234,6 +1235,44 @@ unsigned long vb2_fop_get_unmapped_area(struct file *file, unsigned long addr,
+ EXPORT_SYMBOL_GPL(vb2_fop_get_unmapped_area);
+ #endif
+ 
++void vb2_video_unregister_device(struct video_device *vdev)
++{
++	/* Check if vdev was ever registered at all */
++	if (!vdev || !video_is_registered(vdev))
++		return;
++
++	/*
++	 * Calling this function only makes sense if vdev->queue is set.
++	 * If it is NULL, then just call video_unregister_device() instead.
++	 */
++	WARN_ON(!vdev->queue);
++
++	/*
++	 * Take a reference to the device since video_unregister_device()
++	 * calls device_unregister(), but we don't want that to release
++	 * the device since we want to clean up the queue first.
++	 */
++	get_device(&vdev->dev);
++	video_unregister_device(vdev);
++	if (vdev->queue && vdev->queue->owner) {
++		struct mutex *lock = vdev->queue->lock ?
++			vdev->queue->lock : vdev->lock;
++
++		if (lock)
++			mutex_lock(lock);
++		vb2_queue_release(vdev->queue);
++		vdev->queue->owner = NULL;
++		if (lock)
++			mutex_unlock(lock);
++	}
++	/*
++	 * Now we put the device, and in most cases this will release
++	 * everything.
++	 */
++	put_device(&vdev->dev);
++}
++EXPORT_SYMBOL_GPL(vb2_video_unregister_device);
++
+ /* vb2_ops helpers. Only use if vq->lock is non-NULL. */
+ 
+ void vb2_ops_wait_prepare(struct vb2_queue *vq)
+diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
+index b7b5a9cb5a28..c203047eb834 100644
+--- a/include/media/videobuf2-v4l2.h
++++ b/include/media/videobuf2-v4l2.h
+@@ -23,6 +23,8 @@
+ #error VB2_MAX_PLANES != VIDEO_MAX_PLANES
+ #endif
+ 
++struct video_device;
++
+ /**
+  * struct vb2_v4l2_buffer - video buffer information for v4l2.
+  *
+@@ -319,6 +321,21 @@ unsigned long vb2_fop_get_unmapped_area(struct file *file, unsigned long addr,
+ 		unsigned long len, unsigned long pgoff, unsigned long flags);
+ #endif
+ 
++/**
++ * vb2_video_unregister_device - unregister the video device and release queue
++ *
++ * @vdev: pointer to &struct video_device
++ *
++ * If the driver uses vb2_fop_release()/_vb2_fop_release(), then it should use
++ * vb2_video_unregister_device() instead of video_unregister_device().
++ *
++ * This function will call video_unregister_device() and then release the
++ * vb2_queue if streaming is in progress. This will stop streaming and
++ * this will simplify the unbind sequence since after this call all subdevs
++ * will have stopped streaming as well.
++ */
++void vb2_video_unregister_device(struct video_device *vdev);
++
+ /**
+  * vb2_ops_wait_prepare - helper function to lock a struct &vb2_queue
+  *
 -- 
 2.27.0
 
