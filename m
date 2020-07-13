@@ -2,174 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30E9721CDD7
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 05:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E36721CF36
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 08:09:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbgGMDl4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Jul 2020 23:41:56 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53081 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726465AbgGMDl4 (ORCPT
+        id S1729108AbgGMGJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 02:09:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35210 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729085AbgGMGJK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Jul 2020 23:41:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id upLljASGV5flqupLmjxYaW; Mon, 13 Jul 2020 05:41:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594611714; bh=JJ0QYrF4TQBUHLXcNN/OXwgjrh0dI1BnAjwgc1Ribcc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=iBpaZIcuKdsJD4+xeZ9E6/C2r/IfTpamAHXHa8gglfxdpeX1Q+ePHGs8nV5cfbSQs
-         YCJlHseQeujTKjAjjrwtAl4gs1DOk9yervcor8ZSCRTEq1shbfu76YVtRO731eMvFf
-         FgYCLQnSWL/eSInIJ9hhwDkxhI/8cS3P0CuTIf+hRcrqniELW7flZY8AMxw1lxmUiT
-         z8urxDdbSmeUzvcWOZ5kKosjYv62jJCsHI33jESfXlSUcrRlHdBAhTMLWZFt59IOdQ
-         zjK+3n8SoEvVTPYFJ//bFWN2Nnsk2+2JldYYDGKk/pgBKzeU7TJ+3wFXZkZ9+9zBV5
-         8XwSukuyDreMw==
-Message-ID: <2ffc9fee9e95295fe168e0b3ad16902c@smtp-cloud9.xs4all.net>
-Date:   Mon, 13 Jul 2020 05:41:53 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfJ2VaQTFZor7HyP7vyZ6klQtBL50A2HXD4RlEgEo20cJdd5Hdro/Xlo63OJwxy4eJ/tfDBE/HJ1+KZyjH+q9RNZFg4YMvZxGfdhvZ27Bq2FfgGSw3h8D
- iRE1gt3C1LuBjNB/Qp7dSBhz3gneyFcGCGy4vbSsUsypVuKp5sMbRXXNmOVdKCdAqimPDMS9LsK0ohg3uaEm5yp4aWmLBhPph3SN4v2IcMJsBsv+QlQgOsmE
+        Mon, 13 Jul 2020 02:09:10 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3235CC08C5DB
+        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2020 23:09:10 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id w2so5569938pgg.10
+        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2020 23:09:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rj/eX87Yry4bMawv7goL3V6HwtUE4PbCYaJFfOPa4n0=;
+        b=cfUC2mwAl/yFCEEpI2JTWLQR07oRL3/ZK1qOLOpHaBBaXdr1Cot3d4xtkUn/ua0OuI
+         vx2FsPXISp0gVgegbBXR4y8hzXsCrnuQt7gYCsBbJt94R/kwk4CQK8FEbbNbVSIe90Cq
+         jAUarPk+6bOIy+1Cm4T7+tDD5vWHgjOe+GHKs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rj/eX87Yry4bMawv7goL3V6HwtUE4PbCYaJFfOPa4n0=;
+        b=bR1Nd7pAbFjsieZZi8wpqV9B3Yd9+0k6l6/myZtnA+PueKd/IzAcrRTNLh238NjaYt
+         UtbxASsrP584GUJ37CimSD06I/mlNk0vXHGufEVButaJ29lKRqHe45Ui503KTQIHYGPx
+         pkMZ9kUkYVUWc+q1optjQv3++b2zaa1VETHSKyiXZqGRLZ+6T+OVke40GJ2YkwG2gRPI
+         IuLmq9l60IrfnpuI768sHV4ZkjF93m2FZLk38Y4FMtn86QUXKTH3cURWhcwEP42ffejV
+         Nsw100hZDoGBrSkK0FUi8bNpFKMhCOqIOyQmPj8BDeGhMNRnAS41hoZ5Exfx/VqQJg0+
+         r/Ig==
+X-Gm-Message-State: AOAM530gt11+Ds0MSGo05Ah1AvHwRi3rogbxH4QDq28p9NNRP6+B58Pc
+        yFjlMkex/Nky3YEVMvBcGYTerg==
+X-Google-Smtp-Source: ABdhPJwF8zIyl43VHuHmuurPhhu5gPK9zQSRIVs0CZLKEdAaJwNtmStknGde5p+nOZk/leF1JQ7C+A==
+X-Received: by 2002:aa7:9a92:: with SMTP id w18mr30369024pfi.233.1594620549625;
+        Sun, 12 Jul 2020 23:09:09 -0700 (PDT)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:eeb1:d7ff:fe57:b7e5])
+        by smtp.gmail.com with ESMTPSA id c134sm13134934pfc.115.2020.07.12.23.09.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jul 2020 23:09:08 -0700 (PDT)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>
+Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Subject: [PATCH v3 00/16] mtk-vcodec: venc: support for MT8183 and v4l2-compliance fixes
+Date:   Mon, 13 Jul 2020 15:08:26 +0900
+Message-Id: <20200713060842.471356-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.27.0.383.g050319c2ae-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This is the third version of the series adding support for the MT8183
+encoder (1-9) and fixing v4l2-compliance tests (10-16).
 
-Results of the daily build of media_tree:
+Changes since v2:
+* Carried new Acked-bys from mtk-vcodec maintainer,
+* Removed 2 patches that addressed what was in fact a bug in
+  v4l2-compliance,
+* Moved DT bindings patches before the code implementing them as
 
-date:			Mon Jul 13 05:00:09 CEST 2020
-media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
-media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
-v4l-utils git hash:	b94e7ab3f3fac58c63491e4892a2e0a983166bbf
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6381-g344ef612
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Changes since v1:
+* Checked that no regressions against v4l2-compliance were introduced,
+* Fixed 9 failing v4l2-compliance tests,
+* Removed 1 cleanup patch of contested utility,
+* Carried Acked-bys and Reviewed-bys from mtk-vcodec maintainer.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: ERRORS
+Alexandre Courbot (12):
+  dt-bindings: media: mtk-vcodec: document SCP node
+  media: mtk-vcodec: venc: handle firmware version field
+  media: mtk-vcodec: venc: specify bitrate range per-chip
+  media: mtk-vcodec: venc: specify supported formats per-chip
+  dt-bindings: media: document mediatek,mt8183-vcodec-enc
+  Revert "media: mtk-vcodec: Remove extra area allocation in an input
+    buffer on encoding"
+  media: mtk-vcodec: venc support MIN_OUTPUT_BUFFERS control
+  media: mtk-vcodec: venc: set OUTPUT buffers field to V4L2_FIELD_NONE
+  media: mtk-vcodec: venc: use platform data for ENUM_FRAMESIZES
+  media: mtk-vcodec: venc: support ENUM_FRAMESIZES on OUTPUT formats
+  media: mtk-vcodec: venc: set default time per frame
+  media: mtk-vcodec: venc: fix invalid time per frame in S_PARM
 
-Detailed results are available here:
+Yunfei Dong (4):
+  media: mtk-vcodec: abstract firmware interface
+  media: mtk-vcodec: add SCP firmware ops
+  media: mtk-vcodec: venc: support SCP firmware
+  media: mtk-vcodec: add support for MT8183 encoder
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+ .../bindings/media/mediatek-vcodec.txt        |   9 +-
+ drivers/media/platform/Kconfig                |   1 +
+ drivers/media/platform/mtk-vcodec/Makefile    |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  53 ++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |   1 -
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  38 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 211 ++++++++--------
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 149 ++++++++----
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   2 -
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 228 ++++++++++++++++++
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |  38 +++
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |   1 -
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   1 -
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   1 -
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   1 -
+ .../media/platform/mtk-vcodec/vdec_drv_base.h |   2 -
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   1 -
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  12 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  11 +-
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |  80 ++++--
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |  11 +-
+ .../media/platform/mtk-vcodec/venc_drv_if.c   |   1 -
+ .../media/platform/mtk-vcodec/venc_drv_if.h   |   6 +
+ .../media/platform/mtk-vcodec/venc_ipi_msg.h  |  24 +-
+ .../media/platform/mtk-vcodec/venc_vpu_if.c   | 141 ++++++++---
+ .../media/platform/mtk-vcodec/venc_vpu_if.h   |   8 +-
+ 26 files changed, 756 insertions(+), 279 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
 
-Detailed regression test results are available here:
+--
+2.27.0.383.g050319c2ae-goog
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
