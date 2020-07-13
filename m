@@ -2,41 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A1DE21D500
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 13:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF3A921D4FE
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 13:30:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729597AbgGMLa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1729592AbgGMLa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 13 Jul 2020 07:30:59 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:42053 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729457AbgGMLa5 (ORCPT
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:43013 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729492AbgGMLa5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 13 Jul 2020 07:30:57 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id uwfYj6z2lGLmCuwfejB4uQ; Mon, 13 Jul 2020 13:30:55 +0200
+        id uwfYj6z2lGLmCuwffjB4ua; Mon, 13 Jul 2020 13:30:55 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594639855; bh=Ij0NkbKl+uW5tAtjyQHiQCDuup36LREd1FEUKtx66Wo=;
+        t=1594639855; bh=Mrql/lvEqKJVu2Ll4TJUGbi9fUf4fRi+AmV3uxR8yIg=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=AZ8t31T5v81zDNPFvXNPKujGHQqz8zK4VjFovFv9sKZe2PaUNsOSF2xnpLxawTxtQ
-         7JEsMOmS15ohWz+8udlyxA71Y8LG7tBQmhJdOY7cC7eAGxYcrLhRcqmU49L3OnhyVf
-         WT76y4JL1NtHvaCmx4hjrXI3btcqij0oK5eHSQG+H1UvLs8Gg1JbX24LJ54rAwuESI
-         ZSWm5o+HFm8iufmBrW6IJx1kthR9gaOxI9qP16X0tpa86Demk9ZJyJoWBaKmmkiKsE
-         PC2kzm1q3cIPeUJt+vwxIsiHBlsjnlYQJ8c1/B3m7AaFDofdB1GwFWmL3uwxTFuaPV
-         BWMfIwZ3sspiA==
+        b=hCvqbM4Z2No8VACdwQmHPzS4rLS7hsKhyDGoPFdWZChiEENMXoW2STJHrOZQsuu/f
+         y0CrK2UwN4jNc3vnJHh6Y6wtM14PYrrVxhrODUg0BbjVKDAwyhc93t8UqF15rOFhnI
+         +BHI37cYKfGpGItuLyNk9nVRUEcS20bd1x0IlrytU774ECXl5Fz9MFCUBHR7tFV/zN
+         KO4zDzwbZPLJlby22TF4UG15k3QlSGj1uaTdhNqrQ2BtjPSEI4LmYmRnXi0cVE816+
+         ys/wpObQe8vRG4oWN6SBe4g4iVTb4x9Yoi0pE48vq01ibR5DS+zwXJlDREZyqgklTy
+         Xp6Pt+V9MmjTw==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv3 5/7] media/usb: use vb2_video_unregister_device()
-Date:   Mon, 13 Jul 2020 13:30:46 +0200
-Message-Id: <20200713113048.1150542-6-hverkuil-cisco@xs4all.nl>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Helen Koike <helen.koike@collabora.com>
+Subject: [PATCHv3 6/7] vimc: use vb2_video_unregister_device()
+Date:   Mon, 13 Jul 2020 13:30:47 +0200
+Message-Id: <20200713113048.1150542-7-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200713113048.1150542-1-hverkuil-cisco@xs4all.nl>
 References: <20200713113048.1150542-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CMAE-Envelope: MS4wfITdU6KSQPq0aTLGGd39zJCYiZtad316SmmXci8O8UNejsZFEZHqcxUtF275BloNCixNV/d8/OE9NMMXcZahWIWn9RvOPVf0xuQJKNc7ofLXrhPG/kTt
- paAKeumLiUbj+viRIqWtZIJEwXhwxNYk6Cg7HT5otZZVuG2Xoc322OuU5UMoZcp8zo92yWQJaITtUfENBbHFE5rSzRY1Pryp8SEF4a1Dc3EE2J61ekKEHiwE
+ paAKeumLiUbj+tWKsZfADJhcM3w9JUVYHqD3DKP5YbHZOoN0hcV2y8pNiOSjXF32dpI9rJDEuIp8ycSU6JFrK8ay8R+8wGozTzRt/1WZWwr4n/gHerRhZS4q
+ fD8UHpDJX2AFwvLI8Sk+EWP3HKvxd20nHQKEf2iMZvU=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -49,130 +51,124 @@ This avoids the use of vb2_queue_release() which should not be
 called by drivers that set vdev->queue.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Helen Koike <helen.koike@collabora.com>
 ---
- drivers/media/usb/au0828/au0828-video.c  | 12 ++++--------
- drivers/media/usb/dvb-usb/cxusb-analog.c | 13 +++----------
- drivers/media/usb/usbtv/usbtv-video.c    |  4 +---
- 3 files changed, 8 insertions(+), 21 deletions(-)
+ .../media/test-drivers/vimc/vimc-capture.c    |  7 ++--
+ drivers/media/test-drivers/vivid/vivid-core.c | 32 +++++++++----------
+ 2 files changed, 18 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/media/usb/au0828/au0828-video.c b/drivers/media/usb/au0828/au0828-video.c
-index 51b8d14fb4dc..aa5bc6a2ae20 100644
---- a/drivers/media/usb/au0828/au0828-video.c
-+++ b/drivers/media/usb/au0828/au0828-video.c
-@@ -938,8 +938,8 @@ int au0828_analog_unregister(struct au0828_dev *dev)
- 		return 0;
+diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+index c63496b17b9a..5e9fd902cd37 100644
+--- a/drivers/media/test-drivers/vimc/vimc-capture.c
++++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+@@ -351,8 +351,7 @@ static void vimc_cap_unregister(struct vimc_ent_device *ved)
+ 	struct vimc_cap_device *vcap =
+ 		container_of(ved, struct vimc_cap_device, ved);
  
- 	mutex_lock(&au0828_sysfs_lock);
--	video_unregister_device(&dev->vdev);
--	video_unregister_device(&dev->vbi_dev);
-+	vb2_video_unregister_device(&dev->vdev);
-+	vb2_video_unregister_device(&dev->vbi_dev);
- 	mutex_unlock(&au0828_sysfs_lock);
+-	vb2_queue_release(&vcap->queue);
+-	video_unregister_device(&vcap->vdev);
++	vb2_video_unregister_device(&vcap->vdev);
+ }
  
- 	v4l2_device_disconnect(&dev->v4l2_dev);
-@@ -2011,8 +2011,7 @@ int au0828_analog_register(struct au0828_dev *dev,
- 	if (retval != 0) {
- 		dprintk(1, "unable to register video device (error = %d).\n",
- 			retval);
--		ret = -ENODEV;
--		goto err_reg_vdev;
-+		return -ENODEV;
+ static void *vimc_cap_process_frame(struct vimc_ent_device *ved,
+@@ -477,13 +476,11 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 	if (ret) {
+ 		dev_err(vimc->mdev.dev, "%s: video register failed (err=%d)\n",
+ 			vcap->vdev.name, ret);
+-		goto err_release_queue;
++		goto err_clean_m_ent;
  	}
  
- 	/* Register the vbi device */
-@@ -2040,10 +2039,7 @@ int au0828_analog_register(struct au0828_dev *dev,
+ 	return &vcap->ved;
+ 
+-err_release_queue:
+-	vb2_queue_release(q);
+ err_clean_m_ent:
+ 	media_entity_cleanup(&vcap->vdev.entity);
+ err_free_vcap:
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index f7ee37e9508d..931218fa955e 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -1827,16 +1827,16 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
  	return 0;
  
- err_reg_vbi_dev:
--	video_unregister_device(&dev->vdev);
--err_reg_vdev:
--	vb2_queue_release(&dev->vb_vidq);
--	vb2_queue_release(&dev->vb_vbiq);
-+	vb2_video_unregister_device(&dev->vdev);
- 	return ret;
- }
- 
-diff --git a/drivers/media/usb/dvb-usb/cxusb-analog.c b/drivers/media/usb/dvb-usb/cxusb-analog.c
-index 001cae648797..e93183ddd797 100644
---- a/drivers/media/usb/dvb-usb/cxusb-analog.c
-+++ b/drivers/media/usb/dvb-usb/cxusb-analog.c
-@@ -1615,8 +1615,6 @@ static void cxusb_medion_videodev_release(struct video_device *vdev)
- 
- 	cxusb_vprintk(dvbdev, OPS, "video device release\n");
- 
--	vb2_queue_release(vdev->queue);
--
- 	video_device_release(vdev);
- }
- 
-@@ -1647,8 +1645,7 @@ static int cxusb_medion_register_analog_video(struct dvb_usb_device *dvbdev)
- 	cxdev->videodev = video_device_alloc();
- 	if (!cxdev->videodev) {
- 		dev_err(&dvbdev->udev->dev, "video device alloc failed\n");
--		ret = -ENOMEM;
--		goto ret_qrelease;
-+		return -ENOMEM;
- 	}
- 
- 	cxdev->videodev->device_caps = videocaps;
-@@ -1674,10 +1671,6 @@ static int cxusb_medion_register_analog_video(struct dvb_usb_device *dvbdev)
- 
- ret_vrelease:
- 	video_device_release(cxdev->videodev);
--
--ret_qrelease:
--	vb2_queue_release(&cxdev->videoqueue);
--
- 	return ret;
- }
- 
-@@ -1820,7 +1813,7 @@ int cxusb_medion_register_analog(struct dvb_usb_device *dvbdev)
- 	return 0;
- 
- ret_vunreg:
--	video_unregister_device(cxdev->videodev);
-+	vb2_video_unregister_device(cxdev->videodev);
- 
- ret_unregister:
- 	v4l2_device_put(&cxdev->v4l2dev);
-@@ -1836,7 +1829,7 @@ void cxusb_medion_unregister_analog(struct dvb_usb_device *dvbdev)
- 	cxusb_vprintk(dvbdev, OPS, "unregistering analog\n");
- 
- 	video_unregister_device(cxdev->radiodev);
--	video_unregister_device(cxdev->videodev);
-+	vb2_video_unregister_device(cxdev->videodev);
- 
- 	v4l2_device_put(&cxdev->v4l2dev);
- 	wait_for_completion(&cxdev->v4l2_release);
-diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
-index c89efcd46163..3b4a2e769230 100644
---- a/drivers/media/usb/usbtv/usbtv-video.c
-+++ b/drivers/media/usb/usbtv/usbtv-video.c
-@@ -872,7 +872,6 @@ static void usbtv_release(struct v4l2_device *v4l2_dev)
- 
- 	v4l2_device_unregister(&usbtv->v4l2_dev);
- 	v4l2_ctrl_handler_free(&usbtv->ctrl);
--	vb2_queue_release(&usbtv->vb2q);
- 	kfree(usbtv);
- }
- 
-@@ -954,7 +953,6 @@ int usbtv_video_init(struct usbtv *usbtv)
- v4l2_fail:
- ctrl_fail:
- 	v4l2_ctrl_handler_free(&usbtv->ctrl);
--	vb2_queue_release(&usbtv->vb2q);
- 
- 	return ret;
- }
-@@ -965,7 +963,7 @@ void usbtv_video_free(struct usbtv *usbtv)
- 	mutex_lock(&usbtv->v4l2_lock);
- 
- 	usbtv_stop(usbtv);
--	video_unregister_device(&usbtv->vdev);
-+	vb2_video_unregister_device(&usbtv->vdev);
- 	v4l2_device_disconnect(&usbtv->v4l2_dev);
- 
- 	mutex_unlock(&usbtv->v4l2_lock);
+ unreg_dev:
+-	video_unregister_device(&dev->touch_cap_dev);
+-	video_unregister_device(&dev->meta_out_dev);
+-	video_unregister_device(&dev->meta_cap_dev);
++	vb2_video_unregister_device(&dev->touch_cap_dev);
++	vb2_video_unregister_device(&dev->meta_out_dev);
++	vb2_video_unregister_device(&dev->meta_cap_dev);
+ 	video_unregister_device(&dev->radio_tx_dev);
+ 	video_unregister_device(&dev->radio_rx_dev);
+-	video_unregister_device(&dev->sdr_cap_dev);
+-	video_unregister_device(&dev->vbi_out_dev);
+-	video_unregister_device(&dev->vbi_cap_dev);
+-	video_unregister_device(&dev->vid_out_dev);
+-	video_unregister_device(&dev->vid_cap_dev);
++	vb2_video_unregister_device(&dev->sdr_cap_dev);
++	vb2_video_unregister_device(&dev->vbi_out_dev);
++	vb2_video_unregister_device(&dev->vbi_cap_dev);
++	vb2_video_unregister_device(&dev->vid_out_dev);
++	vb2_video_unregister_device(&dev->vid_cap_dev);
+ 	cec_unregister_adapter(dev->cec_rx_adap);
+ 	for (i = 0; i < MAX_OUTPUTS; i++)
+ 		cec_unregister_adapter(dev->cec_tx_adap[i]);
+@@ -1907,27 +1907,27 @@ static int vivid_remove(struct platform_device *pdev)
+ 		if (dev->has_vid_cap) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				video_device_node_name(&dev->vid_cap_dev));
+-			video_unregister_device(&dev->vid_cap_dev);
++			vb2_video_unregister_device(&dev->vid_cap_dev);
+ 		}
+ 		if (dev->has_vid_out) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				video_device_node_name(&dev->vid_out_dev));
+-			video_unregister_device(&dev->vid_out_dev);
++			vb2_video_unregister_device(&dev->vid_out_dev);
+ 		}
+ 		if (dev->has_vbi_cap) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				video_device_node_name(&dev->vbi_cap_dev));
+-			video_unregister_device(&dev->vbi_cap_dev);
++			vb2_video_unregister_device(&dev->vbi_cap_dev);
+ 		}
+ 		if (dev->has_vbi_out) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				video_device_node_name(&dev->vbi_out_dev));
+-			video_unregister_device(&dev->vbi_out_dev);
++			vb2_video_unregister_device(&dev->vbi_out_dev);
+ 		}
+ 		if (dev->has_sdr_cap) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				video_device_node_name(&dev->sdr_cap_dev));
+-			video_unregister_device(&dev->sdr_cap_dev);
++			vb2_video_unregister_device(&dev->sdr_cap_dev);
+ 		}
+ 		if (dev->has_radio_rx) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+@@ -1948,17 +1948,17 @@ static int vivid_remove(struct platform_device *pdev)
+ 		if (dev->has_meta_cap) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				  video_device_node_name(&dev->meta_cap_dev));
+-			video_unregister_device(&dev->meta_cap_dev);
++			vb2_video_unregister_device(&dev->meta_cap_dev);
+ 		}
+ 		if (dev->has_meta_out) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				  video_device_node_name(&dev->meta_out_dev));
+-			video_unregister_device(&dev->meta_out_dev);
++			vb2_video_unregister_device(&dev->meta_out_dev);
+ 		}
+ 		if (dev->has_touch_cap) {
+ 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+ 				  video_device_node_name(&dev->touch_cap_dev));
+-			video_unregister_device(&dev->touch_cap_dev);
++			vb2_video_unregister_device(&dev->touch_cap_dev);
+ 		}
+ 		cec_unregister_adapter(dev->cec_rx_adap);
+ 		for (j = 0; j < MAX_OUTPUTS; j++)
 -- 
 2.27.0
 
