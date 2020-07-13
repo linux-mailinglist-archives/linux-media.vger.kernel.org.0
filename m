@@ -2,105 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A67121D35E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 12:03:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0F7121D46C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2020 13:03:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729588AbgGMKD2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 06:03:28 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44787 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726523AbgGMKD1 (ORCPT
+        id S1729813AbgGMLDO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 07:03:14 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:52871 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729043AbgGMLDN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 06:03:27 -0400
+        Mon, 13 Jul 2020 07:03:13 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id uvIwj6dSlGLmCuvIzjAv4p; Mon, 13 Jul 2020 12:03:25 +0200
+        id uwEgj6s9tGLmCuwEjjB1dN; Mon, 13 Jul 2020 13:03:10 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594634605; bh=JZ0u6IVYJ3t6A5I0FiTBQH+7zjb770/fle7atpAVCzs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1594638190; bh=7BwEcR7/VJLkjy4dPuDZlsisdJfI8yy61lGPpGCzfqk=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=FdED5WFnNNxHgJOQ5hMxpOAdDav4DkMFqmX2rh8kqXVBRvBg6xZmoTXN3A+fPcH8f
-         hZ2lZ5oQ+rIBr6fSK1NWaTL3tEm3ciEeo2XsxVTg7jqosxzroC+i2TFxKeLdk8CE0E
-         HiSZOHl9i4jgrOppQbtxy2WXs9nXq98I8augJvQR0Bwm8GPXsIIc7HbiZJHuKR9r6d
-         +5stJHF8lm0r1SgL3DO+mLWXU5kvoy2L+AYaWogtEx+Z69MDyk5xyPp/O/oM0I8V5N
-         Yl+Hfk/eMpbHj3YMT03+pd+4rAyIhIuTvy7BNti4xzusBgXdwMtA7DJdsrACA4KBKs
-         GIBALBr20T7BA==
-Subject: Re: [PATCH v1 3/6] [media] cx25821: use generic power management
-To:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, bjorn@helgaas.com,
-        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        skhan@linuxfoundation.org
-References: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
- <20200629073604.205478-4-vaibhavgupta40@gmail.com>
+        b=rlM0ehFf+6PigQoDhmbKnuOu0ER9L/OYD1DBt91asbHjR4Q4Kyx9owowlxZo2TwDt
+         TG4LQD4XGdmviOzsVOeBDqvQcnH6fDGCnZowmpoycWWxEKFJDghHm8Himyv/oA2LYE
+         iLfKx6O8D2DMCd3tH/o4Pd1OD1996jgBwRYPDWLT+EnQP1i3S9Qk2jw2zseAWrL+vq
+         q3qKlfaoaIva2CZH5P3ZMS0lIv1rIImCUH7PdbaQkx2N3SPfjR6sH8ZVIFUSJLgQxq
+         OcxeSljq3vAI/1E/Z20Gebo0/LG/hCYfBPZKR4HKhDZ96EqDOMAzj19NsEwu7C4Mxt
+         +++wXrpd5Kc/g==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Kaaira Gupta <kgupta@es.iitr.ac.in>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <126d8fe6-1480-137c-ac64-d828a32b99f9@xs4all.nl>
-Date:   Mon, 13 Jul 2020 12:03:21 +0200
+Subject: [GIT PULL FOR v5.9] Various fixes/enhancements
+Message-ID: <46c3bb00-2d14-cbd1-0b7c-58566096295e@xs4all.nl>
+Date:   Mon, 13 Jul 2020 13:03:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200629073604.205478-4-vaibhavgupta40@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFiuY3g36s+/lIFf8CRg5WvA6XQU+S7/+hihune9u/ukz+XXtQn0TrUcq5itDVbjWDM+5qoFf1B+Uz8z8GJsH6bfd8Mic/MwYp9w1q/yvaKUQmRBOfxh
- hkQI37AksyhAQFB2A315MaOXpkzTzKmcqGQy5DwsPAVp6kwFYYSjFnvMSdkGuLZ55KdCj5W4YkQGiny8ejEdv3Dsg72Go6kGjVgTheWacfPMBtSRSfmVDPOS
- AO12fd2Ogjry+oCJpHNTDOiBJTVhWOUbXpHHGz07HgzUMlAlpmpk3jI0cWXRZFy/O65GHnS5Q1bOgKlYO7tSywQttExU0vbn71cPstiaxjhPKiNjB78U8c0G
- Pf/Yk4hEYGHkHHm/5qugLvNw8Lxcy17KLO8w0DXVN9ib6gmgnk8522/6SpRuKHeGiobxcnMfDri+cUhYKnszwIc7iVZFWDyWoA6HFjkDYRLluXmjg71c93Ql
- m80gBTFhNn6JbA/3iKKpGnKZ3VuViHqIWuPjcIxC3lRJ9SQ5m61E4l/0how=
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfONQQX/QhANBe0nv1uZr9e5a+5Pq+b5gOQLJ36huk/GKJCLYIbE06Giri6sXGkmNzeoxYV6A92Cjsk+2BGXL7jnm1kma/nYnrtbcYK5XcBJouww9wHjI
+ QSJ9al944NtvEru8xcQz/deXDsNVRUyj3drs13vjUvjv7gBhC6SFR+wKn+Rg0vTygBnc4lN4o+5O8ttqXEBJqy9SGTyZwo1kxo4APEDZGKYlIHCYC9A+Fkg3
+ yvOcKghoVCv3NfYolshiuqNebPaqK2bP8zePKiSw+vzFFESCz0crSibuQasT79iC
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/06/2020 09:36, Vaibhav Gupta wrote:
-> The .suspend() and .resume() callbacks are not defined for this driver.
-> Still, their power managemgement stucture can be easily upgraded to
-> gemeric, without affecting its normal behaviour.
-> 
-> Hence, define them NULL and use struct dev_pm_ops type to bind them.
-> 
-> Compile-tested only.
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> ---
->  drivers/media/pci/cx25821/cx25821-core.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/pci/cx25821/cx25821-core.c b/drivers/media/pci/cx25821/cx25821-core.c
-> index 41be22ce66f3..59501939d741 100644
-> --- a/drivers/media/pci/cx25821/cx25821-core.c
-> +++ b/drivers/media/pci/cx25821/cx25821-core.c
-> @@ -1369,14 +1369,18 @@ static const struct pci_device_id cx25821_pci_tbl[] = {
->  
->  MODULE_DEVICE_TABLE(pci, cx25821_pci_tbl);
->  
-> +#define cx25821_suspend NULL
-> +#define cx25821_resume NULL
-> +
-> +static SIMPLE_DEV_PM_OPS(cx25821_pm_ops, cx25821_suspend, cx25821_resume);
-> +
->  static struct pci_driver cx25821_pci_driver = {
->  	.name = "cx25821",
->  	.id_table = cx25821_pci_tbl,
->  	.probe = cx25821_initdev,
->  	.remove = cx25821_finidev,
->  	/* TODO */
-> -	.suspend = NULL,
-> -	.resume = NULL,
-> +	.driver.pm = &cx25821_pm_ops,
->  };
+The following changes since commit 6f01dfb760c027d5dd6199d91ee9599f2676b5c6:
 
-Same question as for 2/6.
+  media: cros-ec-cec: do not bail on device_init_wakeup failure (2020-07-04 12:45:45 +0200)
 
-Regards,
+are available in the Git repository at:
 
-	Hans
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.9g
 
->  
->  static int __init cx25821_init(void)
-> 
+for you to fetch changes up to b5cfde9ff04b0caaee587ead5e7ca673aa46eab8:
 
+  staging/media: Remove unneeded geometry restrictions from i.MX CSI driver (2020-07-13 12:36:59 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Dafna Hirschfeld (6):
+      media: staging: rkisp1: use a macro for the statistics flags mask
+      media: staging: rkisp1: stats: replace spin_lock_irqsave with spin_lock_irq
+      media: staging: rkisp1: stats: replace locks wq_lock, irq_lock with one lock
+      media: staging: rkisp1: stats: read the stats in the isr
+      media: staging: rkisp1: remove duplicate macro definition
+      media: staging: rkisp1: fix typos in file rkisp1-config.h
+
+Evgeny Novikov (1):
+      media: vpss: clean up resources in init
+
+Ezequiel Garcia (8):
+      hantro: h264: Remove unused macro definition
+      hantro: h264: Rename scaling list handling function
+      hantro: Rework how encoder and decoder are identified
+      hantro: Move hantro_enc_buf_finish to JPEG codec_ops.done
+      hantro: Remove unused bytesused argument
+      hantro: Make sure we don't use post-processor on an encoder
+      rkvdec: h264: Refuse to decode unsupported bitstream
+      hantro: h264: Refuse to decode unsupported bitstream
+
+Kaaira Gupta (3):
+      media: tpg: change char argument to const char
+      media: tpg: Add function to return colors' order of test image
+      media: vimc: Add a control to display info on test image
+
+Krzysztof Hałasa (1):
+      staging/media: Remove unneeded geometry restrictions from i.MX CSI driver
+
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c     |  40 +++++++++++++++---
+ drivers/media/platform/davinci/vpss.c             |  20 +++++++--
+ drivers/media/test-drivers/vimc/Kconfig           |   2 +
+ drivers/media/test-drivers/vimc/vimc-common.h     |   1 +
+ drivers/media/test-drivers/vimc/vimc-core.c       |  10 +++++
+ drivers/media/test-drivers/vimc/vimc-sensor.c     |  71 +++++++++++++++++++++++++++++++
+ drivers/staging/media/hantro/hantro.h             |  13 ++----
+ drivers/staging/media/hantro/hantro_drv.c         |  94 +++++++++++++++++++----------------------
+ drivers/staging/media/hantro/hantro_h1_jpeg_enc.c |  17 ++++++++
+ drivers/staging/media/hantro/hantro_h264.c        |   6 +--
+ drivers/staging/media/hantro/hantro_hw.h          |   5 ++-
+ drivers/staging/media/hantro/hantro_v4l2.c        |  28 ++++++------
+ drivers/staging/media/hantro/imx8m_vpu_hw.c       |   2 +-
+ drivers/staging/media/hantro/rk3288_vpu_hw.c      |   8 ++--
+ drivers/staging/media/hantro/rk3399_vpu_hw.c      |   7 ++-
+ drivers/staging/media/imx/imx-ic-prp.c            |   4 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c       |   4 +-
+ drivers/staging/media/imx/imx-media-csi.c         |   4 +-
+ drivers/staging/media/imx/imx-media-vdic.c        |   4 +-
+ drivers/staging/media/rkisp1/TODO                 |   1 -
+ drivers/staging/media/rkisp1/rkisp1-common.h      |  12 +++---
+ drivers/staging/media/rkisp1/rkisp1-isp.c         |   5 +--
+ drivers/staging/media/rkisp1/rkisp1-regs.h        |   1 -
+ drivers/staging/media/rkisp1/rkisp1-stats.c       | 117 +++++++--------------------------------------------
+ drivers/staging/media/rkisp1/uapi/rkisp1-config.h |   4 +-
+ drivers/staging/media/rkvdec/rkvdec.c             |  27 ++++++++++++
+ include/media/tpg/v4l2-tpg.h                      |   3 +-
+ 27 files changed, 285 insertions(+), 225 deletions(-)
