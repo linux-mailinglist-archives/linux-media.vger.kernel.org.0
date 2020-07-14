@@ -2,137 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3EC921E4A0
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 02:38:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1849321E5DB
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 04:45:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgGNAiS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 20:38:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48846 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726347AbgGNAiS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 20:38:18 -0400
-Received: from localhost (mobile-166-175-191-139.mycingular.net [166.175.191.139])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 43BF721835;
-        Tue, 14 Jul 2020 00:38:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594687097;
-        bh=pFcNS2ygVqW7ey6A2Cca3OTCddtdMGr4gJx98JrrPYY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=s042KyzvtI4w4VGAyAkcy2v2y653tZtfuqChNgbbl0qQaDRvArLmp56nOPblDDmFX
-         exgh+cqRpD+VVSxisUJXcDotaJf7qZEJrbzrGDxsyVrzVeo1F/OeYxIXhJeZBTbSRu
-         QXaXwEPSGMFFUJ2ZslA7SJPv7Ne89gWFHQYESUhI=
-Date:   Mon, 13 Jul 2020 19:38:14 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, bjorn@helgaas.com,
-        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        skhan@linuxfoundation.org
-Subject: Re: [PATCH v1 2/6] [media] cx23885: use generic power management
-Message-ID: <20200714003814.GA292013@bjorn-Precision-5520>
+        id S1726505AbgGNCpQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 22:45:16 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:33695 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726150AbgGNCpP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Jul 2020 22:45:15 -0400
+Received: by mail-io1-f68.google.com with SMTP id d18so15793735ion.0;
+        Mon, 13 Jul 2020 19:45:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=s7/p0LKnwYztNP3yOyVMCmJC/s32uIp93cOd4bT8YX0=;
+        b=D6ZHextqPjOP+2wMsTYsLaGqc8dzeeHh+7ztg9wrtwg5xUTe6tVWEUS1vj1uvy1ZTW
+         xSBe8ZQCtYfeZNSxwPpNkMDSo5sZ8LDn+uS2Vg8HLuXSE1+XkJfiT2zBatZxDdMoDPwz
+         KPDDh1kBXWj5YOrxfTaXHcmTbTO0Kq9zgTzz01koEhD+2eg2z2LsnpufIiwVpXpcEmrv
+         fWu9tN8XwQOStcCpCY11bGB31M5nHhDZXrXfp642JDUQKg5YjZHa4G5oUUAry/67D1rF
+         78o0AggzJsCs98KfQt75dj1SPCjEndoYzh6DQ76LwUDPdD1vrws8AbPUMcXvMNHBwY7/
+         N7wA==
+X-Gm-Message-State: AOAM530BhLZKEl3EfcefUQ7uXfnLHbkWLvENio7Ufrzu16r3GUzW0Ie2
+        wDwWWQ8vwwthDFipRkz6SA==
+X-Google-Smtp-Source: ABdhPJyx8UdIhIEKvxzTLlJNVLkJWx6cbMd1XvZ0aLeHH8iTfpfkEERxAxkFXceQErzACPH/C0jATg==
+X-Received: by 2002:a5d:9699:: with SMTP id m25mr2884313ion.74.1594694714687;
+        Mon, 13 Jul 2020 19:45:14 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id i12sm4158331ioi.48.2020.07.13.19.45.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2020 19:45:13 -0700 (PDT)
+Received: (nullmailer pid 1181804 invoked by uid 1000);
+        Tue, 14 Jul 2020 02:45:12 -0000
+Date:   Mon, 13 Jul 2020 20:45:12 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2.1 1/8] dt-bindings: media: renesas, fcp: Convert
+ binding to YAML
+Message-ID: <20200714024512.GA1181735@bogus>
+References: <20200701060349.GE5963@pendragon.ideasonboard.com>
+ <20200701060525.9748-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <c4a46846-208f-c834-56d7-02543c395795@xs4all.nl>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200701060525.9748-1-laurent.pinchart+renesas@ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 13, 2020 at 12:01:51PM +0200, Hans Verkuil wrote:
-> On 29/06/2020 09:36, Vaibhav Gupta wrote:
-> > The .suspend() and .resume() callbacks are not defined for this driver.
-> > Still, their power managemgement stucture can be easily upgraded to
+On Wed, 01 Jul 2020 09:05:25 +0300, Laurent Pinchart wrote:
+> Convert the Renesas R-Car FCP text binding to YAML.
 > 
-> management structure
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> Changes since v2:
 > 
-> > gemeric, without affecting its normal behaviour.
+> - Refer to the correct device in the comment above the example
 > 
-> generic
+> Changes since v1:
 > 
-> > Hence, define them NULL and use struct dev_pm_ops type to bind them.
-> > 
-> > Compile-tested only.
-> > 
-> > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > ---
-> >  drivers/media/pci/cx23885/cx23885-core.c | 16 ++++++++++------
-> >  1 file changed, 10 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
-> > index 7e0b0b7cc2a3..da9ee7270dfd 100644
-> > --- a/drivers/media/pci/cx23885/cx23885-core.c
-> > +++ b/drivers/media/pci/cx23885/cx23885-core.c
-> > @@ -2230,14 +2230,18 @@ static const struct pci_device_id cx23885_pci_tbl[] = {
-> >  };
-> >  MODULE_DEVICE_TABLE(pci, cx23885_pci_tbl);
-> >  
-> > +#define cx23885_suspend NULL
-> > +#define cx23885_resume NULL
-> > +
-> > +static SIMPLE_DEV_PM_OPS(cx23885_pm_ops, cx23885_suspend, cx23885_resume);
-> > +
-> >  static struct pci_driver cx23885_pci_driver = {
-> > -	.name     = "cx23885",
-> > -	.id_table = cx23885_pci_tbl,
-> > -	.probe    = cx23885_initdev,
-> > -	.remove   = cx23885_finidev,
-> > +	.name      = "cx23885",
-> > +	.id_table  = cx23885_pci_tbl,
-> > +	.probe     = cx23885_initdev,
-> > +	.remove    = cx23885_finidev,
-> >  	/* TODO */
-> > -	.suspend  = NULL,
-> > -	.resume   = NULL,
-> > +	.driver.pm = &cx23885_pm_ops,
+> - Simplify comments on compatible strings
+> - Update MAINTAINERS
+> ---
+>  .../devicetree/bindings/media/renesas,fcp.txt | 34 -----------
+>  .../bindings/media/renesas,fcp.yaml           | 56 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 57 insertions(+), 35 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.yaml
 > 
-> I don't entirely understand this. Wouldn't it be sufficient to just
-> drop the .suspend/.resume assignments here? It is now required for
-> driver.pm to be non-NULL?
-> 
-> I'm not up to speed on the changes, but normally you can leave things
-> NULL if you don't support a feature (PM in this case).
 
-I think this patch will break things.  Previously, we had:
-
-  cx23885_pci_driver.suspend == NULL
-  cx23885_pci_driver.resume == NULL
-  cx23885_pci_driver.driver.pm == NULL
-
-pci_pm_suspend() looks like:
-
-  if (pci_has_legacy_pm_support(pci_dev))
-    return pci_legacy_suspend(dev, PMSG_SUSPEND);
-
-  if (!pm) {
-    pci_pm_default_suspend(pci_dev);
-    return 0;
-  }
-
-pci_has_legacy_pm_support() was false since drv->suspend and
-drv->resume are both NULL, so we'd take the pci_pm_default_suspend()
-path.  After this patch, driver.pm would no longer be NULL, so we'd
-take a different path that is clearly not equivalent.
-
-I think you should do this:
-
-  - 	/* TODO */
-  -	.suspend  = NULL,
-  -	.resume   = NULL,
-
-and leave .driver.pm NULL by not mentioning it at all.  That should be
-identical at the object code level since those are the defaults
-anyway.
-
-That almost looks like useless churn, but the point of this patch is
-to remove use of PCI legacy PM (pci_driver.suspend and .resume) so we
-can completely remove that infrastructure from the PCI core, including
-the .suspend and .resume members of struct pci_driver, so we really do
-need to do it.
-
-Bjorn
+Reviewed-by: Rob Herring <robh@kernel.org>
