@@ -2,112 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49F0921F857
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 19:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A22021F87A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 19:48:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728576AbgGNRjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jul 2020 13:39:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55496 "EHLO
+        id S1728836AbgGNRqu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jul 2020 13:46:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726364AbgGNRjW (ORCPT
+        with ESMTP id S1726169AbgGNRqt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jul 2020 13:39:22 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC44CC061755
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 10:39:22 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id g6so8535317ybo.11
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 10:39:22 -0700 (PDT)
+        Tue, 14 Jul 2020 13:46:49 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A725DC061755
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 10:46:49 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id a21so3314850ejj.10
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 10:46:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=038V87x0NvijYdo71Bgx3S/d5DmmQpMFgI4KR6UKhAo=;
-        b=rFj5HYtGzm/8k18kQVPm4w1+T3wtbxt+AhbIaYFOW9P3MQ88kukz95WuGZwv8X+2A5
-         k0A1D21iLuUDEBnYN7WaH6t0J4YAR9LAIciQXaevlT6YcEHmVjJfXMeVVsJZeRQp7T9T
-         0C3lj8CkZG6npWMprsZYV0EaEao4ZdUJ0RiRFyfagwaZKQRrmy46IJSw03k3Wxj6LB2/
-         3NvsX5sq9Dk+F0qQrfI8Vdpcp26SS3JGtkBVNKxrxyZMom7rLH6HC/HhyCjdUxS/zYco
-         VZU1zZm2OunuA5NvBQK8CIk9I92OxqOd8XaRnZ3ZyyE+c0sdpVdxNsq+JBuW6V5WjhGz
-         xxjg==
+         :cc:content-transfer-encoding;
+        bh=NB5nytNOxsJJioGL1Jixv5ej+NnEMHWRKbTcnkeqcug=;
+        b=bSqLibnaW/T58mL9feuhhYVqPsWXPihE0fwbIoqc39uqy6e+2BiUPZkGhVblD9R7Au
+         akO6EH8cfrhK7Yf9kbjdwsNm/6+fhjEZ3TpbUP5BDyMVe2hVLNAK+Py5VsTtpjhiRqXo
+         ghR+N/exkc4TPT4gAJesMOByGNpGxPZIDqXuQtW22DePJpZrEUFaDJWQNwfKaTT1ZgpI
+         kyFzzeT1Vdif9Pe+iniC0KvvcPEJ8tLHRT3UovOz0N1Lfoe1dkguuagsdB3lgAtjM0cO
+         SOxzOeMDOR+S7GSg8nxtewQSGNLBtatjVg9+jrdz2gjSMDz1GJxtFthbxYF5QEAXZJJS
+         fZ/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=038V87x0NvijYdo71Bgx3S/d5DmmQpMFgI4KR6UKhAo=;
-        b=LvDoKI1uo2t1dqGPyvPaTHdRPcAXbcQ7yBlWkf6BBtg7widkTB94KMdxYNYI955R5+
-         VzwsacTkdtSzdwaLn+N8nl7fvNLPofSG+HSFIx0tiamqSM26qmVNi6HYXv4ZlCrkdO9f
-         x74zxSkWZ1MKo6jso2tNSHwMqnZAdRFWiSOrzJsxg0BgDxBmfScOJhla3eaozEvLoF61
-         kRYE3yjt9RUQl/j2dZyf4GZiXPkWvEe9AEMUjMuRuyW43GPzWSPZc6NwIg6lGCY5/bot
-         AI8kXPRHdMhAJvE0nH6xP8wodPZ5CknLDXfZT6CDzUNVv/l4pSq1cKjc78sc6vRTAXHc
-         j4/w==
-X-Gm-Message-State: AOAM531MjnKzDsKowVdUDPB2asRiaaMCJyLjoM5lywKl82Ez9ks+mD6r
-        xvkRU3CW+fD97tSU0aDTx6YaFlDXUeYArtYBy5kHfA==
-X-Google-Smtp-Source: ABdhPJxgZGsAKhHJS7SEbd7c498Pzk4in1OFuUMsm0lKf4kdWJIr1GE9/HrAP8LqSwGdDr4tPJPxHtRBq9m3D7RNtWs=
-X-Received: by 2002:a25:a226:: with SMTP id b35mr9746505ybi.356.1594748361502;
- Tue, 14 Jul 2020 10:39:21 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=NB5nytNOxsJJioGL1Jixv5ej+NnEMHWRKbTcnkeqcug=;
+        b=oFCzgEClUuB6xNn10o8v+R+q/b7aB3/62nzj2sNjKuHmS0UM+b+KiSfj/X2VJUhBGW
+         wcr7lkTXzVHn8Oc9xvnChDFR6KGC4AlT+Q0o6XJxQSE90kfQcor7cA1cEYvLL5rBlUYy
+         uRxFCzZ2bN12UMSzkWOZbIWswTUtpPWrqTwFIJ94BZNZDATn1pzBg2iimpneFi7vl+m3
+         7BYQVzb/KGQ5r4QfbmTCDZm9i63P8CD+nk88icMaINts0qhjaQrsBafOTrEzfvSffhBM
+         BvgKwmjTqRXS/HTfQabtnOtE9UqrSgpfy8oVpNSe3oKizDMs404Esp6rrr/zsEeD59Ga
+         FkIA==
+X-Gm-Message-State: AOAM533v3Qpu2sKwfa4+umITvYwhG/VqPETmmJh4Q2P3ntCWn/0WTXhc
+        a9LZOL0dTyNGnUMsv5+ihI/2NyRA+j1IjnhM3L5B4g==
+X-Google-Smtp-Source: ABdhPJx0c4bCwqzJhlZQg26rtFZ2ogbu3hjGv1Go+aM7VrNiOmfc9AqYjZOFezTtwnrBkWcWaFJT4975ZoMq1Diy5+w=
+X-Received: by 2002:a17:906:26c3:: with SMTP id u3mr5380567ejc.483.1594748808337;
+ Tue, 14 Jul 2020 10:46:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200714063035.8635-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20200714063035.8635-1-lukas.bulwahn@gmail.com>
-From:   Jeff Chase <jnchase@google.com>
-Date:   Tue, 14 Jul 2020 10:39:10 -0700
-Message-ID: <CALTkaQ0ur4xVks++7kFowPvLA3b1TAUzt07+uu2T9dPuSuKx4A@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: rectify CHRONTEL CH7322 CEC DRIVER section
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
-        Pia Eichinger <pia.eichinger@st.oth-regensburg.de>,
-        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+References: <20200707201229.472834-4-daniel.vetter@ffwll.ch> <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+From:   Jason Ekstrand <jason@jlekstrand.net>
+Date:   Tue, 14 Jul 2020 12:46:37 -0500
+Message-ID: <CAOFGe95aevRvreikoUPksZ83GskdOzuzVMkyKmbQPNiHzbjjhg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dma-buf.rst: Document why indefinite fences are a bad idea
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        linux-rdma@vger.kernel.org,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Stone <daniels@collabora.com>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Steve Pronovost <spronovo@microsoft.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, linaro-mm-sig@lists.linaro.org,
+        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-(Resending as plain text)
+This matches my understanding for what it's worth.  In my little bit
+of synchronization work in drm, I've gone out of my way to ensure we
+can maintain this constraint.
 
-Ack. Thanks.
+Acked-by: Jason Ekstrand <jason@jlekstrand.net>
 
-Jeff
-
-
-On Mon, Jul 13, 2020 at 11:30 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Thu, Jul 9, 2020 at 7:33 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote=
+:
 >
-> Commit 7f52faabd2e5 ("media: dt-bindings: Add ch7322 media i2c device")
-> slipped in a typo in the CHRONTEL CH7322 CEC DRIVER section.
+> Comes up every few years, gets somewhat tedious to discuss, let's
+> write this down once and for all.
 >
-> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
+> What I'm not sure about is whether the text should be more explicit in
+> flat out mandating the amdkfd eviction fences for long running compute
+> workloads or workloads where userspace fencing is allowed.
 >
->     warning: no file matches    F: \
->         Documentation/devicetree/bindings/media/i2c/chontel,ch7322.yaml
+> v2: Now with dot graph!
 >
-> Fix the typo to address this warning.
+> v3: Typo (Dave Airlie)
 >
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Acked-by: Daniel Stone <daniels@collabora.com>
+> Cc: Jesse Natalie <jenatali@microsoft.com>
+> Cc: Steve Pronovost <spronovo@microsoft.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+> Cc: Mika Kuoppala <mika.kuoppala@intel.com>
+> Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > ---
-> applies on next-20200713
+>  Documentation/driver-api/dma-buf.rst | 70 ++++++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
 >
-> Jeff, please ack this patch.
-> Hans, please pick this minor non-urgent patch for your -next tree.
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-=
+api/dma-buf.rst
+> index f8f6decde359..100bfd227265 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -178,3 +178,73 @@ DMA Fence uABI/Sync File
+>  .. kernel-doc:: include/linux/sync_file.h
+>     :internal:
 >
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ea296f213e45..43661d432b4b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4114,7 +4114,7 @@ M:        Jeff Chase <jnchase@google.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media_tree.git
-> -F:     Documentation/devicetree/bindings/media/i2c/chontel,ch7322.yaml
-> +F:     Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
->  F:     drivers/media/cec/i2c/ch7322.c
->
->  CIRRUS LOGIC AUDIO CODEC DRIVERS
+> +Indefinite DMA Fences
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +At various times &dma_fence with an indefinite time until dma_fence_wait=
+()
+> +finishes have been proposed. Examples include:
+> +
+> +* Future fences, used in HWC1 to signal when a buffer isn't used by the =
+display
+> +  any longer, and created with the screen update that makes the buffer v=
+isible.
+> +  The time this fence completes is entirely under userspace's control.
+> +
+> +* Proxy fences, proposed to handle &drm_syncobj for which the fence has =
+not yet
+> +  been set. Used to asynchronously delay command submission.
+> +
+> +* Userspace fences or gpu futexes, fine-grained locking within a command=
+ buffer
+> +  that userspace uses for synchronization across engines or with the CPU=
+, which
+> +  are then imported as a DMA fence for integration into existing winsys
+> +  protocols.
+> +
+> +* Long-running compute command buffers, while still using traditional en=
+d of
+> +  batch DMA fences for memory management instead of context preemption D=
+MA
+> +  fences which get reattached when the compute job is rescheduled.
+> +
+> +Common to all these schemes is that userspace controls the dependencies =
+of these
+> +fences and controls when they fire. Mixing indefinite fences with normal
+> +in-kernel DMA fences does not work, even when a fallback timeout is incl=
+uded to
+> +protect against malicious userspace:
+> +
+> +* Only the kernel knows about all DMA fence dependencies, userspace is n=
+ot aware
+> +  of dependencies injected due to memory management or scheduler decisio=
+ns.
+> +
+> +* Only userspace knows about all dependencies in indefinite fences and w=
+hen
+> +  exactly they will complete, the kernel has no visibility.
+> +
+> +Furthermore the kernel has to be able to hold up userspace command submi=
+ssion
+> +for memory management needs, which means we must support indefinite fenc=
+es being
+> +dependent upon DMA fences. If the kernel also support indefinite fences =
+in the
+> +kernel like a DMA fence, like any of the above proposal would, there is =
+the
+> +potential for deadlocks.
+> +
+> +.. kernel-render:: DOT
+> +   :alt: Indefinite Fencing Dependency Cycle
+> +   :caption: Indefinite Fencing Dependency Cycle
+> +
+> +   digraph "Fencing Cycle" {
+> +      node [shape=3Dbox bgcolor=3Dgrey style=3Dfilled]
+> +      kernel [label=3D"Kernel DMA Fences"]
+> +      userspace [label=3D"userspace controlled fences"]
+> +      kernel -> userspace [label=3D"memory management"]
+> +      userspace -> kernel [label=3D"Future fence, fence proxy, ..."]
+> +
+> +      { rank=3Dsame; kernel userspace }
+> +   }
+> +
+> +This means that the kernel might accidentally create deadlocks
+> +through memory management dependencies which userspace is unaware of, wh=
+ich
+> +randomly hangs workloads until the timeout kicks in. Workloads, which fr=
+om
+> +userspace's perspective, do not contain a deadlock.  In such a mixed fen=
+cing
+> +architecture there is no single entity with knowledge of all dependencie=
+s.
+> +Thefore preventing such deadlocks from within the kernel is not possible=
+.
+> +
+> +The only solution to avoid dependencies loops is by not allowing indefin=
+ite
+> +fences in the kernel. This means:
+> +
+> +* No future fences, proxy fences or userspace fences imported as DMA fen=
+ces,
+> +  with or without a timeout.
+> +
+> +* No DMA fences that signal end of batchbuffer for command submission wh=
+ere
+> +  userspace is allowed to use userspace fencing or long running compute
+> +  workloads. This also means no implicit fencing for shared buffers in t=
+hese
+> +  cases.
 > --
-> 2.17.1
+> 2.27.0
 >
