@@ -2,288 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81F2B21E5F9
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 04:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70DAF21E676
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 05:43:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726675AbgGNCzE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jul 2020 22:55:04 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:36281 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726372AbgGNCzE (ORCPT
+        id S1726542AbgGNDnA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jul 2020 23:43:00 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:54093 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726435AbgGNDnA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jul 2020 22:55:04 -0400
-Received: by mail-il1-f195.google.com with SMTP id x9so13041280ila.3;
-        Mon, 13 Jul 2020 19:55:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=33mC0WNeWBJScLg34kZk7QhtvixCsZdcT9IrD69H6fg=;
-        b=Lc+8ni+Co7lUy68+QjHk9dsz5IjulnskSEc0XL2jG72ypLWcXattbUm2lJ8bMVChx7
-         SzHIGBARiReyILNFt/gscW6ZXLmXs/wFmD8QTyCpzqZvrkQo0Ejil1DiM+1fVK0CgBsF
-         hE5DfiSDB/Ri5KnTgmMfrVUEj/Tj1DFHZk66o4ezHsKdzvioUQXnTupXgeZtRVdUVS0G
-         GCq4F39m8LCvFU2yzh+FN3HS0epgI12GEvCc1FIRK6QDq+DWuLgU/XtT0GBtOHUD5civ
-         4lVv9SsdG2kHIOD389mL6mYANcO/F3gdUneerzZGo9zhdIVxYvWKP0KNJzqHr9szeRo7
-         t7CQ==
-X-Gm-Message-State: AOAM532dd2K6d2MiMMOZ7I2M0xzQk1k3nrIQB79ul23PUlGP8zeJR1H4
-        ZNCpolyT59p8wMLLJ2zF/+5XL+lfLJsf
-X-Google-Smtp-Source: ABdhPJyE9VvhWE/YtF/sfRrUgNk6tQr8+XEEQkz614yZLL/axpbEH8QBKdMus3SSxaOMi+uD8xnotQ==
-X-Received: by 2002:a92:9fcb:: with SMTP id z72mr2764823ilk.195.1594695302402;
-        Mon, 13 Jul 2020 19:55:02 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id b20sm9555598ila.5.2020.07.13.19.55.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2020 19:55:01 -0700 (PDT)
-Received: (nullmailer pid 1195007 invoked by uid 1000);
-        Tue, 14 Jul 2020 02:55:00 -0000
-Date:   Mon, 13 Jul 2020 20:55:00 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: media: csi2dc: add bindings for
- microchip csi2dc
-Message-ID: <20200714025500.GA1187556@bogus>
-References: <20200703074416.55272-1-eugen.hristev@microchip.com>
- <20200703074416.55272-2-eugen.hristev@microchip.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200703074416.55272-2-eugen.hristev@microchip.com>
+        Mon, 13 Jul 2020 23:43:00 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id vBqKjIupa5flqvBqLj3aFV; Tue, 14 Jul 2020 05:42:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594698177; bh=mPChz2Ag7JhQsnm1+pm5lYsgB0WllI/yKh+0qrPLN20=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=nesg01AZqikJptvh6YxYQueQ5QbzJ2ymbs3RkqZD1dT1BZYON5dd0HvmuJiNrfK0g
+         i5bjTaNg3ykIFE0UYA0BRMdR6fCwimFhsPfS5oAjoT3mtygn/qciOBROu9Z/8fJXTb
+         WheuoAdpgJ3LRvY+bO28ZiBHeqxIh7nnigAPScynWDYLZ4tDEw9oaA+/1P0wl6QO8c
+         f0pA41QEBDy6mBmfKcICQzxjccXShculUdSqhovsvgh/rn0tMTUHxVkkSa/GpuBGQg
+         4PuO0qmzevr/dOAIHXHttlUoTX1iML+MMOTW8iHZ5PDgtoz9hxsNl/oKb+CdxkpxYF
+         8sKz5gKB2EbqA==
+Message-ID: <78c5aa559c3453d8641ec4004c73552b@smtp-cloud9.xs4all.net>
+Date:   Tue, 14 Jul 2020 05:42:56 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfMGS2qEzLJ6+qDtSk2LCRQFkc3KP/EMQHPjOGyMa6dxPHLdfr9w1KyVZ1gggspavX3LTwQ02MbesQK2OTIRduVNvh2vjez94Uny3ogJz5tMmkGp/OjRe
+ DHICuM49Hz5AAGta+2wPuEjDj/8pKb6YAFET8w0PCKtv5L431VaoEROvpqXP8n5bDvxfgt0VTlBMuhQyXVjYYLbj05AYVwNB7OGjB1yBBRpdDBIwFWuLc9oL
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 03, 2020 at 10:44:13AM +0300, Eugen Hristev wrote:
-> Add bindings documentation for microchip CSI2 Demultiplexer controller.
-> 
-> CSI2DC is a demultiplexer from Synopsys IDI interface specification to
-> parallel interface connection or direct memory access.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
-> Changes in v2:
-> - fixed warnings reported by dt_binding_check
-> 
-> 
->  .../bindings/media/microchip,csi2dc.yaml      | 185 ++++++++++++++++++
->  1 file changed, 185 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> new file mode 100644
-> index 000000000000..b7c46f7ad2a4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> @@ -0,0 +1,185 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-New bindings should be:
+Results of the daily build of media_tree:
 
-(GPL-2.0-only OR BSD-2-Clause)
+date:			Tue Jul 14 05:00:09 CEST 2020
+media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
+media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
+v4l-utils git hash:	d366a4e439599450ae1a82b23a37fc8e6b38d1ab
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/microchip,csi2dc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Microchip CSI2 Demux Controller (CSI2DC)
-> +
-> +maintainers:
-> +  - Eugen Hristev <eugen.hristev@microchip.com>
-> +
-> +description:
-> +  CSI2DC - Camera Serial Interface 2 Demux Controller
-> +
-> +  CSI2DC is a hardware block that receives incoming data from an IDI interface
-> +  and filters packets based on their data type and virtual channel identifier,
-> +  then converts the byte stream into a cross clock domain to a pixel stream
-> +  to a parallel interface that can be read by a sensor controller.
-> +
-> +  CSI2DC provides two pipes, one video pipe and one data pipe. Video pipe
-> +  is connected to a sensor controller and the data pipe is accessible
-> +  as a DMA slave port to a DMA controller.
-> +
-> +  CSI2DC supports a single 'port' node as a source pad with Synopsys 32-bit
-> +  IDI interface. The connected endpoint must be a IDI interface compatible
-> +  device (like Synopsys CSI2HOST) , that can provide 32-bit IDI interface
-> +  connection as sink pad.
-> +  It should contain one 'port' child node with one child 'endpoint' node.
-> +  This node should always have the 'reg' property as 0, being the first child
-> +  node.
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: ERRORS
 
-This information should be expressed as a schema.
+Detailed results are available here:
 
-> +  For media entity and endpoints please refer to the bindings defined in
-> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +  For Synopsys IDI interface please refer to
-> +  Documentation/devicetree/bindings/media/snps,dw-csi-plat.txt
-> +
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-> +  CSI2DC supports one 'port' node as sink pad with parallel interface. This is
-> +  called video pipe.
-> +  The reg property inside this 'port' node must have the 'reg' property as 1,
-> +  being the second child node.
-> +  This node must have one 'endpoint', and this 'endpoint' is related to the
-> +  virtual channel identifier.
-> +  The 'reg' property inside this 'endpoint' represents the CSI2 virtual channel
-> +  identifier.
-> +  This 'endpoint' can then be used as a source pad for another controller
-> +  (next in pipeline).
-> +  Please refer to the bindings defined in
-> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+Detailed regression test results are available here:
 
-And all this.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
-> +
-> +  CSI2DC must have two clocks to function correctly. One clock is the
-> +  peripheral clock for the inside functionality of the hardware block.
-> +  This is named 'pclk'. The second clock must be the cross domain clock,
-> +  in which CSI2DC will perform clock crossing. This clock must be fed
-> +  by the next controller in pipeline, which usually is a sensor controller.
-> +  Normally this clock should be given by this sensor controller who
-> +  is also a clock source. This clock is named 'scck', sensor controller clock.
+Full logs are available here:
 
-Better to be part of 'clocks'.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
 
-> +
-> +  CSI2DC also supports direct access to the data through AHB, via DMA channel,
-> +  called data pipe.
-> +  Because of this, the sink 'port' child node (second) is not mandatory.
-> +  If the sink 'port' child node is missing, only data pipe is available.
-> +
-> +properties:
-> +  compatible:
-> +    const: microchip,sama7g5-csi2dc
-> +
-> +  reg:
-> +    description:
-> +      Physical base address and length of the registers set for the device.
+The Media Infrastructure API from this daily build is here:
 
-That is every 'reg' prop. Drop.
-
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: pclk
-> +      - const: scck
-> +
-> +  microchip,clk-gated:
-> +    type: boolean
-> +    description:
-> +      If present, indicates that the clock is gated.
-> +      Otherwise, the clock is free-running.
-> +
-> +  microchip,inter-line-delay:
-> +    allOf:
-> +    - $ref: /schemas/types.yaml#/definitions/uint32
-> +    - minimum: 1
-> +    - maximum: 16
-> +    default: 16
-> +    description:
-> +      Indicates how many clock cycles should be introduced between each line.
-> +
-> +  port@0:
-> +    type: object
-> +    description:
-> +      Input port node, single endpoint describing the input pad.
-> +
-> +    properties:
-> +      reg:
-> +        const: 0
-> +
-> +      endpoint:
-> +        type: object
-> +
-> +        properties:
-> +          remote-endpoint: true
-> +
-> +        required:
-> +          - remote-endpoint
-> +
-> +        additionalProperties: false
-> +
-> +    additionalProperties: false
-> +
-> +  port@1:
-> +    type: object
-> +    description:
-> +      Output port node, single endpoint, describing the output pad.
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      reg:
-> +        const: 1
-> +
-> +    patternProperties:
-> +      "^endpoint@[0-9a-f]$":
-
-Looks like only [0-3] is valid.
-
-> +        type: object
-> +
-> +        properties:
-> +          reg:
-> +            enum: [0, 1, 2, 3]
-> +            description: virtual channel for the endpoint
-> +
-> +          remote-endpoint: true
-> +
-> +        required:
-> +          - remote-endpoint
-> +          - reg
-> +
-> +        additionalProperties: false
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - port@0
-> +
-> +examples:
-> +  - |
-> +    csi2dc@e1404000 {
-> +        compatible = "microchip,sama7g5-csi2dc";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        reg = <0xe1404000 0x500>;
-> +        clocks = <&pclk>, <&scck>;
-> +        clock-names = "pclk", "scck";
-> +
-> +        port@0 {
-> +               reg = <0>; /* must be 0, first child port */
-> +               csi2dc_in: endpoint { /* input from IDI interface */
-> +                     remote-endpoint = <&csi2host_out>;
-> +               };
-> +        };
-> +
-> +        port@1 {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                reg = <1>; /* must be 1, second child port */
-> +                csi2dc_out: endpoint@2 {
-> +                        reg = <2>;  /* virtual channel identifier */
-> +                        remote-endpoint = <&xisc_in>; /* output to sensor controller */
-> +                };
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.25.1
-> 
+http://www.xs4all.nl/~hverkuil/spec/index.html
