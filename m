@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 342F521E7BB
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 07:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AB5F21E7BC
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 07:59:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726375AbgGNF7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jul 2020 01:59:42 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60702 "EHLO
+        id S1726534AbgGNF7o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jul 2020 01:59:44 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60712 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725306AbgGNF7l (ORCPT
+        with ESMTP id S1725306AbgGNF7o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jul 2020 01:59:41 -0400
+        Tue, 14 Jul 2020 01:59:44 -0400
 Received: from pyrite.rasen.tech (unknown [IPv6:2400:4051:61:600:2c71:1b79:d06d:5032])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14EB271D;
-        Tue, 14 Jul 2020 07:59:37 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DCB2A4F;
+        Tue, 14 Jul 2020 07:59:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594706379;
-        bh=Ew+SsarMu06l/V7xcnho8PBeFWv4Nh4eKcverwPsXYQ=;
+        s=mail; t=1594706382;
+        bh=2kfshqtIjbsJ4rDoA+mfI3AsdJvjTGc1ptuh239GqQc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mxaHboOe4OSI17Q9Ru5hiI659GJDdSNUYkEN2w7hUjRvZrxY0yTSpkH2zNwfxRq35
-         /JnW84c9b+NzWQGH87oetv7f08/wOi5DGSumufvgawFNVKb3fo8/QhpolcMNplH2Mf
-         l1uECsoCDfcmp1beo4VD15+xlOOiZaJXzx9Ix0/I=
+        b=MoDgTEZXz/11Hbp+yOAd9aZq06Zr3bTFn2f4Ux87Bik3UH9qjXklDJESEmRmNoamQ
+         6DGdWQ8KgzrSkKPMv9sjeXAXWmK/CxWsEDz3/u50WZxmsTWbXheuiAtaEgDyubMlY7
+         zi95FC1NC4BziqTXWPMdY8IkInoBapxqbmcybbaU=
 From:   Paul Elder <paul.elder@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Paul Elder <paul.elder@ideasonboard.com>,
         laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Subject: [PATCH v4 2/7] v4l2-compliance: Add version command
-Date:   Tue, 14 Jul 2020 14:59:10 +0900
-Message-Id: <20200714055915.640438-2-paul.elder@ideasonboard.com>
+Subject: [PATCH v4 3/7] v4l2-ctl: Add version command
+Date:   Tue, 14 Jul 2020 14:59:11 +0900
+Message-Id: <20200714055915.640438-3-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200714055915.640438-1-paul.elder@ideasonboard.com>
 References: <20200714055915.640438-1-paul.elder@ideasonboard.com>
@@ -39,11 +39,10 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a --version option to v4l2-compliance to retrieve the version of
-v4l2-compliance. While at it, factor out and reorder printing the SHA to
-after argument parsing.
+Add a --version option to v4l2-ctl to retrieve the version of v4l2-ctl.
 
 Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 ---
 Changes in v4:
@@ -52,87 +51,84 @@ Changes in v4:
 Changes in v3:
 - embed PACKAGE_VERSION instead of string concatenation
 ---
- utils/v4l2-compliance/v4l2-compliance.cpp | 30 ++++++++++++++++++-----
- 1 file changed, 24 insertions(+), 6 deletions(-)
+ utils/v4l2-ctl/Makefile.am         |  2 +-
+ utils/v4l2-ctl/v4l2-ctl-common.cpp |  1 +
+ utils/v4l2-ctl/v4l2-ctl.cpp        | 11 +++++++++++
+ utils/v4l2-ctl/v4l2-ctl.h          |  1 +
+ 4 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 825f2aa6..97c79e40 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -76,6 +76,7 @@ enum Option {
- 	OptMediaBusInfo = 'z',
- 	OptStreamFrom = 128,
- 	OptStreamFromHdr,
-+	OptVersion,
- 	OptLast = 256
- };
+diff --git a/utils/v4l2-ctl/Makefile.am b/utils/v4l2-ctl/Makefile.am
+index 3ba3c96b..04d30894 100644
+--- a/utils/v4l2-ctl/Makefile.am
++++ b/utils/v4l2-ctl/Makefile.am
+@@ -14,7 +14,7 @@ v4l2_ctl_SOURCES = v4l2-ctl.cpp v4l2-ctl.h v4l2-ctl-common.cpp v4l2-ctl-tuner.cp
+ 	v4l2-ctl-streaming.cpp v4l2-ctl-sdr.cpp v4l2-ctl-edid.cpp v4l2-ctl-modes.cpp \
+ 	v4l2-ctl-subdev.cpp v4l2-tpg-colors.c v4l2-tpg-core.c v4l-stream.c v4l2-ctl-meta.cpp \
+ 	media-info.cpp v4l2-info.cpp codec-fwht.c codec-v4l2-fwht.c
+-v4l2_ctl_CPPFLAGS = -I$(top_srcdir)/utils/common
++v4l2_ctl_CPPFLAGS = -I$(top_srcdir)/utils/common $(GIT_COMMIT_CNT)
  
-@@ -150,9 +151,24 @@ static struct option long_options[] = {
- 	{"stream-all-formats", optional_argument, 0, OptStreamAllFormats},
- 	{"stream-all-io", no_argument, 0, OptStreamAllIO},
- 	{"stream-all-color", required_argument, 0, OptStreamAllColorTest},
+ media-bus-format-names.h: $(top_srcdir)/include/linux/media-bus-format.h
+ 	sed -e '/#define MEDIA_BUS_FMT/ ! d; s/.*FMT_//; /FIXED/ d; s/\t.*//; s/.*/{ \"&\", MEDIA_BUS_FMT_& },/;' \
+diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+index 47f5da1a..9b785cbf 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+@@ -121,6 +121,7 @@ void common_usage()
+ 	       "  --silent           only set the result code, do not print any messages\n"
+ 	       "  --sleep <secs>     sleep <secs>, call QUERYCAP and close the file handle\n"
+ 	       "  --verbose          turn on verbose ioctl status reporting\n"
++	       "  --version          show version information\n"
+ 	       );
+ }
+ 
+diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+index 4972591e..321d2d1c 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+@@ -284,6 +284,7 @@ static struct option long_options[] = {
+ 	{"stream-out-user", optional_argument, 0, OptStreamOutUser},
+ 	{"stream-out-dmabuf", no_argument, 0, OptStreamOutDmaBuf},
+ 	{"list-patterns", no_argument, 0, OptListPatterns},
 +	{"version", no_argument, 0, OptVersion},
  	{0, 0, 0, 0}
  };
  
-+static void print_sha()
+@@ -306,6 +307,13 @@ static void usage_all()
+        edid_usage();
+ }
+ 
++static void print_version()
 +{
 +#define STR(x) #x
 +#define STRING(x) STR(x)
-+	printf("v4l2-compliance SHA: %s", STRING(GIT_SHA));
-+	printf(", %zd bits, %zd-bit time_t\n", sizeof(void *) * 8, sizeof(time_t) * 8);
-+	printf("\n");
++	printf("v4l2-ctl %s%s\n", PACKAGE_VERSION, STRING(GIT_COMMIT_CNT));
 +}
 +
-+static void print_version()
-+{
-+	printf("v4l2-compliance %s%s\n", PACKAGE_VERSION, STRING(GIT_COMMIT_CNT));
-+}
-+
- static void usage()
+ int test_ioctl(int fd, unsigned long cmd, void *arg)
  {
- 	printf("Usage:\n");
-@@ -241,6 +257,7 @@ static void usage()
- 	printf("  -P, --no-progress  Turn off progress messages.\n");
- 	printf("  -T, --trace        Trace all called ioctls.\n");
- 	printf("  -v, --verbose      Turn on verbose reporting.\n");
-+	printf("  --version          Show version information.\n");
- #ifndef NO_LIBV4L2
- 	printf("  -w, --wrapper      Use the libv4l2 wrapper library.\n");
- #endif
-@@ -1482,12 +1499,6 @@ int main(int argc, char **argv)
- 	char *value, *subs;
- 	int idx = 0;
- 
--#define STR(x) #x
--#define STRING(x) STR(x)
--	printf("v4l2-compliance SHA: %s", STRING(GIT_SHA));
--	printf(", %zd bits, %zd-bit time_t\n", sizeof(void *) * 8, sizeof(time_t) * 8);
--	printf("\n");
--
- 	if (!env_media_apps_color || !strcmp(env_media_apps_color, "auto"))
- 		show_colors = isatty(STDOUT_FILENO);
- 	else if (!strcmp(env_media_apps_color, "always"))
-@@ -1656,6 +1667,10 @@ int main(int argc, char **argv)
- 		case OptNoProgress:
- 			no_progress = true;
+ 	return options[OptUseWrapper] ? v4l2_ioctl(fd, cmd, arg) : ioctl(fd, cmd, arg);
+@@ -1245,6 +1253,9 @@ int main(int argc, char **argv)
+ 		case OptSleep:
+ 			secs = strtoul(optarg, 0L, 0);
  			break;
 +		case OptVersion:
 +			print_version();
-+			print_sha();
-+			std::exit(EXIT_SUCCESS);
++			return 0;
  		case ':':
- 			fprintf(stderr, "Option `%s' requires a value\n",
- 				argv[optind]);
-@@ -1677,6 +1692,9 @@ int main(int argc, char **argv)
- 		usage();
- 		std::exit(EXIT_FAILURE);
- 	}
-+
-+	print_sha();
-+
- 	bool direct = !options[OptUseWrapper];
- 	int fd;
+ 			fprintf(stderr, "Option '%s' requires a value\n",
+ 					argv[optind]);
+diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+index 28e50471..27a3ca35 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.h
++++ b/utils/v4l2-ctl/v4l2-ctl.h
+@@ -263,6 +263,7 @@ enum Option {
+ 	OptHelpStreaming,
+ 	OptHelpEdid,
+ 	OptHelpAll,
++	OptVersion,
+ 	OptLast = 512
+ };
  
 -- 
 2.27.0
