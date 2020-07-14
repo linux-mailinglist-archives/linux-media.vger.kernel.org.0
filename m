@@ -2,90 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 292A621F5E2
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 17:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C580E21F60F
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 17:23:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbgGNPLY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jul 2020 11:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
+        id S1725945AbgGNPXO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jul 2020 11:23:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726442AbgGNPLY (ORCPT
+        with ESMTP id S1725876AbgGNPXO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jul 2020 11:11:24 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36E5BC061755
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 08:11:24 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 7BA1F2A0DFF
-Subject: Re: [PATCH 4/4] media: staging: rkisp1: cap: in stream start, replace
- calls to rkisp1_handle_buffer with rkisp1_set_next_buf
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org
-References: <20200714123832.28011-1-dafna.hirschfeld@collabora.com>
- <20200714123832.28011-5-dafna.hirschfeld@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <01c025b1-6d8d-0c24-1303-848ce0438c75@collabora.com>
-Date:   Tue, 14 Jul 2020 12:11:16 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 14 Jul 2020 11:23:14 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19410C061755
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 08:23:14 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id e90so13330528ote.1
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 08:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=cXIgj0iYr7P3K9BwnPZPhJf3MwNMTpVJeBZlv87Bh4I=;
+        b=VLIaWTKC4PHL8JWLjq42ZsT9mY+u4qL1p7WxjpgKEl5De7mvV/iKccmYz4fTy5W0bX
+         uwD6ShgNVxz/NJqIxDCK1jZ0AkTPAFmrweTkVH7sJq9pe+Uyk13OIivD+V7ejv2npjny
+         COM+I7P0E87QnLBZ2ERPa5kKwcC4/ZCLIIjxM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=cXIgj0iYr7P3K9BwnPZPhJf3MwNMTpVJeBZlv87Bh4I=;
+        b=gKW5o4qPiAgCR7l5sGwyiSyuYO6iwVp2F+lr4T+D7Z0RVHfDHQqFE+oB+HOQC8W8sW
+         JqFt1HFlMdgAaDPMPz5Rj1GyZKlcQQzaFrvC8Pyu7EA3JPQiUN070rbovD8pdH1xHqHH
+         gVecWAsdLzl5v7jURdYHi6GNXmLpHh12R8Rc+rgbIL3AIo8LV7LVlfCOCeL3dmXv4RUq
+         /pCA7q3kaETpzL0Xi4vwQkrIasT5dUcJIWpNNvTcN656YzkJHp9uo5eEvUF2mixCr0w3
+         /A/v9syWu1KJL2ovFqZy+FQZPe3ZFXR7qxb5W7nDlcAsL9xVUWCy+As77Hhz6T0KGE37
+         X+hg==
+X-Gm-Message-State: AOAM532vhVMHL1Dnnz0+j4sU+SDqhWLxQUm3hU+0zhNZ1Jg4VhJYey/7
+        X4W1aDTfx+wXGOuUq6fkNMJWPfdlt0krGTLeCPjA+Q==
+X-Google-Smtp-Source: ABdhPJzMWKFMzStVCDzj6VA6xehwdIqELDcKSwQ56B351nM2OHgHnA5N7zQOfA0uHd0eJVAYd4Qstl3xeb/ssJHcYdM=
+X-Received: by 2002:a9d:d55:: with SMTP id 79mr4759005oti.281.1594740193436;
+ Tue, 14 Jul 2020 08:23:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200714123832.28011-5-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
+ <20200707201229.472834-5-daniel.vetter@ffwll.ch> <20200712222716.4rhvj7hryiecjthv@smtp.gmail.com>
+ <20200714095717.njwk2u4tkgro54jn@smtp.gmail.com> <CAKMK7uGu4N2oe04N=haUodmVCLi6HnqFDORkObx8EPUQrEJ+MQ@mail.gmail.com>
+ <20200714145553.zetjvbewixnf2rla@smtp.gmail.com>
+In-Reply-To: <20200714145553.zetjvbewixnf2rla@smtp.gmail.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Tue, 14 Jul 2020 17:23:02 +0200
+Message-ID: <CAKMK7uEyu8A3or00J+fBhf5sHhhq5Xz7X9Y=2AMajEPSaNB+-g@mail.gmail.com>
+Subject: Re: [PATCH 04/25] drm/vkms: Annotate vblank timer
+To:     Melissa Wen <melissa.srw@gmail.com>
+Cc:     Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Trevor Woerner <twoerner@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+On Tue, Jul 14, 2020 at 4:56 PM Melissa Wen <melissa.srw@gmail.com> wrote:
+>
+> Hi,
+>
+> On 07/14, Daniel Vetter wrote:
+> > On Tue, Jul 14, 2020 at 11:57 AM Melissa Wen <melissa.srw@gmail.com> wr=
+ote:
+> > >
+> > > On 07/12, Rodrigo Siqueira wrote:
+> > > > Hi,
+> > > >
+> > > > Everything looks fine to me, I just noticed that the amdgpu patches=
+ did
+> > > > not apply smoothly, however it was trivial to fix the issues.
+> > > >
+> > > > Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > > >
+> > > > Melissa,
+> > > > Since you are using vkms regularly, could you test this patch and r=
+eview
+> > > > it? Remember to add your Tested-by when you finish.
+> > > >
+> > > Hi,
+> > >
+> > > I've applied the patch series, ran some tests on vkms, and found no
+> > > issues. I mean, things have remained stable.
+> > >
+> > > Tested-by: Melissa Wen <melissa.srw@gmail.com>
+> >
+> > Did you test with CONFIG_PROVE_LOCKING enabled in the kernel .config?
+> > Without that enabled, there's not really any change here, but with
+> > that enabled there might be some lockdep splats in dmesg indicating a
+> > problem.
+> >
+>
+> Even with the lock debugging config enabled, no new issue arose in dmesg
+> during my tests using vkms.
 
-Thanks for the patch, just a small thing below.
+Excellent, thanks a lot for confirming this.
+-Daniel
 
-On 7/14/20 9:38 AM, Dafna Hirschfeld wrote:
-> The function 'rkisp1_stream_start' calls 'rkisp1_handle_buffer'
-> in order to update the 'buf.curr' and 'buf.next' fields and
-> configure the device before streaming starts. This cause a wrong
-> increment of the debugs field 'frame_drop'. This patch replaces
-> the call to 'rkisp1_handle_buffer' with a call to
-> 'rkisp1_set_next_buf'.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-capture.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> index 7f400aefe550..c05280950ea0 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> @@ -916,7 +916,7 @@ static void rkisp1_stream_start(struct rkisp1_capture *cap)
->  	cap->ops->config(cap);
->  
->  	/* Setup a buffer for the next frame */
-> -	rkisp1_handle_buffer(cap);
-> +	rkisp1_set_next_buf(cap);
+>
+> Melissa
+>
+> > Thanks, Daniel
+> > >
+> > > > Thanks
+> > > >
+> > > > On 07/07, Daniel Vetter wrote:
+> > > > > This is needed to signal the fences from page flips, annotate it
+> > > > > accordingly. We need to annotate entire timer callback since if w=
+e get
+> > > > > stuck anywhere in there, then the timer stops, and hence fences s=
+top.
+> > > > > Just annotating the top part that does the vblank handling isn't
+> > > > > enough.
+> > > > >
+> > > > > Cc: linux-media@vger.kernel.org
+> > > > > Cc: linaro-mm-sig@lists.linaro.org
+> > > > > Cc: linux-rdma@vger.kernel.org
+> > > > > Cc: amd-gfx@lists.freedesktop.org
+> > > > > Cc: intel-gfx@lists.freedesktop.org
+> > > > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > > > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > > ---
+> > > > >  drivers/gpu/drm/vkms/vkms_crtc.c | 8 +++++++-
+> > > > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/v=
+kms/vkms_crtc.c
+> > > > > index ac85e17428f8..a53a40848a72 100644
+> > > > > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> > > > > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > > > > @@ -1,5 +1,7 @@
+> > > > >  // SPDX-License-Identifier: GPL-2.0+
+> > > > >
+> > > > > +#include <linux/dma-fence.h>
+> > > > > +
+> > > > >  #include <drm/drm_atomic.h>
+> > > > >  #include <drm/drm_atomic_helper.h>
+> > > > >  #include <drm/drm_probe_helper.h>
+> > > > > @@ -14,7 +16,9 @@ static enum hrtimer_restart vkms_vblank_simulat=
+e(struct hrtimer *timer)
+> > > > >     struct drm_crtc *crtc =3D &output->crtc;
+> > > > >     struct vkms_crtc_state *state;
+> > > > >     u64 ret_overrun;
+> > > > > -   bool ret;
+> > > > > +   bool ret, fence_cookie;
+> > > > > +
+> > > > > +   fence_cookie =3D dma_fence_begin_signalling();
+> > > > >
+> > > > >     ret_overrun =3D hrtimer_forward_now(&output->vblank_hrtimer,
+> > > > >                                       output->period_ns);
+> > > > > @@ -49,6 +53,8 @@ static enum hrtimer_restart vkms_vblank_simulat=
+e(struct hrtimer *timer)
+> > > > >                     DRM_DEBUG_DRIVER("Composer worker already que=
+ued\n");
+> > > > >     }
+> > > > >
+> > > > > +   dma_fence_end_signalling(fence_cookie);
+> > > > > +
+> > > > >     return HRTIMER_RESTART;
+> > > > >  }
+> > > > >
+> > > > > --
+> > > > > 2.27.0
+> > > > >
+> > > >
+> > > > --
+> > > > Rodrigo Siqueira
+> > > > https://siqueira.tech
+> > >
+> > >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-You should also protect with the cap->buf.lock, or move the lock protection to rkisp1_set_next_buf() and update patch 2/4.
 
-Regards,
-Helen
 
->  	cap->ops->enable(cap);
->  	/* It's safe to config ACTIVE and SHADOW regs for the
->  	 * first stream. While when the second is starting, do NOT
-> @@ -931,7 +931,7 @@ static void rkisp1_stream_start(struct rkisp1_capture *cap)
->  		/* force cfg update */
->  		rkisp1_write(rkisp1,
->  			     RKISP1_CIF_MI_INIT_SOFT_UPD, RKISP1_CIF_MI_INIT);
-> -		rkisp1_handle_buffer(cap);
-> +		rkisp1_set_next_buf(cap);
->  	}
->  	cap->is_streaming = true;
->  }
-> 
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
