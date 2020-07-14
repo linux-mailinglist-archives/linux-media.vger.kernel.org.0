@@ -2,175 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA2F421EED0
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 13:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11A5E21EF84
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 13:40:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727096AbgGNLM3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jul 2020 07:12:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51578 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727095AbgGNLM0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jul 2020 07:12:26 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9995DC061794
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 04:12:26 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id j4so20864458wrp.10
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 04:12:26 -0700 (PDT)
+        id S1727119AbgGNLkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jul 2020 07:40:23 -0400
+Received: from mail-eopbgr700053.outbound.protection.outlook.com ([40.107.70.53]:38509
+        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726332AbgGNLkW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Jul 2020 07:40:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MSeIc3z/NY4eYsU9X9g9Wh/2JQy3q/HJeBf8BnO6GAIknbT2ggGw3ro7u9DLZfuk9T1oa+D7N8dR+KBxQDEY4dyAaLOF12I6lxyqth1+oryT8DQWxccJhgRQ+wp9bC/bVWT410XPT9/nKYF2DlkSfOXi4qrJHoz8AwQrNM5Ab1kGH6jP97Y3wvaQEOvoJCEQLxgIQPN7W6XGJJGU1ORgM4N8y8Ih/695yRNa96lS3tlH4nIA41AVW5vcLZ+kSRF5QESETSI9TGnwrpvvv5wWuzR7rEnYUEFmVkdGK59QXM1yszuyaX3bU5b4zMNHwx7yarq9tJDpiy+d96tQ82SLaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4hzMVLOPut+jJ7MKav9e4O+GJOdFo4l7xEOk6tjx0Ok=;
+ b=OphCxHhvfQ4DhQj69lL8zqjJACWlj/9BI/iNsPiE10NMqeWjfgZ/pCKdb6XnA/ovhvKdEblFAU8BrYEg3GnjHJAdQiP4QklIiqOnsYm7vdt0ESY2Ajoa+HXwCRvW3F//9RxNcWTNP9SU+5gHnPLyik+07GuXF7Rt3IBom3E4CcGaDMd+qfn7gS1QPtfY19h0GSzi9ndPYSrGWdE5ekSqAKkF0+yAF0+S9JF7FBCN1T8YScYK/NBZwwW/R4YGQdwj94T6UNeONaAk2hD5/IxsGc4HoXcTbtkQf8FGjNPhWgSNLIYDpSubldHKycFfr46VVaotBc/hfTjo6/p/lKUwJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=VJUMRju7OKuE24xgVbETEzznY9nUxSvHfkGn/7lFRJc=;
-        b=QXKYfmXCGRLPUrNkOqg5GHB6w56deMXiDRBvJUKkOa99upUqSTzhOTtteoMRkPKNfw
-         BtR9jMTMIiIUaUJ0o1zyHoUR6aV5iyzF6GVIhkWK2K0Glhu+cfsE2CYMNQJFaMvBaW1n
-         1/BG4wF1/vDhGYbqcBNX7HfYQvgJBdCSrCWGY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=VJUMRju7OKuE24xgVbETEzznY9nUxSvHfkGn/7lFRJc=;
-        b=H5KvZ+8uo/03xrLfW0V0yVmouqsnkmH+VSl0n7oXZ4nQqb1K6ULt6lJ8g8WnyC6XkY
-         z0dLyU0NBcRGBH1va0CWAmBa7vPBgnu5puH/fzZFmsZOKi5PKFWXpBlL3Mw4s+1XyALI
-         Kjqi/+4kXWw8La+LLWGOH2sXoCku8/49L/pIHPFn7yFg2fUNzZky1c7d99yXhAiUbw5t
-         DYHQQR2Ec32WK7hKW99F4Sq6iMU7tMhQqwEw2qYwkCHbu/OZI15WJf8P715XwhuUPFXl
-         Ty4GQYpKT+55/ncY5gGUo9UsM7Or51IelZ3se8nVywfSVQT1+DBsfWetXNdPhDeUFtkc
-         Tu/A==
-X-Gm-Message-State: AOAM531uQ3VtEdIHy5uGsiHHqeXBvniyDWKWohq4xSXtA5DBve20ri8a
-        bxaCfUVL5MXL09W6zJ5+B8JElQ==
-X-Google-Smtp-Source: ABdhPJz5Pus9C7QZEyzkJv8l+/+SFrBsdEtrmB/rDpt1sctjAKSgOKT85PdH59/MA9EocwuEPu+DYA==
-X-Received: by 2002:adf:f542:: with SMTP id j2mr4633600wrp.61.1594725145156;
-        Tue, 14 Jul 2020 04:12:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id l1sm29243097wrb.12.2020.07.14.04.12.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2020 04:12:24 -0700 (PDT)
-Date:   Tue, 14 Jul 2020 13:12:22 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4hzMVLOPut+jJ7MKav9e4O+GJOdFo4l7xEOk6tjx0Ok=;
+ b=Br/TZGo//3EGVr8szeBcvydEkJrm5qP6PQYL+OBWctciiyari37GMm+0I4hNW5ma2AcTMolgu6/7ztIo2aEx/uE8kKEI/iPC2DlUqtloS6ppFvkLAesE+nu7pcC0NZfEtyDTXMqsRn9u5R04tfhSfP+FPjNIPcsVacIhVQZaiho=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4518.namprd12.prod.outlook.com (2603:10b6:208:266::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Tue, 14 Jul
+ 2020 11:40:17 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3195.017; Tue, 14 Jul 2020
+ 11:40:17 +0000
+Subject: Re: [PATCH 19/25] drm/amdgpu: s/GFP_KERNEL/GFP_ATOMIC in scheduler
+ code
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         amd-gfx@lists.freedesktop.org,
         Chris Wilson <chris@chris-wilson.co.uk>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
         Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: [PATCH 20/25] drm/amdgpu: DC also loves to allocate stuff where
- it shouldn't
-Message-ID: <20200714111222.GE3278063@phenom.ffwll.local>
 References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-21-daniel.vetter@ffwll.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ <20200707201229.472834-20-daniel.vetter@ffwll.ch>
+ <20200714104910.GC3278063@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <d3e85f62-e427-7f1c-0ff4-842ffe57172e@amd.com>
+Date:   Tue, 14 Jul 2020 13:40:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <20200714104910.GC3278063@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200707201229.472834-21-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+Content-Language: en-US
+X-ClientProxiedBy: FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::19) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.9 via Frontend Transport; Tue, 14 Jul 2020 11:40:15 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 53a416dd-bee2-4dd5-2076-08d827eaae41
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4518:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4518AAE6DE82510F0DA318EE83610@MN2PR12MB4518.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LxlP2AKtDWUvPfOb1A9XDfeXzN+QercWnh0F73Mojx2whoJIkPaSoydmypFOwKutBs7Ma6D7Ue1Rz+gb0P6cufs19pU3X7ztjnqkmgoklsdky+swd4DV2PZGtJNs5651I0Ekf6AntxP0pS7rxMureMgWK4+PWZx6SE1LN4Bkl8fKnmbs5kT5Xd8gAvbxxkQiu1srTJCjphFp/XxJKVZnKcRt1fjypwVfc8FeBtXi5om1eURuF5bs8W32isK54pZM0tigcIwypiJHRlw4lg+1ccpuHvlnC5QdAUWuxVUFxRe/G6MPNb6SNH8lBf5C4j31UD+SqPnS/UZybOF3TsoAQVb64k1udAKZKxKHhopHY4ikv7feupikrWgcqC8LlSIY
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(366004)(396003)(39860400002)(346002)(136003)(6666004)(66574015)(54906003)(110136005)(86362001)(8676002)(4326008)(66946007)(66556008)(186003)(316002)(16526019)(478600001)(2616005)(52116002)(7416002)(36756003)(66476007)(2906002)(5660300002)(83380400001)(31686004)(6486002)(31696002)(8936002)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: tCJjKSQoGgm/m9kDXpSTgyRwePM9ia7dDj+MbziyemCJZwGBDPKH0buFORfhdIxvP5a3OhoRbCGK+wcUgND2IGtccYAbVrkfvuPQIdlpAgmp3eFQjY7UCsmvLG77mWhoE++16gAV7XCVGHkddz0th5gqL9k0I1Re0OgJY1ovt1gthpHyoGE1fXj7dcFg5L7SCkw9A30/csBm4asWgrZYtkPCzGtKAHoZPAayBeIRWx07MEP5Mtzh1QAY+vUUfqS5ie4j1Na5YDsghhvyyTbvaoZVHjvEagccwWQ4OWo7vDy0LHk3lmBmzUZVlUYvpEtzNgvTRm3UKJXyxv7zOIBbLFLju4T5TViA70o0CO8WljkKJZTW4gjQEwlpDxmBDixWJK51PqV2xvTlY+sjnos1iYOil/BPk1RcRgAS0pPX7/3cMcU4VGfx/pyZeHelBym7j9N4cH+s7HLNb2XgrgYZ8tAngCMAdZTVuLxKm0wg9MC9Aaqgd3qHAbgHHWAOqsOLdDgwcN7ZxtQ/iWEXb1bdIjawczupIv/1V1fWIMwXczBP6RN5KpizJyOewOLqECi8
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53a416dd-bee2-4dd5-2076-08d827eaae41
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2020 11:40:17.5107
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j6YkWmVy/DVmQUeeihKCzdZ0nQ1w2msoKg2S7nr1fuIdXVdOk03eSzJb5WduQtcX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4518
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 07, 2020 at 10:12:24PM +0200, Daniel Vetter wrote:
-> Not going to bother with a complete&pretty commit message, just
-> offending backtrace:
-> 
->         kvmalloc_node+0x47/0x80
->         dc_create_state+0x1f/0x60 [amdgpu]
->         dc_commit_state+0xcb/0x9b0 [amdgpu]
->         amdgpu_dm_atomic_commit_tail+0xd31/0x2010 [amdgpu]
->         commit_tail+0xa4/0x140 [drm_kms_helper]
->         drm_atomic_helper_commit+0x152/0x180 [drm_kms_helper]
->         drm_client_modeset_commit_atomic+0x1ea/0x250 [drm]
->         drm_client_modeset_commit_locked+0x55/0x190 [drm]
->         drm_client_modeset_commit+0x24/0x40 [drm]
-> 
-> v2: Found more in DC code, I'm just going to pile them all up.
-> 
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Am 14.07.20 um 12:49 schrieb Daniel Vetter:
+> On Tue, Jul 07, 2020 at 10:12:23PM +0200, Daniel Vetter wrote:
+>> My dma-fence lockdep annotations caught an inversion because we
+>> allocate memory where we really shouldn't:
+>>
+>> 	kmem_cache_alloc+0x2b/0x6d0
+>> 	amdgpu_fence_emit+0x30/0x330 [amdgpu]
+>> 	amdgpu_ib_schedule+0x306/0x550 [amdgpu]
+>> 	amdgpu_job_run+0x10f/0x260 [amdgpu]
+>> 	drm_sched_main+0x1b9/0x490 [gpu_sched]
+>> 	kthread+0x12e/0x150
+>>
+>> Trouble right now is that lockdep only validates against GFP_FS, which
+>> would be good enough for shrinkers. But for mmu_notifiers we actually
+>> need !GFP_ATOMIC, since they can be called from any page laundering,
+>> even if GFP_NOFS or GFP_NOIO are set.
+>>
+>> I guess we should improve the lockdep annotations for
+>> fs_reclaim_acquire/release.
+>>
+>> Ofc real fix is to properly preallocate this fence and stuff it into
+>> the amdgpu job structure. But GFP_ATOMIC gets the lockdep splat out of
+>> the way.
+>>
+>> v2: Two more allocations in scheduler paths.
+>>
+>> Frist one:
+>>
+>> 	__kmalloc+0x58/0x720
+>> 	amdgpu_vmid_grab+0x100/0xca0 [amdgpu]
+>> 	amdgpu_job_dependency+0xf9/0x120 [amdgpu]
+>> 	drm_sched_entity_pop_job+0x3f/0x440 [gpu_sched]
+>> 	drm_sched_main+0xf9/0x490 [gpu_sched]
+>>
+>> Second one:
+>>
+>> 	kmem_cache_alloc+0x2b/0x6d0
+>> 	amdgpu_sync_fence+0x7e/0x110 [amdgpu]
+>> 	amdgpu_vmid_grab+0x86b/0xca0 [amdgpu]
+>> 	amdgpu_job_dependency+0xf9/0x120 [amdgpu]
+>> 	drm_sched_entity_pop_job+0x3f/0x440 [gpu_sched]
+>> 	drm_sched_main+0xf9/0x490 [gpu_sched]
+>>
+>> Cc: linux-media@vger.kernel.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> Cc: linux-rdma@vger.kernel.org
+>> Cc: amd-gfx@lists.freedesktop.org
+>> Cc: intel-gfx@lists.freedesktop.org
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Christian KÃ¶nig <christian.koenig@amd.com>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Has anyone from amd side started looking into how to fix this properly?
 
-Anyone from amdgpu DC team started to look into this and the subsequent
-patches in DC? Note that the last one isn't needed anymore because it's
-now fix in upstream with
+Yeah I checked both and neither are any real problem.
 
-commit cdaae8371aa9d4ea1648a299b1a75946b9556944
-Author: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Date:   Mon May 11 14:21:17 2020 -0400
+> I looked a bit into fixing this with mempool, and the big guarantee we
+> need is that
+> - there's a hard upper limit on how many allocations we minimally need to
+>    guarantee forward progress. And the entire vmid allocation and
+>    amdgpu_sync_fence stuff kinda makes me question that's a valid
+>    assumption.
 
-    drm/amd/display: Handle GPU reset for DC block
+We do have hard upper limits for those.
 
-But that patch has a ton of memory allocations in the reset path now, so
-you just replaced one deadlock with another one ...
+The VMID allocation could as well just return the fence instead of 
+putting it into the sync object IIRC. So that just needs some cleanup 
+and can avoid the allocation entirely.
 
-Note that since amdgpu has it's private atomic_commit_tail implemenation
-this won't hold up the generic atomic annotations, but I think it will
-hold up the tdr annotations at least. Plus would be nice to fix this
-somehow.
--Daniel
+The hardware fence is limited by the number of submissions we can have 
+concurrently on the ring buffers, so also not a problem at all.
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/atom.c                 | 2 +-
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
->  drivers/gpu/drm/amd/display/dc/core/dc.c          | 4 +++-
->  3 files changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
-> index 4cfc786699c7..1b0c674fab25 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/atom.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/atom.c
-> @@ -1226,7 +1226,7 @@ static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index,
->  	ectx.abort = false;
->  	ectx.last_jump = 0;
->  	if (ws)
-> -		ectx.ws = kcalloc(4, ws, GFP_KERNEL);
-> +		ectx.ws = kcalloc(4, ws, GFP_ATOMIC);
->  	else
->  		ectx.ws = NULL;
->  
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 6afcc33ff846..3d41eddc7908 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6872,7 +6872,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
->  		struct dc_stream_update stream_update;
->  	} *bundle;
->  
-> -	bundle = kzalloc(sizeof(*bundle), GFP_KERNEL);
-> +	bundle = kzalloc(sizeof(*bundle), GFP_ATOMIC);
->  
->  	if (!bundle) {
->  		dm_error("Failed to allocate update bundle\n");
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> index 942ceb0f6383..f9a58509efb2 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> @@ -1475,8 +1475,10 @@ bool dc_post_update_surfaces_to_stream(struct dc *dc)
->  
->  struct dc_state *dc_create_state(struct dc *dc)
->  {
-> +	/* No you really cant allocate random crap here this late in
-> +	 * atomic_commit_tail. */
->  	struct dc_state *context = kvzalloc(sizeof(struct dc_state),
-> -					    GFP_KERNEL);
-> +					    GFP_ATOMIC);
->  
->  	if (!context)
->  		return NULL;
-> -- 
-> 2.27.0
-> 
+Regards,
+Christian.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> - mempool_free must be called without any locks in the way which are held
+>    while we call mempool_alloc. Otherwise we again have a nice deadlock
+>    with no forward progress. I tried auditing that, but got lost in amdgpu
+>    and scheduler code. Some lockdep annotations for mempool.c might help,
+>    but they're not going to catch everything. Plus it would be again manual
+>    annotations because this is yet another cross-release issue. So not sure
+>    that helps at all.
+>
+> iow, not sure what to do here. Ideas?
+>
+> Cheers, Daniel
+>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 2 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c   | 2 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c  | 2 +-
+>>   3 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>> index 8d84975885cd..a089a827fdfe 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>> @@ -143,7 +143,7 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f,
+>>   	uint32_t seq;
+>>   	int r;
+>>   
+>> -	fence = kmem_cache_alloc(amdgpu_fence_slab, GFP_KERNEL);
+>> +	fence = kmem_cache_alloc(amdgpu_fence_slab, GFP_ATOMIC);
+>>   	if (fence == NULL)
+>>   		return -ENOMEM;
+>>   
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
+>> index 267fa45ddb66..a333ca2d4ddd 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
+>> @@ -208,7 +208,7 @@ static int amdgpu_vmid_grab_idle(struct amdgpu_vm *vm,
+>>   	if (ring->vmid_wait && !dma_fence_is_signaled(ring->vmid_wait))
+>>   		return amdgpu_sync_fence(sync, ring->vmid_wait);
+>>   
+>> -	fences = kmalloc_array(sizeof(void *), id_mgr->num_ids, GFP_KERNEL);
+>> +	fences = kmalloc_array(sizeof(void *), id_mgr->num_ids, GFP_ATOMIC);
+>>   	if (!fences)
+>>   		return -ENOMEM;
+>>   
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>> index 8ea6c49529e7..af22b526cec9 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+>> @@ -160,7 +160,7 @@ int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f)
+>>   	if (amdgpu_sync_add_later(sync, f))
+>>   		return 0;
+>>   
+>> -	e = kmem_cache_alloc(amdgpu_sync_slab, GFP_KERNEL);
+>> +	e = kmem_cache_alloc(amdgpu_sync_slab, GFP_ATOMIC);
+>>   	if (!e)
+>>   		return -ENOMEM;
+>>   
+>> -- 
+>> 2.27.0
+>>
+
