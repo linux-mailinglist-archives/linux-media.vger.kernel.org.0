@@ -2,180 +2,412 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC92821ED7E
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 11:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD4DE21EDB8
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2020 12:16:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726375AbgGNJ7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jul 2020 05:59:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725952AbgGNJ7c (ORCPT
+        id S1726431AbgGNKQC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jul 2020 06:16:02 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:45008 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbgGNKQC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jul 2020 05:59:32 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2033FC061794
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 02:59:32 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id t198so13456590oie.7
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2020 02:59:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=P8l6FryZA/keVvXZxlVWCIThf2OhcjulZofupovGm64=;
-        b=JjXl30BetKudJTECMqXFHImpbHoIMJwSlaxINv3XDnK+9+Tr9N4ASZCG80YQJhQQYs
-         T3mQ1QXsNczwOdwVusg9i/jHB3mHw1vkbHHqnTVRescmoWMv79nbDTyGZqLouvo7PVY5
-         Ny7CdSKe4B5cGITJ2pqyXTuhrBe67YunCv/+M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=P8l6FryZA/keVvXZxlVWCIThf2OhcjulZofupovGm64=;
-        b=MyBz81Q12EFCHaHNHUcuQ/7iA+Kcfpxq2nYZF+rcSwLiFolMgZso6CYbaHLP7sabfp
-         6KBVS7lIviZYJgOoxjchPUKuBasgeIDj9+s+JActxWV3uXWnVC3n0ydK774oFbs6QJfI
-         6vN4fSWqgJvHrDgad4GKcb3ILO0spFN2MaT6qk8+Tp1w7Z6mYU2YVd0JbT4lmIc9c/ka
-         oq1Bw5J9JcyjUVbM97oabyI91KANLLPihlr2hoxFWVzRDrlTbLwxhHU6wbyFTNGcmtAW
-         aTSs1TirMRJJzBxbvhneUqfU3ikHmnSTxJ5M+tSTi5bBugeMMhvtjb8Lj7WSp6ZcQkPG
-         0kZg==
-X-Gm-Message-State: AOAM530p6hudxe4xbCJSavnfucVojz6Ic6lTElNjp/vOZQ2xIwGWo+Y3
-        VfPj3Ey/VgfHK6BSimEYBNmkz+Vq+RGrt54rgao12w==
-X-Google-Smtp-Source: ABdhPJxzz/S8lATGQ/0IMYNwtQjDlAlFcSobX9FbPzm4XdALVWpg/Y5C8vwjamXN8Z0EGUWFlRHk8Cbz+tDX12mNXeA=
-X-Received: by 2002:aca:cc8e:: with SMTP id c136mr2959277oig.128.1594720771402;
- Tue, 14 Jul 2020 02:59:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-5-daniel.vetter@ffwll.ch> <20200712222716.4rhvj7hryiecjthv@smtp.gmail.com>
- <20200714095717.njwk2u4tkgro54jn@smtp.gmail.com>
-In-Reply-To: <20200714095717.njwk2u4tkgro54jn@smtp.gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue, 14 Jul 2020 11:59:20 +0200
-Message-ID: <CAKMK7uGu4N2oe04N=haUodmVCLi6HnqFDORkObx8EPUQrEJ+MQ@mail.gmail.com>
-Subject: Re: [PATCH 04/25] drm/vkms: Annotate vblank timer
-To:     Melissa Wen <melissa.srw@gmail.com>
-Cc:     Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Trevor Woerner <twoerner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 14 Jul 2020 06:16:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=qti.qualcomm.com; i=@qti.qualcomm.com; q=dns/txt;
+  s=qcdkim; t=1594721762; x=1626257762;
+  h=from:to:cc:subject:date:message-id;
+  bh=mJQgl+Wih/Npohxk2QCbcNtLC2MU8snCzsF5it6GMmE=;
+  b=bQleqQ6i6GEZalmkPAEAnfEKNPyxRZ7II8ItCgfAKsWYSF0NcXvuvIBU
+   nLsIGS7MP4+cRQ2XsDDC0L1jS6S4MMgEBKmWxazNzDq2pqZi+lFhAu6bq
+   z5+PktutNzk7PHOul9CCsPLlWGsa3hDaUIpU/JCVC7cU+lGAs1JccxSgL
+   c=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 14 Jul 2020 03:16:01 -0700
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 14 Jul 2020 03:15:59 -0700
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 14 Jul 2020 15:45:43 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id 40C3E411B; Tue, 14 Jul 2020 15:45:42 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@qti.qualcomm.com>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, majja@codeaurora.org, jdas@codeaurora.org,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH v3] venus: move platform specific data to platform file
+Date:   Tue, 14 Jul 2020 15:45:40 +0530
+Message-Id: <1594721740-17617-1-git-send-email-dikshita@qti.qualcomm.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 11:57 AM Melissa Wen <melissa.srw@gmail.com> wrote:
->
-> On 07/12, Rodrigo Siqueira wrote:
-> > Hi,
-> >
-> > Everything looks fine to me, I just noticed that the amdgpu patches did
-> > not apply smoothly, however it was trivial to fix the issues.
-> >
-> > Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> >
-> > Melissa,
-> > Since you are using vkms regularly, could you test this patch and revie=
-w
-> > it? Remember to add your Tested-by when you finish.
-> >
-> Hi,
->
-> I've applied the patch series, ran some tests on vkms, and found no
-> issues. I mean, things have remained stable.
->
-> Tested-by: Melissa Wen <melissa.srw@gmail.com>
+From: Dikshita Agarwal <dikshita@codeaurora.org>
 
-Did you test with CONFIG_PROVE_LOCKING enabled in the kernel .config?
-Without that enabled, there's not really any change here, but with
-that enabled there might be some lockdep splats in dmesg indicating a
-problem.
+Move all data specific to platform into a separate file.
 
-Thanks, Daniel
->
-> > Thanks
-> >
-> > On 07/07, Daniel Vetter wrote:
-> > > This is needed to signal the fences from page flips, annotate it
-> > > accordingly. We need to annotate entire timer callback since if we ge=
-t
-> > > stuck anywhere in there, then the timer stops, and hence fences stop.
-> > > Just annotating the top part that does the vblank handling isn't
-> > > enough.
-> > >
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: linaro-mm-sig@lists.linaro.org
-> > > Cc: linux-rdma@vger.kernel.org
-> > > Cc: amd-gfx@lists.freedesktop.org
-> > > Cc: intel-gfx@lists.freedesktop.org
-> > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > ---
-> > >  drivers/gpu/drm/vkms/vkms_crtc.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/=
-vkms_crtc.c
-> > > index ac85e17428f8..a53a40848a72 100644
-> > > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > @@ -1,5 +1,7 @@
-> > >  // SPDX-License-Identifier: GPL-2.0+
-> > >
-> > > +#include <linux/dma-fence.h>
-> > > +
-> > >  #include <drm/drm_atomic.h>
-> > >  #include <drm/drm_atomic_helper.h>
-> > >  #include <drm/drm_probe_helper.h>
-> > > @@ -14,7 +16,9 @@ static enum hrtimer_restart vkms_vblank_simulate(st=
-ruct hrtimer *timer)
-> > >     struct drm_crtc *crtc =3D &output->crtc;
-> > >     struct vkms_crtc_state *state;
-> > >     u64 ret_overrun;
-> > > -   bool ret;
-> > > +   bool ret, fence_cookie;
-> > > +
-> > > +   fence_cookie =3D dma_fence_begin_signalling();
-> > >
-> > >     ret_overrun =3D hrtimer_forward_now(&output->vblank_hrtimer,
-> > >                                       output->period_ns);
-> > > @@ -49,6 +53,8 @@ static enum hrtimer_restart vkms_vblank_simulate(st=
-ruct hrtimer *timer)
-> > >                     DRM_DEBUG_DRIVER("Composer worker already queued\=
-n");
-> > >     }
-> > >
-> > > +   dma_fence_end_signalling(fence_cookie);
-> > > +
-> > >     return HRTIMER_RESTART;
-> > >  }
-> > >
-> > > --
-> > > 2.27.0
-> > >
-> >
-> > --
-> > Rodrigo Siqueira
-> > https://siqueira.tech
->
->
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+---
+ drivers/media/platform/qcom/venus/Makefile       |  3 +-
+ drivers/media/platform/qcom/venus/core.c         | 20 ++-----
+ drivers/media/platform/qcom/venus/core.h         | 12 +----
+ drivers/media/platform/qcom/venus/helpers.c      | 31 +----------
+ drivers/media/platform/qcom/venus/helpers.h      |  1 -
+ drivers/media/platform/qcom/venus/hfi_platform.c | 66 ++++++++++++++++++++++++
+ drivers/media/platform/qcom/venus/hfi_platform.h | 28 ++++++++++
+ drivers/media/platform/qcom/venus/pm_helpers.c   |  1 +
+ drivers/media/platform/qcom/venus/vdec.c         |  3 +-
+ drivers/media/platform/qcom/venus/venc.c         |  3 +-
+ 10 files changed, 107 insertions(+), 61 deletions(-)
+ create mode 100644 drivers/media/platform/qcom/venus/hfi_platform.c
+ create mode 100644 drivers/media/platform/qcom/venus/hfi_platform.h
 
+diff --git a/drivers/media/platform/qcom/venus/Makefile b/drivers/media/platform/qcom/venus/Makefile
+index dfc6368..c8f0e39 100644
+--- a/drivers/media/platform/qcom/venus/Makefile
++++ b/drivers/media/platform/qcom/venus/Makefile
+@@ -3,7 +3,8 @@
+ 
+ venus-core-objs += core.o helpers.o firmware.o \
+ 		   hfi_venus.o hfi_msgs.o hfi_cmds.o hfi.o \
+-		   hfi_parser.o pm_helpers.o dbgfs.o
++		   hfi_parser.o pm_helpers.o dbgfs.o \
++		   hfi_platform.o
+ 
+ venus-dec-objs += vdec.o vdec_ctrls.o
+ venus-enc-objs += venc.o venc_ctrls.o
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index bbb394c..2245a0e 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -20,6 +20,7 @@
+ #include "core.h"
+ #include "firmware.h"
+ #include "pm_helpers.h"
++#include "hfi_platform.h"
+ 
+ static void venus_event_notify(struct venus_core *core, u32 event)
+ {
+@@ -222,6 +223,8 @@ static int venus_probe(struct platform_device *pdev)
+ 			return ret;
+ 	}
+ 
++	core->hfi_plat = hfi_platform_get(core->res->hfi_version);
++
+ 	ret = dma_set_mask_and_coherent(dev, core->res->dma_mask);
+ 	if (ret)
+ 		return ret;
+@@ -461,17 +464,6 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+ 	{  244800, 100000000 },	/* 1920x1080@30 */
+ };
+ 
+-static const struct codec_freq_data sdm845_codec_freq_data[] =  {
+-	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10 },
+-	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10 },
+-	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10 },
+-	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-};
+-
+ static const struct bw_tbl sdm845_bw_table_enc[] = {
+ 	{ 1944000, 1612000, 0, 2416000, 0 },	/* 3840x2160@60 */
+ 	{  972000,  951000, 0, 1434000, 0 },	/* 3840x2160@30 */
+@@ -493,8 +485,6 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+ 	.bw_tbl_enc_size = ARRAY_SIZE(sdm845_bw_table_enc),
+ 	.bw_tbl_dec = sdm845_bw_table_dec,
+ 	.bw_tbl_dec_size = ARRAY_SIZE(sdm845_bw_table_dec),
+-	.codec_freq_data = sdm845_codec_freq_data,
+-	.codec_freq_data_size = ARRAY_SIZE(sdm845_codec_freq_data),
+ 	.clks = {"core", "iface", "bus" },
+ 	.clks_num = 3,
+ 	.vcodec0_clks = { "core", "bus" },
+@@ -516,8 +506,6 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+ 	.bw_tbl_enc_size = ARRAY_SIZE(sdm845_bw_table_enc),
+ 	.bw_tbl_dec = sdm845_bw_table_dec,
+ 	.bw_tbl_dec_size = ARRAY_SIZE(sdm845_bw_table_dec),
+-	.codec_freq_data = sdm845_codec_freq_data,
+-	.codec_freq_data_size = ARRAY_SIZE(sdm845_codec_freq_data),
+ 	.clks = {"core", "iface", "bus" },
+ 	.clks_num = 3,
+ 	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
+@@ -562,8 +550,6 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+ 	.bw_tbl_enc_size = ARRAY_SIZE(sc7180_bw_table_enc),
+ 	.bw_tbl_dec = sc7180_bw_table_dec,
+ 	.bw_tbl_dec_size = ARRAY_SIZE(sc7180_bw_table_dec),
+-	.codec_freq_data = sdm845_codec_freq_data,
+-	.codec_freq_data_size = ARRAY_SIZE(sdm845_codec_freq_data),
+ 	.clks = {"core", "iface", "bus" },
+ 	.clks_num = 3,
+ 	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 82438f1..c8f0824 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -34,13 +34,6 @@ struct reg_val {
+ 	u32 value;
+ };
+ 
+-struct codec_freq_data {
+-	u32 pixfmt;
+-	u32 session_type;
+-	unsigned long vpp_freq;
+-	unsigned long vsp_freq;
+-};
+-
+ struct bw_tbl {
+ 	u32 mbs_per_sec;
+ 	u32 avg;
+@@ -59,8 +52,6 @@ struct venus_resources {
+ 	unsigned int bw_tbl_dec_size;
+ 	const struct reg_val *reg_tbl;
+ 	unsigned int reg_tbl_size;
+-	const struct codec_freq_data *codec_freq_data;
+-	unsigned int codec_freq_data_size;
+ 	const char * const clks[VIDC_CLKS_NUM_MAX];
+ 	unsigned int clks_num;
+ 	const char * const vcodec0_clks[VIDC_VCODEC_CLKS_NUM_MAX];
+@@ -176,6 +167,7 @@ struct venus_core {
+ 	bool sys_error;
+ 	const struct hfi_core_ops *core_ops;
+ 	const struct venus_pm_ops *pm_ops;
++	const struct hfi_platform *hfi_plat;
+ 	struct mutex pm_lock;
+ 	unsigned long enc_codecs;
+ 	unsigned long dec_codecs;
+@@ -256,7 +248,7 @@ struct venus_buffer {
+ struct clock_data {
+ 	u32 core_id;
+ 	unsigned long freq;
+-	const struct codec_freq_data *codec_freq_data;
++	const struct hfi_platform_codec_freq_data *codec_freq_data;
+ };
+ 
+ #define to_venus_buffer(ptr)	container_of(ptr, struct venus_buffer, vb)
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 115a9a2..712d0ed 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -14,6 +14,7 @@
+ #include "helpers.h"
+ #include "hfi_helper.h"
+ #include "pm_helpers.h"
++#include "hfi_platform.h"
+ 
+ struct intbuf {
+ 	struct list_head list;
+@@ -801,36 +802,6 @@ int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode)
+ }
+ EXPORT_SYMBOL_GPL(venus_helper_set_work_mode);
+ 
+-int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+-{
+-	const struct codec_freq_data *data;
+-	unsigned int i, data_size;
+-	u32 pixfmt;
+-	int ret = 0;
+-
+-	if (!IS_V4(inst->core))
+-		return 0;
+-
+-	data = inst->core->res->codec_freq_data;
+-	data_size = inst->core->res->codec_freq_data_size;
+-	pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
+-			inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
+-
+-	for (i = 0; i < data_size; i++) {
+-		if (data[i].pixfmt == pixfmt &&
+-		    data[i].session_type == inst->session_type) {
+-			inst->clk_data.codec_freq_data = &data[i];
+-			break;
+-		}
+-	}
+-
+-	if (!inst->clk_data.codec_freq_data)
+-		ret = -EINVAL;
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(venus_helper_init_codec_freq_data);
+-
+ int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
+ 			      unsigned int output_bufs,
+ 			      unsigned int output2_bufs)
+diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+index 8fbbda1..9c83c91 100644
+--- a/drivers/media/platform/qcom/venus/helpers.h
++++ b/drivers/media/platform/qcom/venus/helpers.h
+@@ -33,7 +33,6 @@ int venus_helper_set_output_resolution(struct venus_inst *inst,
+ 				       unsigned int width, unsigned int height,
+ 				       u32 buftype);
+ int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode);
+-int venus_helper_init_codec_freq_data(struct venus_inst *inst);
+ int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
+ 			      unsigned int output_bufs,
+ 			      unsigned int output2_bufs);
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
+new file mode 100644
+index 0000000..5ffadfe
+--- /dev/null
++++ b/drivers/media/platform/qcom/venus/hfi_platform.c
+@@ -0,0 +1,66 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
++ */
++#include "hfi_platform.h"
++#include "core.h"
++
++static struct hfi_platform_codec_freq_data hfi_plat_codec_freq_data_v4[] =  {
++	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10 },
++	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10 },
++	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10 },
++	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200, 10 },
++	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200, 10 },
++	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200, 10 },
++	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200, 10 },
++	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 10 },
++};
++
++static const struct hfi_platform hfi_plat_v4 = {
++	.hfi_plat_codec_freq_data = hfi_plat_codec_freq_data_v4,
++	.hfi_plat_codec_freq_data_size =
++		ARRAY_SIZE(hfi_plat_codec_freq_data_v4),
++};
++
++const struct hfi_platform *hfi_platform_get
++	(enum hfi_version version)
++{
++	switch (version) {
++	case HFI_VERSION_4XX:
++		return &hfi_plat_v4;
++	default:
++		return NULL;
++	}
++	return NULL;
++}
++
++int hfi_platform_init_codec_freq_data(struct venus_inst *inst)
++{
++	const struct hfi_platform_codec_freq_data *data;
++	unsigned int i, data_size;
++	u32 pixfmt;
++	int ret = 0;
++
++	if (!IS_V4(inst->core))
++		return 0;
++
++	data = inst->core->hfi_plat->hfi_plat_codec_freq_data;
++	data_size = inst->core->hfi_plat->hfi_plat_codec_freq_data_size;
++
++	pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
++			inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
++
++	for (i = 0; i < data_size; i++) {
++		if (data[i].pixfmt == pixfmt &&
++		    data[i].session_type == inst->session_type) {
++			inst->clk_data.codec_freq_data = &data[i];
++			break;
++		}
++	}
++
++	if (!inst->clk_data.codec_freq_data)
++		ret = -EINVAL;
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(hfi_platform_init_codec_freq_data);
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
+new file mode 100644
+index 0000000..3f869f8
+--- /dev/null
++++ b/drivers/media/platform/qcom/venus/hfi_platform.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
++ */
++
++#ifndef __HFI_PLATFORM_H__
++#define __HFI_PLATFORM_H__
++
++#include "core.h"
++
++struct hfi_platform_codec_freq_data {
++	u32 pixfmt;
++	u32 session_type;
++	unsigned long vpp_freq;
++	unsigned long vsp_freq;
++};
++
++struct hfi_platform {
++	const struct hfi_platform_codec_freq_data *hfi_plat_codec_freq_data;
++	unsigned int hfi_plat_codec_freq_data_size;
++};
++
++const struct hfi_platform *hfi_platform_get
++	(enum hfi_version version);
++int hfi_platform_init_codec_freq_data(struct venus_inst *inst);
++
++#endif
++
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index f33fc70..7fae9a4 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -17,6 +17,7 @@
+ #include "hfi_parser.h"
+ #include "hfi_venus_io.h"
+ #include "pm_helpers.h"
++#include "hfi_platform.h"
+ 
+ static bool legacy_binding;
+ 
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 7959e45..4219ea9 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -21,6 +21,7 @@
+ #include "helpers.h"
+ #include "vdec.h"
+ #include "pm_helpers.h"
++#include "hfi_platform.h"
+ 
+ /*
+  * Three resons to keep MPLANE formats (despite that the number of planes
+@@ -748,7 +749,7 @@ static int vdec_session_init(struct venus_inst *inst)
+ 	if (ret)
+ 		goto deinit;
+ 
+-	ret = venus_helper_init_codec_freq_data(inst);
++	ret = hfi_platform_init_codec_freq_data(inst);
+ 	if (ret)
+ 		goto deinit;
+ 
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index c591d00..8f9e2a3 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -21,6 +21,7 @@
+ #include "helpers.h"
+ #include "venc.h"
+ #include "pm_helpers.h"
++#include "hfi_platform.h"
+ 
+ #define NUM_B_FRAMES_MAX	4
+ 
+@@ -849,7 +850,7 @@ static int venc_init_session(struct venus_inst *inst)
+ 	if (ret)
+ 		goto deinit;
+ 
+-	ret = venus_helper_init_codec_freq_data(inst);
++	ret = hfi_platform_init_codec_freq_data(inst);
+ 	if (ret)
+ 		goto deinit;
+ 
+-- 
+1.9.1
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
