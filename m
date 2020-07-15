@@ -2,82 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74764220184
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 02:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DBBC220302
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 05:44:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726788AbgGOAv7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jul 2020 20:51:59 -0400
-Received: from smtprelay0224.hostedemail.com ([216.40.44.224]:44132 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726356AbgGOAv6 (ORCPT
+        id S1728581AbgGODnw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jul 2020 23:43:52 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:54157 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728098AbgGODnw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jul 2020 20:51:58 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 8823718224D61;
-        Wed, 15 Jul 2020 00:51:57 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:4250:4321:5007:6117:7875:7903:10004:10400:10848:11026:11232:11658:11914:12043:12297:12555:12740:12760:12895:12986:13019:13069:13311:13357:13439:14093:14096:14097:14180:14181:14659:14721:21080:21433:21627:21939:21987:21990:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
-X-HE-Tag: plane42_08149f426ef5
-X-Filterd-Recvd-Size: 2039
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf10.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 15 Jul 2020 00:51:56 +0000 (UTC)
-Message-ID: <c3dc7c1dd56a3a677e6d72b05313b2a61962885e.camel@perches.com>
-Subject: Re: [PATCH 3/5] media/dvbdev.h: fix duplicated word in comment
-From:   Joe Perches <joe@perches.com>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Date:   Tue, 14 Jul 2020 17:51:55 -0700
-In-Reply-To: <20200714220553.20294-3-rdunlap@infradead.org>
-References: <20200714220553.20294-1-rdunlap@infradead.org>
-         <20200714220553.20294-3-rdunlap@infradead.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.3-0ubuntu1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Tue, 14 Jul 2020 23:43:52 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id vYKijskAwNPeYvYKjjN5iQ; Wed, 15 Jul 2020 05:43:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594784629; bh=xUFFyiL6kU7ADAjNOtIxSWiuCCHxAwuAaWgP9ZksdpE=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=wJ2Qcvf1bETiI2+T6GKw2TPvibQrHlM3ZicNVzbFKu3TTUMJHBNeeL2NwJsV0x7qz
+         7tLLXozeN1EcPxbcpzXvwOYd8GABJheAZNdBlKXRO8V0KSY2PYiSUyhBG71JtP/U5d
+         YBSpMezMsgMMjwxcvQBurwcyPJicz+uxEqZRZ3MNALrvTKuXh7gch6eS7gWjs7jGI0
+         YYttim1OA25Y9DRWou72d3F3++/uoJxFirgJskiyCHJA8KMmZmPtH0XSYJuu36RH4r
+         XGVnCK9dLyuZLKOP7abDkKLgSOkgP/OQ9y/3vm3zNU9MO4nzDqygsIZ7OSLbPzpBCH
+         xWMls67c3PiwQ==
+Message-ID: <5d9ba4eff5f0e5c190ee8ce0a8fb33dc@smtp-cloud8.xs4all.net>
+Date:   Wed, 15 Jul 2020 05:43:48 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfN/ldll8I9hXuoToLtk/5SI9eDANAOmPP1qwUNGjN+pJBPA62YHqzT0w1RK7bHtllZJxpn4BWzCXxYp+6Jyqcp3Clb1rVquw4R1TJ4HRy+SBzfDKZ02M
+ BjumRNrcKsEDAZXc0QCXVAOcPGyhBhCCo2NU00Bd0vAgn0vW6A+fXyOfyzDzbe6RJ03PwxgLsA8bB6yoSsTd2RG5zXQoqj6e9D2jeY9DMFZVj131OQ5/FoeY
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-07-14 at 15:05 -0700, Randy Dunlap wrote:
-> Change the doubled word "the" in a comment to "to the".
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Hey 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> ---
->  include/media/dvbdev.h |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> --- linux-next-20200714.orig/include/media/dvbdev.h
-> +++ linux-next-20200714/include/media/dvbdev.h
-> @@ -385,7 +385,7 @@ struct i2c_client;
->   * with dvb_module_probe() should use dvb_module_release() to unbind.
->   *
->   * Return:
-> - *	On success, return an &struct i2c_client, pointing the the bound
-> + *	On success, return an &struct i2c_client, pointing to the bound
+Results of the daily build of media_tree:
 
-an &struct reads OK as text, but does not as rst/html
+date:			Wed Jul 15 05:00:11 CEST 2020
+media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
+media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
+v4l-utils git hash:	23492c4817e8be05923055e2c2610e7f954a27e8
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-Perhaps this should be:
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: ERRORS
 
-   return the address of the bound &struct i2c_client device
-or
-   return a pointer to the bound &struct i2c_client device
+Detailed results are available here:
 
-otherwise the html output is
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-   Return
+Detailed regression test results are available here:
 
-   On success, return an struct i2c_client, pointing to the bound
-   I2C device. NULL otherwise.
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-and there seem to be too many commas used as well.
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
+The Media Infrastructure API from this daily build is here:
 
+http://www.xs4all.nl/~hverkuil/spec/index.html
