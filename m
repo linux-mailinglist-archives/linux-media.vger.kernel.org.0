@@ -2,270 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF0C9220C72
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 13:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69BEE220C8A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 13:58:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730512AbgGOLx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 07:53:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55528 "EHLO
+        id S1729048AbgGOL6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 07:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730471AbgGOLx2 (ORCPT
+        with ESMTP id S1725852AbgGOL6B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 07:53:28 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717E9C08C5C1
-        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 04:53:28 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id l63so1942041oih.13
-        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 04:53:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4FinrZlSydscGLD2XsWVO6ma8sgzxkNosmE+MO8lKig=;
-        b=EuIfKI6Bn90Pi6oY4F2zofoOTzeGYqVMf+4Hl3ChqJRLun57M5MH9Itz9/q9Na8Rdc
-         3h8d43G5mJFidQR/uT6wg+ZN0zp46F4bNgoXw+zvdR/GApCyHO9VI5zbGEa5Aek9L2cL
-         XHemHmKdlyehq57zo12xitk+g0hXVmgANpaE0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4FinrZlSydscGLD2XsWVO6ma8sgzxkNosmE+MO8lKig=;
-        b=Ysz4xvvXeApc3czUUux22dF1f/OMiRD0Lsq1032o74XMtOk1zdl6tj/GjkCmp63DAr
-         CQtJOZxUVhn8lLVyI2/YBZ0TGZJ2YjJMcnV8g5zRCilb8i9ewZc8H0S0kdL4BxR1hdbH
-         PqsukYqbglUr4g0cjaZSG/rQtnEU9ENYFV4l7hP9S5JW5dL59WSbJqe8ltEcecl9SglK
-         46pbDPDwjzTKzonF1Pp+5hwT3293DjqaZnQW6sGDer7HAGtZXXENKlkHD8QpwO7zMasn
-         XBMs+hyCC/6F4IHw0puoCUx0xV0n9qQT3up8AO422Fd81Mm4D1liT+O6gnUC6WaKQU8O
-         QJOA==
-X-Gm-Message-State: AOAM530cBwjjKwlJrX/Zb/9zm6zlZXS3QBzjZ6SIY9TrJpzA0e2JKVkL
-        gUKVX4MafY2k3aY4M4pAZCFhZ8+4qPsucd6dv09Kng==
-X-Google-Smtp-Source: ABdhPJxUL5GYS/lkJdhIPXoYwZ5RFdtdz0fp2dGsnvxTUfeb+KRTouxT1ct6MX8VZM0M2ALQCn8JC6faol/ocWZzBrk=
-X-Received: by 2002:aca:cc8e:: with SMTP id c136mr7447522oig.128.1594814007622;
- Wed, 15 Jul 2020 04:53:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-20-daniel.vetter@ffwll.ch> <20200714104910.GC3278063@phenom.ffwll.local>
- <d3e85f62-e427-7f1c-0ff4-842ffe57172e@amd.com> <20200714143124.GG3278063@phenom.ffwll.local>
- <ab593d2b-051f-4d34-26d1-596351a50630@gmail.com>
-In-Reply-To: <ab593d2b-051f-4d34-26d1-596351a50630@gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Wed, 15 Jul 2020 13:53:16 +0200
-Message-ID: <CAKMK7uFjG9LjJ_bAqZ=_1tO=iEnhMpJBbzxG-OEWzXujf8jnGw@mail.gmail.com>
-Subject: Re: [PATCH 19/25] drm/amdgpu: s/GFP_KERNEL/GFP_ATOMIC in scheduler code
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
+        Wed, 15 Jul 2020 07:58:01 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BB17C061755;
+        Wed, 15 Jul 2020 04:58:01 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 206512A06C6
+Message-ID: <3c8a235ebb0bf76bcffeb8c6b983cd4c95d77459.camel@collabora.com>
+Subject: Re: [PATCH] media: cedrus: Propagate OUTPUT resolution to CAPTURE
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     stable@vger.kernel.org, kernel@collabora.com,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Date:   Wed, 15 Jul 2020 08:57:50 -0300
+In-Reply-To: <20200514153903.341287-1-nicolas.dufresne@collabora.com>
+References: <20200514153903.341287-1-nicolas.dufresne@collabora.com>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.36.3-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 15, 2020 at 11:17 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 14.07.20 um 16:31 schrieb Daniel Vetter:
-> > On Tue, Jul 14, 2020 at 01:40:11PM +0200, Christian K=C3=B6nig wrote:
-> >> Am 14.07.20 um 12:49 schrieb Daniel Vetter:
-> >>> On Tue, Jul 07, 2020 at 10:12:23PM +0200, Daniel Vetter wrote:
-> >>>> My dma-fence lockdep annotations caught an inversion because we
-> >>>> allocate memory where we really shouldn't:
-> >>>>
-> >>>>    kmem_cache_alloc+0x2b/0x6d0
-> >>>>    amdgpu_fence_emit+0x30/0x330 [amdgpu]
-> >>>>    amdgpu_ib_schedule+0x306/0x550 [amdgpu]
-> >>>>    amdgpu_job_run+0x10f/0x260 [amdgpu]
-> >>>>    drm_sched_main+0x1b9/0x490 [gpu_sched]
-> >>>>    kthread+0x12e/0x150
-> >>>>
-> >>>> Trouble right now is that lockdep only validates against GFP_FS, whi=
-ch
-> >>>> would be good enough for shrinkers. But for mmu_notifiers we actuall=
-y
-> >>>> need !GFP_ATOMIC, since they can be called from any page laundering,
-> >>>> even if GFP_NOFS or GFP_NOIO are set.
-> >>>>
-> >>>> I guess we should improve the lockdep annotations for
-> >>>> fs_reclaim_acquire/release.
-> >>>>
-> >>>> Ofc real fix is to properly preallocate this fence and stuff it into
-> >>>> the amdgpu job structure. But GFP_ATOMIC gets the lockdep splat out =
-of
-> >>>> the way.
-> >>>>
-> >>>> v2: Two more allocations in scheduler paths.
-> >>>>
-> >>>> Frist one:
-> >>>>
-> >>>>    __kmalloc+0x58/0x720
-> >>>>    amdgpu_vmid_grab+0x100/0xca0 [amdgpu]
-> >>>>    amdgpu_job_dependency+0xf9/0x120 [amdgpu]
-> >>>>    drm_sched_entity_pop_job+0x3f/0x440 [gpu_sched]
-> >>>>    drm_sched_main+0xf9/0x490 [gpu_sched]
-> >>>>
-> >>>> Second one:
-> >>>>
-> >>>>    kmem_cache_alloc+0x2b/0x6d0
-> >>>>    amdgpu_sync_fence+0x7e/0x110 [amdgpu]
-> >>>>    amdgpu_vmid_grab+0x86b/0xca0 [amdgpu]
-> >>>>    amdgpu_job_dependency+0xf9/0x120 [amdgpu]
-> >>>>    drm_sched_entity_pop_job+0x3f/0x440 [gpu_sched]
-> >>>>    drm_sched_main+0xf9/0x490 [gpu_sched]
-> >>>>
-> >>>> Cc: linux-media@vger.kernel.org
-> >>>> Cc: linaro-mm-sig@lists.linaro.org
-> >>>> Cc: linux-rdma@vger.kernel.org
-> >>>> Cc: amd-gfx@lists.freedesktop.org
-> >>>> Cc: intel-gfx@lists.freedesktop.org
-> >>>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> >>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> >>> Has anyone from amd side started looking into how to fix this properl=
-y?
-> >> Yeah I checked both and neither are any real problem.
-> > I'm confused ... do you mean "no real problem fixing them" or "not
-> > actually a real problem"?
->
-> Both, at least the VMID stuff is trivial to avoid.
->
-> And the fence allocation is extremely unlikely. E.g. when we allocate a
-> new one we previously most likely just freed one already.
+It seems this one felt thru the cracks. Sorry for the delay.
 
-Yeah I think debugging we can avoid, just stop debugging if things get
-hung up like that. So mempool for the hw fences should be perfectly
-fine.
+On Thu, 2020-05-14 at 11:39 -0400, Nicolas Dufresne wrote:
+> As per spec, the CAPTURE resolution should be automatically set based on
+> the OTUPUT resolution. This patch properly propagate width/height to the
+> capture when the OUTPUT format is set and override the user provided
+> width/height with configured OUTPUT resolution when the CAPTURE fmt is
+> updated.
+> 
+> This also prevents userspace from selecting a CAPTURE resolution that is
+> too small, avoiding unwanted page faults.
+> 
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-The vmid stuff I don't really understand enough, but the hw fence
-stuff I think I grok, plus other scheduler users need that too from a
-quick look. I might be tackling that one (maybe put the mempool
-outright into drm_scheduler code as a helper), except if you have
-patches already in the works. vmid I'll leave to you guys :-)
+This looks correct.
 
--Daniel
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 
->
-> >
-> >>> I looked a bit into fixing this with mempool, and the big guarantee w=
-e
-> >>> need is that
-> >>> - there's a hard upper limit on how many allocations we minimally nee=
-d to
-> >>>     guarantee forward progress. And the entire vmid allocation and
-> >>>     amdgpu_sync_fence stuff kinda makes me question that's a valid
-> >>>     assumption.
-> >> We do have hard upper limits for those.
-> >>
-> >> The VMID allocation could as well just return the fence instead of put=
-ting
-> >> it into the sync object IIRC. So that just needs some cleanup and can =
-avoid
-> >> the allocation entirely.
-> > Yeah embedding should be simplest solution of all.
-> >
-> >> The hardware fence is limited by the number of submissions we can have
-> >> concurrently on the ring buffers, so also not a problem at all.
-> > Ok that sounds good. Wrt releasing the memory again, is that also done
-> > without any of the allocation-side locks held? I've seen some vmid mana=
-ger
-> > somewhere ...
->
-> Well that's the issue. We can't guarantee that for the hardware fence
-> memory since it could be that we hold another reference during debugging
-> IIRC.
->
-> Still looking if and how we could fix this. But as I said this problem
-> is so extremely unlikely.
->
-> Christian.
->
-> > -Daniel
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> - mempool_free must be called without any locks in the way which are =
-held
-> >>>     while we call mempool_alloc. Otherwise we again have a nice deadl=
-ock
-> >>>     with no forward progress. I tried auditing that, but got lost in =
-amdgpu
-> >>>     and scheduler code. Some lockdep annotations for mempool.c might =
-help,
-> >>>     but they're not going to catch everything. Plus it would be again=
- manual
-> >>>     annotations because this is yet another cross-release issue. So n=
-ot sure
-> >>>     that helps at all.
-> >>>
-> >>> iow, not sure what to do here. Ideas?
-> >>>
-> >>> Cheers, Daniel
-> >>>
-> >>>> ---
-> >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 2 +-
-> >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c   | 2 +-
-> >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c  | 2 +-
-> >>>>    3 files changed, 3 insertions(+), 3 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_fence.c
-> >>>> index 8d84975885cd..a089a827fdfe 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> >>>> @@ -143,7 +143,7 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, =
-struct dma_fence **f,
-> >>>>            uint32_t seq;
-> >>>>            int r;
-> >>>> -  fence =3D kmem_cache_alloc(amdgpu_fence_slab, GFP_KERNEL);
-> >>>> +  fence =3D kmem_cache_alloc(amdgpu_fence_slab, GFP_ATOMIC);
-> >>>>            if (fence =3D=3D NULL)
-> >>>>                    return -ENOMEM;
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_ids.c
-> >>>> index 267fa45ddb66..a333ca2d4ddd 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-> >>>> @@ -208,7 +208,7 @@ static int amdgpu_vmid_grab_idle(struct amdgpu_v=
-m *vm,
-> >>>>            if (ring->vmid_wait && !dma_fence_is_signaled(ring->vmid_=
-wait))
-> >>>>                    return amdgpu_sync_fence(sync, ring->vmid_wait);
-> >>>> -  fences =3D kmalloc_array(sizeof(void *), id_mgr->num_ids, GFP_KER=
-NEL);
-> >>>> +  fences =3D kmalloc_array(sizeof(void *), id_mgr->num_ids, GFP_ATO=
-MIC);
-> >>>>            if (!fences)
-> >>>>                    return -ENOMEM;
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/=
-drm/amd/amdgpu/amdgpu_sync.c
-> >>>> index 8ea6c49529e7..af22b526cec9 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-> >>>> @@ -160,7 +160,7 @@ int amdgpu_sync_fence(struct amdgpu_sync *sync, =
-struct dma_fence *f)
-> >>>>            if (amdgpu_sync_add_later(sync, f))
-> >>>>                    return 0;
-> >>>> -  e =3D kmem_cache_alloc(amdgpu_sync_slab, GFP_KERNEL);
-> >>>> +  e =3D kmem_cache_alloc(amdgpu_sync_slab, GFP_ATOMIC);
-> >>>>            if (!e)
-> >>>>                    return -ENOMEM;
-> >>>> --
-> >>>> 2.27.0
-> >>>>
->
+Thanks,
+Ezequiel
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> index 16d82309e7b6..a6d6b15adc2e 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -247,6 +247,8 @@ static int cedrus_try_fmt_vid_cap(struct file *file, void *priv,
+>  		return -EINVAL;
+>  
+>  	pix_fmt->pixelformat = fmt->pixelformat;
+> +	pix_fmt->width = ctx->src_fmt.width;
+> +	pix_fmt->height = ctx->src_fmt.height;
+>  	cedrus_prepare_format(pix_fmt);
+>  
+>  	return 0;
+> @@ -319,11 +321,14 @@ static int cedrus_s_fmt_vid_out(struct file *file, void *priv,
+>  		break;
+>  	}
+>  
+> -	/* Propagate colorspace information to capture. */
+> +	/* Propagate format information to capture. */
+>  	ctx->dst_fmt.colorspace = f->fmt.pix.colorspace;
+>  	ctx->dst_fmt.xfer_func = f->fmt.pix.xfer_func;
+>  	ctx->dst_fmt.ycbcr_enc = f->fmt.pix.ycbcr_enc;
+>  	ctx->dst_fmt.quantization = f->fmt.pix.quantization;
+> +	ctx->dst_fmt.width = ctx->src_fmt.width;
+> +	ctx->dst_fmt.height = ctx->src_fmt.height;
+> +	cedrus_prepare_format(&ctx->dst_fmt);
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.26.2
+> 
+> 
 
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
