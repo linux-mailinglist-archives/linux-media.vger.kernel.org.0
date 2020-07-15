@@ -2,339 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0621F22110A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 17:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 345DD221161
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 17:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725861AbgGOPbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 11:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32832 "EHLO
+        id S1726335AbgGOPmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 11:42:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbgGOPbd (ORCPT
+        with ESMTP id S1725835AbgGOPmg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 11:31:33 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97CCEC08C5DB
-        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 08:31:33 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id gc9so3231835pjb.2
-        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 08:31:33 -0700 (PDT)
+        Wed, 15 Jul 2020 11:42:36 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD1C9C061755
+        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 08:42:35 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id a1so2621892ejg.12
+        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 08:42:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:user-agent:in-reply-to:references:mime-version
-         :content-transfer-encoding:subject:to:cc:from:message-id;
-        bh=hHyDEZPQlCj7ez8zgl+iUOU2RB2eEYLvFrd87IMuq64=;
-        b=FUOGjWIq+UH0Dj6G7Jka3jH2vi0nFXHsYfJ5q/c5I8GbuUL9LurO6gwlwuRa+xr0Sb
-         SQRUgG0ezG69Fjd5TIkHMtxk0RUhRp6NhlPV0rppoYOiBY94G08ZjWCUanin33jSfvep
-         Wy6Fyv1PfVb3IUJmBl0+MNhzgl7gvfK2BVgr9kcC+kRCfikdYovv3W2x1qP4+6lUa6zm
-         yUtxaDez4Qmib67LjGIuSVmgVotG+ibnrHPTeiAIviCTehOc4iYNdWBILBXJnVv/C3Gu
-         hmhyoVJ0NUNLLUJSfFwyi785c00rCYA0aAa1FvPQl7r408SLVvk1z8bgoMFcBoMFXBXU
-         n8sg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=atHKqaEFyhPKLRlFs+aSX/wC++TiPh0/8Gboy7TmwdM=;
+        b=Za4agzh0zGbSdNgOAJs3GVPJRNXGe9e83bA40iCplS87rlP93Em3M6mFy562u0FkKv
+         aHFZrluW4wSJX1GeuhXH+BpRLv331njTpGIUoKQOa5RAVzWgWS/zkwaQSyNnuQydkT3y
+         Sw+97TkRvXOQLXMVxg3Ju2+aRGF02tlIPxzdVNvAGnFJ6NVNblftLJu992/+uY7ylM+H
+         yO7R40G2z5E5w2yQtt0RHX6xv4bVhLF8FHmLk0I9cBuqZUu6/pB96zpWbOND2JsiRH57
+         hwT4fwpKfxOZGlxjxe06WYMtgyvkWsH5uyJ6GkHzUyyD4KFSRjo482DerV11VEGxs86o
+         WK3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:user-agent:in-reply-to:references
-         :mime-version:content-transfer-encoding:subject:to:cc:from
-         :message-id;
-        bh=hHyDEZPQlCj7ez8zgl+iUOU2RB2eEYLvFrd87IMuq64=;
-        b=dbnquOZuCt8phwTpYdeGJJhdZgLXm5Sbga9BzWz9dxrbZqqS/awMXUPEKUi+zMr+0c
-         h8FYik0zsDy9gCX8N910iW3mOlIMaD0bZPMT9URk/PR+Ao08LzkHzYmZgIY+p/OrcSWG
-         Xnj7LBFmgtwJzlEM3sQkMFLAfXSeey6ZwlcW/CedLl8zOipviKtcQ3XRNHhcnRPLfzm2
-         tVsptvvsPkbX5xrgtdpwDBpzbPIf8ExFsON0wb0UiCClUXVP6ris29sZxjMCdMQKGam4
-         2XvslxXOriwb+0gQfy4TmJ764jsuD+SI1EgslaIFjVrJRnbjldF4uPUZzOn4DLjnNvQh
-         sLMw==
-X-Gm-Message-State: AOAM532q3hpSJyx0msDIBzXZmj5vmuu/mmRmIrGpzKyCSg4ZIjRoVkzz
-        uu14bPaLasbrZ5K+/bJgrq12
-X-Google-Smtp-Source: ABdhPJzip+5iJSceNcg2pkLh+MNocaL8b2GFKczVRGn+4ev8O22viDzJr9m3e5nGW8nd6r9B0My4sw==
-X-Received: by 2002:a17:90b:4d10:: with SMTP id mw16mr163423pjb.143.1594827092724;
-        Wed, 15 Jul 2020 08:31:32 -0700 (PDT)
-Received: from ?IPv6:2409:4072:6d16:31bf:7111:6428:1bdc:7edc? ([2409:4072:6d16:31bf:7111:6428:1bdc:7edc])
-        by smtp.gmail.com with ESMTPSA id n62sm2683570pjb.28.2020.07.15.08.31.31
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 Jul 2020 08:31:32 -0700 (PDT)
-Date:   Wed, 15 Jul 2020 21:01:23 +0530
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20200715140951.90753-3-jacopo+renesas@jmondi.org>
-References: <20200715140951.90753-1-jacopo+renesas@jmondi.org> <20200715140951.90753-3-jacopo+renesas@jmondi.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=atHKqaEFyhPKLRlFs+aSX/wC++TiPh0/8Gboy7TmwdM=;
+        b=pyrEP/GXHvOdI4w1AF8ypdtw3SRg0P2+Wo9RAojqllxb9zJKCVNBHY41zcBwLNDhYp
+         I0r0QWpW50J8EeDahYaIttfbxOU96z4+RaDGI7aClWcQ6m8L8cFkMVk6qdFfHoPnI9OI
+         +LADrjF2cJ3vrKIO1i03tosbwPogZNLJK5RZK5EnFDV+/XPK4HSCf5PoaxiX496WBBa4
+         sHh19p2DCWyeBQOM80BQ/LqNbWl7mf9Xbl1eTms126GEUxqDwwi7gQJB7S9DX35TGSvl
+         q9gVmCrfXg7TRgqV84wvJF2sxvklz4vaPY5E4JgE5Pw5hY938vImrhRZOc7Zx05Ssxii
+         q1qw==
+X-Gm-Message-State: AOAM533oDwst6Q+1YTosw4z0HdMXRbyfMvN3H0k+Rbt/hEg2B4sWmYrB
+        oxslgIDiF3dYEA6L4+H4ZZ37eQ==
+X-Google-Smtp-Source: ABdhPJwaSs0VOlc/io39oYLV1f8wqKHBzAWJbfUdCDxUjrbfAHHTpyjNQUWkgk0CYcmYV7mUB2LZPw==
+X-Received: by 2002:a17:906:81d2:: with SMTP id e18mr9550885ejx.341.1594827754398;
+        Wed, 15 Jul 2020 08:42:34 -0700 (PDT)
+Received: from [192.168.1.2] (212-5-158-188.ip.btc-net.bg. [212.5.158.188])
+        by smtp.googlemail.com with ESMTPSA id qc16sm2404599ejb.33.2020.07.15.08.42.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jul 2020 08:42:33 -0700 (PDT)
+Subject: Re: [PATCH 1/4] media: v4l2-ctrl: Add frame-skip std encoder control
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Maheshwar Ajja <majja@codeaurora.org>
+References: <20200705121128.5250-1-stanimir.varbanov@linaro.org>
+ <20200705121128.5250-2-stanimir.varbanov@linaro.org>
+ <e9ce36f9de4ef216028832dd78fd7ebc88d6ecb1.camel@ndufresne.ca>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <513fd919-56a2-08b4-c8a7-5d37d7743129@linaro.org>
+Date:   Wed, 15 Jul 2020 18:42:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/8] dt-bindings: media: ov5645: Convert to json-schema
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org
-CC:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org,
-        Todor Tomov <todor.too@gmail.com>
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Message-ID: <60FF8603-ACA1-4CAF-B43B-04E974A8E4C4@linaro.org>
+In-Reply-To: <e9ce36f9de4ef216028832dd78fd7ebc88d6ecb1.camel@ndufresne.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,=20
+Hi Nicolas,
 
-On 15 July 2020 7:39:45 PM IST, Jacopo Mondi <jacopo+renesas@jmondi=2Eorg>=
- wrote:
->Convert the ov5645 bindings document to json-schema and update
->the MAINTAINERS file accordingly, as the entry was not documented=2E
->
->Add myself as maintainer for odd fixes only, as I don't have the
->sensor to test with=2E
->
->Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi=2Eorg>
->---
->
->Hello Todor, Manivannan
->   I've added in this patch an entry for ov5645 in the MAINTAINERS
->file, and I've added myself as maintainers for Odd Fixes only=2E
->
->As you seem to be the author and committers of this bindings
->respectively,
->would you be interested in maintaining this driver ?
+On 7/7/20 11:53 PM, Nicolas Dufresne wrote:
+> Le dimanche 05 juillet 2020 à 15:11 +0300, Stanimir Varbanov a écrit :
+>> Adds encoders standard v4l2 control for frame-skip. The control
+>> is a copy of a custom encoder control so that other v4l2 encoder
+>> drivers can use it.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  .../media/v4l/ext-ctrls-codec.rst             | 32 +++++++++++++++++++
+>>  drivers/media/v4l2-core/v4l2-ctrls.c          | 10 ++++++
+>>  include/uapi/linux/v4l2-controls.h            |  6 ++++
+>>  3 files changed, 48 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index d0d506a444b1..a8b4c0b40747 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -592,6 +592,38 @@ enum v4l2_mpeg_video_bitrate_mode -
+>>      the average video bitrate. It is ignored if the video bitrate mode
+>>      is set to constant bitrate.
+>>  
+>> +``V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE (enum)``
+>> +
+>> +enum v4l2_mpeg_video_frame_skip_mode -
+>> +    Indicates in what conditions the encoder should skip frames. If
+>> +    encoding a frame would cause the encoded stream to be larger then a
+>> +    chosen data limit then the frame will be skipped. Possible values
+>> +    are:
+> 
+> I have nothing against this API, in fact it's really nice to generalize
+> as this is very common. Though, I think we are missing two things. This
+> documentation refer to the "chosen data limit". Is there controls to
+> configure these *chosen* limit ? The other issue is the vagueness of
+> the documented mode, see lower...
+> 
+>> +
+>> +
+>> +.. tabularcolumns:: |p{9.2cm}|p{8.3cm}|
+>> +
+>> +.. raw:: latex
+>> +
+>> +    \small
+>> +
+>> +.. flat-table::
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +
+>> +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_DISABLED``
+>> +      - Frame skip mode is disabled.
+>> +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_LEVEL_LIMIT``
+>> +      - Frame skip mode enabled and buffer limit is set by the chosen
+>> +	level and is defined by the standard.
+> 
+> At least for H.264, a level is compose of 3 limits. One is the maximum
+> number of macroblocks, this is is evidently not use for frame skipping
+> and already constrained in V4L2 (assuming the driver does not ignore
+> the level control of course). The two other limits are decoded
+> macroblocks/s and encoded kbits/s. Both are measure over time, which
+> means the M2M encoder needs to be timing aware. I think the time source
+> should be documented. Perhaps it is mandatory to set a frame interval
+> for this to work ? Or we need some timestamp to allow variable frame
+> interval ? (I don't think the second is really an option without
+> extending the API again, and confusingly, since I think we have used
+> the timestamp for other purpose already)
 
-I've worked on this driver in the past=2E So yeah, feel free to add myself=
- and since Todor has authored the driver, it makes sense to add him too=2E=
-=20
+Do you want to say that the encoder input timestamp, bitrate control
+(V4L2_CID_MPEG_VIDEO_BITRATE) and S_PARM is not enough to describe
+FRAME_SKIP_MODE_LEVEL_LIMIT mode?
 
-Thanks,=20
-Mani
+> 
+>> +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_BUF_LIMIT``
+>> +      - Frame skip mode enabled and buffer limit is set by the VBV
+>> +	(MPEG1/2/4) or CPB (H264) buffer size control.
+> 
+> The notion of VBV an CPB is unlikely well known. If my memory is right,
+> these are constrained in buffering: in bytes (VBV) or bits per frame
+> over a window of n-frames (or the gop size for some less flexible
+> encoder) (CPB). I think these should be somehow chosen by application
+> (with controls), directly or indirectly, and documented here to ensure
+> we get consistent implementation across drivers.
 
->
->---
-> =2E=2E=2E/devicetree/bindings/media/i2c/ov5645=2Etxt  |  54 --------
-> =2E=2E=2E/devicetree/bindings/media/i2c/ov5645=2Eyaml | 123 ++++++++++++=
-++++++
-> MAINTAINERS                                   |   8 ++
-> 3 files changed, 131 insertions(+), 54 deletions(-)
->delete mode 100644
->Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
->create mode 100644
->Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->
->diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
->b/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
->deleted file mode 100644
->index 72ad992f77be=2E=2E000000000000
->--- a/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
->+++ /dev/null
->@@ -1,54 +0,0 @@
->-* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
->-
->-The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image
->sensor with
->-an active array size of 2592H x 1944V=2E It is programmable through a
->serial I2C
->-interface=2E
->-
->-Required Properties:
->-- compatible: Value should be "ovti,ov5645"=2E
->-- clocks: Reference to the xclk clock=2E
->-- clock-names: Should be "xclk"=2E
->-- clock-frequency: Frequency of the xclk clock=2E
->-- enable-gpios: Chip enable GPIO=2E Polarity is GPIO_ACTIVE_HIGH=2E This
->corresponds
->-  to the hardware pin PWDNB which is physically active low=2E
->-- reset-gpios: Chip reset GPIO=2E Polarity is GPIO_ACTIVE_LOW=2E This
->corresponds to
->-  the hardware pin RESETB=2E
->-- vdddo-supply: Chip digital IO regulator=2E
->-- vdda-supply: Chip analog regulator=2E
->-- vddd-supply: Chip digital core regulator=2E
->-
->-The device node must contain one 'port' child node for its digital
->output
->-video port, in accordance with the video interface bindings defined in
->-Documentation/devicetree/bindings/media/video-interfaces=2Etxt=2E
->-
->-Example:
->-
->-	&i2c1 {
->-		=2E=2E=2E
->-
->-		ov5645: ov5645@3c {
->-			compatible =3D "ovti,ov5645";
->-			reg =3D <0x3c>;
->-
->-			enable-gpios =3D <&gpio1 6 GPIO_ACTIVE_HIGH>;
->-			reset-gpios =3D <&gpio5 20 GPIO_ACTIVE_LOW>;
->-			pinctrl-names =3D "default";
->-			pinctrl-0 =3D <&camera_rear_default>;
->-
->-			clocks =3D <&clks 200>;
->-			clock-names =3D "xclk";
->-			clock-frequency =3D <24000000>;
->-
->-			vdddo-supply =3D <&camera_dovdd_1v8>;
->-			vdda-supply =3D <&camera_avdd_2v8>;
->-			vddd-supply =3D <&camera_dvdd_1v2>;
->-
->-			port {
->-				ov5645_ep: endpoint {
->-					clock-lanes =3D <1>;
->-					data-lanes =3D <0 2>;
->-					remote-endpoint =3D <&csi0_ep>;
->-				};
->-			};
->-		};
->-	};
->diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->b/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->new file mode 100644
->index 000000000000=2E=2Eff52d0fffb74
->--- /dev/null
->+++ b/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->@@ -0,0 +1,123 @@
->+# SPDX-License-Identifier: (GPL-2=2E0-only OR BSD-2-Clause)
->+%YAML 1=2E2
->+---
->+$id: http://devicetree=2Eorg/schemas/media/i2c/ov5645=2Eyaml#
->+$schema: http://devicetree=2Eorg/meta-schemas/core=2Eyaml#
->+
->+title: Omnivision OV5645 1/4 Inch 5Mp CMOS Digital Image Sensor
->+
->+maintainers:
->+  - Jacopo Mondi <jacopo@jmondi=2Eorg>
->+
->+description: -|
->+  The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image
->sensor
->+  with an active array size of 2592H x 1944V=2E It is programmable
->through a
->+  serial I2C interface=2E
->+
->+properties:
->+  compatible:
->+    const: ovti,ov5645
->+
->+  reg:
->+    description: I2C device address
->+    maxItems: 1
->+
->+  clocks:
->+    description: Reference to the xclk clock=2E
->+    maxItems: 1
->+
->+  clock-names:
->+    description: Should be "xclk"=2E
->+    maxItems: 1
->+
->+  clock-frequency:
->+    description: Frequency of the xclk clock=2E
->+
->+  enable-gpios:
->+    description: |
->+      Chip enable GPIO=2E Polarity is GPIO_ACTIVE_HIGH=2E This correspon=
-ds
->+      to the hardware pin PWDNB which is physically active low=2E
->+    maxItems: 1
->+
->+  reset-gpios:
->+    description: |
->+      Chip reset GPIO=2E Polarity is GPIO_ACTIVE_LOW=2E This corresponds
->to
->+      the hardware pin RESETB=2E
->+    maxItems: 1
->+
->+  vdddo-supply:
->+    description: Chip digital IO regulator=2E
->+    maxItems: 1
->+
->+  vdda-supply:
->+    description: Chip analog regulator=2E
->+    maxItems: 1
->+
->+  vddd-supply:
->+    description: Chip digital core regulator=2E
->+    maxItems: 1
->+
->+  port:
->+    type: object
->+    description: |
->+      The device node must contain one 'port' child node for its
->digital output
->+      video port, in accordance with the video interface bindings
->defined in
->+      Documentation/devicetree/bindings/media/video-interfaces=2Etxt=2E
->+
->+    properties:
->+      endpoint:
->+        type: object
->+        properties:
->+          remote-endpoint:
->+            description: A phandle to the bus receiver's endpoint
->node=2E
->+
->+        required:
->+          - remote-endpoint
->+
->+    additionalProperties: false
->+
->+required:
->+  - compatible
->+  - reg
->+  - clocks
->+  - clock-names
->+  - clock-frequency
->+  - vdddo-supply
->+  - vdda-supply
->+  - vddd-supply
->+  - port
->+
->+examples:
->+  - |
->+    #include <dt-bindings/gpio/gpio=2Eh>
->+
->+    i2c0 {
->+        #address-cells =3D <1>;
->+        #size-cells =3D <0>;
->+
->+        camera@3c {
->+            compatible =3D "ovti,ov5645";
->+            reg =3D <0x3c>;
->+
->+            enable-gpios =3D <&gpio1 6 GPIO_ACTIVE_HIGH>;
->+            reset-gpios =3D <&gpio5 20 GPIO_ACTIVE_LOW>;
->+
->+            clocks =3D <&clks 200>;
->+            clock-names =3D "xclk";
->+            clock-frequency =3D <24000000>;
->+
->+            vdddo-supply =3D <&camera_dovdd_1v8>;
->+            vdda-supply =3D <&camera_avdd_2v8>;
->+            vddd-supply =3D <&camera_dvdd_1v2>;
->+
->+            port {
->+                ov5645_ep: endpoint {
->+                    clock-lanes =3D <1>;
->+                    data-lanes =3D <0 2>;
->+                    remote-endpoint =3D <&csi0_ep>;
->+                };
->+            };
->+        };
->+    };
->+
->+=2E=2E=2E
->diff --git a/MAINTAINERS b/MAINTAINERS
->index 0160d7567ed3=2E=2Ebf8902ebbe30 100644
->--- a/MAINTAINERS
->+++ b/MAINTAINERS
->@@ -12607,6 +12607,14 @@ T:	git git://linuxtv=2Eorg/media_tree=2Egit
-> F:	drivers/media/i2c/ov5640=2Ec
-> F:	Documentation/devicetree/bindings/media/i2c/ov5640=2Eyaml
->
->+OMNIVISION OV5645 SENSOR DRIVER
->+M:	Jacopo Mondi <jacopo@jmondi=2Eorg>
->+L:	linux-media@vger=2Ekernel=2Eorg
->+S:	Odd Fixes
->+T:	git git://linuxtv=2Eorg/media_tree=2Egit
->+F:	drivers/media/i2c/ov5645=2Ec
->+F:	Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->+
-> OMNIVISION OV5647 SENSOR DRIVER
-> M:	Jacopo Mondi <jacopo@jmondi=2Eorg>
-> M:	Dave Stevenson <dave=2Estevenson@raspberrypi=2Ecom>
->--
->2=2E27=2E0
+I guess you want me to add here references to the following controls:
 
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+V4L2_CID_MPEG_VIDEO_VBV_SIZE
+V4L2_CID_MPEG_VIDEO_VBV_DELAY
+V4L2_CID_MPEG_VIDEO_H264_CPB_SIZE
+
+?
+
+> 
+>> +
+>> +.. raw:: latex
+>> +
+>> +    \normalsize
+>> +
+>>  ``V4L2_CID_MPEG_VIDEO_TEMPORAL_DECIMATION (integer)``
+>>      For every captured frame, skip this many subsequent frames (default
+>>      0).
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> index 3f3fbcd60cc6..d088acfa6dd8 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> @@ -590,6 +590,12 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>>  		"External",
+>>  		NULL,
+>>  	};
+>> +	static const char * const mpeg_video_frame_skip[] = {
+>> +		"Disabled",
+>> +		"Level Limit",
+>> +		"VBV/CPB Limit",
+>> +		NULL,
+>> +	};
+>>  
+>>  	switch (id) {
+>>  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
+>> @@ -651,6 +657,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>>  		return flash_strobe_source;
+>>  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
+>>  		return header_mode;
+>> +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
+>> +		return mpeg_video_frame_skip;
+>>  	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
+>>  		return multi_slice;
+>>  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
+>> @@ -844,6 +852,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
+>>  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:			return "Sequence Header Mode";
+>>  	case V4L2_CID_MPEG_VIDEO_MAX_REF_PIC:			return "Max Number of Reference Pics";
+>> +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:		return "Frame Skip Mode";
+>>  	case V4L2_CID_MPEG_VIDEO_H263_I_FRAME_QP:		return "H263 I-Frame QP Value";
+>>  	case V4L2_CID_MPEG_VIDEO_H263_P_FRAME_QP:		return "H263 P-Frame QP Value";
+>>  	case V4L2_CID_MPEG_VIDEO_H263_B_FRAME_QP:		return "H263 B-Frame QP Value";
+>> @@ -1265,6 +1274,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>>  	case V4L2_CID_FLASH_LED_MODE:
+>>  	case V4L2_CID_FLASH_STROBE_SOURCE:
+>>  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
+>> +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
+>>  	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
+>>  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
+>>  	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index 62271418c1be..4e1526175a4c 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -742,6 +742,12 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
+>>  #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 642)
+>>  #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
+>>  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
+>> +#define V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE		(V4L2_CID_MPEG_BASE + 645)
+>> +enum v4l2_mpeg_video_frame_skip_mode {
+>> +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED	= 0,
+>> +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_LEVEL_LIMIT	= 1,
+>> +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT	= 2,
+>> +};
+>>  
+>>  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
+>>  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
+> 
+
+-- 
+regards,
+Stan
