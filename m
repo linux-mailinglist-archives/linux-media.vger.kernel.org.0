@@ -2,126 +2,339 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 612A72210B6
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 17:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0621F22110A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 17:31:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbgGOPTQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 11:19:16 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:42347 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725831AbgGOPTO (ORCPT
+        id S1725861AbgGOPbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 11:31:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbgGOPbd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 11:19:14 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id vjBajicGFZ80HvjBdjSQdu; Wed, 15 Jul 2020 17:19:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594826352; bh=i+KZlrW+iWfaJ12Zue9n3KDalBj+XbSZE740uL+MlKA=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=QRRu875N+qgLIh+qr0NJLxZpQJAVgikWXKcN+jrS84DJ3BN044zfhqNBeMRh8iomk
-         4Tn7efa+ntVbP0FTZDB1hHLAxscbLhOKKln5oGbxdCDZeqsKmSzYMVKskv9cEZh6KY
-         EYejn+ODsC4J3cgttoOhD2i7I03XiMVliKfNKWjxFp4LCRdKKM2IzZwPdTqxP0vpNi
-         1MB3QB4xJ7LUvCgUqpOcmTRvWYhxHTutw0gM/dleh1K8zlvnXt7k1pbZVfFKiAmEbc
-         HldrPIuMI9XbtDciYdPk2uVkOkCKwOg1lrib/aLouM9bIs184S4p8/a3bKTgPlTBNH
-         ZyDz6YAm6ReiA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Randy Dunlap <rdunlap@infradead.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.9] Various fixes/enhancements
-Message-ID: <aaef7806-6c33-6205-143f-641553eb4ad7@xs4all.nl>
-Date:   Wed, 15 Jul 2020 17:19:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 15 Jul 2020 11:31:33 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97CCEC08C5DB
+        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 08:31:33 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id gc9so3231835pjb.2
+        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 08:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:user-agent:in-reply-to:references:mime-version
+         :content-transfer-encoding:subject:to:cc:from:message-id;
+        bh=hHyDEZPQlCj7ez8zgl+iUOU2RB2eEYLvFrd87IMuq64=;
+        b=FUOGjWIq+UH0Dj6G7Jka3jH2vi0nFXHsYfJ5q/c5I8GbuUL9LurO6gwlwuRa+xr0Sb
+         SQRUgG0ezG69Fjd5TIkHMtxk0RUhRp6NhlPV0rppoYOiBY94G08ZjWCUanin33jSfvep
+         Wy6Fyv1PfVb3IUJmBl0+MNhzgl7gvfK2BVgr9kcC+kRCfikdYovv3W2x1qP4+6lUa6zm
+         yUtxaDez4Qmib67LjGIuSVmgVotG+ibnrHPTeiAIviCTehOc4iYNdWBILBXJnVv/C3Gu
+         hmhyoVJ0NUNLLUJSfFwyi785c00rCYA0aAa1FvPQl7r408SLVvk1z8bgoMFcBoMFXBXU
+         n8sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:user-agent:in-reply-to:references
+         :mime-version:content-transfer-encoding:subject:to:cc:from
+         :message-id;
+        bh=hHyDEZPQlCj7ez8zgl+iUOU2RB2eEYLvFrd87IMuq64=;
+        b=dbnquOZuCt8phwTpYdeGJJhdZgLXm5Sbga9BzWz9dxrbZqqS/awMXUPEKUi+zMr+0c
+         h8FYik0zsDy9gCX8N910iW3mOlIMaD0bZPMT9URk/PR+Ao08LzkHzYmZgIY+p/OrcSWG
+         Xnj7LBFmgtwJzlEM3sQkMFLAfXSeey6ZwlcW/CedLl8zOipviKtcQ3XRNHhcnRPLfzm2
+         tVsptvvsPkbX5xrgtdpwDBpzbPIf8ExFsON0wb0UiCClUXVP6ris29sZxjMCdMQKGam4
+         2XvslxXOriwb+0gQfy4TmJ764jsuD+SI1EgslaIFjVrJRnbjldF4uPUZzOn4DLjnNvQh
+         sLMw==
+X-Gm-Message-State: AOAM532q3hpSJyx0msDIBzXZmj5vmuu/mmRmIrGpzKyCSg4ZIjRoVkzz
+        uu14bPaLasbrZ5K+/bJgrq12
+X-Google-Smtp-Source: ABdhPJzip+5iJSceNcg2pkLh+MNocaL8b2GFKczVRGn+4ev8O22viDzJr9m3e5nGW8nd6r9B0My4sw==
+X-Received: by 2002:a17:90b:4d10:: with SMTP id mw16mr163423pjb.143.1594827092724;
+        Wed, 15 Jul 2020 08:31:32 -0700 (PDT)
+Received: from ?IPv6:2409:4072:6d16:31bf:7111:6428:1bdc:7edc? ([2409:4072:6d16:31bf:7111:6428:1bdc:7edc])
+        by smtp.gmail.com with ESMTPSA id n62sm2683570pjb.28.2020.07.15.08.31.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 Jul 2020 08:31:32 -0700 (PDT)
+Date:   Wed, 15 Jul 2020 21:01:23 +0530
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20200715140951.90753-3-jacopo+renesas@jmondi.org>
+References: <20200715140951.90753-1-jacopo+renesas@jmondi.org> <20200715140951.90753-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCfdZO8O+9sUsr7SfldI3CVoLK7+uvehVSp5n3H0wBtN6XlmTxKqMUed67dsGcJGyUlnuTT93jnKYfHKWnf84o7sZZhpcDPzxm7gSSDL0IAvfg5QVeo1
- DAapS5nriZ114U3AdmKqVGFMrkHl1wQawygLt+yE+cK6jS53Dq114/q3QlBKLx+jtwxZQA2C8LIruoc9WFmAbteGdPIOYKGCxUplwvU7u2hPCOjtRvwjkcbg
- ZEGEQy8Pdzl/Y97+cTj2RW9Y3Y+jeHHmUavT0AkBoQRdgS/wZ+0uZ+uWzZOGUdmnEZuv+9U/r6OEY8sib6NNAr8DWRBpdJgZC+VLAG8qsUg=
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/8] dt-bindings: media: ov5645: Convert to json-schema
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org
+CC:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org,
+        Todor Tomov <todor.too@gmail.com>
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Message-ID: <60FF8603-ACA1-4CAF-B43B-04E974A8E4C4@linaro.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Jacopo,=20
 
-The following changes since commit 6f01dfb760c027d5dd6199d91ee9599f2676b5c6:
+On 15 July 2020 7:39:45 PM IST, Jacopo Mondi <jacopo+renesas@jmondi=2Eorg>=
+ wrote:
+>Convert the ov5645 bindings document to json-schema and update
+>the MAINTAINERS file accordingly, as the entry was not documented=2E
+>
+>Add myself as maintainer for odd fixes only, as I don't have the
+>sensor to test with=2E
+>
+>Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi=2Eorg>
+>---
+>
+>Hello Todor, Manivannan
+>   I've added in this patch an entry for ov5645 in the MAINTAINERS
+>file, and I've added myself as maintainers for Odd Fixes only=2E
+>
+>As you seem to be the author and committers of this bindings
+>respectively,
+>would you be interested in maintaining this driver ?
 
-  media: cros-ec-cec: do not bail on device_init_wakeup failure (2020-07-04 12:45:45 +0200)
+I've worked on this driver in the past=2E So yeah, feel free to add myself=
+ and since Todor has authored the driver, it makes sense to add him too=2E=
+=20
 
-are available in the Git repository at:
+Thanks,=20
+Mani
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.9h
+>
+>---
+> =2E=2E=2E/devicetree/bindings/media/i2c/ov5645=2Etxt  |  54 --------
+> =2E=2E=2E/devicetree/bindings/media/i2c/ov5645=2Eyaml | 123 ++++++++++++=
+++++++
+> MAINTAINERS                                   |   8 ++
+> 3 files changed, 131 insertions(+), 54 deletions(-)
+>delete mode 100644
+>Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
+>create mode 100644
+>Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>
+>diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
+>b/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
+>deleted file mode 100644
+>index 72ad992f77be=2E=2E000000000000
+>--- a/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
+>+++ /dev/null
+>@@ -1,54 +0,0 @@
+>-* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
+>-
+>-The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image
+>sensor with
+>-an active array size of 2592H x 1944V=2E It is programmable through a
+>serial I2C
+>-interface=2E
+>-
+>-Required Properties:
+>-- compatible: Value should be "ovti,ov5645"=2E
+>-- clocks: Reference to the xclk clock=2E
+>-- clock-names: Should be "xclk"=2E
+>-- clock-frequency: Frequency of the xclk clock=2E
+>-- enable-gpios: Chip enable GPIO=2E Polarity is GPIO_ACTIVE_HIGH=2E This
+>corresponds
+>-  to the hardware pin PWDNB which is physically active low=2E
+>-- reset-gpios: Chip reset GPIO=2E Polarity is GPIO_ACTIVE_LOW=2E This
+>corresponds to
+>-  the hardware pin RESETB=2E
+>-- vdddo-supply: Chip digital IO regulator=2E
+>-- vdda-supply: Chip analog regulator=2E
+>-- vddd-supply: Chip digital core regulator=2E
+>-
+>-The device node must contain one 'port' child node for its digital
+>output
+>-video port, in accordance with the video interface bindings defined in
+>-Documentation/devicetree/bindings/media/video-interfaces=2Etxt=2E
+>-
+>-Example:
+>-
+>-	&i2c1 {
+>-		=2E=2E=2E
+>-
+>-		ov5645: ov5645@3c {
+>-			compatible =3D "ovti,ov5645";
+>-			reg =3D <0x3c>;
+>-
+>-			enable-gpios =3D <&gpio1 6 GPIO_ACTIVE_HIGH>;
+>-			reset-gpios =3D <&gpio5 20 GPIO_ACTIVE_LOW>;
+>-			pinctrl-names =3D "default";
+>-			pinctrl-0 =3D <&camera_rear_default>;
+>-
+>-			clocks =3D <&clks 200>;
+>-			clock-names =3D "xclk";
+>-			clock-frequency =3D <24000000>;
+>-
+>-			vdddo-supply =3D <&camera_dovdd_1v8>;
+>-			vdda-supply =3D <&camera_avdd_2v8>;
+>-			vddd-supply =3D <&camera_dvdd_1v2>;
+>-
+>-			port {
+>-				ov5645_ep: endpoint {
+>-					clock-lanes =3D <1>;
+>-					data-lanes =3D <0 2>;
+>-					remote-endpoint =3D <&csi0_ep>;
+>-				};
+>-			};
+>-		};
+>-	};
+>diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>b/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>new file mode 100644
+>index 000000000000=2E=2Eff52d0fffb74
+>--- /dev/null
+>+++ b/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>@@ -0,0 +1,123 @@
+>+# SPDX-License-Identifier: (GPL-2=2E0-only OR BSD-2-Clause)
+>+%YAML 1=2E2
+>+---
+>+$id: http://devicetree=2Eorg/schemas/media/i2c/ov5645=2Eyaml#
+>+$schema: http://devicetree=2Eorg/meta-schemas/core=2Eyaml#
+>+
+>+title: Omnivision OV5645 1/4 Inch 5Mp CMOS Digital Image Sensor
+>+
+>+maintainers:
+>+  - Jacopo Mondi <jacopo@jmondi=2Eorg>
+>+
+>+description: -|
+>+  The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image
+>sensor
+>+  with an active array size of 2592H x 1944V=2E It is programmable
+>through a
+>+  serial I2C interface=2E
+>+
+>+properties:
+>+  compatible:
+>+    const: ovti,ov5645
+>+
+>+  reg:
+>+    description: I2C device address
+>+    maxItems: 1
+>+
+>+  clocks:
+>+    description: Reference to the xclk clock=2E
+>+    maxItems: 1
+>+
+>+  clock-names:
+>+    description: Should be "xclk"=2E
+>+    maxItems: 1
+>+
+>+  clock-frequency:
+>+    description: Frequency of the xclk clock=2E
+>+
+>+  enable-gpios:
+>+    description: |
+>+      Chip enable GPIO=2E Polarity is GPIO_ACTIVE_HIGH=2E This correspon=
+ds
+>+      to the hardware pin PWDNB which is physically active low=2E
+>+    maxItems: 1
+>+
+>+  reset-gpios:
+>+    description: |
+>+      Chip reset GPIO=2E Polarity is GPIO_ACTIVE_LOW=2E This corresponds
+>to
+>+      the hardware pin RESETB=2E
+>+    maxItems: 1
+>+
+>+  vdddo-supply:
+>+    description: Chip digital IO regulator=2E
+>+    maxItems: 1
+>+
+>+  vdda-supply:
+>+    description: Chip analog regulator=2E
+>+    maxItems: 1
+>+
+>+  vddd-supply:
+>+    description: Chip digital core regulator=2E
+>+    maxItems: 1
+>+
+>+  port:
+>+    type: object
+>+    description: |
+>+      The device node must contain one 'port' child node for its
+>digital output
+>+      video port, in accordance with the video interface bindings
+>defined in
+>+      Documentation/devicetree/bindings/media/video-interfaces=2Etxt=2E
+>+
+>+    properties:
+>+      endpoint:
+>+        type: object
+>+        properties:
+>+          remote-endpoint:
+>+            description: A phandle to the bus receiver's endpoint
+>node=2E
+>+
+>+        required:
+>+          - remote-endpoint
+>+
+>+    additionalProperties: false
+>+
+>+required:
+>+  - compatible
+>+  - reg
+>+  - clocks
+>+  - clock-names
+>+  - clock-frequency
+>+  - vdddo-supply
+>+  - vdda-supply
+>+  - vddd-supply
+>+  - port
+>+
+>+examples:
+>+  - |
+>+    #include <dt-bindings/gpio/gpio=2Eh>
+>+
+>+    i2c0 {
+>+        #address-cells =3D <1>;
+>+        #size-cells =3D <0>;
+>+
+>+        camera@3c {
+>+            compatible =3D "ovti,ov5645";
+>+            reg =3D <0x3c>;
+>+
+>+            enable-gpios =3D <&gpio1 6 GPIO_ACTIVE_HIGH>;
+>+            reset-gpios =3D <&gpio5 20 GPIO_ACTIVE_LOW>;
+>+
+>+            clocks =3D <&clks 200>;
+>+            clock-names =3D "xclk";
+>+            clock-frequency =3D <24000000>;
+>+
+>+            vdddo-supply =3D <&camera_dovdd_1v8>;
+>+            vdda-supply =3D <&camera_avdd_2v8>;
+>+            vddd-supply =3D <&camera_dvdd_1v2>;
+>+
+>+            port {
+>+                ov5645_ep: endpoint {
+>+                    clock-lanes =3D <1>;
+>+                    data-lanes =3D <0 2>;
+>+                    remote-endpoint =3D <&csi0_ep>;
+>+                };
+>+            };
+>+        };
+>+    };
+>+
+>+=2E=2E=2E
+>diff --git a/MAINTAINERS b/MAINTAINERS
+>index 0160d7567ed3=2E=2Ebf8902ebbe30 100644
+>--- a/MAINTAINERS
+>+++ b/MAINTAINERS
+>@@ -12607,6 +12607,14 @@ T:	git git://linuxtv=2Eorg/media_tree=2Egit
+> F:	drivers/media/i2c/ov5640=2Ec
+> F:	Documentation/devicetree/bindings/media/i2c/ov5640=2Eyaml
+>
+>+OMNIVISION OV5645 SENSOR DRIVER
+>+M:	Jacopo Mondi <jacopo@jmondi=2Eorg>
+>+L:	linux-media@vger=2Ekernel=2Eorg
+>+S:	Odd Fixes
+>+T:	git git://linuxtv=2Eorg/media_tree=2Egit
+>+F:	drivers/media/i2c/ov5645=2Ec
+>+F:	Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>+
+> OMNIVISION OV5647 SENSOR DRIVER
+> M:	Jacopo Mondi <jacopo@jmondi=2Eorg>
+> M:	Dave Stevenson <dave=2Estevenson@raspberrypi=2Ecom>
+>--
+>2=2E27=2E0
 
-for you to fetch changes up to ea50a108fc1437467618fd903c312b18201e2333:
-
-  media: staging: rkisp1: set pads array of the resizer to size 2 (2020-07-15 17:08:31 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Alexander A. Klimov (6):
-      cx18: Replace HTTP links with HTTPS ones
-      media: imon: Replace HTTP links with HTTPS ones
-      ivtv: Replace HTTP links with HTTPS ones
-      media: rtl2832_sdr: Replace HTTP links with HTTPS ones
-      tw5864-core: Replace HTTP links with HTTPS ones
-      tw68: Replace HTTP links with HTTPS ones
-
-Dafna Hirschfeld (7):
-      media: staging: rkisp1: cap: don't set next buffer from rkisp1_vb2_buf_queue
-      media: staging: rkisp1: cap: protect buf.curr and buf.next with buf.lock
-      media: staging: rkisp1: cap: move code that manages the buffers to rkisp1_set_next_buf
-      media: staging: rkisp1: cap: in stream start, replace calls to rkisp1_handle_buffer with rkisp1_set_next_buf
-      media: staging: rkisp1: remove unused field ctrl_handler from struct rkisp1_device
-      media: staging: rkisp1: remove unused field alloc_ctx from struct rkisp1_device
-      media: staging: rkisp1: set pads array of the resizer to size 2
-
-Lukas Bulwahn (1):
-      MAINTAINERS: rectify CHRONTEL CH7322 CEC DRIVER section
-
-Michael Tretter (12):
-      media: allegro: rework mbox handling
-      media: allegro: rework read/write to mailbox
-      media: allegro: add explicit mail encoding and decoding
-      media: allegro: add field for number of buffers
-      media: allegro: don't pack MCU messages
-      media: allegro: support handling firmware dependent values
-      media: allegro: encode bit fields separately
-      media: allegro: add config blob for channel
-      media: allegro: set num_ref_idx using response of configured channels
-      media: allegro: drop length field from message header
-      media: allegro: add a version field to mcu messages
-      media: allegro: add support for allegro firmware 2019.2
-
-Randy Dunlap (5):
-      media/media-device.h: drop duplicated word in comment
-      media/media-devnode.h: drop duplicated word in comment
-      media/dvbdev.h: fix duplicated word in comment
-      media/media-entity.h: drop duplicated word in comment
-      media/v4l2-subdev.h: drop duplicated word in comment
-
- MAINTAINERS                                      |   2 +-
- drivers/media/dvb-frontends/rtl2832_sdr.c        |   2 +-
- drivers/media/pci/cx18/cx18-cards.c              |   2 +-
- drivers/media/pci/ivtv/ivtv-cards.c              |   2 +-
- drivers/media/pci/tw5864/tw5864-core.c           |   2 +-
- drivers/media/pci/tw68/tw68-core.c               |   2 +-
- drivers/media/rc/imon.c                          |   2 +-
- drivers/staging/media/allegro-dvt/allegro-core.c | 383 +++++++++++++++++++++++----------------
- drivers/staging/media/allegro-dvt/allegro-mail.c | 507 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/allegro-dvt/allegro-mail.h | 111 +++++++-----
- drivers/staging/media/rkisp1/rkisp1-capture.c    |  52 +++---
- drivers/staging/media/rkisp1/rkisp1-common.h     |   7 +-
- drivers/staging/media/rkisp1/rkisp1-resizer.c    |   2 +-
- include/media/dvbdev.h                           |   2 +-
- include/media/media-device.h                     |   2 +-
- include/media/media-devnode.h                    |   2 +-
- include/media/media-entity.h                     |   2 +-
- include/media/v4l2-subdev.h                      |   8 +-
- 18 files changed, 839 insertions(+), 253 deletions(-)
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
