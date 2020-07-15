@@ -2,245 +2,390 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9C522213FF
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 20:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C10D22159F
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 21:57:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726933AbgGOSNF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 14:13:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57830 "EHLO
+        id S1726715AbgGOT5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 15:57:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbgGOSND (ORCPT
+        with ESMTP id S1726650AbgGOT5H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 14:13:03 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2FDDC061755
-        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 11:13:02 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id w27so2460078qtb.7
-        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 11:13:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=eo3K6+OIsc1ChVT5bUsZTgVhgxOFyjfOCmCYBR+eUH0=;
-        b=hJN5K8k2bmCgm1/IfeUVagCO2sKKaEWZstZfootfBmoGFrVe8BbrkUFGU7wRrj9DfX
-         1YR8DSD+N6ljMnSWo9XdGCw9A8gxt/qFzXRB1SaqwOvdaP3KN/zhNFueJV4LgpG6xOt9
-         DCrtBlIvLINyRGA8MiRTqKWy39998JRWJA2epp5AJozIBbLwuBydnJmZYQ8hGz2N4cRY
-         9FzUnAoM62ndJKwb9jAsHri6g1LPjWL5n7GwI1+c4HoyUIQisWBN+TkXHV/uSkVgewC1
-         tUDnx8mDToRsCXW+KFEhYw3ObjsmfIG+9ATABtbB9ZneX/8L4iE5aHgfV9H1DSyMQzoW
-         4Yeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=eo3K6+OIsc1ChVT5bUsZTgVhgxOFyjfOCmCYBR+eUH0=;
-        b=evon+s9EByAHgMNiUSQ6m+xcuJ6k+Wlo+GzLn7BzN1Z+EFQlRjOoMbVNJ7SLjAJk60
-         uHOM4qlWvcSDKkP95m323fOe9D8nmOVWXY8qA81CWkFX3/kQibqwPckF+z1ZtTXjD8Vf
-         D5+dHv3dfiDP7LuvEd3kw3Mz31m3UNAIq8ueK8J7k+4kWrRYwW+j+KajSJHTSWJtvvvt
-         s9FdleEJjS6p5Dh1pNk2wbN12PPj48ttmjs1iQt4FL0qm2SJEVp9Tvs/4d7Xc9nIgqX9
-         PEIA2EsVjZYP8N4YLIgZ9Lrzi3SxtnqtusxxgYDohHyGSqWM8DhpBlSwPcrxXOe2Qr1W
-         Jl9g==
-X-Gm-Message-State: AOAM5329goTtPCKp+DEdhvN7MX22mU1Gg2TT+cRW93bzAh6E8KX78mQx
-        GrxM9Qr5zZ/r/X8HHO4m7TSnLte5T7/xRQ==
-X-Google-Smtp-Source: ABdhPJwCeXkitxwUD2Mh4ZepcykZg45UDG6DI9XpncKfiapHzFCtI2hZxAc+2bKuvodjL/wmtGd5GQ==
-X-Received: by 2002:ac8:7602:: with SMTP id t2mr1127096qtq.51.1594836781723;
-        Wed, 15 Jul 2020 11:13:01 -0700 (PDT)
-Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id x73sm3648691qkb.20.2020.07.15.11.13.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 11:13:01 -0700 (PDT)
-Message-ID: <a4f07133bfb4821fa19a3b70fd156bd6107c653f.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/4] media: v4l2-ctrl: Add frame-skip std encoder control
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Maheshwar Ajja <majja@codeaurora.org>
-Date:   Wed, 15 Jul 2020 14:12:59 -0400
-In-Reply-To: <513fd919-56a2-08b4-c8a7-5d37d7743129@linaro.org>
-References: <20200705121128.5250-1-stanimir.varbanov@linaro.org>
-         <20200705121128.5250-2-stanimir.varbanov@linaro.org>
-         <e9ce36f9de4ef216028832dd78fd7ebc88d6ecb1.camel@ndufresne.ca>
-         <513fd919-56a2-08b4-c8a7-5d37d7743129@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+        Wed, 15 Jul 2020 15:57:07 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F2DC061755
+        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 12:57:07 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 0E4712A098D
+Subject: Re: [PATCH 4/4] media: staging: rkisp1: improve documentation of
+ rkisp1-common.h
+To:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+References: <20200629065754.26621-1-dafna.hirschfeld@collabora.com>
+ <20200629065754.26621-5-dafna.hirschfeld@collabora.com>
+ <ec28e78b-3c80-8cc7-4d2c-a46629850e78@collabora.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <0bc9d184-1f0f-593e-5f37-055aa0f80b71@collabora.com>
+Date:   Wed, 15 Jul 2020 21:57:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <ec28e78b-3c80-8cc7-4d2c-a46629850e78@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 15 juillet 2020 à 18:42 +0300, Stanimir Varbanov a écrit :
-> Hi Nicolas,
-> 
-> On 7/7/20 11:53 PM, Nicolas Dufresne wrote:
-> > Le dimanche 05 juillet 2020 à 15:11 +0300, Stanimir Varbanov a écrit :
-> > > Adds encoders standard v4l2 control for frame-skip. The control
-> > > is a copy of a custom encoder control so that other v4l2 encoder
-> > > drivers can use it.
-> > > 
-> > > Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> > > ---
-> > >  .../media/v4l/ext-ctrls-codec.rst             | 32 +++++++++++++++++++
-> > >  drivers/media/v4l2-core/v4l2-ctrls.c          | 10 ++++++
-> > >  include/uapi/linux/v4l2-controls.h            |  6 ++++
-> > >  3 files changed, 48 insertions(+)
-> > > 
-> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > index d0d506a444b1..a8b4c0b40747 100644
-> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > @@ -592,6 +592,38 @@ enum v4l2_mpeg_video_bitrate_mode -
-> > >      the average video bitrate. It is ignored if the video bitrate mode
-> > >      is set to constant bitrate.
-> > >  
-> > > +``V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE (enum)``
-> > > +
-> > > +enum v4l2_mpeg_video_frame_skip_mode -
-> > > +    Indicates in what conditions the encoder should skip frames. If
-> > > +    encoding a frame would cause the encoded stream to be larger then a
-> > > +    chosen data limit then the frame will be skipped. Possible values
-> > > +    are:
-> > 
-> > I have nothing against this API, in fact it's really nice to generalize
-> > as this is very common. Though, I think we are missing two things. This
-> > documentation refer to the "chosen data limit". Is there controls to
-> > configure these *chosen* limit ? The other issue is the vagueness of
-> > the documented mode, see lower...
-> > 
-> > > +
-> > > +
-> > > +.. tabularcolumns:: |p{9.2cm}|p{8.3cm}|
-> > > +
-> > > +.. raw:: latex
-> > > +
-> > > +    \small
-> > > +
-> > > +.. flat-table::
-> > > +    :header-rows:  0
-> > > +    :stub-columns: 0
-> > > +
-> > > +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_DISABLED``
-> > > +      - Frame skip mode is disabled.
-> > > +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_LEVEL_LIMIT``
-> > > +      - Frame skip mode enabled and buffer limit is set by the chosen
-> > > +	level and is defined by the standard.
-> > 
-> > At least for H.264, a level is compose of 3 limits. One is the maximum
-> > number of macroblocks, this is is evidently not use for frame skipping
-> > and already constrained in V4L2 (assuming the driver does not ignore
-> > the level control of course). The two other limits are decoded
-> > macroblocks/s and encoded kbits/s. Both are measure over time, which
-> > means the M2M encoder needs to be timing aware. I think the time source
-> > should be documented. Perhaps it is mandatory to set a frame interval
-> > for this to work ? Or we need some timestamp to allow variable frame
-> > interval ? (I don't think the second is really an option without
-> > extending the API again, and confusingly, since I think we have used
-> > the timestamp for other purpose already)
-> 
-> Do you want to say that the encoder input timestamp, bitrate control
-> (V4L2_CID_MPEG_VIDEO_BITRATE) and S_PARM is not enough to describe
-> FRAME_SKIP_MODE_LEVEL_LIMIT mode?
+Hi
 
-I don't think we have spec to give the input timestamp a meaning that
-driver can interpret. In fact I think we gave it a meaning that the
-driver must not interpret it (aka driver opaque). So remain S_PARM to
-give a clue, but some stream don't have a framerate (like RTP streams,
-unless written in bitstream).
+On 13.07.20 13:52, Helen Koike wrote:
+> Hi Dafna,
+> 
+> Thanks for the patch.
+> 
+> On 6/29/20 3:57 AM, Dafna Hirschfeld wrote:
+>> Add more detailed documentation of the structs in rkisp1-common.h
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>>   drivers/staging/media/rkisp1/TODO            |   1 -
+>>   drivers/staging/media/rkisp1/rkisp1-common.h | 133 +++++++++++++++----
+>>   2 files changed, 106 insertions(+), 28 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
+>> index bdb1b8f73556..f0c90d1c86a8 100644
+>> --- a/drivers/staging/media/rkisp1/TODO
+>> +++ b/drivers/staging/media/rkisp1/TODO
+>> @@ -2,7 +2,6 @@
+>>   * Fix checkpatch errors.
+>>   * Review and comment every lock
+>>   * Handle quantization
+>> -* Document rkisp1-common.h
+>>   * streaming paths (mainpath and selfpath) check if the other path is streaming
+>>   in several places of the code, review this, specially that it doesn't seem it
+>>   supports streaming from both paths at the same time.
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+>> index 4185487c520c..47b03a1dfe1b 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+>> @@ -73,8 +73,16 @@ enum rkisp1_isp_pad {
+>>   };
+>>   
+>>   /*
+>> - * struct rkisp1_sensor_async - Sensor information
+>> - * @mbus: media bus configuration
+>> + * struct rkisp1_sensor_async - A container for the v4l2_async_subdev to add to the notifier
+>> + * of the v4l2-async API.
+>> + *
+>> + * @asd: the async_subdev var for the sensor
+> 
+> I think you can remove "the" here, same for other fields in the rest of this patch.
+> 
+>> + * @lanes: number of lanes
+>> + * @mbus_type: type of bus (currently only CSI2 is supported)
+>> + * @mbus_flags: media bus (V4L2_MBUS_*) flags
+>> + * @sd: a pointer to the v4l2_subdev struct of the sensor
+>> + * @pixel_rate_ctrl: the pixel rate of the sensor, used to initialize the phy
+>> + * @dphy: a pointer to the phy
+>>    */
+> 
+> Just a nit, could you align the comments? I think it is easier to read.
+> 
+>>   struct rkisp1_sensor_async {
+>>   	struct v4l2_async_subdev asd;
+>> @@ -87,19 +95,16 @@ struct rkisp1_sensor_async {
+>>   };
+>>   
+>>   /*
+>> - * struct rkisp1_isp - ISP sub-device
+>> + * struct rkisp1_isp - ISP subdev entity
+>>    *
+>> - * See Cropping regions of ISP in rkisp1.c for details
+>> - * @sink_frm: input size, don't have to be equal to sensor size
+>> + * @sd: the v4l2_subdev var
+>> + * @pads: the media pads
+>> + * @pad_cfg: the pads configurations
+>>    * @sink_fmt: input format
+>> - * @sink_crop: crop for sink pad
+>>    * @src_fmt: output format
+>> - * @src_crop: output size
+>>    * @ops_lock: ops serialization
+>> - *
+>>    * @is_dphy_errctrl_disabled : if dphy errctrl is disabled (avoid endless interrupt)
+>>    * @frame_sequence: used to synchronize frame_id between video devices.
+>> - * @quantization: output quantization
+>>    */
+>>   struct rkisp1_isp {
+>>   	struct v4l2_subdev sd;
+>> @@ -107,11 +112,20 @@ struct rkisp1_isp {
+>>   	struct v4l2_subdev_pad_config pad_cfg[RKISP1_ISP_PAD_MAX];
+>>   	const struct rkisp1_isp_mbus_info *sink_fmt;
+>>   	const struct rkisp1_isp_mbus_info *src_fmt;
+>> -	struct mutex ops_lock;
+>> +	struct mutex ops_lock; /* serialize the subdevice ops */
+>>   	bool is_dphy_errctrl_disabled;
+>>   	atomic_t frame_sequence;
+>>   };
+>>   
+>> +/*
+>> + * struct rkisp1_vdev_node - A Container for the video nodes of the video devices:
+>> + *			     params, stats, mainpath, selfpath
+> 
+> Or maybe just:
+> Container for the video devices nodes: params, stats, mainpath, selfpath
+> 
+>> + *
+>> + * @buf_queue: the queue of buffers.
+>> + * @vlock: the lock of the video node
+>> + * @vdev: the video node
+>> + * @pad: the media pad
+>> + */
+>>   struct rkisp1_vdev_node {
+>>   	struct vb2_queue buf_queue;
+>>   	struct mutex vlock; /* ioctl serialization mutex */
+>> @@ -119,6 +133,15 @@ struct rkisp1_vdev_node {
+>>   	struct media_pad pad;
+>>   };
+>>   
+>> +/*
+>> + * struct rkisp1_buffer - A container for the vb2 buffers used by the video devices:
+>> + *			  params, stats, mainpath, selfpath
+>> + *
+>> + * @vb: the vb2 buffer
+>> + * @queue: the entry of the buffer in the queue
+>> + * @buff_addr: the dma addresses of each plain, used only by the capture devices: selfpath, mainpath
+> 
+> s/plain/plane
+> 
+>> + * @vaddr: the virtual addresses, used only by the params and stats devices
+> 
+> maybe:
+> 
+> virtual addresses for buffers used by params and stats devices
+> 
+> I also noticed that params and stats only use vaddr[0], maybe we can remove the array and
+> replaced by a simple variable.
+> 
+>> + */
+>>   struct rkisp1_buffer {
+>>   	struct vb2_v4l2_buffer vb;
+>>   	struct list_head queue;
+>> @@ -128,6 +151,9 @@ struct rkisp1_buffer {
+>>   	};
+>>   };
+>>   
+>> +/*
+>> + * A dummy buffer to write the next frame to in case there are no vb2 buffers available.
+>> + */
+> 
+> Could you please follow the same standard used in the rest of this patch?
+> 
+>>   struct rkisp1_dummy_buffer {
+>>   	void *vaddr;
+>>   	dma_addr_t dma_addr;
+>> @@ -139,17 +165,28 @@ struct rkisp1_device;
+>>   /*
+>>    * struct rkisp1_capture - ISP capture video device
+>>    *
+>> - * @pix.fmt: buffer format
+>> - * @pix.info: pixel information
+>> - * @pix.cfg: pixel configuration
+>> - *
+>> - * @buf.lock: lock to protect buf_queue
+>> + * @vnode: the video node
+>> + * @rkisp1: pointer to the rkisp1 device
+>> + * @id: the id of the capture, one of RKISP1_SELFPATH, RKISP1_MAINPATH
+>> + * @ops: list of callbacks to configure the capture device.
+>> + * @config: a pointer to the list of registers to configure the capture format.
+>> + * @is_streaming: device is streaming
+>> + * @is_stopping: stop_streaming callback was called and the device is in the process of stopping
+>> + *		 the streaming.
+>> + * @done: when stop_streaming callback is called, the device waits for the next irq handler to stop
+>> + *	  the streaming from there by waiting on the 'done' wait queue.
+> 
+> s/to stop the streaming from there by waiting/to stop the streaming by waiting/
+> 
+>> + *	  If the irq handler is not called, the stream is stopped from the callback after timeout.
+> 
+> s/from/by
+> 
+>> + * @sp_y_stride: the selfpath allows to configure a y stride that is longer than the image width.
+>> + * @buf.lock: lock to protect buf.queue
+>>    * @buf.queue: queued buffer list
+>>    * @buf.dummy: dummy space to store dropped data
+>>    *
+>> - * rkisp1 use shadowsock registers, so it need two buffer at a time
+>> + * rkisp1 uses shadow registers, so it needs two buffers at a time
+>>    * @buf.curr: the buffer used for current frame
+>>    * @buf.next: the buffer used for next frame
+>> + * @pix.cfg: pixel configuration
+>> + * @pix.info: a pointer to the v4l2_format_info of the pixel format
+>> + * @pix.fmt: buffer format
+>>    */
+>>   struct rkisp1_capture {
+>>   	struct rkisp1_vdev_node vnode;
+>> @@ -179,14 +216,18 @@ struct rkisp1_capture {
+>>   /*
+>>    * struct rkisp1_stats - ISP Statistics device
+>>    *
+>> + * @vnode: the video node
+>> + * @rkisp1: pointer to the rkisp1 device
+>>    * @lock: locks the buffer list 'stat' and 'is_streaming'
+>> - * @stat: stats buffer list
+>> + * @stat: the queue of rkisp1_buffer
+>> + * @vdev_fmt: the v4l2_format
+>> + * @is_streaming: device is streaming
+>>    */
+>>   struct rkisp1_stats {
+>>   	struct rkisp1_vdev_node vnode;
+>>   	struct rkisp1_device *rkisp1;
+>>   
+>> -	spinlock_t lock; /* locks 'is_streaming', and 'stats' */
+>> +	spinlock_t lock; /* locks the buffers list 'stats' and 'is_streaming' */
+>>   	struct list_head stat;
+>>   	struct v4l2_format vdev_fmt;
+>>   	bool is_streaming;
+>> @@ -195,14 +236,22 @@ struct rkisp1_stats {
+>>   /*
+>>    * struct rkisp1_params - ISP input parameters device
+>>    *
+>> - * @cur_params: Current ISP parameters
+>> + * @vnode: the video node
+>> + * @rkisp1: pointer to the rkisp1 device
+>> + * @config_lock: locks the buffer list 'params' and 'is_streaming'
+>> + * @params: the queue of rkisp1_buffer
+>> + * @cur_params: the first params values from userspace
+>> + * @vdev_fmt: the v4l2_format
+>> + * @is_streaming: device is streaming
+>>    * @is_first_params: the first params should take effect immediately
+>> + * @quantization: the quantization configured on the isp's src pad
+> 
+> Just a note unrelated to this patch:
+> Maybe quantization could be moved to struct rkisp1_device, so it is accessible by all the entities
+> without the need to maintain copies around.
 
-> 
-> > > +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_BUF_LIMIT``
-> > > +      - Frame skip mode enabled and buffer limit is set by the VBV
-> > > +	(MPEG1/2/4) or CPB (H264) buffer size control.
-> > 
-> > The notion of VBV an CPB is unlikely well known. If my memory is right,
-> > these are constrained in buffering: in bytes (VBV) or bits per frame
-> > over a window of n-frames (or the gop size for some less flexible
-> > encoder) (CPB). I think these should be somehow chosen by application
-> > (with controls), directly or indirectly, and documented here to ensure
-> > we get consistent implementation across drivers.
-> 
-> I guess you want me to add here references to the following controls:
-> 
-> V4L2_CID_MPEG_VIDEO_VBV_SIZE
-> V4L2_CID_MPEG_VIDEO_VBV_DELAY
-> V4L2_CID_MPEG_VIDEO_H264_CPB_SIZE
+But quantization is only copied to the params entity so I don't think it should
+be moved to rkisp1_device.
 
-Perhaps it would be helpful yes.
-
+Thanks,
+Dafna
+  
 > 
-> ?
+>> + * @raw_type: the bayer pattern on the isp video sink pad
+>>    */
+>>   struct rkisp1_params {
+>>   	struct rkisp1_vdev_node vnode;
+>>   	struct rkisp1_device *rkisp1;
+>>   
+>> -	spinlock_t config_lock;
+>> +	spinlock_t config_lock; /* locks the buffers list 'params' and 'is_streaming' */
+>>   	struct list_head params;
+>>   	struct rkisp1_params_cfg cur_params;
+>>   	struct v4l2_format vdev_fmt;
+>> @@ -213,6 +262,18 @@ struct rkisp1_params {
+>>   	enum rkisp1_fmt_raw_pat_type raw_type;
+>>   };
+>>   
+>> +/*
+>> + * struct rkisp1_resizer - Resizer subdev
+>> + *
+>> + * @sd: the v4l2_subdev var
+>> + * @id: the id of the resizer, one of RKISP1_SELFPATH, RKISP1_MAINPATH
+>> + * @rkisp1: pointer to the rkisp1 device
+>> + * @pads: the media pads
+>> + * @pad_cfg: the configurations for the pads
+>> + * @config: the set of registers to configure the resizer
+>> + * @pixel_enc: the pixel encoding of the resizer
+>> + * @ops_lock: a lock for the subdev ops
+>> + */
+>>   struct rkisp1_resizer {
+>>   	struct v4l2_subdev sd;
+>>   	enum rkisp1_stream_id id;
+>> @@ -221,9 +282,12 @@ struct rkisp1_resizer {
+>>   	struct v4l2_subdev_pad_config pad_cfg[RKISP1_RSZ_PAD_MAX];
+>>   	const struct rkisp1_rsz_config *config;
+>>   	enum v4l2_pixel_encoding pixel_enc;
+>> -	struct mutex ops_lock;
+>> +	struct mutex ops_lock; /* serialize the subdevice ops */
+>>   };
+>>   
+>> +/*
+>> + * struct rkisp1_debug - values to be exposed on debugfs
+>> + */
+>>   struct rkisp1_debug {
+>>   	struct dentry *debugfs_dir;
+>>   	unsigned long data_loss;
+>> @@ -237,12 +301,22 @@ struct rkisp1_debug {
+>>   /*
+>>    * struct rkisp1_device - ISP platform device
 > 
-> > > +
-> > > +.. raw:: latex
-> > > +
-> > > +    \normalsize
-> > > +
-> > >  ``V4L2_CID_MPEG_VIDEO_TEMPORAL_DECIMATION (integer)``
-> > >      For every captured frame, skip this many subsequent frames (default
-> > >      0).
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > index 3f3fbcd60cc6..d088acfa6dd8 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > @@ -590,6 +590,12 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
-> > >  		"External",
-> > >  		NULL,
-> > >  	};
-> > > +	static const char * const mpeg_video_frame_skip[] = {
-> > > +		"Disabled",
-> > > +		"Level Limit",
-> > > +		"VBV/CPB Limit",
-> > > +		NULL,
-> > > +	};
-> > >  
-> > >  	switch (id) {
-> > >  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
-> > > @@ -651,6 +657,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
-> > >  		return flash_strobe_source;
-> > >  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
-> > >  		return header_mode;
-> > > +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
-> > > +		return mpeg_video_frame_skip;
-> > >  	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
-> > >  		return multi_slice;
-> > >  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
-> > > @@ -844,6 +852,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> > >  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
-> > >  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:			return "Sequence Header Mode";
-> > >  	case V4L2_CID_MPEG_VIDEO_MAX_REF_PIC:			return "Max Number of Reference Pics";
-> > > +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:		return "Frame Skip Mode";
-> > >  	case V4L2_CID_MPEG_VIDEO_H263_I_FRAME_QP:		return "H263 I-Frame QP Value";
-> > >  	case V4L2_CID_MPEG_VIDEO_H263_P_FRAME_QP:		return "H263 P-Frame QP Value";
-> > >  	case V4L2_CID_MPEG_VIDEO_H263_B_FRAME_QP:		return "H263 B-Frame QP Value";
-> > > @@ -1265,6 +1274,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
-> > >  	case V4L2_CID_FLASH_LED_MODE:
-> > >  	case V4L2_CID_FLASH_STROBE_SOURCE:
-> > >  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
-> > > +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
-> > >  	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
-> > >  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
-> > >  	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
-> > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > > index 62271418c1be..4e1526175a4c 100644
-> > > --- a/include/uapi/linux/v4l2-controls.h
-> > > +++ b/include/uapi/linux/v4l2-controls.h
-> > > @@ -742,6 +742,12 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
-> > >  #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 642)
-> > >  #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
-> > >  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
-> > > +#define V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE		(V4L2_CID_MPEG_BASE + 645)
-> > > +enum v4l2_mpeg_video_frame_skip_mode {
-> > > +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED	= 0,
-> > > +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_LEVEL_LIMIT	= 1,
-> > > +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT	= 2,
-> > > +};
-> > >  
-> > >  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
-> > >  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
-
+> Missing new line here
+> 
+>>    * @base_addr: base register address
+>> + * @irq: the irq number
+>> + * @dev: a pointer to the struct device
+>> + * @clk_size: the number of clocks
+>> + * @clks: the array of clocks
+>> + * @v4l2_dev: the v4l2_device
+>> + * @media_dev: the media_device
+>> + * @notifier: a notifier to register on the v4l2-async API to be notified on the sensor
+>>    * @active_sensor: sensor in-use, set when streaming on
+>>    * @isp: ISP sub-device
+>> - * @rkisp1_capture: capture video device
+>> + * @resizer_devs: the two resizer sub-devices
+>> + * @capture_devs: the two capture devices
+>>    * @stats: ISP statistics output device
+>>    * @params: ISP input parameters device
+>> - * @stream_lock: lock to serialize start/stop streaming in capture devices.
+>> + * @pipe: the media pipeline
+>> + * @stream_lock: serializes {start/stop}_streaming callbacks between the capture devices.
+>> + * @debug: the debug params to be exposed on debugfs
+>>    */
+>>   struct rkisp1_device {
+>>   	void __iomem *base_addr;
+>> @@ -260,16 +334,21 @@ struct rkisp1_device {
+>>   	struct rkisp1_stats stats;
+>>   	struct rkisp1_params params;
+>>   	struct media_pipeline pipe;
+>> -	struct mutex stream_lock;
+>> +	struct mutex stream_lock; /* serialize {start/stop}_streaming cb between capture devices */
+>>   	struct rkisp1_debug debug;
+>>   };
+>>   
+>>   /*
+>> - * struct rkisp1_isp_mbus_info - ISP pad format info
+>> + * struct rkisp1_isp_mbus_info - ISP media bus info
+>>    *
+>> - * Translate mbus_code to hardware format values
+>> + * Translates mbus_code to hardware format values
+>>    *
+>> - * @bus_width: used for parallel
+>> + * @mbus_code: the media bus code
+>> + * @pixel_enc: the pixel encoding
+>> + * @mipi_dt: the mipi data type
+>> + * @bus_width: the bus width
+>> + * @bayer_pat: the bayer pattern
+>> + * @direction: a bitmask of the flags indicating on which pad the format is supported on
+>>    */
+>>   struct rkisp1_isp_mbus_info {
+>>   	u32 mbus_code;
+>>
+> 
+> It would also be nice to add docs to the enums, macros and functions, but since this is an internal
+> header, it's fine, we can add them later.
+> 
+> With these changes:
+> 
+> Acked-by: Helen Koike <helen.koike@collabora.com>
+> 
+> Thanks
+> Helen
+> 
