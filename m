@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70752220EB5
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 16:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE355220EB8
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 16:06:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732038AbgGOOGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 10:06:33 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:38631 "EHLO
+        id S1732041AbgGOOGf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 10:06:35 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:44711 "EHLO
         relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732029AbgGOOGc (ORCPT
+        with ESMTP id S1732039AbgGOOGf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 10:06:32 -0400
+        Wed, 15 Jul 2020 10:06:35 -0400
 X-Originating-IP: 93.34.118.233
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 53E28FF80E;
-        Wed, 15 Jul 2020 14:06:28 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 5E5AFFF814;
+        Wed, 15 Jul 2020 14:06:30 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org
@@ -24,10 +24,11 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
         laurent.pinchart@ideasonboard.com,
         linux-renesas-soc@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH 1/8] dt-bindings: media: ov5640: Convert to json-schema
-Date:   Wed, 15 Jul 2020 16:09:44 +0200
-Message-Id: <20200715140951.90753-2-jacopo+renesas@jmondi.org>
+        Todor Tomov <todor.too@gmail.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 2/8] dt-bindings: media: ov5645: Convert to json-schema
+Date:   Wed, 15 Jul 2020 16:09:45 +0200
+Message-Id: <20200715140951.90753-3-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
 References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
@@ -38,194 +39,154 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the ov5640 bindings document to json-schema and update
-the MAINTAINERS file accordingly.
+Convert the ov5645 bindings document to json-schema and update
+the MAINTAINERS file accordingly, as the entry was not documented.
+
+Add myself as maintainer for odd fixes only, as I don't have the
+sensor to test with.
 
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
-Hi Steve,
-  I've added myself as maintainer in the bindings, with your ack
-I would be happy to add myself as maintainer or reviewer for this driver
-in MAINTAINERS, as I've recently been looking after this driver, mostly
-for the MIPI CSI-2 interface part.
 
-Thanks
-  j
+Hello Todor, Manivannan
+   I've added in this patch an entry for ov5645 in the MAINTAINERS
+file, and I've added myself as maintainers for Odd Fixes only.
+
+As you seem to be the author and committers of this bindings respectively,
+would you be interested in maintaining this driver ?
 
 ---
- .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
- .../devicetree/bindings/media/i2c/ov5640.yaml | 181 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 3 files changed, 182 insertions(+), 92 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+ .../devicetree/bindings/media/i2c/ov5645.txt  |  54 --------
+ .../devicetree/bindings/media/i2c/ov5645.yaml | 123 ++++++++++++++++++
+ MAINTAINERS                                   |   8 ++
+ 3 files changed, 131 insertions(+), 54 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.txt b/Documentation/devicetree/bindings/media/i2c/ov5640.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
 deleted file mode 100644
-index c97c2f2da12d..000000000000
---- a/Documentation/devicetree/bindings/media/i2c/ov5640.txt
+index 72ad992f77be..000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
 +++ /dev/null
-@@ -1,92 +0,0 @@
--* Omnivision OV5640 MIPI CSI-2 / parallel sensor
+@@ -1,54 +0,0 @@
+-* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
+-
+-The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
+-an active array size of 2592H x 1944V. It is programmable through a serial I2C
+-interface.
 -
 -Required Properties:
--- compatible: should be "ovti,ov5640"
--- clocks: reference to the xclk input clock.
--- clock-names: should be "xclk".
--- DOVDD-supply: Digital I/O voltage supply, 1.8 volts
--- AVDD-supply: Analog voltage supply, 2.8 volts
--- DVDD-supply: Digital core voltage supply, 1.5 volts
--
--Optional Properties:
--- reset-gpios: reference to the GPIO connected to the reset pin, if any.
--	       This is an active low signal to the OV5640.
--- powerdown-gpios: reference to the GPIO connected to the powerdown pin,
--		   if any. This is an active high signal to the OV5640.
--- rotation: as defined in
--	    Documentation/devicetree/bindings/media/video-interfaces.txt,
--	    valid values are 0 (sensor mounted upright) and 180 (sensor
--	    mounted upside down).
+-- compatible: Value should be "ovti,ov5645".
+-- clocks: Reference to the xclk clock.
+-- clock-names: Should be "xclk".
+-- clock-frequency: Frequency of the xclk clock.
+-- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+-  to the hardware pin PWDNB which is physically active low.
+-- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+-  the hardware pin RESETB.
+-- vdddo-supply: Chip digital IO regulator.
+-- vdda-supply: Chip analog regulator.
+-- vddd-supply: Chip digital core regulator.
 -
 -The device node must contain one 'port' child node for its digital output
 -video port, in accordance with the video interface bindings defined in
 -Documentation/devicetree/bindings/media/video-interfaces.txt.
 -
--OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
+-Example:
 -
--Endpoint node required properties for CSI-2 connection are:
--- remote-endpoint: a phandle to the bus receiver's endpoint node.
--- clock-lanes: should be set to <0> (clock lane on hardware lane 0)
--- data-lanes: should be set to <1> or <1 2> (one or two CSI-2 lanes supported)
+-	&i2c1 {
+-		...
 -
--Endpoint node required properties for parallel connection are:
--- remote-endpoint: a phandle to the bus receiver's endpoint node.
--- bus-width: shall be set to <8> for 8 bits parallel bus
--	     or <10> for 10 bits parallel bus
--- data-shift: shall be set to <2> for 8 bits parallel bus
--	      (lines 9:2 are used) or <0> for 10 bits parallel bus
--- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
--- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
--- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
--	       signal.
+-		ov5645: ov5645@3c {
+-			compatible = "ovti,ov5645";
+-			reg = <0x3c>;
 -
--Examples:
+-			enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+-			reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
+-			pinctrl-names = "default";
+-			pinctrl-0 = <&camera_rear_default>;
 -
--&i2c1 {
--	ov5640: camera@3c {
--		compatible = "ovti,ov5640";
--		pinctrl-names = "default";
--		pinctrl-0 = <&pinctrl_ov5640>;
--		reg = <0x3c>;
--		clocks = <&clks IMX6QDL_CLK_CKO>;
--		clock-names = "xclk";
--		DOVDD-supply = <&vgen4_reg>; /* 1.8v */
--		AVDD-supply = <&vgen3_reg>;  /* 2.8v */
--		DVDD-supply = <&vgen2_reg>;  /* 1.5v */
--		powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
--		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
--		rotation = <180>;
+-			clocks = <&clks 200>;
+-			clock-names = "xclk";
+-			clock-frequency = <24000000>;
 -
--		port {
--			/* MIPI CSI-2 bus endpoint */
--			ov5640_to_mipi_csi2: endpoint {
--				remote-endpoint = <&mipi_csi2_from_ov5640>;
--				clock-lanes = <0>;
--				data-lanes = <1 2>;
+-			vdddo-supply = <&camera_dovdd_1v8>;
+-			vdda-supply = <&camera_avdd_2v8>;
+-			vddd-supply = <&camera_dvdd_1v2>;
+-
+-			port {
+-				ov5645_ep: endpoint {
+-					clock-lanes = <1>;
+-					data-lanes = <0 2>;
+-					remote-endpoint = <&csi0_ep>;
+-				};
 -			};
 -		};
 -	};
--};
--
--&i2c1 {
--	ov5640: camera@3c {
--		compatible = "ovti,ov5640";
--		pinctrl-names = "default";
--		pinctrl-0 = <&pinctrl_ov5640>;
--		reg = <0x3c>;
--		clocks = <&clk_ext_camera>;
--		clock-names = "xclk";
--
--		port {
--			/* Parallel bus endpoint */
--			ov5640_to_parallel: endpoint {
--				remote-endpoint = <&parallel_from_ov5640>;
--				bus-width = <8>;
--				data-shift = <2>; /* lines 9:2 are used */
--				hsync-active = <0>;
--				vsync-active = <0>;
--				pclk-sample = <1>;
--			};
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
 new file mode 100644
-index 000000000000..9c32262a3621
+index 000000000000..ff52d0fffb74
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-@@ -0,0 +1,181 @@
++++ b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
+@@ -0,0 +1,123 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/i2c/ov5640.yaml#
++$id: http://devicetree.org/schemas/media/i2c/ov5645.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Omnivision OV5640 MIPI CSI-2 / parallel sensor
++title: Omnivision OV5645 1/4 Inch 5Mp CMOS Digital Image Sensor
 +
 +maintainers:
-+  - Steve Longerbeam <slongerbeam@gmail.com>
 +  - Jacopo Mondi <jacopo@jmondi.org>
 +
 +description: -|
-+  OV5640 is a 5 megapixels image sensor capable of producing images in RBG, RAW,
-+  YUV and compressed formats. It features a MIPI CSI-2 and a parallel data
-+  interface and an I2C-compatible (CCI) control interface.
++  The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor
++  with an active array size of 2592H x 1944V. It is programmable through a
++  serial I2C interface.
 +
 +properties:
 +  compatible:
-+    const: ovti,ov5640
++    const: ovti,ov5645
 +
 +  reg:
 +    description: I2C device address
 +    maxItems: 1
 +
 +  clocks:
-+    description: Reference to the xclk input clock.
++    description: Reference to the xclk clock.
 +    maxItems: 1
 +
 +  clock-names:
 +    description: Should be "xclk".
 +    maxItems: 1
 +
-+  DOVDD-supply:
-+    description: Digital I/O voltage supply, 1.8 volts.
-+    maxItems: 1
++  clock-frequency:
++    description: Frequency of the xclk clock.
 +
-+  AVDD-supply:
-+    description: Analog voltage supply, 2.8 volts.
-+    maxItems: 1
-+
-+  DVDD-supply:
-+    description: Digital core voltage supply.
++  enable-gpios:
++    description: |
++      Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
++      to the hardware pin PWDNB which is physically active low.
 +    maxItems: 1
 +
 +  reset-gpios:
 +    description: |
-+      Reference to the GPIO connected to the reset pin, if any. This is an
-+      active low signal to the OV5640.
++      Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
++      the hardware pin RESETB.
 +    maxItems: 1
 +
-+  powerdown-gpios:
-+    description: |
-+      Reference tot he GPIO connected to the powerdown pin, if any. This is an
-+      active high signal to the OV5640.
++  vdddo-supply:
++    description: Chip digital IO regulator.
 +    maxItems: 1
 +
-+  rotation:
-+    description: |
-+      As defined in Documentation/devicetree/bindings/media/video-interfaces.txt,
-+      valid values are 0 (sensor mounted upright) and 180 (sensor mounted upside
-+      down).
++  vdda-supply:
++    description: Chip analog regulator.
++    maxItems: 1
++
++  vddd-supply:
++    description: Chip digital core regulator.
++    maxItems: 1
 +
 +  port:
 +    type: object
@@ -234,44 +195,12 @@ index 000000000000..9c32262a3621
 +      video port, in accordance with the video interface bindings defined in
 +      Documentation/devicetree/bindings/media/video-interfaces.txt.
 +
-+      OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
-+
 +    properties:
 +      endpoint:
 +        type: object
 +        properties:
 +          remote-endpoint:
 +            description: A phandle to the bus receiver's endpoint node.
-+
-+          clock-lanes:
-+            description: Should be set to 0 (clock lane on hardware lane 0).
-+
-+          data-lanes:
-+            description: |
-+              Should be set to <1> or <1 2> (one or two CSI-2 lanes supported).
-+
-+          bus-width:
-+            description: |
-+              Shall be set to <8> for 8 bits parallel bus or <10> for 10 bits
-+              parallel bus.
-+
-+          data-shift:
-+            description: |
-+              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
-+              <0> for 10 bits parallel bus.
-+
-+          hsync-active:
-+            description: |
-+              Active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
-+
-+          vsync-active:
-+            description: |
-+              Active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
-+
-+          pclk-sample:
-+            description: |
-+              Sample data on rising (1) or falling (0) edge of the pixel clock
-+              signal.
 +
 +        required:
 +          - remote-endpoint
@@ -283,62 +212,40 @@ index 000000000000..9c32262a3621
 +  - reg
 +  - clocks
 +  - clock-names
-+  - DOVDD-supply
-+  - AVDD-supply
-+  - DVDD-supply
++  - clock-frequency
++  - vdddo-supply
++  - vdda-supply
++  - vddd-supply
 +  - port
 +
 +examples:
 +  - |
 +    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/clock/imx6qdl-clock.h>
 +
 +    i2c0 {
 +        #address-cells = <1>;
 +        #size-cells = <0>;
 +
 +        camera@3c {
-+            compatible = "ovti,ov5640";
++            compatible = "ovti,ov5645";
 +            reg = <0x3c>;
-+            clocks = <&clks IMX6QDL_CLK_CKO>;
++
++            enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
++            reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
++
++            clocks = <&clks 200>;
 +            clock-names = "xclk";
-+            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-+            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-+            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-+            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-+            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-+            rotation = <180>;
++            clock-frequency = <24000000>;
++
++            vdddo-supply = <&camera_dovdd_1v8>;
++            vdda-supply = <&camera_avdd_2v8>;
++            vddd-supply = <&camera_dvdd_1v2>;
 +
 +            port {
-+                ov5640_to_mipi_csi2: endpoint {
-+                    remote-endpoint = <&mipi_csi2_from_ov5640>;
-+                    clock-lanes = <0>;
-+                    data-lanes = <1 2>;
-+                };
-+            };
-+        };
-+    };
-+
-+    i2c1 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        camera@3c {
-+            compatible = "ovti,ov5640";
-+            reg = <0x3c>;
-+            clocks = <&clks IMX6QDL_CLK_CKO>;
-+            clock-names = "xclk";
-+            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-+            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-+            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-+            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-+            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-+            rotation = <180>;
-+
-+            port {
-+                ov5640_to_parallel: endpoint {
-+                    remote-endpoint = <&parallel_from_ov5640>;
-+                    bus-width = <8>;
++                ov5645_ep: endpoint {
++                    clock-lanes = <1>;
++                    data-lanes = <0 2>;
++                    remote-endpoint = <&csi0_ep>;
 +                };
 +            };
 +        };
@@ -346,17 +253,24 @@ index 000000000000..9c32262a3621
 +
 +...
 diff --git a/MAINTAINERS b/MAINTAINERS
-index c74d25c58e1a..0160d7567ed3 100644
+index 0160d7567ed3..bf8902ebbe30 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -12605,6 +12605,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
+@@ -12607,6 +12607,14 @@ T:	git git://linuxtv.org/media_tree.git
  F:	drivers/media/i2c/ov5640.c
-+F:	Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+ F:	Documentation/devicetree/bindings/media/i2c/ov5640.yaml
 
++OMNIVISION OV5645 SENSOR DRIVER
++M:	Jacopo Mondi <jacopo@jmondi.org>
++L:	linux-media@vger.kernel.org
++S:	Odd Fixes
++T:	git git://linuxtv.org/media_tree.git
++F:	drivers/media/i2c/ov5645.c
++F:	Documentation/devicetree/bindings/media/i2c/ov5645.yaml
++
  OMNIVISION OV5647 SENSOR DRIVER
  M:	Jacopo Mondi <jacopo@jmondi.org>
+ M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
 --
 2.27.0
 
