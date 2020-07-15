@@ -2,259 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A0A32205E1
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 09:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F570220602
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 09:16:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729001AbgGOHJ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 03:09:59 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:51307 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728590AbgGOHJ6 (ORCPT
+        id S1729227AbgGOHQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 03:16:27 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:47571 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728883AbgGOHQ0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 03:09:58 -0400
+        Wed, 15 Jul 2020 03:16:26 -0400
 X-Originating-IP: 93.34.118.233
 Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 3FDC01C000C;
-        Wed, 15 Jul 2020 07:09:52 +0000 (UTC)
-Date:   Wed, 15 Jul 2020 09:13:25 +0200
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id B14A0E000E;
+        Wed, 15 Jul 2020 07:16:22 +0000 (UTC)
+Date:   Wed, 15 Jul 2020 09:19:54 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
-        dave.stevenson@raspberrypi.com, hyun.kwon@xilinx.com,
-        jmkrzyszt@gmail.com, robert.jarzmik@free.fr,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 9/9] media: rcar-csi2: Negotiate data lanes number
-Message-ID: <20200715071325.epyuci3urjqoex4m@uno.localdomain>
-References: <20200714135812.55158-1-jacopo+renesas@jmondi.org>
- <20200714135812.55158-10-jacopo+renesas@jmondi.org>
- <20200715065538.GI3051471@oden.dyn.berto.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH] imx219: selection compliance fixes
+Message-ID: <20200715071954.uk4mhur6use6nson@uno.localdomain>
+References: <b580ac9d-5ae4-29ce-c81a-a1f98b1d953b@xs4all.nl>
+ <20200714123146.5xhmslath7vqqfds@uno.localdomain>
+ <20200714234938.GP5854@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200715065538.GI3051471@oden.dyn.berto.se>
+In-Reply-To: <20200714234938.GP5854@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Laurent,
 
-On Wed, Jul 15, 2020 at 08:55:38AM +0200, Niklas Söderlund wrote:
+On Wed, Jul 15, 2020 at 02:49:38AM +0300, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
-> Thanks for your work.
+> On Tue, Jul 14, 2020 at 02:31:46PM +0200, Jacopo Mondi wrote:
+> > Hi Hans,
+> >
+> > On Thu, Jul 02, 2020 at 03:50:04PM +0200, Hans Verkuil wrote:
+> > > The top/left crop coordinates were 0, 0 instead of 8, 8 in the
+> > > supported_modes array. This was a mismatch with the default values,
+> > > so this is corrected. Found with v4l2-compliance.
+> > >
+> > > Also add V4L2_SEL_TGT_CROP_BOUNDS support: CROP_DEFAULT and CROP_BOUNDS
+> > > always go together. Found with v4l2-compliance.
+> >
+> > I actually introduced this with
+> > e6d4ef7d58aa ("media: i2c: imx219: Implement get_selection")
+> >
+> > >
+> > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > > ---
+> > >  drivers/media/i2c/imx219.c | 17 +++++++++--------
+> > >  1 file changed, 9 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > > index 0a546b8e466c..935e2a258ce5 100644
+> > > --- a/drivers/media/i2c/imx219.c
+> > > +++ b/drivers/media/i2c/imx219.c
+> > > @@ -473,8 +473,8 @@ static const struct imx219_mode supported_modes[] = {
+> > >  		.width = 3280,
+> > >  		.height = 2464,
+> > >  		.crop = {
+> > > -			.left = 0,
+> > > -			.top = 0,
+> > > +			.left = 8,
+> > > +			.top = 8,
+> >
+> > Mmmm, why this change ?
+> > This values are used to report V4L2_SEL_TGT_CROP rectangle, which
+> > according to the documentation is defined as
+> > "Crop rectangle. Defines the cropped area."
+> > (not a much extensive description :)
+> >
+> > Clearly this is a faulty definition, and I know from experience how
+> > hard is proving to define pixel array properties and in which extent
+> > the documentation has to go:
+> > https://lists.libcamera.org/pipermail/libcamera-devel/2020-June/009115.html
+> >
+> > My understanding is that target should report the current crop
+> > rectangle, defined from the rectangle retrieved with the
+> > V4L2_SEL_TGT_CROP_DEFAULT target, which, according documentation
+> > reports the:
+> > "Suggested cropping rectangle that covers the “whole picture”.
+> > This includes only active pixels and excludes other non-active pixels such
+> > as black pixels"
+> >
+> > The TGT_CROP_DEFAULT then reports the active pixel array portion, and
+> > needs to be defined in respect to the TGT_NATIVE_SIZE, which reports
+> > the dimensions of the whole pixel matrix, including non-active pixels,
+> > optical blanks active and non-active pixels.
+> >
+> > The TGT_CROP rectangle is hence defined from the CROP_DEFAULT one, and
+> > if the 'whole active area' is selected, its top-left corner is placed
+> > in position (0, 0) (what's the point of defining it in respect to an
+> > area which cannot be read anyway ?)
+> >
+> > Unless TGT_CROP should be defined in respect to the NATIVE_SIZE
+> > rectangle too, but that's not specified anywhere.
+> >
+> > Anyway, those selection targets badly apply to image sensors, are
+> > ill-defined as the definition of active pixels, optical blank (active
+> > and non-active) pixels is not provided anywhere, and it's not specified
+> > anywhere what is the reference area for each of those rectangles, so I
+> > might very well got them wrongly.
 >
-> On 2020-07-14 15:58:12 +0200, Jacopo Mondi wrote:
-> > Use the newly introduced get_mbus_config() subdevice pad operation to
-> > retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
-> > the number of active data lanes accordingly.
-> >
-> > In order to be able to call the remote subdevice operation cache the
-> > index of the remote pad connected to the single CSI-2 input port.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 74 +++++++++++++++++++--
-> >  1 file changed, 67 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > index c6cc4f473a07..d39f312ebff9 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > @@ -364,6 +364,7 @@ struct rcar_csi2 {
-> >  	struct v4l2_async_notifier notifier;
-> >  	struct v4l2_async_subdev asd;
-> >  	struct v4l2_subdev *remote;
-> > +	unsigned int remote_pad;
-> >
-> >  	struct v4l2_mbus_framefmt mf;
-> >
-> > @@ -409,13 +410,14 @@ static void rcsi2_exit_standby(struct rcar_csi2 *priv)
-> >  	reset_control_deassert(priv->rstc);
-> >  }
-> >
-> > -static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-> > +static int rcsi2_wait_phy_start(struct rcar_csi2 *priv,
-> > +				unsigned int active_lanes)
+> My understanding is that both TGT_CROP_DEFAULT and TGT_CROP_BOUNDS are
+> relative to TGT_NATIVE_SIZE. BOUNDS defines all the pixels that can be
+
+And what is TGT_CROP reference in your understanding ?
+
+> captured, including optical black and invalid pixels, while DEFAULT
+> defines the active area, excluding optical black and invalida pixels. To
+> put it another way, DEFAULT is what the kernel recommends applications
+> to use if they have no specific requirement and/or no specific knowledge
+> about the sensor.
 >
-> Maybe s/active_lanes/lanes/ here and below?
+> I fully agree this is very under-documented, which also means that my
+> understanding may be wrong :-)
+
+With some consensus on this interpretation I would be happy to update
+the documentation. I already considered that, but the selection API
+does not apply to image sensors only, and giving a description which
+is about the pixel array properties might be not totally opportune as
+it would rule out other devices like bridges or muxers.
+
 >
-
-ok, I guess it's not important to convey the distinction between
-active and available lanes here.
-
-> >  {
-> >  	unsigned int timeout;
+> > >  			.width = 3280,
+> > >  			.height = 2464
+> > >  		},
+> > > @@ -489,8 +489,8 @@ static const struct imx219_mode supported_modes[] = {
+> > >  		.width = 1920,
+> > >  		.height = 1080,
+> > >  		.crop = {
+> > > -			.left = 680,
+> > > -			.top = 692,
+> > > +			.left = 8 + 680,
+> > > +			.top = 8 + 692,
+> > >  			.width = 1920,
+> > >  			.height = 1080
+> > >  		},
+> > > @@ -505,8 +505,8 @@ static const struct imx219_mode supported_modes[] = {
+> > >  		.width = 1640,
+> > >  		.height = 1232,
+> > >  		.crop = {
+> > > -			.left = 0,
+> > > -			.top = 0,
+> > > +			.left = 8,
+> > > +			.top = 8,
+> > >  			.width = 3280,
+> > >  			.height = 2464
+> > >  		},
+> > > @@ -521,8 +521,8 @@ static const struct imx219_mode supported_modes[] = {
+> > >  		.width = 640,
+> > >  		.height = 480,
+> > >  		.crop = {
+> > > -			.left = 1000,
+> > > -			.top = 752,
+> > > +			.left = 8 + 1000,
+> > > +			.top = 8 + 752,
+> > >  			.width = 1280,
+> > >  			.height = 960
+> > >  		},
+> > > @@ -1014,6 +1014,7 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> > >  		return 0;
+> > >
+> > >  	case V4L2_SEL_TGT_CROP_DEFAULT:
+> > > +	case V4L2_SEL_TGT_CROP_BOUNDS:
 > >
-> >  	/* Wait for the clock and data lanes to enter LP-11 state. */
-> >  	for (timeout = 0; timeout <= 20; timeout++) {
-> > -		const u32 lane_mask = (1 << priv->lanes) - 1;
-> > +		const u32 lane_mask = (1 << active_lanes) - 1;
+> > Still not getting what is the purpose of two targets if the "always
+> > have to go together" :)
 > >
-> >  		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
-> >  		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-> > @@ -447,7 +449,8 @@ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
-> >  	return 0;
-> >  }
-> >
-> > -static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
-> > +static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
-> > +			   unsigned int active_lanes)
-> >  {
-> >  	struct v4l2_subdev *source;
-> >  	struct v4l2_ctrl *ctrl;
-> > @@ -472,15 +475,63 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
-> >  	 * bps = link_freq * 2
-> >  	 */
-> >  	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
-> > -	do_div(mbps, priv->lanes * 1000000);
-> > +	do_div(mbps, active_lanes * 1000000);
-> >
-> >  	return mbps;
-> >  }
-> >
-> > +static int rcsi2_config_active_lanes(struct rcar_csi2 *priv,
-> > +				     unsigned int *active_lanes)
->
-> I would name this rcsi2_get_active_lanes() as it does not configure
-> anything just queries the subdevice for information.
->
-
-ack
-
-> > +{
-> > +	struct v4l2_mbus_config mbus_config = { 0 };
-> > +	unsigned int num_lanes = (-1U);
->
-> This looks odd and could just be set 0 with the same effect but clearer
-> to read.
->
-
-Not really.
-
-Have a look at this part:
-
-	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-		num_lanes = 1;
-	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-		num_lanes = 2;
-	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-		num_lanes = 3;
-	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-		num_lanes = 4;
-
-	if (num_lanes > priv->lanes) {
-
-        ^^ I should then change this one to:
-
-        if (!num_lanes)
-
-But this does not protect against the case num_lanes is actually set
-to a meaningful value, but it's larger than the number of actually
-available lanes (which is held by priv->lanes).
-
-I would keep this one as it is.
-
-Thanks
-  j
-
-> > +	int ret;
-> > +
-> > +	*active_lanes = priv->lanes;
-> > +	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
-> > +			       priv->remote_pad, &mbus_config);
-> > +	if (ret == -ENOIOCTLCMD) {
-> > +		dev_dbg(priv->dev, "No remote mbus configuration available\n");
-> > +		return 0;
-> > +	}
-> > +
-> > +	if (ret) {
-> > +		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> > +		dev_err(priv->dev, "Unsupported media bus type %u\n",
-> > +			mbus_config.type);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-> > +		num_lanes = 1;
-> > +	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-> > +		num_lanes = 2;
-> > +	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-> > +		num_lanes = 3;
-> > +	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-> > +		num_lanes = 4;
-> > +
-> > +	if (num_lanes > priv->lanes) {
-> > +		dev_err(priv->dev,
-> > +			"Unsupported mbus config: too many data lanes %u\n",
-> > +			num_lanes);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	*active_lanes = num_lanes;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int rcsi2_start_receiver(struct rcar_csi2 *priv)
-> >  {
-> >  	const struct rcar_csi2_format *format;
-> >  	u32 phycnt, vcdt = 0, vcdt2 = 0, fld = 0;
-> > +	unsigned int active_lanes;
-> >  	unsigned int i;
-> >  	int mbps, ret;
-> >
-> > @@ -522,10 +573,18 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
-> >  			fld |= FLD_FLD_NUM(1);
-> >  	}
-> >
-> > +	/*
-> > +	 * Get the number of active data lanes inspecting the remote mbus
-> > +	 * configuration.
-> > +	 */
-> > +	ret = rcsi2_config_active_lanes(priv, &active_lanes);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >  	phycnt = PHYCNT_ENABLECLK;
-> > -	phycnt |= (1 << priv->lanes) - 1;
-> > +	phycnt |= (1 << active_lanes) - 1;
-> >
-> > -	mbps = rcsi2_calc_mbps(priv, format->bpp);
-> > +	mbps = rcsi2_calc_mbps(priv, format->bpp, active_lanes);
-> >  	if (mbps < 0)
-> >  		return mbps;
-> >
-> > @@ -572,7 +631,7 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
-> >  	rcsi2_write(priv, PHYCNT_REG, phycnt | PHYCNT_SHUTDOWNZ);
-> >  	rcsi2_write(priv, PHYCNT_REG, phycnt | PHYCNT_SHUTDOWNZ | PHYCNT_RSTZ);
-> >
-> > -	ret = rcsi2_wait_phy_start(priv);
-> > +	ret = rcsi2_wait_phy_start(priv, active_lanes);
-> >  	if (ret)
-> >  		return ret;
-> >
-> > @@ -749,6 +808,7 @@ static int rcsi2_notify_bound(struct v4l2_async_notifier *notifier,
-> >  	}
-> >
-> >  	priv->remote = subdev;
-> > +	priv->remote_pad = pad;
-> >
-> >  	dev_dbg(priv->dev, "Bound %s pad: %d\n", subdev->name, pad);
-> >
-> > --
-> > 2.27.0
-> >
+> > >  		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
+> > >  		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
+> > >  		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
 >
 > --
 > Regards,
-> Niklas Söderlund
+>
+> Laurent Pinchart
