@@ -2,120 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA69A220618
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 09:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FB36220652
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 09:36:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729266AbgGOHWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 03:22:41 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:38843 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729066AbgGOHWl (ORCPT
+        id S1729379AbgGOHgT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 03:36:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44040 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729336AbgGOHgS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 03:22:41 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 3E77C4000A;
-        Wed, 15 Jul 2020 07:22:36 +0000 (UTC)
-Date:   Wed, 15 Jul 2020 09:26:08 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, robh+dt@kernel.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        dave.stevenson@raspberrypi.com, dongchun.zhu@mediatek.com,
-        linux-renesas-soc@vger.kernel.org,
-        roman.kovalivskyi@globallogic.com
-Subject: Re: [PATCH v2 2/3] dt-bindings: media: i2c: Document
- 'remote-endpoint'
-Message-ID: <20200715072608.hvog74szw7udx4sk@uno.localdomain>
-References: <20200714142856.58365-1-jacopo+renesas@jmondi.org>
- <20200714142856.58365-3-jacopo+renesas@jmondi.org>
- <20200714234535.GN5854@pendragon.ideasonboard.com>
+        Wed, 15 Jul 2020 03:36:18 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EEAC061755
+        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 00:36:18 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 26F0A2A4369
+Subject: Re: [PATCH 4/4] media: staging: rkisp1: cap: in stream start, replace
+ calls to rkisp1_handle_buffer with rkisp1_set_next_buf
+To:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+References: <20200714123832.28011-1-dafna.hirschfeld@collabora.com>
+ <20200714123832.28011-5-dafna.hirschfeld@collabora.com>
+ <01c025b1-6d8d-0c24-1303-848ce0438c75@collabora.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <4fe827dc-f240-dc20-59a2-4855e6edbfeb@collabora.com>
+Date:   Wed, 15 Jul 2020 09:36:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200714234535.GN5854@pendragon.ideasonboard.com>
+In-Reply-To: <01c025b1-6d8d-0c24-1303-848ce0438c75@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi,
 
-On Wed, Jul 15, 2020 at 02:45:35AM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Tue, Jul 14, 2020 at 04:28:55PM +0200, Jacopo Mondi wrote:
-> > Document the 'remote-endpoint' property and add it to the list of required
-> > endpoint properties in imx219 and ov8856 dt-schema binding files.
-> >
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  Documentation/devicetree/bindings/media/i2c/imx219.yaml | 5 +++++
-> >  Documentation/devicetree/bindings/media/i2c/ov8856.yaml | 5 +++++
-> >  2 files changed, 10 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > index dfc4d29a4f04..0251e15fe0a7 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > @@ -71,8 +71,13 @@ properties:
-> >              description:
-> >                Allowed data bus frequencies.
-> >
-> > +          remote-endpoint:
-> > +            description: |-
-> > +              phandle to the video receiver input port
-> > +
-> >          required:
-> >            - link-frequencies
-> > +          - remote-endpoint
-> >
-> >  required:
-> >    - compatible
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> > index 1956b2a32bf4..c1f363bb5aee 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> > @@ -84,9 +84,14 @@ properties:
-> >                Allowed data bus frequencies. 360000000, 180000000 Hz or both
-> >                are supported by the driver.
-> >
-> > +          remote-endpoint:
-> > +            description: |-
-> > +              phandle to the video receiver input port
-> > +
->
-> Extraneous blank line ?
->
+On 14.07.20 17:11, Helen Koike wrote:
+> Hi Dafna,
+> 
+> Thanks for the patch, just a small thing below.
+> 
+> On 7/14/20 9:38 AM, Dafna Hirschfeld wrote:
+>> The function 'rkisp1_stream_start' calls 'rkisp1_handle_buffer'
+>> in order to update the 'buf.curr' and 'buf.next' fields and
+>> configure the device before streaming starts. This cause a wrong
+>> increment of the debugs field 'frame_drop'. This patch replaces
+>> the call to 'rkisp1_handle_buffer' with a call to
+>> 'rkisp1_set_next_buf'.
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>>   drivers/staging/media/rkisp1/rkisp1-capture.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>> index 7f400aefe550..c05280950ea0 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>> @@ -916,7 +916,7 @@ static void rkisp1_stream_start(struct rkisp1_capture *cap)
+>>   	cap->ops->config(cap);
+>>   
+>>   	/* Setup a buffer for the next frame */
+>> -	rkisp1_handle_buffer(cap);
+>> +	rkisp1_set_next_buf(cap);
+> 
+> You should also protect with the cap->buf.lock, or move the lock protection to rkisp1_set_next_buf() and update patch 2/4.
 
-Yes indeed.
+I am not sure if protection here is needed. The streaming is not enabled yet, so
+it is promised that we don't run the isr in parallel and ioctls are already synchronized by the framework
+so I think it is safe not to use locking here , but I'm not sure actually.
 
-I'll fix and resend with your comments taken in (this and the one in
-the previous patch).
+Thanks,
+Dafna
 
-Rob, Hans:
-Should this go in through the media tree or through rob ?
 
-Thanks
-  j
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> >
-> >          required:
-> >            - link-frequencies
-> > +          - remote-endpoint
-> >
-> >      required:
-> >        - endpoint
->
-> --
+> 
 > Regards,
->
-> Laurent Pinchart
+> Helen
+> 
+>>   	cap->ops->enable(cap);
+>>   	/* It's safe to config ACTIVE and SHADOW regs for the
+>>   	 * first stream. While when the second is starting, do NOT
+>> @@ -931,7 +931,7 @@ static void rkisp1_stream_start(struct rkisp1_capture *cap)
+>>   		/* force cfg update */
+>>   		rkisp1_write(rkisp1,
+>>   			     RKISP1_CIF_MI_INIT_SOFT_UPD, RKISP1_CIF_MI_INIT);
+>> -		rkisp1_handle_buffer(cap);
+>> +		rkisp1_set_next_buf(cap);
+>>   	}
+>>   	cap->is_streaming = true;
+>>   }
+>>
