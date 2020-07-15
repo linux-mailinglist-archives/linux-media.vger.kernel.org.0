@@ -2,87 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C915221743
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 23:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41A6B2217B6
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 00:21:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727909AbgGOVoz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 17:44:55 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:36156 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726370AbgGOVoz (ORCPT
+        id S1726778AbgGOWVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 18:21:48 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:53670 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726356AbgGOWVs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 17:44:55 -0400
-Received: by mail-io1-f65.google.com with SMTP id y2so3897021ioy.3;
-        Wed, 15 Jul 2020 14:44:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=G2Mqt7gxRiFgu+zBoG7bPjfYecL9s+S+lyU0ScviujI=;
-        b=tDLPz8rWtwGfcf7mR215ep7KtrBZNn/03hbvhHa29SsAybIF1Rc3sDDhbZh9wAzVRn
-         B//VEJIS25JacBkBH7KRoKVYA7YPwC2ECmPuI01BuUVSwg5S2LlrjG2/eY8/dWxQbOyn
-         LbWLv6Ljyt/RLaKhvEr4kBI1aG+3AJX7nvjOqdlawLPq81x4Q8mdAZm6S1AbXjiQx3+z
-         SFuR9Zs27+G6a7QX0Cksq3/BKSkVbxWe0yl6Ov7zq3a5KtKJhbwoOE8NtgO2KI8mf5yx
-         LQCwp4oP+YSj94J7tT5CrLu8OduXnt2Z9z4ak85iCsAsL9GdWJ/mplvkjsKTXJPa17fk
-         x9ng==
-X-Gm-Message-State: AOAM5334BXonM3fO3Y8YJn3YjXpl2g1TV6DINy6gzwypTVo8JmUpwiTQ
-        uWxefP9QD3TggICCvB06Yg==
-X-Google-Smtp-Source: ABdhPJzmxir1p3e9ru+Hz1g9JLvam/4uHKqg3E7b8w9WMvJYI1Tx2B7G1S7vbF+WtPKipdU9wyqFog==
-X-Received: by 2002:a6b:b2d1:: with SMTP id b200mr1314239iof.137.1594849494492;
-        Wed, 15 Jul 2020 14:44:54 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id v4sm1632908ilo.44.2020.07.15.14.44.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 14:44:53 -0700 (PDT)
-Received: (nullmailer pid 869896 invoked by uid 1000);
-        Wed, 15 Jul 2020 21:44:52 -0000
-Date:   Wed, 15 Jul 2020 15:44:52 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     devicetree@vger.kernel.org, hyun.kwon@xilinx.com,
-        michal.simek@xilinx.com, mchehab@kernel.org, robh+dt@kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: Xilinx video IP cores
-Message-ID: <20200715214452.GA869842@bogus>
-References: <20200705075524.22657-1-grandmaster@al2klimov.de>
+        Wed, 15 Jul 2020 18:21:48 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 214B5634C87;
+        Thu, 16 Jul 2020 01:20:30 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jvplO-00039R-5t; Thu, 16 Jul 2020 01:20:30 +0300
+Date:   Thu, 16 Jul 2020 01:20:30 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [GIT PULL for 5.9] Camera sensor + V4L2 async patches
+Message-ID: <20200715222030.GG836@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200705075524.22657-1-grandmaster@al2klimov.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 05 Jul 2020 09:55:24 +0200, Alexander A. Klimov wrote:
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
-> 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->           If both the HTTP and HTTPS versions
->           return 200 OK and serve the same content:
->             Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> ---
->  Continuing my work started at 93431e0607e5.
-> 
->  If there are any URLs to be removed completely or at least not HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also https://lkml.org/lkml/2020/6/27/64
-> 
->  If there are any valid, but yet not changed URLs:
->  See https://lkml.org/lkml/2020/6/26/837
-> 
->  Documentation/devicetree/bindings/media/xilinx/video.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+Hi Mauro,
 
-Applied, thanks!
+Here's a stash of patches for 5.9. I wish there's still time to get them
+in.
+
+There are drivers for GMSL deserialiser and serialiser, and improvements in
+V4L2 async matching (endpoint support in particular). I also concluded with
+Rafael (cc'd) that it's fine to merge the device property patch through the
+media tree.
+
+The following changes since commit 6f01dfb760c027d5dd6199d91ee9599f2676b5c6:
+
+  media: cros-ec-cec: do not bail on device_init_wakeup failure (2020-07-04 12:45:45 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.9-2-signed
+
+for you to fetch changes up to fe23e113501488767faeed25127cc5e3168837e5:
+
+  media: v4l2-async: Log message in case of heterogeneous fwnode match (2020-07-15 23:56:03 +0300)
+
+----------------------------------------------------------------
+Camera patches for 5.9
+
+----------------------------------------------------------------
+Andrey Konovalov (1):
+      media: i2c: imx290: replace msleep(10) with usleep_range(10000, 11000)
+
+Dongchun Zhu (2):
+      media: dt-bindings: media: i2c: Document DW9768 bindings
+      media: i2c: dw9768: Add DW9768 VCM driver
+
+Jacopo Mondi (2):
+      dt-bindings: media: i2c: Add bindings for IMI RDACM2x
+      media: i2c: Add RDACM20 driver
+
+Kieran Bingham (1):
+      media: i2c: Add MAX9286 driver
+
+Laurent Pinchart (5):
+      dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
+      device property: Add a function to test is a fwnode is a graph endpoint
+      media: v4l2-async: Accept endpoints and devices for fwnode matching
+      media: v4l2-async: Pass notifier pointer to match functions
+      media: v4l2-async: Log message in case of heterogeneous fwnode match
+
+ .../bindings/media/i2c/dongwoon,dw9768.yaml        |  100 ++
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml       |  159 +++
+ .../bindings/media/i2c/maxim,max9286.yaml          |  366 ++++++
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ MAINTAINERS                                        |   30 +
+ drivers/media/i2c/Kconfig                          |   38 +
+ drivers/media/i2c/Makefile                         |    4 +
+ drivers/media/i2c/dw9768.c                         |  554 ++++++++
+ drivers/media/i2c/imx290.c                         |    6 +-
+ drivers/media/i2c/max9271.c                        |  341 +++++
+ drivers/media/i2c/max9271.h                        |  224 ++++
+ drivers/media/i2c/max9286.c                        | 1320 ++++++++++++++++++++
+ drivers/media/i2c/rdacm20.c                        |  667 ++++++++++
+ drivers/media/v4l2-core/v4l2-async.c               |   83 +-
+ include/linux/property.h                           |    5 +
+ 15 files changed, 3888 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+ create mode 100644 drivers/media/i2c/dw9768.c
+ create mode 100644 drivers/media/i2c/max9271.c
+ create mode 100644 drivers/media/i2c/max9271.h
+ create mode 100644 drivers/media/i2c/max9286.c
+ create mode 100644 drivers/media/i2c/rdacm20.c
+
+-- 
+Kind regards,
+
+Sakari Ailus
