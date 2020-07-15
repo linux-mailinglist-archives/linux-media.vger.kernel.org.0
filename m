@@ -2,173 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA42A220ECF
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 16:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBF4A220EF6
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 16:14:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732075AbgGOOGr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 10:06:47 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:50361 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732042AbgGOOGr (ORCPT
+        id S1728025AbgGOOOY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 10:14:24 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:40589 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727999AbgGOOOX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 10:06:47 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 67282FF818;
-        Wed, 15 Jul 2020 14:06:43 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 8/8] dt-bindings: media: i2c: Add prefix to yaml bindings
-Date:   Wed, 15 Jul 2020 16:09:51 +0200
-Message-Id: <20200715140951.90753-9-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
-References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
+        Wed, 15 Jul 2020 10:14:23 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id viAljiKF3Z80HviAojSEmE; Wed, 15 Jul 2020 16:14:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594822461; bh=y4vZfGxi4CYdQ7fCe3iZg9TK9QU1wguK8Ztx4arTnro=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=O+L5WgH41sEsxwPZJbASlfw2dnOiIuZMkSTtGrne87QRPYA8fffwfBi8Xkih5BAQJ
+         3pIY+hPEikcrqYpL36rys1tlazB03UtifVxjpZ6SCf9kU2vh40FWGev1epOo6tEaVc
+         ut2cFfD/pFPqo2tVg71LeYZD1TGYjBvmObN3muG2JDypAxmwDx+N2rfRPfT+OcbPN6
+         BV6+/wZKgwnLhjFhK6NgLm/IbRJNae+7o01g63TJO/o6JK8BCytLPOvQmi1txvhUvo
+         piex5hA97MnnUaolFe6ya/qVSHFDqShNhnSA7uv8vY7rtGICN19zP0T4MiBwyeGVYT
+         ayx0gkesA8WTQ==
+Subject: Re: [PATCH 3/4] media: staging: rkisp1: set pads array of the resizer
+ to size 2
+To:     Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org
+References: <20200629065754.26621-1-dafna.hirschfeld@collabora.com>
+ <20200629065754.26621-4-dafna.hirschfeld@collabora.com>
+ <09105e4b-7c02-28fd-58cc-ca947d6c5185@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <68dd74fa-f8d9-0f3b-38fe-10a590ffde4b@xs4all.nl>
+Date:   Wed, 15 Jul 2020 16:14:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <09105e4b-7c02-28fd-58cc-ca947d6c5185@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBNWs47HhB8IQnW6Bah++zpwSyAM0LBf4691lxC0kwlxykH6qCQTa9gw2pIDrHsK1pkQnEiEuXbxWF4KMr5a0/iqqml9WmU9xLbIBzZd+amN5X04RwTi
+ yIpQQtbUFrEAMxr/+b8I2MdNNtnSnsTab1JZP7he2ufl1qfyNVLv44Z5mEE3qrYerGKf/dhwSW8lyhbzDLU50uQuWMnYB6kpAZGLBUTgDyvOhkTliCqGoeEn
+ P3LcMmZP4KJGmEk+C6R/9zDVJKZ5ROr3Do3ZMxXPmQAD+/VjlnUdaa+lV2OSahebI+dypxb2Hp/6kAbu4INpIBA5XWvg8RmKNA9mxL3ObGl3yqGUbJoB3xI7
+ HPluE8BiC3PYga5v0GO3KTuHWvyFusrDrWh12Se/8+wQFmlhqxnnAkuL8Yp9KmSv7AXIcjYqL9HMC1FlQbSbrupWxYFXhNir7JwVeWvui7L9u1+JGhsDpWiX
+ u82wxMWVwuqUgPd1n9MPW13LUEEQFgqHSRJetDtJRtg7z1YT8rJXzE3gsweSRC+8Az0fa3YmOnVjVeyG
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the vendor prefixes to the DT bindings converted to json-schema
-and update the MAINTAINERS file accordingly.
+On 13/07/2020 13:12, Helen Koike wrote:
+> 
+> 
+> On 6/29/20 3:57 AM, Dafna Hirschfeld wrote:
+>> Currently the 'pads' and 'pad_cfg' arries of the rkisp1_resizer
+>> are of size 'RKISP1_ISP_PAD_MAX' which is 4. But the resizer
+>> has only two pads. This patch change the size of the arries to 2
+>> by adding and using 'RKISP1_RSZ_PAD_MAX' similar to the way it is
+>> done in the isp entity.
+> 
+> s/arries/arrays
+> 
+> s/This patch change/Change
+> 
+> Hans, could you correct these when picking it up?
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- .../media/i2c/{ov5640.yaml => ovti,ov5640.yaml}  |  0
- .../media/i2c/{ov5645.yaml => ovti,ov5645.yaml}  |  0
- .../media/i2c/{ov5647.yaml => ovti,ov5647.yaml}  |  0
- .../media/i2c/{ov772x.yaml => ovti,ov772x.yaml}  |  0
- .../media/i2c/{ov8856.yaml => ovti,ov8856.yaml}  |  0
- .../media/i2c/{imx219.yaml => sony,imx219.yaml}  |  0
- .../media/i2c/{imx274.yaml => sony,imx274.yaml}  |  0
- .../media/i2c/{imx290.yaml => sony,imx290.yaml}  |  0
- MAINTAINERS                                      | 16 ++++++++--------
- 9 files changed, 8 insertions(+), 8 deletions(-)
- rename Documentation/devicetree/bindings/media/i2c/{ov5640.yaml => ovti,ov5640.yaml} (100%)
- rename Documentation/devicetree/bindings/media/i2c/{ov5645.yaml => ovti,ov5645.yaml} (100%)
- rename Documentation/devicetree/bindings/media/i2c/{ov5647.yaml => ovti,ov5647.yaml} (100%)
- rename Documentation/devicetree/bindings/media/i2c/{ov772x.yaml => ovti,ov772x.yaml} (100%)
- rename Documentation/devicetree/bindings/media/i2c/{ov8856.yaml => ovti,ov8856.yaml} (100%)
- rename Documentation/devicetree/bindings/media/i2c/{imx219.yaml => sony,imx219.yaml} (100%)
- rename Documentation/devicetree/bindings/media/i2c/{imx274.yaml => sony,imx274.yaml} (100%)
- rename Documentation/devicetree/bindings/media/i2c/{imx290.yaml => sony,imx290.yaml} (100%)
+I can.
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-similarity index 100%
-rename from Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-rename to Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
-similarity index 100%
-rename from Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-rename to Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5647.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
-similarity index 100%
-rename from Documentation/devicetree/bindings/media/i2c/ov5647.yaml
-rename to Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-similarity index 100%
-rename from Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-rename to Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8856.yaml
-similarity index 100%
-rename from Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-rename to Documentation/devicetree/bindings/media/i2c/ovti,ov8856.yaml
-diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
-similarity index 100%
-rename from Documentation/devicetree/bindings/media/i2c/imx219.yaml
-rename to Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
-diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-similarity index 100%
-rename from Documentation/devicetree/bindings/media/i2c/imx274.yaml
-rename to Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-diff --git a/Documentation/devicetree/bindings/media/i2c/imx290.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-similarity index 100%
-rename from Documentation/devicetree/bindings/media/i2c/imx290.yaml
-rename to Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b4670904b014..546f3c8c248e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12605,7 +12605,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
- F:	drivers/media/i2c/ov5640.c
--F:	Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
- 
- OMNIVISION OV5645 SENSOR DRIVER
- M:	Jacopo Mondi <jacopo@jmondi.org>
-@@ -12613,7 +12613,7 @@ L:	linux-media@vger.kernel.org
- S:	Odd Fixes
- T:	git git://linuxtv.org/media_tree.git
- F:	drivers/media/i2c/ov5645.c
--F:	Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
- 
- OMNIVISION OV5647 SENSOR DRIVER
- M:	Jacopo Mondi <jacopo@jmondi.org>
-@@ -12622,7 +12622,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
- F:	drivers/media/i2c/ov5647.c
--F:	Documentation/devicetree/bindings/media/i2c/ov5647.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
- 
- OMNIVISION OV5670 SENSOR DRIVER
- M:	Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
-@@ -12659,7 +12659,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
- L:	linux-media@vger.kernel.org
- S:	Odd fixes
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
- F:	drivers/media/i2c/ov772x.c
- F:	include/media/i2c/ov772x.h
- 
-@@ -12676,7 +12676,7 @@ M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,ov8856.yaml
- F:	drivers/media/i2c/ov8856.c
- 
- OMNIVISION OV9640 SENSOR DRIVER
-@@ -15907,7 +15907,7 @@ M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/imx219.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
- F:	drivers/media/i2c/imx219.c
- 
- SONY IMX258 SENSOR DRIVER
-@@ -15922,7 +15922,7 @@ M:	Leon Luo <leonl@leopardimaging.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/imx274.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
- F:	drivers/media/i2c/imx274.c
- 
- SONY IMX290 SENSOR DRIVER
-@@ -15930,7 +15930,7 @@ M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/imx290.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
- F:	drivers/media/i2c/imx290.c
- 
- SONY IMX319 SENSOR DRIVER
--- 
-2.27.0
+I'll take patches 1-3 and will take a v2 of patch 4/4 once it is posted.
+
+Regards,
+
+	Hans
+
+> 
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> 
+> Acked-by: Helen Koike <helen.koike@collabora.com>
+> 
+> Thanks
+> Helen
+> 
+>> ---
+>>  drivers/staging/media/rkisp1/rkisp1-common.h  | 5 +++--
+>>  drivers/staging/media/rkisp1/rkisp1-resizer.c | 2 +-
+>>  2 files changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+>> index b7dc523dd8f0..4185487c520c 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+>> @@ -49,6 +49,7 @@
+>>  enum rkisp1_rsz_pad {
+>>  	RKISP1_RSZ_PAD_SINK,
+>>  	RKISP1_RSZ_PAD_SRC,
+>> +	RKISP1_RSZ_PAD_MAX
+>>  };
+>>  
+>>  enum rkisp1_stream_id {
+>> @@ -216,8 +217,8 @@ struct rkisp1_resizer {
+>>  	struct v4l2_subdev sd;
+>>  	enum rkisp1_stream_id id;
+>>  	struct rkisp1_device *rkisp1;
+>> -	struct media_pad pads[RKISP1_ISP_PAD_MAX];
+>> -	struct v4l2_subdev_pad_config pad_cfg[RKISP1_ISP_PAD_MAX];
+>> +	struct media_pad pads[RKISP1_RSZ_PAD_MAX];
+>> +	struct v4l2_subdev_pad_config pad_cfg[RKISP1_RSZ_PAD_MAX];
+>>  	const struct rkisp1_rsz_config *config;
+>>  	enum v4l2_pixel_encoding pixel_enc;
+>>  	struct mutex ops_lock;
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>> index 26fb41053f56..d8ebe4422e77 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>> @@ -735,7 +735,7 @@ static int rkisp1_rsz_register(struct rkisp1_resizer *rsz)
+>>  	rsz->pixel_enc = RKISP1_DEF_PIXEL_ENC;
+>>  
+>>  	mutex_init(&rsz->ops_lock);
+>> -	ret = media_entity_pads_init(&sd->entity, 2, pads);
+>> +	ret = media_entity_pads_init(&sd->entity, RKISP1_RSZ_PAD_MAX, pads);
+>>  	if (ret)
+>>  		return ret;
+>>  
+>>
 
