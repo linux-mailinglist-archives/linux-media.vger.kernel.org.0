@@ -2,33 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E5BC2209FD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 12:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B9DA2209F7
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 12:27:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731147AbgGOK1G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 06:27:06 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53422 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729167AbgGOK07 (ORCPT
+        id S1731116AbgGOK1C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 06:27:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728132AbgGOK1A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 06:26:59 -0400
+        Wed, 15 Jul 2020 06:27:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F41C061755
+        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2020 03:27:00 -0700 (PDT)
 Received: from pyrite.rasen.tech (unknown [IPv6:2400:4051:61:600:2c71:1b79:d06d:5032])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 012BD564;
-        Wed, 15 Jul 2020 12:26:54 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F454E06;
+        Wed, 15 Jul 2020 12:26:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594808816;
-        bh=YKf80gNJ1vPiHZZptZDpJkKBoIHqbkZgneSXs9ywNgc=;
+        s=mail; t=1594808819;
+        bh=akm130KVecOIp6kBJe7Wog8H9i50UiQ6euxHTasVoRI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VnfzssQbJcUxL9zLoL6c4sKhnwnyBKV33AJrmQAJB/dt3J4AXyBDFupGX51akdFka
-         lC/iN/QjnWvWF2EIC4c9CydUR/BUSKRD5JhPyCwzK0HeykmpabasPEyRXrhvWnzbyJ
-         /Fk/wixDhb8nRNAF1tIq4a+cInUdYA3rK3hQDdXU=
+        b=RHmSut8pJ3pPD6Z+MqaO9VqzN4Tmu8TweTHyUfE5fGwiXovELLKKCA2cBrHIonBFy
+         9a9laEwPE0oaATqPVma7d0KJ+9YxX2YF0p54gdGlR1uiWjtKIal3Uz0MX0qnJYwCb/
+         D+bTVj8be2PtBBhJHBg5c3hSAF2kcMsVxmWJ+ySA=
 From:   Paul Elder <paul.elder@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Paul Elder <paul.elder@ideasonboard.com>,
         laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Subject: [PATCH v5 3/5] cec-compliance: Add version command
-Date:   Wed, 15 Jul 2020 19:26:38 +0900
-Message-Id: <20200715102640.17554-3-paul.elder@ideasonboard.com>
+Subject: [PATCH v5 4/5] cec-ctl: Add version command
+Date:   Wed, 15 Jul 2020 19:26:39 +0900
+Message-Id: <20200715102640.17554-4-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200715102640.17554-1-paul.elder@ideasonboard.com>
 References: <20200715102640.17554-1-paul.elder@ideasonboard.com>
@@ -39,15 +42,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a --version option to cec-compliance to retrieve the version of
-cec-compliance. While at it, factor out printing the SHA.
+Add a --version option to cec-ctl to retrieve the version of cec-ctl.
 
 Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 
 ---
 Changes in v5:
 - update manpage
-- move STR macros to before print_sha()
 
 Changes in v4:
 - add git commit count to version
@@ -55,29 +56,29 @@ Changes in v4:
 Changes in v3:
 - embed PACKAGE_VERSION instead of string concatenation
 ---
- utils/cec-compliance/Makefile.am         |  2 +-
- utils/cec-compliance/cec-compliance.1.in |  3 +++
- utils/cec-compliance/cec-compliance.cpp  | 25 +++++++++++++++++++++---
- 3 files changed, 26 insertions(+), 4 deletions(-)
+ utils/cec-ctl/Makefile.am  |  2 +-
+ utils/cec-ctl/cec-ctl.1.in |  3 +++
+ utils/cec-ctl/cec-ctl.cpp  | 15 +++++++++++++++
+ 3 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/utils/cec-compliance/Makefile.am b/utils/cec-compliance/Makefile.am
-index 57ed7b37..a9c59ca6 100644
---- a/utils/cec-compliance/Makefile.am
-+++ b/utils/cec-compliance/Makefile.am
-@@ -2,7 +2,7 @@ bin_PROGRAMS = cec-compliance
- man_MANS = cec-compliance.1
+diff --git a/utils/cec-ctl/Makefile.am b/utils/cec-ctl/Makefile.am
+index 24341ed7..278fcc47 100644
+--- a/utils/cec-ctl/Makefile.am
++++ b/utils/cec-ctl/Makefile.am
+@@ -2,7 +2,7 @@ bin_PROGRAMS = cec-ctl
+ man_MANS = cec-ctl.1
  
- cec_compliance_SOURCES = cec-compliance.cpp cec-compliance.h cec-test.cpp cec-test-adapter.cpp cec-test-audio.cpp cec-test-power.cpp cec-test-fuzzing.cpp
--cec_compliance_CPPFLAGS = -I$(top_srcdir)/utils/libcecutil $(GIT_SHA)
-+cec_compliance_CPPFLAGS = -I$(top_srcdir)/utils/libcecutil $(GIT_SHA) $(GIT_COMMIT_CNT)
- cec_compliance_LDADD = -lrt ../libcecutil/libcecutil.la
+ cec_ctl_SOURCES = cec-ctl.cpp cec-pin.cpp cec-ctl.h
+-cec_ctl_CPPFLAGS = -I$(top_srcdir)/utils/libcecutil
++cec_ctl_CPPFLAGS = -I$(top_srcdir)/utils/libcecutil $(GIT_COMMIT_CNT)
+ cec_ctl_LDADD = -lrt ../libcecutil/libcecutil.la
  
- EXTRA_DIST = cec-compliance.1
-diff --git a/utils/cec-compliance/cec-compliance.1.in b/utils/cec-compliance/cec-compliance.1.in
-index 3f9c7d8b..94654858 100644
---- a/utils/cec-compliance/cec-compliance.1.in
-+++ b/utils/cec-compliance/cec-compliance.1.in
-@@ -119,6 +119,9 @@ check that the test produced no warnings.
+ EXTRA_DIST = cec-ctl.1
+diff --git a/utils/cec-ctl/cec-ctl.1.in b/utils/cec-ctl/cec-ctl.1.in
+index f767b479..fac3a92e 100644
+--- a/utils/cec-ctl/cec-ctl.1.in
++++ b/utils/cec-ctl/cec-ctl.1.in
+@@ -52,6 +52,9 @@ having to rely on the device node number.
  \fB\-v\fR, \fB\-\-verbose\fR
  Turn on verbose reporting.
  .TP
@@ -85,75 +86,62 @@ index 3f9c7d8b..94654858 100644
 +Show version information.
 +.TP
  \fB\-w\fR, \fB\-\-wall\-clock\fR
- Show timestamps as wall-clock time. This also turns on verbose reporting.
+ Show timestamps as wall-clock time. This also turns on verbose reporting. 
  .TP
-diff --git a/utils/cec-compliance/cec-compliance.cpp b/utils/cec-compliance/cec-compliance.cpp
-index bfd82af7..618e3160 100644
---- a/utils/cec-compliance/cec-compliance.cpp
-+++ b/utils/cec-compliance/cec-compliance.cpp
-@@ -93,6 +93,8 @@ enum Option {
- 	OptSkipTestTunerControl,
- 	OptSkipTestVendorSpecificCommands,
- 	OptSkipTestStandbyResume,
-+
+diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
+index 455cdaeb..47867f87 100644
+--- a/utils/cec-ctl/cec-ctl.cpp
++++ b/utils/cec-ctl/cec-ctl.cpp
+@@ -133,6 +133,7 @@ enum Option {
+ 	OptVendorCommandWithID,
+ 	OptVendorRemoteButtonDown,
+ 	OptCustomCommand,
 +	OptVersion,
- 	OptLast = 256
  };
  
-@@ -174,9 +176,23 @@ static struct option long_options[] = {
- 	{"skip-test-tuner-control", no_argument, 0, OptSkipTestTunerControl},
- 	{"skip-test-vendor-specific-commands", no_argument, 0, OptSkipTestVendorSpecificCommands},
- 	{"skip-test-standby-resume", no_argument, 0, OptSkipTestStandbyResume},
-+	{"version", no_argument, 0, OptVersion},
- 	{0, 0, 0, 0}
+ struct node {
+@@ -218,6 +219,8 @@ static struct option long_options[] = {
+ 	{ "unregistered", no_argument, 0, OptUnregistered },
+ 	{ "help-all", no_argument, 0, OptHelpAll },
+ 
++	{ "version", no_argument, 0, OptVersion },
++
+ 	CEC_PARSE_LONG_OPTS
+ 
+ 	{ "vendor-remote-button-down", required_argument, 0, OptVendorRemoteButtonDown }, \
+@@ -231,6 +234,13 @@ static struct option long_options[] = {
+ 	{ 0, 0, 0, 0 }
  };
  
-+#define STR(x) #x
-+#define STRING(x) STR(x)
-+
-+static void print_sha()
-+{
-+	printf("cec-compliance SHA                 : %s\n", STRING(GIT_SHA));
-+}
-+
 +static void print_version()
 +{
-+	printf("cec-compliance %s%s\n", PACKAGE_VERSION, STRING(GIT_COMMIT_CNT));
++#define STR(x) #x
++#define STRING(x) STR(x)
++	printf("cec-ctl %s%s\n", PACKAGE_VERSION, STRING(GIT_COMMIT_CNT));
 +}
 +
  static void usage()
  {
  	printf("Usage:\n"
-@@ -231,6 +247,7 @@ static void usage()
- 	       "  -s, --skip-info    Skip Driver Info output\n"
- 	       "  -T, --trace        Trace all called ioctls\n"
- 	       "  -v, --verbose      Turn on verbose reporting\n"
-+	       "  --version          Show version information\n"
- 	       "  -w, --wall-clock   Show timestamps as wall-clock time (implies -v)\n"
- 	       "  -W, --exit-on-warn Exit on the first warning.\n"
- 	       );
-@@ -1258,6 +1275,10 @@ int main(int argc, char **argv)
- 		case OptVerbose:
- 			show_info = true;
+@@ -262,6 +272,7 @@ static void usage()
+ 	       "  --help-all               Show all help messages\n"
+ 	       "  -T, --trace              Trace all called ioctls\n"
+ 	       "  -v, --verbose            Turn on verbose reporting\n"
++	       "  --version                Show version information\n"
+ 	       "  -w, --wall-clock         Show timestamps as wall-clock time (implies -v)\n"
+ 	       "  -W, --wait-for-msgs      Wait for messages and events for up to --monitor-time secs.\n"
+ 	       "  --cec-version-1.4        Use CEC Version 1.4 instead of 2.0\n"
+@@ -2296,6 +2307,10 @@ int main(int argc, char **argv)
  			break;
+ 		}
+ 
 +		case OptVersion:
 +			print_version();
-+			print_sha();
 +			std::exit(EXIT_SUCCESS);
- 		case ':':
- 			fprintf(stderr, "Option '%s' requires a value\n",
- 				argv[optind]);
-@@ -1392,9 +1413,7 @@ int main(int argc, char **argv)
- 	if (options[OptInteractive])
- 		test_tags |= TAG_INTERACTIVE;
- 
--#define STR(x) #x
--#define STRING(x) STR(x)
--	printf("cec-compliance SHA                 : %s\n", STRING(GIT_SHA));
-+	print_sha();
- 
- 	node.phys_addr = CEC_PHYS_ADDR_INVALID;
- 	doioctl(&node, CEC_ADAP_G_PHYS_ADDR, &node.phys_addr);
++
+ 		default:
+ 			if (ch >= OptHelpAll) {
+ 				cec_parse_usage_options(options);
 -- 
 2.27.0
 
