@@ -2,236 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E16F220878
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 11:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 264DD22090A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 11:43:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730554AbgGOJRK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jul 2020 05:17:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59682 "EHLO
+        id S1730725AbgGOJnu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jul 2020 05:43:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729592AbgGOJRK (ORCPT
+        with ESMTP id S1729592AbgGOJnt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jul 2020 05:17:10 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF9C2C08C5C1;
-        Wed, 15 Jul 2020 02:17:09 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id 22so4636898wmg.1;
-        Wed, 15 Jul 2020 02:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=+IDiZwZg3Trea4s9dhZySAzIZU6G8+yBgvykdO0kvyc=;
-        b=i1qPit3G86IA+Fm4rScawTmqjQv0feT66G4h4A8panYBxY1j6KUsDMj2Y/hMUrcnOB
-         zXjfMjhSp59MFsac4vxXcWxEr9qt+yFZ8WaafBzuU/unwfWKxbxMQC35WmJsew4wCt8E
-         044mE6URD0nr7bLsobjQGY/OgLhRTqz0VcMRia0iNrbY+cU+Cly+CL5xXJdKROcERHLo
-         aNGR78PMS743EIdC2pE+uCASk05KlRrOet1KMUV8hl4OQW5qScNF7dBOearnqtdlosxm
-         ZIWvZaDrrMLWF9C3jeBucpgqsbQwd1n+7ubBODu14scr2PDWeWBKunoBavVpZ6DnAEA+
-         oi7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-transfer-encoding:content-language;
-        bh=+IDiZwZg3Trea4s9dhZySAzIZU6G8+yBgvykdO0kvyc=;
-        b=n1j+CMRkXNE7RDmH76ZAQK/MJHsOmOuUar9F9uslxQ0zkyj7ILxRcm+q7W3N9ZpXdb
-         LT6vS+akHokQAMiya+d2t8NuUL7dqGMBeisY2pKs3r1TnU8RbkeDI7jYZIj9UWbCB2f1
-         /0Wym/qqsEeYpmv3eoUJdz7exyg3vt1tXZykZknmfelHRrpaJX4pIX68jLQWPNTvjsug
-         0wIh5VvFgjoTW8pfUUx4FWtwvyjAxkBmZ+Wjo9upkNVKcXq9p7oHYsxRKtHk22W/vERu
-         jIGN2firXf7KbkR5KDiW2/P2WvOT45Di4G0mjBoA0yMzm1tLzkp6PLywE1vtCc1dnuvJ
-         NbpA==
-X-Gm-Message-State: AOAM533YnCIa6fsgDyC0PKGUqRl6Y3OAT3OG5SQyLOEDVWFGXKQlx5A5
-        ecJDxDhDUSNNRyC+bMozIYHomVtM
-X-Google-Smtp-Source: ABdhPJxPJhr5EaZDklw7cjhxnI0V03dWlYgghBh6hKC25TCD7+xLp6A1H/zXDD9g69GxbcSsI3Hqww==
-X-Received: by 2002:a1c:1bc4:: with SMTP id b187mr8164707wmb.105.1594804628116;
-        Wed, 15 Jul 2020 02:17:08 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:68f0:d4d3:d7ff:52d6? ([2a02:908:1252:fb60:68f0:d4d3:d7ff:52d6])
-        by smtp.gmail.com with ESMTPSA id r11sm2415287wmh.1.2020.07.15.02.17.06
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 Jul 2020 02:17:07 -0700 (PDT)
-Reply-To: christian.koenig@amd.com
-Subject: Re: [PATCH 19/25] drm/amdgpu: s/GFP_KERNEL/GFP_ATOMIC in scheduler
- code
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        linux-media@vger.kernel.org
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-20-daniel.vetter@ffwll.ch>
- <20200714104910.GC3278063@phenom.ffwll.local>
- <d3e85f62-e427-7f1c-0ff4-842ffe57172e@amd.com>
- <20200714143124.GG3278063@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <ab593d2b-051f-4d34-26d1-596351a50630@gmail.com>
-Date:   Wed, 15 Jul 2020 11:17:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 15 Jul 2020 05:43:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 024B0C061755;
+        Wed, 15 Jul 2020 02:43:49 -0700 (PDT)
+Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E130564;
+        Wed, 15 Jul 2020 11:43:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1594806226;
+        bh=R72+AIB3W1UESS+YG/XWiz5Ka/52SFPsZeV0CaaHkgg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=f/wlfLjBDvmE6FjlafxtGYIXIc6yLoBUNX0AHKgxs73ikGZmYmtis9pYvIb9Ybom7
+         v+tTLe6E+wB7be8i3VJ/UxmZ34hlnVsV3VbO6FZeLtv+nAgETB9fv0/8lXXnFxYF/v
+         /zSdjkhMWBGe4m52eJUFrEj3nosD+dzeAy5f3bKo=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        sakari.ailus@iki.fi, Rob Herring <robh+dt@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v10.1 3/4] dt-bindings: media: i2c: Add bindings for IMI RDACM2x
+Date:   Wed, 15 Jul 2020 10:43:41 +0100
+Message-Id: <20200715094341.4123896-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200612144713.502006-4-kieran.bingham+renesas@ideasonboard.com>
+References: <20200612144713.502006-4-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200714143124.GG3278063@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 14.07.20 um 16:31 schrieb Daniel Vetter:
-> On Tue, Jul 14, 2020 at 01:40:11PM +0200, Christian König wrote:
->> Am 14.07.20 um 12:49 schrieb Daniel Vetter:
->>> On Tue, Jul 07, 2020 at 10:12:23PM +0200, Daniel Vetter wrote:
->>>> My dma-fence lockdep annotations caught an inversion because we
->>>> allocate memory where we really shouldn't:
->>>>
->>>> 	kmem_cache_alloc+0x2b/0x6d0
->>>> 	amdgpu_fence_emit+0x30/0x330 [amdgpu]
->>>> 	amdgpu_ib_schedule+0x306/0x550 [amdgpu]
->>>> 	amdgpu_job_run+0x10f/0x260 [amdgpu]
->>>> 	drm_sched_main+0x1b9/0x490 [gpu_sched]
->>>> 	kthread+0x12e/0x150
->>>>
->>>> Trouble right now is that lockdep only validates against GFP_FS, which
->>>> would be good enough for shrinkers. But for mmu_notifiers we actually
->>>> need !GFP_ATOMIC, since they can be called from any page laundering,
->>>> even if GFP_NOFS or GFP_NOIO are set.
->>>>
->>>> I guess we should improve the lockdep annotations for
->>>> fs_reclaim_acquire/release.
->>>>
->>>> Ofc real fix is to properly preallocate this fence and stuff it into
->>>> the amdgpu job structure. But GFP_ATOMIC gets the lockdep splat out of
->>>> the way.
->>>>
->>>> v2: Two more allocations in scheduler paths.
->>>>
->>>> Frist one:
->>>>
->>>> 	__kmalloc+0x58/0x720
->>>> 	amdgpu_vmid_grab+0x100/0xca0 [amdgpu]
->>>> 	amdgpu_job_dependency+0xf9/0x120 [amdgpu]
->>>> 	drm_sched_entity_pop_job+0x3f/0x440 [gpu_sched]
->>>> 	drm_sched_main+0xf9/0x490 [gpu_sched]
->>>>
->>>> Second one:
->>>>
->>>> 	kmem_cache_alloc+0x2b/0x6d0
->>>> 	amdgpu_sync_fence+0x7e/0x110 [amdgpu]
->>>> 	amdgpu_vmid_grab+0x86b/0xca0 [amdgpu]
->>>> 	amdgpu_job_dependency+0xf9/0x120 [amdgpu]
->>>> 	drm_sched_entity_pop_job+0x3f/0x440 [gpu_sched]
->>>> 	drm_sched_main+0xf9/0x490 [gpu_sched]
->>>>
->>>> Cc: linux-media@vger.kernel.org
->>>> Cc: linaro-mm-sig@lists.linaro.org
->>>> Cc: linux-rdma@vger.kernel.org
->>>> Cc: amd-gfx@lists.freedesktop.org
->>>> Cc: intel-gfx@lists.freedesktop.org
->>>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
->>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>> Has anyone from amd side started looking into how to fix this properly?
->> Yeah I checked both and neither are any real problem.
-> I'm confused ... do you mean "no real problem fixing them" or "not
-> actually a real problem"?
+From: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Both, at least the VMID stuff is trivial to avoid.
+The IMI RDACM20 and IMI RDACM21 are Gigabit Multimedia Serial Link
+(GMSL) camera capable of transmitting video and I2C control messages on
+a coax cable physical link for automotive applications.
 
-And the fence allocation is extremely unlikely. E.g. when we allocate a 
-new one we previously most likely just freed one already.
+Document their device tree bindings.
 
->
->>> I looked a bit into fixing this with mempool, and the big guarantee we
->>> need is that
->>> - there's a hard upper limit on how many allocations we minimally need to
->>>     guarantee forward progress. And the entire vmid allocation and
->>>     amdgpu_sync_fence stuff kinda makes me question that's a valid
->>>     assumption.
->> We do have hard upper limits for those.
->>
->> The VMID allocation could as well just return the fence instead of putting
->> it into the sync object IIRC. So that just needs some cleanup and can avoid
->> the allocation entirely.
-> Yeah embedding should be simplest solution of all.
->
->> The hardware fence is limited by the number of submissions we can have
->> concurrently on the ring buffers, so also not a problem at all.
-> Ok that sounds good. Wrt releasing the memory again, is that also done
-> without any of the allocation-side locks held? I've seen some vmid manager
-> somewhere ...
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+v2:
+ - Provide imi vendor prefix
+ - Fix minor spelling
 
-Well that's the issue. We can't guarantee that for the hardware fence 
-memory since it could be that we hold another reference during debugging 
-IIRC.
+v3:
+ - update binding descriptions
 
-Still looking if and how we could fix this. But as I said this problem 
-is so extremely unlikely.
+v4:
+ - No change
 
-Christian.
+v5:
+ - Specify optional third reg address for the MCU
 
-> -Daniel
->
->> Regards,
->> Christian.
->>
->>> - mempool_free must be called without any locks in the way which are held
->>>     while we call mempool_alloc. Otherwise we again have a nice deadlock
->>>     with no forward progress. I tried auditing that, but got lost in amdgpu
->>>     and scheduler code. Some lockdep annotations for mempool.c might help,
->>>     but they're not going to catch everything. Plus it would be again manual
->>>     annotations because this is yet another cross-release issue. So not sure
->>>     that helps at all.
->>>
->>> iow, not sure what to do here. Ideas?
->>>
->>> Cheers, Daniel
->>>
->>>> ---
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 2 +-
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c   | 2 +-
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c  | 2 +-
->>>>    3 files changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> index 8d84975885cd..a089a827fdfe 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> @@ -143,7 +143,7 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f,
->>>>    	uint32_t seq;
->>>>    	int r;
->>>> -	fence = kmem_cache_alloc(amdgpu_fence_slab, GFP_KERNEL);
->>>> +	fence = kmem_cache_alloc(amdgpu_fence_slab, GFP_ATOMIC);
->>>>    	if (fence == NULL)
->>>>    		return -ENOMEM;
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
->>>> index 267fa45ddb66..a333ca2d4ddd 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
->>>> @@ -208,7 +208,7 @@ static int amdgpu_vmid_grab_idle(struct amdgpu_vm *vm,
->>>>    	if (ring->vmid_wait && !dma_fence_is_signaled(ring->vmid_wait))
->>>>    		return amdgpu_sync_fence(sync, ring->vmid_wait);
->>>> -	fences = kmalloc_array(sizeof(void *), id_mgr->num_ids, GFP_KERNEL);
->>>> +	fences = kmalloc_array(sizeof(void *), id_mgr->num_ids, GFP_ATOMIC);
->>>>    	if (!fences)
->>>>    		return -ENOMEM;
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
->>>> index 8ea6c49529e7..af22b526cec9 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
->>>> @@ -160,7 +160,7 @@ int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f)
->>>>    	if (amdgpu_sync_add_later(sync, f))
->>>>    		return 0;
->>>> -	e = kmem_cache_alloc(amdgpu_sync_slab, GFP_KERNEL);
->>>> +	e = kmem_cache_alloc(amdgpu_sync_slab, GFP_ATOMIC);
->>>>    	if (!e)
->>>>    		return -ENOMEM;
->>>> -- 
->>>> 2.27.0
->>>>
+v7:
+ [Jacopo]
+ - Rename to imi,rdacm2x-gmsl.yaml
+ - Exand bindings to describe RDACM21
+
+v9:
+  [Jacopo]
+  - Rework 'compatible' property as suggested by Rob
+  - Re-order vendor prefixes ('g' comes before 'i' ... )
+  - Add Rob's tag
+
+v10.1:
+ [Kieran]
+  - Fix up the two examples 'reg' value for the i2c nodes.
+
+
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  | 159 ++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ 2 files changed, 161 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml b/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+new file mode 100644
+index 000000000000..5ad4b8c356cf
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+@@ -0,0 +1,159 @@
++# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
++# Copyright (C) 2019 Renesas Electronics Corp.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/imi,rdacm2x-gmsl.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title:  IMI D&D RDACM20 and RDACM21 Automotive Camera Platforms
++
++maintainers:
++  - Jacopo Mondi <jacopo+renesas@jmondi.org>
++  - Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
++  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
++  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
++
++description: -|
++  The IMI D&D RDACM20 and RDACM21 are GMSL-compatible camera designed for
++  automotive applications.
++
++  The RDACM20 camera module encloses a Maxim Integrated MAX9271 GMSL serializer,
++  coupled with an OV10635 image sensor and an embedded MCU. Both the MCU and
++  the image sensor are connected to the serializer local I2C bus and are
++  accessible by the host SoC by direct addressing.
++
++  The RDACM21 camera module encloses the same serializer, coupled with an
++  OV10640 image sensor and an OV490 ISP. Only the OV490 ISP is interfaced to
++  the serializer local I2C bus while the image sensor is not accessible from
++  the host SoC.
++
++  They both connect to a remote GMSL endpoint through a coaxial cable.
++
++                                                   IMI RDACM20
++  +---------------+                        +--------------------------------+
++  |      GMSL     |   <- Video Stream      |       <- Video--------\        |
++  |               |< === GMSL Link ====== >|MAX9271<- I2C bus-> <-->OV10635 |
++  | de-serializer |   <- I2C messages ->   |                   \<-->MCU     |
++  +---------------+                        +--------------------------------+
++
++                                                   IMI RDACM21
++  +---------------+                        +--------------------------------+
++  |      GMSL     |   <- Video Stream      |       <- Video--------\        |
++  |               |< === GMSL Link ====== >|MAX9271<- I2C bus-> <-->OV490   |
++  |               |   <- I2C messages ->   |                          |     |
++  | de-serializer |                        |          OV10640 <-------|     |
++  +---------------+                        +--------------------------------+
++
++  Both camera modules serialize video data generated by the embedded camera
++  sensor on the GMSL serial channel to a remote GMSL de-serializer. They also
++  receive and transmit I2C messages encapsulated and transmitted on the GMSL
++  bidirectional control channel.
++
++  All I2C traffic received on the GMSL link not directed to the serializer is
++  propagated on the local I2C bus to the remote device there connected. All the
++  I2C traffic generated on the local I2C bus not directed to the serializer is
++  propagated to the remote de-serializer encapsulated in the GMSL control
++  channel.
++
++  The RDACM20 and RDACM21 DT node should be a direct child of the GMSL
++  deserializer's I2C bus corresponding to the GMSL link that the camera is
++  attached to.
++
++properties:
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  compatible:
++    enum:
++      - imi,rdacm20
++      - imi,rdacm21
++
++  reg:
++    description: -|
++      I2C device addresses, the first to be assigned to the serializer, the
++      following ones to be assigned to the remote devices.
++
++      For RDACM20 the second entry of the property is assigned to the
++      OV10635 image sensor and the optional third one to the embedded MCU.
++
++      For RDACM21 the second entry is assigned to the OV490 ISP and the optional
++      third one ignored.
++
++    minItems: 2
++    maxItems: 3
++
++  port:
++    type: object
++    additionalProperties: false
++    description: -|
++      Connection to the remote GMSL endpoint are modelled using the OF graph
++      bindings in accordance with the video interface bindings defined in
++      Documentation/devicetree/bindings/media/video-interfaces.txt.
++
++      The device node contains a single "port" child node with a single
++      "endpoint" sub-device.
++
++    properties:
++      endpoint:
++        type: object
++        additionalProperties: false
++
++        properties:
++          remote-endpoint:
++            description: -|
++              phandle to the remote GMSL endpoint sub-node in the remote node
++              port.
++            maxItems: 1
++
++        required:
++          - remote-endpoint
++
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - port
++
++examples:
++  - |
++    i2c@e66d8000 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      reg = <0 0xe66d8000>;
++
++      camera@31 {
++        compatible = "imi,rdacm20";
++        reg = <0x31>, <0x41>, <0x51>;
++
++        port {
++          rdacm20_out0: endpoint {
++            remote-endpoint = <&max9286_in0>;
++          };
++        };
++      };
++    };
++
++  - |
++    i2c@e66d8000 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      reg = <0 0xe66d8000>;
++
++      camera@31 {
++        compatible = "imi,rdacm21";
++        reg = <0x31>, <0x41>;
++
++        port {
++          rdacm21_out0: endpoint {
++            remote-endpoint = <&max9286_in0>;
++          };
++        };
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 9aeab66be85f..8261ede298f8 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -469,6 +469,8 @@ patternProperties:
+     description: ILI Technology Corporation (ILITEK)
+   "^img,.*":
+     description: Imagination Technologies Ltd.
++  "^imi,.*":
++    description: Integrated Micro-Electronics Inc.
+   "^incircuit,.*":
+     description: In-Circuit GmbH
+   "^inet-tek,.*":
+-- 
+2.25.1
 
