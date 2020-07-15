@@ -2,102 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABD0322012E
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 01:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74764220184
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2020 02:52:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbgGNX5e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jul 2020 19:57:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47384 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726472AbgGNX5d (ORCPT
+        id S1726788AbgGOAv7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jul 2020 20:51:59 -0400
+Received: from smtprelay0224.hostedemail.com ([216.40.44.224]:44132 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726356AbgGOAv6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jul 2020 19:57:33 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D17B71D;
-        Wed, 15 Jul 2020 01:57:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594771051;
-        bh=505PYOaKOPtxIkgSfLsWoYDZ4c4pYIGlrcD54+Ayto8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ajYc/TZc9lE55KX5vnNGC3EghFXg1qJW0EG6Ic+sPkWFVqGgDaYGUGP9VFFuCVCbR
-         KZY/V124cShD0rM+RtV+CTJhqfSXy5V9jTrOEHmQd+Lu/mGc3nv2Zb4OxT73j8MO5q
-         5S1/dDIN5400zBk5R3NcLyeoLvRr5IsgeUxOl+Qk=
-Date:   Wed, 15 Jul 2020 02:57:24 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     hyun.kwon@xilinx.com, mchehab@kernel.org, robh+dt@kernel.org,
-        michal.simek@xilinx.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: Xilinx video IP cores
-Message-ID: <20200714235724.GR5854@pendragon.ideasonboard.com>
-References: <20200705075524.22657-1-grandmaster@al2klimov.de>
+        Tue, 14 Jul 2020 20:51:58 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 8823718224D61;
+        Wed, 15 Jul 2020 00:51:57 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:4250:4321:5007:6117:7875:7903:10004:10400:10848:11026:11232:11658:11914:12043:12297:12555:12740:12760:12895:12986:13019:13069:13311:13357:13439:14093:14096:14097:14180:14181:14659:14721:21080:21433:21627:21939:21987:21990:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
+X-HE-Tag: plane42_08149f426ef5
+X-Filterd-Recvd-Size: 2039
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf10.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 15 Jul 2020 00:51:56 +0000 (UTC)
+Message-ID: <c3dc7c1dd56a3a677e6d72b05313b2a61962885e.camel@perches.com>
+Subject: Re: [PATCH 3/5] media/dvbdev.h: fix duplicated word in comment
+From:   Joe Perches <joe@perches.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Date:   Tue, 14 Jul 2020 17:51:55 -0700
+In-Reply-To: <20200714220553.20294-3-rdunlap@infradead.org>
+References: <20200714220553.20294-1-rdunlap@infradead.org>
+         <20200714220553.20294-3-rdunlap@infradead.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200705075524.22657-1-grandmaster@al2klimov.de>
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+On Tue, 2020-07-14 at 15:05 -0700, Randy Dunlap wrote:
+> Change the doubled word "the" in a comment to "to the".
 
-Thank you for the patch.
-
-The subject line should be
-
-dt-bindings: media: xilinx: Replace HTTP links with HTTPS ones
-
-On Sun, Jul 05, 2020 at 09:55:24AM +0200, Alexander A. Klimov wrote:
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
-> 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->           If both the HTTP and HTTPS versions
->           return 200 OK and serve the same content:
->             Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Will you get this patch merged as part of a bigger series, or do you
-expect us to take care of it ? In the latter case, if you agree with the
-subject line change, there's no need to resubmit, I can fix this when
-applying the patch.
-
+Hey 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
 > ---
->  Continuing my work started at 93431e0607e5.
-> 
->  If there are any URLs to be removed completely or at least not HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also https://lkml.org/lkml/2020/6/27/64
-> 
->  If there are any valid, but yet not changed URLs:
->  See https://lkml.org/lkml/2020/6/26/837
-> 
->  Documentation/devicetree/bindings/media/xilinx/video.txt | 2 +-
+>  include/media/dvbdev.h |    2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/xilinx/video.txt b/Documentation/devicetree/bindings/media/xilinx/video.txt
-> index 68ac210e688e..d0335ca0cd57 100644
-> --- a/Documentation/devicetree/bindings/media/xilinx/video.txt
-> +++ b/Documentation/devicetree/bindings/media/xilinx/video.txt
-> @@ -32,4 +32,4 @@ The following properties are common to all Xilinx video IP cores.
->    defaults to "mono".
->  
->  
-> -[UG934] http://www.xilinx.com/support/documentation/ip_documentation/axi_videoip/v1_0/ug934_axi_videoIP.pdf
-> +[UG934] https://www.xilinx.com/support/documentation/ip_documentation/axi_videoip/v1_0/ug934_axi_videoIP.pdf
+> --- linux-next-20200714.orig/include/media/dvbdev.h
+> +++ linux-next-20200714/include/media/dvbdev.h
+> @@ -385,7 +385,7 @@ struct i2c_client;
+>   * with dvb_module_probe() should use dvb_module_release() to unbind.
+>   *
+>   * Return:
+> - *	On success, return an &struct i2c_client, pointing the the bound
+> + *	On success, return an &struct i2c_client, pointing to the bound
 
--- 
-Regards,
+an &struct reads OK as text, but does not as rst/html
 
-Laurent Pinchart
+Perhaps this should be:
+
+   return the address of the bound &struct i2c_client device
+or
+   return a pointer to the bound &struct i2c_client device
+
+otherwise the html output is
+
+   Return
+
+   On success, return an struct i2c_client, pointing to the bound
+   I2C device. NULL otherwise.
+
+and there seem to be too many commas used as well.
+
+
+
