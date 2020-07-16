@@ -2,72 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9530222B96
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 21:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8360C222C27
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 21:48:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729376AbgGPTJi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 15:09:38 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:47021 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728400AbgGPTJh (ORCPT
+        id S1729148AbgGPTsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 15:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728907AbgGPTsw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 15:09:37 -0400
-Received: by mail-io1-f65.google.com with SMTP id a12so7171663ion.13;
-        Thu, 16 Jul 2020 12:09:37 -0700 (PDT)
+        Thu, 16 Jul 2020 15:48:52 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28138C061755
+        for <linux-media@vger.kernel.org>; Thu, 16 Jul 2020 12:48:52 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id f2so8284547wrp.7
+        for <linux-media@vger.kernel.org>; Thu, 16 Jul 2020 12:48:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=FRYxeepTb0TP6YcLvFj0xbIXmypJnh7IvJccHfBf3Kg=;
+        b=LBaLOyGwYbyqCfd/Hs3e4Est3dc2QMT64FYK+MCObdAIaaBcYAgk3nmOqGfxa0i64b
+         Z4V/LyvAFZ0nbQSjyvUo48haJb+kssPTjfPKx5Ib3cCN+yAgemQovlWbJtpugF5ikj3F
+         fwuQGTASQIOQXIbek1+vCreUKpKME24U0QueEPH6zKebzqdRS/31/SUXjlwxb/ZS+8Tr
+         m55lrtSynP7L5TD/fzLcPTXkZdahJXPcCLt5puZvQMW3Rzdu8YIkEMjt+ZmvoTfm5ciG
+         wfUetQu25nfR2niywxWRDw4rpi736guklRLWU4nSsI0Icui2W1MXSmdBN+c9GHWT6jCh
+         7dnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WmN0I5jfW0bngGda6eqXsjReLWui8Z/KXRe8dH1gHbE=;
-        b=NtfI65fjrYZsp7P9PHJeVhmj8r5K40inEZuyuSLng/sKCa/y1Xybxe+ehi7tkDwpjl
-         FIFMWE2hGZqnYKQXaJcn4f3ul/HhU3g6Va3yzg2wj5bvUvJHY06JjB2LqYdrOSxZla+i
-         ARK+/cbw2fV0HpXclzXJWinAe0gbZTX8tZ/R071CzJ0273iMMKTVX6idFaJtNE8pwYFU
-         tE4immoRqq1pzFGWS2eD4JzerR+3iYkpcmd++tzMDD5W4WibPcCQG2q4eOKlfUA/sLJe
-         WsDky73fdGuwZq50QsJcFKdUBjAElRbKQgJfiqsFzSkZjCyI+OHNVV5iGyfi1WOjTwr3
-         vBZw==
-X-Gm-Message-State: AOAM5333BGxIljnVq1oOeeLcbBeZ1W+vrZ3QYOGLMGbpVD9itap10eK/
-        HWxwjl3zV2ux8Cuv5CscGQ==
-X-Google-Smtp-Source: ABdhPJz170yVZyP5HHq8yZ4vT1JgTt7Qg8B1Oju34HwKnwbZ5cGMadOJBmV9Tpy+Dj0KutJq5I1K3A==
-X-Received: by 2002:a6b:8b11:: with SMTP id n17mr5857639iod.155.1594926576428;
-        Thu, 16 Jul 2020 12:09:36 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id o64sm3126510ilb.12.2020.07.16.12.09.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 12:09:35 -0700 (PDT)
-Received: (nullmailer pid 2680082 invoked by uid 1000);
-        Thu, 16 Jul 2020 19:09:34 -0000
-Date:   Thu, 16 Jul 2020 13:09:34 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     digetx@gmail.com, frankc@nvidia.com, hverkuil@xs4all.nl,
-        gregkh@linuxfoundation.org, sboyd@kernel.org, sakari.ailus@iki.fi,
-        devicetree@vger.kernel.org, helen.koike@collabora.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-        robh+dt@kernel.org
-Subject: Re: [RFC PATCH v3 11/18] dt-bindings: tegra: Update VI and CSI
- bindings with port info
-Message-ID: <20200716190934.GA2680032@bogus>
-References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
- <1594786855-26506-12-git-send-email-skomatineni@nvidia.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FRYxeepTb0TP6YcLvFj0xbIXmypJnh7IvJccHfBf3Kg=;
+        b=g2HdM+tw6FNccMuVFJPaYJ36o/fjYt18hx4SUAbQzFmeWr1SWj7IXVeXk6Y5Uy1cxS
+         7f66yZV93yrlnZOOzAwvdhDavmxp4bydCtmzX/uFoE9oZaIXScF/Q3zhIbcvt7+TBwoF
+         YwM1RPzVXInQUUl05gf11raXHKJLNkzZdtpimarLgM2mf49R2vouOjltz7sZZmc2WPPD
+         bnXhhuRLWtGKtpXfrvpjqGX//D/6oSz2azC3ZfxoLqBLBSCYlSTBzwrIDyn2ksAqFYcg
+         XWxIp8BBQ2E4vF9qKj5vpixJ2dRglgQmGUTruJlvoS9oDySy31tavkbZZHPij9mMpJqb
+         yO8w==
+X-Gm-Message-State: AOAM530YwDrCxjFtPrwkWlKUxmAlyCPdoqydRPtMGfgOKlx1Kisrs/v3
+        0uUszkVvi0fvNtVuvuHFAb8=
+X-Google-Smtp-Source: ABdhPJynX5WFM7etJYA9gkaZOinMDFr3+31i05r0WUo8mZfn/wy081LfV4WJ3Z4L9dXZYXct+VqU+Q==
+X-Received: by 2002:adf:e48f:: with SMTP id i15mr6096964wrm.327.1594928930911;
+        Thu, 16 Jul 2020 12:48:50 -0700 (PDT)
+Received: from ?IPv6:2a02:810a:8340:5198:8cf9:3ad0:4ffa:db8f? ([2a02:810a:8340:5198:8cf9:3ad0:4ffa:db8f])
+        by smtp.gmail.com with ESMTPSA id y16sm10628008wro.71.2020.07.16.12.48.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jul 2020 12:48:48 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] Add support for meson building
+To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
+        Xavier Claessens <xavier.claessens@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        nicolas@ndufresne.ca,
+        nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
+ <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
+ <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
+ <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
+ <20200619144229.GD5823@pendragon.ideasonboard.com>
+ <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
+ <93bf1b72-0108-1dfa-22b4-f2194660129c@googlemail.com>
+ <0d3450f0-8883-e094-3c1b-d8f93c2e4833@googlemail.com>
+ <1586973f-5f69-fed0-4ad8-266cdd8e818b@vanguardiasur.com.ar>
+ <f4c5552e-c639-8e71-968e-1cd8fe5152cb@vanguardiasur.com.ar>
+ <6f598f9e-cb1b-2dd4-6a95-efe0895da0dc@googlemail.com>
+ <0d9bd469-d23d-cef0-9e69-ea0b57e3f3b8@vanguardiasur.com.ar>
+From:   Gregor Jasny <gjasny@googlemail.com>
+Message-ID: <d7f4925b-07ee-fe6a-e865-ca5985145dc3@googlemail.com>
+Date:   Thu, 16 Jul 2020 21:48:47 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1594786855-26506-12-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <0d9bd469-d23d-cef0-9e69-ea0b57e3f3b8@vanguardiasur.com.ar>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 14 Jul 2020 21:20:48 -0700, Sowjanya Komatineni wrote:
-> Update VI and CSI bindings to add port and endpoint nodes as per
-> media video-interfaces DT binding document.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  .../display/tegra/nvidia,tegra20-host1x.txt        | 92 +++++++++++++++++++++-
->  1 file changed, 90 insertions(+), 2 deletions(-)
-> 
+Hello,
 
-Acked-by: Rob Herring <robh@kernel.org>
+On 7/8/20 7:48 AM, Ariel D'Alessandro wrote:
+> I've pushed meson Doxygen support to:
+>      https://gitlab.com/adalessandro/v4l-utils/-/tree/v4l-utils-1.20.0-meson-v1
+> 
+> The following options were added, supporting html and man.
+> 
+>      # Doxygen options
+>      option('doxygen-doc', type : 'feature', value : 'auto',
+>             description : 'Generate doxygen project documentation')
+>      option('doxygen-html', type : 'boolean',
+>             description : 'Generate doxygen plain HTML documentation')
+>      option('doxygen-man', type : 'boolean', value : false,
+>             description : 'Generate doxygen manual pages')
+> 
+> So, you should get html and man documentation using:
+> 
+>      CONFIGURE_FLAGS += -Ddoxygen-doc=enabled -Ddoxygen-man=enabled
+> 
+> Note that documentation will be installed to:
+> 
+>      doxygen_install_dir = join_paths(get_option('datadir'), 'doc',
+>                                       '@0@-@1@'.format(meson.project_name(),
+>                                                        as_version))
+> 
+> Using default values, that'd be: /usr/local/share/doc/v4l-utils-1.20.0/
+
+I changed the code above to omit the version and now I have working 
+Debian packages. I need to test the packages on a real Linux Desktop but 
+that will have to wait until I can re-enter our offices.
+
+Acked-by: Gregor Jasny <gjasny@googlemail.com>
+
+Thanks,
+Gregor
