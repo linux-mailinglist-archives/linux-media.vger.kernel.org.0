@@ -2,146 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BC01222E01
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 23:33:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 623FE222EB9
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 01:10:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbgGPVdM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 17:33:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56826 "EHLO
+        id S1727978AbgGPXJU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 19:09:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbgGPVdL (ORCPT
+        with ESMTP id S1727924AbgGPXJS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 17:33:11 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B115C061755;
-        Thu, 16 Jul 2020 14:33:11 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id f139so13196567wmf.5;
-        Thu, 16 Jul 2020 14:33:11 -0700 (PDT)
+        Thu, 16 Jul 2020 19:09:18 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AA04C08C5C0;
+        Thu, 16 Jul 2020 15:15:32 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id r19so10094181ljn.12;
+        Thu, 16 Jul 2020 15:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=jVRCxAU1h8uuMP5tlk5Q3qw+CDViJUj6+cwcmkFoV2I=;
-        b=m2OYpSajgIdqjKm9kQG8kvxpt0MuknTil2/DXtr3coNClLWwVDowL4oW+qaM1nPeEQ
-         tdKEGdYGp+qtPT15R2/PG4xjaIlSn3zzelPRoUwurVJQvHplOJ+nvOpzuKV6TQppv46b
-         rHzDsX0tPxfrUVbXV9HZlESUPIFEuHknSIimxf8z0PLKPD9ZGeqZlyujR8Y8XUW5Hdzm
-         1GhZEJxeYK+uMiYtJUngU81CpTJwWMlKst5ZzS9O6H3RssbleNq4FHvbxUpsn/lweUVz
-         rk6iykT4jlf3Fftfw0bQ3eBAU3IrE8145Jm4ZVCycNSN/2p3p+CjhdRW0HF2towyYiem
-         Y0ww==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eAwIkPyGRUgApnVYvVLaSdADuY78qMkOmqrSvqmkl20=;
+        b=LAQbNh7NmT/gFhimUxyw5ZGRQQPFka8kfWkWZ/13Zs0jGlt8g7n/YREo/Ej5h5gREy
+         mZNdEeOQxOaWfYMMJPIMIh65ZZoWo7tnaE9IxEdUZWcuhaojWDzKAprj8408srQcws1S
+         qbcvFagW4PQe0uGjn9UHZjfKHMITcMv2EKkwAGGo88l8SIP8dCzGsS2EmRQ0i0Oci/vt
+         Hrkko6GsjXZubG//UV1cPygmiAVRq+wdhtAwBjfcyAb1vFKriQchzlKlOGnxmfHeCPn0
+         3E69kmT0cdyApfYm352XihN/jTSKXSlpcUsoCOo8CFjAxCGfnCIrMgfOAW/ADCEL1RcC
+         sMlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=jVRCxAU1h8uuMP5tlk5Q3qw+CDViJUj6+cwcmkFoV2I=;
-        b=JTpuB2sTB+hDVtVAIltMORi2FFqcBHAyKvL9KM2ZS1wP6WwSviHn2XU+LAxKtxoIKx
-         IbANQkA45TCRB/MfnvRHMwH3/qvdIMidGLeIQ+NXT2twqvPatmvdLbX44pluF14JfBsO
-         8eKPwLYyFD4aYILTxrc/Nx7BoYlBofEyGZTOeEKIJZZZ0lWA0f9L9cc2WHxLISrnH2RZ
-         kgX16PM9vI+kzGL7u/ecbJGjlOc6ZL0dydKpOKYGTqbsTgKveBkLgVeEaoBKbSdRcLeh
-         hViZHzwfeKJ1o86tA56XTtZ7bMH3SVSqi/nNpqJf1lD01cCzQGtI790WLYdLZAtMMBo3
-         WHUg==
-X-Gm-Message-State: AOAM530GfUpAxALGECaHR1vAAmu7Ou7XFFuUe/m7UyuRdGjTBpI3KDeo
-        +BjjfqGvNd6qjrsM8JjGkI6eNutgrw==
-X-Google-Smtp-Source: ABdhPJzyU+1bToje+Yv8U/cWOGO3OKW1Aeh17ICpPtjpRkx2p87s8HuYdnwNug4TFPuzHzsS5CZc0Q==
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr6420782wmi.83.1594935189465;
-        Thu, 16 Jul 2020 14:33:09 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:810b:f40:e00:922b:34ff:fe38:6455])
-        by smtp.googlemail.com with ESMTPSA id v11sm7444825wmb.3.2020.07.16.14.33.08
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eAwIkPyGRUgApnVYvVLaSdADuY78qMkOmqrSvqmkl20=;
+        b=fQ9VN+t/G0lg16Tff6Dqwm2MwDtd+3nohnkCrr870LE3n/pBu3sJ6FjO9gjBlJkLHi
+         OkqWwaZoTSL1UhJmnKmyuWI2tPBRlEx1eW62f2e1BizV9AMg+nHQUTM4HcnEpW5QUfn0
+         n+FkxReU4u1/YSA3yNjVMM4I+M07LRSL2xU1xUi/L+M/G51zwWw4nJsIRiXgXHKZdVDU
+         hnqCMppJjJg4ElWCZg95nVzrw7sQcILo+VGe+TMxLEzRrP76xHIKQzWY3cavKxqVMeD1
+         ght/cggbIqXsraNGAmeLdZZ2ABH2QUV06n0EBnNE/KOr+b7Q0EiDu3YuYbmJ355KdD7p
+         p0ww==
+X-Gm-Message-State: AOAM530FtP8Fu1aS6aRXCcnq/8/aY/IiRUv65dot71GcgonA4Y3xzN3i
+        8Cqn3ujmerPpC2n6Dit3mY4=
+X-Google-Smtp-Source: ABdhPJxZvNPGfpO07YopV8dSHfqBMO8bb1OJ3xLYJKxNAyXnhy7QbpQmHA95ZZqu+EeeVzu+uB1xbw==
+X-Received: by 2002:a2e:87d9:: with SMTP id v25mr2773239ljj.53.1594937730746;
+        Thu, 16 Jul 2020 15:15:30 -0700 (PDT)
+Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
+        by smtp.gmail.com with ESMTPSA id 190sm1295476ljf.38.2020.07.16.15.15.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 14:33:08 -0700 (PDT)
-From:   Alex Bee <knaerzche@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Alex Bee <knaerzche@gmail.com>, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH] media: dvb_usb_pctv452e: use ISL6423 voltage regulator per default
-Date:   Thu, 16 Jul 2020 23:33:03 +0200
-Message-Id: <20200716213303.20044-1-knaerzche@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 16 Jul 2020 15:15:29 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, robert.jarzmik@free.fr,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [PATCH v7 01/10] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+Date:   Fri, 17 Jul 2020 00:15:27 +0200
+Message-ID: <4042930.ejJDZkT8p0@z50>
+In-Reply-To: <20200716142713.110655-2-jacopo+renesas@jmondi.org>
+References: <20200716142713.110655-1-jacopo+renesas@jmondi.org> <20200716142713.110655-2-jacopo+renesas@jmondi.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Both TT-connect S2-3600 and Pinnacle PCTV Sat HDTV are using
-Intersil ISL6423 as LNB voltage regulator. This makes
-TT-connect S2-3650 CI the only device which uses STM LNBP22 regulator
-which is currently used for all devices driven by pctv452e driver.
+Hi Jacopo,
 
-This patch fixes this by creating an exception for TT-connect S2-3650 CI
-to continue to use STM LNBP22 while all others now using correct ISL6423
-driver which makes DiSEqC/EN50494 comands which involve voltage changes
-now working on the other devices (which didn't work before).
+On Thursday, July 16, 2020 4:27:04 P.M. CEST Jacopo Mondi wrote:
+> Introduce two new pad operations to allow retrieving and configuring the
+> media bus parameters on a subdevice pad.
+> 
+> The newly introduced operations aims to replace the s/g_mbus_config video
+> operations, which have been on their way for deprecation since a long
+> time.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  include/media/v4l2-subdev.h | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index f7fe78a6f65a..d8b9d5735307 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -670,6 +670,29 @@ struct v4l2_subdev_pad_config {
+>   *
+>   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+>   *                  may be adjusted by the subdev driver to device capabilities.
+> + *
+> + * @get_mbus_config: get the media bus configuration of a remote sub-device.
+> + *		     The media bus configuration is usually retrieved from the
+> + *		     firmware interface at sub-device probe time, immediately
+> + *		     applied to the hardware and eventually adjusted by the
+> + *		     driver. Remote sub-devices (usually video receivers) shall
+> + *		     use this operation to query the transmitting end bus
+> + *		     configuration in order to adjust their own one accordingly.
+> + *		     Callers should make sure they get the most up-to-date as
+> + *		     possible configuration from the remote end, likely calling
+> + *		     this operation as close as possible to stream on time. The
+> + *		     operation shall fail if the pad index it has been called on
+> + *		     is not valid.
+> + *
+> + * @set_mbus_config: set the media bus configuration of a remote sub-device.
+> + *		     This operations is intended to allow, in combination with
+> + *		     the get_mbus_config operation, the negotiation of media bus
+> + *		     configuration parameters between media sub-devices. The
+> + *		     operation shall not fail if the requested configuration is
+> + *		     not supported, but the driver shall update the content of
+> + *		     the %config argument to reflect what has been actually
+> + *		     applied to the hardware. The operation shall fail if the
+> + *		     pad index it has been called on is not valid.
 
-Signed-off-by: Alex Bee <knaerzche@gmail.com>
----
- drivers/media/usb/dvb-usb/Kconfig    |  1 +
- drivers/media/usb/dvb-usb/pctv452e.c | 24 ++++++++++++++++++++----
- 2 files changed, 21 insertions(+), 4 deletions(-)
+Could this description also clarify what results are expected in case of 
+hardware errors?  The ov6650 implementation you propose may suggest such
+errors may be expected to be ignored silently as long as current configuration 
+can be successfully obtained from hardware and passed back to the caller.
 
-diff --git a/drivers/media/usb/dvb-usb/Kconfig b/drivers/media/usb/dvb-usb/Kconfig
-index 25ba03edcb5c..7498110142e4 100644
---- a/drivers/media/usb/dvb-usb/Kconfig
-+++ b/drivers/media/usb/dvb-usb/Kconfig
-@@ -279,6 +279,7 @@ config DVB_USB_PCTV452E
- 	tristate "Pinnacle PCTV HDTV Pro USB device/TT Connect S2-3600"
- 	depends on DVB_USB
- 	select TTPCI_EEPROM
-+	select DVB_ISL6423 if MEDIA_SUBDRV_AUTOSELECT
- 	select DVB_LNBP22 if MEDIA_SUBDRV_AUTOSELECT
- 	select DVB_STB0899 if MEDIA_SUBDRV_AUTOSELECT
- 	select DVB_STB6100 if MEDIA_SUBDRV_AUTOSELECT
-diff --git a/drivers/media/usb/dvb-usb/pctv452e.c b/drivers/media/usb/dvb-usb/pctv452e.c
-index 441d878fc22c..4b13c1f35b28 100644
---- a/drivers/media/usb/dvb-usb/pctv452e.c
-+++ b/drivers/media/usb/dvb-usb/pctv452e.c
-@@ -20,6 +20,7 @@
- #include "stb6100.h"
- #include "stb6100_cfg.h"
- /* FE Power */
-+#include "isl6423.h"
- #include "lnbp22.h"
- 
- #include <media/dvb_ca_en50221.h>
-@@ -83,6 +84,13 @@ static struct stb0899_postproc pctv45e_postproc[] = {
- 	{ 0, 0 }
- };
- 
-+static struct isl6423_config pctv452e_isl6423_config = {
-+	.current_max		= SEC_CURRENT_515m,
-+	.curlim			= SEC_CURRENT_LIM_ON,
-+	.mod_extern		= 1,
-+	.addr			= 0x08,
-+};
-+
- /*
-  * stores all private variables for communication with the PCTV452e DVB-S2
-  */
-@@ -909,15 +917,23 @@ static int pctv452e_frontend_attach(struct dvb_usb_adapter *a)
- 						&a->dev->i2c_adap);
- 	if (!a->fe_adap[0].fe)
- 		return -ENODEV;
--	if ((dvb_attach(lnbp22_attach, a->fe_adap[0].fe,
--					&a->dev->i2c_adap)) == NULL)
--		err("Cannot attach lnbp22\n");
- 
- 	id = a->dev->desc->warm_ids[0];
- 	if (USB_VID_TECHNOTREND == id->idVendor
--	    && USB_PID_TECHNOTREND_CONNECT_S2_3650_CI == id->idProduct)
-+	    && USB_PID_TECHNOTREND_CONNECT_S2_3650_CI == id->idProduct) {
-+		if (dvb_attach(lnbp22_attach,
-+			       a->fe_adap[0].fe,
-+			       &a->dev->i2c_adap) == NULL) {
-+			err("Cannot attach lnbp22\n");
-+		}
- 		/* Error ignored. */
- 		tt3650_ci_init(a);
-+	} else if (dvb_attach(isl6423_attach,
-+			      a->fe_adap[0].fe,
-+			      &a->dev->i2c_adap,
-+			      &pctv452e_isl6423_config) == NULL) {
-+		err("Cannot attach isl6423\n");
-+	}
- 
- 	return 0;
- }
--- 
-2.17.1
+Moreover, since validity of the pad argument is expected to be verified, I 
+think this should be handled by the media infrastructure layer with the 
+drivers/media/v4l2-core/v4l2-subdev.c:check_pad() helper called from a 
+.set_mbus_config() wrapper added to v4l2_subdev_call_pad_wrappers, freeing 
+drivers from reimplementing it.
+
+Thanks,
+Janusz
+
+>   */
+>  struct v4l2_subdev_pad_ops {
+>  	int (*init_cfg)(struct v4l2_subdev *sd,
+> @@ -710,6 +733,10 @@ struct v4l2_subdev_pad_ops {
+>  			      struct v4l2_mbus_frame_desc *fd);
+>  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+>  			      struct v4l2_mbus_frame_desc *fd);
+> +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> +			       struct v4l2_mbus_config *config);
+> +	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> +			       struct v4l2_mbus_config *config);
+>  };
+>  
+>  /**
+> 
+
+
+
 
