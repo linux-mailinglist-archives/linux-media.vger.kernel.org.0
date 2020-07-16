@@ -2,386 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B941221CF6
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 09:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ECC9221D42
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 09:25:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728126AbgGPHCq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 03:02:46 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:49821 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725921AbgGPHCq (ORCPT
+        id S1728251AbgGPHXW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 03:23:22 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:39157 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726069AbgGPHXW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 03:02:46 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id EC4ACFF812;
-        Thu, 16 Jul 2020 07:02:39 +0000 (UTC)
-Date:   Thu, 16 Jul 2020 09:06:16 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/8] dt-bindings: media: ov5640: Convert to json-schema
-Message-ID: <20200716070616.opo44fdaibwdbh6c@uno.localdomain>
-References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
- <20200715140951.90753-2-jacopo+renesas@jmondi.org>
- <8cb2a9a5-149e-54fb-4ce5-e7bf5d35ef03@gmail.com>
+        Thu, 16 Jul 2020 03:23:22 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id vyEcjTVy0yPEdvyEgj3GW2; Thu, 16 Jul 2020 09:23:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594884199; bh=VSXAybE9aorsGhHWcD4kPLlmmss3u6qmIv6iB6zxOuw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=eEpd37B6zIN93WW+VPbMQ65FzbCxnCS9oCwJgQxdURnEMvHrQftmKUkyZXUrFBMqJ
+         KVkaycysoknaY86Aj+krfkW3fCUTtXTKWib7coOH/4rmYwdEvA4DFlTTeY5J0sjpdw
+         +hbxl+xEGH0zFo3W2uieDNuGLBFTr87p7vp6u4Z/1XZHCLBr3Bhv5xy+ERCNa6EY8j
+         vynrBfoEvinr8n2wm+737OeD00uiyTz3QtQvd4OBJkrjZiVZaAPHlXoo3ycko/RHQn
+         79x/9CKLTk5i7OIzFyqjrd2sP/LEgMp9slM4xPlUzIH2wyEdCE/2da8PEEc2CBkdL6
+         /Q8oN3AkuLx5g==
+Subject: Re: [PATCH 02/10] media: uapi: h264: Further clarify scaling lists
+ order
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+References: <20200715202233.185680-1-ezequiel@collabora.com>
+ <20200715202233.185680-3-ezequiel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <bfb5d0df-779f-78d2-fc48-3c6056f5fdd3@xs4all.nl>
+Date:   Thu, 16 Jul 2020 09:23:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200715202233.185680-3-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8cb2a9a5-149e-54fb-4ce5-e7bf5d35ef03@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfImMhQ7c+BIsZ9AqMnePPQ/AN5ldCv/cinMIdByxFnEhoK5ohC0mMuhrKNMvYEhs5lHor2olkGMhT8MkOEh0z1wsu+aCLpqcr8y+5EToYgRDDRvMRCrF
+ bux0cEc1KTIcXF9D5bSeUrVsT5yKrZzh4kN1+yp+Dl7/NZ9mwqMKTZr+UkMIkcPnGNucILOeBVws+6rOrUEIg/tx9nzs4XbZPDFnTe9KOKZLRg2kSD6g/BZr
+ oIqlPOZgJDF72FqixedYcW1D/A0RaI8FwDoS0zcxVs0ZwxRpn2WCkaS0hxv0KeXsN3oeS1Ey6d4IfGxiX8/6adVf9O3fOiV69kuZA1/PKFOSRgTR5wjPBw2F
+ PRvcjSMQBq9N2gNGL0meVLe2wwt1go92kSiKan19DNioRXxZPAOcE86cwxiLN98NWfPcfZJsIAbVulu8R5YJuwsgYZWt0PVkt6C2ih+sqhwLmne0wf/2iGnY
+ 5G4g9ooZQWLYqMwg9HsmNcZ5GT87ohIzpMvx8ITZlnJhFoO/+vEZnV6gaqfyaGsiL0hfEuweU8GZD0PGR4USTclb+OAg7enbl+Wa3A==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steve,
+On 15/07/2020 22:22, Ezequiel Garcia wrote:
+> Commit 0b0393d59eb4a ("media: uapi: h264: clarify
+> expected scaling_list_4x4/8x8 order") improved the
+> documentation on H264 scaling lists order.
+> 
+> This commit improves the documentation by clarifying
+> that the lists themselves are expected in matrix order.
 
-On Wed, Jul 15, 2020 at 10:04:04AM -0700, Steve Longerbeam wrote:
-> Hi Jacopo,
->
-> On 7/15/20 7:09 AM, Jacopo Mondi wrote:
-> > Convert the ov5640 bindings document to json-schema and update
-> > the MAINTAINERS file accordingly.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> > Hi Steve,
-> >    I've added myself as maintainer in the bindings, with your ack
-> > I would be happy to add myself as maintainer or reviewer for this driver
-> > in MAINTAINERS, as I've recently been looking after this driver, mostly
-> > for the MIPI CSI-2 interface part.
->
-> Sure that's fine, I have not been involved in this driver at all, except for
-> the initial commit. I don't think I should be listed as a MAINTAINER of this
-> driver or its bindings either, so feel free to remove my name from both.
->
+"matrix order" is not a well defined term. Especially since different
+programming languages lay out matrices differently (e.g. fortran uses
+column-major order). Perhaps something like this is more unambiguous:
 
-I was suggesting adding myself to the list of maintainers/reviewer,
-not replacing you :) Hope that's not what you intended.
+"The values on each scaling list are in row-major order."
 
-But in case you don't want to be bothered with this rather old driver
-anymore, I could drop your name from there.
+BTW, why not be explicit and use:
 
-Thanks
-  j
+__u8 scaling_list_4x4[6][4][4];
+__u8 scaling_list_8x8[6][8][8];
 
-> Steve
->
-> >
-> > Thanks
-> >    j
-> >
-> > ---
-> >   .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
-> >   .../devicetree/bindings/media/i2c/ov5640.yaml | 181 ++++++++++++++++++
-> >   MAINTAINERS                                   |   1 +
-> >   3 files changed, 182 insertions(+), 92 deletions(-)
-> >   delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
-> >   create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.txt b/Documentation/devicetree/bindings/media/i2c/ov5640.txt
-> > deleted file mode 100644
-> > index c97c2f2da12d..000000000000
-> > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.txt
-> > +++ /dev/null
-> > @@ -1,92 +0,0 @@
-> > -* Omnivision OV5640 MIPI CSI-2 / parallel sensor
-> > -
-> > -Required Properties:
-> > -- compatible: should be "ovti,ov5640"
-> > -- clocks: reference to the xclk input clock.
-> > -- clock-names: should be "xclk".
-> > -- DOVDD-supply: Digital I/O voltage supply, 1.8 volts
-> > -- AVDD-supply: Analog voltage supply, 2.8 volts
-> > -- DVDD-supply: Digital core voltage supply, 1.5 volts
-> > -
-> > -Optional Properties:
-> > -- reset-gpios: reference to the GPIO connected to the reset pin, if any.
-> > -	       This is an active low signal to the OV5640.
-> > -- powerdown-gpios: reference to the GPIO connected to the powerdown pin,
-> > -		   if any. This is an active high signal to the OV5640.
-> > -- rotation: as defined in
-> > -	    Documentation/devicetree/bindings/media/video-interfaces.txt,
-> > -	    valid values are 0 (sensor mounted upright) and 180 (sensor
-> > -	    mounted upside down).
-> > -
-> > -The device node must contain one 'port' child node for its digital output
-> > -video port, in accordance with the video interface bindings defined in
-> > -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > -
-> > -OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
-> > -
-> > -Endpoint node required properties for CSI-2 connection are:
-> > -- remote-endpoint: a phandle to the bus receiver's endpoint node.
-> > -- clock-lanes: should be set to <0> (clock lane on hardware lane 0)
-> > -- data-lanes: should be set to <1> or <1 2> (one or two CSI-2 lanes supported)
-> > -
-> > -Endpoint node required properties for parallel connection are:
-> > -- remote-endpoint: a phandle to the bus receiver's endpoint node.
-> > -- bus-width: shall be set to <8> for 8 bits parallel bus
-> > -	     or <10> for 10 bits parallel bus
-> > -- data-shift: shall be set to <2> for 8 bits parallel bus
-> > -	      (lines 9:2 are used) or <0> for 10 bits parallel bus
-> > -- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
-> > -- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
-> > -- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
-> > -	       signal.
-> > -
-> > -Examples:
-> > -
-> > -&i2c1 {
-> > -	ov5640: camera@3c {
-> > -		compatible = "ovti,ov5640";
-> > -		pinctrl-names = "default";
-> > -		pinctrl-0 = <&pinctrl_ov5640>;
-> > -		reg = <0x3c>;
-> > -		clocks = <&clks IMX6QDL_CLK_CKO>;
-> > -		clock-names = "xclk";
-> > -		DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-> > -		AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-> > -		DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-> > -		powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-> > -		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-> > -		rotation = <180>;
-> > -
-> > -		port {
-> > -			/* MIPI CSI-2 bus endpoint */
-> > -			ov5640_to_mipi_csi2: endpoint {
-> > -				remote-endpoint = <&mipi_csi2_from_ov5640>;
-> > -				clock-lanes = <0>;
-> > -				data-lanes = <1 2>;
-> > -			};
-> > -		};
-> > -	};
-> > -};
-> > -
-> > -&i2c1 {
-> > -	ov5640: camera@3c {
-> > -		compatible = "ovti,ov5640";
-> > -		pinctrl-names = "default";
-> > -		pinctrl-0 = <&pinctrl_ov5640>;
-> > -		reg = <0x3c>;
-> > -		clocks = <&clk_ext_camera>;
-> > -		clock-names = "xclk";
-> > -
-> > -		port {
-> > -			/* Parallel bus endpoint */
-> > -			ov5640_to_parallel: endpoint {
-> > -				remote-endpoint = <&parallel_from_ov5640>;
-> > -				bus-width = <8>;
-> > -				data-shift = <2>; /* lines 9:2 are used */
-> > -				hsync-active = <0>;
-> > -				vsync-active = <0>;
-> > -				pclk-sample = <1>;
-> > -			};
-> > -		};
-> > -	};
-> > -};
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> > new file mode 100644
-> > index 000000000000..9c32262a3621
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> > @@ -0,0 +1,181 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/ov5640.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Omnivision OV5640 MIPI CSI-2 / parallel sensor
-> > +
-> > +maintainers:
-> > +  - Steve Longerbeam <slongerbeam@gmail.com>
-> > +  - Jacopo Mondi <jacopo@jmondi.org>
-> > +
-> > +description: -|
-> > +  OV5640 is a 5 megapixels image sensor capable of producing images in RBG, RAW,
-> > +  YUV and compressed formats. It features a MIPI CSI-2 and a parallel data
-> > +  interface and an I2C-compatible (CCI) control interface.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: ovti,ov5640
-> > +
-> > +  reg:
-> > +    description: I2C device address
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    description: Reference to the xclk input clock.
-> > +    maxItems: 1
-> > +
-> > +  clock-names:
-> > +    description: Should be "xclk".
-> > +    maxItems: 1
-> > +
-> > +  DOVDD-supply:
-> > +    description: Digital I/O voltage supply, 1.8 volts.
-> > +    maxItems: 1
-> > +
-> > +  AVDD-supply:
-> > +    description: Analog voltage supply, 2.8 volts.
-> > +    maxItems: 1
-> > +
-> > +  DVDD-supply:
-> > +    description: Digital core voltage supply.
-> > +    maxItems: 1
-> > +
-> > +  reset-gpios:
-> > +    description: |
-> > +      Reference to the GPIO connected to the reset pin, if any. This is an
-> > +      active low signal to the OV5640.
-> > +    maxItems: 1
-> > +
-> > +  powerdown-gpios:
-> > +    description: |
-> > +      Reference tot he GPIO connected to the powerdown pin, if any. This is an
-> > +      active high signal to the OV5640.
-> > +    maxItems: 1
-> > +
-> > +  rotation:
-> > +    description: |
-> > +      As defined in Documentation/devicetree/bindings/media/video-interfaces.txt,
-> > +      valid values are 0 (sensor mounted upright) and 180 (sensor mounted upside
-> > +      down).
-> > +
-> > +  port:
-> > +    type: object
-> > +    description: |
-> > +      The device node must contain one 'port' child node for its digital output
-> > +      video port, in accordance with the video interface bindings defined in
-> > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > +
-> > +      OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +        properties:
-> > +          remote-endpoint:
-> > +            description: A phandle to the bus receiver's endpoint node.
-> > +
-> > +          clock-lanes:
-> > +            description: Should be set to 0 (clock lane on hardware lane 0).
-> > +
-> > +          data-lanes:
-> > +            description: |
-> > +              Should be set to <1> or <1 2> (one or two CSI-2 lanes supported).
-> > +
-> > +          bus-width:
-> > +            description: |
-> > +              Shall be set to <8> for 8 bits parallel bus or <10> for 10 bits
-> > +              parallel bus.
-> > +
-> > +          data-shift:
-> > +            description: |
-> > +              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
-> > +              <0> for 10 bits parallel bus.
-> > +
-> > +          hsync-active:
-> > +            description: |
-> > +              Active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
-> > +
-> > +          vsync-active:
-> > +            description: |
-> > +              Active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
-> > +
-> > +          pclk-sample:
-> > +            description: |
-> > +              Sample data on rising (1) or falling (0) edge of the pixel clock
-> > +              signal.
-> > +
-> > +        required:
-> > +          - remote-endpoint
-> > +
-> > +    additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - DOVDD-supply
-> > +  - AVDD-supply
-> > +  - DVDD-supply
-> > +  - port
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/clock/imx6qdl-clock.h>
-> > +
-> > +    i2c0 {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        camera@3c {
-> > +            compatible = "ovti,ov5640";
-> > +            reg = <0x3c>;
-> > +            clocks = <&clks IMX6QDL_CLK_CKO>;
-> > +            clock-names = "xclk";
-> > +            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-> > +            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-> > +            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-> > +            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-> > +            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-> > +            rotation = <180>;
-> > +
-> > +            port {
-> > +                ov5640_to_mipi_csi2: endpoint {
-> > +                    remote-endpoint = <&mipi_csi2_from_ov5640>;
-> > +                    clock-lanes = <0>;
-> > +                    data-lanes = <1 2>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +    i2c1 {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        camera@3c {
-> > +            compatible = "ovti,ov5640";
-> > +            reg = <0x3c>;
-> > +            clocks = <&clks IMX6QDL_CLK_CKO>;
-> > +            clock-names = "xclk";
-> > +            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-> > +            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-> > +            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-> > +            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-> > +            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-> > +            rotation = <180>;
-> > +
-> > +            port {
-> > +                ov5640_to_parallel: endpoint {
-> > +                    remote-endpoint = <&parallel_from_ov5640>;
-> > +                    bus-width = <8>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index c74d25c58e1a..0160d7567ed3 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -12605,6 +12605,7 @@ L:	linux-media@vger.kernel.org
-> >   S:	Maintained
-> >   T:	git git://linuxtv.org/media_tree.git
-> >   F:	drivers/media/i2c/ov5640.c
-> > +F:	Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> >
-> >   OMNIVISION OV5647 SENSOR DRIVER
-> >   M:	Jacopo Mondi <jacopo@jmondi.org>
-> > --
-> > 2.27.0
-> >
->
+That makes it explicit and the order is just that of what the C language
+uses.
+
+Regards,
+
+	Hans
+
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index c2e17c02f77e..16bfc98ab2f6 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -1725,12 +1725,14 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+>        - ``scaling_list_4x4[6][16]``
+>        - Scaling matrix after applying the inverse scanning process.
+>          Expected list order is Intra Y, Intra Cb, Intra Cr, Inter Y,
+> -        Inter Cb, Inter Cr.
+> +        Inter Cb, Inter Cr. The values on each scaling list are
+> +        expected in matrix order.
+>      * - __u8
+>        - ``scaling_list_8x8[6][64]``
+>        - Scaling matrix after applying the inverse scanning process.
+>          Expected list order is Intra Y, Inter Y, Intra Cb, Inter Cb,
+> -        Intra Cr, Inter Cr.
+> +        Intra Cr, Inter Cr. The values on each scaling list are
+> +        expected in matrix order.
+>  
+>  ``V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS (struct)``
+>      Specifies the slice parameters (as extracted from the bitstream)
+> 
+
