@@ -2,71 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9AA6221CEE
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 09:01:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B941221CF6
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 09:04:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728196AbgGPHBD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 03:01:03 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:38427 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726069AbgGPHBD (ORCPT
+        id S1728126AbgGPHCq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 03:02:46 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:49821 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725921AbgGPHCq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 03:01:03 -0400
+        Thu, 16 Jul 2020 03:02:46 -0400
+X-Originating-IP: 93.34.118.233
 Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id B3B6424000D;
-        Thu, 16 Jul 2020 07:00:56 +0000 (UTC)
-Date:   Thu, 16 Jul 2020 09:04:33 +0200
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id EC4ACFF812;
+        Thu, 16 Jul 2020 07:02:39 +0000 (UTC)
+Date:   Thu, 16 Jul 2020 09:06:16 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
         devicetree@vger.kernel.org, linux-media@vger.kernel.org,
         mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH 1/8] dt-bindings: media: ov5640: Convert to json-schema
-Message-ID: <20200716070433.242zj5qnfnokody4@uno.localdomain>
+Message-ID: <20200716070616.opo44fdaibwdbh6c@uno.localdomain>
 References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
  <20200715140951.90753-2-jacopo+renesas@jmondi.org>
- <20200716015323.GQ6144@pendragon.ideasonboard.com>
+ <8cb2a9a5-149e-54fb-4ce5-e7bf5d35ef03@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200716015323.GQ6144@pendragon.ideasonboard.com>
+In-Reply-To: <8cb2a9a5-149e-54fb-4ce5-e7bf5d35ef03@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Steve,
 
-On Thu, Jul 16, 2020 at 04:53:23AM +0300, Laurent Pinchart wrote:
+On Wed, Jul 15, 2020 at 10:04:04AM -0700, Steve Longerbeam wrote:
 > Hi Jacopo,
 >
-> Thank you for the patch.
->
-> On Wed, Jul 15, 2020 at 04:09:44PM +0200, Jacopo Mondi wrote:
+> On 7/15/20 7:09 AM, Jacopo Mondi wrote:
 > > Convert the ov5640 bindings document to json-schema and update
 > > the MAINTAINERS file accordingly.
 > >
 > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > > ---
 > > Hi Steve,
-> >   I've added myself as maintainer in the bindings, with your ack
+> >    I've added myself as maintainer in the bindings, with your ack
 > > I would be happy to add myself as maintainer or reviewer for this driver
 > > in MAINTAINERS, as I've recently been looking after this driver, mostly
 > > for the MIPI CSI-2 interface part.
+>
+> Sure that's fine, I have not been involved in this driver at all, except for
+> the initial commit. I don't think I should be listed as a MAINTAINER of this
+> driver or its bindings either, so feel free to remove my name from both.
+>
+
+I was suggesting adding myself to the list of maintainers/reviewer,
+not replacing you :) Hope that's not what you intended.
+
+But in case you don't want to be bothered with this rather old driver
+anymore, I could drop your name from there.
+
+Thanks
+  j
+
+> Steve
+>
 > >
 > > Thanks
-> >   j
+> >    j
 > >
 > > ---
-> >  .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
-> >  .../devicetree/bindings/media/i2c/ov5640.yaml | 181 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  3 files changed, 182 insertions(+), 92 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> >   .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
+> >   .../devicetree/bindings/media/i2c/ov5640.yaml | 181 ++++++++++++++++++
+> >   MAINTAINERS                                   |   1 +
+> >   3 files changed, 182 insertions(+), 92 deletions(-)
+> >   delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> >   create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.yaml
 > >
 > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.txt b/Documentation/devicetree/bindings/media/i2c/ov5640.txt
 > > deleted file mode 100644
@@ -186,13 +202,6 @@ On Thu, Jul 16, 2020 at 04:53:23AM +0300, Laurent Pinchart wrote:
 > > +
 > > +description: -|
 > > +  OV5640 is a 5 megapixels image sensor capable of producing images in RBG, RAW,
->
-> s/OV5640/The OV5640/
-> s/RBG/RGB/
->
-
-Ups, will fix
-
 > > +  YUV and compressed formats. It features a MIPI CSI-2 and a parallel data
 > > +  interface and an I2C-compatible (CCI) control interface.
 > > +
@@ -206,21 +215,10 @@ Ups, will fix
 > > +
 > > +  clocks:
 > > +    description: Reference to the xclk input clock.
->
-> I'd drop this, it's implied by the clock-names
->
 > > +    maxItems: 1
 > > +
 > > +  clock-names:
 > > +    description: Should be "xclk".
->
-> This should be replaced with
->
->    const: xclk
->
-
-Ack for both
-
 > > +    maxItems: 1
 > > +
 > > +  DOVDD-supply:
@@ -252,19 +250,6 @@ Ack for both
 > > +      As defined in Documentation/devicetree/bindings/media/video-interfaces.txt,
 > > +      valid values are 0 (sensor mounted upright) and 180 (sensor mounted upside
 > > +      down).
->
-> The second sentence should be replaced with
->   enum:
->     - 0
->     - 180
->
-
-I copied this from the existing bindings, but I was a bit skeptical in
-first place. Support being limited to 0 and 180 only is a driver
-implementation constraint, there's nothing that prevents you from
-mounting the sensor 90deg rotated. Should the supported values be
-mentioned in the bindings at all for this property ?
-
 > > +
 > > +  port:
 > > +    type: object
@@ -284,91 +269,6 @@ mentioned in the bindings at all for this property ?
 > > +
 > > +          clock-lanes:
 > > +            description: Should be set to 0 (clock lane on hardware lane 0).
->
-> The description of most of these properties should also be replaced with
-> yaml schema rules. Ideally there should also be constraints that tell
-> which properties can be specified together. For instance here's the
-> corresponding rules from the MT9M114 DT binding (not upstream yet).
->
->   # See ../video-interfaces.txt for more details
->   port:
->     type: object
->     properties:
->       endpoint:
->         type: object
->         properties:
->           bus-type:
->             enum: [4, 5, 6]
-
-               ^ this
-
-Initially I considered switching on the bus type to be able to use an
-if construct like you shown below. But that would make the property
-mandatory, something that would break old DTB. Now, I used the word
-"break" and not "break compatibility" as the driver would still
-support old DTB, as it does not enforce that property being specified.
-But it would make old DTS invalid from a dt-schema validation point of
-view. Do we care about maintaining old DTS valid with new schema ?
-
->
->           clock-lanes:
->             items:
->               - const: 0
->
->           data-lanes:
->             items:
->               - const: 1
->
->           bus-width:
->             items:
->               - const: 8
->
->           hsync-active:
->             items:
->               - const: 1
->
->           vsync-active:
->             items:
->               - const: 1
->
->         required:
->           - bus-type
->
->         allOf:
->           - if:
->               properties:
->                 bus-type:
->                   const: 4
->             then:
->               properties:
->                 bus-width: false
->                 hsync-active: false
->                 vsync-active: false
->
->           - if:
->               properties:
->                 bus-type:
->                   const: 5
->             then:
->               properties:
->                 clock-lanes: false
->                 data-lanes: false
->
->           - if:
->               properties:
->                 bus-type:
->                   const: 6
->             then:
->               properties:
->                 clock-lanes: false
->                 data-lanes: false
->                 hsync-active: false
->                 vsync-active: false
->
->         unevaluatedProperties: false
->
-> These comments apply to other patches in this series.
->
 > > +
 > > +          data-lanes:
 > > +            description: |
@@ -383,12 +283,6 @@ view. Do we care about maintaining old DTS valid with new schema ?
 > > +            description: |
 > > +              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
 > > +              <0> for 10 bits parallel bus.
-
-All of these 'supported values' should be expressed with a schema, I agree.
-
-Thanks
-  j
-
 > > +
 > > +          hsync-active:
 > > +            description: |
@@ -480,15 +374,14 @@ Thanks
 > > --- a/MAINTAINERS
 > > +++ b/MAINTAINERS
 > > @@ -12605,6 +12605,7 @@ L:	linux-media@vger.kernel.org
-> >  S:	Maintained
-> >  T:	git git://linuxtv.org/media_tree.git
-> >  F:	drivers/media/i2c/ov5640.c
+> >   S:	Maintained
+> >   T:	git git://linuxtv.org/media_tree.git
+> >   F:	drivers/media/i2c/ov5640.c
 > > +F:	Documentation/devicetree/bindings/media/i2c/ov5640.yaml
 > >
-> >  OMNIVISION OV5647 SENSOR DRIVER
-> >  M:	Jacopo Mondi <jacopo@jmondi.org>
+> >   OMNIVISION OV5647 SENSOR DRIVER
+> >   M:	Jacopo Mondi <jacopo@jmondi.org>
+> > --
+> > 2.27.0
+> >
 >
-> --
-> Regards,
->
-> Laurent Pinchart
