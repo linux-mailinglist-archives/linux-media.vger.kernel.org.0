@@ -2,139 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DE7F222F4F
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 01:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95098222F5C
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 01:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbgGPXpO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 19:45:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49120 "EHLO
+        id S1726141AbgGPXr5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 19:47:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbgGPXpN (ORCPT
+        with ESMTP id S1725933AbgGPXr4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 19:45:13 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92107C061755
-        for <linux-media@vger.kernel.org>; Thu, 16 Jul 2020 16:45:13 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id 1so4460021pfn.9
-        for <linux-media@vger.kernel.org>; Thu, 16 Jul 2020 16:45:13 -0700 (PDT)
+        Thu, 16 Jul 2020 19:47:56 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F53C061755;
+        Thu, 16 Jul 2020 16:47:56 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id i80so4948852lfi.13;
+        Thu, 16 Jul 2020 16:47:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7HMps4EVe5QouaH170Ni6vFF1hKv4OVRQ58+hvK869s=;
-        b=a5rn2ThYvk32OHonppZRgr0gWChDuOIPVBbDLQ1uQhEBEWduMAs8sxC7Wtn5610Kwf
-         BciU3PiM4HVbTqEi+YdL05OTqTb7BhYaltbnoIY1SK98AUoRxrJlxTW7LgrHy8yaaFzg
-         wHc8SukhPm1z3uRr1c6PYMn6oqqCyyOOZztVtJfyLTr/Rw9rWqSwpZ1q30JamSf1DvS4
-         cK+9L1/ntRGxVe4zJRnol1izTRhavFA1NySWDPzwZ39usxUlrRmIR0YXRyolCBGhoqhD
-         myQZ6X+dn2KLMSc73YoDPqwaaCFslzde3FXdY5+5qBfVbX8WlFGpZY3zk9f4aIRfvls5
-         3E3Q==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=A1jn6c7kFJPkQon2SVOTVHBfqbqTtwTIfeuqRURf4Ug=;
+        b=PKfOr/DZLkDBdJpo4cehHWUJ3UzAwunBUGjeH54n1BEgrMmkKvXW6t8Uaa75NEkVIi
+         eXt5QJa5YKtqbb6dWts5NZNafBl7/DaaVAh+R+VSwXNmIRuWPjLylhxWYhIdOvvb4SEZ
+         Vi0B9Fa9UlO82BDQzgrqib3v/iyn333Y0Ha7SlwiWSXQdkV2DwzreZ7quH+FmXx8ZqWV
+         ViyT4luwEyp2XUiupKhNsEtKIWcg2TciioRQJGGdGUJZFl+VPCRVsO1i4Q4RIfwEbUmw
+         DeO9ZATWn8TwGHaFwSINclBe5qEKPLOMZwBepEw8Y7nVZIbjRpDvItrMaq/kCWnYkhos
+         /rwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7HMps4EVe5QouaH170Ni6vFF1hKv4OVRQ58+hvK869s=;
-        b=q8XZUkvyG2F4D++0C7+6iUxNIoEWr5XFi8DPpGiKPkm7g9PqrgxVYiGfbdtva4yHTm
-         4/VvsPPRFfemog6LJBla+1s4wJCNP4eWVIvTT2o1vEmoEjP71zXHOlCAQrGY6ntBUcRq
-         uv2cHxbvbGSx5XU1LNtRgaErVC/S9eA+eG+6ANjZhIoNddIyBqB4N+GfLYy1sAjNqrdk
-         MLmAF29ISTNWd2+yw/FznYZQZvBLnQAPlaMoJz/UJbTAQR8n5Kd/K9gxLK0Ae9oVSnuk
-         vsEch9Jr3cuJ58aEOsOCdD8wrQvHJTlECKEYa44PC309btsonAl7k0+VxxfboaBgSfwk
-         FenQ==
-X-Gm-Message-State: AOAM5311m0LBSQyM5cV/xqWKUCttjMSPdUjPQzBC3cBpOJkhOqIGOx4R
-        3zLxsMtxaX6dVS7fzouftBHe9g==
-X-Google-Smtp-Source: ABdhPJwmfESAulSis3weUqV/31ICtbnWJSbR9MqBo6uiZUCmpXjfWM5F052GbpZ/gabM+1BDHHe16A==
-X-Received: by 2002:a65:4786:: with SMTP id e6mr6275744pgs.258.1594943113069;
-        Thu, 16 Jul 2020 16:45:13 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id o8sm5752304pgb.23.2020.07.16.16.45.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 16:45:12 -0700 (PDT)
-Date:   Thu, 16 Jul 2020 16:43:10 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Rajendra Nayak <rnayak@codeaurora.org>
-Cc:     stanimir.varbanov@linaro.org, robh+dt@kernel.org,
-        agross@kernel.org, linux-arm-msm@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=A1jn6c7kFJPkQon2SVOTVHBfqbqTtwTIfeuqRURf4Ug=;
+        b=o9tH3c86hHSIrK4H/dke0gcszXqWAEnHIiA5pVA7Upfev7aSGhAx90qAeDyvsGtOoV
+         WNFuuYj/N3W5ue/ZLedNJWKnYy1bgBLwNi3RFQvWtZVADaBSEICu61eV5IzJmqZpyRXd
+         0K2zZFl/e+BqGEVyQM0loQ3GSx3JTPfMIvaeNERDHQEi8moTTX3NOQoP48WlaIfqekRy
+         SwxJCRjHAQTwFT9vR0Q3oAW9xgTGCZHibxmAPrTe59fbheF96boViIy+Ubs/6zkzvPWt
+         7mJOiZ+VaK6J1sYTQy46FwCieZXQDvMEteyh/dwCmirAqtZgk46WgmPeGElWfvt12m28
+         /2KQ==
+X-Gm-Message-State: AOAM533XHaflqYVCR8tlS/9oS+bPrKSjnevWVu/eFzqcowlt2J1k1OIg
+        AkJrZhOAJYo1xhgpNUfSJMU4rmra
+X-Google-Smtp-Source: ABdhPJxPXRlZnIakzEq9kDotxPaAbFxj5XNB36qCPTk2TdYQ/jB+VGMj7ZWGuPNBjUj/HtViFD5hAg==
+X-Received: by 2002:a19:c797:: with SMTP id x145mr3283492lff.143.1594943274284;
+        Thu, 16 Jul 2020 16:47:54 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
+        by smtp.googlemail.com with ESMTPSA id k6sm1482260lfm.89.2020.07.16.16.47.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jul 2020 16:47:53 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 16/18] gpu: host1x: mipi: Split
+ tegra_mipi_calibrate and tegra_mipi_wait
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mka@chromium.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: media: venus: Add an optional power
- domain for perf voting
-Message-ID: <20200716234310.GH1218486@builder.lan>
-References: <1594878139-3402-1-git-send-email-rnayak@codeaurora.org>
- <1594878139-3402-2-git-send-email-rnayak@codeaurora.org>
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <1594786855-26506-17-git-send-email-skomatineni@nvidia.com>
+ <a06dec8f-7042-767b-545b-048685a7683d@gmail.com>
+ <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
+ <c4945c77-5de1-e9b1-9f4f-cdd78bca18c7@gmail.com>
+ <ce0c5ffb-f859-0eab-1ea5-044623dff221@nvidia.com>
+ <a2b8169c-c4a3-4862-cd27-8c1a51ddc558@gmail.com>
+ <4690e682-8495-2327-87c7-c2f06a7a479d@nvidia.com>
+ <66812127-38cf-2af3-51c0-50edbe446e73@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <9b4fbf9d-d651-aa35-c0a6-b8f16aeb0900@gmail.com>
+Date:   Fri, 17 Jul 2020 02:47:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1594878139-3402-2-git-send-email-rnayak@codeaurora.org>
+In-Reply-To: <66812127-38cf-2af3-51c0-50edbe446e73@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed 15 Jul 22:42 PDT 2020, Rajendra Nayak wrote:
-
-> Add an optional power domain which when specified can be used for
-> setting the performance state of Venus.
+17.07.2020 02:09, Sowjanya Komatineni пишет:
 > 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> ---
-> This is a resend of https://lore.kernel.org/patchwork/patch/1241077/
+> On 7/16/20 4:06 PM, Sowjanya Komatineni wrote:
+>>
+>> On 7/16/20 4:01 PM, Dmitry Osipenko wrote:
+>>> 17.07.2020 01:49, Sowjanya Komatineni пишет:
+>>>>> What keeps MIPI clock enabled after completion of the
+>>>>> tegra_mipi_calibrate() invocation?
+>>>> MIPI clock is disabled at end of tegra_mipi_calibrate and is re-enabled
+>>>> during tegra_mipi_wait.
+>>>>
+>>>> I think I should fix this to keep the clock enabled till calibration
+>>>> results are latched.
+>>>>
+>>>> All consumers of tegra_mipi_calibrate() will call tegra_mipi_wait().
+>>>>
+>>>> So will remove clk_disable mipi clk at end of tegra_mipi_calibrate()
+>>>> and
+>>>> clk_enable mipi_clk at beginning of tegra_mipi_wait()
+>>> Isn't it possible to perform the calibration after enabling CSI and
+>>> before of starting the sensor streaming?
+>> Currently this is what I am doing. Triggering calibration start during
+>> CSI receiver being ready and then sensor streaming will happen where
+>> internal MIPI CAL detects for LP -> HS transition and applies results
+>> to pads. So checking for calibration results after sensor stream is
+>> enabled
 > 
->  Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml    | 6 +++++-
->  Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml | 6 +++++-
->  2 files changed, 10 insertions(+), 2 deletions(-)
+> 1. Calling tegra_mipi_calibrate() during CSI streaming where CSI pads
+> are enabled and receiver is kept ready
 > 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> index 55f2d67..1e8675b 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> @@ -25,12 +25,16 @@ properties:
->      maxItems: 1
->  
->    power-domains:
-> -    maxItems: 2
-> +    minItems: 2
-> +    maxItems: 3
->  
->    power-domain-names:
-> +    minItems: 2
-> +    maxItems: 3
->      items:
->        - const: venus
->        - const: vcodec0
-> +      - const: opp-pd
-
-In line with Rob's question, the "opp power-domain" seems like a
-software construct, wouldn't this be better named e.g. "cx"?
-
-Regards,
-Bjorn
-
->  
->    clocks:
->      maxItems: 5
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> index 157dff8..437286d 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> @@ -25,13 +25,17 @@ properties:
->      maxItems: 1
->  
->    power-domains:
-> -    maxItems: 3
-> +    minItems: 3
-> +    maxItems: 4
->  
->    power-domain-names:
-> +    minItems: 3
-> +    maxItems: 4
->      items:
->        - const: venus
->        - const: vcodec0
->        - const: vcodec1
-> +      - const: opp-pd
->  
->    clocks:
->      maxItems: 7
-> -- 
-> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-> of Code Aurora Forum, hosted by The Linux Foundation
+> 2. Start Sensor stream
 > 
+> 3. Calling tegra_mipi_wait() to check for MIPI Cal status.
+> 
+> So as mipi cal clk need to be kept enabled till 3rd step, we can enable
+> clock during tegra_mipi_calibrate() and leave it enabled and disable it
+> in tegra_mipi_wait after status check.
+
+From TRM:
+
+The following sequence is recommended for capturing a single frame:
+
+1. Set up CSI registers for use case such as number of lanes, virtual
+channel, etc.
+2. Initialize and power up CSI interface
+3. Wait for initialization time or done signal from calibration logic
+4. Power up camera through the I2C interface
+5. All CSI data and clock lanes are in stop state, LP11
+6. Initiate frame capture through the I2C
+7. Frame done, CSI goes back to stop state, LP11
+
+Hence, is it really necessary to perform the manual calibration?
