@@ -2,123 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DE52222C6D
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 21:59:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF97F222CB6
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 22:25:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729650AbgGPT7Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 15:59:16 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:41912 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728907AbgGPT7Q (ORCPT
+        id S1726057AbgGPUZX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 16:25:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725921AbgGPUZW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 15:59:16 -0400
-Received: by mail-il1-f194.google.com with SMTP id q3so6150669ilt.8;
-        Thu, 16 Jul 2020 12:59:15 -0700 (PDT)
+        Thu, 16 Jul 2020 16:25:22 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5285BC061755;
+        Thu, 16 Jul 2020 13:25:22 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id d17so9810950ljl.3;
+        Thu, 16 Jul 2020 13:25:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2B3j92dSMko8J2wSzj/MTkQ80Lgndi5SU2LXd/AvSxg=;
+        b=fKlGp8tNNQTRc2pZ/k7DJXl/e+y+EMOltfn0ctkc5TBjudSyx4+OmmzC1cPseIz5TZ
+         EhZ7SkVqtunfTCqDyTjnpz6enopRHyyFyicsv7j+SU1XozXwrLzP+j84rkTbX/9c5yag
+         rydqve0KDjL7dKEwcDpd7oSgHp+Ato4HPEAvlKdEJp63yTjr7a1wUlMCNrz5gRc/dz4x
+         2INFC8HTbOhvfnn7RMjv05K2XU/hrDQnPf1WHFo3IUn+hoRW3w23q+wrNabjbG+6zZ/H
+         SjLTz7a4dTsXazlzCfKd8IPqfa0/ZL/rt7Nt/RE3iqc6VFScfw5RosF/CBvwsshburFx
+         7zig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FL21avLY/Lnq90kgzzubqkTLnnlFhaGfUjSOp7X5A5k=;
-        b=AUmSjAz/saiZ21z4+vGf6TSgHXio+6z4DwnBRQiVOEwmEFkxQqtSBOXtZSB2z0Ja/t
-         kPCKTLnEzttyLYKsUQz8B0KqUpGJYfi9bob6bxScuj5WHaf/72xu2TFLh+3JWJKRGJRL
-         aakVZ2JhNsXCTopXWjtJrdOm47MplB8P03Wxjz4gNm0rlJzhMjLrFhtMksxZPQCvTUfG
-         ChaS43K8Sx8ckup2hYNslQYYYQSuhx81NXmgOaeQC3INyBdW9mBQtEB2QGV6wxkm+Lvd
-         7VD27qeFeAM/GJzR304giuusj473WpC+IWL02lQuBB3ipQlD59p/DGU8zQ8JbREQvnEu
-         VtPA==
-X-Gm-Message-State: AOAM532LrEjoe+IFMYsNIU6gpFnOrccK4VtNcJBCoEPcO8H9xyqykAP+
-        USdAKcdQGEtXe0NN01nq5A==
-X-Google-Smtp-Source: ABdhPJyk4T63EL//8HysjeLcqxJ6LMeSttLh3+63l5cd1Uk6GocVrUuD6UDDX+TUPYDRhXPwIQVuvA==
-X-Received: by 2002:a92:5f12:: with SMTP id t18mr6317395ilb.267.1594929554891;
-        Thu, 16 Jul 2020 12:59:14 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id a24sm3268789ioe.46.2020.07.16.12.59.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 12:59:14 -0700 (PDT)
-Received: (nullmailer pid 2747004 invoked by uid 1000);
-        Thu, 16 Jul 2020 19:59:13 -0000
-Date:   Thu, 16 Jul 2020 13:59:13 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Rajendra Nayak <rnayak@codeaurora.org>
-Cc:     stanimir.varbanov@linaro.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2B3j92dSMko8J2wSzj/MTkQ80Lgndi5SU2LXd/AvSxg=;
+        b=HXcHexAI6XI+zJ5SeO782Wwr1vCJ2LnwgfuEpwlubaEHYNQgmHzSYj14C0xRWNCvGN
+         L0GxIcohiFiZKyCjY8wkAlvkXkAAljhUCLBcXH8rTiAHzRyOsdyEjR8KriEwsBCrcgfx
+         JDWcKRH1EDkNAJ2fndmW1r/Oha+h1ZbsoASn7UquqilekY3qMAkAyX7Cc8bbqzYeIE4C
+         OuzwjKxgNVcG4RUGK8FMu0ybQSChSFGlv6Ay9aFuREPfEoHPmPyIWve7xaXRx6i5dEe6
+         Y2N2KYhq0LvSz1LHUwW55fL9CT5sClakkXeNDRrozp01vneisoyABE3UA3M8PiUpPBfd
+         f9cA==
+X-Gm-Message-State: AOAM530B2Ii4eybm7t8mhOLY6KoMC9gL/UjwYv3AVl6dCwylaRuJ7zLz
+        4Ot9MNfWYI1Dn71l547hTB8ixMj+
+X-Google-Smtp-Source: ABdhPJyy6GDksC2tHtwyAvGIf4mNUlDUF9P1X/kNsZoQJmE7dlwHaYHrNOQbrgaWGK4EiTSpdMRW7A==
+X-Received: by 2002:a2e:92d7:: with SMTP id k23mr2566872ljh.117.1594931120478;
+        Thu, 16 Jul 2020 13:25:20 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
+        by smtp.googlemail.com with ESMTPSA id j26sm1396678lfm.11.2020.07.16.13.25.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jul 2020 13:25:19 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 04/18] i2c: tegra: Remove NULL pointer check before
+ clk_enable/disable/prepare/unprepare
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mka@chromium.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: media: venus: Add an optional power
- domain for perf voting
-Message-ID: <20200716195913.GA2744252@bogus>
-References: <1594878139-3402-1-git-send-email-rnayak@codeaurora.org>
- <1594878139-3402-2-git-send-email-rnayak@codeaurora.org>
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <1594786855-26506-5-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <16e08405-8b71-e427-e675-6499e012a5b6@gmail.com>
+Date:   Thu, 16 Jul 2020 23:25:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1594878139-3402-2-git-send-email-rnayak@codeaurora.org>
+In-Reply-To: <1594786855-26506-5-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 11:12:16AM +0530, Rajendra Nayak wrote:
-> Add an optional power domain which when specified can be used for
-> setting the performance state of Venus.
-
-The h/w suddenly grew a new power island/domain? Seems like an abuse of 
-power-domains...
-
+15.07.2020 07:20, Sowjanya Komatineni пишет:
+> clk_enable, clk_disable, clk_prepare, and clk_unprepare APIs have
+> implementation for checking clk pointer not NULL and clock consumers
+> can safely call these APIs without NULL pointer check.
 > 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+> So, this patch cleans up Tegra i2c driver to remove explicit checks
+> before these APIs.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 > ---
-> This is a resend of https://lore.kernel.org/patchwork/patch/1241077/
-> 
->  Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml    | 6 +++++-
->  Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml | 6 +++++-
->  2 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> index 55f2d67..1e8675b 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> @@ -25,12 +25,16 @@ properties:
->      maxItems: 1
->  
->    power-domains:
-> -    maxItems: 2
-> +    minItems: 2
-> +    maxItems: 3
->  
->    power-domain-names:
-> +    minItems: 2
-> +    maxItems: 3
->      items:
->        - const: venus
->        - const: vcodec0
-> +      - const: opp-pd
->  
->    clocks:
->      maxItems: 5
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> index 157dff8..437286d 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> @@ -25,13 +25,17 @@ properties:
->      maxItems: 1
->  
->    power-domains:
-> -    maxItems: 3
-> +    minItems: 3
-> +    maxItems: 4
->  
->    power-domain-names:
-> +    minItems: 3
-> +    maxItems: 4
->      items:
->        - const: venus
->        - const: vcodec0
->        - const: vcodec1
-> +      - const: opp-pd
->  
->    clocks:
->      maxItems: 7
-> -- 
-> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-> of Code Aurora Forum, hosted by The Linux Foundation
-> 
+
+Thanks!
+
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
