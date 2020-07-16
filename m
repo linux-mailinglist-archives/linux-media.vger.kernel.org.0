@@ -2,97 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 364CE222F09
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 01:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DE7F222F4F
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 01:46:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726907AbgGPXcn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 19:32:43 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8508 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726337AbgGPXcm (ORCPT
+        id S1726393AbgGPXpO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 19:45:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49120 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbgGPXpN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 19:32:42 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f10e35f0000>; Thu, 16 Jul 2020 16:31:43 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 16 Jul 2020 16:32:42 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 16 Jul 2020 16:32:42 -0700
-Received: from [10.2.163.115] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Jul
- 2020 23:32:41 +0000
-Subject: Re: [PATCH v1 2/3] dt-bindings: media: imx274: Add optional xclk and
- supplies
-To:     Luca Ceresoli <luca@lucaceresoli.net>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <leonl@leopardimaging.com>, <robh+dt@kernel.org>,
-        <lgirdwood@gmail.com>, <broonie@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1594787096-26685-1-git-send-email-skomatineni@nvidia.com>
- <1594787096-26685-2-git-send-email-skomatineni@nvidia.com>
- <1df13fad-b5ce-3889-c240-3411e97598d2@lucaceresoli.net>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <ca9b3549-b39f-3110-671a-e856f4a7b2fa@nvidia.com>
-Date:   Thu, 16 Jul 2020 16:35:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 16 Jul 2020 19:45:13 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92107C061755
+        for <linux-media@vger.kernel.org>; Thu, 16 Jul 2020 16:45:13 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id 1so4460021pfn.9
+        for <linux-media@vger.kernel.org>; Thu, 16 Jul 2020 16:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7HMps4EVe5QouaH170Ni6vFF1hKv4OVRQ58+hvK869s=;
+        b=a5rn2ThYvk32OHonppZRgr0gWChDuOIPVBbDLQ1uQhEBEWduMAs8sxC7Wtn5610Kwf
+         BciU3PiM4HVbTqEi+YdL05OTqTb7BhYaltbnoIY1SK98AUoRxrJlxTW7LgrHy8yaaFzg
+         wHc8SukhPm1z3uRr1c6PYMn6oqqCyyOOZztVtJfyLTr/Rw9rWqSwpZ1q30JamSf1DvS4
+         cK+9L1/ntRGxVe4zJRnol1izTRhavFA1NySWDPzwZ39usxUlrRmIR0YXRyolCBGhoqhD
+         myQZ6X+dn2KLMSc73YoDPqwaaCFslzde3FXdY5+5qBfVbX8WlFGpZY3zk9f4aIRfvls5
+         3E3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7HMps4EVe5QouaH170Ni6vFF1hKv4OVRQ58+hvK869s=;
+        b=q8XZUkvyG2F4D++0C7+6iUxNIoEWr5XFi8DPpGiKPkm7g9PqrgxVYiGfbdtva4yHTm
+         4/VvsPPRFfemog6LJBla+1s4wJCNP4eWVIvTT2o1vEmoEjP71zXHOlCAQrGY6ntBUcRq
+         uv2cHxbvbGSx5XU1LNtRgaErVC/S9eA+eG+6ANjZhIoNddIyBqB4N+GfLYy1sAjNqrdk
+         MLmAF29ISTNWd2+yw/FznYZQZvBLnQAPlaMoJz/UJbTAQR8n5Kd/K9gxLK0Ae9oVSnuk
+         vsEch9Jr3cuJ58aEOsOCdD8wrQvHJTlECKEYa44PC309btsonAl7k0+VxxfboaBgSfwk
+         FenQ==
+X-Gm-Message-State: AOAM5311m0LBSQyM5cV/xqWKUCttjMSPdUjPQzBC3cBpOJkhOqIGOx4R
+        3zLxsMtxaX6dVS7fzouftBHe9g==
+X-Google-Smtp-Source: ABdhPJwmfESAulSis3weUqV/31ICtbnWJSbR9MqBo6uiZUCmpXjfWM5F052GbpZ/gabM+1BDHHe16A==
+X-Received: by 2002:a65:4786:: with SMTP id e6mr6275744pgs.258.1594943113069;
+        Thu, 16 Jul 2020 16:45:13 -0700 (PDT)
+Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id o8sm5752304pgb.23.2020.07.16.16.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2020 16:45:12 -0700 (PDT)
+Date:   Thu, 16 Jul 2020 16:43:10 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Rajendra Nayak <rnayak@codeaurora.org>
+Cc:     stanimir.varbanov@linaro.org, robh+dt@kernel.org,
+        agross@kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mka@chromium.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: venus: Add an optional power
+ domain for perf voting
+Message-ID: <20200716234310.GH1218486@builder.lan>
+References: <1594878139-3402-1-git-send-email-rnayak@codeaurora.org>
+ <1594878139-3402-2-git-send-email-rnayak@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <1df13fad-b5ce-3889-c240-3411e97598d2@lucaceresoli.net>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594942303; bh=8rkN9PIKLB59SMi7kKXMUgG6uZDZbV3+Fs2u5hpdvn4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=HCXnERf9E+rDQYx/GiVGq9zMh381sbqMKWS5iM+cFrNg7zeS1krCw2EhlvoirAQD6
-         CVp/w+fJvTxiRNgRJ6biK8hm9orIdYPHNNsDbBOdUZJjmwgYTi85Uk+8FtsAx3R74V
-         dSUPQ7S6p0CytUNGztEDXQg/UJb8dOlaOEqdEbjenhs4queB1x088eN3XttWRiSFHE
-         pI7wGBhaCXMlN0Z1tV6GtIBko1NkVVtT0TUgS+xdHJXo9oBPsUL2gpqsocPJs6ruwa
-         d9MoLoExreEsoK3Qew9A6VemEeYDPbQh1+3hHushCHMm0xcVZ8A7Bsg3GtIMN5m+qf
-         k3J23Udywwkjw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1594878139-3402-2-git-send-email-rnayak@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed 15 Jul 22:42 PDT 2020, Rajendra Nayak wrote:
 
-On 7/15/20 11:50 PM, Luca Ceresoli wrote:
-> Hi Sowjanya,
->
-> On 15/07/20 06:24, Sowjanya Komatineni wrote:
->> This patch adds IMX274 optional external clock input and voltage
->> supplies to device tree bindings.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   Documentation/devicetree/bindings/media/i2c/imx274.txt | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
->> index 80f2e89..ee427f5 100644
->> --- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
->> +++ b/Documentation/devicetree/bindings/media/i2c/imx274.txt
->> @@ -13,6 +13,11 @@ Required Properties:
->>   
->>   Optional Properties:
->>   - reset-gpios: Sensor reset GPIO
->> +- clocks: Reference to the xclk clock.
->> +- clock-names: Should be "xclk".
-> Not sure where the "xclk" name comes from, the datasheet I have calls
-> the pin "CKIN". Maybe using the same name as the datasheet is better?
->
-> Other than that looks good.
+> Add an optional power domain which when specified can be used for
+> setting the performance state of Venus.
+> 
+> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+> ---
+> This is a resend of https://lore.kernel.org/patchwork/patch/1241077/
+> 
+>  Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml    | 6 +++++-
+>  Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml | 6 +++++-
+>  2 files changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+> index 55f2d67..1e8675b 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+> @@ -25,12 +25,16 @@ properties:
+>      maxItems: 1
+>  
+>    power-domains:
+> -    maxItems: 2
+> +    minItems: 2
+> +    maxItems: 3
+>  
+>    power-domain-names:
+> +    minItems: 2
+> +    maxItems: 3
+>      items:
+>        - const: venus
+>        - const: vcodec0
+> +      - const: opp-pd
 
-Thanks Luca. Using xclk as its external clock to IMX274.
+In line with Rob's question, the "opp power-domain" seems like a
+software construct, wouldn't this be better named e.g. "cx"?
 
-Datasheet uses it as INCK. Will update in v2 to use "INCK" as referred 
-in its datasheet.
+Regards,
+Bjorn
 
+>  
+>    clocks:
+>      maxItems: 5
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+> index 157dff8..437286d 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+> @@ -25,13 +25,17 @@ properties:
+>      maxItems: 1
+>  
+>    power-domains:
+> -    maxItems: 3
+> +    minItems: 3
+> +    maxItems: 4
+>  
+>    power-domain-names:
+> +    minItems: 3
+> +    maxItems: 4
+>      items:
+>        - const: venus
+>        - const: vcodec0
+>        - const: vcodec1
+> +      - const: opp-pd
+>  
+>    clocks:
+>      maxItems: 7
+> -- 
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation
+> 
