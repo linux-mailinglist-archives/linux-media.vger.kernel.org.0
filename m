@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3D46222540
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 16:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63A66222543
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 16:26:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728562AbgGPOX7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 10:23:59 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:43885 "EHLO
+        id S1728617AbgGPOYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 10:24:02 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:36339 "EHLO
         relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728182AbgGPOX7 (ORCPT
+        with ESMTP id S1728182AbgGPOYB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 10:23:59 -0400
+        Thu, 16 Jul 2020 10:24:01 -0400
 X-Originating-IP: 93.34.118.233
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id DA4FA1BF203;
-        Thu, 16 Jul 2020 14:23:53 +0000 (UTC)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id A10821BF206;
+        Thu, 16 Jul 2020 14:23:57 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
@@ -25,92 +25,76 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
         hyun.kwon@xilinx.com, jmkrzyszt@gmail.com, robert.jarzmik@free.fr,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v7 00/10] v4l2-subdev: Introduce [g|s]et_mbus_format pad op
-Date:   Thu, 16 Jul 2020 16:27:03 +0200
-Message-Id: <20200716142713.110655-1-jacopo+renesas@jmondi.org>
+Subject: [PATCH v7 01/10] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+Date:   Thu, 16 Jul 2020 16:27:04 +0200
+Message-Id: <20200716142713.110655-2-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200716142713.110655-1-jacopo+renesas@jmondi.org>
+References: <20200716142713.110655-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Minor update to add a new patch [6/10] to v4l2-mediabus.h with a usage
-note on the V4L2_MBUS_* flags.
+Introduce two new pad operations to allow retrieving and configuring the
+media bus parameters on a subdevice pad.
 
-Also add Niklas' tag to [10/10] and address his final comment there.
+The newly introduced operations aims to replace the s/g_mbus_config video
+operations, which have been on their way for deprecation since a long
+time.
 
-Hans, this should now be ready to be hopefully collected.
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+ include/media/v4l2-subdev.h | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Thanks
-  j
-
-v6.1->v7
-- Add [6/10] as suggested by Hans
-- Add Niklas tag and fix his last comment in [10/10]
-
-v6->v6.1
-- Address Niklas' comments in the last patch for rcar-csi2
-
-v5->v6:
-- Report V4L2_MBUS_DATA_ACTIVE_HIGH in ov6650 get_mbus_config
-- Check for the return value of get_mbus_config() at the end of
-  set_mbus_config() in ov6650 driver
-
-v4->v5:
-- Address Sakari's comment on documentation (s/should/shall)
-- Use a local variable for the number of active lanes in 9/9
-- Add Kieran's tags to 7/9 and 8/9
-- Fix a warning on operator precedence on 3/9
-
-v3->v4:
-- Remove g/s_mbus_config video operation
-- Adjust pxa quick capture interface to properly handle bus mastering
-- Reword the two new operations documentation
-
-v2->v3:
-- Re-use v4l2_mbus_config and V4L2_MBUS_* flags
-- Port existing drivers
-- Update adv748x and rcar-csi2 patches to use V4L2_MBUS_* flags
-
-v1->v2:
-- Address Sakari's comment to use unsigned int in place of bools
-- Add two new patches to address documentation
-- Adjust rcar-csi2 patch as much as possible according to Niklas comments
-- Add Niklas's tags
-
-Jacopo Mondi (10):
-  media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
-  media: i2c: Use the new get_mbus_config pad op
-  media: i2c: ov6650: Use new [get|set]_mbus_config ops
-  media: pxa_camera: Use the new set_mbus_config op
-  media: v4l2-subdev: Remove [s|g]_mbus_config video ops
-  media: v4l2- mediabus: Add usage note for V4L2_MBUS_*
-  staging: media: imx: Update TODO entry
-  media: i2c: adv748x: Adjust TXA data lanes number
-  media: i2c: adv748x: Implement get_mbus_config
-  media: rcar-csi2: Negotiate data lanes number
-
- drivers/media/i2c/adv7180.c                 |   7 +-
- drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++-
- drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++
- drivers/media/i2c/adv748x/adv748x.h         |   1 +
- drivers/media/i2c/ml86v7667.c               |   7 +-
- drivers/media/i2c/mt9m001.c                 |   7 +-
- drivers/media/i2c/mt9m111.c                 |   7 +-
- drivers/media/i2c/ov6650.c                  |  56 ++++--
- drivers/media/i2c/ov9640.c                  |   7 +-
- drivers/media/i2c/tc358743.c                |   7 +-
- drivers/media/i2c/tvp5150.c                 |   7 +-
- drivers/media/platform/pxa_camera.c         | 189 ++++++--------------
- drivers/media/platform/rcar-vin/rcar-csi2.c |  75 +++++++-
- drivers/staging/media/imx/TODO              |   4 +
- include/media/v4l2-mediabus.h               |  33 +++-
- include/media/v4l2-subdev.h                 |  37 ++--
- 16 files changed, 301 insertions(+), 205 deletions(-)
-
---
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index f7fe78a6f65a..d8b9d5735307 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -670,6 +670,29 @@ struct v4l2_subdev_pad_config {
+  *
+  * @set_frame_desc: set the low level media bus frame parameters, @fd array
+  *                  may be adjusted by the subdev driver to device capabilities.
++ *
++ * @get_mbus_config: get the media bus configuration of a remote sub-device.
++ *		     The media bus configuration is usually retrieved from the
++ *		     firmware interface at sub-device probe time, immediately
++ *		     applied to the hardware and eventually adjusted by the
++ *		     driver. Remote sub-devices (usually video receivers) shall
++ *		     use this operation to query the transmitting end bus
++ *		     configuration in order to adjust their own one accordingly.
++ *		     Callers should make sure they get the most up-to-date as
++ *		     possible configuration from the remote end, likely calling
++ *		     this operation as close as possible to stream on time. The
++ *		     operation shall fail if the pad index it has been called on
++ *		     is not valid.
++ *
++ * @set_mbus_config: set the media bus configuration of a remote sub-device.
++ *		     This operations is intended to allow, in combination with
++ *		     the get_mbus_config operation, the negotiation of media bus
++ *		     configuration parameters between media sub-devices. The
++ *		     operation shall not fail if the requested configuration is
++ *		     not supported, but the driver shall update the content of
++ *		     the %config argument to reflect what has been actually
++ *		     applied to the hardware. The operation shall fail if the
++ *		     pad index it has been called on is not valid.
+  */
+ struct v4l2_subdev_pad_ops {
+ 	int (*init_cfg)(struct v4l2_subdev *sd,
+@@ -710,6 +733,10 @@ struct v4l2_subdev_pad_ops {
+ 			      struct v4l2_mbus_frame_desc *fd);
+ 	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+ 			      struct v4l2_mbus_frame_desc *fd);
++	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
++			       struct v4l2_mbus_config *config);
++	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
++			       struct v4l2_mbus_config *config);
+ };
+ 
+ /**
+-- 
 2.27.0
 
