@@ -2,124 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 627A8222DA2
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 23:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BC01222E01
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 23:33:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727930AbgGPVSo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 17:18:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54542 "EHLO
+        id S1726599AbgGPVdM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 17:33:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgGPVSo (ORCPT
+        with ESMTP id S1725959AbgGPVdL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 17:18:44 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 870CCC061755;
-        Thu, 16 Jul 2020 14:18:43 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id y13so4721879lfe.9;
-        Thu, 16 Jul 2020 14:18:43 -0700 (PDT)
+        Thu, 16 Jul 2020 17:33:11 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B115C061755;
+        Thu, 16 Jul 2020 14:33:11 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id f139so13196567wmf.5;
+        Thu, 16 Jul 2020 14:33:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JDpOgz79PdKTfBbtrL+hBKF1KYAVH8lCeYLO08tI5yc=;
-        b=ELHdIoQMAPkeVrUAma/FmBDBziYW8FCBzSTUftbmOumlxAqqqpfTxBfy1nCuxNf0zs
-         SIz9p1IUHWo3Ex4HnQl8J6BLHdteqSRCujTahBIA3CSy4qf5/pei4+Orq3nf1kD6EBiC
-         Opi9qq4bl3ccQtsJngqLx7lRm76jQBpDh6x569sNhv+5jmjWdSi4B0phKJsrlTE58RLG
-         CyCeXbCrIXsq4BlV0YzPJnzHW6bzXSidcsY9IIh2Li9jmuvl7L+wp1cR4CJSD8HV6NQx
-         VPH1Djx8M+GDjDocVepfEcvbfjpMTKLNK9o7Z3rjpwVQPHStkd2yBHcHmdzBJ7lbvl75
-         yCnw==
+        h=from:to:cc:subject:date:message-id;
+        bh=jVRCxAU1h8uuMP5tlk5Q3qw+CDViJUj6+cwcmkFoV2I=;
+        b=m2OYpSajgIdqjKm9kQG8kvxpt0MuknTil2/DXtr3coNClLWwVDowL4oW+qaM1nPeEQ
+         tdKEGdYGp+qtPT15R2/PG4xjaIlSn3zzelPRoUwurVJQvHplOJ+nvOpzuKV6TQppv46b
+         rHzDsX0tPxfrUVbXV9HZlESUPIFEuHknSIimxf8z0PLKPD9ZGeqZlyujR8Y8XUW5Hdzm
+         1GhZEJxeYK+uMiYtJUngU81CpTJwWMlKst5ZzS9O6H3RssbleNq4FHvbxUpsn/lweUVz
+         rk6iykT4jlf3Fftfw0bQ3eBAU3IrE8145Jm4ZVCycNSN/2p3p+CjhdRW0HF2towyYiem
+         Y0ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JDpOgz79PdKTfBbtrL+hBKF1KYAVH8lCeYLO08tI5yc=;
-        b=j8ZNFmayFvJUsYdr7REaN5n3uWXoTo9zuCIQexbd3+62SvlATQc+WYhf0xHHmGW/Kr
-         61En/tyqXar6UQ3w7agg/3XhW8YFV6Q4Av+jZ5UUmZTy0JEldPAcHY8nCdjU902kufmI
-         knKGKzf3jJGKMe4JdFeWNCvzKxCUyMf+X/6KQRDNHqultUQkKZ/vtcxqtGqoeCc00spM
-         zh9o9I8myUjMetI8KBFnS+PFfnt1MPVSGhhdnz6/oHC+djJWVr0VyOV6+KkgIw9BBqx6
-         A+Xuyw+c3+VTKHV1+yBU8cjvLwwIeFCyQntrUla5EkR7PoSYKQwzANRv9KKOzDVz7ArC
-         kTWg==
-X-Gm-Message-State: AOAM531l/7T7ayE5e2NUR5LV/d7lGlnY5xgFMWR5EHd4joMruT4I3I/D
-        nU/R94Hf8Ayu6/ef6kT/XFtYOi03
-X-Google-Smtp-Source: ABdhPJyqIj6PIaMy9iN3qXK858pk6SghrG52+yiW6wTXuWiIKaavSwQtkH3d3WUrago++/UMsQjVPg==
-X-Received: by 2002:ac2:5c49:: with SMTP id s9mr3124661lfp.90.1594934321683;
-        Thu, 16 Jul 2020 14:18:41 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
-        by smtp.googlemail.com with ESMTPSA id a20sm1415679lfl.20.2020.07.16.14.18.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jul 2020 14:18:41 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 16/18] gpu: host1x: mipi: Split
- tegra_mipi_calibrate and tegra_mipi_wait
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
-        helen.koike@collabora.com
-Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
- <1594786855-26506-17-git-send-email-skomatineni@nvidia.com>
- <a06dec8f-7042-767b-545b-048685a7683d@gmail.com>
- <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c4945c77-5de1-e9b1-9f4f-cdd78bca18c7@gmail.com>
-Date:   Fri, 17 Jul 2020 00:18:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=jVRCxAU1h8uuMP5tlk5Q3qw+CDViJUj6+cwcmkFoV2I=;
+        b=JTpuB2sTB+hDVtVAIltMORi2FFqcBHAyKvL9KM2ZS1wP6WwSviHn2XU+LAxKtxoIKx
+         IbANQkA45TCRB/MfnvRHMwH3/qvdIMidGLeIQ+NXT2twqvPatmvdLbX44pluF14JfBsO
+         8eKPwLYyFD4aYILTxrc/Nx7BoYlBofEyGZTOeEKIJZZZ0lWA0f9L9cc2WHxLISrnH2RZ
+         kgX16PM9vI+kzGL7u/ecbJGjlOc6ZL0dydKpOKYGTqbsTgKveBkLgVeEaoBKbSdRcLeh
+         hViZHzwfeKJ1o86tA56XTtZ7bMH3SVSqi/nNpqJf1lD01cCzQGtI790WLYdLZAtMMBo3
+         WHUg==
+X-Gm-Message-State: AOAM530GfUpAxALGECaHR1vAAmu7Ou7XFFuUe/m7UyuRdGjTBpI3KDeo
+        +BjjfqGvNd6qjrsM8JjGkI6eNutgrw==
+X-Google-Smtp-Source: ABdhPJzyU+1bToje+Yv8U/cWOGO3OKW1Aeh17ICpPtjpRkx2p87s8HuYdnwNug4TFPuzHzsS5CZc0Q==
+X-Received: by 2002:a7b:c194:: with SMTP id y20mr6420782wmi.83.1594935189465;
+        Thu, 16 Jul 2020 14:33:09 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:810b:f40:e00:922b:34ff:fe38:6455])
+        by smtp.googlemail.com with ESMTPSA id v11sm7444825wmb.3.2020.07.16.14.33.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2020 14:33:08 -0700 (PDT)
+From:   Alex Bee <knaerzche@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Alex Bee <knaerzche@gmail.com>, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>, Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] media: dvb_usb_pctv452e: use ISL6423 voltage regulator per default
+Date:   Thu, 16 Jul 2020 23:33:03 +0200
+Message-Id: <20200716213303.20044-1-knaerzche@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-17.07.2020 00:09, Sowjanya Komatineni пишет:
-> 
-> On 7/16/20 1:38 PM, Dmitry Osipenko wrote:
->> 15.07.2020 07:20, Sowjanya Komatineni пишет:
->>> SW can trigger MIPI pads calibration any time after power on
->>> but calibration results will be latched and applied to the pads
->>> by MIPI CAL unit only when the link is in LP-11 state and then
->>> status register will be updated.
->>>
->>> For CSI, trigger of pads calibration happen during CSI stream
->>> enable where CSI receiver is kept ready prior to sensor or CSI
->>> transmitter stream start.
->>>
->>> So, pads may not be in LP-11 at this time and waiting for the
->>> calibration to be done immediate after calibration start will
->>> result in timeout.
->>>
->>> This patch splits tegra_mipi_calibrate() and tegra_mipi_wait()
->>> so triggering for calibration and waiting for it to complete can
->>> happen at different stages.
->>>
->>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>> ---
->> ...
->>>   int tegra_mipi_calibrate(struct tegra_mipi_device *device)
->>>   {
->>> @@ -370,12 +381,10 @@ int tegra_mipi_calibrate(struct
->>> tegra_mipi_device *device)
->>>       value |= MIPI_CAL_CTRL_START;
->>>       tegra_mipi_writel(device->mipi, value, MIPI_CAL_CTRL);
->>>   -    err = tegra_mipi_wait(device->mipi);
->> Doesn't MIPI clock need to be enabled during of the calibration process?
-> MIPI clock is already enabled in tegra_mipi_calibrate
->>
->>>       mutex_unlock(&device->mipi->lock);
->>>       clk_disable(device->mipi->clk);
+Both TT-connect S2-3600 and Pinnacle PCTV Sat HDTV are using
+Intersil ISL6423 as LNB voltage regulator. This makes
+TT-connect S2-3650 CI the only device which uses STM LNBP22 regulator
+which is currently used for all devices driven by pctv452e driver.
 
-What keeps MIPI clock enabled after completion of the
-tegra_mipi_calibrate() invocation?
+This patch fixes this by creating an exception for TT-connect S2-3650 CI
+to continue to use STM LNBP22 while all others now using correct ISL6423
+driver which makes DiSEqC/EN50494 comands which involve voltage changes
+now working on the other devices (which didn't work before).
 
->>>   -    return err;
->>> +    return 0;
->>>   }
->>>   EXPORT_SYMBOL(tegra_mipi_calibrate);
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+---
+ drivers/media/usb/dvb-usb/Kconfig    |  1 +
+ drivers/media/usb/dvb-usb/pctv452e.c | 24 ++++++++++++++++++++----
+ 2 files changed, 21 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/usb/dvb-usb/Kconfig b/drivers/media/usb/dvb-usb/Kconfig
+index 25ba03edcb5c..7498110142e4 100644
+--- a/drivers/media/usb/dvb-usb/Kconfig
++++ b/drivers/media/usb/dvb-usb/Kconfig
+@@ -279,6 +279,7 @@ config DVB_USB_PCTV452E
+ 	tristate "Pinnacle PCTV HDTV Pro USB device/TT Connect S2-3600"
+ 	depends on DVB_USB
+ 	select TTPCI_EEPROM
++	select DVB_ISL6423 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_LNBP22 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_STB0899 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_STB6100 if MEDIA_SUBDRV_AUTOSELECT
+diff --git a/drivers/media/usb/dvb-usb/pctv452e.c b/drivers/media/usb/dvb-usb/pctv452e.c
+index 441d878fc22c..4b13c1f35b28 100644
+--- a/drivers/media/usb/dvb-usb/pctv452e.c
++++ b/drivers/media/usb/dvb-usb/pctv452e.c
+@@ -20,6 +20,7 @@
+ #include "stb6100.h"
+ #include "stb6100_cfg.h"
+ /* FE Power */
++#include "isl6423.h"
+ #include "lnbp22.h"
+ 
+ #include <media/dvb_ca_en50221.h>
+@@ -83,6 +84,13 @@ static struct stb0899_postproc pctv45e_postproc[] = {
+ 	{ 0, 0 }
+ };
+ 
++static struct isl6423_config pctv452e_isl6423_config = {
++	.current_max		= SEC_CURRENT_515m,
++	.curlim			= SEC_CURRENT_LIM_ON,
++	.mod_extern		= 1,
++	.addr			= 0x08,
++};
++
+ /*
+  * stores all private variables for communication with the PCTV452e DVB-S2
+  */
+@@ -909,15 +917,23 @@ static int pctv452e_frontend_attach(struct dvb_usb_adapter *a)
+ 						&a->dev->i2c_adap);
+ 	if (!a->fe_adap[0].fe)
+ 		return -ENODEV;
+-	if ((dvb_attach(lnbp22_attach, a->fe_adap[0].fe,
+-					&a->dev->i2c_adap)) == NULL)
+-		err("Cannot attach lnbp22\n");
+ 
+ 	id = a->dev->desc->warm_ids[0];
+ 	if (USB_VID_TECHNOTREND == id->idVendor
+-	    && USB_PID_TECHNOTREND_CONNECT_S2_3650_CI == id->idProduct)
++	    && USB_PID_TECHNOTREND_CONNECT_S2_3650_CI == id->idProduct) {
++		if (dvb_attach(lnbp22_attach,
++			       a->fe_adap[0].fe,
++			       &a->dev->i2c_adap) == NULL) {
++			err("Cannot attach lnbp22\n");
++		}
+ 		/* Error ignored. */
+ 		tt3650_ci_init(a);
++	} else if (dvb_attach(isl6423_attach,
++			      a->fe_adap[0].fe,
++			      &a->dev->i2c_adap,
++			      &pctv452e_isl6423_config) == NULL) {
++		err("Cannot attach isl6423\n");
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
 
