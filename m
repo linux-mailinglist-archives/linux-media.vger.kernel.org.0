@@ -2,152 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 623FE222EB9
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 01:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4A11222E9A
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 01:09:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727978AbgGPXJU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 19:09:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43396 "EHLO
+        id S1727858AbgGPXJB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 19:09:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727924AbgGPXJS (ORCPT
+        with ESMTP id S1727815AbgGPXI6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 19:09:18 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AA04C08C5C0;
-        Thu, 16 Jul 2020 15:15:32 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id r19so10094181ljn.12;
-        Thu, 16 Jul 2020 15:15:32 -0700 (PDT)
+        Thu, 16 Jul 2020 19:08:58 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4EAC08C5FB;
+        Thu, 16 Jul 2020 16:01:32 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id b30so2602072lfj.12;
+        Thu, 16 Jul 2020 16:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eAwIkPyGRUgApnVYvVLaSdADuY78qMkOmqrSvqmkl20=;
-        b=LAQbNh7NmT/gFhimUxyw5ZGRQQPFka8kfWkWZ/13Zs0jGlt8g7n/YREo/Ej5h5gREy
-         mZNdEeOQxOaWfYMMJPIMIh65ZZoWo7tnaE9IxEdUZWcuhaojWDzKAprj8408srQcws1S
-         qbcvFagW4PQe0uGjn9UHZjfKHMITcMv2EKkwAGGo88l8SIP8dCzGsS2EmRQ0i0Oci/vt
-         Hrkko6GsjXZubG//UV1cPygmiAVRq+wdhtAwBjfcyAb1vFKriQchzlKlOGnxmfHeCPn0
-         3E69kmT0cdyApfYm352XihN/jTSKXSlpcUsoCOo8CFjAxCGfnCIrMgfOAW/ADCEL1RcC
-         sMlw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vRmrcXdGKYCulhx5JF7bmSsDjAzR+R6023P6GBnsjfQ=;
+        b=E56txzafzppMuffM1Gu5Z9yBTjbmyAv5+/F6FiMiUIVnnW2zq6c88cHxzrhnkrr6ow
+         gFVX2XlNz6/TNOI0paMw6OLATpLw48J/F2WQDK1u+lH+xK43cuSZeOiSLTc066vdBHUz
+         OR6NLSsip/EVOU+KKyVbfJlO1ObKA/e0PFM+hDzTYp7ibJ2r+L2dxpCeXcF+Fb0oGhV0
+         PQGskd1r2k/w9LTpmAy7RhVwrgx7IRoosJQuDzaQWfHwj+Ggw0OxvtXC8Q6DNuBPTTWU
+         37z0yMiIoUrbD4OM5k9f//XXEbpc3NFfsWMaxH6ejpdxx3WSoyEX0YvoM8Pw5agBQx2B
+         tLOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eAwIkPyGRUgApnVYvVLaSdADuY78qMkOmqrSvqmkl20=;
-        b=fQ9VN+t/G0lg16Tff6Dqwm2MwDtd+3nohnkCrr870LE3n/pBu3sJ6FjO9gjBlJkLHi
-         OkqWwaZoTSL1UhJmnKmyuWI2tPBRlEx1eW62f2e1BizV9AMg+nHQUTM4HcnEpW5QUfn0
-         n+FkxReU4u1/YSA3yNjVMM4I+M07LRSL2xU1xUi/L+M/G51zwWw4nJsIRiXgXHKZdVDU
-         hnqCMppJjJg4ElWCZg95nVzrw7sQcILo+VGe+TMxLEzRrP76xHIKQzWY3cavKxqVMeD1
-         ght/cggbIqXsraNGAmeLdZZ2ABH2QUV06n0EBnNE/KOr+b7Q0EiDu3YuYbmJ355KdD7p
-         p0ww==
-X-Gm-Message-State: AOAM530FtP8Fu1aS6aRXCcnq/8/aY/IiRUv65dot71GcgonA4Y3xzN3i
-        8Cqn3ujmerPpC2n6Dit3mY4=
-X-Google-Smtp-Source: ABdhPJxZvNPGfpO07YopV8dSHfqBMO8bb1OJ3xLYJKxNAyXnhy7QbpQmHA95ZZqu+EeeVzu+uB1xbw==
-X-Received: by 2002:a2e:87d9:: with SMTP id v25mr2773239ljj.53.1594937730746;
-        Thu, 16 Jul 2020 15:15:30 -0700 (PDT)
-Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id 190sm1295476ljf.38.2020.07.16.15.15.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 15:15:29 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, robert.jarzmik@free.fr,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [PATCH v7 01/10] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
-Date:   Fri, 17 Jul 2020 00:15:27 +0200
-Message-ID: <4042930.ejJDZkT8p0@z50>
-In-Reply-To: <20200716142713.110655-2-jacopo+renesas@jmondi.org>
-References: <20200716142713.110655-1-jacopo+renesas@jmondi.org> <20200716142713.110655-2-jacopo+renesas@jmondi.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vRmrcXdGKYCulhx5JF7bmSsDjAzR+R6023P6GBnsjfQ=;
+        b=WTbuXDY4BY/Yf5GsU2tbCHAc2o0EzB5ohTgGHKqBKlhgaIo36Ohu2rVuoYpOclNuH1
+         UEewVMXll+EASduvUfCTsMjq4KH9jfAhW3epq/z7+bD5nYCWzAs5I6LMEGSX6WoTsEV1
+         j8E4B8KMeYBhI19tFAsxc/LO/ua7VxQyGLuX/gF3bW95w/6cVDq7F/p4ggCgX7qFv6Ro
+         0zkzCDUiyS4tShe68eDvtzk1gJMA9p4gdYTKLzjbOXYDqQJNMi4xBFWIdTYIUI5wvyBG
+         +UheD2MKu2CH3mn/5qo9g27zYiT9ZKwUdhYPd3SrFDxGAor6FHR0bqUBRHVJBtNe4dWT
+         xdFA==
+X-Gm-Message-State: AOAM531l+NewWf9wFg1zmseHU6KTZrdx3CKDtSEtj1NM2jGzTMAWyy71
+        7/7CxuI25a1tHTAJEd6jPzTgQMNr
+X-Google-Smtp-Source: ABdhPJxdHQgI4Iks82B0kVrmWJ74aaaj+x50J9DUOutD6acHfl6haGzwy4wP4QYnc1V6e6cfZgIn3w==
+X-Received: by 2002:a05:6512:250:: with SMTP id b16mr3118639lfo.67.1594940490262;
+        Thu, 16 Jul 2020 16:01:30 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
+        by smtp.googlemail.com with ESMTPSA id w4sm1315624ljw.16.2020.07.16.16.01.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jul 2020 16:01:29 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 16/18] gpu: host1x: mipi: Split
+ tegra_mipi_calibrate and tegra_mipi_wait
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <1594786855-26506-17-git-send-email-skomatineni@nvidia.com>
+ <a06dec8f-7042-767b-545b-048685a7683d@gmail.com>
+ <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
+ <c4945c77-5de1-e9b1-9f4f-cdd78bca18c7@gmail.com>
+ <ce0c5ffb-f859-0eab-1ea5-044623dff221@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a2b8169c-c4a3-4862-cd27-8c1a51ddc558@gmail.com>
+Date:   Fri, 17 Jul 2020 02:01:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <ce0c5ffb-f859-0eab-1ea5-044623dff221@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Thursday, July 16, 2020 4:27:04 P.M. CEST Jacopo Mondi wrote:
-> Introduce two new pad operations to allow retrieving and configuring the
-> media bus parameters on a subdevice pad.
+17.07.2020 01:49, Sowjanya Komatineni пишет:
+>> What keeps MIPI clock enabled after completion of the
+>> tegra_mipi_calibrate() invocation?
 > 
-> The newly introduced operations aims to replace the s/g_mbus_config video
-> operations, which have been on their way for deprecation since a long
-> time.
+> MIPI clock is disabled at end of tegra_mipi_calibrate and is re-enabled
+> during tegra_mipi_wait.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  include/media/v4l2-subdev.h | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
+> I think I should fix this to keep the clock enabled till calibration
+> results are latched.
 > 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index f7fe78a6f65a..d8b9d5735307 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -670,6 +670,29 @@ struct v4l2_subdev_pad_config {
->   *
->   * @set_frame_desc: set the low level media bus frame parameters, @fd array
->   *                  may be adjusted by the subdev driver to device capabilities.
-> + *
-> + * @get_mbus_config: get the media bus configuration of a remote sub-device.
-> + *		     The media bus configuration is usually retrieved from the
-> + *		     firmware interface at sub-device probe time, immediately
-> + *		     applied to the hardware and eventually adjusted by the
-> + *		     driver. Remote sub-devices (usually video receivers) shall
-> + *		     use this operation to query the transmitting end bus
-> + *		     configuration in order to adjust their own one accordingly.
-> + *		     Callers should make sure they get the most up-to-date as
-> + *		     possible configuration from the remote end, likely calling
-> + *		     this operation as close as possible to stream on time. The
-> + *		     operation shall fail if the pad index it has been called on
-> + *		     is not valid.
-> + *
-> + * @set_mbus_config: set the media bus configuration of a remote sub-device.
-> + *		     This operations is intended to allow, in combination with
-> + *		     the get_mbus_config operation, the negotiation of media bus
-> + *		     configuration parameters between media sub-devices. The
-> + *		     operation shall not fail if the requested configuration is
-> + *		     not supported, but the driver shall update the content of
-> + *		     the %config argument to reflect what has been actually
-> + *		     applied to the hardware. The operation shall fail if the
-> + *		     pad index it has been called on is not valid.
-
-Could this description also clarify what results are expected in case of 
-hardware errors?  The ov6650 implementation you propose may suggest such
-errors may be expected to be ignored silently as long as current configuration 
-can be successfully obtained from hardware and passed back to the caller.
-
-Moreover, since validity of the pad argument is expected to be verified, I 
-think this should be handled by the media infrastructure layer with the 
-drivers/media/v4l2-core/v4l2-subdev.c:check_pad() helper called from a 
-.set_mbus_config() wrapper added to v4l2_subdev_call_pad_wrappers, freeing 
-drivers from reimplementing it.
-
-Thanks,
-Janusz
-
->   */
->  struct v4l2_subdev_pad_ops {
->  	int (*init_cfg)(struct v4l2_subdev *sd,
-> @@ -710,6 +733,10 @@ struct v4l2_subdev_pad_ops {
->  			      struct v4l2_mbus_frame_desc *fd);
->  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
->  			      struct v4l2_mbus_frame_desc *fd);
-> +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
-> +			       struct v4l2_mbus_config *config);
-> +	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
-> +			       struct v4l2_mbus_config *config);
->  };
->  
->  /**
+> All consumers of tegra_mipi_calibrate() will call tegra_mipi_wait().
 > 
+> So will remove clk_disable mipi clk at end of tegra_mipi_calibrate() and
+> clk_enable mipi_clk at beginning of tegra_mipi_wait()
 
-
-
-
+Isn't it possible to perform the calibration after enabling CSI and
+before of starting the sensor streaming?
