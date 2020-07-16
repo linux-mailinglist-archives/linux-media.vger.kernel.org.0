@@ -2,119 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F15A2223D7
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 15:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A35A5222440
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jul 2020 15:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728479AbgGPNZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 09:25:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37692 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726537AbgGPNZa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 09:25:30 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD04BC061755;
-        Thu, 16 Jul 2020 06:25:29 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id b15so4750402edy.7;
-        Thu, 16 Jul 2020 06:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wxDSUON4bNQ6a2DQonZlCF9UZpyQ3jf0SfINVAYmQXU=;
-        b=jF5pPaRocAv8Pi3B4xGhssM0BpOzI3j6YCD/OOsmRsMquFLHOM1HvMCbYCf5zcmu2b
-         cDO0BJoqyYlROSbHTyY44VTdT0oAIKPx24QLOMwQtBa22eje3SsI0cZlCvXTBRv35PDd
-         X0uIf2KbhEbJj18/GVjaBXAw8HNHJ1uMAi83s9oGEzchQgMA9A3B8IyB0fFdFRAgePr0
-         2JjsKAGb3a9ZxYvBmVGPSJgqXOlWVnBKmi23dtc73RFMXyXMJe5fc+sGSm22Ir8+CZGt
-         DIFs10STo/22lI3Faa22k5075FaY4Mt+C9fQR7Mpp42tznRfBunL4lHnQtYLBmYmqU67
-         JZjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wxDSUON4bNQ6a2DQonZlCF9UZpyQ3jf0SfINVAYmQXU=;
-        b=ODaghb9Zuc4006n52xiXOgTHR/1aMk7JpWaJsP5/KM6MsHds2TCFP9QaHmoi+cmGlF
-         AZon0xELbniz8RfoN1kGAHmz1gewq+lA/weCknOQowd6mSI08mFUP4118CKVYroNZUdb
-         tgMCdrQqT+YGrPmXUxTiqTNtXLEryOV2qCQ+8SW7LXM1cbavywq6Ict9Q/F9Mqt7RFMo
-         ZtH9Tag8jfyZSDnAtKAZTnRrjSdnYCeW8d2Jm4uAFugAJY+bJx7FcPLXOBtTUztVNFcL
-         MyE8KejZ+Hfu92Q8QEEOaLZJH7DzW6xeAsbnqIG4lCVGAAsv5dPdppHxTNSEVRiy7Zyu
-         voBQ==
-X-Gm-Message-State: AOAM531ZzG11dllp7J8ED+LTOWS1je/v7afkuTzpyvxn69FG327SNMlB
-        tzq6oXtll/aGL6XEBX3fHXs=
-X-Google-Smtp-Source: ABdhPJzFCwsmj6Poe1kED2sdOGgcqVM/kYiz85OwlXHByRn0j+A8T91V658Sx1AmmSYRuO0HG6FDcQ==
-X-Received: by 2002:a50:8d5a:: with SMTP id t26mr4682313edt.282.1594905928521;
-        Thu, 16 Jul 2020 06:25:28 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id bs18sm5369038edb.38.2020.07.16.06.25.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 06:25:26 -0700 (PDT)
-Date:   Thu, 16 Jul 2020 15:25:25 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
-        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
-        digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [RFC PATCH v3 02/18] arm64: tegra: Add missing clocks and
- power-domains to Tegra210 VI I2C
-Message-ID: <20200716132525.GI535268@ulmo>
-References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
- <1594786855-26506-3-git-send-email-skomatineni@nvidia.com>
+        id S1728854AbgGPNtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 09:49:00 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:7771 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728093AbgGPNs7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jul 2020 09:48:59 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 444E759714EF947306CC;
+        Thu, 16 Jul 2020 21:48:57 +0800 (CST)
+Received: from [127.0.0.1] (10.174.179.238) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Thu, 16 Jul 2020
+ 21:48:47 +0800
+Subject: [PATCH -next v2] media: tuners: reduce stack usage in
+ mxl5005s_reconfigure
+From:   Bixuan Cui <cuibixuan@huawei.com>
+To:     <linux-next@vger.kernel.org>, <mchehab@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <john.wanghui@huawei.com>
+References: <20200716171742.45621-1-cuibixuan@huawei.com>
+Message-ID: <7b3e9680-9a39-45d3-44c2-85b374df4a19@huawei.com>
+Date:   Thu, 16 Jul 2020 21:48:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="J+eNKFoVC4T1DV3f"
-Content-Disposition: inline
-In-Reply-To: <1594786855-26506-3-git-send-email-skomatineni@nvidia.com>
-User-Agent: Mutt/1.14.4 (2020-06-18)
+In-Reply-To: <20200716171742.45621-1-cuibixuan@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.179.238]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Fix the warning: [-Werror=-Wframe-larger-than=]
 
---J+eNKFoVC4T1DV3f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+drivers/media/tuners/mxl5005s.c: In function 'mxl5005s_reconfigure':
+drivers/media/tuners/mxl5005s.c:3953:1:
+warning: the frame size of 1152 bytes is larger than 1024 bytes
 
-On Tue, Jul 14, 2020 at 09:20:39PM -0700, Sowjanya Komatineni wrote:
-> Tegra210 VI I2C is in VE power domain and i2c-vi node should have
-> power-domains property.
->=20
-> Current Tegra210 i2c-vi device node is missing both VI I2C clocks
-> and power-domains property.
->=20
-> This patch adds them.
->=20
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi | 6 ++++++
->  1 file changed, 6 insertions(+)
+Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
+---
+ drivers/media/tuners/mxl5005s.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-Applied, thanks.
+diff --git a/drivers/media/tuners/mxl5005s.c b/drivers/media/tuners/mxl5005s.c
+index 1c07e2225fb3..f6e82a8e7d37 100644
+--- a/drivers/media/tuners/mxl5005s.c
++++ b/drivers/media/tuners/mxl5005s.c
+@@ -3926,15 +3926,26 @@ static int mxl5005s_reconfigure(struct dvb_frontend *fe, u32 mod_type,
+ 	u32 bandwidth)
+ {
+ 	struct mxl5005s_state *state = fe->tuner_priv;
+-
+-	u8 AddrTable[MXL5005S_REG_WRITING_TABLE_LEN_MAX];
+-	u8 ByteTable[MXL5005S_REG_WRITING_TABLE_LEN_MAX];
++	u8 *AddrTable;
++	u8 *ByteTable;
+ 	int TableLen;
 
-Thierry
+ 	dprintk(1, "%s(type=%d, bw=%d)\n", __func__, mod_type, bandwidth);
 
---J+eNKFoVC4T1DV3f
-Content-Type: application/pgp-signature; name="signature.asc"
+ 	mxl5005s_reset(fe);
 
------BEGIN PGP SIGNATURE-----
++	AddrTable = kcalloc(MXL5005S_REG_WRITING_TABLE_LEN_MAX, sizeof(u8),
++			    GFP_KERNEL);
++	if (!AddrTable)
++		return -ENOMEM;
++
++	ByteTable = kcalloc(MXL5005S_REG_WRITING_TABLE_LEN_MAX, sizeof(u8),
++			    GFP_KERNEL);
++	if (!ByteTable) {
++		kfree(AddrTable);
++		return -ENOMEM;
++	}
++
+ 	/* Tuner initialization stage 0 */
+ 	MXL_GetMasterControl(ByteTable, MC_SYNTH_RESET);
+ 	AddrTable[0] = MASTER_CONTROL_ADDR;
+@@ -3949,6 +3960,9 @@ static int mxl5005s_reconfigure(struct dvb_frontend *fe, u32 mod_type,
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl8QVUUACgkQ3SOs138+
-s6F3SA//ZjtMB7xBZ6HBUcP64/WJge+YF7WI2y+H5sKJfBeM0U1C8alR16PQq11z
-F96RGmLb3MXmS7xe1GldWEsybS+L6p0earsr70YTyylfbH/n5Y7O/lGIIyuh+GI4
-uye1Mzg18tuNCdnc2M/b8guscVfhYYpKROQTEUGOipxUmvW+i0s2A323W6glfBEY
-Q2e02KK/6m1wm0YF8I4wwdOBUn0Crel/ojaFeAO/HL21prKj8a+inJPicD2GSn4X
-ADDWtoMfHkOaL5zcr8bC05QFZuSRvIajdKKeuJ5xtVGqrTCuLJR1LOfw0xLH7daV
-eLxTYcBWRJ/bkNBlUpnluibploP+2bVEHTRDQqhpTFMZoGn30hwL67amumDALk/4
-ytsF+tZyXr+ixMzA/iuv76T+GnkFWKm7/qe9bhnNgyV/GooJ26xMOog+m0BUQvbE
-D749ofyu7TlH08Y9vkGjXRztqLoXyisyTnNLHaifoUBoMY7W4xROUSScHIZWc6sI
-PEZlt+9JJt8uT+1GWWdzphv2Fr1OI1FoWQ645E3dM+GhlqTh/4qde0yAM3iA7MdK
-Ihp7UQXIbtiThykIrvMbrSxB0JpIyiXpol9HxXSlyk/HvRqstcc2DgbfDARkPlcb
-H4PXNn4diPdJp9ow+yyqHIsDAx6b9YpTO2YBO2aEMjA3CT1ivzY=
-=gsdR
------END PGP SIGNATURE-----
+ 	mxl5005s_writeregs(fe, AddrTable, ByteTable, TableLen);
 
---J+eNKFoVC4T1DV3f--
++	kfree(AddrTable);
++	kfree(ByteTable);
++
+ 	return 0;
+ }
+
+--
+2.17.1
+
+
+.
+
+
+
