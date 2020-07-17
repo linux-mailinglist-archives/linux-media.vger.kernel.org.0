@@ -2,84 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8291D223111
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 04:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF00022311F
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 04:19:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726629AbgGQCNS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 22:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726453AbgGQCNR (ORCPT
+        id S1726250AbgGQCT1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jul 2020 22:19:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42232 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726130AbgGQCT0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 22:13:17 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DD8EC061755
-        for <linux-media@vger.kernel.org>; Thu, 16 Jul 2020 19:13:17 -0700 (PDT)
+        Thu, 16 Jul 2020 22:19:26 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1830561
-        for <linux-media@vger.kernel.org>; Fri, 17 Jul 2020 04:13:15 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A7F0561;
+        Fri, 17 Jul 2020 04:19:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594951996;
-        bh=3w3he3sU1mhpkF9vXKbpFscYai7qxm3OM3NJcHQ3Cgo=;
-        h=Date:From:To:Subject:From;
-        b=RfuC8Eps+d4e3CjEQ8SVQj12WrHqLFhT0aq8k0kH0ozm+Qs4/62WhydtFZ/bWxgpT
-         Fdv2WtVxxmfXtqrE18jTTbXyxcOg/3E5gb/E3gatn8Ug5vOVU/1FGUB0yJrHHm3XBG
-         v5hIVps5nJUD4oV5Ibzhe8nMmbVgUa8VMefTGt7w=
-Date:   Fri, 17 Jul 2020 05:13:08 +0300
+        s=mail; t=1594952364;
+        bh=AY6ngIIQkPlQDWCl5lU11+0P+LyJOnh2DiIlr/M/gJ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G2/VmKznn1kMZnyN+GNhRaR2BpD7/aWu2fu8ckX5H7hq3YZ10cvD41elVTybpGJLP
+         0pYrgi6VQ0t303acwAaCzExhHnX2tgiyLV3yp7IeZr89Rp2O4/i5GuNhTp9L/CZcwa
+         1tMSWDFa+Isd5lAHLhJrR2giFVjghC5pQJL/hcUI=
+Date:   Fri, 17 Jul 2020 05:19:16 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.9] Convert Renesas DT bindings to YAML
-Message-ID: <20200717021308.GA359@pendragon.ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Subject: Re: [PATCH v4 1/4] device property: Add a function to test is a
+ fwnode is a graph endpoint
+Message-ID: <20200717021916.GA387@pendragon.ideasonboard.com>
+References: <20200701062140.12953-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200701062140.12953-2-laurent.pinchart+renesas@ideasonboard.com>
+ <20200701073405.GB836@valkosipuli.retiisi.org.uk>
+ <CAJZ5v0iSpC=67p++vyH0WjcsuPG5SMtJJamit2T9vOQPb9jm0w@mail.gmail.com>
+ <20200715205717.GF836@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20200715205717.GF836@valkosipuli.retiisi.org.uk>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Sakari,
 
-The following changes since commit 6f01dfb760c027d5dd6199d91ee9599f2676b5c6:
+On Wed, Jul 15, 2020 at 11:57:17PM +0300, Sakari Ailus wrote:
+> On Wed, Jul 01, 2020 at 02:19:21PM +0200, Rafael J. Wysocki wrote:
+> > On Wed, Jul 1, 2020 at 9:34 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> > > On Wed, Jul 01, 2020 at 09:21:37AM +0300, Laurent Pinchart wrote:
+> > > > Drivers may need to test if a fwnode is a graph endpoint. To avoid
+> > > > hand-written solutions that wouldn't work for all fwnode types, add a
+> > > > new fwnode_graph_is_endpoint() function for this purpose. We don't need
+> > > > to wire it up to different backends for OF and ACPI for now, as the
+> > > > implementation can simply be based on checkout the presence of a
+> > > > remote-endpoint property.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > ---
+> > > >  include/linux/property.h | 5 +++++
+> > > >  1 file changed, 5 insertions(+)
+> > > >
+> > > > diff --git a/include/linux/property.h b/include/linux/property.h
+> > > > index 10d03572f52e..9f805c442819 100644
+> > > > --- a/include/linux/property.h
+> > > > +++ b/include/linux/property.h
+> > > > @@ -389,6 +389,11 @@ struct fwnode_handle *
+> > > >  fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port,
+> > > >                            u32 endpoint);
+> > > >
+> > > > +static inline bool fwnode_graph_is_endpoint(struct fwnode_handle *fwnode)
+> > > > +{
+> > > > +     return fwnode_property_present(fwnode, "remote-endpoint");
+> > > > +}
+> > > > +
+> > > >  /*
+> > > >   * Fwnode lookup flags
+> > > >   *
+> > >
+> > > Thanks for the patch. I've bounced it to devicetree and linux-acpi lists
+> > > (now cc'd) --- hope that works.
+> > >
+> > > Rafael: do you think this simple patch could go though the media tree,
+> > > assuming that folks are generally fine with the patch as such?
+> > 
+> > Yes, it could.
+> 
+> Thanks! I've applied this to my tree.
 
-  media: cros-ec-cec: do not bail on device_init_wakeup failure (2020-07-04 12:45:45 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/pinchartl/media.git tags/v4l2-yaml-20200717
-
-for you to fetch changes up to c87091a878aba5b62fae9f208d0aab47f698e8e6:
-
-  dt-bindings: media: renesas,vsp1: Add power-domains and resets (2020-07-17 05:09:55 +0300)
-
-----------------------------------------------------------------
-Convert Renesas DT bindings to YAML
-
-----------------------------------------------------------------
-Laurent Pinchart (8):
-      dt-bindings: media: renesas,fcp: Convert binding to YAML
-      dt-bindings: media: renesas,fcp: Make power-domains mandatory
-      dt-bindings: media: renesas,fcp: Add resets and iommus properties
-      dt-bindings: media: renesas,fdp1: Convert binding to YAML
-      dt-bindings: media: renesas,fdp1: Make power-domains mandatory
-      dt-bindings: media: renesas,fdp1: Add resets property
-      dt-bindings: media: renesas,vsp1: Convert binding to YAML
-      dt-bindings: media: renesas,vsp1: Add power-domains and resets
-
- .../devicetree/bindings/media/renesas,fcp.txt   | 34 -------
- .../devicetree/bindings/media/renesas,fcp.yaml  | 66 +++++++++++++
- .../devicetree/bindings/media/renesas,fdp1.txt  | 37 -------
- .../devicetree/bindings/media/renesas,fdp1.yaml | 69 +++++++++++++
- .../devicetree/bindings/media/renesas,vsp1.txt  | 30 ------
- .../devicetree/bindings/media/renesas,vsp1.yaml | 97 +++++++++++++++++++
- MAINTAINERS                                     |  6 +-
- 7 files changed, 235 insertions(+), 104 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.txt
- create mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/renesas,fdp1.txt
- create mode 100644 Documentation/devicetree/bindings/media/renesas,fdp1.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/renesas,vsp1.txt
- create mode 100644 Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+Do you mean the whole series ? :-) Do you intend to send a pull request
+for v5.9 ?
 
 -- 
 Regards,
