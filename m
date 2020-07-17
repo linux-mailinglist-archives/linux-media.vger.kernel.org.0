@@ -2,24 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1FCA223FED
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 17:50:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65C9B224001
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 17:57:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbgGQPuy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 11:50:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56658 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726090AbgGQPuy (ORCPT
+        id S1726429AbgGQP5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 11:57:19 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58842 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726393AbgGQP5T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 11:50:54 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324BCC0619D2;
-        Fri, 17 Jul 2020 08:50:54 -0700 (PDT)
+        Fri, 17 Jul 2020 11:57:19 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: nicolas)
-        with ESMTPSA id EA4062A03FC
-Message-ID: <f409d4ddad0a352ca7ec84699c94a64e5dbf0407.camel@collabora.com>
-Subject: Re: [PATCH 2/2] media: coda: Add more H264 levels for CODA960
+        with ESMTPSA id 4432C2A03FC
+Message-ID: <17189cd91b7412fdd102c2710d9e6aa8778aac23.camel@collabora.com>
+Subject: Re: [PATCH 1/2] media: coda: Fix reported H264 profile
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To:     Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
@@ -27,11 +24,10 @@ To:     Philipp Zabel <p.zabel@pengutronix.de>,
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Robert Beckett <bob.beckett@collabora.com>,
         kernel@collabora.com, stable@vger.kernel.org
-Date:   Fri, 17 Jul 2020 11:50:38 -0400
-In-Reply-To: <05184a7c923c7e2aacca9da2bafe338ff5a7c16d.camel@pengutronix.de>
+Date:   Fri, 17 Jul 2020 11:56:57 -0400
+In-Reply-To: <51175cb496644aaa5d5004630925ead4c6f0ddc7.camel@pengutronix.de>
 References: <20200717034923.219524-1-ezequiel@collabora.com>
-         <20200717034923.219524-2-ezequiel@collabora.com>
-         <05184a7c923c7e2aacca9da2bafe338ff5a7c16d.camel@pengutronix.de>
+         <51175cb496644aaa5d5004630925ead4c6f0ddc7.camel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
@@ -41,46 +37,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 17 juillet 2020 à 09:48 +0200, Philipp Zabel a écrit :
-> Hi Ezequiel, Nicolas,
-> 
+Le vendredi 17 juillet 2020 à 10:14 +0200, Philipp Zabel a écrit :
 > On Fri, 2020-07-17 at 00:49 -0300, Ezequiel Garcia wrote:
 > > From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > > 
-> > This add H264 level 4.1, 4.2 and 5.0 to the list of supported formats.
-> > While the hardware does not fully support these levels, it do support
-> > most of them.
+> > The CODA960 manual states that ASO/FMO features of baseline are not
+> > supported, so for this reason this driver should only report
+> > constrained baseline support.
 > 
-> Could you clarify this? As far as I understand the hardware supports
-> maximum frame size requirement for up to level 4.2 (8704 macroblocks),
-> but not 5.0, and at least the implementation on i.MX6 does not support
-> the max encoding speed requirements for levels 4.1 and higher.
+> I know the encoder doesn't support this, but is this also true of the
+> decoder? The i.MX6DQ Reference Manual explicitly lists H.264/AVC decoder
+> support for both baseline profile and constrained base line profile.
+
+Hmm, double checking, you are right this is documented in the encoding tools
+sections, not the decoding. But there is extra buffers that need to be passed
+for ASO/FMO to work, I greatly doubt you have ever tested it. This is not
+supported by GStreamer parser, or FFMPEG parsers either. Again, we need to make
+sure in V2 that encoding and decoding capabilities are well seperated.
+
+As for advertising ASO/FMO, I can leave it there, but be aware I won't be
+testing it. I can provide you links to streams if you care (they are publicly
+accessible throught the ITU conformance streams published by the ITU). But as
+for GStreamer and FFMPEG, this is not supported anyway.
+
 > 
-> I don't think the firmware ever produces any output with a level higher
-> than 4.0 either, so what is the purpose of pretending otherwise?
-
-The level is a combination of 3 contraints, frame size, raw bitrate and encoded
-bitrate. We have a streams here the decode just fine, that reaches 5.0 for the
-endoded bitrate, but is near 4.0 for everything else. This streams works just
-fine with the 960. I think the risk with this patch is that it now allow a
-stream to underperform in raw bitrate, but that can be controlled otherwise by
-the frame interval, so there is no need to limit it through levels.  I could be
-wrong.
-
-But in public domain [0], Chips&Media seems to claim 4.2 decode, 4.0 encode. So
-yes, claiming 5.0 is off track, we will reduce this to 4.2 in v2.
-
-[0] https://www.chipsnmedia.com/fullhd
-
-Considering how buggy and inconcistent this is going to be in decoder drivers,
-I'm tempted to just drop that restriction in GStreamer v4l2 decoders (was added
-by Philippe Normand from Igalia). Specially the bitrate limits, since it is
-quite clear from testing that this limits is only related to real-time
-performance, and that offline decoding should still be possible. Meanwhile, the
-driver should still advertise 4.1 and 4.2 decoding. But we should check the
-decoding/encoding levels are actually not the same, that I haven't checked, the
-code is a bit ... kindly said ... hairy.
-
+> > This fixes negotiation issue with constrained baseline content
+> > on GStreamer 1.17.1.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Fixes: 42a68012e67c2 ("media: coda: add read-only h.264 decoder
+> > profile/level controls")
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> >  drivers/media/platform/coda/coda-common.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/coda/coda-common.c
+> > b/drivers/media/platform/coda/coda-common.c
+> > index 3ab3d976d8ca..c641d1608825 100644
+> > --- a/drivers/media/platform/coda/coda-common.c
+> > +++ b/drivers/media/platform/coda/coda-common.c
+> > @@ -2335,8 +2335,8 @@ static void coda_encode_ctrls(struct coda_ctx *ctx)
+> >  		V4L2_CID_MPEG_VIDEO_H264_CHROMA_QP_INDEX_OFFSET, -12, 12, 1, 0);
+> >  	v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
+> >  		V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+> > -		V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE, 0x0,
+> > -		V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE);
+> > +		V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE, 0x0,
+> > +		V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE);
+> 
+> Encoder support is listed as baseline, not constrained baseline, in the
+> manual, but the SPS NALs produced by the encoder start with:
+>   00 00 00 01 67 42 40
+>                     ^
+> so that is profile_idc=66, constraint_set1_flag==1, constrained baseline
+> indeed. I think this change is correct.
+> 
+> >  	if (ctx->dev->devtype->product == CODA_HX4 ||
+> >  	    ctx->dev->devtype->product == CODA_7541) {
+> >  		v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
+> > @@ -2417,7 +2417,7 @@ static void coda_decode_ctrls(struct coda_ctx *ctx)
+> >  	ctx->h264_profile_ctrl = v4l2_ctrl_new_std_menu(&ctx->ctrls,
+> >  		&coda_ctrl_ops, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+> >  		V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> > -		~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
+> > +		~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
+> >  		  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
+> >  		  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
+> >  		V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
+> 
+> I'm not sure about this one.
 > 
 > regards
 > Philipp
