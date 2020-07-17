@@ -2,293 +2,403 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D84FD2243F8
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 21:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E7A3224437
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 21:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728654AbgGQTMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 15:12:02 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1403 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728639AbgGQTMB (ORCPT
+        id S1728402AbgGQT2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 15:28:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727999AbgGQT2j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 15:12:01 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f11f7c40001>; Fri, 17 Jul 2020 12:11:00 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 17 Jul 2020 12:12:00 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 17 Jul 2020 12:12:00 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
- 2020 19:11:59 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 17 Jul 2020 19:11:59 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.163.115]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f11f7fe0001>; Fri, 17 Jul 2020 12:11:59 -0700
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <luca@lucaceresoli.net>, <leonl@leopardimaging.com>,
-        <robh+dt@kernel.org>, <lgirdwood@gmail.com>, <broonie@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 3/3] media: i2c: imx274: Add IMX274 power on and off sequence
-Date:   Fri, 17 Jul 2020 12:15:22 -0700
-Message-ID: <1595013322-15077-3-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1595013322-15077-1-git-send-email-skomatineni@nvidia.com>
-References: <1595013322-15077-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        Fri, 17 Jul 2020 15:28:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 076B3C0619D2;
+        Fri, 17 Jul 2020 12:28:39 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A43CA71D;
+        Fri, 17 Jul 2020 21:28:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1595014115;
+        bh=58QEPNZGsWJAPDZPK7BhOSK2O4YcM/L7nyRGhJuGKE0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=afEArUYLz22IY1RHxusn8pQZtK8xScBT9qJB9M6LxPrN2E6tDbRCHq3iQUL5vxNoj
+         npH+V1t2Q54Lz+M+PYukyDYp1wKsgdp5V50YTyfXIA/HE/SipfW+cnckPjieNJHqGW
+         MfXbMzfezx56eKACHjGRMHgfTusGEyVOc4G3Hg78=
+Date:   Fri, 17 Jul 2020 22:28:27 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        slongerbeam@gmail.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 01/13] dt-bindings: media: ov5640: Convert to json-schema
+Message-ID: <20200717192827.GB5961@pendragon.ideasonboard.com>
+References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
+ <20200717132859.237120-2-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1595013060; bh=boIvlrIG2qx41G9zjbey4MygAAMCqMjJQzTJ18Zg5mk=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=bJS9Y8xb6VvtxfhFTwdZDiBJ6i32INrBvfuyigyXBuwjhoYX2BbDLm1hGxS9hxQve
-         HRfme8lDSqahhvaSrXdkkH4VNEwztHGzi6Q1t8jpW/+TFFQHxkeP4p4FvMt9WGMBWq
-         FqZTgeb0ic02lWjg7rRgDhOl4fSgvaC01ZFV+3GfHwCznUuezQphXSIZGuvLtfPz0P
-         5dj84UYgvKvQH7SuIItAiBevLel53dEFg9sw9W6CmB73aAz9S9P+MSY/Zv7PWpv7Us
-         Q6nU1i6KyE2kIgdxy6G+tbQEFI3FM7kTGhiLcjMsm75ExF6LsssHx6shIHHtr+SxEH
-         k0WF8SR1E1N4g==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200717132859.237120-2-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-IMX274 has VANA analog 2.8V supply, VDIG digital core 1.8V supply,
-and VDDL digital io 1.2V supply which are optional based on camera
-module design.
+Hi Jacopo,
 
-IMX274 also need external 24Mhz clock and is optional based on
-camera module design.
+Thank you for the patch.
 
-This patch adds support for IMX274 power on and off to enable and
-disable these supplies and external clock.
+On Fri, Jul 17, 2020 at 03:28:47PM +0200, Jacopo Mondi wrote:
+> Convert the ov5640 bindings document to json-schema.
+> 
+> This commit ports the existing bindings, clean up patches
+> will follow.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
+>  .../devicetree/bindings/media/i2c/ov5640.yaml | 181 ++++++++++++++++++
+>  2 files changed, 181 insertions(+), 92 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.txt b/Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> deleted file mode 100644
+> index c97c2f2da12d..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> +++ /dev/null
+> @@ -1,92 +0,0 @@
+> -* Omnivision OV5640 MIPI CSI-2 / parallel sensor
+> -
+> -Required Properties:
+> -- compatible: should be "ovti,ov5640"
+> -- clocks: reference to the xclk input clock.
+> -- clock-names: should be "xclk".
+> -- DOVDD-supply: Digital I/O voltage supply, 1.8 volts
+> -- AVDD-supply: Analog voltage supply, 2.8 volts
+> -- DVDD-supply: Digital core voltage supply, 1.5 volts
+> -
+> -Optional Properties:
+> -- reset-gpios: reference to the GPIO connected to the reset pin, if any.
+> -	       This is an active low signal to the OV5640.
+> -- powerdown-gpios: reference to the GPIO connected to the powerdown pin,
+> -		   if any. This is an active high signal to the OV5640.
+> -- rotation: as defined in
+> -	    Documentation/devicetree/bindings/media/video-interfaces.txt,
+> -	    valid values are 0 (sensor mounted upright) and 180 (sensor
+> -	    mounted upside down).
+> -
+> -The device node must contain one 'port' child node for its digital output
+> -video port, in accordance with the video interface bindings defined in
+> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -
+> -OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
+> -
+> -Endpoint node required properties for CSI-2 connection are:
+> -- remote-endpoint: a phandle to the bus receiver's endpoint node.
+> -- clock-lanes: should be set to <0> (clock lane on hardware lane 0)
+> -- data-lanes: should be set to <1> or <1 2> (one or two CSI-2 lanes supported)
+> -
+> -Endpoint node required properties for parallel connection are:
+> -- remote-endpoint: a phandle to the bus receiver's endpoint node.
+> -- bus-width: shall be set to <8> for 8 bits parallel bus
+> -	     or <10> for 10 bits parallel bus
+> -- data-shift: shall be set to <2> for 8 bits parallel bus
+> -	      (lines 9:2 are used) or <0> for 10 bits parallel bus
+> -- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
+> -- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
+> -- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
+> -	       signal.
+> -
+> -Examples:
+> -
+> -&i2c1 {
+> -	ov5640: camera@3c {
+> -		compatible = "ovti,ov5640";
+> -		pinctrl-names = "default";
+> -		pinctrl-0 = <&pinctrl_ov5640>;
+> -		reg = <0x3c>;
+> -		clocks = <&clks IMX6QDL_CLK_CKO>;
+> -		clock-names = "xclk";
+> -		DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> -		AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> -		DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> -		powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> -		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> -		rotation = <180>;
+> -
+> -		port {
+> -			/* MIPI CSI-2 bus endpoint */
+> -			ov5640_to_mipi_csi2: endpoint {
+> -				remote-endpoint = <&mipi_csi2_from_ov5640>;
+> -				clock-lanes = <0>;
+> -				data-lanes = <1 2>;
+> -			};
+> -		};
+> -	};
+> -};
+> -
+> -&i2c1 {
+> -	ov5640: camera@3c {
+> -		compatible = "ovti,ov5640";
+> -		pinctrl-names = "default";
+> -		pinctrl-0 = <&pinctrl_ov5640>;
+> -		reg = <0x3c>;
+> -		clocks = <&clk_ext_camera>;
+> -		clock-names = "xclk";
+> -
+> -		port {
+> -			/* Parallel bus endpoint */
+> -			ov5640_to_parallel: endpoint {
+> -				remote-endpoint = <&parallel_from_ov5640>;
+> -				bus-width = <8>;
+> -				data-shift = <2>; /* lines 9:2 are used */
+> -				hsync-active = <0>;
+> -				vsync-active = <0>;
+> -				pclk-sample = <1>;
+> -			};
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> new file mode 100644
+> index 000000000000..ceeacc91c801
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> @@ -0,0 +1,181 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ov5640.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV5640 MIPI CSI-2 / parallel sensor
+> +
+> +maintainers:
+> +  - Steve Longerbeam <slongerbeam@gmail.com>
+> +
+> +description: -|
+> +  The OV5640 is a 5 megapixels image sensor capable of producing images in RGB,
+> +  RAW, YUV and compressed formats. It features a MIPI CSI-2 and a parallel data
+> +  interface and an I2C-compatible (CCI) control interface.
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov5640
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    items:
+> +      - const: xclk
+> +
+> +  DOVDD-supply:
+> +    description: Digital I/O voltage supply, 1.8 volts.
+> +    maxItems: 1
+> +
+> +  AVDD-supply:
+> +    description: Analog voltage supply, 2.8 volts.
+> +    maxItems: 1
+> +
+> +  DVDD-supply:
+> +    description: Digital core voltage supply.
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: |
+> +      Reference to the GPIO connected to the reset pin, if any. This is an
+> +      active low signal to the OV5640.
+> +    maxItems: 1
+> +
+> +  powerdown-gpios:
+> +    description: |
+> +      Reference tot he GPIO connected to the powerdown pin, if any. This is an
+> +      active high signal to the OV5640.
+> +    maxItems: 1
+> +
+> +  rotation:
+> +    description: |
+> +      As defined in Documentation/devicetree/bindings/media/video-interfaces.txt
+> +    enum: [0, 180]
+> +
+> +  port:
+> +    type: object
+> +    description: |
+> +      The device node must contain one 'port' child node for its digital output
+> +      video port, in accordance with the video interface bindings defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +      OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+> +          remote-endpoint:
+> +            description: A phandle to the bus receiver's endpoint node.
+> +
+> +          clock-lanes:
+> +            const: 0
+> +
+> +          data-lanes:
+> +            description: |
+> +              Should be set to <1> or <1 2> (one or two CSI-2 lanes supported).
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- drivers/media/i2c/imx274.c | 135 ++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 132 insertions(+), 3 deletions(-)
+I think you can drop the description, it just duplicates the values
+below.
 
-diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
-index 55869ff..c3f7bcd 100644
---- a/drivers/media/i2c/imx274.c
-+++ b/drivers/media/i2c/imx274.c
-@@ -19,6 +19,7 @@
- #include <linux/module.h>
- #include <linux/of_gpio.h>
- #include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/v4l2-mediabus.h>
- #include <linux/videodev2.h>
-@@ -27,6 +28,8 @@
- #include <media/v4l2-device.h>
- #include <media/v4l2-subdev.h>
- 
-+#define IMX274_DEFAULT_CLK_FREQ			24000000
-+
- /*
-  * See "SHR, SVR Setting" in datasheet
-  */
-@@ -131,6 +134,15 @@
- #define IMX274_TABLE_WAIT_MS			0
- #define IMX274_TABLE_END			1
- 
-+/* regulator supplies */
-+static const char * const imx274_supply_names[] = {
-+	"VDDL",  /* IF (1.2V) supply */
-+	"VDIG",  /* Digital Core (1.8V) supply */
-+	"VANA",  /* Analog (2.8V) supply */
-+};
-+
-+#define IMX274_NUM_SUPPLIES ARRAY_SIZE(imx274_supply_names)
-+
- /*
-  * imx274 I2C operation related structure
-  */
-@@ -501,6 +513,8 @@ struct imx274_ctrls {
-  * @frame_rate: V4L2 frame rate structure
-  * @regmap: Pointer to regmap structure
-  * @reset_gpio: Pointer to reset gpio
-+ * @supplies: imx274 analog and digital supplies
-+ * @inck: input clock to imx274
-  * @lock: Mutex structure
-  * @mode: Parameters for the selected readout mode
-  */
-@@ -514,6 +528,8 @@ struct stimx274 {
- 	struct v4l2_fract frame_interval;
- 	struct regmap *regmap;
- 	struct gpio_desc *reset_gpio;
-+	struct regulator *supplies[IMX274_NUM_SUPPLIES];
-+	struct clk *inck;
- 	struct mutex lock; /* mutex lock for operations */
- 	const struct imx274_mode *mode;
- };
-@@ -767,6 +783,98 @@ static void imx274_reset(struct stimx274 *priv, int rst)
- 	usleep_range(IMX274_RESET_DELAY1, IMX274_RESET_DELAY2);
- }
- 
-+/*
-+ * imx274_power_on - Function called to power on the sensor
-+ * @imx274: Pointer to device structure
-+ */
-+static int imx274_power_on(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct stimx274 *imx274 = to_imx274(sd);
-+	int i, ret;
-+
-+	ret = clk_prepare_enable(imx274->inck);
-+	if (ret) {
-+		dev_err(&imx274->client->dev, "Failed to enable clock\n");
-+		return ret;
-+	}
-+
-+	for (i = 0; i < IMX274_NUM_SUPPLIES; i++) {
-+		if (imx274->supplies[i]) {
-+			ret = regulator_enable(imx274->supplies[i]);
-+			if (ret < 0) {
-+				dev_err(&imx274->client->dev,
-+					"Failed to enable %s supply: %d\n",
-+					imx274_supply_names[i], ret);
-+				goto fail_reg;
-+			}
-+		}
-+	}
-+
-+	usleep_range(1, 2);
-+	imx274_reset(imx274, 1);
-+
-+	return 0;
-+
-+fail_reg:
-+	for (--i; i >= 0; i--) {
-+		if (imx274->supplies[i])
-+			regulator_disable(imx274->supplies[i]);
-+	}
-+
-+	clk_disable_unprepare(imx274->inck);
-+	return ret;
-+}
-+
-+/*
-+ * imx274_power_off - Function called to power off the sensor
-+ * @imx274: Pointer to device structure
-+ */
-+static int imx274_power_off(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct stimx274 *imx274 = to_imx274(sd);
-+	int i;
-+
-+	imx274_reset(imx274, 0);
-+
-+	for (i = 0; i < IMX274_NUM_SUPPLIES; i++) {
-+		if (imx274->supplies[i])
-+			regulator_disable(imx274->supplies[i]);
-+	}
-+
-+	clk_disable_unprepare(imx274->inck);
-+
-+	return 0;
-+}
-+
-+static int imx274_get_regulators(struct device *dev, struct stimx274 *imx274)
-+{
-+	int i, err;
-+	const char *supply;
-+
-+	for (i = 0; i < IMX274_NUM_SUPPLIES; i++) {
-+		supply = imx274_supply_names[i];
-+		imx274->supplies[i] = devm_regulator_get_optional(dev, supply);
-+		if (!IS_ERR(imx274->supplies[i]))
-+			continue;
-+		err = PTR_ERR(imx274->supplies[i]);
-+		if (err != -ENODEV) {
-+			if (err != -EPROBE_DEFER)
-+				dev_err(&imx274->client->dev,
-+					"Failed to get %s supply: %d\n",
-+					supply, err);
-+			return err;
-+		}
-+
-+		imx274->supplies[i] = NULL;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * imx274_s_ctrl - This is used to set the imx274 V4L2 controls
-  * @ctrl: V4L2 control to be set
-@@ -1836,6 +1944,13 @@ static int imx274_probe(struct i2c_client *client)
- 
- 	mutex_init(&imx274->lock);
- 
-+	imx274->inck = devm_clk_get_optional(&client->dev, "inck");
-+	ret = imx274_get_regulators(&client->dev, imx274);
-+	if (ret) {
-+		dev_err(&client->dev, "Failed to get power regulators, err: %d\n", ret);
-+		return ret;
-+	}
-+
- 	/* initialize format */
- 	imx274->mode = &imx274_modes[IMX274_DEFAULT_BINNING];
- 	imx274->crop.width = IMX274_MAX_WIDTH;
-@@ -1883,15 +1998,26 @@ static int imx274_probe(struct i2c_client *client)
- 		goto err_me;
- 	}
- 
--	/* pull sensor out of reset */
--	imx274_reset(imx274, 1);
-+	/* power on the sensor */
-+	ret = imx274_power_on(&client->dev);
-+	if (ret < 0) {
-+		dev_err(&client->dev,
-+			"%s : imx274 power on failed\n", __func__);
-+		goto err_me;
-+	}
-+
-+	ret = clk_set_rate(imx274->inck, IMX274_DEFAULT_CLK_FREQ);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "Failed to set INCK clock rate\n");
-+		return ret;
-+	}
- 
- 	/* initialize controls */
- 	ret = v4l2_ctrl_handler_init(&imx274->ctrls.handler, 4);
- 	if (ret < 0) {
- 		dev_err(&client->dev,
- 			"%s : ctrl handler init Failed\n", __func__);
--		goto err_me;
-+		goto err_power_off;
- 	}
- 
- 	imx274->ctrls.handler.lock = &imx274->lock;
-@@ -1958,6 +2084,8 @@ static int imx274_probe(struct i2c_client *client)
- 
- err_ctrls:
- 	v4l2_ctrl_handler_free(&imx274->ctrls.handler);
-+err_power_off:
-+	imx274_power_off(&client->dev);
- err_me:
- 	media_entity_cleanup(&sd->entity);
- err_regmap:
-@@ -1975,6 +2103,7 @@ static int imx274_remove(struct i2c_client *client)
- 
- 	v4l2_async_unregister_subdev(sd);
- 	v4l2_ctrl_handler_free(&imx274->ctrls.handler);
-+	imx274_power_off(&client->dev);
- 	media_entity_cleanup(&sd->entity);
- 	mutex_destroy(&imx274->lock);
- 	return 0;
+> +            oneOf:
+> +              - items:
+> +                - const: 1
+> +              - items:
+> +                - const: 1
+> +                - const: 2
+
+This could also be written
+
+            minItems: 1
+            items:
+              - const: 1
+              - const: 2
+
+> +
+> +          bus-width:
+> +            description: |
+> +              Shall be set to <8> for 8 bits parallel bus or <10> for 10 bits
+> +              parallel bus.
+
+I think I'd drop the description here too. We need to eventually convert
+Documentation/devicetree/bindings/media/video-interfaces.txt to YAML,
+and descriptions will be stored there.
+
+> +            enum: [8, 10]
+> +
+> +          data-shift:
+> +            description: |
+> +              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
+> +              <0> for 10 bits parallel bus.
+> +            enum: [0, 2]
+> +
+> +          hsync-active:
+> +            enum: [0, 1]
+> +
+> +          vsync-active:
+> +            enum: [0, 1]
+> +
+> +          pclk-sample:
+> +            enum: [0, 1]
+> +
+> +        required:
+> +          - remote-endpoint
+
+You could add
+
+        allOf:
+          - if:
+              properties:
+                bus-width:
+                  const: 8
+            then:
+              properties:
+                data-shift:
+                  const: 2
+              required:
+                - data-shift
+          - if:
+              properties:
+                bus-width:
+                  const: 10
+            then:
+              properties:
+                data-shift:
+                  const: 0
+              required:
+                - data-shift
+
+To document the relationship between bus-width and data-shift in rules
+instead of in the data-shift description.
+
+Could you please take these comments into account for other patches in
+the series, where applicable ?
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - DOVDD-supply
+> +  - AVDD-supply
+> +  - DVDD-supply
+> +  - port
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/clock/imx6qdl-clock.h>
+> +
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@3c {
+> +            compatible = "ovti,ov5640";
+> +            reg = <0x3c>;
+> +            clocks = <&clks IMX6QDL_CLK_CKO>;
+> +            clock-names = "xclk";
+> +            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> +            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> +            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> +            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> +            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> +            rotation = <180>;
+> +
+> +            port {
+> +                ov5640_to_mipi_csi2: endpoint {
+> +                    remote-endpoint = <&mipi_csi2_from_ov5640>;
+> +                    clock-lanes = <0>;
+> +                    data-lanes = <1 2>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    i2c1 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@3c {
+> +            compatible = "ovti,ov5640";
+> +            reg = <0x3c>;
+> +            clocks = <&clks IMX6QDL_CLK_CKO>;
+> +            clock-names = "xclk";
+> +            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> +            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> +            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> +            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> +            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> +            rotation = <180>;
+> +
+> +            port {
+> +                ov5640_to_parallel: endpoint {
+> +                    remote-endpoint = <&parallel_from_ov5640>;
+> +                    bus-width = <10>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
 -- 
-2.7.4
+Regards,
 
+Laurent Pinchart
