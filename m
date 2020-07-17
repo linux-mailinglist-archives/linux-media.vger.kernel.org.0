@@ -2,156 +2,266 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBA3A223FB9
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 17:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FCDB223FDF
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 17:47:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726422AbgGQPih (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 11:38:37 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4423 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgGQPih (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 11:38:37 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f11c5c10001>; Fri, 17 Jul 2020 08:37:37 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 17 Jul 2020 08:38:37 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 17 Jul 2020 08:38:37 -0700
-Received: from [10.2.163.115] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
- 2020 15:38:36 +0000
-Subject: Re: [RFC PATCH v3 16/18] gpu: host1x: mipi: Split
- tegra_mipi_calibrate and tegra_mipi_wait
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
-        <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>
-References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
- <1594786855-26506-17-git-send-email-skomatineni@nvidia.com>
- <a06dec8f-7042-767b-545b-048685a7683d@gmail.com>
- <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
- <c4945c77-5de1-e9b1-9f4f-cdd78bca18c7@gmail.com>
- <ce0c5ffb-f859-0eab-1ea5-044623dff221@nvidia.com>
- <a2b8169c-c4a3-4862-cd27-8c1a51ddc558@gmail.com>
- <4690e682-8495-2327-87c7-c2f06a7a479d@nvidia.com>
- <66812127-38cf-2af3-51c0-50edbe446e73@nvidia.com>
- <9b4fbf9d-d651-aa35-c0a6-b8f16aeb0900@gmail.com>
- <550f1796-67ca-5856-223d-c68360243954@nvidia.com>
- <ca8f2184-de30-03ec-9caf-e20a22d96a77@nvidia.com>
- <080b30c7-1dce-dd2f-dd96-40f6e25da4d6@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <b125deab-7900-6266-d405-4d7f029089b4@nvidia.com>
-Date:   Fri, 17 Jul 2020 08:41:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726668AbgGQPrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 11:47:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34890 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726233AbgGQPrl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Jul 2020 11:47:41 -0400
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C3300208E4;
+        Fri, 17 Jul 2020 15:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595000860;
+        bh=Fof+n+5hn6BzRDXK6CPJ8CJWNj+z8iIWexUs4lUfoZY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=B/lG7yUpsYSHhcLDkbf6n/OGZQFazKaUBz2LMZKDVRB0nyz5925DDcYcaoBUaa2Gr
+         wHw/fXaB/tpnZk9YfiG3N5PqcIZnUZCFyNf6Lun0QkZ/5P+BMX8kNByJWXAz0Xa+Hs
+         6bbOaixpE+tI/+J26gXY5ciY4wAKCHo0RSgonnJ8=
+Received: by mail-ej1-f46.google.com with SMTP id a21so11328035ejj.10;
+        Fri, 17 Jul 2020 08:47:39 -0700 (PDT)
+X-Gm-Message-State: AOAM531siw/qaLJPiCwLOpB/U/jnbXG+vM5EbYS+m3bfI2LFTE0FABX8
+        LPrHP/kWLvCZ/yUfbB/ng+eUSXDoB/Fprg7vMA==
+X-Google-Smtp-Source: ABdhPJzDeDgv5D7Zl1JAFCUFZG4a/Pkl/2ReMrKIV4794UgMVW9A5Gyq4enR4dvbVIvw5mgdvhC9glzmlay9nZIbSqE=
+X-Received: by 2002:a17:906:6959:: with SMTP id c25mr8891917ejs.375.1595000858260;
+ Fri, 17 Jul 2020 08:47:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <080b30c7-1dce-dd2f-dd96-40f6e25da4d6@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+References: <20200708104023.3225-1-louis.kuo@mediatek.com> <20200708104023.3225-2-louis.kuo@mediatek.com>
+ <CAAOTY_-+v_t3Vv-Ms7k9jCxJ+0B9qb93tBkL=3OmpMLeyAdV-g@mail.gmail.com>
+ <b7b77606aa3e476aa68b2fa116329f84@mtkmbs02n2.mediatek.inc>
+ <CAAOTY__Jeu67-jajV5jysoTTXPoKXuXpvbGzHFYsUKG=j44sQg@mail.gmail.com> <CAAFQd5B=e6bcmeO5LBd7eqOWaVvbzPKEv2nJHUfpUVJ3ruFqRg@mail.gmail.com>
+In-Reply-To: <CAAFQd5B=e6bcmeO5LBd7eqOWaVvbzPKEv2nJHUfpUVJ3ruFqRg@mail.gmail.com>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Fri, 17 Jul 2020 23:47:27 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9S9Jq=+Na7JRmhEaJyFaVnvuVn2HSRa8mChuxtqGiGKg@mail.gmail.com>
+Message-ID: <CAAOTY_9S9Jq=+Na7JRmhEaJyFaVnvuVn2HSRa8mChuxtqGiGKg@mail.gmail.com>
+Subject: Re: [RFC PATCH V7 1/3] media: platform: mtk-isp: Add Mediatek sensor
+ interface driver
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        =?UTF-8?B?TG91aXMgS3VvICjpg63lvrflr6cp?= <louis.kuo@mediatek.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "keiichiw@chromium.org" <keiichiw@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <Sean.Cheng@mediatek.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        =?UTF-8?B?SmVycnktY2ggQ2hlbiAo6Zmz5pWs5oayKQ==?= 
+        <Jerry-ch.Chen@mediatek.com>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
+        <christie.yu@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <Frederic.Chen@mediatek.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1595000257; bh=BwQ54mkMiNyfXprqWjplx8huez0ofYFZmAj/V7xmfOg=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=MmFR4hMIZLpNgjGiHyv/ZezFZqR2R973bwrM7NbK947LTpR87DZCHpQ4IAVIJzpye
-         WkiP6wYzl9Z2M8OJTAeJdzO5oCwk7zqrNZN3lf1zqGGpO6kGBw2S69xdTV5W0FulN3
-         G4VUQpKP/NJgaVFeuV3hscuu+1h0IOz75tsMrgiuZwKNwXcY7eWBuovgj4oCyfYJLg
-         /roJVJVnudOOpuC/ceTL/73FEIduJboJtIngXdd6Gmzfou57zcBRmggwbgiuNI3uXN
-         0HOd4HdPcCb8HKhNpjHl1xyeb+lCJrhIFKVmq9stGs7qSK3N19jxxHL+BgRZwrtDy1
-         EfoT6jLaO3WrA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On 7/17/20 8:01 AM, Dmitry Osipenko wrote:
-> 17.07.2020 07:46, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
->> Looks like sequence posted in TRM need to be updated clearly for proper
->> MIPI CAL start and wait.
->>
->> Correct steps should be like below
->>
->> 1. Set up CSI registers for use case such as number of lanes, virtual
->> channel, etc.
->> 2. Initialize and power up CSI CIL interface
->> 3. Program MIPI CAL bias pads, cal configs, cal control registers and
->> enable calibration start
->> 4. Power up camera through the I2C interface and start sensor streaming
->> through the I2C
->>
->> Note: All sensors might not leave pads in LP-11 state as sensor may be
->> power down when not in use.
->>
->> So start streaming prior to checking for calibration done status as
->> LP-11 -> HS transition happens during sensor stream and calibration
->> logic can apply results to pads and update done status,
->>
->> 5. Wait for done signal from calibration logic
->>
->> 6. perform frame capture thru VI
->> 7. Frame done, CSI goes back to stop state, LP11
->>
->> Will work internally to correct sequence in TRM ...
-> Will be nice to have an updated TRM, thank you!
+Tomasz Figa <tfiga@chromium.org> =E6=96=BC 2020=E5=B9=B47=E6=9C=8817=E6=97=
+=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8810:33=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Also, what about the auto-calibration? Isn't it needed to be enabled for
-> CSI?
-STARTCAL does one time calibration and with AUTOCAL calibration will be=20
-triggered periodically.
+> On Fri, Jul 17, 2020 at 4:21 PM Chun-Kuang Hu <chunkuang.hu@kernel.org> w=
+rote:
+> >
+> > Hi, Louis:
+> >
+> > Louis Kuo (=E9=83=AD=E5=BE=B7=E5=AF=A7) <louis.kuo@mediatek.com> =E6=96=
+=BC 2020=E5=B9=B47=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=
+=8810:56=E5=AF=AB=E9=81=93=EF=BC=9A
+> > >
+> > > Hi Chun-Kuang,
+> > >
+> > > Since phy driver is not belong to V4L2 scope
+> > >
+> > > Should I need to upsteam 8183 mipi phy driver with new a patch other =
+than this one ?
+> >
+> > Yes, I think so. Maybe different series would be better.
+>
+> Since both would not be usable without each other, I believe they
+> should be handled by the same series, although care should be taken to
+> have the patches in the series clearly separated between the two
+> subsystems.
 
-For pads PULLUP/PULLDN/TERM impedance calibration, we only need one-time=20
-calibration on pads power up.
+One series is ok for me. For each maintainer, they could pick what
+they want from this series, or get ack by another maintainer and pick
+all patches into one tree.
 
-We always use one time pads calibration for CSI.
+Regards,
+Chun-Kuang.
 
 >
->> In mipi driver will update as below to have mipi clk enabled till
->> calibration status check is done.
->>
->> Always tegra_mipi_wait() followes tegra_mipi_calibrate() in both DSI and
->> CSI. So below sequence should work good.
->>
->> tegra_mipi_calibrate()
->>
->> - clk_enable mipi cal
->> - program mipi cal registers (bias pads cfgs, mipi cal ctrl and trigger
->> calibration start)
->>
->> tegra_mipi_wait()
->> - read mipi cal status and wait for active and done bits
->> - clk_disable mipi cal
+> Best regards,
+> Tomasz
 >
-> Maybe then it should be better to rename the functions like this:
->
-> tegra_mipi_calibrate() -> tegra_mipi_start_calibration()
-> tegra_mipi_wait()      -> tegra_mipi_finish_calibration().
->
-> and there also should be tegra_mipi_cancel_calibration().
->
->
-> Example:
->
-> 	tegra_mipi_start_calibration();
->
-> 	ret =3D v4l2_subdev_call(subdev, video, s_stream, on);
-> 	if (ret < 0) {
-> 		tegra_mipi_cancel_calibration();
-> 		goto err;
-> 	}
->
-> 	tegra_mipi_finish_calibration();
->
->
+> >
+> > Regards,
+> > Chun-Kuang.
+> >
+> > >
+> > > BRs
+> > > Louis
+> > >
+> > > -----Original Message-----
+> > > From: Chun-Kuang Hu [mailto:chunkuang.hu@kernel.org]
+> > > Sent: Thursday, July 9, 2020 9:13 PM
+> > > To: Louis Kuo (=E9=83=AD=E5=BE=B7=E5=AF=A7)
+> > > Cc: hans.verkuil@cisco.com; laurent.pinchart+renesas@ideasonboard.com=
+; Tomasz Figa; keiichiw@chromium.org; Matthias Brugger; Mauro Carvalho Cheh=
+ab; devicetree@vger.kernel.org; Sean Cheng (=E9=84=AD=E6=98=87=E5=BC=98); s=
+rv_heupstream; Jerry-ch Chen (=E9=99=B3=E6=95=AC=E6=86=B2); Jungo Lin (=E6=
+=9E=97=E6=98=8E=E4=BF=8A); Sj Huang (=E9=BB=83=E4=BF=A1=E7=92=8B); yuzhao@c=
+hromium.org; moderated list:ARM/Mediatek SoC support; zwisler@chromium.org;=
+ Christie Yu (=E6=B8=B8=E9=9B=85=E6=83=A0); Frederic Chen (=E9=99=B3=E4=BF=
+=8A=E5=85=83); Linux ARM; linux-media@vger.kernel.org
+> > > Subject: Re: [RFC PATCH V7 1/3] media: platform: mtk-isp: Add Mediate=
+k sensor interface driver
+> > >
+> > > Hi, Louis:
+> > >
+> > > Louis Kuo <louis.kuo@mediatek.com> =E6=96=BC 2020=E5=B9=B47=E6=9C=888=
+=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:41=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+> > > >
+> > > > This patch adds Mediatek's sensor interface driver. Sensor interfac=
+e
+> > > > driver is a MIPI-CSI2 host driver, namely, a HW camera interface co=
+ntroller.
+> > > > It support a widely adopted, simple, high-speed protocol primarily
+> > > > intended for point-to-point image and video transmission between
+> > > > cameras and host devices. The mtk-isp directory will contain driver=
+s
+> > > > for multiple IP blocks found in Mediatek ISP system. It will includ=
+e
+> > > > ISP Pass 1 driver, sensor interface driver, DIP driver and face det=
+ection driver.
+> > > >
+> > > > Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+> > > > ---
+> > > >  drivers/media/platform/Makefile               |    1 +
+> > > >  drivers/media/platform/mtk-isp/Kconfig        |   18 +
+> > > >  drivers/media/platform/mtk-isp/Makefile       |    3 +
+> > > >  .../media/platform/mtk-isp/seninf/Makefile    |    7 +
+> > > >  .../platform/mtk-isp/seninf/mtk_seninf.c      |  974 +++++++++++
+> > > >  .../platform/mtk-isp/seninf/mtk_seninf_dphy.c |  353 ++++
+> > >
+> > > I think phy driver should be placed in drivers/phy/mediatek and separ=
+ate phy driver to an independent patch.
+> > >
+> > > >  .../platform/mtk-isp/seninf/mtk_seninf_reg.h  | 1491 +++++++++++++=
+++++
+> > > >  .../mtk-isp/seninf/mtk_seninf_rx_reg.h        |  515 ++++++
+> > > >  8 files changed, 3362 insertions(+)
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/Kconfig
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/Makefile
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/seninf/Makefile
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_senin=
+f.c
+> > > >  create mode 100644
+> > > > drivers/media/platform/mtk-isp/seninf/mtk_seninf_dphy.c
+> > > >  create mode 100644
+> > > > drivers/media/platform/mtk-isp/seninf/mtk_seninf_reg.h
+> > > >  create mode 100644
+> > > > drivers/media/platform/mtk-isp/seninf/mtk_seninf_rx_reg.h
+> > > >
+> > >
+> > > [snip]
+> > >
+> > > > +
+> > > > +#include <linux/clk.h>
+> > > > +#include <linux/delay.h>
+> > > > +#include <linux/interrupt.h>
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/of_graph.h>
+> > > > +#include <linux/of_irq.h>
+> > >
+> > > No irq handler, so remove this.
+> > >
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <linux/pm_runtime.h>
+> > > > +#include <linux/slab.h>
+> > > > +#include <linux/videodev2.h>
+> > > > +#include <media/v4l2-async.h>
+> > > > +#include <media/v4l2-ctrls.h>
+> > > > +#include <media/v4l2-event.h>
+> > > > +#include <media/v4l2-fwnode.h>
+> > > > +#include <media/v4l2-subdev.h>
+> > > > +#include <linux/phy/phy.h>
+> > > > +#include "mtk_seninf_reg.h"
+> > > > +
+> > >
+> > > [snip]
+> > >
+> > > > +
+> > > > +static int seninf_set_ctrl(struct v4l2_ctrl *ctrl) {
+> > > > +       struct mtk_seninf *priv =3D container_of(ctrl->handler,
+> > > > +                                            struct mtk_seninf,
+> > > > +ctrl_handler);
+> > > > +
+> > > > +       switch (ctrl->id) {
+> > > > +       case V4L2_CID_TEST_PATTERN:
+> > > > +               if (ctrl->val =3D=3D TEST_GEN_PATTERN)
+> > > > +                       return seninf_enable_test_pattern(priv);
+> > >
+> > > Without this, this driver still works, so move this to an independent=
+ patch.
+> > >
+> > > > +               else if (ctrl->val =3D=3D TEST_DUMP_DEBUG_INFO)
+> > > > +                       return seninf_dump_debug_info(priv);
+> > >
+> > > Ditto.
+> > >
+> > > > +               else
+> > > > +                       return -EINVAL;
+> > > > +       }
+> > > > +
+> > > > +       return 0;
+> > > > +}
+> > > > +
+> > >
+> > > [snip]
+> > >
+> > > > +
+> > > > +#ifdef CONFIG_OF
+> > > > +static const struct of_device_id mtk_mipi_dphy_of_match[] =3D {
+> > > > +       {.compatible =3D "mediatek,mt8183-mipi_dphy"},
+> > >
+> > > Where is the definition of "mediatek,mt8183-mipi_dphy"?
+> > >
+> > > Regards,
+> > > Chun-Kuang.
+> > >
+> > > > +       {},
+> > > > +};
+> > > > +MODULE_DEVICE_TABLE(of, mtk_mipi_dphy_of_match); #endif
+> > > > +
+> > > > +static struct platform_driver mipi_dphy_pdrv =3D {
+> > > > +       .probe  =3D mipi_dphy_probe,
+> > > > +       .driver =3D {
+> > > > +               .name   =3D "mipi_dphy",
+> > > > +               .of_match_table =3D of_match_ptr(mtk_mipi_dphy_of_m=
+atch),
+> > > > +       },
+> > > > +};
+> > > > +
+> > > > +module_platform_driver(mipi_dphy_pdrv);
+> > > > +
