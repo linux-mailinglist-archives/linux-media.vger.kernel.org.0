@@ -2,162 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 671422231E3
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 05:59:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66D5E223285
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 06:43:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727854AbgGQD67 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jul 2020 23:58:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726512AbgGQD64 (ORCPT
+        id S1726512AbgGQEnO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 00:43:14 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4767 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725300AbgGQEnN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jul 2020 23:58:56 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0796C061755;
-        Thu, 16 Jul 2020 20:58:56 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id x8so4860958plm.10;
-        Thu, 16 Jul 2020 20:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
-        b=L7uBE6cDRVMj0gHPJGOHTDiheKAZMJIZrfqbe00VOVr73uD1dK32hSHLBzu75ld5A+
-         Ai5h0vpfZWBpdF4SA7BpWBHNdDJdwXGXaH74ccr49lkrPvAjHPLRynhdvE264lupkpx0
-         uOy4IgUC98Eea9OqYKG7WdHC3U25kORnT7fwiIbjHv6DMpYc9oHkzsiSv2xSoPV32QNW
-         RCowtyc3gssZ40NB14OMin2AG3R5MK3JRGYAaUNeDoNrDyH62j/Mwb/uQ1zs9Sf01NaP
-         sPebEiexTuE+hAmVvTA2+QZi+dJRN/FcXKpRY5VaWvxlmopInSontbSzsOF/Q+Cvpk1v
-         2ClQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
-        b=aieHs8hFBdDJnJB0cjFLaMVPvVuEXx1fMbDn1b8jejNLDdf5+spyhQzEki+WZapFbm
-         /T1ziD3HsMJh6/v228aB7rV4/t8OFUMIylu+Q6tciw4r2aEVXRCuNqYaeZOSGCI0YMSn
-         l+PKXFbbXmAB6ZOS8B88GwzXf+LaPIh3YE0soNSBA8MTqdG6GD4XxKto5sdZnKdPubbR
-         Lh055M/he0ThqO412pj92tZu3whvVkgVBsErseV65ZW3+vu+OZIJY9Uj6k8gl9ClSMk5
-         PgKkeBuZLTbAEozUq5NidA25QydM7B+bUHPwKWV7G+u/G/8NhES4Kqd4m8RFaVT6fuDn
-         aN5w==
-X-Gm-Message-State: AOAM5307qo6liv1J0YKn7YXqymlkPE2eZbSsxI7a7jICr5QSPfAHXmCH
-        hcIiDwbyJnNw3m43cA6i7BY=
-X-Google-Smtp-Source: ABdhPJz9RWNqG7kqo+L+MFtbo2hzekR4x6yLSqYQDRE2NFenzzMNtalvwVlrAFC3Z8cmn2EAqPWygQ==
-X-Received: by 2002:a17:90a:cc0f:: with SMTP id b15mr7949017pju.83.1594958336419;
-        Thu, 16 Jul 2020 20:58:56 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.153.67])
-        by smtp.gmail.com with ESMTPSA id v11sm6227907pgs.22.2020.07.16.20.58.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 20:58:55 -0700 (PDT)
-From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Bjorn Helgaas <bjorn@helgaas.com>,
-        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v2 6/6] tw68: use generic power management
-Date:   Fri, 17 Jul 2020 09:26:08 +0530
-Message-Id: <20200717035608.97254-7-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
-References: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
+        Fri, 17 Jul 2020 00:43:13 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f112c250000>; Thu, 16 Jul 2020 21:42:13 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 16 Jul 2020 21:43:12 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 16 Jul 2020 21:43:12 -0700
+Received: from [10.2.163.115] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
+ 2020 04:43:11 +0000
+Subject: Re: [RFC PATCH v3 16/18] gpu: host1x: mipi: Split
+ tegra_mipi_calibrate and tegra_mipi_wait
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <1594786855-26506-17-git-send-email-skomatineni@nvidia.com>
+ <a06dec8f-7042-767b-545b-048685a7683d@gmail.com>
+ <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
+ <c4945c77-5de1-e9b1-9f4f-cdd78bca18c7@gmail.com>
+ <ce0c5ffb-f859-0eab-1ea5-044623dff221@nvidia.com>
+ <a2b8169c-c4a3-4862-cd27-8c1a51ddc558@gmail.com>
+ <4690e682-8495-2327-87c7-c2f06a7a479d@nvidia.com>
+ <66812127-38cf-2af3-51c0-50edbe446e73@nvidia.com>
+ <9b4fbf9d-d651-aa35-c0a6-b8f16aeb0900@gmail.com>
+ <550f1796-67ca-5856-223d-c68360243954@nvidia.com>
+Message-ID: <ca8f2184-de30-03ec-9caf-e20a22d96a77@nvidia.com>
+Date:   Thu, 16 Jul 2020 21:46:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <550f1796-67ca-5856-223d-c68360243954@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1594960933; bh=zrJPrkEaMilEsiEvCxFcP2qbAQOtnirImXULU2ZGxhw=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=royn2/PPV0tG+o3uz3podazpaSg+TPlkllbRFPolMwQkBGDlcwzbqOPcUlvl6bpUu
+         VW92u//W+t9T+V5jjotKTA3QnS+R+qe+DDZ7NZxmMtZc7CGa4GPchtE+V5g7cHNRd1
+         XA6ZKE+tkkAfQuGk7P4CnaSBOcTpuEVRLxAIyKUWgd32J7DNdgAC17TEw1ElcHLsD2
+         TBxxCZ6eSTN/eQdCdMWeT64mo77pSxVZ3S0k8yvfnzkB3IEBAnEF679u1HObAcSImA
+         fsoM/ZtUwjFZ7V582xtQHiNYnJJkN+azdHxpMn/QgnhyOyCh5w8hr2PPFLYl1ll5bL
+         e/7PfBjBNmoyQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With legacy PM, drivers themselves were responsible for managing the
-device's power states and takes care of register states.
 
-After upgrading to the generic structure, PCI core will take care of
-required tasks and drivers should do only device-specific operations.
+On 7/16/20 5:16 PM, Sowjanya Komatineni wrote:
+>
+> On 7/16/20 4:47 PM, Dmitry Osipenko wrote:
+>> 17.07.2020 02:09, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> On 7/16/20 4:06 PM, Sowjanya Komatineni wrote:
+>>>> On 7/16/20 4:01 PM, Dmitry Osipenko wrote:
+>>>>> 17.07.2020 01:49, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>>> What keeps MIPI clock enabled after completion of the
+>>>>>>> tegra_mipi_calibrate() invocation?
+>>>>>> MIPI clock is disabled at end of tegra_mipi_calibrate and is=20
+>>>>>> re-enabled
+>>>>>> during tegra_mipi_wait.
+>>>>>>
+>>>>>> I think I should fix this to keep the clock enabled till calibration
+>>>>>> results are latched.
+>>>>>>
+>>>>>> All consumers of tegra_mipi_calibrate() will call tegra_mipi_wait().
+>>>>>>
+>>>>>> So will remove clk_disable mipi clk at end of tegra_mipi_calibrate()
+>>>>>> and
+>>>>>> clk_enable mipi_clk at beginning of tegra_mipi_wait()
+>>>>> Isn't it possible to perform the calibration after enabling CSI and
+>>>>> before of starting the sensor streaming?
+>>>> Currently this is what I am doing. Triggering calibration start during
+>>>> CSI receiver being ready and then sensor streaming will happen where
+>>>> internal MIPI CAL detects for LP -> HS transition and applies results
+>>>> to pads. So checking for calibration results after sensor stream is
+>>>> enabled
+>>> 1. Calling tegra_mipi_calibrate() during CSI streaming where CSI pads
+>>> are enabled and receiver is kept ready
+>>>
+>>> 2. Start Sensor stream
+>>>
+>>> 3. Calling tegra_mipi_wait() to check for MIPI Cal status.
+>>>
+>>> So as mipi cal clk need to be kept enabled till 3rd step, we can enable
+>>> clock during tegra_mipi_calibrate() and leave it enabled and disable it
+>>> in tegra_mipi_wait after status check.
+>> =C2=A0From TRM:
+>>
+>> The following sequence is recommended for capturing a single frame:
+>>
+>> 1. Set up CSI registers for use case such as number of lanes, virtual
+>> channel, etc.
+>> 2. Initialize and power up CSI interface
+>> 3. Wait for initialization time or done signal from calibration logic
+>> 4. Power up camera through the I2C interface
+>> 5. All CSI data and clock lanes are in stop state, LP11
+>> 6. Initiate frame capture through the I2C
+>> 7. Frame done, CSI goes back to stop state, LP11
+>>
+>> Hence, is it really necessary to perform the manual calibration?
+>
+> done signal from calibration logic will happen only when it sees LP to=20
+> HS transition as thats when calibration results are applied to pads=20
+> and then done signal is set.
+>
+> Also MIPI Pads calibration need to be done on every power off/on. So=20
+> need to do calibration and trigger it along with CSI receiver=20
+> programming to keep it ready and then need to check/wait for status=20
+> only after sensor stream happens as thats where LP->HS transition happen.
+>
+Looks like sequence posted in TRM need to be updated clearly for proper=20
+MIPI CAL start and wait.
 
-The driver was invoking PCI helper functions like pci_save/restore_state()
-which is not recommended.
+Correct steps should be like below
 
-Compile-Tested only.
+1. Set up CSI registers for use case such as number of lanes, virtual=C2=A0=
+=20
+channel, etc.
+2. Initialize and power up CSI CIL interface
+3. Program MIPI CAL bias pads, cal configs, cal control registers and=20
+enable calibration start
+4. Power up camera through the I2C interface and start sensor streaming=20
+through the I2C
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/media/pci/tw68/tw68-core.c | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+Note: All sensors might not leave pads in LP-11 state as sensor may be=20
+power down when not in use.
 
-diff --git a/drivers/media/pci/tw68/tw68-core.c b/drivers/media/pci/tw68/tw68-core.c
-index b45f3ffa3de5..065420b09250 100644
---- a/drivers/media/pci/tw68/tw68-core.c
-+++ b/drivers/media/pci/tw68/tw68-core.c
-@@ -359,10 +359,9 @@ static void tw68_finidev(struct pci_dev *pci_dev)
- 	v4l2_device_unregister(&dev->v4l2_dev);
- }
- 
--#ifdef CONFIG_PM
--
--static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
-+static int __maybe_unused tw68_suspend(struct device *dev_d)
- {
-+	struct pci_dev *pci_dev = to_pci_dev(dev_d);
- 	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
- 	struct tw68_dev *dev = container_of(v4l2_dev,
- 				struct tw68_dev, v4l2_dev);
-@@ -373,24 +372,19 @@ static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
- 
- 	synchronize_irq(pci_dev->irq);
- 
--	pci_save_state(pci_dev);
--	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
- 	vb2_discard_done(&dev->vidq);
- 
- 	return 0;
- }
- 
--static int tw68_resume(struct pci_dev *pci_dev)
-+static int __maybe_unused tw68_resume(struct device *dev_d)
- {
--	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
-+	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
- 	struct tw68_dev *dev = container_of(v4l2_dev,
- 					    struct tw68_dev, v4l2_dev);
- 	struct tw68_buf *buf;
- 	unsigned long flags;
- 
--	pci_set_power_state(pci_dev, PCI_D0);
--	pci_restore_state(pci_dev);
--
- 	/* Do things that are done in tw68_initdev ,
- 		except of initializing memory structures.*/
- 
-@@ -408,19 +402,17 @@ static int tw68_resume(struct pci_dev *pci_dev)
- 
- 	return 0;
- }
--#endif
- 
- /* ----------------------------------------------------------- */
- 
-+static SIMPLE_DEV_PM_OPS(tw68_pm_ops, tw68_suspend, tw68_resume);
-+
- static struct pci_driver tw68_pci_driver = {
--	.name	  = "tw68",
--	.id_table = tw68_pci_tbl,
--	.probe	  = tw68_initdev,
--	.remove	  = tw68_finidev,
--#ifdef CONFIG_PM
--	.suspend  = tw68_suspend,
--	.resume   = tw68_resume
--#endif
-+	.name	   = "tw68",
-+	.id_table  = tw68_pci_tbl,
-+	.probe	   = tw68_initdev,
-+	.remove	   = tw68_finidev,
-+	.driver.pm = &tw68_pm_ops,
- };
- 
- module_pci_driver(tw68_pci_driver);
--- 
-2.27.0
+So start streaming prior to checking for calibration done status as=20
+LP-11 -> HS transition happens during sensor stream and calibration=20
+logic can apply results to pads and update done status,
+
+5. Wait for done signal from calibration logic
+
+6. perform frame capture thru VI
+7. Frame done, CSI goes back to stop state, LP11
+
+Will work internally to correct sequence in TRM ...
+
+
+In mipi driver will update as below to have mipi clk enabled till=20
+calibration status check is done.
+
+Always tegra_mipi_wait() followes tegra_mipi_calibrate() in both DSI and=20
+CSI. So below sequence should work good.
+
+tegra_mipi_calibrate()
+
+- clk_enable mipi cal
+- program mipi cal registers (bias pads cfgs, mipi cal ctrl and trigger=20
+calibration start)
+
+tegra_mipi_wait()
+- read mipi cal status and wait for active and done bits
+- clk_disable mipi cal
+
+Thanks
+
+Sowjanya
 
