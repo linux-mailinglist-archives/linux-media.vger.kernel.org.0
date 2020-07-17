@@ -2,137 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3694822449C
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 21:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B63C2244FA
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 22:15:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728481AbgGQTvJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 15:51:09 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35028 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728202AbgGQTvJ (ORCPT
+        id S1728442AbgGQUO5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 16:14:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41284 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726771AbgGQUO4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 15:51:09 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF69971D;
-        Fri, 17 Jul 2020 21:51:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1595015466;
-        bh=oZltVqbFT77MxEwYl4ZqGkdG266h0lg52MSzsPVW8js=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Xkw4ze+kgu0oAVhdIkkSLA/vN5nGtHgsQcJTj3tgHhTLfnquyjuvR/0+28fx5w6cd
-         T/KKI+hp0Le3RFyrw5zweQDdt8bYVuh3dspT5C6B1XaNJZP/v5Co9U2gwV3rhz7Pnf
-         jTmYFTrLqpv5JzUvf52B2Bb1PX85nIlZNm2aoGP0=
-Date:   Fri, 17 Jul 2020 22:50:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        slongerbeam@gmail.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 06/13] dt-bindings: media: ov5640: Require ep properties
-Message-ID: <20200717195058.GH5961@pendragon.ideasonboard.com>
-References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
- <20200717132859.237120-7-jacopo+renesas@jmondi.org>
+        Fri, 17 Jul 2020 16:14:56 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73AF6C0619D2;
+        Fri, 17 Jul 2020 13:14:56 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id q4so14119405lji.2;
+        Fri, 17 Jul 2020 13:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=FkWVr5zp5BC/cYtB354fZGgMcjVM5l8oIeKEC5H54O8=;
+        b=I8YXBM35hH1s2nXJoK1+VOFw/G3kED5UoxeMOVdBSMzbYvRoB7xrjgniZ743y/0DQ+
+         gRmPH5NJeSL11Wtixy7LpjSo0ZIrciCdcHCzFQrIoRZ+Ar5hi3sm/MsQlDnZkbuhBS5J
+         /fTcm3QddMcLA2PDJd2Xl96Ss6abAZ6xl1YmTE/v6mBZxGjFRk+ZIQAhRXw/Zr6pxnjD
+         vI6tKr2Buo6KCetCoHP2tAgP5ygefnrUcWxU/pOyBNQ1Jx5v82xD5v0jYRumxJY3ZHns
+         YWpf/QLIJvo7XbebIb16XWOyF8ndcZqbVyoTId5pXJJJx9RQPTQGEZFcoOinCc+/h9ux
+         XHMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FkWVr5zp5BC/cYtB354fZGgMcjVM5l8oIeKEC5H54O8=;
+        b=rbIph5+wmsJW3Judoy462er/si7r0YskiNFaPjWoldC1nwgEbLxuYm3Rt3YUaaDLoo
+         RcQrjQgW9Mn5H7CN6xi2PUqACCFVczNwG2V3eZRebrz9ajsSwYu+hB/9F2ce4IyzRt3G
+         Gdhw4OeGRoDAs9zXymx+BFg7CcVdG60RK6dL81UTCxcsx5kDSLJSv8gA5oYQoFzxNEzV
+         kT/8kTof94vjSEjEjhLFvJhCeCHQVHmc0Miypyy+Axm5DJ1GZ9YI9lKEaCQYR7J3JAq6
+         GYqqpKd69J/xYnhlNzjt6O6rSLgaNIfv9UbtCstFl2PyodJkaCLP4hEa9rEUjqqGud+X
+         ZmWg==
+X-Gm-Message-State: AOAM531iq4S6YlPwocn6JhA5IIohzBVIGlevoXg5+CU9O40EtrYzlAJW
+        T7EnS7nj2RfTzLB/PxedkbOsh9vJ
+X-Google-Smtp-Source: ABdhPJyp3rS1I8TlETFWJxyFclpR+MDYEDvhNGj1hflmucIV1aJFhc+30qRGfh5li8IzI6Q2NqjREg==
+X-Received: by 2002:a05:651c:1a7:: with SMTP id c7mr5485739ljn.345.1595016894667;
+        Fri, 17 Jul 2020 13:14:54 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
+        by smtp.googlemail.com with ESMTPSA id r11sm1823788ljc.66.2020.07.17.13.14.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jul 2020 13:14:53 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 16/18] gpu: host1x: mipi: Split
+ tegra_mipi_calibrate and tegra_mipi_wait
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <1594786855-26506-17-git-send-email-skomatineni@nvidia.com>
+ <a06dec8f-7042-767b-545b-048685a7683d@gmail.com>
+ <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
+ <c4945c77-5de1-e9b1-9f4f-cdd78bca18c7@gmail.com>
+ <ce0c5ffb-f859-0eab-1ea5-044623dff221@nvidia.com>
+ <a2b8169c-c4a3-4862-cd27-8c1a51ddc558@gmail.com>
+ <4690e682-8495-2327-87c7-c2f06a7a479d@nvidia.com>
+ <66812127-38cf-2af3-51c0-50edbe446e73@nvidia.com>
+ <9b4fbf9d-d651-aa35-c0a6-b8f16aeb0900@gmail.com>
+ <550f1796-67ca-5856-223d-c68360243954@nvidia.com>
+ <ca8f2184-de30-03ec-9caf-e20a22d96a77@nvidia.com>
+ <080b30c7-1dce-dd2f-dd96-40f6e25da4d6@gmail.com>
+ <b125deab-7900-6266-d405-4d7f029089b4@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ea3d2bb0-bf35-dfdf-ed1f-7656a9558072@gmail.com>
+Date:   Fri, 17 Jul 2020 23:14:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <b125deab-7900-6266-d405-4d7f029089b4@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200717132859.237120-7-jacopo+renesas@jmondi.org>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Fri, Jul 17, 2020 at 03:28:52PM +0200, Jacopo Mondi wrote:
-> Now that the bus-type property has been made mandatory for
-> the ov5640 bindings, use the property value to mark endpoint
-> properties as required depending on the data interface in use.
-
-Ah, please disregard my comment on 05/13 that asked for this :-)
-
-> Mark as 'required' all the properties that were defined as required
-> in the original bindings in textual form. Adjust the example to
-> comply with validation requirement but do not update the existing
-> users as most of the required properties will be demoted in the
-> next patches.
+17.07.2020 18:41, Sowjanya Komatineni пишет:
+...
+>> Also, what about the auto-calibration? Isn't it needed to be enabled for
+>> CSI?
+> STARTCAL does one time calibration and with AUTOCAL calibration will be
+> triggered periodically.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  .../devicetree/bindings/media/i2c/ov5640.yaml | 41 +++++++++++++++++--
->  1 file changed, 38 insertions(+), 3 deletions(-)
+> For pads PULLUP/PULLDN/TERM impedance calibration, we only need one-time
+> calibration on pads power up.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> index 16e6c2dc629a..8fd54575a1db 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> @@ -110,9 +110,40 @@ properties:
->            pclk-sample:
->              enum: [0, 1]
->  
-> -        required:
-> -          - remote-endpoint
-> -          - bus-type
-> +        allOf:
-> +          - if:
-> +              properties:
-> +                bus-type:
-> +                  const: 4
-> +            then:
-> +                properties:
+> We always use one time pads calibration for CSI.
 
-I think there's one indentation level too much here.
-
-This should really be moved to video-interfaces.yaml, I'll let you
-decide if you want to bite the bullet now or if it should be done on
-top.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +                  bus-width: false
-> +                  data-shift: false
-> +                  hsync-active: false
-> +                  vsync-active: false
-> +                  pclk-sample: false
-> +                required:
-> +                  - remote-endpoint
-> +                  - bus-type
-> +                  - clock-lanes
-> +                  - data-lanes
-> +
-> +          - if:
-> +              properties:
-> +                bus-type:
-> +                  const: 5
-> +            then:
-> +              properties:
-> +                clock-lanes: false
-> +                data-lanes: false
-> +              required:
-> +                - remote-endpoint
-> +                - bus-type
-> +                - bus-width
-> +                - data-shift
-> +                - hsync-active
-> +                - vsync-active
-> +                - pclk-sample
->  
->      additionalProperties: false
->  
-> @@ -179,6 +210,10 @@ examples:
->                      remote-endpoint = <&parallel_from_ov5640>;
->                      bus-type = <5>;
->                      bus-width = <10>;
-> +                    data-shift = <0>;
-> +                    hsync-active = <1>;
-> +                    vsync-active = <1>;
-> +                    pclk-sample = <1>;
->                  };
->              };
->          };
-
--- 
-Regards,
-
-Laurent Pinchart
+Alright, thank you for the clarification!
