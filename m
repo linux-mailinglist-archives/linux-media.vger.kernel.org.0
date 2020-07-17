@@ -2,108 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A1472236BC
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 10:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63FD122378C
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 11:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726930AbgGQIOe convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 17 Jul 2020 04:14:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42658 "EHLO
+        id S1726232AbgGQJB0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 05:01:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726240AbgGQIOe (ORCPT
+        with ESMTP id S1725864AbgGQJBZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 04:14:34 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66581C061755
-        for <linux-media@vger.kernel.org>; Fri, 17 Jul 2020 01:14:34 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jwLVn-0001qL-9I; Fri, 17 Jul 2020 10:14:31 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jwLVn-0007E0-0T; Fri, 17 Jul 2020 10:14:31 +0200
-Message-ID: <51175cb496644aaa5d5004630925ead4c6f0ddc7.camel@pengutronix.de>
-Subject: Re: [PATCH 1/2] media: coda: Fix reported H264 profile
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com, stable@vger.kernel.org
-Date:   Fri, 17 Jul 2020 10:14:30 +0200
-In-Reply-To: <20200717034923.219524-1-ezequiel@collabora.com>
-References: <20200717034923.219524-1-ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        Fri, 17 Jul 2020 05:01:25 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3685C061755;
+        Fri, 17 Jul 2020 02:01:25 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id x8so5180605plm.10;
+        Fri, 17 Jul 2020 02:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HKitXDlmydxI6z4/CnYabITgS4bsdTbz6585MnaltvY=;
+        b=b2O8QIoQic4W5SlcWRjg1H7nUBkNxMl+7QDNcLhjXY131F1HlAENZBz8xvzDCvl1oJ
+         1BuuU1zO9j2G3QXvaf8EQc14TRC39k5q8/UzXyG1N7n6mVEQzPXlciGtzRwlxd2j/xNg
+         A9mRJYvjHo/Y9XJqKU0PcF4xJ7ktjejg2zqqtH/QKwcN1vZZyN/WBhJTw4TP7F4m6oWU
+         xxhrN+YzK1WerBSdt42dMcyR73PSwjFn67CAAENYcFOAhXU/8W+GjmntKvW8ou3K9FML
+         zlfBQj4frWYbVAUwV2SvsiC8r3GpE4SqFY6PogG/+ne8mxSQjGw5ectipb48zx3WUADF
+         b+Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HKitXDlmydxI6z4/CnYabITgS4bsdTbz6585MnaltvY=;
+        b=e+7xr7NADUr7xk/MUEs0KTSwf7H1PYLU8icEXjYRzIKv5Y26bvtZRmIiyCJvThgQC1
+         8nBOKf4Bd9ojM6Rr9Lb0foxF6dcSyrSrtyMEZkZDqbd+Vhr6ROOZ2yrL/t/VeNesqK2O
+         xBkqCHsuAVEWBugu/JFtxtFpXC/Igh88otJ/ZZIGK9CLZxsl3rIY2QLTqnib9K03/8Dp
+         iek+/Jd762/lT4Opxa6yqdFuMKckXai9YsiNt7sFvO/4wis5ErLJQ3uvIPQfjEyuLkqN
+         Oc9XyAscs3qZa+xW8Qv7JyakmOhNH63Bkm/vt4DLL0jxBf7NWuz6PjiTnEx3D9ZscuYO
+         XV1A==
+X-Gm-Message-State: AOAM532gy7AGQ9hWPoSCS3WrKUcImg/uSRHJcs6Ocz4kkbfJMcswuYSt
+        xu2+RIj/LtwpL/j1MluujbC4w5LYa0TtcuSKvbU=
+X-Google-Smtp-Source: ABdhPJyCMCY3NhiXGvxqc2+yg2fZHFBpFAYLZxFj2EQgd+ZUK5lmCJBGrbNFFEemrHRHoDWdoOS+rm8NZ/HPs8uUp4Q=
+X-Received: by 2002:a17:902:8491:: with SMTP id c17mr6791039plo.262.1594976485312;
+ Fri, 17 Jul 2020 02:01:25 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20200716115122.15909-1-jslaby@suse.cz>
+In-Reply-To: <20200716115122.15909-1-jslaby@suse.cz>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 17 Jul 2020 12:01:09 +0300
+Message-ID: <CAHp75VeqV1Jj3rOxbFCx2DsrH1Y_re03i3ndvXvShi2UG6FGyQ@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: fix NULL pointer dereference
+To:     Jiri Slaby <jslaby@suse.cz>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2020-07-17 at 00:49 -0300, Ezequiel Garcia wrote:
-> From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> 
-> The CODA960 manual states that ASO/FMO features of baseline are not
-> supported, so for this reason this driver should only report
-> constrained baseline support.
+On Thu, Jul 16, 2020 at 2:52 PM Jiri Slaby <jslaby@suse.cz> wrote:
+>
+> I am currently seeing:
+> BUG: kernel NULL pointer dereference, address: 0000000000000002
+> ...
+> Hardware name: UMAX VisionBook 10Wi Pro/CQM1018CWP, BIOS CQ1018.007 09/22/2016
+> RIP: 0010:gmin_subdev_add.cold+0x303/0x312 [atomisp_gmin_platform]
+> ...
+> Call Trace:
+>  gmin_camera_platform_data+0x2f/0x60 [atomisp_gmin_platform]
+>  ov2680_probe+0x7f/0x2b0 [atomisp_ov2680]
+>  i2c_device_probe+0x95/0x290
+>
+> power can be NULL and that is properly handled earlier in this function.
+> Even i2c address is set there. So this is a duplicated assignment which
+> can cause the bug above. Remove it.
 
-I know the encoder doesn't support this, but is this also true of the
-decoder? The i.MX6DQ Reference Manual explicitly lists H.264/AVC decoder
-support for both baseline profile and constrained base line profile.
+I believe it's fixed in [1].
 
-> This fixes negotiation issue with constrained baseline content
-> on GStreamer 1.17.1.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 42a68012e67c2 ("media: coda: add read-only h.264 decoder profile/level controls")
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+[1]: https://git.linuxtv.org/mchehab/experimental.git/log/?h=atomisp_v5
+
+> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  drivers/media/platform/coda/coda-common.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-> index 3ab3d976d8ca..c641d1608825 100644
-> --- a/drivers/media/platform/coda/coda-common.c
-> +++ b/drivers/media/platform/coda/coda-common.c
-> @@ -2335,8 +2335,8 @@ static void coda_encode_ctrls(struct coda_ctx *ctx)
->  		V4L2_CID_MPEG_VIDEO_H264_CHROMA_QP_INDEX_OFFSET, -12, 12, 1, 0);
->  	v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
->  		V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-> -		V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE, 0x0,
-> -		V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE);
-> +		V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE, 0x0,
-> +		V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE);
+>  drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> index 1af9da8acf4c..246742f44d84 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> @@ -574,7 +574,6 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
+>                 gmin_subdevs[i].eldo2_ctrl_shift = gmin_get_var_int(dev, false,
+>                                                                     "eldo2_ctrl_shift",
+>                                                                     ELDO2_CTRL_SHIFT);
+> -               gmin_subdevs[i].pwm_i2c_addr = power->addr;
+>                 break;
+>
+>         default:
+> --
+> 2.27.0
+>
 
-Encoder support is listed as baseline, not constrained baseline, in the
-manual, but the SPS NALs produced by the encoder start with:
-  00 00 00 01 67 42 40
-                    ^
-so that is profile_idc=66, constraint_set1_flag==1, constrained baseline
-indeed. I think this change is correct.
 
->  	if (ctx->dev->devtype->product == CODA_HX4 ||
->  	    ctx->dev->devtype->product == CODA_7541) {
->  		v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
-> @@ -2417,7 +2417,7 @@ static void coda_decode_ctrls(struct coda_ctx *ctx)
->  	ctx->h264_profile_ctrl = v4l2_ctrl_new_std_menu(&ctx->ctrls,
->  		&coda_ctrl_ops, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
->  		V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-> -		~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
-> +		~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
->  		  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
->  		  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
->  		V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
-
-I'm not sure about this one.
-
-regards
-Philipp
+-- 
+With Best Regards,
+Andy Shevchenko
