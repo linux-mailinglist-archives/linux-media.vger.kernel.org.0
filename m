@@ -2,210 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F681223919
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 12:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4ADD223955
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 12:33:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726046AbgGQKRV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 06:17:21 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:41413 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725864AbgGQKRT (ORCPT
+        id S1726200AbgGQKc3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 06:32:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725864AbgGQKc3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 06:17:19 -0400
-Received: from Exchange2013.PRIMES.local ([80.154.17.250]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.146]) with ESMTPSA (Nemesis)
- id 1MhCq4-1kRqIb0qaA-00eNwP; Fri, 17 Jul 2020 12:17:15 +0200
-Received: from EXCHANGE2013.PRIMES.local ([fe80::6d61:63f7:784a:d37a]) by
- Exchange2013.PRIMES.local ([fe80::6d61:63f7:784a:d37a%16]) with mapi id
- 14.03.0351.000; Fri, 17 Jul 2020 12:17:14 +0200
-From:   Sarah Wicker <S.Wicker@PRIMES.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: AW: information about driver
-Thread-Topic: information about driver
-Thread-Index: AdZbd8Ovu8RPOarcS8ePsA2h8vg4+wAUFDaAAA/CgOA=
-Date:   Fri, 17 Jul 2020 10:17:14 +0000
-Message-ID: <9C52799C0959EE478BED0CB6C363E7782DA95590@Exchange2013.PRIMES.local>
-References: <9C52799C0959EE478BED0CB6C363E7782DA95389@Exchange2013.PRIMES.local>
- <20200717012315.GO5960@pendragon.ideasonboard.com>
-In-Reply-To: <20200717012315.GO5960@pendragon.ideasonboard.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.117.149]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Fri, 17 Jul 2020 06:32:29 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3B6C061755;
+        Fri, 17 Jul 2020 03:32:29 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id g67so6481595pgc.8;
+        Fri, 17 Jul 2020 03:32:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pJ0HDntuXZL6NrQjmeMUXVeNWiNi7MyU+nkvpFL9Mws=;
+        b=OAGbZZDt0oMZ5SAw/4i9XcmiHXQRJb1EnlP02uWCOGz56CsB+z1zvaD/pkyy44NMfA
+         I6WWZQ8t2VWffR8lz71Zb4JhYisU7leLYh0bGxKT9IUCmx9lXr2MXk5mFOybpl9eUPdR
+         rvMdDGHWdtDHUz7UPxm8hHlnjQnyrdAy6hOxaqZ4POYe2126yYRRo0L1Z9pa5FgZgbti
+         39JvZTFOl+9NzDzc1iho5BOgQ4SsWkjUJYgtGsrDg2OZ6x+IfWSWbXCu7kfwODbz6yjR
+         7er8DJC8SdTfe+20utG53Q7oe1q6hesweznuK+zO3dCPXRa1GPhP4ZI6fGwPo3rz67My
+         IcaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pJ0HDntuXZL6NrQjmeMUXVeNWiNi7MyU+nkvpFL9Mws=;
+        b=FIEVbP9Y5io1gYN0C4kpF1JN9K1C1hgp/AaypJKWcrDta3CH/+j8HsKj+xAxEJMFH+
+         x9qsE8u63rNpzSWToDEqC0JpOcKBAu84FBUXITqgtTbWo+ZbNOZqpfr2N+y4ku1O3kYY
+         9V9Wr6Z8UWBCO6q4Ik40kgLQTWrL+sBVHwH5EnNZEsSxfhQ/OV6IqfbYGIIFY0coEi0m
+         6Gru9Bpgx6r9qdAUOdSvsf5wCiwl4X61esgYs9/Zc0ithxxAAGhHnEAP0lotle3CVxWt
+         e1VE/SIgHP956Q4i9AVZNOC/NWmkdN2q9LaQrcWhrmao5lcj822zXYN42UlbWLbBMCRZ
+         Fn6Q==
+X-Gm-Message-State: AOAM53263E0LIYoPzEgx+FyOhQ8jRf9JBsuplztjknFF2fdaHNomlEty
+        XsA6waWRy4j8TzrBFEfQhNjFYP5paVUMVA==
+X-Google-Smtp-Source: ABdhPJxv1RZ+6Ejd082vCPQrB5xh5BqGFyCniX6MhO0VKdjZyAcy1tMk4W5Hors65eSo4mJabaJNBA==
+X-Received: by 2002:a65:6884:: with SMTP id e4mr7712067pgt.283.1594981948161;
+        Fri, 17 Jul 2020 03:32:28 -0700 (PDT)
+Received: from gmail.com ([103.105.153.67])
+        by smtp.gmail.com with ESMTPSA id m9sm2491026pjs.18.2020.07.17.03.32.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2020 03:32:27 -0700 (PDT)
+Date:   Fri, 17 Jul 2020 16:01:05 +0530
+From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2 4/6] cx88: use generic power management
+Message-ID: <20200717103105.GA452501@gmail.com>
+References: <20200717035608.97254-5-vaibhavgupta40@gmail.com>
+ <202007171515.gDbDZtkQ%lkp@intel.com>
+ <20200717072440.GA217230@gmail.com>
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:B066hCQzMz2MyzuDbLVeT+2+HBw7loR0FEPRjF+jhriLJn2kDZx
- bb0h37xTaQBC+9yNo+lGYRo7/lA4ZjNy4qcZ3MZeAjUYQNMEHnpzsxEvfkN1BzsuOcksj4k
- iNkXqXIOXkUoNhPNn+4hJh9fvDwrTygVodgUjNIFGQNDi7cxdxTFzcCw66CQwk0Egi6XrMF
- Ly5DO44KyHeznlYzS2NwA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HwI15qfCn5w=:raq3zvhU2+Thw/cJjGsexY
- c+Ac7hJOgRIVmK3MDqKpkkPproyBd+hXUSds2pLj2JALk9lZjYHn66dSJON4Nqd3k7BopuAxC
- 7uZI4EgqWSAgVUxOy7vz+ipTuHHC48r3tpXJr1aEE5yDK9aELts7QeX8+nr+yaNmewfBbpnMV
- Ttnl0TamCRoU9WN8GlIzPafAMgfHCfDuOQ/MdKZAs7+vn8JtiU7JZgSsJv9Ipjb2nEjxTyQ/l
- GYdIbR+00Z8pItf5R5w10s1NfprRVF83PWzEPzSlzp/CJpTUhF2AKZBx874722KgTluXK3ING
- RBucAymtEMtffIAwr89XzDpXYSsmI+XI35bem903WkIAbCRcecVqbWhqzJYxk8hQhFt37HHIx
- G+P/DxWp7kC5ZcDQlijL5UAVSSvydg5tj7roSyBk89ob3svLgBoXmqRgpLs1N8RTYTB1KGslb
- AJuVwPveXn4E3UFgJT/hP4/eFs5A+WhYUYfOQ5+eXYkMwjpvb4FANmPst5ELocY64iBJJSIDf
- PZMIIMKcS9myg2HP2VjajrnnBeki4i9YPLSrqbdAzfGjX2TdruREniWvNuoCiOnJA+BkIjMdH
- xUtS2zTsK8ivn+LWNauXMYvhw/+VbXR68tyzZAU5wQCqHqUEzJGpTFpNe5cacI1nSq1Xm10Wm
- 486m0Qxv4DAF2nobr21sU3IJs5DV89QOeArtkGxMRKvjErH8/Vjisz+ws83cBndj0Pa55m7EH
- BBFVxgt2O0IL/dA23CXlHxphyfme59d2qt6a/ZcTepJBj8s1cEdosLPW0+ZIB/ZWW0QbYhSR/
- GGy7SudZ/pHuzCAYELHrjICn47JTa79lVOZRsb61up/dLMKaTWe1l4FOR/OqMO6gsWYUvdd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200717072440.GA217230@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgTGF1cmVudCBhbmQgZXZlcnlvbmUsDQpUaGFua3MgYSBsb3QgZm9yIHlvdXIgYW5zd2VyIQ0K
-DQpBcyBJIHdyb3RlIGF0IHRoZSBiZWdpbm5pbmcsIEkgaGF2ZSBhIHNtYWxsIGlzc3VlIHdpdGgg
-dGhlIGRyaXZlciBjb25jZXJuaW5nIHNvbWUgb2YgdGhlIGNvbnRyb2wuIFRoZSBkcml2ZXIgdGhh
-dCBpcyB1c2VkIHdhcyBkZXNjcmliZSBpbiB0aGlzIHBhdGNoIGFuZCBtYWlsaW5nLWxpc3QgOiBo
-dHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9saW51eC1tZWRpYS9tc2cxNTk5ODMuaHRtbA0K
-DQpGb3IgdGhlIHNtYWxsIHN0b3J5LCBJIHdvdWxkIGxpa2UgdG8gaW50ZXJmYWNlIHRoZSBJTVgy
-OTYgd2l0aCB0aGUgYm9hcmQgVWx0cmE5NiBmcm9tIGF2bmV0LCBpdCBpcyBidWlsdCB3aXRoIGFu
-IGZwZ2EgZnJvbSBYaWxpbnguIEkgYWxyZWFkeSB0ZXN0ZWQgdGhlIHBpcGVsaW5lIGluIGJhcmVt
-ZXRhbCwgSSBwcm9ncmFtbWVkIHRoZSBjaGlwIHdpdGggdGhlIGkyYyBwb3J0IGFuZCB3YXMgYWJs
-ZSB0byByZWNvdmVyIGRhdGEgZnJvbSB0aGUgZGF0YSBsYW5lLiBGb2xsb3dpbmcgdGhpcyByZXN1
-bHQgSSBtb3ZlZCB0byBpbXBsZW1lbnQgdGhlIGxpbnV4IGtlcm5lbCBhbmQgc28gSSB1c2VkIHRo
-ZSBjb2RlIGZvcndhcmRlZCB1cHBlciwganVzdCBjaGFuZ2VkIHRoZSBiYXNpYyB2YWx1ZSBvZiBl
-eHBvc3VyZSBhbmQgY29kZSBmb3JtYXQgKHNvbWVob3cgYXQgdGhlIGluaXRpYWxpc2F0aW9uIGl0
-IHJlY29nbml6ZXMgdGhlIGNhbWVyYSBhcyBjb2xvdXIgY2FtZXJhIGV2ZW4gaWYgaXQgaXMgbW9u
-b2Nocm9tZSksIGFuZCBhbHNvIHRoZSBkZXZpY2V0cmVlIGlzIGEgYml0IGRpZmZlcmVudCwgaGVy
-ZSBhcmUgdGhlIGNoYW5nZXM6DQpJbiBkcml2ZXI6DQpzdGF0aWMgaW50IGlteDI5Nl9jdHJsc19p
-bml0KHN0cnVjdCBpbXgyOTYgKmlteCl7DQpbLi4uXSANCisgdjRsMl9jdHJsX25ld19zdGQoJmlt
-eC0+Y3RybHMsICZpbXgyOTZfY3RybF9vcHMsDQoJCQkgIFY0TDJfQ0lEX0VYUE9TVVJFLCAxLCAx
-MDQ4NTc1LCAxLCAxMDQ4NTc1KTsgLy9iZWZvcmUgMTEwNA0KWy4uLl0NCn0NCg0Kc3RhdGljIGlu
-dCBpbXgyOTZfZW51bV9tYnVzX2NvZGUoc3RydWN0IHY0bDJfc3ViZGV2ICpzZCwNCgkJCQkgc3Ry
-dWN0IHY0bDJfc3ViZGV2X3BhZF9jb25maWcgKmNmZywNCgkJCQkgc3RydWN0IHY0bDJfc3ViZGV2
-X21idXNfY29kZV9lbnVtICpjb2RlKXsNClsuLi5dDQorCWNvZGUtPmNvZGUgPSBNRURJQV9CVVNf
-Rk1UX1kxMF8xWDEwOyAvL2lteC0+bW9ubyA/IE1FRElBX0JVU19GTVRfWTEwXzFYMTA6IE1FRElB
-X0JVU19GTVRfU0JHR1IxMF8xWDEwOw0KCXJldHVybiAwOw0KfQ0KDQpzdGF0aWMgaW50IGlteDI5
-Nl9zZXRfZm9ybWF0KHN0cnVjdCB2NGwyX3N1YmRldiAqc2QsDQoJCQkgICAgIHN0cnVjdCB2NGwy
-X3N1YmRldl9wYWRfY29uZmlnICpjZmcsDQoJCQkgICAgIHN0cnVjdCB2NGwyX3N1YmRldl9mb3Jt
-YXQgKmZtdCkNCnsNClsuLi5dDQorCWZvcm1hdC0+Y29kZSA9IE1FRElBX0JVU19GTVRfWTEwXzFY
-MTA7IC8vaW14LT5tb25vID8gTUVESUFfQlVTX0ZNVF9ZMTBfMVgxMDogTUVESUFfQlVTX0ZNVF9T
-QkdHUjEwXzFYMTA7DQoJZm10LT5mb3JtYXQgPSAqZm9ybWF0Ow0KDQoJcmV0dXJuIDA7DQp9DQoN
-CkluIHRoZSBkZXZpY2UtdHJlZToNCk15IGRldmljZSBpcyBjb250cm9sbGVkICB2aWEgdGhlIGky
-YyBtdWx0aXBsZXhlciAod2h5IGl0IGlzIGEgbm9kZSBvZiB0aGUgaTJjQDIgaW50ZXJmYWNlKQ0K
-aTJjQDIgew0KCQkJCQkjYWRkcmVzcy1jZWxscyA9IDwweDE+Ow0KCQkJCQkjc2l6ZS1jZWxscyA9
-IDwweDA+Ow0KCQkJCQlyZWcgPSA8MHgyPjsNCgkJCQkJbGFiZWwgPSAiSFMtSTJDMiI7DQoNCgkJ
-CQkJY2FtZXJhQDFhIHsNCgkJCQkJCWNvbXBhdGlibGUgPSAic29ueSxpbXgyOTYiOw0KCQkJCQkJ
-cmVnID0gPDB4MWE+Ow0KCQkJCQkJY2xvY2tzID0gPDB4Mjk+Ow0KCQkJCQkJcHdkbi1ncGlvcyA9
-IDwweDEwIDM3IDE+LCA8MHgxMCAzOSAxPjsNCgkJCQkJCWNsb2NrLW5hbWVzID0gImluY2siOyAN
-CgkJCQkJCWNsb2NrLWZyZXF1ZW5jeSA9IDw3NDI1MDAwMD47DQoJCQkJCQl2ZGRkLXN1cHBseSA9
-IDwweDMzPjsNCgkJCQkJCXN0YXR1cyA9ICJva2F5IjsNCg0KCQkJCQkJcG9ydCB7DQoNCgkJCQkJ
-CQllbmRwb2ludCB7DQoJCQkJCQkJCWNsb2NrLWxhbmVzID0gPDB4MD47DQoJCQkJCQkJCWRhdGEt
-bGFuZXMgPSA8MHgxPjsNCgkJCQkJCQkJcmVtb3RlLWVuZHBvaW50ID0gPDB4MmY+Ow0KCQkJCQkJ
-CQlsaW5rLWZyZXF1ZW5jaWVzID0NCgkJCQkJCQkvYml0cy8gNjQgPDExODgwMDAwMDA+Ow0KCQkJ
-CQkJCQlsaW51eCxwaGFuZGxlID0gPDB4Mjg+Ow0KCQkJCQkJCQlwaGFuZGxlID0gPDB4Mjg+Ow0K
-CQkJCQkJCX07DQoJCQkJCQl9Ow0KCQkJCQl9Ow0KCQkJCX07DQpUaGUgZ3Bpb3MgKHB3ZG4tZ3Bp
-b3MpIGNvbWUgZnJvbSB0aGUgZGF0YXNoZWV0IChmcm9tIHRoZSBtaXBpIGFkYXB0ZXIgYm9hcmQp
-DQpUaGUgY2xvY2sgaXMgZGVmaW5lZCBsYXRlciBpbiB0aGUgLmR0czoNCmNhbV9jbGtAMCB7DQoJ
-CSNjbG9jay1jZWxscyA9IDwweDA+Ow0KCQljb21wYXRpYmxlID0gImZpeGVkLWNsb2NrIjsNCgkJ
-Y2xvY2stZnJlcXVlbmN5ID0gPDc0MjUwMDAwPjsgDQoJCWxpbnV4LHBoYW5kbGUgPSA8MHgyOT47
-DQoJCXBoYW5kbGUgPSA8MHgyOT47DQoJfTsNCkFzIHdlbGwgYXMgdGhlIHJlZ3VsYXRvcjoNCglm
-aXhlZF9yZWd1bGF0b3JfRFZEREAzIHsNCgkJY29tcGF0aWJsZSA9ICJyZWd1bGF0b3ItZml4ZWQi
-Ow0KCQlyZWd1bGF0b3ItbmFtZSA9ICJ2ZGRkIjsNCgkJcmVndWxhdG9yLW1pbi1taWNyb3ZvbHQg
-PSA8MHgxNmUzNjA+Ow0KCQlyZWd1bGF0b3ItbWF4LW1pY3Jvdm9sdCA9IDwweDE2ZTM2MD47DQoJ
-CXBoYW5kbGUgPSA8MHgzMz47DQoJfTsNCg0KVGhlIGVuZHBvaW50IG5vZGUgb2YgdGhlIGNhbWVy
-YSBpcyB1c2VkIHRvIGxpbmsgdG8gdGhlIHNpbmsgcGFkIG9mIHRoZSBtaXBpIElQIChtaXBpX2Nz
-aTJfcnhfc3Vic3lzdGVtIGZyb20gWGlsaW54KQ0KDQpUaGVyZSBpcyBhIFhpbGlueCB0b29sIChw
-ZXRhbGludXgpIHRoYXQgY2FuIGJlIHVzZWQgdG8gY3JlYXRlIGEgbGludXgga2VybmVsICsgcm9v
-dGZzICsgYXBwbGljYXRpb24uIEJ1dCBJIHByZWZlcnJlZCBub3QgdG8gdXNlIGl0IGFuZCBwYXRj
-aGVkIHRoZSBkcml2ZXIgdG8gdGhlIGxpbnV4LXhsbnggcmVwb3NpdG9yeSBmcm9tIFhpbGlueCAo
-anVzdCBmb3IgcHJhY3RpY2FsIHJlYXNvbnMpDQoNClRoZSBkcml2ZXIgaXMgd2VsbCBpbnN0YW50
-aWF0ZSwgYW5kIHVzaW5nIHRoZSB2NGwgdG9vbHMgSSBjYW4gc2VlIG15IHBpcGVsaW5lIGNyZWF0
-ZWQgKG1lZGlhLWN0bCAtcCBhbiBpbiB0aGUgL2RldiB0aGUgdjRsLXN1YmRldmljZSkNCkkgYWxz
-byBjaGVjayB0aGUgaTJjIGxpbmUgYXQgdGhlIGJvb3QgYW5kIGNhbiBvYnNlcnZlIHRoZSBjb25m
-aWd1cmF0aW9uIG9mIHRoZSByZWdpc3RlciBiZWVuIGlzc3VlZC4NCg0KQXMgZXhwbGFpbmVkIGJl
-Zm9yZSwgdXNpbmc6IG1lZGlhLWN0bCAtdiAtViAnImlteDI5NiA0LTAwMWEiOjAgW2ZtdDpZMTBf
-MVgxMC8xNDQweDEwODAgY3JvcDooOCw4KS8xNDQweDEwODAgZmllbGQ6bm9uZV0nIC1kIC9kZXYv
-bWVkaWEwDQoNCkkgY291bGQgbW9kaWZ5IHRoZSBzaXplIG9mIHRoZSBmcmFtZSB3ZSBhcmUgcmVj
-ZWl2aW5nIHRvIHJlbW92ZSB0aGUgZWZmZWN0aXZlIG1hcmdpbiBpc3N1ZWQgYnkgdGhlIGNhbWVy
-YS4gDQpNYWRlIGEgdGVzdCB1c2luZyB0aGUgeWF2dGEgdG9vbCB0byBjYXB0dXJlIHNldmVyYWwg
-ZnJhbWU6IHRoZSBpbWFnZSBpc3N1ZWQgYnkgdGhlIGNhbWVyYSBzdGF5cyBibGFjay4gU3RpbGwg
-dXNpbmcgdGhlIHlhdHZhIHRvb2wgSSB0cmllZCBtb2RpZnlpbmcgdGhlIHBhcmFtZXRlcnMsIGNo
-YW5nZWQgdGhlIGV4cG9zdXJlLCBhY3R1YWxseSBpdCB3YXMgYWxyZWFkeSBhdCAxMDQ4NTc1LCBz
-byBqdXN0IGNvbmZpcm1lZCBpdCwgYW5kIGFsc28gY2hhbmdlZCB0aGUgZ2FpbiB2YWx1ZS4gVGhl
-IHRvb2wgc2VuZCBiYWNrIHRoYXQgdGhlIG1vZGlmaWNhdGlvbnMgaGF2ZSBiZWVuIGlzc3VlZCBi
-dXQgOg0KMSkgSSBhbSBub3Qgc2VlaW5nIGFueXRoaW5nIG9uIHRoZSBpMmMgcG9ydA0KMikgQXMg
-YSBjb25zZXF1ZW5jZSBvZiAxKSB0aGVyZSBpcyBubyBjaGFuZ2UgaW4gdGhlIGltYWdlIEkgYW0g
-Z2V0dGluZyBmcm9tIHRoZSBjYW1lcmENCg0KQXMgYSAiY291bnRlciIgc29sdXRpb24gSSBkaXJl
-Y3RseSB3cml0ZSBvbiB0aGUgaTJjIHBvcnQgdXNpbmcgaTJjIHRvb2xzIHRvIG1vZGlmeSB0aGUg
-cmVnaXN0ZXIgZGlyZWN0bHkuIA0KTWFkZSBjYXB0dXJlID0+IEl0IHdvcmtzLCB0aGUgZXhwb3N1
-cmUgaXMgY2hhbmdlZCwgYW5kIEkgb2JzZXJ2ZSBjaGFuZ2VzIGluIHRoZSBpbWFnZXMgY2FwdHVy
-ZWQgDQoNCkNoYW5nZSBpbiB0aGUgZHJpdmVyIHdvdWxkIGJlIA0KLy8vaW4gdGhlIGRlZmluZSBw
-YXJ0Og0KI2RlZmluZSBFWFBPU1VSRV9NQVggICAgICAxNjUxODAwMA0KI2RlZmluZSBFWFBPU1VS
-RV9NSU4gICAgICAyOQ0KI2RlZmluZSBFWFBPU1VSRV9ERUZBVUxUICAxMDAwMA0KI2RlZmluZSBU
-T0ZGU0VUICAgICAgICAgICAxNDI2MA0KI2RlZmluZSBUMUggICAgICAgICAgICAgICAxNDgxNA0K
-I2RlZmluZSBTSFNfTUFYICAgICAgICAgICAxMTE3IC8vVk1BWC0xDQojZGVmaW5lIFNIU19NSU4g
-ICAgICAgICAgIDQNCg0KDQpzdGF0aWMgaW5saW5lIGludCBpbXgyOTZfc2V0X2V4cG9zdXJlKHN0
-cnVjdCBpbXgyOTYgKmlteDI5NiwgdTMyIHZhbHVlKQ0Kew0KICBpbnQgU3RhdHVzPTA7DQogIHUz
-MiBzaHM7DQogIC8vZXhwb3N1cmUgZGVwZW5kcyBvZiB0aGUgU0hTIGFuZCBWTUFYDQogIC8vZnJv
-bSB0aGUgZGF0YXNoZWV0IGluIHRoZSBBbGwgcGl4ZWwgZHJpdmUgbW9kZSwgVm1heCBpcyAxMTE4
-LCB0aGUgbnVtYmVyIG9mIElOQ0sgaW4gMUggaXMgMTEwMCA9PiAxSD0xMTAwLzc0MjUwMDAwPTE0
-LjgxNHVzDQogIC8vdG9mZnNldCBpcyBpbmNsdWRlZCBpbiB0aGUgZXhwb3N1cmUgdGltZSBhbmQg
-ZXF1YWwgdG8gMTQuMjZ1cw0KICAvL2lmIFZNQVggZml4IG5lZWQgdG8gbWVhc3VyZSBTSFMgdG8g
-Zml0IHRoZSB2YWx1ZSBvZiBleHBvc3VyZQ0KDQogIC8qDQogICogZm9yIHRlc3Qgd2lsbCB0YWtl
-IGEgVk1BWCBjb25zdGFudCBhdCAxMTE4DQogICogTWVhc3VyZSBvZiB0aGUgdmFsdWUgb2YgU0hT
-IHRvIGZpdCB0byB0aGUgZXhwb3N1cmUgdmFsdWUNCiAgKiAxKSBjaGVjayBpZiB2YWx1ZSB7RVhQ
-T1NVUkVfTUFYLCBFWFBPU1VSRV9NSU59DQogICogMikgdHJ1ZSA6IFNIUyA9IFZNQVggLSBbKHZh
-bHVlIC0gdG9mZnNldCkvMUhdDQogICogMykgZmFsc2U6IFNIUyA9IFZNQVggLSBbKEVYUE9TVVJF
-X0RFRkFVTFQtdG9mZnNldCkvMUhdPSA0NDQgPT4weDFCQw0KICAgKi8NCiAgaWYgKHZhbHVlID49
-IEVYUE9TVVJFX01JTiAmJiB2YWx1ZSA8PSBFWFBPU1VSRV9NQVgpew0KICAgIHNocz0gKFNIU19N
-QVgrMSkgLSBbKHZhbHVlIC0gVE9GRlNFVCkvVDFIXTsNCiAgICBTdGF0dXMgPSBpbXgyOTZfd3Jp
-dGUoaW14Mjk2LCBJTVgyOTZfU0hTMSwgc2hzKTsNCiAgfQ0KICBlbHNlDQogICAgU3RhdHVzID0g
-aW14Mjk2X3dyaXRlKGlteDI5NiwgSU1YMjk2X1NIUzEsIDQ0NCk7DQoNCiAgcmV0dXJuIFN0YXR1
-czsNCn0NCg0KLy8vLyBpbiBpbXgyOTZfc19jdHJsKHN0cnVjdCB2NGwyX2N0cmwgKmN0cmwpIGlu
-c3RlYWQgb2YgdGhlIGFjdHVhbCBWNEwyX0NJRF9FWFBPU1VSRSAgY2FzZToNCiAgc3RydWN0IGlt
-eDI5NiAqaW14ID0gY29udGFpbmVyX29mKGN0cmwtPmhhbmRsZXIsIHN0cnVjdCBpbXgyOTYsIGN0
-cmxzKTsNCiAgCXVuc2lnbmVkIGludCB2bWF4Ow0KICAJaW50IHJldCA9IDA7DQoNCiAgCWlmICgh
-aW14LT5wb3dlcl9jb3VudCkNCiAgCQlyZXR1cm4gMDsNCg0KICBzd2l0Y2ggKGN0cmwtPmlkKSB7
-DQogIAljYXNlIFY0TDJfQ0lEX0VYUE9TVVJFOg0KLSAgICAgLyogQ2xhbXAgdGhlIGV4cG9zdXJl
-IHZhbHVlIHRvIFZNQVguICovDQotICAgIAkgIAl2bWF4ID0gaW14LT5mb3JtYXQuaGVpZ2h0ICsg
-aW14LT52YmxhbmstPmN1ci52YWw7DQotICAgICAJCWN0cmwtPnZhbCA9IG1pbl90KGludCwgY3Ry
-bC0+dmFsLCB2bWF4KTsNCi0gICAgIAkJaW14Mjk2X3dyaXRlKGlteCwgSU1YMjk2X1NIUzEsIHZt
-YXggLSBjdHJsLT52YWwsICZyZXQpOw0KKyAgCQkJCWlteDI5Nl9zZXRfZXhwb3N1cmUoaW14LCBj
-dHJsLT52YWwpOw0KICAJCWJyZWFrOw0KDQoNCkhvcGUgdGhpcyBpcyB3cml0dGVuIGluIGEgY2xl
-YXIgd2F5LiBJIGhhdmVuJ3QgdGVzdGVkIGl0IHlldCwgYnV0IHdvdWxkIGxpa2UgdG8gaGF2ZSB5
-b3VyIGlucHV0IDopDQoNCg0KV2lzaCB5b3UgYSBncmVhdCBkYXkhDQpCZXN0IHJlZ2FyZHMsDQpT
-YXJhaCBXaWNrZXINCg0KLS0tLS1VcnNwcsO8bmdsaWNoZSBOYWNocmljaHQtLS0tLQ0KVm9uOiBM
-YXVyZW50IFBpbmNoYXJ0IFttYWlsdG86bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29t
-XSANCkdlc2VuZGV0OiBGcmVpdGFnLCAxNy4gSnVsaSAyMDIwIDAzOjIzDQpBbjogU2FyYWggV2lj
-a2VyIDxTLldpY2tlckBQUklNRVMuZGU+DQpCZXRyZWZmOiBSZTogaW5mb3JtYXRpb24gYWJvdXQg
-ZHJpdmVyDQoNCkhlbGxvIFNhcmFoLA0KDQpPbiBUaHUsIEp1bCAxNiwgMjAyMCBhdCAwMTo1OToy
-MVBNICswMDAwLCBTYXJhaCBXaWNrZXIgd3JvdGU6DQo+IEdvb2QgTW9ybmluZyB0byBhbGwsDQo+
-IA0KPiBJIGFtIGN1cnJlbnRseSB3b3JraW5nIG9uIGEgTUlQSSBjYW1lcmEgKGlteDI5NiBtb25v
-Y29sb3IpIGFuZCBNciANCj4gTGF1cmVudCBQaWNoYXJkLCBtYWRlIGEgZGV2aWNlIGRyaXZlciwg
-YWxtb3N0IGEgeWVhciBhZ28uIFVudGlsIG5vdyBJIA0KPiB1c2VkIGl0IHRvIGludGVncmF0ZSB0
-aGUgY2FtZXJhIHdpdGggYW4gdWx0cmE5NiBib2FyZCh4aWxpbnggDQo+IHVsdHJhc2NhbGUpIGlu
-dG8gYW4gZW1iZWRkZWQgc3lzdGVtLg0KPiANCj4gSSB1c2VkIHRoZSBkcml2ZXIgaGUgZGV2ZWxv
-cGVkIHRvIGxvYWQgdGhlIGZpbGUgZnJvbSB0aGUgY2FtZXJhIGFzIG1vZHVsZS4NCj4gDQo+IEhv
-d2V2ZXIgSSBoYXZlIGFuIGlzc3VlLCBpdCBzZWVtcyB0aGF0IHRoZSBjb250cm9sZSBvZiB0aGUg
-ZXhwb3N1cmUgaXMgDQo+IG5vdCB3b3JraW5nLCBhdCBsZWFzdCBubyB2aWEgdjRsIHRvb2xzLiBJ
-IHdhcyBhYmxlIHRvIGNoYW5nZSBpdCBieSANCj4gcHJvZ3JhbW1pbmcgdGhlIHJlZ2lzdGVyIG9m
-IHRoZSBjYW1lcmEgZGlyZWN0bHkgd2l0aCBpMmMuDQo+IA0KPiBJIHRob3VnaCBvZiBhZGRpbmcv
-bW9kaWZ5aW5nIHRoZSBjb25maWd1cmF0aW9uIGluc2lkZSB0aGUgY29kZS4gQnV0IGFzIA0KPiBJ
-IGFtIGEgY29tcGxldCBiZWdpbm5lciBpbiB0aGlzIGZpZWxkIEkgd2FzIHdvbmRlcmluZyBpZiB5
-b3UgY291bGQgDQo+IHBvaW50IG1lIHRvIHNvbWUgZG9jdW1lbnRhdGlvbi9yZXNzb3VyY2VzPw0K
-DQpGaXJzdCBvZiBhbGwsIGNvdWxkIHlvdSB0ZWxsIG1lIGhvdyB5b3UgaGF2ZSAodW5zdWNjZXNz
-ZnVsbHkpIHRyaWVkIHRvIG1vZGlmeSB0aGUgZXhwb3N1cmUgdGltZSA/DQoNCj4gQWxzbyBJIHdh
-cyB3b25kZXJpbmcgb2YgdGhlIGNvbXBhdGliaWxpdHkgb2YgdGhpcyBjb2RlIHdpdGggeGlsaW54
-IA0KPiBhY2hpdGVjdHVyZSwgc2luY2UgaXQgaXNu4oCZdCBwYXJ0IG9mIHRoZSBtYWlubGluZSBr
-ZXJuZWwgb24gZ2l0IA0KPiAoeGlsaW54L2xpbnV4LXhsbngvZHJpdmVycy8NCj4gbWVkaWEvaTJj
-LykgSSBtZWFuIGl0IHdvcmtzIGZvciBtZSBidXQgZXhjZXB0IGZvciBjYXB0dXJlIGFuZCBzZXR0
-aW5nIA0KPiBwYXJhbWV0ZXJzIGxpa2UgY3JvcCBvciB0aGUgcmVzb2x1dGlvbiBJIGNhbuKAmXQg
-bW9kaWZ5IG1vcmUgb2YgdGhlIA0KPiBjb250cm9sZSBwYXJhbWV0ZXJzIG9mIHRoZSBjYW1lcmEg
-dXNpbmcgdGhlIHY0bCB0b29scy4NCg0KSSdtIG5vdCBhd2FyZSBvZiBhbnkgcGFydGljdWxhciBp
-bmNvbXBhdGliaWxpdHkuIEkgc2hvdWxkIHJlc3VtZSB3b3JrIG9uIHVwc3RyZWFtaW5nIHRoaXMg
-ZHJpdmVyLCBhcyBpdCdzIG1vc3RseSByZWFkeS4gTGV0J3MgZmlyc3QgdHJ5IHRvIGFkZHJlc3Mg
-dGhlIGV4cG9zdXJlIHRpbWUgc2V0dGluZyBpc3N1ZSwgYW5kIHdlIGNhbiB0aGVuIGRpc2N1c3Mg
-dGhlIHByb2JsZW1zIHlvdSBhcmUgZmFjaW5nIHdpdGggdGhlIG90aGVyIGNvbnRyb2xzLg0KDQpX
-b3VsZCB5b3UgbWluZCBDQydpbmcgdGhlIGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZyBtYWls
-aW5nIGxpc3QgaW4geW91ciByZXBseSA/IFRoaXMgZGlzY3Vzc2lvbiBjYW4gYmUgdXNlZnVsIGZv
-ciBvdGhlciBwZW9wbGUsIGFuZCBvdGhlciBkZXZlbG9wZXJzIG1heSBhbHNvIGJlIGFibGUgdG8g
-aGVscC4NCg0KLS0NClJlZ2FyZHMsDQoNCkxhdXJlbnQgUGluY2hhcnQNCg==
+On Fri, Jul 17, 2020 at 12:54:40PM +0530, Vaibhav Gupta wrote:
+> On Fri, Jul 17, 2020 at 03:14:28PM +0800, kernel test robot wrote:
+> > Hi Vaibhav,
+> > 
+> > Thank you for the patch! Yet something to improve:
+> > 
+> > [auto build test ERROR on linuxtv-media/master]
+> > [also build test ERROR on pci/next v5.8-rc5 next-20200716]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch]
+> > 
+> > url:    https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/pci-use-generic-power-management/20200717-120145
+> > base:   git://linuxtv.org/media_tree.git master
+> > config: s390-allmodconfig (attached as .config)
+> > compiler: s390-linux-gcc (GCC) 9.3.0
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # save the attached .config to linux build tree
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=s390 
+> > 
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    drivers/media/pci/cx88/cx88-video.c: In function 'cx8800_suspend':
+> > >> drivers/media/pci/cx88/cx88-video.c:1564:3: error: implicit declaration of function 'stop_video_dma'; did you mean 'start_video_dma'? [-Werror=implicit-function-declaration]
+> >     1564 |   stop_video_dma(dev);
+> >          |   ^~~~~~~~~~~~~~
+> >          |   start_video_dma
+> >    drivers/media/pci/cx88/cx88-video.c: In function 'cx8800_resume':
+> > >> drivers/media/pci/cx88/cx88-video.c:1600:3: error: implicit declaration of function 'restart_video_queue'; did you mean 'start_video_dma'? [-Werror=implicit-function-declaration]
+> >     1600 |   restart_video_queue(dev, &dev->vidq);
+> >          |   ^~~~~~~~~~~~~~~~~~~
+> >          |   start_video_dma
+> >    cc1: some warnings being treated as errors
+> > 
+> > vim +1564 drivers/media/pci/cx88/cx88-video.c
+> > 
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1553  
+> > 3bdbfebc5677cf drivers/media/pci/cx88/cx88-video.c   Vaibhav Gupta         2020-07-17  1554  static int __maybe_unused cx8800_suspend(struct device *dev_d)
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1555  {
+> > 3bdbfebc5677cf drivers/media/pci/cx88/cx88-video.c   Vaibhav Gupta         2020-07-17  1556  	struct cx8800_dev *dev = dev_get_drvdata(dev_d);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1557  	struct cx88_core *core = dev->core;
+> > 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1558  	unsigned long flags;
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1559  
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1560  	/* stop video+vbi capture */
+> > 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1561  	spin_lock_irqsave(&dev->slock, flags);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1562  	if (!list_empty(&dev->vidq.active)) {
+> > 65bc2fe86e6670 drivers/media/pci/cx88/cx88-video.c   Mauro Carvalho Chehab 2016-11-13  1563  		pr_info("suspend video\n");
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16 @1564  		stop_video_dma(dev);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1565  	}
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1566  	if (!list_empty(&dev->vbiq.active)) {
+> > 65bc2fe86e6670 drivers/media/pci/cx88/cx88-video.c   Mauro Carvalho Chehab 2016-11-13  1567  		pr_info("suspend vbi\n");
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1568  		cx8800_stop_vbi_dma(dev);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1569  	}
+> > 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1570  	spin_unlock_irqrestore(&dev->slock, flags);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1571  
+> > 13595a51c0da8e drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2007-10-01  1572  	if (core->ir)
+> > 92f4fc10d7ba01 drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2010-03-31  1573  		cx88_ir_stop(core);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1574  	/* FIXME -- shutdown device */
+> > e52e98a7eccfb0 drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2005-09-09  1575  	cx88_shutdown(core);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1576  
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1577  	dev->state.disabled = 1;
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1578  	return 0;
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1579  }
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1580  
+> > 3bdbfebc5677cf drivers/media/pci/cx88/cx88-video.c   Vaibhav Gupta         2020-07-17  1581  static int __maybe_unused cx8800_resume(struct device *dev_d)
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1582  {
+> > 3bdbfebc5677cf drivers/media/pci/cx88/cx88-video.c   Vaibhav Gupta         2020-07-17  1583  	struct cx8800_dev *dev = dev_get_drvdata(dev_d);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1584  	struct cx88_core *core = dev->core;
+> > 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1585  	unsigned long flags;
+> > 08adb9e20be83b drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2005-09-09  1586  
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1587  	dev->state.disabled = 0;
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1588  
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1589  	/* FIXME: re-initialize hardware */
+> > e52e98a7eccfb0 drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2005-09-09  1590  	cx88_reset(core);
+> > 13595a51c0da8e drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2007-10-01  1591  	if (core->ir)
+> > 92f4fc10d7ba01 drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2010-03-31  1592  		cx88_ir_start(core);
+> > 13595a51c0da8e drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2007-10-01  1593  
+> > 13595a51c0da8e drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2007-10-01  1594  	cx_set(MO_PCI_INTMSK, core->pci_irqmask);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1595  
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1596  	/* restart video+vbi capture */
+> > 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1597  	spin_lock_irqsave(&dev->slock, flags);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1598  	if (!list_empty(&dev->vidq.active)) {
+> > 65bc2fe86e6670 drivers/media/pci/cx88/cx88-video.c   Mauro Carvalho Chehab 2016-11-13  1599  		pr_info("resume video\n");
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16 @1600  		restart_video_queue(dev, &dev->vidq);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1601  	}
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1602  	if (!list_empty(&dev->vbiq.active)) {
+> > 65bc2fe86e6670 drivers/media/pci/cx88/cx88-video.c   Mauro Carvalho Chehab 2016-11-13  1603  		pr_info("resume vbi\n");
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1604  		cx8800_restart_vbi_queue(dev, &dev->vbiq);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1605  	}
+> > 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1606  	spin_unlock_irqrestore(&dev->slock, flags);
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1607  
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1608  	return 0;
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1609  }
+> > ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1610  
+> > 
+> > ---
+> > 0-DAY CI Kernel Test Service, Intel Corporation
+> > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> 
+> Got it. Thanks!
+> Fixed in v3.
+> 
+> --Vaibhav Gupta
+
+I fixed the error reported, in this v2 patch-series, by Kbuild and floated v3
+in the mailing list.
+But then I got notification from "[linux-media] Patchwork". It has applied my
+v2 patch series. Please use v3.
+
+--Vaibhav Gupta
