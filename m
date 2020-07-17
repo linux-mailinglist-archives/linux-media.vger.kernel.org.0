@@ -2,171 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6353223C2D
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 15:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 622BB223C69
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 15:25:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgGQNTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 09:19:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726210AbgGQNTH (ORCPT
+        id S1726316AbgGQNZj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 09:25:39 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:48999 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726071AbgGQNZi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 09:19:07 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0E3C08C5CE
-        for <linux-media@vger.kernel.org>; Fri, 17 Jul 2020 06:19:06 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id q4so12663133lji.2
-        for <linux-media@vger.kernel.org>; Fri, 17 Jul 2020 06:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=npEG3Q8JCnzZnur7Cq6JNk21xogenaqhRA7YjsM9ezY=;
-        b=WJr5l5M97ciW2c/gjJQoeEJGmETPzM7Qr5IRBgUn1YBScg98hUkSzHSeJTg3OUPsqN
-         2Scj6G4YGWug3QNMtbZFC3QoKcWR/SfrE+ZlfdaUJN+16ebomabpyO890QKs0TfSwssg
-         GlwRJGVRacdblC9JpOlqVPmVq4YaiPWGimGKkIvrIMvoClA502INAywjscaO+jMQtYNV
-         FrdLzlPp8YBw4RfuDqDeOxlxXRKz4NzqUy+mC4V9pnVDfAFmeYBYR87xX8F1retQgweA
-         OtrVCgFfRj6hzdkmswIkViUTlADJQfm9E7KSYC+qLFxp8Njn3jYAupxNP8CkZ765YQba
-         sztw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=npEG3Q8JCnzZnur7Cq6JNk21xogenaqhRA7YjsM9ezY=;
-        b=b54yPzl0ljK9opal1Ak1DMv68B/quNshFim4eAjBFEkHV4wqXVEnQnbuUpGelzIECb
-         RDKiOJa/ldhHtArJnIX/7zL0KcuxVWx0j1FhVn7f+i7xQqDTG882nwcb7s7kpY0CdrP6
-         vhYA4tVUymoIz3QqtL7tydW3P5+mrkmNrc41jQwJfYSr/EQn3SSCn/I2G9csurD//P3c
-         CbQiXdVPVSGttL2gc7nNH+dUFHDrxM+sfVPtqWJPemEq7C3pujZdH5riNfW97QeOhM8C
-         80/xP81vseI6/F338zdu8a3KgRbuNnO5E7fZPWWp6UFDWwZRKYh2/zFsbH/5c71BsQhK
-         prww==
-X-Gm-Message-State: AOAM531u9mK/AHYxE0tkTb/1F+GPOKwKGOuGUzrk2d2U8vHPcmsPE7uO
-        hz3VCO+BDOPo4wY5xlVn+V9T3g==
-X-Google-Smtp-Source: ABdhPJxEMQOqJH/bssfF2AGyslt8NjbQrH6kwGSmbOflAyOcRsfWYlCaG5NnnWf5rAblr67M877IMw==
-X-Received: by 2002:a05:651c:c5:: with SMTP id 5mr4934690ljr.9.1594991945447;
-        Fri, 17 Jul 2020 06:19:05 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id y69sm1861534lfa.86.2020.07.17.06.19.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 06:19:04 -0700 (PDT)
-Date:   Fri, 17 Jul 2020 15:19:04 +0200
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-ide@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 19/20] media: rcar-vin: Enable support for R8A774E1
-Message-ID: <20200717131904.GC175137@oden.dyn.berto.se>
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-20-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 17 Jul 2020 09:25:38 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 0E9DF1C0013;
+        Fri, 17 Jul 2020 13:25:34 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     robh+dt@kernel.org, devicetree@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, slongerbeam@gmail.com,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 00/13] dt-bindings: media: ov5640: Convert to json-schema
+Date:   Fri, 17 Jul 2020 15:28:46 +0200
+Message-Id: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1594919915-5225-20-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad,
+Hello,
+   this series has been broken out from
+" [PATCH 0/8] dt-bindings: media: i2c: Convert to json-schema"
+which I sent out a few days ago.
 
-Thanks for your work.
+It was a single patch, now it's 13. Not sure it's a good sign :)
 
-On 2020-07-16 18:18:34 +0100, Lad Prabhakar wrote:
-> Add the SoC specific information for RZ/G2H (R8A774E1) SoC. Also add
-> the routing information between CSI2 and VIN (which is similar to
-> R-Car H3 except it lacks CSI41).
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Anyway, in the version sent as part of the mentioned series I just converted
+the existing bindings to the json-schema format, without putting to much
+attention to what was there.
 
-I do not have access to the datasheet so I can't verify the routing 
-table so I trust it is correct.
+As suggested by Laurent I moved to specify properties as dt-schema, to
+allow their validation, and that sprinkled to a lot of fun.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+For each patch in the series, the DTS and bindings maintainers are CC-ed.
+The whole series has been sent to a limited audience only.
 
-> ---
->  drivers/media/platform/rcar-vin/rcar-core.c | 40 +++++++++++++++++++++
->  1 file changed, 40 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index 7440c8965d27..4fb76d1df308 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -944,6 +944,42 @@ static const struct rvin_info rcar_info_gen2 = {
->  	.max_height = 2048,
->  };
->  
-> +static const struct rvin_group_route rcar_info_r8a774e1_routes[] = {
-> +	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
-> +	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
-> +	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
-> +	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
-> +	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
-> +	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
-> +	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
-> +	{ .csi = RVIN_CSI20, .channel = 1, .vin = 2, .mask = BIT(0) },
-> +	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
-> +	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
-> +	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
-> +	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
-> +	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
-> +	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) | BIT(2) },
-> +	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
-> +	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
-> +	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
-> +	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
-> +	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
-> +	{ .csi = RVIN_CSI20, .channel = 1, .vin = 6, .mask = BIT(0) },
-> +	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
-> +	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
-> +	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) | BIT(2) },
-> +	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
-> +	{ /* Sentinel */ }
-> +};
-> +
-> +static const struct rvin_info rcar_info_r8a774e1 = {
-> +	.model = RCAR_GEN3,
-> +	.use_mc = true,
-> +	.max_width = 4096,
-> +	.max_height = 4096,
-> +	.routes = rcar_info_r8a774e1_routes,
-> +};
-> +
->  static const struct rvin_group_route rcar_info_r8a7795_routes[] = {
->  	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
->  	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
-> @@ -1220,6 +1256,10 @@ static const struct of_device_id rvin_of_id_table[] = {
->  		.compatible = "renesas,vin-r8a774c0",
->  		.data = &rcar_info_r8a77990,
->  	},
-> +	{
-> +		.compatible = "renesas,vin-r8a774e1",
-> +		.data = &rcar_info_r8a774e1,
-> +	},
->  	{
->  		.compatible = "renesas,vin-r8a7778",
->  		.data = &rcar_info_m1,
-> -- 
-> 2.17.1
-> 
+The series starts with a plain conversion of the existing bindings to
+dt-schema. It then fixes a potential issue on a dts user of the sensor,
+and then move to remove or demote endpoint properties that were marked as
+required in the original text bindings. This of course causes a log of churn
+in the existing DTS which use the sensor, and opens some questions there from
+which I expect the individual maintainers to provide directions on.
 
--- 
-Regards,
-Niklas Söderlund
+Finally, the small patch for the driver to initialize DVP default signal
+values to what the sensor manual and the bindings report.
+
+The series ends with the update of the MAINTAINERS file with the new
+.yaml binding file and the addition of myself as co-maintainer for the driver.
+Steve if you intended to remove yourself please send a patch, I didn't dare to
+do it myself :)
+
+A final note for Rob and his bot: some patches breaks validation of existing
+dts, which are then fixed by following patches. Hope this is ok, but it I
+have to keep validation of all dts successful, patches would likely be huge
+and hinder changes which I preferred to make explicitly in single patches.
+
+Jacopo Mondi (13):
+  dt-bindings: media: ov5640: Convert to json-schema
+  arm64: dts: qcom: apq8016-sbc: Fix CSI-2 lanes routing
+  dt-bindings: media: ov5640: Do not limit rotation
+  dt-bindings: media: ti,cal: Remove sensor from example
+  dt-bindings: media: ov5640: Make bus-type mandatory
+  dt-bindings: media: ov5640: Require ep properties
+  dt-bindings: media: ov5640: Remove clock-lanes
+  dt-bindings: media: ov5640: Remove data-shift
+  dt-bindings: media: ov5640: Add default for synch signals
+  dt-bindings: media: ov5640: Demote DVP required properties
+  media: i2c: ov5640: Initialize DVP polarities as default
+  MAINTAINERS: ov5640: Add bindings file
+  dt-bindings: media: ov5640: Add myself as co-maintainer
+
+ .../devicetree/bindings/media/i2c/ov5640.txt  |  92 --------
+ .../devicetree/bindings/media/i2c/ov5640.yaml | 208 ++++++++++++++++++
+ .../devicetree/bindings/media/ti,cal.yaml     |  22 --
+ MAINTAINERS                                   |   2 +
+ arch/arm/boot/dts/dra72-evm-common.dtsi       |   2 +-
+ arch/arm/boot/dts/dra76-evm.dts               |   2 +-
+ arch/arm/boot/dts/imx6-logicpd-baseboard.dtsi |   2 +-
+ arch/arm/boot/dts/imx6qdl-icore.dtsi          |   2 +-
+ arch/arm/boot/dts/imx6qdl-sabrelite.dtsi      |   2 +-
+ arch/arm/boot/dts/imx6qdl-sabresd.dtsi        |   2 +-
+ arch/arm/boot/dts/stm32mp157c-ev1.dts         |   2 +-
+ .../allwinner/sun50i-a64-amarula-relic.dts    |   1 +
+ .../boot/dts/allwinner/sun50i-a64-pinetab.dts |   1 +
+ arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi     |   8 +-
+ .../arm64/boot/dts/ti/k3-am654-base-board.dts |   2 +-
+ drivers/media/i2c/ov5640.c                    |  16 +-
+ 16 files changed, 232 insertions(+), 134 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+
+--
+2.27.0
+
