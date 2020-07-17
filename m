@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 712F62232CE
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 07:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFC52223320
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 07:53:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725864AbgGQFOG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 01:14:06 -0400
-Received: from mail29.static.mailgun.info ([104.130.122.29]:39288 "EHLO
+        id S1726528AbgGQFxO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 01:53:14 -0400
+Received: from mail29.static.mailgun.info ([104.130.122.29]:30468 "EHLO
         mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725856AbgGQFOF (ORCPT
+        by vger.kernel.org with ESMTP id S1725300AbgGQFxO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 01:14:05 -0400
+        Fri, 17 Jul 2020 01:53:14 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1594962845; h=Content-Transfer-Encoding: Content-Type:
+ s=smtp; t=1594965193; h=Content-Transfer-Encoding: Content-Type:
  In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=NpxTil8JCWes0+2Pepn4rr9f/VI4zSITIqSFlcRAvsE=; b=dm9+pvzshbhd0K8lwVykcymr4gm/Tm+b+46AG0kAIy1MIZ9kOXp30lnQQQp5hRTgq3EZcXjn
- VwKb1//NGDmrBD4bq0cv3N8xwFhMXnElMAyl8BXtemS5Znzl2GR3BHyH7dxXAqb09JkOpK8C
- l2d1POujKQy7sCUsSQ94bim+Ul8=
+ Subject: Sender; bh=4tH6ToMxx8+ekSYiqz8suxCIKe0URL0znIrfCOTp/B0=; b=a10F3BjV7IxEPYzZzRk0ivKylyL3JsCwdHzYSoxBgKEF5T0tHGF3qGPkiXJr28Hald9haaX6
+ 4OuJRFa0buOq/1VGr5y+t8m0i3CXnXTYPu94fdvPb8qyCxjoM4wqm3GqBvN3AX/4u1CqTHet
+ 4e3i2jdeMYAlXgY1RR3QjwqKHrM=
 X-Mailgun-Sending-Ip: 104.130.122.29
 X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
- 5f11339c8e36ecda306db6fd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 17 Jul 2020 05:14:04
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5f113caec9bd2efa2e50cd5b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 17 Jul 2020 05:52:46
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 1F23AC43391; Fri, 17 Jul 2020 05:14:04 +0000 (UTC)
+        id 9480FC433C6; Fri, 17 Jul 2020 05:52:45 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
         aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.0
 Received: from [192.168.225.150] (unknown [137.97.45.199])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3C87DC433C9;
-        Fri, 17 Jul 2020 05:13:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3C87DC433C9
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id EC6DCC433CB;
+        Fri, 17 Jul 2020 05:52:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EC6DCC433CB
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
 Subject: Re: [PATCH v2 1/4] dt-bindings: media: venus: Add an optional power
  domain for perf voting
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     stanimir.varbanov@linaro.org, robh+dt@kernel.org,
-        agross@kernel.org, linux-arm-msm@vger.kernel.org,
+To:     Rob Herring <robh@kernel.org>
+Cc:     stanimir.varbanov@linaro.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, mka@chromium.org
 References: <1594878139-3402-1-git-send-email-rnayak@codeaurora.org>
  <1594878139-3402-2-git-send-email-rnayak@codeaurora.org>
- <20200716234310.GH1218486@builder.lan>
+ <20200716195913.GA2744252@bogus>
 From:   Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <0f0ae5f5-b03e-0fd3-865f-b80472fb7a21@codeaurora.org>
-Date:   Fri, 17 Jul 2020 10:43:57 +0530
+Message-ID: <cd368ea7-6ddc-004c-164d-dbbad8516853@codeaurora.org>
+Date:   Fri, 17 Jul 2020 11:22:24 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200716234310.GH1218486@builder.lan>
+In-Reply-To: <20200716195913.GA2744252@bogus>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -68,11 +68,32 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 7/17/2020 5:13 AM, Bjorn Andersson wrote:
-> On Wed 15 Jul 22:42 PDT 2020, Rajendra Nayak wrote:
-> 
+On 7/17/2020 1:29 AM, Rob Herring wrote:
+> On Thu, Jul 16, 2020 at 11:12:16AM +0530, Rajendra Nayak wrote:
 >> Add an optional power domain which when specified can be used for
 >> setting the performance state of Venus.
+> 
+> The h/w suddenly grew a new power island/domain? Seems like an abuse of
+> power-domains...
+
+The power-domain always existed, we have just managed to survive without
+having venus support DVFS and have the domain always be at a high performance
+level (set statically by boot code)
+Now, if we care to do DVFS and support better PM on the SoC, its important
+for the devices to manage this additional power domain (and dynamically
+scale it)
+
+That said, if the name 'opp-pd' makes it look like a software construct,
+like Bjorn mentioned, I am fine to give it a real name like 'cx-pd'
+Does that sound good?
+
+PS: Like I mentioned earlier [1], cx is a shared power island,
+not a power island specific to this block, and definitely not a software
+pm-domain construct.
+
+[1] https://lore.kernel.org/patchwork/patch/1241077/
+
+> 
 >>
 >> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
 >> ---
@@ -101,18 +122,6 @@ On 7/17/2020 5:13 AM, Bjorn Andersson wrote:
 >>         - const: venus
 >>         - const: vcodec0
 >> +      - const: opp-pd
-> 
-> In line with Rob's question, the "opp power-domain" seems like a
-> software construct, wouldn't this be better named e.g. "cx"?
-
-The reason I chose to call it 'opp-pd' was to signify its the domain
-that supports scaling (performance state) and not something that's just
-turned on/off. I am fine calling it cx if that makes it look more 'real'
-
-> 
-> Regards,
-> Bjorn
-> 
 >>   
 >>     clocks:
 >>       maxItems: 5
