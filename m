@@ -2,179 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC59B2235DF
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 09:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F3B32235F9
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 09:36:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726788AbgGQH0T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 03:26:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35196 "EHLO
+        id S1728022AbgGQHf6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 03:35:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726141AbgGQH0S (ORCPT
+        with ESMTP id S1727989AbgGQHf5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 03:26:18 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4510FC061755;
-        Fri, 17 Jul 2020 00:26:18 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id l63so6259743pge.12;
-        Fri, 17 Jul 2020 00:26:18 -0700 (PDT)
+        Fri, 17 Jul 2020 03:35:57 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C415DC061755;
+        Fri, 17 Jul 2020 00:35:57 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id gc15so3813794pjb.0;
+        Fri, 17 Jul 2020 00:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=SEXnWRy5eUZJ9fC4bnU1mSreQXnPziGyYdjxK220NqU=;
-        b=m7KqBqmIeNEIOWqhAjnxL9eOPnQPPQfhnMsAlwTpAp7hFWO0f5N2/sy7Dka3Io1ru3
-         2jZnZkT1vFf7S9T6UY8MWpmp2demnKYa8/ry5OlrVLnTXfIQbspOXCLEKobSj9KeHKLg
-         57j+uG11BGKay4cgBnsBs553e4NhlaEr+qXHrwK6LMJkiAGW6uxfBJFjL3DUJUox/AfF
-         Uijbdq9AHJtsGMRvJBkvYF2M2I4WvgllyKxLz0I+qP8O4CPT7xtnh47flQ5d+KLGDqYF
-         WophnEHBEJbKzoVoeESn8l2/dJ4ZuNjkhAmQzH7gE7Sf0ipiHSTOfyBQwIMhnIODOw8c
-         aOQA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H6UgjbIQGVN5oFfgxU/CHIEw0G9DHJL+4n0GByCqoKU=;
+        b=ZWZ/4jVtjrKf9R2VXYKIHZ+Pyugf1ECUJzzMztl7ZhJmng7dJMQOjVX0nnY1wEv9Mo
+         sWzRdLBYGlDLQiKNgfip3W8IqglWn5NoB+wjkO8Pv/74UUapkKJcjtP9v86ZTJw6zdpJ
+         //LcgllV8AuvMsLd3OeGTGXQGa1G4S1UyBcQ8U8G7aUTZmNXvsT5xr2LSlckjnzFjp+H
+         R22aDhy8soxWLWgpLfPa66TQrtoPkT+z2jhLlHu+t4J3km5o/306kyBXcdi27dxF8F4l
+         oSbWcUfFNYmED7V9S9guJI7rFmtV88l3xM4eIur+pdmG+fv+Ej0wh3oDqgVlLplIzOXS
+         MFXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SEXnWRy5eUZJ9fC4bnU1mSreQXnPziGyYdjxK220NqU=;
-        b=Ny4cU09hmutoSe+Uqnmbqu8ki1jQjlrhwatj2Kr8N8M2AANBrYEhZF4E5+SlomQBFy
-         99kpq88ETLdETgMAM7reHGGCMArqvTamwkNYIyedO1oIcti/j5mz8IKtP/27q4PfN6uV
-         4G+/eiNd4GEomUn6Ddd7mOUUYzF5fVBneIvzwd4nxR3CyntZdfHhhPdKLBS0S2C1VlSt
-         kkWTCI9eNufXVbBAoqKVQf16nMob1GWiiMo9W08HqjpB+h8wNXV4+5issqCFeAufzck8
-         i1K/k2r9PrvmRbM4IOeavoV2aMIQGDAgQPV51hrAFAHd6GFtFZsf78xAgdfNEiIpUUcT
-         USZw==
-X-Gm-Message-State: AOAM5337V9wwZzHjoOJsSGD4Dx3PjQwR+aIRJi6Z63Mg1Btv+QPD2ZBn
-        xnX6TNYm3sOVr92FZJmHJus=
-X-Google-Smtp-Source: ABdhPJyo44Hn9434QH6OORfQoRNHw7kJhO4DFz4V6cbIk1KW5NnzZmd7+nPIpljnrqNC8b5ZR7ZJ6A==
-X-Received: by 2002:a63:6c5:: with SMTP id 188mr7506865pgg.33.1594970777429;
-        Fri, 17 Jul 2020 00:26:17 -0700 (PDT)
-Received: from gmail.com ([103.105.153.67])
-        by smtp.gmail.com with ESMTPSA id k7sm6821356pgh.46.2020.07.17.00.25.59
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H6UgjbIQGVN5oFfgxU/CHIEw0G9DHJL+4n0GByCqoKU=;
+        b=eLDxj9BOEN5I6c15ccitjGm5BWoMTvj3+oyam7UaOs2+xkPoOFqyB8+FGSl1YUA9eF
+         a4YY25iLj8yXx4dTi9EUCIZgBG6wfi/THkOMcrM7FK06n51mqD8ubCy5+NUAP+jiDg/0
+         OcgX+f5AN9GHiLauDQNYdfVQ8VpJFJmU95FwHqArLpD+a3wZ906XSiN+P2Ya6XkCdMsh
+         3c7u1qZ1KU5uYCOkgF1EraRr3y8tbXvHraA6aP9D0rpJaF+aF6IOdo7K2+KB/kgJQ4BB
+         lvECij0BJGw5l/pykXrO3TbtPEd7oluYyFe1hr8IBp5e0kg2Mbx+5aUSq1YTSooe68s6
+         tFSw==
+X-Gm-Message-State: AOAM530CWdnRIEyDufVS+fncfYg38Gj8F7aaapNefZeVPRJ3Ua1cVBM2
+        pvQdfAgD9BNbVhaws+KiahJ6Igae0HhvCw==
+X-Google-Smtp-Source: ABdhPJyV8TF/8340VW6zAKsBcjtJyGZUCuLrzgfBjaLKiQqbhUXOWPWT4ov7XWH1kS1rxJD2S5vFug==
+X-Received: by 2002:a17:90a:17e4:: with SMTP id q91mr8464124pja.61.1594971357237;
+        Fri, 17 Jul 2020 00:35:57 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.153.67])
+        by smtp.gmail.com with ESMTPSA id z25sm6794704pfg.140.2020.07.17.00.35.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 00:26:16 -0700 (PDT)
-Date:   Fri, 17 Jul 2020 12:54:40 +0530
+        Fri, 17 Jul 2020 00:35:56 -0700 (PDT)
 From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bjorn Helgaas <bjorn@helgaas.com>,
         Vaibhav Gupta <vaibhav.varodek@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 4/6] cx88: use generic power management
-Message-ID: <20200717072440.GA217230@gmail.com>
-References: <20200717035608.97254-5-vaibhavgupta40@gmail.com>
- <202007171515.gDbDZtkQ%lkp@intel.com>
+Subject: [PATCH v3 0/6] [media] pci: use generic power management
+Date:   Fri, 17 Jul 2020 13:04:30 +0530
+Message-Id: <20200717073436.249623-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202007171515.gDbDZtkQ%lkp@intel.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 03:14:28PM +0800, kernel test robot wrote:
-> Hi Vaibhav,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on linuxtv-media/master]
-> [also build test ERROR on pci/next v5.8-rc5 next-20200716]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/pci-use-generic-power-management/20200717-120145
-> base:   git://linuxtv.org/media_tree.git master
-> config: s390-allmodconfig (attached as .config)
-> compiler: s390-linux-gcc (GCC) 9.3.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=s390 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/media/pci/cx88/cx88-video.c: In function 'cx8800_suspend':
-> >> drivers/media/pci/cx88/cx88-video.c:1564:3: error: implicit declaration of function 'stop_video_dma'; did you mean 'start_video_dma'? [-Werror=implicit-function-declaration]
->     1564 |   stop_video_dma(dev);
->          |   ^~~~~~~~~~~~~~
->          |   start_video_dma
->    drivers/media/pci/cx88/cx88-video.c: In function 'cx8800_resume':
-> >> drivers/media/pci/cx88/cx88-video.c:1600:3: error: implicit declaration of function 'restart_video_queue'; did you mean 'start_video_dma'? [-Werror=implicit-function-declaration]
->     1600 |   restart_video_queue(dev, &dev->vidq);
->          |   ^~~~~~~~~~~~~~~~~~~
->          |   start_video_dma
->    cc1: some warnings being treated as errors
-> 
-> vim +1564 drivers/media/pci/cx88/cx88-video.c
-> 
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1553  
-> 3bdbfebc5677cf drivers/media/pci/cx88/cx88-video.c   Vaibhav Gupta         2020-07-17  1554  static int __maybe_unused cx8800_suspend(struct device *dev_d)
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1555  {
-> 3bdbfebc5677cf drivers/media/pci/cx88/cx88-video.c   Vaibhav Gupta         2020-07-17  1556  	struct cx8800_dev *dev = dev_get_drvdata(dev_d);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1557  	struct cx88_core *core = dev->core;
-> 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1558  	unsigned long flags;
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1559  
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1560  	/* stop video+vbi capture */
-> 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1561  	spin_lock_irqsave(&dev->slock, flags);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1562  	if (!list_empty(&dev->vidq.active)) {
-> 65bc2fe86e6670 drivers/media/pci/cx88/cx88-video.c   Mauro Carvalho Chehab 2016-11-13  1563  		pr_info("suspend video\n");
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16 @1564  		stop_video_dma(dev);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1565  	}
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1566  	if (!list_empty(&dev->vbiq.active)) {
-> 65bc2fe86e6670 drivers/media/pci/cx88/cx88-video.c   Mauro Carvalho Chehab 2016-11-13  1567  		pr_info("suspend vbi\n");
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1568  		cx8800_stop_vbi_dma(dev);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1569  	}
-> 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1570  	spin_unlock_irqrestore(&dev->slock, flags);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1571  
-> 13595a51c0da8e drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2007-10-01  1572  	if (core->ir)
-> 92f4fc10d7ba01 drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2010-03-31  1573  		cx88_ir_stop(core);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1574  	/* FIXME -- shutdown device */
-> e52e98a7eccfb0 drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2005-09-09  1575  	cx88_shutdown(core);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1576  
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1577  	dev->state.disabled = 1;
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1578  	return 0;
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1579  }
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1580  
-> 3bdbfebc5677cf drivers/media/pci/cx88/cx88-video.c   Vaibhav Gupta         2020-07-17  1581  static int __maybe_unused cx8800_resume(struct device *dev_d)
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1582  {
-> 3bdbfebc5677cf drivers/media/pci/cx88/cx88-video.c   Vaibhav Gupta         2020-07-17  1583  	struct cx8800_dev *dev = dev_get_drvdata(dev_d);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1584  	struct cx88_core *core = dev->core;
-> 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1585  	unsigned long flags;
-> 08adb9e20be83b drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2005-09-09  1586  
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1587  	dev->state.disabled = 0;
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1588  
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1589  	/* FIXME: re-initialize hardware */
-> e52e98a7eccfb0 drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2005-09-09  1590  	cx88_reset(core);
-> 13595a51c0da8e drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2007-10-01  1591  	if (core->ir)
-> 92f4fc10d7ba01 drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2010-03-31  1592  		cx88_ir_start(core);
-> 13595a51c0da8e drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2007-10-01  1593  
-> 13595a51c0da8e drivers/media/video/cx88/cx88-video.c Mauro Carvalho Chehab 2007-10-01  1594  	cx_set(MO_PCI_INTMSK, core->pci_irqmask);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1595  
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1596  	/* restart video+vbi capture */
-> 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1597  	spin_lock_irqsave(&dev->slock, flags);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1598  	if (!list_empty(&dev->vidq.active)) {
-> 65bc2fe86e6670 drivers/media/pci/cx88/cx88-video.c   Mauro Carvalho Chehab 2016-11-13  1599  		pr_info("resume video\n");
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16 @1600  		restart_video_queue(dev, &dev->vidq);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1601  	}
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1602  	if (!list_empty(&dev->vbiq.active)) {
-> 65bc2fe86e6670 drivers/media/pci/cx88/cx88-video.c   Mauro Carvalho Chehab 2016-11-13  1603  		pr_info("resume vbi\n");
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1604  		cx8800_restart_vbi_queue(dev, &dev->vbiq);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1605  	}
-> 5ddfbbb9ca2e74 drivers/media/pci/cx88/cx88-video.c   Alexey Khoroshilov    2013-04-13  1606  	spin_unlock_irqrestore(&dev->slock, flags);
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1607  
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1608  	return 0;
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1609  }
-> ^1da177e4c3f41 drivers/media/video/cx88/cx88-video.c Linus Torvalds        2005-04-16  1610  
-> 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Linux Kernel Mentee: Remove Legacy Power Management.
 
-Got it. Thanks!
-Fixed in v3.
+The purpose of this patch series is to upgrade power management in media
+drivers. This has been done by upgrading .suspend() and .resume() callbacks.
 
---Vaibhav Gupta
+The upgrade makes sure that the involvement of PCI Core does not change the
+order of operations executed in a driver. Thus, does not change its behavior.
+
+In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
+helper functions like pci_enable/disable_device_mem(), pci_set_power_state(),
+pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
+their job.
+
+The conversion requires the removal of those function calls, change the
+callbacks' definition accordingly and make use of dev_pm_ops structure.
+
+v2: some changes in v1 might break cx23885 and cx25821.
+v3: kbuild error in v2.
+
+All patches are compile-tested only.
+
+Test tools:
+    - Compiler: gcc (GCC) 10.1.0
+    - allmodconfig build: make -j$(nproc) W=1 all
+
+Vaibhav Gupta (6):
+  sta2x11: use generic power management
+  cx23885: use generic power management
+  cx25821: use generic power management
+  cx88: use generic power management
+  meye: use generic power management
+  tw68: use generic power management
+
+ drivers/media/pci/cx23885/cx23885-core.c |  3 --
+ drivers/media/pci/cx25821/cx25821-core.c |  3 --
+ drivers/media/pci/cx88/cx88-video.c      | 58 ++++++----------------
+ drivers/media/pci/meye/meye.c            | 15 ++----
+ drivers/media/pci/sta2x11/sta2x11_vip.c  | 63 ++++++------------------
+ drivers/media/pci/tw68/tw68-core.c       | 30 +++++------
+ 6 files changed, 46 insertions(+), 126 deletions(-)
+
+-- 
+2.27.0
+
