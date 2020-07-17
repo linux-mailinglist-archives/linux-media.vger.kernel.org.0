@@ -2,74 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86F6E2242F3
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 20:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCBE2242F5
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 20:14:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726335AbgGQSNi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 14:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50634 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbgGQSNi (ORCPT
+        id S1726381AbgGQSOl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 14:14:41 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59888 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbgGQSOl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 14:13:38 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36755C0619D2
-        for <linux-media@vger.kernel.org>; Fri, 17 Jul 2020 11:13:38 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id f16so6783739pjt.0
-        for <linux-media@vger.kernel.org>; Fri, 17 Jul 2020 11:13:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=9QZejNih7yeQQa1wfsnFdqABbWqevqrkmBHnWQwv11w=;
-        b=hsiy7Y0kBAMIxBJYDWIJwdc2htfpydhCvZQt++kOYMEh+y0bmadpHsXVFKyRKRCa8d
-         6zateCB1ZUisSGw55sZXZKfCo2xsQZ90bj/3J39CrUJs9tVJPjmmg4muO2hYaLlHkT0O
-         DCu7sLRWTWwklSts2gz87aEMEf8mEz2kWhTnHepcYRgAju82BeIAdPtzVYAcTtdUjhGD
-         LanqP0wIATciLwaKd/yGT0oCHSj9tA8AVxPzjUJgVU6sSPhEwAEzvayo1Yg4a9zlqoj3
-         4PrRHFRfA0ksX22BRH1Q1KX7iQPCg2xjmH6PI63Yi5d4zmjCEzRTcFnF34wyiRF8UsEV
-         PDJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=9QZejNih7yeQQa1wfsnFdqABbWqevqrkmBHnWQwv11w=;
-        b=VCeeGqvSDTeCkOBdiSuBN3PRyi/PVuDoUgEUsGyy+wHsy+82x1PlYepKJJo1X228Ew
-         ejmprM/sGFzvob0EdylI+s0wBcWQj67JuqKwMY9Zt5o+uPMtq08zE/DKdmXHLgRERwRZ
-         1i41yuGMz8LDUnh9YQfu2nlw2XeQtF1Bnvz79r0Y1c7T4XHGvNGBKPzNvjN3a4RonhtL
-         bSfIoIsjcfWqTEH0gwYOMQWsHmrGO+Qw25wDeQmAa7mW0HtSBSQhj/RPb/Ufdv2wS7Tv
-         vNEzMIXYLdLw6sm5M+5wd+lWcx8zSCltcJn0oSISYWRfgq/BwTE2Lx91q+KmsSEXfC3D
-         TFVQ==
-X-Gm-Message-State: AOAM533o/d4SdhDABnZAsipKh0LBwS6RbirNkiMp/jijxfsLU95kA8mw
-        sJheBRDR5Z3jykOKGz11bSKRNTfp73YqvPDOqAc=
-X-Google-Smtp-Source: ABdhPJw3R73MfHJKkVx+KbLh2kQLW0TAdE8yWL/uJuFByyMVduD2wfKJt/47EO7p0th+UlkF76LbPmfPkTiFRF8GhRQ=
-X-Received: by 2002:a17:90a:3525:: with SMTP id q34mr11276183pjb.192.1595009617817;
- Fri, 17 Jul 2020 11:13:37 -0700 (PDT)
+        Fri, 17 Jul 2020 14:14:41 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id E3F9C2A5DC6
+Subject: Re: [PATCH v4 5/9] media: staging: rkisp1: remove unecessary clocks
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        "heiko@sntech.de" <heiko@sntech.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mark Rutland <mark.rutland@arm.com>, karthik.poduval@gmail.com,
+        Johan Jonker <jbx6244@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Eddie Cai <eddie.cai.linux@gmail.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Robin Murphy <robin.murphy@arm.com>
+References: <20200702191322.2639681-1-helen.koike@collabora.com>
+ <20200702191322.2639681-6-helen.koike@collabora.com>
+ <CAL_JsqKHG4HgcpWvh_qnHPAkaGCd7Q8APk2ai_QxjUQhvd5APg@mail.gmail.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <822de449-8c01-d790-a9f9-e8b513bd7f87@collabora.com>
+Date:   Fri, 17 Jul 2020 15:14:30 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Received: by 2002:a17:90a:17c5:0:0:0:0 with HTTP; Fri, 17 Jul 2020 11:13:37
- -0700 (PDT)
-Reply-To: bayarazazahid@gmail.com
-From:   Bayara Zazahid <clenny201@gmail.com>
-Date:   Fri, 17 Jul 2020 19:13:37 +0100
-Message-ID: <CANa6A-U1pqy9uGNuHyjx6h_xUB-p7HjaOEjr49LLo2y+x98K3A@mail.gmail.com>
-Subject: Business Proposal!!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAL_JsqKHG4HgcpWvh_qnHPAkaGCd7Q8APk2ai_QxjUQhvd5APg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Good Day To You,
+Hi Rob,
 
-Please i need your kind Assistance. I will be very glad if you can
-assist me to receive this sum of ( $22. Million US Dollars.) into your
-bank account for the benefit of our both families, As i am totally
-convinced to write you in reference to the transfer for onward
-investment or any profitable Oriented business in your country.
+Thanks for your review.
 
-I will give you the full detailed information. No risk is involved as
-it will pass through normal banking procedures.
+On 7/17/20 2:49 PM, Rob Herring wrote:
+> On Thu, Jul 2, 2020 at 1:13 PM Helen Koike <helen.koike@collabora.com> wrote:
+>>
+>> aclk_isp_wrap is a child of aclk_isp, and hclk_isp_wrap is a child of
+>> hclk_isp, thus we can remove parents from the list.
+> 
+> But it looks like it is the wrap clocks you are removing.
 
-Reply me if you are ready to receive this fund.
+From this binding yes, but the idea is to add in the dt wherever clock
+responsible for the full ACLK path for instance.
+In the example below, clock aclk_isp is ACLK_ISP0_WRAPPER.
+Does this make sense?
 
-Mr.Bayara Zazahid.
+> 
+>>
+>> Also, for the isp0, we only need the ISP clock, ACLK and HCLK.
+>> In the future we'll need a pixel clock for RK3288 and RK3399, and a JPEG
+>> clock for RK3288.
+>>
+>> So with the goal to cleanup the dt-bindings and remove it from staging,
+>> simplify clock names to isp, aclk and hclk.
+>>
+>> For reference, this is the isp clock topology on RK3399:
+>>
+>>  xin24m
+>>     pll_npll
+>>        npll
+>>           clk_isp1
+>>           clk_isp0
+>>     pll_cpll
+>>        cpll
+>>           aclk_isp1
+>>              aclk_isp1_noc
+>>              hclk_isp1
+>>                 aclk_isp1_wrapper
+>>                 hclk_isp1_noc
+>>           aclk_isp0
+>>              hclk_isp1_wrapper
+>>              aclk_isp0_wrapper
+>>              aclk_isp0_noc
+>>              hclk_isp0
+>>                 hclk_isp0_wrapper
+>>                 hclk_isp0_noc
+>>  pclkin_isp1_wrapper
+>>
+>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>>
+>> ---
+>>
+>> Changes in V4:
+>> - update binding according to suggestion by Robin Murphy
+>> on https://patchwork.kernel.org/patch/11475007/
+>>
+>> Changes in V3:
+>> - this is a new patch in the series
+>> ---
+>>  .../bindings/media/rockchip-isp1.yaml         | 30 +++++++++----------
+>>  drivers/staging/media/rkisp1/rkisp1-dev.c     |  8 ++---
+>>  2 files changed, 17 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>> index 4d111ef2e89c7..f10c53d008748 100644
+>> --- a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>> +++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>> @@ -24,20 +24,20 @@ properties:
+>>      maxItems: 1
+>>
+>>    clocks:
+>> -    items:
+>> -      - description: ISP clock
+>> -      - description: ISP AXI clock clock
+>> -      - description: ISP AXI clock  wrapper clock
+>> -      - description: ISP AHB clock clock
+>> -      - description: ISP AHB wrapper clock
+> 
+> This is the correct way to describe multiple clocks.
+
+The idea was to prepare for rk3288 and rk3399 isp1, as suggested here https://patchwork.kernel.org/patch/11475007/#23462085
+
+Or should we do:
+
+clocks:
+  oneOf:
+    # rk3288 clocks
+    - items:
+      - description: ISP clock
+      - description: ISP AXI clock
+      - description: ISP AHB clock
+      - description: ISP Pixel clock
+      - description: ISP JPEG source clock
+    # rk3399 isp0 clocks
+    - items:
+      - description: ISP clock
+      - description: ISP AXI clock
+      - description: ISP AHB clock
+    # rk3399 isp1 clocks
+    - items:
+      - description: ISP clock
+      - description: ISP AXI clock
+      - description: ISP AHB clock
+      - description: ISP Pixel clock
+
+?
+
+
+> 
+>> +    maxItems: 5
+> 
+> Now the 4th and 5th clock are undefined.
+> 
+>> +    minItems: 3
+>> +    description:
+>> +      ISP clock
+>> +      ISP AXI clock
+>> +      ISP AHB clock
+>>
+>>    clock-names:
+>> +    maxItems: 5
+> 
+> This should not be more than the number of entries in 'items'.
+> 
+
+If we follow what I wrote above, should we have:
+
+    clock-names:
+      oneOf:
+        # rk3288 clocks
+        - items:
+          - const: clk_isp
+          - const: aclk_isp
+          - const: hclk_isp
+          - const: pclk_isp_in
+          - const: sclk_isp_jpe
+        # rk3399 isp0 clocks
+        - items:
+          - const: clk_isp
+          - const: aclk_isp
+          - const: hclk_isp
+        # rk3399 isp1 clocks
+        - items:
+          - const: clk_isp
+          - const: aclk_isp
+          - const: hclk_isp
+          - const: pclk_isp
+
+?
+
+Thanks
+Helen
+
+>> +    minItems: 3
+>>      items:
+>> -      - const: clk_isp
+>> -      - const: aclk_isp
+>> -      - const: aclk_isp_wrap
+>> -      - const: hclk_isp
+>> -      - const: hclk_isp_wrap
+>> +      - const: isp
+>> +      - const: aclk
+>> +      - const: hclk
+>>
+>>    iommus:
+>>      maxItems: 1
+>> @@ -135,11 +135,9 @@ examples:
+>>              reg = <0x0 0xff910000 0x0 0x4000>;
+>>              interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH 0>;
+>>              clocks = <&cru SCLK_ISP0>,
+>> -                     <&cru ACLK_ISP0>, <&cru ACLK_ISP0_WRAPPER>,
+>> -                     <&cru HCLK_ISP0>, <&cru HCLK_ISP0_WRAPPER>;
+>> -            clock-names = "clk_isp",
+>> -                          "aclk_isp", "aclk_isp_wrap",
+>> -                          "hclk_isp", "hclk_isp_wrap";
+>> +                     <&cru ACLK_ISP0_WRAPPER>,
+>> +                     <&cru HCLK_ISP0_WRAPPER>;
+>> +            clock-names = "isp", "aclk", "hclk";
+>>              iommus = <&isp0_mmu>;
+>>              phys = <&dphy>;
+>>              phy-names = "dphy";
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
+>> index f38801fea10d9..175ac25fe99fa 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
+>> @@ -406,11 +406,9 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
+>>  }
+>>
+>>  static const char * const rk3399_isp_clks[] = {
+>> -       "clk_isp",
+>> -       "aclk_isp",
+>> -       "hclk_isp",
+>> -       "aclk_isp_wrap",
+>> -       "hclk_isp_wrap",
+>> +       "isp",
+>> +       "aclk",
+>> +       "hclk",
+>>  };
+>>
+>>  static const struct rkisp1_match_data rk3399_isp_clk_data = {
+>> --
+>> 2.26.0
+>>
