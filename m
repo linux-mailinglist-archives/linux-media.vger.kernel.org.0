@@ -2,192 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E75622434C
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 20:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75CE522436B
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 20:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728059AbgGQSpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 14:45:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55774 "EHLO mail.kernel.org"
+        id S1728301AbgGQS4X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 14:56:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59454 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726322AbgGQSpI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 14:45:08 -0400
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        id S1727821AbgGQS4W (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Jul 2020 14:56:22 -0400
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9644E208C7;
-        Fri, 17 Jul 2020 18:45:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 282992076A;
+        Fri, 17 Jul 2020 18:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595011507;
-        bh=aQXux31L0fVJHV4y9kdNGhhZTnpp/2Df3qree3CTJyY=;
+        s=default; t=1595012182;
+        bh=I9y75J42IaBzL+25s+fqD6Tv/7wRsnJAIgF5M/KtE8s=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TTVwmoGLYREFkLJUML0EPVfT4+mQ4tnEEUQwUtlL1R/MoiBcMlrdczMvuFK0qHX9J
-         IkzsNpZsONttrmB7pJxC8IxhESUapmP6QrKH4Pu17h09Hq1CbLoNhRDcFImD05h3rf
-         3dLJbmPAP3mfhuYC9hWPSwcigdOjgHPbSfpKMCr0=
-Received: by mail-ot1-f46.google.com with SMTP id g37so7564228otb.9;
-        Fri, 17 Jul 2020 11:45:07 -0700 (PDT)
-X-Gm-Message-State: AOAM531TwzcD7wW+8uS8C4/6FK8Qs1GdqdcJz2nKYiX4NoYsPxa5ueK0
-        jp6FN2v67F9nMd/gJw6KQAsymH61zXE9vGlb9w==
-X-Google-Smtp-Source: ABdhPJzjAX9VPCvhBaymbD8U6pueMna6x31wFEWxJwYV+L9W8q5c90gNWa24y9cUV9fKEYpCpbjo4E4/s6jNnBO1h5w=
-X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr10192904ots.192.1595011506868;
- Fri, 17 Jul 2020 11:45:06 -0700 (PDT)
+        b=YOgbEyq8cf4E8Nzby24S64YuwCPk30Pyc6TNnN/7KLYSfVxUlRfo1LKhyrR1mxvky
+         +WKAv9mBFQCbvz0vPdtusnhCt+1CL9ug4b0T469Si4vy4cJvJHsD2BUfA5WF5cfTXu
+         Ip34uThPZIACCqnZWc/Fy2nh0q2P7d7z2nDgCfPo=
+Received: by mail-ot1-f49.google.com with SMTP id n24so7584082otr.13;
+        Fri, 17 Jul 2020 11:56:22 -0700 (PDT)
+X-Gm-Message-State: AOAM530qIsmAXEaTjrYq9QFK+J/sBdSxFgxfeZgVBICnTp8fVmvoLkTP
+        YHvAmVgrvKdj8FTidbfMDb2qHeCKrLeWH9eoBw==
+X-Google-Smtp-Source: ABdhPJywlK24TqAj8hYZIsgs4xNwf07oJW+ZcpWB866d/ln/mXcc0o7YOwYsKhM3niloEukzN1I53bEoEo12QLx0uaA=
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr9524072otb.107.1595012181490;
+ Fri, 17 Jul 2020 11:56:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200702191322.2639681-1-helen.koike@collabora.com>
- <20200702191322.2639681-6-helen.koike@collabora.com> <CAL_JsqKHG4HgcpWvh_qnHPAkaGCd7Q8APk2ai_QxjUQhvd5APg@mail.gmail.com>
- <822de449-8c01-d790-a9f9-e8b513bd7f87@collabora.com>
-In-Reply-To: <822de449-8c01-d790-a9f9-e8b513bd7f87@collabora.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 17 Jul 2020 12:44:55 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLEXvub_E_nVWtQ1H4Ru=jLuRgr+Aiyu6Hmqb7fObG4Dg@mail.gmail.com>
-Message-ID: <CAL_JsqLEXvub_E_nVWtQ1H4Ru=jLuRgr+Aiyu6Hmqb7fObG4Dg@mail.gmail.com>
-Subject: Re: [PATCH v4 5/9] media: staging: rkisp1: remove unecessary clocks
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     devicetree@vger.kernel.org,
+References: <1594878139-3402-1-git-send-email-rnayak@codeaurora.org>
+ <1594878139-3402-2-git-send-email-rnayak@codeaurora.org> <20200716195913.GA2744252@bogus>
+ <cd368ea7-6ddc-004c-164d-dbbad8516853@codeaurora.org>
+In-Reply-To: <cd368ea7-6ddc-004c-164d-dbbad8516853@codeaurora.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 17 Jul 2020 12:56:10 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+RXcgTVwd_JC8YLYb1Ni29zFD9AxcNsmcpyrdefWq3Kw@mail.gmail.com>
+Message-ID: <CAL_Jsq+RXcgTVwd_JC8YLYb1Ni29zFD9AxcNsmcpyrdefWq3Kw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: venus: Add an optional power
+ domain for perf voting
+To:     Rajendra Nayak <rnayak@codeaurora.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        devicetree@vger.kernel.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mark Rutland <mark.rutland@arm.com>, karthik.poduval@gmail.com,
-        Johan Jonker <jbx6244@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Eddie Cai <eddie.cai.linux@gmail.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Robin Murphy <robin.murphy@arm.com>
+        Matthias Kaehlcke <mka@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 12:14 PM Helen Koike <helen.koike@collabora.com> wrote:
+On Thu, Jul 16, 2020 at 11:52 PM Rajendra Nayak <rnayak@codeaurora.org> wrote:
 >
-> Hi Rob,
 >
-> Thanks for your review.
->
-> On 7/17/20 2:49 PM, Rob Herring wrote:
-> > On Thu, Jul 2, 2020 at 1:13 PM Helen Koike <helen.koike@collabora.com> wrote:
-> >>
-> >> aclk_isp_wrap is a child of aclk_isp, and hclk_isp_wrap is a child of
-> >> hclk_isp, thus we can remove parents from the list.
+> On 7/17/2020 1:29 AM, Rob Herring wrote:
+> > On Thu, Jul 16, 2020 at 11:12:16AM +0530, Rajendra Nayak wrote:
+> >> Add an optional power domain which when specified can be used for
+> >> setting the performance state of Venus.
 > >
-> > But it looks like it is the wrap clocks you are removing.
+> > The h/w suddenly grew a new power island/domain? Seems like an abuse of
+> > power-domains...
 >
-> From this binding yes, but the idea is to add in the dt wherever clock
-> responsible for the full ACLK path for instance.
-> In the example below, clock aclk_isp is ACLK_ISP0_WRAPPER.
-> Does this make sense?
-
-Just perhaps clarify the renaming.
-
+> The power-domain always existed, we have just managed to survive without
+> having venus support DVFS and have the domain always be at a high performance
+> level (set statically by boot code)
+> Now, if we care to do DVFS and support better PM on the SoC, its important
+> for the devices to manage this additional power domain (and dynamically
+> scale it)
 >
-> >
-> >>
-> >> Also, for the isp0, we only need the ISP clock, ACLK and HCLK.
-> >> In the future we'll need a pixel clock for RK3288 and RK3399, and a JPEG
-> >> clock for RK3288.
-> >>
-> >> So with the goal to cleanup the dt-bindings and remove it from staging,
-> >> simplify clock names to isp, aclk and hclk.
-> >>
-> >> For reference, this is the isp clock topology on RK3399:
-> >>
-> >>  xin24m
-> >>     pll_npll
-> >>        npll
-> >>           clk_isp1
-> >>           clk_isp0
-> >>     pll_cpll
-> >>        cpll
-> >>           aclk_isp1
-> >>              aclk_isp1_noc
-> >>              hclk_isp1
-> >>                 aclk_isp1_wrapper
-> >>                 hclk_isp1_noc
-> >>           aclk_isp0
-> >>              hclk_isp1_wrapper
-> >>              aclk_isp0_wrapper
-> >>              aclk_isp0_noc
-> >>              hclk_isp0
-> >>                 hclk_isp0_wrapper
-> >>                 hclk_isp0_noc
-> >>  pclkin_isp1_wrapper
-> >>
-> >> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> >>
-> >> ---
-> >>
-> >> Changes in V4:
-> >> - update binding according to suggestion by Robin Murphy
-> >> on https://patchwork.kernel.org/patch/11475007/
-> >>
-> >> Changes in V3:
-> >> - this is a new patch in the series
-> >> ---
-> >>  .../bindings/media/rockchip-isp1.yaml         | 30 +++++++++----------
-> >>  drivers/staging/media/rkisp1/rkisp1-dev.c     |  8 ++---
-> >>  2 files changed, 17 insertions(+), 21 deletions(-)
-> >>
-> >> diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-> >> index 4d111ef2e89c7..f10c53d008748 100644
-> >> --- a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-> >> +++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-> >> @@ -24,20 +24,20 @@ properties:
-> >>      maxItems: 1
-> >>
-> >>    clocks:
-> >> -    items:
-> >> -      - description: ISP clock
-> >> -      - description: ISP AXI clock clock
-> >> -      - description: ISP AXI clock  wrapper clock
-> >> -      - description: ISP AHB clock clock
-> >> -      - description: ISP AHB wrapper clock
-> >
-> > This is the correct way to describe multiple clocks.
->
-> The idea was to prepare for rk3288 and rk3399 isp1, as suggested here https://patchwork.kernel.org/patch/11475007/#23462085
->
-> Or should we do:
->
-> clocks:
->   oneOf:
->     # rk3288 clocks
->     - items:
->       - description: ISP clock
->       - description: ISP AXI clock
->       - description: ISP AHB clock
->       - description: ISP Pixel clock
->       - description: ISP JPEG source clock
+> That said, if the name 'opp-pd' makes it look like a software construct,
+> like Bjorn mentioned, I am fine to give it a real name like 'cx-pd'
+> Does that sound good?
 
-The main section should have this and 'minItems: 3'. IOW, it's a
-superset of what's valid. Then you can restrict specific compatibles
-further with an if/then schema. For rk3288, you need one with
-'minItems: 5'.
+He suggested 'cx' as '-pd' would be redundant. I have no idea what
+'cx' means, but fine.
 
->     # rk3399 isp0 clocks
->     - items:
->       - description: ISP clock
->       - description: ISP AXI clock
->       - description: ISP AHB clock
+> PS: Like I mentioned earlier [1], cx is a shared power island,
+> not a power island specific to this block, and definitely not a software
+> pm-domain construct.
 
-And this would be an if/then schema based on the compatible string and
-defining 'maxItems: 3'.
+Put this context/detail into your patches. Assume I don't remember
+what happened last week.
 
->     # rk3399 isp1 clocks
->     - items:
->       - description: ISP clock
->       - description: ISP AXI clock
->       - description: ISP AHB clock
->       - description: ISP Pixel clock
-
-And an if/then with { minItems: 4, maxItems: 4 }. Or really since
-these are just different instances, just combine them into 1
-conditional allowing 3 or 4 clocks.
-
-There are lots of examples to follow in the tree.
+Unfortunately, gmail seems to have no way to filter on unread mails in
+reply to my replies and doesn't move the thread up in 'Sent' filter,
+so older threads get lost.
 
 Rob
+
+> [1] https://lore.kernel.org/patchwork/patch/1241077/
