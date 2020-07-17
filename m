@@ -2,198 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06BA6223EAA
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 16:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A26B1223EF0
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 16:59:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726996AbgGQOug (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 10:50:36 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:38533 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726983AbgGQOug (ORCPT
+        id S1726803AbgGQO7N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 10:59:13 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:41623 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726205AbgGQO7N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 10:50:36 -0400
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 6DFFB240008;
-        Fri, 17 Jul 2020 14:50:31 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        Fri, 17 Jul 2020 10:59:13 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id wRpJjYT61yPEdwRpMj5WHP; Fri, 17 Jul 2020 16:59:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594997950; bh=ZxDA0Byag4hqxoq3qdnW7o9GkWRziwHWXD8zudGbIcA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=vGxqPwwr8Vrnt54T6uPie7bCIgZ9XMUxpvFJRViyF6JQy4vmxGRdEvGjU8Tj4ZGiS
+         RQfkI/MzihoXnsX2RbBra7XnN2HeYTAuETmr02onNGneyTX5O7N1WEdiJCXXZdhY/b
+         6kZcJ5WRiuLC8C5mRK71n4PFTRaWjhfHd1Cy3kDaEH2zTq1zdDD5+gr83chFc1xh10
+         JkWrmPvrwFjaqNybgjxw0RJjEa2OlQZaaD66fR3nThHPdWecMC4sO2+2AQ64+1ta9e
+         aY73PhcFu6Bj1fnh3OtwGeXZYm9DrdgsvNm0mWGU5cYV8MkL+j5tlJs4J7H4ntiahj
+         dBSToAVjjC8nQ==
+Subject: Re: [PATCH v8 00/10] v4l2-subdev: Introduce [g|s]et_mbus_format pad
+ op
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
+Cc:     niklas.soderlund+renesas@ragnatech.se,
         kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
         hyun.kwon@xilinx.com, jmkrzyszt@gmail.com, robert.jarzmik@free.fr,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v8 10/10] media: rcar-csi2: Negotiate data lanes number
-Date:   Fri, 17 Jul 2020 16:53:24 +0200
-Message-Id: <20200717145324.292820-11-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200717145324.292820-1-jacopo+renesas@jmondi.org>
 References: <20200717145324.292820-1-jacopo+renesas@jmondi.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <239c6a8f-95b6-e270-324e-998411650e39@xs4all.nl>
+Date:   Fri, 17 Jul 2020 16:59:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200717145324.292820-1-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLTBIzTUsTwsaEgUp+WEGUoROgnFxc1cJZuefIj+dxjc/gKYbKvsquAsUDcndi2+Nau27E6w1cuKUbOEXBJgSEsfssAWtVVD9CMAj16UGv/eJXXskpF4
+ 2rwS8w5N8ruEJ3tC9jfy1KMpsE/Z51napYP7bn6sD9Yt/uGTqxDlYQGTYTP+orDT8JCe3PIc7mFSDBPvzvqhvIKeDq47o266xRBVqyiFyNuA/cCkEKTv2u7a
+ FQ96o7oEE1zaj03uCEpDXHuR1heGDhfrWNqXM03l8zfoxjxJHwOyp0UngNN14ssgXDTwbmtdRy+u1wr8x1tuWO93EItl/vRuAA+u3igciY5dgzBcC2n+egGF
+ PQaf+i7uaroRJA9gWKKZGQj61+LErwk+vX02kU5yhFkz434C57+Y0tY6zzQ/zhH9A2gcwITRSR7pNEduk0/xA+VJS9FI/XWh+QhUxrRAWzh0Wc+VXBKWUQ0V
+ TJj7gmRVOnyIkAs/PxEBRiDLMxwg+J0KgdN+/fUEpI+mcJKIZ73lgyEL5Juod8NNnTvfbW9Twx8VjWshpER90QzPMY1ayImSf9gZX77sizQo6D8v0z1yUbab
+ /JCPSqA3wRcuvT7ufe/pBaknG9IklI9ljpITsrZoZOgEUg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the newly introduced get_mbus_config() subdevice pad operation to
-retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
-the number of active data lanes accordingly.
+On 17/07/2020 16:53, Jacopo Mondi wrote:
+> One more update to address Janusz comments on patch 1/10
+> 
+> 1) I have expanded the operation documentation slightly with:
+> 
+>   * applied to the hardware. The operation shall fail if the
+> - * pad index it has been called on is not valid.
+> + * pad index it has been called on is not valid or in case of
+> + * unrecoverable failures.
+> 
+> 2) Added call wrapper to check for pad validity. I have for now ignored
+>    the check_which() and check_cfg() calls as the operations do not
+>    support TRY format.
 
-In order to be able to call the remote subdevice operation cache the
-index of the remote pad connected to the single CSI-2 input port.
+Looks good. If there are no new comments then I'll make the PR on Tuesday.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 75 +++++++++++++++++++--
- 1 file changed, 68 insertions(+), 7 deletions(-)
+Regards,
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index c6cc4f473a07..cbb3e8a2887d 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -364,6 +364,7 @@ struct rcar_csi2 {
- 	struct v4l2_async_notifier notifier;
- 	struct v4l2_async_subdev asd;
- 	struct v4l2_subdev *remote;
-+	unsigned int remote_pad;
- 
- 	struct v4l2_mbus_framefmt mf;
- 
-@@ -409,13 +410,14 @@ static void rcsi2_exit_standby(struct rcar_csi2 *priv)
- 	reset_control_deassert(priv->rstc);
- }
- 
--static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-+static int rcsi2_wait_phy_start(struct rcar_csi2 *priv,
-+				unsigned int lanes)
- {
- 	unsigned int timeout;
- 
- 	/* Wait for the clock and data lanes to enter LP-11 state. */
- 	for (timeout = 0; timeout <= 20; timeout++) {
--		const u32 lane_mask = (1 << priv->lanes) - 1;
-+		const u32 lane_mask = (1 << lanes) - 1;
- 
- 		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
- 		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-@@ -447,7 +449,8 @@ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
- 	return 0;
- }
- 
--static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
-+static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
-+			   unsigned int lanes)
- {
- 	struct v4l2_subdev *source;
- 	struct v4l2_ctrl *ctrl;
-@@ -472,15 +475,64 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
- 	 * bps = link_freq * 2
- 	 */
- 	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
--	do_div(mbps, priv->lanes * 1000000);
-+	do_div(mbps, lanes * 1000000);
- 
- 	return mbps;
- }
- 
-+static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
-+				  unsigned int *lanes)
-+{
-+	struct v4l2_mbus_config mbus_config = { 0 };
-+	unsigned int num_lanes = UINT_MAX;
-+	int ret;
-+
-+	*lanes = priv->lanes;
-+
-+	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
-+			       priv->remote_pad, &mbus_config);
-+	if (ret == -ENOIOCTLCMD) {
-+		dev_dbg(priv->dev, "No remote mbus configuration available\n");
-+		return 0;
-+	}
-+
-+	if (ret) {
-+		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
-+		return ret;
-+	}
-+
-+	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-+		dev_err(priv->dev, "Unsupported media bus type %u\n",
-+			mbus_config.type);
-+		return -EINVAL;
-+	}
-+
-+	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-+		num_lanes = 1;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-+		num_lanes = 2;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-+		num_lanes = 3;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-+		num_lanes = 4;
-+
-+	if (num_lanes > priv->lanes) {
-+		dev_err(priv->dev,
-+			"Unsupported mbus config: too many data lanes %u\n",
-+			num_lanes);
-+		return -EINVAL;
-+	}
-+
-+	*lanes = num_lanes;
-+
-+	return 0;
-+}
-+
- static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- {
- 	const struct rcar_csi2_format *format;
- 	u32 phycnt, vcdt = 0, vcdt2 = 0, fld = 0;
-+	unsigned int lanes;
- 	unsigned int i;
- 	int mbps, ret;
- 
-@@ -522,10 +574,18 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 			fld |= FLD_FLD_NUM(1);
- 	}
- 
-+	/*
-+	 * Get the number of active data lanes inspecting the remote mbus
-+	 * configuration.
-+	 */
-+	ret = rcsi2_get_active_lanes(priv, &lanes);
-+	if (ret)
-+		return ret;
-+
- 	phycnt = PHYCNT_ENABLECLK;
--	phycnt |= (1 << priv->lanes) - 1;
-+	phycnt |= (1 << lanes) - 1;
- 
--	mbps = rcsi2_calc_mbps(priv, format->bpp);
-+	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
- 	if (mbps < 0)
- 		return mbps;
- 
-@@ -572,7 +632,7 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	rcsi2_write(priv, PHYCNT_REG, phycnt | PHYCNT_SHUTDOWNZ);
- 	rcsi2_write(priv, PHYCNT_REG, phycnt | PHYCNT_SHUTDOWNZ | PHYCNT_RSTZ);
- 
--	ret = rcsi2_wait_phy_start(priv);
-+	ret = rcsi2_wait_phy_start(priv, lanes);
- 	if (ret)
- 		return ret;
- 
-@@ -749,6 +809,7 @@ static int rcsi2_notify_bound(struct v4l2_async_notifier *notifier,
- 	}
- 
- 	priv->remote = subdev;
-+	priv->remote_pad = pad;
- 
- 	dev_dbg(priv->dev, "Bound %s pad: %d\n", subdev->name, pad);
- 
--- 
-2.27.0
+	Hans
+
+> 
+> Thanks
+>   j
+> 
+> v7->v8
+> - Add call wrappers to 1/10
+> - Expand documentation to report error on failures
+> 
+> v6.1->v7
+> - Add [6/10] as suggested by Hans
+> - Add Niklas tag and fix his last comment in [10/10]
+> 
+> v6->v6.1
+> - Address Niklas' comments in the last patch for rcar-csi2
+> 
+> v5->v6:
+> - Report V4L2_MBUS_DATA_ACTIVE_HIGH in ov6650 get_mbus_config
+> - Check for the return value of get_mbus_config() at the end of
+>   set_mbus_config() in ov6650 driver
+> 
+> v4->v5:
+> - Address Sakari's comment on documentation (s/should/shall)
+> - Use a local variable for the number of active lanes in 9/9
+> - Add Kieran's tags to 7/9 and 8/9
+> - Fix a warning on operator precedence on 3/9
+> 
+> v3->v4:
+> - Remove g/s_mbus_config video operation
+> - Adjust pxa quick capture interface to properly handle bus mastering
+> - Reword the two new operations documentation
+> 
+> v2->v3:
+> - Re-use v4l2_mbus_config and V4L2_MBUS_* flags
+> - Port existing drivers
+> - Update adv748x and rcar-csi2 patches to use V4L2_MBUS_* flags
+> 
+> v1->v2:
+> - Address Sakari's comment to use unsigned int in place of bools
+> - Add two new patches to address documentation
+> - Adjust rcar-csi2 patch as much as possible according to Niklas comments
+> - Add Niklas's tags
+> 
+> Jacopo Mondi (10):
+>   media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+>   media: i2c: Use the new get_mbus_config pad op
+>   media: i2c: ov6650: Use new [get|set]_mbus_config ops
+>   media: pxa_camera: Use the new set_mbus_config op
+>   media: v4l2-subdev: Remove [s|g]_mbus_config video ops
+>   media: v4l2- mediabus: Add usage note for V4L2_MBUS_*
+>   staging: media: imx: Update TODO entry
+>   media: i2c: adv748x: Adjust TXA data lanes number
+>   media: i2c: adv748x: Implement get_mbus_config
+>   media: rcar-csi2: Negotiate data lanes number
+> 
+>  drivers/media/i2c/adv7180.c                 |   7 +-
+>  drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++-
+>  drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++
+>  drivers/media/i2c/adv748x/adv748x.h         |   1 +
+>  drivers/media/i2c/ml86v7667.c               |   7 +-
+>  drivers/media/i2c/mt9m001.c                 |   7 +-
+>  drivers/media/i2c/mt9m111.c                 |   7 +-
+>  drivers/media/i2c/ov6650.c                  |  56 ++++--
+>  drivers/media/i2c/ov9640.c                  |   7 +-
+>  drivers/media/i2c/tc358743.c                |   7 +-
+>  drivers/media/i2c/tvp5150.c                 |   7 +-
+>  drivers/media/platform/pxa_camera.c         | 189 ++++++--------------
+>  drivers/media/platform/rcar-vin/rcar-csi2.c |  75 +++++++-
+>  drivers/media/v4l2-core/v4l2-subdev.c       |  16 ++
+>  drivers/staging/media/imx/TODO              |   4 +
+>  include/media/v4l2-mediabus.h               |  33 +++-
+>  include/media/v4l2-subdev.h                 |  38 ++--
+>  17 files changed, 318 insertions(+), 205 deletions(-)
+> 
+> --
+> 2.27.0
+> 
 
