@@ -2,153 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A26B1223EF0
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 16:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94CBB223F03
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 17:02:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbgGQO7N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 10:59:13 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:41623 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726205AbgGQO7N (ORCPT
+        id S1726665AbgGQPCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 11:02:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49164 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726351AbgGQPCD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 10:59:13 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id wRpJjYT61yPEdwRpMj5WHP; Fri, 17 Jul 2020 16:59:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1594997950; bh=ZxDA0Byag4hqxoq3qdnW7o9GkWRziwHWXD8zudGbIcA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=vGxqPwwr8Vrnt54T6uPie7bCIgZ9XMUxpvFJRViyF6JQy4vmxGRdEvGjU8Tj4ZGiS
-         RQfkI/MzihoXnsX2RbBra7XnN2HeYTAuETmr02onNGneyTX5O7N1WEdiJCXXZdhY/b
-         6kZcJ5WRiuLC8C5mRK71n4PFTRaWjhfHd1Cy3kDaEH2zTq1zdDD5+gr83chFc1xh10
-         JkWrmPvrwFjaqNybgjxw0RJjEa2OlQZaaD66fR3nThHPdWecMC4sO2+2AQ64+1ta9e
-         aY73PhcFu6Bj1fnh3OtwGeXZYm9DrdgsvNm0mWGU5cYV8MkL+j5tlJs4J7H4ntiahj
-         dBSToAVjjC8nQ==
-Subject: Re: [PATCH v8 00/10] v4l2-subdev: Introduce [g|s]et_mbus_format pad
- op
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc:     niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, jmkrzyszt@gmail.com, robert.jarzmik@free.fr,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20200717145324.292820-1-jacopo+renesas@jmondi.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <239c6a8f-95b6-e270-324e-998411650e39@xs4all.nl>
-Date:   Fri, 17 Jul 2020 16:59:05 +0200
+        Fri, 17 Jul 2020 11:02:03 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE457C0619D2;
+        Fri, 17 Jul 2020 08:02:02 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id j11so13037913ljo.7;
+        Fri, 17 Jul 2020 08:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Vj0THxkooDRCDITDoMqnCXMjOzpdY/9P9Eqdw05OK34=;
+        b=hdnZHm8bQ27NGLjoAEe+1uO25eN/PNI7VSElQYNWPhPlc8jPq4tKeRf4fNyFn8ZDvx
+         9/dx2ZJ96awCrq88v0nhlSjzj493SBM8KPyQgrP2/XfmDO9okpVXwx2YH3qZSS0CmzRe
+         tl963gqGdzJkYkrLYHInABOyoHwyJb4atjwysl6/N0lcud2YhH75l3pNrGsI/EnT/E4j
+         qKGf0aPyM4H0/wg27JAL2Od2WUbyof85heAsQkJvR0/NTqvLZYcS0+9JEtqPaTm0HOqx
+         mzdyLQt/vg07TTg/5V1r9AjpqbxbLzEso6X7s1019Gy+uO23Xr4NBtsmrqB0AxGFh02y
+         mFLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Vj0THxkooDRCDITDoMqnCXMjOzpdY/9P9Eqdw05OK34=;
+        b=CTFINH1aaDXoInauwWRcbomWWXGJYp1/nodLxQWn+dmDHMwpXeAoojeX6xfHlSq21N
+         HRivBtGblY6wsLquw+kO8cvXB1oz/s1220Ik+sJnUUbmTNF2P9xnPU9lmN/YNavVPcJy
+         XM8F/xSRVoQU/YTx7zTHsUqLq0VcX/akCyB+sugfjPnqVUI6E6nPnjmThuzL2Vb4E7qY
+         Hr3QllMAwUdwp8VoAGSBOUCUZlW5m++U+7yzERukMcYViFXBeEwCNQ3ohICgxRVMe8ut
+         r+pfz4AczHZFRKlQ89hpxUqky9tmCtIAOggHlcmsp/z96TLxmMgQygUvSdU/ADFDdI3k
+         Fl/g==
+X-Gm-Message-State: AOAM533lHpP7kd0gUwkjnM8+47TNjmiWRAFxL5zBQ9kR/2IiSAMAZVNn
+        8IxDeYnV/cTq3jWmJ3/PdsCyAe7X
+X-Google-Smtp-Source: ABdhPJyQ+WCihOlXt8PupgeNCC7ANZ6gdFcfhNDBl4mxjPolZLOSXDJiSWkHQhdjI0Pmd2yZHYxryg==
+X-Received: by 2002:a2e:8758:: with SMTP id q24mr4389912ljj.109.1594998120753;
+        Fri, 17 Jul 2020 08:02:00 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-4-184.pppoe.mtu-net.ru. [91.76.4.184])
+        by smtp.googlemail.com with ESMTPSA id u7sm2281772lfi.45.2020.07.17.08.01.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jul 2020 08:01:59 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 16/18] gpu: host1x: mipi: Split
+ tegra_mipi_calibrate and tegra_mipi_wait
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <1594786855-26506-17-git-send-email-skomatineni@nvidia.com>
+ <a06dec8f-7042-767b-545b-048685a7683d@gmail.com>
+ <20d63eca-4b2b-584e-a391-a4fb64a16b40@nvidia.com>
+ <c4945c77-5de1-e9b1-9f4f-cdd78bca18c7@gmail.com>
+ <ce0c5ffb-f859-0eab-1ea5-044623dff221@nvidia.com>
+ <a2b8169c-c4a3-4862-cd27-8c1a51ddc558@gmail.com>
+ <4690e682-8495-2327-87c7-c2f06a7a479d@nvidia.com>
+ <66812127-38cf-2af3-51c0-50edbe446e73@nvidia.com>
+ <9b4fbf9d-d651-aa35-c0a6-b8f16aeb0900@gmail.com>
+ <550f1796-67ca-5856-223d-c68360243954@nvidia.com>
+ <ca8f2184-de30-03ec-9caf-e20a22d96a77@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <080b30c7-1dce-dd2f-dd96-40f6e25da4d6@gmail.com>
+Date:   Fri, 17 Jul 2020 18:01:58 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200717145324.292820-1-jacopo+renesas@jmondi.org>
+In-Reply-To: <ca8f2184-de30-03ec-9caf-e20a22d96a77@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLTBIzTUsTwsaEgUp+WEGUoROgnFxc1cJZuefIj+dxjc/gKYbKvsquAsUDcndi2+Nau27E6w1cuKUbOEXBJgSEsfssAWtVVD9CMAj16UGv/eJXXskpF4
- 2rwS8w5N8ruEJ3tC9jfy1KMpsE/Z51napYP7bn6sD9Yt/uGTqxDlYQGTYTP+orDT8JCe3PIc7mFSDBPvzvqhvIKeDq47o266xRBVqyiFyNuA/cCkEKTv2u7a
- FQ96o7oEE1zaj03uCEpDXHuR1heGDhfrWNqXM03l8zfoxjxJHwOyp0UngNN14ssgXDTwbmtdRy+u1wr8x1tuWO93EItl/vRuAA+u3igciY5dgzBcC2n+egGF
- PQaf+i7uaroRJA9gWKKZGQj61+LErwk+vX02kU5yhFkz434C57+Y0tY6zzQ/zhH9A2gcwITRSR7pNEduk0/xA+VJS9FI/XWh+QhUxrRAWzh0Wc+VXBKWUQ0V
- TJj7gmRVOnyIkAs/PxEBRiDLMxwg+J0KgdN+/fUEpI+mcJKIZ73lgyEL5Juod8NNnTvfbW9Twx8VjWshpER90QzPMY1ayImSf9gZX77sizQo6D8v0z1yUbab
- /JCPSqA3wRcuvT7ufe/pBaknG9IklI9ljpITsrZoZOgEUg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/07/2020 16:53, Jacopo Mondi wrote:
-> One more update to address Janusz comments on patch 1/10
+17.07.2020 07:46, Sowjanya Komatineni пишет:
+...
+> Looks like sequence posted in TRM need to be updated clearly for proper
+> MIPI CAL start and wait.
 > 
-> 1) I have expanded the operation documentation slightly with:
+> Correct steps should be like below
 > 
->   * applied to the hardware. The operation shall fail if the
-> - * pad index it has been called on is not valid.
-> + * pad index it has been called on is not valid or in case of
-> + * unrecoverable failures.
+> 1. Set up CSI registers for use case such as number of lanes, virtual 
+> channel, etc.
+> 2. Initialize and power up CSI CIL interface
+> 3. Program MIPI CAL bias pads, cal configs, cal control registers and
+> enable calibration start
+> 4. Power up camera through the I2C interface and start sensor streaming
+> through the I2C
 > 
-> 2) Added call wrapper to check for pad validity. I have for now ignored
->    the check_which() and check_cfg() calls as the operations do not
->    support TRY format.
+> Note: All sensors might not leave pads in LP-11 state as sensor may be
+> power down when not in use.
+> 
+> So start streaming prior to checking for calibration done status as
+> LP-11 -> HS transition happens during sensor stream and calibration
+> logic can apply results to pads and update done status,
+> 
+> 5. Wait for done signal from calibration logic
+> 
+> 6. perform frame capture thru VI
+> 7. Frame done, CSI goes back to stop state, LP11
+> 
+> Will work internally to correct sequence in TRM ...
 
-Looks good. If there are no new comments then I'll make the PR on Tuesday.
+Will be nice to have an updated TRM, thank you!
 
-Regards,
+Also, what about the auto-calibration? Isn't it needed to be enabled for
+CSI?
 
-	Hans
+> In mipi driver will update as below to have mipi clk enabled till
+> calibration status check is done.
+> 
+> Always tegra_mipi_wait() followes tegra_mipi_calibrate() in both DSI and
+> CSI. So below sequence should work good.
+> 
+> tegra_mipi_calibrate()
+> 
+> - clk_enable mipi cal
+> - program mipi cal registers (bias pads cfgs, mipi cal ctrl and trigger
+> calibration start)
+> 
+> tegra_mipi_wait()
+> - read mipi cal status and wait for active and done bits
+> - clk_disable mipi cal
 
-> 
-> Thanks
->   j
-> 
-> v7->v8
-> - Add call wrappers to 1/10
-> - Expand documentation to report error on failures
-> 
-> v6.1->v7
-> - Add [6/10] as suggested by Hans
-> - Add Niklas tag and fix his last comment in [10/10]
-> 
-> v6->v6.1
-> - Address Niklas' comments in the last patch for rcar-csi2
-> 
-> v5->v6:
-> - Report V4L2_MBUS_DATA_ACTIVE_HIGH in ov6650 get_mbus_config
-> - Check for the return value of get_mbus_config() at the end of
->   set_mbus_config() in ov6650 driver
-> 
-> v4->v5:
-> - Address Sakari's comment on documentation (s/should/shall)
-> - Use a local variable for the number of active lanes in 9/9
-> - Add Kieran's tags to 7/9 and 8/9
-> - Fix a warning on operator precedence on 3/9
-> 
-> v3->v4:
-> - Remove g/s_mbus_config video operation
-> - Adjust pxa quick capture interface to properly handle bus mastering
-> - Reword the two new operations documentation
-> 
-> v2->v3:
-> - Re-use v4l2_mbus_config and V4L2_MBUS_* flags
-> - Port existing drivers
-> - Update adv748x and rcar-csi2 patches to use V4L2_MBUS_* flags
-> 
-> v1->v2:
-> - Address Sakari's comment to use unsigned int in place of bools
-> - Add two new patches to address documentation
-> - Adjust rcar-csi2 patch as much as possible according to Niklas comments
-> - Add Niklas's tags
-> 
-> Jacopo Mondi (10):
->   media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
->   media: i2c: Use the new get_mbus_config pad op
->   media: i2c: ov6650: Use new [get|set]_mbus_config ops
->   media: pxa_camera: Use the new set_mbus_config op
->   media: v4l2-subdev: Remove [s|g]_mbus_config video ops
->   media: v4l2- mediabus: Add usage note for V4L2_MBUS_*
->   staging: media: imx: Update TODO entry
->   media: i2c: adv748x: Adjust TXA data lanes number
->   media: i2c: adv748x: Implement get_mbus_config
->   media: rcar-csi2: Negotiate data lanes number
-> 
->  drivers/media/i2c/adv7180.c                 |   7 +-
->  drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++-
->  drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++
->  drivers/media/i2c/adv748x/adv748x.h         |   1 +
->  drivers/media/i2c/ml86v7667.c               |   7 +-
->  drivers/media/i2c/mt9m001.c                 |   7 +-
->  drivers/media/i2c/mt9m111.c                 |   7 +-
->  drivers/media/i2c/ov6650.c                  |  56 ++++--
->  drivers/media/i2c/ov9640.c                  |   7 +-
->  drivers/media/i2c/tc358743.c                |   7 +-
->  drivers/media/i2c/tvp5150.c                 |   7 +-
->  drivers/media/platform/pxa_camera.c         | 189 ++++++--------------
->  drivers/media/platform/rcar-vin/rcar-csi2.c |  75 +++++++-
->  drivers/media/v4l2-core/v4l2-subdev.c       |  16 ++
->  drivers/staging/media/imx/TODO              |   4 +
->  include/media/v4l2-mediabus.h               |  33 +++-
->  include/media/v4l2-subdev.h                 |  38 ++--
->  17 files changed, 318 insertions(+), 205 deletions(-)
-> 
-> --
-> 2.27.0
-> 
+
+Maybe then it should be better to rename the functions like this:
+
+tegra_mipi_calibrate() -> tegra_mipi_start_calibration()
+tegra_mipi_wait()      -> tegra_mipi_finish_calibration().
+
+and there also should be tegra_mipi_cancel_calibration().
+
+
+Example:
+
+	tegra_mipi_start_calibration();
+
+	ret = v4l2_subdev_call(subdev, video, s_stream, on);
+	if (ret < 0) {
+		tegra_mipi_cancel_calibration();
+		goto err;
+	}
+
+	tegra_mipi_finish_calibration();
+
 
