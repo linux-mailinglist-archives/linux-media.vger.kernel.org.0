@@ -2,122 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCC3F2238C5
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 11:55:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B4292238E8
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 12:04:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726200AbgGQJzl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 05:55:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726090AbgGQJzk (ORCPT
+        id S1726233AbgGQKEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 06:04:31 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:54571 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725912AbgGQKEa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 05:55:40 -0400
-Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4747EC061755;
-        Fri, 17 Jul 2020 02:55:40 -0700 (PDT)
-Received: by mail-oo1-xc41.google.com with SMTP id p26so1747360oos.7;
-        Fri, 17 Jul 2020 02:55:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oGHifvlf/HbJ5pbC1JrepfaNxTOZH7NvvEomCEvCSFs=;
-        b=hTEcmskvt6ltxtTePZN2NozRNi16ia3OaHE0zlZ2fHiGwMHqe2hYnL9qye8cCD4u6o
-         PGsxhgYHaPBBreX/bCCumKuAyTabxgnDPo5/uRFwi3WAoYZ7/QnKrc2J6u0yWWHkCY6O
-         XtNTm4IVjNUjCZNI16AF888AFQMeIdxOf/q8VU8rzquTBkwIVuDdIdD/1/6aLM469Git
-         fNbWE1VMj3cXT+haQIFrEPg1Qrt1aRwIAI9AsTfplajDccXrKloAMfa7gUzpGzta7F/l
-         sf2F92AQyMPjDLzMENCl1lPSYBqnu/Q/hSAFe7DgvlYgpdhi/f0ExIfc9yjuRMMLZNaK
-         RApQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oGHifvlf/HbJ5pbC1JrepfaNxTOZH7NvvEomCEvCSFs=;
-        b=TLLAYVfMFLcLkM2LfuP6thSsP6XXPXczaadC+Ij/Fso78VCL9/SYuxFbN8UTN4Bsou
-         vv52SGP5cRKJq1XrbwuaBN0W2e0fp+wiIw7scKrRxtGfjzG1KL/x/ksCywJRDH1m30NP
-         CoCzjmqhPcK0NA0fJwP4VFgMQ8CVf4hDyWSyzsMP4L+WhkzglUvlVK9bDv1oOl0SxOQZ
-         54pnsYg5LQ2lm5Aj/SZo7nQl/FWzX1T7lKWwdCb/34MpYLctJKZCDJz/TuF22YTljJB6
-         16TefZZCMU85NVmQyREh6B0h8rA54DFgAcvjJeNwG1heE91ipUCZXxRwABjYW8oNLdn2
-         iz+g==
-X-Gm-Message-State: AOAM531DGzOI4wLyZKMrnrk/yMxYIYhxCGaeLq1Jyz+pr3cSadnTw0AK
-        D3ulBvfBOHPN+bSHuQsYWTmw/GDXPPL0icLDiMbMFQOQ
-X-Google-Smtp-Source: ABdhPJyHkAUM4tu03EyydI36alK/e4dJ+/7rQIW8HB0MdZnnsL3p05DAothkh63l4EI83t4DDQqQJ0AntHJRJVPY0XQ=
-X-Received: by 2002:a4a:98c8:: with SMTP id b8mr7821728ooj.42.1594979739612;
- Fri, 17 Jul 2020 02:55:39 -0700 (PDT)
+        Fri, 17 Jul 2020 06:04:30 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id wNE8jCJmcNPeYwNEBja7Z4; Fri, 17 Jul 2020 12:04:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1594980268; bh=rrZ6Dtj/k5lf5p9V9FIJUPXXEPZN0uR6pQNpSBVg45Y=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=wA7Qvoi8nWloIJsE98VyNHRVU2WLjBRP/jHSCC0jO2T96QWQZITYYxN/CPjJKlpkW
+         HXOjhp/doImZf0ewWfxWtEXfTT+3LkTliD6T7Yd0FyloZE196LrbZuxrWADb6RJDEY
+         1omqL6l2U5RnwCWoab5GF7nHVP5GKtqacUmMysUa5meYXeQkSn2SR7OSaoSDjCPmT2
+         9aHGTq6HRWQxF8TO1gcbJeRrhkOixGAkEZu2ABpcq0F3XL+d2cJ8vBftC/MKcZmapb
+         XWicqRNsRRa2dGV+xMQg+zkVjRIoLd5r/o2rOYS7Y0YDlvvXsJxFqyVB560CmDuAgc
+         LRgm+DNno2MKw==
+Subject: Re: [PATCH 3/3] media: Add support for the AM/FM radio chip KT0913
+ from KT Micro.
+To:     Joe Perches <joe@perches.com>,
+        Santiago Hormazabal <santiagohssl@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-kernel@vger.kernel.org
+References: <20200717004441.116248-1-santiagohssl@gmail.com>
+ <20200717004441.116248-4-santiagohssl@gmail.com>
+ <b8cb9dbf-2a81-6a12-c754-e524f42a0574@xs4all.nl>
+ <9bd42f458908eedd810c5e8805f997997763d32a.camel@perches.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <234961cc-f783-475c-d3db-69720a7da010@xs4all.nl>
+Date:   Fri, 17 Jul 2020 12:04:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200714172049.27738-1-novikov@ispras.ru>
-In-Reply-To: <20200714172049.27738-1-novikov@ispras.ru>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 17 Jul 2020 10:55:13 +0100
-Message-ID: <CA+V-a8sekdRDqahs-Zi-KiSbdv0sRHy7KuHraTRtuE6mz2+beg@mail.gmail.com>
-Subject: Re: [PATCH] media: isif: reset global state
-To:     Evgeny Novikov <novikov@ispras.ru>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, ldv-project@linuxtesting.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <9bd42f458908eedd810c5e8805f997997763d32a.camel@perches.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJs/gkRtd76okay0EWfgoAD0FciTSEHoyRVPjO3MEwaRjuc8U7lRy9Zt7i+Cjwci9G8RvFYG6RwM8zsP1GIHWBZY2/By70bHpjbCUGIy+/o31u6CmFRe
+ WmkH5Zx+ZkcQnlbUQ82YNl1c6LBA2rOjBNEwsaAsLDLIBRzAVfSuj3Ee68BMD0skFhfVEI2DC3THynN/epxt/u+bz385VgLcGJauk8sTo4PQxGKSRLzTfhUb
+ Bof+Pk5XKAXA+DNLLSlXIo8MGo8e6HlqnxYcP9AHvlbkMm4k8Kb45J09ej96XBhkQCoc0WwOlV8WWjLkDGtogySnARbvg6vp1LiXLREza1JFl8KkrG8oOD6u
+ 0et+8avlUP6mSus8O/GvPzWtTc39QA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HI Evgeny,
+On 17/07/2020 11:51, Joe Perches wrote:
+> On Fri, 2020-07-17 at 11:29 +0200, Hans Verkuil wrote:
+>> It's standard linux codingstyle to use lowercase for hex numbers.
+>> Can you change that throughout the source for the next version?
+> 
+> Is there a standard?  It's not in coding-style.rst.
+> 
+> While I prefer lowercase too, it seems the kernel has
+> only ~2:1 preference for lowercase to uppercase hex.
+> 
+> $ git grep -ohP '\b0[xX][0-9a-f]+\b' | grep [a-f] | wc -l
+> 1149833
+> $ git grep -ohP '\b0[xX][0-9A-F]+\b' | grep [A-F] | wc -l
+> 575781
+> 
+> 
 
-Thank you for the patch.
+Well, it's indeed not a standard for the kernel as a whole, but certainly
+for drivers/media:
 
-On Tue, Jul 14, 2020 at 6:20 PM Evgeny Novikov <novikov@ispras.ru> wrote:
->
-> isif_probe() invokes iounmap() on error handling paths, but it does not
-> reset the global state. So, later it can invoke iounmap() even when
-> ioremap() fails. This is the case also for isif_remove(). The patch
-> resets the global state after invoking iounmap() to avoid this.
->
-> Found by Linux Driver Verification project (linuxtesting.org).
->
-> Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-> ---
->  drivers/media/platform/davinci/isif.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/davinci/isif.c b/drivers/media/platform/davinci/isif.c
-> index c98edb67cfb2..c53cecd072b1 100644
-> --- a/drivers/media/platform/davinci/isif.c
-> +++ b/drivers/media/platform/davinci/isif.c
-> @@ -1075,10 +1075,14 @@ static int isif_probe(struct platform_device *pdev)
->         release_mem_region(res->start, resource_size(res));
->         i--;
->  fail_nobase_res:
-> -       if (isif_cfg.base_addr)
-> +       if (isif_cfg.base_addr) {
->                 iounmap(isif_cfg.base_addr);
-> -       if (isif_cfg.linear_tbl0_addr)
-> +               isif_cfg.base_addr = NULL;
-> +       }
-> +       if (isif_cfg.linear_tbl0_addr) {
->                 iounmap(isif_cfg.linear_tbl0_addr);
-> +               isif_cfg.linear_tbl0_addr = NULL;
-> +       }
->
-As the probe itself is failing I don't see a benefit in setting the
-pointers to NULL. Unless I'm missing something.
+$ git grep -ohP '\b0[xX][0-9a-f]+\b' drivers/media/ | grep [a-f] | wc -l
+109272
+$ git grep -ohP '\b0[xX][0-9A-F]+\b' drivers/media/ | grep [A-F] | wc -l
+22392
 
-Cheers,
---Prabhakar
+The media subsystem has a 5:1 preference for lowercase. And uppercase is
+mostly found in older drivers.
 
->         while (i >= 0) {
->                 res = platform_get_resource(pdev, IORESOURCE_MEM, i);
-> @@ -1096,8 +1100,11 @@ static int isif_remove(struct platform_device *pdev)
->         int i = 0;
->
->         iounmap(isif_cfg.base_addr);
-> +       isif_cfg.base_addr = NULL;
->         iounmap(isif_cfg.linear_tbl0_addr);
-> +       isif_cfg.linear_tbl0_addr = NULL;
->         iounmap(isif_cfg.linear_tbl1_addr);
-> +       isif_cfg.linear_tbl1_addr = NULL;
->         while (i < 3) {
->                 res = platform_get_resource(pdev, IORESOURCE_MEM, i);
->                 if (res)
-> --
-> 2.16.4
->
+Still, I really prefer lowercase over uppercase, especially in new drivers.
+
+Regards,
+
+	Hans
