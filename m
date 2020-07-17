@@ -2,189 +2,371 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B8B82241AE
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 19:23:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9AF02241E5
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 19:35:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbgGQRXo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 13:23:44 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60361 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726104AbgGQRXn (ORCPT
+        id S1727828AbgGQRfN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 13:35:13 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18643 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726322AbgGQRfM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 13:23:43 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id wU5AjYnyDyPEdwU5Ej5ctq; Fri, 17 Jul 2020 19:23:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1595006620; bh=K0pn4gRc6IDLe9TWOE0KcttW36/Rzzyeect/Coj1Q8k=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=DMfSM0l2DBnwTIM8f1leIBSd/8YXSbQ2R5KA8//Mt/xZCM44X9abE0VjSq22x3ATC
-         zFU+AdGcbMTaap/+PZUO4ISHrM5QzsERdKGdAz7FfNEY47/enTzJbr35boPAovu4mn
-         buXCXfWTj8nYE0enLo+haNv4rfJ46SkIq4CZoKScAvFnRSIep7dAapLTf6bfBZj/8R
-         PjIfY1FTbK3ovJF0H3OHbNmahsCI2y2fCdbuSuCA+A78onsEvlWDT+akNuAiFcRaMH
-         0aAoJph9rdWMtb5s5QcrV3uvq8GKLvYjLVvW4V5TTeMELI3bhMcTvocBQ3rGjqGvga
-         K97bjkSDqlsrQ==
-Subject: Re: [PATCHv3 2/7] qcom/camss: use vb2_video_unregister_device()
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>,
-        linux-media@vger.kernel.org
-Cc:     Robert Foss <robert.foss@linaro.org>
-References: <20200713113048.1150542-1-hverkuil-cisco@xs4all.nl>
- <20200713113048.1150542-3-hverkuil-cisco@xs4all.nl>
- <b83173a4-e424-f9e4-f983-ada26a687708@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <0c491bb2-fc91-2b70-503a-71199a791f7d@xs4all.nl>
-Date:   Fri, 17 Jul 2020 19:23:36 +0200
+        Fri, 17 Jul 2020 13:35:12 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f11e1430000>; Fri, 17 Jul 2020 10:34:59 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 17 Jul 2020 10:35:11 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 17 Jul 2020 10:35:11 -0700
+Received: from [10.2.163.115] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
+ 2020 17:35:11 +0000
+Subject: Re: [RFC PATCH v3 00/18] Support for Tegra video capture from
+ external sensor
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <robh+dt@kernel.org>, <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+References: <1594786855-26506-1-git-send-email-skomatineni@nvidia.com>
+ <f03bdb89-df7c-e9e8-1512-d57e5d2332bf@xs4all.nl>
+ <d258fb56-14f6-a091-64e9-48294073c696@nvidia.com>
+ <458db01d-3c9c-1aec-0d28-edcbf0265aa4@xs4all.nl>
+ <5694f74a-be8e-7a95-1739-0a5fc9820597@nvidia.com>
+Message-ID: <9aa8be89-d181-2dca-36ca-ea118bd5b0a7@nvidia.com>
+Date:   Fri, 17 Jul 2020 10:38:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <b83173a4-e424-f9e4-f983-ada26a687708@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <5694f74a-be8e-7a95-1739-0a5fc9820597@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEcWo41jVOmKm9NQWWA2/N0x18cPZvMP17LX+fnQJCHEFYD6b5c8APuriSDyitNIgZpPcManSzkLw1MgP4GJc9uCoRbWBmwyNmWTrH/brSZE0tlThOL4
- 0ERxp2vLoKj+gjz6ENUQA3Bdfv/TBn02WEU3WriemHTg04UFJQjdRvURXKEjjriHYHsomnGP2lxgnZfQjX0C/NuV0fTwszh0BMi3WZ7jECv5TqC+jxJC63rT
- 7RtNlEQ7x3sF3oOLQ6L1/LJeb1LdsDF67ZmckRYoc8U=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1595007299; bh=jRS5zSZgC3TTwtdDRmMxrzBxoJ0XApNVoiFAoBAhLKM=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=dJftu4V0swPYvE1qGrVkzdWjhx+x9DmnpPHlem2hK1eTQSMf/yPv1JCptYOwZUhGk
+         GqeMgkViJfwQwb6pnI8zpM72SJVtMxfufjEKOr4rT5nSZBeK1plz0k4EeC+WDoid+r
+         8TarzYzICZKATSjvKQZfKhHtEg563nBbpYQErJYOqBwDQwTWwckobcn8eS0LqRXB1J
+         yu8Zgn9M/whIGr015bwzgb1axvjLfagU92fxK3wB166v5hVXj2qWvpyTiFqbKOzvvA
+         Ubv6ooohwPUuCt8HV5QnpKKAEDGWeKPYvLFZDlqIWXYJ6iyO+YbaN3RlRh2lKSMRp8
+         5BhAOUDQswBFw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/07/2020 18:21, Andrey Konovalov wrote:
-> Hi Hans,
-> 
-> I've applied the first two patches of this series, and have given them a try
-> on db410c board with imx327c camera module by Framos.
-> Looks good.
-> 
-> Tested-by: Andrey Konovalov <andrey.konovalov@linaro.org>
 
-Much appreciated!
+On 7/17/20 10:23 AM, Sowjanya Komatineni wrote:
+>
+> On 7/17/20 10:08 AM, Hans Verkuil wrote:
+>> On 17/07/2020 18:34, Sowjanya Komatineni wrote:
+>>> On 7/17/20 3:54 AM, Hans Verkuil wrote:
+>>>> Hi Sowjanya,
+>>>>
+>>>> On 15/07/2020 06:20, Sowjanya Komatineni wrote:
+>>>>> This series adds support for video capture from external camera=20
+>>>>> sensor to
+>>>>> Tegra video driver.
+>>>>>
+>>>>> Jetson TX1 has camera expansion connector and supports custom=20
+>>>>> camera module
+>>>>> designed as per TX1 design specification.
+>>>>>
+>>>>> This series also enables camera capture support for Jetson Nano=20
+>>>>> which has
+>>>>> Raspberry PI camera header.
+>>>>>
+>>>>> This series is tested with IMX219 camera sensor.
+>>>>>
+>>>>> This series include,
+>>>>>
+>>>>> VI I2C related fixes
+>>>>> - Camera sensor programming happens through VI I2C which is on=20
+>>>>> host1x bus.
+>>>>> - These patches includes device tree and I2C driver fixes for VI I2C.
+>>>>>
+>>>>> Tegra video driver updates
+>>>>> - TPG Vs Non-TPG based on Kconfig
+>>>>> - Support for external sensor video capture based on device graph=20
+>>>>> from DT.
+>>>>> - Support for selection ioctl operations
+>>>>> - Tegra MIPI CSI pads calibration
+>>>>> - CSI T-CLK and T-HS settle time computation based on clock rates.
+>>>>>
+>>>>> Host1x driver updates
+>>>>> - Adds API to allow creating mipi device for specific device node.
+>>>>> - Splits MIPI pads calibrate start and waiting for calibration to=20
+>>>>> be done.
+>>>>>
+>>>>> Device tree updates
+>>>>> - Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson=20
+>>>>> TX1 DT.
+>>>>> - Enabled VI and CSI support in Jetson Nano DT.
+>>>> I'm doing a bit of stress testing with:
+>>>>
+>>>> while true; do v4l2-ctl --stream-mmap --stream-count=3D1; done
+>>>>
+>>>> and I see that the imx274 has often streaming failures:
+>>>>
+>>>> [=C2=A0 172.025144] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 179.025192] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 3132 =3D 870 (2 bytes)
+>>>> [=C2=A0 179.033575] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 226.525378] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 3130 =3D 878 (2 bytes)
+>>>> [=C2=A0 226.533761] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 227.029325] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 30f6 =3D 107 (2 bytes)
+>>>> [=C2=A0 227.037758] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 247.025218] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 30f6 =3D 107 (2 bytes)
+>>>> [=C2=A0 247.033658] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 293.025517] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 309.024727] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 30e0 =3D 0 (2 bytes)
+>>>> [=C2=A0 309.032969] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 309.529506] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 30f8 =3D 11d2 (3 bytes)
+>>>> [=C2=A0 309.538103] IMX274 8-001a: imx274_set_frame_length error =3D -=
+121
+>>>> [=C2=A0 309.544102] IMX274 8-001a: imx274_set_frame_interval error =3D=
+ -121
+>>>> [=C2=A0 309.550243] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 314.025561] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 329.025586] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 340.529567] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 303a =3D f0c (2 bytes)
+>>>> [=C2=A0 340.538009] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 347.525627] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 30f6 =3D 107 (2 bytes)
+>>>> [=C2=A0 347.534008] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 365.033640] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 437.525788] IMX274 8-001a: imx274_write_mbreg : i2c bulk write=
+=20
+>>>> failed, 3038 =3D c (2 bytes)
+>>>> [=C2=A0 437.533997] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 456.029780] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 472.025862] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 498.025861] IMX274 8-001a: s_stream failed
+>>>> [=C2=A0 500.025905] IMX274 8-001a: s_stream failed
+>>>>
+>>>> where v4l2-ctl returns:
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VIDIOC_STREAMON returned -1 (Remote I/O e=
+rror)
+>>>>
+>>>> I don't see this with the imx219.
+>>>>
+>>>> I also see this occasionally:
+>>>>
+>>>> [Fri Jul 17 12:51:42 2020] video4linux video1: failed to run=20
+>>>> capture start kthread: -4
+>>>>
+>>>> Something is not stable here.
+>>>>
+>>>> Regards,
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0Hans
+>>> Hi Hans,
+>>>
+>>> Running the same single frame continuous loop for more than 2 hours now
+>>> and I don't see any failure.
+>>>
+>>> Above failure shows i2c bulk writes to IMX274 failure due to which
+>>> s_stream also failed.
+>>>
+>>> Not sure if its due to i2c mux in the path to sensor on your module
+>>> causing some issue when there is more i2c write traffic as we are doing
+>>> single stream in continuous loop. Also IMX219 does not show on your=20
+>>> side
+>>> so something specific to IMX274 setup probably.
+>> I'll take a closer look next week. Good to know that it works fine=20
+>> for you.
+>>
+>>>
+>>> Regarding kthread_run failure where kthread_run() returned -EINTR=20
+>>> during
+>>> capture start thread, I always see this happen at the point of stopping
+>>> the continuous single stream while loop by pressing ctrl+c after few
+>>> loops of execution.
+>> Hmm, if this is normal behavior, then should this message be a debug=20
+>> message
+>> only? Or perhaps only show the message if the error code !=3D EINTR.
+>
+> I believe its good to still show this as its reported by kthread_run=20
+> -> kthread_create_on_node.
+>
+> But not sure in real usecase we will ever use while true like this and=20
+> we should use script to also break while loop along with v4l2-ctl=20
+> termination when ctrl-c terminate request happens.
+>
+Hi Hans, As this happens only during this type of case, I can update to=20
+show message only when error code !=3D EINTR.
 
-	Hans
+Thanks
 
-> 
-> Thanks,
-> Andrey
-> 
-> On 13.07.2020 14:30, Hans Verkuil wrote:
->> Use vb2_video_unregister_device() to automatically stop streaming
->> at unregister time.
->>
->> This avoids the use of vb2_queue_release() which should not be
->> called by drivers that set vdev->queue.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Cc: Robert Foss <robert.foss@linaro.org>
->> Cc: Andrey Konovalov <andrey.konovalov@linaro.org>
->> ---
->>   drivers/media/platform/qcom/camss/camss-vfe.c   |  8 --------
->>   drivers/media/platform/qcom/camss/camss-vfe.h   |  2 --
->>   drivers/media/platform/qcom/camss/camss-video.c | 12 ++----------
->>   drivers/media/platform/qcom/camss/camss-video.h |  2 --
->>   drivers/media/platform/qcom/camss/camss.c       |  5 -----
->>   5 files changed, 2 insertions(+), 27 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
->> index fc31c2c169cd..b7d2293a5004 100644
->> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
->> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
->> @@ -2205,14 +2205,6 @@ static const struct camss_video_ops camss_vfe_video_ops = {
->>   	.flush_buffers = vfe_flush_buffers,
->>   };
->>   
->> -void msm_vfe_stop_streaming(struct vfe_device *vfe)
->> -{
->> -	int i;
->> -
->> -	for (i = 0; i < ARRAY_SIZE(vfe->line); i++)
->> -		msm_video_stop_streaming(&vfe->line[i].video_out);
->> -}
->> -
->>   /*
->>    * msm_vfe_register_entities - Register subdev node for VFE module
->>    * @vfe: VFE device
->> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
->> index 0d10071ae881..a90b0d2cc6de 100644
->> --- a/drivers/media/platform/qcom/camss/camss-vfe.h
->> +++ b/drivers/media/platform/qcom/camss/camss-vfe.h
->> @@ -178,8 +178,6 @@ void msm_vfe_unregister_entities(struct vfe_device *vfe);
->>   void msm_vfe_get_vfe_id(struct media_entity *entity, u8 *id);
->>   void msm_vfe_get_vfe_line_id(struct media_entity *entity, enum vfe_line_id *id);
->>   
->> -void msm_vfe_stop_streaming(struct vfe_device *vfe);
->> -
->>   extern const struct vfe_hw_ops vfe_ops_4_1;
->>   extern const struct vfe_hw_ops vfe_ops_4_7;
->>   
->> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
->> index cdbd6dba1122..0e2fcee97eeb 100644
->> --- a/drivers/media/platform/qcom/camss/camss-video.c
->> +++ b/drivers/media/platform/qcom/camss/camss-video.c
->> @@ -879,7 +879,7 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
->>   	if (ret < 0) {
->>   		dev_err(v4l2_dev->dev, "Failed to init video entity: %d\n",
->>   			ret);
->> -		goto error_media_init;
->> +		goto error_vb2_init;
->>   	}
->>   
->>   	mutex_init(&video->lock);
->> @@ -936,23 +936,15 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
->>   error_video_register:
->>   	media_entity_cleanup(&vdev->entity);
->>   	mutex_destroy(&video->lock);
->> -error_media_init:
->> -	vb2_queue_release(&video->vb2_q);
->>   error_vb2_init:
->>   	mutex_destroy(&video->q_lock);
->>   
->>   	return ret;
->>   }
->>   
->> -void msm_video_stop_streaming(struct camss_video *video)
->> -{
->> -	if (vb2_is_streaming(&video->vb2_q))
->> -		vb2_queue_release(&video->vb2_q);
->> -}
->> -
->>   void msm_video_unregister(struct camss_video *video)
->>   {
->>   	atomic_inc(&video->camss->ref_count);
->> -	video_unregister_device(&video->vdev);
->> +	vb2_video_unregister_device(&video->vdev);
->>   	atomic_dec(&video->camss->ref_count);
->>   }
->> diff --git a/drivers/media/platform/qcom/camss/camss-video.h b/drivers/media/platform/qcom/camss/camss-video.h
->> index aa35e8cc6fd5..bdbae8424140 100644
->> --- a/drivers/media/platform/qcom/camss/camss-video.h
->> +++ b/drivers/media/platform/qcom/camss/camss-video.h
->> @@ -52,8 +52,6 @@ struct camss_video {
->>   	unsigned int nformats;
->>   };
->>   
->> -void msm_video_stop_streaming(struct camss_video *video);
->> -
->>   int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
->>   		       const char *name, int is_pix);
->>   
->> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
->> index 3fdc9f964a3c..d0f4360eb9a0 100644
->> --- a/drivers/media/platform/qcom/camss/camss.c
->> +++ b/drivers/media/platform/qcom/camss/camss.c
->> @@ -964,13 +964,8 @@ void camss_delete(struct camss *camss)
->>    */
->>   static int camss_remove(struct platform_device *pdev)
->>   {
->> -	unsigned int i;
->> -
->>   	struct camss *camss = platform_get_drvdata(pdev);
->>   
->> -	for (i = 0; i < camss->vfe_num; i++)
->> -		msm_vfe_stop_streaming(&camss->vfe[i]);
->> -
->>   	v4l2_async_notifier_unregister(&camss->notifier);
->>   	v4l2_async_notifier_cleanup(&camss->notifier);
->>   	camss_unregister_entities(camss);
->>
+Sowjanya
 
+>
+>>
+>> Regards,
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0Hans
+>>
+>>> while true; do v4l2-ctl --stream-mmap --stream-count=3D1; done
+>>>
+>>> when we stop loop with ctrl+c, v4l2-ctl terminates but loop does not
+>>> terminate immediately and probably SIGKILLed=C2=A0 is seen prior to=20
+>>> complete.
+>>>
+>>> Using below can help to terminate loop as well when we stop ctrl-c and
+>>> with this I don't see any repro of EINTR error from kthread_run when=20
+>>> run
+>>> in infinite loop.
+>>>
+>>> while true; do ./v4l2-ctl --stream-mmap --stream-count=3D1 || break; do=
+ne
+>>>
+>>>
+>>>
+>>>>> Delta between patch versions:
+>>>>>
+>>>>> [v3]:=C2=A0=C2=A0=C2=A0 Includes v2 feedback
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Uses separate helper function for retrievin=
+g remote csi=20
+>>>>> subdevice
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 and source subdevice.
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Added check for presence of subdevice ops s=
+et/get_selection
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- dropped vb2_queue_release from driver and u=
+sing
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vb2_video_unregister_device instead of=
+ video_unregister_device.
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- video device register should happen in the =
+last after all video
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device related setup is done in the dr=
+iver. This is being=20
+>>>>> addressed
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 in below RFC patch. Once proper implem=
+entation of this is=20
+>>>>> available
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 will update Tegra video driver to use =
+split APIs and do all=20
+>>>>> setup
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 prior to device register. Added this a=
+s TODO in the driver.
+>>>>> https://www.spinics.net/lists/linux-media/msg172761.html
+>>>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Note:
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Patch-0012 has compilation dependency on
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0https://patchwork.kernel.org/patch/11659521/
+>>>>>
+>>>>>
+>>>>> [v2]:=C2=A0=C2=A0=C2=A0 Includes below changes based on v1 feedback
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- dt-binding document and the driver update f=
+or device graph=20
+>>>>> to use
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 separate ports for sink endpoint and s=
+ource endpoint for csi.
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Use data-lanes endpoint property for csi.
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Update tegra_mipi_request() to take device =
+node pointer=20
+>>>>> argument
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rather than adding extra API.
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0- Remove checking for clk pointer before clk_=
+disable.
+>>>>>
+>>>>>
+>>>>> Sowjanya Komatineni (18):
+>>>>> =C2=A0=C2=A0=C2=A0 dt-bindings: i2c: tegra: Document Tegra210 VI I2C =
+clocks and
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 power-domains
+>>>>> =C2=A0=C2=A0=C2=A0 arm64: tegra: Add missing clocks and power-domains=
+ to Tegra210=20
+>>>>> VI I2C
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Don't mark VI I2C as IRQ safe runtime =
+PM
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Remove NULL pointer check before
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_enable/disable/prepare/unprepare
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Fix the error path in tegra_i2c_runtim=
+e_resume
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Fix runtime resume to re-init VI I2C
+>>>>> =C2=A0=C2=A0=C2=A0 i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra21=
+0 vi i2c
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Fix channel format alignment
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Enable TPG based on kernel con=
+fig
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Update format lookup to offset=
+ based
+>>>>> =C2=A0=C2=A0=C2=A0 dt-bindings: tegra: Update VI and CSI bindings wit=
+h port info
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add support for external senso=
+r capture
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add support for selection ioct=
+l ops
+>>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Update tegra_mipi_request() to =
+be node based
+>>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Use readl_relaxed_poll_timeout =
+in=20
+>>>>> tegra_mipi_wait
+>>>>> =C2=A0=C2=A0=C2=A0 gpu: host1x: mipi: Split tegra_mipi_calibrate and =
+tegra_mipi_wait
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Add CSI MIPI pads calibration
+>>>>> =C2=A0=C2=A0=C2=A0 media: tegra-video: Compute settle times based on =
+the clock rate
+>>>>>
+>>>>> =C2=A0=C2=A0 .../display/tegra/nvidia,tegra20-host1x.txt=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 92 ++-
+>>>>> =C2=A0=C2=A0 .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt | 19 =
++-
+>>>>> =C2=A0=C2=A0 arch/arm64/boot/dts/nvidia/tegra210.dtsi=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 +
+>>>>> =C2=A0=C2=A0 drivers/gpu/drm/tegra/dsi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 9 +-
+>>>>> =C2=A0=C2=A0 drivers/gpu/host1x/mipi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 37 +-
+>>>>> =C2=A0=C2=A0 drivers/i2c/busses/i2c-tegra.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 101 +--
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/Kconfig=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 +
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/csi.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 247 ++++++-
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/csi.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 8 +
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/tegra210.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 25 +-
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/vi.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 793=20
+>>>>> +++++++++++++++++++--
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/vi.h=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 25 +-
+>>>>> =C2=A0=C2=A0 drivers/staging/media/tegra-video/video.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +-
+>>>>> =C2=A0=C2=A0 include/linux/host1x.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 +-
+>>>>> =C2=A0=C2=A0 14 files changed, 1242 insertions(+), 154 deletions(-)
+>>>>>
