@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 715642243F5
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 21:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 415362243FB
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jul 2020 21:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728632AbgGQTL7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 15:11:59 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1396 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728607AbgGQTL6 (ORCPT
+        id S1728670AbgGQTMD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Jul 2020 15:12:03 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6388 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728620AbgGQTL7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 15:11:58 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f11f7c20006>; Fri, 17 Jul 2020 12:10:58 -0700
+        Fri, 17 Jul 2020 15:11:59 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f11f7f20000>; Fri, 17 Jul 2020 12:11:46 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 17 Jul 2020 12:11:57 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 17 Jul 2020 12:11:58 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 17 Jul 2020 12:11:57 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
- 2020 19:11:57 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 17 Jul 2020 19:11:57 +0000
+        by hqpgpgate101.nvidia.com on Fri, 17 Jul 2020 12:11:58 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
+ 2020 19:11:58 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 17 Jul 2020 19:11:58 +0000
 Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.163.115]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f11f7fc0001>; Fri, 17 Jul 2020 12:11:56 -0700
+        id <B5f11f7fd0001>; Fri, 17 Jul 2020 12:11:57 -0700
 From:   Sowjanya Komatineni <skomatineni@nvidia.com>
 To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
         <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
@@ -34,52 +34,55 @@ To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
         <robh+dt@kernel.org>, <lgirdwood@gmail.com>, <broonie@kernel.org>
 CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 1/3] media: i2c: imx274: Fix Y_OUT_SIZE register setting
-Date:   Fri, 17 Jul 2020 12:15:20 -0700
-Message-ID: <1595013322-15077-1-git-send-email-skomatineni@nvidia.com>
+Subject: [PATCH v2 2/3] dt-bindings: media: imx274: Add optional input clock and supplies
+Date:   Fri, 17 Jul 2020 12:15:21 -0700
+Message-ID: <1595013322-15077-2-git-send-email-skomatineni@nvidia.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1595013322-15077-1-git-send-email-skomatineni@nvidia.com>
+References: <1595013322-15077-1-git-send-email-skomatineni@nvidia.com>
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1595013058; bh=DLvQ6chRzbjeKicuQdxuqVcpH3d1W/1R1Kay/NtRj70=;
+        t=1595013106; bh=GFC1LF/7lvAW8gpnTVuP0yCQ7aUNS8pw6xjdqQGCq/s=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=dNkIccMwSkcpJVG9TVvN1c8DqptyYAYHC0pojdxtG/ndu8jD1Aqq8KySS2156GZQm
-         yngeqITKvsHwtyC2mPMbgIoU7I6NAAfkIR3cQD8BtywDat7iYArxf0NoScpyi9SlbM
-         pMUY7U4PFSmgDiu39pU9LqEhyukAf2VhxjdYKUi1jFtIlymWLn7Y7HB3wUpYAZWJqk
-         FLVNwWvdAlmJXbXy5zeU63P91/RarxpLqS8hNorSv25iXnI3FefRBmWj3t7FxlFbd4
-         1wR3HRZfgqhbsY6XDaelo7suvoDrmjeTShv0B0YG9M7chZ5jXhYugVQ6fVhFetF03x
-         lfT3lqnadGRRg==
+         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+         Content-Type;
+        b=J+54t67z4hEeAnjeHc2ks0APmu0OdZJEdPX69TmRi3nt2oU2a+gZqpVQ9s8yzpQfM
+         n4Oiy/ovrAvVEPVQUTDRMKRlrG8OfrijH4f24TUBVcp0gw2nf73UYXfARtSnUDHfP+
+         UvrsYYzkpKzCCxOX573J2JCVVmGMCkclCMX1JGvG5o8R69WTzrCV/MHpUx+/5B2e6R
+         4iwcXFa9/6WWR0jdP3invXNMBF6pEvt4nZix0FM2JAujujuDMHTrh9JeBD8Qbb/2Yf
+         w5eVDxKTrd7JPWPuJzLxAfcPdMrAA5SGFIHJRnffmeGC4Q+Lnt+7WgV/xf+rT6dTC+
+         O/WDy0BfhI35Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As per Sony IMX274 Y_OUT_SIZE should be the height of effective
-image output from the sensor which are the actual total lines
-sent over MIPI CSI to receiver.
-
-So, Y_OUT_SIZE should be same as crop height and this patch fixes it.
+This patch adds IMX274 optional external clock input and voltage
+supplies to device tree bindings.
 
 Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 ---
- drivers/media/i2c/imx274.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/media/i2c/imx274.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
-index e6aa9f3..55869ff 100644
---- a/drivers/media/i2c/imx274.c
-+++ b/drivers/media/i2c/imx274.c
-@@ -1163,7 +1163,7 @@ static int imx274_apply_trimming(struct stimx274 *imx274)
- 		(-imx274->crop.top / 2) : (imx274->crop.top / 2);
- 	v_cut = (IMX274_MAX_HEIGHT - imx274->crop.height) / 2;
- 	write_v_size = imx274->crop.height + 22;
--	y_out_size   = imx274->crop.height + 14;
-+	y_out_size   = imx274->crop.height;
+diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+index 80f2e89..0727079 100644
+--- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
++++ b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+@@ -13,6 +13,11 @@ Required Properties:
  
- 	err = imx274_write_mbreg(imx274, IMX274_HMAX_REG_LSB, hmax, 2);
- 	if (!err)
+ Optional Properties:
+ - reset-gpios: Sensor reset GPIO
++- clocks: Reference to the input clock.
++- clock-names: Should be "inck".
++- VANA-supply: Sensor 2.8v analog supply.
++- VDIG-supply: Sensor 1.8v digital core supply.
++- VDDL-supply: Sensor digital IO 1.2v supply.
+ 
+ The imx274 device node should contain one 'port' child node with
+ an 'endpoint' subnode. For further reading on port node refer to
 -- 
 2.7.4
 
