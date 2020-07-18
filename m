@@ -2,124 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9C88224B8F
-	for <lists+linux-media@lfdr.de>; Sat, 18 Jul 2020 15:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A78F224BAD
+	for <lists+linux-media@lfdr.de>; Sat, 18 Jul 2020 16:07:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727108AbgGRNcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Jul 2020 09:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58562 "EHLO
+        id S1727068AbgGROHK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Jul 2020 10:07:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726569AbgGRNcy (ORCPT
+        with ESMTP id S1726798AbgGROHK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Jul 2020 09:32:54 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B01C4C0619D2;
-        Sat, 18 Jul 2020 06:32:54 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id b92so7691439pjc.4;
-        Sat, 18 Jul 2020 06:32:54 -0700 (PDT)
+        Sat, 18 Jul 2020 10:07:10 -0400
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com [IPv6:2607:f8b0:4864:20::a42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C34B0C0619D3
+        for <linux-media@vger.kernel.org>; Sat, 18 Jul 2020 07:07:09 -0700 (PDT)
+Received: by mail-vk1-xa42.google.com with SMTP id b205so2744580vkb.8
+        for <linux-media@vger.kernel.org>; Sat, 18 Jul 2020 07:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=GX7yez5X9ql9EcvciXmb6Gd1L93T6OzAX6ibX57rbPQ=;
-        b=ZY3Y/FC1Lwnkm6dQkh4u+0S0oXj0z4ncjsGsOMNjCdooJTh65GqHkedkCNP81WXS98
-         n2ejrZ8T8GFdCfiMQXNFXjwsTGbvk05p8Wmu+378uO1ilYuJ7zFsk/V0XU+haEgynerR
-         m5ot6W91v/QS0qoRXMS8C610RtIabaGvxd5X60icmDFmh6w4VqkIBZngSYyJn5IvxwDD
-         6Mpoklmvj44ICRM+SpKXWJ1fsuusy127z+EsEBnD+zVfe1gzP/RWMOQUnkMrgDzV0i8Z
-         459I+EtxMpt+KZ+mWMOGkxXjmXUk1k3oZnde42iH+ePyxQraB5+EQhtFERqOiGHAOl+0
-         /cxw==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=t0TLC5mt6zw20J38nO6UV1Kz+5E95WBtIXeRkoxQ4a0=;
+        b=Am9ljAu1z8n/VTgYAl8DNuZVX+OPh5GNt9bBDdhsRGP1okcxPTRdHI3vgADTK7a/Mn
+         TZBVGZs2eSDx6R61tHuLF6qI/duSqXB2kAx5zcqaswpt636yWn8jFi+AQOGZz04y6YhW
+         +6rtXxDhtJ/c/QwJaGocsAm8PgrXrIhxavdU0rlNBhuOF07xejXI7Bs0olEQUTc5Nr6C
+         sQP8eVFpJF9GMWkV8bU14TGdFB1lroMxtltanXNneSHDm4VHmqxaFlKMRJ2FY+zH6Hkx
+         uUnSTM1+EhpLA5E65bUzpBncbeYjdfJe4y8S+noBVjDDz+0AAKKgabqrjQ1jXhPTP3ij
+         fvMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=GX7yez5X9ql9EcvciXmb6Gd1L93T6OzAX6ibX57rbPQ=;
-        b=pVrgWJphcFVYPplPHwJ8Pcsq+9dHBuEYpFOAk0cQA0mb7xwqGs1sibWo9zE/ZwGAyQ
-         RK3rc2EPmt6DaHlRT/AS48QkFKnWcFXpsB3pB22niT9coEeR44Q0JXTF079v85MCdPdW
-         taEm2jT0JgTRFpOnXWkXWbUA9ZpI9BOJbgG4HdmJ2Qb+3WdZkAFL0wshxVaPCn01rQFn
-         4JWr9Y8ukIhAzlLPC9ik1/7eKagAYbSCAAyLrTmKgHQW04BaPg25RtD/dl2kmJ2e+P5j
-         UhyUyDVXHbbrMRdO2hTenwVmzyJxTQJ3WCjWM6O2jfqOe8W+1aP81ouOyHr738zQ839F
-         Dm3w==
-X-Gm-Message-State: AOAM53306L970Oai4+Qmt4nvDIkmApBhE7M/aw24Pm88wmCJ2Tcm2LQY
-        x5dXHY+vjzxktSGWxE7B7/o=
-X-Google-Smtp-Source: ABdhPJwyHspTs0owbnia19HlErjk8ONGVAAjGQH4tbwAhB81gov0I2Nas4/RWujZDESmokW6cBD3Tw==
-X-Received: by 2002:a17:90a:14a5:: with SMTP id k34mr15218415pja.37.1595079174064;
-        Sat, 18 Jul 2020 06:32:54 -0700 (PDT)
-Received: from blackclown ([103.88.82.25])
-        by smtp.gmail.com with ESMTPSA id 137sm10722296pgg.72.2020.07.18.06.32.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 18 Jul 2020 06:32:53 -0700 (PDT)
-Date:   Sat, 18 Jul 2020 19:02:38 +0530
-From:   Suraj Upadhyay <usuraj35@gmail.com>
-To:     sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] staging: media: ipu3: Replace depracated MSI API.
-Message-ID: <20200718133238.GA11982@blackclown>
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=t0TLC5mt6zw20J38nO6UV1Kz+5E95WBtIXeRkoxQ4a0=;
+        b=KsXkh00N11Cp3IVyF6sXRu5ziK+pR4WMTpRudjyh+2T1sJndOgAyKaK9ZTWpddgRcs
+         XClHXJzOy5h4rkrBmHocGLCuk5bwpGpg+fd21bVpeji+DbLaF4nC74TBwReY+R5ZL/YE
+         f6UMtA/UlL/C+PCDZR9Xu5q44epmVswTdPLCSuFRqeIqr0LzPKJRrn5UzPfhFyaFuJpe
+         mPAmD9ErGcwb9q/Fir4JnzT05EaFv82VX0qzDqVIf1/+5/nO1+/6poVeBMolMHvH+1Cv
+         sn/+EjlcKzCSDLAhEmlX7RDsfSmUOkYziuxO1DYWYuTOomWKZW/9mCtNDiaTphv+I9y3
+         wFtA==
+X-Gm-Message-State: AOAM530NTvFxLGM5etnWDU9TUnaGZDg532j2Vx69oEcHboQs1+SzgS/9
+        AXo4Ew5zxTKVVq55FspE2qV1OvuPUJTWH2DMdEs=
+X-Google-Smtp-Source: ABdhPJzC0BlCpQMBPttVEYFoI1GvaI4DKmsjb5qN4oZi0QcUrkpguDYueoObncLuIJrdHcKx/X0ue6qBn+d8T0cWVd0=
+X-Received: by 2002:a1f:eec8:: with SMTP id m191mr10622921vkh.47.1595081228789;
+ Sat, 18 Jul 2020 07:07:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1yeeQ81UyVL57Vl7"
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Reply-To: mrsanna.h.bruun119@gmail.com
+Received: by 2002:ab0:194:0:0:0:0:0 with HTTP; Sat, 18 Jul 2020 07:07:08 -0700 (PDT)
+From:   "Mrs. Anna H. Bruun" <mrsanna.h.bruun119@gmail.com>
+Date:   Sat, 18 Jul 2020 07:07:08 -0700
+X-Google-Sender-Auth: i7u3HLFxfKC2bCjfGs0pcbRtzMI
+Message-ID: <CAKipdRmMezYCUBC-HKZoUPJrNUiF++_ESBrtE+gYib=jVho5uA@mail.gmail.com>
+Subject: My Greetings
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+My Dear
 
---1yeeQ81UyVL57Vl7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My Name is Mrs. Anna H. Bruun, from Norway. I know that this message
+will be a surprise to you. Firstly, I am married to Mr. Patrick Bruun,
+A gold merchant who owns a small gold Mine in Burkina Faso; He died of
+Cardiovascular Disease in mid-March 2011. During his life time he
+deposited the sum of =E2=82=AC 8.5 Million Euro) Eight million, Five hundre=
+d
+thousand Euros in a bank in Ouagadougou the capital city of Burkina
+Faso. The deposited money was from the sale of the shares, death
+benefits payment and entitlements of my deceased husband by his
+company.
 
-Replace depracated psi_enable_msi with pci_alloc_irq_vectors.
-And as a result modify how the returned value is handled.
+I am sending this message to you praying that it will reach you in
+good health, since I am not in good health condition in which I sleep
+every night without knowing if I may be alive to see the next day. I
+am suffering from long time cancer and presently i am partially
+suffering from a stroke illness which has become almost impossible for
+me to move around. I am married to my late husband for over 4 years
+before he died and is unfortunately that we don't have a child, my
+doctor confided in me that i have less chance to live. Having known my
+health condition, I decided to contact you to claim the fund since I
+don't have any relation I grew up from the orphanage home,
 
-Signed-off-by: Suraj Upadhyay <usuraj35@gmail.com>
----
- drivers/staging/media/ipu3/ipu3.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I have decided to donate what I have to you for the support of helping
+Motherless babies/Less privileged/Widows' because I am dying and
+diagnosed of cancer for about 2 years ago. I have been touched by God
+Almighty to donate from what I have inherited from my late husband to
+you for good work of God Almighty. I have asked Almighty God to
+forgive me and believe he has, because He is a Merciful God I will be
+going in for an operation surgery soon
 
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3=
-/ipu3.c
-index ee1bba6bdcac..54690e7442be 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -602,9 +602,9 @@ static irqreturn_t imgu_isr(int irq, void *imgu_ptr)
- static int imgu_pci_config_setup(struct pci_dev *dev)
- {
- 	u16 pci_command;
--	int r =3D pci_enable_msi(dev);
-+	int r =3D pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
-=20
--	if (r) {
-+	if (r < 0) {
- 		dev_err(&dev->dev, "failed to enable MSI (%d)\n", r);
- 		return r;
- 	}
---=20
-2.17.1
+This is the reason i need your services to stand as my next of kin or
+an executor to claim the funds for charity purposes. If this money
+remains unclaimed after my death, the bank executives or the
+government will take the money as unclaimed fund and maybe use it for
+selfish and worthless ventures, I need a very honest person who can
+claim this money and use it for Charity works, for orphanages, widows
+and also build schools for less privilege that will be named after my
+late husband and my name; I need your urgent answer to know if you
+will be able to execute this project, and I will give you more
+Information on how the fund will be transferred to your bank account.
 
-
---1yeeQ81UyVL57Vl7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE7AbCa0kOsMJ4cx0j+gRsbIfe744FAl8S+fYACgkQ+gRsbIfe
-746prw/8C/HY3bZaEpdYpHHSDI6ZZC1gsQki6rnqZBb3KYtGG9YXeNOAxs64ddZa
-vV+ZFo4WNxCeR0tSIEsFbDb6XnVAg6yFWrnVfOjmjkOYMYMyLLBXLYadmH24TOPb
-Ty00ZSy3GXSZ2jTQOkUVXzedF8UuWv9Br9dUfJnF1xky2a2S79HBjFL6MzacKvSF
-CsGAqrZyF7Fn5JEcU1fY78E3ma2bdhp8M/didwaixH2w1Ya1ifbwJ44hlYEtrezU
-+E6DGUh8dZgx7TVa2dqgTLR6xkrW9gUM3/U4NZ+PsTTKEzD1g+iQZaAViktldXH2
-G1qSW6qR9W26MLKEmtGWe+uwM07jnIhKc0z4GZfZv9LRNXUvKJ88fm1fomPeLiEY
-CW6vV2V3BSBSXhmrI+jVhJij997QhXFNzdVSAZkkiDOvG7ml3+LnFc4EXRE0jXGV
-cxDbjTgS/xj9seOfwzqcEeDANWPPvNCN9SClptNU/XMew5+zfVaVx0BIWwzkZiLM
-j7aPMAuya0LKbRBRIqrWrDJEjPphlVQ8PQM1bcDlb/el/IYwYcvmIWcQKQUNihX2
-Kpz77+2ww8wbbGW80EORd149V8/Gw40OAQ3T/p8ve4vJL7dhabARwFZ9J7mHP1BF
-GFXkTShwUtTqVbivZ011N1mDCUb6YjjSUoYVZP431J2cMb17sos=
-=Fu6m
------END PGP SIGNATURE-----
-
---1yeeQ81UyVL57Vl7--
+Thanks
+Mrs. Anna H.
