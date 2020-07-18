@@ -2,174 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62702224853
-	for <lists+linux-media@lfdr.de>; Sat, 18 Jul 2020 05:43:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2D262248DA
+	for <lists+linux-media@lfdr.de>; Sat, 18 Jul 2020 07:06:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727040AbgGRDnQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jul 2020 23:43:16 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48165 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726923AbgGRDnQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jul 2020 23:43:16 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id wdkmjHzqcNPeYwdknjdb9P; Sat, 18 Jul 2020 05:43:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1595043793; bh=BnIbzZnADOH7lcUBTkcxVAYXAOpvkGJUnYcK8uzGCik=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=l2sgs3XQATgF85ORdVxzx18H63Alb2ZI2sqyFc8A3XQ2jCcOnhcYjdm2Q0AHECpnT
-         a5kwscF5Wvm88bEiYNywcGjJBJu/DiTsElz13b7EfRiKzNEO2zHXMaAB5A/X2dRxes
-         qlAdk8aS1l3MqU591S0a+ZBvaPT8vPac3+O3tTlEJzLOapVNMPzOLtXgXPNv4lGLaN
-         emhzYgWvLx7f1UDno5YG945RkrYV7ncntaONabIEz7V8hC6xP4eGmo4kvFWC1o1dQ2
-         uEp7lXvcAQIgXjINM2jBv/7H1ckxXnbjcAavjTTPz+ze+S8h0BunEksL2DmRHOLPny
-         IelghUBkGGdJw==
-Message-ID: <15cdb8681ca7634864aa5f07b79eacb4@smtp-cloud8.xs4all.net>
-Date:   Sat, 18 Jul 2020 05:43:12 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfHpjwGZwZmebGCb7gnl72AQJYFg61XpiahpFrcKvrH/vjWMbvskdRLBQbYKrmrUW9WjwYnnOfVm57G0KsOiJRgb2tGbqOSoPlDqdkGGd2IvXOUI4NQLO
- Cdv9jhpLvsF6psHRGcCty99s21kjhSB39QEvdkrqiiNdVm/YTcyw08Y9+bJ6k+Sv+HlJ8sE+TNEC1B3Rh2DQ6zU/z2in2L90XgwZf8gKdO/syvFBd6mGi5hW
+        id S1725791AbgGRFGC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Jul 2020 01:06:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44046 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725963AbgGRFGB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 18 Jul 2020 01:06:01 -0400
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 606FF2083B;
+        Sat, 18 Jul 2020 05:06:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595048760;
+        bh=ojj7GnqfqGS8LAnmrju8sV2OmdDNvXHUPH2FlYIO4dQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VxImCxYxvE6Y5kSxGVPCpAs3DXYtIuvhVkcD5RizdYIlzBruoFMaKsLoSmYkUAKHO
+         0aOKkUXcjAMTp5IMD+h+gIpmT6Ri4lQ5wE0gDGR2WTeIait8cmHUdOsAnO8hWmAwn7
+         C2rMUERvbG12v7m6qQqMq95mreQSf9CUSrz+6RjA=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jwf2r-003EDt-S8; Sat, 18 Jul 2020 07:05:57 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonas Karlman <jonas@kwiboo.se>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH 1/3] media: rkvdec: Fix H264 scaling list order
+Date:   Sat, 18 Jul 2020 07:05:54 +0200
+Message-Id: <2630e1bb0948c3134c6f22ad275ae27cc6023532.1595048742.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Jonas Karlman <jonas@kwiboo.se>
 
-Results of the daily build of media_tree:
+The Rockchip Video Decoder driver is expecting that the values in a
+scaling list are in zig-zag order and applies the inverse scanning process
+to get the values in matrix order.
 
-date:			Sat Jul 18 05:00:09 CEST 2020
-media-tree git hash:	6f01dfb760c027d5dd6199d91ee9599f2676b5c6
-media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
-v4l-utils git hash:	235bc1efe15518d48cfe81ae3e7983ad1d2cd9f2
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6381-g344ef612
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Commit 0b0393d59eb4 ("media: uapi: h264: clarify expected
+scaling_list_4x4/8x8 order") clarified that the values in the scaling list
+should already be in matrix order.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: ERRORS
+Fix this by removing the reordering and change to use two memcpy.
 
-Detailed results are available here:
+Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+[hverkuil-cisco@xs4all.nl: rkvdec_scaling_matrix -> rkvdec_h264_scaling_list]
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 66 +++++++---------------
+ 1 file changed, 20 insertions(+), 46 deletions(-)
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index cd4980d06be7..7b66e2743a4f 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -18,11 +18,16 @@
+ /* Size with u32 units. */
+ #define RKV_CABAC_INIT_BUFFER_SIZE	(3680 + 128)
+ #define RKV_RPS_SIZE			((128 + 128) / 4)
+-#define RKV_SCALING_LIST_SIZE		(6 * 16 + 6 * 64 + 128)
+ #define RKV_ERROR_INFO_SIZE		(256 * 144 * 4)
+ 
+ #define RKVDEC_NUM_REFLIST		3
+ 
++struct rkvdec_h264_scaling_list {
++	u8 scaling_list_4x4[6][16];
++	u8 scaling_list_8x8[6][64];
++	u8 padding[128];
++};
++
+ struct rkvdec_sps_pps_packet {
+ 	u32 info[8];
+ };
+@@ -86,7 +91,7 @@ struct rkvdec_ps_field {
+ /* Data structure describing auxiliary buffer format. */
+ struct rkvdec_h264_priv_tbl {
+ 	s8 cabac_table[4][464][2];
+-	u8 scaling_list[RKV_SCALING_LIST_SIZE];
++	struct rkvdec_h264_scaling_list scaling_list;
+ 	u32 rps[RKV_RPS_SIZE];
+ 	struct rkvdec_sps_pps_packet param_set[256];
+ 	u8 err_info[RKV_ERROR_INFO_SIZE];
+@@ -785,56 +790,25 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+ 	}
+ }
+ 
+-/*
+- * NOTE: The values in a scaling list are in zig-zag order, apply inverse
+- * scanning process to get the values in matrix order.
+- */
+-static const u32 zig_zag_4x4[16] = {
+-	0, 1, 4, 8, 5, 2, 3, 6, 9, 12, 13, 10, 7, 11, 14, 15
+-};
+-
+-static const u32 zig_zag_8x8[64] = {
+-	0,  1,  8, 16,  9,  2,  3, 10, 17, 24, 32, 25, 18, 11,  4,  5,
+-	12, 19, 26, 33, 40, 48, 41, 34, 27, 20, 13,  6,  7, 14, 21, 28,
+-	35, 42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51,
+-	58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
+-};
+-
+-static void reorder_scaling_list(struct rkvdec_ctx *ctx,
+-				 struct rkvdec_h264_run *run)
++static void assemble_hw_scaling_list(struct rkvdec_ctx *ctx,
++				     struct rkvdec_h264_run *run)
+ {
+ 	const struct v4l2_ctrl_h264_scaling_matrix *scaling = run->scaling_matrix;
+-	const size_t num_list_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4);
+-	const size_t list_len_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4[0]);
+-	const size_t num_list_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8);
+-	const size_t list_len_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8[0]);
+ 	struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
+ 	struct rkvdec_h264_priv_tbl *tbl = h264_ctx->priv_tbl.cpu;
+-	u8 *dst = tbl->scaling_list;
+-	const u8 *src;
+-	int i, j;
+ 
+-	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_4x4) != list_len_4x4);
+-	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_8x8) != list_len_8x8);
+-	BUILD_BUG_ON(ARRAY_SIZE(tbl->scaling_list) <
+-		     num_list_4x4 * list_len_4x4 +
+-		     num_list_8x8 * list_len_8x8);
++	BUILD_BUG_ON(sizeof(tbl->scaling_list.scaling_list_4x4) !=
++		     sizeof(scaling->scaling_list_4x4));
++	BUILD_BUG_ON(sizeof(tbl->scaling_list.scaling_list_8x8) !=
++		     sizeof(scaling->scaling_list_8x8));
+ 
+-	src = &scaling->scaling_list_4x4[0][0];
+-	for (i = 0; i < num_list_4x4; ++i) {
+-		for (j = 0; j < list_len_4x4; ++j)
+-			dst[zig_zag_4x4[j]] = src[j];
+-		src += list_len_4x4;
+-		dst += list_len_4x4;
+-	}
++	memcpy(tbl->scaling_list.scaling_list_4x4,
++	       scaling->scaling_list_4x4,
++	       sizeof(scaling->scaling_list_4x4));
+ 
+-	src = &scaling->scaling_list_8x8[0][0];
+-	for (i = 0; i < num_list_8x8; ++i) {
+-		for (j = 0; j < list_len_8x8; ++j)
+-			dst[zig_zag_8x8[j]] = src[j];
+-		src += list_len_8x8;
+-		dst += list_len_8x8;
+-	}
++	memcpy(tbl->scaling_list.scaling_list_8x8,
++	       scaling->scaling_list_8x8,
++	       sizeof(scaling->scaling_list_8x8));
+ }
+ 
+ /*
+@@ -1126,7 +1100,7 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+ 	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
+ 				    h264_ctx->reflists.b1);
+ 
+-	reorder_scaling_list(ctx, &run);
++	assemble_hw_scaling_list(ctx, &run);
+ 	assemble_hw_pps(ctx, &run);
+ 	assemble_hw_rps(ctx, &run);
+ 	config_registers(ctx, &run);
+-- 
+2.26.2
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
