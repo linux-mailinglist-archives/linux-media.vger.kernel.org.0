@@ -2,44 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2D262248DA
-	for <lists+linux-media@lfdr.de>; Sat, 18 Jul 2020 07:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 569802248DD
+	for <lists+linux-media@lfdr.de>; Sat, 18 Jul 2020 07:06:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725791AbgGRFGC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726096AbgGRFGC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Sat, 18 Jul 2020 01:06:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44046 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:44050 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725963AbgGRFGB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1725791AbgGRFGB (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Sat, 18 Jul 2020 01:06:01 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 606FF2083B;
+        by mail.kernel.org (Postfix) with ESMTPSA id 684672083E;
         Sat, 18 Jul 2020 05:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1595048760;
-        bh=ojj7GnqfqGS8LAnmrju8sV2OmdDNvXHUPH2FlYIO4dQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=VxImCxYxvE6Y5kSxGVPCpAs3DXYtIuvhVkcD5RizdYIlzBruoFMaKsLoSmYkUAKHO
-         0aOKkUXcjAMTp5IMD+h+gIpmT6Ri4lQ5wE0gDGR2WTeIait8cmHUdOsAnO8hWmAwn7
-         C2rMUERvbG12v7m6qQqMq95mreQSf9CUSrz+6RjA=
+        bh=e1eezy0qbKZGztYdUiT19QjjP8dhZk+Lch7S4Ef94IU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=czWTPA7pjOvsKOFODsS8lNOMVRS/ywdcqC4F1UcLvT2YjOBcA8T+u6nFQkI6VfQEK
+         R05P4hhst9jaiJc72TTBcfYU6e8LgWKQ1ChYkyqflt43RUYVq0XbrM1+s7983BixWh
+         APzCTxBQLd+Ul1WeKrGkRzFn9FjHIz4uN2W6f9UI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1jwf2r-003EDt-S8; Sat, 18 Jul 2020 07:05:57 +0200
+        id 1jwf2r-003EDw-To; Sat, 18 Jul 2020 07:05:57 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonas Karlman <jonas@kwiboo.se>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH 1/3] media: rkvdec: Fix H264 scaling list order
-Date:   Sat, 18 Jul 2020 07:05:54 +0200
-Message-Id: <2630e1bb0948c3134c6f22ad275ae27cc6023532.1595048742.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] media: atomisp: fix the handling of clock number
+Date:   Sat, 18 Jul 2020 07:05:55 +0200
+Message-Id: <c2942c4363ceb8bbce12c2db8f42d8bbbf5bb0ef.1595048742.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <2630e1bb0948c3134c6f22ad275ae27cc6023532.1595048742.git.mchehab+huawei@kernel.org>
+References: <2630e1bb0948c3134c6f22ad275ae27cc6023532.1595048742.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
@@ -48,138 +46,119 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jonas Karlman <jonas@kwiboo.se>
+Right now, the driver is not doing the right thing to detect
+the clock like used by the sensor, at least on devices
+without the gmin's EFI vars.
 
-The Rockchip Video Decoder driver is expecting that the values in a
-scaling list are in zig-zag order and applies the inverse scanning process
-to get the values in matrix order.
+Add some notes at the code to explain why and skip the wrong
+value provided by the _DSM table.
 
-Commit 0b0393d59eb4 ("media: uapi: h264: clarify expected
-scaling_list_4x4/8x8 order") clarified that the values in the scaling list
-should already be in matrix order.
-
-Fix this by removing the reordering and change to use two memcpy.
-
-Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-[hverkuil-cisco@xs4all.nl: rkvdec_scaling_matrix -> rkvdec_h264_scaling_list]
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/media/rkvdec/rkvdec-h264.c | 66 +++++++---------------
- 1 file changed, 20 insertions(+), 46 deletions(-)
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 49 ++++++++++++++++---
+ 1 file changed, 42 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index cd4980d06be7..7b66e2743a4f 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -18,11 +18,16 @@
- /* Size with u32 units. */
- #define RKV_CABAC_INIT_BUFFER_SIZE	(3680 + 128)
- #define RKV_RPS_SIZE			((128 + 128) / 4)
--#define RKV_SCALING_LIST_SIZE		(6 * 16 + 6 * 64 + 128)
- #define RKV_ERROR_INFO_SIZE		(256 * 144 * 4)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 1af9da8acf4c..cb360b8399e5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -26,6 +26,9 @@ enum clock_rate {
+ #define CLK_RATE_19_2MHZ	19200000
+ #define CLK_RATE_25_0MHZ	25000000
  
- #define RKVDEC_NUM_REFLIST		3
- 
-+struct rkvdec_h264_scaling_list {
-+	u8 scaling_list_4x4[6][16];
-+	u8 scaling_list_8x8[6][64];
-+	u8 padding[128];
-+};
++/* Valid clock number range from 0 to 5 */
++#define MAX_CLK_COUNT                   5
 +
- struct rkvdec_sps_pps_packet {
- 	u32 info[8];
- };
-@@ -86,7 +91,7 @@ struct rkvdec_ps_field {
- /* Data structure describing auxiliary buffer format. */
- struct rkvdec_h264_priv_tbl {
- 	s8 cabac_table[4][464][2];
--	u8 scaling_list[RKV_SCALING_LIST_SIZE];
-+	struct rkvdec_h264_scaling_list scaling_list;
- 	u32 rps[RKV_RPS_SIZE];
- 	struct rkvdec_sps_pps_packet param_set[256];
- 	u8 err_info[RKV_ERROR_INFO_SIZE];
-@@ -785,56 +790,25 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+ /* X-Powers AXP288 register set */
+ #define ALDO1_SEL_REG	0x28
+ #define ALDO1_CTRL3_REG	0x13
+@@ -61,7 +64,6 @@ enum clock_rate {
+ 
+ struct gmin_subdev {
+ 	struct v4l2_subdev *subdev;
+-	int clock_num;
+ 	enum clock_rate clock_src;
+ 	bool clock_on;
+ 	struct clk *pmc_clk;
+@@ -447,7 +449,7 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
+ 	struct acpi_device *adev;
+ 	acpi_handle handle;
+ 	struct device *dev;
+-	int i, ret;
++	int i, ret, clock_num;
+ 
+ 	if (!client)
+ 		return NULL;
+@@ -492,17 +494,37 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
  	}
- }
  
--/*
-- * NOTE: The values in a scaling list are in zig-zag order, apply inverse
-- * scanning process to get the values in matrix order.
-- */
--static const u32 zig_zag_4x4[16] = {
--	0, 1, 4, 8, 5, 2, 3, 6, 9, 12, 13, 10, 7, 11, 14, 15
--};
--
--static const u32 zig_zag_8x8[64] = {
--	0,  1,  8, 16,  9,  2,  3, 10, 17, 24, 32, 25, 18, 11,  4,  5,
--	12, 19, 26, 33, 40, 48, 41, 34, 27, 20, 13,  6,  7, 14, 21, 28,
--	35, 42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51,
--	58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
--};
--
--static void reorder_scaling_list(struct rkvdec_ctx *ctx,
--				 struct rkvdec_h264_run *run)
-+static void assemble_hw_scaling_list(struct rkvdec_ctx *ctx,
-+				     struct rkvdec_h264_run *run)
- {
- 	const struct v4l2_ctrl_h264_scaling_matrix *scaling = run->scaling_matrix;
--	const size_t num_list_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4);
--	const size_t list_len_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4[0]);
--	const size_t num_list_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8);
--	const size_t list_len_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8[0]);
- 	struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
- 	struct rkvdec_h264_priv_tbl *tbl = h264_ctx->priv_tbl.cpu;
--	u8 *dst = tbl->scaling_list;
--	const u8 *src;
--	int i, j;
+ 	gmin_subdevs[i].subdev = subdev;
+-	gmin_subdevs[i].clock_num = gmin_get_var_int(dev, false, "CamClk", 0);
++
+ 	/*WA:CHT requires XTAL clock as PLL is not stable.*/
+ 	gmin_subdevs[i].clock_src = gmin_get_var_int(dev, false, "ClkSrc",
+ 				    VLV2_CLK_PLL_19P2MHZ);
+ 	gmin_subdevs[i].csi_port = gmin_get_var_int(dev, false, "CsiPort", 0);
+ 	gmin_subdevs[i].csi_lanes = gmin_get_var_int(dev, false, "CsiLanes", 1);
  
--	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_4x4) != list_len_4x4);
--	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_8x8) != list_len_8x8);
--	BUILD_BUG_ON(ARRAY_SIZE(tbl->scaling_list) <
--		     num_list_4x4 * list_len_4x4 +
--		     num_list_8x8 * list_len_8x8);
-+	BUILD_BUG_ON(sizeof(tbl->scaling_list.scaling_list_4x4) !=
-+		     sizeof(scaling->scaling_list_4x4));
-+	BUILD_BUG_ON(sizeof(tbl->scaling_list.scaling_list_8x8) !=
-+		     sizeof(scaling->scaling_list_8x8));
+-	/* get PMC clock with clock framework */
+-	snprintf(gmin_pmc_clk_name,
+-		 sizeof(gmin_pmc_clk_name),
+-		 "%s_%d", "pmc_plt_clk", gmin_subdevs[i].clock_num);
++	/*
++	 * FIXME:
++	 *
++	 * According with :
++	 *   https://github.com/projectceladon/hardware-intel-kernelflinger/blob/master/doc/fastboot.md
++	 *
++	 * The "CamClk" EFI var is set via fastboot on some Android devices,
++	 * and seems to contain the number of the clock used to feed the
++	 * sensor.
++	 *
++	 * On systems with a proper ACPI table, this is given via the _PR0
++	 * power resource table. The logic below should first check if there
++	 * is a power resource already, falling back to the EFI vars detection
++	 * otherwise.
++	 */
++	clock_num = gmin_get_var_int(dev, false, "CamClk", -1);
++
++	if (clock_num < 0 || clock_num > MAX_CLK_COUNT) {
++		dev_err(dev, "Invalid clock number\n");
++		return NULL;
++	}
++
++	snprintf(gmin_pmc_clk_name, sizeof(gmin_pmc_clk_name),
++		 "%s_%d", "pmc_plt_clk", clock_num);
  
--	src = &scaling->scaling_list_4x4[0][0];
--	for (i = 0; i < num_list_4x4; ++i) {
--		for (j = 0; j < list_len_4x4; ++j)
--			dst[zig_zag_4x4[j]] = src[j];
--		src += list_len_4x4;
--		dst += list_len_4x4;
--	}
-+	memcpy(tbl->scaling_list.scaling_list_4x4,
-+	       scaling->scaling_list_4x4,
-+	       sizeof(scaling->scaling_list_4x4));
+ 	gmin_subdevs[i].pmc_clk = devm_clk_get(dev, gmin_pmc_clk_name);
+ 	if (IS_ERR(gmin_subdevs[i].pmc_clk)) {
+@@ -515,6 +537,7 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
  
--	src = &scaling->scaling_list_8x8[0][0];
--	for (i = 0; i < num_list_8x8; ++i) {
--		for (j = 0; j < list_len_8x8; ++j)
--			dst[zig_zag_8x8[j]] = src[j];
--		src += list_len_8x8;
--		dst += list_len_8x8;
--	}
-+	memcpy(tbl->scaling_list.scaling_list_8x8,
-+	       scaling->scaling_list_8x8,
-+	       sizeof(scaling->scaling_list_8x8));
- }
+ 		return NULL;
+ 	}
++	dev_info(dev, "Will use CLK%d (%s)\n", clock_num, gmin_pmc_clk_name);
  
- /*
-@@ -1126,7 +1100,7 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
- 	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
- 				    h264_ctx->reflists.b1);
+ 	/*
+ 	 * The firmware might enable the clock at
+@@ -957,6 +980,18 @@ static int gmin_get_config_dsm_var(struct device *dev,
+ 	union acpi_object *obj, *cur = NULL;
+ 	int i;
  
--	reorder_scaling_list(ctx, &run);
-+	assemble_hw_scaling_list(ctx, &run);
- 	assemble_hw_pps(ctx, &run);
- 	assemble_hw_rps(ctx, &run);
- 	config_registers(ctx, &run);
++	/*
++	 * The data reported by "CamClk" seems to be either 0 or 1 at the
++	 * _DSM table.
++	 *
++	 * At the ACPI tables we looked so far, this is not related to the
++	 * actual clock source for the sensor, which is given by the
++	 * _PR0 ACPI table. So, ignore it, as otherwise this will be
++	 * set to a wrong value.
++	 */
++	if (!strcmp(var, "CamClk"))
++		return -EINVAL;
++
+ 	obj = acpi_evaluate_dsm(handle, &atomisp_dsm_guid, 0, 0, NULL);
+ 	if (!obj) {
+ 		dev_info_once(dev, "Didn't find ACPI _DSM table.\n");
 -- 
 2.26.2
 
