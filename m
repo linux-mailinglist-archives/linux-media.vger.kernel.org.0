@@ -2,136 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A002225235
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jul 2020 16:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63DDF22527F
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jul 2020 17:34:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbgGSO0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Jul 2020 10:26:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60632 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726038AbgGSO0g (ORCPT
+        id S1726131AbgGSPe5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Jul 2020 11:34:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22500 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726024AbgGSPe4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Jul 2020 10:26:36 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3745AC0619D2;
-        Sun, 19 Jul 2020 07:26:36 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id t15so8703916pjq.5;
-        Sun, 19 Jul 2020 07:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=oMMdTXZE/SgKfnyt+CE5RFRImiPbBYVyuLwDLtnU710=;
-        b=EzbcabwlmwC4jqxRbOKtvJ9MHzIhodmrDdUcgAmLM7KNPfhOf12UERa6e+Ix73WN99
-         B9CSgpa2wp9J/0RnkP0Giyq5HOdZ9bamkCAQ8ZEqTndO/2iLTkzT4OzbIbOPE5KDk6GZ
-         8Lhzctls2OlsbcjVBq5wKft7B8bM37sc/RhFniR5D+QF7PstIxVh16+ggynEcmdoR9Kx
-         p/7dJdFEhohOU6UjjBsTBRqWhiqjKVUdJLas88BLok+H7qiL4cFc7JFv9kWMYeV0W8jl
-         Htef5Pn9jHZAx3WYZgCbwV++4wrRI057lL6Z4CHM0vBQWafwwmpyIvDDmwBvGXFtFuxz
-         VRTw==
+        Sun, 19 Jul 2020 11:34:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595172895;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=hg0lbQ+8VwQQXpzy5TW+xgK9mc47o+v0BPDpQo4cPu8=;
+        b=YtzduNBdR8ICl6qxb5te06vQ4oo2P71bO49h9zvyTTqVZt9k4K/3D7OLQ/MN1u4fHNb4Cp
+        ca49X0cPFI+8Cb2BaahsVAmgkIJ3hGadfL6COKHREuM/Zk2c3UwUlOMpgChQXaOdizxVbw
+        qYfXu5F9Ow76rmDnbEAfv+6rCzoNS8Q=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-W3LRd6MsNIK0OJwMOqeQEA-1; Sun, 19 Jul 2020 11:34:53 -0400
+X-MC-Unique: W3LRd6MsNIK0OJwMOqeQEA-1
+Received: by mail-qk1-f199.google.com with SMTP id k16so9734776qkh.12
+        for <linux-media@vger.kernel.org>; Sun, 19 Jul 2020 08:34:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=oMMdTXZE/SgKfnyt+CE5RFRImiPbBYVyuLwDLtnU710=;
-        b=PMnLaLzHox5Fud+zf6LK5vbOSF8mM5O4lY1j0Fk0RiCSxt7rJ6Ifm8Qu4787wBKVpt
-         YHXF+ArsbLFHUaud1cEMJg2kgtowCRq3+7jU+vpvLdtCPo6WHcZKB5TpxjFmsv9JPFk3
-         Tnl05gRQEApCRsqoeDhQzVZF2xkf/4uTYxYdM7Ey+Z1eXS7yjAjDw9gExzj4shJ7CRyi
-         LZ5fYsDDBhlfUQFLHK674/C6XdRHQf5b38V7V3rGLaM1GMBxcEKJGEv/By7NOsdFr2v0
-         VfZg57k/aUypDh1Mb4l12CjHqEPx/vJYmruts1kBNstxfWPvzxcbfR65Cg0HYY2LeI4p
-         X/3w==
-X-Gm-Message-State: AOAM532YBR48Tv6QeLzBzBP+i6SG0dQyCApwxV/+O2wyTHe5ENrbRVuX
-        s2DvV6zSskzp3LnAv1GRtshfC1rE+VM=
-X-Google-Smtp-Source: ABdhPJyHkJphjwrwB3Q6cZ2Xn4DmrvnkvjiU+j1n+X1klm3CGtABSJZW31khrbzX0PEBHQ68heFfxw==
-X-Received: by 2002:a17:90b:3c1:: with SMTP id go1mr18153119pjb.129.1595168795748;
-        Sun, 19 Jul 2020 07:26:35 -0700 (PDT)
-Received: from blackclown ([103.88.82.25])
-        by smtp.gmail.com with ESMTPSA id f207sm14031419pfa.107.2020.07.19.07.26.33
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 19 Jul 2020 07:26:35 -0700 (PDT)
-Date:   Sun, 19 Jul 2020 19:56:23 +0530
-From:   Suraj Upadhyay <usuraj35@gmail.com>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: media: atomisp: Replace depracated MSI APIs
-Message-ID: <20200719142623.GA31565@blackclown>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=hg0lbQ+8VwQQXpzy5TW+xgK9mc47o+v0BPDpQo4cPu8=;
+        b=G9V1UQyFGPE9q8r10FSC/Y18djfzZmJc/gMfRtT23RW52jALtZkWBM6BnvOYjCpJtu
+         MIdE4Em5YtwoYhmzmBqmNonQF0IBce2RmOjMzOg/v1S/TTep9e/mIIpJi8H0mKVgiJkq
+         kdOGaAy8e/Znqg2BOHUR2QoTNDBka7qZsdmtBBx4rqLnUHpw6Ju9pC/lShPPW5rB5TiJ
+         T2QBrMMvCJTYTeqtsb0luRTpqJEdl3Dx2FBR4lgM6YuieYUFhmKaaoCyg7KC+2qTEGxX
+         NWkx7Y3fNn/8VH6/6+LIvfRHfIL9Z6ZwddOJf7HY5U6gpAuGOrWe3jqeSH7SLNzppBn4
+         hLvQ==
+X-Gm-Message-State: AOAM532ylbM3nmg0SZx9x+174qnGIFTRumbBOyf0V2tbdiFIFQSt1BNf
+        hMbjlxUGdYPVK5c7QSy5kzwrSu6/O7UW0V+f13TPS/v5OvWzK+WLNjIG8+klF5rY5YMlfeeo29H
+        MFqgM4X3mslKc9AyyYnJfND4=
+X-Received: by 2002:a37:c41:: with SMTP id 62mr1987978qkm.189.1595172893435;
+        Sun, 19 Jul 2020 08:34:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzd0wlLchxDWkT1Yrjr6nyemXEfsQcDGUHLhm0O1Jt4XLIvOQ22rvO90Nx2qRedFDcV14D1Qg==
+X-Received: by 2002:a37:c41:: with SMTP id 62mr1987953qkm.189.1595172893175;
+        Sun, 19 Jul 2020 08:34:53 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id p63sm15410662qkc.80.2020.07.19.08.34.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jul 2020 08:34:52 -0700 (PDT)
+From:   trix@redhat.com
+To:     kyungmin.park@samsung.com, riverful.kim@samsung.com,
+        mchehab@kernel.org, s.nawrocki@samsung.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] media: m5mols: Check function pointer in m5mols_sensor_power
+Date:   Sun, 19 Jul 2020 08:34:47 -0700
+Message-Id: <20200719153447.4380-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Tom Rix <trix@redhat.com>
 
---ZPt4rx8FFjLCG7dd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+clang static analysis reports this error
 
-Replace depracated MSI IRQ enabler and disabler
-with pci_alloc_irq_vectors and pci_free_irq_vectors respectively.
-And as a result handle the returned error as appropriate.
-Compile tested.
+m5mols_core.c:767:4: warning: Called function pointer
+  is null (null dereference) [core.CallAndMessage]
+    info->set_power(&client->dev, 0);
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Signed-off-by: Suraj Upadhyay <usuraj35@gmail.com>
+In other places, the set_power ptr is checked.
+So add a check.
+
+Fixes: bc125106f8af ("[media] Add support for M-5MOLS 8 Mega Pixel camera ISP")
+
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
-Change:
-	v2: Replace the MSI IRQ disabler too.
----
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/i2c/m5mols/m5mols_core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/sta=
-ging/media/atomisp/pci/atomisp_v4l2.c
-index d36809a0182c..a5dea5521b36 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1735,8 +1735,8 @@ static int atomisp_pci_probe(struct pci_dev *dev,
- 	pci_set_master(dev);
- 	pci_set_drvdata(dev, isp);
-=20
--	err =3D pci_enable_msi(dev);
--	if (err) {
-+	err =3D pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
-+	if (err < 0) {
- 		dev_err(&dev->dev, "Failed to enable msi (%d)\n", err);
- 		goto enable_msi_fail;
- 	}
-@@ -1857,7 +1857,7 @@ static int atomisp_pci_probe(struct pci_dev *dev,
- initialize_modules_fail:
- 	cpu_latency_qos_remove_request(&isp->pm_qos);
- 	atomisp_msi_irq_uninit(isp, dev);
--	pci_disable_msi(dev);
-+	pci_free_irq_vectors(dev);
- enable_msi_fail:
- fw_validation_fail:
- 	release_firmware(isp->firmware);
---=20
-2.17.1
+diff --git a/drivers/media/i2c/m5mols/m5mols_core.c b/drivers/media/i2c/m5mols/m5mols_core.c
+index de295114ca48..21666d705e37 100644
+--- a/drivers/media/i2c/m5mols/m5mols_core.c
++++ b/drivers/media/i2c/m5mols/m5mols_core.c
+@@ -764,7 +764,8 @@ static int m5mols_sensor_power(struct m5mols_info *info, bool enable)
+ 
+ 		ret = regulator_bulk_enable(ARRAY_SIZE(supplies), supplies);
+ 		if (ret) {
+-			info->set_power(&client->dev, 0);
++			if (info->set_power)
++				info->set_power(&client->dev, 0);
+ 			return ret;
+ 		}
+ 
+-- 
+2.18.1
 
-
---ZPt4rx8FFjLCG7dd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE7AbCa0kOsMJ4cx0j+gRsbIfe744FAl8UWA4ACgkQ+gRsbIfe
-7460DQ/9EUsPrIHgSxSfS3NIWg+/PaRCXfxS4V+3voUz57aoINkqRJcbRxs2uTYq
-1mBfCNTE1WlNQfplnGJe4VCwamF9sniqn1/DDUDJhpqJibsjuY1OXkOyXRTZIk1e
-AUGjbbdAEo05UOPOqZPAOvm8mlCjZ04btYOHA4x1jIetCFAKj+A1/f1rwvy1UGiP
-LJQJSlZCPej4kyKjdd7AHy6w0LYMJ8LcjXW5aGG3031ne129InLPNJROd+ZCiqbK
-2HGwy34MjgU6Uxtr6x++sSI60iJa5rsO0AxzDF5y4usCxSdcutMThZVUjM4K6tBS
-M1/cXgfzBWLHZXkJxlbxOCT8H1R4vLkpovo6TaSq6Kdhktt6vyu3YfWLpR/OWike
-KD0W6Kia8Kkfe5IGHJoqOHunwxBc3fXmFumWNZyqtCZND3KNy77WlnPtncAZNN0J
-fKOstp1XNTUNJAqGiY8uA029Fy/34EK5M/Pts7LZjlpY+Zz9Fy0xwuqmpOG/HijS
-jUwYKZhj+h7LaktU/PFZ4Ag8/UVlwL0yHtgRYvMHFpFcAM3IyhxKU/WL94f6wZ4P
-5n1OTPuvgkGSjGI2v7tFMELzMomYt8TIF1WJI4NpaKVo06gwbcGLFCEHXrMYpUWi
-ZFmub5PWOOI3BMxk4TS3HVAt04lES0GWvTXoY6E9/8idDSe1zDU=
-=ajNK
------END PGP SIGNATURE-----
-
---ZPt4rx8FFjLCG7dd--
