@@ -2,111 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 286002251A6
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jul 2020 13:34:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45D9F225207
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jul 2020 15:50:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726051AbgGSLex (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Jul 2020 07:34:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45380 "EHLO mail.kernel.org"
+        id S1726093AbgGSNuJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Jul 2020 09:50:09 -0400
+Received: from mga01.intel.com ([192.55.52.88]:14088 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725988AbgGSLex (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Jul 2020 07:34:53 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E75B920734;
-        Sun, 19 Jul 2020 11:34:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595158492;
-        bh=uVWHh1TqjC+xE6xa1USm9QdMA2OAnJSw/OW+SY+sf7w=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=leDcwIaInJFE/EUWPaKZz04R6jjvPKM03rxtvj7Cfb1MtYX61gSqt4Xk7Z7NcI02c
-         0mcuTuMLTjqyTbbYeKS49HSITMSemNVTaEBlfNPajwJzeqovBPawWCClYbF4nGeym5
-         XQCF86PWCwpNb/7aCIND+boDi6Gi4hmIpAOVZieI=
-Date:   Sun, 19 Jul 2020 13:34:48 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Colin King <colin.king@canonical.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel-janitors@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: fix mask and shift operation on
- ISPSSPM0
-Message-ID: <20200719133448.481cffc5@coco.lan>
-In-Reply-To: <20200716145138.1708693-1-colin.king@canonical.com>
-References: <20200716145138.1708693-1-colin.king@canonical.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1725988AbgGSNuJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 19 Jul 2020 09:50:09 -0400
+IronPort-SDR: ZUuT4R1DL5wy7Bste3QgUUIff1Q2vsHI09G92+z2ntXYhn2i4gHpdEaWdqjWra2Eo1N7ajT3SP
+ C8BNiGXHTnEw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9686"; a="167936033"
+X-IronPort-AV: E=Sophos;i="5.75,370,1589266800"; 
+   d="scan'208";a="167936033"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2020 06:50:08 -0700
+IronPort-SDR: 2YJuQ/0QKvefYMfDyI9Y6N4/9LyEVGpAFcdg6Z5LPv51p5eSuM2Vq/zuL9N+SXd8DSYBcKNAe9
+ Y8Nw7DmR1tIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,370,1589266800"; 
+   d="scan'208";a="486963458"
+Received: from lkp-server02.sh.intel.com (HELO 50058c6ee6fc) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2020 06:50:06 -0700
+Received: from kbuild by 50058c6ee6fc with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jx9hd-00019d-Ji; Sun, 19 Jul 2020 13:50:05 +0000
+Date:   Sun, 19 Jul 2020 21:49:07 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: [PATCH] media: exynos4-is: fix ptr_ret.cocci warnings
+Message-ID: <20200719134907.GA16381@c288844b3313>
+References: <202007192158.9kUQhoax%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202007192158.9kUQhoax%lkp@intel.com>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 16 Jul 2020 15:51:38 +0100
-Colin King <colin.king@canonical.com> escreveu:
+From: kernel test robot <lkp@intel.com>
 
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> Currently the check on bits 25:24 on ISPSSPM0 is always 0 because
-> the mask and shift operations are incorrect. Fix this by shifting
-> by MRFLD_ISPSSPM0_ISPSSS_OFFSET (24 bits right) and then masking
-> with RFLD_ISPSSPM0_ISPSSC_MASK (0x03) to get the appropriate 2 bits
-> to check.
-> 
-> Addresses-Coverity: ("Operands don't affect result")
-> Fixes: 0f441fd70b1e ("media: atomisp: simplify the power down/up code")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+drivers/media/platform/exynos4-is/media-dev.c:1273:1-3: WARNING: PTR_ERR_OR_ZERO can be used
 
-Thanks!
 
-With this patch, we can revert this one too (patch enclosed):
+ Use PTR_ERR_OR_ZERO rather than if(IS_ERR(...)) + PTR_ERR
 
-	d0213061a501 ("media: atomisp: fix mask and shift operation on ISPSSPM0")
+Generated by: scripts/coccinelle/api/ptr_ret.cocci
 
-I tested it already: the IUNIT power on/off code is working properly
-after both patches.
+Fixes: 18ffec750578 ("media: exynos4-is: Add missed check for pinctrl_lookup_state()")
+CC: Chuhong Yuan <hslester96@gmail.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
 
-Thanks,
-Mauro
+tree:   git://linuxtv.org/media_tree.git master
+head:   8f2a4a9d5ff5202d0b3e3a144ebb9b67aabadd29
+commit: 18ffec750578f7447c288647d7282c7d12b1d969 [119/306] media: exynos4-is: Add missed check for pinctrl_lookup_state()
 
+ media-dev.c |    5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+--- a/drivers/media/platform/exynos4-is/media-dev.c
++++ b/drivers/media/platform/exynos4-is/media-dev.c
+@@ -1270,10 +1270,7 @@ static int fimc_md_get_pinctrl(struct fi
+ 
+ 	pctl->state_idle = pinctrl_lookup_state(pctl->pinctrl,
+ 					PINCTRL_STATE_IDLE);
+-	if (IS_ERR(pctl->state_idle))
+-		return PTR_ERR(pctl->state_idle);
 -
-[PATCH] Revert "media: atomisp: keep the ISP powered on when setting it"
-
-changeset d0213061a501 ("media: atomisp: fix mask and shift operation on ISPSSPM0")
-solved the existing issue with the IUNIT power on code.
-
-So, the driver can now use the right code again.
-
-This reverts commit 95d1f398c4dc3f55e9007c89452ccc16301205fc.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index e31195816b2d..a000a1e316f7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -766,17 +766,13 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
- /* Workaround for pmu_nc_set_power_state not ready in MRFLD */
- int atomisp_mrfld_power_down(struct atomisp_device *isp)
- {
 -	return 0;
--// FIXME: at least with ISP2401, the code below causes the driver to break
--//	return atomisp_mrfld_power(isp, false);
-+	return atomisp_mrfld_power(isp, false);
++	return PTR_ERR_OR_ZERO(pctl->state_idle);
  }
  
- /* Workaround for pmu_nc_set_power_state not ready in MRFLD */
- int atomisp_mrfld_power_up(struct atomisp_device *isp)
- {
--	return 0;
--// FIXME: at least with ISP2401, the code below causes the driver to break
--//	return atomisp_mrfld_power(isp, true);
-+	return atomisp_mrfld_power(isp, true);
- }
- 
- int atomisp_runtime_suspend(struct device *dev)
-
-
+ static int cam_clk_prepare(struct clk_hw *hw)
