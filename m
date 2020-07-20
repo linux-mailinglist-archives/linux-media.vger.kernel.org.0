@@ -2,174 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8FC7225613
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 05:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF0EE225670
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 06:14:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbgGTDNy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Jul 2020 23:13:54 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:47221 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726530AbgGTDNx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Jul 2020 23:13:53 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id xMFRjVOPkNPeYxMFSjl46p; Mon, 20 Jul 2020 05:13:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1595214831; bh=fS/cbDSfE7jAHow0ZJH8jZf01dImwfITEAicxvgYzKA=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=co6p5lhaU2hV/uaVTQMKXeVCD+gH9EMmuTW9noHZelgDxVU1e4rU89R/raN/mD4HI
-         9OkDjS0i+GC3u8norDSxYKR5kcmlprjGoLtLDNE9tV5sy7on1k54RB5tc6nKetNXzB
-         EkX3jFr5jy34sIhfQSW3QNkrnn74h03YgTuez9JCRsfMuhBo9z/O05Iy/rZDdwssey
-         bhoy5CnDR0kVdXfpP9NNNi/G8EbsqW3LYl+DeIoOIhQkQKkXvJ+mNtVVIUbDt2Qvzr
-         +YiAaoO7bhatoIXzQLASvldrY5WwlyvAle2AxOftKREdigXlakuK2kAZrL6iKhrBI9
-         ZvmrszGcUdVUQ==
-Message-ID: <1cefa0d2dee3bf3ab45ddabcb4172591@smtp-cloud8.xs4all.net>
-Date:   Mon, 20 Jul 2020 05:13:49 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfIEQbl5jivMo6qSOBmdtyRzmBSXJYCgTt+LKOvtKdGPbAUyB0vGxxI1zpHfT1YU00yIyJoIVT1XFJ9IA018HWq2kypd4JZZG84R2tu00ophQ3cxs+f7d
- ndNrjHX+MQT4E0smy0HEfhcXvaIEu2Jjz7ocjT5USp9tRxd2APdeTMI8O7qiOqDBQPNq37V54fjLrC4RJ3JGDlG07ive45ZDUhElCzVEknclTYGiNrrdZiUS
+        id S1726076AbgGTEN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 00:13:57 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:47528 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725263AbgGTEN4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Jul 2020 00:13:56 -0400
+Received: from localhost (unknown [159.226.5.99])
+        by APP-01 (Coremail) with SMTP id qwCowACXi9j2GRVfckTkAQ--.24694S2;
+        Mon, 20 Jul 2020 12:13:43 +0800 (CST)
+From:   Xu Wang <vulab@iscas.ac.cn>
+To:     mchehab@kernel.org, sean@mess.org, vulab@iscas.ac.cn,
+        oneukum@suse.com, yangyingliang@huawei.com, johan@kernel.org,
+        colin.king@canonical.com, linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH] media: b2bc: remove needless check before usb_free_coherent()
+Date:   Mon, 20 Jul 2020 04:13:41 +0000
+Message-Id: <20200720041341.7506-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: qwCowACXi9j2GRVfckTkAQ--.24694S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKFWrZw4UGr47GFWfKryfZwb_yoWftrg_XF
+        Z3urnrXF1DWF15Kr1UK3yFyryq9ayxWr1kXF4ayFZ5GF1Iyw1Yvr9FywsrJr1DCFZ8XFW8
+        W3s8JF48Aw40kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbaxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+        Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+        1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+        7VC0I7IYx2IY67AKxVWUtVWrXwAv7VCY1x0262k0Y48FwI0_Jr0_Gr1lYx0Ex4A2jsIE14
+        v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67II
+        x4CEVc8vx2IErcIFxwCY02Avz4vE14v_Gryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+        0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+        zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+        4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j
+        6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
+        BIdaVFxhVjvjDU0xZFpf9x0JU4T5dUUUUU=
+X-Originating-IP: [159.226.5.99]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCAEDA18J9gI5SQABsa
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+usb_free_coherent() is safe with NULL addr and this check is
+not required.
 
-Results of the daily build of media_tree:
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ drivers/media/usb/b2c2/flexcop-usb.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-date:			Mon Jul 20 05:00:12 CEST 2020
-media-tree git hash:	8f2a4a9d5ff5202d0b3e3a144ebb9b67aabadd29
-media_build git hash:	3b826169bba299e5a7352f79759f3c67a4c9fb7a
-v4l-utils git hash:	697ae940b60a172ef31948dd74316fe9de365b7e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6381-g344ef612
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
+index 198ddfb8d2b1..c2cf1927c814 100644
+--- a/drivers/media/usb/b2c2/flexcop-usb.c
++++ b/drivers/media/usb/b2c2/flexcop-usb.c
+@@ -419,10 +419,7 @@ static void flexcop_usb_transfer_exit(struct flexcop_usb *fc_usb)
+ 			usb_free_urb(fc_usb->iso_urb[i]);
+ 		}
+ 
+-	if (fc_usb->iso_buffer != NULL)
+-		usb_free_coherent(fc_usb->udev,
+-			fc_usb->buffer_size, fc_usb->iso_buffer,
+-			fc_usb->dma_addr);
++	usb_free_coherent(fc_usb->udev, fc_usb->buffer_size, fc_usb->iso_buffer, fc_usb->dma_addr);
+ }
+ 
+ static int flexcop_usb_transfer_init(struct flexcop_usb *fc_usb)
+-- 
+2.17.1
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-linux-5.6.1-i686: ERRORS
-linux-5.6.1-x86_64: ERRORS
-linux-5.7.2-i686: ERRORS
-linux-5.7.2-x86_64: ERRORS
-linux-5.8-rc1-i686: ERRORS
-linux-5.8-rc1-x86_64: ERRORS
-apps: ERRORS
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
