@@ -2,73 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D1822684A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 18:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D22B12268C8
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 18:24:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387779AbgGTQNn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jul 2020 12:13:43 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:44351 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388103AbgGTQNj (ORCPT
+        id S2388687AbgGTQUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 12:20:25 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57534 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387635AbgGTQUX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 12:13:39 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <colin.king@canonical.com>)
-        id 1jxYQ3-0005Nh-KW; Mon, 20 Jul 2020 16:13:35 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mon, 20 Jul 2020 12:20:23 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id DDDD6291119
+Message-ID: <1eafe9f8c0668daf6523827db09c9b0d4cbe000a.camel@collabora.com>
+Subject: Re: [PATCH 1/2] media: coda: Fix reported H264 profile
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Reply-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][next] media: i2c: fix error check on max9286_read call
-Date:   Mon, 20 Jul 2020 17:13:35 +0100
-Message-Id: <20200720161335.339174-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.27.0
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Robert Beckett <bob.beckett@collabora.com>,
+        kernel@collabora.com, stable@vger.kernel.org
+Date:   Mon, 20 Jul 2020 12:20:17 -0400
+In-Reply-To: <0e0bb486f4a95686b1385f978333a584a34db9b0.camel@pengutronix.de>
+References: <20200717034923.219524-1-ezequiel@collabora.com>
+         <51175cb496644aaa5d5004630925ead4c6f0ddc7.camel@pengutronix.de>
+         <17189cd91b7412fdd102c2710d9e6aa8778aac23.camel@collabora.com>
+         <0e0bb486f4a95686b1385f978333a584a34db9b0.camel@pengutronix.de>
+Organization: Collabora
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+        boundary="=-tXlWoDBPFQDUyLGcRdzi"
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
 
-Currently the error return from the call to max9286_read is masked
-with 0xf0 so the following check for a negative error return is
-never true.  Fix this by checking for an error first, then masking
-the return value for subsequent conflink_mask checking.
+--=-tXlWoDBPFQDUyLGcRdzi
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Addresses-Coverity: ("Logically dead code")
-fixes: 66d8c9d2422d ("media: i2c: Add MAX9286 driver")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/media/i2c/max9286.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Le lundi 20 juillet 2020 =C3=A0 10:40 +0200, Philipp Zabel a =C3=A9crit :
+> On Fri, 2020-07-17 at 11:56 -0400, Nicolas Dufresne wrote:
+> > Le vendredi 17 juillet 2020 =C3=A0 10:14 +0200, Philipp Zabel a =C3=A9c=
+rit :
+> > > On Fri, 2020-07-17 at 00:49 -0300, Ezequiel Garcia wrote:
+> > > > From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > > >=20
+> > > > The CODA960 manual states that ASO/FMO features of baseline are not
+> > > > supported, so for this reason this driver should only report
+> > > > constrained baseline support.
+> > >=20
+> > > I know the encoder doesn't support this, but is this also true of the
+> > > decoder? The i.MX6DQ Reference Manual explicitly lists H.264/AVC deco=
+der
+> > > support for both baseline profile and constrained base line profile.
+> >=20
+> > Hmm, double checking, you are right this is documented in the encoding =
+tools
+> > sections, not the decoding. But there is extra buffers that need to be =
+passed
+> > for ASO/FMO to work, I greatly doubt you have ever tested it.
+>=20
+> And you are correct, I don't think I use any test streams that have
+> ASO/FMO enabled.
+>=20
+> > This is not supported by GStreamer parser, or FFMPEG parsers either.
+> > Again, we need to make sure in V2 that encoding and decoding
+> > capabilities are well seperated.
+> >=20
+> > As for advertising ASO/FMO, I can leave it there, but be aware I won't =
+be
+> > testing it. I can provide you links to streams if you care (they are pu=
+blicly
+> > accessible throught the ITU conformance streams published by the ITU).
+>=20
+> That would be welcome.
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 47f280518fdb..b364a3f60486 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -405,10 +405,11 @@ static int max9286_check_config_link(struct max9286_priv *priv,
- 	 * to 5 milliseconds.
- 	 */
- 	for (i = 0; i < 10; i++) {
--		ret = max9286_read(priv, 0x49) & 0xf0;
-+		ret = max9286_read(priv, 0x49);
- 		if (ret < 0)
- 			return -EIO;
- 
-+		ret &= 0xf0;
- 		if (ret == conflink_mask)
- 			break;
- 
--- 
-2.27.0
+https://www.itu.int/net/ITU-T/sigdb/spevideo/VideoForm-s.aspx?val=3D1020026=
+41
+
+Notably, if you download the AVCv1 series, there is at
+least FM2_SVA_C.zip that uses FMO (slice groups). I haven't looked them
+up, I barely started harnessing it for GStreamer.
+
+You can find the link to everything else here, including HEVC.
+
+https://www.itu.int/net/ITU-T/sigdb/spevideo/Hseries-s.htm
+
+>=20
+> > But as for GStreamer and FFMPEG, this is not supported anyway.
+>=20
+> Ok, how about changing the commit message to say that this is
+> unsupported for the encoder and untested for the decoder because there
+> is no userspace support?
+
+Agreed.
+
+>=20
+> regards
+> Philipp
+
+--=-tXlWoDBPFQDUyLGcRdzi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXxXEQQAKCRBxUwItrAao
+HMlKAKDdLaaH0pFzX9sFTZfWpmu70QFI5gCeJvd+wksn4WXWpeCgySiwKBu9WEg=
+=CtU8
+-----END PGP SIGNATURE-----
+
+--=-tXlWoDBPFQDUyLGcRdzi--
 
