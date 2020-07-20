@@ -2,188 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09ACE225BC2
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 11:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 646B3225BD8
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 11:38:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbgGTJgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jul 2020 05:36:20 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:37969 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726492AbgGTJgT (ORCPT
+        id S1728075AbgGTJio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 05:38:44 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:48162 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726520AbgGTJin (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 05:36:19 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id xSDYjXh42NPeYxSDZjmqA4; Mon, 20 Jul 2020 11:36:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1595237777; bh=YN4Jx7s1JTKAIF5w5HgjC1zjxXWKkiu623Uz7MATK/c=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=KhQE/aYG5SPhxiF3I3Dy89TkDHat1pZQfcYkfPuI/mXR6jMSyIj1nO6dNE8AyUb0U
-         VprlvkHp2BHwFDmTIQnq22oAaFF0QtLlO5IJvFRhdyODBrwWN51H3rbiPluDKdGSTh
-         hq7q9mDuhJUTw1qahd+g7Pia57y6PFrNE6yyMXA/RqtvrzYOPjfUptB+H1khgGUd2N
-         mwOv3NGC+sz8WV+k+7/zvP4QsUfihgz7PVMuEhk6jaG5OWKPLaoy+0h/YGQhHjWNQY
-         Mtb8l4hfxnhmouvlziJrheBFxXOra+qF/lhBpv9ZQ4+VuSIGEYQCBYag5MGPde6fWm
-         V2CvckIJ3iPOA==
-Subject: Re: [PATCH 1/4] media: v4l2-ctrl: Add frame-skip std encoder control
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Maheshwar Ajja <majja@codeaurora.org>
-References: <20200705121128.5250-1-stanimir.varbanov@linaro.org>
- <20200705121128.5250-2-stanimir.varbanov@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <d67fa7eb-afe9-49ad-b56c-d89a8f6bc3b6@xs4all.nl>
-Date:   Mon, 20 Jul 2020 11:36:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200705121128.5250-2-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8
+        Mon, 20 Jul 2020 05:38:43 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06K9MgFI017123;
+        Mon, 20 Jul 2020 11:38:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=lC/LymgalsLxxn7CqvsDbLQJCr894y+aoN1Rm4+7KFI=;
+ b=B2lHbtZgdj+u9WxQ68HEI/gS7/Z6eRdJaSi0mfGaOMbatZ1z9rMWQWn4GzR0qeO50ycY
+ TiUjpfpwqmTMnc9JOFHouSKPbThhLA50opdyH507nGH0RLC1FLJtACNSznORxknYSY2i
+ fLj3ACREU2o1kKxTYNft5iLv0mGJEWWtKB2UO4wlTPvO6U3UE/RKWDQqWUMfnmXIhz5u
+ 0npGd1vsXUjyFiWFfyWM8eEo5LhQuK7i7yoMEm4Z1WMenrye9nY1Mxxf4VrN82557cUs
+ eEtCazhSqDwD3civFpNN0lVi49nZ28VbghP657uXePejNwTBJSsGrppIeJvCSbj5U40e eA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 32bsagr125-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Jul 2020 11:38:31 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C6925100034;
+        Mon, 20 Jul 2020 11:38:30 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A7FE82B3E71;
+        Mon, 20 Jul 2020 11:38:30 +0200 (CEST)
+Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG3NODE1.st.com
+ (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 20 Jul
+ 2020 11:38:30 +0200
+Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
+ SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
+ 15.00.1347.000; Mon, 20 Jul 2020 11:38:30 +0200
+From:   Benjamin GAIGNARD <benjamin.gaignard@st.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Hugues FRUCHET <hugues.fruchet@st.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+        "valentin.schneider@arm.com" <valentin.schneider@arm.com>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v7 1/3] dt-bindings: media: stm32-dcmi: Add DCMI min
+ frequency property
+Thread-Topic: [PATCH v7 1/3] dt-bindings: media: stm32-dcmi: Add DCMI min
+ frequency property
+Thread-Index: AQHWT6e/b2wyFUUnLkaf//MXpHPgJqj/oKMAgAC3YwCAANDPAIAPCWCA
+Date:   Mon, 20 Jul 2020 09:38:30 +0000
+Message-ID: <fee98476-c92c-579a-ac33-323a5f5feb76@st.com>
+References: <20200701130129.30961-1-benjamin.gaignard@st.com>
+ <20200701130129.30961-2-benjamin.gaignard@st.com>
+ <20200709203718.GA837160@bogus> <20e4907a-f218-3e43-1111-7d4b9ee6d945@st.com>
+ <CAL_Jsq+VgXTJy1SQr6B63kLZ3wcRMe4YfYiRNCT6s=gUO_tmTw@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+VgXTJy1SQr6B63kLZ3wcRMe4YfYiRNCT6s=gUO_tmTw@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBGumGYy69YHRtsd+wfFjNj/4eFpbEasfyuIvjue5qCcaxNyoAZ1Y23VOnavzKtyqEB+hG2YgahW83oF34gpQnGY+Uhzg47VOdEvb41neAvCUXLHWSD8
- 1sWDuwn077LAJ4wYmJlJPmxCAAcwlj26subeEjCwM77PwxvzdwsfCV7TTYZbETnMYZs0fVoZ8X1vahbDaVaxXjzZ3ysdqaCeFp2XUT4oxwx0HXvDp0T0Bk+E
- 8WDuDYfq1XAT1JUzYdsELiUI/kWwqK9FETW194dW4tylIm0GEHCeleQ3aLxlWmjpuzoom5dbvex42P5fTtg6xZbk50YV2UTN4HWZ8hamtghgsIJAPeMS6S8v
- YhU3T86P+vLkceMi6I/GwEmCIuFcBd8sO/nUQb/5oIHWslAG7/BUU+ModIX7Dnqly7IxqN+xVF6c43tLPsNW/2dBjDGiOIFxPBMUsJzwBKhUs6dhC8+fpM+8
- /z8a8aTs3guwjU8ObtKH6KGOgURHlq7ZHuhhpC+VKznij9Kx7sJvYrUog2lNtce2SANwaXnzMPSxDl2e7b9bXUM5XxB3U9l0eA2vx1FssTi1oS5Cti8vlqq0
- 7co/qyUmtPC+uWpXGPvct6Gg
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.51]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E726284C4B29AA4DA03C09973C9F53CF@st.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-20_05:2020-07-17,2020-07-20 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/07/2020 14:11, Stanimir Varbanov wrote:
-> Adds encoders standard v4l2 control for frame-skip. The control
-> is a copy of a custom encoder control so that other v4l2 encoder
-> drivers can use it.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-But see note at the end.
-
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             | 32 +++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls.c          | 10 ++++++
->  include/uapi/linux/v4l2-controls.h            |  6 ++++
->  3 files changed, 48 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index d0d506a444b1..a8b4c0b40747 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -592,6 +592,38 @@ enum v4l2_mpeg_video_bitrate_mode -
->      the average video bitrate. It is ignored if the video bitrate mode
->      is set to constant bitrate.
->  
-> +``V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE (enum)``
-> +
-> +enum v4l2_mpeg_video_frame_skip_mode -
-> +    Indicates in what conditions the encoder should skip frames. If
-> +    encoding a frame would cause the encoded stream to be larger then a
-> +    chosen data limit then the frame will be skipped. Possible values
-> +    are:
-> +
-> +
-> +.. tabularcolumns:: |p{9.2cm}|p{8.3cm}|
-> +
-> +.. raw:: latex
-> +
-> +    \small
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_DISABLED``
-> +      - Frame skip mode is disabled.
-> +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_LEVEL_LIMIT``
-> +      - Frame skip mode enabled and buffer limit is set by the chosen
-> +	level and is defined by the standard.
-> +    * - ``V4L2_MPEG_FRAME_SKIP_MODE_BUF_LIMIT``
-> +      - Frame skip mode enabled and buffer limit is set by the VBV
-> +	(MPEG1/2/4) or CPB (H264) buffer size control.
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
->  ``V4L2_CID_MPEG_VIDEO_TEMPORAL_DECIMATION (integer)``
->      For every captured frame, skip this many subsequent frames (default
->      0).
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 3f3fbcd60cc6..d088acfa6dd8 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -590,6 +590,12 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->  		"External",
->  		NULL,
->  	};
-> +	static const char * const mpeg_video_frame_skip[] = {
-> +		"Disabled",
-> +		"Level Limit",
-> +		"VBV/CPB Limit",
-> +		NULL,
-> +	};
->  
->  	switch (id) {
->  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
-> @@ -651,6 +657,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->  		return flash_strobe_source;
->  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
->  		return header_mode;
-> +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
-> +		return mpeg_video_frame_skip;
->  	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
->  		return multi_slice;
->  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
-> @@ -844,6 +852,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
->  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:			return "Sequence Header Mode";
->  	case V4L2_CID_MPEG_VIDEO_MAX_REF_PIC:			return "Max Number of Reference Pics";
-> +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:		return "Frame Skip Mode";
->  	case V4L2_CID_MPEG_VIDEO_H263_I_FRAME_QP:		return "H263 I-Frame QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H263_P_FRAME_QP:		return "H263 P-Frame QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H263_B_FRAME_QP:		return "H263 B-Frame QP Value";
-> @@ -1265,6 +1274,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_FLASH_LED_MODE:
->  	case V4L2_CID_FLASH_STROBE_SOURCE:
->  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
-> +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
->  	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
->  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
->  	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 62271418c1be..4e1526175a4c 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -742,6 +742,12 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
->  #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 642)
->  #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
->  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
-> +#define V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE		(V4L2_CID_MPEG_BASE + 645)
-
-I think this now clashes with "media: v4l2-ctrls: Add encoder constant quality control".
-
-I recommend making a new series that combines both series. That avoid this problem.
-
-Regards,
-
-	Hans
-
-> +enum v4l2_mpeg_video_frame_skip_mode {
-> +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED	= 0,
-> +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_LEVEL_LIMIT	= 1,
-> +	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT	= 2,
-> +};
->  
->  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
->  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
-> 
-
+DQoNCk9uIDcvMTAvMjAgMTA6MDEgUE0sIFJvYiBIZXJyaW5nIHdyb3RlOg0KPiBPbiBGcmksIEp1
+bCAxMCwgMjAyMCBhdCAxOjMzIEFNIEJlbmphbWluIEdBSUdOQVJEDQo+IDxiZW5qYW1pbi5nYWln
+bmFyZEBzdC5jb20+IHdyb3RlOg0KPj4NCj4+DQo+PiBPbiA3LzkvMjAgMTA6MzcgUE0sIFJvYiBI
+ZXJyaW5nIHdyb3RlOg0KPj4+IE9uIFdlZCwgSnVsIDAxLCAyMDIwIGF0IDAzOjAxOjI3UE0gKzAy
+MDAsIEJlbmphbWluIEdhaWduYXJkIHdyb3RlOg0KPj4+PiBEb2N1bWVudCBzdCxzdG0zMi1kY21p
+LW1pbi1mcmVxdWVuY3kgcHJvcGVydHkgd2hpY2ggaXMgdXNlZCB0bw0KPj4+PiByZXF1ZXN0IENQ
+VXMgbWluaW11bSBmcmVxdWVuY3kgd2hlbiBzdHJlYW1pbmcgZnJhbWVzLg0KPj4+Pg0KPj4+PiBT
+aWduZWQtb2ZmLWJ5OiBCZW5qYW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2FpZ25hcmRAc3QuY29t
+Pg0KPj4+PiAtLS0NCj4+Pj4gICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21l
+ZGlhL3N0LHN0bTMyLWRjbWkueWFtbCB8IDggKysrKysrKysNCj4+Pj4gICAgMSBmaWxlIGNoYW5n
+ZWQsIDggaW5zZXJ0aW9ucygrKQ0KPj4+Pg0KPj4+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3N0LHN0bTMyLWRjbWkueWFtbCBiL0RvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9zdCxzdG0zMi1kY21pLnlhbWwNCj4+Pj4g
+aW5kZXggM2ZlNzc4Y2I1Y2MzLi4wNWNhODVhMjQxMWEgMTAwNjQ0DQo+Pj4+IC0tLSBhL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9zdCxzdG0zMi1kY21pLnlhbWwNCj4+
+Pj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3N0LHN0bTMy
+LWRjbWkueWFtbA0KPj4+PiBAQCAtNDQsNiArNDQsMTMgQEAgcHJvcGVydGllczoNCj4+Pj4gICAg
+ICAgICAgYmluZGluZ3MgZGVmaW5lZCBpbg0KPj4+PiAgICAgICAgICBEb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvbWVkaWEvdmlkZW8taW50ZXJmYWNlcy50eHQuDQo+Pj4+DQo+Pj4+
+ICsgIHN0LHN0bTMyLWRjbWktbWluLWZyZXF1ZW5jeToNCj4+Pj4gKyAgICBkZXNjcmlwdGlvbjog
+RENNSSBtaW5pbXVtIENQVXMgZnJlcXVlbmN5IHJlcXVpcmVtZW50IChpbiBLSHopLg0KPj4+PiAr
+ICAgIGFsbE9mOg0KPj4+PiArICAgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZp
+bml0aW9ucy91aW50MzINCj4+Pj4gKyAgICAgIC0gbWluaW11bTogMA0KPj4+PiArICAgICAgLSBk
+ZWZhdWx0OiAwDQo+Pj4gSSB0aGluayB0aGlzIGlzIHF1ZXN0aW9uYWJsZSB0byBiZSBpbiBEVCBh
+bmQgaWYgaXQgaXMsIGl0J3Mgc29tZXRoaW5nDQo+Pj4gdGhhdCdzIGhhcmRseSBzcGVjaWZpYyB0
+byBTVCBvciB0aGlzIGJsb2NrLiBJSVJDLCB3ZSBhbHJlYWR5IGhhdmUgYSB3YXkNCj4+PiB0byBz
+cGVjaWZ5IG1pbmltdW0gT1BQcy4NCj4+IFRoaXMgYmluZGluZyBpcyBvbmx5IG5lZWRlZCBvbiBz
+b21lIFNUTTMyIFNvQyB3aGVuIERWRlMgaXMgYWN0aXZhdGVkDQo+PiB3aXRoIGxvdyBmcmVxdWVu
+Y3kgc2V0dGluZyBpbiBvcHAuIFRoZSB2YWx1ZSBhbHNvIGRlcGVuZHMgb2YgdGhlIHRhcmdldGVk
+DQo+PiB2aWRlbyBmb3JtYXQgYW5kIGZyYW1lcmF0ZS4NCj4gQXMgdGhvc2UgMiB0aGluZ3MgYXJl
+IG5vdCBpbiB0aGUgRFQsIHRoZW4gbmVpdGhlciBzaG91bGQgdGhpcyB2YWx1ZSBiZS4NCj4NCj4+
+IEl0IGlzIG5vdCBhbiBvcHAgYmVjYXVzZSBpdCBkb2Vzbid0IGRlZmluZSBhIHZvbHRhZ2UtY3Vy
+cmVudC1mcmVxdWVuY3kNCj4+IGNvbWJpbmF0aW9uDQo+PiBidXQgb25seSBzZXQgYSBtaW5pbXVt
+IHRhcmdldCBmb3IgdGhlIENQVXMgZnJlcXVlbmN5IHRvIGd1YXJhbnR5IGEgZ29vZA0KPj4gcmVh
+Y3Rpb24NCj4+IHRpbWUgd2hlbiBoYW5kbGluZyBJUlFzIGZvciB0aGUgc2Vuc29yLg0KPiBPUFBz
+IGNhbiBiZSBmcmVxdWVuY3kgb25seS4gVGhpcyBpcyBwcmV0dHkgY2xlYXJseSBkZWZpbmluZyB0
+aGUgQ1BVDQo+IG11c3QgT3BlcmF0ZSBhdCBhIGNlcnRhaW4gbWluaW11bSBQZXJmb3JtYW5jZSBQ
+b2ludC4NCkhpIFJvYiwNCg0KTXkgZ29hbCBoZXJlIHdhc24ndCB0byBkZWZpbmUgYW4gT1BQIGZv
+ciB0aGUgQ1BVIHNpbmNlIGl0IGlzIHRoZSBjYW1lcmEgDQppbnRlcmZhY2Ugbm9kZQ0KYnV0IHRv
+IGF2b2lkIGxldCB0aGUgQ1BVIGdvIHRvIGRvd24uDQpJIGhhdmVuJ3QgZm91bmQgaG93IHRvIHVz
+ZSBPUFAgYmluZGluZ3MsIGNhbiB5b3UgcHJvdmlkZSBtZSBoaW50cyBvciANCmV4YW1wbGVzIG9m
+IGhvdw0KSSBzaG91bGQgZG8gaXQ/DQoNClRoYW5rcywNCkJlbmphbWluDQoNCj4NCj4gUm9iDQo=
