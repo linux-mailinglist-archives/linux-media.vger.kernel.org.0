@@ -2,118 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B98F5225A42
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 10:41:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20E79225A53
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 10:48:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727935AbgGTIlP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jul 2020 04:41:15 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:60430 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbgGTIlO (ORCPT
+        id S1726657AbgGTIsm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 04:48:42 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:55927 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726030AbgGTIsm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 04:41:14 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06K8bDkh146748;
-        Mon, 20 Jul 2020 08:41:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=N1tmgU/JSypAmYPQOpiVBV41mTd9aIjyYmi1clORZkI=;
- b=zhu8psgYhcnhxl1nzSkjx+NbGtep1wyuGT0v7k1NwC9iIP/a76UTjfXKgpwJgzTaLTTK
- 9PHMrTjf8orCRaediSHaDSMNp31j4lmIvjvUpUfyVqjT6GGqrXhvAy+OfHh2K+AF9FML
- S9pOlx8mpmAMwo2P9deBMLdVllD3RbMZWvJJBi9aizHAH2x70bAVcdg3w5s2kI5lkdJW
- mZ6TYnCtTDDMDiqQ0e5/T89vm3Jtlwm6ZsypOgugXMiN0YZZXDpVfq1Su8Jje6uJlOE+
- 3bRGMTzde/ExPVqyotblGq2sny4/a2gYFn3vlxEbVcEBbs4+X6ZEyhUd4wNjbyecIyuu tg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 32bs1m5hhd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 20 Jul 2020 08:41:07 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06K8cuXu020485;
-        Mon, 20 Jul 2020 08:41:07 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 32d68g7swv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 20 Jul 2020 08:41:07 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06K8f5gj007426;
-        Mon, 20 Jul 2020 08:41:05 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 20 Jul 2020 01:41:05 -0700
-Date:   Mon, 20 Jul 2020 11:40:58 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Suraj Upadhyay <usuraj35@gmail.com>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] staging: media: atomisp: Replace depracated MSI APIs
-Message-ID: <20200720084058.GG2549@kadam>
-References: <20200719142623.GA31565@blackclown>
+        Mon, 20 Jul 2020 04:48:42 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id xRTQjXJsGNPeYxRTRjmVSv; Mon, 20 Jul 2020 10:48:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1595234919; bh=DEBkAI7wl9tcjqhkoKYz4MQGietWlpYgtiai/UuXJdg=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=dpD+LbtkfSP4pSbBYXulW6bmGptdg9FLQvWpCS/NBWKx5Bcs0BmkEq2FjGBgWvzY5
+         TNImcgzkgQDDiu2vL2Bacsr501Mbpcy2pl/POzb4aFDXSdvKhcHXdFvEm8T7uTAQt2
+         OIuoGc0XWlafbSUzaH447JLfDP7T2ovLIsxFuI6wEHcKdtb+jU+tet1Ka2PygF4LiV
+         kntA8qe09rcvWrEDSGdtCNgsTFATGn7H3sb2jS+IBVDbubNBxMxisnXkxJzQuY2tXP
+         oGkoAF3VUhbZwKB4NXxO0HB1EevYACNWGOUNOnXZwCG8MukbgGw4vVyvw17qsJ4Bjc
+         6BL4I0vPDXRbw==
+Subject: Re: [PATCH v6 1/9] media: v4l2-subdev: Introduce
+ [get|set]_mbus_config pad ops
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, robert.jarzmik@free.fr,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20200714135812.55158-1-jacopo+renesas@jmondi.org>
+ <20200714135812.55158-2-jacopo+renesas@jmondi.org>
+ <750089f9-0e7f-3b2a-ec85-38452cb64fa1@xs4all.nl> <4043309.ejJDZkT8p0@z50>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl>
+Date:   Mon, 20 Jul 2020 10:48:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200719142623.GA31565@blackclown>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9687 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- phishscore=0 mlxlogscore=999 suspectscore=2 spamscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007200065
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9687 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 bulkscore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=993 malwarescore=0 clxscore=1015
- spamscore=0 mlxscore=0 impostorscore=0 phishscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007200065
+In-Reply-To: <4043309.ejJDZkT8p0@z50>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfK7hWSke/7Amluk0S7ePNTn5Q3CdhMlsFd3m6xSonV/a+SEhwnKEiADwtuiVyy4PpJYNzeJ6TzN/x7ODxKLSfDXO9ILusoME0DJNcv/qjBIkgcTIcD6c
+ c31rp5OazT8S+XygXz0f3QFdXBWE2Z7koBGxfh9VXS94j3VV0JUNoED5j2IMo5M+Rn9Pss6bZtl0hC3ON0u/Z01lm20O/zZ/dEyf4u+xCpr5+cg2rcA2rC66
+ ApSUj5HHuJMnrZTWicj7kXHoAJZClhUsEsNacPP3G6oHTuIaO20u6bjiyUODM7QpR6o4ghMPYf7SfwN0KEFSenJVuxc6jnFUKpcJwH8vawSDee8gANJtDxBH
+ VMQ1O0yyrn4CiRINY5DUso4+opD0yOsrf8J3bUzYNVxuuByjlChglbvFjE/FawZnywvf8AxKpCBMhssIFtrrVUTwUU1Sf5qPUiS6O9RuGoON0RvmQLrOYRPd
+ Ow7g1LIHZR3DCwWNVkbtcaw7vOOlhRrseb92eBRYsc81daE+FNl48kwhGs/UxRaes8q7yyLyv4VXPPOMfnI/nbhh9Cjgbg5jyMW0V6bM+vMEcbEqJ7SsxrKl
+ G6QEI2BL5d/gyxjLwKApJjubMUcBlV2NcAvFP/gS+j+GdX3+MOZRy3I/STjO6EQw///SqlQYRkdD15zj4xW6qviEA6wJkIPVmbOhvRmn4514vnoaby41Ywe4
+ NhNX6KcFShp43aeQPKVIxf2VKaNYQZn7
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jul 19, 2020 at 07:56:23PM +0530, Suraj Upadhyay wrote:
-> Replace depracated MSI IRQ enabler and disabler
-> with pci_alloc_irq_vectors and pci_free_irq_vectors respectively.
-> And as a result handle the returned error as appropriate.
-> Compile tested.
+On 19/07/2020 13:18, Janusz Krzysztofik wrote:
+> Hi Hans,
 > 
-> Signed-off-by: Suraj Upadhyay <usuraj35@gmail.com>
-> ---
-> Change:
-> 	v2: Replace the MSI IRQ disabler too.
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> On Wednesday, July 15, 2020 5:08:05 P.M. CEST Hans Verkuil wrote:
+>> On 14/07/2020 15:58, Jacopo Mondi wrote:
+>>> Introduce two new pad operations to allow retrieving and configuring the
+>>> media bus parameters on a subdevice pad.
+>>>
+>>> The newly introduced operations aims to replace the s/g_mbus_config video
+>>> operations, which have been on their way for deprecation since a long
+>>> time.
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>  include/media/v4l2-subdev.h | 27 +++++++++++++++++++++++++++
+>>>  1 file changed, 27 insertions(+)
+>>>
+>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>>> index f7fe78a6f65a..d8b9d5735307 100644
+>>> --- a/include/media/v4l2-subdev.h
+>>> +++ b/include/media/v4l2-subdev.h
+>>> @@ -670,6 +670,29 @@ struct v4l2_subdev_pad_config {
+>>>   *
+>>>   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+>>>   *                  may be adjusted by the subdev driver to device capabilities.
+>>> + *
+>>> + * @get_mbus_config: get the media bus configuration of a remote sub-device.
+>>> + *		     The media bus configuration is usually retrieved from the
+>>> + *		     firmware interface at sub-device probe time, immediately
+>>> + *		     applied to the hardware and eventually adjusted by the
+>>> + *		     driver. Remote sub-devices (usually video receivers) shall
+>>> + *		     use this operation to query the transmitting end bus
+>>> + *		     configuration in order to adjust their own one accordingly.
+>>> + *		     Callers should make sure they get the most up-to-date as
+>>> + *		     possible configuration from the remote end, likely calling
+>>> + *		     this operation as close as possible to stream on time. The
+>>> + *		     operation shall fail if the pad index it has been called on
+>>> + *		     is not valid.
+>>> + *
+>>> + * @set_mbus_config: set the media bus configuration of a remote sub-device.
+>>> + *		     This operations is intended to allow, in combination with
+>>> + *		     the get_mbus_config operation, the negotiation of media bus
+>>> + *		     configuration parameters between media sub-devices. The
+>>> + *		     operation shall not fail if the requested configuration is
+>>> + *		     not supported, but the driver shall update the content of
+>>> + *		     the %config argument to reflect what has been actually
+>>> + *		     applied to the hardware. The operation shall fail if the
+>>> + *		     pad index it has been called on is not valid.
+>>>   */
+>>
+>> Hm, I'd hoped I could merge this, but I think include/media/v4l2-mediabus.h
+>> also needs to be updated.
+>>
+>> So the old g_mbus_config returned all supported configurations, while the
+>> new get_mbus_config returns the *current* configuration.
+>>
+>> That's fine, but that means that the meaning of the struct v4l2_mbus_config
+>> flags field changes as well and several comments in v4l2-mediabus.h need to
+>> be updated to reflect this.
+>>
+>> E.g. instead of '/* How many lanes the client can use */' it becomes
+>> '/* How many lanes the client uses */'.
+>>
+>> Frankly, these flags can be redesigned now since you only need a single
+>> e.g. V4L2_MBUS_HSYNC_ACTIVE_HIGH flag since if it is not set, then that
+>> means ACTIVE_LOW. And since it is now a single bit, it is also easy to
+>> make each flag a bit field.
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> index d36809a0182c..a5dea5521b36 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> @@ -1735,8 +1735,8 @@ static int atomisp_pci_probe(struct pci_dev *dev,
->  	pci_set_master(dev);
->  	pci_set_drvdata(dev, isp);
->  
-> -	err = pci_enable_msi(dev);
-> -	if (err) {
-> +	err = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
-> +	if (err < 0) {
->  		dev_err(&dev->dev, "Failed to enable msi (%d)\n", err);
->  		goto enable_msi_fail;
->  	}
-> @@ -1857,7 +1857,7 @@ static int atomisp_pci_probe(struct pci_dev *dev,
->  initialize_modules_fail:
->  	cpu_latency_qos_remove_request(&isp->pm_qos);
->  	atomisp_msi_irq_uninit(isp, dev);
-> -	pci_disable_msi(dev);
-> +	pci_free_irq_vectors(dev);
+> Even if this makes sense for .get_mbus_config() which returns current 
+> configuration, how about keeping the old semantics of the flags and let 
+> .set_mbus_config() accept a potentially incomplete or redundant set of flags 
+> specified by the caller to select a supported configuration from?  That approach 
+> was actually proposed before by Jacopo when he argued against my suggestion to 
+> add a wrapper with a check for mutually exclusive flags[1], and I found it a 
+> very good alternative to my other rejected suggestion of adding TRY support.
 
-Actually, my initial complaint was that I was just looking for to see if
-the remove function was updated...  It turns out the remove function
-never freed the IRQs to begin with so it was buggy from square one.
+The information on how a sensor (or similar device) is wired up is not something
+that should be negotiated. Even if a combination is theoretically possible, it
+may not have been tested by the board designer and in fact it might not work.
+(Yes, that happens)
 
-Anyway, the remove function should call pci_free_irq_vectors().  We may
-as well fix it now that we have seen the bug.
+It is just a bad design trying to negotiate this.
 
-regards,
-dan carpenter
+In fact, the only values that can be set as far as I am concerned are lanes and
+channels. I wouldn't mind if the other settings are purely read-only. The only
+driver that actively sets this is the pxa_camera driver and I wish it didn't.
+
+But there are still two pxa boards that use this mechanism, so I guess we still
+have to allow this.
+
+Anyway, do you have a specific use-case in mind? Note that this is an internal
+API, so it can always be changed later.
+
+Regards,
+
+	Hans
+
+> 
+> [1] https://www.spinics.net/lists/linux-media/msg171878.html
+> 
+> Thanks,
+> Janusz
+> 
+>>
+>> The CSI2 lanes/channels can just be a bit field for the number of lanes/channels,
+>> which is much easier to read. I strongly recommend making this change at the minimum.
+>>
+>> Now all this can be done in a follow-up series, but the v4l2-mediabus.h
+>> definitely needs to be updated to reflect the new code.
+>>
+>> This can be done as a v6 5.5/9 patch (since it should come right after the
+>> g/s_mbus_config removal).
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>  struct v4l2_subdev_pad_ops {
+>>>  	int (*init_cfg)(struct v4l2_subdev *sd,
+>>> @@ -710,6 +733,10 @@ struct v4l2_subdev_pad_ops {
+>>>  			      struct v4l2_mbus_frame_desc *fd);
+>>>  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+>>>  			      struct v4l2_mbus_frame_desc *fd);
+>>> +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+>>> +			       struct v4l2_mbus_config *config);
+>>> +	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+>>> +			       struct v4l2_mbus_config *config);
+>>>  };
+>>>  
+>>>  /**
+>>>
+>>
+>>
+> 
+> 
+> 
+> 
 
