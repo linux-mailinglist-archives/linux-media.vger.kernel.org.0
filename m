@@ -2,164 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B00F225CE3
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 12:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7E71225D4D
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 13:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728356AbgGTKtb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jul 2020 06:49:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728232AbgGTKta (ORCPT
+        id S1728553AbgGTLYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 07:24:12 -0400
+Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:39879 "EHLO
+        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728074AbgGTLYM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 06:49:30 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65640C061794;
-        Mon, 20 Jul 2020 03:49:30 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id p25so8237431vsg.4;
-        Mon, 20 Jul 2020 03:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wY0dHi09vd294neiN4XqhltRnFObgHpOmPvIePnDyJM=;
-        b=RrNm2gxit1WQD7b8BvDuwQffEaYmpn/vOp/taHp46yvimJgrOfz3utD5aYhN8uC4rS
-         vauBkp0fwEf6gu5qAafT/vKfwzhmyO5A1y/1jsKTGP5YRpnuHom+2N78zHpetio6xwID
-         Go2lex9NktC9gL78KhMmvM7rzdStaXMnL18Q6xiAI8nwkAwlFHGvFg1a7KUoHNE9gOCp
-         7r8HWjaFftONV/lclo4aGwmp5jd6k7dYeBzRTsXzVjd7Lc4DkG03Cr2Pg35v7ibf9E4q
-         Uc84PeelRGufa/hIMHsQ1Mp6Dn3Zw+piIbCU+aUBqgYBkmHbzqh7bUTebMNhBI0VtTds
-         XPAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wY0dHi09vd294neiN4XqhltRnFObgHpOmPvIePnDyJM=;
-        b=jSdHEOUf/bpTKrabIVaOE2LbbW0jcnkpjZOmbe7Z0Ql2nAsQn73R+UHXI0uG9a0pD1
-         SO+X8nXcYN0wJMjuXX6kwzH627E72cAkLD3ptSA9VJbf/8I8lMNXBZoskk3i/+oxrZxn
-         bBUzTUMTE0NSQHheYd4AeH+79469m3r5fYOTsVWUfv/3V6fh3DsUDmbQT/v5hMwr+ZZy
-         HuZVakTP0Uou3irtehyAGS/oGnzATcBPEFjTGaxmyLY1WUztQNPGTYMWqch8bD7Y4Yrh
-         kznvi8CuloqmlmkHnqNSTUCuAeX7pbHDw2aF2mFl29sQECyRq3LylXzhAzaSKxqKOzK/
-         UVeA==
-X-Gm-Message-State: AOAM532djGNSHRTBWhiuSoYUVtX5O7gtKX8ryR+kDWh6dUGcKh3cYkU8
-        04wBZtCVkwZUQhFvCW9i+o2Xh3Gc9Oj4vbHGRQi3F2kd
-X-Google-Smtp-Source: ABdhPJzy6/qnz/BhMCoMM7wOU6HD05HnbnXTb2JWl5+U3NV9DvoVnpkNcjUAX5xaOI2d8kWV7iuWh2hlJ2KL3XCSKCI=
-X-Received: by 2002:a67:ef1e:: with SMTP id j30mr14619614vsr.127.1595242169547;
- Mon, 20 Jul 2020 03:49:29 -0700 (PDT)
+        Mon, 20 Jul 2020 07:24:12 -0400
+X-Greylist: delayed 516 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 Jul 2020 07:24:11 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id EEED53F64F;
+        Mon, 20 Jul 2020 13:15:33 +0200 (CEST)
+Authentication-Results: ste-pvt-msa1.bahnhof.se;
+        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=gTkGdHYR;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id vixtsmS5pBFA; Mon, 20 Jul 2020 13:15:33 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        (Authenticated sender: mb878879)
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 7B7A03F2DB;
+        Mon, 20 Jul 2020 13:15:30 +0200 (CEST)
+Received: from localhost.localdomain (unknown [134.134.139.76])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id CCBA93605CC;
+        Mon, 20 Jul 2020 13:15:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1595243729; bh=mjlfxngBtSmrB32mu8iDZVMjrYWXXM5cA0DACfYZQ2A=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=gTkGdHYRQjhf+Xn+mawTLz9g2cXReJ781N7XtbRK9TZGGLo4yDhimnm9Mevq/ntPQ
+         uyLUhQhfiM7x08z9IjjGWSu3S+AP+bNX+mEqJyRsxaF/sP0FmGUpVvXDhY8a5dEKvZ
+         LGF1OoSNnF/ZVdVaQNJHgwIeW7LViWHDfAvpN52E=
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
+ fences are a bad idea
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Stone <daniels@collabora.com>, linux-rdma@vger.kernel.org,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Steve Pronovost <spronovo@microsoft.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        linux-media@vger.kernel.org,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+ <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Message-ID: <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
+Date:   Mon, 20 Jul 2020 13:15:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200622120229.89610-1-vaibhavgupta40@gmail.com>
-In-Reply-To: <20200622120229.89610-1-vaibhavgupta40@gmail.com>
-From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Date:   Mon, 20 Jul 2020 16:17:39 +0530
-Message-ID: <CAP+cEOMZsLhneqnvDwmWZ6ps8boANX_wvZXVaptDonOEoULqXA@mail.gmail.com>
-Subject: Re: [PATCH v1] [media] saa7134: use generic power management
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Bjorn Helgaas <bjorn@helgaas.com>,
-        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 22, 2020 at 5:36 PM Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
+Hi,
+
+On 7/9/20 2:33 PM, Daniel Vetter wrote:
+> Comes up every few years, gets somewhat tedious to discuss, let's
+> write this down once and for all.
 >
-> With the support of generic PM callbacks, drivers no longer need to use
-> legacy .suspend() and .resume() in which they had to maintain PCI states
-> changes and device's power state themselves. The required operations are
-> done by PCI core.
->
-> Compile-tested only.
->
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> ---
->  drivers/media/pci/saa7134/saa7134-core.c | 25 ++++++++----------------
->  1 file changed, 8 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/media/pci/saa7134/saa7134-core.c b/drivers/media/pci/saa7134/saa7134-core.c
-> index e4623ed2f831..eb01109d4f98 100644
-> --- a/drivers/media/pci/saa7134/saa7134-core.c
-> +++ b/drivers/media/pci/saa7134/saa7134-core.c
-> @@ -1370,10 +1370,8 @@ static void saa7134_finidev(struct pci_dev *pci_dev)
->         kfree(dev);
->  }
->
-> -#ifdef CONFIG_PM
-> -
->  /* resends a current buffer in queue after resume */
-> -static int saa7134_buffer_requeue(struct saa7134_dev *dev,
-> +static int __maybe_unused saa7134_buffer_requeue(struct saa7134_dev *dev,
->                                   struct saa7134_dmaqueue *q)
->  {
->         struct saa7134_buf *buf, *next;
-> @@ -1397,8 +1395,9 @@ static int saa7134_buffer_requeue(struct saa7134_dev *dev,
->         return 0;
->  }
->
-> -static int saa7134_suspend(struct pci_dev *pci_dev , pm_message_t state)
-> +static int __maybe_unused saa7134_suspend(struct device *dev_d)
->  {
-> +       struct pci_dev *pci_dev = to_pci_dev(dev_d);
->         struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
->         struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
->
-> @@ -1428,21 +1427,15 @@ static int saa7134_suspend(struct pci_dev *pci_dev , pm_message_t state)
->         if (dev->remote && dev->remote->dev->users)
->                 saa7134_ir_close(dev->remote->dev);
->
-> -       pci_save_state(pci_dev);
-> -       pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
-> -
->         return 0;
->  }
->
-> -static int saa7134_resume(struct pci_dev *pci_dev)
-> +static int __maybe_unused saa7134_resume(struct device *dev_d)
->  {
-> -       struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
-> +       struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
->         struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
->         unsigned long flags;
->
-> -       pci_set_power_state(pci_dev, PCI_D0);
-> -       pci_restore_state(pci_dev);
-> -
->         /* Do things that are done in saa7134_initdev ,
->                 except of initializing memory structures.*/
->
-> @@ -1490,7 +1483,6 @@ static int saa7134_resume(struct pci_dev *pci_dev)
->
->         return 0;
->  }
-> -#endif
->
->  /* ----------------------------------------------------------- */
->
-> @@ -1522,15 +1514,14 @@ EXPORT_SYMBOL(saa7134_ts_unregister);
->
->  /* ----------------------------------------------------------- */
->
-> +static SIMPLE_DEV_PM_OPS(saa7134_pm_ops, saa7134_suspend, saa7134_resume);
-> +
->  static struct pci_driver saa7134_pci_driver = {
->         .name     = "saa7134",
->         .id_table = saa7134_pci_tbl,
->         .probe    = saa7134_initdev,
->         .remove   = saa7134_finidev,
-> -#ifdef CONFIG_PM
-> -       .suspend  = saa7134_suspend,
-> -       .resume   = saa7134_resume
-> -#endif
-> +       .driver.pm = &saa7134_pm_ops,
->  };
->
->  static int __init saa7134_init(void)
-> --
-> 2.27.0
->
+> What I'm not sure about is whether the text should be more explicit in
+> flat out mandating the amdkfd eviction fences for long running compute
+> workloads or workloads where userspace fencing is allowed.
+
+Although (in my humble opinion) it might be possible to completely 
+untangle kernel-introduced fences for resource management and dma-fences 
+used for completion- and dependency tracking and lift a lot of 
+restrictions for the dma-fences, including prohibiting infinite ones, I 
+think this makes sense describing the current state.
+
+Reviewed-by: Thomas Hellstrom <thomas.hellstrom@intel.com>
+
+
