@@ -2,75 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27620225441
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jul 2020 23:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A72952255D0
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 04:15:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726464AbgGSVQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Jul 2020 17:16:35 -0400
-Received: from mail1.protonmail.ch ([185.70.40.18]:23490 "EHLO
-        mail1.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726073AbgGSVQf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Jul 2020 17:16:35 -0400
-Date:   Sun, 19 Jul 2020 21:16:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1595193389;
-        bh=VwwFYLom9cti28UNn/WWIp/Ik6nYQzVbbvy6jEL/CBY=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=SQpLnU2WiTWaPKQK3KNPX3euofINlTKruDF/EqDckEGgdfGqoM9ttZFizm6xdE1m1
-         6hCLNBFcroN6ssPAOBUfuqIP8acGtEwHug16SWzofJnSR6nrX4L0oN8YRCFFCK9RlU
-         NxTH70jmcGvnEh4WOcpSZIT9OmrCh+mZeREWk9b0=
-To:     mchehab@kernel.org
-From:   Colton Lewis <colton.w.lewis@protonmail.com>
-Cc:     linux-media@vger.kernel.org,
-        Colton Lewis <colton.w.lewis@protonmail.com>
-Reply-To: Colton Lewis <colton.w.lewis@protonmail.com>
-Subject: [PATCH 2/2] v4l2: Correct kernel-doc inconsistency
-Message-ID: <20200719211609.152611-2-colton.w.lewis@protonmail.com>
-In-Reply-To: <20200719211609.152611-1-colton.w.lewis@protonmail.com>
-References: <20200719211609.152611-1-colton.w.lewis@protonmail.com>
+        id S1726546AbgGTCP1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Jul 2020 22:15:27 -0400
+Received: from mga01.intel.com ([192.55.52.88]:10176 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726312AbgGTCP1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 19 Jul 2020 22:15:27 -0400
+IronPort-SDR: 9mm0DynQ/t2anGi0P1xnSf3wHOX5ISoOxqPIQvdqFGohn1HTm+AG9YhRGBBOVTrfgFz21qADe4
+ 5hwP/6xN4oLg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9687"; a="167969291"
+X-IronPort-AV: E=Sophos;i="5.75,373,1589266800"; 
+   d="scan'208";a="167969291"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2020 19:15:26 -0700
+IronPort-SDR: d1WB62cRq5P0pr0r6xP2Hg/eqqZBXqKV6bOHhVI7I8LLvNTj9FgDXdEHA/OLmPSFM51auLff9M
+ NsEQ0rn1BaKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,373,1589266800"; 
+   d="scan'208";a="461513294"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
+  by orsmga005.jf.intel.com with ESMTP; 19 Jul 2020 19:15:23 -0700
+Subject: Re: [PATCH] staging: media: ipu3: Replace depracated MSI API.
+To:     Suraj Upadhyay <usuraj35@gmail.com>, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20200718133238.GA11982@blackclown>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <8dc91dd2-b165-bd97-00f7-16c4cb266163@linux.intel.com>
+Date:   Mon, 20 Jul 2020 10:17:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+In-Reply-To: <20200718133238.GA11982@blackclown>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Silence documentation build warnings by correcting kernel-doc comment
-v4l2_subdev_get_fwnode_pad_1_to_1 function
+Upadhyay,
 
-./include/media/v4l2-subdev.h:1045: warning: Function parameter or member '=
-entity' not described in 'v4l2_subdev_get_fwnode_pad_1_to_1'
-./include/media/v4l2-subdev.h:1045: warning: Function parameter or member '=
-endpoint' not described in 'v4l2_subdev_get_fwnode_pad_1_to_1'
+Thanks for your patch. Please correct the typo in message.
 
-Signed-off-by: Colton Lewis <colton.w.lewis@protonmail.com>
----
- include/media/v4l2-subdev.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 7/18/20 9:32 PM, Suraj Upadhyay wrote:
+> Replace depracated psi_enable_msi with pci_alloc_irq_vectors.
+> And as a result modify how the returned value is handled.
+> 
+> Signed-off-by: Suraj Upadhyay <usuraj35@gmail.com>
+> ---
+>  drivers/staging/media/ipu3/ipu3.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+> index ee1bba6bdcac..54690e7442be 100644
+> --- a/drivers/staging/media/ipu3/ipu3.c
+> +++ b/drivers/staging/media/ipu3/ipu3.c
+> @@ -602,9 +602,9 @@ static irqreturn_t imgu_isr(int irq, void *imgu_ptr)
+>  static int imgu_pci_config_setup(struct pci_dev *dev)
+>  {
+>  	u16 pci_command;
+> -	int r = pci_enable_msi(dev);
+> +	int r = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
+>  
+> -	if (r) {
+> +	if (r < 0) {
+>  		dev_err(&dev->dev, "failed to enable MSI (%d)\n", r);
+>  		return r;
+>  	}
+> 
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index f7fe78a6f65a..396209b64af5 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1031,8 +1031,8 @@ static inline void *v4l2_get_subdev_hostdata(const st=
-ruct v4l2_subdev *sd)
-  * v4l2_subdev_get_fwnode_pad_1_to_1 - Get pad number from a subdev fwnode
-  *                                     endpoint, assuming 1:1 port:pad
-  *
-- * @entity - Pointer to the subdev entity
-- * @endpoint - Pointer to a parsed fwnode endpoint
-+ * @entity: Pointer to the subdev entity
-+ * @endpoint: Pointer to a parsed fwnode endpoint
-  *
-  * This function can be used as the .get_fwnode_pad operation for
-  * subdevices that map port numbers and pad indexes 1:1. If the endpoint
---=20
-2.26.2
-
-
+-- 
+Best regards,
+Bingbu Cao
