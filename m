@@ -2,89 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A85F2225A36
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 10:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B98F5225A42
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 10:41:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726601AbgGTIki convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 20 Jul 2020 04:40:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbgGTIki (ORCPT
+        id S1727935AbgGTIlP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 04:41:15 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:60430 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726030AbgGTIlO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 04:40:38 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB4EC061794
-        for <linux-media@vger.kernel.org>; Mon, 20 Jul 2020 01:40:38 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jxRLf-0005P6-KK; Mon, 20 Jul 2020 10:40:35 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jxRLf-0000s3-BC; Mon, 20 Jul 2020 10:40:35 +0200
-Message-ID: <0e0bb486f4a95686b1385f978333a584a34db9b0.camel@pengutronix.de>
-Subject: Re: [PATCH 1/2] media: coda: Fix reported H264 profile
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        kernel@collabora.com, stable@vger.kernel.org
-Date:   Mon, 20 Jul 2020 10:40:35 +0200
-In-Reply-To: <17189cd91b7412fdd102c2710d9e6aa8778aac23.camel@collabora.com>
-References: <20200717034923.219524-1-ezequiel@collabora.com>
-         <51175cb496644aaa5d5004630925ead4c6f0ddc7.camel@pengutronix.de>
-         <17189cd91b7412fdd102c2710d9e6aa8778aac23.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        Mon, 20 Jul 2020 04:41:14 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06K8bDkh146748;
+        Mon, 20 Jul 2020 08:41:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=N1tmgU/JSypAmYPQOpiVBV41mTd9aIjyYmi1clORZkI=;
+ b=zhu8psgYhcnhxl1nzSkjx+NbGtep1wyuGT0v7k1NwC9iIP/a76UTjfXKgpwJgzTaLTTK
+ 9PHMrTjf8orCRaediSHaDSMNp31j4lmIvjvUpUfyVqjT6GGqrXhvAy+OfHh2K+AF9FML
+ S9pOlx8mpmAMwo2P9deBMLdVllD3RbMZWvJJBi9aizHAH2x70bAVcdg3w5s2kI5lkdJW
+ mZ6TYnCtTDDMDiqQ0e5/T89vm3Jtlwm6ZsypOgugXMiN0YZZXDpVfq1Su8Jje6uJlOE+
+ 3bRGMTzde/ExPVqyotblGq2sny4/a2gYFn3vlxEbVcEBbs4+X6ZEyhUd4wNjbyecIyuu tg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2120.oracle.com with ESMTP id 32bs1m5hhd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 20 Jul 2020 08:41:07 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06K8cuXu020485;
+        Mon, 20 Jul 2020 08:41:07 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 32d68g7swv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 20 Jul 2020 08:41:07 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06K8f5gj007426;
+        Mon, 20 Jul 2020 08:41:05 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 20 Jul 2020 01:41:05 -0700
+Date:   Mon, 20 Jul 2020 11:40:58 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Suraj Upadhyay <usuraj35@gmail.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] staging: media: atomisp: Replace depracated MSI APIs
+Message-ID: <20200720084058.GG2549@kadam>
+References: <20200719142623.GA31565@blackclown>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200719142623.GA31565@blackclown>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9687 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ phishscore=0 mlxlogscore=999 suspectscore=2 spamscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007200065
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9687 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 bulkscore=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=993 malwarescore=0 clxscore=1015
+ spamscore=0 mlxscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007200065
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2020-07-17 at 11:56 -0400, Nicolas Dufresne wrote:
-> Le vendredi 17 juillet 2020 à 10:14 +0200, Philipp Zabel a écrit :
-> > On Fri, 2020-07-17 at 00:49 -0300, Ezequiel Garcia wrote:
-> > > From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > 
-> > > The CODA960 manual states that ASO/FMO features of baseline are not
-> > > supported, so for this reason this driver should only report
-> > > constrained baseline support.
-> > 
-> > I know the encoder doesn't support this, but is this also true of the
-> > decoder? The i.MX6DQ Reference Manual explicitly lists H.264/AVC decoder
-> > support for both baseline profile and constrained base line profile.
+On Sun, Jul 19, 2020 at 07:56:23PM +0530, Suraj Upadhyay wrote:
+> Replace depracated MSI IRQ enabler and disabler
+> with pci_alloc_irq_vectors and pci_free_irq_vectors respectively.
+> And as a result handle the returned error as appropriate.
+> Compile tested.
 > 
-> Hmm, double checking, you are right this is documented in the encoding tools
-> sections, not the decoding. But there is extra buffers that need to be passed
-> for ASO/FMO to work, I greatly doubt you have ever tested it.
-
-And you are correct, I don't think I use any test streams that have
-ASO/FMO enabled.
-
-> This is not supported by GStreamer parser, or FFMPEG parsers either.
-> Again, we need to make sure in V2 that encoding and decoding
-> capabilities are well seperated.
+> Signed-off-by: Suraj Upadhyay <usuraj35@gmail.com>
+> ---
+> Change:
+> 	v2: Replace the MSI IRQ disabler too.
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> As for advertising ASO/FMO, I can leave it there, but be aware I won't be
-> testing it. I can provide you links to streams if you care (they are publicly
-> accessible throught the ITU conformance streams published by the ITU).
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> index d36809a0182c..a5dea5521b36 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> @@ -1735,8 +1735,8 @@ static int atomisp_pci_probe(struct pci_dev *dev,
+>  	pci_set_master(dev);
+>  	pci_set_drvdata(dev, isp);
+>  
+> -	err = pci_enable_msi(dev);
+> -	if (err) {
+> +	err = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
+> +	if (err < 0) {
+>  		dev_err(&dev->dev, "Failed to enable msi (%d)\n", err);
+>  		goto enable_msi_fail;
+>  	}
+> @@ -1857,7 +1857,7 @@ static int atomisp_pci_probe(struct pci_dev *dev,
+>  initialize_modules_fail:
+>  	cpu_latency_qos_remove_request(&isp->pm_qos);
+>  	atomisp_msi_irq_uninit(isp, dev);
+> -	pci_disable_msi(dev);
+> +	pci_free_irq_vectors(dev);
 
-That would be welcome.
+Actually, my initial complaint was that I was just looking for to see if
+the remove function was updated...  It turns out the remove function
+never freed the IRQs to begin with so it was buggy from square one.
 
-> But as for GStreamer and FFMPEG, this is not supported anyway.
+Anyway, the remove function should call pci_free_irq_vectors().  We may
+as well fix it now that we have seen the bug.
 
-Ok, how about changing the commit message to say that this is
-unsupported for the encoder and untested for the decoder because there
-is no userspace support?
+regards,
+dan carpenter
 
-regards
-Philipp
