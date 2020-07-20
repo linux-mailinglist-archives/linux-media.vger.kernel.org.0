@@ -2,75 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF0EE225670
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 06:14:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 330B82256AE
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 06:29:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726076AbgGTEN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jul 2020 00:13:57 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:47528 "EHLO cstnet.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725263AbgGTEN4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 00:13:56 -0400
-Received: from localhost (unknown [159.226.5.99])
-        by APP-01 (Coremail) with SMTP id qwCowACXi9j2GRVfckTkAQ--.24694S2;
-        Mon, 20 Jul 2020 12:13:43 +0800 (CST)
-From:   Xu Wang <vulab@iscas.ac.cn>
-To:     mchehab@kernel.org, sean@mess.org, vulab@iscas.ac.cn,
-        oneukum@suse.com, yangyingliang@huawei.com, johan@kernel.org,
-        colin.king@canonical.com, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH] media: b2bc: remove needless check before usb_free_coherent()
-Date:   Mon, 20 Jul 2020 04:13:41 +0000
-Message-Id: <20200720041341.7506-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: qwCowACXi9j2GRVfckTkAQ--.24694S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKFWrZw4UGr47GFWfKryfZwb_yoWftrg_XF
-        Z3urnrXF1DWF15Kr1UK3yFyryq9ayxWr1kXF4ayFZ5GF1Iyw1Yvr9FywsrJr1DCFZ8XFW8
-        W3s8JF48Aw40kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbaxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-        Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-        1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-        7VC0I7IYx2IY67AKxVWUtVWrXwAv7VCY1x0262k0Y48FwI0_Jr0_Gr1lYx0Ex4A2jsIE14
-        v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67II
-        x4CEVc8vx2IErcIFxwCY02Avz4vE14v_Gryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-        0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-        zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-        4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j
-        6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
-        BIdaVFxhVjvjDU0xZFpf9x0JU4T5dUUUUU=
-X-Originating-IP: [159.226.5.99]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCAEDA18J9gI5SQABsa
+        id S1726015AbgGTE3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 00:29:37 -0400
+Received: from mail29.static.mailgun.info ([104.130.122.29]:20763 "EHLO
+        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725287AbgGTE3g (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Jul 2020 00:29:36 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1595219376; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=Dpw1HGE3ZCaDA+GhNOQnpyNXQW1TL4kVVJ9x2AeOGN4=; b=kJli9AY8WF5NMcW887PjIAxrBkLK35o9FE4F7NmpLLmgVwxfN/r342pmaRjEGzPN+QVByeEV
+ P9xMBy5iOzw8qL/7NhpO9ht9UM7JQw+uSmziD0mCllAyegdzVRcUAQpM8o9oisEK23SKFaUB
+ BnQ9a7453YNNXbnTO7EYqXl2IFs=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n11.prod.us-east-1.postgun.com with SMTP id
+ 5f151d958423214e131269ce (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 20 Jul 2020 04:29:09
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id D6B40C433CB; Mon, 20 Jul 2020 04:29:08 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.12] (unknown [61.3.19.245])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id BDC83C433C6;
+        Mon, 20 Jul 2020 04:29:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BDC83C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: venus: Add an optional power
+ domain for perf voting
+To:     Rob Herring <robh@kernel.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Matthias Kaehlcke <mka@chromium.org>
+References: <1594878139-3402-1-git-send-email-rnayak@codeaurora.org>
+ <1594878139-3402-2-git-send-email-rnayak@codeaurora.org>
+ <20200716195913.GA2744252@bogus>
+ <cd368ea7-6ddc-004c-164d-dbbad8516853@codeaurora.org>
+ <CAL_Jsq+RXcgTVwd_JC8YLYb1Ni29zFD9AxcNsmcpyrdefWq3Kw@mail.gmail.com>
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+Message-ID: <59502915-743e-6756-34e2-f409e61fc03b@codeaurora.org>
+Date:   Mon, 20 Jul 2020 09:59:05 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAL_Jsq+RXcgTVwd_JC8YLYb1Ni29zFD9AxcNsmcpyrdefWq3Kw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-usb_free_coherent() is safe with NULL addr and this check is
-not required.
 
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
----
- drivers/media/usb/b2c2/flexcop-usb.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+On 7/18/2020 12:26 AM, Rob Herring wrote:
+> On Thu, Jul 16, 2020 at 11:52 PM Rajendra Nayak <rnayak@codeaurora.org> wrote:
+>>
+>>
+>> On 7/17/2020 1:29 AM, Rob Herring wrote:
+>>> On Thu, Jul 16, 2020 at 11:12:16AM +0530, Rajendra Nayak wrote:
+>>>> Add an optional power domain which when specified can be used for
+>>>> setting the performance state of Venus.
+>>>
+>>> The h/w suddenly grew a new power island/domain? Seems like an abuse of
+>>> power-domains...
+>>
+>> The power-domain always existed, we have just managed to survive without
+>> having venus support DVFS and have the domain always be at a high performance
+>> level (set statically by boot code)
+>> Now, if we care to do DVFS and support better PM on the SoC, its important
+>> for the devices to manage this additional power domain (and dynamically
+>> scale it)
+>>
+>> That said, if the name 'opp-pd' makes it look like a software construct,
+>> like Bjorn mentioned, I am fine to give it a real name like 'cx-pd'
+>> Does that sound good?
+> 
+> He suggested 'cx' as '-pd' would be redundant. I have no idea what
+> 'cx' means, but fine.
+> 
+>> PS: Like I mentioned earlier [1], cx is a shared power island,
+>> not a power island specific to this block, and definitely not a software
+>> pm-domain construct.
+> 
+> Put this context/detail into your patches. Assume I don't remember
+> what happened last week.
 
-diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
-index 198ddfb8d2b1..c2cf1927c814 100644
---- a/drivers/media/usb/b2c2/flexcop-usb.c
-+++ b/drivers/media/usb/b2c2/flexcop-usb.c
-@@ -419,10 +419,7 @@ static void flexcop_usb_transfer_exit(struct flexcop_usb *fc_usb)
- 			usb_free_urb(fc_usb->iso_urb[i]);
- 		}
- 
--	if (fc_usb->iso_buffer != NULL)
--		usb_free_coherent(fc_usb->udev,
--			fc_usb->buffer_size, fc_usb->iso_buffer,
--			fc_usb->dma_addr);
-+	usb_free_coherent(fc_usb->udev, fc_usb->buffer_size, fc_usb->iso_buffer, fc_usb->dma_addr);
- }
- 
- static int flexcop_usb_transfer_init(struct flexcop_usb *fc_usb)
+Thanks Rob, will do when I re-post shortly.
+
+> 
+> Unfortunately, gmail seems to have no way to filter on unread mails in
+> reply to my replies and doesn't move the thread up in 'Sent' filter,
+> so older threads get lost.
+> 
+> Rob
+> 
+>> [1] https://lore.kernel.org/patchwork/patch/1241077/
+
 -- 
-2.17.1
-
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
