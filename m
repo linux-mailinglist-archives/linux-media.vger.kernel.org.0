@@ -2,98 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7E71225D4D
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 13:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F27D225DCB
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 13:48:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbgGTLYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jul 2020 07:24:12 -0400
-Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:39879 "EHLO
-        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728074AbgGTLYM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 07:24:12 -0400
-X-Greylist: delayed 516 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 Jul 2020 07:24:11 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id EEED53F64F;
-        Mon, 20 Jul 2020 13:15:33 +0200 (CEST)
-Authentication-Results: ste-pvt-msa1.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=gTkGdHYR;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
-        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
-        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id vixtsmS5pBFA; Mon, 20 Jul 2020 13:15:33 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        (Authenticated sender: mb878879)
-        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 7B7A03F2DB;
-        Mon, 20 Jul 2020 13:15:30 +0200 (CEST)
-Received: from localhost.localdomain (unknown [134.134.139.76])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id CCBA93605CC;
-        Mon, 20 Jul 2020 13:15:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1595243729; bh=mjlfxngBtSmrB32mu8iDZVMjrYWXXM5cA0DACfYZQ2A=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=gTkGdHYRQjhf+Xn+mawTLz9g2cXReJ781N7XtbRK9TZGGLo4yDhimnm9Mevq/ntPQ
-         uyLUhQhfiM7x08z9IjjGWSu3S+AP+bNX+mEqJyRsxaF/sP0FmGUpVvXDhY8a5dEKvZ
-         LGF1OoSNnF/ZVdVaQNJHgwIeW7LViWHDfAvpN52E=
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Stone <daniels@collabora.com>, linux-rdma@vger.kernel.org,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        Steve Pronovost <spronovo@microsoft.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Jesse Natalie <jenatali@microsoft.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        linux-media@vger.kernel.org,
+        id S1728586AbgGTLs3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 07:48:29 -0400
+Received: from mout.web.de ([212.227.15.3]:36859 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728469AbgGTLs3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Jul 2020 07:48:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1595245698;
+        bh=B9YFGKXCwbpCJaQ7rDkbGRRvr272ma/yhkp2sjxpSeo=;
+        h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
+        b=LgfaTu3lVPIlzmS5JPiviQcuIglycwKxzcEgvfA1je3siuYEbOMbGcZ6Ivz4/fOMd
+         4th7IaAnAgDU9GPgaknJ5WS1DkHsvHczpYq3rZzO/1QTCupk43weFFB/5eqISKxBts
+         FpqOXdhnh4DSEverjurGdzYgKr4DeKyPD7bBN0qE=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.131.85.87]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MN43c-1jvJUY1toe-006bma; Mon, 20
+ Jul 2020 13:48:18 +0200
+To:     hexin.op@bytedance.com, Liu Qi <liuqi.16@bytedance.com>,
+        dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc:     linux-kernel@vger.kernel.org,
         =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Message-ID: <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
-Date:   Mon, 20 Jul 2020 13:15:17 +0200
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH] drm/virtio: Fix memory leak in
+ virtio_gpu_execbuffer_ioctl()
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <17aea294-f51c-f2b0-bfe3-a47261e2039b@web.de>
+Date:   Mon, 20 Jul 2020 13:48:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200709123339.547390-1-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8UASvadiCjLpcNDtHhCbZpI6TcIU0yEkxWb0gWTZnrImQFoq3dd
+ MNWueY1Eu4wlcxbeM9O8Mv3yfuAePAa9+HFnccnBnuY60sz9Ymn3ndfNhvu08Qf9lO8JPpO
+ /CmqgPJ0Q0qt4oG5DIfruTDRYRqjsJSUWisIjhCu/TSXDeCfc0W4yO4KGaBTnLM5HzScxJg
+ 60RzpOKDDifuB8hS8Sm2w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xM55sP9bbik=:bbsFmXYbgmZwbrLmx6n3pX
+ gsmvrKoJyheKqtK1yL2VSTygH5GqfPFLzOg3jMRKeuP1W7urJ04FpvPtTmWwOU2kGWztgAdBw
+ YwhSwaPW4jkG5rvtkrS/zKRuZfGIwiWXBBNY1wwuxMn+Vf9TnjRYjY5mrwR5TXblKnwTqgnkw
+ 1xuG4ei4iMpjfWSSNBDHQ+GqceZmhBHSEkJDy/HssuWKbuFbVXNTFtJpVJokin1E1J5TbPINc
+ QoelQkAhO7VDO1r3AeMkRpEXfUCE4kUshJmRsdq6ol7rhnmwG4/57kBEwQ46pOAwJRUfk/qfj
+ I2BOa4AiHPmqr/BD+4+nQyb+wLj8krBBwhMQmts0Pf+u2+wbxp3nAyPubltiBKkUM3Sj5V4Jj
+ KCIhiB+3cXbhqT6HMyDxYrso2KzYHPo7GEItBtQZtdG2gnKmrvRXBrnO+VjroridB8kjyaOsm
+ TzxqOSJNfwbsxX64Jp85fFXVCU/vP1xKgmrQV9rJ2URBGKu4vzTzhdeNvG8R6TEuUsY6gijsQ
+ zpkSLxwnPjR2RpowzV2fRmG+D/xZdaPJ3+5bHNAI6aop9LV3zG5C/CwDsM/xLWJyaUDShVe+j
+ zDs0bh0lQetNULMvqk1Cyo400KrSUK0504eMEzL4njruM98lbmU+pahb0fo8XXSSTQ4OLWq1q
+ pLlDr1ErcGs/rUMgLLAQR54Up5irSCaIBHc1j9tk8bTJZX6Upkz+iABYeXae0X0yvclzlwGkh
+ RjTf+QWvuzUMn7o1xE53oVoPHVb+ikNUYud2sfSPyxC0XC2pg+kyBr1XNTwluyfkPwG3mpyFl
+ tzhAkf1bmcPrx7r58xTPdteWu9FUQrjPSzDn7QuVceD1llP8yk3zMHPdfSQHa5qiKiMKsUAsb
+ eRmqtcp2R43IepUkwpfnFrzUtsNNbja+O0hseQSpjadYmv+LByU67fnkouiGT1PYyO51iBwYC
+ pTghpVMvOucJdMguRm+mjqIBPEf9z6R0nnerfN7EhvtWgd13TMfncgIZH/+AayusEAcNsX/Fo
+ FAeewdJ742Vg9hvTKEUl6JZQ1OPMsnveyDYWHlnEW6Wme0dGJYE8o9bIPw8MTUZjeImeGd1zd
+ kUO0rDEUAmStD0hMGgurwmE8hdm619Y5xBg9dmi0rN8tSGbt8koI44frT5Hqi67HUce+LJ8Yp
+ hAMs6F1p0Ayc63r9wtZ2ggKrPFmObPnh1+yIM/wx7uN2ilN6y1s0WR5dJBN9R3SvbD+gph99r
+ YDtmAOoGzFm9RfxCndEIlaGeH2gWfRN8iLfEEWQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+* I suggest to add a change description.
 
-On 7/9/20 2:33 PM, Daniel Vetter wrote:
-> Comes up every few years, gets somewhat tedious to discuss, let's
-> write this down once and for all.
->
-> What I'm not sure about is whether the text should be more explicit in
-> flat out mandating the amdkfd eviction fences for long running compute
-> workloads or workloads where userspace fencing is allowed.
+* Is =E2=80=9Chexin.op=E2=80=9D a real name?
 
-Although (in my humble opinion) it might be possible to completely 
-untangle kernel-introduced fences for resource management and dma-fences 
-used for completion- and dependency tracking and lift a lot of 
-restrictions for the dma-fences, including prohibiting infinite ones, I 
-think this makes sense describing the current state.
-
-Reviewed-by: Thomas Hellstrom <thomas.hellstrom@intel.com>
-
-
+Regards,
+Markus
