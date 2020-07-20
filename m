@@ -2,131 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 646B3225BD8
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 11:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6FE2225CA6
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jul 2020 12:33:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728075AbgGTJio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jul 2020 05:38:44 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:48162 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726520AbgGTJin (ORCPT
+        id S1728399AbgGTKdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 06:33:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47908 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728001AbgGTKdD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 05:38:43 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06K9MgFI017123;
-        Mon, 20 Jul 2020 11:38:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=lC/LymgalsLxxn7CqvsDbLQJCr894y+aoN1Rm4+7KFI=;
- b=B2lHbtZgdj+u9WxQ68HEI/gS7/Z6eRdJaSi0mfGaOMbatZ1z9rMWQWn4GzR0qeO50ycY
- TiUjpfpwqmTMnc9JOFHouSKPbThhLA50opdyH507nGH0RLC1FLJtACNSznORxknYSY2i
- fLj3ACREU2o1kKxTYNft5iLv0mGJEWWtKB2UO4wlTPvO6U3UE/RKWDQqWUMfnmXIhz5u
- 0npGd1vsXUjyFiWFfyWM8eEo5LhQuK7i7yoMEm4Z1WMenrye9nY1Mxxf4VrN82557cUs
- eEtCazhSqDwD3civFpNN0lVi49nZ28VbghP657uXePejNwTBJSsGrppIeJvCSbj5U40e eA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 32bsagr125-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 Jul 2020 11:38:31 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C6925100034;
-        Mon, 20 Jul 2020 11:38:30 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A7FE82B3E71;
-        Mon, 20 Jul 2020 11:38:30 +0200 (CEST)
-Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG3NODE1.st.com
- (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 20 Jul
- 2020 11:38:30 +0200
-Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
- SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
- 15.00.1347.000; Mon, 20 Jul 2020 11:38:30 +0200
-From:   Benjamin GAIGNARD <benjamin.gaignard@st.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Hugues FRUCHET <hugues.fruchet@st.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-        "valentin.schneider@arm.com" <valentin.schneider@arm.com>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v7 1/3] dt-bindings: media: stm32-dcmi: Add DCMI min
- frequency property
-Thread-Topic: [PATCH v7 1/3] dt-bindings: media: stm32-dcmi: Add DCMI min
- frequency property
-Thread-Index: AQHWT6e/b2wyFUUnLkaf//MXpHPgJqj/oKMAgAC3YwCAANDPAIAPCWCA
-Date:   Mon, 20 Jul 2020 09:38:30 +0000
-Message-ID: <fee98476-c92c-579a-ac33-323a5f5feb76@st.com>
-References: <20200701130129.30961-1-benjamin.gaignard@st.com>
- <20200701130129.30961-2-benjamin.gaignard@st.com>
- <20200709203718.GA837160@bogus> <20e4907a-f218-3e43-1111-7d4b9ee6d945@st.com>
- <CAL_Jsq+VgXTJy1SQr6B63kLZ3wcRMe4YfYiRNCT6s=gUO_tmTw@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+VgXTJy1SQr6B63kLZ3wcRMe4YfYiRNCT6s=gUO_tmTw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.51]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E726284C4B29AA4DA03C09973C9F53CF@st.com>
-Content-Transfer-Encoding: base64
+        Mon, 20 Jul 2020 06:33:03 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37651C061794;
+        Mon, 20 Jul 2020 03:33:03 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id o13so10116363pgf.0;
+        Mon, 20 Jul 2020 03:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6hevPUmGQ66hCXkNyonbVBGz6ryQo6snqDBjlm4ZlRA=;
+        b=t/koDa4817hL+YgrfCUpkhYDx+MSqZ2FHSvZqWNL4e4jbaiSvM6lqOIjTh4hOoq6tU
+         hxCAbeO+8GzyqDRrObVMRjQjnBQ9rY/sDK0dPCwYejFBqHa6Cino5/+ZyOEJCt6MDPBO
+         YOFnb6HAeuaH/ez5bTvJJ78vQYAPTBxcjq164TcScI8Sutqe6Lb55yrO8oK3e6Osb+r7
+         jnr0bohhBoGN+9X7al1guRNdfuNXLQjFHWs+VQEcJ/NaXc4QrVoWbwcTCKth29Rkj6j9
+         CvDO79MJoe/LCUjcccJUjK1wNBRprB6WbQjTndS1lvxWtmOch1RyyMP5+PrwEtgGmXmu
+         DLdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6hevPUmGQ66hCXkNyonbVBGz6ryQo6snqDBjlm4ZlRA=;
+        b=QkZGw2/sxcKg97uTamA9Fvwrl+f19yS28h9t39TYagjEKP9+Eo+PTrSDmrNCNDwILz
+         lPXEp/2f1wm8wDlkJfmkXfBdWZpcU4fTm0cZaqG5EXlRuAAQexiMjdQgR5dACUpWYz0I
+         s5ny6sB8EKFdMSkKhMTlYbDWuX0AQXBjr39DIiA4krYbE3E93axqUX3yH+mLIzNi6KY8
+         Qb6OoWHYqcPPqIstCLAKbnt+/fQDNtxbfkYdDJJzmsLUCqc0jEdJ2gJ6s6DWT34xEr7S
+         xm48EJJqBrh0ZdglrVM64HOeT0h8S/hgDJC0enYov7O28LkQIU/5+FJewGTCmn7Xnmgj
+         bWYQ==
+X-Gm-Message-State: AOAM532N5UF0BoMv6NImuVp3FYh3tCGG3KMqyvUDvGgYgmR0fmM617Ew
+        WUIepfbPfp1FBPeSKmHOy5s=
+X-Google-Smtp-Source: ABdhPJzLwORkHMw6BCcQKdOeZ30UkE01yU0r5rdC/F8LYunnbY0f9/dtf3kjjljQEMwv5WzOcMJPMQ==
+X-Received: by 2002:a63:7b15:: with SMTP id w21mr18971517pgc.386.1595241182623;
+        Mon, 20 Jul 2020 03:33:02 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.153.67])
+        by smtp.gmail.com with ESMTPSA id e18sm16412186pff.37.2020.07.20.03.32.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2020 03:33:02 -0700 (PDT)
+From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bjorn Helgaas <bjorn@helgaas.com>,
+        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2] [media] saa7164: use generic power management
+Date:   Mon, 20 Jul 2020 15:57:01 +0530
+Message-Id: <20200720102700.191371-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-07-20_05:2020-07-17,2020-07-20 signatures=0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DQoNCk9uIDcvMTAvMjAgMTA6MDEgUE0sIFJvYiBIZXJyaW5nIHdyb3RlOg0KPiBPbiBGcmksIEp1
-bCAxMCwgMjAyMCBhdCAxOjMzIEFNIEJlbmphbWluIEdBSUdOQVJEDQo+IDxiZW5qYW1pbi5nYWln
-bmFyZEBzdC5jb20+IHdyb3RlOg0KPj4NCj4+DQo+PiBPbiA3LzkvMjAgMTA6MzcgUE0sIFJvYiBI
-ZXJyaW5nIHdyb3RlOg0KPj4+IE9uIFdlZCwgSnVsIDAxLCAyMDIwIGF0IDAzOjAxOjI3UE0gKzAy
-MDAsIEJlbmphbWluIEdhaWduYXJkIHdyb3RlOg0KPj4+PiBEb2N1bWVudCBzdCxzdG0zMi1kY21p
-LW1pbi1mcmVxdWVuY3kgcHJvcGVydHkgd2hpY2ggaXMgdXNlZCB0bw0KPj4+PiByZXF1ZXN0IENQ
-VXMgbWluaW11bSBmcmVxdWVuY3kgd2hlbiBzdHJlYW1pbmcgZnJhbWVzLg0KPj4+Pg0KPj4+PiBT
-aWduZWQtb2ZmLWJ5OiBCZW5qYW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2FpZ25hcmRAc3QuY29t
-Pg0KPj4+PiAtLS0NCj4+Pj4gICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21l
-ZGlhL3N0LHN0bTMyLWRjbWkueWFtbCB8IDggKysrKysrKysNCj4+Pj4gICAgMSBmaWxlIGNoYW5n
-ZWQsIDggaW5zZXJ0aW9ucygrKQ0KPj4+Pg0KPj4+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3N0LHN0bTMyLWRjbWkueWFtbCBiL0RvY3VtZW50
-YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9zdCxzdG0zMi1kY21pLnlhbWwNCj4+Pj4g
-aW5kZXggM2ZlNzc4Y2I1Y2MzLi4wNWNhODVhMjQxMWEgMTAwNjQ0DQo+Pj4+IC0tLSBhL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9zdCxzdG0zMi1kY21pLnlhbWwNCj4+
-Pj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3N0LHN0bTMy
-LWRjbWkueWFtbA0KPj4+PiBAQCAtNDQsNiArNDQsMTMgQEAgcHJvcGVydGllczoNCj4+Pj4gICAg
-ICAgICAgYmluZGluZ3MgZGVmaW5lZCBpbg0KPj4+PiAgICAgICAgICBEb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvbWVkaWEvdmlkZW8taW50ZXJmYWNlcy50eHQuDQo+Pj4+DQo+Pj4+
-ICsgIHN0LHN0bTMyLWRjbWktbWluLWZyZXF1ZW5jeToNCj4+Pj4gKyAgICBkZXNjcmlwdGlvbjog
-RENNSSBtaW5pbXVtIENQVXMgZnJlcXVlbmN5IHJlcXVpcmVtZW50IChpbiBLSHopLg0KPj4+PiAr
-ICAgIGFsbE9mOg0KPj4+PiArICAgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZp
-bml0aW9ucy91aW50MzINCj4+Pj4gKyAgICAgIC0gbWluaW11bTogMA0KPj4+PiArICAgICAgLSBk
-ZWZhdWx0OiAwDQo+Pj4gSSB0aGluayB0aGlzIGlzIHF1ZXN0aW9uYWJsZSB0byBiZSBpbiBEVCBh
-bmQgaWYgaXQgaXMsIGl0J3Mgc29tZXRoaW5nDQo+Pj4gdGhhdCdzIGhhcmRseSBzcGVjaWZpYyB0
-byBTVCBvciB0aGlzIGJsb2NrLiBJSVJDLCB3ZSBhbHJlYWR5IGhhdmUgYSB3YXkNCj4+PiB0byBz
-cGVjaWZ5IG1pbmltdW0gT1BQcy4NCj4+IFRoaXMgYmluZGluZyBpcyBvbmx5IG5lZWRlZCBvbiBz
-b21lIFNUTTMyIFNvQyB3aGVuIERWRlMgaXMgYWN0aXZhdGVkDQo+PiB3aXRoIGxvdyBmcmVxdWVu
-Y3kgc2V0dGluZyBpbiBvcHAuIFRoZSB2YWx1ZSBhbHNvIGRlcGVuZHMgb2YgdGhlIHRhcmdldGVk
-DQo+PiB2aWRlbyBmb3JtYXQgYW5kIGZyYW1lcmF0ZS4NCj4gQXMgdGhvc2UgMiB0aGluZ3MgYXJl
-IG5vdCBpbiB0aGUgRFQsIHRoZW4gbmVpdGhlciBzaG91bGQgdGhpcyB2YWx1ZSBiZS4NCj4NCj4+
-IEl0IGlzIG5vdCBhbiBvcHAgYmVjYXVzZSBpdCBkb2Vzbid0IGRlZmluZSBhIHZvbHRhZ2UtY3Vy
-cmVudC1mcmVxdWVuY3kNCj4+IGNvbWJpbmF0aW9uDQo+PiBidXQgb25seSBzZXQgYSBtaW5pbXVt
-IHRhcmdldCBmb3IgdGhlIENQVXMgZnJlcXVlbmN5IHRvIGd1YXJhbnR5IGEgZ29vZA0KPj4gcmVh
-Y3Rpb24NCj4+IHRpbWUgd2hlbiBoYW5kbGluZyBJUlFzIGZvciB0aGUgc2Vuc29yLg0KPiBPUFBz
-IGNhbiBiZSBmcmVxdWVuY3kgb25seS4gVGhpcyBpcyBwcmV0dHkgY2xlYXJseSBkZWZpbmluZyB0
-aGUgQ1BVDQo+IG11c3QgT3BlcmF0ZSBhdCBhIGNlcnRhaW4gbWluaW11bSBQZXJmb3JtYW5jZSBQ
-b2ludC4NCkhpIFJvYiwNCg0KTXkgZ29hbCBoZXJlIHdhc24ndCB0byBkZWZpbmUgYW4gT1BQIGZv
-ciB0aGUgQ1BVIHNpbmNlIGl0IGlzIHRoZSBjYW1lcmEgDQppbnRlcmZhY2Ugbm9kZQ0KYnV0IHRv
-IGF2b2lkIGxldCB0aGUgQ1BVIGdvIHRvIGRvd24uDQpJIGhhdmVuJ3QgZm91bmQgaG93IHRvIHVz
-ZSBPUFAgYmluZGluZ3MsIGNhbiB5b3UgcHJvdmlkZSBtZSBoaW50cyBvciANCmV4YW1wbGVzIG9m
-IGhvdw0KSSBzaG91bGQgZG8gaXQ/DQoNClRoYW5rcywNCkJlbmphbWluDQoNCj4NCj4gUm9iDQo=
+The .suspend() and .resume() callbacks are not defined for this driver.
+Still, their power management structure follows the legacy framework. To
+bring it under the generic framework, simply remove the binding of
+callbacks from struct "pci_driver".
+
+Compile-tested only.
+
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/media/pci/saa7164/saa7164-core.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
+index 126d085be9a7..4b637891b79a 100644
+--- a/drivers/media/pci/saa7164/saa7164-core.c
++++ b/drivers/media/pci/saa7164/saa7164-core.c
+@@ -1539,9 +1539,6 @@ static struct pci_driver saa7164_pci_driver = {
+ 	.id_table = saa7164_pci_tbl,
+ 	.probe    = saa7164_initdev,
+ 	.remove   = saa7164_finidev,
+-	/* TODO */
+-	.suspend  = NULL,
+-	.resume   = NULL,
+ };
+ 
+ static int __init saa7164_init(void)
+-- 
+2.27.0
+
