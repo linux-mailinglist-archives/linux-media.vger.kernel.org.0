@@ -2,291 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26D44227EC6
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 13:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB39E227F63
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 13:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729573AbgGUL0c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 07:26:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54120 "EHLO
+        id S1729829AbgGULzm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 07:55:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727916AbgGUL0c (ORCPT
+        with ESMTP id S1726266AbgGULzl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 07:26:32 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222A3C061794
-        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 04:26:32 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id u25so11473298lfm.1
-        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 04:26:32 -0700 (PDT)
+        Tue, 21 Jul 2020 07:55:41 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A71C0619D8
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 04:55:41 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id f5so23724243ljj.10
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 04:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2k0rQQllCpOx9zi7wUTVVagj5bt4GffIBW0Chop8e0s=;
-        b=Z2Td6V5yVhWmNijaFZeynJvsnSd3WDhwJP+hcoZoVCNOkh5xi0R5RW9bOXZs2TbwSZ
-         KW6oTIuYJxwRrHbiBMmtUwlp74dqvlu1favHsjs35kb7Oh9WEQniPL9qSjpYJKjraeHj
-         OyQwCFt8a7E8aZRge5zyhy/1DBpOp0010yoVoPS4WaREhiddduazkhxdG4oJm3g2mZLF
-         bd9oEyFyG/XAPwGSHB41Sd2BhWYA4PtyARYjKgiarg9B2Rgk+NoTF1QaanoWIS3Rd0KJ
-         k/em49mBbBjio9XkpBDquSl5A21S0oWQ4LwGogqwaGOSBmWuJ7NOnXOMhU34nePnkjNm
-         AAmA==
+        d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZVoINjtMGDezcJLO2Zg+Y+JYaakD+WyYlrSO3cxN39E=;
+        b=aa8+RFopvlFWXMkD7+eV+fIBRXzv4Pt8JGEJ+BqDGFG/TZB44jBsVKadLiKtcdiHUs
+         GjvioRKJDFK2KcgpW97MqhnlHEw5wGT2ZJr81d17irYkbtYW6hrYoaqc86vqEuV8bVHv
+         +0ll3jJCUvA5JGwtCDwRBYLNSwUeT11to9awVAssIUVG6T6jpsbIlKslyYevC6NaUOYq
+         zsUHn1oAvV+v21iA1LWrNBvpWQGugEoTI7qus5Yoy/tVf0gz2sNsgZ/jWS6Ua0/gAY4J
+         Z/gmVwA503RiPiefguw1iNJ4MYbmi5uhfDcMHDwLFBpt9HYD2G52+Ab+VxWjQSSUly0e
+         8oEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2k0rQQllCpOx9zi7wUTVVagj5bt4GffIBW0Chop8e0s=;
-        b=P9lnnAefi6J7BpV6Fg6SkB/uaP90THpBQ5qglV1XGtFTG8dnG1l4a/FNv4IsVOKYv7
-         CS6O9PyrZ16bs71tWw9wcMuOBau2TGxbDNIKXS+CxW7jO36Ud0Tdil8/uPYoSEGBqGqa
-         2SHaznSoRgE7KMWUR8VseGl5cuwG8B3HGSEhWvf+WBPU1zW5X59EvfS4ciNQnlPeZh/l
-         wHNlowebX7KqZYdnl2/b8ZL25NspfQlCy4lWeO62I1WV/28ZHkVdtEZYsR5ZDiQf8oRZ
-         uzxsPGB4dIlscZpenBHyMJJcMy0FOpfbHXU8RfUMuvQWctC5xlqVlhO6OPJ57LDfIie2
-         UBWA==
-X-Gm-Message-State: AOAM531Ek7SshnLMBNERR/DNdQaiNtYwrTFDQLJg7NQQedWcbjPj041l
-        ZG4GQeAPdqDofD3hpi6Y5yrSNw==
-X-Google-Smtp-Source: ABdhPJxNqdrLlZomQmcgOHwUPYc0q3MqElcKfBhmz4t0vUWfkpFgP84pyvq/tcCs+mkPPySDEvfJPg==
-X-Received: by 2002:a19:24c2:: with SMTP id k185mr9241057lfk.120.1595330790475;
-        Tue, 21 Jul 2020 04:26:30 -0700 (PDT)
-Received: from [192.168.1.4] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id h6sm2201805lfc.84.2020.07.21.04.26.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2020 04:26:29 -0700 (PDT)
-Subject: Re: [PATCH v4 2/6] media: v4l2: Add extended buffer operations
-To:     Helen Koike <helen.koike@collabora.com>, mchehab@kernel.org,
-        hans.verkuil@cisco.com, laurent.pinchart@ideasonboard.com,
-        sakari.ailus@iki.fi, linux-media@vger.kernel.org
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
-        tfiga@chromium.org, hiroh@chromium.org, nicolas@ndufresne.ca,
-        Brian.Starkey@arm.com, kernel@collabora.com,
-        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
-        frkoenig@chromium.org, mjourdan@baylibre.com
-References: <20200717115435.2632623-1-helen.koike@collabora.com>
- <20200717115435.2632623-3-helen.koike@collabora.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <5665bbd4-75e2-ec73-ba24-54e5981eb4ac@linaro.org>
-Date:   Tue, 21 Jul 2020 14:26:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZVoINjtMGDezcJLO2Zg+Y+JYaakD+WyYlrSO3cxN39E=;
+        b=TI4IFjpNWePMxZt8+Ypdb/bYUm97KUxiWdgs+ATLZwTOpjtu9T3zngUXQH8KdHxup+
+         Sz4iQTQ8zNE9M0jdVDustg4tc5B6CQeOC8IVyH1noefG3BQSErBtn5NBQQv7BstVWFxW
+         kZHxG9U1OcsnbR1o0AKky85SjEHoSB8Ocf/wCafZC5o7hkUfg8oIw4Edj8ij29kaEF3l
+         M42nU/EwmBZ47jVZKCrAjzM2A7rdEt3yi7oyyXdT5woyovfuwRdQ/8mpyN50y5pi/D2x
+         oON3MdNfZRM8tkF3idFA/zopbD0yOLAxu3lusGTM0d+M49eMe46iH/BnWjI0zw7w7Q0m
+         xn+Q==
+X-Gm-Message-State: AOAM531h8uatDLDIc0odPQZdM+NF/6FRkfAUNaPjpfy7+UqcbVxQPIF5
+        4r3hbNbonwVHcodiMOepVIPfdS6s6ZepgB8rnSJIHA==
+X-Google-Smtp-Source: ABdhPJweVCEg+lAlZfetbFPmgrzJZsHlsZaisRv/zVTnOsUHbVD1AwEcazd0D5dxzyF05L2c+g2C7U8SOV5JY9LHcn4=
+X-Received: by 2002:a2e:6f19:: with SMTP id k25mr13050134ljc.443.1595332539804;
+ Tue, 21 Jul 2020 04:55:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200717115435.2632623-3-helen.koike@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200721111007.hwwdveqxeqcry4wn@pesu.pes.edu> <0000000000001e30e105aaf1ce89@google.com>
+In-Reply-To: <0000000000001e30e105aaf1ce89@google.com>
+From:   B K Karthik <bkkarthik@pesu.pes.edu>
+Date:   Tue, 21 Jul 2020 17:25:28 +0530
+Message-ID: <CAAhDqq3uSnRMXE3Pn1PjLo+XKXruB7jqkJx70gCPd_=-HJD4Rw@mail.gmail.com>
+Subject: Re: WARNING in pvr2_i2c_core_done
+To:     syzbot <syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mike Isely <isely@pobox.com>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Jul 21, 2020 at 4:50 PM syzbot
+<syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com> wrote:
+>
+> Hello,
+>
+> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+> general protection fault in kernfs_find_ns
+>
+> pvrusb2: Invalid write control endpoint
+> pvrusb2: Invalid write control endpoint
+> pvrusb2: Invalid write control endpoint
+> pvrusb2: Invalid write control endpoint
+> pvrusb2: Invalid write control endpoint
+> pvrusb2: Invalid write control endpoint
+> general protection fault, probably for non-canonical address 0xdffffc000000000e: 0000 [#1] SMP KASAN
+> KASAN: null-ptr-deref in range [0x0000000000000070-0x0000000000000077]
 
+I'm guessing this has to do with kmem_cache_free() called by
+i2c_acpi_remove_space_handler()
+through acpi_ut_delete_generic_state() in drivers/acpi/osl.c:1708 ?
 
-On 7/17/20 2:54 PM, Helen Koike wrote:
-> From: Hans Verkuil <hans.verkuil@cisco.com>
-> 
-> Those extended buffer ops have several purpose:
-> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
->    the number of ns elapsed since 1970
-> 2/ Unify single/multiplanar handling
-> 3/ Add a new start offset field to each v4l2 plane buffer info struct
->    to support the case where a single buffer object is storing all
->    planes data, each one being placed at a different offset
-> 
-> New hooks are created in v4l2_ioctl_ops so that drivers can start using
-> these new objects.
-> 
-> The core takes care of converting new ioctls requests to old ones
-> if the driver does not support the new hooks, and vice versa.
-> 
-> Note that the timecode field is gone, since there doesn't seem to be
-> in-kernel users. We can be added back in the reserved area if needed or
-> use the Request API to collect more metadata information from the
-> frame.
-> 
-> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> ---
-> Changes in v4:
-> - Use v4l2_ext_pix_format directly in the ioctl, drop v4l2_ext_format,
-> making V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] the only valid types.
-> - Drop VIDIOC_EXT_EXPBUF, since the only difference from VIDIOC_EXPBUF
-> was that with VIDIOC_EXT_EXPBUF we could export multiple planes at once.
-> I think we can add this later, so I removed it from this RFC to simplify it.
-> - Remove num_planes field from struct v4l2_ext_buffer
-> - Add flags field to struct v4l2_ext_create_buffers
-> - Reformulate struct v4l2_ext_plane
-> - Fix some bugs caught by v4l2-compliance
-> - Rebased on top of media/master (post 5.8-rc1)
-> 
-> Changes in v3:
-> - Rebased on top of media/master (post 5.4-rc1)
-> 
-> Changes in v2:
-> - Add reserved space to v4l2_ext_buffer so that new fields can be added
->   later on
-> ---
->  drivers/media/v4l2-core/v4l2-dev.c   |  29 ++-
->  drivers/media/v4l2-core/v4l2-ioctl.c | 349 +++++++++++++++++++++++++--
->  include/media/v4l2-ioctl.h           |  26 ++
->  include/uapi/linux/videodev2.h       |  89 +++++++
->  4 files changed, 471 insertions(+), 22 deletions(-)
-> 
-
-<cut>
-
-> +/**
-> + * struct v4l2_ext_plane - extended plane buffer info
-> + * @buffer_length:	size of the entire buffer in bytes, should fit
-> + *			@offset + @plane_length
-> + * @plane_length:	size of the plane in bytes.
-> + * @userptr:		when memory is V4L2_MEMORY_USERPTR, a userspace pointer pointing
-> + *			to this plane.
-> + * @dmabuf_fd:		when memory is V4L2_MEMORY_DMABUF, a userspace file descriptor
-> + *			associated with this plane.
-> + * @offset:		offset in the memory buffer where the plane starts. If
-> + *			V4L2_MEMORY_MMAP is used, then it can be a "cookie" that
-> + *			should be passed to mmap() called on the video node.
-> + * @reserved:		extra space reserved for future fields, must be set to 0.
-> + *
-> + *
-> + * Buffers consist of one or more planes, e.g. an YCbCr buffer with two planes
-> + * can have one plane for Y, and another for interleaved CbCr components.
-> + * Each plane can reside in a separate memory buffer, or even in
-> + * a completely separate memory node (e.g. in embedded devices).
-> + */
-> +struct v4l2_ext_plane {
-> +	__u32 buffer_length;
-> +	__u32 plane_length;
-> +	union {
-> +		__u64 userptr;
-> +		__s32 dmabuf_fd;
-> +	} m;
-> +	__u32 offset;
-> +	__u32 reserved[4];
-> +};
-> +
->  /**
->   * struct v4l2_buffer - video buffer info
->   * @index:	id number of the buffer
-> @@ -1055,6 +1086,36 @@ struct v4l2_buffer {
->  	};
->  };
->  
-> +/**
-> + * struct v4l2_ext_buffer - extended video buffer info
-> + * @index:	id number of the buffer
-> + * @type:	V4L2_BUF_TYPE_VIDEO_CAPTURE or V4L2_BUF_TYPE_VIDEO_OUTPUT
-> + * @flags:	buffer informational flags
-> + * @field:	enum v4l2_field; field order of the image in the buffer
-> + * @timestamp:	frame timestamp
-> + * @sequence:	sequence count of this frame
-> + * @memory:	enum v4l2_memory; the method, in which the actual video data is
-> + *		passed
-> + * @planes:	per-plane buffer information
-> + * @request_fd:	fd of the request that this buffer should use
-> + * @reserved:	extra space reserved for future fields, must be set to 0
-> + *
-> + * Contains data exchanged by application and driver using one of the Streaming
-> + * I/O methods.
-> + */
-> +struct v4l2_ext_buffer {
-> +	__u32 index;
-> +	__u32 type;
-> +	__u32 flags;
-> +	__u32 field;
-> +	__u64 timestamp;
-> +	__u32 sequence;
-> +	__u32 memory;
-> +	__u32 request_fd;
-
-This should be __s32, at least for consistency with dmabuf_fd?
-
-> +	struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
-> +	__u32 reserved[4];
-
-I think we have to reserve more words here for future extensions.
-
-I'd like also to propose to add here __s32 metadata_fd. The idea behind
-this is to have a way to pass per-frame metadata dmabuf buffers for
-synchronous type of metadata where the metadata is coming at the same
-time with data buffers. What would be the format of the metadata buffer
-is TBD.
-
-One option for metadata buffer format could be:
-
-header {
-	num_ctrls
-	array_of_ctrls [0..N]
-		ctrl_id
-		ctrl_size
-		ctrl_offset
-}
-
-data {
-	cid0	//offset of cid0 in dmabuf buffer
-	cid1
-	cidN
-}
-
-This will make easy to get concrete ctrl id without a need to parse the
-whole metadata buffer. Also using dmabuf we don't need to copy data
-between userspace <-> kernelspace (just cache syncs through
-begin/end_cpu_access).
-
-The open question is who will validate the metadata buffer when it comes
-from userspace. The obvious answer is v4l2-core but looking into DRM
-subsytem they give more freedom to the drivers, and just provide generic
-helpers which are not mandatory.
-
-I guess this will be a voice in the wilderness but I wanted to know your
-opinion.
-
-> +};
-> +
->  #ifndef __KERNEL__
->  /**
->   * v4l2_timeval_to_ns - Convert timeval to nanoseconds
-> @@ -2520,6 +2581,29 @@ struct v4l2_create_buffers {
->  	__u32			reserved[6];
->  };
->  
-> +/**
-> + * struct v4l2_ext_create_buffers - VIDIOC_EXT_CREATE_BUFS argument
-> + * @index:	on return, index of the first created buffer
-> + * @count:	entry: number of requested buffers,
-> + *		return: number of created buffers
-> + * @memory:	enum v4l2_memory; buffer memory type
-> + * @capabilities: capabilities of this buffer type.
-> + * @format:	frame format, for which buffers are requested
-> + * @flags:	additional buffer management attributes (ignored unless the
-> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
-> + *		and configured for MMAP streaming I/O).
-> + * @reserved:	extra space reserved for future fields, must be set to 0
-> + */
-> +struct v4l2_ext_create_buffers {
-> +	__u32				index;
-> +	__u32				count;
-> +	__u32				memory;
-> +	struct v4l2_ext_pix_format	format;
-> +	__u32				capabilities;
-> +	__u32				flags;
-> +	__u32 reserved[4];
-> +};
-> +
->  /*
->   *	I O C T L   C O D E S   F O R   V I D E O   D E V I C E S
->   *
-> @@ -2623,6 +2707,11 @@ struct v4l2_create_buffers {
->  #define VIDIOC_G_EXT_PIX_FMT	_IOWR('V', 104, struct v4l2_ext_pix_format)
->  #define VIDIOC_S_EXT_PIX_FMT	_IOWR('V', 105, struct v4l2_ext_pix_format)
->  #define VIDIOC_TRY_EXT_PIX_FMT	_IOWR('V', 106, struct v4l2_ext_pix_format)
-> +#define VIDIOC_EXT_CREATE_BUFS	_IOWR('V', 107, struct v4l2_ext_create_buffers)
-> +#define VIDIOC_EXT_QUERYBUF	_IOWR('V', 108, struct v4l2_ext_buffer)
-> +#define VIDIOC_EXT_QBUF		_IOWR('V', 109, struct v4l2_ext_buffer)
-> +#define VIDIOC_EXT_DQBUF	_IOWR('V', 110, struct v4l2_ext_buffer)
-> +#define VIDIOC_EXT_PREPARE_BUF	_IOWR('V', 111, struct v4l2_ext_buffer)
->  
->  /* Reminder: when adding new ioctls please add support for them to
->     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
-> 
-
--- 
-regards,
-Stan
+> CPU: 0 PID: 78 Comm: pvrusb2-context Not tainted 5.7.0-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> RIP: 0010:kernfs_find_ns+0x31/0x370 fs/kernfs/dir.c:829
+> Code: 49 89 d6 41 55 41 54 55 48 89 fd 53 48 83 ec 08 e8 f4 61 af ff 48 8d 7d 70 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 1e 03 00 00 48 8d bd 98 00 00 00 48 8b 5d 70 48
+> RSP: 0018:ffff8881d4187938 EFLAGS: 00010202
+> RAX: dffffc0000000000 RBX: ffffffff863789c0 RCX: ffffffff85a79ba7
+> RDX: 000000000000000e RSI: ffffffff81901d1c RDI: 0000000000000070
+> RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff873ed1e7
+> R10: fffffbfff0e7da3c R11: 0000000000000001 R12: 0000000000000000
+> R13: 0000000000000000 R14: 0000000000000000 R15: ffffffff863790e0
+> FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000557f2b45ae48 CR3: 00000001d2762000 CR4: 00000000001406f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  kernfs_find_and_get_ns+0x2f/0x60 fs/kernfs/dir.c:906
+>  kernfs_find_and_get include/linux/kernfs.h:548 [inline]
+>  sysfs_unmerge_group+0x5d/0x160 fs/sysfs/group.c:366
+>  dpm_sysfs_remove+0x62/0xb0 drivers/base/power/sysfs.c:790
+>  device_del+0x18b/0xd20 drivers/base/core.c:2834
+>  device_unregister+0x22/0xc0 drivers/base/core.c:2889
+>  i2c_unregister_device include/linux/err.h:41 [inline]
+>  i2c_client_dev_release+0x39/0x50 drivers/i2c/i2c-core-base.c:465
+>  device_release+0x71/0x200 drivers/base/core.c:1559
+>  kobject_cleanup lib/kobject.c:693 [inline]
+>  kobject_release lib/kobject.c:722 [inline]
+>  kref_put include/linux/kref.h:65 [inline]
+>  kobject_put+0x245/0x540 lib/kobject.c:739
+>  put_device drivers/base/core.c:2779 [inline]
+>  device_unregister+0x34/0xc0 drivers/base/core.c:2890
+>  i2c_unregister_device+0x38/0x40 include/linux/err.h:41
+>  v4l2_i2c_new_subdev_board+0x159/0x2c0 drivers/media/v4l2-core/v4l2-i2c.c:114
+>  v4l2_i2c_new_subdev+0xb8/0xf0 drivers/media/v4l2-core/v4l2-i2c.c:135
+>  pvr2_hdw_load_subdev drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2023 [inline]
+>  pvr2_hdw_load_modules drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2075 [inline]
+>  pvr2_hdw_setup_low drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2156 [inline]
+>  pvr2_hdw_setup drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2262 [inline]
+>  pvr2_hdw_initialize+0xc8d/0x3600 drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2339
+>  pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:109 [inline]
+>  pvr2_context_thread_func+0x250/0x850 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
+>  kthread+0x392/0x470 kernel/kthread.c:291
+>  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:351
+> Modules linked in:
+> ---[ end trace 9af941b6bcb04b01 ]---
+> RIP: 0010:kernfs_find_ns+0x31/0x370 fs/kernfs/dir.c:829
+> Code: 49 89 d6 41 55 41 54 55 48 89 fd 53 48 83 ec 08 e8 f4 61 af ff 48 8d 7d 70 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 1e 03 00 00 48 8d bd 98 00 00 00 48 8b 5d 70 48
+> RSP: 0018:ffff8881d4187938 EFLAGS: 00010202
+> RAX: dffffc0000000000 RBX: ffffffff863789c0 RCX: ffffffff85a79ba7
+> RDX: 000000000000000e RSI: ffffffff81901d1c RDI: 0000000000000070
+> RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff873ed1e7
+> R10: fffffbfff0e7da3c R11: 0000000000000001 R12: 0000000000000000
+> R13: 0000000000000000 R14: 0000000000000000 R15: ffffffff863790e0
+> FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000557f2b45ae48 CR3: 00000001d2762000 CR4: 00000000001406f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>
+>
+> Tested on:
+>
+> commit:         b791d1bd Merge tag 'locking-kcsan-2020-06-11' of git://git..
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16dfe440900000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=ccf1899337a6e343
+> dashboard link: https://syzkaller.appspot.com/bug?extid=e74a998ca8f1df9cc332
+> compiler:       gcc (GCC) 10.1.0-syz 20200507
+> patch:          https://syzkaller.appspot.com/x/patch.diff?x=117e281b100000
+>
