@@ -2,152 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37C292286CB
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 19:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DC352287BE
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 19:46:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728773AbgGURHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 13:07:45 -0400
-Received: from gofer.mess.org ([88.97.38.141]:49947 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726686AbgGURHp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 13:07:45 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id DFB8EC6415; Tue, 21 Jul 2020 18:07:43 +0100 (BST)
-Date:   Tue, 21 Jul 2020 18:07:43 +0100
-From:   Sean Young <sean@mess.org>
-To:     Hans Petter Selasky <hps@selasky.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] [MEDIA] Use standard integer types
-Message-ID: <20200721170743.GA9984@gofer.mess.org>
-References: <4c32e020-1da4-5fbd-a445-121d361bd1e0@selasky.org>
- <20200721075707.GA1497@gofer.mess.org>
- <ce7dc15a-9f8e-733d-ccac-d6510c9eae11@selasky.org>
- <12e18aad-76af-885f-babe-c25cc1863cdd@selasky.org>
+        id S1730100AbgGURqi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 13:46:38 -0400
+Received: from pio-pvt-msa1.bahnhof.se ([79.136.2.40]:39086 "EHLO
+        pio-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726458AbgGURqf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Jul 2020 13:46:35 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id CB49A41421;
+        Tue, 21 Jul 2020 19:46:32 +0200 (CEST)
+Authentication-Results: pio-pvt-msa1.bahnhof.se;
+        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="frDUmX6P";
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+        by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 2pG5veMOGOdo; Tue, 21 Jul 2020 19:46:31 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        (Authenticated sender: mb878879)
+        by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id B8F983F3B9;
+        Tue, 21 Jul 2020 19:46:26 +0200 (CEST)
+Received: from [192.168.0.100] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id F165136010A;
+        Tue, 21 Jul 2020 19:46:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1595353586; bh=4uB31R2+QdLg394hPLx29A25rPq/9GLfA0vttAkzBpo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=frDUmX6Pb56r4nJFS91NmtvI7DLzeVhvjaHlEz2Xvk+tfoPGQteOV/5DOErazBDCW
+         IA3s0raY3MXcOdWP58C+hrLKx9k+xPlQlWoYful1aGabjti0/uWInAu7ikzGlVMFNk
+         AKA8JWBHfIhnINvYQnCl7wjhvT3kkO+EFiEACWis=
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
+ fences are a bad idea
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Stone <daniels@collabora.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Steve Pronovost <spronovo@microsoft.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+ <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+ <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
+ <20200721074157.GB3278063@phenom.ffwll.local>
+ <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
+ <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org>
+ <2ca2c004-1e11-87f5-4bd8-761e1b44d21f@amd.com>
+ <74727f17-b3a5-ca12-6db6-e47543797b72@shipmail.org>
+ <CAKMK7uFfMi5M5EkCeG6=tjuDANH4=gDLnFpxCYU-E-xyrxwYUg@mail.gmail.com>
+ <ae4e4188-39e6-ec41-c11d-91e9211b4d3a@shipmail.org>
+ <f8f73b9f-ce8d-ea02-7caa-d50b75b72809@amd.com>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Message-ID: <6ed364c9-893b-8974-501a-418585eb4def@shipmail.org>
+Date:   Tue, 21 Jul 2020 19:46:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12e18aad-76af-885f-babe-c25cc1863cdd@selasky.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <f8f73b9f-ce8d-ea02-7caa-d50b75b72809@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 12:53:42PM +0200, Hans Petter Selasky wrote:
-> Fixes compilation under FreeBSD.
 
-Thanks, applied.
+On 2020-07-21 15:59, Christian König wrote:
+> Am 21.07.20 um 12:47 schrieb Thomas Hellström (Intel):
+...
+>> Yes, we can't do magic. As soon as an indefinite batch makes it to 
+>> such hardware we've lost. But since we can break out while the batch 
+>> is stuck in the scheduler waiting, what I believe we *can* do with 
+>> this approach is to avoid deadlocks due to locally unknown 
+>> dependencies, which has some bearing on this documentation patch, and 
+>> also to allow memory allocation in dma-fence (not memory-fence) 
+>> critical sections, like gpu fault- and error handlers without 
+>> resorting to using memory pools.
+>
+> Avoiding deadlocks is only the tip of the iceberg here.
+>
+> When you allow the kernel to depend on user space to proceed with some 
+> operation there are a lot more things which need consideration.
+>
+> E.g. what happens when an userspace process which has submitted stuff 
+> to the kernel is killed? Are the prepared commands send to the 
+> hardware or aborted as well? What do we do with other processes 
+> waiting for that stuff?
+>
+> How to we do resource accounting? When processes need to block when 
+> submitting to the hardware stuff which is not ready we have a process 
+> we can punish for blocking resources. But how is kernel memory used 
+> for a submission accounted? How do we avoid deny of service attacks 
+> here were somebody eats up all memory by doing submissions which can't 
+> finish?
+>
+Hmm. Are these problems really unique to user-space controlled 
+dependencies? Couldn't you hit the same or similar problems with 
+mis-behaving shaders blocking timeline progress?
 
-Sean
+/Thomas
 
-> 
-> Signed-off-by: Hans Petter Selasky <hps@selasky.org>
-> ---
->  utils/common/keymap.h     | 10 ++++++----
->  utils/keytable/keytable.c | 24 ++++++++++++------------
->  2 files changed, 18 insertions(+), 16 deletions(-)
-> 
-> diff --git a/utils/common/keymap.h b/utils/common/keymap.h
-> index 99833827..dc198bc1 100644
-> --- a/utils/common/keymap.h
-> +++ b/utils/common/keymap.h
-> @@ -2,6 +2,8 @@
->  #ifndef __KEYMAP_H
->  #define __KEYMAP_H
-> 
-> +#include <stdint.h>
-> +
->  struct keymap {
->  	struct keymap *next;
->  	char *name;
-> @@ -20,16 +22,16 @@ struct protocol_param {
-> 
->  struct scancode_entry {
->  	struct scancode_entry *next;
-> -	u_int64_t scancode;
-> +	uint64_t scancode;
->  	char *keycode;
->  };
-> 
->  struct raw_entry {
->  	struct raw_entry *next;
-> -	u_int64_t scancode;
-> -	u_int32_t raw_length;
-> +	uint64_t scancode;
-> +	uint32_t raw_length;
->  	char *keycode;
-> -	u_int32_t raw[1];
-> +	uint32_t raw[1];
->  };
-> 
->  void free_keymap(struct keymap *map);
-> diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
-> index 3df5fcf2..cb91f1f0 100644
-> --- a/utils/keytable/keytable.c
-> +++ b/utils/keytable/keytable.c
-> @@ -55,11 +55,11 @@
-> 
->  struct input_keymap_entry_v2 {
->  #define KEYMAP_BY_INDEX	(1 << 0)
-> -	u_int8_t  flags;
-> -	u_int8_t  len;
-> -	u_int16_t index;
-> -	u_int32_t keycode;
-> -	u_int8_t  scancode[32];
-> +	uint8_t  flags;
-> +	uint8_t  len;
-> +	uint16_t index;
-> +	uint32_t keycode;
-> +	uint8_t  scancode[32];
->  };
-> 
->  #ifndef input_event_sec
-> @@ -82,7 +82,7 @@ struct input_keymap_entry_v2 {
->  struct keytable_entry {
->  	// 64 bit int which can printed with %llx
->  	unsigned long long scancode;
-> -	u_int32_t keycode;
-> +	uint32_t keycode;
->  	struct keytable_entry *next;
->  };
-> 
-> @@ -1376,7 +1376,7 @@ static int get_input_protocol_version(int fd)
->  static void clear_table(int fd)
->  {
->  	int i, j;
-> -	u_int32_t codes[2];
-> +	uint32_t codes[2];
->  	struct input_keymap_entry_v2 entry;
-> 
->  	/* Clears old table */
-> @@ -1463,7 +1463,7 @@ static void display_proto(struct rc_device *rc_dev)
->  }
-> 
-> 
-> -static char *get_event_name(struct parse_event *event, u_int16_t code)
-> +static char *get_event_name(struct parse_event *event, uint16_t code)
->  {
->  	struct parse_event *p;
-> 
-> @@ -1647,14 +1647,14 @@ static void display_table_v2(struct rc_device
-> *rc_dev, int fd)
->  		if (ioctl(fd, EVIOCGKEYCODE_V2, &entry) == -1)
->  			break;
-> 
-> -		if (entry.len == sizeof(u_int32_t)) {
-> -			u_int32_t temp;
-> +		if (entry.len == sizeof(uint32_t)) {
-> +			uint32_t temp;
-> 
->  			memcpy(&temp, entry.scancode, sizeof(temp));
-> 
->  			scancode = temp;
-> -		} else if (entry.len == sizeof(u_int64_t)) {
-> -			u_int64_t temp;
-> +		} else if (entry.len == sizeof(uint64_t)) {
-> +			uint64_t temp;
-> 
->  			memcpy(&temp, entry.scancode, sizeof(temp));
-> 
-> -- 
-> 2.27.0
+
+
