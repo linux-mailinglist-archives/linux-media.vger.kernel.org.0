@@ -2,211 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F062F227B43
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 10:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD29E227B75
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 11:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726928AbgGUI5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 04:57:04 -0400
-Received: from mga17.intel.com ([192.55.52.151]:33758 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726673AbgGUI5E (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 04:57:04 -0400
-IronPort-SDR: NuhB6MIUR3DF74NkzWqhesP/KjNUCTVyaXspTEKAmhLWg5g9T60ymwlGfkHZF8PlxAoa1PMMXR
- dbqIA9BP+hPQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9688"; a="130164937"
-X-IronPort-AV: E=Sophos;i="5.75,378,1589266800"; 
-   d="scan'208";a="130164937"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 01:57:01 -0700
-IronPort-SDR: drG5yXyqv/oND+aSHwZeSlSZGgEvQNt03GAPdYpVXAsFHxCY1+lnuuyu5g2c4hA1GdvYBQjHtX
- gQWRoRQblZuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,378,1589266800"; 
-   d="scan'208";a="327805884"
-Received: from lkp-server02.sh.intel.com (HELO 7dd7ac9fbea4) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 21 Jul 2020 01:57:00 -0700
-Received: from kbuild by 7dd7ac9fbea4 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jxo55-00001W-QE; Tue, 21 Jul 2020 08:56:59 +0000
-Date:   Tue, 21 Jul 2020 16:56:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS WITH WARNING
- 8f2a4a9d5ff5202d0b3e3a144ebb9b67aabadd29
-Message-ID: <5f16ada8.Ryw+q95GnSHP4bnJ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726990AbgGUJRB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 05:17:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34078 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726521AbgGUJRB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Jul 2020 05:17:01 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 050F0C0619D8
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 02:17:00 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id n24so14530413otr.13
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 02:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=zVQSUY5HZU/pPtYoYXUGW3LmwsCziy0wve5UBkyHrrQ=;
+        b=YcswjV5+sW7k4OtUfwNn9hx67gBvVQOvW9Tk9wGMNqaG/doxsM5y4CyCrpKg1usyTt
+         bH/LZD0gc2etqlISZDR7lPuxTqeYU52Zx3go4OimP5DjwpVo8TuBZGGS4wLt+NCMwM1Z
+         AiEtABu/1Xgz7dcByADkkFcrh14udYEoEEaDk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=zVQSUY5HZU/pPtYoYXUGW3LmwsCziy0wve5UBkyHrrQ=;
+        b=teDVHePJc3IyFnRt/xSNjVuBvcqLFH+6s8gVzcmzMf2TltiBsL0ejwvsQcGSrReFTg
+         nwGvuLS1l/fqYU/2eDJCZXdJYktfreT/Wk/MK1e11u7g4PTXwx55zMzE8QUs+RCqKSLu
+         7IxIXOieEc5ZJctm7brLzcVko8Oy9VlxHAwll4Vo9mBzEK6sy/QGomcKRL4Q5GzWwwel
+         ezU4UV1qv3tPIKA7cV90wPRXQsjydUnRt1OUtcsnhLiUnTqgt7ZLYJc8+MD1PKxoUqhg
+         DLmxUEsgDAG7DdBm0Res8q6/fsaXniieuOUEYIEf3r1+KaVbR7TqWSodFDt7V5f49y7x
+         yESA==
+X-Gm-Message-State: AOAM532fFY5dZsgzadxKh67DvTYquAKCG/5suRxMqLf68IAkFEEwOYbV
+        6FoI11ddnNj2+czxGYwntb8l+PJSQ3mVUPTeh/YDTg==
+X-Google-Smtp-Source: ABdhPJxZquZ0N4eWOhwpu33exVxqqStZYn7FsvW9Ie8Zgyle1yIBJkUOzhMdXgOzZ23hXhbKc5hk6nuu/ySFzfqVga0=
+X-Received: by 2002:a05:6830:1613:: with SMTP id g19mr22748873otr.303.1595323020252;
+ Tue, 21 Jul 2020 02:17:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+ <20200709123339.547390-1-daniel.vetter@ffwll.ch> <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
+ <20200721074157.GB3278063@phenom.ffwll.local> <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
+ <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org> <2ca2c004-1e11-87f5-4bd8-761e1b44d21f@amd.com>
+In-Reply-To: <2ca2c004-1e11-87f5-4bd8-761e1b44d21f@amd.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Tue, 21 Jul 2020 11:16:49 +0200
+Message-ID: <CAKMK7uHcWMGnLqmNqoyYmk_UcErEZwRon-ybc9t-Joa+bHacaQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
+ fences are a bad idea
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Stone <daniels@collabora.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Steve Pronovost <spronovo@microsoft.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: 8f2a4a9d5ff5202d0b3e3a144ebb9b67aabadd29  media: dvbdev.h: keep * together with the type
+On Tue, Jul 21, 2020 at 10:55 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 21.07.20 um 10:47 schrieb Thomas Hellstr=C3=B6m (Intel):
+> >
+> > On 7/21/20 9:45 AM, Christian K=C3=B6nig wrote:
+> >> Am 21.07.20 um 09:41 schrieb Daniel Vetter:
+> >>> On Mon, Jul 20, 2020 at 01:15:17PM +0200, Thomas Hellstr=C3=B6m (Inte=
+l)
+> >>> wrote:
+> >>>> Hi,
+> >>>>
+> >>>> On 7/9/20 2:33 PM, Daniel Vetter wrote:
+> >>>>> Comes up every few years, gets somewhat tedious to discuss, let's
+> >>>>> write this down once and for all.
+> >>>>>
+> >>>>> What I'm not sure about is whether the text should be more
+> >>>>> explicit in
+> >>>>> flat out mandating the amdkfd eviction fences for long running
+> >>>>> compute
+> >>>>> workloads or workloads where userspace fencing is allowed.
+> >>>> Although (in my humble opinion) it might be possible to completely
+> >>>> untangle
+> >>>> kernel-introduced fences for resource management and dma-fences
+> >>>> used for
+> >>>> completion- and dependency tracking and lift a lot of restrictions
+> >>>> for the
+> >>>> dma-fences, including prohibiting infinite ones, I think this makes
+> >>>> sense
+> >>>> describing the current state.
+> >>> Yeah I think a future patch needs to type up how we want to make that
+> >>> happen (for some cross driver consistency) and what needs to be
+> >>> considered. Some of the necessary parts are already there (with like
+> >>> the
+> >>> preemption fences amdkfd has as an example), but I think some clear
+> >>> docs
+> >>> on what's required from both hw, drivers and userspace would be reall=
+y
+> >>> good.
+> >>
+> >> I'm currently writing that up, but probably still need a few days for
+> >> this.
+> >
+> > Great! I put down some (very) initial thoughts a couple of weeks ago
+> > building on eviction fences for various hardware complexity levels here=
+:
+> >
+> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit=
+lab.freedesktop.org%2Fthomash%2Fdocs%2F-%2Fblob%2Fmaster%2FUntangling%2520d=
+ma-fence%2520and%2520memory%2520allocation.odt&amp;data=3D02%7C01%7Cchristi=
+an.koenig%40amd.com%7C8978bbd7823e4b41663708d82d52add3%7C3dd8961fe4884e608e=
+11a82d994e183d%7C0%7C0%7C637309180424312390&amp;sdata=3DtTxx2vfzfwLM1IBJSqq=
+AZRw1604R%2F0bI3MwN1%2FBf2VQ%3D&amp;reserved=3D0
+> >
+>
+> I don't think that this will ever be possible.
+>
+> See that Daniel describes in his text is that indefinite fences are a
+> bad idea for memory management, and I think that this is a fixed fact.
+>
+> In other words the whole concept of submitting work to the kernel which
+> depends on some user space interaction doesn't work and never will.
+>
+> What can be done is that dma_fences work with hardware schedulers. E.g.
+> what the KFD tries to do with its preemption fences.
+>
+> But for this you need a better concept and description of what the
+> hardware scheduler is supposed to do and how that interacts with
+> dma_fence objects.
 
-Warning in current branch:
+Yeah I think trying to split dma_fence wont work, simply because of
+inertia. Creating an entirely new thing for augmented userspace
+controlled fencing, and then jotting down all the rules the
+kernel/hw/userspace need to obey to not break dma_fence is what I had
+in mind. And I guess that's also what Christian is working on. E.g.
+just going through all the cases of how much your hw can preempt or
+handle page faults on the gpu, and what that means in terms of
+dma_fence_begin/end_signalling and other constraints would be really
+good.
+-Daniel
 
-drivers/media/platform/exynos4-is/media-dev.c:1273:1-3: WARNING: PTR_ERR_OR_ZERO can be used
+>
+> Christian.
+>
+> >
+> > /Thomas
+> >
+> >
+>
 
-Warning ids grouped by kconfigs:
 
-recent_errors
-`-- xtensa-randconfig-c023-20200719
-    `-- drivers-media-platform-exynos4-is-media-dev.c:WARNING:PTR_ERR_OR_ZERO-can-be-used
-
-elapsed time: 2637m
-
-configs tested: 142
-configs skipped: 10
-
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arc                         haps_hs_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc                    gamecube_defconfig
-c6x                                 defconfig
-c6x                        evmc6474_defconfig
-sh                          rsk7264_defconfig
-powerpc                       maple_defconfig
-sh                         apsh4a3a_defconfig
-mips                        jmr3927_defconfig
-arm                            xcep_defconfig
-sparc64                           allnoconfig
-xtensa                           allyesconfig
-sh                          landisk_defconfig
-powerpc                 linkstation_defconfig
-mips                    maltaup_xpa_defconfig
-mips                            gpr_defconfig
-sh                           se7780_defconfig
-sh                               alldefconfig
-mips                         bigsur_defconfig
-arm                           sama5_defconfig
-arm                           omap1_defconfig
-mips                            e55_defconfig
-c6x                         dsk6455_defconfig
-m68k                         amcore_defconfig
-arm                          simpad_defconfig
-openrisc                         allyesconfig
-mips                   sb1250_swarm_defconfig
-h8300                       h8s-sim_defconfig
-m68k                       m5475evb_defconfig
-sh                          r7780mp_defconfig
-arm                            mps2_defconfig
-um                            kunit_defconfig
-powerpc                           allnoconfig
-arm                         shannon_defconfig
-powerpc                       ppc64_defconfig
-arm                      footbridge_defconfig
-s390                             alldefconfig
-xtensa                    xip_kc705_defconfig
-ia64                        generic_defconfig
-mips                          rb532_defconfig
-powerpc                mpc7448_hpc2_defconfig
-arm                            zeus_defconfig
-sh                ecovec24-romimage_defconfig
-arm                       netwinder_defconfig
-mips                        nlm_xlr_defconfig
-powerpc                        cell_defconfig
-xtensa                generic_kc705_defconfig
-arm                         bcm2835_defconfig
-arc                     haps_hs_smp_defconfig
-s390                          debug_defconfig
-arm                          pxa3xx_defconfig
-m68k                        m5407c3_defconfig
-sh                          sdk7780_defconfig
-arm                           h5000_defconfig
-powerpc                    amigaone_defconfig
-arm                         lubbock_defconfig
-powerpc                         wii_defconfig
-h8300                               defconfig
-arm                         s3c6400_defconfig
-mips                       rbtx49xx_defconfig
-arm                            u300_defconfig
-ia64                             alldefconfig
-arm                           corgi_defconfig
-sparc                            alldefconfig
-mips                       capcella_defconfig
-arm                         orion5x_defconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-i386                              allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-i386                 randconfig-a001-20200719
-i386                 randconfig-a006-20200719
-i386                 randconfig-a002-20200719
-i386                 randconfig-a005-20200719
-i386                 randconfig-a003-20200719
-i386                 randconfig-a004-20200719
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                                   rhel
-x86_64                                    lkp
-x86_64                              fedora-25
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
