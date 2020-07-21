@@ -2,54 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35E4222768E
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 05:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B7832276A5
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 05:24:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726264AbgGUDRU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jul 2020 23:17:20 -0400
-Received: from [211.196.21.11] ([211.196.21.11]:53206 "EHLO
-        iscure03.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725857AbgGUDRU (ORCPT
+        id S1726675AbgGUDYo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jul 2020 23:24:44 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:47835 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725857AbgGUDYn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jul 2020 23:17:20 -0400
-Received: from Shop01 (unknown [127.0.0.1])
-        by iscure03.localdomain (Postfix) with SMTP id 99A7A2AE13C;
-        Mon, 20 Jul 2020 12:16:01 +0900 (KST)
-Received: from (HELO 2v45) [146.142.217.126] by Shop01 with ESMTP id 55558734; Sun, 19 Jul 2020 12:09:37 -0400
-Message-ID: <qoap--$$2--7c-9c@95ql.c.sm7vtdb>
-From:   "MOORE GATES LTD" <TEXT@TEXT.COM>
-Reply-To: "MOORE GATES LTD" <TEXT@TEXT.COM>
-To:     linux-man@vger.kernel.org
-Subject: FROM MR. MOORE
-Date:   Sun, 19 Jul 20 12:09:37 GMT
-X-Mailer: Internet Mail Service (5.5.2650.21)
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="D9F2D5A2__"
-X-Priority: 1
-X-MSMail-Priority: High
+        Mon, 20 Jul 2020 23:24:43 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id xitUjdvrYNPeYxitVjrHhD; Tue, 21 Jul 2020 05:24:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1595301881; bh=fCR3cGWXbWO9e4sBw6t2ZQn/mdfzKkYrPD7XxrTUT7g=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=X2UQg8AghdKh5eSgwtVkwN1cOIIrKuJOolyWmELrPYlL7J9uCCQP8+3cJxmx5XY6k
+         z5tm+rKq5iuh6VK2uhlQapKCOgYT3h/aLExtfXrcLvG8ClvirulJ/4yuirsseCu1YI
+         L/DqEKqB/5Ij46pCF+xbLpwY6Jgoq8wtueCmmLe4Gi0uGBA07sGDtfCz+6yXqJsqMD
+         bw9QvrZQ7wQ7Oc89nckmKdRpFL43/PxgmIFL+K4ASMGQQ1ZA1MGfGdhyG7d8Mm0bBd
+         2X7DUI4vWXNbVxpGj1iIZbVcd20MuDlRdJtXxO3CSytXZv8jJvsVPJhTpRBYMV3Zow
+         XwkEaNlbFtVbQ==
+Message-ID: <db2963a403cd12d4342938725ff6863b@smtp-cloud8.xs4all.net>
+Date:   Tue, 21 Jul 2020 05:24:40 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfOWbiJVGF2UTJZOCOEZvs6WlKOCzNPMsfGE/nUasvHbnGQvPp/LxS0HLNxHLLZfPS3T0MhYTdsz6G6HHzJ3jRBedkrdOi6kI8oHkJx3A4jB94rPvP51v
+ vKCz9lEWQDfQ82NSAszMAfq006uECRhEn0DK1YlKCIaeVQyEE/OedZechWWVpXVYz/rOPMpvAYiRqqikNVLxTxfhvOq/BGKgA6jY2J8wlGYk3JudpGZz665u
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
---D9F2D5A2__
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+Results of the daily build of media_tree:
 
-Dear Beloved,
-Peace of the Lord be with you and family, I am Fitzpatrick Moore a
-United Kingdom Citizen, I have ($ 25M) Twenty five Million united
-states dollars with a finance House in United State. I will want you
-to help me collect this deposit and dispatch it to charity
-organizations. You will take out 30% of these funds for your
-assistance to help ME disburse this fund to charities. I will like you
-to acknowledge the receipt of this e-mail as soon as possible and
-treats with absolute confidentiality and sincerity. Please reply to my
-Email: (moorefitzpatrick@gmail.com)
-Yours Sincerely,
-Fitzpatrick Moore
+date:			Tue Jul 21 05:00:08 CEST 2020
+media-tree git hash:	8f2a4a9d5ff5202d0b3e3a144ebb9b67aabadd29
+media_build git hash:	ea2766f182b3a4e03543be2ded0845fca4d4fa80
+v4l-utils git hash:	697ae940b60a172ef31948dd74316fe9de365b7e
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 1276c1355abc12c391f3d471acc71d55421b87b6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
---D9F2D5A2__--
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: WARNINGS
+linux-5.3.1-x86_64: WARNINGS
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: ERRORS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
