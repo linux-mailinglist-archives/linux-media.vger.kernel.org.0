@@ -2,304 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8469022826B
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 16:40:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14A4C228362
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 17:15:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728961AbgGUOkw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 10:40:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56094 "EHLO
+        id S1729999AbgGUPPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 11:15:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728850AbgGUOkw (ORCPT
+        with ESMTP id S1728089AbgGUPPa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 10:40:52 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0855DC061794;
-        Tue, 21 Jul 2020 07:40:52 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 2AFF729744C
-Subject: Re: [PATCH v4 2/6] media: v4l2: Add extended buffer operations
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        mchehab@kernel.org, hans.verkuil@cisco.com,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        linux-media@vger.kernel.org
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
-        tfiga@chromium.org, hiroh@chromium.org, nicolas@ndufresne.ca,
-        Brian.Starkey@arm.com, kernel@collabora.com,
-        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
-        frkoenig@chromium.org, mjourdan@baylibre.com
-References: <20200717115435.2632623-1-helen.koike@collabora.com>
- <20200717115435.2632623-3-helen.koike@collabora.com>
- <5665bbd4-75e2-ec73-ba24-54e5981eb4ac@linaro.org>
- <e4d4c88b-2724-76c0-fff2-2404d5073ae4@collabora.com>
- <0fd9e21d-4317-dbed-c035-9c1523e0195b@linaro.org>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <15067dff-c802-d6f0-a2f8-817fb487b30d@collabora.com>
-Date:   Tue, 21 Jul 2020 11:40:43 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 21 Jul 2020 11:15:30 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A989C061794
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 08:15:30 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id ed14so9482439qvb.2
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 08:15:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+bMtmzQw3RYo3O18KRd5sMsUi8bop7S3QjK0dgPZLfU=;
+        b=0tg11yZW4yTYw3ufnocVqsRnVvIWaKdomBIRAFN8FqN399hRAL72PzqZA/em04c3qM
+         DjEuyFlrYuEPVN8hK6ECIAHE7AWGqIk5V2Et9ILFPYRutnMIqsCKhNWid4AMquxWz0y9
+         x3UoHxi1mKH2nZi5L/dZAXWCu0C555UWa8pIX5J96wckDyAap0vMFHQQjHnN30WYtZaZ
+         vSpstHOAHWLgD4oF8GDU03qPDYVsRrum20NU5qb+BiQbB99mNgd1iGR2tW6TfX06E0Rh
+         LJyYLSkurX0cjtoFvNto4rn46jlg8jPd6VzsjqU/txHoVBk3XO1J+wLtFfamXGk1nm/4
+         hwyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+bMtmzQw3RYo3O18KRd5sMsUi8bop7S3QjK0dgPZLfU=;
+        b=Aex+NwpyvngdRO9Gmq2jURMx9DE5jqYrDBNjrEwDVYHVlq+VdSGSMEgcnJS3EJrjML
+         9O9eBYDHgiGhbiaNIssKUqGhReBuVfN4TlvyTLa3CXhXKr+hULo8DH3x29G1X+NpeLaQ
+         sOXSrkk3QW5v0tk26C00zWk6l9D33SjumPuiPIQNxsEgaRMuPvtqJkOOKjrorq10fYAS
+         FR6ITmN/ICOQ0/oes6EKKHgmgpkX15qi3RFPpR2VwPn74m654ALnRAsS3dzMdn7XS3OL
+         dUUJBlyv7o3apo4fjhxbigvC3Zi6ThEnxEDF0WOjwF+YsNi5OeOf26lSFEabjDiT7qB1
+         oNGQ==
+X-Gm-Message-State: AOAM530y177Yn6YeyTkN5gGroeISTbxpGNg0gi11wIq7t6WSQpxscX2u
+        lckpLQCWWOcOLDEUjFjYiYlsZQ2CzWK+eg==
+X-Google-Smtp-Source: ABdhPJwIEKn2niMaB+059HoZreLqD0X/EPFb5YbnGuqCTlCCxZL9fF4ZG9GD0YiYIOy5M41HjTzEnw==
+X-Received: by 2002:a0c:dc8c:: with SMTP id n12mr26816883qvk.221.1595344528904;
+        Tue, 21 Jul 2020 08:15:28 -0700 (PDT)
+Received: from ariel-arch.fibertel.com.ar (201-212-81-161.cab.prima.net.ar. [201.212.81.161])
+        by smtp.gmail.com with ESMTPSA id o5sm23310441qtb.26.2020.07.21.08.15.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2020 08:15:28 -0700 (PDT)
+From:   Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
+        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
+        ariel@vanguardiasur.com.ar, gjasny@googlemail.com,
+        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
+        user.vdr@gmail.com
+Subject: [PATCH v2 0/1] Add support for meson building
+Date:   Tue, 21 Jul 2020 12:14:33 -0300
+Message-Id: <20200721151434.115651-1-ariel@vanguardiasur.com.ar>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <0fd9e21d-4317-dbed-c035-9c1523e0195b@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello there,
 
+Here's another step on porting v4l-utils to meson build system.
+Following the discussion thread for v1, several changes were added (see
+Changelog below).
 
-On 7/21/20 11:30 AM, Stanimir Varbanov wrote:
-> Hi Helen,
-> 
-> On 7/21/20 4:54 PM, Helen Koike wrote:
->> Hi,
->>
->> On 7/21/20 8:26 AM, Stanimir Varbanov wrote:
->>>
->>>
->>> On 7/17/20 2:54 PM, Helen Koike wrote:
->>>> From: Hans Verkuil <hans.verkuil@cisco.com>
->>>>
->>>> Those extended buffer ops have several purpose:
->>>> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
->>>>    the number of ns elapsed since 1970
->>>> 2/ Unify single/multiplanar handling
->>>> 3/ Add a new start offset field to each v4l2 plane buffer info struct
->>>>    to support the case where a single buffer object is storing all
->>>>    planes data, each one being placed at a different offset
->>>>
->>>> New hooks are created in v4l2_ioctl_ops so that drivers can start using
->>>> these new objects.
->>>>
->>>> The core takes care of converting new ioctls requests to old ones
->>>> if the driver does not support the new hooks, and vice versa.
->>>>
->>>> Note that the timecode field is gone, since there doesn't seem to be
->>>> in-kernel users. We can be added back in the reserved area if needed or
->>>> use the Request API to collect more metadata information from the
->>>> frame.
->>>>
->>>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
->>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->>>> ---
->>>> Changes in v4:
->>>> - Use v4l2_ext_pix_format directly in the ioctl, drop v4l2_ext_format,
->>>> making V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] the only valid types.
->>>> - Drop VIDIOC_EXT_EXPBUF, since the only difference from VIDIOC_EXPBUF
->>>> was that with VIDIOC_EXT_EXPBUF we could export multiple planes at once.
->>>> I think we can add this later, so I removed it from this RFC to simplify it.
->>>> - Remove num_planes field from struct v4l2_ext_buffer
->>>> - Add flags field to struct v4l2_ext_create_buffers
->>>> - Reformulate struct v4l2_ext_plane
->>>> - Fix some bugs caught by v4l2-compliance
->>>> - Rebased on top of media/master (post 5.8-rc1)
->>>>
->>>> Changes in v3:
->>>> - Rebased on top of media/master (post 5.4-rc1)
->>>>
->>>> Changes in v2:
->>>> - Add reserved space to v4l2_ext_buffer so that new fields can be added
->>>>   later on
->>>> ---
->>>>  drivers/media/v4l2-core/v4l2-dev.c   |  29 ++-
->>>>  drivers/media/v4l2-core/v4l2-ioctl.c | 349 +++++++++++++++++++++++++--
->>>>  include/media/v4l2-ioctl.h           |  26 ++
->>>>  include/uapi/linux/videodev2.h       |  89 +++++++
->>>>  4 files changed, 471 insertions(+), 22 deletions(-)
->>>>
->>>
->>> <cut>
->>>
->>>> +/**
->>>> + * struct v4l2_ext_plane - extended plane buffer info
->>>> + * @buffer_length:	size of the entire buffer in bytes, should fit
->>>> + *			@offset + @plane_length
->>>> + * @plane_length:	size of the plane in bytes.
->>>> + * @userptr:		when memory is V4L2_MEMORY_USERPTR, a userspace pointer pointing
->>>> + *			to this plane.
->>>> + * @dmabuf_fd:		when memory is V4L2_MEMORY_DMABUF, a userspace file descriptor
->>>> + *			associated with this plane.
->>>> + * @offset:		offset in the memory buffer where the plane starts. If
->>>> + *			V4L2_MEMORY_MMAP is used, then it can be a "cookie" that
->>>> + *			should be passed to mmap() called on the video node.
->>>> + * @reserved:		extra space reserved for future fields, must be set to 0.
->>>> + *
->>>> + *
->>>> + * Buffers consist of one or more planes, e.g. an YCbCr buffer with two planes
->>>> + * can have one plane for Y, and another for interleaved CbCr components.
->>>> + * Each plane can reside in a separate memory buffer, or even in
->>>> + * a completely separate memory node (e.g. in embedded devices).
->>>> + */
->>>> +struct v4l2_ext_plane {
->>>> +	__u32 buffer_length;
->>>> +	__u32 plane_length;
->>>> +	union {
->>>> +		__u64 userptr;
->>>> +		__s32 dmabuf_fd;
->>>> +	} m;
->>>> +	__u32 offset;
->>>> +	__u32 reserved[4];
->>>> +};
->>>> +
->>>>  /**
->>>>   * struct v4l2_buffer - video buffer info
->>>>   * @index:	id number of the buffer
->>>> @@ -1055,6 +1086,36 @@ struct v4l2_buffer {
->>>>  	};
->>>>  };
->>>>  
->>>> +/**
->>>> + * struct v4l2_ext_buffer - extended video buffer info
->>>> + * @index:	id number of the buffer
->>>> + * @type:	V4L2_BUF_TYPE_VIDEO_CAPTURE or V4L2_BUF_TYPE_VIDEO_OUTPUT
->>>> + * @flags:	buffer informational flags
->>>> + * @field:	enum v4l2_field; field order of the image in the buffer
->>>> + * @timestamp:	frame timestamp
->>>> + * @sequence:	sequence count of this frame
->>>> + * @memory:	enum v4l2_memory; the method, in which the actual video data is
->>>> + *		passed
->>>> + * @planes:	per-plane buffer information
->>>> + * @request_fd:	fd of the request that this buffer should use
->>>> + * @reserved:	extra space reserved for future fields, must be set to 0
->>>> + *
->>>> + * Contains data exchanged by application and driver using one of the Streaming
->>>> + * I/O methods.
->>>> + */
->>>> +struct v4l2_ext_buffer {
->>>> +	__u32 index;
->>>> +	__u32 type;
->>>> +	__u32 flags;
->>>> +	__u32 field;
->>>> +	__u64 timestamp;
->>>> +	__u32 sequence;
->>>> +	__u32 memory;
->>>> +	__u32 request_fd;
->>>
->>> This should be __s32, at least for consistency with dmabuf_fd?
->>
->> I see that in struct v4l2_buffer, we have __s32, I don't mind changing it
->> to keep the consistency, I just don't see where this value can be a negative
->> number.
-> 
-> here
-> https://elixir.bootlin.com/linux/v5.8-rc4/source/drivers/media/common/videobuf2/videobuf2-v4l2.c#L134
+Tested Debian/Ubuntu packaging scripts from Gregor Jasny, which can be
+found in branch `meson-build` from:
 
-I saw that -1 is used to signal an invalid value, but I was just wondering when request_fd = 0 is valid.
+    https://git.launchpad.net/\~libv4l/+git/v4l-utils-packaging
 
-> 
->>
->>>
->>>> +	struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
->>>> +	__u32 reserved[4];
->>>
->>> I think we have to reserve more words here for future extensions.
->>>
->>> I'd like also to propose to add here __s32 metadata_fd. The idea behind
->>> this is to have a way to pass per-frame metadata dmabuf buffers for
->>> synchronous type of metadata where the metadata is coming at the same
->>> time with data buffers. What would be the format of the metadata buffer
->>> is TBD.
->>>
->>> One option for metadata buffer format could be:
->>>
->>> header {
->>> 	num_ctrls
->>> 	array_of_ctrls [0..N]
->>> 		ctrl_id
->>> 		ctrl_size
->>> 		ctrl_offset
->>> }
->>>
->>> data {
->>> 	cid0	//offset of cid0 in dmabuf buffer
->>> 	cid1
->>> 	cidN
->>> }
->>
->> Would it be better if, instead of adding a medatata_fd inside struct v4l2_ext_buffer,
->> we create a new ioctl that gets this structs for the controls and sync them using the
->> Request API ?
-> 
-> no, this solution has performance drawbacks when the metadata is big,
-> think of 64K.
+This patchset was developed on top of v4l-utils tag: v4l-utils-1.20.0:
 
-Why? You could still use a dmabuf in this new ioctl, no?
+    commit 3b22ab02b960e4d1e90618e9fce9b7c8a80d814a
+    Author: Gregor Jasny <gjasny@googlemail.com>
+        Prepare for 1.20.0 release
 
+You can find the patch pushed to the following branch:
+
+    https://gitlab.com/adalessandro/v4l-utils/-/tree/v4l-utils-1.20.0-meson-v2
+
+Further testing, deeper reviews, more comments, are all welcome :-)
+
+Changes from v1:
+
+  * Updated project version to 1.21.0.
+  * Fixed clang includes in keytable bpf compilation.
+  * Improved variable reutilization in meson scripts.        
+  * Set libraries version and soversion.                     
+  * Control symbol visibility.                  
+  * Install empty 'protocols' directory in keytable user dir.
+  * Fixed svg filenames in qv4l2 and qvidcap.                         
+  * Added support for Doxygen documentation (html and man).
+  * Updated required meson version to v0.53 (for fs module).       
+  * Added new files to EXTRA_DIST in each Makefile.am.              
 
 Regards,
-Helen
 
-> 
->>
->> I'd like to avoid too much metadata in the buffer object.
->>
->> Regards,
->> Helen
->>
->>>
->>> This will make easy to get concrete ctrl id without a need to parse the
->>> whole metadata buffer. Also using dmabuf we don't need to copy data
->>> between userspace <-> kernelspace (just cache syncs through
->>> begin/end_cpu_access).
->>>
->>> The open question is who will validate the metadata buffer when it comes
->>> from userspace. The obvious answer is v4l2-core but looking into DRM
->>> subsytem they give more freedom to the drivers, and just provide generic
->>> helpers which are not mandatory.
->>>
->>> I guess this will be a voice in the wilderness but I wanted to know your
->>> opinion.
->>>
->>>> +};
->>>> +
->>>>  #ifndef __KERNEL__
->>>>  /**
->>>>   * v4l2_timeval_to_ns - Convert timeval to nanoseconds
->>>> @@ -2520,6 +2581,29 @@ struct v4l2_create_buffers {
->>>>  	__u32			reserved[6];
->>>>  };
->>>>  
->>>> +/**
->>>> + * struct v4l2_ext_create_buffers - VIDIOC_EXT_CREATE_BUFS argument
->>>> + * @index:	on return, index of the first created buffer
->>>> + * @count:	entry: number of requested buffers,
->>>> + *		return: number of created buffers
->>>> + * @memory:	enum v4l2_memory; buffer memory type
->>>> + * @capabilities: capabilities of this buffer type.
->>>> + * @format:	frame format, for which buffers are requested
->>>> + * @flags:	additional buffer management attributes (ignored unless the
->>>> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
->>>> + *		and configured for MMAP streaming I/O).
->>>> + * @reserved:	extra space reserved for future fields, must be set to 0
->>>> + */
->>>> +struct v4l2_ext_create_buffers {
->>>> +	__u32				index;
->>>> +	__u32				count;
->>>> +	__u32				memory;
->>>> +	struct v4l2_ext_pix_format	format;
->>>> +	__u32				capabilities;
->>>> +	__u32				flags;
->>>> +	__u32 reserved[4];
->>>> +};
->>>> +
->>>>  /*
->>>>   *	I O C T L   C O D E S   F O R   V I D E O   D E V I C E S
->>>>   *
->>>> @@ -2623,6 +2707,11 @@ struct v4l2_create_buffers {
->>>>  #define VIDIOC_G_EXT_PIX_FMT	_IOWR('V', 104, struct v4l2_ext_pix_format)
->>>>  #define VIDIOC_S_EXT_PIX_FMT	_IOWR('V', 105, struct v4l2_ext_pix_format)
->>>>  #define VIDIOC_TRY_EXT_PIX_FMT	_IOWR('V', 106, struct v4l2_ext_pix_format)
->>>> +#define VIDIOC_EXT_CREATE_BUFS	_IOWR('V', 107, struct v4l2_ext_create_buffers)
->>>> +#define VIDIOC_EXT_QUERYBUF	_IOWR('V', 108, struct v4l2_ext_buffer)
->>>> +#define VIDIOC_EXT_QBUF		_IOWR('V', 109, struct v4l2_ext_buffer)
->>>> +#define VIDIOC_EXT_DQBUF	_IOWR('V', 110, struct v4l2_ext_buffer)
->>>> +#define VIDIOC_EXT_PREPARE_BUF	_IOWR('V', 111, struct v4l2_ext_buffer)
->>>>  
->>>>  /* Reminder: when adding new ioctls please add support for them to
->>>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
->>>>
->>>
-> 
+Ariel D'Alessandro (1):
+  Add support for meson building
+
+ .gitignore                                    |    1 +
+ Makefile.am                                   |    3 +-
+ contrib/Makefile.am                           |    3 +-
+ contrib/cobalt-ctl/Makefile.am                |    2 +
+ contrib/cobalt-ctl/meson.build                |    8 +
+ contrib/decode_tm6000/Makefile.am             |    2 +
+ contrib/decode_tm6000/meson.build             |   14 +
+ contrib/gconv/Makefile.am                     |    2 +-
+ contrib/gconv/meson.build                     |   44 +
+ contrib/meson.build                           |   13 +
+ contrib/rds-saa6588/Makefile.am               |    2 +
+ contrib/rds-saa6588/meson.build               |    7 +
+ contrib/test/Makefile.am                      |    3 +-
+ contrib/test/meson.build                      |  143 +
+ contrib/xc3028-firmware/Makefile.am           |    2 +-
+ contrib/xc3028-firmware/meson.build           |   11 +
+ doc/Doxyfile.in                               | 2351 +++++++++++++++++
+ doc/meson.build                               |   34 +
+ gen-version.sh                                |   36 +
+ lib/Makefile.am                               |    2 +-
+ lib/libdvbv5/Makefile.am                      |    2 +-
+ lib/libdvbv5/meson.build                      |  154 ++
+ lib/libv4l-mplane/Makefile.am                 |    2 +
+ lib/libv4l-mplane/meson.build                 |   23 +
+ lib/libv4l1/Makefile.am                       |    2 +-
+ lib/libv4l1/meson.build                       |   61 +
+ lib/libv4l2/Makefile.am                       |    2 +-
+ lib/libv4l2/meson.build                       |   70 +
+ lib/libv4l2rds/Makefile.am                    |    2 +
+ lib/libv4l2rds/meson.build                    |   36 +
+ lib/libv4lconvert/Makefile.am                 |    2 +-
+ lib/libv4lconvert/meson.build                 |  113 +
+ lib/meson.build                               |   11 +
+ libdvbv5-po/meson.build                       |    3 +
+ meson.build                                   |  263 ++
+ meson_options.txt                             |   50 +
+ utils/Makefile.am                             |    2 +-
+ utils/cec-compliance/Makefile.am              |    2 +-
+ utils/cec-compliance/meson.build              |   24 +
+ utils/cec-ctl/Makefile.am                     |    2 +-
+ utils/cec-ctl/meson.build                     |   18 +
+ utils/cec-follower/Makefile.am                |    2 +-
+ utils/cec-follower/meson.build                |   21 +
+ utils/cx18-ctl/Makefile.am                    |    2 +
+ utils/cx18-ctl/meson.build                    |    8 +
+ utils/dvb/Makefile.am                         |    2 +-
+ utils/dvb/meson.build                         |   70 +
+ utils/gen_media_bus_format_codes.sh           |    7 +
+ utils/gen_media_bus_format_names.sh           |    7 +
+ utils/ir-ctl/Makefile.am                      |    2 +
+ utils/ir-ctl/meson.build                      |   23 +
+ utils/ivtv-ctl/Makefile.am                    |    2 +
+ utils/ivtv-ctl/meson.build                    |   13 +
+ utils/keytable/Makefile.am                    |    3 +-
+ utils/keytable/bpf_protocols/Makefile.am      |    3 +-
+ .../bpf_protocols/clang_sys_includes.sh       |    9 +
+ utils/keytable/bpf_protocols/meson.build      |   39 +
+ .../user_dir_protocols/README.md              |    1 +
+ utils/keytable/meson.build                    |   74 +
+ utils/keytable/rc_keymaps/meson.build         |  147 ++
+ utils/libcecutil/Makefile.am                  |    2 +-
+ utils/libcecutil/meson.build                  |   45 +
+ utils/libmedia_dev/Makefile.am                |    2 +-
+ utils/libmedia_dev/meson.build                |   14 +
+ utils/libv4l2util/Makefile.am                 |    2 +-
+ utils/libv4l2util/meson.build                 |   16 +
+ utils/media-ctl/Makefile.am                   |    2 +
+ utils/media-ctl/meson.build                   |   43 +
+ utils/meson.build                             |   46 +
+ utils/qv4l2/Makefile.am                       |    3 +-
+ utils/qv4l2/meson.build                       |   80 +
+ utils/qvidcap/Makefile.am                     |    3 +-
+ utils/qvidcap/meson.build                     |   82 +
+ utils/rds-ctl/Makefile.am                     |    1 +
+ utils/rds-ctl/meson.build                     |   13 +
+ utils/v4l2-compliance/Makefile.am             |    2 +-
+ utils/v4l2-compliance/meson.build             |   60 +
+ utils/v4l2-ctl/Makefile.am                    |    2 +-
+ utils/v4l2-ctl/meson.build                    |   75 +
+ utils/v4l2-dbg/Makefile.am                    |    2 +-
+ utils/v4l2-dbg/meson.build                    |   16 +
+ utils/v4l2-sysfs-path/Makefile.am             |    2 +
+ utils/v4l2-sysfs-path/meson.build             |   14 +
+ v4l-utils-po/meson.build                      |    3 +
+ version.h.in                                  |    1 +
+ 85 files changed, 4468 insertions(+), 25 deletions(-)
+ create mode 100644 contrib/cobalt-ctl/meson.build
+ create mode 100644 contrib/decode_tm6000/meson.build
+ create mode 100644 contrib/gconv/meson.build
+ create mode 100644 contrib/meson.build
+ create mode 100644 contrib/rds-saa6588/meson.build
+ create mode 100644 contrib/test/meson.build
+ create mode 100644 contrib/xc3028-firmware/meson.build
+ create mode 100644 doc/Doxyfile.in
+ create mode 100644 doc/meson.build
+ create mode 100755 gen-version.sh
+ create mode 100644 lib/libdvbv5/meson.build
+ create mode 100644 lib/libv4l-mplane/meson.build
+ create mode 100644 lib/libv4l1/meson.build
+ create mode 100644 lib/libv4l2/meson.build
+ create mode 100644 lib/libv4l2rds/meson.build
+ create mode 100644 lib/libv4lconvert/meson.build
+ create mode 100644 lib/meson.build
+ create mode 100644 libdvbv5-po/meson.build
+ create mode 100644 meson.build
+ create mode 100644 meson_options.txt
+ create mode 100644 utils/cec-compliance/meson.build
+ create mode 100644 utils/cec-ctl/meson.build
+ create mode 100644 utils/cec-follower/meson.build
+ create mode 100644 utils/cx18-ctl/meson.build
+ create mode 100644 utils/dvb/meson.build
+ create mode 100755 utils/gen_media_bus_format_codes.sh
+ create mode 100755 utils/gen_media_bus_format_names.sh
+ create mode 100644 utils/ir-ctl/meson.build
+ create mode 100644 utils/ivtv-ctl/meson.build
+ create mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
+ create mode 100644 utils/keytable/bpf_protocols/meson.build
+ create mode 100644 utils/keytable/bpf_protocols/user_dir_protocols/README.md
+ create mode 100644 utils/keytable/meson.build
+ create mode 100644 utils/keytable/rc_keymaps/meson.build
+ create mode 100644 utils/libcecutil/meson.build
+ create mode 100644 utils/libmedia_dev/meson.build
+ create mode 100644 utils/libv4l2util/meson.build
+ create mode 100644 utils/media-ctl/meson.build
+ create mode 100644 utils/meson.build
+ create mode 100644 utils/qv4l2/meson.build
+ create mode 100644 utils/qvidcap/meson.build
+ create mode 100644 utils/rds-ctl/meson.build
+ create mode 100644 utils/v4l2-compliance/meson.build
+ create mode 100644 utils/v4l2-ctl/meson.build
+ create mode 100644 utils/v4l2-dbg/meson.build
+ create mode 100644 utils/v4l2-sysfs-path/meson.build
+ create mode 100644 v4l-utils-po/meson.build
+ create mode 100644 version.h.in
+
+-- 
+2.26.2
+
