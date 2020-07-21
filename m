@@ -2,178 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4829F228162
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 15:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ED40228165
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 15:55:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726700AbgGUNyT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 09:54:19 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:59251 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726120AbgGUNyT (ORCPT
+        id S1726971AbgGUNzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 09:55:08 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44366 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726120AbgGUNzI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 09:54:19 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id xsimjiBjfNPeYxsinjufOB; Tue, 21 Jul 2020 15:54:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1595339657; bh=PDSQ9CQyuDNzepwlhrVFRQg5sIt+xIhogYTeu7Pbyh4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=jYZawbeItMgcBeR5Py1hyn08kt/wV0uQ6dK712Q6c0AkMkCUj6MJBEWZQli9ffIqb
-         08yuv6pGROp0gYsfQlx5jOISsvT7QtkocWADbCmM8/xwyCSmMjJ0FvLPnViRvWHI5y
-         sd71cca+zrSSmar01ksF2FM2+qZ64d8PvQzIo1M66MKHgoTFKKhF8hY3ZHvpknFeGr
-         leGnHuucMZb0YPR9cnRLUHr3olWTs4CZBHn3CfOP/9WudSJSFlQfocSKAQfzs8hGfZ
-         LWtSGP5XXFvAbMKDVxTbiSTMUeXmHZujjBY6QjoLHYyVl4W3JBfQi6GXZtI5d9RJdA
-         wCwxgGgowrTkg==
-Subject: Re: [PATCH v5 5/7] media: v4l2: add support for the subdev CSC API
- for hsv_enc on mediabus
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-References: <20200703171019.19270-1-dafna.hirschfeld@collabora.com>
- <20200703171019.19270-6-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f78cd2d5-a38b-7bbd-b03a-299ca8644bc9@xs4all.nl>
-Date:   Tue, 21 Jul 2020 15:54:16 +0200
+        Tue, 21 Jul 2020 09:55:08 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 7E5BD29725C
+Subject: Re: [PATCH v4 2/6] media: v4l2: Add extended buffer operations
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        mchehab@kernel.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        linux-media@vger.kernel.org
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        tfiga@chromium.org, hiroh@chromium.org, nicolas@ndufresne.ca,
+        Brian.Starkey@arm.com, kernel@collabora.com,
+        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+        frkoenig@chromium.org, mjourdan@baylibre.com
+References: <20200717115435.2632623-1-helen.koike@collabora.com>
+ <20200717115435.2632623-3-helen.koike@collabora.com>
+ <5665bbd4-75e2-ec73-ba24-54e5981eb4ac@linaro.org>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <e4d4c88b-2724-76c0-fff2-2404d5073ae4@collabora.com>
+Date:   Tue, 21 Jul 2020 10:54:57 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200703171019.19270-6-dafna.hirschfeld@collabora.com>
+In-Reply-To: <5665bbd4-75e2-ec73-ba24-54e5981eb4ac@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGRGQXQuDOc+R/i4nqKvbfg6vLpe3Nkqk+SMkWMW2a64e99MvCfO9+6Y0etrVRPUKhtoGVqOoIG+/xP766k/y0kSMzDi98/9nUKvct0Qcmf6GU8fZJZZ
- jmJc9UzZBVjWXuooJkCdblR7NNIE1IWC+F6JQaFhVJ7AFtvi1WQ7HeXYiOvO1RM8OUsXzUyosJ+nV0BC1WnIAn2yTswNINF/Tq0KOM5PEdcufB8wY7dqIvl1
- RZTuqhD7IbnwYEWB+hHGh7IT4H3ULathYMMM6rwYPVTV5+5+KQQDgMCkl9Wp3ACjNFgEPI2XsoGqSEvmF5lmLnEV81oECEYJP6hwRrdWaorY6DjZ6v0MF6XY
- Kj4uJDWaGi3KpnMO7C0B7xEIySKGrxmDkR/RSC1Um1FWUGP/4UpIpRaJqwQAIkrf/yytsRYCK6nDehXm+NBCca69v6MqRsoAaL7rQQt7xpQs//XbEw4U7uyx
- SUryBKJ4UZ3cCZSGWcxLoaLHp1IFLekY8P9FTN58QhGcMdYwNc0JB9hbVPimSC5sbvOy37r5BQjff76K0ZB+9EbpWpzXL6wLqTCGSxTUlgVk+3/V4AX/K0c6
- I4Sn3PXhnrolrzFhGZyqux4lWjrA7OwdMED+3sLdEAeQjZfj6R1xZflCwYJZwDYYYs8=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/07/2020 19:10, Dafna Hirschfeld wrote:
-> Add the flag V4L2_SUBDEV_MBUS_CODE_CSC_HSV_ENC that drivers
-> can set when enumerating the supported mediabus formats
-> on subdevices to indicate that the userspace can ask to
-> set the 'hsv_enc'. The patch also replaces the 'ycbcr_enc'
-> field in 'struct v4l2_mbus_framefmt' with a union that
-> includes 'hsv_enc'
+Hi,
 
-I would just squash this patch with the previous patch. There is really
-no need to split this into two patches.
+On 7/21/20 8:26 AM, Stanimir Varbanov wrote:
+> 
+> 
+> On 7/17/20 2:54 PM, Helen Koike wrote:
+>> From: Hans Verkuil <hans.verkuil@cisco.com>
+>>
+>> Those extended buffer ops have several purpose:
+>> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
+>>    the number of ns elapsed since 1970
+>> 2/ Unify single/multiplanar handling
+>> 3/ Add a new start offset field to each v4l2 plane buffer info struct
+>>    to support the case where a single buffer object is storing all
+>>    planes data, each one being placed at a different offset
+>>
+>> New hooks are created in v4l2_ioctl_ops so that drivers can start using
+>> these new objects.
+>>
+>> The core takes care of converting new ioctls requests to old ones
+>> if the driver does not support the new hooks, and vice versa.
+>>
+>> Note that the timecode field is gone, since there doesn't seem to be
+>> in-kernel users. We can be added back in the reserved area if needed or
+>> use the Request API to collect more metadata information from the
+>> frame.
+>>
+>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>> ---
+>> Changes in v4:
+>> - Use v4l2_ext_pix_format directly in the ioctl, drop v4l2_ext_format,
+>> making V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] the only valid types.
+>> - Drop VIDIOC_EXT_EXPBUF, since the only difference from VIDIOC_EXPBUF
+>> was that with VIDIOC_EXT_EXPBUF we could export multiple planes at once.
+>> I think we can add this later, so I removed it from this RFC to simplify it.
+>> - Remove num_planes field from struct v4l2_ext_buffer
+>> - Add flags field to struct v4l2_ext_create_buffers
+>> - Reformulate struct v4l2_ext_plane
+>> - Fix some bugs caught by v4l2-compliance
+>> - Rebased on top of media/master (post 5.8-rc1)
+>>
+>> Changes in v3:
+>> - Rebased on top of media/master (post 5.4-rc1)
+>>
+>> Changes in v2:
+>> - Add reserved space to v4l2_ext_buffer so that new fields can be added
+>>   later on
+>> ---
+>>  drivers/media/v4l2-core/v4l2-dev.c   |  29 ++-
+>>  drivers/media/v4l2-core/v4l2-ioctl.c | 349 +++++++++++++++++++++++++--
+>>  include/media/v4l2-ioctl.h           |  26 ++
+>>  include/uapi/linux/videodev2.h       |  89 +++++++
+>>  4 files changed, 471 insertions(+), 22 deletions(-)
+>>
+> 
+> <cut>
+> 
+>> +/**
+>> + * struct v4l2_ext_plane - extended plane buffer info
+>> + * @buffer_length:	size of the entire buffer in bytes, should fit
+>> + *			@offset + @plane_length
+>> + * @plane_length:	size of the plane in bytes.
+>> + * @userptr:		when memory is V4L2_MEMORY_USERPTR, a userspace pointer pointing
+>> + *			to this plane.
+>> + * @dmabuf_fd:		when memory is V4L2_MEMORY_DMABUF, a userspace file descriptor
+>> + *			associated with this plane.
+>> + * @offset:		offset in the memory buffer where the plane starts. If
+>> + *			V4L2_MEMORY_MMAP is used, then it can be a "cookie" that
+>> + *			should be passed to mmap() called on the video node.
+>> + * @reserved:		extra space reserved for future fields, must be set to 0.
+>> + *
+>> + *
+>> + * Buffers consist of one or more planes, e.g. an YCbCr buffer with two planes
+>> + * can have one plane for Y, and another for interleaved CbCr components.
+>> + * Each plane can reside in a separate memory buffer, or even in
+>> + * a completely separate memory node (e.g. in embedded devices).
+>> + */
+>> +struct v4l2_ext_plane {
+>> +	__u32 buffer_length;
+>> +	__u32 plane_length;
+>> +	union {
+>> +		__u64 userptr;
+>> +		__s32 dmabuf_fd;
+>> +	} m;
+>> +	__u32 offset;
+>> +	__u32 reserved[4];
+>> +};
+>> +
+>>  /**
+>>   * struct v4l2_buffer - video buffer info
+>>   * @index:	id number of the buffer
+>> @@ -1055,6 +1086,36 @@ struct v4l2_buffer {
+>>  	};
+>>  };
+>>  
+>> +/**
+>> + * struct v4l2_ext_buffer - extended video buffer info
+>> + * @index:	id number of the buffer
+>> + * @type:	V4L2_BUF_TYPE_VIDEO_CAPTURE or V4L2_BUF_TYPE_VIDEO_OUTPUT
+>> + * @flags:	buffer informational flags
+>> + * @field:	enum v4l2_field; field order of the image in the buffer
+>> + * @timestamp:	frame timestamp
+>> + * @sequence:	sequence count of this frame
+>> + * @memory:	enum v4l2_memory; the method, in which the actual video data is
+>> + *		passed
+>> + * @planes:	per-plane buffer information
+>> + * @request_fd:	fd of the request that this buffer should use
+>> + * @reserved:	extra space reserved for future fields, must be set to 0
+>> + *
+>> + * Contains data exchanged by application and driver using one of the Streaming
+>> + * I/O methods.
+>> + */
+>> +struct v4l2_ext_buffer {
+>> +	__u32 index;
+>> +	__u32 type;
+>> +	__u32 flags;
+>> +	__u32 field;
+>> +	__u64 timestamp;
+>> +	__u32 sequence;
+>> +	__u32 memory;
+>> +	__u32 request_fd;
+> 
+> This should be __s32, at least for consistency with dmabuf_fd?
+
+I see that in struct v4l2_buffer, we have __s32, I don't mind changing it
+to keep the consistency, I just don't see where this value can be a negative
+number.
+
+> 
+>> +	struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
+>> +	__u32 reserved[4];
+> 
+> I think we have to reserve more words here for future extensions.
+> 
+> I'd like also to propose to add here __s32 metadata_fd. The idea behind
+> this is to have a way to pass per-frame metadata dmabuf buffers for
+> synchronous type of metadata where the metadata is coming at the same
+> time with data buffers. What would be the format of the metadata buffer
+> is TBD.
+> 
+> One option for metadata buffer format could be:
+> 
+> header {
+> 	num_ctrls
+> 	array_of_ctrls [0..N]
+> 		ctrl_id
+> 		ctrl_size
+> 		ctrl_offset
+> }
+> 
+> data {
+> 	cid0	//offset of cid0 in dmabuf buffer
+> 	cid1
+> 	cidN
+> }
+
+Would it be better if, instead of adding a medatata_fd inside struct v4l2_ext_buffer,
+we create a new ioctl that gets this structs for the controls and sync them using the
+Request API ?
+
+I'd like to avoid too much metadata in the buffer object.
 
 Regards,
-
-	Hans
+Helen
 
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  .../media/v4l/subdev-formats.rst              | 33 +++++++++++++++----
->  include/uapi/linux/v4l2-mediabus.h            |  8 ++++-
->  include/uapi/linux/v4l2-subdev.h              |  1 +
->  3 files changed, 34 insertions(+), 8 deletions(-)
+> This will make easy to get concrete ctrl id without a need to parse the
+> whole metadata buffer. Also using dmabuf we don't need to copy data
+> between userspace <-> kernelspace (just cache syncs through
+> begin/end_cpu_access).
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index 7362ee0b1e96..dddc38191547 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -51,7 +51,9 @@ Media Bus Formats
->  	The driver indicates that colorspace conversion is supported by setting
->  	the flag V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE in the corresponding struct
->  	:c:type:`v4l2_subdev_mbus_code_enum` during enumeration.
-> -	See :ref:`colorspaces`.
-> +	See :ref:`v4l2-subdev-mbus-code-flags`.
-> +    * - union {
-> +      - (anonymous)
->      * - __u16
->        - ``ycbcr_enc``
->        - Y'CbCr encoding, from enum :c:type:`v4l2_ycbcr_encoding`.
-> @@ -67,7 +69,23 @@ Media Bus Formats
->  	V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC in the corresponding struct
->  	:c:type:`v4l2_subdev_mbus_code_enum` during enumeration.
->  	See :ref:`v4l2-subdev-mbus-code-flags`.
-> -
-> +    * - __u16
-> +      - ``hsv_enc``
-> +      - HSV encoding, from enum :c:type:`v4l2_hsv_encoding`.
-> +        This information supplements the ``colorspace`` and must be set by
-> +	the driver for capture streams and by the application for output
-> +	streams, see :ref:`colorspaces`. If the application sets the
-> +	flag ``V4L2_MBUS_FRAMEFMT_SET_CSC`` then the application can set
-> +	this field for a capture stream to request a specific HSV encoding
-> +	for the media bus data. If the driver cannot handle requested
-> +	conversion, it will return another supported encoding.
-> +	This field is ignored for Y'CbCr media bus formats. The driver indicates
-> +	that hsv_enc conversion is supported by setting the flag
-> +	V4L2_SUBDEV_MBUS_CODE_CSC_HSV_ENC in the corresponding struct
-> +	:c:type:`v4l2_subdev_mbus_code_enum` during enumeration.
-> +	See :ref:`v4l2-subdev-mbus-code-flags`
-> +    * - }
-> +      -
->      * - __u16
->        - ``quantization``
->        - Quantization range, from enum :c:type:`v4l2_quantization`.
-> @@ -123,11 +141,12 @@ Media Bus Formats
->  	ignored for output streams. If set, then request the subdevice to do
->  	colorspace conversion from the received colorspace to the requested
->  	colorspace values. If colorimetry field (``colorspace``, ``ycbcr_enc``,
-> -	``quantization`` or ``xfer_func``) is set to 0, then that colorimetry
-> -	setting will remain unchanged from what was received. So to change the
-> -	quantization, only the ``quantization`` field shall be set to non-zero values
-> -	(``V4L2_QUANTIZATION_FULL_RANGE`` or ``V4L2_QUANTIZATION_LIM_RANGE``)
-> -	and all other colorimetry fields shall be set to 0.
-> +	''hsv_enc``, ``quantization`` or ``xfer_func``) is set to 0, then that
-> +	colorimetry setting will remain unchanged from what was received. So to
-> +	change the quantization, only the ``quantization`` field shall be set to
-> +	non-zero values (``V4L2_QUANTIZATION_FULL_RANGE`` or
-> +	``V4L2_QUANTIZATION_LIM_RANGE``) and all other colorimetry fields shall
-> +	be set to 0.
->  
->  	To check which conversions are supported by the hardware for the current
->  	media bus frame format, see :ref:`v4l2-subdev-mbus-code-flags`.
-> diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
-> index 3b7d692b4015..d0bc8df18ad5 100644
-> --- a/include/uapi/linux/v4l2-mediabus.h
-> +++ b/include/uapi/linux/v4l2-mediabus.h
-> @@ -26,6 +26,7 @@
->   * @field:	used interlacing type (from enum v4l2_field)
->   * @colorspace:	colorspace of the data (from enum v4l2_colorspace)
->   * @ycbcr_enc:	YCbCr encoding of the data (from enum v4l2_ycbcr_encoding)
-> + * @hsv_enc:	HSV encoding of the data (from enum v4l2_hsv_encoding)
->   * @quantization: quantization of the data (from enum v4l2_quantization)
->   * @xfer_func:  transfer function of the data (from enum v4l2_xfer_func)
->   * @reserved2:  two reserved bytes that can be later used
-> @@ -38,7 +39,12 @@ struct v4l2_mbus_framefmt {
->  	__u32			code;
->  	__u32			field;
->  	__u32			colorspace;
-> -	__u16			ycbcr_enc;
-> +	union {
-> +		/* enum v4l2_ycbcr_encoding */
-> +		__u16			ycbcr_enc;
-> +		/* enum v4l2_hsv_encoding */
-> +		__u16			hsv_enc;
-> +	};
->  	__u16			quantization;
->  	__u16			xfer_func;
->  	__u16			reserved2;
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index c20aa9a89864..08e25a961d15 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -67,6 +67,7 @@ struct v4l2_subdev_crop {
->  
->  #define V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE	0x00000001
->  #define V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC	0x00000002
-> +#define V4L2_SUBDEV_MBUS_CODE_CSC_HSV_ENC	V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC
->  #define V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION	0x00000004
->  #define V4L2_SUBDEV_MBUS_CODE_CSC_XFER_FUNC	0x00000008
->  /**
+> The open question is who will validate the metadata buffer when it comes
+> from userspace. The obvious answer is v4l2-core but looking into DRM
+> subsytem they give more freedom to the drivers, and just provide generic
+> helpers which are not mandatory.
 > 
-
+> I guess this will be a voice in the wilderness but I wanted to know your
+> opinion.
+> 
+>> +};
+>> +
+>>  #ifndef __KERNEL__
+>>  /**
+>>   * v4l2_timeval_to_ns - Convert timeval to nanoseconds
+>> @@ -2520,6 +2581,29 @@ struct v4l2_create_buffers {
+>>  	__u32			reserved[6];
+>>  };
+>>  
+>> +/**
+>> + * struct v4l2_ext_create_buffers - VIDIOC_EXT_CREATE_BUFS argument
+>> + * @index:	on return, index of the first created buffer
+>> + * @count:	entry: number of requested buffers,
+>> + *		return: number of created buffers
+>> + * @memory:	enum v4l2_memory; buffer memory type
+>> + * @capabilities: capabilities of this buffer type.
+>> + * @format:	frame format, for which buffers are requested
+>> + * @flags:	additional buffer management attributes (ignored unless the
+>> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
+>> + *		and configured for MMAP streaming I/O).
+>> + * @reserved:	extra space reserved for future fields, must be set to 0
+>> + */
+>> +struct v4l2_ext_create_buffers {
+>> +	__u32				index;
+>> +	__u32				count;
+>> +	__u32				memory;
+>> +	struct v4l2_ext_pix_format	format;
+>> +	__u32				capabilities;
+>> +	__u32				flags;
+>> +	__u32 reserved[4];
+>> +};
+>> +
+>>  /*
+>>   *	I O C T L   C O D E S   F O R   V I D E O   D E V I C E S
+>>   *
+>> @@ -2623,6 +2707,11 @@ struct v4l2_create_buffers {
+>>  #define VIDIOC_G_EXT_PIX_FMT	_IOWR('V', 104, struct v4l2_ext_pix_format)
+>>  #define VIDIOC_S_EXT_PIX_FMT	_IOWR('V', 105, struct v4l2_ext_pix_format)
+>>  #define VIDIOC_TRY_EXT_PIX_FMT	_IOWR('V', 106, struct v4l2_ext_pix_format)
+>> +#define VIDIOC_EXT_CREATE_BUFS	_IOWR('V', 107, struct v4l2_ext_create_buffers)
+>> +#define VIDIOC_EXT_QUERYBUF	_IOWR('V', 108, struct v4l2_ext_buffer)
+>> +#define VIDIOC_EXT_QBUF		_IOWR('V', 109, struct v4l2_ext_buffer)
+>> +#define VIDIOC_EXT_DQBUF	_IOWR('V', 110, struct v4l2_ext_buffer)
+>> +#define VIDIOC_EXT_PREPARE_BUF	_IOWR('V', 111, struct v4l2_ext_buffer)
+>>  
+>>  /* Reminder: when adding new ioctls please add support for them to
+>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
+>>
+> 
