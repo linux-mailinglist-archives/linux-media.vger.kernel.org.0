@@ -2,179 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE8EF227C1A
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 11:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDCE5227C5B
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 12:00:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728865AbgGUJuu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 05:50:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39298 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726458AbgGUJut (ORCPT
+        id S1729026AbgGUKAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 06:00:49 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:59987 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728006AbgGUKAt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 05:50:49 -0400
-Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F511C0619D8
-        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 02:50:49 -0700 (PDT)
-Received: by mail-oo1-xc42.google.com with SMTP id y4so1508493oov.6
-        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 02:50:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+Mxwe8+/2sAl5aV7lSivEyRgzWsOGsAmcnpV4ySF6Ks=;
-        b=Vbv8Xzl+vP1jTrX4oYxiAQUq3baNzA3kvZo8juXKiWI936pBlM7UD9ehHYU8sQT/Hy
-         4guaqZae/3o9/Kn7QMqL0MsT9d0YWJtCCjdLzzkoQD3lDd3N95c/N9K1/ArLqu5nHj6X
-         h8Jom6d8XDQwOSM0tY9t3bYMJ6hYTvysZ67BY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+Mxwe8+/2sAl5aV7lSivEyRgzWsOGsAmcnpV4ySF6Ks=;
-        b=eULG7SwBEs76yWlIfuzJbLvwZN4PXhlh/WCWC7nJC8IHfPseAigF+p9UWJ7ht34w+d
-         Dl3E17inb16CrwgCBLFq1VlX9rp++oW9R1ENvf1nbKFBpkot3BCpb0BLeUc2EuPiytYt
-         8RCwU4wsTUAJJ6lZ+VkTRy5D9P0S42jajclQyzUGjL5bHkoyNVGao12RihKJbud2Fx8j
-         pYNzrO/TxTNLrMFAmJ9XyFVaGDlglmGjV9g6s7rXVr25WNwFvGB8KgxmT9IbGK+zj1NN
-         n4h90ej7F1VHbfoD9pJij70azzkxriPwzvYxioT8mJ4tBYZMKHLhTKRJlgzDvg+ciyHX
-         JTMw==
-X-Gm-Message-State: AOAM532z4hp3CFygTs8Zq14Hz+RLT9W3Ima3F/GgQuMkqIBeavwL37Cr
-        oKAHUvHtlmQgEg+oQXPU3X5dGe2770vJ7ssAO6/N4g==
-X-Google-Smtp-Source: ABdhPJwI3gJQ0NtOaqhq9TtKHG92T7bavDoHOsV389jg+GbUKhN9jTjMRfRhnq5aQBSDS1D+4bTxdMPUI50KzrE96fM=
-X-Received: by 2002:a4a:b6c5:: with SMTP id w5mr2677127ooo.89.1595325048653;
- Tue, 21 Jul 2020 02:50:48 -0700 (PDT)
+        Tue, 21 Jul 2020 06:00:49 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id xp4ojgRupNPeYxp4pjtEuX; Tue, 21 Jul 2020 12:00:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1595325648; bh=lRd/mrpoXU+dHuJSLnSnM9C/kc9j+3u6sTBltirbrKk=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Phu5t9nHBhT+jZlvimRPoivsOX9pS3MOlQB/PsnsIbePRgghwPvTLjoRWYEy9Gefx
+         R7Vr516XS6S3A8AL2nHn//Wt02HGOmNiJQvbeCm616TrC1jYn3UWNkkS4NkoEVpaST
+         7ZD9qllteorSzpn2qy4BKwZFDrKyXgUK78ku33tMpydEi7vntig3K4mFWWdhMWFXQO
+         oHXcyPwqg1k6zzQd1bLHmWKSQrCgcvvLSFpYSRg+1rq4prtiLZld7sfhTLEObJHgZO
+         AjtEjExJmYpVIU7FBt2meUrZ73+Dt+RIE9y98CuU569cAk2s0hH3NvSe1I7JCQqFMJ
+         SE6/BZN6aaN6w==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.9] Introduce [get|set]_mbus_config pad ops
+Message-ID: <b7a7ab4d-4477-b52f-c7d6-980bc367ddf5@xs4all.nl>
+Date:   Tue, 21 Jul 2020 12:00:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch> <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
- <20200721074157.GB3278063@phenom.ffwll.local> <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
- <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org> <2ca2c004-1e11-87f5-4bd8-761e1b44d21f@amd.com>
- <74727f17-b3a5-ca12-6db6-e47543797b72@shipmail.org>
-In-Reply-To: <74727f17-b3a5-ca12-6db6-e47543797b72@shipmail.org>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Tue, 21 Jul 2020 11:50:37 +0200
-Message-ID: <CAKMK7uFfMi5M5EkCeG6=tjuDANH4=gDLnFpxCYU-E-xyrxwYUg@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Daniel Stone <daniels@collabora.com>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Steve Pronovost <spronovo@microsoft.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Jesse Natalie <jenatali@microsoft.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCFkpmc7ukW0eQiA6/aIN9xjO28b73O0V5Jp1nMkeCFfcY7+kM7AoDea5dmdMhWfa/qFrwFWgupg5wo6dd3/x25PbfSd5c1QwJjb7MGufEm4O2QXt/bn
+ pptX2x9Nepey6vt0VzjD+D4/IpWmJBD0LDE5liPwPDbt6ovMiycCp2grtplshotYxyKN+/2lCO6Kh8/PctI5SVDDSGbjr9XhS7ARSBFnckTT3kIiM1QmY3ce
+ gBOLQcUWoot+L3heR5SLbG/heSguYWxH3+xGQZKX9bnuq+ojMB3mhViRGACQv4E9SUrC9uB4531oCL64ReOghA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 11:38 AM Thomas Hellstr=C3=B6m (Intel)
-<thomas_os@shipmail.org> wrote:
->
->
-> On 7/21/20 10:55 AM, Christian K=C3=B6nig wrote:
-> > Am 21.07.20 um 10:47 schrieb Thomas Hellstr=C3=B6m (Intel):
-> >>
-> >> On 7/21/20 9:45 AM, Christian K=C3=B6nig wrote:
-> >>> Am 21.07.20 um 09:41 schrieb Daniel Vetter:
-> >>>> On Mon, Jul 20, 2020 at 01:15:17PM +0200, Thomas Hellstr=C3=B6m (Int=
-el)
-> >>>> wrote:
-> >>>>> Hi,
-> >>>>>
-> >>>>> On 7/9/20 2:33 PM, Daniel Vetter wrote:
-> >>>>>> Comes up every few years, gets somewhat tedious to discuss, let's
-> >>>>>> write this down once and for all.
-> >>>>>>
-> >>>>>> What I'm not sure about is whether the text should be more
-> >>>>>> explicit in
-> >>>>>> flat out mandating the amdkfd eviction fences for long running
-> >>>>>> compute
-> >>>>>> workloads or workloads where userspace fencing is allowed.
-> >>>>> Although (in my humble opinion) it might be possible to completely
-> >>>>> untangle
-> >>>>> kernel-introduced fences for resource management and dma-fences
-> >>>>> used for
-> >>>>> completion- and dependency tracking and lift a lot of restrictions
-> >>>>> for the
-> >>>>> dma-fences, including prohibiting infinite ones, I think this
-> >>>>> makes sense
-> >>>>> describing the current state.
-> >>>> Yeah I think a future patch needs to type up how we want to make tha=
-t
-> >>>> happen (for some cross driver consistency) and what needs to be
-> >>>> considered. Some of the necessary parts are already there (with
-> >>>> like the
-> >>>> preemption fences amdkfd has as an example), but I think some clear
-> >>>> docs
-> >>>> on what's required from both hw, drivers and userspace would be real=
-ly
-> >>>> good.
-> >>>
-> >>> I'm currently writing that up, but probably still need a few days
-> >>> for this.
-> >>
-> >> Great! I put down some (very) initial thoughts a couple of weeks ago
-> >> building on eviction fences for various hardware complexity levels her=
-e:
-> >>
-> >> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgi=
-tlab.freedesktop.org%2Fthomash%2Fdocs%2F-%2Fblob%2Fmaster%2FUntangling%2520=
-dma-fence%2520and%2520memory%2520allocation.odt&amp;data=3D02%7C01%7Cchrist=
-ian.koenig%40amd.com%7C8978bbd7823e4b41663708d82d52add3%7C3dd8961fe4884e608=
-e11a82d994e183d%7C0%7C0%7C637309180424312390&amp;sdata=3DtTxx2vfzfwLM1IBJSq=
-qAZRw1604R%2F0bI3MwN1%2FBf2VQ%3D&amp;reserved=3D0
-> >>
-> >
-> > I don't think that this will ever be possible.
-> >
-> > See that Daniel describes in his text is that indefinite fences are a
-> > bad idea for memory management, and I think that this is a fixed fact.
-> >
-> > In other words the whole concept of submitting work to the kernel
-> > which depends on some user space interaction doesn't work and never wil=
-l.
->
-> Well the idea here is that memory management will *never* depend on
-> indefinite fences: As soon as someone waits on a memory manager fence
-> (be it eviction, shrinker or mmu notifier) it breaks out of any
-> dma-fence dependencies and /or user-space interaction. The text tries to
-> describe what's required to be able to do that (save for non-preemptible
-> gpus where someone submits a forever-running shader).
+This series replaces the old g/s_mbus_config with get/set_mbus_config.
 
-Yeah I think that part of your text is good to describe how to
-untangle memory fences from synchronization fences given how much the
-hw can do.
+The new ops just get and set the mbus configuration. The set_mbus_config
+is primarily used to change the number of lanes in use.
 
-> So while I think this is possible (until someone comes up with a case
-> where it wouldn't work of course), I guess Daniel has a point in that it
-> won't happen because of inertia and there might be better options.
+The old g_mbus_config would report *all* possible configurations instead of
+the current config, but this was a last left-over from soc-camera.
 
-Yeah it's just I don't see much chance for splitting dma-fence itself.
-That's also why I'm not positive on the "no hw preemption, only
-scheduler" case: You still have a dma_fence for the batch itself,
-which means still no userspace controlled synchronization or other
-form of indefinite batches allowed. So not getting us any closer to
-enabling the compute use cases people want. So minimally I think hw
-needs to be able to preempt, and preempt fairly quickly (i.e. within
-shaders if you have long running shaders as your use-case), or support
-gpu page faults. And depending how it all works different parts of the
-driver code end up in dma fence critical sections, with different
-restrictions.
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Today this configuration information comes from the device tree or the
+platform data.
+
+Regards,
+
+	Hans
+
+The following changes since commit 8f2a4a9d5ff5202d0b3e3a144ebb9b67aabadd29:
+
+  media: dvbdev.h: keep * together with the type (2020-07-19 14:26:25 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.9j
+
+for you to fetch changes up to 1d300587ed86a7ed92662b2f309048d4fa4e3a97:
+
+  media: rcar-csi2: Negotiate data lanes number (2020-07-21 11:40:46 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Jacopo Mondi (10):
+      media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+      media: i2c: Use the new get_mbus_config pad op
+      media: i2c: ov6650: Use new [get|set]_mbus_config ops
+      media: pxa_camera: Use the new set_mbus_config op
+      media: v4l2-subdev: Remove [s|g]_mbus_config video ops
+      media: v4l2- mediabus: Add usage note for V4L2_MBUS_*
+      staging: media: imx: Update TODO entry
+      media: i2c: adv748x: Adjust TXA data lanes number
+      media: i2c: adv748x: Implement get_mbus_config
+      media: rcar-csi2: Negotiate data lanes number
+
+ drivers/media/i2c/adv7180.c                 |   7 ++-
+ drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++++++---
+ drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++++++++
+ drivers/media/i2c/adv748x/adv748x.h         |   1 +
+ drivers/media/i2c/ml86v7667.c               |   7 ++-
+ drivers/media/i2c/mt9m001.c                 |   7 ++-
+ drivers/media/i2c/mt9m111.c                 |   7 ++-
+ drivers/media/i2c/ov6650.c                  |  53 ++++++++++++-----
+ drivers/media/i2c/ov9640.c                  |   7 ++-
+ drivers/media/i2c/tc358743.c                |   7 ++-
+ drivers/media/i2c/tvp5150.c                 |   7 ++-
+ drivers/media/platform/pxa_camera.c         | 189 ++++++++++++++++--------------------------------------------
+ drivers/media/platform/rcar-vin/rcar-csi2.c |  75 +++++++++++++++++++++---
+ drivers/media/v4l2-core/v4l2-subdev.c       |  16 +++++
+ drivers/staging/media/imx/TODO              |   4 ++
+ include/media/v4l2-mediabus.h               |  33 +++++++++--
+ include/media/v4l2-subdev.h                 |  38 ++++++++----
+ 17 files changed, 317 insertions(+), 203 deletions(-)
