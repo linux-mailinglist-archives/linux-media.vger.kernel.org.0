@@ -2,310 +2,1099 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38412227CDB
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 12:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 618DA227D2F
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 12:38:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729167AbgGUKYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 06:24:38 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:36131 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727907AbgGUKYh (ORCPT
+        id S1728478AbgGUKhz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 06:37:55 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:60323 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726084AbgGUKhy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 06:24:37 -0400
+        Tue, 21 Jul 2020 06:37:54 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id xpRojgdoWNPeYxpRpjtPLC; Tue, 21 Jul 2020 12:24:34 +0200
+        id xpedjgjwdNPeYxpeejtUZa; Tue, 21 Jul 2020 12:37:48 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1595327074; bh=dtC7CGzW0egjtVtc0Ale12kYXuyVlKmV4w6OW24DSWw=;
+        t=1595327868; bh=QYGRDenUGabz69e881Mjpek+aIab3eS6vJMVqA+v47E=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=CitB/zfotySU2vb3DGwxUoWBpM2/LY/pUvK1JrUSxvX8CqZ6vKtFRvB6baMfUt3yk
-         3sI2GwBGAIX5/dTeiQoel/noBiMRdt8Z24wBfYO7bFV2xcbkjcWT0ZGf7tNXRcmlIc
-         enGbp7TPqsAisp+M1g4/xcKQEEh/eA8gHJ/jXgnL2fbRjeg6kciQN+tVmwBdJgcdAL
-         rqj97CSiC+AbWLjltu2GA09evJHg0myHPA4Z0vSrSopVYIkxloY+z6OZFb0GSWZreT
-         LO+3DhrqvWRtao/0zk6H8q7q/5hlY4THkanhirb1JfUJeBtqBsxAyr40hp0wnJ8Ohc
-         rhA1b1fzMhqAA==
-Subject: Re: [PATCH v4 0/6] media: v4l2: Add extended fmt and buffer ioctls
+        b=eRNlT0ZeNyvevCV/fhxiklBqao4ifNHrvp2fnOYEzttMg7bV6/XDsdBmoHKZLaXJA
+         K/hVqRuthKUQuXFjItnwKaoNbQWY5U/Jng9SbpPZOd1Yw9fmotLHAXFiAS6Q34UpJO
+         QdgSiP8VR9GXDcAJWPmpozuHbKgBL61wW3u6zTPlExK0zJm94Oj0iUWnCc9eq5euB9
+         W7ZCLqaTzX4wkJMpSdTY+yd5+lNP72u2B8sUpZA8QOCuprEekcPrbQadFpmpflsNPW
+         YPC8BZ9dOJqdYd5jmIqirkUpyuMef1TVgTHNtVCewRwPAbWsiP5244X7mso7wVFDtm
+         bvBam34wF4hPw==
+Subject: Re: [PATCH v4 1/6] media: v4l2: Extend pixel formats to unify
+ single/multi-planar handling (and more)
 To:     Helen Koike <helen.koike@collabora.com>, mchehab@kernel.org,
         hans.verkuil@cisco.com, laurent.pinchart@ideasonboard.com,
         sakari.ailus@iki.fi, linux-media@vger.kernel.org
-Cc:     tfiga@chromium.org, hiroh@chromium.org, nicolas@ndufresne.ca,
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        tfiga@chromium.org, hiroh@chromium.org, nicolas@ndufresne.ca,
         Brian.Starkey@arm.com, kernel@collabora.com,
-        boris.brezillon@collabora.com, narmstrong@baylibre.com,
-        linux-kernel@vger.kernel.org, frkoenig@chromium.org,
-        mjourdan@baylibre.com, stanimir.varbanov@linaro.org
+        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+        frkoenig@chromium.org, mjourdan@baylibre.com,
+        stanimir.varbanov@linaro.org
 References: <20200717115435.2632623-1-helen.koike@collabora.com>
+ <20200717115435.2632623-2-helen.koike@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f93e13c6-3415-388d-e401-10297ec6d66f@xs4all.nl>
-Date:   Tue, 21 Jul 2020 12:24:32 +0200
+Message-ID: <c08eb020-d09c-8046-be73-4b146f9a0d5b@xs4all.nl>
+Date:   Tue, 21 Jul 2020 12:37:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200717115435.2632623-1-helen.koike@collabora.com>
+In-Reply-To: <20200717115435.2632623-2-helen.koike@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCkTmVV4Bw3HWIrUfl/Gwk5ls3XBeXs9kiItnn8GcTmGyTIalCTKeuyc9Zzy45Fg7lBKgquIbPflQpmfKjKC7OuDd7iDgkAN/xlFbFT0ZyUvBiQhKYYT
- 3m1IKaUGhoNiO46R+DC26Re6Wpvx4xKwVlT+J+DJgmG0gyKWT3R4GQTf9SDSAw9P08/VqgMCX/pc20J3pxcbPj/rsLAzd+LwidAYqDD+zYBMHBTCvkjtj7MM
- sD96Y2XDkgfvVRcAnUp6KceQZMkbXm3pW+YJ0csXAr1TY+LkNXW2P2sod+5jMFa83BUpE2N/9P67FjrPn/09RgrPHsfoAaFWToCqJ5YQLsLY3pXvItz3FXzl
- Bai8zo75bPJMPyhHpOfOpGPK5413qrLPi6zKbD8gxcOYQ+3Yzqt7VfLv1Hblha9DEAuYpd9WW6YnZz8izeGdAIVExwu+jnCwyrYjfpKyMNkBOkPyApcBbXGY
- GIY72ueGzXQZE73l6969X44xLQ80p98LEgi6edEHm4ywBNu9wo7q6LkyfohDtL8xPOThvKpD84BVqT62smzOvG3X2426ScbAlzpDypilxhw3BImCI4LRI/w5
- HoJPrWv83pUPdJb4dTGbqgRZ9gzogkQavLuCuIkjqcukHw/cdli8a9hCT+zWvZywRlrp4C5ox2Ikb/hd6YZDH/gfmIPUICulrdSeuLPRsaHs1ak+OsYdAPiR
- iS9yx6ZqBLvauSEv/M0n/MfONZYgeT9B7u/Rm8AKD2t7pq6wF5TuWZFHOy83tIn6te5hgEYlB7+ARNptU7gwucgFnnO2tt0vXsQzg20gAgQpvOT/0VOcw1B3
- ezUKmxiL8ns142PhBYo=
+X-CMAE-Envelope: MS4wfMNoh730HpEe3rz/vhZomnntayZJhphYymhsoq2I2s6L3YMMMc/oGfyaIsVvQj4pVQSe+eCyapVPur2TuQGod7o/JcvahvoYqBucmk18HXdBoE3WTAbm
+ 6XeVWzxoPvQdZHUwt82ag4fmdU4MrfjjP5ujZLYlOXrx9b72uZKcOvi55iIvynWtoHl4hUJkelSR1qa25mLpwz5pZLlJC+G4sAD1dfEOTgCsnBdwMaIRwc1Q
+ ABa8pW3yWGOuuq9QEhgtoeaVW/yU+5EGZgdoBXP6IuERs+etFRN8+srhcTvQPHMfd2CE04t8fpkNmp8twcl/w8ljO1Pd5E5VCMMKbM9epuMT0WktL0dfuGDQ
+ UVvy+RwO8KU2ueGjlO7of0Wxy+1rN6zo+GpH3MBg5HBc9N3PhnmulHnLHvR+C+UTyRMHe2DO0hbapeS4SHgaYyxjgZFIMYI22CDDKpm1qK58QAkeAnzRttoA
+ CMljppdvyIK7J/lXkOIoNs8hRxYO7IwqGws6BL+Tv7IVSLNMuy/TyEC7oZTmzkTd4e7NdakiUC3xcQdjh5q4nOWh6iYGUuB4ozZLb63K98M4e9f8XQSm5Kli
+ AGp3MZXzY73Q8ChfLHd3um0ormlADYqWpfZ7wmaHQz++TZ7/Otqns+MZsZkAD3G57KFIDlo3/CwK0XsSOjT4PttU3dGGsD5152l7xS+XTz004IiIx+Ame+NL
+ OYy2hdqZa7C3+FFkK9UWJpsOxpuu10smLMRP26UKiXp/nigq8VruULa2hYLbhs5NdsSPECrrhJA8yCCCJpMFV7tmCTgexEHBm3fCdpXoY8eam7nlSv3sMRRv
+ 5laslWer5KT2V00yPBU=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 17/07/2020 13:54, Helen Koike wrote:
-> Hi,
+> From: Boris Brezillon <boris.brezillon@collabora.com>
 > 
-> I'm sorry for taking too long to submit v4.
+> This is part of the multiplanar and singleplanar unification process.
+> v4l2_ext_pix_format is supposed to work for both cases.
 > 
-> It is not perfect, not all v4l2-compliance tests passes, but I'd like a review,
-> specially on the API and potential problems, so I can focus on improving implementation
-> and maybe drop the RFC tag for next version.
+> We also add the concept of modifiers already employed in DRM to expose
+> HW-specific formats (like tiled or compressed formats) and allow
+> exchanging this information with the DRM subsystem in a consistent way.
 > 
-> Follow below what changed in v4 and some items I'd like to discuss:
+> Note that only V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] are accepted in
+> v4l2_ext_format, other types will be rejected if you use the {G,S,TRY}EXT_FMT
+> ioctls.
 > 
+> New hooks have been added to v4l2_ioctl_ops to support those new ioctls
+> in drivers, but, in the meantime, the core takes care of converting
+> {S,G,TRY}_EXT_FMT requests into {S,G,TRY}_FMT so that old drivers can
+> still work if the userspace app/lib uses the new ioctls.
+> The conversion is also done the other around to allow userspace
+> apps/libs using {S,G,TRY}_FMT to work with drivers implementing the
+> _ext_ hooks.
 > 
-> * Ioctl to replace v4l2_pix_format
-> ---------------------------------------------------------------------------------
-> During last media summit, we agreed to create ioctls that replace the v4l2_pix_format
-> struct and leave the other structs in the v4l2_format union alone.
-> Thus I refactored the code to receive struct v4l2_ext_pix_format, and I renamed the
-> ioctls, so now we have:
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> ---
+> Changes in v4:
+> - Use v4l2_ext_pix_format directly in the ioctl, drop v4l2_ext_format,
+> making V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] the only valid types.
+> - Add reserved fields
+> - Removed num_planes from struct v4l2_ext_pix_format
+> - Removed flag field from struct v4l2_ext_pix_format, since the only
+>   defined value is V4L2_PIX_FMT_FLAG_PREMUL_ALPHA only used by vsp1,
+>   where we can use modifiers, or add it back later through the reserved
+>   bits.
+> - In v4l2_ext_format_to_format(), check if modifier is != MOD_LINEAR &&
+>   != MOD_INVALID
+> - Fix type assignment in v4l_g_fmt_ext_pix()
+> - Rebased on top of media/master (post 5.8-rc1)
 > 
-> int ioctl(int fd, VIDIOC_G_EXT_FMT, struct v4l2_ext_pix_format *argp);
-> int ioctl(int fd, VIDIOC_S_EXT_FMT, struct v4l2_ext_pix_format *argp);
-> int ioctl(int fd, VIDIOC_TRY_EXT_FMT, struct v4l2_ext_pix_format *argp);
+> Changes in v3:
+> - Rebased on top of media/master (post 5.4-rc1)
 > 
-> The only valid types are V4L2_BUF_TYPE_VIDEO_CAPTURE and V4L2_BUF_TYPE_VIDEO_OUTPUT,
-> all the other types are invalid with this API.
+> Changes in v2:
+> - Move the modifier in v4l2_ext_format (was formerly placed in
+>   v4l2_ext_plane)
+> - Fix a few bugs in the converters and add a strict parameter to
+>   allow conversion of uninitialized/mis-initialized objects
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c   |  21 +-
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 585 +++++++++++++++++++++++----
+>  include/media/v4l2-ioctl.h           |  34 ++
+>  include/uapi/linux/videodev2.h       |  55 +++
+>  4 files changed, 614 insertions(+), 81 deletions(-)
 > 
-> 
-> * Modifiers
-> ---------------------------------------------------------------------------------
-> I understand that unifying DRM and V4L2 pixel formats is not possible, but I'd like
-> to unify the modifiers [1].
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/drm/drm_fourcc.h#n290
-> 
-> Should we use the DRM modifiers directly in the V4L2 API?
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index a593ea0598b55..e1829906bc086 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -607,25 +607,37 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  			set_bit(_IOC_NR(VIDIOC_ENUM_FMT), valid_ioctls);
+>  		if ((is_rx && (ops->vidioc_g_fmt_vid_cap ||
+>  			       ops->vidioc_g_fmt_vid_cap_mplane ||
+> +			       ops->vidioc_g_ext_pix_fmt_vid_cap ||
+>  			       ops->vidioc_g_fmt_vid_overlay)) ||
+>  		    (is_tx && (ops->vidioc_g_fmt_vid_out ||
+>  			       ops->vidioc_g_fmt_vid_out_mplane ||
+> -			       ops->vidioc_g_fmt_vid_out_overlay)))
+> +			       ops->vidioc_g_ext_pix_fmt_vid_out ||
+> +			       ops->vidioc_g_fmt_vid_out_overlay))) {
+>  			 set_bit(_IOC_NR(VIDIOC_G_FMT), valid_ioctls);
+> +			 set_bit(_IOC_NR(VIDIOC_G_EXT_PIX_FMT), valid_ioctls);
+> +		}
+>  		if ((is_rx && (ops->vidioc_s_fmt_vid_cap ||
+>  			       ops->vidioc_s_fmt_vid_cap_mplane ||
+> +			       ops->vidioc_s_ext_pix_fmt_vid_cap ||
+>  			       ops->vidioc_s_fmt_vid_overlay)) ||
+>  		    (is_tx && (ops->vidioc_s_fmt_vid_out ||
+>  			       ops->vidioc_s_fmt_vid_out_mplane ||
+> -			       ops->vidioc_s_fmt_vid_out_overlay)))
+> +			       ops->vidioc_s_ext_pix_fmt_vid_out ||
+> +			       ops->vidioc_s_fmt_vid_out_overlay))) {
+>  			 set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
+> +			 set_bit(_IOC_NR(VIDIOC_S_EXT_PIX_FMT), valid_ioctls);
+> +		}
+>  		if ((is_rx && (ops->vidioc_try_fmt_vid_cap ||
+>  			       ops->vidioc_try_fmt_vid_cap_mplane ||
+> +			       ops->vidioc_try_ext_pix_fmt_vid_cap ||
+>  			       ops->vidioc_try_fmt_vid_overlay)) ||
+>  		    (is_tx && (ops->vidioc_try_fmt_vid_out ||
+>  			       ops->vidioc_try_fmt_vid_out_mplane ||
+> -			       ops->vidioc_try_fmt_vid_out_overlay)))
+> +			       ops->vidioc_try_ext_pix_fmt_vid_out ||
+> +			       ops->vidioc_try_fmt_vid_out_overlay))) {
+>  			 set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+> +			 set_bit(_IOC_NR(VIDIOC_TRY_EXT_PIX_FMT), valid_ioctls);
+> +		}
+>  		SET_VALID_IOCTL(ops, VIDIOC_OVERLAY, vidioc_overlay);
+>  		SET_VALID_IOCTL(ops, VIDIOC_G_FBUF, vidioc_g_fbuf);
+>  		SET_VALID_IOCTL(ops, VIDIOC_S_FBUF, vidioc_s_fbuf);
+> @@ -682,8 +694,11 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		/* touch specific ioctls */
+>  		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_vid_cap);
+>  		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_vid_cap);
+> +		SET_VALID_IOCTL(ops, VIDIOC_G_EXT_PIX_FMT, vidioc_g_fmt_vid_cap);
+>  		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_vid_cap);
+> +		SET_VALID_IOCTL(ops, VIDIOC_S_EXT_PIX_FMT, vidioc_s_fmt_vid_cap);
+>  		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_vid_cap);
+> +		SET_VALID_IOCTL(ops, VIDIOC_TRY_EXT_PIX_FMT, vidioc_try_fmt_vid_cap);
+>  		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FRAMESIZES, vidioc_enum_framesizes);
+>  		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FRAMEINTERVALS, vidioc_enum_frameintervals);
+>  		SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 02bfef0da76da..3b77433f6c32b 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -17,6 +17,8 @@
+>  
+>  #include <linux/videodev2.h>
+>  
+> +#include <drm/drm_fourcc.h>
+> +
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -378,6 +380,27 @@ static void v4l_print_format(const void *arg, bool write_only)
+>  	}
+>  }
+>  
+> +static void v4l_print_ext_pix_format(const void *arg, bool write_only)
+> +{
+> +	const struct v4l2_ext_pix_format *pix = arg;
+> +	unsigned int i;
+> +
+> +	pr_cont("type=%s, width=%u, height=%u, format=%c%c%c%c, modifier %llx, field=%s, colorspace=%d, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
+> +		prt_names(pix->type, v4l2_type_names),
+> +		pix->width, pix->height,
+> +		(pix->pixelformat & 0xff),
+> +		(pix->pixelformat >>  8) & 0xff,
+> +		(pix->pixelformat >> 16) & 0xff,
+> +		(pix->pixelformat >> 24) & 0xff,
+> +		pix->modifier, prt_names(pix->field, v4l2_field_names),
+> +		pix->colorspace, pix->ycbcr_enc,
+> +		pix->quantization, pix->xfer_func);
+> +	for (i = 0; i < VIDEO_MAX_PLANES && pix->plane_fmt[i].sizeimage; i++)
+> +		pr_debug("plane %u: bytesperline=%u sizeimage=%u\n",
+> +			 i, pix->plane_fmt[i].bytesperline,
+> +			 pix->plane_fmt[i].sizeimage);
+> +}
+> +
+>  static void v4l_print_framebuffer(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_framebuffer *p = arg;
+> @@ -958,11 +981,15 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>  	switch (type) {
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+>  		if ((is_vid || is_tch) && is_rx &&
+> -		    (ops->vidioc_g_fmt_vid_cap || ops->vidioc_g_fmt_vid_cap_mplane))
+> +		    (ops->vidioc_g_fmt_vid_cap ||
+> +		     ops->vidioc_g_ext_pix_fmt_vid_cap ||
+> +		     ops->vidioc_g_fmt_vid_cap_mplane))
+>  			return 0;
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> -		if ((is_vid || is_tch) && is_rx && ops->vidioc_g_fmt_vid_cap_mplane)
+> +		if ((is_vid || is_tch) && is_rx &&
+> +		    (ops->vidioc_g_fmt_vid_cap_mplane ||
+> +		     ops->vidioc_g_ext_pix_fmt_vid_cap))
+>  			return 0;
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
+> @@ -971,11 +998,15 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+>  		if (is_vid && is_tx &&
+> -		    (ops->vidioc_g_fmt_vid_out || ops->vidioc_g_fmt_vid_out_mplane))
+> +		    (ops->vidioc_g_fmt_vid_out ||
+> +		     ops->vidioc_g_ext_pix_fmt_vid_out ||
+> +		     ops->vidioc_g_fmt_vid_out_mplane))
+>  			return 0;
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> -		if (is_vid && is_tx && ops->vidioc_g_fmt_vid_out_mplane)
+> +		if (is_vid && is_tx &&
+> +		    (ops->vidioc_g_ext_pix_fmt_vid_out ||
+> +		     ops->vidioc_g_fmt_vid_out_mplane))
+>  			return 0;
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY:
+> @@ -1055,6 +1086,134 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
+>  	       sizeof(fmt->fmt.pix) - offset);
+>  }
+>  
+> +int v4l2_ext_pix_format_to_format(const struct v4l2_ext_pix_format *e,
+> +				  struct v4l2_format *f, bool mplane_cap,
+> +				  bool strict)
+> +{
+> +	const struct v4l2_plane_ext_pix_format *pe;
+> +	struct v4l2_plane_pix_format *p;
+> +	unsigned int i;
+> +
+> +	memset(f, 0, sizeof(*f));
+> +
+> +	/*
+> +	 * Make sure no modifier is required before doing the
+> +	 * conversion.
+> +	 */
+> +	if (e->modifier && strict &&
+> +	    e->modifier != DRM_FORMAT_MOD_LINEAR &&
+> +	    e->modifier != DRM_FORMAT_MOD_INVALID)
+> +		return -EINVAL;
+> +
+> +	if (!e->plane_fmt[0].sizeimage && strict)
+> +		return -EINVAL;
+> +
+> +	if (e->plane_fmt[1].sizeimage && !mplane_cap && strict)
+> +		return 0;
+> +
+> +	if (!mplane_cap) {
+> +		f->fmt.pix.width = e->width;
+> +		f->fmt.pix.height = e->height;
+> +		f->fmt.pix.pixelformat = e->pixelformat;
+> +		f->fmt.pix.field = e->field;
+> +		f->fmt.pix.colorspace = e->colorspace;
+> +		f->fmt.pix.ycbcr_enc = e->ycbcr_enc;
+> +		f->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +		f->fmt.pix.quantization = e->quantization;
+> +		pe = &e->plane_fmt[0];
+> +		f->fmt.pix.bytesperline = pe->bytesperline;
+> +		f->fmt.pix.sizeimage = pe->sizeimage;
+> +		f->type = e->type;
+> +		return 0;
+> +	}
+> +
+> +	f->fmt.pix_mp.width = e->width;
+> +	f->fmt.pix_mp.height = e->height;
+> +	f->fmt.pix_mp.pixelformat = e->pixelformat;
+> +	f->fmt.pix_mp.field = e->field;
+> +	f->fmt.pix_mp.colorspace = e->colorspace;
+> +	f->fmt.pix_mp.ycbcr_enc = e->ycbcr_enc;
+> +	f->fmt.pix_mp.quantization = e->quantization;
+> +	if (e->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> +	else
+> +		f->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> +
+> +	for (i = 0; i < VIDEO_MAX_PLANES; i++) {
+> +		pe = &e->plane_fmt[i];
+> +		p = &f->fmt.pix_mp.plane_fmt[i];
+> +		p->bytesperline = pe->bytesperline;
+> +		p->sizeimage = pe->sizeimage;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_ext_pix_format_to_format);
+> +
+> +int v4l2_format_to_ext_pix_format(const struct v4l2_format *f,
+> +				  struct v4l2_ext_pix_format *e, bool strict)
+> +{
+> +	const struct v4l2_plane_pix_format *p;
+> +	struct v4l2_plane_ext_pix_format *pe;
+> +	unsigned int i;
+> +
+> +	memset(e, 0, sizeof(*e));
+> +
+> +	switch (f->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +		e->width = f->fmt.pix.width;
+> +		e->height = f->fmt.pix.height;
+> +		e->pixelformat = f->fmt.pix.pixelformat;
+> +		e->field = f->fmt.pix.field;
+> +		e->colorspace = f->fmt.pix.colorspace;
+> +		if (f->fmt.pix.flags)
+> +			pr_warn("Ignoring pixelformat flags 0x%x\n",
+> +				f->fmt.pix.flags);
+> +		e->ycbcr_enc = f->fmt.pix.ycbcr_enc;
+> +		e->quantization = f->fmt.pix.quantization;
+> +		e->plane_fmt[0].bytesperline = f->fmt.pix.bytesperline;
+> +		e->plane_fmt[0].sizeimage = f->fmt.pix.sizeimage;
+> +		e->type = f->type;
+> +		break;
+> +
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> +		if ((f->fmt.pix_mp.num_planes > VIDEO_MAX_PLANES ||
+> +		     !f->fmt.pix_mp.num_planes) && strict)
+> +			return -EINVAL;
+> +
+> +		e->width = f->fmt.pix_mp.width;
+> +		e->height = f->fmt.pix_mp.height;
+> +		e->pixelformat = f->fmt.pix_mp.pixelformat;
+> +		e->field = f->fmt.pix_mp.field;
+> +		e->colorspace = f->fmt.pix_mp.colorspace;
+> +		if (f->fmt.pix.flags)
+> +			pr_warn("Ignoring pixelformat flags 0x%x\n",
+> +				f->fmt.pix.flags);
+> +		e->ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
+> +		e->quantization = f->fmt.pix_mp.quantization;
+> +		if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+> +			e->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +		else
+> +			e->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +
+> +		for (i = 0; i < VIDEO_MAX_PLANES; i++) {
+> +			pe = &e->plane_fmt[i];
+> +			p = &f->fmt.pix_mp.plane_fmt[i];
+> +			pe->bytesperline = p->bytesperline;
+> +			pe->sizeimage = p->sizeimage;
+> +		}
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_format_to_ext_pix_format);
+> +
+>  static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -1558,6 +1717,38 @@ static void v4l_pix_format_touch(struct v4l2_pix_format *p)
+>  	p->xfer_func = 0;
+>  }
+>  
+> +static int v4l_g_fmt_ext_pix(const struct v4l2_ioctl_ops *ops,
+> +			     struct file *file, void *fh,
+> +			     struct v4l2_format *f)
+> +{
+> +	struct v4l2_ext_pix_format ef;
+> +	int ret;
+> +
+> +	switch (f->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> +		ef.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +		ret = ops->vidioc_g_ext_pix_fmt_vid_cap(file, fh, &ef);
+> +		break;
+> +
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> +		ef.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +		ret = ops->vidioc_g_ext_pix_fmt_vid_out(file, fh, &ef);
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_ext_pix_format_to_format(&ef, f,
+> +					     V4L2_TYPE_IS_MULTIPLANAR(f->type),
+> +					     true);
+> +}
+> +
+>  static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -1594,17 +1785,27 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
+>  
+>  	switch (p->type) {
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> -		if (unlikely(!ops->vidioc_g_fmt_vid_cap))
+> -			break;
+> -		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> -		ret = ops->vidioc_g_fmt_vid_cap(file, fh, arg);
+> -		/* just in case the driver zeroed it again */
+> -		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> -		if (vfd->vfl_type == VFL_TYPE_TOUCH)
+> -			v4l_pix_format_touch(&p->fmt.pix);
+> -		return ret;
+> +		if (ops->vidioc_g_fmt_vid_cap) {
+> +			p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +			ret = ops->vidioc_g_fmt_vid_cap(file, fh, arg);
+> +			/* just in case the driver zeroed it again */
+> +			p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +			if (vfd->vfl_type == VFL_TYPE_TOUCH)
+> +				v4l_pix_format_touch(&p->fmt.pix);
+> +			return ret;
+> +		} else if (ops->vidioc_g_ext_pix_fmt_vid_cap) {
+> +			ret = v4l_g_fmt_ext_pix(ops, file, fh, p);
+> +			if (vfd->vfl_type == VFL_TYPE_TOUCH)
+> +				v4l_pix_format_touch(&p->fmt.pix);
+> +			return ret;
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> -		return ops->vidioc_g_fmt_vid_cap_mplane(file, fh, arg);
+> +		if (ops->vidioc_g_fmt_vid_cap_mplane)
+> +			return ops->vidioc_g_fmt_vid_cap_mplane(file, fh, arg);
+> +		else if (ops->vidioc_g_ext_pix_fmt_vid_cap)
+> +			return v4l_g_fmt_ext_pix(ops, file, fh, p);
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
+>  		return ops->vidioc_g_fmt_vid_overlay(file, fh, arg);
+>  	case V4L2_BUF_TYPE_VBI_CAPTURE:
+> @@ -1612,15 +1813,22 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
+>  	case V4L2_BUF_TYPE_SLICED_VBI_CAPTURE:
+>  		return ops->vidioc_g_fmt_sliced_vbi_cap(file, fh, arg);
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> -		if (unlikely(!ops->vidioc_g_fmt_vid_out))
+> -			break;
+> -		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> -		ret = ops->vidioc_g_fmt_vid_out(file, fh, arg);
+> -		/* just in case the driver zeroed it again */
+> -		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> -		return ret;
+> +		if (ops->vidioc_g_fmt_vid_out) {
+> +			p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +			ret = ops->vidioc_g_fmt_vid_out(file, fh, arg);
+> +			/* just in case the driver zeroed it again */
+> +			p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +			return ret;
+> +		} else if (ops->vidioc_g_ext_pix_fmt_vid_out) {
+> +			return v4l_g_fmt_ext_pix(ops, file, fh, p);
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> -		return ops->vidioc_g_fmt_vid_out_mplane(file, fh, arg);
+> +		if (ops->vidioc_g_fmt_vid_out_mplane)
+> +			return ops->vidioc_g_fmt_vid_out_mplane(file, fh, arg);
+> +		else if (ops->vidioc_g_ext_pix_fmt_vid_out)
+> +			return v4l_g_fmt_ext_pix(ops, file, fh, p);
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY:
+>  		return ops->vidioc_g_fmt_vid_out_overlay(file, fh, arg);
+>  	case V4L2_BUF_TYPE_VBI_OUTPUT:
+> @@ -1639,6 +1847,76 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
+>  	return -EINVAL;
+>  }
+>  
+> +static int v4l_g_ext_pix_fmt(const struct v4l2_ioctl_ops *ops,
+> +			     struct file *file, void *fh, void *arg)
+> +{
+> +	struct v4l2_ext_pix_format *ef = arg;
+> +	struct v4l2_format f = {
+> +		.type = ef->type,
+> +	};
+> +	int ret;
+> +
+> +	ret = check_fmt(file, ef->type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	memset(ef, 0, sizeof(*ef));
+> +	ef->type = f.type;
+> +
+> +	switch (f.type) {
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +		if (ops->vidioc_g_ext_pix_fmt_vid_cap)
+> +			return ops->vidioc_g_ext_pix_fmt_vid_cap(file, fh, ef);
+> +		break;
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +		if (ops->vidioc_g_ext_pix_fmt_vid_out)
+> +			return ops->vidioc_g_ext_pix_fmt_vid_out(file, fh, ef);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = v4l_g_fmt(ops, file, fh, &f);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_format_to_ext_pix_format(&f, ef, true);
+> +}
+> +
+> +static int v4l_s_fmt_ext_pix(const struct v4l2_ioctl_ops *ops,
+> +			     struct file *file, void *fh,
+> +			     struct v4l2_format *f)
+> +{
+> +	struct v4l2_ext_pix_format ef;
+> +	int ret;
+> +
+> +	ret = v4l2_format_to_ext_pix_format(f, &ef, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (f->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> +		ret = ops->vidioc_s_ext_pix_fmt_vid_cap(file, fh, &ef);
+> +		break;
+> +
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> +		ret = ops->vidioc_s_ext_pix_fmt_vid_out(file, fh, &ef);
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_ext_pix_format_to_format(&ef, f,
+> +					     V4L2_TYPE_IS_MULTIPLANAR(f->type),
+> +					     true);
+> +}
+> +
+>  static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -1657,23 +1935,31 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+>  
+>  	switch (p->type) {
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> -		if (unlikely(!ops->vidioc_s_fmt_vid_cap))
+> +		if (ops->vidioc_s_fmt_vid_cap) {
+> +			CLEAR_AFTER_FIELD(p, fmt.pix);
+> +			ret = ops->vidioc_s_fmt_vid_cap(file, fh, arg);
+> +			/* just in case the driver zeroed it again */
+> +			p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +		} else if (ops->vidioc_s_ext_pix_fmt_vid_cap) {
+> +			ret = v4l_s_fmt_ext_pix(ops, file, fh, arg);
+> +		} else {
+>  			break;
+> -		CLEAR_AFTER_FIELD(p, fmt.pix);
+> -		ret = ops->vidioc_s_fmt_vid_cap(file, fh, arg);
+> -		/* just in case the driver zeroed it again */
+> -		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +		}
+> +
+>  		if (vfd->vfl_type == VFL_TYPE_TOUCH)
+>  			v4l_pix_format_touch(&p->fmt.pix);
+>  		return ret;
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> -		if (unlikely(!ops->vidioc_s_fmt_vid_cap_mplane))
+> -			break;
+> -		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
+> -		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+> -			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+> -					  bytesperline);
+> -		return ops->vidioc_s_fmt_vid_cap_mplane(file, fh, arg);
+> +		if (ops->vidioc_s_fmt_vid_cap_mplane) {
+> +			CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
+> +			for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+> +				CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+> +						  bytesperline);
+> +			return ops->vidioc_s_fmt_vid_cap_mplane(file, fh, arg);
+> +		} else if (ops->vidioc_s_ext_pix_fmt_vid_cap) {
+> +			return v4l_s_fmt_ext_pix(ops, file, fh, arg);
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
+>  		if (unlikely(!ops->vidioc_s_fmt_vid_overlay))
+>  			break;
+> @@ -1690,21 +1976,27 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+>  		CLEAR_AFTER_FIELD(p, fmt.sliced.io_size);
+>  		return ops->vidioc_s_fmt_sliced_vbi_cap(file, fh, arg);
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> -		if (unlikely(!ops->vidioc_s_fmt_vid_out))
+> -			break;
+> -		CLEAR_AFTER_FIELD(p, fmt.pix);
+> -		ret = ops->vidioc_s_fmt_vid_out(file, fh, arg);
+> -		/* just in case the driver zeroed it again */
+> -		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> -		return ret;
+> +		if (ops->vidioc_s_fmt_vid_out) {
+> +			CLEAR_AFTER_FIELD(p, fmt.pix);
+> +			ret = ops->vidioc_s_fmt_vid_out(file, fh, arg);
+> +			/* just in case the driver zeroed it again */
+> +			p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +			return ret;
+> +		} else if (ops->vidioc_s_ext_pix_fmt_vid_out) {
+> +			return v4l_s_fmt_ext_pix(ops, file, fh, arg);
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> -		if (unlikely(!ops->vidioc_s_fmt_vid_out_mplane))
+> -			break;
+> -		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
+> -		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+> -			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+> -					  bytesperline);
+> -		return ops->vidioc_s_fmt_vid_out_mplane(file, fh, arg);
+> +		if (ops->vidioc_s_fmt_vid_out_mplane) {
+> +			CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
+> +			for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+> +				CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+> +						  bytesperline);
+> +			return ops->vidioc_s_fmt_vid_out_mplane(file, fh, arg);
+> +		} else if (ops->vidioc_s_ext_pix_fmt_vid_out) {
+> +			return v4l_s_fmt_ext_pix(ops, file, fh, arg);
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY:
+>  		if (unlikely(!ops->vidioc_s_fmt_vid_out_overlay))
+>  			break;
+> @@ -1744,6 +2036,82 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+>  	return -EINVAL;
+>  }
+>  
+> +static int v4l_s_ext_pix_fmt(const struct v4l2_ioctl_ops *ops,
+> +			     struct file *file, void *fh, void *arg)
+> +{
+> +	struct video_device *vfd = video_devdata(file);
+> +	struct v4l2_ext_pix_format *ef = arg;
+> +	struct v4l2_format f;
+> +	int ret;
+> +
+> +	ret = check_fmt(file, ef->type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (ef->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +		if (ops->vidioc_s_ext_pix_fmt_vid_cap)
+> +			return ops->vidioc_s_ext_pix_fmt_vid_cap(file, fh, ef);
+> +		break;
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +		if (ops->vidioc_s_ext_pix_fmt_vid_out)
+> +			return ops->vidioc_s_ext_pix_fmt_vid_out(file, fh, ef);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = v4l2_ext_pix_format_to_format(ef, &f,
+> +					    vfd->device_caps &
+> +					    (V4L2_CAP_VIDEO_CAPTURE_MPLANE |
+> +					     V4L2_CAP_VIDEO_OUTPUT_MPLANE |
+> +					     V4L2_CAP_VIDEO_M2M_MPLANE),
+> +					    false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = v4l_s_fmt(ops, file, fh, &f);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_format_to_ext_pix_format(&f, ef, true);
+> +}
+> +
+> +static int v4l_try_fmt_ext_pix(const struct v4l2_ioctl_ops *ops,
+> +			       struct file *file, void *fh,
+> +			       struct v4l2_format *f)
+> +{
+> +	struct v4l2_ext_pix_format ef;
+> +	int ret;
+> +
+> +	ret = v4l2_format_to_ext_pix_format(f, &ef, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (f->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> +		ret = ops->vidioc_try_ext_pix_fmt_vid_cap(file, fh, &ef);
+> +		break;
+> +
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> +		ret = ops->vidioc_try_ext_pix_fmt_vid_out(file, fh, &ef);
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_ext_pix_format_to_format(&ef, f,
+> +					     V4L2_TYPE_IS_MULTIPLANAR(f->type),
+> +					     true);
+> +}
+> +
+> +
+>  static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -1759,23 +2127,32 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+>  
+>  	switch (p->type) {
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> -		if (unlikely(!ops->vidioc_try_fmt_vid_cap))
+> -			break;
+> -		CLEAR_AFTER_FIELD(p, fmt.pix);
+> -		ret = ops->vidioc_try_fmt_vid_cap(file, fh, arg);
+> -		/* just in case the driver zeroed it again */
+> -		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> -		if (vfd->vfl_type == VFL_TYPE_TOUCH)
+> -			v4l_pix_format_touch(&p->fmt.pix);
+> -		return ret;
+> +		if (ops->vidioc_try_fmt_vid_cap) {
+> +			CLEAR_AFTER_FIELD(p, fmt.pix);
+> +			ret = ops->vidioc_try_fmt_vid_cap(file, fh, arg);
+> +			/* just in case the driver zeroed it again */
+> +			p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +			if (vfd->vfl_type == VFL_TYPE_TOUCH)
+> +				v4l_pix_format_touch(&p->fmt.pix);
+> +			return ret;
+> +		} else if (ops->vidioc_try_ext_pix_fmt_vid_cap) {
+> +			ret = v4l_try_fmt_ext_pix(ops, file, fh, p);
+> +			if (vfd->vfl_type == VFL_TYPE_TOUCH)
+> +				v4l_pix_format_touch(&p->fmt.pix);
+> +			return ret;
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> -		if (unlikely(!ops->vidioc_try_fmt_vid_cap_mplane))
+> -			break;
+> -		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
+> -		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+> -			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+> -					  bytesperline);
+> -		return ops->vidioc_try_fmt_vid_cap_mplane(file, fh, arg);
+> +		if (ops->vidioc_try_fmt_vid_cap_mplane) {
+> +			CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
+> +			for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+> +				CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+> +						  bytesperline);
+> +			return ops->vidioc_try_fmt_vid_cap_mplane(file, fh, arg);
+> +		} else if (ops->vidioc_try_ext_pix_fmt_vid_cap) {
+> +			return v4l_try_fmt_ext_pix(ops, file, fh, p);
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
+>  		if (unlikely(!ops->vidioc_try_fmt_vid_overlay))
+>  			break;
+> @@ -1792,21 +2169,27 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+>  		CLEAR_AFTER_FIELD(p, fmt.sliced.io_size);
+>  		return ops->vidioc_try_fmt_sliced_vbi_cap(file, fh, arg);
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> -		if (unlikely(!ops->vidioc_try_fmt_vid_out))
+> -			break;
+> -		CLEAR_AFTER_FIELD(p, fmt.pix);
+> -		ret = ops->vidioc_try_fmt_vid_out(file, fh, arg);
+> -		/* just in case the driver zeroed it again */
+> -		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> -		return ret;
+> +		if (ops->vidioc_try_fmt_vid_out) {
+> +			CLEAR_AFTER_FIELD(p, fmt.pix);
+> +			ret = ops->vidioc_try_fmt_vid_out(file, fh, arg);
+> +			/* just in case the driver zeroed it again */
+> +			p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +			return ret;
+> +		} else if (ops->vidioc_try_ext_pix_fmt_vid_cap) {
+> +			return v4l_try_fmt_ext_pix(ops, file, fh, p);
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> -		if (unlikely(!ops->vidioc_try_fmt_vid_out_mplane))
+> -			break;
+> -		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
+> -		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+> -			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+> -					  bytesperline);
+> -		return ops->vidioc_try_fmt_vid_out_mplane(file, fh, arg);
+> +		if (ops->vidioc_try_fmt_vid_out_mplane) {
+> +			CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
+> +			for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+> +				CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+> +						  bytesperline);
+> +			return ops->vidioc_try_fmt_vid_out_mplane(file, fh, arg);
+> +		} else if (ops->vidioc_try_ext_pix_fmt_vid_cap) {
+> +			return v4l_try_fmt_ext_pix(ops, file, fh, p);
+> +		}
+> +		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY:
+>  		if (unlikely(!ops->vidioc_try_fmt_vid_out_overlay))
+>  			break;
+> @@ -1846,6 +2229,49 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+>  	return -EINVAL;
+>  }
+>  
+> +static int v4l_try_ext_pix_fmt(const struct v4l2_ioctl_ops *ops,
+> +			       struct file *file, void *fh, void *arg)
+> +{
+> +	struct video_device *vfd = video_devdata(file);
+> +	struct v4l2_ext_pix_format *ef = arg;
+> +	struct v4l2_format f;
+> +	int ret;
+> +
+> +	ret = check_fmt(file, ef->type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (ef->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +		if (ops->vidioc_try_ext_pix_fmt_vid_cap)
+> +			return ops->vidioc_try_ext_pix_fmt_vid_cap(file, fh,
+> +								   ef);
+> +		break;
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +		if (ops->vidioc_try_ext_pix_fmt_vid_out)
+> +			return ops->vidioc_try_ext_pix_fmt_vid_out(file, fh,
+> +								   ef);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = v4l2_ext_pix_format_to_format(ef, &f,
+> +					    vfd->device_caps &
+> +					    (V4L2_CAP_VIDEO_CAPTURE_MPLANE |
+> +					     V4L2_CAP_VIDEO_OUTPUT_MPLANE |
+> +					     V4L2_CAP_VIDEO_M2M_MPLANE),
+> +					    false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = v4l_try_fmt(ops, file, fh, &f);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_format_to_ext_pix_format(&f, ef, true);
+> +}
+> +
+>  static int v4l_streamon(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -2765,7 +3191,9 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
+>  	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
+>  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
+> +	IOCTL_INFO(VIDIOC_G_EXT_PIX_FMT, v4l_g_ext_pix_fmt, v4l_print_ext_pix_format, 0),
+>  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
+> +	IOCTL_INFO(VIDIOC_S_EXT_PIX_FMT, v4l_s_ext_pix_fmt, v4l_print_ext_pix_format, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+>  	IOCTL_INFO(VIDIOC_QUERYBUF, v4l_querybuf, v4l_print_buffer, INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_buffer, length)),
+>  	IOCTL_INFO(VIDIOC_G_FBUF, v4l_stub_g_fbuf, v4l_print_framebuffer, 0),
+> @@ -2812,6 +3240,7 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_S_JPEGCOMP, v4l_stub_s_jpegcomp, v4l_print_jpegcompression, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_QUERYSTD, v4l_querystd, v4l_print_std, 0),
+>  	IOCTL_INFO(VIDIOC_TRY_FMT, v4l_try_fmt, v4l_print_format, 0),
+> +	IOCTL_INFO(VIDIOC_TRY_EXT_PIX_FMT, v4l_try_ext_pix_fmt, v4l_print_ext_pix_format, 0),
+>  	IOCTL_INFO(VIDIOC_ENUMAUDIO, v4l_stub_enumaudio, v4l_print_audio, INFO_FL_CLEAR(v4l2_audio, index)),
+>  	IOCTL_INFO(VIDIOC_ENUMAUDOUT, v4l_stub_enumaudout, v4l_print_audioout, INFO_FL_CLEAR(v4l2_audioout, index)),
+>  	IOCTL_INFO(VIDIOC_G_PRIORITY, v4l_g_priority, v4l_print_u32, 0),
+> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+> index 86878fba332b0..525ce86725260 100644
+> --- a/include/media/v4l2-ioctl.h
+> +++ b/include/media/v4l2-ioctl.h
+> @@ -48,11 +48,17 @@ struct v4l2_fh;
+>   * @vidioc_g_fmt_vid_cap: pointer to the function that implements
+>   *	:ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for video capture
+>   *	in single plane mode
+> + * @vidioc_g_ext_pix_fmt_vid_cap: pointer to the function that implements
+> + *	:ref:`VIDIOC_G_EXT_PIX_FMT <vidioc_g_ext_pix_fmt>` ioctl logic for video
+> + *	capture
+>   * @vidioc_g_fmt_vid_overlay: pointer to the function that implements
+>   *	:ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for video overlay
+>   * @vidioc_g_fmt_vid_out: pointer to the function that implements
+>   *	:ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for video out
+>   *	in single plane mode
+> + * @vidioc_g_ext_pix_fmt_vid_out: pointer to the function that implements
+> + *	:ref:`VIDIOC_G_EXT_PIX_FMT <vidioc_g_ext_pix_fmt>` ioctl logic for video
+> + *	out
+>   * @vidioc_g_fmt_vid_out_overlay: pointer to the function that implements
+>   *	:ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for video overlay output
+>   * @vidioc_g_fmt_vbi_cap: pointer to the function that implements
+> @@ -82,11 +88,16 @@ struct v4l2_fh;
+>   * @vidioc_s_fmt_vid_cap: pointer to the function that implements
+>   *	:ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for video capture
+>   *	in single plane mode
+> + * @vidioc_s_ext_pix_fmt_vid_cap: pointer to the function that implements
+> + *	:ref:`VIDIOC_S_EXT_PIX_FMT <vidioc_s_ext_pix_fmt>` ioctl logic for video
+> + *	capture
+>   * @vidioc_s_fmt_vid_overlay: pointer to the function that implements
+>   *	:ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for video overlay
+>   * @vidioc_s_fmt_vid_out: pointer to the function that implements
+>   *	:ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for video out
+>   *	in single plane mode
+> + * @vidioc_s_ext_pix_fmt_vid_out: pointer to the function that implements
+> + *	:ref:`VIDIOC_S_EXT_PIX_FMT <vidioc_g_fmt>` ioctl logic for video out
+>   * @vidioc_s_fmt_vid_out_overlay: pointer to the function that implements
+>   *	:ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for video overlay output
+>   * @vidioc_s_fmt_vbi_cap: pointer to the function that implements
+> @@ -116,11 +127,16 @@ struct v4l2_fh;
+>   * @vidioc_try_fmt_vid_cap: pointer to the function that implements
+>   *	:ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for video capture
+>   *	in single plane mode
+> + * @vidioc_try_ext_pix_fmt_vid_cap: pointer to the function that implements
+> + *	:ref:`VIDIOC_TRY_EXT_PIX_FMT <vidioc_try_ext_pix_fmt>` ioctl logic for
+> +	video capture
+>   * @vidioc_try_fmt_vid_overlay: pointer to the function that implements
+>   *	:ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for video overlay
+>   * @vidioc_try_fmt_vid_out: pointer to the function that implements
+>   *	:ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for video out
+>   *	in single plane mode
+> + * @vidioc_try_ext_pix_fmt_vid_out: pointer to the function that implements
+> + *	:ref:`VIDIOC_TRY_EXT_PIX_FMT <vidioc_g_fmt>` ioctl logic for video out
+>   * @vidioc_try_fmt_vid_out_overlay: pointer to the function that implements
+>   *	:ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for video overlay
+>   *	output
+> @@ -319,10 +335,14 @@ struct v4l2_ioctl_ops {
+>  	/* VIDIOC_G_FMT handlers */
+>  	int (*vidioc_g_fmt_vid_cap)(struct file *file, void *fh,
+>  				    struct v4l2_format *f);
+> +	int (*vidioc_g_ext_pix_fmt_vid_cap)(struct file *file, void *fh,
+> +					    struct v4l2_ext_pix_format *f);
+>  	int (*vidioc_g_fmt_vid_overlay)(struct file *file, void *fh,
+>  					struct v4l2_format *f);
+>  	int (*vidioc_g_fmt_vid_out)(struct file *file, void *fh,
+>  				    struct v4l2_format *f);
+> +	int (*vidioc_g_ext_pix_fmt_vid_out)(struct file *file, void *fh,
+> +					    struct v4l2_ext_pix_format *f);
+>  	int (*vidioc_g_fmt_vid_out_overlay)(struct file *file, void *fh,
+>  					    struct v4l2_format *f);
+>  	int (*vidioc_g_fmt_vbi_cap)(struct file *file, void *fh,
+> @@ -349,10 +369,14 @@ struct v4l2_ioctl_ops {
+>  	/* VIDIOC_S_FMT handlers */
+>  	int (*vidioc_s_fmt_vid_cap)(struct file *file, void *fh,
+>  				    struct v4l2_format *f);
+> +	int (*vidioc_s_ext_pix_fmt_vid_cap)(struct file *file, void *fh,
+> +					    struct v4l2_ext_pix_format *f);
+>  	int (*vidioc_s_fmt_vid_overlay)(struct file *file, void *fh,
+>  					struct v4l2_format *f);
+>  	int (*vidioc_s_fmt_vid_out)(struct file *file, void *fh,
+>  				    struct v4l2_format *f);
+> +	int (*vidioc_s_ext_pix_fmt_vid_out)(struct file *file, void *fh,
+> +					    struct v4l2_ext_pix_format *f);
+>  	int (*vidioc_s_fmt_vid_out_overlay)(struct file *file, void *fh,
+>  					    struct v4l2_format *f);
+>  	int (*vidioc_s_fmt_vbi_cap)(struct file *file, void *fh,
+> @@ -379,10 +403,14 @@ struct v4l2_ioctl_ops {
+>  	/* VIDIOC_TRY_FMT handlers */
+>  	int (*vidioc_try_fmt_vid_cap)(struct file *file, void *fh,
+>  				      struct v4l2_format *f);
+> +	int (*vidioc_try_ext_pix_fmt_vid_cap)(struct file *file, void *fh,
+> +					      struct v4l2_ext_pix_format *f);
+>  	int (*vidioc_try_fmt_vid_overlay)(struct file *file, void *fh,
+>  					  struct v4l2_format *f);
+>  	int (*vidioc_try_fmt_vid_out)(struct file *file, void *fh,
+>  				      struct v4l2_format *f);
+> +	int (*vidioc_try_ext_pix_fmt_vid_out)(struct file *file, void *fh,
+> +					      struct v4l2_ext_pix_format *f);
+>  	int (*vidioc_try_fmt_vid_out_overlay)(struct file *file, void *fh,
+>  					     struct v4l2_format *f);
+>  	int (*vidioc_try_fmt_vbi_cap)(struct file *file, void *fh,
+> @@ -724,6 +752,12 @@ long int video_usercopy(struct file *file, unsigned int cmd,
+>  long int video_ioctl2(struct file *file,
+>  		      unsigned int cmd, unsigned long int arg);
+>  
+> +int v4l2_format_to_ext_pix_format(const struct v4l2_format *f,
+> +				  struct v4l2_ext_pix_format *e, bool strict);
+> +int v4l2_ext_pix_format_to_format(const struct v4l2_ext_pix_format *e,
+> +				  struct v4l2_format *f,
+> +				  bool mplane_cap, bool strict);
+> +
+>  /*
+>   * The user space interpretation of the 'v4l2_event' differs
+>   * based on the 'time_t' definition on 32-bit architectures, so
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 303805438814f..fc04c81ce7713 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -2252,6 +2252,57 @@ struct v4l2_pix_format_mplane {
+>  	__u8				reserved[7];
+>  } __attribute__ ((packed));
+>  
+> +/**
+> + * struct v4l2_plane_ext_pix_format - additional, per-plane format definition
+> + * @sizeimage:		maximum size in bytes required for data, for which
+> + *			this plane will be used
+> + * @bytesperline:	distance in bytes between the leftmost pixels in two
+> + *			adjacent lines
+> + * @reserved:		extra space reserved for future fields, must be set to 0
+> + */
+> +struct v4l2_plane_ext_pix_format {
+> +	__u32 sizeimage;
+> +	__u32 bytesperline;
+> +	__u32 reserved;
+> +} __attribute__ ((packed));
+> +
+> +/**
+> + * struct v4l2_ext_pix_format - extended single/multiplanar format definition
+> + * @type:		type of the data stream; V4L2_BUF_TYPE_VIDEO_CAPTURE or
+> + *			V4L2_BUF_TYPE_VIDEO_OUTPUT
+> + * @width:		image width in pixels
+> + * @height:		image height in pixels
+> + * @field:		enum v4l2_field; field order (for interlaced video)
+> + * @pixelformat:	little endian four character code (fourcc)
+> + * @modifier:		modifier applied to the format (used for tiled formats
+> + *			and other kind of HW-specific formats, like compressed
+> + *			formats)
+> + * @colorspace:		enum v4l2_colorspace; supplemental to pixelformat
+> + * @plane_fmt:		per-plane information
+> + * @ycbcr_enc:		enum v4l2_ycbcr_encoding, Y'CbCr encoding
+> + * @hsv_enc:		enum v4l2_hsv_encoding, HSV encoding
+> + * @quantization:	enum v4l2_quantization, colorspace quantization
+> + * @xfer_func:		enum v4l2_xfer_func, colorspace transfer function
+> + * @reserved:		extra space reserved for future fields, must be set to 0
+> + */
+> +struct v4l2_ext_pix_format {
+> +	__u32 type;
+> +	__u32 width;
+> +	__u32 height;
+> +	__u32 field;
+> +	__u32 pixelformat;
+> +	__u64 modifier;
+> +	__u32 colorspace;
 
-For now, yes. Most of the modifier work is done in DRM, it is only fairly recent
-that the media subsystem starts to have a need for it. So for now just use the drm
-header and prefixes.
+This struct has holes and is not the same for 32 and 64 bit architectures.
 
-> Or should we move this header to a common place and change the prefix? (which requires
-> us to sync with DRM community).
-> Or should we create a v4l2 header, defining V4L2_ prefixed macros mapping to DRM_
-> macros?
-> 
-> For now, patch 1/6 includes drm/drm_fourcc.h and it is using DRM_FORMAT_MOD_*
-> 
-> As discussed before, It would be nice to have documentation describing DRM fourcc
-> equivalents (I'm not sure if someone started this already), listing the number of
-> planes per format.
-> 
-> We should also document which pixelformats are valid for the EXT_API, since multiplanar
-> and tile versions like V4L2_PIX_FMT_NV12MT_16X16 (which seems equivalent to
-> DRM_FORMAT_MOD_SAMSUNG_16_16_TILE, and could have a more generic name) should be
-> replaced by a modifier.
-> 
-> Regarding flags [2] field in struct v4l2_pix_format_mplane [3]:
-> The only defined flag is V4L2_PIX_FMT_FLAG_PREMUL_ALPHA, and it is only used by vsp1 driver.
-> Which I believe could be replaced by a modifier, to avoid another field that changes
-> pixel formats, so I removed it from the EXT API (we can always add it back later with
-> the reserved fields).
+Moving modifier to before pixelformat will help a lot.
 
-The colorspace series that Dafna is working on will add a V4L2_PIX_FMT_FLAG_SET_CSC
-flag, so this flags field will be needed.
+> +	struct v4l2_plane_ext_pix_format plane_fmt[VIDEO_MAX_PLANES];
+> +	union {
+> +		__u8 ycbcr_enc;
+> +		__u8 hsv_enc;
+> +	};
+> +	__u8 quantization;
+> +	__u8 xfer_func;
 
-> 
-> [2] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/pixfmt-reserved.html#format-flags
-> [3] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/pixfmt-v4l2-mplane.html?highlight=v4l2_pix_format_mplane#c.v4l2_pix_format_mplane
-> 
-> We also discussed to add a new ENUM_FMT_EXT ioctl to return all pixelformats + modifiers
-> combinations. I still didn't add it in this version, but I don't think it affects
-> what is in this RFC and it can be added later.
-> 
-> 
-> * Buffers/Plane offset
-> ---------------------------------------------------------------------------------
-> 
-> My understanding is that inside a memory buffer we can have multiple planes in random
-> offsets.
-> I was comparing with the DRM API [4], where it can have the same dmabuf for multiple
-> planes in different offsets, and I started to think we could simplify our API, so
-> I took the liberty to do some more changes, please review struct v4l2_ext_plane in
-> this RFC.
-> 
-> I removed the data_offset, since it is unused (See Laurent's RFC repurposing this
-> field [5]). And comparing to the DRM API, it seems to me we only need a single offset
-> field.
-> 
-> We could also check about overlapping planes in a memory buffer, but this is complicated
-> if we use the same memory buffer with different v4l2_ext_buffer objects. We can also leave
-> to the driver to check situations that may cause HW errors.
-> 
-> [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/drm/drm_mode.h#n489
-> [5] https://patchwork.linuxtv.org/patch/29177/
-> 
-> 
-> * Multistream Channels
-> ---------------------------------------------------------------------------------
-> During last media summit, we discussed about adding a channel number to the API to
-> support multistreams. i.e, to have multiple queues through a single video node.
-> 
-> Use cases:
-> 
->     - Blitters: can take multiple streams as input, which would require multiple OUTPUT queues.
-> 
->     As Nicolas was explaining me:
->     "The blitters comes with a lot of variation between hardware. Most blitters at
->     least support 3 frames buffer. 2 inputs and one output. The second input is usually
->     optional, as the output buffer data is not always overwritten (e.g. SRC_OVER
->     blend or 1 input). Some of them have additional solid color or pattern that can
->     be used too. Advanced blitters will have composition feature, and may support more
->     input buffers to reduce the added latency that would be normally done through cascading
->     the operations. Note that each input can have different size and different cropping
->     region. Many blitters can scale and render to a sub-region of the CAPTURE buffer."
-> 
->     - Multis-calers: can produce multiple streams, which would require multiple CAPTURE queues.
-> 
->     As Nicolas was explaining me:
->     "This type of HW (or soft IP) is commonly found on HW used to produce internet
->     streams for fragmented and scalable protocols (HLS, DASH).  Basically they are
->     used to transform one stream into multiple sized streams prior from being encoded."
-> 
-> Modeling as channels allows the API to have synchronized Start/Stop between queues,
-> and also avoid the complexity of using the Media API in a topology with multiple video
-> nodes, which complicates userspace.
-> 
-> This requires adding a new channel id in ioctls for formats (G_FMT/S_FMT/TRY_FMT), and
-> also for buffers (QBUF/DBUF).
-> We also need a mechanism to enumerate channels and their properties.
-> Since we don't have a clear view how this would work, for now I'm leaving reserved bits
-> in the structs, so we can add them later.
-> 
-> 
-> * Timecode
-> ---------------------------------------------------------------------------------
-> During last media summit, we discussed to return the v4l2_timecode field to the API,
-> since Nicolas mentioned that, even if it is not used by any upstreamed driver, it
-> is used by out-of-tree drivers.
-> 
-> I've been discussing with Nicolas about this, and we can avoid adding too many metadata
-> to the buffer struct by using the Read-Only Request API [6] for retrieving more information
-> when required, similar to HDR.
-> 
-> The RO Request API has the ability to read a control using a request that has already
-> completed, the control value lives as long as the request object. If it's not read
-> (or if there was no request), the data is simply ignored/discard.
-> 
-> Since no upstream driver uses the timecode field, there are no conversions that need
-> to be done.
-
-That's a reasonable solution.
-
-> 
-> [6] https://patchwork.kernel.org/cover/11635927/
-> 
-> 
-> * Other changes (and some questions) in this version:
-> ---------------------------------------------------------------------------------
-> - Added reserved fields to struct
-> 
-> - The only difference between previously proposed VIDIOC_EXT_EXPBUF and VIDIOC_EXPBUF,
-> was that with VIDIOC_EXT_EXPBUF we can export multiple planes at once. I think we
-> can add this later, so I removed it from this RFC to simplify it.
-> 
-> - v4l2_buffer [7] has a memory field (enum v4l2_memory [8]). We kept this field in
-> struct v4l2_ext_buffer, buf I was wondering if this shouldn't be in struct v4l2_ext_plane
-> instead.
-
-This pops up every so often. The only use-case I can think of is when you return both
-video planes and metadata planes where the metadata might be MMAP and the video planes
-DMABUF. But it would add quite a bit of complexity, I suspect.
-
-> 
-> [7] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/buffer.html?highlight=v4l2_buffer#c.v4l2_buffer
-> [8] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/buffer.html?highlight=v4l2_memory#c.v4l2_memory
-> 
-> - In struct v4l2_ext_pix_format, we have:
-> 
->         struct v4l2_plane_ext_pix_format plane_fmt[VIDEO_MAX_PLANES];
-> 
-> The number of planes can be deducted from plane_fmt[i].sizeimage != 0, so I removed
-> the num_planes field. Please let me know if we can't use sizeimage for this.
-> In DRM, we know the number of planes from drm_mode_fb_cmd2 by the number of handle
-> args passed which are not 0.
-> This also avoids num_planes to be bigger then VIDEO_MAX_PLANES.
-
-I have no objection to this. You do probably need to add a note about there not
-being holes, e.g. plane_fmt[0].sizeimage is != 0, so is plane_fmt[2].sizeimage,
-but plane_fmt[1].sizeimage == 0. That's likely something you don't want.
+I'd change u8 to u32 for these fields for easier alignment.
 
 Regards,
 
 	Hans
 
-> 
-> - Added flags field to struct v4l2_ext_create_buffers
-> 
-> 
-> * Fixed bugs here and there
-> ---------------------------------------------------------------------------------
-> I fixed some bugs found with v4l2-compliance (not all of them yet),
-> through script v4l-utils/contrib/test/test-media.
-> 
-> I adapted what Boris did for v4l-utils in previous version to this version:
-> https://gitlab.collabora.com/koike/v4l-utils/-/tree/ext-api/wip
-> 
-> Boris' questions regarding DMABUF in last version still holds [9].
-> 
-> [9] https://patchwork.linuxtv.org/project/linux-media/cover/20191008091119.7294-1-boris.brezillon@collabora.com/
-> 
-> 
-> Please, let me know your feedback,
-> Helen
-> 
-> 
-> Boris Brezillon (5):
->   media: v4l2: Extend pixel formats to unify single/multi-planar
->     handling (and more)
->   media: videobuf2: Expose helpers to implement the _ext_fmt and
->     _ext_buf hooks
->   media: mediabus: Add helpers to convert a ext_pix format to/from a
->     mbus_fmt
->   media: vivid: Convert the capture and output drivers to
->     EXT_FMT/EXT_BUF
->   media: vimc: Implement the ext_fmt and ext_buf hooks
-> 
-> Hans Verkuil (1):
->   media: v4l2: Add extended buffer operations
-> 
->  .../media/common/videobuf2/videobuf2-core.c   |   2 +
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 549 +++++-----
->  .../media/test-drivers/vimc/vimc-capture.c    |  61 +-
->  drivers/media/test-drivers/vimc/vimc-common.c |   6 +-
->  drivers/media/test-drivers/vimc/vimc-common.h |   2 +-
->  drivers/media/test-drivers/vivid/vivid-core.c |  70 +-
->  .../test-drivers/vivid/vivid-touch-cap.c      |  26 +-
->  .../test-drivers/vivid/vivid-touch-cap.h      |   3 +-
->  .../media/test-drivers/vivid/vivid-vid-cap.c  | 169 +---
->  .../media/test-drivers/vivid/vivid-vid-cap.h  |  15 +-
->  .../media/test-drivers/vivid/vivid-vid-out.c  | 193 ++--
->  .../media/test-drivers/vivid/vivid-vid-out.h  |  15 +-
->  drivers/media/v4l2-core/v4l2-dev.c            |  50 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 934 ++++++++++++++++--
->  include/media/v4l2-ioctl.h                    |  60 ++
->  include/media/v4l2-mediabus.h                 |  42 +
->  include/media/videobuf2-core.h                |   6 +-
->  include/media/videobuf2-v4l2.h                |  21 +-
->  include/uapi/linux/videodev2.h                | 144 +++
->  19 files changed, 1650 insertions(+), 718 deletions(-)
+> +	__u32 reserved[4];
+> +} __attribute__ ((packed));
+> +
+>  /**
+>   * struct v4l2_sdr_format - SDR format definition
+>   * @pixelformat:	little endian four character code (fourcc)
+> @@ -2569,6 +2620,10 @@ struct v4l2_create_buffers {
+>  
+>  #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
+>  
+> +#define VIDIOC_G_EXT_PIX_FMT	_IOWR('V', 104, struct v4l2_ext_pix_format)
+> +#define VIDIOC_S_EXT_PIX_FMT	_IOWR('V', 105, struct v4l2_ext_pix_format)
+> +#define VIDIOC_TRY_EXT_PIX_FMT	_IOWR('V', 106, struct v4l2_ext_pix_format)
+> +
+>  /* Reminder: when adding new ioctls please add support for them to
+>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
+>  
 > 
 
