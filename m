@@ -2,125 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E48A9227E7D
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 13:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 829EE227EA0
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 13:20:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728205AbgGULPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 07:15:43 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42624 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728159AbgGULPn (ORCPT
+        id S1729521AbgGULUH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 07:20:07 -0400
+Received: from mail-il1-f200.google.com ([209.85.166.200]:54848 "EHLO
+        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729509AbgGULUG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 07:15:43 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7B9DF283D14;
-        Tue, 21 Jul 2020 12:15:40 +0100 (BST)
-Date:   Tue, 21 Jul 2020 13:15:37 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Helen Koike <helen.koike@collabora.com>, Brian.Starkey@arm.com
-Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        linux-media@vger.kernel.org, tfiga@chromium.org,
-        hiroh@chromium.org, nicolas@ndufresne.ca, kernel@collabora.com,
-        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
-        frkoenig@chromium.org, mjourdan@baylibre.com,
-        stanimir.varbanov@linaro.org
-Subject: Re: [PATCH v4 0/6] media: v4l2: Add extended fmt and buffer ioctls
-Message-ID: <20200721131537.6ff83c71@collabora.com>
-In-Reply-To: <20200717115435.2632623-1-helen.koike@collabora.com>
-References: <20200717115435.2632623-1-helen.koike@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Tue, 21 Jul 2020 07:20:06 -0400
+Received: by mail-il1-f200.google.com with SMTP id d18so13253484ill.21
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 04:20:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=PakZhdVRy00H5Jh4vTqRjEQYSnP47NKLSdT3K911Emg=;
+        b=KLwRcNu3L6R9K8k8GdguK2uXbU8zFZl2C8bBZq7E92jzR9O1b1YuGrHPuUuLLidPIh
+         ypsFBNt0crRhpc58ny+s9aHVX5WK2SiJvVNA1KkmsOfiCYGb9oKL38bLMuwx9g207DL2
+         DVNPzjgNmQhnrhr07ZjBgXzrVKkIP86EXwibU6oKA3SKSb2S3t9W/RQb6/P2KyTKUNa2
+         efdwgQzJAczqpP/Sg3rz49XFGRKQEluWVsFdsrCQoA8nRRSah8qCOTU2r4zL3InaxROo
+         O1SAZUEwdMdE1IN1IumYR9e8omlqE0VGTb51jtdGCtfA1ChcZ/x1tZGuIaWYNjrCdb+w
+         GFpg==
+X-Gm-Message-State: AOAM530w/5VVW90/5aIwJpl4Giygz/+CorDyZKtyJwts2MSfNTJClk9u
+        nUcIiJzV4RFN36vqtcG48Td5zsjvmT7ff7FETnZ3K8ZFdTOT
+X-Google-Smtp-Source: ABdhPJx3ptVWWJ4i6pIxXv/78PQF6oVLHXTz3Oh2F4h7h1aMKeQbb1QOTpZj/9jJfd/8b15zRVAz47qSc4jOmZlwHMb2VT1uRibs
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a92:2802:: with SMTP id l2mr27644334ilf.169.1595330405476;
+ Tue, 21 Jul 2020 04:20:05 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 04:20:05 -0700
+In-Reply-To: <20200721111007.hwwdveqxeqcry4wn@pesu.pes.edu>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001e30e105aaf1ce89@google.com>
+Subject: Re: WARNING in pvr2_i2c_core_done
+From:   syzbot <syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com>
+To:     bkkarthik@pesu.pes.edu, dan.carpenter@oracle.com,
+        gregkh@linuxfoundation.org, isely@pobox.com,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Helen,
+Hello,
 
-Just a few drive-by comments.
+syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+general protection fault in kernfs_find_ns
 
-On Fri, 17 Jul 2020 08:54:29 -0300
-Helen Koike <helen.koike@collabora.com> wrote:
+pvrusb2: Invalid write control endpoint
+pvrusb2: Invalid write control endpoint
+pvrusb2: Invalid write control endpoint
+pvrusb2: Invalid write control endpoint
+pvrusb2: Invalid write control endpoint
+pvrusb2: Invalid write control endpoint
+general protection fault, probably for non-canonical address 0xdffffc000000000e: 0000 [#1] SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000070-0x0000000000000077]
+CPU: 0 PID: 78 Comm: pvrusb2-context Not tainted 5.7.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:kernfs_find_ns+0x31/0x370 fs/kernfs/dir.c:829
+Code: 49 89 d6 41 55 41 54 55 48 89 fd 53 48 83 ec 08 e8 f4 61 af ff 48 8d 7d 70 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 1e 03 00 00 48 8d bd 98 00 00 00 48 8b 5d 70 48
+RSP: 0018:ffff8881d4187938 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: ffffffff863789c0 RCX: ffffffff85a79ba7
+RDX: 000000000000000e RSI: ffffffff81901d1c RDI: 0000000000000070
+RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff873ed1e7
+R10: fffffbfff0e7da3c R11: 0000000000000001 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: ffffffff863790e0
+FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000557f2b45ae48 CR3: 00000001d2762000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ kernfs_find_and_get_ns+0x2f/0x60 fs/kernfs/dir.c:906
+ kernfs_find_and_get include/linux/kernfs.h:548 [inline]
+ sysfs_unmerge_group+0x5d/0x160 fs/sysfs/group.c:366
+ dpm_sysfs_remove+0x62/0xb0 drivers/base/power/sysfs.c:790
+ device_del+0x18b/0xd20 drivers/base/core.c:2834
+ device_unregister+0x22/0xc0 drivers/base/core.c:2889
+ i2c_unregister_device include/linux/err.h:41 [inline]
+ i2c_client_dev_release+0x39/0x50 drivers/i2c/i2c-core-base.c:465
+ device_release+0x71/0x200 drivers/base/core.c:1559
+ kobject_cleanup lib/kobject.c:693 [inline]
+ kobject_release lib/kobject.c:722 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x245/0x540 lib/kobject.c:739
+ put_device drivers/base/core.c:2779 [inline]
+ device_unregister+0x34/0xc0 drivers/base/core.c:2890
+ i2c_unregister_device+0x38/0x40 include/linux/err.h:41
+ v4l2_i2c_new_subdev_board+0x159/0x2c0 drivers/media/v4l2-core/v4l2-i2c.c:114
+ v4l2_i2c_new_subdev+0xb8/0xf0 drivers/media/v4l2-core/v4l2-i2c.c:135
+ pvr2_hdw_load_subdev drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2023 [inline]
+ pvr2_hdw_load_modules drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2075 [inline]
+ pvr2_hdw_setup_low drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2156 [inline]
+ pvr2_hdw_setup drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2262 [inline]
+ pvr2_hdw_initialize+0xc8d/0x3600 drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2339
+ pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:109 [inline]
+ pvr2_context_thread_func+0x250/0x850 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
+ kthread+0x392/0x470 kernel/kthread.c:291
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:351
+Modules linked in:
+---[ end trace 9af941b6bcb04b01 ]---
+RIP: 0010:kernfs_find_ns+0x31/0x370 fs/kernfs/dir.c:829
+Code: 49 89 d6 41 55 41 54 55 48 89 fd 53 48 83 ec 08 e8 f4 61 af ff 48 8d 7d 70 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 1e 03 00 00 48 8d bd 98 00 00 00 48 8b 5d 70 48
+RSP: 0018:ffff8881d4187938 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: ffffffff863789c0 RCX: ffffffff85a79ba7
+RDX: 000000000000000e RSI: ffffffff81901d1c RDI: 0000000000000070
+RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff873ed1e7
+R10: fffffbfff0e7da3c R11: 0000000000000001 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: ffffffff863790e0
+FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000557f2b45ae48 CR3: 00000001d2762000 CR4: 00000000001406f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-> Hi,
-> 
-> I'm sorry for taking too long to submit v4.
-> 
-> It is not perfect, not all v4l2-compliance tests passes, but I'd like a review,
-> specially on the API and potential problems, so I can focus on improving implementation
-> and maybe drop the RFC tag for next version.
-> 
-> Follow below what changed in v4 and some items I'd like to discuss:
-> 
-> 
-> * Ioctl to replace v4l2_pix_format
-> ---------------------------------------------------------------------------------
-> During last media summit, we agreed to create ioctls that replace the v4l2_pix_format
-> struct and leave the other structs in the v4l2_format union alone.
-> Thus I refactored the code to receive struct v4l2_ext_pix_format, and I renamed the
-> ioctls, so now we have:
-> 
-> int ioctl(int fd, VIDIOC_G_EXT_FMT, struct v4l2_ext_pix_format *argp);
 
-Maybe use the EXT_PIX_FMT suffix here since the struct is really only
-about pixel formats.
+Tested on:
 
-> int ioctl(int fd, VIDIOC_S_EXT_FMT, struct v4l2_ext_pix_format *argp);
-> int ioctl(int fd, VIDIOC_TRY_EXT_FMT, struct v4l2_ext_pix_format *argp);
-> 
-> The only valid types are V4L2_BUF_TYPE_VIDEO_CAPTURE and V4L2_BUF_TYPE_VIDEO_OUTPUT,
-> all the other types are invalid with this API.
-> 
-
-[...]
-
-> 
-> 
-> Boris Brezillon (5):
->   media: v4l2: Extend pixel formats to unify single/multi-planar
->     handling (and more)
->   media: videobuf2: Expose helpers to implement the _ext_fmt and
->     _ext_buf hooks
->   media: mediabus: Add helpers to convert a ext_pix format to/from a
->     mbus_fmt
->   media: vivid: Convert the capture and output drivers to
->     EXT_FMT/EXT_BUF
->   media: vimc: Implement the ext_fmt and ext_buf hooks
-
-I think you should take ownership of these patches. The end result is
-likely to be completely different from what I initially posted, and
-you're the one doing the hard work here.
-
-> 
-> Hans Verkuil (1):
->   media: v4l2: Add extended buffer operations
-> 
->  .../media/common/videobuf2/videobuf2-core.c   |   2 +
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 549 +++++-----
->  .../media/test-drivers/vimc/vimc-capture.c    |  61 +-
->  drivers/media/test-drivers/vimc/vimc-common.c |   6 +-
->  drivers/media/test-drivers/vimc/vimc-common.h |   2 +-
->  drivers/media/test-drivers/vivid/vivid-core.c |  70 +-
->  .../test-drivers/vivid/vivid-touch-cap.c      |  26 +-
->  .../test-drivers/vivid/vivid-touch-cap.h      |   3 +-
->  .../media/test-drivers/vivid/vivid-vid-cap.c  | 169 +---
->  .../media/test-drivers/vivid/vivid-vid-cap.h  |  15 +-
->  .../media/test-drivers/vivid/vivid-vid-out.c  | 193 ++--
->  .../media/test-drivers/vivid/vivid-vid-out.h  |  15 +-
->  drivers/media/v4l2-core/v4l2-dev.c            |  50 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 934 ++++++++++++++++--
->  include/media/v4l2-ioctl.h                    |  60 ++
->  include/media/v4l2-mediabus.h                 |  42 +
->  include/media/videobuf2-core.h                |   6 +-
->  include/media/videobuf2-v4l2.h                |  21 +-
->  include/uapi/linux/videodev2.h                | 144 +++
->  19 files changed, 1650 insertions(+), 718 deletions(-)
-> 
+commit:         b791d1bd Merge tag 'locking-kcsan-2020-06-11' of git://git..
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=16dfe440900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccf1899337a6e343
+dashboard link: https://syzkaller.appspot.com/bug?extid=e74a998ca8f1df9cc332
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=117e281b100000
 
