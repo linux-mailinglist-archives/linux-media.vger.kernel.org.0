@@ -2,136 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AB4A227AFB
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 10:46:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58E76227B03
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 10:47:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbgGUIqw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 04:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725984AbgGUIqv (ORCPT
+        id S1728471AbgGUIrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 04:47:21 -0400
+Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:13814 "EHLO
+        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725984AbgGUIrV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 04:46:51 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 090ADC061794
-        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 01:46:51 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id q6so2177765ljp.4
-        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 01:46:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=65aNYDMHso00QBpYKlJQ2NuOwOKHTaALj+/FvCeLQ34=;
-        b=sBtQrgeXFs7uHWLQjkXwaQ7oDfcP1FZFjsYMa38Qs2uhbqiamAw1iqSfqzPx14VrAI
-         86pWqy6lzMbQND7IYV/tI9v9ZW89XxUUP5DggUW/08WWmsjtCPy0kEp/kZYgv+i1Cyhe
-         gjYf40x6nMJWbuovtRzC3AvnUhTy3fAHiDmrS6Q18UyI6jt5myIOmf5EXl3PirrqUkmX
-         NjysXiBQ86kZ00cKiVRoPQFzDUxQx+OHJ/SgGfUzCbd/TKdbbNhqTgIEq08QwqHzgxay
-         3jQnOQwOzPL+9q5DAYfKGqp/XpiH9CeuaBj1BGYIPZL9/pyYsDMrQ9SzgbFeM5TkQR9S
-         cfTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=65aNYDMHso00QBpYKlJQ2NuOwOKHTaALj+/FvCeLQ34=;
-        b=EU63QnpyRhIY/RjIGXUFuQ1Azk7tAnH7V5+X/N9jHe3F8y1EGgpLE+I7jzNRFgJh1X
-         naYl6wziJ8fB2CSdzWB2zstQw0eYn3Es6Uf4R0wiQDobamuc4uPEHMndDFt0Yh1+hF0Y
-         IlIQXaAHntyzP2E6NsMloRcQYiY3ii59F+qU2CbncYDloiZjMvpDwMacofVbIFAPxZfU
-         468MXdeCgoEzBL8TjFM4c29ZSztewZ/837LQO9qEHZxGVM1za9oVAJzIV7OP4Gtmf+N3
-         HiaZJvV/XhpUGbHbIZkC/UrWwELvVCpj3qDs6gRCKdrzHiBHfhtY4SaI88+IpkaF6h0l
-         2+Dg==
-X-Gm-Message-State: AOAM533rMiyo1E/k2xUThmgKNBo8DlfMwKmhLYqtm2zwyGfim7knHskc
-        1mggMJ9eslfhEJNZh3U7B21/5v2Xfp+rHcN4JbvOug==
-X-Google-Smtp-Source: ABdhPJxGXm2fBsKUpZKPxL7HWctJNjr7DBqn3XFbOZNZvaqD4loXHv8b2yCGJDCLqp6h9GETa0Hhz6bps6x6UFVYuIo=
-X-Received: by 2002:a2e:b4ed:: with SMTP id s13mr12396288ljm.296.1595321208788;
- Tue, 21 Jul 2020 01:46:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200721075642.4cdlzbewml5jwbwm@pesu.pes.edu> <20200721083539.GJ2549@kadam>
-In-Reply-To: <20200721083539.GJ2549@kadam>
-From:   B K Karthik <bkkarthik@pesu.pes.edu>
-Date:   Tue, 21 Jul 2020 14:16:37 +0530
-Message-ID: <CAAhDqq0SR2cKhetYTrHB2b2OMgEOi4JHgA1Syg1Lc0+umD=p2Q@mail.gmail.com>
-Subject: Re: [PATCH] fix WARNING in pvr2_i2c_core_done
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Mike Isely <isely@pobox.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tue, 21 Jul 2020 04:47:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id D68C23FA36;
+        Tue, 21 Jul 2020 10:47:18 +0200 (CEST)
+Authentication-Results: ste-pvt-msa1.bahnhof.se;
+        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=cfyygOmS;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id xxeMSWhjAfgq; Tue, 21 Jul 2020 10:47:17 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        (Authenticated sender: mb878879)
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 7D82A3F9E7;
+        Tue, 21 Jul 2020 10:47:15 +0200 (CEST)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id CC59B36014B;
+        Tue, 21 Jul 2020 10:47:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1595321234; bh=hkvhvfi+JM5OBDtRUXrbQuN3JiHLZIObnsH22OCtN8w=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=cfyygOmSajTjenzL9cXVdGG96y6lgmTbUKCjVuFw82RLrwHeoGBU5cn0KXg8YsS8h
+         YKNgp4ieMf+U+RCdhVHHVDMnwiUl/E1dxMV0R8mgb7kxAM5+y+xKebL1Yf3BX4g1hl
+         4HmPvZMeCBWn3jekYn0VjQxbnQfT37gTupSD2Mdo=
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
+ fences are a bad idea
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Stone <daniels@collabora.com>,
+        linux-rdma@vger.kernel.org,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Steve Pronovost <spronovo@microsoft.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
         linux-media@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        Mika Kuoppala <mika.kuoppala@intel.com>
+References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+ <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+ <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
+ <20200721074157.GB3278063@phenom.ffwll.local>
+ <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Message-ID: <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org>
+Date:   Tue, 21 Jul 2020 10:47:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 2:05 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+
+On 7/21/20 9:45 AM, Christian König wrote:
+> Am 21.07.20 um 09:41 schrieb Daniel Vetter:
+>> On Mon, Jul 20, 2020 at 01:15:17PM +0200, Thomas Hellström (Intel) 
+>> wrote:
+>>> Hi,
+>>>
+>>> On 7/9/20 2:33 PM, Daniel Vetter wrote:
+>>>> Comes up every few years, gets somewhat tedious to discuss, let's
+>>>> write this down once and for all.
+>>>>
+>>>> What I'm not sure about is whether the text should be more explicit in
+>>>> flat out mandating the amdkfd eviction fences for long running compute
+>>>> workloads or workloads where userspace fencing is allowed.
+>>> Although (in my humble opinion) it might be possible to completely 
+>>> untangle
+>>> kernel-introduced fences for resource management and dma-fences used 
+>>> for
+>>> completion- and dependency tracking and lift a lot of restrictions 
+>>> for the
+>>> dma-fences, including prohibiting infinite ones, I think this makes 
+>>> sense
+>>> describing the current state.
+>> Yeah I think a future patch needs to type up how we want to make that
+>> happen (for some cross driver consistency) and what needs to be
+>> considered. Some of the necessary parts are already there (with like the
+>> preemption fences amdkfd has as an example), but I think some clear docs
+>> on what's required from both hw, drivers and userspace would be really
+>> good.
 >
-> The subject isn't right.  Cc the correct people from get_maintainer.pl
+> I'm currently writing that up, but probably still need a few days for 
+> this.
 
-I'm sorry, but I just wanted syzbot to test this because I was unable
-to test it myself for some reason
->
-> On Tue, Jul 21, 2020 at 01:26:42PM +0530, B K Karthik wrote:
-> > i2c_acpi_remove_space_handler makes a call to
-> > kmem_cache_free() through acpi_ut_delete_generic_state
-> > in drivers/acpi/osl.c. since this removes the kobject,
-> > there is a warning thrown in i2c_del_adapter. The group
-> > can not be found because it has already been removed.
->
-> The commit message needs to have a cut and paste of the warning.
-> I don't think you can't ask syzbot to test linux-next when the patch is
-> not in linux-next.
->
-> https://lkml.org/lkml/2019/9/25/302
->
-> There was some discussion about this bug in Sept and it looked like the
-> correct fix was to unregister in the release handler instead of the
-> disconnect handler.  I'm not sure if the pvr2 maintainers were ever
-> CC'd about this or if anyone wrote a patch.
->
-Yes, I'm aware of that discussion. I am not sure what exactly you mean
-by release and disconnect handlers though.
-And yes, I did not find a patch that makes the change you said.
+Great! I put down some (very) initial thoughts a couple of weeks ago 
+building on eviction fences for various hardware complexity levels here:
 
-Forgive me, but i noticed this:
+https://gitlab.freedesktop.org/thomash/docs/-/blob/master/Untangling%20dma-fence%20and%20memory%20allocation.odt
 
-in i2c_del_adapter+0x373/0x660 drivers/i2c/i2c-core-base.c:1516
-(quoted from crash log)
-i2c_acpi_remove_space_handler(adap); that takes us to
-drivers/i2c/i2c-core-acpi.c:753
-acpi_remove_address_space_handler() that takes us to
-drivers/acpi/acpica/evxfregn.c:205
-acpi_ut_remove_reference() that takes us to drivers/acpi/acpica/utdelete.c:736
-acpi_ut_update_object_reference() that takes us to
-drivers/acpi/acpica/utdelete.c:654
-acpi_ut_delete_generic_state() that takes us to drivers/acpi/osl.c:1708
+/Thomas
 
-where a call to kmem_cache_free() is made.
-Hence, the object does not exist anymore. (am i right?)
 
-now that i know the object does exist, was it meant to be '0-0011' ?
-
-later in the same function
-in i2c_del_adapter+0x373/0x660 drivers/i2c/i2c-core-base.c:1532
-(function name quoted from crash log)
-a call to i2c_unregister_device() is made, where it tries to
-unregister the device and it is a 2 pass process.
-
-it tries to unregister the client device first, and then the dummy
-device since we can not remove
-the dummy devices during the first pass. (comment in
-drivers/i2c/i2c-core-base.c:1540)
-
-hence, the problem is not with the sysfs group, but with the invalid kobject.
-that is why in the bug reported, it says kobject '0-0011' (am i right?)
-
-if this is what you meant, sorry for wasting your time.
-
-I thought since a call to kmem_cache_free() is being made, the kobject
-was removed.
-thus, i sent a patch with the if() statement. If i am thinking the
-wrong way, please let me know.
-
-thanks,
-
-karthik
