@@ -2,112 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89590227C90
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 12:09:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0723227CB8
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jul 2020 12:17:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728508AbgGUKJX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jul 2020 06:09:23 -0400
-Received: from mga17.intel.com ([192.55.52.151]:40672 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728006AbgGUKJX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jul 2020 06:09:23 -0400
-IronPort-SDR: OAFXhQAiwso5bvNcwh+8c61T8cB2aNLSzERaodRBbkFP0e7bb4LjMDv+WAuKRcDug13YRdu41C
- 6+nTC+PHBfsw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9688"; a="130172369"
-X-IronPort-AV: E=Sophos;i="5.75,378,1589266800"; 
-   d="scan'208";a="130172369"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 03:09:23 -0700
-IronPort-SDR: wMp3eiv3fS5BwAd094SnffvGSEpCu7rrmHHBxxAg4hGYRyD9Z0vKI130/J4zlv9xixOBg76y3s
- 6qUtE7YcP3YQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,378,1589266800"; 
-   d="scan'208";a="462023645"
-Received: from ipu5-build.bj.intel.com ([10.238.232.196])
-  by orsmga005.jf.intel.com with ESMTP; 21 Jul 2020 03:09:20 -0700
-From:   Bingbu Cao <bingbu.cao@intel.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        senozhatsky@chromium.org
-Cc:     bingbu.cao@intel.com, bingbu.cao@linux.intel.com,
-        qingwu.zhang@intel.com
-Subject: [PATCH] media: i2c: ov2740: get OTP data ready before nvmem registration
-Date:   Tue, 21 Jul 2020 18:11:35 +0800
-Message-Id: <1595326295-25213-1-git-send-email-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.7.4
+        id S1728655AbgGUKRa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jul 2020 06:17:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43392 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726089AbgGUKR2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Jul 2020 06:17:28 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F976C061794
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 03:17:28 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id o1so10072697plk.1
+        for <linux-media@vger.kernel.org>; Tue, 21 Jul 2020 03:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o+q+SwIxmtmY9Sx81EleZKhYAND9OH1kntiZdkYfvU0=;
+        b=qWUN5QA1aFxfB2DjiMqONNST2jbTf6OJYJuEncUgJ0vCiHbJxunBCOUDrf4lekJ8ha
+         xuuUm8Cl2v7EumQrQheCESumNpdnZvcS/90E63isULze+vaWc8aZYciRvxhmhyyP0TSf
+         Fx5i/21HwbbQOGJLhczghtvtyGJAlsTYvRpp+0AqdPzgsjBVROzbARZ5qgx2026dMlub
+         TArir1DbUviFSysJwu5HANPdXBogPkA0ZUAF5zTOKrPGXo9tLNFEoeCG8VQ3YO8q5LMj
+         G/H0qmzRixx5hp8uXhDFskCspzBv5cfBU+5AglKLR3sVFp2gP3rGCESR0X453einKieP
+         5v/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o+q+SwIxmtmY9Sx81EleZKhYAND9OH1kntiZdkYfvU0=;
+        b=W/jbmcNbuQ/IH/pSKLIzVegfz5Mmaf4XTtTMcD3kJJS0VrSWE66AxI6zgjomR4bJnh
+         uSXOksLHig4EFh1Pp1MLaymA/7VcWyJTfxvZv21uimohJUjGbwrJ+gjWx90plhe3ly0U
+         0X6duxu+Or7qZiwi0gPR7Wn9bN5P5N683lL1pA86mOKfjp4BMbxMNn7036aidkcwNHug
+         AUrt/62F7lCuvb5R4UasxRp9SskKX8nHc3GO8GRFhUXFMqEqXQGWHZ9o/c6gd6F+Da+P
+         OCJEOaLv57yY8lnSMK24s/gcevQXbk0DQe3SnqTeux8tZdKY1mFlCONL9h2vH1iqo781
+         CEDA==
+X-Gm-Message-State: AOAM530/4/m+l6tUCdBWchILdr3nw+NKN7RqPGMilHOle/eWsgpC/wVM
+        /srhonP42oBx9KCKJbncqyUpnw==
+X-Google-Smtp-Source: ABdhPJzcHPIg+Zax6xdjIuD6JIMyV7+jwiFE6h9cpHXvzWvIdo5+AtqiMlB4S1ecvEas79S1d9KNiA==
+X-Received: by 2002:a17:90a:f68c:: with SMTP id cl12mr3570326pjb.116.1595326647639;
+        Tue, 21 Jul 2020 03:17:27 -0700 (PDT)
+Received: from C02ZK051LVCK.local.net ([61.120.150.77])
+        by smtp.gmail.com with ESMTPSA id e195sm19694815pfh.218.2020.07.21.03.17.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 Jul 2020 03:17:26 -0700 (PDT)
+From:   Xin He <hexin.op@bytedance.com>
+To:     daniel@ffwll.ch, airlied@linux.ie, kraxel@redhat.com,
+        sumit.semwal@linaro.org
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Qi Liu <liuqi.16@bytedance.com>,
+        Xin He <hexin.op@bytedance.com>,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v3] drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioctl()
+Date:   Tue, 21 Jul 2020 18:16:47 +0800
+Message-Id: <20200721101647.42653-1-hexin.op@bytedance.com>
+X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The OTP data was not ready after registered as nvmem device, it is
-risky as the nvmem read may happen once the device exists, this patch
-get the OTP data ready before registering the nvmem device. OTP data
-missing should not break the normal camera sensor probe, so use a
-warning instead of an error message.
+From: Qi Liu <liuqi.16@bytedance.com>
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-Signed-off-by: Qingwu Zhang <qingwu.zhang@intel.com>
-Suggested-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+We should put the reference count of the fence after calling
+virtio_gpu_cmd_submit(). So add the missing dma_fence_put().
+
+Fixes: 2cd7b6f08bc4 ("drm/virtio: add in/out fence support for explicit synchronization")
+Co-developed-by: Xin He <hexin.op@bytedance.com>
+Signed-off-by: Xin He <hexin.op@bytedance.com>
+Signed-off-by: Qi Liu <liuqi.16@bytedance.com>
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 ---
- drivers/media/i2c/ov2740.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index fd0b6a903ec1..ae4b58da7be4 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -1018,6 +1018,10 @@ static int ov2740_register_nvmem(struct i2c_client *client)
- 	if (!nvm)
- 		return -ENOMEM;
+changelog in v3:
+1) Change the subject from "drm/virtio: fixed memory leak in virtio_gpu_execbuffer_ioctl()" to 
+   "drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioctl()"
+2) Rework the commit log
+
+changelog in v2:
+1) Add a change description 
+
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index 5df722072ba0..19c5bc01eb79 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -179,6 +179,7 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
  
-+	nvm->nvm_buffer = devm_kzalloc(dev, CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
-+	if (!nvm->nvm_buffer)
-+		return -ENOMEM;
-+
- 	regmap_config.val_bits = 8;
- 	regmap_config.reg_bits = 16;
- 	regmap_config.disable_locking = true;
-@@ -1027,6 +1031,12 @@ static int ov2740_register_nvmem(struct i2c_client *client)
+ 	virtio_gpu_cmd_submit(vgdev, buf, exbuf->size,
+ 			      vfpriv->ctx_id, buflist, out_fence);
++	dma_fence_put(&out_fence->f);
+ 	virtio_gpu_notify(vgdev);
+ 	return 0;
  
- 	nvm->regmap = regmap;
- 
-+	ret = ov2740_load_otp_data(client, nvm);
-+	if (ret) {
-+		dev_err(dev, "failed to load OTP data, ret %d\n", ret);
-+		return ret;
-+	}
-+
- 	nvmem_config.name = dev_name(dev);
- 	nvmem_config.dev = dev;
- 	nvmem_config.read_only = true;
-@@ -1045,15 +1055,7 @@ static int ov2740_register_nvmem(struct i2c_client *client)
- 	if (IS_ERR(nvm->nvmem))
- 		return PTR_ERR(nvm->nvmem);
- 
--	nvm->nvm_buffer = devm_kzalloc(dev, CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
--	if (!nvm->nvm_buffer)
--		return -ENOMEM;
--
--	ret = ov2740_load_otp_data(client, nvm);
--	if (ret)
--		dev_err(dev, "failed to load OTP data, ret %d\n", ret);
--
--	return ret;
-+	return 0;
- }
- 
- static int ov2740_probe(struct i2c_client *client)
-@@ -1107,7 +1109,7 @@ static int ov2740_probe(struct i2c_client *client)
- 
- 	ret = ov2740_register_nvmem(client);
- 	if (ret)
--		dev_err(&client->dev, "register nvmem failed, ret %d\n", ret);
-+		dev_warn(&client->dev, "register nvmem failed, ret %d\n", ret);
- 
- 	/*
- 	 * Device is already turned on by i2c-core with ACPI domain PM.
 -- 
-2.7.4
+2.21.1 (Apple Git-122.3)
 
