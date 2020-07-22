@@ -2,110 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35E44229915
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 15:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 039F0229954
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 15:43:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732134AbgGVNQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 09:16:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725878AbgGVNQg (ORCPT
+        id S1732429AbgGVNlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 09:41:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56595 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1732349AbgGVNlz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 09:16:36 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF281C0619DC
-        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 06:16:35 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1jyEbn-0001NZ-KP; Wed, 22 Jul 2020 15:16:31 +0200
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1jyEbn-0004xj-7c; Wed, 22 Jul 2020 15:16:31 +0200
-Date:   Wed, 22 Jul 2020 15:16:31 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Colin King <colin.king@canonical.com>
-Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next][V2] media: allegro: fix potential null dereference
- on header
-Message-ID: <20200722131631.GA18419@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Colin King <colin.king@canonical.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200722130903.818041-1-colin.king@canonical.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200722130903.818041-1-colin.king@canonical.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 15:12:53 up 153 days, 20:43, 131 users,  load average: 0.09, 0.22,
- 0.19
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        Wed, 22 Jul 2020 09:41:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595425314;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=Ui/vqY+wjCMXVC3AeuKik/PdHbSTYXnM22dr85QtBBc=;
+        b=O464shV4LDXNxelC62uSeRQXo/zU4b6nk8ukOHIhikqdyyOfYvFtTXnY4ep298iRG/ZwUl
+        cuSg5YSb11oH3fNdO0eMzhiCif37+Ep2rWfzPnZDoPJZzNnL5jOMHKUXdwFO3EyaqS+jW4
+        8iVpVdK4VFHraoVCDI7w3GWbobzGZKg=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-7ICYfnSuMNyiYEkrBuCq7A-1; Wed, 22 Jul 2020 09:41:52 -0400
+X-MC-Unique: 7ICYfnSuMNyiYEkrBuCq7A-1
+Received: by mail-qk1-f199.google.com with SMTP id x20so1418631qki.20
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 06:41:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Ui/vqY+wjCMXVC3AeuKik/PdHbSTYXnM22dr85QtBBc=;
+        b=PZRp0G6H4RwszjX8FSqnv1dOL+pt3qd5hQ0HiZ4Hb5LsRgKb9tynd27mu7bXLkIFdm
+         NS+1zCjij6IQ6IBmKoCVPUZZAdSw75aJyegok63Dsdqb64NNKfW4iHRcw/VzIuusEAPC
+         QLEAsXzUFYGiBgggQP7tlJLhJznd3Xuc8L2U/rrV2G05abSf/9x4sNZ2U6nBPhJzbKNB
+         DucFZrIhg4Y9GHQaztAuekzUdbIdVLU352/y6E02V4CZ/LucO0Ngc3x/enAc7VxOdD+v
+         k0TFE7RtrOWLzKo4zfU2ULlpJEuDCkL4hAIMOGSv/JWQHmDJskh/21VMguzaq93QF38E
+         CF7A==
+X-Gm-Message-State: AOAM5305hChiu3j26KHsm2iKXYIYLPuTrdjS+736Ddd4nhiXRVrq0klf
+        b1jBoyDEZfnsk9BpYsHN5NahpNG7nADrVONIkIcmTD14F9i/EgjUIQyMW8BNACqtfwdOy4pisZ0
+        rMVVhLevIpXFilzClbgEAcXE=
+X-Received: by 2002:ac8:7241:: with SMTP id l1mr34190477qtp.254.1595425311636;
+        Wed, 22 Jul 2020 06:41:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9SwiS7B94UsTa1T4MWZIZChKfTj3cztPK0m8KJwbQIjkVQygaJ1FIqBq5LPXmP8OjlBQaDg==
+X-Received: by 2002:ac8:7241:: with SMTP id l1mr34190457qtp.254.1595425311411;
+        Wed, 22 Jul 2020 06:41:51 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id f54sm27791224qte.76.2020.07.22.06.41.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2020 06:41:50 -0700 (PDT)
+From:   trix@redhat.com
+To:     jasmin@anw.at, mchehab@kernel.org, o.endriss@gmx.de,
+        rjkm@metzlerbros.de
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] media: dvb-frontends/cxd2099: report errors
+Date:   Wed, 22 Jul 2020 06:41:26 -0700
+Message-Id: <20200722134126.31191-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 22 Jul 2020 14:09:03 +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> The pointer header is an alias to msg and msg is being null checked.
-> However, if msg is null then header is also null and this can lead to
-> a null pointer dereference on the assignment type = header->type. Fix
-> this just using header->type after the null check and removing the need
-> for type as it is only used once.
-> 
-> Addresses-Coverity: ("Dereference before null check")
-> Fixes: 3de16839669f ("media: allegro: add explicit mail encoding and decoding")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+From: Tom Rix <trix@redhat.com>
 
-Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
+Clang static analysis reports this error
 
-> ---
-> 
-> V2: remove need for variable type, as suggested by Michael Tretter
-> 
-> ---
->  drivers/staging/media/allegro-dvt/allegro-mail.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.c b/drivers/staging/media/allegro-dvt/allegro-mail.c
-> index 4ac65de12463..9286d2162377 100644
-> --- a/drivers/staging/media/allegro-dvt/allegro-mail.c
-> +++ b/drivers/staging/media/allegro-dvt/allegro-mail.c
-> @@ -462,13 +462,12 @@ allegro_dec_encode_frame(struct mcu_msg_encode_frame_response *msg, u32 *src)
->  ssize_t allegro_encode_mail(u32 *dst, void *msg)
->  {
->  	const struct mcu_msg_header *header = msg;
-> -	enum mcu_msg_type type = header->type;
->  	ssize_t size;
->  
->  	if (!msg || !dst)
->  		return -EINVAL;
->  
-> -	switch (type) {
-> +	switch (header->type) {
->  	case MCU_MSG_TYPE_INIT:
->  		size = allegro_enc_init(&dst[1], msg);
->  		break;
-> -- 
-> 2.27.0
-> 
-> 
+drivers/media/dvb-frontends/cxd2099.c:420:2: warning: Undefined
+  or garbage value returned to caller
+        return val;
+        ^~~~~~~~~~
+
+In read_cam_control, the call to read_io can fail.
+When it fails val is not set.
+
+The failure status should be returned to the caller,
+not the unset val.
+
+Similar problem with read_attribute_mem
+
+Fixes: 0f0b270f905b ("[media] ngene: CXD2099AR Common Interface driver")
+
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/media/dvb-frontends/cxd2099.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/dvb-frontends/cxd2099.c b/drivers/media/dvb-frontends/cxd2099.c
+index f88b5355493e..9dfaf18fc4b4 100644
+--- a/drivers/media/dvb-frontends/cxd2099.c
++++ b/drivers/media/dvb-frontends/cxd2099.c
+@@ -387,12 +387,15 @@ static int read_attribute_mem(struct dvb_ca_en50221 *ca,
+ {
+ 	struct cxd *ci = ca->data;
+ 	u8 val;
++	int ret;
+ 
+ 	mutex_lock(&ci->lock);
+ 	set_mode(ci, 1);
+-	read_pccard(ci, address, &val, 1);
++	ret = read_pccard(ci, address, &val, 1);
++	if (!ret)
++		ret = val;
+ 	mutex_unlock(&ci->lock);
+-	return val;
++	return ret;
+ }
+ 
+ static int write_attribute_mem(struct dvb_ca_en50221 *ca, int slot,
+@@ -412,12 +415,15 @@ static int read_cam_control(struct dvb_ca_en50221 *ca,
+ {
+ 	struct cxd *ci = ca->data;
+ 	unsigned int val;
++	int ret;
+ 
+ 	mutex_lock(&ci->lock);
+ 	set_mode(ci, 0);
+-	read_io(ci, address, &val);
++	ret = read_io(ci, address, &val);
++	if (!ret)
++		ret = val;
+ 	mutex_unlock(&ci->lock);
+-	return val;
++	return ret;
+ }
+ 
+ static int write_cam_control(struct dvb_ca_en50221 *ca, int slot,
+-- 
+2.18.1
+
