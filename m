@@ -2,246 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0415A229615
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 12:31:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7015022974A
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 13:20:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730296AbgGVKbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 06:31:36 -0400
-Received: from ste-pvt-msa2.bahnhof.se ([213.80.101.71]:33774 "EHLO
-        ste-pvt-msa2.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726161AbgGVKbf (ORCPT
+        id S1728642AbgGVLT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 07:19:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726028AbgGVLT7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 06:31:35 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 4BE3A3FB59;
-        Wed, 22 Jul 2020 12:31:31 +0200 (CEST)
-Authentication-Results: ste-pvt-msa2.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=hVBS9izU;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
-        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
-        dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
-        by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id qH-zeXr7iqVd; Wed, 22 Jul 2020 12:31:30 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        (Authenticated sender: mb878879)
-        by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 15D9A3FB79;
-        Wed, 22 Jul 2020 12:31:26 +0200 (CEST)
-Received: from [192.168.0.100] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id 7E2F3362551;
-        Wed, 22 Jul 2020 12:31:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1595413887; bh=IdgBtUFYB5h3M894fLyGzRGoV7q+2iBbuY3az/yTSL4=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=hVBS9izUpG83NeG87m7+xU3OHQ4U+Wjnh7+3vi2hm9cmFIevDBo+SKzqLY3d6FUNx
-         PCrnVe16MF3td3ncQavKnAgFgKC6DSPBn0crb2FuBw0xFKvaHgNkxnGVHyo/HuWbWP
-         xiy3+ufveb/XDPRihBAsaKMD6mHJ4HNLcpsKNOdk=
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Dave Airlie <airlied@gmail.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Stone <daniels@collabora.com>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Steve Pronovost <spronovo@microsoft.com>,
-        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Jesse Natalie <jenatali@microsoft.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
- <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
- <20200721074157.GB3278063@phenom.ffwll.local>
- <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
- <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org>
- <CAPM=9twUWeenf-26GEvkuKo3wHgS3BCyrva=sNaWo6+=A5qdoQ@mail.gmail.com>
- <805c49b7-f0b3-45dc-5fe3-b352f0971527@shipmail.org>
- <CAKMK7uHhhxBC2MvnNnU9FjxJaWkEcP3m5m7AN3yzfw=wxFsckA@mail.gmail.com>
- <92393d26-d863-aac6-6d27-53cad6854e13@shipmail.org>
- <CAKMK7uF8jpyuCF8uUbEeJUedErxqRGa8JY+RuURg7H1XXWXzkw@mail.gmail.com>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Message-ID: <8fd999f2-cbf6-813c-6ad4-131948fb5cc5@shipmail.org>
-Date:   Wed, 22 Jul 2020 12:31:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 22 Jul 2020 07:19:59 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2449C0619DC;
+        Wed, 22 Jul 2020 04:19:58 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66B4CAE6;
+        Wed, 22 Jul 2020 13:19:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1595416797;
+        bh=9bheVS99DQaRwwdpBomM0E03oIp9aDYofl6Bxy+lGec=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=drGfHuMEbciHC9WdUPfke/cq1AfJNe3AVSCs8hCTL+8FLoq4KrkzUo2p+hIruq9iB
+         cvlqu8xThmZpjCEkJ8vm04n8/Tx+cnT/p5abshMMLD7TRk33ni6zZLe4uaNJ4dEJ90
+         Eto05h81Je5fIN0sBFgs3BFkqJOUYiH7bV7zjo6U=
+Date:   Wed, 22 Jul 2020 14:19:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: Re: [PATCH for v5.9] media: omap: Replace HTTP links with HTTPS ones
+Message-ID: <20200722111952.GC5833@pendragon.ideasonboard.com>
+References: <20200719112133.58236-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uF8jpyuCF8uUbEeJUedErxqRGa8JY+RuURg7H1XXWXzkw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200719112133.58236-1-grandmaster@al2klimov.de>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Alexander,
 
-On 2020-07-22 11:45, Daniel Vetter wrote:
-> On Wed, Jul 22, 2020 at 10:05 AM Thomas Hellström (Intel)
-> <thomas_os@shipmail.org> wrote:
->>
->> On 2020-07-22 09:11, Daniel Vetter wrote:
->>> On Wed, Jul 22, 2020 at 8:45 AM Thomas Hellström (Intel)
->>> <thomas_os@shipmail.org> wrote:
->>>> On 2020-07-22 00:45, Dave Airlie wrote:
->>>>> On Tue, 21 Jul 2020 at 18:47, Thomas Hellström (Intel)
->>>>> <thomas_os@shipmail.org> wrote:
->>>>>> On 7/21/20 9:45 AM, Christian König wrote:
->>>>>>> Am 21.07.20 um 09:41 schrieb Daniel Vetter:
->>>>>>>> On Mon, Jul 20, 2020 at 01:15:17PM +0200, Thomas Hellström (Intel)
->>>>>>>> wrote:
->>>>>>>>> Hi,
->>>>>>>>>
->>>>>>>>> On 7/9/20 2:33 PM, Daniel Vetter wrote:
->>>>>>>>>> Comes up every few years, gets somewhat tedious to discuss, let's
->>>>>>>>>> write this down once and for all.
->>>>>>>>>>
->>>>>>>>>> What I'm not sure about is whether the text should be more explicit in
->>>>>>>>>> flat out mandating the amdkfd eviction fences for long running compute
->>>>>>>>>> workloads or workloads where userspace fencing is allowed.
->>>>>>>>> Although (in my humble opinion) it might be possible to completely
->>>>>>>>> untangle
->>>>>>>>> kernel-introduced fences for resource management and dma-fences used
->>>>>>>>> for
->>>>>>>>> completion- and dependency tracking and lift a lot of restrictions
->>>>>>>>> for the
->>>>>>>>> dma-fences, including prohibiting infinite ones, I think this makes
->>>>>>>>> sense
->>>>>>>>> describing the current state.
->>>>>>>> Yeah I think a future patch needs to type up how we want to make that
->>>>>>>> happen (for some cross driver consistency) and what needs to be
->>>>>>>> considered. Some of the necessary parts are already there (with like the
->>>>>>>> preemption fences amdkfd has as an example), but I think some clear docs
->>>>>>>> on what's required from both hw, drivers and userspace would be really
->>>>>>>> good.
->>>>>>> I'm currently writing that up, but probably still need a few days for
->>>>>>> this.
->>>>>> Great! I put down some (very) initial thoughts a couple of weeks ago
->>>>>> building on eviction fences for various hardware complexity levels here:
->>>>>>
->>>>>> https://gitlab.freedesktop.org/thomash/docs/-/blob/master/Untangling%20dma-fence%20and%20memory%20allocation.odt
->>>>> We are seeing HW that has recoverable GPU page faults but only for
->>>>> compute tasks, and scheduler without semaphores hw for graphics.
->>>>>
->>>>> So a single driver may have to expose both models to userspace and
->>>>> also introduces the problem of how to interoperate between the two
->>>>> models on one card.
->>>>>
->>>>> Dave.
->>>> Hmm, yes to begin with it's important to note that this is not a
->>>> replacement for new programming models or APIs, This is something that
->>>> takes place internally in drivers to mitigate many of the restrictions
->>>> that are currently imposed on dma-fence and documented in this and
->>>> previous series. It's basically the driver-private narrow completions
->>>> Jason suggested in the lockdep patches discussions implemented the same
->>>> way as eviction-fences.
->>>>
->>>> The memory fence API would be local to helpers and middle-layers like
->>>> TTM, and the corresponding drivers.  The only cross-driver-like
->>>> visibility would be that the dma-buf move_notify() callback would not be
->>>> allowed to wait on dma-fences or something that depends on a dma-fence.
->>> Because we can't preempt (on some engines at least) we already have
->>> the requirement that cross driver buffer management can get stuck on a
->>> dma-fence. Not even taking into account the horrors we do with
->>> userptr, which are cross driver no matter what. Limiting move_notify
->>> to memory fences only doesn't work, since the pte clearing might need
->>> to wait for a dma_fence first. Hence this becomes a full end-of-batch
->>> fence, not just a limited kernel-internal memory fence.
->> For non-preemptible hardware the memory fence typically *is* the
->> end-of-batch fence. (Unless, as documented, there is a scheduler
->> consuming sync-file dependencies in which case the memory fence wait
->> needs to be able to break out of that). The key thing is not that we can
->> break out of execution, but that we can break out of dependencies, since
->> when we're executing all dependecies (modulo semaphores) are already
->> fulfilled. That's what's eliminating the deadlocks.
->>
->>> That's kinda why I think only reasonable option is to toss in the
->>> towel and declare dma-fence to be the memory fence (and suck up all
->>> the consequences of that decision as uapi, which is kinda where we
->>> are), and construct something new&entirely free-wheeling for userspace
->>> fencing. But only for engines that allow enough preempt/gpu page
->>> faulting to make that possible. Free wheeling userspace fences/gpu
->>> semaphores or whatever you want to call them (on windows I think it's
->>> monitored fence) only work if you can preempt to decouple the memory
->>> fences from your gpu command execution.
->>>
->>> There's the in-between step of just decoupling the batchbuffer
->>> submission prep for hw without any preempt (but a scheduler), but that
->>> seems kinda pointless. Modern execbuf should be O(1) fastpath, with
->>> all the allocation/mapping work pulled out ahead. vk exposes that
->>> model directly to clients, GL drivers could use it internally too, so
->>> I see zero value in spending lots of time engineering very tricky
->>> kernel code just for old userspace. Much more reasonable to do that in
->>> userspace, where we have real debuggers and no panics about security
->>> bugs (or well, a lot less, webgl is still a thing, but at least
->>> browsers realized you need to container that completely).
->> Sure, it's definitely a big chunk of work. I think the big win would be
->> allowing memory allocation in dma-fence critical sections. But I
->> completely buy the above argument. I just wanted to point out that many
->> of the dma-fence restrictions are IMHO fixable, should we need to do
->> that for whatever reason.
-> I'm still not sure that's possible, without preemption at least. We
-> have 4 edges:
-> - Kernel has internal depencies among memory fences. We want that to
-> allow (mild) amounts of overcommit, since that simplifies live so
-> much.
-> - Memory fences can block gpu ctx execution (by nature of the memory
-> simply not being there yet due to our overcommit)
-> - gpu ctx have (if we allow this) userspace controlled semaphore
-> dependencies. Of course userspace is expected to not create deadlocks,
-> but that's only assuming the kernel doesn't inject additional
-> dependencies. Compute folks really want that.
-> - gpu ctx can hold up memory allocations if all we have is
-> end-of-batch fences. And end-of-batch fences are all we have without
-> preempt, plus if we want backwards compat with the entire current
-> winsys/compositor ecosystem we need them, which allows us to inject
-> stuff dependent upon them pretty much anywhere.
->
-> Fundamentally that's not fixable without throwing one of the edges
-> (and the corresponding feature that enables) out, since no entity has
-> full visibility into what's going on. E.g. forcing userspace to tell
-> the kernel about all semaphores just brings up back to the
-> drm_timeline_syncobj design we have merged right now. And that's imo
-> no better.
+Thank you for the patch.
 
-Indeed, HW waiting for semaphores without being able to preempt that 
-wait is a no-go. The doc (perhaps naively) assumes nobody is doing that.
+On Sun, Jul 19, 2020 at 01:21:33PM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+> 
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
->
-> That's kinda why I'm not seeing much benefits in a half-way state:
-> Tons of work, and still not what userspace wants. And for the full
-> deal that userspace wants we might as well not change anything with
-> dma-fences. For that we need a) ctx preempt and b) new entirely
-> decoupled fences that never feed back into a memory fences and c) are
-> controlled entirely by userspace. And c) is the really important thing
-> people want us to provide.
->
-> And once we're ok with dma_fence == memory fences, then enforcing the
-> strict and painful memory allocation limitations is actually what we
-> want.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Let's hope you're right. My fear is that that might be pretty painful as 
-well.
+I expect Sakari to take this patch in his tree when he will be back from
+vacation at the end of the month.
 
-> Cheers, Daniel
+> ---
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+> 
+>  If there are any URLs to be removed completely
+>  or at least not (just) HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
+> 
+>  Sorry again to all maintainers who complained about subject lines.
+>  Now I realized that you want an actually perfect prefixes,
+>  not just subsystem ones.
+>  I tried my best...
+>  And yes, *I could* (at least half-)automate it.
+>  Impossible is nothing! :)
+> 
+> 
+>  drivers/media/platform/omap3isp/isp.c | 2 +-
+>  drivers/staging/media/omap4iss/iss.c  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
+> index b91e472ee764..74fa67082e09 100644
+> --- a/drivers/media/platform/omap3isp/isp.c
+> +++ b/drivers/media/platform/omap3isp/isp.c
+> @@ -142,7 +142,7 @@ static struct isp_reg isp_reg_list[] = {
+>   * readback the same register, in this case the revision register.
+>   *
+>   * See this link for reference:
+> - *   http://www.mail-archive.com/linux-omap@vger.kernel.org/msg08149.html
+> + *   https://www.mail-archive.com/linux-omap@vger.kernel.org/msg08149.html
+>   */
+>  void omap3isp_flush(struct isp_device *isp)
+>  {
+> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+> index 6fb60b58447a..e06ea7ea1e50 100644
+> --- a/drivers/staging/media/omap4iss/iss.c
+> +++ b/drivers/staging/media/omap4iss/iss.c
+> @@ -55,7 +55,7 @@ static void iss_print_status(struct iss_device *iss)
+>   * readback the same register, in this case the revision register.
+>   *
+>   * See this link for reference:
+> - *   http://www.mail-archive.com/linux-omap@vger.kernel.org/msg08149.html
+> + *   https://www.mail-archive.com/linux-omap@vger.kernel.org/msg08149.html
+>   */
+>  static void omap4iss_flush(struct iss_device *iss)
+>  {
 
-/Thomas
+-- 
+Regards,
 
-
+Laurent Pinchart
