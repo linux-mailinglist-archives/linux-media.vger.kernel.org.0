@@ -2,77 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BE3B229A8F
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 16:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4567D229A8A
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 16:49:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732674AbgGVOui (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 10:50:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732467AbgGVOuh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 10:50:37 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 926D8C0619DC;
-        Wed, 22 Jul 2020 07:50:37 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id q17so1102541pls.9;
-        Wed, 22 Jul 2020 07:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=5KwDFzjwATlcwnMsKxx3jtI0OOjrYoZsX8bMqHTFy80=;
-        b=a9kkA8q3PPehP2B672LSFx62bjZbNwORAao4mIGVqvOETLOs1+JfnGGkY5/Vt2yPct
-         iWFcLhSRIs+eUyGSEa0tp03mGOS5JAlegURFOMF+WdrJTL6LA55mgO2ykxE6rj/2uNbT
-         FxWpGKqZhGzKWiAwqKlWeysrCucbqQM1GD9z49aZ3beL5OVn7b/OeCrT6H4Sp0CnvAzl
-         5jcnJjG10YUszy1axPAtoKYMhWhHlfAggdThjNI9G2Zya8wAW3vb8aklMHExaFv41RV2
-         oPj+0nG5IF8VfVleyakNLYrTx/g4EbqdDF35mEXcsim6ahhANQlpZjI/0Fys6CM6MFWU
-         +Hjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=5KwDFzjwATlcwnMsKxx3jtI0OOjrYoZsX8bMqHTFy80=;
-        b=DXHCc0L0qhDMfF0wORdhyOqnnt4trA+GVVDnkApCBS8R25MIxpMkyF379jWW9Y/fqL
-         bJjP594RObL8UJDuYxx3B80WEclsd2afWKNsCY/cyPbCTPkPQoEBcfhir0s7B71vY6Oy
-         zbytZ5V4usvOjufkO7xgFOpwHSKTb/YJGAyPLkkOB6KuxLR/nKwwche8C6d26bRI+4j9
-         yqkqhifwVxtDoNq1t+Fsu8yF7vO90eJ6L+4KfgXXgVnH+GDmuG1Jg0kKGHzc8Br+OBEl
-         OmJkRRj4cKa8PTfPq5Duw1yeD4kIzjPXafgFAqCwKpwV9jKblglutUZNyEOPN2hLLAnk
-         5C7Q==
-X-Gm-Message-State: AOAM532roieZ7N/JltSajH9iFV0j6kmdgxtqr4atRvMu0tzCLCnXPtPE
-        h4sSQ3Lqg1hnRB0BuhWfyrg=
-X-Google-Smtp-Source: ABdhPJwIQtkQV/Nw0j8zIa2C2+iCHblYYqg9M6w29nOlQsOIwLitKsspEQaVMSbEIiHcdZW4RrQrpg==
-X-Received: by 2002:a17:90b:1993:: with SMTP id mv19mr10406755pjb.39.1595429437108;
-        Wed, 22 Jul 2020 07:50:37 -0700 (PDT)
-Received: from rahulg-ThinkPad-T450 ([122.175.125.202])
-        by smtp.gmail.com with ESMTPSA id j26sm64267pfe.200.2020.07.22.07.50.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2020 07:50:36 -0700 (PDT)
-Date:   Wed, 22 Jul 2020 20:20:32 +0530
-From:   Rahul Gottipati <rahul.blr97@gmail.com>
-To:     mchehab@kernel.org
-Cc:     sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/2] General coding style clean-up
-Message-ID: <cover.1595429109.git.rahul.blr97@gmail.com>
+        id S1732663AbgGVOta (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 10:49:30 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:34212 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729642AbgGVOt3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Jul 2020 10:49:29 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jyFyp-008kGf-O8; Wed, 22 Jul 2020 14:44:23 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jyG64-0003lp-9U; Wed, 22 Jul 2020 14:51:52 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for v5.8-rc7] media fixes (#20200722155727)
+Date:   Wed, 22 Jul 2020 14:51:52 +0000
+Message-Id: <20200722145152.14452-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200722155727.06ab1692@coco.lan>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patchset fixes several checkpatch.pl warnings in atomisp_ioctl.c
-that have been distributed across 2 patches logically.
+From: builder@linuxtv.org
 
-Rahul Gottipati (2):
-  media: atomisp: Fix coding style issue - remove beginning whitespaces
-  media: atomisp: Fix coding style issue - correct multiline comments
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200722155727.06ab1692@coco.lan/
+Build log: https://builder.linuxtv.org/job/patchwork/60838/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/20200722155727.06ab1692@coco.lan
 
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 38 +++++++++++--------
- 1 file changed, 23 insertions(+), 15 deletions(-)
+gpg: Signature made Mon 20 Jul 2020 01:02:01 PM UTC
+gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
+gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [unknown]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
+gpg:                 aka "[jpeg image of size 3594]" [ultimate]
 
--- 
-2.25.1
+
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0038-Revert-media-atomisp-keep-the-ISP-powered-on-when-se.patch doesn't apply:
+Applying patch patches/0038-Revert-media-atomisp-keep-the-ISP-powered-on-when-se.patch
+patching file drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+Hunk #1 FAILED at 766.
+1 out of 1 hunk FAILED -- rejects in file drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+Patch patches/0038-Revert-media-atomisp-keep-the-ISP-powered-on-when-se.patch does not apply (enforce with -f)
 
