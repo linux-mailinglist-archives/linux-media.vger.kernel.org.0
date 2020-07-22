@@ -2,108 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 003D622945A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 11:04:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1320B2294F9
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 11:33:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729894AbgGVJEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 05:04:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57694 "EHLO
+        id S1731338AbgGVJcJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 05:32:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726147AbgGVJED (ORCPT
+        with ESMTP id S1726147AbgGVJcI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 05:04:03 -0400
-Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 907F8C0619DC;
-        Wed, 22 Jul 2020 02:04:03 -0700 (PDT)
-Received: by mail-oo1-xc42.google.com with SMTP id y9so270321oot.9;
-        Wed, 22 Jul 2020 02:04:03 -0700 (PDT)
+        Wed, 22 Jul 2020 05:32:08 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 853EDC0619DC
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 02:32:08 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id y3so1209312wrl.4
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 02:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zxpuzEB9KMj0t9s7OpDkA/XsxcLlP2L79Bj3H31wGQg=;
-        b=qAxVGgydjt7gac3OWXNzknnBRu/Ayp4cFle9nv2nEPqB5M5+vdb0v3MDGbQ06e+7ay
-         b0TzDGT/L02h91uiZTDfpT+t8IGImRvqqRI6REKGm2NO2yM8pg5bu2/WMEPANPwESafj
-         NsfMyrZBjDtNsro5JfsYKKqZTaqDSpaj89xS8AHgBem4i5Ui7goYOUnYHn6X9Bxglawa
-         u3sQ0Cm74g2yY2Ik9zKg5Xz5etuPnsqFdCkdhqatBU+DL04f3Ui0HP96+t4hi5KGx9PQ
-         dGUTetX4hzJgJdDQBbmcRkvGE/hY25XhaSTujaxIV3M7KqqZDEP9L7DCYm2/ihxJjhq5
-         l1cQ==
+        d=googlemail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=QcBJJpEsvONE+Kw+kBbBDvB6GcRiNrNAeTp+cXLFTAA=;
+        b=QEQnbBYjiSZvcQ9jQ5Qdctq2CqwBf8ShPW14IDlLhIK/zTQIevJZrnliwMsopusKf6
+         WrzUOGf63ZdXqRQgBhfjByKruSDpijif6/bSKAgEsx6qZLOXsqX8nqHRyKIMK8u1g6Rx
+         uWHJT7Rc6iBqI8YbHxJrZKgQ4Nm9t/ZAtxbYW+7MqZRYYdH9wfOE6+Iv3jX1dxvaJpoW
+         KtIO+W7evo5yIOHmt1o4EfA9oK4DJjz7axujF2kDuBxtZ/Lo5/aZy1WFcceebC1ofSBf
+         pXM9ZcEd1dizk7R+487IHsOYYjVZnA3puijeKabaVMeeXb0Z/ZruHCdBOMQTvq/hjZ2y
+         Zz6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zxpuzEB9KMj0t9s7OpDkA/XsxcLlP2L79Bj3H31wGQg=;
-        b=nqMUjMEwwG3dP4pAofXgB0PP/z1wLsoga6I9UHooDg1004GGZij/7/Ji7Q/zUE2FfC
-         VZMNEMw75F9S2q6Xcd4jvuqm7MAX4qDp9Ftq391zw54hTtv+T+pu16iy4wpY0rrU2liG
-         k3gFA6iawigs0bZweXf25eyXkSIWz1qSSACJWyMx+gwICNkXWipTDxKM/P6yEQQICLNG
-         y6lgj7Ix9hEPJlkUEHxZPtUx6e2vzqUZTqcF0xESwjLHtlYyU4ZJhG0n8VjdMOUk7J5v
-         gH7ys/56yRTL1NFG5OybAz2ixhf0a8oAjn0Hb+wDAz0Vde64V9i0HsBbP5zYdFIWDyEO
-         SHmA==
-X-Gm-Message-State: AOAM532w5mY3n9xgwia5WJ/8Kk8B+vkXCkoztY+VmKkqUEW2QxQNqX8D
-        mmOgXHIInoRWzb3/082ECAxGVhCzvjNstGQsWW4=
-X-Google-Smtp-Source: ABdhPJyvkWCP9ZAp2wHyowUwbZiqTpOrvwaJyTM71SEZs7Fadah0GjZv4QqaCe1IG4/I4xEhqsLD0r+pvHu/A3NxZFs=
-X-Received: by 2002:a4a:4cc1:: with SMTP id a184mr27367539oob.62.1595408642769;
- Wed, 22 Jul 2020 02:04:02 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QcBJJpEsvONE+Kw+kBbBDvB6GcRiNrNAeTp+cXLFTAA=;
+        b=m5Q4CEfukbJyW8X96U1oeNJPonITIIcrPFlpt7x4uJMrKXf8BcI1BzN3p+KyD5khEw
+         RbtlhGOjWpB/7liMkI0ea+nEpNuVMA8YssmWKSMmkZq88YI1Tet6gs/g7oyLp3L/MuPK
+         VlBfLMIoJL98/RTl0dwYdED/ZMBFZzpxoUsEWbqgPxUFd/vQwPCBBjXDVX3AeZO+j52a
+         bK5N+CPpIN55aReEgURpUb8jWQSxNPaXqRg/TQgi7x3JX5ujCPM1dXzAikdOJOA03akx
+         BKXTYuzvizR/08q4DibM1ar0aiIDyCzZEJQyJQJc8d+FftR2MmHMTkVySqzKLBP8BAbq
+         KgnA==
+X-Gm-Message-State: AOAM532Ac4j39fMDn6Ix7Z7GeO1Hh35O/xaRA8NDncK8sy8sCFdKpeCu
+        z+oA3Bj7tVynm1f1VZncBHI=
+X-Google-Smtp-Source: ABdhPJzb2ePYQ3Aa5TJBkHOhHyzoP21QX4SHOT3Z8Trr59mJbHTzyiA351B5NM0J27BZRNI779zl4Q==
+X-Received: by 2002:a05:6000:1206:: with SMTP id e6mr29986844wrx.346.1595410327355;
+        Wed, 22 Jul 2020 02:32:07 -0700 (PDT)
+Received: from ?IPv6:2a02:810a:8340:5198:98cf:713c:30ea:8ca6? ([2a02:810a:8340:5198:98cf:713c:30ea:8ca6])
+        by smtp.gmail.com with ESMTPSA id n189sm6292260wmf.38.2020.07.22.02.32.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2020 02:32:06 -0700 (PDT)
+Subject: Re: [PATCH v2 0/1] Add support for meson building
+To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
+        linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
+        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
+        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
+        user.vdr@gmail.com
+References: <20200721151434.115651-1-ariel@vanguardiasur.com.ar>
+From:   Gregor Jasny <gjasny@googlemail.com>
+Message-ID: <5598a9af-9f97-76db-eb24-6deeb05f88c1@googlemail.com>
+Date:   Wed, 22 Jul 2020 11:32:05 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.0
 MIME-Version: 1.0
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200722085849.GF1030@ninjato> <20200722090017.GG1030@ninjato>
-In-Reply-To: <20200722090017.GG1030@ninjato>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 22 Jul 2020 10:03:36 +0100
-Message-ID: <CA+V-a8vtCBYsDE2Tw4f-FgvfuZ3RUUNwEvfrbq-sv2+4H6VxNw@mail.gmail.com>
-Subject: Re: [PATCH 02/20] arm64: dts: renesas: r8a774e1: Add PCIe device nodes
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200721151434.115651-1-ariel@vanguardiasur.com.ar>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
+Hello,
 
-On Wed, Jul 22, 2020 at 10:00 AM Wolfram Sang <wsa@kernel.org> wrote:
->
-> On Wed, Jul 22, 2020 at 10:58:49AM +0200, Wolfram Sang wrote:
-> > On Thu, Jul 16, 2020 at 06:18:17PM +0100, Lad Prabhakar wrote:
-> > > Add PCIe{0,1} device nodes for R8A774E1 SoC.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> >
-> > Hmm, doesn't apply on top of 5.8-rc6 for me. Is there a branch to pull
-> > for easier review?
->
-> My fault, I missed the first series. Please note such dependencies in
-> the cover letter.
->
-I didn't mention as they were already applied to Geert's tree [1]
+On 7/21/20 5:14 PM, Ariel D'Alessandro wrote:
+> Hello there,
+> 
+> Here's another step on porting v4l-utils to meson build system.
+> Following the discussion thread for v1, several changes were added (see
+> Changelog below).
+> 
+> Further testing, deeper reviews, more comments, are all welcome :-)
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-arm-dt-for-v5.9
+Thanks you for polishing the patch. It looks good and the Debian package 
+properly builds.
 
-Cheers,
---Prabhakar
+Before merging to master the build system needs to catch-up with the 
+master branch. For example the following got added to configure.ac:
+
+> +# Obtain git SHA of HEAD
+> +AC_SUBST(GIT_SHA, ["-DGIT_SHA=\$(shell if test -d \$(top_srcdir)/.git ; then git -C \$(top_srcdir) rev-parse HEAD ; else printf '\"not available\"'; fi)"])
+> +
+> +# Obtain git commit count of HEAD
+> +AC_SUBST(GIT_COMMIT_CNT, ["-DGIT_COMMIT_CNT=\$(shell if test -d \$(top_srcdir)/.git ; then printf '-'; git -C \$(top_srcdir) rev-list --count HEAD ; fi)"])
+
+I'm wondering if we should drop autotools shortly after the meson patch 
+was merged to prevent further drift.
+
+Thanks,
+Gregor
