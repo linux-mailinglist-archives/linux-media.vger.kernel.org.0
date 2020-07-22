@@ -2,134 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA015229775
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 13:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7AB7229786
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 13:36:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727948AbgGVLa5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 07:30:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52190 "EHLO
+        id S1726841AbgGVLfs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 07:35:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726146AbgGVLa5 (ORCPT
+        with ESMTP id S1726161AbgGVLfr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 07:30:57 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D981EC0619DC;
-        Wed, 22 Jul 2020 04:30:56 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id d7so826540plq.13;
-        Wed, 22 Jul 2020 04:30:56 -0700 (PDT)
+        Wed, 22 Jul 2020 07:35:47 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 523E6C0619DE
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 04:35:47 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id h22so2093044lji.9
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 04:35:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=REutpgTEY8zqFjKsJaL/pIrbvSAniP7JYrpnR8Uq2Hg=;
-        b=kPwE57tThRH2Xl2UQew/QQhJ0HEFx8Jfswz2xfdVqwfJEnOAVAQt/gxOFQAaucsGkP
-         iwTxQyDTZN9pqWHyQWba20tdpkLJC2eECm1uryNRmShampx1pE6Vqnabd5MtVoMw6sjt
-         R+ycwIZOfR1O7qUEEU+VW5xTpGSYvO1YVON5j49sDyzYwH17KCT6JRCUGuZvoh9PiFfA
-         DRZE8xEzFRyPWozCxhyMyoRKlnMCyCM8Y5O4ruvALKA/qPYA4j14X5sJUIKVOhfQHLge
-         BVw42vbho9lHN+PHthr4gTN2OkWYS5xn1ArFGBP5FXQOm6N1+ddhU1wxKIa+NP6Zwsiq
-         +xXA==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=TGNDP7TokQIPIiDyQQilw1gTxHg2ntwORp5IuJSSxuk=;
+        b=aZL9LR7W/tIRttDyuKuxTLD2H6940gR+znMFp2lInXL0+1POU9uVrCT4hYQxPdhmrn
+         S2+g7c/STj8trDv1J2dQh3yyuNbmZ/FBmfEofuV2tYt9DbWbverlMsjtAkntWgcoBobl
+         GmDgFcdpbAIHAOBcT+RBAoeWRhrGDrKkVU9oGAjoW+TesAdIwns/dtIXqAMavqIOPb8q
+         xHk0KNI0Tyh4U6NHUfxwyi5CC896PdNiIKLXyXjv83xR+Xzdz2Uq+gXtg41h/iWsNeyf
+         sH5vhVzLjP4d3Igau5+FBEbxHeer8J86otHzCm6cfki7BTD3cKxo7/mNY4xV309jy07l
+         VllQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=REutpgTEY8zqFjKsJaL/pIrbvSAniP7JYrpnR8Uq2Hg=;
-        b=aCyrPU/bVv2GJYNtNf6vLt6qtZS7anPm01nVbO9uZOo0OPnZkARXjWNBXPqtNc/6yS
-         UPXOdiacxD60cv+BYcz2OWFUvq39L8RnSHl3PjBLbqVc5fo6CRO8BP/kTUs0BRyXGP+6
-         EcQnHe60UYAlYdyt7TD0POAar+UiubfIeTtuCeLHN9R+27nksOi0U1BRPOQdST8yT8ut
-         75d1BNnUbRyo9clrsqceDKFeJAxCbRloORkzvddWblE6OAZy0geusZz9MTwTRYCuQEX6
-         kvf85ITiKNj1qt845tOKj0bqXgcEA5jWN9Ubk/vXNa+g4b2mKlwJglNwF9tWB/x94Uvx
-         IJGw==
-X-Gm-Message-State: AOAM530aKUxgl+K3tgl8fU/dbfM69rScSG5CA/0bgTC2n7PcHe7EESY6
-        o5a3jj2NjOgEoc1dsucCA0s=
-X-Google-Smtp-Source: ABdhPJyeGR7pcKdtW0vy20t9YcWddsffnZ+VrlDb2rR78ZIMmGBE0qd26bogPd3aN3sGzeQ3acYUJQ==
-X-Received: by 2002:a17:902:10e:: with SMTP id 14mr24718428plb.297.1595417456363;
-        Wed, 22 Jul 2020 04:30:56 -0700 (PDT)
-Received: from rahulg-ThinkPad-T450 ([122.175.73.180])
-        by smtp.gmail.com with ESMTPSA id gv16sm6507715pjb.5.2020.07.22.04.30.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2020 04:30:55 -0700 (PDT)
-Date:   Wed, 22 Jul 2020 17:00:52 +0530
-From:   Rahul Gottipati <rahul.blr97@gmail.com>
-To:     mchehab@kernel.org
-Cc:     sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] media: atomisp: Fix coding style issue - correct
- multiline comments
-Message-ID: <c73ee9bced34777cea5b1a3a97f57c723b0a97b1.1595416585.git.rahul.blr97@gmail.com>
-References: <cover.1595416585.git.rahul.blr97@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TGNDP7TokQIPIiDyQQilw1gTxHg2ntwORp5IuJSSxuk=;
+        b=dRBK6LVKcqGCwAPFYmv+nW0/M5ttD7pXn++GijWZ2pm7a+sIrUOCrGHS+BB8R+n6H3
+         jM5G1in9yzccz2JOWTvsGmffHf5q0pT5/Jtl5mThTdVw/C7mzQOm46Y1yWWJYDAxF3eG
+         iZ3eu08Xl3ft4iCam0JF/b9O+V3BDljvsjF+SLV69v2AXQNzMLR1H3HB4/GWYzI8+3/b
+         lR252mQM52MfLh8RUmaanbqC76qXngvEGhmWtWDtatflqOMu/LgryeK9Uui+LHruD/w2
+         JRzYetdKkSf1CVbqs57QpqbP6wc26dGcbrXGvtSlAAWjPy3tvbL09YwjH225AVnY2rF4
+         J9fQ==
+X-Gm-Message-State: AOAM532l9RvhlPWwJvUZjpSLQEzMU4iZ/s5P51DDLtPn4ov9VQklkc1N
+        kka7ySaAurd7XZ3oEwqJOO0AsQ==
+X-Google-Smtp-Source: ABdhPJx10tJmh0m7u1T2ZgbF1/QplULMvy/0nd1WW5FAXaMP8a/XeDzSYyeVLyeB1Xeshxh8kVGUpQ==
+X-Received: by 2002:a2e:978c:: with SMTP id y12mr14882344lji.270.1595417745685;
+        Wed, 22 Jul 2020 04:35:45 -0700 (PDT)
+Received: from [192.168.1.12] ([195.24.90.54])
+        by smtp.googlemail.com with ESMTPSA id p1sm6537308lji.93.2020.07.22.04.35.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2020 04:35:44 -0700 (PDT)
+Subject: Re: [PATCH v2 5/6] media: s5p-mfc: Use standard frame skip mode
+ control
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Maheshwar Ajja <majja@codeaurora.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <20200721074538.505-1-stanimir.varbanov@linaro.org>
+ <20200721074538.505-6-stanimir.varbanov@linaro.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <d219e893-8a9e-e977-a901-d17b71121555@linaro.org>
+Date:   Wed, 22 Jul 2020 14:35:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1595416585.git.rahul.blr97@gmail.com>
+In-Reply-To: <20200721074538.505-6-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This fixes some coding style issues of multiline comments to
-correct a few checkpatch.pl warnings.
+Hi,
 
-Signed-off-by: Rahul Gottipati <rahul.blr97@gmail.com>
----
-Changes in v2:
-	Distributed changes across 2 patches instead of the previous 1.
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Could someone mfc driver maintainers ack or review this patch?
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 9cdcbe774229..5bf3a86f98f8 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1281,7 +1281,8 @@ static int atomisp_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 	 * But the capture number cannot be determined by HAL.
- 	 * So HAL only sets the capture number to be 1 and queue multiple
- 	 * buffers. Atomisp driver needs to check this case and re-trigger
--	 * CSS to do capture when new buffer is queued. */
-+	 * CSS to do capture when new buffer is queued.
-+	 */
- 	if (asd->continuous_mode->val &&
- 	    atomisp_subdev_source_pad(vdev)
- 	    == ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE &&
-@@ -1806,7 +1807,7 @@ static int atomisp_streamon(struct file *file, void *fh,
- 		/*
- 		 * set freq to max when streaming count > 1 which indicate
- 		 * dual camera would run
--		*/
-+		 */
- 		if (atomisp_streaming_count(isp) > 1) {
- 			if (atomisp_freq_scaling(isp,
- 						 ATOMISP_DFS_MODE_MAX, false) < 0)
-@@ -2438,7 +2439,8 @@ static int atomisp_g_ext_ctrls(struct file *file, void *fh,
- 	int i, ret = 0;
- 
- 	/* input_lock is not need for the Camera related IOCTLs
--	 * The input_lock downgrade the FPS of 3A*/
-+	 * The input_lock downgrade the FPS of 3A
-+	 */
- 	ret = atomisp_camera_g_ext_ctrls(file, fh, c);
- 	if (ret != -EINVAL)
- 		return ret;
-@@ -2521,7 +2523,8 @@ static int atomisp_camera_s_ext_ctrls(struct file *file, void *fh,
- 				    v4l2_s_ctrl(NULL, isp->flash->ctrl_handler,
- 						&ctrl);
- 				/* When flash mode is changed we need to reset
--				 * flash state */
-+				 * flash state
-+				 */
- 				if (ctrl.id == V4L2_CID_FLASH_MODE) {
- 					asd->params.flash_state =
- 					    ATOMISP_FLASH_IDLE;
-@@ -2560,7 +2563,8 @@ static int atomisp_s_ext_ctrls(struct file *file, void *fh,
- 	int i, ret = 0;
- 
- 	/* input_lock is not need for the Camera related IOCTLs
--	 * The input_lock downgrade the FPS of 3A*/
-+	 * The input_lock downgrade the FPS of 3A
-+	 */
- 	ret = atomisp_camera_s_ext_ctrls(file, fh, c);
- 	if (ret != -EINVAL)
- 		return ret;
+On 7/21/20 10:45 AM, Stanimir Varbanov wrote:
+> Use the standard menu control for frame skip mode in the MFC
+> driver. The legacy private menu control is kept for backward
+> compatibility.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  drivers/media/platform/s5p-mfc/s5p_mfc_enc.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
+> index 912fe0c5ab18..3092eb6777a5 100644
+> --- a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
+> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
+> @@ -261,6 +261,11 @@ static struct mfc_control controls[] = {
+>  		.menu_skip_mask = 0,
+>  		.default_value = V4L2_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE_DISABLED,
+>  	},
+> +	{
+> +		.id = V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE,
+> +		.maximum = V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT,
+> +		.default_value = V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED,
+> +	},
+>  	{
+>  		.id = V4L2_CID_MPEG_MFC51_VIDEO_RC_FIXED_TARGET_BIT,
+>  		.type = V4L2_CTRL_TYPE_BOOLEAN,
+> @@ -1849,6 +1854,7 @@ static int s5p_mfc_enc_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		p->seq_hdr_mode = ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE:
+> +	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
+>  		p->frame_skip_mode = ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_MFC51_VIDEO_RC_FIXED_TARGET_BIT:
+> 
+
 -- 
-2.25.1
-
+regards,
+Stan
