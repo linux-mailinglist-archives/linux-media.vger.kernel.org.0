@@ -2,210 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFDCA2292EE
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 10:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34D3E229326
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 10:10:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728524AbgGVIFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 04:05:38 -0400
-Received: from ste-pvt-msa2.bahnhof.se ([213.80.101.71]:1885 "EHLO
-        ste-pvt-msa2.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726153AbgGVIFh (ORCPT
+        id S1728780AbgGVIKC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 04:10:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726892AbgGVIKB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 04:05:37 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 80C113F89C;
-        Wed, 22 Jul 2020 10:05:32 +0200 (CEST)
-Authentication-Results: ste-pvt-msa2.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=r+A/yXu5;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
-        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
-        dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
-        by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id LtesimML5tCB; Wed, 22 Jul 2020 10:05:31 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        (Authenticated sender: mb878879)
-        by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 5B1263FA05;
-        Wed, 22 Jul 2020 10:05:28 +0200 (CEST)
-Received: from [192.168.0.100] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id BEE22362551;
-        Wed, 22 Jul 2020 10:05:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1595405130; bh=VTus/6AbWlsqqDyaiMd7dlOgvwrBywZ/lvDt+28dCLo=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=r+A/yXu5rtcZQfoAKsafVO1QlKXWNGPFT6uP5+exKqizL8J/rQF8uiKJQ0zVlPbIK
-         FP0AJc/S0rSKtFRE2FqJff27OQ3sWeh3/qtxGAcuh3DzYaek2xCKQXWbnIHjLcE8ek
-         /LXRFJt0OoVOz7g0k5t0JMTWBWAG81ghURGd4Q9U=
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Dave Airlie <airlied@gmail.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Stone <daniels@collabora.com>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Steve Pronovost <spronovo@microsoft.com>,
-        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Jesse Natalie <jenatali@microsoft.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
- <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
- <20200721074157.GB3278063@phenom.ffwll.local>
- <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
- <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org>
- <CAPM=9twUWeenf-26GEvkuKo3wHgS3BCyrva=sNaWo6+=A5qdoQ@mail.gmail.com>
- <805c49b7-f0b3-45dc-5fe3-b352f0971527@shipmail.org>
- <CAKMK7uHhhxBC2MvnNnU9FjxJaWkEcP3m5m7AN3yzfw=wxFsckA@mail.gmail.com>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Message-ID: <92393d26-d863-aac6-6d27-53cad6854e13@shipmail.org>
-Date:   Wed, 22 Jul 2020 10:05:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 22 Jul 2020 04:10:01 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835A3C0619DC
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 01:10:01 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id a1so1208233ejg.12
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 01:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8/oqCUNmFc1OqEXIlUblc8Jp0aa/CFYxFmL2eg8Khmw=;
+        b=Ii92gK2l3xsjB7pc4zpJzWubUCqWxaXjaGz1827ZLCYraTZxLI4GEXebasVLB3raxd
+         wZJky5lLRe1rG9dscfydrF0dm1kNwnqgAYnY/3d+QFiJ5FLNDduQYcSlNbi8A6c+hx8y
+         CMQ7YTioQyWvZ58SIDmp13HKuqAcIahEawSKmLIUkXZFAGP7AlJ9epnj8TyhUz4jPBGc
+         fnaV9dGFbwM5PHac4f+dsTHjzhdh5Osyv1qU+uHGVZTHuAtIhf62pzyqyuIzc5EZNAjg
+         yLFKrzGWu3gTBfTq/CQpP+sJRVgukDv6YCw8FAWlsZGXAfOc7ZuQZAS7rrLaazG5V1Ks
+         YsIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8/oqCUNmFc1OqEXIlUblc8Jp0aa/CFYxFmL2eg8Khmw=;
+        b=JJQ1X/jfS9taKTBrhVRBSG6DCHzyD03tw+nKFv7z+BQ875L5kmc7DiZh7KfMqzYrDI
+         JLJpNZK6kBxFM2rXi6FuFbjQgYDf52JsFExt6Zoj7mGiGMZ9F7yVA2t9gvSNMn6eR31/
+         YXOfg+Yz01reY0J1SFl0QlwMVsE9/XzHPlei1AVeCnZW4A7gkO/PKThIdEBH+eQn+PHs
+         ZMF+dsJ080BK9bDEuZZzLi+DOP9CVKjHeNPoMyS3Ag2k3F7yIJ6o9sg+bqkbpaDrtWJd
+         aJfT7DA6Hj0QXnkm8iGvCQ8ZWQEIVeoefDSpLDC/qrBkqw3n8PsusqOeQmTReK27wJIW
+         vxDA==
+X-Gm-Message-State: AOAM533p/1Vrxl7Qz0zXi4X4dZZ+KVDigmy56Qe0pU5/p3vT60+8qSSY
+        St8ornw/szTaBBt+aN+Dnr1scY2Ksx1V2Df52Ixovtc+NWI=
+X-Google-Smtp-Source: ABdhPJy0jQhddfBD9VXXPKyqiTXDORIrWINJapjugf6TEhdbEYQZQa7Fm4tW9glCGrENg3DnQz945cD77jRoWWq1Rdw=
+X-Received: by 2002:a17:906:2296:: with SMTP id p22mr28296124eja.510.1595405399348;
+ Wed, 22 Jul 2020 01:09:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uHhhxBC2MvnNnU9FjxJaWkEcP3m5m7AN3yzfw=wxFsckA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
+ <20200717132859.237120-3-jacopo+renesas@jmondi.org> <20200717193509.GD5961@pendragon.ideasonboard.com>
+In-Reply-To: <20200717193509.GD5961@pendragon.ideasonboard.com>
+From:   Loic Poulain <loic.poulain@linaro.org>
+Date:   Wed, 22 Jul 2020 10:14:52 +0200
+Message-ID: <CAMZdPi-wOmbMi-BxB31HoDhcBSxoSnFssceb=KR2Q=SeU9rN=w@mail.gmail.com>
+Subject: Re: [PATCH 02/13] arm64: dts: qcom: apq8016-sbc: Fix CSI-2 lanes routing
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, 17 Jul 2020 at 21:35, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Jacopo,
+>
+> On Fri, Jul 17, 2020 at 03:28:48PM +0200, Jacopo Mondi wrote:
+> > The ov5640 sensor does not support lanes reconfiguration according
+> > to version of the datasheet I have (version 2.03) and the driver
+> > does not parse the properties to try to reconfigure them.
+> >
+> > Fix the properties values in the camera and cci node.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> > Loic, I see you added the camera nodes in
+> > 39e0ce6cd1bf ("arm64: dts: qcom: apq8016-sbc: Add CCI/Sensor nodes")
+> >
+> > Do you have any idea how lanes could be swapped if, from my understanding,
+> > nor the sensor nor the driver supports that ?
+>
+> It's not supported on the OV5640 side, so I think the second hunk of
+> this patch is correct, but I believe that the CAMSS supports lane
+> reordering, so the first hunk is likely incorrect and should be dropped.
 
-On 2020-07-22 09:11, Daniel Vetter wrote:
-> On Wed, Jul 22, 2020 at 8:45 AM Thomas Hellström (Intel)
-> <thomas_os@shipmail.org> wrote:
->>
->> On 2020-07-22 00:45, Dave Airlie wrote:
->>> On Tue, 21 Jul 2020 at 18:47, Thomas Hellström (Intel)
->>> <thomas_os@shipmail.org> wrote:
->>>> On 7/21/20 9:45 AM, Christian König wrote:
->>>>> Am 21.07.20 um 09:41 schrieb Daniel Vetter:
->>>>>> On Mon, Jul 20, 2020 at 01:15:17PM +0200, Thomas Hellström (Intel)
->>>>>> wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> On 7/9/20 2:33 PM, Daniel Vetter wrote:
->>>>>>>> Comes up every few years, gets somewhat tedious to discuss, let's
->>>>>>>> write this down once and for all.
->>>>>>>>
->>>>>>>> What I'm not sure about is whether the text should be more explicit in
->>>>>>>> flat out mandating the amdkfd eviction fences for long running compute
->>>>>>>> workloads or workloads where userspace fencing is allowed.
->>>>>>> Although (in my humble opinion) it might be possible to completely
->>>>>>> untangle
->>>>>>> kernel-introduced fences for resource management and dma-fences used
->>>>>>> for
->>>>>>> completion- and dependency tracking and lift a lot of restrictions
->>>>>>> for the
->>>>>>> dma-fences, including prohibiting infinite ones, I think this makes
->>>>>>> sense
->>>>>>> describing the current state.
->>>>>> Yeah I think a future patch needs to type up how we want to make that
->>>>>> happen (for some cross driver consistency) and what needs to be
->>>>>> considered. Some of the necessary parts are already there (with like the
->>>>>> preemption fences amdkfd has as an example), but I think some clear docs
->>>>>> on what's required from both hw, drivers and userspace would be really
->>>>>> good.
->>>>> I'm currently writing that up, but probably still need a few days for
->>>>> this.
->>>> Great! I put down some (very) initial thoughts a couple of weeks ago
->>>> building on eviction fences for various hardware complexity levels here:
->>>>
->>>> https://gitlab.freedesktop.org/thomash/docs/-/blob/master/Untangling%20dma-fence%20and%20memory%20allocation.odt
->>> We are seeing HW that has recoverable GPU page faults but only for
->>> compute tasks, and scheduler without semaphores hw for graphics.
->>>
->>> So a single driver may have to expose both models to userspace and
->>> also introduces the problem of how to interoperate between the two
->>> models on one card.
->>>
->>> Dave.
->> Hmm, yes to begin with it's important to note that this is not a
->> replacement for new programming models or APIs, This is something that
->> takes place internally in drivers to mitigate many of the restrictions
->> that are currently imposed on dma-fence and documented in this and
->> previous series. It's basically the driver-private narrow completions
->> Jason suggested in the lockdep patches discussions implemented the same
->> way as eviction-fences.
->>
->> The memory fence API would be local to helpers and middle-layers like
->> TTM, and the corresponding drivers.  The only cross-driver-like
->> visibility would be that the dma-buf move_notify() callback would not be
->> allowed to wait on dma-fences or something that depends on a dma-fence.
-> Because we can't preempt (on some engines at least) we already have
-> the requirement that cross driver buffer management can get stuck on a
-> dma-fence. Not even taking into account the horrors we do with
-> userptr, which are cross driver no matter what. Limiting move_notify
-> to memory fences only doesn't work, since the pte clearing might need
-> to wait for a dma_fence first. Hence this becomes a full end-of-batch
-> fence, not just a limited kernel-internal memory fence.
+Indeed, camss supports lane configuration (cf camss_of_parse_endpoint_node).
+The sensor doesn't, so that can be removed on its side.
 
-For non-preemptible hardware the memory fence typically *is* the 
-end-of-batch fence. (Unless, as documented, there is a scheduler 
-consuming sync-file dependencies in which case the memory fence wait 
-needs to be able to break out of that). The key thing is not that we can 
-break out of execution, but that we can break out of dependencies, since 
-when we're executing all dependecies (modulo semaphores) are already 
-fulfilled. That's what's eliminating the deadlocks.
+Regards,
+Loic
 
 >
-> That's kinda why I think only reasonable option is to toss in the
-> towel and declare dma-fence to be the memory fence (and suck up all
-> the consequences of that decision as uapi, which is kinda where we
-> are), and construct something new&entirely free-wheeling for userspace
-> fencing. But only for engines that allow enough preempt/gpu page
-> faulting to make that possible. Free wheeling userspace fences/gpu
-> semaphores or whatever you want to call them (on windows I think it's
-> monitored fence) only work if you can preempt to decouple the memory
-> fences from your gpu command execution.
+> > ---
+> >  arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi b/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
+> > index 8a4b790aa7ff..fe6613676e45 100644
+> > --- a/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
+> > @@ -591,8 +591,8 @@ ports {
+> >               port@0 {
+> >                       reg = <0>;
+> >                       csiphy0_ep: endpoint {
+> > -                             clock-lanes = <1>;
+> > -                             data-lanes = <0 2>;
+> > +                             clock-lanes = <0>;
+> > +                             data-lanes = <1 2>;
+> >                               remote-endpoint = <&ov5640_ep>;
+> >                               status = "okay";
+> >                       };
+> > @@ -627,8 +627,8 @@ camera_rear@3b {
+> >
+> >               port {
+> >                       ov5640_ep: endpoint {
+> > -                             clock-lanes = <1>;
+> > -                             data-lanes = <0 2>;
+> > +                             clock-lanes = <0>;
+> > +                             data-lanes = <1 2>;
+> >                               remote-endpoint = <&csiphy0_ep>;
+> >                       };
+> >               };
 >
-> There's the in-between step of just decoupling the batchbuffer
-> submission prep for hw without any preempt (but a scheduler), but that
-> seems kinda pointless. Modern execbuf should be O(1) fastpath, with
-> all the allocation/mapping work pulled out ahead. vk exposes that
-> model directly to clients, GL drivers could use it internally too, so
-> I see zero value in spending lots of time engineering very tricky
-> kernel code just for old userspace. Much more reasonable to do that in
-> userspace, where we have real debuggers and no panics about security
-> bugs (or well, a lot less, webgl is still a thing, but at least
-> browsers realized you need to container that completely).
-
-Sure, it's definitely a big chunk of work. I think the big win would be 
-allowing memory allocation in dma-fence critical sections. But I 
-completely buy the above argument. I just wanted to point out that many 
-of the dma-fence restrictions are IMHO fixable, should we need to do 
-that for whatever reason.
-
-/Thomas
-
-
+> --
+> Regards,
 >
-> Cheers, Daniel
->
->> So with that in mind, I don't foresee engines with different
->> capabilities on the same card being a problem.
->>
->> /Thomas
->>
->>
->
+> Laurent Pinchart
