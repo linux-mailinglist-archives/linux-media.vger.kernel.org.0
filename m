@@ -2,1074 +2,994 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2AC022A0D1
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 22:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FD2622A14E
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 23:23:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732415AbgGVUfi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 16:35:38 -0400
-Received: from mailoutvs49.siol.net ([185.57.226.240]:47616 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726447AbgGVUfi (ORCPT
+        id S1732945AbgGVVX3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 17:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726525AbgGVVX2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 16:35:38 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTP id 232885249BF;
-        Wed, 22 Jul 2020 22:35:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id eehKRZrSUmh6; Wed, 22 Jul 2020 22:35:26 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTPS id B38AE524DF7;
-        Wed, 22 Jul 2020 22:35:26 +0200 (CEST)
-Received: from kista.localdomain (cpe-194-152-20-232.static.triera.net [194.152.20.232])
-        (Authenticated sender: 031275009)
-        by mail.siol.net (Zimbra) with ESMTPSA id 66DD25249BF;
-        Wed, 22 Jul 2020 22:35:25 +0200 (CEST)
-From:   Jernej Skrabec <jernej.skrabec@siol.net>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, ezequiel@vanguardiasur.com.ar
-Subject: [PATCH v2] media: cedrus: Add support for VP8 decoding
-Date:   Wed, 22 Jul 2020 22:39:09 +0200
-Message-Id: <20200722203909.42818-1-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.27.0
+        Wed, 22 Jul 2020 17:23:28 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C600AC0619E1
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 14:23:27 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id bm28so2828337edb.2
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 14:23:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=L6cFwbbqremaWu8YPADttiaZa3eviV3H16biNkdK1Ko=;
+        b=EnIUE7yfGIFYOMR7/U6Uwzy6BtX8EWywMUoernDtwT0JM9ucwUgrXqUB/jjCm/zjVE
+         xRj2kWcc6VhwXYGAh9PqaKhy85tTRDN+qVTrUc1TZuEiIyp9UZpRDC2AzGk02dgpyh0e
+         XUSDQnJuJvRHgqVsi/pQoaAN9NXX4u70FpVTjwqvKOAH6CT0HaCjrTHreKz9Q4IfwXOV
+         2LbSCWQDz8CEANYrSdNC4ClAJb3bCiIhLrfusQ9rUEpJtXHd12Q7xjs+11M1M9W4fc8l
+         56ZmfIYXvnNJMNJQ15m2WRtDiR3gPd10Hpz+sytw2EUHrwG3hadNwtSSEtq7vkkldN4e
+         63pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=L6cFwbbqremaWu8YPADttiaZa3eviV3H16biNkdK1Ko=;
+        b=ccchKrLeRxgRn5927fXKs+svknSDP/lC5DFTRyOPwm4brvjb9avCwCyWkx8nc2dfR4
+         acSRiR6exqgDhkFg0DO8CEDEnzEmp4f3xllshpv08vKvrKhEWXGYcyNy5LJ/iyWNfgd4
+         Tlzn8hLPZpsuD+eTDYJMnLXZYWagJ1hOeV9Pz+NZqmujHaV4J6tergTCdN9tXRdeDgAX
+         IEFCFNeP2AGfskSoNE5C+FxsR8C8oiBByjAXYNXFGBGgihVIkId9BTTIK9/6ov0oeaKo
+         grr1Y9lYwUlCZU3IhgeIXvwVSzro7S/D9tnfH/lUGehn/wnLSwfuegOd8sQs4o9Urv45
+         XLyw==
+X-Gm-Message-State: AOAM532gGqWYk8DWCNLTRD5FDbfTLJFDp4K9KSGDAH1MqgDi4m+fbk7j
+        knJRIN0n3L2UcWfeuJ+L9q7L1IEdV8on7o7FMvt9Hg==
+X-Google-Smtp-Source: ABdhPJzchGJZwEjMxpkDsEGZ8SSmFr3RyRo9AR9cgjObbz9ddqV1ZIiM4M1H5FMoNVBkx3285qAhS67nC0KXgyLHqDY=
+X-Received: by 2002:aa7:d0d1:: with SMTP id u17mr1363476edo.13.1595453005876;
+ Wed, 22 Jul 2020 14:23:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20200713060842.471356-1-acourbot@chromium.org> <20200713060842.471356-2-acourbot@chromium.org>
+In-Reply-To: <20200713060842.471356-2-acourbot@chromium.org>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 22 Jul 2020 18:23:13 -0300
+Message-ID: <CAAEAJfB6NS2oJU1uiN1kTU-Mhank6-wOUox2qVzRRXEhp3o9Lw@mail.gmail.com>
+Subject: Re: [PATCH v3 01/16] media: mtk-vcodec: abstract firmware interface
+To:     Alexandre Courbot <acourbot@chromium.org>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Pi-Hsun Shih <pihsun@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-VP8 in Cedrus shares same engine as H264.
+On Mon, 13 Jul 2020 at 03:09, Alexandre Courbot <acourbot@chromium.org> wrote:
+>
+> From: Yunfei Dong <yunfei.dong@mediatek.com>
+>
+> MT8183's codec firwmare is run by a different remote processor from
+> MT8173. While the firmware interface is basically the same, the way to
+> invoke it differs. Abstract all firmware calls under a layer that will
+> allow us to handle both firmware types transparently.
+>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> [acourbot: refactor, cleanup and split]
+> Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
+> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> [pihsun: fix error path and add mtk_vcodec_fw_release]
+> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+> Reviewed-by: Tiffany Lin <tiffany.lin@mediatek.com>
+> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
+> ---
+>  drivers/media/platform/mtk-vcodec/Makefile    |   4 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  50 ++---
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |   1 -
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   5 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  47 ++---
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   2 -
+>  .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 172 ++++++++++++++++++
+>  .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |  36 ++++
+>  .../platform/mtk-vcodec/mtk_vcodec_util.c     |   1 -
+>  .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   1 -
+>  .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   1 -
+>  .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   1 -
+>  .../media/platform/mtk-vcodec/vdec_drv_base.h |   2 -
+>  .../media/platform/mtk-vcodec/vdec_drv_if.c   |   1 -
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  12 +-
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  11 +-
+>  .../platform/mtk-vcodec/venc/venc_h264_if.c   |  15 +-
+>  .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   8 +-
+>  .../media/platform/mtk-vcodec/venc_drv_if.c   |   1 -
+>  .../media/platform/mtk-vcodec/venc_vpu_if.c   |  17 +-
+>  .../media/platform/mtk-vcodec/venc_vpu_if.h   |   5 +-
+>  21 files changed, 290 insertions(+), 103 deletions(-)
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
+> index 37b94b555fa1..b8636119ed0a 100644
+> --- a/drivers/media/platform/mtk-vcodec/Makefile
+> +++ b/drivers/media/platform/mtk-vcodec/Makefile
+> @@ -12,7 +12,7 @@ mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
+>                 vdec_vpu_if.o \
+>                 mtk_vcodec_dec.o \
+>                 mtk_vcodec_dec_pm.o \
+> -
+> +               mtk_vcodec_fw.o
+>
+>  mtk-vcodec-enc-y := venc/venc_vp8_if.o \
+>                 venc/venc_h264_if.o \
+> @@ -25,5 +25,3 @@ mtk-vcodec-enc-y := venc/venc_vp8_if.o \
+>
+>  mtk-vcodec-common-y := mtk_vcodec_intr.o \
+>                 mtk_vcodec_util.o\
+> -
+> -ccflags-y += -I$(srctree)/drivers/media/platform/mtk-vpu
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> index 97a1b6664c20..4f07a5fcce7f 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> @@ -20,7 +20,7 @@
+>  #include "mtk_vcodec_dec_pm.h"
+>  #include "mtk_vcodec_intr.h"
+>  #include "mtk_vcodec_util.h"
+> -#include "mtk_vpu.h"
+> +#include "mtk_vcodec_fw.h"
+>
+>  #define VDEC_HW_ACTIVE 0x10
+>  #define VDEC_IRQ_CFG   0x11
+> @@ -77,22 +77,6 @@ static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, void *priv)
+>         return IRQ_HANDLED;
+>  }
+>
+> -static void mtk_vcodec_dec_reset_handler(void *priv)
+> -{
+> -       struct mtk_vcodec_dev *dev = priv;
+> -       struct mtk_vcodec_ctx *ctx;
+> -
+> -       mtk_v4l2_err("Watchdog timeout!!");
+> -
+> -       mutex_lock(&dev->dev_mutex);
+> -       list_for_each_entry(ctx, &dev->ctx_list, list) {
+> -               ctx->state = MTK_STATE_ABORT;
+> -               mtk_v4l2_debug(0, "[%d] Change to state MTK_STATE_ERROR",
+> -                               ctx->id);
+> -       }
+> -       mutex_unlock(&dev->dev_mutex);
+> -}
+> -
+>  static int fops_vcodec_open(struct file *file)
+>  {
+>         struct mtk_vcodec_dev *dev = video_drvdata(file);
+> @@ -144,21 +128,20 @@ static int fops_vcodec_open(struct file *file)
+>         if (v4l2_fh_is_singular(&ctx->fh)) {
+>                 mtk_vcodec_dec_pw_on(&dev->pm);
+>                 /*
+> -                * vpu_load_firmware checks if it was loaded already and
+> -                * does nothing in that case
+> +                * Does nothing if firmware was already loaded.
+>                  */
+> -               ret = vpu_load_firmware(dev->vpu_plat_dev);
+> +               ret = mtk_vcodec_fw_load_firmware(dev->fw_handler);
+>                 if (ret < 0) {
+>                         /*
+>                          * Return 0 if downloading firmware successfully,
+>                          * otherwise it is failed
+>                          */
+> -                       mtk_v4l2_err("vpu_load_firmware failed!");
+> +                       mtk_v4l2_err("failed to load firmware!");
+>                         goto err_load_fw;
+>                 }
+>
+>                 dev->dec_capability =
+> -                       vpu_get_vdec_hw_capa(dev->vpu_plat_dev);
+> +                       mtk_vcodec_fw_get_vdec_capa(dev->fw_handler);
+>                 mtk_v4l2_debug(0, "decoder capability %x", dev->dec_capability);
+>         }
+>
+> @@ -228,6 +211,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>         struct mtk_vcodec_dev *dev;
+>         struct video_device *vfd_dec;
+>         struct resource *res;
+> +       phandle rproc_phandle;
+> +       enum mtk_vcodec_fw_type fw_type;
+>         int i, ret;
+>
+>         dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+> @@ -237,19 +222,21 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>         INIT_LIST_HEAD(&dev->ctx_list);
+>         dev->plat_dev = pdev;
+>
+> -       dev->vpu_plat_dev = vpu_get_plat_device(dev->plat_dev);
+> -       if (dev->vpu_plat_dev == NULL) {
+> -               mtk_v4l2_err("[VPU] vpu device in not ready");
+> -               return -EPROBE_DEFER;
+> +       if (!of_property_read_u32(pdev->dev.of_node, "mediatek,vpu",
+> +                                 &rproc_phandle)) {
+> +               fw_type = VPU;
+> +       } else {
+> +               mtk_v4l2_err("Could not get vdec IPI device");
+> +               return -ENODEV;
+>         }
+> -
+> -       vpu_wdt_reg_handler(dev->vpu_plat_dev, mtk_vcodec_dec_reset_handler,
+> -                       dev, VPU_RST_DEC);
+> +       dev->fw_handler = mtk_vcodec_fw_select(dev, fw_type, VPU_RST_DEC);
+> +       if (IS_ERR(dev->fw_handler))
+> +               return PTR_ERR(dev->fw_handler);
+>
+>         ret = mtk_vcodec_init_dec_pm(dev);
+>         if (ret < 0) {
+>                 dev_err(&pdev->dev, "Failed to get mt vcodec clock source");
+> -               return ret;
+> +               goto err_dec_pm;
+>         }
+>
+>         for (i = 0; i < NUM_MAX_VDEC_REG_BASE; i++) {
+> @@ -352,6 +339,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>         v4l2_device_unregister(&dev->v4l2_dev);
+>  err_res:
+>         mtk_vcodec_release_dec_pm(dev);
+> +err_dec_pm:
+> +       mtk_vcodec_fw_release(dev->fw_handler);
+>         return ret;
+>  }
+>
+> @@ -376,6 +365,7 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
+>
+>         v4l2_device_unregister(&dev->v4l2_dev);
+>         mtk_vcodec_release_dec_pm(dev);
+> +       mtk_vcodec_fw_release(dev->fw_handler);
+>         return 0;
+>  }
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> index 5a6ec8fb52da..36dfe3fc056a 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> @@ -12,7 +12,6 @@
+>
+>  #include "mtk_vcodec_dec_pm.h"
+>  #include "mtk_vcodec_util.h"
+> -#include "mtk_vpu.h"
+>
+>  int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>  {
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index 9fd56dee7fd1..e132c4ec463a 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -309,13 +309,13 @@ struct mtk_vcodec_ctx {
+>   * @m2m_dev_dec: m2m device for decoder
+>   * @m2m_dev_enc: m2m device for encoder.
+>   * @plat_dev: platform device
+> - * @vpu_plat_dev: mtk vpu platform device
+>   * @ctx_list: list of struct mtk_vcodec_ctx
+>   * @irqlock: protect data access by irq handler and work thread
+>   * @curr_ctx: The context that is waiting for codec hardware
+>   *
+>   * @reg_base: Mapped address of MTK Vcodec registers.
+>   *
+> + * @fw_handler: used to communicate with the firmware.
+>   * @id_counter: used to identify current opened instance
+>   *
+>   * @encode_workqueue: encode work queue
+> @@ -344,12 +344,13 @@ struct mtk_vcodec_dev {
+>         struct v4l2_m2m_dev *m2m_dev_dec;
+>         struct v4l2_m2m_dev *m2m_dev_enc;
+>         struct platform_device *plat_dev;
+> -       struct platform_device *vpu_plat_dev;
+>         struct list_head ctx_list;
+>         spinlock_t irqlock;
+>         struct mtk_vcodec_ctx *curr_ctx;
+>         void __iomem *reg_base[NUM_MAX_VCODEC_REG_BASE];
+>
+> +       struct mtk_vcodec_fw *fw_handler;
+> +
+>         unsigned long id_counter;
+>
+>         struct workqueue_struct *decode_workqueue;
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> index 4d31f1ed113f..4340ea10afd0 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> @@ -21,7 +21,7 @@
+>  #include "mtk_vcodec_enc_pm.h"
+>  #include "mtk_vcodec_intr.h"
+>  #include "mtk_vcodec_util.h"
+> -#include "mtk_vpu.h"
+> +#include "mtk_vcodec_fw.h"
+>
+>  module_param(mtk_v4l2_dbg_level, int, S_IRUGO | S_IWUSR);
+>  module_param(mtk_vcodec_dbg, bool, S_IRUGO | S_IWUSR);
+> @@ -101,22 +101,6 @@ static irqreturn_t mtk_vcodec_enc_lt_irq_handler(int irq, void *priv)
+>         return IRQ_HANDLED;
+>  }
+>
+> -static void mtk_vcodec_enc_reset_handler(void *priv)
+> -{
+> -       struct mtk_vcodec_dev *dev = priv;
+> -       struct mtk_vcodec_ctx *ctx;
+> -
+> -       mtk_v4l2_debug(0, "Watchdog timeout!!");
+> -
+> -       mutex_lock(&dev->dev_mutex);
+> -       list_for_each_entry(ctx, &dev->ctx_list, list) {
+> -               ctx->state = MTK_STATE_ABORT;
+> -               mtk_v4l2_debug(0, "[%d] Change to state MTK_STATE_ABORT",
+> -                               ctx->id);
+> -       }
+> -       mutex_unlock(&dev->dev_mutex);
+> -}
+> -
+>  static int fops_vcodec_open(struct file *file)
+>  {
+>         struct mtk_vcodec_dev *dev = video_drvdata(file);
+> @@ -159,10 +143,10 @@ static int fops_vcodec_open(struct file *file)
+>
+>         if (v4l2_fh_is_singular(&ctx->fh)) {
+>                 /*
+> -                * vpu_load_firmware checks if it was loaded already and
+> +                * load fireware to checks if it was loaded already and
+>                  * does nothing in that case
+>                  */
+> -               ret = vpu_load_firmware(dev->vpu_plat_dev);
+> +               ret = mtk_vcodec_fw_load_firmware(dev->fw_handler);
+>                 if (ret < 0) {
+>                         /*
+>                          * Return 0 if downloading firmware successfully,
+> @@ -173,7 +157,7 @@ static int fops_vcodec_open(struct file *file)
+>                 }
+>
+>                 dev->enc_capability =
+> -                       vpu_get_venc_hw_capa(dev->vpu_plat_dev);
+> +                       mtk_vcodec_fw_get_venc_capa(dev->fw_handler);
+>                 mtk_v4l2_debug(0, "encoder capability %x", dev->enc_capability);
+>         }
+>
+> @@ -235,6 +219,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>         struct mtk_vcodec_dev *dev;
+>         struct video_device *vfd_enc;
+>         struct resource *res;
+> +       phandle rproc_phandle;
+> +       enum mtk_vcodec_fw_type fw_type;
+>         int i, j, ret;
+>
+>         dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+> @@ -244,19 +230,21 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>         INIT_LIST_HEAD(&dev->ctx_list);
+>         dev->plat_dev = pdev;
+>
+> -       dev->vpu_plat_dev = vpu_get_plat_device(dev->plat_dev);
+> -       if (dev->vpu_plat_dev == NULL) {
+> -               mtk_v4l2_err("[VPU] vpu device in not ready");
+> -               return -EPROBE_DEFER;
+> +       if (!of_property_read_u32(pdev->dev.of_node, "mediatek,vpu",
+> +                                 &rproc_phandle)) {
+> +               fw_type = VPU;
+> +       } else {
+> +               mtk_v4l2_err("Could not get venc IPI device");
+> +               return -ENODEV;
+>         }
+> -
+> -       vpu_wdt_reg_handler(dev->vpu_plat_dev, mtk_vcodec_enc_reset_handler,
+> -                               dev, VPU_RST_ENC);
+> +       dev->fw_handler = mtk_vcodec_fw_select(dev, fw_type, VPU_RST_ENC);
+> +       if (IS_ERR(dev->fw_handler))
+> +               return PTR_ERR(dev->fw_handler);
+>
+>         ret = mtk_vcodec_init_enc_pm(dev);
+>         if (ret < 0) {
+>                 dev_err(&pdev->dev, "Failed to get mt vcodec clock source!");
+> -               return ret;
+> +               goto err_enc_pm;
+>         }
+>
+>         for (i = VENC_SYS, j = 0; i < NUM_MAX_VCODEC_REG_BASE; i++, j++) {
+> @@ -377,6 +365,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>         v4l2_device_unregister(&dev->v4l2_dev);
+>  err_res:
+>         mtk_vcodec_release_enc_pm(dev);
+> +err_enc_pm:
+> +       mtk_vcodec_fw_release(dev->fw_handler);
+>         return ret;
+>  }
+>
+> @@ -401,6 +391,7 @@ static int mtk_vcodec_enc_remove(struct platform_device *pdev)
+>
+>         v4l2_device_unregister(&dev->v4l2_dev);
+>         mtk_vcodec_release_enc_pm(dev);
+> +       mtk_vcodec_fw_release(dev->fw_handler);
+>         return 0;
+>  }
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> index 3e2bfded79a6..ee22902aaa71 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> @@ -12,8 +12,6 @@
+>
+>  #include "mtk_vcodec_enc_pm.h"
+>  #include "mtk_vcodec_util.h"
+> -#include "mtk_vpu.h"
+> -
+>
+>  int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
+>  {
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+> new file mode 100644
+> index 000000000000..967bb100a990
+> --- /dev/null
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+> @@ -0,0 +1,172 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include "mtk_vcodec_fw.h"
+> +#include "mtk_vcodec_util.h"
+> +#include "mtk_vcodec_drv.h"
+> +
+> +struct mtk_vcodec_fw_ops {
+> +       int (*load_firmware)(struct mtk_vcodec_fw *fw);
+> +       unsigned int (*get_vdec_capa)(struct mtk_vcodec_fw *fw);
+> +       unsigned int (*get_venc_capa)(struct mtk_vcodec_fw *fw);
+> +       void * (*map_dm_addr)(struct mtk_vcodec_fw *fw, u32 dtcm_dmem_addr);
+> +       int (*ipi_register)(struct mtk_vcodec_fw *fw, int id,
+> +               mtk_vcodec_ipi_handler handler, const char *name, void *priv);
+> +       int (*ipi_send)(struct mtk_vcodec_fw *fw, int id, void *buf,
+> +               unsigned int len, unsigned int wait);
+> +};
+> +
+> +struct mtk_vcodec_fw {
+> +       enum mtk_vcodec_fw_type type;
+> +       const struct mtk_vcodec_fw_ops *ops;
+> +       struct platform_device *pdev;
+> +};
+> +
+> +static int mtk_vcodec_vpu_load_firmware(struct mtk_vcodec_fw *fw)
+> +{
+> +       return vpu_load_firmware(fw->pdev);
+> +}
+> +
+> +static unsigned int mtk_vcodec_vpu_get_vdec_capa(struct mtk_vcodec_fw *fw)
+> +{
+> +       return vpu_get_vdec_hw_capa(fw->pdev);
+> +}
+> +
+> +static unsigned int mtk_vcodec_vpu_get_venc_capa(struct mtk_vcodec_fw *fw)
+> +{
+> +       return vpu_get_venc_hw_capa(fw->pdev);
+> +}
+> +
+> +static void *mtk_vcodec_vpu_map_dm_addr(struct mtk_vcodec_fw *fw,
+> +                                       u32 dtcm_dmem_addr)
+> +{
+> +       return vpu_mapping_dm_addr(fw->pdev, dtcm_dmem_addr);
+> +}
+> +
+> +static int mtk_vcodec_vpu_set_ipi_register(struct mtk_vcodec_fw *fw, int id,
+> +               mtk_vcodec_ipi_handler handler, const char *name, void *priv)
+> +{
+> +       /*
+> +        * The handler we receive takes a void * as its first argument. We
+> +        * cannot change this because it needs to be passed down to the rproc
+> +        * subsystem when SCP is used. VPU takes a const argument, which is
+> +        * more constrained, so the conversion below is safe.
+> +        */
+> +       ipi_handler_t handler_const = (ipi_handler_t)handler;
+> +
+> +       return vpu_ipi_register(fw->pdev, id, handler_const, name, priv);
+> +}
+> +
+> +static int mtk_vcodec_vpu_ipi_send(struct mtk_vcodec_fw *fw, int id, void *buf,
+> +               unsigned int len, unsigned int wait)
+> +{
+> +       return vpu_ipi_send(fw->pdev, id, buf, len);
+> +}
+> +
+> +static const struct mtk_vcodec_fw_ops mtk_vcodec_vpu_msg = {
+> +       .load_firmware = mtk_vcodec_vpu_load_firmware,
+> +       .get_vdec_capa = mtk_vcodec_vpu_get_vdec_capa,
+> +       .get_venc_capa = mtk_vcodec_vpu_get_venc_capa,
+> +       .map_dm_addr = mtk_vcodec_vpu_map_dm_addr,
+> +       .ipi_register = mtk_vcodec_vpu_set_ipi_register,
+> +       .ipi_send = mtk_vcodec_vpu_ipi_send,
+> +};
+> +
+> +static void mtk_vcodec_reset_handler(void *priv)
+> +{
+> +       struct mtk_vcodec_dev *dev = priv;
+> +       struct mtk_vcodec_ctx *ctx;
+> +
+> +       mtk_v4l2_err("Watchdog timeout!!");
+> +
+> +       mutex_lock(&dev->dev_mutex);
+> +       list_for_each_entry(ctx, &dev->ctx_list, list) {
+> +               ctx->state = MTK_STATE_ABORT;
+> +               mtk_v4l2_debug(0, "[%d] Change to state MTK_STATE_ABORT",
+> +                               ctx->id);
+> +       }
+> +       mutex_unlock(&dev->dev_mutex);
+> +}
+> +
+> +struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
+> +                                          enum mtk_vcodec_fw_type type,
+> +                                          enum rst_id rst_id)
+> +{
+> +       const struct mtk_vcodec_fw_ops *ops;
+> +       struct mtk_vcodec_fw *fw;
+> +       struct platform_device *fw_pdev = NULL;
+> +
+> +       switch (type) {
+> +       case VPU:
+> +               ops = &mtk_vcodec_vpu_msg;
+> +               fw_pdev = vpu_get_plat_device(dev->plat_dev);
+> +               if (!fw_pdev) {
+> +                       mtk_v4l2_err("firmware device is not ready");
+> +                       return ERR_PTR(-EINVAL);
+> +               }
+> +               vpu_wdt_reg_handler(fw_pdev, mtk_vcodec_reset_handler,
+> +                                   dev, rst_id);
+> +               break;
+> +       default:
+> +               mtk_v4l2_err("invalid vcodec fw type");
+> +               return ERR_PTR(-EINVAL);
+> +       }
+> +
+> +       fw = devm_kzalloc(&dev->plat_dev->dev, sizeof(*fw), GFP_KERNEL);
+> +       if (!fw)
+> +               return ERR_PTR(-EINVAL);
+> +
+> +       fw->type = type;
+> +       fw->ops = ops;
+> +       fw->pdev = fw_pdev;
+> +
+> +       return fw;
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_fw_select);
+> +
+> +void mtk_vcodec_fw_release(struct mtk_vcodec_fw *fw)
+> +{
+> +       switch (fw->type) {
+> +       case VPU:
+> +               put_device(&fw->pdev->dev);
+> +               break;
+> +       }
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_fw_release);
+> +
 
-Note that it seems necessary to call bitstream parsing functions,
-to parse frame header, otherwise decoded image is garbage. This is
-contrary to what is driver supposed to do. However, values are not
-really used, so this might be acceptable. It's possible that bitstream
-parsing functions set some internal VPU state, which is later necessary
-for proper decoding. Biggest suspect is "VP8 probs update" trigger.
+What are these symbols exported for?
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
----
-Changes in v2:
-- rebased on top of current linux-media master branch
+Thanks!
+Ezequiel
 
- drivers/staging/media/sunxi/cedrus/Makefile   |   3 +-
- drivers/staging/media/sunxi/cedrus/cedrus.c   |   8 +
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  15 +
- .../staging/media/sunxi/cedrus/cedrus_dec.c   |   5 +
- .../staging/media/sunxi/cedrus/cedrus_hw.c    |   1 +
- .../staging/media/sunxi/cedrus/cedrus_regs.h  |  80 ++
- .../staging/media/sunxi/cedrus/cedrus_video.c |   9 +
- .../staging/media/sunxi/cedrus/cedrus_vp8.c   | 699 ++++++++++++++++++
- 8 files changed, 819 insertions(+), 1 deletion(-)
- create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-
-diff --git a/drivers/staging/media/sunxi/cedrus/Makefile b/drivers/stagin=
-g/media/sunxi/cedrus/Makefile
-index 1bce49d3e7e2..a647b3690bf8 100644
---- a/drivers/staging/media/sunxi/cedrus/Makefile
-+++ b/drivers/staging/media/sunxi/cedrus/Makefile
-@@ -2,4 +2,5 @@
- obj-$(CONFIG_VIDEO_SUNXI_CEDRUS) +=3D sunxi-cedrus.o
-=20
- sunxi-cedrus-y =3D cedrus.o cedrus_video.o cedrus_hw.o cedrus_dec.o \
--		 cedrus_mpeg2.o cedrus_h264.o cedrus_h265.o
-+		 cedrus_mpeg2.o cedrus_h264.o cedrus_h265.o \
-+		 cedrus_vp8.o
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-index bc27f9430eeb..b2f5f03ad4a3 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -135,6 +135,13 @@ static const struct cedrus_control cedrus_controls[]=
- =3D {
- 		.codec		=3D CEDRUS_CODEC_H265,
- 		.required	=3D false,
- 	},
-+	{
-+		.cfg =3D {
-+			.id		=3D V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER,
-+		},
-+		.codec		=3D CEDRUS_CODEC_VP8,
-+		.required	=3D true,
-+	},
- };
-=20
- #define CEDRUS_CONTROLS_COUNT	ARRAY_SIZE(cedrus_controls)
-@@ -381,6 +388,7 @@ static int cedrus_probe(struct platform_device *pdev)
- 	dev->dec_ops[CEDRUS_CODEC_MPEG2] =3D &cedrus_dec_ops_mpeg2;
- 	dev->dec_ops[CEDRUS_CODEC_H264] =3D &cedrus_dec_ops_h264;
- 	dev->dec_ops[CEDRUS_CODEC_H265] =3D &cedrus_dec_ops_h265;
-+	dev->dec_ops[CEDRUS_CODEC_VP8] =3D &cedrus_dec_ops_vp8;
-=20
- 	mutex_init(&dev->dev_mutex);
-=20
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.h
-index 96765555ab8a..9f4605afa0f4 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -35,6 +35,7 @@ enum cedrus_codec {
- 	CEDRUS_CODEC_MPEG2,
- 	CEDRUS_CODEC_H264,
- 	CEDRUS_CODEC_H265,
-+	CEDRUS_CODEC_VP8,
- 	CEDRUS_CODEC_LAST,
- };
-=20
-@@ -75,6 +76,10 @@ struct cedrus_h265_run {
- 	const struct v4l2_ctrl_hevc_slice_params	*slice_params;
- };
-=20
-+struct cedrus_vp8_run {
-+	const struct v4l2_ctrl_vp8_frame_header		*slice_params;
-+};
-+
- struct cedrus_run {
- 	struct vb2_v4l2_buffer	*src;
- 	struct vb2_v4l2_buffer	*dst;
-@@ -83,6 +88,7 @@ struct cedrus_run {
- 		struct cedrus_h264_run	h264;
- 		struct cedrus_mpeg2_run	mpeg2;
- 		struct cedrus_h265_run	h265;
-+		struct cedrus_vp8_run	vp8;
- 	};
- };
-=20
-@@ -134,6 +140,14 @@ struct cedrus_ctx {
- 			void		*neighbor_info_buf;
- 			dma_addr_t	neighbor_info_buf_addr;
- 		} h265;
-+		struct {
-+			unsigned int	last_frame_p_type;
-+			unsigned int	last_filter_type;
-+			unsigned int	last_sharpness_level;
-+
-+			u8		*entropy_probs_buf;
-+			dma_addr_t	entropy_probs_buf_dma;
-+		} vp8;
- 	} codec;
- };
-=20
-@@ -180,6 +194,7 @@ struct cedrus_dev {
- extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
- extern struct cedrus_dec_ops cedrus_dec_ops_h264;
- extern struct cedrus_dec_ops cedrus_dec_ops_h265;
-+extern struct cedrus_dec_ops cedrus_dec_ops_vp8;
-=20
- static inline void cedrus_write(struct cedrus_dev *dev, u32 reg, u32 val=
-)
- {
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/st=
-aging/media/sunxi/cedrus/cedrus_dec.c
-index 58c48e4fdfe9..47c079f14c74 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -68,6 +68,11 @@ void cedrus_device_run(void *priv)
- 			V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS);
- 		break;
-=20
-+	case V4L2_PIX_FMT_VP8_FRAME:
-+		run.vp8.slice_params =3D cedrus_find_control_data(ctx,
-+			V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER);
-+		break;
-+
- 	default:
- 		break;
- 	}
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
-ging/media/sunxi/cedrus/cedrus_hw.c
-index 1744e6fcc999..cb8cabfc7cee 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -48,6 +48,7 @@ int cedrus_engine_enable(struct cedrus_ctx *ctx, enum c=
-edrus_codec codec)
- 		break;
-=20
- 	case CEDRUS_CODEC_H264:
-+	case CEDRUS_CODEC_VP8:
- 		reg |=3D VE_MODE_DEC_H264;
- 		break;
-=20
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_regs.h
-index 66b152f18d17..7718c561823f 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -546,6 +546,7 @@
- #define VE_H264_SHS_QP_SCALING_MATRIX_DEFAULT	BIT(24)
-=20
- #define VE_H264_CTRL			0x220
-+#define VE_H264_CTRL_VP8			BIT(29)
- #define VE_H264_CTRL_VLD_DATA_REQ_INT		BIT(2)
- #define VE_H264_CTRL_DECODE_ERR_INT		BIT(1)
- #define VE_H264_CTRL_SLICE_DECODE_INT		BIT(0)
-@@ -555,7 +556,12 @@
- 					 VE_H264_CTRL_SLICE_DECODE_INT)
-=20
- #define VE_H264_TRIGGER_TYPE		0x224
-+#define VE_H264_TRIGGER_TYPE_PROBABILITY(x)	SHIFT_AND_MASK_BITS(x, 31, 2=
-4)
-+#define VE_H264_TRIGGER_TYPE_BIN_LENS(x)	SHIFT_AND_MASK_BITS((x) - 1, 18=
-, 16)
- #define VE_H264_TRIGGER_TYPE_N_BITS(x)		(((x) & 0x3f) << 8)
-+#define VE_H264_TRIGGER_TYPE_VP8_GET_BITS	(15 << 0)
-+#define VE_H264_TRIGGER_TYPE_VP8_UPDATE_COEF	(14 << 0)
-+#define VE_H264_TRIGGER_TYPE_VP8_SLICE_DECODE	(10 << 0)
- #define VE_H264_TRIGGER_TYPE_AVC_SLICE_DECODE	(8 << 0)
- #define VE_H264_TRIGGER_TYPE_INIT_SWDEC		(7 << 0)
- #define VE_H264_TRIGGER_TYPE_FLUSH_BITS		(3 << 0)
-@@ -565,6 +571,7 @@
- #define VE_H264_STATUS_DECODE_ERR_INT		VE_H264_CTRL_DECODE_ERR_INT
- #define VE_H264_STATUS_SLICE_DECODE_INT		VE_H264_CTRL_SLICE_DECODE_INT
- #define VE_H264_STATUS_VLD_BUSY			BIT(8)
-+#define VE_H264_STATUS_VP8_UPPROB_BUSY		BIT(17)
-=20
- #define VE_H264_STATUS_INT_MASK			VE_H264_CTRL_INT_MASK
-=20
-@@ -583,10 +590,83 @@
- #define VE_H264_OUTPUT_FRAME_IDX	0x24c
- #define VE_H264_EXTRA_BUFFER1		0x250
- #define VE_H264_EXTRA_BUFFER2		0x254
-+#define VE_H264_MB_ADDR			0x260
-+#define VE_H264_ERROR_CASE		0x2b8
- #define VE_H264_BASIC_BITS		0x2dc
- #define VE_AVC_SRAM_PORT_OFFSET		0x2e0
- #define VE_AVC_SRAM_PORT_DATA		0x2e4
-=20
-+#define VE_VP8_PPS			0x214
-+#define VE_VP8_PPS_PIC_TYPE_P_FRAME		BIT(31)
-+#define VE_VP8_PPS_LAST_SHARPNESS_LEVEL(v)	SHIFT_AND_MASK_BITS(v, 30, 28=
-)
-+#define VE_VP8_PPS_LAST_PIC_TYPE_P_FRAME	BIT(27)
-+#define VE_VP8_PPS_ALTREF_SIGN_BIAS		BIT(26)
-+#define VE_VP8_PPS_GOLDEN_SIGN_BIAS		BIT(25)
-+#define VE_VP8_PPS_RELOAD_ENTROPY_PROBS		BIT(24)
-+#define VE_VP8_PPS_REFRESH_ENTROPY_PROBS	BIT(23)
-+#define VE_VP8_PPS_MB_NO_COEFF_SKIP		BIT(22)
-+#define VE_VP8_PPS_TOKEN_PARTITION(v)		SHIFT_AND_MASK_BITS(v, 21, 20)
-+#define VE_VP8_PPS_MODE_REF_LF_DELTA_UPDATE	BIT(19)
-+#define VE_VP8_PPS_MODE_REF_LF_DELTA_ENABLE	BIT(18)
-+#define VE_VP8_PPS_LOOP_FILTER_LEVEL(v)		SHIFT_AND_MASK_BITS(v, 17, 12)
-+#define VE_VP8_PPS_LOOP_FILTER_SIMPLE		BIT(11)
-+#define VE_VP8_PPS_SHARPNESS_LEVEL(v)		SHIFT_AND_MASK_BITS(v, 10, 8)
-+#define VE_VP8_PPS_LAST_LOOP_FILTER_SIMPLE	BIT(7)
-+#define VE_VP8_PPS_SEGMENTATION_ENABLE		BIT(6)
-+#define VE_VP8_PPS_MB_SEGMENT_ABS_DELTA		BIT(5)
-+#define VE_VP8_PPS_UPDATE_MB_SEGMENTATION_MAP	BIT(4)
-+#define VE_VP8_PPS_FULL_PIXEL			BIT(3)
-+#define VE_VP8_PPS_BILINEAR_MC_FILTER		BIT(2)
-+#define VE_VP8_PPS_FILTER_TYPE_SIMPLE		BIT(1)
-+#define VE_VP8_PPS_LPF_DISABLE			BIT(0)
-+
-+#define VE_VP8_QP_INDEX_DELTA		0x218
-+#define VE_VP8_QP_INDEX_DELTA_UVAC(v)		SHIFT_AND_MASK_BITS(v, 31, 27)
-+#define VE_VP8_QP_INDEX_DELTA_UVDC(v)		SHIFT_AND_MASK_BITS(v, 26, 22)
-+#define VE_VP8_QP_INDEX_DELTA_Y2AC(v)		SHIFT_AND_MASK_BITS(v, 21, 17)
-+#define VE_VP8_QP_INDEX_DELTA_Y2DC(v)		SHIFT_AND_MASK_BITS(v, 16, 12)
-+#define VE_VP8_QP_INDEX_DELTA_Y1DC(v)		SHIFT_AND_MASK_BITS(v, 11, 7)
-+#define VE_VP8_QP_INDEX_DELTA_BASE_QINDEX(v)	SHIFT_AND_MASK_BITS(v, 6, 0=
-)
-+
-+#define VE_VP8_PART_SIZE_OFFSET		0x21c
-+#define VE_VP8_ENTROPY_PROBS_ADDR	0x250
-+#define VE_VP8_FIRST_DATA_PART_LEN	0x254
-+
-+#define VE_VP8_FSIZE			0x258
-+#define VE_VP8_FSIZE_WIDTH(w) \
-+	SHIFT_AND_MASK_BITS(DIV_ROUND_UP(w, 16), 15, 8)
-+#define VE_VP8_FSIZE_HEIGHT(h) \
-+	SHIFT_AND_MASK_BITS(DIV_ROUND_UP(h, 16), 7, 0)
-+
-+#define VE_VP8_PICSIZE			0x25c
-+#define VE_VP8_PICSIZE_WIDTH(w)			SHIFT_AND_MASK_BITS(w, 27, 16)
-+#define VE_VP8_PICSIZE_HEIGHT(h)		SHIFT_AND_MASK_BITS(h, 11, 0)
-+
-+#define VE_VP8_REC_LUMA			0x2ac
-+#define VE_VP8_FWD_LUMA			0x2b0
-+#define VE_VP8_BWD_LUMA			0x2b4
-+#define VE_VP8_REC_CHROMA		0x2d0
-+#define VE_VP8_FWD_CHROMA		0x2d4
-+#define VE_VP8_BWD_CHROMA		0x2d8
-+#define VE_VP8_ALT_LUMA			0x2e8
-+#define VE_VP8_ALT_CHROMA		0x2ec
-+
-+#define VE_VP8_SEGMENT_FEAT_MB_LV0	0x2f0
-+#define VE_VP8_SEGMENT_FEAT_MB_LV1	0x2f4
-+
-+#define VE_VP8_SEGMENT3(v)			SHIFT_AND_MASK_BITS(v, 31, 24)
-+#define VE_VP8_SEGMENT2(v)			SHIFT_AND_MASK_BITS(v, 23, 16)
-+#define VE_VP8_SEGMENT1(v)			SHIFT_AND_MASK_BITS(v, 15, 8)
-+#define VE_VP8_SEGMENT0(v)			SHIFT_AND_MASK_BITS(v, 7, 0)
-+
-+#define VE_VP8_REF_LF_DELTA		0x2f8
-+#define VE_VP8_MODE_LF_DELTA		0x2fc
-+
-+#define VE_VP8_LF_DELTA3(v)			SHIFT_AND_MASK_BITS(v, 30, 24)
-+#define VE_VP8_LF_DELTA2(v)			SHIFT_AND_MASK_BITS(v, 22, 16)
-+#define VE_VP8_LF_DELTA1(v)			SHIFT_AND_MASK_BITS(v, 14, 8)
-+#define VE_VP8_LF_DELTA0(v)			SHIFT_AND_MASK_BITS(v, 6, 0)
-+
- #define VE_ISP_INPUT_SIZE		0xa00
- #define VE_ISP_INPUT_STRIDE		0xa04
- #define VE_ISP_CTRL			0xa08
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/=
-staging/media/sunxi/cedrus/cedrus_video.c
-index 16d82309e7b6..0212054484dd 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -48,6 +48,10 @@ static struct cedrus_format cedrus_formats[] =3D {
- 		.directions	=3D CEDRUS_DECODE_SRC,
- 		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
- 	},
-+	{
-+		.pixelformat	=3D V4L2_PIX_FMT_VP8_FRAME,
-+		.directions	=3D CEDRUS_DECODE_SRC,
-+	},
- 	{
- 		.pixelformat	=3D V4L2_PIX_FMT_SUNXI_TILED_NV12,
- 		.directions	=3D CEDRUS_DECODE_DST,
-@@ -110,6 +114,7 @@ void cedrus_prepare_format(struct v4l2_pix_format *pi=
-x_fmt)
- 	case V4L2_PIX_FMT_MPEG2_SLICE:
- 	case V4L2_PIX_FMT_H264_SLICE:
- 	case V4L2_PIX_FMT_HEVC_SLICE:
-+	case V4L2_PIX_FMT_VP8_FRAME:
- 		/* Zero bytes per line for encoded source. */
- 		bytesperline =3D 0;
- 		/* Choose some minimum size since this can't be 0 */
-@@ -448,6 +453,10 @@ static int cedrus_start_streaming(struct vb2_queue *=
-vq, unsigned int count)
- 		ctx->current_codec =3D CEDRUS_CODEC_H265;
- 		break;
-=20
-+	case V4L2_PIX_FMT_VP8_FRAME:
-+		ctx->current_codec =3D CEDRUS_CODEC_VP8;
-+		break;
-+
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/st=
-aging/media/sunxi/cedrus/cedrus_vp8.c
-new file mode 100644
-index 000000000000..93beffd07c35
---- /dev/null
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-@@ -0,0 +1,699 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Cedrus VPU driver
-+ *
-+ * Copyright (c) 2019 Jernej Skrabec <jernej.skrabec@siol.net>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/types.h>
-+
-+#include <media/videobuf2-dma-contig.h>
-+
-+#include "cedrus.h"
-+#include "cedrus_hw.h"
-+#include "cedrus_regs.h"
-+
-+#define CEDRUS_ENTROPY_PROBS_SIZE 0x2400
-+#define VP8_PROB_HALF 128
-+
-+static const u8 prob_table_init[] =3D {
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xB0, 0xF6, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xDF, 0xF1, 0xFC, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xF9, 0xFD, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xF4, 0xFC, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xEA, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xF6, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xEF, 0xFD, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFE, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xF8, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFB, 0xFF, 0xFE, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFD, 0xFE, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFB, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFE, 0xFD, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFA, 0xFF, 0xFE, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xD9, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xE1, 0xFC, 0xF1, 0xFD, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xEA, 0xFA, 0xF1, 0xFA, 0xFD, 0xFF, 0xFD, 0xFE,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xDF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEE, 0xFD, 0xFE, 0xFE,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xF8, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF9, 0xFE, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFD, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xF7, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFD, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFC, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFD, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0xFD, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xBA, 0xFB, 0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEA, 0xFB, 0xF4, 0xFE,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFB, 0xFB, 0xF3, 0xFD, 0xFE, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFD, 0xFE, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xEC, 0xFD, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFB, 0xFD, 0xFD, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFE, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFE, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xF8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFA, 0xFE, 0xFC, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF8, 0xFE, 0xF9, 0xFD,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFD, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF6, 0xFD, 0xFD, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFC, 0xFE, 0xFB, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0xFC, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xF8, 0xFE, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFD, 0xFF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFB, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xF5, 0xFB, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFD, 0xFD, 0xFE, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFB, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFC, 0xFD, 0xFE, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFC, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xF9, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFF, 0xFF,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x91, 0x9C, 0xA3, 0x80,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6E, 0x6F, 0x96, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x78, 0x5A, 0x4F, 0x85, 0x57, 0x55, 0x50, 0x6F,
-+	0x97, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x93, 0x88, 0x12, 0x00, 0x6A, 0x91, 0x01, 0x00, 0xB3, 0x79, 0x01, 0x00,
-+	0xDF, 0x01, 0x22, 0x00, 0xD0, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0x01, 0x01, 0x8F,
-+	0x0E, 0x12, 0x0E, 0x6B, 0x87, 0x40, 0x39, 0x44, 0x3C, 0x38, 0x80, 0x41,
-+	0x9F, 0x86, 0x80, 0x22, 0xEA, 0xBC, 0x80, 0x1C, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x84, 0x02, 0x04, 0x06, 0x80, 0x81, 0x82, 0x83, 0x80, 0x02, 0x04, 0x06,
-+	0x81, 0x82, 0x83, 0x84, 0x80, 0x02, 0x81, 0x04, 0x82, 0x83, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x08,
-+	0x04, 0x06, 0x80, 0x81, 0x82, 0x83, 0x0A, 0x0C, 0x84, 0x85, 0x86, 0x87,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x08, 0x04, 0x06, 0x80, 0x81,
-+	0x82, 0x83, 0x0A, 0x0C, 0x84, 0x85, 0x86, 0x87, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x83, 0x02, 0x82, 0x04, 0x80, 0x81, 0x00, 0x00, 0x80, 0x02, 0x81, 0x04,
-+	0x82, 0x06, 0x08, 0x0C, 0x83, 0x0A, 0x85, 0x86, 0x84, 0x0E, 0x87, 0x10,
-+	0x88, 0x89, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x8A, 0x02, 0x8B, 0x04, 0x8C, 0x8D, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x87, 0x02, 0x85, 0x04, 0x86, 0x06, 0x88, 0x89,
-+};
-+
-+static const u8 vp8_mv_update_prob[2][19] =3D {
-+	{ 237, 246, 253, 253, 254, 254, 254, 254, 254,
-+	  254, 254, 254, 254, 254, 250, 250, 252, 254, 254 },
-+	{ 231, 243, 245, 253, 254, 254, 254, 254, 254,
-+	  254, 254, 254, 254, 254, 251, 251, 254, 254, 254 }
-+};
-+
-+static uint8_t read_bits(struct cedrus_dev *dev, unsigned int bits_count=
-,
-+			 unsigned int probability)
-+{
-+	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
-+		     VE_H264_TRIGGER_TYPE_VP8_GET_BITS |
-+		     VE_H264_TRIGGER_TYPE_BIN_LENS(bits_count) |
-+		     VE_H264_TRIGGER_TYPE_PROBABILITY(probability));
-+
-+	while (cedrus_read(dev, VE_H264_STATUS) & VE_H264_STATUS_VLD_BUSY)
-+		;
-+
-+	return cedrus_read(dev, VE_H264_BASIC_BITS);
-+}
-+
-+static void get_delta_q(struct cedrus_dev *dev)
-+{
-+	if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+		read_bits(dev, 4, VP8_PROB_HALF);
-+		read_bits(dev, 1, VP8_PROB_HALF);
-+	}
-+}
-+
-+static void process_segmentation_info(struct cedrus_dev *dev)
-+{
-+	int update =3D read_bits(dev, 1, VP8_PROB_HALF);
-+	int i;
-+
-+	if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+		read_bits(dev, 1, VP8_PROB_HALF);
-+
-+		for (i =3D 0; i < 4; i++)
-+			if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+				read_bits(dev, 7, VP8_PROB_HALF);
-+				read_bits(dev, 1, VP8_PROB_HALF);
-+			}
-+
-+		for (i =3D 0; i < 4; i++)
-+			if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+				read_bits(dev, 6, VP8_PROB_HALF);
-+				read_bits(dev, 1, VP8_PROB_HALF);
-+			}
-+	}
-+
-+	if (update)
-+		for (i =3D 0; i < 3; i++)
-+			if (read_bits(dev, 1, VP8_PROB_HALF))
-+				read_bits(dev, 8, VP8_PROB_HALF);
-+}
-+
-+static void process_ref_lf_delta_info(struct cedrus_dev *dev)
-+{
-+	if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+		int i;
-+
-+		for (i =3D 0; i < 4; i++)
-+			if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+				read_bits(dev, 6, VP8_PROB_HALF);
-+				read_bits(dev, 1, VP8_PROB_HALF);
-+			}
-+
-+		for (i =3D 0; i < 4; i++)
-+			if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+				read_bits(dev, 6, VP8_PROB_HALF);
-+				read_bits(dev, 1, VP8_PROB_HALF);
-+			}
-+	}
-+}
-+
-+static void process_ref_frame_info(struct cedrus_dev *dev)
-+{
-+	u8 refresh_golden_frame =3D read_bits(dev, 1, VP8_PROB_HALF);
-+	u8 refresh_alt_ref_frame =3D read_bits(dev, 1, VP8_PROB_HALF);
-+
-+	if (!refresh_golden_frame)
-+		read_bits(dev, 2, VP8_PROB_HALF);
-+
-+	if (!refresh_alt_ref_frame)
-+		read_bits(dev, 2, VP8_PROB_HALF);
-+
-+	read_bits(dev, 1, VP8_PROB_HALF);
-+	read_bits(dev, 1, VP8_PROB_HALF);
-+}
-+
-+static void cedrus_read_header(struct cedrus_dev *dev,
-+			       const struct v4l2_ctrl_vp8_frame_header *slice)
-+{
-+	int i, j;
-+
-+	if (VP8_FRAME_IS_KEY_FRAME(slice)) {
-+		read_bits(dev, 1, VP8_PROB_HALF);
-+		read_bits(dev, 1, VP8_PROB_HALF);
-+	}
-+
-+	if (read_bits(dev, 1, VP8_PROB_HALF))
-+		process_segmentation_info(dev);
-+
-+	read_bits(dev, 1, VP8_PROB_HALF);
-+	read_bits(dev, 6, VP8_PROB_HALF);
-+	read_bits(dev, 3, VP8_PROB_HALF);
-+
-+	if (read_bits(dev, 1, VP8_PROB_HALF))
-+		process_ref_lf_delta_info(dev);
-+
-+	read_bits(dev, 2, VP8_PROB_HALF);
-+	read_bits(dev, 7, VP8_PROB_HALF);
-+
-+	get_delta_q(dev);
-+	get_delta_q(dev);
-+	get_delta_q(dev);
-+	get_delta_q(dev);
-+	get_delta_q(dev);
-+
-+	if (!VP8_FRAME_IS_KEY_FRAME(slice))
-+		process_ref_frame_info(dev);
-+
-+	read_bits(dev, 1, VP8_PROB_HALF);
-+
-+	if (!VP8_FRAME_IS_KEY_FRAME(slice))
-+		read_bits(dev, 1, VP8_PROB_HALF);
-+
-+	cedrus_write(dev, VE_H264_TRIGGER_TYPE, VE_H264_TRIGGER_TYPE_VP8_UPDATE=
-_COEF);
-+	while (cedrus_read(dev, VE_H264_STATUS) & VE_H264_STATUS_VP8_UPPROB_BUS=
-Y)
-+		;
-+
-+	cedrus_write(dev, VE_H264_STATUS, VE_H264_CTRL_INT_MASK);
-+
-+	if (read_bits(dev, 1, VP8_PROB_HALF))
-+		read_bits(dev, 8, VP8_PROB_HALF);
-+
-+	if (!VP8_FRAME_IS_KEY_FRAME(slice)) {
-+		read_bits(dev, 8, VP8_PROB_HALF);
-+		read_bits(dev, 8, VP8_PROB_HALF);
-+		read_bits(dev, 8, VP8_PROB_HALF);
-+
-+		if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+			read_bits(dev, 8, VP8_PROB_HALF);
-+			read_bits(dev, 8, VP8_PROB_HALF);
-+			read_bits(dev, 8, VP8_PROB_HALF);
-+			read_bits(dev, 8, VP8_PROB_HALF);
-+		}
-+
-+		if (read_bits(dev, 1, VP8_PROB_HALF)) {
-+			read_bits(dev, 8, VP8_PROB_HALF);
-+			read_bits(dev, 8, VP8_PROB_HALF);
-+			read_bits(dev, 8, VP8_PROB_HALF);
-+		}
-+
-+		for (i =3D 0; i < 2; i++)
-+			for (j =3D 0; j < 19; j++)
-+				if (read_bits(dev, 1, vp8_mv_update_prob[i][j]))
-+					read_bits(dev, 7, VP8_PROB_HALF);
-+	}
-+}
-+
-+static void cedrus_vp8_update_probs(const struct v4l2_ctrl_vp8_frame_hea=
-der *slice,
-+				    u8 *prob_table)
-+{
-+	int i, j, k;
-+
-+	memcpy(&prob_table[0x1008], slice->entropy_header.y_mode_probs, 4);
-+	memcpy(&prob_table[0x1010], slice->entropy_header.uv_mode_probs, 3);
-+
-+	memcpy(&prob_table[0x1018], slice->segment_header.segment_probs, 3);
-+
-+	prob_table[0x101c] =3D slice->prob_skip_false;
-+	prob_table[0x101d] =3D slice->prob_intra;
-+	prob_table[0x101e] =3D slice->prob_last;
-+	prob_table[0x101f] =3D slice->prob_gf;
-+
-+	memcpy(&prob_table[0x1020], slice->entropy_header.mv_probs[0], 19);
-+	memcpy(&prob_table[0x1040], slice->entropy_header.mv_probs[1], 19);
-+
-+	for (i =3D 0; i < 4; ++i)
-+		for (j =3D 0; j < 8; ++j)
-+			for (k =3D 0; k < 3; ++k)
-+				memcpy(&prob_table[i * 512 + j * 64 + k * 16],
-+				       slice->entropy_header.coeff_probs[i][j][k], 11);
-+}
-+
-+static enum cedrus_irq_status
-+cedrus_vp8_irq_status(struct cedrus_ctx *ctx)
-+{
-+	struct cedrus_dev *dev =3D ctx->dev;
-+	u32 reg =3D cedrus_read(dev, VE_H264_STATUS);
-+
-+	if (reg & (VE_H264_STATUS_DECODE_ERR_INT |
-+		   VE_H264_STATUS_VLD_DATA_REQ_INT))
-+		return CEDRUS_IRQ_ERROR;
-+
-+	if (reg & VE_H264_CTRL_SLICE_DECODE_INT)
-+		return CEDRUS_IRQ_OK;
-+
-+	return CEDRUS_IRQ_NONE;
-+}
-+
-+static void cedrus_vp8_irq_clear(struct cedrus_ctx *ctx)
-+{
-+	struct cedrus_dev *dev =3D ctx->dev;
-+
-+	cedrus_write(dev, VE_H264_STATUS,
-+		     VE_H264_STATUS_INT_MASK);
-+}
-+
-+static void cedrus_vp8_irq_disable(struct cedrus_ctx *ctx)
-+{
-+	struct cedrus_dev *dev =3D ctx->dev;
-+	u32 reg =3D cedrus_read(dev, VE_H264_CTRL);
-+
-+	cedrus_write(dev, VE_H264_CTRL,
-+		     reg & ~VE_H264_CTRL_INT_MASK);
-+}
-+
-+static void cedrus_vp8_setup(struct cedrus_ctx *ctx,
-+			     struct cedrus_run *run)
-+{
-+	const struct v4l2_ctrl_vp8_frame_header *slice =3D run->vp8.slice_param=
-s;
-+	struct vb2_queue *cap_q =3D &ctx->fh.m2m_ctx->cap_q_ctx.q;
-+	struct vb2_buffer *src_buf =3D &run->src->vb2_buf;
-+	struct cedrus_dev *dev =3D ctx->dev;
-+	dma_addr_t luma_addr, chroma_addr;
-+	dma_addr_t src_buf_addr;
-+	int header_size;
-+	int qindex;
-+	u32 reg;
-+
-+	cedrus_engine_enable(ctx, CEDRUS_CODEC_VP8);
-+
-+	cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8);
-+
-+	cedrus_vp8_update_probs(slice, ctx->codec.vp8.entropy_probs_buf);
-+
-+	reg =3D slice->first_part_size * 8;
-+	cedrus_write(dev, VE_VP8_FIRST_DATA_PART_LEN, reg);
-+
-+	header_size =3D VP8_FRAME_IS_KEY_FRAME(slice) ? 10 : 3;
-+
-+	reg =3D slice->first_part_size + header_size;
-+	cedrus_write(dev, VE_VP8_PART_SIZE_OFFSET, reg);
-+
-+	reg =3D vb2_plane_size(src_buf, 0) * 8;
-+	cedrus_write(dev, VE_H264_VLD_LEN, reg);
-+
-+	/*
-+	 * FIXME: There is a problem if frame header is skipped (adding
-+	 * first_part_header_bits to offset). It seems that functions
-+	 * for parsing bitstreams change internal state of VPU in some
-+	 * way that can't be otherwise set. Maybe this can be bypassed
-+	 * by somehow fixing probability table buffer?
-+	 */
-+	reg =3D header_size * 8;
-+	cedrus_write(dev, VE_H264_VLD_OFFSET, reg);
-+
-+	src_buf_addr =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
-+	cedrus_write(dev, VE_H264_VLD_END,
-+		     src_buf_addr + vb2_get_plane_payload(src_buf, 0));
-+	cedrus_write(dev, VE_H264_VLD_ADDR,
-+		     VE_H264_VLD_ADDR_VAL(src_buf_addr) |
-+		     VE_H264_VLD_ADDR_FIRST | VE_H264_VLD_ADDR_VALID |
-+		     VE_H264_VLD_ADDR_LAST);
-+
-+	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
-+		     VE_H264_TRIGGER_TYPE_INIT_SWDEC);
-+
-+	cedrus_write(dev, VE_VP8_ENTROPY_PROBS_ADDR,
-+		     ctx->codec.vp8.entropy_probs_buf_dma);
-+
-+	reg =3D 0;
-+	switch (slice->version) {
-+	case 1:
-+		reg |=3D VE_VP8_PPS_FILTER_TYPE_SIMPLE;
-+		reg |=3D VE_VP8_PPS_BILINEAR_MC_FILTER;
-+		break;
-+	case 2:
-+		reg |=3D VE_VP8_PPS_LPF_DISABLE;
-+		reg |=3D VE_VP8_PPS_BILINEAR_MC_FILTER;
-+		break;
-+	case 3:
-+		reg |=3D VE_VP8_PPS_LPF_DISABLE;
-+		reg |=3D VE_VP8_PPS_FULL_PIXEL;
-+		break;
-+	}
-+	if (slice->segment_header.flags & V4L2_VP8_SEGMENT_HEADER_FLAG_UPDATE_M=
-AP)
-+		reg |=3D VE_VP8_PPS_UPDATE_MB_SEGMENTATION_MAP;
-+	if (!(slice->segment_header.flags & V4L2_VP8_SEGMENT_HEADER_FLAG_DELTA_=
-VALUE_MODE))
-+		reg |=3D VE_VP8_PPS_MB_SEGMENT_ABS_DELTA;
-+	if (slice->segment_header.flags & V4L2_VP8_SEGMENT_HEADER_FLAG_ENABLED)
-+		reg |=3D VE_VP8_PPS_SEGMENTATION_ENABLE;
-+	if (ctx->codec.vp8.last_filter_type)
-+		reg |=3D VE_VP8_PPS_LAST_LOOP_FILTER_SIMPLE;
-+	reg |=3D VE_VP8_PPS_SHARPNESS_LEVEL(slice->lf_header.sharpness_level);
-+	if (slice->lf_header.flags & V4L2_VP8_LF_FILTER_TYPE_SIMPLE)
-+		reg |=3D VE_VP8_PPS_LOOP_FILTER_SIMPLE;
-+	reg |=3D VE_VP8_PPS_LOOP_FILTER_LEVEL(slice->lf_header.level);
-+	if (slice->lf_header.flags & V4L2_VP8_LF_HEADER_ADJ_ENABLE)
-+		reg |=3D VE_VP8_PPS_MODE_REF_LF_DELTA_ENABLE;
-+	if (slice->lf_header.flags & V4L2_VP8_LF_HEADER_DELTA_UPDATE)
-+		reg |=3D VE_VP8_PPS_MODE_REF_LF_DELTA_UPDATE;
-+	reg |=3D VE_VP8_PPS_TOKEN_PARTITION(ilog2(slice->num_dct_parts));
-+	if (slice->flags & V4L2_VP8_FRAME_HEADER_FLAG_MB_NO_SKIP_COEFF)
-+		reg |=3D VE_VP8_PPS_MB_NO_COEFF_SKIP;
-+	reg |=3D VE_VP8_PPS_RELOAD_ENTROPY_PROBS;
-+	if (slice->flags & V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_GOLDEN)
-+		reg |=3D VE_VP8_PPS_GOLDEN_SIGN_BIAS;
-+	if (slice->flags & V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_ALT)
-+		reg |=3D VE_VP8_PPS_ALTREF_SIGN_BIAS;
-+	if (ctx->codec.vp8.last_frame_p_type)
-+		reg |=3D VE_VP8_PPS_LAST_PIC_TYPE_P_FRAME;
-+	reg |=3D VE_VP8_PPS_LAST_SHARPNESS_LEVEL(ctx->codec.vp8.last_sharpness_=
-level);
-+	if (!(slice->flags & V4L2_VP8_FRAME_HEADER_FLAG_KEY_FRAME))
-+		reg |=3D VE_VP8_PPS_PIC_TYPE_P_FRAME;
-+	cedrus_write(dev, VE_VP8_PPS, reg);
-+
-+	cedrus_read_header(dev, slice);
-+
-+	/* reset registers changed by HW */
-+	cedrus_write(dev, VE_H264_CUR_MB_NUM, 0);
-+	cedrus_write(dev, VE_H264_MB_ADDR, 0);
-+	cedrus_write(dev, VE_H264_ERROR_CASE, 0);
-+
-+	reg =3D 0;
-+	reg |=3D VE_VP8_QP_INDEX_DELTA_UVAC(slice->quant_header.uv_ac_delta);
-+	reg |=3D VE_VP8_QP_INDEX_DELTA_UVDC(slice->quant_header.uv_dc_delta);
-+	reg |=3D VE_VP8_QP_INDEX_DELTA_Y2AC(slice->quant_header.y2_ac_delta);
-+	reg |=3D VE_VP8_QP_INDEX_DELTA_Y2DC(slice->quant_header.y2_dc_delta);
-+	reg |=3D VE_VP8_QP_INDEX_DELTA_Y1DC(slice->quant_header.y_dc_delta);
-+	reg |=3D VE_VP8_QP_INDEX_DELTA_BASE_QINDEX(slice->quant_header.y_ac_qi)=
-;
-+	cedrus_write(dev, VE_VP8_QP_INDEX_DELTA, reg);
-+
-+	reg =3D 0;
-+	reg |=3D VE_VP8_FSIZE_WIDTH(slice->width);
-+	reg |=3D VE_VP8_FSIZE_HEIGHT(slice->height);
-+	cedrus_write(dev, VE_VP8_FSIZE, reg);
-+
-+	reg =3D 0;
-+	reg |=3D VE_VP8_PICSIZE_WIDTH(slice->width);
-+	reg |=3D VE_VP8_PICSIZE_HEIGHT(slice->height);
-+	cedrus_write(dev, VE_VP8_PICSIZE, reg);
-+
-+	reg =3D 0;
-+	reg |=3D VE_VP8_SEGMENT3(slice->segment_header.quant_update[3]);
-+	reg |=3D VE_VP8_SEGMENT2(slice->segment_header.quant_update[2]);
-+	reg |=3D VE_VP8_SEGMENT1(slice->segment_header.quant_update[1]);
-+	reg |=3D VE_VP8_SEGMENT0(slice->segment_header.quant_update[0]);
-+	cedrus_write(dev, VE_VP8_SEGMENT_FEAT_MB_LV0, reg);
-+
-+	reg =3D 0;
-+	reg |=3D VE_VP8_SEGMENT3(slice->segment_header.lf_update[3]);
-+	reg |=3D VE_VP8_SEGMENT2(slice->segment_header.lf_update[2]);
-+	reg |=3D VE_VP8_SEGMENT1(slice->segment_header.lf_update[1]);
-+	reg |=3D VE_VP8_SEGMENT0(slice->segment_header.lf_update[0]);
-+	cedrus_write(dev, VE_VP8_SEGMENT_FEAT_MB_LV1, reg);
-+
-+	reg =3D 0;
-+	reg |=3D VE_VP8_LF_DELTA3(slice->lf_header.ref_frm_delta[3]);
-+	reg |=3D VE_VP8_LF_DELTA2(slice->lf_header.ref_frm_delta[2]);
-+	reg |=3D VE_VP8_LF_DELTA1(slice->lf_header.ref_frm_delta[1]);
-+	reg |=3D VE_VP8_LF_DELTA0(slice->lf_header.ref_frm_delta[0]);
-+	cedrus_write(dev, VE_VP8_REF_LF_DELTA, reg);
-+
-+	reg =3D 0;
-+	reg |=3D VE_VP8_LF_DELTA3(slice->lf_header.mb_mode_delta[3]);
-+	reg |=3D VE_VP8_LF_DELTA2(slice->lf_header.mb_mode_delta[2]);
-+	reg |=3D VE_VP8_LF_DELTA1(slice->lf_header.mb_mode_delta[1]);
-+	reg |=3D VE_VP8_LF_DELTA0(slice->lf_header.mb_mode_delta[0]);
-+	cedrus_write(dev, VE_VP8_MODE_LF_DELTA, reg);
-+
-+	luma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.index, 0);
-+	chroma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.index, 1);
-+	cedrus_write(dev, VE_VP8_REC_LUMA, luma_addr);
-+	cedrus_write(dev, VE_VP8_REC_CHROMA, chroma_addr);
-+
-+	qindex =3D vb2_find_timestamp(cap_q, slice->last_frame_ts, 0);
-+	if (qindex >=3D 0) {
-+		luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
-+		chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
-+		cedrus_write(dev, VE_VP8_FWD_LUMA, luma_addr);
-+		cedrus_write(dev, VE_VP8_FWD_CHROMA, chroma_addr);
-+	} else {
-+		cedrus_write(dev, VE_VP8_FWD_LUMA, 0);
-+		cedrus_write(dev, VE_VP8_FWD_CHROMA, 0);
-+	}
-+
-+	qindex =3D vb2_find_timestamp(cap_q, slice->golden_frame_ts, 0);
-+	if (qindex >=3D 0) {
-+		luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
-+		chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
-+		cedrus_write(dev, VE_VP8_BWD_LUMA, luma_addr);
-+		cedrus_write(dev, VE_VP8_BWD_CHROMA, chroma_addr);
-+	} else {
-+		cedrus_write(dev, VE_VP8_BWD_LUMA, 0);
-+		cedrus_write(dev, VE_VP8_BWD_CHROMA, 0);
-+	}
-+
-+	qindex =3D vb2_find_timestamp(cap_q, slice->alt_frame_ts, 0);
-+	if (qindex >=3D 0) {
-+		luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
-+		chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
-+		cedrus_write(dev, VE_VP8_ALT_LUMA, luma_addr);
-+		cedrus_write(dev, VE_VP8_ALT_CHROMA, chroma_addr);
-+	} else {
-+		cedrus_write(dev, VE_VP8_ALT_LUMA, 0);
-+		cedrus_write(dev, VE_VP8_ALT_CHROMA, 0);
-+	}
-+
-+	cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8 |
-+		     VE_H264_CTRL_DECODE_ERR_INT |
-+		     VE_H264_CTRL_SLICE_DECODE_INT);
-+
-+	if (slice->lf_header.level) {
-+		ctx->codec.vp8.last_filter_type =3D
-+			!!(slice->lf_header.flags & V4L2_VP8_LF_FILTER_TYPE_SIMPLE);
-+		ctx->codec.vp8.last_frame_p_type =3D
-+			!VP8_FRAME_IS_KEY_FRAME(slice);
-+		ctx->codec.vp8.last_sharpness_level =3D
-+			slice->lf_header.sharpness_level;
-+	}
-+}
-+
-+static int cedrus_vp8_start(struct cedrus_ctx *ctx)
-+{
-+	struct cedrus_dev *dev =3D ctx->dev;
-+
-+	ctx->codec.vp8.entropy_probs_buf =3D
-+		dma_alloc_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
-+				   &ctx->codec.vp8.entropy_probs_buf_dma,
-+				   GFP_KERNEL);
-+	if (!ctx->codec.vp8.entropy_probs_buf)
-+		return -ENOMEM;
-+
-+	memcpy(&ctx->codec.vp8.entropy_probs_buf[2048],
-+	       prob_table_init, sizeof(prob_table_init));
-+
-+	return 0;
-+}
-+
-+static void cedrus_vp8_stop(struct cedrus_ctx *ctx)
-+{
-+	struct cedrus_dev *dev =3D ctx->dev;
-+
-+	cedrus_engine_disable(dev);
-+
-+	dma_free_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
-+			  ctx->codec.vp8.entropy_probs_buf,
-+			  ctx->codec.vp8.entropy_probs_buf_dma);
-+}
-+
-+static void cedrus_vp8_trigger(struct cedrus_ctx *ctx)
-+{
-+	struct cedrus_dev *dev =3D ctx->dev;
-+
-+	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
-+		     VE_H264_TRIGGER_TYPE_VP8_SLICE_DECODE);
-+}
-+
-+struct cedrus_dec_ops cedrus_dec_ops_vp8 =3D {
-+	.irq_clear	=3D cedrus_vp8_irq_clear,
-+	.irq_disable	=3D cedrus_vp8_irq_disable,
-+	.irq_status	=3D cedrus_vp8_irq_status,
-+	.setup		=3D cedrus_vp8_setup,
-+	.start		=3D cedrus_vp8_start,
-+	.stop		=3D cedrus_vp8_stop,
-+	.trigger	=3D cedrus_vp8_trigger,
-+};
---=20
-2.27.0
-
-
+> +int mtk_vcodec_fw_load_firmware(struct mtk_vcodec_fw *fw)
+> +{
+> +       return fw->ops->load_firmware(fw);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_fw_load_firmware);
+> +
+> +unsigned int mtk_vcodec_fw_get_vdec_capa(struct mtk_vcodec_fw *fw)
+> +{
+> +       return fw->ops->get_vdec_capa(fw);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_fw_get_vdec_capa);
+> +
+> +unsigned int mtk_vcodec_fw_get_venc_capa(struct mtk_vcodec_fw *fw)
+> +{
+> +       return fw->ops->get_venc_capa(fw);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_fw_get_venc_capa);
+> +
+> +void *mtk_vcodec_fw_map_dm_addr(struct mtk_vcodec_fw *fw, u32 mem_addr)
+> +{
+> +       return fw->ops->map_dm_addr(fw, mem_addr);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_fw_map_dm_addr);
+> +
+> +int mtk_vcodec_fw_ipi_register(struct mtk_vcodec_fw *fw, int id,
+> +       mtk_vcodec_ipi_handler handler, const char *name, void *priv)
+> +{
+> +       return fw->ops->ipi_register(fw, id, handler, name, priv);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_fw_ipi_register);
+> +
+> +int mtk_vcodec_fw_ipi_send(struct mtk_vcodec_fw *fw,
+> +       int id, void *buf, unsigned int len, unsigned int wait)
+> +{
+> +       return fw->ops->ipi_send(fw, id, buf, len, wait);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_fw_ipi_send);
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
+> new file mode 100644
+> index 000000000000..ff25b0c19f74
+> --- /dev/null
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
+> @@ -0,0 +1,36 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef _MTK_VCODEC_FW_H_
+> +#define _MTK_VCODEC_FW_H_
+> +
+> +#include <linux/remoteproc.h>
+> +
+> +#include "../mtk-vpu/mtk_vpu.h"
+> +
+> +struct mtk_vcodec_dev;
+> +
+> +enum mtk_vcodec_fw_type {
+> +       VPU,
+> +};
+> +
+> +struct mtk_vcodec_fw;
+> +
+> +typedef void (*mtk_vcodec_ipi_handler) (void *data,
+> +       unsigned int len, void *priv);
+> +
+> +struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
+> +                                          enum mtk_vcodec_fw_type type,
+> +                                          enum rst_id rst_id);
+> +void mtk_vcodec_fw_release(struct mtk_vcodec_fw *fw);
+> +
+> +int mtk_vcodec_fw_load_firmware(struct mtk_vcodec_fw *fw);
+> +unsigned int mtk_vcodec_fw_get_vdec_capa(struct mtk_vcodec_fw *fw);
+> +unsigned int mtk_vcodec_fw_get_venc_capa(struct mtk_vcodec_fw *fw);
+> +void *mtk_vcodec_fw_map_dm_addr(struct mtk_vcodec_fw *fw, u32 mem_addr);
+> +int mtk_vcodec_fw_ipi_register(struct mtk_vcodec_fw *fw, int id,
+> +       mtk_vcodec_ipi_handler handler, const char *name, void *priv);
+> +int mtk_vcodec_fw_ipi_send(struct mtk_vcodec_fw *fw,
+> +       int id, void *buf, unsigned int len, unsigned int wait);
+> +
+> +#endif /* _MTK_VCODEC_FW_H_ */
+> +
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c
+> index d48f542db1a9..ac5973b6735f 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c
+> @@ -9,7 +9,6 @@
+>
+>  #include "mtk_vcodec_drv.h"
+>  #include "mtk_vcodec_util.h"
+> -#include "mtk_vpu.h"
+>
+>  /* For encoder, this will enable logs in venc/*/
+>  bool mtk_vcodec_dbg;
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c
+> index 50048c170b99..40d6e6c5ac7a 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c
+> @@ -281,7 +281,6 @@ static int vdec_h264_init(struct mtk_vcodec_ctx *ctx)
+>         inst->ctx = ctx;
+>
+>         inst->vpu.id = IPI_VDEC_H264;
+> -       inst->vpu.dev = ctx->dev->vpu_plat_dev;
+>         inst->vpu.ctx = ctx;
+>
+>         err = vpu_dec_init(&inst->vpu);
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c
+> index 6011fdd60a22..e5393f841080 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c
+> @@ -400,7 +400,6 @@ static int vdec_vp8_init(struct mtk_vcodec_ctx *ctx)
+>         inst->ctx = ctx;
+>
+>         inst->vpu.id = IPI_VDEC_VP8;
+> -       inst->vpu.dev = ctx->dev->vpu_plat_dev;
+>         inst->vpu.ctx = ctx;
+>
+>         err = vpu_dec_init(&inst->vpu);
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
+> index 257a5b5ad212..8e099b859f21 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
+> @@ -795,7 +795,6 @@ static int vdec_vp9_init(struct mtk_vcodec_ctx *ctx)
+>         inst->ctx = ctx;
+>
+>         inst->vpu.id = IPI_VDEC_VP9;
+> -       inst->vpu.dev = ctx->dev->vpu_plat_dev;
+>         inst->vpu.ctx = ctx;
+>
+>         if (vpu_dec_init(&inst->vpu)) {
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_drv_base.h b/drivers/media/platform/mtk-vcodec/vdec_drv_base.h
+> index ceb4db4cb3be..e913f963b7db 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_drv_base.h
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_drv_base.h
+> @@ -7,8 +7,6 @@
+>  #ifndef _VDEC_DRV_BASE_
+>  #define _VDEC_DRV_BASE_
+>
+> -#include "mtk_vcodec_drv.h"
+> -
+>  #include "vdec_drv_if.h"
+>
+>  struct vdec_common_if {
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_drv_if.c b/drivers/media/platform/mtk-vcodec/vdec_drv_if.c
+> index 2e43dd4486e0..b18743b906ea 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_drv_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_drv_if.c
+> @@ -13,7 +13,6 @@
+>  #include "mtk_vcodec_dec.h"
+>  #include "vdec_drv_base.h"
+>  #include "mtk_vcodec_dec_pm.h"
+> -#include "mtk_vpu.h"
+>
+>  int vdec_if_init(struct mtk_vcodec_ctx *ctx, unsigned int fourcc)
+>  {
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+> index 948a12fd9d46..58b0e6fa8fd2 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+> @@ -8,6 +8,7 @@
+>  #include "mtk_vcodec_util.h"
+>  #include "vdec_ipi_msg.h"
+>  #include "vdec_vpu_if.h"
+> +#include "mtk_vcodec_fw.h"
+>
+>  static void handle_init_ack_msg(const struct vdec_vpu_ipi_init_ack *msg)
+>  {
+> @@ -18,7 +19,8 @@ static void handle_init_ack_msg(const struct vdec_vpu_ipi_init_ack *msg)
+>
+>         /* mapping VPU address to kernel virtual address */
+>         /* the content in vsi is initialized to 0 in VPU */
+> -       vpu->vsi = vpu_mapping_dm_addr(vpu->dev, msg->vpu_inst_addr);
+> +       vpu->vsi = mtk_vcodec_fw_map_dm_addr(vpu->ctx->dev->fw_handler,
+> +                                            msg->vpu_inst_addr);
+>         vpu->inst_addr = msg->vpu_inst_addr;
+>
+>         mtk_vcodec_debug(vpu, "- vpu_inst_addr = 0x%x", vpu->inst_addr);
+> @@ -34,7 +36,7 @@ static void handle_init_ack_msg(const struct vdec_vpu_ipi_init_ack *msg)
+>   * This function runs in interrupt context and it means there's an IPI MSG
+>   * from VPU.
+>   */
+> -static void vpu_dec_ipi_handler(const void *data, unsigned int len, void *priv)
+> +static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
+>  {
+>         const struct vdec_vpu_ipi_ack *msg = data;
+>         struct vdec_vpu_inst *vpu = (struct vdec_vpu_inst *)
+> @@ -74,7 +76,8 @@ static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int len)
+>         vpu->failure = 0;
+>         vpu->signaled = 0;
+>
+> -       err = vpu_ipi_send(vpu->dev, vpu->id, msg, len);
+> +       err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, vpu->id, msg,
+> +                                    len, 2000);
+>         if (err) {
+>                 mtk_vcodec_err(vpu, "send fail vpu_id=%d msg_id=%X status=%d",
+>                                vpu->id, *(uint32_t *)msg, err);
+> @@ -110,7 +113,8 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
+>         init_waitqueue_head(&vpu->wq);
+>         vpu->handler = vpu_dec_ipi_handler;
+>
+> -       err = vpu_ipi_register(vpu->dev, vpu->id, vpu->handler, "vdec", NULL);
+> +       err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
+> +                                        vpu->handler, "vdec", NULL);
+>         if (err != 0) {
+>                 mtk_vcodec_err(vpu, "vpu_ipi_register fail status=%d", err);
+>                 return err;
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> index f779b0676fbd..85224eb7e34b 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> @@ -7,11 +7,13 @@
+>  #ifndef _VDEC_VPU_IF_H_
+>  #define _VDEC_VPU_IF_H_
+>
+> -#include "mtk_vpu.h"
+> +#include "mtk_vcodec_fw.h"
+> +
+> +struct mtk_vcodec_ctx;
+>
+>  /**
+>   * struct vdec_vpu_inst - VPU instance for video codec
+> - * @ipi_id      : ipi id for each decoder
+> + * @id          : ipi msg id for each decoder
+>   * @vsi         : driver structure allocated by VPU side and shared to AP side
+>   *                for control and info share
+>   * @failure     : VPU execution result status, 0: success, others: fail
+> @@ -23,15 +25,14 @@
+>   * @handler     : ipi handler for each decoder
+>   */
+>  struct vdec_vpu_inst {
+> -       enum ipi_id id;
+> +       int id;
+>         void *vsi;
+>         int32_t failure;
+>         uint32_t inst_addr;
+>         unsigned int signaled;
+>         struct mtk_vcodec_ctx *ctx;
+> -       struct platform_device *dev;
+>         wait_queue_head_t wq;
+> -       ipi_handler_t handler;
+> +       mtk_vcodec_ipi_handler handler;
+>  };
+>
+>  /**
+> diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> index b9624f8df0e9..7a00f050ec36 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> @@ -18,7 +18,6 @@
+>  #include "../venc_drv_base.h"
+>  #include "../venc_ipi_msg.h"
+>  #include "../venc_vpu_if.h"
+> -#include "mtk_vpu.h"
+>
+>  static const char h264_filler_marker[] = {0x0, 0x0, 0x0, 0x1, 0xc};
+>
+> @@ -257,8 +256,11 @@ static int h264_enc_alloc_work_buf(struct venc_h264_inst *inst)
+>                  */
+>                 inst->work_bufs[i].size = wb[i].size;
+>                 if (i == VENC_H264_VPU_WORK_BUF_SKIP_FRAME) {
+> -                       inst->work_bufs[i].va = vpu_mapping_dm_addr(
+> -                               inst->vpu_inst.dev, wb[i].vpua);
+> +                       struct mtk_vcodec_fw *handler;
+> +
+> +                       handler = inst->vpu_inst.ctx->dev->fw_handler;
+> +                       inst->work_bufs[i].va =
+> +                               mtk_vcodec_fw_map_dm_addr(handler, wb[i].vpua);
+>                         inst->work_bufs[i].dma_addr = 0;
+>                 } else {
+>                         ret = mtk_vcodec_mem_alloc(inst->ctx,
+> @@ -275,10 +277,12 @@ static int h264_enc_alloc_work_buf(struct venc_h264_inst *inst)
+>                          * setting in VPU side.
+>                          */
+>                         if (i == VENC_H264_VPU_WORK_BUF_RC_CODE) {
+> +                               struct mtk_vcodec_fw *handler;
+>                                 void *tmp_va;
+>
+> -                               tmp_va = vpu_mapping_dm_addr(inst->vpu_inst.dev,
+> -                                                            wb[i].vpua);
+> +                               handler = inst->vpu_inst.ctx->dev->fw_handler;
+> +                               tmp_va = mtk_vcodec_fw_map_dm_addr(handler,
+> +                                                                  wb[i].vpua);
+>                                 memcpy(inst->work_bufs[i].va, tmp_va,
+>                                        wb[i].size);
+>                         }
+> @@ -469,7 +473,6 @@ static int h264_enc_init(struct mtk_vcodec_ctx *ctx)
+>
+>         inst->ctx = ctx;
+>         inst->vpu_inst.ctx = ctx;
+> -       inst->vpu_inst.dev = ctx->dev->vpu_plat_dev;
+>         inst->vpu_inst.id = IPI_VENC_H264;
+>         inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx, VENC_SYS);
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> index 8d36f0362efe..6426af514526 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> @@ -17,7 +17,6 @@
+>  #include "../venc_drv_base.h"
+>  #include "../venc_ipi_msg.h"
+>  #include "../venc_vpu_if.h"
+> -#include "mtk_vpu.h"
+>
+>  #define VENC_BITSTREAM_FRAME_SIZE 0x0098
+>  #define VENC_BITSTREAM_HEADER_LEN 0x00e8
+> @@ -190,10 +189,12 @@ static int vp8_enc_alloc_work_buf(struct venc_vp8_inst *inst)
+>                 if (i == VENC_VP8_VPU_WORK_BUF_RC_CODE ||
+>                     i == VENC_VP8_VPU_WORK_BUF_RC_CODE2 ||
+>                     i == VENC_VP8_VPU_WORK_BUF_RC_CODE3) {
+> +                       struct mtk_vcodec_fw *handler;
+>                         void *tmp_va;
+>
+> -                       tmp_va = vpu_mapping_dm_addr(inst->vpu_inst.dev,
+> -                                                    wb[i].vpua);
+> +                       handler = inst->vpu_inst.ctx->dev->fw_handler;
+> +                       tmp_va = mtk_vcodec_fw_map_dm_addr(handler,
+> +                                                          wb[i].vpua);
+>                         memcpy(inst->work_bufs[i].va, tmp_va, wb[i].size);
+>                 }
+>                 wb[i].iova = inst->work_bufs[i].dma_addr;
+> @@ -334,7 +335,6 @@ static int vp8_enc_init(struct mtk_vcodec_ctx *ctx)
+>
+>         inst->ctx = ctx;
+>         inst->vpu_inst.ctx = ctx;
+> -       inst->vpu_inst.dev = ctx->dev->vpu_plat_dev;
+>         inst->vpu_inst.id = IPI_VENC_VP8;
+>         inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx, VENC_LT_SYS);
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/venc_drv_if.c b/drivers/media/platform/mtk-vcodec/venc_drv_if.c
+> index c6bb82ac2dcd..ce0bce811615 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc_drv_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/venc_drv_if.c
+> @@ -15,7 +15,6 @@
+>
+>  #include "mtk_vcodec_enc.h"
+>  #include "mtk_vcodec_enc_pm.h"
+> -#include "mtk_vpu.h"
+>
+>  int venc_if_init(struct mtk_vcodec_ctx *ctx, unsigned int fourcc)
+>  {
+> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> index 9540709c1905..53854127814b 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> @@ -4,7 +4,7 @@
+>   * Author: PoChun Lin <pochun.lin@mediatek.com>
+>   */
+>
+> -#include "mtk_vpu.h"
+> +#include "mtk_vcodec_fw.h"
+>  #include "venc_ipi_msg.h"
+>  #include "venc_vpu_if.h"
+>
+> @@ -13,7 +13,8 @@ static void handle_enc_init_msg(struct venc_vpu_inst *vpu, const void *data)
+>         const struct venc_vpu_ipi_msg_init *msg = data;
+>
+>         vpu->inst_addr = msg->vpu_inst_addr;
+> -       vpu->vsi = vpu_mapping_dm_addr(vpu->dev, msg->vpu_inst_addr);
+> +       vpu->vsi = mtk_vcodec_fw_map_dm_addr(vpu->ctx->dev->fw_handler,
+> +                                            msg->vpu_inst_addr);
+>  }
+>
+>  static void handle_enc_encode_msg(struct venc_vpu_inst *vpu, const void *data)
+> @@ -25,7 +26,7 @@ static void handle_enc_encode_msg(struct venc_vpu_inst *vpu, const void *data)
+>         vpu->is_key_frm = msg->is_key_frm;
+>  }
+>
+> -static void vpu_enc_ipi_handler(const void *data, unsigned int len, void *priv)
+> +static void vpu_enc_ipi_handler(void *data, unsigned int len, void *priv)
+>  {
+>         const struct venc_vpu_ipi_msg_common *msg = data;
+>         struct venc_vpu_inst *vpu =
+> @@ -63,12 +64,13 @@ static int vpu_enc_send_msg(struct venc_vpu_inst *vpu, void *msg,
+>
+>         mtk_vcodec_debug_enter(vpu);
+>
+> -       if (!vpu->dev) {
+> +       if (!vpu->ctx->dev->fw_handler) {
+>                 mtk_vcodec_err(vpu, "inst dev is NULL");
+>                 return -EINVAL;
+>         }
+>
+> -       status = vpu_ipi_send(vpu->dev, vpu->id, msg, len);
+> +       status = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, vpu->id, msg,
+> +                                       len, 2000);
+>         if (status) {
+>                 mtk_vcodec_err(vpu, "vpu_ipi_send msg_id %x len %d fail %d",
+>                                *(uint32_t *)msg, len, status);
+> @@ -93,8 +95,9 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
+>         vpu->signaled = 0;
+>         vpu->failure = 0;
+>
+> -       status = vpu_ipi_register(vpu->dev, vpu->id, vpu_enc_ipi_handler,
+> -                                 NULL, NULL);
+> +       status = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
+> +               vpu_enc_ipi_handler, "venc", NULL);
+> +
+>         if (status) {
+>                 mtk_vcodec_err(vpu, "vpu_ipi_register fail %d", status);
+>                 return -EINVAL;
+> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+> index ba301a138a5a..edd411621b68 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+> @@ -7,7 +7,7 @@
+>  #ifndef _VENC_VPU_IF_H_
+>  #define _VENC_VPU_IF_H_
+>
+> -#include "mtk_vpu.h"
+> +#include "mtk_vcodec_fw.h"
+>  #include "venc_drv_if.h"
+>
+>  /*
+> @@ -34,9 +34,8 @@ struct venc_vpu_inst {
+>         int is_key_frm;
+>         unsigned int inst_addr;
+>         void *vsi;
+> -       enum ipi_id id;
+> +       int id;
+>         struct mtk_vcodec_ctx *ctx;
+> -       struct platform_device *dev;
+>  };
+>
+>  int vpu_enc_init(struct venc_vpu_inst *vpu);
+> --
+> 2.27.0.383.g050319c2ae-goog
+>
