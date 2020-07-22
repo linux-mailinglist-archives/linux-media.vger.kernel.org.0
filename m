@@ -2,165 +2,239 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B1EF229D71
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 18:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1089B229E0F
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 19:11:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731629AbgGVQpg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 12:45:36 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50734 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731117AbgGVQpg (ORCPT
+        id S1731424AbgGVRLq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 13:11:46 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36622 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726907AbgGVRLq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 12:45:36 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D7EA329;
-        Wed, 22 Jul 2020 18:45:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1595436333;
-        bh=BYK7r//TplAFCxG/UvH60rVsImF11tAak5h1322PxEI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D5GOUF9N0q6NTHAdx/c8BeLg5cNR4+u3uVf+ZtcIAnoeJ4Heug4tgPHX/MbIZsdDl
-         veo9BkYuZNohznKYbTtPVdSQnrE7dre0eJwsoXn/BaUOdcxxNn0L3ZJMsXP8QuNCvQ
-         +XP2fCeCUvCbr/rPQVQIc8lwEzoE1kPG21INA8OY=
-Date:   Wed, 22 Jul 2020 19:45:28 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org
-Subject: Re: [PATCH v5 6/7] media: staging: rkisp1: allow quantization
- setting by userspace on the isp source pad
-Message-ID: <20200722164528.GO29813@pendragon.ideasonboard.com>
-References: <20200703171019.19270-1-dafna.hirschfeld@collabora.com>
- <20200703171019.19270-7-dafna.hirschfeld@collabora.com>
+        Wed, 22 Jul 2020 13:11:46 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 41CC6292013
+Message-ID: <49bc44236edc0925314ee2988fe94453ebc21df1.camel@collabora.com>
+Subject: Re: [PATCH 06/10] media: uapi: h264: Cleanup DPB entry interface
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Date:   Wed, 22 Jul 2020 14:11:33 -0300
+In-Reply-To: <2192247.mDtJn7f4FH@jernej-laptop>
+References: <20200715202233.185680-1-ezequiel@collabora.com>
+         <20200715202233.185680-7-ezequiel@collabora.com>
+         <2192247.mDtJn7f4FH@jernej-laptop>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200703171019.19270-7-dafna.hirschfeld@collabora.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-Thank you for the patch.
-
-On Fri, Jul 03, 2020 at 07:10:18PM +0200, Dafna Hirschfeld wrote:
-> The isp entity has a hardware support to force full range quantization
-> for YUV formats. Use the subdev CSC API to allow userspace to set the
-> quantization for YUV formats on the isp entity.
+On Wed, 2020-07-22 at 18:09 +0200, Jernej Škrabec wrote:
+> Hi!
 > 
-> - The flag V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION is set on
-> YUV formats during enumeration of the isp formats on the source pad.
-> - The full quantization is set on YUV formats if userspace ask it
-> on the isp entity using the flag V4L2_MBUS_FRAMEFMT_SET_CSC.
+> Dne sreda, 15. julij 2020 ob 22:22:29 CEST je Ezequiel Garcia napisal(a):
+> > As discussed recently, the current interface for the
+> > Decoded Picture Buffer is not enough to properly
+> > support field coding.
+> > 
+> > This commit introduces enough semantics to support
+> > frame and field coding, and to signal how DPB entries
+> > are "used for reference".
+> > 
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> >  .../media/v4l/ext-ctrls-codec.rst             | 46 ++++++++++++-------
+> >  drivers/media/v4l2-core/v4l2-h264.c           |  4 +-
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c    |  8 ++--
+> >  include/media/h264-ctrls.h                    |  8 +++-
+> >  4 files changed, 42 insertions(+), 24 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+> > dd8e5a2e8986..46d4c8c6ad47 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -2058,10 +2058,35 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+> > * - __s32
+> >        - ``bottom_field_order_cnt``
+> >        -
+> > +    * - enum :c:type:`v4l2_h264_dpb_reference`
+> > +      - ``reference``
+> > +      - Specifies how the DPB entry is referenced.
+> >      * - __u32
+> >        - ``flags``
+> >        - See :ref:`DPB Entry Flags <h264_dpb_flags>`
+> > 
+> > +.. c:type:: v4l2_h264_dpb_reference
+> > +
+> > +.. cssclass:: longtable
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +    :widths:       1 1 2
+> > +
+> > +    * - ``V4L2_H264_DPB_TOP_REF``
+> > +      - 0x1
+> > +      - The top field in field pair is used for
+> > +        short-term reference.
+> > +    * - ``V4L2_H264_DPB_BOTTOM_REF``
+> > +      - 0x2
+> > +      - The bottom field in field pair is used for
+> > +        short-term reference.
+> > +    * - ``V4L2_H264_DPB_FRAME_REF``
+> > +      - 0x3
+> > +      - The frame (or the top/bottom fields, if it's a field pair)
+> > +        is used for short-term reference.
+> > +
+> >  .. _h264_dpb_flags:
+> > 
+> >  ``DPB Entries Flags``
+> > @@ -2075,29 +2100,16 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+> > 
+> >      * - ``V4L2_H264_DPB_ENTRY_FLAG_VALID``
+> >        - 0x00000001
+> > -      - The DPB entry is valid and should be considered
+> > +      - The DPB entry is valid (non-empty) and should be considered.
+> >      * - ``V4L2_H264_DPB_ENTRY_FLAG_ACTIVE``
 > 
-> On the capture and the resizer, the quantization is read-only
-> and always set to the default quantization.
+> I'm still not sure that we actually need both flags. Technically, if entry is 
+> not used for reference then doesn't need to be present. Am I missing 
+> something?
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/TODO             |  2 +-
->  drivers/staging/media/rkisp1/rkisp1-capture.c | 10 ----------
->  drivers/staging/media/rkisp1/rkisp1-isp.c     | 18 ++++++++++++++----
->  3 files changed, 15 insertions(+), 15 deletions(-)
+
+Indeed, that's exactly what I raised during the review of these flags.
+
+However, note that the Cedrus driver seem to do something with
+VALID but not ACTIVE DPB entries, although maybe that's not really needed.
+
+If you could check the code and drop the VALID usage, and confirm
+ACTIVE is the only flag needed, that would be nice.
+
+Now, OTOH, having an extra flag is not hurting us.
+It might be more consistent for applications, as it
+would mean simpler setup of the DPB, and more consistent mapping
+between application kept DPB and kernel DPB.
+
+Thanks,
+Ezequiel
+
+> Best regards,
+> Jernej
 > 
-> diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
-> index c0cbec0a164d..db05288949bd 100644
-> --- a/drivers/staging/media/rkisp1/TODO
-> +++ b/drivers/staging/media/rkisp1/TODO
-> @@ -2,7 +2,7 @@
->  * Use threaded interrupt for rkisp1_stats_isr(), remove work queue.
->  * Fix checkpatch errors.
->  * Review and comment every lock
-> -* Handle quantization
-> +* Add uapi docs. Remeber to add documentation of how quantization is handled.
->  * Document rkisp1-common.h
->  * streaming paths (mainpath and selfpath) check if the other path is streaming
->  in several places of the code, review this, specially that it doesn't seem it
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> index f69235f82c45..93d6846886f2 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> @@ -1085,8 +1085,6 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
->  			   const struct v4l2_format_info **fmt_info)
->  {
->  	const struct rkisp1_capture_config *config = cap->config;
-> -	struct rkisp1_capture *other_cap =
-> -			&cap->rkisp1->capture_devs[cap->id ^ 1];
->  	const struct rkisp1_capture_fmt_cfg *fmt;
->  	const struct v4l2_format_info *info;
->  	const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
-> @@ -1111,14 +1109,6 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
->  
->  	info = rkisp1_fill_pixfmt(pixm, cap->id);
->  
-> -	/* can not change quantization when stream-on */
-> -	if (other_cap->is_streaming)
-> -		pixm->quantization = other_cap->pix.fmt.quantization;
-> -	/* output full range by default, take effect in params */
-> -	else if (!pixm->quantization ||
-> -		 pixm->quantization > V4L2_QUANTIZATION_LIM_RANGE)
-> -		pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> -
->  	if (fmt_cfg)
->  		*fmt_cfg = fmt;
->  	if (fmt_info)
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> index 58c90c67594d..d575c1e4dc4b 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> @@ -589,6 +589,10 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
->  
->  		if (code->index == pos - 1) {
->  			code->code = fmt->mbus_code;
-> +			if (fmt->pixel_enc == V4L2_PIXEL_ENC_YUV &&
-> +			    dir == RKISP1_ISP_SD_SRC)
-> +				code->flags =
-> +					V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
->  			return 0;
->  		}
->  	}
-> @@ -620,7 +624,6 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
->  					     RKISP1_ISP_PAD_SOURCE_VIDEO);
->  	*src_fmt = *sink_fmt;
->  	src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
-> -	src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->  
->  	src_crop = v4l2_subdev_get_try_crop(sd, cfg,
->  					    RKISP1_ISP_PAD_SOURCE_VIDEO);
-> @@ -663,10 +666,17 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
->  		isp->src_fmt = mbus_info;
->  	src_fmt->width  = src_crop->width;
->  	src_fmt->height = src_crop->height;
-> -	src_fmt->quantization = format->quantization;
-> -	/* full range by default */
-> -	if (!src_fmt->quantization)
-> +
-> +	/*
-> +	 * The CSC API is used to allow userspace to force full
-> +	 * quantization on YUV formats.
-> +	 */
-> +	if (format->flags & V4L2_MBUS_FRAMEFMT_SET_CSC &&
-> +	    format->quantization == V4L2_QUANTIZATION_FULL_RANGE &&
-> +	    mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV)
->  		src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> +	else
-> +		src_fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
+> >        - 0x00000002
+> > -      - The DPB entry is currently being used as a reference frame
+> > +      - The DPB entry is used for reference.
+> >      * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
+> >        - 0x00000004
+> > -      - The DPB entry is a long term reference frame
+> > +      - The DPB entry is used for long-term reference.
+> >      * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD``
+> >        - 0x00000008
+> > -      - The DPB entry is a field reference, which means only one of the
+> > field -        will be used when decoding the new frame/field. When not set
+> > the DPB -        entry is a frame reference (both fields will be used).
+> > Note that this -        flag does not say anything about the number of
+> > fields contained in the -        reference frame, it just describes the one
+> > used to decode the new -        field/frame
+> > -    * - ``V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD``
+> > -      - 0x00000010
+> > -      - The DPB entry is a bottom field reference (only the bottom field of
+> > the -        reference frame is needed to decode the new frame/field). Only
+> > valid if -        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set. When
+> > -        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set but
+> > -        V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD is not, that means the
+> > -        DPB entry is a top field reference
+> > +      - The DPB entry is a single field or a complementary field pair.
+> > 
+> >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
+> >      Specifies the decoding mode to use. Currently exposes slice-based and
+> > diff --git a/drivers/media/v4l2-core/v4l2-h264.c
+> > b/drivers/media/v4l2-core/v4l2-h264.c index edf6225f0522..306a51683606
+> > 100644
+> > --- a/drivers/media/v4l2-core/v4l2-h264.c
+> > +++ b/drivers/media/v4l2-core/v4l2-h264.c
+> > @@ -66,10 +66,10 @@ v4l2_h264_init_reflist_builder(struct
+> > v4l2_h264_reflist_builder *b, else
+> >  			b->refs[i].frame_num = dpb[i].frame_num;
+> > 
+> > -		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
+> > +		if (dpb[i].reference & V4L2_H264_DPB_FRAME_REF)
+> >  			pic_order_count = 
+> min(dpb[i].top_field_order_cnt,
+> >  					      
+> dpb[i].bottom_field_order_cnt);
+> > -		else if (dpb[i].flags & 
+> V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
+> > +		else if (dpb[i].reference & V4L2_H264_DPB_BOTTOM_REF)
+> >  			pic_order_count = 
+> dpb[i].bottom_field_order_cnt;
+> >  		else
+> >  			pic_order_count = dpb[i].top_field_order_cnt;
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > b/drivers/staging/media/rkvdec/rkvdec-h264.c index
+> > 7b66e2743a4f..57539c630422 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > @@ -953,11 +953,11 @@ static void config_registers(struct rkvdec_ctx *ctx,
+> >  			     RKVDEC_COLMV_USED_FLAG_REF;
+> > 
+> >  		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
+> > -			refer_addr |= RKVDEC_TOPFIELD_USED_REF |
+> > -				      RKVDEC_BOTFIELD_USED_REF;
+> > -		else if (dpb[i].flags & 
+> V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
+> > +			refer_addr |= RKVDEC_FIELD_REF;
+> > +
+> > +		if (dpb[i].reference & V4L2_H264_DPB_TOP_REF)
+> >  			refer_addr |= RKVDEC_BOTFIELD_USED_REF;
+> > -		else
+> > +		else if (dpb[i].reference & V4L2_H264_DPB_BOTTOM_REF)
+> >  			refer_addr |= RKVDEC_TOPFIELD_USED_REF;
+> > 
+> >  		writel_relaxed(dpb[i].top_field_order_cnt,
+> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> > index 620ee8863d74..52f3976b986c 100644
+> > --- a/include/media/h264-ctrls.h
+> > +++ b/include/media/h264-ctrls.h
+> > @@ -202,7 +202,12 @@ struct v4l2_ctrl_h264_slice_params {
+> >  #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
+> >  #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
+> >  #define V4L2_H264_DPB_ENTRY_FLAG_FIELD		0x08
+> > -#define V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD	0x10
+> > +
+> > +enum v4l2_h264_dpb_reference {
+> > +	V4L2_H264_DPB_TOP_REF = 0x1,
+> > +	V4L2_H264_DPB_BOTTOM_REF = 0x2,
+> > +	V4L2_H264_DPB_FRAME_REF = 0x3,
+> > +};
+> > 
+> >  struct v4l2_h264_dpb_entry {
+> >  	__u64 reference_ts;
+> > @@ -211,6 +216,7 @@ struct v4l2_h264_dpb_entry {
+> >  	/* Note that field is indicated by v4l2_buffer.field */
+> >  	__s32 top_field_order_cnt;
+> >  	__s32 bottom_field_order_cnt;
+> > +	enum v4l2_h264_dpb_reference reference;
+> >  	__u32 flags; /* V4L2_H264_DPB_ENTRY_FLAG_* */
+> >  };
+> 
+> 
+> 
 
-Apart from the usage of DEFAULT, as discussed by Helen and Tomasz, this
-patch looks good to me.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  
->  	*format = *src_fmt;
->  }
-
--- 
-Regards,
-
-Laurent Pinchart
