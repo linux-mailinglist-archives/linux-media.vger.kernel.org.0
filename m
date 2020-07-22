@@ -2,19 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79627229C24
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 17:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5ADD229C54
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 17:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733138AbgGVPz5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 11:55:57 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35724 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731155AbgGVPz4 (ORCPT
+        id S1733164AbgGVP4C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 11:56:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37040 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733113AbgGVP4B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 11:55:56 -0400
+        Wed, 22 Jul 2020 11:56:01 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9ECEC0619DC;
+        Wed, 22 Jul 2020 08:56:00 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 24B6C2976FF
+        with ESMTPSA id ACEB2297FEA
 From:   Helen Koike <helen.koike@collabora.com>
 To:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
         linux-rockchip@lists.infradead.org
@@ -25,9 +28,9 @@ Cc:     linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
         karthik.poduval@gmail.com, jbx6244@gmail.com, tfiga@chromium.org,
         eddie.cai.linux@gmail.com, zhengsq@rock-chips.com,
         robin.murphy@arm.com
-Subject: [PATCH v5 2/9] media: staging: dt-bindings: rkisp1: drop i2c unit address
-Date:   Wed, 22 Jul 2020 12:55:26 -0300
-Message-Id: <20200722155533.252844-3-helen.koike@collabora.com>
+Subject: [PATCH v5 3/9] media: staging: dt-bindings: rkisp1: re-order properties
+Date:   Wed, 22 Jul 2020 12:55:27 -0300
+Message-Id: <20200722155533.252844-4-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.28.0.rc1
 In-Reply-To: <20200722155533.252844-1-helen.koike@collabora.com>
 References: <20200722155533.252844-1-helen.koike@collabora.com>
@@ -38,40 +41,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing required items in Rockchip ISP1 dt-bindings example for
-a complete i2c node.
-Drop unit address to Fix error:
-/example-0/parent/i2c@ff160000: node has a unit name, but no reg or ranges property
-Remove unecessary fields for the example.
+Organize properties order in dt-bindings to move it out of staging.
+
+On top: compatible, reg and interrupts.
+Then alphabetical order, then properties starting with '#'.
 
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
+V5:
+- s/binbings/bindings
 
-Changes in v5:
-- Patch re-written to drop unity address instead of completing i2c node
-
-Changes in v2:
-- new patch in the series
-
-tmp: i2c drop fields
+V2:
+- this is a new patch in the series
 ---
- .../Documentation/devicetree/bindings/media/rockchip-isp1.yaml | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ .../bindings/media/rockchip-isp1.yaml         | 32 +++++++++----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-index a77b6ec500c95..4c31cfaee2709 100644
+index 4c31cfaee2709..79ebacab83cf3 100644
 --- a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
 +++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-@@ -168,8 +168,7 @@ examples:
-             };
-         };
+@@ -23,19 +23,6 @@ properties:
+   interrupts:
+     maxItems: 1
  
--        i2c7: i2c@ff160000 {
--            clock-frequency = <400000>;
-+        i2c7: i2c {
-             #address-cells = <1>;
-             #size-cells = <0>;
+-  iommus:
+-    maxItems: 1
+-
+-  power-domains:
+-    maxItems: 1
+-
+-  phys:
+-    maxItems: 1
+-    description: phandle for the PHY port
+-
+-  phy-names:
+-    const: dphy
+-
+   clocks:
+     items:
+       - description: ISP clock
+@@ -52,6 +39,19 @@ properties:
+       - const: hclk_isp
+       - const: hclk_isp_wrap
  
++  iommus:
++    maxItems: 1
++
++  phys:
++    maxItems: 1
++    description: phandle for the PHY port
++
++  phy-names:
++    const: dphy
++
++  power-domains:
++    maxItems: 1
++
+   # See ./video-interfaces.txt for details
+   ports:
+     type: object
+@@ -110,10 +110,10 @@ required:
+   - interrupts
+   - clocks
+   - clock-names
+-  - power-domains
+   - iommus
+   - phys
+   - phy-names
++  - power-domains
+   - ports
+ 
+ additionalProperties: false
+@@ -139,19 +139,19 @@ examples:
+             clock-names = "clk_isp",
+                           "aclk_isp", "aclk_isp_wrap",
+                           "hclk_isp", "hclk_isp_wrap";
+-            power-domains = <&power RK3399_PD_ISP0>;
+             iommus = <&isp0_mmu>;
+             phys = <&dphy>;
+             phy-names = "dphy";
++            power-domains = <&power RK3399_PD_ISP0>;
+ 
+             ports {
+                 #address-cells = <1>;
+                 #size-cells = <0>;
+ 
+                 port@0 {
++                    reg = <0>;
+                     #address-cells = <1>;
+                     #size-cells = <0>;
+-                    reg = <0>;
+ 
+                     mipi_in_wcam: endpoint@0 {
+                         reg = <0>;
 -- 
 2.28.0.rc1
 
