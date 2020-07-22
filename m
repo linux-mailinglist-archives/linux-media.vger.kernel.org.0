@@ -2,250 +2,318 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 612B5229CD1
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 18:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD0FD229D1D
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 18:30:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728053AbgGVQJ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 12:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39224 "EHLO
+        id S1728053AbgGVQax (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 12:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726539AbgGVQJ2 (ORCPT
+        with ESMTP id S1726349AbgGVQaw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 12:09:28 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A1C2C0619DC;
-        Wed, 22 Jul 2020 09:09:28 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id bm28so2081330edb.2;
-        Wed, 22 Jul 2020 09:09:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zoyELi16cUvbyGY2mXBhWNaZ9/6nrareVV6zGnAvnSQ=;
-        b=joY9I2ATz7qOoQQFlBV2rHB+EyovZlWNSrccYvhpPZQGZ5fmCzWYsVmD9ca6PW0pYJ
-         K8XTRuBqOExV2/gArGOzo9r488TYLIQNIutunj27QGIDrJhu0ymaaIzJtthRVG/d5iVb
-         9HhkOlRZpwyw/QJWjp3xpywQAsUEZi4UTPFmh3nXFxf/I61OPFY+a7oStJIQ0CZ7RBVg
-         fCZroDYaA/MELHSxJwsu1KayCo3pYl5guBs9mTcDgg3UJFf7DGT9NPkXjHed/ep+HBAn
-         +RzJGYaBuC4FrQSf1DSuNtxDrbhcpT3JohF286WydWNk2ZkaB807K6aS/ObbGOl6t+S3
-         ++og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zoyELi16cUvbyGY2mXBhWNaZ9/6nrareVV6zGnAvnSQ=;
-        b=fwXkL7XXss6EbTO70Hlo7+QO9Auucn5vtLVKMM0UsGgQDc6NuU3t7ZgssPx/l4mvZ+
-         0vRjNPFkONQKnXNbXzmm6ji4b6J/IivjsKWf9UjAlYESajtn3rw3y3QYpgIAv8KhywA3
-         tKUJG288fmqJ4616QuDE86fQv3Zg5IY1ondauTvLeSMeys22RJRoX/Cix/O9rij7AoKm
-         Lu0tzC/KzODqwEu8gEg2BMXrwv4XPSCSD3U5jFgvTjKhGiamf1txRI9aCBpAysiynViP
-         tadsBUpLMzei5eYXTcVKrP/p+39Blt11Orjxm2iYCQyIZvGi3zbtm4s7KHIGYzslnMty
-         If/A==
-X-Gm-Message-State: AOAM533SBWN/dlT/Nz04Mt9pSvtgr/BxdfoGqEDrdrtXf5RCSPBnpByk
-        q/ENssxyq1n+k8yyrr+1Zbt7t1uqcWU=
-X-Google-Smtp-Source: ABdhPJzPO/V2uw0v1Lu2o6aHQ8SfqBtMjCtG5dE9CLpZNRR5JBJZ5jRRPA4lwRa3985cDvOmZ5h2Pw==
-X-Received: by 2002:a50:cd1e:: with SMTP id z30mr183189edi.364.1595434166675;
-        Wed, 22 Jul 2020 09:09:26 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net. [194.152.20.232])
-        by smtp.gmail.com with ESMTPSA id lv17sm70523ejb.56.2020.07.22.09.09.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2020 09:09:25 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH 06/10] media: uapi: h264: Cleanup DPB entry interface
-Date:   Wed, 22 Jul 2020 18:09:24 +0200
-Message-ID: <2192247.mDtJn7f4FH@jernej-laptop>
-In-Reply-To: <20200715202233.185680-7-ezequiel@collabora.com>
-References: <20200715202233.185680-1-ezequiel@collabora.com> <20200715202233.185680-7-ezequiel@collabora.com>
+        Wed, 22 Jul 2020 12:30:52 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A81ADC0619DC;
+        Wed, 22 Jul 2020 09:30:52 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C4C6329;
+        Wed, 22 Jul 2020 18:30:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1595435451;
+        bh=SITDhkOUbdrsc3Cb5i0KMNM/DMSYjYSzQlhrR3y07Ic=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=X9dpHaEau0dcSQ2G1DygH0eDyDWc+YlxKOKfyDlwChbHiIqU2E40MSQg8c4E/5tJp
+         8lpW9uelTT22K5ASQjMpLn0xQD+jCK6iUTHplv9R86GZoAkeTKbOSEDkhM5OIwswDs
+         lUKkEQIB4GJT2eqf/ygO6zgAU08C9ExdgKs7R4Fc=
+Date:   Wed, 22 Jul 2020 19:30:45 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
+        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
+        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
+        hans.verkuil@cisco.com, sakari.ailus@linux.intel.com,
+        kernel@collabora.com, ezequiel@collabora.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        zhengsq@rock-chips.com, Jacob Chen <cc@rock-chips.com>,
+        Allon Huang <allon.huang@rock-chips.com>
+Subject: Re: [PATCH v8 05/14] media: rkisp1: add Rockchip ISP1 subdev driver
+Message-ID: <20200722163045.GN29813@pendragon.ideasonboard.com>
+References: <20190730184256.30338-1-helen.koike@collabora.com>
+ <20190730184256.30338-6-helen.koike@collabora.com>
+ <20190816001323.GF5011@pendragon.ideasonboard.com>
+ <30b6367d-9088-d755-d041-904ff2a48130@collabora.com>
+ <20200722152459.GC1828171@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200722152459.GC1828171@chromium.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+Hi Dafna and Tomasz,
 
-Dne sreda, 15. julij 2020 ob 22:22:29 CEST je Ezequiel Garcia napisal(a):
-> As discussed recently, the current interface for the
-> Decoded Picture Buffer is not enough to properly
-> support field coding.
+On Wed, Jul 22, 2020 at 03:24:59PM +0000, Tomasz Figa wrote:
+> On Sat, Jul 11, 2020 at 01:04:31PM +0200, Dafna Hirschfeld wrote:
+> > On 16.08.19 02:13, Laurent Pinchart wrote:
+> > > On Tue, Jul 30, 2019 at 03:42:47PM -0300, Helen Koike wrote:
+>
+> [snip]
+>
+> > > > +static void rkisp1_isp_queue_event_sof(struct rkisp1_isp_subdev *isp)
+> > > > +{
+> > > > +	struct v4l2_event event = {
+> > > > +		.type = V4L2_EVENT_FRAME_SYNC,
+> > > > +		.u.frame_sync.frame_sequence =
+> > > > +			atomic_inc_return(&isp->frm_sync_seq) - 1,
+> > > 
+> > > I would move the increment to the caller, hiding it in this function is
+> > > error-prone (and if you look at the caller I'm pointing out one possible
+> > > error :-)).
+> > > 
+> > > In general usage of frm_sync_seq through the driver seems to be very
+> > > race-prone. It's read in various IRQ handling functions, all coming from
+> > > the same IRQ, so that part is fine (and wouldn't require an atomic
+> > > variable), but when read from the buffer queue handlers I really get a
+> > > red light flashing in my head. I'll try to investigate more when
+> > > reviewing the next patches.
+> > 
+> > I see that the only place were 'frame_sequence' is read outside of the irq
+> > handlers is in the capture in 'rkisp1_vb2_buf_queue':
+> > 
+> > 	/*
+> >          * If there's no next buffer assigned, queue this buffer directly
+> >          * as the next buffer, and update the memory interface.
+> >          */
+> >         if (cap->is_streaming && !cap->buf.next &&
+> >             atomic_read(&cap->rkisp1->isp.frame_sequence) == -1) {
+> >                 cap->buf.next = ispbuf;
+> >                 rkisp1_set_next_buf(cap);
+> >         } else {
+> >                 list_add_tail(&ispbuf->queue, &cap->buf.queue);
+> >         }
+> >
+> > This "if" condition seems very specific, a case where we already stream but v-start was not yet received.
+> > I think it is possible to remove the test 'atomic_read(&cap->rkisp1->isp.frame_sequence) == -1'
+> > from the above condition so that the next buffer is updated in case it is null not just before the first
+> > v-start signal.
 > 
-> This commit introduces enough semantics to support
-> frame and field coding, and to signal how DPB entries
-> are "used for reference".
+> We don't have this special case in the Chrome OS code.
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             | 46 ++++++++++++-------
->  drivers/media/v4l2-core/v4l2-h264.c           |  4 +-
->  drivers/staging/media/rkvdec/rkvdec-h264.c    |  8 ++--
->  include/media/h264-ctrls.h                    |  8 +++-
->  4 files changed, 42 insertions(+), 24 deletions(-)
+> I suppose it would make it possible to resume the capture 1 frame
+> earlier after a queue underrun, as otherwise the new buffer would be
+> only programmed after the next frame start interrupt and used for the
+> next-next frame.  However, it's racy, because programming of the buffer
+> addresses is not atomic and could end up with the hardware using few
+> plane addresses from the new buffer and few from the dummy buffer.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
-> dd8e5a2e8986..46d4c8c6ad47 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -2058,10 +2058,35 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> * - __s32
->        - ``bottom_field_order_cnt``
->        -
-> +    * - enum :c:type:`v4l2_h264_dpb_reference`
-> +      - ``reference``
-> +      - Specifies how the DPB entry is referenced.
->      * - __u32
->        - ``flags``
->        - See :ref:`DPB Entry Flags <h264_dpb_flags>`
+> Given that and also the fact that a queue underrun is a very special
+> case, where the system was already having problems catching up, I'd just
+> remove this special case.
 > 
-> +.. c:type:: v4l2_h264_dpb_reference
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_H264_DPB_TOP_REF``
-> +      - 0x1
-> +      - The top field in field pair is used for
-> +        short-term reference.
-> +    * - ``V4L2_H264_DPB_BOTTOM_REF``
-> +      - 0x2
-> +      - The bottom field in field pair is used for
-> +        short-term reference.
-> +    * - ``V4L2_H264_DPB_FRAME_REF``
-> +      - 0x3
-> +      - The frame (or the top/bottom fields, if it's a field pair)
-> +        is used for short-term reference.
-> +
->  .. _h264_dpb_flags:
+> [snip]
+>
+> > > > +void rkisp1_isp_isr(unsigned int isp_mis, struct rkisp1_device *dev)
+> > > > +{
+> > > > +	void __iomem *base = dev->base_addr;
+> > > > +	unsigned int isp_mis_tmp = 0;
+> > > 
+> > > _tmp are never good names :-S
+> > > 
+> > > > +	unsigned int isp_err = 0;
+> > > 
+> > > Neither of these variable need to be initialised to 0.
+> > > 
+> > > > +
+> > > > +	/* start edge of v_sync */
+> > > > +	if (isp_mis & CIF_ISP_V_START) {
+> > > > +		rkisp1_isp_queue_event_sof(&dev->isp_sdev);
+> > > 
+> > > This will increment the frame sequence number. What if the interrupt is
+> > > slightly delayed and the next frame starts before we get a change to
+> > > copy the sequence number to the buffers (before they will complete
+> > > below) ?
+> > 
+> > Do you mean that we get two sequental v-start signals and then the next
+> > frame-end signal in MI_MIS belongs to the first v-start signal of the two?
+> > How can this be solved? I wonder if any v-start signal has a later signal
+> > that correspond to the same frame so that we can follow it?
+> > 
+> > Maybe we should have one counter that is incremented on v-start signal,
+> > and another counter that is incremented uppon some other signal?
 > 
->  ``DPB Entries Flags``
-> @@ -2075,29 +2100,16 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> 
->      * - ``V4L2_H264_DPB_ENTRY_FLAG_VALID``
->        - 0x00000001
-> -      - The DPB entry is valid and should be considered
-> +      - The DPB entry is valid (non-empty) and should be considered.
->      * - ``V4L2_H264_DPB_ENTRY_FLAG_ACTIVE``
+> We're talking about a hard IRQ. I can't imagine the interrupt handler
+> being delayed for a time close to a full frame interval (~16ms for 60
+> fps) to trigger such scenario.
 
-I'm still not sure that we actually need both flags. Technically, if entry is 
-not used for reference then doesn't need to be present. Am I missing 
-something?
+I've been burnt too many times by making such statements and then seeing
+a wifi driver disablign interrupts for 40ms... :-S We can only perform
+as well as the system and the hardware allow us to, I understand we
+can't solve all issues related to long interrupt delays as that would
+require more hardware support. I'm not sure what an appropriate best
+effort level is though.
 
-Best regards,
-Jernej
-
->        - 0x00000002
-> -      - The DPB entry is currently being used as a reference frame
-> +      - The DPB entry is used for reference.
->      * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
->        - 0x00000004
-> -      - The DPB entry is a long term reference frame
-> +      - The DPB entry is used for long-term reference.
->      * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD``
->        - 0x00000008
-> -      - The DPB entry is a field reference, which means only one of the
-> field -        will be used when decoding the new frame/field. When not set
-> the DPB -        entry is a frame reference (both fields will be used).
-> Note that this -        flag does not say anything about the number of
-> fields contained in the -        reference frame, it just describes the one
-> used to decode the new -        field/frame
-> -    * - ``V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD``
-> -      - 0x00000010
-> -      - The DPB entry is a bottom field reference (only the bottom field of
-> the -        reference frame is needed to decode the new frame/field). Only
-> valid if -        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set. When
-> -        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set but
-> -        V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD is not, that means the
-> -        DPB entry is a top field reference
-> +      - The DPB entry is a single field or a complementary field pair.
+> > > > +
+> > > > +		writel(CIF_ISP_V_START, base + CIF_ISP_ICR);
+> > > 
+> > > Do you need to clear all interrupt bits individually, can't you write
+> > > isp_mis to CIF_ISP_ICR at the beginning of the function to clear them
+> > > all in one go ?
+> > > 
+> > > > +		isp_mis_tmp = readl(base + CIF_ISP_MIS);
+> > > > +		if (isp_mis_tmp & CIF_ISP_V_START)
+> > > > +			v4l2_err(&dev->v4l2_dev, "isp icr v_statr err: 0x%x\n",
+> > > > +				 isp_mis_tmp);
+> > > 
+> > > This require some explanation. It looks like a naive way to protect
+> > > against something, but I think it could trigger under normal
+> > > circumstances if IRQ handling is delayed, and wouldn't do much anyway.
+> > > Same for the similar constructs below.
+> > > 
+> > > > +	}
+> > > > +
+> > > > +	if ((isp_mis & CIF_ISP_PIC_SIZE_ERROR)) {
+> > > > +		/* Clear pic_size_error */
+> > > > +		writel(CIF_ISP_PIC_SIZE_ERROR, base + CIF_ISP_ICR);
+> > > > +		isp_err = readl(base + CIF_ISP_ERR);
+> > > > +		v4l2_err(&dev->v4l2_dev,
+> > > > +			 "CIF_ISP_PIC_SIZE_ERROR (0x%08x)", isp_err);
+> > > 
+> > > What does this mean ?
+> > > 
+> > > > +		writel(isp_err, base + CIF_ISP_ERR_CLR);
+> > > > +	} else if ((isp_mis & CIF_ISP_DATA_LOSS)) {
+> > > 
+> > > Are CIF_ISP_PIC_SIZE_ERROR and CIF_ISP_DATA_LOSS mutually exclusive ?
+> > > 
+> > > > +		/* Clear data_loss */
+> > > > +		writel(CIF_ISP_DATA_LOSS, base + CIF_ISP_ICR);
+> > > > +		v4l2_err(&dev->v4l2_dev, "CIF_ISP_DATA_LOSS\n");
+> > > > +		writel(CIF_ISP_DATA_LOSS, base + CIF_ISP_ICR);
+> > > > +	}
+> > > > +
+> > > > +	/* sampled input frame is complete */
+> > > > +	if (isp_mis & CIF_ISP_FRAME_IN) {
+> > > > +		writel(CIF_ISP_FRAME_IN, base + CIF_ISP_ICR);
+> > > > +		isp_mis_tmp = readl(base + CIF_ISP_MIS);
+> > > > +		if (isp_mis_tmp & CIF_ISP_FRAME_IN)
+> > > > +			v4l2_err(&dev->v4l2_dev, "isp icr frame_in err: 0x%x\n",
+> > > > +				 isp_mis_tmp);
+> > > > +	}
+> > > > +
+> > > > +	/* frame was completely put out */
+> > > 
+> > > "put out" ? :-) What's the difference between ISP_FRAME_IN and ISP_FRAME
+> > > ? The two comments could do with a bit of brush up, and I think the
+> > > ISP_FRAME_IN interrupt could be disabled as it doesn't perform any
+> > > action.
+> > 
+> > Those two oneline comments are just copy-paste from the datasheet.
+> > 
+> > ""
+> > 5 MIS_FRAME_IN sampled input frame is complete
+> > 1 MIS_FRAME frame was completely put out
+> > ""
+> > 
+> > Unfrotunately, the datasheet does not add any further explanation about those signals.
 > 
->  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
->      Specifies the decoding mode to use. Currently exposes slice-based and
-> diff --git a/drivers/media/v4l2-core/v4l2-h264.c
-> b/drivers/media/v4l2-core/v4l2-h264.c index edf6225f0522..306a51683606
-> 100644
-> --- a/drivers/media/v4l2-core/v4l2-h264.c
-> +++ b/drivers/media/v4l2-core/v4l2-h264.c
-> @@ -66,10 +66,10 @@ v4l2_h264_init_reflist_builder(struct
-> v4l2_h264_reflist_builder *b, else
->  			b->refs[i].frame_num = dpb[i].frame_num;
+> My loose recollection is that the former is signaled when then frame
+> is fully input to the ISP and the latter when the ISP completes
+> outputting the frame to the next block in the pipeline, but someone
+> would need to verify this, for example by printing timestamps for all
+> the various interrupts.
 > 
-> -		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
-> +		if (dpb[i].reference & V4L2_H264_DPB_FRAME_REF)
->  			pic_order_count = 
-min(dpb[i].top_field_order_cnt,
->  					      
-dpb[i].bottom_field_order_cnt);
-> -		else if (dpb[i].flags & 
-V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
-> +		else if (dpb[i].reference & V4L2_H264_DPB_BOTTOM_REF)
->  			pic_order_count = 
-dpb[i].bottom_field_order_cnt;
->  		else
->  			pic_order_count = dpb[i].top_field_order_cnt;
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> b/drivers/staging/media/rkvdec/rkvdec-h264.c index
-> 7b66e2743a4f..57539c630422 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -953,11 +953,11 @@ static void config_registers(struct rkvdec_ctx *ctx,
->  			     RKVDEC_COLMV_USED_FLAG_REF;
+> > > 
+> > > > +	if (isp_mis & CIF_ISP_FRAME) {
+> > > > +		u32 isp_ris = 0;
+> > > 
+> > > No need to initialise this to 0.
+> > > 
+> > > > +		/* Clear Frame In (ISP) */
+> > > > +		writel(CIF_ISP_FRAME, base + CIF_ISP_ICR);
+> > > > +		isp_mis_tmp = readl(base + CIF_ISP_MIS);
+> > > > +		if (isp_mis_tmp & CIF_ISP_FRAME)
+> > > > +			v4l2_err(&dev->v4l2_dev,
+> > > > +				 "isp icr frame end err: 0x%x\n", isp_mis_tmp);
+> > > > +
+> > > > +		isp_ris = readl(base + CIF_ISP_RIS);
+> > > > +		if (isp_ris & (CIF_ISP_AWB_DONE | CIF_ISP_AFM_FIN |
+> > > > +			       CIF_ISP_EXP_END | CIF_ISP_HIST_MEASURE_RDY))
+> > > > +			rkisp1_stats_isr(&dev->stats_vdev, isp_ris);
+> > > 
+> > > Is there a guarantee that the statistics will be fully written out
+> > > before the video frame itself ? And doesn't this test if any of the
+> > > statistics is complete, not all of them ? I think the logic is wrong, it
+> > 
+> > The datasheet does not add any explanation of what is expected to come first.
+> > Should we wait until all statistics measurements are done? In the struct
+> > sent to userspace there is a bitmaks for which of the statistics are read.
+> > I think that if only part of the statistics are ready, we can already send the once
+> > that are ready to userspace.
 > 
->  		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
-> -			refer_addr |= RKVDEC_TOPFIELD_USED_REF |
-> -				      RKVDEC_BOTFIELD_USED_REF;
-> -		else if (dpb[i].flags & 
-V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
-> +			refer_addr |= RKVDEC_FIELD_REF;
-> +
-> +		if (dpb[i].reference & V4L2_H264_DPB_TOP_REF)
->  			refer_addr |= RKVDEC_BOTFIELD_USED_REF;
-> -		else
-> +		else if (dpb[i].reference & V4L2_H264_DPB_BOTTOM_REF)
->  			refer_addr |= RKVDEC_TOPFIELD_USED_REF;
+> If we look further into the code, rkisp1_stats_isr() checks the
+> interrupt status mask passed to it and reads out only the parameters
+> with indicated completion. The statistics metadata buffer format
+> includes a bit mask which tells the userspace which measurements are
+> available.
 > 
->  		writel_relaxed(dpb[i].top_field_order_cnt,
-> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> index 620ee8863d74..52f3976b986c 100644
-> --- a/include/media/h264-ctrls.h
-> +++ b/include/media/h264-ctrls.h
-> @@ -202,7 +202,12 @@ struct v4l2_ctrl_h264_slice_params {
->  #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
->  #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
->  #define V4L2_H264_DPB_ENTRY_FLAG_FIELD		0x08
-> -#define V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD	0x10
-> +
-> +enum v4l2_h264_dpb_reference {
-> +	V4L2_H264_DPB_TOP_REF = 0x1,
-> +	V4L2_H264_DPB_BOTTOM_REF = 0x2,
-> +	V4L2_H264_DPB_FRAME_REF = 0x3,
-> +};
+> However, I think I've spotted a bug there. At the beginning of
+> rkisp1_stats_isr(), all the 4 interrupt status bits are cleared,
+> regardless of the mask used later to decide which readouts need to be
+> done. This could mean that with an unfortunate timing, some measurements
+> would be lost. So at least the code should be fixed to only clear the
+> interrupts bits really handled.
 > 
->  struct v4l2_h264_dpb_entry {
->  	__u64 reference_ts;
-> @@ -211,6 +216,7 @@ struct v4l2_h264_dpb_entry {
->  	/* Note that field is indicated by v4l2_buffer.field */
->  	__s32 top_field_order_cnt;
->  	__s32 bottom_field_order_cnt;
-> +	enum v4l2_h264_dpb_reference reference;
->  	__u32 flags; /* V4L2_H264_DPB_ENTRY_FLAG_* */
->  };
+> As for whether to send separate buffers for each measurement, I guess
+> it's not a bad thing to let the userspace access the ones available
+> earlier. Now I only don't recall why we decided to put all the
+> measurements into one metadata structure, rather than splitting the 4
+> into their own structures and buffer queues...
+> 
+> > > seems it should be moved out of the CIF_ISP_FRAME test, to a test of its
+> > > own. It's hard to tell for sure without extra information though (for
+> > > instance why are the stats-related bits read from CIF_ISP_RIS, when
+> > > they seem to be documented as valid in CIF_ISP_ISR), but this should be
+> > > validated, and most probably fixed. Care should be taken to keep
+> > > synchronisation of sequence number between the different queues.
+> > 
+> > I see that the capture buffers are done before incrementing the frame_sequence with
+> > the following explanation:
+> > 
+> > 	/*
+> >          * Call rkisp1_capture_isr() first to handle the frame that
+> >          * potentially completed using the current frame_sequence number before
+> >          * it is potentially incremented by rkisp1_isp_isr() in the vertical
+> >          * sync.
+> >          */
+> > 
+> > I think reading the stats/params should also be done before calling rkisp1_capture_isr
+> > for the same reason. (so to match the correct frame_sequence)
+> 
+> My recollection of the sequence of interrupts in this hardware is like
+> this:
+> 
+> CIF_ISP_V_START (frame 0)
+>   CIF_ISP_FRAME_IN (frame 0)
+>     CIF_ISP_FRAME (frame 0)
+>       CIF_ISP_AWB_DONE
+>       CIF_ISP_AFM_FIN
+>       CIF_ISP_EXP_END
+>       CIF_ISP_HIST_MEASURE_RDY
+>       CIF_MI_FRAME*
+>       CIF_ISP_V_START (frame 1)
+>         CIF_ISP_FRAME_IN (frame 1)
+>           CIF_ISP_FRAME (frame 1)
+>             ...
+> 
+> where the interrupts at the same indentation level can happen
+> independently of each other. Again, someone would have to verify this.
 
+-- 
+Regards,
 
-
-
+Laurent Pinchart
