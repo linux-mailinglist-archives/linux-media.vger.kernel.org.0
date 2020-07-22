@@ -2,126 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43EF02299BD
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 16:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC7EB2299C7
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jul 2020 16:07:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732511AbgGVOFc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jul 2020 10:05:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37710 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728837AbgGVOFb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jul 2020 10:05:31 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6A985205CB;
-        Wed, 22 Jul 2020 14:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595426730;
-        bh=iloCKMSR9b1tfTvy/7rJoAq1rMiDVjg+2iSq3QdT19U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=iNeeTwj3TjCoEzSr90MvRIkmt/LcCd92oxk5dJb0VzqASUTyQLM+pe7WqjMEeJNMG
-         Y4VfbbE9YN4YiWrBOJmYU55zvAncU0xsd8XHsQdaRBOUwEprSWaR/7ldZncgeYLoXu
-         op/ZtUkB8cyVJE6ry2C54BdykodXWFHClDXjQw8w=
-Date:   Wed, 22 Jul 2020 16:05:26 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Rahul Gottipati <rahul.blr97@gmail.com>
-Cc:     sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: atomisp: Fix coding style issue - correct
- multiline comments
-Message-ID: <20200722160526.5b83341e@coco.lan>
-In-Reply-To: <c73ee9bced34777cea5b1a3a97f57c723b0a97b1.1595416585.git.rahul.blr97@gmail.com>
-References: <cover.1595416585.git.rahul.blr97@gmail.com>
-        <c73ee9bced34777cea5b1a3a97f57c723b0a97b1.1595416585.git.rahul.blr97@gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730382AbgGVOHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jul 2020 10:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48122 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729126AbgGVOHv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Jul 2020 10:07:51 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6998DC0619DC
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 07:07:51 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id l63so1932877oih.13
+        for <linux-media@vger.kernel.org>; Wed, 22 Jul 2020 07:07:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=yAHV/rpaUbGt0q99VF6bHWxElygJ/Z2JZXz353VfAMQ=;
+        b=SITU1kgFHOpxrGfAvN/xsy6y/SqUaSONdNDH3tOAGvk0gA4uhHJweALhI0Dxw7n0Y/
+         w0T54rjK6YJq44cbIqPDTyG7Y3ioXKYTGAPQ+Af2WyK7pWiq7s4i7JHD2KwgwimcxbZb
+         ra+ouxUIDC6ClGXL8ZIqULwe0ZZzNG8n+cYmU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=yAHV/rpaUbGt0q99VF6bHWxElygJ/Z2JZXz353VfAMQ=;
+        b=nelg7miRVzcTgYHZ4I7VIjHkgxQFP/YwrGfrL8gUlgdXLSutOpIW5hKoj8qS+OeNRQ
+         qo3VFomuy+GNRVHUt1pwqEXxHE8IyIDvvOuLh5sJKbBeEVEp4PU/6O+83Usu3OFaBAcl
+         IQUDIOiute6vVFC2xmmNGntjcVz5QVljnlLyDkuLNpveE5TCU1EHJ14mIOZQdD2ff4yr
+         zDk+b3ngU/lUwJOz4QyW6/f1wUCfpDZfWBlDGs/3W6tU80nbflJzkVFo2ueZf4FPqAl6
+         +Vu1DIhWNnZOlJasmhGYX4pL/XKUgD3ccU/di3R5uwoArk7kaitVGRFBvpp3X46kpkzM
+         UsRg==
+X-Gm-Message-State: AOAM530mR+i1RGEz7l6zpck9JllruxpVNRwGtUwVtnL9yFio2v1M8BLI
+        Ak+x49tKjX/b6K51NxZNZr6AYlQK8Ni6B43T6sQSCQ==
+X-Google-Smtp-Source: ABdhPJxsmP01VwUh+xqO5FIOiyXHA61FZ3yhIgmjFOUSqLR+0KcXAPEhRCCAl08pk9WqF5Dcre5YesNtfI3JuxHSNWo=
+X-Received: by 2002:aca:cc8e:: with SMTP id c136mr7273449oig.128.1595426870693;
+ Wed, 22 Jul 2020 07:07:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+ <20200709123339.547390-1-daniel.vetter@ffwll.ch> <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
+ <20200721074157.GB3278063@phenom.ffwll.local> <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
+ <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org> <CAPM=9twUWeenf-26GEvkuKo3wHgS3BCyrva=sNaWo6+=A5qdoQ@mail.gmail.com>
+ <805c49b7-f0b3-45dc-5fe3-b352f0971527@shipmail.org> <CAKMK7uHhhxBC2MvnNnU9FjxJaWkEcP3m5m7AN3yzfw=wxFsckA@mail.gmail.com>
+ <92393d26-d863-aac6-6d27-53cad6854e13@shipmail.org> <CAKMK7uF8jpyuCF8uUbEeJUedErxqRGa8JY+RuURg7H1XXWXzkw@mail.gmail.com>
+ <8fd999f2-cbf6-813c-6ad4-131948fb5cc5@shipmail.org> <CAKMK7uH0rcyepP2hDpNB-yuvNyjee1tPmxWUyefS5j7i-N6Pfw@mail.gmail.com>
+ <df5414f5-ac5c-d212-500c-b05c7c78ce84@shipmail.org> <CAKMK7uF27SifuvMatuP2kJPTf+LVmVbG098cE2cqorYYo7UHkw@mail.gmail.com>
+ <697d1b5e-5d1c-1655-23f8-7a3f652606f3@shipmail.org>
+In-Reply-To: <697d1b5e-5d1c-1655-23f8-7a3f652606f3@shipmail.org>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Wed, 22 Jul 2020 16:07:39 +0200
+Message-ID: <CAKMK7uGSkgdJyyvGe8SF_vWfgyaCWn5p0GvZZdLvkxmrS6tYbQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
+ fences are a bad idea
+To:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Cc:     Dave Airlie <airlied@gmail.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Stone <daniels@collabora.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Steve Pronovost <spronovo@microsoft.com>,
+        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Jesse Natalie <jenatali@microsoft.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 22 Jul 2020 17:00:52 +0530
-Rahul Gottipati <rahul.blr97@gmail.com> escreveu:
+On Wed, Jul 22, 2020 at 3:12 PM Thomas Hellstr=C3=B6m (Intel)
+<thomas_os@shipmail.org> wrote:
+> On 2020-07-22 14:41, Daniel Vetter wrote:
+> > Ah I think I misunderstood which options you want to compare here. I'm
+> > not sure how much pain fixing up "dma-fence as memory fence" really
+> > is. That's kinda why I want a lot more testing on my annotation
+> > patches, to figure that out. Not much feedback aside from amdgpu and
+> > intel, and those two drivers pretty much need to sort out their memory
+> > fence issues anyway (because of userptr and stuff like that).
+> >
+> > The only other issues outside of these two drivers I'm aware of:
+> > - various scheduler drivers doing allocations in the drm/scheduler
+> > critical section. Since all arm-soc drivers have a mildly shoddy
+> > memory model of "we just pin everything" they don't really have to
+> > deal with this. So we might just declare arm as a platform broken and
+> > not taint the dma-fence critical sections with fs_reclaim. Otoh we
+> > need to fix this for drm/scheduler anyway, I think best option would
+> > be to have a mempool for hw fences in the scheduler itself, and at
+> > that point fixing the other drivers shouldn't be too onerous.
+> >
+> > - vmwgfx doing a dma_resv in the atomic commit tail. Entirely
+> > orthogonal to the entire memory fence discussion.
+>
+> With vmwgfx there is another issue that is hit when the gpu signals an
+> error. At that point the batch might be restarted with a new meta
+> command buffer that needs to be allocated out of a dma pool. in the
+> fence critical section. That's probably a bit nasty to fix, but not
+> impossible.
 
-> This fixes some coding style issues of multiline comments to
-> correct a few checkpatch.pl warnings.
-> 
-> Signed-off-by: Rahul Gottipati <rahul.blr97@gmail.com>
-> ---
-> Changes in v2:
-> 	Distributed changes across 2 patches instead of the previous 1.
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index 9cdcbe774229..5bf3a86f98f8 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -1281,7 +1281,8 @@ static int atomisp_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
->  	 * But the capture number cannot be determined by HAL.
->  	 * So HAL only sets the capture number to be 1 and queue multiple
->  	 * buffers. Atomisp driver needs to check this case and re-trigger
-> -	 * CSS to do capture when new buffer is queued. */
-> +	 * CSS to do capture when new buffer is queued.
-> +	 */
->  	if (asd->continuous_mode->val &&
->  	    atomisp_subdev_source_pad(vdev)
->  	    == ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE &&
-> @@ -1806,7 +1807,7 @@ static int atomisp_streamon(struct file *file, void *fh,
->  		/*
->  		 * set freq to max when streaming count > 1 which indicate
->  		 * dual camera would run
-> -		*/
-> +		 */
->  		if (atomisp_streaming_count(isp) > 1) {
->  			if (atomisp_freq_scaling(isp,
->  						 ATOMISP_DFS_MODE_MAX, false) < 0)
-> @@ -2438,7 +2439,8 @@ static int atomisp_g_ext_ctrls(struct file *file, void *fh,
->  	int i, ret = 0;
->  
->  	/* input_lock is not need for the Camera related IOCTLs
-> -	 * The input_lock downgrade the FPS of 3A*/
-> +	 * The input_lock downgrade the FPS of 3A
-> +	 */
+Yeah reset is fun. From what I've seen this isn't any worse than the
+hw allocation issue for drm/scheduler drivers, they just allocate
+another hw fence with all that drags along. So the same mempool should
+be sufficient.
 
+The really nasty thing around reset is display interactions, because
+you just can't take drm_modeset_lock. amdgpu fixed that now (at least
+the modeset_lock side, not yet the memory allocations that brings
+along). i915 has the same problem for gen2/3 (so really old stuff),
+and we've solved that by breaking&restarting all i915 fence waits, but
+that predates multi-gpu and wont work for shared fences ofc. But it's
+so old and predates all multi-gpu laptops that I think wontfix is the
+right take.
 
-On media (and on several subsystems), we keep the first line in blank,
-on multi-line comments:
+Other drm/scheduler drivers don't have that problem since they're all
+render-only, so no display driver interaction.
 
- 	/* 
-	 * input_lock is not need for the Camera related IOCTLs
-	 * The input_lock downgrade the FPS of 3A
-	 */
-	
->  	ret = atomisp_camera_g_ext_ctrls(file, fh, c);
->  	if (ret != -EINVAL)
->  		return ret;
-> @@ -2521,7 +2523,8 @@ static int atomisp_camera_s_ext_ctrls(struct file *file, void *fh,
->  				    v4l2_s_ctrl(NULL, isp->flash->ctrl_handler,
->  						&ctrl);
->  				/* When flash mode is changed we need to reset
-> -				 * flash state */
-> +				 * flash state
-> +				 */
->  				if (ctrl.id == V4L2_CID_FLASH_MODE) {
->  					asd->params.flash_state =
->  					    ATOMISP_FLASH_IDLE;
-> @@ -2560,7 +2563,8 @@ static int atomisp_s_ext_ctrls(struct file *file, void *fh,
->  	int i, ret = 0;
->  
->  	/* input_lock is not need for the Camera related IOCTLs
-> -	 * The input_lock downgrade the FPS of 3A*/
-> +	 * The input_lock downgrade the FPS of 3A
-> +	 */
->  	ret = atomisp_camera_s_ext_ctrls(file, fh, c);
->  	if (ret != -EINVAL)
->  		return ret;
+> > I'm pretty sure there's more bugs, I just haven't heard from them yet.
+> > Also due to the opt-in nature of dma-fence we can limit the scope of
+> > what we fix fairly naturally, just don't put them where no one cares
+> > :-) Of course that also hides general locking issues in dma_fence
+> > signalling code, but well *shrug*.
+> Hmm, yes. Another potential big problem would be drivers that want to
+> use gpu page faults in the dma-fence critical sections with the
+> batch-based programming model.
+
+Yeah that's a massive can of worms. But luckily there's no such driver
+merged in upstream, so hopefully we can think about all the
+constraints and how to best annotate&enforce this before we land any
+code and have big regrets.
+-Daniel
 
 
 
-Thanks,
-Mauro
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
