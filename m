@@ -2,161 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6A1022B960
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 00:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E57422BA19
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 01:16:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727794AbgGWW3H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jul 2020 18:29:07 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:36640 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726922AbgGWW3F (ORCPT
+        id S1727860AbgGWXQB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jul 2020 19:16:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34990 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727901AbgGWXP6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jul 2020 18:29:05 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 14EAF634C87;
-        Fri, 24 Jul 2020 01:28:35 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jyjha-0000Tg-Pi; Fri, 24 Jul 2020 01:28:34 +0300
-Date:   Fri, 24 Jul 2020 01:28:34 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Hans Verkuil <hverkuil@xs4all.nl>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v10 2/4] media: i2c: Add MAX9286 driver
-Message-ID: <20200723222834.GC829@valkosipuli.retiisi.org.uk>
-References: <20200612144713.502006-1-kieran.bingham+renesas@ideasonboard.com>
- <20200612144713.502006-3-kieran.bingham+renesas@ideasonboard.com>
- <1fb4a023-d177-744f-41f4-755aafbfa7f2@ideasonboard.com>
+        Thu, 23 Jul 2020 19:15:58 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6336279;
+        Fri, 24 Jul 2020 01:15:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1595546155;
+        bh=6y3U4yLr3ZQR9s0aeNcGQU+EWxh0U1ZBRXVyKtbSqKU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DQxjeXAVtgVxhpDiJRG7FVdtmWfKjhiw6AqHSaHrN2I8F61jxkXTcDX0jx2f0zreC
+         NtvNWATcWPQXQNwP6yIxlqGIck1StxplXEcj4klD0AW3AQdO6wVuCwTUcquLSETbgL
+         bilIQk56ILpsoD3r77VWFvlHM5tKJHg0M6m3Yjcg=
+Date:   Fri, 24 Jul 2020 02:15:49 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, slongerbeam@gmail.com,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>
+Subject: Re: [PATCH 08/13] dt-bindings: media: ov5640: Remove data-shift
+Message-ID: <20200723231549.GE21353@pendragon.ideasonboard.com>
+References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
+ <20200717132859.237120-9-jacopo+renesas@jmondi.org>
+ <20200717205722.GJ5961@pendragon.ideasonboard.com>
+ <20200723222259.GB829@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1fb4a023-d177-744f-41f4-755aafbfa7f2@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200723222259.GB829@valkosipuli.retiisi.org.uk>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Hi Sakari,
 
-On Thu, Jul 16, 2020 at 10:02:24AM +0100, Kieran Bingham wrote:
-> Hi Sakari,
-> 
-> This is the output of checkpatch --strict on this driver. Sorry for not
-> detailing this in the commit or cover letter.
-
-No worries.
-
-> 
-> > ./patches/gmsl/v10/v10-0001-dt-bindings-media-i2c-Add-bindings-for-Maxim-Int.patch has style problems, please review.
-> > --------------------------------------------------------------
-> > ./patches/gmsl/v10/v10-0002-media-i2c-Add-MAX9286-driver.patch
-> > --------------------------------------------------------------
-> > CHECK: Prefer using the BIT macro
-> > #246: FILE: drivers/media/i2c/max9286.c:40:
-> > +#define MAX9286_FSYNCMODE_INT_OUT	(1 << 6)
+On Fri, Jul 24, 2020 at 01:22:59AM +0300, Sakari Ailus wrote:
+> On Fri, Jul 17, 2020 at 11:57:22PM +0300, Laurent Pinchart wrote:
+> > Hi Jacopo,
 > > 
-> > CHECK: Prefer using the BIT macro
-> > #251: FILE: drivers/media/i2c/max9286.c:45:
-> > +#define MAX9286_FSYNCMETH_SEMI_AUTO	(1 << 0)
+> > (CC'ing Sakari)
 > > 
-> > CHECK: Prefer using the BIT macro
-> > #262: FILE: drivers/media/i2c/max9286.c:56:
-> > +#define MAX9286_EDC_6BIT_CRC		(1 << 5)
+> > Thank you for the patch.
 > > 
-> > CHECK: Prefer using the BIT macro
-> > #268: FILE: drivers/media/i2c/max9286.c:62:
-> > +#define MAX9286_HVSRC_D14		(1 << 0)
+> > On Fri, Jul 17, 2020 at 03:28:54PM +0200, Jacopo Mondi wrote:
+> > > The value of the data-shift property solely depend on the selected
+> > > bus width and it's not freely configurable.
+> > > 
+> > > Remove it from the bindings document and update its users accordingly.
 > > 
-> > CHECK: Prefer using the BIT macro
-> > #286: FILE: drivers/media/i2c/max9286.c:80:
-> > +#define MAX9286_DATATYPE_RGB565		(1 << 0)
+> > Hmmmm that's an interesting one. Sakari, what do you think ?
 > > 
-> > CHECK: Prefer using the BIT macro
-> > #304: FILE: drivers/media/i2c/max9286.c:98:
-> > +#define MAX9286_I2CSLVSH_469NS_234NS	(1 << 5)
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >  Documentation/devicetree/bindings/media/i2c/ov5640.yaml | 9 ---------
+> > >  arch/arm/boot/dts/stm32mp157c-ev1.dts                   | 1 -
+> > >  2 files changed, 10 deletions(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > index 5e1662e848bd..ab700a1830aa 100644
+> > > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > @@ -92,12 +92,6 @@ properties:
+> > >                parallel bus.
+> > >              enum: [8, 10]
+> > > 
+> > > -          data-shift:
+> > > -            description: |
+> > > -              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
+> > > -              <0> for 10 bits parallel bus.
+> > > -            enum: [0, 2]
 > > 
-> > CHECK: Prefer using the BIT macro
-> > #312: FILE: drivers/media/i2c/max9286.c:106:
-> > +#define MAX9286_I2CMSTBT_28KBPS		(1 << 2)
-> > 
-> > CHECK: Prefer using the BIT macro
-> > #316: FILE: drivers/media/i2c/max9286.c:110:
-> > +#define MAX9286_I2CSLVTO_256US		(1 << 0)
+> > Should you document in the description of bus-width that data-shift is
+> > implied ?
 > 
-> None of those are appropriate to use the BIT() macro, as they are all
-> entries of a specific field with a shift, such as:
-> 
-> #define MAX9286_FSYNCMODE_ECU           (3 << 6)
-> #define MAX9286_FSYNCMODE_EXT           (2 << 6)
-> #define MAX9286_FSYNCMODE_INT_OUT       (1 << 6)
-> #define MAX9286_FSYNCMODE_INT_HIZ       (0 << 6)
-> 
-> Checkpatch is only picking up on the "1 << x" variant of each entry.
+> The purpose of the datas-shift property is to convey how the parallel bus
+> lines are connected for a given bus width for devices where it is
+> configurable. As this device does not not support that, then indeed this
+> property is not relevant for the device IMO.
 
-Ideally you should use "1U << x" everywhere. If you happen to have a
-register with 31st bit signifying something, mayhem would follow. So the
-practice is to make all such definitions unsigned.
+Could you elaborate on this ? I believe the case that Jacopo is
+describing connects D[9:2] from the sensor to D[7:0] of the receiver
+(Jacopo, could you confirm ?). Isn't that what data-shift is for ?
 
-> 
-> 
-> > CHECK: Macro argument reuse 'source' - possible side-effects?
-> > #399: FILE: drivers/media/i2c/max9286.c:193:
-> > +#define for_each_source(priv, source) \
-> > +	for ((source) = NULL; ((source) = next_source((priv), (source))); )
-> 
-> This warns against possible side effects, but the 're-use' effects are
-> desired ;-)
-> 
-> If you'd prefer this macro to be re-written please let me know.
-
-Works for me. Some warnigns are just not useful. I bet quite a few macros
-elsewhere in the kernel would trigger this.
-
-> 
-> 
-> > CHECK: Lines should not end with a '('
-> > #1372: FILE: drivers/media/i2c/max9286.c:1166:
-> > +			ret = v4l2_fwnode_endpoint_parse(
-> 
-> Full code block:
-> 
-> >                         ret = v4l2_fwnode_endpoint_parse(
-> >                                         of_fwnode_handle(node), &vep);
-> >                         if (ret) {
-> >                                 of_node_put(node);
-> >                                 return ret;
-> >                         }
-> 
-> That one is awkward, and I chose to keep it as a lesser evil.
-> Of course now that we can officially go up to 120 chars, I could move
-> this line up.
-> 
-> If you'd like this to be moved to a single line now we can go over 80
-> chars, please confirm.
-
-I don't mind that. Mauro, any thoughts on this?
+> > > -
+> > >            hsync-active:
+> > >              enum: [0, 1]
+> > > 
+> > > @@ -115,7 +109,6 @@ properties:
+> > >              then:
+> > >                  properties:
+> > >                    bus-width: false
+> > > -                  data-shift: false
+> > >                    hsync-active: false
+> > >                    vsync-active: false
+> > >                    pclk-sample: false
+> > > @@ -135,7 +128,6 @@ properties:
+> > >                  - remote-endpoint
+> > >                  - bus-type
+> > >                  - bus-width
+> > > -                - data-shift
+> > >                  - hsync-active
+> > >                  - vsync-active
+> > >                  - pclk-sample
+> > > @@ -204,7 +196,6 @@ examples:
+> > >                      remote-endpoint = <&parallel_from_ov5640>;
+> > >                      bus-type = <5>;
+> > >                      bus-width = <10>;
+> > > -                    data-shift = <0>;
+> > >                      hsync-active = <1>;
+> > >                      vsync-active = <1>;
+> > >                      pclk-sample = <1>;
+> > > diff --git a/arch/arm/boot/dts/stm32mp157c-ev1.dts b/arch/arm/boot/dts/stm32mp157c-ev1.dts
+> > > index 613ede73b65b..96f96202ca63 100644
+> > > --- a/arch/arm/boot/dts/stm32mp157c-ev1.dts
+> > > +++ b/arch/arm/boot/dts/stm32mp157c-ev1.dts
+> > > @@ -192,7 +192,6 @@ ov5640_0: endpoint {
+> > >  				remote-endpoint = <&dcmi_0>;
+> > >  				bus-type = <5>;
+> > >  				bus-width = <8>;
+> > > -				data-shift = <2>; /* lines 9:2 are used */
+> > >  				hsync-active = <0>;
+> > >  				vsync-active = <0>;
+> > >  				pclk-sample = <1>;
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
