@@ -2,70 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 670B922AD9A
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 13:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A75722ADAB
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 13:27:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728663AbgGWLVa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jul 2020 07:21:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48150 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728040AbgGWLVD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jul 2020 07:21:03 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CAC2C0619E2
-        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 04:20:59 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id y24so657239wma.1
-        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 04:20:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=cq5UFsGM4PwbW1qFMIEr855aXB0O6MiL01vlSKcAzk8=;
-        b=KytZh9UnUDim2wAZoUN7fbP/fKy8ZwVeBJ7TWqNhWdU6W6uh7i+FtCKzmWvfvZv6hf
-         ycZ+iBjEZXKTRlh7TBoQtDkDqBtdxwgQkYvwqMg/7Z5GbsNzD5ESatBd9U7qnNyvCHxZ
-         Z6IGH15rdF5RQT7Le8IUI6uApoe0buZI5rZpvTKt86NHhVjGCbugtJKDGiuQcNyjI9ul
-         hN+5sM564AX70iXZPGKeGTI+qS67b99sBbwG8TImeet8ePGbwWYbTxnVuPRe7Ei9v2aW
-         58c/EXaheUL8ELQ/gx7wKA2xieBSgKIvWNF9PfnWbnj81e7K+K1v7yjo55WJ9TI+9Eg9
-         ZoNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=cq5UFsGM4PwbW1qFMIEr855aXB0O6MiL01vlSKcAzk8=;
-        b=tIHHTub/Vfr4WKSSkQ92r5HyBawU9vd0OaBp2h9xbzdZWpVZdbdopz7dZmTcjjXRek
-         jJhLhd+cbGRxtSI3HBhQwaFXHNYjP7yDGhzGiBReqt6JMYhTQn7rtZ9X6aFpcqFT7vYY
-         ULUimg67LFi677Bltoi2eZEuyoIsJc/pHvZF1spGoWd2En762Jt/zKlmfuSVmSzZqEca
-         b+F8KAF0hwbNUdLKKGUrVRzAgsIf2dw0xHdWYcNaXTolOGnCMKpeWTEiTgfjahAZnRpW
-         Ij+X/mJZMBFPPkJSqr3pHM6z820ry+TimcZf8/r1G3W+bo98pn79As4qyqRCUojvmTk5
-         R+Uw==
-X-Gm-Message-State: AOAM530ZHQ52N29iOYnJAEqyEbRsc5AyrtJi5Ea7WubBI58suuI0DQdx
-        mtRoiHnZabrE6XFsmdbG6leR+ZNbsObP34kyuAw=
-X-Google-Smtp-Source: ABdhPJz59Y2v9g6RHFo0PIRwkSA3oiyMAeWQq5emT1enaUFqyrWZxeL/bP//act1bDBq3dUS0lrIsk/EqNGX1Svd8zQ=
-X-Received: by 2002:a7b:c952:: with SMTP id i18mr4000116wml.65.1595503257912;
- Thu, 23 Jul 2020 04:20:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:adf:9267:0:0:0:0:0 with HTTP; Thu, 23 Jul 2020 04:20:57
- -0700 (PDT)
-Reply-To: godardchambers@yandex.com
-From:   Luis Fernandez Godard <doran11karn@gmail.com>
-Date:   Thu, 23 Jul 2020 13:20:57 +0200
-Message-ID: <CAFyBfXJFn9QL6ukyOJ1e=6PKqG1SkMxYOcn_ubYmJSvFmRHNGA@mail.gmail.com>
-Subject: =?UTF-8?B?TmFsw6loYXbDoSB6cHLDoXZhLA==?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        id S1728412AbgGWL1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jul 2020 07:27:35 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:57449 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727828AbgGWL1e (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Jul 2020 07:27:34 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1595503654; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=zMBGA4GBLjo26JmXFoaEr/6TroQfiUFJV+/N5KVNSYQ=; b=he89UGBPf2SMHj4OhTSZMY4WNrsAqmuBAxdnaCs7bH8VNHzRCiQh+8kpksv6FB+XfiCuXnAO
+ RK9M+jz7bdSWr6zmULxDGVRXgoRasefX6UmHcEIKkZ8CAtY+ZkZO8dMaQAljB9jkr7dvn1Cj
+ pJAvLyOFWQuErk05dtG6yY46ZTE=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
+ 5f1974185b75bcda60af5818 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 23 Jul 2020 11:27:20
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3585BC433CB; Thu, 23 Jul 2020 11:27:20 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from blr-ubuntu-173.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id D5656C433C6;
+        Thu, 23 Jul 2020 11:27:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D5656C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+To:     stanimir.varbanov@linaro.org, robh+dt@kernel.org,
+        agross@kernel.org, bjorn.andersson@linaro.org
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org, Rajendra Nayak <rnayak@codeaurora.org>
+Subject: [PATCH v4 0/5] DVFS support for Venus
+Date:   Thu, 23 Jul 2020 16:56:47 +0530
+Message-Id: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-TmFsw6loYXbDoSB6cHLDoXZhLA0KDQpKYWsgb2JlY27Emz8gRG91ZsOhbSwgxb5lIHNlIHRhdG8g
-enByw6F2YSBzIHbDoW1pIGRvYsWZZSBzZXRrw6F2w6EuDQpOZXphcG9tZcWIdGUgcHJvc8OtbSB0
-dXRvIHpwcsOhdnUgbmEgcm96ZMOtbCBvZCBkxZnDrXbEm2rFocOtY2gsIHByb3Rvxb5lIHbDocWh
-DQpkxJtkaWNrw70gZm9uZCB2ZSB2w73FoWkgOSwyIG1pbGlvbnUgVVNEIG55bsOtIG9kaGFsdWpl
-IHZhxaFpIG9rYW3Fvml0b3UNCnBveml0aXZuw60gb2Rwb3bEm8SPLiBWeXrDvXbDoW0gdsOhcyB2
-xaFhaywgYWJ5c3RlIGxhc2thdsSbIHDFmWVkYWxpIHN2w6kgY2Vsw6kNCmptw6lubzogWmVtxJs6
-IEFkcmVzYTogUG92b2zDoW7DrTogUm9kaW5uw70gc3RhdjogUG9obGF2w606IFbEm2s6IFNvdWty
-b23DqQ0KxI3DrXNsbzoga29uZcSNbsSbLCBQbGF0bsOhIGtvcGllIGlkZW50aXR5Og0KDQpTIMO6
-Y3RvdSBWw6HFoS4NCkJhcnJpc3RlciBMdWlzIEZlcm5hbmRleiBHb2RhcmQgKEVzcSkuDQo=
+v4: Moved code from probe/remove/runtime_suspend into
+different pm_ops callbacks
+
+v3: Renamed the optional power domain as cx
+
+v2: Fixed up the labels of OPP nodes in patch 4
+    Included the bindings update patch as part of this series,
+    a resend of https://lore.kernel.org/patchwork/patch/1241077/
+
+These patches add DVFS support for Venus
+
+Patch 1 will need to be picked by Rob.
+Patch 2 and 3 will need to be picked by Stan,
+Patch 4 and 5 should land via the qcom tree.
+
+Rajendra Nayak (5):
+  dt-bindings: media: venus: Add an optional power domain for perf
+    voting
+  media: venus: core: Fix error handling in probe
+  media: venus: core: Add support for opp tables/perf voting
+  arm64: dts: sdm845: Add OPP tables and power-domains for venus
+  arm64: dts: sc7180: Add OPP tables and power-domains for venus
+
+ .../bindings/media/qcom,sc7180-venus.yaml          |  6 +-
+ .../bindings/media/qcom,sdm845-venus-v2.yaml       |  6 +-
+ arch/arm64/boot/dts/qcom/sc7180.dtsi               | 35 +++++++-
+ arch/arm64/boot/dts/qcom/sdm845.dtsi               | 40 +++++++++-
+ drivers/media/platform/qcom/venus/core.c           | 17 ++--
+ drivers/media/platform/qcom/venus/core.h           |  5 ++
+ drivers/media/platform/qcom/venus/pm_helpers.c     | 92 ++++++++++++++++++++--
+ 7 files changed, 183 insertions(+), 18 deletions(-)
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
+
