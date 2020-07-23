@@ -2,37 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F41AB22B6F3
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 21:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B84B822B758
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 22:15:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726035AbgGWTvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jul 2020 15:51:32 -0400
-Received: from mout.web.de ([212.227.17.11]:56247 "EHLO mout.web.de"
+        id S1727060AbgGWUP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jul 2020 16:15:26 -0400
+Received: from mout.web.de ([217.72.192.78]:39569 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725894AbgGWTvb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jul 2020 15:51:31 -0400
+        id S1725979AbgGWUPZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Jul 2020 16:15:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1595533884;
-        bh=Odmaz5LPtqZcSGKF+ghlkQLO/9kq1QnxCZFwxNtnKI8=;
+        s=dbaedf251592; t=1595535318;
+        bh=b1AvnC06VM7aUJGtKbMoB55rYPYUl0G9rhzVR5GIJfQ=;
         h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
-        b=qE+RQnhOkvELQOVwt0R87oO63k2I5HVFNcVCJqG91B2d/FTgBPSxzBvA1vh89MjNH
-         ltPdi6a/GDUuDXFiKnygHfilc9hKpSQC59AbYIqoQ9EmRY+l9fxbVKNmZIiWcxkXY7
-         5VycOcaH5NNA0hfZU1m5KS+QiN2wm5hWP/C+zI3c=
+        b=OtX/HYesZLApJ/a+AJZhPSt+WlRqdXG7j0BHvJlCWagLALA2SfKJNL4kpD0XgUhIJ
+         dAKSpx2FEB/FyBpBfu28hg70KmSR3G6PFb3nvtIvglJtnUV0Kxmv0wrZZak+QZr1BB
+         aXr16BCX5c5ycEXADMQNRv/vgqwXCKP0GMCfLYEQ=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.133.132.31]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N8Epu-1ktfbg2g9g-014GgF; Thu, 23
- Jul 2020 21:51:24 +0200
-To:     Evgeny Novikov <novikov@ispras.ru>,
-        Anton Vasilyev <vasilyev@ispras.ru>,
-        ldv-project@linuxtesting.org, linux-arm-msm@vger.kernel.org,
+Received: from [192.168.1.2] ([93.133.132.31]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0M7KR8-1kmYLY1Wp4-00x1js; Thu, 23
+ Jul 2020 22:15:18 +0200
+To:     Evgeny Novikov <novikov@ispras.ru>, ldv-project@linuxtesting.org,
         linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>
-Subject: Re: [PATCH] media: camss: fix memory leaks on error handling paths in
- probe
+        Prabhakar Lad <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] media: davinci: vpif_capture: fix potential double free
 From:   Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -77,70 +72,53 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <64581990-1f68-131d-2e38-8d3e0b9cbd2a@web.de>
-Date:   Thu, 23 Jul 2020 21:51:23 +0200
+Message-ID: <b179ad63-b895-39f7-dc18-23636f77e1e4@web.de>
+Date:   Thu, 23 Jul 2020 22:15:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hUlzQCYTBYfEQU0QtWYdRVH6T8LJqYd3+6Q71w8fvzUXQPVNnEv
- nSmt93T/1F4vnnCxBY6dcxwJ97VVyA1nNCV9b9fhNwwV6LMQSnz8myrKXvRN/jBHgyie75V
- KvckrM5iVO/rj+UCwwxzUWZ9Pgobcjye9vbveleZBSr04b+KbejGwykLMVgqIBFjzOg7CEO
- Onf2KXEBZBLT2bwMRPsyw==
+X-Provags-ID: V03:K1:b1rKugsqEgf/leaAql7uJUiF0Wo5HXiMQAf6yhcX4VhTj6QsABb
+ 2VmHMNYBaMMOzH4j+nLOJYjMKDX/+oEX5BnMl/VM0TR7R7jZh1P9hqh/OUXkvUFWtalgi/v
+ ta0ukEtj7PC4Ptu4gYgggk7rZBjGIPq9uwrVzq77bUu+o6ILWwKbFvo3rMVv0Yui8gLyJP7
+ sUuy747D54TpH4XUoFbLw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iY6RXnc8I94=:8xLd/atHwhbPzSEsSTRBKJ
- u8iwPgRPJgB3bPZzEVMOKo3LqxFd6kk87Unj/VGg6wOZ3M6eI6cjg9oxTZffznNdFMnF7JEH1
- xZl/YpSDUt9vdbrId7GelmFOUHQ53j7bp60OiuKn+jqooRF8ICuTWStpnFv5Tsuc9dX2MsKYu
- sg2/FBmKYstuQtca+KI3krl9/4ADwpxvGmBlZO1ywwQdPCF2QWjHYlyPxr83Ik6tACSMxkHi2
- j7xiGmm0POxQ0sWuzx7AxgFms8Gea0cP8UyPJfaQVBhx2rOphmxy2tIUD6iHF+MfOJVVm3A7R
- zAKmbaWzd5+BjOEy10hTyJqIAEI5V5zNNuhwHMwCFhppstyDkew5BTLp1rKFv+eYSBoLhdsOp
- BKKT7PGphCMF/PyMhv8N1+5mNLsoPtu1yQKbV4WqHCG4+xQMJMHdNzU712RHilfQE2qcYhtKi
- zIcfUjeyMmYaxZsAmHJHVmf/ljqIHZ9h0X4ZpIea7GNATWtaqnjAVU6GeaCJsEOIiLUd8WPJN
- 6s7Smf0rgX+vk1HAcBPjNLsajlDuAz2iAJnp0cZZYEEuS38dWp33c8HlBRYOjT5Q0agBprIpm
- 9gcr+cA5chq3SVakrLVXHsk7eaLj1LqhzsblhZo+6h5NTlZwMbJqBOjFuDOWGwk1YyblCmSTd
- psIcTYq9xTLBwP2IBcPoZKj+7E4vQEZiGP9QFPfeJjip9z0grv+fO2m3s7zFWnR6gKxIgM77U
- Pt3FkpTVEuXd5YGLJHAB05lErEpIqFRLFW5b+oRU4sfx/zqZ+2jQjV8RN6TVlBIPDP5mVXU+z
- ClhkJU1lvBibBYSmZuMh+64sFqIr9BLh0gOofSYS2r0Nr2DwC/KE+ylkoltn2U2n9G/6xlQdr
- X4NUpq8g8S8w2HGjnlloQHqwxK5sO8jPuknEGFZB0Gq8YHzRj1wx3xdakTrjb0k4WkdP7g2Nm
- YQTIUkRWcewk/pAv/eelzieyhy4LwrgxPYE/FyTFn1qjdr1TNCoIiwf/4zNuwkiY+z9OFGV32
- Fc18UFaw4Y0Fg4yM+XrXnogNszseWW2bBhMVcl9K6WnRIo/syoi4xA3SjzU7eiP85zUzLigke
- 4t1hpXCF0+MN7Sl5zWRuNrzN1IFJshWgbM2jJrA8Gy7huVm5vQPHJdMjzUsGTwQ47GqnIciyK
- c7rZJvJAkUMy2oSqWrpA2BkvAnCnrC1O/bQ9Ak/N5g9Skusm7Jc/oQw9tifPW86GJGIB4gFhj
- otyKfM0VHhKp740NG3/Ehbo6qN3xTaTqjC5T/sQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0L7CMis4AJQ=:FM8srXvXy/hLtExondqQQB
+ JG/+NX5BS6ftADe9/3l992m/0QUltuzvSlyX+FoVmdA1Vqbw5FGl9gAsB0vPRfmJTyCDkmka8
+ ljMMBjriNlyEFMga/bZ+0gx1RFcwmLa+3MPxUp5ryrO8JxqYuzja5iZKQHrXaFNlTZYt5IZod
+ CbHG6Fn5C1sGyVG9t6MDSKyOgIDOkXBtEXoPAJyAZ+3oBDBlXf4CoPVaBGI/hiLjRMF5VEp5v
+ p7Ncwf4NEiR2i75UMwVoz5qXBktKbfttkCt6EEhETtqpbRb5e287c/l+Bl3Ks8tb9IZv1VCH5
+ OYiOwkQhLOhQ53NV312OmeTQZkun7NPHZV25ErZ3cyBnQzBDvqCfx2+rxJ/h82ioItJYdE2z9
+ MotDYMWELFValMnDzINnBRGsOmPUfA/9CEdcpjG27dg17Z0+oP0UUYg49bGCD5y2xNzadRYsN
+ Xz4sjNf6ugjLutHfDPUODaW8tWqFjPS8+gEso9TaYHHsSmQQCzmMItEHamackX6KBlupyQ7BM
+ dC+j3KAZ0ZNZ7YlKbYW7QXku/CtOV50SCwm4NGkowgBTMrpK9RbcpeUQgka1TcDU621EdCt/n
+ iZp493/GXSvUlozR9ZyurbjNYy/YS+iq+EMiFY8WBvcZSbQfUN82XaFG4ZbyvrtxigoubJJPw
+ wcdO5a80/Q7qy+59etvEeS4YPe+hXIqazl4GkcwvKC/x2gOx4344s2Xnu0Ll0hIrQFfR2DLRk
+ Prc1npMRKHezM3DjAi4iOL0zLYzgHDNRoS8n9LEFkvm7SMkxtFgaI4q94eu//Q0LEdsqZRxA2
+ +S06L2G8EQ1KRqxGt3J51mSKhvFaoOttxtdOqnz2pCcsdT/lWyQ7tqb3AMKX5C+GSO45C6lbc
+ SxnzBnZUvXIZ2Z4komuzytIG5t9/T/4IMSf83dMmj977xnTsbsKzXjXGT4jk5ZvusuFQRHXer
+ MRdQh9l/+mfyxuC3YTEA/fIk/rMHxKEkqwkP5QJ5sfIMGoRdLGFk+l9NgSrnIF1mTbO2XmMAq
+ LuekbJb+OJWrZQyumllNE1w7ft1ibVqT4n0lyLBz2qETXr1kIanNLzVPI956DC1wYx06xtjdy
+ 79qtlHT2uMiZbyOs7GenCTZjxRj8E4wL9RnKzGWve2zlhh6zAyuJc8KKgBzBPrMFK5y+u3Qcd
+ 3WixhhHOH0bUrbsJF2Id8Obvt/8hSfZTzfxyVnRav3FnAuOEucgW9YNgi9KnBu0QjPEsdqN7g
+ MZtcuoONq5lU90rmLvY8c/Fa8fhxcCIkl4bIAPw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> camss_probe() does not free camss on error handling paths. The patch
-> introduces an additional error label for this purpose.
+> In case of errors vpif_probe_complete() releases memory for vpif_obj.sd
+> and unregisters the V4L2 device. But then this is done again by
+> vpif_probe() itself. The patch removes the cleaning from
+> vpif_probe_complete().
 
-* I suggest to use an imperative wording for the change description.
+* An imperative wording can be preferred for the change description,
+  can't it?
 
-* Would you like to use also a jump target like the following
-  at the end of this function implementation?
-
-+e_nomem:
-+	ret =3D -ENOMEM;
-+	goto err_free;
-
-
-* Will the tag =E2=80=9CFixes=E2=80=9D become helpful for the commit messa=
-ge?
-
-
->                                                        Besides, it
-> removes call of v4l2_async_notifier_cleanup() from
-> camss_of_parse_ports() since its caller, camss_probe(), cleans up all
-> its resources itself.
-
-I propose to offer such a change by a separate update step.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?id=3Dd15be546031cf65a0fc34879be=
-ca02fd90fe7ac7#n138
-
+* Would you like to add the tag =E2=80=9CFixes=E2=80=9D to the commit mess=
+age?
 
 Regards,
 Markus
