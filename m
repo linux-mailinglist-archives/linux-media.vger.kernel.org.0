@@ -2,122 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EA6A22B36E
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 18:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2C9022B417
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 19:05:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728063AbgGWQXp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jul 2020 12:23:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726632AbgGWQXo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jul 2020 12:23:44 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C36FC0619DC
-        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 09:23:44 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id t6so3373676pgq.1
-        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 09:23:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yfVZE7NtYdJUGsjP3O6STFOxzndL23VX/D2iT0ffJ+g=;
-        b=V1ktARFIhvMKQ1IxYdxFJADL/UylqOQ00z+Am7Kd1qUnu0QySTpk5Uamc3GH1QHKfo
-         2/jqVG1jrdxCJhq/1iw/AYy8jDxZi6irE1+/49+4quaDN6xu83Dz6cbaQKxbl5zVIPWm
-         Ffn9OEawxeYHWvtOdi5/rP2jokjo2HmSR9oTy0h97yTnL10RCaMYpg2kKQTXx0zy51ju
-         5cPyRScGda2zL33Aw41pHcDh0rRm/Y2OEcnZvj6gA1hI/0U16Nshg6soXCLQDmuo+DOe
-         4G+ofNLr9j6ybSmmJoHlVUoW9ldJXGsaG3I/lDmXeu6kGfIe17e8evUvFvkk9YOXwtNw
-         Tabw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yfVZE7NtYdJUGsjP3O6STFOxzndL23VX/D2iT0ffJ+g=;
-        b=oNqWKfS556hDGHdbi0NhWeet1Ezvaw2aHxHlwEYgzE7vColblauU91WQIDu1az8LQk
-         M2GTISwxeI76Lh5SSlDl/YIgf59l7EjJP2MUvQX8FTI1HEmdvs/uIFe6pUTEyLnwKL6H
-         fiK3L8WQlNFljsTKqrHSEBTkAG7Tm7KholuHte8Hjwxb6BRn3r4VNbYFylfzjAmCUkHo
-         +ljrYuG2zoqqxmtlONL0Mf8ZJIFC93OXxDikmKbq59zIjVSkXslTrz8a6rYCFKef9pHC
-         Omj6NKVWuE43/B7Bh64DhD6g/IqkSL3ytpGmXDQOJto09nBpjzoGp2PD84uLmPU9W17P
-         AOZg==
-X-Gm-Message-State: AOAM530u6hIQzW0YuM5kxdLcX/TpWesp7aWxKN6xtUCVKOaw+EVIxxVK
-        tTilyPB1vX4fmNLmA8AI0PXcTPk0iJC51ns5
-X-Google-Smtp-Source: ABdhPJzbnnnE6Rh2XjQbhhJ7ROlLAfGKGGLbdklkCo4gn8qqnsOroCD1/9SBEizlhDfPxXMcwd1RSw==
-X-Received: by 2002:a63:141:: with SMTP id 62mr4743428pgb.366.1595521424009;
-        Thu, 23 Jul 2020 09:23:44 -0700 (PDT)
-Received: from pop-os.localdomain ([117.99.80.188])
-        by smtp.googlemail.com with ESMTPSA id p11sm3166866pfq.91.2020.07.23.09.23.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2020 09:23:43 -0700 (PDT)
-From:   Aditya Jain <aditya.jainadityajain.jain@gmail.com>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        Aditya Jain <aditya.jainadityajain.jain@gmail.com>
-Subject: [PATCH] media: atomisp: Fix braces placement coding style errors
-Date:   Thu, 23 Jul 2020 21:51:33 +0530
-Message-Id: <20200723162133.27227-1-aditya.jainadityajain.jain@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726814AbgGWRE6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jul 2020 13:04:58 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:36826 "EHLO mail.ispras.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726254AbgGWRE6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Jul 2020 13:04:58 -0400
+Received: from hellwig.intra.ispras.ru (unknown [10.10.2.182])
+        by mail.ispras.ru (Postfix) with ESMTPS id 3F98C40A2040;
+        Thu, 23 Jul 2020 17:04:56 +0000 (UTC)
+From:   Evgeny Novikov <novikov@ispras.ru>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Evgeny Novikov <novikov@ispras.ru>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ldv-project@linuxtesting.org
+Subject: [PATCH] media: davinci: vpif_capture: fix potential double free
+Date:   Thu, 23 Jul 2020 20:04:53 +0300
+Message-Id: <20200723170453.432-1-novikov@ispras.ru>
+X-Mailer: git-send-email 2.16.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix braces placement errors as reported by checkpatch.pl
+In case of errors vpif_probe_complete() releases memory for vpif_obj.sd
+and unregisters the V4L2 device. But then this is done again by
+vpif_probe() itself. The patch removes the cleaning from
+vpif_probe_complete().
 
-Signed-off-by: Aditya Jain <aditya.jainadityajain.jain@gmail.com>
+Found by Linux Driver Verification project (linuxtesting.org).
+
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/media/platform/davinci/vpif_capture.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 8ea65bef35d2..b64a153d37fd 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -877,7 +877,8 @@ static struct atomisp_video_pipe *__atomisp_get_pipe(
- 
- enum atomisp_metadata_type
- atomisp_get_metadata_type(struct atomisp_sub_device *asd,
--			  enum ia_css_pipe_id pipe_id) {
-+			  enum ia_css_pipe_id pipe_id)
-+{
- 	if (!asd->continuous_mode->val)
- 		return ATOMISP_MAIN_METADATA;
- 
-@@ -1211,8 +1212,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
- 	default:
- 		break;
+diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
+index d9ec439faefa..72a0e94e2e21 100644
+--- a/drivers/media/platform/davinci/vpif_capture.c
++++ b/drivers/media/platform/davinci/vpif_capture.c
+@@ -1482,8 +1482,6 @@ static int vpif_probe_complete(void)
+ 		/* Unregister video device */
+ 		video_unregister_device(&ch->video_dev);
  	}
--	if (vb)
--	{
-+	if (vb) {
- 		vb->ts = ktime_get_ns();
- 		vb->field_count = atomic_read(&asd->sequence) << 1;
- 		/*mark videobuffer done for dequeue*/
-@@ -1234,8 +1234,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
- 	 * Requeue should only be done for 3a and dis buffers.
- 	 * Queue/dequeue order will change if driver recycles image buffers.
- 	 */
--	if (requeue)
--	{
-+	if (requeue) {
- 		err = atomisp_css_queue_buffer(asd,
- 					       stream_id, css_pipe_id,
- 					       buf_type, &buffer);
-@@ -1940,9 +1939,9 @@ int atomisp_get_frame_pgnr(struct atomisp_device *isp,
-  * Get internal fmt according to V4L2 fmt
-  */
- static enum ia_css_frame_format
--v4l2_fmt_to_sh_fmt(u32 fmt) {
--	switch (fmt)
--	{
-+v4l2_fmt_to_sh_fmt(u32 fmt)
-+{
-+	switch (fmt) {
- 	case V4L2_PIX_FMT_YUV420:
- 				return IA_CSS_FRAME_FORMAT_YUV420;
- 	case V4L2_PIX_FMT_YVU420:
+-	kfree(vpif_obj.sd);
+-	v4l2_device_unregister(&vpif_obj.v4l2_dev);
+ 
+ 	return err;
+ }
 -- 
-2.25.1
+2.16.4
 
