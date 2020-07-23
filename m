@@ -2,161 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46AB822B561
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 20:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F41AB22B6F3
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 21:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbgGWSGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jul 2020 14:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54862 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726564AbgGWSGx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jul 2020 14:06:53 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72CD8C0619E4
-        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 11:06:53 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id j18so5766099wmi.3
-        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 11:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mD0gVXE2wPUJlx9RjmBmtExy8T7ZH1sd1QlDXUC5IPE=;
-        b=i9jDZylBCkYI4PX0pdm+Sx5r9rpNQztebTzzJ2kVJ1CwiWFsRTWxuiqKLU82ckP/5O
-         wm1GXTuLRUo5xznse+hNcjWLSiqZEEk/EsqBdPgKDXZV7G488oTrZts+KjJ4wp0ynNoK
-         xnthrqYDhVtPJnC8VwxeoknxgRu/6ZCDxEteqO17nMpNqxlaB8fTpNaoYk57XxkPkoty
-         w/bqAXHYunqu4VIa3KP9J0BnNL5aVqEZvCNIX5BhAsftylOcY3UdBfzlYgoDDWcfQHkb
-         R+BEjxirEqdVRBrNJTyNc0sPJX42zuKYkvXtcxh8oQH7/JPU/8pc1R3QD1cmCFc64i1x
-         103w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mD0gVXE2wPUJlx9RjmBmtExy8T7ZH1sd1QlDXUC5IPE=;
-        b=KXQtX0GOcmfTInWgnRSVx4M17SG/bDdPVtF5ydQh/5UMn33SxzKXdCdJ1JEbOcwWqY
-         6sPWQM0uzs7iJ+ORhbk2YzgvmjXC7bEmjkREKHpIp0BVZLuPYcSKso4qCBuKEcrjvdIp
-         W66shxJSwH6L9otQY1hI9626PxvVMDkmKQS3ywN/dPcrtobaX+BUDJU03UZVdreFGQgv
-         1Qb/X/wjUSn7tIuznZfGzwoBvWwxIe1IMDuga01KhRIbSJ1pMXYreF+afzXmovprnCmm
-         Tqs4JxcI8ywOIjaHTUdEOR12IUR+T0W5O39joLBdvpMz2mjD7J+dgFww+6cm98MlNmmv
-         ysHg==
-X-Gm-Message-State: AOAM530pxkBE7IqVgDOJNfal94l3CAFv8QfbHYkqtwwnFM5SIkzveqS5
-        XPAJt+NBurEbOghau8DYitzAPQ==
-X-Google-Smtp-Source: ABdhPJwF9PGbliwSW3zKmJVzF1dom2pw4cIfvHUzAVudkZu5XXD9qQ12APwQBRSpaMyPmQ6WomZO/g==
-X-Received: by 2002:a05:600c:204d:: with SMTP id p13mr5107823wmg.88.1595527612034;
-        Thu, 23 Jul 2020 11:06:52 -0700 (PDT)
-Received: from [192.168.1.12] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id g126sm4377697wme.16.2020.07.23.11.06.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jul 2020 11:06:51 -0700 (PDT)
-Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
- power-domains for venus
-To:     Rajendra Nayak <rnayak@codeaurora.org>,
-        stanimir.varbanov@linaro.org, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org
-References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
- <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
-Date:   Thu, 23 Jul 2020 21:06:46 +0300
+        id S1726035AbgGWTvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jul 2020 15:51:32 -0400
+Received: from mout.web.de ([212.227.17.11]:56247 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725894AbgGWTvb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Jul 2020 15:51:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1595533884;
+        bh=Odmaz5LPtqZcSGKF+ghlkQLO/9kq1QnxCZFwxNtnKI8=;
+        h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
+        b=qE+RQnhOkvELQOVwt0R87oO63k2I5HVFNcVCJqG91B2d/FTgBPSxzBvA1vh89MjNH
+         ltPdi6a/GDUuDXFiKnygHfilc9hKpSQC59AbYIqoQ9EmRY+l9fxbVKNmZIiWcxkXY7
+         5VycOcaH5NNA0hfZU1m5KS+QiN2wm5hWP/C+zI3c=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.133.132.31]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N8Epu-1ktfbg2g9g-014GgF; Thu, 23
+ Jul 2020 21:51:24 +0200
+To:     Evgeny Novikov <novikov@ispras.ru>,
+        Anton Vasilyev <vasilyev@ispras.ru>,
+        ldv-project@linuxtesting.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>
+Subject: Re: [PATCH] media: camss: fix memory leaks on error handling paths in
+ probe
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <64581990-1f68-131d-2e38-8d3e0b9cbd2a@web.de>
+Date:   Thu, 23 Jul 2020 21:51:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:hUlzQCYTBYfEQU0QtWYdRVH6T8LJqYd3+6Q71w8fvzUXQPVNnEv
+ nSmt93T/1F4vnnCxBY6dcxwJ97VVyA1nNCV9b9fhNwwV6LMQSnz8myrKXvRN/jBHgyie75V
+ KvckrM5iVO/rj+UCwwxzUWZ9Pgobcjye9vbveleZBSr04b+KbejGwykLMVgqIBFjzOg7CEO
+ Onf2KXEBZBLT2bwMRPsyw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iY6RXnc8I94=:8xLd/atHwhbPzSEsSTRBKJ
+ u8iwPgRPJgB3bPZzEVMOKo3LqxFd6kk87Unj/VGg6wOZ3M6eI6cjg9oxTZffznNdFMnF7JEH1
+ xZl/YpSDUt9vdbrId7GelmFOUHQ53j7bp60OiuKn+jqooRF8ICuTWStpnFv5Tsuc9dX2MsKYu
+ sg2/FBmKYstuQtca+KI3krl9/4ADwpxvGmBlZO1ywwQdPCF2QWjHYlyPxr83Ik6tACSMxkHi2
+ j7xiGmm0POxQ0sWuzx7AxgFms8Gea0cP8UyPJfaQVBhx2rOphmxy2tIUD6iHF+MfOJVVm3A7R
+ zAKmbaWzd5+BjOEy10hTyJqIAEI5V5zNNuhwHMwCFhppstyDkew5BTLp1rKFv+eYSBoLhdsOp
+ BKKT7PGphCMF/PyMhv8N1+5mNLsoPtu1yQKbV4WqHCG4+xQMJMHdNzU712RHilfQE2qcYhtKi
+ zIcfUjeyMmYaxZsAmHJHVmf/ljqIHZ9h0X4ZpIea7GNATWtaqnjAVU6GeaCJsEOIiLUd8WPJN
+ 6s7Smf0rgX+vk1HAcBPjNLsajlDuAz2iAJnp0cZZYEEuS38dWp33c8HlBRYOjT5Q0agBprIpm
+ 9gcr+cA5chq3SVakrLVXHsk7eaLj1LqhzsblhZo+6h5NTlZwMbJqBOjFuDOWGwk1YyblCmSTd
+ psIcTYq9xTLBwP2IBcPoZKj+7E4vQEZiGP9QFPfeJjip9z0grv+fO2m3s7zFWnR6gKxIgM77U
+ Pt3FkpTVEuXd5YGLJHAB05lErEpIqFRLFW5b+oRU4sfx/zqZ+2jQjV8RN6TVlBIPDP5mVXU+z
+ ClhkJU1lvBibBYSmZuMh+64sFqIr9BLh0gOofSYS2r0Nr2DwC/KE+ylkoltn2U2n9G/6xlQdr
+ X4NUpq8g8S8w2HGjnlloQHqwxK5sO8jPuknEGFZB0Gq8YHzRj1wx3xdakTrjb0k4WkdP7g2Nm
+ YQTIUkRWcewk/pAv/eelzieyhy4LwrgxPYE/FyTFn1qjdr1TNCoIiwf/4zNuwkiY+z9OFGV32
+ Fc18UFaw4Y0Fg4yM+XrXnogNszseWW2bBhMVcl9K6WnRIo/syoi4xA3SjzU7eiP85zUzLigke
+ 4t1hpXCF0+MN7Sl5zWRuNrzN1IFJshWgbM2jJrA8Gy7huVm5vQPHJdMjzUsGTwQ47GqnIciyK
+ c7rZJvJAkUMy2oSqWrpA2BkvAnCnrC1O/bQ9Ak/N5g9Skusm7Jc/oQw9tifPW86GJGIB4gFhj
+ otyKfM0VHhKp740NG3/Ehbo6qN3xTaTqjC5T/sQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rajendra,
+> camss_probe() does not free camss on error handling paths. The patch
+> introduces an additional error label for this purpose.
 
-After applying 2,3 and 4/5 patches on linaro-integration v5.8-rc2 I see
-below messages on db845:
+* I suggest to use an imperative wording for the change description.
 
-qcom-venus aa00000.video-codec: dev_pm_opp_set_rate: failed to find
-current OPP for freq 533000097 (-34)
+* Would you like to use also a jump target like the following
+  at the end of this function implementation?
 
-^^^ This one is new.
++e_nomem:
++	ret =3D -ENOMEM;
++	goto err_free;
 
-qcom_rpmh TCS Busy, retrying RPMH message send: addr=0x30000
 
-^^^ and this message is annoying, can we make it pr_debug in rpmh?
+* Will the tag =E2=80=9CFixes=E2=80=9D become helpful for the commit messa=
+ge?
 
-On 7/23/20 2:26 PM, Rajendra Nayak wrote:
-> Add the OPP tables in order to be able to vote on the performance state of
-> a power-domain.
-> 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> ---
->  arch/arm64/boot/dts/qcom/sdm845.dtsi | 40 ++++++++++++++++++++++++++++++++++--
->  1 file changed, 38 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> index e506793..5ca2265 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> @@ -3631,8 +3631,10 @@
->  			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
->  			power-domains = <&videocc VENUS_GDSC>,
->  					<&videocc VCODEC0_GDSC>,
-> -					<&videocc VCODEC1_GDSC>;
-> -			power-domain-names = "venus", "vcodec0", "vcodec1";
-> +					<&videocc VCODEC1_GDSC>,
-> +					<&rpmhpd SDM845_CX>;
-> +			power-domain-names = "venus", "vcodec0", "vcodec1", "cx";
-> +			operating-points-v2 = <&venus_opp_table>;
->  			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
->  				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
->  				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
-> @@ -3654,6 +3656,40 @@
->  			video-core1 {
->  				compatible = "venus-encoder";
->  			};
-> +
-> +			venus_opp_table: venus-opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-100000000 {
-> +					opp-hz = /bits/ 64 <100000000>;
-> +					required-opps = <&rpmhpd_opp_min_svs>;
-> +				};
-> +
-> +				opp-200000000 {
-> +					opp-hz = /bits/ 64 <200000000>;
-> +					required-opps = <&rpmhpd_opp_low_svs>;
-> +				};
-> +
-> +				opp-320000000 {
-> +					opp-hz = /bits/ 64 <320000000>;
-> +					required-opps = <&rpmhpd_opp_svs>;
-> +				};
-> +
-> +				opp-380000000 {
-> +					opp-hz = /bits/ 64 <380000000>;
-> +					required-opps = <&rpmhpd_opp_svs_l1>;
-> +				};
-> +
-> +				opp-444000000 {
-> +					opp-hz = /bits/ 64 <444000000>;
-> +					required-opps = <&rpmhpd_opp_nom>;
-> +				};
-> +
-> +				opp-533000000 {
-> +					opp-hz = /bits/ 64 <533000000>;
-> +					required-opps = <&rpmhpd_opp_turbo>;
-> +				};
-> +			};
->  		};
->  
->  		videocc: clock-controller@ab00000 {
-> 
 
--- 
-regards,
-Stan
+>                                                        Besides, it
+> removes call of v4l2_async_notifier_cleanup() from
+> camss_of_parse_ports() since its caller, camss_probe(), cleans up all
+> its resources itself.
+
+I propose to offer such a change by a separate update step.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?id=3Dd15be546031cf65a0fc34879be=
+ca02fd90fe7ac7#n138
+
+
+Regards,
+Markus
