@@ -2,68 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A712322B82B
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 22:52:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EC4722B841
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 22:57:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727119AbgGWUwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jul 2020 16:52:01 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:34067 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbgGWUwB (ORCPT
+        id S1726310AbgGWU5a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jul 2020 16:57:30 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:34702 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbgGWU53 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jul 2020 16:52:01 -0400
-Received: by mail-il1-f196.google.com with SMTP id t4so5511650iln.1;
-        Thu, 23 Jul 2020 13:52:00 -0700 (PDT)
+        Thu, 23 Jul 2020 16:57:29 -0400
+Received: by mail-io1-f68.google.com with SMTP id q74so7755098iod.1;
+        Thu, 23 Jul 2020 13:57:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=zTq964IoNeUTXAyCqG6dY3TvoVtuKMh1a1pVzxzpE84=;
-        b=slCFGeymxGF0/CqGPcX9mhRK+hyIR2EyEiudxB3OeXss57yKuZz0k+PIpfJwztvijk
-         Dlpk48J7IER/mlu0VQvZ18540ATCFN2Ghpk623MHOQbUi+utoAPSe3DqhOfsKH22x2hH
-         7I/rQfv7qO5xF0X3lscHYrRhXQOAUtFLvFjNsPSG1yRr0fBfv8WCHeHui4yq17HdBNBf
-         CE1/Ui59BlJWPz2mFc0zIXx50p/qJ6I0FQMSTXt3yIhqfzdrnc6gqw1Q/lJH7wP9wobl
-         QNc66SRZwzWRiH1rzkGh1lRwlfTAvR1HsJHQOs41shL38wRgGVSn9QVphf6ICKEG1KQc
-         GDeQ==
-X-Gm-Message-State: AOAM531dzufdmm+2/vUamaWQaW7Xz4/5sqgqgf7xnPWBA8YmzIuLwSwo
-        UeEDD5msIhNycOKfMAdf4Q==
-X-Google-Smtp-Source: ABdhPJyz6S5X17upMQkTR7yW1Zxee++QAdF6rRUOSZHXYbUwt0EVLRTs3W50xQlB5nkWQcHNfh7FKA==
-X-Received: by 2002:a92:d2c6:: with SMTP id w6mr6476819ilg.24.1595537520467;
-        Thu, 23 Jul 2020 13:52:00 -0700 (PDT)
+        bh=ZKEsUsuJIbZrXn6bbTn+pQozwM4jxWor3S9XuDvFA1c=;
+        b=OOALpNG4AQan8HOx0nQ7wUbZB393mtXljj86MmRXfDB02wprfl6Lz1SBMqdwKluEbe
+         keTld2uoURAxIVJL2VodCpT9o4243CxHN437Ybe5/La+9lrrcX6Dd5P1jSOiIqyXgiGz
+         loPpiq7yorK/cA6OlyYjzTHx4x1p+RvI2yg4kOUrU9p7GU3ArzCcy87zA75KmDa5OShf
+         1klwPGhDplHfT4twYnUl9zLjzV0nkZDbRVXefJm0fWd+biburCkyBtXKnYub45j++z+I
+         k4KDRbmarN46dRoVcEy3T1rI/yGE9VEeIMDtSx16z7tjCJ+s+tybUeLSRipiXBnhMaXA
+         flxQ==
+X-Gm-Message-State: AOAM530S7j5sCaacVbrQOu4OzwS4ViDV8EmFUWBLBVz9FMcAj/sh3lBc
+        eusd0by/aEHB4zHenseQgDWnRcLS1A==
+X-Google-Smtp-Source: ABdhPJwU98oXLS4jDcGtL+DAmyecuLWM+bVPp8A7ELvPpvQRVNFF3esKEXIvzAViY9wBD0Y0z4MBhw==
+X-Received: by 2002:a6b:2b12:: with SMTP id r18mr6733996ior.88.1595537848905;
+        Thu, 23 Jul 2020 13:57:28 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id a11sm2182430iow.26.2020.07.23.13.51.58
+        by smtp.gmail.com with ESMTPSA id h11sm2024389ilh.69.2020.07.23.13.57.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2020 13:51:59 -0700 (PDT)
-Received: (nullmailer pid 839307 invoked by uid 1000);
-        Thu, 23 Jul 2020 20:51:57 -0000
-Date:   Thu, 23 Jul 2020 14:51:57 -0600
+        Thu, 23 Jul 2020 13:57:28 -0700 (PDT)
+Received: (nullmailer pid 846854 invoked by uid 1000);
+        Thu, 23 Jul 2020 20:57:27 -0000
+Date:   Thu, 23 Jul 2020 14:57:27 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Santiago Hormazabal <santiagohssl@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linux-media@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        devicetree@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH 2/3] media: kt0913: device tree binding
-Message-ID: <20200723205157.GA839277@bogus>
-References: <20200717004441.116248-1-santiagohssl@gmail.com>
- <20200717004441.116248-3-santiagohssl@gmail.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, bparrot@ti.com,
+        laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, slongerbeam@gmail.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 04/13] dt-bindings: media: ti,cal: Remove sensor from
+ example
+Message-ID: <20200723205727.GA846806@bogus>
+References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
+ <20200717132859.237120-5-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200717004441.116248-3-santiagohssl@gmail.com>
+In-Reply-To: <20200717132859.237120-5-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 16 Jul 2020 21:44:40 -0300, Santiago Hormazabal wrote:
-> Document bindings for the kt0913 AM/FM radio tuner.
+On Fri, 17 Jul 2020 15:28:50 +0200, Jacopo Mondi wrote:
+> The newly introduced dt-schema bindings for the ov5640 image
+> sensor triggered a warning in the ti,cal.yaml bindings file, which
+> has a camera sensor node marked compatible with the sensor.
 > 
-> Signed-off-by: Santiago Hormazabal <santiagohssl@gmail.com>
+> As in the example is enough to report a node for the device that
+> the bindings is about, and maintaining the sensor node up-to-date
+> is a non-necessary burden, remove the image sensor node from the
+> ti,cal bindings file.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  .../bindings/media/i2c/ktm,kt0913.yaml        | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ktm,kt0913.yaml
+>  .../devicetree/bindings/media/ti,cal.yaml     | 22 -------------------
+>  1 file changed, 22 deletions(-)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
