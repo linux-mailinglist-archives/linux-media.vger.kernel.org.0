@@ -2,69 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE9B322B11C
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 16:17:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8FB722B135
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jul 2020 16:24:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728630AbgGWORh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jul 2020 10:17:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47454 "EHLO
+        id S1728396AbgGWOYg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jul 2020 10:24:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726089AbgGWORe (ORCPT
+        with ESMTP id S1728002AbgGWOYg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jul 2020 10:17:34 -0400
+        Thu, 23 Jul 2020 10:24:36 -0400
 Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B29C0619DC
-        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 07:17:33 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id h7so5440364qkk.7
-        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 07:17:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57B20C0619DC
+        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 07:24:36 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id g26so5493364qka.3
+        for <linux-media@vger.kernel.org>; Thu, 23 Jul 2020 07:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2LiwihvWW0t0hQ1nxsWSdrlPG1hvyHa/lTR1EPP1bqs=;
-        b=CY6bT6qfsSCAWYmYLCe/3wU4AjPKfSXSspT/gmiqDIAXpou5xYrbbGUtsWehjkwgXg
-         itkx1lcS2Hw+mxyD2encMlI7MmLaybcn6+qXRpoTxEvINAZMEgYpnhjILeYQQyXRLu7z
-         OdritbG0B6uoj1oftmky+TLZGVnLjapnfGnD4JbfjUkiMDphbYcgxHSveo8XaQphF0x0
-         aKqsUlZn7O+RC4DunuIdLVS14i6kMO+kuKQNogSnYXY+DTbKmPMKyBCYZUHn7y3x5aBc
-         9pRLi1FgQhUkJZ9SIKbEM05yK1/soSoUskP8oaBXDGO/+N/3JKfHPNqgGZ+sj8EHXl90
-         GLRQ==
+        bh=UDlKD0a4LM18XC+jOiecTAoXdOELvYejvML/RR2gdoM=;
+        b=gVvm1YmQ2ooXLKJ9Vd9pgdBu19oraAs3PYAapZ3X6EIkH4hf2S2U0DlAhzDEXQE1wy
+         FbkIcdEXM2DuCg/OcbC+dq47Vc9P3cuKsjJ8FigxWz0DkU1xLTmkOgsHjPnV2ph9jF/y
+         udu6IgcJFF9bNq5GstN7LbdTrpeYp1EBHz/U/WIwFUKvNTfjUV7zV+qUL26UZj6+XH62
+         6lB68fMp3s3YWNhYSRPB+zdPtwaIi/2OSVrFBErNIgqZ09L77zK1gUy8fkOhOolZuBx9
+         nhXvZCjFxt4ugqVp/PTnbVtbccGxfb8u1jEyxjIaNfD/iD3ckgQHtGFyRslR0J5frmCN
+         ArIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=2LiwihvWW0t0hQ1nxsWSdrlPG1hvyHa/lTR1EPP1bqs=;
-        b=gfri0GZNCHgdxlDfTHS8Vjterj8x4dNbxUV4CeVi9+fxkIPaZXEHS9rw37UG4iZyM1
-         rwyGDmA0Yli2PjkfxFjsKo8EpxmcAlrKfU/usAGecC3Ws5teSUsxeoTN3XiB6gNBPI5G
-         9/imI3pUdXpRUy8uNUapNf44FqcmD4gOf4BGN5/cb8ZK/uWDYh+xp8lIuuvLUYHLzLEI
-         XDp2a5NS+NobvI6oJDqXry9hiCbogWzNiaTQhwXWraMs9IcMObh7Pn4dN21LKMuWkGHe
-         s98ZWNsX3+dz88WKRFNO/GptXLvxfMkDxsMUp3H6mRLQnM3bkXaC5wH87wf5nFQGQe0w
-         ACjg==
-X-Gm-Message-State: AOAM533ZNL2kqIWhBSzDWzrmv2hDzVK20pRY68OO29yz4zYD+2d4mCwA
-        a/yQN4V4UXpHq9G6LROvvgheBQ==
-X-Google-Smtp-Source: ABdhPJwsHtL+OaJzevgvh8+gj/etcnpcPMkpuszGBbDzXmpAd8JLF9mhOoDk2bxqETqeWi8gF6O6mQ==
-X-Received: by 2002:a05:620a:4d9:: with SMTP id 25mr1447986qks.411.1595513852724;
-        Thu, 23 Jul 2020 07:17:32 -0700 (PDT)
+        bh=UDlKD0a4LM18XC+jOiecTAoXdOELvYejvML/RR2gdoM=;
+        b=kbORvdzMm9nJcdxLA+N0UDDwxpx39waH/dOB+KIQdenPDBsFqlBY8JxmBeRw77gejY
+         bub7mBb8Q1Hm8UAPv/u1dOnoeMrjGpawWEBPfgWnkgvwfZx8gYpXIGw3rvzCa0ytpPgd
+         xAKIxWJDkElGJeMjqkNODRf1ISdH7uDoc1nGKXa1UyGAFFYnLZ3lYE9DhF9Uy3FI49rt
+         JrgxJK86Wqjb2XTBtxeNl5tsXbMuM2VJKHpD1RdD5YTfYa2EaU1Z1muEdCSD4PETrVfk
+         N2Xy/IoFyALEB6hffTlxF7+FYdSSndB9FwKkwEVR/nMX9GhWXsIUPfWp2tKlyLQcjxRN
+         THFw==
+X-Gm-Message-State: AOAM532YC0Czz5MYFOrMYBQdyhIKHZ6I1X1MY6X28jkhXROEYpMkdfhB
+        WFbvyJUIavgJz4tGDOw4JuKj8w==
+X-Google-Smtp-Source: ABdhPJyc56+8ywFCEReghWOeNYxWMCTOH1JImY2JUiNK7eXirK5d8TNa7OTyJAloB2MR4zbOQxzegw==
+X-Received: by 2002:a05:620a:2409:: with SMTP id d9mr5622593qkn.36.1595514275626;
+        Thu, 23 Jul 2020 07:24:35 -0700 (PDT)
 Received: from [192.168.0.102] ([186.136.155.69])
-        by smtp.gmail.com with ESMTPSA id o187sm2568166qkd.112.2020.07.23.07.17.28
+        by smtp.gmail.com with ESMTPSA id x26sm2518595qtr.4.2020.07.23.07.24.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jul 2020 07:17:32 -0700 (PDT)
+        Thu, 23 Jul 2020 07:24:35 -0700 (PDT)
 Subject: Re: [PATCH v2 0/1] Add support for meson building
-To:     Gregor Jasny <gjasny@googlemail.com>, linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
-        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
-        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, sean@mess.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        kieran.bingham@ideasonboard.com, gjasny@googlemail.com,
+        xavier.claessens@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         user.vdr@gmail.com
 References: <20200721151434.115651-1-ariel@vanguardiasur.com.ar>
- <5598a9af-9f97-76db-eb24-6deeb05f88c1@googlemail.com>
+ <CAAEAJfDxtb4=NMCk8=Y=mw9-VdZ7Ag+q0D5VkyEzR4i6wHm=1Q@mail.gmail.com>
 From:   Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
-Message-ID: <9f6cb0d7-e0fd-9af9-9683-32b544d21eff@vanguardiasur.com.ar>
-Date:   Thu, 23 Jul 2020 11:17:34 -0300
+Message-ID: <1c48d625-c39d-8fea-6e26-0935f6793d1d@vanguardiasur.com.ar>
+Date:   Thu, 23 Jul 2020 11:24:38 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <5598a9af-9f97-76db-eb24-6deeb05f88c1@googlemail.com>
+In-Reply-To: <CAAEAJfDxtb4=NMCk8=Y=mw9-VdZ7Ag+q0D5VkyEzR4i6wHm=1Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -73,42 +78,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gregor,
+Hi Eze,
 
-On 7/22/20 6:32 AM, Gregor Jasny wrote:
-> Hello,
+On 7/22/20 10:14 AM, Ezequiel Garcia wrote:
+> Hi Ariel,
 > 
-> On 7/21/20 5:14 PM, Ariel D'Alessandro wrote:
->> Hello there,
->>
->> Here's another step on porting v4l-utils to meson build system.
->> Following the discussion thread for v1, several changes were added (see
->> Changelog below).
->>
->> Further testing, deeper reviews, more comments, are all welcome :-)
+> Thanks a lot for picking this up and pushing forward.
 > 
-> Thanks you for polishing the patch. It looks good and the Debian package
-> properly builds.
-> 
-> Before merging to master the build system needs to catch-up with the master
-> branch. For example the following got added to configure.ac:
+> Do you think you can amend the README with instructions
+> how to build using meson and any other relevant information
+> you think would make sense?
 
-Right. I'll do that quickly.
+Totally.
 
 > 
->> +# Obtain git SHA of HEAD
->> +AC_SUBST(GIT_SHA, ["-DGIT_SHA=\$(shell if test -d \$(top_srcdir)/.git ; then
->> git -C \$(top_srcdir) rev-parse HEAD ; else printf '\"not available\"'; fi)"])
->> +
->> +# Obtain git commit count of HEAD
->> +AC_SUBST(GIT_COMMIT_CNT, ["-DGIT_COMMIT_CNT=\$(shell if test -d
->> \$(top_srcdir)/.git ; then printf '-'; git -C \$(top_srcdir) rev-list --count
->> HEAD ; fi)"])
-> 
-> I'm wondering if we should drop autotools shortly after the meson patch was
-> merged to prevent further drift.
+> (I'm aware this is scope creeping, but extra points for markdown conversion).
 
-+1 That'd be a good way to go.
+Sure. It'll be my pleasure having that README written in markdown.
+
+> 
+> I think it would be relatively easy to do the Buildroot package port as well,
+> and so we'd have Debian and Buildroot ready, which would serve
+> as references.
+
+Indeed, I've already taken a look at the Buildroot package and was about to
+prepare a patch bumping it to meson, once it is merged and the next release is out.
 
 Thanks,
 Ariel
