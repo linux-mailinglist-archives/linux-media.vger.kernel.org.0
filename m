@@ -2,139 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4265122C506
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 14:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AD4B22C55C
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 14:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbgGXMVM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 08:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55156 "EHLO
+        id S1726728AbgGXMli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 08:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbgGXMVL (ORCPT
+        with ESMTP id S1726280AbgGXMlh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 08:21:11 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 785B8C0619E4
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:21:11 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id k1so5130219pjt.5
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:21:11 -0700 (PDT)
+        Fri, 24 Jul 2020 08:41:37 -0400
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 128FAC0619D3
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:41:37 -0700 (PDT)
+Received: by mail-vs1-xe42.google.com with SMTP id w22so257837vsi.3
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=C2/h5UjeFskvfl8RWhRF+RA8gCVrQiaw+gKjZeYALgY=;
-        b=g6icLpl22LF2yOH4Jey3EDzEKeK33r0xxY/XYlASaeu5H8vv+AB0UTt84LL36sHaQz
-         O0BMqkAXohsZ1bIRdtXpuCP7E+R+UH0mZIdTvB96LTMoC6V0+848/F0lM5TS+YdHliqh
-         934WCQcfywmAhp7xcddThNCHptNNQLnbfsX90PAlELWvnJMU2lSORTDweKJdwKCqjmvB
-         O904lZ2vZoZTLCNob6Qz2vlMMDOEjjPZjH4+RIR1PQt8ngYFZScy4T0TbFmyerEicPrj
-         AU/lDzD0omTuSMpsM0yKvkf1IJHCZ0+YQb+jBJNLLd+CRzrK41Z/DEh/QZmx7r+hLlvb
-         Yr2Q==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2Y/hqFtvSIVM16rwYbPUWVppdN1RqdMbSz6G6w4jStg=;
+        b=JgGBQFcL9fblo1Ehj0NkTjtkr/P21VDmlXk6wvWbzPbSqNpJHCxXMj94ApqJj9rnP4
+         IN4mYv9wJcsU6iWVSC1SuYTe/TbESzsjaDFSRWeM5JqXJCPHonmV3b68IzF9CEjv5sTC
+         xwJ7zDOEpQhL7rve7+d5QfvSJXijdLHGbm8r4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=C2/h5UjeFskvfl8RWhRF+RA8gCVrQiaw+gKjZeYALgY=;
-        b=Fmc16JcuGStkA1A1AzFpXdGmfc1tsiBKVJWQ9jXxdXtLZ0cSRepg/w9mIoTUyMxjzL
-         mDJuOI1LQXlqdAToy2MWtG8orc4NVEepJbO2rFNKm4Bwrm4bJkoOWwwzXHROPgor5Hi6
-         pQ8ByH05y8+gZvznJjBWlSr85BK2zEu+1M1LlRiLiSjlKnsqtbtKUZk+mH+s6NK4mJNF
-         gfqpaqat2ElyA+rz8jghX93rv5ESSzN2hqO/sLf5F78zbcCfOewoPFT2JCR1l9kRR207
-         HPotisjyWbHHEenXGzOB7oclf9rdjEj286J4Rvx8i4z3zJ5CDGVfWX/QiAjtQPec2RRd
-         DaGg==
-X-Gm-Message-State: AOAM5335bF3OrnkqZcgUmYMnlNBda5x74ugFLLldvfLd+PuVeARMT+cc
-        4wiuZftDzNREEm5dq3dT3awG1tMlqkE=
-X-Google-Smtp-Source: ABdhPJy9n1m+7gbI5xbxjzWVy7KzIaWQzWQKFwoxokZQFjaDtAZ37o0Mou+xAob6CZtUkTVsJvG//A==
-X-Received: by 2002:a17:90a:20ad:: with SMTP id f42mr4993812pjg.96.1595593270849;
-        Fri, 24 Jul 2020 05:21:10 -0700 (PDT)
-Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
-        by smtp.gmail.com with ESMTPSA id p9sm6334855pja.4.2020.07.24.05.21.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 24 Jul 2020 05:21:10 -0700 (PDT)
-From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
-X-Google-Original-From: Kaaira Gupta <Kaairakgupta@es.iitr.ac.in>
-Date:   Fri, 24 Jul 2020 17:51:04 +0530
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2 0/3] media: vimc: Allow multiple capture devices to
- use the same sensor
-Message-ID: <20200724122104.GA18482@kaaira-HP-Pavilion-Notebook>
-References: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
- <20200724121521.GA2705690@oden.dyn.berto.se>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2Y/hqFtvSIVM16rwYbPUWVppdN1RqdMbSz6G6w4jStg=;
+        b=fnPvCBsEIAqY38LCWbh/uhd1tRtEY0cqVV0XnbV9aM3gDBx09/1FW/BCfMySJKtLpZ
+         BAoMTRzVjJb8WazKNTgoMHcaYyEUbJV57OgWrIDoy20MlunFYdkRFmirBMMFhgHPWYA+
+         T3WKZJDxVk3IuQ9L9SeJCwYahhmxqjRFqf4NaarcTPC08cDpsfV6CJqU52acdN4OOGyd
+         E/X5g5i86o1uhvoUqAJgMPdcnByzASq1B2PHYbRTBjWamGBawNX9O6F3b6Gu16Qzig4Q
+         NOTgYTordE27u+epOv2x8A80Png3o5BpgOHbmdfgM/niA4XZt7jeXIKSqwY7Af0lcW23
+         9wXw==
+X-Gm-Message-State: AOAM531mEWcEawBJYTqbgQZqwJ3/GLEv+pqnXJYBe1g3VsthebiMIhhS
+        vMzAx6ipTAQy+UWTl7CIeIggQ717BfoRF5DoFyzm/A==
+X-Google-Smtp-Source: ABdhPJyAlSVayuXDG/mTcs8Rws1rB4Ysra6FB/un27XvYZ4dSbrTFfDoRevDk3+SMuiMsE0LlAfuPpRXgFCKuP7YzUA=
+X-Received: by 2002:a67:b448:: with SMTP id c8mr7575072vsm.54.1595594496206;
+ Fri, 24 Jul 2020 05:41:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200724121521.GA2705690@oden.dyn.berto.se>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200710144520.RESEND.1.Id0f52f486e277b5af30babac8ba6b09589962a68@changeid>
+ <20200710070332.GA1175842@kroah.com>
+In-Reply-To: <20200710070332.GA1175842@kroah.com>
+From:   Nicolas Boichat <drinkcat@chromium.org>
+Date:   Fri, 24 Jul 2020 20:41:25 +0800
+Message-ID: <CANMq1KDcKWgyYYP_m0-WV7602g7zUbU0PPkvwXxbSTF5vFfKGQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH] media: atomisp: Replace trace_printk by pr_info
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     devel@driverdev.osuosl.org, lkml <linux-kernel@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 02:15:21PM +0200, Niklas Söderlund wrote:
-Hi,
+On Fri, Jul 10, 2020 at 3:03 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Jul 10, 2020 at 02:45:29PM +0800, Nicolas Boichat wrote:
+> > trace_printk should not be used in production code, replace it
+> > call with pr_info.
+> >
+> > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > ---
+> > Sent this before as part of a series (whose 4th patch was a
+> > change that allows to detect such trace_printk), but maybe it's
+> > easier to get individual maintainer attention by splitting it.
+>
+> Mauro should take this soon:
+>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-> Hi Kaaira,
-> 
-> Thanks for your work.
+Mauro: did you get a chance to look at this? (and the other similar
+patch "media: camss: vfe: Use trace_printk for debugging only")
 
-Thanks for yours :D
-
-> 
-> On 2020-07-24 17:32:10 +0530, Kaaira Gupta wrote:
-> > This is version 2 of the patch series posted by Niklas for allowing
-> > multiple streams in VIMC.
-> > The original series can be found here:
-> > https://patchwork.kernel.org/cover/10948831/
-> > 
-> > This series adds support for two (or more) capture devices to be 
-> > connected to the same sensors and run simultaneously. Each capture device 
-> > can be started and stopped independent of each other.
-> > 
-> > Patch 1/3 and 2/3 deals with solving the issues that arises once two 
-> > capture devices can be part of the same pipeline. While 3/3 allows for 
-> > two capture devices to be part of the same pipeline and thus allows for 
-> > simultaneously use.
-> 
-> I'm just curious if you are aware of this series? It would replace the 
-> need for 1/3 and 2/3 of this series right?
-
-v3 of this series replaces the need for 1/3, but not the current version
-(ie v4). v4 of patch 2/5 removes the stream_counter that is needed to
-keep count of the calls to s_stream. Hence 1/3 becomes relevant again.
-
-> 
-> 1.  https://lore.kernel.org/linux-media/20200522075522.6190-1-dafna.hirschfeld@collabora.com/
-> 
-> > 
-> > Changes since v1:
-> > 	- All three patches rebased on latest media-tree.
-> > 	Patch 3:
-> > 	- Search for an entity with a non-NULL pipe instead of searching
-> > 	  for sensor. This terminates the search at output itself.
-> > 
-> > Kaaira Gupta (3):
-> >   media: vimc: Add usage count to subdevices
-> >   media: vimc: Serialize vimc_streamer_s_stream()
-> >   media: vimc: Join pipeline if one already exists
-> > 
-> >  .../media/test-drivers/vimc/vimc-capture.c    | 35 ++++++++++++++++++-
-> >  .../media/test-drivers/vimc/vimc-debayer.c    |  8 +++++
-> >  drivers/media/test-drivers/vimc/vimc-scaler.c |  8 +++++
-> >  drivers/media/test-drivers/vimc/vimc-sensor.c |  9 ++++-
-> >  .../media/test-drivers/vimc/vimc-streamer.c   | 23 +++++++-----
-> >  5 files changed, 73 insertions(+), 10 deletions(-)
-> > 
-> > -- 
-> > 2.17.1
-> > 
-> 
-> -- 
-> Regards,
-> Niklas Söderlund
+Thanks!
