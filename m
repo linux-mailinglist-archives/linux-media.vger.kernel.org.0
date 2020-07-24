@@ -2,100 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B241822C971
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 17:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F2BD22CACB
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 18:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726485AbgGXPtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 11:49:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59342 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726381AbgGXPtF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 11:49:05 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E22C0619D3
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 08:49:05 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 828592992C6
-Subject: Re: [PATCH 4/4] media: staging: rkisp1: change type of fields in
- 'rkisp1_cif_isp_lsc_config' from u32 to u16
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org
-References: <20200625185017.16493-1-dafna.hirschfeld@collabora.com>
- <20200625185017.16493-5-dafna.hirschfeld@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <5e7061c6-89e4-486f-e642-ed2374da38a7@collabora.com>
-Date:   Fri, 24 Jul 2020 12:48:57 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726742AbgGXQSY convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 24 Jul 2020 12:18:24 -0400
+Received: from mx2.itam.mx ([148.205.229.36]:41776 "EHLO mx2.itam.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726381AbgGXQSY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 Jul 2020 12:18:24 -0400
+Received: from cronos.itam.mx (hydrus2b.itam.mx [148.205.228.143])
+        by mx2.itam.mx  with ESMTP id 06OGHTk5030344-06OGHTk9030344
+        (version=TLSv1.0 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+        Fri, 24 Jul 2020 11:17:30 -0500
+Received: from [10.28.175.153] (105.0.7.102) by cronos.itam.mx
+ (148.205.148.91) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 24 Jul
+ 2020 11:17:29 -0500
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20200625185017.16493-5-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+From:   <>
+To:     Recipients@vger.kernel.org
+Date:   Fri, 24 Jul 2020 18:17:14 +0200
+Reply-To: <mikeweirskyspende@gmail.com>
+Message-ID: <3b5316f7-fa1c-4e00-902b-eed9e1ad9e77@CRONOS.itam.mx>
+X-Originating-IP: [105.0.7.102]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Lieber Freund,
 
+Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen.
+Das ist dein Spendencode: [MW530342019]
 
-On 6/25/20 3:50 PM, Dafna Hirschfeld wrote:
-> The fields in struct 'rkisp1_cif_isp_lsc_config' need to hold
-> values of 12 bits, therefore it is enough to declare them as u16.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+www.youtube.com/watch?v=un8yRTmrYMY
 
-I see this comes from:
+Antworten Sie mit dem SPENDE-CODE an diese
 
-#define RKISP1_CIF_ISP_LSC_TABLE_DATA(v0, v1)     \
-	(((v0) & 0xFFF) | (((v1) & 0xFFF) << 12))
+E-Mail:mikeweirskyspende@gmail.com
 
-That is used in those fields.
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-On a side note, it would be nice to update this header in libcamera as well.
-
-Thanks
-Helen
-
-> ---
->  .../staging/media/rkisp1/uapi/rkisp1-config.h    | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> index bca2e805c0f5..c032c8403f17 100644
-> --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> @@ -274,16 +274,16 @@ struct rkisp1_cif_isp_sdg_config {
->   * refer to REF_01 for details
->   */
->  struct rkisp1_cif_isp_lsc_config {
-> -	__u32 r_data_tbl[RKISP1_CIF_ISP_LSC_SAMPLES_MAX][RKISP1_CIF_ISP_LSC_SAMPLES_MAX];
-> -	__u32 gr_data_tbl[RKISP1_CIF_ISP_LSC_SAMPLES_MAX][RKISP1_CIF_ISP_LSC_SAMPLES_MAX];
-> -	__u32 gb_data_tbl[RKISP1_CIF_ISP_LSC_SAMPLES_MAX][RKISP1_CIF_ISP_LSC_SAMPLES_MAX];
-> -	__u32 b_data_tbl[RKISP1_CIF_ISP_LSC_SAMPLES_MAX][RKISP1_CIF_ISP_LSC_SAMPLES_MAX];
-> +	__u16 r_data_tbl[RKISP1_CIF_ISP_LSC_SAMPLES_MAX][RKISP1_CIF_ISP_LSC_SAMPLES_MAX];
-> +	__u16 gr_data_tbl[RKISP1_CIF_ISP_LSC_SAMPLES_MAX][RKISP1_CIF_ISP_LSC_SAMPLES_MAX];
-> +	__u16 gb_data_tbl[RKISP1_CIF_ISP_LSC_SAMPLES_MAX][RKISP1_CIF_ISP_LSC_SAMPLES_MAX];
-> +	__u16 b_data_tbl[RKISP1_CIF_ISP_LSC_SAMPLES_MAX][RKISP1_CIF_ISP_LSC_SAMPLES_MAX];
->  
-> -	__u32 x_grad_tbl[RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE];
-> -	__u32 y_grad_tbl[RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE];
-> +	__u16 x_grad_tbl[RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE];
-> +	__u16 y_grad_tbl[RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE];
->  
-> -	__u32 x_size_tbl[RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE];
-> -	__u32 y_size_tbl[RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE];
-> +	__u16 x_size_tbl[RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE];
-> +	__u16 y_size_tbl[RKISP1_CIF_ISP_LSC_SECTORS_TBL_SIZE];
->  } __packed;
->  
->  /**
-> 
+Grüße
+Herr Mike Weirsky
