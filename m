@@ -2,86 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0396E22CE8E
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 21:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5D222CE95
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 21:21:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbgGXTRF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 15:17:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48552 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726381AbgGXTRF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 15:17:05 -0400
-Received: from localhost (p54b3305c.dip0.t-ipconnect.de [84.179.48.92])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9F8A7206F0;
-        Fri, 24 Jul 2020 19:17:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595618224;
-        bh=1Jq8jNeuEsHc+9ZAVYpD7ZWZg9rx9073ZC4wxzAB224=;
+        id S1726617AbgGXTVD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 15:21:03 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47564 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726411AbgGXTVD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 Jul 2020 15:21:03 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D990538;
+        Fri, 24 Jul 2020 21:20:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1595618459;
+        bh=2JZm1KdMmDSqj/9d1IlQ04Y2y+SNFCLN5o3y0I4H6Ak=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UeOx/uowcd9aNoRjyHJQMB9q9YsrBnUBIEVkjOifuQpzolBXY0eKwDzWDuSb3XSc2
-         qEbc8ShfHWjbic9ICW80v38dIpl2qLsZZrlay7lJX3hse3Ug6bDK0GaSEq5L6pbXAX
-         hqAAJJmiL1E3YzlJWfc84AAkhEI4aoEjpa+dj4r0=
-Date:   Fri, 24 Jul 2020 21:16:55 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
-        digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [RFC PATCH v4 00/14] Support for Tegra video capture from
- external sensor
-Message-ID: <20200724191654.GA1227@ninjato>
-References: <1595548272-9809-1-git-send-email-skomatineni@nvidia.com>
- <cb080da3-5ae5-bb83-8f5c-65d1fe17cb67@xs4all.nl>
+        b=WYMHYHG4BYlJgED3y4HqzakTdYHDzMzDOOZj+DDzY1CurpbxxnjQvDqfrh6iylggd
+         Xec/mIJZOIV2bjLGgfRPUi2rvqeKFTJOFC9YVYBL6pfSWOc6wZp6sCDZyTA3BoKbkn
+         MqDL16DVQSU1XyOVatu+CC9hynf2ZuS4qNlVGnqA=
+Date:   Fri, 24 Jul 2020 22:20:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Garrit Franke <garritfranke@gmail.com>
+Cc:     sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+        mchehab@kernel.org, trivial@kernel.org
+Subject: Re: [PATCH] trivial: uapi: replace bitshifts with BIT macro
+Message-ID: <20200724192052.GB5921@pendragon.ideasonboard.com>
+References: <20200724190118.24020-1-garritfranke@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cb080da3-5ae5-bb83-8f5c-65d1fe17cb67@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200724190118.24020-1-garritfranke@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Garrit,
 
---VbJkn9YxBvnuCH5J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thank you for the patch.
 
+On Fri, Jul 24, 2020 at 09:01:18PM +0200, Garrit Franke wrote:
 
-> I can also take the i2c-tegra patches if preferred, but there too I need Acks.
-> Dmitry, can you either take these i2c patches, or reply with Acks if you want
-> me to take it?
+A commit message would be nice.
 
-There are some more patches for i2c-tegra pending, so I'd rather pick
-them into my I2C tree once the Tegra maintainers acked them. I can
-provide a immutable branch, though, if there is interest.
+> Signed-off-by: Garrit Franke <garritfranke@gmail.com>
+> ---
+>  include/uapi/linux/media.h | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+> index 383ac7b7d8..5710ba0c83 100644
+> --- a/include/uapi/linux/media.h
+> +++ b/include/uapi/linux/media.h
+> @@ -142,8 +142,8 @@ struct media_device_info {
+>  #define MEDIA_ENT_F_DV_ENCODER			(MEDIA_ENT_F_BASE + 0x6002)
+>  
+>  /* Entity flags */
+> -#define MEDIA_ENT_FL_DEFAULT			(1 << 0)
+> -#define MEDIA_ENT_FL_CONNECTOR			(1 << 1)
+> +#define MEDIA_ENT_FL_DEFAULT			BIT(0)
+> +#define MEDIA_ENT_FL_CONNECTOR			BIT(1)
 
+The BIT() macro isn't available in the uapi headers.
 
---VbJkn9YxBvnuCH5J
-Content-Type: application/pgp-signature; name="signature.asc"
+>  
+>  /* OR with the entity id value to find the next entity */
+>  #define MEDIA_ENT_ID_FLAG_NEXT			(1U << 31)
+> @@ -207,9 +207,9 @@ struct media_entity_desc {
+>  	};
+>  };
+>  
+> -#define MEDIA_PAD_FL_SINK			(1 << 0)
+> -#define MEDIA_PAD_FL_SOURCE			(1 << 1)
+> -#define MEDIA_PAD_FL_MUST_CONNECT		(1 << 2)
+> +#define MEDIA_PAD_FL_SINK				BIT(0)
+> +#define MEDIA_PAD_FL_SOURCE				BIT(1)
+> +#define MEDIA_PAD_FL_MUST_CONNECT		BIT(2)
+>  
+>  struct media_pad_desc {
+>  	__u32 entity;		/* entity ID */
+> @@ -218,13 +218,13 @@ struct media_pad_desc {
+>  	__u32 reserved[2];
+>  };
+>  
+> -#define MEDIA_LNK_FL_ENABLED			(1 << 0)
+> -#define MEDIA_LNK_FL_IMMUTABLE			(1 << 1)
+> -#define MEDIA_LNK_FL_DYNAMIC			(1 << 2)
+> +#define MEDIA_LNK_FL_ENABLED			BIT(0)
+> +#define MEDIA_LNK_FL_IMMUTABLE			BIT(1)
+> +#define MEDIA_LNK_FL_DYNAMIC			BIT(2)
+>  
+>  #define MEDIA_LNK_FL_LINK_TYPE			(0xf << 28)
+>  #  define MEDIA_LNK_FL_DATA_LINK		(0 << 28)
+> -#  define MEDIA_LNK_FL_INTERFACE_LINK		(1 << 28)
+> +#  define MEDIA_LNK_FL_INTERFACE_LINK		BIT(28)
 
------BEGIN PGP SIGNATURE-----
+This is wrong, BIT() should only be used for fields that are 1-bit wide.
+If you look at MEDIA_LNK_FL_LINK_TYPE you can see the field is 4-bits
+wide, it stores a value between 0 and 15. MEDIA_LNK_FL_INTERFACE_LINK
+happens to match the (1 << n) pattern, but it doesn't mean it's a single
+bit field.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8bM6IACgkQFA3kzBSg
-KbYTCxAAotZrtFWCm4x17AWbkHShGvcc2z5M10agF+meIHjiSj9loeN4X928M+Hi
-bjAdLaRtKsDtpOQMvx+LUrooR8yO1+IP609BYETjzocL+jStyg4kfspuo+FSeRb2
-4MGI9FYsNLnbMz4ZEvyXvNRIK9MuM+tpRjVn0IQD+AEYOVaX86Yg37tU3pCJH+xH
-PhodfARWlVc3nQ6W/xd0/wotbDT2ZxoAB4Oaz0XVdnHbWb92imEt14IVLEtYPpz8
-dDc/K8AfqhgGHl2G74Qyg38AeDiomiRrSAEYUMurmq4sMXyQzmEBP5TPVrA5ApUL
-e9RLLRslny8bBru71qafKiWeZm8ZG2C594rtrxbmdkSwXROIekweIM/sm1/B1A30
-AxeNIaNr0JRa6f6gOAaBwOrl8p6vmfd+LzMWj/unZuF8nvucW5xoRJw6thlyy7K9
-ZfsMm3KNUXK4L2AsqgPnCMC8HDgL38i9ZguRmsmJQkhblwTTK1GQCrgP1czu2pBX
-L2P34eKIFzuPqGmnNO6KlEu+SbUwx3ihHwZxrcC8zD9WuaNT09PGWMxLYCzA7t7J
-UKcB6Prr0gToQ7aS0J8q66inAqRlQOHLzHx4uY3iJI3y17Wx39pHLIlXfbyKNp09
-42tnbRlT/ZoRdxXVfJjHhBCopnX2VnFsYJmdWvHJohTXtcZCdqs=
-=ykZo
------END PGP SIGNATURE-----
+>  
+>  struct media_link_desc {
+>  	struct media_pad_desc source;
+> @@ -433,7 +433,7 @@ struct media_v2_topology {
+>  #define MEDIA_INTF_T_ALSA_TIMER                (MEDIA_INTF_T_ALSA_BASE + 7)
+>  
+>  /* Obsolete symbol for media_version, no longer used in the kernel */
+> -#define MEDIA_API_VERSION			((0 << 16) | (1 << 8) | 0)
+> +#define MEDIA_API_VERSION			((0 << 16) | BIT(8) | 0)
 
---VbJkn9YxBvnuCH5J--
+Even worse here, this is clearly not a bitfield.
+
+>  
+>  #endif
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
