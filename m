@@ -2,148 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E07C722C4AF
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 14:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3572622C4E7
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 14:15:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728033AbgGXMCm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 08:02:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52246 "EHLO
+        id S1726719AbgGXMP1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 08:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727991AbgGXMCk (ORCPT
+        with ESMTP id S1726258AbgGXMPY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 08:02:40 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A12C0619E4
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:02:40 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id s26so4990283pfm.4
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:02:40 -0700 (PDT)
+        Fri, 24 Jul 2020 08:15:24 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC7FDC0619D3
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:15:23 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id 140so5078078lfi.5
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:15:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=VKngwrDwYgMZRpBa5N9RttIghmCEGJz3vjqXKKgCKYk=;
-        b=Y9nHFo1tSKAnjffVi8kwBLAhbHp18RkjpUlSYPHC5SLF6ED+aAi8ub0ltlRPvNOo6m
-         jyRVYf50yN+B368eh0I9OOPp0FGE2rVkkkPe8Dl0zntj2+6UtzM9TT8LnXYpEviCFHnj
-         AO9WiXksWr8YJUBFdDCP05mzFPBm1kVCvZhEtHv6WVMgvxDwG4o0KIb6CTSZTXjfwA32
-         QTJ1McDzGMLXsUqcr4K/Hc52U/uZzAh0FtwjJfxcmknTx4AfjUNamWAvycYFBFyqWW2f
-         kP05t82lXJJmJCjHWHPoH3FY+lH2DDHsI2quYHe4UVCQ5LZWaRC3UsO+iuPw0c5NqJiV
-         O3Og==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=qYbBKClC5cJ6jOqxJwLfyKowskmoneqRqnKDswcf9ag=;
+        b=b81yMv6SglHboTJWm3aFxuu58QQXPtK3DcVb3RecUljgKVm26zvc6kiJ96ffLi95ox
+         hsHnrjDI5FrwDYBfXBDWxkV8YfkT2C7q82LKoCueP1Vv7VlIwTzAKJ8ZrVkzXMnjv2ly
+         6z4gmK/2Hse/bDpyrFrzAKZxoSx21zaVTu6asEJapg0kWr5v3SC2QOBiFfyizQLYP70L
+         E+l43iBCuFkmwaIfv0RFYwypHvIKki8kp593Yus+RyyNbssBcj1dpO2GAOch9Rz59zHJ
+         tbuFSNqaWXrIzkCJrAa9f4LPeDf0nZxX+fEl8egMwbNzouHgLF5IVnWD+onBc8SIw6M5
+         95bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VKngwrDwYgMZRpBa5N9RttIghmCEGJz3vjqXKKgCKYk=;
-        b=I29Jk0fGSoEuwV6GaHqQdkFpqKqcBBZXIgGrV/vQXFJjy7BEciLMyLjzBzK9aCeOBB
-         q0bo3ZpvzkMQ0mM9Cg6nX1xnhvdfRu/m9qVkf3h6Zj7VSLxFMw60uVEiur6aw2muhWZB
-         uhrRPHCaGH3rc35kBzJRv6NJ6c0nGcBiW2wk6xyo58N8/KSaCMYDw6FXkFzwqD8P+fpk
-         i6m//VRxXyYGkx8ZRdmJGJesNkd3/f2xoC0lqKMNFx94FtRNKRxVnEbexiNqleaG3RUg
-         ILKT6hJNvzwR0+Z7ZVnI0HtGvRm4oKlp83eKWhL+QZZxCWyEK2a7X7c1GKM6Bk3X1DvJ
-         hqcQ==
-X-Gm-Message-State: AOAM532XbMToqLUU2o6hgTqxXf6skPFf5QEGZBheATIrrj8T6kvMkUa4
-        QWaioDcLzpfo8WCkRFQY5B4O3g==
-X-Google-Smtp-Source: ABdhPJzGkOww4gi9LFKtV7dptKqSu31UyPoqgTqsxr4uMsEnNXSe4O6qsjXXwcf2My8/R09yVCrJew==
-X-Received: by 2002:a62:e217:: with SMTP id a23mr8616963pfi.257.1595592160037;
-        Fri, 24 Jul 2020 05:02:40 -0700 (PDT)
-Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
-        by smtp.gmail.com with ESMTPSA id w71sm6455658pfd.6.2020.07.24.05.02.38
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=qYbBKClC5cJ6jOqxJwLfyKowskmoneqRqnKDswcf9ag=;
+        b=pdPbvBwPUYvPSUf9JY6orLPr0hdBl4d6E82uUP4mVedqoJnaLCCTvqDVxtog6V2+fL
+         WF0zX/7vX33DNNfPQIJICHGwQGjyclol+aNFL5qjz0OlCoHhPmKYT4baYD/6u94WUB6T
+         Bkr8eIAIuY8buui1Cm2DctNzHNHl67+Dq8G3MlPdo4l8wqLHiLEh+TcS8VM+KSvrDGEd
+         ALU06jHqtZP+dyYgo+N2tjOLHSIom7ekNaqMmZ57dsJlOLPfmr+cHuxLlg4TjSVZPldj
+         q0rre5/PzILZRqE806gKq3Ns9DEhtPYbCISD/IN0+DVZhVJ1noRPeV5jUWZYKIUQ9/cy
+         m/nQ==
+X-Gm-Message-State: AOAM530QO7Rxxw0CQ5jLSmNfvrAW0TVoqcE07PCtduJ+eUuHe/jANMFo
+        VQhz7btuMDoBL+wY0/T8J0sj0w==
+X-Google-Smtp-Source: ABdhPJxOfgW0PEucKpHfOt7nz+90o7q0F7lQgh9KHOI2ct9QhtrpC7EeNGhUsQ71NM9FsLc9kmADFA==
+X-Received: by 2002:ac2:488c:: with SMTP id x12mr4663372lfc.4.1595592922254;
+        Fri, 24 Jul 2020 05:15:22 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id n82sm228020lfa.40.2020.07.24.05.15.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2020 05:02:39 -0700 (PDT)
-From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
-To:     Helen Koike <helen.koike@collabora.com>,
+        Fri, 24 Jul 2020 05:15:21 -0700 (PDT)
+Date:   Fri, 24 Jul 2020 14:15:21 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Cc:     Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
-Subject: [PATCH v2 3/3] media: vimc: Join pipeline if one already exists
-Date:   Fri, 24 Jul 2020 17:32:13 +0530
-Message-Id: <20200724120213.17119-4-kgupta@es.iitr.ac.in>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v2 0/3] media: vimc: Allow multiple capture devices to
+ use the same sensor
+Message-ID: <20200724121521.GA2705690@oden.dyn.berto.se>
 References: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-An output which is running is already part of a pipeline and trying to
-start a new pipeline is not possible. This prevents two capture devices
-from streaming at the same time.
+Hi Kaaira,
 
-Instead of failing to start the second capture device allow it to join
-the already running pipeline. This allows two (or more) capture devices
-to independently be started and stopped.
+Thanks for your work.
 
-[Kaaira: Changed the search for an existing connected sensor, to search
-for a non-NULL pipe instead, this helps to terminate the search at
-output itself instead of going till the sensor, changed variable names,
-commit message and conditions accordingly]
+On 2020-07-24 17:32:10 +0530, Kaaira Gupta wrote:
+> This is version 2 of the patch series posted by Niklas for allowing
+> multiple streams in VIMC.
+> The original series can be found here:
+> https://patchwork.kernel.org/cover/10948831/
+> 
+> This series adds support for two (or more) capture devices to be 
+> connected to the same sensors and run simultaneously. Each capture device 
+> can be started and stopped independent of each other.
+> 
+> Patch 1/3 and 2/3 deals with solving the issues that arises once two 
+> capture devices can be part of the same pipeline. While 3/3 allows for 
+> two capture devices to be part of the same pipeline and thus allows for 
+> simultaneously use.
 
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund@ragnatech.se>
-Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
----
- .../media/test-drivers/vimc/vimc-capture.c    | 35 ++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+I'm just curious if you are aware of this series? It would replace the 
+need for 1/3 and 2/3 of this series right?
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index c63496b17b9a..423d5e5a508d 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -237,16 +237,49 @@ static void vimc_cap_return_all_buffers(struct vimc_cap_device *vcap,
- 	spin_unlock(&vcap->qlock);
- }
- 
-+static struct media_entity *vimc_cap_get_output(struct vimc_cap_device *vcap)
-+{
-+	struct media_entity *entity = &vcap->vdev.entity;
-+	struct media_device *mdev = entity->graph_obj.mdev;
-+	struct media_graph graph;
-+
-+	mutex_lock(&mdev->graph_mutex);
-+	if (media_graph_walk_init(&graph, mdev)) {
-+		mutex_unlock(&mdev->graph_mutex);
-+		return NULL;
-+	}
-+
-+	media_graph_walk_start(&graph, entity);
-+
-+	while ((entity = media_graph_walk_next(&graph)))
-+		if (entity->pipe)
-+			break;
-+
-+	mutex_unlock(&mdev->graph_mutex);
-+
-+	media_graph_walk_cleanup(&graph);
-+
-+	return entity;
-+}
-+
- static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
- {
- 	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
- 	struct media_entity *entity = &vcap->vdev.entity;
-+	struct media_pipeline *pipe = NULL;
-+	struct media_entity *oent;
- 	int ret;
- 
- 	vcap->sequence = 0;
- 
- 	/* Start the media pipeline */
--	ret = media_pipeline_start(entity, &vcap->stream.pipe);
-+	oent = vimc_cap_get_output(vcap);
-+	if (oent)
-+		pipe = oent->pipe;
-+	else
-+		pipe = &vcap->stream.pipe;
-+
-+	ret = media_pipeline_start(entity, pipe);
- 	if (ret) {
- 		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
- 		return ret;
+1.  https://lore.kernel.org/linux-media/20200522075522.6190-1-dafna.hirschfeld@collabora.com/
+
+> 
+> Changes since v1:
+> 	- All three patches rebased on latest media-tree.
+> 	Patch 3:
+> 	- Search for an entity with a non-NULL pipe instead of searching
+> 	  for sensor. This terminates the search at output itself.
+> 
+> Kaaira Gupta (3):
+>   media: vimc: Add usage count to subdevices
+>   media: vimc: Serialize vimc_streamer_s_stream()
+>   media: vimc: Join pipeline if one already exists
+> 
+>  .../media/test-drivers/vimc/vimc-capture.c    | 35 ++++++++++++++++++-
+>  .../media/test-drivers/vimc/vimc-debayer.c    |  8 +++++
+>  drivers/media/test-drivers/vimc/vimc-scaler.c |  8 +++++
+>  drivers/media/test-drivers/vimc/vimc-sensor.c |  9 ++++-
+>  .../media/test-drivers/vimc/vimc-streamer.c   | 23 +++++++-----
+>  5 files changed, 73 insertions(+), 10 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
+
 -- 
-2.17.1
-
+Regards,
+Niklas Söderlund
