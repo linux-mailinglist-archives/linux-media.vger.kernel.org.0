@@ -2,122 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95C2F22C485
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 13:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63B9A22C4B0
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 14:02:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgGXLse (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 07:48:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49720 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726280AbgGXLse (ORCPT
+        id S1727859AbgGXMCv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 08:02:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726696AbgGXMC2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 07:48:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1595591312;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=IHdQGmbVWrAUu87m/Q+jwwttRLKkPH3itijfnWn0QuE=;
-        b=g87+3aOe7JQec/7W5OCiZArnEUKTN3xlsZRSBuBF4pco49L9RlwCasx9EaQyxnfFo1anp9
-        zX99Wxu4c4hltkza4gAtUtMnlffQytGhqEUBez+4SMXwHJmRSNxKMsCO/zUe0/F1Rx9H8L
-        ydRwTQxzdQtqHoufCi5rZx7JTA25qkw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-fc8YqbGPOTqM4ROcjK168w-1; Fri, 24 Jul 2020 07:48:28 -0400
-X-MC-Unique: fc8YqbGPOTqM4ROcjK168w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A042F107ACCA;
-        Fri, 24 Jul 2020 11:48:26 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-113-10.ams2.redhat.com [10.36.113.10])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3DF4669326;
-        Fri, 24 Jul 2020 11:48:24 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH] media: uvcvideo: Fix uvc_ctrl_fixup_xu_info() not having any effect
-Date:   Fri, 24 Jul 2020 13:48:23 +0200
-Message-Id: <20200724114823.108237-1-hdegoede@redhat.com>
+        Fri, 24 Jul 2020 08:02:28 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D20C0619E4
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:02:28 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id w126so4821330pfw.8
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 05:02:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jD9j6opAZjPsy3NUA4rBVj0Mn4JgNhzYg7OVCYAcm1o=;
+        b=WjefxjKpwQYRJAw8+fhmEXe7R2Z9Ykf1di6zK8tOvYlFU3CZWul7kx1m3QMHmFmh8i
+         lbnjKbf79tLW+MpJScjd8llgAkR48TvpGKH6/D29dRaMPJMwfJ3Ohu6KlOA9IGHZDzln
+         we61sxpM/OJUwk5UgrsnEWVQz+yYIwC3acOtlHMx+qhJU6s6sl0DCn7xwQKQM3E2+6vJ
+         zWaBd7zZKHgKC7qWf3GO7jyjt4zZlEmi9gj7u19zr/37JxI0eeMdFkb4GnRfSyI4e1UT
+         pu/xZ0q5ytjhSXcxW4G41dS/ylaZVcHen4Wc35xt83Rd3Ym1SaJ1kAsF197sUmTooNrD
+         m5Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jD9j6opAZjPsy3NUA4rBVj0Mn4JgNhzYg7OVCYAcm1o=;
+        b=GZbBgkzs2qRUBjqFonPzgno+AFOmwcos9xOscSw50wnj1wxU7IKSMy144r+10y1tyA
+         WCvSZuUwVFo/GS/XL5eLB8aJAHzxHz4HOWyInga/abRMmT6vn2YUzG2F55r8sIYrpJIL
+         Aw1qHBfZdo7/uCeoF/xdK3QdK4RpyLWQYiZNzs3CfPetdDqua6r/nvV1C7KbUsdaI1x8
+         UGwVB/yuNF9OrHSRXAQnKx5hYg90XvHEwcCR+9egoFTE9ln59XKymiYbiyndc3eMoCfr
+         EW1aO2qNrdQP4LWScZUH/zlNGtt5eN4CCltKrQFoYBG30DxTSSNNbNIy19oHsan36Kb9
+         nkDw==
+X-Gm-Message-State: AOAM533qYy8rie2JkNDC//PG4BeX/Nms6akXppKj8lZPKrfLwNHIKCGe
+        UicfGSBlf6DUUhJLvKPPxHuB3A==
+X-Google-Smtp-Source: ABdhPJwkTBH8ZPUfyKqhTdhf8safIlGUaU734H4KQFMiE4FD51jyGoAjD8Cm12hkJB9HJ4600Whhfw==
+X-Received: by 2002:a63:29c8:: with SMTP id p191mr8499852pgp.333.1595592147687;
+        Fri, 24 Jul 2020 05:02:27 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
+        by smtp.gmail.com with ESMTPSA id c23sm6154734pfo.32.2020.07.24.05.02.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2020 05:02:26 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Subject: [PATCH v2 0/3] media: vimc: Allow multiple capture devices to use the same sensor
+Date:   Fri, 24 Jul 2020 17:32:10 +0530
+Message-Id: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-uvc_ctrl_add_info() calls uvc_ctrl_get_flags() which will override
-the fixed-up flags set by uvc_ctrl_fixup_xu_info().
+This is version 2 of the patch series posted by Niklas for allowing
+multiple streams in VIMC.
+The original series can be found here:
+https://patchwork.kernel.org/cover/10948831/
 
-This commit fixes this by adding a is_xu argument to uvc_ctrl_add_info()
-and skipping the uvc_ctrl_get_flags() call for xu ctrls.
+This series adds support for two (or more) capture devices to be 
+connected to the same sensors and run simultaneously. Each capture device 
+can be started and stopped independent of each other.
 
-Note that the xu path has already called uvc_ctrl_get_flags() from
-uvc_ctrl_fill_xu_info() before calling uvc_ctrl_add_info().
+Patch 1/3 and 2/3 deals with solving the issues that arises once two 
+capture devices can be part of the same pipeline. While 3/3 allows for 
+two capture devices to be part of the same pipeline and thus allows for 
+simultaneously use.
 
-This fixes the xu motor controls not working properly on a Logitech
-046d:08cc, and presumably also on the other Logitech models which have
-a quirk for this in the uvc_ctrl_fixup_xu_info() function.
+Changes since v1:
+	- All three patches rebased on latest media-tree.
+	Patch 3:
+	- Search for an entity with a non-NULL pipe instead of searching
+	  for sensor. This terminates the search at output itself.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Kaaira Gupta (3):
+  media: vimc: Add usage count to subdevices
+  media: vimc: Serialize vimc_streamer_s_stream()
+  media: vimc: Join pipeline if one already exists
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index e399b9fad757..4bdea5814d6a 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1815,7 +1815,7 @@ static int uvc_ctrl_fill_xu_info(struct uvc_device *dev,
- }
- 
- static int uvc_ctrl_add_info(struct uvc_device *dev, struct uvc_control *ctrl,
--	const struct uvc_control_info *info);
-+	const struct uvc_control_info *info, bool is_xu);
- 
- static int uvc_ctrl_init_xu_ctrl(struct uvc_device *dev,
- 	struct uvc_control *ctrl)
-@@ -1830,7 +1830,7 @@ static int uvc_ctrl_init_xu_ctrl(struct uvc_device *dev,
- 	if (ret < 0)
- 		return ret;
- 
--	ret = uvc_ctrl_add_info(dev, ctrl, &info);
-+	ret = uvc_ctrl_add_info(dev, ctrl, &info, true);
- 	if (ret < 0)
- 		uvc_trace(UVC_TRACE_CONTROL, "Failed to initialize control "
- 			  "%pUl/%u on device %s entity %u\n", info.entity,
-@@ -2009,7 +2009,7 @@ int uvc_ctrl_restore_values(struct uvc_device *dev)
-  * Add control information to a given control.
-  */
- static int uvc_ctrl_add_info(struct uvc_device *dev, struct uvc_control *ctrl,
--	const struct uvc_control_info *info)
-+	const struct uvc_control_info *info, bool is_xu)
- {
- 	int ret = 0;
- 
-@@ -2029,7 +2029,8 @@ static int uvc_ctrl_add_info(struct uvc_device *dev, struct uvc_control *ctrl,
- 	 * default flag values from the uvc_ctrl array when the device doesn't
- 	 * properly implement GET_INFO on standard controls.
- 	 */
--	uvc_ctrl_get_flags(dev, ctrl, &ctrl->info);
-+	if (!is_xu)
-+		uvc_ctrl_get_flags(dev, ctrl, &ctrl->info);
- 
- 	ctrl->initialized = 1;
- 
-@@ -2252,7 +2253,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_device *dev, struct uvc_control *ctrl)
- 	for (; info < iend; ++info) {
- 		if (uvc_entity_match_guid(ctrl->entity, info->entity) &&
- 		    ctrl->index == info->index) {
--			uvc_ctrl_add_info(dev, ctrl, info);
-+			uvc_ctrl_add_info(dev, ctrl, info, false);
- 			break;
- 		 }
- 	}
+ .../media/test-drivers/vimc/vimc-capture.c    | 35 ++++++++++++++++++-
+ .../media/test-drivers/vimc/vimc-debayer.c    |  8 +++++
+ drivers/media/test-drivers/vimc/vimc-scaler.c |  8 +++++
+ drivers/media/test-drivers/vimc/vimc-sensor.c |  9 ++++-
+ .../media/test-drivers/vimc/vimc-streamer.c   | 23 +++++++-----
+ 5 files changed, 73 insertions(+), 10 deletions(-)
+
 -- 
-2.26.2
+2.17.1
 
