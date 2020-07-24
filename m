@@ -2,126 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5D222CE95
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 21:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A93D22CEC0
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 21:38:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbgGXTVD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 15:21:03 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47564 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726411AbgGXTVD (ORCPT
+        id S1726658AbgGXTh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 15:37:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39092 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726503AbgGXTh4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 15:21:03 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D990538;
-        Fri, 24 Jul 2020 21:20:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1595618459;
-        bh=2JZm1KdMmDSqj/9d1IlQ04Y2y+SNFCLN5o3y0I4H6Ak=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WYMHYHG4BYlJgED3y4HqzakTdYHDzMzDOOZj+DDzY1CurpbxxnjQvDqfrh6iylggd
-         Xec/mIJZOIV2bjLGgfRPUi2rvqeKFTJOFC9YVYBL6pfSWOc6wZp6sCDZyTA3BoKbkn
-         MqDL16DVQSU1XyOVatu+CC9hynf2ZuS4qNlVGnqA=
-Date:   Fri, 24 Jul 2020 22:20:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Garrit Franke <garritfranke@gmail.com>
-Cc:     sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-        mchehab@kernel.org, trivial@kernel.org
-Subject: Re: [PATCH] trivial: uapi: replace bitshifts with BIT macro
-Message-ID: <20200724192052.GB5921@pendragon.ideasonboard.com>
-References: <20200724190118.24020-1-garritfranke@gmail.com>
+        Fri, 24 Jul 2020 15:37:56 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E304C0619D3
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 12:37:55 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id i19so5781575lfj.8
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 12:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=anre9lcJof6187CbKzrw5qizyC3m4lA555ZA9TP3qEc=;
+        b=NiuKrFL+hCZQ/5s3aFc1IxO3Tv/X/oM2SW3jpsF9kw7dKCcB+SPFaqr1FCwR9Nrt2x
+         Z3TeScoiar4gyVLvb1t5LSenXDbiZ0PEQOpqTgsMEC/TZZo5QOxr+hYTlZNrD7uJU5X2
+         ePDkfVd9bDSZICuMGZGa4WSbaBsP6xgzEVErw13brTNkFqx0wes5JsyGiAwv5f4xyZFs
+         8yTKeCpXRA1ZfUgs+6y/UkdCvpDErfmD3a3sig2rJEBXRHSSOmhKIwUrCOwRqCdqnz1L
+         vVn58JWoy5IyfS5vGKVKC68qD0Xhpsl/NkMt0GZmQJupvKF91X3IGP3REzBP3Xn0z7PW
+         8iMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=anre9lcJof6187CbKzrw5qizyC3m4lA555ZA9TP3qEc=;
+        b=NmtbL0Em82NsLHeNunO//EPTKkziocFCjJnZjv1KjWePQMsaO18MeoI+V00MkpPrVl
+         rd1KEljGhPf1L8j+vFaZkXTDIlhtYif/PI4cFCv8a96xTqxj2y54d/JvpZPDAt1XgvNo
+         wQA/oYULOkFGDsVGaadzXRJPjrxZALdw8VhSmjFTRjKSp9gKFsor3T6ZXSquxIc+JkKp
+         dIja/fimFzkYCZJdz6e6eZTP4zQnRGzE23Zxm18xc2EoL2AgP1pS020ljqpOKTGn6Ocw
+         dU4AMxUBJECRSQClG9Nf1XtowcCCt2CR45vIsFaefUHo/n61h5JzYv7AHGMYiwydZnY0
+         6jyw==
+X-Gm-Message-State: AOAM532EtrgZvZ//BmABypIEZ5V0MCVEF1rM6qpS+e49SONKI1VrXlCA
+        df0lPXKHKSOtFuCUgt7vLeZt0A==
+X-Google-Smtp-Source: ABdhPJwBtPnJGVYlPrGHrR5aqgZMiuVvpx8x3z+sVh22q8qvDyRybL2id/F9lVjZNk7hnl7OHeIE2w==
+X-Received: by 2002:a19:c3d0:: with SMTP id t199mr5811130lff.56.1595619474080;
+        Fri, 24 Jul 2020 12:37:54 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id y24sm443386ljy.91.2020.07.24.12.37.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2020 12:37:53 -0700 (PDT)
+Date:   Fri, 24 Jul 2020 21:37:52 +0200
+From:   Niklas <niklas.soderlund@ragnatech.se>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Document
+ renesas-vin-ycbcr-8b-g property
+Message-ID: <20200724193752.GE2729799@oden.dyn.berto.se>
+References: <1595602732-25582-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200724190118.24020-1-garritfranke@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Garrit,
+Hi Lad,
 
-Thank you for the patch.
+Thanks for your patch.
 
-On Fri, Jul 24, 2020 at 09:01:18PM +0200, Garrit Franke wrote:
-
-A commit message would be nice.
-
-> Signed-off-by: Garrit Franke <garritfranke@gmail.com>
-> ---
->  include/uapi/linux/media.h | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
+On 2020-07-24 15:58:51 +0100, Lad Prabhakar wrote:
+> Add a DT property "renesas-vin-ycbcr-8b-g" to select YCbCr422 8-bit data
+> input pins.
 > 
-> diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-> index 383ac7b7d8..5710ba0c83 100644
-> --- a/include/uapi/linux/media.h
-> +++ b/include/uapi/linux/media.h
-> @@ -142,8 +142,8 @@ struct media_device_info {
->  #define MEDIA_ENT_F_DV_ENCODER			(MEDIA_ENT_F_BASE + 0x6002)
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/media/renesas,vin.yaml | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> index 53c0a72..7dfb781 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> @@ -106,6 +106,12 @@ properties:
 >  
->  /* Entity flags */
-> -#define MEDIA_ENT_FL_DEFAULT			(1 << 0)
-> -#define MEDIA_ENT_FL_CONNECTOR			(1 << 1)
-> +#define MEDIA_ENT_FL_DEFAULT			BIT(0)
-> +#define MEDIA_ENT_FL_CONNECTOR			BIT(1)
+>            remote-endpoint: true
+>  
+> +          renesas-vin-ycbcr-8b-g:
 
-The BIT() macro isn't available in the uapi headers.
+I think the preferred format for vendor specific properties are 
+"<vendor>,<property>".
 
->  
->  /* OR with the entity id value to find the next entity */
->  #define MEDIA_ENT_ID_FLAG_NEXT			(1U << 31)
-> @@ -207,9 +207,9 @@ struct media_entity_desc {
->  	};
->  };
->  
-> -#define MEDIA_PAD_FL_SINK			(1 << 0)
-> -#define MEDIA_PAD_FL_SOURCE			(1 << 1)
-> -#define MEDIA_PAD_FL_MUST_CONNECT		(1 << 2)
-> +#define MEDIA_PAD_FL_SINK				BIT(0)
-> +#define MEDIA_PAD_FL_SOURCE				BIT(1)
-> +#define MEDIA_PAD_FL_MUST_CONNECT		BIT(2)
->  
->  struct media_pad_desc {
->  	__u32 entity;		/* entity ID */
-> @@ -218,13 +218,13 @@ struct media_pad_desc {
->  	__u32 reserved[2];
->  };
->  
-> -#define MEDIA_LNK_FL_ENABLED			(1 << 0)
-> -#define MEDIA_LNK_FL_IMMUTABLE			(1 << 1)
-> -#define MEDIA_LNK_FL_DYNAMIC			(1 << 2)
-> +#define MEDIA_LNK_FL_ENABLED			BIT(0)
-> +#define MEDIA_LNK_FL_IMMUTABLE			BIT(1)
-> +#define MEDIA_LNK_FL_DYNAMIC			BIT(2)
->  
->  #define MEDIA_LNK_FL_LINK_TYPE			(0xf << 28)
->  #  define MEDIA_LNK_FL_DATA_LINK		(0 << 28)
-> -#  define MEDIA_LNK_FL_INTERFACE_LINK		(1 << 28)
-> +#  define MEDIA_LNK_FL_INTERFACE_LINK		BIT(28)
+This nit apart I'm not sure a property is the right way here. Could it 
+not be possible on some designs to have two different sensors one wired 
+to DATA[7:0] and the other to DATA[15:8] and by controlling the 
+VNDRM2_YDS register at runtime switch between the two? If so adding a DT 
+property to hard-code one of the two options would prevent this. I fear 
+we need to think of a runtime way to deal with this.
 
-This is wrong, BIT() should only be used for fields that are 1-bit wide.
-If you look at MEDIA_LNK_FL_LINK_TYPE you can see the field is 4-bits
-wide, it stores a value between 0 and 15. MEDIA_LNK_FL_INTERFACE_LINK
-happens to match the (1 << n) pattern, but it doesn't mean it's a single
-bit field.
+The best way to do that I think is to extend the port@0 node to allow 
+for two endpoints, one for each of the two possible parallel sensors.  
+This would then have to be expressed in the media graph and selection if 
+YDS should be set or not depend on which media links are enabled.
 
+> +            type: boolean
+> +            description:
+> +              If present this property specifies to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.
+> +            default: false
+> +
+>          required:
+>            - remote-endpoint
 >  
->  struct media_link_desc {
->  	struct media_pad_desc source;
-> @@ -433,7 +433,7 @@ struct media_v2_topology {
->  #define MEDIA_INTF_T_ALSA_TIMER                (MEDIA_INTF_T_ALSA_BASE + 7)
+> @@ -168,6 +174,13 @@ properties:
 >  
->  /* Obsolete symbol for media_version, no longer used in the kernel */
-> -#define MEDIA_API_VERSION			((0 << 16) | (1 << 8) | 0)
-> +#define MEDIA_API_VERSION			((0 << 16) | BIT(8) | 0)
-
-Even worse here, this is clearly not a bitfield.
-
+>                remote-endpoint: true
 >  
->  #endif
+> +              renesas-vin-ycbcr-8b-g:
+> +                type: boolean
+> +                description:
+> +                  If present this property specifies to selects VIN_G[7:0] as data pins for
+> +                  YCbCr422 8-bit data.
+> +                default: false
+> +
+>              required:
+>                - remote-endpoint
 >  
+> -- 
+> 2.7.4
+> 
 
 -- 
 Regards,
-
-Laurent Pinchart
+Niklas Söderlund
