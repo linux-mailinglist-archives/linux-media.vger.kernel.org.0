@@ -2,442 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 745E622CBE7
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 19:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2A5122CC48
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 19:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgGXRTB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 13:19:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726326AbgGXRTB (ORCPT
+        id S1726820AbgGXRj2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 13:39:28 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:50146 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726381AbgGXRj2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 13:19:01 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27401C0619D3
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 10:19:01 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id BF16EC63E0; Fri, 24 Jul 2020 18:18:56 +0100 (BST)
-Date:   Fri, 24 Jul 2020 18:18:56 +0100
-From:   Sean Young <sean@mess.org>
-To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
-        linux-media <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Gregor Jasny <gjasny@googlemail.com>
-Subject: [PATCH v4l-utils v3] Move sync-with-kernel into dedicated shell
- script ./sync-with-kernel.sh
-Message-ID: <20200724171856.GA18901@gofer.mess.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 24 Jul 2020 13:39:28 -0400
+Received: from localhost.localdomain (unknown [76.104.235.235])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 0198B20B4908;
+        Fri, 24 Jul 2020 10:39:26 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0198B20B4908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1595612367;
+        bh=nE711dGakSc/ToRJbGAMSPVhnIZmRoRPjk3SpOlNnqs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IOmO3EJcIMUD1nO9lgwCqFWvs/IJB/e/m8h1GH8IRmq9SmZJOghIHHFKapiR5NR1o
+         23muU49FZEHsZWfR6dsOYZ93tXD5kw1p9iy6p5AncVO6mok2E/paCMjNYBoEg5+mKN
+         F6Ptv4Wh/zSySHdwVndUyclk8W7cmGnWsn/TahvE=
+From:   jorhand@linux.microsoft.com
+To:     linux-media@vger.kernel.org
+Cc:     Jordan Hand <jorhand@linux.microsoft.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: ipu3.rst: Format media-ctl and yavta commands as code blocks
+Date:   Fri, 24 Jul 2020 10:37:38 -0700
+Message-Id: <20200724173738.6064-1-jorhand@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The sync-with-kernel target is a collection of shell fragments scattered
-over the tree. Collect all of them into a single shell script. This makes
-it is easier to see what sync-with-kernel does, and makes the move away
-from autotools to meson easier.
+From: Jordan Hand <jorhand@linux.microsoft.com>
 
-Signed-off-by: Sean Young <sean@mess.org>
+Fix improper line breaks and format all example yavta and media-ctl
+commands as code blocks to improve readability.
+
+Signed-off-by: Jordan Hand <jorhand@linux.microsoft.com>
 ---
-Changes since v3:
- - sync-with-kernel.sh takes KERNEL_DIR as argument, not env 
 
-Changes since v2:
- - Implemented review changes
- - Updated to latest master
+v2:
+- Lined up options in hanging indents
+- Removed extra newlines
+- Broke up long lines in v4l2n command, added backslashes
 
- Makefile.am                         |  58 +-------------
- README                              |   4 +-
- configure.ac                        |   2 +-
- contrib/freebsd/Makefile.am         |  14 ----
- contrib/test/Makefile.am            |   9 ---
- contrib/test/gen_ioctl_list.pl      |   4 +-
- contrib/test/ioctl-test.h           |   2 +-
- contrib/test/ioctl_32.h             |   2 +-
- contrib/test/ioctl_64.h             |   2 +-
- contrib/xc3028-firmware/Makefile.am |   9 ---
- lib/libdvbv5/Makefile.am            |   3 -
- sync-with-kernel.sh                 | 119 ++++++++++++++++++++++++++++
- utils/keytable/Makefile.am          |  13 ---
- 13 files changed, 131 insertions(+), 110 deletions(-)
- create mode 100755 sync-with-kernel.sh
+ Documentation/admin-guide/media/ipu3.rst | 104 ++++++++++++-----------
+ 1 file changed, 55 insertions(+), 49 deletions(-)
 
-diff --git a/Makefile.am b/Makefile.am
-index 52eb8af9..3237ab49 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -7,60 +7,10 @@ if WITH_V4LUTILS
- SUBDIRS += utils contrib
- endif
+diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
+index 9361c34f123e..a4cd489fc5dc 100644
+--- a/Documentation/admin-guide/media/ipu3.rst
++++ b/Documentation/admin-guide/media/ipu3.rst
+@@ -89,41 +89,41 @@ Let us take the example of ov5670 sensor connected to CSI2 port 0, for a
+ Using the media contorller APIs, the ov5670 sensor is configured to send
+ frames in packed raw Bayer format to IPU3 CSI2 receiver.
  
--EXTRA_DIST = android-config.h bootstrap.sh doxygen_libdvbv5.cfg include COPYING.libv4l \
--        COPYING.libdvbv5 README.libv4l README.lib-multi-threading TODO.libdvbv5 \
--        doc/libdvbv5-index.doc
-+EXTRA_DIST = android-config.h sync-with-kernel.sh bootstrap.sh \
-+	doxygen_libdvbv5.cfg include COPYING.libv4l \
-+	COPYING.libdvbv5 README.libv4l README.lib-multi-threading \
-+	TODO.libdvbv5 doc/libdvbv5-index.doc
- 
- include $(top_srcdir)/aminclude.am
- 
--# custom targets
+-# This example assumes /dev/media0 as the CIO2 media device
 -
--sync-with-kernel:
--	@if [ ! -f $(KERNEL_DIR)/usr/include/linux/videodev2.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/fb.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/v4l2-controls.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/v4l2-common.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/v4l2-subdev.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/v4l2-mediabus.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/ivtv.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/dvb/frontend.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/dvb/dmx.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/lirc.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/bpf.h -o \
--	      ! -f $(KERNEL_DIR)/usr/include/linux/bpf_common.h ]; then \
--	  echo "Error you must set KERNEL_DIR to point to an extracted kernel source dir"; \
--	  echo "and run 'make headers_install' in \$$KERNEL_DIR."; \
--	  exit 1; \
--	fi
--	cp -a $(KERNEL_DIR)/usr/include/linux/videodev2.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/fb.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/v4l2-controls.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/v4l2-common.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/v4l2-subdev.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/v4l2-mediabus.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/media-bus-format.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/media.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/ivtv.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/dvb/frontend.h $(top_srcdir)/include/linux/dvb
--	cp $(top_srcdir)/include/linux/dvb/frontend.h $(top_srcdir)/lib/include/libdvbv5/dvb-frontend.h
--	cp -a $(KERNEL_DIR)/usr/include/linux/dvb/dmx.h $(top_srcdir)/include/linux/dvb
--	cp -a $(KERNEL_DIR)/usr/include/linux/lirc.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/bpf.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/bpf_common.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/cec.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/usr/include/linux/cec-funcs.h $(top_srcdir)/include/linux
--	cp -a $(KERNEL_DIR)/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c $(top_srcdir)/utils/common
--	cp -a $(KERNEL_DIR)/drivers/media/common/v4l2-tpg/v4l2-tpg-colors.c $(top_srcdir)/utils/common
--	cp -a $(KERNEL_DIR)/include/media/tpg/v4l2-tpg.h $(top_srcdir)/utils/common
--	cp -a $(KERNEL_DIR)/include/media/fwht-ctrls.h $(top_srcdir)/utils/common
--	patch -d $(top_srcdir) --no-backup-if-mismatch -p1 <$(top_srcdir)/utils/common/v4l2-tpg.patch
--	cp -a $(KERNEL_DIR)/drivers/media/test-drivers/vicodec/codec-fwht.[ch] $(top_srcdir)/utils/common/
--	cp -a $(KERNEL_DIR)/drivers/media/test-drivers/vicodec/codec-v4l2-fwht.[ch] $(top_srcdir)/utils/common/
--	patch -d $(top_srcdir) --no-backup-if-mismatch -p1 <$(top_srcdir)/utils/common/codec-fwht.patch
--	grep V4L2_.*_FMT.*descr $(KERNEL_DIR)/drivers/media/v4l2-core/v4l2-ioctl.c | grep -v V4L2_PIX_FMT_H264_SLICE | grep -v V4L2_PIX_FMT_VP8_FRAME | grep -v V4L2_PIX_FMT_HEVC_SLICE | perl -pe 's/.*V4L2_(.*)_FMT/\tcase V4L2_\1_FMT/; s/:.*descr = /: return /; s/;.*/;/;' >$(top_srcdir)/utils/common/v4l2-pix-formats.h
+-export MDEV=/dev/media0
 -
--	$(MAKE) -C utils/keytable $@
--	$(MAKE) -C lib/libdvbv5 $@
--	$(MAKE) -C contrib/freebsd $@
--	$(MAKE) -C contrib/test $@
--	$(MAKE) -C contrib/xc3028-firmware $@
-diff --git a/README b/README
-index e344dee1..75823e2d 100644
---- a/README
-+++ b/README
-@@ -264,11 +264,11 @@ Be sure that you have installed both glibc development packages for
- 
- step 3) at v4l-utils tree:
- 
--	$ export KERNEL_DIR=location/of/the/kernel/tree make sync-with-kernel
-+	$ ./sync-with-kernel.sh location/of/the/kernel/tree
- 
- Alternatively, steps 1 to 3 can be replaced with:
- 
--export KERNEL_DIR=location/of/the/kernel/tree && (cd $KERNEL_DIR && make headers_install INSTALL_HDR_PATH=usr/) && make sync-with-kernel
-+KERNEL_DIR=location/of/the/kernel/tree && (cd $KERNEL_DIR && make headers_install INSTALL_HDR_PATH=usr/) && ./sync-with-kernel.sh $KERNEL_DIR
- 
- step 4)
- 
-diff --git a/configure.ac b/configure.ac
-index b3b090f2..d9f43ab5 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -128,7 +128,7 @@ fi
- AC_DEFINE_UNQUOTED(LOCALEDIR, "$v4l_localedir", [locale directory])
- AC_SUBST(localedir)
- 
--# sync-with-kernel and keytable install could make use of them
-+# sync-with-kernel.sh and keytable install could make use of them
- #AC_PROG_GREP
- #AC_PROG_SED
- gl_PROMOTED_TYPE_MODE_T
-diff --git a/contrib/freebsd/Makefile.am b/contrib/freebsd/Makefile.am
-index ca322749..abf0d57b 100644
---- a/contrib/freebsd/Makefile.am
-+++ b/contrib/freebsd/Makefile.am
-@@ -1,17 +1,3 @@
- EXTRA_DIST = \
- 	include \
- 	patches
+-# and that ov5670 sensor is connected to i2c bus 10 with address 0x36
 -
--sync-with-kernel:
--	rm -rf .pc
--
--	for i in input.h input-event-codes.h ivtv.h uinput.h videodev2.h v4l2-controls.h v4l2-common.h; do \
--	    mkdir -p include/linux/$$(dirname $$i); \
--	    cp $(KERNEL_DIR)/usr/include/linux/$$i include/linux/$$i; \
--	done
--
--	for i in ivtv.h uinput.h videodev2.h v4l2-common.h; do \
--	    sed -e 's/__u8/uint8_t/g' -e 's/__u16/uint16_t/g' -e 's/__u32/uint32_t/g' -e 's/__u64/uint64_t/g' -e 's/__s8/int8_t/g' -e 's/__s16/int16_t/g' -e 's/__s32/int32_t/g' -e 's/__s64/int64_t/g' -e 's/__le32/uint32_t/g' -e 's/__user//g' -i include/linux/$$i; \
--	done
--
--	quilt push -a
-diff --git a/contrib/test/Makefile.am b/contrib/test/Makefile.am
-index 55e4ba09..5771ee4d 100644
---- a/contrib/test/Makefile.am
-+++ b/contrib/test/Makefile.am
-@@ -57,15 +57,6 @@ capture_example_SOURCES = capture-example.c
+-export SDEV=$(media-ctl -d $MDEV -e "ov5670 10-0036")
++.. code-block:: none
  
- ioctl-test.c: ioctl-test.h
+-# Establish the link for the media devices using media-ctl [#f3]_
+-media-ctl -d $MDEV -l "ov5670:0 -> ipu3-csi2 0:0[1]"
++    # This example assumes /dev/media0 as the CIO2 media device
++    export MDEV=/dev/media0
  
--sync-with-kernel:
--	./gen_ioctl_list.pl --gen_ioctl_numbers >.tmp_ioctl.c
--	gcc -I ../../include/ .tmp_ioctl.c -o tmp_ioctl32 -m32
--	gcc -I ../../include/ .tmp_ioctl.c -o tmp_ioctl64 -m64
--	./tmp_ioctl32 32 >ioctl_32.h
--	./tmp_ioctl64 64 >ioctl_64.h
--	rm .tmp_ioctl.c tmp_ioctl32 tmp_ioctl64
--	./gen_ioctl_list.pl >ioctl-test.h
+-# Set the format for the media devices
+-media-ctl -d $MDEV -V "ov5670:0 [fmt:SGRBG10/2592x1944]"
++    # and that ov5670 sensor is connected to i2c bus 10 with address 0x36
++    export SDEV=$(media-ctl -d $MDEV -e "ov5670 10-0036")
+ 
+-media-ctl -d $MDEV -V "ipu3-csi2 0:0 [fmt:SGRBG10/2592x1944]"
++    # Establish the link for the media devices using media-ctl [#f3]_
++    media-ctl -d $MDEV -l "ov5670:0 -> ipu3-csi2 0:0[1]"
+ 
+-media-ctl -d $MDEV -V "ipu3-csi2 0:1 [fmt:SGRBG10/2592x1944]"
++    # Set the format for the media devices
++    media-ctl -d $MDEV -V "ov5670:0 [fmt:SGRBG10/2592x1944]"
++    media-ctl -d $MDEV -V "ipu3-csi2 0:0 [fmt:SGRBG10/2592x1944]"
++    media-ctl -d $MDEV -V "ipu3-csi2 0:1 [fmt:SGRBG10/2592x1944]"
+ 
+ Once the media pipeline is configured, desired sensor specific settings
+ (such as exposure and gain settings) can be set, using the yavta tool.
+ 
+ e.g
+ 
+-yavta -w 0x009e0903 444 $SDEV
 -
- EXTRA_DIST = \
- 	gen_ioctl_list.pl \
- 	test-media \
-diff --git a/contrib/test/gen_ioctl_list.pl b/contrib/test/gen_ioctl_list.pl
-index fca51778..7a0f38c7 100755
---- a/contrib/test/gen_ioctl_list.pl
-+++ b/contrib/test/gen_ioctl_list.pl
-@@ -69,7 +69,7 @@ sub print_ioc()
- 	printf "#define S_IOCTLS sizeof(ioctls)/sizeof(ioctls[0])\n";
- }
+-yavta -w 0x009e0913 1024 $SDEV
++.. code-block:: none
  
--printf "/* This file is auto-generated by make sync-with-kernel */\n";
-+printf "/* This file is auto-generated by sync-with-kernel.sh */\n";
- printf "#include <linux/compiler.h>\n";
+-yavta -w 0x009e0911 2046 $SDEV
++    yavta -w 0x009e0903 444 $SDEV
++    yavta -w 0x009e0913 1024 $SDEV
++    yavta -w 0x009e0911 2046 $SDEV
  
- foreach my $h (sort keys %headers) {
-@@ -110,7 +110,7 @@ my $arg = shift;
- if ($arg eq "--gen_ioctl_numbers") {
- 	printf "#include <stdio.h>\n";
- 	printf "int main(int argc, char *argv[]) {\n";
--	printf "\tprintf(\"/* This file is auto-generated by make sync-with-kernel */\\n\\n\");\n";
-+	printf "\tprintf(\"/* This file is auto-generated by sync-with-kernel.sh */\\n\\n\");\n";
- 	foreach my $ioctl (sort keys %ioc) {
- 		printf "\tprintf(\"#define CMD%%s_%s 0x%%x\\n\", argv[1], %s);\n", $ioctl, $ioctl;
- 	}
-diff --git a/contrib/test/ioctl-test.h b/contrib/test/ioctl-test.h
-index 32084c52..03b53078 100644
---- a/contrib/test/ioctl-test.h
-+++ b/contrib/test/ioctl-test.h
-@@ -1,4 +1,4 @@
--/* This file is auto-generated by make sync-with-kernel */
-+/* This file is auto-generated by sync-with-kernel.sh */
- #include <linux/compiler.h>
- #include "linux/dvb/dmx.h"
- #include "linux/dvb/frontend.h"
-diff --git a/contrib/test/ioctl_32.h b/contrib/test/ioctl_32.h
-index 6c008241..fb30b8a0 100644
---- a/contrib/test/ioctl_32.h
-+++ b/contrib/test/ioctl_32.h
-@@ -1,4 +1,4 @@
--/* This file is auto-generated by make sync-with-kernel */
-+/* This file is auto-generated by sync-with-kernel.sh */
+ Once the desired sensor settings are set, frame captures can be done as below.
  
- #define CMD32_DMX_ADD_PID 0x40026f33
- #define CMD32_DMX_DQBUF 0xc0186f40
-diff --git a/contrib/test/ioctl_64.h b/contrib/test/ioctl_64.h
-index 5001d7c7..accc297c 100644
---- a/contrib/test/ioctl_64.h
-+++ b/contrib/test/ioctl_64.h
-@@ -1,4 +1,4 @@
--/* This file is auto-generated by make sync-with-kernel */
-+/* This file is auto-generated by sync-with-kernel.sh */
+ e.g
  
- #define CMD64_DMX_ADD_PID 0x40026f33
- #define CMD64_DMX_DQBUF 0xc0186f40
-diff --git a/contrib/xc3028-firmware/Makefile.am b/contrib/xc3028-firmware/Makefile.am
-index 43ff8b12..8b23d1e1 100644
---- a/contrib/xc3028-firmware/Makefile.am
-+++ b/contrib/xc3028-firmware/Makefile.am
-@@ -3,12 +3,3 @@ noinst_PROGRAMS = firmware-tool
- firmware_tool_SOURCES = firmware-tool.c standards.c extract_head.h standards.h tuner-xc2028-types.h
+-yavta --data-prefix -u -c10 -n5 -I -s2592x1944 --file=/tmp/frame-#.bin \
+-      -f IPU3_SGRBG10 $(media-ctl -d $MDEV -e "ipu3-cio2 0")
++.. code-block:: none
++
++    yavta --data-prefix -u -c10 -n5 -I -s2592x1944 --file=/tmp/frame-#.bin \
++          -f IPU3_SGRBG10 $(media-ctl -d $MDEV -e "ipu3-cio2 0")
  
- EXTRA_DIST = README
+ With the above command, 10 frames are captured at 2592x1944 resolution, with
+ sGRBG10 format and output as IPU3_SGRBG10 format.
+@@ -269,21 +269,21 @@ all the video nodes setup correctly.
+ 
+ Let us take "ipu3-imgu 0" subdev as an example.
+ 
+-media-ctl -d $MDEV -r
 -
--# custom targets
+-media-ctl -d $MDEV -l "ipu3-imgu 0 input":0 -> "ipu3-imgu 0":0[1]
 -
--sync-with-kernel:
--	@if [ ! -f $(KERNEL_DIR)/drivers/media/tuners/tuner-xc2028-types.h ]; then \
--	  echo "Error you must set KERNEL_DIR to point to an extracted kernel source dir"; \
--	  exit 1; \
--	fi
--	cp -a $(KERNEL_DIR)/drivers/media/tuners/tuner-xc2028-types.h $(srcdir)/
-diff --git a/lib/libdvbv5/Makefile.am b/lib/libdvbv5/Makefile.am
-index e65066e9..09c261be 100644
---- a/lib/libdvbv5/Makefile.am
-+++ b/lib/libdvbv5/Makefile.am
-@@ -122,6 +122,3 @@ libdvbv5_la_LDFLAGS = $(LIBDVBV5_VERSION) $(ENFORCE_LIBDVBV5_STATIC) $(LIBUDEV_L
- libdvbv5_la_LIBADD = $(LTLIBICONV)
+-media-ctl -d $MDEV -l "ipu3-imgu 0":2 -> "ipu3-imgu 0 output":0[1]
+-
+-media-ctl -d $MDEV -l "ipu3-imgu 0":3 -> "ipu3-imgu 0 viewfinder":0[1]
++.. code-block:: none
  
- EXTRA_DIST = README gen_dvb_structs.pl
--
--sync-with-kernel:
--	./gen_dvb_structs.pl $(KERNEL_DIR)/usr/include/
-diff --git a/sync-with-kernel.sh b/sync-with-kernel.sh
-new file mode 100755
-index 00000000..250da156
---- /dev/null
-+++ b/sync-with-kernel.sh
-@@ -0,0 +1,119 @@
-+#!/bin/bash
+-media-ctl -d $MDEV -l "ipu3-imgu 0":4 -> "ipu3-imgu 0 3a stat":0[1]
++    media-ctl -d $MDEV -r
++    media-ctl -d $MDEV -l "ipu3-imgu 0 input":0 -> "ipu3-imgu 0":0[1]
++    media-ctl -d $MDEV -l "ipu3-imgu 0":2 -> "ipu3-imgu 0 output":0[1]
++    media-ctl -d $MDEV -l "ipu3-imgu 0":3 -> "ipu3-imgu 0 viewfinder":0[1]
++    media-ctl -d $MDEV -l "ipu3-imgu 0":4 -> "ipu3-imgu 0 3a stat":0[1]
+ 
+ Also the pipe mode of the corresponding V4L2 subdev should be set as desired
+ (e.g 0 for video mode or 1 for still mode) through the control id 0x009819a1 as
+ below.
+ 
+-yavta -w "0x009819A1 1" /dev/v4l-subdev7
++.. code-block:: none
 +
-+TOPSRCDIR="$( cd "$( dirname "$0" )" && pwd )"
++    yavta -w "0x009819A1 1" /dev/v4l-subdev7
+ 
+ Certain hardware blocks in ImgU pipeline can change the frame resolution by
+ cropping or scaling, these hardware blocks include Input Feeder(IF), Bayer Down
+@@ -371,30 +371,32 @@ v4l2n command can be used. This helps process the raw Bayer frames and produces
+ the desired results for the main output image and the viewfinder output, in NV12
+ format.
+ 
+-v4l2n --pipe=4 --load=/tmp/frame-#.bin --open=/dev/video4
+---fmt=type:VIDEO_OUTPUT_MPLANE,width=2592,height=1944,pixelformat=0X47337069
+---reqbufs=type:VIDEO_OUTPUT_MPLANE,count:1 --pipe=1 --output=/tmp/frames.out
+---open=/dev/video5
+---fmt=type:VIDEO_CAPTURE_MPLANE,width=2560,height=1920,pixelformat=NV12
+---reqbufs=type:VIDEO_CAPTURE_MPLANE,count:1 --pipe=2 --output=/tmp/frames.vf
+---open=/dev/video6
+---fmt=type:VIDEO_CAPTURE_MPLANE,width=2560,height=1920,pixelformat=NV12
+---reqbufs=type:VIDEO_CAPTURE_MPLANE,count:1 --pipe=3 --open=/dev/video7
+---output=/tmp/frames.3A --fmt=type:META_CAPTURE,?
+---reqbufs=count:1,type:META_CAPTURE --pipe=1,2,3,4 --stream=5
++.. code-block:: none
 +
-+KERNEL_DIR=$1
++    v4l2n --pipe=4 --load=/tmp/frame-#.bin --open=/dev/video4
++          --fmt=type:VIDEO_OUTPUT_MPLANE,width=2592,height=1944,pixelformat=0X47337069 \
++          --reqbufs=type:VIDEO_OUTPUT_MPLANE,count:1 --pipe=1 \
++          --output=/tmp/frames.out --open=/dev/video5 \
++          --fmt=type:VIDEO_CAPTURE_MPLANE,width=2560,height=1920,pixelformat=NV12 \
++          --reqbufs=type:VIDEO_CAPTURE_MPLANE,count:1 --pipe=2 \
++          --output=/tmp/frames.vf --open=/dev/video6 \
++          --fmt=type:VIDEO_CAPTURE_MPLANE,width=2560,height=1920,pixelformat=NV12 \
++          --reqbufs=type:VIDEO_CAPTURE_MPLANE,count:1 --pipe=3 --open=/dev/video7 \
++          --output=/tmp/frames.3A --fmt=type:META_CAPTURE,? \
++          --reqbufs=count:1,type:META_CAPTURE --pipe=1,2,3,4 --stream=5
+ 
+ You can also use yavta [#f2]_ command to do same thing as above:
+ 
+ .. code-block:: none
+ 
+-	yavta --data-prefix -Bcapture-mplane -c10 -n5 -I -s2592x1944 \
+-	--file=frame-#.out-f NV12 /dev/video5 & \
+-	yavta --data-prefix -Bcapture-mplane -c10 -n5 -I -s2592x1944 \
+-	--file=frame-#.vf -f NV12 /dev/video6 & \
+-	yavta --data-prefix -Bmeta-capture -c10 -n5 -I \
+-	--file=frame-#.3a /dev/video7 & \
+-	yavta --data-prefix -Boutput-mplane -c10 -n5 -I -s2592x1944 \
+-	--file=/tmp/frame-in.cio2 -f IPU3_SGRBG10 /dev/video4
++    yavta --data-prefix -Bcapture-mplane -c10 -n5 -I -s2592x1944 \
++          --file=frame-#.out-f NV12 /dev/video5 & \
++    yavta --data-prefix -Bcapture-mplane -c10 -n5 -I -s2592x1944 \
++          --file=frame-#.vf -f NV12 /dev/video6 & \
++    yavta --data-prefix -Bmeta-capture -c10 -n5 -I \
++          --file=frame-#.3a /dev/video7 & \
++    yavta --data-prefix -Boutput-mplane -c10 -n5 -I -s2592x1944 \
++          --file=/tmp/frame-in.cio2 -f IPU3_SGRBG10 /dev/video4
+ 
+ where /dev/video4, /dev/video5, /dev/video6 and /dev/video7 devices point to
+ input, output, viewfinder and 3A statistics video nodes respectively.
+@@ -408,7 +410,9 @@ as below.
+ Main output frames
+ ~~~~~~~~~~~~~~~~~~
+ 
+-raw2pnm -x2560 -y1920 -fNV12 /tmp/frames.out /tmp/frames.out.ppm
++.. code-block:: none
 +
-+if [ -z "${KERNEL_DIR}" -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/videodev2.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/fb.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/v4l2-controls.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/v4l2-common.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/v4l2-subdev.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/v4l2-mediabus.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/ivtv.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/dvb/frontend.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/dvb/dmx.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/lirc.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/bpf.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/bpf_common.h -o \
-+     ! -f ${KERNEL_DIR}/drivers/media/tuners/tuner-xc2028-types.h -o \
-+     ! -f ${KERNEL_DIR}/usr/include/linux/input-event-codes.h ]; then
-+	echo "Usage: $0 KERNEL_DIR"
-+	echo
-+	echo "KERNEL_DIR must be the path to an extracted kernel source dir"
-+	echo "and run 'make headers_install' in KERNEL_DIR."
-+	exit 1
-+fi
++    raw2pnm -x2560 -y1920 -fNV12 /tmp/frames.out /tmp/frames.out.ppm
+ 
+ where 2560x1920 is output resolution, NV12 is the video format, followed
+ by input frame and output PNM file.
+@@ -416,7 +420,9 @@ by input frame and output PNM file.
+ Viewfinder output frames
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-raw2pnm -x2560 -y1920 -fNV12 /tmp/frames.vf /tmp/frames.vf.ppm
++.. code-block:: none
 +
-+cp -a ${KERNEL_DIR}/usr/include/linux/videodev2.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/fb.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/v4l2-controls.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/v4l2-common.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/v4l2-subdev.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/v4l2-mediabus.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/media-bus-format.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/media.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/ivtv.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/dvb/frontend.h ${TOPSRCDIR}/include/linux/dvb
-+cp ${TOPSRCDIR}/include/linux/dvb/frontend.h ${TOPSRCDIR}/lib/include/libdvbv5/dvb-frontend.h
-+cp -a ${KERNEL_DIR}/usr/include/linux/dvb/dmx.h ${TOPSRCDIR}/include/linux/dvb
-+cp -a ${KERNEL_DIR}/usr/include/linux/lirc.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/bpf.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/bpf_common.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/cec.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/usr/include/linux/cec-funcs.h ${TOPSRCDIR}/include/linux
-+cp -a ${KERNEL_DIR}/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c ${TOPSRCDIR}/utils/common
-+cp -a ${KERNEL_DIR}/drivers/media/common/v4l2-tpg/v4l2-tpg-colors.c ${TOPSRCDIR}/utils/common
-+cp -a ${KERNEL_DIR}/include/media/tpg/v4l2-tpg.h ${TOPSRCDIR}/utils/common
-+cp -a ${KERNEL_DIR}/include/media/fwht-ctrls.h ${TOPSRCDIR}/utils/common
-+patch -d ${TOPSRCDIR} --no-backup-if-mismatch -p1 <${TOPSRCDIR}/utils/common/v4l2-tpg.patch
-+cp -a ${KERNEL_DIR}/drivers/media/test-drivers/vicodec/codec-fwht.[ch] ${TOPSRCDIR}/utils/common/
-+cp -a ${KERNEL_DIR}/drivers/media/test-drivers/vicodec/codec-v4l2-fwht.[ch] ${TOPSRCDIR}/utils/common/
-+patch -d ${TOPSRCDIR} --no-backup-if-mismatch -p1 <${TOPSRCDIR}/utils/common/codec-fwht.patch
-+grep V4L2_.*_FMT.*descr ${KERNEL_DIR}/drivers/media/v4l2-core/v4l2-ioctl.c | grep -v V4L2_PIX_FMT_H264_SLICE | grep -v V4L2_PIX_FMT_VP8_FRAME | grep -v V4L2_PIX_FMT_HEVC_SLICE | perl -pe 's/.*V4L2_(.*)_FMT/\tcase V4L2_\1_FMT/; s/:.*descr = /: return /; s/;.*/;/;' >${TOPSRCDIR}/utils/common/v4l2-pix-formats.h
-+
-+function keytable {
-+	SRCDIR=${TOPSRCDIR}/utils/keytable
-+
-+	cd ${SRCDIR}
-+	echo generating ${SRCDIR}/parse.h
-+	./gen_input_events.pl < ${KERNEL_DIR}/usr/include/linux/input-event-codes.h  > ${SRCDIR}/parse.h
-+	mkdir -p ${SRCDIR}/rc_keymaps
-+	rm -f ${SRCDIR}/rc_keymaps/*
-+	echo storing existing keymaps at ${SRCDIR}/rc_keymaps/
-+	./gen_keytables.pl ${KERNEL_DIR};
-+	cp ${SRCDIR}/rc_keymaps_userspace/* ${SRCDIR}/rc_keymaps/
-+}
-+
-+function libdvbv5 {
-+	SRCDIR=${TOPSRCDIR}/lib/libdvbv5
-+
-+	cd ${SRCDIR}
-+	./gen_dvb_structs.pl ${KERNEL_DIR}/usr/include/
-+}
-+
-+function xc3028-firmware {
-+	SRCDIR=${TOPSRCDIR}/contrib/xc3028-firmware
-+
-+	cp -a ${KERNEL_DIR}/drivers/media/tuners/tuner-xc2028-types.h ${SRCDIR}/
-+}
-+
-+function ioctl-test {
-+	SRCDIR=${TOPSRCDIR}/contrib/test
-+
-+	cd ${SRCDIR}
-+
-+	./gen_ioctl_list.pl --gen_ioctl_numbers >.tmp_ioctl.c
-+	gcc -I ../../include/ .tmp_ioctl.c -o tmp_ioctl32 -m32
-+	gcc -I ../../include/ .tmp_ioctl.c -o tmp_ioctl64 -m64
-+	./tmp_ioctl32 32 >ioctl_32.h
-+	./tmp_ioctl64 64 >ioctl_64.h
-+	rm .tmp_ioctl.c tmp_ioctl32 tmp_ioctl64
-+	./gen_ioctl_list.pl >ioctl-test.h
-+}
-+
-+function freebsd {
-+	SRCDIR=${TOPSRCDIR}/contrib/freebsd
-+
-+	cd ${SRCDIR}
-+
-+	rm -rf .pc
-+
-+	for i in input.h input-event-codes.h ivtv.h uinput.h videodev2.h v4l2-controls.h v4l2-common.h; do
-+		mkdir -p include/linux/$(dirname $i)
-+		cp ${KERNEL_DIR}/usr/include/linux/$i include/linux/$i
-+	done
-+
-+	for i in ivtv.h uinput.h videodev2.h v4l2-common.h; do
-+		sed -e 's/__u8/uint8_t/g' -e 's/__u16/uint16_t/g' -e 's/__u32/uint32_t/g' -e 's/__u64/uint64_t/g' -e 's/__s8/int8_t/g' -e 's/__s16/int16_t/g' -e 's/__s32/int32_t/g' -e 's/__s64/int64_t/g' -e 's/__le32/uint32_t/g' -e 's/__user//g' -i include/linux/$i
-+	done
-+
-+	quilt push -a
-+}
-+
-+keytable
-+libdvbv5
-+freebsd
-+ioctl-test
-+xc3028-firmware
-diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
-index 4724897e..a057eb89 100644
---- a/utils/keytable/Makefile.am
-+++ b/utils/keytable/Makefile.am
-@@ -29,16 +29,3 @@ check:
- # custom target
- install-data-local:
- 	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
--
--sync-with-kernel:
--	@if [ ! -f $(KERNEL_DIR)/usr/include/linux/input-event-codes.h ]; then \
--	  echo "Error you must set KERNEL_DIR to point to an extracted kernel source dir"; \
--	  exit 1; \
--	fi
--	@echo generating $(srcdir)/parse.h
--	@./gen_input_events.pl < $(KERNEL_DIR)/usr/include/linux/input-event-codes.h  > $(srcdir)/parse.h
--	@-mkdir -p $(srcdir)/rc_keymaps
--	@-rm $(srcdir)/rc_keymaps/*
--	@echo storing existing keymaps at $(srcdir)/rc_keymaps/
--	@cd $(srcdir) && ./gen_keytables.pl $(KERNEL_DIR);
--	@-cp $(srcdir)/rc_keymaps_userspace/* $(srcdir)/rc_keymaps/
++    raw2pnm -x2560 -y1920 -fNV12 /tmp/frames.vf /tmp/frames.vf.ppm
+ 
+ where 2560x1920 is output resolution, NV12 is the video format, followed
+ by input frame and output PNM file.
 -- 
-2.26.2
+2.17.1
 
