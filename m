@@ -2,73 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A93D22CEC0
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 21:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEC5822CF09
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 22:06:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbgGXTh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 15:37:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726503AbgGXTh4 (ORCPT
+        id S1726651AbgGXUGK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 16:06:10 -0400
+Received: from forward501j.mail.yandex.net ([5.45.198.251]:52798 "EHLO
+        forward501j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726381AbgGXUGK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 15:37:56 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E304C0619D3
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 12:37:55 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id i19so5781575lfj.8
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 12:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=anre9lcJof6187CbKzrw5qizyC3m4lA555ZA9TP3qEc=;
-        b=NiuKrFL+hCZQ/5s3aFc1IxO3Tv/X/oM2SW3jpsF9kw7dKCcB+SPFaqr1FCwR9Nrt2x
-         Z3TeScoiar4gyVLvb1t5LSenXDbiZ0PEQOpqTgsMEC/TZZo5QOxr+hYTlZNrD7uJU5X2
-         ePDkfVd9bDSZICuMGZGa4WSbaBsP6xgzEVErw13brTNkFqx0wes5JsyGiAwv5f4xyZFs
-         8yTKeCpXRA1ZfUgs+6y/UkdCvpDErfmD3a3sig2rJEBXRHSSOmhKIwUrCOwRqCdqnz1L
-         vVn58JWoy5IyfS5vGKVKC68qD0Xhpsl/NkMt0GZmQJupvKF91X3IGP3REzBP3Xn0z7PW
-         8iMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=anre9lcJof6187CbKzrw5qizyC3m4lA555ZA9TP3qEc=;
-        b=NmtbL0Em82NsLHeNunO//EPTKkziocFCjJnZjv1KjWePQMsaO18MeoI+V00MkpPrVl
-         rd1KEljGhPf1L8j+vFaZkXTDIlhtYif/PI4cFCv8a96xTqxj2y54d/JvpZPDAt1XgvNo
-         wQA/oYULOkFGDsVGaadzXRJPjrxZALdw8VhSmjFTRjKSp9gKFsor3T6ZXSquxIc+JkKp
-         dIja/fimFzkYCZJdz6e6eZTP4zQnRGzE23Zxm18xc2EoL2AgP1pS020ljqpOKTGn6Ocw
-         dU4AMxUBJECRSQClG9Nf1XtowcCCt2CR45vIsFaefUHo/n61h5JzYv7AHGMYiwydZnY0
-         6jyw==
-X-Gm-Message-State: AOAM532EtrgZvZ//BmABypIEZ5V0MCVEF1rM6qpS+e49SONKI1VrXlCA
-        df0lPXKHKSOtFuCUgt7vLeZt0A==
-X-Google-Smtp-Source: ABdhPJwBtPnJGVYlPrGHrR5aqgZMiuVvpx8x3z+sVh22q8qvDyRybL2id/F9lVjZNk7hnl7OHeIE2w==
-X-Received: by 2002:a19:c3d0:: with SMTP id t199mr5811130lff.56.1595619474080;
-        Fri, 24 Jul 2020 12:37:54 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id y24sm443386ljy.91.2020.07.24.12.37.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2020 12:37:53 -0700 (PDT)
-Date:   Fri, 24 Jul 2020 21:37:52 +0200
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 24 Jul 2020 16:06:10 -0400
+X-Greylist: delayed 357 seconds by postgrey-1.27 at vger.kernel.org; Fri, 24 Jul 2020 16:06:08 EDT
+Received: from mxback5q.mail.yandex.net (mxback5q.mail.yandex.net [IPv6:2a02:6b8:c0e:1ba:0:640:b716:ad89])
+        by forward501j.mail.yandex.net (Yandex) with ESMTP id C307F33801CB;
+        Fri, 24 Jul 2020 23:00:06 +0300 (MSK)
+Received: from localhost (localhost [::1])
+        by mxback5q.mail.yandex.net (mxback/Yandex) with ESMTP id 5G8zRixIVZ-06OCbMfU;
+        Fri, 24 Jul 2020 23:00:06 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1595620806;
+        bh=f93LtYxJ50+Ck2fwWUZ066AeOsoEDLCakGsqNBbVsmc=;
+        h=Message-Id:Cc:Subject:In-Reply-To:Date:References:To:From;
+        b=MgU8A3bl60LibhWwfqSDep/IguW6d8QdhmcCphQmzUSjdnd27j4At9yE0l81yK40f
+         fr8xEFwxpkY5IZwde85G+DgPN4QHnaxK8u3+dPnEjlaO6tR0Lkw0Cz3uNqmhyokK/8
+         pZUvTgrVddFV7HLDKZW9ttxsyqLiT2V+jZwcyMTk=
+Authentication-Results: mxback5q.mail.yandex.net; dkim=pass header.i=@yandex.ru
+Received: by vla5-344e18ef0bef.qloud-c.yandex.net with HTTP;
+        Fri, 24 Jul 2020 23:00:06 +0300
+From:   Evgeny Novikov <novikov@ispras.ru>
+Envelope-From: eugenenovikov@yandex.ru
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Document
- renesas-vin-ycbcr-8b-g property
-Message-ID: <20200724193752.GE2729799@oden.dyn.berto.se>
-References: <1595602732-25582-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "ldv-project@linuxtesting.org" <ldv-project@linuxtesting.org>
+In-Reply-To: <CA+V-a8uNfscxiM1fMjfdvZstZkkzxW41p40jpBXT3NeyiS9-Qw@mail.gmail.com>
+References: <20200723170453.432-1-novikov@ispras.ru> <CA+V-a8uNfscxiM1fMjfdvZstZkkzxW41p40jpBXT3NeyiS9-Qw@mail.gmail.com>
+Subject: Re: [PATCH] media: davinci: vpif_capture: fix potential double free
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date:   Fri, 24 Jul 2020 23:00:06 +0300
+Message-Id: <20927111595619342@mail.yandex.ru>
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -76,69 +51,55 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Lad,
 
-Thanks for your patch.
+Yet again I can not demonstrate you a nice error trace corresponding to the bug fixed by the patch. Indeed, there is a branch in vpif_probe() that explicitly invokes vpif_probe_complete() and the patch targets the possible issue that can happen during this. 
 
-On 2020-07-24 15:58:51 +0100, Lad Prabhakar wrote:
-> Add a DT property "renesas-vin-ycbcr-8b-g" to select YCbCr422 8-bit data
-> input pins.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/media/renesas,vin.yaml | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> index 53c0a72..7dfb781 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -106,6 +106,12 @@ properties:
->  
->            remote-endpoint: true
->  
-> +          renesas-vin-ycbcr-8b-g:
+When I developed the patch I saw on vpif_display.ko. It looks very similar regarding things touched by the patch. In particular, it does not free vpif_obj.sd in its vpif_probe_complete(). But now I see that it does this in vpif_remove()!
 
-I think the preferred format for vendor specific properties are 
-"<vendor>,<property>".
+Do you think that vpif_capture.ko should do the same? If so, I guess that I should fix the patch appropriately since likely it just replaces one (very rare) bug with another one (on a typical execution path).
 
-This nit apart I'm not sure a property is the right way here. Could it 
-not be possible on some designs to have two different sensors one wired 
-to DATA[7:0] and the other to DATA[15:8] and by controlling the 
-VNDRM2_YDS register at runtime switch between the two? If so adding a DT 
-property to hard-code one of the two options would prevent this. I fear 
-we need to think of a runtime way to deal with this.
+-- 
+Evgeny Novikov
+Linux Verification Center, ISP RAS
+http://linuxtesting.org
 
-The best way to do that I think is to extend the port@0 node to allow 
-for two endpoints, one for each of the two possible parallel sensors.  
-This would then have to be expressed in the media graph and selection if 
-YDS should be set or not depend on which media links are enabled.
 
-> +            type: boolean
-> +            description:
-> +              If present this property specifies to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.
-> +            default: false
-> +
->          required:
->            - remote-endpoint
->  
-> @@ -168,6 +174,13 @@ properties:
->  
->                remote-endpoint: true
->  
-> +              renesas-vin-ycbcr-8b-g:
-> +                type: boolean
-> +                description:
-> +                  If present this property specifies to selects VIN_G[7:0] as data pins for
-> +                  YCbCr422 8-bit data.
-> +                default: false
-> +
->              required:
->                - remote-endpoint
->  
-> -- 
-> 2.7.4
-> 
 
--- 
-Regards,
-Niklas S�derlund
+24.07.2020, 17:17, "Lad, Prabhakar" <prabhakar.csengg@gmail.com>:
+> Hi Evgeny,
+>
+> Thank you for the patch.
+>
+> On Thu, Jul 23, 2020 at 6:04 PM Evgeny Novikov <novikov@ispras.ru> wrote:
+>>  In case of errors vpif_probe_complete() releases memory for vpif_obj.sd
+>>  and unregisters the V4L2 device. But then this is done again by
+>>  vpif_probe() itself. The patch removes the cleaning from
+>>  vpif_probe_complete().
+>>
+>>  Found by Linux Driver Verification project (linuxtesting.org).
+>>
+>>  Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+>>  ---
+>>   drivers/media/platform/davinci/vpif_capture.c | 2 --
+>>   1 file changed, 2 deletions(-)
+>>
+>>  diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
+>>  index d9ec439faefa..72a0e94e2e21 100644
+>>  --- a/drivers/media/platform/davinci/vpif_capture.c
+>>  +++ b/drivers/media/platform/davinci/vpif_capture.c
+>>  @@ -1482,8 +1482,6 @@ static int vpif_probe_complete(void)
+>>                  /* Unregister video device */
+>>                  video_unregister_device(&ch->video_dev);
+>>          }
+>>  - kfree(vpif_obj.sd);
+>>  - v4l2_device_unregister(&vpif_obj.v4l2_dev);
+>
+> vpif_probe_complete() is a async callback and probe() should have
+> already completed by then.
+>
+> Cheers,
+> --Prabhakar
+>
+>>          return err;
+>>   }
+>>  --
+>>  2.16.4
