@@ -2,255 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4B8922CF6A
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 22:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E173722CFCF
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 22:46:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726651AbgGXU3S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 16:29:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47230 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726493AbgGXU3S (ORCPT
+        id S1726924AbgGXUpk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 16:45:40 -0400
+Received: from rnd-relay.smtp.broadcom.com ([192.19.232.150]:34338 "EHLO
+        rnd-relay.smtp.broadcom.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726811AbgGXUpi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 16:29:18 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7936C0619E4
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 13:29:17 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id b6so9367996wrs.11
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 13:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=L07tsuhny1pQ7gNIGv0W+sGyHA4OEZwfZ804u+Y4cII=;
-        b=DF8nOXoT5Vpgt5UR6qZs0jtHQo5QYKFVieQgdfBl355rWZ5o6OF2ubY2W+OsiUJo+L
-         TTLdQ+kh40Uc6VBzZNTZlL3+oOoCxwGFLbDlBIo+5qK2f6OK6eo+8HkI5qUhJo0CIhca
-         of1dMvtPvfGzP0LWYxnx968z2i1CyYPTpr3/oju2NLvy5TaCEK4cZkBEm0gFYTa52YnT
-         +tEMmhMSNBm9LVO+7P+PJqq5fzV2bFFDUMaAU+KV+zZDWHNEPRp+MxDpDravrZDoO+Kq
-         vweLC6A6lGwFY0xvHgeq3uP/62zVLowcZAQULZwRZur40JClapS7VycUIsBp+Uyh8pNp
-         Epsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=L07tsuhny1pQ7gNIGv0W+sGyHA4OEZwfZ804u+Y4cII=;
-        b=rmrdGbrn7mRAC/8hZwglE280+3nSa1/houMQxXiUqdlB6LuM1SL+IRa1z8WkuHTeCE
-         uw31HgYc1jQ9IJyQBQ9v3aiBq8QhJlhCDZUz22gcGUDGntsPHUhus3YUMow3WiGlBIvp
-         g+Y+4L4a3osNFcPtWoQScEhDSVZ8I4+GruIqIGWhUakDydPBVmS16hyBabA4EleeZiMZ
-         ZCk+ZUcwbHCyf29Q6QtGHsdo7A0rOkaw9g47uTTgDslxA0f863RewUgnO7R5p/uno8SY
-         6nQuWLlfonH27nniE7eiMRb4h1RTDpbU2SIz9AQF1VNRXGlbQg+vTPry9kqL6iIOAeX4
-         9H+w==
-X-Gm-Message-State: AOAM531BuPab8Jt321xv+L5t2kKyn3Suoc62xDaLQcWq7vCUqHRHw6+J
-        jkdZI5/Ui/KVCwl5KjEzQMPbPw==
-X-Google-Smtp-Source: ABdhPJyzRdzYTFbYtKdMcntCUB597vb1oJdNYRyDUSK/27uPOgqo14mViDSwcS8m67v1HoLFvNo+Pg==
-X-Received: by 2002:a05:6000:8b:: with SMTP id m11mr5955036wrx.245.1595622556568;
-        Fri, 24 Jul 2020 13:29:16 -0700 (PDT)
-Received: from [192.168.1.4] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id b63sm8622338wme.41.2020.07.24.13.29.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jul 2020 13:29:15 -0700 (PDT)
-Subject: Re: [PATCH] v4l2-ctrl: Add VP9 codec levels
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20200713081501.28609-1-stanimir.varbanov@linaro.org>
- <dade9f23deba2f12ad8ab2f277e08047af73f46c.camel@ndufresne.ca>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <08d230f6-b017-df6a-f43e-77e7511e8afd@linaro.org>
-Date:   Fri, 24 Jul 2020 23:29:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <dade9f23deba2f12ad8ab2f277e08047af73f46c.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Fri, 24 Jul 2020 16:45:38 -0400
+X-Greylist: delayed 540 seconds by postgrey-1.27 at vger.kernel.org; Fri, 24 Jul 2020 16:45:35 EDT
+Received: from mail-irv-17.broadcom.com (mail-irv-17.lvn.broadcom.net [10.75.242.48])
+        by rnd-relay.smtp.broadcom.com (Postfix) with ESMTP id 895D71A03F9;
+        Fri, 24 Jul 2020 13:36:33 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 rnd-relay.smtp.broadcom.com 895D71A03F9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+        s=dkimrelay; t=1595622993;
+        bh=iROEOxL20fkN82DgSDT9xCh4bM04NvfKU+zpU572Jk4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lcGhd/wOCVZmX1uQE+GWSKEK2BWwEueoL+jv3N84yu0EAaCrPAl/nUVvi6rT8mOu9
+         rASCHru+AQAcyYZ3CEkqi5KUYyMSyTxVd5/uswShD7qMRV6WWL65xjb7TcWRYqTceP
+         pqpEUGBi0Jm0wPHubSaLmoIIGnS4t1bpm4q2u+GA=
+Received: from stbsrv-and-01.and.broadcom.net (stbsrv-and-01.and.broadcom.net [10.28.16.211])
+        by mail-irv-17.broadcom.com (Postfix) with ESMTP id A7441140208;
+        Fri, 24 Jul 2020 13:34:10 -0700 (PDT)
+From:   Jim Quinlan <james.quinlan@broadcom.com>
+To:     linux-pci@vger.kernel.org,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        bcm-kernel-feedback-list@broadcom.com, james.quinlan@broadcom.com
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE),
+        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER
+        A10), Florian Fainelli <f.fainelli@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS),
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>, Joerg Roedel <jroedel@suse.de>,
+        Julien Grall <julien.grall@arm.com>,
+        linux-acpi@vger.kernel.org (open list:ACPI FOR ARM64 (ACPI/arm64)),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
+        linux-ide@vger.kernel.org (open list:LIBATA SUBSYSTEM (Serial and
+        Parallel ATA drivers)), linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER),
+        linux-remoteproc@vger.kernel.org (open list:REMOTE PROCESSOR
+        (REMOTEPROC) SUBSYSTEM),
+        linux-rpi-kernel@lists.infradead.org (moderated list:BROADCOM
+        BCM2711/BCM2835 ARM ARCHITECTURE),
+        linux-sh@vger.kernel.org (open list:SUPERH),
+        linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
+        Oliver Neukum <oneukum@suse.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: [PATCH v9 00/12] PCI: brcmstb: enable PCIe for STB chips
+Date:   Fri, 24 Jul 2020 16:33:42 -0400
+Message-Id: <20200724203407.16972-1-james.quinlan@broadcom.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
+Patchset Summary:
+  Enhance a PCIe host controller driver.  Because of its unusual design
+  we are foced to change dev->dma_pfn_offset into a more general role
+  allowing multiple offsets.  See the 'v1' notes below for more info.
 
-On 7/14/20 7:09 PM, Nicolas Dufresne wrote:
-> Le lundi 13 juillet 2020 à 11:15 +0300, Stanimir Varbanov a écrit :
->> Add menu control for VP9 codec levels. A total of 14 levels are
->> defined for Profile 0 (8bit) and Profile 2 (10bit). Each level
->> is a set of constrained bitstreams coded with targeted resolutions,
->> frame rates, and bitrates.
-> 
-> Looks good to me. Perhaps literally put the link in the message ?
-> 
-> https://www.webmproject.org/vp9/levels/
+NOTE: ChristophH wanted the dma_set_offset_range() function
+      to have a range from [0...~(phys_addr_t)0], i.e. no specific
+      bounds.  RobinM requested this function to have specific bounds,
+      which has been implemented since v6.  If I do not hear from
+      Robin in the near future about this request, I will submit
+      v10 which will have no specific bounds.
 
-sure, I will do that.
+v9:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- A number of code improvements were implemented as suggested by
+     ChristophH.  Unfortunately, some of these changes reversed the
+     implemented suggestions of other reviewers; for example, the new
+     macros PFN_DMA_ADDR(), DMA_ADDR_PFN() have been pulled.
 
-> 
->>
->> The definition has been taken from webm project.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  .../media/v4l/ext-ctrls-codec.rst             | 42 +++++++++++++++++++
->>  drivers/media/v4l2-core/v4l2-ctrls.c          | 21 ++++++++++
->>  include/uapi/linux/v4l2-controls.h            | 17 ++++++++
->>  3 files changed, 80 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index d0d506a444b1..d49bdafa768a 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -3316,6 +3316,48 @@ enum v4l2_mpeg_video_vp9_profile -
->>      * - ``V4L2_MPEG_VIDEO_VP9_PROFILE_3``
->>        - Profile 3
->>  
->> +.. _v4l2-mpeg-video-vp9-level:
->> +
->> +``V4L2_CID_MPEG_VIDEO_VP9_LEVEL (enum)``
->> +
->> +enum v4l2_mpeg_video_vp9_level -
->> +    This control allows selecting the level for VP9 encoder.
->> +    This is also used to enumerate supported levels by VP9 encoder or decoder.
->> +    Possible values are:
-> 
-> Shall we add some hint in the doc itself upon where these levels are
-> from so one can figure-out what constraints they impose.
+v8:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- To satisfy a specific m68 compile configuration, I moved the 'struct
+     bus_dma_region; definition out of #ifdef CONFIG_HAS_DMA and also defined
+     three inline functions for !CONFIG_HAS_DMA (kernel test robot).
+  -- The sunXi drivers -- suc4i_csi, sun6i_csi, cedrus_hw -- set
+     a pfn_offset outside of_dma_configure() but the code offers no 
+     insight on the size of the translation window.  V7 had me using
+     SIZE_MAX as the size.  I have since contacted the sunXi maintainer and
+     he said that using a size of SZ_4G would cover sunXi configurations.
 
-Fine by me. The same link as in the commit message?
+v7:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- remove second kcalloc/copy in device.c (AndyS)
+  -- use PTR_ERR_OR_ZERO() and PHYS_PFN() (AndyS)
+  -- indentation, sizeof(struct ...) => sizeof(*r) (AndyS)
+  -- add pfn.h definitions: PFN_DMA_ADDR(), DMA_ADDR_PFN() (AndyS)
+  -- Fixed compile error in "sun6i_csi.c" (kernel test robot)
+  Commit "ata: ahci_brcm: Fix use of BCM7216 reset controller"
+  -- correct name of function in the commit msg (SergeiS)
+  
+v6:
+  Commit "device core: Introduce DMA range map":
+  -- of_dma_get_range() now takes a single argument and returns either
+     NULL, a valid map, or an ERR_PTR. (Robin)
+  -- offsets are no longer a PFN value but an actual address. (Robin)
+  -- the bus_dma_region struct stores the range size instead of
+     the cpu_end and pci_end values. (Robin)
+  -- devices that were setting a single offset with no boundaries
+     have been modified to have boundaries; in a few places
+     where this information was unavilable a /* FIXME: ... */
+     comment was added. (Robin)
+  -- dma_attach_offset_range() can be called when an offset
+     map already exists; if it's range is already present
+     nothing is done and success is returned. (Robin)
+  All commits:
+  -- Man name/style/corrections/etc changed (Bjorn)
+  -- rebase to Torvalds master
 
-> 
-> Also, as for other levels (H264/HEVC), all drivers are mostly dummy and
-> don't validate any of this, shall we keep it this way ? Levels are in
-> fact complex, because some of the constraints are in image size, and
-> most of the other constraints are raw or compressed size over time, so
-> requires timing information for let's say a CBR encoder to enforce it,
-> for the S_FMT function for the raw constraints.
+v5:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  -- in of/address.c: "map_size = 0" => "*map_size = 0"
+  -- use kcalloc instead of kzalloc (AndyS)
+  -- use PHYS_ADDR_MAX instead of "~(phys_addr_t)0"
+  Commit "PCI: brcmstb: Set internal memory viewport sizes"
+  -- now gives error on missing dma-ranges property.
+  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+  -- removed "Allof:" from brcm,scb-sizes definition (RobH)
+  All Commits:
+  -- indentation style, use max chars 100 (AndyS)
+  -- rebased to torvalds master
 
-I think this should be a driver responsibility.
+v4:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  -- of_dma_get_range() does not take a dev param but instead
+     takes two "out" params: map and map_size.  We do this so
+     that the code that parses dma-ranges is separate from
+     the code that modifies 'dev'.   (Nicolas)
+  -- the separate case of having a single pfn offset has
+     been removed and is now processed by going through the
+     map array. (Nicolas)
+  -- move attach_uniform_dma_pfn_offset() from of/address.c to
+     dma/mapping.c so that it does not depend on CONFIG_OF. (Nicolas)
+  -- devm_kcalloc => devm_kzalloc (DanC)
+  -- add/fix assignment to dev->dma_pfn_offset_map for func
+     attach_uniform_dma_pfn_offset() (DanC, Nicolas)
+  -- s/struct dma_pfn_offset_region/struct bus_dma_region/ (Nicolas)
+  -- s/attach_uniform_dma_pfn_offset/dma_attach_uniform_pfn_offset/
+  -- s/attach_dma_pfn_offset_map/dma_attach_pfn_offset_map/
+  -- More use of PFN_{PHYS,DOWN,UP}. (AndyS)
+  Commit "of: Include a dev param in of_dma_get_range()"
+  -- this commit was sqaushed with "device core: Introduce ..."
 
-> 
->> +
->> +.. flat-table::
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_1_0``
->> +      - Level 1
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_1_1``
->> +      - Level 1.1
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_2_0``
->> +      - Level 2
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_2_1``
->> +      - Level 2.1
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_3_0``
->> +      - Level 3
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_3_1``
->> +      - Level 3.1
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_4_0``
->> +      - Level 4
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_4_1``
->> +      - Level 4.1
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_5_0``
->> +      - Level 5
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_5_1``
->> +      - Level 5.1
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_5_2``
->> +      - Level 5.2
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_0``
->> +      - Level 6
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_1``
->> +      - Level 6.1
->> +    * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_2``
->> +      - Level 6.2
->> +
->>  
->>  High Efficiency Video Coding (HEVC/H.265) Control Reference
->>  ===========================================================
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
->> index 3f3fbcd60cc6..359dc737053d 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->> @@ -474,6 +474,23 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->>  		"3",
->>  		NULL,
->>  	};
->> +	static const char * const vp9_level[] = {
->> +		"1",
->> +		"1.1",
->> +		"2",
->> +		"2.1",
->> +		"3",
->> +		"3.1",
->> +		"4",
->> +		"4.1",
->> +		"5",
->> +		"5.1",
->> +		"5.2",
->> +		"6",
->> +		"6.1",
->> +		"6.2",
->> +		NULL,
->> +	};
->>  
->>  	static const char * const flash_led_mode[] = {
->>  		"Off",
->> @@ -685,6 +702,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->>  		return vp8_profile;
->>  	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:
->>  		return vp9_profile;
->> +	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:
->> +		return vp9_level;
->>  	case V4L2_CID_JPEG_CHROMA_SUBSAMPLING:
->>  		return jpeg_chroma_subsampling;
->>  	case V4L2_CID_DV_TX_MODE:
->> @@ -938,6 +957,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	case V4L2_CID_MPEG_VIDEO_VPX_P_FRAME_QP:		return "VPX P-Frame QP Value";
->>  	case V4L2_CID_MPEG_VIDEO_VP8_PROFILE:			return "VP8 Profile";
->>  	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:			return "VP9 Profile";
->> +	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:			return "VP9 Level";
->>  	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:		return "VP8 Frame Header";
->>  
->>  	/* HEVC controls */
->> @@ -1294,6 +1314,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>  	case V4L2_CID_MPEG_VIDEO_VPX_GOLDEN_FRAME_SEL:
->>  	case V4L2_CID_MPEG_VIDEO_VP8_PROFILE:
->>  	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:
->> +	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:
->>  	case V4L2_CID_DETECT_MD_MODE:
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:
->> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->> index 62271418c1be..1b0bc79c1bc3 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -650,6 +650,23 @@ enum v4l2_mpeg_video_vp9_profile {
->>  	V4L2_MPEG_VIDEO_VP9_PROFILE_2				= 2,
->>  	V4L2_MPEG_VIDEO_VP9_PROFILE_3				= 3,
->>  };
->> +#define V4L2_CID_MPEG_VIDEO_VP9_LEVEL			(V4L2_CID_MPEG_BASE+513)
->> +enum v4l2_mpeg_video_vp9_level {
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_1_0	= 0,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_1_1	= 1,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_2_0	= 2,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_2_1	= 3,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_3_0	= 4,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_3_1	= 5,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_4_0	= 6,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_4_1	= 7,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_5_0	= 8,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_5_1	= 9,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_5_2	= 10,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_6_0	= 11,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_6_1	= 12,
->> +	V4L2_MPEG_VIDEO_VP9_LEVEL_6_2	= 13,
->> +};
->>  
->>  /* CIDs for HEVC encoding. */
->>  
-> 
+v3:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  Commit "arm: dma-mapping: Invoke dma offset func if needed"
+  -- The above two commits have been squashed.  More importantly,
+     the code has been modified so that the functionality for
+     multiple pfn offsets subsumes the use of dev->dma_pfn_offset.
+     In fact, dma_pfn_offset is removed and supplanted by
+     dma_pfn_offset_map, which is a pointer to an array.  The
+     more common case of a uniform offset is now handled as
+     a map with a single entry, while cases requiring multiple
+     pfn offsets use a map with multiple entries.  Code paths
+     that used to do this:
+
+         dev->dma_pfn_offset = mydrivers_pfn_offset;
+
+     have been changed to do this:
+
+         attach_uniform_dma_pfn_offset(dev, pfn_offset);
+
+  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+  -- Add if/then clause for required props: resets, reset-names (RobH)
+  -- Change compatible list from const to enum (RobH)
+  -- Change list of u32-tuples to u64 (RobH)
+
+  Commit "of: Include a dev param in of_dma_get_range()"
+  -- modify of/unittests.c to add NULL param in of_dma_get_range() call.
+
+  Commit "device core: Add ability to handle multiple dma offsets"
+  -- align comment in device.h (AndyS).
+  -- s/cpu_beg/cpu_start/ and s/dma_beg/dma_start/ in struct
+     dma_pfn_offset_region (AndyS).
+
+v2:
+Commit: "device core: Add ability to handle multiple dma offsets"
+  o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
+  o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
+  o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
+  o dev->dma_pfn_map => dev->dma_pfn_offset_map
+  o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
+  o In device.h: s/const void */const struct dma_pfn_offset_region */
+  o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
+    guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
+  o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
+    dev->dma_pfn_offset_map is copied as well.
+  o Merged two of the DMA commits into one (Christoph).
+
+Commit "arm: dma-mapping: Invoke dma offset func if needed":
+  o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
+
+Other commits' changes:
+  o Removed need for carrying of_id var in priv (Nicolas)
+  o Commit message rewordings (Bjorn)
+  o Commit log messages filled to 75 chars (Bjorn)
+  o devm_reset_control_get_shared())
+    => devm_reset_control_get_optional_shared (Philipp)
+  o Add call to reset_control_assert() in PCIe remove routines (Philipp)
+
+v1:
+This patchset expands the usefulness of the Broadcom Settop Box PCIe
+controller by building upon the PCIe driver used currently by the
+Raspbery Pi.  Other forms of this patchset were submitted by me years
+ago and not accepted; the major sticking point was the code required
+for the DMA remapping needed for the PCIe driver to work [1].
+
+There have been many changes to the DMA and OF subsystems since that
+time, making a cleaner and less intrusive patchset possible.  This
+patchset implements a generalization of "dev->dma_pfn_offset", except
+that instead of a single scalar offset it provides for multiple
+offsets via a function which depends upon the "dma-ranges" property of
+the PCIe host controller.  This is required for proper functionality
+of the BrcmSTB PCIe controller and possibly some other devices.
+
+[1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
+
+Jim Quinlan (12):
+  PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
+  ata: ahci_brcm: Fix use of BCM7216 reset controller
+  dt-bindings: PCI: Add bindings for more Brcmstb chips
+  PCI: brcmstb: Add bcm7278 register info
+  PCI: brcmstb: Add suspend and resume pm_ops
+  PCI: brcmstb: Add bcm7278 PERST# support
+  PCI: brcmstb: Add control of rescal reset
+  device core: Introduce DMA range map, supplanting dma_pfn_offset
+  PCI: brcmstb: Set additional internal memory DMA viewport sizes
+  PCI: brcmstb: Accommodate MSI for older chips
+  PCI: brcmstb: Set bus max burst size by chip type
+  PCI: brcmstb: Add bcm7211, bcm7216, bcm7445, bcm7278 to match list
+
+ .../bindings/pci/brcm,stb-pcie.yaml           |  56 ++-
+ arch/arm/include/asm/dma-mapping.h            |  10 +-
+ arch/arm/mach-keystone/keystone.c             |  17 +-
+ arch/sh/drivers/pci/pcie-sh7786.c             |   9 +-
+ arch/sh/kernel/dma-coherent.c                 |  15 +-
+ arch/x86/pci/sta2x11-fixup.c                  |   7 +-
+ drivers/acpi/arm64/iort.c                     |   5 +-
+ drivers/ata/ahci_brcm.c                       |  11 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |   5 +-
+ drivers/iommu/io-pgtable-arm.c                |   2 +-
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   5 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   4 +-
+ drivers/of/address.c                          |  71 ++-
+ drivers/of/device.c                           |  43 +-
+ drivers/of/of_private.h                       |  10 +-
+ drivers/of/unittest.c                         |  32 +-
+ drivers/pci/controller/Kconfig                |   3 +-
+ drivers/pci/controller/pcie-brcmstb.c         | 409 +++++++++++++++---
+ drivers/remoteproc/remoteproc_core.c          |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   7 +-
+ drivers/usb/core/message.c                    |   4 +-
+ drivers/usb/core/usb.c                        |   2 +-
+ include/linux/device.h                        |   4 +-
+ include/linux/dma-direct.h                    |   8 +-
+ include/linux/dma-mapping.h                   |  34 ++
+ kernel/dma/coherent.c                         |  10 +-
+ kernel/dma/mapping.c                          |  63 +++
+ 27 files changed, 653 insertions(+), 195 deletions(-)
 
 -- 
-regards,
-Stan
+2.17.1
+
