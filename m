@@ -2,129 +2,442 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE8C122CB95
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 19:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 745E622CBE7
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jul 2020 19:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbgGXRAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jul 2020 13:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42652 "EHLO
+        id S1726701AbgGXRTB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jul 2020 13:19:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726704AbgGXRAc (ORCPT
+        with ESMTP id S1726326AbgGXRTB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jul 2020 13:00:32 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F18EC0619D3
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 10:00:32 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id f2so8923636wrp.7
-        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 10:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HVn0XE1npVfMcheHUb+P8nScOwE9YNtoOrv0SrU7C6k=;
-        b=LWnkkFCyH4G+4whOm/GLvE3rIRX+ith86RYBTw6a6RbeuYjCHpaZrnNOSWWamNMoOB
-         4r37fGz6LjbkYQp3O8Cbtcl5EcwtRGHq/5ysdzXV93eU6Z4TKthDV+ZofSLhcfFt90SW
-         sWvc7toEFfDm+V4UyaNKD3VQy5xIqrToXQVEwH2lBRA/DZArKou+VctaXqGsqX+moKEb
-         rIDRGj3MddETxAtjC7QAF1C0FU4Bp2R/+8xUB/vbaE2AmcL0FC0MO5tOnGGW7vjxFhYl
-         zXuQt47JR3EQ9SX56RIdSle/YHmxZR0CNTLvln25ex5F+rdEU0deaDqsxq5FNQD28vb/
-         9wxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HVn0XE1npVfMcheHUb+P8nScOwE9YNtoOrv0SrU7C6k=;
-        b=uhi7l6HViPEiEUWI8R3DB6vuicT4a7vo6/pJgdTZwfHqiii0NvSii6vXLKpRPxeT22
-         r9JdyrmdTKmoRm5uaZ1VHP5mWaq0VUw5ZeAgB/rgFVMwcBwTD7wrRKA+rY4I9G0P9z/N
-         VKTcpxzWzKnjfOAX7WngbAFY1L6OYHBXg2x8ES96UfLNVQlgZj9+IJaZxeWoHU4r/6PM
-         32ERUGXwOWoiP6U6xQxkyXJG6kPx9DEBj0Aiub5Hqg1435bI9CtM9WaMux1JHk2oeu5y
-         3xR6RSjggjxyzHmRspY/gPYZoROAtDOXfAqTjpkKI7OLj+yFvCKeTuF9TmECUZL1mKYt
-         /9Pw==
-X-Gm-Message-State: AOAM531wo2FZgDBbOcXk2mI9SBnDFfTIm46avbP4ylXNbBkVkDHRN6xN
-        JSxXPgDSoz92rGi5Nk3Jvtb9Sw==
-X-Google-Smtp-Source: ABdhPJx08BKvgkrkQDZ7tzxJdOszCdutDDRkrtncNdcGXVFzfxfS5ykjVZ0O4lF9mxQ7Vn+5hDOKfQ==
-X-Received: by 2002:adf:e9cd:: with SMTP id l13mr9722660wrn.340.1595610030767;
-        Fri, 24 Jul 2020 10:00:30 -0700 (PDT)
-Received: from [192.168.1.4] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id o21sm7536640wmh.18.2020.07.24.10.00.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jul 2020 10:00:30 -0700 (PDT)
-Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
- power-domains for venus
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     Lina Iyer <ilina@codeaurora.org>,
-        Rajendra Nayak <rnayak@codeaurora.org>
-Cc:     robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org, Maulik Shah <mkshah@codeaurora.org>
-References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
- <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
- <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
- <654e0fcb-ae4d-c151-fa8a-4d029fc823fb@codeaurora.org>
- <20200724162825.GH9185@codeaurora.org>
- <d3fe38de-2f79-713f-eb9e-f72f4b9f6dc0@linaro.org>
-Message-ID: <3a5cc26b-7a77-33df-d8d2-edb46a72968a@linaro.org>
-Date:   Fri, 24 Jul 2020 20:00:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 24 Jul 2020 13:19:01 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27401C0619D3
+        for <linux-media@vger.kernel.org>; Fri, 24 Jul 2020 10:19:01 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id BF16EC63E0; Fri, 24 Jul 2020 18:18:56 +0100 (BST)
+Date:   Fri, 24 Jul 2020 18:18:56 +0100
+From:   Sean Young <sean@mess.org>
+To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
+        linux-media <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Gregor Jasny <gjasny@googlemail.com>
+Subject: [PATCH v4l-utils v3] Move sync-with-kernel into dedicated shell
+ script ./sync-with-kernel.sh
+Message-ID: <20200724171856.GA18901@gofer.mess.org>
 MIME-Version: 1.0
-In-Reply-To: <d3fe38de-2f79-713f-eb9e-f72f4b9f6dc0@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The sync-with-kernel target is a collection of shell fragments scattered
+over the tree. Collect all of them into a single shell script. This makes
+it is easier to see what sync-with-kernel does, and makes the move away
+from autotools to meson easier.
 
+Signed-off-by: Sean Young <sean@mess.org>
+---
+Changes since v3:
+ - sync-with-kernel.sh takes KERNEL_DIR as argument, not env 
 
-On 7/24/20 7:52 PM, Stanimir Varbanov wrote:
-> Hi Lina,
-> 
-> On 7/24/20 7:28 PM, Lina Iyer wrote:
->> On Fri, Jul 24 2020 at 03:03 -0600, Rajendra Nayak wrote:
->>> Hi Maulik/Lina,
->>>
->>> On 7/23/2020 11:36 PM, Stanimir Varbanov wrote:
->>>> Hi Rajendra,
->>>>
->>>> After applying 2,3 and 4/5 patches on linaro-integration v5.8-rc2 I see
->>>> below messages on db845:
->>>>
->>>> qcom-venus aa00000.video-codec: dev_pm_opp_set_rate: failed to find
->>>> current OPP for freq 533000097 (-34)
->>>>
->>>> ^^^ This one is new.
->>>>
->>>> qcom_rpmh TCS Busy, retrying RPMH message send: addr=0x30000
->>>>
->>>> ^^^ and this message is annoying, can we make it pr_debug in rpmh?
->>>
->> How annoyingly often do you see this message?
-> 
-> I haven't gig deeply but on every driver pm_runtime_suspend (after
-> applying Rajendra's patches). And I guess it comes after a call to
-> dev_pm_opp_set_rate(dev, 0).
+Changes since v2:
+ - Implemented review changes
+ - Updated to latest master
 
-Or it might be when the driver is switching off opp_pmdomain.
+ Makefile.am                         |  58 +-------------
+ README                              |   4 +-
+ configure.ac                        |   2 +-
+ contrib/freebsd/Makefile.am         |  14 ----
+ contrib/test/Makefile.am            |   9 ---
+ contrib/test/gen_ioctl_list.pl      |   4 +-
+ contrib/test/ioctl-test.h           |   2 +-
+ contrib/test/ioctl_32.h             |   2 +-
+ contrib/test/ioctl_64.h             |   2 +-
+ contrib/xc3028-firmware/Makefile.am |   9 ---
+ lib/libdvbv5/Makefile.am            |   3 -
+ sync-with-kernel.sh                 | 119 ++++++++++++++++++++++++++++
+ utils/keytable/Makefile.am          |  13 ---
+ 13 files changed, 131 insertions(+), 110 deletions(-)
+ create mode 100755 sync-with-kernel.sh
 
-> 
-> IMO this is too often.
-> 
->> Usually, this is an indication of bad system state either on remote
->> processors in the SoC or in Linux itself. On a smooth sailing build you
->> should not see this 'warning'.
->>
->>> Would you be fine with moving this message to a pr_debug? Its currently
->>> a pr_info_ratelimited()
->> I would rather not, moving this out of sight will mask a lot serious
->> issues that otherwise bring attention to the developers.
->>
->> --Lina
-> 
-
+diff --git a/Makefile.am b/Makefile.am
+index 52eb8af9..3237ab49 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -7,60 +7,10 @@ if WITH_V4LUTILS
+ SUBDIRS += utils contrib
+ endif
+ 
+-EXTRA_DIST = android-config.h bootstrap.sh doxygen_libdvbv5.cfg include COPYING.libv4l \
+-        COPYING.libdvbv5 README.libv4l README.lib-multi-threading TODO.libdvbv5 \
+-        doc/libdvbv5-index.doc
++EXTRA_DIST = android-config.h sync-with-kernel.sh bootstrap.sh \
++	doxygen_libdvbv5.cfg include COPYING.libv4l \
++	COPYING.libdvbv5 README.libv4l README.lib-multi-threading \
++	TODO.libdvbv5 doc/libdvbv5-index.doc
+ 
+ include $(top_srcdir)/aminclude.am
+ 
+-# custom targets
+-
+-sync-with-kernel:
+-	@if [ ! -f $(KERNEL_DIR)/usr/include/linux/videodev2.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/fb.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/v4l2-controls.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/v4l2-common.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/v4l2-subdev.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/v4l2-mediabus.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/ivtv.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/dvb/frontend.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/dvb/dmx.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/lirc.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/bpf.h -o \
+-	      ! -f $(KERNEL_DIR)/usr/include/linux/bpf_common.h ]; then \
+-	  echo "Error you must set KERNEL_DIR to point to an extracted kernel source dir"; \
+-	  echo "and run 'make headers_install' in \$$KERNEL_DIR."; \
+-	  exit 1; \
+-	fi
+-	cp -a $(KERNEL_DIR)/usr/include/linux/videodev2.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/fb.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/v4l2-controls.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/v4l2-common.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/v4l2-subdev.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/v4l2-mediabus.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/media-bus-format.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/media.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/ivtv.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/dvb/frontend.h $(top_srcdir)/include/linux/dvb
+-	cp $(top_srcdir)/include/linux/dvb/frontend.h $(top_srcdir)/lib/include/libdvbv5/dvb-frontend.h
+-	cp -a $(KERNEL_DIR)/usr/include/linux/dvb/dmx.h $(top_srcdir)/include/linux/dvb
+-	cp -a $(KERNEL_DIR)/usr/include/linux/lirc.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/bpf.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/bpf_common.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/cec.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/usr/include/linux/cec-funcs.h $(top_srcdir)/include/linux
+-	cp -a $(KERNEL_DIR)/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c $(top_srcdir)/utils/common
+-	cp -a $(KERNEL_DIR)/drivers/media/common/v4l2-tpg/v4l2-tpg-colors.c $(top_srcdir)/utils/common
+-	cp -a $(KERNEL_DIR)/include/media/tpg/v4l2-tpg.h $(top_srcdir)/utils/common
+-	cp -a $(KERNEL_DIR)/include/media/fwht-ctrls.h $(top_srcdir)/utils/common
+-	patch -d $(top_srcdir) --no-backup-if-mismatch -p1 <$(top_srcdir)/utils/common/v4l2-tpg.patch
+-	cp -a $(KERNEL_DIR)/drivers/media/test-drivers/vicodec/codec-fwht.[ch] $(top_srcdir)/utils/common/
+-	cp -a $(KERNEL_DIR)/drivers/media/test-drivers/vicodec/codec-v4l2-fwht.[ch] $(top_srcdir)/utils/common/
+-	patch -d $(top_srcdir) --no-backup-if-mismatch -p1 <$(top_srcdir)/utils/common/codec-fwht.patch
+-	grep V4L2_.*_FMT.*descr $(KERNEL_DIR)/drivers/media/v4l2-core/v4l2-ioctl.c | grep -v V4L2_PIX_FMT_H264_SLICE | grep -v V4L2_PIX_FMT_VP8_FRAME | grep -v V4L2_PIX_FMT_HEVC_SLICE | perl -pe 's/.*V4L2_(.*)_FMT/\tcase V4L2_\1_FMT/; s/:.*descr = /: return /; s/;.*/;/;' >$(top_srcdir)/utils/common/v4l2-pix-formats.h
+-
+-	$(MAKE) -C utils/keytable $@
+-	$(MAKE) -C lib/libdvbv5 $@
+-	$(MAKE) -C contrib/freebsd $@
+-	$(MAKE) -C contrib/test $@
+-	$(MAKE) -C contrib/xc3028-firmware $@
+diff --git a/README b/README
+index e344dee1..75823e2d 100644
+--- a/README
++++ b/README
+@@ -264,11 +264,11 @@ Be sure that you have installed both glibc development packages for
+ 
+ step 3) at v4l-utils tree:
+ 
+-	$ export KERNEL_DIR=location/of/the/kernel/tree make sync-with-kernel
++	$ ./sync-with-kernel.sh location/of/the/kernel/tree
+ 
+ Alternatively, steps 1 to 3 can be replaced with:
+ 
+-export KERNEL_DIR=location/of/the/kernel/tree && (cd $KERNEL_DIR && make headers_install INSTALL_HDR_PATH=usr/) && make sync-with-kernel
++KERNEL_DIR=location/of/the/kernel/tree && (cd $KERNEL_DIR && make headers_install INSTALL_HDR_PATH=usr/) && ./sync-with-kernel.sh $KERNEL_DIR
+ 
+ step 4)
+ 
+diff --git a/configure.ac b/configure.ac
+index b3b090f2..d9f43ab5 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -128,7 +128,7 @@ fi
+ AC_DEFINE_UNQUOTED(LOCALEDIR, "$v4l_localedir", [locale directory])
+ AC_SUBST(localedir)
+ 
+-# sync-with-kernel and keytable install could make use of them
++# sync-with-kernel.sh and keytable install could make use of them
+ #AC_PROG_GREP
+ #AC_PROG_SED
+ gl_PROMOTED_TYPE_MODE_T
+diff --git a/contrib/freebsd/Makefile.am b/contrib/freebsd/Makefile.am
+index ca322749..abf0d57b 100644
+--- a/contrib/freebsd/Makefile.am
++++ b/contrib/freebsd/Makefile.am
+@@ -1,17 +1,3 @@
+ EXTRA_DIST = \
+ 	include \
+ 	patches
+-
+-sync-with-kernel:
+-	rm -rf .pc
+-
+-	for i in input.h input-event-codes.h ivtv.h uinput.h videodev2.h v4l2-controls.h v4l2-common.h; do \
+-	    mkdir -p include/linux/$$(dirname $$i); \
+-	    cp $(KERNEL_DIR)/usr/include/linux/$$i include/linux/$$i; \
+-	done
+-
+-	for i in ivtv.h uinput.h videodev2.h v4l2-common.h; do \
+-	    sed -e 's/__u8/uint8_t/g' -e 's/__u16/uint16_t/g' -e 's/__u32/uint32_t/g' -e 's/__u64/uint64_t/g' -e 's/__s8/int8_t/g' -e 's/__s16/int16_t/g' -e 's/__s32/int32_t/g' -e 's/__s64/int64_t/g' -e 's/__le32/uint32_t/g' -e 's/__user//g' -i include/linux/$$i; \
+-	done
+-
+-	quilt push -a
+diff --git a/contrib/test/Makefile.am b/contrib/test/Makefile.am
+index 55e4ba09..5771ee4d 100644
+--- a/contrib/test/Makefile.am
++++ b/contrib/test/Makefile.am
+@@ -57,15 +57,6 @@ capture_example_SOURCES = capture-example.c
+ 
+ ioctl-test.c: ioctl-test.h
+ 
+-sync-with-kernel:
+-	./gen_ioctl_list.pl --gen_ioctl_numbers >.tmp_ioctl.c
+-	gcc -I ../../include/ .tmp_ioctl.c -o tmp_ioctl32 -m32
+-	gcc -I ../../include/ .tmp_ioctl.c -o tmp_ioctl64 -m64
+-	./tmp_ioctl32 32 >ioctl_32.h
+-	./tmp_ioctl64 64 >ioctl_64.h
+-	rm .tmp_ioctl.c tmp_ioctl32 tmp_ioctl64
+-	./gen_ioctl_list.pl >ioctl-test.h
+-
+ EXTRA_DIST = \
+ 	gen_ioctl_list.pl \
+ 	test-media \
+diff --git a/contrib/test/gen_ioctl_list.pl b/contrib/test/gen_ioctl_list.pl
+index fca51778..7a0f38c7 100755
+--- a/contrib/test/gen_ioctl_list.pl
++++ b/contrib/test/gen_ioctl_list.pl
+@@ -69,7 +69,7 @@ sub print_ioc()
+ 	printf "#define S_IOCTLS sizeof(ioctls)/sizeof(ioctls[0])\n";
+ }
+ 
+-printf "/* This file is auto-generated by make sync-with-kernel */\n";
++printf "/* This file is auto-generated by sync-with-kernel.sh */\n";
+ printf "#include <linux/compiler.h>\n";
+ 
+ foreach my $h (sort keys %headers) {
+@@ -110,7 +110,7 @@ my $arg = shift;
+ if ($arg eq "--gen_ioctl_numbers") {
+ 	printf "#include <stdio.h>\n";
+ 	printf "int main(int argc, char *argv[]) {\n";
+-	printf "\tprintf(\"/* This file is auto-generated by make sync-with-kernel */\\n\\n\");\n";
++	printf "\tprintf(\"/* This file is auto-generated by sync-with-kernel.sh */\\n\\n\");\n";
+ 	foreach my $ioctl (sort keys %ioc) {
+ 		printf "\tprintf(\"#define CMD%%s_%s 0x%%x\\n\", argv[1], %s);\n", $ioctl, $ioctl;
+ 	}
+diff --git a/contrib/test/ioctl-test.h b/contrib/test/ioctl-test.h
+index 32084c52..03b53078 100644
+--- a/contrib/test/ioctl-test.h
++++ b/contrib/test/ioctl-test.h
+@@ -1,4 +1,4 @@
+-/* This file is auto-generated by make sync-with-kernel */
++/* This file is auto-generated by sync-with-kernel.sh */
+ #include <linux/compiler.h>
+ #include "linux/dvb/dmx.h"
+ #include "linux/dvb/frontend.h"
+diff --git a/contrib/test/ioctl_32.h b/contrib/test/ioctl_32.h
+index 6c008241..fb30b8a0 100644
+--- a/contrib/test/ioctl_32.h
++++ b/contrib/test/ioctl_32.h
+@@ -1,4 +1,4 @@
+-/* This file is auto-generated by make sync-with-kernel */
++/* This file is auto-generated by sync-with-kernel.sh */
+ 
+ #define CMD32_DMX_ADD_PID 0x40026f33
+ #define CMD32_DMX_DQBUF 0xc0186f40
+diff --git a/contrib/test/ioctl_64.h b/contrib/test/ioctl_64.h
+index 5001d7c7..accc297c 100644
+--- a/contrib/test/ioctl_64.h
++++ b/contrib/test/ioctl_64.h
+@@ -1,4 +1,4 @@
+-/* This file is auto-generated by make sync-with-kernel */
++/* This file is auto-generated by sync-with-kernel.sh */
+ 
+ #define CMD64_DMX_ADD_PID 0x40026f33
+ #define CMD64_DMX_DQBUF 0xc0186f40
+diff --git a/contrib/xc3028-firmware/Makefile.am b/contrib/xc3028-firmware/Makefile.am
+index 43ff8b12..8b23d1e1 100644
+--- a/contrib/xc3028-firmware/Makefile.am
++++ b/contrib/xc3028-firmware/Makefile.am
+@@ -3,12 +3,3 @@ noinst_PROGRAMS = firmware-tool
+ firmware_tool_SOURCES = firmware-tool.c standards.c extract_head.h standards.h tuner-xc2028-types.h
+ 
+ EXTRA_DIST = README
+-
+-# custom targets
+-
+-sync-with-kernel:
+-	@if [ ! -f $(KERNEL_DIR)/drivers/media/tuners/tuner-xc2028-types.h ]; then \
+-	  echo "Error you must set KERNEL_DIR to point to an extracted kernel source dir"; \
+-	  exit 1; \
+-	fi
+-	cp -a $(KERNEL_DIR)/drivers/media/tuners/tuner-xc2028-types.h $(srcdir)/
+diff --git a/lib/libdvbv5/Makefile.am b/lib/libdvbv5/Makefile.am
+index e65066e9..09c261be 100644
+--- a/lib/libdvbv5/Makefile.am
++++ b/lib/libdvbv5/Makefile.am
+@@ -122,6 +122,3 @@ libdvbv5_la_LDFLAGS = $(LIBDVBV5_VERSION) $(ENFORCE_LIBDVBV5_STATIC) $(LIBUDEV_L
+ libdvbv5_la_LIBADD = $(LTLIBICONV)
+ 
+ EXTRA_DIST = README gen_dvb_structs.pl
+-
+-sync-with-kernel:
+-	./gen_dvb_structs.pl $(KERNEL_DIR)/usr/include/
+diff --git a/sync-with-kernel.sh b/sync-with-kernel.sh
+new file mode 100755
+index 00000000..250da156
+--- /dev/null
++++ b/sync-with-kernel.sh
+@@ -0,0 +1,119 @@
++#!/bin/bash
++
++TOPSRCDIR="$( cd "$( dirname "$0" )" && pwd )"
++
++KERNEL_DIR=$1
++
++if [ -z "${KERNEL_DIR}" -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/videodev2.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/fb.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/v4l2-controls.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/v4l2-common.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/v4l2-subdev.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/v4l2-mediabus.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/ivtv.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/dvb/frontend.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/dvb/dmx.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/lirc.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/bpf.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/bpf_common.h -o \
++     ! -f ${KERNEL_DIR}/drivers/media/tuners/tuner-xc2028-types.h -o \
++     ! -f ${KERNEL_DIR}/usr/include/linux/input-event-codes.h ]; then
++	echo "Usage: $0 KERNEL_DIR"
++	echo
++	echo "KERNEL_DIR must be the path to an extracted kernel source dir"
++	echo "and run 'make headers_install' in KERNEL_DIR."
++	exit 1
++fi
++
++cp -a ${KERNEL_DIR}/usr/include/linux/videodev2.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/fb.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/v4l2-controls.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/v4l2-common.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/v4l2-subdev.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/v4l2-mediabus.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/media-bus-format.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/media.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/ivtv.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/dvb/frontend.h ${TOPSRCDIR}/include/linux/dvb
++cp ${TOPSRCDIR}/include/linux/dvb/frontend.h ${TOPSRCDIR}/lib/include/libdvbv5/dvb-frontend.h
++cp -a ${KERNEL_DIR}/usr/include/linux/dvb/dmx.h ${TOPSRCDIR}/include/linux/dvb
++cp -a ${KERNEL_DIR}/usr/include/linux/lirc.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/bpf.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/bpf_common.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/cec.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/usr/include/linux/cec-funcs.h ${TOPSRCDIR}/include/linux
++cp -a ${KERNEL_DIR}/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c ${TOPSRCDIR}/utils/common
++cp -a ${KERNEL_DIR}/drivers/media/common/v4l2-tpg/v4l2-tpg-colors.c ${TOPSRCDIR}/utils/common
++cp -a ${KERNEL_DIR}/include/media/tpg/v4l2-tpg.h ${TOPSRCDIR}/utils/common
++cp -a ${KERNEL_DIR}/include/media/fwht-ctrls.h ${TOPSRCDIR}/utils/common
++patch -d ${TOPSRCDIR} --no-backup-if-mismatch -p1 <${TOPSRCDIR}/utils/common/v4l2-tpg.patch
++cp -a ${KERNEL_DIR}/drivers/media/test-drivers/vicodec/codec-fwht.[ch] ${TOPSRCDIR}/utils/common/
++cp -a ${KERNEL_DIR}/drivers/media/test-drivers/vicodec/codec-v4l2-fwht.[ch] ${TOPSRCDIR}/utils/common/
++patch -d ${TOPSRCDIR} --no-backup-if-mismatch -p1 <${TOPSRCDIR}/utils/common/codec-fwht.patch
++grep V4L2_.*_FMT.*descr ${KERNEL_DIR}/drivers/media/v4l2-core/v4l2-ioctl.c | grep -v V4L2_PIX_FMT_H264_SLICE | grep -v V4L2_PIX_FMT_VP8_FRAME | grep -v V4L2_PIX_FMT_HEVC_SLICE | perl -pe 's/.*V4L2_(.*)_FMT/\tcase V4L2_\1_FMT/; s/:.*descr = /: return /; s/;.*/;/;' >${TOPSRCDIR}/utils/common/v4l2-pix-formats.h
++
++function keytable {
++	SRCDIR=${TOPSRCDIR}/utils/keytable
++
++	cd ${SRCDIR}
++	echo generating ${SRCDIR}/parse.h
++	./gen_input_events.pl < ${KERNEL_DIR}/usr/include/linux/input-event-codes.h  > ${SRCDIR}/parse.h
++	mkdir -p ${SRCDIR}/rc_keymaps
++	rm -f ${SRCDIR}/rc_keymaps/*
++	echo storing existing keymaps at ${SRCDIR}/rc_keymaps/
++	./gen_keytables.pl ${KERNEL_DIR};
++	cp ${SRCDIR}/rc_keymaps_userspace/* ${SRCDIR}/rc_keymaps/
++}
++
++function libdvbv5 {
++	SRCDIR=${TOPSRCDIR}/lib/libdvbv5
++
++	cd ${SRCDIR}
++	./gen_dvb_structs.pl ${KERNEL_DIR}/usr/include/
++}
++
++function xc3028-firmware {
++	SRCDIR=${TOPSRCDIR}/contrib/xc3028-firmware
++
++	cp -a ${KERNEL_DIR}/drivers/media/tuners/tuner-xc2028-types.h ${SRCDIR}/
++}
++
++function ioctl-test {
++	SRCDIR=${TOPSRCDIR}/contrib/test
++
++	cd ${SRCDIR}
++
++	./gen_ioctl_list.pl --gen_ioctl_numbers >.tmp_ioctl.c
++	gcc -I ../../include/ .tmp_ioctl.c -o tmp_ioctl32 -m32
++	gcc -I ../../include/ .tmp_ioctl.c -o tmp_ioctl64 -m64
++	./tmp_ioctl32 32 >ioctl_32.h
++	./tmp_ioctl64 64 >ioctl_64.h
++	rm .tmp_ioctl.c tmp_ioctl32 tmp_ioctl64
++	./gen_ioctl_list.pl >ioctl-test.h
++}
++
++function freebsd {
++	SRCDIR=${TOPSRCDIR}/contrib/freebsd
++
++	cd ${SRCDIR}
++
++	rm -rf .pc
++
++	for i in input.h input-event-codes.h ivtv.h uinput.h videodev2.h v4l2-controls.h v4l2-common.h; do
++		mkdir -p include/linux/$(dirname $i)
++		cp ${KERNEL_DIR}/usr/include/linux/$i include/linux/$i
++	done
++
++	for i in ivtv.h uinput.h videodev2.h v4l2-common.h; do
++		sed -e 's/__u8/uint8_t/g' -e 's/__u16/uint16_t/g' -e 's/__u32/uint32_t/g' -e 's/__u64/uint64_t/g' -e 's/__s8/int8_t/g' -e 's/__s16/int16_t/g' -e 's/__s32/int32_t/g' -e 's/__s64/int64_t/g' -e 's/__le32/uint32_t/g' -e 's/__user//g' -i include/linux/$i
++	done
++
++	quilt push -a
++}
++
++keytable
++libdvbv5
++freebsd
++ioctl-test
++xc3028-firmware
+diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
+index 4724897e..a057eb89 100644
+--- a/utils/keytable/Makefile.am
++++ b/utils/keytable/Makefile.am
+@@ -29,16 +29,3 @@ check:
+ # custom target
+ install-data-local:
+ 	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
+-
+-sync-with-kernel:
+-	@if [ ! -f $(KERNEL_DIR)/usr/include/linux/input-event-codes.h ]; then \
+-	  echo "Error you must set KERNEL_DIR to point to an extracted kernel source dir"; \
+-	  exit 1; \
+-	fi
+-	@echo generating $(srcdir)/parse.h
+-	@./gen_input_events.pl < $(KERNEL_DIR)/usr/include/linux/input-event-codes.h  > $(srcdir)/parse.h
+-	@-mkdir -p $(srcdir)/rc_keymaps
+-	@-rm $(srcdir)/rc_keymaps/*
+-	@echo storing existing keymaps at $(srcdir)/rc_keymaps/
+-	@cd $(srcdir) && ./gen_keytables.pl $(KERNEL_DIR);
+-	@-cp $(srcdir)/rc_keymaps_userspace/* $(srcdir)/rc_keymaps/
 -- 
-regards,
-Stan
+2.26.2
+
