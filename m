@@ -2,192 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8396822D5F8
-	for <lists+linux-media@lfdr.de>; Sat, 25 Jul 2020 10:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05AEA22D62F
+	for <lists+linux-media@lfdr.de>; Sat, 25 Jul 2020 10:48:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbgGYILv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Jul 2020 04:11:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42852 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726434AbgGYILv (ORCPT
+        id S1726784AbgGYIsS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Jul 2020 04:48:18 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:49560 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726593AbgGYIsS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Jul 2020 04:11:51 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF17C0619E5
-        for <linux-media@vger.kernel.org>; Sat, 25 Jul 2020 01:11:49 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id v4so2552132ljd.0
-        for <linux-media@vger.kernel.org>; Sat, 25 Jul 2020 01:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=H1oRPc94SlBLh/nCq9oLvsXSUeG1h45qDvtu9A09LzU=;
-        b=Pml4Fn1rbe+NY6aDBeO2XkMCH1uwWSY6dkPo+dYo3SNwDCRAGmiMCiJfL/AaXjNj5y
-         WsK+eRFnpsseI8T9x6R8eCpGdNMNSaybOCeKEAjbCoERVeqYOdqK3igq8dVDyNsV0pUH
-         X7Ct1Nm729/ccJ2ZQvQ69bf7/Ech/7SuX70w33LezFsPlJ4XLpmUDNkqT/gT97gYOMQ8
-         TI3Nb7+9AxynlZTCdob0POXzLnbw6lLhcGHtnD0oRfD3XcpMQjoaVTo5HwAnheSqH7JL
-         OWaS0n7hZWfnnjnwpNfvDUcc8bmjTBLDe8T2WUEUrVlptcqgad4VDEYcyeNbFlgr2nLF
-         vjoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=H1oRPc94SlBLh/nCq9oLvsXSUeG1h45qDvtu9A09LzU=;
-        b=W4dJAoeVl7bASmi6THDsZea0rUmlI1+5cLfTjOTpv2pszo43Fo00SiFiC2HA/F1sfe
-         nUnnqyq4f+ky3ZUw8b3ynEtDsY/04XspYhyHK3N7BaJJAft+P/gIDP1vloeON0qKDOlW
-         YiPdSTNtTegbHB+yNl8SuS8NgaYM+ygGyuW6DhHoaRTwa6Og8AvDiJg2I3MY/hzx3EUh
-         lsg8HIzWhEiLvthPP4VS5E/CXQfN3VaPb+bcHdSwH1cMGyLJYQ3khN1s34GB6SSqshNk
-         /2JSPX9t/LBPSF3tw1MqlENe8ybVjUCmzAn5/LPMuzCdfiaRO+FN1+iYsqrbTAcfZuEJ
-         rahw==
-X-Gm-Message-State: AOAM5312Li49zBHk4LxrqdPtT0ULReTJ0Xj7dF/IZP+avZlQ+q25fUdR
-        gV7GNj3dZLCRHcIT39HjFamfTQ==
-X-Google-Smtp-Source: ABdhPJxlyuztz4E1UazWiGbWbc4W5MiCiP3ofzw/n0pAh3yjmiwKeag06HmWeq1i5xDL5N/VimMbUQ==
-X-Received: by 2002:a05:651c:319:: with SMTP id a25mr6191668ljp.272.1595664707967;
-        Sat, 25 Jul 2020 01:11:47 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id x5sm827077ljm.132.2020.07.25.01.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2020 01:11:47 -0700 (PDT)
-Date:   Sat, 25 Jul 2020 10:11:46 +0200
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Sat, 25 Jul 2020 04:48:18 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 8BA2F634C87;
+        Sat, 25 Jul 2020 11:47:40 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jzFqG-0000kc-Bl; Sat, 25 Jul 2020 11:47:40 +0300
+Date:   Sat, 25 Jul 2020 11:47:40 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Document
- renesas-vin-ycbcr-8b-g property
-Message-ID: <20200725081146.GF2729799@oden.dyn.berto.se>
-References: <1595602732-25582-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200724193752.GE2729799@oden.dyn.berto.se>
- <CA+V-a8s7UkhCGcP8eiiH_jd8hhnpLJA6QqfL7jXo_sAgRMfy8g@mail.gmail.com>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v10 2/4] media: i2c: Add MAX9286 driver
+Message-ID: <20200725084740.GD829@valkosipuli.retiisi.org.uk>
+References: <20200612144713.502006-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200612144713.502006-3-kieran.bingham+renesas@ideasonboard.com>
+ <1fb4a023-d177-744f-41f4-755aafbfa7f2@ideasonboard.com>
+ <20200723222834.GC829@valkosipuli.retiisi.org.uk>
+ <c4b0e30f-b0b7-1b19-f43e-36d417eb6d28@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8s7UkhCGcP8eiiH_jd8hhnpLJA6QqfL7jXo_sAgRMfy8g@mail.gmail.com>
+In-Reply-To: <c4b0e30f-b0b7-1b19-f43e-36d417eb6d28@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad,
+Kieran,
 
-On 2020-07-24 22:11:31 +0100, Lad, Prabhakar wrote:
-> Hi Niklas,
+On Fri, Jul 24, 2020 at 10:32:11AM +0100, Kieran Bingham wrote:
+> Hi Sakari,
 > 
-> Thank you for the review.
+> On 23/07/2020 23:28, Sakari Ailus wrote:
+> > Hi Kieran,
+> > 
+> > On Thu, Jul 16, 2020 at 10:02:24AM +0100, Kieran Bingham wrote:
+> >> Hi Sakari,
+> >>
+> >> This is the output of checkpatch --strict on this driver. Sorry for not
+> >> detailing this in the commit or cover letter.
+> > 
+> > No worries.
+> > 
+> >>
+> >>> ./patches/gmsl/v10/v10-0001-dt-bindings-media-i2c-Add-bindings-for-Maxim-Int.patch has style problems, please review.
+> >>> --------------------------------------------------------------
+> >>> ./patches/gmsl/v10/v10-0002-media-i2c-Add-MAX9286-driver.patch
+> >>> --------------------------------------------------------------
+> >>> CHECK: Prefer using the BIT macro
+> >>> #246: FILE: drivers/media/i2c/max9286.c:40:
+> >>> +#define MAX9286_FSYNCMODE_INT_OUT	(1 << 6)
+> >>>
+> >>> CHECK: Prefer using the BIT macro
+> >>> #251: FILE: drivers/media/i2c/max9286.c:45:
+> >>> +#define MAX9286_FSYNCMETH_SEMI_AUTO	(1 << 0)
+> >>>
+> >>> CHECK: Prefer using the BIT macro
+> >>> #262: FILE: drivers/media/i2c/max9286.c:56:
+> >>> +#define MAX9286_EDC_6BIT_CRC		(1 << 5)
+> >>>
+> >>> CHECK: Prefer using the BIT macro
+> >>> #268: FILE: drivers/media/i2c/max9286.c:62:
+> >>> +#define MAX9286_HVSRC_D14		(1 << 0)
+> >>>
+> >>> CHECK: Prefer using the BIT macro
+> >>> #286: FILE: drivers/media/i2c/max9286.c:80:
+> >>> +#define MAX9286_DATATYPE_RGB565		(1 << 0)
+> >>>
+> >>> CHECK: Prefer using the BIT macro
+> >>> #304: FILE: drivers/media/i2c/max9286.c:98:
+> >>> +#define MAX9286_I2CSLVSH_469NS_234NS	(1 << 5)
+> >>>
+> >>> CHECK: Prefer using the BIT macro
+> >>> #312: FILE: drivers/media/i2c/max9286.c:106:
+> >>> +#define MAX9286_I2CMSTBT_28KBPS		(1 << 2)
+> >>>
+> >>> CHECK: Prefer using the BIT macro
+> >>> #316: FILE: drivers/media/i2c/max9286.c:110:
+> >>> +#define MAX9286_I2CSLVTO_256US		(1 << 0)
+> >>
+> >> None of those are appropriate to use the BIT() macro, as they are all
+> >> entries of a specific field with a shift, such as:
+> >>
+> >> #define MAX9286_FSYNCMODE_ECU           (3 << 6)
+> >> #define MAX9286_FSYNCMODE_EXT           (2 << 6)
+> >> #define MAX9286_FSYNCMODE_INT_OUT       (1 << 6)
+> >> #define MAX9286_FSYNCMODE_INT_HIZ       (0 << 6)
+> >>
+> >> Checkpatch is only picking up on the "1 << x" variant of each entry.
+> > 
+> > Ideally you should use "1U << x" everywhere. If you happen to have a
+> > register with 31st bit signifying something, mayhem would follow. So the
+> > practice is to make all such definitions unsigned.
 > 
-> On Fri, Jul 24, 2020 at 8:37 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> >
-> > Hi Lad,
-> >
-> > Thanks for your patch.
-> >
-> > On 2020-07-24 15:58:51 +0100, Lad Prabhakar wrote:
-> > > Add a DT property "renesas-vin-ycbcr-8b-g" to select YCbCr422 8-bit data
-> > > input pins.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 13 +++++++++++++
-> > >  1 file changed, 13 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > index 53c0a72..7dfb781 100644
-> > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > @@ -106,6 +106,12 @@ properties:
-> > >
-> > >            remote-endpoint: true
-> > >
-> > > +          renesas-vin-ycbcr-8b-g:
-> >
-> > I think the preferred format for vendor specific properties are
-> > "<vendor>,<property>".
-> >
-> Indeed and I had it as renesas,vin-ycbcr-8b-g but dt_bindings_check
-> complained about it.
+> Just to clarify, because of the location you've put your x, which is not
+> the variable in the above case.
+> 
+> These definitions are possible field values with a shift (enum << y),
+> not bit values (1 << x)
+> 
+> They can of course be unsigned though.
+> 
+> Is your statement that you would like to see these as:
+> 
+>  #define MAX9286_FSYNCMODE_ECU           (3U << 6)
+>  #define MAX9286_FSYNCMODE_EXT           (2U << 6)
+>  #define MAX9286_FSYNCMODE_INT_OUT       (1U << 6)
+>  #define MAX9286_FSYNCMODE_INT_HIZ       (0U << 6)
 
-I see, what was the error?
+Yes, please. This avoids shifting a non-zero bit to the 31st position of a
+32-bit register.
 
 > 
-> > This nit apart I'm not sure a property is the right way here. Could it
-> > not be possible on some designs to have two different sensors one wired
-> > to DATA[7:0] and the other to DATA[15:8] and by controlling the
-> > VNDRM2_YDS register at runtime switch between the two? If so adding a DT
-> > property to hard-code one of the two options would prevent this. I fear
-> > we need to think of a runtime way to deal with this.
-> >
-> Aha Gen2 and Gen3 hardware manuals have a bit different description
-> about the YDS field. (I was working R8a7742 SoC so I referred Gen2
-> manual)
-
-Ahh, I think we should use the Gen3 names as I find them overall an 
-improvement over the Gen2 ones.
-
 > 
-> > The best way to do that I think is to extend the port@0 node to allow
-> > for two endpoints, one for each of the two possible parallel sensors.
-> > This would then have to be expressed in the media graph and selection if
-> > YDS should be set or not depend on which media links are enabled.
-> >
-> In that case how do we handle endpoint matching each would have two
-> subdevs to be matched.
-
-It would be handle in the same was as the multiple endpoints in port@1.
-
-> And in case non media-ctl cases we cannot
-> switch between subdevs.
-
-For the Gen2 none media graph enabled mode this could be handled with 
-the S_INPUT ioctl. For this feature to be merged however I it needs to 
-be possible to select input both in Gen2 and Gen3 I'm afraid. I'm hoping 
-to one day breakout the non MC part of this driver into a new one and 
-mark it as deprecated and switch to the MC code paths for Gen2.
-
+> Or that you would prefer a macro'ised version:
 > 
-> Cheers,
-> --Prabhakar
+> #define FIELD_ENTRY(value, shift) (value U << shift)
 > 
-> > > +            type: boolean
-> > > +            description:
-> > > +              If present this property specifies to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.
-> > > +            default: false
-> > > +
-> > >          required:
-> > >            - remote-endpoint
-> > >
-> > > @@ -168,6 +174,13 @@ properties:
-> > >
-> > >                remote-endpoint: true
-> > >
-> > > +              renesas-vin-ycbcr-8b-g:
-> > > +                type: boolean
-> > > +                description:
-> > > +                  If present this property specifies to selects VIN_G[7:0] as data pins for
-> > > +                  YCbCr422 8-bit data.
-> > > +                default: false
-> > > +
-> > >              required:
-> > >                - remote-endpoint
-> > >
-> > > --
-> > > 2.7.4
-> > >
-> >
-> > --
-> > Regards,
-> > Niklas Söderlund
+> 
+> Or rather, I could just convert them all to use FIELD_PREP:
+> 
+> #define MAX9286_FSYNCMODE GENMASK(7,6)
+> 
+> #define MAX9286_FSYNCMODE_ECU      FIELD_PREP(MAX9286_FSYNCMODE, 3)
+> #define MAX9286_FSYNCMODE_EXT      FIELD_PREP(MAX9286_FSYNCMODE, 2)
+> #define MAX9286_FSYNCMODE_INT_OUT  FIELD_PREP(MAX9286_FSYNCMODE, 1)
+> #define MAX9286_FSYNCMODE_INT_HIZ  FIELD_PREP(MAX9286_FSYNCMODE, 0)
+> 
+> If you want me to change these entries, I suspect moving wholly to use
+> FIELD_PREP/FIELD_GET throughout the driver would be the best course of
+> action.
+> 
+> A bit of churn, but I can do that if you wish.
+> 
+> --
+> Kieran
+> 
+> 
+> 
+> >>> CHECK: Macro argument reuse 'source' - possible side-effects?
+> >>> #399: FILE: drivers/media/i2c/max9286.c:193:
+> >>> +#define for_each_source(priv, source) \
+> >>> +	for ((source) = NULL; ((source) = next_source((priv), (source))); )
+> >>
+> >> This warns against possible side effects, but the 're-use' effects are
+> >> desired ;-)
+> >>
+> >> If you'd prefer this macro to be re-written please let me know.
+> > 
+> > Works for me. Some warnigns are just not useful. I bet quite a few macros
+> > elsewhere in the kernel would trigger this.
+> 
+> 
+> I think we'll just leave this one ;-)
+> 
+> 
+> >>> CHECK: Lines should not end with a '('
+> >>> #1372: FILE: drivers/media/i2c/max9286.c:1166:
+> >>> +			ret = v4l2_fwnode_endpoint_parse(
+> >>
+> >> Full code block:
+> >>
+> >>>                         ret = v4l2_fwnode_endpoint_parse(
+> >>>                                         of_fwnode_handle(node), &vep);
+> >>>                         if (ret) {
+> >>>                                 of_node_put(node);
+> >>>                                 return ret;
+> >>>                         }
+> >>
+> >> That one is awkward, and I chose to keep it as a lesser evil.
+> >> Of course now that we can officially go up to 120 chars, I could move
+> >> this line up.
+> >>
+> >> If you'd like this to be moved to a single line now we can go over 80
+> >> chars, please confirm.
+> > 
+> > I don't mind that. Mauro, any thoughts on this?
+> 
+> 
+> And I'll let Mauro decide that as it will impact my line-length choices
+> in the future ;-)
+
+I think it's actually much better to end a line with opening parenthesis
+than have a line longer than 80, but I recognise there are differing
+opinions.
+
+My terminal window width is 80 and having more terminals is more useful
+than being able to see a rare line over 80 completely.
 
 -- 
 Regards,
-Niklas Söderlund
+
+Sakari Ailus
