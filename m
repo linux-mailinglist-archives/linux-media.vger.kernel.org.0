@@ -2,167 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0F2422E31C
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 00:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D457122E350
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 01:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726800AbgGZW21 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Jul 2020 18:28:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59146 "EHLO
+        id S1727113AbgGZXaK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jul 2020 19:30:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726253AbgGZW21 (ORCPT
+        with ESMTP id S1726736AbgGZXaJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jul 2020 18:28:27 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D776CC0619D2;
-        Sun, 26 Jul 2020 15:28:26 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id s16so10904902qtn.7;
-        Sun, 26 Jul 2020 15:28:26 -0700 (PDT)
+        Sun, 26 Jul 2020 19:30:09 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 082ABC0619D2;
+        Sun, 26 Jul 2020 16:30:08 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id t6so2296565ljk.9;
+        Sun, 26 Jul 2020 16:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HNVE8+pAZSpeQxmP3tSg/BQyhP/rZ6/36SGQbiLTu10=;
-        b=DTjrlCc1aaT47CyiCirs8x37QjuaaCyUvqYQxlAI4joQjoihgH45exIk7sFyfMNL5K
-         Pw2+ArAw3sF1/iA8mfH0ZZcpeCLgvYtRgj1Qg5iy/kV9z58HvEEOwG6SK9/FKBc2UY0a
-         IZid2Hl7q5oWdIRLcPYOVRDgjK+D/nAxozO0ZY4wpOb5HADvXU+4IcJEf1YkBVYjJhcu
-         P+jYmCPpS3j62awxakOMD0egTjkVlMGObcj4JVgLuj/ON1JUThB3k4j0X2CsKALrdGxx
-         usgwDcdVclIno51K0gUmkd6ExGj2ixZeE+Q3Z7o0XrCMpvLPgFlw4i0yHuOFIZXCp8Zg
-         V8lw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PAu1KY0p6PHiyFmlvXCLwKle62tn9il6DTEVsfWR1Ao=;
+        b=dUH7LahwQFmnVVH3XTbmrGcYfoe4XYGECuxezQr8GlgoUfwLvczCoAE+T9YLD4lrRd
+         nX7Qr0c7hc+CJDRQNkOF0YgiuNz9R5ZMc75CHJ+3/T2904Z9ErCkKzqH0wX12r1GIf+p
+         +RW3qEiscxNAw9tFjjgMp404PNOynQoweZZC4Qn696swubbbT8Xpr8BgYewZ/dy2GYJ4
+         RYsVPrGvXNvCLVsjnUINXiEQ6LrZufmjnnOWIU1WCGHrgTf5x9JepT3ZGu/C5cb2D2iU
+         +tQ7bRI5Bl/I/wL7cHOf9kzrxrreAcHfHAKSkGZadjzlRfEQBqB0uNhmM0XjxCroSgWf
+         1F7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HNVE8+pAZSpeQxmP3tSg/BQyhP/rZ6/36SGQbiLTu10=;
-        b=ljOzeJ+zqeLvkS5s+E6OBfwa9SLx/g40yYOxKdqsDVbEY1lMmd11bhgb+sRtRTfGWQ
-         4iL4YElIeM/fqrVOUuMBWGRyTGTnLSTlgsb0/S5CddN9Io9oYH4Z71MHvorobb6PZ19K
-         9JkLaBji9j0kZp9m8tv1XogXcVW9kBsj5qHp3d0Ik0HaSssGXp0MLFEyqAmEqg5oJM+j
-         DNK1uCrv6w1rxsPovn6Q691H4wEjg9vEx35eXZJdf/Rpup2Rq6Rvn59QNCQxFlzAb7pg
-         XgX+u5xsswchin5GvHz6PRefrtPcZqk4jyfRMuBApHANVv/przRg6nXortstXbSLTOcR
-         L9Pg==
-X-Gm-Message-State: AOAM530gHlZl7W/OIH8I/BeYsu+eG76kZTFhI7CRGhteVWzgJbC3AD4f
-        ntSTdkhsV+9EkDgEZwINzQ==
-X-Google-Smtp-Source: ABdhPJxDmohnMKBdybckNP/0ftXHuIYM6ruvF1XPpe7KtytStFqJzmZc2OAjVU394YJU+GUM5f4Epg==
-X-Received: by 2002:ac8:794f:: with SMTP id r15mr10880075qtt.383.1595802506053;
-        Sun, 26 Jul 2020 15:28:26 -0700 (PDT)
-Received: from localhost.localdomain ([209.94.141.207])
-        by smtp.gmail.com with ESMTPSA id h16sm15592243qkg.8.2020.07.26.15.28.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2020 15:28:25 -0700 (PDT)
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        syzkaller-bugs@googlegroups.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vandana BN <bnvandana@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix kernel-infoleak in video_put_user()
-Date:   Sun, 26 Jul 2020 18:27:03 -0400
-Message-Id: <20200726222703.102701-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200726220557.102300-1-yepeilin.cs@gmail.com>
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PAu1KY0p6PHiyFmlvXCLwKle62tn9il6DTEVsfWR1Ao=;
+        b=oaLgE6NUvp3XXITN/dTE1fIYVJUqFhXtwMCQf9cgh6w1VR2XH84N41uDQ7kLxucWSi
+         AhrACj6GUiT1EeaCa7aV9J+hLFk/F9ljB2sAAuRiZABDV0a7plXelll6JE0Xs5BgeYIN
+         ekkt5SdkDEVo3VcTc6IkNNwZLEkY4m0M6R6oa/ETGc5fbzlcZOOXGjxDZexuEiaHpTmi
+         IaoZRsQ+r8PFH8prDXB29cI2Gb8K7Xu1FfLzVdWIJsW/xJKMbQa+yazFMX04MhuY+u5a
+         OLVtxgICfSowzWk+1LQGWP2iVZD749GRDY9dgpnZvUFH77yVHSN7hodvPCCsAUd2pqV9
+         GXfw==
+X-Gm-Message-State: AOAM532leFWlPHsA5BlXXw7uG7xng3v3Sd42hKXWKwTTGdH+FvYNRZN4
+        wZTnT4HidGNdFuX71Fl6M4SPZp6g
+X-Google-Smtp-Source: ABdhPJzNNxD84bO09GwYYRcLJmxDb9/vLPRaUQddSIL1G8k8RUQGPO7xemuu+O5l0GACd2kADXL1rw==
+X-Received: by 2002:a2e:8702:: with SMTP id m2mr3621248lji.183.1595806206140;
+        Sun, 26 Jul 2020 16:30:06 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-76-12-16.pppoe.mtu-net.ru. [91.76.12.16])
+        by smtp.googlemail.com with ESMTPSA id c22sm106679ljk.128.2020.07.26.16.30.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Jul 2020 16:30:05 -0700 (PDT)
+Subject: Re: [RFC PATCH v4 01/14] i2c: tegra: Don't mark VI I2C as IRQ safe
+ runtime PM
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1595548272-9809-1-git-send-email-skomatineni@nvidia.com>
+ <1595548272-9809-2-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <56aedefa-fb5d-2251-da71-5cdf0e357576@gmail.com>
+Date:   Mon, 27 Jul 2020 02:30:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <1595548272-9809-2-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-video_put_user() is copying uninitialized stack memory to userspace due
-to the compiler not initializing holes in the structures declared on the
-stack. Fix it by initializing `ev32` and `vb32` using memset().
+24.07.2020 02:50, Sowjanya Komatineni пишет:
+> Tegra VI I2C is part of VE power domain and typically used for
+> camera usecases.
+> 
+> VE power domain is not always on and is non-IRQ safe. So, IRQ safe
+> device cannot be attached to a non-IRQ safe domain as it prevents
+> powering off the PM domain and generic power domain driver will warn.
+> 
+> Current driver marks all I2C devices as IRQ safe and VI I2C device
+> does not require IRQ safe as it will not be used for atomic transfers.
+> 
+> This patch has fix to make VI I2C as non-IRQ safe.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/i2c/busses/i2c-tegra.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+> index 1577296..3be1018 100644
+> --- a/drivers/i2c/busses/i2c-tegra.c
+> +++ b/drivers/i2c/busses/i2c-tegra.c
+> @@ -1750,7 +1750,15 @@ static int tegra_i2c_probe(struct platform_device *pdev)
+>  		goto unprepare_slow_clk;
+>  	}
+>  
+> -	pm_runtime_irq_safe(&pdev->dev);
+> +	/*
+> +	 * VI I2C is in VE power domain which is not always on and not
+> +	 * an IRQ safe. So, IRQ safe device can't be attached to a non-IRQ
+> +	 * safe domain as it prevents powering off the PM domain.
+> +	 * Also, VI I2C device don't need to use runtime IRQ safe as it will
+> +	 * not be used for atomic transfers.
+> +	 */
+> +	if (!i2c_dev->is_vi)
+> +		pm_runtime_irq_safe(&pdev->dev);
+>  	pm_runtime_enable(&pdev->dev);
+>  	if (!pm_runtime_enabled(&pdev->dev)) {
+>  		ret = tegra_i2c_runtime_resume(&pdev->dev);
+> 
 
-Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
-Change in v3:
-    - Improve the commit description. (Suggested by Laurent Pinchart
-      <laurent.pinchart@ideasonboard.com>)
-
-Change in v2:
-    - Do the same thing for `case VIDIOC_DQEVENT_TIME32`.
-
- drivers/media/v4l2-core/v4l2-ioctl.c | 50 +++++++++++++++-------------
- 1 file changed, 27 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index a556880f225a..e3a25ea913ac 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3189,14 +3189,16 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
- #ifdef CONFIG_COMPAT_32BIT_TIME
- 	case VIDIOC_DQEVENT_TIME32: {
- 		struct v4l2_event *ev = parg;
--		struct v4l2_event_time32 ev32 = {
--			.type		= ev->type,
--			.pending	= ev->pending,
--			.sequence	= ev->sequence,
--			.timestamp.tv_sec  = ev->timestamp.tv_sec,
--			.timestamp.tv_nsec = ev->timestamp.tv_nsec,
--			.id		= ev->id,
--		};
-+		struct v4l2_event_time32 ev32;
-+
-+		memset(&ev32, 0, sizeof(ev32));
-+
-+		ev32.type	= ev->type;
-+		ev32.pending	= ev->pending;
-+		ev32.sequence	= ev->sequence;
-+		ev32.timestamp.tv_sec	= ev->timestamp.tv_sec;
-+		ev32.timestamp.tv_nsec	= ev->timestamp.tv_nsec;
-+		ev32.id		= ev->id;
- 
- 		memcpy(&ev32.u, &ev->u, sizeof(ev->u));
- 		memcpy(&ev32.reserved, &ev->reserved, sizeof(ev->reserved));
-@@ -3210,21 +3212,23 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
- 	case VIDIOC_DQBUF_TIME32:
- 	case VIDIOC_PREPARE_BUF_TIME32: {
- 		struct v4l2_buffer *vb = parg;
--		struct v4l2_buffer_time32 vb32 = {
--			.index		= vb->index,
--			.type		= vb->type,
--			.bytesused	= vb->bytesused,
--			.flags		= vb->flags,
--			.field		= vb->field,
--			.timestamp.tv_sec	= vb->timestamp.tv_sec,
--			.timestamp.tv_usec	= vb->timestamp.tv_usec,
--			.timecode	= vb->timecode,
--			.sequence	= vb->sequence,
--			.memory		= vb->memory,
--			.m.userptr	= vb->m.userptr,
--			.length		= vb->length,
--			.request_fd	= vb->request_fd,
--		};
-+		struct v4l2_buffer_time32 vb32;
-+
-+		memset(&vb32, 0, sizeof(vb32));
-+
-+		vb32.index	= vb->index;
-+		vb32.type	= vb->type;
-+		vb32.bytesused	= vb->bytesused;
-+		vb32.flags	= vb->flags;
-+		vb32.field	= vb->field;
-+		vb32.timestamp.tv_sec	= vb->timestamp.tv_sec;
-+		vb32.timestamp.tv_usec	= vb->timestamp.tv_usec;
-+		vb32.timecode	= vb->timecode;
-+		vb32.sequence	= vb->sequence;
-+		vb32.memory	= vb->memory;
-+		vb32.m.userptr	= vb->m.userptr;
-+		vb32.length	= vb->length;
-+		vb32.request_fd	= vb->request_fd;
- 
- 		if (copy_to_user(arg, &vb32, sizeof(vb32)))
- 			return -EFAULT;
--- 
-2.25.1
-
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
