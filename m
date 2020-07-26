@@ -2,256 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3664722DA2E
-	for <lists+linux-media@lfdr.de>; Sun, 26 Jul 2020 00:23:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D428D22DC4C
+	for <lists+linux-media@lfdr.de>; Sun, 26 Jul 2020 08:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727921AbgGYWXl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Jul 2020 18:23:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32798 "EHLO
+        id S1726044AbgGZGcq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jul 2020 02:32:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727039AbgGYWXk (ORCPT
+        with ESMTP id S1725789AbgGZGcp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Jul 2020 18:23:40 -0400
-Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B6B1C08C5C0;
-        Sat, 25 Jul 2020 15:23:40 -0700 (PDT)
-Received: by mail-oo1-xc41.google.com with SMTP id n21so1613796ooj.5;
-        Sat, 25 Jul 2020 15:23:40 -0700 (PDT)
+        Sun, 26 Jul 2020 02:32:45 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97C5C0619D2;
+        Sat, 25 Jul 2020 23:32:45 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id z5so7632067pgb.6;
+        Sat, 25 Jul 2020 23:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/L7HC9FCeyzYgMT+IxlUaZRqGkCYxLCIXJDAn9y6pzk=;
-        b=q8phE1PUHXfc9MPXwKtkz/wNzWY+gC+ljFmEC97n19svm2EgLpKj5MxwAIesmjkOfc
-         /lMQPG/M3nTHIomW5tV8dEQ376Et1sb6NV5LozASZuAuJ1b4n48Xc3JIqbjlIQVK5nsl
-         hNJQhc3929KyZB63InOThHI34sONdPEPo9Zgnsuy1g3Y3SN2/RR8cICDagyYyECymzAf
-         a3FBYGB+cXdDpx3ES/mlAgV2jwZG5XN/7kp36GEEPRV+9Mi2Bbm6fpqX1/pxoojge57P
-         Y8VNBttYsCL9g9Mmjs93IZD3rF6pvBbae+O4yUOuOrJADw1nrIdWUoZYuhaAf8/weFug
-         HbQQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7oq08pWsqC+7ZbxiG4oVUBRdN1rfZmC1v2wOZ7h0oaU=;
+        b=J88NVTk66AGmqFQs1j4M5cz6W20FVVRdpcy+JE0CaHTtCwLrm9WPP1+M1qQE7VeN7/
+         KwbAv+4C8jTc1vPw2JtTjljZHGg8T/0aY7++2hC8bDmwG22dHfWZYt3FOpS/t7Z7LBhK
+         Swb76wZ0jQwsTXSvVZqfpxmv97ZGpl1KLo/jYfw8p/Wynd1v6eCu6MHpsW4zNmo39pFC
+         yJPJ5DCzfxz4Nl51W4JtakDDvfYlAb/Wkk8vu7ioU1M5T11a5RkwbDxJtYSim/sjAq0X
+         NBuDthn7xbjebYhxL0KEwNJrkvCcZWjYeMXCDxF8Nu5s7paywW7QH/dD3uHrhX1M3VAA
+         enwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/L7HC9FCeyzYgMT+IxlUaZRqGkCYxLCIXJDAn9y6pzk=;
-        b=Gk5Q3/zAuOLE5vzkyMDYgnewunxetQh0cO71AN1weIHAH/QYmc2FKUtp6/W9TqKBr6
-         XBnRqNDSVMUTQSrGxhrxcD7DgP5a6FcctNb+QXu2e147HuV8MfbV8tXuxC4BfiscNdNp
-         gtWWr+p0bDg/YDhM8+4WzFfY2A3bhMLeAvclRIxC3l7uwWTsT6TUYlC3sSJNA/APm3Jh
-         nWlzrBe1p8XO/O/+9bZHW65eoQAiG3TQiZmK/Pm91LACeTvEI6sZPczHe0OPxrdCJjs2
-         0bDFp0DZsDbK3hNJO0X2Zk9t/c17U3kyMpF19vAjo3jHKMIGZ4oKuaY4gkFR0o7HSSjZ
-         aRAA==
-X-Gm-Message-State: AOAM533ukV75/WCAlFtW9ibwy/0yITxqcjSEe8xFMpe+u2DIF7k2TA8/
-        +pAQye21r7f4VvKwhN0XsPcWnTVneD9//m33Pnk=
-X-Google-Smtp-Source: ABdhPJw/6fivGtFF/BWxc0DPQbgy5oQjIh8SwuP0/uDlgxqe78F3d1C0BGEZl+JUoIj+xbDgt9mv8RcUuYGHT6/cDHc=
-X-Received: by 2002:a4a:1d83:: with SMTP id 125mr15363801oog.18.1595715819572;
- Sat, 25 Jul 2020 15:23:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7oq08pWsqC+7ZbxiG4oVUBRdN1rfZmC1v2wOZ7h0oaU=;
+        b=NZWdWJXRLlCsQ523cE6G+M9gYnlhFlTEGpMhz030Se9LziwG++PuPWS+fphs3NswmN
+         iyTCCOGqiYxnaexT1CkTylOYHt9PO7tCmjuaT/lnI9IlJP6JkHso8c00+MNAEp5HUkpT
+         XBksndn9cV2cmNKVcq878uPw+IKoWeMNzq775O1qUHnAl2x4xJeqL00+PlSWRE8pILFA
+         lfA/wpULsG7YU5OXh88/EQ6/Z9hc+mCuWGG80YRg1lltHietrxyumZbisuVy6JproV45
+         YQgDFlVmO+AmjAFN2OXlbabApPxpnqXjytmLwU0dIhpFf8DfcNv5NHRBQ3FP/wVpTchC
+         u9Mw==
+X-Gm-Message-State: AOAM531FDqjSRO6KrI4rMZjjD1sYiyaZqOSz1QnipUhLP9y+S5lCylkX
+        B6M9XC443KwCx4UtV0+eX6Y=
+X-Google-Smtp-Source: ABdhPJx3b1xpncwSGQhA+QQZa8VjfQ4BRdQr6qEdR/Re5XLzDvdlo1BAXJZ6Bj2yAWM4DgxNwESWRQ==
+X-Received: by 2002:aa7:8e0c:: with SMTP id c12mr15314958pfr.38.1595745165093;
+        Sat, 25 Jul 2020 23:32:45 -0700 (PDT)
+Received: from localhost.localdomain ([1.186.115.27])
+        by smtp.gmail.com with ESMTPSA id v11sm12171343pfc.108.2020.07.25.23.32.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2020 23:32:44 -0700 (PDT)
+From:   Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org
+Cc:     Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media: atomisp: fix code style issues
+Date:   Sun, 26 Jul 2020 11:55:42 +0530
+Message-Id: <20200726062541.11304-1-bharadwaj.rohit8@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1595602732-25582-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200724193752.GE2729799@oden.dyn.berto.se> <CA+V-a8s7UkhCGcP8eiiH_jd8hhnpLJA6QqfL7jXo_sAgRMfy8g@mail.gmail.com>
- <20200725081146.GF2729799@oden.dyn.berto.se>
-In-Reply-To: <20200725081146.GF2729799@oden.dyn.berto.se>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sat, 25 Jul 2020 23:23:13 +0100
-Message-ID: <CA+V-a8sNxUaj88DDcWyc4zrmsAAGndjoQX=OmJ3u1GRJCT6TBQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Document
- renesas-vin-ycbcr-8b-g property
-To:     Niklas <niklas.soderlund@ragnatech.se>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+this patch fixes the warnings and errors generated after running checkpatch.pl on pci/sh_css_firmware.c
 
-On Sat, Jul 25, 2020 at 9:11 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
->
-> Hi Lad,
->
-> On 2020-07-24 22:11:31 +0100, Lad, Prabhakar wrote:
-> > Hi Niklas,
-> >
-> > Thank you for the review.
-> >
-> > On Fri, Jul 24, 2020 at 8:37 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > >
-> > > Hi Lad,
-> > >
-> > > Thanks for your patch.
-> > >
-> > > On 2020-07-24 15:58:51 +0100, Lad Prabhakar wrote:
-> > > > Add a DT property "renesas-vin-ycbcr-8b-g" to select YCbCr422 8-bit data
-> > > > input pins.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 13 +++++++++++++
-> > > >  1 file changed, 13 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > index 53c0a72..7dfb781 100644
-> > > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > @@ -106,6 +106,12 @@ properties:
-> > > >
-> > > >            remote-endpoint: true
-> > > >
-> > > > +          renesas-vin-ycbcr-8b-g:
-> > >
-> > > I think the preferred format for vendor specific properties are
-> > > "<vendor>,<property>".
-> > >
-> > Indeed and I had it as renesas,vin-ycbcr-8b-g but dt_bindings_check
-> > complained about it.
->
-> I see, what was the error?
->
-  CHKDT   Documentation/devicetree/bindings/media/renesas,vin.yaml
-/home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-properties:port:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-{'type': 'boolean', 'description': 'If present this property specifies
-to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.',
-'default': False} is not valid under any of the given schemas
-(Possible causes of the failure):
-    /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-properties:port:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-'not' is a required property
+Signed-off-by: Rohit K Bharadwaj <bharadwaj.rohit8@gmail.com>
+---
+ .../media/atomisp/pci/sh_css_firmware.c       | 62 +++++++++++--------
+ 1 file changed, 36 insertions(+), 26 deletions(-)
 
-/home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-properties:ports:properties:port@0:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-{'type': 'boolean', 'description': 'If present this property specifies
-to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.',
-'default': False} is not valid under any of the given schemas
-(Possible causes of the failure):
-    /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-properties:ports:properties:port@0:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-'not' is a required property
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+index d4ab15b6d1ac..244c7c7780a3 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+@@ -51,9 +51,11 @@ struct fw_param {
+ 
+ static struct firmware_header *firmware_header;
+ 
+-/* The string STR is a place holder
++/*
++ * The string STR is a place holder
+  * which will be replaced with the actual RELEASE_VERSION
+- * during package generation. Please do not modify  */
++ * during package generation. Please do not modify
++ */
+ static const char *isp2400_release_version = STR(irci_stable_candrpv_0415_20150521_0458);
+ static const char *isp2401_release_version = STR(irci_ecr - master_20150911_0724);
+ 
+@@ -78,7 +80,8 @@ char *sh_css_get_fw_version(void)
+ /* Setup sp/sp1 binary */
+ static int
+ setup_binary(struct ia_css_fw_info *fw, const char *fw_data,
+-	     struct ia_css_fw_info *sh_css_fw, unsigned int binary_id) {
++	     struct ia_css_fw_info *sh_css_fw, unsigned int binary_id)
++{
+ 	const char *blob_data;
+ 
+ 	if ((!fw) || (!fw_data))
+@@ -102,7 +105,8 @@ setup_binary(struct ia_css_fw_info *fw, const char *fw_data,
+ int
+ sh_css_load_blob_info(const char *fw, const struct ia_css_fw_info *bi,
+ 		      struct ia_css_blob_descr *bd,
+-		      unsigned int index) {
++		      unsigned int index)
++{
+ 	const char *name;
+ 	const unsigned char *blob;
+ 
+@@ -110,14 +114,16 @@ sh_css_load_blob_info(const char *fw, const struct ia_css_fw_info *bi,
+ 		return -EINVAL;
+ 
+ 	/* Special case: only one binary in fw */
+-	if (!bi) bi = (const struct ia_css_fw_info *)fw;
++	if (!bi)
++		bi = (const struct ia_css_fw_info *)fw;
+ 
+ 	name = fw + bi->blob.prog_name_offset;
+ 	blob = (const unsigned char *)fw + bi->blob.offset;
+ 
+ 	/* sanity check */
+-	if (bi->blob.size != bi->blob.text_size + bi->blob.icache_size + bi->blob.data_size + bi->blob.padding_size)
+-	{
++	if (bi->blob.size !=
++		bi->blob.text_size + bi->blob.icache_size +
++			bi->blob.data_size + bi->blob.padding_size) {
+ 		/* sanity check, note the padding bytes added for section to DDR alignment */
+ 		return -EINVAL;
+ 	}
+@@ -128,21 +134,18 @@ sh_css_load_blob_info(const char *fw, const struct ia_css_fw_info *bi,
+ 	bd->blob = blob;
+ 	bd->header = *bi;
+ 
+-	if (bi->type == ia_css_isp_firmware || bi->type == ia_css_sp_firmware)
+-	{
++	if (bi->type == ia_css_isp_firmware || bi->type == ia_css_sp_firmware) {
+ 		char *namebuffer;
+ 
+ 		namebuffer = kstrdup(name, GFP_KERNEL);
+ 		if (!namebuffer)
+ 			return -ENOMEM;
+ 		bd->name = fw_minibuffer[index].name = namebuffer;
+-	} else
+-	{
++	} else {
+ 		bd->name = name;
+ 	}
+ 
+-	if (bi->type == ia_css_isp_firmware)
+-	{
++	if (bi->type == ia_css_isp_firmware) {
+ 		size_t paramstruct_size = sizeof(struct ia_css_memory_offsets);
+ 		size_t configstruct_size = sizeof(struct ia_css_config_memory_offsets);
+ 		size_t statestruct_size = sizeof(struct ia_css_state_memory_offsets);
+@@ -223,7 +226,8 @@ static const char * const fw_acc_type_name[] = {
+ 
+ int
+ sh_css_load_firmware(struct device *dev, const char *fw_data,
+-		     unsigned int fw_size) {
++		     unsigned int fw_size)
++{
+ 	unsigned int i;
+ 	struct ia_css_fw_info *binaries;
+ 	struct sh_css_fw_bi_file_h *file_header;
+@@ -238,7 +242,8 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 	firmware_header = (struct firmware_header *)fw_data;
+ 	file_header = &firmware_header->file_header;
+ 	binaries = &firmware_header->binary_header;
+-	strscpy(FW_rel_ver_name, file_header->version, min(sizeof(FW_rel_ver_name), sizeof(file_header->version)));
++	strscpy(FW_rel_ver_name, file_header->version,
++		min(sizeof(FW_rel_ver_name), sizeof(file_header->version)));
+ 	ret = sh_css_check_firmware_version(dev, fw_data);
+ 	if (ret) {
+ 		IA_CSS_ERROR("CSS code version (%s) and firmware version (%s) mismatch!",
+@@ -257,8 +262,7 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 
+ 	sh_css_num_binaries = file_header->binary_nr;
+ 	/* Only allocate memory for ISP blob info */
+-	if (sh_css_num_binaries > NUM_OF_SPS)
+-	{
++	if (sh_css_num_binaries > NUM_OF_SPS) {
+ 		sh_css_blob_info = kmalloc(
+ 		    (sh_css_num_binaries - NUM_OF_SPS) *
+ 		    sizeof(*sh_css_blob_info), GFP_KERNEL);
+@@ -273,13 +277,13 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 	if (!fw_minibuffer)
+ 		return -ENOMEM;
+ 
+-	for (i = 0; i < sh_css_num_binaries; i++)
+-	{
++	for (i = 0; i < sh_css_num_binaries; i++) {
+ 		struct ia_css_fw_info *bi = &binaries[i];
+-		/* note: the var below is made static as it is quite large;
+-		   if it is not static it ends up on the stack which could
+-		   cause issues for drivers
+-		*/
++		/*
++		 * note: the var below is made static as it is quite large;
++		 * if it is not static it ends up on the stack which could
++		 * cause issues for drivers
++		 */
+ 		static struct ia_css_blob_descr bd;
+ 		int err;
+ 
+@@ -333,7 +337,11 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 				return err;
+ 
+ 		} else {
+-			/* All subsequent binaries (including bootloaders) (i>NUM_OF_SPS) are ISP firmware */
++			/*
++			 * All subsequent binaries
++			 * (including bootloaders) (i>NUM_OF_SPS)
++			 * are ISP firmware
++			 */
+ 			if (i < NUM_OF_SPS)
+ 				return -EINVAL;
+ 
+@@ -374,8 +382,10 @@ ia_css_ptr
+ sh_css_load_blob(const unsigned char *blob, unsigned int size)
+ {
+ 	ia_css_ptr target_addr = hmm_alloc(size, HMM_BO_PRIVATE, 0, NULL, 0);
+-	/* this will allocate memory aligned to a DDR word boundary which
+-	   is required for the CSS DMA to read the instructions. */
++	/*
++	 * this will allocate memory aligned to a DDR word boundary which
++	 * is required for the CSS DMA to read the instructions.
++	 */
+ 
+ 	assert(blob);
+ 	if (target_addr)
+-- 
+2.25.1
 
-Documentation/devicetree/bindings/Makefile:20: recipe for target
-'Documentation/devicetree/bindings/media/renesas,vin.example.dts'
-failed
-make[1]: *** [Documentation/devicetree/bindings/media/renesas,vin.example.dts]
-Error 1
-Makefile:1334: recipe for target 'dt_binding_check' failed
-make: *** [dt_binding_check] Error 2
-
-
-> >
-> > > This nit apart I'm not sure a property is the right way here. Could it
-> > > not be possible on some designs to have two different sensors one wired
-> > > to DATA[7:0] and the other to DATA[15:8] and by controlling the
-> > > VNDRM2_YDS register at runtime switch between the two? If so adding a DT
-> > > property to hard-code one of the two options would prevent this. I fear
-> > > we need to think of a runtime way to deal with this.
-> > >
-> > Aha Gen2 and Gen3 hardware manuals have a bit different description
-> > about the YDS field. (I was working R8a7742 SoC so I referred Gen2
-> > manual)
->
-> Ahh, I think we should use the Gen3 names as I find them overall an
-> improvement over the Gen2 ones.
->
-Agreed.
-
-> >
-> > > The best way to do that I think is to extend the port@0 node to allow
-> > > for two endpoints, one for each of the two possible parallel sensors.
-> > > This would then have to be expressed in the media graph and selection if
-> > > YDS should be set or not depend on which media links are enabled.
-> > >
-> > In that case how do we handle endpoint matching each would have two
-> > subdevs to be matched.
->
-> It would be handle in the same was as the multiple endpoints in port@1.
->
-> > And in case non media-ctl cases we cannot
-> > switch between subdevs.
->
-> For the Gen2 none media graph enabled mode this could be handled with
-> the S_INPUT ioctl. For this feature to be merged however I it needs to
-> be possible to select input both in Gen2 and Gen3 I'm afraid.
-Ohh yes S_INPUT could be used to switch inputs. But  how do we decide
-YDS needs to be enabled, for example with the below dts say vin3 is
-parallel bus split into 2x 8-bit bus one connected to a ov5640 sensor
-and other connected to ov7725 sensor. Should we use data-shift
-property for the second vin endpoint (vin3ep1) to enable YDS ?
-
-&i2c3 {
-    pinctrl-0 = <&i2c3_pins>;
-    pinctrl-names = "default";
-
-    status = "okay";
-    clock-frequency = <400000>;
-
-    ov7725@21 {
-        status = "disabled";
-        compatible = "ovti,ov7725";
-        reg = <0x21>;
-        clocks = <&mclk_cam4>;
-
-        port {
-            ov7725_3: endpoint {
-                bus-width = <8>;
-                bus-type = <6>;
-                remote-endpoint = <&vin3ep0>;
-            };
-        };
-    };
-
-    ov5640@3c {
-        status = "okay";
-        compatible = "ovti,ov5640";
-        reg = <0x3c>;
-        clocks = <&mclk_cam4>;
-        clock-names = "xclk";
-
-        port {
-            ov5640_3: endpoint {
-                bus-width = <8>;
-                bus-type = <6>;
-                remote-endpoint = <&vin3ep1>;
-            };
-        };
-    };
-};
-
-&vin3 {
-    status = "okay";
-    pinctrl-0 = <&vin3_pins>;
-    pinctrl-names = "default";
-
-    port {
-        #address-cells = <1>;
-        #size-cells = <0>;
-
-        vin3ep0: endpoint {
-            remote-endpoint = <&ov7725_3>;
-            bus-width = <8>;
-        };
-
-        vin3ep1: endpoint {
-            remote-endpoint = <&ov5640_3>;
-            bus-width = <8>;
-        };
-
-    };
-};
-
-
->I'm hoping to one day breakout the non MC part of this driver into a new one and
-> mark it as deprecated and switch to the MC code paths for Gen2.
->
-That sounds like a good idea.
-
-Cheers,
---Prabhakar
