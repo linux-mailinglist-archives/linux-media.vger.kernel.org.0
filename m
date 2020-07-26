@@ -2,146 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB2BC22DFB4
-	for <lists+linux-media@lfdr.de>; Sun, 26 Jul 2020 16:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1B0C22DFB9
+	for <lists+linux-media@lfdr.de>; Sun, 26 Jul 2020 16:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726797AbgGZO3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Jul 2020 10:29:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42012 "EHLO
+        id S1726107AbgGZOdc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jul 2020 10:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726780AbgGZO3O (ORCPT
+        with ESMTP id S1725978AbgGZOdc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jul 2020 10:29:14 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA588C0619D2
-        for <linux-media@vger.kernel.org>; Sun, 26 Jul 2020 07:29:12 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id gg18so11102638ejb.6
-        for <linux-media@vger.kernel.org>; Sun, 26 Jul 2020 07:29:12 -0700 (PDT)
+        Sun, 26 Jul 2020 10:33:32 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21E9FC0619D4
+        for <linux-media@vger.kernel.org>; Sun, 26 Jul 2020 07:33:32 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id rk21so14528534ejb.2
+        for <linux-media@vger.kernel.org>; Sun, 26 Jul 2020 07:33:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7NgctBmCqLgQBnHYafy5r5rDsgw6j6oRlbINnPPqer0=;
-        b=cPtQupmk1fewrsDSJE9eb5vshcj32eD6Ersn4gDO9eNd6Ue1J8TTT513AbOaU188zs
-         AFhrKzbGgOthhgLIv7kksB+ClxWzSueRE1uglOlaoNsTsZyf9B+bzJiS+tpChshZNnBx
-         jG7QPFt44f1VS8a/+nZT2WeMe/G9NCBDPPm4HUnwcT9dy/zwJ5SzHwOmd7CTs+gwiBqj
-         bzjRkzNxOgk/XBF69w5CuAJhiGIlAC4SmYNINF4Buj0bhy9eQvwlc8yYeeo6BUAlSJfO
-         rCpj9D4E/yEXL1JlRHqSpG0lcFfNFaw3IXioKQHV91iwjY8z8na9xqtHPwMYUOlv9L+k
-         +zCA==
+        bh=h6PjDTHNbJzGCFM7oR6czVYevtbFuByjvgvxELkV44g=;
+        b=cHvFGREXeIYAdMHGV9Us7B6YAzH1cpXsAofFEeZiU4bKarJ0bBTHvJIhRR5jkexoZv
+         F39ZFNAKdNBkZ6tm4PeeiU0zKnBgEZqzV9vbbZ1n/pET7fnu1cADJcXvRGk7X4OXUMuf
+         BHyoTH66YJ/j8KD4yjcjeqoyJdE1QIdELbga1xF/Go8WVWxCSHWBSKsfL3uHZjG/e4Sz
+         qQe9fnJ4P4v8A0RV99gfJDVBWiCA4vGkmc2AfHQmGtX2vKg+vy2NyabllpDcZLJbZ8kT
+         SCQZigjGxMehQ5WX5HIO+G9Kgsusa/Vk2bFi3zUphaq2R85opqe+kllXgbbserAFqLJW
+         Xpng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7NgctBmCqLgQBnHYafy5r5rDsgw6j6oRlbINnPPqer0=;
-        b=BhGT1Sv/Z/k4gLfFQC6fou+jfqLJo7Tnnq/1I+YPMcr8wPz+o41VtpiD7ASHBD3J2O
-         7YMKpnKEVLEXxOzFTL4R7Bwfia9f8wM4cVLNkbnJ2OUkFNpLuxoRaGf+bkuPXNm8nY2t
-         2s79u4KC1KP639q/6WqRSMnyCdhYD/oP1aosgIiJTTee2d2MVb/YHUaMpP6WIl2g3LHe
-         US8AYRB1UqAw9Q8eHrDIWoeJCmx2JGFaZQdsoI2t1CfJQpMvESmXzcGdlOYrTCWGpVMn
-         IJyHsEJKs+V2khuMuAKsydEWbslDfKEBY7eC+Ijo/EnpjJzl0D91tEytPi7L06klPvo0
-         cjRw==
-X-Gm-Message-State: AOAM531Sl4MAo+4vpgZa/AqtcZkmLgDDuJj8OM3mOg2x+14JkYMTr4Lh
-        L5as/MLJsDbVLcmyeQVGx35fxUp5gWICH3IoyiGduw==
-X-Google-Smtp-Source: ABdhPJzBeuYaugwjE9rJF2v3mAtHaNmHcXv/fPnmdymnSEvfi/ZfOBepfh/WGmh6X9cuHm1Lqxfnl3IKozqO1B3ATn0=
-X-Received: by 2002:a17:906:1e43:: with SMTP id i3mr16626277ejj.92.1595773751471;
- Sun, 26 Jul 2020 07:29:11 -0700 (PDT)
+        bh=h6PjDTHNbJzGCFM7oR6czVYevtbFuByjvgvxELkV44g=;
+        b=rLyHO2IPWgj0HQ7QtlrKJX3+4Q2yot9PsO79zMSjF01JE+YT6gT6atwAOYkoyvpWSf
+         sbHT9uroQ4oveO+QasXz5e+2bADtSfm1PocYlPZX+imZzxOdlLZPY0xqAej0peWhucUR
+         O0G0j4VeUJ+qWjl28/+2J2mHa+eqMx0sh5KmWZnGVnJjiLElwXar3SJbZXmf9AbCrAyF
+         UadJrWnsi0hdWOVly98xBDLQZnuIHVH7sn9znNzTNoM6MyUZL2bOFk9Z8+wSluGG34ci
+         WTNMJqaSUoOTjs3zjq7vxIc2Jp+y1poz3gCX1XSUvvoqgqI+eykSX4NufMqOoeKFKzUl
+         Xjsg==
+X-Gm-Message-State: AOAM531bQFBdZutdg3kIAZPxzI/RhLOurA2PmE2JKYWJtNTG0GfSSufU
+        hw7Qbexe9o1JoLXnICAzUxrRpP1q7syYeiG3tEeX9w==
+X-Google-Smtp-Source: ABdhPJy1W/4bjZ9ErvmYuBxoIGryOmP7jlkH2GYRNNSWZpkWHE1CIwV6bSkC7L0BGhUkfi3frU4HwDBBPvwDO8iOwMs=
+X-Received: by 2002:a17:906:aed4:: with SMTP id me20mr8903155ejb.141.1595774010704;
+ Sun, 26 Jul 2020 07:33:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200713060842.471356-1-acourbot@chromium.org> <20200713060842.471356-8-acourbot@chromium.org>
-In-Reply-To: <20200713060842.471356-8-acourbot@chromium.org>
+References: <20200520082723.96136-1-acourbot@chromium.org>
+In-Reply-To: <20200520082723.96136-1-acourbot@chromium.org>
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Sun, 26 Jul 2020 11:29:00 -0300
-Message-ID: <CAAEAJfA4Po9R25CzBxiFAV=7-7rPujLc79zLnXyXWk7xNbBtYA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/16] media: mtk-vcodec: venc: specify supported
- formats per-chip
+Date:   Sun, 26 Jul 2020 11:33:19 -0300
+Message-ID: <CAAEAJfCzmEj3X2NdgaD=YSS_fV7MnZw=4o5KJOOSoMOSejv7=g@mail.gmail.com>
+Subject: Re: [PATCH 00/10] media: mtk-vcodec: venc: support for MT8183
 To:     Alexandre Courbot <acourbot@chromium.org>
 Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rui Wang <gtk_ruiwang@mediatek.com>,
         Yunfei Dong <yunfei.dong@mediatek.com>,
+        Pi-Hsun Shih <pihsun@chromium.org>,
         Maoguang Meng <maoguang.meng@mediatek.com>,
         linux-media <linux-media@vger.kernel.org>,
         "moderated list:ARM/Mediatek SoC support" 
         <linux-mediatek@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexandre,
++Enric
 
-Last review on my side, this series looks mostly good.
+Hello Alexandre,
 
-On Mon, 13 Jul 2020 at 03:09, Alexandre Courbot <acourbot@chromium.org> wrote:
->
-> Different chips have different supported bitrate ranges. Move the list
+Thanks for the series.
 
-s/bitrate ranges/formats
+On Wed, 20 May 2020 at 05:27, Alexandre Courbot <acourbot@chromium.org> wrote:
+>
+> This series adds support for the encoder present on MT8183. It is very similar
+> to the one in MT8173, but with different capabilities and using a new firmware
+> interface (SCP, while MT8173 talked to the VPU).
+>
+> So this series starts with some preparatory work by putting the firmware
+> interface behind a small abstraction layer instead of directly talking to the
+> VPU, and by adding support for the SCP firmware. Next platform data is completed
+> with features that differ between the chips, like supported formats and bitrate,
+> before support for MT8183 is added.
+>
+> Alexandre Courbot (6):
+>   media: mtk-vcodec: venc: handle firmware version field
+>   media: mtk-vcodec: venc: specify bitrate range per-chip
+>   media: mtk-vcodec: venc: specify supported formats per-chip
+>   media: mtk-vcodec: venc: remove redundant code
+>   media: dt-bindings: mtk-vcodec: specify SCP node
+>   media: dt-bindings: mtk-vcodec: document mediatek,mt8183-vcodec-enc
+>
+> Yunfei Dong (4):
+>   media: mtk-vcodec: abstract firmware interface
+>   media: mtk-vcodec: add SCP firmware ops
+>   media: mtk-vcodec: venc: support SCP firmware
+>   media: mtk-vcodec: add support for MT8183 encoder
+>
+>  .../bindings/media/mediatek-vcodec.txt        |   9 +-
 
-> of supported formats to the platform data, and split the output and
-> capture formats into two lists to make it easier to find the default
-> format for each queue.
->
-> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
-> ---
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   8 ++
->  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 122 +++++++-----------
->  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  40 ++++++
->  3 files changed, 95 insertions(+), 75 deletions(-)
->
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> index b8f913de8d80..59b4b750666b 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> @@ -313,6 +313,10 @@ enum mtk_chip {
->   * @has_lt_irq: whether the encoder uses the LT irq
->   * @min_birate: minimum supported encoding bitrate
->   * @max_bitrate: maximum supported encoding bitrate
-> + * @capture_formats: array of supported capture formats
-> + * @num_capture_formats: number of entries in capture_formats
-> + * @output_formats: array of supported output formats
-> + * @num_output_formats: number of entries in output_formats
->   */
->  struct mtk_vcodec_enc_pdata {
->         enum mtk_chip chip;
-> @@ -321,6 +325,10 @@ struct mtk_vcodec_enc_pdata {
->         bool has_lt_irq;
->         unsigned long min_bitrate;
->         unsigned long max_bitrate;
-> +       const struct mtk_video_fmt *capture_formats;
-> +       size_t num_capture_formats;
-> +       const struct mtk_video_fmt *output_formats;
-> +       size_t num_output_formats;
->  };
->
->  /**
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> index 50ba9da59153..05743a745a11 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> @@ -23,47 +23,9 @@
->  #define DFT_CFG_WIDTH  MTK_VENC_MIN_W
->  #define DFT_CFG_HEIGHT MTK_VENC_MIN_H
->  #define MTK_MAX_CTRLS_HINT     20
-> -#define OUT_FMT_IDX            0
-> -#define CAP_FMT_IDX            4
-> -
->
->  static void mtk_venc_worker(struct work_struct *work);
->
-> -static const struct mtk_video_fmt mtk_video_formats[] = {
-> -       {
-> -               .fourcc = V4L2_PIX_FMT_NV12M,
-> -               .type = MTK_FMT_FRAME,
-> -               .num_planes = 2,
+Would it be possible to add the support in
+arch/arm64/boot/dts/mediatek/mt8183.dtsi ?
 
-Again, not an issue with your patch, so feel free to ignore this.
+Given the driver is stateful it should be possible
+for anyone to test it with standard userspace
+such as GStreamer.
 
-You may avoid keeping track of num_planes (or any other
-property of the pixel format) and use v4l2_fill_pixfmt_mp
-to get all the information you need.
+Is it possible for the firmware to be pushed to linux-firmware ?
 
 Thanks,
 Ezequiel
+
+>  drivers/media/platform/Kconfig                |   2 +
+>  drivers/media/platform/mtk-vcodec/Makefile    |   4 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  53 ++--
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |   1 -
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  38 ++-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 141 ++++-------
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 149 ++++++++----
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   2 -
+>  .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 228 ++++++++++++++++++
+>  .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |  38 +++
+>  .../platform/mtk-vcodec/mtk_vcodec_util.c     |   1 -
+>  .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   1 -
+>  .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   1 -
+>  .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   1 -
+>  .../media/platform/mtk-vcodec/vdec_drv_base.h |   2 -
+>  .../media/platform/mtk-vcodec/vdec_drv_if.c   |   1 -
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  12 +-
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  11 +-
+>  .../platform/mtk-vcodec/venc/venc_h264_if.c   |  80 ++++--
+>  .../platform/mtk-vcodec/venc/venc_vp8_if.c    |  11 +-
+>  .../media/platform/mtk-vcodec/venc_drv_if.c   |   1 -
+>  .../media/platform/mtk-vcodec/venc_drv_if.h   |   6 +
+>  .../media/platform/mtk-vcodec/venc_ipi_msg.h  |  24 +-
+>  .../media/platform/mtk-vcodec/venc_vpu_if.c   | 141 ++++++++---
+>  .../media/platform/mtk-vcodec/venc_vpu_if.h   |   8 +-
+>  26 files changed, 711 insertions(+), 255 deletions(-)
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
+>
+> --
+> 2.26.2.761.g0e0b3e54be-goog
+>
