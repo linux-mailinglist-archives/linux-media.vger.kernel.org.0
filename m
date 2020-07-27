@@ -2,179 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AF8622E59A
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 07:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A209322E62A
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 08:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbgG0FyL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 01:54:11 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:13182 "EHLO m43-7.mailgun.net"
+        id S1726890AbgG0G63 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 02:58:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46942 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726311AbgG0FyK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 01:54:10 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1595829249; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=FTqA48hw8hnaqUdgwqT+jre/wJ4jEyk5sxdAz7+sHPY=; b=xXm8b88u8o1XwpyEuxAwRm49AyZ+ufCvEoFAsCSqVGNy+F/JHGknvHo8MChD+y/BizZ22GWo
- ybv16uxXNwOcHzdBpF1z0hNaxGCtvB44hIXstmPpcaaC0s9CgRTumNm+8vjrnwnuKJTFPlzd
- EbuvH19bFLTve0kfyL34Vqw9zDQ=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
- 5f1e6bff8db7256a95ec7cab (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 27 Jul 2020 05:54:07
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id CB369C43395; Mon, 27 Jul 2020 05:54:06 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.8 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.12] (unknown [61.1.231.32])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726116AbgG0G62 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Jul 2020 02:58:28 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E6F0DC433CA;
-        Mon, 27 Jul 2020 05:54:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E6F0DC433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
- power-domains for venus
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org, Taniya Das <tdas@codeaurora.org>
-References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
- <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
- <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
- <94581989-e069-55e5-6b70-919185eda33e@linaro.org>
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <e0c03ce2-136c-2c5c-6f36-bb0c69a82e2d@codeaurora.org>
-Date:   Mon, 27 Jul 2020 11:23:59 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        by mail.kernel.org (Postfix) with ESMTPSA id B7CF12072E;
+        Mon, 27 Jul 2020 06:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595833107;
+        bh=v3uxQUZIUFYNREgoRDKNAzU54DfWJ9M6hRyKdLri09w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=A2+300saTc3WWp3BS3NdrKDHfwdaZK/MaKd7G//I+IMugo7r+Ak0JgIu2V3YIoawq
+         t3M3rlFXRTyrrKyno+/bWkwLHvpukpxt5hs8jrXL4cESCnu9ZYX6IhYxOHKY6NhOKk
+         HH27mZsQzBVl+DeWEXAcK6YyVdN8SwdzYx7+O3kE=
+Date:   Mon, 27 Jul 2020 08:58:23 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Rosen Penev <rosenp@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 7/8] [clang-tidy] fix mismatching declarations
+Message-ID: <20200727085823.78fa67c8@coco.lan>
+In-Reply-To: <20200727031456.232955-8-rosenp@gmail.com>
+References: <20200727031456.232955-1-rosenp@gmail.com>
+        <20200727031456.232955-8-rosenp@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <94581989-e069-55e5-6b70-919185eda33e@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Sun, 26 Jul 2020 20:14:55 -0700
+Rosen Penev <rosenp@gmail.com> escreveu:
 
+> Found with readability-inconsistent-declaration-parameter-name
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>  lib/include/libdvbv5/atsc_eit.h               |  4 +-
+>  lib/include/libdvbv5/cat.h                    |  4 +-
+>  lib/include/libdvbv5/descriptors.h            |  2 +-
+>  lib/include/libdvbv5/dvb-demux.h              |  2 +-
+>  lib/include/libdvbv5/dvb-dev.h                |  2 +-
+>  lib/include/libdvbv5/dvb-fe.h                 |  2 +-
+>  lib/include/libdvbv5/dvb-file.h               |  4 +-
+>  lib/include/libdvbv5/dvb-scan.h               | 16 +++----
+>  lib/include/libdvbv5/eit.h                    |  4 +-
+>  lib/include/libdvbv5/header.h                 |  4 +-
+>  lib/include/libdvbv5/mgt.h                    |  4 +-
+>  lib/include/libdvbv5/mpeg_pes.h               |  2 +-
+>  lib/include/libdvbv5/nit.h                    |  6 +--
+>  lib/include/libdvbv5/pat.h                    |  4 +-
+>  lib/include/libdvbv5/pmt.h                    |  4 +-
+>  lib/include/libdvbv5/sdt.h                    |  4 +-
+>  lib/include/libdvbv5/vct.h                    |  4 +-
+>  lib/include/libv4l2.h                         |  2 +-
+>  lib/libdvbv5/parse_string.h                   |  2 +-
+>  lib/libv4lconvert/libv4lconvert-priv.h        | 48 +++++++++----------
+>  .../processing/libv4lprocessing.h             |  2 +-
+>  lib/libv4lconvert/tinyjpeg.h                  |  2 +-
+>  utils/common/v4l-stream.h                     |  4 +-
+>  utils/keytable/bpf.h                          |  6 +--
+>  utils/libcecutil/cec-log.cpp                  | 12 ++---
+>  25 files changed, 75 insertions(+), 75 deletions(-)
+> 
+> diff --git a/lib/include/libdvbv5/atsc_eit.h b/lib/include/libdvbv5/atsc_eit.h
+> index 5e52087c..18ae599d 100644
+> --- a/lib/include/libdvbv5/atsc_eit.h
+> +++ b/lib/include/libdvbv5/atsc_eit.h
+> @@ -192,7 +192,7 @@ ssize_t atsc_table_eit_init(struct dvb_v5_fe_parms *parms, const uint8_t *buf,
+>   *
+>   * @param table pointer to struct atsc_table_eit to be freed
+>   */
+> -void atsc_table_eit_free(struct atsc_table_eit *table);
+> +void atsc_table_eit_free(struct atsc_table_eit *eit);
+>  
+>  /**
+>   * @brief Prints the content of the ATSC EIT table
+> @@ -202,7 +202,7 @@ void atsc_table_eit_free(struct atsc_table_eit *table);
+>   * @param table pointer to struct atsc_table_eit
+>   */
+>  void atsc_table_eit_print(struct dvb_v5_fe_parms *parms,
+> -			  struct atsc_table_eit *table);
+> +			  struct atsc_table_eit *eit);
 
-On 7/24/2020 7:39 PM, Stanimir Varbanov wrote:
-> Hi,
-> 
-> On 7/23/20 9:06 PM, Stanimir Varbanov wrote:
->> Hi Rajendra,
->>
->> After applying 2,3 and 4/5 patches on linaro-integration v5.8-rc2 I see
->> below messages on db845:
->>
->> qcom-venus aa00000.video-codec: dev_pm_opp_set_rate: failed to find
->> current OPP for freq 533000097 (-34)
->>
->> ^^^ This one is new.
->>
->> qcom_rpmh TCS Busy, retrying RPMH message send: addr=0x30000
->>
->> ^^^ and this message is annoying, can we make it pr_debug in rpmh?
->>
->> On 7/23/20 2:26 PM, Rajendra Nayak wrote:
->>> Add the OPP tables in order to be able to vote on the performance state of
->>> a power-domain.
->>>
->>> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
->>> ---
->>>   arch/arm64/boot/dts/qcom/sdm845.dtsi | 40 ++++++++++++++++++++++++++++++++++--
->>>   1 file changed, 38 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
->>> index e506793..5ca2265 100644
->>> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
->>> @@ -3631,8 +3631,10 @@
->>>   			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
->>>   			power-domains = <&videocc VENUS_GDSC>,
->>>   					<&videocc VCODEC0_GDSC>,
->>> -					<&videocc VCODEC1_GDSC>;
->>> -			power-domain-names = "venus", "vcodec0", "vcodec1";
->>> +					<&videocc VCODEC1_GDSC>,
->>> +					<&rpmhpd SDM845_CX>;
->>> +			power-domain-names = "venus", "vcodec0", "vcodec1", "cx";
->>> +			operating-points-v2 = <&venus_opp_table>;
->>>   			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
->>>   				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
->>>   				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
->>> @@ -3654,6 +3656,40 @@
->>>   			video-core1 {
->>>   				compatible = "venus-encoder";
->>>   			};
->>> +
->>> +			venus_opp_table: venus-opp-table {
->>> +				compatible = "operating-points-v2";
->>> +
->>> +				opp-100000000 {
->>> +					opp-hz = /bits/ 64 <100000000>;
->>> +					required-opps = <&rpmhpd_opp_min_svs>;
->>> +				};
->>> +
->>> +				opp-200000000 {
->>> +					opp-hz = /bits/ 64 <200000000>;
->>> +					required-opps = <&rpmhpd_opp_low_svs>;
->>> +				};
->>> +
->>> +				opp-320000000 {
->>> +					opp-hz = /bits/ 64 <320000000>;
->>> +					required-opps = <&rpmhpd_opp_svs>;
->>> +				};
->>> +
->>> +				opp-380000000 {
->>> +					opp-hz = /bits/ 64 <380000000>;
->>> +					required-opps = <&rpmhpd_opp_svs_l1>;
->>> +				};
->>> +
->>> +				opp-444000000 {
->>> +					opp-hz = /bits/ 64 <444000000>;
->>> +					required-opps = <&rpmhpd_opp_nom>;
->>> +				};
->>> +
->>> +				opp-533000000 {
->>> +					opp-hz = /bits/ 64 <533000000>;
-> 
-> Actually it comes from videocc, where ftbl_video_cc_venus_clk_src
-> defines 533000000 but the real calculated freq is 533000097.
+A change like that will break the documentation build, as it relies
+on "table" name for this parameter:
 
-I still don't quite understand why the videocc driver returns this
-frequency despite this not being in the freq table.
-I would expect a clk_round_rate() when called with 533000097 to return
-a 533000000.
+	/**
+	 * @brief Prints the content of the ATSC EIT table
+	 * @ingroup dvb_table
+	 *
+	 * @param parms	struct dvb_v5_fe_parms pointer to the opened device
+	 * @param table pointer to struct atsc_table_eit
+	 */
+	void atsc_table_eit_print(struct dvb_v5_fe_parms *parms,
+				  struct atsc_table_eit *table);
 
-Taniya, Do you know why?
+So, if this is willing to be changed, the kerneldoc header would
+need a similar change...
 
-> 
-> If I change to opp-hz = /bits/ 64 <533000097> the error disappear.
-> 
-> I guess we have to revisit m/n and/or pre-divider for this freq when the
-> source pll is P_VIDEO_PLL0_OUT_MAIN PLL?
-> 
->>> +					required-opps = <&rpmhpd_opp_turbo>;
->>> +				};
->>> +			};
->>>   		};
->>>   
->>>   		videocc: clock-controller@ab00000 {
->>>
->>
-> 
+> diff --git a/lib/include/libdvbv5/dvb-fe.h b/lib/include/libdvbv5/dvb-fe.h
+> index 96657013..4bd94108 100644
+> --- a/lib/include/libdvbv5/dvb-fe.h
+> +++ b/lib/include/libdvbv5/dvb-fe.h
+> @@ -732,7 +732,7 @@ int dvb_fe_is_satellite(uint32_t delivery_system);
+>   * "COUNTRY" property in dvb_fe_set_parm() overrides the setting.
+>   */
+>  int dvb_fe_set_default_country(struct dvb_v5_fe_parms *parms,
+> -			       const char *country);
+> +			       const char *cc);
+>  
+>  #ifdef __cplusplus
+>  }
 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+...yet, some of those changes are not ok.
+
+I mean, while it is OK to use "cc" inside the function implementation
+(it is an alias for Country code), at the headers - and at the 
+documentation, which is created by Doxygen, it should keep a better 
+description.
+
+Btw, the main reason why the headers don't match the implementation
+is because those parameter names changed when we added support for
+Doxygen. The goal was to have parameter names that would be
+clearer about what the parameter was meant for.
+
+So, if you want to have both using the same name, specially for a
+parameter like "country", the change should be done inside the 
+implementation, and not at the header.
+
+Just to mention, I'm OK on keeping both declaration and usage in 
+sync, although this change shouldn't affect C++11, as the 
+implementation is in C.
+
+Thanks,
+Mauro
