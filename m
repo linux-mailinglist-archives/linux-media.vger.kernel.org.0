@@ -2,137 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8CD922FB6E
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 23:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0766322FBC8
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 00:03:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgG0Vby (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 17:31:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726194AbgG0Vbx (ORCPT
+        id S1726283AbgG0WDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 18:03:33 -0400
+Received: from o1.b.az.sendgrid.net ([208.117.55.133]:38952 "EHLO
+        o1.b.az.sendgrid.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726183AbgG0WDd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 17:31:53 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A43BC0619D2
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 14:31:53 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id a5so6292725wrm.6
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 14:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IbBLsev6A/k6JtTZxYPdXm24BNGReWdxszm0mfyFmjs=;
-        b=cVLK0R/gUj+gognaAVDPpAcP0p/kaqO27TPJ/4oQvPAVxTWgzIk1QMDw38zDZnYRwL
-         oEPqrbbbcE3rhwjhV7Pm1B0efa4lN6NMK/Kky5kl6lUyt4IW7cYwb/OkujsODB6S4ySc
-         /O6SRw8n2sblXDqrfhuiNO9eEB3Ehe86udljQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IbBLsev6A/k6JtTZxYPdXm24BNGReWdxszm0mfyFmjs=;
-        b=t48naoUSbE0a1pjXvIpF0W5FKur3Pe4jNLXrLJtbz+DW2PDXJLLbU5//W5ZXVrUJg2
-         CTBr5XER2RtV42smfsjiM1677z/RtcqBDIZQYthQRXF4j/pY0E2KgfS0sLgzNgGooJzr
-         y3c12b2RUkNnBhBubP9Ey6M0Pq4UbNEgHtzqSZ1gPhlwzRjRFDE1islIml1/BS3JlwgY
-         p22TZbgXQBEV7NxkiXHxQMwUe0yrLb8vjsgAnystF0Soa6LL0JvLSFCOMFat08q/IM3k
-         cKHGh6wjX7dlXm9PWMSiiCqRX7sLQ8bggC/rxO8611Ktq+ze8UaxjiaZ3S7Hd81jZU8Z
-         /yDg==
-X-Gm-Message-State: AOAM5329gf6niXM+8QYlLbR0Brd3MWgdBcp2p/qUeKwVw7Er4SCbmk+y
-        1KbZrLkayv8eE5AWwVXy/i7XcvIq71U=
-X-Google-Smtp-Source: ABdhPJxu91l4eNQybKcmI4LErpte7CoyW1rnIyORt8Wxy15Rf018CY26pqWTld4+57hcv1yfORKfeQ==
-X-Received: by 2002:adf:82f6:: with SMTP id 109mr23889821wrc.25.1595885511913;
-        Mon, 27 Jul 2020 14:31:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f9sm13945424wru.47.2020.07.27.14.31.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 14:31:51 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH] drm/amdgpu/dc: Stop dma_resv_lock inversion in commit_tail
-Date:   Mon, 27 Jul 2020 23:30:18 +0200
-Message-Id: <20200727213017.852589-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.27.0
+        Mon, 27 Jul 2020 18:03:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+        h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
+        content-transfer-encoding;
+        s=001; bh=w2bDNJZ76P9qJ19x5xB00kMLUR4+ZgAUg8Ijbwn+DLA=;
+        b=sRkYK5XabzB5/UUKrx2kGwHUiyaCOb3S58Ql5Zj2zmLjA2ku0DBwS+oYRp1N7NpFPuil
+        YYM4yCBPcdSt8H6JhPSLBPcq2p9zBDbx1xsmERfdpHU7n3Cn9Q518tyuofCqjLkDSndbCh
+        eWkCnluUY/9cErabpmIfHSDl1SHAJeQ+U=
+Received: by filterdrecv-p3iad2-5b55dcd864-m99xc with SMTP id filterdrecv-p3iad2-5b55dcd864-m99xc-18-5F1F4F33-B5
+        2020-07-27 22:03:31.636807693 +0000 UTC m=+2696046.241755925
+Received: from [192.168.1.14] (unknown)
+        by ismtpd0001p1lon1.sendgrid.net (SG) with ESMTP
+        id i_qwivOTRUCQfKgZSd4ODw
+        Mon, 27 Jul 2020 22:03:31.287 +0000 (UTC)
+Subject: Re: [PATCH 10/10] media: rkvdec: Don't require unneeded
+ H264_SLICE_PARAMS
+References: <20200715202233.185680-1-ezequiel@collabora.com>
+ <20200715202233.185680-11-ezequiel@collabora.com>
+From:   Jonas Karlman <jonas@kwiboo.se>
+Message-ID: <13935609-c123-3eae-9a18-c11ece2f59e9@kwiboo.se>
+Date:   Mon, 27 Jul 2020 22:03:31 +0000 (UTC)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200715202233.185680-11-ezequiel@collabora.com>
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hySkcpyJxVVHTnEQc?=
+ =?us-ascii?Q?+vC59FDvRguz4eio+Q+kuDyCnvNMtKH55NhSJJw?=
+ =?us-ascii?Q?R7ujHnm5=2FdyT+4C4fAn=2FbSiYAeT4=2Fz46zMaz=2FWW?=
+ =?us-ascii?Q?lJMXvZwY6SjI17j6KfWwaguCxI0pSSJFaTS0wCs?=
+ =?us-ascii?Q?LEKRWyRlmAxWMLci3qONZteXLI2Lu=2FTUr=2FVEchc?=
+ =?us-ascii?Q?9qN=2F553hSxcuQYU7Fa=2F4A=3D=3D?=
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Language: sv
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Trying to grab dma_resv_lock while in commit_tail before we've done
-all the code that leads to the eventual signalling of the vblank event
-(which can be a dma_fence) is deadlock-y. Don't do that.
+Hi,
 
-Here the solution is easy because just grabbing locks to read
-something races anyway. We don't need to bother, READ_ONCE is
-equivalent. And avoids the locking issue.
+On 2020-07-15 22:22, Ezequiel Garcia wrote:
+> Now that slice invariant parameters have been moved,
+> the driver no longer needs this control, so drop it.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ----
+>  drivers/staging/media/rkvdec/rkvdec.c      | 5 -----
+>  2 files changed, 9 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> index 57c084910b3b..f6e1fa19d625 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> @@ -109,7 +109,6 @@ struct rkvdec_h264_reflists {
+>  struct rkvdec_h264_run {
+>  	struct rkvdec_run base;
+>  	const struct v4l2_ctrl_h264_decode_params *decode_params;
+> -	const struct v4l2_ctrl_h264_slice_params *slices_params;
+>  	const struct v4l2_ctrl_h264_sps *sps;
+>  	const struct v4l2_ctrl_h264_pps *pps;
+>  	const struct v4l2_ctrl_h264_scaling_matrix *scaling_matrix;
+> @@ -1067,9 +1066,6 @@ static void rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
+>  	run->decode_params = ctrl ? ctrl->p_cur.p : NULL;
+>  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
+>  			      V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS);
+> -	run->slices_params = ctrl ? ctrl->p_cur.p : NULL;
+> -	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
+> -			      V4L2_CID_MPEG_VIDEO_H264_SPS);
 
-v2: Also take into account tmz_surface boolean, plus just delete the
-old code.
+V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS line should be removed not SPS :-)
 
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-rdma@vger.kernel.org
-Cc: amd-gfx@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Christian König <christian.koenig@amd.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
-DC-folks, I think this split out patch from my series here
+With that fixed,
 
-https://lore.kernel.org/dri-devel/20200707201229.472834-1-daniel.vetter@ffwll.ch/
+Reviewed-by: Jonas Karlman <jonas@kwiboo.se>
 
-should be ready for review/merging. I fixed it up a bit so that it's not
-just a gross hack :-)
+Best regards,
+Jonas
 
-Cheers, Daniel
-
-
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 21ec64fe5527..a20b62b1f2ef 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6959,20 +6959,13 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 			DRM_ERROR("Waiting for fences timed out!");
- 
- 		/*
--		 * TODO This might fail and hence better not used, wait
--		 * explicitly on fences instead
--		 * and in general should be called for
--		 * blocking commit to as per framework helpers
-+		 * We cannot reserve buffers here, which means the normal flag
-+		 * access functions don't work. Paper over this with READ_ONCE,
-+		 * but maybe the flags are invariant enough that not even that
-+		 * would be needed.
- 		 */
--		r = amdgpu_bo_reserve(abo, true);
--		if (unlikely(r != 0))
--			DRM_ERROR("failed to reserve buffer before flip\n");
--
--		amdgpu_bo_get_tiling_flags(abo, &tiling_flags);
--
--		tmz_surface = amdgpu_bo_encrypted(abo);
--
--		amdgpu_bo_unreserve(abo);
-+		tiling_flags = READ_ONCE(abo->tiling_flags);
-+		tmz_surface = READ_ONCE(abo->flags) & AMDGPU_GEM_CREATE_ENCRYPTED;
- 
- 		fill_dc_plane_info_and_addr(
- 			dm->adev, new_plane_state, tiling_flags,
--- 
-2.27.0
-
+>  	run->sps = ctrl ? ctrl->p_cur.p : NULL;
+>  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
+>  			      V4L2_CID_MPEG_VIDEO_H264_PPS);
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index accb4a902fdd..8ebc9dfc83be 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -59,11 +59,6 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+>  		.mandatory = true,
+>  		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
+>  	},
+> -	{
+> -		.per_request = true,
+> -		.mandatory = true,
+> -		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS,
+> -	},
+>  	{
+>  		.per_request = true,
+>  		.mandatory = true,
+> 
