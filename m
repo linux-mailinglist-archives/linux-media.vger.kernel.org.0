@@ -2,123 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0766322FBC8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 00:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3C7922FBCB
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 00:05:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbgG0WDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 18:03:33 -0400
-Received: from o1.b.az.sendgrid.net ([208.117.55.133]:38952 "EHLO
-        o1.b.az.sendgrid.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbgG0WDd (ORCPT
+        id S1726676AbgG0WFA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 18:05:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726269AbgG0WFA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 18:03:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
-        h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
-        content-transfer-encoding;
-        s=001; bh=w2bDNJZ76P9qJ19x5xB00kMLUR4+ZgAUg8Ijbwn+DLA=;
-        b=sRkYK5XabzB5/UUKrx2kGwHUiyaCOb3S58Ql5Zj2zmLjA2ku0DBwS+oYRp1N7NpFPuil
-        YYM4yCBPcdSt8H6JhPSLBPcq2p9zBDbx1xsmERfdpHU7n3Cn9Q518tyuofCqjLkDSndbCh
-        eWkCnluUY/9cErabpmIfHSDl1SHAJeQ+U=
-Received: by filterdrecv-p3iad2-5b55dcd864-m99xc with SMTP id filterdrecv-p3iad2-5b55dcd864-m99xc-18-5F1F4F33-B5
-        2020-07-27 22:03:31.636807693 +0000 UTC m=+2696046.241755925
-Received: from [192.168.1.14] (unknown)
-        by ismtpd0001p1lon1.sendgrid.net (SG) with ESMTP
-        id i_qwivOTRUCQfKgZSd4ODw
-        Mon, 27 Jul 2020 22:03:31.287 +0000 (UTC)
-Subject: Re: [PATCH 10/10] media: rkvdec: Don't require unneeded
- H264_SLICE_PARAMS
-References: <20200715202233.185680-1-ezequiel@collabora.com>
- <20200715202233.185680-11-ezequiel@collabora.com>
-From:   Jonas Karlman <jonas@kwiboo.se>
-Message-ID: <13935609-c123-3eae-9a18-c11ece2f59e9@kwiboo.se>
-Date:   Mon, 27 Jul 2020 22:03:31 +0000 (UTC)
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 27 Jul 2020 18:05:00 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18204C061794;
+        Mon, 27 Jul 2020 15:05:00 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id d14so16816746qke.13;
+        Mon, 27 Jul 2020 15:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=iVuPTRHNAeDbxJIJqGMzJ2wPysTPpDFSvpK97m2+rwo=;
+        b=KKrVFetTr55OQ+1m/sHURefNlPvk09O9SSfcOdgGMAm4zuxZf2zAWC0vPdDs9StyHe
+         gg5ArsycVSyP74J5m0Nsd0irvaQDUFdjymVgMbhv9dyfOVrSnBog0ABmlszMZjFpv8Qf
+         FHk7u4eIF+rXkYulvQJ6a6XYBQVHXoiZJQmIMk1WuHF9HrUI2vcCrcnpmYpQ5LmmLEwe
+         3g80DomwgA4a2yr2RnNFzlZPcwixL1rbxQV2gq0V2G6e1qkBPXNSoYDto4yKglTwBtLZ
+         Hdu3c/oSdPzw1wZLuQxdmdVkcm7y32liptBK++zRSYLp7inGClfhqzU2MlOwEaWYCkxv
+         NvWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iVuPTRHNAeDbxJIJqGMzJ2wPysTPpDFSvpK97m2+rwo=;
+        b=tbW4Cpfom1yLmrc+UxEDyLhg0JVmUZSqpsuy12SUW44/EgC1EfLq/tsmvPzIhgElA1
+         OOLzgME3D+xjRjnDMDQ2KHnCem58Bklpg6lIp1E48oYkwOZTI2598BCoZ8gn7LIesLCF
+         Gy87Q4HU26Uan1pZ73vw9I2o5dqSHtnUssXgouZt23BNe80+wgc0ilk1KqP1s2uLJaMy
+         /NMrdi4JrUAGxeXxc/zh0X+dmMEATQDuqj2hojhnif28PHPIufBKyE49QpeqUKnBqdZM
+         MDsI2+/pxZ3GGa+JiD0XU9cS7MerxAFTpw1+9w15PjHbU82MjBJPmsZ2+Qd/Jo4gLfr2
+         TKSA==
+X-Gm-Message-State: AOAM531LzPOtJyEu1U5wAiIp3EXiI/GRKPmHX+vhH6obLJHTk79a83dQ
+        +MIfxzwEWmuVBrZLm3TCEQ==
+X-Google-Smtp-Source: ABdhPJzfxFKdzL8nQ1KA2C516wzRCtGXJoI/WM2PqHeAK/4CHI1X4r58A9z6GhvCvrBKLEDROQUrkQ==
+X-Received: by 2002:a05:620a:4ca:: with SMTP id 10mr22310620qks.306.1595887499368;
+        Mon, 27 Jul 2020 15:04:59 -0700 (PDT)
+Received: from PWN ([209.94.141.207])
+        by smtp.gmail.com with ESMTPSA id l64sm5279365qkc.21.2020.07.27.15.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2020 15:04:58 -0700 (PDT)
+Date:   Mon, 27 Jul 2020 18:04:56 -0400
+From:   Peilin Ye <yepeilin.cs@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vandana BN <bnvandana@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
+ kernel-infoleak in video_put_user()
+Message-ID: <20200727220456.GA328887@PWN>
+References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
+ <20200726222703.102701-1-yepeilin.cs@gmail.com>
+ <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+ <20200727131608.GD1913@kadam>
 MIME-Version: 1.0
-In-Reply-To: <20200715202233.185680-11-ezequiel@collabora.com>
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hySkcpyJxVVHTnEQc?=
- =?us-ascii?Q?+vC59FDvRguz4eio+Q+kuDyCnvNMtKH55NhSJJw?=
- =?us-ascii?Q?R7ujHnm5=2FdyT+4C4fAn=2FbSiYAeT4=2Fz46zMaz=2FWW?=
- =?us-ascii?Q?lJMXvZwY6SjI17j6KfWwaguCxI0pSSJFaTS0wCs?=
- =?us-ascii?Q?LEKRWyRlmAxWMLci3qONZteXLI2Lu=2FTUr=2FVEchc?=
- =?us-ascii?Q?9qN=2F553hSxcuQYU7Fa=2F4A=3D=3D?=
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Content-Type: text/plain; charset=us-ascii
-Content-Language: sv
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200727131608.GD1913@kadam>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Jul 27, 2020 at 04:16:08PM +0300, Dan Carpenter wrote:
+> drivers/char/hpet.c:675 hpet_ioctl() warn: check that 'info' doesn't leak information (struct has a hole after 'hi_timer')
 
-On 2020-07-15 22:22, Ezequiel Garcia wrote:
-> Now that slice invariant parameters have been moved,
-> the driver no longer needs this control, so drop it.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ----
->  drivers/staging/media/rkvdec/rkvdec.c      | 5 -----
->  2 files changed, 9 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index 57c084910b3b..f6e1fa19d625 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -109,7 +109,6 @@ struct rkvdec_h264_reflists {
->  struct rkvdec_h264_run {
->  	struct rkvdec_run base;
->  	const struct v4l2_ctrl_h264_decode_params *decode_params;
-> -	const struct v4l2_ctrl_h264_slice_params *slices_params;
->  	const struct v4l2_ctrl_h264_sps *sps;
->  	const struct v4l2_ctrl_h264_pps *pps;
->  	const struct v4l2_ctrl_h264_scaling_matrix *scaling_matrix;
-> @@ -1067,9 +1066,6 @@ static void rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
->  	run->decode_params = ctrl ? ctrl->p_cur.p : NULL;
->  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->  			      V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS);
-> -	run->slices_params = ctrl ? ctrl->p_cur.p : NULL;
-> -	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-> -			      V4L2_CID_MPEG_VIDEO_H264_SPS);
+This one seems like a false positive.
 
-V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS line should be removed not SPS :-)
+drivers/char/hpet.c:670:
 
-With that fixed,
+	mutex_lock(&hpet_mutex);
+	err = hpet_ioctl_common(file->private_data, cmd, arg, &info);
+	mutex_unlock(&hpet_mutex);
 
-Reviewed-by: Jonas Karlman <jonas@kwiboo.se>
+	if ((cmd == HPET_INFO) && !err &&
+	    (copy_to_user((void __user *)arg, &info, sizeof(info))))
+		err = -EFAULT;
 
-Best regards,
-Jonas
+`info` is only being copied to userspace when `cmd` is `HPET_INFO`.
+However, hpet_ioctl_common() is already doing memset() on `info` in
+`case HPET_INFO`:
 
->  	run->sps = ctrl ? ctrl->p_cur.p : NULL;
->  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->  			      V4L2_CID_MPEG_VIDEO_H264_PPS);
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index accb4a902fdd..8ebc9dfc83be 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -59,11 +59,6 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->  		.mandatory = true,
->  		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
->  	},
-> -	{
-> -		.per_request = true,
-> -		.mandatory = true,
-> -		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS,
-> -	},
->  	{
->  		.per_request = true,
->  		.mandatory = true,
-> 
+drivers/char/hpet.c:612:
+
+	case HPET_INFO:
+		{
+			memset(info, 0, sizeof(*info));
+			^^^^^^
+
+Thank you,
+Peilin Ye
