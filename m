@@ -2,94 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FE4F22E451
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 05:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3BC822E4AA
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 06:13:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728028AbgG0DPH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Jul 2020 23:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46654 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728023AbgG0DPG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jul 2020 23:15:06 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBDAEC0619D2
-        for <linux-media@vger.kernel.org>; Sun, 26 Jul 2020 20:15:06 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id d4so8589533pgk.4
-        for <linux-media@vger.kernel.org>; Sun, 26 Jul 2020 20:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=058a05WSROmXWJ/AwMplhMnH3n9F8IfxZ10fUqkg9F0=;
-        b=fflgwXAXZdGNZSIiMEjeVoWABML3dVH5aLIrF/6zyrbAIzEP3PnJIdD34v8yUctIMc
-         pqoc2SIH/QCBMJYbLgYmiTN/VxFiOkV7Id0kN0UEBefjOfsyA2RXhovp5NGpQ6Kw1ElY
-         7iQNzQX8Nogm+zKmyoZbuuM0li5sUSfQtkzAHHuBWHLHjk0jvpotoos68EFw/ESxqJyq
-         hDFmWYtGbcR2H2EogjBZM0xWTs5M72dh7vwOulSFxb4vcjwWIu8bYgkRmhVFaWn5kPoN
-         b+/3xx1Pfde08KuOtbDVe0+SB8egdlipSMBtyQmRERcFKDM/+Oe8nUiYDj0e1ZYoFGYu
-         8O5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=058a05WSROmXWJ/AwMplhMnH3n9F8IfxZ10fUqkg9F0=;
-        b=fMwl3eR/J+aAINPjUUCKA0RJ1pJz2NEcVlNBGiapWZy5QY9yNm1/bbdlDHNTmneHi2
-         XR33FeCttfh5R9cy4yOypjy+KsrJYmG2Z5ER2mxxyw4EOx0aPEpR8scgbgIzDkkF4xR8
-         cR67LGrEXSTX84Q+JLeIvB48fGnKG8vzsxD5No03wioX6Y9e7cJmDaitiIQ1hy2YWxHR
-         KyNfkPCmvoEAwtiowYQ4uQSzK13S4EE3zohAmJgHUEX/rxpKP/D8IKYwCPWtE1mNmDfG
-         m1pp0z3cIUXYD2mbQc7r5sFsOwdbkJ0e4tgBpOsUqlgZ0iTief/FUlIhTGk/gl3WGyNh
-         0s7A==
-X-Gm-Message-State: AOAM532fkvDdQoBiGI3YsCRZkUkhKt8h+lRVYsAfOauqwJpVST/aUCDg
-        3weqlQrUAH5QLIek2H3UwsJkQU3hYMU=
-X-Google-Smtp-Source: ABdhPJx3RZU6cJTBbtnRPkSbGFHNMQbNAlFWy7ZS0/gE69jzZPs+1aeOB86hFWfLVqTm7cfdlQvDbA==
-X-Received: by 2002:a63:e24d:: with SMTP id y13mr18301093pgj.248.1595819705900;
-        Sun, 26 Jul 2020 20:15:05 -0700 (PDT)
-Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
-        by smtp.gmail.com with ESMTPSA id t126sm13259345pfd.214.2020.07.26.20.15.05
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2020 20:15:05 -0700 (PDT)
-From:   Rosen Penev <rosenp@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 8/8] [clang-tidy] use explicit for single argument constructors
-Date:   Sun, 26 Jul 2020 20:14:56 -0700
-Message-Id: <20200727031456.232955-9-rosenp@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200727031456.232955-1-rosenp@gmail.com>
-References: <20200727031456.232955-1-rosenp@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726099AbgG0ENe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 00:13:34 -0400
+Received: from mga17.intel.com ([192.55.52.151]:22485 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726006AbgG0ENe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Jul 2020 00:13:34 -0400
+IronPort-SDR: GuEmjDKOzFLPCNlqR6P646+EvGDMDGEML4A6GFzVFsg4lnFK0mGAXvPmOgOewpAHhcSH+TsDHb
+ bW/xIgUKDy2A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9694"; a="131015833"
+X-IronPort-AV: E=Sophos;i="5.75,401,1589266800"; 
+   d="scan'208";a="131015833"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2020 21:13:33 -0700
+IronPort-SDR: Uumu+xfSeD9lA1Wt99k0cIfH4aeA1mG8LBISnfGoVW5U1tOYn0QgLUpyvshwirEXtEtt043dsh
+ pbM7CZV7GPXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,401,1589266800"; 
+   d="scan'208";a="463925029"
+Received: from ipu5-build.bj.intel.com ([10.238.232.196])
+  by orsmga005.jf.intel.com with ESMTP; 26 Jul 2020 21:13:30 -0700
+From:   Bingbu Cao <bingbu.cao@intel.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        helgaas@kernel.org
+Cc:     sakari.ailus@linux.intel.com, tian.shu.qiu@intel.com,
+        bingbu.cao@intel.com, bingbu.cao@linux.intel.com
+Subject: [PATCH] MAINTAINERS: Fix email typo and correct name of Tianshu
+Date:   Mon, 27 Jul 2020 12:12:17 +0800
+Message-Id: <1595823137-20553-1-git-send-email-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Found with google-explicit-constructor
+Fix the typo in email address of Tianshu Qiu and correct the name.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
+Reported-by: Bjorn Helgaas <helgaas@kernel.org>
 ---
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 6 +++---
+ MAINTAINERS | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index 436de288..5df71b80 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -218,11 +218,11 @@ static bool fill_output_buffer(const cv4l_queue &q, cv4l_buffer &buf, bool first
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5392f00cec46..638dfa99751b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8765,7 +8765,7 @@ INTEL IPU3 CSI-2 CIO2 DRIVER
+ M:	Yong Zhi <yong.zhi@intel.com>
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ M:	Bingbu Cao <bingbu.cao@intel.com>
+-R:	Tian Shu Qiu <tian.shu.qiu@intel.com>
++R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/userspace-api/media/v4l/pixfmt-srggb10-ipu3.rst
+@@ -8774,7 +8774,7 @@ F:	drivers/media/pci/intel/ipu3/
+ INTEL IPU3 CSI-2 IMGU DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ R:	Bingbu Cao <bingbu.cao@intel.com>
+-R:	Tian Shu Qiu <tian.shu.qiu@intel.com>
++R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/admin-guide/media/ipu3.rst
+@@ -12609,7 +12609,7 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	drivers/media/i2c/ov2685.c
  
- class buffer : public cv4l_buffer {
- public:
--	buffer(unsigned type = 0, unsigned memory = 0, unsigned index = 0) :
-+	explicit buffer(unsigned type = 0, unsigned memory = 0, unsigned index = 0) :
- 		cv4l_buffer(type, memory, index) {}
--	buffer(const cv4l_queue &q, unsigned index = 0) :
-+	explicit buffer(const cv4l_queue &q, unsigned index = 0) :
- 		cv4l_buffer(q, index) {}
--	buffer(const cv4l_buffer &b) : cv4l_buffer(b) {}
-+	explicit buffer(const cv4l_buffer &b) : cv4l_buffer(b) {}
- 
- 	int querybuf(node *node, unsigned index)
- 	{
+ OMNIVISION OV2740 SENSOR DRIVER
+-M:	Tianshu Qiu <tian.shu.qiua@intel.com>
++M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ R:	Shawn Tu <shawnx.tu@intel.com>
+ R:	Bingbu Cao <bingbu.cao@intel.com>
+ L:	linux-media@vger.kernel.org
 -- 
-2.26.2
+2.7.4
 
