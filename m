@@ -2,173 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9649922E4B1
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 06:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF8622E59A
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 07:54:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbgG0EUq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 00:20:46 -0400
-Received: from mga09.intel.com ([134.134.136.24]:16590 "EHLO mga09.intel.com"
+        id S1726801AbgG0FyL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 01:54:11 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:13182 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726064AbgG0EUp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 00:20:45 -0400
-IronPort-SDR: 4AVeO9fLnPlvMKQHORZrEHuv2ze6VCk6hbaKUplXth31h5pMp7I0XZWNjGwQZM8jTb8iC3wap5
- M+ZC5IfvpCKw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9694"; a="152211457"
-X-IronPort-AV: E=Sophos;i="5.75,401,1589266800"; 
-   d="scan'208";a="152211457"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2020 21:20:44 -0700
-IronPort-SDR: mg3JQH3bR2uhhUU8/jHk4daeiMIGYdyrx46uQK33jmdz6D/vJn7Dk3e6s5GVdKxOZbZXoOrPxJ
- 4urs2BKTq4Bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,401,1589266800"; 
-   d="scan'208";a="463926862"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-  by orsmga005.jf.intel.com with ESMTP; 26 Jul 2020 21:20:44 -0700
-Received: from fmsmsx153.amr.corp.intel.com (10.18.125.6) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Sun, 26 Jul 2020 21:20:44 -0700
-Received: from FMSEDG001.ED.cps.intel.com (10.1.192.133) by
- FMSMSX153.amr.corp.intel.com (10.18.125.6) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Sun, 26 Jul 2020 21:20:43 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.171)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Sun, 26 Jul 2020 21:20:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JUz94BcSDZw+Ntb+cT8v57Cihb0efpbTDTMRHoCD3L7Cs+LQf2UVxGBDC1c7xkpZ8XQQ33uXD+gS+1jvRFPZB4c0j/afuA4a5jMuNNel7OD5nV/w/lpuVPTtovrEV3zD0Wg7WNdHFQHL1R2F0IaY9kB+3OR6qxAB8F4FE3ds968ZbRwZOS1Aq3lOl8r/Ay+DANt+LNYnd0DdkyJ7pEiS+2J0zC1/x6oKnyLN7wGBfJwNuRtHl9ioTp4NDv9PeYZ0RqfVUcBnFY9RBKvlDwnbrvIqAEq1iyF0pJJDHsTxPNe8UvpT/O8j5N+0xLQ2Ts4g5qFbRuLRY6YtkUsBECZpqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NZXHbB2FS1wWC7aguPIhB4Y9KgJRJn0lljIvglWb1CM=;
- b=nykcrv6MR6fJmuR/Er4PR/QDrFYj0BssU167LZEP/SMjVrRB2vlq4cJN/UGDVKNEk9HxL+C4/paSKJajclj0TF9x/WAe6ujWOe6NL/OsjpRRtyJi3VZRtlmd411fTkx25pTrX+OcEEsuaMo0PfrUTTV8p2u87R1MylBM9h+9wKRv3fWUDCELWYYsqmmx52Um/mOZhwpmGROpyaWadEwDFDrWrbu08Ye0DwlfLjCy0tEK+R4p+LPiovuqOq7N/IUzs2SrGZdRL6KkhGebFG4EWxKWSFm/dZTpCdFc36Kx5w/eCcI5pFZp+luXEP5T6CZtncFnM+A2G6gHiCejq7a2hQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NZXHbB2FS1wWC7aguPIhB4Y9KgJRJn0lljIvglWb1CM=;
- b=eAdIveOTzUzRNxDGsnVi1RWXKOPxYcZw8dR1AjNymlIlqd2AMtyG5n4mTG7i5nCmgEUPcpyRdWdLBbDvCc+LGTLObD94tzG8aClKX0gQWtcdrlxqtbuO2MKzJYLAFxCMRzGlaW6CZkCDKLFmkoMeaasIZm6A5idzsVcSSa5kfkI=
-Received: from BL0PR11MB3028.namprd11.prod.outlook.com (2603:10b6:208:7a::10)
- by BL0PR11MB3332.namprd11.prod.outlook.com (2603:10b6:208:6b::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.21; Mon, 27 Jul
- 2020 04:20:40 +0000
-Received: from BL0PR11MB3028.namprd11.prod.outlook.com
- ([fe80::92e:d47a:458b:8598]) by BL0PR11MB3028.namprd11.prod.outlook.com
- ([fe80::92e:d47a:458b:8598%4]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
- 04:20:40 +0000
-From:   "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-To:     "Cao, Bingbu" <bingbu.cao@intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "helgaas@kernel.org" <helgaas@kernel.org>
-CC:     "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>
-Subject: RE: [PATCH] MAINTAINERS: Fix email typo and correct name of Tianshu
-Thread-Topic: [PATCH] MAINTAINERS: Fix email typo and correct name of Tianshu
-Thread-Index: AQHWY8xSA7WDcWfT7EGs5zhSWTVff6ka0npg
-Date:   Mon, 27 Jul 2020 04:20:39 +0000
-Message-ID: <BL0PR11MB3028D74ABDBEBCED28ADFB9EDE720@BL0PR11MB3028.namprd11.prod.outlook.com>
-References: <1595823137-20553-1-git-send-email-bingbu.cao@intel.com>
-In-Reply-To: <1595823137-20553-1-git-send-email-bingbu.cao@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTQ1NTRlYTUtNDkxMi00OGYwLTg2MGQtNDA0OTY3MGIzNzdiIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiWng5SDY1dHRFbmcxZVNGZ2JZb2xNUUZVM01CR09tYTdLMHFVTDFPZmFLaFdMdWU0ZmkyU3JseTB1VFRUMTFJMyJ9
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-x-ctpclassification: CTP_NT
-dlp-reaction: no-action
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.102.204.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 92704956-9d22-41a4-7775-08d831e46bb0
-x-ms-traffictypediagnostic: BL0PR11MB3332:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BL0PR11MB333269959E6FF336501D7C8CDE720@BL0PR11MB3332.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8tJMPJ7MztUSma6Urrz2ArX+VUV9fcdi9qrle/dBkFoHCsFbjzL4f49D02jkBqjPxTLfbmbdkEsYHCpcwmAVIldTrU1CKyj3b610x5ldY+5QFaFPVoX5oMKMf0BF0zVafKtbe5PgoUovSws+t/LcbjaXD1G3AloDHmF1t+1ealb1f4vXofQrTqHhl22BH6euHV4XSyrWwBx/SnNjJjRfEBm8rSs9IFFGkgKWMur0MozFOiAy49IOuJIz3U/o+JIJS2TfOTrcRJ10soxgkSJTNjiXu54nBqiOxNsjcShPXTKPQ+x4P3eBhv3+xTt2jy6y512A5ePe5TcGmN3gdrQPoQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB3028.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(396003)(366004)(346002)(376002)(39860400002)(2906002)(8936002)(186003)(54906003)(53546011)(6506007)(71200400001)(76116006)(66446008)(110136005)(64756008)(316002)(9686003)(66946007)(55016002)(66476007)(66556008)(26005)(86362001)(478600001)(33656002)(52536014)(8676002)(4326008)(83380400001)(7696005)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: jQKMfLbDmTAzjIakmjUDHgi9e7dFaeBEFX04zpAM75jObzNZxTJSKhYbFN/rpuVG/maOHInQpTt+IxYjlCkf83re//fYVHIx7Sp7H3Wchy0AzC1JyME02I4cgTKdz63S+gPdI/SIU2KXNeDlSdZrENJOELSbesce3tsKahX9M7h5gKwGmf5F62GP9wEvVBHuLvbOJplEOQAZ9RdGMTo5cGMstjfVL86jgtguoTAwTKr4tcwsYmfKKF1uuTzppJOn7P4yVOnUw2TlgehxmEMTkzFgAHi7V8EmzGvKyPz1dAn5J4WYVzPtBP7E1/QN0K1tt18fv6SDfZ47HEFwF8TjADxNxhERr3TBHoE9s9ixN/e4mfUlmX/yrvWXNFrh8T79UjlwJ3zWoAtwrG7xVrE3JEIkKNjtzXHhw7wB5ix4dP4Xa+RzYJ36xe+Z7SZb/KGC9CpFsV/0gEalvOYMFt+kC0cRVofTMudkubp/DA+KbQZ+V4mZYVKTvsV+6dqs1TM0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726311AbgG0FyK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Jul 2020 01:54:10 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1595829249; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=FTqA48hw8hnaqUdgwqT+jre/wJ4jEyk5sxdAz7+sHPY=; b=xXm8b88u8o1XwpyEuxAwRm49AyZ+ufCvEoFAsCSqVGNy+F/JHGknvHo8MChD+y/BizZ22GWo
+ ybv16uxXNwOcHzdBpF1z0hNaxGCtvB44hIXstmPpcaaC0s9CgRTumNm+8vjrnwnuKJTFPlzd
+ EbuvH19bFLTve0kfyL34Vqw9zDQ=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
+ 5f1e6bff8db7256a95ec7cab (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 27 Jul 2020 05:54:07
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id CB369C43395; Mon, 27 Jul 2020 05:54:06 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.8 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.12] (unknown [61.1.231.32])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id E6F0DC433CA;
+        Mon, 27 Jul 2020 05:54:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E6F0DC433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
+Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
+ power-domains for venus
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org, Taniya Das <tdas@codeaurora.org>
+References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
+ <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
+ <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
+ <94581989-e069-55e5-6b70-919185eda33e@linaro.org>
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+Message-ID: <e0c03ce2-136c-2c5c-6f36-bb0c69a82e2d@codeaurora.org>
+Date:   Mon, 27 Jul 2020 11:23:59 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB3028.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92704956-9d22-41a4-7775-08d831e46bb0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2020 04:20:39.9917
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QcQQhkYSeZ1vb0n+SfnU2ZAUKh14T2HQJkXra0EqxnB4Yd/qT/Qq0lsCkny+H4tiPTctqi8XHm1LFYVfzOwEvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3332
-X-OriginatorOrg: intel.com
+In-Reply-To: <94581989-e069-55e5-6b70-919185eda33e@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reviewed-by: Tianshu Qiu <tian.shu.qiu@intel.com>
 
 
-> -----Original Message-----
-> From: Cao, Bingbu <bingbu.cao@intel.com>
-> Sent: Monday, July 27, 2020 12:12 PM
-> To: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org; helgaas@ke=
-rnel.org
-> Cc: sakari.ailus@linux.intel.com; Qiu, Tian Shu <tian.shu.qiu@intel.com>;=
- Cao, Bingbu <bingbu.cao@intel.com>;
-> bingbu.cao@linux.intel.com
-> Subject: [PATCH] MAINTAINERS: Fix email typo and correct name of Tianshu
->=20
-> Fix the typo in email address of Tianshu Qiu and correct the name.
->=20
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Tianshu Qiu <tian.shu.qiu@intel.com>
-> Reported-by: Bjorn Helgaas <helgaas@kernel.org>
-> ---
->  MAINTAINERS | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5392f00cec46..638dfa99751b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8765,7 +8765,7 @@ INTEL IPU3 CSI-2 CIO2 DRIVER
->  M:	Yong Zhi <yong.zhi@intel.com>
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->  M:	Bingbu Cao <bingbu.cao@intel.com>
-> -R:	Tian Shu Qiu <tian.shu.qiu@intel.com>
-> +R:	Tianshu Qiu <tian.shu.qiu@intel.com>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/userspace-api/media/v4l/pixfmt-srggb10-ipu3.rst
-> @@ -8774,7 +8774,7 @@ F:	drivers/media/pci/intel/ipu3/
->  INTEL IPU3 CSI-2 IMGU DRIVER
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->  R:	Bingbu Cao <bingbu.cao@intel.com>
-> -R:	Tian Shu Qiu <tian.shu.qiu@intel.com>
-> +R:	Tianshu Qiu <tian.shu.qiu@intel.com>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/admin-guide/media/ipu3.rst
-> @@ -12609,7 +12609,7 @@ T:	git git://linuxtv.org/media_tree.git
->  F:	drivers/media/i2c/ov2685.c
->=20
->  OMNIVISION OV2740 SENSOR DRIVER
-> -M:	Tianshu Qiu <tian.shu.qiua@intel.com>
-> +M:	Tianshu Qiu <tian.shu.qiu@intel.com>
->  R:	Shawn Tu <shawnx.tu@intel.com>
->  R:	Bingbu Cao <bingbu.cao@intel.com>
->  L:	linux-media@vger.kernel.org
-> --
-> 2.7.4
+On 7/24/2020 7:39 PM, Stanimir Varbanov wrote:
+> Hi,
+> 
+> On 7/23/20 9:06 PM, Stanimir Varbanov wrote:
+>> Hi Rajendra,
+>>
+>> After applying 2,3 and 4/5 patches on linaro-integration v5.8-rc2 I see
+>> below messages on db845:
+>>
+>> qcom-venus aa00000.video-codec: dev_pm_opp_set_rate: failed to find
+>> current OPP for freq 533000097 (-34)
+>>
+>> ^^^ This one is new.
+>>
+>> qcom_rpmh TCS Busy, retrying RPMH message send: addr=0x30000
+>>
+>> ^^^ and this message is annoying, can we make it pr_debug in rpmh?
+>>
+>> On 7/23/20 2:26 PM, Rajendra Nayak wrote:
+>>> Add the OPP tables in order to be able to vote on the performance state of
+>>> a power-domain.
+>>>
+>>> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+>>> ---
+>>>   arch/arm64/boot/dts/qcom/sdm845.dtsi | 40 ++++++++++++++++++++++++++++++++++--
+>>>   1 file changed, 38 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+>>> index e506793..5ca2265 100644
+>>> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
+>>> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+>>> @@ -3631,8 +3631,10 @@
+>>>   			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+>>>   			power-domains = <&videocc VENUS_GDSC>,
+>>>   					<&videocc VCODEC0_GDSC>,
+>>> -					<&videocc VCODEC1_GDSC>;
+>>> -			power-domain-names = "venus", "vcodec0", "vcodec1";
+>>> +					<&videocc VCODEC1_GDSC>,
+>>> +					<&rpmhpd SDM845_CX>;
+>>> +			power-domain-names = "venus", "vcodec0", "vcodec1", "cx";
+>>> +			operating-points-v2 = <&venus_opp_table>;
+>>>   			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
+>>>   				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
+>>>   				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
+>>> @@ -3654,6 +3656,40 @@
+>>>   			video-core1 {
+>>>   				compatible = "venus-encoder";
+>>>   			};
+>>> +
+>>> +			venus_opp_table: venus-opp-table {
+>>> +				compatible = "operating-points-v2";
+>>> +
+>>> +				opp-100000000 {
+>>> +					opp-hz = /bits/ 64 <100000000>;
+>>> +					required-opps = <&rpmhpd_opp_min_svs>;
+>>> +				};
+>>> +
+>>> +				opp-200000000 {
+>>> +					opp-hz = /bits/ 64 <200000000>;
+>>> +					required-opps = <&rpmhpd_opp_low_svs>;
+>>> +				};
+>>> +
+>>> +				opp-320000000 {
+>>> +					opp-hz = /bits/ 64 <320000000>;
+>>> +					required-opps = <&rpmhpd_opp_svs>;
+>>> +				};
+>>> +
+>>> +				opp-380000000 {
+>>> +					opp-hz = /bits/ 64 <380000000>;
+>>> +					required-opps = <&rpmhpd_opp_svs_l1>;
+>>> +				};
+>>> +
+>>> +				opp-444000000 {
+>>> +					opp-hz = /bits/ 64 <444000000>;
+>>> +					required-opps = <&rpmhpd_opp_nom>;
+>>> +				};
+>>> +
+>>> +				opp-533000000 {
+>>> +					opp-hz = /bits/ 64 <533000000>;
+> 
+> Actually it comes from videocc, where ftbl_video_cc_venus_clk_src
+> defines 533000000 but the real calculated freq is 533000097.
 
+I still don't quite understand why the videocc driver returns this
+frequency despite this not being in the freq table.
+I would expect a clk_round_rate() when called with 533000097 to return
+a 533000000.
+
+Taniya, Do you know why?
+
+> 
+> If I change to opp-hz = /bits/ 64 <533000097> the error disappear.
+> 
+> I guess we have to revisit m/n and/or pre-divider for this freq when the
+> source pll is P_VIDEO_PLL0_OUT_MAIN PLL?
+> 
+>>> +					required-opps = <&rpmhpd_opp_turbo>;
+>>> +				};
+>>> +			};
+>>>   		};
+>>>   
+>>>   		videocc: clock-controller@ab00000 {
+>>>
+>>
+> 
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
