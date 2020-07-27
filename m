@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C098E22E875
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 11:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E30E22E878
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 11:07:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727959AbgG0JGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 05:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44378 "EHLO
+        id S1727972AbgG0JG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 05:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727937AbgG0JGw (ORCPT
+        with ESMTP id S1727951AbgG0JG4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 05:06:52 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B93AC061794
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 02:06:52 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id t18so11790168otq.5
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 02:06:52 -0700 (PDT)
+        Mon, 27 Jul 2020 05:06:56 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B22C061794
+        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 02:06:56 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id h1so11758010otq.12
+        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 02:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BmzwV5D0tUNlvhJVCS/jJG+N+MKJEeKpMNP1+n+ZO3A=;
-        b=P7yY6zTapyco0YgX6oqY8Ipe9DxBcbIrSEBNdF5idPlppIjjkhFh/DDM5aQG8EEmBZ
-         8jO2IM9ogz+hF/nUTPtPCFqvvIfasw58AwXAp5nJmEFlUcUZdrrgKB2KpyB7up8S6IPc
-         wBtwdwDZ0LHbDNJGM42HFGYWjZoK+o5CCdn/I=
+        bh=Q0ykoQ1HCpJnYYVAEpMg+IuU/oh8bqyGxwKpdxCcrvM=;
+        b=aNHjeE2hbtrtFTyBIaRfQ2k40HutwDx6gx2p7yWr4Oc5ceGRSz9vPob0tqZiv8Xrob
+         aIWrNwRVqX3Pgp1/gUf+pANKBfC7q8h1sZSoEqo0qcfV3re84a5mzteVO+06jjjGMTK1
+         P/akdytPfHdVZBwKwQTUJBISbJcnGkjKfV8/s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BmzwV5D0tUNlvhJVCS/jJG+N+MKJEeKpMNP1+n+ZO3A=;
-        b=RYHKitVlfXn5CalMYPbQWlUOdxUcyfIKS1VM0rwaQHWZSZWAOmbp5rZazYcxHf6pEE
-         bLYjlneXfXLBfJL77cOLlsudy8HtfUZwf/pugpKlh1dEwEYG8kGHtLaFv4hyu5vFL8Wt
-         AoPxnarLVpDH/i/6QEGW2HV8w8AgeYdYU0kgF0vmtXSWjerbLMuwCGMc/k3glMZlXTdn
-         tRaIznjH1J4MDfkC81aDwA70c9AFWfW50ueVQtRB4wDIu3Jz6tbRWeQXGo+NttWaML27
-         ABSo5eCSAvwNLaAXMIUEMy1MbeTv7ofsQwp4ls89SHxPVZ1pXcWcHF6HgKWQNqbtyGcS
-         HoeQ==
-X-Gm-Message-State: AOAM531pdmZ/TMSbBGoJMABgAWqB2KFWME6b+fFODlb8SIASkz/8yTOu
-        OyJdLzZNJYpKT0+cMaglRPkPPY9lRYI=
-X-Google-Smtp-Source: ABdhPJzX+hN0DK/aoGXebKVQS4jukqb1izHBDrVOxEG/qmFkxA+EdR6okWV2uDwF8qnsxCyV8XvKQg==
-X-Received: by 2002:a9d:6a54:: with SMTP id h20mr1277822otn.116.1595840810881;
-        Mon, 27 Jul 2020 02:06:50 -0700 (PDT)
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com. [209.85.167.169])
-        by smtp.gmail.com with ESMTPSA id o84sm1925866oif.55.2020.07.27.02.06.48
+        bh=Q0ykoQ1HCpJnYYVAEpMg+IuU/oh8bqyGxwKpdxCcrvM=;
+        b=MtinWd1wAe455pEsRQaXGQSj7CPYgR+6PiRUhpyQn6+4r2j5vmApW3URBsjR9Piuwl
+         UwPXFuFizF+ZaR3k4YHAeqsfsayQe8nasKOlUrVWtee7EsILwp2eU5P7EHengybfyzE+
+         sM+Nqw3oHvG4Tf9XDqort/AqkxEMrZDpk3/BdmEPVpYCP0GF+uH2DOTGr+WGwAlg36Yt
+         fExSgDj1DaZJD4uU5TjIPF68GW6goGOf+aSZfo34KPeojB2PvCbGNmOyp+yzPpd5TdqI
+         wj5a9pnakbdgFBN642NStZXfN7fJx3Z/pT4Ki/f1kvtmq5Qs2uf4VMzPuTopV9tUg7KS
+         0W3A==
+X-Gm-Message-State: AOAM5327mrYlwzaqYicRBnVqaWLUQfy6RmLrqcvUSv/A0l5I+RmxC8Uv
+        ox52+A5qNmu/3G42Ua61X8dk3NmhVdE=
+X-Google-Smtp-Source: ABdhPJzyInnUgHUWRI+rXcej6RB+gOM8fk8tmwHxMYddLq5hNXqeBtcgA1koqgojyFAVsdE/+VIf7A==
+X-Received: by 2002:a9d:7d93:: with SMTP id j19mr17744505otn.150.1595840814668;
+        Mon, 27 Jul 2020 02:06:54 -0700 (PDT)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
+        by smtp.gmail.com with ESMTPSA id u204sm198854oif.36.2020.07.27.02.06.53
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2020 02:06:49 -0700 (PDT)
-Received: by mail-oi1-f169.google.com with SMTP id l63so13704672oih.13
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 02:06:48 -0700 (PDT)
-X-Received: by 2002:aca:b6c3:: with SMTP id g186mr16300307oif.55.1595840807593;
- Mon, 27 Jul 2020 02:06:47 -0700 (PDT)
+        Mon, 27 Jul 2020 02:06:53 -0700 (PDT)
+Received: by mail-oi1-f179.google.com with SMTP id k6so13716849oij.11
+        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 02:06:53 -0700 (PDT)
+X-Received: by 2002:a05:6808:646:: with SMTP id z6mr17184218oih.71.1595840812784;
+ Mon, 27 Jul 2020 02:06:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200713060842.471356-1-acourbot@chromium.org>
- <20200713060842.471356-4-acourbot@chromium.org> <CAAEAJfBO1Sih3r_RqxYCLRxtx6SoDq674zrvqhJiEBJeiDAtvw@mail.gmail.com>
-In-Reply-To: <CAAEAJfBO1Sih3r_RqxYCLRxtx6SoDq674zrvqhJiEBJeiDAtvw@mail.gmail.com>
+ <20200713060842.471356-5-acourbot@chromium.org> <CAAEAJfDrF_3Ys_9emvNsiwYV5pSfnLis=PoxSGeeKEWW3RE5yg@mail.gmail.com>
+In-Reply-To: <CAAEAJfDrF_3Ys_9emvNsiwYV5pSfnLis=PoxSGeeKEWW3RE5yg@mail.gmail.com>
 From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Mon, 27 Jul 2020 18:06:34 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MV=oo-a9POY_qedcJYU_qSJ695FwJthBrp3SQUK+g0JvA@mail.gmail.com>
-Message-ID: <CAPBb6MV=oo-a9POY_qedcJYU_qSJ695FwJthBrp3SQUK+g0JvA@mail.gmail.com>
-Subject: Re: [PATCH v3 03/16] media: mtk-vcodec: add SCP firmware ops
+Date:   Mon, 27 Jul 2020 18:06:38 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MUZFZdkUMvHLtiFz6bmjHVmKhjj=Lfw-nwqEG7JL=WEiQ@mail.gmail.com>
+Message-ID: <CAPBb6MUZFZdkUMvHLtiFz6bmjHVmKhjj=Lfw-nwqEG7JL=WEiQ@mail.gmail.com>
+Subject: Re: [PATCH v3 04/16] media: mtk-vcodec: venc: support SCP firmware
 To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -76,182 +76,513 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 6:40 AM Ezequiel Garcia
+On Sat, Jul 25, 2020 at 6:13 AM Ezequiel Garcia
 <ezequiel@vanguardiasur.com.ar> wrote:
 >
-> On Mon, 13 Jul 2020 at 03:09, Alexandre Courbot <acourbot@chromium.org> wrote:
+> Hi Alexandre,
+>
+> I'm slowly making progress on the series. Here's some more comments.
+>
+> On Mon, 13 Jul 2020 at 03:10, Alexandre Courbot <acourbot@chromium.org> wrote:
 > >
 > > From: Yunfei Dong <yunfei.dong@mediatek.com>
 > >
-> > Add support for communicating with the SCP firmware, which will be used
-> > by MT8183.
+> > Support the new extended firmware used by MT8183's encoder.
 > >
+>
+> If you could add some more information about the MT8183 encoder
+> and the extended firmware interface, it would make the review
+> easier.
+
+Sure, I'll try to expand that description a bit.
+
+>
+> Some comments below, I have no idea how this hardware
+> works, so maybe I won't make sense :-)
+>
 > > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > > [acourbot: refactor, cleanup and split]
 > > Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
 > > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 > > Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
 > > ---
-> >  drivers/media/platform/Kconfig                |  1 +
-> >  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  3 +
-> >  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  3 +
-> >  .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 56 +++++++++++++++++++
-> >  .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |  2 +
-> >  5 files changed, 65 insertions(+)
+> >  .../platform/mtk-vcodec/mtk_vcodec_drv.h      | 12 +++
+> >  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 34 ++++---
+> >  .../platform/mtk-vcodec/venc/venc_h264_if.c   | 65 +++++++++++--
+> >  .../platform/mtk-vcodec/venc/venc_vp8_if.c    |  3 +-
+> >  .../media/platform/mtk-vcodec/venc_drv_if.h   |  6 ++
+> >  .../media/platform/mtk-vcodec/venc_ipi_msg.h  | 15 ++-
+> >  .../media/platform/mtk-vcodec/venc_vpu_if.c   | 97 +++++++++++++------
+> >  .../media/platform/mtk-vcodec/venc_vpu_if.h   |  3 +-
+> >  8 files changed, 181 insertions(+), 54 deletions(-)
 > >
-> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> > index c57ee78fa99d..f0dbe048efea 100644
-> > --- a/drivers/media/platform/Kconfig
-> > +++ b/drivers/media/platform/Kconfig
-> > @@ -256,6 +256,7 @@ config VIDEO_MEDIATEK_VCODEC
-> >         select VIDEOBUF2_DMA_CONTIG
-> >         select V4L2_MEM2MEM_DEV
-> >         select VIDEO_MEDIATEK_VPU
-> > +       select MTK_SCP
-> >         help
-> >             Mediatek video codec driver provides HW capability to
-> >             encode and decode in a range of video formats
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > index 4f07a5fcce7f..5b5765b98e57 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > @@ -225,6 +225,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
-> >         if (!of_property_read_u32(pdev->dev.of_node, "mediatek,vpu",
-> >                                   &rproc_phandle)) {
-> >                 fw_type = VPU;
-> > +       } else if (!of_property_read_u32(pdev->dev.of_node, "mediatek,scp",
-> > +                                        &rproc_phandle)) {
-> > +               fw_type = SCP;
-> >         } else {
-> >                 mtk_v4l2_err("Could not get vdec IPI device");
-> >                 return -ENODEV;
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> > index 4340ea10afd0..42530cd01a30 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> > @@ -233,6 +233,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
-> >         if (!of_property_read_u32(pdev->dev.of_node, "mediatek,vpu",
-> >                                   &rproc_phandle)) {
-> >                 fw_type = VPU;
-> > +       } else if (!of_property_read_u32(pdev->dev.of_node, "mediatek,scp",
-> > +                                        &rproc_phandle)) {
-> > +               fw_type = SCP;
-> >         } else {
-> >                 mtk_v4l2_err("Could not get venc IPI device");
-> >                 return -ENODEV;
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
-> > index 967bb100a990..f2a62ea62fc6 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
-> > @@ -19,6 +19,7 @@ struct mtk_vcodec_fw {
-> >         enum mtk_vcodec_fw_type type;
-> >         const struct mtk_vcodec_fw_ops *ops;
-> >         struct platform_device *pdev;
-> > +       struct mtk_scp *scp;
+> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> > index e132c4ec463a..45c8adfc6a0c 100644
+> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> > @@ -300,6 +300,17 @@ struct mtk_vcodec_ctx {
+> >
 > >  };
 > >
-> >  static int mtk_vcodec_vpu_load_firmware(struct mtk_vcodec_fw *fw)
-> > @@ -71,6 +72,48 @@ static const struct mtk_vcodec_fw_ops mtk_vcodec_vpu_msg = {
-> >         .ipi_send = mtk_vcodec_vpu_ipi_send,
-> >  };
-> >
-> > +static int mtk_vcodec_scp_load_firmware(struct mtk_vcodec_fw *fw)
-> > +{
-> > +       return rproc_boot(scp_get_rproc(fw->scp));
-> > +}
-> > +
-> > +static unsigned int mtk_vcodec_scp_get_vdec_capa(struct mtk_vcodec_fw *fw)
-> > +{
-> > +       return scp_get_vdec_hw_capa(fw->scp);
-> > +}
-> > +
-> > +static unsigned int mtk_vcodec_scp_get_venc_capa(struct mtk_vcodec_fw *fw)
-> > +{
-> > +       return scp_get_venc_hw_capa(fw->scp);
-> > +}
-> > +
-> > +static void *mtk_vcodec_vpu_scp_dm_addr(struct mtk_vcodec_fw *fw,
-> > +                                       u32 dtcm_dmem_addr)
-> > +{
-> > +       return scp_mapping_dm_addr(fw->scp, dtcm_dmem_addr);
-> > +}
-> > +
-> > +static int mtk_vcodec_scp_set_ipi_register(struct mtk_vcodec_fw *fw, int id,
-> > +               mtk_vcodec_ipi_handler handler, const char *name, void *priv)
-> > +{
-> > +       return scp_ipi_register(fw->scp, id, handler, priv);
-> > +}
-> > +
-> > +static int mtk_vcodec_scp_ipi_send(struct mtk_vcodec_fw *fw, int id, void *buf,
-> > +               unsigned int len, unsigned int wait)
-> > +{
-> > +       return scp_ipi_send(fw->scp, id, buf, len, wait);
-> > +}
-> > +
-> > +static const struct mtk_vcodec_fw_ops mtk_vcodec_rproc_msg = {
-> > +       .load_firmware = mtk_vcodec_scp_load_firmware,
-> > +       .get_vdec_capa = mtk_vcodec_scp_get_vdec_capa,
-> > +       .get_venc_capa = mtk_vcodec_scp_get_venc_capa,
-> > +       .map_dm_addr = mtk_vcodec_vpu_scp_dm_addr,
-> > +       .ipi_register = mtk_vcodec_scp_set_ipi_register,
-> > +       .ipi_send = mtk_vcodec_scp_ipi_send,
+> > +/**
+> > + * struct mtk_vcodec_enc_pdata - compatible data for each IC
+> > + *
+> > + * @uses_ext: whether the encoder uses the extended firmware messaging format
+> > + * @has_lt_irq: whether the encoder uses the LT irq
+> > + */
+> > +struct mtk_vcodec_enc_pdata {
+> > +       bool uses_ext;
+> > +       bool has_lt_irq;
+>
+> Instead of this boolean here, I think it might be cleaner
+> to have a small array of strings, listing the interrupts
+> each variant requires.
+>
+> See drivers/staging/media/hantro/rk3288_vpu_hw.c
+>
+> It's future-proof and even if you don't plan to see
+> future works: a) we never know and b) cleaner code,
+> easier to maintain.
+
+I tend to agree. Note however that this boolean is supposed to
+disappear soon as there is another patch (not part of this series)
+that will split the decoder into two nodes. The reason why we have
+this boolean is because MT8173 actually controls *2* instances of this
+encoder (one for H.264, one for VP8) that are actually separate
+hardware.
+
+MT8183 only has one instance of the encoder (for H.264, that chip has
+no VP8 support), so I have added this boolean to control this. Once
+the DT node split happens it will go away. In the meantime, maybe we
+can try to handle this better by looking at the number of interrupts
+provided by the DT and enabling/disabling that extra interrupt based
+on that. It will be 2 for MT8173 and 1 for MT8183, so that should work
+fine.
+
+>
 > > +};
 > > +
-> >  static void mtk_vcodec_reset_handler(void *priv)
-> >  {
-> >         struct mtk_vcodec_dev *dev = priv;
-> > @@ -94,6 +137,7 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
-> >         const struct mtk_vcodec_fw_ops *ops;
-> >         struct mtk_vcodec_fw *fw;
-> >         struct platform_device *fw_pdev = NULL;
-> > +       struct mtk_scp *scp = NULL;
+> >  /**
+> >   * struct mtk_vcodec_dev - driver data
+> >   * @v4l2_dev: V4L2 device to register video devices for.
+> > @@ -348,6 +359,7 @@ struct mtk_vcodec_dev {
+> >         spinlock_t irqlock;
+> >         struct mtk_vcodec_ctx *curr_ctx;
+> >         void __iomem *reg_base[NUM_MAX_VCODEC_REG_BASE];
+> > +       const struct mtk_vcodec_enc_pdata *venc_pdata;
 > >
-> >         switch (type) {
-> >         case VPU:
-> > @@ -106,6 +150,14 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
-> >                 vpu_wdt_reg_handler(fw_pdev, mtk_vcodec_reset_handler,
-> >                                     dev, rst_id);
-> >                 break;
-> > +       case SCP:
-> > +               ops = &mtk_vcodec_rproc_msg;
-> > +               scp = scp_get(dev->plat_dev);
-> > +               if (!scp) {
-> > +                       mtk_v4l2_err("could not get vdec scp handle");
-> > +                       return ERR_PTR(-EPROBE_DEFER);
+> >         struct mtk_vcodec_fw *fw_handler;
+> >
+> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> > index 42530cd01a30..922bc8883811 100644
+> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> > @@ -244,6 +244,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+> >         if (IS_ERR(dev->fw_handler))
+> >                 return PTR_ERR(dev->fw_handler);
+> >
+> > +       dev->venc_pdata = of_device_get_match_data(&pdev->dev);
+> >         ret = mtk_vcodec_init_enc_pm(dev);
+> >         if (ret < 0) {
+> >                 dev_err(&pdev->dev, "Failed to get mt vcodec clock source!");
+> > @@ -278,21 +279,24 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+> >                 ret = -EINVAL;
+> >                 goto err_res;
+> >         }
+> > +       disable_irq(dev->enc_irq);
+> >
 >
-> I suspect the EPROBE_DEFER should be returned by scp_get
-> itself instead.
+> I am aware this is not an issue with this patch:
+> requesting an interrupt and then immediately
+> disabling the interrupt looks racy.
+>
+> Now, I haven't need this pattern myself,
+> but from a quick grep I think you want to do:
+>
+>         irq_set_status_flags(irq, IRQ_NOAUTOEN);
+>         ret = devm_request_irq(dev, irq, ...
+>
+> Perhaps something to fix (probably in another patch,
+> before this one).
 
-scp_get() is a function of of mtk_scp remoteproc driver, so even if we
-decide this is desirable (which I am not convinced, as the current
-code leaves the freedom to decide how the absence of SCP should be
-interpreted to the driver) this is beyond the scope of this series.
+Nice suggestion, thanks. I will test and add a patch to this series.
 
 >
+> > -       dev->enc_lt_irq = platform_get_irq(pdev, 1);
+> > -       ret = devm_request_irq(&pdev->dev,
+> > -                              dev->enc_lt_irq, mtk_vcodec_enc_lt_irq_handler,
+> > -                              0, pdev->name, dev);
+> > -       if (ret) {
+> > -               dev_err(&pdev->dev,
+> > -                       "Failed to install dev->enc_lt_irq %d (%d)",
+> > -                       dev->enc_lt_irq, ret);
+> > -               ret = -EINVAL;
+> > -               goto err_res;
+> > +       if (dev->venc_pdata->has_lt_irq) {
+> > +               dev->enc_lt_irq = platform_get_irq(pdev, 1);
+> > +               ret = devm_request_irq(&pdev->dev,
+> > +                                      dev->enc_lt_irq,
+> > +                                      mtk_vcodec_enc_lt_irq_handler,
+> > +                                      0, pdev->name, dev);
+> > +               if (ret) {
+> > +                       dev_err(&pdev->dev,
+> > +                               "Failed to install dev->enc_lt_irq %d (%d)",
+> > +                               dev->enc_lt_irq, ret);
+> > +                       ret = -EINVAL;
+> > +                       goto err_res;
 > > +               }
-> > +               break;
-> >         default:
-> >                 mtk_v4l2_err("invalid vcodec fw type");
-> >                 return ERR_PTR(-EINVAL);
-> > @@ -118,6 +170,7 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
-> >         fw->type = type;
-> >         fw->ops = ops;
-> >         fw->pdev = fw_pdev;
-> > +       fw->scp = scp;
+> > +               disable_irq(dev->enc_lt_irq); /* VENC_LT */
+> >         }
 > >
-> >         return fw;
+> > -       disable_irq(dev->enc_irq);
+> > -       disable_irq(dev->enc_lt_irq); /* VENC_LT */
+> >         mutex_init(&dev->enc_mutex);
+> >         mutex_init(&dev->dev_mutex);
+> >         spin_lock_init(&dev->irqlock);
+> > @@ -373,8 +377,12 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+> >         return ret;
 > >  }
-> > @@ -129,6 +182,9 @@ void mtk_vcodec_fw_release(struct mtk_vcodec_fw *fw)
-> >         case VPU:
-> >                 put_device(&fw->pdev->dev);
-> >                 break;
-> > +       case SCP:
-> > +               scp_put(fw->scp);
+> >
+> > +static const struct mtk_vcodec_enc_pdata mt8173_pdata = {
+> > +       .has_lt_irq = true,
+> > +};
+> > +
+> >  static const struct of_device_id mtk_vcodec_enc_match[] = {
+> > -       {.compatible = "mediatek,mt8173-vcodec-enc",},
+> > +       {.compatible = "mediatek,mt8173-vcodec-enc", .data = &mt8173_pdata},
+> >         {},
+> >  };
+> >  MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
+> > diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> > index 7a00f050ec36..050787b2896c 100644
+> > --- a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> > +++ b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> > @@ -24,6 +24,16 @@ static const char h264_filler_marker[] = {0x0, 0x0, 0x0, 0x1, 0xc};
+> >  #define H264_FILLER_MARKER_SIZE ARRAY_SIZE(h264_filler_marker)
+> >  #define VENC_PIC_BITSTREAM_BYTE_CNT 0x0098
+> >
+> > +/*
+> > + * enum venc_h264_frame_type - h264 encoder output bitstream frame type
+> > + */
+> > +enum venc_h264_frame_type {
+> > +       VENC_H264_IDR_FRM,
+> > +       VENC_H264_I_FRM,
+> > +       VENC_H264_P_FRM,
+> > +       VENC_H264_B_FRM,
+> > +};
+> > +
+> >  /*
+> >   * enum venc_h264_vpu_work_buf - h264 encoder buffer index
+> >   */
+> > @@ -137,7 +147,8 @@ struct venc_h264_inst {
+> >         struct mtk_vcodec_mem work_bufs[VENC_H264_VPU_WORK_BUF_MAX];
+> >         struct mtk_vcodec_mem pps_buf;
+> >         bool work_buf_allocated;
+> > -       unsigned int frm_cnt;
+> > +       u32 frm_cnt;    /* declared as u32 to properly overflow */
 >
-> Interestingly scp_put is a wrapper around put_device :-)
-> Perhaps not a reason to violate the layering.
+> This looks like it's fixing some issue not related to the 8183
+> or the extended firmware. Perhaps you can add a
+> more details comment?
 
-I don't see what is wrong with the current code? If SCP is in use, we
-use SCP functions to manage it. If in the future SCP involves in such
-a way that we need to do more than a put_device(), we are covered. Or
-am I missing something?
+Mmm, let me check that a bit closer because I know MT8183 communicates
+with the firmware a bit differently, so this may require these fields.
+But maybe we can split that part into another patch.
+
+>
+> > +       unsigned int skip_frm_cnt;
+> >         unsigned int prepend_hdr;
+> >         struct venc_vpu_inst vpu_inst;
+> >         struct venc_h264_vsi *vsi;
+> > @@ -327,6 +338,22 @@ static unsigned int h264_enc_wait_venc_done(struct venc_h264_inst *inst)
+> >         return irq_status;
+> >  }
+> >
+> > +static int h264_frame_type(struct venc_h264_inst *inst)
+> > +{
+> > +       if ((inst->vsi->config.gop_size != 0 &&
+> > +               (inst->frm_cnt % inst->vsi->config.gop_size) == 0) ||
+> > +               (inst->frm_cnt == 0 && inst->vsi->config.gop_size == 0)) {
+> > +               /* IDR frame */
+> > +               return VENC_H264_IDR_FRM;
+> > +       } else if ((inst->vsi->config.intra_period != 0 &&
+> > +               (inst->frm_cnt % inst->vsi->config.intra_period) == 0) ||
+> > +               (inst->frm_cnt == 0 && inst->vsi->config.intra_period == 0)) {
+> > +               /* I frame */
+> > +               return VENC_H264_I_FRM;
+> > +       } else {
+> > +               return VENC_H264_P_FRM;  /* Note: B frames are not supported */
+> > +       }
+> > +}
+> >  static int h264_encode_sps(struct venc_h264_inst *inst,
+> >                            struct mtk_vcodec_mem *bs_buf,
+> >                            unsigned int *bs_size)
+> > @@ -337,7 +364,7 @@ static int h264_encode_sps(struct venc_h264_inst *inst,
+> >         mtk_vcodec_debug_enter(inst);
+> >
+> >         ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL,
+> > -                            bs_buf, bs_size);
+> > +                            bs_buf, bs_size, NULL);
+> >         if (ret)
+> >                 return ret;
+> >
+> > @@ -364,7 +391,7 @@ static int h264_encode_pps(struct venc_h264_inst *inst,
+> >         mtk_vcodec_debug_enter(inst);
+> >
+> >         ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL,
+> > -                            bs_buf, bs_size);
+> > +                            bs_buf, bs_size, NULL);
+> >         if (ret)
+> >                 return ret;
+> >
+> > @@ -410,13 +437,24 @@ static int h264_encode_frame(struct venc_h264_inst *inst,
+> >  {
+> >         int ret = 0;
+> >         unsigned int irq_status;
+> > +       struct venc_frame_info frame_info;
+> >
+> >         mtk_vcodec_debug_enter(inst);
+> > -
+> > +       /* Overflowing back to 0 is ok and expected here */
+> > +       inst->frm_cnt++;
+> > +       mtk_vcodec_debug(inst, "frm_cnt++ = %d\n ", inst->frm_cnt);
+> > +       frame_info.frm_cnt = inst->frm_cnt;
+> > +       frame_info.skip_frm_cnt = inst->skip_frm_cnt;
+> > +       frame_info.frm_type = h264_frame_type(inst);
+>
+> Ditto: Is this chunk related to the new support,
+> or is this addressing some current issue?
+
+I will need to re-read this part to understand which one it is, but
+will split the patch if it turns out to make sense.
+
+>
+> > +       mtk_vcodec_debug(inst, "frm_cnt++ = %d,skip_frm_cnt =%d,frm_type=%d.\n",
+> > +               frame_info.frm_cnt, frame_info.skip_frm_cnt,
+> > +               frame_info.frm_type);
+> >         ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf,
+> > -                            bs_buf, bs_size);
+> > -       if (ret)
+> > +                            bs_buf, bs_size, &frame_info);
+> > +       if (ret) {
+> > +               inst->frm_cnt--;
+> >                 return ret;
+> > +       }
+> >
+> >         /*
+> >          * skip frame case: The skip frame buffer is composed by vpu side only,
+> > @@ -427,19 +465,19 @@ static int h264_encode_frame(struct venc_h264_inst *inst,
+> >                 memcpy(bs_buf->va,
+> >                        inst->work_bufs[VENC_H264_VPU_WORK_BUF_SKIP_FRAME].va,
+> >                        *bs_size);
+> > -               ++inst->frm_cnt;
+> > +               ++inst->skip_frm_cnt;
+> >                 return ret;
+> >         }
+> >
+> >         irq_status = h264_enc_wait_venc_done(inst);
+> >         if (irq_status != MTK_VENC_IRQ_STATUS_FRM) {
+> >                 mtk_vcodec_err(inst, "irq_status=%d failed", irq_status);
+> > +               inst->frm_cnt--;
+> >                 return -EIO;
+> >         }
+> >
+> >         *bs_size = h264_read_reg(inst, VENC_PIC_BITSTREAM_BYTE_CNT);
+> >
+> > -       ++inst->frm_cnt;
+> >         mtk_vcodec_debug(inst, "frm %d bs_size %d key_frm %d <-",
+> >                          inst->frm_cnt, *bs_size, inst->vpu_inst.is_key_frm);
+> >
+> > @@ -464,6 +502,7 @@ static void h264_encode_filler(struct venc_h264_inst *inst, void *buf,
+> >
+> >  static int h264_enc_init(struct mtk_vcodec_ctx *ctx)
+> >  {
+> > +       const bool is_ext = ctx->dev->venc_pdata->uses_ext;
+> >         int ret = 0;
+> >         struct venc_h264_inst *inst;
+> >
+> > @@ -473,8 +512,9 @@ static int h264_enc_init(struct mtk_vcodec_ctx *ctx)
+> >
+> >         inst->ctx = ctx;
+> >         inst->vpu_inst.ctx = ctx;
+> > -       inst->vpu_inst.id = IPI_VENC_H264;
+> > +       inst->vpu_inst.id = is_ext ? SCP_IPI_VENC_H264 : IPI_VENC_H264;
+> >         inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx, VENC_SYS);
+> > +       inst->frm_cnt = 0xffffffff;
+> >
+> >         mtk_vcodec_debug_enter(inst);
+> >
+> > @@ -629,7 +669,12 @@ static int h264_enc_set_param(void *handle,
+> >                 inst->prepend_hdr = 1;
+> >                 mtk_vcodec_debug(inst, "set prepend header mode");
+> >                 break;
+> > -
+> > +       case VENC_SET_PARAM_FORCE_INTRA:
+> > +       case VENC_SET_PARAM_GOP_SIZE:
+> > +       case VENC_SET_PARAM_INTRA_PERIOD:
+> > +               inst->frm_cnt = 0xffffffff;
+> > +               inst->skip_frm_cnt = 0;
+> > +               fallthrough;
+> >         default:
+> >                 ret = vpu_enc_set_param(&inst->vpu_inst, type, enc_prm);
+> >                 break;
+> > diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> > index 6426af514526..11abb191ada5 100644
+> > --- a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> > +++ b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> > @@ -302,7 +302,8 @@ static int vp8_enc_encode_frame(struct venc_vp8_inst *inst,
+> >
+> >         mtk_vcodec_debug(inst, "->frm_cnt=%d", inst->frm_cnt);
+> >
+> > -       ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, bs_size);
+> > +       ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, bs_size,
+> > +                            NULL);
+> >         if (ret)
+> >                 return ret;
+> >
+> > diff --git a/drivers/media/platform/mtk-vcodec/venc_drv_if.h b/drivers/media/platform/mtk-vcodec/venc_drv_if.h
+> > index 52fc9cc812fc..51b52625ca22 100644
+> > --- a/drivers/media/platform/mtk-vcodec/venc_drv_if.h
+> > +++ b/drivers/media/platform/mtk-vcodec/venc_drv_if.h
+> > @@ -92,6 +92,12 @@ struct venc_enc_param {
+> >         unsigned int gop_size;
+> >  };
+> >
+>
+> How about a comment here documenting this struct?
+
+Will comment if I can figure out what it is useful for. :)
+
+>
+> > +struct venc_frame_info {
+> > +       unsigned int frm_cnt;           /* per frame update */
+> > +       unsigned int skip_frm_cnt;      /* per frame update */
+>
+> I'd go for s/cnt/count, it's just 2 bytes
+> and in the long run it'll make our life easier.
+
+Ack.
+
+>
+> > +       unsigned int frm_type;          /* per frame update */
+> > +};
+> > +
+> >  /*
+> >   * struct venc_frm_buf - frame buffer information used in venc_if_encode()
+> >   * @fb_addr: plane frame buffer addresses
+> > diff --git a/drivers/media/platform/mtk-vcodec/venc_ipi_msg.h b/drivers/media/platform/mtk-vcodec/venc_ipi_msg.h
+> > index 28ee04ca6241..4cafbf92d9cd 100644
+> > --- a/drivers/media/platform/mtk-vcodec/venc_ipi_msg.h
+> > +++ b/drivers/media/platform/mtk-vcodec/venc_ipi_msg.h
+> > @@ -51,17 +51,22 @@ struct venc_ap_ipi_msg_init {
+> >   * @vpu_inst_addr:     VPU encoder instance addr
+> >   *                     (struct venc_vp8_vsi/venc_h264_vsi *)
+> >   * @param_id:  parameter id (venc_set_param_type)
+> > - * @data_item: number of items in the data array
+> > + * @num_data:  number of items in the data array
+> >   * @data[8]:   data array to store the set parameters
+> >   */
+> >  struct venc_ap_ipi_msg_set_param {
+> >         uint32_t msg_id;
+> >         uint32_t vpu_inst_addr;
+> >         uint32_t param_id;
+> > -       uint32_t data_item;
+> > +       uint32_t num_data;
+>
+> This change looks either out of place, or unneeded.
+> Or I'm missing something.
+
+Yeah, it's just renaming this member to something that makes more
+sense, "data_item" bringing absolutely no information about what this
+does. Will make an extra patch for it.
+
+>
+> >         uint32_t data[8];
+> >  };
+> >
+> > +struct venc_ap_ipi_msg_set_param_ext {
+> > +       struct venc_ap_ipi_msg_set_param base;
+> > +       uint32_t data_ext[24];
+> > +};
+> > +
+> >  /**
+> >   * struct venc_ap_ipi_msg_enc - AP to VPU enc cmd structure
+> >   * @msg_id:    message id (AP_IPIMSG_XXX_ENC_ENCODE)
+> > @@ -82,6 +87,12 @@ struct venc_ap_ipi_msg_enc {
+> >         uint32_t bs_size;
+> >  };
+> >
+>
+> Ditto.
+
+Ditto what? :) There is no code change right here.
+
+>
+> > +struct venc_ap_ipi_msg_enc_ext {
+> > +       struct venc_ap_ipi_msg_enc base;
+> > +       uint32_t data_item;
+> > +       uint32_t data[32];
+> > +};
+> > +
+> >  /**
+> >   * struct venc_ap_ipi_msg_deinit - AP to VPU deinit cmd structure
+> >   * @msg_id:    message id (AP_IPIMSG_XXX_ENC_DEINIT)
+> > diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> > index 53854127814b..6c77bf025172 100644
+> > --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> > +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> > @@ -116,49 +116,81 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
+> >         return 0;
+> >  }
+> >
+> > +static unsigned int venc_enc_param_crop_right(struct venc_vpu_inst *vpu,
+> > +                                             struct venc_enc_param *enc_prm)
+> > +{
+> > +       unsigned int img_crop_right = enc_prm->buf_width - enc_prm->width;
+> > +
+> > +       return img_crop_right % 16;
+> > +}
+> > +
+> > +static unsigned int venc_enc_param_crop_bottom(struct venc_enc_param *enc_prm)
+> > +{
+> > +       return round_up(enc_prm->height, 16) - enc_prm->height;
+> > +}
+> > +
+> > +static unsigned int venc_enc_param_num_mb(struct venc_enc_param *enc_prm)
+> > +{
+> > +       return DIV_ROUND_UP(enc_prm->width, 16) *
+> > +              DIV_ROUND_UP(enc_prm->height, 16);
+>
+> ^^^^
+> You could define the macroblock size in a macro and
+> use it in these various places.
+
+Ack.
+
+>
+> > +}
+> > +
+> >  int vpu_enc_set_param(struct venc_vpu_inst *vpu,
+> >                       enum venc_set_param_type id,
+> >                       struct venc_enc_param *enc_param)
+> >  {
+> > -       struct venc_ap_ipi_msg_set_param out;
+> > +       const bool is_ext = vpu->ctx->dev->venc_pdata->uses_ext;
+> > +       size_t msg_size = is_ext ?
+>
+> How about you use vpu->id to check for is_ext?
+
+Unfortunately vpu->id can be assigned an ipi_id or scp_ipi_id, which
+are two different namespaces and which values can thus collide. So we
+cannot use ID for this.
+
+>
+> I feel like querying the "is_ext" property like this
+> is a layering violation.
+>
+> Or maybe better some firmware interface type
+> should be set in struct venc_vpu_inst,
+> so the venc_vpu_if driver is aware of its own type.
+
+"is_ext" refers to whether the firmware uses an extended version of
+the protocol to communicate, so using it here seems to be in place.
