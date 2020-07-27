@@ -2,117 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1AD222F6FE
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 19:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 742DA22F70B
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 19:50:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730699AbgG0Rs5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 13:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728532AbgG0Rs5 (ORCPT
+        id S1731054AbgG0Ru0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 13:50:26 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:40472 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726846AbgG0Ru0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 13:48:57 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A23C061794;
-        Mon, 27 Jul 2020 10:48:57 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id 9so14906212wmj.5;
-        Mon, 27 Jul 2020 10:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qOH/UoaqC+LDO4kkcL97+3vWeaaagSUdgiIVI5ufHis=;
-        b=XWcLeYAWwLQnQ/+Vniw+1NZMkQBf5jPAzdnX66/ZOrG+d8xxI/geLEvfjZuvZxTw6A
-         T5Na0PcnsDM5t4kNk6hPCIJTXxwx5VzLDWQa/DFx9ItkiyaVmZC0SsYIAOpwMP/MqLLW
-         wBtasEqQKV1jN/y3TFd9fkF1l3pw0pNF8OzWQ0T+erudPq0LAc6g9JSLk/NNmWG6/1Qk
-         B5U20kHwZgUKg4twqfKp0UjqMkkX0QwES20iQSgWlh/WpKektlQ0znluUNwnpdF7GuEW
-         1NGVzAaSZePpJpIgwJI6oPBcYrUVglr1Z0LoUZV8IKbJ7pyJ8sWlH9v3edi0eSRh7W8c
-         zApg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qOH/UoaqC+LDO4kkcL97+3vWeaaagSUdgiIVI5ufHis=;
-        b=TLopHUN7qFcsoS24mAIASZmjWMGuoLazJLg8Qx4oQjgy/Ur6j4Xlid6gLvjg0d1M/r
-         ZdcCH1j4fGl2Oa4n5/kqFDBgeB4IComL1wSMP/h8dJlAFgVJtNhQc4g8ppg5HYoUv3Yv
-         tUiRtz7jJPpI2HKNYdZV3ngCAoKUebhHJrXpd+gMd+s0KnjIWMFOjgm0o/5vnCkjOkjq
-         r6nqO0iHYR3pAcOWXfSVFZmIjb8LZLVaL5Q//NersT2d1dS9QnGOR2sAhpL1+SHd31aJ
-         3tfqNlUDB1moP+Hzr/a/xwlmJ2LbR2547UIqCXhDIALYekd9BEDK6F1lioWb4s7kANP+
-         dFCw==
-X-Gm-Message-State: AOAM533TWCzubT9ZA4M76ndQ03L9GRAXJmPYLKtZwrgW4KpoRU1SUjAZ
-        M0OFI9eKFRaZSPMqsMQyeeY=
-X-Google-Smtp-Source: ABdhPJxfNAV1+tUhphWVdB/yAnUKsH2CS8FGtw6ozsRuygaha6vREw+pf9Ma8uRtJcQlBCFiG9T9YQ==
-X-Received: by 2002:a1c:5646:: with SMTP id k67mr367294wmb.61.1595872135762;
-        Mon, 27 Jul 2020 10:48:55 -0700 (PDT)
-Received: from localhost.localdomain (112.red-81-32-35.dynamicip.rima-tde.net. [81.32.35.112])
-        by smtp.gmail.com with ESMTPSA id y11sm14072266wrs.80.2020.07.27.10.48.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 10:48:55 -0700 (PDT)
-From:   Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Cc:     Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v3] media: atomisp-mt9m114: replace fixed function names
-Date:   Mon, 27 Jul 2020 19:48:12 +0200
-Message-Id: <20200727174811.57486-1-juant.aldea@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        Mon, 27 Jul 2020 13:50:26 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id C2D7A296D2D
+Subject: Re: [PATCH 1/2] media: staging: rkisp1: replace 9 coeff* fields with
+ a 3x3 array
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+References: <20200707170845.28845-1-dafna.hirschfeld@collabora.com>
+ <20200707170845.28845-2-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <c945f4dd-3c5b-20de-3943-e9f79c9bfaec@collabora.com>
+Date:   Mon, 27 Jul 2020 14:50:17 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200707170845.28845-2-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are a couple of debug messages using hardcoded function names
-instead of the preferred __func__ magic constant.
+Hi Dafna,
 
-Replace them:
+On 7/7/20 2:08 PM, Dafna Hirschfeld wrote:
+> The struct rkisp1_cif_isp_ctk_config has 9 fields 'coeff*' for the
+> 3x3 color correction matrix. Replace these fields with one 3x3
+> array coeff[3][3] and document the field.
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/staging/media/rkisp1/rkisp1-params.c      | 15 ++++++---------
+>  drivers/staging/media/rkisp1/uapi/rkisp1-config.h | 14 ++++----------
+>  2 files changed, 10 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
+> index 797e79de659c..00b102eb67b6 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
+> @@ -402,15 +402,12 @@ static void rkisp1_goc_config(struct rkisp1_params *params,
+>  static void rkisp1_ctk_config(struct rkisp1_params *params,
+>  			      const struct rkisp1_cif_isp_ctk_config *arg)
+>  {
+> -	rkisp1_write(params->rkisp1, arg->coeff0, RKISP1_CIF_ISP_CT_COEFF_0);
+> -	rkisp1_write(params->rkisp1, arg->coeff1, RKISP1_CIF_ISP_CT_COEFF_1);
+> -	rkisp1_write(params->rkisp1, arg->coeff2, RKISP1_CIF_ISP_CT_COEFF_2);
+> -	rkisp1_write(params->rkisp1, arg->coeff3, RKISP1_CIF_ISP_CT_COEFF_3);
+> -	rkisp1_write(params->rkisp1, arg->coeff4, RKISP1_CIF_ISP_CT_COEFF_4);
+> -	rkisp1_write(params->rkisp1, arg->coeff5, RKISP1_CIF_ISP_CT_COEFF_5);
+> -	rkisp1_write(params->rkisp1, arg->coeff6, RKISP1_CIF_ISP_CT_COEFF_6);
+> -	rkisp1_write(params->rkisp1, arg->coeff7, RKISP1_CIF_ISP_CT_COEFF_7);
+> -	rkisp1_write(params->rkisp1, arg->coeff8, RKISP1_CIF_ISP_CT_COEFF_8);
+> +	unsigned int i, j, k = 0;
+> +
+> +	for (i = 0; i < 3; i++)
+> +		for (j = 0; j < 3; j++)
+> +			rkisp1_write(params->rkisp1, arg->coeff[i][j],
+> +				     RKISP1_CIF_ISP_CT_COEFF_0 + 4 * k++);
+>  	rkisp1_write(params->rkisp1, arg->ct_offset_r,
+>  		     RKISP1_CIF_ISP_CT_OFFSET_R);
+>  	rkisp1_write(params->rkisp1, arg->ct_offset_g,
+> diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> index ca0d031b14ac..a01711a668da 100644
+> --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> @@ -417,19 +417,13 @@ struct rkisp1_cif_isp_bdm_config {
+>  /**
+>   * struct rkisp1_cif_isp_ctk_config - Configuration used by Cross Talk correction
+>   *
+> - * @coeff: color correction matrix
+> + * @coeff: color correction matrix. Values are 11-bit signed fixed-point numbers with 4 bit integer
+> + *		and 7 bit fractional part, ranging from -8 (0x400) to +7.992 (0x3FF). 0 is
+> + *		represented by 0x000 and a coefficient value of 1 as 0x080.
+>   * @ct_offset_b: offset for the crosstalk correction matrix
+>   */
+>  struct rkisp1_cif_isp_ctk_config {
+> -	__u16 coeff0;
+> -	__u16 coeff1;
+> -	__u16 coeff2;
+> -	__u16 coeff3;
+> -	__u16 coeff4;
+> -	__u16 coeff5;
+> -	__u16 coeff6;
+> -	__u16 coeff7;
+> -	__u16 coeff8;
+> +	__u16 coeff[3][3];
 
-WARNING: Prefer using '"%s...", __func__' to using 'misensor_rmw_reg', this function's name, in a string
-215: FILE: ./media/atomisp/i2c/atomisp-mt9m114.c:215:
-+       v4l2_err(client, "misensor_rmw_reg error exit, read failed\n");
+Why not:
 
-WARNING: Prefer using '"%s...", __func__' to using 'misensor_rmw_reg', this function's name, in a string
-236: FILE: ./media/atomisp/i2c/atomisp-mt9m114.c:236:
-+       v4l2_err(client, "misensor_rmw_reg error exit, write failed\n");
+	__u16 coeff[9];
 
-Signed-off-by: Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>
----
-PATCH V2:
-* Restored word "error" as pointed out by Dan Carpenter <dan.carpenter@oracle.com>
+?
 
-PATCH V3: 
-* Fix V2 changelog message.
+Thanks,
+Helen
 
- drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-index 0d60918a9b19..f5de81132177 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-@@ -212,7 +212,7 @@ misensor_rmw_reg(struct i2c_client *client, u16 data_length, u16 reg,
- 
- 	err = mt9m114_read_reg(client, data_length, reg, &val);
- 	if (err) {
--		v4l2_err(client, "misensor_rmw_reg error exit, read failed\n");
-+		v4l2_err(client, "%s error exit, read failed\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -233,7 +233,7 @@ misensor_rmw_reg(struct i2c_client *client, u16 data_length, u16 reg,
- 
- 	err = mt9m114_write_reg(client, data_length, reg, val);
- 	if (err) {
--		v4l2_err(client, "misensor_rmw_reg error exit, write failed\n");
-+		v4l2_err(client, "%s error exit, write failed\n", __func__);
- 		return -EINVAL;
- 	}
- 
--- 
-2.27.0
-
+>  	__u16 ct_offset_r;
+>  	__u16 ct_offset_g;
+>  	__u16 ct_offset_b;
+> 
