@@ -2,157 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A931122F310
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 16:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FABB22F320
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 16:55:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729216AbgG0OxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 10:53:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728399AbgG0OxF (ORCPT
+        id S1728895AbgG0OzX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 10:55:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:36535 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728593AbgG0OzX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 10:53:05 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A581C061794
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 07:53:05 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id o10so2681632edh.6
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 07:53:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DMgN5tZMxqYrW7jQ12rF21saA28TBC0yxDThKi4Y2Xk=;
-        b=hxLR76E4N9viPtHqqQtAE8b60wZVrZdsC9t3ff7Tm0CZxzG/syJaZW3kduG89h50wS
-         tq6gKpMa4gYp4isW/rKyf+FqFfB0lxcdUASPxgL2r4qRijur9HU0j4xNot3v0YkOX+Pf
-         JVNFga9Tzr/K51kVqTwHwtFqZLJDFRnbhVWN4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DMgN5tZMxqYrW7jQ12rF21saA28TBC0yxDThKi4Y2Xk=;
-        b=O0VKLjczjYI++IiR0P0BIHDO37YJernbTxCdrK+gWVsiO7f/XKxb9Ln/FoG4RWchn7
-         Fj0bK4i+/TVwGax6thBrIgiZhNM1bC27wfq+2uxZZqeep/D3QqR+aX0SoX26eMAMHd8e
-         yD8y5BBma1/dZ6EOAw0+PB/dE+TQ9SKxsU4i1nxlqbtKFckQf9Z4gHuaN1iSw/03AEnm
-         XggCxO2lsuTeuHoxUlqNOf9N41/HE/A989DLy578BlpJ2WOoVl/9yCWgGINGNFmn1tIN
-         x4Xh02TSLygTHkppEHw6/Yo3UtagsesbINh8f3jfeug5h8Ie/H0P80QlsQpIOrYjKJ8y
-         JXxA==
-X-Gm-Message-State: AOAM532cATVA1PW1T5V7PY5iiK+avodx3nq9nvixkqDJaJS6/uwFmSYJ
-        JJxWQJoCF7HMBDalvrR0Lt5cLD7xBGJhaw==
-X-Google-Smtp-Source: ABdhPJzB229Bg0LN3GdtaaO1bZYSpMecu6SGnzXiNHxHsf78u0fbaS/5rLUokoRLEjFjWI8H4Ja73A==
-X-Received: by 2002:a50:9987:: with SMTP id m7mr19596764edb.176.1595861583571;
-        Mon, 27 Jul 2020 07:53:03 -0700 (PDT)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
-        by smtp.gmail.com with ESMTPSA id g6sm7219150ejz.19.2020.07.27.07.53.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2020 07:53:02 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id y3so15191990wrl.4
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 07:53:02 -0700 (PDT)
-X-Received: by 2002:adf:fe12:: with SMTP id n18mr20714835wrr.295.1595861581935;
- Mon, 27 Jul 2020 07:53:01 -0700 (PDT)
+        Mon, 27 Jul 2020 10:55:23 -0400
+Received: from mail-qt1-f176.google.com ([209.85.160.176]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1M1rGy-1jxrbk3MBU-002EwH; Mon, 27 Jul 2020 16:55:21 +0200
+Received: by mail-qt1-f176.google.com with SMTP id a32so12388268qtb.5;
+        Mon, 27 Jul 2020 07:55:20 -0700 (PDT)
+X-Gm-Message-State: AOAM533ZWz0enoIgMN0JE8JFROIGl461VIVcMTiHe2Z7S1MsrzAZZ1fy
+        W0aPOd+sqKZ2zAnni0baLsQQ+DfCTt131kJTXJA=
+X-Google-Smtp-Source: ABdhPJx9V72QTymo8w1nyOPNr9QDIb1f85k08B5c7bfE5ycZlPzb1BLAKjqSaYTOQzF9HCrRgrx1SHcX9er4/B6hPNo=
+X-Received: by 2002:ac8:4652:: with SMTP id f18mr4923449qto.142.1595861719558;
+ Mon, 27 Jul 2020 07:55:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200715202233.185680-1-ezequiel@collabora.com>
- <20200715202233.185680-9-ezequiel@collabora.com> <CAPBb6MVMXeTcUfb-98McYCKjh=eM=BTo2dSY=L1c6dv2jHqXcg@mail.gmail.com>
- <636aab0a2be83e751a82a84ac3946afec2c87a17.camel@collabora.com>
-In-Reply-To: <636aab0a2be83e751a82a84ac3946afec2c87a17.camel@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 27 Jul 2020 16:52:50 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5DVfroAXRw+OT=EktDtVzRjPZYxnUS8daWQ5=3LLwn=SA@mail.gmail.com>
-Message-ID: <CAAFQd5DVfroAXRw+OT=EktDtVzRjPZYxnUS8daWQ5=3LLwn=SA@mail.gmail.com>
-Subject: Re: [PATCH 08/10] media: uapi: h264: Clean slice invariants syntax elements
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
+References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
+ <20200726222703.102701-1-yepeilin.cs@gmail.com> <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+ <20200727131608.GD1913@kadam> <CAK8P3a3+9Gr6G6KDWu=iW3316O9cPH+XupBBajJaxrq20xQcyQ@mail.gmail.com>
+ <20200727144335.GB2571@kadam>
+In-Reply-To: <20200727144335.GB2571@kadam>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 27 Jul 2020 16:55:03 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1q-6aWWs0E0BeGo2S2jcQ7ELU2Q0o4Utc4Qb9J8An5kQ@mail.gmail.com>
+Message-ID: <CAK8P3a1q-6aWWs0E0BeGo2S2jcQ7ELU2Q0o4Utc4Qb9J8An5kQ@mail.gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
+ kernel-infoleak in video_put_user()
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vandana BN <bnvandana@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:tg/AoHCEOzFAvg7gpivm7llDARO5ETgYItX/UyNLv11Hj+kUEss
+ gaoEZqF9Swg/frhxewZMg9np3RCE8raNgC8ifNllb/2kfx9JXS/lpMeXQj+12lADYBftr4C
+ 5ZnjmUFYNLZ2i/SKgmvJ3NpOxAVewrdOxuX169B0fKxB5Joo/4933kfNlVhejQc+DYsIkdT
+ QfzF1CVkSuqzlvs0yjJ4A==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/gJ4HQPTSlA=:wK7KjLlZvMxrMBqGlgrOEl
+ C6EwE3AgVo1zSP7IpVa33AMGlCVKQg5Zc5b9knmZCKjhTTey8rr324tkm4gRqtg6zOn7tHg8v
+ uZfE4F8RVgfydtO7QcBkqd3ThzLh34apHEeAE+czrGQMiPrD1RYdni9lxILFSEvQ+TluXsaZI
+ +6fZFucgrJlAYi6uTL1rm24BQZ0S4YIl2qh42fBL2yo2yO7gF785b/QidG/euLr8nEJlnrC+e
+ ybyI+PGXUaHkqvL+vnzNGHzFu4bkFpMK83qR5NnLfyQw+qsTQC4s3EJ54wZ2fyPbTvHlQi5FV
+ 7eIHAwkCI9z9gFD8RBGP3679fF3w+KhW7fUQwMDQrIeflsgLLwjaZZCdfkfF5WPbksoX64U9u
+ f6VTTxWTt5CLVNzoOmv2Vvvd5KQKzSSYaX9+p1QJeDZ0mWP35c6Ll/jhqDgEK1VZ9+W0nhxJB
+ y7c8hcpMbS/0rthFWxJkrcwU+rBHgRHf92zf1lMd71o0ZEQz5+1h6WCEnZ5isX4D6ou+pACeO
+ yiOPOn1K9kLNB6HupDV9qO5CX3SGV7yTJbaouNVcQ5rxEUFYAExaNxEX7P3adupDVxPX6oE2A
+ 3evrpnfcgNPf2TvbGOa+yCq24tELJ3054emLX/JE35o0kvIg36miAcSUOGOVawj/yr+QRx9qn
+ TjKz2c6A7iKOBVbumWnUDkznQnH3s105E36io3PEmrxHoOPzcuy1j7aHWKPMvHRMHNgr02ds9
+ 8hOf+N9I0cp1rED498wkQfcRm19Cr+539pKmooSvRWipVtCZDAM4Q13WMaJ0kusE58GHM9ncs
+ Hyyw/oX+bYYy01LUdJ7lBed2eyMFtMDPpxsImOQGc2ZrwRU3WlOi+oCKT4HrMTkOFsZFIw1cw
+ H/ERaHBb2Lut0TYrgrsIQo83fZVABCuU4aaClyF5VXn/rjJSNluW8GGdg0PZLnisI2zYThrTa
+ lwLC2cn7oHiSCyeUHOnkIGFuSZSmhuoQRQkYEz+8n12UyceBN5ADh
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 4:39 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+On Mon, Jul 27, 2020 at 4:43 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
 >
-> Hi Alexandre,
->
-> Thanks a lot for the review.
->
-> On Sat, 2020-07-25 at 23:34 +0900, Alexandre Courbot wrote:
-> > On Thu, Jul 16, 2020 at 5:23 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > > The H.264 specification requires in its "Slice header semantics"
-> > > section that the following values shall be the same in all slice headers:
+> On Mon, Jul 27, 2020 at 04:05:38PM +0200, Arnd Bergmann wrote:
+> > On Mon, Jul 27, 2020 at 3:16 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
 > > >
-> > >   pic_parameter_set_id
-> > >   frame_num
-> > >   field_pic_flag
-> > >   bottom_field_flag
-> > >   idr_pic_id
-> > >   pic_order_cnt_lsb
-> > >   delta_pic_order_cnt_bottom
-> > >   delta_pic_order_cnt[ 0 ]
-> > >   delta_pic_order_cnt[ 1 ]
-> > >   sp_for_switch_flag
-> > >   slice_group_change_cycle
+> > > On Mon, Jul 27, 2020 at 09:25:16AM +0200, Arnd Bergmann wrote:
+> > > > On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > > > >
+> > > > > video_put_user() is copying uninitialized stack memory to userspace due
+> > > > > to the compiler not initializing holes in the structures declared on the
+> > > > > stack. Fix it by initializing `ev32` and `vb32` using memset().
+> > > > >
+> > > > > Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
+> > > > > Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
+> > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> > > >
+> > > > Thanks a lot for addressing this! I now see that I actually created a similar
+> > > > bugfix for it back in January, but for some reason that got stuck in my
+> > > > backlog and I never wrote a proper description for it or sent it out to the
+> > > > list, sorry about that. I would hope we could find a way to have either
+> > > > the compiler or sparse warn if we copy uninitialized data to user space,
+> > > > but we now don't even check for that within the kernel any more.
 > > >
-> > > and can therefore be moved to the per-frame decode parameters control.
+> > > Here are my latest warnings on linux-next from Friday.
 > >
-> > I am really not a H.264 expert, so this question may not be relevant,
->
-> All questions are welcome. I'm more than happy to discuss this patchset.
->
-> > but are these values specified for every slice header in the
-> > bitstream, or are they specified only once per frame?
+> > Ah, I forgot you had that kind of list already, thanks for checking!
 > >
-> > I am asking this because it would certainly make user-space code
-> > simpler if we could remain as close to the bitstream as possible. If
-> > these values are specified once per slice, then factorizing them would
-> > leave user-space with the burden of deciding what to do if they change
-> > across slices.
+> > > block/scsi_ioctl.c:707 scsi_put_cdrom_generic_arg() warn: check that 'cgc32' doesn't leak information (struct has a hole after 'data_direction')
 > >
-> > Note that this is a double-edged sword, because it is not necessarily
-> > better to leave the firmware in charge of deciding what to do in such
-> > a case. :) So hopefully these are only specified once per frame in the
-> > bitstream, in which case your proposal makes complete sense.
+> > I see no padding in this one, should be fine AFAICT. Any idea why you
+> > get a warning
+> > for this instance?
+> >
 >
-> Frame-based hardwares accelerators such as Hantro and Rockchip VDEC
-> are doing the slice header parsing themselves. Therefore, the
-> driver is not really parsing these fields on each slice header.
+> The warning message only prints the first struct hole or uninitialized
+> struct memeber.  ->data_direction in this case.
 >
-> Currently, we are already using only the first slice in a frame,
-> as you can see from:
+> block/scsi_ioctl.c
+>    646  #ifdef CONFIG_COMPAT
+>    647  struct compat_cdrom_generic_command {
+>    648          unsigned char   cmd[CDROM_PACKET_SIZE];
+>    649          compat_caddr_t  buffer;
+>    650          compat_uint_t   buflen;
+>    651          compat_int_t    stat;
+>    652          compat_caddr_t  sense;
+>    653          unsigned char   data_direction;
 >
->         if (slices[0].flags & V4L2_H264_SLICE_FLAG_FIELD_PIC)
->                 reg |= G1_REG_DEC_CTRL0_PIC_FIELDMODE_E;
+> There is going to be 3 bytes of padding between this char and the next
+> int.
 >
-> Even if these fields are transported in the slice header,
-> I think it makes sense for us to split them into the decode params
-> (per-frame) control.
+>    654          compat_int_t    quiet;
+>    655          compat_int_t    timeout;
+>    656          compat_caddr_t  reserved[1];
+>    657  };
+>    658  #endif
 >
-> They are really specified to be the same across all slices,
-> so even I'd say if a bitstream violates this, it's likely
-> either a corrupted bitstream or an encoder bug.
->
-> OTOH, one thing this makes me realize is that the slice params control
-> is wrongly specified as an array.
+> The bug seems real, but it depends on the compiler of course.
 
-It is _not_.
+Right, I misread the single 'char' in there.
 
-> Namely, this text
-> should be removed:
->
->        This structure is expected to be passed as an array, with one
->        entry for each slice included in the bitstream buffer.
->
-> As the API is really not defined that way.
->
-> I'll remove that on next iteration.
 
-The v4l2_ctrl_h264_slice_params struct has more data than those that
-are deemed to be the same across all the slices. A remarkable example
-are the size and start_byte_offset fields.
+> > > drivers/input/misc/uinput.c:743 uinput_ff_upload_to_user() warn: check that 'ff_up_compat' doesn't leak information (struct has a hole after 'replay')
+> >
+> > This one hs padding in it and looks broken.
+>
+> No.  This a bug in smatch.  It's memcpy() over the hole, but the check
+> isn't capturing that.  The code is slightly weird...  I could try
+> silence the warning but it would only silence this one false positive so
+> I haven't investigated it.
+
+
+Ah right, and the structure it copies in turn comes from user space
+originally.
+
+> > > drivers/scsi/megaraid/megaraid_mm.c:824 kioc_to_mimd() warn: check that 'cinfo.base' doesn't leak information
+> >
+> > Seems fine due to __packed annotation.
+> >
+>
+> It's not related __packed.  Smatch is saying that cinfo.base isn't
+> necessarily initialized.
+>
+> drivers/scsi/megaraid/megaraid_mm.c
+>    816
+>    817                  case MEGAIOC_QADAPINFO:
+>    818
+>    819                          hinfo = (mraid_hba_info_t *)(unsigned long)
+>    820                                          kioc->buf_vaddr;
+>    821
+>    822                          hinfo_to_cinfo(hinfo, &cinfo);
+>
+> hinfo_to_cinfo() is a no-op if hinfo is NULL.  Smatch can't tell if
+> "hinfo" is non-NULL.
+
+Ok, that sounds fair, I couldn't easily tell either ;-)
+
+     Arnd
