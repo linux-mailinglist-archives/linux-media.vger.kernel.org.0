@@ -2,94 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7145922E709
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 09:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF06622E70D
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 09:57:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727787AbgG0H4g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 03:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33426 "EHLO
+        id S1727804AbgG0H4l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 03:56:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727115AbgG0H4g (ORCPT
+        with ESMTP id S1726825AbgG0H4l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 03:56:36 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27001C0619D2
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 00:56:36 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id mt12so1395122pjb.4
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 00:56:36 -0700 (PDT)
+        Mon, 27 Jul 2020 03:56:41 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9FEBC0619D2;
+        Mon, 27 Jul 2020 00:56:40 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id u64so14426315qka.12;
+        Mon, 27 Jul 2020 00:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=students-iitmandi-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0aKrJE9Py1tsJLs5WZM0aY5vQOQN0nZ3c2moryg/s6o=;
-        b=nJNa9uz6VP84cme/Py+7ka0vfYx0GHGjSdy+npdBPeWmYgPEbYcuQSwKl70c6tQznU
-         nZWXmTV5IlZSxcu+V65H3m39JrNlWZYJa9U+P5BQ3e9i2sm3aPXlBg3gYw/OxoL0uH0K
-         AKf/FDJg+r7S9Ct4qiQbvMQTrzLzD7XsUI5P2LBVT7mRzoH8OfEgJFLMMd2A7xkJ7I8X
-         14jGy3dttcfKGt0fMIKAmPkglAUQ9NHV84Zx/NWxR+Ymw1kzmsgPYHQn2CfM+CdTyXId
-         oF0CCY5j2SfxRJYvWZKhWjju9bXKPeaibtjN36DZAgQke7tdg/Eqe1d3QrWo2I6oEqc7
-         dluw==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=N6upqxCfyW0GVZHe453idrIKQhFzkY5bo/oAq5M3uGE=;
+        b=MG5CBLtyWpDp74hy9XAMKqGEpWa8mR8mZm6FLz3EmFUhHuNS6Cc+ucxF/8J3Kwilww
+         ctoLd7ZrsXx6WGMNMV4rJbnd27tJ1/e4rtMyJBuCTqpVNAAoNo99DbKA44lj0OjjfjF3
+         SNqKyxqlob+pKDiCPnI21KXkXmZNE53JjrZ3oENbp1qhQTFUoABDRLmgacaHzT4HdKI4
+         tBXnGOlWKicNc5GHjatI5XupCQPIIbGS5yKAF0NRmIBtDgzck+d0RDxmQyQh1BrnGohf
+         L7vVZJdawFwAO9/0fnkuLd6z7+8TZ0QuPIM0GgkOvt+scBTGTnMDfHPP4eA37TtOMW0V
+         Z1LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0aKrJE9Py1tsJLs5WZM0aY5vQOQN0nZ3c2moryg/s6o=;
-        b=frgreH9Z6voJAXQhEpUNktn4T1Hdr+x5j9kJ/NVQkAb6/is+urrP9ieZHe7qvIvCsU
-         9gLxCFE3zh8k8DpWevOubw//QirJJ8A2Pz0mY9x00mo8ZpBqvIfcflD0mH0uyET0wy18
-         PKdLgsAxlfxmsWUwtYDTBt1RBBHdeHeMMURUS27hVggAdE/eDMAnW20AtOqziLRtsh1G
-         ou6VCYdAsibkn7qxPpH3Gbhxdaqh3bxYsq49BIeCopAIJc6h3eC8dqv01DrJkBpFo52y
-         1F8PFVjFu7d/+zIhjxWBthBi4kmJeNyfg87w7ZBr380cALGSYUN1RedPILvERhrjbGJb
-         s6ug==
-X-Gm-Message-State: AOAM531Rsu2sBVIDqJUXMLHYKfgpUbIoLYYEoZrYilCiRTn8/QSfMKvu
-        ha1VGXEQW9cPay2i1C7LdzrQmQ==
-X-Google-Smtp-Source: ABdhPJyLqbVZbqonRnh1UxubYv7PTVMPqTP/SSuLKnbNXZqLsYVNeIWLdbuKO4BlbLBehkSJoGEcLA==
-X-Received: by 2002:a17:90a:e96:: with SMTP id 22mr6389287pjx.135.1595836595721;
-        Mon, 27 Jul 2020 00:56:35 -0700 (PDT)
-Received: from devil-VirtualBox.www.tendawifi.com ([103.198.174.215])
-        by smtp.gmail.com with ESMTPSA id u21sm1312338pjn.27.2020.07.27.00.56.32
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=N6upqxCfyW0GVZHe453idrIKQhFzkY5bo/oAq5M3uGE=;
+        b=n5lKm0aelthxd5acWViGEO+Na3KO2FzDa5aLiOrytn+EOrtg119YeVO9LSxLBQkEep
+         3IY3wrDnm107wRbB24p9Q6Qu7A9YKYRf2ebO+9Pkmwm4mF96IDDN1DB+R9TAqTthuAAS
+         bSmn6ncI+2YkIBSAlXgmdz8qGNpdA09hKJufwu3sSLnW6u7MJ4mTvKItoAreP8RP/cET
+         QGYaK3HMDWhShlCMW/dJgIu3sEaWqEPaYulqbZEjsZQd8LF/DaHA2rxKXDLN7tmSs9IY
+         0sfyXdTMFNJf2cMEFXWFGL1jInsRELnQbkOcSfkmHstEHTO38rlTK+wVp34Z5BANluLF
+         BtbQ==
+X-Gm-Message-State: AOAM531F4Z5Up/cTUGtg9P2IB2tkHgUU08OXmRSIPyprF87g5hF2FlMN
+        HVL8iIc0Y4pCHvefxqBi3A==
+X-Google-Smtp-Source: ABdhPJxAQQcavuqSCw162hVKCvTa60uFZJYYJ8f5F0oIw3F8nSrx6KfVDkWkp/ov+7P3mP9y4r3j/A==
+X-Received: by 2002:a37:61ce:: with SMTP id v197mr2776425qkb.44.1595836600043;
+        Mon, 27 Jul 2020 00:56:40 -0700 (PDT)
+Received: from PWN ([209.94.141.207])
+        by smtp.gmail.com with ESMTPSA id p4sm17340859qkj.135.2020.07.27.00.56.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 00:56:35 -0700 (PDT)
-From:   Ankit <b18007@students.iitmandi.ac.in>
-To:     mchehab@kernel.org
-Cc:     gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        b18007@students.iitmandi.ac.in
-Subject: [PATCH] Staging : media : atomisp : pci : fixed a brace coding sytle issue
-Date:   Mon, 27 Jul 2020 13:25:28 +0530
-Message-Id: <20200727075528.10418-1-b18007@students.iitmandi.ac.in>
-X-Mailer: git-send-email 2.25.1
+        Mon, 27 Jul 2020 00:56:39 -0700 (PDT)
+Date:   Mon, 27 Jul 2020 03:56:37 -0400
+From:   Peilin Ye <yepeilin.cs@gmail.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vandana BN <bnvandana@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
+ kernel-infoleak in video_put_user()
+Message-ID: <20200727075637.GA205716@PWN>
+References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
+ <20200726222703.102701-1-yepeilin.cs@gmail.com>
+ <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ankit Baluni<b18007@students.iitmandi.ac.in>
+On Mon, Jul 27, 2020 at 09:25:16AM +0200, Arnd Bergmann wrote:
+> On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> >
+> > video_put_user() is copying uninitialized stack memory to userspace due
+> > to the compiler not initializing holes in the structures declared on the
+> > stack. Fix it by initializing `ev32` and `vb32` using memset().
+> >
+> > Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
+> > Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> 
+> Thanks a lot for addressing this! I now see that I actually created a similar
+> bugfix for it back in January, but for some reason that got stuck in my
+> backlog and I never wrote a proper description for it or sent it out to the
+> list, sorry about that. I would hope we could find a way to have either
+> the compiler or sparse warn if we copy uninitialized data to user space,
+> but we now don't even check for that within the kernel any more.
 
-Fixed a coding style issue.
+I am glad to be of help!
 
-Signed-off-by: Ankit Baluni<b18007@students.iitmandi.ac.in>
+> I would suggest adding these tags to the patch, to ensure it gets backported
+> to stable kernels as needed:
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
+> Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for
+> time64 ABI")
+> 
+> In addition to
+> 
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Sure, I will send a v4 soon. Thank you for reviewing the patch.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 8ea65bef35d2..28b96b66f4f3 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -4981,9 +4981,8 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
- 	case ATOMISP_CAMERA_PORT_SECONDARY:
- 		return MIPI_PORT1_ID;
- 	case ATOMISP_CAMERA_PORT_TERTIARY:
--		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID) {
-+		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID)
- 			return MIPI_PORT1_ID + 1;
--		}
- 	/* fall through */
- 	default:
- 		dev_err(isp->dev, "unsupported port: %d\n", port);
--- 
-2.25.1
-
+Peilin Ye
