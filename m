@@ -2,255 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00C0822F94C
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 21:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C46E22FA73
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 22:53:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727088AbgG0Tn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 15:43:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726196AbgG0Tn4 (ORCPT
+        id S1727796AbgG0Uvv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 16:51:51 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9046 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727098AbgG0Uvu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 15:43:56 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFAD0C061794;
-        Mon, 27 Jul 2020 12:43:55 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 937F3283C24
-Message-ID: <dc7f9f199788581a4b37fc7e34466f7bd2173efb.camel@collabora.com>
-Subject: Re: [PATCH 08/10] media: uapi: h264: Clean slice invariants syntax
- elements
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reply-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Mon, 27 Jul 2020 15:43:48 -0400
-In-Reply-To: <CAAFQd5AeMcqk1MpWNeh1Vgt2rBOxjFj8Ar7=LLo80e8QKhYn3g@mail.gmail.com>
-References: <20200715202233.185680-1-ezequiel@collabora.com>
-         <20200715202233.185680-9-ezequiel@collabora.com>
-         <CAPBb6MVMXeTcUfb-98McYCKjh=eM=BTo2dSY=L1c6dv2jHqXcg@mail.gmail.com>
-         <636aab0a2be83e751a82a84ac3946afec2c87a17.camel@collabora.com>
-         <CAAFQd5DVfroAXRw+OT=EktDtVzRjPZYxnUS8daWQ5=3LLwn=SA@mail.gmail.com>
-         <e49635b95db0e295a85f1be9a3909f7f29495e3a.camel@collabora.com>
-         <CAAFQd5AeMcqk1MpWNeh1Vgt2rBOxjFj8Ar7=LLo80e8QKhYn3g@mail.gmail.com>
-Organization: Collabora
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-I2CSNZITBQto0ikavh36"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+        Mon, 27 Jul 2020 16:51:50 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f1f3e590000>; Mon, 27 Jul 2020 13:51:37 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 27 Jul 2020 13:51:50 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 27 Jul 2020 13:51:50 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 Jul
+ 2020 20:51:50 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 27 Jul 2020 20:51:50 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.168.236]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f1f3e650001>; Mon, 27 Jul 2020 13:51:49 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+Subject: [RFC PATCH v5 00/14] Support for Tegra video capture from external sensor
+Date:   Mon, 27 Jul 2020 13:57:18 -0700
+Message-ID: <1595883452-17343-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1595883097; bh=OiCERtwmnSrWrsnJYibLEpiEIKPHiyr+VvQpQKD3bk8=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=f0EbM19V7bPtnkOJkSwn7lQWweg8fjt3ho0TpwROO8ISQLat4KkZmJdN43vtHQVV5
+         aOrgzu/eCFqFmtwpk81WQYkaQ7YW82fzaGciKmlqaP1OHY0jYzomLvamnT9WuXpbhG
+         xt3q4mFwNBP4fSFiVDltXaayrrh/C1HI0iZDgJXWR3U7Jt4EyPrTZYKY5sDkuRTntt
+         lizOIOEf+Z5neFDm+Bmts5XokoprPEB6GEyFpD76xGE80i+mRzW6Ett4JAIhcdti85
+         T81gu6jR76vG1HkigmHgWQq49s8hT01TTUZnNSzCtwkkYxoEzycMV7jqe+wOyd/ZRH
+         Cn2wgsf1+8Enw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This series adds support for video capture from external camera sensor to
+Tegra video driver.
 
---=-I2CSNZITBQto0ikavh36
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Jetson TX1 has camera expansion connector and supports custom camera module
+designed as per TX1 design specification.
 
-Le lundi 27 juillet 2020 =C3=A0 20:10 +0200, Tomasz Figa a =C3=A9crit :
-> On Mon, Jul 27, 2020 at 6:18 PM Ezequiel Garcia <ezequiel@collabora.com> =
-wrote:
-> > On Mon, 2020-07-27 at 16:52 +0200, Tomasz Figa wrote:
-> > > On Mon, Jul 27, 2020 at 4:39 PM Ezequiel Garcia <ezequiel@collabora.c=
-om> wrote:
-> > > > Hi Alexandre,
-> > > >=20
-> > > > Thanks a lot for the review.
-> > > >=20
-> > > > On Sat, 2020-07-25 at 23:34 +0900, Alexandre Courbot wrote:
-> > > > > On Thu, Jul 16, 2020 at 5:23 AM Ezequiel Garcia <ezequiel@collabo=
-ra.com> wrote:
-> > > > > > The H.264 specification requires in its "Slice header semantics=
-"
-> > > > > > section that the following values shall be the same in all slic=
-e headers:
-> > > > > >=20
-> > > > > >   pic_parameter_set_id
-> > > > > >   frame_num
-> > > > > >   field_pic_flag
-> > > > > >   bottom_field_flag
-> > > > > >   idr_pic_id
-> > > > > >   pic_order_cnt_lsb
-> > > > > >   delta_pic_order_cnt_bottom
-> > > > > >   delta_pic_order_cnt[ 0 ]
-> > > > > >   delta_pic_order_cnt[ 1 ]
-> > > > > >   sp_for_switch_flag
-> > > > > >   slice_group_change_cycle
-> > > > > >=20
-> > > > > > and can therefore be moved to the per-frame decode parameters c=
-ontrol.
-> > > > >=20
-> > > > > I am really not a H.264 expert, so this question may not be relev=
-ant,
-> > > >=20
-> > > > All questions are welcome. I'm more than happy to discuss this patc=
-hset.
-> > > >=20
-> > > > > but are these values specified for every slice header in the
-> > > > > bitstream, or are they specified only once per frame?
-> > > > >=20
-> > > > > I am asking this because it would certainly make user-space code
-> > > > > simpler if we could remain as close to the bitstream as possible.=
- If
-> > > > > these values are specified once per slice, then factorizing them =
-would
-> > > > > leave user-space with the burden of deciding what to do if they c=
-hange
-> > > > > across slices.
-> > > > >=20
-> > > > > Note that this is a double-edged sword, because it is not necessa=
-rily
-> > > > > better to leave the firmware in charge of deciding what to do in =
-such
-> > > > > a case. :) So hopefully these are only specified once per frame i=
-n the
-> > > > > bitstream, in which case your proposal makes complete sense.
-> > > >=20
-> > > > Frame-based hardwares accelerators such as Hantro and Rockchip VDEC
-> > > > are doing the slice header parsing themselves. Therefore, the
-> > > > driver is not really parsing these fields on each slice header.
-> > > >=20
-> > > > Currently, we are already using only the first slice in a frame,
-> > > > as you can see from:
-> > > >=20
-> > > >         if (slices[0].flags & V4L2_H264_SLICE_FLAG_FIELD_PIC)
-> > > >                 reg |=3D G1_REG_DEC_CTRL0_PIC_FIELDMODE_E;
-> > > >=20
-> > > > Even if these fields are transported in the slice header,
-> > > > I think it makes sense for us to split them into the decode params
-> > > > (per-frame) control.
-> > > >=20
-> > > > They are really specified to be the same across all slices,
-> > > > so even I'd say if a bitstream violates this, it's likely
-> > > > either a corrupted bitstream or an encoder bug.
-> > > >=20
-> > > > OTOH, one thing this makes me realize is that the slice params cont=
-rol
-> > > > is wrongly specified as an array.
-> > >=20
-> > > It is _not_.
-> > >=20
-> >=20
-> > We introduced the hold capture buffer specifically to support
-> > this without having a slice array.
-> >=20
-> > I don't think we have a plan to support this control properly
-> > as an array.
-> >=20
-> > If we decide to support the slice control as an array,
-> > we would have to implement a mechanism to specify the array size,
-> > which we currently don't have AFAIK.
-> >=20
->=20
-> That wasn't the conclusion when we discussed this last time on IRC.
-> +Nicolas Dufresne
->=20
-> Currently the 1-slice per buffer model is quite impractical:
-> 1) the maximum number of buffers is 32, which for some streams can be
-> less than needed to queue a single frame,
+This series also enables camera capture support for Jetson Nano which has
+Raspberry PI camera header.
 
-To give more context, it seems the discussion was about being able to
-use slice decoder with a 1 poll() per frame model. Of course this will
-never be as efficient as when using a frame base decoder, but as
-current design, you can keep a list of pending request (each request is
-1 slice/buffer), and simply use memory pressure to poll a mid point and
-dequeue the remaining. An example, yo have 8 pending request, and reach
-your memory limit:
- =20
-  [R1, R2, R3, R4, R5, R6, R7, R8]
+This series is tested with IMX219 camera sensor.
 
-As requests are in order and behaves like memory fences, you can pick
-R6, and poll() that one. When R6 is ready, you can then dequeue R1 to
-R6 without blocking. In this context, a limit of 16 or 32 buffers seems
-fair, the optimization we can do in userspace is likely sufficient. So
-I'd like to drop problem 1) from our list.
+This series include,
 
-> 2) even more system call overhead due to the need to repeat various
-> operations (e.g. qbuf/dqbuf) per-slice rather than per-frame,
-> 3) no way to do hardware batching for hardware which supports queuing
-> multiple slices at a time,
-> 4) waste of memory - one needs to allocate all the OUTPUT buffers
-> pessimistically to accommodate the biggest possible slice, while with
-> all-slices-per-frame 1 buffer could be just heuristically allocated to
-> be enough for the whole frame.
->=20
-> These need to be carefully evaluated, with some proper testing done to
-> confirm whether they are really a problem or not.
+VI I2C related fixes
+- Camera sensor programming happens through VI I2C which is on host1x bus.
+- These patches includes device tree and I2C driver fixes for VI I2C.
 
-2, 3 and 4 seems to match what the currently unimplemented API propose.
-You can mitigate 2) but having multiple slices per buffers. That came
-with a byte offset to we can program the HW as if it was separate slice
-buffers. But was limited to 16 buffers, likely a fair compromise.
+Tegra video driver updates
+- TPG Vs Non-TPG based on Kconfig
+- Support for external sensor video capture based on device graph from DT.
+- Support for selection ioctl operations
+- Tegra MIPI CSI pads calibration
+- CSI T-CLK and T-HS settle time computation based on clock rates.
 
-3) is about batching, in the only use case we know, the batching
-acceleration consist of programming the next operation on the
-completion IRQ. I already looked with the Cedrus developers if and how
-that was feasible, but we don't have a PoC yet. The optimization is
-about removing context switches between operations, which could prevent
-fully using the HW.
+Host1x driver updates
+- Adds API to allow creating mipi device for specific device node.
+- Splits MIPI pads calibrate start and waiting for calibration to be done.
 
-4) is also well covered with being able to multiplex 1 buffer with
-multiple slices.
+Device tree updates
+- Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson TX1 DT.
+- Enabled VI and CSI support in Jetson Nano DT.
 
-To be fair, I understand why we'd like to drop this API, as none of the
-active developers here of slice decoder (cedrus) have time to engage in
-supporting this untested "optimization". It's not only about kernel
-support, but also requires userspace work. I also agree that it could
-be added later, as an extension. It could be done with 3 new controls,
-an array of slice_params and an array of slice start offset and the
-number of slices, or just one, introduce a new structure that have a
-slice_params structure embedded, num_slices and an array of
-slice_start_offset. I don't have preference myself, but I'm just
-illustrating that yes, we could drop the slice batching to avoid
-pushing untested APIs without scarifying our ability to decode a valid
-stream.
 
->=20
-> > > > Namely, this text
-> > > > should be removed:
-> > > >=20
-> > > >        This structure is expected to be passed as an array, with on=
-e
-> > > >        entry for each slice included in the bitstream buffer.
-> > > >=20
-> > > > As the API is really not defined that way.
-> > > >=20
-> > > > I'll remove that on next iteration.
-> > >=20
-> > > The v4l2_ctrl_h264_slice_params struct has more data than those that
-> > > are deemed to be the same across all the slices. A remarkable example
-> > > are the size and start_byte_offset fields.
-> >=20
-> > Not sure how this applies to this discussion.
->=20
-> These fields need to be specified for each slice in the buffer to make
-> it possible to handle multiple slices per buffer.
->=20
-> Best regards,
-> Tomasz
+Delta between patch versions:
+[v5]:	Includes below minor change based on v4 feedback
+	Patch-0012: renames APIs to use calibration instead of calibrate.
 
---=-I2CSNZITBQto0ikavh36
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+	Note:
+	Patch-0010 has compilation dependency on
+	https://patchwork.kernel.org/patch/11659521/
 
------BEGIN PGP SIGNATURE-----
+[v4]:	Includes below fix based on v3 feedback
+	- Patches are based on latest linux-next.
+	- With split of tegra_mipi_calibrate() and tegra_mipi_wait(), mipi
+	  clock is not left enabled till calibration done. This series adds
+	  a patch to fix this by keeping clock enabled till calibration is
+	  done.
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXx8udAAKCRBxUwItrAao
-HO8iAJ9Iu/bekf0T/cMTEzaJM8oZQwJvfgCeMMAuRTuDSsg/J+CoTqXG/xOGdZE=
-=3UbG
------END PGP SIGNATURE-----
+	Note:
+	Patch-0010 has compilation dependency on
+	https://patchwork.kernel.org/patch/11659521/
 
---=-I2CSNZITBQto0ikavh36--
+[v3]:	Includes v2 feedback
+	- Uses separate helper function for retrieving remote csi subdevice
+	  and source subdevice.
+	- Added check for presence of subdevice ops set/get_selection
+	- dropped vb2_queue_release from driver and using
+	  vb2_video_unregister_device instead of video_unregister_device.
+	- video device register should happen in the last after all video
+	  device related setup is done in the driver. This is being addressed
+	  in below RFC patch. Once proper implementation of this is available
+	  will update Tegra video driver to use split APIs and do all setup
+	  prior to device register. Added this as TODO in the driver.
+	  https://www.spinics.net/lists/linux-media/msg172761.html
+
+	Note:
+	Patch-0012 has compilation dependency on
+	https://patchwork.kernel.org/patch/11659521/
+
+
+[v2]:	Includes below changes based on v1 feedback
+	- dt-binding document and the driver update for device graph to use
+	  separate ports for sink endpoint and source endpoint for csi.
+	- Use data-lanes endpoint property for csi.
+	- Update tegra_mipi_request() to take device node pointer argument
+	  rather than adding extra API.
+	- Remove checking for clk pointer before clk_disable.
+
+Sowjanya Komatineni (14):
+  i2c: tegra: Don't mark VI I2C as IRQ safe runtime PM
+  i2c: tegra: Remove NULL pointer check before
+    clk_enable/disable/prepare/unprepare
+  i2c: tegra: Fix the error path in tegra_i2c_runtime_resume
+  i2c: tegra: Fix runtime resume to re-init VI I2C
+  i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra210 vi i2c
+  media: tegra-video: Fix channel format alignment
+  media: tegra-video: Enable TPG based on kernel config
+  media: tegra-video: Update format lookup to offset based
+  dt-bindings: tegra: Update VI and CSI bindings with port info
+  media: tegra-video: Add support for external sensor capture
+  media: tegra-video: Add support for selection ioctl ops
+  gpu: host1x: mipi: Keep MIPI clock enabled till calibration is done
+  media: tegra-video: Add CSI MIPI pads calibration
+  media: tegra-video: Compute settle times based on the clock rate
+
+ .../display/tegra/nvidia,tegra20-host1x.txt        |  92 ++-
+ drivers/gpu/drm/tegra/dsi.c                        |   4 +-
+ drivers/gpu/host1x/mipi.c                          |  19 +-
+ drivers/i2c/busses/i2c-tegra.c                     | 101 +--
+ drivers/staging/media/tegra-video/Kconfig          |   7 +
+ drivers/staging/media/tegra-video/TODO             |   6 -
+ drivers/staging/media/tegra-video/csi.c            | 258 ++++++-
+ drivers/staging/media/tegra-video/csi.h            |   8 +
+ drivers/staging/media/tegra-video/tegra210.c       |  25 +-
+ drivers/staging/media/tegra-video/vi.c             | 800 +++++++++++++++++++--
+ drivers/staging/media/tegra-video/vi.h             |  25 +-
+ drivers/staging/media/tegra-video/video.c          |  23 +-
+ include/linux/host1x.h                             |   5 +-
+ 13 files changed, 1224 insertions(+), 149 deletions(-)
+
+-- 
+2.7.4
 
