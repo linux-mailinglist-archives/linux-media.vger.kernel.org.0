@@ -2,148 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A209322E62A
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 08:58:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16BAD22E673
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 09:25:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726890AbgG0G63 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 02:58:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46942 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726116AbgG0G62 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 02:58:28 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7CF12072E;
-        Mon, 27 Jul 2020 06:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595833107;
-        bh=v3uxQUZIUFYNREgoRDKNAzU54DfWJ9M6hRyKdLri09w=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=A2+300saTc3WWp3BS3NdrKDHfwdaZK/MaKd7G//I+IMugo7r+Ak0JgIu2V3YIoawq
-         t3M3rlFXRTyrrKyno+/bWkwLHvpukpxt5hs8jrXL4cESCnu9ZYX6IhYxOHKY6NhOKk
-         HH27mZsQzBVl+DeWEXAcK6YyVdN8SwdzYx7+O3kE=
-Date:   Mon, 27 Jul 2020 08:58:23 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Rosen Penev <rosenp@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 7/8] [clang-tidy] fix mismatching declarations
-Message-ID: <20200727085823.78fa67c8@coco.lan>
-In-Reply-To: <20200727031456.232955-8-rosenp@gmail.com>
-References: <20200727031456.232955-1-rosenp@gmail.com>
-        <20200727031456.232955-8-rosenp@gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726706AbgG0HZg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 03:25:36 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:52995 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726116AbgG0HZg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Jul 2020 03:25:36 -0400
+Received: from mail-qt1-f174.google.com ([209.85.160.174]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MrQN5-1kc6LS1RQ7-00oSaW; Mon, 27 Jul 2020 09:25:33 +0200
+Received: by mail-qt1-f174.google.com with SMTP id k18so11476309qtm.10;
+        Mon, 27 Jul 2020 00:25:33 -0700 (PDT)
+X-Gm-Message-State: AOAM532evHLRZt1xnU3P9FMl3ZraIadYspfVI5Vomrdbvzy9ZxVO1OPI
+        qxumO0Av/Q4pPojkPWhRX+2CehV5T+ovqeEIF5E=
+X-Google-Smtp-Source: ABdhPJwWLr1eTQmOXplkFU6XSrVj3kjpURsSxQSIWVgU+rgY8vc+FCSJgM46ph7HyxcrmOsXIwIa1wuoiXAbMCg8mWw=
+X-Received: by 2002:aed:33e7:: with SMTP id v94mr18147736qtd.18.1595834732135;
+ Mon, 27 Jul 2020 00:25:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200726220557.102300-1-yepeilin.cs@gmail.com> <20200726222703.102701-1-yepeilin.cs@gmail.com>
+In-Reply-To: <20200726222703.102701-1-yepeilin.cs@gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 27 Jul 2020 09:25:16 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+Message-ID: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
+ kernel-infoleak in video_put_user()
+To:     Peilin Ye <yepeilin.cs@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vandana BN <bnvandana@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Pvkn78eH0tOJf1RFljQq0oDnVVH7E+/mtWTzh0OZ61SmInkuDGg
+ lQ3UluJCbw1dkfypL+PduslEGlPeO2uD+Lj3fwuYYLKKtFhvZTcugw5EqR1eaxlq567DoAO
+ +XBUvz2a442uXtXHTLTJ0FVCQ/oClATX8n9+XvvAQcwIgbpinnBpxyn311yh8YgiTdoNEuS
+ n2vMJker2LIcbxoXziSrA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l8yhX0La2Kw=:H87blivzVsgm1iYavydGII
+ QPGdLMTp92t8lUhTRnAALef8MV9tOwxvzVOYIjqyjS2kmqsjU3vIYXIs48ahj1ZlRaP/sp/vu
+ 3B+v1yEreVmaKyynRVfr2pHMKLfmDDzmyJ2e2DXqNwrnHOM3Glr6GJ03Trw+U5fJAJS5SHPOQ
+ uO7+n8rNUSk+5qub8bEw13yBaXtRtlxVEnPmOmRI0nEdWyXx+dugVhsC19qirqQf9Wv6NjlKf
+ koAt4ieGEVWppFB3sNx0MaQV65V7423su4SS06OWeq+ugs9/w3G0XosYQpTvahKteRmsPKFIl
+ 8WZLLkHGJNwVF6veBxCXNmCZXaJX8xNxddgaWhrSF4j2g9V76VuT9Po4VzRk7+p9rk2ngBn5y
+ R74+gOAk8OtyZYt6mbaZitvMkjVLp00CulPvqCGVUwJZyPUHAOtU11m3HM/DG2SrZGpOk82iw
+ D+unrqN3nxvA5sB9K/YTdF9mY6if7XMBzHgsvPOZdmmlosyBZ9yaA93F3qcu/6AlJxGK+3QFN
+ Kf/TJ76qZFqe63Jz2KCtLetPX8A/IQXu7wBHn5pu7HDVK+qjjdNikrYyfn3ckysAjjfleGMeb
+ Nm8CWsHJcDI3sTe8oC+vm4iEQp+amyLMAdAoSha55/UUM0qe+8drnn5Irmu+MBeiot3ic6GHG
+ eTnRs8e2dkVDHMabPsls5Oc3GWldlYYJ7Jl3rbY6bgsXWgt56Sz8J/piopWWwOLD/5TRzlpN0
+ PuxjoCuD2fAD6ZC2hvZC9cbbmMaCIPivKQ+6XwC0+o5pa8AsD5/alD2yH3QZZz7lO3PGkBReh
+ et9bmtcjn2GUFjpRkKcKy4YLPJ+olxpLrNWqZ3pYzdQv7itsqCojzez8zmII8RjWun4Ljm1vS
+ AhBfx6ZwjN4CXetQokg8iWRtvZXSb3czRjjngwDILilNwxV3NvEhr0BAc87lTPjvesJ/bsIG2
+ yZ7Dx4js7OllOYMstz+5fdPkHhRBdm4Pq2lgRVW2IBlUX9Tnwp5BL
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sun, 26 Jul 2020 20:14:55 -0700
-Rosen Penev <rosenp@gmail.com> escreveu:
+On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+>
+> video_put_user() is copying uninitialized stack memory to userspace due
+> to the compiler not initializing holes in the structures declared on the
+> stack. Fix it by initializing `ev32` and `vb32` using memset().
+>
+> Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 
-> Found with readability-inconsistent-declaration-parameter-name
-> 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
->  lib/include/libdvbv5/atsc_eit.h               |  4 +-
->  lib/include/libdvbv5/cat.h                    |  4 +-
->  lib/include/libdvbv5/descriptors.h            |  2 +-
->  lib/include/libdvbv5/dvb-demux.h              |  2 +-
->  lib/include/libdvbv5/dvb-dev.h                |  2 +-
->  lib/include/libdvbv5/dvb-fe.h                 |  2 +-
->  lib/include/libdvbv5/dvb-file.h               |  4 +-
->  lib/include/libdvbv5/dvb-scan.h               | 16 +++----
->  lib/include/libdvbv5/eit.h                    |  4 +-
->  lib/include/libdvbv5/header.h                 |  4 +-
->  lib/include/libdvbv5/mgt.h                    |  4 +-
->  lib/include/libdvbv5/mpeg_pes.h               |  2 +-
->  lib/include/libdvbv5/nit.h                    |  6 +--
->  lib/include/libdvbv5/pat.h                    |  4 +-
->  lib/include/libdvbv5/pmt.h                    |  4 +-
->  lib/include/libdvbv5/sdt.h                    |  4 +-
->  lib/include/libdvbv5/vct.h                    |  4 +-
->  lib/include/libv4l2.h                         |  2 +-
->  lib/libdvbv5/parse_string.h                   |  2 +-
->  lib/libv4lconvert/libv4lconvert-priv.h        | 48 +++++++++----------
->  .../processing/libv4lprocessing.h             |  2 +-
->  lib/libv4lconvert/tinyjpeg.h                  |  2 +-
->  utils/common/v4l-stream.h                     |  4 +-
->  utils/keytable/bpf.h                          |  6 +--
->  utils/libcecutil/cec-log.cpp                  | 12 ++---
->  25 files changed, 75 insertions(+), 75 deletions(-)
-> 
-> diff --git a/lib/include/libdvbv5/atsc_eit.h b/lib/include/libdvbv5/atsc_eit.h
-> index 5e52087c..18ae599d 100644
-> --- a/lib/include/libdvbv5/atsc_eit.h
-> +++ b/lib/include/libdvbv5/atsc_eit.h
-> @@ -192,7 +192,7 @@ ssize_t atsc_table_eit_init(struct dvb_v5_fe_parms *parms, const uint8_t *buf,
->   *
->   * @param table pointer to struct atsc_table_eit to be freed
->   */
-> -void atsc_table_eit_free(struct atsc_table_eit *table);
-> +void atsc_table_eit_free(struct atsc_table_eit *eit);
->  
->  /**
->   * @brief Prints the content of the ATSC EIT table
-> @@ -202,7 +202,7 @@ void atsc_table_eit_free(struct atsc_table_eit *table);
->   * @param table pointer to struct atsc_table_eit
->   */
->  void atsc_table_eit_print(struct dvb_v5_fe_parms *parms,
-> -			  struct atsc_table_eit *table);
-> +			  struct atsc_table_eit *eit);
+Thanks a lot for addressing this! I now see that I actually created a similar
+bugfix for it back in January, but for some reason that got stuck in my
+backlog and I never wrote a proper description for it or sent it out to the
+list, sorry about that. I would hope we could find a way to have either
+the compiler or sparse warn if we copy uninitialized data to user space,
+but we now don't even check for that within the kernel any more.
 
-A change like that will break the documentation build, as it relies
-on "table" name for this parameter:
+I would suggest adding these tags to the patch, to ensure it gets backported
+to stable kernels as needed:
 
-	/**
-	 * @brief Prints the content of the ATSC EIT table
-	 * @ingroup dvb_table
-	 *
-	 * @param parms	struct dvb_v5_fe_parms pointer to the opened device
-	 * @param table pointer to struct atsc_table_eit
-	 */
-	void atsc_table_eit_print(struct dvb_v5_fe_parms *parms,
-				  struct atsc_table_eit *table);
+Cc: stable@vger.kernel.org
+Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
+Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for
+time64 ABI")
 
-So, if this is willing to be changed, the kerneldoc header would
-need a similar change...
+In addition to
 
-> diff --git a/lib/include/libdvbv5/dvb-fe.h b/lib/include/libdvbv5/dvb-fe.h
-> index 96657013..4bd94108 100644
-> --- a/lib/include/libdvbv5/dvb-fe.h
-> +++ b/lib/include/libdvbv5/dvb-fe.h
-> @@ -732,7 +732,7 @@ int dvb_fe_is_satellite(uint32_t delivery_system);
->   * "COUNTRY" property in dvb_fe_set_parm() overrides the setting.
->   */
->  int dvb_fe_set_default_country(struct dvb_v5_fe_parms *parms,
-> -			       const char *country);
-> +			       const char *cc);
->  
->  #ifdef __cplusplus
->  }
-
-...yet, some of those changes are not ok.
-
-I mean, while it is OK to use "cc" inside the function implementation
-(it is an alias for Country code), at the headers - and at the 
-documentation, which is created by Doxygen, it should keep a better 
-description.
-
-Btw, the main reason why the headers don't match the implementation
-is because those parameter names changed when we added support for
-Doxygen. The goal was to have parameter names that would be
-clearer about what the parameter was meant for.
-
-So, if you want to have both using the same name, specially for a
-parameter like "country", the change should be done inside the 
-implementation, and not at the header.
-
-Just to mention, I'm OK on keeping both declaration and usage in 
-sync, although this change shouldn't affect C++11, as the 
-implementation is in C.
-
-Thanks,
-Mauro
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
