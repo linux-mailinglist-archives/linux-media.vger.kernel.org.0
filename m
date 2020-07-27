@@ -2,73 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAD7322E73A
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 10:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E292622E735
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 10:02:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgG0ICs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 04:02:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34392 "EHLO
+        id S1726975AbgG0ICE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 04:02:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726387AbgG0ICs (ORCPT
+        with ESMTP id S1726183AbgG0ICE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 04:02:48 -0400
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27EE8C0619D2;
-        Mon, 27 Jul 2020 01:02:48 -0700 (PDT)
-Received: by mail-qv1-xf44.google.com with SMTP id j10so358389qvo.13;
-        Mon, 27 Jul 2020 01:02:48 -0700 (PDT)
+        Mon, 27 Jul 2020 04:02:04 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED8DC0619D2
+        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 01:02:04 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id k4so7587223pld.12
+        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 01:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=J3cQXzpZBg3Vtk5bdGvdVAHaa0sFWRNtivX5Db04OBA=;
-        b=dbO4DzeJoT4j/TG1g7aRqmAN97/rmvbXCgY0YIU+CKb91Nf2TrIJR0nnw1SpeI4Us3
-         8LT+osFW8Hg45Zhs9ffuzPawoTve2Buq0CelaGklZTuUecawIWX9rdUIGP7bZkKwj1mY
-         r/vf2FL+CNrfHec3DM8auarsv2yyXhY831G+200uHV0Au8aiEaYxd2WC0NF2l5R0+6t9
-         xh/tRtP+x5LRl2sgUsXEhnP3RvpHg02OA2SXbEOUHUb7R9HkjeBkQqXHiw8jtb1RNEgm
-         cPek2E6EtSE7T64GAhal8elJmXCTELnGUIxdACayGdK0sYUgNLOsHmyIyb+1LaJ2XgVN
-         dtBQ==
+        d=students-iitmandi-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0aKrJE9Py1tsJLs5WZM0aY5vQOQN0nZ3c2moryg/s6o=;
+        b=KKqLZ5nwx7nxpoPwMu9qwSR1JM5EddcoP1pbxCt7v3rbmO55ujS/kCvtb6LFy0pXOt
+         1N8ISZQ8RPBeYIS6BLNxRucrOVz1Ixy4va6HxddeXzoN3OLxLmR5Z2iStw5nPR9k+8by
+         F8aWzDLSdvNQ0YT56u3WCrMZ5MkwhiXTAyDxMfKpSsFlD+lyrfSKIxHGTyVXSPnryIaN
+         nf/SSw0LsQNMMSMed5JIr/m/0CDjrRn5LGOvBbOo5DwMVPSIp3+Mz9O8mdp0hOhnbKOp
+         u/EMI8h5+BJmBut7v4UQFg544FzC1RpmJtOKdhU762u5NMuOlLLEhvtW7RKParzmyP3x
+         AtxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=J3cQXzpZBg3Vtk5bdGvdVAHaa0sFWRNtivX5Db04OBA=;
-        b=CuLLqNe1uSsajVdRexiwmE7JPdHmGhHc7xdWp5kzI7izdF2YOL8G8pxXMnAhP8B3/p
-         UMXP+j9PVHeMJUNx/Fnb6rVH4ANO2sSoHk7Tw7Iv5CW4ad9E85bOJjgH9aPkNFhxjqoS
-         XdnL8G1idlBr8JXg9jRb8m8mu4qn/3U/MDiWTwwfCiAHIsxaH0ozpBryLVfDwOyWHsQ7
-         o0AjWbee4mJwZc/3kXLg9uVO6QqjwoUl6UAd7+ihYYL0AxYoYes0Pj74IldrQKQVFreP
-         GH4RQKFnEPFasABHznfvscLNC9oQ3ZbHbh2W2GFgmveyeKCO+Zv2JMGufLlt+7nvXyao
-         9eJA==
-X-Gm-Message-State: AOAM533U2AWnyVCV/Nu9Mn+KLJJhKgNXS7fj6GpVdiYzyIq4posE2yjZ
-        unc9uaKNFYRRTFWIVgcgbsyUWRfMLg==
-X-Google-Smtp-Source: ABdhPJwvxrtKoMtBAPuC4VlZNTYeK4YEu4Wojy+ZJZ2qlzy3urGbyD2J2QlSRJJ01NqjCRiDc/OKyA==
-X-Received: by 2002:a0c:e789:: with SMTP id x9mr20072948qvn.135.1595836967417;
-        Mon, 27 Jul 2020 01:02:47 -0700 (PDT)
-Received: from localhost.localdomain ([209.94.141.207])
-        by smtp.gmail.com with ESMTPSA id 130sm16105123qkf.61.2020.07.27.01.02.46
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0aKrJE9Py1tsJLs5WZM0aY5vQOQN0nZ3c2moryg/s6o=;
+        b=KA6rPveNYOOw6xkvxmM9p8P6ZbosNRPX9K8XdtnPf3hkx5JxaxY4Xy34+1Xxe4AUOL
+         hj4hEUcPdEK7zISSQqvKO4uGr3O1su6S1mpYZ+kQtPWyDTkKNoiAzSLZqdfClBDNrBrK
+         KthSw6znEkFXnRuv0puLRUggJBmprGi7TDqNy8558Y4FzukFd8rBNqpVPKWzSEvSUmRX
+         QDS1mGIpRhZ9Pyca62L7OVxXyt+5R2R0VO65EqH7oq8xsgDVsNr0MMwA8/ZnDEDz4XzQ
+         aM00BHmWwqboLqGlPY+Hod3ZIwAWlEcyP/QA7oZEXildRqqJdMOk0pWGGuqquY/p/X8B
+         HVMg==
+X-Gm-Message-State: AOAM532JnHJaffQlflcpUQv4KLroEFAFWDS5urxDfiFw2csHKO2IxiVf
+        byK648r+e8oesTpqPn10VWoMJw==
+X-Google-Smtp-Source: ABdhPJxziIblCT8HYAbJj1Tahx3ppMGS4qWuh83g0+lwwyyTBn4XTjVDzrY+1PhUQvEXSnOUioUrLw==
+X-Received: by 2002:a17:90a:1109:: with SMTP id d9mr17853767pja.201.1595836923781;
+        Mon, 27 Jul 2020 01:02:03 -0700 (PDT)
+Received: from devil-VirtualBox.www.tendawifi.com ([103.198.174.215])
+        by smtp.gmail.com with ESMTPSA id bv17sm1164494pjb.0.2020.07.27.01.02.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 01:02:46 -0700 (PDT)
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        syzkaller-bugs@googlegroups.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vandana BN <bnvandana@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v4] media/v4l2-core: Fix kernel-infoleak in video_put_user()
-Date:   Mon, 27 Jul 2020 04:00:02 -0400
-Message-Id: <20200727080002.208829-1-yepeilin.cs@gmail.com>
+        Mon, 27 Jul 2020 01:02:03 -0700 (PDT)
+From:   Ankit <b18007@students.iitmandi.ac.in>
+To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, b18007@students.iitmandi.ac.in
+Subject: [PATCH] Staging : media : atomisp : pci : fixed a brace coding sytle issue
+Date:   Mon, 27 Jul 2020 13:31:50 +0530
+Message-Id: <20200727080150.10659-1-b18007@students.iitmandi.ac.in>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200726222703.102701-1-yepeilin.cs@gmail.com>
-References: <20200726222703.102701-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -76,100 +64,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-video_put_user() is copying uninitialized stack memory to userspace due
-to the compiler not initializing holes in the structures declared on the
-stack. Fix it by initializing `ev32` and `vb32` using memset().
+From: Ankit Baluni<b18007@students.iitmandi.ac.in>
 
-Cc: stable@vger.kernel.org
-Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
-Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for time64 ABI")
-Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+Fixed a coding style issue.
+
+Signed-off-by: Ankit Baluni<b18007@students.iitmandi.ac.in>
+
 ---
-Change in v4:
-    - Add `Cc:` and `Fixes:` tags. (Suggested by Arnd Bergmann <arnd@arndb.de>)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Change in v3:
-    - Improve the commit description. (Suggested by Laurent Pinchart
-      <laurent.pinchart@ideasonboard.com>)
-
-Change in v2:
-    - Do the same thing for `case VIDIOC_DQEVENT_TIME32`.
-
- drivers/media/v4l2-core/v4l2-ioctl.c | 50 +++++++++++++++-------------
- 1 file changed, 27 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index a556880f225a..e3a25ea913ac 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3189,14 +3189,16 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
- #ifdef CONFIG_COMPAT_32BIT_TIME
- 	case VIDIOC_DQEVENT_TIME32: {
- 		struct v4l2_event *ev = parg;
--		struct v4l2_event_time32 ev32 = {
--			.type		= ev->type,
--			.pending	= ev->pending,
--			.sequence	= ev->sequence,
--			.timestamp.tv_sec  = ev->timestamp.tv_sec,
--			.timestamp.tv_nsec = ev->timestamp.tv_nsec,
--			.id		= ev->id,
--		};
-+		struct v4l2_event_time32 ev32;
-+
-+		memset(&ev32, 0, sizeof(ev32));
-+
-+		ev32.type	= ev->type;
-+		ev32.pending	= ev->pending;
-+		ev32.sequence	= ev->sequence;
-+		ev32.timestamp.tv_sec	= ev->timestamp.tv_sec;
-+		ev32.timestamp.tv_nsec	= ev->timestamp.tv_nsec;
-+		ev32.id		= ev->id;
- 
- 		memcpy(&ev32.u, &ev->u, sizeof(ev->u));
- 		memcpy(&ev32.reserved, &ev->reserved, sizeof(ev->reserved));
-@@ -3210,21 +3212,23 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
- 	case VIDIOC_DQBUF_TIME32:
- 	case VIDIOC_PREPARE_BUF_TIME32: {
- 		struct v4l2_buffer *vb = parg;
--		struct v4l2_buffer_time32 vb32 = {
--			.index		= vb->index,
--			.type		= vb->type,
--			.bytesused	= vb->bytesused,
--			.flags		= vb->flags,
--			.field		= vb->field,
--			.timestamp.tv_sec	= vb->timestamp.tv_sec,
--			.timestamp.tv_usec	= vb->timestamp.tv_usec,
--			.timecode	= vb->timecode,
--			.sequence	= vb->sequence,
--			.memory		= vb->memory,
--			.m.userptr	= vb->m.userptr,
--			.length		= vb->length,
--			.request_fd	= vb->request_fd,
--		};
-+		struct v4l2_buffer_time32 vb32;
-+
-+		memset(&vb32, 0, sizeof(vb32));
-+
-+		vb32.index	= vb->index;
-+		vb32.type	= vb->type;
-+		vb32.bytesused	= vb->bytesused;
-+		vb32.flags	= vb->flags;
-+		vb32.field	= vb->field;
-+		vb32.timestamp.tv_sec	= vb->timestamp.tv_sec;
-+		vb32.timestamp.tv_usec	= vb->timestamp.tv_usec;
-+		vb32.timecode	= vb->timecode;
-+		vb32.sequence	= vb->sequence;
-+		vb32.memory	= vb->memory;
-+		vb32.m.userptr	= vb->m.userptr;
-+		vb32.length	= vb->length;
-+		vb32.request_fd	= vb->request_fd;
- 
- 		if (copy_to_user(arg, &vb32, sizeof(vb32)))
- 			return -EFAULT;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 8ea65bef35d2..28b96b66f4f3 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -4981,9 +4981,8 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
+ 	case ATOMISP_CAMERA_PORT_SECONDARY:
+ 		return MIPI_PORT1_ID;
+ 	case ATOMISP_CAMERA_PORT_TERTIARY:
+-		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID) {
++		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID)
+ 			return MIPI_PORT1_ID + 1;
+-		}
+ 	/* fall through */
+ 	default:
+ 		dev_err(isp->dev, "unsupported port: %d\n", port);
 -- 
 2.25.1
 
