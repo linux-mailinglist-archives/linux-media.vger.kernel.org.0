@@ -2,76 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DA5622E438
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 05:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9A9922E449
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 05:15:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726932AbgG0DIt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Jul 2020 23:08:49 -0400
-Received: from smtpbgbr2.qq.com ([54.207.22.56]:33582 "EHLO smtpbgbr2.qq.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726044AbgG0DIt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Jul 2020 23:08:49 -0400
-X-QQ-mid: bizesmtp12t1595819273txqw0pfa
-Received: from localhost.localdomain (unknown [210.242.163.205])
-        by esmtp6.qq.com (ESMTP) with 
-        id ; Mon, 27 Jul 2020 11:07:51 +0800 (CST)
-X-QQ-SSF: 01400000002000P0ZF20B00A0000000
-X-QQ-FEAT: QjnoOdcw2Yw8E9sswuoGlMhfjozJc3UzV+uxJJRW9L8bW2UUuzlmi9RtxA2un
-        6jIf2edYYxIVguVktR54n0/c1J+yGpBAQMD1bup3kJ3866tMU44A/kH7z96gtAWba9ITirD
-        BkFufO1TuxXtgv+ZoClMpPgAI68wM6q9odr80+Vo61rK7NQ9C3IauxMljLcXlCU3dTgJ+Mr
-        ldj/ey/pUI4pNfJpLen0+qgBTQJAeyD9uRFCPxwlcB+L9DcCIMtmhAc06cSXBXtVWDF8BWl
-        iL4qssoSahfpiXAsc2pnTrEoU4/X2kh/jcvwzazceq2UBtO9c8mW0UUmx/RXkJoYQSnP3ZS
-        VI+6SOUBlFBTKImTr+pUyu1rLd6Yg==
-X-QQ-GoodBg: 2
-From:   David Lu <david.lu@bitland.com.cn>
-To:     david.lu@bitland.com.cn
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: ov8856: decrease hs_trail time
-Date:   Mon, 27 Jul 2020 11:07:48 +0800
-Message-Id: <20200727030748.3791-1-david.lu@bitland.com.cn>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:bitland.com.cn:qybgforeign:qybgforeign5
-X-QQ-Bgrelay: 1
+        id S1727994AbgG0DPB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Jul 2020 23:15:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46616 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727948AbgG0DO6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 26 Jul 2020 23:14:58 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6378FC0619D2
+        for <linux-media@vger.kernel.org>; Sun, 26 Jul 2020 20:14:58 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id w17so7264388ply.11
+        for <linux-media@vger.kernel.org>; Sun, 26 Jul 2020 20:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5hMs4n8ytaXiC8AELvvR6J9wwKmNQs+XrXgS0LAK2GU=;
+        b=GwWy8SboULNDBcP5yg/lamPL87FP4WsGASzvCoNB7w8fz92EOuY9db7Y2bEJhXdyvV
+         RsBeyC8H2oVBN++rRZ937zlDmgnAPqGbbXYbfQhr/k7DNoVZzsgaoZmZrVHBx43Cr4zF
+         nOqu7X/YA2+Fmqftgc/jN+zwgtqynhN0xYjOsk5zPD5hs/UCEKp17QPpJoeX4a07TaNL
+         Ps1MXQgN5GoEnqAEZvFpssWkMCwtrviuCVHTJaMPlx+Rr6m/7mIb0PsDMxiEIzZnIqAQ
+         wozkyegaDSZp6/nrLsmiPtn4PYnS9LbOHx08t8xLbMIgntfTOZnhPxiKMUCEWncaklhp
+         1UWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5hMs4n8ytaXiC8AELvvR6J9wwKmNQs+XrXgS0LAK2GU=;
+        b=gjo5AkzrozlDsjMkYByiiTGX8SlK1MaGOHiLwPZYECkHA4PhpMFuW5DhWMIokmPJDG
+         ezxzwkMJi+eK3y0ZTPN//cyiyHn+0qZqTlDBkWv01h2PSqeQH78RX/EvzRCsHatnRb0A
+         R3Jae858piWTZ4yuDTgWmJRQY7sf2HbwPr0jqWbTDjSDY7y0GIVPYlnP4McQjp3YSAfu
+         LVvCXkVbE1gEiGcCX2uy0UpwGokJ1Q6VVxhsdeh4TVv8nF7eT/ywF0pmuk8dCnnXrifM
+         gJyO5VnQr1uebk9vvJrvV1apsJrG7li2pJW343DLW45Z2+cNWpcMFjIbKEaxkZmR3WDv
+         7viw==
+X-Gm-Message-State: AOAM533xoocksN8q4aknzlD4nNqB/CahW3SgBAGk6u7YJsr8KdbsjQk7
+        QJPHPVpn3gj696AFS9rW9hkGJ13nweI=
+X-Google-Smtp-Source: ABdhPJyS36fBG8M6N2fjKlKeTiF+lZXUmkHPjWC1jifdabEeYsbucwJMlrwfuK1aUtL3nROn0vRfFg==
+X-Received: by 2002:a17:90a:3044:: with SMTP id q4mr15338732pjl.81.1595819697677;
+        Sun, 26 Jul 2020 20:14:57 -0700 (PDT)
+Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
+        by smtp.gmail.com with ESMTPSA id t126sm13259345pfd.214.2020.07.26.20.14.56
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jul 2020 20:14:57 -0700 (PDT)
+From:   Rosen Penev <rosenp@gmail.com>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 0/8] v4l-utils: C++11 modernization
+Date:   Sun, 26 Jul 2020 20:14:48 -0700
+Message-Id: <20200727031456.232955-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To meet mipi hi speed transmission, decrease hs_trail time to pass mipi
-test.
+I noticed that the utils do not compile in C++98 mode as
+v4l2-test-buffers.cpp includes <atomic>, which is a C++11+ header.
 
-Signed-off-by: David Lu <david.lu@bitland.com.cn>
----
- drivers/media/i2c/ov8856.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Ran the codebase through clang-tidy and modernized the code slightly.
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index 4ca27675cc5a..1f1835b14a24 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -284,7 +284,7 @@ static const struct ov8856_reg mode_3280x2464_regs[] = {
- 	{0x4601, 0x80},
- 	{0x4800, 0x44},
- 	{0x4816, 0x53},
--	{0x481b, 0x58},
-+	{0x481b, 0x42},
- 	{0x481f, 0x27},
- 	{0x4837, 0x16},
- 	{0x483c, 0x0f},
-@@ -474,7 +474,7 @@ static const struct ov8856_reg mode_1640x1232_regs[] = {
- 	{0x4601, 0x80},
- 	{0x4800, 0x44},
- 	{0x4816, 0x53},
--	{0x481b, 0x58},
-+	{0x481b, 0x42},
- 	{0x481f, 0x27},
- 	{0x4837, 0x16},
- 	{0x483c, 0x0f},
+Rosen Penev (8):
+  fix GCC enum warning
+  [clang-tidy] convert to range based loops
+  [clang-tidy] use auto
+  [clang-tidy] use using instead of typedef
+  [clang-tidy] use emplace_back
+  [clang-tidy] convert files to reference
+  [clang-tidy] fix mismatching declarations
+  [clang-tidy] use explicit for single argument constructors
+
+ lib/include/libdvbv5/atsc_eit.h               |   4 +-
+ lib/include/libdvbv5/cat.h                    |   4 +-
+ lib/include/libdvbv5/descriptors.h            |   2 +-
+ lib/include/libdvbv5/dvb-demux.h              |   2 +-
+ lib/include/libdvbv5/dvb-dev.h                |   2 +-
+ lib/include/libdvbv5/dvb-fe.h                 |   2 +-
+ lib/include/libdvbv5/dvb-file.h               |   4 +-
+ lib/include/libdvbv5/dvb-scan.h               |  16 +--
+ lib/include/libdvbv5/eit.h                    |   4 +-
+ lib/include/libdvbv5/header.h                 |   4 +-
+ lib/include/libdvbv5/mgt.h                    |   4 +-
+ lib/include/libdvbv5/mpeg_pes.h               |   2 +-
+ lib/include/libdvbv5/nit.h                    |   6 +-
+ lib/include/libdvbv5/pat.h                    |   4 +-
+ lib/include/libdvbv5/pmt.h                    |   4 +-
+ lib/include/libdvbv5/sdt.h                    |   4 +-
+ lib/include/libdvbv5/vct.h                    |   4 +-
+ lib/include/libv4l2.h                         |   2 +-
+ lib/libdvbv5/parse_string.h                   |   2 +-
+ lib/libv4lconvert/libv4lconvert-priv.h        |  48 ++++----
+ .../processing/libv4lprocessing.h             |   2 +-
+ lib/libv4lconvert/tinyjpeg.h                  |   2 +-
+ utils/cec-compliance/cec-compliance.cpp       |   2 +-
+ utils/cec-compliance/cec-test.cpp             |  57 +++++----
+ utils/cec-ctl/cec-ctl.cpp                     |  34 +++---
+ utils/cec-follower/cec-follower.cpp           |   6 +-
+ utils/cec-follower/cec-processing.cpp         |  12 +-
+ utils/common/v4l-helpers.h                    |   2 +-
+ utils/common/v4l-stream.h                     |   4 +-
+ utils/keytable/bpf.h                          |   6 +-
+ utils/libcecutil/cec-info.cpp                 |  24 ++--
+ utils/libcecutil/cec-log.cpp                  |  12 +-
+ utils/libmedia_dev/get_media_devices.c        |   6 +-
+ utils/rds-ctl/rds-ctl.cpp                     |  18 ++-
+ utils/v4l2-compliance/v4l2-compliance.cpp     |  10 +-
+ utils/v4l2-compliance/v4l2-test-buffers.cpp   |  19 ++-
+ utils/v4l2-compliance/v4l2-test-formats.cpp   |  14 +--
+ utils/v4l2-compliance/v4l2-test-media.cpp     |   7 +-
+ utils/v4l2-ctl/v4l2-ctl-common.cpp            | 115 ++++++++----------
+ utils/v4l2-ctl/v4l2-ctl-overlay.cpp           |   4 +-
+ utils/v4l2-ctl/v4l2-ctl-streaming.cpp         |   9 +-
+ utils/v4l2-ctl/v4l2-ctl-vidcap.cpp            |   4 +-
+ utils/v4l2-ctl/v4l2-ctl.cpp                   |   8 +-
+ utils/v4l2-dbg/v4l2-dbg.cpp                   |   7 +-
+ 44 files changed, 243 insertions(+), 265 deletions(-)
+
 -- 
-2.17.1
-
-
+2.26.2
 
