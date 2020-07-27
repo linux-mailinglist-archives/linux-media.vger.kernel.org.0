@@ -2,111 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39EA122F3DA
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 17:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 336CC22F3F5
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jul 2020 17:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729693AbgG0Pah (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 11:30:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47988 "EHLO
+        id S1730580AbgG0PiO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jul 2020 11:38:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726744AbgG0Pag (ORCPT
+        with ESMTP id S1730722AbgG0PiO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 11:30:36 -0400
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C665C061794;
-        Mon, 27 Jul 2020 08:30:36 -0700 (PDT)
-Received: by mail-qv1-xf41.google.com with SMTP id u8so7616591qvj.12;
-        Mon, 27 Jul 2020 08:30:36 -0700 (PDT)
+        Mon, 27 Jul 2020 11:38:14 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44392C0619D5
+        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 08:38:14 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id b9so8194353plx.6
+        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 08:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=06/0Fc/CzxtKe/AQi80TbkGLzxKNq+FXAhjScQa1P0w=;
-        b=DMDO/s0VURJbuRU3EHjXuLMdKHeGJSp2p9miEcOKpygLfWx3etfGBJvyZT6YdaZv+D
-         cRoFG+Y+3ZnrS9yjMKJeiB0VelIwPoCw1EqPPnVv2zHz3BT28EHOgaRMlAD8lBHtJSV2
-         swA4A9tm6Gr6T7RraR1YT/GNZ2z1TVHDrKojgEASJ9i+C1WXyMQDEZvJIv8tYeF/jp7S
-         Tz9tY4hGgzbJZO8677sk2m2r2b3E4NQT2kL4hY1SAiikCv20LlP77egY5OY91ZRUSADj
-         BK240vqACl1y5S2tAum2n+iasGs2ljw/dzEQQdijqTFEuVEbFezqKj92L1fG5KWU/Mt+
-         X43A==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=NkVbGEZqq2gtUYFFHihdCf9UlSJbj6QF8gPVaF8Bfbo=;
+        b=SQNYbubVmJC7AL7K9qiuOd/Gn3pZrb2Pj6GSZkzj5uiofy/xe8+FFypgWHTLDIlppl
+         JCleeZ9of5qVBsZWWlVx7kXEfl+m3LqjmR2QBW7rfu9QuEuS5xziWEVE6GYrMCSrSs7O
+         kXoF4xAo3teKyO/XcsnRddniMMAbVRMgsTEv33E/v4LDLxnHshM4KCBgvpoy/iQTXhIR
+         Btb28CisbS4v3W9GLSU1hM0q+zgKqoP8W0PEu1aTj9UldG7y3uuYRHT6tHkNmGwLJ2MN
+         99ss8OhFnJUsX021lCurIDBdvJGxzfmGkcXigsmA+phWdEJgEe+K7PpzOC3sq58gPFd7
+         W0Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=06/0Fc/CzxtKe/AQi80TbkGLzxKNq+FXAhjScQa1P0w=;
-        b=o3xGibHCqN4ftcE2X91ivADbsm3IIThXFMoIlAjbF8bAjAWJNoKUIM1eI0EpqAiX0y
-         gBu9vvGR1wsQfFnwOzrr0hzVqGprHiu719FoMZ6SuGNdBSbxHjfA1JawWt8v20v/Ji2Z
-         NNl84/KlIB97hbGDXNzVhyAW86YnBE3k5qV4rgwUkOx8d04tYpFWafvaDOH7aiSYApAa
-         8kTTd67nDXYfK0Y8JSrlIITJJmsCu6ucBC/sRD+8MKu+Y1SRL3uSjJv6v42Fa+6ESyMS
-         QDp3gdhpMnjqVu6L8yeHMiUt+DxXBR+jTSxyLXL6Hm4eCeML5f27TFr0ACJR8o/+nkox
-         X5fw==
-X-Gm-Message-State: AOAM531L1CDfbha934atYsv3fRMVxuNpv+uLsSfWO0SWEc1K8DNE5iWX
-        pKVw4LrLQv/MVEuQO+pwig==
-X-Google-Smtp-Source: ABdhPJw5MjdGAe9ULHqTPC3/a5mAB9/7H9/flRqXH8RawvWje9UzoAdVymmniLR/3m88yRIKeSCTXQ==
-X-Received: by 2002:a05:6214:1143:: with SMTP id b3mr21082466qvt.84.1595863835563;
-        Mon, 27 Jul 2020 08:30:35 -0700 (PDT)
-Received: from PWN ([209.94.141.207])
-        by smtp.gmail.com with ESMTPSA id c133sm19928340qkb.111.2020.07.27.08.30.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 08:30:34 -0700 (PDT)
-Date:   Mon, 27 Jul 2020 11:30:32 -0400
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vandana BN <bnvandana@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
-Message-ID: <20200727153032.GB315139@PWN>
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam>
- <CAK8P3a3+9Gr6G6KDWu=iW3316O9cPH+XupBBajJaxrq20xQcyQ@mail.gmail.com>
- <20200727141416.GA306745@PWN>
- <20200727144609.GG1913@kadam>
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=NkVbGEZqq2gtUYFFHihdCf9UlSJbj6QF8gPVaF8Bfbo=;
+        b=app4B5pYGEK6hHjxEiTYJYN8OcepSniGoDrdrD2IvoDVQBvsNVDizgrQE7SO/TQ5l/
+         2xEpKJvU0MP3MfvBEXuFhGTTAxKc806VX9EiZ1+Sx2CR6MFJh5+0hoMLBm2SdMlKa2sH
+         0HLD3T5FkrTAUZIOo+JeS7fghwGartrtkT0B3UQThSCmJc0sDKBouWCv/hENKHq/Fntr
+         tCPOT8JwaLEZHpEwqjPFEUMaCvk8iTyicwMnOzTgjvUuHnPWwry4iqkGcpiOwMROXuZ+
+         eWmaWa8alwE28dNv2tgR5JI2p763iu3xqYPUMhbqHKbqqVS848aDmMX6gBrTRNVU1VPb
+         8odw==
+X-Gm-Message-State: AOAM530X1I+1Hwn4jL07LEnL8/X18PztSfkU6kBTRO/tRFObweOfMw17
+        /BWbkOY7cXN61Vw09+dMrz3XMw==
+X-Google-Smtp-Source: ABdhPJzAXd8kJn2pS6mbPjKZXLIavxQW9wr44q5/JPYSYykSlpkS173kdTtzJWxxIonR/XqZ3Jaxlg==
+X-Received: by 2002:a17:90a:ea0b:: with SMTP id w11mr2833577pjy.80.1595864293473;
+        Mon, 27 Jul 2020 08:38:13 -0700 (PDT)
+Received: from localhost ([223.190.9.130])
+        by smtp.gmail.com with ESMTPSA id y19sm4363801pfn.77.2020.07.27.08.38.12
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 27 Jul 2020 08:38:12 -0700 (PDT)
+Date:   Mon, 27 Jul 2020 21:08:06 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Rajendra Nayak <rnayak@codeaurora.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org, Taniya Das <tdas@codeaurora.org>,
+        Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
+ power-domains for venus
+Message-ID: <20200727153806.kgegadvghmkevch3@vireshk-mac-ubuntu>
+References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
+ <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
+ <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
+ <94581989-e069-55e5-6b70-919185eda33e@linaro.org>
+ <e0c03ce2-136c-2c5c-6f36-bb0c69a82e2d@codeaurora.org>
+ <5a8af2da-cc3f-005d-47e6-b36be1104d6a@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200727144609.GG1913@kadam>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a8af2da-cc3f-005d-47e6-b36be1104d6a@codeaurora.org>
+User-Agent: NeoMutt/20170609 (1.8.3)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 05:46:09PM +0300, Dan Carpenter wrote:
-> On Mon, Jul 27, 2020 at 10:14:16AM -0400, Peilin Ye wrote:
-> > Yes, I would like to! I will start from:
+On 27-07-20, 17:38, Rajendra Nayak wrote:
+> 
+> On 7/27/2020 11:23 AM, Rajendra Nayak wrote:
 > > 
-> > 	drivers/firewire/core-cdev.c:463
-> 
-> My prefered fix for this would be to add a memset at the start of
-> fill_bus_reset_event().
-> 
-> 	memset(event, 0, sizeof(*event));
-> 
-> 	spin_lock_irq(&card->lock);
-> 
-> 	event->closure       = client->bus_reset_closure;
-> 
-> 
-> > 	drivers/input/misc/uinput.c:743
+> > 
+> > On 7/24/2020 7:39 PM, Stanimir Varbanov wrote:
+> > > Hi,
+> > > 
+> > > On 7/23/20 9:06 PM, Stanimir Varbanov wrote:
+> > > > Hi Rajendra,
+> > > > 
+> > > > After applying 2,3 and 4/5 patches on linaro-integration v5.8-rc2 I see
+> > > > below messages on db845:
+> > > > 
+> > > > qcom-venus aa00000.video-codec: dev_pm_opp_set_rate: failed to find
+> > > > current OPP for freq 533000097 (-34)
+> > > > 
+> > > > ^^^ This one is new.
+> > > > 
+> > > > qcom_rpmh TCS Busy, retrying RPMH message send: addr=0x30000
+> > > > 
+> > > > ^^^ and this message is annoying, can we make it pr_debug in rpmh?
+> > > > 
+> > > > On 7/23/20 2:26 PM, Rajendra Nayak wrote:
+> > > > > Add the OPP tables in order to be able to vote on the performance state of
+> > > > > a power-domain.
+> > > > > 
+> > > > > Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+> > > > > ---
+> > > > >   arch/arm64/boot/dts/qcom/sdm845.dtsi | 40 ++++++++++++++++++++++++++++++++++--
+> > > > >   1 file changed, 38 insertions(+), 2 deletions(-)
+> > > > > 
+> > > > > diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> > > > > index e506793..5ca2265 100644
+> > > > > --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> > > > > +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> > > > > @@ -3631,8 +3631,10 @@
+> > > > >               interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> > > > >               power-domains = <&videocc VENUS_GDSC>,
+> > > > >                       <&videocc VCODEC0_GDSC>,
+> > > > > -                    <&videocc VCODEC1_GDSC>;
+> > > > > -            power-domain-names = "venus", "vcodec0", "vcodec1";
+> > > > > +                    <&videocc VCODEC1_GDSC>,
+> > > > > +                    <&rpmhpd SDM845_CX>;
+> > > > > +            power-domain-names = "venus", "vcodec0", "vcodec1", "cx";
+> > > > > +            operating-points-v2 = <&venus_opp_table>;
+> > > > >               clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
+> > > > >                    <&videocc VIDEO_CC_VENUS_AHB_CLK>,
+> > > > >                    <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
+> > > > > @@ -3654,6 +3656,40 @@
+> > > > >               video-core1 {
+> > > > >                   compatible = "venus-encoder";
+> > > > >               };
+> > > > > +
+> > > > > +            venus_opp_table: venus-opp-table {
+> > > > > +                compatible = "operating-points-v2";
+> > > > > +
+> > > > > +                opp-100000000 {
+> > > > > +                    opp-hz = /bits/ 64 <100000000>;
+> > > > > +                    required-opps = <&rpmhpd_opp_min_svs>;
+> > > > > +                };
+> > > > > +
+> > > > > +                opp-200000000 {
+> > > > > +                    opp-hz = /bits/ 64 <200000000>;
+> > > > > +                    required-opps = <&rpmhpd_opp_low_svs>;
+> > > > > +                };
+> > > > > +
+> > > > > +                opp-320000000 {
+> > > > > +                    opp-hz = /bits/ 64 <320000000>;
+> > > > > +                    required-opps = <&rpmhpd_opp_svs>;
+> > > > > +                };
+> > > > > +
+> > > > > +                opp-380000000 {
+> > > > > +                    opp-hz = /bits/ 64 <380000000>;
+> > > > > +                    required-opps = <&rpmhpd_opp_svs_l1>;
+> > > > > +                };
+> > > > > +
+> > > > > +                opp-444000000 {
+> > > > > +                    opp-hz = /bits/ 64 <444000000>;
+> > > > > +                    required-opps = <&rpmhpd_opp_nom>;
+> > > > > +                };
+> > > > > +
+> > > > > +                opp-533000000 {
+> > > > > +                    opp-hz = /bits/ 64 <533000000>;
 
-I just sent a patch to fix this as you suggested.
+Is this the highest OPP in table ?
 
-> I don't think this is a bug.
+> > > Actually it comes from videocc, where ftbl_video_cc_venus_clk_src
+> > > defines 533000000 but the real calculated freq is 533000097.
+> > 
+> > I still don't quite understand why the videocc driver returns this
+> > frequency despite this not being in the freq table.
+> 
+> Ok, so I see the same issue on sc7180 also. clk_round_rate() does seem to
+> return whats in the freq table, but clk_set_rate() goes ahead and sets it
+> to 533000097. Subsequently when we try to set a different OPP, it fails to
+> find the 'current' OPP entry for 533000097. This sounds like an issue with the OPP
+> framework? Should we not fall back to the highest OPP as the current OPP?
+> 
+> Stephen/Viresh, any thoughts?
 
-I see. I am now fixing:
+I think we (in all frameworks generally) try to set a frequency <=
+target frequency and so there may be a problem if the frequency is
+larger than highest supported. IOW, you need to fix tables a bit.
 
-	block/scsi_ioctl.c:707 scsi_put_cdrom_generic_arg() warn: check that 'cgc32' doesn't leak information (struct has a hole after 'data_direction')
+-- 
+viresh
