@@ -2,235 +2,378 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB54D230C60
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 16:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C8E230C6E
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 16:30:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730294AbgG1O0O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 10:26:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35092 "EHLO
+        id S1730375AbgG1Oa0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 10:30:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730093AbgG1O0M (ORCPT
+        with ESMTP id S1730089AbgG1Oa0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 10:26:12 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A93EC0619D2
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 07:26:11 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id t1so805099plq.0
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 07:26:11 -0700 (PDT)
+        Tue, 28 Jul 2020 10:30:26 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68B5C061794;
+        Tue, 28 Jul 2020 07:30:25 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id b9so9973709plx.6;
+        Tue, 28 Jul 2020 07:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=yWye7aaOVC0N5NGSUhVAFihgxHbQAy+hcp/icevuJzQ=;
-        b=tLXWax6Mgil3NUz0RBaoHn14Nm7RUOSDRmFITnEhpSuALgkjSriY38YnsTgtaqgQu+
-         OlDZPQre9De/cTMdDdronoKEd+1hFRpZ/1GF1GtLVntnt515h9EwonZ6NAupW6xNWAYt
-         +obvIb4sVqpjI8kolIoukFxTk2Q0n19thONIQjAl40U6sErbvdDX+gyUxyjVG7SPGE3J
-         9x/wsyy3IOSWOxuuQArAfytkszoFtGyKka0+6Ck01ttRCq+AcVw39Mjv8IyJfAiNEwxc
-         X+ABe3CCnujKu+cW5Q8lOreMQ15uta9Ru7BqiuvWl5wQ651s1GCNnwx1eiCB/Y+rUrdd
-         EBQw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=QyjtjZiYa8X34heTvnreNq8xPRavX91bev3/RUEcki4=;
+        b=F6Q4mNDW1LL/gm69v0itvU2aiyvd0CObD8nIpZ/Hr2RQKvO8lgwcK1EXyTD4aGIiTe
+         gYEX3Df8Rp0MKui9aVWnxGK/816QAGsKzYdxO0r+X2XwMvSzbkqchZOGN7Et/nfjJ1ty
+         DYrQnKGS5FIGy1NXDf/HWHajcDSPKneeyNBE6p61K5sj5ifxyPt0tL88npP2PVGFAIGA
+         rSr/+Ki0Bv4sQL7R6Gve9UtYHdFvdXlsZudVLXzvTgUxkhlGBko8OPdiuGvQbVncz22+
+         HUH9Y5xHFeLj18o5uOpmU/ALqKxKmwSkwfQTb/RRBB/MYcrl/JgB/XX+v9VsEvL7FmvO
+         aaWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=yWye7aaOVC0N5NGSUhVAFihgxHbQAy+hcp/icevuJzQ=;
-        b=avAjzwECH1szImxX6Q2zwUBpwGU+CjmYmheFFByM5EYs4zb/70gYHmotXr16lTtPSh
-         fUYCxIBOz+mCfmbS4Oy/dn1yS2EOp286hW65AzmAO7Rl1J7qUklfwGLRRw/YrSWPT6Bf
-         lZMqASnDp0eMAtPob9k/7Pad+zJimj3d0bfOzX2hGIG9VHbq6bH07T+xYWR1m3W6fRiW
-         IlpNHxaQ0BnXgc+tZ8nI9AgIf4l5blreCtIm9j1QqcPEGhLnJepQT1s8fc+4KEciVt5E
-         CU8gdeskvH+GllkUJpe75p4ivTf5BBv1Im/gutUV6jq5Lm3GIrbxtvxECfhipyTyZdxh
-         k8MA==
-X-Gm-Message-State: AOAM533MqskbdRFYk9oISkki4zFVAn0NhruAQFTmAF5YhAe8GlolYg22
-        4x2AX5D4Z42nOI0HdkUCSOSMFawxAjU=
-X-Google-Smtp-Source: ABdhPJwT9PwF8AasW9nIoZykHYSZIPo88QFB9Sp400i/6hIC5/ISjU8gm5FjqBtYOD5uwBJ9Zg5J/Q==
-X-Received: by 2002:a17:90a:3c8f:: with SMTP id g15mr1503794pjc.215.1595946370672;
-        Tue, 28 Jul 2020 07:26:10 -0700 (PDT)
-Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
-        by smtp.gmail.com with ESMTPSA id p127sm18312194pfb.17.2020.07.28.07.26.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 28 Jul 2020 07:26:10 -0700 (PDT)
-From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
-X-Google-Original-From: Kaaira Gupta <Kaairakgupta@es.iitr.ac.in>
-Date:   Tue, 28 Jul 2020 19:56:01 +0530
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        Helen Koike <helen.koike@collabora.com>,
-        kieran.bingham@ideasonboard.com,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH v2 0/3] media: vimc: Allow multiple capture devices to
- use the same sensor
-Message-ID: <20200728142601.GA26259@kaaira-HP-Pavilion-Notebook>
-References: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
- <20200724121521.GA2705690@oden.dyn.berto.se>
- <20200724122104.GA18482@kaaira-HP-Pavilion-Notebook>
- <a6f4eabf-6cd5-950b-f2e3-853370c77629@ideasonboard.com>
- <2a6cb067-283d-ca65-2698-1fae66a17d02@collabora.com>
- <20200728113959.GA6350@kaaira-HP-Pavilion-Notebook>
- <3a9ac970-77b8-1bc5-536a-5b4f2bd60745@collabora.com>
- <b5fd3811-2f0e-7563-13fa-bb1e32189814@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b5fd3811-2f0e-7563-13fa-bb1e32189814@collabora.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=QyjtjZiYa8X34heTvnreNq8xPRavX91bev3/RUEcki4=;
+        b=c2dVRTWy1F1fvafGGbFWnklb7wviiVQJ71G8oueLRgUt+mingT4Lg5n0sWkQoOjWl3
+         0tTwInkI1+m2eg3ah7Dg54aFPY3/swGOrzTmBailBu+UuE1QonOOe8eQcGsh2Y+sqNVF
+         TRY6LuTjQoOB8ls25b5ARx2moDirq66yBnrAvINZIE1EEXJynVmxXWkI1vitLfGJCxD4
+         gSGAqbCfHibwq1RJbz3uaE/3xR8pxhBRkmPkXvhaNr38eLb1zeF/FMIF5gY7TwK8IpRl
+         qRPUxzReY6qZOE2RmNzDN/ASpeOc8yRr5D8gWmRl/PbGP9gDm/C3+vTWOZHw8WlxtATl
+         qdqQ==
+X-Gm-Message-State: AOAM530F3haXPhp+HkclxPDetdFZjg7ck/ZBaZJwYXN8Xe4msRNxDe4e
+        YifDzxkmddRcU6o6hNoqnpo=
+X-Google-Smtp-Source: ABdhPJzk7F/TAG0A3GnBD6C1LR+uf1pmAFpOO6glF8OdLQRj74phF1f4LcX1NoKOAwV0n/Bqrlj6RA==
+X-Received: by 2002:a17:902:9689:: with SMTP id n9mr22790658plp.160.1595946625311;
+        Tue, 28 Jul 2020 07:30:25 -0700 (PDT)
+Received: from localhost.localdomain ([132.154.123.105])
+        by smtp.gmail.com with ESMTPSA id c134sm19186489pfc.115.2020.07.28.07.30.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2020 07:30:24 -0700 (PDT)
+From:   Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
+To:     hverkuil@xs4all.nl, gregkh@linuxfoundation.org,
+        stern@rowland.harvard.edu, arnd@arndb.de, jrdr.linux@gmail.com
+Cc:     Dhiraj Sharma <dhiraj.sharma0024@gmail.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: usbvision: fixed coding style
+Date:   Tue, 28 Jul 2020 20:00:04 +0530
+Message-Id: <20200728143004.3228-1-dhiraj.sharma0024@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 28, 2020 at 04:00:46PM +0200, Dafna Hirschfeld wrote:
-> 
-> 
-> On 28.07.20 14:07, Dafna Hirschfeld wrote:
-> > Hi
-> > 
-> > On 28.07.20 13:39, Kaaira Gupta wrote:
-> > > On Mon, Jul 27, 2020 at 02:54:30PM -0300, Helen Koike wrote:
-> > > > Hi,
-> > > > 
-> > > > On 7/27/20 11:31 AM, Kieran Bingham wrote:
-> > > > > Hi all,
-> > > > > 
-> > > > > +Dafna for the thread discussion, as she's missed from the to/cc list.
-> > > > > 
-> > > > > 
-> > > > > On 24/07/2020 13:21, Kaaira Gupta wrote:
-> > > > > > On Fri, Jul 24, 2020 at 02:15:21PM +0200, Niklas Söderlund wrote:
-> > > > > > Hi,
-> > > > > > 
-> > > > > > > Hi Kaaira,
-> > > > > > > 
-> > > > > > > Thanks for your work.
-> > > > > > 
-> > > > > > Thanks for yours :D
-> > > > > > 
-> > > > > > > 
-> > > > > > > On 2020-07-24 17:32:10 +0530, Kaaira Gupta wrote:
-> > > > > > > > This is version 2 of the patch series posted by Niklas for allowing
-> > > > > > > > multiple streams in VIMC.
-> > > > > > > > The original series can be found here:
-> > > > > > > > https://patchwork.kernel.org/cover/10948831/
-> > > > > > > > 
-> > > > > > > > This series adds support for two (or more) capture devices to be
-> > > > > > > > connected to the same sensors and run simultaneously. Each capture device
-> > > > > > > > can be started and stopped independent of each other.
-> > > > > > > > 
-> > > > > > > > Patch 1/3 and 2/3 deals with solving the issues that arises once two
-> > > > > > > > capture devices can be part of the same pipeline. While 3/3 allows for
-> > > > > > > > two capture devices to be part of the same pipeline and thus allows for
-> > > > > > > > simultaneously use.
-> > 
-> > I wonder if these two patches are enough, since each vimc entity also have
-> > a 'process_frame' callback, but only one allocated frame. That means
-> > that the 'process_frame' can be called concurrently by two different streams
-> > on the same frame and cause corruption.
-> > 
-> 
-> I think we should somehow change the vimc-stream.c code so that we have only
-> one stream process per pipe. So if one capture is already streaming, then the new
-> capture that wants to stream uses the same thread so we don't have two threads
-> both calling 'process_frame'.
+As per eudyptula challenge task 10 I had to fix coding styles. Thus I
+used checkpatch.pl script and fixed a chunk of warnings and few errors.
 
-I didn't understand this well, can you please elaborate? How will it
-lead to the new capture using same thread?
+Signed-off-by: Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
+---
+ .../staging/media/usbvision/usbvision-video.c | 91 +++++++++++--------
+ 1 file changed, 52 insertions(+), 39 deletions(-)
 
-> 
-> The second capture that wants to stream should iterate the topology downwards until
-> reaching an entity that already belong to the stream path of the other streaming capture
-> and tell the streamer it wants to read the frames this entity
-> produces.
+diff --git a/drivers/staging/media/usbvision/usbvision-video.c b/drivers/staging/media/usbvision/usbvision-video.c
+index 3ea25fdcf767..8b68e99a2813 100644
+--- a/drivers/staging/media/usbvision/usbvision-video.c
++++ b/drivers/staging/media/usbvision/usbvision-video.c
+@@ -67,8 +67,8 @@
+ #ifdef USBVISION_DEBUG
+ 	#define PDEBUG(level, fmt, args...) { \
+ 		if (video_debug & (level)) \
+-			printk(KERN_INFO KBUILD_MODNAME ":[%s:%d] " fmt, \
+-				__func__, __LINE__ , ## args); \
++			pr_debug(KBUILD_MODNAME ":[%s:%d] " fmt, \
++				__func__, __LINE__, ## args); \
+ 	}
+ #else
+ 	#define PDEBUG(level, fmt, args...) do {} while (0)
+@@ -79,8 +79,8 @@
+ #define DBG_MMAP	(1 << 3)
 
-The first version of this series was doing this itself I think. But it
-was for connecting the pipe(capture) at the sensor if one already
-exists. 
+ /* String operations */
+-#define rmspace(str)	while (*str == ' ') str++;
+-#define goto2next(str)	while (*str != ' ') str++; while (*str == ' ') str++;
++#define rmspace(str)	do { str++; } while (*str == ' ')
++#define goto2next(str)	do { str++; } while (*str != ' ' || *str == ' ')
 
-> 
-> Thanks,
-> Dafna
-> 
-> > Thanks,
-> > Dafna
-> > 
-> > > > > > > 
-> > > > > > > I'm just curious if you are aware of this series? It would replace the
-> > > > > > > need for 1/3 and 2/3 of this series right?
-> > > > > > 
-> > > > > > v3 of this series replaces the need for 1/3, but not the current version
-> > > > > > (ie v4). v4 of patch 2/5 removes the stream_counter that is needed to
-> > > > > > keep count of the calls to s_stream. Hence 1/3 becomes relevant again.
-> > > > > 
-> > > > > So the question really is, how do we best make use of the two current
-> > > > > series, to achieve our goal of supporting multiple streams.
-> > > > > 
-> > > > > Having not parsed Dafna's series yet, do we need to combine elements of
-> > > > > both ? Or should we work towards starting with this series and get
-> > > > > dafna's patches built on top ?
-> > > > > 
-> > > > > Or should patch 1/3 and 3/3 of this series be on top of Dafna's v4 ?
-> > > > > 
-> > > > > (It might be noteworthy to say that Kaaira has reported successful
-> > > > > multiple stream operation from /this/ series and her development branch
-> > > > > on libcamera).
-> > > > 
-> > > > Dafna's patch seems still under discussion, but I don't want to block progress in Vimc either.
-> > > > 
-> > > > So I was wondering if we can move forward with Vimc support for multistreaming,
-> > > > without considering Dafna's patchset, and we can do the clean up later once we solve that.
-> > > > 
-> > > > What do you think?
-> > > 
-> > > I agree with supporting multiple streams with VIMC with this patchset,
-> > > and then we can refactor the counters for s_stream in VIMC later (over
-> > > this series) if dafna includes them in subsequent version of her patchset.
-> > > 
-> > 
-> > I also think that adding support in the code will take much longer and should not
-> > stop us from supporting vimc independently.
-> > 
-> > Thanks,
-> > Dafna
-> > 
-> > > > 
-> > > > Regards,
-> > > > Helen
-> > > > 
-> > > > > 
-> > > > > 
-> > > > > > > 1.  https://lore.kernel.org/linux-media/20200522075522.6190-1-dafna.hirschfeld@collabora.com/
-> > > > > > > 
-> > > > > > > > 
-> > > > > > > > Changes since v1:
-> > > > > > > >     - All three patches rebased on latest media-tree.
-> > > > > > > >     Patch 3:
-> > > > > > > >     - Search for an entity with a non-NULL pipe instead of searching
-> > > > > > > >       for sensor. This terminates the search at output itself.
-> > > > > > > > 
-> > > > > > > > Kaaira Gupta (3):
-> > > > > > > >    media: vimc: Add usage count to subdevices
-> > > > > > > >    media: vimc: Serialize vimc_streamer_s_stream()
-> > > > > > > >    media: vimc: Join pipeline if one already exists
-> > > > > > > > 
-> > > > > > > >   .../media/test-drivers/vimc/vimc-capture.c    | 35 ++++++++++++++++++-
-> > > > > > > >   .../media/test-drivers/vimc/vimc-debayer.c    |  8 +++++
-> > > > > > > >   drivers/media/test-drivers/vimc/vimc-scaler.c |  8 +++++
-> > > > > > > >   drivers/media/test-drivers/vimc/vimc-sensor.c |  9 ++++-
-> > > > > > > >   .../media/test-drivers/vimc/vimc-streamer.c   | 23 +++++++-----
-> > > > > > > >   5 files changed, 73 insertions(+), 10 deletions(-)
-> > > > > > > > 
-> > > > > > > > -- 
-> > > > > > > > 2.17.1
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > -- 
-> > > > > > > Regards,
-> > > > > > > Niklas Söderlund
-> > > > > 
+
+ /* sequential number of usbvision device */
+@@ -145,27 +145,29 @@ MODULE_ALIAS(DRIVER_ALIAS);
+ static inline struct usb_usbvision *cd_to_usbvision(struct device *cd)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
++
+ 	return video_get_drvdata(vdev);
+ }
+
+-static ssize_t show_version(struct device *cd,
++static ssize_t version_show(struct device *cd,
+ 			    struct device_attribute *attr, char *buf)
+ {
+ 	return sprintf(buf, "%s\n", USBVISION_VERSION_STRING);
+ }
+-static DEVICE_ATTR(version, S_IRUGO, show_version, NULL);
++static DEVICE_ATTR_RO(version, 0444, version_show, NULL);
+
+-static ssize_t show_model(struct device *cd,
++static ssize_t model_show(struct device *cd,
+ 			  struct device_attribute *attr, char *buf)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
+ 	struct usb_usbvision *usbvision = video_get_drvdata(vdev);
++
+ 	return sprintf(buf, "%s\n",
+ 		       usbvision_device_data[usbvision->dev_model].model_string);
+ }
+-static DEVICE_ATTR(model, S_IRUGO, show_model, NULL);
++static DEVICE_ATTR_RO(model, 0444, model_show, NULL);
+
+-static ssize_t show_hue(struct device *cd,
++static ssize_t hue_show(struct device *cd,
+ 			struct device_attribute *attr, char *buf)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
+@@ -175,9 +177,9 @@ static ssize_t show_hue(struct device *cd,
+
+ 	return sprintf(buf, "%d\n", val);
+ }
+-static DEVICE_ATTR(hue, S_IRUGO, show_hue, NULL);
++static DEVICE_ATTR_RO(hue, 0444, hue_show, NULL);
+
+-static ssize_t show_contrast(struct device *cd,
++static ssize_t contrast_show(struct device *cd,
+ 			     struct device_attribute *attr, char *buf)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
+@@ -187,9 +189,9 @@ static ssize_t show_contrast(struct device *cd,
+
+ 	return sprintf(buf, "%d\n", val);
+ }
+-static DEVICE_ATTR(contrast, S_IRUGO, show_contrast, NULL);
++static DEVICE_ATTR_RO(contrast, 0444, contrast_show, NULL);
+
+-static ssize_t show_brightness(struct device *cd,
++static ssize_t brightness_show(struct device *cd,
+ 			       struct device_attribute *attr, char *buf)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
+@@ -199,9 +201,9 @@ static ssize_t show_brightness(struct device *cd,
+
+ 	return sprintf(buf, "%d\n", val);
+ }
+-static DEVICE_ATTR(brightness, S_IRUGO, show_brightness, NULL);
++static DEVICE_ATTR_RO(brightness, 0444, brightness_show, NULL);
+
+-static ssize_t show_saturation(struct device *cd,
++static ssize_t saturation_show(struct device *cd,
+ 			       struct device_attribute *attr, char *buf)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
+@@ -211,36 +213,39 @@ static ssize_t show_saturation(struct device *cd,
+
+ 	return sprintf(buf, "%d\n", val);
+ }
+-static DEVICE_ATTR(saturation, S_IRUGO, show_saturation, NULL);
++static DEVICE_ATTR_RO(saturation, 0444, saturation_show, NULL);
+
+-static ssize_t show_streaming(struct device *cd,
++static ssize_t streaming_show(struct device *cd,
+ 			      struct device_attribute *attr, char *buf)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
+ 	struct usb_usbvision *usbvision = video_get_drvdata(vdev);
++
+ 	return sprintf(buf, "%s\n",
+ 		       YES_NO(usbvision->streaming == stream_on ? 1 : 0));
+ }
+-static DEVICE_ATTR(streaming, S_IRUGO, show_streaming, NULL);
++static DEVICE_ATTR_RO(streaming, 0444, streaming_show, NULL);
+
+-static ssize_t show_compression(struct device *cd,
++static ssize_t compression_show(struct device *cd,
+ 				struct device_attribute *attr, char *buf)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
+ 	struct usb_usbvision *usbvision = video_get_drvdata(vdev);
++
+ 	return sprintf(buf, "%s\n",
+ 		       YES_NO(usbvision->isoc_mode == ISOC_MODE_COMPRESS));
+ }
+-static DEVICE_ATTR(compression, S_IRUGO, show_compression, NULL);
++static DEVICE_ATTR_RO(compression, 0444, compression_show, NULL);
+
+ static ssize_t show_device_bridge(struct device *cd,
+ 				  struct device_attribute *attr, char *buf)
+ {
+ 	struct video_device *vdev = to_video_device(cd);
+ 	struct usb_usbvision *usbvision = video_get_drvdata(vdev);
++
+ 	return sprintf(buf, "%d\n", usbvision->bridge_type);
+ }
+-static DEVICE_ATTR(bridge, S_IRUGO, show_device_bridge, NULL);
++static DEVICE_ATTR_RO(bridge, 0444, show_device_bridge, NULL);
+
+ static void usbvision_create_sysfs(struct video_device *vdev)
+ {
+@@ -329,7 +334,8 @@ static int usbvision_v4l2_open(struct file *file)
+ 		err_code = usbvision_scratch_alloc(usbvision);
+ 		if (isoc_mode == ISOC_MODE_COMPRESS) {
+ 			/* Allocate intermediate decompression buffers
+-			   only if needed */
++			 * only if needed
++			 */
+ 			err_code = usbvision_decompress_alloc(usbvision);
+ 		}
+ 		if (err_code) {
+@@ -344,6 +350,7 @@ static int usbvision_v4l2_open(struct file *file)
+ 		/* Send init sequence only once, it's large! */
+ 		if (!usbvision->initialized) {
+ 			int setup_ok = 0;
++
+ 			setup_ok = usbvision_setup(usbvision, isoc_mode);
+ 			if (setup_ok)
+ 				usbvision->initialized = 1;
+@@ -400,7 +407,7 @@ static int usbvision_v4l2_close(struct file *file)
+ 	mutex_unlock(&usbvision->v4l2_lock);
+
+ 	if (r) {
+-		printk(KERN_INFO "%s: Final disconnect\n", __func__);
++		pr_debug("%s: Final disconnect\n", __func__);
+ 		usbvision_release(usbvision);
+ 		return 0;
+ 	}
+@@ -490,7 +497,8 @@ static int vidioc_enum_input(struct file *file, void *priv,
+ 		chan = vi->index + 1; /* skip Television string*/
+
+ 	/* Determine the requested input characteristics
+-	   specific for each usbvision card model */
++	 * specific for each usbvision card model
++	 */
+ 	switch (chan) {
+ 	case 0:
+ 		if (usbvision_device_data[usbvision->dev_model].video_channels == 4) {
+@@ -649,7 +657,8 @@ static int vidioc_reqbufs(struct file *file,
+ 	RESTRICT_TO_RANGE(vr->count, 1, USBVISION_NUMFRAMES);
+
+ 	/* Check input validity:
+-	   the user must do a VIDEO CAPTURE and MMAP method. */
++	 * the user must do a VIDEO CAPTURE and MMAP method.
++	 */
+ 	if (vr->memory != V4L2_MEMORY_MMAP)
+ 		return -EINVAL;
+
+@@ -675,7 +684,8 @@ static int vidioc_querybuf(struct file *file,
+ 	struct usbvision_frame *frame;
+
+ 	/* FIXME : must control
+-	   that buffers are mapped (VIDIOC_REQBUFS has been called) */
++	 * that buffers are mapped (VIDIOC_REQBUFS has been called)
++	 */
+ 	if (vb->index >= usbvision->num_frames)
+ 		return -EINVAL;
+ 	/* Updating the corresponding frame state */
+@@ -813,6 +823,7 @@ static int vidioc_g_fmt_vid_cap(struct file *file, void *priv,
+ 					struct v4l2_format *vf)
+ {
+ 	struct usb_usbvision *usbvision = video_drvdata(file);
++
+ 	vf->fmt.pix.width = usbvision->curwidth;
+ 	vf->fmt.pix.height = usbvision->curheight;
+ 	vf->fmt.pix.pixelformat = usbvision->palette.format;
+@@ -897,24 +908,27 @@ static ssize_t usbvision_read(struct file *file, char __user *buf,
+ 		return -EFAULT;
+
+ 	/* This entry point is compatible with the mmap routines
+-	   so that a user can do either VIDIOC_QBUF/VIDIOC_DQBUF
+-	   to get frames or call read on the device. */
++	 * so that a user can do either VIDIOC_QBUF/VIDIOC_DQBUF
++	 * to get frames or call read on the device.
++	 */
+ 	if (!usbvision->num_frames) {
+ 		/* First, allocate some frames to work with
+-		   if this has not been done with VIDIOC_REQBUF */
++		 * if this has not been done with VIDIOC_REQBUF
++		 */
+ 		usbvision_frames_free(usbvision);
+ 		usbvision_empty_framequeues(usbvision);
+ 		usbvision_frames_alloc(usbvision, USBVISION_NUMFRAMES);
+ 	}
+
+ 	if (usbvision->streaming != stream_on) {
+-		/* no stream is running, make it running ! */
++		// no stream is running, make it running !
+ 		usbvision->streaming = stream_on;
+ 		call_all(usbvision, video, s_stream, 1);
+ 	}
+
+ 	/* Then, enqueue as many frames as possible
+-	   (like a user of VIDIOC_QBUF would do) */
++	 * (like a user of VIDIOC_QBUF would do)
++	 */
+ 	for (i = 0; i < usbvision->num_frames; i++) {
+ 		frame = &usbvision->frame[i];
+ 		if (frame->grabstate == frame_state_unused) {
+@@ -1125,7 +1139,7 @@ static int usbvision_radio_close(struct file *file)
+ 	mutex_unlock(&usbvision->v4l2_lock);
+
+ 	if (r) {
+-		printk(KERN_INFO "%s: Final disconnect\n", __func__);
++		pr_debug("%s: Final disconnect\n", __func__);
+ 		v4l2_fh_release(file);
+ 		usbvision_release(usbvision);
+ 		return 0;
+@@ -1273,7 +1287,7 @@ static int usbvision_register_video(struct usb_usbvision *usbvision)
+
+ 	if (video_register_device(&usbvision->vdev, VFL_TYPE_VIDEO, video_nr) < 0)
+ 		goto err_exit;
+-	printk(KERN_INFO "USBVision[%d]: registered USBVision Video device %s [v4l2]\n",
++	pr_debug("USBVision[%d]: registered USBVision Video device %s [v4l2]\n",
+ 	       usbvision->nr, video_device_node_name(&usbvision->vdev));
+
+ 	/* Radio Device: */
+@@ -1284,7 +1298,7 @@ static int usbvision_register_video(struct usb_usbvision *usbvision)
+ 		usbvision->rdev.device_caps = V4L2_CAP_RADIO | V4L2_CAP_TUNER;
+ 		if (video_register_device(&usbvision->rdev, VFL_TYPE_RADIO, radio_nr) < 0)
+ 			goto err_exit;
+-		printk(KERN_INFO "USBVision[%d]: registered USBVision Radio device %s [v4l2]\n",
++		pr_debug("USBVision[%d]: registered USBVision Radio device %s [v4l2]\n",
+ 		       usbvision->nr, video_device_node_name(&usbvision->rdev));
+ 	}
+ 	/* all done */
+@@ -1429,7 +1443,7 @@ static int usbvision_probe(struct usb_interface *intf,
+ 		ret = -ENODEV;
+ 		goto err_usb;
+ 	}
+-	printk(KERN_INFO "%s: %s found\n", __func__,
++	pr_debug("%s: %s found\n", __func__,
+ 				usbvision_device_data[model].model_string);
+
+ 	if (usbvision_device_data[model].interface >= 0)
+@@ -1501,8 +1515,7 @@ static int usbvision_probe(struct usb_interface *intf,
+ 			goto err_pkt;
+ 		}
+
+-		tmp = le16_to_cpu(uif->altsetting[i].endpoint[1].desc.
+-				      wMaxPacketSize);
++		tmp = le16_to_cpu(uif->altsetting[i].endpoint[1].desc.wMaxPacketSize);
+ 		usbvision->alt_max_pkt_size[i] =
+ 			(tmp & 0x07ff) * (((tmp & 0x1800) >> 11) + 1);
+ 		PDEBUG(DBG_PROBE, "Alternate setting %i, max size= %i", i,
+@@ -1581,7 +1594,7 @@ static void usbvision_disconnect(struct usb_interface *intf)
+ 	mutex_unlock(&usbvision->v4l2_lock);
+
+ 	if (u) {
+-		printk(KERN_INFO "%s: In use, disconnect pending\n",
++		pr_debug("%s: In use, disconnect pending\n",
+ 		       __func__);
+ 		wake_up_interruptible(&usbvision->wait_frame);
+ 		wake_up_interruptible(&usbvision->wait_stream);
+@@ -1625,7 +1638,7 @@ static int __init usbvision_init(void)
+ 	err_code = usb_register(&usbvision_driver);
+
+ 	if (err_code == 0) {
+-		printk(KERN_INFO DRIVER_DESC " : " USBVISION_VERSION_STRING "\n");
++		pr_debug(DRIVER_DESC " : " USBVISION_VERSION_STRING "\n");
+ 		PDEBUG(DBG_PROBE, "success");
+ 	}
+ 	return err_code;
+--
+2.17.1
+
