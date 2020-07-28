@@ -2,70 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BA4C231004
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 18:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC6CD23101B
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 18:52:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731408AbgG1Qng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 12:43:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726548AbgG1Qng (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 12:43:36 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED521C061794;
-        Tue, 28 Jul 2020 09:43:35 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id j7so1660685oij.9;
-        Tue, 28 Jul 2020 09:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o9m50VK1lLtc7nqDyGrRl3rlBYyarY0M7UxRlCvTi7I=;
-        b=kasojJKthl+GEvqSoBsCRID44wuGMn+EsMrib6445AcUxFCXTdk+LV+UutBeNLeKMy
-         wQHv2tfVgg5xO85/Sz0BF+RFh6ScEtqDtW5vfEGtUHwCRw7Lt7X+EuZ6tJbeYOObJxNQ
-         aVqyb0tE9vVtp2WJCkZwM05lwmmYciFa20/jjPrao7IfnG/03b/CQUYbJJFnnUuviZmL
-         Zt3OJDLvvKx4yvdDctSfYv8c6BJ4Ms8WrKLtw0SBuBrwPR+MAped04fEvFFqx+Mk9ccQ
-         My2cDrwkdpvLRhZGOAX51mwn2KMe2azsvTahatIf9qxmUVqCg3pRSGkBIr+XjnZVpQzA
-         yTMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o9m50VK1lLtc7nqDyGrRl3rlBYyarY0M7UxRlCvTi7I=;
-        b=P8/8yDmj73oqqcQKiuymZ9Oc0IYmWEQI7CGnPu7LGbNrDrTa812FbxBpaQpHns+enW
-         yLIXIxZcvyYxUXJBj9KrYwV6iditk9WGSfshzVnKGIlJfR5sfriEF8URrJFtRHKtun6v
-         Qp9BgQySG7ypWuDQmliyP9lLHD1vUMmfz2ZyTLpKmv4y77skmqbRwitoORxqPrLnaHUZ
-         XqK22zf092ompzqAhVe10rcg6fuKEbgmqa/x7SKmg2cF6ugP8XFST80JJ92qgaySIW/w
-         yxY5WF6ExB3VoOaJYh0D/uhd8bjqgUMaAdm2i8lHGaQ31iZez+9J52pS8iE9lFxI2W+Z
-         rKrQ==
-X-Gm-Message-State: AOAM531F96Kr5dBz7VqpFPBKXPvIy+gtcaGr01bdKdSrZSDU61Xq3RsL
-        MisuCNpWcOz7nlHva6nGOzfJX3o0LbE+RhpzqLHxuLBIaTg=
-X-Google-Smtp-Source: ABdhPJwU8sW/xnW2NBa1NBhKNrTCmmvZt+59DdL3+fpJrB75Cl9bvxj94xoZl+PaI/NK6YOpUnLYafHbsXqa6ov1Jtc=
-X-Received: by 2002:aca:c5d6:: with SMTP id v205mr4466193oif.143.1595954615271;
- Tue, 28 Jul 2020 09:43:35 -0700 (PDT)
+        id S1731502AbgG1Qw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 12:52:26 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:43520 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731474AbgG1Qw0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Jul 2020 12:52:26 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1595955146; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=AjBQsr/q2VwWU+HOXBWpjQEU8xvyWcP1N9vbtsdor4E=; b=Wvkukghd1Ov6NFY+oIQO5XRWKMvhB3k3uoRbG0q9a4nMKbxMkfUy9ktHm4ET6vPlscCT/WuW
+ Oubwy7c7zEpI5t78bKdezDHXo2qKpZTLKH2dAcyekwqD2yrisp2S+bVE6VLaPrEkXnMvho8q
+ LBka+Wu5tNXusgLR3gEG+zqUuyM=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5f2057be35f3e3d316d1697f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Jul 2020 16:52:14
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 304D2C43391; Tue, 28 Jul 2020 16:52:14 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from localhost (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: ilina)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 61528C433C6;
+        Tue, 28 Jul 2020 16:52:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 61528C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=ilina@codeaurora.org
+Date:   Tue, 28 Jul 2020 10:52:12 -0600
+From:   Lina Iyer <ilina@codeaurora.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Rajendra Nayak <rnayak@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org, Maulik Shah <mkshah@codeaurora.org>
+Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
+ power-domains for venus
+Message-ID: <20200728165212.GA32586@codeaurora.org>
+References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
+ <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
+ <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
+ <654e0fcb-ae4d-c151-fa8a-4d029fc823fb@codeaurora.org>
+ <20200724162825.GH9185@codeaurora.org>
+ <159589714088.1360974.13205114501389777927@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-References: <20200728143004.3228-1-dhiraj.sharma0024@gmail.com>
- <20200728145419.GA3537020@kroah.com> <CAPRy4h1Xs1JpQinnWm04dOi07Ch0RLL0U4Z5DDCKHmombXE0sA@mail.gmail.com>
- <20200728155311.GA4178776@kroah.com>
-In-Reply-To: <20200728155311.GA4178776@kroah.com>
-From:   Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
-Date:   Tue, 28 Jul 2020 22:13:22 +0530
-Message-ID: <CAPRy4h2Zbw=QwJ7=0+FzGnK_o1esn2GTRSuv5ZE30Vu=Oj=x=Q@mail.gmail.com>
-Subject: Re: [PATCH] media: usbvision: fixed coding style
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     devel@driverdev.osuosl.org, arnd@arndb.de,
-        linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        stern@rowland.harvard.edu, jrdr.linux@gmail.com,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <159589714088.1360974.13205114501389777927@swboyd.mtv.corp.google.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> As the bot said, only do one type of thing per patch, and "fix all
-> checkpatch errors/warnings" is not one type of thing.
+On Mon, Jul 27 2020 at 18:45 -0600, Stephen Boyd wrote:
+>Quoting Lina Iyer (2020-07-24 09:28:25)
+>> On Fri, Jul 24 2020 at 03:03 -0600, Rajendra Nayak wrote:
+>> >Hi Maulik/Lina,
+>> >
+>> >On 7/23/2020 11:36 PM, Stanimir Varbanov wrote:
+>> >>Hi Rajendra,
+>> >>
+>> >>After applying 2,3 and 4/5 patches on linaro-integration v5.8-rc2 I see
+>> >>below messages on db845:
+>> >>
+>> >>qcom-venus aa00000.video-codec: dev_pm_opp_set_rate: failed to find
+>> >>current OPP for freq 533000097 (-34)
+>> >>
+>> >>^^^ This one is new.
+>> >>
+>> >>qcom_rpmh TCS Busy, retrying RPMH message send: addr=0x30000
+>> >>
+>> >>^^^ and this message is annoying, can we make it pr_debug in rpmh?
+>> >
+>> How annoyingly often do you see this message?
+>> Usually, this is an indication of bad system state either on remote
+>> processors in the SoC or in Linux itself. On a smooth sailing build you
+>> should not see this 'warning'.
+>>
+>> >Would you be fine with moving this message to a pr_debug? Its currently
+>> >a pr_info_ratelimited()
+>> I would rather not, moving this out of sight will mask a lot serious
+>> issues that otherwise bring attention to the developers.
+>>
+>
+>I removed this warning message in my patch posted to the list[1]. If
+>it's a serious problem then I suppose a timeout is more appropriate, on
+>the order of several seconds or so and then a pr_warn() and bail out of
+>the async call with an error.
+>
+The warning used to capture issues that happen within a second and it
+helps capture system related issues. Timing out after many seconds
+overlooks the system issues that generally tend to resolve itself, but
+nevertheless need to be investigated.
 
-So should I send a fresh patch with minimal fixes? instead of replying
-to this mail with [PATCH 01]
+--Lina
+
+>[1] https://lore.kernel.org/r/20200724211711.810009-1-sboyd@kernel.org
