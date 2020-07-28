@@ -2,94 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DB8E22FF67
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 04:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7745A230087
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 06:17:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbgG1CPj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jul 2020 22:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726313AbgG1CPi (ORCPT
+        id S1726631AbgG1ERh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 00:17:37 -0400
+Received: from mail29.static.mailgun.info ([104.130.122.29]:54972 "EHLO
+        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726369AbgG1ERh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jul 2020 22:15:38 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C4BC0619D2
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 19:15:38 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id t10so3788661plz.10
-        for <linux-media@vger.kernel.org>; Mon, 27 Jul 2020 19:15:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=students-iitmandi-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hBlxnjAq+NQ7xq9tyIscN6vQVF0VMix+mjCrmXItPMg=;
-        b=uOHtcrYTmCosLIc22eS/NeLsVC6fVrazz3QS9IfOvftpZ3IVdvH2jSELcQ0Je6XAfn
-         VpGwJrxu6PCnYN9hqFHF2IIdLqcu19CjfZqEZvgqhU0QWQWzmL+wTIC7Uq2x7OsUB9EO
-         xKCUWBc9YUqJhxjPfkDl5NtTJRVDTm4FpftsNZ//mhhq5WkOQAqX6bWILHe4g09GAR3Q
-         pdUpSA1e0c7ej0pkI8wZXxJS62RtHuNYBk7+GwV4bJ+06tNjKfVC9r3A5bUBxb6kGSuU
-         94VTqY7ku+CAz1Xdai9XfdM4Yg8hsaAcGao5O/433g19X6+0SvtLEI0IVYnzVnHaSeZm
-         S+WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hBlxnjAq+NQ7xq9tyIscN6vQVF0VMix+mjCrmXItPMg=;
-        b=fvGRgQw2iTXyjir5OYItop6H09Z8lTILOLGhavcrjfAOfW26+l7pQ2ou0dB3ADPTmo
-         py23Q54+lTSIqGZBGj2ZSnf1F7bE/k1udzw/tSCsziMnqcVZ2YRTDSYQYihBoWH57SU/
-         8aF9aLLnTsPV1n+N+Mh6JRj48e9qbzAEafOzZ1SPL0wAVa/3cYiLP6m/pc8jduTcFZpM
-         /5KfOn+gacQAUg70w2GBaHYPUIF93gO7rAcQcvnEHACpwVNnzuGUyOF12r7KVQZZriMV
-         wq8ISFS6j1CKEK8CXWskW3pK2T6YU75oza6s+MxDsMr9qMoBlsLEl/vcied2bIYEXap8
-         0rlw==
-X-Gm-Message-State: AOAM530dq4OSVrCwCP/sR+gXfj8jCxz97BNq9BBxopqK+ainMvf1ZMeC
-        3Y/wanE6UBbSAngITfm+/CguZQ==
-X-Google-Smtp-Source: ABdhPJwzNVTSIeKUloUb5M/3iD6Xn5Y8aCAEXO+PabHJqE0BOsIVOgLuCMNps+33LtqqaT/obVKdiA==
-X-Received: by 2002:a17:902:8bc6:: with SMTP id r6mr8654988plo.289.1595902538102;
-        Mon, 27 Jul 2020 19:15:38 -0700 (PDT)
-Received: from devil-VirtualBox.www.tendawifi.com ([103.198.174.215])
-        by smtp.gmail.com with ESMTPSA id g4sm16732466pgn.64.2020.07.27.19.15.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 19:15:37 -0700 (PDT)
-From:   Ankit Baluni <b18007@students.iitmandi.ac.in>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org,
-        Ankit Baluni <b18007@students.iitmandi.ac.in>
-Subject: [PATCH] Staging : media : atomisp : Fixed a brace coding sytle issue
-Date:   Tue, 28 Jul 2020 07:45:18 +0530
-Message-Id: <20200728021518.19639-1-b18007@students.iitmandi.ac.in>
-X-Mailer: git-send-email 2.25.1
+        Tue, 28 Jul 2020 00:17:37 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1595909856; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=hCNM+2Lv+dQQBLrGuQbA6lyFD5H/2pzjFUsxm4GPBrU=; b=EASfrngd76WsCHcGmJQWRxIs5DogMtMA07IHijgViVEBTneRREXXfCGzHA5yP8iR3V5GtGFf
+ OqcZ6ODA5kCl+i1UDyljm/Y4tDJ7tsBxaEg9cRJ3TcBeTzHF1mZQuhuyXCPXkMdnkfekONAJ
+ ZJhz4AUy7ruj7PaBCV5dBG7b8Tc=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5f1fa6df70ff737ddba4a710 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Jul 2020 04:17:35
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3E52BC43395; Tue, 28 Jul 2020 04:17:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.8 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.12] (unknown [61.3.20.126])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4FA49C433C6;
+        Tue, 28 Jul 2020 04:17:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4FA49C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
+Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
+ power-domains for venus
+To:     Stephen Boyd <sboyd@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org, Taniya Das <tdas@codeaurora.org>
+References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
+ <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
+ <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
+ <94581989-e069-55e5-6b70-919185eda33e@linaro.org>
+ <e0c03ce2-136c-2c5c-6f36-bb0c69a82e2d@codeaurora.org>
+ <5a8af2da-cc3f-005d-47e6-b36be1104d6a@codeaurora.org>
+ <20200727153806.kgegadvghmkevch3@vireshk-mac-ubuntu>
+ <159589753282.1360974.11628682178494669632@swboyd.mtv.corp.google.com>
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+Message-ID: <e08e9822-7c0c-29d7-67b2-245af66b623a@codeaurora.org>
+Date:   Tue, 28 Jul 2020 09:47:28 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <159589753282.1360974.11628682178494669632@swboyd.mtv.corp.google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixing coding style issue by removing the braces that are not required.
 
-Signed-off-by: Ankit Baluni<b18007@students.iitmandi.ac.in>
----
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+On 7/28/2020 6:22 AM, Stephen Boyd wrote:
+> Quoting Viresh Kumar (2020-07-27 08:38:06)
+>> On 27-07-20, 17:38, Rajendra Nayak wrote:
+>>> On 7/27/2020 11:23 AM, Rajendra Nayak wrote:
+>>>> On 7/24/2020 7:39 PM, Stanimir Varbanov wrote:
+>>>>>>> +
+>>>>>>> +                opp-533000000 {
+>>>>>>> +                    opp-hz = /bits/ 64 <533000000>;
+>>
+>> Is this the highest OPP in table ?
+>>
+>>>>> Actually it comes from videocc, where ftbl_video_cc_venus_clk_src
+>>>>> defines 533000000 but the real calculated freq is 533000097.
+>>>>
+>>>> I still don't quite understand why the videocc driver returns this
+>>>> frequency despite this not being in the freq table.
+>>>
+>>> Ok, so I see the same issue on sc7180 also. clk_round_rate() does seem to
+>>> return whats in the freq table, but clk_set_rate() goes ahead and sets it
+> 
+> I'm happy to see clk_round_rate() return the actual rate that would be
+> achieved and not just the rate that is in the frequency tables. Would
+> that fix the problem? 
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index f8d616f08b51..701de098cb29 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1828,11 +1828,10 @@ static int atomisp_streamon(struct file *file, void *fh,
- 			dev_err(isp->dev, "master slave sensor stream on failed!\n");
- 			goto out;
- 		}
--		if (!IS_ISP2401) {
-+		if (!IS_ISP2401)
- 			__wdt_on_master_slave_sensor(isp, wdt_duration);
--		} else {
-+		else
- 			__wdt_on_master_slave_sensor_pipe(pipe, wdt_duration, true);
--		}
- 		goto start_delay_wq;
- 	} else if (asd->depth_mode->val && (atomisp_streaming_count(isp) <
- 					    ATOMISP_DEPTH_SENSOR_STREAMON_COUNT)) {
+It would, but only if I also update the OPP table to have 533000097
+instead of 533000000 (which I guess is needed anyway)
+If this is the actual frequency that's achievable, then perhaps even the clock
+freq table should have this? 533000097 and not 533000000?
+That way clk_round_rate() would return the actual rate that's achieved and
+we don't need any extra math. Isn't that the reason these freq tables exist
+anyway.
+
+> It may be that we need to make clk_round_rate() do
+> some more math on qcom platforms and actually figure out what the rate
+> is going to be instead of blindly trust the frequency that has been set
+> in the tables.
+> 
+>>> to 533000097. Subsequently when we try to set a different OPP, it fails to
+>>> find the 'current' OPP entry for 533000097. This sounds like an issue with the OPP
+>>> framework? Should we not fall back to the highest OPP as the current OPP?
+>>>
+>>> Stephen/Viresh, any thoughts?
+>>
+>> I think we (in all frameworks generally) try to set a frequency <=
+>> target frequency and so there may be a problem if the frequency is
+>> larger than highest supported. IOW, you need to fix tables a bit.
+>>
+> 
+> Rounding is annoying for sure.
+> 
+
 -- 
-2.25.1
-
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
