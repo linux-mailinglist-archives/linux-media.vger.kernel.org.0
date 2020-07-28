@@ -2,141 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DFFA2313A0
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 22:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 325982313F5
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 22:30:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728233AbgG1ULr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 16:11:47 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:51689 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728163AbgG1ULr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 16:11:47 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1595967106; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=z/j1eXS9EsRM+o+Wag/W7GMKYxap+SCTtlHOOgi+aoQ=; b=qwcL/WmG9zvJoQq/c5hYVjks7erU+ZIjt/HgJGfRGGcN1CIy3cU/BZr2mZ86P4HtMg/WhqzH
- IqrZyy2Kor0y0h0Gh6rEJVBO0oEJwT5kIhxM7fBCIE5lkVoIP4S/GToJ+C5Xg07/CWixoHJI
- Lep3Rpby60Zw7bvDouCncoqhA34=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n20.prod.us-west-2.postgun.com with SMTP id
- 5f208677aa44a6db05bd5e36 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Jul 2020 20:11:35
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 9DA97C43391; Tue, 28 Jul 2020 20:11:35 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from localhost (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: ilina)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id B8721C433C6;
-        Tue, 28 Jul 2020 20:11:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B8721C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=ilina@codeaurora.org
-Date:   Tue, 28 Jul 2020 14:11:33 -0600
-From:   Lina Iyer <ilina@codeaurora.org>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Rajendra Nayak <rnayak@codeaurora.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org, Maulik Shah <mkshah@codeaurora.org>
-Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
- power-domains for venus
-Message-ID: <20200728201133.GB32586@codeaurora.org>
-References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
- <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
- <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
- <654e0fcb-ae4d-c151-fa8a-4d029fc823fb@codeaurora.org>
- <20200724162825.GH9185@codeaurora.org>
- <159589714088.1360974.13205114501389777927@swboyd.mtv.corp.google.com>
- <20200728165212.GA32586@codeaurora.org>
- <159596590401.1360974.283437162250734878@swboyd.mtv.corp.google.com>
+        id S1728703AbgG1Uat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 16:30:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35412 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728723AbgG1Uas (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Jul 2020 16:30:48 -0400
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF654C061794
+        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 13:30:48 -0700 (PDT)
+Received: by mail-ot1-x32c.google.com with SMTP id t7so2074679otp.0
+        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 13:30:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QiWlYyzn9n0T8EwLlp2hHlFqkXuVORcuySURVI0nC3g=;
+        b=TBTLI/Xqpk9wnGF54Fpk0Cf0S89SK3IkFq/RReQcOE3+6F2vXJFXH+uInfKQv/KxaH
+         pyRGprzMzV+UeXZ4ik8HXFJkRM+epD6GHwZdEmBkb6vWDAeVB86DbTrX0NldK7SLvfyP
+         KqJXx157HM3na5CFJ+fbcmtJI1ANy27NI9Y4F6wKtR+wTIVBNCBIDDi7s4RYZquy1Be7
+         BwQbyGNgMhcoR8L32i/851R3gd3qR3QLlt3cJpvBAjDEPN3GPx4WFkUsz/KwaqhyX4DL
+         oHMqAQmOBJAT0Njx8xo6KQSdF28ohrwqeJizLM7yIfnUWe5/iu8OvZR0h7UXZ9wxYx5r
+         BW3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QiWlYyzn9n0T8EwLlp2hHlFqkXuVORcuySURVI0nC3g=;
+        b=XI/z9UkpdVeSuZYO1ex0JgD8YSktlRU9HiaB2qRriV86qrx0pRYgyZj14oRUM8EaWX
+         wg3jbOoMvF6WxGUrzWUnJ2Zv2gXmmSkexXtprgxugykMyEk2KcgQ/VRX4jSoXj0y66OH
+         yzb+enbvbn1bh2+rqyZaTSDwjKIoB3Fu9ppskbxd7mqZdwv+n2k75g0PvSSJf4dF7DX5
+         VNw/oou9nfH2pyLyIqKrfuV+8vo3Vx61HHXOO68Ek0d+Kra+DM+DV5u+jMvIZ50eahXj
+         /LwSa0OK+qO0nDWF77GMWaRgZEbQQzacRm1gaQW6dDK/INht76yU0+Kejxp9OlMIMLm1
+         SNMg==
+X-Gm-Message-State: AOAM533Zxs2/ysXdIEjN/WzWUoYMIc6t/xBGmMhmCcyDWDNzVK50bPl4
+        aOBS9O4VRHyqhDaHvlno02EOgTUS5QTheaSfw8A=
+X-Google-Smtp-Source: ABdhPJwN1sRSTjOAOEV8belB7Jj3pDIqiPVQNodOmgT5ODtLAvveCy6oLOSJh5o2iKQsuFbsarmNL/2i8MZQd1rykvY=
+X-Received: by 2002:a9d:7dd3:: with SMTP id k19mr24384319otn.43.1595968248055;
+ Tue, 28 Jul 2020 13:30:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <159596590401.1360974.283437162250734878@swboyd.mtv.corp.google.com>
+References: <CA+V-a8vt1HEhJzc4jN22=7PnVrkcKjzFx7Q9E1ZK-YAtc09q0w@mail.gmail.com>
+ <20200728184249.GI13753@pendragon.ideasonboard.com> <CA+V-a8upEM4fA=8_3AHEGysEc841SRafvSMioBRgd97bUKgw4g@mail.gmail.com>
+ <20200728195451.GM13753@pendragon.ideasonboard.com>
+In-Reply-To: <20200728195451.GM13753@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 28 Jul 2020 21:30:21 +0100
+Message-ID: <CA+V-a8vrVgGg9u1QQ6-wQXBKCvY+D35=58iBp19xRa_EFyxNTw@mail.gmail.com>
+Subject: Re: [Query] OV5640 DVP and BT656 modes
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 28 2020 at 13:51 -0600, Stephen Boyd wrote:
->Quoting Lina Iyer (2020-07-28 09:52:12)
->> On Mon, Jul 27 2020 at 18:45 -0600, Stephen Boyd wrote:
->> >Quoting Lina Iyer (2020-07-24 09:28:25)
->> >> On Fri, Jul 24 2020 at 03:03 -0600, Rajendra Nayak wrote:
->> >> >Hi Maulik/Lina,
->> >> >
->> >> >On 7/23/2020 11:36 PM, Stanimir Varbanov wrote:
->> >> >>Hi Rajendra,
->> >> >>
->> >> >>After applying 2,3 and 4/5 patches on linaro-integration v5.8-rc2 I see
->> >> >>below messages on db845:
->> >> >>
->> >> >>qcom-venus aa00000.video-codec: dev_pm_opp_set_rate: failed to find
->> >> >>current OPP for freq 533000097 (-34)
->> >> >>
->> >> >>^^^ This one is new.
->> >> >>
->> >> >>qcom_rpmh TCS Busy, retrying RPMH message send: addr=0x30000
->> >> >>
->> >> >>^^^ and this message is annoying, can we make it pr_debug in rpmh?
->> >> >
->> >> How annoyingly often do you see this message?
->> >> Usually, this is an indication of bad system state either on remote
->> >> processors in the SoC or in Linux itself. On a smooth sailing build you
->> >> should not see this 'warning'.
->> >>
->> >> >Would you be fine with moving this message to a pr_debug? Its currently
->> >> >a pr_info_ratelimited()
->> >> I would rather not, moving this out of sight will mask a lot serious
->> >> issues that otherwise bring attention to the developers.
->> >>
->> >
->> >I removed this warning message in my patch posted to the list[1]. If
->> >it's a serious problem then I suppose a timeout is more appropriate, on
->> >the order of several seconds or so and then a pr_warn() and bail out of
->> >the async call with an error.
->> >
->> The warning used to capture issues that happen within a second and it
->> helps capture system related issues. Timing out after many seconds
->> overlooks the system issues that generally tend to resolve itself, but
->> nevertheless need to be investigated.
->>
+Hi Laurent,
+
+On Tue, Jul 28, 2020 at 8:55 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
->Is it correct to read "system related issues" as performance problems
->where the thread is spinning forever trying to send a message and it
->can't? So the problem is mostly that it's an unbounded amount of time
->before the message is sent to rpmh and this printk helps identify those
->situations where that is happening?
+> Hi Prabhakar,
 >
-Yes, but mostly a short period of time like when other processors are in
-the middle of a restart or resource states changes have taken unusual
-amounts of time. The system will generally recover from this without
-crashing in this case. User action is investigation of the situation
-leading to these messages.
+> On Tue, Jul 28, 2020 at 08:04:39PM +0100, Lad, Prabhakar wrote:
+> > On Tue, Jul 28, 2020 at 7:43 PM Laurent Pinchart wrote:
+> > > On Tue, Jul 28, 2020 at 06:50:21PM +0100, Lad, Prabhakar wrote:
+> > > > Hi,
+> > > >
+> > > > I am currently investigating adding support for the BT656 format which
+> > > > is currently missing in the driver.
+> > > >
+> > > > The platform which I am currently testing can support both 8-bit DVP
+> > > > and BT656 modes.
+> > > > * Testing DVP mode capturing 320x240, 640x480 worked  OK with random
+> > > > green lines in-between
+> > > >
+> > > > Following is the chunk of code which enables BT656 support,  (for
+> > > > BT656 mode ov5640_set_dvp_pclk() is used), with the below changes I
+> > > > can get 640x480 working
+> > > >
+> > > > #define OV5640_REG_CCIR656_CTRL00    0x4730
+> > > >
+> > > > static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
+> > > > {
+> > > >     int ret;
+> > > >
+> > > >     ret = ov5640_write_reg(sensor,
+> > > >                    OV5640_REG_IO_MIPI_CTRL00, on ? 0x18: 0);
+> > > >     if (ret)
+> > > >         return ret;
+> > > >
+> > > >     ret = ov5640_write_reg(sensor,
+> > > >                    OV5640_REG_PAD_OUTPUT_ENABLE01, 0x7f);
+> > > >     if (ret)
+> > > >         return ret;
+> > > >
+> > > >     ret = ov5640_write_reg(sensor,
+> > > >                    OV5640_REG_PAD_OUTPUT_ENABLE02, 0xfc);
+> > > >     if (ret)
+> > > >         return ret;
+> > > >
+> > > >     return ov5640_write_reg(sensor,
+> > > >                 OV5640_REG_CCIR656_CTRL00, on ? 0x1: 0x0);
+> > > > }
+> > > >
+> > > > As soon as I change the code to below to disable the data pads on
+> > > > stream OFF as below it stops working!
+>
+> What stops working ? BT.656, non-BT.656, or both ? And how exactly does
+> it stop working ? The change below only affects the !on case, does the
+> first capture succeed and the subsequent captures fail ?
+>
+Sorry for the confusion. I am mainly focusing on BT.656 atm, so with
+the below (!on case) BT.6565 stops working. Using yavta to capture
+single frames [1] the first run is OK and subsequent fails and its
+similar behaviour with gstreamer pipeline [2] too.
 
->Otherwise as you say above it's a bad system state where the rpmh
->processor has gotten into a bad state like a crash? Can we recover from
->that? Or is the only recovery a reboot of the system? Does the rpmh
->processor reboot the system if it crashes?
-We cannot recover from such a state. The remote processor will reboot if
-it detects a failure at it's end. If the system entered a bad state, it
-is possible that RPMH requests start timing out in Linux and remote
-processor may not detect it. Hence, the timeout in rpmh_write() API. The
-advised course of action is a restart as there is no way to recover from
-this state.
+[1] yavta /dev/video$1 -c1 -n3 -s640x480 -fUYVY -Fov.raw
+[2] gst-launch-1.0 -emv v4l2src device=/dev/video$1 io-mode=dmabuf !
+queue ! 'video/x-raw,format=UYVY,width=640,height=480,framerate=30/1'
+! queue ! videoconvert ! queue ! fbdevsink sync=false
 
---Lina
+Cheers,
+Prabhakar
 
-
+> > > > static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
+> > > > {
+> > > >     int ret;
+> > > >
+> > > >     ret = ov5640_write_reg(sensor,
+> > > >                    OV5640_REG_IO_MIPI_CTRL00, on ? 0x18: 0);
+> > > >     if (ret)
+> > > >         return ret;
+> > > >
+> > > >     ret = ov5640_write_reg(sensor,
+> > > >                    OV5640_REG_PAD_OUTPUT_ENABLE01, on ? 0x7f, 0);
+> > >
+> > > s/,/:/ ? Is that a typo in your e-mail, or also in the code you've
+> > > tested ? I assume the former as the latter shouldn't compile.
+> >
+> > My bad it's a typo :) as my code base had one which doesnt disable
+> > data pads on stream off, so I mistyped while hand crafting it.
+> >
+> > > >     if (ret)
+> > > >         return ret;
+> > > >
+> > > >     ret = ov5640_write_reg(sensor,
+> > > >                    OV5640_REG_PAD_OUTPUT_ENABLE02, on ? 0xfc, 0);
+> > > >     if (ret)
+> > > >         return ret;
+> > > >
+> > > >     return ov5640_write_reg(sensor,
+> > > >                 OV5640_REG_CCIR656_CTRL00, on ? 0x1: 0x0);
+> > > > }
+> > > >
+> > > > Looking at the datasheet [1] I don't find it wrong or is there any
+> > > > information missing in this freely available datasheet.
+> > > >
+> > > > Ideally BT656 mode should just work in DVP mode by setting 0x1 in
+> > > > 0x4730, but doesn work.
+> > > >
+> > > > Is there anything  I'm missing here, any thoughts ?
+> > > >
+> > > > [1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
