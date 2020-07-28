@@ -2,90 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 262F52309DD
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 14:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A0542309EA
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 14:24:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728604AbgG1MWn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 08:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728300AbgG1MWm (ORCPT
+        id S1729146AbgG1MYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 08:24:42 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52196 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728300AbgG1MYm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 08:22:42 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A15FC061794
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 05:22:42 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id g6so8273621ljn.11
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 05:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TESeuYU5SfzLxBWMQ4kl8vP13Tpf9d4XmBM8Gp63Ao8=;
-        b=tWs0cbIEtxsoEEWx87oQK2/AgPlRAXgY0LbgzgRA3ewO5DWL6Fyxb8WS3aulE9/J9C
-         X3RsXavLk4qFUAWa4p05w6NqoVN+pucr64IBxtUbfF0Mf29aAXTZyAEJTyX15Z9ovorj
-         wQEi4O2bCR8ckUmBIg6mwgpxBnP5IMhwzOd86n02qGgjjYaAjBM79Rn3x2dlCYpTnBqV
-         I+UTfpEnvgnzhrgm3JZqje3nsXlj8agQslaPouGHWhmpPABmgolCN9NXsxPDZd1PQh+v
-         NGQwfGtgnwr0M3pbpqj4n2+rOU/1w12GWAALbgiFNbUtF3NmRBGZFe+sqUlrg1pbaDHE
-         v+qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TESeuYU5SfzLxBWMQ4kl8vP13Tpf9d4XmBM8Gp63Ao8=;
-        b=KYietagCjCjPSXcWlUUNEhH0H9sXQuQxLFNKTKxof9J9/+OSAOLLZ+URSqvk0XSNyo
-         5iNd+LPT8YD2IOB4nXkJFX1RHa1IeYZ9Az2CKld1xAh6tNeD40xNtGEEXtaZ0/l5uowd
-         2qDJm8Uye1ODkLWlj36raGYmj1ZrQPMjjeToGqaAgeUHNH28lxPJBqn5zEOtGe0ZhjrD
-         4zqzhjPfFJg4U7feoFqKUhRxzgWVGk+kjZRjagTkWetmPko1QLzqKo+n2ZO49WtPVJgL
-         K06uzuzsBaJRIlOt2mM+BgRbUbMMK4ro6K3jl5r8xWMVTTq5Z72Up8bKa/XzjTwqs/6V
-         UleQ==
-X-Gm-Message-State: AOAM532usgkXoaNY2q9+OLVoAnLsRir1Q3SxVsJx1XGJFz9yoxf9/LKJ
-        sVOw76Vs18kwriiIZoJti9X6IRT2B+ojTKzjurxARA==
-X-Google-Smtp-Source: ABdhPJxFKokBgoeIMtwaFCWZjTjcyuOq58U+G8s0TH2HfjNeeOsLST8x9LgKqX+cy/D0oEkPhul5xgMLR5yLY5nKt8c=
-X-Received: by 2002:a2e:90e:: with SMTP id 14mr5500607ljj.293.1595938960755;
- Tue, 28 Jul 2020 05:22:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com> <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam>
-In-Reply-To: <20200727131608.GD1913@kadam>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 28 Jul 2020 14:22:29 +0200
-Message-ID: <CACRpkda7k4L+nqAYE6z2FVZF-WT2Pm3CHH_=fW24xz_u+QCMRQ@mail.gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Peilin Ye <yepeilin.cs@gmail.com>,
+        Tue, 28 Jul 2020 08:24:42 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 87866297427
+Subject: Re: [PATCH v2 3/3] media: vimc: Join pipeline if one already exists
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vandana BN <bnvandana@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+References: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
+ <20200724120213.17119-4-kgupta@es.iitr.ac.in>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <e70ecfa2-695f-70ca-eccc-841477700445@collabora.com>
+Date:   Tue, 28 Jul 2020 14:24:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200724120213.17119-4-kgupta@es.iitr.ac.in>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 3:17 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
 
-> Here are my latest warnings on linux-next from Friday.
 
-Thanks for sharing this Dan, very interesting findings.
+On 24.07.20 14:02, Kaaira Gupta wrote:
+> An output which is running is already part of a pipeline and trying to
+> start a new pipeline is not possible. This prevents two capture devices
+> from streaming at the same time.
+> 
+> Instead of failing to start the second capture device allow it to join
+> the already running pipeline. This allows two (or more) capture devices
+> to independently be started and stopped.
+> 
+> [Kaaira: Changed the search for an existing connected sensor, to search
+> for a non-NULL pipe instead, this helps to terminate the search at
+> output itself instead of going till the sensor, changed variable names,
+> commit message and conditions accordingly]
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> ---
+>   .../media/test-drivers/vimc/vimc-capture.c    | 35 ++++++++++++++++++-
+>   1 file changed, 34 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+> index c63496b17b9a..423d5e5a508d 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+> @@ -237,16 +237,49 @@ static void vimc_cap_return_all_buffers(struct vimc_cap_device *vcap,
+>   	spin_unlock(&vcap->qlock);
+>   }
+>   
+> +static struct media_entity *vimc_cap_get_output(struct vimc_cap_device *vcap)
+> +{
+> +	struct media_entity *entity = &vcap->vdev.entity;
+> +	struct media_device *mdev = entity->graph_obj.mdev;
+> +	struct media_graph graph;
+> +
+> +	mutex_lock(&mdev->graph_mutex);
+> +	if (media_graph_walk_init(&graph, mdev)) {
+> +		mutex_unlock(&mdev->graph_mutex);
+> +		return NULL;
+> +	}
+> +
+> +	media_graph_walk_start(&graph, entity);
+> +
+> +	while ((entity = media_graph_walk_next(&graph)))
+> +		if (entity->pipe)
+> +			break;
+> +
+> +	mutex_unlock(&mdev->graph_mutex);
+> +
+> +	media_graph_walk_cleanup(&graph);
+> +
+> +	return entity;
+> +}
+> +
+>   static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+>   {
+>   	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
+>   	struct media_entity *entity = &vcap->vdev.entity;
+> +	struct media_pipeline *pipe = NULL;
+> +	struct media_entity *oent;
+>   	int ret;
+>   
+>   	vcap->sequence = 0;
+>   
+>   	/* Start the media pipeline */
+> -	ret = media_pipeline_start(entity, &vcap->stream.pipe);
+> +	oent = vimc_cap_get_output(vcap);
+> +	if (oent)
+> +		pipe = oent->pipe;
+> +	else
+> +		pipe = &vcap->stream.pipe;
+> +
+> +	ret = media_pipeline_start(entity, pipe);
+>   	if (ret) {
+>   		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+>   		return ret;
+>
 
-> drivers/gpio/gpiolib-cdev.c:473 lineevent_read() warn: check that 'ge' doesn't leak information (struct has a hole after 'id')
+I think there is actually no need to iterate the graph. If the capture is already connected to another capture
+that streams, it means that they both have the same pipe in the media core.
+So actually the code can just be:
 
-We are revamping the ABI for 64bit compatibility so we are now running
-pahole on our stuff. I suppose we need to think about mending this old ABI
-as well.
+if (vcap->ved.ent->pipe)
+	pipe = vcap->ved.ent->pipe;
+else
+	pipe = &vcap->stream.pipe;
 
-Yours,
-Linus Walleij
+
+(and no need the function vimc_cap_get_output)
+
+Thanks,
+Dafna
+  
