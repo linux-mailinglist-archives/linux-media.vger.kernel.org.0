@@ -2,129 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4836D23072B
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 12:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A59D230785
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 12:19:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728540AbgG1KDL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 06:03:11 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:38096 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728417AbgG1KDK (ORCPT
+        id S1728720AbgG1KTC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 06:19:02 -0400
+Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:54709 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728050AbgG1KTB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 06:03:10 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06S9vbJ9024190;
-        Tue, 28 Jul 2020 10:02:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=rY2vB0P0/tyjyjLirqTSdg6vE+kWv7ysFIAp+6VnZjk=;
- b=ZllVecSYmeFo12UYNjUyMiX3cwsufWaPC1rydm5AJtCgWr6p5D/nL6U/1kvQdqYz1tK9
- BgfO4qc9t4zuRjR4xnW2uBx+mTPriBegnjnF0IK7yQPceai+3UN33QfSmHWInkbRFuYe
- G+UI1dvfPC8otgbnKalrbEFIlIXm9Hib8tuHwegHAGq3y8bMCn/iaEQYjgKPcbf701Ol
- cb4Z+8hDcz8QdK9xTAzrVSkTeTnF+42QG6WFxnl84NyAV9YkNR0YejqytxkBiRw/MpBs
- Y0+apsWepOc23H6zsTVv1TaY7gEwQEP1FCRNet4IVD9XrpGFN9ESzO5k3WEhi0++5ct1 ow== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 32hu1j6j8e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 28 Jul 2020 10:02:52 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06SA2ZpS082878;
-        Tue, 28 Jul 2020 10:02:51 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 32hu5skcft-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 28 Jul 2020 10:02:51 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06SA2kKG021605;
-        Tue, 28 Jul 2020 10:02:46 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 28 Jul 2020 03:02:46 -0700
-Date:   Tue, 28 Jul 2020 13:02:37 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Peilin Ye <yepeilin.cs@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vandana BN <bnvandana@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
-Message-ID: <20200728100237.GG2571@kadam>
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam>
- <20200727220456.GA328887@PWN>
+        Tue, 28 Jul 2020 06:19:01 -0400
+Received: from localhost.localdomain ([93.23.107.187])
+        by mwinf5d69 with ME
+        id 8aJw2300442dCi503aJwA2; Tue, 28 Jul 2020 12:18:57 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 28 Jul 2020 12:18:57 +0200
+X-ME-IP: 93.23.107.187
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     mchehab@kernel.org, sean@mess.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: dm1105: switch from 'pci_' to 'dma_' API
+Date:   Tue, 28 Jul 2020 12:18:54 +0200
+Message-Id: <20200728101854.67975-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200727220456.GA328887@PWN>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9695 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007280076
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9695 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxscore=0 impostorscore=0
- phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007280075
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 06:04:56PM -0400, Peilin Ye wrote:
-> On Mon, Jul 27, 2020 at 04:16:08PM +0300, Dan Carpenter wrote:
-> > drivers/char/hpet.c:675 hpet_ioctl() warn: check that 'info' doesn't leak information (struct has a hole after 'hi_timer')
-> 
-> This one seems like a false positive.
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-Yep.
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
 
-> 
-> drivers/char/hpet.c:670:
-> 
-> 	mutex_lock(&hpet_mutex);
-> 	err = hpet_ioctl_common(file->private_data, cmd, arg, &info);
-> 	mutex_unlock(&hpet_mutex);
-> 
-> 	if ((cmd == HPET_INFO) && !err &&
-> 	    (copy_to_user((void __user *)arg, &info, sizeof(info))))
-> 		err = -EFAULT;
+When memory is allocated, GFP_KERNEL can be used because it is called from
+the probe function and no lock is taken.
 
-When Smatch parses hpet_ioctl_common() it says there are two success
-paths:
+The call chain is:
+   dm1105_probe
+      --> dm1105_hw_init
+         --> dm1105_dma_map
 
-drivers/char/hpet.c | hpet_ioctl_common | 170 |             0 |   PARAM_LIMIT |   1 |                    $ |                26625 |
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
 
-The first success path is for when cmd is HPET_IE_ON.  We don't care
-about that.
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
 
-drivers/char/hpet.c | hpet_ioctl_common | 185 |             0 |   PARAM_LIMIT |   1 |                    $ | 26626,26628-26629,1074292742,2149083139 |
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
 
-The second success path is for when cmd is HPET_IE_OFF, HPET_INFO,
-HPET_EPI, HPET_DPI, or HPET_IRQFREQ.  If Smatch tracked the HPET_INFO
-by itself then this wouldn't print a warning, but since Smatch groups
-all those cmds together then it does print a warning.
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
 
-It's not impossible to make Smatch split apart the success paths some
-more but it's complicated because it means storing more data and slows
-down the parsing.  The cross function database is already 27GB on my
-system.
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
 
-regards,
-dan carpenter
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/pci/dm1105/dm1105.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/media/pci/dm1105/dm1105.c b/drivers/media/pci/dm1105/dm1105.c
+index 9dce31d2b525..4ac645a56c14 100644
+--- a/drivers/media/pci/dm1105/dm1105.c
++++ b/drivers/media/pci/dm1105/dm1105.c
+@@ -604,19 +604,17 @@ static void dm1105_set_dma_addr(struct dm1105_dev *dev)
+ 
+ static int dm1105_dma_map(struct dm1105_dev *dev)
+ {
+-	dev->ts_buf = pci_alloc_consistent(dev->pdev,
+-					6 * DM1105_DMA_BYTES,
+-					&dev->dma_addr);
++	dev->ts_buf = dma_alloc_coherent(&dev->pdev->dev,
++					 6 * DM1105_DMA_BYTES, &dev->dma_addr,
++					 GFP_KERNEL);
+ 
+ 	return !dev->ts_buf;
+ }
+ 
+ static void dm1105_dma_unmap(struct dm1105_dev *dev)
+ {
+-	pci_free_consistent(dev->pdev,
+-			6 * DM1105_DMA_BYTES,
+-			dev->ts_buf,
+-			dev->dma_addr);
++	dma_free_coherent(&dev->pdev->dev, 6 * DM1105_DMA_BYTES, dev->ts_buf,
++			  dev->dma_addr);
+ }
+ 
+ static void dm1105_enable_irqs(struct dm1105_dev *dev)
+@@ -1010,7 +1008,7 @@ static int dm1105_probe(struct pci_dev *pdev,
+ 	if (ret < 0)
+ 		goto err_kfree;
+ 
+-	ret = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
++	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+ 	if (ret < 0)
+ 		goto err_pci_disable_device;
+ 
+-- 
+2.25.1
+
