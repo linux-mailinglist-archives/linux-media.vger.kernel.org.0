@@ -2,136 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADF65230BE8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 15:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 445A7230BF5
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 16:00:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730281AbgG1N6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 09:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59140 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730238AbgG1N6r (ORCPT
+        id S1730239AbgG1OAw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 10:00:52 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53658 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730056AbgG1OAw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 09:58:47 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D193DC0619D2
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 06:58:46 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id k20so10645394wmi.5
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 06:58:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LTjUuKu28q4AP2apkOdAzx1cK7jJDnTHDeP/9uZly44=;
-        b=KqeArdqygfldyaA4gJRiGfTgCwK4wgPCAMC7uombuUYQ1buL6zCp8yoRWk5H+Vp2qt
-         M36J4wt9gCrJShAOCDVpPvxoVn5Osk7fRw15JUm/WE0gwcmaIwLFFiYS3d0f5MnFSxq/
-         iQOkoFGM5zyBIuGT0vXj0lazqprYYPD+oNhM0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LTjUuKu28q4AP2apkOdAzx1cK7jJDnTHDeP/9uZly44=;
-        b=hiQOUelubQYegYl9X2A6dCXdh9SXD3K61CWC6ZOK7+UhQeY1dHhrcvdnZz2U61S/ih
-         cy3sGttOUmm3xlDFtfm2icPL33qb5QUtIXS9AoOhI0QYO5e9kVH8KhPE2F+4CWo/Jvi+
-         suwckGhUabdJcoPbKYJo96MqvT0YbhnaIhXTXz6Gm9KDEbS1hm/GWx2bXOhvPtAVtnaG
-         BLicQC9e+dlIffZsw2OEC67TRUYola7yK2vxnNCaL5xfwL6PUK9ATVr2QpQ2gs4/Nkfg
-         SpYt95a9EBlI0aNJERF/hH1CVeNyLGhcl82AMWfIpuQwt53FazE7uB9jaWWXpcMTbOIq
-         UMNA==
-X-Gm-Message-State: AOAM531x86DRTHBo7v3GDV9n7ykaU6bOr5eIVmlQqbEVI/irdJICatd2
-        35cT0tBd+6o4XdZs7tcLP+DMBA==
-X-Google-Smtp-Source: ABdhPJzN7u/m6RCqY38cX52hSfOrqIs4C8PfjuXHcoP5UoM1XsD3zH2RZL3E9SBC/M2256p1vsiwQw==
-X-Received: by 2002:a7b:c403:: with SMTP id k3mr4097843wmi.35.1595944725621;
-        Tue, 28 Jul 2020 06:58:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id q6sm4505414wma.22.2020.07.28.06.58.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2020 06:58:44 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Dave Chinner <david@fromorbit.com>, Qian Cai <cai@lca.pw>,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@mellanox.com>, linux-mm@kvack.org,
-        linux-rdma@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH] dma-resv: lockdep-prime address_space->i_mmap_rwsem for dma-resv
-Date:   Tue, 28 Jul 2020 15:58:39 +0200
-Message-Id: <20200728135839.1035515-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.27.0
+        Tue, 28 Jul 2020 10:00:52 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 2BFF629627B
+Subject: Re: [PATCH v2 0/3] media: vimc: Allow multiple capture devices to use
+ the same sensor
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Helen Koike <helen.koike@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+References: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
+ <20200724121521.GA2705690@oden.dyn.berto.se>
+ <20200724122104.GA18482@kaaira-HP-Pavilion-Notebook>
+ <a6f4eabf-6cd5-950b-f2e3-853370c77629@ideasonboard.com>
+ <2a6cb067-283d-ca65-2698-1fae66a17d02@collabora.com>
+ <20200728113959.GA6350@kaaira-HP-Pavilion-Notebook>
+ <3a9ac970-77b8-1bc5-536a-5b4f2bd60745@collabora.com>
+Message-ID: <b5fd3811-2f0e-7563-13fa-bb1e32189814@collabora.com>
+Date:   Tue, 28 Jul 2020 16:00:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <3a9ac970-77b8-1bc5-536a-5b4f2bd60745@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-GPU drivers need this in their shrinkers, to be able to throw out
-mmap'ed buffers. Note that we also need dma_resv_lock in shrinkers,
-but that loop is resolved by trylocking in shrinkers.
 
-So full hierarchy is now (ignore some of the other branches we already
-have primed):
 
-mmap_read_lock -> dma_resv -> shrinkers -> i_mmap_lock_write
+On 28.07.20 14:07, Dafna Hirschfeld wrote:
+> Hi
+> 
+> On 28.07.20 13:39, Kaaira Gupta wrote:
+>> On Mon, Jul 27, 2020 at 02:54:30PM -0300, Helen Koike wrote:
+>>> Hi,
+>>>
+>>> On 7/27/20 11:31 AM, Kieran Bingham wrote:
+>>>> Hi all,
+>>>>
+>>>> +Dafna for the thread discussion, as she's missed from the to/cc list.
+>>>>
+>>>>
+>>>> On 24/07/2020 13:21, Kaaira Gupta wrote:
+>>>>> On Fri, Jul 24, 2020 at 02:15:21PM +0200, Niklas Söderlund wrote:
+>>>>> Hi,
+>>>>>
+>>>>>> Hi Kaaira,
+>>>>>>
+>>>>>> Thanks for your work.
+>>>>>
+>>>>> Thanks for yours :D
+>>>>>
+>>>>>>
+>>>>>> On 2020-07-24 17:32:10 +0530, Kaaira Gupta wrote:
+>>>>>>> This is version 2 of the patch series posted by Niklas for allowing
+>>>>>>> multiple streams in VIMC.
+>>>>>>> The original series can be found here:
+>>>>>>> https://patchwork.kernel.org/cover/10948831/
+>>>>>>>
+>>>>>>> This series adds support for two (or more) capture devices to be
+>>>>>>> connected to the same sensors and run simultaneously. Each capture device
+>>>>>>> can be started and stopped independent of each other.
+>>>>>>>
+>>>>>>> Patch 1/3 and 2/3 deals with solving the issues that arises once two
+>>>>>>> capture devices can be part of the same pipeline. While 3/3 allows for
+>>>>>>> two capture devices to be part of the same pipeline and thus allows for
+>>>>>>> simultaneously use.
+> 
+> I wonder if these two patches are enough, since each vimc entity also have
+> a 'process_frame' callback, but only one allocated frame. That means
+> that the 'process_frame' can be called concurrently by two different streams
+> on the same frame and cause corruption.
+> 
 
-I hope that's not inconsistent with anything mm or fs does, adding
-relevant people.
+I think we should somehow change the vimc-stream.c code so that we have only
+one stream process per pipe. So if one capture is already streaming, then the new
+capture that wants to stream uses the same thread so we don't have two threads
+both calling 'process_frame'.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: Dave Chinner <david@fromorbit.com>
-Cc: Qian Cai <cai@lca.pw>
-Cc: linux-xfs@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Cc: Thomas Hellström (Intel) <thomas_os@shipmail.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jason Gunthorpe <jgg@mellanox.com>
-Cc: linux-mm@kvack.org
-Cc: linux-rdma@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
----
- drivers/dma-buf/dma-resv.c | 5 +++++
- 1 file changed, 5 insertions(+)
+The second capture that wants to stream should iterate the topology downwards until
+reaching an entity that already belong to the stream path of the other streaming capture
+and tell the streamer it wants to read the frames this entity
+produces.
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 0e6675ec1d11..9678162a4ac5 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -104,12 +104,14 @@ static int __init dma_resv_lockdep(void)
- 	struct mm_struct *mm = mm_alloc();
- 	struct ww_acquire_ctx ctx;
- 	struct dma_resv obj;
-+	struct address_space mapping;
- 	int ret;
- 
- 	if (!mm)
- 		return -ENOMEM;
- 
- 	dma_resv_init(&obj);
-+	address_space_init_once(&mapping);
- 
- 	mmap_read_lock(mm);
- 	ww_acquire_init(&ctx, &reservation_ww_class);
-@@ -117,6 +119,9 @@ static int __init dma_resv_lockdep(void)
- 	if (ret == -EDEADLK)
- 		dma_resv_lock_slow(&obj, &ctx);
- 	fs_reclaim_acquire(GFP_KERNEL);
-+	/* for unmap_mapping_range on trylocked buffer objects in shrinkers */
-+	i_mmap_lock_write(&mapping);
-+	i_mmap_unlock_write(&mapping);
- #ifdef CONFIG_MMU_NOTIFIER
- 	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
- 	__dma_fence_might_wait();
--- 
-2.27.0
+Thanks,
+Dafna
 
+> Thanks,
+> Dafna
+> 
+>>>>>>
+>>>>>> I'm just curious if you are aware of this series? It would replace the
+>>>>>> need for 1/3 and 2/3 of this series right?
+>>>>>
+>>>>> v3 of this series replaces the need for 1/3, but not the current version
+>>>>> (ie v4). v4 of patch 2/5 removes the stream_counter that is needed to
+>>>>> keep count of the calls to s_stream. Hence 1/3 becomes relevant again.
+>>>>
+>>>> So the question really is, how do we best make use of the two current
+>>>> series, to achieve our goal of supporting multiple streams.
+>>>>
+>>>> Having not parsed Dafna's series yet, do we need to combine elements of
+>>>> both ? Or should we work towards starting with this series and get
+>>>> dafna's patches built on top ?
+>>>>
+>>>> Or should patch 1/3 and 3/3 of this series be on top of Dafna's v4 ?
+>>>>
+>>>> (It might be noteworthy to say that Kaaira has reported successful
+>>>> multiple stream operation from /this/ series and her development branch
+>>>> on libcamera).
+>>>
+>>> Dafna's patch seems still under discussion, but I don't want to block progress in Vimc either.
+>>>
+>>> So I was wondering if we can move forward with Vimc support for multistreaming,
+>>> without considering Dafna's patchset, and we can do the clean up later once we solve that.
+>>>
+>>> What do you think?
+>>
+>> I agree with supporting multiple streams with VIMC with this patchset,
+>> and then we can refactor the counters for s_stream in VIMC later (over
+>> this series) if dafna includes them in subsequent version of her patchset.
+>>
+> 
+> I also think that adding support in the code will take much longer and should not
+> stop us from supporting vimc independently.
+> 
+> Thanks,
+> Dafna
+> 
+>>>
+>>> Regards,
+>>> Helen
+>>>
+>>>>
+>>>>
+>>>>>> 1.  https://lore.kernel.org/linux-media/20200522075522.6190-1-dafna.hirschfeld@collabora.com/
+>>>>>>
+>>>>>>>
+>>>>>>> Changes since v1:
+>>>>>>>     - All three patches rebased on latest media-tree.
+>>>>>>>     Patch 3:
+>>>>>>>     - Search for an entity with a non-NULL pipe instead of searching
+>>>>>>>       for sensor. This terminates the search at output itself.
+>>>>>>>
+>>>>>>> Kaaira Gupta (3):
+>>>>>>>    media: vimc: Add usage count to subdevices
+>>>>>>>    media: vimc: Serialize vimc_streamer_s_stream()
+>>>>>>>    media: vimc: Join pipeline if one already exists
+>>>>>>>
+>>>>>>>   .../media/test-drivers/vimc/vimc-capture.c    | 35 ++++++++++++++++++-
+>>>>>>>   .../media/test-drivers/vimc/vimc-debayer.c    |  8 +++++
+>>>>>>>   drivers/media/test-drivers/vimc/vimc-scaler.c |  8 +++++
+>>>>>>>   drivers/media/test-drivers/vimc/vimc-sensor.c |  9 ++++-
+>>>>>>>   .../media/test-drivers/vimc/vimc-streamer.c   | 23 +++++++-----
+>>>>>>>   5 files changed, 73 insertions(+), 10 deletions(-)
+>>>>>>>
+>>>>>>> -- 
+>>>>>>> 2.17.1
+>>>>>>>
+>>>>>>
+>>>>>> -- 
+>>>>>> Regards,
+>>>>>> Niklas Söderlund
+>>>>
