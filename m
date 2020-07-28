@@ -2,155 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65A8F231251
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 21:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 376632312D3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 21:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732656AbgG1TR4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 15:17:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729133AbgG1TRz (ORCPT
+        id S1732873AbgG1Thb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 15:37:31 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:7219 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729846AbgG1Thb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 15:17:55 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D002DC0619D2
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 12:17:55 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id s144so8581481oie.3
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 12:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tsQ2Xj7AJ9j1QK6CR85sgGm7aJ0udfYN+K/GnPLpLbM=;
-        b=g7TgRceJkWHA8Gdrz/5KD+CzesTetjdFidS4FAzi4lpvcxWtsQYny19T8XXlUrrkem
-         ayzc0GZiIfc70wq8DMNsUX8SusGZt12P7ACPGfEGKD0C0WJhCyYcnX8h3TOI1oSbQDsa
-         fF/d3X1Toxt+pY8/Y80l0rRaAjQXO5u+SozqWqlP83Z7gi2VRNJUm4uVE5A0cRWAzzrz
-         8nD+ugQN8H2GE+Vyo6tsnep4ZOi9FBb09O4ja0k/y4jwrZdRKH/fdRmPVbNfvgD06wUd
-         uI83nG8Fjyqu7mv8GkWniQm7t2kuG+KKR4ytgHHM7ZCi62BRw3V4O4jVv2q8XGOIZ0xK
-         EYlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tsQ2Xj7AJ9j1QK6CR85sgGm7aJ0udfYN+K/GnPLpLbM=;
-        b=aSLGr/1XGorSLavGhWtYOzRg/MbLRC68j7EL6HDwbNpeW3SnmhFs3JFoqEF6x20FID
-         uLP80LyBffOLM9CawiSNv2640hfMnjZzFUGWszHa1bcxyj+iytBF6qgXqEl3l9OjHQ/F
-         rWS7Z+OEZOddCVy30wtjep59VQWb3OTwSRdK/mUmP03RZRzJVB7JXsh9/8QILHsXXO5d
-         pAjrxVIXsOM/k9r3VBZcN7IZro7wLazexPzO8WGfQx5e7QLd9dvx9/VMZHz5WuRp4Fpr
-         liG69wjfnHSywlYGAc+HitG8WjeJuXbt92vPT3XCQmUxbqR242Vqg3neZ5FrJPb99Zeg
-         F2vA==
-X-Gm-Message-State: AOAM533zGmqqh9I/5hEehAoS4WcFULg7al7WypA1dGlTKDwhduZn9EG1
-        6dUrogyeBkj9WBltVUwJssVJb8/YiwjEw4UULKI97w==
-X-Google-Smtp-Source: ABdhPJzG+EYMW8ZqVkQmWbz8HGmD3b012cHdzgtF5YTIcW8bgYYQxe6jtAovZ/LwvvmBrtV7DgJbflOpFiiLYO7ljsQ=
-X-Received: by 2002:aca:b5c3:: with SMTP id e186mr5015644oif.10.1595963875197;
- Tue, 28 Jul 2020 12:17:55 -0700 (PDT)
+        Tue, 28 Jul 2020 15:37:31 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f207e6c0003>; Tue, 28 Jul 2020 12:37:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 28 Jul 2020 12:37:30 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 28 Jul 2020 12:37:30 -0700
+Received: from [10.2.168.236] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jul
+ 2020 19:37:29 +0000
+Subject: Re: [RFC PATCH v5 13/14] media: tegra-video: Add CSI MIPI pads
+ calibration
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+References: <1595883452-17343-1-git-send-email-skomatineni@nvidia.com>
+ <1595883452-17343-14-git-send-email-skomatineni@nvidia.com>
+ <c3d40261-9d77-3634-3e04-f20efad9d3d8@gmail.com>
+ <01ee0805-3d57-d857-48e3-5c2245cd4500@nvidia.com>
+Message-ID: <edefa3b1-e0fe-0f34-80b7-8729551ee2ea@nvidia.com>
+Date:   Tue, 28 Jul 2020 12:43:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com>
-In-Reply-To: <1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 28 Jul 2020 12:17:44 -0700
-Message-ID: <CALAqxLXuJQOCXcpyWwyBFZGFK_dEgG0edEEf2=vOpAw6Ng8mBQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: heaps: Introduce dma_heap_add_cma() for
- non-default CMA heap
-To:     Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        "Andrew F . Davis" <afd@ti.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Christian Koenig <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <01ee0805-3d57-d857-48e3-5c2245cd4500@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1595965037; bh=IGHiL01+pCfxDUBGk+J+sS1IuAeLkaTPJTReY8Unf3o=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=ZaUisKhK7xpa5/nsUXCO6YY8CpuPQooaZftXiY0f5x1hzdGX8Ydeo5+t9p/YDhmx3
+         JBJl8mCZ8+1JWQfHVHNN75IIEt4jT0jwhkymKwxyGKtZKVBRDuHrBI+RuIVPPbDk8r
+         HyiYRQuy1BBGZSJfNFDEpz7IU+IPOP6hCczxh1wvGe9hNqDNhHFWKwMzJ+JG4WcLRg
+         dC3jOKKxGQEzdhiP/e0PCS9JESowb/eYiqiNv1Pgv4OzBHIOGj8FEnDYxT1HAwpux9
+         KECGIYPuccFVjKY5TN367n78kg49ExbTSJbVsQr++FHA1HMZVbsE6i/3RnS95ojadu
+         VepW6NSKlefXA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 6:10 PM Kunihiko Hayashi
-<hayashi.kunihiko@socionext.com> wrote:
->
-> Current dma-buf heaps can handle only default CMA. This introduces
-> dma_heap_add_cma() function to attach CMA heaps that belongs to a device.
->
-> At first, the driver calls of_reserved_mem_device_init() to set
-> memory-region property associated with reserved-memory defined as CMA
-> to the device. And when the driver calls this dma_heap_add_cma(),
-> the CMA will be added to dma-buf heaps.
->
-> For example, prepare CMA node named "linux,cma@10000000" and
-> specify the node for memory-region property. After the above calls
-> in the driver, a device file "/dev/dma_heap/linux,cma@10000000"
-> associated with the CMA become available as dma-buf heaps.
->
-> Signed-off-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-> ---
->  drivers/dma-buf/heaps/cma_heap.c | 12 ++++++++++++
->  include/linux/dma-heap.h         |  9 +++++++++
->  2 files changed, 21 insertions(+)
 
-Hey! Sorry for the slow response on this! I just realized I never replied!
-
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> index 626cf7f..5d2442e 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -162,6 +162,18 @@ static int __add_cma_heap(struct cma *cma, void *data)
->         return 0;
->  }
+On 7/28/20 8:59 AM, Sowjanya Komatineni wrote:
 >
-> +/* add device CMA heap to dmabuf heaps */
-> +int dma_heap_add_cma(struct device *dev)
-> +{
-> +       struct cma *cma = dev_get_cma_area(dev);
-> +
-> +       if (!cma)
-> +               return -ENOMEM;
-> +
-> +       return __add_cma_heap(cma, NULL);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_heap_add_cma);
-> +
->  static int add_default_cma_heap(void)
->  {
->         struct cma *default_cma = dev_get_cma_area(NULL);
-> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-> index 454e354..16bec7d 100644
-> --- a/include/linux/dma-heap.h
-> +++ b/include/linux/dma-heap.h
-> @@ -56,4 +56,13 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
->   */
->  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
+> On 7/28/20 3:30 AM, Dmitry Osipenko wrote:
+>> 27.07.2020 23:57, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> +=C2=A0=C2=A0=C2=A0 /*
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * TRM has incorrectly documented to wait for =
+done status from
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * calibration logic after CSI interface power=
+ on.
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * As per the design, calibration results are =
+latched and applied
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * to the pads only when the link is in LP11 s=
+tate which will=20
+>>> happen
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * during the sensor stream-on.
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * CSI subdev stream-on triggers start of MIPI=
+ pads calibration.
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Wait for calibration to finish here after s=
+ensor subdev=20
+>>> stream-on
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * and in case of sensor stream-on failure, ca=
+ncel the=20
+>>> calibration.
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 subdev =3D on ? src_subdev : csi_subdev;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D v4l2_subdev_call(subdev, video, =
+s_stream, on);
+>>> -=C2=A0=C2=A0=C2=A0 if (ret < 0 && ret !=3D -ENOIOCTLCMD)
+>>> +=C2=A0=C2=A0=C2=A0 if (ret < 0 && ret !=3D -ENOIOCTLCMD) {
+>> I assume -ENOIOCTLCMD means that camera wasn't turned ON, so why
+>> -ENOIOCTLCMD is special?
+> No -ENOIOCTLCMD mean subdev don't have s_stream ops
+>>
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (on && csi_chan->mipi)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 teg=
+ra_mipi_cancel_calibration(csi_chan->mipi);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 if (on && csi_chan->mipi) {
+>> Does finish_calibration() really need to be called for ret=3D-ENOIOCTLCM=
+D?
+>>
+>> Shouldn't it be cancel_calibration( for the -ENOIOCTLCMD?
 >
-> +#ifdef CONFIG_DMABUF_HEAPS_CMA
-> +/**
-> + * dma_heap_add_cma - adds a device CMA heap to dmabuf heaps
-> + * @dev:       device with a CMA heap to register
-> + */
-> +int dma_heap_add_cma(struct device *dev);
-> +
-> +#endif /* CONFIG_DMABUF_HEAPS_CMA */
-> +
->  #endif /* _DMA_HEAPS_H */
-> --
-> 2.7.4
+> start calibration happens during csi sensor streaming which happens=20
+> prior to this point.
+>
+> In case if sensor subdev does not have s_stream ops, then either=20
+> finish/cancel calibration should happen to disable the clock.
 
-Looks sane to me.  Being able to expose different multiple CMA heaps
-is needed, and I agree this way (as opposed to my earlier dts
-appraoch) is probably the best approach. The only bit I'm so-so on is
-adding the CMA heap specific call in the dma-heap.h, but at the same
-time I can't justify adding a whole new header for a single function.
+For -ENOIOCTLCMD, calling finish calibration as some sensors might keep=20
+pads in LP-11 on power up and for such sensors calibration logic will=20
+apply results to pads and done bit will be set.
 
-Do you have a upstream driver that you plan to make use this new call?
-We want to have in-tree users of code added.
+Also avoiding additional check to specifically call cancel calibration=20
+on ENOIOCTLCMD and making it fall into finish calibration as both does=20
+disable clock except finish will wait for done bit to be set.
 
-But if so, feel free to add my:
-  Acked-by: John Stultz <john.stultz@linaro.org>
-To this patch when you submit the driver changes.
+Also, most sensor subdev have s_stream ops implemented.
 
-thanks
--john
+>
+>>
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D tegra_mipi_finish_c=
+alibration(csi_chan->mipi);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev=
+_err(csi_chan->csi->dev,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 "MIPI calibration failed: %d\n", ret);
+>> Doesn't v4l2_subdev_call(OFF) need to be invoked here on error?
+>
+> Not required as on error streaming fails and runtime PM will turn off=20
+> power anyway.
+>
+> Also we only did csi subdev s_stream on and during sensor subdev=20
+> s_stream on fail, actual stream dont happen and on tegra side frame=20
+> capture by HW happens only when kthreads run.
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>> =C2=A0 }
