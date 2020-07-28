@@ -2,111 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A01B2231366
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 22:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DFFA2313A0
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 22:11:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728303AbgG1UBw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 16:01:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59016 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728175AbgG1UBw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 16:01:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B631C061794
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 13:01:52 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 906C9563;
-        Tue, 28 Jul 2020 22:01:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1595966510;
-        bh=fXLWGnBP54MtVe+7MZPfG4krSWDwTgopmTnbBSTxXAI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RL81/5G2Fts8gbJ8jREZxJW788dissfV/cWaofLuEu2mzexyXriCXRv3HJ39LWbOV
-         jtrbrq/9peTv0heGepPfXT7KESDwPM2fRMk5mFhhKtXwQxImHnoLS8nB/elPNUKHsz
-         g6e8hpLgKWUFhNbNkSL05vynXfM7dCdk1pcOpFh0=
-Date:   Tue, 28 Jul 2020 23:01:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: uvcvideo: Cleanup uvc_ctrl_add_info()
- error handling
-Message-ID: <20200728200141.GP13753@pendragon.ideasonboard.com>
-References: <20200728112209.26207-1-hdegoede@redhat.com>
- <20200728112209.26207-2-hdegoede@redhat.com>
+        id S1728233AbgG1ULr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 16:11:47 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:51689 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728163AbgG1ULr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Jul 2020 16:11:47 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1595967106; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=z/j1eXS9EsRM+o+Wag/W7GMKYxap+SCTtlHOOgi+aoQ=; b=qwcL/WmG9zvJoQq/c5hYVjks7erU+ZIjt/HgJGfRGGcN1CIy3cU/BZr2mZ86P4HtMg/WhqzH
+ IqrZyy2Kor0y0h0Gh6rEJVBO0oEJwT5kIhxM7fBCIE5lkVoIP4S/GToJ+C5Xg07/CWixoHJI
+ Lep3Rpby60Zw7bvDouCncoqhA34=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n20.prod.us-west-2.postgun.com with SMTP id
+ 5f208677aa44a6db05bd5e36 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Jul 2020 20:11:35
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 9DA97C43391; Tue, 28 Jul 2020 20:11:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from localhost (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: ilina)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id B8721C433C6;
+        Tue, 28 Jul 2020 20:11:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B8721C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=ilina@codeaurora.org
+Date:   Tue, 28 Jul 2020 14:11:33 -0600
+From:   Lina Iyer <ilina@codeaurora.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Rajendra Nayak <rnayak@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org, Maulik Shah <mkshah@codeaurora.org>
+Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and
+ power-domains for venus
+Message-ID: <20200728201133.GB32586@codeaurora.org>
+References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org>
+ <1595503612-2901-5-git-send-email-rnayak@codeaurora.org>
+ <e68ff810-362a-5b99-206b-f676b204101d@linaro.org>
+ <654e0fcb-ae4d-c151-fa8a-4d029fc823fb@codeaurora.org>
+ <20200724162825.GH9185@codeaurora.org>
+ <159589714088.1360974.13205114501389777927@swboyd.mtv.corp.google.com>
+ <20200728165212.GA32586@codeaurora.org>
+ <159596590401.1360974.283437162250734878@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20200728112209.26207-2-hdegoede@redhat.com>
+In-Reply-To: <159596590401.1360974.283437162250734878@swboyd.mtv.corp.google.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Tue, Jul 28 2020 at 13:51 -0600, Stephen Boyd wrote:
+>Quoting Lina Iyer (2020-07-28 09:52:12)
+>> On Mon, Jul 27 2020 at 18:45 -0600, Stephen Boyd wrote:
+>> >Quoting Lina Iyer (2020-07-24 09:28:25)
+>> >> On Fri, Jul 24 2020 at 03:03 -0600, Rajendra Nayak wrote:
+>> >> >Hi Maulik/Lina,
+>> >> >
+>> >> >On 7/23/2020 11:36 PM, Stanimir Varbanov wrote:
+>> >> >>Hi Rajendra,
+>> >> >>
+>> >> >>After applying 2,3 and 4/5 patches on linaro-integration v5.8-rc2 I see
+>> >> >>below messages on db845:
+>> >> >>
+>> >> >>qcom-venus aa00000.video-codec: dev_pm_opp_set_rate: failed to find
+>> >> >>current OPP for freq 533000097 (-34)
+>> >> >>
+>> >> >>^^^ This one is new.
+>> >> >>
+>> >> >>qcom_rpmh TCS Busy, retrying RPMH message send: addr=0x30000
+>> >> >>
+>> >> >>^^^ and this message is annoying, can we make it pr_debug in rpmh?
+>> >> >
+>> >> How annoyingly often do you see this message?
+>> >> Usually, this is an indication of bad system state either on remote
+>> >> processors in the SoC or in Linux itself. On a smooth sailing build you
+>> >> should not see this 'warning'.
+>> >>
+>> >> >Would you be fine with moving this message to a pr_debug? Its currently
+>> >> >a pr_info_ratelimited()
+>> >> I would rather not, moving this out of sight will mask a lot serious
+>> >> issues that otherwise bring attention to the developers.
+>> >>
+>> >
+>> >I removed this warning message in my patch posted to the list[1]. If
+>> >it's a serious problem then I suppose a timeout is more appropriate, on
+>> >the order of several seconds or so and then a pr_warn() and bail out of
+>> >the async call with an error.
+>> >
+>> The warning used to capture issues that happen within a second and it
+>> helps capture system related issues. Timing out after many seconds
+>> overlooks the system issues that generally tend to resolve itself, but
+>> nevertheless need to be investigated.
+>>
+>
+>Is it correct to read "system related issues" as performance problems
+>where the thread is spinning forever trying to send a message and it
+>can't? So the problem is mostly that it's an unbounded amount of time
+>before the message is sent to rpmh and this printk helps identify those
+>situations where that is happening?
+>
+Yes, but mostly a short period of time like when other processors are in
+the middle of a restart or resource states changes have taken unusual
+amounts of time. The system will generally recover from this without
+crashing in this case. User action is investigation of the situation
+leading to these messages.
 
-Thank you for the patch.
+>Otherwise as you say above it's a bad system state where the rpmh
+>processor has gotten into a bad state like a crash? Can we recover from
+>that? Or is the only recovery a reboot of the system? Does the rpmh
+>processor reboot the system if it crashes?
+We cannot recover from such a state. The remote processor will reboot if
+it detects a failure at it's end. If the system entered a bad state, it
+is possible that RPMH requests start timing out in Linux and remote
+processor may not detect it. Hence, the timeout in rpmh_write() API. The
+advised course of action is a restart as there is no way to recover from
+this state.
 
-On Tue, Jul 28, 2020 at 01:22:09PM +0200, Hans de Goede wrote:
-> There is only 1 error exit in uvc_ctrl_add_info(), so using goto style
-> error handling is not necessary. Also the kfree(ctrl->uvc_data) on error
-> is not necessary, because the only error exit is for the kzalloc() of
-> ctrl->uvc_data failing.
-> 
-> Remove all the error handling cruft and simply do "return -ENOMEM" on
-> kzalloc() failure.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+--Lina
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
-> Changes in v2:
-> - new patch in v2 of this series
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index b78aba991212..dbebc6083e85 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -2011,18 +2011,14 @@ int uvc_ctrl_restore_values(struct uvc_device *dev)
->  static int uvc_ctrl_add_info(struct uvc_device *dev, struct uvc_control *ctrl,
->  	const struct uvc_control_info *info)
->  {
-> -	int ret = 0;
-> -
->  	ctrl->info = *info;
->  	INIT_LIST_HEAD(&ctrl->info.mappings);
->  
->  	/* Allocate an array to save control values (cur, def, max, etc.) */
->  	ctrl->uvc_data = kzalloc(ctrl->info.size * UVC_CTRL_DATA_LAST + 1,
->  				 GFP_KERNEL);
-> -	if (ctrl->uvc_data == NULL) {
-> -		ret = -ENOMEM;
-> -		goto done;
-> -	}
-> +	if (!ctrl->uvc_data)
-> +		return -ENOMEM;
->  
->  	ctrl->initialized = 1;
->  
-> @@ -2030,10 +2026,7 @@ static int uvc_ctrl_add_info(struct uvc_device *dev, struct uvc_control *ctrl,
->  		"entity %u\n", ctrl->info.entity, ctrl->info.selector,
->  		dev->udev->devpath, ctrl->entity->id);
->  
-> -done:
-> -	if (ret < 0)
-> -		kfree(ctrl->uvc_data);
-> -	return ret;
-> +	return 0;
->  }
->  
->  /*
-
--- 
-Regards,
-
-Laurent Pinchart
