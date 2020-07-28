@@ -2,91 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37CB223132D
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 21:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F98723132F
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 21:55:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728708AbgG1Tyd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 15:54:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36526 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726764AbgG1Tyd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 15:54:33 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8F01C2075A;
-        Tue, 28 Jul 2020 19:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595966072;
-        bh=z3RTYldI4Zax6DhwFLMFZoHJWAMKsWPXMCNUdp5q3qw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=Q4KnJnRGXDmcHGd7YqCD+uolQe9gLS2wVgGuOYGuNJZLhbZ4IRhyfAcLSJbRLLN75
-         /xITTaWj85yxXn2pl0C1X99NsOgCk2aPtgZIPEd46AxA2Zfq7+4cYv9ZHvWh8dEqGT
-         TMwL1CG/n0aTLTo0mg8l0Ok0NSLaiuZ33/+Qp89w=
-Content-Type: text/plain; charset="utf-8"
+        id S1728441AbgG1TzD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 15:55:03 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42518 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726764AbgG1TzC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Jul 2020 15:55:02 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58CF7563;
+        Tue, 28 Jul 2020 21:55:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1595966100;
+        bh=4eKdIy5eelUAl7dYV/loU4ehEHAcnPV6i+ctQ9AU7BM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FmQl5LxaVwOOg1ZzM94lVB7aHIh1ELtnj8Zeqak5R2hD5gdZKo3gCF9AkiEmwEha8
+         iJeNCFyCfA0temWCHr8sO77hVyUVf8RTAricbSPlzRDIOAabKfNMn+7857y8fykh/n
+         bvtCJSQ6t1YPD/dmNWuhdD7LAOZD7oRr3jERZbGY=
+Date:   Tue, 28 Jul 2020 22:54:51 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: Re: [Query] OV5640 DVP and BT656 modes
+Message-ID: <20200728195451.GM13753@pendragon.ideasonboard.com>
+References: <CA+V-a8vt1HEhJzc4jN22=7PnVrkcKjzFx7Q9E1ZK-YAtc09q0w@mail.gmail.com>
+ <20200728184249.GI13753@pendragon.ideasonboard.com>
+ <CA+V-a8upEM4fA=8_3AHEGysEc841SRafvSMioBRgd97bUKgw4g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <e08e9822-7c0c-29d7-67b2-245af66b623a@codeaurora.org>
-References: <1595503612-2901-1-git-send-email-rnayak@codeaurora.org> <1595503612-2901-5-git-send-email-rnayak@codeaurora.org> <e68ff810-362a-5b99-206b-f676b204101d@linaro.org> <94581989-e069-55e5-6b70-919185eda33e@linaro.org> <e0c03ce2-136c-2c5c-6f36-bb0c69a82e2d@codeaurora.org> <5a8af2da-cc3f-005d-47e6-b36be1104d6a@codeaurora.org> <20200727153806.kgegadvghmkevch3@vireshk-mac-ubuntu> <159589753282.1360974.11628682178494669632@swboyd.mtv.corp.google.com> <e08e9822-7c0c-29d7-67b2-245af66b623a@codeaurora.org>
-Subject: Re: [PATCH v4 4/5] arm64: dts: sdm845: Add OPP tables and power-domains for venus
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org, Taniya Das <tdas@codeaurora.org>
-To:     Rajendra Nayak <rnayak@codeaurora.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Date:   Tue, 28 Jul 2020 12:54:31 -0700
-Message-ID: <159596607146.1360974.8446772748472044390@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8upEM4fA=8_3AHEGysEc841SRafvSMioBRgd97bUKgw4g@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Rajendra Nayak (2020-07-27 21:17:28)
->=20
-> On 7/28/2020 6:22 AM, Stephen Boyd wrote:
-> > Quoting Viresh Kumar (2020-07-27 08:38:06)
-> >> On 27-07-20, 17:38, Rajendra Nayak wrote:
-> >>> On 7/27/2020 11:23 AM, Rajendra Nayak wrote:
-> >>>> On 7/24/2020 7:39 PM, Stanimir Varbanov wrote:
-> >>>>>>> +
-> >>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 opp-533000000 {
-> >>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 opp-hz =3D /bits/ 64 <5=
-33000000>;
-> >>
-> >> Is this the highest OPP in table ?
-> >>
-> >>>>> Actually it comes from videocc, where ftbl_video_cc_venus_clk_src
-> >>>>> defines 533000000 but the real calculated freq is 533000097.
-> >>>>
-> >>>> I still don't quite understand why the videocc driver returns this
-> >>>> frequency despite this not being in the freq table.
-> >>>
-> >>> Ok, so I see the same issue on sc7180 also. clk_round_rate() does see=
-m to
-> >>> return whats in the freq table, but clk_set_rate() goes ahead and set=
-s it
-> >=20
-> > I'm happy to see clk_round_rate() return the actual rate that would be
-> > achieved and not just the rate that is in the frequency tables. Would
-> > that fix the problem?=20
->=20
-> It would, but only if I also update the OPP table to have 533000097
-> instead of 533000000 (which I guess is needed anyway)
-> If this is the actual frequency that's achievable, then perhaps even the =
-clock
-> freq table should have this? 533000097 and not 533000000?
-> That way clk_round_rate() would return the actual rate that's achieved and
-> we don't need any extra math. Isn't that the reason these freq tables exi=
-st
-> anyway.
+Hi Prabhakar,
 
-Yes the freq tables are there in the clk driver so we don't have to do a
-bunch of math. Fixing them to be accurate has been deemed "hard" from
-what I recall because the tables are generated from some math function
-that truncates the lower Hertz values.
+On Tue, Jul 28, 2020 at 08:04:39PM +0100, Lad, Prabhakar wrote:
+> On Tue, Jul 28, 2020 at 7:43 PM Laurent Pinchart wrote:
+> > On Tue, Jul 28, 2020 at 06:50:21PM +0100, Lad, Prabhakar wrote:
+> > > Hi,
+> > >
+> > > I am currently investigating adding support for the BT656 format which
+> > > is currently missing in the driver.
+> > >
+> > > The platform which I am currently testing can support both 8-bit DVP
+> > > and BT656 modes.
+> > > * Testing DVP mode capturing 320x240, 640x480 worked  OK with random
+> > > green lines in-between
+> > >
+> > > Following is the chunk of code which enables BT656 support,  (for
+> > > BT656 mode ov5640_set_dvp_pclk() is used), with the below changes I
+> > > can get 640x480 working
+> > >
+> > > #define OV5640_REG_CCIR656_CTRL00    0x4730
+> > >
+> > > static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
+> > > {
+> > >     int ret;
+> > >
+> > >     ret = ov5640_write_reg(sensor,
+> > >                    OV5640_REG_IO_MIPI_CTRL00, on ? 0x18: 0);
+> > >     if (ret)
+> > >         return ret;
+> > >
+> > >     ret = ov5640_write_reg(sensor,
+> > >                    OV5640_REG_PAD_OUTPUT_ENABLE01, 0x7f);
+> > >     if (ret)
+> > >         return ret;
+> > >
+> > >     ret = ov5640_write_reg(sensor,
+> > >                    OV5640_REG_PAD_OUTPUT_ENABLE02, 0xfc);
+> > >     if (ret)
+> > >         return ret;
+> > >
+> > >     return ov5640_write_reg(sensor,
+> > >                 OV5640_REG_CCIR656_CTRL00, on ? 0x1: 0x0);
+> > > }
+> > >
+> > > As soon as I change the code to below to disable the data pads on
+> > > stream OFF as below it stops working!
+
+What stops working ? BT.656, non-BT.656, or both ? And how exactly does
+it stop working ? The change below only affects the !on case, does the
+first capture succeed and the subsequent captures fail ?
+
+> > > static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
+> > > {
+> > >     int ret;
+> > >
+> > >     ret = ov5640_write_reg(sensor,
+> > >                    OV5640_REG_IO_MIPI_CTRL00, on ? 0x18: 0);
+> > >     if (ret)
+> > >         return ret;
+> > >
+> > >     ret = ov5640_write_reg(sensor,
+> > >                    OV5640_REG_PAD_OUTPUT_ENABLE01, on ? 0x7f, 0);
+> >
+> > s/,/:/ ? Is that a typo in your e-mail, or also in the code you've
+> > tested ? I assume the former as the latter shouldn't compile.
+>
+> My bad it's a typo :) as my code base had one which doesnt disable
+> data pads on stream off, so I mistyped while hand crafting it.
+> 
+> > >     if (ret)
+> > >         return ret;
+> > >
+> > >     ret = ov5640_write_reg(sensor,
+> > >                    OV5640_REG_PAD_OUTPUT_ENABLE02, on ? 0xfc, 0);
+> > >     if (ret)
+> > >         return ret;
+> > >
+> > >     return ov5640_write_reg(sensor,
+> > >                 OV5640_REG_CCIR656_CTRL00, on ? 0x1: 0x0);
+> > > }
+> > >
+> > > Looking at the datasheet [1] I don't find it wrong or is there any
+> > > information missing in this freely available datasheet.
+> > >
+> > > Ideally BT656 mode should just work in DVP mode by setting 0x1 in
+> > > 0x4730, but doesn work.
+> > >
+> > > Is there anything  I'm missing here, any thoughts ?
+> > >
+> > > [1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
+
+-- 
+Regards,
+
+Laurent Pinchart
