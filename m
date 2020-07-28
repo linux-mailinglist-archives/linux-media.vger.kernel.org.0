@@ -2,95 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9BE4230E47
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 17:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC374230E58
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 17:47:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731063AbgG1Pok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 11:44:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47258 "EHLO
+        id S1731034AbgG1PrZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 11:47:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730775AbgG1Poi (ORCPT
+        with ESMTP id S1730856AbgG1PrY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 11:44:38 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4504C061794;
-        Tue, 28 Jul 2020 08:44:37 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id t7so1398475otp.0;
-        Tue, 28 Jul 2020 08:44:37 -0700 (PDT)
+        Tue, 28 Jul 2020 11:47:24 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74F3C061794;
+        Tue, 28 Jul 2020 08:47:24 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id 12so17879527oir.4;
+        Tue, 28 Jul 2020 08:47:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=X8oqyy89D3G/SsEykgSGLbJc6vMNxyoDi/zTaYVXNlM=;
-        b=MEFDd8Joi2gcNe+Oo274jwfc0jNOGgVZ20XATCHQjHC7h+kZTzaoff5isq0tOFNp/C
-         kFfmxHAbLphiwW45ogcaUqVJ9TNqwTyA0yixFhGmI876F7vL9vmZ/8dJXSqcrSM+fFce
-         abUl80wnq2/leB/gMmD23tokb9EXQPTGOouc1WWQIR+pYmwadZQV9NTdvrtG9Y2y5bPS
-         jQ2TqnJO1hC7J9aU3IXyIxwCx3/AmaRnW8NATXhi2A7fpEw227v7IlsTlbctd1siRolM
-         psEIq2LL+neEmq29/4O1LpNREUcwwjXZFv/J1mLvJIinZEoHkifHvl1knjNruvbI1cUb
-         olhw==
+        bh=YCLgayXVR84rgFeMyBYYYRpAkGF7Ck+bhddMBVycb04=;
+        b=cMJVZYUseob/GyYm/slYbGX7F8Nm5ECy0snr5+bGRfsWn8HC2dUbmghG5UDIsTrSSR
+         8x0ItKdNvs85NKfK4qfcO36B0boH5tg+a9gswRmK2V+NxlgokEPiT8xTIDjvbxB2/da/
+         I4YL4YbfIg3tAhgIJQzOSlfc9UlydG6BQiUZYETqUftJsIkQc1tPlVbbONQsOJxrdkCC
+         RELXTSJsxvsPXTEUu24HF4+P1BhD/9m5OAle1WfYTHywf8uOaBoXEghmPBxvwlKPZY41
+         w2Re/IabeFqMyp75VmjBGkiJRDBRqPjon0D5eUa1N6IPBpnEKjgSzrwZ05oae5j/cvJQ
+         uPDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=X8oqyy89D3G/SsEykgSGLbJc6vMNxyoDi/zTaYVXNlM=;
-        b=A77d2LD802wvr6Mq4ChOrkVbPqNShe8+B8hDHCR75envT9SMjdVbFvEOYTOSCX6iqE
-         G1nML925oB/hZDeYNl5xZX5p9V5EjmhfxSiEGTLVJ2QDbDbonsCc8ow4L3ZbY3wtr6ae
-         GWmEE8fhfmdDeIlb6l+9X415kRfOlQjO1G+XOsmjCivfxyuP2q9248ZgaMieLY+1I9op
-         Dh/4402n3mJkP3l/vPHBX31ttvSt7SlT81x452+DfRvs8QngBblNSIH9vGCeNxQAyjAm
-         Z6sIE0tn55/U9XKIgxeP3EgunG1li0gsqqD9d/jhFvRG697G/PjgNsfwLbWBuThSsY0N
-         2Fyg==
-X-Gm-Message-State: AOAM531dSYKlxnCOTbodmfXfLFYY92djBW+wfQWlyCGAupwW0f0ZYCpk
-        qeo4ZI+rVuS3+X2XfX4vTT0OkLZ8fb01xFCwFOzmIokuQDlzGA==
-X-Google-Smtp-Source: ABdhPJywjajz/CBt08LbXIzjYxAfcjOxLdzB1Yi2RSu+QgW6DiQ4dYj/VqieKN+dCykMiGBkOp7Ox75v1v0NTh+ReTQ=
-X-Received: by 2002:a05:6830:18ed:: with SMTP id d13mr25841749otf.196.1595951077208;
- Tue, 28 Jul 2020 08:44:37 -0700 (PDT)
+        bh=YCLgayXVR84rgFeMyBYYYRpAkGF7Ck+bhddMBVycb04=;
+        b=rYbtiAYSAR2cXFAORZ9nY0xxJLlNM0LQ2vxofpt6T4eKFZ6Ye1wDzWoc1K2ULEaHXk
+         PRS3BB8GWNKzFn5/V8ZzwMNSkCewPQJ2NJ6aiE4o4zNvFFIAGxR787j37/ZyYERwZFml
+         p8KaGYmg7g6Ohf+X6Hf40vuMAAmIGprqHYBP/66xg7m3ZN2Rw4oG2htdlcAMzza7BCYN
+         GWXYBWdWkiBSwOxvULv79Wj9g6IFzQwVYyg6Phs1G3ToYRD/vRjrJlOngAoPpVlntpj5
+         ujyl19lNWHxYlkPA8s4horr5d/raklu0MbbNY8fDYlRb0YSVWcYOrQFZrx9fNtXTpJZQ
+         an8w==
+X-Gm-Message-State: AOAM531WEmNffzKDb8ASCrxWFp9plsxAy+uoVc5Ih9g43rAfdCGumMFY
+        /HxEXXz7E+uQZ/Fu/XwXUDZLJJFN5rSU7moWfcc=
+X-Google-Smtp-Source: ABdhPJyS7mrzx8DGeBh07Zri8yZLkxWNUUJWMY7Z5K/tddbNBKhDPUNoIvoOAGnCP4K4OomxSuELQP2R4UDNmGX56YA=
+X-Received: by 2002:aca:c5d6:: with SMTP id v205mr4223108oif.143.1595951244137;
+ Tue, 28 Jul 2020 08:47:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200728143004.3228-1-dhiraj.sharma0024@gmail.com> <20200728145419.GA3537020@kroah.com>
-In-Reply-To: <20200728145419.GA3537020@kroah.com>
+References: <20200728143004.3228-1-dhiraj.sharma0024@gmail.com> <b357f49c-0ce6-18f5-9f3c-fdead5e4c838@xs4all.nl>
+In-Reply-To: <b357f49c-0ce6-18f5-9f3c-fdead5e4c838@xs4all.nl>
 From:   Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
-Date:   Tue, 28 Jul 2020 21:14:24 +0530
-Message-ID: <CAPRy4h1Xs1JpQinnWm04dOi07Ch0RLL0U4Z5DDCKHmombXE0sA@mail.gmail.com>
+Date:   Tue, 28 Jul 2020 21:17:11 +0530
+Message-ID: <CAPRy4h0sZRuYSJr5+Au-H5iaL-73m9b02wAkL5xY-qMvvZY=VA@mail.gmail.com>
 Subject: Re: [PATCH] media: usbvision: fixed coding style
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, stern@rowland.harvard.edu,
-        arnd@arndb.de, jrdr.linux@gmail.com, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, stern@rowland.harvard.edu,
+        arnd@arndb.de, jrdr.linux@gmail.com, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry, I didn't realize that I committed a mistake by not replying to
-all. It was an accidental mistake which will not be committed in
-future now.
+Sorry I had committed a mistake by not replying to all.
 
+> Hi Dhiraj,
 >
-> That is not needed in a changelog text.
->
-
-Alright Sir.
-
-> Neither is this, please be specific about what you have fixed.  My bot
-> should kick in soon with more specifics...
-
-Sir there were checkpatch.pl styling issues and I fixed them all
-together, so should I write a proper changelog as what all I fixed i.e
-errors and warnings thrown by checkpatch.pl
-
-On Tue, Jul 28, 2020 at 8:24 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jul 28, 2020 at 08:00:04PM +0530, Dhiraj Sharma wrote:
-> > As per eudyptula challenge task 10 I had to fix coding styles.
->
-> That is not needed in a changelog text.
->
-> > Thus I
+> On 28/07/2020 16:30, Dhiraj Sharma wrote:
+> > As per eudyptula challenge task 10 I had to fix coding styles. Thus I
 > > used checkpatch.pl script and fixed a chunk of warnings and few errors.
 >
-> Neither is this, please be specific about what you have fixed.  My bot
-> should kick in soon with more specifics...
+> As both drivers/staging/media/usbvision/Kconfig and .../TODO say, this
+> driver is deprecated and will be removed by the end of this year.
 >
-> thanks,
+> So don't bother with this driver.
 >
-> greg k-h
+> Regards,
+>
+>         Hans
+
+Alright Sir, I read that and thought that it can be merged this year
+though. Next if i see such sentences I will not do that
