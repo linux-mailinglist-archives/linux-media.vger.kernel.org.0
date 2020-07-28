@@ -2,48 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA340230CCC
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 16:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84991230D07
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 17:06:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730540AbgG1Oy4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 10:54:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55548 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730529AbgG1Oy4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 10:54:56 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 80642206D8;
-        Tue, 28 Jul 2020 14:54:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595948095;
-        bh=SVN9KwmFR1+HYXmkw6AaG1yThXM/tvbY75ekuEY1Jy4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RDyWWBV7s9oUpIFrMXJUTwdJUs4PJrMio9jN2+XtavQl0ZAhxn8P4r7yhA1rKuTrW
-         /Jxdnz6u0L2Wto87S7Tfn14d080ashAlWnkXtlKaE9O5N3EyD7EmKgszTJzzB736Em
-         qPMtQOg7X+cf8GhtvqOyClGX1voJ+nWeuoDoqmRI=
-Date:   Tue, 28 Jul 2020 16:54:47 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
-Cc:     hverkuil@xs4all.nl, stern@rowland.harvard.edu, arnd@arndb.de,
-        jrdr.linux@gmail.com, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+        id S1730658AbgG1PFz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 11:05:55 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:51029 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730505AbgG1PFy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Jul 2020 11:05:54 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 0RApktChPuuXO0RAqkIwdS; Tue, 28 Jul 2020 17:05:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1595948750; bh=s/8wU/OYnn+1yy+ZDpmsRLIrFFZsNbp4nosqe4mg8fA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ZzV4fX9x4cg4ZWISJqFrnv3589i4yZjtg/3bSj08TrpZF+rpfTnmKNEkPFcSPz67M
+         i7yABAueUm5R+qekUWVi4P2pgR0mM3e6C1IGpjKmUFxWcDBLYNFNf3woFYflbzVrg5
+         Hf98FxjVuCNs90J0bmooLROTrqtJmIYCabmtRgkMLFCaZolovyo9nlSDGaRr+SdI1p
+         wixST7LAtzuwzP1RdtQuKMZB19oRYprd9bAcbqIu5cgxPNqO54ohWRnRAMSNsKYNFo
+         G6DfZJP+ins23RLU+1iKmMnH9YQRmv0qIFzt4hXzO4oMCRBv9j3/yg3DDF1a2N1Vng
+         gQlffU6CF4AsQ==
 Subject: Re: [PATCH] media: usbvision: fixed coding style
-Message-ID: <20200728145447.GB3537020@kroah.com>
+To:     Dhiraj Sharma <dhiraj.sharma0024@gmail.com>,
+        gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+        arnd@arndb.de, jrdr.linux@gmail.com
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
 References: <20200728143004.3228-1-dhiraj.sharma0024@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <b357f49c-0ce6-18f5-9f3c-fdead5e4c838@xs4all.nl>
+Date:   Tue, 28 Jul 2020 17:05:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20200728143004.3228-1-dhiraj.sharma0024@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPBZPluvQ8h8v68YkawN5APFdn6ltE1s1f3lLRaceNQF+l8Ir/9EdEgCYWSRfY/HGA6nlYSmDG/UC4+pv0ldQXivqP/QiyXeZk77ZOGK06m18sCjmMCJ
+ /H1/m5RmdXYCXuoNkOGDKbozUJvnrLcaHYX3946C29OUVmxOoFhrZRmTz+kqCMeThfxxCQR8ZMf0Q3qKslOEyn8VoN7z9KBal/KaxrksfgSIpCDoHKa3h22y
+ 8Ysggdzj1oYNvuMbtNwSmPTBjjfEtNLhkS8i9fddfNtphnmTkfAAqnl+NklYZLly3JZKJWpiEoh365C7HcOpvbgdlcWsfBHIVRgA8eejoSS2TLr1leAKB4+N
+ mA5h5LPjLZQshVuxz1Zmg4X39hKjT2/XAWDXUWJi7hVljCmtsFZltgEJEdptisrG9WWUcuOEQomwLY27vRzVvBO6/AkyZSGuBa120JH8S3mMmE9nypbwnxFF
+ jMdUfEhRD1XC7tn6YVqluC+b9DQP2+ocFeJ2PhnJ4syHpoWJWeg3fe5v7mE=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 28, 2020 at 08:00:04PM +0530, Dhiraj Sharma wrote:
+Hi Dhiraj,
+
+On 28/07/2020 16:30, Dhiraj Sharma wrote:
 > As per eudyptula challenge task 10 I had to fix coding styles. Thus I
 > used checkpatch.pl script and fixed a chunk of warnings and few errors.
+
+As both drivers/staging/media/usbvision/Kconfig and .../TODO say, this
+driver is deprecated and will be removed by the end of this year.
+
+So don't bother with this driver.
+
+Regards,
+
+	Hans
+
 > 
 > Signed-off-by: Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
 > ---
@@ -357,46 +380,5 @@ On Tue, Jul 28, 2020 at 08:00:04PM +0530, Dhiraj Sharma wrote:
 >  	return err_code;
 > --
 > 2.17.1
+> 
 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
