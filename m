@@ -2,43 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E993230680
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 11:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D023230689
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 11:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728233AbgG1JZv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 05:25:51 -0400
-Received: from smtprelay0154.hostedemail.com ([216.40.44.154]:43324 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728101AbgG1JZv (ORCPT
+        id S1728247AbgG1J2t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 05:28:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727845AbgG1J2s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 05:25:51 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 36325180A815F;
-        Tue, 28 Jul 2020 09:25:50 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:69:355:379:599:960:966:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2196:2199:2393:2553:2559:2562:2693:2828:3138:3139:3140:3141:3142:3355:3622:3865:3867:3868:3871:3872:3873:3874:4250:4321:4385:4605:5007:8603:8660:10004:10400:10848:11026:11232:11657:11658:11914:12043:12048:12296:12297:12438:12555:12740:12895:12986:13148:13230:13439:13894:14659:14721:21080:21451:21627:21939:21990:30054:30070:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: bath95_350867a26f68
-X-Filterd-Recvd-Size: 3880
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf11.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 28 Jul 2020 09:25:48 +0000 (UTC)
-Message-ID: <2480b12b85f9560060cd155de222d42d40150ae7.camel@perches.com>
-Subject: Re: [PATCH 2/2] media: bt8xx: avoid a useless memset
-From:   Joe Perches <joe@perches.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        mchehab@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
-        hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Date:   Tue, 28 Jul 2020 02:25:47 -0700
-In-Reply-To: <d5759bd3-5e8a-a557-cd3e-0a2ae4d124e9@wanadoo.fr>
-References: <20200727135151.54757-1-christophe.jaillet@wanadoo.fr>
-         <0897d9bec8865859694c917f3f72ab8fd12321ff.camel@perches.com>
-         <30618c986727e5f8a9806f663b4e6f4aa80065ae.camel@perches.com>
-         <d5759bd3-5e8a-a557-cd3e-0a2ae4d124e9@wanadoo.fr>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        Tue, 28 Jul 2020 05:28:48 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D15BC061794;
+        Tue, 28 Jul 2020 02:28:47 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id i92so2767946pje.0;
+        Tue, 28 Jul 2020 02:28:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y5s9edaIzkddCgobfmY3uqcn7wmzvnyo8IQdQIisAEg=;
+        b=ms8WzW9fy2JOJRlxGxRty1F7izoJ1DiSavf0TwZDK5owazISbPe2BdEia2Q6JjkGtI
+         YO3AdTlqY99dOM01esgxBxR6l7Xi+F/gidMUU3m8UP1iX01ebs6rODmju1pJAfhgze6p
+         yu/toL1lopVUU/fbcJ3B7dNhJsX9Yy30R9yp5SEMOgZiMXw0ayqSR8sN5VcEqbEOEoKg
+         B9Bbc1pN437Kl13AxCWBofOXcHnjCe5ExOPaZIZKScFToeVlNs+9QBkJiyCoIMrcqhbJ
+         ofFq9sfte0SEOBCEgjD+gOzK97YshhI62x0e3E0TxVoeNjOaOVMvgmP09SlXeww75HEj
+         m3MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y5s9edaIzkddCgobfmY3uqcn7wmzvnyo8IQdQIisAEg=;
+        b=evw14D8nkH9MYrJgYZFzZm8ymwQxRvt1Xqw5H0bE3NUH7k9zCW+30OsRSOn23RWtFg
+         PQ3rf1TivZFYG9yAfrzJc80HreRKzP67vUBGb4EIqBq1L09w+S/uod1LVEgF70gh9s8d
+         EzuGZpPH+WHUKSNG09YB7qp/3OmS0MnCfbwFfyegPeDEWu4j70xiFX7QozKd6mbElsTe
+         GL66rbHRwmV9rQ6bM7ZVWgxGZV2+2P6CeZ04M3eTWVUQZYSszAfynhqwjlN7Y+bjZBcp
+         LR/J/EY+fVwZGPc+ypem6pvBI6ssI4eyjVKBo6SPFRJsaHVA6Ux5ysyN6vctFrnbauJo
+         tXWg==
+X-Gm-Message-State: AOAM531WK3Fyh2aoGNyDTxozHTN1FMZbc/5Zw2rNzv6hKzOE9TQ27d+A
+        S4UO4+08GizBZjPARMK6vK8=
+X-Google-Smtp-Source: ABdhPJwQn0Kxf+lANu9Wff8D3FwTjJZmSHuynPC36O2mlh26UdMyd75qxUVAeTUbfxaypdwyL2aqwg==
+X-Received: by 2002:a17:90a:1388:: with SMTP id i8mr3744902pja.210.1595928527010;
+        Tue, 28 Jul 2020 02:28:47 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.152.86])
+        by smtp.gmail.com with ESMTPSA id k63sm18526319pge.0.2020.07.28.02.28.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2020 02:28:46 -0700 (PDT)
+From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bjorn Helgaas <bjorn@helgaas.com>,
+        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v1] [media] netup_unidvb: use generic power management
+Date:   Tue, 28 Jul 2020 14:57:17 +0530
+Message-Id: <20200728092717.937023-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -46,86 +71,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-07-28 at 10:05 +0200, Christophe JAILLET wrote:
-> Le 27/07/2020 à 18:16, Joe Perches a écrit :
-> > On Mon, 2020-07-27 at 09:09 -0700, Joe Perches wrote:
-> > > On Mon, 2020-07-27 at 15:51 +0200, Christophe JAILLET wrote:
-> > > > Avoid a memset after a call to 'dma_alloc_coherent()'.
-> > > > This is useless since
-> > > > commit 518a2f1925c3 ("dma-mapping: zero memory returned from dma_alloc_*")
-> > > []
-> > > > diff --git a/drivers/media/pci/bt8xx/btcx-risc.c b/drivers/media/pci/bt8xx/btcx-risc.c
-> > > []
-> > > > @@ -73,7 +73,6 @@ int btcx_riscmem_alloc(struct pci_dev *pci,
-> > > >   		dprintk("btcx: riscmem alloc [%d] dma=%lx cpu=%p size=%d\n",
-> > > >   			memcnt, (unsigned long)dma, cpu, size);
-> > > >   	}
-> > > > -	memset(risc->cpu,0,risc->size);
-> > > >   	return 0;
-> > > >   }
-> > > 
-> > > Likely NAK.
-> > > 
-> > > This is not useless as risc->cpu may be reused
-> > > and the alloc may not have been done.
-> > 
-> > Perhaps a little rewrite for clarity:
-> > ---
-> >   drivers/media/pci/bt8xx/btcx-risc.c | 24 +++++++++++++-----------
-> >   1 file changed, 13 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/media/pci/bt8xx/btcx-risc.c b/drivers/media/pci/bt8xx/btcx-risc.c
-> > index 51257980f539..311f4ca2a108 100644
-> > --- a/drivers/media/pci/bt8xx/btcx-risc.c
-> > +++ b/drivers/media/pci/bt8xx/btcx-risc.c
-> > @@ -56,24 +56,26 @@ int btcx_riscmem_alloc(struct pci_dev *pci,
-> >   		       struct btcx_riscmem *risc,
-> >   		       unsigned int size)
-> >   {
-> > -	__le32 *cpu;
-> > -	dma_addr_t dma = 0;
-> > -
-> > -	if (NULL != risc->cpu && risc->size < size)
-> > -		btcx_riscmem_free(pci,risc);
-> > -	if (NULL == risc->cpu) {
-> > -		cpu = pci_alloc_consistent(pci, size, &dma);
-> > -		if (NULL == cpu)
-> > +	if (risc->cpu && risc->size < size)
-> > +		btcx_riscmem_free(pci, risc);
-> > +
-> > +	if (risc->cpu) {
-> > +		memset(risc->cpu, 0, risc->size);
-> > +	} else {
-> > +		dma_addr_t dma = 0;
-> > +
-> > +		risc->cpu = pci_alloc_consistent(pci, size, &dma);
-> > +		if (!risc->cpu)
-> >   			return -ENOMEM;
-> > -		risc->cpu  = cpu;
-> > +
-> >   		risc->dma  = dma;
-> >   		risc->size = size;
-> >   
-> >   		memcnt++;
-> >   		dprintk("btcx: riscmem alloc [%d] dma=%lx cpu=%p size=%d\n",
-> > -			memcnt, (unsigned long)dma, cpu, size);
-> > +			memcnt, (unsigned long)dma, risc->cpu, size);
-> >   	}
-> > -	memset(risc->cpu,0,risc->size);
-> > +
-> >   	return 0;
-> >   }
-> >   
-> > 
-> > 
-> Looks good to me.
-> 
-> Just note, that this will not apply after patch 1/2 is applied, because 
-> it turns pci_alloc_consistent() into dma_alloc_coherent().
+The .suspend() and .resume() callbacks are not defined for this driver.
+Still, their power management structure follows the legacy framework. To
+bring it under the generic framework, simply remove the binding of
+callbacks from "struct pci_driver".
 
-Just a suggestion.
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/media/pci/netup_unidvb/netup_unidvb_core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-As it's dependent on your first patch, perhaps
-you could make the appropriate change.
-
+diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
+index 80a7c41baa90..6f3125c2d097 100644
+--- a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
++++ b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
+@@ -1016,8 +1016,6 @@ static struct pci_driver netup_unidvb_pci_driver = {
+ 	.id_table = netup_unidvb_pci_tbl,
+ 	.probe    = netup_unidvb_initdev,
+ 	.remove   = netup_unidvb_finidev,
+-	.suspend  = NULL,
+-	.resume   = NULL,
+ };
+ 
+ module_pci_driver(netup_unidvb_pci_driver);
+-- 
+2.27.0
 
