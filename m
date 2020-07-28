@@ -2,121 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E06822304E0
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 10:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B156230545
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jul 2020 10:23:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727940AbgG1IFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 04:05:12 -0400
-Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:38392 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727797AbgG1IFL (ORCPT
+        id S1728141AbgG1IXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 04:23:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35518 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728127AbgG1IXq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 04:05:11 -0400
-Received: from [192.168.43.110] ([93.23.107.187])
-        by mwinf5d84 with ME
-        id 8Y582300g42dCi503Y5916; Tue, 28 Jul 2020 10:05:09 +0200
-X-ME-Helo: [192.168.43.110]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 28 Jul 2020 10:05:09 +0200
-X-ME-IP: 93.23.107.187
-Subject: Re: [PATCH 2/2] media: bt8xx: avoid a useless memset
-To:     Joe Perches <joe@perches.com>, mchehab@kernel.org,
-        akpm@linux-foundation.org, rppt@kernel.org,
-        hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-References: <20200727135151.54757-1-christophe.jaillet@wanadoo.fr>
- <0897d9bec8865859694c917f3f72ab8fd12321ff.camel@perches.com>
- <30618c986727e5f8a9806f663b4e6f4aa80065ae.camel@perches.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Message-ID: <d5759bd3-5e8a-a557-cd3e-0a2ae4d124e9@wanadoo.fr>
-Date:   Tue, 28 Jul 2020 10:05:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 28 Jul 2020 04:23:46 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 468B4C0619D2
+        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 01:23:46 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id b186so232905pfb.9
+        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 01:23:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=students-iitmandi-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Krf3mHPaRhONZrJUP4kLL+SpT/1O8y5l8m6Ya1wdpkE=;
+        b=nhCjMNdGpcIOWYXchr2X67Jx0xqPObEdVXUjSjcpgdiYIruWbcrLrjOSjJzGqAIjd7
+         vrlt8Jb75Qf+wTP9BNzXwrM0QEtfMyFaj3F8eAHdCZnvakhHkGu3s0VoUuJWRBv8oe9a
+         lyzFkTycR02L1IJfPhmBwvu6/GhoRYxO07BNT8B1jJ8komhzqC80ueEL+jHk8n89+1CU
+         qqil3Ip7r/q+8uL6iFxdTsrIk46pLcuaXVt5C/6ibrhdHcTItJI5CRZOtXL1apqR5xdz
+         J7MSYQgRLxz8hrXMiABWD1IOkuc7T62hWlfuzqn0GiBerGiq4FJOBDuwZ5cGU5J5L38h
+         C0dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Krf3mHPaRhONZrJUP4kLL+SpT/1O8y5l8m6Ya1wdpkE=;
+        b=e02rKe5mdDx13rPgYNnXo252RFezyfVurARzmFcYt3gknT642/5VPpQVtRVn11jx5F
+         GIABvRbU5oSYquCMPPz1ChBuxopWEYkK6QMVriFWD+NJAs94lLB1iyhczAVzE7tw9HTi
+         oPMOWnoSMOmYCuPlOv+0W9tskXeXpJiIE49NMF7BXQxa3hSJ77KaQ1KkZ1LxquAO0g8g
+         VMTt0ezqcWxW7Lab5rSt2gWgYX5h/fzGQV7bfUJEX5rJ+nzd+C9efLMkcHzW3GFC0wyP
+         o9d5DD6kjDFUWrvYvK8rD3vV7Fll6d1KmT+8ScohqKUMsTJxXE/U2HzxPujAVAkT2jXm
+         AFXw==
+X-Gm-Message-State: AOAM533agWXr5YXyw2aR7e3s2ie8viz+gvS8H9f1Yb3HCCO7fv+YZTPC
+        wHYApLikYtqEscwcRk5DhLzetg==
+X-Google-Smtp-Source: ABdhPJwxUnxFK756k0a5/cKYYYuNHSDaVSvQ6w8JriFYCnKNk602Aut098WOzwQLFtdyZlJjBPowUQ==
+X-Received: by 2002:a63:4e51:: with SMTP id o17mr24411320pgl.315.1595924625553;
+        Tue, 28 Jul 2020 01:23:45 -0700 (PDT)
+Received: from devil-VirtualBox.www.tendawifi.com ([103.198.174.215])
+        by smtp.gmail.com with ESMTPSA id o10sm2033014pjo.55.2020.07.28.01.23.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2020 01:23:44 -0700 (PDT)
+From:   Ankit <b18007@students.iitmandi.ac.in>
+To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, b18007@students.iitmandi.ac.in
+Subject: [PATCH v2] Staging : media : atomisp : fixed a brace coding sytle issue
+Date:   Tue, 28 Jul 2020 13:53:30 +0530
+Message-Id: <20200728082330.24948-1-b18007@students.iitmandi.ac.in>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200728073715.GA351768@kroah.com>
+References: <20200728073715.GA351768@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <30618c986727e5f8a9806f663b4e6f4aa80065ae.camel@perches.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 27/07/2020 à 18:16, Joe Perches a écrit :
-> On Mon, 2020-07-27 at 09:09 -0700, Joe Perches wrote:
->> On Mon, 2020-07-27 at 15:51 +0200, Christophe JAILLET wrote:
->>> Avoid a memset after a call to 'dma_alloc_coherent()'.
->>> This is useless since
->>> commit 518a2f1925c3 ("dma-mapping: zero memory returned from dma_alloc_*")
->> []
->>> diff --git a/drivers/media/pci/bt8xx/btcx-risc.c b/drivers/media/pci/bt8xx/btcx-risc.c
->> []
->>> @@ -73,7 +73,6 @@ int btcx_riscmem_alloc(struct pci_dev *pci,
->>>   		dprintk("btcx: riscmem alloc [%d] dma=%lx cpu=%p size=%d\n",
->>>   			memcnt, (unsigned long)dma, cpu, size);
->>>   	}
->>> -	memset(risc->cpu,0,risc->size);
->>>   	return 0;
->>>   }
->>
->> Likely NAK.
->>
->> This is not useless as risc->cpu may be reused
->> and the alloc may not have been done.
-> 
-> Perhaps a little rewrite for clarity:
-> ---
->   drivers/media/pci/bt8xx/btcx-risc.c | 24 +++++++++++++-----------
->   1 file changed, 13 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/pci/bt8xx/btcx-risc.c b/drivers/media/pci/bt8xx/btcx-risc.c
-> index 51257980f539..311f4ca2a108 100644
-> --- a/drivers/media/pci/bt8xx/btcx-risc.c
-> +++ b/drivers/media/pci/bt8xx/btcx-risc.c
-> @@ -56,24 +56,26 @@ int btcx_riscmem_alloc(struct pci_dev *pci,
->   		       struct btcx_riscmem *risc,
->   		       unsigned int size)
->   {
-> -	__le32 *cpu;
-> -	dma_addr_t dma = 0;
-> -
-> -	if (NULL != risc->cpu && risc->size < size)
-> -		btcx_riscmem_free(pci,risc);
-> -	if (NULL == risc->cpu) {
-> -		cpu = pci_alloc_consistent(pci, size, &dma);
-> -		if (NULL == cpu)
-> +	if (risc->cpu && risc->size < size)
-> +		btcx_riscmem_free(pci, risc);
-> +
-> +	if (risc->cpu) {
-> +		memset(risc->cpu, 0, risc->size);
-> +	} else {
-> +		dma_addr_t dma = 0;
-> +
-> +		risc->cpu = pci_alloc_consistent(pci, size, &dma);
-> +		if (!risc->cpu)
->   			return -ENOMEM;
-> -		risc->cpu  = cpu;
-> +
->   		risc->dma  = dma;
->   		risc->size = size;
->   
->   		memcnt++;
->   		dprintk("btcx: riscmem alloc [%d] dma=%lx cpu=%p size=%d\n",
-> -			memcnt, (unsigned long)dma, cpu, size);
-> +			memcnt, (unsigned long)dma, risc->cpu, size);
->   	}
-> -	memset(risc->cpu,0,risc->size);
-> +
->   	return 0;
->   }
->   
-> 
-> 
-Looks good to me.
+From: Ankit Baluni <b18007@students.iitmandi.ac.in>
 
-Just note, that this will not apply after patch 1/2 is applied, because 
-it turns pci_alloc_consistent() into dma_alloc_coherent().
+Removed braces for a 'if' condition as it contain only single line & 
+there is no need for braces for such case according to coding style
+rules.
 
-CJ
+Signed-off-by: Ankit Baluni <b18007@students.iitmandi.ac.in>
+
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 8ea65bef35d2..28b96b66f4f3 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -4981,9 +4981,8 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
+ 	case ATOMISP_CAMERA_PORT_SECONDARY:
+ 		return MIPI_PORT1_ID;
+ 	case ATOMISP_CAMERA_PORT_TERTIARY:
+-		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID) {
++		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID)
+ 			return MIPI_PORT1_ID + 1;
+-		}
+ 	/* fall through */
+ 	default:
+ 		dev_err(isp->dev, "unsupported port: %d\n", port);
+-- 
+2.25.1
+
