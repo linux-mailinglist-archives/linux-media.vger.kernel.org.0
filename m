@@ -2,84 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE274231A66
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 09:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F70F231A6A
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 09:39:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726710AbgG2Hfk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jul 2020 03:35:40 -0400
-Received: from smtp08.smtpout.orange.fr ([80.12.242.130]:46003 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbgG2Hfk (ORCPT
+        id S1726710AbgG2Hi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 03:38:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbgG2Hi5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jul 2020 03:35:40 -0400
-Received: from belgarion ([86.210.166.159])
-        by mwinf5d67 with ME
-        id 8vbW2300K3SgWc603vbbFk; Wed, 29 Jul 2020 09:35:38 +0200
-X-ME-Helo: belgarion
-X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Wed, 29 Jul 2020 09:35:38 +0200
-X-ME-IP: 86.210.166.159
-From:   Robert Jarzmik <robert.jarzmik@free.fr>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 1/9] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
-References: <20200714135812.55158-1-jacopo+renesas@jmondi.org>
-        <20200714135812.55158-2-jacopo+renesas@jmondi.org>
-        <750089f9-0e7f-3b2a-ec85-38452cb64fa1@xs4all.nl>
-        <4043309.ejJDZkT8p0@z50>
-        <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl>
-X-URL:  http://belgarath.falguerolles.org/
-Date:   Wed, 29 Jul 2020 09:35:30 +0200
-In-Reply-To: <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl> (Hans Verkuil's
-        message of "Mon, 20 Jul 2020 10:48:36 +0200")
-Message-ID: <87zh7isri5.fsf@belgarion.home>
-User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
+        Wed, 29 Jul 2020 03:38:57 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC49C061794
+        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 00:38:57 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id w17so11419735ply.11
+        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 00:38:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Hf50u6h9wnLFy96WAeaaud4OkMwukdvpfoIh17caQSk=;
+        b=qvu8pBA35juXB5IAuj3EOdEUiIafCwux4Zh/tDRiwecjZ4h5ljtUkch7bU9dNi7BEn
+         zDV1HWeXxyCHZ+z2tecTWyTytdwhCEd+DESLLScaS3yfoPMOqFliEXQd8TV0hQYlTJtq
+         KbivU5pLK8l1ZRq1qGCXjh0QZyOLgi3XhExE07HdtbzYUitJ5N17urMNFvkQLT+boa/3
+         k5+plqHvx2y0rTUOJgJEmfCPNHFoKVZvQWvR3/xJ9pYJ0/Me2W8JrPQtu6RHmwTL08Tz
+         Ykq8YBWIbvNFayGGaRBCwOFl+137kCp0rtNEZYG3EIZvf5Dg0Ef7VahEMkXnpQf7V2e9
+         0Nkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Hf50u6h9wnLFy96WAeaaud4OkMwukdvpfoIh17caQSk=;
+        b=Qr1fF+pu4t5GW+7UfuRgkx/S0VudttettAosIX2+HiwfcDOC/JheHnVlYCXE9YnVtr
+         CDyb6Y4XbU3Jo6saBeTY5ft3VtNboSnFKkWNRLLTLgl0gHtm/EOC7NbPG8mNEuG4Wjtf
+         kjFBpPkhP+EfBMVpIOTXQWVoaAjo8usMN9cqmZnyMnwS1WpILokYbz3GtU7CM61xx5fz
+         RgHDFBWOKMUYQR1RH7Kx002h6dxUnSQc1DqIZB+GIfEtu0QIoysrKbgyABrdhIO8fe4b
+         0F+z7+RIJ4L00uEJToVUwLGx+JX3BELc0v+0vxfZnKT3u8ERkJyhUZq9EhMiv3C3DZhZ
+         I6RA==
+X-Gm-Message-State: AOAM531XCnfxnNROnlkVX13wq6GFRKgJMbEoTXMCNHHC5SH8FmI8nYtX
+        RaYoaR4wX1BWhMFuC5hoYILiGG+R/1+1gHSZohZRNQ==
+X-Google-Smtp-Source: ABdhPJz3p/RdzMtYa5b161gOYMyR9V5zWuKnydulgpgc6pQ29hu00H5qrHoahniLRmzse010xwGrjzFF810Pxzvlfuk=
+X-Received: by 2002:a17:90a:fa8c:: with SMTP id cu12mr8694751pjb.229.1596008336834;
+ Wed, 29 Jul 2020 00:38:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200721101647.42653-1-hexin.op@bytedance.com>
+In-Reply-To: <20200721101647.42653-1-hexin.op@bytedance.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 29 Jul 2020 15:38:21 +0800
+Message-ID: <CAMZfGtW512Hi_T=PhXdSfs1n54q6HndVx=stCC6By4OnB39Z=g@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioctl()
+To:     Xin He <hexin.op@bytedance.com>, daniel@ffwll.ch, airlied@linux.ie,
+        kraxel@redhat.com, sumit.semwal@linaro.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org
+Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Qi Liu <liuqi.16@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hans Verkuil <hverkuil-cisco@xs4all.nl> writes:
-
-> The information on how a sensor (or similar device) is wired up is not something
-> that should be negotiated. Even if a combination is theoretically possible, it
-> may not have been tested by the board designer and in fact it might not work.
-> (Yes, that happens)
+On Tue, Jul 21, 2020 at 6:17 PM Xin He <hexin.op@bytedance.com> wrote:
 >
-> It is just a bad design trying to negotiate this.
-I quite agree on that one (on the wiring defined by configuration).
-
-> In fact, the only values that can be set as far as I am concerned are lanes and
-> channels. I wouldn't mind if the other settings are purely read-only. The only
-> driver that actively sets this is the pxa_camera driver and I wish it didn't.
+> From: Qi Liu <liuqi.16@bytedance.com>
 >
-> But there are still two pxa boards that use this mechanism, so I guess we still
-> have to allow this.
-There are 4 :
-rj@belgarion:~/mio_linux/kernel/arch/arm/mach-pxa$ grep -rs pxa_set_camera * | grep -v devices.c
-ezx.c:		pxa_set_camera_info(&a780_pxacamera_platform_data);
-ezx.c:		pxa_set_camera_info(&a910_pxacamera_platform_data);
-mioa701.c:	pxa_set_camera_info(&mioa701_pxacamera_platform_data);
-palmz72.c:	pxa_set_camera_info(&palmz72_pxacamera_platform_data);
-pcm990-baseboard.c:	pxa_set_camera_info(&pcm990_pxacamera_platform_data);
+> We should put the reference count of the fence after calling
+> virtio_gpu_cmd_submit(). So add the missing dma_fence_put().
+>
+> Fixes: 2cd7b6f08bc4 ("drm/virtio: add in/out fence support for explicit s=
+ynchronization")
+> Co-developed-by: Xin He <hexin.op@bytedance.com>
+> Signed-off-by: Xin He <hexin.op@bytedance.com>
+> Signed-off-by: Qi Liu <liuqi.16@bytedance.com>
+> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>
+> changelog in v3:
+> 1) Change the subject from "drm/virtio: fixed memory leak in virtio_gpu_e=
+xecbuffer_ioctl()" to
+>    "drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioct=
+l()"
+> 2) Rework the commit log
+>
+> changelog in v2:
+> 1) Add a change description
+>
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/vir=
+tio/virtgpu_ioctl.c
+> index 5df722072ba0..19c5bc01eb79 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -179,6 +179,7 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_dev=
+ice *dev, void *data,
+>
+>         virtio_gpu_cmd_submit(vgdev, buf, exbuf->size,
+>                               vfpriv->ctx_id, buflist, out_fence);
+> +       dma_fence_put(&out_fence->f);
+>         virtio_gpu_notify(vgdev);
+>         return 0;
+>
+> --
+> 2.21.1 (Apple Git-122.3)
+>
 
-I wouldn't mind that the bus parameters are made "static" by forcing them in the
-platform data field (struct pxacamera_platform_data), and not doing the bus
-compatibility matching.
+Ping guys. Any comments or suggestions=EF=BC=9F
 
-I thing Jacopo's work is going this way, as I read that his patch takes first
-the platform data flags, and only if none are defined goes to the matchup. That
-looks very sensible to me.
-
-Cheers.
-
---
-Robert
+--=20
+Yours,
+Muchun
