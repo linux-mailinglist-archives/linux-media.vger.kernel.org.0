@@ -2,117 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F70F231A6A
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 09:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0617A231A6B
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 09:39:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726710AbgG2Hi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jul 2020 03:38:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53084 "EHLO
+        id S1727026AbgG2HjP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 03:39:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbgG2Hi5 (ORCPT
+        with ESMTP id S1727006AbgG2HjO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jul 2020 03:38:57 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC49C061794
-        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 00:38:57 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id w17so11419735ply.11
-        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 00:38:57 -0700 (PDT)
+        Wed, 29 Jul 2020 03:39:14 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1173C0619D2
+        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 00:39:14 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id l12so2736685pgt.13
+        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 00:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Hf50u6h9wnLFy96WAeaaud4OkMwukdvpfoIh17caQSk=;
-        b=qvu8pBA35juXB5IAuj3EOdEUiIafCwux4Zh/tDRiwecjZ4h5ljtUkch7bU9dNi7BEn
-         zDV1HWeXxyCHZ+z2tecTWyTytdwhCEd+DESLLScaS3yfoPMOqFliEXQd8TV0hQYlTJtq
-         KbivU5pLK8l1ZRq1qGCXjh0QZyOLgi3XhExE07HdtbzYUitJ5N17urMNFvkQLT+boa/3
-         k5+plqHvx2y0rTUOJgJEmfCPNHFoKVZvQWvR3/xJ9pYJ0/Me2W8JrPQtu6RHmwTL08Tz
-         Ykq8YBWIbvNFayGGaRBCwOFl+137kCp0rtNEZYG3EIZvf5Dg0Ef7VahEMkXnpQf7V2e9
-         0Nkg==
+        d=students-iitmandi-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zMRvTgAMRZWNdLWhRQAFPO8+G0B9J9srTu2Fp7kXf3M=;
+        b=MhQLprU+zfumI0Msb8Sixe8JB0MV/W4eiDpEHKivnFRbY8aL9QeXqyRmnViWb7gOp5
+         nkoIGdOUWLWHQKitYjmabDUeW04u+WgogyNIuSCi9jH/FmVFpM6KcfmaUNUfEXshZbhv
+         ilraWxNFBfNIa0z732o6XMA/TIYB/UR0wAz1ildcGyYKrw+Fru+qIZsROWbs3VMX3o0t
+         B1yJPZR9xzo0YAW18KINNWlB7xLihcIw+1UG9Fd3ejO1wYMlcXIyZ1FKpZcEtGmy0bj2
+         yJqq11CpEebpfFOmExwZrNXO7EY7HNbx7Y1tveWOWlGjR4v7x1QlIqUgGYu6N1jZC9Hv
+         r12g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Hf50u6h9wnLFy96WAeaaud4OkMwukdvpfoIh17caQSk=;
-        b=Qr1fF+pu4t5GW+7UfuRgkx/S0VudttettAosIX2+HiwfcDOC/JheHnVlYCXE9YnVtr
-         CDyb6Y4XbU3Jo6saBeTY5ft3VtNboSnFKkWNRLLTLgl0gHtm/EOC7NbPG8mNEuG4Wjtf
-         kjFBpPkhP+EfBMVpIOTXQWVoaAjo8usMN9cqmZnyMnwS1WpILokYbz3GtU7CM61xx5fz
-         RgHDFBWOKMUYQR1RH7Kx002h6dxUnSQc1DqIZB+GIfEtu0QIoysrKbgyABrdhIO8fe4b
-         0F+z7+RIJ4L00uEJToVUwLGx+JX3BELc0v+0vxfZnKT3u8ERkJyhUZq9EhMiv3C3DZhZ
-         I6RA==
-X-Gm-Message-State: AOAM531XCnfxnNROnlkVX13wq6GFRKgJMbEoTXMCNHHC5SH8FmI8nYtX
-        RaYoaR4wX1BWhMFuC5hoYILiGG+R/1+1gHSZohZRNQ==
-X-Google-Smtp-Source: ABdhPJz3p/RdzMtYa5b161gOYMyR9V5zWuKnydulgpgc6pQ29hu00H5qrHoahniLRmzse010xwGrjzFF810Pxzvlfuk=
-X-Received: by 2002:a17:90a:fa8c:: with SMTP id cu12mr8694751pjb.229.1596008336834;
- Wed, 29 Jul 2020 00:38:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=zMRvTgAMRZWNdLWhRQAFPO8+G0B9J9srTu2Fp7kXf3M=;
+        b=Pxh2aUBwFyt5vX4f3HyrFDUp5u2YZkyioyOgw3l+qNtrceskWGndE8I4ck5epeQCak
+         AF9P/7kVUHFVyhZ7ir5sZmUJoxvpAPyy0tEFx7u4vkOYXstlNd4bZ4SSkzutUcZuPkh5
+         MWjHBm8cXQ+neAohoO858THZY6W9QCjNhD55BTSwq9VKQ+4hxQ+pf4+kFDI7rl8OWXqF
+         Xjm+xkUSI45ZQBPkw9MOJpn+Os9LWXfE30g9b/0Do36G2ltgEnoaVwR3mT8sPfvFXKe1
+         GnQ0HP5/mRXkbJclkk8o5i5aWNibZN9MLaQEKjTSmTqQNJgHo0by3ml6VpZ4oZx2E93V
+         39hg==
+X-Gm-Message-State: AOAM532AQ+nLeUKQTZOL25oXP0Ih5m4blZU/RII3qTmFq1e5vd1FfYaI
+        Ch46QeX91R4xywx2xhmaY8zILQ==
+X-Google-Smtp-Source: ABdhPJz2y+b3KMCeMF9l2PfAURxiLwo90lBqvKvvMpApyd7bhUoIzx4c9gUaLiu08ofQdhu9c2ootg==
+X-Received: by 2002:a63:5d1:: with SMTP id 200mr28603061pgf.59.1596008354163;
+        Wed, 29 Jul 2020 00:39:14 -0700 (PDT)
+Received: from devil-VirtualBox.www.tendawifi.com ([103.198.174.215])
+        by smtp.gmail.com with ESMTPSA id f24sm1214206pjq.48.2020.07.29.00.39.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2020 00:39:13 -0700 (PDT)
+From:   Ankit Baluni <b18007@students.iitmandi.ac.in>
+To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, b18007@students.iitmandi.ac.in
+Subject: [PATCH v3] Staging : media : atomisp : fixed a brace coding sytle issue
+Date:   Wed, 29 Jul 2020 13:09:02 +0530
+Message-Id: <20200729073902.1704-1-b18007@students.iitmandi.ac.in>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200728225935.28880-1-b18007@students.iitmandi.ac.in>
+References: <20200728225935.28880-1-b18007@students.iitmandi.ac.in>
 MIME-Version: 1.0
-References: <20200721101647.42653-1-hexin.op@bytedance.com>
-In-Reply-To: <20200721101647.42653-1-hexin.op@bytedance.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 29 Jul 2020 15:38:21 +0800
-Message-ID: <CAMZfGtW512Hi_T=PhXdSfs1n54q6HndVx=stCC6By4OnB39Z=g@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioctl()
-To:     Xin He <hexin.op@bytedance.com>, daniel@ffwll.ch, airlied@linux.ie,
-        kraxel@redhat.com, sumit.semwal@linaro.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org
-Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Qi Liu <liuqi.16@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 6:17 PM Xin He <hexin.op@bytedance.com> wrote:
->
-> From: Qi Liu <liuqi.16@bytedance.com>
->
-> We should put the reference count of the fence after calling
-> virtio_gpu_cmd_submit(). So add the missing dma_fence_put().
->
-> Fixes: 2cd7b6f08bc4 ("drm/virtio: add in/out fence support for explicit s=
-ynchronization")
-> Co-developed-by: Xin He <hexin.op@bytedance.com>
-> Signed-off-by: Xin He <hexin.op@bytedance.com>
-> Signed-off-by: Qi Liu <liuqi.16@bytedance.com>
-> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->
-> changelog in v3:
-> 1) Change the subject from "drm/virtio: fixed memory leak in virtio_gpu_e=
-xecbuffer_ioctl()" to
->    "drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioct=
-l()"
-> 2) Rework the commit log
->
-> changelog in v2:
-> 1) Add a change description
->
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/vir=
-tio/virtgpu_ioctl.c
-> index 5df722072ba0..19c5bc01eb79 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> @@ -179,6 +179,7 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_dev=
-ice *dev, void *data,
->
->         virtio_gpu_cmd_submit(vgdev, buf, exbuf->size,
->                               vfpriv->ctx_id, buflist, out_fence);
-> +       dma_fence_put(&out_fence->f);
->         virtio_gpu_notify(vgdev);
->         return 0;
->
-> --
-> 2.21.1 (Apple Git-122.3)
->
+Removed braces for a 'if' condition as it contain only single line & 
+there is no need for braces for such case according to coding style
+rules.
 
-Ping guys. Any comments or suggestions=EF=BC=9F
+Signed-off-by: Ankit Baluni <b18007@students.iitmandi.ac.in>
 
---=20
-Yours,
-Muchun
+---
+Changes in v2:
+	-Added more description about the patch.
+	-Added space before the symobol '<' in 'From'
+	 and 'Signed-off-by' line.
+Changes in v3:
+	-Removed space before ':' in subject line.
+
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 8ea65bef35d2..28b96b66f4f3 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -4981,9 +4981,8 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
+ 	case ATOMISP_CAMERA_PORT_SECONDARY:
+ 		return MIPI_PORT1_ID;
+ 	case ATOMISP_CAMERA_PORT_TERTIARY:
+-		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID) {
++		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID)
+ 			return MIPI_PORT1_ID + 1;
+-		}
+ 	/* fall through */
+ 	default:
+ 		dev_err(isp->dev, "unsupported port: %d\n", port);
+-- 
+2.25.1
+
