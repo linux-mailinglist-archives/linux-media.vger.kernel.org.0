@@ -2,135 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 190C72316E6
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 02:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5C3E2318FA
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 07:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730909AbgG2Aoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 20:44:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49688 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730668AbgG2Aoi (ORCPT
+        id S1726707AbgG2FQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 01:16:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59514 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726203AbgG2FQg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 20:44:38 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF24C563;
-        Wed, 29 Jul 2020 02:44:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1595983476;
-        bh=SXwJUww4PLDsTPPWs4BTBzqNum9zhqM0IspNl9R9qwI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gYhN/FaqLk8fIj6ntQF/E3ZmkdVD6j+mbXx3ZTuYi/Y6Nqirs/CQTAHAF83+yQA4c
-         kuC+/2f9PE2bhrsBA55C8JCbVsGDyt9KUWNwVl4IU3Hb3sMSzR5gGjcTJT+P2NHygk
-         ZVjTrepYNJpL/KxMCZq3mywVeCqrYmN9Y+5m232w=
-Date:   Wed, 29 Jul 2020 03:44:26 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        "kernel@puri.sm" <kernel@puri.sm>, devel@driverdev.osuosl.org,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: nxp imx8m CSI drivers
-Message-ID: <20200729004426.GA4633@pendragon.ideasonboard.com>
-References: <cbfdb81f-9a09-2ad1-4b51-54e10f678358@puri.sm>
- <f4958d19-cc4f-8206-2dc7-e0b084c8970d@puri.sm>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f4958d19-cc4f-8206-2dc7-e0b084c8970d@puri.sm>
+        Wed, 29 Jul 2020 01:16:36 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05AA4C061794
+        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 22:16:36 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id j20so12335939pfe.5
+        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 22:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=My6wF6wOxqWj2vALiGYVdW12dpuklXn0QP6e45LDC3s=;
+        b=GOVvyPJrrzTENjpKfVrZdIbthAOLEx6ZdUkeA8AsNXmYcZSCezeV/a7NZph8KJg9lV
+         KLp/96aECmBQWbGb8QkDg5Dgs8G3J5GU1aMyKkD6lsebcCL60fVBIt5k1jsv0jKfwY6x
+         pGJc1byXU2528vl1cc8a6Xdwh1vfkSlqrrrH7Nv4IOFITe1mqLQZJsatxv+rDG5ql2gH
+         lWRZiydsRYcB8xIFbxcGKrYL3Wjckwzhy3G5myt0C5oPNJ78lOHLUR3t0o4yK9s02NLG
+         huThtxkDGcCHQVDat0vPT5xmLzEqFaZwU/qbCfgdlFg9JgXL4h3bDHHJnza+jypHRzCm
+         IySA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=My6wF6wOxqWj2vALiGYVdW12dpuklXn0QP6e45LDC3s=;
+        b=FKgGDKb56JXwna2mKOEHEN3KW6mPK9rhJky3iQHOBUjr1Rw4wnd3Ijz8dDcG2MYxKA
+         1z7UrAvlo3JDAU75Ujzc+Lrq9sgOZVa3k6MoyJlFaPlLVaXj8nttBtbinById9vxk+rz
+         hu8FnyS4OZ/92WC74+Yr9Che9qBpVtTytruttydbrR9RX3ELWkaPdCREixT1opNyR5Us
+         SnXDiVscvyu/CSzve4rQ/XGB+Zuo/fmBKdkAA5EkbyY7SupJv6rOhL5faY2lJTKowfsU
+         6nDjUUNtUTTugu575VKUtpUJOoMfn5JmnZLwnO5hWhXQLOuAK3oVg72kfjD6DPuaUSqd
+         z/4A==
+X-Gm-Message-State: AOAM533elgNN8F5TgUGObScQ8h+b3qtaCJvXW63slY42JmzOInJgzA+T
+        nPxIl1Z5AlQLCYMFgMPL30mPfA==
+X-Google-Smtp-Source: ABdhPJzjtXLQSVD/yUHzhnR26tU6d+mXoVKd/tt4jhYhnke8xXlPicXlGuSoe1HGuATXGGRwJwcK4A==
+X-Received: by 2002:a62:7c87:: with SMTP id x129mr9289795pfc.165.1595999795532;
+        Tue, 28 Jul 2020 22:16:35 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id q5sm762750pgv.1.2020.07.28.22.16.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2020 22:16:35 -0700 (PDT)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Andrew F . Davis" <afd@ti.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [RFC][PATCH 1/2] dma-heap: Keep track of the heap device struct
+Date:   Wed, 29 Jul 2020 05:16:31 +0000
+Message-Id: <20200729051632.66040-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Keep track of the heap device struct.
 
-On Tue, Jul 28, 2020 at 12:36:58PM +0200, Martin Kepplinger wrote:
-> On 09.07.20 11:32, Martin Kepplinger wrote:
-> > hi linux-media people,
-> > 
-> > TL-DR: when exactly is "sd->entity.function == MEDIA_ENT_F_VID_MUX"?
-> > 
-> > 
-> > I try to use the camera on our librem5-devkit (imx8mq): I try to use
-> > only mainline drivers except for "mxc-mipi-csi2_yav" taken from
-> > linux-imx (which we can prepare to submit if a PoC works. This is the
-> > tree I'm experimenting with:
-> > 
-> > https://source.puri.sm/martin.kepplinger/linux-next/-/commits/5.8-rc4/librem5___csi
-> > 
-> > * "imx7-media-csi" / imx-media-capture / imx-media-utils currently in
-> > staging (that should work according to NXP)
-> > * ov5640 mainline driver
-> > * mxc-mipi-csi2_yav from NXP tree (linux-imx) with
-> > v4l2_subdev_video_ops' mipi_csis_g_parm and mipi_csis_s_parm callbacks
-> > removed (due to missing API in mainline)
-> > 
-> > the drivers probe and run but the following fails when trying to use the
-> > camera (gstreamer):
-> > 
-> > in imx-media-utils' imx_media_pipeline_set_stream() the call to
-> > v4l2_subdev_call(sd, video, s_stream, 1) returns with 32 (broken pipe)
-> > and thus the application that tries to use the camera too.
-> > 
-> > One problem is definitely the trees' last commit (that I did as a
-> > workaround) in this tree that makes the drivers probe but only by
-> > ignoring this probably needed check:
-> > 
-> > imx7-media-csi's imx7_csi_notify_bound() callback implementation gets
-> > called during startup. But if (WARN_ON(sd->entity.function !=
-> > MEDIA_ENT_F_VID_MUX)) is true so this is the wrong type of subdev (?).
-> > 
-> > I just want to put this out there and check if the general approach is
-> > valid at all and if there's anything that comes to your mind.
-> 
-> (added Pavel Machek)
-> 
-> still I'm only on the librem5 Devkit: the situation regarding a tree
-> that should use the imx7-media-csi csi_bridge driver hasn't changed, see
-> above for the details. The tree I tried now is this one:
-> 
-> https://source.puri.sm/martin.kepplinger/linux-next/-/commits/5.8-rc7/librem5___csi_ml1
-> 
-> A tree that includes NXP's csi_bridge and mipi-csi drivers (and camera
-> driver) on the other hand works, and I have one based on v5.8-rcX too:
-> 
-> https://source.puri.sm/martin.kepplinger/linux-next/-/commits/5.8-rc7/librem5___csi_nxp
-> 
-> Since I want to look into a different camera driver, I might use that
-> nxp-drivers tree to work on that, but our goal is obviously to use what
-> is already in staging and should work (the csi bridge driver at least).
-> In case you know more about the v4l2 details that don't match over
-> there, please have a look.
+This will be useful for special DMA allocations
+and actions.
 
-For what it's worth, I'm debugging a complete system memory corruption
-with the imx staging camera driver on an i.MX7D, on v5.8-rc6. The issue
-didn't occur on v5.7. I however have a fairly large number of custom
-patches that I'm in the process of upstreaming on top of mainline for
-that driver, so I can't tell yet whether the problem is in my code or in
-v5.8-rc6.
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Andrew F. Davis <afd@ti.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/dma-heap.c | 33 +++++++++++++++++++++++++--------
+ include/linux/dma-heap.h   |  9 +++++++++
+ 2 files changed, 34 insertions(+), 8 deletions(-)
 
-I haven't been able to use the staging driver as-is, neither on v5.7 nor
-on v5.8-rc6, with the camera sensor I'm working with (a Sony IMX296). I
-also get an EPIPE (32) error. Seems there's a reason why this driver is
-in staging :-) This however makes debugging more difficult as I can't
-test v5.8-rc6 without my custom changes.
-
-As for MEDIA_ENT_F_VID_MUX, the check is about verifying that the device
-connected directly to the input of the CSI (*not* MIPI CSI2) is the
-video mux that selects between the MIPI CSI2 receiver and the parallel
-sensor input. On i.MX7D, this models the "CSI Input MUX Control" bit in
-register IOMUXC_GPR_GPR5. On i.MX8M, there seems to be no such mux, as
-there seems to be no parallel sensor input. It should thus be safe to
-drop the check, but other adjustements to the routing and pipeline
-configuration logic in the driver will likely be needed.
-
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index afd22c9dbdcf..72c746755d89 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -30,6 +30,7 @@
+  * @heap_devt		heap device node
+  * @list		list head connecting to list of heaps
+  * @heap_cdev		heap char device
++ * @heap_dev		heap device struct
+  *
+  * Represents a heap of memory from which buffers can be made.
+  */
+@@ -40,6 +41,7 @@ struct dma_heap {
+ 	dev_t heap_devt;
+ 	struct list_head list;
+ 	struct cdev heap_cdev;
++	struct device *heap_dev;
+ };
+ 
+ static LIST_HEAD(heap_list);
+@@ -190,10 +192,21 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+ 	return heap->priv;
+ }
+ 
++/**
++ * dma_heap_get_dev() - get device struct for the heap
++ * @heap: DMA-Heap to retrieve device struct from
++ *
++ * Returns:
++ * The device struct for the heap.
++ */
++struct device *dma_heap_get_dev(struct dma_heap *heap)
++{
++	return heap->heap_dev;
++}
++
+ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ {
+ 	struct dma_heap *heap, *h, *err_ret;
+-	struct device *dev_ret;
+ 	unsigned int minor;
+ 	int ret;
+ 
+@@ -247,16 +260,20 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 		goto err1;
+ 	}
+ 
+-	dev_ret = device_create(dma_heap_class,
+-				NULL,
+-				heap->heap_devt,
+-				NULL,
+-				heap->name);
+-	if (IS_ERR(dev_ret)) {
++	heap->heap_dev = device_create(dma_heap_class,
++				       NULL,
++				       heap->heap_devt,
++				       NULL,
++				       heap->name);
++	if (IS_ERR(heap->heap_dev)) {
+ 		pr_err("dma_heap: Unable to create device\n");
+-		err_ret = ERR_CAST(dev_ret);
++		err_ret = ERR_CAST(heap->heap_dev);
+ 		goto err2;
+ 	}
++
++	/* Make sure it doesn't disappear on us */
++	heap->heap_dev = get_device(heap->heap_dev);
++
+ 	/* Add heap to the list */
+ 	mutex_lock(&heap_list_lock);
+ 	list_add(&heap->list, &heap_list);
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 454e354d1ffb..82857e096910 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -50,6 +50,15 @@ struct dma_heap_export_info {
+  */
+ void *dma_heap_get_drvdata(struct dma_heap *heap);
+ 
++/**
++ * dma_heap_get_dev() - get device struct for the heap
++ * @heap: DMA-Heap to retrieve device struct from
++ *
++ * Returns:
++ * The device struct for the heap.
++ */
++struct device *dma_heap_get_dev(struct dma_heap *heap);
++
+ /**
+  * dma_heap_add - adds a heap to dmabuf heaps
+  * @exp_info:		information needed to register this heap
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
