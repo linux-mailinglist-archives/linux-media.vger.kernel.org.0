@@ -2,102 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 444532315E6
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 01:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 190C72316E6
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 02:44:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729927AbgG1XAV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jul 2020 19:00:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58420 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729744AbgG1XAU (ORCPT
+        id S1730909AbgG2Aoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jul 2020 20:44:39 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49688 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730668AbgG2Aoi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jul 2020 19:00:20 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E582C061794
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 16:00:20 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id h12so1769616pgf.7
-        for <linux-media@vger.kernel.org>; Tue, 28 Jul 2020 16:00:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=students-iitmandi-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+AGKaODfQyJlnmbVWmu1S2WmuwIYu+1OBfVfzl9nDbI=;
-        b=wSiJJlaW4Nf3Z4qC1BYYeErvnyAaxGazqwv+5vS8Ohoi9wIoC5ShcWVwNvmUC4fxN9
-         N+kZt5l9fJ7JOsJYXZGVugPArIg8ZmjE2d/llMs/V0sSE0l4mom3QlwPQ/ZbDkGmWydr
-         k0T6JKoYyjCvMkeYYmWzZTg2PX4VYFkTPN4AqpVIzU0JEhpCnzUlhqYMV/ANpxjqESNU
-         kig9iezcgZMt6WtqUq97RLf/AL6UjD8QAfNNDGs9uAv0yB/jpuoQieNXfjTLY5FFKXND
-         VzNrllBYEWkJLjT0Glw4gp2Sd2kye9ezjm3PPrxhoSpHco5rEjFNhcV4IIWn5fNOxpy8
-         f0ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+AGKaODfQyJlnmbVWmu1S2WmuwIYu+1OBfVfzl9nDbI=;
-        b=aX59ggfJg2uFNUfQeZslz7LtPTuFQeSfFE0wwmfVxKJX/ZIEIqcXtWArVbVn/2tbzR
-         bItpodelZWLRA2myzQRqNB0UMiuBp4ifuBLaBoE68ieYtaCQR212zbytrOPeeghlcKXc
-         MfxSLk3DLlPR+yXiNnPT87l+oUfl3f3+MsFdBe94Mm9aN1r2O/gCmGAvqRd9skXyLX9U
-         LllV/cKuAUzW9XBVWeUNtHh+uatRz73G2Bck5vx0mTpFKrHvwWg0kSXFXh96hkkdpTXn
-         bngqvoH5eaHM2YcaEFm+EkhkGFekkhG+btOUljvQUcDsjQ+XIKqizZgGzdbnCAQSsrnE
-         2DOA==
-X-Gm-Message-State: AOAM530sNSa3RtIKI9n4uMLeUBmiq8nzF0bYjigJLSHwexKh2dUqitTn
-        kL+Ov45BaQteoKgGTNWGmbFuFA==
-X-Google-Smtp-Source: ABdhPJzGVY0Wek05CSIAilbGSc/iC2BNuIxuZVqGpgfu+wb+W8o+Sa5WL16MSEaBgLGfrxfyolhdAA==
-X-Received: by 2002:a63:444b:: with SMTP id t11mr27226150pgk.134.1595977219750;
-        Tue, 28 Jul 2020 16:00:19 -0700 (PDT)
-Received: from devil-VirtualBox.www.tendawifi.com ([103.198.174.215])
-        by smtp.gmail.com with ESMTPSA id 76sm105516pfu.139.2020.07.28.16.00.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2020 16:00:19 -0700 (PDT)
-From:   Ankit <b18007@students.iitmandi.ac.in>
-To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, b18007@students.iitmandi.ac.in
-Subject: [PATCH v2] Staging : media : atomisp : fixed a brace coding sytle issue
-Date:   Wed, 29 Jul 2020 04:29:35 +0530
-Message-Id: <20200728225935.28880-1-b18007@students.iitmandi.ac.in>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200728084341.GA1795795@kroah.com>
-References: <20200728084341.GA1795795@kroah.com>
+        Tue, 28 Jul 2020 20:44:38 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF24C563;
+        Wed, 29 Jul 2020 02:44:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1595983476;
+        bh=SXwJUww4PLDsTPPWs4BTBzqNum9zhqM0IspNl9R9qwI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gYhN/FaqLk8fIj6ntQF/E3ZmkdVD6j+mbXx3ZTuYi/Y6Nqirs/CQTAHAF83+yQA4c
+         kuC+/2f9PE2bhrsBA55C8JCbVsGDyt9KUWNwVl4IU3Hb3sMSzR5gGjcTJT+P2NHygk
+         ZVjTrepYNJpL/KxMCZq3mywVeCqrYmN9Y+5m232w=
+Date:   Wed, 29 Jul 2020 03:44:26 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "kernel@puri.sm" <kernel@puri.sm>, devel@driverdev.osuosl.org,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: nxp imx8m CSI drivers
+Message-ID: <20200729004426.GA4633@pendragon.ideasonboard.com>
+References: <cbfdb81f-9a09-2ad1-4b51-54e10f678358@puri.sm>
+ <f4958d19-cc4f-8206-2dc7-e0b084c8970d@puri.sm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f4958d19-cc4f-8206-2dc7-e0b084c8970d@puri.sm>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ankit Baluni <b18007@students.iitmandi.ac.in>
+Hi Martin,
 
-Removed braces for a 'if' condition as it contain only single line & 
-there is no need for braces for such case according to coding style
-rules.
+On Tue, Jul 28, 2020 at 12:36:58PM +0200, Martin Kepplinger wrote:
+> On 09.07.20 11:32, Martin Kepplinger wrote:
+> > hi linux-media people,
+> > 
+> > TL-DR: when exactly is "sd->entity.function == MEDIA_ENT_F_VID_MUX"?
+> > 
+> > 
+> > I try to use the camera on our librem5-devkit (imx8mq): I try to use
+> > only mainline drivers except for "mxc-mipi-csi2_yav" taken from
+> > linux-imx (which we can prepare to submit if a PoC works. This is the
+> > tree I'm experimenting with:
+> > 
+> > https://source.puri.sm/martin.kepplinger/linux-next/-/commits/5.8-rc4/librem5___csi
+> > 
+> > * "imx7-media-csi" / imx-media-capture / imx-media-utils currently in
+> > staging (that should work according to NXP)
+> > * ov5640 mainline driver
+> > * mxc-mipi-csi2_yav from NXP tree (linux-imx) with
+> > v4l2_subdev_video_ops' mipi_csis_g_parm and mipi_csis_s_parm callbacks
+> > removed (due to missing API in mainline)
+> > 
+> > the drivers probe and run but the following fails when trying to use the
+> > camera (gstreamer):
+> > 
+> > in imx-media-utils' imx_media_pipeline_set_stream() the call to
+> > v4l2_subdev_call(sd, video, s_stream, 1) returns with 32 (broken pipe)
+> > and thus the application that tries to use the camera too.
+> > 
+> > One problem is definitely the trees' last commit (that I did as a
+> > workaround) in this tree that makes the drivers probe but only by
+> > ignoring this probably needed check:
+> > 
+> > imx7-media-csi's imx7_csi_notify_bound() callback implementation gets
+> > called during startup. But if (WARN_ON(sd->entity.function !=
+> > MEDIA_ENT_F_VID_MUX)) is true so this is the wrong type of subdev (?).
+> > 
+> > I just want to put this out there and check if the general approach is
+> > valid at all and if there's anything that comes to your mind.
+> 
+> (added Pavel Machek)
+> 
+> still I'm only on the librem5 Devkit: the situation regarding a tree
+> that should use the imx7-media-csi csi_bridge driver hasn't changed, see
+> above for the details. The tree I tried now is this one:
+> 
+> https://source.puri.sm/martin.kepplinger/linux-next/-/commits/5.8-rc7/librem5___csi_ml1
+> 
+> A tree that includes NXP's csi_bridge and mipi-csi drivers (and camera
+> driver) on the other hand works, and I have one based on v5.8-rcX too:
+> 
+> https://source.puri.sm/martin.kepplinger/linux-next/-/commits/5.8-rc7/librem5___csi_nxp
+> 
+> Since I want to look into a different camera driver, I might use that
+> nxp-drivers tree to work on that, but our goal is obviously to use what
+> is already in staging and should work (the csi bridge driver at least).
+> In case you know more about the v4l2 details that don't match over
+> there, please have a look.
 
-Signed-off-by: Ankit Baluni <b18007@students.iitmandi.ac.in>
+For what it's worth, I'm debugging a complete system memory corruption
+with the imx staging camera driver on an i.MX7D, on v5.8-rc6. The issue
+didn't occur on v5.7. I however have a fairly large number of custom
+patches that I'm in the process of upstreaming on top of mainline for
+that driver, so I can't tell yet whether the problem is in my code or in
+v5.8-rc6.
 
----
-Changes in v2:
-	-Added more description about the patch.
-	-Added space before the symobol '<' in 'From'
-	 and 'Signed-off-by' line.
+I haven't been able to use the staging driver as-is, neither on v5.7 nor
+on v5.8-rc6, with the camera sensor I'm working with (a Sony IMX296). I
+also get an EPIPE (32) error. Seems there's a reason why this driver is
+in staging :-) This however makes debugging more difficult as I can't
+test v5.8-rc6 without my custom changes.
 
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+As for MEDIA_ENT_F_VID_MUX, the check is about verifying that the device
+connected directly to the input of the CSI (*not* MIPI CSI2) is the
+video mux that selects between the MIPI CSI2 receiver and the parallel
+sensor input. On i.MX7D, this models the "CSI Input MUX Control" bit in
+register IOMUXC_GPR_GPR5. On i.MX8M, there seems to be no such mux, as
+there seems to be no parallel sensor input. It should thus be safe to
+drop the check, but other adjustements to the routing and pipeline
+configuration logic in the driver will likely be needed.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 8ea65bef35d2..28b96b66f4f3 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -4981,9 +4981,8 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
- 	case ATOMISP_CAMERA_PORT_SECONDARY:
- 		return MIPI_PORT1_ID;
- 	case ATOMISP_CAMERA_PORT_TERTIARY:
--		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID) {
-+		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID)
- 			return MIPI_PORT1_ID + 1;
--		}
- 	/* fall through */
- 	default:
- 		dev_err(isp->dev, "unsupported port: %d\n", port);
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
