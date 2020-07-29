@@ -2,152 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 004382320DF
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 16:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D89CB232137
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 17:08:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbgG2Oq2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jul 2020 10:46:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726353AbgG2Oq2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jul 2020 10:46:28 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0189AC061794;
-        Wed, 29 Jul 2020 07:46:28 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2896631F;
-        Wed, 29 Jul 2020 16:46:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1596033977;
-        bh=eiO2X0amTLH3veUB6bFyV3ChUyyc7KPIIH26S1LYdWI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XLDHZiZpAYLjrOioTllfwg9H+HxgcsSeC0y9/Flpmt91FW8FDGOve/5k8xzMnKQc8
-         n7O1E2z26ZYA/r8UwJfmZQYrmRBoXD1fI4+lLX+B9AyeVbopWRxQTAjR+ujSqALWHU
-         Rl5I0eNfjVXKEm2ARgI2m63r3meERNiGc2Q0fuFU=
-Date:   Wed, 29 Jul 2020 17:46:08 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, slongerbeam@gmail.com,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>
-Subject: Re: [PATCH 08/13] dt-bindings: media: ov5640: Remove data-shift
-Message-ID: <20200729144608.GF6183@pendragon.ideasonboard.com>
-References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
- <20200717132859.237120-9-jacopo+renesas@jmondi.org>
- <20200717205722.GJ5961@pendragon.ideasonboard.com>
- <20200723222259.GB829@valkosipuli.retiisi.org.uk>
- <20200723231549.GE21353@pendragon.ideasonboard.com>
- <20200725211833.GE829@valkosipuli.retiisi.org.uk>
- <20200725213125.GE6253@pendragon.ideasonboard.com>
- <20200729142936.GF829@valkosipuli.retiisi.org.uk>
+        id S1726897AbgG2PIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 11:08:41 -0400
+Received: from mga07.intel.com ([134.134.136.100]:11965 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726615AbgG2PIl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Jul 2020 11:08:41 -0400
+IronPort-SDR: SPuzCazUZ5ioKo67VL9lIGNiXm/AiZyLlhVpUxKQpI5w99qDsgK8nZj+hDhnG03vHtzpQM5cR0
+ phCoi/mJ/nVw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="215926470"
+X-IronPort-AV: E=Sophos;i="5.75,410,1589266800"; 
+   d="scan'208";a="215926470"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2020 08:08:39 -0700
+IronPort-SDR: QO6Hpww0OgWUmZ1AGqLZNrzlO+3SThzVop3B5jUXD27CAQJ/jONgWMwjAPjidCoRGeF+uKn1BJ
+ cD0EiezLbctQ==
+X-IronPort-AV: E=Sophos;i="5.75,410,1589266800"; 
+   d="scan'208";a="313056856"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2020 08:08:31 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 0AB5C2079D; Wed, 29 Jul 2020 18:08:29 +0300 (EEST)
+Date:   Wed, 29 Jul 2020 18:08:28 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Petr Cvek <petrcvekcz@gmail.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
+        Ismael Luceno <ismael@iodev.co.uk>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Sean Young <sean@mess.org>, Michael Buesch <m@bues.ch>,
+        Malcolm Priestley <tvboxspy@gmail.com>,
+        Brian Johnson <brijohn@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH][next] media: Use fallthrough pseudo-keyword
+Message-ID: <20200729150828.GF16711@paasikivi.fi.intel.com>
+References: <20200724221014.GA24349@embeddedor>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200729142936.GF829@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20200724221014.GA24349@embeddedor>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Gustavo,
 
-On Wed, Jul 29, 2020 at 05:29:36PM +0300, Sakari Ailus wrote:
-> On Sun, Jul 26, 2020 at 12:31:25AM +0300, Laurent Pinchart wrote:
-> > On Sun, Jul 26, 2020 at 12:18:33AM +0300, Sakari Ailus wrote:
-> > > On Fri, Jul 24, 2020 at 02:15:49AM +0300, Laurent Pinchart wrote:
-> > > > On Fri, Jul 24, 2020 at 01:22:59AM +0300, Sakari Ailus wrote:
-> > > > > On Fri, Jul 17, 2020 at 11:57:22PM +0300, Laurent Pinchart wrote:
-> > > > > > Hi Jacopo,
-> > > > > > 
-> > > > > > (CC'ing Sakari)
-> > > > > > 
-> > > > > > Thank you for the patch.
-> > > > > > 
-> > > > > > On Fri, Jul 17, 2020 at 03:28:54PM +0200, Jacopo Mondi wrote:
-> > > > > > > The value of the data-shift property solely depend on the selected
-> > > > > > > bus width and it's not freely configurable.
-> > > > > > > 
-> > > > > > > Remove it from the bindings document and update its users accordingly.
-> > > > > > 
-> > > > > > Hmmmm that's an interesting one. Sakari, what do you think ?
-> > > > > > 
-> > > > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > > > > ---
-> > > > > > >  Documentation/devicetree/bindings/media/i2c/ov5640.yaml | 9 ---------
-> > > > > > >  arch/arm/boot/dts/stm32mp157c-ev1.dts                   | 1 -
-> > > > > > >  2 files changed, 10 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> > > > > > > index 5e1662e848bd..ab700a1830aa 100644
-> > > > > > > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> > > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> > > > > > > @@ -92,12 +92,6 @@ properties:
-> > > > > > >                parallel bus.
-> > > > > > >              enum: [8, 10]
-> > > > > > > 
-> > > > > > > -          data-shift:
-> > > > > > > -            description: |
-> > > > > > > -              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
-> > > > > > > -              <0> for 10 bits parallel bus.
-> > > > > > > -            enum: [0, 2]
-> > > > > > 
-> > > > > > Should you document in the description of bus-width that data-shift is
-> > > > > > implied ?
-> > > > > 
-> > > > > The purpose of the datas-shift property is to convey how the parallel bus
-> > > > > lines are connected for a given bus width for devices where it is
-> > > > > configurable. As this device does not not support that, then indeed this
-> > > > > property is not relevant for the device IMO.
-> > > > 
-> > > > Could you elaborate on this ? I believe the case that Jacopo is
-> > > > describing connects D[9:2] from the sensor to D[7:0] of the receiver
-> > > > (Jacopo, could you confirm ?). Isn't that what data-shift is for ?
-> > > 
-> > > Yes, it is. But in this case what data-shift configures is not configurable
-> > > as such but defined by another configuration, making the data-shift
-> > > property redundant. We generally haven't documented redundant things in DT
-> > > bindings --- for instance data-lanes is documented in bindings only if it
-> > > is configurable.
-> > 
-> > Then I think we share the same understanding. I believe the
-> > documentation in video-interfaces.txt needs to be expanded, as it's
-> > quite terse and not very clear.
+On Fri, Jul 24, 2020 at 05:10:14PM -0500, Gustavo A. R. Silva wrote:
+> Replace the existing /* fall through */ comments and its variants with
+> the new pseudo-keyword macro fallthrough[1]. Also, remove unnecessary
+> fall-through markings when it is the case.
 > 
-> The DT spec states that:
+> [1] https://www.kernel.org/doc/html/v5.7/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
 > 
-> 	A DTSpec-compliant devicetree describes device information in a
-> 	system that cannot necessarily be dynamically detected by a client
-> 	program. For example, the architecture of PCI enables a client to
-> 	probe and detect attached devices, and thus devicetree nodes
-> 	describing PCI devices might not be required. However, a device
-> 	node is required to describe a PCI host bridge device in the system
-> 	if it cannot be detected by probing.
-> 
-> I'd read that as there's no need to specify properties that do not provide
-> additional information to software.
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-That's a bit of a stretch interpretation :-)
+Thanks for the patch. The number of recipients may hit the limit on some
+lists.
 
-> As some properties are dependent on
-> others and and this depends on hardware features, I don't think we can in
-> general case take this account in generic binding documentation, but device
-> specific ones.
-> 
-> Of course we could add this to data-shift documentation, but then I wonder
-> how many other similar cases there are where in hardware the configuration
-> defined by one property determines the value of another?
-
-I was mostly thinking about documenting *how* data-shift interacts with
-bus-width. I think that specifying the default data-shift value based on
-the bus-width value, for the case where data-shift is not specified,
-would also make sense.
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
