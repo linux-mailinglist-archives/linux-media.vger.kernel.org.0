@@ -2,53 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFDB5232841
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 01:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B533B232856
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 01:47:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728052AbgG2XmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jul 2020 19:42:10 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:40662 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726718AbgG2XmK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jul 2020 19:42:10 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1k0vd2-000kGb-G7; Wed, 29 Jul 2020 23:36:56 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1k0vkT-0006S6-5b; Wed, 29 Jul 2020 23:44:37 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v5.9] Venus updates - part2 (#20200729233133)
-Date:   Wed, 29 Jul 2020 23:44:37 +0000
-Message-Id: <20200729234437.24761-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200729233133.10187-1-stanimir.varbanov@linaro.org>
-References: 
+        id S1728100AbgG2XrQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 19:47:16 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17762 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726876AbgG2XrQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Jul 2020 19:47:16 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f220a270001>; Wed, 29 Jul 2020 16:45:43 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 29 Jul 2020 16:47:15 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 29 Jul 2020 16:47:15 -0700
+Received: from [10.2.160.194] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jul
+ 2020 23:47:15 +0000
+Subject: Re: [RFC PATCH v5 12/14] gpu: host1x: mipi: Keep MIPI clock enabled
+ till calibration is done
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+References: <1595883452-17343-1-git-send-email-skomatineni@nvidia.com>
+ <1595883452-17343-13-git-send-email-skomatineni@nvidia.com>
+ <b21e3227-d0d8-5b4a-ae69-aa29551a22c3@gmail.com>
+ <69903c67-8e5f-11c2-45ec-c76b97634aba@nvidia.com>
+ <d291d306-55d4-2264-dc05-0e47f0dfef20@gmail.com>
+ <b5fcc292-8ce3-2833-491f-5aefbe0196eb@nvidia.com>
+ <48977b6b-ef7e-1bdf-e3e0-2903032aa225@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <b159e69a-32fa-7bcb-3c95-aaaba250f85b@nvidia.com>
+Date:   Wed, 29 Jul 2020 16:54:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <48977b6b-ef7e-1bdf-e3e0-2903032aa225@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1596066343; bh=jkquNxFBqS8hVnPmBZJsuDSNBn3Suh8XQ+xGK361k5o=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=nZidFjyln3FDOHPIAZoW2cQ3z2Y49e8sJ0EoeDeLK+Rzor9DOkb80EFFse5yyRHGz
+         IVHak2QfzzE3JISDKGmY0ezm7P+89D/4yYlLM3Th6GeB3SUmaSmgd3XyBPey68swlD
+         QXD5vT+bARD+6Vydp1qVsF+QcMglenAN41ZaI+l0m8U58YwW2yGaQUsGXLdaHfbPqY
+         P6QwAbHE0MJg0wbkajDyR7AnFev/LO8FBdpKj+ZbDX9Qeoy0iv9y1g6NqSEW4dgw1m
+         uVYXTLha+Kx6fhGXgzJRn5BstJy2c9D4LWJqMPWNCE61yHuEEEUHkQbIGbAjoId7vs
+         wNaWih2F2lbNg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200729233133.10187-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/61900/
-Build time: 00:04:18
-Link: https://lore.kernel.org/linux-media/20200729233133.10187-1-stanimir.varbanov@linaro.org
+On 7/29/20 4:42 PM, Dmitry Osipenko wrote:
+> 29.07.2020 20:55, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On 7/29/20 10:08 AM, Dmitry Osipenko wrote:
+>>> 28.07.2020 19:04, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> ...
+>>>>>> +void tegra_mipi_cancel_calibration(struct tegra_mipi_device *device=
+)
+>>>>>> +{
+>>>>> Doesn't MIPI_CAL need to be reset here?
+>>>> No need to reset MIPI CAL
+>>> Could you please explain why. There is a calibration state-machine that
+>>> apparently needs to be returned into initial state, does it return by
+>>> itself?
+>>>
+>>> TRM says that MIPI block needs to be reset before of starting
+>>> calibration process. The reset is completely missing in the driver, I
+>>> assume it needs to be corrected with another patch.
+>> TRM documented incorrectly. There is no need to reset MIPI_CAL.
+>>
+>> MIPI CAL is FSM and it does not hang and done bit is to indicate if
+>> results are applied to pads or not.
+>>
+>> If we don't see done bit set meaning, MIPI CAL did not see LP-11 and
+>> results are not applied to pads.
+> But how to stop calibration from triggering on LP-11 once it has been
+> enabled? The reset should be needed since there is no other way to reset
+> the calibration state.
 
-gpg: Signature made Wed 29 Jul 2020 11:20:45 PM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+Its a finite state machine that goes thru fixed steps of sequence codes=20
+internally and holds results in registers.
 
-Summary: 1 patches and/or PDF generation with issues, being 0 at build time
+When it sees LP-11 results are applied to pads.
+
+If it does not see LP-11, next start will again trigger calibrating with=20
+finite sequence codes.
+
+As per HW designers, we don't have to do any reverts when done bit is=20
+not set.
+
+>> Also while multiple streams can happen in parallel and we can't reset
+>> MIPI CAL as other CSI channel streams (using other pads) may also be
+>> going thru calibration process in parallel depending and also DSI pads
+>> also are calibrated thru same MIPI CAL controller.
+> Perhaps this should be the case for a shared reset control API usage.
