@@ -2,124 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB67F231A39
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 09:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE274231A66
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 09:35:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727871AbgG2HR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jul 2020 03:17:28 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:54450 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727922AbgG2HRX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jul 2020 03:17:23 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1596007042; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=l9ESojMALgQVc1A0D3V73CZzqC51crufs7qanXz/8YI=; b=BLi7ozGw+VDm3ItQT96DQS2UfREML7O8EzO7bOX6xafy9b+BZRrY3rWoNJu+dx6Cdvi/LO/m
- ED5MSMnYPcYR950qEHDpll+anC2h/uCX5twEwkUNaZh67Mhcd5VEIjeihd9+zBBQ3ek5s9KX
- 3Xmp6X/S2KiYtx4vnAewVg04q9U=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5f2122817ab15087ebc5a992 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 29 Jul 2020 07:17:21
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id B0F85C43391; Wed, 29 Jul 2020 07:17:20 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.0
-Received: from blr-ubuntu-173.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 540E6C433A0;
-        Wed, 29 Jul 2020 07:17:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 540E6C433A0
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-To:     stanimir.varbanov@linaro.org, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org, Rajendra Nayak <rnayak@codeaurora.org>
-Subject: [PATCH v5 5/5] arm64: dts: sc7180: Add OPP tables and power-domains for venus
-Date:   Wed, 29 Jul 2020 12:46:45 +0530
-Message-Id: <1596007005-30425-6-git-send-email-rnayak@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1596007005-30425-1-git-send-email-rnayak@codeaurora.org>
-References: <1596007005-30425-1-git-send-email-rnayak@codeaurora.org>
+        id S1726710AbgG2Hfk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 03:35:40 -0400
+Received: from smtp08.smtpout.orange.fr ([80.12.242.130]:46003 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbgG2Hfk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Jul 2020 03:35:40 -0400
+Received: from belgarion ([86.210.166.159])
+        by mwinf5d67 with ME
+        id 8vbW2300K3SgWc603vbbFk; Wed, 29 Jul 2020 09:35:38 +0200
+X-ME-Helo: belgarion
+X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
+X-ME-Date: Wed, 29 Jul 2020 09:35:38 +0200
+X-ME-IP: 86.210.166.159
+From:   Robert Jarzmik <robert.jarzmik@free.fr>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v6 1/9] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+References: <20200714135812.55158-1-jacopo+renesas@jmondi.org>
+        <20200714135812.55158-2-jacopo+renesas@jmondi.org>
+        <750089f9-0e7f-3b2a-ec85-38452cb64fa1@xs4all.nl>
+        <4043309.ejJDZkT8p0@z50>
+        <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl>
+X-URL:  http://belgarath.falguerolles.org/
+Date:   Wed, 29 Jul 2020 09:35:30 +0200
+In-Reply-To: <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl> (Hans Verkuil's
+        message of "Mon, 20 Jul 2020 10:48:36 +0200")
+Message-ID: <87zh7isri5.fsf@belgarion.home>
+User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the OPP tables in order to be able to vote on the performance state
-of a power-domain
+Hans Verkuil <hverkuil-cisco@xs4all.nl> writes:
 
-Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 35 +++++++++++++++++++++++++++++++++--
- 1 file changed, 33 insertions(+), 2 deletions(-)
+> The information on how a sensor (or similar device) is wired up is not something
+> that should be negotiated. Even if a combination is theoretically possible, it
+> may not have been tested by the board designer and in fact it might not work.
+> (Yes, that happens)
+>
+> It is just a bad design trying to negotiate this.
+I quite agree on that one (on the wiring defined by configuration).
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index d46b383..94a0ec4 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -2691,8 +2691,10 @@
- 			reg = <0 0x0aa00000 0 0xff000>;
- 			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
- 			power-domains = <&videocc VENUS_GDSC>,
--					<&videocc VCODEC0_GDSC>;
--			power-domain-names = "venus", "vcodec0";
-+					<&videocc VCODEC0_GDSC>,
-+					<&rpmhpd SC7180_CX>;
-+			power-domain-names = "venus", "vcodec0", "cx";
-+			operating-points-v2 = <&venus_opp_table>;
- 			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
- 				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
- 				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
-@@ -2713,6 +2715,35 @@
- 			video-encoder {
- 				compatible = "venus-encoder";
- 			};
-+
-+			venus_opp_table: venus-opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-150000000 {
-+					opp-hz = /bits/ 64 <150000000>;
-+					required-opps = <&rpmhpd_opp_low_svs>;
-+				};
-+
-+				opp-270000000 {
-+					opp-hz = /bits/ 64 <270000000>;
-+					required-opps = <&rpmhpd_opp_svs>;
-+				};
-+
-+				opp-340000000 {
-+					opp-hz = /bits/ 64 <340000000>;
-+					required-opps = <&rpmhpd_opp_svs_l1>;
-+				};
-+
-+				opp-434000000 {
-+					opp-hz = /bits/ 64 <434000000>;
-+					required-opps = <&rpmhpd_opp_nom>;
-+				};
-+
-+				opp-500000097 {
-+					opp-hz = /bits/ 64 <500000097>;
-+					required-opps = <&rpmhpd_opp_turbo>;
-+				};
-+			};
- 		};
- 
- 		videocc: clock-controller@ab00000 {
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+> In fact, the only values that can be set as far as I am concerned are lanes and
+> channels. I wouldn't mind if the other settings are purely read-only. The only
+> driver that actively sets this is the pxa_camera driver and I wish it didn't.
+>
+> But there are still two pxa boards that use this mechanism, so I guess we still
+> have to allow this.
+There are 4 :
+rj@belgarion:~/mio_linux/kernel/arch/arm/mach-pxa$ grep -rs pxa_set_camera * | grep -v devices.c
+ezx.c:		pxa_set_camera_info(&a780_pxacamera_platform_data);
+ezx.c:		pxa_set_camera_info(&a910_pxacamera_platform_data);
+mioa701.c:	pxa_set_camera_info(&mioa701_pxacamera_platform_data);
+palmz72.c:	pxa_set_camera_info(&palmz72_pxacamera_platform_data);
+pcm990-baseboard.c:	pxa_set_camera_info(&pcm990_pxacamera_platform_data);
 
+I wouldn't mind that the bus parameters are made "static" by forcing them in the
+platform data field (struct pxacamera_platform_data), and not doing the bus
+compatibility matching.
+
+I thing Jacopo's work is going this way, as I read that his patch takes first
+the platform data flags, and only if none are defined goes to the matchup. That
+looks very sensible to me.
+
+Cheers.
+
+--
+Robert
