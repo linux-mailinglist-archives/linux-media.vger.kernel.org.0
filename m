@@ -2,112 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE82231C17
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 11:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2D98231D08
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 12:56:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727794AbgG2J3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jul 2020 05:29:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726907AbgG2J3G (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jul 2020 05:29:06 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8AFC061794
-        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 02:29:05 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k0iOT-0001ti-Sm; Wed, 29 Jul 2020 11:29:01 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k0iOT-00009e-4f; Wed, 29 Jul 2020 11:29:01 +0200
-Date:   Wed, 29 Jul 2020 11:29:01 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Robin van der Gracht <robin@protonic.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andreas Pretzsch <apr@cn-eng.de>
-Subject: Re: [PATCH] media: i2c: tvp5150: Fix horizontal crop stop boundry
-Message-ID: <20200729092901.yfic3vywmnykncod@pengutronix.de>
-References: <20190917071442.24986-1-robin@protonic.nl>
- <23cbd4c0-b53e-d01f-e6d6-b4d2d689bb59@xs4all.nl>
+        id S1726605AbgG2K4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 06:56:25 -0400
+Received: from mga06.intel.com ([134.134.136.31]:5584 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726299AbgG2K4Z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Jul 2020 06:56:25 -0400
+IronPort-SDR: d13jFLxjaok9/IQ9hCAakS6afA8t2m5eGBfIGkawF0sksBIJM7i/xh2l3tjN5RApViH6S+7ert
+ 2SeQC+LwvGxw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="212926020"
+X-IronPort-AV: E=Sophos;i="5.75,410,1589266800"; 
+   d="scan'208";a="212926020"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2020 03:56:24 -0700
+IronPort-SDR: 0OJc/INDGFmSYxN1EL1Ten7Yk3g2nO9Bl6Gat51K6ZP7fMN2KFK/IJt4uTW4zF+1R9KfwBh/IS
+ vNDG7rgOipYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,410,1589266800"; 
+   d="scan'208";a="328622767"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Jul 2020 03:56:22 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1k0jl0-004fwh-L4; Wed, 29 Jul 2020 13:56:22 +0300
+Date:   Wed, 29 Jul 2020 13:56:22 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Ankit Baluni <b18007@students.iitmandi.ac.in>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Staging: media: atomisp: fixed a brace coding sytle
+ issue
+Message-ID: <20200729105622.GU3703480@smile.fi.intel.com>
+References: <20200728225935.28880-1-b18007@students.iitmandi.ac.in>
+ <20200729074950.2104-1-b18007@students.iitmandi.ac.in>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <23cbd4c0-b53e-d01f-e6d6-b4d2d689bb59@xs4all.nl>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 11:27:34 up 257 days, 46 min, 240 users,  load average: 0.13, 0.10,
- 0.08
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20200729074950.2104-1-b18007@students.iitmandi.ac.in>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Wed, Jul 29, 2020 at 01:19:50PM +0530, Ankit Baluni wrote:
+> Removed braces for a 'if' condition as it contain only single line & 
+> there is no need for braces for such case according to coding style
+> rules.
 
-On 20-06-25 13:05, Hans Verkuil wrote:
-> On 17/09/2019 09:14, Robin van der Gracht wrote:
-> > The value for AVID stop is relative to the width of the active video area,
-> > not the maximum register value. Zero means equal and a negative value means
-> > we're cropping on the right side.
-> 
-> While going through old unreviewed patches I came across this one (sorry Robin,
-> your patch fell through the cracks).
-> 
-> Can someone verify/test that this is correct? Marco perhaps?
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-sorry for my long absence on this. I will test it next week if it is not
-already to late.
-
-Regards,
-  Marco
-
-> Regards,
+> Signed-off-by: Ankit Baluni <b18007@students.iitmandi.ac.in>
 > 
-> 	Hans
+> ---
+> Changes in v2:
+> 	-Added more description about the patch.
+> 	-Added space before the symobol '<' in 'From'
+> 	 and 'Signed-off-by' line.
+> Changes in v3:
+> 	-Removed space before ':' in subject line.
 > 
-> > 
-> > Signed-off-by: Robin van der Gracht <robin@protonic.nl>
-> > ---
-> >  drivers/media/i2c/tvp5150.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-> > index f47cb9a023fb..6bc65ab5e8ab 100644
-> > --- a/drivers/media/i2c/tvp5150.c
-> > +++ b/drivers/media/i2c/tvp5150.c
-> > @@ -1231,10 +1231,10 @@ __tvp5150_set_selection(struct v4l2_subdev *sd, struct v4l2_rect rect)
-> >  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
-> >  		     rect.left | (1 << TVP5150_CROP_SHIFT));
-> >  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
-> > -		     (rect.left + rect.width - TVP5150_MAX_CROP_LEFT) >>
-> > +		     (rect.left + rect.width - TVP5150_H_MAX) >>
-> >  		     TVP5150_CROP_SHIFT);
-> >  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
-> > -		     rect.left + rect.width - TVP5150_MAX_CROP_LEFT);
-> > +		     rect.left + rect.width - TVP5150_H_MAX);
-> >  }
-> >  
-> >  static int tvp5150_set_selection(struct v4l2_subdev *sd,
-> > 
+>  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> index 8ea65bef35d2..28b96b66f4f3 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> @@ -4981,9 +4981,8 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
+>  	case ATOMISP_CAMERA_PORT_SECONDARY:
+>  		return MIPI_PORT1_ID;
+>  	case ATOMISP_CAMERA_PORT_TERTIARY:
+> -		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID) {
+> +		if (MIPI_PORT1_ID + 1 != N_MIPI_PORT_ID)
+>  			return MIPI_PORT1_ID + 1;
+> -		}
+>  	/* fall through */
+>  	default:
+>  		dev_err(isp->dev, "unsupported port: %d\n", port);
+> -- 
+> 2.25.1
 > 
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+With Best Regards,
+Andy Shevchenko
+
+
