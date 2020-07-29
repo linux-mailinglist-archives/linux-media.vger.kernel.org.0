@@ -2,102 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B245231AD0
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 10:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE82231C17
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jul 2020 11:29:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726993AbgG2IFp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jul 2020 04:05:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57190 "EHLO
+        id S1727794AbgG2J3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 05:29:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726536AbgG2IFo (ORCPT
+        with ESMTP id S1726907AbgG2J3G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jul 2020 04:05:44 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97158C0619D2
-        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 01:05:44 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id k13so3650507plk.13
-        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 01:05:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=students-iitmandi-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=W8J9alNt9j182Qo6m9IaWrfQJWEuKo3Ae7Fy1SBu7uw=;
-        b=DTrz2FM1MLC8vGx39HW6Jry1xeb06rXJcHKnWh+HuCeMvKJ9oq5Vj4RrlidvaGX++A
-         CQMgWwfIo31vSimiVcxkVJITMaIN0XU4JXi4jmbwP2V2bnlE1aSMxGyPB4TVGu3jmz4W
-         zIyi0kLyPirkkU4SiR6KUMrZk1L0zn3+ciByG4fqqHGFONIbBiiXQ+20D71vihyoNfK+
-         uioMps8mu8Qjn//jPrxkCphrELaxfnbsQvYmrst9tD06SDyfOs+ym9ur5u3fN0BzEzYu
-         IOadSSCCdz+CjFhpRTXTCIGWO2820zzu+w3pthYtJ++F74jxIvf9Xa75Wefq31v+RqVz
-         94Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=W8J9alNt9j182Qo6m9IaWrfQJWEuKo3Ae7Fy1SBu7uw=;
-        b=JIu5QTeu8liAuvL5pdklm04dgcRR5XWrxi6gNwUlMBHFH//V63ptQBklDvC5Eyvi3b
-         chhKeI5HNOBk76dqfgfH57F7PCmeh9gc0A1y0/x9edeDRTh+nXH8QOhwSdzZ7eHT65xb
-         5RHzirZ87jAj1bmSwU9ER9oHLq/qOz7LZR70QvHoe4extO9EVO/Jkb0M2YCq16Wayt9Z
-         gC6oAXc4B4lkJgXfzZInI+IahxEOrFJFSsL7dSQoXiqd6eeqcILvOJ98Hqh2iuuVpqPT
-         lm/r7ShSN7xcfgL7p/pumJuDKOYxa1nGoOGtDhghnta2XvojSqMOeg+oBw5IRi7wgQoT
-         gGLg==
-X-Gm-Message-State: AOAM532dhSt0N6chYWN2qXwJFdCAwYPIsC2Wco4KC1sd1eHgyu7FUhMw
-        N/+pmXFqSdTREB53QBIt6YzpHA==
-X-Google-Smtp-Source: ABdhPJzp5tMn3uZPlfTXXh5uqofStWTTKRqKNv7x0hK6omQGXyLlQH5Pv7C20nQSSpcXNjFC/1qC4w==
-X-Received: by 2002:a17:90a:1a83:: with SMTP id p3mr7912459pjp.113.1596009943908;
-        Wed, 29 Jul 2020 01:05:43 -0700 (PDT)
-Received: from devil-VirtualBox.www.tendawifi.com ([103.198.174.215])
-        by smtp.gmail.com with ESMTPSA id a3sm1399383pgd.73.2020.07.29.01.05.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2020 01:05:43 -0700 (PDT)
-From:   Ankit Baluni <b18007@students.iitmandi.ac.in>
-To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        sakari.ailus@linux.intel.com
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, b18007@students.iitmandi.ac.in
-Subject: [PATCH v2] Staging: media: atomisp: Fixed a brace coding sytle issue
-Date:   Wed, 29 Jul 2020 13:35:16 +0530
-Message-Id: <20200729080516.2830-1-b18007@students.iitmandi.ac.in>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200728021518.19639-1-b18007@students.iitmandi.ac.in>
-References: <20200728021518.19639-1-b18007@students.iitmandi.ac.in>
+        Wed, 29 Jul 2020 05:29:06 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8AFC061794
+        for <linux-media@vger.kernel.org>; Wed, 29 Jul 2020 02:29:05 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1k0iOT-0001ti-Sm; Wed, 29 Jul 2020 11:29:01 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1k0iOT-00009e-4f; Wed, 29 Jul 2020 11:29:01 +0200
+Date:   Wed, 29 Jul 2020 11:29:01 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Robin van der Gracht <robin@protonic.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Andreas Pretzsch <apr@cn-eng.de>
+Subject: Re: [PATCH] media: i2c: tvp5150: Fix horizontal crop stop boundry
+Message-ID: <20200729092901.yfic3vywmnykncod@pengutronix.de>
+References: <20190917071442.24986-1-robin@protonic.nl>
+ <23cbd4c0-b53e-d01f-e6d6-b4d2d689bb59@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23cbd4c0-b53e-d01f-e6d6-b4d2d689bb59@xs4all.nl>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:27:34 up 257 days, 46 min, 240 users,  load average: 0.13, 0.10,
+ 0.08
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Removed braces in 'if else' condition as it only consists of 
-one line each and according to coding style rules , in this case 
-the braces are not required.
+Hi,
 
-Signed-off-by: Ankit Baluni <b18007@students.iitmandi.ac.in>
----
-Change in -v2:
-	-Removed space before ':' in subject line.
-	-Added space before '<' in 'From' and 'Signed-off-by' line.
-	-Added detailed description.
+On 20-06-25 13:05, Hans Verkuil wrote:
+> On 17/09/2019 09:14, Robin van der Gracht wrote:
+> > The value for AVID stop is relative to the width of the active video area,
+> > not the maximum register value. Zero means equal and a negative value means
+> > we're cropping on the right side.
+> 
+> While going through old unreviewed patches I came across this one (sorry Robin,
+> your patch fell through the cracks).
+> 
+> Can someone verify/test that this is correct? Marco perhaps?
 
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+sorry for my long absence on this. I will test it next week if it is not
+already to late.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index f8d616f08b51..701de098cb29 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1828,11 +1828,10 @@ static int atomisp_streamon(struct file *file, void *fh,
- 			dev_err(isp->dev, "master slave sensor stream on failed!\n");
- 			goto out;
- 		}
--		if (!IS_ISP2401) {
-+		if (!IS_ISP2401)
- 			__wdt_on_master_slave_sensor(isp, wdt_duration);
--		} else {
-+		else
- 			__wdt_on_master_slave_sensor_pipe(pipe, wdt_duration, true);
--		}
- 		goto start_delay_wq;
- 	} else if (asd->depth_mode->val && (atomisp_streaming_count(isp) <
- 					    ATOMISP_DEPTH_SENSOR_STREAMON_COUNT)) {
+Regards,
+  Marco
+
+> Regards,
+> 
+> 	Hans
+> 
+> > 
+> > Signed-off-by: Robin van der Gracht <robin@protonic.nl>
+> > ---
+> >  drivers/media/i2c/tvp5150.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> > index f47cb9a023fb..6bc65ab5e8ab 100644
+> > --- a/drivers/media/i2c/tvp5150.c
+> > +++ b/drivers/media/i2c/tvp5150.c
+> > @@ -1231,10 +1231,10 @@ __tvp5150_set_selection(struct v4l2_subdev *sd, struct v4l2_rect rect)
+> >  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
+> >  		     rect.left | (1 << TVP5150_CROP_SHIFT));
+> >  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
+> > -		     (rect.left + rect.width - TVP5150_MAX_CROP_LEFT) >>
+> > +		     (rect.left + rect.width - TVP5150_H_MAX) >>
+> >  		     TVP5150_CROP_SHIFT);
+> >  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
+> > -		     rect.left + rect.width - TVP5150_MAX_CROP_LEFT);
+> > +		     rect.left + rect.width - TVP5150_H_MAX);
+> >  }
+> >  
+> >  static int tvp5150_set_selection(struct v4l2_subdev *sd,
+> > 
+> 
+> 
+
 -- 
-2.25.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
