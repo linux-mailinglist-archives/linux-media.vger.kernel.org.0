@@ -2,207 +2,398 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A666D233821
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 20:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AACEA233A4E
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 23:08:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728063AbgG3SJ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jul 2020 14:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726275AbgG3SJ7 (ORCPT
+        id S1730493AbgG3VI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jul 2020 17:08:57 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:39548 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730464AbgG3VIz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jul 2020 14:09:59 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC003C061575
-        for <linux-media@vger.kernel.org>; Thu, 30 Jul 2020 11:09:58 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id t15so5275325pjq.5
-        for <linux-media@vger.kernel.org>; Thu, 30 Jul 2020 11:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=yJTC9tdJwPLZ8XKjWGq9++9+N0X7BqXA0dHtAoYBz9A=;
-        b=UnWw23WTINjuXuXNdaist30khDs1c76D+z0KQ6m6AhcqH3uxHqK6lgZjSuWJv0sKZB
-         ISppBq8MZDjG7NwpJvrVyTZAyCbuxv+WVOZwjfBnCD8oPjVeuRiGC/BCpfSioAViXnLU
-         MpYyhsEcJEiFHC3eeB31X7rhndwhn7eiNYZH9q0ZyhNUA/fEUVceSRygOXbjA9zwAdo0
-         DNsh5v6JHb+u+zadCmSgzxMyE7LIxOBD29WMeBvW6T6H0BOtA8XiXMPP87UGnFHva4bS
-         1kuf2/03DYjqJSHHuM8v6+WuM0ncGcvH24PColr0vX5JF9RMfvhuyRx2b9SK9GLyCdzx
-         qpGw==
+        Thu, 30 Jul 2020 17:08:55 -0400
+Received: by mail-lf1-f66.google.com with SMTP id v15so11188883lfg.6;
+        Thu, 30 Jul 2020 14:08:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yJTC9tdJwPLZ8XKjWGq9++9+N0X7BqXA0dHtAoYBz9A=;
-        b=sn8cvywoytJ0v9T/rsoiV8zSXJ0L3+t2gYYfAH1iMitQWVeIKoyONGLupKLDxsQGPO
-         3lmBXiEoVIOR3ziFy49vyyyiJTFGvHId1Wf0inWMJF+41beqwqcXVZRAd96uh3jM8hss
-         7/AOoO2XIW0hVz3yufn9x1lVUVt1lMkRethZQaYFMSp0t/y51ZMdaQ9m4RABcMIIt6W0
-         jz9VIJRQOpNSPdIhi6VzHpFXNI+H2ETUjyuM/5kx9Jk59v494VC78QI2Fe69kis1vSiw
-         3EoUn3y0RNWEsD1K3tCDOHvB0Bc+uRID0udA1j95d1pKPxampJQGAVX/5XUgyL64er85
-         NamA==
-X-Gm-Message-State: AOAM532AzzcrAYakEak2Dnq+1DFXxsGOv9EOhCjPnQVisI6KLcbi9Sv3
-        +7lBKBZMQ5v5W91Lwk4u5Jb9Iw==
-X-Google-Smtp-Source: ABdhPJyx/HxNt8rspjLNKULshkc3XEh52fqmPI0aPPmFIUc16IcVv/T2Z88hD58BvEbeAlzS8tsQXQ==
-X-Received: by 2002:a63:3c41:: with SMTP id i1mr79055pgn.349.1596132598057;
-        Thu, 30 Jul 2020 11:09:58 -0700 (PDT)
-Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
-        by smtp.gmail.com with ESMTPSA id y6sm6166676pji.2.2020.07.30.11.09.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 30 Jul 2020 11:09:57 -0700 (PDT)
-From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
-X-Google-Original-From: Kaaira Gupta <Kaairakgupta@es.iitr.ac.in>
-Date:   Thu, 30 Jul 2020 23:39:49 +0530
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-Subject: Re: [PATCH v2 0/3] media: vimc: Allow multiple capture devices to
- use the same sensor
-Message-ID: <20200730180949.GA14700@kaaira-HP-Pavilion-Notebook>
-References: <20200724120213.17119-1-kgupta@es.iitr.ac.in>
- <20200730105112.GA7079@pendragon.ideasonboard.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iWqVfWHL/2wYUcBq8n1AFVS81AxyukoW/RB5ZFadVUE=;
+        b=OEn9DyzqAewpkmyn3ZqoYUTgO+tj7B49Uy8wym6K9LQXkqg+aMdRtXsvEGNNA966FU
+         rg6YNVJHKWJdbjrFaTVxmybvw2CynmlNJgO00IFW36TDLc/8aBS8LHnuCm65zd5GwYMW
+         tcfxbEtwtOwBfT/g6aGr0kLOiv/FMuYu2NAtXsaJvDTbLTXxhBNppn43b27CJ8mKxtQ9
+         cz9NqYUVsLEcPHWWAH7VEyShZJwG6NR02BQwmTzRTexBALVbNJAhA/K5qfoEO4PtOIZ+
+         PvRo85ppyXcIdNGFBtekYcC5D5qDmFjUnQ2P0xW2YH+CQXLlluhrXgOqO385Zt4P0P0+
+         gY3w==
+X-Gm-Message-State: AOAM5338UGEMsHsuA1Qr2LIsSPcg4f9k/xxvHO4CvhitprI6MLRAuxdv
+        6QnOaE5OFltsxmvHEZCgRm0=
+X-Google-Smtp-Source: ABdhPJxhMtR8gWo9IukXZsXAFPwcH+/rrlaSonmyND54yBuB/IcRP5B83+Kq/so5qMd9WO9Lj8zIzw==
+X-Received: by 2002:a19:be83:: with SMTP id o125mr267833lff.84.1596143330884;
+        Thu, 30 Jul 2020 14:08:50 -0700 (PDT)
+Received: from workstation.lan ([95.155.85.46])
+        by smtp.gmail.com with ESMTPSA id v10sm1443586lfo.11.2020.07.30.14.08.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2020 14:08:50 -0700 (PDT)
+From:   =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Mirko Lindner <mlindner@marvell.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>, x86@kernel.org,
+        linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: [PATCH] PCI: Rename d3_delay in the pci_dev struct to align with PCI specification
+Date:   Thu, 30 Jul 2020 21:08:48 +0000
+Message-Id: <20200730210848.1578826-1-kw@linux.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200730105112.GA7079@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 30, 2020 at 01:51:12PM +0300, Laurent Pinchart wrote:
-Hi,
+Rename PCI-related variable "d3_delay" to "d3hot_delay" in the pci_dev
+struct to better align with the PCI Firmware specification (see PCI
+Firmware Specification, Revision 3.2, Section 4.6.9, p. 73).
 
-> Hi Kaaira,
-> 
-> Thank you for the patches.
-> 
-> On Fri, Jul 24, 2020 at 05:32:10PM +0530, Kaaira Gupta wrote:
-> > This is version 2 of the patch series posted by Niklas for allowing
-> > multiple streams in VIMC.
-> > The original series can be found here:
-> > https://patchwork.kernel.org/cover/10948831/
-> > 
-> > This series adds support for two (or more) capture devices to be 
-> > connected to the same sensors and run simultaneously. Each capture device 
-> > can be started and stopped independent of each other.
-> > 
-> > Patch 1/3 and 2/3 deals with solving the issues that arises once two 
-> > capture devices can be part of the same pipeline. While 3/3 allows for 
-> > two capture devices to be part of the same pipeline and thus allows for 
-> > simultaneously use.
-> 
-> I think this is really nice work, as it will make the vimc driver even
-> more useful for testing purposes.
-> 
-> I however just noticed that the patches seem to have lost Niklas'
-> authorship. Niklas posted v1 ([1]), and while there's absolutely no
-> issue with taking over a patch series (especially when the original
-> author is aware of that, and approves :-)), it's customary to keep the
-> original authorship.
+The pci_dev struct already contains variable "d3cold_delay", thus
+renaming "d3_delay" to "d3hot_delay" reduces ambiguity as PCI devices
+support two variants of the D3 power state: D3hot and D3cold.
 
-Hm, I had a meeting with Kieren yesterday where he explained this to me.
-I wasn't aware of the distinction between authorship and a Signed-off
-tag, I thought signed-off implies authorship. Now that I know this, I
-will amend this in the next version I send.
+Also, rename other constants and variables, and updates code comments
+and documentation to ensure alignment with the PCI specification.
 
-Thanks!
+There is no change to the functionality.
 
-> 
-> Authorship, as recorded in the commit's "Author:" field (displayed by
-> "git show" or "git log" for instance), is distinct from Signed-off-by.
-> The original Signed-off-by line needs to be preserved to indicate the
-> original author's commitment to the certificate of origin ([2]), but in
-> itself that doesn't acknowledge original authorship of the code.
-> 
-> I'm sure this is an oversight. Authorship can easily be changed with the
-> --author option to "git commit --amend".
-> 
-> $ git show -s
-> commit 8be3a53e18e0e1a98f288f6c7f5e9da3adbe9c49 (HEAD -> tmp)
-> Merge: fc10807db5ce 3c597282887f
-> Author: Linus Torvalds <torvalds@linux-foundation.org>
-> Date:   Wed Jun 24 17:39:30 2020 -0700
-> 
->     Merge tag 'erofs-for-5.8-rc3-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs
-> 
->     Pull erofs fix from Gao Xiang:
->      "Fix a regression which uses potential uninitialized high 32-bit value
->       unexpectedly recently observed with specific compiler options"
-> 
->     * tag 'erofs-for-5.8-rc3-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs:
->       erofs: fix partially uninitialized misuse in z_erofs_onlinepage_fixup
-> $ git commit --amend --author 'Laurent Pinchart <laurent.pinchart@ideasonboard.com>'
-> [tmp 6a7191c2aee9] Merge tag 'erofs-for-5.8-rc3-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs
->  Date: Wed Jun 24 17:39:30 2020 -0700
-> $ git show -s
-> commit 6a7191c2aee9e4a2ba375f14c821bc9b4d7f881b (HEAD -> tmp)
-> Merge: fc10807db5ce 3c597282887f
-> Author: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Date:   Wed Jun 24 17:39:30 2020 -0700
-> 
->     Merge tag 'erofs-for-5.8-rc3-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs
->     
->     Pull erofs fix from Gao Xiang:
->      "Fix a regression which uses potential uninitialized high 32-bit value
->       unexpectedly recently observed with specific compiler options"
->     
->     * tag 'erofs-for-5.8-rc3-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs:
->       erofs: fix partially uninitialized misuse in z_erofs_onlinepage_fixup
-> 
-> Not that I would try to take ownership of a commit authored by Linus, I
-> doubt he would appreciate that :-)
-> 
-> Authorship is normally preserved through git-format-patch,
-> git-send-email and git-am:
-> 
-> - git-format-patch sets the "From:" line to the patch's author
-> 
-> - If the "From:" line is different than the mail sender, git-send-email
->   replaces it with the sender's identity (as we don't want to forge
->   e-mails with an incorrect sender). It then adds the original "From:"
->   line *inside* the mail, just after the headers, right before the body
->   of the commit message.
-> 
-> - git-am sets the author to the "From:" line from the e-mail's body if
->   it exists, and uses the "From:" line from the e-mail's header (the
->   sender's identity) otherwise.
-> 
-> If you use those tools authorship should get preserved automatically.
-> 
-> Of course new patches that you would add to the series should have your
-> authorship.
-> 
-> I hope this helps clarifying the process, please let me know if you have
-> any question.
-> 
-> [1] https://lore.kernel.org/linux-media/20190518010744.15195-1-niklas.soderlund+renesas@ragnatech.se/
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n431
-> 
-> > Changes since v1:
-> > 	- All three patches rebased on latest media-tree.
-> > 	Patch 3:
-> > 	- Search for an entity with a non-NULL pipe instead of searching
-> > 	  for sensor. This terminates the search at output itself.
-> > 
-> > Kaaira Gupta (3):
-> >   media: vimc: Add usage count to subdevices
-> >   media: vimc: Serialize vimc_streamer_s_stream()
-> >   media: vimc: Join pipeline if one already exists
-> > 
-> >  .../media/test-drivers/vimc/vimc-capture.c    | 35 ++++++++++++++++++-
-> >  .../media/test-drivers/vimc/vimc-debayer.c    |  8 +++++
-> >  drivers/media/test-drivers/vimc/vimc-scaler.c |  8 +++++
-> >  drivers/media/test-drivers/vimc/vimc-sensor.c |  9 ++++-
-> >  .../media/test-drivers/vimc/vimc-streamer.c   | 23 +++++++-----
-> >  5 files changed, 73 insertions(+), 10 deletions(-)
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Signed-off-by: Krzysztof Wilczyński <kw@linux.com>
+---
+ Documentation/power/pci.rst                   |  2 +-
+ arch/x86/pci/fixup.c                          |  2 +-
+ arch/x86/pci/intel_mid_pci.c                  |  2 +-
+ drivers/hid/intel-ish-hid/ipc/ipc.c           |  2 +-
+ drivers/net/ethernet/marvell/sky2.c           |  2 +-
+ drivers/pci/pci-acpi.c                        |  6 +-
+ drivers/pci/pci.c                             | 14 ++--
+ drivers/pci/pci.h                             |  4 +-
+ drivers/pci/quirks.c                          | 68 +++++++++----------
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |  2 +-
+ include/linux/pci.h                           |  2 +-
+ include/uapi/linux/pci_regs.h                 |  2 +-
+ 12 files changed, 54 insertions(+), 54 deletions(-)
+
+diff --git a/Documentation/power/pci.rst b/Documentation/power/pci.rst
+index 1831e431f725..b04fb18cc4e2 100644
+--- a/Documentation/power/pci.rst
++++ b/Documentation/power/pci.rst
+@@ -320,7 +320,7 @@ that these callbacks operate on::
+ 	unsigned int	d2_support:1;	/* Low power state D2 is supported */
+ 	unsigned int	no_d1d2:1;	/* D1 and D2 are forbidden */
+ 	unsigned int	wakeup_prepared:1;  /* Device prepared for wake up */
+-	unsigned int	d3_delay;	/* D3->D0 transition time in ms */
++	unsigned int	d3hot_delay;	/* D3hot->D0 transition time in ms */
+ 	...
+   };
+ 
+diff --git a/arch/x86/pci/fixup.c b/arch/x86/pci/fixup.c
+index 0c67a5a94de3..9e3d9cc6afc4 100644
+--- a/arch/x86/pci/fixup.c
++++ b/arch/x86/pci/fixup.c
+@@ -587,7 +587,7 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL, 0xa26d, pci_invalid_bar);
+ static void pci_fixup_amd_ehci_pme(struct pci_dev *dev)
+ {
+ 	dev_info(&dev->dev, "PME# does not work under D3, disabling it\n");
+-	dev->pme_support &= ~((PCI_PM_CAP_PME_D3 | PCI_PM_CAP_PME_D3cold)
++	dev->pme_support &= ~((PCI_PM_CAP_PME_D3hot | PCI_PM_CAP_PME_D3cold)
+ 		>> PCI_PM_CAP_PME_SHIFT);
+ }
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD, 0x7808, pci_fixup_amd_ehci_pme);
+diff --git a/arch/x86/pci/intel_mid_pci.c b/arch/x86/pci/intel_mid_pci.c
+index 00c62115f39c..979f310b67d4 100644
+--- a/arch/x86/pci/intel_mid_pci.c
++++ b/arch/x86/pci/intel_mid_pci.c
+@@ -322,7 +322,7 @@ static void pci_d3delay_fixup(struct pci_dev *dev)
+ 	 */
+ 	if (type1_access_ok(dev->bus->number, dev->devfn, PCI_DEVICE_ID))
+ 		return;
+-	dev->d3_delay = 0;
++	dev->d3hot_delay = 0;
+ }
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_ANY_ID, pci_d3delay_fixup);
+ 
+diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
+index 8f8dfdf64833..a45ac7fa417b 100644
+--- a/drivers/hid/intel-ish-hid/ipc/ipc.c
++++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+@@ -755,7 +755,7 @@ static int _ish_hw_reset(struct ishtp_device *dev)
+ 	csr |= PCI_D3hot;
+ 	pci_write_config_word(pdev, pdev->pm_cap + PCI_PM_CTRL, csr);
+ 
+-	mdelay(pdev->d3_delay);
++	mdelay(pdev->d3hot_delay);
+ 
+ 	csr &= ~PCI_PM_CTRL_STATE_MASK;
+ 	csr |= PCI_D0;
+diff --git a/drivers/net/ethernet/marvell/sky2.c b/drivers/net/ethernet/marvell/sky2.c
+index fe54764caea9..ce7a94060a96 100644
+--- a/drivers/net/ethernet/marvell/sky2.c
++++ b/drivers/net/ethernet/marvell/sky2.c
+@@ -5104,7 +5104,7 @@ static int sky2_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	INIT_WORK(&hw->restart_work, sky2_restart);
+ 
+ 	pci_set_drvdata(pdev, hw);
+-	pdev->d3_delay = 300;
++	pdev->d3hot_delay = 300;
+ 
+ 	return 0;
+ 
+diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
+index 7224b1e5f2a8..c54588ad2d9c 100644
+--- a/drivers/pci/pci-acpi.c
++++ b/drivers/pci/pci-acpi.c
+@@ -1167,7 +1167,7 @@ static struct acpi_device *acpi_pci_find_companion(struct device *dev)
+  * @pdev: the PCI device whose delay is to be updated
+  * @handle: ACPI handle of this device
+  *
+- * Update the d3_delay and d3cold_delay of a PCI device from the ACPI _DSM
++ * Update the d3hot_delay and d3cold_delay of a PCI device from the ACPI _DSM
+  * control method of either the device itself or the PCI host bridge.
+  *
+  * Function 8, "Reset Delay," applies to the entire hierarchy below a PCI
+@@ -1206,8 +1206,8 @@ static void pci_acpi_optimize_delay(struct pci_dev *pdev,
+ 		}
+ 		if (elements[3].type == ACPI_TYPE_INTEGER) {
+ 			value = (int)elements[3].integer.value / 1000;
+-			if (value < PCI_PM_D3_WAIT)
+-				pdev->d3_delay = value;
++			if (value < PCI_PM_D3HOT_WAIT)
++				pdev->d3hot_delay = value;
+ 		}
+ 	}
+ 	ACPI_FREE(obj);
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index c9338f914a0e..5e5d15a96fe1 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -49,7 +49,7 @@ EXPORT_SYMBOL(isa_dma_bridge_buggy);
+ int pci_pci_problems;
+ EXPORT_SYMBOL(pci_pci_problems);
+ 
+-unsigned int pci_pm_d3_delay;
++unsigned int pci_pm_d3hot_delay;
+ 
+ static void pci_pme_list_scan(struct work_struct *work);
+ 
+@@ -66,10 +66,10 @@ struct pci_pme_device {
+ 
+ static void pci_dev_d3_sleep(struct pci_dev *dev)
+ {
+-	unsigned int delay = dev->d3_delay;
++	unsigned int delay = dev->d3hot_delay;
+ 
+-	if (delay < pci_pm_d3_delay)
+-		delay = pci_pm_d3_delay;
++	if (delay < pci_pm_d3hot_delay)
++		delay = pci_pm_d3hot_delay;
+ 
+ 	if (delay)
+ 		msleep(delay);
+@@ -2878,7 +2878,7 @@ void pci_pm_init(struct pci_dev *dev)
+ 	}
+ 
+ 	dev->pm_cap = pm;
+-	dev->d3_delay = PCI_PM_D3_WAIT;
++	dev->d3hot_delay = PCI_PM_D3HOT_WAIT;
+ 	dev->d3cold_delay = PCI_PM_D3COLD_WAIT;
+ 	dev->bridge_d3 = pci_bridge_d3_possible(dev);
+ 	dev->d3cold_allowed = true;
+@@ -2903,7 +2903,7 @@ void pci_pm_init(struct pci_dev *dev)
+ 			 (pmc & PCI_PM_CAP_PME_D0) ? " D0" : "",
+ 			 (pmc & PCI_PM_CAP_PME_D1) ? " D1" : "",
+ 			 (pmc & PCI_PM_CAP_PME_D2) ? " D2" : "",
+-			 (pmc & PCI_PM_CAP_PME_D3) ? " D3hot" : "",
++			 (pmc & PCI_PM_CAP_PME_D3hot) ? " D3hot" : "",
+ 			 (pmc & PCI_PM_CAP_PME_D3cold) ? " D3cold" : "");
+ 		dev->pme_support = pmc >> PCI_PM_CAP_PME_SHIFT;
+ 		dev->pme_poll = true;
+@@ -4601,7 +4601,7 @@ static int pci_af_flr(struct pci_dev *dev, int probe)
+  *
+  * NOTE: This causes the caller to sleep for twice the device power transition
+  * cooldown period, which for the D0->D3hot and D3hot->D0 transitions is 10 ms
+- * by default (i.e. unless the @dev's d3_delay field has a different value).
++ * by default (i.e. unless the @dev's d3hot_delay field has a different value).
+  * Moreover, only devices in D0 can be reset by this function.
+  */
+ static int pci_pm_reset(struct pci_dev *dev, int probe)
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 6d3f75867106..70e699e2e264 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -44,7 +44,7 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
+ int pci_bus_error_reset(struct pci_dev *dev);
+ 
+ #define PCI_PM_D2_DELAY         200
+-#define PCI_PM_D3_WAIT          10
++#define PCI_PM_D3HOT_WAIT       10
+ #define PCI_PM_D3COLD_WAIT      100
+ #define PCI_PM_BUS_WAIT         50
+ 
+@@ -177,7 +177,7 @@ extern struct mutex pci_slot_mutex;
+ 
+ extern raw_spinlock_t pci_lock;
+ 
+-extern unsigned int pci_pm_d3_delay;
++extern unsigned int pci_pm_d3hot_delay;
+ 
+ #ifdef CONFIG_PCI_MSI
+ void pci_no_msi(void);
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index 812bfc32ecb8..b09215b75b10 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -1846,7 +1846,7 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL,	PCI_DEVICE_ID_INTEL_PXHV,	quirk_pci
+  */
+ static void quirk_intel_pcie_pm(struct pci_dev *dev)
+ {
+-	pci_pm_d3_delay = 120;
++	pci_pm_d3hot_delay = 120;
+ 	dev->no_d1d2 = 1;
+ }
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL,	0x25e2, quirk_intel_pcie_pm);
+@@ -1873,12 +1873,12 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL,	0x260b, quirk_intel_pcie_pm);
+ 
+ static void quirk_d3hot_delay(struct pci_dev *dev, unsigned int delay)
+ {
+-	if (dev->d3_delay >= delay)
++	if (dev->d3hot_delay >= delay)
+ 		return;
+ 
+-	dev->d3_delay = delay;
++	dev->d3hot_delay = delay;
+ 	pci_info(dev, "extending delay after power-on from D3hot to %d msec\n",
+-		 dev->d3_delay);
++		 dev->d3hot_delay);
+ }
+ 
+ static void quirk_radeon_pm(struct pci_dev *dev)
+@@ -3374,36 +3374,36 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0152, disable_igfx_irq);
+  * PCI devices which are on Intel chips can skip the 10ms delay
+  * before entering D3 mode.
+  */
+-static void quirk_remove_d3_delay(struct pci_dev *dev)
+-{
+-	dev->d3_delay = 0;
+-}
+-/* C600 Series devices do not need 10ms d3_delay */
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0412, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0c00, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0c0c, quirk_remove_d3_delay);
+-/* Lynxpoint-H PCH devices do not need 10ms d3_delay */
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c02, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c18, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c1c, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c20, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c22, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c26, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c2d, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c31, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c3a, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c3d, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c4e, quirk_remove_d3_delay);
+-/* Intel Cherrytrail devices do not need 10ms d3_delay */
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x2280, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x2298, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x229c, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b0, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b5, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b7, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b8, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22d8, quirk_remove_d3_delay);
+-DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22dc, quirk_remove_d3_delay);
++static void quirk_remove_d3hot_delay(struct pci_dev *dev)
++{
++	dev->d3hot_delay = 0;
++}
++/* C600 Series devices do not need 10ms d3hot_delay */
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0412, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0c00, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0c0c, quirk_remove_d3hot_delay);
++/* Lynxpoint-H PCH devices do not need 10ms d3hot_delay */
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c02, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c18, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c1c, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c20, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c22, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c26, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c2d, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c31, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c3a, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c3d, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c4e, quirk_remove_d3hot_delay);
++/* Intel Cherrytrail devices do not need 10ms d3hot_delay */
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x2280, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x2298, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x229c, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b0, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b5, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b7, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b8, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22d8, quirk_remove_d3hot_delay);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22dc, quirk_remove_d3hot_delay);
+ 
+ /*
+  * Some devices may pass our check in pci_intx_mask_supported() if
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index a000a1e316f7..beba430a197e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -1573,7 +1573,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	spin_lock_init(&isp->lock);
+ 
+ 	/* This is not a true PCI device on SoC, so the delay is not needed. */
+-	pdev->d3_delay = 0;
++	pdev->d3hot_delay = 0;
+ 
+ 	pci_set_drvdata(pdev, isp);
+ 
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 34c1c4f45288..cd9abbbc55e3 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -373,7 +373,7 @@ struct pci_dev {
+ 						      user sysfs */
+ 	unsigned int	clear_retrain_link:1;	/* Need to clear Retrain Link
+ 						   bit manually */
+-	unsigned int	d3_delay;	/* D3->D0 transition time in ms */
++	unsigned int	d3hot_delay;	/* D3hot->D0 transition time in ms */
+ 	unsigned int	d3cold_delay;	/* D3cold->D0 transition time in ms */
+ 
+ #ifdef CONFIG_PCIEASPM
+diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
+index f9701410d3b5..49f15c37e771 100644
+--- a/include/uapi/linux/pci_regs.h
++++ b/include/uapi/linux/pci_regs.h
+@@ -246,7 +246,7 @@
+ #define  PCI_PM_CAP_PME_D0	0x0800	/* PME# from D0 */
+ #define  PCI_PM_CAP_PME_D1	0x1000	/* PME# from D1 */
+ #define  PCI_PM_CAP_PME_D2	0x2000	/* PME# from D2 */
+-#define  PCI_PM_CAP_PME_D3	0x4000	/* PME# from D3 (hot) */
++#define  PCI_PM_CAP_PME_D3hot	0x4000	/* PME# from D3 (hot) */
+ #define  PCI_PM_CAP_PME_D3cold	0x8000	/* PME# from D3 (cold) */
+ #define  PCI_PM_CAP_PME_SHIFT	11	/* Start of the PME Mask in PMC */
+ #define PCI_PM_CTRL		4	/* PM control and status register */
+-- 
+2.27.0
+
