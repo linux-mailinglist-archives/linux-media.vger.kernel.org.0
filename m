@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 817DD233BBB
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 01:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5AE6233BC2
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 01:02:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730814AbgG3XCK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jul 2020 19:02:10 -0400
-Received: from mail-co1nam11olkn2080.outbound.protection.outlook.com ([40.92.18.80]:59949
+        id S1730830AbgG3XCP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jul 2020 19:02:15 -0400
+Received: from mail-co1nam11olkn2054.outbound.protection.outlook.com ([40.92.18.54]:28769
         "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730803AbgG3XCJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jul 2020 19:02:09 -0400
+        id S1730816AbgG3XCL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 Jul 2020 19:02:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aqfxwtKxTtRceuNSISz4pyxUoOQyQmojEq78+f9j7JmgcCaAn9QHS9JzkgYN4zM6JNBPwRsNvNUZmq7FyHa5YzHqaaZ/KfU6s1YCKnWyywbMASE6gyWUcCT8ajbLWaG9XSwoldUqIRQDd4VcpsyhaUeuduEGCCDIgebwnLyRVJtEJLGmzztk4MpOCQwUxvBS7YPnyF1TdoPmUQoZIeXgz3U1rlVs+6brSOS2X+Io2+4ikE9TYLinwUvcWWM6mcEISziED9jjFYK0fq0MnwnHU+Z3P8qCf9ZgWr7cn8/4zOmh5ufXiVJO/9M0Y4C7QH1j36oNGEJmSO0WYc6bROGTXA==
+ b=MZqexn+qsxnTZvPoi94dGvycAVeQHCdVNaiklw39o22HdfDNicBrWt/yv2ldHABgW6QvLutPkUMueinpMLa/IugByZ3qjDg67+y1zXPn1oCfsbvmpZe7OXEfg4WDVRihDQJ9P1dEdhyjjA98EFQzPCSlkor6c+ylcS05wUod/obrETpJEQ88QR6iZhmnp0cOKkzCs0ZUjaOL3rYs85ip1y2pX7JTvnncxB2GwZsOvoDqc0WWVadmOumKFyR2Hyf6L/L/kfLn4pwRoLgEotJEggK7C2BryiNjSSYpudLO2D5pw5vzpiKEOjR6pwe0Bi8P9i3joJ3OW4IAPpc3QRUTGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8KdOFWGq2tYRemSvmeE2n74vkpSZ4QQdHGcP2pMuyws=;
- b=S736WyY5YNjbK9CMV9VtTXSnO/BbjayrRclrw4BoMFsIrcYlnq5f/+unfOMME+Z7C+bYRsSRHyU+jJQ9p66Un+YxLc+UaihvYe9P38UUJZndurd/L5WnV5c9DY2T0jdSvXyUP+4Kbe40Ni/fW0dJxqlmWFmzAypEtYMeRGwI1cONcDnvgWZuTQscoRyGBFIH2gxUFZhn85o0+0AioqCPLrvv4qWTbcQ4CqjljTG9OjYb2HzeTm04+Cdakpd1e3jbR//o/sS8yXhq/EDmb/AX6dWTZF25lGWnzMipQNnAAzUWYs/SOzeDHJSWE9K/GWaVfSwxqvvxvcVHHvqlASR0YA==
+ bh=blb2TXRMp+yo/YM80XdL8XrZqtDJRYtixFtmZKoQWno=;
+ b=h7dLPy20zV1fjbu2H+2CnNDbnCg120gmtFmXIKmFp4lgMeq7lyjYidnBrBU3fy7qfaC6uqfTK3sOiWVcSqgOuuItD3ObkBkhT8w16Li4u+MdcM5RgPfAjz+26nlScjeg3XNtY8xHzdtS9+fILwZmTtJj44NOL1nc6Rn5av8w97J85CqGahzqh2g1scRPuzBTul3EoComA47vb5psiUxwV+4hsPyqKApHC9Fv1PKPhdnsN1+q2NQFQnBsF1YoAVwDPfo8QLLI45qNdWWmRjaxAdwarjb3iFyt++f8iLPxHeSVA635PmjM+88bMmXt9PGMHmteYXBYsxmH3oS9qhGQMQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from CO1NAM11FT027.eop-nam11.prod.protection.outlook.com
- (2a01:111:e400:3861::4e) by
- CO1NAM11HT018.eop-nam11.prod.protection.outlook.com (2a01:111:e400:3861::145)
+ (2a01:111:e400:3861::4b) by
+ CO1NAM11HT057.eop-nam11.prod.protection.outlook.com (2a01:111:e400:3861::185)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.20; Thu, 30 Jul
- 2020 23:02:07 +0000
+ 2020 23:02:09 +0000
 Received: from BN6PR04MB0660.namprd04.prod.outlook.com
  (2a01:111:e400:3861::4a) by CO1NAM11FT027.mail.protection.outlook.com
  (2a01:111:e400:3861::224) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.20 via Frontend
- Transport; Thu, 30 Jul 2020 23:02:07 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:1F475629DDB68A38DFC130CCB8F1FAE8943C57822EFEAA169B5DBFB56D0E5C8B;UpperCasedChecksum:FBE681A75446489C350865897E87537F9731FFF3392C6B7150C1AC289B7E5F0E;SizeAsReceived:7873;Count:49
+ Transport; Thu, 30 Jul 2020 23:02:09 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:6596A80B681EE7BBE23592754212134BA198ACEE2B5D7CB2DB0EDE81235FC83E;UpperCasedChecksum:8F19E0DF905CC33C86E76E53392147AEA5680F956105E879707AC12DB6A82CD8;SizeAsReceived:7885;Count:49
 Received: from BN6PR04MB0660.namprd04.prod.outlook.com
  ([fe80::b9c3:9bff:541d:f383]) by BN6PR04MB0660.namprd04.prod.outlook.com
  ([fe80::b9c3:9bff:541d:f383%9]) with mapi id 15.20.3239.020; Thu, 30 Jul 2020
- 23:02:07 +0000
+ 23:02:09 +0000
 From:   Jonathan Bakker <xc-racer2@live.ca>
 To:     kyungmin.park@samsung.com, s.nawrocki@samsung.com,
         mchehab@kernel.org, kgene@kernel.org, krzk@kernel.org,
@@ -44,9 +44,9 @@ To:     kyungmin.park@samsung.com, s.nawrocki@samsung.com,
         linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, robh+dt@kernel.org,
         Jonathan Bakker <xc-racer2@live.ca>
-Subject: [PATCH v2 10/11] media: exynos4-is: Handle duplicate calls to vidioc_streamoff
-Date:   Thu, 30 Jul 2020 16:01:13 -0700
-Message-ID: <BN6PR04MB06606A36716392E7634CF8DCA3710@BN6PR04MB0660.namprd04.prod.outlook.com>
+Subject: [PATCH v2 11/11] dt-bindings: media: Correct samsung-fimc parallel port numbering
+Date:   Thu, 30 Jul 2020 16:01:14 -0700
+Message-ID: <BN6PR04MB0660B938349CA15DE7BCC5BBA3710@BN6PR04MB0660.namprd04.prod.outlook.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200730230114.8572-1-xc-racer2@live.ca>
 References: <20200730230114.8572-1-xc-racer2@live.ca>
@@ -55,25 +55,25 @@ Content-Type:   text/plain; charset=US-ASCII
 X-ClientProxiedBy: MWHPR07CA0002.namprd07.prod.outlook.com
  (2603:10b6:300:116::12) To BN6PR04MB0660.namprd04.prod.outlook.com
  (2603:10b6:404:d9::21)
-X-Microsoft-Original-Message-ID: <20200730230114.8572-11-xc-racer2@live.ca>
+X-Microsoft-Original-Message-ID: <20200730230114.8572-12-xc-racer2@live.ca>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from jon-hp-6570b.telus (2001:569:fb68:9c00:8067:f823:1e15:7520) by MWHPR07CA0002.namprd07.prod.outlook.com (2603:10b6:300:116::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend Transport; Thu, 30 Jul 2020 23:02:04 +0000
+Received: from jon-hp-6570b.telus (2001:569:fb68:9c00:8067:f823:1e15:7520) by MWHPR07CA0002.namprd07.prod.outlook.com (2603:10b6:300:116::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend Transport; Thu, 30 Jul 2020 23:02:07 +0000
 X-Mailer: git-send-email 2.20.1
-X-Microsoft-Original-Message-ID: <20200730230114.8572-11-xc-racer2@live.ca>
-X-TMN:  [NVzrdjcbDFmjrKPwmClgs53y4e5yhvvtuJtIwpLttDdmQ4zC7eQVZCBy2GOMpqMx]
+X-Microsoft-Original-Message-ID: <20200730230114.8572-12-xc-racer2@live.ca>
+X-TMN:  [4H0vmUXwVvtd+gYRvieb3VzExRmUgc9uRhumOxiyx0ARjfgIV6+/lmymWIVI9+Vv]
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 49
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 3dd7da9f-7c1c-4eac-443f-08d834dc94d0
-X-MS-TrafficTypeDiagnostic: CO1NAM11HT018:
+X-MS-Office365-Filtering-Correlation-Id: 45929ec7-0b00-434f-37d4-08d834dc965c
+X-MS-TrafficTypeDiagnostic: CO1NAM11HT057:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 12XirX4/pP+7CFneqKLp/Sh3GB4hdD6DC02sAuR9TsRz+T1Rkx7315O38DTXxXaTDSicMoy9v31CTGXPz8NyqkoRP0U+pi+NANuwrsZvS0HYJo0/t40h/Wkz7wkSosqPJoI6CGs6m4FkyD6YATE2IS39zPKFSBssxaoP3koCbFjWDq/1K6p32iJIyIY4RtwDRLf8UVc+NRgoIFs7D9n1Iw==
+X-Microsoft-Antispam-Message-Info: BHfC/ydrQF3oRUjURQOQUSYTv8k/BcbcG3az97rWdstQGzWd4TiaodOb62ErBBCX9j0r/Hiuy0HAv+ZGkKQp4v7bzqYZSxYalIybvs8oWhvNzkPIagSPqEtDuVVfc0FJkj5orWe41j5bL8j/FPPKJW8I/s2+Hem+VJvd1ER8QgmIxHWySdz1AFz0FJ+rUcfyNg1aJueKnCuhHbCo50/MYQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR04MB0660.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
-X-MS-Exchange-AntiSpam-MessageData: W4whD87R1QqxYiP2vR0N6kdSkIFvPiVu+52/j1CdL3XOjqf9tNk6igGUUs1dstP5c54SMqihvF/0wn94dpn6fTZJieE53h3eiWNJZ2JTZhJjhgMwweBLmaMOctzW3bTY7cZ2OMHwUbYBzklWDS3I0t1iY4nyIN5fNrCza+BQIFCoWsB1rC+I4a8bcmlXpuj3gOXRu3fU+XRZ+t8F+1MO8g==
+X-MS-Exchange-AntiSpam-MessageData: Va8N7+GzrxSlCkFTcwGLUGCRaLywNzTlCqvgKzbSLG+LTKbyNP2FD5J7a5h2VEqNEsBlRZgOapGUEQETypC2IZreOWegXPTecPQUk6Jn4oAoMpsfgRGM2StW1zuKtFEs5hyOAiUUhY7YcaiOz07H2U/gYnGuSCqc7CaiKM+hpc0HgwyQ8u2M2mVVW/CZO+wk47wt1OQOferptIF7hevFOw==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3dd7da9f-7c1c-4eac-443f-08d834dc94d0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2020 23:02:07.1959
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45929ec7-0b00-434f-37d4-08d834dc965c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2020 23:02:09.6779
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -81,45 +81,49 @@ X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT027.eop-nam11.prod.protection.ou
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1NAM11HT018
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1NAM11HT057
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vidioc_streamoff can be called multiple times from userspace, but we
-should only call media_pipeline_stop when we're actually setup.
-
-This became more noticeable after commit 2a2599c66368 ("[media] media:
-entity: Catch unbalanced media_pipeline_stop calls") was merged as it
-added a WARN for unbalanced calls to media_pipeline_stop.
+The parallel port nodes should be numbered 1 and 2, not 0 and 1
+for A and B respectively.  The driver has always implemented 1
+and 2 and the in-tree Goni DTS uses 1 as port A as well.  Update
+the documentation to match this behaviour.
 
 Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
 ---
 Changes from v1:
-- re-worded commit message for a better description of the problem
+- New patch replacing patch modifying driver to match documentation
 ---
- drivers/media/platform/exynos4-is/fimc-capture.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/media/samsung-fimc.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
-index e70785d8a809..887a736b2e0e 100644
---- a/drivers/media/platform/exynos4-is/fimc-capture.c
-+++ b/drivers/media/platform/exynos4-is/fimc-capture.c
-@@ -1232,8 +1232,11 @@ static int fimc_cap_streamoff(struct file *file, void *priv,
- 	if (ret < 0)
- 		return ret;
+diff --git a/Documentation/devicetree/bindings/media/samsung-fimc.txt b/Documentation/devicetree/bindings/media/samsung-fimc.txt
+index f91b9dc80eb3..20447529c985 100644
+--- a/Documentation/devicetree/bindings/media/samsung-fimc.txt
++++ b/Documentation/devicetree/bindings/media/samsung-fimc.txt
+@@ -95,7 +95,7 @@ Optional properties:
  
--	media_pipeline_stop(&vc->ve.vdev.entity);
--	vc->streaming = false;
-+	if (vc->streaming) {
-+		media_pipeline_stop(&vc->ve.vdev.entity);
-+		vc->streaming = false;
-+	}
-+
- 	return 0;
- }
+ This node should contain child 'port' nodes specifying active parallel video
+ input ports. It includes camera A and camera B inputs. 'reg' property in the
+-port nodes specifies data input - 0, 1 indicates input A, B respectively.
++port nodes specifies data input - 1, 2 indicates input A, B respectively.
  
+ Optional properties
+ 
+@@ -172,8 +172,8 @@ Example:
+ 		/* parallel camera ports */
+ 		parallel-ports {
+ 			/* camera A input */
+-			port@0 {
+-				reg = <0>;
++			port@1 {
++				reg = <1>;
+ 				fimc0_ep: endpoint {
+ 					remote-endpoint = <&s5k6aa_ep>;
+ 					bus-width = <8>;
 -- 
 2.20.1
 
