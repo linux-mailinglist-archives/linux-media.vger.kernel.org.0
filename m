@@ -2,327 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 016822336F9
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 18:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88418233704
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 18:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729832AbgG3Qkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jul 2020 12:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47174 "EHLO
+        id S1728495AbgG3Qo7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jul 2020 12:44:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728473AbgG3Qkb (ORCPT
+        with ESMTP id S1726275AbgG3Qo6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jul 2020 12:40:31 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2B92C06174A
-        for <linux-media@vger.kernel.org>; Thu, 30 Jul 2020 09:40:30 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id t14so1624533wmi.3
-        for <linux-media@vger.kernel.org>; Thu, 30 Jul 2020 09:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=z7c6G7LA4wMI31rE/G3DFB1zXivUhfsc+gRf5Yk3dzQ=;
-        b=Xv2eFc52v202z0TsmV3ZVb/X/kfvDRq60L5cb8HHWuJFHy7Nft5APTCNJVJpdQ2FoU
-         +4F5xWb7DgQu0I8dv78ZWgE+RELjBjNFa3PyKTAUCgR+0yFC00pRlnPtihNKHsOVOHE3
-         KONmwpSssoSbwoZ6OfwU8UbNDHWvCknicBeYA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=z7c6G7LA4wMI31rE/G3DFB1zXivUhfsc+gRf5Yk3dzQ=;
-        b=gwiSX6LXAp4JnWkyW7bvYIQLwcRiKCq3BiUX/mgQi2x6HnTwkcCBosud7LYZWEB1m1
-         CBgs/aRUPZeFkOj/lpS5A1cuhjn2sRk/O1ZH6HmKku55h7qd2VaiM2jTARQQL+GhJc9V
-         XctQ7DEhHAPen3EP1YvIjjBfsyfsZc687k6FLjWzwhPdc4OoPwLsqbmVbqaoYyeGEN+Q
-         +13b7X1ecrUcuK2VwxXOIQkpDlc9oNjeePNZdV+T95r0PWOdC4fKlLeGTY9naoPVeFts
-         tS/UbCtTfr6rKKO22hqmFUVQYlZ9Bb6PwGfpt5I/zgCykiw/904mPSTpk6ZnzbB4dCpi
-         SLPQ==
-X-Gm-Message-State: AOAM532uW4lVQ7rfjJk4y2hJcd/0faIkdAwz1ZlC0UBXZE+ZI6JQWZd/
-        4wJKB4lUWnMt/dBVx81bqbueTg==
-X-Google-Smtp-Source: ABdhPJzaQjBxQauL+AG6AmnnI1vp9FaY8avLYCkRXAg/NRbM+27Ya8LMA5DQET7r/Tro7gvu+Dq4JA==
-X-Received: by 2002:a1c:bcd6:: with SMTP id m205mr108371wmf.47.1596127229300;
-        Thu, 30 Jul 2020 09:40:29 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id n18sm10825044wrw.45.2020.07.30.09.40.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2020 09:40:28 -0700 (PDT)
-Date:   Thu, 30 Jul 2020 16:40:27 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Xia Jiang <xia.jiang@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        srv_heupstream@mediatek.com, senozhatsky@chromium.org,
-        mojahsu@chromium.org, drinkcat@chromium.org,
-        maoguang.meng@mediatek.com
-Subject: Re: [PATCH v10 00/28] Add support for mt2701 JPEG ENC support
-Message-ID: <20200730164027.GB3779380@chromium.org>
-References: <20200723030451.5616-1-xia.jiang@mediatek.com>
+        Thu, 30 Jul 2020 12:44:58 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D32C061574;
+        Thu, 30 Jul 2020 09:44:58 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 728A7634C89;
+        Thu, 30 Jul 2020 19:43:59 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1k1Bex-0001W8-8X; Thu, 30 Jul 2020 19:43:59 +0300
+Date:   Thu, 30 Jul 2020 19:43:59 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, slongerbeam@gmail.com,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>
+Subject: Re: [PATCH 08/13] dt-bindings: media: ov5640: Remove data-shift
+Message-ID: <20200730164359.GB5201@valkosipuli.retiisi.org.uk>
+References: <20200717132859.237120-9-jacopo+renesas@jmondi.org>
+ <20200717205722.GJ5961@pendragon.ideasonboard.com>
+ <20200723222259.GB829@valkosipuli.retiisi.org.uk>
+ <20200723231549.GE21353@pendragon.ideasonboard.com>
+ <20200725211833.GE829@valkosipuli.retiisi.org.uk>
+ <20200725213125.GE6253@pendragon.ideasonboard.com>
+ <20200729142936.GF829@valkosipuli.retiisi.org.uk>
+ <20200729144608.GF6183@pendragon.ideasonboard.com>
+ <20200730162219.GA5201@valkosipuli.retiisi.org.uk>
+ <20200730163211.GB6107@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200723030451.5616-1-xia.jiang@mediatek.com>
+In-Reply-To: <20200730163211.GB6107@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xia,
+Hi Laurent,
 
-On Thu, Jul 23, 2020 at 11:04:23AM +0800, Xia Jiang wrote:
-> This patchset add support for mt2701 JPEG ENC support.      
->                                                             
-> This is the compliance test result for jpeg dec and enc.    
->                                                             
-> The JPEG dec log:                                           
-> ------------------------------------------------------------
-> v4l2-compliance -d /dev/video0
-> v4l2-compliance SHA: 697ae940b60a172ef31948dd74316fe9de365b7e, 32 bits, 32-bit time_t
+On Thu, Jul 30, 2020 at 07:32:11PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Compliance test for mtk-jpeg-dec device /dev/video0:
+> On Thu, Jul 30, 2020 at 07:22:19PM +0300, Sakari Ailus wrote:
+> > On Wed, Jul 29, 2020 at 05:46:08PM +0300, Laurent Pinchart wrote:
+> > > On Wed, Jul 29, 2020 at 05:29:36PM +0300, Sakari Ailus wrote:
+> > > > On Sun, Jul 26, 2020 at 12:31:25AM +0300, Laurent Pinchart wrote:
+> > > > > On Sun, Jul 26, 2020 at 12:18:33AM +0300, Sakari Ailus wrote:
+> > > > > > On Fri, Jul 24, 2020 at 02:15:49AM +0300, Laurent Pinchart wrote:
+> > > > > > > On Fri, Jul 24, 2020 at 01:22:59AM +0300, Sakari Ailus wrote:
+> > > > > > > > On Fri, Jul 17, 2020 at 11:57:22PM +0300, Laurent Pinchart wrote:
+> > > > > > > > > Hi Jacopo,
+> > > > > > > > > 
+> > > > > > > > > (CC'ing Sakari)
+> > > > > > > > > 
+> > > > > > > > > Thank you for the patch.
+> > > > > > > > > 
+> > > > > > > > > On Fri, Jul 17, 2020 at 03:28:54PM +0200, Jacopo Mondi wrote:
+> > > > > > > > > > The value of the data-shift property solely depend on the selected
+> > > > > > > > > > bus width and it's not freely configurable.
+> > > > > > > > > > 
+> > > > > > > > > > Remove it from the bindings document and update its users accordingly.
+> > > > > > > > > 
+> > > > > > > > > Hmmmm that's an interesting one. Sakari, what do you think ?
+> > > > > > > > > 
+> > > > > > > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > > > > > > > ---
+> > > > > > > > > >  Documentation/devicetree/bindings/media/i2c/ov5640.yaml | 9 ---------
+> > > > > > > > > >  arch/arm/boot/dts/stm32mp157c-ev1.dts                   | 1 -
+> > > > > > > > > >  2 files changed, 10 deletions(-)
+> > > > > > > > > > 
+> > > > > > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > > > > > > > > index 5e1662e848bd..ab700a1830aa 100644
+> > > > > > > > > > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > > > > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > > > > > > > > @@ -92,12 +92,6 @@ properties:
+> > > > > > > > > >                parallel bus.
+> > > > > > > > > >              enum: [8, 10]
+> > > > > > > > > > 
+> > > > > > > > > > -          data-shift:
+> > > > > > > > > > -            description: |
+> > > > > > > > > > -              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
+> > > > > > > > > > -              <0> for 10 bits parallel bus.
+> > > > > > > > > > -            enum: [0, 2]
+> > > > > > > > > 
+> > > > > > > > > Should you document in the description of bus-width that data-shift is
+> > > > > > > > > implied ?
+> > > > > > > > 
+> > > > > > > > The purpose of the datas-shift property is to convey how the parallel bus
+> > > > > > > > lines are connected for a given bus width for devices where it is
+> > > > > > > > configurable. As this device does not not support that, then indeed this
+> > > > > > > > property is not relevant for the device IMO.
+> > > > > > > 
+> > > > > > > Could you elaborate on this ? I believe the case that Jacopo is
+> > > > > > > describing connects D[9:2] from the sensor to D[7:0] of the receiver
+> > > > > > > (Jacopo, could you confirm ?). Isn't that what data-shift is for ?
+> > > > > > 
+> > > > > > Yes, it is. But in this case what data-shift configures is not configurable
+> > > > > > as such but defined by another configuration, making the data-shift
+> > > > > > property redundant. We generally haven't documented redundant things in DT
+> > > > > > bindings --- for instance data-lanes is documented in bindings only if it
+> > > > > > is configurable.
+> > > > > 
+> > > > > Then I think we share the same understanding. I believe the
+> > > > > documentation in video-interfaces.txt needs to be expanded, as it's
+> > > > > quite terse and not very clear.
+> > > > 
+> > > > The DT spec states that:
+> > > > 
+> > > > 	A DTSpec-compliant devicetree describes device information in a
+> > > > 	system that cannot necessarily be dynamically detected by a client
+> > > > 	program. For example, the architecture of PCI enables a client to
+> > > > 	probe and detect attached devices, and thus devicetree nodes
+> > > > 	describing PCI devices might not be required. However, a device
+> > > > 	node is required to describe a PCI host bridge device in the system
+> > > > 	if it cannot be detected by probing.
+> > > > 
+> > > > I'd read that as there's no need to specify properties that do not provide
+> > > > additional information to software.
+> > > 
+> > > That's a bit of a stretch interpretation :-)
+> > > 
+> > > > As some properties are dependent on
+> > > > others and and this depends on hardware features, I don't think we can in
+> > > > general case take this account in generic binding documentation, but device
+> > > > specific ones.
+> > > > 
+> > > > Of course we could add this to data-shift documentation, but then I wonder
+> > > > how many other similar cases there are where in hardware the configuration
+> > > > defined by one property determines the value of another?
+> > > 
+> > > I was mostly thinking about documenting *how* data-shift interacts with
+> > > bus-width. I think that specifying the default data-shift value based on
+> > > the bus-width value, for the case where data-shift is not specified,
+> > > would also make sense.
+> > 
+> > Do you mean in device binding documentation or in generic documentation?
+> > Device bindings should have this information, yes.
 > 
-> Driver Info:
->         Driver name      : mtk-jpeg-dec
->         Card type        : mtk-jpeg-dec
->         Bus info         : platform:15004000.jpegdec
->         Driver version   : 5.8.0
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected JPEG Decoder
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video0 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
->         test invalid ioctls: OK
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 0 Private Controls: 0
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK
->         test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for mtk-jpeg-dec device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
-> ------------------------------------------------------------
->                                                             
-> The JPEG enc log:                                           
->                                                             
-> ------------------------------------------------------------
-> v4l2-compliance -d /dev/video1 
-> v4l2-compliance SHA: 697ae940b60a172ef31948dd74316fe9de365b7e, 32 bits, 32-bit time_t
-> 
-> Compliance test for mtk-jpeg-enc device /dev/video1:
-> 
-> Driver Info:
->         Driver name      : mtk-jpeg-enc
->         Card type        : mtk-jpeg-enc
->         Bus info         : platform:1500a000.jpegenc
->         Driver version   : 5.8.0
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected JPEG Encoder
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video1 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
->         test invalid ioctls: OK
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 4 Private Controls: 0
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK
->         test Composing: OK (Not Supported)
->         test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for mtk-jpeg-enc device /dev/video1: 45, Succeeded: 45, Failed: 0, Warnings: 0
-> ------------------------------------------------------------
-> 
-> Change compared to v9:
-> - use pm_runtime_force_*()helpers of patch 07/28
-> - add one patch for handling jpeg hardware's locking up
-> - delete mtk_jpeg_qbuf() in patch 09/28
-> - add one patch for deletting vidioc_s_selection ioctl of jpeg dec
-> - add one patch for changing the maximum width and height supported by jpeg dec
-> - add one patch for refactoring mtk_jpeg_try_fmt_mplane function
-> - add one patch for refactoring mtk_jpeg_find_format function
-> - add one patch for redefinition of mtk_jpeg_q_data structure
-> - add one patch for changing the colorspace of jpeg to the fixed value
-> - add one patch for refactoring mtk_jpeg_set_default_params function
-> - add one patch for changing the call function of getting/enable/disable the jpeg's clock
-> - add one patch for using the variant structure to contain the varability between jpeg dec and enc
-> - return active crop information in mtk_jpeg_enc_g_selection function
-> - cancel mtk_jpeg_enc_bs structure
-> - refactor the setting hardware register functions in mtk_jpeg_enc_hw.c
-> - remove mtk_jpeg_enc_job_ready function
-> - refactor mtk_jpeg_enc_irq function
-> - cancel setting up a control handler for jpeg dec
-> - add the mechanism to ensure that the buffer is enough to hold the EXIF data in .buf_prepare callback
-> 
-> Xia Jiang (28):
->   media: platform: Improve subscribe event flow for bug fixing
->   media: platform: Improve queue set up flow for bug fixing
->   media: platform: Improve getting and requesting irq flow for bug
->     fixing
->   media: platform: Change the fixed device node number to unfixed value
->   media: platform: Improve power on and power off flow
->   media: platform: Delete the resetting hardware flow in the system PM
->     ops
->   media: platform: Improve the implementation of the system PM ops
->   media: platform: Add mechanism to handle jpeg hardware's locking up
->   media: platform: Cancel the last frame handling flow
->   media: platform: Delete zeroing the reserved fields
->   media: platform: Stylistic changes for improving code quality
->   media: platform: Use generic rounding helpers
->   media: platform: Change MTK_JPEG_COMP_MAX macro definition location
->   media: platform: Delete redundant code and add annotation for an enum
->   media: platform: Delete vidioc_s_selection ioctl of jpeg dec
->   media: platform: Change the maximum width and height supported by JPEG
->     dec
->   media: platform: Refactor mtk_jpeg_try_fmt_mplane()
->   media: platform: Refactor mtk_jpeg_find_format()
->   media: platform: Redefinition of mtk_jpeg_q_data structure
->   media: platform: Change the colorspace of jpeg to the fixed value
->   media: platform: Refactor mtk_jpeg_set_default_params()
->   media: platform: Change the call functions of getting/enable/disable
->     the jpeg's clock
+> I mean in video-interfaces.txt (which should become
+> video-interfaces.yaml :-)) for the general rules, and in specific
+> bindings for any device-specific rule.
 
-Except one comment to that one patch, the series looks good to me. After
-fixing that last comment, feel free to add my Reviewed-by to all the
-patches which still don't have it.
+Please send a patch. :-)
 
-Thanks a lot for patiently addressing the comments. I think the series
-improves the driver a lot.
+> 
+> We will likely need a runtime API too, it's entirely conceivable that a
+> 10-bit parallel sensor, which D[9:0] signals, could use either D[9:2] or
+> D[7:0] when configured to transmit 10-bit data. This isn't something
+> that can be encoded in DT. It's a separate topic though.
 
-Best regards,
-Tomasz
+You can set defaults in the current API but those defaults are basically a
+C struct. I don't think we should be looking into making those defaults
+depend on property values, unless there's a clear reason to do so --- and
+in this case there isn't one.
+
+-- 
+Kind regards,
+
+Sakari Ailus
