@@ -2,528 +2,400 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 440982335A9
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 17:35:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 445E8233636
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 18:01:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729892AbgG3Pfz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jul 2020 11:35:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37200 "EHLO
+        id S1729387AbgG3QBm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jul 2020 12:01:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729879AbgG3Pfo (ORCPT
+        with ESMTP id S1726275AbgG3QBl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jul 2020 11:35:44 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 306C5C061575;
-        Thu, 30 Jul 2020 08:35:44 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id h21so14246626qtp.11;
-        Thu, 30 Jul 2020 08:35:44 -0700 (PDT)
+        Thu, 30 Jul 2020 12:01:41 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DDD3C061574
+        for <linux-media@vger.kernel.org>; Thu, 30 Jul 2020 09:01:41 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id s15so8294615qvv.7
+        for <linux-media@vger.kernel.org>; Thu, 30 Jul 2020 09:01:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5i1xL3mrgd2mTOzDZy8q1PBflUFQY+JRM6EFERP0ytk=;
-        b=ad8uW5Jn9YMrE50dGpNNEnlNgANqBVxHxPTkVqafh/hiP3Z7+vfIa3wWCdnOZdHcW/
-         FSoMOHiAKC/h2/TPTWe7UJs5F2rlsm2ZWuicqyycZGwKWxJRhgkoU38f/p35W1YaOfPC
-         /FjOTtHvPTd/fXd+DWBbwUXzzwvbNYmDKMANX3LNk6+YNEp3Pg21JpwnDCekrclxCF9t
-         vvvInuc99GsnKdVYm6O7/rHbtfErZD/6UQu7mCyX2852c64RDqSQ7WWyXzpx9g5le9Ve
-         qXKiDsOt40F5OcZAV+G0x6uRtwtCqEPfQlNDEuYEdw0tiM9SroJS50/gCcgZpT+B73Oj
-         TwRA==
+        h=date:from:to:cc:message-id:subject:mime-version
+         :content-transfer-encoding:content-disposition;
+        bh=6YrPwBW7khoA/zVUoxjs2wDBtXZ7HcZQ14CO1K0QvmQ=;
+        b=kUE3s+ezpN+252mAewAuR/ZIwywo9d4XrjrUdySvzPP1PyNeUn1Zho2iQjl6Y0q8Id
+         laU8Io24vWCJB6T6hlniTtsM8s5Z12DPowne9EMrjhCCkmCL9j5P0Ty5oqJdBckHgETA
+         ba8lhn75u+FxInccBr2s4d4F7Z/Y4W4DCArqzxccmdcSpHJRKJxZ9YYmm5ZHiUlw0qW2
+         rMgJNkacAwZrzRbJ0nItYShc3anSZZmwt0PPRcb2emXh3o5nAPj7wKQzrHPn/1bpDW+m
+         tWU7Pn8IhzYbcfeE2o8PebV6MnQTri86lc1muOh3pjq+4RYSvkkXYQ5SMCLFgwPpBwUa
+         sezQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5i1xL3mrgd2mTOzDZy8q1PBflUFQY+JRM6EFERP0ytk=;
-        b=Xf9VhbNvTcpcfdh0nBEbLGip0kJpZJIFHpyQJ2LTRWmk9I38Bqscoevt7tw6eh8Djv
-         Qa77UuXfzle935loVcICPEJixP/biwCDABfdpVWubR3UmoDKG9R1HQaWIYsAzcvWDDKC
-         fNCH/yQIX+iyAYAMa4yaxC93hIdfuGfULpVfbtoG1WpntsBbzhFmP2qNWUV4YHo3obT4
-         HeGAxGLGmdEgsViUP2MpitT4NC//aqhM8/Q4mUHOiyORdUl6bTmwCZeMsRSO+BmOxK/j
-         KXvs7xy7XeFPv/8Kp8mZFahj0+g/dbt86YXKniPoOEbsZYJf0/GVCJvS9Odfewi+CrTX
-         WuJQ==
-X-Gm-Message-State: AOAM5304xoiJ0SX2A8sEMcdSjngPT5hNCLGZdAZT+7qy63uop+eY0jTL
-        ba4/lIJolk0W2pJ4o0BXnqQ=
-X-Google-Smtp-Source: ABdhPJxewDCgQ5VF2AhJ8+T9tVqUGTAbvvCPJGsYEklnF04MrJjyXpp/iAHjpc9ZClSWC9jYeylMuQ==
-X-Received: by 2002:ac8:774f:: with SMTP id g15mr3454605qtu.145.1596123343062;
-        Thu, 30 Jul 2020 08:35:43 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id i7sm659047qtb.27.2020.07.30.08.35.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2020 08:35:42 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:message-id:subject:mime-version
+         :content-transfer-encoding:content-disposition;
+        bh=6YrPwBW7khoA/zVUoxjs2wDBtXZ7HcZQ14CO1K0QvmQ=;
+        b=NxEY1CnM7ncYB018YwyS9I0TOsmxi9uQLbQT7YMS5ATAXAjRGFMJQJGrvxI/2mQ/oH
+         PbgQczEHJE8xk8k6vTLY4rww2Bc0f9CS+FXJNbXzSf+O5A3EsiOgWBOIkGNzgduPl+Sr
+         1FVpeIVQx7kCmUgxiLUr5Pp9xx6a+mkaB2DGAImqdUqns64K7CIDuSqBh1d4rGTwq9eN
+         akFUT7tzroDEajX9vFH1gdjLgx/Q3SnHPZKOyHk3hqGnVPsP89dsseFmW/WmqgNZubPh
+         0GA6LTcc0q5U1nbkv2jZz2QtyKRvlVd5McQpXMGaSv3uJ6AdN2ERNFkdkerHn1EJj1OX
+         wLmw==
+X-Gm-Message-State: AOAM533mW9H59ktDMH4Zta6CqBJN0gd0bzIsGmhcfaXc1egaTAx6Sr35
+        q7ybsWZK1US1ivSyfCrycPc=
+X-Google-Smtp-Source: ABdhPJxnm2hmPogutoS4BS/HlWsTfoXllvT9VGq03KJ1nXFTVNRzh7qngw5y2bj9XqDbhSYfwfxM6w==
+X-Received: by 2002:ad4:4302:: with SMTP id c2mr3512416qvs.246.1596124900236;
+        Thu, 30 Jul 2020 09:01:40 -0700 (PDT)
+Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id d15sm4161635qka.91.2020.07.30.09.01.37
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 Jul 2020 09:01:39 -0700 (PDT)
+Date:   Thu, 30 Jul 2020 13:01:28 -0300
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     mchehab+huawei@kernel.org, sean@mess.org,
-        kstewart@linuxfoundation.org, allison@lohutok.net,
-        tglx@linutronix.de
-Cc:     "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
-        linux-media@vger.kernel.org, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: [v8 4/4] media: Documentation: vidtv: Add ReST documentation for vidtv
-Date:   Thu, 30 Jul 2020 12:35:01 -0300
-Message-Id: <20200730153501.742993-5-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200730153501.742993-1-dwlsalmeida@gmail.com>
-References: <20200730153501.742993-1-dwlsalmeida@gmail.com>
+To:     "=?utf-8?Q?mchehab=40kernel.org?=" <mchehab@kernel.org>
+Cc:     "=?utf-8?Q?skhan=40linuxfoundation.org?=" <skhan@linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org?=" 
+        <linux-kernel-mentees@lists.linuxfoundation.org>
+Message-ID: <F27027DA-83DE-4D66-B716-676EF6F85DFF@getmailspring.com>
+Subject: vidtv discussion
+X-Mailer: Mailspring
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+Hello Mauro & everyone :)
 
-Add documentation for the Virtual Digital TV driver (vidtv) in the
-Restructured Text (ReST) format.
+Here's the state of affairs for vidtv.
 
-This discusses:
-- What is vidtv
-- Why vidtv is needed
-- How to build and run vidtv
-- How vidtv is structured
-- How to test vidtv
-- How to improve vidtv
+- Driver is modprobed without any errors on dmesg
+- Using dvbv5-scan does not cause the driver to crash
+- Driver feeds the demux with TS packets (PSI, PCR, AES3 audio
+and NULL packets for padding), but the stream is not valid
+yet.
+- Kmemleak shows no leaks. UBSAN & KASAN pick up some bugs
+- dvbv5-scan fails with: dvb_read_sections: no data read on section filter.
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- .../driver-api/media/drivers/index.rst        |   1 +
- .../driver-api/media/drivers/vidtv.rst        | 417 ++++++++++++++++++
- 2 files changed, 418 insertions(+)
- create mode 100644 Documentation/driver-api/media/drivers/vidtv.rst
+I am using this scan-file:
+[Channel]
+FREQUENCY = 330000000
+MODULATION = QAM/AUTO
+SYMBOL_RATE = 6940000
+INNER_FEC = AUTO
+DELIVERY_SYSTEM = DVBC/ANNEX_A
 
-diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
-index 0df85fc96605..5f340cfdb4cc 100644
---- a/Documentation/driver-api/media/drivers/index.rst
-+++ b/Documentation/driver-api/media/drivers/index.rst
-@@ -35,4 +35,5 @@ Digital TV drivers
- 
- 	dvb-usb
- 	frontends
-+	vidtv
- 	contributors
-diff --git a/Documentation/driver-api/media/drivers/vidtv.rst b/Documentation/driver-api/media/drivers/vidtv.rst
-new file mode 100644
-index 000000000000..303227a67f60
---- /dev/null
-+++ b/Documentation/driver-api/media/drivers/vidtv.rst
-@@ -0,0 +1,417 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================================
-+vidtv: Virtual Digital TV driver
-+================================
-+
-+Author: Daniel W. S. Almeida <dwlsalmeida@gmail.com>, June 2020.
-+
-+Background
-+----------
-+
-+Vidtv is a virtual DVB driver that aims to serve as a reference for driver
-+writers by serving as a template. It also validates the existing media DVB
-+APIs, thus helping userspace application writers.
-+
-+Currently, it consists of:
-+
-+- A fake tuner driver, which will report a bad signal quality if the chosen
-+  frequency is too far away from a table of valid frequencies for a
-+  particular delivery system.
-+
-+- A fake demod driver, which will constantly poll the fake signal quality
-+  returned by the tuner, simulating a device that can lose/reacquire a lock
-+  on the signal depending on the CNR levels.
-+
-+- A fake bridge driver, which is the module responsible for modprobing the
-+  fake tuner and demod modules and implementing the demux logic. This module
-+  takes parameters at initialization that will dictate how the simulation
-+  behaves.
-+
-+- Code reponsible for encoding a valid MPEG Transport Stream, which is then
-+  passed to the bridge driver. This fake stream contains some hardcoded content.
-+  For now, we have a single, audio-only channel containing a single MPEG
-+  Elementary Stream, which in turn contains a SMPTE 302m encoded sine-wave.
-+  Note that this particular encoder was chosen because it is the easiest
-+  way to encode PCM audio data in a MPEG Transport Stream.
-+
-+Building vidtv
-+--------------
-+vidtv is a test driver and thus is **not** enabled by default when
-+compiling the kernel.
-+
-+In order to enable compilation of vidtv:
-+
-+- Enable **DVB_TEST_DRIVERS**, then
-+- Enable **DVB_VIDTV**
-+
-+When compiled as a module, expect the following .ko files:
-+
-+- dvb_vidtv_tuner.ko
-+
-+- dvb_vidtv_demod.ko
-+
-+- dvb_vidtv_bridge.ko
-+
-+Running vidtv
-+-------------
-+When compiled as a module, run::
-+
-+	modprobe dvb_vidtv_bridge
-+
-+That's it! The bridge driver will initialize the tuner and demod drivers as
-+part of its own initialization.
-+
-+You can optionally define some command-line arguments to vidtv.
-+
-+Command-line arguments to vidtv
-+-------------------------------
-+Below is a list of all arguments that can be supplied to vidtv:
-+
-+drop_tslock_prob_on_low_snr
-+	Probability of losing the TS lock if the signal quality is bad.
-+	This probability be used by the fake demodulator driver to
-+	eventually return a status of 0 when the signal quality is not
-+	good.
-+
-+recover_tslock_prob_on_good_snr:
-+	Probability recovering the TS lock when the signal improves. This
-+	probability be used by the fake demodulator driver to eventually
-+	return a status of 0x1f when/if the signal quality improves.
-+
-+mock_power_up_delay_msec
-+	Simulate a power up delay.  Default: 0.
-+
-+mock_tune_delay_msec
-+	Simulate a tune delay.  Default 0.
-+
-+vidtv_valid_dvb_t_freqs
-+	Valid DVB-T frequencies to simulate.
-+
-+vidtv_valid_dvb_c_freqs
-+ 	Valid DVB-C frequencies to simulate.
-+
-+vidtv_valid_dvb_s_freqs
-+	Valid DVB-C frequencies to simulate.
-+
-+max_frequency_shift_hz,
-+	Maximum shift in HZ allowed when tuning in a channel.
-+
-+si_period_msec
-+	How often to send SI packets.  Default: 40ms.
-+
-+pcr_period_msec
-+	How often to send PCR packets.  Default: 40ms.
-+
-+mux_rate_kbytes_sec
-+	Attempt to maintain this bit rate by inserting TS null packets, if
-+	necessary.  Default: 4096.
-+
-+pcr_pid,
-+	PCR PID for all channels.  Default: 0x200.
-+
-+mux_buf_sz_pkts,
-+	Size for the mux buffer in multiples of 188 bytes.
-+
-+vidtv internal structure
-+------------------------
-+The kernel modules are split in the following way:
-+
-+vidtv_tuner.[ch]
-+	Implements a fake tuner DVB driver.
-+
-+vidtv_demod.[ch]
-+	Implements a fake demodulator DVB driver.
-+
-+vidtv_bridge.[ch]
-+	Implements a bridge driver.
-+
-+The MPEG related code is split in the following way:
-+
-+vidtv_ts.[ch]
-+	Code to work with MPEG TS packets, such as TS headers, adaptation
-+	fields, PCR packets and NULL packets.
-+
-+vidtv_psi.[ch]
-+	This is the PSI generator.  PSI packets contain general information
-+	about a MPEG Transport Stream.  A PSI generator is needed so
-+	userspace apps can retrieve information about the Transport Stream
-+	and eventually tune into a (dummy) channel.
-+
-+	Because the generator is implemented in a separate file, it can be
-+	reused elsewhere in the media subsystem.
-+
-+	Currently vidtv supports working with 3 PSI tables: PAT, PMT and
-+	SDT.
-+
-+	The specification for PAT and PMT can be found in *ISO 13818-1:
-+	Systems*, while the specification for the SDT can be found in *ETSI
-+	EN 300 468: Specification for Service Information (SI) in DVB
-+	systems*.
-+
-+	It isn't strictly necessary, but using a real TS file helps when
-+	debugging PSI tables. Vidtv currently tries to replicate the PSI
-+	structure found in this file: `TS1Globo.ts
-+	<https://tsduck.io/streams/brazil-isdb-tb/TS1globo.ts>`_.
-+
-+	A good way to visualize the structure of streams is by using
-+	`DVBInspector <https://sourceforge.net/projects/dvbinspector/>`_.
-+
-+vidtv_pes.[ch]
-+	Implements the PES logic to convert encoder data into MPEG TS
-+	packets. These can then be fed into a TS multiplexer and eventually
-+	into userspace.
-+
-+vidtv_encoder.h
-+	An interface for vidtv encoders. New encoders can be added to this
-+	driver by implementing the calls in this file.
-+
-+vidtv_s302m.[ch]
-+	Implements a S302M encoder to make it possible to insert PCM audio
-+	data in the generated MPEG Transport Stream. The relevant
-+	specification is available online as *SMPTE 302M-2007: Television -
-+	Mapping of AES3 Data into MPEG-2 Transport Stream*.
-+
-+
-+	The resulting MPEG Elementary Stream is conveyed in a private
-+	stream with a S302M registration descriptor attached.
-+
-+	This shall enable passing an audio signal into userspace so it can
-+	be decoded and played by media software. The corresponding decoder
-+	in ffmpeg is located in 'libavcodec/s302m.c' and is experimental.
-+
-+vidtv_channel.[ch]
-+	Implements a 'channel' abstraction.
-+
-+	When vidtv boots, it will create some hardcoded channels:
-+
-+	#. Their services will be concatenated to populate the SDT.
-+
-+	#. Their programs will be concatenated to populate the PAT
-+
-+	#. For each program in the PAT, a PMT section will be created
-+
-+	#. The PMT section for a channel will be assigned its streams.
-+
-+	#. Every stream will have its corresponding encoder polled in a
-+	   loop to produce TS packets.
-+	   These packets may be interleaved by the muxer and then delivered
-+	   to the bridge.
-+
-+vidtv_mux.[ch]
-+	Implements a MPEG TS mux, loosely based on the ffmpeg
-+	implementation in "libavcodec/mpegtsenc.c"
-+
-+	The muxer runs a loop which is responsible for:
-+
-+	#. Keeping track of the amount of time elapsed since the last
-+	   iteration.
-+
-+	#. Polling encoders in order to fetch 'elapsed_time' worth of data.
-+
-+	#. Inserting PSI and/or PCR packets, if needed.
-+
-+	#. Padding the resulting stream with NULL packets if
-+	   necessary in order to maintain the chosen bit rate.
-+
-+	#. Delivering the resulting TS packets to the bridge
-+	   driver so it can pass them to the demux.
-+
-+Testing vidtv with v4l-utils
-+----------------------------
-+
-+Using the tools in v4l-utils is a great way to test and inspect the output of
-+vidtv. It is hosted here: `v4l-utils Documentation
-+<https://linuxtv.org/wiki/index.php/V4l-utils>`_.
-+
-+From its webpage::
-+
-+	The v4l-utils are a series of packages for handling media devices.
-+
-+	It is hosted at http://git.linuxtv.org/v4l-utils.git, and packaged
-+	on most distributions.
-+
-+	It provides a series of libraries and utilities to be used to
-+	control several aspect of the media boards.
-+
-+
-+Start by installing v4l-utils and then modprobing vidtv::
-+
-+	modprobe dvb_vidtv_bridge
-+
-+If the driver is OK, it should load and its probing code will run. This will
-+pull in the tuner and demod drivers.
-+
-+Using dvb-fe-tool
-+~~~~~~~~~~~~~~~~~
-+
-+The first step to check whether the demod loaded successfully is to run::
-+
-+	$ dvb-fe-tool
-+
-+This should return what is currently set up at the demod struct, i.e.::
-+
-+	static const struct dvb_frontend_ops vidtv_demod_ops = {
-+		.delsys = {
-+			SYS_DVBT,
-+			SYS_DVBT2,
-+			SYS_DVBC_ANNEX_A,
-+			SYS_DVBS,
-+			SYS_DVBS2,
-+		},
-+
-+		.info = {
-+			.name                   = "Dummy demod for DVB-T/T2/C/S/S2",
-+			.frequency_min_hz       = 51 * MHz,
-+			.frequency_max_hz       = 2150 * MHz,
-+			.frequency_stepsize_hz  = 62500,
-+			.frequency_tolerance_hz = 29500 * kHz,
-+			.symbol_rate_min        = 1000000,
-+			.symbol_rate_max        = 45000000,
-+
-+			.caps = FE_CAN_FEC_1_2 |
-+				FE_CAN_FEC_2_3 |
-+				FE_CAN_FEC_3_4 |
-+				FE_CAN_FEC_4_5 |
-+				FE_CAN_FEC_5_6 |
-+				FE_CAN_FEC_6_7 |
-+				FE_CAN_FEC_7_8 |
-+				FE_CAN_FEC_8_9 |
-+				FE_CAN_QAM_16 |
-+				FE_CAN_QAM_64 |
-+				FE_CAN_QAM_32 |
-+				FE_CAN_QAM_128 |
-+				FE_CAN_QAM_256 |
-+				FE_CAN_QAM_AUTO |
-+				FE_CAN_QPSK |
-+				FE_CAN_FEC_AUTO |
-+				FE_CAN_INVERSION_AUTO |
-+				FE_CAN_TRANSMISSION_MODE_AUTO |
-+				FE_CAN_GUARD_INTERVAL_AUTO |
-+				FE_CAN_HIERARCHY_AUTO,
-+		}
-+
-+		....
-+
-+For more information on dvb-fe-tools check its online documentation here:
-+`dvb-fe-tool Documentation
-+<https://www.linuxtv.org/wiki/index.php/Dvb-fe-tool>`_.
-+
-+Using dvb-scan
-+~~~~~~~~~~~~~~
-+
-+In order to tune into a channel and read the PSI tables, we can use dvb-scan.
-+
-+For this, one should provide a configuration file known as a 'scan file',
-+here's an example::
-+
-+	[Channel]
-+	FREQUENCY = 330000000
-+	MODULATION = QAM/AUTO
-+	SYMBOL_RATE = 6940000
-+	INNER_FEC = AUTO
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+
-+.. note::
-+	The parameters depend on the video standard you're testing.
-+
-+.. note::
-+	Vidtv is a fake driver and does not validate much of the information
-+	in the scan file. Just specifying 'FREQUENCY' and 'DELIVERY_SYSTEM'
-+	should be enough for DVB-T/DVB-T2. For DVB-S/DVB-C however, you
-+	should also provide 'SYMBOL_RATE'.
-+
-+You can browse scan tables online here: `dvb-scan-tables
-+<https://git.linuxtv.org/dtv-scan-tables.git>`_.
-+
-+Assuming this channel is named 'channel.conf', you can then run::
-+
-+        $ dvbv5-scan channel.conf
-+
-+For more information on dvb-scan, check its documentation online here:
-+`dvb-scan Documentation <https://www.linuxtv.org/wiki/index.php/Dvbscan>`_.
-+
-+Using dvb-zap
-+~~~~~~~~~~~~~
-+
-+dvbv5-zap is a command line tool that can be used to record MPEG-TS to disk. The
-+typical use is to tune into a channel and put it into record mode. The example
-+below - which is taken from the documentation - illustrates that::
-+
-+        $ dvbv5-zap -c dvb_channel.conf "trilhas sonoras" -r
-+        using demux '/dev/dvb/adapter0/demux0'
-+        reading channels from file 'dvb_channel.conf'
-+        service has pid type 05:  204
-+        tuning to 573000000 Hz
-+        audio pid 104
-+          dvb_set_pesfilter 104
-+        Lock   (0x1f) Quality= Good Signal= 100.00% C/N= -13.80dB UCB= 70 postBER= 3.14x10^-3 PER= 0
-+        DVR interface '/dev/dvb/adapter0/dvr0' can now be opened
-+
-+The channel can be watched by playing the contents of the DVR interface, with
-+some player that recognizes the MPEG-TS format, such as *mplayer* or *vlc*.
-+
-+By playing the contents of the stream one can visually inspect the workings of
-+vidtv, e.g.::
-+
-+	$ mplayer /dev/dvb/adapter0/dvr0
-+
-+For more information on dvb-zap check its online documentation here:
-+`dvb-zap Documentation
-+<https://www.linuxtv.org/wiki/index.php/Dvbv5-zap>`_.
-+See also: `zap <https://www.linuxtv.org/wiki/index.php/Zap>`_.
-+
-+
-+What can still be improved in vidtv
-+-----------------------------------
-+
-+Add *debugfs* integration
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Although frontend drivers provide DVBv5 statistics via the .read_status
-+call, a nice addition would be to make additional statistics available to
-+userspace via debugfs, which is a simple-to-use, RAM-based filesystem
-+specifically designed for debug purposes.
-+
-+The logic for this would be implemented on a separate file so as not to
-+pollute the frontend driver.  These statistics are driver-specific and can
-+be useful during tests.
-+
-+The Siano driver is one example of a driver using
-+debugfs to convey driver-specific statistics to userspace and it can be
-+used as a reference.
-+
-+This should be further enabled and disabled via a Kconfig
-+option for convenience.
-+
-+Add a way to test video
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Currently, vidtv can only encode PCM audio. It would be great to implement
-+a barebones version of MPEG-2 video encoding so we can also test video. The
-+first place to look into is *ISO 13818-2: Information technology — Generic
-+coding of moving pictures and associated audio information — Part 2: Video*,
-+which covers the encoding of compressed video in MPEG Transport Streams.
-+
-+This might optionally use the Video4Linux2 Test Pattern Generator, v4l2-tpg,
-+which resides at::
-+
-+	drivers/media/common/v4l2-tpg/
-+
-+
-+Add white noise simulation
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The vidtv tuner already has code to identify whether the chosen frequency
-+is too far away from a table of valid frequencies. For now, this means that
-+the demodulator can eventually lose the lock on the signal, since the tuner will
-+report a bad signal quality.
-+
-+A nice addition is to simulate some noise when the signal quality is bad by:
-+
-+- Randomly dropping some TS packets. This will trigger a continuity error if the
-+  continuity counter is updated but the packet is not passed on to the demux.
-+
-+- Updating the error statistics accordingly (e.g. BER, etc).
-+
-+- Simulating some noise in the encoded data.
--- 
-2.27.0
+I find the information reported by UBSAN & KASAN a little bit off, to be
+honest. KASAN reports a use after free but nothing crashes, and looking
+at the code, I am not sure I agree with it.
+
+The tuner expects an array with valid frequencies so it can simulate a
+bad signal quality but so far no default exists in vidtv. What values
+should I use?
+
+Lastly, you'll notice that I left the range check commented out for the
+buffer I am using in 'struct vidtv_mux'. That's because I'd like some
+pointers on what values to use there. Please see 
+'static u32 vidtv_bridge_mux_buf_sz_for_mux_rate(void)' in vidtv_bridge.c
+to get a feel about what I was thinking in order to keep a constant
+mux rate.
+
+dmesg for reference:
+
+[   55.322627] dvbdev: DVB: registering new adapter (dvb_vidtv_bridge)
+[   55.353586] i2c i2c-1: DVB: registering adapter 0 frontend 0 (Dummy
+demod for DVB-T/T2/C/S/S2)...
+[   55.362569] dvb_vidtv_bridge:vidtv_bridge_probe, 458: Successfully
+initialized vidtv!
+[   58.714772] ================================================================================
+[   58.714785] UBSAN: misaligned-access in drivers/media/test-drivers/vidtv/vidtv_psi.c:321:6
+[   58.714792] load of misaligned address 00000000214867d8 for type
+'struct vidtv_psi_desc *'
+[   58.714794] which requires 8 byte alignment
+[   58.714799] CPU: 4 PID: 1316 Comm: dvbv5-scan Not tainted 5.8.0-rc6+ #12
+[   58.714800] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+?-20200516_175120-felixonmars2 04/01/2014
+[   58.714802] Call Trace:
+[   58.714815]  dump_stack+0x7d/0xb0
+[   58.714819]  ubsan_epilogue+0x5/0x40
+[   58.714822]  ubsan_type_mismatch_common.cold+0x47/0xcd
+[   58.714826]  __ubsan_handle_type_mismatch_v1+0x32/0x37
+[   58.714834]  vidtv_psi_desc_assign+0x50/0x80 [dvb_vidtv_bridge]
+[   58.714840]  vidtv_channel_si_init+0x1d0/0x5d0 [dvb_vidtv_bridge]
+[   58.714848]  vidtv_mux_init+0x1c0/0x660 [dvb_vidtv_bridge]
+[   58.714855]  ? vidtv_mux_stop_thread+0xa0/0xa0 [dvb_vidtv_bridge]
+[   58.714861]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.714864]  ? mutex_lock+0x89/0xd0
+[   58.714870]  vidtv_start_feed+0x26a/0x400 [dvb_vidtv_bridge]
+[   58.714876]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.714881]  ? vidtv_stop_feed+0x230/0x230 [dvb_vidtv_bridge]
+[   58.714887]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.714890]  ? __mutex_lock_interruptible_slowpath+0x10/0x10
+[   58.714894]  dmx_section_feed_start_filtering+0x194/0x260
+[   58.714899]  dvb_dmxdev_filter_start+0x33b/0x570
+[   58.714902]  dvb_demux_do_ioctl+0x6c3/0x871
+[   58.714906]  dvb_usercopy+0x92/0x1d0
+[   58.714909]  ? dvb_dmxdev_filter_start+0x570/0x570
+[   58.714912]  ? dvb_remove_device+0xc0/0xc0
+[   58.714916]  ? vfs_write+0x152/0x2c0
+[   58.714919]  dvb_demux_ioctl+0xc/0x10
+[   58.714923]  ksys_ioctl+0x95/0xd0
+[   58.714926]  __x64_sys_ioctl+0x38/0x40
+[   58.714938]  do_syscall_64+0x3e/0x70
+[   58.714941]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   58.714944] RIP: 0033:0x7fac76fa45d7
+[   58.714948] Code: b3 66 90 48 8b 05 b1 48 2d 00 64 c7 00 26 00 00 00
+48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f
+05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 81 48 2d 00 f7 d8 64 89 01 48
+[   58.714949] RSP: 002b:00007ffe76a24658 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   58.714952] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007fac76fa45d7
+[   58.714954] RDX: 00007ffe76a24690 RSI: 00000000403c6f2b RDI: 0000000000000004
+[   58.714955] RBP: 55e63b88c230e77f R08: 0000000f5fa13c98 R09: 00007ffe76a51090
+[   58.714957] R10: 000000000001098e R11: 0000000000000246 R12: 00007ffe76a24690
+[   58.714959] R13: 0000000000000004 R14: 00007ffe76a24680 R15: 0000000000000001
+[   58.714960] ================================================================================
+[   58.714963] ================================================================================
+[   58.714966] UBSAN: misaligned-access in drivers/media/test-drivers/vidtv/vidtv_psi.c:324:6
+[   58.714969] store to misaligned address 00000000214867d8 for type
+'struct vidtv_psi_desc *'
+[   58.714971] which requires 8 byte alignment
+[   58.714974] CPU: 4 PID: 1316 Comm: dvbv5-scan Not tainted 5.8.0-rc6+ #12
+[   58.714975] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+?-20200516_175120-felixonmars2 04/01/2014
+[   58.714976] Call Trace:
+[   58.714980]  dump_stack+0x7d/0xb0
+[   58.714982]  ubsan_epilogue+0x5/0x40
+[   58.714986]  ubsan_type_mismatch_common.cold+0x47/0xcd
+[   58.714989]  __ubsan_handle_type_mismatch_v1+0x32/0x37
+[   58.714995]  vidtv_psi_desc_assign+0x61/0x80 [dvb_vidtv_bridge]
+[   58.715001]  vidtv_channel_si_init+0x1d0/0x5d0 [dvb_vidtv_bridge]
+[   58.715007]  vidtv_mux_init+0x1c0/0x660 [dvb_vidtv_bridge]
+[   58.715013]  ? vidtv_mux_stop_thread+0xa0/0xa0 [dvb_vidtv_bridge]
+[   58.715018]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715021]  ? mutex_lock+0x89/0xd0
+[   58.715027]  vidtv_start_feed+0x26a/0x400 [dvb_vidtv_bridge]
+[   58.715032]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715038]  ? vidtv_stop_feed+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715043]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715046]  ? __mutex_lock_interruptible_slowpath+0x10/0x10
+[   58.715049]  dmx_section_feed_start_filtering+0x194/0x260
+[   58.715053]  dvb_dmxdev_filter_start+0x33b/0x570
+[   58.715057]  dvb_demux_do_ioctl+0x6c3/0x871
+[   58.715060]  dvb_usercopy+0x92/0x1d0
+[   58.715063]  ? dvb_dmxdev_filter_start+0x570/0x570
+[   58.715066]  ? dvb_remove_device+0xc0/0xc0
+[   58.715069]  ? vfs_write+0x152/0x2c0
+[   58.715072]  dvb_demux_ioctl+0xc/0x10
+[   58.715075]  ksys_ioctl+0x95/0xd0
+[   58.715078]  __x64_sys_ioctl+0x38/0x40
+[   58.715081]  do_syscall_64+0x3e/0x70
+[   58.715087]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   58.715090] RIP: 0033:0x7fac76fa45d7
+[   58.715093] Code: b3 66 90 48 8b 05 b1 48 2d 00 64 c7 00 26 00 00 00
+48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f
+05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 81 48 2d 00 f7 d8 64 89 01 48
+[   58.715094] RSP: 002b:00007ffe76a24658 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   58.715097] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007fac76fa45d7
+[   58.715098] RDX: 00007ffe76a24690 RSI: 00000000403c6f2b RDI: 0000000000000004
+[   58.715100] RBP: 55e63b88c230e77f R08: 0000000f5fa13c98 R09: 00007ffe76a51090
+[   58.715101] R10: 000000000001098e R11: 0000000000000246 R12: 00007ffe76a24690
+[   58.715103] R13: 0000000000000004 R14: 00007ffe76a24680 R15: 0000000000000001
+[   58.715105] ================================================================================
+[   58.715292] ================================================================================
+[   58.715295] UBSAN: misaligned-access in drivers/media/test-drivers/vidtv/vidtv_psi.c:321:6
+[   58.715298] load of misaligned address 00000000f5ef6dd7 for type
+'struct vidtv_psi_desc *'
+[   58.715300] which requires 8 byte alignment
+[   58.715303] CPU: 4 PID: 1316 Comm: dvbv5-scan Not tainted 5.8.0-rc6+ #12
+[   58.715305] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+?-20200516_175120-felixonmars2 04/01/2014
+[   58.715305] Call Trace:
+[   58.715309]  dump_stack+0x7d/0xb0
+[   58.715312]  ubsan_epilogue+0x5/0x40
+[   58.715315]  ubsan_type_mismatch_common.cold+0x47/0xcd
+[   58.715318]  __ubsan_handle_type_mismatch_v1+0x32/0x37
+[   58.715324]  vidtv_pmt_desc_assign+0x5e/0x90 [dvb_vidtv_bridge]
+[   58.715330]  vidtv_channels_add_registration_descs+0x1c5/0x2b0 [dvb_vidtv_bridge]
+[   58.715336]  vidtv_mux_init+0x4eb/0x660 [dvb_vidtv_bridge]
+[   58.715342]  ? vidtv_mux_stop_thread+0xa0/0xa0 [dvb_vidtv_bridge]
+[   58.715348]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715350]  ? mutex_lock+0x89/0xd0
+[   58.715356]  vidtv_start_feed+0x26a/0x400 [dvb_vidtv_bridge]
+[   58.715362]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715367]  ? vidtv_stop_feed+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715373]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715376]  ? __mutex_lock_interruptible_slowpath+0x10/0x10
+[   58.715378]  dmx_section_feed_start_filtering+0x194/0x260
+[   58.715382]  dvb_dmxdev_filter_start+0x33b/0x570
+[   58.715386]  dvb_demux_do_ioctl+0x6c3/0x871
+[   58.715389]  dvb_usercopy+0x92/0x1d0
+[   58.715392]  ? dvb_dmxdev_filter_start+0x570/0x570
+[   58.715395]  ? dvb_remove_device+0xc0/0xc0
+[   58.715398]  ? vfs_write+0x152/0x2c0
+[   58.715402]  dvb_demux_ioctl+0xc/0x10
+[   58.715404]  ksys_ioctl+0x95/0xd0
+[   58.715407]  __x64_sys_ioctl+0x38/0x40
+[   58.715410]  do_syscall_64+0x3e/0x70
+[   58.715413]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   58.715415] RIP: 0033:0x7fac76fa45d7
+[   58.715418] Code: b3 66 90 48 8b 05 b1 48 2d 00 64 c7 00 26 00 00 00
+48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f
+05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 81 48 2d 00 f7 d8 64 89 01 48
+[   58.715419] RSP: 002b:00007ffe76a24658 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   58.715422] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007fac76fa45d7
+[   58.715423] RDX: 00007ffe76a24690 RSI: 00000000403c6f2b RDI: 0000000000000004
+[   58.715425] RBP: 55e63b88c230e77f R08: 0000000f5fa13c98 R09: 00007ffe76a51090
+[   58.715426] R10: 000000000001098e R11: 0000000000000246 R12: 00007ffe76a24690
+[   58.715428] R13: 0000000000000004 R14: 00007ffe76a24680 R15: 0000000000000001
+[   58.715429] ================================================================================
+[   58.715432] ================================================================================
+[   58.715434] UBSAN: misaligned-access in drivers/media/test-drivers/vidtv/vidtv_psi.c:324:6
+[   58.715440] store to misaligned address 00000000f5ef6dd7 for type
+'struct vidtv_psi_desc *'
+[   58.715443] which requires 8 byte alignment
+[   58.715446] CPU: 4 PID: 1316 Comm: dvbv5-scan Not tainted 5.8.0-rc6+ #12
+[   58.715447] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+?-20200516_175120-felixonmars2 04/01/2014
+[   58.715448] Call Trace:
+[   58.715451]  dump_stack+0x7d/0xb0
+[   58.715454]  ubsan_epilogue+0x5/0x40
+[   58.715457]  ubsan_type_mismatch_common.cold+0x47/0xcd
+[   58.715460]  __ubsan_handle_type_mismatch_v1+0x32/0x37
+[   58.715466]  vidtv_pmt_desc_assign+0x6f/0x90 [dvb_vidtv_bridge]
+[   58.715473]  vidtv_channels_add_registration_descs+0x1c5/0x2b0 [dvb_vidtv_bridge]
+[   58.715479]  vidtv_mux_init+0x4eb/0x660 [dvb_vidtv_bridge]
+[   58.715485]  ? vidtv_mux_stop_thread+0xa0/0xa0 [dvb_vidtv_bridge]
+[   58.715490]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715493]  ? mutex_lock+0x89/0xd0
+[   58.715498]  vidtv_start_feed+0x26a/0x400 [dvb_vidtv_bridge]
+[   58.715504]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715510]  ? vidtv_stop_feed+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715515]  ? vidtv_bridge_probe_tuner.constprop.0+0x230/0x230 [dvb_vidtv_bridge]
+[   58.715518]  ? __mutex_lock_interruptible_slowpath+0x10/0x10
+[   58.715521]  dmx_section_feed_start_filtering+0x194/0x260
+[   58.715525]  dvb_dmxdev_filter_start+0x33b/0x570
+[   58.715528]  dvb_demux_do_ioctl+0x6c3/0x871
+[   58.715532]  dvb_usercopy+0x92/0x1d0
+[   58.715535]  ? dvb_dmxdev_filter_start+0x570/0x570
+[   58.715538]  ? dvb_remove_device+0xc0/0xc0
+[   58.715541]  ? vfs_write+0x152/0x2c0
+[   58.715544]  dvb_demux_ioctl+0xc/0x10
+[   58.715547]  ksys_ioctl+0x95/0xd0
+[   58.715550]  __x64_sys_ioctl+0x38/0x40
+[   58.715553]  do_syscall_64+0x3e/0x70
+[   58.715556]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   58.715558] RIP: 0033:0x7fac76fa45d7
+[   58.715560] Code: b3 66 90 48 8b 05 b1 48 2d 00 64 c7 00 26 00 00 00
+48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f
+05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 81 48 2d 00 f7 d8 64 89 01 48
+[   58.715562] RSP: 002b:00007ffe76a24658 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   58.715564] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007fac76fa45d7
+[   58.715565] RDX: 00007ffe76a24690 RSI: 00000000403c6f2b RDI: 0000000000000004
+[   58.715567] RBP: 55e63b88c230e77f R08: 0000000f5fa13c98 R09: 00007ffe76a51090
+[   58.715569] R10: 000000000001098e R11: 0000000000000246 R12: 00007ffe76a24690
+[   58.715570] R13: 0000000000000004 R14: 00007ffe76a24680 R15: 0000000000000001
+[   58.715572] ================================================================================
+[   58.715580] dvb_vidtv_bridge:vidtv_start_streaming, 170: Started streaming
+[   59.715128] ==================================================================
+[   59.715149] BUG: KASAN: use-after-free in
+vidtv_mux_destroy+0x15c/0x356 [dvb_vidtv_bridge]
+[   59.715156] Read of size 8 at addr ffff88806bcd4888 by task dvbv5-scan/1316
+[   59.715165] CPU: 4 PID: 1316 Comm: dvbv5-scan Not tainted 5.8.0-rc6+ #12
+[   59.715168] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+?-20200516_175120-felixonmars2 04/01/2014
+[   59.715170] Call Trace:
+[   59.715178]  dump_stack+0x7d/0xb0
+[   59.715196]  print_address_description.constprop.0+0x1a/0x210
+[   59.715202]  ? _raw_spin_lock_irqsave+0x7b/0xd0
+[   59.715207]  ? _raw_write_lock_irqsave+0xd0/0xd0
+[   59.715211]  ? rcu_segcblist_enqueue+0x56/0x70
+[   59.715219]  ? vidtv_mux_destroy+0x15c/0x356 [dvb_vidtv_bridge]
+[   59.715222]  kasan_report.cold+0x37/0x7c
+[   59.715229]  ? vidtv_mux_destroy+0x15c/0x356 [dvb_vidtv_bridge]
+[   59.715236]  vidtv_mux_destroy+0x15c/0x356 [dvb_vidtv_bridge]
+[   59.715242]  ? detach_if_pending+0x160/0x160
+[   59.715251]  vidtv_stop_feed+0x112/0x230 [dvb_vidtv_bridge]
+[   59.715257]  dmx_section_feed_stop_filtering+0x54/0xc0
+[   59.715270]  dvb_dmxdev_filter_stop.part.0+0x10b/0x170
+[   59.715276]  dvb_demux_do_ioctl+0x285/0x871
+[   59.715282]  dvb_usercopy+0x92/0x1d0
+[   59.715288]  ? dvb_remove_device+0xc0/0xc0
+[   59.715292]  ? tty_write+0x2fe/0x430
+[   59.715296]  ? vfs_write+0x152/0x2c0
+[   59.715300]  dvb_demux_ioctl+0xc/0x10
+[   59.715304]  ksys_ioctl+0x95/0xd0
+[   59.715307]  __x64_sys_ioctl+0x38/0x40
+[   59.715310]  do_syscall_64+0x3e/0x70
+[   59.715313]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   59.715316] RIP: 0033:0x7fac76fa45d7
+[   59.715320] Code: b3 66 90 48 8b 05 b1 48 2d 00 64 c7 00 26 00 00 00
+48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f
+05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 81 48 2d 00 f7 d8 64 89 01 48
+[   59.715322] RSP: 002b:00007ffe76a246d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   59.715325] RAX: ffffffffffffffda RBX: 55e63b88c230e77f RCX: 00007fac76fa45d7
+[   59.715326] RDX: 0000000000010d3e RSI: 0000000000006f2a RDI: 0000000000000004
+[   59.715328] RBP: 0000000000000004 R08: 0000000fa11c7fc7 R09: 00007ffe76a51090
+[   59.715330] R10: 0000000000010d3e R11: 0000000000000246 R12: 00007ffe76a246f0
+[   59.715331] R13: 0000000000000010 R14: 0000000000000004 R15: 0000000000000001
+[   59.715336] Allocated by task 1316:
+[   59.715340]  save_stack+0x1b/0x40
+[   59.715343]  __kasan_kmalloc.constprop.0+0xc2/0xd0
+[   59.715349]  vidtv_mux_create_pid_ctx_once.part.0+0x31/0x190 [dvb_vidtv_bridge]
+[   59.715354]  vidtv_mux_init+0x55c/0x660 [dvb_vidtv_bridge]
+[   59.715359]  vidtv_start_feed+0x26a/0x400 [dvb_vidtv_bridge]
+[   59.715361]  dmx_section_feed_start_filtering+0x194/0x260
+[   59.715364]  dvb_dmxdev_filter_start+0x33b/0x570
+[   59.715367]  dvb_demux_do_ioctl+0x6c3/0x871
+[   59.715369]  dvb_usercopy+0x92/0x1d0
+[   59.715372]  dvb_demux_ioctl+0xc/0x10
+[   59.715374]  ksys_ioctl+0x95/0xd0
+[   59.715377]  __x64_sys_ioctl+0x38/0x40
+[   59.715379]  do_syscall_64+0x3e/0x70
+[   59.715382]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   59.715384] Freed by task 1316:
+[   59.715388]  save_stack+0x1b/0x40
+[   59.715390]  __kasan_slab_free+0x12d/0x170
+[   59.715393]  kfree+0x9f/0x240
+[   59.715398]  vidtv_mux_destroy+0x14b/0x356 [dvb_vidtv_bridge]
+[   59.715403]  vidtv_stop_feed+0x112/0x230 [dvb_vidtv_bridge]
+[   59.715405]  dmx_section_feed_stop_filtering+0x54/0xc0
+[   59.715408]  dvb_dmxdev_filter_stop.part.0+0x10b/0x170
+[   59.715411]  dvb_demux_do_ioctl+0x285/0x871
+[   59.715413]  dvb_usercopy+0x92/0x1d0
+[   59.715416]  dvb_demux_ioctl+0xc/0x10
+[   59.715418]  ksys_ioctl+0x95/0xd0
+[   59.715421]  __x64_sys_ioctl+0x38/0x40
+[   59.715423]  do_syscall_64+0x3e/0x70
+[   59.715426]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   59.715429] The buggy address belongs to the object at ffff88806bcd4880
+[   59.715429]  which belongs to the cache kmalloc-32 of size 32
+[   59.715433] The buggy address is located 8 bytes inside of
+[   59.715433]  32-byte region [ffff88806bcd4880, ffff88806bcd48a0)
+[   59.715435] The buggy address belongs to the page:
+[   59.715439] page:ffffea0001af3500 refcount:1 mapcount:0
+mapping:0000000000000000 index:0x0
+[   59.715446] flags: 0x100000000000200(slab)
+[   59.715451] raw: 0100000000000200 0000000000000000 0000000100000001 ffff88806cc03a40
+[   59.715454] raw: 0000000000000000 0000000080400040 00000001ffffffff 0000000000000000
+[   59.715455] page dumped because: kasan: bad access detected
+[   59.715457] Memory state around the buggy address:
+[   59.715461]  ffff88806bcd4780: fb fb fb fb fc fc fc fc 00 00 00 fc fc
+fc fc fc
+[   59.715464]  ffff88806bcd4800: 00 00 00 fc fc fc fc fc 00 00 00 fc fc
+fc fc fc
+[   59.715467] >ffff88806bcd4880: fb fb fb fb fc fc fc fc fb fb fb fb fc
+fc fc fc
+[   59.715469]                       ^
+[   59.715472]  ffff88806bcd4900: 00 00 00 fc fc fc fc fc 00 00 00 fc fc
+fc fc fc
+[   59.715475]  ffff88806bcd4980: 00 00 05 fc fc fc fc fc 00 00 00 04 fc
+fc fc fc
+[   59.715477] ==================================================================
+[   59.715482] Disabling lock debugging due to kernel taint
+[   59.715661] dvb_vidtv_bridge:vidtv_stop_streaming, 181: Stopped streaming
+
+--thanks
+- Daniel
 
