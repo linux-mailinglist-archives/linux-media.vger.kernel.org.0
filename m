@@ -2,100 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7355232957
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 03:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3FBE232A55
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jul 2020 05:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728053AbgG3BKo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jul 2020 21:10:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726287AbgG3BKn (ORCPT
+        id S1726519AbgG3DWX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jul 2020 23:22:23 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:39491 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726480AbgG3DWX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jul 2020 21:10:43 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE97C061794;
-        Wed, 29 Jul 2020 18:10:43 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id g6so14451168ljn.11;
-        Wed, 29 Jul 2020 18:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZWKEJngoLfhhkppq8eEFicxqCaNFQuLwFe+Ry9i9VR0=;
-        b=OKIIlyfeMjBGfuQvoh4OzO1JzWurq/DAAfEv4IVHsIhaU9EIs0ZZUkMVF3Rbl1g7dK
-         8oLnI8mlAA0yDuJ/VsM3Rd0mvMWAMLtDYcp3BBCOwMogJVtBfqkMHFXLyEDSIIX4Y7zV
-         cwXB8ukqffd2T0J8PEXK8g9SLrb1MiHlunl/BQ7NcYY4MgMGhnLW9aelZbbFN317B9TJ
-         8O+6qo1jcwo+wG7GrTLURf6+o1ePqkTwCnwbPmf8vGyTI5QO6qT5EuitOn7p193eWzEd
-         NBOjpICE/ies/v0UOwzSEew1FY+E5EKkBVK3geOjt7mioEUsiRzkEK4b2MliMyJI4ULn
-         LVdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZWKEJngoLfhhkppq8eEFicxqCaNFQuLwFe+Ry9i9VR0=;
-        b=bapeXFuJgSdQXR+sFCv48hBiO0NEsToXUI4R4P0vu0exZmUhPa6BbS4BNBrYtF/dTb
-         oIS45qozt1IA8asRMFH++YleaqWetdsAfe9/xItt42oTYq96n+M2G+BbaKtjc8qjaa2A
-         hs5SqsnmlRcwc/0Uu3QGuY3a7lz0K0rJAoHc0R0j8N3LHFys04VRJAAwyXXVAzQ/j6+u
-         ZByLkK78wJwZbE2F9y97coefzXy1ulgF6U5kkVe7HljT77WceDWNHeV2OBCOd6f58nP5
-         9UA4sFD1TeBjlSUXCQ66u7gf+RDBZgrwCu6ftfnpun8ltUM/JZ5adLjFs13x7qsUBvYq
-         5TEg==
-X-Gm-Message-State: AOAM533pgbfbmIxd9AC/riEkZWKjZu+IJPCHmmqnHf6zoE33rq5U9KsA
-        puMJtAOFrlbA27t99Y2s4w3XF59z
-X-Google-Smtp-Source: ABdhPJwGIPVKqY18W3xbI/qBcECiSl3t/7iGIH/zuAH8Xc2d/HetO2yM1KDxIckcJgpWPRGdLMx92Q==
-X-Received: by 2002:a2e:9d81:: with SMTP id c1mr263058ljj.198.1596071441626;
-        Wed, 29 Jul 2020 18:10:41 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-76-12-16.pppoe.mtu-net.ru. [91.76.12.16])
-        by smtp.googlemail.com with ESMTPSA id e10sm692996ljb.118.2020.07.29.18.10.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2020 18:10:40 -0700 (PDT)
-Subject: Re: [RFC PATCH v5 13/14] media: tegra-video: Add CSI MIPI pads
- calibration
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
-        helen.koike@collabora.com
-Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <1595883452-17343-1-git-send-email-skomatineni@nvidia.com>
- <1595883452-17343-14-git-send-email-skomatineni@nvidia.com>
- <c3d40261-9d77-3634-3e04-f20efad9d3d8@gmail.com>
- <01ee0805-3d57-d857-48e3-5c2245cd4500@nvidia.com>
- <2ec535c9-55e8-8834-6002-36c75aeb097c@gmail.com>
- <021707b9-5f72-6f8b-d125-43627ef64a6d@nvidia.com>
- <de2d6117-b1e5-14c0-52ca-ff46b444c866@nvidia.com>
- <ca18b93e-1f1c-50ae-e0c1-11758935ee89@gmail.com>
- <42f25a49-ad2b-4e52-fd99-cb0f52037988@nvidia.com>
- <f5440f57-3653-7cf0-9efe-e9a0c276f7cf@nvidia.com>
- <6ae07f82-53f7-33fc-5892-340b0d9f12cf@gmail.com>
- <887d51fb-4292-c251-6568-32b884e8db67@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5a0d4162-09c3-46c7-7811-f38c98e13179@gmail.com>
-Date:   Thu, 30 Jul 2020 04:10:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <887d51fb-4292-c251-6568-32b884e8db67@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Wed, 29 Jul 2020 23:22:23 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 0z99kCDpsuuXO0z9BkMkCi; Thu, 30 Jul 2020 05:22:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1596079341; bh=C7kSRM9WcFLLhayB9wJ/53Z49aRFjNjzvCnXNMmr5ec=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Ub3nD37jERipO6iW5V7PSIXi9P/aHDSXTvFmQLTS3qpcdSQZbrXJ25f1zKLdCVap/
+         WEBUT8RAG8grlgEyNxoztssIq9XUpb5nypSwyBp71nWcZ7s8ElvTqu6/Ij/MmJuFzG
+         R7gfpnhtpv3PzSF4308XaYpTOfKCfNl3dlqBvIMItHMgkrY45kCQ1dKZzzqPjnxysG
+         q0cyfdmuNJGH2DDfNF+jI1pnoHuzqQnR6k+HCBPL9HbBCfnFeVPgJ98VivsszgZ0Tn
+         dZRAj+0AmAgubjXc2dngM8JrGnc2CK8pBHvbhTxB+bGBEUaCuNJOeV6C6Ig7Y/f0QY
+         VD0tgsNOXg02g==
+Message-ID: <a0c17e7cb94deb8183b85bd00f8c06f1@smtp-cloud9.xs4all.net>
+Date:   Thu, 30 Jul 2020 05:22:19 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfDUMujNRzBeLZZq4QrtVtBh/yKIpRskl7NZLUFBTw2kc+gbrcP6asIF0yy8nWGmQrKu8QhWLj7WVi0rgnNO/DpEvimU4EdKyUBqEpbIKiuT3MrX7ohKT
+ yVFJCPw60w5nPT2YmzO8croqNP4Wrka6SC05QEzZ14KwvfgvQSTr6ijz2yDkBtS9y6uZdVAOV43YbQ05oczhGK2vGtHYgVdl8EPRKhSdq1H3PzfrhgasHjWl
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-30.07.2020 04:06, Sowjanya Komatineni пишет:
-...
-> Will have v6 and add additional patch at the end to do enable/disable
-> separately.
-> 
-> Separating this out with additional patch before adding sensor support
-> patch requires all patches to be updated.
-> 
-> So I am ok either ways. Please let me know if adding additional patch at
-> the end to split tegra_channel_set_stream() and tegra_csi_s_stream()
-> separately is ok?
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Should be okay, thanks!
+Results of the daily build of media_tree:
+
+date:			Thu Jul 30 05:00:10 CEST 2020
+media-tree git hash:	8f2a4a9d5ff5202d0b3e3a144ebb9b67aabadd29
+media_build git hash:	ea2766f182b3a4e03543be2ded0845fca4d4fa80
+v4l-utils git hash:	c7f03287bbd64c168975e7ff3192e6fd3b507686
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 1276c1355abc12c391f3d471acc71d55421b87b6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: WARNINGS
+linux-5.3.1-x86_64: WARNINGS
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
