@@ -2,236 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 823F523457E
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 14:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A89EB23464E
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 14:54:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733191AbgGaMMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jul 2020 08:12:55 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38100 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732886AbgGaMMy (ORCPT
+        id S1730024AbgGaMyk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jul 2020 08:54:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36056 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728607AbgGaMyk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jul 2020 08:12:54 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 0CD17299285
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org,
-        tfiga@chromium.org
-Subject: [PATCH 2/2] media: admin-guide: add documentation file rkisp1.rst
-Date:   Fri, 31 Jul 2020 14:12:43 +0200
-Message-Id: <20200731121243.25882-3-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200731121243.25882-1-dafna.hirschfeld@collabora.com>
-References: <20200731121243.25882-1-dafna.hirschfeld@collabora.com>
+        Fri, 31 Jul 2020 08:54:40 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08611C061574
+        for <linux-media@vger.kernel.org>; Fri, 31 Jul 2020 05:54:39 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id g19so17506160ejc.9
+        for <linux-media@vger.kernel.org>; Fri, 31 Jul 2020 05:54:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oKmO2ZAvewEBOR4kyQ9VDj8a4Brdi56V8Gl0PxTOBWk=;
+        b=M+csR49iDfxo6UoiXSocjp8GH38x/wp8SHIku/n1gRdFm7qloMmf72l2fFrkx2nHna
+         vo9sUTwCKgwQ8pb5XQez3od4wwkP50GX0j5bBNqFwXIe4MebvxsiEKV08LeITrovK9zx
+         G2SD+Fjj4b33BOJZoNLjiQtoU3DeWwnfhzlfE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oKmO2ZAvewEBOR4kyQ9VDj8a4Brdi56V8Gl0PxTOBWk=;
+        b=GtMrOFTS61BaGOvMdP4e3Bdkj+wH+RKdMjaD9gbS1NxRfbRz9X/PpxjE6JiyoqKmUS
+         ho/GCzOmOu1IrlHoOAlKGyoAtS71g8FfE4avDd7zmiGRdgGxzSyoSVGWmI3ONuphPykR
+         5FPuR3IdG2PYOfjjD6l98Hlv7oqbomqLUQOFR5nq3vFkVzDSLWOVs8Ie09QFLmoKXS3u
+         E5xzC1LFH5GMJ+fHhaL5Lmrq2OsjA8IYN2xJyGR+chGjBC38KRefCvu/4u7tIqgbHvdz
+         iT+vRU0euCGqAfT3l8oeUM+h1cdbmfHaHDtFumuke4jNH8StRePYIlV8e3+xIfUV2dLA
+         SeJg==
+X-Gm-Message-State: AOAM5324MmlaCFJzOpu1LzEDK6QcmV7W7nTVb2/aXLYWbtjvW3F3go/Z
+        9yk43nA1v1CYvI/Q056FL6paRGo59G70aQ==
+X-Google-Smtp-Source: ABdhPJz9zDIWvBtu6Gjv+75omhOxwcs3O5f7U/gtfrtTLvMZfmRGyoeREsf15fe1XRNz/GMUqMiyig==
+X-Received: by 2002:a17:906:1403:: with SMTP id p3mr3889053ejc.106.1596200078457;
+        Fri, 31 Jul 2020 05:54:38 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com. [209.85.128.49])
+        by smtp.gmail.com with ESMTPSA id o15sm593091edr.67.2020.07.31.05.54.38
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jul 2020 05:54:38 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 9so8439988wmj.5
+        for <linux-media@vger.kernel.org>; Fri, 31 Jul 2020 05:54:38 -0700 (PDT)
+X-Received: by 2002:a7b:cf08:: with SMTP id l8mr3555747wmg.183.1596199754613;
+ Fri, 31 Jul 2020 05:49:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200723030451.5616-1-xia.jiang@mediatek.com> <20200723030451.5616-23-xia.jiang@mediatek.com>
+ <20200730163419.GA3779380@chromium.org> <1596165602.17247.10.camel@mhfsdcap03>
+In-Reply-To: <1596165602.17247.10.camel@mhfsdcap03>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 31 Jul 2020 14:49:03 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5C4hpz8DR101WYQ=9xeq3=yMbtbCasAUqGPpg9fLNORgA@mail.gmail.com>
+Message-ID: <CAAFQd5C4hpz8DR101WYQ=9xeq3=yMbtbCasAUqGPpg9fLNORgA@mail.gmail.com>
+Subject: Re: [PATCH v10 22/28] media: platform: Change the call functions of
+ getting/enable/disable the jpeg's clock
+To:     Xia Jiang <xia.jiang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        mojahsu@chromium.org, Nicolas Boichat <drinkcat@chromium.org>,
+        =?UTF-8?B?TWFvZ3VhbmcgTWVuZyAo5a2f5q+b5bm/KQ==?= 
+        <maoguang.meng@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-1. Add the file 'rkisp1.rst' that documents the rkisp1 driver.
+On Fri, Jul 31, 2020 at 5:20 AM Xia Jiang <xia.jiang@mediatek.com> wrote:
+>
+> On Thu, 2020-07-30 at 16:34 +0000, Tomasz Figa wrote:
+> > Hi Xia,
+> >
+> > On Thu, Jul 23, 2020 at 11:04:45AM +0800, Xia Jiang wrote:
+> > > Use the generic of_property_* helpers to get the clock_nums and clocks
+> > > from device tree.
+> > > Use the generic clk_bulk_* helpers to enable and disable clocks.
+> > >
+> > > Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+> > > ---
+> > > v10: new add patch
+> > > ---
+> > >  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 47 +++++++++++++++----
+> > >  .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  8 ++--
+> > >  2 files changed, 42 insertions(+), 13 deletions(-)
+> > >
+> >
+> > Thank you for the patch. Please see my comments inline.
+> >
+> > > diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > > index 7881e9c93df7..921ed21f7db3 100644
+> > > --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > > +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > > @@ -783,14 +783,15 @@ static void mtk_jpeg_clk_on(struct mtk_jpeg_dev *jpeg)
+> > >     ret = mtk_smi_larb_get(jpeg->larb);
+> > >     if (ret)
+> > >             dev_err(jpeg->dev, "mtk_smi_larb_get larbvdec fail %d\n", ret);
+> > > -   clk_prepare_enable(jpeg->clk_jdec_smi);
+> > > -   clk_prepare_enable(jpeg->clk_jdec);
+> > > +
+> > > +   ret = clk_bulk_prepare_enable(jpeg->num_clks, jpeg->clks);
+> > > +   if (ret)
+> > > +           dev_err(jpeg->dev, "Failed to open jpeg clk: %d\n", ret);
+> > >  }
+> > >
+> > >  static void mtk_jpeg_clk_off(struct mtk_jpeg_dev *jpeg)
+> > >  {
+> > > -   clk_disable_unprepare(jpeg->clk_jdec);
+> > > -   clk_disable_unprepare(jpeg->clk_jdec_smi);
+> > > +   clk_bulk_disable_unprepare(jpeg->num_clks, jpeg->clks);
+> > >     mtk_smi_larb_put(jpeg->larb);
+> > >  }
+> > >
+> > > @@ -939,6 +940,7 @@ static int mtk_jpeg_clk_init(struct mtk_jpeg_dev *jpeg)
+> > >  {
+> > >     struct device_node *node;
+> > >     struct platform_device *pdev;
+> > > +   int ret, i;
+> > >
+> > >     node = of_parse_phandle(jpeg->dev->of_node, "mediatek,larb", 0);
+> > >     if (!node)
+> > > @@ -952,12 +954,39 @@ static int mtk_jpeg_clk_init(struct mtk_jpeg_dev *jpeg)
+> > >
+> > >     jpeg->larb = &pdev->dev;
+> > >
+> > > -   jpeg->clk_jdec = devm_clk_get(jpeg->dev, "jpgdec");
+> > > -   if (IS_ERR(jpeg->clk_jdec))
+> > > -           return PTR_ERR(jpeg->clk_jdec);
+> > > +   jpeg->num_clks =
+> > > +           of_property_count_strings(jpeg->dev->of_node, "clock-names");
+> > > +
+> > > +   if (jpeg->num_clks > 0) {
+> > > +           jpeg->clks = devm_kcalloc(jpeg->dev, jpeg->num_clks,
+> > > +                                     sizeof(struct clk_bulk_data),
+> > > +                                     GFP_KERNEL);
+> > > +           if (!jpeg->clks)
+> > > +                   return -ENOMEM;
+> > > +   } else {
+> > > +           dev_err(&pdev->dev, "Failed to get jpeg clock count\n");
+> > > +           return -EINVAL;
+> > > +   }
+> > > +
+> > > +   for (i = 0; i < jpeg->num_clks; i++) {
+> > > +           ret = of_property_read_string_index(jpeg->dev->of_node,
+> > > +                                               "clock-names", i,
+> > > +                                               &jpeg->clks->id);
+> >
+> > The names of the clocks must be explicitly specified in the driver, as per
+> > the DT bindings.
+> Dear Tomasz,
+>
+> Thank you for your reply.
+> You mean that I should keep the v9 version about names of the clocks in
+> the match data.
+> The v10 version about the names of the clocks follows the upstreamed
+> mtk_venc/vdec.I think that this method is more generic. For example,when
+> other project has more clocks, we can get the names of clocks from dtsi
+> without changing the driver code.
+> What about your further opinion?
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- Documentation/admin-guide/media/rkisp1.dot    |  18 +++
- Documentation/admin-guide/media/rkisp1.rst    | 147 ++++++++++++++++++
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- 3 files changed, 166 insertions(+)
- create mode 100644 Documentation/admin-guide/media/rkisp1.dot
- create mode 100644 Documentation/admin-guide/media/rkisp1.rst
+The problem with that method is that one can put any random names in
+the DT and the driver will happily accept them, without any
+correctness checking. Moreover, if the other project has more clocks,
+it already requires a different compatible string in the DT bindings,
+so the kernel needs to be changed anyway.
 
-diff --git a/Documentation/admin-guide/media/rkisp1.dot b/Documentation/admin-guide/media/rkisp1.dot
-new file mode 100644
-index 000000000000..54c1953a6130
---- /dev/null
-+++ b/Documentation/admin-guide/media/rkisp1.dot
-@@ -0,0 +1,18 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0 | <port1> 1} | rkisp1_isp\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port2 -> n00000006:port0
-+	n00000001:port2 -> n00000009:port0
-+	n00000001:port3 -> n00000014 [style=bold]
-+	n00000006 [label="{{<port0> 0} | rkisp1_resizer_mainpath\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000006:port1 -> n0000000c [style=bold]
-+	n00000009 [label="{{<port0> 0} | rkisp1_resizer_selfpath\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000009:port1 -> n00000010 [style=bold]
-+	n0000000c [label="rkisp1_mainpath\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n00000010 [label="rkisp1_selfpath\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n00000014 [label="rkisp1_stats\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000018 [label="rkisp1_params\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n00000018 -> n00000001:port1 [style=bold]
-+	n0000001c [label="{{} | imx219 4-0010\n/dev/v4l-subdev3 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000001c:port0 -> n00000001:port0
-+}
-diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
-new file mode 100644
-index 000000000000..16021e602a93
---- /dev/null
-+++ b/Documentation/admin-guide/media/rkisp1.rst
-@@ -0,0 +1,147 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: <isonum.txt>
-+
-+=========================================
-+Rockchip Image Signal Processor (rkisp1)
-+=========================================
-+
-+Introduction
-+============
-+
-+This file documents the driver for the Rockchip ISP1 that is part of RK3288 and RK3399 SoCs.
-+The driver is located under drivers/staging/media/rkisp1 and uses the Media-Controller API.
-+
-+Topology
-+========
-+.. _rkisp1_topology_graph:
-+
-+.. kernel-figure:: rkisp1.dot
-+    :alt:   Diagram of the default media pipeline topology
-+    :align: center
-+
-+
-+The driver has 4 video devices:
-+ - rkisp1_mainpath: capture device for retrieving images, usually in higher resolution.
-+ - rkisp1_selfpath: capture device for retrieving images.
-+ - rkisp1_stats: a metadata capture device that sends statistics.
-+ - rkisp1_params: a metadata output device that receives parameters configurations from userspace.
-+
-+The driver has 3 subdevices:
-+ - rkisp1_resizer_mainpath: used to resize and downsample frames for the mainpath capture device.
-+ - rkisp1_resizer_selfpath: used to resize and downsample frames for the selfpath capture device.
-+ - rkisp1_isp: is connected to the sensor and is responsible for all the isp operations.
-+
-+
-+rkisp1_mainpath, rkisp1_selfpath - Frames Capture Video Nodes
-+-------------------------------------------------------------
-+Those are the `mainpath` and `selfpath` capture devices to capture frames.
-+Those entities are the DMA engines that write the frames to memory.
-+The selfpath video device can capture YUV/RGB formats. Its input is YUV encoded
-+stream and it is able to convert it to RGB. The selfpath in not able to capture bayer formats.
-+The mainpath can capture both bayer and YUV formats but it is not able to capture RGB formats.
-+Both capture videos support the ``V4L2_CAP_IO_MC`` :ref:`capability <device-capabilities>`.
-+
-+
-+rkisp1_resizer_mainpath, rkisp1_resizer_selfpath - Resizers Subdevices Nodes
-+----------------------------------------------------------------------------
-+Those are resizer entities for the mainpath and the selfpath. Those entities can scale the frames up
-+and down and also change the YUV sampling (for example YUV4:2:2 -> YUV4:2:0). They also have
-+cropping capability on the sink pad.
-+The resizers entities can only operate on YUV:4:2:2 format (MEDIA_BUS_FMT_YUYV8_2X8).
-+The mainpath capture device supports capturing video in bayer formats. In that case the resizer
-+of the mainpath is set to 'bypath' mode - it just forward the frame without operating on it.
-+
-+rkisp1_isp - Image Signal Processing Subdevice Node
-+---------------------------------------------------
-+This is the isp entity. It is connected to the sensor on sink pad 0 and receives the frames using
-+the CSI-2 protocol. It is responsible of configuring the CSI-2 protocol.
-+It has a cropping capability on sink pad 0 that is connected to the sensor and on source pad 2 connected to
-+the resizer entities.
-+Cropping on sink pad 0 defines the image region from the sensor.
-+Cropping on source pad 2 defines the region for the Image Stabilizer (IS).
-+
-+.. _rkisp1_stats:
-+
-+rkisp1_stats - Statistics Video Node
-+------------------------------------
-+The statistics video node outputs the 3A (auto focus, auto exposure and auto white balance) statistics as
-+well as histogram statistics for the frames that are being processed by the rkisp1 to userspace applications.
-+Applications can use this statistics data to compute the desired algorithm parameters for the rkisp1.
-+
-+.. _rkisp1_params:
-+
-+rkisp1_params - Parameters Video Node
-+-------------------------------------
-+The parameters video node receives the rkisp1 algorithm parameters that are used
-+to configure how the rkisp1 algorithms process the image.
-+
-+Details on processing parameters specific to the rkisp1 can be found in
-+:ref:`v4l2-meta-fmt-params-rkisp1`.
-+
-+
-+Capturing Video Frames Example
-+==============================
-+
-+In the following example, the sensor connected to pad 0 of 'rkisp1_isp' is imx219.
-+
-+The following commands can be used to capture video from the selfpath video node
-+with dimension 900x800 planar format YUV 4:2:2. It uses all cropping capabilities possible,
-+(see explanation right below)
-+
-+.. code-block:: bash
-+
-+	# set the links
-+	"media-ctl" "-d" "platform:rkisp1" "-r"
-+	"media-ctl" "-d" "platform:rkisp1" "-l" "'imx219 4-0010':0 -> 'rkisp1_isp':0 [1]"
-+	"media-ctl" "-d" "platform:rkisp1" "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_selfpath':0 [1]"
-+	"media-ctl" "-d" "platform:rkisp1" "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_mainpath':0 [0]"
-+
-+	# set format for imx219 4-0010:0
-+	"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"imx219 4-0010":0 [fmt:SRGGB10_1X10/1640x1232]'
-+
-+	# set format for rkisp1_isp pads:
-+	"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_isp":0 [fmt:SRGGB10_1X10/1640x1232 crop: (0,0)/1600x1200]'
-+	"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_isp":2 [fmt:YUYV8_2X8/1600x1200 crop: (0,0)/1500x1100]'
-+
-+	# set format for rkisp1_resizer_selfpath pads:
-+	"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_selfpath":0 [fmt:YUYV8_2X8/1500x1100 crop: (300,400)/1400x1000]'
-+	"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_selfpath":1 [fmt:YUYV8_2X8/900x800]'
-+
-+	# set format for rkisp1_selfpath:
-+	"v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "-v" "width=900,height=800,"
-+	"v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "-v" "pixelformat=422P"
-+
-+	# start streaming:
-+	v4l2-ctl "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "--stream-mmap" "--stream-count" "10"
-+
-+
-+In the above example the sensor is configured to bayer format: `SRGGB10_1X10/1640x1232`.
-+The rkisp1_isp:0 pad should be configured to the same mbus format and dimensions as the sensor.
-+Otherwise streaming will fail with 'EPIPE' error. So it is also configured to
-+`SRGGB10_1X10/1640x1232` . In addition, the rkisp1_isp:0 pad is configured to cropping
-+`(0,0)/1600x1200`. The cropping dimensions are automatically propagated to be the format of the
-+isp source pad `rkisp1_isp:2`. Another cropping operation is configured on the isp source pad:
-+`(0,0)/1500x1100`.
-+The resizer's sink pad `rkisp1_resizer_selfpath` should be configured to format
-+`YUYV8_2X8/1500x1100` in order to match the format on the other side of the link. In addition a
-+cropping `(300,400)/1400x1000` is configured on it.
-+The source pad of the resizer, `rkisp1_resizer_selfpath:1` is configured to format
-+`YUYV8_2X8/900x800`. That means that the resizer first crop a window of `(300,400)/1400x100` from
-+the received frame and then scales this window to dimension `900x800`.
-+
-+Note that the above example does not uses the stats-params control loop.
-+Therefore the capture frames will not go through the 3A algorithms and will look dark and greenish.
-+
-+Configuring Quantization
-+========================
-+
-+The driver has a special feature to allow userspace to configure full range quantization on
-+YUV formats. To do that, userspace can use the Colorspace Conversion API (CSC API) for subdevices
-+on source pad 2 of the isp (`rkisp1_isp:2`). The quantization configured on this pad is the
-+quantization of the captured video frames on the mainpath and selfpath video nodes.
-+Note that the resizer and capture entities will always report the default quantization
-+(limited range for YUV formats) even if the quantization is configured to full range on
-+`rkisp1_isp:2`. So in order to get the configured quantization, application should get it from
-+pad `rkisp1_isp:2`.
-+
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 251cc4ede0b6..9c7ebe2ca3bd 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -25,6 +25,7 @@ Video4Linux (V4L) driver-specific documentation
- 	philips
- 	qcom_camss
- 	rcar-fdp1
-+	rkisp1
- 	saa7134
- 	si470x
- 	si4713
--- 
-2.17.1
+Actually this is something that needs to be fixed in the mtk_venc/vdec
+driver as well. I believe someone just overlooked it when the driver
+was being reviewed.
 
+Best regards,
+Tomasz
