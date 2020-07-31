@@ -2,121 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EFDC2343D4
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 11:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE4EC2344AD
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 13:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732418AbgGaJ7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jul 2020 05:59:53 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:41684 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732162AbgGaJ7w (ORCPT
+        id S1732685AbgGaLjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jul 2020 07:39:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732297AbgGaLjF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jul 2020 05:59:52 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200731095951euoutp01b0fd68a59a5e2c358fc8ebc912594736~mzfnn5mx51967319673euoutp01k
-        for <linux-media@vger.kernel.org>; Fri, 31 Jul 2020 09:59:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200731095951euoutp01b0fd68a59a5e2c358fc8ebc912594736~mzfnn5mx51967319673euoutp01k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1596189591;
-        bh=/UTyw2WVp/qW81MDBjWkfGq6wWaWgdQ5KcsoHv0rets=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=OUwQa1/V/gYNXbWyToJqDSpAQiUW4mF4Qr42tTcb4BTpb1vtcSxrvBBEeuwCBmkwz
-         5t+Qzpmc2wYsb3EPTT3kbY0bGpo1jYMDObf+s3aJWtIwDR+6OpUZQ5adfwBXlTrxDL
-         /QqLUhE4G37RYKcBAF8KJ2kNvygojG6Zz0ja86uc=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200731095950eucas1p2119893fda0e9692ba35e8a48bb74f6ec~mzfnY70E_2084920849eucas1p22;
-        Fri, 31 Jul 2020 09:59:50 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 34.44.05997.69BE32F5; Fri, 31
-        Jul 2020 10:59:50 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200731095950eucas1p14f135c91930e8ab6a2fe40086fd846d0~mzfnDVqed3203832038eucas1p1E;
-        Fri, 31 Jul 2020 09:59:50 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200731095950eusmtrp28e1d8db7dd7ad625add3a6a537998e19~mzfnCelsK1695216952eusmtrp2U;
-        Fri, 31 Jul 2020 09:59:50 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-0c-5f23eb960b7a
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id EA.98.06314.69BE32F5; Fri, 31
-        Jul 2020 10:59:50 +0100 (BST)
-Received: from [106.210.123.115] (unknown [106.210.123.115]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200731095949eusmtip1f3c1f903267bd22e85bb137adad7dfef~mzfmD46WJ0043800438eusmtip1x;
-        Fri, 31 Jul 2020 09:59:49 +0000 (GMT)
-Subject: Re: [PATCH v2 11/11] dt-bindings: media: Correct samsung-fimc
- parallel port numbering
-To:     Jonathan Bakker <xc-racer2@live.ca>
-Cc:     kyungmin.park@samsung.com, mchehab@kernel.org, kgene@kernel.org,
-        krzk@kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, robh+dt@kernel.org
-From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
-Message-ID: <7313c052-5bfb-3958-06a8-aa96f6950f36@samsung.com>
-Date:   Fri, 31 Jul 2020 11:59:48 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-        Thunderbird/68.11.0
+        Fri, 31 Jul 2020 07:39:05 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 272D4C061574;
+        Fri, 31 Jul 2020 04:39:05 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id x9so32131332ljc.5;
+        Fri, 31 Jul 2020 04:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=e83eJTcVv/UaeyPlCsr6UUJefX33U2iVn2MgdxsKQTQ=;
+        b=X9V6zA56PqyXwOT0CNOco7VPG50Pkbt7KmbI/ojIgjq+CFYp9qHMCY6bdOTnK3x3QR
+         OE+41YFe8nwh73tpj+YDYVwNBrRap4JePkrUOhKd4jaWk7wSnBWCl7732Jd7H6DaGbnw
+         zYZznHVkJ+wzuPxNavlP1QnUHUl4L/5CnblTm0LKK4baDeLDU7iO0MvH1d5WF49frrNV
+         4s4Z7gSD9t/AK5UjBUcXCUQgwkHXsFpS5YxHjXRkueVpGgFZ19L24ENrdnL2MpZ35z0i
+         bEruw/yDZ7CttkXNOu5ZFif5fmKXTFCMfyO8/YF8ZucVV6ESxnHc5KUMmUtQPSQdUUY2
+         v06A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=e83eJTcVv/UaeyPlCsr6UUJefX33U2iVn2MgdxsKQTQ=;
+        b=ej8bhhUdAkEttZUthgtmpb7y7Ex3JCulFPgGQkAJ8paI9kH47mZJIhl0AwJiyOEeuc
+         1HhhJSRxoKT78T6IgcTop0IQeXeJ2+4fu1KihOh9+GxFxnSVW5bRLAfXFVrcLzFurR68
+         AesxLWVL1aMSREzbRMfRaux4SKlulISWSntT4UqIu+ueuT4VXMGuRxpqdMH1ktSmIjfF
+         IC9EF/bh2VvyklGE5kTEmK7CqpNMVy9aBIS41FuB3fnTXLtqyLca+4rWq+xZJYddGdQT
+         NLyXzUqO9jFuTFUL52fqzrhcbWfMrYBf2ag5lJrI8l6VlmmiLwM5GWAtPjbiGXy/KChi
+         S/aA==
+X-Gm-Message-State: AOAM5337xIupLhJ+CJNo/dnKdOtmHk2O+bsHOERXXJQOLbuZrdNsdEwT
+        lswJLbhag41NN5CDcIBqVxAWFztQ
+X-Google-Smtp-Source: ABdhPJyGjMx9FtTEpEohXiAFoq57WavNYhs3eJc0pNbnjhC7LxeGw815xYO7ZEtnLAVlZoq41lXvWQ==
+X-Received: by 2002:a2e:991:: with SMTP id 139mr1647045ljj.314.1596195543293;
+        Fri, 31 Jul 2020 04:39:03 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id k12sm1870240lfe.68.2020.07.31.04.39.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jul 2020 04:39:02 -0700 (PDT)
+Subject: Re: [RFC PATCH v6 09/10] media: tegra-video: Add CSI MIPI pads
+ calibration
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1596186169-18729-1-git-send-email-skomatineni@nvidia.com>
+ <1596186169-18729-10-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <3ac158c4-7df7-e3c1-f0e1-33e7ef017762@gmail.com>
+Date:   Fri, 31 Jul 2020 14:39:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <BN6PR04MB0660B938349CA15DE7BCC5BBA3710@BN6PR04MB0660.namprd04.prod.outlook.com>
+In-Reply-To: <1596186169-18729-10-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrHKsWRmVeSWpSXmKPExsWy7djPc7rTXivHG0y6bWwx/8g5Vov+x6+Z
-        Lc6f38BucbbpDbvFpsfXWC0u75rDZtGzYSurxYzz+5gslm36w2TRuvcIu8XFiXdZHLg9Nq3q
-        ZPPYvKTeY9HNHywefVtWMXp83iQXwBrFZZOSmpNZllqkb5fAlfHzww7Ggt/MFQcWPGdpYJzK
-        3MXIySEhYCJxePJnti5GLg4hgRWMEj8urGeEcL4wSqyc85oJwvnMKHFmeicbTMvEZ4+YIRLL
-        GSU2vz3ADuF8ZJR48nc9O0iVsECCxOKutSxdjBwcIgLqEtef8oHUMAv0MUksfdHPCFLDJmAo
-        0Xu0D8zmFbCTWHnpIFgvi4CqxJ7rjWAHigrESWw9fpUJokZQ4uTMJywgNqdArMThXe2sIDaz
-        gLjErSfzmSBseYntb+eAXSchcIldYubpzywQZ7tIzNswEeoFYYlXx7ewQ9gyEv93zmeCaGhm
-        lOjZfZsdwpnAKHH/+AJGiCpriTvnfrGBvMMsoCmxfpc+iCkh4Chx6qklhMknceOtIMQNfBKT
-        tk1nhgjzSnS0CUHMUJH4vWo6E4QtJdH95D/LBEalWUg+m4Xkm1lIvpmFsHYBI8sqRvHU0uLc
-        9NRio7zUcr3ixNzi0rx0veT83E2MwFR1+t/xLzsYd/1JOsQowMGoxMObcEkpXog1say4MvcQ
-        owQHs5IIr9PZ03FCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeY0XvYwVEkhPLEnNTk0tSC2CyTJx
-        cEo1MNq519f6LlyguLg6rU5Lflb/wiMtX18FVf701Fw2TebFP/cS8w/rq71LSrU95VPjYtq+
-        /bu5RW3q73uaybkr56/L+r+p6bt95NyALSWFQVHGEaVZypJrqm59iph2dHa6xbX/WlUVi2pM
-        nC87uR+JiTwfu7tLW6D2dqhT/blMj4L9Qmw/n06pVWIpzkg01GIuKk4EAHxYlV1RAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRmVeSWpSXmKPExsVy+t/xu7rTXivHG8zrlraYf+Qcq0X/49fM
-        FufPb2C3ONv0ht1i0+NrrBaXd81hs+jZsJXVYsb5fUwWyzb9YbJo3XuE3eLixLssDtwem1Z1
-        snlsXlLvsejmDxaPvi2rGD0+b5ILYI3SsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQzNDaP
-        tTIyVdK3s0lJzcksSy3St0vQy/j5YQdjwW/migMLnrM0ME5l7mLk5JAQMJGY+OwRmC0ksJRR
-        4tCR4i5GDqC4lMT8FiWIEmGJP9e62LoYuYBK3jNKLDqwkhUkISyQILG4ay0LSL2IgLrE9ad8
-        IDXMAn1MEsfn32WBaLjDKPF99m9GkAY2AUOJ3qN9YDavgJ3EyksH2UFsFgFViT3XG8GOEBWI
-        k3jc+58ZokZQ4uTMJywgNqdArMThXe1gi5mBlv2Zd4kZwhaXuPVkPhOELS+x/e0c5gmMQrOQ
-        tM9C0jILScssJC0LGFlWMYqklhbnpucWG+oVJ+YWl+al6yXn525iBEbmtmM/N+9gvLQx+BCj
-        AAejEg9vwiWleCHWxLLiytxDjBIczEoivE5nT8cJ8aYkVlalFuXHF5XmpBYfYjQFem4is5Ro
-        cj4waeSVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgtgulj4uCUamCUZqll1ntz
-        8P7xqf+CPv/t1fTuCfnfue/EIyHDhSqJr5OLnku/SzLh4e1cdsXXV9/qzeTPM46uMP3mEeN5
-        57h162TfC3Mq7th9fh/REcHUm8rYl/XqXWVaxG/JGy6/y41u2j8TWjtzWd77CMfUT7ICy5fa
-        nba6uOk4b0LfrKV5u57Xz2l6Z7dZiaU4I9FQi7moOBEAY+3oB+ICAAA=
-X-CMS-MailID: 20200731095950eucas1p14f135c91930e8ab6a2fe40086fd846d0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200730230226eucas1p289b3086e47eb52bcdfc02ef660abd0b9
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200730230226eucas1p289b3086e47eb52bcdfc02ef660abd0b9
-References: <20200730230114.8572-1-xc-racer2@live.ca>
-        <CGME20200730230226eucas1p289b3086e47eb52bcdfc02ef660abd0b9@eucas1p2.samsung.com>
-        <BN6PR04MB0660B938349CA15DE7BCC5BBA3710@BN6PR04MB0660.namprd04.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31.07.2020 01:01, Jonathan Bakker wrote:
-> The parallel port nodes should be numbered 1 and 2, not 0 and 1
-> for A and B respectively.  The driver has always implemented 1
-> and 2 and the in-tree Goni DTS uses 1 as port A as well.  Update
-> the documentation to match this behaviour.
+31.07.2020 12:02, Sowjanya Komatineni пишет:
+...
+> @@ -249,13 +249,47 @@ static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
+>  		return ret;
+>  	}
+>  
+> +	if (csi_chan->mipi) {
+> +		ret = tegra_mipi_enable(csi_chan->mipi);
+> +		if (ret < 0) {
+> +			dev_err(csi->dev,
+> +				"failed to enable MIPI pads: %d\n", ret);
+> +			goto rpm_put;
+> +		}
+> +
+> +		/*
+> +		 * CSI MIPI pads PULLUP, PULLDN and TERM impedances need to
+> +		 * be calibrated after power on.
+> +		 * So, trigger the calibration start here and results will
+> +		 * be latched and applied to the pads when link is in LP11
+> +		 * state during start of sensor streaming.
+> +		 */
+> +		ret = tegra_mipi_start_calibration(csi_chan->mipi);
+> +		if (ret < 0) {
+> +			dev_err(csi->dev,
+> +				"failed to start MIPI calibration: %d\n", ret);
+> +			goto disable_mipi;
+> +		}
+
+What would happen if CSI stream is enabled and then immediately disabled
+without enabling camera sensor?
+
+> +	}
+> +
+...
+>  static int tegra_channel_enable_stream(struct tegra_vi_channel *chan)
+>  {
+>  	struct v4l2_subdev *csi_subdev, *src_subdev;
+> +	struct tegra_csi_channel *csi_chan;
+>  	int ret;
+>  
+>  	/*
+> @@ -206,13 +207,30 @@ static int tegra_channel_enable_stream(struct tegra_vi_channel *chan)
+>  	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>  		return 0;
+>  
+> +	csi_chan = v4l2_get_subdevdata(csi_subdev);
+> +	/*
+> +	 * TRM has incorrectly documented to wait for done status from
+> +	 * calibration logic after CSI interface power on.
+> +	 * As per the design, calibration results are latched and applied
+> +	 * to the pads only when the link is in LP11 state which will happen
+> +	 * during the sensor stream-on.
+> +	 * CSI subdev stream-on triggers start of MIPI pads calibration.
+> +	 * Wait for calibration to finish here after sensor subdev stream-on
+> +	 * and in case of sensor stream-on failure, cancel the calibration.
+> +	 */
+>  	src_subdev = tegra_channel_get_remote_source_subdev(chan);
+
+Is it possible to move the start_calibration() here?
+
+>  	ret = v4l2_subdev_call(src_subdev, video, s_stream, true);
+>  	if (ret < 0 && ret != -ENOIOCTLCMD) {
+> +		tegra_mipi_cancel_calibration(csi_chan->mipi);
+>  		v4l2_subdev_call(csi_subdev, video, s_stream, false);
+>  		return ret;
+>  	}
+>  
+> +	ret = tegra_mipi_finish_calibration(csi_chan->mipi);
+> +	if (ret < 0)
+> +		dev_warn(csi_chan->csi->dev,
+> +			 "MIPI calibration failed: %d\n", ret);
+> +
+>  	return 0;
+>  }
+>  
 > 
-> Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
 
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
-
-Thanks for all those improvements, whole series looks good to me.
-
--- 
-Regards,
-Sylwester
