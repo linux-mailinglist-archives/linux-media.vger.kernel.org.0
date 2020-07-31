@@ -2,139 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65674234C1A
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 22:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DF5A234C6B
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 22:42:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727923AbgGaUTE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jul 2020 16:19:04 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:43354 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726872AbgGaUTD (ORCPT
+        id S1728844AbgGaUme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jul 2020 16:42:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727053AbgGaUme (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jul 2020 16:19:03 -0400
-Received: by mail-io1-f65.google.com with SMTP id k23so32826095iom.10;
-        Fri, 31 Jul 2020 13:19:02 -0700 (PDT)
+        Fri, 31 Jul 2020 16:42:34 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF01DC061574;
+        Fri, 31 Jul 2020 13:42:33 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id v12so3403741ljc.10;
+        Fri, 31 Jul 2020 13:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=bteal2gJqaWT5iiU6PduiP6X6F7TRM1Ny/RVrHPf5ic=;
+        b=u78uyT/dQZCoztTrF83RD6Ml+May5x7tHMpyV+KWZ95mQJwIbX1ZdMC4Sc+t3OJoGa
+         Qqj8D++3421SEOuITs9LN9IFZXyY9iWq9k2f4WSAjn3cGNClr0OLnYGvZB3tJ3ft4qAL
+         ead7pQYF0iMaCQLZMtnXMThyMyN0aMowTSrnOQlFHj7hBhQ945KqbRJ3cmUAR/VpH30W
+         85Sv6tSbhCSxjuETdue7siVqkXuq4fy7JiWCbyT6bZ1WuKzPbUe46McJ6gSa19ZTd4mZ
+         xJ43A8NDOr/XtOpsaEfqdOPBMFeAP8fqxvtqsiV1//dP6uRxwfTEJQXkwFNkjx+2iX8b
+         xjJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kRn98kmX+GxBTOj20IyuIt5F7vNs5kI3rOwmf5gJlXo=;
-        b=my4tHzba/cskiaKYtb865T94mHGBQ2/523OPxs2+vhF3jmlJB+k+94AO8K289BNqOT
-         gl4cRQvHLXFlHs5JUu6AFLHcZ2qrJrCIlcl9UNj+q22D9cdvOYBGoyvVaA2zBgi3dHGA
-         izQXcczynRA8wLbUBoQjsvmLQu4u5q2Rnw/zPScxAeCXktiVVP/Z/pJwl1Fw2KSDCTi+
-         EEiKHrISTnE/YIJSeqKaKkUCR/gtHAYCg3SfeCAaH8R4+Z2fP7kStq8/1q1wDbjZ37v9
-         vS4o/JWzcV2ufEunGyhjM5k/gqQ1MW19QmltH2LPtBo3VXEeyn6xu/I8RocimgLXxhd7
-         hw1w==
-X-Gm-Message-State: AOAM530eC1AMkuzAWJWtC9EWvgh2huXQxKn1C/2jmTIMN5AgL9N9LjZy
-        NPgEWjJpbrZK7Oz12EvgmBLY6dVvEQ==
-X-Google-Smtp-Source: ABdhPJzr8uZ3Qr6GyTYZhEhFqGlrmvl/TYAVEn9xE4hVBsU1/rNOHODs4KB2luEuWtnujV/FBhN5hw==
-X-Received: by 2002:a05:6602:2409:: with SMTP id s9mr4870384ioa.98.1596226742314;
-        Fri, 31 Jul 2020 13:19:02 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id g1sm5489132iov.38.2020.07.31.13.19.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2020 13:19:01 -0700 (PDT)
-Received: (nullmailer pid 711472 invoked by uid 1000);
-        Fri, 31 Jul 2020 20:19:00 -0000
-Date:   Fri, 31 Jul 2020 14:19:00 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Niklas <niklas.soderlund@ragnatech.se>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Document
- renesas-vin-ycbcr-8b-g property
-Message-ID: <20200731201900.GA704336@bogus>
-References: <1595602732-25582-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200724193752.GE2729799@oden.dyn.berto.se>
- <CA+V-a8s7UkhCGcP8eiiH_jd8hhnpLJA6QqfL7jXo_sAgRMfy8g@mail.gmail.com>
- <20200725081146.GF2729799@oden.dyn.berto.se>
- <CA+V-a8sNxUaj88DDcWyc4zrmsAAGndjoQX=OmJ3u1GRJCT6TBQ@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bteal2gJqaWT5iiU6PduiP6X6F7TRM1Ny/RVrHPf5ic=;
+        b=O2m0b5TaPFlNULAjXn6xF3lTT9uGu3wFJZ9B5tctQN/oqIA01ktS+7mpR7R2KM9wsD
+         jZPesmfR7C6jswyYhbtJl9GAA2QgHY2wi1/zwMcTxObKAwJfkuY2fuq/kBM0tCYLgBJA
+         qizLn7ZVQ5/TPtqr0t4J4K9NyoKQTcBiHGHZQkFS+Db9BvNw3mICXQ4OplBwA47yo3Id
+         ZmjefDrpBehPY24zjdPKMdU+2kmOE/C8tH2mXDQmZrK5vyFL+emRmjpnyoMToeNm0KpL
+         AfSYKJM26nS1pWPgXiwU4qVjd35B1jbzMhlEttL47h07FgSPKJy2EfJYKxVAN3EA9++q
+         WhZA==
+X-Gm-Message-State: AOAM53394FsGUf8L4fkMREAkJ5wUdWWCdErUiCqwDI2AR3nBstF8pfhi
+        ioxxjvkfa2aWRmiXBVvXxTZ/oUu2
+X-Google-Smtp-Source: ABdhPJw8OkY8GR33ds2cRLW1HDkgp0+VDYrE+lybqbYAevvPJlg3lAQGkx6GmBW11mQzGJGbYoHgjw==
+X-Received: by 2002:a2e:3619:: with SMTP id d25mr2553082lja.204.1596228151922;
+        Fri, 31 Jul 2020 13:42:31 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id 193sm2608104lfa.90.2020.07.31.13.42.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jul 2020 13:42:31 -0700 (PDT)
+Subject: Re: [RFC PATCH v6 09/10] media: tegra-video: Add CSI MIPI pads
+ calibration
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1596186169-18729-1-git-send-email-skomatineni@nvidia.com>
+ <1596186169-18729-10-git-send-email-skomatineni@nvidia.com>
+ <3ac158c4-7df7-e3c1-f0e1-33e7ef017762@gmail.com>
+ <f483329d-b5fe-fda5-e235-b8edb5fce440@nvidia.com>
+ <a08af0e8-80d8-0bd0-87a3-adfc8e70a92a@gmail.com>
+ <ace047fe-8a1a-666a-b91b-9d63b1d68567@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <7d904a86-3189-7ef8-a7b9-1a84564f9278@gmail.com>
+Date:   Fri, 31 Jul 2020 23:42:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8sNxUaj88DDcWyc4zrmsAAGndjoQX=OmJ3u1GRJCT6TBQ@mail.gmail.com>
+In-Reply-To: <ace047fe-8a1a-666a-b91b-9d63b1d68567@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jul 25, 2020 at 11:23:13PM +0100, Lad, Prabhakar wrote:
-> Hi Niklas,
+31.07.2020 19:29, Sowjanya Komatineni пишет:
 > 
-> On Sat, Jul 25, 2020 at 9:11 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> >
-> > Hi Lad,
-> >
-> > On 2020-07-24 22:11:31 +0100, Lad, Prabhakar wrote:
-> > > Hi Niklas,
-> > >
-> > > Thank you for the review.
-> > >
-> > > On Fri, Jul 24, 2020 at 8:37 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > > >
-> > > > Hi Lad,
-> > > >
-> > > > Thanks for your patch.
-> > > >
-> > > > On 2020-07-24 15:58:51 +0100, Lad Prabhakar wrote:
-> > > > > Add a DT property "renesas-vin-ycbcr-8b-g" to select YCbCr422 8-bit data
-> > > > > input pins.
-> > > > >
-> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > ---
-> > > > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 13 +++++++++++++
-> > > > >  1 file changed, 13 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > index 53c0a72..7dfb781 100644
-> > > > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > @@ -106,6 +106,12 @@ properties:
-> > > > >
-> > > > >            remote-endpoint: true
-> > > > >
-> > > > > +          renesas-vin-ycbcr-8b-g:
-> > > >
-> > > > I think the preferred format for vendor specific properties are
-> > > > "<vendor>,<property>".
-> > > >
-> > > Indeed and I had it as renesas,vin-ycbcr-8b-g but dt_bindings_check
-> > > complained about it.
-> >
-> > I see, what was the error?
-> >
->   CHKDT   Documentation/devicetree/bindings/media/renesas,vin.yaml
-> /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-> properties:port:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-> {'type': 'boolean', 'description': 'If present this property specifies
-> to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.',
-> 'default': False} is not valid under any of the given schemas
-> (Possible causes of the failure):
->     /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-> properties:port:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-> 'not' is a required property
+> On 7/31/20 9:14 AM, Dmitry Osipenko wrote:
+>> 31.07.2020 18:46, Sowjanya Komatineni пишет:
+>>> On 7/31/20 4:39 AM, Dmitry Osipenko wrote:
+>>>> 31.07.2020 12:02, Sowjanya Komatineni пишет:
+>>>> ...
+>>>>> @@ -249,13 +249,47 @@ static int tegra_csi_enable_stream(struct
+>>>>> v4l2_subdev *subdev)
+>>>>>            return ret;
+>>>>>        }
+>>>>>    +    if (csi_chan->mipi) {
+>>>>> +        ret = tegra_mipi_enable(csi_chan->mipi);
+>>>>> +        if (ret < 0) {
+>>>>> +            dev_err(csi->dev,
+>>>>> +                "failed to enable MIPI pads: %d\n", ret);
+>>>>> +            goto rpm_put;
+>>>>> +        }
+>>>>> +
+>>>>> +        /*
+>>>>> +         * CSI MIPI pads PULLUP, PULLDN and TERM impedances need to
+>>>>> +         * be calibrated after power on.
+>>>>> +         * So, trigger the calibration start here and results will
+>>>>> +         * be latched and applied to the pads when link is in LP11
+>>>>> +         * state during start of sensor streaming.
+>>>>> +         */
+>>>>> +        ret = tegra_mipi_start_calibration(csi_chan->mipi);
+>>>>> +        if (ret < 0) {
+>>>>> +            dev_err(csi->dev,
+>>>>> +                "failed to start MIPI calibration: %d\n", ret);
+>>>>> +            goto disable_mipi;
+>>>>> +        }
+>>>> What would happen if CSI stream is enabled and then immediately
+>>>> disabled
+>>>> without enabling camera sensor?
+>>> Nothing will happen as during stream enable csi receiver is kept ready.
+>>>
+>>> But actual capture will not happen during that point.
+>> Could you please show how the full call chain looks like? It's not clear
+>> to me what keeps CSI stream "ready".
 > 
-> /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-> properties:ports:properties:port@0:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-> {'type': 'boolean', 'description': 'If present this property specifies
-> to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.',
-> 'default': False} is not valid under any of the given schemas
-> (Possible causes of the failure):
->     /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-> properties:ports:properties:port@0:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-> 'not' is a required property
+> VI is the main video input (video device) and on streaming it starts
+> stream of CSI subdev prior to stream of Sensor.
+> 
+> HW path, sensor stream (CSI TX) -> CSI stream (RX)
+> 
+> During CSI stream on, CSI PHY receiver is enabled to start receiving the
+> data but internally capture assembled to active state will happen only
+> when Tegra VI single shot is issues where VI thru pixel parser gets
+> captures data into the memory
 
-The errors here aren't that helpful. The problem is 'default: false' 
-doesn't make sense for a boolean type as false is always not present for 
-DT.
+Alright, I see now.
 
-Rob
+Will be great if you could change this hunk:
+
+{
+  ret = v4l2_subdev_call(src_subdev, video, s_stream, true);
+  if (ret < 0 && ret != -ENOIOCTLCMD) {
+    tegra_mipi_cancel_calibration(csi_chan->mipi);
+    v4l2_subdev_call(csi_subdev, video, s_stream, false);
+    return ret;
+  }
+}
+
+to look like this:
+
+{
+  err = v4l2_subdev_call(src_subdev, video, s_stream, true);
+  if (err < 0 && err != -ENOIOCTLCMD)
+    goto err_disable_csi_stream;
+...
+  return 0;
+
+err_disable_csi_stream:
+  tegra_mipi_cancel_calibration(csi_chan->mipi);
+
+  v4l2_subdev_call(csi_subdev, video, s_stream, false);
+
+  return err;
+}
+
+
+It should make code a bit easier to read and follow.
+
+Otherwise this patch looks good to me, thanks.
