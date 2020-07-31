@@ -2,254 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E33234881
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 17:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C9D23489F
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 17:46:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728075AbgGaPcC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jul 2020 11:32:02 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41642 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726497AbgGaPcC (ORCPT
+        id S2387504AbgGaPqi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jul 2020 11:46:38 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17452 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727933AbgGaPqi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jul 2020 11:32:02 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF64B53C;
-        Fri, 31 Jul 2020 17:31:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1596209519;
-        bh=dedesMR4np940AvQEP4rMEblUlg5e6+Hz09ETo0/cvc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=htDhrgG0SA0Uwfbh5CyNp/NEdUb8I4PdTHikstBMA1iIwywH+I8B+TuCuMbXkKbEu
-         Ticek8LFiLpktdEQ8QAN46mssXlgMBVCQiVQOwqrS4jFk/+X61Xo7KYGw5+9lIvc1Q
-         Co61mVRG6MG4b1GMSiid4xuCPlh4xrfOS0zjoiAg=
-Date:   Fri, 31 Jul 2020 18:31:49 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 1/2] media: i2c: ov5640: Enable data pins on startup for
- DVP mode
-Message-ID: <20200731153149.GJ6218@pendragon.ideasonboard.com>
-References: <1596187487-31403-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1596187487-31403-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200731130315.GO13316@paasikivi.fi.intel.com>
- <CA+V-a8u0dLJGP_1MXQYu2v6o55vBSxH49S3HRY=9gb2dcO8PnA@mail.gmail.com>
+        Fri, 31 Jul 2020 11:46:38 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f243cd00000>; Fri, 31 Jul 2020 08:46:25 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 31 Jul 2020 08:46:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 31 Jul 2020 08:46:38 -0700
+Received: from [10.2.167.221] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 31 Jul
+ 2020 15:46:37 +0000
+Subject: Re: [RFC PATCH v6 09/10] media: tegra-video: Add CSI MIPI pads
+ calibration
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+References: <1596186169-18729-1-git-send-email-skomatineni@nvidia.com>
+ <1596186169-18729-10-git-send-email-skomatineni@nvidia.com>
+ <3ac158c4-7df7-e3c1-f0e1-33e7ef017762@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <f483329d-b5fe-fda5-e235-b8edb5fce440@nvidia.com>
+Date:   Fri, 31 Jul 2020 08:46:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8u0dLJGP_1MXQYu2v6o55vBSxH49S3HRY=9gb2dcO8PnA@mail.gmail.com>
+In-Reply-To: <3ac158c4-7df7-e3c1-f0e1-33e7ef017762@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1596210385; bh=LT7Rum+TVQ8i+yg00HUXL4JpRxYnF2QyXbgXIWuPmeU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=lFNkPzZP4nsuT2DXNN2EEOT0x95rCZEZVWQhkkOPFwtAjVPdHvlgRLpjZkE6WQ2bm
+         2008IJ0xIH2P1z1nNG/29TvpGL5sAhfjtMcaeE3QP+NlNHhF6Bwy7Xay7VbiyRSuMb
+         unl5Wlgq6K7JaLQJGIj0hyL6Yin09OycAu/1Bxw5j6G8RbL9nyqQ5TYyjP6TGQiOX9
+         Qs+wtOhLYsATerUT9trZ76xuTL+DweM+PsDpdHdbM5h4ksTQ2HrtOE1yr61fm+HOXU
+         IKQN0jjnGNDOSEreOeoo93WFnk7EWwj7Z0eKLg4P3EZGcBajuDTDZC61MMbvWgFGx1
+         aTt+jHx0VNctg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
 
-On Fri, Jul 31, 2020 at 02:18:12PM +0100, Lad, Prabhakar wrote:
-> On Fri, Jul 31, 2020 at 2:03 PM Sakari Ailus wrote:
-> > On Fri, Jul 31, 2020 at 10:24:46AM +0100, Lad Prabhakar wrote:
-> > > During testing this sensor on iW-RainboW-G21D-Qseven platform noticed the
-> > > capture worked only for first run and for subsequent runs it failed.
-> > >
-> > > This patch does the following in DVP mode:
-> > > 1: Enables data lines on power up
-> > > 2: Configures HVP lines on power up instead of configuring everytime on
-> > >    stream ON/OFF
-> > > 3: Disables MIPI interface.
-> > > 4: Puts the sensor in power down mode during stream OFF.
-> >
-> > Could you detail a little the underlying problem, the environment where it
-> > can be reproduced and how the patch addresses it, please?
+On 7/31/20 4:39 AM, Dmitry Osipenko wrote:
+> 31.07.2020 12:02, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>> @@ -249,13 +249,47 @@ static int tegra_csi_enable_stream(struct v4l2_sub=
+dev *subdev)
+>>   		return ret;
+>>   	}
+>>  =20
+>> +	if (csi_chan->mipi) {
+>> +		ret =3D tegra_mipi_enable(csi_chan->mipi);
+>> +		if (ret < 0) {
+>> +			dev_err(csi->dev,
+>> +				"failed to enable MIPI pads: %d\n", ret);
+>> +			goto rpm_put;
+>> +		}
+>> +
+>> +		/*
+>> +		 * CSI MIPI pads PULLUP, PULLDN and TERM impedances need to
+>> +		 * be calibrated after power on.
+>> +		 * So, trigger the calibration start here and results will
+>> +		 * be latched and applied to the pads when link is in LP11
+>> +		 * state during start of sensor streaming.
+>> +		 */
+>> +		ret =3D tegra_mipi_start_calibration(csi_chan->mipi);
+>> +		if (ret < 0) {
+>> +			dev_err(csi->dev,
+>> +				"failed to start MIPI calibration: %d\n", ret);
+>> +			goto disable_mipi;
+>> +		}
+> What would happen if CSI stream is enabled and then immediately disabled
+> without enabling camera sensor?
+
+Nothing will happen as during stream enable csi receiver is kept ready.
+
+But actual capture will not happen during that point.
+
 >
-> my bad.
-> 
-> > Are you using CSI-2 or the parallel interface, for instance?
+>> +	}
+>> +
+> ...
+>>   static int tegra_channel_enable_stream(struct tegra_vi_channel *chan)
+>>   {
+>>   	struct v4l2_subdev *csi_subdev, *src_subdev;
+>> +	struct tegra_csi_channel *csi_chan;
+>>   	int ret;
+>>  =20
+>>   	/*
+>> @@ -206,13 +207,30 @@ static int tegra_channel_enable_stream(struct tegr=
+a_vi_channel *chan)
+>>   	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>>   		return 0;
+>>  =20
+>> +	csi_chan =3D v4l2_get_subdevdata(csi_subdev);
+>> +	/*
+>> +	 * TRM has incorrectly documented to wait for done status from
+>> +	 * calibration logic after CSI interface power on.
+>> +	 * As per the design, calibration results are latched and applied
+>> +	 * to the pads only when the link is in LP11 state which will happen
+>> +	 * during the sensor stream-on.
+>> +	 * CSI subdev stream-on triggers start of MIPI pads calibration.
+>> +	 * Wait for calibration to finish here after sensor subdev stream-on
+>> +	 * and in case of sensor stream-on failure, cancel the calibration.
+>> +	 */
+>>   	src_subdev =3D tegra_channel_get_remote_source_subdev(chan);
+> Is it possible to move the start_calibration() here?
+
+I think we can do start here as well I guess but currently I am=20
+following steps order as per design document.
+
+This is the reason I have updated in above comment as well.
+
 >
-> while using the sensor in parallel interface mode (DVP) 8-bit mode,
-> with rcar-vin bridge noticed the capture worked fine for the first run
-> (with yavta), but for subsequent runs the bridge driver waited for the
-> frame to be captured. Debugging further noticed the data lines were
-> enabled/disabled in stream on/off callback. But enabling the data
-> lines in startup (as done in the patch) fixed this issue.
-
-This looks like a hack though. We should disable the outputs somewhere,
-if not at stream off time, at least in ov5640_set_power(0). Leaving
-everything powered on will increase power consumption.
-
-This issue needs to be debugged further to understand what's going on,
-and a proper fix needs to then be submitted.
-
-> Without this patch I can confirm the i2c writes were happening in
-> stream on/off callback and the values were updated in the respective
-> register to enable/disable datalines. (I didn't find any information
-> relating to sequence of enabling the data lines in data sheet [1])
-> 
-> [1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
-> 
-> > >
-> > > Fixes: f22996db44e2d ("media: ov5640: add support of DVP parallel interface")
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  drivers/media/i2c/ov5640.c | 253 +++++++++++++++++++++------------------------
-> > >  1 file changed, 120 insertions(+), 133 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > > index 2fe4a7a..ac305a5 100644
-> > > --- a/drivers/media/i2c/ov5640.c
-> > > +++ b/drivers/media/i2c/ov5640.c
-> > > @@ -274,7 +274,7 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
-> > >  /* YUV422 UYVY VGA@30fps */
-> > >  static const struct reg_value ov5640_init_setting_30fps_VGA[] = {
-> > >       {0x3103, 0x11, 0, 0}, {0x3008, 0x82, 0, 5}, {0x3008, 0x42, 0, 0},
-> > > -     {0x3103, 0x03, 0, 0}, {0x3017, 0x00, 0, 0}, {0x3018, 0x00, 0, 0},
-> > > +     {0x3103, 0x03, 0, 0},
-> > >       {0x3630, 0x36, 0, 0},
-> > >       {0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
-> > >       {0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
-> > > @@ -1210,96 +1210,7 @@ static int ov5640_set_autogain(struct ov5640_dev *sensor, bool on)
-> > >
-> > >  static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
-> > >  {
-> > > -     int ret;
-> > > -     unsigned int flags = sensor->ep.bus.parallel.flags;
-> > > -     u8 pclk_pol = 0;
-> > > -     u8 hsync_pol = 0;
-> > > -     u8 vsync_pol = 0;
-> > > -
-> > > -     /*
-> > > -      * Note about parallel port configuration.
-> > > -      *
-> > > -      * When configured in parallel mode, the OV5640 will
-> > > -      * output 10 bits data on DVP data lines [9:0].
-> > > -      * If only 8 bits data are wanted, the 8 bits data lines
-> > > -      * of the camera interface must be physically connected
-> > > -      * on the DVP data lines [9:2].
-> > > -      *
-> > > -      * Control lines polarity can be configured through
-> > > -      * devicetree endpoint control lines properties.
-> > > -      * If no endpoint control lines properties are set,
-> > > -      * polarity will be as below:
-> > > -      * - VSYNC:     active high
-> > > -      * - HREF:      active low
-> > > -      * - PCLK:      active low
-> > > -      */
-> > > -
-> > > -     if (on) {
-> > > -             /*
-> > > -              * configure parallel port control lines polarity
-> > > -              *
-> > > -              * POLARITY CTRL0
-> > > -              * - [5]:       PCLK polarity (0: active low, 1: active high)
-> > > -              * - [1]:       HREF polarity (0: active low, 1: active high)
-> > > -              * - [0]:       VSYNC polarity (mismatch here between
-> > > -              *              datasheet and hardware, 0 is active high
-> > > -              *              and 1 is active low...)
-> > > -              */
-> > > -             if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> > > -                     pclk_pol = 1;
-> > > -             if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> > > -                     hsync_pol = 1;
-> > > -             if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> > > -                     vsync_pol = 1;
-> > > -
-> > > -             ret = ov5640_write_reg(sensor,
-> > > -                                    OV5640_REG_POLARITY_CTRL00,
-> > > -                                    (pclk_pol << 5) |
-> > > -                                    (hsync_pol << 1) |
-> > > -                                    vsync_pol);
-> > > -
-> > > -             if (ret)
-> > > -                     return ret;
-> > > -     }
-> > > -
-> > > -     /*
-> > > -      * powerdown MIPI TX/RX PHY & disable MIPI
-> > > -      *
-> > > -      * MIPI CONTROL 00
-> > > -      * 4:    PWDN PHY TX
-> > > -      * 3:    PWDN PHY RX
-> > > -      * 2:    MIPI enable
-> > > -      */
-> > > -     ret = ov5640_write_reg(sensor,
-> > > -                            OV5640_REG_IO_MIPI_CTRL00, on ? 0x18 : 0);
-> > > -     if (ret)
-> > > -             return ret;
-> > > -
-> > > -     /*
-> > > -      * enable VSYNC/HREF/PCLK DVP control lines
-> > > -      * & D[9:6] DVP data lines
-> > > -      *
-> > > -      * PAD OUTPUT ENABLE 01
-> > > -      * - 6:         VSYNC output enable
-> > > -      * - 5:         HREF output enable
-> > > -      * - 4:         PCLK output enable
-> > > -      * - [3:0]:     D[9:6] output enable
-> > > -      */
-> > > -     ret = ov5640_write_reg(sensor,
-> > > -                            OV5640_REG_PAD_OUTPUT_ENABLE01,
-> > > -                            on ? 0x7f : 0);
-> > > -     if (ret)
-> > > -             return ret;
-> > > -
-> > > -     /*
-> > > -      * enable D[5:0] DVP data lines
-> > > -      *
-> > > -      * PAD OUTPUT ENABLE 02
-> > > -      * - [7:2]:     D[5:0] output enable
-> > > -      */
-> > > -     return ov5640_write_reg(sensor,
-> > > -                             OV5640_REG_PAD_OUTPUT_ENABLE02,
-> > > -                             on ? 0xfc : 0);
-> > > +     return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ? 0x2 : 0x42);
-> > >  }
-> > >
-> > >  static int ov5640_set_stream_mipi(struct ov5640_dev *sensor, bool on)
-> > > @@ -2003,6 +1914,10 @@ static void ov5640_set_power_off(struct ov5640_dev *sensor)
-> > >
-> > >  static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
-> > >  {
-> > > +     unsigned int flags = sensor->ep.bus.parallel.flags;
-> > > +     u8 pclk_pol = 0;
-> > > +     u8 hsync_pol = 0;
-> > > +     u8 vsync_pol = 0;
-> > >       int ret = 0;
-> > >
-> > >       if (on) {
-> > > @@ -2014,52 +1929,124 @@ static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
-> > >               if (ret)
-> > >                       goto power_off;
-> > >
-> > > -             /* We're done here for DVP bus, while CSI-2 needs setup. */
-> > > -             if (sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
-> > > -                     return 0;
-> > > +             /* CSI-2 setup. */
-> > > +             if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
-> > > +                     /*
-> > > +                      * Power up MIPI HS Tx and LS Rx; 2 data lanes mode
-> > > +                      *
-> > > +                      * 0x300e = 0x40
-> > > +                      * [7:5] = 010  : 2 data lanes mode (see FIXME note in
-> > > +                      *                "ov5640_set_stream_mipi()")
-> > > +                      * [4] = 0      : Power up MIPI HS Tx
-> > > +                      * [3] = 0      : Power up MIPI LS Rx
-> > > +                      * [2] = 0      : MIPI interface disabled
-> > > +                      */
-> > > +                     ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x40);
-> >
-> > Please wrap lines over 80 if it can be reasonably one.
->
-> checkpatch doesn't complain about it  (size is increased to 100)?
-
--- 
-Regards,
-
-Laurent Pinchart
+>>   	ret =3D v4l2_subdev_call(src_subdev, video, s_stream, true);
+>>   	if (ret < 0 && ret !=3D -ENOIOCTLCMD) {
+>> +		tegra_mipi_cancel_calibration(csi_chan->mipi);
+>>   		v4l2_subdev_call(csi_subdev, video, s_stream, false);
+>>   		return ret;
+>>   	}
+>>  =20
+>> +	ret =3D tegra_mipi_finish_calibration(csi_chan->mipi);
+>> +	if (ret < 0)
+>> +		dev_warn(csi_chan->csi->dev,
+>> +			 "MIPI calibration failed: %d\n", ret);
+>> +
+>>   	return 0;
+>>   }
+>>  =20
+>>
