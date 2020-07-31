@@ -2,144 +2,385 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47D9B2349D6
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 19:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D874B234A34
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 19:22:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732970AbgGaREY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jul 2020 13:04:24 -0400
-Received: from mail-il1-f198.google.com ([209.85.166.198]:37060 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732978AbgGaREX (ORCPT
+        id S1733244AbgGaRWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jul 2020 13:22:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49106 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729944AbgGaRWe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jul 2020 13:04:23 -0400
-Received: by mail-il1-f198.google.com with SMTP id k69so3486821ilg.4
-        for <linux-media@vger.kernel.org>; Fri, 31 Jul 2020 10:04:22 -0700 (PDT)
+        Fri, 31 Jul 2020 13:22:34 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D6BC061574
+        for <linux-media@vger.kernel.org>; Fri, 31 Jul 2020 10:22:31 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id p3so16372354pgh.3
+        for <linux-media@vger.kernel.org>; Fri, 31 Jul 2020 10:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=M05lXhRu2SnMBbm6eZ+36gisLws7p7zFctIfjkbSA5M=;
+        b=LcBJW9C/46j2G8sIhtEgpaX6lEeK3U1L2IIgeGdYSlpTq9XpoenQ5NbQAzZO14Pk43
+         5srzGfdX1c+LQKz4z/rL88FT5mQ4tXgfslnj01r+VXqGdL9vYj2tyvygTMiAnI9JFDId
+         k4ptLWGMS1qxoK9q0cp/nmL6AalQ1NsAxqTe3nyHCnBI/wbLKPVKOLW3H+VWmPlyN9Qi
+         9zwMbFqL2fpzSTOC88gvwIh/LrtLhVTT+uzKKLMimi4ZxwhCaelZBfUFvk6Lvykqjtpr
+         4skkOmwbKBTVD3b1Xv4Gk2aiTDKqiubN4aup1jDWfBfEjm30LJxgr1551n1D/3oCddIh
+         7jTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=ZdAnHGVy9LgoO3SJHEMpX6y3/EdWZ4Nira0XtxekYaE=;
-        b=U/2i0+9tkZN2TsEERzZUV9+Xdkdb9Q3Kctkpi29x7GQoZgwwrNFMugGTIyn37XPBLq
-         IZpWVNOZw3Qc7Wac6oxYxgML4jm4fOG4LcR4USQsNhj1zXQpKNiDbw4I1swzSIPAu9mk
-         vzaD6NYbzKsLfHFILDc86SZp87qzK6uw4PchHhsnzocyoJis5itDgeGwoIpQ/E48gQgQ
-         L+89hjVMkEdNedQDBb9IBSsFEkvLdl+zYrQrNE5ppGaanYPpIYGct+TIK8OvRRTtYevH
-         8xsHW4i8hDVi9btz6vsFwKgUcnqxCPYzdvYh46habWuJ9eBa4607MfiAOlpFx86/3Wpx
-         lDYg==
-X-Gm-Message-State: AOAM530Ev47aCeEAO1fkt3G/NHhxeowonbGDba5OnqLaGigk6H+nUPW6
-        nQkX5hpbUycuH0ZMJN4jduIXwGXG5Bupf8mpS9f2b+/jO9+l
-X-Google-Smtp-Source: ABdhPJxjiOxqxzdFpC1XBmA7iIoooMkgjCPCp2JMxWYhW4zWLMdOs5xQbJ5qjdoB0lxgaA8MJokuspLO3/3N/aulcDJqfFKuv+Qh
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=M05lXhRu2SnMBbm6eZ+36gisLws7p7zFctIfjkbSA5M=;
+        b=erCGn6ZFMk93aHNW6yisERsJMGUQW4zH+AaWXnkhg9ORMv/mTQpZ3CmsHnub1oiP1a
+         Ia40xLRi47h4sukSrMIQF0uBXkQUNGzupR1FEI6FirHanXCT2nuBGiMG0d2RE/ddLNhl
+         YJBbG5p2K/LuNCcGp818EHcTVYc2pLYSucwkdD1/ghHLO6JSQQfSwQVfVa1Fjeh7NtY1
+         MPqS1rOSERqFxRXDYELhyEaGo/4jzGTAJ+TZEXDEGfb1W0AjsvBsv0xLJrkZ6pCVCEsj
+         seK5OK8xHIWmUEr1p6qLd6JR9UrMATJvGFtP9SKJd8OqqeDpeqbEN1R99IZSRIBaSt75
+         Vz+Q==
+X-Gm-Message-State: AOAM530xHPL7v7h5OnVXJdofemNo8em0MtLZ/F0BfJaBs6dZxzZLLaYM
+        QwLohMRLPiK7zqntIg/cLvognQ==
+X-Google-Smtp-Source: ABdhPJy3jkWLcM//opkwFpaYZYcoVbvQLVD5UKuJPvlcFCbKn965+2fuDGFRXeRQ0AW/skiLxoMHwg==
+X-Received: by 2002:a63:380d:: with SMTP id f13mr4592577pga.16.1596216150903;
+        Fri, 31 Jul 2020 10:22:30 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
+        by smtp.gmail.com with ESMTPSA id o4sm10603347pfd.25.2020.07.31.10.22.25
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 31 Jul 2020 10:22:30 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+X-Google-Original-From: Kaaira Gupta <Kaairakgupta@es.iitr.ac.in>
+Date:   Fri, 31 Jul 2020 22:52:21 +0530
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        kieran.bingham@ideasonboard.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Helen Koike <helen.koike@collabora.com>
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH v2 0/3] media: vimc: Allow multiple capture devices to
+ use the same sensor
+Message-ID: <20200731172221.GA28355@kaaira-HP-Pavilion-Notebook>
+References: <20200724122104.GA18482@kaaira-HP-Pavilion-Notebook>
+ <a6f4eabf-6cd5-950b-f2e3-853370c77629@ideasonboard.com>
+ <2a6cb067-283d-ca65-2698-1fae66a17d02@collabora.com>
+ <20200728113959.GA6350@kaaira-HP-Pavilion-Notebook>
+ <3a9ac970-77b8-1bc5-536a-5b4f2bd60745@collabora.com>
+ <b5fd3811-2f0e-7563-13fa-bb1e32189814@collabora.com>
+ <f2fc6d81-16a6-206b-6bb2-fb99d5a84f65@ideasonboard.com>
+ <cd1d18ef-d4ff-8240-e9dd-2d9f9c7c5a45@collabora.com>
+ <a2ae2dba-6076-0abc-f620-9047a52b513c@ideasonboard.com>
+ <5faeed28-75b2-48d8-4a48-c38418fd89f2@collabora.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:13c5:: with SMTP id i5mr6006394jaj.29.1596215062006;
- Fri, 31 Jul 2020 10:04:22 -0700 (PDT)
-Date:   Fri, 31 Jul 2020 10:04:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c18f1a05abbfc792@google.com>
-Subject: KASAN: null-ptr-deref Write in amp_read_loc_assoc_final_data
-From:   syzbot <syzbot+f4fb0eaafdb51c32a153@syzkaller.appspotmail.com>
-To:     corbet@lwn.net, coreteam@netfilter.org, davem@davemloft.net,
-        johan.hedberg@gmail.com, kaber@trash.net, kadlec@blackhole.kfki.hu,
-        kuba@kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux@armlinux.org.uk, marcel@holtmann.org, mchehab@kernel.org,
-        mchehab@s-opensource.com, netdev@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, pablo@netfilter.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5faeed28-75b2-48d8-4a48-c38418fd89f2@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi everyone,
 
-syzbot found the following issue on:
+On Wed, Jul 29, 2020 at 05:24:25PM +0200, Dafna Hirschfeld wrote:
+> 
+> 
+> On 29.07.20 15:27, Kieran Bingham wrote:
+> > Hi Dafna, Kaaira,
+> > 
+> > On 29/07/2020 14:16, Dafna Hirschfeld wrote:
+> > > 
+> > > 
+> > > On 29.07.20 15:05, Kieran Bingham wrote:
+> > > > Hi Dafna,
+> > > > 
+> > > > On 28/07/2020 15:00, Dafna Hirschfeld wrote:
+> > > > > 
+> > > > > 
+> > > > > On 28.07.20 14:07, Dafna Hirschfeld wrote:
+> > > > > > Hi
+> > > > > > 
+> > > > > > On 28.07.20 13:39, Kaaira Gupta wrote:
+> > > > > > > On Mon, Jul 27, 2020 at 02:54:30PM -0300, Helen Koike wrote:
+> > > > > > > > Hi,
+> > > > > > > > 
+> > > > > > > > On 7/27/20 11:31 AM, Kieran Bingham wrote:
+> > > > > > > > > Hi all,
+> > > > > > > > > 
+> > > > > > > > > +Dafna for the thread discussion, as she's missed from the to/cc
+> > > > > > > > > list.
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > On 24/07/2020 13:21, Kaaira Gupta wrote:
+> > > > > > > > > > On Fri, Jul 24, 2020 at 02:15:21PM +0200, Niklas Söderlund wrote:
+> > > > > > > > > > Hi,
+> > > > > > > > > > 
+> > > > > > > > > > > Hi Kaaira,
+> > > > > > > > > > > 
+> > > > > > > > > > > Thanks for your work.
+> > > > > > > > > > 
+> > > > > > > > > > Thanks for yours :D
+> > > > > > > > > > 
+> > > > > > > > > > > 
+> > > > > > > > > > > On 2020-07-24 17:32:10 +0530, Kaaira Gupta wrote:
+> > > > > > > > > > > > This is version 2 of the patch series posted by Niklas for
+> > > > > > > > > > > > allowing
+> > > > > > > > > > > > multiple streams in VIMC.
+> > > > > > > > > > > > The original series can be found here:
+> > > > > > > > > > > > https://patchwork.kernel.org/cover/10948831/
+> > > > > > > > > > > > 
+> > > > > > > > > > > > This series adds support for two (or more) capture devices to be
+> > > > > > > > > > > > connected to the same sensors and run simultaneously. Each
+> > > > > > > > > > > > capture device
+> > > > > > > > > > > > can be started and stopped independent of each other.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Patch 1/3 and 2/3 deals with solving the issues that arises once
+> > > > > > > > > > > > two
+> > > > > > > > > > > > capture devices can be part of the same pipeline. While 3/3
+> > > > > > > > > > > > allows for
+> > > > > > > > > > > > two capture devices to be part of the same pipeline and thus
+> > > > > > > > > > > > allows for
+> > > > > > > > > > > > simultaneously use.
+> > > > > > 
+> > > > > > I wonder if these two patches are enough, since each vimc entity also
+> > > > > > have
+> > > > > > a 'process_frame' callback, but only one allocated frame. That means
+> > > > > > that the 'process_frame' can be called concurrently by two different
+> > > > > > streams
+> > > > > > on the same frame and cause corruption.
+> > > > > > 
+> > > > > 
+> > > > > I think we should somehow change the vimc-stream.c code so that we have
+> > > > > only
+> > > > > one stream process per pipe. So if one capture is already streaming,
+> > > > > then the new
+> > > > > capture that wants to stream uses the same thread so we don't have two
+> > > > > threads
+> > > > > both calling 'process_frame'.
+> > > > 
+> > > > 
+> > > > Yes, I think it looks and sounds like there are two threads running when
+> > > > there are two streams.
+> > > > 
+> > > > so in effect, although they 'share a pipe', aren't they in effect just
+> > > > sending two separate buffers through their stream-path?
+> > > > 
+> > > > If that's the case, then I don't think there's any frame corruption,
+> > > > because they would both have grabbed their own frame separately.
+> > > 
+> > > But each entity allocates just one buffer. So the same buffer is used for
+> > > both stream.
+> > 
+> > Aha, ok, I hadn't realised there was only a single buffer available in
+> > the pipeline for each entity. Indeed there is a risk of corruption in
+> > that case.
+> > 
+> > > What for example can happen is that the debayer of one stream can read the
+> > > sensor's buffer while the sensor itself writes to the buffer for the other
+> > > stream.
+> > 
+> > 
+> > So, In that case, we have currently got a scenario where each 'stream'
+> > really is operating it's own pipe (even though all components are reused).
+> > 
+> > Two questions:
+> > 
+> > Is this acceptable, and we should just use a mutex to ensure the buffers
+> > are not corrupted, but essentially each stream is a separate temporal
+> > capture?
+> > 
+> > 
+> > Or B:
+> > 
+> > Should we refactor to make sure that there is a single thread, and the
+> > code which calls process_frame on each entity should become aware of the
+> > potential for multiple paths at the point of the sensor.
+> > 
+> > 
+> > I suspect option B is really the 'right' path to take, but it is more
+> > complicated of course.
+> 
+> I also think option B is preferable.
+> 
+> Maybe we can add a bool field 'is_streaming' to struct 'vimc_ent_device'
+> The stream thread can do a BFS scan from the sensor up to the captures
+> and call the 'process_frame' for each entity if 'is_streaming == true'.
+> When a new capture wants to stream it sets 'is_streaming = true'
+> on the entities on his streaming path.
 
-HEAD commit:    83bdc727 random32: remove net_rand_state from the latent e..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=176e5d12900000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e59ee776d5aa8d55
-dashboard link: https://syzkaller.appspot.com/bug?extid=f4fb0eaafdb51c32a153
-compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13d5ed24900000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1381a56c900000
+It is s_stream(enable) that initialises a streaming pipeline, ie the one with
+those components of the pipeline which are in stream path and then runs a
+thread which calls process_frame on each and passes the frame to the
+next entity in streaming pipeline. So currently, one thread is for one
+"streaming pipeline". So there are two options I can think of if a
+single thread is required,
 
-The issue was bisected to:
+1. Not creating a streaming pipeline, rather create a graph(?) which
+connects both say Raw capture 1 and debayer B to sensor B if two streams
+are asked for, and only one of them if one stream is asked..that will
+not be a property of streamer, so I am not sure where it should be kept.
+Then I could move creating a thread out of s_stream. Creating the thread
+should wait for entire pipeline to be created, ie s_stream(enable) to
+must be called by both the captures, and a graph made of all pipeline
+components before thread initialisation starts. I am not sure how this
+should be implemented.
 
-commit a4585c31c5018578b4abf699ddfdff719dd1c313
-Author: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-Date:   Tue Oct 18 19:44:09 2016 +0000
+2. Another option is to check if a stream already exists (by creating it
+a property of vimc to keep a track of no. of streams maybe?), if it is
+already present I could take the previous output of sensor (but
+then it will have to be stored, so i don't think this is a nice idea),
+and use it further (but thread will be different in this case).
 
-    [media] marvell-ccic: don't break long lines
+What can be a better design for VIMC to have a single thread if two
+streams are asked (apart/of the options I mentioned)?
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=160d627c900000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=150d627c900000
-console output: https://syzkaller.appspot.com/x/log.txt?x=110d627c900000
+Thanks
+Kaaira
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f4fb0eaafdb51c32a153@syzkaller.appspotmail.com
-Fixes: a4585c31c501 ("[media] marvell-ccic: don't break long lines")
-
-==================================================================
-BUG: KASAN: null-ptr-deref in instrument_atomic_write include/linux/instrumented.h:71 [inline]
-BUG: KASAN: null-ptr-deref in set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
-BUG: KASAN: null-ptr-deref in amp_read_loc_assoc_final_data+0x115/0x260 net/bluetooth/amp.c:304
-Write of size 8 at addr 0000000000000030 by task kworker/u5:2/6842
-
-CPU: 1 PID: 6842 Comm: kworker/u5:2 Not tainted 5.8.0-rc7-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: hci0 hci_rx_work
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x1f0/0x31e lib/dump_stack.c:118
- __kasan_report mm/kasan/report.c:517 [inline]
- kasan_report+0x151/0x1d0 mm/kasan/report.c:530
- check_memory_region_inline mm/kasan/generic.c:183 [inline]
- check_memory_region+0x2b5/0x2f0 mm/kasan/generic.c:192
- instrument_atomic_write include/linux/instrumented.h:71 [inline]
- set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
- amp_read_loc_assoc_final_data+0x115/0x260 net/bluetooth/amp.c:304
- hci_chan_selected_evt net/bluetooth/hci_event.c:4897 [inline]
- hci_event_packet+0x8289/0x18240 net/bluetooth/hci_event.c:6164
- hci_rx_work+0x236/0x9c0 net/bluetooth/hci_core.c:4705
- process_one_work+0x789/0xfc0 kernel/workqueue.c:2269
- worker_thread+0xaa4/0x1460 kernel/workqueue.c:2415
- kthread+0x37e/0x3a0 drivers/block/aoe/aoecmd.c:1234
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
-==================================================================
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 1 PID: 6842 Comm: kworker/u5:2 Tainted: G    B             5.8.0-rc7-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: hci0 hci_rx_work
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x1f0/0x31e lib/dump_stack.c:118
- panic+0x264/0x7a0 kernel/panic.c:231
- end_report mm/kasan/report.c:104 [inline]
- __kasan_report mm/kasan/report.c:520 [inline]
- kasan_report+0x1c9/0x1d0 mm/kasan/report.c:530
- check_memory_region_inline mm/kasan/generic.c:183 [inline]
- check_memory_region+0x2b5/0x2f0 mm/kasan/generic.c:192
- instrument_atomic_write include/linux/instrumented.h:71 [inline]
- set_bit include/asm-generic/bitops/instrumented-atomic.h:28 [inline]
- amp_read_loc_assoc_final_data+0x115/0x260 net/bluetooth/amp.c:304
- hci_chan_selected_evt net/bluetooth/hci_event.c:4897 [inline]
- hci_event_packet+0x8289/0x18240 net/bluetooth/hci_event.c:6164
- hci_rx_work+0x236/0x9c0 net/bluetooth/hci_core.c:4705
- process_one_work+0x789/0xfc0 kernel/workqueue.c:2269
- worker_thread+0xaa4/0x1460 kernel/workqueue.c:2415
- kthread+0x37e/0x3a0 drivers/block/aoe/aoecmd.c:1234
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> 
+> Thanks,
+> Dafna
+> 
+> 
+> > 
+> > --
+> > Kieran
+> > 
+> > 
+> > 
+> > 
+> > > Thanks,
+> > > Dafna
+> > > 
+> > > > 
+> > > > 
+> > > > I don't think that's a good example of the hardware though, as that
+> > > > doesn't reflect what 'should' happen where the TPG runs once to generate
+> > > > a frame at the sensor, which is then read by both the debayer entity and
+> > > > the RAW capture device when there are two streams...
+> > > > 
+> > > > 
+> > > > So I suspect trying to move to a single thread is desirable, but that
+> > > > might be a fair bit of work also.
+> > > > 
+> > > > -- 
+> > > > Kieran
+> > > > 
+> > > > 
+> > > > 
+> > > > > The second capture that wants to stream should iterate the topology
+> > > > > downwards until
+> > > > > reaching an entity that already belong to the stream path of the other
+> > > > > streaming capture
+> > > > > and tell the streamer it wants to read the frames this entity
+> > > > > produces.
+> > > > > 
+> > > > > Thanks,
+> > > > > Dafna
+> > > > > 
+> > > > > > Thanks,
+> > > > > > Dafna
+> > > > > > 
+> > > > > > > > > > > 
+> > > > > > > > > > > I'm just curious if you are aware of this series? It would
+> > > > > > > > > > > replace the
+> > > > > > > > > > > need for 1/3 and 2/3 of this series right?
+> > > > > > > > > > 
+> > > > > > > > > > v3 of this series replaces the need for 1/3, but not the current
+> > > > > > > > > > version
+> > > > > > > > > > (ie v4). v4 of patch 2/5 removes the stream_counter that is
+> > > > > > > > > > needed to
+> > > > > > > > > > keep count of the calls to s_stream. Hence 1/3 becomes relevant
+> > > > > > > > > > again.
+> > > > > > > > > 
+> > > > > > > > > So the question really is, how do we best make use of the two
+> > > > > > > > > current
+> > > > > > > > > series, to achieve our goal of supporting multiple streams.
+> > > > > > > > > 
+> > > > > > > > > Having not parsed Dafna's series yet, do we need to combine
+> > > > > > > > > elements of
+> > > > > > > > > both ? Or should we work towards starting with this series and get
+> > > > > > > > > dafna's patches built on top ?
+> > > > > > > > > 
+> > > > > > > > > Or should patch 1/3 and 3/3 of this series be on top of Dafna's v4 ?
+> > > > > > > > > 
+> > > > > > > > > (It might be noteworthy to say that Kaaira has reported successful
+> > > > > > > > > multiple stream operation from /this/ series and her development
+> > > > > > > > > branch
+> > > > > > > > > on libcamera).
+> > > > > > > > 
+> > > > > > > > Dafna's patch seems still under discussion, but I don't want to
+> > > > > > > > block progress in Vimc either.
+> > > > > > > > 
+> > > > > > > > So I was wondering if we can move forward with Vimc support for
+> > > > > > > > multistreaming,
+> > > > > > > > without considering Dafna's patchset, and we can do the clean up
+> > > > > > > > later once we solve that.
+> > > > > > > > 
+> > > > > > > > What do you think?
+> > > > > > > 
+> > > > > > > I agree with supporting multiple streams with VIMC with this patchset,
+> > > > > > > and then we can refactor the counters for s_stream in VIMC later (over
+> > > > > > > this series) if dafna includes them in subsequent version of her
+> > > > > > > patchset.
+> > > > > > > 
+> > > > > > 
+> > > > > > I also think that adding support in the code will take much longer and
+> > > > > > should not
+> > > > > > stop us from supporting vimc independently.
+> > > > > > 
+> > > > > > Thanks,
+> > > > > > Dafna
+> > > > > > 
+> > > > > > > > 
+> > > > > > > > Regards,
+> > > > > > > > Helen
+> > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > > > 1.
+> > > > > > > > > > > https://lore.kernel.org/linux-media/20200522075522.6190-1-dafna.hirschfeld@collabora.com/
+> > > > > > > > > > > 
+> > > > > > > > > > > 
+> > > > > > > > > > > 
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Changes since v1:
+> > > > > > > > > > > >       - All three patches rebased on latest media-tree.
+> > > > > > > > > > > >       Patch 3:
+> > > > > > > > > > > >       - Search for an entity with a non-NULL pipe instead of
+> > > > > > > > > > > > searching
+> > > > > > > > > > > >         for sensor. This terminates the search at output itself.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Kaaira Gupta (3):
+> > > > > > > > > > > >      media: vimc: Add usage count to subdevices
+> > > > > > > > > > > >      media: vimc: Serialize vimc_streamer_s_stream()
+> > > > > > > > > > > >      media: vimc: Join pipeline if one already exists
+> > > > > > > > > > > > 
+> > > > > > > > > > > >     .../media/test-drivers/vimc/vimc-capture.c    | 35
+> > > > > > > > > > > > ++++++++++++++++++-
+> > > > > > > > > > > >     .../media/test-drivers/vimc/vimc-debayer.c    |  8 +++++
+> > > > > > > > > > > >     drivers/media/test-drivers/vimc/vimc-scaler.c |  8 +++++
+> > > > > > > > > > > >     drivers/media/test-drivers/vimc/vimc-sensor.c |  9 ++++-
+> > > > > > > > > > > >     .../media/test-drivers/vimc/vimc-streamer.c   | 23
+> > > > > > > > > > > > +++++++-----
+> > > > > > > > > > > >     5 files changed, 73 insertions(+), 10 deletions(-)
+> > > > > > > > > > > > 
+> > > > > > > > > > > > -- 
+> > > > > > > > > > > > 2.17.1
+> > > > > > > > > > > > 
+> > > > > > > > > > > 
+> > > > > > > > > > > -- 
+> > > > > > > > > > > Regards,
+> > > > > > > > > > > Niklas Söderlund
+> > > > > > > > > 
+> > > > 
+> > 
