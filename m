@@ -2,175 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60234234CA7
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 23:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5E2A234D0D
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 23:34:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728078AbgGaVDZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jul 2020 17:03:25 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19295 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbgGaVDY (ORCPT
+        id S1728678AbgGaVc3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jul 2020 17:32:29 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18231 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726806AbgGaVc3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jul 2020 17:03:24 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f2486ee0000>; Fri, 31 Jul 2020 14:02:38 -0700
+        Fri, 31 Jul 2020 17:32:29 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f248dde0000>; Fri, 31 Jul 2020 14:32:14 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 31 Jul 2020 14:03:24 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 31 Jul 2020 14:32:28 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 31 Jul 2020 14:03:24 -0700
-Received: from [10.2.167.221] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 31 Jul
- 2020 21:03:23 +0000
-Subject: Re: [RFC PATCH v6 09/10] media: tegra-video: Add CSI MIPI pads
- calibration
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        by hqpgpgate101.nvidia.com on Fri, 31 Jul 2020 14:32:28 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 31 Jul
+ 2020 21:32:27 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 31 Jul 2020 21:32:27 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.167.221]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5f248dea0000>; Fri, 31 Jul 2020 14:32:27 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
         <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
         <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
         <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+CC:     <digetx@gmail.com>, <gregkh@linuxfoundation.org>,
         <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1596186169-18729-1-git-send-email-skomatineni@nvidia.com>
- <1596186169-18729-10-git-send-email-skomatineni@nvidia.com>
- <3ac158c4-7df7-e3c1-f0e1-33e7ef017762@gmail.com>
- <f483329d-b5fe-fda5-e235-b8edb5fce440@nvidia.com>
- <a08af0e8-80d8-0bd0-87a3-adfc8e70a92a@gmail.com>
- <ace047fe-8a1a-666a-b91b-9d63b1d68567@nvidia.com>
- <7d904a86-3189-7ef8-a7b9-1a84564f9278@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <27ba10cc-21b2-845d-2ed1-a10e89f85d19@nvidia.com>
-Date:   Fri, 31 Jul 2020 14:03:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Subject: [PATCH v7 00/10] Support for Tegra video capture from external sensor
+Date:   Fri, 31 Jul 2020 14:32:14 -0700
+Message-ID: <1596231144-12554-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <7d904a86-3189-7ef8-a7b9-1a84564f9278@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1596229358; bh=5aPbPjsq95AnXhQs1uUqFuw/monhKE3gItF0OQ7Y35E=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=rNN1Jk8kM1ApXoaG4+klggIBMz+ICGfGoYGNvKabA9ciJZvo9U6Z3zIpjzU4sOE/Q
-         2BmVUZaQAU6EMB5b+EIznrk9gVuolLSCPQ7ae4d3Blz1/slXH4I5ND0JlIVDu6Hy+m
-         Cw9Iha/iqSPGH1HvSEcLqJm1HuINM+zKga4wxlSE8NxYR5pe4LIeB1pIAbdb6fLJH1
-         a3xI3GVhuhIDnIKJolf74tYIfIX9uza+tFF2PNVtKHBc+YRrtv9ZN/oSR4GmYLVEJi
-         vilxt7p68RkVi59086qSrTClGaKY3E01k5LmYfLmLCZ3VFdzMJnHQwVXdh5oodlHpd
-         rW7gteynSYBug==
+        t=1596231134; bh=rscwmvW9gg3ZjPAHIE3GA9ReUEwV1u/AmgL3Uzq/e5E=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=laheu2YjK6tZmHcbSFT9IJ749uK3rSAHSdtH9demKXKCxhpzJ21Z2mEAnucUjxWDR
+         VW2bN5VIVLvoEbiAM8Y5YEyUP2oBPX1ATh5bbDE4qLeQWlFC1j3+neGfRHVJ5kv0At
+         HWk7t/pna41RmO3OQhmtmELKVrWpG7a2vKo9KplWPp2R4iitqN2Vhcl67j6tXdkNOW
+         jS2koyK6Dm7xYD5Q6MXt3BaSbzb9ug9WMSMwTgWFFU7Xlb9xP6yLyDA+xq5klMMwc8
+         0rk7Ri7RWEAl81YyjXvf4BZfDKruLieNIbEJQCV2T7xZ0d9wQzdqw/f6pt7k83bQhg
+         6JnG2VS7ZilpQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This series adds support for video capture from external camera sensor to
+Tegra video driver.
 
-On 7/31/20 1:42 PM, Dmitry Osipenko wrote:
-> 31.07.2020 19:29, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 7/31/20 9:14 AM, Dmitry Osipenko wrote:
->>> 31.07.2020 18:46, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>> On 7/31/20 4:39 AM, Dmitry Osipenko wrote:
->>>>> 31.07.2020 12:02, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>> ...
->>>>>> @@ -249,13 +249,47 @@ static int tegra_csi_enable_stream(struct
->>>>>> v4l2_subdev *subdev)
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
- ret;
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>  =C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0 if (csi_chan->mipi) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D tegra_mipi_enabl=
-e(csi_chan->mipi);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-dev_err(csi->dev,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 "failed to enable MIPI pads: %d\n", ret);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-goto rpm_put;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * CSI MIPI pads PU=
-LLUP, PULLDN and TERM impedances need to
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * be calibrated af=
-ter power on.
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * So, trigger the =
-calibration start here and results will
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * be latched and a=
-pplied to the pads when link is in LP11
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * state during sta=
-rt of sensor streaming.
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D tegra_mipi_start=
-_calibration(csi_chan->mipi);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-dev_err(csi->dev,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 "failed to start MIPI calibration: %d\n", ret);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-goto disable_mipi;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>> What would happen if CSI stream is enabled and then immediately
->>>>> disabled
->>>>> without enabling camera sensor?
->>>> Nothing will happen as during stream enable csi receiver is kept ready=
-.
->>>>
->>>> But actual capture will not happen during that point.
->>> Could you please show how the full call chain looks like? It's not clea=
-r
->>> to me what keeps CSI stream "ready".
->> VI is the main video input (video device) and on streaming it starts
->> stream of CSI subdev prior to stream of Sensor.
->>
->> HW path, sensor stream (CSI TX) -> CSI stream (RX)
->>
->> During CSI stream on, CSI PHY receiver is enabled to start receiving the
->> data but internally capture assembled to active state will happen only
->> when Tegra VI single shot is issues where VI thru pixel parser gets
->> captures data into the memory
-> Alright, I see now.
->
-> Will be great if you could change this hunk:
->
-> {
->    ret =3D v4l2_subdev_call(src_subdev, video, s_stream, true);
->    if (ret < 0 && ret !=3D -ENOIOCTLCMD) {
->      tegra_mipi_cancel_calibration(csi_chan->mipi);
->      v4l2_subdev_call(csi_subdev, video, s_stream, false);
->      return ret;
->    }
-> }
->
-> to look like this:
->
-> {
->    err =3D v4l2_subdev_call(src_subdev, video, s_stream, true);
->    if (err < 0 && err !=3D -ENOIOCTLCMD)
->      goto err_disable_csi_stream;
-> ...
->    return 0;
->
-> err_disable_csi_stream:
->    tegra_mipi_cancel_calibration(csi_chan->mipi);
->
->    v4l2_subdev_call(csi_subdev, video, s_stream, false);
->
->    return err;
-> }
->
->
-> It should make code a bit easier to read and follow.
->
-> Otherwise this patch looks good to me, thanks.
+Jetson TX1 has camera expansion connector and supports custom camera module
+designed as per TX1 design specification.
 
-Thanks Dmitry. Will send v7 now with this minor fix and would like to=20
-close on this soon.
+This series also enables camera capture support for Jetson Nano which has
+Raspberry PI camera header.
 
-Sowjanya
+This series is tested with IMX274 and IMX219 camera sensors.
+
+This series include,
+
+Tegra video driver updates
+- TPG Vs Non-TPG based on Kconfig
+- Support for external sensor video capture based on device graph from DT
+- Support for selection ioctl operations
+- Tegra MIPI CSI pads calibration
+- CSI T-CLK and T-HS settle time computation based on clock rates
+- dt-binding doc update
+
+Host1x driver updates
+- Keep MIPI clock enabled till calibration is done
+
+Delta between patch versions:
+[v7]:	Includes minor feedback from v6
+	- Patch-0009 has minor update
+
+	Note:
+	Patch-0006 has compilation dependency on
+	https://patchwork.kernel.org/patch/11659521/
+
+[v6]:	Includes below changes based on v5 feedback
+	- Patches are based on latest linux-next.
+	- separated stream enable and disable implementations into
+	  separate functions for tegra_channel_set_stream() and
+	  tegra_csi_s_stream().
+	- changed dev_err to dev_warn on MIPI calibration failure after
+	  sensor streaming as its not critical error.
+
+	Note:
+	Patch-0006 has compilation dependency on
+	https://patchwork.kernel.org/patch/11659521/
+
+[v5]:	Includes below minor change based on v4 feedback
+	Patch-0012: renames APIs to use calibration instead of calibrate.
+
+	Note:
+	Patch-0010 has compilation dependency on
+	https://patchwork.kernel.org/patch/11659521/
+
+[v4]:	Includes below fix based on v3 feedback
+	- Patches are based on latest linux-next.
+	- With split of tegra_mipi_calibrate() and tegra_mipi_wait(), mipi
+	  clock is not left enabled till calibration done. This series adds
+	  a patch to fix this by keeping clock enabled till calibration is
+	  done.
+
+	Note:
+	Patch-0010 has compilation dependency on
+	https://patchwork.kernel.org/patch/11659521/
+
+[v3]:	Includes v2 feedback
+	- Uses separate helper function for retrieving remote csi subdevice
+	  and source subdevice.
+	- Added check for presence of subdevice ops set/get_selection
+	- dropped vb2_queue_release from driver and using
+	  vb2_video_unregister_device instead of video_unregister_device.
+	- video device register should happen in the last after all video
+	  device related setup is done in the driver. This is being addressed
+	  in below RFC patch. Once proper implementation of this is available
+	  will update Tegra video driver to use split APIs and do all setup
+	  prior to device register. Added this as TODO in the driver.
+	  https://www.spinics.net/lists/linux-media/msg172761.html
+
+	Note:
+	Patch-0012 has compilation dependency on
+	https://patchwork.kernel.org/patch/11659521/
+
+
+[v2]:	Includes below changes based on v1 feedback
+	- dt-binding document and the driver update for device graph to use
+	  separate ports for sink endpoint and source endpoint for csi.
+	- Use data-lanes endpoint property for csi.
+	- Update tegra_mipi_request() to take device node pointer argument
+	  rather than adding extra API.
+	- Remove checking for clk pointer before clk_disable.
+
+
+Sowjanya Komatineni (10):
+  media: tegra-video: Fix channel format alignment
+  media: tegra-video: Enable TPG based on kernel config
+  media: tegra-video: Update format lookup to offset based
+  dt-bindings: tegra: Update VI and CSI bindings with port info
+  media: tegra-video: Separate CSI stream enable and disable
+    implementations
+  media: tegra-video: Add support for external sensor capture
+  media: tegra-video: Add support for selection ioctl ops
+  gpu: host1x: mipi: Keep MIPI clock enabled till calibration is done
+  media: tegra-video: Add CSI MIPI pads calibration
+  media: tegra-video: Compute settle times based on the clock rate
+
+ .../display/tegra/nvidia,tegra20-host1x.txt        |  92 ++-
+ drivers/gpu/drm/tegra/dsi.c                        |   4 +-
+ drivers/gpu/host1x/mipi.c                          |  19 +-
+ drivers/staging/media/tegra-video/Kconfig          |   7 +
+ drivers/staging/media/tegra-video/TODO             |   6 -
+ drivers/staging/media/tegra-video/csi.c            | 305 +++++++-
+ drivers/staging/media/tegra-video/csi.h            |   8 +
+ drivers/staging/media/tegra-video/tegra210.c       |  25 +-
+ drivers/staging/media/tegra-video/vi.c             | 836 +++++++++++++++++++--
+ drivers/staging/media/tegra-video/vi.h             |  25 +-
+ drivers/staging/media/tegra-video/video.c          |  23 +-
+ include/linux/host1x.h                             |   5 +-
+ 12 files changed, 1239 insertions(+), 116 deletions(-)
+
+-- 
+2.7.4
 
