@@ -2,260 +2,381 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73FA323461D
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 14:49:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E501523466D
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 15:03:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731611AbgGaMtg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jul 2020 08:49:36 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38430 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730291AbgGaMtg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jul 2020 08:49:36 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 8044A299215
-Message-ID: <64707c91cd4adc39050168dd2191513712c76ba8.camel@collabora.com>
-Subject: Re: [PATCH 06/10] media: uapi: h264: Cleanup DPB entry interface
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Fri, 31 Jul 2020 09:49:23 -0300
-In-Reply-To: <e435253e-67ea-fdec-bf18-059eb4c70a0e@kwiboo.se>
-References: <20200715202233.185680-1-ezequiel@collabora.com>
-         <20200715202233.185680-7-ezequiel@collabora.com>
-         <5726fac8-9d3b-d429-0894-cd8c02c288ee@kwiboo.se>
-         <6bac45d9b22deacf8ac7d68f5b51a5a6c30649f3.camel@collabora.com>
-         <e435253e-67ea-fdec-bf18-059eb4c70a0e@kwiboo.se>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        id S1730217AbgGaNDU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jul 2020 09:03:20 -0400
+Received: from mga04.intel.com ([192.55.52.120]:42322 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727040AbgGaNDU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 31 Jul 2020 09:03:20 -0400
+IronPort-SDR: efZkN7KAXG8XqeWZsIGyVufBeI956XUCB55ocdlmwXKmhYJghItVZ7FbzZ7RX5dyRgt+VBUIGO
+ 6G4yxs7r+E2g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9698"; a="149235146"
+X-IronPort-AV: E=Sophos;i="5.75,418,1589266800"; 
+   d="scan'208";a="149235146"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2020 06:03:19 -0700
+IronPort-SDR: 0+MGxVhfQmnXMcMZe4RRGMF0yf/k6XE1s79cFSjdPusCH2+rC3Qx1v51Wftf31OkEjGJspoveh
+ XBxmXHIAPoGg==
+X-IronPort-AV: E=Sophos;i="5.75,418,1589266800"; 
+   d="scan'208";a="313791688"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2020 06:03:17 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 4B19320722; Fri, 31 Jul 2020 16:03:15 +0300 (EEST)
+Date:   Fri, 31 Jul 2020 16:03:15 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 1/2] media: i2c: ov5640: Enable data pins on startup for
+ DVP mode
+Message-ID: <20200731130315.GO13316@paasikivi.fi.intel.com>
+References: <1596187487-31403-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1596187487-31403-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1596187487-31403-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonas,
+Hi Prabhakar,
 
-On Mon, 2020-07-27 at 23:39 +0000, Jonas Karlman wrote:
-> Hi,
+Thank you for the patch.
+
+On Fri, Jul 31, 2020 at 10:24:46AM +0100, Lad Prabhakar wrote:
+> During testing this sensor on iW-RainboW-G21D-Qseven platform noticed the
+> capture worked only for first run and for subsequent runs it failed.
 > 
-> On 2020-07-24 21:08, Ezequiel Garcia wrote:
-> > Hello Jonas,
-> > 
-> > On Wed, 2020-07-22 at 21:52 +0000, Jonas Karlman wrote:
-> > > On 2020-07-15 22:22, Ezequiel Garcia wrote:
-> > > > As discussed recently, the current interface for the
-> > > > Decoded Picture Buffer is not enough to properly
-> > > > support field coding.
-> > > > 
-> > > > This commit introduces enough semantics to support
-> > > > frame and field coding, and to signal how DPB entries
-> > > > are "used for reference".
-> > > > 
-> > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > ---
-> > > >  .../media/v4l/ext-ctrls-codec.rst             | 46 ++++++++++++-------
-> > > >  drivers/media/v4l2-core/v4l2-h264.c           |  4 +-
-> > > >  drivers/staging/media/rkvdec/rkvdec-h264.c    |  8 ++--
-> > > >  include/media/h264-ctrls.h                    |  8 +++-
-> > > >  4 files changed, 42 insertions(+), 24 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > index dd8e5a2e8986..46d4c8c6ad47 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > @@ -2058,10 +2058,35 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > > >      * - __s32
-> > > >        - ``bottom_field_order_cnt``
-> > > >        -
-> > > > +    * - enum :c:type:`v4l2_h264_dpb_reference`
-> > > > +      - ``reference``
-> > > > +      - Specifies how the DPB entry is referenced.
-> > > >      * - __u32
-> > > >        - ``flags``
-> > > >        - See :ref:`DPB Entry Flags <h264_dpb_flags>`
-> > > >  
-> > > > +.. c:type:: v4l2_h264_dpb_reference
-> > > > +
-> > > > +.. cssclass:: longtable
-> > > > +
-> > > > +.. flat-table::
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths:       1 1 2
-> > > > +
-> > > > +    * - ``V4L2_H264_DPB_TOP_REF``
-> > > > +      - 0x1
-> > > > +      - The top field in field pair is used for
-> > > > +        short-term reference.
-> > > > +    * - ``V4L2_H264_DPB_BOTTOM_REF``
-> > > > +      - 0x2
-> > > > +      - The bottom field in field pair is used for
-> > > > +        short-term reference.
-> > > > +    * - ``V4L2_H264_DPB_FRAME_REF``
-> > > > +      - 0x3
-> > > > +      - The frame (or the top/bottom fields, if it's a field pair)
-> > > > +        is used for short-term reference.
-> > > > +
-> > > >  .. _h264_dpb_flags:
-> > > >  
-> > > >  ``DPB Entries Flags``
-> > > > @@ -2075,29 +2100,16 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > > >  
-> > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_VALID``
-> > > >        - 0x00000001
-> > > > -      - The DPB entry is valid and should be considered
-> > > > +      - The DPB entry is valid (non-empty) and should be considered.
-> > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_ACTIVE``
-> > > >        - 0x00000002
-> > > > -      - The DPB entry is currently being used as a reference frame
-> > > > +      - The DPB entry is used for reference.
-> > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
-> > > >        - 0x00000004
-> > > > -      - The DPB entry is a long term reference frame
-> > > > +      - The DPB entry is used for long-term reference.
-> > > >      * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD``
-> > > >        - 0x00000008
-> > > > -      - The DPB entry is a field reference, which means only one of the field
-> > > > -        will be used when decoding the new frame/field. When not set the DPB
-> > > > -        entry is a frame reference (both fields will be used). Note that this
-> > > > -        flag does not say anything about the number of fields contained in the
-> > > > -        reference frame, it just describes the one used to decode the new
-> > > > -        field/frame
-> > > > -    * - ``V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD``
-> > > > -      - 0x00000010
-> > > > -      - The DPB entry is a bottom field reference (only the bottom field of the
-> > > > -        reference frame is needed to decode the new frame/field). Only valid if
-> > > > -        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set. When
-> > > > -        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set but
-> > > > -        V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD is not, that means the
-> > > > -        DPB entry is a top field reference
-> > > > +      - The DPB entry is a single field or a complementary field pair.
-> > > >  
-> > > >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
-> > > >      Specifies the decoding mode to use. Currently exposes slice-based and
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
-> > > > index edf6225f0522..306a51683606 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-h264.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-h264.c
-> > > > @@ -66,10 +66,10 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
-> > > >  		else
-> > > >  			b->refs[i].frame_num = dpb[i].frame_num;
-> > > >  
-> > > > -		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
-> > > > +		if (dpb[i].reference & V4L2_H264_DPB_FRAME_REF)
-> > > 
-> > > This looks wrong, should probably use ==,
-> > > 
-> > > dpb[i].reference == V4L2_H264_DPB_FRAME_REF
-> > > 
-> > > else this would match any reference value.
-> > > 
-> > > >  			pic_order_count = min(dpb[i].top_field_order_cnt,
-> > > >  					      dpb[i].bottom_field_order_cnt);
-> > > > -		else if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
-> > > > +		else if (dpb[i].reference & V4L2_H264_DPB_BOTTOM_REF)
-> > > >  			pic_order_count = dpb[i].bottom_field_order_cnt;
-> > > >  		else
-> > > >  			pic_order_count = dpb[i].top_field_order_cnt;
-> > > > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > > index 7b66e2743a4f..57539c630422 100644
-> > > > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > > @@ -953,11 +953,11 @@ static void config_registers(struct rkvdec_ctx *ctx,
-> > > >  			     RKVDEC_COLMV_USED_FLAG_REF;
-> > > >  
-> > > >  		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
-> > > > -			refer_addr |= RKVDEC_TOPFIELD_USED_REF |
-> > > > -				      RKVDEC_BOTFIELD_USED_REF;
-> > > > -		else if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
-> > > > +			refer_addr |= RKVDEC_FIELD_REF;
-> > > > +
-> > > > +		if (dpb[i].reference & V4L2_H264_DPB_TOP_REF)
-> > > >  			refer_addr |= RKVDEC_BOTFIELD_USED_REF;
-> > > > -		else
-> > > > +		else if (dpb[i].reference & V4L2_H264_DPB_BOTTOM_REF)
-> > > 
-> > > This should probably be if and not else if, and BOTFIELD/TOPFIELD_USED_REF
-> > > seems to be mixed up.
-> > > 
-> > > I have only taken a quick look so far, I will update ffmpeg and runtime test
-> > > later this weekend, will get back with result and full review on Sunday evening.
-> > > 
-> > 
-> > Thanks that would be useful.
-> > 
-> > However, keep in mind this series is specifically concerned
-> > with the uAPI review.
-> > 
-> > This is not supposed to fix the field coded support, or anything
-> > else in any driver.
-> > 
-> > IMO, at this stage, fixing drivers is somewhat lower priority
-> > than discussing and stabilizing the uAPI.
+> This patch does the following in DVP mode:
+> 1: Enables data lines on power up
+> 2: Configures HVP lines on power up instead of configuring everytime on
+>    stream ON/OFF
+> 3: Disables MIPI interface.
+> 4: Puts the sensor in power down mode during stream OFF.
+
+Could you detail a little the underlying problem, the environment where it
+can be reproduced and how the patch addresses it, please?
+
+Are you using CSI-2 or the parallel interface, for instance?
+
 > 
-> I have now tested rkvdec on a RK3328 device and needed to do 3 fixups, see [1].
-> Initial ffmpeg update using update h264 uapi is located at [2], the ffmpeg
-> update still needs to be tested with cedrus and hantro.
+> Fixes: f22996db44e2d ("media: ov5640: add support of DVP parallel interface")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/media/i2c/ov5640.c | 253 +++++++++++++++++++++------------------------
+>  1 file changed, 120 insertions(+), 133 deletions(-)
 > 
-> So far I have not seen any issue with the uapi changes.
-> 
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 2fe4a7a..ac305a5 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -274,7 +274,7 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+>  /* YUV422 UYVY VGA@30fps */
+>  static const struct reg_value ov5640_init_setting_30fps_VGA[] = {
+>  	{0x3103, 0x11, 0, 0}, {0x3008, 0x82, 0, 5}, {0x3008, 0x42, 0, 0},
+> -	{0x3103, 0x03, 0, 0}, {0x3017, 0x00, 0, 0}, {0x3018, 0x00, 0, 0},
+> +	{0x3103, 0x03, 0, 0},
+>  	{0x3630, 0x36, 0, 0},
+>  	{0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
+>  	{0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
+> @@ -1210,96 +1210,7 @@ static int ov5640_set_autogain(struct ov5640_dev *sensor, bool on)
+>  
+>  static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
+>  {
+> -	int ret;
+> -	unsigned int flags = sensor->ep.bus.parallel.flags;
+> -	u8 pclk_pol = 0;
+> -	u8 hsync_pol = 0;
+> -	u8 vsync_pol = 0;
+> -
+> -	/*
+> -	 * Note about parallel port configuration.
+> -	 *
+> -	 * When configured in parallel mode, the OV5640 will
+> -	 * output 10 bits data on DVP data lines [9:0].
+> -	 * If only 8 bits data are wanted, the 8 bits data lines
+> -	 * of the camera interface must be physically connected
+> -	 * on the DVP data lines [9:2].
+> -	 *
+> -	 * Control lines polarity can be configured through
+> -	 * devicetree endpoint control lines properties.
+> -	 * If no endpoint control lines properties are set,
+> -	 * polarity will be as below:
+> -	 * - VSYNC:	active high
+> -	 * - HREF:	active low
+> -	 * - PCLK:	active low
+> -	 */
+> -
+> -	if (on) {
+> -		/*
+> -		 * configure parallel port control lines polarity
+> -		 *
+> -		 * POLARITY CTRL0
+> -		 * - [5]:	PCLK polarity (0: active low, 1: active high)
+> -		 * - [1]:	HREF polarity (0: active low, 1: active high)
+> -		 * - [0]:	VSYNC polarity (mismatch here between
+> -		 *		datasheet and hardware, 0 is active high
+> -		 *		and 1 is active low...)
+> -		 */
+> -		if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> -			pclk_pol = 1;
+> -		if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> -			hsync_pol = 1;
+> -		if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> -			vsync_pol = 1;
+> -
+> -		ret = ov5640_write_reg(sensor,
+> -				       OV5640_REG_POLARITY_CTRL00,
+> -				       (pclk_pol << 5) |
+> -				       (hsync_pol << 1) |
+> -				       vsync_pol);
+> -
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+> -	/*
+> -	 * powerdown MIPI TX/RX PHY & disable MIPI
+> -	 *
+> -	 * MIPI CONTROL 00
+> -	 * 4:	 PWDN PHY TX
+> -	 * 3:	 PWDN PHY RX
+> -	 * 2:	 MIPI enable
+> -	 */
+> -	ret = ov5640_write_reg(sensor,
+> -			       OV5640_REG_IO_MIPI_CTRL00, on ? 0x18 : 0);
+> -	if (ret)
+> -		return ret;
+> -
+> -	/*
+> -	 * enable VSYNC/HREF/PCLK DVP control lines
+> -	 * & D[9:6] DVP data lines
+> -	 *
+> -	 * PAD OUTPUT ENABLE 01
+> -	 * - 6:		VSYNC output enable
+> -	 * - 5:		HREF output enable
+> -	 * - 4:		PCLK output enable
+> -	 * - [3:0]:	D[9:6] output enable
+> -	 */
+> -	ret = ov5640_write_reg(sensor,
+> -			       OV5640_REG_PAD_OUTPUT_ENABLE01,
+> -			       on ? 0x7f : 0);
+> -	if (ret)
+> -		return ret;
+> -
+> -	/*
+> -	 * enable D[5:0] DVP data lines
+> -	 *
+> -	 * PAD OUTPUT ENABLE 02
+> -	 * - [7:2]:	D[5:0] output enable
+> -	 */
+> -	return ov5640_write_reg(sensor,
+> -				OV5640_REG_PAD_OUTPUT_ENABLE02,
+> -				on ? 0xfc : 0);
+> +	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ? 0x2 : 0x42);
+>  }
+>  
+>  static int ov5640_set_stream_mipi(struct ov5640_dev *sensor, bool on)
+> @@ -2003,6 +1914,10 @@ static void ov5640_set_power_off(struct ov5640_dev *sensor)
+>  
+>  static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
+>  {
+> +	unsigned int flags = sensor->ep.bus.parallel.flags;
+> +	u8 pclk_pol = 0;
+> +	u8 hsync_pol = 0;
+> +	u8 vsync_pol = 0;
+>  	int ret = 0;
+>  
+>  	if (on) {
+> @@ -2014,52 +1929,124 @@ static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
+>  		if (ret)
+>  			goto power_off;
+>  
+> -		/* We're done here for DVP bus, while CSI-2 needs setup. */
+> -		if (sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
+> -			return 0;
+> +		/* CSI-2 setup. */
+> +		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
+> +			/*
+> +			 * Power up MIPI HS Tx and LS Rx; 2 data lanes mode
+> +			 *
+> +			 * 0x300e = 0x40
+> +			 * [7:5] = 010	: 2 data lanes mode (see FIXME note in
+> +			 *		  "ov5640_set_stream_mipi()")
+> +			 * [4] = 0	: Power up MIPI HS Tx
+> +			 * [3] = 0	: Power up MIPI LS Rx
+> +			 * [2] = 0	: MIPI interface disabled
+> +			 */
+> +			ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x40);
 
-Great, thanks for the test.
+Please wrap lines over 80 if it can be reasonably one.
 
-> Q: ffmpeg will not try to set SLICE_PARAMS or PRED_WEIGHT ctrls for
-> DECODE_MODE_SLICE_BASED,
+> +			if (ret)
+> +				goto power_off;
+>  
+> -		/*
+> -		 * Power up MIPI HS Tx and LS Rx; 2 data lanes mode
+> -		 *
+> -		 * 0x300e = 0x40
+> -		 * [7:5] = 010	: 2 data lanes mode (see FIXME note in
+> -		 *		  "ov5640_set_stream_mipi()")
+> -		 * [4] = 0	: Power up MIPI HS Tx
+> -		 * [3] = 0	: Power up MIPI LS Rx
+> -		 * [2] = 0	: MIPI interface disabled
+> -		 */
+> -		ret = ov5640_write_reg(sensor,
+> -				       OV5640_REG_IO_MIPI_CTRL00, 0x40);
+> -		if (ret)
+> -			goto power_off;
+> +			/*
+> +			 * Gate clock and set LP11 in 'no packets mode' (idle)
+> +			 *
+> +			 * 0x4800 = 0x24
+> +			 * [5] = 1	: Gate clock when 'no packets'
+> +			 * [2] = 1	: MIPI bus in LP11 when 'no packets'
+> +			 */
+> +			ret = ov5640_write_reg(sensor, OV5640_REG_MIPI_CTRL00, 0x24);
+> +			if (ret)
+> +				goto power_off;
+>  
+> -		/*
+> -		 * Gate clock and set LP11 in 'no packets mode' (idle)
+> -		 *
+> -		 * 0x4800 = 0x24
+> -		 * [5] = 1	: Gate clock when 'no packets'
+> -		 * [2] = 1	: MIPI bus in LP11 when 'no packets'
+> -		 */
+> -		ret = ov5640_write_reg(sensor,
+> -				       OV5640_REG_MIPI_CTRL00, 0x24);
+> -		if (ret)
+> -			goto power_off;
+> +			/*
+> +			 * Set data lanes and clock in LP11 when 'sleeping'
+> +			 *
+> +			 * 0x3019 = 0x70
+> +			 * [6] = 1	: MIPI data lane 2 in LP11 when 'sleeping'
+> +			 * [5] = 1	: MIPI data lane 1 in LP11 when 'sleeping'
+> +			 * [4] = 1	: MIPI clock lane in LP11 when 'sleeping'
+> +			 */
+> +			ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT00, 0x70);
+> +			if (ret)
+> +				goto power_off;
+>  
+> -		/*
+> -		 * Set data lanes and clock in LP11 when 'sleeping'
+> -		 *
+> -		 * 0x3019 = 0x70
+> -		 * [6] = 1	: MIPI data lane 2 in LP11 when 'sleeping'
+> -		 * [5] = 1	: MIPI data lane 1 in LP11 when 'sleeping'
+> -		 * [4] = 1	: MIPI clock lane in LP11 when 'sleeping'
+> -		 */
+> -		ret = ov5640_write_reg(sensor,
+> -				       OV5640_REG_PAD_OUTPUT00, 0x70);
+> -		if (ret)
+> -			goto power_off;
+> +			/* Give lanes some time to coax into LP11 state. */
+> +			usleep_range(500, 1000);
+> +		} else {
+> +			/*
+> +			 * Note about parallel port configuration.
+> +			 *
+> +			 * When configured in parallel mode, the OV5640 will
+> +			 * output 10 bits data on DVP data lines [9:0].
+> +			 * If only 8 bits data are wanted, the 8 bits data lines
+> +			 * of the camera interface must be physically connected
+> +			 * on the DVP data lines [9:2].
+> +			 *
+> +			 * Control lines polarity can be configured through
+> +			 * devicetree endpoint control lines properties.
+> +			 * If no endpoint control lines properties are set,
+> +			 * polarity will be as below:
+> +			 * - VSYNC:	active high
+> +			 * - HREF:	active low
+> +			 * - PCLK:	active low
+> +			 */
+> +			/*
+> +			 * configure parallel port control lines polarity
+> +			 *
+> +			 * POLARITY CTRL0
+> +			 * - [5]:	PCLK polarity (0: active low, 1: active high)
+> +			 * - [1]:	HREF polarity (0: active low, 1: active high)
+> +			 * - [0]:	VSYNC polarity (mismatch here between
+> +			 *		datasheet and hardware, 0 is active high
+> +			 *		and 1 is active low...)
+> +			 */
+> +			if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> +				pclk_pol = 1;
+> +			if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> +				hsync_pol = 1;
+> +			if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> +				vsync_pol = 1;
+> +
+> +			ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00,
+> +					       (pclk_pol << 5) | (hsync_pol << 1) | vsync_pol);
+> +
+> +			if (ret)
+> +				goto power_off;
+> +
+> +			/*
+> +			 * powerdown MIPI TX/RX PHY & disable MIPI
+> +			 *
+> +			 * MIPI CONTROL 00
+> +			 * 4:	 PWDN PHY TX
+> +			 * 3:	 PWDN PHY RX
+> +			 * 2:	 MIPI enable
+> +			 */
+> +			ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x18);
+> +			if (ret)
+> +				goto power_off;
+> +
+> +			/*
+> +			 * enable VSYNC/HREF/PCLK DVP control lines
+> +			 * & D[9:6] DVP data lines
+> +			 *
+> +			 * PAD OUTPUT ENABLE 01
+> +			 * - 6:		VSYNC output enable
+> +			 * - 5:		HREF output enable
+> +			 * - 4:		PCLK output enable
+> +			 * - [3:0]:	D[9:6] output enable
+> +			 */
+> +			ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x7f);
+> +			if (ret)
+> +				goto power_off;
+>  
+> -		/* Give lanes some time to coax into LP11 state. */
+> -		usleep_range(500, 1000);
+> +			/*
+> +			 * enable D[5:0] DVP data lines
+> +			 *
+> +			 * PAD OUTPUT ENABLE 02
+> +			 * - [7:2]:	D[5:0] output enable
+> +			 */
+> +			ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE02, 0xfc);
+> +			if (ret)
+> +				goto power_off;
+> +		}
+>  
+>  	} else {
+>  		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
 
-You mean it will not try to set those controls for
-DECODE_MODE_FRAME_BASED?
+-- 
+Kind regards,
 
-I think that's correct, as we've discussed multiple times,
-frame-based drivers shouldn't need to use those controls,
-by definition.
-
->  should userspace check if ctrl exists or is using
-> DECODE_MODE value okay?
-> 
-
-If a driver supporting DECODE_MODE_SLICE_BASED doesn't 
-support SLICE_PARAMS, that can probably be considered
-a failure from the application side.
-
-If it doesn't support PRED_WEIGHTS controls, then
-strictly speaking it won't be able to decode slices
-that have a prediction weight table, i.e.:
-
-((weighted_pred_flag && (slice_type == P || slice_type == SP)) || \
-(weighted_bipred_idc == 1 && slice_type == B))
-
-I doubt we'll ever counter such case, so probably
-if the controls aren't supported, applications
-can just safely fail (and e.g. fallback to software).
-
-> I have also pushed an updated WIP branch at [3] containing high 10,
-> field encoded and hevc work.
-> 
-> [1] https://github.com/Kwiboo/linux-rockchip/compare/b6b91f27c0cb33520e954e7bb2550e0e07ed4d85...b82b6e93feb9ca44d2c677f25416cf6345f0114d
-> [2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-hwaccel-4.3.1
-> [3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-work-in-progress
-> 
-> Best regards,
-> Jonas
-> 
-> > Thanks,
-> > Ezequiel
-> > 
-> > 
-
-
+Sakari Ailus
