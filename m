@@ -2,247 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B69862344B3
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 13:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B085234547
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jul 2020 14:06:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732638AbgGaLor (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jul 2020 07:44:47 -0400
-Received: from mga17.intel.com ([192.55.52.151]:35014 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732104AbgGaLor (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jul 2020 07:44:47 -0400
-IronPort-SDR: 3U18FB6w2Mbi2ZA8zesmYhwI+BONMK81rNU1eCy1ZDaQdpq0hn4bHO+g9Hvg95HxT6NlKY3ypp
- DApljyFeqKQg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9698"; a="131833043"
-X-IronPort-AV: E=Sophos;i="5.75,418,1589266800"; 
-   d="scan'208";a="131833043"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2020 04:44:46 -0700
-IronPort-SDR: nW0vU/U/0td0BoGSqQsk5m8/w0z2OBQrZ7gc0mJ14YrW83ND3Mzw541HUBA6OihIHFh+HwpDQS
- RutUV8DVSRBg==
-X-IronPort-AV: E=Sophos;i="5.75,418,1589266800"; 
-   d="scan'208";a="287160277"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2020 04:44:42 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id CD0E920722; Fri, 31 Jul 2020 14:44:39 +0300 (EEST)
-Date:   Fri, 31 Jul 2020 14:44:39 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
-        naush@raspberrypi.com, mrodin@de.adit-jv.com,
-        hugues.fruchet@st.com, mripard@kernel.org, aford173@gmail.com,
-        sudipi@jp.adit-jv.com, andrew_gabbasov@mentor.com,
-        erosca@de.adit-jv.com, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 15/25] media: ov5647: Break out format handling
-Message-ID: <20200731114439.GN13316@paasikivi.fi.intel.com>
-References: <20200623100815.10674-1-jacopo@jmondi.org>
- <20200623164224.44476-5-jacopo@jmondi.org>
+        id S1732914AbgGaMGq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jul 2020 08:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732734AbgGaMGp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 31 Jul 2020 08:06:45 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B523C061574;
+        Fri, 31 Jul 2020 05:06:45 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id t6so19247609ljk.9;
+        Fri, 31 Jul 2020 05:06:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wGIEotVJMeoJNihU6O/r/OV8ckdtdoLNEofry0Bb5ZI=;
+        b=Eu6LagJEiGtloI+tapn2ZSSDVFePwtRLBjkeKZCRDmhT8YehnOqPsbRtseSEUw+m0J
+         7BqIQnayf8uOibZ4NIlX7MtgdppwdrRnaH8j/rPnCmykRBBS/r0ii16CW0F5PK/PjD3L
+         A4RxmOxw9kT2ffT9oqYBt7bR9A0FdhPJ6DzRS12vQ7yZnXTqhU/Axf3RFyAFVCqQOcrR
+         zshy6WcV4WwOQ7YmqlTz3OUYfp6u8OVM57o4OKyzl7XxyOSyzg9uHtZUXexDGNWUX4W1
+         2xUICVbQSp+roZsjC1g2TQzuN/NI3HJHYc+++0kQWbiVrodYfUQv1BRaCU7XL4mjn8m0
+         FhHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wGIEotVJMeoJNihU6O/r/OV8ckdtdoLNEofry0Bb5ZI=;
+        b=oPOQtUXtKPusTXIAskJgx8wgJYCvq5fw3fRZxa2ccSE0+cOkl1QpU2eY+/x5DSaqjD
+         6FU/jwj3PGTNwrLFCx4/LUfqrCznnm8JLGBK+etXC4Jv4lA21yGBn4VQVjoedK1bQAJ0
+         aZSWUXNlnVk8QVhRXtHV033OtLtJrPl/DnPK/cGVYyDNndty4dAIanjibL7fYCcgvgPd
+         84ZLVBwiJxzIK5lXixEJLbAudJHQCFxtKXOe8WElvGd8Dfs0oBQGt6ziOGzXBfoMc1iy
+         b3xZu/5D7MAEDd7rPcEuCHttGE2+aRyb0FEM888WN4k98+WGyYT0a+N1NrAoj6zPkusB
+         3VoQ==
+X-Gm-Message-State: AOAM5332w9rijTIZIFq1HrQ0KKZkmkOsGcC21lBuDjiggAJBQq+6b1FJ
+        H24RQAAxcwZp2kOyVFdYRLe59CCK
+X-Google-Smtp-Source: ABdhPJxk0BTj8qxc+FqtzWhzEa6QTQpNzeE5UIlC5aV2Fwy1reVwOKg+TWzTfJDz0BXs77vl+vw5bA==
+X-Received: by 2002:a2e:2ac5:: with SMTP id q188mr1824671ljq.179.1596197203320;
+        Fri, 31 Jul 2020 05:06:43 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id p9sm1629043ljg.76.2020.07.31.05.06.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jul 2020 05:06:42 -0700 (PDT)
+Subject: Re: [RFC PATCH v6 05/10] media: tegra-video: Separate CSI stream
+ enable and disable implementations
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1596186169-18729-1-git-send-email-skomatineni@nvidia.com>
+ <1596186169-18729-6-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <cdc22071-9e61-1098-803a-d7c674972b6f@gmail.com>
+Date:   Fri, 31 Jul 2020 15:06:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200623164224.44476-5-jacopo@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1596186169-18729-6-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-Btw. I've bounced the two DT binding patches to DT list + Rob. Please
-remember that in v2 if there are changes.
-
-On Tue, Jun 23, 2020 at 06:42:24PM +0200, Jacopo Mondi wrote:
-> Break format handling out from the main driver structure.
+31.07.2020 12:02, Sowjanya Komatineni пишет:
+> This patch separates implementation of CSI stream enable and disable
+> into separate functions for readability.
 > 
-> This commit prepares for the introduction of more sensor formats and
-> resolutions by instrumenting the existing operation to work on multiple
-> modes instead of assuming a single one supported.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 > ---
->  drivers/media/i2c/ov5647.c | 84 +++++++++++++++++++++++++++-----------
->  1 file changed, 61 insertions(+), 23 deletions(-)
+>  drivers/staging/media/tegra-video/csi.c | 51 ++++++++++++++++++++++-----------
+>  1 file changed, 35 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 03f4f1a257ecd..a801ed0249aad 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -84,18 +84,28 @@ struct regval_list {
->  	u8 data;
->  };
->  
-> +struct ov5647_mode {
-> +	struct v4l2_mbus_framefmt	format;
-> +	struct regval_list		*reg_list;
-> +	unsigned int			num_regs;
-> +};
-> +
-> +struct ov5647_format_list {
-> +	unsigned int			mbus_code;
-> +	struct ov5647_mode		*modes;
-> +	unsigned int			num_modes;
-> +};
-> +
->  struct ov5647 {
->  	struct v4l2_subdev		sd;
->  	struct media_pad		pad;
->  	struct mutex			lock;
-> -	struct v4l2_mbus_framefmt	format;
-> -	unsigned int			width;
-> -	unsigned int			height;
->  	int				power_count;
->  	struct clk			*xclk;
->  	struct gpio_desc		*pwdn;
->  	bool				clock_ncont;
->  	struct v4l2_ctrl_handler	ctrls;
-> +	struct ov5647_mode		*mode;
->  };
->  
->  static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
-> @@ -205,6 +215,33 @@ static struct regval_list ov5647_640x480[] = {
->  	{0x0100, 0x01},
->  };
->  
-> +static struct ov5647_mode ov5647_8bit_modes[] = {
-
-const
-
-> +	{
-> +		.format	= {
-> +			.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
-> +			.colorspace	= V4L2_COLORSPACE_SRGB,
-> +			.field		= V4L2_FIELD_NONE,
-> +			.width		= 640,
-> +			.height		= 480
-> +		},
-> +		.reg_list	= ov5647_640x480,
-> +		.num_regs	= ARRAY_SIZE(ov5647_640x480)
-> +	},
-> +};
-> +
-> +static const struct ov5647_format_list ov5647_formats[] = {
-> +	{
-> +		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
-> +		.modes		= ov5647_8bit_modes,
-> +		.num_modes	= ARRAY_SIZE(ov5647_8bit_modes),
-> +	},
-> +};
-> +
-> +#define OV5647_NUM_FORMATS	(ARRAY_SIZE(ov5647_formats))
-
-Please use ARRAY_SIZE() directly, you don't need a macro here.
-
-> +
-> +#define OV5647_DEFAULT_MODE	(&ov5647_formats[0].modes[0])
-> +#define OV5647_DEFAULT_FORMAT	(ov5647_formats[0].modes[0].format)
-> +
->  static int ov5647_write(struct v4l2_subdev *sd, u16 reg, u8 val)
->  {
->  	unsigned char data[3] = { reg >> 8, reg & 0xff, val};
-> @@ -282,8 +319,7 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = ov5647_write_array(sd, ov5647_640x480,
-> -				 ARRAY_SIZE(ov5647_640x480));
-> +	ret = ov5647_write_array(sd, sensor->mode->reg_list, sensor->mode->num_regs);
-
-No need for a line over 80.
-
->  	if (ret < 0) {
->  		dev_err(&client->dev, "write sensor default regs error\n");
->  		return ret;
-> @@ -494,10 +530,10 @@ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_pad_config *cfg,
->  				 struct v4l2_subdev_mbus_code_enum *code)
->  {
-> -	if (code->index > 0)
-> +	if (code->index >= OV5647_NUM_FORMATS)
->  		return -EINVAL;
->  
-> -	code->code = MEDIA_BUS_FMT_SBGGR8_1X8;
-> +	code->code = ov5647_formats[code->index].mbus_code;
->  
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+> index fb667df..cfe6187 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -232,34 +232,53 @@ static int tegra_csi_g_frame_interval(struct v4l2_subdev *subdev,
 >  	return 0;
 >  }
-> @@ -506,16 +542,24 @@ static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
->  				  struct v4l2_subdev_pad_config *cfg,
->  				  struct v4l2_subdev_frame_size_enum *fse)
+>  
+> -static int tegra_csi_s_stream(struct v4l2_subdev *subdev, int enable)
+> +static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
 >  {
-> -	if (fse->index)
-> +	const struct v4l2_mbus_framefmt *fmt;
-> +	unsigned int i = 0;
+>  	struct tegra_vi_channel *chan = v4l2_get_subdev_hostdata(subdev);
+>  	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
+>  	struct tegra_csi *csi = csi_chan->csi;
+> -	int ret = 0;
+> +	int ret;
 > +
-> +	for (; i < OV5647_NUM_FORMATS; ++i) {
-> +		if (ov5647_formats[i].mbus_code == fse->code)
-> +			break;
+> +	ret = pm_runtime_get_sync(csi->dev);
+> +	if (ret < 0) {
+> +		dev_err(csi->dev, "failed to get runtime PM: %d\n", ret);
+> +		pm_runtime_put_noidle(csi->dev);
+> +		return ret;
 > +	}
-> +	if (i == OV5647_NUM_FORMATS)
->  		return -EINVAL;
 >  
-> -	if (fse->code != MEDIA_BUS_FMT_SBGGR8_1X8)
-> +	if (fse->index >= ov5647_formats[i].num_modes)
->  		return -EINVAL;
+>  	csi_chan->pg_mode = chan->pg_mode;
+> -	if (enable) {
+> -		ret = pm_runtime_get_sync(csi->dev);
+> -		if (ret < 0) {
+> -			dev_err(csi->dev,
+> -				"failed to get runtime PM: %d\n", ret);
+> -			pm_runtime_put_noidle(csi->dev);
+> -			return ret;
+> -		}
+> +	ret = csi->ops->csi_start_streaming(csi_chan);
+> +	if (ret < 0)
+> +		goto rpm_put;
 >  
-> -	fse->min_width = 640;
-> -	fse->max_width = 640;
-> -	fse->min_height = 480;
-> -	fse->max_height = 480;
-> +	fmt = &ov5647_formats[i].modes[fse->index].format;
-> +	fse->min_width = fmt->width;
-> +	fse->max_width = fmt->width;
-> +	fse->min_height = fmt->height;
-> +	fse->max_height = fmt->height;
+> -		ret = csi->ops->csi_start_streaming(csi_chan);
+> -		if (ret < 0)
+> -			goto rpm_put;
+> +	return 0;
 >  
->  	return 0;
->  }
-> @@ -528,11 +572,7 @@ static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
->  
->  	/* Only one format is supported, so return that. */
->  	memset(fmt, 0, sizeof(*fmt));
-> -	fmt->code = MEDIA_BUS_FMT_SBGGR8_1X8;
-> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> -	fmt->field = V4L2_FIELD_NONE;
-> -	fmt->width = 640;
-> -	fmt->height = 480;
-> +	*fmt = OV5647_DEFAULT_FORMAT;
->  
->  	return 0;
->  }
-> @@ -591,11 +631,7 @@ static int ov5647_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->  	crop->width = OV5647_WINDOW_WIDTH_DEF;
->  	crop->height = OV5647_WINDOW_HEIGHT_DEF;
->  
-> -	format->code = MEDIA_BUS_FMT_SBGGR8_1X8;
-> -	format->width = 640;
-> -	format->height = 480;
-> -	format->field = V4L2_FIELD_NONE;
-> -	format->colorspace = V4L2_COLORSPACE_SRGB;
-> +	*format = OV5647_DEFAULT_FORMAT;
->  
->  	return 0;
->  }
-> @@ -813,6 +849,8 @@ static int ov5647_probe(struct i2c_client *client)
->  
->  	mutex_init(&sensor->lock);
->  
-> +	sensor->mode = OV5647_DEFAULT_MODE;
-
-You could do this without the macro, too.
-
+> -		return 0;
+> -	}
+> +rpm_put:
+> +	pm_runtime_put(csi->dev);
+> +	return ret;
+> +}
 > +
->  	ret = ov5647_init_controls(sensor);
->  	if (ret)
->  		goto mutex_destroy;
+> +static int tegra_csi_disable_stream(struct v4l2_subdev *subdev)
+> +{
+> +	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
+> +	struct tegra_csi *csi = csi_chan->csi;
+>  
+>  	csi->ops->csi_stop_streaming(csi_chan);
+>  
+> -rpm_put:
+>  	pm_runtime_put(csi->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra_csi_s_stream(struct v4l2_subdev *subdev, int enable)
+> +{
+> +	int ret;
+> +
+> +	if (enable)
+> +		ret = tegra_csi_enable_stream(subdev);
+> +	else
+> +		ret = tegra_csi_disable_stream(subdev);
+> +
+>  	return ret;
+>  }
+>  
+> 
 
--- 
-Kind regards,
+Thanks!
 
-Sakari Ailus
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
