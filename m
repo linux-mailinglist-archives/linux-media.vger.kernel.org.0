@@ -2,282 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B322352E9
-	for <lists+linux-media@lfdr.de>; Sat,  1 Aug 2020 17:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68A6B235333
+	for <lists+linux-media@lfdr.de>; Sat,  1 Aug 2020 18:08:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725910AbgHAPNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Aug 2020 11:13:32 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51688 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725804AbgHAPNb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Aug 2020 11:13:31 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB55255E;
-        Sat,  1 Aug 2020 17:13:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1596294807;
-        bh=FluW3WNmbUzv6nvdrd4t3mE4NpTNVQO9TljR9QvU8Fw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PQ/DA0p1zunmOaGxzJNJRCu1vkmbUg2SnlEhPny7qrW/AGnpFlDC4MKAtnwJinkoo
-         q/IR2VIA2vqDYGr3uqvR+1gmicgFdYmhTB9dQG2diD7KJiWXF8BXKpRxbNHT0Qfljy
-         flEpxdGKXW5X4WaMwautdMarXnEymnKcQQwyRvdw=
-Date:   Sat, 1 Aug 2020 18:13:17 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        naush@raspberrypi.com,
+        id S1726475AbgHAQIS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Aug 2020 12:08:18 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50670 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725841AbgHAQIR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Aug 2020 12:08:17 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 4EF2D2854E4
+Subject: Re: [PATCH v2 5/9] media: staging: rkisp1: add a pointer to
+ rkisp1_device from struct rkisp1_isp
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Helen Koike <helen.koike@collabora.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH] imx219: selection compliance fixes
-Message-ID: <20200801151317.GF11820@pendragon.ideasonboard.com>
-References: <b580ac9d-5ae4-29ce-c81a-a1f98b1d953b@xs4all.nl>
- <20200801111903.zt2d2djusjdh27vc@uno.localdomain>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20200718145918.17752-1-dafna.hirschfeld@collabora.com>
+ <20200718145918.17752-6-dafna.hirschfeld@collabora.com>
+ <d8475ade-94a3-48ad-02d7-f03810ddf6dc@collabora.com>
+ <114a3242-88e9-46a1-c8c8-f5bfd424d05a@collabora.com>
+ <CAAFQd5BLuwfnQfYbaWmtre5YCx-_YG4E10cZxeL+6pESap_U0A@mail.gmail.com>
+ <fa457a47-4005-8c64-d135-96b321ddd6a6@collabora.com>
+ <CAAFQd5ATRvBapupZaBf6TkWcVwOy7C9+A95+vLHJiwuUca4LQg@mail.gmail.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <74c2563c-25ca-833b-2f72-b6e10e6e3847@collabora.com>
+Date:   Sat, 1 Aug 2020 18:08:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200801111903.zt2d2djusjdh27vc@uno.localdomain>
+In-Reply-To: <CAAFQd5ATRvBapupZaBf6TkWcVwOy7C9+A95+vLHJiwuUca4LQg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
 
-On Sat, Aug 01, 2020 at 01:19:03PM +0200, Jacopo Mondi wrote:
-> Hi Hans, Laurent,
+
+On 21.07.20 17:32, Tomasz Figa wrote:
+> On Tue, Jul 21, 2020 at 5:30 PM Dafna Hirschfeld
+> <dafna.hirschfeld@collabora.com> wrote:
+>>
+>> Hi,
+>>
+>> On 21.07.20 14:36, Tomasz Figa wrote:
+>>> On Tue, Jul 21, 2020 at 2:26 PM Dafna Hirschfeld
+>>> <dafna.hirschfeld@collabora.com> wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>> On 20.07.20 21:25, Helen Koike wrote:
+>>>>>
+>>>>>
+>>>>> On 7/18/20 11:59 AM, Dafna Hirschfeld wrote:
+>>>>>> The code in rkisp1-isp.c requires access to struct 'rkisp1_device'
+>>>>>> in several places. It access it using the 'container_of' macro.
+>>>>>> This patch adds a pointer to 'rkisp1_device' in struct 'rkisp1_isp'
+>>>>>> to simplify the access.
+>>>>>
+>>>>> What is wrong with container_of?
+>>>>
+>>>> I remember Laurent suggested it a while ago.
+>>>> I also feel container_of is a bit cumbersome and other entities already have a pointer to rkisp1_device.
+>>>>
+>>>
+>>> Do we even need the rkisp1_isp struct? Could we just pass rkisp1_device instead?
+>>
+>> pass to where ?  You mean to the function rkisp1_mipi_csi2_start ?
 > 
->     sorry, long email, contains a few things on the general definition
->     of the selection target, a question for libcamera, and a few more
->     details at the end.
+> Yes, all around the driver, where rkisp1_isp is passed.
+
+Most of the functions are part of subdevice callback implementation
+where the rkisp1_device is not needed, so I don't the see the point.
+
+Thanks,
+Dafna
+
 > 
-> Adding Sakari, libcamera ml, Ricardo which helped with the
-> definition of pixel array properties in libcamera recently and
-> Dave and Naush as this sensor is the RPi camera module v2 and some
-> information on the sensor come from their BSP.
-> 
-> On Thu, Jul 02, 2020 at 03:50:04PM +0200, Hans Verkuil wrote:
-> > The top/left crop coordinates were 0, 0 instead of 8, 8 in the
-> > supported_modes array. This was a mismatch with the default values,
-> > so this is corrected. Found with v4l2-compliance.
-> >
-> > Also add V4L2_SEL_TGT_CROP_BOUNDS support: CROP_DEFAULT and CROP_BOUNDS
-> > always go together. Found with v4l2-compliance.
-> 
-> Let me try to summarize the outcome of the discussion
-> 
-> 1) All selection rectangles are defined in respect to the NATIVE_SIZE
->    target, which returns the full pixel array size, which includes
->    readable and non-readable pixels. It's top-left corner is in
->    position (0,0)
-
-Yes, except that, to be pedantic, it's not that the top-left corner *is*
-in position (0,0) but that the top-left corner is defined as (0,0).
-NATIVE_SIZE is the root of the coordinates system, and by definition the
-top-left coordinates must be set to (0,0).
-
-> 3) CROP_BOUND returns the portion of the full pixel array which can be
->    read out, including optical black pixels, and is defined in respect
->    to the full pixel array size
-
-Yes. I'd say it's defined in respect to NATIVE_SIZE to avoid the
-indirection in the definition (NATIVE_SIZE and pixel array size are the
-same).
-
-This maps to the libcamera PixelArraySize property in libcamera.
-
-> 2) CROP_DEFAULT returns the portion of the readable part of the pixel array
->    which contains valid image data (aka 'active' pixels). It is again
->    defined in respect to the full pixel array rectangle returned by
->    NATIVE_SIZE target.
-
-Correct.
-
-This maps to the PixelArrayActiveAreas property in libcamera (assuming
-the property contains a single value).
-
-> With an ack on my understanding, I think it's worth expanding the
-> target documentation a bit. As I've said I've been hesitant in doing
-> so, as those targets do not only apply to image sensors, but I think a
-> section that goes like "If the sub-device represents and image sensor
-> then the V4L2_SEL_TGT_.. target represents ... "
-
-It's totally fine by me to add a section that defines the targets
-precisely for sensors.
-
-> Laurent: this will have some impact on libcamera as well
-> https://git.linuxtv.org/libcamera.git/tree/src/libcamera/camera_sensor.cpp#n503
-> When we read the analogCrop rectangle, we decided it is defined in
-> respect to the active portion of the pixel array (CROP_DEFAULT) and
-> not from the full pixel array size (NATIVE_SIZE).
-
-Note that the non-readable portion of NATIVE_SIZE has no impact in
-practice. A sensor driver could return NATIVE_SIZE == CROP_BOUND, as
-long as CROP_BOUND, CROP_DEFAULT and CROP are all expressed relatively
-to NATIVE_SIZE, it will make no difference for userspace.
-
-We could thus mandate that NATIVE_SIZE == CROP_BOUND to simplify things.
-
-> We then should:
-> 1) Back-track on our decision to have analog crop defined in respect
-> to the active part and decide it should be defined in respect to the
-> full pixel array: this has implications on the existing IPAs that
-> assume what we have defined
-> 
-> 2) Adjust the analogCrop rectangle by subtracting to its sizes the
-> values reported by TGT_CROP_DEFAULT.top and TGT_CROP_DEFAULT.left.
-> 
-> I would got for 2) what's your opinion ?
-
-Inside libcamera I would express all crop rectangles relatively to
-PixelArraySize, so mapping to V4L2 would require adding/subtracting the
-TGT_CROP_DEFAULT offset. That's why requiring NATIVE_SIZE == CROP_BOUND
-may simplify things.
-
-> On this specific patch:
-> 
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > ---
-> >  drivers/media/i2c/imx219.c | 17 +++++++++--------
-> >  1 file changed, 9 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 0a546b8e466c..935e2a258ce5 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -473,8 +473,8 @@ static const struct imx219_mode supported_modes[] = {
-> >  		.width = 3280,
-> >  		.height = 2464,
-> >  		.crop = {
-> > -			.left = 0,
-> > -			.top = 0,
-> > +			.left = 8,
-> > +			.top = 8,
-> 
-> we have
-> #define IMX219_PIXEL_ARRAY_LEFT		8U
-> #define IMX219_PIXEL_ARRAY_TOP		8U
-> 
-> Which I would then re-name IMX219_ACTIVE_ARRAY_LEFT and
-> IMX219_ACTIVE_ARRAY_TOP and re-use it there
-> 
-> >  			.width = 3280,
-> >  			.height = 2464
-> >  		},
-> > @@ -489,8 +489,8 @@ static const struct imx219_mode supported_modes[] = {
-> >  		.width = 1920,
-> >  		.height = 1080,
-> >  		.crop = {
-> > -			.left = 680,
-> > -			.top = 692,
-> > +			.left = 8 + 680,
-> > +			.top = 8 + 692,
-> >  			.width = 1920,
-> >  			.height = 1080
-> >  		},
-> > @@ -505,8 +505,8 @@ static const struct imx219_mode supported_modes[] = {
-> >  		.width = 1640,
-> >  		.height = 1232,
-> >  		.crop = {
-> > -			.left = 0,
-> > -			.top = 0,
-> > +			.left = 8,
-> > +			.top = 8,
-> >  			.width = 3280,
-> >  			.height = 2464
-> >  		},
-> > @@ -521,8 +521,8 @@ static const struct imx219_mode supported_modes[] = {
-> >  		.width = 640,
-> >  		.height = 480,
-> >  		.crop = {
-> > -			.left = 1000,
-> > -			.top = 752,
-> > +			.left = 8 + 1000,
-> > +			.top = 8 + 752,
-> >  			.width = 1280,
-> >  			.height = 960
-> >  		},
-> > @@ -1014,6 +1014,7 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
-> >  		return 0;
-> >
-> >  	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> 
-> I think this is fine and that's my reasoning:
-> 
-> The IMAX219 pixel array is documented as
-> 
->         /-------------- 3296 -------------------/
->          8                                     8
->         +---------------------------------------+    /
->         |IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII| 8  |
->         |IpppppppppppppppppppppppppppppppppppppI|    |
->         |IpppppppppppppppppppppppppppppppppppppI|    |
->         |IpppppppppppppppppppppppppppppppppppppI|    |
->         |IpppppppppppppppppppppppppppppppppppppI|    |
->         |IpppppppppppppppppppppppppppppppppppppI|    |
->         |IpppppppppppppppppppppppppppppppppppppI|    |
-> 
->                             ....                    2480
-> 
->         |IpppppppppppppppppppppppppppppppppppppI|    |
->         |IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII|    |
->         |IoooooooooooooooooooooooooooooooooooooI| 16 |
->         |IOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOI| 16 |
->         |IoooooooooooooooooooooooooooooooooooooI| 8  |
->         +---------------------------------------+    /
-> 
-> Where:
->         I = invalid active area
->         p = valid pixels
->         o = Invalid OB area
->         O = Valid OB area
->         Effective area = 3296x2480
->         Active area = 3280x2464
-
-This doesn't match your diagram above, 8+2464+16+16+8 != 2480.
-
-> The 'active area' is then sorrounded by 8 invalid rows, 8 invalid
-> cols at the beginning and the end, and followed by 8 more invalid
-> rows. Then, 16 invalid black rows follow, then 16 -valid- black
-> rows, then 8 invalid black rows again.
-> 
-> My understanding is that the whole effective area is sent on the bus,
-> as the CSI-2 timings report the sizes of the 'effective' area to be
-> the whole 3296x2480 matrix, and assigns a CSI-2 data-type to the
-> "Valid OB area" while sets the DataType for invalid areas to Null.
-> 
-> However the registers that select the analog crop work on the 'active
-> area' only, so there is not way to select "I want the Valid OB area"
-> only, as the whole 'effective area' is sent on the bus and the CSI-2
-> receivers filters on the DataType to discard the 'Invalid' lines (to
-> which a Null DataType is assigned) and capture image data ('active area')
-> and eventually 'Valid black' pixels (which have a data type assigned).
-
-I'm not aware of CSI-2 receivers that can capture NULL data types. At
-most you'll be able to capture OB and active pixels, nothing else.
-
-> All of this to say, there's no point in reporting a TGT_BOUND larger
-> that the active area, as the user cannot select portions outside of it
-> through the S_SELECTION API, but can only instruct it's CSI-2 receiver
-> to filter-in the data it desires, which I think we're missing an API
-> for.
-
-This however contradicts your proposal above, where you said that
-CROP_BOUND should include the OB lines :-)
-
-> Hans: would you like to go ahead with this patch, or should I take
-> over and change the libcamera part that parses these properties in one
-> go ?
-> 
-> >  		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
-> >  		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
-> >  		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
-
--- 
-Regards,
-
-Laurent Pinchart
