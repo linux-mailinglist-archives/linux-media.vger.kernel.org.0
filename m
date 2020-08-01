@@ -2,97 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3B5123514A
-	for <lists+linux-media@lfdr.de>; Sat,  1 Aug 2020 10:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B165E235154
+	for <lists+linux-media@lfdr.de>; Sat,  1 Aug 2020 11:05:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726400AbgHAIzF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Aug 2020 04:55:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50562 "EHLO
+        id S1726323AbgHAJFB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Aug 2020 05:05:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725997AbgHAIzF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Aug 2020 04:55:05 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FCCC06174A;
-        Sat,  1 Aug 2020 01:55:05 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id v6so13658289ota.13;
-        Sat, 01 Aug 2020 01:55:05 -0700 (PDT)
+        with ESMTP id S1725876AbgHAJFA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Aug 2020 05:05:00 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18E4C06174A
+        for <linux-media@vger.kernel.org>; Sat,  1 Aug 2020 02:04:59 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id t23so11252759ljc.3
+        for <linux-media@vger.kernel.org>; Sat, 01 Aug 2020 02:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PD30nvxX1ZoJQrMLgIM0dhy3mVwPXpU/L7/NQ7Q4ykU=;
-        b=nyQUG69emeUwRUptSLM6NvwcTQki/oxnTijXtlQUFfPMjvb3tqTIp2N3AodZFhz2Bp
-         Jlkg63ZCsNKPHcdDT43VTTKQJIWI3Xx508yvOQX5DG5Mt6rUIg4h5zGJhCuGkZHMEkJs
-         RkEFR4y8w6UDlHP5jQcEcOpEsFd3L75eEeSnrFkoJ/7q2Oy8scdzrpPTyUQN+D7jw9Zp
-         CzbKrmh6CCkmq0CFDdKd0Z8bTda30zVS+oCh/mPLt/rhWOBfnJrV35le1pHfNrGev+H5
-         rYl5/XOIQesYEkfo/CQ/Ke1AxS2TY4lPJEcGMTLnqmJcVLW5pS6pPyzdq3qtGOaI2blt
-         MZzg==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ysGkfROsxh9fScF28a6Ab2vg7iqMPSIMDcq/54hw/Bs=;
+        b=NLvj3hoTucDf6+zODHoC036A5mqQFsEMXF7b9PN5sgndABfVg1Ow7CM9z9Ig0i/iAv
+         QjBs2ZE6feVJKQ1a+tEYAAXBL9kHxq1JWH4c6J4i3aGKMkU5naF/d8S9QRR9Spg25wtN
+         3KAlWP+ovjBMIMbRoEmAcCTTOelojk7X9esECTxq3bgiiEEurWT+vGuVs8BV3q3JBywM
+         wKbj+AjK4Ccn16LdqzXunJEsuGsVVQkxEHVUcPT6KA4ybrobiKAo263uG3OhHY0z/uHV
+         IvgAjzu8Uh0jKNNRJkMrNbJJrixlcMX9Cxbl9QT+B14Ky0lyXl1YvFdmHX7LHVxlZVUY
+         aatg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PD30nvxX1ZoJQrMLgIM0dhy3mVwPXpU/L7/NQ7Q4ykU=;
-        b=b3oDZsg7/7hc7cKZZyYdxpyfl7sqcn9Gx5HZLoeX5DIIT1vnb6+wOOFAGqQUbAFzMT
-         kQkcEQhEdxCJ9GVILIWMZvy6TuJQk7hTiy7IBZjWPkPJejz5rUWEmdJxVIu8uGmpPtEc
-         1z4mw3KOZjAax5mg8y3Rb4OIbeRudg+Llm/zhhK8b+CJr38Hlh3EcI6ukJ67liX/6oTb
-         Unm9GB+PRbv1SlrpT6whrVL14TKojNwvtLmti2KblETPliGTicFFrJRO57kB9Ca/ay0r
-         /YXSOWxmfWLTeCgKGqbY7i5+OQdU3sFhz7Ys10apI8cP8DEiSiBKkYe53b9wpdgZMlOf
-         HT/g==
-X-Gm-Message-State: AOAM532sdiD+YpAdJRi+ed5Nr3e53b/bVa4E5PvJE7UXc0bntLQEhXbT
-        sKFAyuvqiE2Y8zyG/Bla2YtclikJKgSx4gRcg7Q=
-X-Google-Smtp-Source: ABdhPJxQL45hl8gzpRGxxafs/GVFG5VgIT+99MqduKrfOkPwkN9dgMiwjS8yKeyCiNQ98F081M0oN3VJYpTPy11DRN4=
-X-Received: by 2002:a9d:5e18:: with SMTP id d24mr5916447oti.88.1596272104634;
- Sat, 01 Aug 2020 01:55:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <1595603296-25903-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1595603296-25903-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200731160247.GC5201@valkosipuli.retiisi.org.uk>
-In-Reply-To: <20200731160247.GC5201@valkosipuli.retiisi.org.uk>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sat, 1 Aug 2020 09:54:38 +0100
-Message-ID: <CA+V-a8scKj-9+zi2zSet4t7cPAzaPjoPqSz0vgwxGi4NOu3Cdg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] media: i2c: ov772x: Add support for BT656 mode
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ysGkfROsxh9fScF28a6Ab2vg7iqMPSIMDcq/54hw/Bs=;
+        b=lxqmUT17PaVsKNbV0mjauRK9WGJaKCFeAv0NiVVle5ryvMRNO3GUd4ZzZVvUzhiaoV
+         iKcGdWO/6u24OGD1om24uXw3fVGFXXGrVyo5JNPYbAcT7QM3X6lP/sLo1ThhE/P1RHd5
+         fiIsxjibiINT3u237wZP9iiKYV1OAk2qHq+mh7wEgPvIK3BmBKd20rF1sautxIX2o4wk
+         eRkx8lBJudvtj6exyXYkWCaGdJ3shsOJJrqErO/VvsJayafq2CnB0HFxMsLXUuPWzcqF
+         N4Jfo2FLpXoYLiEJ+RvammLretLTyH+sTZ0Fd44EmT45AwdZ8SnQ3CHvTbDYkoWyFIOC
+         Tp7A==
+X-Gm-Message-State: AOAM5311iDsdWUVWCjRqPlFvCF5zK3eB8pzbo+/B2AW593Y1nXr7n7oG
+        4ou1igFg7Gh1ne7Sk717nMiL8Q==
+X-Google-Smtp-Source: ABdhPJy3b6mLEDRdxzHctsXC+DubwBmRjCbyeloTjS4iFDZlA4tJZMThjxXAl1XSuFAX1eIzRN7tDg==
+X-Received: by 2002:a2e:160d:: with SMTP id w13mr3732137ljd.470.1596272698238;
+        Sat, 01 Aug 2020 02:04:58 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id r19sm2556901lfi.58.2020.08.01.02.04.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Aug 2020 02:04:57 -0700 (PDT)
+Date:   Sat, 1 Aug 2020 11:04:56 +0200
+From:   Niklas <niklas.soderlund@ragnatech.se>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] media: rcar-vin: Update crop and compose settings for
+ every s_fmt call
+Message-ID: <20200801090456.GB1379367@oden.dyn.berto.se>
+References: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Lad,
 
-Thank you for the review.
+Thanks for your work.
 
-On Fri, Jul 31, 2020 at 5:03 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Jul 24, 2020 at 04:08:15PM +0100, Lad Prabhakar wrote:
-> > Add support to read the bus-type and enable BT656 mode if needed.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->
-> The DT bindings should also be changed.
->
-I'll get this done in V2.
+On 2020-07-31 10:29:05 +0100, Lad Prabhakar wrote:
+> The crop and compose settings for VIN in non mc mode werent updated
+> in s_fmt call this resulted in captured images being clipped.
+> 
+> With the below sequence on the third capture where size is set to
+> 640x480 resulted in clipped image of size 320x240.
+> 
+> high(640x480) -> low (320x240) -> high (640x480)
+> 
+> This patch makes sure the VIN crop and compose settings are updated.
 
-> The default should be parallel, I guess, since the type hasn't been
-> documented. Parsing should be also updated so the driver can set meaningful
-> defaults for the flags --- this btw. also applies to the corresponding
-> ov5640 patch.
->
-Agreed, will do.
+This is clearly an inconsistency in the VIN driver that should be fixed.  
+But I think the none-mc mode implements the correct behavior. That is 
+that S_FMT should not modify the crop/compose rectangles other then make 
+sure they don't go out of bounds. This is an area we tried to clarify in 
+the past but I'm still not sure what the correct answer to.
 
-Cheers,
-Prabhakar
-> --
-> Sakari Ailus
+> 
+> Fixes: 104464f573d ("media: rcar-vin: Do not reset the crop and compose rectangles in s_fmt")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index f421e25..a9b13d9 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -319,6 +319,12 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
+>  	fmt_rect.width = vin->format.width;
+>  	fmt_rect.height = vin->format.height;
+>  
+> +	vin->crop.top = 0;
+> +	vin->crop.left = 0;
+> +	vin->crop.width = vin->format.width;
+> +	vin->crop.height = vin->format.height;
+> +	vin->compose = vin->crop;
+> +
+>  	v4l2_rect_map_inside(&vin->crop, &src_rect);
+>  	v4l2_rect_map_inside(&vin->compose, &fmt_rect);
+>  	vin->src_rect = src_rect;
+> -- 
+> 2.7.4
+> 
+
+-- 
+Regards,
+Niklas Söderlund
