@@ -2,91 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68A6B235333
-	for <lists+linux-media@lfdr.de>; Sat,  1 Aug 2020 18:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96F45235476
+	for <lists+linux-media@lfdr.de>; Sat,  1 Aug 2020 23:53:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726475AbgHAQIS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Aug 2020 12:08:18 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50670 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725841AbgHAQIR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Aug 2020 12:08:17 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 4EF2D2854E4
-Subject: Re: [PATCH v2 5/9] media: staging: rkisp1: add a pointer to
- rkisp1_device from struct rkisp1_isp
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20200718145918.17752-1-dafna.hirschfeld@collabora.com>
- <20200718145918.17752-6-dafna.hirschfeld@collabora.com>
- <d8475ade-94a3-48ad-02d7-f03810ddf6dc@collabora.com>
- <114a3242-88e9-46a1-c8c8-f5bfd424d05a@collabora.com>
- <CAAFQd5BLuwfnQfYbaWmtre5YCx-_YG4E10cZxeL+6pESap_U0A@mail.gmail.com>
- <fa457a47-4005-8c64-d135-96b321ddd6a6@collabora.com>
- <CAAFQd5ATRvBapupZaBf6TkWcVwOy7C9+A95+vLHJiwuUca4LQg@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <74c2563c-25ca-833b-2f72-b6e10e6e3847@collabora.com>
-Date:   Sat, 1 Aug 2020 18:08:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726571AbgHAVws (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Aug 2020 17:52:48 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:53305 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725883AbgHAVwr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Aug 2020 17:52:47 -0400
+X-Originating-IP: 178.240.22.159
+Received: from localhost.localdomain (unknown [178.240.22.159])
+        (Authenticated sender: cengiz@kernel.wtf)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 56FB3E0002;
+        Sat,  1 Aug 2020 21:52:42 +0000 (UTC)
+From:   Cengiz Can <cengiz@kernel.wtf>
+To:     andy.shevchenko@gmail.com
+Cc:     cengiz@kernel.wtf, dan.carpenter@oracle.com,
+        devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com
+Subject: [PATCH v3] staging: atomisp: move null check to earlier point
+Date:   Sun,  2 Aug 2020 00:51:25 +0300
+Message-Id: <20200801215124.2350-1-cengiz@kernel.wtf>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200731083856.GF3703480@smile.fi.intel.com>
+References: <20200731083856.GF3703480@smile.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5ATRvBapupZaBf6TkWcVwOy7C9+A95+vLHJiwuUca4LQg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+`find_gmin_subdev()` that returns a pointer to `struct
+gmin_subdev` can return NULL.
 
+In `gmin_v2p8_ctrl()` there's a call to this function but the
+possibility of a NULL was not checked before its being dereferenced,
+i.e.:
 
-On 21.07.20 17:32, Tomasz Figa wrote:
-> On Tue, Jul 21, 2020 at 5:30 PM Dafna Hirschfeld
-> <dafna.hirschfeld@collabora.com> wrote:
->>
->> Hi,
->>
->> On 21.07.20 14:36, Tomasz Figa wrote:
->>> On Tue, Jul 21, 2020 at 2:26 PM Dafna Hirschfeld
->>> <dafna.hirschfeld@collabora.com> wrote:
->>>>
->>>> Hi,
->>>>
->>>> On 20.07.20 21:25, Helen Koike wrote:
->>>>>
->>>>>
->>>>> On 7/18/20 11:59 AM, Dafna Hirschfeld wrote:
->>>>>> The code in rkisp1-isp.c requires access to struct 'rkisp1_device'
->>>>>> in several places. It access it using the 'container_of' macro.
->>>>>> This patch adds a pointer to 'rkisp1_device' in struct 'rkisp1_isp'
->>>>>> to simplify the access.
->>>>>
->>>>> What is wrong with container_of?
->>>>
->>>> I remember Laurent suggested it a while ago.
->>>> I also feel container_of is a bit cumbersome and other entities already have a pointer to rkisp1_device.
->>>>
->>>
->>> Do we even need the rkisp1_isp struct? Could we just pass rkisp1_device instead?
->>
->> pass to where ?  You mean to the function rkisp1_mipi_csi2_start ?
-> 
-> Yes, all around the driver, where rkisp1_isp is passed.
+  /* Acquired here --------v */
+  struct gmin_subdev *gs = find_gmin_subdev(subdev);
 
-Most of the functions are part of subdevice callback implementation
-where the rkisp1_device is not needed, so I don't the see the point.
+  /*  v------Dereferenced here */
+  if (gs->v2p8_gpio >= 0) {
+      ...
+  }
 
-Thanks,
-Dafna
+With this change we're null checking `find_gmin_subdev()` result
+and return we return an error if that's the case. We also WARN()
+for the sake of debugging.
 
-> 
+Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
+Reported-by: Coverity Static Analyzer CID 1465536
+Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
+
+Please do note that this change introduces a new return value to
+ `gmin_v2p8_ctrl`.
+ 
+ [NEW] - raise a WARN and return -ENODEV if there are no subdevices.
+       - return result of `gpio_request` or `gpio_direction_output`.
+       - return 0 if GPIO is ON.
+       - return results of `regulator_enable` or `regulator_disable`.
+       - according to PMIC type, return result of `axp_regulator_set`
+         or `gmin_i2c_write`.
+       - return -EINVAL if unknown PMIC type.
+
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 0df46a1af5f0..1ad0246764a6 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -871,6 +871,9 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 	int ret;
+ 	int value;
+ 
++	if (WARN_ON(!gs))
++		return -ENODEV;
++
+ 	if (gs->v2p8_gpio >= 0) {
+ 		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
+ 			gs->v2p8_gpio);
+@@ -881,7 +884,7 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 			pr_err("V2P8 GPIO initialization failed\n");
+ 	}
+ 
+-	if (!gs || gs->v2p8_on == on)
++	if (gs->v2p8_on == on)
+ 		return 0;
+ 	gs->v2p8_on = on;
+ 
+-- 
+2.27.0
+
