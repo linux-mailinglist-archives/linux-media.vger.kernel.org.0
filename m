@@ -2,104 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10162235483
-	for <lists+linux-media@lfdr.de>; Sun,  2 Aug 2020 00:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 833BE2354F6
+	for <lists+linux-media@lfdr.de>; Sun,  2 Aug 2020 05:20:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726808AbgHAWCY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Aug 2020 18:02:24 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:33657 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726748AbgHAWCY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Aug 2020 18:02:24 -0400
-Received: from localhost.localdomain (unknown [178.240.22.159])
-        (Authenticated sender: cengiz@kernel.wtf)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 7B83E200008;
-        Sat,  1 Aug 2020 22:02:17 +0000 (UTC)
-From:   Cengiz Can <cengiz@kernel.wtf>
-To:     andy.shevchenko@gmail.com
-Cc:     cengiz@kernel.wtf, dan.carpenter@oracle.com,
-        devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com
-Subject: [PATCH v6] staging: atomisp: move null check to earlier point
-Date:   Sun,  2 Aug 2020 01:01:02 +0300
-Message-Id: <20200801220101.2783-1-cengiz@kernel.wtf>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200731083856.GF3703480@smile.fi.intel.com>
-References: <20200731083856.GF3703480@smile.fi.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726999AbgHBDUs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Aug 2020 23:20:48 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:42373 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725883AbgHBDUs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 1 Aug 2020 23:20:48 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 24YGkGgXJywL524YHkuxwZ; Sun, 02 Aug 2020 05:20:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1596338446; bh=vfGE++ZN6rrguvyKc8uUkZNevdZIrwuCrIdqKQcH+ck=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=t0x49/3xvYlelE0bhVMx16UOCgA2RNcGqlYMgw1LwZhcDRQQIv7EmIe/9m0Pk2zBZ
+         EQtKBNYd4akgiYhT5iWuv9a0wOorndozgJVffFKxbleUXGrH9PD2Xo9FYuznn3ebrh
+         7FM010pPmSVKb2261rFpyIlH000DVlKstsxQ+yDLHXKvtLY5F7uN1GkW/q7sCo8Utv
+         eZS8dhy7gI6S7wd/VREa9Jc0gzxTBcGpENKB3x8W//dQf+u5HLaKC/GzzUfsX25xNV
+         56vur4xW9QR392S9ntmUr/EO1i9/hn3Gz2/pJRZm9RFOZtEmiLOHU/7AD6xq9Q24cz
+         WgSn+DuIyCPRQ==
+Message-ID: <7345d860b11ac2eeb001928bcbb50428@smtp-cloud7.xs4all.net>
+Date:   Sun, 02 Aug 2020 05:20:44 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfOmPu6yQhs2f1coIbhh5QZp125LgqlZCC5uKfSegvdtFuMOIegPyp7e2+2GbfUdirxxnhy1rOuxVJwxJAbgKdX6lPYGC4K6DgNOeHzKvJ/dFR5C3Lg8O
+ D3SLaj4RxS91nB85HrSPuMB1mvzfDKxXHZ5FzsfCwBy3R8LCVmeuO4nO1KiGRTBZF6xs1hxJBt0QuRTJ6qg+jFl6w6+7ZmeW0n3/Q+fRCWQvj08+EJzaoaoI
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-`find_gmin_subdev()` that returns a pointer to `struct
-gmin_subdev` can return NULL.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-In `gmin_v2p8_ctrl()` there's a call to this function but the
-possibility of a NULL was not checked before its being dereferenced,
-i.e.:
+Results of the daily build of media_tree:
 
-  /* Acquired here --------v */
-  struct gmin_subdev *gs = find_gmin_subdev(subdev);
+date:			Sun Aug  2 05:00:11 CEST 2020
+media-tree git hash:	8f2a4a9d5ff5202d0b3e3a144ebb9b67aabadd29
+media_build git hash:	ea2766f182b3a4e03543be2ded0845fca4d4fa80
+v4l-utils git hash:	c7f03287bbd64c168975e7ff3192e6fd3b507686
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 1276c1355abc12c391f3d471acc71d55421b87b6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-  /*  v------Dereferenced here */
-  if (gs->v2p8_gpio >= 0) {
-      ...
-  }
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: WARNINGS
+linux-5.3.1-x86_64: WARNINGS
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: ERRORS
 
-With this change we're null checking `find_gmin_subdev()` result
-and we return an error if that's the case. We also WARN()
-for the sake of debugging.
+Detailed results are available here:
 
-Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
-Reported-by: Coverity Static Analyzer CID 1465536
-Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
- Please do note that this change introduces a new return value to
- `gmin_v2p8_ctrl()`.
+Detailed regression test results are available here:
 
- [NEW] - raise a WARN and return -ENODEV if there are no subdevices.
-       - return result of `gpio_request` or `gpio_direction_output`.
-       - return 0 if GPIO is ON.
-       - return results of `regulator_enable` or `regulator_disable`.
-       - according to PMIC type, return result of `axp_regulator_set`
-         or `gmin_i2c_write`.
-       - return -EINVAL if unknown PMIC type.
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
- Patch Changelog:
-   v4: Fix minor typo in commit message
-   v5: Remove typo from email subject
-   v6: Remove duplicate Signed-off-by tag
+Full logs are available here:
 
- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index 0df46a1af5f0..1ad0246764a6 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -871,6 +871,9 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
- 	int ret;
- 	int value;
- 
-+	if (WARN_ON(!gs))
-+		return -ENODEV;
-+
- 	if (gs->v2p8_gpio >= 0) {
- 		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
- 			gs->v2p8_gpio);
-@@ -881,7 +884,7 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
- 			pr_err("V2P8 GPIO initialization failed\n");
- 	}
- 
--	if (!gs || gs->v2p8_on == on)
-+	if (gs->v2p8_on == on)
- 		return 0;
- 	gs->v2p8_on = on;
- 
--- 
-2.27.0
+The Media Infrastructure API from this daily build is here:
 
+http://www.xs4all.nl/~hverkuil/spec/index.html
