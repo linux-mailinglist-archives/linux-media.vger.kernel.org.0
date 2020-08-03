@@ -2,1320 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B565B239D6B
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 04:10:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41C0D23A066
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 09:34:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727016AbgHCCKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Aug 2020 22:10:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725840AbgHCCKA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Aug 2020 22:10:00 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A619C06174A;
-        Sun,  2 Aug 2020 19:10:00 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id x12so18719348qtp.1;
-        Sun, 02 Aug 2020 19:10:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=r7+tiO9rc89h1mUATfpFLuQuzuvim6O6p0pROHK/02U=;
-        b=ujl3R06Pbpq+HhoTgzJpNMBoGEjWVxSvR1P3foof3xDNetEUB+RRKw8podToacy6TC
-         2jZ4Wr9kd+E/HKZXKzO/jZiyIFGTzTtw+MxIUy2jmdR2yALklV1oL223BOzpHC3JsGIX
-         8tnr3FhiBSAoDpXpTsWZXinY7q4avTKmmHm47ZzD3divBXDkYCtZWZzCCHTD85Wjw5yz
-         lLa3db1BGgwdAty1DHNnGHG6sGaxldquCtebqAjtfDH80PClPvVl5IeQmvtWUDcd+NGQ
-         QkrYHvpwaRdcRirHF0MCtzvcHtetJ3QuOM/iXM7GYPPNX5Ri7CSYB7Bh5d/DGMRMRS7H
-         pdug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=r7+tiO9rc89h1mUATfpFLuQuzuvim6O6p0pROHK/02U=;
-        b=f9cZCbLQTYEacsTJmTm98RHbWkGDCDRaBWs94WVhqjUOmKHAn7tFxU6f/DZ7+pR8xm
-         dJzyZJTsb0x5+oikWMCKWxShkeuIQRQ+9hTMsqXqv2JoMMHiY2fjHmpMax6NXmtJGahd
-         p3yOGTE9gEBj1Ym5AhXjh/9JSMXOIBm2462LgYInedgPabjQ1AoDAOb2brVlYCeDOCpJ
-         d1gm9nUxwmTO+BxMK4ruIg/A1+17a6YouHEB9WNWTN6YnR+kvX55+xcYuOwRCdzyt8oe
-         bKdU4bCHozuI4zoh2du9E8QYUbA2lIvHYdQrGGl5k4VLC1wAQWJqm0If9AYSyf50WgQX
-         9Wyg==
-X-Gm-Message-State: AOAM531q1t0iv8IwikXrhOnvFgFpBbjC4qDV0hKmsBnUryCAyHeYUeqx
-        GuHvWvqxjpqwtXlxYXTHub4ZxB60KZs=
-X-Google-Smtp-Source: ABdhPJxS0fqtByKnjSfrfySwKyvkImFHo/P0lAxTC+mznjsmlKG9gLEEeYWG9qVYnsVmj3LbdpzCew==
-X-Received: by 2002:ac8:5303:: with SMTP id t3mr14980697qtn.159.1596420598864;
-        Sun, 02 Aug 2020 19:09:58 -0700 (PDT)
-Received: from localhost.localdomain ([190.189.67.136])
-        by smtp.gmail.com with ESMTPSA id d124sm18458083qkg.65.2020.08.02.19.09.55
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 02 Aug 2020 19:09:58 -0700 (PDT)
-From:   Santiago Hormazabal <santiagohssl@gmail.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Santiago Hormazabal <santiagohssl@gmail.com>
-Subject: [PATCH 3/3] media: Add support for the AM/FM radio chip KT0913 from KT Micro.
-Date:   Sun,  2 Aug 2020 23:09:21 -0300
-Message-Id: <20200803020921.64151-4-santiagohssl@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200803020921.64151-1-santiagohssl@gmail.com>
-References: <20200803020921.64151-1-santiagohssl@gmail.com>
+        id S1726246AbgHCHep (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 03:34:45 -0400
+Received: from mga07.intel.com ([134.134.136.100]:29521 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725951AbgHCHeo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Aug 2020 03:34:44 -0400
+IronPort-SDR: bZ1ZA1pfppM8dHrWb9ovMD2xoOumu3Tj+Ur+Cb31Uhp6xOtmVlxlsVP2jnB7O+fACw3UJES02g
+ eecDxlz4XR3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9701"; a="216483513"
+X-IronPort-AV: E=Sophos;i="5.75,429,1589266800"; 
+   d="scan'208";a="216483513"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2020 00:34:42 -0700
+IronPort-SDR: DK1ZB4ZUGE91T42iV8DRclymgMvIWPA/+r8S9cI8XcHoQirRhs3AVmThuZxkVnoeHegws0oLMg
+ 2Hn0uVwg0HDg==
+X-IronPort-AV: E=Sophos;i="5.75,429,1589266800"; 
+   d="scan'208";a="395971159"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2020 00:34:39 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 8EB8B20760; Mon,  3 Aug 2020 10:34:37 +0300 (EEST)
+Date:   Mon, 3 Aug 2020 10:34:37 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        mchehab@kernel.org, tfiga@chromium.org
+Subject: Re: [PATCH 1/2] media: pixfmt-meta-rkisp1.rst: add description of
+ rkisp1 metadata formats in pixfmt-meta-rkisp1.rst
+Message-ID: <20200803073437.GU13316@paasikivi.fi.intel.com>
+References: <20200731121243.25882-1-dafna.hirschfeld@collabora.com>
+ <20200731121243.25882-2-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200731121243.25882-2-dafna.hirschfeld@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This chip requires almost no support components and can used over I2C.
-The driver uses the I2C bus and exposes the controls as a V4L2 radio.
-Tested with a module that contains this chip (from SZZSJDZ.com,
-part number ZJ-801B, even tho the company seems defunct now), and an H2+
-AllWinner SoC running a kernel built off 8f2a4a9 of the media_tree.
+Hi Dafna,
 
-Signed-off-by: Santiago Hormazabal <santiagohssl@gmail.com>
----
- drivers/media/radio/Kconfig        |   10 +
- drivers/media/radio/Makefile       |    1 +
- drivers/media/radio/radio-kt0913.c | 1196 ++++++++++++++++++++++++++++
- 3 files changed, 1207 insertions(+)
- create mode 100644 drivers/media/radio/radio-kt0913.c
+Thanks for the patchset.
 
-diff --git a/drivers/media/radio/Kconfig b/drivers/media/radio/Kconfig
-index d29e29645e04..ac9053a95f3a 100644
---- a/drivers/media/radio/Kconfig
-+++ b/drivers/media/radio/Kconfig
-@@ -226,6 +226,16 @@ config RADIO_WL1273
- # TI's ST based wl128x FM radio
- source "drivers/media/radio/wl128x/Kconfig"
- 
-+config RADIO_KT0913
-+	tristate "KT0913 I2C FM/AM radio support"
-+	depends on I2C && VIDEO_V4L2
-+	help
-+	  Say Y here if you want to use the KT0913 FM/AM chip.
-+	  This is a low cost chip that uses the I2C bus.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called radio-kt0913.
-+
- #
- # ISA drivers configuration
- #
-diff --git a/drivers/media/radio/Makefile b/drivers/media/radio/Makefile
-index 53c7ae135460..a314121f7771 100644
---- a/drivers/media/radio/Makefile
-+++ b/drivers/media/radio/Makefile
-@@ -34,5 +34,6 @@ obj-$(CONFIG_RADIO_WL1273) += radio-wl1273.o
- obj-$(CONFIG_RADIO_WL128X) += wl128x/
- obj-$(CONFIG_RADIO_TEA575X) += tea575x.o
- obj-$(CONFIG_USB_RAREMONO) += radio-raremono.o
-+obj-$(CONFIG_RADIO_KT0913) += radio-kt0913.o
- 
- shark2-objs := radio-shark2.o radio-tea5777.o
-diff --git a/drivers/media/radio/radio-kt0913.c b/drivers/media/radio/radio-kt0913.c
-new file mode 100644
-index 000000000000..e8c1ff882779
---- /dev/null
-+++ b/drivers/media/radio/radio-kt0913.c
-@@ -0,0 +1,1196 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * drivers/media/radio/radio-kt0913.c
-+ *
-+ * Driver for the KT0913 radio chip from KTMicro.
-+ * This driver provides a v4l2 interface to the tuner, using the I2C
-+ * protocol to communicate with the chip.
-+ * It exposes two bands, one for AM and another for FM. If the "campus
-+ * band" feature needs to be enabled, set the corresponding module parameter
-+ * to 1.
-+ * Reference Clock and Audio DAC anti-pop configurations should be
-+ * set via a device tree node. Defaults will be used otherwise.
-+ *
-+ * Audio output should be routed to a speaker or an audio capture
-+ * device.
-+ *
-+ * Based on radio-tea5764 by Fabio Belavenuto <belavenuto@gmail.com>
-+ *
-+ *  Copyright (c) 2020 Santiago Hormazabal <santiagohssl@gmail.com>
-+ *
-+ * TODO:
-+ *  use rd and wr support for the regmap instead of volatile regs.
-+ *  add support for the hardware-assisted frequency seek.
-+ *  export FM SNR and AM/FM AFC deviation values as RO controls.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/i2c.h>
-+#include <linux/err.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/of.h>
-+#include <linux/math64.h>
-+#include <linux/regmap.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-ioctl.h>
-+#include <media/v4l2-event.h>
-+
-+ /* ************************************************************************* */
-+
-+ /* registers of the kt0913 */
-+#define KT0913_REG_CHIP_ID      0x01
-+#define KT0913_REG_SEEK         0x02
-+#define KT0913_REG_TUNE         0x03
-+#define KT0913_REG_VOLUME       0x04
-+#define KT0913_REG_DSPCFGA      0x05
-+#define KT0913_REG_LOCFGA       0x0A
-+#define KT0913_REG_LOCFGC       0x0C
-+#define KT0913_REG_RXCFG        0x0F
-+#define KT0913_REG_STATUSA      0x12
-+#define KT0913_REG_STATUSB      0x13
-+#define KT0913_REG_STATUSC      0x14
-+#define KT0913_REG_AMSYSCFG     0x16
-+#define KT0913_REG_AMCHAN       0x17
-+#define KT0913_REG_AMCALI       0x18
-+#define KT0913_REG_GPIOCFG      0x1D
-+#define KT0913_REG_AMDSP        0x22
-+#define KT0913_REG_AMSTATUSA    0x24
-+#define KT0913_REG_AMSTATUSB    0x25
-+#define KT0913_REG_SOFTMUTE     0x2E
-+#define KT0913_REG_AMCFG        0x33
-+#define KT0913_REG_AMCFG2       0x34
-+#define KT0913_REG_AFC          0x3C
-+
-+/* register symbols masks, values and shift count */
-+#define KT0913_TUNE_FMTUNE_MASK 0x8000 /* FM Tune enable */
-+#define KT0913_TUNE_FMTUNE_ON 0x8000 /* FM Tune enabled */
-+#define KT0913_TUNE_FMTUNE_OFF 0x0000 /* FM Tune disabled */
-+#define KT0913_TUNE_FMCHAN_MASK 0x0FFF /* frequency in kHz / 50kHz */
-+
-+#define KT0913_VOLUME_DMUTE_MASK 0x2000
-+#define KT0913_VOLUME_DMUTE_ON 0x0000
-+#define KT0913_VOLUME_DMUTE_OFF 0x2000
-+#define KT0913_VOLUME_DE_MASK 0x0800 /* de-emphasis time constant */
-+#define KT0913_VOLUME_DE_75US 0x0000 /* 75us */
-+#define KT0913_VOLUME_DE_50US 0x0800 /* 50us */
-+#define KT0913_VOLUME_POP_MASK 0x30 /* audio dac anti-pop config */
-+#define KT0913_VOLUME_POP_SHIFT 4
-+
-+#define KT0913_DSPCFGA_MONO_MASK 0x8000 /* mono select (0=stereo, 1=mono) */
-+#define KT0913_DSPCFGA_MONO_ON 0x8000 /* mono */
-+#define KT0913_DSPCFGA_MONO_OFF 0x0000 /* stereo */
-+
-+#define KT0913_LOCFG_CAMPUSBAND_EN_MASK 0x0008 /* campus band fm enable */
-+#define KT0913_LOCFG_CAMPUSBAND_EN_ON 0x0008 /* FM range 64-110MHz */
-+#define KT0913_LOCFG_CAMPUSBAND_EN_OFF 0x0000 /* FM range 32-110MHz */
-+
-+#define KT0913_RXCFGA_STDBY_MASK 0x1000 /* standby mode enable */
-+#define KT0913_RXCFGA_STDBY_ON 0x1000 /* standby mode enabled */
-+#define KT0913_RXCFGA_STDBY_OFF 0x0000 /* standby mode disabled */
-+#define KT0913_RXCFGA_VOLUME_MASK 0x001F /* volume control */
-+
-+#define KT0913_STATUSA_XTAL_OK 0x8000 /* crystal ready indicator */
-+#define KT0913_STATUSA_STC 0x4000 /* seek/tune complete */
-+
-+#define KT0913_STATUSA_PLL_LOCK_MASK 0x800 /* system pll ready indicator */
-+#define KT0913_STATUSA_PLL_LOCK_LOCKED 0x800 /* system pll ready */
-+#define KT0913_STATUSA_PLL_LOCK_UNLOCKED 0x000 /* not ready */
-+#define KT0913_STATUSA_LO_LOCK 0x400 /* LO synthesizer ready indicator */
-+#define KT0913_STATUSA_ST_MASK 0x300 /* stereo indicator (0x300=stereo, otherwise mono) */
-+#define KT0913_STATUSA_ST_STEREO 0x300 /* stereo */
-+#define KT0913_STATUSA_FMRSSI_MASK 0xF8 /* FM RSSI (-100dBm + FMRSSI*3dBm) */
-+#define KT0913_STATUSA_FMRSSI_SHIFT 3
-+
-+#define KT0913_STATUSC_PWSTATUS 0x8000 /* power status indicator */
-+#define KT0913_STATUSC_CHIPRDY 0x2000 /* chip ready indicator */
-+#define KT0913_STATUSC_FMSNR 0x1FC0 /* FM SNR (unknown units) */
-+
-+#define KT0913_AMCHAN_AMTUNE_MASK 0x8000 /* AM tune enable */
-+#define KT0913_AMCHAN_AMTUNE_ON 0x8000 /* AM tune enabled */
-+#define KT0913_AMCHAN_AMTUNE_OFF 0x0000 /* AM tune disabled */
-+#define KT0913_AMCHAN_AMCHAN_MASK 0x7FF /* am channel in kHz */
-+
-+#define KT0913_AMSYSCFG_AM_FM_MASK 0x8000 /* am/fm mode control */
-+#define KT0913_AMSYSCFG_AM_FM_AM 0x8000 /* am mode */
-+#define KT0913_AMSYSCFG_AM_FM_FM 0x0000 /* fm mode (default) */
-+#define KT0913_AMSYSCFG_REFCLK_MASK 0x0F00 /* reference clock selection */
-+#define KT0913_AMSYSCFG_REFCLK_SHIFT 8
-+#define KT0913_AMSYSCFG_AU_GAIN_MASK 0x00C0 /* audio gain selection */
-+#define KT0913_AMSYSCFG_AU_GAIN_6DB 0x0040 /* 6dB audio gain */
-+#define KT0913_AMSYSCFG_AU_GAIN_3DB 0x0000 /* 3dB audio gain (default) */
-+#define KT0913_AMSYSCFG_AU_GAIN_0DB 0x00C0 /* 0dB audio gain */
-+#define KT0913_AMSYSCFG_AU_GAIN_MIN_3DB 0x0080 /* -3dB audio gain */
-+
-+#define KT0913_AMSTATUSA_AMRSSI_MASK 0x1F00 /* am channel rssi */
-+#define KT0913_AMSTATUSA_AMRSSI_SHIFT 8
-+
-+/* constants */
-+#define KT0913_CHIP_ID  0x544B /* ASCII of 'KT' */
-+
-+#define V4L2_KHZ_FREQ_MUL 16U /* v4l2 uses 16x the kHz value as their freq */
-+#define KT0913_FMCHAN_MUL 50U /* kt0913 uses freqs with a 50kHz multiplier */
-+#define KT0913_FM_RANGE_LOW_NO_CAMPUS 64000U /* 64MHz lower bound for FM */
-+#define KT0913_FM_RANGE_LOW_CAMPUS 32000U /* 32MHz lower bound for campus FM */
-+#define KT0913_FM_RANGE_HIGH 110000U /* 110MHz upper bound for FM */
-+#define KT0913_AM_RANGE_LOW  500U /* 500kHz lower bound for AM */
-+#define KT0913_AM_RANGE_HIGH 1710U /* 1710kHz upper bound for AM */
-+
-+#define KT0913_FM_AM_DRIVER_NAME "kt0913-fm-am"
-+
-+/* ************************************************************************* */
-+
-+/* v4l2 device number to use. -1 will assign the next free one */
-+static int kt0913_v4l2_radio_nr = -1;
-+/* use the extended range of FM down to 32MHz. disabled by default */
-+static int kt0913_use_campus_band;
-+
-+/* ************************************************************************* */
-+
-+/* kt0913 status struct */
-+struct kt0913_device {
-+	struct v4l2_device v4l2_dev;		/* main v4l2 struct */
-+	struct i2c_client *client;			/* I2C client */
-+	struct video_device vdev;			/* vide_device struct */
-+	struct v4l2_ctrl_handler ctrl_handler; /* ctrl_handler struct */
-+
-+	/* V4L2 Controls */
-+	struct v4l2_ctrl *ctrl_pll_lock;    /* PLL lock */
-+	struct v4l2_ctrl *ctrl_volume;      /* Overall volume */
-+	struct v4l2_ctrl *ctrl_au_gain;     /* Audio Gain */
-+	struct v4l2_ctrl *ctrl_mute;        /* Master mute */
-+	struct v4l2_ctrl *ctrl_deemp;  /* Deemphasis */
-+
-+	/* current operation band (fm, fm_campus, am) */
-+	unsigned int band;
-+
-+	/* audio dac anti-pop setting:
-+	 *  0 -> 100uF (default)
-+	 *  1 -> 60uF
-+	 *  2 -> 20uF
-+	 *  3 -> 10uF
-+	 */
-+	unsigned int audio_anti_pop;
-+
-+	/*
-+	 * reference clock selection:
-+	 *  0 -> 32.768kHz (default)
-+	 *  1 -> 6.5MHz
-+	 *  2 -> 7.6MHz
-+	 *  3 -> 12MHz
-+	 *  4 -> 13MHz
-+	 *  5 -> 15.2MHz
-+	 *  6 -> 19.2MHz
-+	 *  7 -> 24MHz
-+	 *  8 -> 26MHz
-+	 *  9 -> 38kHz
-+	 */
-+	unsigned int refclock_val;
-+
-+	/* Regmap */
-+	struct regmap *regmap;
-+
-+	/* For core assisted locking */
-+	struct mutex mutex;
-+};
-+
-+/* ************************************************************************* */
-+
-+/* Regmap settings */
-+static const struct regmap_range kt0913_regmap_all_registers_range[] = {
-+	regmap_reg_range(0x01, 0x05),
-+	regmap_reg_range(0x0A, 0x0A),
-+	regmap_reg_range(0x0C, 0x0C),
-+	regmap_reg_range(0x0F, 0x0F),
-+	regmap_reg_range(0x12, 0x14),
-+	regmap_reg_range(0x16, 0x18),
-+	regmap_reg_range(0x1D, 0x1D),
-+	regmap_reg_range(0x22, 0x22),
-+	regmap_reg_range(0x24, 0x25),
-+	regmap_reg_range(0x2E, 0x2F),
-+	regmap_reg_range(0x30, 0x34),
-+	regmap_reg_range(0x3A, 0x3A),
-+	regmap_reg_range(0x3C, 0x3C),
-+};
-+
-+static const struct regmap_access_table kt0913_all_registers_access_table = {
-+	.yes_ranges = kt0913_regmap_all_registers_range,
-+	.n_yes_ranges = ARRAY_SIZE(kt0913_regmap_all_registers_range),
-+};
-+
-+static const struct reg_sequence kt0913_init_regs_to_defaults[] = {
-+	/* Standby disabled, volume 0dB */
-+	{ KT0913_REG_RXCFG, 0x881F },
-+	/* FM Channel spacing = 50kHz, Right & Left unmuted */
-+	{ KT0913_REG_SEEK, 0x000B },
-+	/* Stereo, High Stereo/Mono blend level, blend disabled */
-+	{ KT0913_REG_DSPCFGA, 0x1000 },
-+	/* FM AFC Enabled */
-+	{ KT0913_REG_LOCFGA, 0x0100 },
-+	/* Campus band disabled by default */
-+	{ KT0913_REG_LOCFGC, 0x0024 },
-+	/*
-+	 * FM mode, internal defined bands, clock from XT, 32.768kHz
-+	 * 3dB audio gain, AM AFC Enabled
-+	 */
-+	{ KT0913_REG_AMSYSCFG, 0x0002 },
-+	/* Default AM freq = 504kHz */
-+	{ KT0913_REG_AMCHAN, 0x01F8},
-+	/* VOL and CH GPIOs set to HiZ */
-+	{ KT0913_REG_GPIOCFG, 0x0000 },
-+	/* AM Channel bandwidth = 6kHz, non-differential output */
-+	{ KT0913_REG_AMDSP, 0xAFC4 },
-+	/*
-+	 * softmute is disabled on AM and FM, but set the defaults:
-+	 * strong softmute attn., slow softmute attack/recover,
-+	 * lowest AM softumte start level, almost the minimum
-+	 * softmute target volume, RSSI mode for softmute, lowest
-+	 * FM softmute start level
-+	 */
-+	{ KT0913_REG_SOFTMUTE, 0x0010 },
-+	/* 1kHz for AM channel space, working mode A for the keys */
-+	{ KT0913_REG_AMCFG, 0x1401 },
-+	/* TIME1 = shortest, TIME2 = fastest */
-+	{ KT0913_REG_AMCFG, 0x4050 },
-+	/* set 86MHz as the default frequency, and tune it */
-+	{ KT0913_REG_TUNE, 0x86B8 },
-+	/*
-+	 * FM&AM Softmute disabled, Mute disabled, 75us deemp.,
-+	 * no bass boost, 100uF anti pop cap
-+	 */
-+	{ KT0913_REG_VOLUME, 0xE080 },
-+};
-+
-+static const struct regmap_config kt0913_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 16,
-+	.max_register = KT0913_REG_AFC,
-+	.volatile_table = &kt0913_all_registers_access_table,
-+	.cache_type = REGCACHE_RBTREE,
-+	.val_format_endian = REGMAP_ENDIAN_BIG,
-+};
-+
-+/* ************************************************************************* */
-+
-+/* bands where the kt0913 operates */
-+enum { BAND_FM, BAND_FM_CAMUS, BAND_AM };
-+
-+static const struct v4l2_frequency_band kt0913_bands[] = {
-+	{
-+		/* BAND_FM */
-+		.type = V4L2_TUNER_RADIO,
-+		.index = 0, /* index provided to v4l2 */
-+		.capability = V4L2_TUNER_CAP_LOW | V4L2_TUNER_CAP_STEREO |
-+				V4L2_TUNER_CAP_FREQ_BANDS,
-+		.rangelow = KT0913_FM_RANGE_LOW_NO_CAMPUS * V4L2_KHZ_FREQ_MUL,
-+		.rangehigh = KT0913_FM_RANGE_HIGH * V4L2_KHZ_FREQ_MUL,
-+		.modulation = V4L2_BAND_MODULATION_FM,
-+	},
-+	{
-+		/* BAND_FM_CAMUS */
-+		.type = V4L2_TUNER_RADIO,
-+		.index = 0, /* index provided to v4l2 */
-+		.capability = V4L2_TUNER_CAP_LOW | V4L2_TUNER_CAP_STEREO |
-+				V4L2_TUNER_CAP_FREQ_BANDS,
-+		.rangelow = KT0913_FM_RANGE_LOW_CAMPUS * V4L2_KHZ_FREQ_MUL,
-+		.rangehigh = KT0913_FM_RANGE_HIGH * V4L2_KHZ_FREQ_MUL,
-+		.modulation = V4L2_BAND_MODULATION_FM,
-+	},
-+	{
-+		/* BAND_AM */
-+		.type = V4L2_TUNER_RADIO,
-+		.index = 1, /* index provided to v4l2 */
-+		.capability = V4L2_TUNER_CAP_LOW | V4L2_TUNER_CAP_FREQ_BANDS,
-+		.rangelow = KT0913_AM_RANGE_LOW * V4L2_KHZ_FREQ_MUL,
-+		.rangehigh = KT0913_AM_RANGE_HIGH * V4L2_KHZ_FREQ_MUL,
-+		.modulation = V4L2_BAND_MODULATION_AM,
-+	},
-+};
-+
-+/* ************************************************************************* */
-+
-+static inline struct kt0913_device *
-+v4l2_device_to_device(struct v4l2_device *v4l2_dev)
-+{
-+	return container_of(v4l2_dev,
-+		struct kt0913_device, v4l2_dev);
-+}
-+
-+static inline struct kt0913_device *
-+v4l2_ctrl_to_device(struct v4l2_ctrl *ctrl_handler)
-+{
-+	return container_of(ctrl_handler->handler,
-+		struct kt0913_device, ctrl_handler);
-+}
-+
-+/* ************************************************************************* */
-+
-+static inline u32 khz_to_v4l2_freq(unsigned int freq)
-+{
-+	return freq * V4L2_KHZ_FREQ_MUL;
-+}
-+
-+static inline unsigned int v4l2_freq_to_khz(u32 v4l2_freq)
-+{
-+	return v4l2_freq / V4L2_KHZ_FREQ_MUL;
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_get_fm_frequency(struct kt0913_device *radio,
-+				     unsigned int *frequency)
-+{
-+	unsigned int tune_reg;
-+	int ret = regmap_read(radio->regmap, KT0913_REG_TUNE, &tune_reg);
-+
-+	if (ret)
-+		return ret;
-+
-+	*frequency = (tune_reg & KT0913_TUNE_FMCHAN_MASK) * KT0913_FMCHAN_MUL;
-+
-+	return 0;
-+}
-+
-+static int __kt0913_set_fm_frequency(struct kt0913_device *radio,
-+				     unsigned int frequency)
-+{
-+	return regmap_write(radio->regmap, KT0913_REG_TUNE,
-+		KT0913_TUNE_FMTUNE_ON | (frequency / KT0913_FMCHAN_MUL));
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_set_mute(struct kt0913_device *radio, int on)
-+{
-+	return regmap_update_bits(radio->regmap,
-+		KT0913_REG_VOLUME, KT0913_VOLUME_DMUTE_MASK,
-+		on ? KT0913_VOLUME_DMUTE_ON : KT0913_VOLUME_DMUTE_OFF);
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_set_deemphasis(struct kt0913_device *radio, s32 deemp)
-+{
-+	switch (deemp) {
-+	case V4L2_DEEMPHASIS_75_uS:
-+		return regmap_update_bits(radio->regmap,
-+			KT0913_REG_VOLUME, KT0913_VOLUME_DE_MASK,
-+			KT0913_VOLUME_DE_50US);
-+
-+		/* 50us is used for the disabled option (which is not supported
-+		 * on the chip) and the 50uS value
-+		 */
-+	default:
-+		return regmap_update_bits(radio->regmap,
-+			KT0913_REG_VOLUME, KT0913_VOLUME_DE_MASK,
-+			KT0913_VOLUME_DE_75US);
-+	}
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_set_volume(struct kt0913_device *radio, s32 volume)
-+{
-+	/* map [-60, 0] to [1, 31] which is what the kt0913 expects */
-+	volume = (volume / 2) + 31;
-+	return regmap_update_bits(radio->regmap,
-+		KT0913_REG_RXCFG, KT0913_RXCFGA_VOLUME_MASK,
-+		volume);
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_set_standby(struct kt0913_device *radio, int standby)
-+{
-+	return regmap_update_bits(radio->regmap,
-+		KT0913_REG_RXCFG, KT0913_RXCFGA_STDBY_MASK,
-+		standby ? KT0913_RXCFGA_STDBY_ON : KT0913_RXCFGA_STDBY_OFF);
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_get_pll_status(struct kt0913_device *radio, int *locked)
-+{
-+	unsigned int statusa_reg;
-+	int ret = regmap_read(radio->regmap, KT0913_REG_STATUSA, &statusa_reg);
-+
-+	if (ret)
-+		return ret;
-+
-+	*locked = (statusa_reg & KT0913_STATUSA_PLL_LOCK_MASK) ==
-+		KT0913_STATUSA_PLL_LOCK_LOCKED ? 1 : 0;
-+
-+	return 0;
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_get_rx_stereo_or_mono(struct kt0913_device *radio,
-+					  int *stereo)
-+{
-+	unsigned int statusa_reg;
-+	int ret = regmap_read(radio->regmap, KT0913_REG_STATUSA, &statusa_reg);
-+
-+	if (ret)
-+		return ret;
-+
-+	*stereo = (statusa_reg & KT0913_STATUSA_ST_MASK) ==
-+		KT0913_STATUSA_ST_STEREO ? 1 : 0;
-+
-+	return 0;
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_get_fm_rssi(struct kt0913_device *radio, s32 *rssi)
-+{
-+	unsigned int statusa_reg;
-+	int ret = regmap_read(radio->regmap, KT0913_REG_STATUSA, &statusa_reg);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* RSSI(dBm) = -100 + FMRSSI<4:0> * 3dBm
-+	 * even tho we can get the value in dBm, we want a %
-+	 */
-+	*rssi = (statusa_reg & KT0913_STATUSA_FMRSSI_MASK) >>
-+		KT0913_STATUSA_FMRSSI_SHIFT;
-+	/* map range 0-31 to 0-65535 */
-+	*rssi *= 65535;
-+	*rssi /= KT0913_STATUSA_FMRSSI_MASK >> KT0913_STATUSA_FMRSSI_SHIFT;
-+
-+	return 0;
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_get_cfg_stereo_enabled(struct kt0913_device *radio,
-+					   int *stereo)
-+{
-+	unsigned int dspcfga_reg;
-+	int ret = regmap_read(radio->regmap, KT0913_REG_DSPCFGA, &dspcfga_reg);
-+
-+	if (ret)
-+		return ret;
-+
-+	*stereo = (dspcfga_reg & KT0913_DSPCFGA_MONO_MASK) ==
-+		KT0913_DSPCFGA_MONO_OFF ? 1 : 0;
-+
-+	return ret;
-+}
-+
-+static int __kt0913_set_cfg_stereo_enabled(struct kt0913_device *radio,
-+					   int stereo)
-+{
-+	return regmap_update_bits(radio->regmap,
-+		KT0913_REG_DSPCFGA, KT0913_DSPCFGA_MONO_MASK,
-+		stereo ? KT0913_DSPCFGA_MONO_OFF : KT0913_DSPCFGA_MONO_ON);
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_set_au_gain(struct kt0913_device *radio, s32 gain)
-+{
-+	switch (gain) {
-+	case 6:
-+		return regmap_update_bits(radio->regmap,
-+			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
-+			KT0913_AMSYSCFG_AU_GAIN_6DB);
-+	case 3:
-+		return regmap_update_bits(radio->regmap,
-+			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
-+			KT0913_AMSYSCFG_AU_GAIN_3DB);
-+	case 0:
-+		return regmap_update_bits(radio->regmap,
-+			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
-+			KT0913_AMSYSCFG_AU_GAIN_0DB);
-+	case -3:
-+		return regmap_update_bits(radio->regmap,
-+			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
-+			KT0913_AMSYSCFG_AU_GAIN_MIN_3DB);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_set_am_fm_band(struct kt0913_device *radio,
-+				   unsigned int band)
-+{
-+	return regmap_update_bits(radio->regmap,
-+		KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AM_FM_MASK,
-+		band == BAND_AM ?
-+		KT0913_AMSYSCFG_AM_FM_AM : KT0913_AMSYSCFG_AM_FM_FM);
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_get_am_frequency(struct kt0913_device *radio,
-+				     unsigned int *frequency)
-+{
-+	unsigned int amchan_reg;
-+	int ret = regmap_read(radio->regmap, KT0913_REG_AMCHAN, &amchan_reg);
-+
-+	if (ret)
-+		return ret;
-+
-+	*frequency = (amchan_reg & KT0913_AMCHAN_AMCHAN_MASK);
-+
-+	return 0;
-+}
-+
-+static int __kt0913_set_am_frequency(struct kt0913_device *radio,
-+				     unsigned int frequency)
-+{
-+	return regmap_write(radio->regmap, KT0913_REG_AMCHAN,
-+		KT0913_AMCHAN_AMTUNE_ON | frequency);
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_get_am_rssi(struct kt0913_device *radio, s32 *rssi)
-+{
-+	unsigned int amstatusa_reg;
-+	int ret = regmap_read(radio->regmap,
-+		KT0913_REG_AMSTATUSA, &amstatusa_reg);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* AMRSSI(dBm) = -90 + AMRSSI<4:0> * 3dBm
-+	 * even tho we can get the value in dBm, we want a %
-+	 */
-+	*rssi = (amstatusa_reg & KT0913_AMSTATUSA_AMRSSI_MASK) >>
-+		 KT0913_AMSTATUSA_AMRSSI_SHIFT;
-+	/* map range 0-31 to 0-65535 */
-+	*rssi *= 65535;
-+	*rssi /= KT0913_AMSTATUSA_AMRSSI_MASK >> KT0913_AMSTATUSA_AMRSSI_SHIFT;
-+
-+	return 0;
-+}
-+
-+/* ************************************************************************* */
-+
-+static int __kt0913_init(struct kt0913_device *radio)
-+{
-+	int ret = 0;
-+
-+	/* write the defaults */
-+	ret = regmap_multi_reg_write(radio->regmap,
-+				     kt0913_init_regs_to_defaults,
-+				     ARRAY_SIZE(kt0913_init_regs_to_defaults));
-+	if (ret) {
-+		v4l2_err(radio->client,
-+			 "regmap_multi_reg_write() failed! %d", ret);
-+		return ret;
-+	}
-+
-+	/* set the audio dac anti-pop config */
-+	ret = regmap_update_bits(radio->regmap,
-+				 KT0913_REG_VOLUME, KT0913_VOLUME_POP_MASK,
-+				 radio->audio_anti_pop <<
-+				 KT0913_VOLUME_POP_SHIFT);
-+	if (ret) {
-+		v4l2_err(radio->client,
-+			 "regmap_update_bits() err on anti-pop cfg! %d", ret);
-+		return ret;
-+	}
-+
-+	/* set the reference clock config */
-+	ret = regmap_update_bits(radio->regmap,
-+				 KT0913_REG_AMSYSCFG,
-+				 KT0913_AMSYSCFG_REFCLK_MASK,
-+				 radio->refclock_val <<
-+				 KT0913_AMSYSCFG_REFCLK_SHIFT);
-+	if (ret) {
-+		v4l2_err(radio->client,
-+			 "regmap_update_bits() err on refclk cfg! %d", ret);
-+		return ret;
-+	}
-+
-+	if (kt0913_use_campus_band) {
-+		v4l2_info(radio->client,
-+			  "campus band is enabled!");
-+		/* set the campus band bit */
-+		ret = regmap_update_bits(radio->regmap,
-+					 KT0913_REG_LOCFGC,
-+					 KT0913_LOCFG_CAMPUSBAND_EN_MASK,
-+					 KT0913_LOCFG_CAMPUSBAND_EN_ON);
-+		if (ret) {
-+			v4l2_err(radio->client,
-+				 "regmap_update_bits() err on campus band! %d",
-+				 ret);
-+			return ret;
-+		}
-+	}
-+
-+	return __kt0913_set_mute(radio, true);
-+}
-+
-+/* ************************************************************************* */
-+
-+static int kt0913_ioctl_vidioc_g_frequency(struct file *file, void *priv,
-+					   struct v4l2_frequency *f)
-+{
-+	struct kt0913_device *radio = video_drvdata(file);
-+	int ret;
-+
-+	if (f->tuner != 0)
-+		return -EINVAL;
-+
-+	f->type = V4L2_TUNER_RADIO;
-+
-+	if (radio->band == BAND_AM)
-+		ret = __kt0913_get_am_frequency(radio, &f->frequency);
-+	else
-+		ret = __kt0913_get_fm_frequency(radio, &f->frequency);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* convert kHz freq into v4l2 freq */
-+	f->frequency = khz_to_v4l2_freq(f->frequency);
-+
-+	return 0;
-+}
-+
-+static int kt0913_ioctl_vidioc_s_frequency(struct file *file, void *priv,
-+					   const struct v4l2_frequency *f)
-+{
-+	struct kt0913_device *radio = video_drvdata(file);
-+	unsigned int freq = f->frequency;
-+	unsigned int new_band;
-+	unsigned int half_gap_freq;
-+	int ret;
-+
-+	if (f->tuner != 0 || f->type != V4L2_TUNER_RADIO)
-+		return -EINVAL;
-+
-+	if (freq == 0)
-+		return -EINVAL;
-+
-+	/* calculate the middle frequency on the gap of the bands */
-+	half_gap_freq = kt0913_bands[BAND_AM].rangehigh;
-+
-+	if (kt0913_use_campus_band)
-+		/* using the AM band and the campus FM band if enabled */
-+		half_gap_freq += kt0913_bands[BAND_FM_CAMUS].rangelow;
-+	else
-+		/* or using the AM band and the standard FM band */
-+		half_gap_freq += kt0913_bands[BAND_FM].rangelow;
-+
-+	half_gap_freq /= 2;
-+
-+	if (freq <= half_gap_freq)
-+		new_band = BAND_AM;
-+	else if (freq <= kt0913_bands[BAND_FM].rangelow &&
-+		 kt0913_use_campus_band)
-+		new_band = BAND_FM_CAMUS;
-+	else
-+		new_band = BAND_FM;
-+
-+	/* is the requested band different than the one currently set? */
-+	if (radio->band != new_band) {
-+		/* update the band on the device */
-+		ret = __kt0913_set_am_fm_band(radio, new_band);
-+		if (ret)
-+			return ret;
-+		radio->band = new_band;
-+	}
-+
-+	/* clamp the frequency to the band boundaries */
-+	freq = clamp(freq, kt0913_bands[new_band].rangelow,
-+		     kt0913_bands[new_band].rangehigh);
-+
-+	/* convert v4l2 freq to kHz */
-+	freq = v4l2_freq_to_khz(freq);
-+
-+	if (radio->band == BAND_AM)
-+		return __kt0913_set_am_frequency(radio, freq);
-+	else
-+		return __kt0913_set_fm_frequency(radio, freq);
-+}
-+
-+static int kt0913_ioctl_vidioc_enum_freq_bands(struct file *file, void *priv,
-+					       struct v4l2_frequency_band *band)
-+{
-+	if (band->tuner != 0)
-+		return -EINVAL;
-+
-+	switch (band->index) {
-+	case 0:
-+		if (kt0913_use_campus_band)
-+			*band = kt0913_bands[BAND_FM_CAMUS];
-+		else
-+			*band = kt0913_bands[BAND_FM];
-+		return 0;
-+	case 1:
-+		*band = kt0913_bands[BAND_AM];
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+/* ************************************************************************* */
-+
-+/* V4L2 vidioc */
-+static int kt0913_ioctl_vidioc_querycap(struct file *file, void *priv,
-+					struct v4l2_capability *capability)
-+{
-+	struct kt0913_device *radio = video_drvdata(file);
-+	struct video_device *dev;
-+
-+	if (!radio)
-+		return -ENODEV;
-+
-+	dev = &radio->vdev;
-+
-+	if (!dev)
-+		return -ENODEV;
-+
-+	strscpy(capability->driver, KT0913_FM_AM_DRIVER_NAME,
-+		sizeof(capability->driver));
-+	strscpy(capability->card, dev->name, sizeof(capability->card));
-+	snprintf(capability->bus_info, sizeof(capability->bus_info),
-+		 "I2C:%s", dev_name(&dev->dev));
-+	return 0;
-+}
-+
-+static int kt0913_ioctl_vidioc_g_tuner(struct file *file, void *priv,
-+				       struct v4l2_tuner *v)
-+{
-+	struct kt0913_device *radio = video_drvdata(file);
-+	int ret;
-+	int stereo_enabled;
-+	int is_stereo;
-+
-+	if (v->index != 0)
-+		return -EINVAL;
-+
-+	strscpy(v->name, "FM/AM", sizeof(v->name));
-+	v->type = V4L2_TUNER_RADIO;
-+
-+	v->capability = V4L2_TUNER_CAP_LOW | V4L2_TUNER_CAP_STEREO |
-+		V4L2_TUNER_CAP_FREQ_BANDS;
-+
-+	v->rangelow = kt0913_bands[BAND_AM].rangelow;
-+	v->rangehigh = kt0913_bands[BAND_FM].rangehigh;
-+
-+	if (radio->band == BAND_AM) {
-+		v->rxsubchans = V4L2_TUNER_SUB_MONO;
-+		v->audmode = V4L2_TUNER_MODE_MONO;
-+
-+		ret = __kt0913_get_am_rssi(radio, &v->signal);
-+		if (ret)
-+			return ret;
-+	} else {
-+		ret = __kt0913_get_cfg_stereo_enabled(radio, &stereo_enabled);
-+		if (ret)
-+			return ret;
-+
-+		v->rxsubchans = stereo_enabled ?
-+			V4L2_TUNER_SUB_STEREO : V4L2_TUNER_SUB_MONO;
-+
-+		ret = __kt0913_get_rx_stereo_or_mono(radio, &is_stereo);
-+		if (ret)
-+			return ret;
-+
-+		v->audmode = is_stereo ?
-+			V4L2_TUNER_MODE_STEREO : V4L2_TUNER_MODE_MONO;
-+
-+		ret = __kt0913_get_fm_rssi(radio, &v->signal);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	/* AFC is enabled and active by default */
-+	v->afc = 1;
-+
-+	return 0;
-+}
-+
-+static int kt0913_ioctl_vidioc_s_tuner(struct file *file, void *priv,
-+				       const struct v4l2_tuner *v)
-+{
-+	struct kt0913_device *radio = video_drvdata(file);
-+
-+	if (v->index != 0)
-+		return -EINVAL;
-+
-+	/* only mono and stereo are supported */
-+	if (v->audmode != V4L2_TUNER_MODE_MONO &&
-+	    v->audmode != V4L2_TUNER_MODE_STEREO)
-+		return 0;
-+
-+	/* AM is mono only, so don't try to set it to stereo */
-+	if (radio->band == BAND_AM && v->audmode != V4L2_TUNER_MODE_MONO)
-+		return 0;
-+
-+	/* set to stereo if specified, otherwise set to mono */
-+	return __kt0913_set_cfg_stereo_enabled(radio,
-+		v->audmode == V4L2_TUNER_MODE_STEREO);
-+}
-+
-+static int kt0913_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct kt0913_device *radio = v4l2_ctrl_to_device(ctrl);
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_AUDIO_MUTE:
-+		return __kt0913_set_mute(radio, ctrl->val);
-+	case V4L2_CID_AUDIO_VOLUME:
-+		return __kt0913_set_volume(radio, ctrl->val);
-+	case V4L2_CID_GAIN:
-+		return __kt0913_set_au_gain(radio, ctrl->val);
-+	case V4L2_CID_TUNE_DEEMPHASIS:
-+		return __kt0913_set_deemphasis(radio, ctrl->val);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int kt0913_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct kt0913_device *radio = v4l2_ctrl_to_device(ctrl);
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_RF_TUNER_PLL_LOCK:
-+		return __kt0913_get_pll_status(radio, &ctrl->val);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct v4l2_ctrl_ops kt0913_ctrl_ops = {
-+	.s_ctrl = kt0913_s_ctrl,
-+	.g_volatile_ctrl = kt0913_g_volatile_ctrl,
-+};
-+
-+/* ************************************************************************* */
-+
-+/* File system interface (use the ancillary fops for v4l2) */
-+static const struct v4l2_file_operations kt0913_radio_fops = {
-+	.owner = THIS_MODULE,
-+	.open = v4l2_fh_open,
-+	.release = v4l2_fh_release,
-+	.poll = v4l2_ctrl_poll,
-+	.unlocked_ioctl = video_ioctl2,
-+};
-+
-+/* ioctl ops */
-+static const struct v4l2_ioctl_ops kt0913_ioctl_ops = {
-+	.vidioc_querycap = kt0913_ioctl_vidioc_querycap,
-+	.vidioc_g_tuner = kt0913_ioctl_vidioc_g_tuner,
-+	.vidioc_s_tuner = kt0913_ioctl_vidioc_s_tuner,
-+	.vidioc_g_frequency = kt0913_ioctl_vidioc_g_frequency,
-+	.vidioc_s_frequency = kt0913_ioctl_vidioc_s_frequency,
-+	.vidioc_enum_freq_bands = kt0913_ioctl_vidioc_enum_freq_bands,
-+	/* use ancillary functions for these: */
-+	.vidioc_log_status = v4l2_ctrl_log_status,
-+	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-+	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-+};
-+
-+/* V4L2 RADIO device structure */
-+static struct video_device kt0913_radio_template = {
-+	.name = KT0913_FM_AM_DRIVER_NAME,
-+	.fops = &kt0913_radio_fops,
-+	.ioctl_ops = &kt0913_ioctl_ops,
-+	.release = video_device_release_empty,
-+	.vfl_dir = VFL_DIR_RX,
-+	.device_caps = V4L2_CAP_TUNER | V4L2_CAP_RADIO,
-+};
-+
-+/* ************************************************************************* */
-+
-+#if IS_ENABLED(CONFIG_OF)
-+static const struct of_device_id kt0913_of_match[] = {
-+	{ .compatible = "ktm,kt0913" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, kt0913_of_match);
-+#endif /* IS_ENABLED(CONFIG_OF) */
-+
-+static void __kt0913_parse_dt(struct kt0913_device *radio)
-+{
-+	const void *ptr_anti_pop = of_get_property(radio->client->dev.of_node,
-+		"ktm,anti-pop", NULL);
-+	const void *ptr_refclk = of_get_property(radio->client->dev.of_node,
-+		"ktm,refclk", NULL);
-+
-+	if (ptr_anti_pop) {
-+		radio->audio_anti_pop =
-+			clamp(be32_to_cpup(ptr_anti_pop), 0U, 3U);
-+	} else {
-+		radio->audio_anti_pop = 0;
-+		v4l2_warn(radio->client,
-+			  "No ktm,anti-pop on dt node, using default");
-+	}
-+
-+	if (ptr_refclk) {
-+		radio->refclock_val =
-+			clamp(be32_to_cpup(ptr_refclk), 0U, 9U);
-+	} else {
-+		radio->refclock_val = 0;
-+		v4l2_warn(radio->client,
-+			  "No ktm,refclk on dt node, using default");
-+	}
-+}
-+
-+/* ************************************************************************* */
-+
-+static int kt0913_probe(struct i2c_client *client,
-+			const struct i2c_device_id *id)
-+{
-+	struct kt0913_device *radio;
-+	struct v4l2_device *v4l2_dev;
-+	struct v4l2_ctrl_handler *hdl;
-+	struct regmap *regmap;
-+	int ret;
-+
-+	pr_debug("%s\n", __func__);
-+
-+	/* this driver uses word R/W i2c operations, check if it's supported */
-+	ret = i2c_check_functionality(client->adapter,
-+				      I2C_FUNC_SMBUS_READ_WORD_DATA |
-+				      I2C_FUNC_SMBUS_WRITE_WORD_DATA);
-+	if (!ret) {
-+		v4l2_err(client,
-+			 "I2C adapter doesn't support word operations");
-+		return -EIO;
-+	}
-+
-+	/* check if the device exist on the bus before initializing it */
-+	ret = i2c_smbus_read_word_data(client, KT0913_REG_CHIP_ID);
-+	if (ret < 0) {
-+		v4l2_err(client,
-+			 "Error reading CHIP ID of the kt0913 (%d)", ret);
-+		return ret;
-+	}
-+
-+	/* check if the CHIP ID register value matches the expected value */
-+	if (ret != KT0913_CHIP_ID) {
-+		v4l2_err(radio->client,
-+			 "Invalid CHIP ID: 0x%x, expected 0x%x",
-+			 ret, KT0913_CHIP_ID);
-+		return -ENODEV;
-+	}
-+
-+	v4l2_info(client,
-+		  "kt0913 found @ 0x%x (%s)\n",
-+		  client->addr, client->adapter->name);
-+
-+	/* alloc context for the kt0913 radio struct */
-+	radio = devm_kzalloc(&client->dev, sizeof(*radio), GFP_KERNEL);
-+	if (!radio)
-+		return -ENOMEM;
-+
-+	v4l2_dev = &radio->v4l2_dev;
-+	ret = v4l2_device_register(&client->dev, v4l2_dev);
-+	if (ret < 0) {
-+		v4l2_err(client,
-+			 "could not register v4l2_dev\n");
-+		goto errfr;
-+	}
-+
-+	mutex_init(&radio->mutex);
-+
-+	/* register the control handler from the context struct */
-+	hdl = &radio->ctrl_handler;
-+	v4l2_ctrl_handler_init(hdl, 5);
-+
-+	/* add the control: Mute */
-+	radio->ctrl_mute = v4l2_ctrl_new_std(hdl, &kt0913_ctrl_ops,
-+					     V4L2_CID_AUDIO_MUTE,
-+					     0, 1, 1, 0);
-+	if (hdl->error) {
-+		ret = hdl->error;
-+		v4l2_err(v4l2_dev, "Could not register control: mute\n");
-+		goto errunreg;
-+	}
-+
-+	/* add the control: Volume */
-+	radio->ctrl_volume = v4l2_ctrl_new_std(hdl, &kt0913_ctrl_ops,
-+					       V4L2_CID_AUDIO_VOLUME,
-+					       -60, 0, 2, 0);
-+	if (hdl->error) {
-+		ret = hdl->error;
-+		v4l2_err(v4l2_dev, "Could not register control: Volume\n");
-+		goto errunreg;
-+	}
-+
-+	/* add the control: audio gain */
-+	radio->ctrl_au_gain = v4l2_ctrl_new_std(hdl, &kt0913_ctrl_ops,
-+						V4L2_CID_GAIN,
-+						-3, 6, 3, 3);
-+	if (hdl->error) {
-+		ret = hdl->error;
-+		v4l2_err(v4l2_dev, "Could not register control: audio gain\n");
-+		goto errunreg;
-+	}
-+	radio->ctrl_au_gain->flags |= V4L2_CTRL_FLAG_SLIDER;
-+
-+	/* add the control: PLL Lock */
-+	radio->ctrl_pll_lock = v4l2_ctrl_new_std(hdl, &kt0913_ctrl_ops,
-+						 V4L2_CID_RF_TUNER_PLL_LOCK,
-+						 0, 1, 1, 0);
-+	if (hdl->error) {
-+		ret = hdl->error;
-+		v4l2_err(v4l2_dev, "Could not register control: pll lock\n");
-+		goto errunreg;
-+	}
-+	radio->ctrl_pll_lock->flags |= (V4L2_CTRL_FLAG_VOLATILE |
-+		V4L2_CTRL_FLAG_READ_ONLY);
-+
-+	/* add the control: deemphasis */
-+	radio->ctrl_deemp = v4l2_ctrl_new_std_menu(hdl, &kt0913_ctrl_ops,
-+						   V4L2_CID_TUNE_DEEMPHASIS,
-+						   V4L2_DEEMPHASIS_75_uS,
-+						   0,
-+						   V4L2_DEEMPHASIS_75_uS);
-+	if (hdl->error) {
-+		ret = hdl->error;
-+		v4l2_err(v4l2_dev, "Could not register control: deemphasis\n");
-+		goto errunreg;
-+	}
-+	/* the control handler is ready to be used */
-+	v4l2_dev->ctrl_handler = hdl;
-+
-+	radio->vdev = kt0913_radio_template;
-+	radio->vdev.lock = &radio->mutex;
-+	radio->vdev.v4l2_dev = v4l2_dev;
-+	video_set_drvdata(&radio->vdev, radio);
-+
-+	radio->client = client;
-+	i2c_set_clientdata(client, radio);
-+
-+	/* init the regmap of the kt0913 */
-+	regmap = devm_regmap_init_i2c(client, &kt0913_regmap_config);
-+	if (IS_ERR(regmap)) {
-+		ret = PTR_ERR(regmap);
-+		v4l2_err(client,
-+			 "devm_regmap_init_i2c() failed! %d", ret);
-+		goto errunreg;
-+	}
-+	radio->regmap = regmap;
-+
-+	__kt0913_parse_dt(radio);
-+
-+	/* init the kt0913 into a known state */
-+	ret = __kt0913_init(radio);
-+	if (ret) {
-+		v4l2_err(client,
-+			 "__kt0913_init() failed! %d", ret);
-+		goto errunreg;
-+	}
-+
-+	pm_runtime_get_noresume(&client->dev);
-+	pm_runtime_set_active(&client->dev);
-+	pm_runtime_enable(&client->dev);
-+	pm_runtime_dont_use_autosuspend(&client->dev);
-+
-+	ret = video_register_device(&radio->vdev,
-+				    VFL_TYPE_RADIO, kt0913_v4l2_radio_nr);
-+	if (ret < 0) {
-+		v4l2_err(client,
-+			 "Could not register video device!");
-+		goto error_pm_disable;
-+	}
-+
-+	v4l2_info(client, "registered.");
-+	return 0;
-+error_pm_disable:
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_set_suspended(&client->dev);
-+errunreg:
-+	v4l2_ctrl_handler_free(hdl);
-+	v4l2_device_unregister(v4l2_dev);
-+errfr:
-+	__kt0913_set_standby(radio, true);
-+	kfree(radio);
-+	return ret;
-+}
-+
-+static int kt0913_remove(struct i2c_client *client)
-+{
-+	struct kt0913_device *radio = i2c_get_clientdata(client);
-+
-+	pr_debug("%s\n", __func__);
-+	if (!radio)
-+		return -EINVAL;
-+
-+	__kt0913_set_standby(radio, true);
-+
-+	pm_runtime_get_sync(&client->dev);
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_set_suspended(&client->dev);
-+	pm_runtime_put_noidle(&client->dev);
-+
-+	video_unregister_device(&radio->vdev);
-+	v4l2_ctrl_handler_free(&radio->ctrl_handler);
-+	v4l2_device_unregister(&radio->v4l2_dev);
-+
-+	v4l2_info(client, "removed.");
-+	return 0;
-+}
-+
-+/* ************************************************************************* */
-+
-+#ifdef CONFIG_PM
-+static int kt0913_i2c_pm_runtime_suspend(struct device *dev)
-+{
-+	struct kt0913_device *radio = i2c_get_clientdata(to_i2c_client(dev));
-+
-+	pr_debug("%s\n", __func__);
-+	if (!radio)
-+		return 0;
-+
-+	return __kt0913_set_standby(radio, true);
-+}
-+
-+static int kt0913_i2c_pm_runtime_resume(struct device *dev)
-+{
-+	struct kt0913_device *radio = i2c_get_clientdata(to_i2c_client(dev));
-+
-+	pr_debug("%s\n", __func__);
-+	if (!radio)
-+		return 0;
-+
-+	return __kt0913_set_standby(radio, false);
-+}
-+#endif /* CONFIG_PM */
-+
-+static const struct dev_pm_ops kt0913_i2c_pm_ops = {
-+	SET_RUNTIME_PM_OPS(kt0913_i2c_pm_runtime_suspend,
-+			   kt0913_i2c_pm_runtime_resume, NULL)
-+};
-+
-+static const struct i2c_device_id kt0913_idtable[] = {
-+	{ "kt0913", 0 },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(i2c, kt0913_idtable);
-+
-+static struct i2c_driver kt0913_driver = {
-+	.driver = {
-+		.name = "kt0913",
-+		.of_match_table = of_match_ptr(kt0913_of_match),
-+		.pm = &kt0913_i2c_pm_ops,
-+	},
-+	.probe = kt0913_probe,
-+	.remove = kt0913_remove,
-+	.id_table = kt0913_idtable,
-+};
-+module_i2c_driver(kt0913_driver);
-+
-+MODULE_AUTHOR("Santiago Hormazabal <santiagohssl@gmail.com>");
-+MODULE_DESCRIPTION("KTMicro KT0913 AM/FM receiver");
-+MODULE_LICENSE("GPL");
-+MODULE_VERSION("0.0.2");
-+
-+module_param(kt0913_use_campus_band, int, 0);
-+MODULE_PARM_DESC(kt0913_use_campus_band, "Use the Campus Band feature (FM range 32MHz-110MHz)");
-+module_param(kt0913_v4l2_radio_nr, int, 0);
-+MODULE_PARM_DESC(kt0913_v4l2_radio_nr, "v4l2 device number to use (i.e. /dev/radioX)");
+On Fri, Jul 31, 2020 at 02:12:42PM +0200, Dafna Hirschfeld wrote:
+> The metadata formats V4L2_META_FMT_IPU3_PARAMS, V4L2_META_FMT_IPU3_3A
+> are currently described in two files under
+> drivers/staging/media/rkisp1/Documentation/media/uapi/v4l
+> 
+> This patch moves the description to one file:
+> Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+> The patch also extends the description and adds the rst file to
+> toctree.
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+>  .../media/v4l/pixfmt-meta-rkisp1.rst          | 49 +++++++++++++++++++
+>  .../uapi/v4l/pixfmt-meta-rkisp1-params.rst    | 23 ---------
+>  .../uapi/v4l/pixfmt-meta-rkisp1-stat.rst      | 22 ---------
+>  4 files changed, 50 insertions(+), 45 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+>  delete mode 100644 drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+>  delete mode 100644 drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> index 7dcc4bacbb0c..55a635534bc9 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -21,6 +21,7 @@ These formats are used for the :ref:`metadata` interface only.
+>  
+>      pixfmt-meta-d4xx
+>      pixfmt-meta-intel-ipu3
+> +    pixfmt-meta-rkisp1
+>      pixfmt-meta-uvc
+>      pixfmt-meta-vsp1-hgo
+>      pixfmt-meta-vsp1-hgt
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+> new file mode 100644
+> index 000000000000..c8effdfd27bf
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+> @@ -0,0 +1,49 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _v4l2-meta-fmt-params-rkisp1:
+> +.. _v4l2-meta-fmt-stat-rkisp1:
+> +
+> +*****************************************************************************
+> +V4L2_META_FMT_RK_ISP1_PARAMS ('rk1p'), V4L2_META_FMT_RK_ISP1_STAT_3A ('rk1s')
+> +*****************************************************************************
+> +
+> +.. rkisp1_stat_buffer
+> +
+> +3A and histogram statistics
+> +===========================
+> +
+> +The ISP1 device collects different statistics over an input Bayer frame.
+> +Those statistics are obtained from the :ref:`rkisp1_stats <rkisp1_stats>` metadata capture video node,
+> +using the :c:type:`v4l2_meta_format` interface. The buffer contains a single instance of
+
+Please wrap lines at most at 80 characters if possible.
+
+> +the C structure :c:type:`rkisp1_stat_buffer` defined in ``rkisp1-config.h``.
+> +So the structure can be obtained from the buffer by:
+> +
+> +.. code-block:: c
+> +
+> +	struct rkisp1_stat_buffer *stats = (struct rkisp1_stat_buffer*) buffer;
+> +
+> +The statistics collected are Exposure, AWB (Auto-white balance), Histogram and
+> +AF (Auto-focus). See :c:type:`rkisp1_stat_buffer` for details of the statistics.
+> +
+> +.. ipu3_uapi_params
+> +
+> +Configuration parameters
+> +========================
+
+I'd move configuration parameters before statistics --- they're first in
+the section name and are also used to calculate the statistics.
+
+> +
+> +The configuration parameters are passed to the :ref:`rkisp1_params <rkisp1_params>` metadata
+> +output video node, using the :c:type:`v4l2_meta_format` interface. The buffer contains
+> +a single instance of the C structure :c:type:`rkisp1_params_cfg` defined in
+> +``rkisp1-config.h``. So the structure can be obtained from the buffer by:
+> +
+> +.. code-block:: c
+> +
+> +	struct rkisp1_params_cfg *stats = (struct rkisp1_params_cfg*) buffer;
+> +
+> +The 3A statistics and configuration parameters described here are usually consumed
+> +and produced by dedicated user space libraries that comprise the important tuning
+> +tools using software control loop.
+> +
+> +rkisp1 uAPI data types
+> +======================
+> +
+> +.. kernel-doc:: drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> diff --git a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst b/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+> deleted file mode 100644
+> index 32034e481357..000000000000
+> --- a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+> +++ /dev/null
+> @@ -1,23 +0,0 @@
+> -.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> -
+> -.. _v4l2-meta-fmt-rkisp1-params:
+> -
+> -============================
+> -V4L2_META_FMT_RK_ISP1_PARAMS
+> -============================
+> -
+> -Rockchip ISP1 Parameters Data
+> -
+> -Description
+> -===========
+> -
+> -This format describes input parameters for the Rockchip ISP1.
+> -
+> -It uses c-struct :c:type:`rkisp1_params_cfg`, which is defined in
+> -the ``linux/rkisp1-config.h`` header file.
+> -
+> -The parameters consist of multiple modules.
+> -The module won't be updated if the corresponding bit was not set in module_*_update.
+> -
+> -.. kernel-doc:: include/uapi/linux/rkisp1-config.h
+> -   :functions: rkisp1_params_cfg
+> diff --git a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst b/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+> deleted file mode 100644
+> index 4ad303f96421..000000000000
+> --- a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> -
+> -.. _v4l2-meta-fmt-rkisp1-stat:
+> -
+> -=============================
+> -V4L2_META_FMT_RK_ISP1_STAT_3A
+> -=============================
+> -
+> -
+> -Rockchip ISP1 Statistics Data
+> -
+> -Description
+> -===========
+> -
+> -This format describes image color statistics information generated by the Rockchip
+> -ISP1.
+> -
+> -It uses c-struct :c:type:`rkisp1_stat_buffer`, which is defined in
+> -the ``linux/rkisp1-config.h`` header file.
+> -
+> -.. kernel-doc:: include/uapi/linux/rkisp1-config.h
+> -   :functions: rkisp1_stat_buffer
+
 -- 
-2.24.1
+Kind regards,
 
+Sakari Ailus
