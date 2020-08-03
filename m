@@ -2,134 +2,281 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C389523A1C5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 11:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34FD923A261
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 11:58:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726252AbgHCJbs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 05:31:48 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:34917 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725996AbgHCJbs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 05:31:48 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 93so17274377otx.2;
-        Mon, 03 Aug 2020 02:31:47 -0700 (PDT)
+        id S1726504AbgHCJ65 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 05:58:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725968AbgHCJ65 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 05:58:57 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D345C06174A
+        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 02:58:57 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id b6so33589415wrs.11
+        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 02:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fk/8iyRZ6r4HjB+Kw1uzDbjimyFRO8jWb83tQILJlDc=;
+        b=srHlFP3GBi1w1GogyFwQHTURSNovQaHOntCxE2M1i/Io9WLSN4/KyY0S+jvieK6tzu
+         X6FF9Ak9WClV0vLuydYYwDYB34YF5g8jXA28ziSlvZOwbAA+oKZOxRDStmJ/3wiZ1uAa
+         v7ePZHh4G73ruF3MvwrwuNHlNrkxZFXNzMo45EFxgs8hg1dsq5grdb+2DYOR/IKmknI2
+         8bZ603Kh1MVrwFxqLPaeVGfbSmm4onzn/fuPs7cQpnocdRXzFnB6Ifk2PHHMsgeQQJrQ
+         lMHNUmmTZ2s/5hZtwdtOzyIlnIsmXf2krWJ0p1McRaHhFiiXRjYNp6uejRzxZ1HbgKQl
+         L2rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cNQhjEuMT8QktkBdiT53ZebNYf/kgY2N7FdiAWEIJE4=;
-        b=DlKWAQnOqjkK9QgfxqupuGgRa5A+/aiWLdoXyEwtT5d8ZrIkmjEozg7HOivQM05Faz
-         XtKLatZ9q11FQgNkkFhIofDdmJVX1X2QvNJe+UvhPNI8/rHshH/BRuSENwVfxJGfgCEg
-         1HXukUtXWpVjTSJlpLoav5Vq9mlr+hVIXijoxFrxZNrzzyhV5+4X+PKXAdsjcCVOH/Rr
-         iDZNww03yYgS5zh4KVIvZLHZSdvMTqbvcFU+ZfT7oPBnd60OIaNpGua8oI2rxdRKnpp5
-         s0+4F9p5cLmn72qr/0dFPTqRtNCWWSSXVlrVRqSAEFh6mC+hfe7PF4l7T5js0Emrkrap
-         JAuA==
-X-Gm-Message-State: AOAM530/OyHCS2pfZIGRIcJvzSBLUTBI6wqi4H556sMZLgUbv9IOOuFW
-        JL1Tp1JHDZ+3KWWPbSsF92vamQFC535Hgupxc54=
-X-Google-Smtp-Source: ABdhPJxWHu6bmTNcqR+flJJ2oDdPHMxmw1tynMHEul1JJgkV5TSGCfXj/5LSyfY8jhyV1OsM5EXnn9dNW/aJyDE/ox8=
-X-Received: by 2002:a05:6830:1b79:: with SMTP id d25mr12167826ote.107.1596447106515;
- Mon, 03 Aug 2020 02:31:46 -0700 (PDT)
+        bh=fk/8iyRZ6r4HjB+Kw1uzDbjimyFRO8jWb83tQILJlDc=;
+        b=mJ0rcVSLvk+5YJN0yeDVGBCQJ76/sBIekQ9Ascoj7hR919f5sGNDm7ScyxtsAaba/f
+         vRzIRNDamvOGqgMB4FD7PwYS0IB9EKjrAn4dOQECilylQmpQ1e3KFlx1v/1LgggFDqlV
+         iJ9O8e+l4FAtP8JxTkoyF4cB5QAKvgcHSFS8XdJ0yLPoGjWar/rdlMT7zlvKuT65Zz/+
+         XwxxzF/Wyi8r/0yNyLwDwy1u2pbYODDxMyLMZK3iVzmbo1p9l33eXLtyIdtyq8zN4xoL
+         E9wf85VqQe6XA8iKH1+unka2+E7xVrj1mAhKtiocWEdkvtrcRC4auil6Enw/tmeZXU+Y
+         HXtg==
+X-Gm-Message-State: AOAM530+CEl5dkS5AJ/vdq2XmoH+RbFxSi+yKul+qhKGb63jjH/nZ4wY
+        2ME7REniZrImhf67tUgeHBmhjruGzGkjBf+LNrqE8g==
+X-Google-Smtp-Source: ABdhPJwBnH6e0p1/0G1a7YfKMU805vvQJUOeFGYoMdlLHIbT5vImj7/EGEbkGgcZAf4jXojSRFTa887RmWhmxOnZHgU=
+X-Received: by 2002:a5d:5383:: with SMTP id d3mr14376312wrv.42.1596448735618;
+ Mon, 03 Aug 2020 02:58:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <1595602732-25582-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200724193752.GE2729799@oden.dyn.berto.se> <CA+V-a8s7UkhCGcP8eiiH_jd8hhnpLJA6QqfL7jXo_sAgRMfy8g@mail.gmail.com>
- <20200725081146.GF2729799@oden.dyn.berto.se> <CA+V-a8sNxUaj88DDcWyc4zrmsAAGndjoQX=OmJ3u1GRJCT6TBQ@mail.gmail.com>
- <20200801091759.GC1379367@oden.dyn.berto.se>
-In-Reply-To: <20200801091759.GC1379367@oden.dyn.berto.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Aug 2020 11:31:35 +0200
-Message-ID: <CAMuHMdUv-8v1Uqh9qU5NfCz0gr2iag_9Y28NiHU_X8nijLXRKA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Document
- renesas-vin-ycbcr-8b-g property
-To:     Niklas <niklas.soderlund@ragnatech.se>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+References: <b580ac9d-5ae4-29ce-c81a-a1f98b1d953b@xs4all.nl> <20200801111903.zt2d2djusjdh27vc@uno.localdomain>
+In-Reply-To: <20200801111903.zt2d2djusjdh27vc@uno.localdomain>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 3 Aug 2020 10:58:39 +0100
+Message-ID: <CAPY8ntA3FtOELrbKL0hfR_c9fyoC_pLSv4sa0PUiME_ywq3WBw@mail.gmail.com>
+Subject: Re: [libcamera-devel] [PATCH] imx219: selection compliance fixes
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        libcamera-devel@lists.libcamera.org,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Jacopo, Hans, and Laurent.
 
-On Sat, Aug 1, 2020 at 11:18 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> On 2020-07-25 23:23:13 +0100, Lad, Prabhakar wrote:
-> > On Sat, Jul 25, 2020 at 9:11 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > > On 2020-07-24 22:11:31 +0100, Lad, Prabhakar wrote:
-> > > > On Fri, Jul 24, 2020 at 8:37 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > > > > On 2020-07-24 15:58:51 +0100, Lad Prabhakar wrote:
-> > > > > > Add a DT property "renesas-vin-ycbcr-8b-g" to select YCbCr422 8-bit data
-> > > > > > input pins.
+On Sat, 1 Aug 2020 at 12:15, Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Hi Hans, Laurent,
+>
+>     sorry, long email, contains a few things on the general definition
+>     of the selection target, a question for libcamera, and a few more
+>     details at the end.
+>
+> Adding Sakari, libcamera ml, Ricardo which helped with the
+> definition of pixel array properties in libcamera recently and
+> Dave and Naush as this sensor is the RPi camera module v2 and some
+> information on the sensor come from their BSP.
 
-> > > > > This nit apart I'm not sure a property is the right way here. Could it
-> > > > > not be possible on some designs to have two different sensors one wired
-> > > > > to DATA[7:0] and the other to DATA[15:8] and by controlling the
-> > > > > VNDRM2_YDS register at runtime switch between the two? If so adding a DT
-> > > > > property to hard-code one of the two options would prevent this. I fear
-> > > > > we need to think of a runtime way to deal with this.
-> > > > >
-> > > > Aha Gen2 and Gen3 hardware manuals have a bit different description
-> > > > about the YDS field. (I was working R8a7742 SoC so I referred Gen2
-> > > > manual)
-> > >
-> > > Ahh, I think we should use the Gen3 names as I find them overall an
-> > > improvement over the Gen2 ones.
-> > >
-> > Agreed.
+Thanks for cc'ing me in but I'll say that this seems to be a framework
+question rather than specifically an IMX219 thing. I'll therefore
+leave it to those with far more knowledge on how things are expected
+to work within V4L2 to decide how this is meant to work, and how it
+should all be defined (and documented!). I have no particular views on
+it.
+
+  Dave
+
+> On Thu, Jul 02, 2020 at 03:50:04PM +0200, Hans Verkuil wrote:
+> > The top/left crop coordinates were 0, 0 instead of 8, 8 in the
+> > supported_modes array. This was a mismatch with the default values,
+> > so this is corrected. Found with v4l2-compliance.
 > >
-> > > >
-> > > > > The best way to do that I think is to extend the port@0 node to allow
-> > > > > for two endpoints, one for each of the two possible parallel sensors.
-> > > > > This would then have to be expressed in the media graph and selection if
-> > > > > YDS should be set or not depend on which media links are enabled.
-> > > > >
-> > > > In that case how do we handle endpoint matching each would have two
-> > > > subdevs to be matched.
-> > >
-> > > It would be handle in the same was as the multiple endpoints in port@1.
-> > >
-> > > > And in case non media-ctl cases we cannot
-> > > > switch between subdevs.
-> > >
-> > > For the Gen2 none media graph enabled mode this could be handled with
-> > > the S_INPUT ioctl. For this feature to be merged however I it needs to
-> > > be possible to select input both in Gen2 and Gen3 I'm afraid.
-> > Ohh yes S_INPUT could be used to switch inputs. But  how do we decide
-> > YDS needs to be enabled, for example with the below dts say vin3 is
-> > parallel bus split into 2x 8-bit bus one connected to a ov5640 sensor
-> > and other connected to ov7725 sensor. Should we use data-shift
-> > property for the second vin endpoint (vin3ep1) to enable YDS ?
+> > Also add V4L2_SEL_TGT_CROP_BOUNDS support: CROP_DEFAULT and CROP_BOUNDS
+> > always go together. Found with v4l2-compliance.
 >
-> Using data-shift is a great idea! If I understand your use-case you
-> currently only have one sensor attached on the parallel bus right? If so
-> we can postpone the multi sensor part until it's needed and just learn
-> the VIN driver about data-shift. From the documentation,
+> Let me try to summarize the outcome of the discussion
 >
->   - data-shift: on the parallel data busses, if bus-width is used to
->     specify the number of data lines, data-shift can be used to specify
->     which data lines are used, e.g. "bus-width=<8>; data-shift=<2>;"
->     means, that lines 9:2 are used.
+> 1) All selection rectangles are defined in respect to the NATIVE_SIZE
+>    target, which returns the full pixel array size, which includes
+>    readable and non-readable pixels. It's top-left corner is in
+>    position (0,0)
 >
-> So in this case would not specifying data-shift=<8> solve the DT
-> description problem? The VIN driver still needs to learn about this tho.
-
-And the PFC drivers need to be extended with the data8_sft8 groups
-(present in the BSP), right?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 3) CROP_BOUND returns the portion of the full pixel array which can be
+>    read out, including optical black pixels, and is defined in respect
+>    to the full pixel array size
+>
+> 2) CROP_DEFAULT returns the portion of the readable part of the pixel array
+>    which contains valid image data (aka 'active' pixels). It is again
+>    defined in respect to the full pixel array rectangle returned by
+>    NATIVE_SIZE target.
+>
+> With an ack on my understanding, I think it's worth expanding the
+> target documentation a bit. As I've said I've been hesitant in doing
+> so, as those targets do not only apply to image sensors, but I think a
+> section that goes like "If the sub-device represents and image sensor
+> then the V4L2_SEL_TGT_.. target represents ... "
+>
+> Laurent: this will have some impact on libcamera as well
+> https://git.linuxtv.org/libcamera.git/tree/src/libcamera/camera_sensor.cpp#n503
+> When we read the analogCrop rectangle, we decided it is defined in
+> respect to the active portion of the pixel array (CROP_DEFAULT) and
+> not from the full pixel array size (NATIVE_SIZE).
+>
+> We then should:
+> 1) Back-track on our decision to have analog crop defined in respect
+> to the active part and decide it should be defined in respect to the
+> full pixel array: this has implications on the existing IPAs that
+> assume what we have defined
+>
+> 2) Adjust the analogCrop rectangle by subtracting to its sizes the
+> values reported by TGT_CROP_DEFAULT.top and TGT_CROP_DEFAULT.left.
+>
+> I would got for 2) what's your opinion ?
+>
+> On this specific patch:
+>
+> >
+> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > ---
+> >  drivers/media/i2c/imx219.c | 17 +++++++++--------
+> >  1 file changed, 9 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index 0a546b8e466c..935e2a258ce5 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -473,8 +473,8 @@ static const struct imx219_mode supported_modes[] = {
+> >               .width = 3280,
+> >               .height = 2464,
+> >               .crop = {
+> > -                     .left = 0,
+> > -                     .top = 0,
+> > +                     .left = 8,
+> > +                     .top = 8,
+>
+> we have
+> #define IMX219_PIXEL_ARRAY_LEFT         8U
+> #define IMX219_PIXEL_ARRAY_TOP          8U
+>
+> Which I would then re-name IMX219_ACTIVE_ARRAY_LEFT and
+> IMX219_ACTIVE_ARRAY_TOP and re-use it there
+>
+>
+> >                       .width = 3280,
+> >                       .height = 2464
+> >               },
+> > @@ -489,8 +489,8 @@ static const struct imx219_mode supported_modes[] = {
+> >               .width = 1920,
+> >               .height = 1080,
+> >               .crop = {
+> > -                     .left = 680,
+> > -                     .top = 692,
+> > +                     .left = 8 + 680,
+> > +                     .top = 8 + 692,
+> >                       .width = 1920,
+> >                       .height = 1080
+> >               },
+> > @@ -505,8 +505,8 @@ static const struct imx219_mode supported_modes[] = {
+> >               .width = 1640,
+> >               .height = 1232,
+> >               .crop = {
+> > -                     .left = 0,
+> > -                     .top = 0,
+> > +                     .left = 8,
+> > +                     .top = 8,
+> >                       .width = 3280,
+> >                       .height = 2464
+> >               },
+> > @@ -521,8 +521,8 @@ static const struct imx219_mode supported_modes[] = {
+> >               .width = 640,
+> >               .height = 480,
+> >               .crop = {
+> > -                     .left = 1000,
+> > -                     .top = 752,
+> > +                     .left = 8 + 1000,
+> > +                     .top = 8 + 752,
+> >                       .width = 1280,
+> >                       .height = 960
+> >               },
+> > @@ -1014,6 +1014,7 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> >               return 0;
+> >
+> >       case V4L2_SEL_TGT_CROP_DEFAULT:
+> > +     case V4L2_SEL_TGT_CROP_BOUNDS:
+>
+> I think this is fine and that's my reasoning:
+>
+> The IMAX219 pixel array is documented as
+>
+>         /-------------- 3296 -------------------/
+>          8                                     8
+>         +---------------------------------------+    /
+>         |IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII| 8  |
+>         |IpppppppppppppppppppppppppppppppppppppI|    |
+>         |IpppppppppppppppppppppppppppppppppppppI|    |
+>         |IpppppppppppppppppppppppppppppppppppppI|    |
+>         |IpppppppppppppppppppppppppppppppppppppI|    |
+>         |IpppppppppppppppppppppppppppppppppppppI|    |
+>         |IpppppppppppppppppppppppppppppppppppppI|    |
+>
+>                             ....                    2480
+>
+>         |IpppppppppppppppppppppppppppppppppppppI|    |
+>         |IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII|    |
+>         |IoooooooooooooooooooooooooooooooooooooI| 16 |
+>         |IOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOI| 16 |
+>         |IoooooooooooooooooooooooooooooooooooooI| 8  |
+>         +---------------------------------------+    /
+>
+> Where:
+>         I = invalid active area
+>         p = valid pixels
+>         o = Invalid OB area
+>         O = Valid OB area
+>         Effective area = 3296x2480
+>         Active area = 3280x2464
+>
+> The 'active area' is then sorrounded by 8 invalid rows, 8 invalid
+> cols at the beginning and the end, and followed by 8 more invalid
+> rows. Then, 16 invalid black rows follow, then 16 -valid- black
+> rows, then 8 invalid black rows again.
+>
+> My understanding is that the whole effective area is sent on the bus,
+> as the CSI-2 timings report the sizes of the 'effective' area to be
+> the whole 3296x2480 matrix, and assigns a CSI-2 data-type to the
+> "Valid OB area" while sets the DataType for invalid areas to Null.
+>
+> However the registers that select the analog crop work on the 'active
+> area' only, so there is not way to select "I want the Valid OB area"
+> only, as the whole 'effective area' is sent on the bus and the CSI-2
+> receivers filters on the DataType to discard the 'Invalid' lines (to
+> which a Null DataType is assigned) and capture image data ('active area')
+> and eventually 'Valid black' pixels (which have a data type assigned).
+>
+> All of this to say, there's no point in reporting a TGT_BOUND larger
+> that the active area, as the user cannot select portions outside of it
+> through the S_SELECTION API, but can only instruct it's CSI-2 receiver
+> to filter-in the data it desires, which I think we're missing an API
+> for.
+>
+> Hans: would you like to go ahead with this patch, or should I take
+> over and change the libcamera part that parses these properties in one
+> go ?
+>
+> Thanks
+>   j
+>
+> >               sel->r.top = IMX219_PIXEL_ARRAY_TOP;
+> >               sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
+> >               sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
+> > --
+> > 2.27.0
+> >
+> _______________________________________________
+> libcamera-devel mailing list
+> libcamera-devel@lists.libcamera.org
+> https://lists.libcamera.org/listinfo/libcamera-devel
