@@ -2,87 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4EA523AA0D
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 18:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7861423AA16
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 18:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728268AbgHCQAO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 12:00:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbgHCQAO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 12:00:14 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1FE5C06174A
-        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 09:00:13 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id 186so1019747vkx.4
-        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 09:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AQC5OSI+ot4HICgMI1hBiF+Gos4KF9rtoTAXqBLWz5k=;
-        b=gP0hGxdZpv7oi/HJF0iairUbhXDSeECExkx/WUmvKbJIKYqRHFbhrSant0W/qarBAu
-         pt2QS00SD0C3sScBrjjH8PuJSo/uiRusGI8NdinY72x5wOlbs+la767nkgtU1+AdO/4R
-         sVgh/KH5EXT8KXDfD+VCxBTK4X1AEadmwBpBrMVvntYBujslfuoMPSdeAJPR+0zoXtmU
-         az8f0YQ3IGNq2/+IKVQAVs5iYU/bcziJbdbgOWftXf0g+mybpPTS5/8EnV/nQwq4dSqm
-         ZRV9gMwTdIcvKiJF/9J0XUaNMTR7Pm4yz/Nv7W/qKW98y0pV5r5ge3KKLHyEx2GZZhW8
-         O0Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AQC5OSI+ot4HICgMI1hBiF+Gos4KF9rtoTAXqBLWz5k=;
-        b=AVtO3WZudgLjzsIuDhPvr+0DVmYgm75XlMMkfv7FiudQ6P1XsLhYA78+WYohqET93A
-         9gM01jBfGOx1VA8z6q3yA0AHMQSCE80q5DJaqdmP1Zy1pqrGVzV/Tch61zNml4A/yd/V
-         Es5X/g/pj5I/45DBUPMqKFSwRkMjYf8JrZFkug+GPnBWb6cTO6J9YLJ4sQaCLncHlDcV
-         qFSgODq8nRX/VJhUo6aTQLV2IHvJ/wqMucncM1NFVuBIBJl0Pt4aYfRj5Sq+Jpa2bfYp
-         Kg3EPHnJCos5TCtl1j8r8zkLebuiJJlOnbOXQYRF9ahsc8IE0PCK0mwPqczefay5AIk6
-         y+vA==
-X-Gm-Message-State: AOAM533cRWlMkUiB61waYENRa/dpM6f3AOdFIQUE5A7ndSckle5dUhQh
-        6dwOFLUOyM2FIFjhL+6tZcdV1GsRDWOCCBy9j3RywA==
-X-Google-Smtp-Source: ABdhPJxBkWFzXg/y1w5xTYtUJSHjvCQFO/a1nE0RcfXFpI2HgJqGujkazyU0S+p/ymKJ5J9VS+bR1YpMln1PD/g9du0=
-X-Received: by 2002:a1f:9651:: with SMTP id y78mr1828501vkd.5.1596470412618;
- Mon, 03 Aug 2020 09:00:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com> <20200803154125.GA23808@casper.infradead.org>
-In-Reply-To: <20200803154125.GA23808@casper.infradead.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 3 Aug 2020 09:00:00 -0700
-Message-ID: <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Kalesh Singh <kaleshsingh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1728064AbgHCQDE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 12:03:04 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:40157 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726457AbgHCQDE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Aug 2020 12:03:04 -0400
+X-IronPort-AV: E=Sophos;i="5.75,430,1589209200"; 
+   d="scan'208";a="53754805"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 04 Aug 2020 01:03:02 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2643040062DB;
+        Tue,  4 Aug 2020 01:03:00 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Niklas <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] media: rcar-vin: Add support to select data pins for YCbCr422-8bit input
+Date:   Mon,  3 Aug 2020 17:02:53 +0100
+Message-Id: <1596470573-15065-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 3, 2020 at 8:41 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Mon, Aug 03, 2020 at 02:47:19PM +0000, Kalesh Singh wrote:
-> > +static void dma_buf_fd_install(int fd, struct file *filp)
-> > +{
-> > +     trace_dma_buf_fd_ref_inc(current, filp);
-> > +}
->
-> You're adding a new file_operation in order to just add a new tracepoint?
-> NACK.
+Select the data pins for YCbCr422-8bit input format depending on
+bus_width and data_shift passed as part of DT.
 
-Hi Matthew,
-The plan is to attach a BPF to this tracepoint in order to track
-dma-buf users. If you feel this is an overkill, what would you suggest
-as an alternative?
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+Changes for v2:
+* Dropped DT binding documentation patch
+* Select the data pins depending on bus-width and data-shift
+
+v1 -
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=323799
+---
+ drivers/media/platform/rcar-vin/rcar-core.c | 5 +++++
+ drivers/media/platform/rcar-vin/rcar-dma.c  | 7 +++++++
+ drivers/media/platform/rcar-vin/rcar-vin.h  | 5 +++++
+ 3 files changed, 17 insertions(+)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+index 7440c8965d27..55005d86928d 100644
+--- a/drivers/media/platform/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/rcar-vin/rcar-core.c
+@@ -624,6 +624,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
+ 	vin->parallel = rvpe;
+ 	vin->parallel->mbus_type = vep->bus_type;
+ 
++	/* select VInDATA[15:8] pins for YCbCr422-8bit format */
++	if (vep->bus.parallel.bus_width == BUS_WIDTH_8 &&
++	    vep->bus.parallel.data_shift == DATA_SHIFT_8)
++		vin->parallel->ycbcr_8b_g = true;
++
+ 	switch (vin->parallel->mbus_type) {
+ 	case V4L2_MBUS_PARALLEL:
+ 		vin_dbg(vin, "Found PARALLEL media bus\n");
+diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+index 1a30cd036371..5db483877d65 100644
+--- a/drivers/media/platform/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+@@ -127,6 +127,8 @@
+ #define VNDMR2_FTEV		(1 << 17)
+ #define VNDMR2_VLV(n)		((n & 0xf) << 12)
+ 
++#define VNDMR2_YDS		BIT(22)
++
+ /* Video n CSI2 Interface Mode Register (Gen3) */
+ #define VNCSI_IFMD_DES1		(1 << 26)
+ #define VNCSI_IFMD_DES0		(1 << 25)
+@@ -698,6 +700,11 @@ static int rvin_setup(struct rvin_dev *vin)
+ 		/* Data Enable Polarity Select */
+ 		if (vin->parallel->mbus_flags & V4L2_MBUS_DATA_ENABLE_LOW)
+ 			dmr2 |= VNDMR2_CES;
++
++		if (vin->parallel->ycbcr_8b_g && vin->mbus_code == MEDIA_BUS_FMT_UYVY8_2X8)
++			dmr2 |= VNDMR2_YDS;
++		else
++			dmr2 &= ~VNDMR2_YDS;
+ 	}
+ 
+ 	/*
+diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+index c19d077ce1cb..3126fee9a89b 100644
+--- a/drivers/media/platform/rcar-vin/rcar-vin.h
++++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+@@ -87,6 +87,9 @@ struct rvin_video_format {
+ 	u8 bpp;
+ };
+ 
++#define BUS_WIDTH_8	8
++#define DATA_SHIFT_8	8
++
+ /**
+  * struct rvin_parallel_entity - Parallel video input endpoint descriptor
+  * @asd:	sub-device descriptor for async framework
+@@ -95,6 +98,7 @@ struct rvin_video_format {
+  * @mbus_flags:	media bus configuration flags
+  * @source_pad:	source pad of remote subdevice
+  * @sink_pad:	sink pad of remote subdevice
++ * @ycbcr_8b_g:	select data pins for YCbCr422-8bit
+  *
+  */
+ struct rvin_parallel_entity {
+@@ -106,6 +110,7 @@ struct rvin_parallel_entity {
+ 
+ 	unsigned int source_pad;
+ 	unsigned int sink_pad;
++	bool ycbcr_8b_g;
+ };
+ 
+ /**
+-- 
+2.17.1
+
