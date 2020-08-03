@@ -2,88 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC82E23AC53
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 20:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 024DC23ACD1
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 21:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728671AbgHCS1D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 14:27:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41580 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728669AbgHCS1B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 14:27:01 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAE8EC06179E
-        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 11:27:00 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id p25so19748628vsg.4
-        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 11:27:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=kP+FsGwT7Ong6g9Z4afLp/eWEQkLU5G56u7wCNQ8PbY=;
-        b=AJgTtJOfq33QtwVrHYsaLOFspsbTiqgCrzwxWUY4KSq8nn719n+LK296FDkKFWb8T/
-         zvbXOvclUTRqLQF7WTykx9gCeghXvWxet31NMy9+UG+NrC+4/FTyOer5i1CmCmMo0PV1
-         yVvi/nIBZZJzUWIh9DtK+klhMtAxhPJ/ulejuNnLSgm60MrsJ2Q90/Typ5lUScJ085mD
-         jNUdQOdm/4sVykvl/EH4WQG63v+mYA/ZS0d7HyrbkkRQjRXYZewhg6AiAQGcJcvP7FiZ
-         olFj/Vgfz+QhA0pdRP+9yyIHjYV4J8WcoUK+EPB37dwI4LCLmCkX5KRmdpei3BwBnw5p
-         +4Iw==
+        id S1727780AbgHCTPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 15:15:23 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41794 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726007AbgHCTPX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 15:15:23 -0400
+Received: by mail-ot1-f67.google.com with SMTP id a65so19576615otc.8;
+        Mon, 03 Aug 2020 12:15:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kP+FsGwT7Ong6g9Z4afLp/eWEQkLU5G56u7wCNQ8PbY=;
-        b=k2fZBZfPauQ+db6QF01Y2G3II9c7FCIU+78TlR+CHmbAnR5KwNnsj4BCrHGZ8ZmYTg
-         2rpn8n5/8a4/mXT6RpojG9xnVrUMxRKY6d1QCOfn9PY30Wp8PEkY0ZP8Wwb2fsQRQLi2
-         gJ1Stw9sET4iqHzCo9wtV9tAZknq8hdCMi3PafG/iKSfNvy7/ALnHQ4C2Ys9Bv22w0Iu
-         6c04UTHRnN/gSEXEcUuhLs10PNDjQiRvH+dRKMZ+hY6UJ0c+V0jIFuaTzgTJov+cLXIS
-         2DfviaSGdiuDv3Y+TgJvfej5eUwvzBdYt9Up/csSsNz6+bmLJx0PXDtEZ0igSgfnkBLX
-         z6Cw==
-X-Gm-Message-State: AOAM530mhQ6no1Y94g2jJLFXN1fqogxXWLDbccnoDZxGPvDYHz6PJDyT
-        Xrn/c+T9U9o3m4j1Sx52IsYkrQ==
-X-Google-Smtp-Source: ABdhPJyU6H1ORSnyrbL6pgwSK5k0t4nkRLWrE1WiAHAQSrIO/HfrXXNuBwmpKt88ZgedOp1BLgmXJw==
-X-Received: by 2002:a67:8084:: with SMTP id b126mr12585151vsd.163.1596479219744;
-        Mon, 03 Aug 2020 11:26:59 -0700 (PDT)
-Received: from google.com (182.71.196.35.bc.googleusercontent.com. [35.196.71.182])
-        by smtp.gmail.com with ESMTPSA id o3sm1766447vka.42.2020.08.03.11.26.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 11:26:59 -0700 (PDT)
-Date:   Mon, 3 Aug 2020 18:26:56 +0000
-From:   Kalesh Singh <kaleshsingh@google.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>, kernel-team@android.com
-Subject: Re: [PATCH 1/2] fs: Add fd_install file operation
-Message-ID: <20200803182656.GA3230172@google.com>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-2-kaleshsingh@google.com>
- <20200803163429.GA15200@infradead.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N0eQNd7J5S8glmezMI2D/EdrAOA2yfNLqft/C7vxnm4=;
+        b=pjlph09S2Ynkl4U2Pbnn5fDiNZ2H/lFAPoJEfDoy4WNnj02HkT6DnmXGvMONA3W9/t
+         lP6EYr0JTQL90I7b+L+EXIkIyd7HaSTl0KVVJV2KM2ATAbFLEm63JoYEAYMtgPM7Dhj+
+         wGqV/hwZ2jdYqrIQS6e2PvfwwGbc9zG/ZyN/34E5D2FYSZIQ3sBi/pFJ4doCJHWcaCMY
+         JFxEg5KbSvTa9tgg7MzBljW02Pkf8wgDSkG95otJrIuu6Mr5c/p2Gw+usaqMRKIUxq7l
+         26IyCvnn8wWoEq5246Qh0LaINf3JpwdNGEKORX/Xf2kg7rIj00AI7unLqhRHOrhUV5PN
+         bWSg==
+X-Gm-Message-State: AOAM533Ju96yxqmHFLgjO0K5anh8NSjm3xI/lgv7pzZotn1gqZh51khv
+        UAnow/m597+TvXzqPJs0m09lfhpa/W+pQ3jPqH0=
+X-Google-Smtp-Source: ABdhPJzTiQKgkA9oDHzv8uHxNqGnJwYb6cyIDEbnWP5rUKeo2rft9Wxkc+0jV9hoBBPbs2/sJiqNmJyFnqyU6vD1/dk=
+X-Received: by 2002:a9d:7d8c:: with SMTP id j12mr14959491otn.250.1596482122569;
+ Mon, 03 Aug 2020 12:15:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200803163429.GA15200@infradead.org>
+References: <1596470573-15065-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200803180618.GA2297236@oden.dyn.berto.se>
+In-Reply-To: <20200803180618.GA2297236@oden.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 3 Aug 2020 21:15:11 +0200
+Message-ID: <CAMuHMdWGRcFdyo4m4=jGKNt=GXOXddiD3cR2jZstiJN7LgBfZQ@mail.gmail.com>
+Subject: Re: [PATCH v2] media: rcar-vin: Add support to select data pins for
+ YCbCr422-8bit input
+To:     Niklas <niklas.soderlund@ragnatech.se>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 03, 2020 at 05:34:29PM +0100, Christoph Hellwig wrote:
-> On Mon, Aug 03, 2020 at 02:47:18PM +0000, Kalesh Singh wrote:
-> > Provides a per process hook for the acquisition of file descriptors,
-> > despite the method used to obtain the descriptor.
-> > 
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> 
-> I strongly disagree with this.  The file operation has no business
-> hooking into installing the fd.
-Hi Christoph. I am exploring the alternative suggested by Matthew in
-Patch 2/2. Thanks :)
+Hi Niklas,
+
+On Mon, Aug 3, 2020 at 8:06 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
+> On 2020-08-03 17:02:53 +0100, Lad Prabhakar wrote:
+> > Select the data pins for YCbCr422-8bit input format depending on
+> > bus_width and data_shift passed as part of DT.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > @@ -624,6 +624,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
+> >       vin->parallel = rvpe;
+> >       vin->parallel->mbus_type = vep->bus_type;
+> >
+> > +     /* select VInDATA[15:8] pins for YCbCr422-8bit format */
+> > +     if (vep->bus.parallel.bus_width == BUS_WIDTH_8 &&
+> > +         vep->bus.parallel.data_shift == DATA_SHIFT_8)
+> > +             vin->parallel->ycbcr_8b_g = true;
+> > +
+>
+> I would store the bus_width and bus_shift values in the struct
+> rvin_parallel_entity and evaluate them in place rater then create a flag
+> for this specific use-case..
+>
+> Also according to the documentation is the check correct? Do we not wish
+> to use the new mode when bus_width == 16 and bus_shift == 8. The check
+> you have here seems to describe a 8 lane bus where 0 lanes are used.
+
+The bus width used is 8.
+
+Documentation/devicetree/bindings/media/video-interfaces.txt:
+
+  - bus-width: number of data lines actively used, valid for the
+parallel busses.
+  - data-shift: on the parallel data busses, if bus-width is used to specify the
+    number of data lines, data-shift can be used to specify which data lines are
+    used, e.g. "bus-width=<8>; data-shift=<2>;" means, that lines 9:2 are used.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
