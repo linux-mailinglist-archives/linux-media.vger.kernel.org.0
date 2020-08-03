@@ -2,160 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C69623ACE5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 21:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6AE423ACFB
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 21:29:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727864AbgHCTVM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 15:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49920 "EHLO
+        id S1728142AbgHCT2F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 15:28:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726906AbgHCTVL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 15:21:11 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50EA5C061756
-        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 12:21:11 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id x9so40940269ljc.5
-        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 12:21:11 -0700 (PDT)
+        with ESMTP id S1728111AbgHCT2F (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 15:28:05 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B75C061757
+        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 12:28:04 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id c15so3766192lfi.3
+        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 12:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=dq93D4eYKRlwEpphUZG+JqVe46lHekIPQvei+XVFGC0=;
-        b=kh2E9KHQE/XA0rLX/iC/gPSSg8GAI6bxQ/3ToX/6wlqrLLyzRl/IvlgX8y6idUVwvM
-         fXACsuXASck6iTy2GRLvfo30VY5Y45ulGDfEvWdR1+g7mhrIhVG5qg7WH4bhAd4Nz5P1
-         yOQmwo3u2cxAj9Z9L34d1ZVkvJG9NaWAH3lpeetGso8HH2W9RSptF3cWB8VEBiPsMaCE
-         lAnKtsrxinzo4m+lMMKSUq+0dhGeUjIK6SbXR+dAzd684ycDvPAvUKrhiujO3g5IqTkm
-         WqWoyCtBWRCYUK78icUxHyO5wq4xABKyzVPX+g9PSzlkPpMdHLggbswqeoTtW8NXYlDP
-         OcYQ==
+        bh=5Y2X7yaPaqpV5N7ZSBlIfeWsAsh614hvLfSmUd/sIQo=;
+        b=DcazyOdl1Cm0XVeXnwrui48N4ZaYguSdbKFvjsZ+0TYZDzyW/R3gtIpcuH/csONMfz
+         aYTj6/SOVEKvPttzCLlGJiyn3iQ0AKkLxYAQCPpu3JHEhoZ6rjT8PP6s4JIV9lZkLlHU
+         YN3/Ww5d+rDWIfMDNdMcUYL/FVe3Uo0W+cxFiOP1JXQ97KC+xQm51MiYa3YLS5APyGh3
+         c1Ms2CYLfZTIhpiMP8+ZYXdv790sAcVxvcCybG3w5Jf+iyCUBuENGyOfivXRvgW/NB/s
+         Mrh8iETSI0JmvRGwuLBOHqwLnQWZV+w+VlgdTpOU8CVGsZogn1DTifyy7URJDSEJoG7b
+         Vyjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=dq93D4eYKRlwEpphUZG+JqVe46lHekIPQvei+XVFGC0=;
-        b=Dvfe2PnVC04XzVClkDNPdFJhQ9X28dX/88+v4I2XKy3odJo3xBp/e5k9GLQki/6Hc0
-         7ssT8VJ4GKu0r+TmFzXwhwyXY16hUaa2cOkqxDPK3PTogbpTA1LJQCO646PZ+2eSKy/W
-         oBN8dOaHYAx3MyDJCQZee/r7xsMhndzqak8vHhj8V89nx70c5G81FoGHcu3ZW/3c2BvQ
-         bacHPEfhitwH69GAsXORX6bDK6mwrJ9+eoZN+Hi50yeD8RKSNgKlzpEeYr7k9CXhLAlW
-         jIWKe/EqgmwzVlJBYvkhHr9XMIKp2Ihy0K4O1bMIX+Gdt9d0UjMeKiNenIq193xSRjRE
-         jVlQ==
-X-Gm-Message-State: AOAM532C43pU3ydDxa55lj/4TaAQyz2JyltE0KRhFAoeLKp6yBA/ozex
-        nvj6YhYrjLq1Vt7DDVshZwa1Ag==
-X-Google-Smtp-Source: ABdhPJy3eRvRbj9RoqYJEWqYxIVENlU0mkGG5C5St7U52+cSn1++CTkcOhmFdfcWlotWF3Kw7Eqt8Q==
-X-Received: by 2002:a2e:5801:: with SMTP id m1mr8351358ljb.281.1596482469687;
-        Mon, 03 Aug 2020 12:21:09 -0700 (PDT)
+        bh=5Y2X7yaPaqpV5N7ZSBlIfeWsAsh614hvLfSmUd/sIQo=;
+        b=lA/c9DKByGXSokoRSXEUsCFpQUahFHbKRs9WCt0zmdcyLeSx0y5vnis+vDtAvT1wO4
+         wUSc0Mluve/pdjOQLwrz9Ex1FtkQsiEmwLb3JvXXPD5U04RGFOyPV5X/9v204cB8HRFC
+         5HtaV2vWHBJ5z8K+y0XH/I7OuGneTiwNL4jv5gfddbjOmzM4agSIlP+4B8re+CyfHqUU
+         3ithc245Ty+UW2gz38/ED7771ouUwySHFQLEXLh+H8ZXDqzwC2sPzu2qFg2IGZWK1reL
+         +lIhIzI4BgDcrIuh4J3kvQJR9Y1p5gQHTNTIXkT8m4mdwPSZmLIyLlglhrHGCHDqaGN1
+         3IRA==
+X-Gm-Message-State: AOAM531v3vdAhN/sWGUvK7vFSjRIRW8XiPEJ7QftXtMOEgyEIPCwAHFz
+        xk+iQdoaMKavJ5pjJa8xQ92ssA==
+X-Google-Smtp-Source: ABdhPJwIxOFPQlSCRF8+Lv+zlKyhBbbIM851bf2v4dBB9MWP5oNW/38GvNe/VM3bacLc1+ADy8quLA==
+X-Received: by 2002:ac2:4d4f:: with SMTP id 15mr9131918lfp.163.1596482882861;
+        Mon, 03 Aug 2020 12:28:02 -0700 (PDT)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id v26sm4555934lji.65.2020.08.03.12.21.08
+        by smtp.gmail.com with ESMTPSA id g4sm5175913lfh.13.2020.08.03.12.28.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 12:21:08 -0700 (PDT)
-Date:   Mon, 3 Aug 2020 21:21:08 +0200
+        Mon, 03 Aug 2020 12:28:02 -0700 (PDT)
+Date:   Mon, 3 Aug 2020 21:28:01 +0200
 From:   Niklas <niklas.soderlund@ragnatech.se>
 To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         linux-media <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] media: rcar-vin: Update crop and compose settings for
- every s_fmt call
-Message-ID: <20200803192108.GB2297236@oden.dyn.berto.se>
-References: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200801090456.GB1379367@oden.dyn.berto.se>
- <CA+V-a8sOHct_JetCsug8Z2BQpMLH2p39hj2XNw_1N5gkBQp1Gg@mail.gmail.com>
+Subject: Re: [PATCH v2] media: rcar-vin: Add support to select data pins for
+ YCbCr422-8bit input
+Message-ID: <20200803192801.GC2297236@oden.dyn.berto.se>
+References: <1596470573-15065-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200803180618.GA2297236@oden.dyn.berto.se>
+ <CA+V-a8sHOqM2tB-72Z-wVJjvihycCq1zLuk7Py7uKGMxzOJyaA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8sOHct_JetCsug8Z2BQpMLH2p39hj2XNw_1N5gkBQp1Gg@mail.gmail.com>
+In-Reply-To: <CA+V-a8sHOqM2tB-72Z-wVJjvihycCq1zLuk7Py7uKGMxzOJyaA@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad, Hans,
+Hi Lad,
 
-On 2020-08-03 19:11:32 +0100, Lad, Prabhakar wrote:
-> Hi Hans,
+On 2020-08-03 20:17:54 +0100, Lad, Prabhakar wrote:
+> Hi Niklas,
 > 
-> On Sat, Aug 1, 2020 at 10:04 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
+> Thank you for the review.
+> 
+> On Mon, Aug 3, 2020 at 7:06 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
 > >
 > > Hi Lad,
 > >
 > > Thanks for your work.
 > >
-> > On 2020-07-31 10:29:05 +0100, Lad Prabhakar wrote:
-> > > The crop and compose settings for VIN in non mc mode werent updated
-> > > in s_fmt call this resulted in captured images being clipped.
+> > On 2020-08-03 17:02:53 +0100, Lad Prabhakar wrote:
+> > > Select the data pins for YCbCr422-8bit input format depending on
+> > > bus_width and data_shift passed as part of DT.
 > > >
-> > > With the below sequence on the third capture where size is set to
-> > > 640x480 resulted in clipped image of size 320x240.
-> > >
-> > > high(640x480) -> low (320x240) -> high (640x480)
-> > >
-> > > This patch makes sure the VIN crop and compose settings are updated.
-> >
-> > This is clearly an inconsistency in the VIN driver that should be fixed.
-> > But I think the none-mc mode implements the correct behavior. That is
-> > that S_FMT should not modify the crop/compose rectangles other then make
-> > sure they don't go out of bounds. This is an area we tried to clarify in
-> > the past but I'm still not sure what the correct answer to.
-> >
-> What should be the exact behaviour of the bridge driver  for s_fmt
-> call. Should the crop/compose settings be updated for every s_fmt
-> callback or should they be only updated on s_selection callback.
-> Currently the non-mc rcar-vin doesnt update the crop/compose setting
-> in s_fmt callback due to which I see the above issue as mentioned.
-
-This is not entirely correct. It does update the crop and compose 
-rectangles on s_fmt, it makes sure they are not out-of-bounds for the 
-new format if it's accepted by s_fmt. See v4l2_rect_map_inside() calls 
-in the snippet bellow.
-
-That being said there is a difference how this is handled in the VIN 
-driver between it's MC and non-MC modes and I would love to learn the 
-correct mode of operation and seeing VIN being updated to doing it 
-correct in both cases. Thanks Lad for dealing with this!
-
-> 
-> Cheers,
-> Prabhakar
-> 
-> > >
-> > > Fixes: 104464f573d ("media: rcar-vin: Do not reset the crop and compose rectangles in s_fmt")
 > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-v4l2.c | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
-> > >
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > index f421e25..a9b13d9 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > @@ -319,6 +319,12 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
-> > >       fmt_rect.width = vin->format.width;
-> > >       fmt_rect.height = vin->format.height;
-> > >
-> > > +     vin->crop.top = 0;
-> > > +     vin->crop.left = 0;
-> > > +     vin->crop.width = vin->format.width;
-> > > +     vin->crop.height = vin->format.height;
-> > > +     vin->compose = vin->crop;
-> > > +
-> > >       v4l2_rect_map_inside(&vin->crop, &src_rect);
-> > >       v4l2_rect_map_inside(&vin->compose, &fmt_rect);
-> > >       vin->src_rect = src_rect;
-> > > --
-> > > 2.7.4
-> > >
+> > > Changes for v2:
+> > > * Dropped DT binding documentation patch
+> > > * Select the data pins depending on bus-width and data-shift
 > >
-> > --
-> > Regards,
-> > Niklas Söderlund
+> > I like this v2 much better then v1, nice work!
+> >
+> > >
+> > > v1 -
+> > > https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=323799
+> > > ---
+> > >  drivers/media/platform/rcar-vin/rcar-core.c | 5 +++++
+> > >  drivers/media/platform/rcar-vin/rcar-dma.c  | 7 +++++++
+> > >  drivers/media/platform/rcar-vin/rcar-vin.h  | 5 +++++
+> > >  3 files changed, 17 insertions(+)
+> > >
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > > index 7440c8965d27..55005d86928d 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > > @@ -624,6 +624,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
+> > >       vin->parallel = rvpe;
+> > >       vin->parallel->mbus_type = vep->bus_type;
+> > >
+> > > +     /* select VInDATA[15:8] pins for YCbCr422-8bit format */
+> > > +     if (vep->bus.parallel.bus_width == BUS_WIDTH_8 &&
+> > > +         vep->bus.parallel.data_shift == DATA_SHIFT_8)
+> > > +             vin->parallel->ycbcr_8b_g = true;
+> > > +
+> >
+> > I would store the bus_width and bus_shift values in the struct
+> > rvin_parallel_entity and evaluate them in place rater then create a flag
+> > for this specific use-case..
+> >
+> Ok will do that.
+> 
+> > Also according to the documentation is the check correct? Do we not wish
+> > to use the new mode when bus_width == 16 and bus_shift == 8. The check
+> > you have here seems to describe a 8 lane bus where 0 lanes are used.
+> >
+> bus-width is the actual data lines used, so bus_width == 16 and
+> bus_shift == 8 would mean use lines 23:8, so just check for bus_width
+> == 8 and bus_shift == 8 should be sufficient.
+
+As you and Geert points out I was wrong, they should indeed both be 8.
+
+> 
+> > I think you should also verify that bus_shift is either 0 or 8 as that
+> > is all the driver supports.
+> >
+> Not sure if thats correct.In that case this patch wont make sense, I
+> believed we agreed upon we determine the YDS depending on both
+> bus-width and bus-shift.
+
+I'm sorry I think I lost you :-) The driver is not capable of supporting 
+bus_width = 8 and bus_shift = 2 right? Maybe we are talking about 
+different things.
+
+What I tried to say (updated with the knowledge of that bus_width should 
+indeed be 8 and not 16) was that would it make sens to with bus_width=8 
+allow for a bus_shift value other then 0 or 8? What for example would 
+the driver do if the value was 2?
+
+> 
+> On iWave G21D-Q7 for VI2 interface VI2_G* pins are connected to SoC
+> and for VIN3 interface Vi3_DATA* pins are connected. So in this case
+> the capture only works for VIN2 only if YDS bit is set for 8-bit 422,
+> and for VIN3 capture only works if YDS is 0
+> 
+> &vin2 {
+>     status = "okay";
+>     pinctrl-0 = <&vin2_pins>;
+>     pinctrl-names = "default";
+> 
+>     port {
+>         #address-cells = <1>;
+>         #size-cells = <0>;
+> 
+>         vin2ep: endpoint {
+>             remote-endpoint = <&ov7725_2>;
+>             bus-width = <8>;
+>             data-shift = <8>;
+>         };
+>     };
+> };
+> 
+> &vin3 {
+>     status = "okay";
+>     pinctrl-0 = <&vin3_pins>;
+>     pinctrl-names = "default";
+> 
+>     port {
+>         #address-cells = <1>;
+>         #size-cells = <0>;
+> 
+>         vin3ep: endpoint {
+>             remote-endpoint = <&ov7725_3>;
+>             bus-width = <8>;
+>         };
+>     };
+> };
+> 
+> 
+> > >       switch (vin->parallel->mbus_type) {
+> > >       case V4L2_MBUS_PARALLEL:
+> > >               vin_dbg(vin, "Found PARALLEL media bus\n");
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > > index 1a30cd036371..5db483877d65 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > > @@ -127,6 +127,8 @@
+> > >  #define VNDMR2_FTEV          (1 << 17)
+> > >  #define VNDMR2_VLV(n)                ((n & 0xf) << 12)
+> > >
+> > > +#define VNDMR2_YDS           BIT(22)
+> >
+> > This should be grouped with the other VNDMR2_* macros and not on its
+> > own. Also it should be sorted so it should be inserted between
+> > VNDMR2_CES and VNDMR2_FTEV.
+> >
+> > Also I know BIT() is a nice macro but the rest of the driver uses (1 <<
+> > 22), please do the same for this one.
+> >
+> Sure will take care of it.
+> 
+> > > +
+> > >  /* Video n CSI2 Interface Mode Register (Gen3) */
+> > >  #define VNCSI_IFMD_DES1              (1 << 26)
+> > >  #define VNCSI_IFMD_DES0              (1 << 25)
+> > > @@ -698,6 +700,11 @@ static int rvin_setup(struct rvin_dev *vin)
+> > >               /* Data Enable Polarity Select */
+> > >               if (vin->parallel->mbus_flags & V4L2_MBUS_DATA_ENABLE_LOW)
+> > >                       dmr2 |= VNDMR2_CES;
+> > > +
+> > > +             if (vin->parallel->ycbcr_8b_g && vin->mbus_code == MEDIA_BUS_FMT_UYVY8_2X8)
+> > > +                     dmr2 |= VNDMR2_YDS;
+> > > +             else
+> > > +                     dmr2 &= ~VNDMR2_YDS;
+> >
+> > dmr2 is already unitized and YDS is cleared, no need to clear it again
+> > if you don't wish to set it. Taking this and the comments above into
+> > account this would become something like (not tested),
+> >
+> Agreed.
+> 
+> >     switch (vin->mbus_code) {
+> >     case MEDIA_BUS_FMT_UYVY8_2X8:
+> >         if (vin->parallel->bus_width == 16 && vin->parallel->bus_shift == 8)
+> >             dmr2 |= VNDMR2_YDS;
+> >         break;
+> >     default:
+> >         break;
+> >     }
+> >
+> > >       }
+> > >
+> > >       /*
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > index c19d077ce1cb..3126fee9a89b 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > @@ -87,6 +87,9 @@ struct rvin_video_format {
+> > >       u8 bpp;
+> > >  };
+> > >
+> > > +#define BUS_WIDTH_8  8
+> > > +#define DATA_SHIFT_8 8
+> >
+> > As pointed out by Geert, not so useful, use 8 in the code :-)
+> >
+> Agreed will drop it.
+> 
+> Cheers,
+> Prabhakar
 
 -- 
 Regards,
