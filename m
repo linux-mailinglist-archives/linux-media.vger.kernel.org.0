@@ -2,245 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FB9A23A8CF
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 16:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F96123A950
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 17:26:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727995AbgHCOuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 10:50:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35860 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728027AbgHCOrt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 10:47:49 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF9D9C061757
-        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 07:47:48 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id q4so18634891qvu.6
-        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 07:47:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=yEtE51ZkZ89myWk79FRCGMzR6DiPPNgcqkWBItHzQ6s=;
-        b=t1rTR3609fZavoZD6hGkSsSWDr9nI1/YkdhLNf0ojphXhpqrjYtn2QmhC+W/gkvimg
-         AMTj6PP4Rr26vC5qnxMVLP8ZXj2mvSyHcLtN7NTD3GvFDmmeReFr0s4F/UMZqW82I1g+
-         Dr2Z/WzdPu1RdbA1YmGLFdz8BghYnww1NBBlSY+6I9r3aq9SpAN2yEXku55avULjgjeR
-         wbdd0+d7Js097V3esnE9Zp3yRqLvLrD/D5lAoObteLNHtFqv+wIpvThQwIPjxSfSQHJA
-         7Nvv9QfJik4hcZHlF/286VGx9pliyj8hQuAw0OzqKiZAgbFEPs15yA8D9Br8GJTj/mTJ
-         PaOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=yEtE51ZkZ89myWk79FRCGMzR6DiPPNgcqkWBItHzQ6s=;
-        b=e5XDxEfQgC+dbbntjtAx9pB6q72K83vo1ycx1bCFFO0YKrxLieMMYv1pHhitMSV9n4
-         qCoUIcg2kpeyYr4iX6vrtj/MODbp8YuI8/U2wHXWM+uyuybPyRrtqZGQyhHtmBx6WtFz
-         YLYpfMzXNZ97+dbII092FYgsPkWFRIrVANyqQkZmHwwYX0MixX7R+1WOGF03IgPtLYt8
-         awxmuUwM9BhCozs2pZphC/iPsRo2QZ4YH2WGjnRYRLFAogxWFRxRbBTlCXNDc+vjuq1c
-         W1PhTP7efHJTd2RFe1vqnXI5faqabpkHC/e3pc30jnnas5SnKl4zckf6e84I4F18t8Xq
-         H4lA==
-X-Gm-Message-State: AOAM5302XXtJsNS234dxFxT4PlG5RNOewdaiQvG6euwb1Iq0S4EsEy9U
-        AvfQiuv14sSwXKsbnpYVhnLXNAjoBRQ4nFVIMA==
-X-Google-Smtp-Source: ABdhPJw9FuulIu0ymOE9kGuQtwFH4SdlEeYnPFzJ+4tzAm9Tdqz+V6p7Q/zMMMduM+pHUwYFb/16WTJ/nRJFAJbl1A==
-X-Received: by 2002:a0c:c3d0:: with SMTP id p16mr17210039qvi.54.1596466068074;
- Mon, 03 Aug 2020 07:47:48 -0700 (PDT)
-Date:   Mon,  3 Aug 2020 14:47:19 +0000
-In-Reply-To: <20200803144719.3184138-1-kaleshsingh@google.com>
-Message-Id: <20200803144719.3184138-3-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
-Subject: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-From:   Kalesh Singh <kaleshsingh@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>, kernel-team@android.com,
-        Kalesh Singh <kaleshsingh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726130AbgHCP0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 11:26:03 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47366 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725945AbgHCP0D (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 11:26:03 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id CBDF9296F4E
+Subject: Re: [PATCH v3 1/1] Documentation: media: Document how to write camera
+ sensor drivers
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
+References: <20200730162040.15560-1-sakari.ailus@linux.intel.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <a8524ae2-6f85-8bbd-4a12-244d4580f038@collabora.com>
+Date:   Mon, 3 Aug 2020 12:25:54 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200730162040.15560-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Being able to analyze the per process usage of shared
-dma buffers prodives useful insights in situations where
-the system is experiencing high memory pressure. This would
-allow us to see exactly which processes are holding references
-to the shared buffer.
+Hi Sakari,
 
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
----
- drivers/dma-buf/dma-buf.c      | 29 +++++++++++++
- include/trace/events/dma_buf.h | 77 ++++++++++++++++++++++++++++++++++
- 2 files changed, 106 insertions(+)
- create mode 100644 include/trace/events/dma_buf.h
+Thanks for this.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 1ca609f66fdf..1729191ac9ca 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -29,6 +29,9 @@
- #include <uapi/linux/dma-buf.h>
- #include <uapi/linux/magic.h>
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/dma_buf.h>
-+
- static inline int is_dma_buf_file(struct file *);
- 
- struct dma_buf_list {
-@@ -110,6 +113,15 @@ static struct file_system_type dma_buf_fs_type = {
- 	.kill_sb = kill_anon_super,
- };
- 
-+static void dma_buf_vma_close(struct vm_area_struct *area)
-+{
-+	trace_dma_buf_map_ref_dec(current, area->vm_file);
-+}
-+
-+static const struct vm_operations_struct dma_buf_vm_ops = {
-+	.close = dma_buf_vma_close,
-+};
-+
- static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- {
- 	struct dma_buf *dmabuf;
-@@ -128,6 +140,9 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
-+	trace_dma_buf_map_ref_inc(current, file);
-+	vma->vm_ops = &dma_buf_vm_ops;
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- 
-@@ -410,6 +425,17 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
- 	spin_unlock(&dmabuf->name_lock);
- }
- 
-+static int dma_buf_flush(struct file *filp, fl_owner_t id)
-+{
-+	trace_dma_buf_fd_ref_dec(current, filp);
-+	return 0;
-+}
-+
-+static void dma_buf_fd_install(int fd, struct file *filp)
-+{
-+	trace_dma_buf_fd_ref_inc(current, filp);
-+}
-+
- static const struct file_operations dma_buf_fops = {
- 	.mmap		= dma_buf_mmap_internal,
- 	.llseek		= dma_buf_llseek,
-@@ -417,6 +443,8 @@ static const struct file_operations dma_buf_fops = {
- 	.unlocked_ioctl	= dma_buf_ioctl,
- 	.compat_ioctl	= compat_ptr_ioctl,
- 	.show_fdinfo	= dma_buf_show_fdinfo,
-+	.fd_install	= dma_buf_fd_install,
-+	.flush		= dma_buf_flush,
- };
- 
- /*
-@@ -1177,6 +1205,7 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 		if (oldfile)
- 			fput(oldfile);
- 	}
-+
- 	return ret;
- 
- }
-diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-new file mode 100644
-index 000000000000..05af336cd849
---- /dev/null
-+++ b/include/trace/events/dma_buf.h
-@@ -0,0 +1,77 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM dma_buf
-+
-+#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DMA_BUF_H
-+
-+#include <linux/dma-buf.h>
-+#include <linux/tracepoint.h>
-+#include <linux/types.h>
-+
-+#define UNKNOWN "<unknown>"
-+
-+#ifdef CREATE_TRACE_POINTS
-+static inline struct dma_buf *dma_buffer(struct file *filp)
-+{
-+	return filp->private_data;
-+}
-+#endif
-+
-+DECLARE_EVENT_CLASS(dma_buf_ref_template,
-+
-+	TP_PROTO(struct task_struct *task, struct file *filp),
-+
-+	TP_ARGS(task,  filp),
-+
-+	TP_STRUCT__entry(
-+		__field(u32, tgid)
-+		__field(u32, pid)
-+		__field(u64, size)
-+		__field(s64, count)
-+		__string(exp_name, dma_buffer(filp)->exp_name)
-+		__string(name, dma_buffer(filp)->name ? dma_buffer(filp)->name : UNKNOWN)
-+		__field(u64, i_ino)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->tgid = task->tgid;
-+		__entry->pid = task->pid;
-+		__entry->size = dma_buffer(filp)->size;
-+		__entry->count = file_count(filp);
-+		__assign_str(exp_name, dma_buffer(filp)->exp_name);
-+		__assign_str(name, dma_buffer(filp)->name ? dma_buffer(filp)->name : UNKNOWN);
-+		__entry->i_ino = filp->f_inode->i_ino;
-+	),
-+
-+	TP_printk("tgid=%u pid=%u size=%llu count=%lld exp_name=%s name=%s i_ino=%llu",
-+		__entry->tgid,
-+		__entry->pid,
-+		__entry->size,
-+		__entry->count,
-+		__get_str(exp_name),
-+		__get_str(name),
-+		__entry->i_ino
-+	)
-+);
-+
-+DEFINE_EVENT(dma_buf_ref_template, dma_buf_fd_ref_inc,
-+	TP_PROTO(struct task_struct *task, struct file *filp),
-+	TP_ARGS(task,  filp));
-+
-+DEFINE_EVENT(dma_buf_ref_template, dma_buf_fd_ref_dec,
-+	TP_PROTO(struct task_struct *task, struct file *filp),
-+	TP_ARGS(task,  filp));
-+
-+DEFINE_EVENT(dma_buf_ref_template, dma_buf_map_ref_inc,
-+	TP_PROTO(struct task_struct *task, struct file *filp),
-+	TP_ARGS(task,  filp));
-+
-+DEFINE_EVENT(dma_buf_ref_template, dma_buf_map_ref_dec,
-+	TP_PROTO(struct task_struct *task, struct file *filp),
-+	TP_ARGS(task,  filp));
-+
-+#endif /* _TRACE_DMA_BUF_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
--- 
-2.28.0.163.g6104cc2f0b6-goog
+On 7/30/20 1:20 PM, Sakari Ailus wrote:
+> While we have had some example drivers, there has been up to date no
+> formal documentation on how camera sensor drivers should be written; what
+> are the practices, why, and where they apply.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> since v2:
+> 
+> - More verbose explanation on sensor driver's responsibilities.
+> 
+> - Reword the explanation on power state vs. v4l2_ctrl_handler_setup.
+> 
+>  .../driver-api/media/camera-sensor.rst        | 134 ++++++++++++++++++
+>  Documentation/driver-api/media/csi2.rst       |   2 +
+>  Documentation/driver-api/media/index.rst      |   1 +
+>  3 files changed, 137 insertions(+)
+>  create mode 100644 Documentation/driver-api/media/camera-sensor.rst
+> 
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> new file mode 100644
+> index 000000000000..2121586e8ede
+> --- /dev/null
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -0,0 +1,134 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Writing camera sensor drivers
+> +=============================
+> +
+> +CSI-2
+> +-----
+> +
+> +Please see what is written on :ref:`MIPI_CSI_2`.
+> +
+> +Handling clocks
+> +---------------
+> +
+> +Camera sensors have an internal clock tree including a PLL and a number of
+> +divisors. The clock tree is generally configured by the driver based on a few
+> +input parameters that are specific to the hardware:: the external clock frequency
 
+Double colon
+
+> +and the link frequency. The two parameters generally are obtained from system
+> +firmware. No other frequencies should be used in any circumstances.
+
+If I understand correctly, the firmware exposes a list of options that userspace can chose from, right?
+
+> +
+> +The reason why the clock frequencies are so important is that the clock signals
+> +come out of the SoC, and in many cases a specific frequency is designed to be
+> +used in the system. Using another frequency may cause harmful effects
+> +elsewhere. Therefore only the pre-determined frequencies are configurable by the
+> +user.
+> +
+> +Frame size
+> +----------
+> +
+> +There are two distinct ways to configure the frame size produced by camera
+> +sensors.
+> +
+> +Freely configurable camera sensor drivers
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Freely configurable camera sensor drivers expose the device's internal
+> +processing pipeline as one or more sub-devices with different cropping and
+> +scaling configurations. The output size of the device is the result of a series
+> +of cropping and scaling operations from the device's pixel array's size.
+> +
+> +An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
+> +
+> +Register list based drivers
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Register list based drivers generally, instead of able to configure the device
+> +they control based on user requests, are limited to a number of preset
+> +configurations that combine a number of different parameters that on hardware
+> +level are independent. How a driver picks such configuration is based on the
+> +format set on a source pad at the end of the device's internal pipeline.
+
+If I understand correctly, the difference between the first and second way,
+is that the first allows userspace to change the format on the subdevice's pads,
+and the second one needs to be calculated from the format set in the video devices,
+is this correct?
+
+> +
+> +Most sensor drivers are implemented this way, see e.g.
+> +drivers/media/i2c/imx319.c for an example.
+> +
+> +Frame interval configuration
+> +----------------------------
+> +
+> +There are two different methods for obtaining possibilities for different frame
+> +intervals as well as configuring the frame interval. Which one to implement
+> +depends on the type of the device.
+> +
+> +Raw camera sensors
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +Instead of a high level parameter such as frame interval, the frame interval is
+> +a result of the configuration of a number of camera sensor implementation
+> +specific parameters. Luckily, these parameters tend to be the same for more or
+> +less all modern raw camera sensors.
+> +
+> +The frame interval is calculated using the following equation::
+> +
+> +	frame interval = (analogue crop width + horizontal blanking) *
+> +			 (analogue crop height + vertical blanking) / pixel rate
+> +
+> +The formula is bus independent and is applicable for raw timing parameters on
+> +large variety of devices beyond camera sensors. Devices that have no analogue
+> +crop, use the full source image size, i.e. pixel array size.
+> +
+> +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> +``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
+> +pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
+> +unit of that control is Hz.
+> +
+> +Register list based drivers need to implement read-only sub-device nodes for the
+> +purpose. Devices that are not register list based need these to configure the
+> +device's internal processing pipeline.
+> +
+> +The first entity in the linear pipeline is the pixel array. The pixel array may
+
+A pixel array entity is the one that represents the "source" of the image, right?
+
+> +be followed by other entities that are there to allow configuring binning,
+> +skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+> +
+> +USB cameras etc. devices
+> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +USB video class hardware, as well as many cameras offering a higher level
+> +control interface, generally use the concept of frame interval (or frame rate)
+> +on the level of device hardware interface. This means lower level controls
+> +exposed by raw cameras may not be used as an interface to control the frame
+> +interval on these devices.
+
+Sorry, it's not clear to me if you are referring to driver->hardware configuration, or
+userspace->driver configuration (but maybe it's just me and my lack of knowledge).
+
+Regards,
+Helen
+
+> +
+> +Power management
+> +----------------
+> +
+> +Always use runtime PM to manage the power states of your device. Camera sensor
+> +drivers are in no way special in this respect: they are responsible for
+> +controlling the power state of the device they otherwise control as well. In
+> +general, the device must be powered on at least when its registers are being
+> +accessed and when it is streaming.
+> +
+> +Existing camera sensor drivers may rely on the old
+> +:c:type:`v4l2_subdev_core_ops`->s_power() callback for bridge or ISP drivers to
+> +manage their power state. This is however **deprecated**. If you feel you need
+> +to begin calling an s_power from an ISP or a bridge driver, instead please add
+> +runtime PM support to the sensor driver you are using. Likewise, new drivers
+> +should not use s_power.
+> +
+> +Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
+> +``drivers/media/i2c/smiapp/smiapp-core.c``. The two drivers work in both ACPI
+> +and DT based systems.
+> +
+> +Control framework
+> +~~~~~~~~~~~~~~~~~
+> +
+> +``v4l2_ctrl_handler_setup()`` function may not be used in the device's runtime
+> +PM ``runtime_resume`` callback, as it has no way to figure out the power state
+> +of the device. This is because the power state of the device is only changed
+> +after the power state transition has taken place. The ``s_ctrl``callback can be
+> +used to obtain device's power state after the power state transition:
+> +
+> +.. c:function::
+> +	int pm_runtime_get_if_in_use(struct device *dev);
+> +
+> +The function returns a non-zero value if it succeeded getting the power count or
+> +runtime PM was disabled, in either of which cases the driver may proceed to
+> +access the device.
+> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
+> index 17cad435f1a0..e1b838014906 100644
+> --- a/Documentation/driver-api/media/csi2.rst
+> +++ b/Documentation/driver-api/media/csi2.rst
+> @@ -1,5 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> +.. _MIPI_CSI_2:
+> +
+>  MIPI CSI-2
+>  ==========
+>  
+> diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+> index 328350924853..c140692454b1 100644
+> --- a/Documentation/driver-api/media/index.rst
+> +++ b/Documentation/driver-api/media/index.rst
+> @@ -34,6 +34,7 @@ Please see:
+>      mc-core
+>      cec-core
+>      csi2
+> +    camera-sensor
+>  
+>      drivers/index
+>  
+> 
