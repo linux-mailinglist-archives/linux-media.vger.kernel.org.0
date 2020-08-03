@@ -2,75 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F66B23A460
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 14:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 821DC23A6B2
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 14:53:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728369AbgHCM00 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 3 Aug 2020 08:26:26 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:38701 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728355AbgHCM0Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 08:26:24 -0400
-Received: by mail-ot1-f67.google.com with SMTP id q9so12076736oth.5;
-        Mon, 03 Aug 2020 05:26:24 -0700 (PDT)
+        id S1728616AbgHCMvm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 08:51:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46192 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728089AbgHCMvY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 08:51:24 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD16C06174A;
+        Mon,  3 Aug 2020 05:51:20 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id v12so9171970ljc.10;
+        Mon, 03 Aug 2020 05:51:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=E1PtArgjfRMgQPkbPEpkNWZtVLcHwOpeacE7i+LTE34=;
+        b=XfvhYsgHRryIe56E2n3nbUW+sRNhQGKbCAxxYdMS79gHcrQZ3iwoA5THCyJwqFvMan
+         zEg/iqNxdvpeglrBf4i+8ZZVqTGFskKUU8FVFpIykIEzfv+0tZbp91OyTbmA94ImGJpD
+         aiVKRIlTvCjZVCsOPqyf+O3aJFPX92Zd01jLqLbAzaU7hhBwN4QGg3DhjajdjnHmC4/U
+         qABVxbj+TfwdOe1Fe/U7hspoM8HDJclIw3EHFBTAIpggmogkEyMtGhG2Ta4hRl3Qgaa5
+         Lxu+J9+MF95vx2Mvy5InboBYs1/nDLoL6jgmsnlpD5G4+3UjmxAcR3tm4+AxiM5/nPZA
+         LAxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3dohou5RSw8QoQG6bAPJAcX/Qp198r37ym/TNY4Yqz4=;
-        b=FE2btXu3ZkdNaPOSKwQoTknevvVnZ+h2eTLZaBwhH09wuADhKyf8gpdsLWMYDW8vmO
-         xDD0bXz0yk1QZ5YlHg89wC6Fab2c8UdtzBUU612Oi7Du3QQ7qyokffmSrIldvR1kZqdp
-         VJN8gYYhR96gmOFKIUczM9T5EJgN8pdprGeVHmGKRWUu/muOAfuluvk1RCjqzWqaXuey
-         e1bfi6/Ue8cgGj1mAVEu7RhAjetvPUaW7n2iFkIHZyDhFJ63X3Xml4cXpJnNoSaLAhzK
-         JgY9Qzav0x/InW1qx/vZb6Zr6gC4HoNKLHAT3pimGit+WHNkQVNIMH/9KGQAQxhqS33s
-         5jPg==
-X-Gm-Message-State: AOAM530DLSeZhI0giAL5bxedpPBAjzfqHo3JtnUPXB/YfQoRnoed1bo2
-        59psVG+Xy1Cg7sU5AOCEQG72zKnMIdaFQqLWamJT0vAD
-X-Google-Smtp-Source: ABdhPJzKQzVSBq1MRtlA56QD10eECEH20woK/Y5hY2exzJK2bn0gx9Yb/l3Q6If2znAS+f6eplUpkupVZciaC7VEgzw=
-X-Received: by 2002:a9d:1b0d:: with SMTP id l13mr13030193otl.145.1596457584051;
- Mon, 03 Aug 2020 05:26:24 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=E1PtArgjfRMgQPkbPEpkNWZtVLcHwOpeacE7i+LTE34=;
+        b=LdIOzs+JSnGadcwqODh9poaFVlHG+0OCTp/sVl2w/jz1Yeya3NTuQ3Yk+Toj7L1B7h
+         M9jAcUBWEeKwE3puyBUozRsbQl5esrp6g5ATt2OVz358peys7j6va3YvTKgptA+9uT5o
+         ayc654lnJtJ61csbiYLh5+Jr1zCCGGJJoff6gkQL36QqlqGETCkhFMtURa4hQ/n+qQqS
+         ajw4iNg9x/2fiPwBtzK5O0HRk9nLRhB/jooxBVNnAxBIbVK1Q5cE/PyJkqULcsZkgvWT
+         Hl/0m1HqQWa6CuOv5OtYgvafo6bLaEVPup8XnnmiQL4GTaQQ9Hlnp7aJAQGE2q1VztW+
+         lqEQ==
+X-Gm-Message-State: AOAM531BQTeT+JU/eu+9O+Tj2+6ZdOPLwozwtGugSi8q00iG/cZz2hvy
+        mrZzthI0PUFYElkAnZIkC01uJGuT
+X-Google-Smtp-Source: ABdhPJzz8tZyKT2FTlauL+UMMliVTqWJRdc4UfHZdfhNi5L45Su0vIUq+s+xHJd9w4s7odh9priVvg==
+X-Received: by 2002:a2e:7f0f:: with SMTP id a15mr6801520ljd.454.1596459078782;
+        Mon, 03 Aug 2020 05:51:18 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id t20sm876625ljd.12.2020.08.03.05.51.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Aug 2020 05:51:18 -0700 (PDT)
+Subject: Re: [PATCH -next] media: staging: tegra-vde: Mark
+ tegra_vde_runtime_suspend as __maybe_unused
+To:     YueHaibing <yuehaibing@huawei.com>, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+References: <20200803115901.44068-1-yuehaibing@huawei.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <721b8d01-5d7e-09c6-5f86-705130ab31a9@gmail.com>
+Date:   Mon, 3 Aug 2020 15:51:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200802173059.122595-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20200802173059.122595-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Aug 2020 14:26:13 +0200
-Message-ID: <CAMuHMdUrN0YBugFvuCLeNw1obdjCY+aZa7vDQEAUqCZUyjQTyg@mail.gmail.com>
-Subject: Re: [PATCH] rcar-vin: Remove redundant compatible values
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20200803115901.44068-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+03.08.2020 14:59, YueHaibing пишет:
+> If CONFIG_PM is not set, gcc warns:
+> 
+> drivers/staging/media/tegra-vde/vde.c:916:12:
+>  warning: 'tegra_vde_runtime_suspend' defined but not used [-Wunused-function]
+> 
+> Make it __maybe_unused to fix this.
+> 
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/staging/media/tegra-vde/vde.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+> index a3c24d96d5b9..2d043d518eef 100644
+> --- a/drivers/staging/media/tegra-vde/vde.c
+> +++ b/drivers/staging/media/tegra-vde/vde.c
+> @@ -913,7 +913,7 @@ static irqreturn_t tegra_vde_isr(int irq, void *data)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> -static int tegra_vde_runtime_suspend(struct device *dev)
+> +static __maybe_unused int tegra_vde_runtime_suspend(struct device *dev)
+>  {
+>  	struct tegra_vde *vde = dev_get_drvdata(dev);
+>  	int err;
+> 
 
-On Sun, Aug 2, 2020 at 8:05 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The compatible value 'renesas,rcar-gen2-vin' have always been mandatory
-> for all Gen2 platforms. Remove device redundant values.
+Hello Yue,
 
-That's not true: the DTS files for R-Car H2, M2-W, and E2 lacked the
-family-specific compatible values during the first few years of their
-existence.  However, given we dropped support for the old CPG and MSTP
-DT bindings, it's reasonable to assume all working systems have them.
-
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-With a slight update of the description:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Shouldn't the tegra_vde_runtime_resume() be marked as well?
