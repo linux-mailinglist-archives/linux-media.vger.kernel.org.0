@@ -2,90 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 407B923AFB4
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 23:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7862B23AFC6
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 23:47:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728038AbgHCVjd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 17:39:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726398AbgHCVjc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 17:39:32 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33FEC06174A
-        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 14:39:32 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id bh1so8583559plb.12
-        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 14:39:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Idnk/4GEQXsP3LM6LzeeKBFll8PuJ7Mz1mR+T4OPl3M=;
-        b=i3wIuKm6SCSCJD0un3ULscA7VVUdHB6ppMvfmr2/QusGAts3bkMBE4goxevo2vdoml
-         gMOClwx8zqylIUVrJXzMGuHkd785R4m1X4+P8qe6vQ/9qZV0mzmDYj+8qlXa2YTKL7uR
-         /Azk3HSZA871nEGvgc5Ph+nos0/lfH2QWrhxCR/aNfj5qyhUcBjxTRvSqzSmkhEbSfkq
-         G9PNIxGqddviMI+IvVl5cW1uVGE5TfYzgP6agnrCENeVRO+Nd+pAmkZJ5yaM7r+9G6BY
-         /jdgTE4ZTPCwMbWEht5nIYMf4A7DDiF6Ru6OMsp08BY2Xy2DIKCOdb6Meu5ZXkhEJheb
-         b25Q==
+        id S1728856AbgHCVra (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 17:47:30 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:35507 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728038AbgHCVra (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 17:47:30 -0400
+Received: by mail-il1-f194.google.com with SMTP id t18so32472535ilh.2;
+        Mon, 03 Aug 2020 14:47:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Idnk/4GEQXsP3LM6LzeeKBFll8PuJ7Mz1mR+T4OPl3M=;
-        b=ahRMbKtO1Zo+Ur41e1UaV0e75r21FyH+H8BeSvgU2CClCOP1YsHBxVfjq1o7DEGNpb
-         NPFriLQgJ635jj0Ud/yZClFBMICpACxDrpFWqPkiLEcEyl6DMQ7YD/1SR69imukdVahB
-         uQnjdgtuTMcwfuEGdn9KSToRj6Zhw/hiuJxaBfwThAphsAyLM3gsPdjGXye2H8dFKXp6
-         ISxoNMKG4M3MY+cT0P+eoh1CkxS2oMVPAmk9NvmKpbMvm1n3CcJyN69R5dIP/yh3Qak9
-         Eel7NywWq+lxo33wtDTE+73C3Y8wZooXpm2AWZW6cQG0fr06L06tpIH7aGZo1eCxTfom
-         AxJQ==
-X-Gm-Message-State: AOAM533SK0lR+VmgSDMg62tiTY3ZutQ+9ONS8cDL/mwVKHdEcOKumbZv
-        7lhOhCJQIFQEJ+z6MD/GrFYSO0nnNCc=
-X-Google-Smtp-Source: ABdhPJxASPRQSGhi97YhdMghIrvCndiHu7aX8KuXAOfOc2Dtlb/qjzSLk1IpOkMHoCEwlWLsi4xNvw==
-X-Received: by 2002:a17:902:b686:: with SMTP id c6mr3389687pls.133.1596490771790;
-        Mon, 03 Aug 2020 14:39:31 -0700 (PDT)
-Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
-        by smtp.gmail.com with ESMTPSA id j5sm21285854pfg.80.2020.08.03.14.39.30
-        for <linux-media@vger.kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NVd/IZHDd4CFaOIYi2ephk8MvBPJAENgkCfWbWcCwNY=;
+        b=MwkoZSsbyoVjUbe4pebZfHzzyJTQK2vT0MFc00hP+jNDDk2IoJb01uvIJwjLefxSCs
+         MDvJg3qUwRuRWI5hvqr91k8SYc2pzk4MZ5GzhE7wkBkINWx0Em7wbgswOa+VomhgDGwu
+         M+lOIaVIKyMEBCo9V1vUqTw8ZYtlU5jrG6/0DRwrt3Dtw3dNo4QNHynKpZt19RIoPHM7
+         6enrR6JoKz971rPCzMIaQsJIsRN4zIJTmDCzvN1/yhJqrG1pmjN9x+m77hRv7mnt78wR
+         rX2vcpVla4W5mVQGyW+ZBRg8fH01MRadZbsNH67GZAzxozp5wJS61Q3AQUP43EKkb+sK
+         LtbA==
+X-Gm-Message-State: AOAM5311pimOBA9LtYE90kEMPvR0Cib74hDLA7tVNbJQxQsMCzRtab74
+        vDgnZzbc1JLNn3agKh+Z0Q==
+X-Google-Smtp-Source: ABdhPJxaf5xAcvcm8UQUsFNG1gCcnAGMc13tqQfHOjpjO6GwgSPQ62o9nJYnPv0wUgZQe3KRxYspeQ==
+X-Received: by 2002:a92:1f95:: with SMTP id f21mr1529238ilf.287.1596491249271;
+        Mon, 03 Aug 2020 14:47:29 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id j81sm11127297iof.13.2020.08.03.14.47.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 14:39:30 -0700 (PDT)
-From:   Rosen Penev <rosenp@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCHv2] fix GCC enum warning
-Date:   Mon,  3 Aug 2020 14:39:29 -0700
-Message-Id: <20200803213929.34616-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        Mon, 03 Aug 2020 14:47:28 -0700 (PDT)
+Received: (nullmailer pid 3194184 invoked by uid 1000);
+        Mon, 03 Aug 2020 21:47:28 -0000
+Date:   Mon, 3 Aug 2020 15:47:28 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Santiago Hormazabal <santiagohssl@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH 2/3] media: kt0913: device tree binding
+Message-ID: <20200803214728.GA3193667@bogus>
+References: <20200803020921.64151-1-santiagohssl@gmail.com>
+ <20200803020921.64151-3-santiagohssl@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200803020921.64151-3-santiagohssl@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Found with -Wenum-compare
+On Sun, 02 Aug 2020 23:09:20 -0300, Santiago Hormazabal wrote:
+> Document bindings for the kt0913 AM/FM radio tuner.
+> 
+> Signed-off-by: Santiago Hormazabal <santiagohssl@gmail.com>
+> ---
+>  .../bindings/media/i2c/ktm,kt0913.yaml        | 56 +++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ktm,kt0913.yaml
+> 
 
-../utils/common/v4l-helpers.h:880:36: warning: enumerated and
-non-enumerated type in conditional expression [-Wextra]
-  880 |  return hsv_enc < V4L2_HSV_ENC_180 ? V4L2_HSV_ENC_180 : hsv_enc;
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- v2: Added warning message.
- utils/common/v4l-helpers.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-index e093e717..edd21c16 100644
---- a/utils/common/v4l-helpers.h
-+++ b/utils/common/v4l-helpers.h
-@@ -877,7 +877,7 @@ v4l_format_g_hsv_enc(const struct v4l2_format *fmt)
- {
- 	unsigned hsv_enc = v4l_format_g_ycbcr_enc(fmt);
- 
--	return hsv_enc < V4L2_HSV_ENC_180 ? V4L2_HSV_ENC_180 : hsv_enc;
-+	return hsv_enc < V4L2_HSV_ENC_180 ? unsigned(V4L2_HSV_ENC_180) : hsv_enc;
- }
- 
- static inline void v4l_format_s_quantization(struct v4l2_format *fmt,
--- 
-2.26.2
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/media/i2c/ktm,kt0913.yaml#
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dts:22.17-30: Warning (reg_format): /example-0/i2c/fm-am-tuner@35:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dt.yaml: Warning (pci_device_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dt.yaml: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dt.yaml: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dts:19.13-26.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #address-cells for I2C bus
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dts:19.13-26.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #size-cells for I2C bus
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dt.yaml: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dt.yaml: Warning (i2c_bus_reg): Failed prerequisite 'i2c_bus_bridge'
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dt.yaml: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dts:20.36-25.15: Warning (avoid_default_addr_size): /example-0/i2c/fm-am-tuner@35: Relying on default #address-cells value
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dts:20.36-25.15: Warning (avoid_default_addr_size): /example-0/i2c/fm-am-tuner@35: Relying on default #size-cells value
+Documentation/devicetree/bindings/media/i2c/ktm,kt0913.example.dt.yaml: Warning (unique_unit_address): Failed prerequisite 'avoid_default_addr_size'
+
+
+See https://patchwork.ozlabs.org/patch/1340067
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
 
