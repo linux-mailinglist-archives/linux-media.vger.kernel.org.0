@@ -2,74 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F78223A881
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 16:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BFF823A8D6
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 16:50:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728346AbgHCOc0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 10:32:26 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:8624 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726358AbgHCOcY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Aug 2020 10:32:24 -0400
-X-IronPort-AV: E=Sophos;i="5.75,430,1589209200"; 
-   d="scan'208";a="53537274"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Aug 2020 23:32:23 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C0BAC42AD685;
-        Mon,  3 Aug 2020 23:32:20 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 4/4] media: i2c: ov5640: Fallback to parallel mode
-Date:   Mon,  3 Aug 2020 15:31:47 +0100
-Message-Id: <1596465107-14251-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1596465107-14251-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1596465107-14251-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        id S1726707AbgHCOrp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 10:47:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35836 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726816AbgHCOrp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 10:47:45 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4699C06179E
+        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 07:47:44 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id h185so26264282qke.21
+        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 07:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=jSEcpjJOquc529ZwoycPhflNQKRcL97Z3GUPK/MTFhg=;
+        b=NGJ+cGs/7Y5yanvxauvBQNlpaQtun8x5OXswBR95fjESI+Q1GyxIm26mBIJiQZlchx
+         DnHpQPnaiAYiQeJ7fbILu6QdY5Rd11V8/qKJe4l/2w1iWVLomfjMRhY7F1HbDB+a88/v
+         OxW7fJVYu/9qupGnZQbIDl8RQ39QYHWJjpj6Y7eEVD2A8NOnmSLcJvTqsh8RSUHTZPrm
+         iB78LpIkLOgboZguy+rRN/6HLRUkZASiQtIdBkfmKC7u09IfxeH6wtHsiiiO6m7p/yy5
+         JixVWy5wqO/esbMdb7V3i86xLFulz50ivT2vhoOcOZ+NFnlgeqV1YkGRMJJ5EjFVX0il
+         hJDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=jSEcpjJOquc529ZwoycPhflNQKRcL97Z3GUPK/MTFhg=;
+        b=mspMUmWjMNkzaDVHPSgTOEFBSsb7AHWJcntAxv5VP8udCCbSEl1N2ALekrfWMzyLKR
+         vn8csqFkSzXnACOlsUjRNnFmZi9EUdUMpf37yrHGGvkhFwfcOigIrtyOYb6PEs8cCMAy
+         GnCAsgqeKHrjqUnhMgB5GmzQvsnDZnMTnbdPaVWJRubIzUp/3DvgljyCYHf3ZJf30A39
+         e13+bnZ0C+PllGkef20qgKNIQvdz1VrG1J7JT8om9jkM2dvyY4Gx5fn1sL1UdZtQPlht
+         9OvP8A6ylZGr3tDLEPoBJd4yqQW4Adyt11gEkqLtLU2n7mYqr0HOlQdiD23mqoKQiKdM
+         8QDQ==
+X-Gm-Message-State: AOAM530BYaEjv9ziVpRiLSkfqjfYGyewFZTfxCXltgOtwuir7gNEFgCs
+        8JpvVBWsTMHw0M9iTCK3X6PR/FdICgHu72cCdg==
+X-Google-Smtp-Source: ABdhPJw7sHEqkxXBQdZEh6QBRcoghAHfysqJXJXhfAsQDkKtCR//v760mqThiImnXfcrSB5dpdxJ6/pM/TKRNguNpQ==
+X-Received: by 2002:ad4:4482:: with SMTP id m2mr15332118qvt.102.1596466063346;
+ Mon, 03 Aug 2020 07:47:43 -0700 (PDT)
+Date:   Mon,  3 Aug 2020 14:47:17 +0000
+Message-Id: <20200803144719.3184138-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
+Subject: [PATCH 0/2] Per process tracking of dma buffers
+From:   Kalesh Singh <kaleshsingh@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Ioannis Ilkos <ilkos@google.com>,
+        John Stultz <john.stultz@linaro.org>, kernel-team@android.com,
+        Kalesh Singh <kaleshsingh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fallback to parallel mode if bus_type doesn't match the supported
-interfaces by the driver.
+Since debugfs doesn't have stable abi. This patch series enables per
+process accounting of dma buffers using trace events.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/media/i2c/ov5640.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Kalesh Singh (2):
+  fs: Add fd_install file operation
+  dmabuf/tracing: Add dma-buf trace events
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 08c67250042f..4e88b0540740 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3074,6 +3074,12 @@ static int ov5640_probe(struct i2c_client *client)
- 		return ret;
- 	}
- 
-+	/* fallback to parallel mode */
-+	if (sensor->ep.bus_type != V4L2_MBUS_PARALLEL &&
-+	    sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY &&
-+	    sensor->ep.bus_type != V4L2_MBUS_BT656)
-+		sensor->ep.bus_type = V4L2_MBUS_PARALLEL;
-+
- 	/* get system clock (xclk) */
- 	sensor->xclk = devm_clk_get(dev, "xclk");
- 	if (IS_ERR(sensor->xclk)) {
+ Documentation/filesystems/vfs.rst |  5 ++
+ drivers/dma-buf/dma-buf.c         | 29 ++++++++++++
+ fs/file.c                         |  3 ++
+ include/linux/fs.h                |  1 +
+ include/trace/events/dma_buf.h    | 77 +++++++++++++++++++++++++++++++
+ 5 files changed, 115 insertions(+)
+ create mode 100644 include/trace/events/dma_buf.h
+
 -- 
-2.17.1
+2.28.0.163.g6104cc2f0b6-goog
 
