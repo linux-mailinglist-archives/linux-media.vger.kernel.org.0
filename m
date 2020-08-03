@@ -2,113 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC6A623A824
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 16:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5735423A874
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 16:32:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728099AbgHCOMe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 10:12:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727792AbgHCOMe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 10:12:34 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11FBAC06174A
-        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 07:12:34 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id 9so14437834wmj.5
-        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 07:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=X3YMifa2y4Vck3amPUtn1ukrB81mOmzNOSZf6OsDjCM=;
-        b=HY2SKxaoc2lijbfr2SkusnfP8y4m6gvQ8y/Wf203i5284m2dmvk+9hxEShXc00RVSi
-         XeIFo9FshMP8YmacdlL2/Lgz5S8Mj3a+cyuCt9e2q2V9QDTOpyAUZ4EIXsx2H+9k3wnp
-         86Sb79OXGpG8nfwLfoegemE54P1zhEJTkhCvuzQKVmht5+uFRm4uuLE5U5PEGrfzfCZA
-         Yz/w6cyTLlkk9svtd5TwkURF/UxI0POvrjdLS3rIB/ovhYLAJHTpiPuVcYu2RWbLiP8b
-         XNUamQaQ6PgVlVQMCBiJFv7CrpKrhHscIFK+EyHhsg47mJrw78WlmBqpoMerczSWFvOr
-         Mjbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=X3YMifa2y4Vck3amPUtn1ukrB81mOmzNOSZf6OsDjCM=;
-        b=NwuMk8NvK00rUiz/d420zJn3miRkilf/vwJ56lHKN/CNg8kLWBzN/8W7R1dIBOrqfI
-         6ygI1jS8CpscaPlLCo45fwVylBR0Y/IvS8UPqBjCwRfCFrVi8Calhy4+uO6HdspEFp+K
-         8nE/7IkMZrX8Vvn7N5Gab4W+5NJxjdX4SBN22Z0yVpe5mxk+yufbQonJS75scaI/OJvt
-         FIN0ERepxNaSAna1LhxRFh/fCZ5qsDny8bHt/qwX7ALhl+wWv0UMZvz+BpclLUlp/8TC
-         hC8i4b2W5xzD2GTvLAFmahq/xN/bPMFT67hGWOxlpvm5JMZZ++J8m0KkBr9qgp0SL0Cc
-         B8uA==
-X-Gm-Message-State: AOAM5311DdfD7KShYASM7dEb/mQ7FTy6wLSAFl7Z4L46bQtcmXKntFf5
-        sIxQamu+h4uR+i7LnvOdasjITg==
-X-Google-Smtp-Source: ABdhPJz+pgkU3pcEZD6zkUSYq3SyYB3t9Va8znv136/ktw136qxZZUpvC0nX7LpFikrCt70pFf1k/w==
-X-Received: by 2002:a1c:e10a:: with SMTP id y10mr209872wmg.1.1596463952774;
-        Mon, 03 Aug 2020 07:12:32 -0700 (PDT)
-Received: from localhost.localdomain ([88.122.66.28])
-        by smtp.gmail.com with ESMTPSA id 33sm27098957wri.16.2020.08.03.07.12.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Aug 2020 07:12:32 -0700 (PDT)
-From:   Loic Poulain <loic.poulain@linaro.org>
-To:     stanimir.varbanov@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>
-Subject: [PATCH] media: venus: Fix reported frame intervals
-Date:   Mon,  3 Aug 2020 16:17:48 +0200
-Message-Id: <1596464268-7382-1-git-send-email-loic.poulain@linaro.org>
+        id S1727902AbgHCOcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 10:32:05 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:4092 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726358AbgHCOcF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Aug 2020 10:32:05 -0400
+X-IronPort-AV: E=Sophos;i="5.75,430,1589209200"; 
+   d="scan'208";a="53750340"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 03 Aug 2020 23:32:03 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D29D242ACBDC;
+        Mon,  3 Aug 2020 23:32:00 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/4] media: i2c: ov5640 feature enhancement and fixes
+Date:   Mon,  3 Aug 2020 15:31:43 +0100
+Message-Id: <1596465107-14251-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On dragonboard-410c (apq8016) with HFI_VERSION_1XX, the reported
-framerate is in unit of 1/65535 fps (for fine grained control).
-So the current reported supported frame intervals is wrong (max
-is 1/65535 fps), leading to encoding issues or format negotiation
-failures with gstreamer.
+Hi All,
 
-Fix that by setting the framerate numerator according the framerate
-factor (65535).
+This patch series fixes DVP support and enables BT656 mode in
+the driver.
 
-The factor is not always the same, e.g. with db820c (apq8096) HFI
-reports framerate in fps unit. So only apply that for HFI_VERSION_1XX.
+@Jacopo Mondi - patch 1/4 will collide with your patch series [1],
+feel free to merge it as part of your v2.
 
-Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
----
- drivers/media/platform/qcom/venus/venc.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+[1] https://www.spinics.net/lists/linux-renesas-soc/msg51236.html
 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 9981a2a..654bbaf 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -575,7 +575,9 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
- 				    struct v4l2_frmivalenum *fival)
- {
- 	struct venus_inst *inst = to_inst(file);
-+	enum hfi_version ver = inst->core->res->hfi_version;
- 	const struct venus_format *fmt;
-+	unsigned int framerate_factor = 1;
- 
- 	fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
- 
-@@ -600,11 +602,16 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
- 	    fival->height < frame_height_min(inst))
- 		return -EINVAL;
- 
--	fival->stepwise.min.numerator = 1;
-+	if (ver == HFI_VERSION_1XX) {
-+		/* framerate is reported in 1/65535 fps unit */
-+		framerate_factor = (1 << 16);
-+	}
-+
-+	fival->stepwise.min.numerator = framerate_factor;
- 	fival->stepwise.min.denominator = frate_max(inst);
--	fival->stepwise.max.numerator = 1;
-+	fival->stepwise.max.numerator = framerate_factor;
- 	fival->stepwise.max.denominator = frate_min(inst);
--	fival->stepwise.step.numerator = 1;
-+	fival->stepwise.step.numerator = framerate_factor;
- 	fival->stepwise.step.denominator = frate_max(inst);
- 
- 	return 0;
+Cheers,
+Prabhakar
+
+Changes for v2:
+* Added support to fallback in parallel mode
+* Documented bus-type property
+* Added descriptive commit message for patch 2/4 as pointed
+  by Sakari
+* Fixed review comments pointed by Laurent to have separate functions
+  for mipi and dvp setup
+* Made sure the sensor is in power down mode during startup too for
+  DVP mode
+
+Lad Prabhakar (4):
+  dt-bindings: media: i2c: ov5640: Document bus-type property
+  media: i2c: ov5640: Enable data pins on poweron for DVP mode
+  media: i2c: ov5640: Add support for BT656 mode
+  media: i2c: ov5640: Fallback to parallel mode
+
+ .../devicetree/bindings/media/i2c/ov5640.txt  |   9 +-
+ drivers/media/i2c/ov5640.c                    | 333 ++++++++++--------
+ 2 files changed, 198 insertions(+), 144 deletions(-)
+
 -- 
-2.7.4
+2.17.1
 
