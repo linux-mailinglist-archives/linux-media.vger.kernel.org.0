@@ -2,246 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F96123A950
-	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 17:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2224F23A965
+	for <lists+linux-media@lfdr.de>; Mon,  3 Aug 2020 17:32:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgHCP0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 11:26:03 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47366 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbgHCP0D (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 11:26:03 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id CBDF9296F4E
-Subject: Re: [PATCH v3 1/1] Documentation: media: Document how to write camera
- sensor drivers
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-References: <20200730162040.15560-1-sakari.ailus@linux.intel.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <a8524ae2-6f85-8bbd-4a12-244d4580f038@collabora.com>
-Date:   Mon, 3 Aug 2020 12:25:54 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726825AbgHCPcm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 11:32:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34502 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726130AbgHCPcm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Aug 2020 11:32:42 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8611720678;
+        Mon,  3 Aug 2020 15:32:39 +0000 (UTC)
+Date:   Mon, 3 Aug 2020 11:32:39 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Ioannis Ilkos <ilkos@google.com>,
+        John Stultz <john.stultz@linaro.org>, kernel-team@android.com
+Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+Message-ID: <20200803113239.194eb86f@oasis.local.home>
+In-Reply-To: <20200803144719.3184138-3-kaleshsingh@google.com>
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+        <20200803144719.3184138-3-kaleshsingh@google.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200730162040.15560-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Mon,  3 Aug 2020 14:47:19 +0000
+Kalesh Singh <kaleshsingh@google.com> wrote:
 
-Thanks for this.
+> +DECLARE_EVENT_CLASS(dma_buf_ref_template,
+> +
+> +	TP_PROTO(struct task_struct *task, struct file *filp),
+> +
+> +	TP_ARGS(task,  filp),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(u32, tgid)
+> +		__field(u32, pid)
 
-On 7/30/20 1:20 PM, Sakari Ailus wrote:
-> While we have had some example drivers, there has been up to date no
-> formal documentation on how camera sensor drivers should be written; what
-> are the practices, why, and where they apply.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> since v2:
-> 
-> - More verbose explanation on sensor driver's responsibilities.
-> 
-> - Reword the explanation on power state vs. v4l2_ctrl_handler_setup.
-> 
->  .../driver-api/media/camera-sensor.rst        | 134 ++++++++++++++++++
->  Documentation/driver-api/media/csi2.rst       |   2 +
->  Documentation/driver-api/media/index.rst      |   1 +
->  3 files changed, 137 insertions(+)
->  create mode 100644 Documentation/driver-api/media/camera-sensor.rst
-> 
-> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> new file mode 100644
-> index 000000000000..2121586e8ede
-> --- /dev/null
-> +++ b/Documentation/driver-api/media/camera-sensor.rst
-> @@ -0,0 +1,134 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Writing camera sensor drivers
-> +=============================
-> +
-> +CSI-2
-> +-----
-> +
-> +Please see what is written on :ref:`MIPI_CSI_2`.
-> +
-> +Handling clocks
-> +---------------
-> +
-> +Camera sensors have an internal clock tree including a PLL and a number of
-> +divisors. The clock tree is generally configured by the driver based on a few
-> +input parameters that are specific to the hardware:: the external clock frequency
+I only see "current" passed in as "task". Why are you recording the pid
+and tgid as these are available by the tracing infrastructure.
 
-Double colon
+At least the pid is saved at every event. You can see the tgid when
+enabling the "record_tgid".
 
-> +and the link frequency. The two parameters generally are obtained from system
-> +firmware. No other frequencies should be used in any circumstances.
+ # trace-cmd start -e all -O record_tgid
+ # trace-cmd show
 
-If I understand correctly, the firmware exposes a list of options that userspace can chose from, right?
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 39750/39750   #P:8
+#
+#                                      _-----=> irqs-off
+#                                     / _----=> need-resched
+#                                    | / _---=> hardirq/softirq
+#                                    || / _--=> preempt-depth
+#                                    ||| /     delay
+#           TASK-PID    TGID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |        |      |   ||||       |         |
+       trace-cmd-28284 (28284) [005] .... 240338.934671: sys_exit: NR 1 = 1
+     kworker/3:2-27891 (27891) [003] d... 240338.934671: timer_start: timer=00000000d643debd function=delayed_work_timer_fn expires=4535008893 [timeout=1981] cpu=3 idx=186 flags=I
+       trace-cmd-28284 (28284) [005] .... 240338.934672: sys_write -> 0x1
+     kworker/3:2-27891 (27891) [003] .... 240338.934672: workqueue_execute_end: work struct 000000008fddd403: function psi_avgs_work
+     kworker/3:2-27891 (27891) [003] .... 240338.934673: workqueue_execute_start: work struct 00000000111c941e: function dbs_work_handler
+     kworker/3:2-27891 (27891) [003] .... 240338.934673: workqueue_execute_end: work struct 00000000111c941e: function dbs_work_handler
+     kworker/3:2-27891 (27891) [003] d... 240338.934673: rcu_utilization: Start context switch
+     kworker/3:2-27891 (27891) [003] d... 240338.934673: rcu_utilization: End context switch
 
-> +
-> +The reason why the clock frequencies are so important is that the clock signals
-> +come out of the SoC, and in many cases a specific frequency is designed to be
-> +used in the system. Using another frequency may cause harmful effects
-> +elsewhere. Therefore only the pre-determined frequencies are configurable by the
-> +user.
-> +
-> +Frame size
-> +----------
-> +
-> +There are two distinct ways to configure the frame size produced by camera
-> +sensors.
-> +
-> +Freely configurable camera sensor drivers
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Freely configurable camera sensor drivers expose the device's internal
-> +processing pipeline as one or more sub-devices with different cropping and
-> +scaling configurations. The output size of the device is the result of a series
-> +of cropping and scaling operations from the device's pixel array's size.
-> +
-> +An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
-> +
-> +Register list based drivers
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Register list based drivers generally, instead of able to configure the device
-> +they control based on user requests, are limited to a number of preset
-> +configurations that combine a number of different parameters that on hardware
-> +level are independent. How a driver picks such configuration is based on the
-> +format set on a source pad at the end of the device's internal pipeline.
+-- Steve
 
-If I understand correctly, the difference between the first and second way,
-is that the first allows userspace to change the format on the subdevice's pads,
-and the second one needs to be calculated from the format set in the video devices,
-is this correct?
-
+> +		__field(u64, size)
+> +		__field(s64, count)
+> +		__string(exp_name, dma_buffer(filp)->exp_name)
+> +		__string(name, dma_buffer(filp)->name ? dma_buffer(filp)->name : UNKNOWN)
+> +		__field(u64, i_ino)
+> +	),
 > +
-> +Most sensor drivers are implemented this way, see e.g.
-> +drivers/media/i2c/imx319.c for an example.
+> +	TP_fast_assign(
+> +		__entry->tgid = task->tgid;
+> +		__entry->pid = task->pid;
+> +		__entry->size = dma_buffer(filp)->size;
+> +		__entry->count = file_count(filp);
+> +		__assign_str(exp_name, dma_buffer(filp)->exp_name);
+> +		__assign_str(name, dma_buffer(filp)->name ? dma_buffer(filp)->name : UNKNOWN);
+> +		__entry->i_ino = filp->f_inode->i_ino;
+> +	),
 > +
-> +Frame interval configuration
-> +----------------------------
-> +
-> +There are two different methods for obtaining possibilities for different frame
-> +intervals as well as configuring the frame interval. Which one to implement
-> +depends on the type of the device.
-> +
-> +Raw camera sensors
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +Instead of a high level parameter such as frame interval, the frame interval is
-> +a result of the configuration of a number of camera sensor implementation
-> +specific parameters. Luckily, these parameters tend to be the same for more or
-> +less all modern raw camera sensors.
-> +
-> +The frame interval is calculated using the following equation::
-> +
-> +	frame interval = (analogue crop width + horizontal blanking) *
-> +			 (analogue crop height + vertical blanking) / pixel rate
-> +
-> +The formula is bus independent and is applicable for raw timing parameters on
-> +large variety of devices beyond camera sensors. Devices that have no analogue
-> +crop, use the full source image size, i.e. pixel array size.
-> +
-> +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-> +``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
-> +pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
-> +unit of that control is Hz.
-> +
-> +Register list based drivers need to implement read-only sub-device nodes for the
-> +purpose. Devices that are not register list based need these to configure the
-> +device's internal processing pipeline.
-> +
-> +The first entity in the linear pipeline is the pixel array. The pixel array may
-
-A pixel array entity is the one that represents the "source" of the image, right?
-
-> +be followed by other entities that are there to allow configuring binning,
-> +skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
-> +
-> +USB cameras etc. devices
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +USB video class hardware, as well as many cameras offering a higher level
-> +control interface, generally use the concept of frame interval (or frame rate)
-> +on the level of device hardware interface. This means lower level controls
-> +exposed by raw cameras may not be used as an interface to control the frame
-> +interval on these devices.
-
-Sorry, it's not clear to me if you are referring to driver->hardware configuration, or
-userspace->driver configuration (but maybe it's just me and my lack of knowledge).
-
-Regards,
-Helen
-
-> +
-> +Power management
-> +----------------
-> +
-> +Always use runtime PM to manage the power states of your device. Camera sensor
-> +drivers are in no way special in this respect: they are responsible for
-> +controlling the power state of the device they otherwise control as well. In
-> +general, the device must be powered on at least when its registers are being
-> +accessed and when it is streaming.
-> +
-> +Existing camera sensor drivers may rely on the old
-> +:c:type:`v4l2_subdev_core_ops`->s_power() callback for bridge or ISP drivers to
-> +manage their power state. This is however **deprecated**. If you feel you need
-> +to begin calling an s_power from an ISP or a bridge driver, instead please add
-> +runtime PM support to the sensor driver you are using. Likewise, new drivers
-> +should not use s_power.
-> +
-> +Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
-> +``drivers/media/i2c/smiapp/smiapp-core.c``. The two drivers work in both ACPI
-> +and DT based systems.
-> +
-> +Control framework
-> +~~~~~~~~~~~~~~~~~
-> +
-> +``v4l2_ctrl_handler_setup()`` function may not be used in the device's runtime
-> +PM ``runtime_resume`` callback, as it has no way to figure out the power state
-> +of the device. This is because the power state of the device is only changed
-> +after the power state transition has taken place. The ``s_ctrl``callback can be
-> +used to obtain device's power state after the power state transition:
-> +
-> +.. c:function::
-> +	int pm_runtime_get_if_in_use(struct device *dev);
-> +
-> +The function returns a non-zero value if it succeeded getting the power count or
-> +runtime PM was disabled, in either of which cases the driver may proceed to
-> +access the device.
-> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
-> index 17cad435f1a0..e1b838014906 100644
-> --- a/Documentation/driver-api/media/csi2.rst
-> +++ b/Documentation/driver-api/media/csi2.rst
-> @@ -1,5 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> +.. _MIPI_CSI_2:
-> +
->  MIPI CSI-2
->  ==========
->  
-> diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-> index 328350924853..c140692454b1 100644
-> --- a/Documentation/driver-api/media/index.rst
-> +++ b/Documentation/driver-api/media/index.rst
-> @@ -34,6 +34,7 @@ Please see:
->      mc-core
->      cec-core
->      csi2
-> +    camera-sensor
->  
->      drivers/index
->  
-> 
