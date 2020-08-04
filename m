@@ -2,80 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BF0923B267
-	for <lists+linux-media@lfdr.de>; Tue,  4 Aug 2020 03:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC7123B29A
+	for <lists+linux-media@lfdr.de>; Tue,  4 Aug 2020 04:11:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729524AbgHDBmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Aug 2020 21:42:00 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:48072 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729412AbgHDBmA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Aug 2020 21:42:00 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 1E7E65B8571CDFA4E6EB;
-        Tue,  4 Aug 2020 09:41:57 +0800 (CST)
-Received: from localhost (10.174.179.108) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Tue, 4 Aug 2020
- 09:41:50 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     <digetx@gmail.com>, <mchehab@kernel.org>,
-        <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <hverkuil-cisco@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <devel@driverdev.osuosl.org>, <linux-kernel@vger.kernel.org>,
-        YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH v2 -next] media: staging: tegra-vde: Mark tegra_vde_runtime_suspend/resume as __maybe_unused
-Date:   Tue, 4 Aug 2020 09:41:37 +0800
-Message-ID: <20200804014137.45444-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
-In-Reply-To: <20200803115901.44068-1-yuehaibing@huawei.com>
-References: <20200803115901.44068-1-yuehaibing@huawei.com>
+        id S1727116AbgHDCLN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Aug 2020 22:11:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56746 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726948AbgHDCLM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Aug 2020 22:11:12 -0400
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 861C9C061757
+        for <linux-media@vger.kernel.org>; Mon,  3 Aug 2020 19:11:11 -0700 (PDT)
+Received: by mail-ua1-x944.google.com with SMTP id 4so7743715uav.8
+        for <linux-media@vger.kernel.org>; Mon, 03 Aug 2020 19:11:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k9EPoA/TZ6oFdobQPbI92mloUpSocVCmYhmgQ9XTICk=;
+        b=QADiLWYDVY5sDxEYuLEuvcCNAPfU3goGeGw7YEgVuEfcRmX+WQZUvyrbIKtcB7k7iQ
+         YxtIg+05jbwODdVdONyVxvmTrVZkmGIM0V8YH0Opo5g6s04ssZ+E7raI4lMc6wipoLsR
+         mtgY7uBETHz6kZN968nSb549MAS66ZiRjzYJIBh4V2KqbBYjvi0sk8NkJGObyROZ26Rz
+         wr0T342klm0lF2dZp+0E7GYYrZV1oLV7ImOHoLhAfA2b6vuOhpxgD4QGTMNTY6xao7VS
+         tnWQeeqa1y9yCWAdCkdmUq6sTQ5PXziy0Z7S8lVg41R2Av1E7muXD5VKHWwh+4EHg+RB
+         Rqbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k9EPoA/TZ6oFdobQPbI92mloUpSocVCmYhmgQ9XTICk=;
+        b=lLYcyzRBfNmyt0TL766MW8z5oXRUWlJfKzjMovNwgaDjDCyIYGjGevwCxn5tdCH7AT
+         FC85wbP7vsvXPtmj+6ZDpgPKVpuNQlgudosNFnEoRy1mHM1Sn1prTD++o+DJ1ItxCj5P
+         GBbQU7WOqOYc7sKKoEdwvoO3OWpKDFGxhewYsQNocpvYjkhx2h425hrQAiUHrz0IvGyj
+         5/fhMCxcqDz3EPk3GiJX9JSX3RrNJkzud2OmwBA7/OEOrIdSO7i8Eqy8VEwPTjCyTte6
+         i5oddTWpkLbkq1YQQdokyGI5G3ewM+H8hyynzdfn+0HOmfsv9RHntLbwrS7/JVPKPCpu
+         x2Xg==
+X-Gm-Message-State: AOAM53108oSE2Wdg8AxPt82BsU4omW2rzrHPwXA0IyfdWvxJEXUpyXVu
+        62F65zEttfVLMBb7HWspA7bRYr3VKSGRKvs5pg1foA==
+X-Google-Smtp-Source: ABdhPJxsSSJwioh1fipswY2Sg0TuZ8kexPdrIAJWw0UnM4xG9WSpH2NU05FlGdWBuHZgMZ+Mu0VvpeSV2QDEBT1mDD8=
+X-Received: by 2002:ab0:5eaa:: with SMTP id y42mr13300969uag.118.1596507070267;
+ Mon, 03 Aug 2020 19:11:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.179.108]
-X-CFilter-Loop: Reflected
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+ <20200803144719.3184138-3-kaleshsingh@google.com> <20200803154125.GA23808@casper.infradead.org>
+ <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
+ <20200803161230.GB23808@casper.infradead.org> <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
+ <20200803222831.GI1236603@ZenIV.linux.org.uk> <20200804010913.GA2096725@ZenIV.linux.org.uk>
+In-Reply-To: <20200804010913.GA2096725@ZenIV.linux.org.uk>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 3 Aug 2020 19:10:59 -0700
+Message-ID: <CAJuCfpE3fqCDfNmKphg6ZkHVb-B07_jvhquVgwgPHPi1CTupmw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
+        Hridya Valsaraju <hridya@google.com>,
+        Ioannis Ilkos <ilkos@google.com>,
+        John Stultz <john.stultz@linaro.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If CONFIG_PM is not set, gcc warns:
+On Mon, Aug 3, 2020 at 6:09 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> On Mon, Aug 03, 2020 at 11:28:31PM +0100, Al Viro wrote:
+>
+> > IOW, what the hell is that horror for?  You do realize, for example, that there's
+> > such thing as dup(), right?  And dup2() as well.  And while we are at it, how
+> > do you keep track of removals, considering the fact that you can stick a file
+> > reference into SCM_RIGHTS datagram sent to yourself, close descriptors and an hour
+> > later pick that datagram, suddenly getting descriptor back?
+> >
+> > Besides, "I have no descriptors left" != "I can't be currently sitting in the middle
+> > of syscall on that sucker"; close() does *NOT* terminate ongoing operations.
 
-drivers/staging/media/tegra-vde/vde.c:916:12:
- warning: 'tegra_vde_runtime_suspend' defined but not used [-Wunused-function]
+Thanks for your feedback, Al. I see your points and sorry for not
+realizing these shortcomings.
 
-Make it __maybe_unused to fix this.
+> >
+> > You are looking at the drastically wrong abstraction level.  Please, describe what
+> > it is that you are trying to achieve.
+>
+> _IF_ it's "who keeps a particularly long-lived sucker pinned", I would suggest
+> fuser(1) run when you detect that kind of long-lived dmabuf.  With events generated
+> by their constructors and destructors, and detection of longevity done based on
+> that.
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
-v2: both suspend and resume functions marked
----
- drivers/staging/media/tegra-vde/vde.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That is the intention here. IIUC fuser(1) would require root access to
+collect this information from a process other than the caller. Ideally
+what we would like to have is a non-root process with specific
+capabilities (in our case a process that can access BPF maps) to be
+able to obtain the information on dma-buf users.
+However, it might make more sense to track dma-buf usage from
+dma_buf_getfile, dma_buf_get and dma_buf_put since these calls are the
+ones that affect file refcount. Will dig some more into this.
+Thanks for your time and sorry for not thinking it through beforehand.
 
-diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-index a3c24d96d5b9..28845b5bafaf 100644
---- a/drivers/staging/media/tegra-vde/vde.c
-+++ b/drivers/staging/media/tegra-vde/vde.c
-@@ -913,7 +913,7 @@ static irqreturn_t tegra_vde_isr(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--static int tegra_vde_runtime_suspend(struct device *dev)
-+static __maybe_unused int tegra_vde_runtime_suspend(struct device *dev)
- {
- 	struct tegra_vde *vde = dev_get_drvdata(dev);
- 	int err;
-@@ -929,7 +929,7 @@ static int tegra_vde_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int tegra_vde_runtime_resume(struct device *dev)
-+static __maybe_unused int tegra_vde_runtime_resume(struct device *dev)
- {
- 	struct tegra_vde *vde = dev_get_drvdata(dev);
- 	int err;
--- 
-2.17.1
-
-
+>
+> But that's only a semi-blind guess at the things you are trying to achieve; please,
+> describe what it really is.
