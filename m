@@ -2,159 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC6B23BB78
-	for <lists+linux-media@lfdr.de>; Tue,  4 Aug 2020 15:54:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 932DB23BBBB
+	for <lists+linux-media@lfdr.de>; Tue,  4 Aug 2020 16:07:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728450AbgHDNy3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Aug 2020 09:54:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51960 "EHLO
+        id S1729069AbgHDOGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Aug 2020 10:06:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728412AbgHDNyR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Aug 2020 09:54:17 -0400
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com [IPv6:2607:f8b0:4864:20::a44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCAEC061757
-        for <linux-media@vger.kernel.org>; Tue,  4 Aug 2020 06:54:17 -0700 (PDT)
-Received: by mail-vk1-xa44.google.com with SMTP id m18so9174438vkk.7
-        for <linux-media@vger.kernel.org>; Tue, 04 Aug 2020 06:54:17 -0700 (PDT)
+        with ESMTP id S1728668AbgHDOGC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Aug 2020 10:06:02 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D01E1C06174A
+        for <linux-media@vger.kernel.org>; Tue,  4 Aug 2020 07:06:01 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id t23so20214375ljc.3
+        for <linux-media@vger.kernel.org>; Tue, 04 Aug 2020 07:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Gjh1CQhNcX/dKpwghpqe5PsnWMgHIT7SFzJs24h1UQM=;
-        b=MqpYAiWijmvg7loVHczpUKtn2+LJz7S2aV+N438n2Y65/hPVYPyLQR3Af4s3W2Ukz5
-         gLYAov6l7shRm+JJpOMpNLndV0/ZN4ObOy7kmt1MItL+zU2Z+xVsuMjvEyJd2qOdyWo0
-         FylGqdCVn+1NMjtq4E5q0zRZFh8pRB+uxba1HCcuNm9M02q8JFldhPwgCaiZOYCWBq17
-         hVfSRFG/p6V6p2i8FPTcnBgv1pNvvWSi1HNczyO13FgS09NjRa2VVtLpmtPOcrBkTVBA
-         UyvW53IFCMp5nvhUMLZR17cge+of0Ri0a1fQv4QKYnq9ADROB24CM2+wvliFp9MVw8OR
-         sPIw==
+        d=liddicott-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=oRWsHHCtGB6BG4CHfiTVmpUdAL/Z3G2VGiFutQbbcDM=;
+        b=kA+05ELIc6x1Nn3s9AchI4oeIBy+mzkMZ7CIdZ6c92HtkZDwzzR/TYyAc/BgLUHKvv
+         phynTHV7KffE1fF+UOeEgAa0Q8VVqJI7SKRmVA6xW7zntZE2Tz2jaC+1mEgD3UFshk6X
+         VfrpzLZtgUYscHuZdYdcrDtbQwsg6IQTI+2afUqM4g5aIOJUMkXNC/t9+bU8MzH3c70X
+         oGkRRbUDZgzzoR6KUUCD+6T0PfDNlAuvkSivBjko4VqgAJgSnTR2V0YUIXH43vw23veH
+         V8n1GZjIj0G3fhSjoOI6PoAyj7IfUs5XRGyruo6Bc+UZSubsz1MJNrdi7FKHDFsL+pXy
+         osRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Gjh1CQhNcX/dKpwghpqe5PsnWMgHIT7SFzJs24h1UQM=;
-        b=p4t4dB6dvGcM+DX2MxDfugUsBgj26eUPT7tPLnRn+t9hJ27tio3gZtznnRqMhUqyTv
-         Ui+omQpvXqFnA25G1PlZCJUF8QOhZIKqS00tqBTAEGr8EMhQUQskjFyvY/GFBCEbUKXK
-         nNTCY/XpkAlWhldvwQdAay/jV0jEwQly+sNuceXgOxWvjXqBZMNATp3ru5p3kuTYOESq
-         awkQMtLOth95HOSvDEA71kiCkyz9sf02sXkXC0VFutevfDB1qKZqgC0LEvr3iohN/ty/
-         GYI6Xl+FTGQ5IdDsIq/tQu2a3ncq/4E/Ip+E5ukbWlOwdeiDJHFB7j9bsPDaLhEllwgR
-         d3fw==
-X-Gm-Message-State: AOAM532h1yUGmRvvbwrGOG5/KHk1bb+cpQlrTTSWK7VKwH2teyfGFOe9
-        Ewd5jeyaO2VQB3ka+gc8GUp7fQ==
-X-Google-Smtp-Source: ABdhPJywEqRIB+C/laAdsWyb753dUVCT2rmRqL5RBMcCSf76aIKKVtfXUnjQ/uxnkDArh3Jzj6HeBQ==
-X-Received: by 2002:a1f:bd02:: with SMTP id n2mr14859615vkf.1.1596549256680;
-        Tue, 04 Aug 2020 06:54:16 -0700 (PDT)
-Received: from google.com (182.71.196.35.bc.googleusercontent.com. [35.196.71.182])
-        by smtp.gmail.com with ESMTPSA id n62sm3130893vke.12.2020.08.04.06.54.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2020 06:54:15 -0700 (PDT)
-Date:   Tue, 4 Aug 2020 13:54:12 +0000
-From:   Kalesh Singh <kaleshsingh@google.com>
-To:     Joel Fernandes <joelaf@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>
-Subject: Re: [PATCH 1/2] fs: Add fd_install file operation
-Message-ID: <20200804135412.GA934259@google.com>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-2-kaleshsingh@google.com>
- <CAJWu+orzhpO5hPfUWd0EJp-ViWMifeQ_Ng+R4fHf7xabL+Bggw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=oRWsHHCtGB6BG4CHfiTVmpUdAL/Z3G2VGiFutQbbcDM=;
+        b=CEKEK5CMpz4oTdap5J/Jovk3sw0tOQpl19YvjnP3bhFK2K+TIbJkCFLUQIppEQNfW1
+         j/yskVTcU9z9PGpW5FFwvK4UxXJwasdAnMNNn7+xI59GBmisB9oo74ExrjaaHsQvYeA5
+         Y5Gtgph4vzSOs4kEMHXMDOmD4+Nal3O/s6UdRz2tVd6u4cLXwVmSSqAZ8hfjPGRHIY/w
+         oxNgkUs74Obg9G/mWi1xDhRMfCu7woFftfXysyZW9YoD+tLspMjhTNcGrWz6vg5RhC9q
+         M5X1HmoDMefY1vnNMbu3amz7fmvExMrsICF5JJLTgSbckzOyti6px9fkZmyt/idsBZYx
+         C4Mg==
+X-Gm-Message-State: AOAM532lfY3mYmSaR4/4QCF5CECqrGPSe9Abizdr0WpXsmAZoho0N612
+        2+hYZL8qkxozx0FINPJXBjyPta6TCXNPsJ+ZOoX+2/H7JE0=
+X-Google-Smtp-Source: ABdhPJwXtXbC40Jss4Cnf93MZAkijzAc4qtAVXlVMciH6x3IpKVj++r9687l+VVD64IQWdYHGdGoRQsPdiJB6tSjpWU=
+X-Received: by 2002:a2e:9843:: with SMTP id e3mr10476675ljj.57.1596549960081;
+ Tue, 04 Aug 2020 07:06:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJWu+orzhpO5hPfUWd0EJp-ViWMifeQ_Ng+R4fHf7xabL+Bggw@mail.gmail.com>
+From:   Simon Liddicott <simon@liddicott.com>
+Date:   Tue, 4 Aug 2020 15:05:48 +0100
+Message-ID: <CALuNSF479bQ0wPZbX_aK_j1JRuuwLhT=96ou420Wwdi2v1zR3Q@mail.gmail.com>
+Subject: dtv-scan-tables maintenance
+To:     linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        oliver@schinagl.nl
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 03, 2020 at 08:30:59PM -0400, Joel Fernandes wrote:
-> On Mon, Aug 3, 2020 at 10:47 AM 'Kalesh Singh' via kernel-team
-> <kernel-team@android.com> wrote:
-> >
-> > Provides a per process hook for the acquisition of file descriptors,
-> > despite the method used to obtain the descriptor.
-> >
-> 
-> Hi,
-> So apart from all of the comments received, I think it is hard to
-> understand what the problem is, what the front-end looks like etc.
-> Your commit message is 1 line only.
-> 
-> I do remember some of the challenges discussed before, but it would
-> describe the problem in the commit message in detail and then discuss
-> why this solution is fit.  Please read submitting-patches.rst
-> especially "2) Describe your changes".
-> 
-> thanks,
-> 
->  - Joel
+Hi
 
-Thanks for the advice Joel :)
-> 
-> 
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > ---
-> >  Documentation/filesystems/vfs.rst | 5 +++++
-> >  fs/file.c                         | 3 +++
-> >  include/linux/fs.h                | 1 +
-> >  3 files changed, 9 insertions(+)
-> >
-> > diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> > index ed17771c212b..95b30142c8d9 100644
-> > --- a/Documentation/filesystems/vfs.rst
-> > +++ b/Documentation/filesystems/vfs.rst
-> > @@ -1123,6 +1123,11 @@ otherwise noted.
-> >  ``fadvise``
-> >         possibly called by the fadvise64() system call.
-> >
-> > +``fd_install``
-> > +       called by the VFS when a file descriptor is installed in the
-> > +       process's file descriptor table, regardless how the file descriptor
-> > +       was acquired -- be it via the open syscall, received over IPC, etc.
-> > +
-> >  Note that the file operations are implemented by the specific
-> >  filesystem in which the inode resides.  When opening a device node
-> >  (character or block special) most filesystems will call special
-> > diff --git a/fs/file.c b/fs/file.c
-> > index abb8b7081d7a..f5db8622b851 100644
-> > --- a/fs/file.c
-> > +++ b/fs/file.c
-> > @@ -616,6 +616,9 @@ void __fd_install(struct files_struct *files, unsigned int fd,
-> >  void fd_install(unsigned int fd, struct file *file)
-> >  {
-> >         __fd_install(current->files, fd, file);
-> > +
-> > +       if (file->f_op->fd_install)
-> > +               file->f_op->fd_install(fd, file);
-> >  }
-> >
-> >  EXPORT_SYMBOL(fd_install);
-> > diff --git a/include/linux/fs.h b/include/linux/fs.h
-> > index f5abba86107d..b976fbe8c902 100644
-> > --- a/include/linux/fs.h
-> > +++ b/include/linux/fs.h
-> > @@ -1864,6 +1864,7 @@ struct file_operations {
-> >                                    struct file *file_out, loff_t pos_out,
-> >                                    loff_t len, unsigned int remap_flags);
-> >         int (*fadvise)(struct file *, loff_t, loff_t, int);
-> > +       void (*fd_install)(int, struct file *);
-> >  } __randomize_layout;
-> >
-> >  struct inode_operations {
-> > --
-> > 2.28.0.163.g6104cc2f0b6-goog
-> >
-> > --
-> > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
-> >
+Who is maintaining the dtv-scan-tables tree?
+
+There are a few outstanding patches.
+
+Thanks,
+
+Simon.
