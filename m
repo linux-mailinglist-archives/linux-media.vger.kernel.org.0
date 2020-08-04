@@ -2,140 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B9323C0BB
-	for <lists+linux-media@lfdr.de>; Tue,  4 Aug 2020 22:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 583C023C0DE
+	for <lists+linux-media@lfdr.de>; Tue,  4 Aug 2020 22:43:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726961AbgHDU1G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Aug 2020 16:27:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56004 "EHLO
+        id S1727844AbgHDUnD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Aug 2020 16:43:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726861AbgHDU1E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Aug 2020 16:27:04 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6402FC061757
-        for <linux-media@vger.kernel.org>; Tue,  4 Aug 2020 13:27:04 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id h16so11522505oti.7
-        for <linux-media@vger.kernel.org>; Tue, 04 Aug 2020 13:27:04 -0700 (PDT)
+        with ESMTP id S1726807AbgHDUnD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Aug 2020 16:43:03 -0400
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com [IPv6:2607:f8b0:4864:20::a44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ECBFC061756
+        for <linux-media@vger.kernel.org>; Tue,  4 Aug 2020 13:43:03 -0700 (PDT)
+Received: by mail-vk1-xa44.google.com with SMTP id j7so3377503vkk.12
+        for <linux-media@vger.kernel.org>; Tue, 04 Aug 2020 13:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0F8rJxKPxKz2kW50sM0y8YM2E+x9jT63SdZPiQc6zzs=;
-        b=H1OkZhq6MBz2mPG9yOilf7cdzsWYCtSOv60OIb+5hLEevjbdyWf7y6zN3c0E7hXpmz
-         h5lFdwXRUFdjjKeYyzRJtXDM/RqOzDOyYo2ne5wLglfg9bXb9hPawWzSekTisfu8h1dX
-         R7s/m3G0iFxouoE7x6KyzkmAX9u+BXsLebYBI=
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TlCjdbRMbP/wUOWxhVpHiQRbe/DkH4AfQXHxlQhoVjA=;
+        b=EOi3TYycOATstmP6d5D/4kHK77cpmm07nIj5AHuvfKmnLxKlJXrFY2QFvli6qNNCKA
+         wqQ6Gx1OjpknqNrHPOsQ6i5pA4Nsl/0P+o8YnHG9NApjT17RZYWFm2ppHG2Oa91sfuxA
+         V7/UnvO5E3bSeNaQiSfAOAo3JPrbiEZyVWI1xZBomo1Dr5q+3bfJwXgF9dxiWHQGZQ2B
+         pLhcuu+09iTwu7nNQoaBdcI38gAj4GsGHfeAu8E+COwEkQ7qG41AYUnujdSx6sdIvWGB
+         LIzkgD64Cktj4Lrk9qYaJk7E7mh6dWZ2/a0BboxrjqurpZNuVBcAGleuhJxvMUPytp7k
+         494Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0F8rJxKPxKz2kW50sM0y8YM2E+x9jT63SdZPiQc6zzs=;
-        b=D0Rsj/ibDv+f+yvWHI2s+dvr0aHP/56cX7EgKoZVu+VTFJf2L/dLwtcIsv4Q2z+PQd
-         DYGCI5rB0BkC/63pByUnrKRHp2txwI5w0JXW8LBGk21SgEF2Bkqf7KAVOXo9kR2jFK4t
-         TCrnKSNAG0//UoRV7g/yJI1dnnXCjNn5kBCrP5Ijz7ACkqQibWWFYS47vn3Jlz4EDMbu
-         IipyfXEy334/H6r5UhLXTkEate/lc76oOdG42uJ5R9YklJOsjc96FbpnPjiv7t50K+RX
-         LID9o0yGiZpGfdnSLDdsCzNY6ykqZesW3ZokDVVNsFu5oSUO6mymd3vmUe8M6XC+/wPj
-         x+GQ==
-X-Gm-Message-State: AOAM530kliIml5qOyQlTNfm7NddmQ99eehVYhR46L002O2DTIooBrZ/Q
-        DZhD0Z/2JNBrMfZYByk25iGmLEitNZ8YzY9rnE/G1A==
-X-Google-Smtp-Source: ABdhPJxM2ghXnkojx/uwK1Wl/TqwXOe7oku/3H3udwDC+13SefY0iT978E6kQ/Oj5VS0nPAZGxZz1fIHsTOzPTz/qVk=
-X-Received: by 2002:a05:6830:1e71:: with SMTP id m17mr20159797otr.188.1596572823562;
- Tue, 04 Aug 2020 13:27:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com> <20200803154125.GA23808@casper.infradead.org>
- <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
- <20200803161230.GB23808@casper.infradead.org> <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
- <20200803222831.GI1236603@ZenIV.linux.org.uk>
-In-Reply-To: <20200803222831.GI1236603@ZenIV.linux.org.uk>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue, 4 Aug 2020 22:26:52 +0200
-Message-ID: <CAKMK7uE7V-0=2Z04-vkvFmExeEuKf5zihTO8su1GrHYy=sRKMg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TlCjdbRMbP/wUOWxhVpHiQRbe/DkH4AfQXHxlQhoVjA=;
+        b=Ntke2jxGgzpo5RKMoPVublsnKoOOeANXpnon3Tr6bAouHKe7Kh47QThABak0giR0/K
+         nzhPQyJ3SSpSson/PN6zMvJxhD7hVVX+8jxJ2UtA9j1ZKxBQIP9fZN+W7DMl0t+/Qp52
+         0uYsSFtdBjK1XKt2LyfC/aXuEhJN20LkxOWz9WkJydmII9HMrncWL49C/mFapJqxwFOP
+         kJur5R2+ociuIJzuHxOnXSO6446kna885n4Rjf57hnAqPZXBiIl/cfGgEen/jj0Hk/vu
+         9gh0XL2pSqvq0Qi0eUnopdiQbVTntdpsy8GUGEy4r7WADnSjN0jC9USmTOBVVVMgQeuP
+         di7g==
+X-Gm-Message-State: AOAM531/00Ffj5tuaYJa5mIXHJyy4lMdMHeOuvAFIsdFcUnXn72SGTH0
+        RtF2qOzusfZKcSFESPMeF0Oxgg==
+X-Google-Smtp-Source: ABdhPJw4pSB0K0iA7nRulTXnJfiqTxaQf1+i2vnos6vZbo7/HN0GM59TI/tMLvET0NGIlCFNwPQn1A==
+X-Received: by 2002:a1f:eac1:: with SMTP id i184mr80498vkh.66.1596573782070;
+        Tue, 04 Aug 2020 13:43:02 -0700 (PDT)
+Received: from google.com (182.71.196.35.bc.googleusercontent.com. [35.196.71.182])
+        by smtp.gmail.com with ESMTPSA id a3sm2560129vsh.31.2020.08.04.13.43.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2020 13:43:01 -0700 (PDT)
+Date:   Tue, 4 Aug 2020 20:42:58 +0000
+From:   Kalesh Singh <kaleshsingh@google.com>
 To:     Al Viro <viro@zeniv.linux.org.uk>
 Cc:     Suren Baghdasaryan <surenb@google.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
         DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, linux-fsdevel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
         Hridya Valsaraju <hridya@google.com>,
         Ioannis Ilkos <ilkos@google.com>,
         John Stultz <john.stultz@linaro.org>,
         kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+Message-ID: <20200804204258.GA1002979@google.com>
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+ <20200803144719.3184138-3-kaleshsingh@google.com>
+ <20200803154125.GA23808@casper.infradead.org>
+ <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
+ <20200803161230.GB23808@casper.infradead.org>
+ <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
+ <20200803222831.GI1236603@ZenIV.linux.org.uk>
+ <20200804010913.GA2096725@ZenIV.linux.org.uk>
+ <20200804154451.GA948167@google.com>
+ <20200804182724.GK1236603@ZenIV.linux.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200804182724.GK1236603@ZenIV.linux.org.uk>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 4, 2020 at 12:28 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> On Mon, Aug 03, 2020 at 09:22:53AM -0700, Suren Baghdasaryan wrote:
-> > On Mon, Aug 3, 2020 at 9:12 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > >
-> > > On Mon, Aug 03, 2020 at 09:00:00AM -0700, Suren Baghdasaryan wrote:
-> > > > On Mon, Aug 3, 2020 at 8:41 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > > > >
-> > > > > On Mon, Aug 03, 2020 at 02:47:19PM +0000, Kalesh Singh wrote:
-> > > > > > +static void dma_buf_fd_install(int fd, struct file *filp)
-> > > > > > +{
-> > > > > > +     trace_dma_buf_fd_ref_inc(current, filp);
-> > > > > > +}
-> > > > >
-> > > > > You're adding a new file_operation in order to just add a new tracepoint?
-> > > > > NACK.
-> > > >
-> > > > Hi Matthew,
-> > > > The plan is to attach a BPF to this tracepoint in order to track
-> > > > dma-buf users. If you feel this is an overkill, what would you suggest
-> > > > as an alternative?
-> > >
-> > > I'm sure BPF can attach to fd_install and filter on file->f_ops belonging
-> > > to dma_buf, for example.
-> >
-> > Sounds like a workable solution. Will explore that direction. Thanks Matthew!
->
-> No, it is not a solution at all.
->
-> What kind of locking would you use?  With _any_ of those approaches.
->
-> How would you use the information that is hopelessly out of date/incoherent/whatnot
-> at the very moment you obtain it?
->
-> IOW, what the hell is that horror for?  You do realize, for example, that there's
-> such thing as dup(), right?  And dup2() as well.  And while we are at it, how
-> do you keep track of removals, considering the fact that you can stick a file
-> reference into SCM_RIGHTS datagram sent to yourself, close descriptors and an hour
-> later pick that datagram, suddenly getting descriptor back?
->
-> Besides, "I have no descriptors left" != "I can't be currently sitting in the middle
-> of syscall on that sucker"; close() does *NOT* terminate ongoing operations.
->
-> You are looking at the drastically wrong abstraction level.  Please, describe what
-> it is that you are trying to achieve.
+On Tue, Aug 04, 2020 at 07:27:24PM +0100, Al Viro wrote:
+> On Tue, Aug 04, 2020 at 03:44:51PM +0000, Kalesh Singh wrote:
+> 
+> > Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
+> > that hold a file reference to the dma-buf. Unfortunately we can't use only
+> > explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
+> > between processes the file references are taken implicitly.
+> > 
+> > For example, on the sender side:
+> >    unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
+> > and on the receiver side:
+> >    unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
+> > 
+> > I understand now that fd_install is not an appropriate abstraction level to track these.
+> > Is there a more appropriate alternative where we could use to track these implicit file
+> > references?
+> 
+> There is no single lock that would stabilize the descriptor tables of all
+> processes.  And there's not going to be one, ever - it would be a contention
+> point from hell, since that would've been a system-wide lock that would have
+> to be taken by *ALL* syscalls modifying any descriptor table.  Not going to
+> happen, for obvious reasons.  Moreover, you would have to have fork(2) take
+> the same lock, since it does copy descriptor table.  And clone(2) either does
+> the same, or has the child share the descriptor table of parent.
+> 
+> What's more, a reference to struct file can bloody well survive without
+> a single descriptor refering to that file.  In the example you've mentioned
+> above, sender has ever right to close all descriptors it has sent.   Files
+> will stay opened as long as the references are held in the datagram; when
+> that datagram is received, the references will be inserted into recepient's
+> descriptor table.  At that point you again have descriptors refering to
+> that file, can do any IO on it, etc.
+> 
+> So "the set of processes that hold a file reference to the dma-buf" is
+> 	* inherently unstable, unless you are willing to freeze every
+> process in the system except for the one trying to find that set.
+> 	* can remain empty for any amount of time (hours, weeks, whatever),
+> only to get non-empty later, with syscalls affecting the object in question
+> done afterwards.
+> 
+> So... what were you going to do with that set if you could calculate it?
+> If it's really "how do we debug a leak?", it's one thing; in that case
+> I would suggest keeping track of creation/destruction of objects (not
+> gaining/dropping references - actual constructors and destructors) to
+> see what gets stuck around for too long and use fuser(1) to try and locate
+> the culprits if you see that something *was* living for too long.  "Try"
+> since the only reference might indeed have been stashed into an SCM_RIGHTS
+> datagram sitting in a queue of some AF_UNIX socket.  Note that "fuser
+> needs elevated priveleges" is not a strong argument - the ability to
+> do that sort of tracking does imply elevated priveleges anyway, and
+> having a root process taking requests along the lines of "gimme the
+> list of PIDs that have such-and-such dma_buf in their descriptor table"
+> is not much of an attack surface.
+> 
+> If you want to use it for something else, you'll need to describe that
+> intended use; there might be sane ways to do that, but it's hard to
+> come up with one without knowing what's being attempted...
 
-For added entertainment (since this is specifically about dma-buf) you
-can stuff them into various gpu drivers, and convert to a native gpu
-driver handle thing. That's actually the expected use case, first a
-buffer sharing gets established with AF_UNIX, then both sides close
-the dma-buf fd handle.
+Hi Al. Thanks for the guidance and detailed explanation. It appears what we
+were trying to accomplish here is not feasible.
 
-GPU drivers then internally cache the struct file so that we can hand
-out the same (to avoid confusion when re-importing it on some other
-driver), so for the case of dma-buf the "it's not actually an
-installed fd anywhere for unlimited time" is actually the normal
-use-case, not some odd corner.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks, Kalesh
