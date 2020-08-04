@@ -2,54 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15CFC23BD6F
-	for <lists+linux-media@lfdr.de>; Tue,  4 Aug 2020 17:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D89EF23BF59
+	for <lists+linux-media@lfdr.de>; Tue,  4 Aug 2020 20:27:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728560AbgHDPo5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Aug 2020 11:44:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40776 "EHLO
+        id S1726398AbgHDS1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Aug 2020 14:27:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725932AbgHDPo4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Aug 2020 11:44:56 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3663C061756
-        for <linux-media@vger.kernel.org>; Tue,  4 Aug 2020 08:44:55 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id p8so13755858vsm.12
-        for <linux-media@vger.kernel.org>; Tue, 04 Aug 2020 08:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=H4JQaTkH18iHZhr5mRcUoCQ7w0Oz4NhHM6QKGzTo1bo=;
-        b=ldFkcUFp7ri+IazwVWH1DnJFGu4x0mPAE5c8LizFVx2rdt1FE7sAuwon3cwzJKF5LL
-         ZNJqk1Re7Ztm4LTRTSxLIblqxv1Tdv3kmXSjg7auDZuvC8yZ0w69Nn/DGRo8tp0Eil14
-         jFciSc7TK05orgQRJRd7XKd6eTpBBIMNXzVXQ2Jed9/2SZYXTu2h73RR/N6qsNl/Pca7
-         9+8tv7nrB+KevcGtu4bJtd0lxUtz9q8jECfBtEGtUXeOl6f4BACUpXlr/k4Faqg/qrCp
-         Hx6izzJsxcomSTRM+gxPrYoa/pz+vZQZOFj3Rncam1GLYEBX+eB0thlPgKUiM/AR0tKS
-         NIzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=H4JQaTkH18iHZhr5mRcUoCQ7w0Oz4NhHM6QKGzTo1bo=;
-        b=oq25LVvIJo1BFJ6CDbtPCjaDWqbADFgBICnsn3EbKivV7fVhJWtQavd+UgoQIOmb7I
-         0v2OAgLV9gUuAO9r6CLctI/FD31VOzyUOwNxcrGYtJKUqoi0Up/UwC4o98lXKgBf1L4p
-         cZN0hWP1makvRnJUHbh8RjqoFjSyO5jjuo/cfMWMgQCKgZLBVURONNpbmqsW2CKZAMHE
-         9Fq6HIZbacGBafqjrbHKJzu6BjkDJIHAgKRxw2Bq8I5QJlFz0gzQH4K/mu1/ONrHqMgO
-         Q2XSewZvMsuIbZhlA04FrSmOXoeA/byEFaoF6l8HIc+bB+kSF3208uUMPHsED7aCCiS8
-         c8uw==
-X-Gm-Message-State: AOAM532KvNd6MqD0SU3pBEDcEQnK0oU9PF5WCVwBqpDM3W533YrqJzaP
-        GcWtht2FL2LTDQOiTJZwIs59+g==
-X-Google-Smtp-Source: ABdhPJyukknUS02GVsM5w7GzAW9AGOdf699gjZwqpksqLXYiV70ZhFCdPmPPK94v0vzmxZDb4/5nug==
-X-Received: by 2002:a67:ef81:: with SMTP id r1mr8018212vsp.37.1596555894889;
-        Tue, 04 Aug 2020 08:44:54 -0700 (PDT)
-Received: from google.com (182.71.196.35.bc.googleusercontent.com. [35.196.71.182])
-        by smtp.gmail.com with ESMTPSA id b138sm3212924vka.48.2020.08.04.08.44.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2020 08:44:54 -0700 (PDT)
-Date:   Tue, 4 Aug 2020 15:44:51 +0000
-From:   Kalesh Singh <kaleshsingh@google.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
+        with ESMTP id S1725826AbgHDS1m (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Aug 2020 14:27:42 -0400
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89AA0C06174A;
+        Tue,  4 Aug 2020 11:27:41 -0700 (PDT)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k31em-009HhW-2E; Tue, 04 Aug 2020 18:27:24 +0000
+Date:   Tue, 4 Aug 2020 19:27:24 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Kalesh Singh <kaleshsingh@google.com>
 Cc:     Suren Baghdasaryan <surenb@google.com>,
         Matthew Wilcox <willy@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -64,7 +33,7 @@ Cc:     Suren Baghdasaryan <surenb@google.com>,
         John Stultz <john.stultz@linaro.org>,
         kernel-team <kernel-team@android.com>
 Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200804154451.GA948167@google.com>
+Message-ID: <20200804182724.GK1236603@ZenIV.linux.org.uk>
 References: <20200803144719.3184138-1-kaleshsingh@google.com>
  <20200803144719.3184138-3-kaleshsingh@google.com>
  <20200803154125.GA23808@casper.infradead.org>
@@ -73,48 +42,69 @@ References: <20200803144719.3184138-1-kaleshsingh@google.com>
  <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
  <20200803222831.GI1236603@ZenIV.linux.org.uk>
  <20200804010913.GA2096725@ZenIV.linux.org.uk>
+ <20200804154451.GA948167@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200804010913.GA2096725@ZenIV.linux.org.uk>
+In-Reply-To: <20200804154451.GA948167@google.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 04, 2020 at 02:09:13AM +0100, Al Viro wrote:
-> On Mon, Aug 03, 2020 at 11:28:31PM +0100, Al Viro wrote:
+On Tue, Aug 04, 2020 at 03:44:51PM +0000, Kalesh Singh wrote:
+
+> Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
+> that hold a file reference to the dma-buf. Unfortunately we can't use only
+> explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
+> between processes the file references are taken implicitly.
 > 
-> > IOW, what the hell is that horror for?  You do realize, for example, that there's
-> > such thing as dup(), right?  And dup2() as well.  And while we are at it, how
-> > do you keep track of removals, considering the fact that you can stick a file
-> > reference into SCM_RIGHTS datagram sent to yourself, close descriptors and an hour
-> > later pick that datagram, suddenly getting descriptor back?
-> > 
-> > Besides, "I have no descriptors left" != "I can't be currently sitting in the middle
-> > of syscall on that sucker"; close() does *NOT* terminate ongoing operations.
-> > 
-> > You are looking at the drastically wrong abstraction level.  Please, describe what
-> > it is that you are trying to achieve.
-
-Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
-that hold a file reference to the dma-buf. Unfortunately we can't use only
-explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
-between processes the file references are taken implicitly.
-
-For example, on the sender side:
-   unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
-and on the receiver side:
-   unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
-
-I understand now that fd_install is not an appropriate abstraction level to track these.
-Is there a more appropriate alternative where we could use to track these implicit file
-references?
-
-> _IF_ it's "who keeps a particularly long-lived sucker pinned", I would suggest
-> fuser(1) run when you detect that kind of long-lived dmabuf.  With events generated
-> by their constructors and destructors, and detection of longevity done based on
-> that.
+> For example, on the sender side:
+>    unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
+> and on the receiver side:
+>    unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
 > 
-> But that's only a semi-blind guess at the things you are trying to achieve; please,
-> describe what it really is.
+> I understand now that fd_install is not an appropriate abstraction level to track these.
+> Is there a more appropriate alternative where we could use to track these implicit file
+> references?
+
+There is no single lock that would stabilize the descriptor tables of all
+processes.  And there's not going to be one, ever - it would be a contention
+point from hell, since that would've been a system-wide lock that would have
+to be taken by *ALL* syscalls modifying any descriptor table.  Not going to
+happen, for obvious reasons.  Moreover, you would have to have fork(2) take
+the same lock, since it does copy descriptor table.  And clone(2) either does
+the same, or has the child share the descriptor table of parent.
+
+What's more, a reference to struct file can bloody well survive without
+a single descriptor refering to that file.  In the example you've mentioned
+above, sender has ever right to close all descriptors it has sent.   Files
+will stay opened as long as the references are held in the datagram; when
+that datagram is received, the references will be inserted into recepient's
+descriptor table.  At that point you again have descriptors refering to
+that file, can do any IO on it, etc.
+
+So "the set of processes that hold a file reference to the dma-buf" is
+	* inherently unstable, unless you are willing to freeze every
+process in the system except for the one trying to find that set.
+	* can remain empty for any amount of time (hours, weeks, whatever),
+only to get non-empty later, with syscalls affecting the object in question
+done afterwards.
+
+So... what were you going to do with that set if you could calculate it?
+If it's really "how do we debug a leak?", it's one thing; in that case
+I would suggest keeping track of creation/destruction of objects (not
+gaining/dropping references - actual constructors and destructors) to
+see what gets stuck around for too long and use fuser(1) to try and locate
+the culprits if you see that something *was* living for too long.  "Try"
+since the only reference might indeed have been stashed into an SCM_RIGHTS
+datagram sitting in a queue of some AF_UNIX socket.  Note that "fuser
+needs elevated priveleges" is not a strong argument - the ability to
+do that sort of tracking does imply elevated priveleges anyway, and
+having a root process taking requests along the lines of "gimme the
+list of PIDs that have such-and-such dma_buf in their descriptor table"
+is not much of an attack surface.
+
+If you want to use it for something else, you'll need to describe that
+intended use; there might be sane ways to do that, but it's hard to
+come up with one without knowing what's being attempted...
