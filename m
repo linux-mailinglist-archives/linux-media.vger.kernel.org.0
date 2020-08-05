@@ -2,79 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 605AC23CBDD
-	for <lists+linux-media@lfdr.de>; Wed,  5 Aug 2020 17:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A3B23CC30
+	for <lists+linux-media@lfdr.de>; Wed,  5 Aug 2020 18:29:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbgHEP6z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Aug 2020 11:58:55 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:35866 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726210AbgHEPui (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Aug 2020 11:50:38 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <colin.king@canonical.com>)
-        id 1k3HZQ-0008I0-5Z; Wed, 05 Aug 2020 11:26:56 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Laura Abbott <labbott@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <christian@brauner.io>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        devel@driverdev.osuosl.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: ion: fix spelling mistake in function name "detatch" -> "detach"
-Date:   Wed,  5 Aug 2020 12:26:55 +0100
-Message-Id: <20200805112655.17696-1-colin.king@canonical.com>
+        id S1725920AbgHEQ3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Aug 2020 12:29:06 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:55592 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726350AbgHEQ1f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Aug 2020 12:27:35 -0400
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id F3DBC3A9C18
+        for <linux-media@vger.kernel.org>; Wed,  5 Aug 2020 10:55:14 +0000 (UTC)
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id B35E2C0006;
+        Wed,  5 Aug 2020 10:53:52 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        libcamera-devel@lists.libcamera.org
+Subject: [PATCH 2/4] media: docs: Describe targets for sensor properties
+Date:   Wed,  5 Aug 2020 12:57:19 +0200
+Message-Id: <20200805105721.15445-3-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200805105721.15445-1-jacopo@jmondi.org>
+References: <20200805105721.15445-1-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+Provide a table to describe how the V4L2 selection targets can be used
+to access an image sensor pixel array properties.
 
-There is a spelling mistake in the function name ion_dma_buf_detatch.
-Fix it by removing the extraneous t.
+Reference the table in the sub-device documentation.
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/staging/android/ion/ion.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../userspace-api/media/v4l/dev-subdev.rst    |  4 ++
+ .../media/v4l/v4l2-selection-targets.rst      | 49 +++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
-diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/android/ion/ion.c
-index 3c9f09506ffa..e1fe03ceb7f1 100644
---- a/drivers/staging/android/ion/ion.c
-+++ b/drivers/staging/android/ion/ion.c
-@@ -205,8 +205,8 @@ static int ion_dma_buf_attach(struct dma_buf *dmabuf,
- 	return 0;
- }
+diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+index c47861dff9b9b..2f7da3832f458 100644
+--- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
++++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+@@ -467,6 +467,10 @@ desired image resolution. If the sub-device driver supports that, userspace
+ can set the analog crop rectangle to select which portion of the pixel array
+ to read out.
  
--static void ion_dma_buf_detatch(struct dma_buf *dmabuf,
--				struct dma_buf_attachment *attachment)
-+static void ion_dma_buf_detach(struct dma_buf *dmabuf,
-+			       struct dma_buf_attachment *attachment)
- {
- 	struct ion_dma_buf_attachment *a = attachment->priv;
- 	struct ion_buffer *buffer = dmabuf->priv;
-@@ -331,7 +331,7 @@ static const struct dma_buf_ops dma_buf_ops = {
- 	.mmap = ion_mmap,
- 	.release = ion_dma_buf_release,
- 	.attach = ion_dma_buf_attach,
--	.detach = ion_dma_buf_detatch,
-+	.detach = ion_dma_buf_detach,
- 	.begin_cpu_access = ion_dma_buf_begin_cpu_access,
- 	.end_cpu_access = ion_dma_buf_end_cpu_access,
- };
++A description of each of the above mentioned targets when used to access the
++image sensor pixel array properties is provided by
++:ref:`v4l2-selection-targets-image-sensor-table`
++
+ 
+ Types of selection targets
+ --------------------------
+diff --git a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+index 69f500093aa2a..632e6448b784e 100644
+--- a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
++++ b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+@@ -76,3 +76,52 @@ of the two interfaces they are used.
+ 	modified by hardware.
+       - Yes
+       - No
++
++
++.. _v4l2-selection-targets-image-sensor-table:
++
++********************************************
++Selection Targets For Pixel Array Properties
++********************************************
++
++The V4L2 selection API can be used to retrieve the size and disposition of the
++pixel units that compose and image sensor pixel matrix when applied to a video
++sub-device that represents an image sensor.
++
++A description of the properties associated with each of the sensor pixel array
++areas is provided by the :ref:`v4l2-subdev-pixel-array-properties` section.
++
++.. tabularcolumns:: |p{6.0cm}|p{1.4cm}|p{7.4cm}|p(1.4cm)|
++
++.. flat-table:: Selection target definitions
++    :header-rows:  1
++    :stub-columns: 0
++
++    * - Target name
++      - id
++      - Definition
++      - Read/Write
++    * - ``V4L2_SEL_TGT_CROP``
++      - 0x0000
++      - The analog crop rectangle. Represents the portion of the active pixel
++        array which is processed to produce images.
++      - RW
++    * - ``V4L2_SEL_TGT_CROP_DEFAULT``
++      - 0x0001
++      - The active pixel array rectangle. It includes only active pixels and
++        excludes other ones such as optical black pixels. Its width and height
++        represent the maximum image resolution an image sensor can produce.
++      - RO
++    * - ``V4L2_SEL_TGT_CROP_BOUNDS``
++      - 0x0002
++      - The readable portion of the physical pixel array matrix. It includes
++        pixels that contains valid image data and calibration pixels such as the
++        optical black ones.
++      - RO
++    * - ``V4L2_SEL_TGT_NATIVE_SIZE``
++      - 0x0003
++      - The physical pixel array size, including readable and not readable
++        pixels. As pixels that cannot be read from application processor are not
++        relevant for calibration purposes, this rectangle is useful to calculate
++        the physical properties of the image sensor.
++      - RO
 -- 
 2.27.0
 
