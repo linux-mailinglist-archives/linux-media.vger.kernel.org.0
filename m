@@ -2,122 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4D8D23D0DC
-	for <lists+linux-media@lfdr.de>; Wed,  5 Aug 2020 21:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7770123D100
+	for <lists+linux-media@lfdr.de>; Wed,  5 Aug 2020 21:55:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728661AbgHETxv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Aug 2020 15:53:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46308 "EHLO
+        id S1728229AbgHETzY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Aug 2020 15:55:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727061AbgHEQtl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Aug 2020 12:49:41 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D4FC0A889B
-        for <linux-media@vger.kernel.org>; Wed,  5 Aug 2020 06:59:49 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id p20so5906745wrf.0
-        for <linux-media@vger.kernel.org>; Wed, 05 Aug 2020 06:59:49 -0700 (PDT)
+        with ESMTP id S1727831AbgHEQrv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Aug 2020 12:47:51 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A333C0A891E;
+        Wed,  5 Aug 2020 07:05:45 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id g6so35183571ljn.11;
+        Wed, 05 Aug 2020 07:05:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UnXJHln0qJbsyvbPd5nqi57xc+Rx9WPeYE5iXwX0XOk=;
-        b=i2iCcpioXVjoTQdXBrEiKZV8HDQohs1SW7AoSkaqbNBRXcATmKyNRwZxG4abyUrF/h
-         B6+YN267k8wKf9sNxJmzjXsmxoMYwVpDwfZPKKzt7226rrpXlZX/MhDCkRZa33QHeskX
-         zUu81CIeAk5bQUepUE4nvi440fLTOq94xYNVk=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ev09fQIwwVoCVctHIyJV4BoifzLSy9cjs96TIWMwjTk=;
+        b=cNVGeAkym4a82t1dKh/mLk7LiT1I62FNbECk1sMfA46ZzG+zxPAK4lb3stMHwJb/rV
+         WWRVtEmCsbISNWfopFqtqONM27I7dFWv+eI//FBFAWQQCWLwleiBkKNfzfVzd9jmW1Tb
+         V+6lP1qFgd/v133DkeicAvG0vM7mflZVB9ncOeL7VXu439S13YBGPyvTrQ3QAFqviVd/
+         6HquEkXbMfV43y5jThSrRMnTEGGRGLnBHFRe2BdrXBqhPQ3rEpsAfk7H5kF4BG/XDGb3
+         8NYYYM+cye/RUHA1EVk1pgdQxmPTECvT9dVp740ngutHv66JxGiYINPAkY+AEHyUByrF
+         3WcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UnXJHln0qJbsyvbPd5nqi57xc+Rx9WPeYE5iXwX0XOk=;
-        b=s+hfjPbxCDmE74fhBvXmxSTAbLz2etvvqE7OnYwxYLDyiv0TVcczRSRIk4BmuLIzv0
-         MaVXzD3s6iRIFz2bir0iw0s10n56kRDApbnHJbysTSwVgNASiIjd42y+ZL8cS0b64VB6
-         QvqYO71NfAdidyMgwW2oZ6FSd1Q7Jo9HgQLfNSEB33CjvA6+e7inKztNQZv426fp5tN4
-         8aAOceMijZgVBsnhpehRGvzbPmirkVZc9WXlN+/UHUprEI9Anb6DFjFzP1PZs0yzpW3k
-         mZMcgfWfgUNhLPejJoIfLT58+zb6yFWJUUXChD0hhd5sYhQv07D9WW+/z5JYh//dUPIX
-         ZSJA==
-X-Gm-Message-State: AOAM532bWpwanr5N6tw1rydREX4w3RzFrVirTPJwGWJE3SBqZDnqH0uc
-        9Wim6xFSoOJMzsovECIqgYozDw==
-X-Google-Smtp-Source: ABdhPJzJiPiCgoIc7QqL+Le88T/qe30fnQtcEXtkyzxhaRvh6U8/yV/tcZZjKgew/5QRIdgnJQoUOQ==
-X-Received: by 2002:adf:f341:: with SMTP id e1mr3112056wrp.207.1596635987978;
-        Wed, 05 Aug 2020 06:59:47 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id t202sm2936254wmt.20.2020.08.05.06.59.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 06:59:47 -0700 (PDT)
-Date:   Wed, 5 Aug 2020 13:59:46 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 5/9] media: staging: rkisp1: add a pointer to
- rkisp1_device from struct rkisp1_isp
-Message-ID: <20200805135946.GA1015630@chromium.org>
-References: <20200718145918.17752-1-dafna.hirschfeld@collabora.com>
- <20200718145918.17752-6-dafna.hirschfeld@collabora.com>
- <d8475ade-94a3-48ad-02d7-f03810ddf6dc@collabora.com>
- <114a3242-88e9-46a1-c8c8-f5bfd424d05a@collabora.com>
- <CAAFQd5BLuwfnQfYbaWmtre5YCx-_YG4E10cZxeL+6pESap_U0A@mail.gmail.com>
- <fa457a47-4005-8c64-d135-96b321ddd6a6@collabora.com>
- <CAAFQd5ATRvBapupZaBf6TkWcVwOy7C9+A95+vLHJiwuUca4LQg@mail.gmail.com>
- <74c2563c-25ca-833b-2f72-b6e10e6e3847@collabora.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ev09fQIwwVoCVctHIyJV4BoifzLSy9cjs96TIWMwjTk=;
+        b=HKPM0CazDAvehVn+o6R3lkrfCQMW5JJGuNEPH3zl2OhUMq/JqwWGltnuLVucQzgsU4
+         1rvk3+pWoZ0U80rVPYAJWUZ4HEekrMSsZ6ZEZxOkV0q1/Q6V6dnrI1uhnSIgUsN2667A
+         x0zKbbdDW+C3+D6f1IzbQMnYqGrml5cw3jRooqc4z+hGjrBYS+HKP9OUCRw9FLGqsDpc
+         CVu1zzNlwnFrKWx49cBnpvVd1+Yuq/md7qfVg9dJWF7xARKxQZYPao/1B0xRvx8oHg6A
+         3SdMzYcyhXe1coG8wiqWU3iyWGFS5shrV1sdVo9fJV8vsvtkA4QA4rRaZTCsBPazcuCI
+         FXfw==
+X-Gm-Message-State: AOAM531zE73JdOeoCToyMHQvmbj33x34NB9vyy+SvTJTZ39DTVSMhfVP
+        g86pZ475JTgaSMRli3qNe+X4z6Bu
+X-Google-Smtp-Source: ABdhPJxUHKn3jgLLgt9PNMiup+D3HBXI8zcR+vLF4HsyQfIBRuNgWjulNBCag9k50dUroJkG40tq4w==
+X-Received: by 2002:a2e:164f:: with SMTP id 15mr1603373ljw.68.1596636342876;
+        Wed, 05 Aug 2020 07:05:42 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id q20sm941582ljj.42.2020.08.05.07.05.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Aug 2020 07:05:42 -0700 (PDT)
+Subject: Re: [PATCH v8 08/10] gpu: host1x: mipi: Keep MIPI clock enabled till
+ calibration is done
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1596469346-937-1-git-send-email-skomatineni@nvidia.com>
+ <1596469346-937-9-git-send-email-skomatineni@nvidia.com>
+ <20200805134600.GA3351349@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <103efe31-1abc-54f2-6004-490d7bb1b61a@gmail.com>
+Date:   Wed, 5 Aug 2020 17:05:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74c2563c-25ca-833b-2f72-b6e10e6e3847@collabora.com>
+In-Reply-To: <20200805134600.GA3351349@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Aug 01, 2020 at 06:08:06PM +0200, Dafna Hirschfeld wrote:
+05.08.2020 16:46, Thierry Reding пишет:
+> On Mon, Aug 03, 2020 at 08:42:24AM -0700, Sowjanya Komatineni wrote:
+>> With the split of MIPI calibration into tegra_mipi_calibrate() and
+>> tegra_mipi_wait(), MIPI clock is not kept enabled till the calibration
+>> is done.
+>>
+>> So, this patch skips disabling MIPI clock after triggering start of
+>> calibration and disables it only after waiting for done status from
+>> the calibration logic.
+>>
+>> This patch renames tegra_mipi_calibrate() as tegra_mipi_start_calibration()
+>> and tegra_mipi_wait() as tegra_mipi_finish_calibration() to be inline
+>> with their usage.
+>>
+>> As MIPI clock is left enabled and in case of any failures with CSI input
+>> streaming tegra_mipi_finish_calibration() will not get invoked.
+>> So added new API tegra_mipi_cancel_calibration() which disables MIPI clock
+>> and consumer drivers can call this in such cases.
+>>
+>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>  drivers/gpu/drm/tegra/dsi.c |  4 ++--
+>>  drivers/gpu/host1x/mipi.c   | 19 ++++++++++---------
+>>  include/linux/host1x.h      |  5 +++--
+>>  3 files changed, 15 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+>> index 3820e8d..a7864e9 100644
+>> --- a/drivers/gpu/drm/tegra/dsi.c
+>> +++ b/drivers/gpu/drm/tegra/dsi.c
+>> @@ -694,11 +694,11 @@ static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
+>>  		DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
+>>  	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
+>>  
+>> -	err = tegra_mipi_calibrate(dsi->mipi);
+>> +	err = tegra_mipi_start_calibration(dsi->mipi);
+>>  	if (err < 0)
+>>  		return err;
+>>  
+>> -	return tegra_mipi_wait(dsi->mipi);
+>> +	return tegra_mipi_finish_calibration(dsi->mipi);
+>>  }
+>>  
+>>  static void tegra_dsi_set_timeout(struct tegra_dsi *dsi, unsigned long bclk,
+>> diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
+>> index e606464..b15ab6e 100644
+>> --- a/drivers/gpu/host1x/mipi.c
+>> +++ b/drivers/gpu/host1x/mipi.c
+>> @@ -293,17 +293,19 @@ int tegra_mipi_disable(struct tegra_mipi_device *dev)
+>>  }
+>>  EXPORT_SYMBOL(tegra_mipi_disable);
+>>  
+>> -int tegra_mipi_wait(struct tegra_mipi_device *device)
+>> +void tegra_mipi_cancel_calibration(struct tegra_mipi_device *device)
+>> +{
+>> +	clk_disable(device->mipi->clk);
 > 
-> 
-> On 21.07.20 17:32, Tomasz Figa wrote:
-> > On Tue, Jul 21, 2020 at 5:30 PM Dafna Hirschfeld
-> > <dafna.hirschfeld@collabora.com> wrote:
-> > > 
-> > > Hi,
-> > > 
-> > > On 21.07.20 14:36, Tomasz Figa wrote:
-> > > > On Tue, Jul 21, 2020 at 2:26 PM Dafna Hirschfeld
-> > > > <dafna.hirschfeld@collabora.com> wrote:
-> > > > > 
-> > > > > Hi,
-> > > > > 
-> > > > > On 20.07.20 21:25, Helen Koike wrote:
-> > > > > > 
-> > > > > > 
-> > > > > > On 7/18/20 11:59 AM, Dafna Hirschfeld wrote:
-> > > > > > > The code in rkisp1-isp.c requires access to struct 'rkisp1_device'
-> > > > > > > in several places. It access it using the 'container_of' macro.
-> > > > > > > This patch adds a pointer to 'rkisp1_device' in struct 'rkisp1_isp'
-> > > > > > > to simplify the access.
-> > > > > > 
-> > > > > > What is wrong with container_of?
-> > > > > 
-> > > > > I remember Laurent suggested it a while ago.
-> > > > > I also feel container_of is a bit cumbersome and other entities already have a pointer to rkisp1_device.
-> > > > > 
-> > > > 
-> > > > Do we even need the rkisp1_isp struct? Could we just pass rkisp1_device instead?
-> > > 
-> > > pass to where ?  You mean to the function rkisp1_mipi_csi2_start ?
-> > 
-> > Yes, all around the driver, where rkisp1_isp is passed.
-> 
-> Most of the functions are part of subdevice callback implementation
-> where the rkisp1_device is not needed, so I don't the see the point.
+> Do we need to do anything with the MIPI_CAL_CTRL and MIPI_CAL_STATUS
+> registers here? We don't clear the START bit in the former when the
+> calibration has successfully finished, but I suspect that's because
+> the bit is self-clearing. But I wonder if we still need to clear it
+> upon cancellation to make sure the calibration does indeed stop.
 
-Okay, so then I'd just lean towards keeping it as is. container_of is
-generally considered more efficient than a pointer, because it doesn't
-require a load operation to obtain a reference to the parent struct.
+Apparently there is no way to explicitly stop calibration other than to
+reset MIPI calibration block, but Sowjanya says this is unnecessary.
 
-Best regards,
-Tomasz
+Perhaps having a fixed delay before disabling clock could be enough to
+ensure that calibration is stopped before the clock is disabled?
