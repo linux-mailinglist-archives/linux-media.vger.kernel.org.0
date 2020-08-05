@@ -2,185 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3599123CCB4
-	for <lists+linux-media@lfdr.de>; Wed,  5 Aug 2020 18:59:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A1423CD2C
+	for <lists+linux-media@lfdr.de>; Wed,  5 Aug 2020 19:22:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbgHEQ7V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Aug 2020 12:59:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48436 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726923AbgHEQ6A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Aug 2020 12:58:00 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D55C06179F;
-        Wed,  5 Aug 2020 09:58:00 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id 140so24633073lfi.5;
-        Wed, 05 Aug 2020 09:57:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=R4yhZoH5J2nOGG/5shZOyMzZf/b8ozsdQ7inVwKLQ9c=;
-        b=qypO6FDUhDQ3T4V7Fbd/UnYIjrOxgUfK1yktZIFP9m4Ba9Rl+buy4kJwatJZKcgC2A
-         +FaBGjCQ/y3d6E4qOwza4ueiuGzjx8soYVFURUQh5OtzR1P3xEEHjff2FSqJHDwxYP4r
-         j8/j12ffs/t8CPoT2P7QzcOOd0SAkOfSTi6Yr0oZtSVRdrYoGLtcK278NnxgWV7rylHo
-         WeDtvFJFlxu0p+I7QXgqB+IuWIn/S/5IW1QQvFW0JGTmSh51oecfOWAZOExgGIVFVhHL
-         7LC6Lr9TQ31eU8zDccLTFhe+fzkzUuOyPuCTf2Bm2j+h7RJEV9aikMX6FwXb8VCypGbG
-         BDkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=R4yhZoH5J2nOGG/5shZOyMzZf/b8ozsdQ7inVwKLQ9c=;
-        b=dMXemJEI6etNI53ChHZ05m/pVZOw077PhK0npljKJLPO9iDk/FYHOKjAAM/bteAB6a
-         KEo0sPSxmZVdtXgRDWjmQTg8hem+Ftzs9ZnWREXne4TVYMndQ7yQn/VFzyMO1lXtsGey
-         x3IiBFlc0DuR6zXhZE7KNABtLixfYmPeBicYpHO3Q2dAVaJAAWwDBlK0AgaNzKwkg9t5
-         9hVQl7Ns2DhQj7REHKQvY2Md4BhQWYfdeFlgJhSicFBNimIGeyfdJZB53OaEnzN4Kb8e
-         XYtkZvRLWBfzRVtKAFVtmnz3I2WBUhksSQ2cq+k5cyS1stkMwOLkeRre557wD7FC3kIl
-         LW8g==
-X-Gm-Message-State: AOAM5307N+EFD8/g0nkfkm44gEcxk4dEem+brHytqs9wKvajNM1y/VAp
-        fVIxEVjk9HINcNoerlgdR/0ayFti
-X-Google-Smtp-Source: ABdhPJwEqepKWT8RsOm8ZL63xNwoBc71M2rhrFDcHQQzq3RPXz1swxrbxvmpbmvqRSPEbAm5+URjiA==
-X-Received: by 2002:ac2:5223:: with SMTP id i3mr2040752lfl.57.1596646678005;
-        Wed, 05 Aug 2020 09:57:58 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
-        by smtp.googlemail.com with ESMTPSA id q22sm1343493lfc.33.2020.08.05.09.57.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Aug 2020 09:57:55 -0700 (PDT)
-Subject: Re: [PATCH v8 08/10] gpu: host1x: mipi: Keep MIPI clock enabled till
- calibration is done
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
-        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1596469346-937-1-git-send-email-skomatineni@nvidia.com>
- <1596469346-937-9-git-send-email-skomatineni@nvidia.com>
- <20200805134600.GA3351349@ulmo>
- <103efe31-1abc-54f2-6004-490d7bb1b61a@gmail.com>
- <dcd58ae7-58ed-11d1-0e10-7f522b651b30@gmail.com>
- <addb92e5-7c7a-6fba-117d-c7880b2d4597@nvidia.com>
- <ed80bf2f-213f-286a-59b2-fc85e4181b3d@gmail.com>
- <6eede805-80fd-016f-22f8-b6d25f6587af@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1c12e40e-de7f-0599-a941-82760b4c7668@gmail.com>
-Date:   Wed, 5 Aug 2020 19:57:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728797AbgHERWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Aug 2020 13:22:21 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:45280 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728704AbgHERVL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Aug 2020 13:21:11 -0400
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id B53AF3A3D82
+        for <linux-media@vger.kernel.org>; Wed,  5 Aug 2020 10:55:13 +0000 (UTC)
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 2273FC000C;
+        Wed,  5 Aug 2020 10:53:50 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        libcamera-devel@lists.libcamera.org
+Subject: [PATCH 1/4] media: docs: Describe pixel array properties
+Date:   Wed,  5 Aug 2020 12:57:18 +0200
+Message-Id: <20200805105721.15445-2-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200805105721.15445-1-jacopo@jmondi.org>
+References: <20200805105721.15445-1-jacopo@jmondi.org>
 MIME-Version: 1.0
-In-Reply-To: <6eede805-80fd-016f-22f8-b6d25f6587af@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-05.08.2020 19:50, Sowjanya Komatineni пишет:
-> 
-> On 8/5/20 9:47 AM, Dmitry Osipenko wrote:
->> 05.08.2020 19:33, Sowjanya Komatineni пишет:
->>> On 8/5/20 7:19 AM, Dmitry Osipenko wrote:
->>>> 05.08.2020 17:05, Dmitry Osipenko пишет:
->>>>> 05.08.2020 16:46, Thierry Reding пишет:
->>>>>> On Mon, Aug 03, 2020 at 08:42:24AM -0700, Sowjanya Komatineni wrote:
->>>>>>> With the split of MIPI calibration into tegra_mipi_calibrate() and
->>>>>>> tegra_mipi_wait(), MIPI clock is not kept enabled till the
->>>>>>> calibration
->>>>>>> is done.
->>>>>>>
->>>>>>> So, this patch skips disabling MIPI clock after triggering start of
->>>>>>> calibration and disables it only after waiting for done status from
->>>>>>> the calibration logic.
->>>>>>>
->>>>>>> This patch renames tegra_mipi_calibrate() as
->>>>>>> tegra_mipi_start_calibration()
->>>>>>> and tegra_mipi_wait() as tegra_mipi_finish_calibration() to be
->>>>>>> inline
->>>>>>> with their usage.
->>>>>>>
->>>>>>> As MIPI clock is left enabled and in case of any failures with CSI
->>>>>>> input
->>>>>>> streaming tegra_mipi_finish_calibration() will not get invoked.
->>>>>>> So added new API tegra_mipi_cancel_calibration() which disables
->>>>>>> MIPI clock
->>>>>>> and consumer drivers can call this in such cases.
->>>>>>>
->>>>>>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
->>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>>>> ---
->>>>>>>    drivers/gpu/drm/tegra/dsi.c |  4 ++--
->>>>>>>    drivers/gpu/host1x/mipi.c   | 19 ++++++++++---------
->>>>>>>    include/linux/host1x.h      |  5 +++--
->>>>>>>    3 files changed, 15 insertions(+), 13 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/tegra/dsi.c
->>>>>>> b/drivers/gpu/drm/tegra/dsi.c
->>>>>>> index 3820e8d..a7864e9 100644
->>>>>>> --- a/drivers/gpu/drm/tegra/dsi.c
->>>>>>> +++ b/drivers/gpu/drm/tegra/dsi.c
->>>>>>> @@ -694,11 +694,11 @@ static int tegra_dsi_pad_calibrate(struct
->>>>>>> tegra_dsi *dsi)
->>>>>>>            DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
->>>>>>>        tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
->>>>>>>    -    err = tegra_mipi_calibrate(dsi->mipi);
->>>>>>> +    err = tegra_mipi_start_calibration(dsi->mipi);
->>>>>>>        if (err < 0)
->>>>>>>            return err;
->>>>>>>    -    return tegra_mipi_wait(dsi->mipi);
->>>>>>> +    return tegra_mipi_finish_calibration(dsi->mipi);
->>>>>>>    }
->>>>>>>      static void tegra_dsi_set_timeout(struct tegra_dsi *dsi,
->>>>>>> unsigned long bclk,
->>>>>>> diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
->>>>>>> index e606464..b15ab6e 100644
->>>>>>> --- a/drivers/gpu/host1x/mipi.c
->>>>>>> +++ b/drivers/gpu/host1x/mipi.c
->>>>>>> @@ -293,17 +293,19 @@ int tegra_mipi_disable(struct
->>>>>>> tegra_mipi_device *dev)
->>>>>>>    }
->>>>>>>    EXPORT_SYMBOL(tegra_mipi_disable);
->>>>>>>    -int tegra_mipi_wait(struct tegra_mipi_device *device)
->>>>>>> +void tegra_mipi_cancel_calibration(struct tegra_mipi_device
->>>>>>> *device)
->>>>>>> +{
->>>>>>> +    clk_disable(device->mipi->clk);
->>>>>> Do we need to do anything with the MIPI_CAL_CTRL and MIPI_CAL_STATUS
->>>>>> registers here? We don't clear the START bit in the former when the
->>>>>> calibration has successfully finished, but I suspect that's because
->>>>>> the bit is self-clearing. But I wonder if we still need to clear it
->>>>>> upon cancellation to make sure the calibration does indeed stop.
->>>>> Apparently there is no way to explicitly stop calibration other
->>>>> than to
->>>>> reset MIPI calibration block, but Sowjanya says this is unnecessary.
->>>>>
->>>>> Perhaps having a fixed delay before disabling clock could be enough to
->>>>> ensure that calibration is stopped before the clock is disabled?
->>>>>
->>>> Actually, there is a MIPI_CAL_ACTIVE bit in the status register. Maybe
->>>> it needs to be polled until it's unset?
->>> Confirmed with HW design team during this patch update.
->>>
->>> SW does not need to clear START bit and only write 1 takes effect to
->>> that bit.
->>>
->>> Also, no need to have delay or do any other register settings unclear as
->>> its FSM and there's nothing to get stuck.
->>>
->>> Also it goes thru small finite set of codes and by the time sensor
->>> programming happens for enabling streaming FSM will finish its
->>> calibration sequence much early and it will only wait for pads LP-11.
->>>
->>> So, during cancel we only need disable MIPI clock.
->>>
->> But there is no guarantee that cancel_calibration() couldn't be invoked
->> in the middle of the calibration process, hence FSM could freeze in an
->> intermediate state if it's running on the disabled MIPI clock, this
->> doesn't sound good.
-> Actual calibration logic uses UART_FST_CAL clock which is always enabled
+The V4L2 selection API are also used to access the pixel array
+properties of an image sensor, such as the size and position of active
+pixels and the cropped area of the pixel matrix used to produce images.
 
-What enables the UART_FST_CAL clock? I don't see this clock used anywhere.
+Currently no clear definition of the different areas that compose an
+image sensor pixel array matrix is provided in the specification, and
+the actual meaning of each selection target when applied to an image
+sensor was not provided.
+
+Provide in the sub-device documentation the definition of the pixel
+matrix properties and the selection target associated to each of them.
+
+Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+---
+ .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
+ 1 file changed, 81 insertions(+)
+
+diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+index 134d2fb909fa4..c47861dff9b9b 100644
+--- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
++++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+@@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
+ ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
+ the image size either up or down. :ref:`v4l2-selection-flags`
+ 
++.. _v4l2-subdev-pixel-array-properties:
++
++Selection targets for image sensors properties
++----------------------------------------------
++
++The V4L2 selection API can be used on sub-devices that represent an image
++sensor to retrieve the sensor's pixel array matrix properties by using the
++:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
++
++Sub-device drivers for image sensor usually register a single source pad, but in
++the case they expose more, the pixel array properties can be accessed from
++any of them.
++
++The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
++``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
++the immutable properties of the several different areas that compose the sensor
++pixel array matrix. Each area describes a rectangle of logically adjacent pixel
++units. The logical disposition of pixels is defined by the sensor read-out
++starting point and direction, and may differ from the physical disposition of
++the pixel units in the pixel array matrix.
++
++Each pixel matrix portion is contained in a larger rectangle, with the most
++largest being the one that describes the pixel matrix physical size. This
++defines a hierarchical positional system, where each rectangle is defined
++relatively to the largest available one among the ones exposed by the
++sub-device driver. Each selection target and the associated pixel array portion
++it represents are below presented in order from the largest to the smallest one.
++
++Pixel array physical size
++^^^^^^^^^^^^^^^^^^^^^^^^^
++
++The image sensor chip is composed by a number of physical pixels, not all of
++them readable by the application processor. Invalid or unreadable lines might
++not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
++they might be tagged with an invalid data type (DT) so that the receiver
++automatically discard them. The size of the whole pixel matrix area is
++retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
++defined as position (0, 0). All the other selection targets are defined
++relatively to this, larger, rectangle. The rectangle returned by
++V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
++does not change at run-time and cannot be modified from userspace.
++
++Pixel array readable area
++^^^^^^^^^^^^^^^^^^^^^^^^^
++
++The V4L2_SEL_TGT_CROP_BOUNDS targets returns size and position of the readable
++area of the pixel array matrix, including pixels with valid image data and pixel
++used for calibration purposes, such as optical black pixels. It is not unlikely
++that valid pixels and optical black pixels are surrounded by non-readable rows
++and columns of pixels. Those does not concur in the definition of the
++V4L2_SEL_TGT_CROP_BOUNDS rectangle. The rectangle returned by
++V4L2_SEL_TGT_CROP_BOUNDS describes an immutable property of the image sensor, it
++does not change at run-time and cannot be modified from userspace.
++
++Pixel array active area
++^^^^^^^^^^^^^^^^^^^^^^^
++
++The portion of the pixel array which contains valid image data is defined as the
++active area of the pixel matrix. The active pixel array is is accessed by mean
++of the V4L2_SEL_TGT_CROP_DEFAULT target, and is contained in the larger
++V4L2_SEL_TGT_CROP_BOUNDS rectangle. It represents the largest possible frame
++resolution the sensor can produce and defines the dimension of the full
++field-of-view. The rectangle returned by V4L2_SEL_TGT_CROP_BOUNDS describes an
++immutable property of the image sensor, it does not change at run-time and
++cannot be modified from userspace.
++
++Analog crop rectangle
++^^^^^^^^^^^^^^^^^^^^^
++
++The sensor driver might decide, in order to adjust the image resolution to best
++match the one requested by applications, to only process a part of the active
++pixel array matrix. The selected area is read-out and processed by the image
++sensor on-board ISP in order to produce images of the desired size and
++resolution while possible maintaing the largest possible field-of-view. The
++cropped portion of the pixel array which is used to produce images is returned
++by the V4L2_SEL_TGT_CROP target and represent the only information that can
++change at runtime as it depends on the currently configured sensor mode and
++desired image resolution. If the sub-device driver supports that, userspace
++can set the analog crop rectangle to select which portion of the pixel array
++to read out.
++
+ 
+ Types of selection targets
+ --------------------------
+-- 
+2.27.0
+
