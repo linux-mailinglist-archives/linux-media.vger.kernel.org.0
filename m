@@ -2,280 +2,337 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C765923D178
-	for <lists+linux-media@lfdr.de>; Wed,  5 Aug 2020 22:01:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 736A423D374
+	for <lists+linux-media@lfdr.de>; Wed,  5 Aug 2020 23:10:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728410AbgHET77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Aug 2020 15:59:59 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49510 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727815AbgHEQlb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Aug 2020 12:41:31 -0400
+        id S1727045AbgHEVKK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Aug 2020 17:10:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725139AbgHEVKJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Aug 2020 17:10:09 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE36C061575;
+        Wed,  5 Aug 2020 14:10:08 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id E5FA529811F
-Message-ID: <40711c2dcb4166a8984fdf2ffaa22428509755f7.camel@collabora.com>
-Subject: Re: [PATCH 08/10] media: uapi: h264: Clean slice invariants syntax
- elements
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Wed, 05 Aug 2020 13:41:14 -0300
-In-Reply-To: <CAAFQd5BeWXUZZDZNg6u7i=kgMbXRh=KjLa7OqjFD9JgPqC7OMg@mail.gmail.com>
-References: <20200715202233.185680-1-ezequiel@collabora.com>
-         <20200715202233.185680-9-ezequiel@collabora.com>
-         <CAPBb6MVMXeTcUfb-98McYCKjh=eM=BTo2dSY=L1c6dv2jHqXcg@mail.gmail.com>
-         <636aab0a2be83e751a82a84ac3946afec2c87a17.camel@collabora.com>
-         <CAAFQd5DVfroAXRw+OT=EktDtVzRjPZYxnUS8daWQ5=3LLwn=SA@mail.gmail.com>
-         <e49635b95db0e295a85f1be9a3909f7f29495e3a.camel@collabora.com>
-         <CAAFQd5AeMcqk1MpWNeh1Vgt2rBOxjFj8Ar7=LLo80e8QKhYn3g@mail.gmail.com>
-         <dc7f9f199788581a4b37fc7e34466f7bd2173efb.camel@collabora.com>
-         <CAAFQd5BeWXUZZDZNg6u7i=kgMbXRh=KjLa7OqjFD9JgPqC7OMg@mail.gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        (Authenticated sender: dafna)
+        with ESMTPSA id 889982972E5
+Subject: Re: [PATCH v8 05/14] media: rkisp1: add Rockchip ISP1 subdev driver
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
+        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
+        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
+        hans.verkuil@cisco.com, sakari.ailus@linux.intel.com,
+        kernel@collabora.com, ezequiel@collabora.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        zhengsq@rock-chips.com, Jacob Chen <cc@rock-chips.com>,
+        Allon Huang <allon.huang@rock-chips.com>
+References: <20190730184256.30338-1-helen.koike@collabora.com>
+ <20190730184256.30338-6-helen.koike@collabora.com>
+ <20190816001323.GF5011@pendragon.ideasonboard.com>
+ <30b6367d-9088-d755-d041-904ff2a48130@collabora.com>
+ <20200722152459.GC1828171@chromium.org>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <32a95f66-0328-dfe7-c05c-657aba0d1b25@collabora.com>
+Date:   Wed, 5 Aug 2020 23:10:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200722152459.GC1828171@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Hi
 
-On Tue, 2020-08-04 at 15:35 +0200, Tomasz Figa wrote:
-> On Mon, Jul 27, 2020 at 9:43 PM Nicolas Dufresne
-> <nicolas.dufresne@collabora.com> wrote:
-> > Le lundi 27 juillet 2020 à 20:10 +0200, Tomasz Figa a écrit :
-> > > On Mon, Jul 27, 2020 at 6:18 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > > > On Mon, 2020-07-27 at 16:52 +0200, Tomasz Figa wrote:
-> > > > > On Mon, Jul 27, 2020 at 4:39 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > > > > > Hi Alexandre,
-> > > > > > 
-> > > > > > Thanks a lot for the review.
-> > > > > > 
-> > > > > > On Sat, 2020-07-25 at 23:34 +0900, Alexandre Courbot wrote:
-> > > > > > > On Thu, Jul 16, 2020 at 5:23 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > > > > > > > The H.264 specification requires in its "Slice header semantics"
-> > > > > > > > section that the following values shall be the same in all slice headers:
-> > > > > > > > 
-> > > > > > > >   pic_parameter_set_id
-> > > > > > > >   frame_num
-> > > > > > > >   field_pic_flag
-> > > > > > > >   bottom_field_flag
-> > > > > > > >   idr_pic_id
-> > > > > > > >   pic_order_cnt_lsb
-> > > > > > > >   delta_pic_order_cnt_bottom
-> > > > > > > >   delta_pic_order_cnt[ 0 ]
-> > > > > > > >   delta_pic_order_cnt[ 1 ]
-> > > > > > > >   sp_for_switch_flag
-> > > > > > > >   slice_group_change_cycle
-> > > > > > > > 
-> > > > > > > > and can therefore be moved to the per-frame decode parameters control.
-> > > > > > > 
-> > > > > > > I am really not a H.264 expert, so this question may not be relevant,
-> > > > > > 
-> > > > > > All questions are welcome. I'm more than happy to discuss this patchset.
-> > > > > > 
-> > > > > > > but are these values specified for every slice header in the
-> > > > > > > bitstream, or are they specified only once per frame?
-> > > > > > > 
-> > > > > > > I am asking this because it would certainly make user-space code
-> > > > > > > simpler if we could remain as close to the bitstream as possible. If
-> > > > > > > these values are specified once per slice, then factorizing them would
-> > > > > > > leave user-space with the burden of deciding what to do if they change
-> > > > > > > across slices.
-> > > > > > > 
-> > > > > > > Note that this is a double-edged sword, because it is not necessarily
-> > > > > > > better to leave the firmware in charge of deciding what to do in such
-> > > > > > > a case. :) So hopefully these are only specified once per frame in the
-> > > > > > > bitstream, in which case your proposal makes complete sense.
-> > > > > > 
-> > > > > > Frame-based hardwares accelerators such as Hantro and Rockchip VDEC
-> > > > > > are doing the slice header parsing themselves. Therefore, the
-> > > > > > driver is not really parsing these fields on each slice header.
-> > > > > > 
-> > > > > > Currently, we are already using only the first slice in a frame,
-> > > > > > as you can see from:
-> > > > > > 
-> > > > > >         if (slices[0].flags & V4L2_H264_SLICE_FLAG_FIELD_PIC)
-> > > > > >                 reg |= G1_REG_DEC_CTRL0_PIC_FIELDMODE_E;
-> > > > > > 
-> > > > > > Even if these fields are transported in the slice header,
-> > > > > > I think it makes sense for us to split them into the decode params
-> > > > > > (per-frame) control.
-> > > > > > 
-> > > > > > They are really specified to be the same across all slices,
-> > > > > > so even I'd say if a bitstream violates this, it's likely
-> > > > > > either a corrupted bitstream or an encoder bug.
-> > > > > > 
-> > > > > > OTOH, one thing this makes me realize is that the slice params control
-> > > > > > is wrongly specified as an array.
-> > > > > 
-> > > > > It is _not_.
-> > > > > 
-> > > > 
-> > > > We introduced the hold capture buffer specifically to support
-> > > > this without having a slice array.
-> > > > 
-> > > > I don't think we have a plan to support this control properly
-> > > > as an array.
-> > > > 
-> > > > If we decide to support the slice control as an array,
-> > > > we would have to implement a mechanism to specify the array size,
-> > > > which we currently don't have AFAIK.
-> > > > 
-> > > 
-> > > That wasn't the conclusion when we discussed this last time on IRC.
-> > > +Nicolas Dufresne
-> > > 
-> > > Currently the 1-slice per buffer model is quite impractical:
-> > > 1) the maximum number of buffers is 32, which for some streams can be
-> > > less than needed to queue a single frame,
-> > 
-> > To give more context, it seems the discussion was about being able to
-> > use slice decoder with a 1 poll() per frame model. Of course this will
-> > never be as efficient as when using a frame base decoder, but as
-> > current design, you can keep a list of pending request (each request is
-> > 1 slice/buffer), and simply use memory pressure to poll a mid point and
-> > dequeue the remaining. An example, yo have 8 pending request, and reach
-> > your memory limit:
-> > 
-> >   [R1, R2, R3, R4, R5, R6, R7, R8]
-> > 
-> > As requests are in order and behaves like memory fences, you can pick
-> > R6, and poll() that one. When R6 is ready, you can then dequeue R1 to
-> > R6 without blocking. In this context, a limit of 16 or 32 buffers seems
-> > fair, the optimization we can do in userspace is likely sufficient. So
-> > I'd like to drop problem 1) from our list.
-> > 
+On 22.07.20 17:24, Tomasz Figa wrote:
+> Hi Dafna,
 > 
-> Okay, I forgot about the ability to poll the requests. I guess this
-> solves a part of the problem indeed.
+> On Sat, Jul 11, 2020 at 01:04:31PM +0200, Dafna Hirschfeld wrote:
+>> Hi Laurent,
+>>
+>> On 16.08.19 02:13, Laurent Pinchart wrote:
+>>> Hello Helen,
+>>>
+>>> Thank you for the patch.
+>>>
+>>> On Tue, Jul 30, 2019 at 03:42:47PM -0300, Helen Koike wrote:
+> [snip]
+>>>> +static void rkisp1_isp_queue_event_sof(struct rkisp1_isp_subdev *isp)
+>>>> +{
+>>>> +	struct v4l2_event event = {
+>>>> +		.type = V4L2_EVENT_FRAME_SYNC,
+>>>> +		.u.frame_sync.frame_sequence =
+>>>> +			atomic_inc_return(&isp->frm_sync_seq) - 1,
+>>>
+>>> I would move the increment to the caller, hiding it in this function is
+>>> error-prone (and if you look at the caller I'm pointing out one possible
+>>> error :-)).
+>>>
+>>> In general usage of frm_sync_seq through the driver seems to be very
+>>> race-prone. It's read in various IRQ handling functions, all coming from
+>>> the same IRQ, so that part is fine (and wouldn't require an atomic
+>>> variable), but when read from the buffer queue handlers I really get a
+>>> red light flashing in my head. I'll try to investigate more when
+>>> reviewing the next patches.
+>>
+>> I see that the only place were 'frame_sequence' is read outside of the irq
+>> handlers is in the capture in 'rkisp1_vb2_buf_queue':
+>>
+>> 	/*
+>>           * If there's no next buffer assigned, queue this buffer directly
+>>           * as the next buffer, and update the memory interface.
+>>           */
+>>          if (cap->is_streaming && !cap->buf.next &&
+>>              atomic_read(&cap->rkisp1->isp.frame_sequence) == -1) {
+>>                  cap->buf.next = ispbuf;
+>>                  rkisp1_set_next_buf(cap);
+>>          } else {
+>>                  list_add_tail(&ispbuf->queue, &cap->buf.queue);
+>>          }
+>> This "if" condition seems very specific, a case where we already stream but v-start was not yet received.
+>> I think it is possible to remove the test 'atomic_read(&cap->rkisp1->isp.frame_sequence) == -1'
+>> from the above condition so that the next buffer is updated in case it is null not just before the first
+>> v-start signal.
+>>
 > 
-> > > 2) even more system call overhead due to the need to repeat various
-> > > operations (e.g. qbuf/dqbuf) per-slice rather than per-frame,
-> > > 3) no way to do hardware batching for hardware which supports queuing
-> > > multiple slices at a time,
-> > > 4) waste of memory - one needs to allocate all the OUTPUT buffers
-> > > pessimistically to accommodate the biggest possible slice, while with
-> > > all-slices-per-frame 1 buffer could be just heuristically allocated to
-> > > be enough for the whole frame.
-> > > 
-> > > These need to be carefully evaluated, with some proper testing done to
-> > > confirm whether they are really a problem or not.
-> > 
-> > 2, 3 and 4 seems to match what the currently unimplemented API propose.
-> > You can mitigate 2) but having multiple slices per buffers. That came
-> > with a byte offset to we can program the HW as if it was separate slice
-> > buffers. But was limited to 16 buffers, likely a fair compromise.
-> > 
+> We don't have this special case in the Chrome OS code.
 > 
-> Do we have some ideas on how these problems could be addressed in the
-> future? It would be unfortunate to freeze the current API just to
-> realize that it can't be made efficient anymore and yet another API
-> would have to be invented to redo things in an efficient way.
+> I suppose it would make it possible to resume the capture 1 frame
+> earlier after a queue underrun, as otherwise the new buffer would be
+> only programmed after the next frame start interrupt and used for the
+> next-next frame.  However, it's racy, because programming of the buffer
+> addresses is not atomic and could end up with the hardware using few
+> plane addresses from the new buffer and few from the dummy buffer.
 > 
-> With the request polling method, I guess we could solve 2) by making
-> it possible to dequeue and enqueue multiple buffers at a time. It
-> could be achieved by introducing DQBUF/QBUF variants which operate on
-> an array of buffer indexes.
+> Given that and also the fact that a queue underrun is a very special
+> case, where the system was already having problems catching up, I'd just
+> remove this special case.
 > 
-> > 3) is about batching, in the only use case we know, the batching
-> > acceleration consist of programming the next operation on the
-> > completion IRQ. I already looked with the Cedrus developers if and how
-> > that was feasible, but we don't have a PoC yet. The optimization is
-> > about removing context switches between operations, which could prevent
-> > fully using the HW.
+> [snip]
+>>>> +void rkisp1_isp_isr(unsigned int isp_mis, struct rkisp1_device *dev)
+>>>> +{
+>>>> +	void __iomem *base = dev->base_addr;
+>>>> +	unsigned int isp_mis_tmp = 0;
+>>>
+>>> _tmp are never good names :-S
+>>>
+>>>> +	unsigned int isp_err = 0;
+>>>
+>>> Neither of these variable need to be initialised to 0.
+>>>
+>>>> +
+>>>> +	/* start edge of v_sync */
+>>>> +	if (isp_mis & CIF_ISP_V_START) {
+>>>> +		rkisp1_isp_queue_event_sof(&dev->isp_sdev);
+>>>
+>>> This will increment the frame sequence number. What if the interrupt is
+>>> slightly delayed and the next frame starts before we get a change to
+>>> copy the sequence number to the buffers (before they will complete
+>>> below) ?
+>>
+>> Do you mean that we get two sequental v-start signals and then the next
+>> frame-end signal in MI_MIS belongs to the first v-start signal of the two?
+>> How can this be solved? I wonder if any v-start signal has a later signal
+>> that correspond to the same frame so that we can follow it?
+>>
+>> Maybe we should have one counter that is incremented on v-start signal,
+>> and another counter that is incremented uppon some other signal?
+>>
 > 
-> Right, but still, we have to check whether the API we're going to
-> stabilize wouldn't prevent implementing it in the future.
+> We're talking about a hard IRQ. I can't imagine the interrupt handler
+> being delayed for a time close to a full frame interval (~16ms for 60
+> fps) to trigger such scenario.
 > 
-> One idea is to solve it opportunistically. If there are already some
-> slices queued and not being processed by the hardware yet, queuing
-> more would just join them to the existing (staging) batch. When the
-> hardware finishes its current batch, the staging batch would be closed
-> and handed to the hardware for decoding.
+>>>
+>>>> +
+>>>> +		writel(CIF_ISP_V_START, base + CIF_ISP_ICR);
+>>>
+>>> Do you need to clear all interrupt bits individually, can't you write
+>>> isp_mis to CIF_ISP_ICR at the beginning of the function to clear them
+>>> all in one go ?
+>>>
+>>>> +		isp_mis_tmp = readl(base + CIF_ISP_MIS);
+>>>> +		if (isp_mis_tmp & CIF_ISP_V_START)
+>>>> +			v4l2_err(&dev->v4l2_dev, "isp icr v_statr err: 0x%x\n",
+>>>> +				 isp_mis_tmp);
+>>>
+>>> This require some explanation. It looks like a naive way to protect
+>>> against something, but I think it could trigger under normal
+>>> circumstances if IRQ handling is delayed, and wouldn't do much anyway.
+>>> Same for the similar constructs below.
+>>>
+>>>> +	}
+>>>> +
+>>>> +	if ((isp_mis & CIF_ISP_PIC_SIZE_ERROR)) {
+>>>> +		/* Clear pic_size_error */
+>>>> +		writel(CIF_ISP_PIC_SIZE_ERROR, base + CIF_ISP_ICR);
+>>>> +		isp_err = readl(base + CIF_ISP_ERR);
+>>>> +		v4l2_err(&dev->v4l2_dev,
+>>>> +			 "CIF_ISP_PIC_SIZE_ERROR (0x%08x)", isp_err);
+>>>
+>>> What does this mean ?
+>>>
+>>>> +		writel(isp_err, base + CIF_ISP_ERR_CLR);
+>>>> +	} else if ((isp_mis & CIF_ISP_DATA_LOSS)) {
+>>>
+>>> Are CIF_ISP_PIC_SIZE_ERROR and CIF_ISP_DATA_LOSS mutually exclusive ?
+>>>
+>>>> +		/* Clear data_loss */
+>>>> +		writel(CIF_ISP_DATA_LOSS, base + CIF_ISP_ICR);
+>>>> +		v4l2_err(&dev->v4l2_dev, "CIF_ISP_DATA_LOSS\n");
+>>>> +		writel(CIF_ISP_DATA_LOSS, base + CIF_ISP_ICR);
+>>>> +	}
+>>>> +
+>>>> +	/* sampled input frame is complete */
+>>>> +	if (isp_mis & CIF_ISP_FRAME_IN) {
+>>>> +		writel(CIF_ISP_FRAME_IN, base + CIF_ISP_ICR);
+>>>> +		isp_mis_tmp = readl(base + CIF_ISP_MIS);
+>>>> +		if (isp_mis_tmp & CIF_ISP_FRAME_IN)
+>>>> +			v4l2_err(&dev->v4l2_dev, "isp icr frame_in err: 0x%x\n",
+>>>> +				 isp_mis_tmp);
+>>>> +	}
+>>>> +
+>>>> +	/* frame was completely put out */
+>>>
+>>> "put out" ? :-) What's the difference between ISP_FRAME_IN and ISP_FRAME
+>>> ? The two comments could do with a bit of brush up, and I think the
+>>> ISP_FRAME_IN interrupt could be disabled as it doesn't perform any
+>>> action.
+>>
+>> Those two oneline comments are just copy-paste from the datasheet.
+>>
+>> ""
+>> 5 MIS_FRAME_IN sampled input frame is complete
+>> 1 MIS_FRAME frame was completely put out
+>> ""
+>>
+>> Unfrotunately, the datasheet does not add any further explanation about those signals.
+>>
+>>
 > 
-> > 4) is also well covered with being able to multiplex 1 buffer with
-> > multiple slices.
+> My loose recollection is that the former is signaled when then frame
+> is fully input to the ISP and the latter when the ISP completes
+> outputting the frame to the next block in the pipeline, but someone
+> would need to verify this, for example by printing timestamps for all
+> the various interrupts.
 > 
-> Note that with MMAP memory type it's not possible, because 1 buffer
-> can be only queued once. However, I guess that with DMABUF, one can
-> just allocate one large buffer and queue it at different V4L2 buffer
-> indexes with different .data_offset (or whatever we introduce for
-> proper, well-defined offset handling).
+>>>
+>>>> +	if (isp_mis & CIF_ISP_FRAME) {
+>>>> +		u32 isp_ris = 0;
+>>>
+>>> No need to initialise this to 0.
+>>>
+>>>> +		/* Clear Frame In (ISP) */
+>>>> +		writel(CIF_ISP_FRAME, base + CIF_ISP_ICR);
+>>>> +		isp_mis_tmp = readl(base + CIF_ISP_MIS);
+>>>> +		if (isp_mis_tmp & CIF_ISP_FRAME)
+>>>> +			v4l2_err(&dev->v4l2_dev,
+>>>> +				 "isp icr frame end err: 0x%x\n", isp_mis_tmp);
+>>>> +
+>>>> +		isp_ris = readl(base + CIF_ISP_RIS);
+>>>> +		if (isp_ris & (CIF_ISP_AWB_DONE | CIF_ISP_AFM_FIN |
+>>>> +			       CIF_ISP_EXP_END | CIF_ISP_HIST_MEASURE_RDY))
+>>>> +			rkisp1_stats_isr(&dev->stats_vdev, isp_ris);
+>>>
+>>> Is there a guarantee that the statistics will be fully written out
+>>> before the video frame itself ? And doesn't this test if any of the
+>>> statistics is complete, not all of them ? I think the logic is wrong, it
+>>
+>> The datasheet does not add any explanation of what is expected to come first.
+>> Should we wait until all statistics measurements are done? In the struct
+>> sent to userspace there is a bitmaks for which of the statistics are read.
+>> I think that if only part of the statistics are ready, we can already send the once
+>> that are ready to userspace.
+>>
 > 
-> > To be fair, I understand why we'd like to drop this API, as none of the
-> > active developers here of slice decoder (cedrus) have time to engage in
-> > supporting this untested "optimization". It's not only about kernel
-> > support, but also requires userspace work. I also agree that it could
-> > be added later, as an extension. It could be done with 3 new controls,
-> > an array of slice_params and an array of slice start offset and the
-> > number of slices, or just one, introduce a new structure that have a
-> > slice_params structure embedded, num_slices and an array of
-> > slice_start_offset. I don't have preference myself, but I'm just
-> > illustrating that yes, we could drop the slice batching to avoid
-> > pushing untested APIs without scarifying our ability to decode a valid
-> > stream.
+> If we look further into the code, rkisp1_stats_isr() checks the
+> interrupt status mask passed to it and reads out only the parameters
+> with indicated completion. The statistics metadata buffer format
+> includes a bit mask which tells the userspace which measurements are
+> available.
 > 
-> Sure, that makes sense, but as I mentioned above, there are problems
-> with the existing API and if we don't want to solve them right now, we
-> at least have to make sure that the problems can be solved later after
-> stabilizing it.
-> 
+> However, I think I've spotted a bug there. At the beginning of
+> rkisp1_stats_isr(), all the 4 interrupt status bits are cleared,
+> regardless of the mask used later to decide which readouts need to be
+> done. This could mean that with an unfortunate timing, some measurements
+> would be lost. So at least the code should be fixed to only clear the
+> interrupts bits really handled.
 
-I think the plan is to support 1-slice per request using the current
-SLICE_PARAMS control.
+I'll fix that
 
-So, next iteration of this series should clarify that the SLICE_PARAMS
-is not intended as an array, and clean the fields that were added
-when the control was first envisioned as part of an array.
+> 
+> As for whether to send separate buffers for each measurement, I guess
+> it's not a bad thing to let the userspace access the ones available
+> earlier. Now I only don't recall why we decided to put all the
+> measurements into one metadata structure, rather than splitting the 4
+> into their own structures and buffer queues...
 
-As you have pointed out, for slice-based hardware, pushing
-1-slice per request can be suboptimal.
+Is it possible to have several queues to the same video node?
 
-However, this is the current mode that is supported by Cedrus,
-which is good enough for Cedrus users. I believe there's enough
-reasons to stabilize this SLICE_PARAMS and clarify the use-case
-is for 1-slice per request.
+> 
+>>> seems it should be moved out of the CIF_ISP_FRAME test, to a test of its
+>>> own. It's hard to tell for sure without extra information though (for
+>>> instance why are the stats-related bits read from CIF_ISP_RIS, when
+>>> they seem to be documented as valid in CIF_ISP_ISR), but this should be
+>>> validated, and most probably fixed. Care should be taken to keep
+>>> synchronisation of sequence number between the different queues.
+>>
+>> I see that the capture buffers are done before incrementing the frame_sequence with
+>> the following explanation:
+>>
+>> 	/*
+>>           * Call rkisp1_capture_isr() first to handle the frame that
+>>           * potentially completed using the current frame_sequence number before
+>>           * it is potentially incremented by rkisp1_isp_isr() in the vertical
+>>           * sync.
+>>           */
+>>
+>> I think reading the stats/params should also be done before calling rkisp1_capture_isr
+>> for the same reason. (so to match the correct frame_sequence)
+> 
+> My recollection of the sequence of interrupts in this hardware is like
+> this:
+> 
+> CIF_ISP_V_START (frame 0)
+>    CIF_ISP_FRAME_IN (frame 0)
+>      CIF_ISP_FRAME (frame 0)
+>        CIF_ISP_AWB_DONE
+>        CIF_ISP_AFM_FIN
+>        CIF_ISP_EXP_END
+>        CIF_ISP_HIST_MEASURE_RDY
+>        CIF_MI_FRAME*
+>        CIF_ISP_V_START (frame 1)
+>          CIF_ISP_FRAME_IN (frame 1)
+>            CIF_ISP_FRAME (frame 1)
+>              ...
+> 
+> where the interrupts at the same indentation level can happen
+> independently of each other. Again, someone would have to verify this.
 
-Nothing prevents to introduce a new control to support another mode,
-though. So, going forward, if we see slice-based hardware that can
-handle multiple slices per request, or, if we want to pass an entire
-frame to Cedrus to save the syscall overhead, we will have to introduce
-a new control (array-like).
+I wrote this patch to print the interrupts and the time difference between interrupts:
+https://gitlab.collabora.com/dafna/linux/-/commit/9b9c5ddc2f06a6b87d2c1b210219f69de83296c5
 
-I believe a decent plan is along Nicolas' suggestions.
-I'd like to quote that because it totally matches what I had in mind:
+I got this output: http://ix.io/2tl8,
+there is a repeating pattern where only v-start interrupt is sent, indicated by the prints "isp mis 0x00000040" then about 23 milisec later are the other interrupts
+(FRAME_IN, FRAME, MI_FRAME* ) and about 10 milisec the v-start interrupt again.
 
-"""
-It could be done with 3 new controls,
-an array of slice_params and an array of slice start offset and the
-number of slices, or just one, introduce a new structure that have a
-slice_params structure embedded, num_slices and an array of
-slice_start_offset.
-"""
+I am still not sure why the mi_frame interrupt should be handled first. If it happen for example that all the interrupts arrive at once, how can
+we know that the MI_FRAME interrupt relates to the previous v-start interrupt and not the current one?
+I think that for that we need a code that keep track of the previous interrupt.
 
-Currently, the length of control arrays are fixed and the
-kernel rejects applications from passing a size that
-differs from the size of the array.
- 
-Before proposing N-slices per request, we would have to introduce
-new V4L2 control semantics, to be able to pass a dynamic array
-of controls. This has been in our roadmap, so it'll happen
-sooner or later.
-
-Thanks!
-Ezequiel
+Thanks,
+Dafna
 
 
+> 
+> Best regards,
+> Tomasz
+> 
