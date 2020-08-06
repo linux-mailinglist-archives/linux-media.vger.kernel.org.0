@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 299C623D7CE
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 10:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9256F23D820
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 10:45:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728768AbgHFIHn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 04:07:43 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:42489 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728669AbgHFIGA (ORCPT
+        id S1728923AbgHFIpV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 04:45:21 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:33657 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727768AbgHFIpU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Aug 2020 04:06:00 -0400
+        Thu, 6 Aug 2020 04:45:20 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 3au9k7DTxuuXO3auAknLXe; Thu, 06 Aug 2020 10:05:38 +0200
+        id 3bWXk7SPcuuXO3bWYknW9h; Thu, 06 Aug 2020 10:45:18 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1596701138; bh=/CYthU5Pf8xk60aWrMyQKDk1aLojvqVPQaoetFG+X1s=;
+        t=1596703518; bh=S6mVY9Ie7xZPkb4dHa8bBC9Ou42RNWhyhX7m+9bBbPE=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=W2ta8g1ix7WVVAbU30fESit1wNQuQpjPuK52kp9/QXE+oVEXQgds9lwXwMlFABZbp
-         ejlVgqnPXIMMButQRERja+vmw30Z724qhAOMryoQl1GZuR8Yu7rlHVNLrAgTzF/YJh
-         uKK8/HsVSP6ZVbJe6Rrd8fDzl69M1WPYT3SKGHkgEjo99XmjIyXMf26e4tL9ZHzBxH
-         DMUVK9gMF7rhvBik8Shwzkyn2CbbsuA7ZY4yhCA8JV0/WzCW2uPfP4vwJICOxAEAiq
-         X+eiIgYgP24itPtn/Ls8+slV/WCCetisPviPeQ2bgA1VIkUOEoN6UqlcurdZ3S+XGI
-         9ZRRnUuqvWEOw==
-Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
+        b=sQeqY0wlxAxbnhZeUzlIvL8CE05m+6q3KE3I3BSDbtPjD3hXbPajjtYqlsB7ivJUx
+         0G+sq7bHYyt7yVWCdYxlZaGhq+pfEEyMKXY2rgV9Z7WDloXH7cgu7KzG5LAARtHg7e
+         ZMLQmGQWS/afPgRZxN2RrqDas50bS6TI820fAE6YyXQz05lo2vATOD0akYy2mOI6Oc
+         f8sdflD+pJkjDR+TS9wJOmW96In9vLKTZF5OA9/zBWZnoNpmt6eIHjXrXMwzo+JS63
+         qIDiK5pKhgif88uAQ8TtYb0tiiA7SoXHYEYpS2gVXEytK1KMDl3iWj00dNxUV3fCtz
+         VGbVqk6dX+eRg==
+Subject: Re: [PATCH 2/4] media: docs: Describe targets for sensor properties
 To:     Jacopo Mondi <jacopo@jmondi.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -34,186 +34,137 @@ Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
         libcamera-devel@lists.libcamera.org
 References: <20200805105721.15445-1-jacopo@jmondi.org>
- <20200805105721.15445-2-jacopo@jmondi.org>
+ <20200805105721.15445-3-jacopo@jmondi.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <184f8787-ebf1-90e3-82b3-44fa66e65a84@xs4all.nl>
-Date:   Thu, 6 Aug 2020 10:05:37 +0200
+Message-ID: <1896673c-ae91-84c3-9573-5da91fb00f41@xs4all.nl>
+Date:   Thu, 6 Aug 2020 10:45:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200805105721.15445-2-jacopo@jmondi.org>
+In-Reply-To: <20200805105721.15445-3-jacopo@jmondi.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBzjn0BuX/wCVZ+SWEC3aKN/n6kZ2WJhRhl9vxwJaXF+ndDVA0Qvr8WBu30fJVWKZbfLPIypzIq0aYNbI42jqCmqheRssqZz9YngkHJu/Ijbxz5QnxQU
- CTptfi6PZ7yXp1FuI02rZKh8QaFv88OTl4Wg1dAPsMU1fXNpbU7UHbAh4scfvYS8W9UEq6AEtf+yS3LOaq9yaIf26Ny62akZuAuZSZcVlf5YE59RNi7TILnF
- YP96II8qpeY05NxBhJzhyvmgkQP+UYk11sSyWaCdPS3AotqY8amNceuvsVR3IdvhDq8rs0jNfTOV0itp2mjCPtx/e7/8NorOTlfV3AGQ8zRgCGOz18WLmtAj
- 0TcXgGsjsq/1rx4l2pJTCOqAjyCWgU1yPUFvWZ2Sc1lLKjNkWNy3UYoUhcc92zaKmanilkxOas8JJNm1bbYfJ2vL9jkA4BmtIWY6sgf+XYZeET909WONKPjt
- VhjZ/VR+5x9z4ocBUhBKZLhj7MYhy3L2PzdC1hlS3LufGmbafmjvVNlFTD8=
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfAYPW7M0u30eSlSWBanj1unuI0nDBAysDbAvnhGTsEL8oBy20GtlLUvh3fEUJ4NRNn3KZgFgEJEUpiAKBgvPKncr2QWTaRE6ERS763psWJ3JEcsMawLY
+ 8N4FNPgeWoL8Yxc7WsdrBxMKgspPFcgKlgmodgsy6kOe6v1FKi5e9m+ILQwgvSBUJFpNc/U66Q0SY3w0/WMQ4rG8c7rokzfpNPiNcglSqr4H4L0l+rNidRmx
+ 1PqiQwFqaK3wHThnksYuNBRmZXohZwzUvz5Tq61X6SZc0RcB00ctPFdI9AN9im0Y0qbp+T2kNn9+oK+kwAzNzH7D8E4iT9K4EAdg/UBvjMChvvWS1QrMN3rP
+ bQ7gkjKMKzfF5/emXp4rGjcpVzo9IWlWuLFk0hqcemig/bouBfiOnlACD0NaX+IDPhwd/z2EJ2l81ClG8ajRC2gSibg8UsdYQM9AvAn6nWTafoqopLV5qCTs
+ Qi1XpJBNRDFE0Q16YrG3ljM84IgoK4z+KSqDyuAIqPD+d1Kv4QA4grlFwZo=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-Some review comments below:
-
 On 05/08/2020 12:57, Jacopo Mondi wrote:
-> The V4L2 selection API are also used to access the pixel array
-
-are -> is
-
-> properties of an image sensor, such as the size and position of active
-> pixels and the cropped area of the pixel matrix used to produce images.
+> Provide a table to describe how the V4L2 selection targets can be used
+> to access an image sensor pixel array properties.
 > 
-> Currently no clear definition of the different areas that compose an
-> image sensor pixel array matrix is provided in the specification, and
-> the actual meaning of each selection target when applied to an image
-> sensor was not provided.
-> 
-> Provide in the sub-device documentation the definition of the pixel
-> matrix properties and the selection target associated to each of them.
+> Reference the table in the sub-device documentation.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
->  1 file changed, 81 insertions(+)
+>  .../userspace-api/media/v4l/dev-subdev.rst    |  4 ++
+>  .../media/v4l/v4l2-selection-targets.rst      | 49 +++++++++++++++++++
+>  2 files changed, 53 insertions(+)
 > 
 > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index 134d2fb909fa4..c47861dff9b9b 100644
+> index c47861dff9b9b..2f7da3832f458 100644
 > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
 > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
->  ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
->  the image size either up or down. :ref:`v4l2-selection-flags`
+> @@ -467,6 +467,10 @@ desired image resolution. If the sub-device driver supports that, userspace
+>  can set the analog crop rectangle to select which portion of the pixel array
+>  to read out.
 >  
-> +.. _v4l2-subdev-pixel-array-properties:
-> +
-> +Selection targets for image sensors properties
-> +----------------------------------------------
-> +
-> +The V4L2 selection API can be used on sub-devices that represent an image
-> +sensor to retrieve the sensor's pixel array matrix properties by using the
-> +:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
-> +
-> +Sub-device drivers for image sensor usually register a single source pad, but in
-> +the case they expose more, the pixel array properties can be accessed from
-> +any of them.
-> +
-> +The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
-
-V4L2_SEL_TGT_NATIVE -> V4L2_SEL_TGT_NATIVE_SIZE
-
-(same mistake is made elsewhere).
-
-> +``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
-> +the immutable properties of the several different areas that compose the sensor
-> +pixel array matrix. Each area describes a rectangle of logically adjacent pixel
-> +units. The logical disposition of pixels is defined by the sensor read-out
-> +starting point and direction, and may differ from the physical disposition of
-> +the pixel units in the pixel array matrix.
-> +
-> +Each pixel matrix portion is contained in a larger rectangle, with the most
-> +largest being the one that describes the pixel matrix physical size. This
-> +defines a hierarchical positional system, where each rectangle is defined
-> +relatively to the largest available one among the ones exposed by the
-> +sub-device driver. Each selection target and the associated pixel array portion
-> +it represents are below presented in order from the largest to the smallest one.
-> +
-> +Pixel array physical size
-> +^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The image sensor chip is composed by a number of physical pixels, not all of
-> +them readable by the application processor. Invalid or unreadable lines might
-> +not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
-> +they might be tagged with an invalid data type (DT) so that the receiver
-> +automatically discard them. The size of the whole pixel matrix area is
-> +retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
-> +defined as position (0, 0). All the other selection targets are defined
-> +relatively to this, larger, rectangle. The rectangle returned by
-> +V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
-> +does not change at run-time and cannot be modified from userspace.
-
-It is a good idea to mention that if there are no invalid or unreadable pixels/lines,
-then V4L2_SEL_TGT_NATIVE_SIZE == V4L2_SEL_TGT_CROP_BOUNDS.
-
-> +
-> +Pixel array readable area
-> +^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The V4L2_SEL_TGT_CROP_BOUNDS targets returns size and position of the readable
-> +area of the pixel array matrix, including pixels with valid image data and pixel
-> +used for calibration purposes, such as optical black pixels. It is not unlikely
-> +that valid pixels and optical black pixels are surrounded by non-readable rows
-> +and columns of pixels. Those does not concur in the definition of the
-> +V4L2_SEL_TGT_CROP_BOUNDS rectangle. The rectangle returned by
-> +V4L2_SEL_TGT_CROP_BOUNDS describes an immutable property of the image sensor, it
-> +does not change at run-time and cannot be modified from userspace.
-
-Mention that BOUNDS is enclosed by NATIVE_SIZE.
-
-> +
-> +Pixel array active area
-> +^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The portion of the pixel array which contains valid image data is defined as the
-> +active area of the pixel matrix. The active pixel array is is accessed by mean
-
-mean -> means
-
-> +of the V4L2_SEL_TGT_CROP_DEFAULT target, and is contained in the larger
-> +V4L2_SEL_TGT_CROP_BOUNDS rectangle. It represents the largest possible frame
-> +resolution the sensor can produce and defines the dimension of the full
-> +field-of-view. The rectangle returned by V4L2_SEL_TGT_CROP_BOUNDS describes an
-
-BOUNDS -> DEFAULT
-
-> +immutable property of the image sensor, it does not change at run-time and
-> +cannot be modified from userspace.
-
-Mention that CROP_DEFAULT is enclosed by CROP_BOUNDS
-
-> +
-> +Analog crop rectangle
-
-Why analog? It's just the crop rectangle, nothing analog about it.
-
-> +^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The sensor driver might decide, in order to adjust the image resolution to best
-> +match the one requested by applications, to only process a part of the active
-> +pixel array matrix. The selected area is read-out and processed by the image
-> +sensor on-board ISP in order to produce images of the desired size and
-> +resolution while possible maintaing the largest possible field-of-view. The
-
-maintaing -> maintaining
-
-Actually, I'd drop 'while possible maintaing the largest possible field-of-view'
-entirely. It doesn't make much sense.
-
-> +cropped portion of the pixel array which is used to produce images is returned
-> +by the V4L2_SEL_TGT_CROP target and represent the only information that can
-
-represent -> represents
-
-> +change at runtime as it depends on the currently configured sensor mode and
-> +desired image resolution. If the sub-device driver supports that, userspace
-> +can set the analog crop rectangle to select which portion of the pixel array
-
-s/analog//
-
-> +to read out.
-
-Mention that CROP is enclosed by CROP_BOUNDS and defaults to CROP_DEFAULT.
-
-Make a note that CROP can also be used to obtain optical black pixels.
-
+> +A description of each of the above mentioned targets when used to access the
+> +image sensor pixel array properties is provided by
+> +:ref:`v4l2-selection-targets-image-sensor-table`
 > +
 >  
 >  Types of selection targets
 >  --------------------------
+> diff --git a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> index 69f500093aa2a..632e6448b784e 100644
+> --- a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> +++ b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> @@ -76,3 +76,52 @@ of the two interfaces they are used.
+>  	modified by hardware.
+>        - Yes
+>        - No
+> +
+> +
+> +.. _v4l2-selection-targets-image-sensor-table:
+> +
+> +********************************************
+> +Selection Targets For Pixel Array Properties
+> +********************************************
+> +
+> +The V4L2 selection API can be used to retrieve the size and disposition of the
+> +pixel units that compose and image sensor pixel matrix when applied to a video
+> +sub-device that represents an image sensor.
+> +
+> +A description of the properties associated with each of the sensor pixel array
+> +areas is provided by the :ref:`v4l2-subdev-pixel-array-properties` section.
+> +
+> +.. tabularcolumns:: |p{6.0cm}|p{1.4cm}|p{7.4cm}|p(1.4cm)|
+> +
+> +.. flat-table:: Selection target definitions
+> +    :header-rows:  1
+> +    :stub-columns: 0
+> +
+> +    * - Target name
+> +      - id
+> +      - Definition
+> +      - Read/Write
+> +    * - ``V4L2_SEL_TGT_CROP``
+> +      - 0x0000
+> +      - The analog crop rectangle. Represents the portion of the active pixel
+> +        array which is processed to produce images.
+> +      - RW
+> +    * - ``V4L2_SEL_TGT_CROP_DEFAULT``
+> +      - 0x0001
+> +      - The active pixel array rectangle. It includes only active pixels and
+> +        excludes other ones such as optical black pixels. Its width and height
+> +        represent the maximum image resolution an image sensor can produce.
+> +      - RO
+> +    * - ``V4L2_SEL_TGT_CROP_BOUNDS``
+> +      - 0x0002
+> +      - The readable portion of the physical pixel array matrix. It includes
+> +        pixels that contains valid image data and calibration pixels such as the
+> +        optical black ones.
+> +      - RO
+> +    * - ``V4L2_SEL_TGT_NATIVE_SIZE``
+> +      - 0x0003
+> +      - The physical pixel array size, including readable and not readable
+> +        pixels. As pixels that cannot be read from application processor are not
+> +        relevant for calibration purposes, this rectangle is useful to calculate
+> +        the physical properties of the image sensor.
+> +      - RO
 > 
+
+Hmm, this basically just duplicates the previous patch.
+
+I think you are documenting things at the wrong place. What you documented in the
+previous patch really belongs here since it is shared between the subdev API and the
+regular V4L2 API. And in dev-subdev.rst you then refer to here.
+
+Frankly, the selection API documentation is a mess. It's spread out over various sections:
+The VIDIOC_G/S_SELECTION and VIDIOC_SUBDEV_G/S_SELECTION descriptions in the Function Reference,
+section 8 ("Common definitions for V4L2 and V4L2 subdev interfaces"), 1.25 "Cropping, composing
+and scaling – the SELECTION API" and 4.13.3.2-4.13.3.3 "Selections: cropping, scaling and composition".
+
+In my view section 8 should be moved to section 1.25.2. Ideally 1.25 should be rewritten for both
+the V4L2 and V4L2 subdev APIs, but that's a lot of work.
+
+I would suggest that you add a first patch that moves section 8 to 1.25.2. Note that I don't like
+the tables for the selection targets and flags: the 'Valid for V4L2/V4L2 subdevs' columns should
+be removed and it should either be mentioned in the definition if a target/flag is invalid for
+an API, or it should be put in a separate table.
+
+And in 1.25.2 perhaps a new picture can be created for the specific sensor use-case that includes
+the NATIVE_SIZE target.
+
+Another pet peeve of mine is that section 8 splits the selection targets and flags into separate
+subsections. I'd just keep it in one section.
 
 Regards,
 
