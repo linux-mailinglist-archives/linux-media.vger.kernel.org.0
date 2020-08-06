@@ -2,402 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 716D623DE4C
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5903923DDA3
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:12:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728723AbgHFRYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 13:24:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44924 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729939AbgHFREo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 13:04:44 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656D2C061A27
-        for <linux-media@vger.kernel.org>; Thu,  6 Aug 2020 05:22:31 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id df16so18650280edb.9
-        for <linux-media@vger.kernel.org>; Thu, 06 Aug 2020 05:22:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ygTHH6z3t5pz1vFwQDOJBdjYbzbAicrJ7bWsKtBIPiQ=;
-        b=mqnrLYT8csUaJlYAbqCi05AguC/CSNhhI47z1VTPY9KV2yS3v1aSa46a+IZs5wUUtg
-         ww//Y7TIeAey2H/zuWRwJ+ihmxZoNp0WqcpDme9qnTz7mKx0dY24x+GLNbUp2BHJu/us
-         NIghKodgtId9O20fLKuZZhiv8NZ7i3cF/tK7M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ygTHH6z3t5pz1vFwQDOJBdjYbzbAicrJ7bWsKtBIPiQ=;
-        b=KZBfk+P5GDb3GAR++fMbQfuc+ErqYyD+0GWj8TSprY7VPc+y8t2EZDTPtthwDiZlee
-         Haz9R3pYy0AmR4izrAeL4ThuEL8LRZOIOa7XSchA31OlKJ9IOihfnSVsIpECsOqXaRex
-         h4wzN8rwOmMZwkX6BhdepH3HwRgrlEDsPYCUBI7Os6JdmM+z1axoJUEKhQJNpOP54cQa
-         hfFJZeWP1PgzlwflorW5YrGmJCjIs58jZpaAQNpSXBlCHSsKUFFNGrrFU6RYlyc+HZiw
-         REo5HvjH8r7Y6EV7b4UEhLArfdPDApzblYwaTSS5aVZRAASHz08eAnCyvUrZQ4WKU+YE
-         B0Yg==
-X-Gm-Message-State: AOAM533u7cvYQv+THG5N3RFfGKzU5AwvQw0tdQ9yjU4P3GZVgFfbVdJ1
-        lME4ZShyxFMEC0pJ1K6UmbQrMqAee/Ilhg==
-X-Google-Smtp-Source: ABdhPJz0ClC/42pus+uH1YU78J765RgVOCXB2By8TI6h8fLDgsUEbcCSM2TFz0mTjGxvG2AoEJqJuA==
-X-Received: by 2002:a05:6402:17ab:: with SMTP id j11mr3931122edy.28.1596716548025;
-        Thu, 06 Aug 2020 05:22:28 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id e8sm3282772edy.68.2020.08.06.05.22.26
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2020 05:22:26 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id a14so43833950wra.5
-        for <linux-media@vger.kernel.org>; Thu, 06 Aug 2020 05:22:26 -0700 (PDT)
-X-Received: by 2002:adf:82b2:: with SMTP id 47mr7026358wrc.17.1596716545374;
- Thu, 06 Aug 2020 05:22:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190730184256.30338-1-helen.koike@collabora.com>
- <20190730184256.30338-6-helen.koike@collabora.com> <20190816001323.GF5011@pendragon.ideasonboard.com>
- <30b6367d-9088-d755-d041-904ff2a48130@collabora.com> <20200722152459.GC1828171@chromium.org>
- <32a95f66-0328-dfe7-c05c-657aba0d1b25@collabora.com> <05fb7b03-22b5-c981-2602-bbe877943d58@collabora.com>
-In-Reply-To: <05fb7b03-22b5-c981-2602-bbe877943d58@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 6 Aug 2020 14:22:13 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5AWEOr62OrBfRb2HW53omjYfpvN_BAO+eQdRkR9Cixx9w@mail.gmail.com>
-Message-ID: <CAAFQd5AWEOr62OrBfRb2HW53omjYfpvN_BAO+eQdRkR9Cixx9w@mail.gmail.com>
-Subject: Re: [PATCH v8 05/14] media: rkisp1: add Rockchip ISP1 subdev driver
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Eddie Cai <eddie.cai.linux@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        Chen Jacob <jacob2.chen@rock-chips.com>,
-        Jeffy <jeffy.chen@rock-chips.com>,
-        =?UTF-8?B?6ZKf5Lul5bSH?= <zyc@rock-chips.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
+        id S1730359AbgHFRMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 13:12:17 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:39552 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729710AbgHFRMK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 13:12:10 -0400
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 7B59D3B211B
+        for <linux-media@vger.kernel.org>; Thu,  6 Aug 2020 12:47:06 +0000 (UTC)
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id CB257C0003;
+        Thu,  6 Aug 2020 12:41:43 +0000 (UTC)
+Date:   Thu, 6 Aug 2020 14:45:23 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Jacob Chen <cc@rock-chips.com>,
-        Allon Huang <allon.huang@rock-chips.com>
-Content-Type: text/plain; charset="UTF-8"
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH 2/4] media: docs: Describe targets for sensor properties
+Message-ID: <20200806124523.llccxvcz65ohqqwq@uno.localdomain>
+References: <20200805105721.15445-1-jacopo@jmondi.org>
+ <20200805105721.15445-3-jacopo@jmondi.org>
+ <1896673c-ae91-84c3-9573-5da91fb00f41@xs4all.nl>
+ <20200806100822.kvlzivbtnqzni3xw@uno.localdomain>
+ <851192ea-6498-4f9e-a6b4-bf5164f3c5a7@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <851192ea-6498-4f9e-a6b4-bf5164f3c5a7@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 6, 2020 at 11:21 AM Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
->
->
-> Am 05.08.20 um 23:10 schrieb Dafna Hirschfeld:
-> > Hi
-> >
-> > On 22.07.20 17:24, Tomasz Figa wrote:
-> >> Hi Dafna,
-> >>
-> >> On Sat, Jul 11, 2020 at 01:04:31PM +0200, Dafna Hirschfeld wrote:
-> >>> Hi Laurent,
-> >>>
-> >>> On 16.08.19 02:13, Laurent Pinchart wrote:
-> >>>> Hello Helen,
-> >>>>
-> >>>> Thank you for the patch.
-> >>>>
-> >>>> On Tue, Jul 30, 2019 at 03:42:47PM -0300, Helen Koike wrote:
-> >> [snip]
-> >>>>> +static void rkisp1_isp_queue_event_sof(struct rkisp1_isp_subdev *isp)
-> >>>>> +{
-> >>>>> +    struct v4l2_event event = {
-> >>>>> +        .type = V4L2_EVENT_FRAME_SYNC,
-> >>>>> +        .u.frame_sync.frame_sequence =
-> >>>>> +            atomic_inc_return(&isp->frm_sync_seq) - 1,
-> >>>>
-> >>>> I would move the increment to the caller, hiding it in this function is
-> >>>> error-prone (and if you look at the caller I'm pointing out one possible
-> >>>> error :-)).
-> >>>>
-> >>>> In general usage of frm_sync_seq through the driver seems to be very
-> >>>> race-prone. It's read in various IRQ handling functions, all coming from
-> >>>> the same IRQ, so that part is fine (and wouldn't require an atomic
-> >>>> variable), but when read from the buffer queue handlers I really get a
-> >>>> red light flashing in my head. I'll try to investigate more when
-> >>>> reviewing the next patches.
-> >>>
-> >>> I see that the only place were 'frame_sequence' is read outside of the irq
-> >>> handlers is in the capture in 'rkisp1_vb2_buf_queue':
-> >>>
-> >>>     /*
-> >>>           * If there's no next buffer assigned, queue this buffer directly
-> >>>           * as the next buffer, and update the memory interface.
-> >>>           */
-> >>>          if (cap->is_streaming && !cap->buf.next &&
-> >>>              atomic_read(&cap->rkisp1->isp.frame_sequence) == -1) {
-> >>>                  cap->buf.next = ispbuf;
-> >>>                  rkisp1_set_next_buf(cap);
-> >>>          } else {
-> >>>                  list_add_tail(&ispbuf->queue, &cap->buf.queue);
-> >>>          }
-> >>> This "if" condition seems very specific, a case where we already stream but v-start was not yet received.
-> >>> I think it is possible to remove the test 'atomic_read(&cap->rkisp1->isp.frame_sequence) == -1'
-> >>> from the above condition so that the next buffer is updated in case it is null not just before the first
-> >>> v-start signal.
-> >>>
-> >>
-> >> We don't have this special case in the Chrome OS code.
-> >>
-> >> I suppose it would make it possible to resume the capture 1 frame
-> >> earlier after a queue underrun, as otherwise the new buffer would be
-> >> only programmed after the next frame start interrupt and used for the
-> >> next-next frame.  However, it's racy, because programming of the buffer
-> >> addresses is not atomic and could end up with the hardware using few
-> >> plane addresses from the new buffer and few from the dummy buffer.
-> >>
-> >> Given that and also the fact that a queue underrun is a very special
-> >> case, where the system was already having problems catching up, I'd just
-> >> remove this special case.
-> >>
-> >> [snip]
-> >>>>> +void rkisp1_isp_isr(unsigned int isp_mis, struct rkisp1_device *dev)
-> >>>>> +{
-> >>>>> +    void __iomem *base = dev->base_addr;
-> >>>>> +    unsigned int isp_mis_tmp = 0;
-> >>>>
-> >>>> _tmp are never good names :-S
-> >>>>
-> >>>>> +    unsigned int isp_err = 0;
-> >>>>
-> >>>> Neither of these variable need to be initialised to 0.
-> >>>>
-> >>>>> +
-> >>>>> +    /* start edge of v_sync */
-> >>>>> +    if (isp_mis & CIF_ISP_V_START) {
-> >>>>> +        rkisp1_isp_queue_event_sof(&dev->isp_sdev);
-> >>>>
-> >>>> This will increment the frame sequence number. What if the interrupt is
-> >>>> slightly delayed and the next frame starts before we get a change to
-> >>>> copy the sequence number to the buffers (before they will complete
-> >>>> below) ?
-> >>>
-> >>> Do you mean that we get two sequental v-start signals and then the next
-> >>> frame-end signal in MI_MIS belongs to the first v-start signal of the two?
-> >>> How can this be solved? I wonder if any v-start signal has a later signal
-> >>> that correspond to the same frame so that we can follow it?
-> >>>
-> >>> Maybe we should have one counter that is incremented on v-start signal,
-> >>> and another counter that is incremented uppon some other signal?
-> >>>
-> >>
-> >> We're talking about a hard IRQ. I can't imagine the interrupt handler
-> >> being delayed for a time close to a full frame interval (~16ms for 60
-> >> fps) to trigger such scenario.
-> >>
-> >>>>
-> >>>>> +
-> >>>>> +        writel(CIF_ISP_V_START, base + CIF_ISP_ICR);
-> >>>>
-> >>>> Do you need to clear all interrupt bits individually, can't you write
-> >>>> isp_mis to CIF_ISP_ICR at the beginning of the function to clear them
-> >>>> all in one go ?
-> >>>>
-> >>>>> +        isp_mis_tmp = readl(base + CIF_ISP_MIS);
-> >>>>> +        if (isp_mis_tmp & CIF_ISP_V_START)
-> >>>>> +            v4l2_err(&dev->v4l2_dev, "isp icr v_statr err: 0x%x\n",
-> >>>>> +                 isp_mis_tmp);
-> >>>>
-> >>>> This require some explanation. It looks like a naive way to protect
-> >>>> against something, but I think it could trigger under normal
-> >>>> circumstances if IRQ handling is delayed, and wouldn't do much anyway.
-> >>>> Same for the similar constructs below.
-> >>>>
-> >>>>> +    }
-> >>>>> +
-> >>>>> +    if ((isp_mis & CIF_ISP_PIC_SIZE_ERROR)) {
-> >>>>> +        /* Clear pic_size_error */
-> >>>>> +        writel(CIF_ISP_PIC_SIZE_ERROR, base + CIF_ISP_ICR);
-> >>>>> +        isp_err = readl(base + CIF_ISP_ERR);
-> >>>>> +        v4l2_err(&dev->v4l2_dev,
-> >>>>> +             "CIF_ISP_PIC_SIZE_ERROR (0x%08x)", isp_err);
-> >>>>
-> >>>> What does this mean ?
-> >>>>
-> >>>>> +        writel(isp_err, base + CIF_ISP_ERR_CLR);
-> >>>>> +    } else if ((isp_mis & CIF_ISP_DATA_LOSS)) {
-> >>>>
-> >>>> Are CIF_ISP_PIC_SIZE_ERROR and CIF_ISP_DATA_LOSS mutually exclusive ?
-> >>>>
-> >>>>> +        /* Clear data_loss */
-> >>>>> +        writel(CIF_ISP_DATA_LOSS, base + CIF_ISP_ICR);
-> >>>>> +        v4l2_err(&dev->v4l2_dev, "CIF_ISP_DATA_LOSS\n");
-> >>>>> +        writel(CIF_ISP_DATA_LOSS, base + CIF_ISP_ICR);
-> >>>>> +    }
-> >>>>> +
-> >>>>> +    /* sampled input frame is complete */
-> >>>>> +    if (isp_mis & CIF_ISP_FRAME_IN) {
-> >>>>> +        writel(CIF_ISP_FRAME_IN, base + CIF_ISP_ICR);
-> >>>>> +        isp_mis_tmp = readl(base + CIF_ISP_MIS);
-> >>>>> +        if (isp_mis_tmp & CIF_ISP_FRAME_IN)
-> >>>>> +            v4l2_err(&dev->v4l2_dev, "isp icr frame_in err: 0x%x\n",
-> >>>>> +                 isp_mis_tmp);
-> >>>>> +    }
-> >>>>> +
-> >>>>> +    /* frame was completely put out */
-> >>>>
-> >>>> "put out" ? :-) What's the difference between ISP_FRAME_IN and ISP_FRAME
-> >>>> ? The two comments could do with a bit of brush up, and I think the
-> >>>> ISP_FRAME_IN interrupt could be disabled as it doesn't perform any
-> >>>> action.
-> >>>
-> >>> Those two oneline comments are just copy-paste from the datasheet.
-> >>>
-> >>> ""
-> >>> 5 MIS_FRAME_IN sampled input frame is complete
-> >>> 1 MIS_FRAME frame was completely put out
-> >>> ""
-> >>>
-> >>> Unfrotunately, the datasheet does not add any further explanation about those signals.
-> >>>
-> >>>
-> >>
-> >> My loose recollection is that the former is signaled when then frame
-> >> is fully input to the ISP and the latter when the ISP completes
-> >> outputting the frame to the next block in the pipeline, but someone
-> >> would need to verify this, for example by printing timestamps for all
-> >> the various interrupts.
-> >>
-> >>>>
-> >>>>> +    if (isp_mis & CIF_ISP_FRAME) {
-> >>>>> +        u32 isp_ris = 0;
-> >>>>
-> >>>> No need to initialise this to 0.
-> >>>>
-> >>>>> +        /* Clear Frame In (ISP) */
-> >>>>> +        writel(CIF_ISP_FRAME, base + CIF_ISP_ICR);
-> >>>>> +        isp_mis_tmp = readl(base + CIF_ISP_MIS);
-> >>>>> +        if (isp_mis_tmp & CIF_ISP_FRAME)
-> >>>>> +            v4l2_err(&dev->v4l2_dev,
-> >>>>> +                 "isp icr frame end err: 0x%x\n", isp_mis_tmp);
-> >>>>> +
-> >>>>> +        isp_ris = readl(base + CIF_ISP_RIS);
-> >>>>> +        if (isp_ris & (CIF_ISP_AWB_DONE | CIF_ISP_AFM_FIN |
-> >>>>> +                   CIF_ISP_EXP_END | CIF_ISP_HIST_MEASURE_RDY))
-> >>>>> +            rkisp1_stats_isr(&dev->stats_vdev, isp_ris);
-> >>>>
-> >>>> Is there a guarantee that the statistics will be fully written out
-> >>>> before the video frame itself ? And doesn't this test if any of the
-> >>>> statistics is complete, not all of them ? I think the logic is wrong, it
-> >>>
-> >>> The datasheet does not add any explanation of what is expected to come first.
-> >>> Should we wait until all statistics measurements are done? In the struct
-> >>> sent to userspace there is a bitmaks for which of the statistics are read.
-> >>> I think that if only part of the statistics are ready, we can already send the once
-> >>> that are ready to userspace.
-> >>>
-> >>
-> >> If we look further into the code, rkisp1_stats_isr() checks the
-> >> interrupt status mask passed to it and reads out only the parameters
-> >> with indicated completion. The statistics metadata buffer format
-> >> includes a bit mask which tells the userspace which measurements are
-> >> available.
-> >>
-> >> However, I think I've spotted a bug there. At the beginning of
-> >> rkisp1_stats_isr(), all the 4 interrupt status bits are cleared,
-> >> regardless of the mask used later to decide which readouts need to be
-> >> done. This could mean that with an unfortunate timing, some measurements
-> >> would be lost. So at least the code should be fixed to only clear the
-> >> interrupts bits really handled.
-> >
-> > I'll fix that
->
-> I actually don't think this is a bug. The statistics interrupts are not
-> enabled and are read from the raw interrupts register. This means
-> that if we missed a statistics for the current frame and we don't reset it
-> then we will read it only when the next frame comes out, so it will be
-> wrongly set as statistics for the next frame although it is actually for the
-> current frame.
+Hi Hans,
 
-Yes, I noticed that the driver attempts to reduce the number of
-interrupts by assuming that the ISP statistics can be read after the
-MIS_FRAME interrupt. However, in this case, I don't think we can ever
-miss statistics for a frame (unless the system is broken and has
-unacceptable interrupt latencies) nor the unfortunate timing I
-suggested before could ever take place.
-
-Best regards,
-Tomasz
-
+On Thu, Aug 06, 2020 at 12:15:49PM +0200, Hans Verkuil wrote:
+> On 06/08/2020 12:08, Jacopo Mondi wrote:
+> > Hi Hans,
+> >
+> > On Thu, Aug 06, 2020 at 10:45:17AM +0200, Hans Verkuil wrote:
+> >> On 05/08/2020 12:57, Jacopo Mondi wrote:
+> >>> Provide a table to describe how the V4L2 selection targets can be used
+> >>> to access an image sensor pixel array properties.
+> >>>
+> >>> Reference the table in the sub-device documentation.
+> >>>
+> >>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> >>> ---
+> >>>  .../userspace-api/media/v4l/dev-subdev.rst    |  4 ++
+> >>>  .../media/v4l/v4l2-selection-targets.rst      | 49 +++++++++++++++++++
+> >>>  2 files changed, 53 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> >>> index c47861dff9b9b..2f7da3832f458 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> >>> @@ -467,6 +467,10 @@ desired image resolution. If the sub-device driver supports that, userspace
+> >>>  can set the analog crop rectangle to select which portion of the pixel array
+> >>>  to read out.
+> >>>
+> >>> +A description of each of the above mentioned targets when used to access the
+> >>> +image sensor pixel array properties is provided by
+> >>> +:ref:`v4l2-selection-targets-image-sensor-table`
+> >>> +
+> >>>
+> >>>  Types of selection targets
+> >>>  --------------------------
+> >>> diff --git a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> >>> index 69f500093aa2a..632e6448b784e 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
+> >>> @@ -76,3 +76,52 @@ of the two interfaces they are used.
+> >>>  	modified by hardware.
+> >>>        - Yes
+> >>>        - No
+> >>> +
+> >>> +
+> >>> +.. _v4l2-selection-targets-image-sensor-table:
+> >>> +
+> >>> +********************************************
+> >>> +Selection Targets For Pixel Array Properties
+> >>> +********************************************
+> >>> +
+> >>> +The V4L2 selection API can be used to retrieve the size and disposition of the
+> >>> +pixel units that compose and image sensor pixel matrix when applied to a video
+> >>> +sub-device that represents an image sensor.
+> >>> +
+> >>> +A description of the properties associated with each of the sensor pixel array
+> >>> +areas is provided by the :ref:`v4l2-subdev-pixel-array-properties` section.
+> >>> +
+> >>> +.. tabularcolumns:: |p{6.0cm}|p{1.4cm}|p{7.4cm}|p(1.4cm)|
+> >>> +
+> >>> +.. flat-table:: Selection target definitions
+> >>> +    :header-rows:  1
+> >>> +    :stub-columns: 0
+> >>> +
+> >>> +    * - Target name
+> >>> +      - id
+> >>> +      - Definition
+> >>> +      - Read/Write
+> >>> +    * - ``V4L2_SEL_TGT_CROP``
+> >>> +      - 0x0000
+> >>> +      - The analog crop rectangle. Represents the portion of the active pixel
+> >>> +        array which is processed to produce images.
+> >>> +      - RW
+> >>> +    * - ``V4L2_SEL_TGT_CROP_DEFAULT``
+> >>> +      - 0x0001
+> >>> +      - The active pixel array rectangle. It includes only active pixels and
+> >>> +        excludes other ones such as optical black pixels. Its width and height
+> >>> +        represent the maximum image resolution an image sensor can produce.
+> >>> +      - RO
+> >>> +    * - ``V4L2_SEL_TGT_CROP_BOUNDS``
+> >>> +      - 0x0002
+> >>> +      - The readable portion of the physical pixel array matrix. It includes
+> >>> +        pixels that contains valid image data and calibration pixels such as the
+> >>> +        optical black ones.
+> >>> +      - RO
+> >>> +    * - ``V4L2_SEL_TGT_NATIVE_SIZE``
+> >>> +      - 0x0003
+> >>> +      - The physical pixel array size, including readable and not readable
+> >>> +        pixels. As pixels that cannot be read from application processor are not
+> >>> +        relevant for calibration purposes, this rectangle is useful to calculate
+> >>> +        the physical properties of the image sensor.
+> >>> +      - RO
+> >>>
+> >>
+> >> Hmm, this basically just duplicates the previous patch.
+> >>
+> >> I think you are documenting things at the wrong place. What you documented in the
+> >> previous patch really belongs here since it is shared between the subdev API and the
+> >> regular V4L2 API. And in dev-subdev.rst you then refer to here.
+> >
+> > I originally had it here, but then I moved to dev-subdev as an image
+> > sensor will always be represented as a video sub-device, doen't it ?
 >
-> Thanks,
-> Dafna
->
-> >
-> >>
-> >> As for whether to send separate buffers for each measurement, I guess
-> >> it's not a bad thing to let the userspace access the ones available
-> >> earlier. Now I only don't recall why we decided to put all the
-> >> measurements into one metadata structure, rather than splitting the 4
-> >> into their own structures and buffer queues...
-> >
-> > Is it possible to have several queues to the same video node?
-> >
-> >>
-> >>>> seems it should be moved out of the CIF_ISP_FRAME test, to a test of its
-> >>>> own. It's hard to tell for sure without extra information though (for
-> >>>> instance why are the stats-related bits read from CIF_ISP_RIS, when
-> >>>> they seem to be documented as valid in CIF_ISP_ISR), but this should be
-> >>>> validated, and most probably fixed. Care should be taken to keep
-> >>>> synchronisation of sequence number between the different queues.
-> >>>
-> >>> I see that the capture buffers are done before incrementing the frame_sequence with
-> >>> the following explanation:
-> >>>
-> >>>     /*
-> >>>           * Call rkisp1_capture_isr() first to handle the frame that
-> >>>           * potentially completed using the current frame_sequence number before
-> >>>           * it is potentially incremented by rkisp1_isp_isr() in the vertical
-> >>>           * sync.
-> >>>           */
-> >>>
-> >>> I think reading the stats/params should also be done before calling rkisp1_capture_isr
-> >>> for the same reason. (so to match the correct frame_sequence)
-> >>
-> >> My recollection of the sequence of interrupts in this hardware is like
-> >> this:
-> >>
-> >> CIF_ISP_V_START (frame 0)
-> >>    CIF_ISP_FRAME_IN (frame 0)
-> >>      CIF_ISP_FRAME (frame 0)
-> >>        CIF_ISP_AWB_DONE
-> >>        CIF_ISP_AFM_FIN
-> >>        CIF_ISP_EXP_END
-> >>        CIF_ISP_HIST_MEASURE_RDY
-> >>        CIF_MI_FRAME*
-> >>        CIF_ISP_V_START (frame 1)
-> >>          CIF_ISP_FRAME_IN (frame 1)
-> >>            CIF_ISP_FRAME (frame 1)
-> >>              ...
-> >>
-> >> where the interrupts at the same indentation level can happen
-> >> independently of each other. Again, someone would have to verify this.
-> >
-> > I wrote this patch to print the interrupts and the time difference between interrupts:
-> > https://gitlab.collabora.com/dafna/linux/-/commit/9b9c5ddc2f06a6b87d2c1b210219f69de83296c5
-> >
-> > I got this output: http://ix.io/2tl8,
-> > there is a repeating pattern where only v-start interrupt is sent, indicated by the prints "isp mis 0x00000040" then about 23 milisec later are the other interrupts
-> > (FRAME_IN, FRAME, MI_FRAME* ) and about 10 milisec the v-start interrupt again.
-> >
-> > I am still not sure why the mi_frame interrupt should be handled first. If it happen for example that all the interrupts arrive at once, how can
-> > we know that the MI_FRAME interrupt relates to the previous v-start interrupt and not the current one?
-> > I think that for that we need a code that keep track of the previous interrupt.
-> >
-> > Thanks,
-> > Dafna
-> >
-> >
-> >>
-> >> Best regards,
-> >> Tomasz
-> >>
+> No. Some camera drivers are V4L2 only, most notably uvc. Also there are several simple
+> platform drivers that don't use the subdev API.
+
+Do we expect to be able to retrieve sensor array properties from video
+device nodes which represents, in my understanding a DMA engine that
+writes data to memory ? As I see it, not subdev for the image sensor,
+no pixel array properties. How can these be exposed by a video device
+which abstracts the full capture pipeline ?
