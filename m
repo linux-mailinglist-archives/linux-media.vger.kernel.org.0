@@ -2,140 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98FF323E150
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 20:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F34C623E085
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 20:38:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729079AbgHFSmh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 14:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727939AbgHFSUB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 14:20:01 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B82DC0617A2;
-        Thu,  6 Aug 2020 11:18:39 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id b30so26611445lfj.12;
-        Thu, 06 Aug 2020 11:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zyDgQ58yfMwWuCC3duccdkOno3vWVcRNh6nKRXhidek=;
-        b=MyRZbQfGm1TKcB+zBssqDMtxcidwjYO7hE4TlnATgTe0SqNa0BctoPeiVmFPhWxaxw
-         9HgsPi+ytgS6C+dLS5cbg0t0zGUI60l7w7qf/X76752INI/nDLHSPBvwvEwIxHkg72yr
-         t1fYK9Exm0UHawEzsVglsQvCFsKhh/WbzOc/0g23Wo7JMNB/zosNweCHyQ2LegAovw05
-         WJ3fpKjmLSt7TgLgMRKQU3ArR+P/c9OM3aRMi98LMDd/HJX3vg5qP+/AzIuUBlYSNOkA
-         oQyNWVqpRJlY7P35stTlbYDVn/6G4U4AAhKrSI/lKFSErmYn1AgtYwJ6iTmw+k9jSvsP
-         9WdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zyDgQ58yfMwWuCC3duccdkOno3vWVcRNh6nKRXhidek=;
-        b=FhyP0Nfzr24jUSUFQ8fqTltCvBNEe8LZsNSLvoewUNY6us5ZV+uc4+4yoFMEKQNjDB
-         9GljJU84S5p+pAUZBWt5bJnl6TebTu+TgcRXHxhWPdVvJz/R6wtAvBRFwBk5J3IGWGy4
-         T533yTqL5lkDKBneHhlMwgd0bndgCKkCHWEKNs5JOQSUqPR6/LJuGPsZmW+vMEi3HnDm
-         RZwxmocv6A0sMC7sc8+VmDQLVlc+k2pMQ2+3Iz93vUWvoJOcdyoklMGBZxJRdizQ6vSn
-         MoqA3zqBJja5TNDX1OkIPuw052LzSe8VEUx+y488bnJuMIekgleSIceyokd43z+xOvLJ
-         +b3A==
-X-Gm-Message-State: AOAM530qLF2xi/+NlrRlTq0Pd+RyCpcAKc0S3CbFxTui5x4WomIuD8WU
-        VUvazRwHhNA1LM+T2k8PBu1D1lEA
-X-Google-Smtp-Source: ABdhPJwsXrrzhKIHd4U+0mxTpUSDS+7zShPN2F0Yc4n/A8sv96yqeEPFnojDg1v3UbYpBfNORZD/4A==
-X-Received: by 2002:ac2:5e2c:: with SMTP id o12mr4378022lfg.71.1596737916355;
-        Thu, 06 Aug 2020 11:18:36 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
-        by smtp.googlemail.com with ESMTPSA id 1sm2751561ljr.6.2020.08.06.11.18.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2020 11:18:35 -0700 (PDT)
-Subject: Re: [PATCH v8 08/10] gpu: host1x: mipi: Keep MIPI clock enabled till
- calibration is done
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
-        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1596469346-937-1-git-send-email-skomatineni@nvidia.com>
- <6eede805-80fd-016f-22f8-b6d25f6587af@nvidia.com>
- <1c12e40e-de7f-0599-a941-82760b4c7668@gmail.com>
- <9ef0b875-e826-43e2-207e-168d2081ff6a@nvidia.com>
- <4689cfe9-e7c4-48bf-217f-3a31b59b8bda@nvidia.com>
- <0e78c5ca-c529-1e98-891d-30351c9aae81@gmail.com>
- <b2098a68-d02f-b406-fc57-56e3ff5d8d1a@nvidia.com>
- <309e3b66-9288-91ef-71b4-be73eacbbd62@nvidia.com>
- <fde2431a-0585-ac32-ac25-73e198aaa948@nvidia.com>
- <4025a458-fa78-924d-c84f-166f82df0f8e@gmail.com>
- <4f15d655-3d62-cf9f-82da-eae379d60fa6@nvidia.com>
- <b5612e93-f1c4-4762-baa1-5d85eb1edbe1@gmail.com>
- <412f8c53-1aca-db31-99a1-a0ecb2081ca5@nvidia.com>
- <61275bd6-58e7-887f-aa7d-8e60895e7b2b@nvidia.com>
- <6ff57c38-9847-42b0-643b-0d167c13779f@gmail.com>
- <c6ef5e77-2b0a-1712-ca58-dbd8d232e1f1@nvidia.com>
- <ed79b201-85ba-f725-c5fa-fcde0761bc3d@nvidia.com>
- <26ed2841-db5d-aeb0-11c7-cbe2ddd1d76b@gmail.com>
- <eddfdaf0-818a-c4dd-e3b4-4d432af56982@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e965076a-dc31-5774-dd27-98c992331bd2@gmail.com>
-Date:   Thu, 6 Aug 2020 21:18:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728363AbgHFSfK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 14:35:10 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:59905 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728674AbgHFSej (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 14:34:39 -0400
+Received: from [192.168.1.4] (unknown [176.88.145.153])
+        (Authenticated sender: cengiz@kernel.wtf)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id A4228240008;
+        Thu,  6 Aug 2020 18:34:25 +0000 (UTC)
+From:   Cengiz Can <cengiz@kernel.wtf>
+To:     <andy.shevchenko@gmail.com>
+CC:     <dan.carpenter@oracle.com>, <devel@driverdev.osuosl.org>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
+        <sakari.ailus@linux.intel.com>, Cengiz Can <cengiz@kernel.wtf>
+Date:   Thu, 06 Aug 2020 21:34:22 +0300
+Message-ID: <173c50d7bb0.2bfa.85c738e3968116fc5c0dc2de74002084@kernel.wtf>
+In-Reply-To: <20200801220101.2783-1-cengiz@kernel.wtf>
+References: <20200731083856.GF3703480@smile.fi.intel.com>
+ <20200801220101.2783-1-cengiz@kernel.wtf>
+User-Agent: AquaMail/1.25.2-1672 (build: 102500008)
+Subject: Re: [PATCH v6] staging: atomisp: move null check to earlier point
 MIME-Version: 1.0
-In-Reply-To: <eddfdaf0-818a-c4dd-e3b4-4d432af56982@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; format=flowed; charset="us-ascii"
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-06.08.2020 21:07, Sowjanya Komatineni пишет:
-> 
-> On 8/6/20 11:01 AM, Dmitry Osipenko wrote:
->> 06.08.2020 20:52, Sowjanya Komatineni пишет:
->> ...
->>> Right mutex_unlock should happen at end of finish_calibration.
->>>
->>> With keeping mutex locked in start, we dont have to check for active to
->>> be 0 to issue start as mutex will keep it locked and other pads
->>> calibration can only go thru when current one is done.
->>>
->>> So instead of below sequence, its simpler to do this way?
->>>
->>> start_calibration()
->>>
->>> - mutex_lock
->>>
->>> - wait for 72uS after start
->>>
->>> finish_calibration()
->>>
->>> - keep check for ACTIVE = 0 and DONE = 1
->> I think only the DONE bits which correspond to the mipi_device->pads
->> bitmask should be awaited.
-> 
-> As next START can't be triggered when auto cal is ACTIVE, we should keep
-> this in finish.
-> 
-> As we do mutex_unlock only at end of finish, other pads calibrations
-> dont go thru till the one in process is finished.
-> 
-> So in this case ACTIVE applies to current selected pads that are under
-> calibration.
+Hello Andy,
 
-Should be better to check only the relevant bits in order to catch bugs,
-otherwise you may get a DONE status from the irrelevant pads.
+Can I get some feedback on v6 please?
 
->>> - mutex_unlock()
->> Perhaps the start_calibration() also needs to be changed to not touch
->> the MIPI_CAL_CONFIG bits of the unrelated pads?
-> Driver already takes care of programming corresponding pads config only.
+I hope it suits your standards this time.
 
-It writes 0 to the config of the unrelated pads, which probably isn't
-nice if some pads use periodic auto-calibration.
+Thank you
 
-https://elixir.bootlin.com/linux/v5.8/source/drivers/gpu/host1x/mipi.c#L350
+On August 2, 2020 01:02:22 Cengiz Can <cengiz@kernel.wtf> wrote:
 
-Although looks like auto-calibration isn't supported by the current driver.
+> `find_gmin_subdev()` that returns a pointer to `struct
+> gmin_subdev` can return NULL.
+>
+> In `gmin_v2p8_ctrl()` there's a call to this function but the
+> possibility of a NULL was not checked before its being dereferenced,
+> i.e.:
+>
+>  /* Acquired here --------v */
+>  struct gmin_subdev *gs = find_gmin_subdev(subdev);
+>
+>  /*  v------Dereferenced here */
+>  if (gs->v2p8_gpio >= 0) {
+>      ...
+>  }
+>
+> With this change we're null checking `find_gmin_subdev()` result
+> and we return an error if that's the case. We also WARN()
+> for the sake of debugging.
+>
+> Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
+> Reported-by: Coverity Static Analyzer CID 1465536
+> Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>
+> Please do note that this change introduces a new return value to
+> `gmin_v2p8_ctrl()`.
+>
+> [NEW] - raise a WARN and return -ENODEV if there are no subdevices.
+>       - return result of `gpio_request` or `gpio_direction_output`.
+>       - return 0 if GPIO is ON.
+>       - return results of `regulator_enable` or `regulator_disable`.
+>       - according to PMIC type, return result of `axp_regulator_set`
+>         or `gmin_i2c_write`.
+>       - return -EINVAL if unknown PMIC type.
+>
+> Patch Changelog:
+>   v4: Fix minor typo in commit message
+>   v5: Remove typo from email subject
+>   v6: Remove duplicate Signed-off-by tag
+>
+> drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 5 ++++-
+> 1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c 
+> b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> index 0df46a1af5f0..1ad0246764a6 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> @@ -871,6 +871,9 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, 
+> int on)
+> 	int ret;
+> 	int value;
+>
+> +	if (WARN_ON(!gs))
+> +		return -ENODEV;
+> +
+> 	if (gs->v2p8_gpio >= 0) {
+> 		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
+> 			gs->v2p8_gpio);
+> @@ -881,7 +884,7 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, 
+> int on)
+> 			pr_err("V2P8 GPIO initialization failed\n");
+> 	}
+>
+> -	if (!gs || gs->v2p8_on == on)
+> +	if (gs->v2p8_on == on)
+> 		return 0;
+> 	gs->v2p8_on = on;
+>
+> --
+> 2.27.0
+
+
+
