@@ -2,223 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6680B23DC96
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 18:54:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F77023DC5F
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 18:51:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729729AbgHFQxu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 12:53:50 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:58524 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729701AbgHFQxo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 12:53:44 -0400
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 9524F3AF934;
-        Thu,  6 Aug 2020 15:57:38 +0000 (UTC)
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 3A1B820006;
-        Thu,  6 Aug 2020 15:52:15 +0000 (UTC)
-Date:   Thu, 6 Aug 2020 17:52:15 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [PATCH v2 09/14] media: uapi: h264: Clarify SLICE_BASED mode
-Message-ID: <20200806155215.GC1621078@aptenodytes>
-References: <20200806151310.98624-1-ezequiel@collabora.com>
- <20200806151310.98624-10-ezequiel@collabora.com>
+        id S1729568AbgHFQvd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 12:51:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729486AbgHFQvB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 12:51:01 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63F5C002158
+        for <linux-media@vger.kernel.org>; Thu,  6 Aug 2020 08:57:08 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id j187so45331089qke.11
+        for <linux-media@vger.kernel.org>; Thu, 06 Aug 2020 08:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2L9uZb/NjOsW6lQdpKp2h2LDRv1ZV/tTC9tAXYPSaR4=;
+        b=rc9WW0pQLSee1gAVHB8KkmQxQjjHT6dqyL8nAYWlVhgLVj0SRCShGooBUokNRsQwrW
+         l2R+YC8GVbgKO4wKXo7Me0tzQxYR3850fb6R8StKnXlfZIlh9w9VgqId+pd1zUJ0eVDK
+         PbVmET40qwzRzt+INYz+NtEeSlr5eYhg9wot/BrgN9oHHwGcCU3MyBHiuQMTA2w1b4kC
+         xvyTAmgxVabsU4siBQhpegCRotYojU+50gw09X9xwlsTysZwcB8xup+6rqrJQPNZEruG
+         sJ8MQHk9Vi8TVUgYHWwXEgB0OsUgQC79bKNJjle8ybZA5WFGvz41esSO5oM17gGm4OR9
+         a43w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2L9uZb/NjOsW6lQdpKp2h2LDRv1ZV/tTC9tAXYPSaR4=;
+        b=OmV+y4u4q8VIbhOukorKxy/jfCg8HjLiqtfMA+IWbTKaEKlhdaPIQSb/tKrKZW42iJ
+         ULGtqopAdy6B1Bj1lyPtVJN7HSrYfkmDY8UI3HlDjd9xJU1sxWNzL1IVyJv+S7iaQQiF
+         cTsqdUvj5ocO3pXm6NCRwl+qEI3ZlYuwycQvDwGZFT5lNMupwYx1ia2FYiPFV/9HPh/O
+         Jw89TWWYNMMXCkQD/YdLczbrr70wGL3imUKDjttNDYZB59pq/Wfbjth6l6ahmLGLAQn/
+         uguxz2Rs/6UVcISy4KqBvjD4BL09p4zaWpK8Tt7zKvOai2cYL3Z3azhHd02+96FOPsrM
+         96Xg==
+X-Gm-Message-State: AOAM533oziMRF8rYBnvPrEMZHfs07PWTavN8Z0oAuBkFpsD7t4wrfsV8
+        r20ui92DJYSpds3oEIzAZLs8AGEkmqc=
+X-Google-Smtp-Source: ABdhPJxuXzuuvgYbREqBIs50xcy6g0+IibRTztzsRjCr2tKxTmKIdfcNdtwzMCmmboabpN4t57KE3Q==
+X-Received: by 2002:a37:6644:: with SMTP id a65mr9136183qkc.4.1596729424795;
+        Thu, 06 Aug 2020 08:57:04 -0700 (PDT)
+Received: from localhost.localdomain ([186.136.155.69])
+        by smtp.gmail.com with ESMTPSA id 205sm4317552qkj.19.2020.08.06.08.56.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2020 08:57:04 -0700 (PDT)
+From:   Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
+        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
+        ariel@vanguardiasur.com.ar, gjasny@googlemail.com,
+        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
+        user.vdr@gmail.com
+Subject: [PATCH v4l-utils v3 0/2] Add support for meson building
+Date:   Thu,  6 Aug 2020 12:55:17 -0300
+Message-Id: <20200806155519.79748-1-ariel@vanguardiasur.com.ar>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Qbvjkv9qwOGw/5Fx"
-Content-Disposition: inline
-In-Reply-To: <20200806151310.98624-10-ezequiel@collabora.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi all,
 
---Qbvjkv9qwOGw/5Fx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patchset was developed on top of v4l-utils current master branch:
 
-Hi,
+    commit 1bcfe070d6218bf1074b38feb1e4fd02de2dd4dc
+    Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-On Thu 06 Aug 20, 12:13, Ezequiel Garcia wrote:
-> Currently, the SLICE_BASED and FRAME_BASED modes documentation
-> is misleading and not matching the intended use-cases.
->=20
-> Drop non-required fields SLICE_PARAMS 'start_byte_offset' and
-> DECODE_PARAMS 'num_slices' and clarify the decoding modes in the
-> documentation.
->=20
-> On SLICE_BASED mode, a single slice is expected per OUTPUT buffer,
-> and therefore 'start_byte_offset' is not needed (since the offset
-> to the slice is the start of the buffer).
+        v4l2-ctl: fix INTEGER64 support, add common_print_control()
 
-Same comment as for the size: how do we plan on managing multiple slices
-in a single output buffer later on after removing this?
+You can find the patchset pushed to the following branch:
 
-Cheers,
+    https://gitlab.com/adalessandro/v4l-utils/-/tree/v4l-utils-meson-v3
 
-Paul
+Changes from v2:
 
-> This mode requires the use of CAPTURE buffer holding, and so
-> the number of slices shall not be required.
->=20
-> On FRAME_BASED mode, the devices are expected to take care of slice
-> parsing. Neither SLICE_PARAMS are required (and shouldn't be
-> exposed by frame-based drivers), nor the number of slices.
->=20
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             | 39 +++++--------------
->  include/media/h264-ctrls.h                    |  4 --
->  2 files changed, 10 insertions(+), 33 deletions(-)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index fff74b7bf32a..b3963c1acc2c 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1748,9 +1748,6 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->         This compound control is not yet part of the public kernel API
->         and it is expected to change.
-> =20
-> -       This structure is expected to be passed as an array, with one
-> -       entry for each slice included in the bitstream buffer.
-> -
->  .. c:type:: v4l2_ctrl_h264_slice_params
-> =20
->  .. cssclass:: longtable
-> @@ -1760,17 +1757,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type=
- -
->      :stub-columns: 0
->      :widths:       1 1 2
-> =20
-> -    * - __u32
-> -      - ``start_byte_offset``
-> -        Offset (in bytes) from the beginning of the OUTPUT buffer to the=
- start
-> -        of the slice. If the slice starts with a start code, then this i=
-s the
-> -        offset to such start code. When operating in slice-based decodin=
-g mode
-> -        (see :c:type:`v4l2_mpeg_video_h264_decode_mode`), this field sho=
-uld
-> -        be set to 0. When operating in frame-based decoding mode, this f=
-ield
-> -        should be 0 for the first slice.
->      * - __u32
->        - ``header_bit_size``
-> -      -
-> +      - Offset in bits to slice_data() from the beginning of this slice.
->      * - __u32
->        - ``first_mb_in_slice``
->        -
-> @@ -1998,12 +1987,6 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type=
- -
->      * - struct :c:type:`v4l2_h264_dpb_entry`
->        - ``dpb[16]``
->        -
-> -    * - __u16
-> -      - ``num_slices``
-> -      - Number of slices needed to decode the current frame/field. When
-> -        operating in slice-based decoding mode (see
-> -        :c:type:`v4l2_mpeg_video_h264_decode_mode`), this field
-> -        should always be set to one.
->      * - __u16
->        - ``nal_ref_idc``
->        - NAL reference ID value coming from the NAL Unit header
-> @@ -2121,22 +2104,20 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_typ=
-e -
->      * - ``V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED``
->        - 0
->        - Decoding is done at the slice granularity.
-> -        In this mode, ``num_slices`` field in struct
-> -        :c:type:`v4l2_ctrl_h264_decode_params` should be set to 1,
-> -        and ``start_byte_offset`` in struct
-> -        :c:type:`v4l2_ctrl_h264_slice_params` should be set to 0.
->          The OUTPUT buffer must contain a single slice.
-> +        When this mode is selected, the ``V4L2_CID_MPEG_VIDEO_H264_SLICE=
-_PARAMS``
-> +        control shall be set. When multiple slices compose a frame,
-> +        use of ``V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF`` flag
-> +        is required.
->      * - ``V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED``
->        - 1
-> -      - Decoding is done at the frame granularity.
-> -        In this mode, ``num_slices`` field in struct
-> -        :c:type:`v4l2_ctrl_h264_decode_params` should be set to the numb=
-er
-> -        of slices in the frame, and ``start_byte_offset`` in struct
-> -        :c:type:`v4l2_ctrl_h264_slice_params` should be set accordingly
-> -        for each slice. For the first slice, ``start_byte_offset`` should
-> -        be zero.
-> +      - Decoding is done at the frame granularity,
->          The OUTPUT buffer must contain all slices needed to decode the
->          frame. The OUTPUT buffer must also contain both fields.
-> +        This mode will be supported by devices that
-> +        parse the slice(s) header(s) in hardware. When this mode is
-> +        selected, the ``V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS``
-> +        control shall not be set.
-> =20
->  ``V4L2_CID_MPEG_VIDEO_H264_START_CODE (enum)``
->      Specifies the H264 slice start code expected for each slice.
-> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> index f74736fcfa00..ea8c8c93305b 100644
-> --- a/include/media/h264-ctrls.h
-> +++ b/include/media/h264-ctrls.h
-> @@ -158,9 +158,6 @@ struct v4l2_h264_reference {
->  };
-> =20
->  struct v4l2_ctrl_h264_slice_params {
-> -	/* Offset in bytes to the start of slice in the OUTPUT buffer. */
-> -	__u32 start_byte_offset;
-> -
->  	/* Offset in bits to slice_data() from the beginning of this slice. */
->  	__u32 header_bit_size;
-> =20
-> @@ -219,7 +216,6 @@ struct v4l2_h264_dpb_entry {
-> =20
->  struct v4l2_ctrl_h264_decode_params {
->  	struct v4l2_h264_dpb_entry dpb[V4L2_H264_NUM_DPB_ENTRIES];
-> -	__u16 num_slices;
->  	__u16 nal_ref_idc;
->  	__s32 top_field_order_cnt;
->  	__s32 bottom_field_order_cnt;
-> --=20
-> 2.27.0
->=20
+  * Updated to current master branch.
+  * Moved README to markdown syntax.
+  * Documented meson build.
+  * Set PACKAGE_VERSION config macro as quoted.
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Changes from v1:
 
---Qbvjkv9qwOGw/5Fx
-Content-Type: application/pgp-signature; name="signature.asc"
+  * Updated project version to 1.21.0.
+  * Fixed clang includes in keytable bpf compilation.
+  * Improved variable reutilization in meson scripts.        
+  * Set libraries version and soversion.                     
+  * Control symbol visibility.                  
+  * Install empty 'protocols' directory in keytable user dir.
+  * Fixed svg filenames in qv4l2 and qvidcap.                         
+  * Added support for Doxygen documentation (html and man).
+  * Updated required meson version to v0.53 (for fs module).       
+  * Added new files to EXTRA_DIST in each Makefile.am.              
 
------BEGIN PGP SIGNATURE-----
+Regards,
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl8sJy8ACgkQ3cLmz3+f
-v9FX6wgAoLxd25vNiCRwFeLA5Y7OuzOZYlhR/37nBCHTqFERK0c+ScDXvSILbfuX
-nM2sRhRmjQvjAJO1fGBWEdFk1h0JUitPZk39NrUsT+aiJSbfTvAbcDyGERuEz7XI
-oDwFQ5PwYqXmEYFFp6nJvwBgK2O5zr6ztrZ747NqaqzxedN1F9bmcuDtUIH34Fdz
-qK8JFSb6CuEQu6SkIHbj7Mel7G9UoX+aSpoRBUQwEENmD/MPI4RmYRU/ag5r25pw
-dnTxJC02M0UFwKRglhOXyIsvKzCUyAyGyfgvdaK0VoC+N8QmzMGggYyAVbc/VCk+
-ymrtDBlLXJVMj4fVx2K66p1/oJGNpg==
-=2OoY
------END PGP SIGNATURE-----
+Ariel D'Alessandro (2):
+  Move README to markdown syntax
+  Add support for meson building
 
---Qbvjkv9qwOGw/5Fx--
+ .gitignore                                    |    1 +
+ Makefile.am                                   |    3 +-
+ README                                        |  275 --
+ README.md                                     |  331 +++
+ contrib/Makefile.am                           |    3 +-
+ contrib/cobalt-ctl/Makefile.am                |    2 +
+ contrib/cobalt-ctl/meson.build                |    8 +
+ contrib/decode_tm6000/Makefile.am             |    2 +
+ contrib/decode_tm6000/meson.build             |   14 +
+ contrib/gconv/Makefile.am                     |    2 +-
+ contrib/gconv/meson.build                     |   44 +
+ contrib/meson.build                           |   13 +
+ contrib/rds-saa6588/Makefile.am               |    2 +
+ contrib/rds-saa6588/meson.build               |    7 +
+ contrib/test/Makefile.am                      |    3 +-
+ contrib/test/meson.build                      |  143 +
+ contrib/xc3028-firmware/Makefile.am           |    2 +-
+ contrib/xc3028-firmware/meson.build           |   11 +
+ doc/Doxyfile.in                               | 2351 +++++++++++++++++
+ doc/meson.build                               |   34 +
+ gen-version.sh                                |   36 +
+ lib/Makefile.am                               |    2 +-
+ lib/libdvbv5/Makefile.am                      |    2 +-
+ lib/libdvbv5/meson.build                      |  154 ++
+ lib/libv4l-mplane/Makefile.am                 |    2 +
+ lib/libv4l-mplane/meson.build                 |   23 +
+ lib/libv4l1/Makefile.am                       |    2 +-
+ lib/libv4l1/meson.build                       |   61 +
+ lib/libv4l2/Makefile.am                       |    2 +-
+ lib/libv4l2/meson.build                       |   70 +
+ lib/libv4l2rds/Makefile.am                    |    2 +
+ lib/libv4l2rds/meson.build                    |   36 +
+ lib/libv4lconvert/Makefile.am                 |    2 +-
+ lib/libv4lconvert/meson.build                 |  113 +
+ lib/meson.build                               |   11 +
+ libdvbv5-po/meson.build                       |    3 +
+ meson.build                                   |  263 ++
+ meson_options.txt                             |   50 +
+ utils/Makefile.am                             |    2 +-
+ utils/cec-compliance/Makefile.am              |    2 +-
+ utils/cec-compliance/meson.build              |   24 +
+ utils/cec-ctl/Makefile.am                     |    2 +-
+ utils/cec-ctl/meson.build                     |   18 +
+ utils/cec-follower/Makefile.am                |    2 +-
+ utils/cec-follower/meson.build                |   21 +
+ utils/cx18-ctl/Makefile.am                    |    2 +
+ utils/cx18-ctl/meson.build                    |    8 +
+ utils/dvb/Makefile.am                         |    2 +-
+ utils/dvb/meson.build                         |   70 +
+ utils/gen_media_bus_format_codes.sh           |    7 +
+ utils/gen_media_bus_format_names.sh           |    7 +
+ utils/ir-ctl/Makefile.am                      |    2 +
+ utils/ir-ctl/meson.build                      |   23 +
+ utils/ivtv-ctl/Makefile.am                    |    2 +
+ utils/ivtv-ctl/meson.build                    |   13 +
+ utils/keytable/Makefile.am                    |    3 +-
+ utils/keytable/bpf_protocols/Makefile.am      |    3 +-
+ .../bpf_protocols/clang_sys_includes.sh       |    9 +
+ utils/keytable/bpf_protocols/meson.build      |   39 +
+ .../user_dir_protocols/README.md              |    1 +
+ utils/keytable/meson.build                    |   74 +
+ utils/keytable/rc_keymaps/meson.build         |  147 ++
+ utils/libcecutil/Makefile.am                  |    2 +-
+ utils/libcecutil/meson.build                  |   45 +
+ utils/libmedia_dev/Makefile.am                |    2 +-
+ utils/libmedia_dev/meson.build                |   14 +
+ utils/libv4l2util/Makefile.am                 |    2 +-
+ utils/libv4l2util/meson.build                 |   16 +
+ utils/media-ctl/Makefile.am                   |    2 +
+ utils/media-ctl/meson.build                   |   43 +
+ utils/meson.build                             |   46 +
+ utils/qv4l2/Makefile.am                       |    3 +-
+ utils/qv4l2/meson.build                       |   80 +
+ utils/qvidcap/Makefile.am                     |    3 +-
+ utils/qvidcap/meson.build                     |   82 +
+ utils/rds-ctl/Makefile.am                     |    1 +
+ utils/rds-ctl/meson.build                     |   13 +
+ utils/v4l2-compliance/Makefile.am             |    2 +-
+ utils/v4l2-compliance/meson.build             |   60 +
+ utils/v4l2-ctl/Makefile.am                    |    2 +-
+ utils/v4l2-ctl/meson.build                    |   75 +
+ utils/v4l2-dbg/Makefile.am                    |    2 +-
+ utils/v4l2-dbg/meson.build                    |   16 +
+ utils/v4l2-sysfs-path/Makefile.am             |    2 +
+ utils/v4l2-sysfs-path/meson.build             |   14 +
+ v4l-utils-po/meson.build                      |    3 +
+ version.h.in                                  |    1 +
+ 87 files changed, 4799 insertions(+), 300 deletions(-)
+ delete mode 100644 README
+ create mode 100644 README.md
+ create mode 100644 contrib/cobalt-ctl/meson.build
+ create mode 100644 contrib/decode_tm6000/meson.build
+ create mode 100644 contrib/gconv/meson.build
+ create mode 100644 contrib/meson.build
+ create mode 100644 contrib/rds-saa6588/meson.build
+ create mode 100644 contrib/test/meson.build
+ create mode 100644 contrib/xc3028-firmware/meson.build
+ create mode 100644 doc/Doxyfile.in
+ create mode 100644 doc/meson.build
+ create mode 100755 gen-version.sh
+ create mode 100644 lib/libdvbv5/meson.build
+ create mode 100644 lib/libv4l-mplane/meson.build
+ create mode 100644 lib/libv4l1/meson.build
+ create mode 100644 lib/libv4l2/meson.build
+ create mode 100644 lib/libv4l2rds/meson.build
+ create mode 100644 lib/libv4lconvert/meson.build
+ create mode 100644 lib/meson.build
+ create mode 100644 libdvbv5-po/meson.build
+ create mode 100644 meson.build
+ create mode 100644 meson_options.txt
+ create mode 100644 utils/cec-compliance/meson.build
+ create mode 100644 utils/cec-ctl/meson.build
+ create mode 100644 utils/cec-follower/meson.build
+ create mode 100644 utils/cx18-ctl/meson.build
+ create mode 100644 utils/dvb/meson.build
+ create mode 100755 utils/gen_media_bus_format_codes.sh
+ create mode 100755 utils/gen_media_bus_format_names.sh
+ create mode 100644 utils/ir-ctl/meson.build
+ create mode 100644 utils/ivtv-ctl/meson.build
+ create mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
+ create mode 100644 utils/keytable/bpf_protocols/meson.build
+ create mode 100644 utils/keytable/bpf_protocols/user_dir_protocols/README.md
+ create mode 100644 utils/keytable/meson.build
+ create mode 100644 utils/keytable/rc_keymaps/meson.build
+ create mode 100644 utils/libcecutil/meson.build
+ create mode 100644 utils/libmedia_dev/meson.build
+ create mode 100644 utils/libv4l2util/meson.build
+ create mode 100644 utils/media-ctl/meson.build
+ create mode 100644 utils/meson.build
+ create mode 100644 utils/qv4l2/meson.build
+ create mode 100644 utils/qvidcap/meson.build
+ create mode 100644 utils/rds-ctl/meson.build
+ create mode 100644 utils/v4l2-compliance/meson.build
+ create mode 100644 utils/v4l2-ctl/meson.build
+ create mode 100644 utils/v4l2-dbg/meson.build
+ create mode 100644 utils/v4l2-sysfs-path/meson.build
+ create mode 100644 v4l-utils-po/meson.build
+ create mode 100644 version.h.in
+
+-- 
+2.26.2
+
