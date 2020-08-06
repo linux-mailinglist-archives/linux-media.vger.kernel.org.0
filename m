@@ -2,283 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6F2523DF91
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBAB223DF9B
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:51:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729880AbgHFRt2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 6 Aug 2020 13:49:28 -0400
-Received: from mailoutvs34.siol.net ([185.57.226.225]:44784 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728137AbgHFQeN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 12:34:13 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 9F3E5524534;
-        Thu,  6 Aug 2020 17:54:23 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id gggXxBQX4zcq; Thu,  6 Aug 2020 17:54:23 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id F2B9652457D;
-        Thu,  6 Aug 2020 17:54:22 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-58-148.static.triera.net [86.58.58.148])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id 16B02524534;
-        Thu,  6 Aug 2020 17:54:22 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v2 01/14] media: uapi: h264: Update reference lists
-Date:   Thu, 06 Aug 2020 17:54:21 +0200
-Message-ID: <3517723.C3QgaYJNcI@jernej-laptop>
-In-Reply-To: <20200806154707.GA1621078@aptenodytes>
-References: <20200806151310.98624-1-ezequiel@collabora.com> <20200806151310.98624-2-ezequiel@collabora.com> <20200806154707.GA1621078@aptenodytes>
+        id S1729125AbgHFRvG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 13:51:06 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:38380 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728751AbgHFQdf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 12:33:35 -0400
+X-UUID: 0d2511c30ab54283b397c23470cd2c7e-20200806
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=OtJd/yRRZV8IvkNBbGFYLaPgoO8DWoAzhEC+fs64370=;
+        b=T6rsCij1uCd9/OEjGIssBIhMIxwXMYtiMCMd0VsqyWPgrdzoU3Pe+aoAClLqm2LzQgHAgmKVANH3COsw6Bulk1eSLcjyZThm98tfPtbttAq7nDOcWwwijoU+Hdh3rvVLIgENNDwMoB92hgjk5VU5Z6+7QgCxoLcnJf1dJ166uvs=;
+X-UUID: 0d2511c30ab54283b397c23470cd2c7e-20200806
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <frederic.chen@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1127826263; Thu, 06 Aug 2020 23:58:32 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 6 Aug 2020 23:58:28 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 6 Aug 2020 23:58:29 +0800
+From:   <frederic.chen@mediatek.com>
+To:     <hans.verkuil@cisco.com>,
+        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <mchehab@kernel.org>
+CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
+        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
+        <frederic.chen@mediatek.com>, <linux-media@vger.kernel.org>,
+        <srv_heupstream@mediatek.com>
+Subject: [PATCH V2,0/1] media: change media_device_request_alloc to match media_ioctl_info
+Date:   Thu, 6 Aug 2020 23:58:21 +0800
+Message-ID: <20200806155822.3772-1-frederic.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
 Content-Type: text/plain; charset="UTF-8"
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
-
-Dne četrtek, 06. avgust 2020 ob 17:47:07 CEST je Paul Kocialkowski napisal(a):
-> Hi,
-> 
-> On Thu 06 Aug 20, 12:12, Ezequiel Garcia wrote:
-> > From: Jernej Skrabec <jernej.skrabec@siol.net>
-> > 
-> > When dealing with with interlaced frames, reference lists must tell if
-> > each particular reference is meant for top or bottom field. This info
-> > is currently not provided at all in the H264 related controls.
-> > 
-> > Make reference lists hold a structure which will also hold an
-> > enumerator type along index into DPB array. The enumerator must
-> > be used to specify if reference is for top or bottom field.
-> > 
-> > Currently the only user of these lists is Cedrus which is just compile
-> > fixed here. Actual usage of will come in a following commit.
-> 
-> Is there a particular reason we are adding this to the ref_pic_list[0-1]
-> instead of the DPB entries directly?
-
-Yes, it is.
-
-> 
-> It feels nicer to avoid making the lists structs when the entries they are
-> referring to are already in a struct. I think this is the approach Kwiboo
-> took when adding support for fields in references some time ago.
-> 
-> What do you think?
-
-It's different thing. I tried using that, but image wasn't decoded correctly. 
-IMO this is also the same reason why VAAPI doesn't have indices to DPB and 
-instead have full VAPictureH264 structure array for RefPicList0 and 
-RefPicList1. VAAPI has also note here "/* See 8.2.4.2 */" but I need to check 
-it...
-
-Best regards,
-Jernej 
-
-> 
-> Cheers,
-> 
-> Paul
-> 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> > v2:
-> > * As pointed out by Jonas, enum v4l2_h264_dpb_reference here.
-> > ---
-> > 
-> >  .../media/v4l/ext-ctrls-codec.rst             | 44 ++++++++++++++++++-
-> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 +--
-> >  include/media/h264-ctrls.h                    | 23 +++++++---
-> >  3 files changed, 62 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
-> > d0d506a444b1..f2b2a381369f 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > @@ -1843,10 +1843,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type
-> > -> 
-> >      * - __u32
-> >      
-> >        - ``slice_group_change_cycle``
-> >        -
-> > 
-> > -    * - __u8
-> > +    * - struct :c:type:`v4l2_h264_reference`
-> > 
-> >        - ``ref_pic_list0[32]``
-> >        - Reference picture list after applying the per-slice modifications
-> > 
-> > -    * - __u8
-> > +    * - struct :c:type:`v4l2_h264_reference`
-> > 
-> >        - ``ref_pic_list1[32]``
-> >        - Reference picture list after applying the per-slice modifications
-> >      
-> >      * - __u32
-> > 
-> > @@ -1926,6 +1926,46 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type
-> > -
-> > 
-> >        - ``chroma_offset[32][2]``
-> >        -
-> > 
-> > +``Picture Reference``
-> > +
-> > +.. c:type:: v4l2_h264_reference
-> > +
-> > +.. cssclass:: longtable
-> > +
-> > +.. flat-table:: struct v4l2_h264_reference
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +    :widths:       1 1 2
-> > +
-> > +    * - enum :c:type:`v4l2_h264_dpb_reference`
-> > +      - ``reference``
-> > +      - Specifies how the DPB entry is referenced.
-> > +    * - __u8
-> > +      - ``index``
-> > +      - Index into the :c:type:`v4l2_ctrl_h264_decode_params`.dpb array.
-> > +
-> > +.. c:type:: v4l2_h264_dpb_reference
-> > +
-> > +.. cssclass:: longtable
-> > +
-> > +.. flat-table::
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +    :widths:       1 1 2
-> > +
-> > +    * - ``V4L2_H264_DPB_TOP_REF``
-> > +      - 0x1
-> > +      - The top field in field pair is used for
-> > +        short-term reference.
-> > +    * - ``V4L2_H264_DPB_BOTTOM_REF``
-> > +      - 0x2
-> > +     - The bottom field in field pair is used for
-> > +        short-term reference.
-> > +    * - ``V4L2_H264_DPB_FRAME_REF``
-> > +      - 0x3
-> > +      - The frame (or the top/bottom fields, if it's a field pair)
-> > +        is used for short-term reference.
-> > +
-> > 
-> >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS (struct)``
-> >  
-> >      Specifies the decode parameters (as extracted from the bitstream)
-> >      for the associated H264 slice data. This includes the necessary
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
-> > 54ee2aa423e2..cce527bbdf86 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > @@ -166,8 +166,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx
-> > *ctx,> 
-> >  static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
-> >  
-> >  				   struct cedrus_run *run,
-> > 
-> > -				   const u8 *ref_list, u8 
-num_ref,
-> > -				   enum cedrus_h264_sram_off sram)
-> > +				   const struct 
-v4l2_h264_reference *ref_list,
-> > +				   u8 num_ref, enum 
-cedrus_h264_sram_off sram)
-> > 
-> >  {
-> >  
-> >  	const struct v4l2_ctrl_h264_decode_params *decode =
-> >  	run->h264.decode_params; struct vb2_queue *cap_q;
-> > 
-> > @@ -188,7 +188,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx
-> > *ctx,> 
-> >  		int buf_idx;
-> >  		u8 dpb_idx;
-> > 
-> > -		dpb_idx = ref_list[i];
-> > +		dpb_idx = ref_list[i].index;
-> > 
-> >  		dpb = &decode->dpb[dpb_idx];
-> >  		
-> >  		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> > 
-> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > index 080fd1293c42..4c0bb7f5fb05 100644
-> > --- a/include/media/h264-ctrls.h
-> > +++ b/include/media/h264-ctrls.h
-> > @@ -19,6 +19,8 @@
-> > 
-> >   */
-> >  
-> >  #define V4L2_H264_NUM_DPB_ENTRIES 16
-> > 
-> > +#define V4L2_H264_REF_LIST_LEN (2 * V4L2_H264_NUM_DPB_ENTRIES)
-> > +
-> > 
-> >  /* Our pixel format isn't stable at the moment */
-> >  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264
-> >  parsed slices */> 
-> > @@ -140,6 +142,19 @@ struct v4l2_h264_pred_weight_table {
-> > 
-> >  #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED	0x04
-> >  #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH		0x08
-> > 
-> > +enum v4l2_h264_dpb_reference {
-> > +	V4L2_H264_DPB_TOP_REF = 0x1,
-> > +	V4L2_H264_DPB_BOTTOM_REF = 0x2,
-> > +	V4L2_H264_DPB_FRAME_REF = 0x3,
-> > +};
-> > +
-> > +struct v4l2_h264_reference {
-> > +	enum v4l2_h264_dpb_reference fields;
-> > +
-> > +	/* Index into v4l2_ctrl_h264_decode_params.dpb[] */
-> > +	__u8 index;
-> > +};
-> > +
-> > 
-> >  struct v4l2_ctrl_h264_slice_params {
-> >  
-> >  	/* Size in bytes, including header */
-> >  	__u32 size;
-> > 
-> > @@ -178,12 +193,8 @@ struct v4l2_ctrl_h264_slice_params {
-> > 
-> >  	__u8 num_ref_idx_l1_active_minus1;
-> >  	__u32 slice_group_change_cycle;
-> > 
-> > -	/*
-> > -	 * Entries on each list are indices into
-> > -	 * v4l2_ctrl_h264_decode_params.dpb[].
-> > -	 */
-> > -	__u8 ref_pic_list0[32];
-> > -	__u8 ref_pic_list1[32];
-> > +	struct v4l2_h264_reference ref_pic_list0[V4L2_H264_REF_LIST_LEN];
-> > +	struct v4l2_h264_reference ref_pic_list1[V4L2_H264_REF_LIST_LEN];
-> > 
-> >  	__u32 flags;
-> >  
-> >  };
-
-
-
+SGVsbG8sDQoNClRoaXMgcGF0Y2ggaXMgdG8gbW9kaWZ5IG1lZGlhX2RldmljZV9yZXF1ZXN0X2Fs
+bG9jKCkgc28gdGhhdCBpdCBjYW4gcGFzcw0KQ0ZJKENvbnRyb2wgRmxvdyBJbnRlZ3JpdHkpIGNo
+ZWNrLiBJIHdvdWxkIGxpa2Ugc29tZSByZXZpZXcgY29tbWVudHMuDQoNCm1lZGlhX2RldmljZV9y
+ZXF1ZXN0X2FsbG9jKCkgaXMgc2F2ZWQgaW4gZm4gb2YgbWVkaWFfaW9jdGxfaW5mbyBzdHJ1Y3Qs
+DQp3aGljaCBpcyBkZWZpbmVkIGFzIGxvbmcgKCpmbikoc3RydWN0IG1lZGlhX2RldmljZSAqZGV2
+LCB2b2lkICphcmcpLiBUaGUNCnR5cGUgb2YgdGhlIHNlY29uZCBwYXJhbWV0ZXIgb2YgbWVkaWFf
+ZGV2aWNlX3JlcXVlc3RfYWxsb2MoKSBpcyBpbnQqIG5vdywNCmJ1dCBpdCBpcyB2b2lkKiBpbiBm
+biBvZiBtZWRpYV9pb2N0bF9pbmZvLiBXZSBnb3Qgc29tZSBBQkkgdmlvbGF0aW9uIGhlcmUuDQpU
+aGVyZWZvcmUsIHdlIHdvdWxkIGxpa2UgdG8gdXNlIHZvaWQqIGluc3RlYWQgb2YgaW50KiBmb3Ig
+dGhlIHNlY29uZA0KcGFyYW1ldGVyIG9mIG1lZGlhX2RldmljZV9yZXF1ZXN0X2FsbG9jKCkuDQoN
+CnN0YXRpYyBsb25nIG1lZGlhX2RldmljZV9yZXF1ZXN0X2FsbG9jKHN0cnVjdCBtZWRpYV9kZXZp
+Y2UgKm1kZXYsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQgKmFs
+bG9jX2ZkKTsNCg0Kc3RydWN0IG1lZGlhX2lvY3RsX2luZm8gew0KICAgICAgICB1bnNpZ25lZCBp
+bnQgY21kOw0KICAgICAgICB1bnNpZ25lZCBzaG9ydCBmbGFnczsNCiAgICAgICAgbG9uZyAoKmZu
+KShzdHJ1Y3QgbWVkaWFfZGV2aWNlICpkZXYsIHZvaWQgKmFyZyk7DQogICAgICAgIGxvbmcgKCph
+cmdfZnJvbV91c2VyKSh2b2lkICprYXJnLCB2b2lkIF9fdXNlciAqdWFyZywgdW5zaWduZWQgaW50
+IGNtZCk7DQogICAgICAgIGxvbmcgKCphcmdfdG9fdXNlcikodm9pZCBfX3VzZXIgKnVhcmcsIHZv
+aWQgKmthcmcsIHVuc2lnbmVkIGludCBjbWQpOw0KfTsNCg0KDQpIZXJlIGlzIGFuIGV4YW1wbGUu
+IFdpdGggQW5kcm9pZOKAmXMgQ0ZJIGNoZWNraW5nLCB3ZSBnb3QgdGhlIGZvbGxvd2luZyBlcnJv
+cg0Kd2l0aG91dCB0aGlzIGNoYW5nZS4NCg0KWyAgIDIzLjUwMjQ3N10gbXRrLWNhbSBzb2M6Y2Ft
+aXNwOiBzZDptdGstY2FtIHJhdy0wIHBhZDoyIHNldCBmb3JtYXQgdy9oL2NvZGUgMjMyOC8xNzQ4
+LzB4MzAwNw0KWyAgIDIzLjUxODY5MF0gS2VybmVsIHBhbmljIC0gbm90IHN5bmNpbmc6IENGSSBm
+YWlsdXJlICh0YXJnZXQ6IG1lZGlhX2RldmljZV9yZXF1ZXN0X2FsbG9jKzB4MC8weDQpDQpbICAg
+MjMuNTE5ODA0XSBDUFU6IDcgUElEOiA4MTggQ29tbTogbXRrdjRsMl91dCBUYWludGVkOiBHIFMg
+ICAgICAgICBPICAgICAgNS40LjM5LWcwMmMwYTQ4NThiZWQtZGlydHkgIzQ1DQpbICAgMjMuNTIx
+NTUzXSBDYWxsIHRyYWNlOg0KWyAgIDIzLjUyMTg2OF0gIGR1bXBfYmFja3RyYWNlLmNmaV9qdCsw
+eDAvMHg0DQpbICAgMjMuNTIyMzg5XSAgZHVtcF9zdGFjaysweGI4LzB4MTE0DQpbICAgMjMuNTIy
+ODI0XSAgcGFuaWMrMHgxNzAvMHgzZTANClsgICAyMy41MjMyMTVdICBfX3Vic2FuX2hhbmRsZV9j
+ZmlfY2hlY2tfZmFpbF9hYm9ydCsweDAvMHgxNA0KWyAgIDIzLjUyMzg5Nl0gIHBlcmZfcHJvY191
+cGRhdGVfaGFuZGxlcisweDAvMHhjYw0KWyAgIDIzLjUyNDQ2MF0gIF9fY2ZpX2NoZWNrKzB4NjEw
+Y2MvMHg2OGVmMA0KWyAgIDIzLjUyNDk1OV0gIG1lZGlhX2RldmljZV9pb2N0bCsweDIxOC8weDIz
+OA0KWyAgIDIzLjUyNTQ4OF0gIG1lZGlhX2RldmljZV9jb21wYXRfaW9jdGwrMHg2MC8weDdjDQpb
+ICAgMjMuNTI2MDcyXSAgbWVkaWFfY29tcGF0X2lvY3RsKzB4NTgvMHg5Yw0KWyAgIDIzLjUyNjU4
+MV0gIF9fYXJtNjRfY29tcGF0X3N5c19pb2N0bCsweDEwYy8weDQzNA0KWyAgIDIzLjUyNzE3Nl0g
+IGVsMF9zdmNfY29tbW9uKzB4YjQvMHgxOGMNClsgICAyMy41Mjc2NTFdICBlbDBfc3ZjX2NvbXBh
+dF9oYW5kbGVyKzB4MWMvMHgyOA0KWyAgIDIzLjUyODIwMl0gIGVsMF9zdmNfY29tcGF0KzB4OC8w
+eDI0DQpbICAgMjMuNTI4NjU5XSBTTVA6IHN0b3BwaW5nIHNlY29uZGFyeSBDUFVzDQpbICAgMjMu
+NTI5MTYxXSBLZXJuZWwgT2Zmc2V0OiAweDI0YjhjMDAwMDAgZnJvbSAweGZmZmZmZmMwMTAwMDAw
+MDANClsgICAyMy41Mjk5MDZdIFBIWVNfT0ZGU0VUOiAweGZmZmZmZmRkMDAwMDAwMDANClsgICAy
+My41MzA0MzRdIENQVSBmZWF0dXJlczogMHgwMDAwMDAwNiwyYTgwYTIzOA0KWyAgIDIzLjUzMDk4
+M10gTWVtb3J5IExpbWl0OiBub25lDQpQUExfTE9HX1NUT1JFOiBjaGVjayBvbmNlLCBzaWcgdmFs
+dWUgMHgyNywgYWRkciAweDExNjAwMC4NCg0KPT09PT09PT09PT09PT09PT09DQogQ2hhbmdlcyBp
+biB2Mg0KPT09PT09PT09PT09PT09PT09DQpXZSBhbHNvIHJlbW92ZWQgdGhlIHR5cGUgY2FzdCBp
+biB0aGUgTUVESUFfSU9DX0FSRyBkZWZpbmUgLg0KDQoNCkZyZWRlcmljIENoZW4gKDEpOg0KICBt
+ZWRpYTogbWMtZGV2aWNlLmM6IGNoYW5nZSBtZWRpYV9kZXZpY2VfcmVxdWVzdF9hbGxvYyB0byBt
+YXRjaA0KICAgIG1lZGlhX2lvY3RsX2luZm8NCg0KIGRyaXZlcnMvbWVkaWEvbWMvbWMtZGV2aWNl
+LmMgfCA3ICsrKystLS0NCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAzIGRlbGV0
+aW9ucygtKQ0KDQo=
 
