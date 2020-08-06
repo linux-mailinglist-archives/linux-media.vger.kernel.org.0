@@ -2,70 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8C1E23E348
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 22:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B436C23E3E5
+	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 00:15:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbgHFUig (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 16:38:36 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:44099 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725272AbgHFUig (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 16:38:36 -0400
-X-Originating-IP: 176.88.145.153
-Received: from [192.168.1.4] (unknown [176.88.145.153])
-        (Authenticated sender: cengiz@kernel.wtf)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 05974FF805;
-        Thu,  6 Aug 2020 20:38:31 +0000 (UTC)
-From:   Cengiz Can <cengiz@kernel.wtf>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     <andy.shevchenko@gmail.com>, <devel@driverdev.osuosl.org>,
-        <linux-kernel@vger.kernel.org>, <sakari.ailus@linux.intel.com>,
-        <mchehab@kernel.org>, <dan.carpenter@oracle.com>,
-        <linux-media@vger.kernel.org>
-Date:   Thu, 06 Aug 2020 23:38:28 +0300
-Message-ID: <173c57f19a0.2bfa.85c738e3968116fc5c0dc2de74002084@kernel.wtf>
-In-Reply-To: <20200806183933.GA2939128@kroah.com>
-References: <20200731083856.GF3703480@smile.fi.intel.com>
- <20200801220101.2783-1-cengiz@kernel.wtf>
- <173c50d7bb0.2bfa.85c738e3968116fc5c0dc2de74002084@kernel.wtf>
- <20200806183933.GA2939128@kroah.com>
-User-Agent: AquaMail/1.25.2-1672 (build: 102500008)
-Subject: Re: [PATCH v6] staging: atomisp: move null check to earlier point
+        id S1726871AbgHFWPk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 18:15:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47512 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728986AbgHFWPk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Aug 2020 18:15:40 -0400
+Received: from localhost (130.sub-72-107-113.myvzw.com [72.107.113.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6FA49221E2;
+        Thu,  6 Aug 2020 22:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596752139;
+        bh=6V+A6F9WaUs3FGFH0cDcq6c0VYlcrNfuScxXobnpo3k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=fhmU7icYI+Tc7SdZpy0wowfM7RZbgqmTi3wJpP/mfqdrweNF2ylB0kgeJmvGZP+SC
+         r6T8pC2+JbWbuIfXwHpyb7GEcnAV5L7TkPgsr2rCnf03hFchFiYc9G78EvO+K8Lugb
+         sQim6ONph1cpwxAKr9aO6oLqE148o0w5L0GKqqtg=
+Date:   Thu, 6 Aug 2020 17:15:37 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Cengiz Can <cengiz@kernel.wtf>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH] staging: atomisp: move null check to earlier point
+Message-ID: <20200806221537.GA703560@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200730084545.GB1793@kadam>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Jul 30, 2020 at 11:45:45AM +0300, Dan Carpenter wrote:
+> On Wed, Jul 29, 2020 at 06:13:44PM +0300, Andy Shevchenko wrote:
+> > On Wed, Jul 29, 2020 at 5:00 PM Cengiz Can <cengiz@kernel.wtf> wrote:
+> > >
+> > > `find_gmin_subdev` function that returns a pointer to `struct
+> > > gmin_subdev` can return NULL.
+> > >
+> > > In `gmin_v2p8_ctrl` there's a call to this function but the possibility
+> > > of a NULL was not checked before its being dereferenced. ie:
+> > >
+> > > ```
+> > > /* Acquired here --------v */
+> > > struct gmin_subdev *gs = find_gmin_subdev(subdev);
+> > > int ret;
+> > > int value;
+> > >
+> > > /*  v------Dereferenced here */
+> > > if (gs->v2p8_gpio >= 0) {
+> > >         pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
+> > >                 gs->v2p8_gpio);
+> > >         ret = gpio_request(gs->v2p8_gpio, "camera_v2p8");
+> > >         if (!ret)
+> > >                 ret = gpio_direction_output(gs->v2p8_gpio, 0);
+> > >         if (ret)
+> > >                 pr_err("V2P8 GPIO initialization failed\n");
+> > > }
+> > > ```
+> > >
+> > > I have moved the NULL check before deref point.
+> > 
+> > "Move the NULL check..."
+> > See Submitting Patches documentation how to avoid "This patch", "I", "we", etc.
+> 
+> I always feel like this is a pointless requirement.  We're turning
+> into bureaucrats.
 
-On August 6, 2020 21:39:21 Greg KH <gregkh@linuxfoundation.org> wrote:
+There is a danger of that, and I'm more guilty than most.  But I do
+think there's value in consistent style because it allows readers to
+focus on the content instead of being distracted by different margins,
+grammar ("move vs. moved"), paragraph styles, quoting conventions,
+etc.
 
-> On Thu, Aug 06, 2020 at 09:34:22PM +0300, Cengiz Can wrote:
->> Hello Andy,
->>
->> Can I get some feedback on v6 please?
->
->
-> It's been 4 days, in the middle of a merge window, please give people a
-> chance to catch up on other things...
+Ideally we would scan previous commit logs (and the existing code!)
+and make new changes fit seamlessly so it looks like everything was
+done at the same time by the same person.
 
-I wasn't aware of that we're currently in a merge window. Sorry for my 
-impatience.
+But often that doesn't happen.  Sometimes I take the liberty to tweak
+things as I apply them to try to avoid trivial rework.
 
->
-> and do not top post please.
-
-Sorry. I was tricked by my mobile email client.
-
->
-> thanks,
->
-> greg k-h
-
-Thanks again and I wish a smooth merge window to all maintainers.
-
-Cengiz Can
-
-
+Bjorn
