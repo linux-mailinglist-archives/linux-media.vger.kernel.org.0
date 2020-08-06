@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 998D923DF1C
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 369D923DF0F
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:37:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730651AbgHFRgz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 13:36:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50380 "EHLO
+        id S1729783AbgHFRgv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 13:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728451AbgHFRfX (ORCPT
+        with ESMTP id S1729232AbgHFRfX (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 13:35:23 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D39CC00869F;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D0D0C00869D;
         Thu,  6 Aug 2020 08:18:46 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id DB42F299599
+        with ESMTPSA id 51EFE2972D4
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
@@ -30,9 +30,9 @@ Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2 04/14] media: uapi: h264: Clarify pic_order_cnt_bit_size field
-Date:   Thu,  6 Aug 2020 12:13:00 -0300
-Message-Id: <20200806151310.98624-5-ezequiel@collabora.com>
+Subject: [PATCH v2 05/14] media: uapi: h264: Increase size of 'first_mb_in_slice' field
+Date:   Thu,  6 Aug 2020 12:13:01 -0300
+Message-Id: <20200806151310.98624-6-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200806151310.98624-1-ezequiel@collabora.com>
 References: <20200806151310.98624-1-ezequiel@collabora.com>
@@ -43,36 +43,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Philipp Zabel <p.zabel@pengutronix.de>
+Slice header syntax element 'first_mb_in_slice' can point
+to the last macroblock, currently the field can only reference
+65536 macroblocks which is insufficient for 8K videos.
 
-Since pic_order_cnt_bit_size is not a syntax element itself, explicitly
-state that it is the total size in bits of the pic_order_cnt_lsb,
-delta_pic_order_cnt_bottom, delta_pic_order_cnt[0], and
-delta_pic_order_cnt[1] syntax elements contained in the slice.
+Although unlikely, a 8192x4320 video (where macroblocks are 16x16),
+would contain 138240 macroblocks on a frame.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-[Ezequiel: rebase]
+As per the H264 specification, 'first_mb_in_slice' can be up to
+PicSizeInMbs - 1, so increase the size of the field to 32-bits.
+
+Note that v4l2_ctrl_h264_slice_params struct will be modified
+in a follow-up commit, and so we defer its 64-bit padding.
+
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 +-
+ include/media/h264-ctrls.h                                | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index c36ce5a95fc5..e4dec3f9b71a 100644
+index e4dec3f9b71a..141c9249d528 100644
 --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
 +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -1815,7 +1815,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-       - Size in bits of the dec_ref_pic_marking() syntax element.
+@@ -1774,7 +1774,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
      * - __u32
-       - ``pic_order_cnt_bit_size``
--      -
-+      - Combined size in bits of the picture order count related syntax
-+        elements: pic_order_cnt_lsb, delta_pic_order_cnt_bottom,
-+        delta_pic_order_cnt0, and delta_pic_order_cnt1.
-     * - __u8
-       - ``cabac_init_idc``
+       - ``header_bit_size``
        -
+-    * - __u16
++    * - __u32
+       - ``first_mb_in_slice``
+       -
+     * - __u8
+diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+index 54cd9bec0b23..66327ca55088 100644
+--- a/include/media/h264-ctrls.h
++++ b/include/media/h264-ctrls.h
+@@ -167,7 +167,8 @@ struct v4l2_ctrl_h264_slice_params {
+ 	/* Offset in bits to slice_data() from the beginning of this slice. */
+ 	__u32 header_bit_size;
+ 
+-	__u16 first_mb_in_slice;
++	__u32 first_mb_in_slice;
++
+ 	__u8 slice_type;
+ 	__u8 pic_parameter_set_id;
+ 	__u8 colour_plane_id;
 -- 
 2.27.0
 
