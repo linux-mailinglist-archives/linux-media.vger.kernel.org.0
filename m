@@ -2,219 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEB3423DBD3
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 18:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EFD223DC4E
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 18:49:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728681AbgHFQdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 12:33:49 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:57399 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728717AbgHFQdO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Aug 2020 12:33:14 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 3hswk9uqMuuXO3hsxkpCmO; Thu, 06 Aug 2020 17:32:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1596727971; bh=nxBqDfxzCtGhzcIHuoaXNQt8AGe56sInEZvA4tZYmcs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=lbYmm7UwEiLe6DuYxcW7WjcX6m7K+mz3gaZoIyeow99KtrkwsgSJphtTQ3EUa6ehZ
-         5Bn7XL+bPX/mMsYhnbTStaCWuuYoGHQPuGrRk/iYGHIgU5PBAB1fETJIqi6Sr/cIm7
-         urH2aNXeG/G0twM3+no0fvp0j5mJQajTmExjVPK+EwWyEq/G1xw+ZghClgvl3N7Rh8
-         drmG8hqOpVtA+Wi8s8MDW2oIDktpYRy5KR4pQ2kRrb1axvPj60h3RF+iOsftJzkOZd
-         Ugw4JMi0JGIuIrriVcNRmcqHOdvKtvsGTHsbkGa+Iv4u/eL6wCyvP4AMNpfwDE31Dk
-         GBtHl2bwXnOmw==
-Subject: Re: [PATCH 2/4] media: docs: Describe targets for sensor properties
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        libcamera-devel@lists.libcamera.org
-References: <20200805105721.15445-1-jacopo@jmondi.org>
- <20200805105721.15445-3-jacopo@jmondi.org>
- <1896673c-ae91-84c3-9573-5da91fb00f41@xs4all.nl>
- <20200806100822.kvlzivbtnqzni3xw@uno.localdomain>
- <851192ea-6498-4f9e-a6b4-bf5164f3c5a7@xs4all.nl>
- <20200806124523.llccxvcz65ohqqwq@uno.localdomain>
- <db04abc6-c9a7-7170-05f3-0238e84c4445@xs4all.nl>
- <20200806133617.q2g5a63a3qzvzkaa@uno.localdomain>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6a349665-8342-4f3b-d9b4-8d49a1da7d95@xs4all.nl>
-Date:   Thu, 6 Aug 2020 17:32:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729265AbgHFQsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 12:48:46 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:42586 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729181AbgHFQsE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 12:48:04 -0400
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 4BD373A9E62;
+        Thu,  6 Aug 2020 15:47:30 +0000 (UTC)
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id B435D1C0003;
+        Thu,  6 Aug 2020 15:47:07 +0000 (UTC)
+Date:   Thu, 6 Aug 2020 17:47:07 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: Re: [PATCH v2 01/14] media: uapi: h264: Update reference lists
+Message-ID: <20200806154707.GA1621078@aptenodytes>
+References: <20200806151310.98624-1-ezequiel@collabora.com>
+ <20200806151310.98624-2-ezequiel@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20200806133617.q2g5a63a3qzvzkaa@uno.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfB1u6GbqagLLlXamMgPkgFaUUfW4XQ03TsYm3+uN5B6gCi0W2e3f5xEs9HZ7zF+2U0a/SwuMvCSD+7uQ1WOXZTx7UtMjtjlTSPli6NslH+EUMvEW+Bm3
- IAYsHI49ywJtPGlu/i35LddddJkx0AdtNE2GZxw5dOxssaIiNWSxjJ5ALMEHCnLx7t408sPOhAQqbspWy7dFvHchic8NEJ48Gwd8/vUxHEXDBLoYRYJhem4d
- /Z30iouMfRkDz3nJqf8ljJNJ1loKiMH4wUQfx+DH6K5ItTWvE8IcADl7pQT1vhJJtVpbVJOnwv/4Fg3N+LraUKL65/cGhY6OggFNHPjcoPhaXiibxB5D/tjs
- 3Yqm05Ojn2lTm4IB49AAgUxuY7C+QH8FFr+SiNDUZlRQqOMRsGyBUdD2XXtxc2xwliirfc7fe5Rr+cGroNPHO4bgAykWUEr8MWB+gCgp7f1CocKSudNS4apF
- 8sTT5HSMlCQjxcabFXQJjxwtqW5QrkkdBRVcXiEfGy7WaYQBn6mzBBJkk5A=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
+Content-Disposition: inline
+In-Reply-To: <20200806151310.98624-2-ezequiel@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/08/2020 15:36, Jacopo Mondi wrote:
-> Hi Hans,
->    I'm sorry, I don't want to insist but..
-> 
-> On Thu, Aug 06, 2020 at 03:15:54PM +0200, Hans Verkuil wrote:
->> On 06/08/2020 14:45, Jacopo Mondi wrote:
->>> Hi Hans,
->>>
->>> On Thu, Aug 06, 2020 at 12:15:49PM +0200, Hans Verkuil wrote:
->>>> On 06/08/2020 12:08, Jacopo Mondi wrote:
->>>>> Hi Hans,
->>>>>
->>>>> On Thu, Aug 06, 2020 at 10:45:17AM +0200, Hans Verkuil wrote:
->>>>>> On 05/08/2020 12:57, Jacopo Mondi wrote:
->>>>>>> Provide a table to describe how the V4L2 selection targets can be used
->>>>>>> to access an image sensor pixel array properties.
->>>>>>>
->>>>>>> Reference the table in the sub-device documentation.
->>>>>>>
->>>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>>>>>> ---
->>>>>>>  .../userspace-api/media/v4l/dev-subdev.rst    |  4 ++
->>>>>>>  .../media/v4l/v4l2-selection-targets.rst      | 49 +++++++++++++++++++
->>>>>>>  2 files changed, 53 insertions(+)
->>>>>>>
->>>>>>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
->>>>>>> index c47861dff9b9b..2f7da3832f458 100644
->>>>>>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
->>>>>>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
->>>>>>> @@ -467,6 +467,10 @@ desired image resolution. If the sub-device driver supports that, userspace
->>>>>>>  can set the analog crop rectangle to select which portion of the pixel array
->>>>>>>  to read out.
->>>>>>>
->>>>>>> +A description of each of the above mentioned targets when used to access the
->>>>>>> +image sensor pixel array properties is provided by
->>>>>>> +:ref:`v4l2-selection-targets-image-sensor-table`
->>>>>>> +
->>>>>>>
->>>>>>>  Types of selection targets
->>>>>>>  --------------------------
->>>>>>> diff --git a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
->>>>>>> index 69f500093aa2a..632e6448b784e 100644
->>>>>>> --- a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
->>>>>>> +++ b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
->>>>>>> @@ -76,3 +76,52 @@ of the two interfaces they are used.
->>>>>>>  	modified by hardware.
->>>>>>>        - Yes
->>>>>>>        - No
->>>>>>> +
->>>>>>> +
->>>>>>> +.. _v4l2-selection-targets-image-sensor-table:
->>>>>>> +
->>>>>>> +********************************************
->>>>>>> +Selection Targets For Pixel Array Properties
->>>>>>> +********************************************
->>>>>>> +
->>>>>>> +The V4L2 selection API can be used to retrieve the size and disposition of the
->>>>>>> +pixel units that compose and image sensor pixel matrix when applied to a video
->>>>>>> +sub-device that represents an image sensor.
->>>>>>> +
->>>>>>> +A description of the properties associated with each of the sensor pixel array
->>>>>>> +areas is provided by the :ref:`v4l2-subdev-pixel-array-properties` section.
->>>>>>> +
->>>>>>> +.. tabularcolumns:: |p{6.0cm}|p{1.4cm}|p{7.4cm}|p(1.4cm)|
->>>>>>> +
->>>>>>> +.. flat-table:: Selection target definitions
->>>>>>> +    :header-rows:  1
->>>>>>> +    :stub-columns: 0
->>>>>>> +
->>>>>>> +    * - Target name
->>>>>>> +      - id
->>>>>>> +      - Definition
->>>>>>> +      - Read/Write
->>>>>>> +    * - ``V4L2_SEL_TGT_CROP``
->>>>>>> +      - 0x0000
->>>>>>> +      - The analog crop rectangle. Represents the portion of the active pixel
->>>>>>> +        array which is processed to produce images.
->>>>>>> +      - RW
->>>>>>> +    * - ``V4L2_SEL_TGT_CROP_DEFAULT``
->>>>>>> +      - 0x0001
->>>>>>> +      - The active pixel array rectangle. It includes only active pixels and
->>>>>>> +        excludes other ones such as optical black pixels. Its width and height
->>>>>>> +        represent the maximum image resolution an image sensor can produce.
->>>>>>> +      - RO
->>>>>>> +    * - ``V4L2_SEL_TGT_CROP_BOUNDS``
->>>>>>> +      - 0x0002
->>>>>>> +      - The readable portion of the physical pixel array matrix. It includes
->>>>>>> +        pixels that contains valid image data and calibration pixels such as the
->>>>>>> +        optical black ones.
->>>>>>> +      - RO
->>>>>>> +    * - ``V4L2_SEL_TGT_NATIVE_SIZE``
->>>>>>> +      - 0x0003
->>>>>>> +      - The physical pixel array size, including readable and not readable
->>>>>>> +        pixels. As pixels that cannot be read from application processor are not
->>>>>>> +        relevant for calibration purposes, this rectangle is useful to calculate
->>>>>>> +        the physical properties of the image sensor.
->>>>>>> +      - RO
->>>>>>>
->>>>>>
->>>>>> Hmm, this basically just duplicates the previous patch.
->>>>>>
->>>>>> I think you are documenting things at the wrong place. What you documented in the
->>>>>> previous patch really belongs here since it is shared between the subdev API and the
->>>>>> regular V4L2 API. And in dev-subdev.rst you then refer to here.
->>>>>
->>>>> I originally had it here, but then I moved to dev-subdev as an image
->>>>> sensor will always be represented as a video sub-device, doen't it ?
->>>>
->>>> No. Some camera drivers are V4L2 only, most notably uvc. Also there are several simple
->>>> platform drivers that don't use the subdev API.
->>>
->>> Do we expect to be able to retrieve sensor array properties from video
->>> device nodes which represents, in my understanding a DMA engine that
->>> writes data to memory ? As I see it, not subdev for the image sensor,
->>> no pixel array properties. How can these be exposed by a video device
->>> which abstracts the full capture pipeline ?
->>
->> They will typically ask the subdev driver. The vidioc_g_selection op
->> implementation will in turn call the get_selection op of the sensor subdev
->> driver and pass that information back to userspace.
-> 
-> How do we know that the any target reports the actual sensor
-> properties and not some other limitation introduced by processing
-> components down the pipeline, as everything sits behind a single video
-> device node ? In example, the default crop rectangle might very well depend
-> on the receiver's side decision to crop the frames received from the
-> sensor to maximize the FOV or whatnot. How do we know which 'cropping
-> point' is reported ?
 
-Why would you care? Would you do anything different in userspace if a driver
-would modify these rectangles before passing it on to userspace?
+--C7zPtVaVf+AK4Oqc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I hardly see a vidio_g_selection() being ideal to report properties of
-> the camera sensor such as the pixel array ones. I still feel we're
-> hijacking that API for that purpose and I would be glad to have
-> dedicated targets for image sensors. This would promote 'image
-> sensors' as first class citizens of the API like devices and
-> sub-devices, and I'm not sure this is desirable.
+Hi,
 
-Sorry, but the selection API (and its CROP predecessor) has been in use
-for sensors and webcam drivers since pretty much the beginning of V4L1.
+On Thu 06 Aug 20, 12:12, Ezequiel Garcia wrote:
+> From: Jernej Skrabec <jernej.skrabec@siol.net>
+>=20
+> When dealing with with interlaced frames, reference lists must tell if
+> each particular reference is meant for top or bottom field. This info
+> is currently not provided at all in the H264 related controls.
+>=20
+> Make reference lists hold a structure which will also hold an
+> enumerator type along index into DPB array. The enumerator must
+> be used to specify if reference is for top or bottom field.
+>=20
+> Currently the only user of these lists is Cedrus which is just compile
+> fixed here. Actual usage of will come in a following commit.
 
-I'm not sure what it is that you think is problematical with the current
-API.
+Is there a particular reason we are adding this to the ref_pic_list[0-1]
+instead of the DPB entries directly?
 
-Regards,
+It feels nicer to avoid making the lists structs when the entries they are
+referring to are already in a struct. I think this is the approach Kwiboo t=
+ook
+when adding support for fields in references some time ago.
 
-	Hans
+What do you think?
 
-> 
->>
->> There is nothing subdev specific to this API.
->>
->> Regards,
->>
->> 	Hans
+Cheers,
 
+Paul
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+> v2:
+> * As pointed out by Jonas, enum v4l2_h264_dpb_reference here.
+> ---
+>  .../media/v4l/ext-ctrls-codec.rst             | 44 ++++++++++++++++++-
+>  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 +--
+>  include/media/h264-ctrls.h                    | 23 +++++++---
+>  3 files changed, 62 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index d0d506a444b1..f2b2a381369f 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -1843,10 +1843,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_typ=
+e -
+>      * - __u32
+>        - ``slice_group_change_cycle``
+>        -
+> -    * - __u8
+> +    * - struct :c:type:`v4l2_h264_reference`
+>        - ``ref_pic_list0[32]``
+>        - Reference picture list after applying the per-slice modifications
+> -    * - __u8
+> +    * - struct :c:type:`v4l2_h264_reference`
+>        - ``ref_pic_list1[32]``
+>        - Reference picture list after applying the per-slice modifications
+>      * - __u32
+> @@ -1926,6 +1926,46 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type=
+ -
+>        - ``chroma_offset[32][2]``
+>        -
+> =20
+> +``Picture Reference``
+> +
+> +.. c:type:: v4l2_h264_reference
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table:: struct v4l2_h264_reference
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - enum :c:type:`v4l2_h264_dpb_reference`
+> +      - ``reference``
+> +      - Specifies how the DPB entry is referenced.
+> +    * - __u8
+> +      - ``index``
+> +      - Index into the :c:type:`v4l2_ctrl_h264_decode_params`.dpb array.
+> +
+> +.. c:type:: v4l2_h264_dpb_reference
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - ``V4L2_H264_DPB_TOP_REF``
+> +      - 0x1
+> +      - The top field in field pair is used for
+> +        short-term reference.
+> +    * - ``V4L2_H264_DPB_BOTTOM_REF``
+> +      - 0x2
+> +     - The bottom field in field pair is used for
+> +        short-term reference.
+> +    * - ``V4L2_H264_DPB_FRAME_REF``
+> +      - 0x3
+> +      - The frame (or the top/bottom fields, if it's a field pair)
+> +        is used for short-term reference.
+> +
+>  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS (struct)``
+>      Specifies the decode parameters (as extracted from the bitstream)
+>      for the associated H264 slice data. This includes the necessary
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h264.c
+> index 54ee2aa423e2..cce527bbdf86 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -166,8 +166,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx=
+ *ctx,
+> =20
+>  static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+>  				   struct cedrus_run *run,
+> -				   const u8 *ref_list, u8 num_ref,
+> -				   enum cedrus_h264_sram_off sram)
+> +				   const struct v4l2_h264_reference *ref_list,
+> +				   u8 num_ref, enum cedrus_h264_sram_off sram)
+>  {
+>  	const struct v4l2_ctrl_h264_decode_params *decode =3D run->h264.decode_=
+params;
+>  	struct vb2_queue *cap_q;
+> @@ -188,7 +188,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx =
+*ctx,
+>  		int buf_idx;
+>  		u8 dpb_idx;
+> =20
+> -		dpb_idx =3D ref_list[i];
+> +		dpb_idx =3D ref_list[i].index;
+>  		dpb =3D &decode->dpb[dpb_idx];
+> =20
+>  		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> index 080fd1293c42..4c0bb7f5fb05 100644
+> --- a/include/media/h264-ctrls.h
+> +++ b/include/media/h264-ctrls.h
+> @@ -19,6 +19,8 @@
+>   */
+>  #define V4L2_H264_NUM_DPB_ENTRIES 16
+> =20
+> +#define V4L2_H264_REF_LIST_LEN (2 * V4L2_H264_NUM_DPB_ENTRIES)
+> +
+>  /* Our pixel format isn't stable at the moment */
+>  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 =
+parsed slices */
+> =20
+> @@ -140,6 +142,19 @@ struct v4l2_h264_pred_weight_table {
+>  #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED	0x04
+>  #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH		0x08
+> =20
+> +enum v4l2_h264_dpb_reference {
+> +	V4L2_H264_DPB_TOP_REF =3D 0x1,
+> +	V4L2_H264_DPB_BOTTOM_REF =3D 0x2,
+> +	V4L2_H264_DPB_FRAME_REF =3D 0x3,
+> +};
+> +
+> +struct v4l2_h264_reference {
+> +	enum v4l2_h264_dpb_reference fields;
+> +
+> +	/* Index into v4l2_ctrl_h264_decode_params.dpb[] */
+> +	__u8 index;
+> +};
+> +
+>  struct v4l2_ctrl_h264_slice_params {
+>  	/* Size in bytes, including header */
+>  	__u32 size;
+> @@ -178,12 +193,8 @@ struct v4l2_ctrl_h264_slice_params {
+>  	__u8 num_ref_idx_l1_active_minus1;
+>  	__u32 slice_group_change_cycle;
+> =20
+> -	/*
+> -	 * Entries on each list are indices into
+> -	 * v4l2_ctrl_h264_decode_params.dpb[].
+> -	 */
+> -	__u8 ref_pic_list0[32];
+> -	__u8 ref_pic_list1[32];
+> +	struct v4l2_h264_reference ref_pic_list0[V4L2_H264_REF_LIST_LEN];
+> +	struct v4l2_h264_reference ref_pic_list1[V4L2_H264_REF_LIST_LEN];
+> =20
+>  	__u32 flags;
+>  };
+> --=20
+> 2.27.0
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--C7zPtVaVf+AK4Oqc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl8sJfsACgkQ3cLmz3+f
+v9G7JQf/TnWncpqO5avCsiYx8iHH1eLwDhPb6bnmWUzXT4OaXdC12feSeLbDMMg1
+LJCN8vURx+PCw7lwqV86i3gVlvePQZ+BukVOELAomGEDJP4Wrr2mrz7Z0p5encuv
+nQrzHqEdKZVi4CLXxNEsrqidJo/74vnUgeP10jtPG72+nluwXmOlACXeNJgA2/Ca
+UfHUCjy6eXVvLShfabxuej+5GP4zVWAHRtwJi8Ar3Ik/WyazhWoqCvNguA2LxgUl
+IRYWs4suJUAbR4ftreTcqEeb0bM60F7mxAik8UtnVvZd3YMgQL+4FBiA6nW+pYzu
+ZFcdsq53+2TSQY/8E1vOZrZ87qwRiw==
+=EiuI
+-----END PGP SIGNATURE-----
+
+--C7zPtVaVf+AK4Oqc--
