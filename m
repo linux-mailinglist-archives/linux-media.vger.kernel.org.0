@@ -2,352 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4169723D8D4
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 11:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 891EF23D8E5
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 11:47:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729136AbgHFJkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 05:40:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58906 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726094AbgHFJWp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 05:22:45 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9CB3C061574;
-        Thu,  6 Aug 2020 02:21:59 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 86484296DAB
-Subject: Re: [PATCH v8 05/14] media: rkisp1: add Rockchip ISP1 subdev driver
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
-        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
-        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
-        hans.verkuil@cisco.com, sakari.ailus@linux.intel.com,
-        kernel@collabora.com, ezequiel@collabora.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        zhengsq@rock-chips.com, Jacob Chen <cc@rock-chips.com>,
-        Allon Huang <allon.huang@rock-chips.com>
-References: <20190730184256.30338-1-helen.koike@collabora.com>
- <20190730184256.30338-6-helen.koike@collabora.com>
- <20190816001323.GF5011@pendragon.ideasonboard.com>
- <30b6367d-9088-d755-d041-904ff2a48130@collabora.com>
- <20200722152459.GC1828171@chromium.org>
- <32a95f66-0328-dfe7-c05c-657aba0d1b25@collabora.com>
-Message-ID: <05fb7b03-22b5-c981-2602-bbe877943d58@collabora.com>
-Date:   Thu, 6 Aug 2020 11:21:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729086AbgHFJrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 05:47:21 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:33333 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728971AbgHFJrL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 05:47:11 -0400
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id D5BFE20000D;
+        Thu,  6 Aug 2020 09:46:58 +0000 (UTC)
+Date:   Thu, 6 Aug 2020 11:50:38 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
+Message-ID: <20200806095038.tc6mmwknqdinaeth@uno.localdomain>
+References: <20200805105721.15445-1-jacopo@jmondi.org>
+ <20200805105721.15445-2-jacopo@jmondi.org>
+ <184f8787-ebf1-90e3-82b3-44fa66e65a84@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <32a95f66-0328-dfe7-c05c-657aba0d1b25@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <184f8787-ebf1-90e3-82b3-44fa66e65a84@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
+On Thu, Aug 06, 2020 at 10:05:37AM +0200, Hans Verkuil wrote:
+> Hi Jacopo,
+>
+> Some review comments below:
+>
+> On 05/08/2020 12:57, Jacopo Mondi wrote:
+> > The V4L2 selection API are also used to access the pixel array
+>
+> are -> is
+>
+> > properties of an image sensor, such as the size and position of active
+> > pixels and the cropped area of the pixel matrix used to produce images.
+> >
+> > Currently no clear definition of the different areas that compose an
+> > image sensor pixel array matrix is provided in the specification, and
+> > the actual meaning of each selection target when applied to an image
+> > sensor was not provided.
+> >
+> > Provide in the sub-device documentation the definition of the pixel
+> > matrix properties and the selection target associated to each of them.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
+> >  1 file changed, 81 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > index 134d2fb909fa4..c47861dff9b9b 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > @@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
+> >  ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
+> >  the image size either up or down. :ref:`v4l2-selection-flags`
+> >
+> > +.. _v4l2-subdev-pixel-array-properties:
+> > +
+> > +Selection targets for image sensors properties
+> > +----------------------------------------------
+> > +
+> > +The V4L2 selection API can be used on sub-devices that represent an image
+> > +sensor to retrieve the sensor's pixel array matrix properties by using the
+> > +:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
+> > +
+> > +Sub-device drivers for image sensor usually register a single source pad, but in
+> > +the case they expose more, the pixel array properties can be accessed from
+> > +any of them.
+> > +
+> > +The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
+>
+> V4L2_SEL_TGT_NATIVE -> V4L2_SEL_TGT_NATIVE_SIZE
+>
+> (same mistake is made elsewhere).
 
-Am 05.08.20 um 23:10 schrieb Dafna Hirschfeld:
-> Hi
-> 
-> On 22.07.20 17:24, Tomasz Figa wrote:
->> Hi Dafna,
->>
->> On Sat, Jul 11, 2020 at 01:04:31PM +0200, Dafna Hirschfeld wrote:
->>> Hi Laurent,
->>>
->>> On 16.08.19 02:13, Laurent Pinchart wrote:
->>>> Hello Helen,
->>>>
->>>> Thank you for the patch.
->>>>
->>>> On Tue, Jul 30, 2019 at 03:42:47PM -0300, Helen Koike wrote:
->> [snip]
->>>>> +static void rkisp1_isp_queue_event_sof(struct rkisp1_isp_subdev *isp)
->>>>> +{
->>>>> +    struct v4l2_event event = {
->>>>> +        .type = V4L2_EVENT_FRAME_SYNC,
->>>>> +        .u.frame_sync.frame_sequence =
->>>>> +            atomic_inc_return(&isp->frm_sync_seq) - 1,
->>>>
->>>> I would move the increment to the caller, hiding it in this function is
->>>> error-prone (and if you look at the caller I'm pointing out one possible
->>>> error :-)).
->>>>
->>>> In general usage of frm_sync_seq through the driver seems to be very
->>>> race-prone. It's read in various IRQ handling functions, all coming from
->>>> the same IRQ, so that part is fine (and wouldn't require an atomic
->>>> variable), but when read from the buffer queue handlers I really get a
->>>> red light flashing in my head. I'll try to investigate more when
->>>> reviewing the next patches.
->>>
->>> I see that the only place were 'frame_sequence' is read outside of the irq
->>> handlers is in the capture in 'rkisp1_vb2_buf_queue':
->>>
->>>     /*
->>>           * If there's no next buffer assigned, queue this buffer directly
->>>           * as the next buffer, and update the memory interface.
->>>           */
->>>          if (cap->is_streaming && !cap->buf.next &&
->>>              atomic_read(&cap->rkisp1->isp.frame_sequence) == -1) {
->>>                  cap->buf.next = ispbuf;
->>>                  rkisp1_set_next_buf(cap);
->>>          } else {
->>>                  list_add_tail(&ispbuf->queue, &cap->buf.queue);
->>>          }
->>> This "if" condition seems very specific, a case where we already stream but v-start was not yet received.
->>> I think it is possible to remove the test 'atomic_read(&cap->rkisp1->isp.frame_sequence) == -1'
->>> from the above condition so that the next buffer is updated in case it is null not just before the first
->>> v-start signal.
->>>
->>
->> We don't have this special case in the Chrome OS code.
->>
->> I suppose it would make it possible to resume the capture 1 frame
->> earlier after a queue underrun, as otherwise the new buffer would be
->> only programmed after the next frame start interrupt and used for the
->> next-next frame.  However, it's racy, because programming of the buffer
->> addresses is not atomic and could end up with the hardware using few
->> plane addresses from the new buffer and few from the dummy buffer.
->>
->> Given that and also the fact that a queue underrun is a very special
->> case, where the system was already having problems catching up, I'd just
->> remove this special case.
->>
->> [snip]
->>>>> +void rkisp1_isp_isr(unsigned int isp_mis, struct rkisp1_device *dev)
->>>>> +{
->>>>> +    void __iomem *base = dev->base_addr;
->>>>> +    unsigned int isp_mis_tmp = 0;
->>>>
->>>> _tmp are never good names :-S
->>>>
->>>>> +    unsigned int isp_err = 0;
->>>>
->>>> Neither of these variable need to be initialised to 0.
->>>>
->>>>> +
->>>>> +    /* start edge of v_sync */
->>>>> +    if (isp_mis & CIF_ISP_V_START) {
->>>>> +        rkisp1_isp_queue_event_sof(&dev->isp_sdev);
->>>>
->>>> This will increment the frame sequence number. What if the interrupt is
->>>> slightly delayed and the next frame starts before we get a change to
->>>> copy the sequence number to the buffers (before they will complete
->>>> below) ?
->>>
->>> Do you mean that we get two sequental v-start signals and then the next
->>> frame-end signal in MI_MIS belongs to the first v-start signal of the two?
->>> How can this be solved? I wonder if any v-start signal has a later signal
->>> that correspond to the same frame so that we can follow it?
->>>
->>> Maybe we should have one counter that is incremented on v-start signal,
->>> and another counter that is incremented uppon some other signal?
->>>
->>
->> We're talking about a hard IRQ. I can't imagine the interrupt handler
->> being delayed for a time close to a full frame interval (~16ms for 60
->> fps) to trigger such scenario.
->>
->>>>
->>>>> +
->>>>> +        writel(CIF_ISP_V_START, base + CIF_ISP_ICR);
->>>>
->>>> Do you need to clear all interrupt bits individually, can't you write
->>>> isp_mis to CIF_ISP_ICR at the beginning of the function to clear them
->>>> all in one go ?
->>>>
->>>>> +        isp_mis_tmp = readl(base + CIF_ISP_MIS);
->>>>> +        if (isp_mis_tmp & CIF_ISP_V_START)
->>>>> +            v4l2_err(&dev->v4l2_dev, "isp icr v_statr err: 0x%x\n",
->>>>> +                 isp_mis_tmp);
->>>>
->>>> This require some explanation. It looks like a naive way to protect
->>>> against something, but I think it could trigger under normal
->>>> circumstances if IRQ handling is delayed, and wouldn't do much anyway.
->>>> Same for the similar constructs below.
->>>>
->>>>> +    }
->>>>> +
->>>>> +    if ((isp_mis & CIF_ISP_PIC_SIZE_ERROR)) {
->>>>> +        /* Clear pic_size_error */
->>>>> +        writel(CIF_ISP_PIC_SIZE_ERROR, base + CIF_ISP_ICR);
->>>>> +        isp_err = readl(base + CIF_ISP_ERR);
->>>>> +        v4l2_err(&dev->v4l2_dev,
->>>>> +             "CIF_ISP_PIC_SIZE_ERROR (0x%08x)", isp_err);
->>>>
->>>> What does this mean ?
->>>>
->>>>> +        writel(isp_err, base + CIF_ISP_ERR_CLR);
->>>>> +    } else if ((isp_mis & CIF_ISP_DATA_LOSS)) {
->>>>
->>>> Are CIF_ISP_PIC_SIZE_ERROR and CIF_ISP_DATA_LOSS mutually exclusive ?
->>>>
->>>>> +        /* Clear data_loss */
->>>>> +        writel(CIF_ISP_DATA_LOSS, base + CIF_ISP_ICR);
->>>>> +        v4l2_err(&dev->v4l2_dev, "CIF_ISP_DATA_LOSS\n");
->>>>> +        writel(CIF_ISP_DATA_LOSS, base + CIF_ISP_ICR);
->>>>> +    }
->>>>> +
->>>>> +    /* sampled input frame is complete */
->>>>> +    if (isp_mis & CIF_ISP_FRAME_IN) {
->>>>> +        writel(CIF_ISP_FRAME_IN, base + CIF_ISP_ICR);
->>>>> +        isp_mis_tmp = readl(base + CIF_ISP_MIS);
->>>>> +        if (isp_mis_tmp & CIF_ISP_FRAME_IN)
->>>>> +            v4l2_err(&dev->v4l2_dev, "isp icr frame_in err: 0x%x\n",
->>>>> +                 isp_mis_tmp);
->>>>> +    }
->>>>> +
->>>>> +    /* frame was completely put out */
->>>>
->>>> "put out" ? :-) What's the difference between ISP_FRAME_IN and ISP_FRAME
->>>> ? The two comments could do with a bit of brush up, and I think the
->>>> ISP_FRAME_IN interrupt could be disabled as it doesn't perform any
->>>> action.
->>>
->>> Those two oneline comments are just copy-paste from the datasheet.
->>>
->>> ""
->>> 5 MIS_FRAME_IN sampled input frame is complete
->>> 1 MIS_FRAME frame was completely put out
->>> ""
->>>
->>> Unfrotunately, the datasheet does not add any further explanation about those signals.
->>>
->>>
->>
->> My loose recollection is that the former is signaled when then frame
->> is fully input to the ISP and the latter when the ISP completes
->> outputting the frame to the next block in the pipeline, but someone
->> would need to verify this, for example by printing timestamps for all
->> the various interrupts.
->>
->>>>
->>>>> +    if (isp_mis & CIF_ISP_FRAME) {
->>>>> +        u32 isp_ris = 0;
->>>>
->>>> No need to initialise this to 0.
->>>>
->>>>> +        /* Clear Frame In (ISP) */
->>>>> +        writel(CIF_ISP_FRAME, base + CIF_ISP_ICR);
->>>>> +        isp_mis_tmp = readl(base + CIF_ISP_MIS);
->>>>> +        if (isp_mis_tmp & CIF_ISP_FRAME)
->>>>> +            v4l2_err(&dev->v4l2_dev,
->>>>> +                 "isp icr frame end err: 0x%x\n", isp_mis_tmp);
->>>>> +
->>>>> +        isp_ris = readl(base + CIF_ISP_RIS);
->>>>> +        if (isp_ris & (CIF_ISP_AWB_DONE | CIF_ISP_AFM_FIN |
->>>>> +                   CIF_ISP_EXP_END | CIF_ISP_HIST_MEASURE_RDY))
->>>>> +            rkisp1_stats_isr(&dev->stats_vdev, isp_ris);
->>>>
->>>> Is there a guarantee that the statistics will be fully written out
->>>> before the video frame itself ? And doesn't this test if any of the
->>>> statistics is complete, not all of them ? I think the logic is wrong, it
->>>
->>> The datasheet does not add any explanation of what is expected to come first.
->>> Should we wait until all statistics measurements are done? In the struct
->>> sent to userspace there is a bitmaks for which of the statistics are read.
->>> I think that if only part of the statistics are ready, we can already send the once
->>> that are ready to userspace.
->>>
->>
->> If we look further into the code, rkisp1_stats_isr() checks the
->> interrupt status mask passed to it and reads out only the parameters
->> with indicated completion. The statistics metadata buffer format
->> includes a bit mask which tells the userspace which measurements are
->> available.
->>
->> However, I think I've spotted a bug there. At the beginning of
->> rkisp1_stats_isr(), all the 4 interrupt status bits are cleared,
->> regardless of the mask used later to decide which readouts need to be
->> done. This could mean that with an unfortunate timing, some measurements
->> would be lost. So at least the code should be fixed to only clear the
->> interrupts bits really handled.
-> 
-> I'll fix that
+Ah ups, I used TGT_NATIVE consistently, seems like I thought that was
+the right name
 
-I actually don't think this is a bug. The statistics interrupts are not
-enabled and are read from the raw interrupts register. This means
-that if we missed a statistics for the current frame and we don't reset it
-then we will read it only when the next frame comes out, so it will be
-wrongly set as statistics for the next frame although it is actually for the
-current frame.
+>
+> > +``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
+> > +the immutable properties of the several different areas that compose the sensor
+> > +pixel array matrix. Each area describes a rectangle of logically adjacent pixel
+> > +units. The logical disposition of pixels is defined by the sensor read-out
+> > +starting point and direction, and may differ from the physical disposition of
+> > +the pixel units in the pixel array matrix.
+> > +
+> > +Each pixel matrix portion is contained in a larger rectangle, with the most
+> > +largest being the one that describes the pixel matrix physical size. This
+> > +defines a hierarchical positional system, where each rectangle is defined
+> > +relatively to the largest available one among the ones exposed by the
+> > +sub-device driver. Each selection target and the associated pixel array portion
+> > +it represents are below presented in order from the largest to the smallest one.
+> > +
+> > +Pixel array physical size
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +The image sensor chip is composed by a number of physical pixels, not all of
+> > +them readable by the application processor. Invalid or unreadable lines might
+> > +not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
+> > +they might be tagged with an invalid data type (DT) so that the receiver
+> > +automatically discard them. The size of the whole pixel matrix area is
+> > +retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
+> > +defined as position (0, 0). All the other selection targets are defined
+> > +relatively to this, larger, rectangle. The rectangle returned by
+> > +V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
+> > +does not change at run-time and cannot be modified from userspace.
+>
+> It is a good idea to mention that if there are no invalid or unreadable pixels/lines,
+> then V4L2_SEL_TGT_NATIVE_SIZE == V4L2_SEL_TGT_CROP_BOUNDS.
 
-Thanks,
-Dafna
+Yes it is! I'll add it here
 
-> 
->>
->> As for whether to send separate buffers for each measurement, I guess
->> it's not a bad thing to let the userspace access the ones available
->> earlier. Now I only don't recall why we decided to put all the
->> measurements into one metadata structure, rather than splitting the 4
->> into their own structures and buffer queues...
-> 
-> Is it possible to have several queues to the same video node?
-> 
->>
->>>> seems it should be moved out of the CIF_ISP_FRAME test, to a test of its
->>>> own. It's hard to tell for sure without extra information though (for
->>>> instance why are the stats-related bits read from CIF_ISP_RIS, when
->>>> they seem to be documented as valid in CIF_ISP_ISR), but this should be
->>>> validated, and most probably fixed. Care should be taken to keep
->>>> synchronisation of sequence number between the different queues.
->>>
->>> I see that the capture buffers are done before incrementing the frame_sequence with
->>> the following explanation:
->>>
->>>     /*
->>>           * Call rkisp1_capture_isr() first to handle the frame that
->>>           * potentially completed using the current frame_sequence number before
->>>           * it is potentially incremented by rkisp1_isp_isr() in the vertical
->>>           * sync.
->>>           */
->>>
->>> I think reading the stats/params should also be done before calling rkisp1_capture_isr
->>> for the same reason. (so to match the correct frame_sequence)
->>
->> My recollection of the sequence of interrupts in this hardware is like
->> this:
->>
->> CIF_ISP_V_START (frame 0)
->>    CIF_ISP_FRAME_IN (frame 0)
->>      CIF_ISP_FRAME (frame 0)
->>        CIF_ISP_AWB_DONE
->>        CIF_ISP_AFM_FIN
->>        CIF_ISP_EXP_END
->>        CIF_ISP_HIST_MEASURE_RDY
->>        CIF_MI_FRAME*
->>        CIF_ISP_V_START (frame 1)
->>          CIF_ISP_FRAME_IN (frame 1)
->>            CIF_ISP_FRAME (frame 1)
->>              ...
->>
->> where the interrupts at the same indentation level can happen
->> independently of each other. Again, someone would have to verify this.
-> 
-> I wrote this patch to print the interrupts and the time difference between interrupts:
-> https://gitlab.collabora.com/dafna/linux/-/commit/9b9c5ddc2f06a6b87d2c1b210219f69de83296c5
-> 
-> I got this output: http://ix.io/2tl8,
-> there is a repeating pattern where only v-start interrupt is sent, indicated by the prints "isp mis 0x00000040" then about 23 milisec later are the other interrupts
-> (FRAME_IN, FRAME, MI_FRAME* ) and about 10 milisec the v-start interrupt again.
-> 
-> I am still not sure why the mi_frame interrupt should be handled first. If it happen for example that all the interrupts arrive at once, how can
-> we know that the MI_FRAME interrupt relates to the previous v-start interrupt and not the current one?
-> I think that for that we need a code that keep track of the previous interrupt.
-> 
-> Thanks,
-> Dafna
-> 
-> 
->>
->> Best regards,
->> Tomasz
->>
+>
+> > +
+> > +Pixel array readable area
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +The V4L2_SEL_TGT_CROP_BOUNDS targets returns size and position of the readable
+> > +area of the pixel array matrix, including pixels with valid image data and pixel
+> > +used for calibration purposes, such as optical black pixels. It is not unlikely
+> > +that valid pixels and optical black pixels are surrounded by non-readable rows
+> > +and columns of pixels. Those does not concur in the definition of the
+> > +V4L2_SEL_TGT_CROP_BOUNDS rectangle. The rectangle returned by
+> > +V4L2_SEL_TGT_CROP_BOUNDS describes an immutable property of the image sensor, it
+> > +does not change at run-time and cannot be modified from userspace.
+>
+> Mention that BOUNDS is enclosed by NATIVE_SIZE.
+>
+
+I tried to express that in the intro section with
+
+"Each pixel matrix portion is contained in a larger rectangle, with the most
+largest being the one that describes the pixel matrix physical size."
+
+But I guess it's worth to express that for each target!
+
+> > +
+> > +Pixel array active area
+> > +^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +The portion of the pixel array which contains valid image data is defined as the
+> > +active area of the pixel matrix. The active pixel array is is accessed by mean
+>
+> mean -> means
+>
+> > +of the V4L2_SEL_TGT_CROP_DEFAULT target, and is contained in the larger
+> > +V4L2_SEL_TGT_CROP_BOUNDS rectangle. It represents the largest possible frame
+> > +resolution the sensor can produce and defines the dimension of the full
+> > +field-of-view. The rectangle returned by V4L2_SEL_TGT_CROP_BOUNDS describes an
+>
+> BOUNDS -> DEFAULT
+>
+
+ups
+
+> > +immutable property of the image sensor, it does not change at run-time and
+> > +cannot be modified from userspace.
+>
+> Mention that CROP_DEFAULT is enclosed by CROP_BOUNDS
+>
+> > +
+> > +Analog crop rectangle
+>
+> Why analog? It's just the crop rectangle, nothing analog about it.
+>
+
+We used the 'analogCrop' term in libcamera to differentiate the
+cropping which happens on the sensor pixel array matrix to select the
+region to process and produce image from. Sensor with an on-board
+scaler can perform other cropping steps to implement, in example digital
+zoom, so we expect to have a 'digital crop' phase as well. RAW
+sensors, in example, will only have an analogCrop rectangle.
+
+Quoting the libcamera definition of analog crop:
+
+ * horizontal and vertical sizes define the portion of the pixel array which
+ * is read-out and provided to the sensor's internal processing pipeline, before
+ * any pixel sub-sampling method, such as pixel binning, skipping and averaging
+ * take place.
+
+should I keep it or remove it ?
+
+> > +^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +The sensor driver might decide, in order to adjust the image resolution to best
+> > +match the one requested by applications, to only process a part of the active
+> > +pixel array matrix. The selected area is read-out and processed by the image
+> > +sensor on-board ISP in order to produce images of the desired size and
+> > +resolution while possible maintaing the largest possible field-of-view. The
+>
+> maintaing -> maintaining
+>
+> Actually, I'd drop 'while possible maintaing the largest possible field-of-view'
+> entirely. It doesn't make much sense.
+
+Ack
+
+>
+> > +cropped portion of the pixel array which is used to produce images is returned
+> > +by the V4L2_SEL_TGT_CROP target and represent the only information that can
+>
+> represent -> represents
+>
+> > +change at runtime as it depends on the currently configured sensor mode and
+> > +desired image resolution. If the sub-device driver supports that, userspace
+> > +can set the analog crop rectangle to select which portion of the pixel array
+>
+> s/analog//
+>
+> > +to read out.
+>
+> Mention that CROP is enclosed by CROP_BOUNDS and defaults to CROP_DEFAULT.
+>
+> Make a note that CROP can also be used to obtain optical black pixels.
+>
+
+What about:
+
++desired image resolution. If the sub-device driver supports that, userspace
++can set the analog crop rectangle to select which portion of the pixel array
++to read out including, if supported, optical black pixels.
+
+?
+
+Thanks
+  j
+
+> > +
+> >
+> >  Types of selection targets
+> >  --------------------------
+> >
+>
+> Regards,
+>
+> 	Hans
