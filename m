@@ -2,36 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D6BD23DC13
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 18:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71C6323DC1E
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 18:47:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729226AbgHFQp1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 12:45:27 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16829 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729092AbgHFQn4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 12:43:56 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f2c32e80000>; Thu, 06 Aug 2020 09:42:16 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 06 Aug 2020 09:43:56 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 06 Aug 2020 09:43:56 -0700
-Received: from [10.2.172.190] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Aug
- 2020 16:43:55 +0000
+        id S1729326AbgHFQq1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 12:46:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729249AbgHFQpo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 12:45:44 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D1DC0A8921;
+        Thu,  6 Aug 2020 09:45:38 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id v4so42843573ljd.0;
+        Thu, 06 Aug 2020 09:45:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ULS+dmM0AEMlQQMxcozaFfDaR9JxN5gUmDbcuK2poXI=;
+        b=ssHYXLl75BAletdkGTRysoezhQ7GhZoRcCXxrcfVfXHWXVDElDW9q3WK7E9FXd/2p9
+         Y4btKeyAh0MBTSVQLpVD3B1UApGNbZU4xiTpg4vUXUp+X0wpv3MDBX82iMKSgnnO4LNc
+         xdcr3/7DgSghShtxoJ0BvPLJY3eS+lynwvMyO/7kPzzZSksXoYsu3XYrUXWNT+UP569W
+         eB0GyXTfNSNezfK/hZFzN6TKvi0BTKeo+ndEYdIP2MsaOXyuYHKuspct4aW3/ZN/YXQ4
+         7wFHnG9pc2l1o5iy7wKHiC/yu+TOznNgtaYl7NR49/g4QHOwx+HYgaIwd8+9v29mI1Wk
+         yomg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ULS+dmM0AEMlQQMxcozaFfDaR9JxN5gUmDbcuK2poXI=;
+        b=piuFnMGxuezJqJ0qdulPs7ANaF/pSWxflQlJDlkbvgVsGNpi1XOHfkvLmR9xpTmpX+
+         E7xqGovfU6WUiL62tmNjuMBqcuVWTnwaJrtQHt0w7DcM8+aFeNpfkvT62m0rAQx8HPPf
+         A5sYC5qkA8IsbT+Z+72ttT2fPOCAyek6ctIxfBsGP5BCrkrzUhLLwjyEB1NuKdy5BDyY
+         NnoBBz746vUDVWI6+PedGTbHF7dacHPA2Y+xgNenR85iqDRh8rghM/tKTwFM8SDT1COB
+         1C9KgtnRQpOaOoyJ4FaX3Zta245aTPO7pM8Q/SN8X9BkVi60LhFB126R6V8JK5X6WW/N
+         VyfQ==
+X-Gm-Message-State: AOAM531vk24HcFOIM0d9IodUFnPWb++EnqlmIOd0og4ynyzCfy2B7alJ
+        D6lqLRbZe8Aiq2RWdX2q8Op0APSX
+X-Google-Smtp-Source: ABdhPJwMByj9oXpeH/pigQ82iDhhxhkgE29vp4nVuIDDzccgEWKuzvPUmwpaIcgvBHLB08c96IUgRA==
+X-Received: by 2002:a2e:9f43:: with SMTP id v3mr4215124ljk.266.1596732335025;
+        Thu, 06 Aug 2020 09:45:35 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-41-50.dynamic.spd-mgts.ru. [94.29.41.50])
+        by smtp.googlemail.com with ESMTPSA id d10sm2164937ljg.87.2020.08.06.09.45.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2020 09:45:34 -0700 (PDT)
 Subject: Re: [PATCH v8 08/10] gpu: host1x: mipi: Keep MIPI clock enabled till
  calibration is done
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>,
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>
-CC:     <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
-        <helen.koike@collabora.com>, <gregkh@linuxfoundation.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, robh+dt@kernel.org, helen.koike@collabora.com,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <1596469346-937-1-git-send-email-skomatineni@nvidia.com>
+ <1596469346-937-9-git-send-email-skomatineni@nvidia.com>
  <20200805134600.GA3351349@ulmo>
  <103efe31-1abc-54f2-6004-490d7bb1b61a@gmail.com>
  <dcd58ae7-58ed-11d1-0e10-7f522b651b30@gmail.com>
@@ -47,55 +74,35 @@ References: <1596469346-937-1-git-send-email-skomatineni@nvidia.com>
  <fde2431a-0585-ac32-ac25-73e198aaa948@nvidia.com>
  <4025a458-fa78-924d-c84f-166f82df0f8e@gmail.com>
  <4f15d655-3d62-cf9f-82da-eae379d60fa6@nvidia.com>
- <9deaee09-c422-5694-7c19-d85354b9b703@gmail.com>
- <14793e8c-30dc-5cf5-fdf9-6f64fa433818@gmail.com>
- <c9709f37-02dd-cd1a-b83f-07784365945d@nvidia.com>
-Message-ID: <268dd631-bf5e-8236-1e38-786989cc06ac@nvidia.com>
-Date:   Thu, 6 Aug 2020 09:43:58 -0700
+ <b5612e93-f1c4-4762-baa1-5d85eb1edbe1@gmail.com>
+ <412f8c53-1aca-db31-99a1-a0ecb2081ca5@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <04413bc8-8d89-7e57-9b34-84bb11ecb008@gmail.com>
+Date:   Thu, 6 Aug 2020 19:45:33 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <c9709f37-02dd-cd1a-b83f-07784365945d@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <412f8c53-1aca-db31-99a1-a0ecb2081ca5@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1596732136; bh=AVma5jGXArZVd4VOJRBFrVAEISxBozYZ4GHgECLEV44=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=nxRpKDfI7GJ2NX/+f4CE3ZG2NfJ8m63EHQqW9Lf4HtzODFngRWyrvW3/GI193Al3Z
-         5hT8fQDXbpDTJ3xoNXf9vZHsjrqS7IyHjLvCDPPk/in4bwaTGtFAom24aw+DsK56a3
-         gIPd99YZJ/GczfS6LsvaFQGe8tkShsAjW4+WWHIrdNmImypEY3VPulBZEdIHm/X19J
-         jH0heLw6YbcZ3Y5C4Ao2vPFTsUq8mWI0VUio6pD5zNG/bNio5cuC3/OF4SBu9Cpxkh
-         Vnp27Dc6+2CgPwcd1JVjNuO1cQ6b910aqxloJoxcvBMNhJIypyKrxkCDxHIn6XAGf0
-         CcXe1CbyKVa2Q==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+06.08.2020 19:41, Sowjanya Komatineni пишет:
+...
+>> What about to add 72us delay to the end of start_calibration() in order
+>> to ensure that FSM is finished before LP-11?
+> 
+> Why we should add 72uS in start_calibration() when can use same
+> finish_calibration() for both pass/fail cases?
+> 
+> Only timing loose we see is in case of failure we still wait for 250ms
+> and as this is failing case I hope should be ok.
+> 
 
-On 8/6/20 9:42 AM, Sowjanya Komatineni wrote:
->
-> On 8/6/20 9:37 AM, Dmitry Osipenko wrote:
->> 06.08.2020 19:13, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> 06.08.2020 18:59, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> ..
->>>> We cant use active status check for specific pads under calibration.
->>>> This is common bit for all pads.
->>> I'm not sure why this is a problem.
->>>
->> IIUC, the start_calibration() should wait for the MIPI_CAL_STATUS_ACTIVE
->> and finish_calibration() should wait for MIPI_AUTO_CAL_DONE_CSIA/B.
->
-> As soon as START bit it set, FSM will set ACTIVE =3D 1
->
-> There is no added advantage of waiting for ACTIVE to be in=20
-> start_calibration()
-Also like I explained in other post of same discussion, ACTIVE we will=20
-be 1 even when other parallel pads are under calibration.
+You said that calibration settings are applied to pads on LP-11, but if
+LP-11 happens before FSM is finished, then what values will be applied
+if any?
