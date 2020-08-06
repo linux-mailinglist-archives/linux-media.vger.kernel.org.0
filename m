@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E36C23DEA4
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D469923DDD5
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:15:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727771AbgHFR2H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 13:28:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44922 "EHLO
+        id S1730496AbgHFRPD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 13:15:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729164AbgHFRBZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 13:01:25 -0400
+        with ESMTP id S1729984AbgHFRFa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 13:05:30 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B007C06138D
-        for <linux-media@vger.kernel.org>; Thu,  6 Aug 2020 04:50:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B673C061290
+        for <linux-media@vger.kernel.org>; Thu,  6 Aug 2020 04:55:47 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: dafna)
-        with ESMTPSA id 7BBC8299453
+        with ESMTPSA id 02181299454
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
         ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
         dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org,
         laurent.pinchart@ideasonboard.com, tfiga@chromium.org
-Subject: [PATCH v2 1/4] media: staging: rkisp1: replace 9 coeff* fields with a 3x3 array
-Date:   Thu,  6 Aug 2020 13:50:30 +0200
-Message-Id: <20200806115033.32475-2-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v2 2/4] media: staging: rkisp1: replace 3 fields 'ct_offset_*' with one array
+Date:   Thu,  6 Aug 2020 13:50:31 +0200
+Message-Id: <20200806115033.32475-3-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200806115033.32475-1-dafna.hirschfeld@collabora.com>
 References: <20200806115033.32475-1-dafna.hirschfeld@collabora.com>
@@ -34,71 +34,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The struct rkisp1_cif_isp_ctk_config has 9 fields 'coeff*' for the
-3x3 color correction matrix. Replace these fields with one 3x3
-array coeff[3][3] and document the field.
+The struct rkisp1_cif_isp_ctk_config contains 3 fields
+ct_offset_{rgb}. Replace them with one array field 'ct_offset[3].
 
 Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 Acked-by: Helen Koike <helen.koike@collabora.com>
 ---
- drivers/staging/media/rkisp1/rkisp1-params.c      | 15 ++++++---------
- drivers/staging/media/rkisp1/uapi/rkisp1-config.h | 14 ++++----------
- 2 files changed, 10 insertions(+), 19 deletions(-)
+ drivers/staging/media/rkisp1/rkisp1-params.c      | 9 +++------
+ drivers/staging/media/rkisp1/uapi/rkisp1-config.h | 6 ++----
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
-index 797e79de659c..00b102eb67b6 100644
+index 00b102eb67b6..8596ad87a860 100644
 --- a/drivers/staging/media/rkisp1/rkisp1-params.c
 +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
-@@ -402,15 +402,12 @@ static void rkisp1_goc_config(struct rkisp1_params *params,
- static void rkisp1_ctk_config(struct rkisp1_params *params,
- 			      const struct rkisp1_cif_isp_ctk_config *arg)
- {
--	rkisp1_write(params->rkisp1, arg->coeff0, RKISP1_CIF_ISP_CT_COEFF_0);
--	rkisp1_write(params->rkisp1, arg->coeff1, RKISP1_CIF_ISP_CT_COEFF_1);
--	rkisp1_write(params->rkisp1, arg->coeff2, RKISP1_CIF_ISP_CT_COEFF_2);
--	rkisp1_write(params->rkisp1, arg->coeff3, RKISP1_CIF_ISP_CT_COEFF_3);
--	rkisp1_write(params->rkisp1, arg->coeff4, RKISP1_CIF_ISP_CT_COEFF_4);
--	rkisp1_write(params->rkisp1, arg->coeff5, RKISP1_CIF_ISP_CT_COEFF_5);
--	rkisp1_write(params->rkisp1, arg->coeff6, RKISP1_CIF_ISP_CT_COEFF_6);
--	rkisp1_write(params->rkisp1, arg->coeff7, RKISP1_CIF_ISP_CT_COEFF_7);
--	rkisp1_write(params->rkisp1, arg->coeff8, RKISP1_CIF_ISP_CT_COEFF_8);
-+	unsigned int i, j, k = 0;
-+
+@@ -408,12 +408,9 @@ static void rkisp1_ctk_config(struct rkisp1_params *params,
+ 		for (j = 0; j < 3; j++)
+ 			rkisp1_write(params->rkisp1, arg->coeff[i][j],
+ 				     RKISP1_CIF_ISP_CT_COEFF_0 + 4 * k++);
+-	rkisp1_write(params->rkisp1, arg->ct_offset_r,
+-		     RKISP1_CIF_ISP_CT_OFFSET_R);
+-	rkisp1_write(params->rkisp1, arg->ct_offset_g,
+-		     RKISP1_CIF_ISP_CT_OFFSET_G);
+-	rkisp1_write(params->rkisp1, arg->ct_offset_b,
+-		     RKISP1_CIF_ISP_CT_OFFSET_B);
 +	for (i = 0; i < 3; i++)
-+		for (j = 0; j < 3; j++)
-+			rkisp1_write(params->rkisp1, arg->coeff[i][j],
-+				     RKISP1_CIF_ISP_CT_COEFF_0 + 4 * k++);
- 	rkisp1_write(params->rkisp1, arg->ct_offset_r,
- 		     RKISP1_CIF_ISP_CT_OFFSET_R);
- 	rkisp1_write(params->rkisp1, arg->ct_offset_g,
++		rkisp1_write(params->rkisp1, arg->ct_offset[i],
++			     RKISP1_CIF_ISP_CT_OFFSET_R + i * 4);
+ }
+ 
+ static void rkisp1_ctk_enable(struct rkisp1_params *params, bool en)
 diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-index 8f9b061e5b6b..790d56ac9310 100644
+index 790d56ac9310..e89ec359b537 100644
 --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
 +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-@@ -417,19 +417,13 @@ struct rkisp1_cif_isp_bdm_config {
- /**
-  * struct rkisp1_cif_isp_ctk_config - Configuration used by Cross Talk correction
-  *
-- * @coeff: color correction matrix
-+ * @coeff: color correction matrix. Values are 11-bit signed fixed-point numbers with 4 bit integer
-+ *		and 7 bit fractional part, ranging from -8 (0x400) to +7.992 (0x3FF). 0 is
-+ *		represented by 0x000 and a coefficient value of 1 as 0x080.
-  * @ct_offset_b: offset for the crosstalk correction matrix
+@@ -420,13 +420,11 @@ struct rkisp1_cif_isp_bdm_config {
+  * @coeff: color correction matrix. Values are 11-bit signed fixed-point numbers with 4 bit integer
+  *		and 7 bit fractional part, ranging from -8 (0x400) to +7.992 (0x3FF). 0 is
+  *		represented by 0x000 and a coefficient value of 1 as 0x080.
+- * @ct_offset_b: offset for the crosstalk correction matrix
++ * @ct_offset: Red, Green, Blue offsets for the crosstalk correction matrix
   */
  struct rkisp1_cif_isp_ctk_config {
--	__u16 coeff0;
--	__u16 coeff1;
--	__u16 coeff2;
--	__u16 coeff3;
--	__u16 coeff4;
--	__u16 coeff5;
--	__u16 coeff6;
--	__u16 coeff7;
--	__u16 coeff8;
-+	__u16 coeff[3][3];
- 	__u16 ct_offset_r;
- 	__u16 ct_offset_g;
- 	__u16 ct_offset_b;
+ 	__u16 coeff[3][3];
+-	__u16 ct_offset_r;
+-	__u16 ct_offset_g;
+-	__u16 ct_offset_b;
++	__u16 ct_offset[3];
+ } __packed;
+ 
+ enum rkisp1_cif_isp_goc_mode {
 -- 
 2.17.1
 
