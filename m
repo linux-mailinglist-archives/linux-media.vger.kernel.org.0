@@ -2,43 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5903923DDA3
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C693823DEA9
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:29:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730359AbgHFRMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 13:12:17 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:39552 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729710AbgHFRMK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 13:12:10 -0400
-Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 7B59D3B211B
-        for <linux-media@vger.kernel.org>; Thu,  6 Aug 2020 12:47:06 +0000 (UTC)
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id CB257C0003;
-        Thu,  6 Aug 2020 12:41:43 +0000 (UTC)
-Date:   Thu, 6 Aug 2020 14:45:23 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        id S1729501AbgHFR2f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 13:28:35 -0400
+Received: from mga11.intel.com ([192.55.52.93]:4196 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729617AbgHFR20 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Aug 2020 13:28:26 -0400
+IronPort-SDR: d0m3szX+C0hwHogpia8F99ESEXqvxCKSMxDKJ4T/uQARoQGqHqVwD5Yeu9TVZdR1dD1e74tyld
+ ouoWWGr8TiUg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9704"; a="150529192"
+X-IronPort-AV: E=Sophos;i="5.75,441,1589266800"; 
+   d="scan'208";a="150529192"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2020 05:55:19 -0700
+IronPort-SDR: YX3VVoSLAH25zeI826HufpuAkgBKlYI1Rzw1c6QT37yHvVX1mYKl2U2FENI2LpBDswB117SBzj
+ g0sc8ZCWTvag==
+X-IronPort-AV: E=Sophos;i="5.75,441,1589266800"; 
+   d="scan'208";a="323421183"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2020 05:55:17 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 31AF22063B; Thu,  6 Aug 2020 15:54:45 +0300 (EEST)
+Date:   Thu, 6 Aug 2020 15:54:45 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
         libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 2/4] media: docs: Describe targets for sensor properties
-Message-ID: <20200806124523.llccxvcz65ohqqwq@uno.localdomain>
+Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
+Message-ID: <20200806125445.GA16270@paasikivi.fi.intel.com>
 References: <20200805105721.15445-1-jacopo@jmondi.org>
- <20200805105721.15445-3-jacopo@jmondi.org>
- <1896673c-ae91-84c3-9573-5da91fb00f41@xs4all.nl>
- <20200806100822.kvlzivbtnqzni3xw@uno.localdomain>
- <851192ea-6498-4f9e-a6b4-bf5164f3c5a7@xs4all.nl>
+ <20200805105721.15445-2-jacopo@jmondi.org>
+ <184f8787-ebf1-90e3-82b3-44fa66e65a84@xs4all.nl>
+ <20200806095038.tc6mmwknqdinaeth@uno.localdomain>
+ <f4e50cbb-8b25-1269-d8b9-9c81fa73b7e1@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <851192ea-6498-4f9e-a6b4-bf5164f3c5a7@xs4all.nl>
+In-Reply-To: <f4e50cbb-8b25-1269-d8b9-9c81fa73b7e1@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -46,111 +56,51 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hans,
 
-On Thu, Aug 06, 2020 at 12:15:49PM +0200, Hans Verkuil wrote:
-> On 06/08/2020 12:08, Jacopo Mondi wrote:
+On Thu, Aug 06, 2020 at 11:58:31AM +0200, Hans Verkuil wrote:
+> On 06/08/2020 11:50, Jacopo Mondi wrote:
 > > Hi Hans,
-> >
-> > On Thu, Aug 06, 2020 at 10:45:17AM +0200, Hans Verkuil wrote:
+> > 
+> > On Thu, Aug 06, 2020 at 10:05:37AM +0200, Hans Verkuil wrote:
+> >> Hi Jacopo,
+> >>
+> >> Some review comments below:
+> >>
 > >> On 05/08/2020 12:57, Jacopo Mondi wrote:
-> >>> Provide a table to describe how the V4L2 selection targets can be used
-> >>> to access an image sensor pixel array properties.
-> >>>
-> >>> Reference the table in the sub-device documentation.
-> >>>
-> >>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> >>> ---
-> >>>  .../userspace-api/media/v4l/dev-subdev.rst    |  4 ++
-> >>>  .../media/v4l/v4l2-selection-targets.rst      | 49 +++++++++++++++++++
-> >>>  2 files changed, 53 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> >>> index c47861dff9b9b..2f7da3832f458 100644
-> >>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> >>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> >>> @@ -467,6 +467,10 @@ desired image resolution. If the sub-device driver supports that, userspace
-> >>>  can set the analog crop rectangle to select which portion of the pixel array
-> >>>  to read out.
-> >>>
-> >>> +A description of each of the above mentioned targets when used to access the
-> >>> +image sensor pixel array properties is provided by
-> >>> +:ref:`v4l2-selection-targets-image-sensor-table`
-> >>> +
-> >>>
-> >>>  Types of selection targets
-> >>>  --------------------------
-> >>> diff --git a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
-> >>> index 69f500093aa2a..632e6448b784e 100644
-> >>> --- a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
-> >>> +++ b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
-> >>> @@ -76,3 +76,52 @@ of the two interfaces they are used.
-> >>>  	modified by hardware.
-> >>>        - Yes
-> >>>        - No
-> >>> +
-> >>> +
-> >>> +.. _v4l2-selection-targets-image-sensor-table:
-> >>> +
-> >>> +********************************************
-> >>> +Selection Targets For Pixel Array Properties
-> >>> +********************************************
-> >>> +
-> >>> +The V4L2 selection API can be used to retrieve the size and disposition of the
-> >>> +pixel units that compose and image sensor pixel matrix when applied to a video
-> >>> +sub-device that represents an image sensor.
-> >>> +
-> >>> +A description of the properties associated with each of the sensor pixel array
-> >>> +areas is provided by the :ref:`v4l2-subdev-pixel-array-properties` section.
-> >>> +
-> >>> +.. tabularcolumns:: |p{6.0cm}|p{1.4cm}|p{7.4cm}|p(1.4cm)|
-> >>> +
-> >>> +.. flat-table:: Selection target definitions
-> >>> +    :header-rows:  1
-> >>> +    :stub-columns: 0
-> >>> +
-> >>> +    * - Target name
-> >>> +      - id
-> >>> +      - Definition
-> >>> +      - Read/Write
-> >>> +    * - ``V4L2_SEL_TGT_CROP``
-> >>> +      - 0x0000
-> >>> +      - The analog crop rectangle. Represents the portion of the active pixel
-> >>> +        array which is processed to produce images.
-> >>> +      - RW
-> >>> +    * - ``V4L2_SEL_TGT_CROP_DEFAULT``
-> >>> +      - 0x0001
-> >>> +      - The active pixel array rectangle. It includes only active pixels and
-> >>> +        excludes other ones such as optical black pixels. Its width and height
-> >>> +        represent the maximum image resolution an image sensor can produce.
-> >>> +      - RO
-> >>> +    * - ``V4L2_SEL_TGT_CROP_BOUNDS``
-> >>> +      - 0x0002
-> >>> +      - The readable portion of the physical pixel array matrix. It includes
-> >>> +        pixels that contains valid image data and calibration pixels such as the
-> >>> +        optical black ones.
-> >>> +      - RO
-> >>> +    * - ``V4L2_SEL_TGT_NATIVE_SIZE``
-> >>> +      - 0x0003
-> >>> +      - The physical pixel array size, including readable and not readable
-> >>> +        pixels. As pixels that cannot be read from application processor are not
-> >>> +        relevant for calibration purposes, this rectangle is useful to calculate
-> >>> +        the physical properties of the image sensor.
-> >>> +      - RO
-> >>>
+> >>> +Analog crop rectangle
 > >>
-> >> Hmm, this basically just duplicates the previous patch.
+> >> Why analog? It's just the crop rectangle, nothing analog about it.
 > >>
-> >> I think you are documenting things at the wrong place. What you documented in the
-> >> previous patch really belongs here since it is shared between the subdev API and the
-> >> regular V4L2 API. And in dev-subdev.rst you then refer to here.
-> >
-> > I originally had it here, but then I moved to dev-subdev as an image
-> > sensor will always be represented as a video sub-device, doen't it ?
->
-> No. Some camera drivers are V4L2 only, most notably uvc. Also there are several simple
-> platform drivers that don't use the subdev API.
+> > 
+> > We used the 'analogCrop' term in libcamera to differentiate the
+> > cropping which happens on the sensor pixel array matrix to select the
+> > region to process and produce image from. Sensor with an on-board
+> > scaler can perform other cropping steps to implement, in example digital
+> > zoom, so we expect to have a 'digital crop' phase as well. RAW
+> > sensors, in example, will only have an analogCrop rectangle.
+> > 
+> > Quoting the libcamera definition of analog crop:
+> > 
+> >  * horizontal and vertical sizes define the portion of the pixel array which
+> >  * is read-out and provided to the sensor's internal processing pipeline, before
+> >  * any pixel sub-sampling method, such as pixel binning, skipping and averaging
+> >  * take place.
+> > 
+> > should I keep it or remove it ?
+> 
+> It's a very confusing term. Especially since this API can also be used with analog
+> video capture devices (Composite/S-Video) where the video signal actually is analog.
+> 
+> In the V4L2 API there is no such thing as 'analog crop', so please remove it.
 
-Do we expect to be able to retrieve sensor array properties from video
-device nodes which represents, in my understanding a DMA engine that
-writes data to memory ? As I see it, not subdev for the image sensor,
-no pixel array properties. How can these be exposed by a video device
-which abstracts the full capture pipeline ?
+There isn't in the V4L2 API but I don't see why we couldn't document it
+here. Analogue crop is an established term related to raw (perhaps others,
+too?) camera sensors which describes cropping that is implemented by not
+reading parts of the pixel array.
+
+As this documentation only applies to camera sensors, I think it's entirely
+appropriate to document this here, and using that term.
+
+-- 
+Kind regards,
+
+Sakari Ailus
