@@ -2,116 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D4F523E012
-	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 20:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84DBD23DFD9
+	for <lists+linux-media@lfdr.de>; Thu,  6 Aug 2020 19:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728305AbgHFSAi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 14:00:38 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:35748 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728117AbgHFSAh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 14:00:37 -0400
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 06 Aug 2020 06:17:54 -0700
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 06 Aug 2020 06:17:51 -0700
-Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 06 Aug 2020 18:47:41 +0530
-Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
-        id 2018F21C62; Thu,  6 Aug 2020 18:47:40 +0530 (IST)
-From:   Mansur Alisha Shaik <mansur@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org,
-        Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: [PATCH 1/3] venus: core: handle race condititon for core ops
-Date:   Thu,  6 Aug 2020 18:47:33 +0530
-Message-Id: <1596719855-1725-2-git-send-email-mansur@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1596719855-1725-1-git-send-email-mansur@codeaurora.org>
-References: <1596719855-1725-1-git-send-email-mansur@codeaurora.org>
+        id S1730627AbgHFRyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 13:54:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728048AbgHFQay (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 12:30:54 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F092C0A893D;
+        Thu,  6 Aug 2020 08:13:33 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id EAAD02972D4
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v2 00/14] Clean H264 stateless uAPI
+Date:   Thu,  6 Aug 2020 12:12:56 -0300
+Message-Id: <20200806151310.98624-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For core ops we are having only write protect but
-there is no read protect, because of this in mult
--threading and concurrency, one CPU core is readi
--ing without waiting which is causing the NULL
-pointer dereferece crash.
+Here's a new round for the H.264 uAPI cleanup, which as discussed
+aims at being stabilized and promoted as a first-class public uAPI soon.
 
-one such scenario is as show below, where in one
-core core->ops becoming NULL and in another core
-calling core->ops->session_init().
+It should be noted that there is already GStreamer native
+support for this interface, which will be part of 1.18,
+once it's released.
 
-CPU: 7(core):
-Call trace:
- hfi_session_init+0x180/0x1dc [venus_core]
- vdec_queue_setup+0x9c/0x364 [venus_dec]
- vb2_core_reqbufs+0x1e4/0x368 [videobuf2_common]
- vb2_reqbufs+0x4c/0x64 [videobuf2_v4l2]
- v4l2_m2m_reqbufs+0x50/0x84 [v4l2_mem2mem]
- v4l2_m2m_ioctl_reqbufs+0x2c/0x38 [v4l2_mem2mem]
- v4l_reqbufs+0x4c/0x5c
-__video_do_ioctl+0x2b0/0x39c
+I have pushed a branch porting GStreamer to
+support these interface changes:
 
-CPU: 0(core):
-Call trace:
- venus_shutdown+0x98/0xfc [venus_core]
- venus_sys_error_handler+0x64/0x148 [venus_core]
- process_one_work+0x210/0x3d0
- worker_thread+0x248/0x3f4
- kthread+0x11c/0x12c
+https://gitlab.freedesktop.org/ezequielgarcia/gst-plugins-bad/-/commits/for_h264_uapi_v3
 
-Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
----
- drivers/media/platform/qcom/venus/core.c | 2 +-
- drivers/media/platform/qcom/venus/hfi.c  | 5 ++++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+As was discussed the SLICE_PARAMS control is now clarified
+to work for one-slice-per-request operation, using CAPTURE
+buffer holding features. This is how Cedrus driver is implemented.
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 203c653..fe99c83 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -64,8 +64,8 @@ static void venus_sys_error_handler(struct work_struct *work)
- 	pm_runtime_get_sync(core->dev);
- 
- 	hfi_core_deinit(core, true);
--	hfi_destroy(core);
- 	mutex_lock(&core->lock);
-+	hfi_destroy(core);
- 	venus_shutdown(core);
- 
- 	pm_runtime_put_sync(core->dev);
-diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
-index a211eb9..2eeb31f 100644
---- a/drivers/media/platform/qcom/venus/hfi.c
-+++ b/drivers/media/platform/qcom/venus/hfi.c
-@@ -195,7 +195,7 @@ EXPORT_SYMBOL_GPL(hfi_session_create);
- int hfi_session_init(struct venus_inst *inst, u32 pixfmt)
- {
- 	struct venus_core *core = inst->core;
--	const struct hfi_ops *ops = core->ops;
-+	const struct hfi_ops *ops;
- 	int ret;
- 
- 	if (inst->state != INST_UNINIT)
-@@ -204,10 +204,13 @@ int hfi_session_init(struct venus_inst *inst, u32 pixfmt)
- 	inst->hfi_codec = to_codec_type(pixfmt);
- 	reinit_completion(&inst->done);
- 
-+	mutex_lock(&core->lock);
-+	ops = core->ops;
- 	ret = ops->session_init(inst, inst->session_type, inst->hfi_codec);
- 	if (ret)
- 		return ret;
- 
-+	mutex_unlock(&core->lock);
- 	ret = wait_session_msg(inst);
- 	if (ret)
- 		return ret;
+The other drivers currently supported Hantro and Rockchip VDEC,
+as well as the MTK stateless decoder posted by Alex Courbot
+operate in frame-based mode.
+
+These "frame-based" devices parse the slice headers in hardware,
+and therefore shall not support SLICE_PARAMS. To that extent,
+the redundant bitstream fields are now part of the DECODE_PARAMS
+control.
+
+Hopefully now the specification documentation is clear enough.
+GStreamer, Chromium and FFmpeg (which I'm sure will be implemented
+as soon as we stabilize the API) should serve as reference examples
+on how the API is consumed.
+
+Changelog:
+
+v1->v2:
+* Clean SLICE_PARAMS documentation, which we don't
+  expect to be part of an array anymore. 
+* Clarify how frame-based and slice-based modes
+  are expected to work.
+* Add Cedrus patches to fix field references,
+  as requested by Jernej.
+* Fix wrongly removed SPS in rkvdec.
+* Fix rkvdec DPB reference implementation.
+* Fix missing Cedrus and missing control member,
+  for prediction weight table control.
+* Say "raster scan" instead of "matrix" in the docs.
+* Drop duplicated macros and use v4l2_h264_dpb_reference
+  for the DPB reference signalling.
+
+RFC->v1: 
+* Split prediction weight table to a separate control.
+* Increase size of first_mb_in_slice field.
+* Cleanup DPB entry interface, to support field coding.
+* Increase of DPB entry pic_num field.
+* Move slice invariant fields to the per-frame control.
+
+Ezequiel Garcia (10):
+  media: uapi: h264: Further clarify scaling lists order
+  media: uapi: h264: Split prediction weight parameters
+  media: uapi: h264: Increase size of 'first_mb_in_slice' field
+  media: uapi: h264: Clean DPB entry interface
+  media: uapi: h264: Increase size of DPB entry pic_num
+  media: uapi: h264: Drop SLICE_PARAMS 'size' field
+  media: uapi: h264: Clarify SLICE_BASED mode
+  media: uapi: h264: Clean slice invariants syntax elements
+  media: hantro: Don't require unneeded H264_SLICE_PARAMS
+  media: rkvdec: Don't require unneeded H264_SLICE_PARAMS
+
+Jernej Skrabec (3):
+  media: uapi: h264: Update reference lists
+  media: cedrus: h264: Properly configure reference field
+  media: cedrus: h264: Fix frame list construction
+
+Philipp Zabel (1):
+  media: uapi: h264: Clarify pic_order_cnt_bit_size field
+
+ .../media/v4l/ext-ctrls-codec.rst             | 224 ++++++++++--------
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  28 +++
+ drivers/media/v4l2-core/v4l2-h264.c           |  12 +-
+ drivers/staging/media/hantro/hantro_drv.c     |   5 -
+ .../staging/media/hantro/hantro_g1_h264_dec.c |  21 +-
+ drivers/staging/media/hantro/hantro_h264.c    |   8 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   2 -
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |  27 +--
+ drivers/staging/media/rkvdec/rkvdec.c         |   5 -
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |   7 +
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   1 +
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |  49 ++--
+ include/media/h264-ctrls.h                    |  80 ++++---
+ include/media/v4l2-ctrls.h                    |   2 +
+ include/media/v4l2-h264.h                     |   3 +-
+ 16 files changed, 257 insertions(+), 219 deletions(-)
+
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
-of Code Aurora Forum, hosted by The Linux Foundation
+2.27.0
 
