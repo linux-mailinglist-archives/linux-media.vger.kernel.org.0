@@ -2,97 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F010723E5DB
-	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 04:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53C7823E616
+	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 05:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726282AbgHGCbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Aug 2020 22:31:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48160 "EHLO
+        id S1726346AbgHGDAZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Aug 2020 23:00:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726049AbgHGCbf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 22:31:35 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F59BC061574;
-        Thu,  6 Aug 2020 19:31:34 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id v12so533634ljc.10;
-        Thu, 06 Aug 2020 19:31:34 -0700 (PDT)
+        with ESMTP id S1726038AbgHGDAY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Aug 2020 23:00:24 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4717FC061574
+        for <linux-media@vger.kernel.org>; Thu,  6 Aug 2020 20:00:24 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id g6so578299ljn.11
+        for <linux-media@vger.kernel.org>; Thu, 06 Aug 2020 20:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=++oNzzvMfEEwXBvsmOev1tS44REi+Mnxj7YfwgHFlPM=;
-        b=t/NHzZGzCIO85kYp4Vf0XtxJ/jZYzQTIh1TVK9lniUhpbhgwazniKa9EGAQvCY7G11
-         F0+fi4ZJH/zKfXWLkjPn47ZnJQlQvxX2yM2E9NVwz+k3/Eqr2jZKfWOYQc/cjqqW5Psj
-         BXHQHAEscJ4KIdlGNu5P15lw0uJdoxnj3VeZummui/RX0MyGFUY6jTbjXyIzYRm4hpLD
-         YWbxYmP010cQjSTuCxM21CbAeHD5M8hwT2jKC8mU1QCQPbJMOLb0oshVvgE9QnRoR8Go
-         e3gcBoQmW3XUyrNSOxevg5KpZtPaPLmGATyz/jFDjB6vvFzNwfm5ExnZCqcJnB6YTipt
-         8z6Q==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=wTsG01+FAeINX7tJPCyhTMiFIIvHpHWzQDxM2xhAlu0=;
+        b=Gm31v+4cDz5MOdOXgxbVeFLOkDmj2PWmhCK9B44JcVcB9EGVqb2EHJ0glPrQdedeoE
+         +dPxtK2Xc4SGtVJ0QTwcIjnwhBQLRJ6/jUNKjdOiYs3niZ53XsOdbdI5ttB999I6uP+H
+         iWK3PQQX3DLEjizrqFQvsKsZmACpiG1RLlyK+tME069oyyEudHRoRjWP8AHYf4ryErIi
+         35fufUI9RK1j7dKbgGkydHUIbns0c81ybZVZ9dmrf+hcULwDmTTdzQCxgNcwlUDuMqrn
+         BFJUbsGedZMnaLb7fdruesQNZV88xD2p2V5MlqR6ObkfvHqhb7BvgMQ1rGKCa4veKuCZ
+         W4jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=++oNzzvMfEEwXBvsmOev1tS44REi+Mnxj7YfwgHFlPM=;
-        b=N4Yd4uAifxtck6Z8tSw/zyo0xjWtL2sGrEkfbJNv2DmPe3Ccetmg+jNzJOY2goXjK4
-         GGwCeEt1hFBImp8tD00ruQVdk9eSxDJ9NWdHUh4T7htcXzIcWCfGNoVxIXYHd/2+LxIn
-         Tv59HYXbBsDSD3XCxW33/mCyDM5O9GLWfsOBnhsrcKvkt5LD2yhxAw5UgyXvvGIlpoep
-         bKulKBzKbShtWc76NJpRi/Iqi57+0PGOsL4zf7XX1dQ4Mt1kQX9twi3Lkey8B/hv9PPG
-         ZPz9cQlTI0ISY489skTlrZ/Vc/h9/5+diGS1OlVB4kNvX0O0Ymm7s/Nt8aDDETolX3pr
-         itCQ==
-X-Gm-Message-State: AOAM531tuFrlAX4MSUTGK26tEorz+YixjUhsQJumxbWj96PW7jyGMfCq
-        kdcSGRn6E62OyxFnq011Y3IgHT3i
-X-Google-Smtp-Source: ABdhPJyiRs9EKEEDAErq/zFize6tXrmF72/UmXwaK1kWK4yaZSOmuV3B1zf1qxncDuma82JUjUcOVA==
-X-Received: by 2002:a2e:9d17:: with SMTP id t23mr5184250lji.456.1596767493010;
-        Thu, 06 Aug 2020 19:31:33 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id q24sm3195272ljc.52.2020.08.06.19.31.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2020 19:31:31 -0700 (PDT)
-Subject: Re: [PATCH v9 08/10] gpu: host1x: mipi: Keep MIPI clock enabled and
- mutex locked till calibration done
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
-        helen.koike@collabora.com
-Cc:     gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1596740494-19306-1-git-send-email-skomatineni@nvidia.com>
- <1596740494-19306-9-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f2522713-6995-d6a1-e691-a5443823056b@gmail.com>
-Date:   Fri, 7 Aug 2020 05:31:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wTsG01+FAeINX7tJPCyhTMiFIIvHpHWzQDxM2xhAlu0=;
+        b=fdOeFVHM/VO7VjhMIUtD44klYHFoWlm/sxQAxeKDJtkCEYus8+yrgdKqsNGbefQ8pg
+         ymGQ7z9frA8hlRQHmFOP2nUnJ5rCZaNCYrkH+6JyFwwpYt+6BO8EbjUiObv92E1Dkk0M
+         UWBBw6zOzkUe+S0ye7uc3OWqRLGJXUod/zxWPjqlaSqF/AsEFrY6bC+4XVXQZD2o1thV
+         Z8dugQqkAx/DXN7/l8ldN+pESBnA3oa6p9mZ1oWKC0LHjYjYKSMdutORdjjgUc3UJ/uX
+         vy3sJzF9s1pJgwdeZMSWfvuaPmOrQZZFzQfFYbuydQIwkU5IPwVAxRC9JA5toyR7WnqV
+         g0IA==
+X-Gm-Message-State: AOAM532C3vhiGYTJ/fJFg5nzepXNPjbWniOIHzdL0ILYzuicXVknVCoz
+        /Rh8DzW5D3SIf0y8VuIdf+jrlqc8T62PKQNevVR74g==
+X-Google-Smtp-Source: ABdhPJyksl15UPkEtHxTCd6XOj4wYFTTaeSdOFSPR45CICDOdBMwsjVD+2gtHPnL9heaHDSkTdbmmnz6Q2VSG4Gis7Q=
+X-Received: by 2002:a2e:87c4:: with SMTP id v4mr5180563ljj.8.1596769222640;
+ Thu, 06 Aug 2020 20:00:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1596740494-19306-9-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200721101647.42653-1-hexin.op@bytedance.com>
+In-Reply-To: <20200721101647.42653-1-hexin.op@bytedance.com>
+From:   =?UTF-8?B?5L2V6ZGr?= <hexin.op@bytedance.com>
+Date:   Fri, 7 Aug 2020 11:00:11 +0800
+Message-ID: <CACKzwj=obkJPmMb1cGKDwBdgkxa92kpPTP9c2SzFWbbzcD6Luw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioctl()
+To:     Daniel Vetter <daniel@ffwll.ch>, airlied@linux.ie,
+        kraxel@redhat.com, Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linux-media@vger.kernel.org, Qi Liu <liuqi.16@bytedance.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-06.08.2020 22:01, Sowjanya Komatineni пишет:
-...
-> +int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
->  {
->  	const struct tegra_mipi_soc *soc = device->mipi->soc;
->  	unsigned int i;
-> @@ -381,12 +375,16 @@ int tegra_mipi_calibrate(struct tegra_mipi_device *device)
->  	value |= MIPI_CAL_CTRL_START;
->  	tegra_mipi_writel(device->mipi, value, MIPI_CAL_CTRL);
->  
-> -	mutex_unlock(&device->mipi->lock);
-> -	clk_disable(device->mipi->clk);
-> +	/*
-> +	 * Wait for min 72uS to let calibration logic finish calibration
-> +	 * sequence codes before waiting for pads idle state to apply the
-> +	 * results.
-> +	 */
-> +	usleep_range(75, 80);
+Xin He <hexin.op@bytedance.com> =E4=BA=8E2020=E5=B9=B47=E6=9C=8821=E6=97=A5=
+=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=886:17=E5=86=99=E9=81=93=EF=BC=9A
+>
+> From: Qi Liu <liuqi.16@bytedance.com>
+>
+> We should put the reference count of the fence after calling
+> virtio_gpu_cmd_submit(). So add the missing dma_fence_put().
+>
+> Fixes: 2cd7b6f08bc4 ("drm/virtio: add in/out fence support for explicit s=
+ynchronization")
+> Co-developed-by: Xin He <hexin.op@bytedance.com>
+> Signed-off-by: Xin He <hexin.op@bytedance.com>
+> Signed-off-by: Qi Liu <liuqi.16@bytedance.com>
+> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>
+> changelog in v3:
+> 1) Change the subject from "drm/virtio: fixed memory leak in virtio_gpu_e=
+xecbuffer_ioctl()" to
+>    "drm/virtio: fix missing dma_fence_put() in virtio_gpu_execbuffer_ioct=
+l()"
+> 2) Rework the commit log
+>
+> changelog in v2:
+> 1) Add a change description
+>
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/vir=
+tio/virtgpu_ioctl.c
+> index 5df722072ba0..19c5bc01eb79 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -179,6 +179,7 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_dev=
+ice *dev, void *data,
+>
+>         virtio_gpu_cmd_submit(vgdev, buf, exbuf->size,
+>                               vfpriv->ctx_id, buflist, out_fence);
+> +       dma_fence_put(&out_fence->f);
+>         virtio_gpu_notify(vgdev);
+>         return 0;
+>
+> --
+> 2.21.1 (Apple Git-122.3)
+>
 
-Could you please explain why the ACTIVE bit can't be polled instead of
-using the fixed delay? Doesn't ACTIVE bit represents the state of the
-busy FSM?
+cc Greg
+
+--
+Xin He
