@@ -2,200 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F80423F44C
-	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 23:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1428A23F524
+	for <lists+linux-media@lfdr.de>; Sat,  8 Aug 2020 01:17:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727840AbgHGVaF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Aug 2020 17:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53538 "EHLO
+        id S1726159AbgHGXRr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Aug 2020 19:17:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727834AbgHGV3y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 17:29:54 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70E14C061A2E
-        for <linux-media@vger.kernel.org>; Fri,  7 Aug 2020 14:29:53 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id a14so2239429edx.7
-        for <linux-media@vger.kernel.org>; Fri, 07 Aug 2020 14:29:53 -0700 (PDT)
+        with ESMTP id S1726078AbgHGXRq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 19:17:46 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F03C061A27
+        for <linux-media@vger.kernel.org>; Fri,  7 Aug 2020 16:17:46 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id m22so3669389eje.10
+        for <linux-media@vger.kernel.org>; Fri, 07 Aug 2020 16:17:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fDDWZstNpjGOtdGZCLFEkYVcrKkQad8l/sIeiWx0PNA=;
-        b=kHFrwOCm6+H+Lg18Azi6wrn6sp7VnwHKw1qI4a4DgR+2tVfsZWWKguiTnjvT//xN5m
-         +s9DfRDsLw8w887oSLClL8uUsRIm2zFWNFSWNKeboOq3831NZe/9N+n5q54bwRWTy6RP
-         PhMZZMCgFwBpUwFvhCUk94uzEWzm1PLiMKV38=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
+        bh=uEfOm+DIoBJEQPRggKsqD/6K343VADgWw4J5soIp4mA=;
+        b=dv1DEOfjuOxASatUB7O3COgLAdZmAgtyeMQhG54fA3/2ZjH9iClolbSINHdcnp/rHF
+         JYFmq2+McWsQmT7AC4fDouu6tJ+Dr/S48tTQiuMj5WrOd+pDoWAOMKCkjyuQzCZHix0e
+         joB/jrcDY0nyj73Qft4ycQk/jW642GmEK1NAg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fDDWZstNpjGOtdGZCLFEkYVcrKkQad8l/sIeiWx0PNA=;
-        b=S4srR53vDzCJLcL41Y/D9nDK2jp8tkpNUI2x9lo+QPnvpceDp7uDBAKSxU8bx4tcJU
-         jR0wuiZZbSWL6Ma01QVeP0R3rmpmYOrAiUdlyOFv4OkIf2Kld2G1KHhWLIW9OAd1LWjI
-         ZuhhcdaLSYl7y0YWtSowFrQSEmYRx54FrLSKISHgHuN9axesGXLgJkoAb3qtpJ0hKwQA
-         qmzQAlf7Mh/KoZ0UD1sNiLbOGU5iJVSvcY07bXcztzwyfKLu4jTlASAQbOppTbCEimk4
-         xVZibveRcbbutiVor79/9T8qNMcGQPKfl31tduM082Au1vfBNg7v3RYRkYH0UUEcj0If
-         cj4g==
-X-Gm-Message-State: AOAM530InBqo4YdhU9/Lk3bqBPTsyxC2+/UYB5GaUicAU7lQFmuXNmul
-        99a3YpQnuTX12sqPc4swYuV8ULTK80c=
-X-Google-Smtp-Source: ABdhPJz0Akk/E+udhCxmh2bNiIe+ZOlo11ptnWOULXNBVx+yFSLNzMhfrS5eLVIeEP1xld8zMLO/pg==
-X-Received: by 2002:a50:d51e:: with SMTP id u30mr10719290edi.296.1596835791870;
-        Fri, 07 Aug 2020 14:29:51 -0700 (PDT)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
-        by smtp.gmail.com with ESMTPSA id a101sm6473304edf.76.2020.08.07.14.29.51
+         :message-id:subject:cc;
+        bh=uEfOm+DIoBJEQPRggKsqD/6K343VADgWw4J5soIp4mA=;
+        b=k8cTtRXlBDCdkeZBy4bWxxYbyCwAqLDm3665hmcWZAF7BhB8Wui43983cguOLHW8/c
+         KBQaSsniY3ebwpf6/AUSQ1imdPGV82nDxiZTG7tzFbLFVKntXJNvosmc3icXieBjOqQM
+         9bzu17bGJOa82FWD4ojSY/oY8kepSwv3EybFpT9y9qnfHhLPaCoWUN5PhA9WyeIOV+S1
+         AnAENJAmoi60SUAdotoTNbKKqR39Jyf8eOBxe9S0rf45z47EckHB/2L4KRjKZ3ATMMnS
+         1M5LayH2yBDIliQzXedn6/bkEuITX1SJGdTZmHRJNbs5OG9GpNvZ+UbrmSgDDmihLobI
+         7DGw==
+X-Gm-Message-State: AOAM530YfKBvD0N695bQDzI5RoG4dwOSX0/n2qmVuHSg4VsU59kDeQqg
+        iP+t9o/AmBE+LWuuHIcUhAbJMyUPPTw=
+X-Google-Smtp-Source: ABdhPJyiiAL9Lmv7fuzQ9N/5NfCtfhX1tot0LezsMCMYxnztLaaHpeSSwzayDWsC+4SmzStD6p8YYA==
+X-Received: by 2002:a17:906:4dd4:: with SMTP id f20mr12277345ejw.170.1596842264820;
+        Fri, 07 Aug 2020 16:17:44 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com. [209.85.128.42])
+        by smtp.gmail.com with ESMTPSA id 6sm6335963edw.20.2020.08.07.16.17.44
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Aug 2020 14:29:51 -0700 (PDT)
-Received: by mail-wm1-f45.google.com with SMTP id 9so2847766wmj.5
-        for <linux-media@vger.kernel.org>; Fri, 07 Aug 2020 14:29:51 -0700 (PDT)
-X-Received: by 2002:a7b:cb50:: with SMTP id v16mr10118993wmj.11.1596835790795;
- Fri, 07 Aug 2020 14:29:50 -0700 (PDT)
+        Fri, 07 Aug 2020 16:17:44 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 9so2991393wmj.5
+        for <linux-media@vger.kernel.org>; Fri, 07 Aug 2020 16:17:44 -0700 (PDT)
+X-Received: by 2002:a1c:6446:: with SMTP id y67mt9333964wmb.49.1596842262920;
+ Fri, 07 Aug 2020 16:17:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200730114632.6717-1-stanimir.varbanov@linaro.org> <20200730114632.6717-4-stanimir.varbanov@linaro.org>
-In-Reply-To: <20200730114632.6717-4-stanimir.varbanov@linaro.org>
+References: <20200804114845.25086-1-user@vgarodia-linux>
+In-Reply-To: <20200804114845.25086-1-user@vgarodia-linux>
 From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Fri, 7 Aug 2020 14:29:38 -0700
-X-Gmail-Original-Message-ID: <CAMfZQbxXdNZV8e9o+=0oZ2rvM-QGJwuJpMiMmsQQ7NhG8Y35=w@mail.gmail.com>
-Message-ID: <CAMfZQbxXdNZV8e9o+=0oZ2rvM-QGJwuJpMiMmsQQ7NhG8Y35=w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] venus: Add new interface queues reinit
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Date:   Fri, 7 Aug 2020 16:17:30 -0700
+X-Gmail-Original-Message-ID: <CAMfZQbxE1KAC03_7L1qqkb1gDr12SoO-UFs+UN9jAhQ6dCs0zQ@mail.gmail.com>
+Message-ID: <CAMfZQbxE1KAC03_7L1qqkb1gDr12SoO-UFs+UN9jAhQ6dCs0zQ@mail.gmail.com>
+Subject: Re: [PATCH] venus: fixes for list corruption
+Cc:     linux-media@vger.kernel.org,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, mansur@codeaurora.org,
+        Rajeshwar Kurapaty <rkurapat@qti.qualcomm.com>,
+        Giri Kapalli <gkapalli@qti.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 30, 2020 at 4:47 AM Stanimir Varbanov
-<stanimir.varbanov@linaro.org> wrote:
+On Tue, Aug 4, 2020 at 5:23 AM Vikash Garodia <"Vikash
+Garodia"@qti.qualcomm.com> wrote:
 >
-> Presently the recovery mechanism is using two hfi functions
-> to destroy and create interface queues. For the purpose of
-> recovery we don't need to free and allocate the memory used
-> for interface message queues, that's why we introduce new
-> function which just reinit the queues.  Also this will give
-> to the recovery procedure one less reason to fail (if for
-> some reason we couldn't allocate memory).
+> From: Vikash Garodia <vgarodia@codeaurora.org>
 >
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> There are few list handling issues while adding and deleting
+> node in the registered buf list in the driver.
+> 1. list addition - buffer added into the list during buf_init
+> while not deleted during cleanup.
+> 2. list deletion - In capture streamoff, the list was reinitialized.
+> As a result, if any node was present in the list, it would
+> lead to issue while cleaning up that node during buf_cleanup.
+>
+> Corresponding call traces below:
+> [  165.751014] Call trace:
+> [  165.753541]  __list_add_valid+0x58/0x88
+> [  165.757532]  venus_helper_vb2_buf_init+0x74/0xa8 [venus_core]
+> [  165.763450]  vdec_buf_init+0x34/0xb4 [venus_dec]
+> [  165.768271]  __buf_prepare+0x598/0x8a0 [videobuf2_common]
+> [  165.773820]  vb2_core_qbuf+0xb4/0x334 [videobuf2_common]
+> [  165.779298]  vb2_qbuf+0x78/0xb8 [videobuf2_v4l2]
+> [  165.784053]  v4l2_m2m_qbuf+0x80/0xf8 [v4l2_mem2mem]
+> [  165.789067]  v4l2_m2m_ioctl_qbuf+0x2c/0x38 [v4l2_mem2mem]
+> [  165.794624]  v4l_qbuf+0x48/0x58
+>
+> [ 1797.556001] Call trace:
+> [ 1797.558516]  __list_del_entry_valid+0x88/0x9c
+> [ 1797.562989]  vdec_buf_cleanup+0x54/0x228 [venus_dec]
+> [ 1797.568088]  __buf_prepare+0x270/0x8a0 [videobuf2_common]
+> [ 1797.573625]  vb2_core_qbuf+0xb4/0x338 [videobuf2_common]
+> [ 1797.579082]  vb2_qbuf+0x78/0xb8 [videobuf2_v4l2]
+> [ 1797.583830]  v4l2_m2m_qbuf+0x80/0xf8 [v4l2_mem2mem]
+> [ 1797.588843]  v4l2_m2m_ioctl_qbuf+0x2c/0x38 [v4l2_mem2mem]
+> [ 1797.594389]  v4l_qbuf+0x48/0x58
+>
+> Signed-off-by: Vikash Garodia <vgarodia@codeaurora.org>
 > ---
->  drivers/media/platform/qcom/venus/core.c      |  3 +-
->  drivers/media/platform/qcom/venus/hfi.c       |  5 ++
->  drivers/media/platform/qcom/venus/hfi.h       |  1 +
->  drivers/media/platform/qcom/venus/hfi_venus.c | 51 +++++++++++++++++++
->  drivers/media/platform/qcom/venus/hfi_venus.h |  1 +
->  5 files changed, 59 insertions(+), 2 deletions(-)
+>  drivers/media/platform/qcom/venus/vdec.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 46f6e34d435a..eda8f35425df 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -72,8 +72,7 @@ static void venus_sys_error_handler(struct work_struct *work)
->         while (core->pmdomains[0] && pm_runtime_active(core->pmdomains[0]))
->                 usleep_range(1000, 1500);
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 7c4c483d5438..76be14efbfb0 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -1088,8 +1088,6 @@ static int vdec_stop_capture(struct venus_inst *inst)
+>                 break;
+>         }
 >
-> -       hfi_destroy(core);
-> -       ret |= hfi_create(core, &venus_core_ops);
-> +       hfi_reinit(core);
->
->         pm_runtime_get_sync(core->dev);
->
-> diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
-> index a211eb93e0f9..a59022adb14c 100644
-> --- a/drivers/media/platform/qcom/venus/hfi.c
-> +++ b/drivers/media/platform/qcom/venus/hfi.c
-> @@ -517,3 +517,8 @@ void hfi_destroy(struct venus_core *core)
->  {
->         venus_hfi_destroy(core);
->  }
-> +
-> +void hfi_reinit(struct venus_core *core)
-> +{
-> +       venus_hfi_queues_reinit(core);
-> +}
-> diff --git a/drivers/media/platform/qcom/venus/hfi.h b/drivers/media/platform/qcom/venus/hfi.h
-> index 62c315291484..f25d412d6553 100644
-> --- a/drivers/media/platform/qcom/venus/hfi.h
-> +++ b/drivers/media/platform/qcom/venus/hfi.h
-> @@ -145,6 +145,7 @@ struct hfi_ops {
->
->  int hfi_create(struct venus_core *core, const struct hfi_core_ops *ops);
->  void hfi_destroy(struct venus_core *core);
-> +void hfi_reinit(struct venus_core *core);
->
->  int hfi_core_init(struct venus_core *core);
->  int hfi_core_deinit(struct venus_core *core, bool blocking);
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index 3392fd177d22..90067cd8c892 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -1603,3 +1603,54 @@ int venus_hfi_create(struct venus_core *core)
->         core->ops = NULL;
+> -       INIT_LIST_HEAD(&inst->registeredbufs);
+> -
 >         return ret;
 >  }
-> +
-> +void venus_hfi_queues_reinit(struct venus_core *core)
-> +{
-> +       struct venus_hfi_device *hdev = to_hfi_priv(core);
-> +       struct hfi_queue_table_header *tbl_hdr;
-> +       struct iface_queue *queue;
-> +       struct hfi_sfr *sfr;
-> +       unsigned int i;
-> +
-> +       mutex_lock(&hdev->lock);
-> +
-> +       for (i = 0; i < IFACEQ_NUM; i++) {
-> +               queue = &hdev->queues[i];
-> +               queue->qhdr =
-> +                       IFACEQ_GET_QHDR_START_ADDR(hdev->ifaceq_table.kva, i);
-> +
-> +               venus_set_qhdr_defaults(queue->qhdr);
-> +
-> +               queue->qhdr->start_addr = queue->qmem.da;
-> +
-> +               if (i == IFACEQ_CMD_IDX)
-> +                       queue->qhdr->type |= HFI_HOST_TO_CTRL_CMD_Q;
-> +               else if (i == IFACEQ_MSG_IDX)
-> +                       queue->qhdr->type |= HFI_CTRL_TO_HOST_MSG_Q;
-> +               else if (i == IFACEQ_DBG_IDX)
-> +                       queue->qhdr->type |= HFI_CTRL_TO_HOST_DBG_Q;
-> +       }
-> +
-> +       tbl_hdr = hdev->ifaceq_table.kva;
-> +       tbl_hdr->version = 0;
-> +       tbl_hdr->size = IFACEQ_TABLE_SIZE;
-> +       tbl_hdr->qhdr0_offset = sizeof(struct hfi_queue_table_header);
-> +       tbl_hdr->qhdr_size = sizeof(struct hfi_queue_header);
-> +       tbl_hdr->num_q = IFACEQ_NUM;
-> +       tbl_hdr->num_active_q = IFACEQ_NUM;
-> +
-> +       /*
-> +        * Set receive request to zero on debug queue as there is no
-> +        * need of interrupt from video hardware for debug messages
-> +        */
-> +       queue = &hdev->queues[IFACEQ_DBG_IDX];
-> +       queue->qhdr->rx_req = 0;
-> +
-> +       sfr = hdev->sfr.kva;
-> +       sfr->buf_size = ALIGNED_SFR_SIZE;
-> +
-> +       /* ensure table and queue header structs are settled in memory */
-> +       wmb();
-> +
-> +       mutex_unlock(&hdev->lock);
-> +}
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.h b/drivers/media/platform/qcom/venus/hfi_venus.h
-> index 57154832090e..1b656ef2bf07 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.h
-> @@ -10,5 +10,6 @@ struct venus_core;
 >
->  void venus_hfi_destroy(struct venus_core *core);
->  int venus_hfi_create(struct venus_core *core);
-> +void venus_hfi_queues_reinit(struct venus_core *core);
+> @@ -1189,6 +1187,14 @@ static int vdec_buf_init(struct vb2_buffer *vb)
+>  static void vdec_buf_cleanup(struct vb2_buffer *vb)
+>  {
+>         struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+> +       struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +       struct venus_buffer *buf = to_venus_buffer(vbuf);
+> +
+> +       mutex_lock(&inst->lock);
+> +       if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+> +               if (!list_empty(&inst->registeredbufs))
+> +                       list_del_init(&buf->reg_list);
+> +       mutex_unlock(&inst->lock);
 >
->  #endif
+>         inst->buf_count--;
+>         if (!inst->buf_count)
 > --
-> 2.17.1
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
 >
 Reviewed-by: Fritz Koenig <frkoenig@chromium.org>
