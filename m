@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC2CF23E905
-	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 10:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 910F723E907
+	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 10:36:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727108AbgHGIgT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Aug 2020 04:36:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47744 "EHLO
+        id S1727785AbgHGIgY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Aug 2020 04:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgHGIgS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 04:36:18 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66389C061574;
-        Fri,  7 Aug 2020 01:36:18 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id x12so744024qtp.1;
-        Fri, 07 Aug 2020 01:36:18 -0700 (PDT)
+        with ESMTP id S1726511AbgHGIgW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 04:36:22 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3198C061574;
+        Fri,  7 Aug 2020 01:36:21 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id g26so1047579qka.3;
+        Fri, 07 Aug 2020 01:36:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+JFdj4sPIeByfBYRmF6Vt6YCTyJ6MLJ/8TJDghwLhlI=;
-        b=gCpC7fzeIm+LGpcHVTEPpJZ/qYf3NBmCWnEdXvNd8bPPSg3ETdXqAgp3s8CAu8vUCH
-         FCZ0xIYvC/7P3l6/4C0rmj1aVAn122Ud91Yl6LYlwTFMNFb5mcSjXWHrg+5ISEcuWAsD
-         4c4YpKeY7IbyHfR5FUWXRvWiX/LdCBeumzsaUKQu03DoftsTiOWj3il9XwjWHd9z2HLs
-         fhpoXN8yLApN3YrAsNg84d0H/oiFYnnETzI1r1nNeA2IiH4JsirBEvmwhOllOBYZtlWJ
-         u2peodGRjn+EWGQr98qp3/VjxL3hh8foOj9HdOlODegN1by7d+ouJP6zIu3okWe4oSAA
-         IkKw==
+        bh=u028S+fFJt0WDonYhSla2H06FxGLv3HsaKZA8/NTV3U=;
+        b=fct+j866dTT8yhxVu4p9BEWAQWfFg7B1WCsLXzxCzK09fIdLuMwjGk68JmeTb3tE4C
+         xcvtrZeDQqSqy6jQsezFEUSkc02Dnw6hBbdyBWgDV+Y7sPKSIc7MwAqpgAU3xwWUcAME
+         X73HVkl3wmRsDWIf4KDsKmIPyXt20gUJbJ0uGxQQCUscnWy7rd5/UWPYfz6b3m5R4sEe
+         JF2EVkvKTv871stwctscNYzvA6asYKpk5q3qZZgzoAVLIjrZY8e2+GeyJYnN+DOhcRjv
+         TMEVhtQ5qfazVfO0ULSzP5+YHuoImkUmuuRi5MXkDxjfeFN3Ef6Isl8ob8HXQQiBuHtI
+         F5dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+JFdj4sPIeByfBYRmF6Vt6YCTyJ6MLJ/8TJDghwLhlI=;
-        b=gD+duSO5tK0yTdyOWI0MT33c46Dqeyj1n+8T/U1V5zVw82rtd/akjVu31otlmhXQhQ
-         G2XmFvObeu/XRqgIQrnc8xDPWbFaIh2B5AYRGNYtBCmFWl1BJfKJyrB5OkBxbCJTZ9VD
-         Xnfza8G1j/RTh/QsMdrSgP6Pt2bGF0X1rDDH6V+4LKsNNkHaq11c0oZlKylH96g+7Uiu
-         3UWtEKhr1o8epdIUHXFohycR+XJRA2KnzYHpJQgUU9iq+kXDA4wGRc7hSxZCjFVarm6f
-         AB40iu76cnhVUzgKqc8A4moRx52NW25zX0z8unTsAzVimmvonxHwrk9AtTXf+SmG473T
-         S0KA==
-X-Gm-Message-State: AOAM531SE2y3tzQbtCT2eoqz/wd8YJ6DiDC94vfRLdtovaU4RnNlULLm
-        4m0+c4+aHz5z2OH1wSpM0KU=
-X-Google-Smtp-Source: ABdhPJx75PuruEt8qHJ8OOp1bhFr8Ltch/1Qp0AM1JHak/WmoG+fWRy+/rscLLvooLeS3Czxp7l7IQ==
-X-Received: by 2002:aed:32e7:: with SMTP id z94mr13069624qtd.17.1596789377617;
-        Fri, 07 Aug 2020 01:36:17 -0700 (PDT)
+        bh=u028S+fFJt0WDonYhSla2H06FxGLv3HsaKZA8/NTV3U=;
+        b=CdlxnbmHZGS5jNgvcv0ChG9nL5IXXzPiFSA9PQlRJlpvexC5pgoJ7UffgZ4iPaTtht
+         nTdSkY03Z8FzKgGzWySZTkOcgerWXH65IvKy++WTr+J4S+WMVs4uHYEyLyxy9kcGRbK1
+         slKsyOuGSPJjG0GgRvQQnBP9VuTp7DKcMSRsfef9aY9WFiXByDpMeFjbdTg/CJjjzHZu
+         uRgoBEaOtaG1MBwsjYrBy+K17flVB0kHFi7s30SG+gI3v/LXWjh2VhAQzi90pE3SROwh
+         p62IKsuRmlOYjuqrhFGEYKwANLpMLVncPT8yYCjzw6w5VkkGyI3Tv4DBZBvBvX5VR2vO
+         hbtw==
+X-Gm-Message-State: AOAM5305heLgYlBaUTs4iKmQUuYxUvPblLAedRl0KhsGYUnkpP1+9wx/
+        DvxTYAXAv/1mWMONPzC7WFc=
+X-Google-Smtp-Source: ABdhPJz50fMdpFDgtUWwmwGngCI6hJXZBt/UYJZ0cpWN3OJDgTRM+sNwM4b69Xolannxoz+E7GKSfw==
+X-Received: by 2002:a37:4391:: with SMTP id q139mr11994311qka.118.1596789381200;
+        Fri, 07 Aug 2020 01:36:21 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:da15:c0bd:33c1:e2ad])
-        by smtp.gmail.com with ESMTPSA id c42sm7846728qte.5.2020.08.07.01.36.14
+        by smtp.gmail.com with ESMTPSA id c42sm7846728qte.5.2020.08.07.01.36.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2020 01:36:17 -0700 (PDT)
+        Fri, 07 Aug 2020 01:36:20 -0700 (PDT)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -54,9 +54,9 @@ Cc:     skhan@linuxfoundation.org,
         "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 03/20] media: usb: uvc_ctrl.c: add temp variable for list iteration
-Date:   Fri,  7 Aug 2020 05:35:30 -0300
-Message-Id: <20200807083548.204360-3-dwlsalmeida@gmail.com>
+Subject: [PATCH 04/20] media: uvc: uvc_v4l2.c: add temp variable for list iteration
+Date:   Fri,  7 Aug 2020 05:35:31 -0300
+Message-Id: <20200807083548.204360-4-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,56 +67,71 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Fixes the following coccinelle report:
+Fixes the following coccinelle reports:
 
-drivers/media/usb/uvc/uvc_ctrl.c:1860:5-11:
-ERROR: invalid reference to the index variable of the iterator on line 1854
+drivers/media/usb/uvc/uvc_v4l2.c:840:8-13:
+ERROR: invalid reference to the index variable of the iterator on line 836
 
-By introducing a temporary variable to iterate the list.
+drivers/media/usb/uvc/uvc_v4l2.c:851:5-10:
+ERROR: invalid reference to the index variable of the iterator on line 843
 
-Do not dereference the 'entity' pointer if it is not found in the list.
+drivers/media/usb/uvc/uvc_v4l2.c:851:22-27:
+ERROR: invalid reference to the index variable of the iterator on line 843
+
+Byy introducing a temporary variable for list iteration.
 
 Found using - Coccinelle (http://coccinelle.lip6.fr)
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/media/usb/uvc/uvc_v4l2.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index e399b9fad757..567bdedc2ff2 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1842,7 +1842,8 @@ static int uvc_ctrl_init_xu_ctrl(struct uvc_device *dev,
- int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
- 	struct uvc_xu_control_query *xqry)
- {
--	struct uvc_entity *entity;
-+	struct uvc_entity *entity = NULL;
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 0335e69b70ab..7205ef13c2e1 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -826,6 +826,7 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
+ 	struct uvc_video_chain *chain = handle->chain;
+ 	const struct uvc_entity *selector = chain->selector;
+ 	struct uvc_entity *iterm = NULL;
 +	struct uvc_entity *cursor = NULL;
- 	struct uvc_control *ctrl;
- 	unsigned int i, found = 0;
- 	u32 reqflags;
-@@ -1851,13 +1852,15 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
- 	int ret;
+ 	u32 index = input->index;
+ 	int pin = 0;
  
- 	/* Find the extension unit. */
--	list_for_each_entry(entity, &chain->entities, chain) {
--		if (UVC_ENTITY_TYPE(entity) == UVC_VC_EXTENSION_UNIT &&
--		    entity->id == xqry->unit)
-+	list_for_each_entry(cursor, &chain->entities, chain) {
-+		if (UVC_ENTITY_TYPE(cursor) == UVC_VC_EXTENSION_UNIT &&
-+		    cursor->id == xqry->unit) {
-+			entity = cursor;
- 			break;
-+		    }
+@@ -833,18 +834,22 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
+ 	    (chain->dev->quirks & UVC_QUIRK_IGNORE_SELECTOR_UNIT)) {
+ 		if (index != 0)
+ 			return -EINVAL;
+-		list_for_each_entry(iterm, &chain->entities, chain) {
+-			if (UVC_ENTITY_IS_ITERM(iterm))
++		list_for_each_entry(cursor, &chain->entities, chain) {
++			if (UVC_ENTITY_IS_ITERM(cursor)){
++				iterm = cursor;
+ 				break;
++			}
+ 		}
+ 		pin = iterm->id;
+ 	} else if (index < selector->bNrInPins) {
+ 		pin = selector->baSourceID[index];
+-		list_for_each_entry(iterm, &chain->entities, chain) {
+-			if (!UVC_ENTITY_IS_ITERM(iterm))
++		list_for_each_entry(cursor, &chain->entities, chain) {
++			if (!UVC_ENTITY_IS_ITERM(cursor))
+ 				continue;
+-			if (iterm->id == pin)
++			if (cursor->id == pin) {
++				iterm = cursor;
+ 				break;
++			}
+ 		}
  	}
  
--	if (entity->id != xqry->unit) {
-+	if (!entity || entity->id != xqry->unit) {
- 		uvc_trace(UVC_TRACE_CONTROL, "Extension unit %u not found.\n",
- 			xqry->unit);
- 		return -ENOENT;
+@@ -1519,4 +1524,3 @@ const struct v4l2_file_operations uvc_fops = {
+ 	.get_unmapped_area = uvc_v4l2_get_unmapped_area,
+ #endif
+ };
+-
 -- 
 2.28.0
 
