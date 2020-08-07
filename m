@@ -2,96 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2F7923E740
-	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 08:25:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C89123E752
+	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 08:28:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgHGGZE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Aug 2020 02:25:04 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:45239 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726542AbgHGGZE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 02:25:04 -0400
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 06 Aug 2020 23:25:04 -0700
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 06 Aug 2020 23:25:01 -0700
-Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 07 Aug 2020 11:54:56 +0530
-Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
-        id DAEFA21C70; Fri,  7 Aug 2020 11:54:55 +0530 (IST)
-From:   Mansur Alisha Shaik <mansur@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org,
-        Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: [RESEND  3/3] venus: handle use after free for iommu_map/iommu_unmap
-Date:   Fri,  7 Aug 2020 11:54:38 +0530
-Message-Id: <1596781478-12216-4-git-send-email-mansur@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1596781478-12216-1-git-send-email-mansur@codeaurora.org>
-References: <1596781478-12216-1-git-send-email-mansur@codeaurora.org>
+        id S1726426AbgHGG2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Aug 2020 02:28:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35566 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725845AbgHGG2N (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 7 Aug 2020 02:28:13 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99F7122CF6;
+        Fri,  7 Aug 2020 06:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596781693;
+        bh=AUsPBLdLKr44ZCkwsOyeqG6DjOnWpE+YwbGA9SXtmY8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uryiJWLz3T58vNpTVTIHn2na9ql+ZIfe33Ev8pSL5Tf/r3KgU4nLBlc39QdeITvk6
+         eiuSb/KWb3rvFhTkJvGndJyoOkLgHxZdOM2hEIRk66CcvdbC6ZaYz4PO/CR5JChFav
+         O7agK8ajitCEb70RbAM9kh/QSDqyvAxmYs4VUgRQ=
+Date:   Fri, 7 Aug 2020 08:28:09 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Nicolas Boichat <drinkcat@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devel@driverdev.osuosl.org, lkml <linux-kernel@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [RESEND PATCH] media: atomisp: Replace trace_printk by pr_info
+Message-ID: <20200807062809.GB979264@kroah.com>
+References: <20200710144520.RESEND.1.Id0f52f486e277b5af30babac8ba6b09589962a68@changeid>
+ <20200710070332.GA1175842@kroah.com>
+ <CANMq1KDcKWgyYYP_m0-WV7602g7zUbU0PPkvwXxbSTF5vFfKGQ@mail.gmail.com>
+ <CANMq1KC7CgUT+neoOUZbnr8MbDgqEikqt2vn8dxAS1rpX=C2aA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANMq1KC7CgUT+neoOUZbnr8MbDgqEikqt2vn8dxAS1rpX=C2aA@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In concurrency usecase and reboot scenario we are trying
-to map fw.iommu_domain which is already unmapped during
-shutdown. This is causing NULL pointer dereference crash.
+On Fri, Aug 07, 2020 at 09:50:23AM +0800, Nicolas Boichat wrote:
+> On Fri, Jul 24, 2020 at 8:41 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
+> >
+> > On Fri, Jul 10, 2020 at 3:03 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Fri, Jul 10, 2020 at 02:45:29PM +0800, Nicolas Boichat wrote:
+> > > > trace_printk should not be used in production code, replace it
+> > > > call with pr_info.
+> > > >
+> > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > > > ---
+> > > > Sent this before as part of a series (whose 4th patch was a
+> > > > change that allows to detect such trace_printk), but maybe it's
+> > > > easier to get individual maintainer attention by splitting it.
+> > >
+> > > Mauro should take this soon:
+> > >
+> > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >
+> > Mauro: did you get a chance to look at this? (and the other similar
+> > patch "media: camss: vfe: Use trace_printk for debugging only")
+> 
+> Mauro: Another gentle ping. Thanks.
 
-This case is handled by adding necessary checks.
+It's the middle of the merge window, maintainers can't do anything until
+after 5.9-rc1 is out, sorry.
 
-Call trace:
- __iommu_map+0x4c/0x348
- iommu_map+0x5c/0x70
- venus_boot+0x184/0x230 [venus_core]
- venus_sys_error_handler+0xa0/0x14c [venus_core]
- process_one_work+0x210/0x3d0
- worker_thread+0x248/0x3f4
- kthread+0x11c/0x12c
- ret_from_fork+0x10/0x18
-
-Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
----
- drivers/media/platform/qcom/venus/firmware.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-index 8801a6a..c427e88 100644
---- a/drivers/media/platform/qcom/venus/firmware.c
-+++ b/drivers/media/platform/qcom/venus/firmware.c
-@@ -171,9 +171,14 @@ static int venus_shutdown_no_tz(struct venus_core *core)
- 
- 	iommu = core->fw.iommu_domain;
- 
--	unmapped = iommu_unmap(iommu, VENUS_FW_START_ADDR, mapped);
--	if (unmapped != mapped)
--		dev_err(dev, "failed to unmap firmware\n");
-+	if (core->fw.mapped_mem_size && iommu) {
-+		unmapped = iommu_unmap(iommu, VENUS_FW_START_ADDR, mapped);
-+
-+		if (unmapped != mapped)
-+			dev_err(dev, "failed to unmap firmware\n");
-+		else
-+			core->fw.mapped_mem_size = 0;
-+	}
- 
- 	return 0;
- }
-@@ -288,7 +293,11 @@ void venus_firmware_deinit(struct venus_core *core)
- 	iommu = core->fw.iommu_domain;
- 
- 	iommu_detach_device(iommu, core->fw.dev);
--	iommu_domain_free(iommu);
-+
-+	if (core->fw.iommu_domain) {
-+		iommu_domain_free(iommu);
-+		core->fw.iommu_domain = NULL;
-+	}
- 
- 	platform_device_unregister(to_platform_device(core->fw.dev));
- }
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
-of Code Aurora Forum, hosted by The Linux Foundation
-
+greg k-h
