@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF3CF23E746
-	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 08:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2F7923E740
+	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 08:25:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbgHGGZB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Aug 2020 02:25:01 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:62166 "EHLO
+        id S1726491AbgHGGZE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Aug 2020 02:25:04 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:45239 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725379AbgHGGZB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 02:25:01 -0400
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 06 Aug 2020 23:25:00 -0700
+        with ESMTP id S1726542AbgHGGZE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 02:25:04 -0400
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 06 Aug 2020 23:25:04 -0700
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 06 Aug 2020 23:24:58 -0700
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 06 Aug 2020 23:25:01 -0700
 Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 07 Aug 2020 11:54:54 +0530
+  by ironmsg01-blr.qualcomm.com with ESMTP; 07 Aug 2020 11:54:56 +0530
 Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
-        id 3815B21C70; Fri,  7 Aug 2020 11:54:53 +0530 (IST)
+        id DAEFA21C70; Fri,  7 Aug 2020 11:54:55 +0530 (IST)
 From:   Mansur Alisha Shaik <mansur@codeaurora.org>
 To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org,
         Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: [RESEND  2/3] venus: core: cancel pending work items in workqueue
-Date:   Fri,  7 Aug 2020 11:54:37 +0530
-Message-Id: <1596781478-12216-3-git-send-email-mansur@codeaurora.org>
+Subject: [RESEND  3/3] venus: handle use after free for iommu_map/iommu_unmap
+Date:   Fri,  7 Aug 2020 11:54:38 +0530
+Message-Id: <1596781478-12216-4-git-send-email-mansur@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1596781478-12216-1-git-send-email-mansur@codeaurora.org>
 References: <1596781478-12216-1-git-send-email-mansur@codeaurora.org>
@@ -35,29 +35,17 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In concurrency usecase and reboot scenario we are
-observing race condition and seeing NULL pointer
-dereference crash. In shutdown path and system
-recovery path we are destroying the same mutex
-hence seeing crash.
+In concurrency usecase and reboot scenario we are trying
+to map fw.iommu_domain which is already unmapped during
+shutdown. This is causing NULL pointer dereference crash.
 
-This case is handled by mutex protection and
-cancel delayed work items in work queue.
-
-Below is the call trace for the crash
-Call trace:
- venus_remove+0xdc/0xec [venus_core]
- venus_core_shutdown+0x1c/0x34 [venus_core]
- platform_drv_shutdown+0x28/0x34
- device_shutdown+0x154/0x1fc
- kernel_restart_prepare+0x40/0x4c
- kernel_restart+0x1c/0x64
+This case is handled by adding necessary checks.
 
 Call trace:
- mutex_lock+0x34/0x60
- venus_hfi_destroy+0x28/0x98 [venus_core]
- hfi_destroy+0x1c/0x28 [venus_core]
- venus_sys_error_handler+0x60/0x14c [venus_core]
+ __iommu_map+0x4c/0x348
+ iommu_map+0x5c/0x70
+ venus_boot+0x184/0x230 [venus_core]
+ venus_sys_error_handler+0xa0/0x14c [venus_core]
  process_one_work+0x210/0x3d0
  worker_thread+0x248/0x3f4
  kthread+0x11c/0x12c
@@ -65,32 +53,44 @@ Call trace:
 
 Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
 ---
- drivers/media/platform/qcom/venus/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/platform/qcom/venus/firmware.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index fe99c83..41a293e 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -312,6 +312,8 @@ static int venus_remove(struct platform_device *pdev)
- 	struct device *dev = core->dev;
- 	int ret;
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index 8801a6a..c427e88 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -171,9 +171,14 @@ static int venus_shutdown_no_tz(struct venus_core *core)
  
-+	cancel_delayed_work_sync(&core->work);
+ 	iommu = core->fw.iommu_domain;
+ 
+-	unmapped = iommu_unmap(iommu, VENUS_FW_START_ADDR, mapped);
+-	if (unmapped != mapped)
+-		dev_err(dev, "failed to unmap firmware\n");
++	if (core->fw.mapped_mem_size && iommu) {
++		unmapped = iommu_unmap(iommu, VENUS_FW_START_ADDR, mapped);
 +
- 	ret = pm_runtime_get_sync(dev);
- 	WARN_ON(ret < 0);
++		if (unmapped != mapped)
++			dev_err(dev, "failed to unmap firmware\n");
++		else
++			core->fw.mapped_mem_size = 0;
++	}
  
-@@ -329,7 +331,9 @@ static int venus_remove(struct platform_device *pdev)
- 	if (pm_ops->core_put)
- 		pm_ops->core_put(dev);
+ 	return 0;
+ }
+@@ -288,7 +293,11 @@ void venus_firmware_deinit(struct venus_core *core)
+ 	iommu = core->fw.iommu_domain;
  
-+	mutex_lock(&core->lock);
- 	hfi_destroy(core);
-+	mutex_unlock(&core->lock);
+ 	iommu_detach_device(iommu, core->fw.dev);
+-	iommu_domain_free(iommu);
++
++	if (core->fw.iommu_domain) {
++		iommu_domain_free(iommu);
++		core->fw.iommu_domain = NULL;
++	}
  
- 	icc_put(core->video_path);
- 	icc_put(core->cpucfg_path);
+ 	platform_device_unregister(to_platform_device(core->fw.dev));
+ }
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
 of Code Aurora Forum, hosted by The Linux Foundation
