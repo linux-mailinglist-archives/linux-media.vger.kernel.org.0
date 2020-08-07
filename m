@@ -2,64 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 572F923E900
-	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 10:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 592A423E902
+	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 10:36:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbgHGIgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Aug 2020 04:36:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47720 "EHLO
+        id S1727078AbgHGIgP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Aug 2020 04:36:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgHGIgK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 04:36:10 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA952C061574;
-        Fri,  7 Aug 2020 01:36:09 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id h7so1034733qkk.7;
-        Fri, 07 Aug 2020 01:36:09 -0700 (PDT)
+        with ESMTP id S1726511AbgHGIgO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 04:36:14 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E188C061574;
+        Fri,  7 Aug 2020 01:36:14 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id 6so750363qtt.0;
+        Fri, 07 Aug 2020 01:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=o5jxKv6AGUpMqPYX4rcg8Y6ClYjKX89Kxhh7saOpFoM=;
-        b=dhFLyhzD15lHcsKFDPnlp0crGaMdObAVg/OSbLAsxs5pJnP6ERVO/zXRoef8cE7iZ/
-         +zmq6TaIBv2tJMEXWUKBW4MKQnlq9UvYR5DwH4Iez9jRqLVK3sADUX/IamPU0Tf24PFL
-         aLDEeQPQTczCr9Vx4f1669wGYqBFFZqRYfhkLp9dvBOJZSVW5b6JLcuiYe+Gu4plmvu3
-         DNFuZ5U/in3smz4DVbJAPNlfxTrtiIutzI1feCdtmAbFG22C7s15zypPzQMbVcHYP+LO
-         rpUSZLfJ8sVbxb1iQ/oVgIHEtqEQyEPuh2JrzJQbN7Z+TY+zwACeop9SLXcVBuR7h+Nh
-         W9UA==
+        bh=kdO3teMZpZhh4Zg2rIT12joG5MKLgBFbBUxDW1pI73k=;
+        b=eIR16ZnQ1nthK/tYOCxXkv+uIJlqLI5IbwPoaSHYzG5gRu20ue9nD6QcbcUL6csLHq
+         qJ2Bf3uuqmFtWK+oIJ5EzY3p1D25EFds9Q/z7v8P5eEDL2TVQ9mEVGerVe/8PbTl/Qsk
+         D11fnpEB4jlA3GJjzTBBaivnKJQfkHoMpRl7Mes/NBarDLQ2EBA5tm3fKMVXCUX5p8NE
+         VtI6+OpmTkmJ4j60tffXtyKIDmyO1/uEycScTE8E6FEgO3oFk0A8h/SRUTFFX4NyHy/D
+         pAI5tBl+++1vqtgrdk6M+NIJOrts3ioniEWB22DpA+PlR4g7FKvH16B1edACnFjwhi+W
+         txjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=o5jxKv6AGUpMqPYX4rcg8Y6ClYjKX89Kxhh7saOpFoM=;
-        b=b40BDK1uXXev7SAyPAhZuDOu9AsUf8NE2+v0ltZLRrmqaYyNGvCT+cegFDZpBCu3Zz
-         Qvcti9WEOHMb6nQTnlbHH/iDCNMvHpAY210vDlD2g0Z4UahqLMepwwZCA8zDkyza6Qxr
-         ZEgdPp0tFKBQQgsAki5uzoULfGb7luufblUM7Zh/ok23IuT/bmlnrH1Vc0muzRfzS/Gd
-         X7qurkQ5/M+Y0NZBnzvA8mxV666GLNROne9OQ+SOb4sGvbJ95IUzC5m+0CLBD+ryuwiY
-         8dgs/Vex6Og5TYNpxSvuSy0aHrCFvWHcz0ZLRSfl4HG86kEDLWAletuJRF/qaHbcuQIo
-         rF0w==
-X-Gm-Message-State: AOAM532GM5469Hq+f8u7nDJJSLvFdSHsqrll4Wzwphk9rfaN3R1PLLJ/
-        Zw1uQoytdGL48StHNH7iHLo=
-X-Google-Smtp-Source: ABdhPJzLXuaNuBUAJkxY5f5H7E5+VUxW1JqrBrW9nuJ239/72kYuC86uQvEkINpqUygtjT5DHaaoQQ==
-X-Received: by 2002:ae9:ef43:: with SMTP id d64mr13215403qkg.326.1596789368992;
-        Fri, 07 Aug 2020 01:36:08 -0700 (PDT)
+        bh=kdO3teMZpZhh4Zg2rIT12joG5MKLgBFbBUxDW1pI73k=;
+        b=DwXflxIr0aYng0tZNcuTXEfNuxsGg8tnZ7B3e/CXmsbpD0IPeFpYOQhxxsUUvnbhgO
+         fPCUOHgxKDRmjBlpq/vx+0W2fk0zIqG3AemOiaDUx3dZZnflq+7qh0ZsJmTNjDztYjZW
+         BtS0kJZWr8xBkRem82LKmy/GxmM5dbSy6wqI3voRTPpaN6ecCW4zHIHN6eRTUHLNdcty
+         cJjQwlaxu70QcMwQ0ovAM16IZFxGOCE2Y9q3ib9z/PZ0XcJAV8STUYzJLUEFpT0Brgo3
+         nS+9N/LjKsHGtGJ0dvKZaljM/XMnn162PHBdO5ULHIyRWft2tltWxgn4N8PSOlmUSWCC
+         ec4w==
+X-Gm-Message-State: AOAM530/rzC3S1Z2DlMccmvAue2paDuNet+gamR7/9g9RtIMYzh6stmy
+        3k77orKkO78d42dV0cf+MFc=
+X-Google-Smtp-Source: ABdhPJwBojBnRxKGIEx2o9NF/V0VbhRIv+H1iWPd1xJmwPYqw7fbihn+NBWPgbuQol6WxM2CBA7iGg==
+X-Received: by 2002:aed:3947:: with SMTP id l65mr13322315qte.374.1596789373742;
+        Fri, 07 Aug 2020 01:36:13 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:da15:c0bd:33c1:e2ad])
-        by smtp.gmail.com with ESMTPSA id c42sm7846728qte.5.2020.08.07.01.36.05
+        by smtp.gmail.com with ESMTPSA id c42sm7846728qte.5.2020.08.07.01.36.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2020 01:36:08 -0700 (PDT)
+        Fri, 07 Aug 2020 01:36:13 -0700 (PDT)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
-To:     Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>
+To:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     skhan@linuxfoundation.org,
         "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 01/20] media: sunxi: sun8i-rotate.c: remove useless error message
-Date:   Fri,  7 Aug 2020 05:35:28 -0300
-Message-Id: <20200807083548.204360-1-dwlsalmeida@gmail.com>
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 02/20] media: exynos4-is: media-dev.c: use PTR_ERR_OR_ZERO
+Date:   Fri,  7 Aug 2020 05:35:29 -0300
+Message-Id: <20200807083548.204360-2-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,37 +71,36 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-This fixes the following coccinelle report:
+Fixes the following coccinelle report:
 
-drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c:751:2-9:
-line 751 is redundant because platform_get_irq() already prints an error
+drivers/media/platform/exynos4-is/media-dev.c:1273:1-3:
+WARNING: PTR_ERR_OR_ZERO can be used
 
-By removing the useless call to dev_err()
+By using PTR_ERR_OR_ZERO in place of the existing logic.
 
 Found using - Coccinelle (http://coccinelle.lip6.fr)
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/media/platform/exynos4-is/media-dev.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
-index 94f505d3cbad..3f81dd17755c 100644
---- a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
-+++ b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
-@@ -747,11 +747,8 @@ static int rotate_probe(struct platform_device *pdev)
- 	dev->dev = &pdev->dev;
+diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+index 16dd660137a8..9346b08931e2 100644
+--- a/drivers/media/platform/exynos4-is/media-dev.c
++++ b/drivers/media/platform/exynos4-is/media-dev.c
+@@ -1270,10 +1270,8 @@ static int fimc_md_get_pinctrl(struct fimc_md *fmd)
  
- 	irq = platform_get_irq(pdev, 0);
--	if (irq <= 0) {
--		dev_err(dev->dev, "Failed to get IRQ\n");
--
-+	if (irq <= 0)
- 		return irq;
--	}
+ 	pctl->state_idle = pinctrl_lookup_state(pctl->pinctrl,
+ 					PINCTRL_STATE_IDLE);
+-	if (IS_ERR(pctl->state_idle))
+-		return PTR_ERR(pctl->state_idle);
  
- 	ret = devm_request_irq(dev->dev, irq, rotate_irq,
- 			       0, dev_name(dev->dev), dev);
+-	return 0;
++	return PTR_ERR_OR_ZERO(pctl->state_idle);
+ }
+ 
+ static int cam_clk_prepare(struct clk_hw *hw)
 -- 
 2.28.0
 
