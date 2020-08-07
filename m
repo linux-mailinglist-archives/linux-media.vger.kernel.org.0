@@ -2,23 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 497FE23EF16
-	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 16:33:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10BB923EF2B
+	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 16:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726186AbgHGOdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Aug 2020 10:33:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46080 "EHLO
+        id S1726095AbgHGOpC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Aug 2020 10:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725955AbgHGOdc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 10:33:32 -0400
+        with ESMTP id S1726030AbgHGOpB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 10:45:01 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A11CC061756;
-        Fri,  7 Aug 2020 07:33:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56CB5C061756;
+        Fri,  7 Aug 2020 07:45:01 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 549B4299B0A
-Message-ID: <4112aad8ad439fe5b46192e7540e91da4ae8a557.camel@collabora.com>
-Subject: Re: [PATCH v2 01/14] media: uapi: h264: Update reference lists
+        with ESMTPSA id 5DB0828C534
+Message-ID: <7e0ad157cabb656cbb4f24354146197e6a1d3f36.camel@collabora.com>
+Subject: Re: [PATCH v2 08/14] media: uapi: h264: Drop SLICE_PARAMS 'size'
+ field
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -31,11 +32,11 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Maxime Ripard <mripard@kernel.org>,
         Jernej Skrabec <jernej.skrabec@siol.net>
-Date:   Fri, 07 Aug 2020 11:33:17 -0300
-In-Reply-To: <20200806154707.GA1621078@aptenodytes>
+Date:   Fri, 07 Aug 2020 11:44:51 -0300
+In-Reply-To: <20200806155028.GB1621078@aptenodytes>
 References: <20200806151310.98624-1-ezequiel@collabora.com>
-         <20200806151310.98624-2-ezequiel@collabora.com>
-         <20200806154707.GA1621078@aptenodytes>
+         <20200806151310.98624-9-ezequiel@collabora.com>
+         <20200806155028.GB1621078@aptenodytes>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.3-1 
@@ -46,193 +47,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2020-08-06 at 17:47 +0200, Paul Kocialkowski wrote:
+On Thu, 2020-08-06 at 17:50 +0200, Paul Kocialkowski wrote:
 > Hi,
 > 
-> On Thu 06 Aug 20, 12:12, Ezequiel Garcia wrote:
-> > From: Jernej Skrabec <jernej.skrabec@siol.net>
-> > 
-> > When dealing with with interlaced frames, reference lists must tell if
-> > each particular reference is meant for top or bottom field. This info
-> > is currently not provided at all in the H264 related controls.
-> > 
-> > Make reference lists hold a structure which will also hold an
-> > enumerator type along index into DPB array. The enumerator must
-> > be used to specify if reference is for top or bottom field.
-> > 
-> > Currently the only user of these lists is Cedrus which is just compile
-> > fixed here. Actual usage of will come in a following commit.
+> On Thu 06 Aug 20, 12:13, Ezequiel Garcia wrote:
+> > The SLICE_PARAMS control is intended for slice-based
+> > devices. In this mode, the OUTPUT buffer contains
+> > a single slice, and so the buffer's plane payload size
+> > can be used to query the slice size.
 > 
-> Is there a particular reason we are adding this to the ref_pic_list[0-1]
-> instead of the DPB entries directly?
+> If we later extend the API for supporting multiple slices with dynamic array
+> controls, I guess we'll need to know the size of each slice in each control
+> elements. So I'd rather keep that even if it's indeed redundant with
+> vb2_get_plane_payload in single-slice mode.
 > 
 
-I actually asked the same question to Jernej's original series.
+If we later extend the API, another control (possibly
+another decoding mode?) shall be introduced.
 
-Given the references are per-field, which is why there are twice
-as many references as DPB entries, the semantics proposed here
-are required for slice-based decoders.
+This API covers single-slice-per-request as specified
+and documented in patch 9/14 "Clarify SLICE_BASED mode".
 
-See Nicolas' reply:
+This is along the lines of the proposal drafted by Nicolas,
+see my reply: https://lkml.org/lkml/2020/8/5/791.
 
-https://www.spinics.net/lists/arm-kernel/msg812277.html
+This applies to num_slices, slice size and slice start offset.
 
-As Jernej's already reply, this is required to fix Cedrus.
+There are multiple ways of doing this.
 
 Thanks!
 Ezequiel
 
-> Cheers,
+> What do you think?
 > 
 > Paul
 > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > To reduce the API surface drop the size from the
+> > SLICE_PARAMS control.
+> > 
+> > A follow-up change will remove other members in SLICE_PARAMS
+> > so we don't need to add padding fields here.
+> > 
 > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > > ---
-> > v2:
-> > * As pointed out by Jonas, enum v4l2_h264_dpb_reference here.
-> > ---
-> >  .../media/v4l/ext-ctrls-codec.rst             | 44 ++++++++++++++++++-
-> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 +--
-> >  include/media/h264-ctrls.h                    | 23 +++++++---
-> >  3 files changed, 62 insertions(+), 11 deletions(-)
+> >  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 3 ---
+> >  drivers/staging/media/sunxi/cedrus/cedrus_h264.c          | 7 +++----
+> >  include/media/h264-ctrls.h                                | 3 ---
+> >  3 files changed, 3 insertions(+), 10 deletions(-)
 > > 
 > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > index d0d506a444b1..f2b2a381369f 100644
+> > index 427fc5727ec0..fff74b7bf32a 100644
 > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
 > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > @@ -1843,10 +1843,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >      * - __u32
-> >        - ``slice_group_change_cycle``
-> >        -
-> > -    * - __u8
-> > +    * - struct :c:type:`v4l2_h264_reference`
-> >        - ``ref_pic_list0[32]``
-> >        - Reference picture list after applying the per-slice modifications
-> > -    * - __u8
-> > +    * - struct :c:type:`v4l2_h264_reference`
-> >        - ``ref_pic_list1[32]``
-> >        - Reference picture list after applying the per-slice modifications
-> >      * - __u32
-> > @@ -1926,6 +1926,46 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >        - ``chroma_offset[32][2]``
-> >        -
+> > @@ -1760,9 +1760,6 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+> >      :stub-columns: 0
+> >      :widths:       1 1 2
 > >  
-> > +``Picture Reference``
-> > +
-> > +.. c:type:: v4l2_h264_reference
-> > +
-> > +.. cssclass:: longtable
-> > +
-> > +.. flat-table:: struct v4l2_h264_reference
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +    :widths:       1 1 2
-> > +
-> > +    * - enum :c:type:`v4l2_h264_dpb_reference`
-> > +      - ``reference``
-> > +      - Specifies how the DPB entry is referenced.
-> > +    * - __u8
-> > +      - ``index``
-> > +      - Index into the :c:type:`v4l2_ctrl_h264_decode_params`.dpb array.
-> > +
-> > +.. c:type:: v4l2_h264_dpb_reference
-> > +
-> > +.. cssclass:: longtable
-> > +
-> > +.. flat-table::
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +    :widths:       1 1 2
-> > +
-> > +    * - ``V4L2_H264_DPB_TOP_REF``
-> > +      - 0x1
-> > +      - The top field in field pair is used for
-> > +        short-term reference.
-> > +    * - ``V4L2_H264_DPB_BOTTOM_REF``
-> > +      - 0x2
-> > +     - The bottom field in field pair is used for
-> > +        short-term reference.
-> > +    * - ``V4L2_H264_DPB_FRAME_REF``
-> > +      - 0x3
-> > +      - The frame (or the top/bottom fields, if it's a field pair)
-> > +        is used for short-term reference.
-> > +
-> >  ``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS (struct)``
-> >      Specifies the decode parameters (as extracted from the bitstream)
-> >      for the associated H264 slice data. This includes the necessary
+> > -    * - __u32
+> > -      - ``size``
+> > -      -
+> >      * - __u32
+> >        - ``start_byte_offset``
+> >          Offset (in bytes) from the beginning of the OUTPUT buffer to the start
 > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > index 54ee2aa423e2..cce527bbdf86 100644
+> > index a9ba78b15907..8b6f05aadbe8 100644
 > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
 > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > @@ -166,8 +166,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
+> > @@ -324,17 +324,16 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+> >  	struct vb2_buffer *src_buf = &run->src->vb2_buf;
+> >  	struct cedrus_dev *dev = ctx->dev;
+> >  	dma_addr_t src_buf_addr;
+> > -	u32 len = slice->size * 8;
+> > +	size_t slice_bytes = vb2_get_plane_payload(src_buf, 0);
+> >  	unsigned int pic_width_in_mbs;
+> >  	bool mbaff_pic;
+> >  	u32 reg;
 > >  
-> >  static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
-> >  				   struct cedrus_run *run,
-> > -				   const u8 *ref_list, u8 num_ref,
-> > -				   enum cedrus_h264_sram_off sram)
-> > +				   const struct v4l2_h264_reference *ref_list,
-> > +				   u8 num_ref, enum cedrus_h264_sram_off sram)
-> >  {
-> >  	const struct v4l2_ctrl_h264_decode_params *decode = run->h264.decode_params;
-> >  	struct vb2_queue *cap_q;
-> > @@ -188,7 +188,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
-> >  		int buf_idx;
-> >  		u8 dpb_idx;
+> > -	cedrus_write(dev, VE_H264_VLD_LEN, len);
+> > +	cedrus_write(dev, VE_H264_VLD_LEN, slice_bytes * 8);
+> >  	cedrus_write(dev, VE_H264_VLD_OFFSET, 0);
 > >  
-> > -		dpb_idx = ref_list[i];
-> > +		dpb_idx = ref_list[i].index;
-> >  		dpb = &decode->dpb[dpb_idx];
-> >  
-> >  		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> >  	src_buf_addr = vb2_dma_contig_plane_dma_addr(src_buf, 0);
+> > -	cedrus_write(dev, VE_H264_VLD_END,
+> > -		     src_buf_addr + vb2_get_plane_payload(src_buf, 0));
+> > +	cedrus_write(dev, VE_H264_VLD_END, src_buf_addr + slice_bytes);
+> >  	cedrus_write(dev, VE_H264_VLD_ADDR,
+> >  		     VE_H264_VLD_ADDR_VAL(src_buf_addr) |
+> >  		     VE_H264_VLD_ADDR_FIRST | VE_H264_VLD_ADDR_VALID |
 > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > index 080fd1293c42..4c0bb7f5fb05 100644
+> > index 4f05ee265997..f74736fcfa00 100644
 > > --- a/include/media/h264-ctrls.h
 > > +++ b/include/media/h264-ctrls.h
-> > @@ -19,6 +19,8 @@
-> >   */
-> >  #define V4L2_H264_NUM_DPB_ENTRIES 16
-> >  
-> > +#define V4L2_H264_REF_LIST_LEN (2 * V4L2_H264_NUM_DPB_ENTRIES)
-> > +
-> >  /* Our pixel format isn't stable at the moment */
-> >  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
-> >  
-> > @@ -140,6 +142,19 @@ struct v4l2_h264_pred_weight_table {
-> >  #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED	0x04
-> >  #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH		0x08
-> >  
-> > +enum v4l2_h264_dpb_reference {
-> > +	V4L2_H264_DPB_TOP_REF = 0x1,
-> > +	V4L2_H264_DPB_BOTTOM_REF = 0x2,
-> > +	V4L2_H264_DPB_FRAME_REF = 0x3,
-> > +};
-> > +
-> > +struct v4l2_h264_reference {
-> > +	enum v4l2_h264_dpb_reference fields;
-> > +
-> > +	/* Index into v4l2_ctrl_h264_decode_params.dpb[] */
-> > +	__u8 index;
-> > +};
-> > +
-> >  struct v4l2_ctrl_h264_slice_params {
-> >  	/* Size in bytes, including header */
-> >  	__u32 size;
-> > @@ -178,12 +193,8 @@ struct v4l2_ctrl_h264_slice_params {
-> >  	__u8 num_ref_idx_l1_active_minus1;
-> >  	__u32 slice_group_change_cycle;
-> >  
-> > -	/*
-> > -	 * Entries on each list are indices into
-> > -	 * v4l2_ctrl_h264_decode_params.dpb[].
-> > -	 */
-> > -	__u8 ref_pic_list0[32];
-> > -	__u8 ref_pic_list1[32];
-> > +	struct v4l2_h264_reference ref_pic_list0[V4L2_H264_REF_LIST_LEN];
-> > +	struct v4l2_h264_reference ref_pic_list1[V4L2_H264_REF_LIST_LEN];
-> >  
-> >  	__u32 flags;
+> > @@ -158,9 +158,6 @@ struct v4l2_h264_reference {
 > >  };
+> >  
+> >  struct v4l2_ctrl_h264_slice_params {
+> > -	/* Size in bytes, including header */
+> > -	__u32 size;
+> > -
+> >  	/* Offset in bytes to the start of slice in the OUTPUT buffer. */
+> >  	__u32 start_byte_offset;
+> >  
 > > -- 
 > > 2.27.0
 > > 
