@@ -2,74 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAD0323ECFC
-	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 13:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D48DA23EDAC
+	for <lists+linux-media@lfdr.de>; Fri,  7 Aug 2020 15:09:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728032AbgHGL5N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Aug 2020 07:57:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52912 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726293AbgHGL5N (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 07:57:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596801432;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4OTRM6GItp3LnFcS/b/Uhe1XhDIzGwsKYalbI9Dy4T8=;
-        b=C+J9s/vwZFAVYhxdXJUa/fP9i/dV8qCG4Y5bizH23UN+zM7WHJhDrVse7TAbij3wrTOZjU
-        XNhmXKnktC9HOIggl5U3y66lhfVOe+veNAMs0Zv/f3t1sVunhAx5O1oLGbwiXUPZsjp8mt
-        lVOLuC2TKDeHDwRH0kaIJUIIzSyj0Dg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-x7C4o9zANwWgQB1b1vy1gw-1; Fri, 07 Aug 2020 07:57:10 -0400
-X-MC-Unique: x7C4o9zANwWgQB1b1vy1gw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85A3880BCB2;
-        Fri,  7 Aug 2020 11:57:07 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com [10.36.112.195])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DC92F87A7A;
-        Fri,  7 Aug 2020 11:57:05 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id BEDD7B1A; Fri,  7 Aug 2020 13:57:04 +0200 (CEST)
-Date:   Fri, 7 Aug 2020 13:57:04 +0200
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Xin He <hexin.op@bytedance.com>
-Cc:     daniel@ffwll.ch, airlied@linux.ie, sumit.semwal@linaro.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Qi Liu <liuqi.16@bytedance.com>,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v3] drm/virtio: fix missing dma_fence_put() in
- virtio_gpu_execbuffer_ioctl()
-Message-ID: <20200807115704.4epnok7vxwdmemns@sirius.home.kraxel.org>
-References: <20200721101647.42653-1-hexin.op@bytedance.com>
+        id S1725900AbgHGNJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Aug 2020 09:09:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbgHGNJd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Aug 2020 09:09:33 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9EF3C061574
+        for <linux-media@vger.kernel.org>; Fri,  7 Aug 2020 06:09:32 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id m22so2006593eje.10
+        for <linux-media@vger.kernel.org>; Fri, 07 Aug 2020 06:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C2XCXsmJyA7W5usz6rBfTizoWqy9Uyp5cHVW9IvGA2c=;
+        b=axN4FL/COED5Z5yRiWtsARF1hdhL5JgTJpfZqkBRCXe4tFeCxtQCgehSz7hPjibXzw
+         jwYp+AotTyirGdBNg0299qV5KbQxVHSXao/FMMViaFCst/9JCu9xJSDK31A3nNMqhJvE
+         RoyggGI4FWc+l3ItIb1XuejWp3OM4WSzgaWNM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C2XCXsmJyA7W5usz6rBfTizoWqy9Uyp5cHVW9IvGA2c=;
+        b=D0UlW4Sjp2qpmTRBsWhhBkLtYEHppoLavLXDUnoZmZiCfE6v2EzUUuTOHXQkKvD31m
+         +r0px9Fm4dFa0RZ3Y/vrmLEXLIBk7/8UGhI/ybUbtGPBR3nk6O32iN1A3h38bXJmtRWY
+         acU05vrApaThkBiu7nLS99TZjWLZEcdKWbsFgb2mQi822QDh1+hgeo2keXIBizFgwcX2
+         hRCF1V5r07650PRDxcRFN7GasJ2NpE/4aK22ZAIg1gxNC/Lsgx+F/YAZnUzrqPwXCQd4
+         BJe9sK0GHX3wcnOtwfZG4bo4M5G6I53Gjs7vllRP652QWo5dOEkjQNYNHwi+ydBDkJN0
+         Gxzg==
+X-Gm-Message-State: AOAM531iYgYF/gE1s9lj6kCSBQLQXWO9cHvoRzNYPqLN3ySMjWJRGJu3
+        gJjNGiWXVSjvQ60qqXzhza7Eu/WjFRtxKB83InrZYQ==
+X-Google-Smtp-Source: ABdhPJxrEzTPKTvRkUAnTnQZpqhKI9YTMaeAolXGnU7xz6Imi4rKSsQrGfHqItdJEg+dDbPYVlolH1F5VhxwHH1WaNw=
+X-Received: by 2002:a17:906:3850:: with SMTP id w16mr9706026ejc.205.1596805770763;
+ Fri, 07 Aug 2020 06:09:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200721101647.42653-1-hexin.op@bytedance.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20200710144520.RESEND.1.Id0f52f486e277b5af30babac8ba6b09589962a68@changeid>
+ <20200710070332.GA1175842@kroah.com> <CANMq1KDcKWgyYYP_m0-WV7602g7zUbU0PPkvwXxbSTF5vFfKGQ@mail.gmail.com>
+ <CANMq1KC7CgUT+neoOUZbnr8MbDgqEikqt2vn8dxAS1rpX=C2aA@mail.gmail.com>
+ <20200807062809.GB979264@kroah.com> <CANMq1KD_hJ_ST3du7dcSd8GBtdL4d-C1pWbxXz8Wu8w79-2fUg@mail.gmail.com>
+ <20200807100444.0f2d3c94@coco.lan>
+In-Reply-To: <20200807100444.0f2d3c94@coco.lan>
+From:   Nicolas Boichat <drinkcat@chromium.org>
+Date:   Fri, 7 Aug 2020 21:09:20 +0800
+Message-ID: <CANMq1KD1HDT75YqwyqW-wdGZGSjuq_GvGdwYNF2ZU8Cgx6HHEg@mail.gmail.com>
+Subject: Re: [RESEND PATCH] media: atomisp: Replace trace_printk by pr_info
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devel@driverdev.osuosl.org, lkml <linux-kernel@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 06:16:47PM +0800, Xin He wrote:
-> From: Qi Liu <liuqi.16@bytedance.com>
-> 
-> We should put the reference count of the fence after calling
-> virtio_gpu_cmd_submit(). So add the missing dma_fence_put().
+On Fri, Aug 7, 2020 at 4:04 PM Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+>
+> Em Fri, 7 Aug 2020 14:51:12 +0800
+> Nicolas Boichat <drinkcat@chromium.org> escreveu:
+>
+> > On Fri, Aug 7, 2020 at 2:28 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Fri, Aug 07, 2020 at 09:50:23AM +0800, Nicolas Boichat wrote:
+> > > > On Fri, Jul 24, 2020 at 8:41 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
+> > > > >
+> > > > > On Fri, Jul 10, 2020 at 3:03 PM Greg Kroah-Hartman
+> > > > > <gregkh@linuxfoundation.org> wrote:
+> > > > > >
+> > > > > > On Fri, Jul 10, 2020 at 02:45:29PM +0800, Nicolas Boichat wrote:
+> > > > > > > trace_printk should not be used in production code, replace it
+> > > > > > > call with pr_info.
+> > > > > > >
+> > > > > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > > > > > > ---
+> > > > > > > Sent this before as part of a series (whose 4th patch was a
+> > > > > > > change that allows to detect such trace_printk), but maybe it's
+> > > > > > > easier to get individual maintainer attention by splitting it.
+> > > > > >
+> > > > > > Mauro should take this soon:
+> > > > > >
+> > > > > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > >
+> > > > > Mauro: did you get a chance to look at this? (and the other similar
+> > > > > patch "media: camss: vfe: Use trace_printk for debugging only")
+> > > >
+> > > > Mauro: Another gentle ping. Thanks.
+> > >
+> > > It's the middle of the merge window, maintainers can't do anything until
+> > > after 5.9-rc1 is out, sorry.
+> >
+> > Huh, wait, looks like Mauro _did_ pick it (found it in this email
+> > "[GIT PULL for v5.8-rc7] media fixes").
+> >
+> > My bad then, I was expecting an ack ,-)
+>
+> Never expect acks. Kernel maintainers usually don't send them.
 
->  	virtio_gpu_cmd_submit(vgdev, buf, exbuf->size,
->  			      vfpriv->ctx_id, buflist, out_fence);
-> +	dma_fence_put(&out_fence->f);
->  	virtio_gpu_notify(vgdev);
+For some reasons I'm working mainly with maintainers who do ,-) I'll
+adjust my expectations, thanks.
 
-Pushed to drm-misc-fixes.
+> Yet, in the case of media, you should probably have received
+> an automatic e-mail from our patchwork instance.
 
-thanks,
-  Gerd
+Nope, didn't receive anything. But I'm happy to blame gmail for that...
 
+Anyway, I'll ping you again after the merge window closes about
+"media: camss: vfe: Use trace_printk for debugging only" (I _think_
+that one didn't get merged). Hopefully not too many other
+trace_printks made it through the cracks in the meantime ,-)
+
+Thanks, have a good weekend,
+
+>
+> Thanks,
+> Mauro
