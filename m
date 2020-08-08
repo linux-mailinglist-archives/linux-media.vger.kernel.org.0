@@ -2,215 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDDDB23F6DC
-	for <lists+linux-media@lfdr.de>; Sat,  8 Aug 2020 09:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7D2223F6FA
+	for <lists+linux-media@lfdr.de>; Sat,  8 Aug 2020 10:38:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726338AbgHHHsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Aug 2020 03:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35474 "EHLO
+        id S1726076AbgHHIi1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Aug 2020 04:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726250AbgHHHsU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Aug 2020 03:48:20 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F49FC061A2A
-        for <linux-media@vger.kernel.org>; Sat,  8 Aug 2020 00:48:20 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id w14so4516895ljj.4
-        for <linux-media@vger.kernel.org>; Sat, 08 Aug 2020 00:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=TLcg4skVrYQV7y3Fp8lGIPLLhHgq3utx3e26pLPa0Zw=;
-        b=1VzsDiFwx3l4LbKM/adAoH2A5LXc8uTDm51hB67MB1DJvEWnbiUdZNnlk/zqW1rXSg
-         e84S+Nl/AciZotRytrok/YlrcU/uiDU1/77EXZK77pT6Q1oC5xrOJvfLcVhpUqE98khz
-         6kTVv/T8M1DZVlE+3yMPlWUbNv3pfTNYDdvwHeR5NreLP+hgq/2HDHCW9MFGvqOReLCc
-         2eP5+ic5f/8mKBztlQVtF3jMIMGyQywRBgosNIzttuxZzA6TQNn9uiVR0bbgnDa6HZle
-         DPPPCBx6a+HQgGGayBbSWTf2mDUUjjNMxEx9zwDmzxCXS51qFl126b0ccUDbq3JU/9Vo
-         rIwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=TLcg4skVrYQV7y3Fp8lGIPLLhHgq3utx3e26pLPa0Zw=;
-        b=BY1CPLfnnxxJZu183uxeK/NMjmkXD7uN9onrgihsSCvQc2NDD+Cq+IDo2FWb/2qSZ9
-         6fTZOVdlbPe7FWUGwZAB92f89nUdtEa5mXhTsoQl5DgkNlpb45eup6fc9cOWU5vIspny
-         Qb2gaoyiFDuA2+ab8i1cX6WvVZJij+9yBg3B2BGLC957KbUAVH7EhyBc7RVEAIefEZ6E
-         xY8YZ+SEXIKoPuBl6as/Dk6oc42aqdyfsGE2oJVk9u7OF1IuekjhlOtd/E8BAXwc8rqo
-         y0VJ2xCE5NzXIwj1oz6nmnSa3HicnB2GfgmSqoGZerJbqLzSijaiorlsj5U0usOdWae+
-         SdUA==
-X-Gm-Message-State: AOAM532p/HRqC3cPlwtoj+LfssdtXCnOpkTFvmv5HQ5G/c+VrljYq2/H
-        N9P8ifFRnrK5iI1XJTa28MFp8g==
-X-Google-Smtp-Source: ABdhPJyzPqtbc6UrehHkmR4Cf0yev8vWKE8xcenwd+6WhMYR2wiWLxsRKUzx4J4XCGaANv0EYiKsqQ==
-X-Received: by 2002:a2e:b8cf:: with SMTP id s15mr8289054ljp.166.1596872895201;
-        Sat, 08 Aug 2020 00:48:15 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id o68sm5341891lff.57.2020.08.08.00.48.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2020 00:48:14 -0700 (PDT)
-Date:   Sat, 8 Aug 2020 09:48:12 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 20/20] arm64: dts: renesas: r8a774e1: Add VIN and CSI-2
- nodes
-Message-ID: <20200808074812.GD3387836@oden.dyn.berto.se>
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-21-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVriWnPK8-=w=0mq8yj9+1jbsg9yH8aV=ygyHsQ0f-CQQ@mail.gmail.com>
- <CA+V-a8vXjhV-EeQb=bBhoRmuVA=0GSuFiV33N9nkhi39VNN6oA@mail.gmail.com>
- <CAMuHMdXie+GfKBO22mFrn4oG_y7YUxU9ekQdWnp1hn-6z2mLuQ@mail.gmail.com>
- <20200807112754.GC3387836@oden.dyn.berto.se>
- <CAMuHMdW1Ofjouj4P+bdg2VWmYohD73=si8R6ivZ4QiZps6=HAQ@mail.gmail.com>
+        with ESMTP id S1725880AbgHHIi1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Aug 2020 04:38:27 -0400
+X-Greylist: delayed 84198 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 08 Aug 2020 01:38:26 PDT
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B17C061756;
+        Sat,  8 Aug 2020 01:38:26 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 3B66EC640C; Sat,  8 Aug 2020 09:38:20 +0100 (BST)
+Date:   Sat, 8 Aug 2020 09:38:20 +0100
+From:   Sean Young <sean@mess.org>
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     syzbot <syzbot+ceef16277388d6f24898@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
+        Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: KASAN: use-after-free Read in rc_dev_uevent
+Message-ID: <20200808083820.GA29790@gofer.mess.org>
+References: <00000000000003dcbd05ac44862c@google.com>
+ <20200807135540.6896-1-hdanton@sina.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdW1Ofjouj4P+bdg2VWmYohD73=si8R6ivZ4QiZps6=HAQ@mail.gmail.com>
+In-Reply-To: <20200807135540.6896-1-hdanton@sina.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert and Lad,
+On Fri, Aug 07, 2020 at 09:55:40PM +0800, Hillf Danton wrote:
+> 
+> On Fri, 7 Aug 2020 10:15:04 +0100 Sean Young wrote:
+> > On Fri, Aug 07, 2020 at 12:26:29AM -0700, syzbot wrote:
+> > > Hello,
+> > > 
+> > > syzbot found the following issue on:
+> > > 
+> > > HEAD commit:    7b4ea945 Revert "x86/mm/64: Do not sync vmalloc/ioremap ma..
+> > > git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> > > console output: https://syzkaller.appspot.com/x/log.txt?x=11a7813a900000
+> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=72a84c46d0c668c
+> > > dashboard link: https://syzkaller.appspot.com/bug?extid=ceef16277388d6f24898
+> > > compiler:       gcc (GCC) 10.1.0-syz 20200507
+> > > 
+> > > Unfortunately, I don't have any reproducer for this issue yet.
+> > > 
+> > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > > Reported-by: syzbot+ceef16277388d6f24898@syzkaller.appspotmail.com
+> > > 
+> > > ==================================================================
+> > > BUG: KASAN: use-after-free in string_nocheck lib/vsprintf.c:611 [inline]
+> > > BUG: KASAN: use-after-free in string+0x39c/0x3d0 lib/vsprintf.c:693
+> > > Read of size 1 at addr ffff8881ca21cd20 by task systemd-udevd/5147
+> > > 
+> > > CPU: 1 PID: 5147 Comm: systemd-udevd Not tainted 5.8.0-syzkaller #0
+> > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > > Call Trace:
+> > >  __dump_stack lib/dump_stack.c:77 [inline]
+> > >  dump_stack+0xf6/0x16e lib/dump_stack.c:118
+> > >  print_address_description.constprop.0+0x1a/0x210 mm/kasan/report.c:383
+> > >  __kasan_report mm/kasan/report.c:513 [inline]
+> > >  kasan_report.cold+0x37/0x7c mm/kasan/report.c:530
+> > >  string_nocheck lib/vsprintf.c:611 [inline]
+> > >  string+0x39c/0x3d0 lib/vsprintf.c:693
+> > >  vsnprintf+0x71b/0x14f0 lib/vsprintf.c:2617
+> > >  add_uevent_var+0x14d/0x310 lib/kobject_uevent.c:664
+> > >  rc_dev_uevent+0x54/0x140 drivers/media/rc/rc-main.c:1616
+> > >  dev_uevent+0x30e/0x780 drivers/base/core.c:1916
+> > >  uevent_show+0x1bb/0x360 drivers/base/core.c:1963
+> > >  dev_attr_show+0x4b/0x90 drivers/base/core.c:1667
+> > >  sysfs_kf_seq_show+0x1f8/0x400 fs/sysfs/file.c:60
+> > >  seq_read+0x432/0x1070 fs/seq_file.c:208
+> > >  kernfs_fop_read+0xe9/0x590 fs/kernfs/file.c:251
+> > >  vfs_read+0x1df/0x520 fs/read_write.c:479
+> > >  ksys_read+0x12d/0x250 fs/read_write.c:607
+> > >  do_syscall_64+0x2d/0x40 arch/x86/entry/common.c:46
+> > >  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> > > RIP: 0033:0x7f6e6c02f910
+> > > Code: b6 fe ff ff 48 8d 3d 0f be 08 00 48 83 ec 08 e8 06 db 01 00 66 0f 1f 44 00 00 83 3d f9 2d 2c 00 00 75 10 b8 00 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 de 9b 01 00 48 89 04 24
+> > > RSP: 002b:00007fff3cddeae8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+> > > RAX: ffffffffffffffda RBX: 0000558492caaae0 RCX: 00007f6e6c02f910
+> > > RDX: 0000000000001000 RSI: 0000558492cc7530 RDI: 0000000000000007
+> > > RBP: 00007f6e6c2ea440 R08: 00007f6e6c2ee298 R09: 0000000000001010
+> > > R10: 0000558492caaae0 R11: 0000000000000246 R12: 0000000000001000
+> > > R13: 0000000000000d68 R14: 0000558492cc7530 R15: 00007f6e6c2e9900
+> > 
+> > This thread is reading the uevent sysfs file, which reads
+> > rc_dev->map.name, and also rc_dev->device_name, but that is not causing
+> > problems is this case.
+> > 
+> > > 
+> > > Allocated by task 5:
+> > >  save_stack+0x1b/0x40 mm/kasan/common.c:48
+> > >  set_track mm/kasan/common.c:56 [inline]
+> > >  __kasan_kmalloc.constprop.0+0xc2/0xd0 mm/kasan/common.c:494
+> > >  slab_post_alloc_hook mm/slab.h:586 [inline]
+> > >  slab_alloc_node mm/slub.c:2824 [inline]
+> > >  slab_alloc mm/slub.c:2832 [inline]
+> > >  __kmalloc_track_caller+0xec/0x280 mm/slub.c:4430
+> > >  kstrdup+0x36/0x70 mm/util.c:60
+> > >  ir_create_table drivers/media/rc/rc-main.c:217 [inline]
+> > >  ir_setkeytable drivers/media/rc/rc-main.c:477 [inline]
+> > >  rc_prepare_rx_device drivers/media/rc/rc-main.c:1786 [inline]
+> > >  rc_register_device+0x464/0x1600 drivers/media/rc/rc-main.c:1914
+> > >  igorplugusb_probe+0x7e6/0xc98 drivers/media/rc/igorplugusb.c:209
+> > >  usb_probe_interface+0x315/0x7f0 drivers/usb/core/driver.c:374
+> > >  really_probe+0x291/0xde0 drivers/base/dd.c:553
+> > >  driver_probe_device+0x26b/0x3d0 drivers/base/dd.c:738
+> > >  __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:844
+> > >  bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
+> > >  __device_attach+0x228/0x4a0 drivers/base/dd.c:912
+> > >  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+> > >  device_add+0xb51/0x1c70 drivers/base/core.c:2930
+> > >  usb_set_configuration+0xf05/0x18a0 drivers/usb/core/message.c:2032
+> > >  usb_generic_driver_probe+0xba/0xf2 drivers/usb/core/generic.c:239
+> > >  usb_probe_device+0xd9/0x250 drivers/usb/core/driver.c:272
+> > >  really_probe+0x291/0xde0 drivers/base/dd.c:553
+> > >  driver_probe_device+0x26b/0x3d0 drivers/base/dd.c:738
+> > >  __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:844
+> > >  bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
+> > >  __device_attach+0x228/0x4a0 drivers/base/dd.c:912
+> > >  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+> > >  device_add+0xb51/0x1c70 drivers/base/core.c:2930
+> > >  usb_new_device.cold+0x71d/0xfd4 drivers/usb/core/hub.c:2554
+> > >  hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+> > >  hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+> > >  port_event drivers/usb/core/hub.c:5494 [inline]
+> > >  hub_event+0x2361/0x4390 drivers/usb/core/hub.c:5576
+> > >  process_one_work+0x94c/0x15f0 kernel/workqueue.c:2269
+> > >  worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
+> > >  kthread+0x392/0x470 kernel/kthread.c:292
+> > >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+> > 
+> > .. this probed the device ..
+> > 
+> > > Freed by task 5:
+> > >  save_stack+0x1b/0x40 mm/kasan/common.c:48
+> > >  set_track mm/kasan/common.c:56 [inline]
+> > >  kasan_set_free_info mm/kasan/common.c:316 [inline]
+> > >  __kasan_slab_free+0x116/0x160 mm/kasan/common.c:455
+> > >  slab_free_hook mm/slub.c:1474 [inline]
+> > >  slab_free_freelist_hook+0x53/0x140 mm/slub.c:1507
+> > >  slab_free mm/slub.c:3072 [inline]
+> > >  kfree+0xbc/0x2c0 mm/slub.c:4052
+> > >  ir_free_table drivers/media/rc/rc-main.c:245 [inline]
+> > >  rc_free_rx_device drivers/media/rc/rc-main.c:1875 [inline]
+> > >  rc_unregister_device+0x142/0x410 drivers/media/rc/rc-main.c:2014
+> > >  igorplugusb_disconnect+0x58/0x110 drivers/media/rc/igorplugusb.c:232
+> > >  usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:436
+> > >  __device_release_driver+0x3c6/0x6f0 drivers/base/dd.c:1153
+> > >  device_release_driver_internal drivers/base/dd.c:1184 [inline]
+> > >  device_release_driver+0x26/0x40 drivers/base/dd.c:1207
+> > >  bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:533
+> > >  device_del+0x481/0xd90 drivers/base/core.c:3107
+> > >  usb_disable_device+0x387/0x930 drivers/usb/core/message.c:1245
+> > >  usb_disconnect.cold+0x27d/0x780 drivers/usb/core/hub.c:2217
+> > >  hub_port_connect drivers/usb/core/hub.c:5059 [inline]
+> > >  hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+> > >  port_event drivers/usb/core/hub.c:5494 [inline]
+> > >  hub_event+0x1c93/0x4390 drivers/usb/core/hub.c:5576
+> > >  process_one_work+0x94c/0x15f0 kernel/workqueue.c:2269
+> > >  process_scheduled_works kernel/workqueue.c:2331 [inline]
+> > >  worker_thread+0x82b/0x1120 kernel/workqueue.c:2417
+> > >  kthread+0x392/0x470 kernel/kthread.c:292
+> > >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+> > 
+> > This unplugged the device, and freed rc_dev->map->name and sets
+> > it to NULL. There is no locking between the two threads so this is
+> > a race condition.
+> > 
+> > I think there are worse, related problems here. For example, iguanair
+> > driver allocates rc_dev->device_name and frees it in its usb disconnect
+> > handler. This field is also read by uevent, and not set to null by
+> > the disconnect handler.
+> > 
+> > Not sure what the best solution is yet.
+> 
+> See if the diff below makes ant-antenna-size sense.
+> 
+> > 
+> > Thanks
+> > 
+> > Sean
+> > 
+> > > The buggy address belongs to the object at ffff8881ca21cd20
+> > >  which belongs to the cache kmalloc-16 of size 16
+> > > The buggy address is located 0 bytes inside of
+> > >  16-byte region [ffff8881ca21cd20, ffff8881ca21cd30)
+> > > The buggy address belongs to the page:
+> > > page:ffffea0007288700 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0
+> > > flags: 0x200000000000200(slab)
+> > > raw: 0200000000000200 0000000000000000 0000000100000001 ffff8881da003680
+> > > raw: 0000000000000000 0000000080800080 00000001ffffffff 0000000000000000
+> > > page dumped because: kasan: bad access detected
+> > > 
+> > > Memory state around the buggy address:
+> > >  ffff8881ca21cc00: fb fb fc fc fb fb fc fc fb fb fc fc 00 00 fc fc
+> > >  ffff8881ca21cc80: fb fb fc fc 00 00 fc fc 00 00 fc fc 00 00 fc fc
+> > > >ffff8881ca21cd00: fb fb fc fc fb fb fc fc fb fb fc fc 00 00 fc fc
+> > >                                ^
+> > >  ffff8881ca21cd80: 00 00 fc fc fb fb fc fc fb fb fc fc fb fb fc fc
+> > >  ffff8881ca21ce00: 00 00 fc fc fb fb fc fc 00 00 fc fc 00 00 fc fc
+> > > ==================================================================
+> 
+> Handle uevent under dev's lock to serialize with the unregistering of
+> dev.
 
-On 2020-08-07 13:36:46 +0200, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Fri, Aug 7, 2020 at 1:27 PM Niklas Söderlund
-> <niklas.soderlund@ragnatech.se> wrote:
-> > On 2020-08-06 13:47:58 +0200, Geert Uytterhoeven wrote:
-> > > On Thu, Aug 6, 2020 at 1:17 PM Lad, Prabhakar
-> > > <prabhakar.csengg@gmail.com> wrote:
-> > > > On Wed, Aug 5, 2020 at 12:19 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > On Thu, Jul 16, 2020 at 7:20 PM Lad Prabhakar
-> > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > > > Add VIN and CSI-2 nodes to RZ/G2H (R8A774E1) SoC dtsi.
-> > > > > >
-> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > > > >
-> > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > >
-> > > > > However, before I queue this in renesas-devel for v5.10, I'd like to
-> > > > > have some clarification about the issue below.
-> > > > >
-> > > > > > --- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-> > > > > > +++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-> > > > >
-> > > > > > +               vin4: video@e6ef4000 {
-> > > > > > +                       compatible = "renesas,vin-r8a774e1";
-> > > > > > +                       reg = <0 0xe6ef4000 0 0x1000>;
-> > > > > > +                       interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > +                       clocks = <&cpg CPG_MOD 807>;
-> > > > > > +                       power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-> > > > > > +                       resets = <&cpg 807>;
-> > > > > > +                       renesas,id = <4>;
-> > > > > > +                       status = "disabled";
-> > > > > > +
-> > > > > > +                       ports {
-> > > > > > +                               #address-cells = <1>;
-> > > > > > +                               #size-cells = <0>;
-> > > > > > +
-> > > > > > +                               port@1 {
-> > > > > > +                                       #address-cells = <1>;
-> > > > > > +                                       #size-cells = <0>;
-> > > > >
-> > > > > "make dtbs W=1" says:
-> > > > >
-> > > > >     arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1562.12-1572.7: Warning
-> > > > > (graph_child_address): /soc/video@e6ef4000/ports/port@1: graph node
-> > > > > has single child node 'endpoint@0', #address-cells/#size-cells are not
-> > > > > necessary
-> > > > >
-> > > > > (same for vin5-7 below)
-> > > > >
-> > > > Referring to commit 5e53dbf4edb4d ("arm64: dts: renesas: r8a77990: Fix
-> > > > VIN endpoint numbering") we definitely need endpoint numbering.
-> > > > Probably the driver needs to be fixed to handle such cases.
-> > >
-> > > > > > +
-> > > > > > +                                       reg = <1>;
-> > > > > > +
-> > > > > > +                                       vin4csi20: endpoint@0 {
-> > > > > > +                                               reg = <0>;
-> > > > > > +                                               remote-endpoint = <&csi20vin4>;
-> > >
-> > > On R-Car E3, the single endpoint is at address 2, so "make dtbs W=1"doesn't
-> > > complain. Here it is at address 0.
-> > >
-> > > Niklas?
-> >
-> > First the R-Car VIN driver makes decisions based on which endpoint is
-> > described, each endpoint 0-3 represents a different CSI-2 block on the
-> > other end (0: CSI20, 1: CSI21, 2: CSI40 and 3: CSI41).
-> 
-> That's my understanding, too.
-> 
-> > Then how to handle the warning I'm not sure. I can only really see 2
-> > options.
-> >
-> > 1. Ignore the warning.
-> > 2. Remove #address-cells, #size-cells and reg properties from port@ if
-> >    the only endpoint described is endpoint@0.
-> >
-> > I would prefers option 2. that is what we do in other cases (for example
-> > on Gen2 boards that only have a single parallel sensor in some early DTS
-> > files we don't have the ports node and just describe a single port with
-> > the same reasoning.
-> >
-> > We are not at risk at someone describing a second CSI-2 bock as an
-> > overlay so I see no real harm in option 2.
-> 
-> Yeah, no overlay possible for on-SoC wiring ;-)
-> 
-> > What are your thoughts Geert?
-> > You know more about DT then me.
-> 
-> You have too much faith in me ;-)
-> 
-> AFAIK we don't get this warning for e.g. SPI buses, which can have a
-> single device at address 0, and #{address,size}-cells is mandatory
-> there. So endpoints (or SPI?) are treated special?
+I think this is the right solution. The problem is devm_rc_register_device()
+type drivers might allocate device_name/driver_name and free them before
+the rc device is unregistered through devm, but after reviewing none of
+those drivers do that.
 
-That is a good question, I don't know if either of those are treated 
-special. Lad could you look into this?
+> --- a/drivers/media/rc/rc-main.c
+> +++ b/drivers/media/rc/rc-main.c
+> @@ -1576,12 +1576,21 @@ static int rc_dev_uevent(struct device *
+>  {
+>  	struct rc_dev *dev = to_rc_dev(device);
+>  
+> +	if (!dev->registered)
+> +		return -ENODEV;
+> +
+> +	mutex_lock(&dev->lock);
+> +	if (!dev->registered) {
+> +		mutex_unlock(&dev->lock);
+> +		return -ENODEV;
+> +	}
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Checking registered twice is not the right thing to do.
 
--- 
-Regards,
-Niklas Söderlund
+>  	if (dev->rc_map.name)
+>  		ADD_HOTPLUG_VAR("NAME=%s", dev->rc_map.name);
+>  	if (dev->driver_name)
+>  		ADD_HOTPLUG_VAR("DRV_NAME=%s", dev->driver_name);
+>  	if (dev->device_name)
+>  		ADD_HOTPLUG_VAR("DEV_NAME=%s", dev->device_name);
+> +	mutex_unlock(&dev->lock);
+>  
+>  	return 0;
+>  }
+> @@ -1970,13 +1979,12 @@ void rc_unregister_device(struct rc_dev
+>  	del_timer_sync(&dev->timer_keyup);
+>  	del_timer_sync(&dev->timer_repeat);
+>  
+> -	rc_free_rx_device(dev);
+> -
+>  	mutex_lock(&dev->lock);
+>  	if (dev->users && dev->close)
+>  		dev->close(dev);
+>  	dev->registered = false;
+>  	mutex_unlock(&dev->lock);
+> +	rc_free_rx_device(dev);
+
+The ordering here can introduce subtle bugs but this is fine. 
+
+>  
+>  	/*
+>  	 * lirc device should be freed with dev->registered = false, so
+
+This patch also needs a signed-off-by.
+
+Thanks,
+
+Sean
