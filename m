@@ -2,68 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D2223F6FA
-	for <lists+linux-media@lfdr.de>; Sat,  8 Aug 2020 10:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B91923F70D
+	for <lists+linux-media@lfdr.de>; Sat,  8 Aug 2020 11:25:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726076AbgHHIi1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Aug 2020 04:38:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725880AbgHHIi1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Aug 2020 04:38:27 -0400
-X-Greylist: delayed 84198 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 08 Aug 2020 01:38:26 PDT
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B17C061756;
-        Sat,  8 Aug 2020 01:38:26 -0700 (PDT)
+        id S1726076AbgHHJZ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Aug 2020 05:25:29 -0400
+Received: from gofer.mess.org ([88.97.38.141]:55705 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725928AbgHHJZ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 8 Aug 2020 05:25:29 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 3B66EC640C; Sat,  8 Aug 2020 09:38:20 +0100 (BST)
-Date:   Sat, 8 Aug 2020 09:38:20 +0100
+        id 18261C638B; Sat,  8 Aug 2020 10:25:27 +0100 (BST)
+Date:   Sat, 8 Aug 2020 10:25:26 +0100
 From:   Sean Young <sean@mess.org>
-To:     Hillf Danton <hdanton@sina.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 Cc:     syzbot <syzbot+ceef16277388d6f24898@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
-        Markus Elfring <Markus.Elfring@web.de>
+        andreyknvl@google.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzkaller-bugs@googlegroups.com
 Subject: Re: KASAN: use-after-free Read in rc_dev_uevent
-Message-ID: <20200808083820.GA29790@gofer.mess.org>
+Message-ID: <20200808092526.GA31150@gofer.mess.org>
 References: <00000000000003dcbd05ac44862c@google.com>
- <20200807135540.6896-1-hdanton@sina.com>
+ <20200807091504.GA7397@gofer.mess.org>
+ <CAAEAJfDfc_vw15g_5OEG4uX+ynZpZH3M_P16DNFjstwsUnZtCw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200807135540.6896-1-hdanton@sina.com>
+In-Reply-To: <CAAEAJfDfc_vw15g_5OEG4uX+ynZpZH3M_P16DNFjstwsUnZtCw@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 07, 2020 at 09:55:40PM +0800, Hillf Danton wrote:
-> 
-> On Fri, 7 Aug 2020 10:15:04 +0100 Sean Young wrote:
+Hi Eze,
+
+On Fri, Aug 07, 2020 at 08:45:12PM -0300, Ezequiel Garcia wrote:
+> On Fri, 7 Aug 2020 at 06:15, Sean Young <sean@mess.org> wrote:
+> >
 > > On Fri, Aug 07, 2020 at 12:26:29AM -0700, syzbot wrote:
 > > > Hello,
-> > > 
+> > >
 > > > syzbot found the following issue on:
-> > > 
+> > >
 > > > HEAD commit:    7b4ea945 Revert "x86/mm/64: Do not sync vmalloc/ioremap ma..
 > > > git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 > > > console output: https://syzkaller.appspot.com/x/log.txt?x=11a7813a900000
 > > > kernel config:  https://syzkaller.appspot.com/x/.config?x=72a84c46d0c668c
 > > > dashboard link: https://syzkaller.appspot.com/bug?extid=ceef16277388d6f24898
 > > > compiler:       gcc (GCC) 10.1.0-syz 20200507
-> > > 
+> > >
 > > > Unfortunately, I don't have any reproducer for this issue yet.
-> > > 
+> > >
 > > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
 > > > Reported-by: syzbot+ceef16277388d6f24898@syzkaller.appspotmail.com
-> > > 
+> > >
 > > > ==================================================================
 > > > BUG: KASAN: use-after-free in string_nocheck lib/vsprintf.c:611 [inline]
 > > > BUG: KASAN: use-after-free in string+0x39c/0x3d0 lib/vsprintf.c:693
 > > > Read of size 1 at addr ffff8881ca21cd20 by task systemd-udevd/5147
-> > > 
+> > >
 > > > CPU: 1 PID: 5147 Comm: systemd-udevd Not tainted 5.8.0-syzkaller #0
 > > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
 > > > Call Trace:
@@ -95,12 +96,12 @@ On Fri, Aug 07, 2020 at 09:55:40PM +0800, Hillf Danton wrote:
 > > > RBP: 00007f6e6c2ea440 R08: 00007f6e6c2ee298 R09: 0000000000001010
 > > > R10: 0000558492caaae0 R11: 0000000000000246 R12: 0000000000001000
 > > > R13: 0000000000000d68 R14: 0000558492cc7530 R15: 00007f6e6c2e9900
-> > 
+> >
 > > This thread is reading the uevent sysfs file, which reads
 > > rc_dev->map.name, and also rc_dev->device_name, but that is not causing
 > > problems is this case.
-> > 
-> > > 
+> >
+> > >
 > > > Allocated by task 5:
 > > >  save_stack+0x1b/0x40 mm/kasan/common.c:48
 > > >  set_track mm/kasan/common.c:56 [inline]
@@ -142,9 +143,9 @@ On Fri, Aug 07, 2020 at 09:55:40PM +0800, Hillf Danton wrote:
 > > >  worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
 > > >  kthread+0x392/0x470 kernel/kthread.c:292
 > > >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-> > 
+> >
 > > .. this probed the device ..
-> > 
+> >
 > > > Freed by task 5:
 > > >  save_stack+0x1b/0x40 mm/kasan/common.c:48
 > > >  set_track mm/kasan/common.c:56 [inline]
@@ -175,101 +176,37 @@ On Fri, Aug 07, 2020 at 09:55:40PM +0800, Hillf Danton wrote:
 > > >  worker_thread+0x82b/0x1120 kernel/workqueue.c:2417
 > > >  kthread+0x392/0x470 kernel/kthread.c:292
 > > >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-> > 
+> >
 > > This unplugged the device, and freed rc_dev->map->name and sets
 > > it to NULL. There is no locking between the two threads so this is
 > > a race condition.
-> > 
+> >
 > > I think there are worse, related problems here. For example, iguanair
 > > driver allocates rc_dev->device_name and frees it in its usb disconnect
 > > handler. This field is also read by uevent, and not set to null by
 > > the disconnect handler.
-> > 
+> >
 > > Not sure what the best solution is yet.
+> >
 > 
-> See if the diff below makes ant-antenna-size sense.
+> All USB drivers (and also any kind of driver that can be hotplugged)
+> should implement some sort of refcounting, to avoid this kind of
+> use-after-free issue.
 > 
-> > 
-> > Thanks
-> > 
-> > Sean
-> > 
-> > > The buggy address belongs to the object at ffff8881ca21cd20
-> > >  which belongs to the cache kmalloc-16 of size 16
-> > > The buggy address is located 0 bytes inside of
-> > >  16-byte region [ffff8881ca21cd20, ffff8881ca21cd30)
-> > > The buggy address belongs to the page:
-> > > page:ffffea0007288700 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0
-> > > flags: 0x200000000000200(slab)
-> > > raw: 0200000000000200 0000000000000000 0000000100000001 ffff8881da003680
-> > > raw: 0000000000000000 0000000080800080 00000001ffffffff 0000000000000000
-> > > page dumped because: kasan: bad access detected
-> > > 
-> > > Memory state around the buggy address:
-> > >  ffff8881ca21cc00: fb fb fc fc fb fb fc fc fb fb fc fc 00 00 fc fc
-> > >  ffff8881ca21cc80: fb fb fc fc 00 00 fc fc 00 00 fc fc 00 00 fc fc
-> > > >ffff8881ca21cd00: fb fb fc fc fb fb fc fc fb fb fc fc 00 00 fc fc
-> > >                                ^
-> > >  ffff8881ca21cd80: 00 00 fc fc fb fb fc fc fb fb fc fc fb fb fc fc
-> > >  ffff8881ca21ce00: 00 00 fc fc fb fb fc fc 00 00 fc fc 00 00 fc fc
-> > > ==================================================================
-> 
-> Handle uevent under dev's lock to serialize with the unregistering of
-> dev.
+> Drivers can't free memory that may be associated with an open
+> handle, until you remove the device node.
 
-I think this is the right solution. The problem is devm_rc_register_device()
-type drivers might allocate device_name/driver_name and free them before
-the rc device is unregistered through devm, but after reviewing none of
-those drivers do that.
+Thank you for trying to be helpful, but I do know all these things; I
+added the registered boolean on rc_dev since it was a disaster before that,
+there were all sorts of read-after-free on usb disconnect.
 
-> --- a/drivers/media/rc/rc-main.c
-> +++ b/drivers/media/rc/rc-main.c
-> @@ -1576,12 +1576,21 @@ static int rc_dev_uevent(struct device *
->  {
->  	struct rc_dev *dev = to_rc_dev(device);
->  
-> +	if (!dev->registered)
-> +		return -ENODEV;
-> +
-> +	mutex_lock(&dev->lock);
-> +	if (!dev->registered) {
-> +		mutex_unlock(&dev->lock);
-> +		return -ENODEV;
-> +	}
+With rc-core it can get a little bit tricky between the lifetime of the
+usb device, rc_dev device, lirc file descriptor, input device, and sysfs. Even
+after spending lots of time trying to make sure this is correct and
+thinking through all possible code paths, it is so easy to miss code
+paths like these.
 
-Checking registered twice is not the right thing to do.
 
->  	if (dev->rc_map.name)
->  		ADD_HOTPLUG_VAR("NAME=%s", dev->rc_map.name);
->  	if (dev->driver_name)
->  		ADD_HOTPLUG_VAR("DRV_NAME=%s", dev->driver_name);
->  	if (dev->device_name)
->  		ADD_HOTPLUG_VAR("DEV_NAME=%s", dev->device_name);
-> +	mutex_unlock(&dev->lock);
->  
->  	return 0;
->  }
-> @@ -1970,13 +1979,12 @@ void rc_unregister_device(struct rc_dev
->  	del_timer_sync(&dev->timer_keyup);
->  	del_timer_sync(&dev->timer_repeat);
->  
-> -	rc_free_rx_device(dev);
-> -
->  	mutex_lock(&dev->lock);
->  	if (dev->users && dev->close)
->  		dev->close(dev);
->  	dev->registered = false;
->  	mutex_unlock(&dev->lock);
-> +	rc_free_rx_device(dev);
-
-The ordering here can introduce subtle bugs but this is fine. 
-
->  
->  	/*
->  	 * lirc device should be freed with dev->registered = false, so
-
-This patch also needs a signed-off-by.
-
-Thanks,
+Thanks
 
 Sean
