@@ -2,353 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A82A823FE9E
-	for <lists+linux-media@lfdr.de>; Sun,  9 Aug 2020 15:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C589823FEA8
+	for <lists+linux-media@lfdr.de>; Sun,  9 Aug 2020 16:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbgHIN4F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Aug 2020 09:56:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56624 "EHLO
+        id S1726293AbgHIODt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Aug 2020 10:03:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726009AbgHIN4E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Aug 2020 09:56:04 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 296F2C061756
-        for <linux-media@vger.kernel.org>; Sun,  9 Aug 2020 06:56:04 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id ba10so4556379edb.3
-        for <linux-media@vger.kernel.org>; Sun, 09 Aug 2020 06:56:03 -0700 (PDT)
+        with ESMTP id S1726200AbgHIODo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Aug 2020 10:03:44 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41847C061786
+        for <linux-media@vger.kernel.org>; Sun,  9 Aug 2020 07:03:42 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id df16so4551719edb.9
+        for <linux-media@vger.kernel.org>; Sun, 09 Aug 2020 07:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0XBhU+3ruxtditMCY5MbDWUBKoSVvXlXtnbZQW25RRE=;
-        b=k60BxlkFKTXbVl0h+E1es2xVbrMxQeNnuIQwb1RRiEPTFurYMJzeTWMFhFVUr5aa7X
-         o8goltLy5CYpU8Os0rfq3k58vFW5OUI3rRymBiise7LnmeShZlP3k3Omd60XnHeI4cXU
-         cdQK47OS/+SKWifUwBuVqpNo1QPPqV4KE8TplocHe+ctE3QRF3ueT0Kgo/2DAC01G7Jz
-         MOgvKC6EM3SIBlyqxwAH1KqV4FYRRZOkffTxMxIakP0YpPJVfnQsNGm7EGdhO1c44IG6
-         2jPk1wZ8NUoKHpxkZQflAs+3pRtKhK78sKjOjfC0myRQyMoeXHdH+01EjpOWNm8GG+JM
-         M7MQ==
+        bh=KLZEVLP20PgmfVdEJqcQ68Pgn+2fkvIP5+vKsHo8nuo=;
+        b=1Wf2eqKYeDEvfeEJ4g1YLY6V6+zJFPFqQK9lPAztUsfWPIGGSeo6Pk/UUM0qm4UUfw
+         qoLIMbhuo6e516UTEO6AokZ/UZivmAoan0TyuepA+6LAUiz1jOuTo7uxtUfbWBzwdp+x
+         4tuPcdEwtes9N+8mgqDLEWDzxu8S0DvrAvzr233VLym0BLi0fclx34+duxpoVgbMrHC6
+         K1fXkq3nc4fSYI3HxRejqA1H/iliVbdyDQfj72F5noTHe2c00rs72yQefrThhOQVaYDb
+         34CxAndp3VuzR22Wmb1MT+8BdtnzBPuoB3vYzJFw4YxJAzujL19yafj7SzLT1bB7yc2v
+         gfnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0XBhU+3ruxtditMCY5MbDWUBKoSVvXlXtnbZQW25RRE=;
-        b=V93cjTeVs7x+qMNCfFLIauK9fMz6hVLc+5qov2EbkXSfjQW2p7XQGDOpY/TUhs+yJO
-         F2WPxgTN1C0KdROQwOVvgE1RuZG6ID4F6GmBtWf6o6B1F4M50+yoeIkSO5XKJhyS+kHT
-         krLwTj1mIz/EWVtuA30KdwaI5cR18mXTFURF6grKBWoDXswz3D79j9aFKeQmxj5NhKaN
-         xpsHw9rVZsPxPoWRUC3IKpkR/Id0fFrrsu6tHytIWskavBX5DSjXr61mywznNJuwphPK
-         7C8m15O/fIWvUrZ+dE1E9/xtze7bEgLLcmxbDrb026bRA6lvtiyWE76tZ2RH1ozvp2bI
-         S+rg==
-X-Gm-Message-State: AOAM53210jRDn53qe+/u/lWajfFbbyAwUFtBHi3Gojrb3Dl+zx0BTW6z
-        RUnr63bbx05GqcWdNq6CZ122zBDRghdtAVAczamxpg==
-X-Google-Smtp-Source: ABdhPJyGphQpjfI/gkwEmKSzx0z/3cFG54FFRHVt2FGPGlWPnWQU3sSOF0IPn7nst4VXatnowi72vNRQU8qE7MkoPZE=
-X-Received: by 2002:aa7:c251:: with SMTP id y17mr17544588edo.13.1596981362548;
- Sun, 09 Aug 2020 06:56:02 -0700 (PDT)
+        bh=KLZEVLP20PgmfVdEJqcQ68Pgn+2fkvIP5+vKsHo8nuo=;
+        b=ds7J1RnsVZQNk3aWcjc69qmtWvV7bhL9E/8tTzh4Ty6KED+kAKX9La+wIbO3pBvDft
+         zbT07mLaFRxoH2x9uPYnZPzCtZPCrRQ5l1agHvjCnYhzGY9/BO6FlB33IFgnGgUcTPbJ
+         kPfiHaISCu/x13/MWKM+J1MhrrTTOIX3XkkgT8Dy5q0PidPMmVwHp7QsmSon1esvieLU
+         pkdrDpIFjLRIkbOr1gulFcPnjMEN5v/1zzsjxvFBmFT6sZEw4PZBHevvgIaE4NCgKVCM
+         MiIrZvuIEqzkqaQoGzMEeQ06QIeSarY9k9T09wlbA14uwE3vOqv5OjyRwTqWE5nxaqoI
+         chyg==
+X-Gm-Message-State: AOAM5326Eu/o7TuI8vWAcKp+4a0gKH6UGzy+RhwESwJJjn4crZo5cAD0
+        PQ7s38nx8AwoYl9l8/Tp9Hv71Bmh/NnnSopOzJBn9g==
+X-Google-Smtp-Source: ABdhPJw7T/ETZp88a+Gd8iKRT0NBaqKz/GU1e9SiKOpPtrYewpEnmIzMfi0Y0lIAi3n83GSsEkkaVTQDuklrsy6RG1Q=
+X-Received: by 2002:aa7:de13:: with SMTP id h19mr16648239edv.322.1596981820142;
+ Sun, 09 Aug 2020 07:03:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200806151310.98624-1-ezequiel@collabora.com>
- <20200806151310.98624-4-ezequiel@collabora.com> <ae2ac4ba-9272-ec67-d075-3429bc8926c3@kwiboo.se>
-In-Reply-To: <ae2ac4ba-9272-ec67-d075-3429bc8926c3@kwiboo.se>
+References: <00000000000003dcbd05ac44862c@google.com> <20200807091504.GA7397@gofer.mess.org>
+ <CAAEAJfDfc_vw15g_5OEG4uX+ynZpZH3M_P16DNFjstwsUnZtCw@mail.gmail.com> <20200808092526.GA31150@gofer.mess.org>
+In-Reply-To: <20200808092526.GA31150@gofer.mess.org>
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Sun, 9 Aug 2020 10:55:50 -0300
-Message-ID: <CAAEAJfAGW6M1YPQhPqdvpYugWk+RRTNOQbKfSWrnw_A8M2k=EA@mail.gmail.com>
-Subject: Re: [PATCH v2 03/14] media: uapi: h264: Split prediction weight parameters
-To:     Jonas Karlman <jonas@kwiboo.se>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media <linux-media@vger.kernel.org>,
+Date:   Sun, 9 Aug 2020 11:03:28 -0300
+Message-ID: <CAAEAJfDbvX6erE76GpNn-1QP025RWUoW-MARbn1KekPiUbchag@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in rc_dev_uevent
+To:     Sean Young <sean@mess.org>
+Cc:     syzbot <syzbot+ceef16277388d6f24898@syzkaller.appspotmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
+        linux-media <linux-media@vger.kernel.org>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 8 Aug 2020 at 18:01, Jonas Karlman <jonas@kwiboo.se> wrote:
+On Sat, 8 Aug 2020 at 06:25, Sean Young <sean@mess.org> wrote:
 >
-> On 2020-08-06 17:12, Ezequiel Garcia wrote:
-> > The prediction weight parameters are only required under
-> > certain conditions, which depend on slice header parameters.
-> >
-> > As specified in section 7.3.3 Slice header syntax, the prediction
-> > weight table is present if:
-> >
-> > ((weighted_pred_flag && (slice_type == P || slice_type == SP)) || \
-> > (weighted_bipred_idc == 1 && slice_type == B))
+> Hi Eze,
 >
-> Maybe a macro can be added to help check this contition?
+> On Fri, Aug 07, 2020 at 08:45:12PM -0300, Ezequiel Garcia wrote:
+> > On Fri, 7 Aug 2020 at 06:15, Sean Young <sean@mess.org> wrote:
+> > >
+> > > On Fri, Aug 07, 2020 at 12:26:29AM -0700, syzbot wrote:
+> > > > Hello,
+> > > >
+> > > > syzbot found the following issue on:
+> > > >
+> > > > HEAD commit:    7b4ea945 Revert "x86/mm/64: Do not sync vmalloc/ioremap ma..
+> > > > git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> > > > console output: https://syzkaller.appspot.com/x/log.txt?x=11a7813a900000
+> > > > kernel config:  https://syzkaller.appspot.com/x/.config?x=72a84c46d0c668c
+> > > > dashboard link: https://syzkaller.appspot.com/bug?extid=ceef16277388d6f24898
+> > > > compiler:       gcc (GCC) 10.1.0-syz 20200507
+> > > >
+> > > > Unfortunately, I don't have any reproducer for this issue yet.
+> > > >
+> > > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > > > Reported-by: syzbot+ceef16277388d6f24898@syzkaller.appspotmail.com
+> > > >
+> > > > ==================================================================
+> > > > BUG: KASAN: use-after-free in string_nocheck lib/vsprintf.c:611 [inline]
+> > > > BUG: KASAN: use-after-free in string+0x39c/0x3d0 lib/vsprintf.c:693
+> > > > Read of size 1 at addr ffff8881ca21cd20 by task systemd-udevd/5147
+> > > >
+> > > > CPU: 1 PID: 5147 Comm: systemd-udevd Not tainted 5.8.0-syzkaller #0
+> > > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > > > Call Trace:
+> > > >  __dump_stack lib/dump_stack.c:77 [inline]
+> > > >  dump_stack+0xf6/0x16e lib/dump_stack.c:118
+> > > >  print_address_description.constprop.0+0x1a/0x210 mm/kasan/report.c:383
+> > > >  __kasan_report mm/kasan/report.c:513 [inline]
+> > > >  kasan_report.cold+0x37/0x7c mm/kasan/report.c:530
+> > > >  string_nocheck lib/vsprintf.c:611 [inline]
+> > > >  string+0x39c/0x3d0 lib/vsprintf.c:693
+> > > >  vsnprintf+0x71b/0x14f0 lib/vsprintf.c:2617
+> > > >  add_uevent_var+0x14d/0x310 lib/kobject_uevent.c:664
+> > > >  rc_dev_uevent+0x54/0x140 drivers/media/rc/rc-main.c:1616
+> > > >  dev_uevent+0x30e/0x780 drivers/base/core.c:1916
+> > > >  uevent_show+0x1bb/0x360 drivers/base/core.c:1963
+> > > >  dev_attr_show+0x4b/0x90 drivers/base/core.c:1667
+> > > >  sysfs_kf_seq_show+0x1f8/0x400 fs/sysfs/file.c:60
+> > > >  seq_read+0x432/0x1070 fs/seq_file.c:208
+> > > >  kernfs_fop_read+0xe9/0x590 fs/kernfs/file.c:251
+> > > >  vfs_read+0x1df/0x520 fs/read_write.c:479
+> > > >  ksys_read+0x12d/0x250 fs/read_write.c:607
+> > > >  do_syscall_64+0x2d/0x40 arch/x86/entry/common.c:46
+> > > >  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> > > > RIP: 0033:0x7f6e6c02f910
+> > > > Code: b6 fe ff ff 48 8d 3d 0f be 08 00 48 83 ec 08 e8 06 db 01 00 66 0f 1f 44 00 00 83 3d f9 2d 2c 00 00 75 10 b8 00 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 de 9b 01 00 48 89 04 24
+> > > > RSP: 002b:00007fff3cddeae8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+> > > > RAX: ffffffffffffffda RBX: 0000558492caaae0 RCX: 00007f6e6c02f910
+> > > > RDX: 0000000000001000 RSI: 0000558492cc7530 RDI: 0000000000000007
+> > > > RBP: 00007f6e6c2ea440 R08: 00007f6e6c2ee298 R09: 0000000000001010
+> > > > R10: 0000558492caaae0 R11: 0000000000000246 R12: 0000000000001000
+> > > > R13: 0000000000000d68 R14: 0000558492cc7530 R15: 00007f6e6c2e9900
+> > >
+> > > This thread is reading the uevent sysfs file, which reads
+> > > rc_dev->map.name, and also rc_dev->device_name, but that is not causing
+> > > problems is this case.
+> > >
+> > > >
+> > > > Allocated by task 5:
+> > > >  save_stack+0x1b/0x40 mm/kasan/common.c:48
+> > > >  set_track mm/kasan/common.c:56 [inline]
+> > > >  __kasan_kmalloc.constprop.0+0xc2/0xd0 mm/kasan/common.c:494
+> > > >  slab_post_alloc_hook mm/slab.h:586 [inline]
+> > > >  slab_alloc_node mm/slub.c:2824 [inline]
+> > > >  slab_alloc mm/slub.c:2832 [inline]
+> > > >  __kmalloc_track_caller+0xec/0x280 mm/slub.c:4430
+> > > >  kstrdup+0x36/0x70 mm/util.c:60
+> > > >  ir_create_table drivers/media/rc/rc-main.c:217 [inline]
+> > > >  ir_setkeytable drivers/media/rc/rc-main.c:477 [inline]
+> > > >  rc_prepare_rx_device drivers/media/rc/rc-main.c:1786 [inline]
+> > > >  rc_register_device+0x464/0x1600 drivers/media/rc/rc-main.c:1914
+> > > >  igorplugusb_probe+0x7e6/0xc98 drivers/media/rc/igorplugusb.c:209
+> > > >  usb_probe_interface+0x315/0x7f0 drivers/usb/core/driver.c:374
+> > > >  really_probe+0x291/0xde0 drivers/base/dd.c:553
+> > > >  driver_probe_device+0x26b/0x3d0 drivers/base/dd.c:738
+> > > >  __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:844
+> > > >  bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
+> > > >  __device_attach+0x228/0x4a0 drivers/base/dd.c:912
+> > > >  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+> > > >  device_add+0xb51/0x1c70 drivers/base/core.c:2930
+> > > >  usb_set_configuration+0xf05/0x18a0 drivers/usb/core/message.c:2032
+> > > >  usb_generic_driver_probe+0xba/0xf2 drivers/usb/core/generic.c:239
+> > > >  usb_probe_device+0xd9/0x250 drivers/usb/core/driver.c:272
+> > > >  really_probe+0x291/0xde0 drivers/base/dd.c:553
+> > > >  driver_probe_device+0x26b/0x3d0 drivers/base/dd.c:738
+> > > >  __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:844
+> > > >  bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
+> > > >  __device_attach+0x228/0x4a0 drivers/base/dd.c:912
+> > > >  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+> > > >  device_add+0xb51/0x1c70 drivers/base/core.c:2930
+> > > >  usb_new_device.cold+0x71d/0xfd4 drivers/usb/core/hub.c:2554
+> > > >  hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+> > > >  hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+> > > >  port_event drivers/usb/core/hub.c:5494 [inline]
+> > > >  hub_event+0x2361/0x4390 drivers/usb/core/hub.c:5576
+> > > >  process_one_work+0x94c/0x15f0 kernel/workqueue.c:2269
+> > > >  worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
+> > > >  kthread+0x392/0x470 kernel/kthread.c:292
+> > > >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+> > >
+> > > .. this probed the device ..
+> > >
+> > > > Freed by task 5:
+> > > >  save_stack+0x1b/0x40 mm/kasan/common.c:48
+> > > >  set_track mm/kasan/common.c:56 [inline]
+> > > >  kasan_set_free_info mm/kasan/common.c:316 [inline]
+> > > >  __kasan_slab_free+0x116/0x160 mm/kasan/common.c:455
+> > > >  slab_free_hook mm/slub.c:1474 [inline]
+> > > >  slab_free_freelist_hook+0x53/0x140 mm/slub.c:1507
+> > > >  slab_free mm/slub.c:3072 [inline]
+> > > >  kfree+0xbc/0x2c0 mm/slub.c:4052
+> > > >  ir_free_table drivers/media/rc/rc-main.c:245 [inline]
+> > > >  rc_free_rx_device drivers/media/rc/rc-main.c:1875 [inline]
+> > > >  rc_unregister_device+0x142/0x410 drivers/media/rc/rc-main.c:2014
+> > > >  igorplugusb_disconnect+0x58/0x110 drivers/media/rc/igorplugusb.c:232
+> > > >  usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:436
+> > > >  __device_release_driver+0x3c6/0x6f0 drivers/base/dd.c:1153
+> > > >  device_release_driver_internal drivers/base/dd.c:1184 [inline]
+> > > >  device_release_driver+0x26/0x40 drivers/base/dd.c:1207
+> > > >  bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:533
+> > > >  device_del+0x481/0xd90 drivers/base/core.c:3107
+> > > >  usb_disable_device+0x387/0x930 drivers/usb/core/message.c:1245
+> > > >  usb_disconnect.cold+0x27d/0x780 drivers/usb/core/hub.c:2217
+> > > >  hub_port_connect drivers/usb/core/hub.c:5059 [inline]
+> > > >  hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+> > > >  port_event drivers/usb/core/hub.c:5494 [inline]
+> > > >  hub_event+0x1c93/0x4390 drivers/usb/core/hub.c:5576
+> > > >  process_one_work+0x94c/0x15f0 kernel/workqueue.c:2269
+> > > >  process_scheduled_works kernel/workqueue.c:2331 [inline]
+> > > >  worker_thread+0x82b/0x1120 kernel/workqueue.c:2417
+> > > >  kthread+0x392/0x470 kernel/kthread.c:292
+> > > >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+> > >
+> > > This unplugged the device, and freed rc_dev->map->name and sets
+> > > it to NULL. There is no locking between the two threads so this is
+> > > a race condition.
+> > >
+> > > I think there are worse, related problems here. For example, iguanair
+> > > driver allocates rc_dev->device_name and frees it in its usb disconnect
+> > > handler. This field is also read by uevent, and not set to null by
+> > > the disconnect handler.
+> > >
+> > > Not sure what the best solution is yet.
+> > >
+> >
+> > All USB drivers (and also any kind of driver that can be hotplugged)
+> > should implement some sort of refcounting, to avoid this kind of
+> > use-after-free issue.
+> >
+> > Drivers can't free memory that may be associated with an open
+> > handle, until you remove the device node.
 >
-> Something like this maybe:
->
-> #define V4L2_H264_CTRL_PRED_WEIGHTS_REQUIRED(pps, slice) \
->         ((((pps)->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) && \
->          ((slice)->slice_type == V4L2_H264_SLICE_TYPE_P || \
->            (slice)->slice_type == V4L2_H264_SLICE_TYPE_SP)) || \
->          ((pps)->weighted_bipred_idc == 1 && \
->           (slice)->slice_type == V4L2_H264_SLICE_TYPE_B))
->
+> Thank you for trying to be helpful, but I do know all these things; I
 
-Yeah, that could make sense.
+I hope you didn't read my reply as condescending. I was just being
+a bit naive: after seeing your latest patches using the registered boolean
+for sysfs paths I realized that I got confused by seeing rc_unregister_device,
+and not seeing the refcounted rc_dev_release.
 
-Note that the biggest value in having the prediction weight table
-separated is to allow  applications to skip setting this largish control,
-reducing the amount of data that needs to be passed from userspace
--- especially when not needed :-)
-
-> >
-> > Given its size, it makes sense to move this table to its control,
-> > so applications can avoid passing it if the slice doesn't specify it.
-> >
-> > Before this change struct v4l2_ctrl_h264_slice_params was 960 bytes.
-> > With this change, it's 188 bytes and struct v4l2_ctrl_h264_pred_weight
-> > is 772 bytes.
-> >
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> > v2: Fix missing Cedrus changes and mssing control declaration,
-> >     as noted by Hans and Jernej.
-> > ---
-> >  .../media/v4l/ext-ctrls-codec.rst             | 19 ++++++++++++-------
-> >  drivers/media/v4l2-core/v4l2-ctrls.c          |  8 ++++++++
-> >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  7 +++++++
-> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
-> >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  2 ++
-> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 ++----
-> >  include/media/h264-ctrls.h                    |  5 +++--
-> >  include/media/v4l2-ctrls.h                    |  2 ++
-> >  8 files changed, 37 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > index d1438b1e259f..c36ce5a95fc5 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > @@ -1879,18 +1879,23 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >        - 0x00000008
-> >        -
-> >
-> > -``Prediction Weight Table``
-> > +``V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS (struct)``
-> > +    Prediction weight table defined according to :ref:`h264`,
-> > +    section 7.4.3.2 "Prediction Weight Table Semantics".
-> > +    The prediction weight table must be passed by applications
-> > +    under the conditions explained in section 7.3.3 "Slice header
-> > +    syntax".
-> >
-> > -    The bitstream parameters are defined according to :ref:`h264`,
-> > -    section 7.4.3.2 "Prediction Weight Table Semantics". For further
-> > -    documentation, refer to the above specification, unless there is
-> > -    an explicit comment stating otherwise.
-> > +    .. note::
-> > +
-> > +       This compound control is not yet part of the public kernel API and
-> > +       it is expected to change.
-> >
-> > -.. c:type:: v4l2_h264_pred_weight_table
-> > +.. c:type:: v4l2_ctrl_h264_pred_weights
-> >
-> >  .. cssclass:: longtable
-> >
-> > -.. flat-table:: struct v4l2_h264_pred_weight_table
-> > +.. flat-table:: struct v4l2_ctrl_h264_pred_weights
-> >      :header-rows:  0
-> >      :stub-columns: 0
-> >      :widths:       1 1 2
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > index 3f3fbcd60cc6..76c8dc8fb31c 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > @@ -897,6 +897,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >       case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:            return "H264 Decode Parameters";
-> >       case V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:              return "H264 Decode Mode";
-> >       case V4L2_CID_MPEG_VIDEO_H264_START_CODE:               return "H264 Start Code";
-> > +     case V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS:             return "H264 Prediction Weight Table";
-> >       case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:                   return "MPEG2 Level";
-> >       case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:                 return "MPEG2 Profile";
-> >       case V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:              return "MPEG4 I-Frame QP Value";
-> > @@ -1412,6 +1413,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
-> >       case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:
-> >               *type = V4L2_CTRL_TYPE_H264_DECODE_PARAMS;
-> >               break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS:
-> > +             *type = V4L2_CTRL_TYPE_H264_PRED_WEIGHTS;
-> > +             break;
-> >       case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
-> >               *type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
-> >               break;
-> > @@ -1790,6 +1794,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >       case V4L2_CTRL_TYPE_H264_SPS:
-> >       case V4L2_CTRL_TYPE_H264_PPS:
-> >       case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
-> > +     case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
-> >       case V4L2_CTRL_TYPE_H264_SLICE_PARAMS:
-> >       case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
-> >               break;
-> > @@ -2553,6 +2558,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
-> >       case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
-> >               elem_size = sizeof(struct v4l2_ctrl_h264_decode_params);
-> >               break;
-> > +     case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
-> > +             elem_size = sizeof(struct v4l2_ctrl_h264_pred_weights);
-> > +             break;
-> >       case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
-> >               elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
-> >               break;
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > index bc27f9430eeb..027cdd1be5a0 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > @@ -78,6 +78,13 @@ static const struct cedrus_control cedrus_controls[] = {
-> >               .codec          = CEDRUS_CODEC_H264,
-> >               .required       = true,
-> >       },
-> > +     {
-> > +             .cfg = {
-> > +                     .id     = V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS,
-> > +             },
-> > +             .codec          = CEDRUS_CODEC_H264,
-> > +             .required       = true,
->
-> This should probably be false if this control is to be optional as implied
-> by the commit message.
->
-
-Well, the control is optional if the driver implements it as optional,
-which Cedrus isn't currently doing :-)
-
-I have been reluctant to change Cedrus much, since I am not
-testing there. Perhaps we can address this with a follow-up patch,
-adding the macro you suggest and changing the control to optional?
-
-Speaking of optional controls, note that v4l2 controls are cached
-per-fd (per context). This means for instance, that the active PPS
-and SPS need only be passed to drivers when activated,
-and not on each frame.
-
-Similarly, another optimization to reduce the amount of
-data passed is to have default scaling matrices in the kernel,
-and allow applications to not pass them, and have the drivers
-fallback to default (default or previously set?) in that case.
-
-I have tested these things, but haven't posted patches because
-I'm not entirely sure how well-defined and specified this behavior
-currently is. It is something to keep in mind though, as a future
-optimization.
-
-Thanks!
+Sorry for the noise!
 Ezequiel
-
-
-
-> Best regards,
-> Jonas
->
-> > +     },
-> >       {
-> >               .cfg = {
-> >                       .id     = V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE,
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > index 96765555ab8a..93c843ae14bb 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > @@ -62,6 +62,7 @@ struct cedrus_h264_run {
-> >       const struct v4l2_ctrl_h264_scaling_matrix      *scaling_matrix;
-> >       const struct v4l2_ctrl_h264_slice_params        *slice_params;
-> >       const struct v4l2_ctrl_h264_sps                 *sps;
-> > +     const struct v4l2_ctrl_h264_pred_weights        *pred_weights;
-> >  };
-> >
-> >  struct cedrus_mpeg2_run {
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > index 58c48e4fdfe9..6385026d1b6b 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > @@ -57,6 +57,8 @@ void cedrus_device_run(void *priv)
-> >                       V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS);
-> >               run.h264.sps = cedrus_find_control_data(ctx,
-> >                       V4L2_CID_MPEG_VIDEO_H264_SPS);
-> > +             run.h264.pred_weights = cedrus_find_control_data(ctx,
-> > +                     V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS);
-> >               break;
-> >
-> >       case V4L2_PIX_FMT_HEVC_SLICE:
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > index cce527bbdf86..a9ba78b15907 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > @@ -256,10 +256,8 @@ static void cedrus_write_scaling_lists(struct cedrus_ctx *ctx,
-> >  static void cedrus_write_pred_weight_table(struct cedrus_ctx *ctx,
-> >                                          struct cedrus_run *run)
-> >  {
-> > -     const struct v4l2_ctrl_h264_slice_params *slice =
-> > -             run->h264.slice_params;
-> > -     const struct v4l2_h264_pred_weight_table *pred_weight =
-> > -             &slice->pred_weight_table;
-> > +     const struct v4l2_ctrl_h264_pred_weights *pred_weight =
-> > +             run->h264.pred_weights;
-> >       struct cedrus_dev *dev = ctx->dev;
-> >       int i, j, k;
-> >
-> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > index 4c0bb7f5fb05..54cd9bec0b23 100644
-> > --- a/include/media/h264-ctrls.h
-> > +++ b/include/media/h264-ctrls.h
-> > @@ -36,6 +36,7 @@
-> >  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS       (V4L2_CID_MPEG_BASE+1004)
-> >  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (V4L2_CID_MPEG_BASE+1005)
-> >  #define V4L2_CID_MPEG_VIDEO_H264_START_CODE  (V4L2_CID_MPEG_BASE+1006)
-> > +#define V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS        (V4L2_CID_MPEG_BASE+1007)
-> >
-> >  /* enum v4l2_ctrl_type type values */
-> >  #define V4L2_CTRL_TYPE_H264_SPS                      0x0110
-> > @@ -43,6 +44,7 @@
-> >  #define V4L2_CTRL_TYPE_H264_SCALING_MATRIX   0x0112
-> >  #define V4L2_CTRL_TYPE_H264_SLICE_PARAMS     0x0113
-> >  #define V4L2_CTRL_TYPE_H264_DECODE_PARAMS    0x0114
-> > +#define V4L2_CTRL_TYPE_H264_PRED_WEIGHTS     0x0115
-> >
-> >  enum v4l2_mpeg_video_h264_decode_mode {
-> >       V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED,
-> > @@ -125,7 +127,7 @@ struct v4l2_h264_weight_factors {
-> >       __s16 chroma_offset[32][2];
-> >  };
-> >
-> > -struct v4l2_h264_pred_weight_table {
-> > +struct v4l2_ctrl_h264_pred_weights {
-> >       __u16 luma_log2_weight_denom;
-> >       __u16 chroma_log2_weight_denom;
-> >       struct v4l2_h264_weight_factors weight_factors[2];
-> > @@ -177,7 +179,6 @@ struct v4l2_ctrl_h264_slice_params {
-> >       __s32 delta_pic_order_cnt0;
-> >       __s32 delta_pic_order_cnt1;
-> >
-> > -     struct v4l2_h264_pred_weight_table pred_weight_table;
-> >       /* Size in bits of dec_ref_pic_marking() syntax element. */
-> >       __u32 dec_ref_pic_marking_bit_size;
-> >       /* Size in bits of pic order count syntax. */
-> > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> > index f40e2cbb21d3..cb25f345e9ad 100644
-> > --- a/include/media/v4l2-ctrls.h
-> > +++ b/include/media/v4l2-ctrls.h
-> > @@ -51,6 +51,7 @@ struct video_device;
-> >   * @p_h264_scaling_matrix:   Pointer to a struct v4l2_ctrl_h264_scaling_matrix.
-> >   * @p_h264_slice_params:     Pointer to a struct v4l2_ctrl_h264_slice_params.
-> >   * @p_h264_decode_params:    Pointer to a struct v4l2_ctrl_h264_decode_params.
-> > + * @p_h264_pred_weights:     Pointer to a struct v4l2_ctrl_h264_pred_weights.
-> >   * @p_vp8_frame_header:              Pointer to a VP8 frame header structure.
-> >   * @p_hevc_sps:                      Pointer to an HEVC sequence parameter set structure.
-> >   * @p_hevc_pps:                      Pointer to an HEVC picture parameter set structure.
-> > @@ -74,6 +75,7 @@ union v4l2_ctrl_ptr {
-> >       struct v4l2_ctrl_h264_scaling_matrix *p_h264_scaling_matrix;
-> >       struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
-> >       struct v4l2_ctrl_h264_decode_params *p_h264_decode_params;
-> > +     struct v4l2_ctrl_h264_pred_weights *p_h264_pred_weights;
-> >       struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
-> >       struct v4l2_ctrl_hevc_sps *p_hevc_sps;
-> >       struct v4l2_ctrl_hevc_pps *p_hevc_pps;
-> >
