@@ -2,127 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C018240277
-	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 09:26:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88C67240267
+	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 09:24:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726547AbgHJH02 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Aug 2020 03:26:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47146 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726025AbgHJH00 (ORCPT
+        id S1725984AbgHJHYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Aug 2020 03:24:38 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:52997 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725911AbgHJHYh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Aug 2020 03:26:26 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A90AC061756;
-        Mon, 10 Aug 2020 00:26:25 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id m200so4640926ybf.10;
-        Mon, 10 Aug 2020 00:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=a/yQjIpGQ9bwN19T0c8h1wga/yLfPYyGvmAA4RpqO9o=;
-        b=OG+MeLJSksMXQYnng3ZOq6fUtWnCYdY5dR1M1xCP2OB9ND+9+4gTccvtg9esOBO8aY
-         gtirQoqKkpqoqmrbG7tGO0qdLyMXyV0NJ/xJER24xixIb67EJa8RmSQF2Ff7aIr2wYAG
-         bAoeaXl/I2YDiY3TlR4Q8dzk+t2YsYj46MLrVBciwEz2H7kh6AorllAny6O+UFnqdWsF
-         oVAqzKJFAsREVEASyYves69+s+Y/hLecF33Xiz/Gck+5vGk2HL4Ngq/msOKp+arz7rHV
-         sjHchbSuQbUBIppXohuffpkxb3UsDyddlDTDs+IACcu8BNO6GDRwD0PhZpPHJkJj0axg
-         39Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=a/yQjIpGQ9bwN19T0c8h1wga/yLfPYyGvmAA4RpqO9o=;
-        b=nku+gK88rrPf6TCNq7PmCU4m+fGk6qquKezO60dXXYaLUd2mnncLJY6taH+eahrGMM
-         pJVOboJK1nRwZzyGNj1SUTxQd4L8v5J1dutJLVSbWo7pGWdWLYUpe8KiSC/AIv4gK+j3
-         6/oiVAaTnY/UDljhEQt5cdPfYa8Yx2pO/vt99S9SBhFhUrAQNkVa4o8umkOD/37OFYyw
-         3QwDpUuIftvgT1oCEoIBlRxz5WJmE7huXVWLlg5+Bp37Q2MxZ/KfBwQms52hlvNcp2Tu
-         WJ5AsQdSMytmcvxFtgYOe1gfzB/VHibFQR5oF82X0Q+nv5KDcaHt7O1Rbg0UbNoMkff7
-         gBBA==
-X-Gm-Message-State: AOAM531T2GleVWjQet8F1kX8dndv8rVswAN7m+4irktcJHRH/UewRpTq
-        BmcDNcJ12iODtC0zWlC1985CxTpTjSn1tQ4lRwE=
-X-Google-Smtp-Source: ABdhPJx5ZqLguTnboxWSbfqbxWq6Zi7lwEzwh50vnLLZ5b7sQaMUmIrC4FfDLxZUtT0lEp3C6ZVNHYQi/QODDA9MeYY=
-X-Received: by 2002:a25:b74b:: with SMTP id e11mr3088014ybm.395.1597044384816;
- Mon, 10 Aug 2020 00:26:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <1596465107-14251-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200806144828.bflbpla2x4sjfsbp@uno.localdomain>
-In-Reply-To: <20200806144828.bflbpla2x4sjfsbp@uno.localdomain>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 10 Aug 2020 08:25:58 +0100
-Message-ID: <CA+V-a8tmU2OVg8L8qsySG1CtpMw08BmjeyYBiakXdAh8vgxuNQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] media: i2c: ov5640 feature enhancement and fixes
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mon, 10 Aug 2020 03:24:37 -0400
+X-Originating-IP: 82.52.18.94
+Received: from uno.localdomain (host-82-52-18-94.retail.telecomitalia.it [82.52.18.94])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id C0BC640008;
+        Mon, 10 Aug 2020 07:24:32 +0000 (UTC)
+Date:   Mon, 10 Aug 2020 09:28:14 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        libcamera-devel@lists.libcamera.org
+Subject: Re: your mail
+Message-ID: <20200810072814.vwr4ba5uv3ps7dfj@uno.localdomain>
+References: <20200805105721.15445-1-jacopo@jmondi.org>
+ <20200809155311.GB5981@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200809155311.GB5981@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Laurent,
 
+On Sun, Aug 09, 2020 at 06:53:11PM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Wed, Aug 05, 2020 at 12:57:17PM +0200, Jacopo Mondi wrote:
+> > Subject: [PATCH 0/4] media: docs: Document pixel array properties
+> >
+> > Hans' patch "[PATCH] imx219: selection compliance fixes" sparkled a discussion
+> > on how the V4L2 selection targets have to be used in order to access an
+> > image sensor pixel array properties.
+> >
+> > The discussion shown how much under-specified that part was, so this is
+> > an attempt to provide a bit documentation for this.
+> >
+> > My feeling is that we're hijacking the existing targets for this use case
+> > and we should probably define new ones, considering how few users we have in
+> > mainline of them at the moment.
+>
+> Do you mean you think we should create new targets instead of reusing
+> the existing ones as you do in this series ? I don't see anything really
+> wrong in reusing the existing targets, provided we document them
+> properly, and it's not too much of a hack (that is, the documented
+> purpose reasonably matches the target name), but maybe I'm missing the
+> issue.
 
-On Thu, Aug 6, 2020 at 3:44 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> Hello,
->
-> On Mon, Aug 03, 2020 at 03:31:43PM +0100, Lad Prabhakar wrote:
-> > Hi All,
-> >
-> > This patch series fixes DVP support and enables BT656 mode in
-> > the driver.
-> >
-> > @Jacopo Mondi - patch 1/4 will collide with your patch series [1],
-> > feel free to merge it as part of your v2.
->
-> This would actually make my life simpler, as one of the issues I had
-> was trying to make bus-type required to be able to differentiate
-> between different properties.
->
-Thank you for taking care of it.
+Yes, that's what I meant.
 
-Cheers,
-Prabhakar
+To me, if you have something and you need to document it with "if
+applied to X it means Y, if applied to Z it means W etcetc" feels like
+we're abusing it. Having sensor's specific targets would make clear
+what a target represents without the ambiguities of defining the
+symbol semantic depending on the device it applies to (which means
+userspace would need to know what kind of device it's dealing with
+precisely).
 
+That said, my preference would be using a different API, but see my
+reply to your other email for that.
+
+Thanks
+  j
+
+>
+> > On top Hans' patch with reworded commit message and minor updates.
 > >
-> > [1] https://www.spinics.net/lists/linux-renesas-soc/msg51236.html
+> > For reference, we're using the V4L2 selection targets in libcamera to retrieve
+> > the sensor pixel array properties to be reported to applications for
+> > calibration purposes. The currently defined pixel properties for libcamera
+> > are available here:
+> > https://git.linuxtv.org/libcamera.git/tree/src/libcamera/property_ids.yaml#n390
 > >
-> > Cheers,
-> > Prabhakar
+> > Thanks
+> >    j
 > >
-> > Changes for v2:
-> > * Added support to fallback in parallel mode
-> > * Documented bus-type property
-> > * Added descriptive commit message for patch 2/4 as pointed
-> >   by Sakari
-> > * Fixed review comments pointed by Laurent to have separate functions
-> >   for mipi and dvp setup
-> > * Made sure the sensor is in power down mode during startup too for
-> >   DVP mode
+> > Hans Verkuil (1):
+> >   media: i2c: imx219: Selection compliance fixes
 > >
-> > Lad Prabhakar (4):
-> >   dt-bindings: media: i2c: ov5640: Document bus-type property
-> >   media: i2c: ov5640: Enable data pins on poweron for DVP mode
-> >   media: i2c: ov5640: Add support for BT656 mode
-> >   media: i2c: ov5640: Fallback to parallel mode
+> > Jacopo Mondi (3):
+> >   media: docs: Describe pixel array properties
+> >   media: docs: Describe targets for sensor properties
+> >   media: docs: USe SUBDEV_G_SELECTION for sensor properties
 > >
-> >  .../devicetree/bindings/media/i2c/ov5640.txt  |   9 +-
-> >  drivers/media/i2c/ov5640.c                    | 333 ++++++++++--------
-> >  2 files changed, 198 insertions(+), 144 deletions(-)
-> >
-> > --
-> > 2.17.1
-> >
+> >  .../userspace-api/media/v4l/dev-subdev.rst    | 85 +++++++++++++++++++
+> >  .../media/v4l/v4l2-selection-targets.rst      | 49 +++++++++++
+> >  .../media/v4l/vidioc-subdev-g-selection.rst   |  4 +
+> >  drivers/media/i2c/imx219.c                    | 17 ++--
+> >  4 files changed, 147 insertions(+), 8 deletions(-)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
