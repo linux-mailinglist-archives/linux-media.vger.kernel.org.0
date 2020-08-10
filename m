@@ -2,63 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7534240270
-	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 09:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C018240277
+	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 09:26:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726517AbgHJHZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Aug 2020 03:25:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47004 "EHLO
+        id S1726547AbgHJH02 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Aug 2020 03:26:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbgHJHZ3 (ORCPT
+        with ESMTP id S1726025AbgHJH00 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Aug 2020 03:25:29 -0400
+        Mon, 10 Aug 2020 03:26:26 -0400
 Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E54C061756;
-        Mon, 10 Aug 2020 00:25:29 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id q16so4659328ybk.6;
-        Mon, 10 Aug 2020 00:25:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A90AC061756;
+        Mon, 10 Aug 2020 00:26:25 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id m200so4640926ybf.10;
+        Mon, 10 Aug 2020 00:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=y9XMh30ufnUqk9AdZOEkF5RT2AG6qRJ/wAGRKNthdQs=;
-        b=oCBRTKJ8e8v7sjNsv2dJ3eqL4nIJMZaDQV+Z0mvt525/tN235DcrjvbPeKQ3MIRMBr
-         7hUHCy0BYJmDIPlGoNyPs0mXeR0PTXmDKpMrgdQW6LeviN5mvllgu7NU6pdgJp+DtQjc
-         UlRObcyQi5wgN6dRwrfwqaNhtdmgjffkfGMf3YoyCEJ9/xrA/0RfYzfhl32UIGkpA9Z4
-         vDuO11KHEHoLpkLZtSgGuQJYnDz1VRjFX8BfaStIwszLCFmLbMZBoqltplVOedvVpCer
-         d3/SvSX7xGcfFHKjKaxpUlG40CxvorsZ70vo/S7OMDNtM3+IFyQwRyNE/sHonYEh5TB0
-         ZBuQ==
+        bh=a/yQjIpGQ9bwN19T0c8h1wga/yLfPYyGvmAA4RpqO9o=;
+        b=OG+MeLJSksMXQYnng3ZOq6fUtWnCYdY5dR1M1xCP2OB9ND+9+4gTccvtg9esOBO8aY
+         gtirQoqKkpqoqmrbG7tGO0qdLyMXyV0NJ/xJER24xixIb67EJa8RmSQF2Ff7aIr2wYAG
+         bAoeaXl/I2YDiY3TlR4Q8dzk+t2YsYj46MLrVBciwEz2H7kh6AorllAny6O+UFnqdWsF
+         oVAqzKJFAsREVEASyYves69+s+Y/hLecF33Xiz/Gck+5vGk2HL4Ngq/msOKp+arz7rHV
+         sjHchbSuQbUBIppXohuffpkxb3UsDyddlDTDs+IACcu8BNO6GDRwD0PhZpPHJkJj0axg
+         39Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=y9XMh30ufnUqk9AdZOEkF5RT2AG6qRJ/wAGRKNthdQs=;
-        b=L0BYBKvatFZC22RPyRVhWw1PXNz6OVetdbpEhbJItFa4XMt717Ouk4Dklo7/mK09Au
-         nOAsrzP87TexHUXpQeQ2vKVCTtgnwH7TLfaTHbZTTrKjrg0CpGCufp2+xwXcxW496YLB
-         9urgdBUw9Md5ap5tlHSbr93ttIeMFSNnEfJA3lnsSV2oFWIaGk25uxUVM0NyFzmK4ZNE
-         1aWMf7RCdzGDNxV1eORoQnf96PGPXpDQCW9NhbWeyCxjwkFKtmkD0+DFecdpVkzB4QIx
-         xr20sF1A7SulS1Oml7hjxbi58bvLKH7rxQtjdqAfTZWG5nJmkqyCaS8PNjbBky7Kpbqj
-         8nyw==
-X-Gm-Message-State: AOAM532go8Vs6htktiz3o0XrO4CocVryturOFVyRzIZmCXNkNHYfzwPK
-        y8whW8QmLL+GsjRGaMtKumWPAwt8fE1sH/Mtbyg=
-X-Google-Smtp-Source: ABdhPJxubfKAhbBYWXOu5Hl2BLVZlOAz0iAte5nh1SSxYgW/qeVjBucdzbTC0tkBi8v/vR2viV8lpUfrSmj3LrZea7k=
-X-Received: by 2002:a25:c743:: with SMTP id w64mr35345933ybe.127.1597044328869;
- Mon, 10 Aug 2020 00:25:28 -0700 (PDT)
+        bh=a/yQjIpGQ9bwN19T0c8h1wga/yLfPYyGvmAA4RpqO9o=;
+        b=nku+gK88rrPf6TCNq7PmCU4m+fGk6qquKezO60dXXYaLUd2mnncLJY6taH+eahrGMM
+         pJVOboJK1nRwZzyGNj1SUTxQd4L8v5J1dutJLVSbWo7pGWdWLYUpe8KiSC/AIv4gK+j3
+         6/oiVAaTnY/UDljhEQt5cdPfYa8Yx2pO/vt99S9SBhFhUrAQNkVa4o8umkOD/37OFYyw
+         3QwDpUuIftvgT1oCEoIBlRxz5WJmE7huXVWLlg5+Bp37Q2MxZ/KfBwQms52hlvNcp2Tu
+         WJ5AsQdSMytmcvxFtgYOe1gfzB/VHibFQR5oF82X0Q+nv5KDcaHt7O1Rbg0UbNoMkff7
+         gBBA==
+X-Gm-Message-State: AOAM531T2GleVWjQet8F1kX8dndv8rVswAN7m+4irktcJHRH/UewRpTq
+        BmcDNcJ12iODtC0zWlC1985CxTpTjSn1tQ4lRwE=
+X-Google-Smtp-Source: ABdhPJx5ZqLguTnboxWSbfqbxWq6Zi7lwEzwh50vnLLZ5b7sQaMUmIrC4FfDLxZUtT0lEp3C6ZVNHYQi/QODDA9MeYY=
+X-Received: by 2002:a25:b74b:: with SMTP id e11mr3088014ybm.395.1597044384816;
+ Mon, 10 Aug 2020 00:26:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <1596454753-13612-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1596454753-13612-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200806144511.6ajoqyynowglnbpm@uno.localdomain>
-In-Reply-To: <20200806144511.6ajoqyynowglnbpm@uno.localdomain>
+References: <1596465107-14251-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200806144828.bflbpla2x4sjfsbp@uno.localdomain>
+In-Reply-To: <20200806144828.bflbpla2x4sjfsbp@uno.localdomain>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 10 Aug 2020 08:25:02 +0100
-Message-ID: <CA+V-a8utQjTb44wuAOS7+GVKMwvv+OpPTFZ5Ons9Tj=i0KCqzw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] media: i2c: ov772x: Add support for BT656 mode
+Date:   Mon, 10 Aug 2020 08:25:58 +0100
+Message-ID: <CA+V-a8tmU2OVg8L8qsySG1CtpMw08BmjeyYBiakXdAh8vgxuNQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] media: i2c: ov5640 feature enhancement and fixes
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media <linux-media@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
@@ -72,175 +74,55 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-Thank you for the review.
 
-On Thu, Aug 6, 2020 at 3:41 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
+On Thu, Aug 6, 2020 at 3:44 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
 >
-> On Mon, Aug 03, 2020 at 12:39:12PM +0100, Lad Prabhakar wrote:
-> > Add support to read the bus-type and enable BT656 mode if needed.
+> Hello,
+>
+> On Mon, Aug 03, 2020 at 03:31:43PM +0100, Lad Prabhakar wrote:
+> > Hi All,
 > >
-> > The driver defaults to parallel mode if bus-type is not specified in DT.
+> > This patch series fixes DVP support and enables BT656 mode in
+> > the driver.
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  drivers/media/i2c/ov772x.c | 40 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 40 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> > index 2cc6a678069a..2de9248e3689 100644
-> > --- a/drivers/media/i2c/ov772x.c
-> > +++ b/drivers/media/i2c/ov772x.c
-> > @@ -31,6 +31,7 @@
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-event.h>
-> > +#include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-image-sizes.h>
-> >  #include <media/v4l2-subdev.h>
-> >
-> > @@ -434,6 +435,7 @@ struct ov772x_priv {
-> >  #ifdef CONFIG_MEDIA_CONTROLLER
-> >       struct media_pad pad;
-> >  #endif
-> > +     struct v4l2_fwnode_endpoint ep;
-> >  };
-> >
-> >  /*
-> > @@ -574,6 +576,7 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >       struct i2c_client *client = v4l2_get_subdevdata(sd);
-> >       struct ov772x_priv *priv = to_ov772x(sd);
-> > +     unsigned int val;
-> >       int ret = 0;
-> >
-> >       mutex_lock(&priv->lock);
-> > @@ -581,6 +584,22 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
-> >       if (priv->streaming == enable)
-> >               goto done;
-> >
-> > +     if (priv->ep.bus_type == V4L2_MBUS_BT656 && enable) {
-> > +             ret = regmap_read(priv->regmap, COM7, &val);
-> > +             if (ret)
-> > +                     goto done;
-> > +             val |= ITU656_ON_OFF;
-> > +             ret = regmap_write(priv->regmap, COM7, val);
-> > +     } else if (priv->ep.bus_type == V4L2_MBUS_BT656 && !enable) {
+> > @Jacopo Mondi - patch 1/4 will collide with your patch series [1],
+> > feel free to merge it as part of your v2.
 >
-> is the !enable intentional ? (sorry I don't have access to the sensor
-> manual). If not, see below:
+> This would actually make my life simpler, as one of the issues I had
+> was trying to make bus-type required to be able to differentiate
+> between different properties.
 >
-> > +             ret = regmap_read(priv->regmap, COM7, &val);
-> > +             if (ret)
-> > +                     goto done;
-> > +             val &= ~ITU656_ON_OFF;
-> > +             ret = regmap_write(priv->regmap, COM7, val);
-> > +     }
-> > +     if (ret)
-> > +             goto done;
->
-> Could you write this as:
->
-Agreed will do.
-
-> static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
-> {
->         struct i2c_client *client = v4l2_get_subdevdata(sd);
->         struct ov772x_priv *priv = to_ov772x(sd);
->         int ret = 0;
->
->         mutex_lock(&priv->lock);
->
->         if (priv->streaming == enable)
->                 goto done;
->
->         if (enable) {
->                 ret = regmap_read(priv->regmap, COM7, &val);
->                 if (ret)
->                         goto done;
->
->                 if (priv->ep.bus_type == V4L2_MBUS_BT656)
->                         val |= ITU656_ON_OFF;
->                 else /* if you accept my suggestion to consider othe
->                         bus types as errors */
->                         val &= ~ITU656_ON_OFF;
->
->                 ret = regmap_write(priv->regmap, COM7, val);
->                 if (ret)
->                         goto done;
->
->                 dev_dbg(&client->dev, "format %d, win %s\n",
->                         priv->cfmt->code, priv->win->name);
->         }
->
->         ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
->                                  enable ? 0 : SOFT_SLEEP_MODE);
->         if (ret)
->                 goto done;
->         priv->streaming = enable;
->
-> done:
->         mutex_unlock(&priv->lock);
->
->         return ret;
-> }
->
->
-> >       ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
-> >                                enable ? 0 : SOFT_SLEEP_MODE);
-> >       if (ret)
-> > @@ -1354,6 +1373,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
-> >
-> >  static int ov772x_probe(struct i2c_client *client)
-> >  {
-> > +     struct fwnode_handle *endpoint;
-> >       struct ov772x_priv      *priv;
-> >       int                     ret;
-> >       static const struct regmap_config ov772x_regmap_config = {
-> > @@ -1415,6 +1435,26 @@ static int ov772x_probe(struct i2c_client *client)
-> >               goto error_clk_put;
-> >       }
-> >
-> > +     endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> > +                                               NULL);
-> > +     if (!endpoint) {
-> > +             dev_err(&client->dev, "endpoint node not found\n");
-> > +             ret = -EINVAL;
-> > +             goto error_clk_put;
-> > +     }
-> > +
-> > +     ret = v4l2_fwnode_endpoint_parse(endpoint, &priv->ep);
-> > +     fwnode_handle_put(endpoint);
-> > +     if (ret) {
-> > +             dev_err(&client->dev, "Could not parse endpoint\n");
-> > +             goto error_clk_put;
-> > +     }
-> > +
-> > +     /* fallback to parallel mode */
-> > +     if (priv->ep.bus_type != V4L2_MBUS_PARALLEL &&
-> > +         priv->ep.bus_type != V4L2_MBUS_BT656)
-> > +             priv->ep.bus_type = V4L2_MBUS_PARALLEL;
->
-> shouldn't this be an error ? It's either the bus type has not been
-> specified on DT (which is fine, otherwise old DTB without that
-> properties will fail) and the bus identification routine implemented
-> in v4l2_fwnode_endpoint_parse() detected a bus type which is not
-> supported, hence the DT properties are wrong, and this should be an
-> error. If you plan to expand the parsing routine to support, say
-> bus-width and pclk polarity please break this out to a new function.
->
-Agreed.
+Thank you for taking care of it.
 
 Cheers,
 Prabhakar
 
-> Thanks
->    j
->
-> > +
-> >       ret = ov772x_video_probe(priv);
-> >       if (ret < 0)
-> >               goto error_gpio_put;
+> >
+> > [1] https://www.spinics.net/lists/linux-renesas-soc/msg51236.html
+> >
+> > Cheers,
+> > Prabhakar
+> >
+> > Changes for v2:
+> > * Added support to fallback in parallel mode
+> > * Documented bus-type property
+> > * Added descriptive commit message for patch 2/4 as pointed
+> >   by Sakari
+> > * Fixed review comments pointed by Laurent to have separate functions
+> >   for mipi and dvp setup
+> > * Made sure the sensor is in power down mode during startup too for
+> >   DVP mode
+> >
+> > Lad Prabhakar (4):
+> >   dt-bindings: media: i2c: ov5640: Document bus-type property
+> >   media: i2c: ov5640: Enable data pins on poweron for DVP mode
+> >   media: i2c: ov5640: Add support for BT656 mode
+> >   media: i2c: ov5640: Fallback to parallel mode
+> >
+> >  .../devicetree/bindings/media/i2c/ov5640.txt  |   9 +-
+> >  drivers/media/i2c/ov5640.c                    | 333 ++++++++++--------
+> >  2 files changed, 198 insertions(+), 144 deletions(-)
+> >
 > > --
 > > 2.17.1
 > >
