@@ -2,97 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC6C2401A4
-	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 07:07:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87881240264
+	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 09:23:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725849AbgHJFHu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Aug 2020 01:07:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54302 "EHLO
+        id S1726089AbgHJHXU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Aug 2020 03:23:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbgHJFHu (ORCPT
+        with ESMTP id S1725857AbgHJHXT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Aug 2020 01:07:50 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA71C061756;
-        Sun,  9 Aug 2020 22:07:49 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id c12so5891897qtn.9;
-        Sun, 09 Aug 2020 22:07:49 -0700 (PDT)
+        Mon, 10 Aug 2020 03:23:19 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BCA8C061756;
+        Mon, 10 Aug 2020 00:23:19 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id g3so1637642ybc.3;
+        Mon, 10 Aug 2020 00:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aPHXTL52nZ8TnYruo+TUHBbc33RfRH/y9aR6NOzaRVo=;
-        b=UxHPO6Ru8IFAHFgMeMWp54jGqzTiCihLYmV0zJhgBUaAyfmPsEx2LJAwXw2fLA0KG5
-         D6OBIvkJn0g+qtixsVSWnsCjzrD17UtQ2vDuWxkusNN8VNYdgH97X2zs0vSgRxY+vWw3
-         tMSsgwW2UHXCGWh/Puol387O+IctIO//VkkPqRZO3JICdKshwUwWUnmnANxLqsyLekQl
-         gsknh7pR3vmTc8F3jfQ9r6mVvmf23C+Y5fCPZpE1CshJsxvNrp7uScL24EwAEc7WWBFI
-         yePF2V597Y8LZKSPYmP+DUJIFgT+djJL7a+ax7YwAIu6SUfPHDI05nrBN57WQE4Wgw8h
-         KNzA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ANR7+RLPKBGxOqXxxUQUqxXFiaO4oBpzGIQRW0WVM/k=;
+        b=Uw4kJBVyINzL3H5dzKs85M7fDr0bvtu6awqtjBDuZIsjYfXLKFhgADett+saqb9aWG
+         lyKe2Q0105n9PALpQnBOd/YtWCPBlrIMiVMcnkcllbhg6fO9/pxlu9E1+jMiLBY5wyLe
+         BfRubpIMVYZHSrT/ymfkm2fVIN7zGKHGNuGOMA5snbKSpjld1Sv2i/Oovf1uId1qFImM
+         +saHUMOOHqMwf8ccSSn1nPO9oF+SiqIU28rQdNxjMID2L+db27qW0R4HzMAPi0NctH7y
+         kRBS5gsT10qOYlelQYDNd88uTHZoip41ZkxzknYpJCAe+2Kcm9404zS9/lE8ippXel0e
+         ZIQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aPHXTL52nZ8TnYruo+TUHBbc33RfRH/y9aR6NOzaRVo=;
-        b=Iru/vfuF21vxDMS2u2lBNwWmQjA9iZ8oQOC+FAhHuaff+/ep5SDgx9kE24X89dmcqv
-         rjJEcfJd4BkEeSP0ulA6upi/1gucCBnYmu5/KpaclYXb0tHIw/Im65ISdrMNEdX+bXQU
-         NvEquE/cBRLh2Mjv5EBxfbHClib7OwIk272zUrpnU5MXnyTverpemQohr0cC2WsKuJPg
-         LY81iQ1x9MR23QWLV7ns5H0sNViOnuEdrh29lPt/fUd8LqGNfyD9s8vmy2HSPqtEa3ej
-         bQ55unWDiNPZAdbLXSo+famSwZB2H3Mr9Ma0QipsTJFttL8bmGN7GCJL/al0EXIrgc5X
-         mKXA==
-X-Gm-Message-State: AOAM531BzRwh0L5e6X+h9oX7UqJoOtFv+orLI3oVOKLNS41O8g5wL933
-        Sjl3U6hxUUKbz+xuYAOmug==
-X-Google-Smtp-Source: ABdhPJxeZ9jmhF6jSAkll2vnf9FoWW3KrIT9DdSlTQiwoFC7RC0e4phvSPS3a0ljAS4WeWvC0RiN9A==
-X-Received: by 2002:ac8:1382:: with SMTP id h2mr25882364qtj.228.1597036068667;
-        Sun, 09 Aug 2020 22:07:48 -0700 (PDT)
-Received: from localhost.localdomain (146-115-88-66.s3894.c3-0.sbo-ubr1.sbo.ma.cable.rcncustomer.com. [146.115.88.66])
-        by smtp.gmail.com with ESMTPSA id w20sm13125325qki.108.2020.08.09.22.07.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2020 22:07:48 -0700 (PDT)
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] v4l2-tpg: Fix global-out-of-bounds read in precalculate_color()
-Date:   Mon, 10 Aug 2020 01:05:32 -0400
-Message-Id: <20200810050532.640075-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ANR7+RLPKBGxOqXxxUQUqxXFiaO4oBpzGIQRW0WVM/k=;
+        b=FMZsQKO9JCm41Lk0fB3DwOsoFnYsckM65mYspIHuxr5q0dpW9TAEe+t5NgcT1Bb1rJ
+         yarniw1NLNbYt7GHepsAOEqf8cJ0PWLF+HdZpryiWSb9ngW7UOkIGhl9ei2v9vOyJ6ps
+         H8WQIAL0vM8PIJCZZbqLA4uIO+BK2xl2UnqQzBJ5jRkRzFw/MiKKYh5LGYbZAtrkLJ8K
+         7mGYWR4fhm8LLtgFIX1iJdd+if3Xjn+AWPwE2Q5ympDcH0P3eNMvcSnLyIMo2YnHNxRV
+         pTsSndKXvUjpDDKzLuYnXl8d2pjcjAKubIwcXoWke/wG468pFqsuQ8637l1YJsNpZBpU
+         2yiQ==
+X-Gm-Message-State: AOAM530v58M4OQPIagA3qUhz8vPi6Jw4qevrFFtG3OEeg1muZVy9s2Ah
+        2doHjzFSLUFxzYQy/naaQUjFgoZ1eM4NMvBEII0=
+X-Google-Smtp-Source: ABdhPJz9YtA5r0gyeWQ8/utyl5iTIa8cD2BpJQiEbgb1iOpQ3xsq68SsenTlc0sjjfhVV6DdyVh8fCEIeOZ5xY6D3BI=
+X-Received: by 2002:a25:6ad6:: with SMTP id f205mr38529089ybc.76.1597044198696;
+ Mon, 10 Aug 2020 00:23:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1596454753-13612-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1596454753-13612-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200806143559.ha6amfa4gq2o4jbi@uno.localdomain>
+In-Reply-To: <20200806143559.ha6amfa4gq2o4jbi@uno.localdomain>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 10 Aug 2020 08:22:52 +0100
+Message-ID: <CA+V-a8tk_KNoie0=aLBnj31RYoeHqHp8jnxqyJcPxWbkq6xTRA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: ov772x: Document endpoint properties
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-precalculate_color() is reading out of `sin` since `tpg->hue` is not being
-properly checked. Fix it. `cos` is safe, as long as `tpg->hue` is higher
-than or equal to -192.
+Hi Jacopo,
 
-Fixes: 63881df94d3e ("[media] vivid: add the Test Pattern Generator")
-Reported-and-tested-by: syzbot+02d9172bf4c43104cd70@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=db50123c788e2cc5a9d90de569c398b66293ee48
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thank you for the review.
 
-diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-index 50f1e0b28b25..52205fe096f7 100644
---- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-+++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-@@ -930,6 +930,9 @@ static void precalculate_color(struct tpg_data *tpg, int k)
- 		/* Implement these operations */
- 		int tmp_cb, tmp_cr;
- 
-+		if (tpg->hue < -128 || tpg->hue > 128)
-+			return;
-+
- 		/* First convert to YCbCr */
- 
- 		color_to_ycbcr(tpg, r, g, b, &y, &cb, &cr);
--- 
-2.25.1
+On Thu, Aug 6, 2020 at 3:32 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, Aug 03, 2020 at 12:39:11PM +0100, Lad Prabhakar wrote:
+> > Document endpoint properties required for parallel interface
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../devicetree/bindings/media/i2c/ov772x.txt     | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > index 0b3ede5b8e6a..1f4153484717 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > @@ -21,6 +21,22 @@ subnode for its digital output video port, in accordance with the video
+> >  interface bindings defined in Documentation/devicetree/bindings/media/
+> >  video-interfaces.txt.
+> >
+> > +Endpoint node required properties for parallel connection are:
+> > +- remote-endpoint: a phandle to the bus receiver's endpoint node.
+>
+> we allow endpoints without a remote end connected usually. They can be
+> filled in later, in example, with an overlay.
+>
+Agreed.
 
+> > +- bus-width: shall be set to <8> for 8 bits parallel bus
+> > +          or <10> for 10 bits parallel bus
+> > +- data-shift: shall be set to <2> for 8 bits parallel bus
+> > +           (lines 9:2 are used) or <0> for 10 bits parallel bus
+>
+> defining what is required or optional might be hard. I don't see the
+> driver enforcing their presence and I assume they have safe default.
+> Maybe make them optional and specify what the defaul value is ?
+>
+Will do.
+
+>
+> > +- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
+> > +             (Not required for bus-type equal 6)
+> > +- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
+> > +             (Not required for bus-type equal 6)
+>
+> If they're not required, they're optional, aren't they ? :)
+>
+Agreed.
+
+> > +- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
+> > +            signal. (Not required for bus-type equal 6)
+>
+> Why the pclk polarity is does not apply to BT.656 ?
+>
+No it should apply.
+
+> > +- bus-type: data bus type. Possible values are:
+> > +         5 - Parallel
+> > +         6 - Bt.656
+>
+> Are we making this required, or do we expect this to be deduced
+> depending on which other properties have been specified ? Sakari it
+> seems you would like this to become a properties that has to be
+> specified most of the times, right ? (I tend to agree with that FWIW),
+> but does it impact retro-compatibility ?
+>
+Agreed can be deduced from other properties. But shall wait for Sakari
+to comment.
+
+Cheers,
+Prabhakar
+
+> > +
+> >  Example:
+> >
+> >  &i2c0 {
+> > --
+> > 2.17.1
+> >
