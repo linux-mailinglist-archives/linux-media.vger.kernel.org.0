@@ -2,331 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC3F241109
-	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 21:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A36B9241146
+	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 22:00:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728232AbgHJTfH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 10 Aug 2020 15:35:07 -0400
-Received: from mailoutvs45.siol.net ([185.57.226.236]:52716 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727991AbgHJTfH (ORCPT
+        id S1728228AbgHJUAj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Aug 2020 16:00:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727817AbgHJUAi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:35:07 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 6651F523AAB;
-        Mon, 10 Aug 2020 21:35:03 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id yxP1dbre1Ytt; Mon, 10 Aug 2020 21:35:02 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id A67665243F7;
-        Mon, 10 Aug 2020 21:35:02 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-58-148.static.triera.net [86.58.58.148])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id 36797523AAB;
-        Mon, 10 Aug 2020 21:35:02 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Jonas Karlman <jonas@kwiboo.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v2 03/14] media: uapi: h264: Split prediction weight parameters
-Date:   Mon, 10 Aug 2020 21:34:56 +0200
-Message-ID: <3175824.PBOCjEjZKB@jernej-laptop>
-In-Reply-To: <1684df93a76cbd5e5f5435d876cf7fb88681b2ab.camel@collabora.com>
-References: <20200806151310.98624-1-ezequiel@collabora.com> <2153096.Em8KjNIPHG@jernej-laptop> <1684df93a76cbd5e5f5435d876cf7fb88681b2ab.camel@collabora.com>
+        Mon, 10 Aug 2020 16:00:38 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F07C061756
+        for <linux-media@vger.kernel.org>; Mon, 10 Aug 2020 13:00:37 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id EE8882961E3
+Subject: Re: [PATCH 1/2] media: pixfmt-meta-rkisp1.rst: add description of
+ rkisp1 metadata formats in pixfmt-meta-rkisp1.rst
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        tfiga@chromium.org
+References: <20200731121243.25882-1-dafna.hirschfeld@collabora.com>
+ <20200731121243.25882-2-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <5ee22493-bcef-77fc-390d-fa6c153a2301@collabora.com>
+Date:   Mon, 10 Aug 2020 17:00:28 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200731121243.25882-2-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne ponedeljek, 10. avgust 2020 ob 21:30:59 CEST je Ezequiel Garcia 
-napisal(a):
-> On Mon, 2020-08-10 at 19:05 +0200, Jernej Škrabec wrote:
-> > Dne ponedeljek, 10. avgust 2020 ob 14:57:17 CEST je Ezequiel Garcia
-> > 
-> > napisal(a):
-> > > On Sun, 2020-08-09 at 23:11 +0200, Jernej Škrabec wrote:
-> > > > Dne nedelja, 09. avgust 2020 ob 15:55:50 CEST je Ezequiel Garcia
-> > 
-> > napisal(a):
-> > > > > On Sat, 8 Aug 2020 at 18:01, Jonas Karlman <jonas@kwiboo.se> wrote:
-> > > > > > On 2020-08-06 17:12, Ezequiel Garcia wrote:
-> > > > > > > The prediction weight parameters are only required under
-> > > > > > > certain conditions, which depend on slice header parameters.
-> > > > > > > 
-> > > > > > > As specified in section 7.3.3 Slice header syntax, the
-> > > > > > > prediction
-> > > > > > > weight table is present if:
-> > > > > > > 
-> > > > > > > ((weighted_pred_flag && (slice_type == P || slice_type == SP))
-> > > > > > > || \
-> > > > > > > (weighted_bipred_idc == 1 && slice_type == B))
-> > > > > > 
-> > > > > > Maybe a macro can be added to help check this contition?
-> > > > > > 
-> > > > > > Something like this maybe:
-> > > > > > 
-> > > > > > #define V4L2_H264_CTRL_PRED_WEIGHTS_REQUIRED(pps, slice) \
-> > > > > > 
-> > > > > >         ((((pps)->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) && \
-> > > > > >         
-> > > > > >          ((slice)->slice_type == V4L2_H264_SLICE_TYPE_P || \
-> > > > > >          
-> > > > > >            (slice)->slice_type == V4L2_H264_SLICE_TYPE_SP)) || \
-> > > > > >          
-> > > > > >          ((pps)->weighted_bipred_idc == 1 && \
-> > > > > >          
-> > > > > >           (slice)->slice_type == V4L2_H264_SLICE_TYPE_B))
-> > > > > 
-> > > > > Yeah, that could make sense.
-> > > > > 
-> > > > > Note that the biggest value in having the prediction weight table
-> > > > > separated is to allow  applications to skip setting this largish
-> > > > > control,
-> > > > > reducing the amount of data that needs to be passed from userspace
-> > > > > -- especially when not needed :-)
-> > > > > 
-> > > > > > > Given its size, it makes sense to move this table to its
-> > > > > > > control,
-> > > > > > > so applications can avoid passing it if the slice doesn't
-> > > > > > > specify
-> > > > > > > it.
-> > > > > > > 
-> > > > > > > Before this change struct v4l2_ctrl_h264_slice_params was 960
-> > > > > > > bytes.
-> > > > > > > With this change, it's 188 bytes and struct
-> > > > > > > v4l2_ctrl_h264_pred_weight
-> > > > > > > is 772 bytes.
-> > > > > > > 
-> > > > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > > > ---
-> > > > > > > v2: Fix missing Cedrus changes and mssing control declaration,
-> > > > > > > 
-> > > > > > >     as noted by Hans and Jernej.
-> > > > > > > 
-> > > > > > > ---
-> > > > > > > 
-> > > > > > >  .../media/v4l/ext-ctrls-codec.rst             | 19
-> > > > > > >  ++++++++++++-------
-> > > > > > >  drivers/media/v4l2-core/v4l2-ctrls.c          |  8 ++++++++
-> > > > > > >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  7 +++++++
-> > > > > > >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
-> > > > > > >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  2 ++
-> > > > > > >  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 ++----
-> > > > > > >  include/media/h264-ctrls.h                    |  5 +++--
-> > > > > > >  include/media/v4l2-ctrls.h                    |  2 ++
-> > > > > > >  8 files changed, 37 insertions(+), 13 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git
-> > > > > > > a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > > > > b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > > > > index
-> > > > > > > d1438b1e259f..c36ce5a95fc5 100644
-> > > > > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > > > > @@ -1879,18 +1879,23 @@ enum
-> > > > > > > v4l2_mpeg_video_h264_hierarchical_coding_type -> >
-> > > > > > > 
-> > > > > > >        - 0x00000008
-> > > > > > >        -
-> > > > > > > 
-> > > > > > > -``Prediction Weight Table``
-> > > > > > > +``V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS (struct)``
-> > > > > > > +    Prediction weight table defined according to :ref:`h264`,
-> > > > > > > +    section 7.4.3.2 "Prediction Weight Table Semantics".
-> > > > > > > +    The prediction weight table must be passed by applications
-> > > > > > > +    under the conditions explained in section 7.3.3 "Slice
-> > > > > > > header
-> > > > > > > +    syntax".
-> > > > > > > 
-> > > > > > > -    The bitstream parameters are defined according to
-> > > > > > > :ref:`h264`,
-> > > > > > > -    section 7.4.3.2 "Prediction Weight Table Semantics". For
-> > > > > > > further
-> > > > > > > -    documentation, refer to the above specification, unless
-> > > > > > > there
-> > > > > > > is
-> > > > > > > -    an explicit comment stating otherwise.
-> > > > > > > +    .. note::
-> > > > > > > +
-> > > > > > > +       This compound control is not yet part of the public
-> > > > > > > kernel
-> > > > > > > API
-> > > > > > > and
-> > > > > > > +       it is expected to change.
-> > > > > > > 
-> > > > > > > -.. c:type:: v4l2_h264_pred_weight_table
-> > > > > > > +.. c:type:: v4l2_ctrl_h264_pred_weights
-> > > > > > > 
-> > > > > > >  .. cssclass:: longtable
-> > > > > > > 
-> > > > > > > -.. flat-table:: struct v4l2_h264_pred_weight_table
-> > > > > > > +.. flat-table:: struct v4l2_ctrl_h264_pred_weights
-> > > > > > > 
-> > > > > > >      :header-rows:  0
-> > > > > > >      :stub-columns: 0
-> > > > > > >      :widths:       1 1 2
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > > > > > b/drivers/media/v4l2-core/v4l2-ctrls.c index
-> > > > > > > 3f3fbcd60cc6..76c8dc8fb31c
-> > > > > > > 100644
-> > > > > > > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > > > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > > > > > @@ -897,6 +897,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> > > > > > > 
-> > > > > > >       case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:           
-> > > > > > >       return
-> > > > > > >       "H264 Decode Parameters"; case
-> > > > > > >       V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:              return
-> > > > > > >       "H264
-> > > > > > >       
-> > > > > > >       Decode Mode"; case V4L2_CID_MPEG_VIDEO_H264_START_CODE:
-> > > > > > >           return "H264 Start Code";> >
-> > > > > > > 
-> > > > > > > +     case V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS:            
-> > > > > > > return
-> > > > > > > "H264 Prediction Weight Table";> >
-> > > > > > > 
-> > > > > > >       case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:                  
-> > > > > > >       return
-> > > > > > >       
-> > > > > > >       "MPEG2 Level"; case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
-> > > > > > >            return "MPEG2 Profile"; case
-> > > > > > >       
-> > > > > > >       V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:              return
-> > > > > > >       "MPEG4
-> > > > > > >       I-Frame QP Value";> >
-> > > > > > > 
-> > > > > > > @@ -1412,6 +1413,9 @@ void v4l2_ctrl_fill(u32 id, const char
-> > > > > > > **name,
-> > > > > > > enum v4l2_ctrl_type *type,> >
-> > > > > > > 
-> > > > > > >       case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:
-> > > > > > >               *type = V4L2_CTRL_TYPE_H264_DECODE_PARAMS;
-> > > > > > >               break;
-> > > > > > > 
-> > > > > > > +     case V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS:
-> > > > > > > +             *type = V4L2_CTRL_TYPE_H264_PRED_WEIGHTS;
-> > > > > > > +             break;
-> > > > > > > 
-> > > > > > >       case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
-> > > > > > >               *type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
-> > > > > > >               break;
-> > > > > > > 
-> > > > > > > @@ -1790,6 +1794,7 @@ static int std_validate_compound(const
-> > > > > > > struct
-> > > > > > > v4l2_ctrl *ctrl, u32 idx,> >
-> > > > > > > 
-> > > > > > >       case V4L2_CTRL_TYPE_H264_SPS:
-> > > > > > >       case V4L2_CTRL_TYPE_H264_PPS:
-> > > > > > > 
-> > > > > > >       case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
-> > > > > > > +     case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
-> > > > > > >       case V4L2_CTRL_TYPE_H264_SLICE_PARAMS:
-> > > > > > >       
-> > > > > > >       case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
-> > > > > > >               break;
-> > > > > > > 
-> > > > > > > @@ -2553,6 +2558,9 @@ static struct v4l2_ctrl
-> > > > > > > *v4l2_ctrl_new(struct
-> > > > > > > v4l2_ctrl_handler *hdl,> >
-> > > > > > > 
-> > > > > > >       case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
-> > > > > > >               elem_size = sizeof(struct
-> > > > > > >               v4l2_ctrl_h264_decode_params);
-> > > > > > >               break;
-> > > > > > > 
-> > > > > > > +     case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
-> > > > > > > +             elem_size = sizeof(struct
-> > > > > > > v4l2_ctrl_h264_pred_weights);
-> > > > > > > +             break;
-> > > > > > > 
-> > > > > > >       case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
-> > > > > > >               elem_size = sizeof(struct
-> > > > > > >               v4l2_ctrl_vp8_frame_header);
-> > > > > > >               break;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > > > > > > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
-> > > > > > > bc27f9430eeb..027cdd1be5a0 100644
-> > > > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > > > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > > > > > > @@ -78,6 +78,13 @@ static const struct cedrus_control
-> > > > > > > cedrus_controls[]
-> > > > > > > = {
-> > > > > > > 
-> > > > > > >               .codec          = CEDRUS_CODEC_H264,
-> > > > > > >               .required       = true,
-> > > > > > >       
-> > > > > > >       },
-> > > > > > > 
-> > > > > > > +     {
-> > > > > > > +             .cfg = {
-> > > > > > > +                     .id     =
-> > > > > > > V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS,
-> > > > > > > +             },
-> > > > > > > +             .codec          = CEDRUS_CODEC_H264,
-> > > > > > > +             .required       = true,
-> > > > > > 
-> > > > > > This should probably be false if this control is to be optional as
-> > > > > > implied
-> > > > > > by the commit message.
-> > > > > 
-> > > > > Well, the control is optional if the driver implements it as
-> > > > > optional,
-> > > > > which Cedrus isn't currently doing :-)
-> > > > 
-> > > > Why do you think so? Prediction weights are filled only when they are
-> > > > needed:https://elixir.bootlin.com/linux/latest/source/drivers/staging/
-> > > > medi
-> > > > a/ sunxi/cedrus/cedrus_h264.c#L370
-> > > 
-> > > Right, but that should be changed to be really optional.
-> > > How does the driver reject/fail the request if the table is NULL?
-> > 
-> > It's my understanding that pointer to this table can't be NULL. NULL would
-> > mean that there is no control with that ID registered in the driver.
+Hi Dafna,
+
+Thanks for the patch,
+
+On 7/31/20 9:12 AM, Dafna Hirschfeld wrote:
+> The metadata formats V4L2_META_FMT_IPU3_PARAMS, V4L2_META_FMT_IPU3_3A
+
+I believe you meant V4L2_META_FMT_RK_ISP1_PARAMS and
+V4L2_META_FMT_RK_ISP1_STAT_3A
+
+> are currently described in two files under
+> drivers/staging/media/rkisp1/Documentation/media/uapi/v4l
 > 
-> Hm, I'm starting to think you are right. So, does this mean
-> the default quantization matrix here is bogus?
+> This patch moves the description to one file:
+> Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+> The patch also extends the description and adds the rst file to
+> toctree.
 > 
->         if (quantization && quantization->load_intra_quantiser_matrix)
->                 matrix = quantization->intra_quantiser_matrix;
->         else
->                 matrix = intra_quantization_matrix_default;
-
-No, not really. Userspace can set load_intra_quantiser_matrix flag to false.
-
-Best regards,
-Jernej
-
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+>  .../media/v4l/pixfmt-meta-rkisp1.rst          | 49 +++++++++++++++++++
+>  .../uapi/v4l/pixfmt-meta-rkisp1-params.rst    | 23 ---------
+>  .../uapi/v4l/pixfmt-meta-rkisp1-stat.rst      | 22 ---------
+>  4 files changed, 50 insertions(+), 45 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+>  delete mode 100644 drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+>  delete mode 100644 drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
 > 
-> Thanks,
-> Ezequiel
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> index 7dcc4bacbb0c..55a635534bc9 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -21,6 +21,7 @@ These formats are used for the :ref:`metadata` interface only.
+>  
+>      pixfmt-meta-d4xx
+>      pixfmt-meta-intel-ipu3
+> +    pixfmt-meta-rkisp1
+>      pixfmt-meta-uvc
+>      pixfmt-meta-vsp1-hgo
+>      pixfmt-meta-vsp1-hgt
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+> new file mode 100644
+> index 000000000000..c8effdfd27bf
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+> @@ -0,0 +1,49 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _v4l2-meta-fmt-params-rkisp1:
+> +.. _v4l2-meta-fmt-stat-rkisp1:
+> +
+> +*****************************************************************************
+> +V4L2_META_FMT_RK_ISP1_PARAMS ('rk1p'), V4L2_META_FMT_RK_ISP1_STAT_3A ('rk1s')
+> +*****************************************************************************
+> +
+> +.. rkisp1_stat_buffer
+
+what is this for? This is a hyperlink right?
+
+> +
+> +3A and histogram statistics
+> +===========================
+> +
+> +The ISP1 device collects different statistics over an input Bayer frame.
+> +Those statistics are obtained from the :ref:`rkisp1_stats <rkisp1_stats>` metadata capture video node,
+> +using the :c:type:`v4l2_meta_format` interface. The buffer contains a single instance of
+> +the C structure :c:type:`rkisp1_stat_buffer` defined in ``rkisp1-config.h``.
+> +So the structure can be obtained from the buffer by:
+> +
+> +.. code-block:: c
+> +
+> +	struct rkisp1_stat_buffer *stats = (struct rkisp1_stat_buffer*) buffer;
+> +
+> +The statistics collected are Exposure, AWB (Auto-white balance), Histogram and
+> +AF (Auto-focus). See :c:type:`rkisp1_stat_buffer` for details of the statistics.
+> +
+> +.. ipu3_uapi_params
+
+ipu3 here too
+
+Thanks,
+Helen
+
+> +
+> +Configuration parameters
+> +========================
+> +
+> +The configuration parameters are passed to the :ref:`rkisp1_params <rkisp1_params>` metadata
+> +output video node, using the :c:type:`v4l2_meta_format` interface. The buffer contains
+> +a single instance of the C structure :c:type:`rkisp1_params_cfg` defined in
+> +``rkisp1-config.h``. So the structure can be obtained from the buffer by:
+> +
+> +.. code-block:: c
+> +
+> +	struct rkisp1_params_cfg *stats = (struct rkisp1_params_cfg*) buffer;
+> +
+> +The 3A statistics and configuration parameters described here are usually consumed
+> +and produced by dedicated user space libraries that comprise the important tuning
+> +tools using software control loop.
+> +
+> +rkisp1 uAPI data types
+> +======================
+> +
+> +.. kernel-doc:: drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> diff --git a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst b/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+> deleted file mode 100644
+> index 32034e481357..000000000000
+> --- a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+> +++ /dev/null
+> @@ -1,23 +0,0 @@
+> -.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> -
+> -.. _v4l2-meta-fmt-rkisp1-params:
+> -
+> -============================
+> -V4L2_META_FMT_RK_ISP1_PARAMS
+> -============================
+> -
+> -Rockchip ISP1 Parameters Data
+> -
+> -Description
+> -===========
+> -
+> -This format describes input parameters for the Rockchip ISP1.
+> -
+> -It uses c-struct :c:type:`rkisp1_params_cfg`, which is defined in
+> -the ``linux/rkisp1-config.h`` header file.
+> -
+> -The parameters consist of multiple modules.
+> -The module won't be updated if the corresponding bit was not set in module_*_update.
+> -
+> -.. kernel-doc:: include/uapi/linux/rkisp1-config.h
+> -   :functions: rkisp1_params_cfg
+> diff --git a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst b/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+> deleted file mode 100644
+> index 4ad303f96421..000000000000
+> --- a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> -
+> -.. _v4l2-meta-fmt-rkisp1-stat:
+> -
+> -=============================
+> -V4L2_META_FMT_RK_ISP1_STAT_3A
+> -=============================
+> -
+> -
+> -Rockchip ISP1 Statistics Data
+> -
+> -Description
+> -===========
+> -
+> -This format describes image color statistics information generated by the Rockchip
+> -ISP1.
+> -
+> -It uses c-struct :c:type:`rkisp1_stat_buffer`, which is defined in
+> -the ``linux/rkisp1-config.h`` header file.
+> -
+> -.. kernel-doc:: include/uapi/linux/rkisp1-config.h
+> -   :functions: rkisp1_stat_buffer
 > 
-> > Best regards,
-> > Jernej
-> > 
-> > > In any case, I don't think it's necessarily something we need
-> > > to tackle now.
-> > > 
-> > > Thanks,
-> > > Ezequiel
-
-
-
-
