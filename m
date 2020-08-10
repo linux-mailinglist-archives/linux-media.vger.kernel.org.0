@@ -2,131 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6F6324065C
-	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 15:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EB8D240675
+	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 15:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbgHJNG0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Aug 2020 09:06:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42648 "EHLO
+        id S1726571AbgHJNKv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Aug 2020 09:10:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726465AbgHJNGZ (ORCPT
+        with ESMTP id S1726462AbgHJNKv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Aug 2020 09:06:25 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE1FC061788
-        for <linux-media@vger.kernel.org>; Mon, 10 Aug 2020 06:06:24 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id 9so7553654wmj.5
-        for <linux-media@vger.kernel.org>; Mon, 10 Aug 2020 06:06:24 -0700 (PDT)
+        Mon, 10 Aug 2020 09:10:51 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F20BC061756;
+        Mon, 10 Aug 2020 06:10:51 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id n129so2535141qkd.6;
+        Mon, 10 Aug 2020 06:10:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=GPx3S/8jhM90DHfD4TRK0ne1wHxOQ88UPQC+FKKE7b4=;
-        b=ZJTdwcMw05cWS5PqS2LysIVEc5cxxTh/xM1RqHbECyfWRIXZvCen0clWxvPs6VsL8q
-         Cq6EQCAbihLLjPKPJyDKllfTFcwVKAcaBSZfEd8ufk46Z2BFSR46ol4PLs7U8qV3LRsD
-         Jlxb5d3xrm9mAiALhf8zqBuK3j/akqDOrDtQs=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:message-id:in-reply-to:references:subject
+         :mime-version:content-transfer-encoding:content-disposition;
+        bh=ujiAdgT+/a8lkUEdLHIcLIc1M7AMlHOeXKUBIZSN4YU=;
+        b=o6Whz9sEOU24iSepBzhEUAwpb1491mF7wazNBqguAhSXidNblShAUmjT0ULKRkdxcC
+         CfNSPrBbSH3yqO8MRsc1x5hSqDvpzd3A29aprp9/xqFg9YlGt9VpOtl+h9PeF3oenLYN
+         JbYAI73pZUcD2MK4TpsESV5uOE4QgE6o4HbijFIxnm68JtexOnRXvW2mLhB7X/R6tap+
+         SaeML+LcJ30+yaUYveXBAMejOEvcrAebWZRGy1SN7IB1ZHJKUuDy/41ABAltlbkmXZL5
+         rq+KHqqju8U63UEaXGVnV6HL1FTcwGck6WjCb8aD4Mfjoa5ZSToaMvhEanWoo6IHaGxM
+         BCVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=GPx3S/8jhM90DHfD4TRK0ne1wHxOQ88UPQC+FKKE7b4=;
-        b=d0WdAx9KaBCTf7BLvyQ+DTV9qyqVSKV4REVCK/c5jVcDDMQCjpAhGjmdBdgFZQmuZ7
-         kjTpSjJhm5iFU+QkAt/DuyIorpUT275eL87ijkwiHNxZv6+2p/DmgR6h5jnz2duAcs5r
-         uug8o2NdwMLGhhgPcTnkh7heL/em/osqHA40XemhTfaaIk8s+9SqagaCZL2YuNe3lRSK
-         PoyNFalLDweCxtWeMBjPtSzRRJr5LbplCn4B5zXxpumZ6p54is0mfJ4fcjISCGZMbqn1
-         PmaSfSyoufRKA2E5UeRj3JNgLiZIF0wgdv85YVWbFFWnNvJhnJ86YWx9iikvz23gYOdM
-         EQyQ==
-X-Gm-Message-State: AOAM530MDhDOpZiVS4S1GsIv1Ybs9Fhsal4v8N7Dc3WalccfkjTJI2jZ
-        +F1yP57ssSk+qPpYmNNeYEtPOQ==
-X-Google-Smtp-Source: ABdhPJyEBEPA21RLrPg4igFyKps9/jMj+ZOxleXUovW4dpHkDIerMq8VNi+ipVYxHqvklkBZYu8Xbw==
-X-Received: by 2002:a7b:c954:: with SMTP id i20mr27324020wml.189.1597064783265;
-        Mon, 10 Aug 2020 06:06:23 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id p6sm22227267wmg.0.2020.08.10.06.06.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2020 06:06:22 -0700 (PDT)
-Date:   Mon, 10 Aug 2020 15:06:20 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     christian.koenig@amd.com
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] dma-buf.rst: repair length of title underline
-Message-ID: <20200810130620.GS2352366@phenom.ffwll.local>
-Mail-Followup-To: christian.koenig@amd.com,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-doc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
-References: <20200809061739.16803-1-lukas.bulwahn@gmail.com>
- <7d434810-79bd-89a3-18f8-c5c2a2524822@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
+         :references:subject:mime-version:content-transfer-encoding
+         :content-disposition;
+        bh=ujiAdgT+/a8lkUEdLHIcLIc1M7AMlHOeXKUBIZSN4YU=;
+        b=kfrrG9HeA1/2aSKf7jOdsgFTUxn61yJL55RT/ODDVy/LqMrHBVpGERnLqloFuCwZud
+         UhUJRyQwP4H99/QlQzvR4UNiOHxZMBXKriAcxDfYK8LX5EayF5kzLubkOTKgIkiWEgCV
+         8C/8hOY3lc7xo1yRb+l/m555L9l4hCXveuDnnO2hYHvW2OQFk2IGP2JLT23tOsk76I0+
+         UoNnQDy/PK9UN5nFl4XwXYomlAxXy7ovPyGIo4UVxdUFenxMbcrjwrq6w2DqRXThGerW
+         V8Xa5ReAlxRYCSCP5FthLKTAchBA7EvjRJAn6ffreNEEJneYYvcZ0v0sbE02TsY4Kcz/
+         Nx1Q==
+X-Gm-Message-State: AOAM531/8dJrMT1kemlzvnL5oOBGsU3LNbqtbvnUfV7PMjRkwnV2Jb1U
+        LKyoWbblcyNNFrdgNmSpkAE=
+X-Google-Smtp-Source: ABdhPJyebrqHyf2sIFVLFzm8DaF3vOf/GUcosAoNFNy94psyps5t6cMgWC/xXwFlnC4NhKF8yG+KqQ==
+X-Received: by 2002:a37:b787:: with SMTP id h129mr24913657qkf.402.1597065049358;
+        Mon, 10 Aug 2020 06:10:49 -0700 (PDT)
+Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id l1sm15388418qtp.96.2020.08.10.06.10.47
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Aug 2020 06:10:48 -0700 (PDT)
+Date:   Mon, 10 Aug 2020 10:10:45 -0300
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     "=?utf-8?Q?skhan=40linuxfoundation.org?=" <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "=?utf-8?Q?linux-media=40vger.kernel.org?=" 
+        <linux-media@vger.kernel.org>,
+        "=?utf-8?Q?linux-kernel=40vger.kernel.org?=" 
+        <linux-kernel@vger.kernel.org>
+Message-ID: <6FF983D6-F754-42CB-8745-EF1DFA76B12F@getmailspring.com>
+In-Reply-To: <20200808204517.GJ6186@pendragon.ideasonboard.com>
+References: <20200808204517.GJ6186@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 04/20] media: uvc: uvc_v4l2.c: add temp variable for
+ list iteration
+X-Mailer: Mailspring
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7d434810-79bd-89a3-18f8-c5c2a2524822@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 10, 2020 at 01:25:40PM +0200, Christian König wrote:
-> Am 09.08.20 um 08:17 schrieb Lukas Bulwahn:
-> > With commit 72b6ede73623 ("dma-buf.rst: Document why indefinite fences are
-> > a bad idea"), document generation warns:
-> > 
-> >    Documentation/driver-api/dma-buf.rst:182: \
-> >    WARNING: Title underline too short.
-> > 
-> > Repair length of title underline to remove warning.
-> > 
-> > Fixes: 72b6ede73623 ("dma-buf.rst: Document why indefinite fences are a bad idea")
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> 
-> Acked-by: Christian König <christian.koenig@amd.com>
-> 
-> Should I pick it up into drm-misc-next?
+Hi Laurent, thanks for reviewing!
 
-Yes please. For the future if you need to check if someone has commit
-rights and can push themselves:
+> If no entity is found by this loop the next line will dereference a NULL
+> pointer. There's a similar issue below.
 
-https://people.freedesktop.org/~seanpaul/whomisc.html
+You mean this line, right?
+>		pin = iterm->id;
 
-Yeah with gitlab this would all be a bit more reasonable, but we get by
-meanwhile :-)
+In which case, yes I missed it!
 
-Cheers, Daniel
-> 
-> > ---
-> > Daniel, please pick this minor non-urgent fix to your new documentation.
-> > 
-> >   Documentation/driver-api/dma-buf.rst | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> > index 100bfd227265..13ea0cc0a3fa 100644
-> > --- a/Documentation/driver-api/dma-buf.rst
-> > +++ b/Documentation/driver-api/dma-buf.rst
-> > @@ -179,7 +179,7 @@ DMA Fence uABI/Sync File
-> >      :internal:
-> >   Indefinite DMA Fences
-> > -~~~~~~~~~~~~~~~~~~~~
-> > +~~~~~~~~~~~~~~~~~~~~~
-> >   At various times &dma_fence with an indefinite time until dma_fence_wait()
-> >   finishes have been proposed. Examples include:
-> 
+> I think the issues reported by coccinelle are false positives, as every
+> chain is guaranteed to have the proper input terminals (ITERM). This is
+> verified when constructing the chain at probe time.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I thought so too, but I thought it would be nice to get rid of the
+warning anyways. Probably other people will send patches for this same
+issue in the future too, i.e. until this warning is not there anymore.
+
+Do you have any suggestions or should we just leave this alone? :)
+
+Maybe:
+
+if (iterm)
+  pin = iterm->id
+
+
+This line will return an error if the iterm is not found anyway:
+
+	if (iterm == NULL || iterm->id != pin)
+		return -EINVAL
+
+
+Let me know what you think
+
+- Daniel
