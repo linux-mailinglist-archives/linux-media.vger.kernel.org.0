@@ -2,28 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7918F241150
-	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 22:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5532C241165
+	for <lists+linux-media@lfdr.de>; Mon, 10 Aug 2020 22:09:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728215AbgHJUEX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Aug 2020 16:04:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727996AbgHJUEX (ORCPT
+        id S1726452AbgHJUI4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Aug 2020 16:08:56 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50066 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgHJUI4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Aug 2020 16:04:23 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31011C061756;
-        Mon, 10 Aug 2020 13:04:23 -0700 (PDT)
+        Mon, 10 Aug 2020 16:08:56 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id C1C9028B941
-Message-ID: <5b9aa77adea93a108c15e3afff2a6f4164f9f2e2.camel@collabora.com>
+        with ESMTPSA id 856182947F5
+Message-ID: <71e14c99e7b9b134201272894e96ac14914f7817.camel@collabora.com>
 Subject: Re: [PATCH v2 03/14] media: uapi: h264: Split prediction weight
  parameters
 From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Jonas Karlman <jonas@kwiboo.se>,
-        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
+To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>
 Cc:     linux-media <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
@@ -34,16 +31,12 @@ Cc:     linux-media <linux-media@vger.kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Mon, 10 Aug 2020 17:04:12 -0300
-In-Reply-To: <8ca6a7ab-dfb9-08ad-3fcf-26dec5ac5980@kwiboo.se>
+Date:   Mon, 10 Aug 2020 17:08:45 -0300
+In-Reply-To: <3175824.PBOCjEjZKB@jernej-laptop>
 References: <20200806151310.98624-1-ezequiel@collabora.com>
-         <ae2ac4ba-9272-ec67-d075-3429bc8926c3@kwiboo.se>
-         <CAAEAJfAGW6M1YPQhPqdvpYugWk+RRTNOQbKfSWrnw_A8M2k=EA@mail.gmail.com>
-         <2380739.qXQpHEDp1t@jernej-laptop>
-         <8cf55169fa1dd55b5bdf746b321419f8c7988821.camel@collabora.com>
-         <fcd4a18e-1442-4333-ec87-c53dba9890c5@kwiboo.se>
-         <f0d2bdfc8f812052ecf4d7b77970a37260d1179c.camel@collabora.com>
-         <8ca6a7ab-dfb9-08ad-3fcf-26dec5ac5980@kwiboo.se>
+         <2153096.Em8KjNIPHG@jernej-laptop>
+         <1684df93a76cbd5e5f5435d876cf7fb88681b2ab.camel@collabora.com>
+         <3175824.PBOCjEjZKB@jernej-laptop>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.3-1 
@@ -54,21 +47,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
-> On 2020-08-10 17:28, Ezequiel Garcia wrote:
-> > On Mon, 2020-08-10 at 14:55 +0000, Jonas Karlman wrote:
-> > > On 2020-08-10 14:57, Ezequiel Garcia wrote:
+On Mon, 2020-08-10 at 21:34 +0200, Jernej Škrabec wrote:
+> Dne ponedeljek, 10. avgust 2020 ob 21:30:59 CEST je Ezequiel Garcia 
+> napisal(a):
+> > On Mon, 2020-08-10 at 19:05 +0200, Jernej Škrabec wrote:
+> > > Dne ponedeljek, 10. avgust 2020 ob 14:57:17 CEST je Ezequiel Garcia
+> > > 
+> > > napisal(a):
 > > > > On Sun, 2020-08-09 at 23:11 +0200, Jernej Škrabec wrote:
-> > > > > Dne nedelja, 09. avgust 2020 ob 15:55:50 CEST je Ezequiel Garcia napisal(a):
+> > > > > Dne nedelja, 09. avgust 2020 ob 15:55:50 CEST je Ezequiel Garcia
+> > > 
+> > > napisal(a):
 > > > > > > On Sat, 8 Aug 2020 at 18:01, Jonas Karlman <jonas@kwiboo.se> wrote:
 > > > > > > > On 2020-08-06 17:12, Ezequiel Garcia wrote:
 > > > > > > > > The prediction weight parameters are only required under
 > > > > > > > > certain conditions, which depend on slice header parameters.
 > > > > > > > > 
-> > > > > > > > As specified in section 7.3.3 Slice header syntax, the prediction
+> > > > > > > > As specified in section 7.3.3 Slice header syntax, the
+> > > > > > > > prediction
 > > > > > > > > weight table is present if:
 > > > > > > > > 
-> > > > > > > > ((weighted_pred_flag && (slice_type == P || slice_type == SP)) || \
+> > > > > > > > ((weighted_pred_flag && (slice_type == P || slice_type == SP))
+> > > > > > > > > > \
 > > > > > > > > (weighted_bipred_idc == 1 && slice_type == B))
 > > > > > > > 
 > > > > > > > Maybe a macro can be added to help check this contition?
@@ -90,15 +90,21 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > Yeah, that could make sense.
 > > > > > > 
 > > > > > > Note that the biggest value in having the prediction weight table
-> > > > > > separated is to allow  applications to skip setting this largish control,
+> > > > > > separated is to allow  applications to skip setting this largish
+> > > > > > control,
 > > > > > > reducing the amount of data that needs to be passed from userspace
 > > > > > > -- especially when not needed :-)
 > > > > > > 
-> > > > > > > > Given its size, it makes sense to move this table to its control,
-> > > > > > > > so applications can avoid passing it if the slice doesn't specify it.
+> > > > > > > > Given its size, it makes sense to move this table to its
+> > > > > > > > control,
+> > > > > > > > so applications can avoid passing it if the slice doesn't
+> > > > > > > > specify
+> > > > > > > > it.
 > > > > > > > > 
-> > > > > > > > Before this change struct v4l2_ctrl_h264_slice_params was 960 bytes.
-> > > > > > > > With this change, it's 188 bytes and struct v4l2_ctrl_h264_pred_weight
+> > > > > > > > Before this change struct v4l2_ctrl_h264_slice_params was 960
+> > > > > > > > bytes.
+> > > > > > > > With this change, it's 188 bytes and struct
+> > > > > > > > v4l2_ctrl_h264_pred_weight
 > > > > > > > > is 772 bytes.
 > > > > > > > > 
 > > > > > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
@@ -109,7 +115,8 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > > > 
 > > > > > > > > ---
 > > > > > > > > 
-> > > > > > > >  .../media/v4l/ext-ctrls-codec.rst             | 19 ++++++++++++-------
+> > > > > > > >  .../media/v4l/ext-ctrls-codec.rst             | 19
+> > > > > > > >  ++++++++++++-------
 > > > > > > > >  drivers/media/v4l2-core/v4l2-ctrls.c          |  8 ++++++++
 > > > > > > > >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  7 +++++++
 > > > > > > > >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
@@ -119,13 +126,16 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > > >  include/media/v4l2-ctrls.h                    |  2 ++
 > > > > > > > >  8 files changed, 37 insertions(+), 13 deletions(-)
 > > > > > > > > 
-> > > > > > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > > > > > b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+> > > > > > > > diff --git
+> > > > > > > > a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > > > > > > > b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > > > > > > > index
 > > > > > > > > d1438b1e259f..c36ce5a95fc5 100644
 > > > > > > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
 > > > > > > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
 > > > > > > > > @@ -1879,18 +1879,23 @@ enum
-> > > > > > > > v4l2_mpeg_video_h264_hierarchical_coding_type -> > 
+> > > > > > > > v4l2_mpeg_video_h264_hierarchical_coding_type -> >
+> > > > > > > > 
 > > > > > > > >        - 0x00000008
 > > > > > > > >        -
 > > > > > > > > 
@@ -134,16 +144,23 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > > > +    Prediction weight table defined according to :ref:`h264`,
 > > > > > > > > +    section 7.4.3.2 "Prediction Weight Table Semantics".
 > > > > > > > > +    The prediction weight table must be passed by applications
-> > > > > > > > +    under the conditions explained in section 7.3.3 "Slice header
+> > > > > > > > +    under the conditions explained in section 7.3.3 "Slice
+> > > > > > > > header
 > > > > > > > > +    syntax".
 > > > > > > > > 
-> > > > > > > > -    The bitstream parameters are defined according to :ref:`h264`,
-> > > > > > > > -    section 7.4.3.2 "Prediction Weight Table Semantics". For further
-> > > > > > > > -    documentation, refer to the above specification, unless there is
+> > > > > > > > -    The bitstream parameters are defined according to
+> > > > > > > > :ref:`h264`,
+> > > > > > > > -    section 7.4.3.2 "Prediction Weight Table Semantics". For
+> > > > > > > > further
+> > > > > > > > -    documentation, refer to the above specification, unless
+> > > > > > > > there
+> > > > > > > > is
 > > > > > > > > -    an explicit comment stating otherwise.
 > > > > > > > > +    .. note::
 > > > > > > > > +
-> > > > > > > > +       This compound control is not yet part of the public kernel API
+> > > > > > > > +       This compound control is not yet part of the public
+> > > > > > > > kernel
+> > > > > > > > API
 > > > > > > > > and
 > > > > > > > > +       it is expected to change.
 > > > > > > > > 
@@ -160,26 +177,40 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > > >      :widths:       1 1 2
 > > > > > > > > 
 > > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > > > > > > b/drivers/media/v4l2-core/v4l2-ctrls.c index 3f3fbcd60cc6..76c8dc8fb31c
+> > > > > > > > b/drivers/media/v4l2-core/v4l2-ctrls.c index
+> > > > > > > > 3f3fbcd60cc6..76c8dc8fb31c
 > > > > > > > > 100644
 > > > > > > > > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
 > > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
 > > > > > > > > @@ -897,6 +897,7 @@ const char *v4l2_ctrl_get_name(u32 id)
 > > > > > > > > 
-> > > > > > > >       case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:            return
+> > > > > > > >       case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:           
+> > > > > > > >       return
 > > > > > > > >       "H264 Decode Parameters"; case
-> > > > > > > >       V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:              return "H264
-> > > > > > > >       Decode Mode"; case V4L2_CID_MPEG_VIDEO_H264_START_CODE:          
-> > > > > > > >           return "H264 Start Code";> > 
-> > > > > > > > +     case V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS:             return
-> > > > > > > > "H264 Prediction Weight Table";> > 
-> > > > > > > >       case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:                   return
-> > > > > > > >       "MPEG2 Level"; case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:           
+> > > > > > > >       V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:              return
+> > > > > > > >       "H264
+> > > > > > > >       
+> > > > > > > >       Decode Mode"; case V4L2_CID_MPEG_VIDEO_H264_START_CODE:
+> > > > > > > >           return "H264 Start Code";> >
+> > > > > > > > 
+> > > > > > > > +     case V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS:            
+> > > > > > > > return
+> > > > > > > > "H264 Prediction Weight Table";> >
+> > > > > > > > 
+> > > > > > > >       case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:                  
+> > > > > > > >       return
+> > > > > > > >       
+> > > > > > > >       "MPEG2 Level"; case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
 > > > > > > > >            return "MPEG2 Profile"; case
-> > > > > > > >       V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:              return "MPEG4
-> > > > > > > >       I-Frame QP Value";> > 
-> > > > > > > > @@ -1412,6 +1413,9 @@ void v4l2_ctrl_fill(u32 id, const char **name,
-> > > > > > > > enum v4l2_ctrl_type *type,> > 
+> > > > > > > >       
+> > > > > > > >       V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:              return
+> > > > > > > >       "MPEG4
+> > > > > > > >       I-Frame QP Value";> >
+> > > > > > > > 
+> > > > > > > > @@ -1412,6 +1413,9 @@ void v4l2_ctrl_fill(u32 id, const char
+> > > > > > > > **name,
+> > > > > > > > enum v4l2_ctrl_type *type,> >
+> > > > > > > > 
 > > > > > > > >       case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:
 > > > > > > > >               *type = V4L2_CTRL_TYPE_H264_DECODE_PARAMS;
 > > > > > > > >               break;
@@ -192,8 +223,10 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > > >               *type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
 > > > > > > > >               break;
 > > > > > > > > 
-> > > > > > > > @@ -1790,6 +1794,7 @@ static int std_validate_compound(const struct
-> > > > > > > > v4l2_ctrl *ctrl, u32 idx,> > 
+> > > > > > > > @@ -1790,6 +1794,7 @@ static int std_validate_compound(const
+> > > > > > > > struct
+> > > > > > > > v4l2_ctrl *ctrl, u32 idx,> >
+> > > > > > > > 
 > > > > > > > >       case V4L2_CTRL_TYPE_H264_SPS:
 > > > > > > > >       case V4L2_CTRL_TYPE_H264_PPS:
 > > > > > > > > 
@@ -204,18 +237,23 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > > >       case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
 > > > > > > > >               break;
 > > > > > > > > 
-> > > > > > > > @@ -2553,6 +2558,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct
-> > > > > > > > v4l2_ctrl_handler *hdl,> > 
+> > > > > > > > @@ -2553,6 +2558,9 @@ static struct v4l2_ctrl
+> > > > > > > > *v4l2_ctrl_new(struct
+> > > > > > > > v4l2_ctrl_handler *hdl,> >
+> > > > > > > > 
 > > > > > > > >       case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
-> > > > > > > >               elem_size = sizeof(struct v4l2_ctrl_h264_decode_params);
+> > > > > > > >               elem_size = sizeof(struct
+> > > > > > > >               v4l2_ctrl_h264_decode_params);
 > > > > > > > >               break;
 > > > > > > > > 
 > > > > > > > > +     case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
-> > > > > > > > +             elem_size = sizeof(struct v4l2_ctrl_h264_pred_weights);
+> > > > > > > > +             elem_size = sizeof(struct
+> > > > > > > > v4l2_ctrl_h264_pred_weights);
 > > > > > > > > +             break;
 > > > > > > > > 
 > > > > > > > >       case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
-> > > > > > > >               elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
+> > > > > > > >               elem_size = sizeof(struct
+> > > > > > > >               v4l2_ctrl_vp8_frame_header);
 > > > > > > > >               break;
 > > > > > > > > 
 > > > > > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
@@ -223,7 +261,8 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > > > bc27f9430eeb..027cdd1be5a0 100644
 > > > > > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
 > > > > > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > > > > > > > @@ -78,6 +78,13 @@ static const struct cedrus_control cedrus_controls[]
+> > > > > > > > @@ -78,6 +78,13 @@ static const struct cedrus_control
+> > > > > > > > cedrus_controls[]
 > > > > > > > > = {
 > > > > > > > > 
 > > > > > > > >               .codec          = CEDRUS_CODEC_H264,
@@ -233,133 +272,69 @@ On Mon, 2020-08-10 at 16:57 +0000, Jonas Karlman wrote:
 > > > > > > > > 
 > > > > > > > > +     {
 > > > > > > > > +             .cfg = {
-> > > > > > > > +                     .id     = V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS,
+> > > > > > > > +                     .id     =
+> > > > > > > > V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS,
 > > > > > > > > +             },
 > > > > > > > > +             .codec          = CEDRUS_CODEC_H264,
 > > > > > > > > +             .required       = true,
 > > > > > > > 
-> > > > > > > This should probably be false if this control is to be optional as implied
+> > > > > > > This should probably be false if this control is to be optional as
+> > > > > > > implied
 > > > > > > > by the commit message.
 > > > > > > 
-> > > > > > Well, the control is optional if the driver implements it as optional,
+> > > > > > Well, the control is optional if the driver implements it as
+> > > > > > optional,
 > > > > > > which Cedrus isn't currently doing :-)
 > > > > > 
-> > > > > Why do you think so? Prediction weights are filled only when they are 
-> > > > > needed:https://elixir.bootlin.com/linux/latest/source/drivers/staging/media/
-> > > > > sunxi/cedrus/cedrus_h264.c#L370
-> > > > > 
+> > > > > Why do you think so? Prediction weights are filled only when they are
+> > > > > needed:https://elixir.bootlin.com/linux/latest/source/drivers/staging/
+> > > > > medi
+> > > > > a/ sunxi/cedrus/cedrus_h264.c#L370
 > > > > 
 > > > > Right, but that should be changed to be really optional.
 > > > > How does the driver reject/fail the request if the table is NULL?
-> > > > 
+> > > 
+> > > It's my understanding that pointer to this table can't be NULL. NULL would
+> > > mean that there is no control with that ID registered in the driver.
+> > 
+> > Hm, I'm starting to think you are right. So, does this mean
+> > the default quantization matrix here is bogus?
+> > 
+> >         if (quantization && quantization->load_intra_quantiser_matrix)
+> >                 matrix = quantization->intra_quantiser_matrix;
+> >         else
+> >                 matrix = intra_quantization_matrix_default;
+> 
+> No, not really. Userspace can set load_intra_quantiser_matrix flag to false.
+> 
+
+Right. But quantization can never be NULL.
+
+I think this if (quantization ...) has been confusing me
+into thinking a control can be NULL.
+
+:-)
+
+Thanks for the pointers, this is useful.
+
+Ezequiel
+
+> Best regards,
+> Jernej
+> 
+> > Thanks,
+> > Ezequiel
+> > 
+> > > Best regards,
+> > > Jernej
+> > > 
 > > > > In any case, I don't think it's necessarily something we need
 > > > > to tackle now.
-> > > 
-> > > I do not fully follow, the commit message state following:
-> > > 
-> > >   Note that the biggest value in having the prediction weight table
-> > >   separated is to allow applications to skip setting this largish control
-> > > 
-> > 
-> > This is not exactly what the commit message says, but yeah
-> > that's the idea.
+> > > > 
+> > > > Thanks,
+> > > > Ezequiel
 > 
-> Hehe, I copied your reply instead of commit message / doc changes :-)
 > 
-> > > Yet the driver still require this new control to be included in the request
-> > > thanks to the .required = true statement. (if i understand the code correctly)
-> > > 
-> > > So applications still need to set this largish control?
-> > > 
-> > 
-> > This is a uAPI change that paves the way for Cedrus to make the control
-> > optional. The series doesn't take care of it, but it prepares the road
-> > for it.
-> > 
-> > Since we are not stabilizing the uAPI (yet), I think we still have
-> > some room to make this change in steps: first we merge the new control
-> > and then we add the needed changes to Cedrus?
-> > 
-> > Does that make sense?
 > 
-> Sure, make sense, I will rephrase it as questions instead :-)
-> 
-> What is not fully clear to me is if this new ctrl should be considered
-> optional or required from userspace point of view.
-> 
-> Will there be a way for userspace to know if a ctrl is optional or not?
-> 
-
-We don't currently have a way for applications to query if a control
-is mandatory for a given request. However... 
-
-> If I implement uapi changes as suggested in this patch in ffmpeg,
-> i.e. only set weight table ctrl when data if it is present in slice header,
-> then decoding stops working for cedrus when weight table is not present.
-> 
-> Should I just play it safe and continue to always set the new ctrl for slice
-> based decoding and treat it as required? Or are we saying that it should be
-> optional and cedrus is just not following the uapi after this series?
-> 
-
-... as Jernej pointed-out, if the control is initialized then it'll never
-be NULL. It's initialized in std_init_compound.
-
-So we can just go ahead and add this patch to the series?
-
-It will be the application responsability to fill the
-control when needed, and applications are now able to not pass
-the control when not needed, just as expected.
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 027cdd1be5a0..826324faad7e 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -83,7 +83,7 @@ static const struct cedrus_control cedrus_controls[] = {
- 			.id	= V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS,
- 		},
- 		.codec		= CEDRUS_CODEC_H264,
--		.required	= true,
-+		.required	= false,
- 	},
- 	{
- 		.cfg = {
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index 7b2169d185b8..57bad8733aed 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -364,11 +364,7 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
- 
- 	cedrus_skip_bits(dev, slice->header_bit_size);
- 
--	if (((pps->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) &&
--	     (slice->slice_type == V4L2_H264_SLICE_TYPE_P ||
--	      slice->slice_type == V4L2_H264_SLICE_TYPE_SP)) ||
--	    (pps->weighted_bipred_idc == 1 &&
--	     slice->slice_type == V4L2_H264_SLICE_TYPE_B))
-+	if (V4L2_H264_CTRL_PRED_WEIGHTS_REQUIRED(pps, slice))
- 		cedrus_write_pred_weight_table(ctx, run);
- 
- 	if ((slice->slice_type == V4L2_H264_SLICE_TYPE_P) ||
-diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-index fa5663876e73..7d1a6f97eb12 100644
---- a/include/media/h264-ctrls.h
-+++ b/include/media/h264-ctrls.h
-@@ -127,6 +127,13 @@ struct v4l2_h264_weight_factors {
- 	__s16 chroma_offset[32][2];
- };
- 
-+#define V4L2_H264_CTRL_PRED_WEIGHTS_REQUIRED(pps, slice) \
-+	((((pps)->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) && \
-+	 ((slice)->slice_type == V4L2_H264_SLICE_TYPE_P || \
-+	  (slice)->slice_type == V4L2_H264_SLICE_TYPE_SP)) || \
-+	 ((pps)->weighted_bipred_idc == 1 && \
-+	  (slice)->slice_type == V4L2_H264_SLICE_TYPE_B))
-+
- struct v4l2_ctrl_h264_pred_weights {
- 	__u16 luma_log2_weight_denom;
- 	__u16 chroma_log2_weight_denom;
-
-
 
 
