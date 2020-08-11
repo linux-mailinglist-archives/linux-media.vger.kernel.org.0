@@ -2,152 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98FD1242252
-	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 00:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 668C6242263
+	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 00:14:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbgHKWHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Aug 2020 18:07:09 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37304 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbgHKWHJ (ORCPT
+        id S1726179AbgHKWOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Aug 2020 18:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbgHKWOh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Aug 2020 18:07:09 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 39D71299137
-Message-ID: <e46251bfd3a93a699a572286da1d5adb13ae2e9e.camel@collabora.com>
-Subject: Re: [PATCH v2 03/14] media: uapi: h264: Split prediction weight
- parameters
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Tue, 11 Aug 2020 19:06:57 -0300
-In-Reply-To: <3175824.PBOCjEjZKB@jernej-laptop>
-References: <20200806151310.98624-1-ezequiel@collabora.com>
-         <2153096.Em8KjNIPHG@jernej-laptop>
-         <1684df93a76cbd5e5f5435d876cf7fb88681b2ab.camel@collabora.com>
-         <3175824.PBOCjEjZKB@jernej-laptop>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        Tue, 11 Aug 2020 18:14:37 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459B4C06174A;
+        Tue, 11 Aug 2020 15:14:37 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3466D9A8;
+        Wed, 12 Aug 2020 00:14:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1597184073;
+        bh=HoCl9R+Q4hcUicBUYxgQV+Z3XsqdWkDGxluF/1OsWYA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G8Ev7KeXOY+qOaxiHbueB2+vhTJ3LDJvBqHUfaYKsny8zOQAwrgMXKQgDKf+MOeCp
+         BCsA7oheY+lrjp0lwf37vR92IPLYv9+yE9/bVoGRsR0tYQFuYNo5wC8WiFE9Kfdx2G
+         XkVS6LNfp7iLRKXQYSbYfHRKQOCXlM1LLkG33aHg=
+Date:   Wed, 12 Aug 2020 01:14:19 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: Re: [PATCH 4/5] media: rcar-csi2: Allocate v4l2_async_subdev
+ dynamically
+Message-ID: <20200811221419.GE17446@pendragon.ideasonboard.com>
+References: <20200811205939.19550-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200811205939.19550-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20200811214324.GB1061689@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200811214324.GB1061689@oden.dyn.berto.se>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonas, Jernej and everyone :)
+Hi Niklas,
 
-> > > > > > > > +     {
-> > > > > > > > +             .cfg = {
-> > > > > > > > +                     .id     =
-> > > > > > > > V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS,
-> > > > > > > > +             },
-> > > > > > > > +             .codec          = CEDRUS_CODEC_H264,
-> > > > > > > > +             .required       = true,
-> > > > > > > 
-> > > > > > > This should probably be false if this control is to be optional as
-> > > > > > > implied
-> > > > > > > by the commit message.
-> > > > > > 
-> > > > > > Well, the control is optional if the driver implements it as
-> > > > > > optional,
-> > > > > > which Cedrus isn't currently doing :-)
-> > > > > 
-> > > > > Why do you think so? Prediction weights are filled only when they are
-> > > > > needed:https://elixir.bootlin.com/linux/latest/source/drivers/staging/
-> > > > > medi
-> > > > > a/ sunxi/cedrus/cedrus_h264.c#L370
-> > > > 
-> > > > Right, but that should be changed to be really optional.
-> > > > How does the driver reject/fail the request if the table is NULL?
-> > > 
-> > > It's my understanding that pointer to this table can't be NULL. NULL would
-> > > mean that there is no control with that ID registered in the driver.
+On Tue, Aug 11, 2020 at 11:43:24PM +0200, Niklas Söderlund wrote:
+> On 2020-08-11 23:59:38 +0300, Laurent Pinchart wrote:
+> > v4l2_async_notifier_add_subdev() requires the asd to be allocated
+> > dynamically, but the rcar-csi2 driver embeds it in the rcar_csi2
+> > structure. This causes memory corruption when the notifier is destroyed
+> > at remove time with v4l2_async_notifier_cleanup().
 > > 
-> > Hm, I'm starting to think you are right. So, does this mean
-> > the default quantization matrix here is bogus?
+> > Fix this issue by registering the asd with
+> > v4l2_async_notifier_add_fwnode_subdev(), which allocates it dynamically
+> > internally.
+> 
+> This patch conflicts with [1] which I think is a nicer solution to the 
+> problem, provided 1/2 of that series is palatable for everyone :-)
+> 
+> 1. [PATCH 2/2] rcar-csi2: Use V4L2 async helpers to create the notifier
+
+That looks better to me too.
+
+> > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 24 +++++++++------------
+> >  1 file changed, 10 insertions(+), 14 deletions(-)
 > > 
-> >         if (quantization && quantization->load_intra_quantiser_matrix)
-> >                 matrix = quantization->intra_quantiser_matrix;
-> >         else
-> >                 matrix = intra_quantization_matrix_default;
-> 
-> No, not really. Userspace can set load_intra_quantiser_matrix flag to false.
-> 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > index c6cc4f473a07..a16c492b3143 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -362,7 +362,6 @@ struct rcar_csi2 {
+> >  	struct media_pad pads[NR_OF_RCAR_CSI2_PAD];
+> >  
+> >  	struct v4l2_async_notifier notifier;
+> > -	struct v4l2_async_subdev asd;
+> >  	struct v4l2_subdev *remote;
+> >  
+> >  	struct v4l2_mbus_framefmt mf;
+> > @@ -811,6 +810,8 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
+> >  
+> >  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+> >  {
+> > +	struct v4l2_async_subdev *asd;
+> > +	struct fwnode_handle *fwnode;
+> >  	struct device_node *ep;
+> >  	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+> >  	int ret;
+> > @@ -834,24 +835,19 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+> >  		return ret;
+> >  	}
+> >  
+> > -	priv->asd.match.fwnode =
+> > -		fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
+> > -	priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+> > -
+> > +	fwnode = fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
+> >  	of_node_put(ep);
+> >  
+> > +	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(fwnode));
+> > +
+> >  	v4l2_async_notifier_init(&priv->notifier);
+> > -
+> > -	ret = v4l2_async_notifier_add_subdev(&priv->notifier, &priv->asd);
+> > -	if (ret) {
+> > -		fwnode_handle_put(priv->asd.match.fwnode);
+> > -		return ret;
+> > -	}
+> > -
+> >  	priv->notifier.ops = &rcar_csi2_notify_ops;
+> >  
+> > -	dev_dbg(priv->dev, "Found '%pOF'\n",
+> > -		to_of_node(priv->asd.match.fwnode));
+> > +	asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier, fwnode,
+> > +						    sizeof(*asd));
+> > +	fwnode_handle_put(fwnode);
+> > +	if (IS_ERR(asd))
+> > +		return PTR_ERR(asd);
+> >  
+> >  	ret = v4l2_async_subdev_notifier_register(&priv->subdev,
+> >  						  &priv->notifier);
 
-The above made me revisit the current H264 semantics
-for the picture scaling matrix.
+-- 
+Regards,
 
-As you can see, we currently have V4L2_H264_PPS_FLAG_PIC_SCALING_MATRIX_PRESENT,
-which we were expecting to match 1:1 the H264 PPS syntax element
-"pic_scaling_matrix_present_flag".
-
-However, after a bit of reflection and discussion with Nicolas, I believe
-it's not appropriate to have this flag as a 1:1 match with the PPS syntax element.
-
-A H264 scaling matrix can be first specified by the SPS and then modified
-by the PPS. We can expect the modification process to be solved by userspace.
-All we need in the uAPI is a flag that indicates
-if V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX should be used or not.
-
-(As Jernej already pointed out, a initialized control shall never be NULL,
-so we want to flag if the control should be used or not) [1].
-
-Applications are expected to fill V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX
-if a scaling matrix needs to be passed, which is the case is:
-
-sps->scaling_matrix_present_flag || pps->pic_scaling_matrix_present_flag
-
-So that is the meaning of the flag we want. [2]
-
-Moreover, Baseline, Main and Extended profiles are specified to have
-neither SPS scaling_matrix_present_flag nor PPS pic_scaling_matrix_present_flag
-syntax elements, so it makes sense to allow applications _not_ setting
-V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX in a request.
-
-On the uAPI side, the only change needed is:
-
--#define V4L2_H264_PPS_FLAG_PIC_SCALING_MATRIX_PRESENT                  0x0080
-+#define V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT                      0x0080
-
-(just to avoid confusing the flag with the syntax element)
-
-Together with proper documentation to clarify what the flag is.
-
-Drivers can use this flag as (rkvdec as an example):
-
--       /* always use the matrix sent from userspace */
--       WRITE_PPS(1, SCALING_LIST_ENABLE_FLAG);
--
-+       WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT),
-+                 SCALING_LIST_ENABLE_FLAG);
-
-Which also means the scaling matrix control is optional and won't be programmed
-to the hardware when the not present. [3]
-
-Thanks!
-Ezequiel
-
-[1] We may also check if a control is part of a request or not,
-but that seems more complex and more obscure than just checking a flag.
-
-[2] In theory, the uAPI could also have semantics to flag
-seq_scaling_list_present_flag[i] and pic_scaling_list_present_flag[i],
-for each scaling list. I think this makes things overly complicated.
-
-[3] We could add Flat_4x4_16 and Flat_8x8_16 in the kernel,
-but all the drivers we support, have a flag for scaling-matrix-not-present,
-so there's no need.
-
+Laurent Pinchart
