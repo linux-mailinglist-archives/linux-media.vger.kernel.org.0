@@ -2,76 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1789924221D
-	for <lists+linux-media@lfdr.de>; Tue, 11 Aug 2020 23:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98FD1242252
+	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 00:07:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726453AbgHKVt2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Aug 2020 17:49:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbgHKVt2 (ORCPT
+        id S1726479AbgHKWHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Aug 2020 18:07:09 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37304 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbgHKWHJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Aug 2020 17:49:28 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5012C061787
-        for <linux-media@vger.kernel.org>; Tue, 11 Aug 2020 14:49:27 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id o1so172941plk.1
-        for <linux-media@vger.kernel.org>; Tue, 11 Aug 2020 14:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=yRAye5F5l9hzR1g1P5dMPEhRVrsrXgvMRbsuClxK5F0=;
-        b=aYAxKLO+2Nd++44vwrkooer5fORLLDqSDvBErgWq068zdHXMHzeisim1L/+G9ic6O5
-         dNzUAomGUNjaDzTQy5YM3DWEsiWl1xsCLkIW3tZMbZhttwSRn1mAIPXFPe1gGxQo2tEO
-         RDTUNDgaF1QpU9Qqd9uSYzY1wz1F8JzoAOtdg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=yRAye5F5l9hzR1g1P5dMPEhRVrsrXgvMRbsuClxK5F0=;
-        b=BkGSSF0vLurYUaBVp/3tCQFFFh4isHWwVu59ejoSFew15TTRINQ8JY/0e3YSEKWEJX
-         nQNHosXrvFRjcowaz60kogNYFMbaCXl5jDeX6geGcJTbiw3qvC3cIAZA8Hp0AbLQeOc5
-         UYzB1gFCy2RTdwqexYsm3/zmLGpeHoawWw8BDd2ifdOC/L95kGE1cwRyhuUvOhhgiw1X
-         aTPZ7oLik3mTXr1jqdQGEThhVU767IBzeDAmV4WJAXRjUXeNcwTRsdrz8VVFfbTZjelF
-         CX66nAp2xd8u3eRIoeqvf1gt7hxEsMoRk4yBKaKEE9XLc9+LMFuP9qKiA6hJCm+UzJDf
-         Gsyg==
-X-Gm-Message-State: AOAM532FTxQIA5dc+EY42YheV6k+Um6I9TXSGh+1PJn8uOdVoRPXGWPL
-        9Txyigv1ZWcP93408TP9PHL+lw==
-X-Google-Smtp-Source: ABdhPJxTaonzDdTXCXuqxdmP93HMUeWwx6e1dOqgdNNGwjyPenieCTBR8G9AO04BsWwnHSnOkJcplg==
-X-Received: by 2002:a17:902:900a:: with SMTP id a10mr2552967plp.203.1597182567153;
-        Tue, 11 Aug 2020 14:49:27 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
-        by smtp.gmail.com with ESMTPSA id l19sm59212pff.8.2020.08.11.14.49.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2020 14:49:26 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 11 Aug 2020 18:07:09 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 39D71299137
+Message-ID: <e46251bfd3a93a699a572286da1d5adb13ae2e9e.camel@collabora.com>
+Subject: Re: [PATCH v2 03/14] media: uapi: h264: Split prediction weight
+ parameters
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Date:   Tue, 11 Aug 2020 19:06:57 -0300
+In-Reply-To: <3175824.PBOCjEjZKB@jernej-laptop>
+References: <20200806151310.98624-1-ezequiel@collabora.com>
+         <2153096.Em8KjNIPHG@jernej-laptop>
+         <1684df93a76cbd5e5f5435d876cf7fb88681b2ab.camel@collabora.com>
+         <3175824.PBOCjEjZKB@jernej-laptop>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200730095350.13925-3-stanimir.varbanov@linaro.org>
-References: <20200730095350.13925-1-stanimir.varbanov@linaro.org> <20200730095350.13925-3-stanimir.varbanov@linaro.org>
-Subject: Re: [PATCH v5 2/3] venus: Add a debugfs file for SSR trigger
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     jim.cromie@gmail.com, Joe Perches <joe@perches.com>,
-        Jason Baron <jbaron@akamai.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Date:   Tue, 11 Aug 2020 14:49:25 -0700
-Message-ID: <159718256557.1360974.458611240360821676@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Stanimir Varbanov (2020-07-30 02:53:49)
-> The SSR (SubSystem Restart) is used to simulate an error on FW
-> side of Venus. We support following type of triggers - fatal error,
-> div by zero and watchdog IRQ.
+Hi Jonas, Jernej and everyone :)
 
-Can this use the fault injection framework instead of custom debugfs?
-See Documentation/fault-injection/.
+> > > > > > > > +     {
+> > > > > > > > +             .cfg = {
+> > > > > > > > +                     .id     =
+> > > > > > > > V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS,
+> > > > > > > > +             },
+> > > > > > > > +             .codec          = CEDRUS_CODEC_H264,
+> > > > > > > > +             .required       = true,
+> > > > > > > 
+> > > > > > > This should probably be false if this control is to be optional as
+> > > > > > > implied
+> > > > > > > by the commit message.
+> > > > > > 
+> > > > > > Well, the control is optional if the driver implements it as
+> > > > > > optional,
+> > > > > > which Cedrus isn't currently doing :-)
+> > > > > 
+> > > > > Why do you think so? Prediction weights are filled only when they are
+> > > > > needed:https://elixir.bootlin.com/linux/latest/source/drivers/staging/
+> > > > > medi
+> > > > > a/ sunxi/cedrus/cedrus_h264.c#L370
+> > > > 
+> > > > Right, but that should be changed to be really optional.
+> > > > How does the driver reject/fail the request if the table is NULL?
+> > > 
+> > > It's my understanding that pointer to this table can't be NULL. NULL would
+> > > mean that there is no control with that ID registered in the driver.
+> > 
+> > Hm, I'm starting to think you are right. So, does this mean
+> > the default quantization matrix here is bogus?
+> > 
+> >         if (quantization && quantization->load_intra_quantiser_matrix)
+> >                 matrix = quantization->intra_quantiser_matrix;
+> >         else
+> >                 matrix = intra_quantization_matrix_default;
+> 
+> No, not really. Userspace can set load_intra_quantiser_matrix flag to false.
+> 
+
+The above made me revisit the current H264 semantics
+for the picture scaling matrix.
+
+As you can see, we currently have V4L2_H264_PPS_FLAG_PIC_SCALING_MATRIX_PRESENT,
+which we were expecting to match 1:1 the H264 PPS syntax element
+"pic_scaling_matrix_present_flag".
+
+However, after a bit of reflection and discussion with Nicolas, I believe
+it's not appropriate to have this flag as a 1:1 match with the PPS syntax element.
+
+A H264 scaling matrix can be first specified by the SPS and then modified
+by the PPS. We can expect the modification process to be solved by userspace.
+All we need in the uAPI is a flag that indicates
+if V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX should be used or not.
+
+(As Jernej already pointed out, a initialized control shall never be NULL,
+so we want to flag if the control should be used or not) [1].
+
+Applications are expected to fill V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX
+if a scaling matrix needs to be passed, which is the case is:
+
+sps->scaling_matrix_present_flag || pps->pic_scaling_matrix_present_flag
+
+So that is the meaning of the flag we want. [2]
+
+Moreover, Baseline, Main and Extended profiles are specified to have
+neither SPS scaling_matrix_present_flag nor PPS pic_scaling_matrix_present_flag
+syntax elements, so it makes sense to allow applications _not_ setting
+V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX in a request.
+
+On the uAPI side, the only change needed is:
+
+-#define V4L2_H264_PPS_FLAG_PIC_SCALING_MATRIX_PRESENT                  0x0080
++#define V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT                      0x0080
+
+(just to avoid confusing the flag with the syntax element)
+
+Together with proper documentation to clarify what the flag is.
+
+Drivers can use this flag as (rkvdec as an example):
+
+-       /* always use the matrix sent from userspace */
+-       WRITE_PPS(1, SCALING_LIST_ENABLE_FLAG);
+-
++       WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT),
++                 SCALING_LIST_ENABLE_FLAG);
+
+Which also means the scaling matrix control is optional and won't be programmed
+to the hardware when the not present. [3]
+
+Thanks!
+Ezequiel
+
+[1] We may also check if a control is part of a request or not,
+but that seems more complex and more obscure than just checking a flag.
+
+[2] In theory, the uAPI could also have semantics to flag
+seq_scaling_list_present_flag[i] and pic_scaling_list_present_flag[i],
+for each scaling list. I think this makes things overly complicated.
+
+[3] We could add Flat_4x4_16 and Flat_8x8_16 in the kernel,
+but all the drivers we support, have a flag for scaling-matrix-not-present,
+so there's no need.
+
