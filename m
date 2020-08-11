@@ -2,64 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76AA5241742
-	for <lists+linux-media@lfdr.de>; Tue, 11 Aug 2020 09:39:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF9542417C2
+	for <lists+linux-media@lfdr.de>; Tue, 11 Aug 2020 10:00:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727888AbgHKHjp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Aug 2020 03:39:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726397AbgHKHjp (ORCPT
+        id S1728253AbgHKIAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Aug 2020 04:00:44 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:45760 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726397AbgHKIAn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Aug 2020 03:39:45 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A665C06174A
-        for <linux-media@vger.kernel.org>; Tue, 11 Aug 2020 00:39:45 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id x12so8814251qtp.1
-        for <linux-media@vger.kernel.org>; Tue, 11 Aug 2020 00:39:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=KoFYHntC8LLESLvi9eOa1cMvt+oP6rpS5Y8izfJX0rM=;
-        b=JCGA894fTaWliiGnN6hRhhdNdxObroZdj88kSC3To8hnrSQZTecjh8PsPQz0TvKL+W
-         JjbNGCEq9+uaDyYPYwrXXm6U4+ZSd17BTX7MoM3eOD4miKKn7iOgKVrNZZUcsEZEcf6q
-         MGdK2GixfOq8EzEe2+4s7UEucm8PKLBW4YIMLSM5FIK1iOjamVk46gCPKAmdqhivSPSD
-         uxXGVlOAObs3l9vA6Cm+LppTjEfnreu5lizU3ChMghBtTYXaRgYMRPTEW12NTUyl9Hx+
-         NraiAvSMPmFWDI9Nru7LkvsXhskqnik6c1yNOhIEnBeCjgd4pZxoEa7jlEl2Cs0tceF7
-         eh5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=KoFYHntC8LLESLvi9eOa1cMvt+oP6rpS5Y8izfJX0rM=;
-        b=Pc18lZkpMc22bFcXQiNqIDg6/ifPe5bx37RlMZ2YnEmtaqfAdpOLQ+/JmHJWtHA+fE
-         v+FmZyX3fWlvRJq1F727iNqc2lP5pm/WbU+NkKoTr/aBZ5PhPCv7YXdogLuuSv9+UyqF
-         jmXQ9XsvFqZeiBq7v+S0Dji8+3y/5C9RiOx0MVn5G5RODylOQMUVbwp/0mxzfaR+Wd9K
-         vhD5PqF9lD1mTp7MiWBDL+Eq1tL2w3qB9M9eRJ+HOL+w5Pn/AvuNhT2LwMd6um2KAq7b
-         rGvn3PxcxVIxRHcBOkBH+V11939+kxS9UE+Y3V6987/DUdzDf4jjd02mEZ5nOnKXaWC3
-         KQew==
-X-Gm-Message-State: AOAM533BzG3oHaPRNNIh4ZEhbrofGtNHs0X8WdRPmUz3ezHJpdrHy1j5
-        IusA86aPsxUYHDEkecDilk1keomIpTnUv7gfE/0=
-X-Google-Smtp-Source: ABdhPJwj1/4yl3Kd477lny2eMKbpgnOJFoVjLeLmNm5VM/Uhq4B3Blip/5GmxsObP6Mv/dl+GOC9TFkhiT/gMF0WPw0=
-X-Received: by 2002:ac8:2a6f:: with SMTP id l44mr2910923qtl.278.1597131584081;
- Tue, 11 Aug 2020 00:39:44 -0700 (PDT)
+        Tue, 11 Aug 2020 04:00:43 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 256DC634C87;
+        Tue, 11 Aug 2020 11:00:10 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1k5PCb-0001ID-Uo; Tue, 11 Aug 2020 11:00:09 +0300
+Date:   Tue, 11 Aug 2020 11:00:09 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>, linux-acpi@vger.kernel.org,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v4 5/6] at24: Support probing while off
+Message-ID: <20200811080009.GE840@valkosipuli.retiisi.org.uk>
+References: <20200121134157.20396-1-sakari.ailus@linux.intel.com>
+ <20200121134157.20396-6-sakari.ailus@linux.intel.com>
+ <CAMpxmJU5dG49N2FA0oSQsOfKrCr3KQ1BisON4c+nUJJmZQG=bQ@mail.gmail.com>
+ <20200311085555.GH5379@paasikivi.fi.intel.com>
+ <CAMpxmJVPTKW+sYSJ3dnfF8nLAOKEa4Ob7bpxG0KD3Tkdm+rtYw@mail.gmail.com>
+ <20200323213101.GB21174@kekkonen.localdomain>
+ <CAMpxmJVdyTkZMVuhSy0Ux8VUYTmQN_YEfH-akQsAL3zrwiz8Dw@mail.gmail.com>
+ <20200810082549.GD840@valkosipuli.retiisi.org.uk>
+ <CAMpxmJUKSR-oCGnV1E5XiAMA2nYBy5f_f8=VSoMn0zf+qF39vg@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:ac8:1ae4:0:0:0:0:0 with HTTP; Tue, 11 Aug 2020 00:39:43
- -0700 (PDT)
-Reply-To: morganhendrick1234@outlook.com
-From:   hendrick morgan <morganhendrick10@gmail.com>
-Date:   Tue, 11 Aug 2020 08:39:43 +0100
-Message-ID: <CAC_LqjFNYTDuv4wxaxrysxtgtOn-nBV2kAn-hmjRBUyV7Mj1hA@mail.gmail.com>
-Subject: ///Good evening
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMpxmJUKSR-oCGnV1E5XiAMA2nYBy5f_f8=VSoMn0zf+qF39vg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Did you receive the message I sent a few days ago? This is Hendrick
-Morgan. As regional manager Western Cluster @ Barclays and Branch
-Network @ Ecobank general manager, there are outstanding funds that we
-wish to transfer to your account for mutual benefit.
-Please tell me more.
+Hi Bartosz,
+
+On Mon, Aug 10, 2020 at 08:12:00PM +0200, Bartosz Golaszewski wrote:
+> On Mon, Aug 10, 2020 at 10:26 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> >
+> 
+> [snip]
+> 
+> > >
+> > > Rafael: I think that there are two issues with patch 1/5:
+> > > 1. It adds a very specific boolean flag to a structure that's meant to
+> > > be very general. As I pointed out in the i2c patch: at the very least
+> > > this could be made into an int storing flag values, instead of a
+> > > boolean field. But rather than that - it looks to me more like a
+> > > device (or bus) feature than a driver feature. Is there any ACPI flag
+> > > we could use to pass this information to the driver model without
+> > > changing the driver structure?
+> >
+> > To my knowledge there isn't. The fact that I²C devices are powered on for
+> > probe in ACPI based systems is specific to Linux kernel and not ACPI as
+> > such.
+> >
+> > The reason this needs to be in a generic struct is that the device's power
+> > state will be changed before any interaction with the driver takes place as
+> > it's the I²C framework that powers on the device.
+> >
+> 
+> I'm not sure I'm following. Looking at patch 1/6 struct device already
+> exists so why can't this information be conveyed "per device" as
+> opposed to "per driver"?
+
+It's both driver and device.
+
+Suppose there's no indication of driver support. If you add the property
+telling the device shouldn't be powered on for probe, it won't be. And if
+the driver doesn't support that, probe will fail. That could happen e.g.
+when running an older kernel on a system that happens to specify this
+property for a given device.
+
+You could view this as a driver bug of course. I still think it's better to
+make driver support for this explicit, and avoid making this a practical
+problem anywhere.
+
+-- 
+Kind regards,
+
+Sakari Ailus
