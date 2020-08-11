@@ -2,99 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8505F241FC0
-	for <lists+linux-media@lfdr.de>; Tue, 11 Aug 2020 20:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46465241FEC
+	for <lists+linux-media@lfdr.de>; Tue, 11 Aug 2020 20:49:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726355AbgHKSeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Aug 2020 14:34:14 -0400
-Received: from smtprelay0060.hostedemail.com ([216.40.44.60]:34422 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725901AbgHKSeM (ORCPT
+        id S1726274AbgHKSte (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Aug 2020 14:49:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725889AbgHKSte (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Aug 2020 14:34:12 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 5EE6A8378A85;
-        Tue, 11 Aug 2020 18:34:11 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:967:973:988:989:1260:1263:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2525:2553:2559:2562:2682:2685:2828:2859:2898:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3622:3865:3867:3871:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:5007:7514:7576:7875:7974:9025:9388:9592:10004:10049:10226:10400:10848:10967:11026:11232:11473:11657:11658:11914:12043:12295:12296:12297:12438:12555:12740:12760:12895:13069:13311:13357:13439:14093:14097:14181:14659:14721:14849:21080:21451:21627:30054:30056:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: stamp43_0b0be8426fe5
-X-Filterd-Recvd-Size: 2715
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf07.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 11 Aug 2020 18:34:10 +0000 (UTC)
-Message-ID: <5dd3d10088dbc8a126bc788237f5206130a090ae.camel@perches.com>
-Subject: Re: [PATCH 19/20] media: platform: vpdma.c: fix comparison to bool
-From:   Joe Perches <joe@perches.com>
-To:     Benoit Parrot <bparrot@ti.com>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     skhan@linuxfoundation.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 11 Aug 2020 11:34:09 -0700
-In-Reply-To: <20200811125748.s3pdpwjmqmd5bffb@ti.com>
-References: <20200807083548.204360-19-dwlsalmeida@gmail.com>
-         <20200811125748.s3pdpwjmqmd5bffb@ti.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        Tue, 11 Aug 2020 14:49:34 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A57E8C06174A;
+        Tue, 11 Aug 2020 11:49:33 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id 140so7239547lfi.5;
+        Tue, 11 Aug 2020 11:49:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7DTn5uFhSyuimkf8VN00wRIDhk5oSwcyOf7Qxcw85tU=;
+        b=FHTxic7sIGkNM9Mo36Oe6nF3rOGpsHOfy3yxhDcm5QMz3AhdVdCcXTd3NsgZaqo+qy
+         ihoaGod/PfgjHpbpNk5AyW9DJGD6QDZQt76KDc3AvtA0ax1l3eBL5vNL5QsrPwrHLSHx
+         GlPlE2dFHy2B79D5xFheaebZMp2jIwR60Dhc4Rx04I3qSjxf16K4GatDDw7Z8ZdjbE7I
+         vjPVjy1RBWJWVoMejf5kPcBe4uJwwUKqewXHIMi5WPA1E9qXZOwtJKDwSgQtX6f9wvUD
+         tH2k9vgPMyk40flenKHxNwj+s78W3dKo59xMPsb4vJeQO4cioIePxdKkh/nXw9n1i8ay
+         Y9DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7DTn5uFhSyuimkf8VN00wRIDhk5oSwcyOf7Qxcw85tU=;
+        b=jhpZT/ChH8Fa4WrJTw8GNQwkMcFdZW3dS81QMoid/h84HKiwcCRZy0Q6v3KBA29X7g
+         rnkX7XdmEVCbziiutjZAoPXcfWe/4wAZRLrTiY/+BwB2mE/wkz7+cLSlTYJUP9QI+ZMs
+         00d7BWt8q34+A/5DhQAtbyvnJ9gUrUnVdGU/r+PVUJzDFwK4iDqC/Gs1xY3vMCHS9y3C
+         ORg8fLQB6xgPExIYH43Xqjz2fVApKj17n8MgvOsPzIvZskH/0V7BhLLhQbz4RqcEv+Xg
+         4x62EjcRcPgYtYgw0dpCxNbXyB5fGaRMWDD7Sb/BOVHcNexI8SVixfGZZZmRichKqiRK
+         hO3g==
+X-Gm-Message-State: AOAM5311mhrw0xuxfC4py9ZXb8HJQeeGlu5CNBkxSl0E2YC97hEJVpSa
+        J9x2pvDgt9Qm7cnsNvPrdaCLyI0h
+X-Google-Smtp-Source: ABdhPJz/FpzQOdn9OOGGCezMzFAL+DHV0SHGzs6yjrB2lFiiEejBhhvW3hCAbATSPtqyb2YfEP5Tow==
+X-Received: by 2002:a19:654c:: with SMTP id c12mr3907741lfj.132.1597171771257;
+        Tue, 11 Aug 2020 11:49:31 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id i11sm11690790lfl.31.2020.08.11.11.49.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2020 11:49:30 -0700 (PDT)
+Subject: Re: [PATCH v9 09/10] media: tegra-video: Add CSI MIPI pads
+ calibration
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1596740494-19306-1-git-send-email-skomatineni@nvidia.com>
+ <1596740494-19306-10-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0eb1c3ac-7cd7-d58c-9480-bd8d762c27f1@gmail.com>
+Date:   Tue, 11 Aug 2020 21:49:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1596740494-19306-10-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-08-11 at 07:57 -0500, Benoit Parrot wrote:
-> Daniel W. S. Almeida <dwlsalmeida@gmail.com> wrote on Fri [2020-Aug-07 05:35:46 -0300]:
-> > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> > 
-> > Fix the following coccinelle report:
-> > 
-> > drivers/media/platform/ti-vpe/vpdma.c:946:5-26: WARNING:
-> > Comparison to bool
-> > 
-> > Found using - Coccinelle (http://coccinelle.lip6.fr)
-[]
-> > diff --git a/drivers/media/platform/ti-vpe/vpdma.c b/drivers/media/platform/ti-vpe/vpdma.c
-[]
-> > @@ -943,7 +943,7 @@ int vpdma_hwlist_alloc(struct vpdma_data *vpdma, void *priv)
-> >  
-> >  	spin_lock_irqsave(&vpdma->lock, flags);
-> >  	for (i = 0; i < VPDMA_MAX_NUM_LIST &&
-> > -	    vpdma->hwlist_used[i] == true; i++)
-> > +	    vpdma->hwlist_used[i]; i++)
-> >  		;
+06.08.2020 22:01, Sowjanya Komatineni пишет:
+...
+> +	err = tegra_mipi_finish_calibration(csi_chan->mipi);
+> +
+> +	if (ret < 0 && ret != -ENOIOCTLCMD)
+> +		goto err_disable_csi_stream;
+> +
+> +	if (err < 0)
+> +		dev_warn(csi_chan->csi->dev,
+> +			 "MIPI calibration failed: %d\n", ret);
 
-
-A more typical way to write this loop is
-not testing i < VPDMA_MAX_NUM_LIST multiple
-times like the below:
----
- drivers/media/platform/ti-vpe/vpdma.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/platform/ti-vpe/vpdma.c b/drivers/media/platform/ti-vpe/vpdma.c
-index 2e5148ae7a0f..5893917ce50d 100644
---- a/drivers/media/platform/ti-vpe/vpdma.c
-+++ b/drivers/media/platform/ti-vpe/vpdma.c
-@@ -942,14 +942,13 @@ int vpdma_hwlist_alloc(struct vpdma_data *vpdma, void *priv)
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&vpdma->lock, flags);
--	for (i = 0; i < VPDMA_MAX_NUM_LIST &&
--	    vpdma->hwlist_used[i] == true; i++)
--		;
--
--	if (i < VPDMA_MAX_NUM_LIST) {
-+	for (i = 0; i < VPDMA_MAX_NUM_LIST; i++) {
-+		if (vpdma->hwlist_used[i])
-+			continue;
- 		list_num = i;
- 		vpdma->hwlist_used[i] = true;
- 		vpdma->hwlist_priv[i] = priv;
-+		break;
- 	}
- 	spin_unlock_irqrestore(&vpdma->lock, flags);
- 
-
-
+err
