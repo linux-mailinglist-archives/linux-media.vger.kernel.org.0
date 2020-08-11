@@ -2,136 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 668C6242263
-	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 00:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FFEB24226C
+	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 00:19:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbgHKWOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Aug 2020 18:14:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37976 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbgHKWOh (ORCPT
+        id S1726127AbgHKWTx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Aug 2020 18:19:53 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34922 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbgHKWTw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Aug 2020 18:14:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459B4C06174A;
-        Tue, 11 Aug 2020 15:14:37 -0700 (PDT)
+        Tue, 11 Aug 2020 18:19:52 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3466D9A8;
-        Wed, 12 Aug 2020 00:14:33 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26FCA9A8;
+        Wed, 12 Aug 2020 00:19:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597184073;
-        bh=HoCl9R+Q4hcUicBUYxgQV+Z3XsqdWkDGxluF/1OsWYA=;
+        s=mail; t=1597184390;
+        bh=2dF4WRa3/ccznVwifQHQmaT/mmZBzeHSq2p48vYM0+4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G8Ev7KeXOY+qOaxiHbueB2+vhTJ3LDJvBqHUfaYKsny8zOQAwrgMXKQgDKf+MOeCp
-         BCsA7oheY+lrjp0lwf37vR92IPLYv9+yE9/bVoGRsR0tYQFuYNo5wC8WiFE9Kfdx2G
-         XkVS6LNfp7iLRKXQYSbYfHRKQOCXlM1LLkG33aHg=
-Date:   Wed, 12 Aug 2020 01:14:19 +0300
+        b=DQqiZU5+PrqIy8HpGRL/Ml8fz7trb6uc4oWeQXWfWIOL9IiF/5IPoGwXm0ZhVMpXm
+         qynWkUFY7oayl6MJ9TNQ2CLkNGsSG5ar0llqb85vhnRsXCfOK2OmMQDfYFGQ2G5OGB
+         FdrjdfGDQuPilfcFaNKIRQibdwBq9CgK6NcpiMWw=
+Date:   Wed, 12 Aug 2020 01:19:36 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: Re: [PATCH 4/5] media: rcar-csi2: Allocate v4l2_async_subdev
- dynamically
-Message-ID: <20200811221419.GE17446@pendragon.ideasonboard.com>
-References: <20200811205939.19550-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200811205939.19550-5-laurent.pinchart+renesas@ideasonboard.com>
- <20200811214324.GB1061689@oden.dyn.berto.se>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] v4l: async: Use endpoint node, not device node, for
+ fwnode match
+Message-ID: <20200811221936.GA22031@pendragon.ideasonboard.com>
+References: <20200807111619.3664763-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200807111619.3664763-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200811214324.GB1061689@oden.dyn.berto.se>
+In-Reply-To: <20200807111619.3664763-2-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Niklas and Sakari,
 
-On Tue, Aug 11, 2020 at 11:43:24PM +0200, Niklas Söderlund wrote:
-> On 2020-08-11 23:59:38 +0300, Laurent Pinchart wrote:
-> > v4l2_async_notifier_add_subdev() requires the asd to be allocated
-> > dynamically, but the rcar-csi2 driver embeds it in the rcar_csi2
-> > structure. This causes memory corruption when the notifier is destroyed
-> > at remove time with v4l2_async_notifier_cleanup().
-> > 
-> > Fix this issue by registering the asd with
-> > v4l2_async_notifier_add_fwnode_subdev(), which allocates it dynamically
-> > internally.
+Thank you for the patch.
+
+On Fri, Aug 07, 2020 at 01:16:18PM +0200, Niklas Söderlund wrote:
+> From: Sakari Ailus <sakari.ailus@linux.intel.com>
 > 
-> This patch conflicts with [1] which I think is a nicer solution to the 
-> problem, provided 1/2 of that series is palatable for everyone :-)
+> V4L2 async framework can use both device's fwnode and endpoints's fwnode
+> for matching the async sub-device with the sub-device. In order to proceed
+> moving towards endpoint matching assign the endpoint to the async
+> sub-device.
 > 
-> 1. [PATCH 2/2] rcar-csi2: Use V4L2 async helpers to create the notifier
+> As most async sub-device drivers (and the related hardware) only supports
+> a single endpoint, use the first endpoint found. This works for all
+> current drivers --- we only ever supported a single async sub-device per
+> device to begin with.
+> 
+> For async devices that have no endpoints, continue to use the fwnode
+> related to the device. This includes e.g. lens devices.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c  | 8 ++++++--
+>  drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
+>  2 files changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index e3ab003a6c851881..f3b0338718e0f0a9 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -758,8 +758,12 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+>  	 * (struct v4l2_subdev.dev), and async sub-device does not
+>  	 * exist independently of the device at any point of time.
+>  	 */
+> -	if (!sd->fwnode && sd->dev)
+> -		sd->fwnode = dev_fwnode(sd->dev);
+> +	if (!sd->fwnode && sd->dev) {
+> +		sd->fwnode = fwnode_graph_get_next_endpoint(
+> +			dev_fwnode(sd->dev), NULL);
+> +		if (!sd->fwnode)
+> +			sd->fwnode = dev_fwnode(sd->dev);
 
-That looks better to me too.
+dev_fwnode() returns a borrowed reference, while
+fwnode_graph_get_next_endpoint() returns a new reference. This will
+cause a reference count issue, one way or another.
 
-> > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 24 +++++++++------------
-> >  1 file changed, 10 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > index c6cc4f473a07..a16c492b3143 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > @@ -362,7 +362,6 @@ struct rcar_csi2 {
-> >  	struct media_pad pads[NR_OF_RCAR_CSI2_PAD];
-> >  
-> >  	struct v4l2_async_notifier notifier;
-> > -	struct v4l2_async_subdev asd;
-> >  	struct v4l2_subdev *remote;
-> >  
-> >  	struct v4l2_mbus_framefmt mf;
-> > @@ -811,6 +810,8 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
-> >  
-> >  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
-> >  {
-> > +	struct v4l2_async_subdev *asd;
-> > +	struct fwnode_handle *fwnode;
-> >  	struct device_node *ep;
-> >  	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
-> >  	int ret;
-> > @@ -834,24 +835,19 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
-> >  		return ret;
-> >  	}
-> >  
-> > -	priv->asd.match.fwnode =
-> > -		fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
-> > -	priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> > -
-> > +	fwnode = fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
-> >  	of_node_put(ep);
-> >  
-> > +	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(fwnode));
-> > +
-> >  	v4l2_async_notifier_init(&priv->notifier);
-> > -
-> > -	ret = v4l2_async_notifier_add_subdev(&priv->notifier, &priv->asd);
-> > -	if (ret) {
-> > -		fwnode_handle_put(priv->asd.match.fwnode);
-> > -		return ret;
-> > -	}
-> > -
-> >  	priv->notifier.ops = &rcar_csi2_notify_ops;
-> >  
-> > -	dev_dbg(priv->dev, "Found '%pOF'\n",
-> > -		to_of_node(priv->asd.match.fwnode));
-> > +	asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier, fwnode,
-> > +						    sizeof(*asd));
-> > +	fwnode_handle_put(fwnode);
-> > +	if (IS_ERR(asd))
-> > +		return PTR_ERR(asd);
-> >  
-> >  	ret = v4l2_async_subdev_notifier_register(&priv->subdev,
-> >  						  &priv->notifier);
+Otherwise, I think the change is good.
+
+> +	}
+>  
+>  	mutex_lock(&list_lock);
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index a4c3c77c1894648e..79706129e28b668a 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -815,7 +815,7 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+>  
+>  	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+>  	asd->match.fwnode =
+> -		fwnode_graph_get_remote_port_parent(endpoint);
+> +		fwnode_graph_get_remote_endpoint(endpoint);
+>  	if (!asd->match.fwnode) {
+>  		dev_dbg(dev, "no remote endpoint found\n");
+>  		ret = -ENOTCONN;
 
 -- 
 Regards,
