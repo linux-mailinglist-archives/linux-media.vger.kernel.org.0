@@ -2,125 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 130282418A2
-	for <lists+linux-media@lfdr.de>; Tue, 11 Aug 2020 10:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA0CE2418D2
+	for <lists+linux-media@lfdr.de>; Tue, 11 Aug 2020 11:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728426AbgHKI5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Aug 2020 04:57:51 -0400
-Received: from mga07.intel.com ([134.134.136.100]:33872 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728336AbgHKI5v (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Aug 2020 04:57:51 -0400
-IronPort-SDR: hhrZbCcZRh0Sdybu/vfzBM6qAONDK1+1j3R6DppUJ3gqgUZ8YF3rjl//Jh+07QQcW8Qu2DnN4i
- bT7tXicfI20g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9709"; a="218030568"
-X-IronPort-AV: E=Sophos;i="5.75,460,1589266800"; 
-   d="scan'208";a="218030568"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2020 01:57:49 -0700
-IronPort-SDR: EmAtZuRpcdtRFUCT8R9mvEDeG40/XSjZz7NwrbIXaM72Jbh4UNwML1IGy6XVooLEowvXfWqy3P
- Zit6SPImqfOg==
-X-IronPort-AV: E=Sophos;i="5.75,460,1589266800"; 
-   d="scan'208";a="277522857"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2020 01:57:46 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 391D8206E3; Tue, 11 Aug 2020 11:57:44 +0300 (EEST)
-Date:   Tue, 11 Aug 2020 11:57:44 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     linux-i2c@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 1/6] i2c: Allow driver to manage the device's power
- state during probe
-Message-ID: <20200811085744.GK16270@paasikivi.fi.intel.com>
-References: <20200810142747.12400-1-sakari.ailus@linux.intel.com>
- <20200810142747.12400-2-sakari.ailus@linux.intel.com>
- <20200810144148.GD31434@bogus>
+        id S1728371AbgHKJWj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Aug 2020 05:22:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728391AbgHKJWj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Aug 2020 05:22:39 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC78C061788
+        for <linux-media@vger.kernel.org>; Tue, 11 Aug 2020 02:22:38 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id z18so10774230wrm.12
+        for <linux-media@vger.kernel.org>; Tue, 11 Aug 2020 02:22:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w64oVDD5gdf7Qw0VtBt9S+2PP1vnTe6g0uPYYCqYgyE=;
+        b=PNWhmOLKV7K6Fo7G0zQe2MW7DlRtBjrIF20cAwk8+IDodtpdQZBhq0E7+2wR1Gj45Y
+         lpLkj2VXumRbfPixy4WehOgocK3LVetgkauMWBTLO/ErgzGT6yqi5jkIfR7N+z1OMZs9
+         eG26M9dUUewJ39DaBm6onl2Jbinnt9waqwTJH+4F0VX9wuJN8r3DfUKyg3+i7cy7XE/c
+         uq+ScJIgOFda7Eq90zf/grOPArgS7yLfDCsUJKDRc7my2urYuQrRVJVL6Co49+B+b9vY
+         DnjQ1JdG5ww1Lf2Ryt7jBFaicMHYh3zYjyxuRJRy7NKelHSKs3rmUOkywe5Dyc+VfERx
+         Qsjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w64oVDD5gdf7Qw0VtBt9S+2PP1vnTe6g0uPYYCqYgyE=;
+        b=cCR2DY85UZwmKV0Z1xsILCZDhjSXxtZTRpR+nqkUR4eBmwjoSIJvRICUshiGxsY2I8
+         QxdYeSBYp147g4sqMeTQT5UaSNzhd/vlzNaF/mZQqnKjqhZDnHb4NYe2qMd4mk/uSIRR
+         +lQCmd6DLzU+9hV3VJ24siohn9Lx4RsA6eZO/stwdP/0+SVloHUTr7p7DbfQOG3EGw2x
+         X+pHZAHXpr1yDkSxgKWB4aUJGpijUPlEWwXi06H1K1ayOkRtxOgOPKVYRNctJHVG7C49
+         /CtN58ZVAmQK9DeDgMlVHnHweWGZwzKgGLGRWZU1quUhKeyTjPKy9Jxv0dfmnKVrvCK0
+         2Z0w==
+X-Gm-Message-State: AOAM532t18z4MevVoG8EgazRyjm0wUGR6c3lxLuFzrekFNXSn8K8a5dt
+        kaprOUBU7zubx0SY5eqL0OWAmnEEdra08f17N/7HYw==
+X-Google-Smtp-Source: ABdhPJxaiIP5JzOlZwg7fT24TWAQ4pFHHAZdvKBm+k8d3C7DP4bFD6gpNXC+E72Yewf4zubx1kzQJQ2c1ZI6KwRJQ88=
+X-Received: by 2002:a5d:5383:: with SMTP id d3mr5274204wrv.42.1597137757402;
+ Tue, 11 Aug 2020 02:22:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200810144148.GD31434@bogus>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200810215543.113206-1-jacopo+renesas@jmondi.org> <20200810215543.113206-5-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200810215543.113206-5-jacopo+renesas@jmondi.org>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 11 Aug 2020 10:22:21 +0100
+Message-ID: <CAPY8ntAX+W2Hpv4tVouWe2WR9d=5ob-cyjbzfGiWiN5GH_Z8Fg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] media: MAINTAINERS: ov5647: Replace maintainer
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sudeep,
+On Mon, 10 Aug 2020 at 22:52, Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+>
+> Since the current maintainer email address bounces back, replace
+> the entry and make myself and Dave Stevenson maintainers of the driver.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Thanks for the review.
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-On Mon, Aug 10, 2020 at 03:41:48PM +0100, Sudeep Holla wrote:
-> On Mon, Aug 10, 2020 at 05:27:42PM +0300, Sakari Ailus wrote:
-> > Enable drivers to tell ACPI that there's no need to power on a device for
-> > probe. Drivers should still perform this by themselves if there's a need
-> > to. In some cases powering on the device during probe is undesirable, and
-> > this change enables a driver to choose what fits best for it.
-> >
-> > Add a field called "flags" into struct i2c_driver for driver flags, and a
-> > flag I2C_DRV_FL_ALLOW_LOW_POWER_PROBE to tell a driver supports probe in
-> > low power state.
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/i2c/i2c-core-base.c | 17 ++++++++++++++---
-> >  include/linux/i2c.h         | 14 ++++++++++++++
-> >  2 files changed, 28 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> > index 34a9609f256da..cde9cf49a07e6 100644
-> > --- a/drivers/i2c/i2c-core-base.c
-> > +++ b/drivers/i2c/i2c-core-base.c
-> > @@ -436,6 +436,14 @@ static int i2c_smbus_host_notify_to_irq(const struct i2c_client *client)
-> >  	return irq > 0 ? irq : -ENXIO;
-> >  }
-> >
-> > +static bool allow_low_power_probe(struct device *dev)
-> > +{
-> > +	struct i2c_driver *driver = to_i2c_driver(dev->driver);
-> > +
-> > +	return driver->flags & I2C_DRV_FL_ALLOW_LOW_POWER_PROBE &&
-> > +		device_property_present(dev, "allow-low-power-probe");
-> 
-> I assume this change makes even the DT property "allow-low-power-probe"
-> work in the same way. Should we have proper DT binding for that ?
-> 
-> This comment applies for any property using device_property_* but has
-> no explicit DT binding ? Just asking the question to know the strategy
-> followed. Sorry if this is redundant question, feel free to point me
-> to the past discussions.
-
-It's not a redundant question, no.
-
-I²C drivers on OF are responsible for controlling device's power state
-already (using runtime PM or without) so I think the drivers could use the
-property directly on OF systems (and document the property in DT bindings
-first) if there's a need to. IOW this code isn't needed on OF.
-
-Note that the power_on or power_off arguments are not used by
-genpd_dev_pm_attach() or genpd_dev_pm_detach() so this patch only affects
-ACPI. I think I should check the device is an ACPI device above, for
-clarity.
-
-Cc also DT list. The entire set is here:
-
-<URL:https://lore.kernel.org/linux-acpi/20200810142747.12400-1-sakari.ailus@linux.intel.com/>
-
--- 
-Kind regards,
-
-Sakari Ailus
+> ---
+>  MAINTAINERS | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 21e6c3120152..6a9d87282578 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12625,7 +12625,8 @@ T:      git git://linuxtv.org/media_tree.git
+>  F:     drivers/media/i2c/ov5640.c
+>
+>  OMNIVISION OV5647 SENSOR DRIVER
+> -M:     Luis Oliveira <lolivei@synopsys.com>
+> +M:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+> +M:     Jacopo Mondi <jacopo@jmondi.org>
+>  L:     linux-media@vger.kernel.org
+>  S:     Maintained
+>  T:     git git://linuxtv.org/media_tree.git
+> --
+> 2.27.0
+>
