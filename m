@@ -2,113 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FFEB24226C
-	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 00:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 627C8242297
+	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 00:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726127AbgHKWTx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Aug 2020 18:19:53 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34922 "EHLO
+        id S1726329AbgHKWmy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Aug 2020 18:42:54 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35046 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbgHKWTw (ORCPT
+        with ESMTP id S1725901AbgHKWmy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Aug 2020 18:19:52 -0400
+        Tue, 11 Aug 2020 18:42:54 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26FCA9A8;
-        Wed, 12 Aug 2020 00:19:50 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE03B9A8;
+        Wed, 12 Aug 2020 00:42:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597184390;
-        bh=2dF4WRa3/ccznVwifQHQmaT/mmZBzeHSq2p48vYM0+4=;
+        s=mail; t=1597185772;
+        bh=ENIgSbkwlduV3BQUn6qglP/PgTbvFC5RavhdZG9I8Mk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DQqiZU5+PrqIy8HpGRL/Ml8fz7trb6uc4oWeQXWfWIOL9IiF/5IPoGwXm0ZhVMpXm
-         qynWkUFY7oayl6MJ9TNQ2CLkNGsSG5ar0llqb85vhnRsXCfOK2OmMQDfYFGQ2G5OGB
-         FdrjdfGDQuPilfcFaNKIRQibdwBq9CgK6NcpiMWw=
-Date:   Wed, 12 Aug 2020 01:19:36 +0300
+        b=RJIFrzWJTlMPJ8vWzjcz2OnXNoW6bCdD+jVTTUHTgCkjMdju3CgozYTifLq8jvI/q
+         TM6HJcDqBA6KgXnepXvqO28kuGoYtIaAbHKF0sM28O/K3QeJSC39p9cXtPBBZhvHy8
+         jwHOKSisPlFTnq33ivq2FXiFrfJf2vPIckw9nZ4M=
+Date:   Wed, 12 Aug 2020 01:42:38 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] v4l: async: Use endpoint node, not device node, for
- fwnode match
-Message-ID: <20200811221936.GA22031@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/2] rcar-csi2: Use V4L2 async helpers to create the
+ notifier
+Message-ID: <20200811224238.GB22031@pendragon.ideasonboard.com>
 References: <20200807111619.3664763-1-niklas.soderlund+renesas@ragnatech.se>
- <20200807111619.3664763-2-niklas.soderlund+renesas@ragnatech.se>
+ <20200807111619.3664763-3-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200807111619.3664763-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20200807111619.3664763-3-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas and Sakari,
+Hi Niklas,
 
 Thank you for the patch.
 
-On Fri, Aug 07, 2020 at 01:16:18PM +0200, Niklas Söderlund wrote:
-> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+On Fri, Aug 07, 2020 at 01:16:19PM +0200, Niklas Söderlund wrote:
+> The V4L2 async framework helpers now populates the async notifier with
+> endpoint matching information and there is no need to do this manually
+> in the R-Car CSI-2 driver, switch to using the provided helper.
 > 
-> V4L2 async framework can use both device's fwnode and endpoints's fwnode
-> for matching the async sub-device with the sub-device. In order to proceed
-> moving towards endpoint matching assign the endpoint to the async
-> sub-device.
-> 
-> As most async sub-device drivers (and the related hardware) only supports
-> a single endpoint, use the first endpoint found. This works for all
-> current drivers --- we only ever supported a single async sub-device per
-> device to begin with.
-> 
-> For async devices that have no endpoints, continue to use the fwnode
-> related to the device. This includes e.g. lens devices.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  drivers/media/v4l2-core/v4l2-async.c  | 8 ++++++--
->  drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
->  2 files changed, 7 insertions(+), 3 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 48 +++++----------------
+>  1 file changed, 11 insertions(+), 37 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index e3ab003a6c851881..f3b0338718e0f0a9 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -758,8 +758,12 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
->  	 * (struct v4l2_subdev.dev), and async sub-device does not
->  	 * exist independently of the device at any point of time.
->  	 */
-> -	if (!sd->fwnode && sd->dev)
-> -		sd->fwnode = dev_fwnode(sd->dev);
-> +	if (!sd->fwnode && sd->dev) {
-> +		sd->fwnode = fwnode_graph_get_next_endpoint(
-> +			dev_fwnode(sd->dev), NULL);
-> +		if (!sd->fwnode)
-> +			sd->fwnode = dev_fwnode(sd->dev);
-
-dev_fwnode() returns a borrowed reference, while
-fwnode_graph_get_next_endpoint() returns a new reference. This will
-cause a reference count issue, one way or another.
-
-Otherwise, I think the change is good.
-
-> +	}
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index c6cc4f473a077899..f0067ff21d5d9d33 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -362,7 +362,6 @@ struct rcar_csi2 {
+>  	struct media_pad pads[NR_OF_RCAR_CSI2_PAD];
 >  
->  	mutex_lock(&list_lock);
+>  	struct v4l2_async_notifier notifier;
+> -	struct v4l2_async_subdev asd;
+>  	struct v4l2_subdev *remote;
 >  
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index a4c3c77c1894648e..79706129e28b668a 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -815,7 +815,7 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+>  	struct v4l2_mbus_framefmt mf;
+> @@ -774,9 +773,11 @@ static const struct v4l2_async_notifier_operations rcar_csi2_notify_ops = {
+>  	.unbind = rcsi2_notify_unbind,
+>  };
 >  
->  	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
->  	asd->match.fwnode =
-> -		fwnode_graph_get_remote_port_parent(endpoint);
-> +		fwnode_graph_get_remote_endpoint(endpoint);
->  	if (!asd->match.fwnode) {
->  		dev_dbg(dev, "no remote endpoint found\n");
->  		ret = -ENOTCONN;
+> -static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
+> -			    struct v4l2_fwnode_endpoint *vep)
+> +static int rcar_csi2_parse_v4l2(struct device *dev,
+> +				struct v4l2_fwnode_endpoint *vep,
+> +				struct v4l2_async_subdev *asd)
+>  {
+> +	struct rcar_csi2 *priv = dev_get_drvdata(dev);
+>  	unsigned int i;
+>  
+>  	/* Only port 0 endpoint 0 is valid. */
+> @@ -806,53 +807,26 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
+>  		}
+>  	}
+>  
+> +	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(asd->match.fwnode));
+> +
+>  	return 0;
+>  }
+>  
+>  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+>  {
+> -	struct device_node *ep;
+> -	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+>  	int ret;
+>  
+> -	ep = of_graph_get_endpoint_by_regs(priv->dev->of_node, 0, 0);
+> -	if (!ep) {
+> -		dev_err(priv->dev, "Not connected to subdevice\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
+> -	if (ret) {
+> -		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
+> -		of_node_put(ep);
+> -		return -EINVAL;
+> -	}
+> -
+> -	ret = rcsi2_parse_v4l2(priv, &v4l2_ep);
+> -	if (ret) {
+> -		of_node_put(ep);
+> -		return ret;
+> -	}
+> -
+> -	priv->asd.match.fwnode =
+> -		fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
+> -	priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -
+> -	of_node_put(ep);
+> -
+>  	v4l2_async_notifier_init(&priv->notifier);
+>  
+> -	ret = v4l2_async_notifier_add_subdev(&priv->notifier, &priv->asd);
+> -	if (ret) {
+> -		fwnode_handle_put(priv->asd.match.fwnode);
+> +	ret = v4l2_async_notifier_parse_fwnode_endpoints_by_port(
+> +			priv->dev, &priv->notifier,
+> +			sizeof(struct v4l2_async_subdev), 0,
+> +			rcar_csi2_parse_v4l2);
+
+It seems a bit expensive to go through a complex logic of iterating over
+all endpoints when rcar_csi2_parse_v4l2() will only accept port 0,
+endpoint 0, but there's a clear benefit from not having to maintain this
+code in the driver.
+
+With Jacopo's comments addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+If anyone has time to spend on it, I think
+__v4l2_async_notifier_parse_fwnode_ep() should be duplicated in
+v4l2_async_notifier_parse_fwnode_endpoints() and
+v4l2_async_notifier_parse_fwnode_endpoints_by_port(), with the latter
+only iterating over the endpoints of the requested port.
+
+I also wonder if the !is_available check needs to be inside the loop:
+
+	fwnode_graph_for_each_endpoint(dev_fwnode(dev), fwnode) {
+		struct fwnode_handle *dev_fwnode;
+		bool is_available;
+
+		dev_fwnode = fwnode_graph_get_port_parent(fwnode);
+		is_available = fwnode_device_is_available(dev_fwnode);
+		fwnode_handle_put(dev_fwnode);
+		if (!is_available)
+			continue;
+
+		...
+	}
+
+Isn't dev_fwnode == dev_fwnode(dev) and thus constant ?
+
+> +	if (ret)
+>  		return ret;
+> -	}
+>  
+>  	priv->notifier.ops = &rcar_csi2_notify_ops;
+>  
+> -	dev_dbg(priv->dev, "Found '%pOF'\n",
+> -		to_of_node(priv->asd.match.fwnode));
+> -
+>  	ret = v4l2_async_subdev_notifier_register(&priv->subdev,
+>  						  &priv->notifier);
+>  	if (ret)
 
 -- 
 Regards,
