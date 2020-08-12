@@ -2,140 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BC77242E6A
-	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 20:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B59B2242F00
+	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 21:15:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbgHLSHV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Aug 2020 14:07:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51810 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726578AbgHLSHQ (ORCPT
+        id S1726651AbgHLTPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Aug 2020 15:15:36 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:42665 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726640AbgHLTPe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Aug 2020 14:07:16 -0400
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CE1EC061385
-        for <linux-media@vger.kernel.org>; Wed, 12 Aug 2020 11:07:16 -0700 (PDT)
-Received: by mail-qv1-xf43.google.com with SMTP id dd12so1468323qvb.0
-        for <linux-media@vger.kernel.org>; Wed, 12 Aug 2020 11:07:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FPM/BpxL7oHk5NwDUOl9GJEl4QuvKvovtaLxj5QbinM=;
-        b=dPPr77PPopJMkB3J1yt/ankUvINgjFbRtn7AMXcoTxgOv4Qnz8BmX18CGvnpDoNboC
-         RdBfGamTp+ItJYrXQOhA+ATgJhrWxC7oZXQM5Q3E+IC333XHrA35Xgpiz1g1+eCk0g5J
-         LHWdw0LwJi+FdGosEZll1xe5ub1affO7TItKtEmD4+bYgbMaujsZ0HkQBmx7hCRhE7gs
-         ASP2oWwiikGuPIVN/TUiCMTWTtuyO/dChqvWVOrNOEVrbSokdAWF52h4N0xNIypYkucn
-         Kw88wjXP6RrYAG/5c+SbZ7RH91UXZN+awliP03byg6ZCTl62qFsjos/SZlDNZZuljdig
-         wIhQ==
+        Wed, 12 Aug 2020 15:15:34 -0400
+Received: by mail-il1-f196.google.com with SMTP id t13so2983766ile.9;
+        Wed, 12 Aug 2020 12:15:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FPM/BpxL7oHk5NwDUOl9GJEl4QuvKvovtaLxj5QbinM=;
-        b=CnbHFuH2+TNRn6nOYWGTMIm6iBGDHZ/HTlYpFGpCLQ+N1mVIzxXzfg9N7+QyPqSBnH
-         Agw6h9omua53/iIda6ko7158sicM118HNwLe0CnDDiCg5O5VKSvP9IzqyqYjSfc31Rd7
-         cHnH8K+lMmyyZAEt5b39vWmz1W+wKlat30JFt/m3+HU1fqPBJ9jVkkybwWtQS3D/Pwpj
-         UliLmATaUXx2kJ+X2t1B04Ia9iqTLlglVi4kXrLapga+xpLxVopkmiAvtr/jEc5nZ2/t
-         EmU1c4C2Pqr+UFm0htvb39aQDQyEJNmj6z4/Vbb5ZmujgkU5cD47qf735gudD2xRh22e
-         cgQg==
-X-Gm-Message-State: AOAM533MdNqzwgxn6h92S5eCmELDxkHNpXXFPWsnKS6slkmbmBbD0T4L
-        Lsa1KRS7pbggnGl45pY/41llGDe0S3Qz4Zu9ccUeZQ==
-X-Google-Smtp-Source: ABdhPJxwuOgASIUMO9V8WJQloS5aDiVFEuzmNpHSIUm1BABcVUPU19igC0hVjhfl43zEzpgsO5DYTci6isBiqyb/YV4=
-X-Received: by 2002:ad4:5502:: with SMTP id az2mr839333qvb.148.1597255635563;
- Wed, 12 Aug 2020 11:07:15 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=afi3llV2EPe4Y8Y32WwKuYJ0I6s5AGYAmnoxQ7HHMxY=;
+        b=rSanSJAWvEvyZi7aLFZlvnb7e5opPwoUl8PEbA5Geck3/R9uG0Qy33b51SfbRx0LEt
+         2ZAZ6rDFvL2pQyQU/dl8rXTYiNpplgUllKjOrEHsj7gpbCIw5e9vUSvzjoACe9nQlaHn
+         Dzu4o+tXoBIJ3K+RWVwAIh62zMg4fWTHLwPis9/WWSfmRvdN4FDVm6Z7XOtUDIcN1orX
+         7H8oTT/5FLRnAn9Y+JXqrG8+0nCPq5tTNhvxLsXrL7EmucbZFWTchtYzEBVk/wSBYTNG
+         9RjBVusn6AtRh0i6EMG3OggfecD3+1s4kOML8kb69d0MxcnfRfJ8pqenKqz8yE3gb4ht
+         ZeSA==
+X-Gm-Message-State: AOAM530bQDQxndQUCHkLS2JExEqA5OXqVtgf164cyQ7ONsAUUJByhBRO
+        XTl/z+QKztXFzacp78mw/A==
+X-Google-Smtp-Source: ABdhPJzBRv/bNqO291He4v741bwaIa0Q5f8vFZ18ShTcjF8vo3A7x5RkYAOjbNJrOPgjGHrrPNhgUQ==
+X-Received: by 2002:a92:980f:: with SMTP id l15mr1102831ili.51.1597259734263;
+        Wed, 12 Aug 2020 12:15:34 -0700 (PDT)
+Received: from xps15 ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id y7sm1514370ili.74.2020.08.12.12.15.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2020 12:15:33 -0700 (PDT)
+Received: (nullmailer pid 2548978 invoked by uid 1000);
+        Wed, 12 Aug 2020 19:15:32 -0000
+Date:   Wed, 12 Aug 2020 13:15:32 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        linux-renesas-soc@vger.kernel.org, dave.stevenson@raspberrypi.com,
+        laurent.pinchart@ideasonboard.com,
+        Jacopo Mondi <jacopo@jmondi.org>, robh+dt@kernel.org,
+        roman.kovalivskyi@globallogic.com, hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH v4 2/4] dt-bindings: media: ov5647: Document pwdn-gpios
+Message-ID: <20200812191532.GA2548922@bogus>
+References: <20200810215543.113206-1-jacopo+renesas@jmondi.org>
+ <20200810215543.113206-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-References: <20200121134157.20396-1-sakari.ailus@linux.intel.com>
- <20200121134157.20396-6-sakari.ailus@linux.intel.com> <CAMpxmJU5dG49N2FA0oSQsOfKrCr3KQ1BisON4c+nUJJmZQG=bQ@mail.gmail.com>
- <20200311085555.GH5379@paasikivi.fi.intel.com> <CAMpxmJVPTKW+sYSJ3dnfF8nLAOKEa4Ob7bpxG0KD3Tkdm+rtYw@mail.gmail.com>
- <20200323213101.GB21174@kekkonen.localdomain> <CAMpxmJVdyTkZMVuhSy0Ux8VUYTmQN_YEfH-akQsAL3zrwiz8Dw@mail.gmail.com>
- <20200810082549.GD840@valkosipuli.retiisi.org.uk> <CAMpxmJUKSR-oCGnV1E5XiAMA2nYBy5f_f8=VSoMn0zf+qF39vg@mail.gmail.com>
- <20200811080009.GE840@valkosipuli.retiisi.org.uk>
-In-Reply-To: <20200811080009.GE840@valkosipuli.retiisi.org.uk>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 12 Aug 2020 20:07:04 +0200
-Message-ID: <CAMpxmJWziqW-PiJPSm6aH5aXbYktMJfVjJfvfGxv8fdbWKydqg@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] at24: Support probing while off
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-acpi@vger.kernel.org,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200810215543.113206-3-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 10:00 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Bartosz,
->
-> On Mon, Aug 10, 2020 at 08:12:00PM +0200, Bartosz Golaszewski wrote:
-> > On Mon, Aug 10, 2020 at 10:26 AM Sakari Ailus <sakari.ailus@iki.fi> wro=
-te:
-> > >
-> >
-> > [snip]
-> >
-> > > >
-> > > > Rafael: I think that there are two issues with patch 1/5:
-> > > > 1. It adds a very specific boolean flag to a structure that's meant=
- to
-> > > > be very general. As I pointed out in the i2c patch: at the very lea=
-st
-> > > > this could be made into an int storing flag values, instead of a
-> > > > boolean field. But rather than that - it looks to me more like a
-> > > > device (or bus) feature than a driver feature. Is there any ACPI fl=
-ag
-> > > > we could use to pass this information to the driver model without
-> > > > changing the driver structure?
-> > >
-> > > To my knowledge there isn't. The fact that I=E6=B6=8E devices are pow=
-ered on for
-> > > probe in ACPI based systems is specific to Linux kernel and not ACPI =
-as
-> > > such.
-> > >
-> > > The reason this needs to be in a generic struct is that the device's =
-power
-> > > state will be changed before any interaction with the driver takes pl=
-ace as
-> > > it's the I=E6=B6=8E framework that powers on the device.
-> > >
-> >
-> > I'm not sure I'm following. Looking at patch 1/6 struct device already
-> > exists so why can't this information be conveyed "per device" as
-> > opposed to "per driver"?
->
-> It's both driver and device.
->
-> Suppose there's no indication of driver support. If you add the property
-> telling the device shouldn't be powered on for probe, it won't be. And if
-> the driver doesn't support that, probe will fail. That could happen e.g.
-> when running an older kernel on a system that happens to specify this
-> property for a given device.
->
-> You could view this as a driver bug of course. I still think it's better =
-to
-> make driver support for this explicit, and avoid making this a practical
-> problem anywhere.
->
+On Mon, 10 Aug 2020 23:55:41 +0200, Jacopo Mondi wrote:
+> From: Jacopo Mondi <jacopo@jmondi.org>
+> 
+> Document in dt-schema bindings for the ov5647 sensor the optional
+> 'pwdn-gpios' property.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/ov5647.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-I see. I'm not sure this is the correct solution but let's see what
-Wolfram says. From my side: I'd prefer to see the
-disable_i2c_core_irq_mapping converted to flags first and then the
-flags extended with whatever you need. disable_i2c_core_irq_mapping
-could also be removed AFAICT - nobody uses it.
-
-Bart
+Reviewed-by: Rob Herring <robh@kernel.org>
