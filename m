@@ -2,96 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CE2B2430A0
-	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 23:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34E852430CB
+	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 00:32:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726542AbgHLVtq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Aug 2020 17:49:46 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56368 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726490AbgHLVtp (ORCPT
+        id S1726635AbgHLWcj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Aug 2020 18:32:39 -0400
+Received: from smtprelay0158.hostedemail.com ([216.40.44.158]:41486 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726605AbgHLWcj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Aug 2020 17:49:45 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0B089E7;
-        Wed, 12 Aug 2020 23:49:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597268982;
-        bh=toVK7T7essJJqcbjiFw154KgUWLSYoKh3nWAwsQb6ag=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nuuZ5Df9B/fJS5S7uDzp7cJW+6ygVT5uFXrarbQdr8UX4waBKK0sa2aiLXFVTQHqN
-         JAXSylJzOUPbChynOTqYr6qX7GB1OKOIT6ngORLOh5qTTubvIMudrYMfhjKTbGRjg4
-         qxxUhECXGRvf2Azvzvw9f/EL+/4+o3gIcQ3yVPsI=
-Date:   Thu, 13 Aug 2020 00:49:28 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: i2c: imx214: select V4L2_FWNODE
-Message-ID: <20200812214928.GA22974@pendragon.ideasonboard.com>
-References: <20200622164352.605546-1-jacopo@jmondi.org>
+        Wed, 12 Aug 2020 18:32:39 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay01.hostedemail.com (Postfix) with ESMTP id C315D100E7B65;
+        Wed, 12 Aug 2020 22:32:36 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:1801:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:4321:4605:5007:6742:6743:7875:9010:10004:10400:10848:11232:11233:11657:11658:11914:12043:12109:12297:12555:12740:12760:12895:12986:13069:13311:13357:13439:14096:14097:14181:14581:14659:14721:21080:21121:21627:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:5,LUA_SUMMARY:none
+X-HE-Tag: board29_4d052b526fef
+X-Filterd-Recvd-Size: 2655
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf16.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 12 Aug 2020 22:32:33 +0000 (UTC)
+Message-ID: <f5dedf2d8d8057de3eaa2f9126f44cebb0653b09.camel@perches.com>
+Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
+From:   Joe Perches <joe@perches.com>
+To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Date:   Wed, 12 Aug 2020 15:32:32 -0700
+In-Reply-To: <20200812203618.2656699-1-robh@kernel.org>
+References: <20200812203618.2656699-1-robh@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200622164352.605546-1-jacopo@jmondi.org>
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari, Mauro,
+On Wed, 2020-08-12 at 14:36 -0600, Rob Herring wrote:
+> Clean-up incorrect indentation, extra spaces, long lines, and missing
+> EOF newline in schema files. Most of the clean-ups are for list
+> indentation which should always be 2 spaces more than the preceding
+                                     ^
+> keyword.
+[]
+> diff --git a/Documentation/devicetree/bindings/arm/arm,integrator.yaml b/Documentation/devicetree/bindings/arm/arm,integrator.yaml
+> index 192ded470e32..f0daf990e077 100644
+> --- a/Documentation/devicetree/bindings/arm/arm,integrator.yaml
+> +++ b/Documentation/devicetree/bindings/arm/arm,integrator.yaml
+> @@ -67,9 +67,9 @@ patternProperties:
+>        compatible:
+>          items:
+>            - enum:
+> -            - arm,integrator-ap-syscon
+> -            - arm,integrator-cp-syscon
+> -            - arm,integrator-sp-syscon
+> +              - arm,integrator-ap-syscon
+> +              - arm,integrator-cp-syscon
+> +              - arm,integrator-sp-syscon
 
-Could we get this merged ? It fixes a v5.8 regression. It's obviously
-too late for v5.8, can we merge it as a v5.9 fix ?
+Confused a bit here.
+          - enum:
+	10 spaces to dash
+old line:
+            - arm,integrator-ap-syscon
+	12 spaces to dash
+new line:
+              - arm,integrator-ap-syscon
+	14 spaces to dash
 
-On Mon, Jun 22, 2020 at 06:43:52PM +0200, Jacopo Mondi wrote:
-> From: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> After the recent conversion of the media build infrastructure to select
-> V4L2 components instead of depending on their presence, which took place
-> in:
-> 32a363d0b0b14 ("media: Kconfig files: use select for V4L2 subdevs and MC")
-> 
-> imx214 stands out as being the (only?) media I2C driver that still depends
-> on a V4L2 core symbol instead of selecting it.
-> 
-> This confuses the build system which claims it has detected a circular
-> dependency when other drivers select the same symbol as the imx214
-> driver does.
-> 
-> drivers/media/i2c/Kconfig:728:error: recursive dependency detected!
-> drivers/media/i2c/Kconfig:728:	symbol VIDEO_IMX214 depends on V4L2_FWNODE
-> drivers/media/v4l2-core/Kconfig:71:	symbol V4L2_FWNODE is selected by VIDEO_BCM2835_UNICAM
-> drivers/media/platform/bcm2835/Kconfig:3:	symbol VIDEO_BCM2835_UNICAM depends on VIDEO_V4L2_SUBDEV_API
-> drivers/media/v4l2-core/Kconfig:19:	symbol VIDEO_V4L2_SUBDEV_API depends on MEDIA_CONTROLLER
-> drivers/media/Kconfig:168:	symbol MEDIA_CONTROLLER is selected by VIDEO_IMX214
-> 
-> Fix this by making the imx214 driver select V4L2_FWNODE instead of
-> depending on it and align it with all the other drivers.
-> 
-> Fixes: 32a363d0b0b14 ("media: Kconfig files: use select for V4L2 subdevs and MC")
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index da11036ad804d..6b1a6851ccb0b 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -728,7 +728,7 @@ config VIDEO_HI556
->  config VIDEO_IMX214
->  	tristate "Sony IMX214 sensor support"
->  	depends on GPIOLIB && I2C && VIDEO_V4L2
-> -	depends on V4L2_FWNODE
-> +	select V4L2_FWNODE
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select REGMAP_I2C
+Is it supposed to be 2 spaces more than the preceding line
+or 4 more?
 
--- 
-Regards,
 
-Laurent Pinchart
