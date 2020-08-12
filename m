@@ -2,183 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B85662424E5
-	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 06:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75315242745
+	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 11:13:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726264AbgHLEvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Aug 2020 00:51:24 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:43541 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726017AbgHLEvY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Aug 2020 00:51:24 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 24B575C008C
-        for <linux-media@vger.kernel.org>; Wed, 12 Aug 2020 00:51:23 -0400 (EDT)
-Received: from imap21 ([10.202.2.71])
-  by compute7.internal (MEProxy); Wed, 12 Aug 2020 00:51:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aeam.us; h=
-        mime-version:message-id:date:from:to:subject:content-type; s=
-        fm2; bh=KgiVN6qNw3AFEjPeWgeK2/Jceod0VXmpmBr5bPi5SEc=; b=dtpz3DCF
-        /EPBUldGNMzpAmfZYndjsAumWhTwPjoBCA0ecQPEH10eluaRTe+9IRbMPAKccRTH
-        +TslM9CeMEflJt8giDMH9C1Gs/MXMflrtA/uc5+0QfS+HL99JFk+zgLyQKS09o4w
-        XMmOs1RWspUkXbVVFvDFIO2O1e+yROrWglZWSx+TlEoRZ+UktYQbhgGbkm81NsEy
-        roUpLY2t83epzDRLQ2U+QmfX3o/OrgC1G+8RV0M+HXhWrREENZ7JgRWEjP9lGhi4
-        +qawY4H2bZ7nFvfPyZvq2Dra5HfA8RMb999P3+THUdjjRonettyUQu3s2hiaUiLn
-        QE330IJAgkoiXg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=content-type:date:from:message-id
-        :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=KgiVN6qNw3AFEjPeWgeK2/Jceod0V
-        XmpmBr5bPi5SEc=; b=PGieIn6Adl7pc2/l70tqdl9LBOTt0jIDihH9EMiQMUvea
-        gBPP679crDQkjG035OOLuIbrA/9RklrIx9y+7K3n5rMtfESIzZ6LMiq98+9mSDel
-        miV8egYiTHPzBfWyE0Y42Ipz3k7dW+b9gkEgOlwQ2CpBElWDUILIkr6Z9EgCiYaU
-        h84LgyGZ60SUX4L9RTI+UojvcgcnsGdkME5fKLtKBVWfuUepU0cSLPQxvEeRwDcF
-        WVHJEwZnitiTBtCWN6KGPZNjqV5Y7TD2fMeA3ThyfbBNpi6YyX0lif3hTtFBCIZK
-        5Sh5RUr5Fa1Aitld4PrDBJmS1d5dnd6z8n3RqsdAA==
-X-ME-Sender: <xms:S3UzX_GO2tIjVuBY7WY4imW73kVsbiO_p_s-Syl6gNy4EYksj1LaUQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrledugdeklecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkfffhvffutgesthdtredtre
-    ertdenucfhrhhomhepfdfuihguucfuphhrhidfuceoshhiugesrggvrghmrdhusheqnecu
-    ggftrfgrthhtvghrnhepueekheeiueeugeevvdejhfeiuefgvdekvdduvdegudfgheefve
-    dtgeetvdehudetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
-    rhhomhepshhiugesrggvrghmrdhush
-X-ME-Proxy: <xmx:S3UzX8V-nS8h0n3qM80GoVls7gjd5WbgXy37zcGyAi08Y0x54Z5A7w>
-    <xmx:S3UzXxJQ8HBkPFXSqElmxrE0KKGczI0ahx2Y967XgD4S1khian0kkQ>
-    <xmx:S3UzX9Gvva8sZC4N8ILgNoah9XXf41ORdtgZ8gQFr0aSYZrTrF4QAg>
-    <xmx:S3UzX6Xm73mZemSegQrYQAhSv7LPqbcV0f-Y8TlsF8aQgtewaQlbdA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 0CB0B660081; Wed, 12 Aug 2020 00:51:21 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.0-173-g8f9f77a-fm-20200811.001-g8f9f77a0
-Mime-Version: 1.0
-Message-Id: <7a6e72c8-26a0-44b0-b7c2-0ebc3850bebf@www.fastmail.com>
-Date:   Tue, 11 Aug 2020 23:50:59 -0500
-From:   "Sid Spry" <sid@aeam.us>
-To:     linux-media@vger.kernel.org
-Subject: Intermittent Snow Instead of Picture
-Content-Type: text/plain
+        id S1727113AbgHLJNm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Aug 2020 05:13:42 -0400
+Received: from mga18.intel.com ([134.134.136.126]:40183 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726601AbgHLJNm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Aug 2020 05:13:42 -0400
+IronPort-SDR: IfM3j/VTzCXBkQoI75MlQBxqfDzK01hSyuhaqHa7S2gAPk+o26uglB9/UJRKrEG+jR39aiW3GT
+ dd8+S8cZ1kAg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9710"; a="141534164"
+X-IronPort-AV: E=Sophos;i="5.76,303,1592895600"; 
+   d="scan'208";a="141534164"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2020 02:13:41 -0700
+IronPort-SDR: 52x4G4nxphbG7wbFf9Bhd4oVDxjk3eeTi2GzwyrdU60wWFA2d3CAQsChy4xOcdkN8m2MdKEtc0
+ MMvG43id3Lxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,303,1592895600"; 
+   d="scan'208";a="318027426"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
+  by fmsmga004.fm.intel.com with ESMTP; 12 Aug 2020 02:13:37 -0700
+Subject: Re: [PATCH v5 3/6] ov5670: Support probe whilst the device is in a
+ low power state
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <20200810142747.12400-1-sakari.ailus@linux.intel.com>
+ <20200810142747.12400-4-sakari.ailus@linux.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <7a1fa217-7fd1-1d36-0b1c-ad5d09ea11a0@linux.intel.com>
+Date:   Wed, 12 Aug 2020 17:12:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200810142747.12400-4-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I've a HDMI to USB capture card with VID:PID 534d:2109. There is no other
-identifiable information.  Captures work via mpv or ffplay. Captures also
-intermittently work when I use the v4l2 API directly.  If I use rust and
-libv4l-rs to do my captures they typically succeed unless I fail to stop
-streaming. With C the capture seems to go to fuzz even after I unplug/plug the
-capture card.
-
-Is there a list of errata for devices anywhere? Is there anything I should be
-doing?
-
-I've attached the code I am using, as stated sometimes I get real data. The
-data typically plays in ffplay/mpv but is colorful snow.
-
-===================================
-
-```c++
-
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <sys/mman.h>
-#include <sys/select.h>
-#include <sys/epoll.h>
-
-#include <linux/videodev2.h>
-#include <libv4l2.h>
-
-int main(int argc, char *argv[]) {
-	int fd = open("/dev/video0", O_RDWR);
-	// TODO: Status check.
-	
-	struct v4l2_capability caps = { 0 };
-	if (ioctl(fd, VIDIOC_QUERYCAP, &caps)) {
-		perror("VIDIOC_QUERYCAP");
-		exit(-1);
-	}
-
-	struct v4l2_format fmt = { 0 };
-	fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_MJPEG;
-	fmt.fmt.pix.width = 1920;
-	fmt.fmt.pix.width = 1080;
-	if (ioctl(fd, VIDIOC_S_FMT, &fmt)) {
-		perror("VIDIOC_S_FMT");
-		exit(-1);
-	}
-
-	struct v4l2_requestbuffers req = { 0 };
-	req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	req.memory = V4L2_MEMORY_MMAP;
-	req.count = 1;
-	if (ioctl(fd, VIDIOC_REQBUFS, &req)) {
-		perror("VIDIOC_REQBUFS");
-		exit(-1);
-	}
-
-	struct v4l2_buffer buf = { 0 };
-	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	buf.memory = V4L2_MEMORY_MMAP;
-	buf.index = 0;
-	if (ioctl(fd, VIDIOC_QUERYBUF, &buf)) {
-		perror("VIDIOC_QUERYBUF");
-		exit(-1);
-	}
-
-	uint8_t *buffer = (uint8_t *)mmap(NULL, buf.length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, buf.m.offset);
-	if (MAP_FAILED == buffer) {
-		perror("mmap");
-		exit(-1);
-	}
-
-	if (ioctl(fd, VIDIOC_STREAMON, &buf.type)) {
-		perror("VIDIOC_STREAMON");
-		exit(-1);
-	}
 
 
-	puts("await capture");
-	fd_set fds;
-	FD_ZERO(&fds);
-	FD_SET(fd, &fds);
-	struct timeval tv = { 0 };
+On 8/10/20 10:27 PM, Sakari Ailus wrote:
+> Tell ACPI device PM code that the driver supports the device being in a
+> low power state when the driver's probe function is entered.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ov5670.c | 23 ++++++++++++++---------
+>  1 file changed, 14 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> index f26252e35e08d..1f75b888d2a18 100644
+> --- a/drivers/media/i2c/ov5670.c
+> +++ b/drivers/media/i2c/ov5670.c
+> @@ -2456,6 +2456,7 @@ static int ov5670_probe(struct i2c_client *client)
+>  	struct ov5670 *ov5670;
+>  	const char *err_msg;
+>  	u32 input_clk = 0;
+> +	bool low_power;
+>  	int ret;
+>  
+>  	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
+> @@ -2472,11 +2473,14 @@ static int ov5670_probe(struct i2c_client *client)
+>  	/* Initialize subdev */
+>  	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
+>  
+> -	/* Check module identity */
+> -	ret = ov5670_identify_module(ov5670);
+> -	if (ret) {
+> -		err_msg = "ov5670_identify_module() error";
+> -		goto error_print;
+> +	low_power = acpi_dev_state_low_power(&client->dev);
+> +	if (!low_power) {
+> +		/* Check module identity */
+> +		ret = ov5670_identify_module(ov5670);
+> +		if (ret) {
+> +			err_msg = "ov5670_identify_module() error";
+> +			goto error_print;
+> +	
 
-	int outfd = open("output.mjpg", O_CREAT | O_WRONLY);
-	if (outfd < 0) {
-		perror("open");
-		exit(-1);
-	}
+Sakari, thanks for your patch.
+one question - With this change, there will be no chance for driver to guarantee
+that the camera sensor plugged in is the camera that the matched driver actually
+can drive until try to streaming the camera, so is it necessary to return
+appropriate error in .s_stream ops to notify user it is not the hardware that
+current driver can drive? if no other better way.
 
-	printf("%d %d %d\n", buf.m.offset, buf.length, buf.bytesused);
-
-	for (int i = 0; i < 600; i++) {
-		if (ioctl(fd, VIDIOC_QBUF, &buf)) {
-			perror("VIDIOC_QBUF");
-			exit(-1);
-		}
-
-		int rc = select(fd+1, &fds, NULL, NULL, &tv);
-	
-		if (ioctl(fd, VIDIOC_DQBUF, &buf)) {
-			perror("VIDIOC_DQBUF");
-			exit(-1);
-		}
-
-		write(outfd, &buffer[buf.m.offset], buf.bytesused);
-		fsync(outfd);
-		printf("%d %d %d\n", buf.m.offset, buf.length, buf.bytesused);
-	}
-
-	if (-1 == ioctl(fd, VIDIOC_STREAMOFF, &buf.type)) {
-		puts("VIDIOC_STREAMOFF");
-	}
-	close(fd);
-	return 0;
-}
+-- 
+Best regards,
+Bingbu Cao
