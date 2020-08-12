@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24784242345
-	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 02:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FEF4242343
+	for <lists+linux-media@lfdr.de>; Wed, 12 Aug 2020 02:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbgHLA14 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Aug 2020 20:27:56 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11653 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726624AbgHLA1x (ORCPT
+        id S1726642AbgHLA1z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Aug 2020 20:27:55 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4997 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726630AbgHLA1y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Aug 2020 20:27:53 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f33371f0001>; Tue, 11 Aug 2020 17:26:07 -0700
+        Tue, 11 Aug 2020 20:27:54 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f3337540000>; Tue, 11 Aug 2020 17:27:00 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 11 Aug 2020 17:27:53 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 11 Aug 2020 17:27:54 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 11 Aug 2020 17:27:53 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Aug
- 2020 00:27:53 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 12 Aug 2020 00:27:52 +0000
+        by hqpgpgate101.nvidia.com on Tue, 11 Aug 2020 17:27:54 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Aug
+ 2020 00:27:54 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 12 Aug 2020 00:27:53 +0000
 Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.172.8]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f3337870001>; Tue, 11 Aug 2020 17:27:52 -0700
+        id <B5f3337880000>; Tue, 11 Aug 2020 17:27:53 -0700
 From:   Sowjanya Komatineni <skomatineni@nvidia.com>
 To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
         <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
@@ -35,9 +35,9 @@ To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
 CC:     <digetx@gmail.com>, <gregkh@linuxfoundation.org>,
         <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v10 08/10] gpu: host1x: mipi: Keep MIPI clock enabled and mutex locked till calibration done
-Date:   Tue, 11 Aug 2020 17:27:19 -0700
-Message-ID: <1597192041-16949-9-git-send-email-skomatineni@nvidia.com>
+Subject: [PATCH v10 09/10] media: tegra-video: Add CSI MIPI pads calibration
+Date:   Tue, 11 Aug 2020 17:27:20 -0700
+Message-ID: <1597192041-16949-10-git-send-email-skomatineni@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1597192041-16949-1-git-send-email-skomatineni@nvidia.com>
 References: <1597192041-16949-1-git-send-email-skomatineni@nvidia.com>
@@ -45,133 +45,246 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1597191967; bh=LTS932fdLvwXI9om1DiK7LN0NCuI1nrSF4ze3h9IP80=;
+        t=1597192020; bh=+kvEcFG34evaa/Y1kAWSL7hbw2eIe8lTh4qIP/GUvs4=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:X-NVConfidentiality:MIME-Version:
          Content-Type;
-        b=ozcIGQkDMsNHsHTRmc/u8DrxAbJUjPuCB8miinv8cKRcJ2fXC/7v09eEK4xtSKfbt
-         B2XRySKuEmTyfFKqCuQCwBLXjKvivdJgfch/3hFLU6Bgcj0+/LV5zll39HglmPvxOt
-         8x4cDaDWQ1ykcsWe/rJuolNp2CGO9a7YW0Giqhpt5i2N739wZmz81mCSaN5/nhYQ8V
-         j45dq/XMlEu6MB6qcjzIMht6WLg6Qc7g+v2t/3dKTjQjm9vUELYUwcLOeU8Am6X3E6
-         o8G4AUTRZrBJ5nx6FCZwjNxJxIToNT5CVpL27MWMjS9W0+Ap9rqSB2CzPBnJPF9yt1
-         N1VNiDH/QJVmw==
+        b=EhFLlk7PuDC12cHHC3T0KnOnW+XhGp/Hx4NSGgrgLm5/TiWo9CwEVW+g3U85owlbs
+         A1/aplx3OI8JTKNyYmX2c4KFEm9C+yPjFGH4kLrxmkVwsULQsPnZch3rEhVbYXwOrF
+         Buvx8ymdU6v11ufr6sxD7359bPyYaE/7Fwusz1/PBEyOqV4cmWroAqCuxJkrZS3Thb
+         Jo3773RWXKtuUioH2wX4FLV+vbBObMdHngzDIevBBhm51s4hN8WAAPLwisIj4CoHCr
+         aqKZTPKdn3Ay3mL2Ard61/KkuTLvzuM9Rl9MXMqAJX/PQBGxzYYYIYT86jNB5ggN3U
+         zrxHndQiRLJLA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With the split of MIPI calibration into tegra_mipi_calibrate() and
-tegra_mipi_wait(), MIPI clock is not kept enabled and mutex is not locked
-till the calibration is done.
+CSI MIPI pads need to be enabled and calibrated for capturing from
+the external sensor or transmitter.
 
-So, this patch keeps MIPI clock enabled and mutex locked after triggering
-start of calibration till its done.
+MIPI CAL unit calibrates MIPI pads pull-up, pull-down and termination
+impedances. Calibration is done by co-work of MIPI BIAS pad and MIPI
+CAL control unit.
 
-To let calibration process go through its finite sequence codes before
-calibration logic waiting for pads idle state added wait time of 75usec
-to make sure it sees idle state to apply the results.
+Triggering calibration start can happen any time after MIPI pads are
+enabled but calibration results will be latched and applied to MIPI
+pads by MIPI CAL unit only when the link is in LP11 state and then
+calibration status register gets updated.
 
-This patch renames tegra_mipi_calibrate() as tegra_mipi_start_calibration()
-and tegra_mipi_wait() as tegra_mipi_finish_calibration() to be inline
-with their usage.
+This patch enables CSI MIPI pads and calibrates them during streaming.
+
+Tegra CSI receiver is able to catch the very first clock transition.
+So, CSI receiver is always enabled prior to sensor streaming and
+trigger of calibration start is done during CSI subdev streaming and
+status of calibration is verified after sensor stream on.
 
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 ---
- drivers/gpu/drm/tegra/dsi.c |  4 ++--
- drivers/gpu/host1x/mipi.c   | 22 ++++++++++------------
- include/linux/host1x.h      |  4 ++--
- 3 files changed, 14 insertions(+), 16 deletions(-)
+ drivers/staging/media/tegra-video/TODO  |  1 -
+ drivers/staging/media/tegra-video/csi.c | 61 +++++++++++++++++++++++++++++++--
+ drivers/staging/media/tegra-video/csi.h |  2 ++
+ drivers/staging/media/tegra-video/vi.c  | 29 +++++++++++++---
+ 4 files changed, 84 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index 3820e8d..a7864e9 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -694,11 +694,11 @@ static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
- 		DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
- 	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
+diff --git a/drivers/staging/media/tegra-video/TODO b/drivers/staging/media/tegra-video/TODO
+index 97a19b4..98d3c7d 100644
+--- a/drivers/staging/media/tegra-video/TODO
++++ b/drivers/staging/media/tegra-video/TODO
+@@ -1,5 +1,4 @@
+ TODO list
+-* Add Tegra CSI MIPI pads calibration.
+ * Add MIPI clock Settle time computation based on the data rate.
+ * Add support for Ganged mode.
+ * Add RAW10 packed video format support to Tegra210 video formats.
+diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+index 4176933..7e154f9 100644
+--- a/drivers/staging/media/tegra-video/csi.c
++++ b/drivers/staging/media/tegra-video/csi.c
+@@ -240,7 +240,7 @@ static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
+ 	struct tegra_vi_channel *chan = v4l2_get_subdev_hostdata(subdev);
+ 	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
+ 	struct tegra_csi *csi = csi_chan->csi;
+-	int ret;
++	int ret, err;
  
--	err = tegra_mipi_calibrate(dsi->mipi);
-+	err = tegra_mipi_start_calibration(dsi->mipi);
- 	if (err < 0)
- 		return err;
+ 	ret = pm_runtime_get_sync(csi->dev);
+ 	if (ret < 0) {
+@@ -249,13 +249,47 @@ static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
+ 		return ret;
+ 	}
  
--	return tegra_mipi_wait(dsi->mipi);
-+	return tegra_mipi_finish_calibration(dsi->mipi);
- }
- 
- static void tegra_dsi_set_timeout(struct tegra_dsi *dsi, unsigned long bclk,
-diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
-index e606464..2efe12d 100644
---- a/drivers/gpu/host1x/mipi.c
-+++ b/drivers/gpu/host1x/mipi.c
-@@ -293,19 +293,13 @@ int tegra_mipi_disable(struct tegra_mipi_device *dev)
- }
- EXPORT_SYMBOL(tegra_mipi_disable);
- 
--int tegra_mipi_wait(struct tegra_mipi_device *device)
-+int tegra_mipi_finish_calibration(struct tegra_mipi_device *device)
- {
- 	struct tegra_mipi *mipi = device->mipi;
- 	void __iomem *status_reg = mipi->regs + (MIPI_CAL_STATUS << 2);
- 	u32 value;
- 	int err;
- 
--	err = clk_enable(device->mipi->clk);
--	if (err < 0)
--		return err;
--
--	mutex_lock(&device->mipi->lock);
--
- 	err = readl_relaxed_poll_timeout(status_reg, value,
- 					 !(value & MIPI_CAL_STATUS_ACTIVE) &&
- 					 (value & MIPI_CAL_STATUS_DONE), 50,
-@@ -315,9 +309,9 @@ int tegra_mipi_wait(struct tegra_mipi_device *device)
- 
- 	return err;
- }
--EXPORT_SYMBOL(tegra_mipi_wait);
-+EXPORT_SYMBOL(tegra_mipi_finish_calibration);
- 
--int tegra_mipi_calibrate(struct tegra_mipi_device *device)
-+int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
- {
- 	const struct tegra_mipi_soc *soc = device->mipi->soc;
- 	unsigned int i;
-@@ -381,12 +375,16 @@ int tegra_mipi_calibrate(struct tegra_mipi_device *device)
- 	value |= MIPI_CAL_CTRL_START;
- 	tegra_mipi_writel(device->mipi, value, MIPI_CAL_CTRL);
- 
--	mutex_unlock(&device->mipi->lock);
--	clk_disable(device->mipi->clk);
-+	/*
-+	 * Wait for min 72uS to let calibration logic finish calibration
-+	 * sequence codes before waiting for pads idle state to apply the
-+	 * results.
-+	 */
-+	usleep_range(75, 80);
++	if (csi_chan->mipi) {
++		ret = tegra_mipi_enable(csi_chan->mipi);
++		if (ret < 0) {
++			dev_err(csi->dev,
++				"failed to enable MIPI pads: %d\n", ret);
++			goto rpm_put;
++		}
++
++		/*
++		 * CSI MIPI pads PULLUP, PULLDN and TERM impedances need to
++		 * be calibrated after power on.
++		 * So, trigger the calibration start here and results will
++		 * be latched and applied to the pads when link is in LP11
++		 * state during start of sensor streaming.
++		 */
++		ret = tegra_mipi_start_calibration(csi_chan->mipi);
++		if (ret < 0) {
++			dev_err(csi->dev,
++				"failed to start MIPI calibration: %d\n", ret);
++			goto disable_mipi;
++		}
++	}
++
+ 	csi_chan->pg_mode = chan->pg_mode;
+ 	ret = csi->ops->csi_start_streaming(csi_chan);
+ 	if (ret < 0)
+-		goto rpm_put;
++		goto finish_calibration;
  
  	return 0;
+ 
++finish_calibration:
++	if (csi_chan->mipi)
++		tegra_mipi_finish_calibration(csi_chan->mipi);
++disable_mipi:
++	if (csi_chan->mipi) {
++		err = tegra_mipi_disable(csi_chan->mipi);
++		if (err < 0)
++			dev_err(csi->dev,
++				"failed to disable MIPI pads: %d\n", err);
++	}
++
+ rpm_put:
+ 	pm_runtime_put(csi->dev);
+ 	return ret;
+@@ -265,9 +299,17 @@ static int tegra_csi_disable_stream(struct v4l2_subdev *subdev)
+ {
+ 	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
+ 	struct tegra_csi *csi = csi_chan->csi;
++	int err;
+ 
+ 	csi->ops->csi_stop_streaming(csi_chan);
+ 
++	if (csi_chan->mipi) {
++		err = tegra_mipi_disable(csi_chan->mipi);
++		if (err < 0)
++			dev_err(csi->dev,
++				"failed to disable MIPI pads: %d\n", err);
++	}
++
+ 	pm_runtime_put(csi->dev);
+ 
+ 	return 0;
+@@ -313,6 +355,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+ 				   unsigned int num_pads)
+ {
+ 	struct tegra_csi_channel *chan;
++	int ret = 0;
+ 
+ 	chan = kzalloc(sizeof(*chan), GFP_KERNEL);
+ 	if (!chan)
+@@ -331,7 +374,16 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+ 		chan->pads[0].flags = MEDIA_PAD_FL_SOURCE;
+ 	}
+ 
+-	return 0;
++	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
++		return 0;
++
++	chan->mipi = tegra_mipi_request(csi->dev, node);
++	if (IS_ERR(chan->mipi)) {
++		ret = PTR_ERR(chan->mipi);
++		dev_err(csi->dev, "failed to get mipi device: %d\n", ret);
++	}
++
++	return ret;
  }
--EXPORT_SYMBOL(tegra_mipi_calibrate);
-+EXPORT_SYMBOL(tegra_mipi_start_calibration);
  
- static const struct tegra_mipi_pad tegra114_mipi_pads[] = {
- 	{ .data = MIPI_CAL_CONFIG_CSIA },
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 20c885d..ce59a6a 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -333,7 +333,7 @@ struct tegra_mipi_device *tegra_mipi_request(struct device *device,
- void tegra_mipi_free(struct tegra_mipi_device *device);
- int tegra_mipi_enable(struct tegra_mipi_device *device);
- int tegra_mipi_disable(struct tegra_mipi_device *device);
--int tegra_mipi_calibrate(struct tegra_mipi_device *device);
--int tegra_mipi_wait(struct tegra_mipi_device *device);
-+int tegra_mipi_start_calibration(struct tegra_mipi_device *device);
-+int tegra_mipi_finish_calibration(struct tegra_mipi_device *device);
+ static int tegra_csi_tpg_channels_alloc(struct tegra_csi *csi)
+@@ -503,6 +555,9 @@ static void tegra_csi_channels_cleanup(struct tegra_csi *csi)
+ 	struct tegra_csi_channel *chan, *tmp;
  
- #endif
+ 	list_for_each_entry_safe(chan, tmp, &csi->csi_chans, list) {
++		if (chan->mipi)
++			tegra_mipi_free(chan->mipi);
++
+ 		subdev = &chan->subdev;
+ 		if (subdev->dev) {
+ 			if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
+index 78a5110..0d50fc3 100644
+--- a/drivers/staging/media/tegra-video/csi.h
++++ b/drivers/staging/media/tegra-video/csi.h
+@@ -50,6 +50,7 @@ struct tegra_csi;
+  * @framerate: active framerate for TPG
+  * @h_blank: horizontal blanking for TPG active format
+  * @v_blank: vertical blanking for TPG active format
++ * @mipi: mipi device for corresponding csi channel pads
+  */
+ struct tegra_csi_channel {
+ 	struct list_head list;
+@@ -65,6 +66,7 @@ struct tegra_csi_channel {
+ 	unsigned int framerate;
+ 	unsigned int h_blank;
+ 	unsigned int v_blank;
++	struct tegra_mipi_device *mipi;
+ };
+ 
+ /**
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 29a172f..5543ead 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -191,7 +191,8 @@ tegra_channel_get_remote_source_subdev(struct tegra_vi_channel *chan)
+ static int tegra_channel_enable_stream(struct tegra_vi_channel *chan)
+ {
+ 	struct v4l2_subdev *csi_subdev, *src_subdev;
+-	int ret;
++	struct tegra_csi_channel *csi_chan;
++	int ret, err;
+ 
+ 	/*
+ 	 * Tegra CSI receiver can detect the first LP to HS transition.
+@@ -206,14 +207,32 @@ static int tegra_channel_enable_stream(struct tegra_vi_channel *chan)
+ 	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+ 		return 0;
+ 
++	csi_chan = v4l2_get_subdevdata(csi_subdev);
++	/*
++	 * TRM has incorrectly documented to wait for done status from
++	 * calibration logic after CSI interface power on.
++	 * As per the design, calibration results are latched and applied
++	 * to the pads only when the link is in LP11 state which will happen
++	 * during the sensor stream-on.
++	 * CSI subdev stream-on triggers start of MIPI pads calibration.
++	 * Wait for calibration to finish here after sensor subdev stream-on.
++	 */
+ 	src_subdev = tegra_channel_get_remote_source_subdev(chan);
+ 	ret = v4l2_subdev_call(src_subdev, video, s_stream, true);
+-	if (ret < 0 && ret != -ENOIOCTLCMD) {
+-		v4l2_subdev_call(csi_subdev, video, s_stream, false);
+-		return ret;
+-	}
++	err = tegra_mipi_finish_calibration(csi_chan->mipi);
++
++	if (ret < 0 && ret != -ENOIOCTLCMD)
++		goto err_disable_csi_stream;
++
++	if (err < 0)
++		dev_warn(csi_chan->csi->dev,
++			 "MIPI calibration failed: %d\n", err);
+ 
+ 	return 0;
++
++err_disable_csi_stream:
++	v4l2_subdev_call(csi_subdev, video, s_stream, false);
++	return ret;
+ }
+ 
+ static int tegra_channel_disable_stream(struct tegra_vi_channel *chan)
 -- 
 2.7.4
 
