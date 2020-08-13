@@ -2,92 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A22E2440F0
-	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 23:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BC1A2440F3
+	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 23:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbgHMVzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Aug 2020 17:55:12 -0400
-Received: from mga14.intel.com ([192.55.52.115]:14131 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726205AbgHMVzL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Aug 2020 17:55:11 -0400
-IronPort-SDR: gOPz0Lvuug6nd1lJdswMAqWMhhBtUFKPsjzu/am1tY783wvP2SbKbFUh0sBK0fqN+gngr6EzV4
- jVjgp9d2pFLw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9712"; a="153553652"
-X-IronPort-AV: E=Sophos;i="5.76,309,1592895600"; 
-   d="scan'208";a="153553652"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 14:55:11 -0700
-IronPort-SDR: eFLGK9y2LhwRrxsytEDwPP051lVfVP+dpt0KjHb75lXCYyXcYKVqPqMpdoioqBZ2YmEMynbXqh
- X2cMxAmFJSyQ==
-X-IronPort-AV: E=Sophos;i="5.76,309,1592895600"; 
-   d="scan'208";a="325544031"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 14:55:08 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 34D0620699; Fri, 14 Aug 2020 00:55:05 +0300 (EEST)
-Date:   Fri, 14 Aug 2020 00:55:05 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: linux-next: Tree for Aug 13 (drivers/media/i2c/max9286.c)
-Message-ID: <20200813215505.GC24582@paasikivi.fi.intel.com>
-References: <20200813165846.27887669@canb.auug.org.au>
- <17a1c5aa-2f38-c84d-bf2d-485862dc0615@infradead.org>
- <3262a9fc-46e2-3109-3764-e7153edf486d@ideasonboard.com>
+        id S1726570AbgHMVzy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Aug 2020 17:55:54 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:37798 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbgHMVzy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 Aug 2020 17:55:54 -0400
+Received: by mail-il1-f195.google.com with SMTP id p13so6851553ilh.4
+        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 14:55:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gCC5drV34nnZQ2cGRcrqK8G/cSWqXf7L4O/Ca2yLTDQ=;
+        b=IDig0VLun+jRAcvMr3hejrtENPkB0AlgvWi1K/03X+j4fgoWCeoG6QQE9wgvwwdOg1
+         mHVCHKS/LzvBvOal+x88LKNroBXgnssDtwn37b5WKaDwDdVjEaM+2uaYn/y3dYC+OhhU
+         Y8+KGgK+qauk7SXQ8fl4oVeUXfTvqUy6+gG2FfoAjOgVdK9MtcWooDO7f6TgYY0I5PZr
+         jw9i72AhUSIU3BgHrOV5ePG2g/ezWtPNhA8SH1RlF6WLA5bJpvGOLZgOSzFQCdLFvY/g
+         AM9lDaqT2JbDkngwCbb+4snxAyyhc19+S3Fz9VNqpqlvX57+FmsbzuMYWw+m53EvoFRi
+         52kg==
+X-Gm-Message-State: AOAM530HKwAvuKD4tO+xHqaYnrwM2UfJH3BayHmhDFXJShmQ+4o+kdH5
+        GS7StXOfIt2dEuw/zuHeMAC0ykT7X2U=
+X-Google-Smtp-Source: ABdhPJznIeAwU1D/S7PcaaVLq6j2S69Hkq1tiZNi9R1MvO8Moo0PltRd65kZUMsMOdc22WkhT0vBzA==
+X-Received: by 2002:a92:5f87:: with SMTP id i7mr6112439ill.67.1597355753326;
+        Thu, 13 Aug 2020 14:55:53 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id z9sm3561259ioq.52.2020.08.13.14.55.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2020 14:55:51 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 07BF5403DC; Thu, 13 Aug 2020 21:55:51 +0000 (UTC)
+Date:   Thu, 13 Aug 2020 21:55:51 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Lukas Middendorf <kernel@tuxforce.de>
+Cc:     linux-media@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 2/2] media: si2168: also cache Si2168 B40 fallback
+ firmware
+Message-ID: <20200813215551.GA4332@42.do-not-panic.com>
+References: <20200813214538.8474-1-kernel@tuxforce.de>
+ <20200813214538.8474-2-kernel@tuxforce.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3262a9fc-46e2-3109-3764-e7153edf486d@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200813214538.8474-2-kernel@tuxforce.de>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
-
-On Thu, Aug 13, 2020 at 08:01:01PM +0100, Kieran Bingham wrote:
-> Hi Randy,
+On Thu, Aug 13, 2020 at 11:45:38PM +0200, Lukas Middendorf wrote:
+> we can not know beforehand whether we have to access that firmware
+> file during resume. We just request the caching so we don't run
+> into any problems later
 > 
-> On 13/08/2020 19:35, Randy Dunlap wrote:
-> > On 8/12/20 11:58 PM, Stephen Rothwell wrote:
-> >> Hi all,
-> >>
-> >> News: The merge window has opened, so please do not add any v5.10
-> >> related material to your linux-next included branches until after the
-> >> merge window closes again.
-> >>
-> >> Changes since 20200812:
-> >>
-> > 
-> > on x86_64:
-> > 
-> > # CONFIG_GPIOLIB is not set
-> > 
-> > ../drivers/media/i2c/max9286.c: In function 'max9286_register_gpio':
-> > ../drivers/media/i2c/max9286.c:1033:6: error: 'struct gpio_chip' has no member named 'of_node'
-> >   gpio->of_node = dev->of_node;
-> > 
-> 
-> Thanks for the report, Sakari has already submitted a fix [0] for this.
-> I assume it just needs a nudge to get picked up via Mauro's tree.
-> 
-> [0]
-> https://lore.kernel.org/linux-media/20200803090935.23619-1-sakari.ailus@linux.intel.com/
+> Signed-off-by: Lukas Middendorf <kernel@tuxforce.de>
 
-Yes. I'll send a pull request soon.
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
 
--- 
-Sakari Ailus
+  Luis
