@@ -2,88 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 693BB24345C
-	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 09:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23A36243563
+	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 09:51:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726044AbgHMHHV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Aug 2020 03:07:21 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:42465 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725982AbgHMHHV (ORCPT
+        id S1726796AbgHMHvK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Aug 2020 03:51:10 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38760 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726106AbgHMHvJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Aug 2020 03:07:21 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 67KXktTIyuuXO67KYkGQNS; Thu, 13 Aug 2020 09:07:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597302439; bh=UGlFFv7HbytGbkkikidK2sMtHAiyG+eFIqBJH2BEHKA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FNlNEMF/JJ3DxONZvgf39l8lUWN+Tu0lDuvUvb50W1fLg/Z0QoFGiJ+OTrPgmQZMJ
-         qiLQkpXL4v7pvyK8FsJQEAQsKF6joqAP3/rlFfFyFhSWumncD4BY5eH3XL9BQWPkzP
-         U4fwwzKBoQnoaK7ZQMpeF7WGptAxl1tC7EsX81/bohNYry23dDtmfj9bay15fhkLp8
-         QW/9w+ykv7UAcSSx5EEM1dYM0fq6qP+7l985hQT4UF7XG8/0GGLe2CiPb2tqiqIev4
-         7vQ96uC4z2aYJ82qNFuABUbGFTKxxq2udni7oFv2tHI24JAis7/Yj38jRpzHkPlgoM
-         Gq+0ezH/f0Tnw==
-Subject: Re: [PATCH for v5.8] vicodec: add missing v4l2_ctrl_request_hdl_put()
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <60cb280b-fb2a-86f6-aefb-cc12386b3adf@xs4all.nl>
- <CAAEAJfBAgpXpe7XR-y7uMLT2-O69+M+6Ri06zhum79VHUf+d_A@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <07dc02b8-ea31-af86-2182-55114b0a8a35@xs4all.nl>
-Date:   Thu, 13 Aug 2020 09:07:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 13 Aug 2020 03:51:09 -0400
+Received: by mail-ot1-f65.google.com with SMTP id q9so4110499oth.5;
+        Thu, 13 Aug 2020 00:51:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eU62SrftExeZEPFtSlHLsBRzbUkLx1KNOgZc6VKFeBQ=;
+        b=RKVY0mqqakUrEXk4TORV8A5/ZSMY0dexhKfXyaOKBp8tYT6+lN9tMY1gCu59dMSnI/
+         6Av5sXCLtCtfska6KBUfoUvPLN8QSlHGcwX+BKv8ZNWhNtirhMGElzBnWp56J7vtBCeA
+         RTsTm+tpM0JqO6hs1Zx9oL0KiDPnHu2wr8nXIFBaGz9jqMUEyZCYMyj21d8ckpZmX8IH
+         sIyh51oPoVvqSR3qDoGMDZJhbXuz4s9KHdaT9j4oPeIaqxws0OL9u53GcL8uZhE7hrov
+         ikjJM0LMxR/OG4BC9tZAySXGXWwQpPbcG9j3oyJJCCrBhecUJhWEIB5ZPymwSBlP+imO
+         EXuw==
+X-Gm-Message-State: AOAM531KpbVTNZA6DQGhlLakjE36ZGk11NQSWXrXhgb2m/BrbDAUDZAN
+        GTNNlK5/qceLxjH+paJhJQLuqYhFPre+GsLWPoc=
+X-Google-Smtp-Source: ABdhPJzAAKS8g3t/W5mSJd2Vboc2FEvoNvVXoru7u4kNP7jabPCwVCki2JjTk/fEfMzVv8QAFC24k07bLAU2LYhSK+k=
+X-Received: by 2002:a05:6830:1b79:: with SMTP id d25mr2990956ote.107.1597305067462;
+ Thu, 13 Aug 2020 00:51:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAAEAJfBAgpXpe7XR-y7uMLT2-O69+M+6Ri06zhum79VHUf+d_A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKwGI4tdXxBFkeT9fx7b9/xf+9oQjoc/8Vk9yAyZmWaF3GJFsMgSNSDKWyswhm2axYJT5SywR9c+j3PENCrD4L2PIVf++wkYTPCvbg2L7q03MC7mFFGt
- +4ONTL4ghcVuiYjLyLNTmU9WoAX7uAPkNMJcUMgh3r0nlEtYy3t44bmS2ugfeXCdOkOoXurwo3ZE4VB048Slup6RCRezJVNOCnWL2fs6wi6RGqhtiHdA/k6a
- fjXUTzSS9HPynDWgbdEmyXx8HwhfQGB+7m/Mw64yA2e947lBZWB79FLSgcru2K8Mtsi/awgFQibg4Ih9VNNlTg==
+References: <20200812203618.2656699-1-robh@kernel.org>
+In-Reply-To: <20200812203618.2656699-1-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 13 Aug 2020 09:50:55 +0200
+Message-ID: <CAMuHMdVXvSRF-G_TYu4P+Bqa2FZJWsUCyzqFur3Rb-tBExfbsw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
+To:     Rob Herring <robh@kernel.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-hwmon@vger.kernel.org,
+        linux-rtc@vger.kernel.org,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-iio@vger.kernel.org,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
+        <linux-remoteproc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        linux-input@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/08/2020 21:53, Ezequiel Garcia wrote:
-> On Wed, 12 Aug 2020 at 07:30, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> The check for a required control in the request was missing a call to
->> v4l2_ctrl_request_hdl_put(), so the control request object was never
->> released.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Fixes: 997deb811bf5 ("media: vicodec: Add support for stateless decoder.")
-> 
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> 
-> Seems there's a similar leak in cedrus_request_validate error path,
-> when v4l2_ctrl_request_hdl_ctrl_find fails.
+Hi Rob,
 
-Correct. Will you make a patch for that?
+On Wed, Aug 12, 2020 at 10:36 PM Rob Herring <robh@kernel.org> wrote:
+> Clean-up incorrect indentation, extra spaces, long lines, and missing
+> EOF newline in schema files. Most of the clean-ups are for list
+> indentation which should always be 2 spaces more than the preceding
+> keyword.
+>
+> Found with yamllint (which I plan to integrate into the checks).
 
-Regards,
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-	Hans
+Thanks for your patch!
 
-> 
-> Cheers,
-> Ezequiel
-> 
->> ---
->> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
->> index 8941d73f6611..71928e30dae8 100644
->> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
->> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
->> @@ -1994,6 +1994,7 @@ static int vicodec_request_validate(struct media_request *req)
->>         }
->>         ctrl = v4l2_ctrl_request_hdl_ctrl_find(hdl,
->>                                                vicodec_ctrl_stateless_state.id);
->> +       v4l2_ctrl_request_hdl_put(hdl);
->>         if (!ctrl) {
->>                 v4l2_info(&ctx->dev->v4l2_dev,
->>                           "Missing required codec control\n");
+> --- a/Documentation/devicetree/bindings/clock/renesas,cpg-clocks.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-clocks.yaml
+> @@ -24,9 +24,9 @@ properties:
+>        - const: renesas,r8a7778-cpg-clocks # R-Car M1
+>        - const: renesas,r8a7779-cpg-clocks # R-Car H1
+>        - items:
+> -        - enum:
+> -            - renesas,r7s72100-cpg-clocks # RZ/A1H
+> -        - const: renesas,rz-cpg-clocks    # RZ/A1
+> +          - enum:
+> +              - renesas,r7s72100-cpg-clocks # RZ/A1H
+> +          - const: renesas,rz-cpg-clocks    # RZ/A1
 
+This change breaks alignment of the comments at the end of each line.
+
+>        - const: renesas,sh73a0-cpg-clocks  # SH-Mobile AG5
+
+(I only checked the files I care about)
+
+If you don't update commit  e0fe7fc6f2ca0781 ("dt-bindings: Whitespace
+clean-ups in schema files"), I can send a patch after v5.9-rc1.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
