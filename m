@@ -2,74 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68C422440DB
-	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 23:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 077BE2440EA
+	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 23:52:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726578AbgHMVrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Aug 2020 17:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53400 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726192AbgHMVrU (ORCPT
+        id S1726637AbgHMVwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Aug 2020 17:52:02 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:45382 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726578AbgHMVwB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Aug 2020 17:47:20 -0400
-Received: from mail.tuxforce.de (tuxforce.de [IPv6:2a00:5080:1:16d::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC2CDC061757
-        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 14:47:20 -0700 (PDT)
-Received: from desktop.fritz.box (2001-4dd5-ac5b-0-6dff-1ee7-1f0b-53a0.ipv6dyn.netcologne.de [IPv6:2001:4dd5:ac5b:0:6dff:1ee7:1f0b:53a0])
-        by mail.tuxforce.de (Postfix) with ESMTPSA id 88BEA52008B;
-        Thu, 13 Aug 2020 23:47:19 +0200 (CEST)
-From:   Lukas Middendorf <kernel@tuxforce.de>
-To:     linux-media@vger.kernel.org
-Cc:     Antti Palosaari <crope@iki.fi>,
+        Thu, 13 Aug 2020 17:52:01 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 4BEDF634C87;
+        Fri, 14 Aug 2020 00:51:18 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1k6L82-0001jW-43; Fri, 14 Aug 2020 00:51:18 +0300
+Date:   Fri, 14 Aug 2020 00:51:18 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Lukas Middendorf <kernel@tuxforce.de>
-Subject: [PATCH 2/2] media: si2168: also cache Si2168 B40 fallback firmware
-Date:   Thu, 13 Aug 2020 23:45:38 +0200
-Message-Id: <20200813214538.8474-2-kernel@tuxforce.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200813214538.8474-1-kernel@tuxforce.de>
-References: <20200813214538.8474-1-kernel@tuxforce.de>
+        Maxime Ripard <maxime@cerno.tech>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH] media: ov5640: Correct Bit Div register in clock tree
+ diagram
+Message-ID: <20200813215117.GI840@valkosipuli.retiisi.org.uk>
+References: <20200803090658.10073-1-paul.kocialkowski@bootlin.com>
+ <20200805125113.rhrhy6j6uccv3jmz@uno.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200805125113.rhrhy6j6uccv3jmz@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-we can not know beforehand whether we have to access that firmware
-file during resume. We just request the caching so we don't run
-into any problems later
+On Wed, Aug 05, 2020 at 02:51:13PM +0200, Jacopo Mondi wrote:
+> Hi Paul,
+> 
+> On Mon, Aug 03, 2020 at 11:06:58AM +0200, Paul Kocialkowski wrote:
+> > Although the code is correct and doing the right thing, the clock diagram
+> > showed the wrong register for the bit divider, which had me doubting the
+> > understanding of the tree. Fix this to avoid doubts in the future.
+> 
+> Thanks for spotting this! Correct indeed!
+> 
+> I'm not sure it's worth a fixes tag, but just in case:
+> Fixes: aa2882481cada ("media: ov5640: Adjust the clock based on the expected rate")
 
-Signed-off-by: Lukas Middendorf <kernel@tuxforce.de>
----
- drivers/media/dvb-frontends/si2168.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Added that.
 
-diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-index ea4b2d91697e..f2dd1deb75ff 100644
---- a/drivers/media/dvb-frontends/si2168.c
-+++ b/drivers/media/dvb-frontends/si2168.c
-@@ -768,6 +768,19 @@ static int si2168_probe(struct i2c_client *client,
- 				dev->firmware_name);
- 	}
- 
-+	/* also request caching of fw for Si2168 B40 under its old file name.
-+	 * Since we can't know now whether we might have to access that file,
-+	 * we just make sure we have that covered
-+	 */
-+	if (dev->chip_id == SI2168_CHIP_ID_B40) {
-+		ret = firmware_request_cache(&client->dev, SI2168_B40_FIRMWARE_FALLBACK);
-+		if (ret) {
-+			dev_err(&client->dev,
-+					"firmware caching for '%s' failed\n",
-+					SI2168_B40_FIRMWARE_FALLBACK);
-+		}
-+	}
-+
- 	return 0;
- err_kfree:
- 	kfree(dev);
+> 
+> 
+> Acked-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks, Paul and Jacopo!
+
 -- 
-2.26.2
-
+Sakari Ailus
