@@ -2,197 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E148243A8E
-	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 15:10:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20596243AC3
+	for <lists+linux-media@lfdr.de>; Thu, 13 Aug 2020 15:24:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbgHMNKL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Aug 2020 09:10:11 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41048 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726427AbgHMNKH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Aug 2020 09:10:07 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3901480C;
-        Thu, 13 Aug 2020 15:10:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597324204;
-        bh=rkyxbulFjuvXkf+OK5ZqXHOYMV3dor0xfrpa2QqmZs8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cW6rUTglzMFTMYYANXjcpp5E19NsuA5SrOlDQRpLBurDZLm5Fgrd/lNhCkjjeHWRx
-         SqSvdbef8rdkuPgyjDeBeKs6RKrw6wcD2e/cV/d5m/mmgDr5LQ0UtcLGW8DS2nt2n/
-         ELktOYXvPSEsW/62bqDrnkMh10vCmeHiYbEfvcUA=
-Date:   Thu, 13 Aug 2020 16:09:50 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH 3/3] media: staging: rkisp1: params: in 'stop_streaming'
- don't release the lock while returning buffers
-Message-ID: <20200813130950.GI6057@pendragon.ideasonboard.com>
-References: <e269f2f5-c24c-7009-e624-3545af206709@arm.com>
- <CAAFQd5AsJG=YJC4eG6+qdt_dPyr-dwcXrmujxLaHfoe9==Es1g@mail.gmail.com>
- <e680474a-1b47-7904-b7ab-5a026d0db05f@collabora.com>
- <CAAFQd5CHK+c=zED-evW3sqgF+WpuAYW6M8kvPZCVCrf2_KHG8A@mail.gmail.com>
- <16ea1aba-0b0d-6bcf-8e72-5e253ead9218@arm.com>
- <4d90a5d1-25a7-ab49-f3e5-2d54b6b8ecba@collabora.com>
- <20200813105314.GA6258@pendragon.ideasonboard.com>
- <CAAFQd5CAV7=7reKcwts=9C581xn1B4skTMocstCTctiJtW9=7w@mail.gmail.com>
- <20200813130220.GH6057@pendragon.ideasonboard.com>
- <CAAFQd5BQWMnpaM4DtACTVyNuSLS4c5-zvy4UQmmoyGHRpw7n8g@mail.gmail.com>
+        id S1726174AbgHMNYQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Aug 2020 09:24:16 -0400
+Received: from gofer.mess.org ([88.97.38.141]:36031 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726053AbgHMNYP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 Aug 2020 09:24:15 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id D6734C63F9; Thu, 13 Aug 2020 14:24:13 +0100 (BST)
+Date:   Thu, 13 Aug 2020 14:24:13 +0100
+From:   Sean Young <sean@mess.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     linux-media@vger.kernel.org, kbuild-all@lists.01.org
+Subject: Re: [PATCH] media: gpio-ir-tx: spinlock is not needed to disable
+ interrupts
+Message-ID: <20200813132413.GA8764@gofer.mess.org>
+References: <20200813101841.5526-1-sean@mess.org>
+ <202008132017.SmCLPNwW%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAFQd5BQWMnpaM4DtACTVyNuSLS4c5-zvy4UQmmoyGHRpw7n8g@mail.gmail.com>
+In-Reply-To: <202008132017.SmCLPNwW%lkp@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
-
-On Thu, Aug 13, 2020 at 03:05:09PM +0200, Tomasz Figa wrote:
-> On Thu, Aug 13, 2020 at 3:02 PM Laurent Pinchart wrote:
-> > On Thu, Aug 13, 2020 at 02:50:17PM +0200, Tomasz Figa wrote:
-> >> On Thu, Aug 13, 2020 at 12:53 PM Laurent Pinchart wrote:
-> >>> On Thu, Aug 13, 2020 at 12:44:35PM +0200, Dafna Hirschfeld wrote:
-> >>>> Am 26.06.20 um 18:58 schrieb Robin Murphy:
-> >>>>> On 2020-06-26 16:59, Tomasz Figa wrote:
-> >>>>>> On Fri, Jun 26, 2020 at 5:48 PM Dafna Hirschfeld wrote:
-> >>>>>>> On 26.06.20 16:03, Tomasz Figa wrote:
-> >>>>>>>> On Fri, Jun 26, 2020 at 3:32 PM Robin Murphy wrote:
-> >>>>>>>>> On 2020-06-25 18:42, Dafna Hirschfeld wrote:
-> >>>>>>>>>> In the stop_streaming callback 'rkisp1_params_vb2_stop_streaming'
-> >>>>>>>>>> there is no need to release the lock 'config_lock' and then acquire
-> >>>>>>>>>> it again at each iteration when returning all buffers.
-> >>>>>>>>>> This is because the stream is about to end and there is no need
-> >>>>>>>>>> to let the isr access a buffer.
-> >>>>>>>>>>
-> >>>>>>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >>>>>>>>>> ---
-> >>>>>>>>>>     drivers/staging/media/rkisp1/rkisp1-params.c | 7 +------
-> >>>>>>>>>>     1 file changed, 1 insertion(+), 6 deletions(-)
-> >>>>>>>>>>
-> >>>>>>>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
-> >>>>>>>>>> index bf006dbeee2d..5169b02731f1 100644
-> >>>>>>>>>> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
-> >>>>>>>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
-> >>>>>>>>>> @@ -1488,19 +1488,13 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
-> >>>>>>>>>>         /* stop params input firstly */
-> >>>>>>>>>>         spin_lock_irqsave(&params->config_lock, flags);
-> >>>>>>>>>>         params->is_streaming = false;
-> >>>>>>>>>> -     spin_unlock_irqrestore(&params->config_lock, flags);
-> >>>>>>>>>>
-> >>>>>>>>>>         for (i = 0; i < RKISP1_ISP_PARAMS_REQ_BUFS_MAX; i++) {
-> >>>>>>>>>> -             spin_lock_irqsave(&params->config_lock, flags);
-> >>>>>>>>>>                 if (!list_empty(&params->params)) {
-> >>>>>>>>>>                         buf = list_first_entry(&params->params,
-> >>>>>>>>>>                                                struct rkisp1_buffer, queue);
-> >>>>>>>>>>                         list_del(&buf->queue);
-> >>>>>>>>>> -                     spin_unlock_irqrestore(&params->config_lock,
-> >>>>>>>>>> -                                            flags);
-> >>>>>>>>>>                 } else {
-> >>>>>>>>>> -                     spin_unlock_irqrestore(&params->config_lock,
-> >>>>>>>>>> -                                            flags);
-> >>>>>>>>>>                         break;
-> >>>>>>>>>>                 }
-> >>>>>>>>>
-> >>>>>>>>> Just skimming through out of idle curiosity I was going to comment that
-> >>>>>>>>> if you end up with this pattern:
-> >>>>>>>>>
-> >>>>>>>>>           if (!x) {
-> >>>>>>>>>                   //do stuff
-> >>>>>>>>>           } else {
-> >>>>>>>>>                   break;
-> >>>>>>>>>           }
-> >>>>>>>>>
-> >>>>>>>>> it would be better as:
-> >>>>>>>>>
-> >>>>>>>>>           if (x)
-> >>>>>>>>>                   break;
-> >>>>>>>>>           //do stuff
-> >>>>>>>>>
-> >>>>>>>>> However I then went and looked at the whole function and frankly it's a
-> >>>>>>>>> bit of a WTF. As best I could decipher, this whole crazy loop appears to
-> >>>>>>>>> be a baroque reinvention of:
-> >>>>>>>>>
-> >>>>>>>>>           list_for_each_entry_safe(&params->params, ..., buf) {
-> >>>>>>>>>                   list_del(&buf->queue);
-> >>>>>>>>>                   vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> >>>>>>>>>           }
-> >>>>>>> Hi, indeed this is a much simpler implementation, greping 'return_all_buffers'
-> >>>>>>> I see that many drivers implement it this way.
-> >>>>>>> thanks!
-> >>>>>>>
-> >>>>>>>>>
-> >>>>>>>>> (assuming from context that the list should never contain more than
-> >>>>>>>>> RKISP1_ISP_PARAMS_REQ_BUFS_MAX entries in the first place)
-> >>>>>>>>
-> >>>>>>>> Or if we want to avoid disabling the interrupts for the whole
-> >>>>>>>> iteration, we could use list_splice() to move all the entries of
-> >>>>>>>
-> >>>>>>> But this code runs when userspace asks to stop the streaming so I don't
-> >>>>>>> think it is important at that stage to allow the interrupts.
-> >>>>>>
-> >>>>>> It's generally a good practice to reduce the time spent with
-> >>>>>> interrupts disabled. Disabling the interrupts prevents the system from
-> >>>>>> handling external events, including timer interrupts, and scheduling
-> >>>>>> higher priority tasks, including real time ones. How much the system
-> >>>>>> runs with interrupts disabled is one of the factors determining the
-> >>>>>> general system latency.
-> >>>>>
-> >>>>> Right, with the way we handle interrupt affinity on Arm an IRQ can't
-> >>>>> target multiple CPUs in hardware, so any time spent with IRQs
-> >>>>> disabled might be preventing other devices' interrupts from being
-> >>>>> taken even if they're not explicitly affine to the current CPU.
-> >>>>>
-> >>>>> Now that I've looked, it appears that vb2_buffer_done() might end up
-> >>>>> performing a DMA sync on the buffers, which, if it has to do
-> >>>>> order-of-megabytes worth of cache maintenance for large frames, is
-> >>>>> the kind of relatively slow operation that really doesn't want to be
-> >>>>> done with IRQs disabled (or under a lock at all, ideally) unless it
-> >>>>> absolutely *has* to be. If the lock is only needed here to protect
-> >>>>> modifications to the params list itself, then moving the whole list
-> >>>>> at once to do the cleanup "offline" sounds like a great idea to me.
-> >>>
-> >>> Ouch.
-> >>>
-> >>>> ok, that might be a problem in v4l2 in general since vb2_buffer_done
-> >>>> is actually often used inside an irq handler
-> >>>
-> >>> Correct. The DMA sync should be moved to DQBUF time, there shouldn't be
-> >>> any reason to do it in the IRQ handler. I thought this had already been
-> >>> fixed :-(
-> >>
-> >> For reference, there was a patch [1] proposed, but it moved the
-> >> synchronization to a wrong place in the sequence, already after the
-> >> .buf_finish queue callback, ending up breaking the drivers which need
-> >> to access the buffer contents there.
-> >>
-> >> [1] https://patchwork.linuxtv.org/project/linux-media/patch/1494255810-12672-4-git-send-email-sakari.ailus@linux.intel.com/
-> >
-> > I think we need to fix the drivers. We just can't do cache sync in IRQ
-> > context by default because a few drivers need to access the buffer
-> > contents. Those drivers should instead deffer access to a work queue,
-> > and sync explicitly. We could possibly provide helpers for that, making
-> > it transparent if a queue flag is set.
+On Thu, Aug 13, 2020 at 08:04:40PM +0800, kernel test robot wrote:
+> Hi Sean,
 > 
-> The drivers don't access the buffers explicitly from the IRQ. The vb2
-> queue .buf_finish callback is called at DQBUF time. It was just the
-> patch mentioned that moved it to a part of DQBUF executed too late.
+> I love your patch! Yet something to improve:
+> 
+> [auto build test ERROR on linuxtv-media/master]
+> [also build test ERROR on v5.8 next-20200813]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
+> 
+> url:    https://github.com/0day-ci/linux/commits/Sean-Young/media-gpio-ir-tx-spinlock-is-not-needed-to-disable-interrupts/20200813-182045
+> base:   git://linuxtv.org/media_tree.git master
+> config: h8300-randconfig-r011-20200813 (attached as .config)
+> compiler: h8300-linux-gcc (GCC) 9.3.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=h8300 
+> 
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/kernel.h:11,
+>                     from drivers/media/rc/gpio-ir-tx.c:6:
+>    include/linux/scatterlist.h: In function 'sg_set_buf':
+>    include/asm-generic/page.h:93:50: warning: ordered comparison of pointer with null pointer [-Wextra]
+>       93 | #define virt_addr_valid(kaddr) (((void *)(kaddr) >= (void *)PAGE_OFFSET) && \
+>          |                                                  ^~
+>    include/linux/compiler.h:78:42: note: in definition of macro 'unlikely'
+>       78 | # define unlikely(x) __builtin_expect(!!(x), 0)
+>          |                                          ^
+>    include/linux/scatterlist.h:143:2: note: in expansion of macro 'BUG_ON'
+>      143 |  BUG_ON(!virt_addr_valid(buf));
+>          |  ^~~~~~
+>    include/linux/scatterlist.h:143:10: note: in expansion of macro 'virt_addr_valid'
+>      143 |  BUG_ON(!virt_addr_valid(buf));
+>          |          ^~~~~~~~~~~~~~~
+>    In file included from include/linux/seqlock.h:36,
+>                     from include/linux/time.h:6,
+>                     from include/linux/stat.h:19,
+>                     from include/linux/module.h:13,
+>                     from drivers/media/rc/gpio-ir-tx.c:7:
+>    drivers/media/rc/gpio-ir-tx.c: In function 'gpio_ir_tx_probe':
+> >> drivers/media/rc/gpio-ir-tx.c:174:25: error: 'struct gpio_ir' has no member named 'lock'
+>      174 |  spin_lock_init(&gpio_ir->lock);
+>          |                         ^~
+>    include/linux/spinlock.h:345:17: note: in definition of macro 'spin_lock_init'
+>      345 |  spinlock_check(_lock);   \
+>          |                 ^~~~~
+> >> drivers/media/rc/gpio-ir-tx.c:174:25: error: 'struct gpio_ir' has no member named 'lock'
+>      174 |  spin_lock_init(&gpio_ir->lock);
+>          |                         ^~
+>    include/linux/spinlock.h:346:4: note: in definition of macro 'spin_lock_init'
+>      346 |  *(_lock) = __SPIN_LOCK_UNLOCKED(_lock); \
+>          |    ^~~~~
+> 
+> vim +174 drivers/media/rc/gpio-ir-tx.c
+> 
+> 24d79ebc6ccec55 Sean Young 2017-07-07  142  
+> 24d79ebc6ccec55 Sean Young 2017-07-07  143  static int gpio_ir_tx_probe(struct platform_device *pdev)
+> 24d79ebc6ccec55 Sean Young 2017-07-07  144  {
+> 24d79ebc6ccec55 Sean Young 2017-07-07  145  	struct gpio_ir *gpio_ir;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  146  	struct rc_dev *rcdev;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  147  	int rc;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  148  
+> 24d79ebc6ccec55 Sean Young 2017-07-07  149  	gpio_ir = devm_kmalloc(&pdev->dev, sizeof(*gpio_ir), GFP_KERNEL);
+> 24d79ebc6ccec55 Sean Young 2017-07-07  150  	if (!gpio_ir)
+> 24d79ebc6ccec55 Sean Young 2017-07-07  151  		return -ENOMEM;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  152  
+> 24d79ebc6ccec55 Sean Young 2017-07-07  153  	rcdev = devm_rc_allocate_device(&pdev->dev, RC_DRIVER_IR_RAW_TX);
+> 24d79ebc6ccec55 Sean Young 2017-07-07  154  	if (!rcdev)
+> 24d79ebc6ccec55 Sean Young 2017-07-07  155  		return -ENOMEM;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  156  
+> 24d79ebc6ccec55 Sean Young 2017-07-07  157  	gpio_ir->gpio = devm_gpiod_get(&pdev->dev, NULL, GPIOD_OUT_LOW);
+> 24d79ebc6ccec55 Sean Young 2017-07-07  158  	if (IS_ERR(gpio_ir->gpio)) {
+> 24d79ebc6ccec55 Sean Young 2017-07-07  159  		if (PTR_ERR(gpio_ir->gpio) != -EPROBE_DEFER)
+> 24d79ebc6ccec55 Sean Young 2017-07-07  160  			dev_err(&pdev->dev, "Failed to get gpio (%ld)\n",
+> 24d79ebc6ccec55 Sean Young 2017-07-07  161  				PTR_ERR(gpio_ir->gpio));
+> 24d79ebc6ccec55 Sean Young 2017-07-07  162  		return PTR_ERR(gpio_ir->gpio);
+> 24d79ebc6ccec55 Sean Young 2017-07-07  163  	}
+> 24d79ebc6ccec55 Sean Young 2017-07-07  164  
+> 24d79ebc6ccec55 Sean Young 2017-07-07  165  	rcdev->priv = gpio_ir;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  166  	rcdev->driver_name = DRIVER_NAME;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  167  	rcdev->device_name = DEVICE_NAME;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  168  	rcdev->tx_ir = gpio_ir_tx;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  169  	rcdev->s_tx_duty_cycle = gpio_ir_tx_set_duty_cycle;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  170  	rcdev->s_tx_carrier = gpio_ir_tx_set_carrier;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  171  
+> 24d79ebc6ccec55 Sean Young 2017-07-07  172  	gpio_ir->carrier = 38000;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  173  	gpio_ir->duty_cycle = 50;
+> 24d79ebc6ccec55 Sean Young 2017-07-07 @174  	spin_lock_init(&gpio_ir->lock);
 
-Aahhh it's better than I thought :-) Shouldn't be too hard to fix then.
-Thanks for refreshing my memory.
+Oops, this line should've been removed. I sent the wrong patch.
 
--- 
-Regards,
+I'll the send a v2 soon.
 
-Laurent Pinchart
+Sean
+
+> 24d79ebc6ccec55 Sean Young 2017-07-07  175  
+> 24d79ebc6ccec55 Sean Young 2017-07-07  176  	rc = devm_rc_register_device(&pdev->dev, rcdev);
+> 24d79ebc6ccec55 Sean Young 2017-07-07  177  	if (rc < 0)
+> 24d79ebc6ccec55 Sean Young 2017-07-07  178  		dev_err(&pdev->dev, "failed to register rc device\n");
+> 24d79ebc6ccec55 Sean Young 2017-07-07  179  
+> 24d79ebc6ccec55 Sean Young 2017-07-07  180  	return rc;
+> 24d79ebc6ccec55 Sean Young 2017-07-07  181  }
+> 24d79ebc6ccec55 Sean Young 2017-07-07  182  
+> 
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+
