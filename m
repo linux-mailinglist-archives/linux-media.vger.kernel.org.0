@@ -2,19 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CC56244A9F
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 15:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90E83244AA1
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 15:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728839AbgHNNhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 09:37:36 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43328 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728828AbgHNNhf (ORCPT
+        id S1728855AbgHNNhl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 09:37:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57950 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728828AbgHNNhk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 09:37:35 -0400
+        Fri, 14 Aug 2020 09:37:40 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF812C061384;
+        Fri, 14 Aug 2020 06:37:39 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 1BE2529A83F
+        with ESMTPSA id D5C9129A807
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
@@ -28,9 +31,9 @@ Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 11/19] media: uapi: h264: Rename and clarify PPS_FLAG_SCALING_MATRIX_PRESENT
-Date:   Fri, 14 Aug 2020 10:36:26 -0300
-Message-Id: <20200814133634.95665-12-ezequiel@collabora.com>
+Subject: [PATCH v3 12/19] media: hantro: Don't require unneeded H264_SLICE_PARAMS
+Date:   Fri, 14 Aug 2020 10:36:27 -0300
+Message-Id: <20200814133634.95665-13-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814133634.95665-1-ezequiel@collabora.com>
 References: <20200814133634.95665-1-ezequiel@collabora.com>
@@ -41,57 +44,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Applications are expected to fill V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX
-if a non-flat scaling matrix applies to the picture. This is the case if
-SPS scaling_matrix_present_flag or PPS pic_scaling_matrix_present_flag
-are set, and should be handled by applications.
-
-On one hand, the PPS bitstream syntax element signals the presence of a
-Picture scaling matrix modifying the Sequence (SPS) scaling matrix.
-On the other hand, our flag should indicate if the scaling matrix
-V4L2 control is applicable to this request.
-
-Rename the flag from PPS_FLAG_PIC_SCALING_MATRIX_PRESENT to
-PPS_FLAG_SCALING_MATRIX_PRESENT, to avoid mixing this flag with
-bitstream syntax element pic_scaling_matrix_present_flag,
-and clarify the meaning of our flag.
+Now that slice invariant parameters have been moved,
+the driver no longer needs this control, so drop it.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 +++--
- include/media/h264-ctrls.h                                | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/staging/media/hantro/hantro_drv.c  | 5 -----
+ drivers/staging/media/hantro/hantro_h264.c | 5 -----
+ drivers/staging/media/hantro/hantro_hw.h   | 2 --
+ 3 files changed, 12 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 69dd3961b99b..03ce87aa5488 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -1695,9 +1695,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-     * - ``V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE``
-       - 0x00000040
-       -
--    * - ``V4L2_H264_PPS_FLAG_PIC_SCALING_MATRIX_PRESENT``
-+    * - ``V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT``
-       - 0x00000080
--      -
-+      - Indicates that ``V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX``
-+        must be used for this picture.
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 34797507f214..3cd00cc0a364 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -306,11 +306,6 @@ static const struct hantro_ctrl controls[] = {
+ 		.cfg = {
+ 			.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
+ 		},
+-	}, {
+-		.codec = HANTRO_H264_DECODER,
+-		.cfg = {
+-			.id = V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS,
+-		},
+ 	}, {
+ 		.codec = HANTRO_H264_DECODER,
+ 		.cfg = {
+diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+index 0cbe514dc79a..6887318ed4d8 100644
+--- a/drivers/staging/media/hantro/hantro_h264.c
++++ b/drivers/staging/media/hantro/hantro_h264.c
+@@ -349,11 +349,6 @@ int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
+ 	if (WARN_ON(!ctrls->decode))
+ 		return -EINVAL;
  
- ``V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX (struct)``
-     Specifies the scaling matrix (as extracted from the bitstream) for
-diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-index 1217b706128e..070b9499d7bc 100644
---- a/include/media/h264-ctrls.h
-+++ b/include/media/h264-ctrls.h
-@@ -99,7 +99,7 @@ struct v4l2_ctrl_h264_sps {
- #define V4L2_H264_PPS_FLAG_CONSTRAINED_INTRA_PRED			0x0010
- #define V4L2_H264_PPS_FLAG_REDUNDANT_PIC_CNT_PRESENT			0x0020
- #define V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE				0x0040
--#define V4L2_H264_PPS_FLAG_PIC_SCALING_MATRIX_PRESENT			0x0080
-+#define V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT			0x0080
- 
- struct v4l2_ctrl_h264_pps {
- 	__u8 pic_parameter_set_id;
+-	ctrls->slices =
+-		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS);
+-	if (WARN_ON(!ctrls->slices))
+-		return -EINVAL;
+-
+ 	ctrls->sps =
+ 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_H264_SPS);
+ 	if (WARN_ON(!ctrls->sps))
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index f066de6b592d..219283a06f52 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -56,14 +56,12 @@ struct hantro_jpeg_enc_hw_ctx {
+  * struct hantro_h264_dec_ctrls
+  * @decode:	Decode params
+  * @scaling:	Scaling info
+- * @slice:	Slice params
+  * @sps:	SPS info
+  * @pps:	PPS info
+  */
+ struct hantro_h264_dec_ctrls {
+ 	const struct v4l2_ctrl_h264_decode_params *decode;
+ 	const struct v4l2_ctrl_h264_scaling_matrix *scaling;
+-	const struct v4l2_ctrl_h264_slice_params *slices;
+ 	const struct v4l2_ctrl_h264_sps *sps;
+ 	const struct v4l2_ctrl_h264_pps *pps;
+ };
 -- 
 2.27.0
 
