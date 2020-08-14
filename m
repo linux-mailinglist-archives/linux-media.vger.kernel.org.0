@@ -2,140 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 550942449F7
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 14:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0257B244A5F
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 15:25:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728475AbgHNMuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 08:50:23 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:55530 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728469AbgHNMuW (ORCPT
+        id S1728183AbgHNNZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 09:25:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56016 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726139AbgHNNZQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 08:50:22 -0400
-Received: by mail-io1-f72.google.com with SMTP id k10so6106139ioh.22
-        for <linux-media@vger.kernel.org>; Fri, 14 Aug 2020 05:50:21 -0700 (PDT)
+        Fri, 14 Aug 2020 09:25:16 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19180C061384
+        for <linux-media@vger.kernel.org>; Fri, 14 Aug 2020 06:25:16 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id i10so9930305ljn.2
+        for <linux-media@vger.kernel.org>; Fri, 14 Aug 2020 06:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=PJVMgjHP6gnp0mjaxlRSS4/pgm74X7VzDgM85iATqFQ=;
+        b=lcPg0MJN52u2w8bKn3vXx5YumuLzvS88Y8QDNdQmUluO/C6RRpq77tK1Xdjlr8sO4g
+         U0MrYKPh3k1/kYr2wvIjvtqhmwNBrYYYjIxqwMpeB9viturwBe70V7hgWfv6B1zU0ogo
+         l8it6e5ob+p2mAFjdDFkDTofZXSN5iBvshjsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=Q8X7Ko3i7KnMZ99PC1YBu5jXAHW6Ad87sQmjX7bZi58=;
-        b=piF07CnHW2VgkONEeUw71SmV3HrTcZ4rC/U+yFWYPUOlIZr51RqO+8rh16sYsJhrAj
-         lpoXuTHwdHNEd6ZMjfVNQi0GEBVK/hgSOMtMOuhKczQ36qv9NNzvR6JeT1ZfQw3k4MuX
-         1TtIQhZJd5ygoMl+chVfBdu7ANEIDE5hK9T1mD+3hn5fvMl7nILMH6UXCexMBNPziWfD
-         +H6nRjT5L5Oo3Z9MGZepdXoHyC1vKg5CqwNGs+y2ECtrwGhcm31TeH8p6g00DH02I3Nb
-         HUZMs4H6INinNb7q5Og0zZyUeReMUPLi1Nu4sLDo0paUofL1ip0XZQ0FbvKjWIcR52GM
-         ra4w==
-X-Gm-Message-State: AOAM531u2nq8g8RkmgdxLfTVi4KYX4+5eAzY4yPUIznIGgCjLLrNsfRu
-        PWvAUhRxEKzVvwJMeYODpw+TJs1B9TYRLFS+4kEeQWnzq0OX
-X-Google-Smtp-Source: ABdhPJyMmeWIDWmWmUsXMphuU89IdTOiVP7xEfRWp/V7+QfBdUraCGUovj/amPvuFepZb/9WmMyzMt5ACquDkC9wJnRt6CZogi4O
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=PJVMgjHP6gnp0mjaxlRSS4/pgm74X7VzDgM85iATqFQ=;
+        b=LDSfOLlDcILViTXh07im4dlVnti1cUJ0ZzseoHCnKK/RQ3muA/LDb/5eHjeRFSx7nz
+         4T8C2GshQOaqsMceSyDuXvaT5E9N6Jpd01ww73Vhn1FrKGlkE5r3Se5x9EuK4g+y/ike
+         RPbOCHPGlAXsj6Ys8P17pCkK1CArR+23KMIp+F1lbTgCkMpebs1zXpCUzPxusO2J9C5t
+         VlJIov6zskOTyKqXspZGxESnT7aJVzQofRXGSI8bTmxbNL6PpwTI3owu9xy3birQTa7g
+         0LlMx8/W+e/Gr++syCSAEv2rF5EVMvLe7i7IIUKXuBL92sMCQOv9p5PrzaO5uorPT6JZ
+         +rwg==
+X-Gm-Message-State: AOAM533GRJONxS+7sI7k2LZYWTSLUBEITvbLLkZH34aNNK2xjtK+o6wU
+        qt2NKfsZt5HBBttcvtFZlYWhthnfN5Eelg==
+X-Google-Smtp-Source: ABdhPJw9SgUFGJOuwWJawNU4kEArk4VrHxW4MiFAug76Texqg8uRRLqcM8Rk1PCMXoRqEjdz9Y8mjQ==
+X-Received: by 2002:a2e:b814:: with SMTP id u20mr1277110ljo.202.1597411514269;
+        Fri, 14 Aug 2020 06:25:14 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id a2sm1759899ljj.40.2020.08.14.06.25.13
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Aug 2020 06:25:14 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id d2so4825687lfj.1
+        for <linux-media@vger.kernel.org>; Fri, 14 Aug 2020 06:25:13 -0700 (PDT)
+X-Received: by 2002:a5d:6744:: with SMTP id l4mr2915962wrw.105.1597411089399;
+ Fri, 14 Aug 2020 06:18:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a92:9854:: with SMTP id l81mr2411247ili.161.1597409420363;
- Fri, 14 Aug 2020 05:50:20 -0700 (PDT)
-Date:   Fri, 14 Aug 2020 05:50:20 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000fcf8a05acd5dd72@google.com>
-Subject: BUG: corrupted list in media_gobj_destroy
-From:   syzbot <syzbot+4e886425af54bc69daea@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
+References: <20200810142747.12400-1-sakari.ailus@linux.intel.com> <5353041e-850f-05ad-3b20-35e91fc9501e@linux.intel.com>
+In-Reply-To: <5353041e-850f-05ad-3b20-35e91fc9501e@linux.intel.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 14 Aug 2020 15:17:58 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5DbMMsxkJAkLm4kQ+cQ0ePG4ME492MxM3vwXws3H_bsTQ@mail.gmail.com>
+Message-ID: <CAAFQd5DbMMsxkJAkLm4kQ+cQ0ePG4ME492MxM3vwXws3H_bsTQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] Support running driver's probe for a device
+ powered off
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Fri, Aug 14, 2020 at 6:12 AM Bingbu Cao <bingbu.cao@linux.intel.com> wro=
+te:
+>
+>
+>
+> On 8/10/20 10:27 PM, Sakari Ailus wrote:
+> > Hi all,
+> >
+> ...snip...
+> >
+> > The use case is such that there is a privacy LED next to an integrated
+> > user-facing laptop camera, and this LED is there to signal the user tha=
+t
+> > the camera is recording a video or capturing images. That LED also happ=
+ens
+> > to be wired to one of the power supplies of the camera, so whenever you
+> > power on the camera, the LED will be lit, whether images are captured f=
+rom
+> > the camera --- or not. There's no way to implement this differently
+> > without additional software control (allowing of which is itself a
+> > hardware design decision) on most CSI-2-connected camera sensors as the=
+y
+> > simply have no pin to signal the camera streaming state.
+> >
+> > This is also what happens during driver probe: the camera will be power=
+ed
+> > on by the I=C2=B2C subsystem calling dev_pm_domain_attach() and the dev=
+ice is
+> > already powered on when the driver's own probe function is called. To t=
+he
+> > user this visible during the boot process as a blink of the privacy LED=
+,
+> > suggesting that the camera is recording without the user having used an
+> > application to do that. From the end user's point of view the behaviour=
+ is
+> > not expected and for someone unfamiliar with internal workings of a
+> > computer surely seems quite suspicious --- even if images are not being
+> > actually captured.
+> >
+> > I've tested these on linux-next master. They also apply to Wolfram's
+> > i2c/for-next branch, there's a patch that affects the I=C2=B2C core cha=
+nges
+> > here (see below). The patches apart from that apply to Bartosz's
+> > at24/for-next as well as Mauro's linux-media master branch.
+>
+> Sakari, we meet one issue - once the vcm sub-device registered, the user =
+space
+> will try to open the VCM (I have not figure out who did that), it will al=
+so
+> trigger the acpi pm resume/suspend, as the VCM always shares same power r=
+ail
+> with camera sensor, so the privacy LED still has a blink.
 
-syzbot found the following issue on:
+It's not always the case, as on some designs there are multiple power
+rails to the sensor and one drives the LED, while the other drives the
+VCM. That said, it would be still good to solve it in either case.
 
-HEAD commit:    449dc8c9 Merge tag 'for-v5.9' of git://git.kernel.org/pub/..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=16663509900000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6ef84fa8ee48e528
-dashboard link: https://syzkaller.appspot.com/bug?extid=4e886425af54bc69daea
-compiler:       gcc (GCC) 10.1.0-syz 20200507
+Perhaps we need some more general discussion on the side effects of
+simply opening and querying a device. Most of V4L2 drivers these days
+are designed to avoid powering up the hardware until it's absolutely
+needed to do so. However, for non-streaming subdevs that are directly
+controlled by the userspace, like VCM, it's a common practice to power
+up on open and down on release. This is because they don't have a
+"streaming" state, so the driver has no way to determine when the
+power is needed. I wonder if there is a way to improve this.
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4e886425af54bc69daea@syzkaller.appspotmail.com
-
-usb 1-1: USB disconnect, device number 97
-list_del corruption. next->prev should be ffff8881c93dc010, but was ffff8883c93dc012
-------------[ cut here ]------------
-kernel BUG at lib/list_debug.c:54!
-invalid opcode: 0000 [#1] SMP KASAN
-CPU: 1 PID: 3074 Comm: kworker/1:3 Not tainted 5.8.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:__list_del_entry_valid.cold+0x48/0x55 lib/list_debug.c:54
-Code: e8 f1 71 3c ff 0f 0b 4c 89 e2 48 89 ee 48 c7 c7 20 85 1c 86 e8 dd 71 3c ff 0f 0b 48 89 ee 48 c7 c7 e0 85 1c 86 e8 cc 71 3c ff <0f> 0b cc cc cc cc cc cc cc cc cc cc cc 41 57 41 56 41 55 41 54 55
-RSP: 0018:ffff8881d50b7498 EFLAGS: 00010286
-RAX: 0000000000000054 RBX: ffff8881c93dc000 RCX: 0000000000000000
-RDX: 0000000000040000 RSI: ffffffff8129ec93 RDI: ffffed103aa16e85
-RBP: ffff8881c93dc010 R08: 0000000000000054 R09: ffff8881db32f54f
-R10: 0000000000000000 R11: 000000000007e3b8 R12: ffff8881cdd8d108
-R13: ffff8881c93dc090 R14: ffff8881c93dc000 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f3cf3d4a380 CR3: 00000001ab4d2000 CR4: 00000000001506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- __list_del_entry include/linux/list.h:132 [inline]
- list_del include/linux/list.h:146 [inline]
- media_gobj_destroy drivers/media/mc/mc-entity.c:187 [inline]
- media_gobj_destroy+0xa1/0x232 drivers/media/mc/mc-entity.c:176
- __media_device_unregister_entity+0x236/0x300 drivers/media/mc/mc-device.c:603
- media_device_unregister_entity+0x49/0x70 drivers/media/mc/mc-device.c:688
- dvb_media_device_free+0x1d5/0x620 drivers/media/dvb-core/dvbdev.c:226
- dvb_remove_device.part.0+0x8f/0x240 drivers/media/dvb-core/dvbdev.c:561
- dvb_remove_device drivers/media/dvb-core/dvbdev.c:554 [inline]
- dvb_unregister_device+0x1b/0x60 drivers/media/dvb-core/dvbdev.c:583
- dvb_dmxdev_release+0x1a0/0x640 drivers/media/dvb-core/dmxdev.c:1459
- dvb_usb_adapter_dvb_exit+0xa9/0x240 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:224
- dvb_usb_adapter_exit drivers/media/usb/dvb-usb/dvb-usb-init.c:114 [inline]
- dvb_usb_exit.isra.0+0xaa/0x2a0 drivers/media/usb/dvb-usb/dvb-usb-init.c:129
- dvb_usb_device_exit+0x111/0x1a0 drivers/media/usb/dvb-usb/dvb-usb-init.c:306
- usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:436
- __device_release_driver+0x3c6/0x6f0 drivers/base/dd.c:1153
- device_release_driver_internal drivers/base/dd.c:1184 [inline]
- device_release_driver+0x26/0x40 drivers/base/dd.c:1207
- bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:533
- device_del+0x481/0xd90 drivers/base/core.c:3107
- usb_disable_device+0x387/0x930 drivers/usb/core/message.c:1245
- usb_disconnect.cold+0x27d/0x780 drivers/usb/core/hub.c:2217
- hub_port_connect drivers/usb/core/hub.c:5059 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
- port_event drivers/usb/core/hub.c:5494 [inline]
- hub_event+0x1c93/0x4390 drivers/usb/core/hub.c:5576
- process_one_work+0x94c/0x15f0 kernel/workqueue.c:2269
- worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
- kthread+0x392/0x470 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-Modules linked in:
----[ end trace 409eb60372a6c4c3 ]---
-RIP: 0010:__list_del_entry_valid.cold+0x48/0x55 lib/list_debug.c:54
-Code: e8 f1 71 3c ff 0f 0b 4c 89 e2 48 89 ee 48 c7 c7 20 85 1c 86 e8 dd 71 3c ff 0f 0b 48 89 ee 48 c7 c7 e0 85 1c 86 e8 cc 71 3c ff <0f> 0b cc cc cc cc cc cc cc cc cc cc cc 41 57 41 56 41 55 41 54 55
-RSP: 0018:ffff8881d50b7498 EFLAGS: 00010286
-RAX: 0000000000000054 RBX: ffff8881c93dc000 RCX: 0000000000000000
-RDX: 0000000000040000 RSI: ffffffff8129ec93 RDI: ffffed103aa16e85
-RBP: ffff8881c93dc010 R08: 0000000000000054 R09: ffff8881db32f54f
-R10: 0000000000000000 R11: 000000000007e3b8 R12: ffff8881cdd8d108
-R13: ffff8881c93dc090 R14: ffff8881c93dc000 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f3cf3d4a380 CR3: 00000001ab4d2000 CR4: 00000000001506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Best regards,
+Tomasz
