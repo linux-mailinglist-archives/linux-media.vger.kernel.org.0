@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97B5A2445AC
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 09:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D447244597
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 09:16:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726703AbgHNHNU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 03:13:20 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:32322 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726064AbgHNHNR (ORCPT
+        id S1726263AbgHNHNJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 03:13:09 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:16565 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726116AbgHNHNI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 03:13:17 -0400
-X-UUID: db39f8d7348f487bab184f8c2c7e9768-20200814
+        Fri, 14 Aug 2020 03:13:08 -0400
+X-UUID: f3d5775591e54eec8f61fc3e395db69c-20200814
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=/gV4G8yfdOJyyPolCrQdy5QSbmXGl5sMOZ98019F01Y=;
-        b=Q73HS3/aOdjtIvms/unRzwz/biKEXevr2d5tHlHKcQc5ze7Myv+CwQpyGM3Q8f7ADMQpcm3nQLZbceTUFmTmY9oiU8obHk5otWDyTsOgdpLMkQeN5BnkTjqNKcvy3r5WIkjZMPnXCvyoTEz1npaZYHEPu0DYpSSK7gTixJlFoFA=;
-X-UUID: db39f8d7348f487bab184f8c2c7e9768-20200814
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=kfcoPkQlXtcH4btxlp3G2PLUP3J4MUE9xMlPyLdDgFs=;
+        b=DrzlcY4QU4oUJ+vczwhHAz5rIMy7EI2LqapwCJc2UC0+usg2s5rBwTJMqxKQGoR21DhR3J9Nd8Hzl0eNcFdVi2mTRQRZ590UkNcAqrly3mFKXXaJGD1c7nsVpkGxwIW3xSAGGN9mTMW6ZUPFDFAt72c29Sb/iqzHxW25Y6ABIsE=;
+X-UUID: f3d5775591e54eec8f61fc3e395db69c-20200814
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
         (envelope-from <xia.jiang@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 943113627; Fri, 14 Aug 2020 15:13:04 +0800
+        with ESMTP id 1001869483; Fri, 14 Aug 2020 15:13:05 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 14 Aug 2020 15:13:01 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 14 Aug 2020 15:13:02 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 14 Aug 2020 15:13:00 +0800
+ Transport; Fri, 14 Aug 2020 15:13:01 +0800
 From:   Xia Jiang <xia.jiang@mediatek.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -41,11 +41,13 @@ CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         Tomasz Figa <tfiga@chromium.org>,
         <srv_heupstream@mediatek.com>, <senozhatsky@chromium.org>,
         <mojahsu@chromium.org>, <drinkcat@chromium.org>,
-        <maoguang.meng@mediatek.com>
+        <maoguang.meng@mediatek.com>, Xia Jiang <xia.jiang@mediatek.com>
 Subject: [PATCH v12 00/29] Add support for mt2701 JPEG ENC support
-Date:   Fri, 14 Aug 2020 15:11:32 +0800
-Message-ID: <20200814071202.25067-1-xia.jiang@mediatek.com>
+Date:   Fri, 14 Aug 2020 15:11:33 +0800
+Message-ID: <20200814071202.25067-2-xia.jiang@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20200814071202.25067-1-xia.jiang@mediatek.com>
+References: <20200814071202.25067-1-xia.jiang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -250,5 +252,5 @@ ZS5ofSAoOTIlKQ0KIHJlbmFtZSBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1qcGVnL3ttdGtf
 anBlZ19yZWcuaCA9PiBtdGtfanBlZ19kZWNfcmVnLmh9ICg3NyUpDQogY3JlYXRlIG1vZGUgMTAw
 NjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLWpwZWcvbXRrX2pwZWdfZW5jX2h3LmMNCiBj
 cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstanBlZy9tdGtfanBl
-Z19lbmNfaHcuaA0KDQotLSANCjIuMTguMCANCg0K
+Z19lbmNfaHcuaA0KDQotLSANCjIuMTguMA0K
 
