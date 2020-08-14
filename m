@@ -2,173 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1D9B2444BA
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 07:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 426F62444F0
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 08:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbgHNF7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 01:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44046 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbgHNF7P (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 01:59:15 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FBCC061383
-        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 22:59:15 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id h3so7223254oie.11
-        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 22:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6ek1Xj7F+p5V5QHuUBuug/aAxVgWdWkwQ14dvtLIgIA=;
-        b=u/d3+AkOSH0ZAUrREdpKK1K7+3ubxoyTo9I05t6URCCnVPUTye+E+pdV9V2a3+ccif
-         jWmpaZGdH4f5C8gDoW6VBuNLHhE1+5zuMQeQxEUtLt583MPJeaDnuM4ZIjXApLZMDldZ
-         cI8sNWvgt7TJWl02eoF2qITSBjQxL+K9NrXJ8TrvklB+qqHO5k48Y90zZ/69fX0WrF/R
-         MA6niyBPxhu67sI+tFb0PnUtTD7MV1RvC4LgKGWOvhWzCj7wmC5lwJYbKFKeXstgY9eL
-         z2qErVVTp3z2vziasizR4KHWl5qtoCFKMNuPyd+OX+cHRRC8SRlXrsEWvZfxOz/SYkje
-         AWzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6ek1Xj7F+p5V5QHuUBuug/aAxVgWdWkwQ14dvtLIgIA=;
-        b=at2zL6UzGVkIheniVfD21X6Wl0tuIYBhouCt7nQjqBqlv7pGgBT8AxwISjgLQOn1T5
-         WvAVh2Wz78p3CkatqCFYnBgPP6szp6xSFYOKtkh9TR6/n775t7miTy/+o+TKIN9HJBrk
-         MUvY7bJYQWwJMzeQq+82V9YSZ2aN1JjBVW9wuPHn+yxMSIrQ4x9N1Bf7NijMRz1VVrjG
-         wjwaQ8RATX+OY7cMbQHkNA5FmvOUTRi1KuR4aV4Ij18yrmW8cQEPmQcJA9nTeKSl/s6q
-         a4bdbwseg7c52d6T2LcBDYuatp7hpUTgPcP3rQRT96Dq1D4eoosKyTBXpJ0v5BZnNY9e
-         T5+Q==
-X-Gm-Message-State: AOAM531NJmgijhAMXgj9D0yQsEK0YbQ624dRDjH/WGlQ3S71udF8pX95
-        ORUIxRxBvg0SYJVa5NfVSXms9SfGHyTi9mH9k27Pnw==
-X-Google-Smtp-Source: ABdhPJygjIyHSKquccaPWBOnwk40OPCWOWVkacRMrzSamBOp7G/opmXIa+Evw20OaDL+Y6ykmzsGN0rJzm1g8bL1p74=
-X-Received: by 2002:aca:dc85:: with SMTP id t127mr588618oig.169.1597384754309;
- Thu, 13 Aug 2020 22:59:14 -0700 (PDT)
+        id S1726278AbgHNGTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 02:19:22 -0400
+Received: from mga09.intel.com ([134.134.136.24]:15966 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726185AbgHNGTW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Aug 2020 02:19:22 -0400
+IronPort-SDR: qc3QO0RWv3PDkKWWUnzAvTB3m1g11J8gI61bOogi8VRRUGjjDdgIhsv142EBIXi6bIpJGyw9t9
+ Ku0mZ16r6Rxg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9712"; a="155474553"
+X-IronPort-AV: E=Sophos;i="5.76,311,1592895600"; 
+   d="scan'208";a="155474553"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 23:19:21 -0700
+IronPort-SDR: 545gqfD32bKwafgjhPqXEZJ/MY8MH2jMl8R6xD4Y1UwfyHWY5cxN1DzxA7dp7Ew+2hDGUaO/P8
+ hx+H8DlmnLWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,311,1592895600"; 
+   d="scan'208";a="318784992"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
+  by fmsmga004.fm.intel.com with ESMTP; 13 Aug 2020 23:19:17 -0700
+Subject: Re: [PATCH v5 0/6] Support running driver's probe for a device
+ powered off
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <20200810142747.12400-1-sakari.ailus@linux.intel.com>
+ <5353041e-850f-05ad-3b20-35e91fc9501e@linux.intel.com>
+Message-ID: <aca32190-076e-d047-6988-1a5858f84945@linux.intel.com>
+Date:   Fri, 14 Aug 2020 14:18:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200729051632.66040-1-john.stultz@linaro.org>
- <20200729051632.66040-2-john.stultz@linaro.org> <3aabe118-929d-6ada-b317-dfa72d180717@arm.com>
-In-Reply-To: <3aabe118-929d-6ada-b317-dfa72d180717@arm.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Thu, 13 Aug 2020 22:59:02 -0700
-Message-ID: <CALAqxLWjbhD3LN7phqPW_PrvXFeGd3aFHzAU0AAjVcNJNOTVoA@mail.gmail.com>
-Subject: Re: [RFC][PATCH 2/2] dma-heap: Add a system-uncached heap
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        "Andrew F . Davis" <afd@ti.com>, Laura Abbott <labbott@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <5353041e-850f-05ad-3b20-35e91fc9501e@linux.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 3, 2020 at 4:06 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2020-07-29 06:16, John Stultz wrote:
-> > This adds a heap that allocates non-contiguous buffers that are
-> > marked as writecombined, so they are not cached by the CPU.
-> >
-...
-> > +     ret = sg_alloc_table(new_table, table->nents, GFP_KERNEL);
-> > +     if (ret) {
-> > +             kfree(new_table);
-> > +             return ERR_PTR(-ENOMEM);
-> > +     }
-> > +
-> > +     new_sg = new_table->sgl;
-> > +     for_each_sg(table->sgl, sg, table->nents, i) {
->
-> Consider using the new sgtable helpers that are just about to land - in
-> this case, for_each_sgtable_sg().
-
-Ack! Thanks for the suggestion!
 
 
-> > +             memcpy(new_sg, sg, sizeof(*sg));
-> > +             new_sg->dma_address = 0;
->
-> This seems a little bit hairy, as in theory a consumer could still treat
-> a nonzero DMA length as the address being valid. Rather than copying the
-> whole entry then trying to undo parts of that, maybe just:
->
->         sg_set_page(new_sg, sg_page(sg), sg->len, sg->offset);
->
-> ?
+On 8/14/20 12:11 PM, Bingbu Cao wrote:
+> 
+> 
+> On 8/10/20 10:27 PM, Sakari Ailus wrote:
+>> Hi all,
+>>
+> ...snip...
+>>
+>> The use case is such that there is a privacy LED next to an integrated
+>> user-facing laptop camera, and this LED is there to signal the user that
+>> the camera is recording a video or capturing images. That LED also happens
+>> to be wired to one of the power supplies of the camera, so whenever you
+>> power on the camera, the LED will be lit, whether images are captured from
+>> the camera --- or not. There's no way to implement this differently
+>> without additional software control (allowing of which is itself a
+>> hardware design decision) on most CSI-2-connected camera sensors as they
+>> simply have no pin to signal the camera streaming state.
+>>
+>> This is also what happens during driver probe: the camera will be powered
+>> on by the I²C subsystem calling dev_pm_domain_attach() and the device is
+>> already powered on when the driver's own probe function is called. To the
+>> user this visible during the boot process as a blink of the privacy LED,
+>> suggesting that the camera is recording without the user having used an
+>> application to do that. From the end user's point of view the behaviour is
+>> not expected and for someone unfamiliar with internal workings of a
+>> computer surely seems quite suspicious --- even if images are not being
+>> actually captured.
+>>
+>> I've tested these on linux-next master. They also apply to Wolfram's
+>> i2c/for-next branch, there's a patch that affects the I²C core changes
+>> here (see below). The patches apart from that apply to Bartosz's
+>> at24/for-next as well as Mauro's linux-media master branch.
+> 
+> Sakari, we meet one issue - once the vcm sub-device registered, the user space
+> will try to open the VCM (I have not figure out who did that), it will also
+> trigger the acpi pm resume/suspend, as the VCM always shares same power rail
+> with camera sensor, so the privacy LED still has a blink.
+Sakari, please ignore my previous comment, it is not related to this change. I
+see the sub device open is caused by v4l_id program from udev.
 
-Sounds good.
+> 
+>>
+> ...snip...
+> 
 
-
-> > +static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-> > +                                          enum dma_data_direction direction)
-> > +{
-> > +     struct dma_heap_attachment *a = attachment->priv;
-> > +     struct sg_table *table = a->table;
-> > +
-> > +     if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents, direction,
-> > +                           DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_WRITE_COMBINE))
->
-> dma_map_sgtable()
->
-> Also, DMA_ATTR_WRITE_COMBINE is meaningless for streaming DMA.
->
-
-Hrm. Ok, my grasp of "streaming" vs "consistent" definitions are maybe
-slightly off, since while we are mapping and unmapping buffers, the
-point of this heap is that the allocated memory is uncached/coherent,
-so we avoid the cache sync overhead on each mapping/unmapping, which I
-thought was closer to the "consistent" definition.
-
-But maybe if the mapping and unmapping part is really the key
-difference, then ok.
-
-Either way, from my testing, you seem to be right that the
-ATTR_WRITE_COMBINE doesn't seem to make any difference in behavior.
-
-> > +     pgprot = pgprot_writecombine(PAGE_KERNEL);
-> > +
-> > +     for_each_sg(table->sgl, sg, table->nents, i) {
->
-> for_each_sg_page()
-
-Ack.
-
-> > +     /*
-> > +      * XXX This is hackish. While the buffer will be uncached, we need
-> > +      * to initially flush cpu cache, since the the __GFP_ZERO on the
-> > +      * allocation means the zeroing was done by the cpu and thus it is likely
-> > +      * cached. Map & flush it out now so we don't get corruption later on.
-> > +      *
-> > +      * Ideally we could do this without using the heap device as a dummy dev.
-> > +      */
-> > +     dma_map_sg_attrs(dma_heap_get_dev(heap), table->sgl, table->nents,
-> > +                      DMA_BIDIRECTIONAL, DMA_ATTR_WRITE_COMBINE);
->
-> Again, DMA_ATTR_WRITE_COMBINE is meaningless here.
->
-> > +     dma_sync_sg_for_device(dma_heap_get_dev(heap), table->sgl, table->nents,
-> > +                            DMA_BIDIRECTIONAL);
->
-> This doesn't do anything that the map hasn't already just done.
-
-Good point!
-
-> > +     }
-> > +     dma_heap_get_dev(heap->heap)->dma_mask = &dummy_mask;
-> > +     dma_set_mask(dma_heap_get_dev(heap->heap), DMA_BIT_MASK(64));
->
-> Much as I'd hate to encourage using dma_coerce_mask_and_coherent(), I'm
-> not sure this is really any better :/
-
-Sounds fair.
-
-Thanks so much for the review, I really appreciate the feedback!
-(Sorry I was a little slow to respond. The merge window has really
-been something this cycle.. :P)
-
-I'll get this all integrated and resend the patch here shortly.
-
-thanks
--john
+-- 
+Best regards,
+Bingbu Cao
