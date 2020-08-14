@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 758F3244AA3
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 15:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE674244AAB
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 15:39:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728864AbgHNNhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 09:37:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57964 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728863AbgHNNho (ORCPT
+        id S1728877AbgHNNh5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 09:37:57 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43382 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728865AbgHNNhs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 09:37:44 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EFA7C061384;
-        Fri, 14 Aug 2020 06:37:44 -0700 (PDT)
+        Fri, 14 Aug 2020 09:37:48 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 54F1B29A825
+        with ESMTPSA id C476029A807
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
@@ -29,11 +26,10 @@ Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 13/19] media: rkvdec: Don't require unneeded H264_SLICE_PARAMS
-Date:   Fri, 14 Aug 2020 10:36:28 -0300
-Message-Id: <20200814133634.95665-14-ezequiel@collabora.com>
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: [PATCH v3 14/19] media: cedrus: h264: Properly configure reference field
+Date:   Fri, 14 Aug 2020 10:36:29 -0300
+Message-Id: <20200814133634.95665-15-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814133634.95665-1-ezequiel@collabora.com>
 References: <20200814133634.95665-1-ezequiel@collabora.com>
@@ -44,57 +40,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that slice invariant parameters have been moved,
-the driver no longer needs this control, so drop it.
+From: Jernej Skrabec <jernej.skrabec@siol.net>
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Jonas Karlman <jonas@kwiboo.se>
----
-v2:
-* Fix wrongly removed SPS.
----
- drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ----
- drivers/staging/media/rkvdec/rkvdec.c      | 5 -----
- 2 files changed, 9 deletions(-)
+When interlaced H264 content is being decoded, references must indicate
+which field is being referenced. Currently this was done by checking
+capture buffer flags. However, that is not correct because capture
+buffer may hold both fields.
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 70752e30b3a3..584e0d5c493b 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -109,7 +109,6 @@ struct rkvdec_h264_reflists {
- struct rkvdec_h264_run {
- 	struct rkvdec_run base;
- 	const struct v4l2_ctrl_h264_decode_params *decode_params;
--	const struct v4l2_ctrl_h264_slice_params *slices_params;
- 	const struct v4l2_ctrl_h264_sps *sps;
- 	const struct v4l2_ctrl_h264_pps *pps;
- 	const struct v4l2_ctrl_h264_scaling_matrix *scaling_matrix;
-@@ -1066,9 +1065,6 @@ static void rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
- 	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
- 			      V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS);
- 	run->decode_params = ctrl ? ctrl->p_cur.p : NULL;
--	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
--			      V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS);
--	run->slices_params = ctrl ? ctrl->p_cur.p : NULL;
- 	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
- 			      V4L2_CID_MPEG_VIDEO_H264_SPS);
- 	run->sps = ctrl ? ctrl->p_cur.p : NULL;
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index c8151328fb70..7c5129593921 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -59,11 +59,6 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
- 		.mandatory = true,
- 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
- 	},
--	{
--		.per_request = true,
--		.mandatory = true,
--		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS,
--	},
- 	{
- 		.per_request = true,
- 		.mandatory = true,
+Fix this by checking newly introduced flags in reference lists.
+
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+index c8f626fdd3dd..1e89a8438f36 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+@@ -182,7 +182,6 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+ 	for (i = 0; i < num_ref; i++) {
+ 		const struct v4l2_h264_dpb_entry *dpb;
+ 		const struct cedrus_buffer *cedrus_buf;
+-		const struct vb2_v4l2_buffer *ref_buf;
+ 		unsigned int position;
+ 		int buf_idx;
+ 		u8 dpb_idx;
+@@ -197,12 +196,11 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+ 		if (buf_idx < 0)
+ 			continue;
+ 
+-		ref_buf = to_vb2_v4l2_buffer(cap_q->bufs[buf_idx]);
+-		cedrus_buf = vb2_v4l2_to_cedrus_buffer(ref_buf);
++		cedrus_buf = vb2_to_cedrus_buffer(cap_q->bufs[buf_idx]);
+ 		position = cedrus_buf->codec.h264.position;
+ 
+ 		sram_array[i] |= position << 1;
+-		if (ref_buf->field == V4L2_FIELD_BOTTOM)
++		if (ref_list[i].fields & V4L2_H264_BOTTOM_FIELD_REF)
+ 			sram_array[i] |= BIT(0);
+ 	}
+ 
 -- 
 2.27.0
 
