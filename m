@@ -2,85 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 041BD244417
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 06:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E12DF24441C
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 06:13:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726228AbgHNEE3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 00:04:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54826 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgHNEE2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 00:04:28 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEE39C061757
-        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 21:04:28 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id 17so3918894pfw.9
-        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 21:04:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=54FY878KVj/CSYsO8Dcm5OWJhxN5w6OcdyXWGK9m8HY=;
-        b=Yek8F3bP/X1Llmt3D8t+vLpkKc1kjIvnq0GoSs91ylajOApMtD6rzmoOY53kVhIRiw
-         xljBhN9ZpCU5mFPj3jF3VE2EoaGCoS4TNdQigUvkmK1RksYtwtryxaJgYra0y/dgU4Dn
-         tLPIe6s6kKIq2bF+6dHwnmwDosWZKU/sLzZXWWyt+vtcvQFSSOCFMS6e67h1oc7sdQvv
-         G7xUjSnaRWNgnaMVfY+tTRJ4cNMtSoFKapgaR7nhE+pNety7MBXiisHyDB+tcKH8AE3A
-         aYqjRreZ4LlanUAtp54YSEwaAScImpmjWkk/w5cmpD1EEpq/9VGDxA5TktYjqfR+Jv6m
-         cJXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=54FY878KVj/CSYsO8Dcm5OWJhxN5w6OcdyXWGK9m8HY=;
-        b=Hp8r2IkJB3MTo7VMOOfBAiZJACBzKXC9Rd3dXNd2eTfyP5F2zbyG5B3wbybfIcy/Sc
-         6c50Y5YjBGuQ+OdQLvWr9EzrR6m/jhnIND7jpkmTALn16NNtPlAlx70/GNEYv97Wu2Qf
-         3KhhLwuUJ1fGGXIxRK0EjKqGZ2ThxyMbnsZUMuM9w+t3B8dUI/D3zUCpAYapMD0KfKbR
-         sC8bJgkT6kNAzWqQLxpC8Sdcn0VGMfBNRqrXUgqRMd8Amrj7hiD/iv16D6yM7j9lbNYC
-         zZIcXhQSxf1O65/mbXIfIOI9IzGztdU+iqUqdis8e88yEa7cYnNNXrq6tkPLYZcGVwp8
-         pRGg==
-X-Gm-Message-State: AOAM532ZyIK7P0OvTgAtQVeAZca5w4D4fKbjWFunv7eJ2+dfFa3iqik7
-        cCgdcJR5w3aicqSvvkhUlGDYZSNuK4Y=
-X-Google-Smtp-Source: ABdhPJxJDwysbl+rMmWhFPBr/A0dMo93EyIZ391CVQnZ+0t8cq0t0Cov2Pvf4gbIhKXGpqVfunmwwA==
-X-Received: by 2002:aa7:9570:: with SMTP id x16mr486020pfq.254.1597377868163;
-        Thu, 13 Aug 2020 21:04:28 -0700 (PDT)
-Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
-        by smtp.gmail.com with ESMTPSA id w7sm7362226pfi.164.2020.08.13.21.04.27
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2020 21:04:27 -0700 (PDT)
-From:   Rosen Penev <rosenp@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH] add missing include for uClibc-ng
-Date:   Thu, 13 Aug 2020 21:04:26 -0700
-Message-Id: <20200814040426.220237-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        id S1726110AbgHNEMy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 00:12:54 -0400
+Received: from mga05.intel.com ([192.55.52.43]:5357 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725989AbgHNEMx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Aug 2020 00:12:53 -0400
+IronPort-SDR: IRW1bLfrj70Um1n/PfwYBPHwNketQy8NiPSEwm9Yo6L0p5Wz7AmlyVkn6hXY856qH31c/LLhW7
+ e1X7PuKc7E7Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9712"; a="239187274"
+X-IronPort-AV: E=Sophos;i="5.76,310,1592895600"; 
+   d="scan'208";a="239187274"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 21:12:51 -0700
+IronPort-SDR: j4WTcdDJiAbV6JLYG0YDoKEtwkNNygEDyanQWK+d3YFITCeCaszJ1q0Tls2xxKo5z55O5Yv4B1
+ UkUBJAGLU0XA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,310,1592895600"; 
+   d="scan'208";a="318760365"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
+  by fmsmga004.fm.intel.com with ESMTP; 13 Aug 2020 21:12:47 -0700
+Subject: Re: [PATCH v5 0/6] Support running driver's probe for a device
+ powered off
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <20200810142747.12400-1-sakari.ailus@linux.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <5353041e-850f-05ad-3b20-35e91fc9501e@linux.intel.com>
+Date:   Fri, 14 Aug 2020 12:11:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200810142747.12400-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes missing va_list
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- lib/libdvbv5/dvb-dev-remote.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/lib/libdvbv5/dvb-dev-remote.c b/lib/libdvbv5/dvb-dev-remote.c
-index ebb1bdb77..e4ea3a824 100644
---- a/lib/libdvbv5/dvb-dev-remote.c
-+++ b/lib/libdvbv5/dvb-dev-remote.c
-@@ -30,6 +30,7 @@
- #include <ctype.h>
- #include <inttypes.h>
- #include <libudev.h>
-+#include <stdarg.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <locale.h>
+On 8/10/20 10:27 PM, Sakari Ailus wrote:
+> Hi all,
+> 
+...snip...
+> 
+> The use case is such that there is a privacy LED next to an integrated
+> user-facing laptop camera, and this LED is there to signal the user that
+> the camera is recording a video or capturing images. That LED also happens
+> to be wired to one of the power supplies of the camera, so whenever you
+> power on the camera, the LED will be lit, whether images are captured from
+> the camera --- or not. There's no way to implement this differently
+> without additional software control (allowing of which is itself a
+> hardware design decision) on most CSI-2-connected camera sensors as they
+> simply have no pin to signal the camera streaming state.
+> 
+> This is also what happens during driver probe: the camera will be powered
+> on by the I²C subsystem calling dev_pm_domain_attach() and the device is
+> already powered on when the driver's own probe function is called. To the
+> user this visible during the boot process as a blink of the privacy LED,
+> suggesting that the camera is recording without the user having used an
+> application to do that. From the end user's point of view the behaviour is
+> not expected and for someone unfamiliar with internal workings of a
+> computer surely seems quite suspicious --- even if images are not being
+> actually captured.
+> 
+> I've tested these on linux-next master. They also apply to Wolfram's
+> i2c/for-next branch, there's a patch that affects the I²C core changes
+> here (see below). The patches apart from that apply to Bartosz's
+> at24/for-next as well as Mauro's linux-media master branch.
+
+Sakari, we meet one issue - once the vcm sub-device registered, the user space
+will try to open the VCM (I have not figure out who did that), it will also
+trigger the acpi pm resume/suspend, as the VCM always shares same power rail
+with camera sensor, so the privacy LED still has a blink.
+
+> 
+...snip...
 -- 
-2.26.2
-
+Best regards,
+Bingbu Cao
