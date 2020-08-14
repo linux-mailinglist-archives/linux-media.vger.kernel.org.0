@@ -2,155 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B7C8244CB5
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 18:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 269F2244CA6
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 18:30:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728412AbgHNQa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 12:30:29 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:58597 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728099AbgHNQa1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 12:30:27 -0400
-Received: from [37.160.38.175] (port=40734 helo=[192.168.42.162])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1k6cay-0001mB-F9; Fri, 14 Aug 2020 18:30:20 +0200
-Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
-        <linux-rtc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>
-References: <20200812203618.2656699-1-robh@kernel.org>
- <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
- <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <f1963eb9-283f-e903-2a3a-4f324d71d418@lucaceresoli.net>
-Date:   Fri, 14 Aug 2020 18:30:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728362AbgHNQaY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 12:30:24 -0400
+Received: from mga18.intel.com ([134.134.136.126]:29793 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728360AbgHNQaY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Aug 2020 12:30:24 -0400
+IronPort-SDR: /pCnGfNV/29j2qB37iwoJep8al54AoQI9xVtONzwQPwE/0l7fzlVheQs2u7/QpC7nJ5+CyVguN
+ qD9Km7Wzr3mQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9713"; a="142064539"
+X-IronPort-AV: E=Sophos;i="5.76,312,1592895600"; 
+   d="scan'208";a="142064539"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2020 09:30:23 -0700
+IronPort-SDR: v9i+1e9iU9+a6wNkj4Ee5BIf18zUYZAZF4xMHBBl/HYYgjZkZX8i3ymlAU6Pwa7i+0JKoYEWkl
+ EnUnedGy3NXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,312,1592895600"; 
+   d="scan'208";a="278449490"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga008.fm.intel.com with ESMTP; 14 Aug 2020 09:30:21 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 409F0456; Fri, 14 Aug 2020 19:30:18 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 7/7] media: ipu3-cio2: Update Copyright year and fix indentation issues
+Date:   Fri, 14 Aug 2020 19:30:17 +0300
+Message-Id: <20200814163017.35001-7-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200814163017.35001-1-andriy.shevchenko@linux.intel.com>
+References: <20200814163017.35001-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Update Copyright year to cover the previous changes and at the same time
+address indentation issues.
 
-On 14/08/20 16:51, Rob Herring wrote:
-> On Thu, Aug 13, 2020 at 4:31 AM Luca Ceresoli <luca@lucaceresoli.net> wrote:
->>
->> Hi Rob,
->>
->> On 12/08/20 22:36, Rob Herring wrote:
->>> Clean-up incorrect indentation, extra spaces, long lines, and missing
->>> EOF newline in schema files. Most of the clean-ups are for list
->>> indentation which should always be 2 spaces more than the preceding
->>> keyword.
->>>
->>> Found with yamllint (which I plan to integrate into the checks).
->>
->> [...]
->>
->>> diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> index 3d4e1685cc55..28c6461b9a9a 100644
->>> --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> @@ -95,10 +95,10 @@ allOf:
->>>        # Devices without builtin crystal
->>>        properties:
->>>          clock-names:
->>> -            minItems: 1
->>> -            maxItems: 2
->>> -            items:
->>> -              enum: [ xin, clkin ]
->>> +          minItems: 1
->>> +          maxItems: 2
->>> +          items:
->>> +            enum: [ xin, clkin ]
->>>          clocks:
->>>            minItems: 1
->>>            maxItems: 2
->>
->> Thanks for noticing, LGTM.
->>
->> [...]
->>
->>> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> index d7dac16a3960..36dc7b56a453 100644
->>> --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> @@ -33,8 +33,8 @@ properties:
->>>      $ref: /schemas/types.yaml#/definitions/uint32
->>>
->>>    touchscreen-min-pressure:
->>> -    description: minimum pressure on the touchscreen to be achieved in order for the
->>> -                 touchscreen driver to report a touch event.
->>> +    description: minimum pressure on the touchscreen to be achieved in order
->>> +      for the touchscreen driver to report a touch event.
->>
->> Out of personal taste, I find the original layout more pleasant and
->> readable. This third option is also good, especially for long descriptions:
->>
->>   description:
->>     minimum pressure on the touchscreen to be achieved in order for the
->>     touchscreen driver to report a touch event.
->>
->> At first glance yamllint seems to support exactly these two by default:
->>
->>> With indentation: {spaces: 4, check-multi-line-strings: true}
-> 
-> Turning on check-multi-line-strings results in 10K+ warnings, so no.
-> 
-> The other issue is the style ruamel.yaml wants to write out is as the
-> patch does above. This matters when doing some scripted
-> transformations where we read in the files and write them back out. I
-> can somewhat work around that by first doing a pass with no changes
-> and then another pass with the actual changes, but that's completely
-> scriptable. Hopefully, ruamel learns to preserve the style better.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Kind of sad, but I understand the reason as far as my understanding of
-the yaml world allows. Thanks for the explanation.
-
-[For idt,versaclock5.yaml, plus an overview of whole patch]
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+index 5f8ff91dbf09..8925bab8ba06 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Copyright (C) 2017 Intel Corporation
++ * Copyright (C) 2017,2020 Intel Corporation
+  *
+  * Based partially on Intel IPU4 driver written by
+  *  Sakari Ailus <sakari.ailus@linux.intel.com>
+@@ -9,7 +9,6 @@
+  *  Jouni Ukkonen <jouni.ukkonen@intel.com>
+  *  Antti Laakso <antti.laakso@intel.com>
+  * et al.
+- *
+  */
+ 
+ #include <linux/delay.h>
+@@ -864,7 +863,7 @@ static int cio2_vb2_buf_init(struct vb2_buffer *vb)
+ 		b->offset = sg->sgl->offset;
+ 
+ 	i = j = 0;
+-	for_each_sg_dma_page (sg->sgl, &sg_iter, sg->nents, 0) {
++	for_each_sg_dma_page(sg->sgl, &sg_iter, sg->nents, 0) {
+ 		if (!pages--)
+ 			break;
+ 		b->lop[i][j] = PFN_DOWN(sg_page_iter_dma_address(&sg_iter));
 -- 
-Luca
+2.28.0
+
