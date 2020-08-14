@@ -2,120 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4359F244461
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 06:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5DBF244490
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 07:29:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726237AbgHNEvC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 00:51:02 -0400
-Received: from mga18.intel.com ([134.134.136.126]:34232 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726064AbgHNEvB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 00:51:01 -0400
-IronPort-SDR: BwcYYFx6yCN7xMkToc2F1oIKaRLdcyOmeCL8zKvyQNC8XCPpNmCPQ+B+OxwH1CpUvrZxRqFmr+
- 3IEHdXQnyPrA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9712"; a="141983072"
-X-IronPort-AV: E=Sophos;i="5.76,311,1592895600"; 
-   d="scan'208";a="141983072"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 21:50:59 -0700
-IronPort-SDR: iHE0ym04AgGD1DdU62ejtD10zRIQWGuWcSNF6jvf7+sSqQIW/XJSo4VSpAq4SKk4rm4kqQf1Gx
- aXOKcIGS/eqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,311,1592895600"; 
-   d="scan'208";a="318768127"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Aug 2020 21:50:51 -0700
-Subject: Re: [PATCH v5 3/6] ov5670: Support probe whilst the device is in a
- low power state
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-References: <20200810142747.12400-1-sakari.ailus@linux.intel.com>
- <20200810142747.12400-4-sakari.ailus@linux.intel.com>
- <7a1fa217-7fd1-1d36-0b1c-ad5d09ea11a0@linux.intel.com>
-Message-ID: <71c513bb-f367-2cc7-24cd-ce7f17c1e07d@linux.intel.com>
-Date:   Fri, 14 Aug 2020 12:49:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <7a1fa217-7fd1-1d36-0b1c-ad5d09ea11a0@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1726583AbgHNF3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 01:29:54 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:10118 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726320AbgHNF3y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Aug 2020 01:29:54 -0400
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 13 Aug 2020 22:29:52 -0700
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 13 Aug 2020 22:29:50 -0700
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 14 Aug 2020 10:59:32 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id 2AC0D4702; Fri, 14 Aug 2020 10:59:31 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
+        majja@codeaurora.org, stanimir.varbanov@linaro.org,
+        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH v2] media: v4l2-ctrl: add control for long term reference.
+Date:   Fri, 14 Aug 2020 10:59:27 +0530
+Message-Id: <1597382967-32729-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+LTR (Long Term Reference) frames are the frames that are encoded
+sometime in the past and stored in the DPB buffer list to be used
+as reference to encode future frames.
+This change adds controls to enable this feature.
 
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+---
+ .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 23 ++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls.c               |  6 ++++++
+ include/uapi/linux/v4l2-controls.h                 |  4 ++++
+ 3 files changed, 33 insertions(+)
 
-On 8/12/20 5:12 PM, Bingbu Cao wrote:
-> 
-> 
-> On 8/10/20 10:27 PM, Sakari Ailus wrote:
->> Tell ACPI device PM code that the driver supports the device being in a
->> low power state when the driver's probe function is entered.
->>
->> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> ---
->>  drivers/media/i2c/ov5670.c | 23 ++++++++++++++---------
->>  1 file changed, 14 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
->> index f26252e35e08d..1f75b888d2a18 100644
->> --- a/drivers/media/i2c/ov5670.c
->> +++ b/drivers/media/i2c/ov5670.c
->> @@ -2456,6 +2456,7 @@ static int ov5670_probe(struct i2c_client *client)
->>  	struct ov5670 *ov5670;
->>  	const char *err_msg;
->>  	u32 input_clk = 0;
->> +	bool low_power;
->>  	int ret;
->>  
->>  	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
->> @@ -2472,11 +2473,14 @@ static int ov5670_probe(struct i2c_client *client)
->>  	/* Initialize subdev */
->>  	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
->>  
->> -	/* Check module identity */
->> -	ret = ov5670_identify_module(ov5670);
->> -	if (ret) {
->> -		err_msg = "ov5670_identify_module() error";
->> -		goto error_print;
->> +	low_power = acpi_dev_state_low_power(&client->dev);
->> +	if (!low_power) {
->> +		/* Check module identity */
->> +		ret = ov5670_identify_module(ov5670);
->> +		if (ret) {
->> +			err_msg = "ov5670_identify_module() error";
->> +			goto error_print;
->> +	
-> 
-> Sakari, thanks for your patch.
-> one question - With this change, there will be no chance for driver to guarantee
-> that the camera sensor plugged in is the camera that the matched driver actually
-> can drive until try to streaming the camera, so is it necessary to return
-> appropriate error in .s_stream ops to notify user it is not the hardware that
-> current driver can drive? if no other better way.
-
-Sakari, please ignore my previous comment, it is not related to this change. I
-see the sub device open is caused by v4l_id program from udev.
-
-> 
-
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index d0d506a..6d1b005 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -4272,3 +4272,26 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+       - Selecting this value specifies that HEVC slices are expected
+         to be prefixed by Annex B start codes. According to :ref:`hevc`
+         valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
++
++``V4L2_CID_MPEG_VIDEO_LTRCOUNT (enum)``
++	Specifies the number of Long Term Reference frames encoder needs to
++	generate or keep.
++	This control is used to query or configure the number of Long Term
++	Reference frames.
++
++``V4L2_CID_MPEG_VIDEO_MARKLTRFRAME (enum)``
++	This control is used to mark current frame as Long Term Reference
++	frame.
++	this provides a Long Term Reference index that ranges from 0
++	to LTR count-1 and then the particular frame will be marked with that
++	Long Term Reference index.
++
++``V4L2_CID_MPEG_VIDEO_USELTRFRAME (enum)``
++	Specifies the Long Term Reference frame(s) to be used for encoding
++	the current frame.
++	This provides a bitmask which consists of bits [0, 15]. A total of N
++	LSB bits of this field are valid, where N is the maximum number of
++	Long Term Reference frames supported.
++	All the other bits are invalid and should be rejected.
++	The LSB corresponds to the Long Term Reference index 0. Bit N-1 from
++	the LSB corresponds to the Long Term Reference index max LTR count-1.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 3f3fbcd..3138c72 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -991,6 +991,9 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
+ 	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+ 	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
++	case V4L2_CID_MPEG_VIDEO_LTRCOUNT:		return "LTR Count";
++	case V4L2_CID_MPEG_VIDEO_MARKLTRFRAME:		return "Mark LTR";
++	case V4L2_CID_MPEG_VIDEO_USELTRFRAME:		return "Use LTR";
+ 
+ 	/* CAMERA controls */
+ 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+@@ -1224,6 +1227,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 		break;
+ 	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:
+ 	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
++	case V4L2_CID_MPEG_VIDEO_LTRCOUNT:
++	case V4L2_CID_MPEG_VIDEO_MARKLTRFRAME:
++	case V4L2_CID_MPEG_VIDEO_USELTRFRAME:
+ 		*type = V4L2_CTRL_TYPE_INTEGER;
+ 		break;
+ 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 6227141..f2daa86 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -742,6 +742,10 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
+ #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 642)
+ #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
+ #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
++#define V4L2_CID_MPEG_VIDEO_LTRCOUNT	(V4L2_CID_MPEG_BASE + 645)
++#define V4L2_CID_MPEG_VIDEO_MARKLTRFRAME	(V4L2_CID_MPEG_BASE + 646)
++#define V4L2_CID_MPEG_VIDEO_USELTRFRAME		(V4L2_CID_MPEG_BASE + 647)
++
+ 
+ /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
+ #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
 -- 
-Best regards,
-Bingbu Cao
+1.9.1
+
