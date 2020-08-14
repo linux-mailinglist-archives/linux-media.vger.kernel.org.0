@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70925244AB6
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 15:40:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2651E244AAE
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 15:39:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728135AbgHNNiV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 09:38:21 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43406 "EHLO
+        id S1728888AbgHNNiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 09:38:02 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43430 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726834AbgHNNhx (ORCPT
+        with ESMTP id S1728275AbgHNNh6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 09:37:53 -0400
+        Fri, 14 Aug 2020 09:37:58 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id F14A429A7D6
+        with ESMTPSA id 68E7529A825
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
@@ -26,10 +26,11 @@ Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: [PATCH v3 15/19] media: cedrus: h264: Fix frame list construction
-Date:   Fri, 14 Aug 2020 10:36:30 -0300
-Message-Id: <20200814133634.95665-16-ezequiel@collabora.com>
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v3 16/19] media: rkvdec: Drop unneeded per_request driver-specific control flag
+Date:   Fri, 14 Aug 2020 10:36:31 -0300
+Message-Id: <20200814133634.95665-17-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200814133634.95665-1-ezequiel@collabora.com>
 References: <20200814133634.95665-1-ezequiel@collabora.com>
@@ -40,63 +41,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jernej Skrabec <jernej.skrabec@siol.net>
+Currently, the drivers makes no distinction between per_request
+and mandatory, as both are used in the same request validate check.
 
-Current frame list construction algorithm assumes that decoded image
-will be output into its own buffer. That is true for progressive content
-but not for interlaced where each field is decoded separately into same
-buffer.
+The driver only cares to know if a given control is
+required to be part of a request, so only one flag is needed.
 
-Fix that by checking if capture buffer is listed in DPB. If it is, reuse
-it.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 6 +-----
+ drivers/staging/media/rkvdec/rkvdec.h | 1 -
+ 2 files changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index 1e89a8438f36..fe041b444385 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -101,7 +101,7 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
- 	struct cedrus_dev *dev = ctx->dev;
- 	unsigned long used_dpbs = 0;
- 	unsigned int position;
--	unsigned int output = 0;
-+	int output = -1;
- 	unsigned int i;
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 7c5129593921..cd720d726d7f 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -55,23 +55,19 @@ static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
  
- 	cap_q = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-@@ -124,6 +124,11 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
- 		position = cedrus_buf->codec.h264.position;
- 		used_dpbs |= BIT(position);
+ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+ 	{
+-		.per_request = true,
+ 		.mandatory = true,
+ 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
+ 	},
+ 	{
+-		.per_request = true,
+ 		.mandatory = true,
+ 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SPS,
+ 		.cfg.ops = &rkvdec_ctrl_ops,
+ 	},
+ 	{
+-		.per_request = true,
+ 		.mandatory = true,
+ 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PPS,
+ 	},
+ 	{
+-		.per_request = true,
+ 		.mandatory = true,
+ 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
+ 	},
+@@ -615,7 +611,7 @@ static int rkvdec_request_validate(struct media_request *req)
+ 		u32 id = ctrls->ctrls[i].cfg.id;
+ 		struct v4l2_ctrl *ctrl;
  
-+		if (run->dst->vb2_buf.timestamp == dpb->reference_ts) {
-+			output = position;
-+			continue;
-+		}
-+
- 		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+-		if (!ctrls->ctrls[i].per_request || !ctrls->ctrls[i].mandatory)
++		if (!ctrls->ctrls[i].mandatory)
  			continue;
  
-@@ -131,13 +136,11 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
- 				    dpb->top_field_order_cnt,
- 				    dpb->bottom_field_order_cnt,
- 				    &pic_list[position]);
--
--		output = max(position, output);
- 	}
+ 		ctrl = v4l2_ctrl_request_hdl_ctrl_find(hdl, id);
+diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+index 2fc9f46b6910..77a137cca88e 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.h
++++ b/drivers/staging/media/rkvdec/rkvdec.h
+@@ -25,7 +25,6 @@
+ struct rkvdec_ctx;
  
--	position = find_next_zero_bit(&used_dpbs, CEDRUS_H264_FRAME_NUM,
--				      output);
--	if (position >= CEDRUS_H264_FRAME_NUM)
-+	if (output >= 0)
-+		position = output;
-+	else
- 		position = find_first_zero_bit(&used_dpbs, CEDRUS_H264_FRAME_NUM);
- 
- 	output_buf = vb2_to_cedrus_buffer(&run->dst->vb2_buf);
+ struct rkvdec_ctrl_desc {
+-	u32 per_request : 1;
+ 	u32 mandatory : 1;
+ 	struct v4l2_ctrl_config cfg;
+ };
 -- 
 2.27.0
 
