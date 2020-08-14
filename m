@@ -2,78 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E62092443AB
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 05:03:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2676244414
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 06:03:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbgHNDCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Aug 2020 23:02:55 -0400
-Received: from mga07.intel.com ([134.134.136.100]:48346 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726583AbgHNDCz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Aug 2020 23:02:55 -0400
-IronPort-SDR: slOS+5gjyNI3HbwVa7/OZUoRtPG9gzP8GDWHHBsd6D6woiLKF6SniKKEb2odvcyXKJM0P+0XFK
- 9E1r4/eQ2JKw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9712"; a="218683649"
-X-IronPort-AV: E=Sophos;i="5.76,310,1592895600"; 
-   d="scan'208";a="218683649"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 20:02:54 -0700
-IronPort-SDR: wEhkRU/DQPC9pX4DpyoPjXFa9SctLxpLCacV6p3VqTHLmP/IYd6gRRjH/Yt4wk5gy8JlMIq6OU
- TJPk0Stmdx9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,310,1592895600"; 
-   d="scan'208";a="399357936"
-Received: from ipu5-build.bj.intel.com ([10.238.232.196])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2020 20:02:52 -0700
-From:   Bingbu Cao <bingbu.cao@intel.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        helgaas@kernel.org
-Cc:     sakari.ailus@linux.intel.com, tian.shu.qiu@intel.com,
-        bingbu.cao@intel.com, bingbu.cao@linux.intel.com
-Subject: [PATCH v3] nvmem: core: add sanity check in nvmem_device_read()
-Date:   Fri, 14 Aug 2020 11:01:46 +0800
-Message-Id: <1597374106-15974-1-git-send-email-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726151AbgHNEDm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 00:03:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54704 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbgHNEDm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Aug 2020 00:03:42 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52639C061757
+        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 21:03:42 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id x25so3927828pff.4
+        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 21:03:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zOBQDJ9xl341pTXD7Smxbfk4in9KY3X0zaEyUxaJ9qg=;
+        b=RaUG6WJ/LSc39iBYmTuEdJtwQm31viHAd5dsVGeekaRlvaqspNoT79oDQENUVy/Dhl
+         in0tCMNgA4UAAXuGQTMDQbvvSJJVGmu+SAo1+KR2exDkGm0tlYt9zZ/JrwTiDNCTEjY8
+         Mm0IadiEBBNe6EiCRWs+Vn4nuZwxnC8ytH19p19+YzBDgTpYegEh6o60thiF5nA6nc4v
+         1u7zfxft3h9cxLQ6KmCUe2gnwFYJJZRmesc3m4BOSlALbCFiFZOBNKL/+RGSfJXTVwT4
+         iCzEzG51FyLfshKbQ6UvcqWjCV0K5F4AnlOT5MRKmWCtI9f0FbOv9uGXh3tjLZ792fES
+         DHCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zOBQDJ9xl341pTXD7Smxbfk4in9KY3X0zaEyUxaJ9qg=;
+        b=So7QHoSGvAHafcPtnUAw+SM0EkitW/l9qarKYk91vqdnAIK7PTLhy1eJcd0Cp1BFsA
+         B3XkM0FfLi8uONc13GIUsInGa/3jwO8pC1leihSZGJ+7HqPP7BhpZ1Gldjo7mxw+JtqK
+         tTOT3kRpRWMcbynVNrHLAGp/Zfmm9amacfriR6aOBRBeaCf18dPd2LqnGMYZ+8o+NdAm
+         X+ML0BWyYaAT/aYn3cHGcXddqhiIcosXMVR5gRSILNUJ8TprQRC+wgsHNmRC+KzpRqiW
+         mPdN5pdLkT8BVVwegfSmEaza88hzTKUbA8TWXY+1SGqACb9+dCIiY6jiTAjAjAnzD80f
+         P8vw==
+X-Gm-Message-State: AOAM530V7oPgHLeBNux+fwMYLRhdL4WE8qDiy0Ko93ei82XLADnEgM0P
+        SgOvmwlkGKZ2X5Wy0d5WUeK9c8OXNFo=
+X-Google-Smtp-Source: ABdhPJwM0Kfk3+tFDip5Hb6NyHJG5vZVrbemkNuvnBHpLXToa36i21qIKFnUww7RuhBuqMaYnl0P0w==
+X-Received: by 2002:a62:1d1:: with SMTP id 200mr448269pfb.161.1597377821664;
+        Thu, 13 Aug 2020 21:03:41 -0700 (PDT)
+Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
+        by smtp.gmail.com with ESMTPSA id a24sm7371597pfg.113.2020.08.13.21.03.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2020 21:03:40 -0700 (PDT)
+From:   Rosen Penev <rosenp@gmail.com>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] fix mismatching declaration
+Date:   Thu, 13 Aug 2020 21:03:40 -0700
+Message-Id: <20200814040340.218452-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-nvmem device read/write could be called directly once nvmem
-device registered, the sanity check should be done before each
-nvmem_reg_read/write().
+When compiling with GCC 10 and meson, it errors on this function as it
+is declared with V4LCONTROL_COUNT later on.
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- drivers/nvmem/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ lib/libv4lconvert/control/libv4lcontrol.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 927eb5f6003f..09ad5a06efee 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -69,6 +69,9 @@ static BLOCKING_NOTIFIER_HEAD(nvmem_notifier);
- static int nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
- 			  void *val, size_t bytes)
- {
-+	if (bytes + offset > nvmem->size)
-+		return -EINVAL;
-+
- 	if (nvmem->reg_read)
- 		return nvmem->reg_read(nvmem->priv, offset, val, bytes);
+diff --git a/lib/libv4lconvert/control/libv4lcontrol.c b/lib/libv4lconvert/control/libv4lcontrol.c
+index 0b0a346e4..7296de1d0 100644
+--- a/lib/libv4lconvert/control/libv4lcontrol.c
++++ b/lib/libv4lconvert/control/libv4lcontrol.c
+@@ -262,7 +262,7 @@ static const struct v4lcontrol_flags_info v4lcontrol_flags[] = {
+ 	{ 0x1046, 0x9967, 0,    NULL, NULL, V4LCONTROL_FORCE_TINYJPEG },
+ };
  
-@@ -80,6 +83,9 @@ static int nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
- {
- 	int ret;
+-static const struct v4l2_queryctrl fake_controls[];
++static const struct v4l2_queryctrl fake_controls[V4LCONTROL_COUNT];
  
-+	if (bytes + offset > nvmem->size)
-+		return -EINVAL;
-+
- 	if (nvmem->reg_write) {
- 		gpiod_set_value_cansleep(nvmem->wp_gpio, 0);
- 		ret = nvmem->reg_write(nvmem->priv, offset, val, bytes);
+ static const char *asus_board_vendor[] = {
+ 	"ASUSTeK Computer Inc.",
 -- 
-2.7.4
+2.26.2
 
