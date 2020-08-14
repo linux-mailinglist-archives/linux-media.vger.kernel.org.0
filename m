@@ -2,121 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5DBF244490
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 07:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1D9B2444BA
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 07:59:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbgHNF3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 01:29:54 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:10118 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726320AbgHNF3y (ORCPT
+        id S1726587AbgHNF7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 01:59:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726410AbgHNF7P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 01:29:54 -0400
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 13 Aug 2020 22:29:52 -0700
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 13 Aug 2020 22:29:50 -0700
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 14 Aug 2020 10:59:32 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id 2AC0D4702; Fri, 14 Aug 2020 10:59:31 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
-        majja@codeaurora.org, stanimir.varbanov@linaro.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v2] media: v4l2-ctrl: add control for long term reference.
-Date:   Fri, 14 Aug 2020 10:59:27 +0530
-Message-Id: <1597382967-32729-1-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+        Fri, 14 Aug 2020 01:59:15 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FBCC061383
+        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 22:59:15 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id h3so7223254oie.11
+        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 22:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6ek1Xj7F+p5V5QHuUBuug/aAxVgWdWkwQ14dvtLIgIA=;
+        b=u/d3+AkOSH0ZAUrREdpKK1K7+3ubxoyTo9I05t6URCCnVPUTye+E+pdV9V2a3+ccif
+         jWmpaZGdH4f5C8gDoW6VBuNLHhE1+5zuMQeQxEUtLt583MPJeaDnuM4ZIjXApLZMDldZ
+         cI8sNWvgt7TJWl02eoF2qITSBjQxL+K9NrXJ8TrvklB+qqHO5k48Y90zZ/69fX0WrF/R
+         MA6niyBPxhu67sI+tFb0PnUtTD7MV1RvC4LgKGWOvhWzCj7wmC5lwJYbKFKeXstgY9eL
+         z2qErVVTp3z2vziasizR4KHWl5qtoCFKMNuPyd+OX+cHRRC8SRlXrsEWvZfxOz/SYkje
+         AWzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6ek1Xj7F+p5V5QHuUBuug/aAxVgWdWkwQ14dvtLIgIA=;
+        b=at2zL6UzGVkIheniVfD21X6Wl0tuIYBhouCt7nQjqBqlv7pGgBT8AxwISjgLQOn1T5
+         WvAVh2Wz78p3CkatqCFYnBgPP6szp6xSFYOKtkh9TR6/n775t7miTy/+o+TKIN9HJBrk
+         MUvY7bJYQWwJMzeQq+82V9YSZ2aN1JjBVW9wuPHn+yxMSIrQ4x9N1Bf7NijMRz1VVrjG
+         wjwaQ8RATX+OY7cMbQHkNA5FmvOUTRi1KuR4aV4Ij18yrmW8cQEPmQcJA9nTeKSl/s6q
+         a4bdbwseg7c52d6T2LcBDYuatp7hpUTgPcP3rQRT96Dq1D4eoosKyTBXpJ0v5BZnNY9e
+         T5+Q==
+X-Gm-Message-State: AOAM531NJmgijhAMXgj9D0yQsEK0YbQ624dRDjH/WGlQ3S71udF8pX95
+        ORUIxRxBvg0SYJVa5NfVSXms9SfGHyTi9mH9k27Pnw==
+X-Google-Smtp-Source: ABdhPJygjIyHSKquccaPWBOnwk40OPCWOWVkacRMrzSamBOp7G/opmXIa+Evw20OaDL+Y6ykmzsGN0rJzm1g8bL1p74=
+X-Received: by 2002:aca:dc85:: with SMTP id t127mr588618oig.169.1597384754309;
+ Thu, 13 Aug 2020 22:59:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200729051632.66040-1-john.stultz@linaro.org>
+ <20200729051632.66040-2-john.stultz@linaro.org> <3aabe118-929d-6ada-b317-dfa72d180717@arm.com>
+In-Reply-To: <3aabe118-929d-6ada-b317-dfa72d180717@arm.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Thu, 13 Aug 2020 22:59:02 -0700
+Message-ID: <CALAqxLWjbhD3LN7phqPW_PrvXFeGd3aFHzAU0AAjVcNJNOTVoA@mail.gmail.com>
+Subject: Re: [RFC][PATCH 2/2] dma-heap: Add a system-uncached heap
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        "Andrew F . Davis" <afd@ti.com>, Laura Abbott <labbott@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-LTR (Long Term Reference) frames are the frames that are encoded
-sometime in the past and stored in the DPB buffer list to be used
-as reference to encode future frames.
-This change adds controls to enable this feature.
+On Mon, Aug 3, 2020 at 4:06 AM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> On 2020-07-29 06:16, John Stultz wrote:
+> > This adds a heap that allocates non-contiguous buffers that are
+> > marked as writecombined, so they are not cached by the CPU.
+> >
+...
+> > +     ret = sg_alloc_table(new_table, table->nents, GFP_KERNEL);
+> > +     if (ret) {
+> > +             kfree(new_table);
+> > +             return ERR_PTR(-ENOMEM);
+> > +     }
+> > +
+> > +     new_sg = new_table->sgl;
+> > +     for_each_sg(table->sgl, sg, table->nents, i) {
+>
+> Consider using the new sgtable helpers that are just about to land - in
+> this case, for_each_sgtable_sg().
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
----
- .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 23 ++++++++++++++++++++++
- drivers/media/v4l2-core/v4l2-ctrls.c               |  6 ++++++
- include/uapi/linux/v4l2-controls.h                 |  4 ++++
- 3 files changed, 33 insertions(+)
+Ack! Thanks for the suggestion!
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index d0d506a..6d1b005 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -4272,3 +4272,26 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-       - Selecting this value specifies that HEVC slices are expected
-         to be prefixed by Annex B start codes. According to :ref:`hevc`
-         valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
-+
-+``V4L2_CID_MPEG_VIDEO_LTRCOUNT (enum)``
-+	Specifies the number of Long Term Reference frames encoder needs to
-+	generate or keep.
-+	This control is used to query or configure the number of Long Term
-+	Reference frames.
-+
-+``V4L2_CID_MPEG_VIDEO_MARKLTRFRAME (enum)``
-+	This control is used to mark current frame as Long Term Reference
-+	frame.
-+	this provides a Long Term Reference index that ranges from 0
-+	to LTR count-1 and then the particular frame will be marked with that
-+	Long Term Reference index.
-+
-+``V4L2_CID_MPEG_VIDEO_USELTRFRAME (enum)``
-+	Specifies the Long Term Reference frame(s) to be used for encoding
-+	the current frame.
-+	This provides a bitmask which consists of bits [0, 15]. A total of N
-+	LSB bits of this field are valid, where N is the maximum number of
-+	Long Term Reference frames supported.
-+	All the other bits are invalid and should be rejected.
-+	The LSB corresponds to the Long Term Reference index 0. Bit N-1 from
-+	the LSB corresponds to the Long Term Reference index max LTR count-1.
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 3f3fbcd..3138c72 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -991,6 +991,9 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
-+	case V4L2_CID_MPEG_VIDEO_LTRCOUNT:		return "LTR Count";
-+	case V4L2_CID_MPEG_VIDEO_MARKLTRFRAME:		return "Mark LTR";
-+	case V4L2_CID_MPEG_VIDEO_USELTRFRAME:		return "Use LTR";
- 
- 	/* CAMERA controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-@@ -1224,6 +1227,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 		break;
- 	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:
- 	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
-+	case V4L2_CID_MPEG_VIDEO_LTRCOUNT:
-+	case V4L2_CID_MPEG_VIDEO_MARKLTRFRAME:
-+	case V4L2_CID_MPEG_VIDEO_USELTRFRAME:
- 		*type = V4L2_CTRL_TYPE_INTEGER;
- 		break;
- 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 6227141..f2daa86 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -742,6 +742,10 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
- #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 642)
- #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
- #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
-+#define V4L2_CID_MPEG_VIDEO_LTRCOUNT	(V4L2_CID_MPEG_BASE + 645)
-+#define V4L2_CID_MPEG_VIDEO_MARKLTRFRAME	(V4L2_CID_MPEG_BASE + 646)
-+#define V4L2_CID_MPEG_VIDEO_USELTRFRAME		(V4L2_CID_MPEG_BASE + 647)
-+
- 
- /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
- #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
--- 
-1.9.1
 
+> > +             memcpy(new_sg, sg, sizeof(*sg));
+> > +             new_sg->dma_address = 0;
+>
+> This seems a little bit hairy, as in theory a consumer could still treat
+> a nonzero DMA length as the address being valid. Rather than copying the
+> whole entry then trying to undo parts of that, maybe just:
+>
+>         sg_set_page(new_sg, sg_page(sg), sg->len, sg->offset);
+>
+> ?
+
+Sounds good.
+
+
+> > +static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+> > +                                          enum dma_data_direction direction)
+> > +{
+> > +     struct dma_heap_attachment *a = attachment->priv;
+> > +     struct sg_table *table = a->table;
+> > +
+> > +     if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents, direction,
+> > +                           DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_WRITE_COMBINE))
+>
+> dma_map_sgtable()
+>
+> Also, DMA_ATTR_WRITE_COMBINE is meaningless for streaming DMA.
+>
+
+Hrm. Ok, my grasp of "streaming" vs "consistent" definitions are maybe
+slightly off, since while we are mapping and unmapping buffers, the
+point of this heap is that the allocated memory is uncached/coherent,
+so we avoid the cache sync overhead on each mapping/unmapping, which I
+thought was closer to the "consistent" definition.
+
+But maybe if the mapping and unmapping part is really the key
+difference, then ok.
+
+Either way, from my testing, you seem to be right that the
+ATTR_WRITE_COMBINE doesn't seem to make any difference in behavior.
+
+> > +     pgprot = pgprot_writecombine(PAGE_KERNEL);
+> > +
+> > +     for_each_sg(table->sgl, sg, table->nents, i) {
+>
+> for_each_sg_page()
+
+Ack.
+
+> > +     /*
+> > +      * XXX This is hackish. While the buffer will be uncached, we need
+> > +      * to initially flush cpu cache, since the the __GFP_ZERO on the
+> > +      * allocation means the zeroing was done by the cpu and thus it is likely
+> > +      * cached. Map & flush it out now so we don't get corruption later on.
+> > +      *
+> > +      * Ideally we could do this without using the heap device as a dummy dev.
+> > +      */
+> > +     dma_map_sg_attrs(dma_heap_get_dev(heap), table->sgl, table->nents,
+> > +                      DMA_BIDIRECTIONAL, DMA_ATTR_WRITE_COMBINE);
+>
+> Again, DMA_ATTR_WRITE_COMBINE is meaningless here.
+>
+> > +     dma_sync_sg_for_device(dma_heap_get_dev(heap), table->sgl, table->nents,
+> > +                            DMA_BIDIRECTIONAL);
+>
+> This doesn't do anything that the map hasn't already just done.
+
+Good point!
+
+> > +     }
+> > +     dma_heap_get_dev(heap->heap)->dma_mask = &dummy_mask;
+> > +     dma_set_mask(dma_heap_get_dev(heap->heap), DMA_BIT_MASK(64));
+>
+> Much as I'd hate to encourage using dma_coerce_mask_and_coherent(), I'm
+> not sure this is really any better :/
+
+Sounds fair.
+
+Thanks so much for the review, I really appreciate the feedback!
+(Sorry I was a little slow to respond. The merge window has really
+been something this cycle.. :P)
+
+I'll get this all integrated and resend the patch here shortly.
+
+thanks
+-john
