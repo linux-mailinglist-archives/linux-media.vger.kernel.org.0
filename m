@@ -2,110 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 426F62444F0
-	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 08:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC2462444FC
+	for <lists+linux-media@lfdr.de>; Fri, 14 Aug 2020 08:25:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbgHNGTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Aug 2020 02:19:22 -0400
-Received: from mga09.intel.com ([134.134.136.24]:15966 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726185AbgHNGTW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Aug 2020 02:19:22 -0400
-IronPort-SDR: qc3QO0RWv3PDkKWWUnzAvTB3m1g11J8gI61bOogi8VRRUGjjDdgIhsv142EBIXi6bIpJGyw9t9
- Ku0mZ16r6Rxg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9712"; a="155474553"
-X-IronPort-AV: E=Sophos;i="5.76,311,1592895600"; 
-   d="scan'208";a="155474553"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 23:19:21 -0700
-IronPort-SDR: 545gqfD32bKwafgjhPqXEZJ/MY8MH2jMl8R6xD4Y1UwfyHWY5cxN1DzxA7dp7Ew+2hDGUaO/P8
- hx+H8DlmnLWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,311,1592895600"; 
-   d="scan'208";a="318784992"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Aug 2020 23:19:17 -0700
-Subject: Re: [PATCH v5 0/6] Support running driver's probe for a device
- powered off
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-References: <20200810142747.12400-1-sakari.ailus@linux.intel.com>
- <5353041e-850f-05ad-3b20-35e91fc9501e@linux.intel.com>
-Message-ID: <aca32190-076e-d047-6988-1a5858f84945@linux.intel.com>
-Date:   Fri, 14 Aug 2020 14:18:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <5353041e-850f-05ad-3b20-35e91fc9501e@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1726237AbgHNGZD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Aug 2020 02:25:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47982 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726110AbgHNGZC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Aug 2020 02:25:02 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B78E1C061757
+        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 23:25:02 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id y10so2158795plr.11
+        for <linux-media@vger.kernel.org>; Thu, 13 Aug 2020 23:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=pwDOHGKYvCi61mHFneVF0EduuTKfnrQsk03HbkNHX20=;
+        b=dOPsv7f/wEuHeXmKjjFDeLAv02B1ounW5ulazhQV8hHqRYaoJ6XQBCnvtser32aA0E
+         lgWuqqXH8kA0synMTCgHcFY7N2wuxSKoFOHOV6kqBkcKr5CSJ0fDOOolLuankz4PSiHm
+         g+oRPe6gRdVqcAEnDUy6PIBRaTLR1LZZEGpxq4/ei7DQd0f9nkuuUli4Irvpx6e132Ev
+         KKUCcTypG0YxXTabLVsyduvK5KJXFsR2GNAFoPL+SZGzbV9iiCoUhTMcAOa0EfqUFfJT
+         LfhJ8/iUXz/Nfy9Wl7PPWVm2+2qUjp++JKg7RGAM5d8BbrjLDB9TujIrQQZgqMVHr1gt
+         0Mig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=pwDOHGKYvCi61mHFneVF0EduuTKfnrQsk03HbkNHX20=;
+        b=NJcW+Spu1ylrjMuzj+ftpAMvJxTVJ6z6PAhHpzyd2tVxoO1uFOj+n1pfL3dp2V62cs
+         Ea64Bn7+qy7xwk3AvF9n4w9XAlsF+i1i8pzmOltJ63o5prM6Ig7d9/hWtGTI5WD7D1MG
+         hdcgNv7i9mshGzJ5Ftx18oik/PH7e/QXEfn8KEr8Q3g8HWLt+eCxeTbMk+MdFQh+oXk8
+         7wvu1Xu8KqBdamlRdcduIZFQjc4VNPekbRHyo5y031WzoliDMKNTse5lNjS3VgLPf4kx
+         E1bbmggDNCXYqi/Doj5gRUXojICcwIyJEHO3uIhKjmZHwXj2NFswyFUqS6W9229I2COr
+         VkGQ==
+X-Gm-Message-State: AOAM531CTvs3WV3fc6zjPQTb5mvEeVBR0uD+YuIWWnlgNc2hrA+JkrkF
+        mh0V2O6CWrYpJkVYHgrhjCTTYA==
+X-Google-Smtp-Source: ABdhPJxnGWB4G0BauuF1CXzPhUUlFpGdCXVBwviMTN5qRwfvr9KZRSe4Mu5Ey8K87w5P6jwDUx+ihA==
+X-Received: by 2002:a17:90b:1254:: with SMTP id gx20mr1133241pjb.117.1597386302081;
+        Thu, 13 Aug 2020 23:25:02 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id z4sm7651496pfb.55.2020.08.13.23.25.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2020 23:25:01 -0700 (PDT)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Andrew F . Davis" <afd@ti.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [RFC][PATCH v2 1/2] dma-heap: Keep track of the heap device struct
+Date:   Fri, 14 Aug 2020 06:24:57 +0000
+Message-Id: <20200814062458.53049-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Keep track of the heap device struct.
 
+This will be useful for special DMA allocations
+and actions.
 
-On 8/14/20 12:11 PM, Bingbu Cao wrote:
-> 
-> 
-> On 8/10/20 10:27 PM, Sakari Ailus wrote:
->> Hi all,
->>
-> ...snip...
->>
->> The use case is such that there is a privacy LED next to an integrated
->> user-facing laptop camera, and this LED is there to signal the user that
->> the camera is recording a video or capturing images. That LED also happens
->> to be wired to one of the power supplies of the camera, so whenever you
->> power on the camera, the LED will be lit, whether images are captured from
->> the camera --- or not. There's no way to implement this differently
->> without additional software control (allowing of which is itself a
->> hardware design decision) on most CSI-2-connected camera sensors as they
->> simply have no pin to signal the camera streaming state.
->>
->> This is also what happens during driver probe: the camera will be powered
->> on by the I²C subsystem calling dev_pm_domain_attach() and the device is
->> already powered on when the driver's own probe function is called. To the
->> user this visible during the boot process as a blink of the privacy LED,
->> suggesting that the camera is recording without the user having used an
->> application to do that. From the end user's point of view the behaviour is
->> not expected and for someone unfamiliar with internal workings of a
->> computer surely seems quite suspicious --- even if images are not being
->> actually captured.
->>
->> I've tested these on linux-next master. They also apply to Wolfram's
->> i2c/for-next branch, there's a patch that affects the I²C core changes
->> here (see below). The patches apart from that apply to Bartosz's
->> at24/for-next as well as Mauro's linux-media master branch.
-> 
-> Sakari, we meet one issue - once the vcm sub-device registered, the user space
-> will try to open the VCM (I have not figure out who did that), it will also
-> trigger the acpi pm resume/suspend, as the VCM always shares same power rail
-> with camera sensor, so the privacy LED still has a blink.
-Sakari, please ignore my previous comment, it is not related to this change. I
-see the sub device open is caused by v4l_id program from udev.
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Andrew F. Davis <afd@ti.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/dma-heap.c | 33 +++++++++++++++++++++++++--------
+ include/linux/dma-heap.h   |  9 +++++++++
+ 2 files changed, 34 insertions(+), 8 deletions(-)
 
-> 
->>
-> ...snip...
-> 
-
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index afd22c9dbdcf..72c746755d89 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -30,6 +30,7 @@
+  * @heap_devt		heap device node
+  * @list		list head connecting to list of heaps
+  * @heap_cdev		heap char device
++ * @heap_dev		heap device struct
+  *
+  * Represents a heap of memory from which buffers can be made.
+  */
+@@ -40,6 +41,7 @@ struct dma_heap {
+ 	dev_t heap_devt;
+ 	struct list_head list;
+ 	struct cdev heap_cdev;
++	struct device *heap_dev;
+ };
+ 
+ static LIST_HEAD(heap_list);
+@@ -190,10 +192,21 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+ 	return heap->priv;
+ }
+ 
++/**
++ * dma_heap_get_dev() - get device struct for the heap
++ * @heap: DMA-Heap to retrieve device struct from
++ *
++ * Returns:
++ * The device struct for the heap.
++ */
++struct device *dma_heap_get_dev(struct dma_heap *heap)
++{
++	return heap->heap_dev;
++}
++
+ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ {
+ 	struct dma_heap *heap, *h, *err_ret;
+-	struct device *dev_ret;
+ 	unsigned int minor;
+ 	int ret;
+ 
+@@ -247,16 +260,20 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 		goto err1;
+ 	}
+ 
+-	dev_ret = device_create(dma_heap_class,
+-				NULL,
+-				heap->heap_devt,
+-				NULL,
+-				heap->name);
+-	if (IS_ERR(dev_ret)) {
++	heap->heap_dev = device_create(dma_heap_class,
++				       NULL,
++				       heap->heap_devt,
++				       NULL,
++				       heap->name);
++	if (IS_ERR(heap->heap_dev)) {
+ 		pr_err("dma_heap: Unable to create device\n");
+-		err_ret = ERR_CAST(dev_ret);
++		err_ret = ERR_CAST(heap->heap_dev);
+ 		goto err2;
+ 	}
++
++	/* Make sure it doesn't disappear on us */
++	heap->heap_dev = get_device(heap->heap_dev);
++
+ 	/* Add heap to the list */
+ 	mutex_lock(&heap_list_lock);
+ 	list_add(&heap->list, &heap_list);
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 454e354d1ffb..82857e096910 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -50,6 +50,15 @@ struct dma_heap_export_info {
+  */
+ void *dma_heap_get_drvdata(struct dma_heap *heap);
+ 
++/**
++ * dma_heap_get_dev() - get device struct for the heap
++ * @heap: DMA-Heap to retrieve device struct from
++ *
++ * Returns:
++ * The device struct for the heap.
++ */
++struct device *dma_heap_get_dev(struct dma_heap *heap);
++
+ /**
+  * dma_heap_add - adds a heap to dmabuf heaps
+  * @exp_info:		information needed to register this heap
 -- 
-Best regards,
-Bingbu Cao
+2.17.1
+
