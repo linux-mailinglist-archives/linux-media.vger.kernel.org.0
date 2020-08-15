@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00B5D2452F3
-	for <lists+linux-media@lfdr.de>; Sat, 15 Aug 2020 23:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 447B72452C0
+	for <lists+linux-media@lfdr.de>; Sat, 15 Aug 2020 23:54:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729431AbgHOV4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Aug 2020 17:56:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45610 "EHLO
+        id S1729302AbgHOVyn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Aug 2020 17:54:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728976AbgHOVwM (ORCPT
+        with ESMTP id S1729094AbgHOVwc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Aug 2020 17:52:12 -0400
+        Sat, 15 Aug 2020 17:52:32 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9EFC08EAD1
-        for <linux-media@vger.kernel.org>; Sat, 15 Aug 2020 03:37:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EEFFC08ED2B
+        for <linux-media@vger.kernel.org>; Sat, 15 Aug 2020 03:38:00 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: dafna)
-        with ESMTPSA id 0BD3729A962
+        with ESMTPSA id 8FA4B29A94A
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
@@ -25,9 +25,9 @@ Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
         hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
         sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
         mchehab@kernel.org, tfiga@chromium.org
-Subject: [PATCH v2 08/14] media: staging: rkisp1: params: set vb.sequence to be the isp's frame_sequence + 1
-Date:   Sat, 15 Aug 2020 12:37:28 +0200
-Message-Id: <20200815103734.31153-9-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v2 11/14] media: staging: rkisp1: isp: don't enable signal RKISP1_CIF_ISP_FRAME_IN
+Date:   Sat, 15 Aug 2020 12:37:31 +0200
+Message-Id: <20200815103734.31153-12-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200815103734.31153-1-dafna.hirschfeld@collabora.com>
 References: <20200815103734.31153-1-dafna.hirschfeld@collabora.com>
@@ -36,37 +36,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The params isr is called when a frame is out of the isp. The parameters
-are applied immediately since the isr updates the shadow registers.
-Therefore the params are first applied on the next frame.
-We want the vb.sequence to be the frame that the params are applied to.
-So we set vb.sequence to be the isp's frame_sequence + 1
+The signal RKISP1_CIF_ISP_FRAME_IN is not used in the isr so
+there is no need to enable it.
 
 Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 ---
- drivers/staging/media/rkisp1/rkisp1-params.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/staging/media/rkisp1/rkisp1-isp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
-index 134b5c9a94c1..4b4391c0a2a0 100644
---- a/drivers/staging/media/rkisp1/rkisp1-params.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-params.c
-@@ -1220,7 +1220,14 @@ void rkisp1_params_apply_params_cfg(struct rkisp1_params *params, unsigned int f
+diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+index 33cfad19dde2..912eb6ad4e0a 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-isp.c
++++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+@@ -348,7 +348,7 @@ static int rkisp1_config_isp(struct rkisp1_device *rkisp1)
+ 	rkisp1_write(rkisp1, sink_crop->height, RKISP1_CIF_ISP_OUT_V_SIZE);
  
- void rkisp1_params_isr(struct rkisp1_device *rkisp1)
- {
--	unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence);
-+	/*
-+	 * The params isr is called when a frame is out of the isp. The parameters
-+	 * are applied immediately since the isr updates the shadow registers.
-+	 * Therefore the params are first applied on the next frame.
-+	 * We want the vb.sequence to be the frame that the params are applied to.
-+	 * So we set vb.sequence to be the isp's frame_sequence + 1
-+	 */
-+	unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence) + 1;
- 	struct rkisp1_params *params = &rkisp1->params;
+ 	irq_mask |= RKISP1_CIF_ISP_FRAME | RKISP1_CIF_ISP_V_START |
+-		    RKISP1_CIF_ISP_PIC_SIZE_ERROR | RKISP1_CIF_ISP_FRAME_IN;
++		    RKISP1_CIF_ISP_PIC_SIZE_ERROR;
+ 	rkisp1_write(rkisp1, irq_mask, RKISP1_CIF_ISP_IMSC);
  
- 	spin_lock(&params->config_lock);
+ 	if (src_fmt->pixel_enc == V4L2_PIXEL_ENC_BAYER) {
 -- 
 2.17.1
 
