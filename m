@@ -2,419 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB40B2458C8
-	for <lists+linux-media@lfdr.de>; Sun, 16 Aug 2020 19:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5A07245A1F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 01:52:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729458AbgHPRXI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Aug 2020 13:23:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55486 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgHPRXF (ORCPT
+        id S1726410AbgHPXwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Aug 2020 19:52:16 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36888 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726254AbgHPXwP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Aug 2020 13:23:05 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EA72C061786
-        for <linux-media@vger.kernel.org>; Sun, 16 Aug 2020 10:23:04 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id D62A8291EFF
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        "Andrew F . Davis" <afd@ti.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Daniel Stone <daniels@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        James Jones <jajones@nvidia.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
-Subject: [RFC] Experimental DMA-BUF Device Heaps
-Date:   Sun, 16 Aug 2020 14:22:46 -0300
-Message-Id: <20200816172246.69146-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.27.0
+        Sun, 16 Aug 2020 19:52:15 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F1FBF9;
+        Mon, 17 Aug 2020 01:52:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1597621931;
+        bh=Z3mw0uAASzL5EGhPOBrTIfXXzzbCeFOHtL4uBOxrFuY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nKFU21KmQ1hy2pehY93/EXLQKB2N2/hfdKVAJJjjYCTBFkgIbScwNzSHfS0SZPMGI
+         SDSEr9XzdAdI54MhOfw3g7Oqqptn3fQIqdFQNRSbtWAYfDwWYVOhcUVGzb93URA704
+         HZJZgOT4BLK911PwIGe6yR9dNBbHldIyY6po9D+E=
+Date:   Mon, 17 Aug 2020 02:51:55 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-usb <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-media@vger.kernel.org, linux-uvc-devel@lists.sourceforge.net,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: Protecting uvcvideo againt USB device disconnect [Was: Re:
+ Protecting usb_set_interface() against device removal]
+Message-ID: <20200816235155.GA7729@pendragon.ideasonboard.com>
+References: <b0a7247c-bed3-934b-2c73-7f4b0adb5e75@roeck-us.net>
+ <20200815020739.GB52242@rowland.harvard.edu>
+ <20200816003315.GA13826@roeck-us.net>
+ <20200816121816.GC32174@pendragon.ideasonboard.com>
+ <9bb20ed7-b156-f6c2-4d25-6acac1a0021b@roeck-us.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9bb20ed7-b156-f6c2-4d25-6acac1a0021b@roeck-us.net>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This heap is basically a wrapper around DMA-API dma_alloc_attrs,
-which will allocate memory suitable for the given device.
+Hi Guenter,
 
-The implementation is mostly a port of the Contiguous Videobuf2
-memory allocator (see videobuf2/videobuf2-dma-contig.c)
-over to the DMA-BUF Heap interface.
+On Sun, Aug 16, 2020 at 08:54:18AM -0700, Guenter Roeck wrote:
+> On 8/16/20 5:18 AM, Laurent Pinchart wrote:
+> > Hi Guenter,
+> > 
+> > CC'ing Hans Verkuil and Sakari Ailus for the discussion about handling
+> > file operations and disconnect in V4L2.
+> > 
+> > On Sat, Aug 15, 2020 at 05:33:15PM -0700, Guenter Roeck wrote:
+> >> + linux-uvc-devel@lists.sourceforge.net
+> >> + linux-media@vger.kernel.org
+> >> + laurent.pinchart@ideasonboard.com
+> >>
+> >> and changed subject
+> >>
+> >> On Fri, Aug 14, 2020 at 10:07:39PM -0400, Alan Stern wrote:
+> >>> On Fri, Aug 14, 2020 at 04:07:03PM -0700, Guenter Roeck wrote:
+> >>>> Hi all,
+> >>>>
+> >>>> over time, there have been a number of reports of crashes in usb_ifnum_to_if(),
+> >>>> called from usb_hcd_alloc_bandwidth, which is in turn called from usb_set_interface().
+> >>>> Examples are [1] [2] [3]. A typical backtrace is:
+> >>>>
+> >>>> <3>[ 3489.445468] intel_sst_acpi 808622A8:00: sst: Busy wait failed, cant send this msg
+> >>>> <6>[ 3490.507273] usb 1-4: USB disconnect, device number 3
+> >>>> <1>[ 3490.516670] BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> >>>> <6>[ 3490.516680] PGD 0 P4D 0
+> >>>> <4>[ 3490.516687] Oops: 0000 [#1] PREEMPT SMP PTI
+> >>>> <4>[ 3490.516693] CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
+> >>>> <4>[ 3490.516696] Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+> >>>> <4>[ 3490.516706] RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> >>>> <4>[ 3490.516710] Code: ee 0f 1f 44 00 00 55 48 89 e5 48 8b 8f f8 03 00 00 48 85 c9 74 27 44 0f b6 41 04 4d 85 c0 74 1d 31 ff 48 8b 84 f9 98 00 00 00 <48> 8b 10 0f b6 52 02 39 f2 74 0a 48 ff c7 4c 39 c7 72 e5 31 c0 5d
+> >>>> <4>[ 3490.516714] RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> >>>> <4>[ 3490.516718] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> >>>> <4>[ 3490.516721] RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> >>>> <4>[ 3490.516724] RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> >>>> <4>[ 3490.516727] R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> >>>> <4>[ 3490.516731] R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> >>>> <4>[ 3490.516735] FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+> >>>> <4>[ 3490.516738] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> >>>> <4>[ 3490.516742] CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> >>>> <4>[ 3490.516745] Call Trace:
+> >>>> <4>[ 3490.516756] usb_hcd_alloc_bandwidth+0x1ee/0x30f
+> >>>> <4>[ 3490.516762] usb_set_interface+0x1a3/0x2b7
+> >>>> <4>[ 3490.516773] uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+> >>>> <4>[ 3490.516781] uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+> >>>> <4>[ 3490.516787] uvc_start_streaming+0x28/0x5d [uvcvideo]
+> >>>> <4>[ 3490.516795] vb2_start_streaming+0x61/0x143 [videobuf2_common]
+> >>>> <4>[ 3490.516801] vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+> >>>> <4>[ 3490.516807] uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+> >>>> <4>[ 3490.516814] uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+> >>>> <4>[ 3490.516820] __video_do_ioctl+0x33d/0x42a
+> >>>> <4>[ 3490.516826] video_usercopy+0x34e/0x5ff
+> >>>> <4>[ 3490.516831] ? video_ioctl2+0x16/0x16
+> >>>> <4>[ 3490.516837] v4l2_ioctl+0x46/0x53
+> >>>> <4>[ 3490.516843] do_vfs_ioctl+0x50a/0x76f
+> >>>> <4>[ 3490.516848] ksys_ioctl+0x58/0x83
+> >>>> <4>[ 3490.516853] __x64_sys_ioctl+0x1a/0x1e
+> >>>> <4>[ 3490.516858] do_syscall_64+0x54/0xde
+> >>>>
+> >>>> I have been able to reproduce the problem on a Chromebook by strategically placing
+> >>>> msleep() calls into usb_set_interface() and usb_disable_device(). Ultimately, the
+> >>>> problem boils down to lack of protection against device removal in usb_set_interface()
+> >>>> [and/or possibly other callers of usb_ifnum_to_if()].
+> >>>>
+> >>>> Sequence of events is roughly as follows:
+> >>>>
+> >>>> - usb_set_interface() is called and proceeds to some point, possibly to
+> >>>>   mutex_lock(hcd->bandwidth_mutex);
+> >>>> - Device removal event is detected, and usb_disable_device() is called
+> >>>
+> >>> At this point all interface drivers get unbound (their disconnect 
+> >>> routines are called).
+> >>>
+> >>>> - usb_disable_device() starts removing actconfig data. It has removed
+> >>>>   and cleared dev->actconfig->interface[i], but not dev->actconfig
+> >>>> - usb_set_interface() calls usb_hcd_alloc_bandwidth(), which calls
+> >>>>   usb_ifnum_to_if()
+> >>>> - In usb_ifnum_to_if(), dev->actconfig is not NULL, but
+> >>>>   dev->actconfig->interface[i] is NULL
+> >>>> - crash
+> >>>>
+> >>>> Question is what we can do about this. Checking if dev->state != USB_STATE_NOTATTACHED
+> >>>> in usb_ifnum_to_if() might be a possible approach, but strictly speaking it would
+> >>>> still be racy since there is still no lock against device removal. I have not tried
+> >>>> calling usb_lock_device() in usb_set_interface() - would that possibly be an option ?
+> >>>
+> >>> As far as I know, protecting against these races is the responsibility 
+> >>> of the USB interface drivers.  They must make sure that their disconnect 
+> >>> routines block until all outstanding calls to usb_set_interface return 
+> >>> (in fact, until all outstanding device accesses have finished).
+> >>>
+> >>> For instance, in the log extract you showed, it's obvious that the 
+> >>> uvc_start_streaming routine was running after the disconnect routine had 
+> >>> returned, which looks like a bug in itself: Once the disconnect routine 
+> >>> returns, the driver is not supposed to try to access the device at all 
+> >>> because some other driver may now be bound to it.
+> >>>
+> >>> We can't just call usb_lock_device from within usb_set_interface, 
+> >>> because usb_set_interface is often called with that lock already held.
+> >>>
+> >> I had a closer look into the uvcvideo driver and compared it to other usb
+> >> drivers, including drivers in drivers/media/usb/ which connect to the video
+> >> subsystem.
+> >>
+> >> The usbvideo driver lacks protection against calls to uvc_disconnect() while
+> > 
+> > Are you confusing usbvideo and uvcvideo ? Both exist, and uvcvideo would
+> > have been called usbvideo if the former hadn't already been in use.
+> 
+> Yes, sorry :-(. I am not sure how s/uvc/usb/ happened.
 
-The intention of this allocator is to provide applications
-with a more system-agnostic API: the only thing the application
-needs to know is which device to get the buffer for.
+No worries.
 
-Whether the buffer is backed by CMA, IOMMU or a DMA Pool
-is unknown to the application.
+> >> calls into file operations are ongoing. This is pretty widespread, and not
+> >> even limited to file operations (for example, there is a worker which is only
+> >> canceled in uvc_delete, not in ucv_disconnect). The existing protection only
+> >> ensures that no file operations are started after the call to ucv_disconnect,
+> >> but that is insufficient.
+> >>
+> >> Other drivers do have that protection and make sure that no usb operations
+> >> can happen after the disconnect call.
+> >>
+> >> The only remedy I can see is to rework the usbvideo driver and add the
+> >> necessary protections. At first glance, it looks like this may be a
+> >> substantial amount of work. I'd sign up for that, but before I start,
+> >> I would like to get input from the usbvideo community. Is such an effort
+> >> already going on ? If yes, how can I help ? If not, is the problem
+> >> understood and accepted ? Are there any ideas on how to solve it ?
+> > 
+> > This is something that has been discussed before, and needs to be solved
+> > in the V4L2 framework itself, not in individual drivers. Not only would
+> > this avoid rolling out the same code manually everywhere (in different
+> > incorrect ways, as races are difficult to solve and implementations are
+> > more often wrong than right), but it will also avoid similar issues for
+> > non-USB devices.
+>
+> You mean code that ensures that no user-space v4l2 operation is in progress
+> after video_device_unregister / v4l2_device_unregister return ? I agree,
+> that would simplify the necessary changes on the uvc side.
 
-I'm not really expecting this patch to be correct or even
-a good idea, but just submitting it to start a discussion on DMA-BUF
-heap discovery and negotiation.
+I was thinking about adding a new function to be called from the
+disconnect handler to implement the wait on end of userspace access, but
+video_device_unregister() seems an even better idea.
+v4l2_device_unregister() is probably not very useful as v4l2_device
+isn't exposed to userspace, only video_device is (and v4l2_subdev and
+media_device, but that's a different story, although probably still an
+issue for the latter in the UVC driver).
 
-Given Plumbers is just a couple weeks from now, I've submitted
-a BoF proposal to discuss this, as perhaps it would make
-sense to discuss this live?
+We also have a v4l2_device_disconnect() function which is supposed to
+handle hot-pluggable device disconnection, but it's fairly useless (I'd
+even say harmful as it gives the illusion that hotplugging is correctly
+handled, while in reality the media subsystem is plagged by hot-unplug
+issues :-S).
 
-Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/dma-buf/heaps/Kconfig       |   9 +
- drivers/dma-buf/heaps/Makefile      |   1 +
- drivers/dma-buf/heaps/device_heap.c | 268 ++++++++++++++++++++++++++++
- include/linux/device.h              |   5 +
- include/linux/dma-heap.h            |   6 +
- 5 files changed, 289 insertions(+)
- create mode 100644 drivers/dma-buf/heaps/device_heap.c
+> I actually came from the other side - I assumed that there is a reason
+> that is not already the case, and that the problem therefore has to be
+> resolved on the driver side.
+> 
+> So I guess the next question is: Is this already being addressed on the
+> v4l2 side ?
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c4226..2bb3604184bd 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -12,3 +12,12 @@ config DMABUF_HEAPS_CMA
- 	  Choose this option to enable dma-buf CMA heap. This heap is backed
- 	  by the Contiguous Memory Allocator (CMA). If your system has these
- 	  regions, you should say Y here.
-+
-+config DMABUF_HEAPS_DEVICES
-+	bool "DMA-BUF Device DMA Heap (Experimental)"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable dma-buf per-device heap. This heap is backed
-+	  by the DMA-API and it's an Experimental feature, meant mostly for testing
-+	  and experimentation.
-+	  Just say N here.
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 6e54cdec3da0..c691d85b3044 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -2,3 +2,4 @@
- obj-y					+= heap-helpers.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-+obj-$(CONFIG_DMABUF_HEAPS_DEVICES)	+= device_heap.o
-diff --git a/drivers/dma-buf/heaps/device_heap.c b/drivers/dma-buf/heaps/device_heap.c
-new file mode 100644
-index 000000000000..1803dc622dd8
---- /dev/null
-+++ b/drivers/dma-buf/heaps/device_heap.c
-@@ -0,0 +1,268 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DMABUF Device DMA heap exporter
-+ *
-+ * Copyright (C) 2020, Collabora Ltd.
-+ *
-+ * Based on:
-+ *   videobuf2-dma-contig.c - DMA contig memory allocator for videobuf2
-+ *   Copyright (C) 2010 Samsung Electronics
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/scatterlist.h>
-+#include <linux/slab.h>
-+#include <linux/module.h>
-+
-+struct dev_dmabuf_attachment {
-+	struct sg_table sgt;
-+	enum dma_data_direction dma_dir;
-+};
-+
-+struct dev_dmabuf {
-+	struct dma_heap *heap;
-+	struct dma_buf *dmabuf;
-+	struct device *dev;
-+	size_t size;
-+	void *vaddr;
-+	dma_addr_t dma_addr;
-+	unsigned long attrs;
-+
-+	struct sg_table sgt;
-+};
-+
-+static struct sg_table *dev_dmabuf_ops_map(struct dma_buf_attachment *db_attach,
-+					   enum dma_data_direction dma_dir)
-+{
-+	struct dev_dmabuf_attachment *attach = db_attach->priv;
-+	/* stealing dmabuf mutex to serialize map/unmap operations */
-+	struct mutex *lock = &db_attach->dmabuf->lock;
-+	struct sg_table *sgt;
-+
-+	mutex_lock(lock);
-+
-+	sgt = &attach->sgt;
-+	/* return previously mapped sg table */
-+	if (attach->dma_dir == dma_dir) {
-+		mutex_unlock(lock);
-+		return sgt;
-+	}
-+
-+	/* release any previous cache */
-+	if (attach->dma_dir != DMA_NONE) {
-+		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-+				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		attach->dma_dir = DMA_NONE;
-+	}
-+
-+	/*
-+	 * mapping to the client with new direction, no cache sync
-+	 * required see comment in .dmabuf_ops_detach()
-+	 */
-+	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-+				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+	if (!sgt->nents) {
-+		dev_err(db_attach->dev, "failed to map scatterlist\n");
-+		mutex_unlock(lock);
-+		return ERR_PTR(-EIO);
-+	}
-+
-+	attach->dma_dir = dma_dir;
-+
-+	mutex_unlock(lock);
-+
-+	return sgt;
-+}
-+
-+static void dev_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
-+				 struct sg_table *sgt,
-+				 enum dma_data_direction dma_dir)
-+{
-+	/* nothing to be done here */
-+}
-+
-+static int dev_dmabuf_ops_attach(struct dma_buf *dmabuf,
-+				 struct dma_buf_attachment *dbuf_attach)
-+{
-+	struct dev_dmabuf_attachment *attach;
-+	unsigned int i;
-+	struct scatterlist *rd, *wr;
-+	struct sg_table *sgt;
-+	struct dev_dmabuf *buf = dmabuf->priv;
-+	int ret;
-+
-+	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
-+	if (!attach)
-+		return -ENOMEM;
-+	sgt = &attach->sgt;
-+
-+	/*
-+	 * Copy the buf->sgt scatter list to the attachment, as we can't
-+	 * map the same scatter list to multiple attachments at the same time.
-+	 */
-+	ret = sg_alloc_table(sgt, buf->sgt.orig_nents, GFP_KERNEL);
-+	if (ret) {
-+		kfree(attach);
-+		return -ENOMEM;
-+	}
-+
-+	rd = buf->sgt.sgl;
-+	wr = sgt->sgl;
-+	for (i = 0; i < sgt->orig_nents; ++i) {
-+		sg_set_page(wr, sg_page(rd), rd->length, rd->offset);
-+		rd = sg_next(rd);
-+		wr = sg_next(wr);
-+	}
-+
-+	attach->dma_dir = DMA_NONE;
-+	dbuf_attach->priv = attach;
-+
-+	return 0;
-+}
-+
-+static void dev_dmabuf_ops_detach(struct dma_buf *dmabuf,
-+				  struct dma_buf_attachment *db_attach)
-+{
-+	struct dev_dmabuf_attachment *attach = db_attach->priv;
-+	struct sg_table *sgt;
-+
-+	if (!attach)
-+		return;
-+	sgt = &attach->sgt;
-+
-+	/* release the scatterlist cache */
-+	if (attach->dma_dir != DMA_NONE)
-+		/*
-+		 * Cache sync can be skipped here, as the memory is
-+		 * allocated from device coherent memory, which means the
-+		 * memory locations do not require any explicit cache
-+		 * maintenance prior or after being used by the device.
-+		 *
-+		 * XXX: This needs a revisit.
-+		 */
-+		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-+				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+	sg_free_table(sgt);
-+	kfree(attach);
-+	db_attach->priv = NULL;
-+}
-+
-+
-+static void *dev_dmabuf_ops_vmap(struct dma_buf *dmabuf)
-+{
-+	struct dev_dmabuf *buf = dmabuf->priv;
-+
-+	return buf->vaddr;
-+}
-+
-+static void dev_dmabuf_ops_release(struct dma_buf *dmabuf)
-+{
-+	struct dev_dmabuf *buf = dmabuf->priv;
-+
-+	sg_free_table(&buf->sgt);
-+	dma_free_attrs(buf->dev, buf->size, buf->vaddr,
-+		       buf->dma_addr, buf->attrs);
-+	put_device(buf->dev);
-+	kfree(buf);
-+}
-+
-+static int dev_dmabuf_ops_mmap(struct dma_buf *dmabuf,
-+			       struct vm_area_struct *vma)
-+{
-+	struct dev_dmabuf *buf = dmabuf->priv;
-+	int ret;
-+
-+	ret = dma_mmap_attrs(buf->dev, vma, buf->vaddr,
-+			     buf->dma_addr, buf->size,
-+			     buf->attrs);
-+	if (ret) {
-+		dev_err(buf->dev, "remapping memory failed, error: %d\n", ret);
-+		return ret;
-+	}
-+	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
-+
-+	return 0;
-+}
-+
-+static const struct dma_buf_ops dev_dmabuf_ops = {
-+	.attach = dev_dmabuf_ops_attach,
-+	.detach = dev_dmabuf_ops_detach,
-+	.map_dma_buf = dev_dmabuf_ops_map,
-+	.unmap_dma_buf = dev_dmabuf_ops_unmap,
-+	.vmap = dev_dmabuf_ops_vmap,
-+	.mmap = dev_dmabuf_ops_mmap,
-+	.release = dev_dmabuf_ops_release,
-+};
-+
-+static int dev_heap_allocate(struct dma_heap *heap,
-+			unsigned long size,
-+			unsigned long fd_flags,
-+			unsigned long heap_flags)
-+{
-+	struct device *dev = dma_heap_get_drvdata(heap);
-+	struct dev_dmabuf *buf;
-+	struct dma_buf_export_info exp_info = {};
-+	unsigned long attrs = 0;
-+	int ret = -ENOMEM;
-+
-+	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	buf->vaddr = dma_alloc_attrs(dev, size, &buf->dma_addr,
-+				     GFP_KERNEL, attrs);
-+	/* Prevent the device from being released while the buffer is used */
-+	buf->dev = get_device(dev);
-+	buf->heap = heap;
-+	buf->size = size;
-+	buf->attrs = attrs;
-+
-+	/* XXX: This call is documented as unsafe. See dma_get_sgtable_attrs(). */
-+	ret = dma_get_sgtable_attrs(buf->dev, &buf->sgt,
-+				    buf->vaddr, buf->dma_addr,
-+				    buf->size, buf->attrs);
-+	if (ret < 0) {
-+		dev_err(buf->dev, "failed to get scatterlist from DMA API\n");
-+		return ret;
-+	}
-+
-+	exp_info.exp_name = dev_name(dev);
-+	exp_info.owner = THIS_MODULE;
-+	exp_info.ops = &dev_dmabuf_ops;
-+	exp_info.size = size;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buf;
-+
-+	buf->dmabuf = dma_buf_export(&exp_info);
-+	if (IS_ERR(buf->dmabuf)) {
-+		dev_err(buf->dev, "failed to export dmabuf\n");
-+		return PTR_ERR(buf->dmabuf);
-+	}
-+
-+	ret = dma_buf_fd(buf->dmabuf, fd_flags);
-+	if (ret < 0) {
-+		dev_err(buf->dev, "failed to get dmabuf fd: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct dma_heap_ops dev_heap_ops = {
-+	.allocate = dev_heap_allocate,
-+};
-+
-+void dev_dma_heap_add(struct device *dev)
-+{
-+	struct dma_heap_export_info exp_info;
-+
-+	exp_info.name = dev_name(dev);
-+	exp_info.ops = &dev_heap_ops;
-+	exp_info.priv = dev;
-+
-+	dev->heap = dma_heap_add(&exp_info);
-+}
-+EXPORT_SYMBOL(dev_dma_heap_add);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index ca18da4768e3..1fae95d55ea1 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -45,6 +45,7 @@ struct iommu_ops;
- struct iommu_group;
- struct dev_pin_info;
- struct dev_iommu;
-+struct dma_heap;
- 
- /**
-  * struct subsys_interface - interfaces to device functions
-@@ -597,6 +598,10 @@ struct device {
- 	struct iommu_group	*iommu_group;
- 	struct dev_iommu	*iommu;
- 
-+#ifdef CONFIG_DMABUF_HEAPS_DEVICES
-+	struct dma_heap		*heap;
-+#endif
-+
- 	bool			offline_disabled:1;
- 	bool			offline:1;
- 	bool			of_node_reused:1;
-diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-index 454e354d1ffb..dcf7cca2f487 100644
---- a/include/linux/dma-heap.h
-+++ b/include/linux/dma-heap.h
-@@ -56,4 +56,10 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
-  */
- struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
- 
-+#ifdef CONFIG_DMABUF_HEAPS_DEVICES
-+void dev_dma_heap_add(struct device *dev);
-+#else
-+static inline void dev_dma_heap_add(struct device *dev) {}
-+#endif
-+
- #endif /* _DMA_HEAPS_H */
+I'm not aware of anyone working on this.
+
+> > It shouldn't take more than two flags (to track user-space operations in
+> > progress and disconnection), a spinlock and a wait queue entry. I'm not
+> > sure if someone has already given it a try, and don't recall why this
+> > hasn't been done yet, as it should be fairly straightforward.
+> > 
+> > On the UVC side, the work queue probably has to be flushed in
+> > uvc_disconnect(). I'd keep the destroy call in uvc_delete() though.
+> > Please make sure to look for potential race conditions between the URB
+> > completion handler and the .disconnect() handler (they shouldn't be any,
+> > but I haven't checked lately myself).
+>
+> My current solution for this problem is to call uvc_ctrl_cleanup_device()
+> from uvc_disconnect(), after uvc_unregister_video().
+
+I'd rather avoid that, as the cleanup functions in the UVC driver are
+generally meant to free memory when the last user disappears. While no
+new userspace operation will be started after disconnection once the
+above fix will be in place, there's one operation we can't avoid: the
+file release. This will access some of the memory allocated by the
+driver, and while the current implementation probably doesn't access in
+.release() any memory freed by uvc_ctrl_cleanup_device(), I think it's a
+good practice to only shut down the userspace API in .disconnect(), and
+free memory when the last reference is released.
+
+> An alternative might
+> be to add a uvc_ctrl_stop_device() function which would just cancel the
+> worker.
+
+I think that would be best. Should stream->async_wq (in uvc_video.c) be
+similarly flushed ? The driver does so in stream->async_wq(), called
+from uvc_video_stop_transfer(), itself called from
+uvc_video_stop_streaming() (among other places, that are either error
+paths or system suspend handling). The call stack goes to
+uvc_stop_streaming(), and, through the videobuf2 helpers, to
+vb2_queue_release() called by uvc_queue_release() itself called by
+uvc_v4l2_release() (in the non-disconnect case,
+uvc_video_stop_streaming() will be called through videobuf2 by
+uvc_queue_streamoff(), in response to a VIDIOC_STREAMOFF ioctl). We thus
+flush the workqueue too late, and also access the device in
+uvc_video_stop_streaming() long after .disconnect() returns.
+
+I think uvc_video_stop_streaming() could be called in uvc_disconnect()
+after uvc_unregister_video().
+
 -- 
-2.27.0
+Regards,
 
+Laurent Pinchart
