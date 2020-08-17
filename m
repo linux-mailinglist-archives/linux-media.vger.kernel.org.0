@@ -2,49 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3876324635B
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 11:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 770732463A1
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 11:43:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbgHQJ2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 05:28:42 -0400
-Received: from mga05.intel.com ([192.55.52.43]:13032 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726596AbgHQJ2j (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 05:28:39 -0400
-IronPort-SDR: IqpBFbIA2SfBti+lDg8vUaK0sFPSwjxPrCQ+W7Vfie8BQ0CNIaPVJQMLS6meECK8aL3xGs2HZx
- HDGdio42nFOQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9715"; a="239487503"
-X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
-   d="scan'208";a="239487503"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 02:28:39 -0700
-IronPort-SDR: 81pAQr87UzT8x/iQfl01SNzgOgSH7Rdp3YUEZ6p/c03QpfzWWIe6TFkrEnCsXa8gy9yJU8FXPI
- NW/+/Qv41q1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
-   d="scan'208";a="319653266"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2020 02:28:36 -0700
-Subject: Re: [PATCH v1 6/7] media: ipu3-cio2: Use readl_poll_timeout() helper
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20200814163017.35001-1-andriy.shevchenko@linux.intel.com>
- <20200814163017.35001-6-andriy.shevchenko@linux.intel.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <6b739304-7d12-016f-f42a-089c8fe7efac@linux.intel.com>
-Date:   Mon, 17 Aug 2020 17:27:33 +0800
+        id S1726763AbgHQJnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 05:43:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36748 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726703AbgHQJnh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 05:43:37 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B94C061342
+        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 02:43:36 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id c15so14252968wrs.11
+        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 02:43:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qPlhVA01MUGvYBvTptO3+HXUAf2pza0AyA7yKccmN8M=;
+        b=nslJ1+xoD0yWudkHNjqrd/pHfIZV1qUk9jRWIG95ey32Rmmnr/dg6qtTTnUknd+UGf
+         iVDH83hLu4R3LIo2dV6/7hWGOmRzyX6jGES6ysEd91TVupDrDkCUUHGybo4zF0Q7lgk2
+         TAou0KBPZ9URL6vGmmYgIBOXgvXahr5yR/I30kocPO2szduyKzQY+Fiq/JWgR3kuTq4/
+         hVxZaSdlVhRpKpB79mUVDMLU232XeXks/HyYBKB0CrQWrL7z6OVYDXbaf4XDkw/SUK5R
+         0DwOWhFDlJLsJiKNV/+H3rqk7mXKxRan2OcOvZK5grcdYRjfw1lJ+fUL3G7/s3ypgVU+
+         6gbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qPlhVA01MUGvYBvTptO3+HXUAf2pza0AyA7yKccmN8M=;
+        b=OoqiiUT8JFe20Hdmkh0LCr5kLgb8VyUt6rGwgmeeMnHKaH8JCnKRSZE8mq1MWfmPB/
+         xXBkjLkome8iI62eEJtbMKOevQfEIINQbGnqOcreG4hoqaI+sBKXxu49Ytyr2QLwYF/u
+         mZVDBWUk957ziCjNVI48z2lTV+kCZMxYg9fGEJp0fdz7OWmRXvTtabZeHv4Ynd2ncotm
+         1dTZseog2MeaVJXrNUPMglYspzgCPKAV/1hsc1KEANPYUdG0Byd2CBrH0MtoYqCXDHOX
+         4sfYvHYqR4AT3L4sGIDSSuz2cTPgaVNnZ6upvcx57yDPF+WJVfVudNeSP6EW30hvVO6y
+         OwEA==
+X-Gm-Message-State: AOAM532w+zFlyngjNX49aVZdLrtHrdPboJU8du9PNvKR6ZE8aaXRqZ3s
+        QJbYcBHa43/ZGK8q1jIFByu15A==
+X-Google-Smtp-Source: ABdhPJzLQ3hYfhFcIyaTTVp965Xi1bI8BaT5rrHoC/S3nivR3ZHXbMOurHwGPuRyfJKx2YyKXGtUBg==
+X-Received: by 2002:adf:ed48:: with SMTP id u8mr15230345wro.64.1597657415105;
+        Mon, 17 Aug 2020 02:43:35 -0700 (PDT)
+Received: from [192.168.1.10] ([195.24.90.54])
+        by smtp.googlemail.com with ESMTPSA id v7sm12043475wmj.28.2020.08.17.02.43.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2020 02:43:34 -0700 (PDT)
+Subject: Re: [PATCH V3] venus: core: add shutdown callback for venus
+To:     Mansur Alisha Shaik <mansur@codeaurora.org>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, saiprakash.ranjan@codeaurora.org
+References: <1596694917-7761-1-git-send-email-mansur@codeaurora.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <31d2e971-dda2-0aa0-661e-cca9e0aace13@linaro.org>
+Date:   Mon, 17 Aug 2020 12:43:31 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200814163017.35001-6-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <1596694917-7761-1-git-send-email-mansur@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
@@ -52,63 +70,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Mansur,
 
-
-On 8/15/20 12:30 AM, Andy Shevchenko wrote:
-> We may use special helper macro to poll IO till condition or timeout occurs.
+On 8/6/20 9:21 AM, Mansur Alisha Shaik wrote:
+> After the SMMU translation is disabled in the
+> arm-smmu shutdown callback during reboot, if
+> any subsystem are still alive then IOVAs they
+> are using will become PAs on bus, which may
+> lead to crash.
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Below are the consumers of smmu from venus
+> arm-smmu: consumer: aa00000.video-codec supplier=15000000.iommu
+> arm-smmu: consumer: video-firmware.0 supplier=15000000.iommu
+> 
+> So implemented shutdown callback, which detach iommu maps.
+> 
+> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
 > ---
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
+> Changes in V3:
+> - Fix build errors
 > 
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> index f4175dc1501a..5f8ff91dbf09 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> @@ -14,6 +14,7 @@
+>  drivers/media/platform/qcom/venus/core.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+
+As there is no more comments and it looks good to me:
+
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 203c653..cfe211a 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -341,6 +341,16 @@ static int venus_remove(struct platform_device *pdev)
+>  	return ret;
+>  }
 >  
->  #include <linux/delay.h>
->  #include <linux/interrupt.h>
-> +#include <linux/iopoll.h>
->  #include <linux/module.h>
->  #include <linux/pci.h>
->  #include <linux/pfn.h>
-> @@ -509,7 +510,10 @@ static int cio2_hw_init(struct cio2_device *cio2, struct cio2_queue *q)
->  static void cio2_hw_exit(struct cio2_device *cio2, struct cio2_queue *q)
->  {
->  	void __iomem *base = cio2->base;
-> -	unsigned int i, maxloops = 1000;
-> +	void __iomem *dma = base + CIO2_REG_CDMAC0(CIO2_DMA_CHAN);
-> +	unsigned int i;
-> +	u32 value;
+> +static void venus_core_shutdown(struct platform_device *pdev)
+> +{
+> +	struct venus_core *core = platform_get_drvdata(pdev);
 > +	int ret;
->  
->  	/* Disable CSI receiver and MIPI backend devices */
->  	writel(0, q->csi_rx_base + CIO2_REG_IRQCTRL_MASK);
-> @@ -518,14 +522,9 @@ static void cio2_hw_exit(struct cio2_device *cio2, struct cio2_queue *q)
->  	writel(0, q->csi_rx_base + CIO2_REG_MIPIBE_ENABLE);
->  
->  	/* Halt DMA */
-> -	writel(0, base + CIO2_REG_CDMAC0(CIO2_DMA_CHAN));
-> -	do {
-> -		if (readl(base + CIO2_REG_CDMAC0(CIO2_DMA_CHAN)) &
-> -		    CIO2_CDMAC0_DMA_HALTED)
-> -			break;
-> -		usleep_range(1000, 2000);
-> -	} while (--maxloops);
-> -	if (!maxloops)
-> +	writel(0, dma);
-> +	ret = readl_poll_timeout(dma, value, value & CIO2_CDMAC0_DMA_HALTED, 4000, 2000000);
-
-This line is too long, need a break, others look good for me.
-
+> +
+> +	ret = venus_remove(pdev);
 > +	if (ret)
->  		dev_err(&cio2->pci_dev->dev,
->  			"DMA %i can not be halted\n", CIO2_DMA_CHAN);
+> +		dev_warn(core->dev, "shutdown failed %d\n", ret);
+> +}
+> +
+>  static __maybe_unused int venus_runtime_suspend(struct device *dev)
+>  {
+>  	struct venus_core *core = dev_get_drvdata(dev);
+> @@ -592,6 +602,7 @@ static struct platform_driver qcom_venus_driver = {
+>  		.of_match_table = venus_dt_match,
+>  		.pm = &venus_pm_ops,
+>  	},
+> +	.shutdown = venus_core_shutdown,
+>  };
+>  module_platform_driver(qcom_venus_driver);
 >  
 > 
 
 -- 
-Best regards,
-Bingbu Cao
+regards,
+Stan
