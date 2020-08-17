@@ -2,34 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21485246B7D
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 17:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC30B246C11
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 18:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388068AbgHQP4V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 11:56:21 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:52387 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388029AbgHQPzl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 11:55:41 -0400
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 772B524000E;
-        Mon, 17 Aug 2020 15:55:35 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
-Date:   Mon, 17 Aug 2020 17:59:08 +0200
-Message-Id: <20200817155910.255883-2-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200817155910.255883-1-jacopo+renesas@jmondi.org>
-References: <20200817155910.255883-1-jacopo+renesas@jmondi.org>
+        id S2388487AbgHQQI6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 12:08:58 -0400
+Received: from mga11.intel.com ([192.55.52.93]:29629 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388468AbgHQQIv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 12:08:51 -0400
+IronPort-SDR: RQWOS7Fe+xXNlG+2V2hr6eXXL4TENH+OdoAfnKa88dLEgChd8pEaABdpMooAowj19xuQWeqCd8
+ Z7Wx7hidIR6w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9716"; a="152379910"
+X-IronPort-AV: E=Sophos;i="5.76,324,1592895600"; 
+   d="scan'208";a="152379910"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 09:08:43 -0700
+IronPort-SDR: YKVw3TvsPr5cnn6mHJ9P5BtgcvDNbPUrz3h9g+FUvRjfF2bD+fYVOfooMmkz/WkG5eYlxD6OFy
+ ni/cU2IxsZqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,324,1592895600"; 
+   d="scan'208";a="370610454"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 17 Aug 2020 09:08:41 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 9FC921C5; Mon, 17 Aug 2020 19:08:40 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v2 05/10] media: ipu3-cio2: Replace infinite loop by one with clear exit condition
+Date:   Mon, 17 Aug 2020 19:07:28 +0300
+Message-Id: <20200817160734.12402-5-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200817160734.12402-1-andriy.shevchenko@linux.intel.com>
+References: <20200817160734.12402-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -37,167 +50,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the ov772x binding document to json-schema and update
-the MAINTAINERS file accordingly.
+Refactor cio2_buffer_done() to get rid of infinite loop by replacing it by one
+with clear exit condition. This change also allows to check for an error ahead.
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
- .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 85 insertions(+), 41 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+v2: Dropped const (Bingbu)
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-deleted file mode 100644
-index 0b3ede5b8e6a..000000000000
---- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-+++ /dev/null
-@@ -1,40 +0,0 @@
--* Omnivision OV7720/OV7725 CMOS sensor
--
--The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
--such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
--support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
--
--Required Properties:
--- compatible: shall be one of
--	"ovti,ov7720"
--	"ovti,ov7725"
--- clocks: reference to the xclk input clock.
--
--Optional Properties:
--- reset-gpios: reference to the GPIO connected to the RSTB pin which is
--  active low, if any.
--- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
--  active high, if any.
--
--The device node shall contain one 'port' child node with one child 'endpoint'
--subnode for its digital output video port, in accordance with the video
--interface bindings defined in Documentation/devicetree/bindings/media/
--video-interfaces.txt.
--
--Example:
--
--&i2c0 {
--	ov772x: camera@21 {
--		compatible = "ovti,ov7725";
--		reg = <0x21>;
--		reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
--		powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
--		clocks = <&xclk>;
--
--		port {
--			ov772x_0: endpoint {
--				remote-endpoint = <&vcap1_in0>;
--			};
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-new file mode 100644
-index 000000000000..2b84fefeb4aa
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-@@ -0,0 +1,84 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title:  Omnivision OV7720/OV7725 CMOS sensor
-+
-+maintainers:
-+  - Jacopo Mondi <jacopo@jmondi.org>
-+
-+description: -|
-+  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
-+  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
-+  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ovti,ov7720
-+      - ovti,ov7725
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  reset-gpios:
-+    description: -|
-+      Reference to the GPIO connected to the RSTB pin which is active low.
-+    maxItems: 1
-+
-+  powerdown-gpios:
-+    description: -|
-+      Reference to the GPIO connected to the PWDN pin which is active high.
-+    maxItems: 1
-+
-+  port:
-+    type: object
-+    description: |
-+      The device node must contain one 'port' child node for its digital output
-+      video port, in accordance with the video interface bindings defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt.
-+
-+    properties:
-+      endpoint:
-+        type: object
-+        properties:
-+          remote-endpoint:
-+            description: A phandle to the bus receiver's endpoint node.
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - reset-gpios
-+  - powerdown-gpios
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c0 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        ov772x: camera@21 {
-+            compatible = "ovti,ov7725";
-+            reg = <0x21>;
-+            reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
-+            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
-+            clocks = <&xclk>;
-+
-+            port {
-+                ov772x_0: endpoint {
-+                    remote-endpoint = <&vcap1_in0>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d1a6173d3b64..d0a20214eaaf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12666,7 +12666,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
- L:	linux-media@vger.kernel.org
- S:	Odd fixes
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/ov772x.txt
-+F:	Documentation/devicetree/bindings/media/i2c/ov772x.yaml
- F:	drivers/media/i2c/ov772x.c
- F:	include/media/i2c/ov772x.h
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+index 35bf05de5d5d..36b4c7730f43 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+@@ -540,7 +540,7 @@ static void cio2_buffer_done(struct cio2_device *cio2, unsigned int dma_chan)
+ {
+ 	struct device *dev = &cio2->pci_dev->dev;
+ 	struct cio2_queue *q = cio2->cur_queue;
+-	int buffers_found = 0;
++	struct cio2_fbpt_entry *entry;
+ 	u64 ns = ktime_get_ns();
  
+ 	if (dma_chan >= CIO2_QUEUES) {
+@@ -548,15 +548,18 @@ static void cio2_buffer_done(struct cio2_device *cio2, unsigned int dma_chan)
+ 		return;
+ 	}
+ 
++	entry = &q->fbpt[q->bufs_first * CIO2_MAX_LOPS];
++	if (entry->first_entry.ctrl & CIO2_FBPT_CTRL_VALID) {
++		dev_warn(&cio2->pci_dev->dev,
++			 "no ready buffers found on DMA channel %u\n",
++			 dma_chan);
++		return;
++	}
++
+ 	/* Find out which buffer(s) are ready */
+ 	do {
+-		struct cio2_fbpt_entry *const entry =
+-			&q->fbpt[q->bufs_first * CIO2_MAX_LOPS];
+ 		struct cio2_buffer *b;
+ 
+-		if (entry->first_entry.ctrl & CIO2_FBPT_CTRL_VALID)
+-			break;
+-
+ 		b = q->bufs[q->bufs_first];
+ 		if (b) {
+ 			unsigned int bytes = entry[1].second_entry.num_of_bytes;
+@@ -578,13 +581,8 @@ static void cio2_buffer_done(struct cio2_device *cio2, unsigned int dma_chan)
+ 		atomic_inc(&q->frame_sequence);
+ 		cio2_fbpt_entry_init_dummy(cio2, entry);
+ 		q->bufs_first = (q->bufs_first + 1) % CIO2_MAX_BUFFERS;
+-		buffers_found++;
+-	} while (1);
+-
+-	if (buffers_found == 0)
+-		dev_warn(&cio2->pci_dev->dev,
+-			 "no ready buffers found on DMA channel %u\n",
+-			 dma_chan);
++		entry = &q->fbpt[q->bufs_first * CIO2_MAX_LOPS];
++	} while (!(entry->first_entry.ctrl & CIO2_FBPT_CTRL_VALID));
+ }
+ 
+ static void cio2_queue_event_sof(struct cio2_device *cio2, struct cio2_queue *q)
 -- 
-2.27.0
+2.28.0
 
