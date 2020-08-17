@@ -2,133 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 770732463A1
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 11:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E3EB24643C
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 12:17:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbgHQJnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 05:43:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36748 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726703AbgHQJnh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 05:43:37 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B94C061342
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 02:43:36 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id c15so14252968wrs.11
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 02:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qPlhVA01MUGvYBvTptO3+HXUAf2pza0AyA7yKccmN8M=;
-        b=nslJ1+xoD0yWudkHNjqrd/pHfIZV1qUk9jRWIG95ey32Rmmnr/dg6qtTTnUknd+UGf
-         iVDH83hLu4R3LIo2dV6/7hWGOmRzyX6jGES6ysEd91TVupDrDkCUUHGybo4zF0Q7lgk2
-         TAou0KBPZ9URL6vGmmYgIBOXgvXahr5yR/I30kocPO2szduyKzQY+Fiq/JWgR3kuTq4/
-         hVxZaSdlVhRpKpB79mUVDMLU232XeXks/HyYBKB0CrQWrL7z6OVYDXbaf4XDkw/SUK5R
-         0DwOWhFDlJLsJiKNV/+H3rqk7mXKxRan2OcOvZK5grcdYRjfw1lJ+fUL3G7/s3ypgVU+
-         6gbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qPlhVA01MUGvYBvTptO3+HXUAf2pza0AyA7yKccmN8M=;
-        b=OoqiiUT8JFe20Hdmkh0LCr5kLgb8VyUt6rGwgmeeMnHKaH8JCnKRSZE8mq1MWfmPB/
-         xXBkjLkome8iI62eEJtbMKOevQfEIINQbGnqOcreG4hoqaI+sBKXxu49Ytyr2QLwYF/u
-         mZVDBWUk957ziCjNVI48z2lTV+kCZMxYg9fGEJp0fdz7OWmRXvTtabZeHv4Ynd2ncotm
-         1dTZseog2MeaVJXrNUPMglYspzgCPKAV/1hsc1KEANPYUdG0Byd2CBrH0MtoYqCXDHOX
-         4sfYvHYqR4AT3L4sGIDSSuz2cTPgaVNnZ6upvcx57yDPF+WJVfVudNeSP6EW30hvVO6y
-         OwEA==
-X-Gm-Message-State: AOAM532w+zFlyngjNX49aVZdLrtHrdPboJU8du9PNvKR6ZE8aaXRqZ3s
-        QJbYcBHa43/ZGK8q1jIFByu15A==
-X-Google-Smtp-Source: ABdhPJzLQ3hYfhFcIyaTTVp965Xi1bI8BaT5rrHoC/S3nivR3ZHXbMOurHwGPuRyfJKx2YyKXGtUBg==
-X-Received: by 2002:adf:ed48:: with SMTP id u8mr15230345wro.64.1597657415105;
-        Mon, 17 Aug 2020 02:43:35 -0700 (PDT)
-Received: from [192.168.1.10] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id v7sm12043475wmj.28.2020.08.17.02.43.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2020 02:43:34 -0700 (PDT)
-Subject: Re: [PATCH V3] venus: core: add shutdown callback for venus
-To:     Mansur Alisha Shaik <mansur@codeaurora.org>,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, saiprakash.ranjan@codeaurora.org
-References: <1596694917-7761-1-git-send-email-mansur@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <31d2e971-dda2-0aa0-661e-cca9e0aace13@linaro.org>
-Date:   Mon, 17 Aug 2020 12:43:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726792AbgHQKR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 06:17:28 -0400
+Received: from mga04.intel.com ([192.55.52.120]:33940 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726165AbgHQKR1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 06:17:27 -0400
+IronPort-SDR: FySa7dAlmE2NcsMbQ6GaOHg+L7B3GtOogbnK3J8CfTaRZwV7HvMiuUL9MmmRScezwQbGGj/2DQ
+ VsunIg4ey90g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9715"; a="152075591"
+X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
+   d="scan'208";a="152075591"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 03:17:26 -0700
+IronPort-SDR: ETaTozTXbyvP4M1kZirBs7O6X035KZoNu83itkq/vXWiZt/LNdmlY1zLX8pImFhd2Y4rYwSYZs
+ 83pDgOZj5ktA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
+   d="scan'208";a="326368878"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 17 Aug 2020 03:17:22 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1k7bgy-009HUC-Nf; Mon, 17 Aug 2020 12:44:36 +0300
+Date:   Mon, 17 Aug 2020 12:44:36 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 6/7] media: ipu3-cio2: Use readl_poll_timeout() helper
+Message-ID: <20200817094436.GF1891694@smile.fi.intel.com>
+References: <20200814163017.35001-1-andriy.shevchenko@linux.intel.com>
+ <20200814163017.35001-6-andriy.shevchenko@linux.intel.com>
+ <6b739304-7d12-016f-f42a-089c8fe7efac@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1596694917-7761-1-git-send-email-mansur@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6b739304-7d12-016f-f42a-089c8fe7efac@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mansur,
+On Mon, Aug 17, 2020 at 05:27:33PM +0800, Bingbu Cao wrote:
+> On 8/15/20 12:30 AM, Andy Shevchenko wrote:
+> > We may use special helper macro to poll IO till condition or timeout occurs.
 
-On 8/6/20 9:21 AM, Mansur Alisha Shaik wrote:
-> After the SMMU translation is disabled in the
-> arm-smmu shutdown callback during reboot, if
-> any subsystem are still alive then IOVAs they
-> are using will become PAs on bus, which may
-> lead to crash.
+> > +	ret = readl_poll_timeout(dma, value, value & CIO2_CDMAC0_DMA_HALTED, 4000, 2000000);
 > 
-> Below are the consumers of smmu from venus
-> arm-smmu: consumer: aa00000.video-codec supplier=15000000.iommu
-> arm-smmu: consumer: video-firmware.0 supplier=15000000.iommu
-> 
-> So implemented shutdown callback, which detach iommu maps.
-> 
-> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-> ---
-> Changes in V3:
-> - Fix build errors
-> 
->  drivers/media/platform/qcom/venus/core.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> This line is too long, need a break, others look good for me.
 
-As there is no more comments and it looks good to me:
-
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 203c653..cfe211a 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -341,6 +341,16 @@ static int venus_remove(struct platform_device *pdev)
->  	return ret;
->  }
->  
-> +static void venus_core_shutdown(struct platform_device *pdev)
-> +{
-> +	struct venus_core *core = platform_get_drvdata(pdev);
-> +	int ret;
-> +
-> +	ret = venus_remove(pdev);
-> +	if (ret)
-> +		dev_warn(core->dev, "shutdown failed %d\n", ret);
-> +}
-> +
->  static __maybe_unused int venus_runtime_suspend(struct device *dev)
->  {
->  	struct venus_core *core = dev_get_drvdata(dev);
-> @@ -592,6 +602,7 @@ static struct platform_driver qcom_venus_driver = {
->  		.of_match_table = venus_dt_match,
->  		.pm = &venus_pm_ops,
->  	},
-> +	.shutdown = venus_core_shutdown,
->  };
->  module_platform_driver(qcom_venus_driver);
->  
-> 
+checkpatch doesn't complain, but if you insist, I'll split it in v2.
 
 -- 
-regards,
-Stan
+With Best Regards,
+Andy Shevchenko
+
+
