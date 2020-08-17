@@ -2,82 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CA7C246402
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 12:06:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAC06246462
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 12:22:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726904AbgHQKGT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 06:06:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40218 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbgHQKGS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 06:06:18 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE989C061389
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 03:06:17 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id j22so8071035lfm.2
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 03:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=GdG37Fau00oTVKmW6BzgExzV9qbFfqB9ZIZw4LCMePs=;
-        b=kzXaOzBBjU6Ht2r1QmMdM/baUG4T4Hg9VJxT8q0da1udntfWECIVbCP6OLXXby6sOR
-         MSMWMit2x1q0rkrMxC71tPBOwJdUQfK3YC3zVKEmz4sUSYg6ukyD0gVCw7alVx93Avtu
-         jO1GKSpDYT28TyfYa9lAwaRkWP3DFmoqeTqwMLCdG7OzNCcBHKrHCrx3zEXbwe+uFZEQ
-         REMhBjPHp7NBGDLMkwZx2CdaFP9V4ZZ+bLWzj5xXG+M1HslZBNFqVhxWjiGILzPagpLO
-         5CThja1UBkm+jQo1iq5qpudmjgdqFio++HVPUGHROG+kRxDQGJc2zCyen8+7BCuW2OXg
-         NPWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=GdG37Fau00oTVKmW6BzgExzV9qbFfqB9ZIZw4LCMePs=;
-        b=r8RbLJcCiCocMhCNPU0BqgCyYHeA/meesVwF1tWYCxAMHjeOlPN/vNRa9GbqEPi5UD
-         sFh4c5kg3y0ln7+OJ9JqLXYkUB/8B1uLQKG6K+6ZHEwVPUak3n2f4ORiMl8E0ZN6k+rq
-         /HgIDvqpU7SycJwkjN/B1lD6C6RtcIxoVutWXjLjkVsaBb2uti7PweVVe46/lbWPheMK
-         pUPbA3WH6985Kl2mr/kqR0p6atd/XupBUDZG43GTxmB4+9IbJbVUCnyQvVNuwoEnVNRz
-         FURBRYE3JmFH3YRbtuLd3EBDGCtxgS8ahS6Q90tzzJClbM4D5d+YvujunDAHXDh2NTWC
-         OL9Q==
-X-Gm-Message-State: AOAM532bfE7bIDXuk4LyUd+KNChCIKpjiub7yVqzyOVBIZNSyGKQ2H7V
-        TeOQYNlQd9oH7wJ8hPp8QTwl5REXonYZ8JWyzgM=
-X-Google-Smtp-Source: ABdhPJzzDELn7VhlLHJ61XzMRKRRK7JvhXLbtZQN103gKcdJz6CJj1Dc5BReC2AUTcWnALjF6Q9qo8BDR9UrqPXW60U=
-X-Received: by 2002:a19:c206:: with SMTP id l6mr6969320lfc.152.1597658770928;
- Mon, 17 Aug 2020 03:06:10 -0700 (PDT)
+        id S1728035AbgHQKWi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 06:22:38 -0400
+Received: from mga05.intel.com ([192.55.52.43]:17819 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728029AbgHQKWa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 06:22:30 -0400
+IronPort-SDR: EWAw+k/qt96TbiyDQodBfd3aqwKEl6LeJE8MYyYvmraJ0Yy7KD2gUMbSm/sXzVyEUqNQ8ovVSF
+ l0a+plv/7ObQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9715"; a="239493833"
+X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
+   d="scan'208";a="239493833"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 03:22:29 -0700
+IronPort-SDR: OA44cBuLyYK9qJcYKy84xRkmNXXpjE64mN2MIOgCv8Wzpk1D2brDdJ/cfVyMxZLM5BLZgV0SP+
+ Upi1CD8Yyqzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
+   d="scan'208";a="319666852"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2020 03:22:27 -0700
+Subject: Re: [PATCH v1 5/7] media: ipu3-cio2: Replace infinite loop by one
+ with clear exit condition
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20200814163017.35001-1-andriy.shevchenko@linux.intel.com>
+ <20200814163017.35001-5-andriy.shevchenko@linux.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <aa68f5ec-359c-70ce-ecf6-ee013497230a@linux.intel.com>
+Date:   Mon, 17 Aug 2020 18:21:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Received: by 2002:ab3:76cb:0:0:0:0:0 with HTTP; Mon, 17 Aug 2020 03:06:10
- -0700 (PDT)
-Reply-To: asita.hussain0@gmail.com
-From:   "Mr.Asita.Hussain" <rs2851168@gmail.com>
-Date:   Mon, 17 Aug 2020 03:06:10 -0700
-Message-ID: <CAP7O7-4TY-zqSJeG-ZWdnq4ftXhAiSGYDdn3u6OZd8npAfrp_w@mail.gmail.com>
-Subject: Hello my good friend,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200814163017.35001-5-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-From Mr. Asita Hussain
-This message might meet you in utmost surprise.
-I am a banker by profession in Burkina-Faso, West Africa and currently
-holding the post of manager in account and auditing department in our
-bank. I have the opportunity of transferring the left over funds ($
-25.5 Million Dollars 15 kilos of Gold bar) belonging to our deceased
-customer who died along with his entire family in a bomb attack.
-Please indicate your willingness by sending the below information for
-more clarification and easy communication.
-Please Contact me with the following information's for more details.
-(1) YOUR FULL NAME.......................
-(2) YOUR AGE AND SEX......................
-(3) YOUR CONTACT ADDRESS...............
-(4) YOUR PRIVATE PHONE N0..........
-(5) FAX NUMBER..............
-(6) YOUR COUNTRY OF ORIGIN.................
-(7) YOUR OCCUPATION.................... .....
- Please Contact me for more details in this E-mail address
-(asita.hussain0@gmail.com)
-Trusting to hear from you immediately.
-Thanks & Best Regards,
-From Mr. Asita Hussain
+
+
+On 8/15/20 12:30 AM, Andy Shevchenko wrote:
+> Refactor cio2_buffer_done() to get rid of infinite loop by replacing it by one
+> with clear exit condition. This change also allows to check for an error ahead.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 24 +++++++++++-------------
+>  1 file changed, 11 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> index eee7f841050d..f4175dc1501a 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> @@ -541,7 +541,7 @@ static void cio2_buffer_done(struct cio2_device *cio2, unsigned int dma_chan)
+>  {
+>  	struct device *dev = &cio2->pci_dev->dev;
+>  	struct cio2_queue *q = cio2->cur_queue;
+> -	int buffers_found = 0;
+> +	struct cio2_fbpt_entry *const entry;
+No 'const' here.
+
+>  	u64 ns = ktime_get_ns();
+>  
+>  	if (dma_chan >= CIO2_QUEUES) {
+> @@ -549,15 +549,18 @@ static void cio2_buffer_done(struct cio2_device *cio2, unsigned int dma_chan)
+>  		return;
+>  	}
+>  
+> +	entry = &q->fbpt[q->bufs_first * CIO2_MAX_LOPS];
+> +	if (entry->first_entry.ctrl & CIO2_FBPT_CTRL_VALID) {
+> +		dev_warn(&cio2->pci_dev->dev,
+> +			 "no ready buffers found on DMA channel %u\n",
+> +			 dma_chan);
+> +		return;
+> +	}
+> +
+>  	/* Find out which buffer(s) are ready */
+>  	do {
+> -		struct cio2_fbpt_entry *const entry =
+> -			&q->fbpt[q->bufs_first * CIO2_MAX_LOPS];
+>  		struct cio2_buffer *b;
+>  
+> -		if (entry->first_entry.ctrl & CIO2_FBPT_CTRL_VALID)
+> -			break;
+> -
+>  		b = q->bufs[q->bufs_first];
+>  		if (b) {
+>  			unsigned int bytes = entry[1].second_entry.num_of_bytes;
+> @@ -579,13 +582,8 @@ static void cio2_buffer_done(struct cio2_device *cio2, unsigned int dma_chan)
+>  		atomic_inc(&q->frame_sequence);
+>  		cio2_fbpt_entry_init_dummy(cio2, entry);
+>  		q->bufs_first = (q->bufs_first + 1) % CIO2_MAX_BUFFERS;
+> -		buffers_found++;
+> -	} while (1);
+> -
+> -	if (buffers_found == 0)
+> -		dev_warn(&cio2->pci_dev->dev,
+> -			 "no ready buffers found on DMA channel %u\n",
+> -			 dma_chan);
+> +		entry = &q->fbpt[q->bufs_first * CIO2_MAX_LOPS];
+> +	} while (!(entry->first_entry.ctrl & CIO2_FBPT_CTRL_VALID));
+>  }
+>  
+>  static void cio2_queue_event_sof(struct cio2_device *cio2, struct cio2_queue *q)
+> 
+
+-- 
+Best regards,
+Bingbu Cao
