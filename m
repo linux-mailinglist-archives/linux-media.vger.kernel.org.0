@@ -2,291 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 696A424794D
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 23:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BD702479E3
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 00:06:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728816AbgHQVxp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 17:53:45 -0400
-Received: from rnd-relay.smtp.broadcom.com ([192.19.229.170]:47422 "EHLO
-        rnd-relay.smtp.broadcom.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727931AbgHQVxh (ORCPT
+        id S1729765AbgHQWE6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 18:04:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729277AbgHQWE5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 17:53:37 -0400
-Received: from mail-irv-17.broadcom.com (mail-irv-17.lvn.broadcom.net [10.75.242.48])
-        by rnd-relay.smtp.broadcom.com (Postfix) with ESMTP id EA47830C20B;
-        Mon, 17 Aug 2020 14:51:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 rnd-relay.smtp.broadcom.com EA47830C20B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
-        s=dkimrelay; t=1597701072;
-        bh=ubBMJ940rYl92I/Jyrk5HpYWcSFbpmpmT4Ss/yrNXcU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=l8GCsv6KPSY0S1UZ1zKkiYsiS7/SWlE4tXKWNxfa+ncXvzCCAgXe4UriCgEJoloWA
-         qjY6cwXbGngkg2fLIu25m8FOwM8SKprirpCW9NkYKqtPoCM5E8QD7QTgZ77Zy8M5CM
-         trzPUIS3Q8VBJ/azsTHutBZUf1rkmLhMtNsTlXGw=
-Received: from stbsrv-and-01.and.broadcom.net (stbsrv-and-01.and.broadcom.net [10.28.16.211])
-        by mail-irv-17.broadcom.com (Postfix) with ESMTP id 7D633140069;
-        Mon, 17 Aug 2020 14:53:31 -0700 (PDT)
-From:   Jim Quinlan <james.quinlan@broadcom.com>
-To:     linux-pci@vger.kernel.org,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        bcm-kernel-feedback-list@broadcom.com, james.quinlan@broadcom.com
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE),
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER
-        A10), Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS),
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joerg Roedel <jroedel@suse.de>,
-        Julien Grall <julien.grall@arm.com>,
-        linux-acpi@vger.kernel.org (open list:ACPI FOR ARM64 (ACPI/arm64)),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER),
-        linux-remoteproc@vger.kernel.org (open list:REMOTE PROCESSOR
-        (REMOTEPROC) SUBSYSTEM),
-        linux-rpi-kernel@lists.infradead.org (moderated list:BROADCOM
-        BCM2711/BCM2835 ARM ARCHITECTURE),
-        linux-sh@vger.kernel.org (open list:SUPERH),
-        linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Stefano Stabellini <sstabellini@kernel.org>
-Subject: [PATCH RESEND v10 00/11] PCI: brcmstb: enable PCIe for STB chips
-Date:   Mon, 17 Aug 2020 17:53:02 -0400
-Message-Id: <20200817215326.30912-1-james.quinlan@broadcom.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 17 Aug 2020 18:04:57 -0400
+Received: from mail.tuxforce.de (tuxforce.de [IPv6:2a00:5080:1:16d::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBDA4C061342;
+        Mon, 17 Aug 2020 15:04:56 -0700 (PDT)
+Received: from linux-2.fritz.box (2001-4dd5-ac5b-0-c3ce-e3c9-ac3c-4f69.ipv6dyn.netcologne.de [IPv6:2001:4dd5:ac5b:0:c3ce:e3c9:ac3c:4f69])
+        by mail.tuxforce.de (Postfix) with ESMTPSA id BAAE0520089;
+        Tue, 18 Aug 2020 00:04:51 +0200 (CEST)
+From:   Lukas Middendorf <kernel@tuxforce.de>
+Subject: Re: Is request_firmware() really safe to call in resume callback when
+ /usr/lib/firmware is on btrfs?
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Anand Jain <anand.jain@oracle.com>, linux-btrfs@vger.kernel.org,
+        Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <c79e24a5-f808-d1f0-1f09-ee6f135d9679@tuxforce.de>
+ <20200813163749.GV4332@42.do-not-panic.com>
+ <0b1621bf-fc82-1a56-c11f-c5c46677e59e@tuxforce.de>
+ <20200813221348.GB4332@42.do-not-panic.com>
+ <fc887e06-874c-79d8-0607-4e27ae788446@tuxforce.de>
+ <20200814163723.GC4332@42.do-not-panic.com>
+ <a79f1a0c-012d-bebe-c9c7-b505f59079c2@tuxforce.de>
+ <20200817152056.GD4332@42.do-not-panic.com>
+Message-ID: <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
+Date:   Tue, 18 Aug 2020 00:04:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200817152056.GD4332@42.do-not-panic.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Patchset Summary:
-  Enhance a PCIe host controller driver.  Because of its unusual design
-  we are foced to change dev->dma_pfn_offset into a more general role
-  allowing multiple offsets.  See the 'v1' notes below for more info.
+On 17/08/2020 17:20, Luis Chamberlain wrote:
+> On Fri, Aug 14, 2020 at 11:59:36PM +0200, Lukas Middendorf wrote:
+>> On 14/08/2020 18:37, Luis Chamberlain wrote:
+>>> On Fri, Aug 14, 2020 at 01:38:40PM +0200, Lukas Middendorf wrote:
+>>>>> If the firmware is *not* present for the si2168 driver and the device
+>>>>> has *not* been used yet you get a system freeze which you cannot recover
+>>>>> from, but only if you are *not* using a driver which also caches its
+>>>>> firmware already?
+>>>>
+>>>> Yes, this is exactly what I wanted to say.
+>>>>
+>>>
+>>> OK great.. but..
+>>>
+>>>> A new installation of Fedora 32 without firmware files
+>>>
+>>> Fedora 32 comes with no firmware at all? Are you sure? How about your
+>>> wifi?
+>>
+>> Fedora does come with firmware files for many devices (wifi, nouveau, …) but
+>> not for dvb devices. Firmware for the si2168 has to be installed as an extra
+>> package dvb-firmware from rpmfusion. When I talk about "no firmware files"
+>> or "install the firmware files" I mean the si2168 (and other dvb hardware)
+>> firmware files only. The nouveau firmware files are always present.
+> 
+> OK so how do you know that other firmware is not getting loaded or cached?
 
-v10: 
-  Commit: "device-mapping: Introduce DMA range map, supplanting ..."
-  -- change title of commit; "bus core:" => "device-mapping:"
-  -- instead of allocating the DMA map with devm, use kcalloc
-     and call kfree() during device_release().  (RobH) Also,
-     for three cases that want to use the same DMA map, copy
-     the dma_range_map using a helper function.
-  -- added a missing 'return = 0;' to of_dma_get_range().  (Nicolas)
-  -- removed dma_range_overlaps(); instead return error if there
-     is an existing DMA map. (Christoph).
-  Commit: "PCI: brcmstb: Set additional internal memory DMA ..."
-  -- Changed constant 1 to 1ULL. (Nicolas)
-  Commit: "ata: ahci_brcm: Fix use of BCM7216 reset controller"
-     This commit has been removed from this patchset and will be
-     submitted on its own.
+dmesg with firmware_class debug output enabled
 
-v9:
-  Commit: "device core: Introduce DMA range map, supplanting ..."
-  -- A number of code improvements were implemented as suggested by
-     ChristophH.  Unfortunately, some of these changes reversed the
-     implemented suggestions of other reviewers; for example, the new
-     macros PFN_DMA_ADDR(), DMA_ADDR_PFN() have been pulled.
+> 
+> Other than checking kernel logs you can rm -rf /lib/firmware/ and then
+> only place the files you want to test.
+> 
+>>>> and with nouveau did
+>>>> not show my freeze problem. Installing either the firmware files or the
+>>>> nvidia driver started the freeze during resume.
+>>>
+>>> Here now you say that if you install either the firmware files for
+>>> either si2168 or nouveau can cause a freeze,
+>>
+>> no, I'm talking just about the firmware files for si2168
+> 
+> OK so if you install the firmware files of si2168 you do run into a
+> freeze, and this freeze happens on resume from suspend?
+> 
+> Without the si2168 firmware the freeze does not happen.
+> 
+> Is that right?
+> 
+>> In the case that I *don't* have the firmware files for si2168 (!) present it
+>> happens only if no other firmware is cached on suspend (in my case by the
+>> nouveau driver). No statement made about cases where the si2168 firmware
+>> file is present.
+> 
+> OK this statement is clear and is very different from the one I made
+> above.
+> 
+> But note, that this is true, how are you *sure* that no other firmware
+> other than nouveau is being used? What about wifi? or bluetooth?
 
-v8:
-  Commit: "device core: Introduce DMA range map, supplanting ..."
-  -- To satisfy a specific m68 compile configuration, I moved the 'struct
-     bus_dma_region; definition out of #ifdef CONFIG_HAS_DMA and also defined
-     three inline functions for !CONFIG_HAS_DMA (kernel test robot).
-  -- The sunXi drivers -- suc4i_csi, sun6i_csi, cedrus_hw -- set
-     a pfn_offset outside of_dma_configure() but the code offers no 
-     insight on the size of the translation window.  V7 had me using
-     SIZE_MAX as the size.  I have since contacted the sunXi maintainer and
-     he said that using a size of SZ_4G would cover sunXi configurations.
+I don't have wifi or bluetooth enabled in the BIOS. If I don't use the 
+nouveau driver, "dmesg | grep firmware" is completely empty after boot 
+except for the kernel command line part "ddebug_query=module 
+firmware_class +pmf". After suspend + resume I just get two lines for 
+the calls to cache and uncache firmwares. If any other firmware is used, 
+it is apparently not using the standard firmware loader.
+If I rename the directory /usr/lib/firmware everything seems to work as 
+before (nouveau and si2168 not loaded) and I don't see any complaints 
+about missing firmware in dmesg.
 
-v7:
-  Commit: "device core: Introduce DMA range map, supplanting ..."
-  -- remove second kcalloc/copy in device.c (AndyS)
-  -- use PTR_ERR_OR_ZERO() and PHYS_PFN() (AndyS)
-  -- indentation, sizeof(struct ...) => sizeof(*r) (AndyS)
-  -- add pfn.h definitions: PFN_DMA_ADDR(), DMA_ADDR_PFN() (AndyS)
-  -- Fixed compile error in "sun6i_csi.c" (kernel test robot)
-  Commit "ata: ahci_brcm: Fix use of BCM7216 reset controller"
-  -- correct name of function in the commit msg (SergeiS)
-  
-v6:
-  Commit "device core: Introduce DMA range map":
-  -- of_dma_get_range() now takes a single argument and returns either
-     NULL, a valid map, or an ERR_PTR. (Robin)
-  -- offsets are no longer a PFN value but an actual address. (Robin)
-  -- the bus_dma_region struct stores the range size instead of
-     the cpu_end and pci_end values. (Robin)
-  -- devices that were setting a single offset with no boundaries
-     have been modified to have boundaries; in a few places
-     where this information was unavilable a /* FIXME: ... */
-     comment was added. (Robin)
-  -- dma_attach_offset_range() can be called when an offset
-     map already exists; if it's range is already present
-     nothing is done and success is returned. (Robin)
-  All commits:
-  -- Man name/style/corrections/etc changed (Bjorn)
-  -- rebase to Torvalds master
+If I enable my secondary rtl8125 Ethernet controller in the BIOS (I only 
+tested this now, I always had it disabled previously), I can see its 
+firmware being loaded on boot and cached on suspend. This then has an 
+effect on my freeze problem identical to using the nouveau driver.
 
-v5:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  -- in of/address.c: "map_size = 0" => "*map_size = 0"
-  -- use kcalloc instead of kzalloc (AndyS)
-  -- use PHYS_ADDR_MAX instead of "~(phys_addr_t)0"
-  Commit "PCI: brcmstb: Set internal memory viewport sizes"
-  -- now gives error on missing dma-ranges property.
-  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
-  -- removed "Allof:" from brcm,scb-sizes definition (RobH)
-  All Commits:
-  -- indentation style, use max chars 100 (AndyS)
-  -- rebased to torvalds master
+>>> You also clarify here your freeze happens on resume only. Is that right?
+>>> Never on suspend, but if the freeze happens, it happens only on resume?
+>>
+>> Correct. I have not seen a freeze on suspend. It only happens on resume.
+> 
+> OK this is only if and only if you haven't used the si2168 device,
+> right? And since this is related to si2168 we know that even if you
+> don't use the si2168 device its function which calls to load firmware
+> *does* get called on resume, even though that same function was not
+> called on probe, as the device is not used.
+> 
+> If true, then the race to freeze here happens on resume against btrfs.
+> 
+> And is the firmware present or not in this case, in which the freeze
+> happens?
 
-v4:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  -- of_dma_get_range() does not take a dev param but instead
-     takes two "out" params: map and map_size.  We do this so
-     that the code that parses dma-ranges is separate from
-     the code that modifies 'dev'.   (Nicolas)
-  -- the separate case of having a single pfn offset has
-     been removed and is now processed by going through the
-     map array. (Nicolas)
-  -- move attach_uniform_dma_pfn_offset() from of/address.c to
-     dma/mapping.c so that it does not depend on CONFIG_OF. (Nicolas)
-  -- devm_kcalloc => devm_kzalloc (DanC)
-  -- add/fix assignment to dev->dma_pfn_offset_map for func
-     attach_uniform_dma_pfn_offset() (DanC, Nicolas)
-  -- s/struct dma_pfn_offset_region/struct bus_dma_region/ (Nicolas)
-  -- s/attach_uniform_dma_pfn_offset/dma_attach_uniform_pfn_offset/
-  -- s/attach_dma_pfn_offset_map/dma_attach_pfn_offset_map/
-  -- More use of PFN_{PHYS,DOWN,UP}. (AndyS)
-  Commit "of: Include a dev param in of_dma_get_range()"
-  -- this commit was sqaushed with "device core: Introduce ..."
+A freeze can happen on resume with and without the si2168 firmware files 
+installed. It however is easier to hit the freeze with the firmware 
+files installed. Without the firmware files present the freeze happens 
+only if no other driver uses the firmware loader.
 
-v3:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  Commit "arm: dma-mapping: Invoke dma offset func if needed"
-  -- The above two commits have been squashed.  More importantly,
-     the code has been modified so that the functionality for
-     multiple pfn offsets subsumes the use of dev->dma_pfn_offset.
-     In fact, dma_pfn_offset is removed and supplanted by
-     dma_pfn_offset_map, which is a pointer to an array.  The
-     more common case of a uniform offset is now handled as
-     a map with a single entry, while cases requiring multiple
-     pfn offsets use a map with multiple entries.  Code paths
-     that used to do this:
+>>> The actual case where you reach a freeze is still not clear yet. Let's
+>>> try to clarify this.
+>>
+>> OK, let's try that again. To freeze during resume all of 1-4 has to be true:
+>> 1. /usr/lib/firmware is on btrfs
+>> 2. my Hauppauge WinTV-dualHD USB DVB tuner (contains si2168) is connected
+>> 3. have not actively used the tuner
+>> 4. any of the following cases:
+>> 4a) si2168 firmware not installed + nouveau driver not used + have not run
+>> "ls -R /usr/lib/firmware" before suspend
+>> 4b) firmware file installed + not run "cat /usr/lib/firmware/dvb*"
+>> 4c) firmware file installed + not run "ls -R /usr/lib/firmware" + not
+>> nouveau driver
+> 
+> OK perfect, now the next question to clarify is *are you sure* that no
+> other firmware is used, other than si2168 and nouveau?
 
-         dev->dma_pfn_offset = mydrivers_pfn_offset;
+I'm totally sure that no other firmware is used through the standard 
+firmware loader. I'm also almost sure that no firmware from 
+/usr/lib/firmware is used though any other means.
 
-     have been changed to do this:
+>> Not leading to a freeze is:
+>>
+>> A: si2168 firmware not installed + nouveau driver used
+>> B: si2168 firmware not installed + run "ls -R /usr/lib/firmware" before
+>> suspend
+>> C: used the tuner before suspend (or tried to use, in case that the si2168
+>> firmware is not installed)
+>> D: using my patches with firmware_request_cache()
+>> E: si2168 firmware installed + "ls -R /usr/lib/firmware" + "cat
+>> /usr/lib/firmware/dvb*"
+>> F: si2168 firmware installed + nouveau driver used + "cat
+>> /usr/lib/firmware/dvb*"
+>>
+>> I verified all cases again to make sure I was not remembering anything
+>> wrong.
+> 
+> This helps, thanks so much, now we'll have to write a reproducer, thanks
+> for the report!!
 
-         attach_uniform_dma_pfn_offset(dev, pfn_offset);
+Will you do it yourself or do you expect me to do anything for this?
 
-  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
-  -- Add if/then clause for required props: resets, reset-names (RobH)
-  -- Change compatible list from const to enum (RobH)
-  -- Change list of u32-tuples to u64 (RobH)
+>> The nouveau driver in use seems to be equivalent to running "ls -R
+>> /usr/lib/firmware" before suspend.
+>>
+>> All the cases seem to boil down to:
+>> It freezes if the file system has to be accessed to list the content of
+>> /usr/lib/firmware or to read the si2168 firmware file
+> 
+> Let's confirm first whether or not your system is using other firmware
+> files too or not.
 
-  Commit "of: Include a dev param in of_dma_get_range()"
-  -- modify of/unittests.c to add NULL param in of_dma_get_range() call.
+I confirmed that above. Why is this so important, anyway?
 
-  Commit "device core: Add ability to handle multiple dma offsets"
-  -- align comment in device.h (AndyS).
-  -- s/cpu_beg/cpu_start/ and s/dma_beg/dma_start/ in struct
-     dma_pfn_offset_region (AndyS).
-
-v2:
-Commit: "device core: Add ability to handle multiple dma offsets"
-  o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
-  o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
-  o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
-  o dev->dma_pfn_map => dev->dma_pfn_offset_map
-  o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
-  o In device.h: s/const void */const struct dma_pfn_offset_region */
-  o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
-    guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
-  o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
-    dev->dma_pfn_offset_map is copied as well.
-  o Merged two of the DMA commits into one (Christoph).
-
-Commit "arm: dma-mapping: Invoke dma offset func if needed":
-  o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
-
-Other commits' changes:
-  o Removed need for carrying of_id var in priv (Nicolas)
-  o Commit message rewordings (Bjorn)
-  o Commit log messages filled to 75 chars (Bjorn)
-  o devm_reset_control_get_shared())
-    => devm_reset_control_get_optional_shared (Philipp)
-  o Add call to reset_control_assert() in PCIe remove routines (Philipp)
-
-v1:
-This patchset expands the usefulness of the Broadcom Settop Box PCIe
-controller by building upon the PCIe driver used currently by the
-Raspbery Pi.  Other forms of this patchset were submitted by me years
-ago and not accepted; the major sticking point was the code required
-for the DMA remapping needed for the PCIe driver to work [1].
-
-There have been many changes to the DMA and OF subsystems since that
-time, making a cleaner and less intrusive patchset possible.  This
-patchset implements a generalization of "dev->dma_pfn_offset", except
-that instead of a single scalar offset it provides for multiple
-offsets via a function which depends upon the "dma-ranges" property of
-the PCIe host controller.  This is required for proper functionality
-of the BrcmSTB PCIe controller and possibly some other devices.
-
-[1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
-
-
-Jim Quinlan (11):
-  PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
-  dt-bindings: PCI: Add bindings for more Brcmstb chips
-  PCI: brcmstb: Add bcm7278 register info
-  PCI: brcmstb: Add suspend and resume pm_ops
-  PCI: brcmstb: Add bcm7278 PERST# support
-  PCI: brcmstb: Add control of rescal reset
-  device-mapping: Introduce DMA range map, supplanting dma_pfn_offset
-  PCI: brcmstb: Set additional internal memory DMA viewport sizes
-  PCI: brcmstb: Accommodate MSI for older chips
-  PCI: brcmstb: Set bus max burst size by chip type
-  PCI: brcmstb: Add bcm7211, bcm7216, bcm7445, bcm7278 to match list
-
- .../bindings/pci/brcm,stb-pcie.yaml           |  56 ++-
- arch/arm/include/asm/dma-mapping.h            |  10 +-
- arch/arm/mach-keystone/keystone.c             |  17 +-
- arch/sh/drivers/pci/pcie-sh7786.c             |   9 +-
- arch/sh/kernel/dma-coherent.c                 |  15 +-
- arch/x86/pci/sta2x11-fixup.c                  |   7 +-
- drivers/acpi/arm64/iort.c                     |   5 +-
- drivers/base/core.c                           |   2 +
- drivers/gpu/drm/sun4i/sun4i_backend.c         |   5 +-
- drivers/iommu/io-pgtable-arm.c                |   2 +-
- .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   5 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   4 +-
- drivers/of/address.c                          |  72 ++-
- drivers/of/device.c                           |  43 +-
- drivers/of/of_private.h                       |  10 +-
- drivers/of/unittest.c                         |  31 +-
- drivers/pci/controller/Kconfig                |   3 +-
- drivers/pci/controller/pcie-brcmstb.c         | 409 +++++++++++++++---
- drivers/remoteproc/remoteproc_core.c          |   8 +-
- .../staging/media/sunxi/cedrus/cedrus_hw.c    |   7 +-
- drivers/usb/core/message.c                    |   9 +-
- drivers/usb/core/usb.c                        |   7 +-
- include/linux/device.h                        |   4 +-
- include/linux/dma-direct.h                    |   8 +-
- include/linux/dma-mapping.h                   |  36 ++
- kernel/dma/coherent.c                         |  10 +-
- kernel/dma/mapping.c                          |  65 +++
- 27 files changed, 672 insertions(+), 187 deletions(-)
-
--- 
-2.17.1
-
+Lukas
