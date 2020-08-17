@@ -2,107 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 414A3245EDA
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 10:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D195246001
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 10:28:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727003AbgHQIIC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 04:08:02 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:52071 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726768AbgHQIIC (ORCPT
+        id S1728511AbgHQI15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 04:27:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52948 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727845AbgHQI1q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 04:08:02 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id BB259FF80B;
-        Mon, 17 Aug 2020 08:07:55 +0000 (UTC)
-Date:   Mon, 17 Aug 2020 10:11:38 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: ov772x: Document endpoint
- properties
-Message-ID: <20200817081138.dog5lhpmszbu2mgc@uno.localdomain>
-References: <1596454753-13612-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1596454753-13612-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8sjxL-rbYAti8Djj2ch2+Zf+88_wNjbZHzKVBB66aZJ0g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8sjxL-rbYAti8Djj2ch2+Zf+88_wNjbZHzKVBB66aZJ0g@mail.gmail.com>
+        Mon, 17 Aug 2020 04:27:46 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB09AC061389
+        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 01:27:45 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id 88so14080511wrh.3
+        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 01:27:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=/MeQgobB67Kfom3s+YkCdvLeiREa8hjlhCt5MNPwpVY=;
+        b=nD24KhF8r6AcrSKMIX6irVZl79yTcBlQd36rEnuhaZo8d/9DFl3/aWhsHqODTW4dWE
+         6bgjKA+PPn5QUM0eCBPRQsPM/gQbhn2G4vworT+IQsHnZt8JcW5ITsjGcs0Q0Cvt9kJf
+         JM7CHEZvaRVRrjhLXofuMnBMXAh4oFIgfQ7tHdIl5VNtE9ose8Ul7M52HH03GPs1agwo
+         RoePHIwq+FOy5078Qlj0rHuGiCxu7Mlz3mx0xqhgi8eG+kfXDUigxkMJvGWK17Vd9Gs8
+         IqISumd0XG8U/L5gHxzmIEealTXEGjAzqIqMvhXS7hpPV33Wvl5zSjp+74t+N+UpZftC
+         P1wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=/MeQgobB67Kfom3s+YkCdvLeiREa8hjlhCt5MNPwpVY=;
+        b=WMydaCvvPw5htYHI4o9F/fIKMtCfcNV+QNOrw4fx3MBEjAnhBWYVb6LW5iwDVNyCne
+         N29X7b+0E4dZLwrm0AAPn0j+zFGLQHQJB5bhJ4dHXR+37mZa0QjzUKXZIbB/vwLgN5Qw
+         h/pjAf+jEIOyvEcAc03yrO29AMw3oEUVgMIpR4ZnthwBUmBNUbj/r1rnR+8WGUEzR4fk
+         wyKnA1aLY4tSyEtEz7dFlmZ+V+bv4MB5IftLUOHqPAlWFTi/3jtC+LosM/DkgSMMtylV
+         fhN3Xo6vQGXtJa1iLdsOIamT29FUzsRKHKPux4EbsoUAjvhgpwZJ6kL0JL+7iqiGYmB2
+         /yTg==
+X-Gm-Message-State: AOAM531BKTPU7Poxt163iw0fP6nY5FAJn1tPzgm3kDKGL0oXvw1+SABu
+        oN3ZLpgjOy2vl1w3UybZmLdDXg==
+X-Google-Smtp-Source: ABdhPJxRASNZ/4Ci1xX88rgpdzZo6Ubi7BbRnlcmzgqWzruYtPmJ7w373dxouwOPYL109NNb6CuO7A==
+X-Received: by 2002:adf:ca06:: with SMTP id o6mr13656275wrh.181.1597652864488;
+        Mon, 17 Aug 2020 01:27:44 -0700 (PDT)
+Received: from localhost.localdomain ([195.24.90.54])
+        by smtp.gmail.com with ESMTPSA id h5sm33270888wrc.97.2020.08.17.01.27.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 01:27:43 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Elliot Berman <eberman@codeaurora.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v2 0/2] Venus - fix firmware load failure
+Date:   Mon, 17 Aug 2020 11:27:21 +0300
+Message-Id: <20200817082723.17458-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Prabhakar,
+Hi,
 
-On Sat, Aug 15, 2020 at 11:34:33AM +0100, Lad, Prabhakar wrote:
-> Hi Jacopo,
->
-> On Mon, Aug 3, 2020 at 12:39 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >
-> > Document endpoint properties required for parallel interface
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../devicetree/bindings/media/i2c/ov772x.txt     | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >
-> I see you already have a patch for YAML conversion for OV772x binding
-> [1], if you plan to post a v2 would you be OK to pick these changes as
-> part of your conversion changes ?
+Changes since v1:
+ * Move the new scm call above assign mem - Elliot Berman
 
-Sure thing, I'll add the following properties to the series!
+v1 can be found at [1].
 
-Thanks
-  j
+regards,
+Stan
 
->
-> [1] https://www.spinics.net/lists/linux-media/msg173201.html
->
-> Cheers,
-> Prabhakar
->
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > index 0b3ede5b8e6a..1f4153484717 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > @@ -21,6 +21,22 @@ subnode for its digital output video port, in accordance with the video
-> >  interface bindings defined in Documentation/devicetree/bindings/media/
-> >  video-interfaces.txt.
-> >
-> > +Endpoint node required properties for parallel connection are:
-> > +- remote-endpoint: a phandle to the bus receiver's endpoint node.
-> > +- bus-width: shall be set to <8> for 8 bits parallel bus
-> > +            or <10> for 10 bits parallel bus
-> > +- data-shift: shall be set to <2> for 8 bits parallel bus
-> > +             (lines 9:2 are used) or <0> for 10 bits parallel bus
-> > +- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
-> > +               (Not required for bus-type equal 6)
-> > +- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
-> > +               (Not required for bus-type equal 6)
-> > +- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
-> > +              signal. (Not required for bus-type equal 6)
-> > +- bus-type: data bus type. Possible values are:
-> > +           5 - Parallel
-> > +           6 - Bt.656
-> > +
-> >  Example:
-> >
-> >  &i2c0 {
-> > --
-> > 2.17.1
-> >
+[1] https://lkml.org/lkml/2020/7/9/472
+
+Stanimir Varbanov (2):
+  firmware: qcom_scm: Add memory protect virtual address ranges
+  venus: firmware: Set virtual address ranges
+
+ drivers/firmware/qcom_scm.c                  | 24 ++++++++++++++++++++
+ drivers/firmware/qcom_scm.h                  |  1 +
+ drivers/media/platform/qcom/venus/core.c     |  4 ++++
+ drivers/media/platform/qcom/venus/core.h     |  4 ++++
+ drivers/media/platform/qcom/venus/firmware.c | 18 ++++++++++++++-
+ include/linux/qcom_scm.h                     |  8 ++++++-
+ 6 files changed, 57 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
+
