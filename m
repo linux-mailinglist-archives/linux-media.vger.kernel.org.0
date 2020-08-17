@@ -2,103 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E27224780E
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 22:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 739F4247858
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 22:52:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727062AbgHQUYR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 16:24:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51716 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726228AbgHQUYN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 16:24:13 -0400
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9D87C061389
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 13:24:13 -0700 (PDT)
-Received: by mail-qv1-xf43.google.com with SMTP id j10so8424298qvo.13
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 13:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=pfLdDmHZ9Oq4dli862u1wqzVulaHAyd0p4fZEPAjxZc=;
-        b=iE35JFJwt4efMnXYRKXitn1DhZ5fDwLIZlXuOy/AcltJyT50MsVLtamlQ1GCffuOfL
-         BVnSdO7Km8CGkAwRtWrk/G9yt2G1V5Z7EK+HXnuJpMihvHAYIXfmPGj6AokjGWII1f0D
-         a1brgX5ov1RpD71dX+xdSmS+T3LCviIrHLVT3uW0pB76Ac77G+tASuQ/ISt1VnKzapBr
-         dXudUFl17xkD2IbfUwvSexlHQG+LVZGaBOhtFi0wI0idupmf2j3AleZ8ya8i1q+4kFx7
-         LNiVfStFZndpuE/zkoQcN68zAbAX7JSdL56cPcZmO7hON7MEHf+oQFRnk7Zj6HS+KdDg
-         LyHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=pfLdDmHZ9Oq4dli862u1wqzVulaHAyd0p4fZEPAjxZc=;
-        b=f/68nM4UAk67dvi+LTVTORJ1Q9GufpbEUK/wl/qraiWAwI9zfirz37JXlM44R6YNMv
-         3QU8OpNZMj1gRbrXct9zyIKZcoQzjj4Jdx2prhZNFwKYMCjS4/Spdmsum5n/EDISAOTo
-         Ao6i+fi+MPhb8w/jtx7x93xkllMPZ+BkN0eyix0IqD1enF8IfN88XyxreneYI0sj9E5E
-         XCskAI+6Rq61AVuC273qqNBs4V34pG6dR28CzLn7ZkuYD95rSCNVM0Yk30HG8XvVcOtA
-         5euMzVm1mSGAJlMHt8Z7iP81Ja/XozqslY7hUnpVZqvBxE9Tpgpp9XZwC219/6PsVBqb
-         kL6A==
-X-Gm-Message-State: AOAM532xxVPsdeRt30vGWZ6WvKzEDzMVO+b+bg524bR/14UwrZ5TAj0y
-        0Is9YvXgHKWIy3Lc+p3jgZY=
-X-Google-Smtp-Source: ABdhPJzbdW5TbJzjCy9d+vjhJ/CM2Z0Rqz1aBWfyfGOy8fkjrb6ilILsJJQY+iqUwG2yVntZUgfIbw==
-X-Received: by 2002:ad4:564d:: with SMTP id bl13mr15404154qvb.60.1597695852929;
-        Mon, 17 Aug 2020 13:24:12 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:4fb::1000])
-        by smtp.gmail.com with ESMTPSA id a3sm20038393qtj.21.2020.08.17.13.24.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 13:24:11 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     mchehab@kernel.org
-Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] media: fsl-viu: Do not redefine out_be32()/in_be32() for CONFIG_M68K
-Date:   Mon, 17 Aug 2020 17:23:56 -0300
-Message-Id: <20200817202356.11598-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726947AbgHQUwh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 16:52:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35988 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726165AbgHQUwg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 16:52:36 -0400
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B15F22065D;
+        Mon, 17 Aug 2020 20:52:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597697555;
+        bh=qq/Aq6gH91HmodHUuGstQfY62H36imeGZ9HxFm3ZU38=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hS2LVsyU8NJ8bR4fK4TKRsh1j9DVIs2drJXjOHGbvQtu+jFjV4NV3NdQosReQua6P
+         9n8I9NIi+xITfG7i7wnRkxOwy13Ki2qzGPcHipkdQ2Olz6dGmdQWupXmAiia2TjEKA
+         6+d0V9wMAWqvt1xFEumTyNJVU6kYZstFp0EI0MSU=
+Received: by mail-ot1-f45.google.com with SMTP id h22so14518413otq.11;
+        Mon, 17 Aug 2020 13:52:35 -0700 (PDT)
+X-Gm-Message-State: AOAM530JTTqA1twM3ko5WKkKKmVLX6/TD/V0YstDQh0GJExO2jrB98ur
+        zUU6oqLB3SDpoM1lv6fhIVKYjl6m5sM4vsvUKg==
+X-Google-Smtp-Source: ABdhPJxaF0nYdin2AdmlzdGbIHiRf2CI5TWBbErlxvKR1Popk5mGNuff8kbE7smq29spDmT37s+s0UIO+v4pPWaQ6I4=
+X-Received: by 2002:a05:6830:1d8e:: with SMTP id y14mr12789084oti.129.1597697555093;
+ Mon, 17 Aug 2020 13:52:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200817160037.255972-1-jacopo+renesas@jmondi.org> <20200817191855.u55o75iby6ib7hhe@uno.localdomain>
+In-Reply-To: <20200817191855.u55o75iby6ib7hhe@uno.localdomain>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 17 Aug 2020 14:52:23 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJFaewwrqM_vfGWGS5RGcJ2h144wV8dgWgCtO3hQQwF0w@mail.gmail.com>
+Message-ID: <CAL_JsqJFaewwrqM_vfGWGS5RGcJ2h144wV8dgWgCtO3hQQwF0w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: media: imx274: Convert to json-schema
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        devicetree@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following W=1 build warning is seen on a m68k:
+On Mon, Aug 17, 2020 at 1:15 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Slightly better with a subject  =)
+>
+> I made a formatting error, empty line between receivers list and Subject:
+>
+> Sorry about this :)
 
-drivers/media/platform/fsl-viu.c: At top level:
-drivers/media/platform/fsl-viu.c:36: warning: "out_be32" redefined
-   36 | #define out_be32(v, a) iowrite32be(a, (void __iomem *)v)
-      | 
-In file included from ./arch/m68k/include/asm/io_mm.h:25,
-                 from ./arch/m68k/include/asm/io.h:8,
-                 from ./include/linux/io.h:13,
-                 from ./include/linux/irq.h:20,
-                 from ./include/asm-generic/hardirq.h:13,
-                 from ./arch/m68k/include/generated/asm/hardirq.h:1,
-                 from ./include/linux/hardirq.h:9,
-                 from ./include/linux/interrupt.h:11,
-                 from drivers/media/platform/fsl-viu.c:17:
-./arch/m68k/include/asm/raw_io.h:32: note: this is the location of the previous definition
-   32 | #define out_be32(addr,l) (void)((*(__force volatile u32 *) (addr)) = (l))
+Just resend so all the tooling works. My scripts barfed on it as it
+seems to not be in lore.
 
-Avoid the out_be32() and in_be32() redefinitions when building for CONFIG_M68K
-in the same way we currently do for CONFIG_PPC and CONFIG_MICROBLAZE.
-
-Reported-by: kernel test robot <lkp@intel.com> 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- drivers/media/platform/fsl-viu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
-index 84633a3b8475..4f2a0f992905 100644
---- a/drivers/media/platform/fsl-viu.c
-+++ b/drivers/media/platform/fsl-viu.c
-@@ -32,7 +32,7 @@
- #define VIU_VERSION		"0.5.1"
- 
- /* Allow building this driver with COMPILE_TEST */
--#if !defined(CONFIG_PPC) && !defined(CONFIG_MICROBLAZE)
-+#if !defined(CONFIG_PPC) && !defined(CONFIG_MICROBLAZE) && !defined(CONFIG_M68K)
- #define out_be32(v, a)	iowrite32be(a, (void __iomem *)v)
- #define in_be32(a)	ioread32be((void __iomem *)a)
- #endif
--- 
-2.17.1
-
+Rob
