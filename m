@@ -2,163 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15291245E3C
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 09:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97138245E88
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 09:53:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbgHQHoG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 03:44:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46086 "EHLO
+        id S1726656AbgHQHw7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 03:52:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726366AbgHQHoG (ORCPT
+        with ESMTP id S1726615AbgHQHwx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 03:44:06 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A05FC061388;
-        Mon, 17 Aug 2020 00:44:06 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id j21so7712254pgi.9;
-        Mon, 17 Aug 2020 00:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dyqpdq5z1tV4VGcNVcGfrr6ZWrqS+ezelgjUrIGuMOY=;
-        b=cVPgV/X2Wys5BSUaCqslmYpTyAJtSfcqQjAtJ25PxE1bfi6QFMip/+YUNsGYJVlT+0
-         fXDpLXtueD0UY8a3VnYymeANd2d7ULnAldZ/eXoIt9hN/eQ5zHJzohxOoJATmYTOPZz0
-         bMG7Js45uAPDKsG2z3UE/v7pBolErl8xOmBoWIQMrQV0CvHDSKISsjS6OYbXTV7w5A3i
-         ZMMF0wU6IPdqazs+Cr4qE+i4IsIOGUDgzgHBmYOZAu2lVJVohKmQdNtRuQo0p4bNmgNI
-         4qAaXddUlKfFUvKHnbH1vP1t58TcAqD8BOAGMTs0QphZN7Elrj43DFQs4ZO4bCE5ljwQ
-         f6lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dyqpdq5z1tV4VGcNVcGfrr6ZWrqS+ezelgjUrIGuMOY=;
-        b=GXqPgbcj+kA4fACZt0z5cvqkbNcbF4xCc2tPMzt+kYTGt1JKwvIZ7Sn8PXsNvmhD2z
-         IvrEZ9zBW7ehMBBq8onZ79mNg3xoTEDP1fkq4SlW8QhiQtxTVPoDsza5b9tBoqc/2sli
-         90eW5Nsjx5hX63a139ePfEBNtMlSSczHbK29LZnXTYqIHFhCuvG7KyUGZ1tpcekpoL+R
-         0zJH9d3uuWwtUu+vSIUA7BRv4e3sflrtGrtm6EDdioddt6TOYK7AjT1+XrxUKmqrDz2X
-         XY6fVKfEiapGxjviM2ZKdRAGxjvehYsZUzTLoCTFt2etUMQ72/5JhXZdD1qz6T9QOMdT
-         AUNA==
-X-Gm-Message-State: AOAM530E/05IZPsR1s7kv5b0X04cJy0XF9U77Xjoamr/HR46kOpDbKNh
-        rA67oNdgDVXuMe/rpYL/VwsOBVqlPylmHA==
-X-Google-Smtp-Source: ABdhPJzbfbQ/uiCg2uwPwKHRn+2dYffKumh3NKqwFNqCskJdyyJPr79StlzHRuaoRMXJeVgxADokSA==
-X-Received: by 2002:a63:541e:: with SMTP id i30mr9448058pgb.416.1597650245662;
-        Mon, 17 Aug 2020 00:44:05 -0700 (PDT)
-Received: from gmail.com ([103.105.152.86])
-        by smtp.gmail.com with ESMTPSA id y135sm18998916pfg.148.2020.08.17.00.44.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 00:44:05 -0700 (PDT)
-Date:   Mon, 17 Aug 2020 13:12:29 +0530
-From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, bjorn@helgaas.com,
-        Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        skhan@linuxfoundation.org
-Subject: Re: [PATCH v1] [media] saa7134: use generic power management
-Message-ID: <20200817074229.GB5869@gmail.com>
-References: <20200622120229.89610-1-vaibhavgupta40@gmail.com>
+        Mon, 17 Aug 2020 03:52:53 -0400
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF03C061388;
+        Mon, 17 Aug 2020 00:52:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=u/oZucHfqNRGkZEZMXMSNk2t2Asa+6aFS12beZBuHdQ=; b=sEAZqPhOKMnbpyt849T8o2ToUN
+        RngAd21wnqoS536yT5okpXhhbiwHdkCrsj7/pRcjhQkwykJMqA7l15AqGW+yIEM6DnKMeTFyUnIOh
+        GH2cG1aJD9JDsTrLrtJu/i9L9DUbMhWRyQ4NcjsK66TeQiWMlMrV4G1wnUxTuQ9sk3TPtC4Ezt92G
+        ryCTB9+97d/HKwyNTWLZ8f0PhLRwb6I2Y00xs257mbu1A8C6vgr71ODySxPu3I7Z8m65vJqGuy+1O
+        UEn4xTkJF9Q3C5pMbKLZLUJ63mWLacWtAw2IAcpgY94/688BKhk9xmcMbgI6r6ppIbNRFwC2AdDk7
+        5XLNELYw==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65] helo=[192.168.1.10])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1k7Zwh-0006QF-09; Mon, 17 Aug 2020 10:52:43 +0300
+Subject: Re: Role of DMA Heaps vs GEM in allocation
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi>
+ <CAKMK7uEatNdZ64QmGXLY3GCqDquAr0rcTFF0006K7+L_vySYzg@mail.gmail.com>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <6765d408-d7cf-31a6-1116-0f673fa61a84@kapsi.fi>
+Date:   Mon, 17 Aug 2020 10:52:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200622120229.89610-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <CAKMK7uEatNdZ64QmGXLY3GCqDquAr0rcTFF0006K7+L_vySYzg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 22, 2020 at 05:32:30PM +0530, Vaibhav Gupta wrote:
-> With the support of generic PM callbacks, drivers no longer need to use
-> legacy .suspend() and .resume() in which they had to maintain PCI states
-> changes and device's power state themselves. The required operations are
-> done by PCI core.
+On 8/14/20 3:12 PM, Daniel Vetter wrote:
+> On Fri, Aug 14, 2020 at 1:34 PM Mikko Perttunen <cyndis@kapsi.fi> wrote:
+>>
+>> Hi,
+>>
+>> I'm currently working on a new UAPI for Host1x/TegraDRM (see first draft
+>> in thread "[RFC] Host1x/TegraDRM UAPI"[1]). One question that has come
+>> up is regarding the buffer allocation mechanism. Traditionally, DRM
+>> drivers provide custom GEM allocation IOCTLs. However, we now have DMA
+>> Heaps, which would be sufficient for TegraDRM's needs, so we could skip
+>> implementing any GEM IOCTLs in the TegraDRM UAPI, and rely on importing
+>> DMA-BUFs. This would mean less code on TegraDRM's side.
+>>
+>> However, one complication with using DMA Heaps is that it only provides
+>> DMA-BUF FDs, so it is possible that a user application could run out of
+>> free file descriptors if it is not adjusting its soft FD limit. This
+>> would especially be a problem for existing applications that might have
+>> worked with the traditional GEM model and didn't need to adjust their FD
+>> limits, but would then fail in some situations with the increased FD
+>> usage of DMA-BUF FDs.
+>>
+>> My question is then: what is the role of DMA Heaps? If it is to be used
+>> as a central allocator, should the FD issue be left to the application,
+>> or addressed somehow? Should it be considered a potential alternative
+>> for GEM allocations?
 > 
-> Compile-tested only.
+> Atm no one knows. What's for sure is that dma-buf fd are meant to
+> establish sharing, and then once imported everywhere, closed again.
+> dma-buf heaps might or might be useful for sharing the cross-device
+> memory allocator problem (the rough idea is that in sysfs every device
+> lists all the heaps it can use, and then you pick the common one that
+> works for all devices). But that's for shared buffers only.
 > 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> ---
->  drivers/media/pci/saa7134/saa7134-core.c | 25 ++++++++----------------
->  1 file changed, 8 insertions(+), 17 deletions(-)
+> For an acceleration driver you want drm gem ids, because yes fd
+> limits. Also constantly having to reimport dma-buf for every cs ioctl
+> doesn't sound like a bright idea either, there's a reason we have the
+> drm_prime cache and all that stuff.
+
+Couldn't we just import once, and then use the GEM handle afterwards?
+
 > 
-> diff --git a/drivers/media/pci/saa7134/saa7134-core.c b/drivers/media/pci/saa7134/saa7134-core.c
-> index e4623ed2f831..eb01109d4f98 100644
-> --- a/drivers/media/pci/saa7134/saa7134-core.c
-> +++ b/drivers/media/pci/saa7134/saa7134-core.c
-> @@ -1370,10 +1370,8 @@ static void saa7134_finidev(struct pci_dev *pci_dev)
->  	kfree(dev);
->  }
->  
-> -#ifdef CONFIG_PM
-> -
->  /* resends a current buffer in queue after resume */
-> -static int saa7134_buffer_requeue(struct saa7134_dev *dev,
-> +static int __maybe_unused saa7134_buffer_requeue(struct saa7134_dev *dev,
->  				  struct saa7134_dmaqueue *q)
->  {
->  	struct saa7134_buf *buf, *next;
-> @@ -1397,8 +1395,9 @@ static int saa7134_buffer_requeue(struct saa7134_dev *dev,
->  	return 0;
->  }
->  
-> -static int saa7134_suspend(struct pci_dev *pci_dev , pm_message_t state)
-> +static int __maybe_unused saa7134_suspend(struct device *dev_d)
->  {
-> +	struct pci_dev *pci_dev = to_pci_dev(dev_d);
->  	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
->  	struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
->  
-> @@ -1428,21 +1427,15 @@ static int saa7134_suspend(struct pci_dev *pci_dev , pm_message_t state)
->  	if (dev->remote && dev->remote->dev->users)
->  		saa7134_ir_close(dev->remote->dev);
->  
-> -	pci_save_state(pci_dev);
-> -	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
-> -
->  	return 0;
->  }
->  
-> -static int saa7134_resume(struct pci_dev *pci_dev)
-> +static int __maybe_unused saa7134_resume(struct device *dev_d)
->  {
-> -	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
-> +	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
->  	struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
->  	unsigned long flags;
->  
-> -	pci_set_power_state(pci_dev, PCI_D0);
-> -	pci_restore_state(pci_dev);
-> -
->  	/* Do things that are done in saa7134_initdev ,
->  		except of initializing memory structures.*/
->  
-> @@ -1490,7 +1483,6 @@ static int saa7134_resume(struct pci_dev *pci_dev)
->  
->  	return 0;
->  }
-> -#endif
->  
->  /* ----------------------------------------------------------- */
->  
-> @@ -1522,15 +1514,14 @@ EXPORT_SYMBOL(saa7134_ts_unregister);
->  
->  /* ----------------------------------------------------------- */
->  
-> +static SIMPLE_DEV_PM_OPS(saa7134_pm_ops, saa7134_suspend, saa7134_resume);
-> +
->  static struct pci_driver saa7134_pci_driver = {
->  	.name     = "saa7134",
->  	.id_table = saa7134_pci_tbl,
->  	.probe    = saa7134_initdev,
->  	.remove   = saa7134_finidev,
-> -#ifdef CONFIG_PM
-> -	.suspend  = saa7134_suspend,
-> -	.resume   = saa7134_resume
-> -#endif
-> +	.driver.pm = &saa7134_pm_ops,
->  };
->  
->  static int __init saa7134_init(void)
-> -- 
-> 2.27.0
+> I have also no idea why you wouldn't want to use the existing drm
+> infrastructure, it's all there.
+
+Sure; I think I'll add the normal GEM IOCTLs, since as you said, it's 
+quite easy to do and standard. I think it was more of a question about 
+the philosophy of DMA-BUF Heaps. In the future there may be other issues 
+like allocation from certain carveouts, where it'd be better not to 
+duplicate the allocation logic in multiple drivers, though there should 
+be multiple ways to address that, too.
+
+> 
+> Cheers, Daniel
+
+Thanks!
+Mikko
+
+> 
+>>
+>> Thanks,
+>> Mikko
+>>
+>> [1] https://www.spinics.net/lists/dri-devel/msg262021.html
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+> 
 > 
