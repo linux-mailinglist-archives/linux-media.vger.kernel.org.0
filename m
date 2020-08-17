@@ -2,140 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A1A22465B4
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 13:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19B642465C1
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 13:55:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726385AbgHQLun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 07:50:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726161AbgHQLul (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 07:50:41 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BDA6C061389
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 04:50:40 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id d6so17367098ejr.5
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 04:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eHVM9jcI91pbY88fFWyW6/wr9C6nSlMI8HS38tOD5lY=;
-        b=B44MqFYDydR5LrxwZuIC8SbBeM7mDhBlRLP+u1OkCEMj12vEzkqTyq+YDHeuJlADBF
-         u6pC34lc0zwts2nJQNbbFXAHK5Ih7W5KUg345hP+KFm9BaLkSzhxUGrOuSyGftoXqo0/
-         1rtQOH9zc7S6kbb6fa2TxdPdP+aGOzP8NuHv0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eHVM9jcI91pbY88fFWyW6/wr9C6nSlMI8HS38tOD5lY=;
-        b=MewOiYS3iWk/1b16CEcl5ajkJsmRXpCeEGGWDURActkJv82q4IPtnFxRzuQANhS9Pe
-         0PXNhIfU8y2PRtHdbV3T3g3B1I0hhhtKRQzyvQPphhbhPt0mKVMoYRAG/IjAm9mmfotZ
-         065i0kmTLMtyxeXDJPyVWA+L9uH4kAMWlN1ppWF/9Bn87GPynF6hDhlYnWYPSxh4rVMF
-         zOBD8lmNfQFsGKCrb/EyPUvbXT0R3/RrPP33dasUp1OC4CmBbu5fPPqkAi35mA3GNX4d
-         vpG6dcfeJuzGZLgn8+5Bo+3cM0pq7LyQiadNax9T3oZaawxg0qnCMOg+OKcK+aIS4KUh
-         iirw==
-X-Gm-Message-State: AOAM531CZG1KWnvqyak4H36ZSXFe2YeXI+aMflDqVAiCOmRKiRxUv3Ae
-        /Znw+HJPVzTLXULr5RXdIbF/vG1Xni76Ww==
-X-Google-Smtp-Source: ABdhPJxf6+sYDRZ9HLPKwU0G4vgBYQsjsTRGo/RkO/R1VRD0qTA/SXBS+FH/Rq4OMdwKCS5D7PZHGw==
-X-Received: by 2002:a17:906:cc48:: with SMTP id mm8mr15299842ejb.292.1597665038769;
-        Mon, 17 Aug 2020 04:50:38 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id l23sm14024213eje.46.2020.08.17.04.50.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2020 04:50:37 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id r4so14637134wrx.9
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 04:50:37 -0700 (PDT)
-X-Received: by 2002:adf:f849:: with SMTP id d9mr14932260wrq.295.1597665037189;
- Mon, 17 Aug 2020 04:50:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200703171019.19270-1-dafna.hirschfeld@collabora.com>
- <20200703171019.19270-5-dafna.hirschfeld@collabora.com> <20200722125328.GA1828171@chromium.org>
- <8cc4f3a2-d116-ec0a-a838-b35859cdc34e@collabora.com>
-In-Reply-To: <8cc4f3a2-d116-ec0a-a838-b35859cdc34e@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 17 Aug 2020 13:50:25 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5A5Y22KmOp7vHTDOKkTPiPmBVnUQ3ydtBs10z3Jjk_=4g@mail.gmail.com>
-Message-ID: <CAAFQd5A5Y22KmOp7vHTDOKkTPiPmBVnUQ3ydtBs10z3Jjk_=4g@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] v4l2: extend the CSC API to subdevice.
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        id S1727850AbgHQLzn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 07:55:43 -0400
+Received: from mga17.intel.com ([192.55.52.151]:25946 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726612AbgHQLzn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 07:55:43 -0400
+IronPort-SDR: kW/GEVjMn7NV7fC2LjGQSaBZE0WLEJETciyohd+RaNWghFfWECKojIRVGWjg0D7YIpu8INmoHC
+ H1Ui8iO5kiYw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9715"; a="134743008"
+X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
+   d="scan'208";a="134743008"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 04:55:42 -0700
+IronPort-SDR: A4GXm20iSnydRhrwTwvWUHYvvXVpacvAj/fHEJpfD1Akh5GpNz8C7hQ+eUhxFOMwBEUXG7B6XS
+ tJCbMEa6FLrg==
+X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
+   d="scan'208";a="310076178"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 04:55:40 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 37101207BA; Mon, 17 Aug 2020 14:55:38 +0300 (EEST)
+Date:   Mon, 17 Aug 2020 14:55:38 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, joe@perches.com,
+        Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v1 6/7] media: ipu3-cio2: Use readl_poll_timeout() helper
+Message-ID: <20200817115538.GJ24582@paasikivi.fi.intel.com>
+References: <20200814163017.35001-1-andriy.shevchenko@linux.intel.com>
+ <20200814163017.35001-6-andriy.shevchenko@linux.intel.com>
+ <6b739304-7d12-016f-f42a-089c8fe7efac@linux.intel.com>
+ <20200817094436.GF1891694@smile.fi.intel.com>
+ <20200817111316.GH24582@paasikivi.fi.intel.com>
+ <20200817112006.GH1891694@smile.fi.intel.com>
+ <20200817112746.GI24582@paasikivi.fi.intel.com>
+ <20200817113322.GI1891694@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200817113322.GI1891694@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 12:24 PM Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
->
->
-> Am 22.07.20 um 14:53 schrieb Tomasz Figa:
-> > Hi Dafna,
-> >
-> > On Fri, Jul 03, 2020 at 07:10:16PM +0200, Dafna Hirschfeld wrote:
-> >> This patch extends the CSC API in video devices to be supported
-> >> also on sub-devices. The flag V4L2_MBUS_FRAMEFMT_SET_CSC set by
-> >> the application when calling VIDIOC_SUBDEV_S_FMT ioctl.
-> >> The flags:
-> >>
-> >> V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE, V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC,
-> >> V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION V4L2_SUBDEV_MBUS_CODE_CSC_XFER_FUNC,
-> >>
-> >> are set by the driver in the VIDIOC_SUBDEV_ENUM_MBUS_CODE ioctl.
-> >>
-> >> New 'flags' fields were added to the structs
-> >> v4l2_subdev_mbus_code_enum, v4l2_mbus_framefmt which are borrowed
-> >> from the 'reserved' field
-> >>
-> >> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >> ---
-> >>   .../media/v4l/subdev-formats.rst              | 78 +++++++++++++++++--
-> >>   .../v4l/vidioc-subdev-enum-mbus-code.rst      | 44 ++++++++++-
-> >>   include/uapi/linux/v4l2-mediabus.h            |  9 ++-
-> >>   include/uapi/linux/v4l2-subdev.h              |  8 +-
-> >>   4 files changed, 129 insertions(+), 10 deletions(-)
-> >>
-> >
-> > Thank you for the patch. Please see my comments inline.
-> >
-> >> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> >> index 9a4d61b0d76f..7362ee0b1e96 100644
-> >> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> >> @@ -41,32 +41,96 @@ Media Bus Formats
-> >>      :ref:`field-order` for details.
-> >>       * - __u32
-> >>         - ``colorspace``
-> >> -      - Image colorspace, from enum
-> >> -    :c:type:`v4l2_colorspace`. See
-> >> -    :ref:`colorspaces` for details.
-> >> +      - Image colorspace, from enum :c:type:`v4l2_colorspace`.
-> >> +        Must be set by the driver for capture streams and by the application
-> >> +    for output streams, see :ref:`colorspaces`. If the application sets the
-> >> +    flag ``V4L2_MBUS_FRAMEFMT_SET_CSC`` then the application can set
-> >> +    this field for a capture stream to request a specific colorspace
-> >
-> > What is a "capture stream" in terms of the subdev API? Should this
-> > perhaps refer to "source pads" instead?
->
-> Hi, yes, I should change it to 'source pad'. I see that for the other colorimetry fields,
-> the docs for v4l2_mbus_framefmt already writes
-> "This information supplements the colorspace and must be set by the driver for capture streams and by the application for output streams,"
-> I guess this should also change,
+On Mon, Aug 17, 2020 at 02:33:22PM +0300, Andy Shevchenko wrote:
+> On Mon, Aug 17, 2020 at 02:27:47PM +0300, Sakari Ailus wrote:
+> > On Mon, Aug 17, 2020 at 02:20:06PM +0300, Andy Shevchenko wrote:
+> > > On Mon, Aug 17, 2020 at 02:13:16PM +0300, Sakari Ailus wrote:
+> > > > On Mon, Aug 17, 2020 at 12:44:36PM +0300, Andy Shevchenko wrote:
+> > > > > On Mon, Aug 17, 2020 at 05:27:33PM +0800, Bingbu Cao wrote:
+> > > > > > On 8/15/20 12:30 AM, Andy Shevchenko wrote:
+> > > > > > > We may use special helper macro to poll IO till condition or timeout occurs.
+> > > > > 
+> > > > > > > +	ret = readl_poll_timeout(dma, value, value & CIO2_CDMAC0_DMA_HALTED, 4000, 2000000);
+> > > > > > 
+> > > > > > This line is too long, need a break, others look good for me.
+> > > > > 
+> > > > > checkpatch doesn't complain, but if you insist, I'll split it in v2.
+> > > > 
+> > > > The coding style hasn't changed, it's just the checkpatch.pl warning that
+> > > > has.
+> > > 
+> > > Joe, it seems we have inconsistency now between checkpatch and coding style.
+> > > Shouldn't we revert 100 limit warning to 80?
+> > 
+> > There are sometimes genuine reasons for having longer lines than 80, and
+> > depending on the code, that happens more often in some places than
+> > elsewhere. This tended to generate lots of checkpatch.pl warnings in the
+> > past.
+> > 
+> > While I didn't see the patch removing the 80 chars per line limit until it
+> > made the news, I think it was a quite reasonable compromise.
+> 
+> But doesn't it make harder life for reviewers like you? You have to keep in
+> mind all these inconsistencies and rule either way.
+> 
+> That said, we either would fix the doc, or revert the checkpatch change.
 
-Right.
+I don't think the documentation should be changed. There *are* reasons for
+the 80-column limit. Although the exact number can be connected to the
+width of traditional text terminals, using very long lines makes reading
+text harder. IOW, there's a connection to the same reason why wide
+newspaper articles are split into several columns.
 
-Best regards,
-Tomasz
+Would it be reasonable if checkpatch.pl warned about exceeding 80-column
+limits if such lines are rare or nonexistent in the same file?
+
+-- 
+Sakari Ailus
