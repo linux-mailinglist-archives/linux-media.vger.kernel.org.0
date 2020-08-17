@@ -2,144 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF432468B7
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 16:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE691246917
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 17:09:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729062AbgHQOuv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 10:50:51 -0400
-Received: from mout.gmx.net ([212.227.17.22]:60561 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728873AbgHQOuq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 10:50:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1597675831;
-        bh=+w20/QTTtxYbIrBo2flWrLVvPd4TGOPWDPkiy9gsock=;
-        h=X-UI-Sender-Class:Date:In-Reply-To:References:Subject:To:From;
-        b=KHeENJWqe3I6cKMa59mY2xPYxijgzY8hcNnBi8KWCqr5yIL5e+rghK8bI047vK2DY
-         5eRiDMyp/94XOMAZOGXz2udyGe1DmCKhH3lLAeTrH2tUIpAZ2+h2/z8NZKX7VxUTo0
-         2mh826ipQhj5r7o6z/JwbGo7YdJAo1Yva+atEehk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [10.204.88.90] ([80.187.114.90]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MSt8Q-1kEw0X1vZO-00UKjl; Mon, 17
- Aug 2020 16:50:31 +0200
-Date:   Mon, 17 Aug 2020 16:50:29 +0200
-User-Agent: K-9 Mail for Android
-In-Reply-To: <0fa5da29-a058-2678-e616-65c921c6389a@xs4all.nl>
-References: <7486393e-56b5-e460-b542-02c72525139b@gmx.de> <0fa5da29-a058-2678-e616-65c921c6389a@xs4all.nl>
+        id S1729082AbgHQPJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 11:09:16 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:51969 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728651AbgHQPJO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 11:09:14 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 8DDEC4000A;
+        Mon, 17 Aug 2020 15:09:10 +0000 (UTC)
+Date:   Mon, 17 Aug 2020 17:12:53 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/8] dt-bindings: media: i2c: Convert to json-schema
+Message-ID: <20200817151253.drfgqojchbbfud5b@uno.localdomain>
+References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: Enforcing color profile
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-From:   Stefan Witzel <s.witzel@gmx.de>
-Message-ID: <72B7F2AA-4FCC-4842-A80B-5C4D856C0A89@gmx.de>
-X-Provags-ID: V03:K1:6OQeebAacCIfoIn2YqHFbtLkEQyVbh3phB4i8rsNCdV5CBt8ZHU
- VropruUf1yLIM5kkQ1SQApDbET5Y7qsbCGZEdvcPbXdUDk3KHC3qZ9LtJNmdzFcNIwmQsZl
- lkDgw0SSMcBE/qDN8nvG/Z7pXae8k06fsiN7sznnZxHk5Voo8GHxZ386KYgqfhiTBp4pZJk
- RCYnttwaX2qDU6I2BmbnA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YgG9semm3tk=:pnfahnEiXSkvIUNHOc01ND
- WpFOBWPY7jqDvrsHnWaqt/6i3djZ6mv6pfkSwRFMIAOhXQT84MhwfOvTKvXNE2WCNxbFuG3AR
- 6xscOv9JcAYiMoWziIJAK7nLB8cXWAJ9PAfauctCCXmJ26DH5Wnx+rNCuAJP+U3nM8GT47vZD
- qX/zxRuc2K9DMh2AiU7gmJF71NigwM55kKbfEm6d7lXTJnUwilJewOgLXoRDH8LvAQF+ZuSUb
- b4d/upnnjwD4V9faOPJSOpYFUO2EPvO9Mzm71HLlNsWIeCHhjFCmBLVEje0Gy1U67EZZxw1PK
- 7uL7ARi5VXIrJGeUpms/TiVFzwbyvH9D7NbBff0xtJ70Jpgz3dwTkNGgjBR7/xDN4cxNOgpZO
- fhR9qe2lkrQzSfwa5Czl635tmmhdh6miegyv/0VLE87yPp+KySgqYfqf4EvQHi5bt+LqUBluz
- qmtxHFbg2SOwSHxu1DKaH23BSDKThMpRx73VheLA48nKcmrT97nPKK6Dc4dYHnbILqHszMjwN
- z0QqmRLCAOMORT7iZQzvaZ9vkCr3d+eDjXG1RhOQrGikdc7/poMixTx3SVgcA//NCycHnft5O
- jc5eUaVy7v2zRzg/y9z0Bd1T8Hybs0S6d3Uln+go46YJ/9rs77lEDzpKZszaPmWEErX4hMKz1
- SBivMwogw0A/VdwMJLYGHPd9nj5lVsY/5b4NRy8NfGe9yC3zSnVr641J3YYRyQ4mYDa2j/Fmx
- bOiZ1VqGALUeF2BYLeKvgl4Hrr8fO+Vq7qM21RDVKMk/XTvVXFWWD+K1riSOzSZ6fbDXjuMAx
- wMbImohDK8Sk432wOLwBpaxSgv5zfoqBc8EH/XDC9DYYacCh9+LAkuRTcj3mjFxc0LLQeStZC
- NinPdcqTlPRyIoHhg6FuLUppKR3BDm53167m/2A7WIdu4VKTpxThAhkQvkbeJngopBbrt7+9x
- RuqKZwx59Cgs+viBdCuLobzplD1JwA/58VfGRrW5ZutcpsJoBBYy4FnKdtvgUjFtg6qVEpkri
- iFQZSxyYUnhynnc5qUwPR0SNkFgsNbP3lb1fRFOuuWoKmQmRsUQnwsd9Xp4w3Xdoxs7SlSzBk
- mS5EIPbSshURH/CraO5fEmatYZ2WifGq2ZMQNStbUem3+ArfC8McL9d6e5JB7xuR7QQkQBfKY
- lWgYkZiYkRMIpcvBJJb4wTQjjmCRsVknfnzVHELU/2eAfuzQ4WEMhu5HlDV9FBjLFow0/i6jb
- ivigklS30UMbcYnvE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hello
+   Mauro, Hans or Sakari (whoever maintains the media patchwork
+instance), could you mark patches in this series as super-seded,
+as I will re-send them out for each individual sensor ?
 
-I suppose it is ultimately an application bug=2E I was just hoping that th=
-e v4l driver cold somehow artificially restrict the device's feature list s=
-o as to make the buggy application (which seems to be pretty much any exist=
-ing web conference app) work=2E That would be like the hardware workaround =
-but on driver level=2E
+Thanks
+   j
 
-I do not yet have the device myself, so I'm relying on information from th=
-e website I quoted=2E I very much appreciate that you took the time to repl=
-y! I might come back with more concrete questions once I have the device=2E
-
-Thanks a lot! Best,
-Stefan
-
-Am 17=2E August 2020 15:34:00 MESZ schrieb Hans Verkuil <hverkuil@xs4all=
-=2Enl>:
->On 17/08/2020 14:09, Stefan Witzel wrote:
->> Hello,
->>=20
->> I am not a V4L developer so if this is not the right place to bring
->up
->> the issue please tell me who to contact instead=2E
->> The page [1] documents a problem with a particular device "Elgato Cam
->> Link 4K" which provides various format options among which most
->software
->> does not consciously pick the one which it implicitly expects leading
->to
->> problems=2E There is a software workaround, transcoding and looping
->> through a virtual device and a hardware fix flashing the problematic
->> profiles away=2E
->> However it appears to me that the most satisfactory solution is
->hinted
->> at in the sentence
->>=20
->>> I couldn't find any option in V4L to force selection of 'YUYV
->4:2:2', so instead
->>=20
->> So my question is: what changes would be necessary to allow v4l2-ctl
->to
->> enforce a particular format and who would be the right person to ask
->to
->> make such changes?
+On Wed, Jul 15, 2020 at 04:09:43PM +0200, Jacopo Mondi wrote:
+> Convert to json schema the bindings file for the following sensor
+> drivers:
 >
->It's there already:
+> - ov5640
+> - ov5645
+> - ov772x
+> - mt9v111
+> - imx214
+> - imx274
+> - imx290
 >
->v4l2-ctl -v pixelformat=3DYUYV
+> On top of the conversion to yaml, rename the files to include the
+> vendor prefix (I kept this separate as I'm not sure it's actually desired).
 >
->That will do the trick=2E
+> The series requires:
+> [PATCH v3 0/3] dt-bidings: media: ov5647 bindings + small fix
+> which converts the ov5647 bindings to yaml which I sent separately
+> as it was already in review.
 >
->If you plug in the device and run 'v4l2-ctl -V', which pixelformat does
->it
->report? I would expect it to be YUYV since that's first in the list=2E
+> Individual maintainers Cc-ed for each single patch where available.
 >
->If apps like Discord pick YU12 instead, then that's weird=2E That's
->something that
->the application does, and v4l2-ctl won't help with that=2E I=2Ee=2E, it
->appears to be
->an application bug=2E
+> Thanks
+>   j
 >
->One other alternative is that the device has broken 4:2:0 support, i=2Ee=
-=2E
->it reports
->these formats, but they don't actually work=2E You can use qv4l2 or
->qvidcap to test
->if these 4:2:0 formats are working=2E
+> Jacopo Mondi (8):
+>   dt-bindings: media: ov5640: Convert to json-schema
+>   dt-bindings: media: ov5645: Convert to json-schema
+>   dt-bindings: media: mt9v111: Convert to json-schema
+>   dt-bindings: media: imx290: Convert to json-schema
+>   dt-bindings: media: imx274: Convert to json-schema
+>   dt-bindings: media: imx214: Convert to json-schema
+>   dt-bindings: media: ov772x: Convert to json-schema
+>   dt-bindings: media: i2c: Add prefix to yaml bindings
 >
->Regards,
+>  .../bindings/media/i2c/aptina,mt9v111.txt     |  46 -----
+>  .../bindings/media/i2c/aptina,mt9v111.yaml    |  87 +++++++++
+>  .../devicetree/bindings/media/i2c/imx274.txt  |  33 ----
+>  .../devicetree/bindings/media/i2c/imx290.txt  |  57 ------
+>  .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
+>  .../devicetree/bindings/media/i2c/ov5645.txt  |  54 ------
+>  .../devicetree/bindings/media/i2c/ov772x.txt  |  40 ----
+>  .../bindings/media/i2c/ovti,ov5640.yaml       | 181 ++++++++++++++++++
+>  .../bindings/media/i2c/ovti,ov5645.yaml       | 123 ++++++++++++
+>  .../i2c/{ov5647.yaml => ovti,ov5647.yaml}     |   0
+>  .../bindings/media/i2c/ovti,ov772x.yaml       |  89 +++++++++
+>  .../i2c/{ov8856.yaml => ovti,ov8856.yaml}     |   0
+>  .../bindings/media/i2c/sony,imx214.txt        |  53 -----
+>  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++
+>  .../i2c/{imx219.yaml => sony,imx219.yaml}     |   0
+>  .../bindings/media/i2c/sony,imx274.yaml       |  74 +++++++
+>  .../bindings/media/i2c/sony,imx290.yaml       | 124 ++++++++++++
+>  MAINTAINERS                                   |  25 ++-
+>  18 files changed, 819 insertions(+), 383 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx290.txt
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+>  rename Documentation/devicetree/bindings/media/i2c/{ov5647.yaml => ovti,ov5647.yaml} (100%)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
+>  rename Documentation/devicetree/bindings/media/i2c/{ov8856.yaml => ovti,ov8856.yaml} (100%)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+>  rename Documentation/devicetree/bindings/media/i2c/{imx219.yaml => sony,imx219.yaml} (100%)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
 >
->	Hans
+> --
+> 2.27.0
 >
->
->>=20
->> Best regards,
->> Stefan
->>=20
->>=20
->> [1]
->https://assortedhackery=2Ecom/patching-cam-link-to-play-nicer-on-linux/
->>=20
