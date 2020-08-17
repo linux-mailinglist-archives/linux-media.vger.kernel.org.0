@@ -2,24 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F6E2247915
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 23:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B188C247917
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 23:47:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728689AbgHQVrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 17:47:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36462 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728684AbgHQVrl (ORCPT
+        id S1728727AbgHQVr5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 17:47:57 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:48976 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728684AbgHQVr5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 17:47:41 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C4DC061389
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 14:47:40 -0700 (PDT)
+        Mon, 17 Aug 2020 17:47:57 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 6122F2945A0
-Subject: Re: [PATCH v2 07/14] media: staging: rkisp1: params: avoid using
- buffer if params is not streaming
+        with ESMTPSA id 77041295BEA
+Subject: Re: [PATCH v2 08/14] media: staging: rkisp1: params: set vb.sequence
+ to be the isp's frame_sequence + 1
 To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
@@ -27,14 +24,14 @@ Cc:     laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
         sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
         mchehab@kernel.org, tfiga@chromium.org
 References: <20200815103734.31153-1-dafna.hirschfeld@collabora.com>
- <20200815103734.31153-8-dafna.hirschfeld@collabora.com>
+ <20200815103734.31153-9-dafna.hirschfeld@collabora.com>
 From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <4e562136-d11f-c504-18b7-006d26312906@collabora.com>
-Date:   Mon, 17 Aug 2020 18:47:32 -0300
+Message-ID: <c6853613-0a08-44b0-6086-9805bb5ebd16@collabora.com>
+Date:   Mon, 17 Aug 2020 18:47:46 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200815103734.31153-8-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20200815103734.31153-9-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -45,164 +42,64 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Dafna,
 
-Thanks for the patch
-
 On 8/15/20 7:37 AM, Dafna Hirschfeld wrote:
-> Currently, the first buffer queued in the params node is returned
-> immediately to userspace and a copy of it is saved in the field
-> 'cur_params'. The copy is later used for the first configuration
-> when the stream is initiated by one of selfpath/mainpath capture nodes.
-> 
-> There are 3 problems with this implementation:
-> - The first params buffer is applied and returned to userspace even if
-> userspace never calls to streamon on the params node.
-> - If the first params buffer is queued after the stream started on the
-> params node then it will return to userspace but will never be used.
-> - The frame_sequence of the first buffer is set to -1 if the main/selfpath
-> did not start streaming.
-> 
-> A correct implementation is to apply the first params buffer when stream
-> is started from mainpath/selfpath and only if params is also streaming.
-> 
-> The patch adds a new function 'rkisp1_params_apply_params_cfg' which takes
-> a buffer from the buffers queue, apply it and returns it to userspace.
-> The function is called from the irq handler and when main/selfpath stream
-> starts - in the function 'rkisp1_params_config_parameter'
-> 
-> Also remove the fields 'cur_params', 'is_first_params' which are no
-> more needed.
+> The params isr is called when a frame is out of the isp. The parameters
+> are applied immediately since the isr updates the shadow registers.
+> Therefore the params are first applied on the next frame.
+> We want the vb.sequence to be the frame that the params are applied to.
+> So we set vb.sequence to be the isp's frame_sequence + 1
 > 
 > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/staging/media/rkisp1/rkisp1-params.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
+> index 134b5c9a94c1..4b4391c0a2a0 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
+> @@ -1220,7 +1220,14 @@ void rkisp1_params_apply_params_cfg(struct rkisp1_params *params, unsigned int f
+>  
+>  void rkisp1_params_isr(struct rkisp1_device *rkisp1)
+>  {
+> -	unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence);
+> +	/*
+> +	 * The params isr is called when a frame is out of the isp. The parameters
+> +	 * are applied immediately since the isr updates the shadow registers.
+> +	 * Therefore the params are first applied on the next frame.
+> +	 * We want the vb.sequence to be the frame that the params are applied to.
+> +	 * So we set vb.sequence to be the isp's frame_sequence + 1
+> +	 */
 
-lgtm
+I would just re-phrase this a bit, how about:
+
+	This isr is called when the ISP finishes processing a frame.
+	To configure the parameters, we update the shadow registers, which means
+	that the next frame will already take these new configuration into consideration.
+	Since frame_sequence is only updated on the vertical sync signal, we should use
+	frame_sequence + 1 here to indicate to userspace which frame this parameters
+	are being applied to.
+
+
+Or maybe smaller:
+
+	This isr is called when the ISP finishes processing a frame.
+	Configurations performed here will be applied to the next frame.	
+	Since frame_sequence is only updated on the vertical sync signal, we should use
+	frame_sequence + 1 here to indicate to userspace which frame this parameters
+	are being applied to.
+
+What do you think?
+
+With an improvement in the text (and also commit message):
 
 Acked-by: Helen Koike <helen.koike@collabora.com>
 
 Regards,
 Helen
 
-> ---
->  drivers/staging/media/rkisp1/rkisp1-common.h |  5 --
->  drivers/staging/media/rkisp1/rkisp1-params.c | 49 ++++++++------------
->  2 files changed, 19 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> index 29eaadc58489..9b41935c6597 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> @@ -197,9 +197,6 @@ struct rkisp1_stats {
+> +	unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence) + 1;
+>  	struct rkisp1_params *params = &rkisp1->params;
 >  
->  /*
->   * struct rkisp1_params - ISP input parameters device
-> - *
-> - * @cur_params: Current ISP parameters
-> - * @is_first_params: the first params should take effect immediately
->   */
->  struct rkisp1_params {
->  	struct rkisp1_vdev_node vnode;
-> @@ -207,10 +204,8 @@ struct rkisp1_params {
->  
->  	spinlock_t config_lock;
->  	struct list_head params;
-> -	struct rkisp1_params_cfg cur_params;
->  	struct v4l2_format vdev_fmt;
->  	bool is_streaming;
-> -	bool is_first_params;
->  
->  	enum v4l2_quantization quantization;
->  	enum rkisp1_fmt_raw_pat_type raw_type;
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
-> index 86bbd01e18c7..134b5c9a94c1 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
-> @@ -1193,23 +1193,13 @@ static void rkisp1_isp_isr_meas_config(struct rkisp1_params *params,
->  	}
->  }
->  
-> -void rkisp1_params_isr(struct rkisp1_device *rkisp1)
-> +void rkisp1_params_apply_params_cfg(struct rkisp1_params *params, unsigned int frame_sequence)
->  {
-> -	unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence);
-> -	struct rkisp1_params *params = &rkisp1->params;
->  	struct rkisp1_params_cfg *new_params;
->  	struct rkisp1_buffer *cur_buf = NULL;
->  
-> -	spin_lock(&params->config_lock);
-> -	if (!params->is_streaming) {
-> -		spin_unlock(&params->config_lock);
-> -		return;
-> -	}
-> -
-> -	if (list_empty(&params->params)) {
-> -		spin_unlock(&params->config_lock);
-> +	if (list_empty(&params->params))
->  		return;
-> -	}
->  
->  	cur_buf = list_first_entry(&params->params,
->  				   struct rkisp1_buffer, queue);
-> @@ -1226,6 +1216,20 @@ void rkisp1_params_isr(struct rkisp1_device *rkisp1)
->  
->  	cur_buf->vb.sequence = frame_sequence;
->  	vb2_buffer_done(&cur_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-> +}
-> +
-> +void rkisp1_params_isr(struct rkisp1_device *rkisp1)
-> +{
-> +	unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence);
-> +	struct rkisp1_params *params = &rkisp1->params;
-> +
-> +	spin_lock(&params->config_lock);
-> +	if (!params->is_streaming) {
-> +		spin_unlock(&params->config_lock);
-> +		return;
-> +	}
-> +	rkisp1_params_apply_params_cfg(params, frame_sequence);
-> +
->  	spin_unlock(&params->config_lock);
->  }
->  
-> @@ -1298,9 +1302,9 @@ static void rkisp1_params_config_parameter(struct rkisp1_params *params)
->  	else
->  		rkisp1_csm_config(params, false);
->  
-> -	/* override the default things */
-> -	rkisp1_isp_isr_other_config(params, &params->cur_params);
-> -	rkisp1_isp_isr_meas_config(params, &params->cur_params);
-> +	/* apply the first buffer if there is one already */
-> +	if (params->is_streaming)
-> +		rkisp1_params_apply_params_cfg(params, 0);
->  
->  	spin_unlock(&params->config_lock);
->  }
-> @@ -1428,8 +1432,6 @@ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
->  	sizes[0] = sizeof(struct rkisp1_params_cfg);
->  
->  	INIT_LIST_HEAD(&params->params);
-> -	params->is_first_params = true;
-> -
->  	return 0;
->  }
->  
-> @@ -1440,20 +1442,7 @@ static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
->  		container_of(vbuf, struct rkisp1_buffer, vb);
->  	struct vb2_queue *vq = vb->vb2_queue;
->  	struct rkisp1_params *params = vq->drv_priv;
-> -	struct rkisp1_params_cfg *new_params;
->  	unsigned long flags;
-> -	unsigned int frame_sequence =
-> -		atomic_read(&params->rkisp1->isp.frame_sequence);
-> -
-> -	if (params->is_first_params) {
-> -		new_params = (struct rkisp1_params_cfg *)
-> -			(vb2_plane_vaddr(vb, 0));
-> -		vbuf->sequence = frame_sequence;
-> -		vb2_buffer_done(&params_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-> -		params->is_first_params = false;
-> -		params->cur_params = *new_params;
-> -		return;
-> -	}
->  
->  	params_buf->vaddr[0] = vb2_plane_vaddr(vb, 0);
->  	spin_lock_irqsave(&params->config_lock, flags);
+>  	spin_lock(&params->config_lock);
 > 
