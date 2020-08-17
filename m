@@ -2,114 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E167D246CAE
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 18:25:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF2B246D34
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 18:49:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731166AbgHQQZC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 12:25:02 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:63945 "EHLO m43-7.mailgun.net"
+        id S2388979AbgHQQtO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 12:49:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36930 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730895AbgHQQY4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 12:24:56 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1597681495; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=gfehkDHwbkMn5YmVHISLwPUHyk48V6qSvEEU/hXpyxo=; b=n5O0D14otMGTXs6CjU0f6eN3DF3FnGC62+kuTiy17m9w31p69PuSYWVbpBLc4OZ4/KdgpsZS
- IVSo2YvtenV4wtr2Zo43qWsvQa9r2wDCt1QjNFB1aEm9SKuGgiBzToPcD1Wv9Rl6bVb37dCM
- xFt5PG+GCuCJDpAs533EIikzBAo=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5f3aaf57d48d4625ca887dcb (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 17 Aug 2020 16:24:55
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 33446C43391; Mon, 17 Aug 2020 16:24:54 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        id S2388161AbgHQQsp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 12:48:45 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: jcrouse)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 07EEEC433C6;
-        Mon, 17 Aug 2020 16:24:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 07EEEC433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date:   Mon, 17 Aug 2020 10:24:49 -0600
-From:   Jordan Crouse <jcrouse@codeaurora.org>
-To:     Chris Wilson <chris@chris-wilson.co.uk>
-Cc:     linux-arm-msm@vger.kernel.org,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [RFC PATCH v1] dma-fence-array: Deal with sub-fences that are
- signaled late
-Message-ID: <20200817162449.GC3221@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Chris Wilson <chris@chris-wilson.co.uk>,
-        linux-arm-msm@vger.kernel.org,
-        Gustavo Padovan <gustavo@padovan.org>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org
-References: <20200812235544.2289895-1-jcrouse@codeaurora.org>
- <159730136458.14054.18114194663048046416@build.alporthouse.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <159730136458.14054.18114194663048046416@build.alporthouse.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        by mail.kernel.org (Postfix) with ESMTPSA id 59BF620674;
+        Mon, 17 Aug 2020 16:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597682923;
+        bh=kzRDwZLFfJe7R8z59qXdL7m6vBqsZL47jFQyxYNoDY8=;
+        h=From:To:Subject:Date:From;
+        b=KH5zsm/HeL0NnlC4K5/H1gpleYkvKb469BWoVzKEX5TNadOF4GBPDm8VJg4DPTPLR
+         j3JyAsaYpRvR6OqHNyitpIxU9OwhkuLUWv33SOnUBOdRuNsyrqCzqnFAZ9N3f8x8q5
+         ipCMYThuGWIWlwwS/zJitngSs+7QUaM6+0NI7Y6w=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH v3] ARM: s3c24xx: drop s3c-camif setup platform code
+Date:   Mon, 17 Aug 2020 18:48:36 +0200
+Message-Id: <20200817164836.4613-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 13, 2020 at 07:49:24AM +0100, Chris Wilson wrote:
-> Quoting Jordan Crouse (2020-08-13 00:55:44)
-> > This is an RFC because I'm still trying to grok the correct behavior.
-> > 
-> > Consider a dma_fence_array created two two fence and signal_on_any is true.
-> > A reference to dma_fence_array is taken for each waiting fence.
-> > 
-> > When the client calls dma_fence_wait() only one of the fences is signaled.
-> > The client returns successfully from the wait and puts it's reference to
-> > the array fence but the array fence still remains because of the remaining
-> > un-signaled fence.
-> > 
-> > Now consider that the unsignaled fence is signaled while the timeline is being
-> > destroyed much later. The timeline destroy calls dma_fence_signal_locked(). The
-> > following sequence occurs:
-> > 
-> > 1) dma_fence_array_cb_func is called
-> > 
-> > 2) array->num_pending is 0 (because it was set to 1 due to signal_on_any) so the
-> > callback function calls dma_fence_put() instead of triggering the irq work
-> > 
-> > 3) The array fence is released which in turn puts the lingering fence which is
-> > then released
-> > 
-> > 4) deadlock with the timeline
-> 
-> It's the same recursive lock as we previously resolved in sw_sync.c by
-> removing the locking from timeline_fence_release().
+The s3c-camif driver setup platform code does not have any users so it
+can be safely removed.
 
-Ah, yep. I'm working on a not-quite-ready-for-primetime version of a vulkan
-timeline implementation for drm/msm and I was doing something similar to how
-sw_sync used to work in the release function. Getting rid of the recursive lock
-in the timeline seems a better solution than this. Thanks for taking the time
-to respond.
+Along with the code W=1 compile warnings go away:
 
-Jordan
+    arch/arm/mach-s3c24xx/setup-camif.c:28:5: warning: no previous prototype for 's3c_camif_gpio_get' [-Wmissing-prototypes]
+    arch/arm/mach-s3c24xx/setup-camif.c:56:6: warning: no previous prototype for 's3c_camif_gpio_put' [-Wmissing-prototypes]
 
-> -Chris
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
+---
+
+Continuation of v2 here:
+https://patchwork.kernel.org/patch/11700881/
+
+Changes since v2:
+1. Drop setup-camif.
+
+Changes since v1:
+1. New patch.
+---
+ arch/arm/mach-s3c24xx/Kconfig       |  6 ---
+ arch/arm/mach-s3c24xx/Makefile      |  1 -
+ arch/arm/mach-s3c24xx/setup-camif.c | 67 -----------------------------
+ include/media/drv-intf/s3c_camif.h  |  4 --
+ 4 files changed, 78 deletions(-)
+ delete mode 100644 arch/arm/mach-s3c24xx/setup-camif.c
+
+diff --git a/arch/arm/mach-s3c24xx/Kconfig b/arch/arm/mach-s3c24xx/Kconfig
+index 7673dde9671a..eaea567fcbfe 100644
+--- a/arch/arm/mach-s3c24xx/Kconfig
++++ b/arch/arm/mach-s3c24xx/Kconfig
+@@ -123,11 +123,6 @@ config S3C24XX_PLL
+ 	  This also means that the PLL tables for the selected CPU(s) will
+ 	  be built which may increase the size of the kernel image.
+ 
+-config S3C_SETUP_CAMIF
+-	bool
+-	help
+-	  Compile in common setup code for S3C CAMIF devices
+-
+ # cpu frequency items common between s3c2410 and s3c2440/s3c2442
+ 
+ config S3C2410_IOTIMING
+@@ -468,7 +463,6 @@ config MACH_MINI2440
+ 	select NEW_LEDS
+ 	select S3C_DEV_NAND
+ 	select S3C_DEV_USB_HOST
+-	select S3C_SETUP_CAMIF
+ 	help
+ 	  Say Y here to select support for the MINI2440. Is a 10cm x 10cm board
+ 	  available via various sources. It can come with a 3.5" or 7" touch LCD.
+diff --git a/arch/arm/mach-s3c24xx/Makefile b/arch/arm/mach-s3c24xx/Makefile
+index 6692f2de71b2..fbebc5f775e7 100644
+--- a/arch/arm/mach-s3c24xx/Makefile
++++ b/arch/arm/mach-s3c24xx/Makefile
+@@ -97,4 +97,3 @@ obj-$(CONFIG_S3C2416_SETUP_SDHCI_GPIO)	+= setup-sdhci-gpio.o
+ obj-$(CONFIG_S3C2443_SETUP_SPI)		+= setup-spi.o
+ obj-$(CONFIG_ARCH_S3C24XX)		+= setup-i2c.o
+ obj-$(CONFIG_S3C24XX_SETUP_TS)		+= setup-ts.o
+-obj-$(CONFIG_S3C_SETUP_CAMIF)		+= setup-camif.o
+diff --git a/arch/arm/mach-s3c24xx/setup-camif.c b/arch/arm/mach-s3c24xx/setup-camif.c
+deleted file mode 100644
+index 2b262fae3f61..000000000000
+--- a/arch/arm/mach-s3c24xx/setup-camif.c
++++ /dev/null
+@@ -1,67 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-//
+-// Copyright (C) 2012 Sylwester Nawrocki <sylvester.nawrocki@gmail.com>
+-//
+-// Helper functions for S3C24XX/S3C64XX SoC series CAMIF driver
+-
+-#include <linux/gpio.h>
+-#include <plat/gpio-cfg.h>
+-#include <mach/gpio-samsung.h>
+-
+-/* Number of camera port pins, without FIELD */
+-#define S3C_CAMIF_NUM_GPIOS	13
+-
+-/* Default camera port configuration helpers. */
+-
+-static void camif_get_gpios(int *gpio_start, int *gpio_reset)
+-{
+-#ifdef CONFIG_ARCH_S3C24XX
+-	*gpio_start = S3C2410_GPJ(0);
+-	*gpio_reset = S3C2410_GPJ(12);
+-#else
+-	/* s3c64xx */
+-	*gpio_start = S3C64XX_GPF(0);
+-	*gpio_reset = S3C64XX_GPF(3);
+-#endif
+-}
+-
+-int s3c_camif_gpio_get(void)
+-{
+-	int gpio_start, gpio_reset;
+-	int ret, i;
+-
+-	camif_get_gpios(&gpio_start, &gpio_reset);
+-
+-	for (i = 0; i < S3C_CAMIF_NUM_GPIOS; i++) {
+-		int gpio = gpio_start + i;
+-
+-		if (gpio == gpio_reset)
+-			continue;
+-
+-		ret = gpio_request(gpio, "camif");
+-		if (!ret)
+-			ret = s3c_gpio_cfgpin(gpio, S3C_GPIO_SFN(2));
+-		if (ret) {
+-			pr_err("failed to configure GPIO %d\n", gpio);
+-			for (--i; i >= 0; i--)
+-				gpio_free(gpio--);
+-			return ret;
+-		}
+-		s3c_gpio_setpull(gpio, S3C_GPIO_PULL_NONE);
+-	}
+-
+-	return 0;
+-}
+-
+-void s3c_camif_gpio_put(void)
+-{
+-	int i, gpio_start, gpio_reset;
+-
+-	camif_get_gpios(&gpio_start, &gpio_reset);
+-
+-	for (i = 0; i < S3C_CAMIF_NUM_GPIOS; i++) {
+-		int gpio = gpio_start + i;
+-		if (gpio != gpio_reset)
+-			gpio_free(gpio);
+-	}
+-}
+diff --git a/include/media/drv-intf/s3c_camif.h b/include/media/drv-intf/s3c_camif.h
+index d1200b40f53a..f746851a5ce6 100644
+--- a/include/media/drv-intf/s3c_camif.h
++++ b/include/media/drv-intf/s3c_camif.h
+@@ -35,8 +35,4 @@ struct s3c_camif_plat_data {
+ 	int (*gpio_put)(void);
+ };
+ 
+-/* Platform default helper functions */
+-int s3c_camif_gpio_get(void);
+-int s3c_camif_gpio_put(void);
+-
+ #endif /* MEDIA_S3C_CAMIF_ */
 -- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.17.1
+
