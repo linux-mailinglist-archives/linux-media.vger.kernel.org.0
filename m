@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E1DF246038
+	by mail.lfdr.de (Postfix) with ESMTP id 53490246039
 	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 10:32:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728081AbgHQIcY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 04:32:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53674 "EHLO
+        id S1728082AbgHQIcb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 04:32:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726473AbgHQIcU (ORCPT
+        with ESMTP id S1728077AbgHQIcY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 04:32:20 -0400
+        Mon, 17 Aug 2020 04:32:24 -0400
 Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0620CC061388;
-        Mon, 17 Aug 2020 01:32:20 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id h12so7767370pgm.7;
-        Mon, 17 Aug 2020 01:32:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E0CFC061388;
+        Mon, 17 Aug 2020 01:32:24 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id o13so7791383pgf.0;
+        Mon, 17 Aug 2020 01:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=hOaPXxj1ai+YwAcly+36QLrMNRChjPUinTBacA1yTzQ=;
-        b=Vh1O6hNKx5uPwEhSlycr3poiuspl4NNR8D+J1oJuoL0KyXyzdwAe5JZfWbyHIBfEKx
-         aPcFQMXkBGwwYNGmq/yQc6WJIbMSDyKdG+MhBS7DK0ZAqVVTu88Q2ndym5JwGbUs6Sd0
-         cVmK7oa7fO65A7NZW/2IzEEr54WmzcZvHizXPp6G/l2wXldXQ1lwKaitli+OuUkV/eB1
-         GPTQLvNzfJ228xHRLv8W+Cu3yIpMjhEP/E62UD+j/pOOeLMyoiinH2K8BiISshPphEz3
-         W+KbBNWUZ2EimUulXYBahy2eH+XNbUQXhCoRHohGFkOubOkXRPFAZkzWjmHLLSpddxZb
-         lKtw==
+        bh=07OcTn0WvfbdnvA4s7Eut/eKjTVLyM4q+0Qmy2LDm0U=;
+        b=l7ws862qdf+QG/FRgRzM2zyRMT8buz3qjIIUIC911q8cLJC5Fr7zqyZ9VZdli+Y4CO
+         mg02zvbTldmq+25rE+w6TL3nVPvfkF9Dsc6rBcmJ2PjPHZAvCYHfWytpyM/n4mrGCoY8
+         GYvfL+4pmdgrQD2EkIsKqmPzkDtq/mLjng08sY2/morHJ0/b2LgTwmp5BxkF9z4HvWfM
+         Th3BZh/j01nqCWwKf/JvN0oEq5Mr5vfIKwiUsD+/WU46dmw1Q7UBfWnu1NCAlUCZw0uN
+         2JlQuG0h61ifPd4Wu1hHBKNUFSFQ9R+VIfWQz9U4TQIonljShIoAbbKnXjtNPL4an9aH
+         D8BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=hOaPXxj1ai+YwAcly+36QLrMNRChjPUinTBacA1yTzQ=;
-        b=Vaw1ggPkHng7kB1ALzPBuciYlbNOYcomk6HAiA1REBvEtdomoJ36vRlAEbq56WBFNL
-         CDvaffZfoSQb8xN1p7GXf1owSeBrEvlPlxY6PsqGlebDIXhpVsdB6VUXjl62RGR0v/Kz
-         qPx8UKKMs/FovhKk/rRZfaGCSadlLXSeZKHLcHbVfa4LE0SroRkpBwjfheoFDq1w70bV
-         tWds9IN9gfG1tK/bWZYN3ZFzq7ww14GwhzjsILsTRiAxkEeWtmvoM/xOBddmt5+01jBI
-         T61OaOaLzS4etlWH3usNVQPrRRl51KO049OFLxYEyyVdgoNr+UtCxOTh1VgvWfLe7nI/
-         /xrg==
-X-Gm-Message-State: AOAM531Mh92ooG71Coqfm/EkgHXLKWYLRBgqXWvKtnTf48eSpdH634NQ
-        JiB0FEbh1TM8ZYNSzf4MCoI=
-X-Google-Smtp-Source: ABdhPJwMX/GI66KPwY3Jsk4XWv9O89pOJfG5fNqvE+XbYqZ1Agv0nFBm6SbXx4Z8l4MD6znhJC7kmQ==
-X-Received: by 2002:aa7:9ec4:: with SMTP id r4mr10857380pfq.48.1597653139620;
-        Mon, 17 Aug 2020 01:32:19 -0700 (PDT)
+        bh=07OcTn0WvfbdnvA4s7Eut/eKjTVLyM4q+0Qmy2LDm0U=;
+        b=ZcziOOUFP3inyjTYm2ljwcroAukqWolALrAt51dwS3S6lb74TzoamcM/a2z7YUN7bv
+         1FqWSZf7tCASxk/6qX2H4mbtp+33K3np/FYnQx31fwNYaQLcWuaFCEu/vXeIdTHTkzKF
+         Vu4I7bftTkt2xwU5K4iyOjbMbSWjzU1b3dD5lFGI9X2WQk7/uKZppDt/df0ZAzSybIt3
+         hvnRFud1ChCuhKV45C5569mnlbkktOxKS+lU+cSgjPIGZTt4UafqxbYg8h50qlZivwr0
+         sQR1XiKsouGVf241EqJQWYgloGtV3J1VQ8kLFUVJeChaHw9wP2f0ZSigwbEYDkBE/tul
+         s09w==
+X-Gm-Message-State: AOAM530HdCMFPk9QPFyKaIvFTNUxBd6JTjcY5LApNi0x/5UkMAnDtiQ8
+        AsQ99+gll6rpntuAt5sc+ZQ=
+X-Google-Smtp-Source: ABdhPJwwstyk15Z19/5BM2jWQthYwAlrQCLHl80YU15rdh8SHJRf4gdYA8ej4Z8R4dt9WWOsmps+Og==
+X-Received: by 2002:a62:1614:: with SMTP id 20mr10690453pfw.258.1597653144118;
+        Mon, 17 Aug 2020 01:32:24 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
-        by smtp.gmail.com with ESMTPSA id b15sm18448351pft.116.2020.08.17.01.32.16
+        by smtp.gmail.com with ESMTPSA id b15sm18448351pft.116.2020.08.17.01.32.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 01:32:19 -0700 (PDT)
+        Mon, 17 Aug 2020 01:32:23 -0700 (PDT)
 From:   Allen Pais <allen.lkml@gmail.com>
 To:     mchehab@kernel.org, maintainers@bluecherrydvr.com,
         patrice.chotard@st.com
@@ -54,9 +54,9 @@ Cc:     keescook@chromium.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Allen Pais <allen.lkml@gmail.com>,
         Romain Perier <romain.perier@gmail.com>
-Subject: [PATCH 03/11] media: ngene: convert tasklets to use new tasklet_setup() API
-Date:   Mon, 17 Aug 2020 14:01:45 +0530
-Message-Id: <20200817083153.22218-4-allen.lkml@gmail.com>
+Subject: [PATCH 04/11] media: smipcie: convert tasklets to use new tasklet_setup() API
+Date:   Mon, 17 Aug 2020 14:01:46 +0530
+Message-Id: <20200817083153.22218-5-allen.lkml@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817083153.22218-1-allen.lkml@gmail.com>
 References: <20200817083153.22218-1-allen.lkml@gmail.com>
@@ -73,55 +73,34 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/media/pci/ngene/ngene-core.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/media/pci/smipcie/smipcie-main.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/pci/ngene/ngene-core.c b/drivers/media/pci/ngene/ngene-core.c
-index af15ca1c501b..f9f94f47d76b 100644
---- a/drivers/media/pci/ngene/ngene-core.c
-+++ b/drivers/media/pci/ngene/ngene-core.c
-@@ -50,9 +50,9 @@ DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
- /* nGene interrupt handler **************************************************/
- /****************************************************************************/
- 
--static void event_tasklet(unsigned long data)
-+static void event_tasklet(struct tasklet_struct *t)
- {
--	struct ngene *dev = (struct ngene *)data;
-+	struct ngene *dev = from_tasklet(dev, t, event_tasklet);
- 
- 	while (dev->EventQueueReadIndex != dev->EventQueueWriteIndex) {
- 		struct EVENT_BUFFER Event =
-@@ -68,9 +68,9 @@ static void event_tasklet(unsigned long data)
- 	}
+diff --git a/drivers/media/pci/smipcie/smipcie-main.c b/drivers/media/pci/smipcie/smipcie-main.c
+index 9ca0fc3e6f80..e7604b7ecc8d 100644
+--- a/drivers/media/pci/smipcie/smipcie-main.c
++++ b/drivers/media/pci/smipcie/smipcie-main.c
+@@ -280,9 +280,9 @@ static void smi_port_clearInterrupt(struct smi_port *port)
  }
  
--static void demux_tasklet(unsigned long data)
-+static void demux_tasklet(struct tasklet_struct *t)
+ /* tasklet handler: DMA data to dmx.*/
+-static void smi_dma_xfer(unsigned long data)
++static void smi_dma_xfer(struct tasklet_struct *t)
  {
--	struct ngene_channel *chan = (struct ngene_channel *)data;
-+	struct ngene_channel *chan = from_tasklet(chan, t, demux_tasklet);
- 	struct device *pdev = &chan->dev->pci_dev->dev;
- 	struct SBufferHeader *Cur = chan->nextBuffer;
+-	struct smi_port *port = (struct smi_port *) data;
++	struct smi_port *port = from_tasklet(port, t, tasklet);
+ 	struct smi_dev *dev = port->dev;
+ 	u32 intr_status, finishedData, dmaManagement;
+ 	u8 dmaChan0State, dmaChan1State;
+@@ -422,7 +422,7 @@ static int smi_port_init(struct smi_port *port, int dmaChanUsed)
+ 	}
  
-@@ -1181,7 +1181,7 @@ static void ngene_init(struct ngene *dev)
- 	struct device *pdev = &dev->pci_dev->dev;
- 	int i;
- 
--	tasklet_init(&dev->event_tasklet, event_tasklet, (unsigned long)dev);
-+	tasklet_setup(&dev->event_tasklet, event_tasklet);
- 
- 	memset_io(dev->iomem + 0xc000, 0x00, 0x220);
- 	memset_io(dev->iomem + 0xc400, 0x00, 0x100);
-@@ -1445,7 +1445,7 @@ static int init_channel(struct ngene_channel *chan)
- 	struct ngene_info *ni = dev->card_info;
- 	int io = ni->io_type[nr];
- 
--	tasklet_init(&chan->demux_tasklet, demux_tasklet, (unsigned long)chan);
-+	tasklet_setup(&chan->demux_tasklet, demux_tasklet);
- 	chan->users = 0;
- 	chan->type = io;
- 	chan->mode = chan->type;	/* for now only one mode */
+ 	smi_port_disableInterrupt(port);
+-	tasklet_init(&port->tasklet, smi_dma_xfer, (unsigned long)port);
++	tasklet_setup(&port->tasklet, smi_dma_xfer);
+ 	tasklet_disable(&port->tasklet);
+ 	port->enable = 1;
+ 	return 0;
 -- 
 2.17.1
 
