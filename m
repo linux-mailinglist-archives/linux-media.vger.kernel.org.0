@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99EC124603D
+	by mail.lfdr.de (Postfix) with ESMTP id 2C90724603C
 	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 10:32:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728239AbgHQIcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 04:32:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53710 "EHLO
+        id S1728134AbgHQIco (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 04:32:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728143AbgHQIcd (ORCPT
+        with ESMTP id S1728177AbgHQIcg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 04:32:33 -0400
+        Mon, 17 Aug 2020 04:32:36 -0400
 Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DE91C061389;
-        Mon, 17 Aug 2020 01:32:32 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id y10so5582290plr.11;
-        Mon, 17 Aug 2020 01:32:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C636C061388;
+        Mon, 17 Aug 2020 01:32:36 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id k13so7128856plk.13;
+        Mon, 17 Aug 2020 01:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Ahy70Yk2bRVB7QBIejUmD1G9Y2W/MzcgwHjWYQelH0I=;
-        b=WRLKS+MMnDOkRIFbCcdWRCCHhHc4NwPn/uvQL8gU6YF85p2FTJdK8xTGsE7T6dsj3U
-         M5m5R7c22PVaRHYYlJrTCNAVVSA9Ry9vsR9LR/18XxF4S3771cEBSmJRDHFCFuI4jQ9m
-         RwzaQWZb16vkJmf6I6rRBVfBehuKZp4pKepBsJttncXoKZr21hfqlHPKLANXMoFkBnC4
-         diwKPpcz6XxHWurdG2aD+q4V1SIH0iV7TZFvaqP8SlRphmAZiVHGyF0ykisJe5lBCaG5
-         b+BjELiv1yH0kF6J38RYp5CXxrp/u/PDEfKbkqURS8m2aBrU6fFcwy3yc+7eW5icEApv
-         nC2A==
+        bh=NqEhz7gjYdgryeSdNN20GePxbntGjPIIXSk67vgjhoU=;
+        b=Gh+EGB+k8MzIKZg3w4K1ReMB81hsNs2AGPTnCES/QCxxcuy4qM7/sBQrJNQ1rZHuzq
+         8czJSF/odgqsMdRQ6yGzY1iPtKRcg2YWPqLMvSmk1ini9g1Y5ggfMX2Yq9gxO0rCL1XW
+         pc+g+KGPFngjL/wT8JdwBlwS/0t9kq4tDuTDu/3cRdiWucfvW9ot2zpxMGuHoXypTVHf
+         GzcWtlRMRpUXDGWlrIHAj7LJ/JZqzSlEQKL2Weq16sJD8FIiGwErWBPUdWUEEAECmHmX
+         IsubQ+XrnAe/To191WyUFC1zxUwNK1vw+zkEBGQc8CtOGz9x/a6LU+QrgCSp1mtmLuEc
+         EXPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Ahy70Yk2bRVB7QBIejUmD1G9Y2W/MzcgwHjWYQelH0I=;
-        b=LCDQuMyDEHjwcj+Zjudk69KKqSd/9HgEY0tDlZOaN3+iOJdtNldptPVcEzlanKWAam
-         hJ+f5XZeg4O+4PJCPySQdA0TxDNVC2TkUEIn+HNAgGDCxnrHAqJ4LBhnXXTF06QfRbtM
-         +Lg3A4sX3zCWdhebiWZhFoe9o5HTDx9lrnx4aQztN80NpFXJMNl56SqcJrIq7FHmIlK4
-         ZkP/urR81CYyewOhs+PZHAVd/vfinrvv2TVA4495yoPs8oR4VFIuOJts2ZuRyNR3Nj1+
-         dSroE3K5KNEkvscUNXjj1hpLfiIBaYEU8Y1KWwCqipfXCLLaOb4S195Us+uxBwSzXjNL
-         bI6g==
-X-Gm-Message-State: AOAM531yMs1fGuYbcfSqGWBplOIC/aB7fgagRWzfW212ML75d/L/VC2C
-        MkyH/PtHTi3TAQG++tWpcJI=
-X-Google-Smtp-Source: ABdhPJwF+cEnYujAMr0ykZx6WmkvBbF37TVTpNJT6zlrJJGif2tX3AG7dRZY1glR0Xvx5drCCwEEsw==
-X-Received: by 2002:a17:90a:88:: with SMTP id a8mr11612469pja.196.1597653152014;
-        Mon, 17 Aug 2020 01:32:32 -0700 (PDT)
+        bh=NqEhz7gjYdgryeSdNN20GePxbntGjPIIXSk67vgjhoU=;
+        b=AhcG0oB5iQP1Fl+rPSeb2m+ekZZ/YgBYqfStVxwr9kSW//O5EPpX8SfFNUzJGX90SD
+         7yKYUendP/sSixVK/UHGWLaHv7cw4KvSgACr2q1nrZJ14bF8P+j3uX2pS4Da5ElAQ+UE
+         l/w7zmsiuLkKiQGGT2+MXdxXsc3y0MR6a0icdu8u3s0/h41d0BZ0Io56ycnOAGnKAk53
+         +Vqq/+ov9KvXDhla2cHUkxzpAGR+g6GZ8ooY2XVZQTQcQxGTod9r9APZvyH6QPXfZ9+v
+         cpm0MYogwoPaetL4dmzGGs9ZKysldPozMktXDuCApiESJavRAbOOQlBW6S5YVYrpj0LQ
+         coVQ==
+X-Gm-Message-State: AOAM5305uQQGA6xDV0GDYRaNyx75ItlRXBdxLObdAuPkqyJinVgqVpLH
+        59GqWxFKqJhoCgyQpoQhmMc=
+X-Google-Smtp-Source: ABdhPJyaxIojnOBxSDHaqmulSYl6Xyx5DXhb37mfDSkclxjTW0DvKjhIzVP6JCoCGtu8211RqApIaA==
+X-Received: by 2002:a17:90b:3008:: with SMTP id hg8mr11716483pjb.120.1597653155825;
+        Mon, 17 Aug 2020 01:32:35 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
-        by smtp.gmail.com with ESMTPSA id b15sm18448351pft.116.2020.08.17.01.32.28
+        by smtp.gmail.com with ESMTPSA id b15sm18448351pft.116.2020.08.17.01.32.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 01:32:31 -0700 (PDT)
+        Mon, 17 Aug 2020 01:32:35 -0700 (PDT)
 From:   Allen Pais <allen.lkml@gmail.com>
 To:     mchehab@kernel.org, maintainers@bluecherrydvr.com,
         patrice.chotard@st.com
@@ -54,9 +54,9 @@ Cc:     keescook@chromium.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Allen Pais <allen.lkml@gmail.com>,
         Romain Perier <romain.perier@gmail.com>
-Subject: [PATCH 06/11] media: tw5864: convert tasklets to use new tasklet_setup() API
-Date:   Mon, 17 Aug 2020 14:01:48 +0530
-Message-Id: <20200817083153.22218-7-allen.lkml@gmail.com>
+Subject: [PATCH 07/11] media: marvell-ccic: convert tasklets to use new tasklet_setup() API
+Date:   Mon, 17 Aug 2020 14:01:49 +0530
+Message-Id: <20200817083153.22218-8-allen.lkml@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817083153.22218-1-allen.lkml@gmail.com>
 References: <20200817083153.22218-1-allen.lkml@gmail.com>
@@ -73,44 +73,35 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/media/pci/tw5864/tw5864-video.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/media/platform/marvell-ccic/mcam-core.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/pci/tw5864/tw5864-video.c b/drivers/media/pci/tw5864/tw5864-video.c
-index ec1e06da7e4f..e232c6535a0a 100644
---- a/drivers/media/pci/tw5864/tw5864-video.c
-+++ b/drivers/media/pci/tw5864/tw5864-video.c
-@@ -175,7 +175,7 @@ static const unsigned int intra4x4_lambda3[] = {
- static v4l2_std_id tw5864_get_v4l2_std(enum tw5864_vid_std std);
- static enum tw5864_vid_std tw5864_from_v4l2_std(v4l2_std_id v4l2_std);
- 
--static void tw5864_handle_frame_task(unsigned long data);
-+static void tw5864_handle_frame_task(struct tasklet_struct *t);
- static void tw5864_handle_frame(struct tw5864_h264_frame *frame);
- static void tw5864_frame_interval_set(struct tw5864_input *input);
- 
-@@ -1057,8 +1057,7 @@ int tw5864_video_init(struct tw5864_dev *dev, int *video_nr)
- 	dev->irqmask |= TW5864_INTR_VLC_DONE | TW5864_INTR_TIMER;
- 	tw5864_irqmask_apply(dev);
- 
--	tasklet_init(&dev->tasklet, tw5864_handle_frame_task,
--		     (unsigned long)dev);
-+	tasklet_setup(&dev->tasklet, tw5864_handle_frame_task);
- 
- 	for (i = 0; i < TW5864_INPUTS; i++) {
- 		dev->inputs[i].root = dev;
-@@ -1313,9 +1312,9 @@ static int tw5864_is_motion_triggered(struct tw5864_h264_frame *frame)
- 	return detected;
- }
- 
--static void tw5864_handle_frame_task(unsigned long data)
-+static void tw5864_handle_frame_task(struct tasklet_struct *t)
+diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
+index 3d4242b8182b..7c4e3498d6bb 100644
+--- a/drivers/media/platform/marvell-ccic/mcam-core.c
++++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+@@ -438,9 +438,9 @@ static void mcam_ctlr_dma_vmalloc(struct mcam_camera *cam)
+ /*
+  * Copy data out to user space in the vmalloc case
+  */
+-static void mcam_frame_tasklet(unsigned long data)
++static void mcam_frame_tasklet(struct tasklet_struct *t)
  {
--	struct tw5864_dev *dev = (struct tw5864_dev *)data;
-+	struct tw5864_dev *dev = from_tasklet(dev, t, tasklet);
+-	struct mcam_camera *cam = (struct mcam_camera *) data;
++	struct mcam_camera *cam = from_tasklet(cam, t, s_tasklet);
+ 	int i;
  	unsigned long flags;
- 	int batch_size = H264_BUF_CNT;
- 
+ 	struct mcam_vb_buffer *buf;
+@@ -1323,8 +1323,7 @@ static int mcam_setup_vb2(struct mcam_camera *cam)
+ 		break;
+ 	case B_vmalloc:
+ #ifdef MCAM_MODE_VMALLOC
+-		tasklet_init(&cam->s_tasklet, mcam_frame_tasklet,
+-				(unsigned long) cam);
++		tasklet_setup(&cam->s_tasklet, mcam_frame_tasklet);
+ 		vq->ops = &mcam_vb2_ops;
+ 		vq->mem_ops = &vb2_vmalloc_memops;
+ 		cam->dma_setup = mcam_ctlr_dma_vmalloc;
 -- 
 2.17.1
 
