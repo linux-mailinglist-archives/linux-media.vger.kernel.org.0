@@ -2,122 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4C0F246695
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 14:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86D5D246764
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 15:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbgHQMov (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 08:44:51 -0400
-Received: from mga01.intel.com ([192.55.52.88]:41273 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728186AbgHQMou (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 08:44:50 -0400
-IronPort-SDR: 8fxU1yilIwAluDcHPaofQ9SmWDyZ1ee0grtoV6gO4iuvhFvMO24/w4Z/m+Rry+f6tQYkgfi/2/
- vxCnUeeRVReg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9715"; a="172745231"
-X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
-   d="scan'208";a="172745231"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 05:44:50 -0700
-IronPort-SDR: OQMA9mVU7VGaYXAEctMlsWnFVu0fgA/BrXDbv1jkfFy3jocy+ZEPsk441OXI+06CXvPIy/zdLP
- UrijWp4a/vZA==
-X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
-   d="scan'208";a="296471340"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 05:44:47 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id A1F9A207BA; Mon, 17 Aug 2020 15:44:45 +0300 (EEST)
-Date:   Mon, 17 Aug 2020 15:44:45 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, joe@perches.com,
-        Bingbu Cao <bingbu.cao@linux.intel.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 6/7] media: ipu3-cio2: Use readl_poll_timeout() helper
-Message-ID: <20200817124445.GK24582@paasikivi.fi.intel.com>
-References: <20200814163017.35001-1-andriy.shevchenko@linux.intel.com>
- <20200814163017.35001-6-andriy.shevchenko@linux.intel.com>
- <6b739304-7d12-016f-f42a-089c8fe7efac@linux.intel.com>
- <20200817094436.GF1891694@smile.fi.intel.com>
- <20200817111316.GH24582@paasikivi.fi.intel.com>
- <20200817112006.GH1891694@smile.fi.intel.com>
- <20200817112746.GI24582@paasikivi.fi.intel.com>
- <20200817113322.GI1891694@smile.fi.intel.com>
- <20200817115538.GJ24582@paasikivi.fi.intel.com>
- <20200817122911.GN1891694@smile.fi.intel.com>
+        id S1728595AbgHQNeI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 09:34:08 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:56361 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728445AbgHQNeD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 09:34:03 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 7fGykMnG6uuXO7fGzkXMR9; Mon, 17 Aug 2020 15:34:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597671241; bh=wNCyWvw9nVrab0Sl60HGbf6vyqMsaKlzNFFee/jZ8/4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=VlTGvIKXXhxEXE2LyLVgZbJak1jiEjSP+Ks26CoNcS4KmbC5xaNpPd2hwojgoFgai
+         DxBXLulYLRc+i0C6JExS4ww+YyTls9h14kYdn2Qt/0+gU5M1PyLWsoiBqnAnK40Ho4
+         zFOCQ1OXa+Uo4kAqbG8Iaj5mOViqynK7LgjwDCvLQEQ98LHc8gEyRVXR1xTCjEktpe
+         eOTPQzWk4odNQ1R/wNcR0W9H521CQvfCYLINS7GobUdV5MwcOee2Y/3anvNXLLpnzM
+         RiiCvkfcIPpR7zKZEQkimfcpMBjM62hNbowLm+aQ+NUdONiEyHcarpm7x9cGNCytki
+         UWJ39ezNd/1JA==
+Subject: Re: Enforcing color profile
+To:     Stefan Witzel <s.witzel@gmx.de>, linux-media@vger.kernel.org
+References: <7486393e-56b5-e460-b542-02c72525139b@gmx.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <0fa5da29-a058-2678-e616-65c921c6389a@xs4all.nl>
+Date:   Mon, 17 Aug 2020 15:34:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200817122911.GN1891694@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <7486393e-56b5-e460-b542-02c72525139b@gmx.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLec6vrCCyZigv9bJsEHqoCzvDWooWb159fnCGSStAhjqnIBbWFqqB2xD5xOT5TCW2RhWSLGRHqo1MzSJEakuigB0L2bMcn/RNJY3UduvOjhBwyUjA4/
+ T80LwHi3MIE4pmsjV8M3kv3YYPkcF8YnqoY0aC9dcHKXQWWM5D6uBLXWJFi17E1hMQ3e2nGhZTJhGqWfl4A3hlFc6yVI7Ae6dtplCUTra3DeKA3XHlQoE0qK
+ rnEpumc3K5c+p+yHmQrCWq+8PDytb93hEMzvxh/W8YZvia8wlmVPSFpgoVmiHanT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 03:29:11PM +0300, Andy Shevchenko wrote:
-> On Mon, Aug 17, 2020 at 02:55:38PM +0300, Sakari Ailus wrote:
-> > On Mon, Aug 17, 2020 at 02:33:22PM +0300, Andy Shevchenko wrote:
-> > > On Mon, Aug 17, 2020 at 02:27:47PM +0300, Sakari Ailus wrote:
-> > > > On Mon, Aug 17, 2020 at 02:20:06PM +0300, Andy Shevchenko wrote:
-> > > > > On Mon, Aug 17, 2020 at 02:13:16PM +0300, Sakari Ailus wrote:
-> > > > > > On Mon, Aug 17, 2020 at 12:44:36PM +0300, Andy Shevchenko wrote:
-> > > > > > > On Mon, Aug 17, 2020 at 05:27:33PM +0800, Bingbu Cao wrote:
-> > > > > > > > On 8/15/20 12:30 AM, Andy Shevchenko wrote:
-> > > > > > > > > We may use special helper macro to poll IO till condition or timeout occurs.
-> > > > > > > 
-> > > > > > > > > +	ret = readl_poll_timeout(dma, value, value & CIO2_CDMAC0_DMA_HALTED, 4000, 2000000);
-> > > > > > > > 
-> > > > > > > > This line is too long, need a break, others look good for me.
-> > > > > > > 
-> > > > > > > checkpatch doesn't complain, but if you insist, I'll split it in v2.
-> > > > > > 
-> > > > > > The coding style hasn't changed, it's just the checkpatch.pl warning that
-> > > > > > has.
-> > > > > 
-> > > > > Joe, it seems we have inconsistency now between checkpatch and coding style.
-> > > > > Shouldn't we revert 100 limit warning to 80?
-> > > > 
-> > > > There are sometimes genuine reasons for having longer lines than 80, and
-> > > > depending on the code, that happens more often in some places than
-> > > > elsewhere. This tended to generate lots of checkpatch.pl warnings in the
-> > > > past.
-> > > > 
-> > > > While I didn't see the patch removing the 80 chars per line limit until it
-> > > > made the news, I think it was a quite reasonable compromise.
-> > > 
-> > > But doesn't it make harder life for reviewers like you? You have to keep in
-> > > mind all these inconsistencies and rule either way.
-> > > 
-> > > That said, we either would fix the doc, or revert the checkpatch change.
-> > 
-> > I don't think the documentation should be changed. There *are* reasons for
-> > the 80-column limit. Although the exact number can be connected to the
-> > width of traditional text terminals, using very long lines makes reading
-> > text harder. IOW, there's a connection to the same reason why wide
-> > newspaper articles are split into several columns.
+On 17/08/2020 14:09, Stefan Witzel wrote:
+> Hello,
 > 
-> > Would it be reasonable if checkpatch.pl warned about exceeding 80-column
-> > limits if such lines are rare or nonexistent in the same file?
+> I am not a V4L developer so if this is not the right place to bring up
+> the issue please tell me who to contact instead.
+> The page [1] documents a problem with a particular device "Elgato Cam
+> Link 4K" which provides various format options among which most software
+> does not consciously pick the one which it implicitly expects leading to
+> problems. There is a software workaround, transcoding and looping
+> through a virtual device and a hardware fix flashing the problematic
+> profiles away.
+> However it appears to me that the most satisfactory solution is hinted
+> at in the sentence
 > 
-> I don't think so. If somebody decides to *gradually* move to 100 limit in the
-> driver, it will be painful with all these new old warnings.
+>> I couldn't find any option in V4L to force selection of 'YUYV 4:2:2', so instead
+> 
+> So my question is: what changes would be necessary to allow v4l2-ctl to
+> enforce a particular format and who would be the right person to ask to
+> make such changes?
 
-There would be no more such warnings than with the 80-column limit.
+It's there already:
 
-I'd also question whether this is a realistic example. If a file was fine
-without long lines in the past, it's unlikely a sudden and sustained need
-for having them arises.
+v4l2-ctl -v pixelformat=YUYV
 
-I think common reasons for those long lines are e.g. referring to definitions
-from standards as-is or IOCTL command definitions. Or flags used on various
-interfaces to keep them descriptive. All either exist in given files or do
-not. That generally doesn't change over the lifetime of the said files.
+That will do the trick.
 
--- 
-Sakari Ailus
+If you plug in the device and run 'v4l2-ctl -V', which pixelformat does it
+report? I would expect it to be YUYV since that's first in the list.
+
+If apps like Discord pick YU12 instead, then that's weird. That's something that
+the application does, and v4l2-ctl won't help with that. I.e., it appears to be
+an application bug.
+
+One other alternative is that the device has broken 4:2:0 support, i.e. it reports
+these formats, but they don't actually work. You can use qv4l2 or qvidcap to test
+if these 4:2:0 formats are working.
+
+Regards,
+
+	Hans
+
+
+> 
+> Best regards,
+> Stefan
+> 
+> 
+> [1] https://assortedhackery.com/patching-cam-link-to-play-nicer-on-linux/
+> 
+
