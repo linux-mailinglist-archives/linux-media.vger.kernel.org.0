@@ -2,89 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20CBE246532
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 13:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84EDE246534
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 13:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbgHQLMw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 07:12:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26991 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726341AbgHQLMv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 07:12:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597662766;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ojqM6VDGywhYof5vQ0rOPdeZdR7vkZBO7fWbPCxSWII=;
-        b=hx0ZAwV4IFOKqDWxw1eHkIK3xpRVRXBKhQMtLyXHWesIO3+dg+cuxmzfughVkoBHsCmZug
-        4r3AZBy7BmHWDX3T0OTU8UV6lKf4/cedR2qm9HGzl03Abw8ZCSVUQXyJbNhqamwr6kYUK5
-        4Pwppw6zB2DnRsMtOWSbcnr7QfaEdUg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-AxrCrgTLPfKBA1qS5-fhAQ-1; Mon, 17 Aug 2020 07:12:44 -0400
-X-MC-Unique: AxrCrgTLPfKBA1qS5-fhAQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 184321DDE5;
-        Mon, 17 Aug 2020 11:12:42 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-195.ams2.redhat.com [10.36.112.195])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 91FD01002393;
-        Mon, 17 Aug 2020 11:12:35 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 6A0F29D8F; Mon, 17 Aug 2020 13:12:34 +0200 (CEST)
-Date:   Mon, 17 Aug 2020 13:12:34 +0200
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     David Stevens <stevensd@chromium.org>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jason Wang <jasowang@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        open list <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, virtio-dev@lists.oasis-open.org,
-        alex.williamson@redhat.com
-Subject: Re: [virtio-dev] Re: [PATCH v5 0/3] Support virtio cross-device
- resources
-Message-ID: <20200817111234.i7pqtnnk2ciw4rqb@sirius.home.kraxel.org>
-References: <20200609012518.198908-1-stevensd@chromium.org>
- <20200609055021-mutt-send-email-mst@kernel.org>
- <CAD=HUj7wJfoKj_K44Cs9eEmh=OQHZ1+qz7ZHxoscHjYgOMXvZQ@mail.gmail.com>
- <20200817105008.mi3ukh6kxgi37gjs@sirius.home.kraxel.org>
+        id S1727021AbgHQLNY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 07:13:24 -0400
+Received: from mga14.intel.com ([192.55.52.115]:9503 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726944AbgHQLNX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Aug 2020 07:13:23 -0400
+IronPort-SDR: xbfzc01JdwjEIZIfIWgI+QrzwTOjds0wWjxB8j1IRygilWbiURvGj5cy6KIU/Rdq4xatiA63mn
+ ofkA4pscmaVg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9715"; a="153930105"
+X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
+   d="scan'208";a="153930105"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 04:13:20 -0700
+IronPort-SDR: PPsrPyCra44ubFisXJzEDs3krKBNpsCZas5KV/xZR0fUJZ1qSCcEIdLEzHFy6wIMmoEJFJeTN5
+ OThLjnOi6t2w==
+X-IronPort-AV: E=Sophos;i="5.76,322,1592895600"; 
+   d="scan'208";a="496449023"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 04:13:18 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 7F050207BA; Mon, 17 Aug 2020 14:13:16 +0300 (EEST)
+Date:   Mon, 17 Aug 2020 14:13:16 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 6/7] media: ipu3-cio2: Use readl_poll_timeout() helper
+Message-ID: <20200817111316.GH24582@paasikivi.fi.intel.com>
+References: <20200814163017.35001-1-andriy.shevchenko@linux.intel.com>
+ <20200814163017.35001-6-andriy.shevchenko@linux.intel.com>
+ <6b739304-7d12-016f-f42a-089c8fe7efac@linux.intel.com>
+ <20200817094436.GF1891694@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200817105008.mi3ukh6kxgi37gjs@sirius.home.kraxel.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200817094436.GF1891694@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 12:50:08PM +0200, Gerd Hoffmann wrote:
-> On Tue, Jun 23, 2020 at 10:31:28AM +0900, David Stevens wrote:
-> > Unless there are any remaining objections to these patches, what are
-> > the next steps towards getting these merged? Sorry, I'm not familiar
-> > with the workflow for contributing patches to Linux.
+On Mon, Aug 17, 2020 at 12:44:36PM +0300, Andy Shevchenko wrote:
+> On Mon, Aug 17, 2020 at 05:27:33PM +0800, Bingbu Cao wrote:
+> > On 8/15/20 12:30 AM, Andy Shevchenko wrote:
+> > > We may use special helper macro to poll IO till condition or timeout occurs.
 > 
-> Sorry, just have been busy and not paying as much attention to drm
-> patches as usual.  Playing catch-up now.  Queued for drm-misc-next,
-> unless something goes wrong in my testing the patches should land
-> in linux-next soon and be merged upstream in the next merge window.
+> > > +	ret = readl_poll_timeout(dma, value, value & CIO2_CDMAC0_DMA_HALTED, 4000, 2000000);
+> > 
+> > This line is too long, need a break, others look good for me.
+> 
+> checkpatch doesn't complain, but if you insist, I'll split it in v2.
 
-Oh, spoke too soon.  scripts/checkpatch.pl has a bunch of codestyle
-warnings.  Can you fix them and resend?
+The coding style hasn't changed, it's just the checkpatch.pl warning that
+has.
 
-thanks,
-  Gerd
-
+-- 
+Sakari Ailus
