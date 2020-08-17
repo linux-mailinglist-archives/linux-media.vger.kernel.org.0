@@ -2,264 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99FF12474C8
-	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 21:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8BCB247740
+	for <lists+linux-media@lfdr.de>; Mon, 17 Aug 2020 21:48:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730791AbgHQTP1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 15:15:27 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:34097 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392164AbgHQTPS (ORCPT
+        id S1732541AbgHQTrB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 15:47:01 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:45402 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729310AbgHQPVA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 15:15:18 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 1929A240009;
-        Mon, 17 Aug 2020 19:15:12 +0000 (UTC)
-Date:   Mon, 17 Aug 2020 21:18:55 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, Leon Luo <leonl@leopardimaging.com>,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] dt-bindings: media: imx274: Convert to json-schema
-Message-ID: <20200817191855.u55o75iby6ib7hhe@uno.localdomain>
-References: <20200817160037.255972-1-jacopo+renesas@jmondi.org>
+        Mon, 17 Aug 2020 11:21:00 -0400
+Received: by mail-il1-f194.google.com with SMTP id k4so14830144ilr.12;
+        Mon, 17 Aug 2020 08:20:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=+HN6nCF+8tYkJOJaaIJYR9IJ8kZKF7ZNJFwnPm3mwSQ=;
+        b=NhAcbUtw28kmEJqJKSPRWDrVsffap15Y2P12E/ST30PxL2Y9qqJ02oqzSLPixWA06F
+         EbW5IvzrMv3+CBS16xLA0Lb5KU8iDDz9Qud73O4pQLI/6CeszVVMOZqr7CCIgOcaO9U8
+         UZyzsYmgXCUTk2x/xWX/6FeklLsfwDuIenKGxqxPfoglM+L2I2Tpp9A8MOMD+0DElG6D
+         SrueO8t0V7P3tYa+NU2prKQMKDHjFdF0ahaTgIKLJHHy8hr8bKOosA9qeFLIqcWkZWey
+         5GW1ZrNeLZPXoOThRTOWHuR0wj85/HTIE+l19Ez3FBzTSmDvuAvF/dmSqiJTLAtV76CK
+         xs0Q==
+X-Gm-Message-State: AOAM5339rkQ3RtVdq8/4q+npc6OuLEtJmCzh2bpKoKMtendCvGCeEmsX
+        hxhTuOpj3NNg9TFAtOoyGvo=
+X-Google-Smtp-Source: ABdhPJwROUdLZ0b7FXTqnt284FPUM4Kc1irF+5vcEfyXSz8BG9ubwbR+86n0gig/875sgCt60f0Uuw==
+X-Received: by 2002:a05:6e02:c1:: with SMTP id r1mr13807211ilq.79.1597677658557;
+        Mon, 17 Aug 2020 08:20:58 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id z26sm8532888ilf.60.2020.08.17.08.20.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 08:20:56 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 2B1934046C; Mon, 17 Aug 2020 15:20:56 +0000 (UTC)
+Date:   Mon, 17 Aug 2020 15:20:56 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Lukas Middendorf <kernel@tuxforce.de>
+Cc:     Anand Jain <anand.jain@oracle.com>, linux-btrfs@vger.kernel.org,
+        Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: Is request_firmware() really safe to call in resume callback
+ when /usr/lib/firmware is on btrfs?
+Message-ID: <20200817152056.GD4332@42.do-not-panic.com>
+References: <c79e24a5-f808-d1f0-1f09-ee6f135d9679@tuxforce.de>
+ <20200813163749.GV4332@42.do-not-panic.com>
+ <0b1621bf-fc82-1a56-c11f-c5c46677e59e@tuxforce.de>
+ <20200813221348.GB4332@42.do-not-panic.com>
+ <fc887e06-874c-79d8-0607-4e27ae788446@tuxforce.de>
+ <20200814163723.GC4332@42.do-not-panic.com>
+ <a79f1a0c-012d-bebe-c9c7-b505f59079c2@tuxforce.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200817160037.255972-1-jacopo+renesas@jmondi.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a79f1a0c-012d-bebe-c9c7-b505f59079c2@tuxforce.de>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Slightly better with a subject  =)
+On Fri, Aug 14, 2020 at 11:59:36PM +0200, Lukas Middendorf wrote:
+> On 14/08/2020 18:37, Luis Chamberlain wrote:
+> > On Fri, Aug 14, 2020 at 01:38:40PM +0200, Lukas Middendorf wrote:
+> > > > If the firmware is *not* present for the si2168 driver and the device
+> > > > has *not* been used yet you get a system freeze which you cannot recover
+> > > > from, but only if you are *not* using a driver which also caches its
+> > > > firmware already?
+> > > 
+> > > Yes, this is exactly what I wanted to say.
+> > > 
+> > 
+> > OK great.. but..
+> > 
+> > > A new installation of Fedora 32 without firmware files
+> > 
+> > Fedora 32 comes with no firmware at all? Are you sure? How about your
+> > wifi?
+> 
+> Fedora does come with firmware files for many devices (wifi, nouveau, …) but
+> not for dvb devices. Firmware for the si2168 has to be installed as an extra
+> package dvb-firmware from rpmfusion. When I talk about "no firmware files"
+> or "install the firmware files" I mean the si2168 (and other dvb hardware)
+> firmware files only. The nouveau firmware files are always present.
 
-I made a formatting error, empty line between receivers list and Subject:
+OK so how do you know that other firmware is not getting loaded or cached?
 
-Sorry about this :)
+Other than checking kernel logs you can rm -rf /lib/firmware/ and then
+only place the files you want to test.
 
-On Mon, Aug 17, 2020 at 06:00:37PM +0200, Jacopo Mondi wrote:
-> Subject: [PATCH] dt-bindings: media: imx274: Convert to json-schema
->
-> Convert the imx274 bindings document to json-schema and update
-> the MAINTAINERS file accordingly.
->
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  .../bindings/media/i2c/sony,imx214.txt        |  53 --------
->  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 125 insertions(+), 54 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
->
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> deleted file mode 100644
-> index f11f28a5fda4..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> +++ /dev/null
-> @@ -1,53 +0,0 @@
-> -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> -
-> -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> -an active array size of 4224H x 3200V. It is programmable through an I2C
-> -interface.
-> -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
-> -throughput of 1.2Gbps/lane.
-> -
-> -
-> -Required Properties:
-> -- compatible: Shall be "sony,imx214".
-> -- reg: I2C bus address of the device. Depending on how the sensor is wired,
-> -       it shall be <0x10> or <0x1a>;
-> -- enable-gpios: GPIO descriptor for the enable pin.
-> -- vdddo-supply: Chip digital IO regulator (1.8V).
-> -- vdda-supply: Chip analog regulator (2.7V).
-> -- vddd-supply: Chip digital core regulator (1.12V).
-> -- clocks: Reference to the xclk clock.
-> -- clock-frequency: Frequency of the xclk clock.
-> -
-> -Optional Properties:
-> -- flash-leds: See ../video-interfaces.txt
-> -- lens-focus: See ../video-interfaces.txt
-> -
-> -The imx214 device node shall contain one 'port' child node with
-> -an 'endpoint' subnode. For further reading on port node refer to
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -Required Properties on endpoint:
-> -- data-lanes: check ../video-interfaces.txt
-> -- link-frequencies: check ../video-interfaces.txt
-> -- remote-endpoint: check ../video-interfaces.txt
-> -
-> -Example:
-> -
-> -	camera-sensor@1a {
-> -		compatible = "sony,imx214";
-> -		reg = <0x1a>;
-> -		vdddo-supply = <&pm8994_lvs1>;
-> -		vddd-supply = <&camera_vddd_1v12>;
-> -		vdda-supply = <&pm8994_l17>;
-> -		lens-focus = <&ad5820>;
-> -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
-> -		clock-frequency = <24000000>;
-> -		port {
-> -			imx214_ep: endpoint {
-> -				data-lanes = <1 2 3 4>;
-> -				link-frequencies = /bits/ 64 <480000000>;
-> -				remote-endpoint = <&csiphy0_ep>;
-> -			};
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> new file mode 100644
-> index 000000000000..ddd4627214b1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> @@ -0,0 +1,124 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> +
-> +maintainers:
-> +  - Ricardo Ribalda <ribalda@kernel.org>
-> +
-> +description: -|
-> +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> +  an active array size of 4224H x 3200V. It is programmable through an I2C
-> +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
-> +  maximum throughput of 1.2Gbps/lane.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx214
-> +
-> +  reg:
-> +    description: -|
-> +      I2C device address. Depends on how the sensor is wired, it shall be
-> +    enum:
-> +      - 0x10
-> +      - 0x1a
-> +
-> +  clocks:
-> +    description: Reference to the xclk clock.
-> +    maxItems: 1
-> +
-> +  clock-frequency:
-> +    description: Frequency of the xclk clock in Hz.
-> +
-> +  enable-gpios:
-> +    description: GPIO descriptor for the enable pin.
-> +    maxItems: 1
-> +
-> +  vdddo-supply:
-> +    description: Chip digital IO regulator (1.8V).
-> +    maxItems: 1
-> +
-> +  vdda-supply:
-> +    description: Chip analog regulator (2.7V).
-> +    maxItems: 1
-> +
-> +  vddd-supply:
-> +    description: Chip digital core regulator (1.12V).
-> +    maxItems: 1
-> +
-> +  flash-leds:
-> +    description: See ../video-interfaces.txt
-> +
-> +  lens-focus:
-> +    description: See ../video-interfaces.txt
-> +
-> +  port:
-> +    type: object
-> +    description: |
-> +      The device node must contain one 'port' child node for its digital output
-> +      video port, in accordance with the video interface bindings defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        properties:
-> +          remote-endpoint:
-> +            description: See ../video-interfaces.txt
-> +
-> +          data-lanes:
-> +            description: See ../video-interfaces.txt
-> +
-> +          link-frequencies:
-> +            description: See ../video-interfaces.txt
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-frequency
-> +  - enable-gpios
-> +  - vdddo-supply
-> +  - vdda-supply
-> +  - vddd-supply
-> +  - port
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera-sensor@1a {
-> +            compatible = "sony,imx214";
-> +            reg = <0x1a>;
-> +            vdddo-supply = <&pm8994_lvs1>;
-> +            vddd-supply = <&camera_vddd_1v12>;
-> +            vdda-supply = <&pm8994_l17>;
-> +            lens-focus = <&ad5820>;
-> +            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> +            clocks = <&camera_clk>;
-> +            clock-frequency = <24000000>;
-> +
-> +            port {
-> +                imx214_ep: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <480000000>;
-> +                    remote-endpoint = <&csiphy0_ep>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6c8e98238a7b..d1a6173d3b64 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15918,7 +15918,7 @@ M:	Ricardo Ribalda <ribalda@kernel.org>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
->  F:	drivers/media/i2c/imx214.c
->
->  SONY IMX219 SENSOR DRIVER
-> --
-> 2.27.0
->
+> > > and with nouveau did
+> > > not show my freeze problem. Installing either the firmware files or the
+> > > nvidia driver started the freeze during resume.
+> > 
+> > Here now you say that if you install either the firmware files for
+> > either si2168 or nouveau can cause a freeze,
+> 
+> no, I'm talking just about the firmware files for si2168
+
+OK so if you install the firmware files of si2168 you do run into a
+freeze, and this freeze happens on resume from suspend?
+
+Without the si2168 firmware the freeze does not happen.
+
+Is that right?
+
+> In the case that I *don't* have the firmware files for si2168 (!) present it
+> happens only if no other firmware is cached on suspend (in my case by the
+> nouveau driver). No statement made about cases where the si2168 firmware
+> file is present.
+
+OK this statement is clear and is very different from the one I made
+above.
+
+But note, that this is true, how are you *sure* that no other firmware
+other than nouveau is being used? What about wifi? or bluetooth?
+
+> > You also clarify here your freeze happens on resume only. Is that right?
+> > Never on suspend, but if the freeze happens, it happens only on resume?
+> 
+> Correct. I have not seen a freeze on suspend. It only happens on resume.
+
+OK this is only if and only if you haven't used the si2168 device,
+right? And since this is related to si2168 we know that even if you
+don't use the si2168 device its function which calls to load firmware
+*does* get called on resume, even though that same function was not
+called on probe, as the device is not used.
+
+If true, then the race to freeze here happens on resume against btrfs.
+
+And is the firmware present or not in this case, in which the freeze
+happens?
+
+> > The actual case where you reach a freeze is still not clear yet. Let's
+> > try to clarify this.
+> 
+> OK, let's try that again. To freeze during resume all of 1-4 has to be true:
+> 1. /usr/lib/firmware is on btrfs
+> 2. my Hauppauge WinTV-dualHD USB DVB tuner (contains si2168) is connected
+> 3. have not actively used the tuner
+> 4. any of the following cases:
+> 4a) si2168 firmware not installed + nouveau driver not used + have not run
+> "ls -R /usr/lib/firmware" before suspend
+> 4b) firmware file installed + not run "cat /usr/lib/firmware/dvb*"
+> 4c) firmware file installed + not run "ls -R /usr/lib/firmware" + not
+> nouveau driver
+
+OK perfect, now the next question to clarify is *are you sure* that no
+other firmware is used, other than si2168 and nouveau?
+
+> Not leading to a freeze is:
+> 
+> A: si2168 firmware not installed + nouveau driver used
+> B: si2168 firmware not installed + run "ls -R /usr/lib/firmware" before
+> suspend
+> C: used the tuner before suspend (or tried to use, in case that the si2168
+> firmware is not installed)
+> D: using my patches with firmware_request_cache()
+> E: si2168 firmware installed + "ls -R /usr/lib/firmware" + "cat
+> /usr/lib/firmware/dvb*"
+> F: si2168 firmware installed + nouveau driver used + "cat
+> /usr/lib/firmware/dvb*"
+> 
+> I verified all cases again to make sure I was not remembering anything
+> wrong.
+
+This helps, thanks so much, now we'll have to write a reproducer, thanks
+for the report!!
+
+> The nouveau driver in use seems to be equivalent to running "ls -R
+> /usr/lib/firmware" before suspend.
+> 
+> All the cases seem to boil down to:
+> It freezes if the file system has to be accessed to list the content of
+> /usr/lib/firmware or to read the si2168 firmware file
+
+Let's confirm first whether or not your system is using other firmware
+files too or not.
+
+  Luis
