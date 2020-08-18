@@ -2,285 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05BCD248454
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 14:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A3E524845B
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 14:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbgHRMCR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 08:02:17 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:18285 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726357AbgHRMCR (ORCPT
+        id S1726646AbgHRMDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 08:03:08 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:58825 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726357AbgHRMDH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 08:02:17 -0400
+        Tue, 18 Aug 2020 08:03:07 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 2D6F0240004;
-        Tue, 18 Aug 2020 12:02:10 +0000 (UTC)
-Date:   Tue, 18 Aug 2020 14:05:53 +0200
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 593176000B;
+        Tue, 18 Aug 2020 12:03:01 +0000 (UTC)
+Date:   Tue, 18 Aug 2020 14:06:44 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
         devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Leon Luo <leonl@leopardimaging.com>, mchehab@kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
         laurent.pinchart@ideasonboard.com,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: imx274: Convert to json-schema
-Message-ID: <20200818120553.4gfuy7abuin7g24r@uno.localdomain>
-References: <20200817160037.255972-1-jacopo+renesas@jmondi.org>
- <20200817191855.u55o75iby6ib7hhe@uno.localdomain>
- <3592105f-584f-eeeb-4ece-89f3f6bb5352@linaro.org>
+Subject: Re: [PATCH 2/3] dt-bindings: media: ov772x: Make bus-type mandatory
+Message-ID: <20200818120644.uim7facln2rxf65y@uno.localdomain>
+References: <20200817155910.255883-1-jacopo+renesas@jmondi.org>
+ <20200817155910.255883-3-jacopo+renesas@jmondi.org>
+ <2a942333-695c-bd99-af63-7ac55682700b@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3592105f-584f-eeeb-4ece-89f3f6bb5352@linaro.org>
+In-Reply-To: <2a942333-695c-bd99-af63-7ac55682700b@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrey
+Hi Sergei
 
-On Tue, Aug 18, 2020 at 09:43:46AM +0300, Andrey Konovalov wrote:
-> Hi Jacopo,
+On Mon, Aug 17, 2020 at 11:14:04PM +0300, Sergei Shtylyov wrote:
+> On 8/17/20 6:59 PM, Jacopo Mondi wrote:
 >
-> Misprint in the subject (imx274 vs imx214)?
+> > In order to establish required properties based on the selected
+> > bus type, make the 'bus-type' property mandatory.
+> >
+> > Binary compatibility with existing DTB is kept as the driver does not
+> > enforce the property to be present, and shall fall-back to default
+> > parallel bus configuration, which was the only supported bus type, if
+> > the property is not specified.
 >
-> Thanks,
-> Andrey
-
-Seems like I screwed up big times with this patch.
-I'll fix and resend with the right subject!
-
-Thanks
-  j
-
+>    Signed-off-by?
 >
-> On 17.08.2020 22:18, Jacopo Mondi wrote:
-> > Slightly better with a subject  =)
-> >
-> > I made a formatting error, empty line between receivers list and Subject:
-> >
-> > Sorry about this :)
-> >
-> > On Mon, Aug 17, 2020 at 06:00:37PM +0200, Jacopo Mondi wrote:
-> > > Subject: [PATCH] dt-bindings: media: imx274: Convert to json-schema
-> > >
-> > > Convert the imx274 bindings document to json-schema and update
-> > > the MAINTAINERS file accordingly.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >   .../bindings/media/i2c/sony,imx214.txt        |  53 --------
-> > >   .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
-> > >   MAINTAINERS                                   |   2 +-
-> > >   3 files changed, 125 insertions(+), 54 deletions(-)
-> > >   delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > >   create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > > deleted file mode 100644
-> > > index f11f28a5fda4..000000000000
-> > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > > +++ /dev/null
-> > > @@ -1,53 +0,0 @@
-> > > -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> > > -
-> > > -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> > > -an active array size of 4224H x 3200V. It is programmable through an I2C
-> > > -interface.
-> > > -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
-> > > -throughput of 1.2Gbps/lane.
-> > > -
-> > > -
-> > > -Required Properties:
-> > > -- compatible: Shall be "sony,imx214".
-> > > -- reg: I2C bus address of the device. Depending on how the sensor is wired,
-> > > -       it shall be <0x10> or <0x1a>;
-> > > -- enable-gpios: GPIO descriptor for the enable pin.
-> > > -- vdddo-supply: Chip digital IO regulator (1.8V).
-> > > -- vdda-supply: Chip analog regulator (2.7V).
-> > > -- vddd-supply: Chip digital core regulator (1.12V).
-> > > -- clocks: Reference to the xclk clock.
-> > > -- clock-frequency: Frequency of the xclk clock.
-> > > -
-> > > -Optional Properties:
-> > > -- flash-leds: See ../video-interfaces.txt
-> > > -- lens-focus: See ../video-interfaces.txt
-> > > -
-> > > -The imx214 device node shall contain one 'port' child node with
-> > > -an 'endpoint' subnode. For further reading on port node refer to
-> > > -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > > -
-> > > -Required Properties on endpoint:
-> > > -- data-lanes: check ../video-interfaces.txt
-> > > -- link-frequencies: check ../video-interfaces.txt
-> > > -- remote-endpoint: check ../video-interfaces.txt
-> > > -
-> > > -Example:
-> > > -
-> > > -	camera-sensor@1a {
-> > > -		compatible = "sony,imx214";
-> > > -		reg = <0x1a>;
-> > > -		vdddo-supply = <&pm8994_lvs1>;
-> > > -		vddd-supply = <&camera_vddd_1v12>;
-> > > -		vdda-supply = <&pm8994_l17>;
-> > > -		lens-focus = <&ad5820>;
-> > > -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> > > -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
-> > > -		clock-frequency = <24000000>;
-> > > -		port {
-> > > -			imx214_ep: endpoint {
-> > > -				data-lanes = <1 2 3 4>;
-> > > -				link-frequencies = /bits/ 64 <480000000>;
-> > > -				remote-endpoint = <&csiphy0_ep>;
-> > > -			};
-> > > -		};
-> > > -	};
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > > new file mode 100644
-> > > index 000000000000..ddd4627214b1
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > > @@ -0,0 +1,124 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> > > +
-> > > +maintainers:
-> > > +  - Ricardo Ribalda <ribalda@kernel.org>
-> > > +
-> > > +description: -|
-> > > +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> > > +  an active array size of 4224H x 3200V. It is programmable through an I2C
-> > > +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
-> > > +  maximum throughput of 1.2Gbps/lane.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: sony,imx214
-> > > +
-> > > +  reg:
-> > > +    description: -|
-> > > +      I2C device address. Depends on how the sensor is wired, it shall be
-> > > +    enum:
-> > > +      - 0x10
-> > > +      - 0x1a
-> > > +
-> > > +  clocks:
-> > > +    description: Reference to the xclk clock.
-> > > +    maxItems: 1
-> > > +
-> > > +  clock-frequency:
-> > > +    description: Frequency of the xclk clock in Hz.
-> > > +
-> > > +  enable-gpios:
-> > > +    description: GPIO descriptor for the enable pin.
-> > > +    maxItems: 1
-> > > +
-> > > +  vdddo-supply:
-> > > +    description: Chip digital IO regulator (1.8V).
-> > > +    maxItems: 1
-> > > +
-> > > +  vdda-supply:
-> > > +    description: Chip analog regulator (2.7V).
-> > > +    maxItems: 1
-> > > +
-> > > +  vddd-supply:
-> > > +    description: Chip digital core regulator (1.12V).
-> > > +    maxItems: 1
-> > > +
-> > > +  flash-leds:
-> > > +    description: See ../video-interfaces.txt
-> > > +
-> > > +  lens-focus:
-> > > +    description: See ../video-interfaces.txt
-> > > +
-> > > +  port:
-> > > +    type: object
-> > > +    description: |
-> > > +      The device node must contain one 'port' child node for its digital output
-> > > +      video port, in accordance with the video interface bindings defined in
-> > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > > +
-> > > +    properties:
-> > > +      endpoint:
-> > > +        type: object
-> > > +        properties:
-> > > +          remote-endpoint:
-> > > +            description: See ../video-interfaces.txt
-> > > +
-> > > +          data-lanes:
-> > > +            description: See ../video-interfaces.txt
-> > > +
-> > > +          link-frequencies:
-> > > +            description: See ../video-interfaces.txt
-> > > +
-> > > +        required:
-> > > +          - data-lanes
-> > > +          - link-frequencies
-> > > +
-> > > +    additionalProperties: false
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - clock-frequency
-> > > +  - enable-gpios
-> > > +  - vdddo-supply
-> > > +  - vdda-supply
-> > > +  - vddd-supply
-> > > +  - port
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    i2c0 {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        camera-sensor@1a {
-> > > +            compatible = "sony,imx214";
-> > > +            reg = <0x1a>;
-> > > +            vdddo-supply = <&pm8994_lvs1>;
-> > > +            vddd-supply = <&camera_vddd_1v12>;
-> > > +            vdda-supply = <&pm8994_l17>;
-> > > +            lens-focus = <&ad5820>;
-> > > +            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> > > +            clocks = <&camera_clk>;
-> > > +            clock-frequency = <24000000>;
-> > > +
-> > > +            port {
-> > > +                imx214_ep: endpoint {
-> > > +                    data-lanes = <1 2 3 4>;
-> > > +                    link-frequencies = /bits/ 64 <480000000>;
-> > > +                    remote-endpoint = <&csiphy0_ep>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 6c8e98238a7b..d1a6173d3b64 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -15918,7 +15918,7 @@ M:	Ricardo Ribalda <ribalda@kernel.org>
-> > >   L:	linux-media@vger.kernel.org
-> > >   S:	Maintained
-> > >   T:	git git://linuxtv.org/media_tree.git
-> > > -F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > > +F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > >   F:	drivers/media/i2c/imx214.c
-> > >
-> > >   SONY IMX219 SENSOR DRIVER
-> > > --
-> > > 2.27.0
-> > >
+
+Who didn't run checkpatch on this binding path: o/
+
+Will re-send, sorry for the fuss
+
+> [...]
+>
+> MBR, Sergei
