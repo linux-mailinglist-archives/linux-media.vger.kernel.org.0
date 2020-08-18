@@ -2,97 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C93152487C1
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9D0B2487CB
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727887AbgHROhU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 10:37:20 -0400
-Received: from mail-io1-f48.google.com ([209.85.166.48]:33634 "EHLO
-        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726145AbgHROhT (ORCPT
+        id S1727910AbgHROhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 10:37:32 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50585 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727896AbgHROhY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 10:37:19 -0400
-Received: by mail-io1-f48.google.com with SMTP id g14so21468317iom.0;
-        Tue, 18 Aug 2020 07:37:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KvDiFSHCMP00JRwPpFIepjmdNNs7NQxVpXYCSaohcWE=;
-        b=mFPreDZKV4vHYBF0Yi9lRSvvKBWSlaWYIXQeN6p7mHAZkoKTZwTQNbxhBwUs1ur3G3
-         m5IFCVGubhjDKDl6j1tT1aXsTigDGZevp3iJsxj60Bki8CozHYEHYGsE3nSWZZCoucuo
-         lu5wUL7lDTOrW+zBpRYpO+KcTEi+lE61uPdl75xYbIiHkKwao2fNzCqBdXsy8GL97Rvi
-         16AFS0gHhMMmn4Qqm3ZBsuIGEqYD5sJerj77rE+4CgfjcaIo2IeH4kkhnosyOW7wHSAE
-         kl5VJ5IQDgRaV/1onoeiHfYcHBB5wQCeOBQKMbz+AaoWVABqx4Gr6QcH8dUxTycvJeRw
-         pULA==
-X-Gm-Message-State: AOAM532P/LEI58ErhYaoO5zdTt4bdK47FtXe7FSe+gTIDx4IEGc+NwRD
-        iIdjodZNwhC08FiJDQfDDCk=
-X-Google-Smtp-Source: ABdhPJxnn2B0WzR309SekP4oYLzfek0uIR9zSY77kfpMtT2egbp4JP9sX7OBycX0RREH5J0lgPswRA==
-X-Received: by 2002:a5d:9943:: with SMTP id v3mr16086981ios.51.1597761438176;
-        Tue, 18 Aug 2020 07:37:18 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id y11sm10913813iot.23.2020.08.18.07.37.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2020 07:37:16 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id A04904046C; Tue, 18 Aug 2020 14:37:15 +0000 (UTC)
-Date:   Tue, 18 Aug 2020 14:37:15 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Lukas Middendorf <kernel@tuxforce.de>
-Cc:     Anand Jain <anand.jain@oracle.com>, linux-btrfs@vger.kernel.org,
-        Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: Is request_firmware() really safe to call in resume callback
- when /usr/lib/firmware is on btrfs?
-Message-ID: <20200818143715.GF4332@42.do-not-panic.com>
-References: <c79e24a5-f808-d1f0-1f09-ee6f135d9679@tuxforce.de>
- <20200813163749.GV4332@42.do-not-panic.com>
- <0b1621bf-fc82-1a56-c11f-c5c46677e59e@tuxforce.de>
- <20200813221348.GB4332@42.do-not-panic.com>
- <fc887e06-874c-79d8-0607-4e27ae788446@tuxforce.de>
- <20200814163723.GC4332@42.do-not-panic.com>
- <a79f1a0c-012d-bebe-c9c7-b505f59079c2@tuxforce.de>
- <20200817152056.GD4332@42.do-not-panic.com>
- <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
+        Tue, 18 Aug 2020 10:37:24 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 82jnkV8V2uuXO82jpkcew1; Tue, 18 Aug 2020 16:37:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597761441; bh=fOG75HIP+EF9pGp26Mn9ojSGNwrexItK78pswOM0QZc=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=pXIT/ktyXFYoXCli9QnZt6hwAXt7gnkeBXQ4LlKy4dkVsir81P0oJoDvStx4VTGWx
+         KBPPRe9WFkB///IoyWNH8tVnKCto4U/9RHwXl3HsDc8Aq+V3+Kq/scdR8XuUsdhW99
+         IVNGhfxXzSNMq1YsTxKzXVtGZyaOB8yxNs++7CveuTlhhStxmmC8OgwcwOS8aAGd7g
+         vBx3CF82IulQbCNELR48HiaDMbVZH9aITfB7qR92dS3+F2H/DIDn4Oe6ZAhRA4kLl5
+         +U7GY54XTRuZJBg9heUA6Gq57sqJzirIkbuejqwDAkAFizTETr3GgVSvpKb8W5lXGh
+         V3h7Hx0sHV8NA==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Dikshita Agarwal <dikshita@codeaurora.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 09/12] v4l2-mem2mem.c: add v4l2_m2m_request_validate()
+Date:   Tue, 18 Aug 2020 16:37:16 +0200
+Message-Id: <20200818143719.102128-10-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
+References: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfCuwSrPvT4fumm6uq5Q5WMyOX6OnYFqvqUTKnnAc42oTX5UrWuzWMQXEHZ0Xwab3bjAqBvapkeMtcnah8py0+THUdibAVA3JlkwbJKBA3FfrJVRuZCf9
+ MutHBxYoEallZtP/q0OB2XnCJYFdu6h4EqCQrwiCWra8okfqXdZAkac5bbCbmkYM4fe4xJG4EgawT0xEbOL5+hT3oI9SgWjgRVgJ29iPievIqXhZJd6d629a
+ vLCVQBuRiPUnJBSOtzjJGfW8g2/2zvya2zTX+mLp3FNEr3SVaCewyR1Wov6ClyHz5BVDVJeeN6e+zXNlMbcW5xoP9uhUmaOfWpjS5OYLoWNoNuaLH/wbAw26
+ Wji31XDc
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 12:04:51AM +0200, Lukas Middendorf wrote:
-> On 17/08/2020 17:20, Luis Chamberlain wrote:
-> A freeze can happen on resume with and without the si2168 firmware files
-> installed. It however is easier to hit the freeze with the firmware files
-> installed. Without the firmware files present the freeze happens only if no
-> other driver uses the firmware loader.
-> 
-> > 
-> > This helps, thanks so much, now we'll have to write a reproducer, thanks
-> > for the report!!
-> 
-> Will you do it yourself or do you expect me to do anything for this?
+Add the new helper function v4l2_m2m_request_validate().
 
-I meant to imply that we'd do this, now that we understand the problem. Thanks
-for your report!
+This function adds a control handler object if it is missing
+in the request.
 
-> > > The nouveau driver in use seems to be equivalent to running "ls -R
-> > > /usr/lib/firmware" before suspend.
-> > > 
-> > > All the cases seem to boil down to:
-> > > It freezes if the file system has to be accessed to list the content of
-> > > /usr/lib/firmware or to read the si2168 firmware file
-> > 
-> > Let's confirm first whether or not your system is using other firmware
-> > files too or not.
-> 
-> I confirmed that above. Why is this so important, anyway?
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/v4l2-core/v4l2-mem2mem.c | 42 +++++++++++++++++++++++---
+ include/media/v4l2-mem2mem.h           | 28 ++++++++++++++++-
+ 2 files changed, 65 insertions(+), 5 deletions(-)
 
-A reproducer is easier to write if the actual file neeed is not needed.
-That's all.
+diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+index 48f87cfe2f63..b8d7746a0c21 100644
+--- a/drivers/media/v4l2-core/v4l2-mem2mem.c
++++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+@@ -20,6 +20,7 @@
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fh.h>
+ #include <media/v4l2-event.h>
++#include <media/v4l2-ctrls.h>
+ 
+ MODULE_DESCRIPTION("Mem to mem device framework for videobuf");
+ MODULE_AUTHOR("Pawel Osciak, <pawel@osciak.com>");
+@@ -1230,6 +1231,35 @@ void v4l2_m2m_buf_copy_metadata(const struct vb2_v4l2_buffer *out_vb,
+ }
+ EXPORT_SYMBOL_GPL(v4l2_m2m_buf_copy_metadata);
+ 
++int v4l2_m2m_request_validate(struct media_request *req)
++{
++	struct vb2_buffer *vb = vb2_request_buffer_first(req);
++	struct v4l2_m2m_ctx *m2m_ctx;
++	int ret;
++
++	if (!vb)
++		return -ENOENT;
++
++	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type))
++		m2m_ctx = container_of(vb->vb2_queue,
++				       struct v4l2_m2m_ctx,
++				       out_q_ctx.q);
++	else
++		m2m_ctx = container_of(vb->vb2_queue,
++				       struct v4l2_m2m_ctx,
++				       cap_q_ctx.q);
++
++	WARN_ON_ONCE(!m2m_ctx->req_ctrl_handler);
++
++	/*
++	 * Add a control handler object if it was missing in the request.
++	 */
++	ret = v4l2_ctrl_request_add_handler(req, m2m_ctx->req_ctrl_handler,
++					    vb->vb2_queue->supports_ro_requests);
++	return ret ? ret : vb2_request_validate(req);
++}
++EXPORT_SYMBOL_GPL(v4l2_m2m_request_validate);
++
+ void v4l2_m2m_request_queue(struct media_request *req)
+ {
+ 	struct media_request_object *obj, *obj_safe;
+@@ -1253,10 +1283,14 @@ void v4l2_m2m_request_queue(struct media_request *req)
+ 		if (vb2_request_object_is_buffer(obj)) {
+ 			/* Sanity checks */
+ 			vb = container_of(obj, struct vb2_buffer, req_obj);
+-			WARN_ON(!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type));
+-			m2m_ctx_obj = container_of(vb->vb2_queue,
+-						   struct v4l2_m2m_ctx,
+-						   out_q_ctx.q);
++			if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type))
++				m2m_ctx_obj = container_of(vb->vb2_queue,
++							   struct v4l2_m2m_ctx,
++							   out_q_ctx.q);
++			else
++				m2m_ctx_obj = container_of(vb->vb2_queue,
++							   struct v4l2_m2m_ctx,
++							   cap_q_ctx.q);
+ 			WARN_ON(m2m_ctx && m2m_ctx_obj != m2m_ctx);
+ 			m2m_ctx = m2m_ctx_obj;
+ 		}
+diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+index 98753f00df7e..e1274d0550d0 100644
+--- a/include/media/v4l2-mem2mem.h
++++ b/include/media/v4l2-mem2mem.h
+@@ -84,6 +84,8 @@ struct v4l2_m2m_queue_ctx {
+  * @last_src_buf: indicate the last source buffer for draining
+  * @next_buf_last: next capture queud buffer will be tagged as last
+  * @has_stopped: indicate the device has been stopped
++ * @req_ctrl_handler: the control handler to use with requests.
++ *	Must be set when using v4l2_m2m_request_validate().
+  * @m2m_dev: opaque pointer to the internal data to handle M2M context
+  * @cap_q_ctx: Capture (output to memory) queue context
+  * @out_q_ctx: Output (input from memory) queue context
+@@ -106,6 +108,7 @@ struct v4l2_m2m_ctx {
+ 	struct vb2_v4l2_buffer		*last_src_buf;
+ 	bool				next_buf_last;
+ 	bool				has_stopped;
++	struct v4l2_ctrl_handler	*req_ctrl_handler;
+ 
+ 	/* internal use only */
+ 	struct v4l2_m2m_dev		*m2m_dev;
+@@ -809,8 +812,31 @@ void v4l2_m2m_buf_copy_metadata(const struct vb2_v4l2_buffer *out_vb,
+ 				struct vb2_v4l2_buffer *cap_vb,
+ 				bool copy_frame_flags);
+ 
+-/* v4l2 request helper */
++/* v4l2 request helpers */
+ 
++/**
++ * v4l2_m2m_request_validate() - validate the request
++ *
++ * @req: the request
++ *
++ * This validates the request. If the request does not contain a
++ * control handler object, then this object is created. This function
++ * can be set as the media_device req_validate op. If the driver
++ * already requires (and checks) that one or more controls must be present
++ * in the request, then there is no need to use this function.
++ *
++ * If this helper is called, then the driver must set the @req_ctrl_handler
++ * field of struct v4l2_m2m_ctx.
++ */
++int v4l2_m2m_request_validate(struct media_request *req);
++
++/**
++ * v4l2_m2m_request_queue() - queue the request
++ *
++ * @req: the request
++ *
++ * Set this function as the media_device req_queue op.
++ */
+ void v4l2_m2m_request_queue(struct media_request *req);
+ 
+ /* v4l2 ioctl helpers */
+-- 
+2.27.0
 
-  Luis
