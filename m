@@ -2,89 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 052DB248BF0
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 18:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A35C248D54
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 19:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727061AbgHRQsS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 12:48:18 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:45914 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726721AbgHRQsS (ORCPT
+        id S1728543AbgHRRjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 13:39:18 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42066 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727913AbgHRRjR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 12:48:18 -0400
-Received: by mail-io1-f68.google.com with SMTP id u126so21731003iod.12;
-        Tue, 18 Aug 2020 09:48:17 -0700 (PDT)
+        Tue, 18 Aug 2020 13:39:17 -0400
+Received: by mail-pl1-f196.google.com with SMTP id f5so9537202plr.9
+        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 10:39:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KImiBwzNWf5aXeRH8pMXlYk8GtbO84LBcSTU7lw7AYE=;
-        b=SAhSVk1VXKUG67ocZr33Azt5t2OixT77uVKgZpLm/T0vBlvZjESsYK+u81h2W/eFSM
-         u1gp424v8i2yabr58JbqxKSINDzc5RyzLojIfJN6I37DvLKY+keTxcECPiLtzYCU+Cr0
-         liddYK0u+soyzyloHLWO/3EuLFPTdSsTmjYBAlhwGFpqoZNbr8hyY9u7pb4gttu6YsjG
-         VWAnASQ34n2iXdpqjtPlRSLi5UsrGS2clOAKy8NouqeMwYtGBhCFGboehdS/xFZxTLth
-         Sl7EU4NQiCMECl9LsHnvBAkx/WvvvkCtjFYUXCCn2XH1AvizopMN0quX1txxUGr64X9l
-         M+iw==
-X-Gm-Message-State: AOAM53122B0W6Rtbu8rXprp6m8Spki8b4WZn8vMTf0dCnqT8zvFxGWKD
-        fXBlau4NZx94B4acRZwErQ==
-X-Google-Smtp-Source: ABdhPJwJYfpD4QBhfIN9mFdiDnmYYj+3q6cflyF3DxQm7aifzQDaQgcPKMWkNslzO9FXrSXFaDSQlA==
-X-Received: by 2002:a6b:e216:: with SMTP id z22mr15957990ioc.97.1597769296997;
-        Tue, 18 Aug 2020 09:48:16 -0700 (PDT)
-Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id 82sm11101331ioc.34.2020.08.18.09.48.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2020 09:48:16 -0700 (PDT)
-Received: (nullmailer pid 3602657 invoked by uid 1000);
-        Tue, 18 Aug 2020 16:48:12 -0000
-Date:   Tue, 18 Aug 2020 10:48:12 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Hyesoo Yu <hyesoo.yu@samsung.com>
-Cc:     pullip.cho@samsung.com, lmark@codeaurora.org,
-        sumit.semwal@linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, labbott@redhat.com,
-        linaro-mm-sig@lists.linaro.org, akpm@linux-foundation.org,
-        minchan@kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mm@kvack.org, joaodias@google.com, robh+dt@kernel.org,
-        Brian.Starkey@arm.com, afd@ti.com, iamjoonsoo.kim@lge.com,
-        christian.koenig@amd.com, john.stultz@linaro.org, vbabka@suse.cz,
-        devicetree@vger.kernel.org, surenb@google.com,
-        benjamin.gaignard@linaro.org
-Subject: Re: [PATCH 3/3] dma-heap: Devicetree binding for chunk heap
-Message-ID: <20200818164812.GA3602349@bogus>
-References: <20200818080415.7531-1-hyesoo.yu@samsung.com>
- <CGME20200818074554epcas2p2702e648ba975ea6fbe33c84396b152a9@epcas2p2.samsung.com>
- <20200818080415.7531-4-hyesoo.yu@samsung.com>
+        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=QPFwbWZyvdDXMXfROlJGRtoRpatanYNTBruA4q3HKq8=;
+        b=uOkoLOwe7pEdozmziZuAEQlCZkJLF8U3v8OWVqVSsDgUkwR4cl29BjGIZa4ElebOJ3
+         uhigRXzRIzVCKV0hvNYrfcIVVlaMFOdq40fmIDoVHRscg96AAIZgfSF7Fz3MeBiBsv9w
+         HuU6pjySexKaxfGXCtU3wtL37+BeOy4Rr2fSyfob3kovIjDY27Pm/CGpVUkwr3kxPFXF
+         L55i47nhigVFi64BPV8QI1jiXkApf0hzCoX4gezV16ImB5b226CgPpt3faRmVdM6/LfX
+         RE3CpCkQ/oWhEJBUMzL0lKlmClvchObHF3/xewXtEW7uPe48TzhHdVwgJ6ptKhsCf3Ba
+         1M0g==
+X-Gm-Message-State: AOAM530l9NghHaACSSyLMJ5ucAUUy0wzoLgTidFhe/tNwJ1DtQ6qr6mn
+        rEzVfujgLyU4m6NykXCnZFEUrru6gPM=
+X-Google-Smtp-Source: ABdhPJx7qOV6Ur4md/I01rTO+McavYBM/H25SCel5AzpPkzLPKZlgSneNCNz9MBSpp6foiP3iQ+dfw==
+X-Received: by 2002:a17:902:714c:: with SMTP id u12mr16078303plm.290.1597772355958;
+        Tue, 18 Aug 2020 10:39:15 -0700 (PDT)
+Received: from [192.168.50.110] (c-73-241-217-19.hsd1.ca.comcast.net. [73.241.217.19])
+        by smtp.gmail.com with ESMTPSA id o4sm457036pjs.51.2020.08.18.10.39.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2020 10:39:15 -0700 (PDT)
+From:   Bart Van Assche <bvanassche@acm.org>
+Subject: UBSAN: shift-out-of-bounds in drivers/media/usb/uvc/uvc_ctrl.c:781
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+Message-ID: <132c541a-58b7-4f5c-47f3-855ac5818377@acm.org>
+Date:   Tue, 18 Aug 2020 10:39:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200818080415.7531-4-hyesoo.yu@samsung.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 18 Aug 2020 17:04:15 +0900, Hyesoo Yu wrote:
-> Document devicetree binding for chunk heap on dma heap framework
-> 
-> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
-> ---
->  .../devicetree/bindings/dma-buf/chunk_heap.yaml    | 46 ++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dma-buf/chunk_heap.yaml
-> 
+Hi,
 
+This morning I installed a debug build of kernel v5.8.1 on my laptop.
+The complaint shown below appeared in the kernel log. Is this a known
+issue?
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Thanks,
 
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/dma-buf/chunk_heap.example.dt.yaml: chunk_default_heap: 'alignment', 'memory-region' do not match any of the regexes: 'pinctrl-[0-9]+'
+Bart.
 
-
-See https://patchwork.ozlabs.org/patch/1346687
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
-
+================================================================================
+UBSAN: shift-out-of-bounds in drivers/media/usb/uvc/uvc_ctrl.c:781:13
+shift exponent -7 is negative
+CPU: 5 PID: 8871 Comm: V4L2CaptureThre Tainted: G           O      5.8.1-bva+ #2
+Hardware name: Dell Inc. Precision 5520/0R6JFH, BIOS 1.9.4 04/23/2018
+Call Trace:
+  dump_stack+0xc9/0x11a
+  ubsan_epilogue+0x9/0x45
+  __ubsan_handle_shift_out_of_bounds.cold+0x61/0x10e
+  uvc_get_le_value.cold+0x58/0x9f [uvcvideo]
+  __uvc_query_v4l2_ctrl+0x375/0x570 [uvcvideo]
+  uvc_query_v4l2_ctrl+0x9d/0xe0 [uvcvideo]
+  uvc_ioctl_queryctrl+0x2d/0x40 [uvcvideo]
+  v4l_queryctrl+0xad/0xe0 [videodev]
+  __video_do_ioctl+0x6ff/0x870 [videodev]
+  video_usercopy+0x1eb/0xa20 [videodev]
+  video_ioctl2+0x15/0x20 [videodev]
+  v4l2_ioctl+0x111/0x150 [videodev]
+  ksys_ioctl+0x9f/0xe0
+  __x64_sys_ioctl+0x43/0x50
+  do_syscall_64+0x60/0xf0
+  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x7f855682d427
+Code: 00 00 90 48 8b 05 69 7a 0c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 39 7a 0c 00 f7 d8 64 89 01 48
+RSP: 002b:00007f8552854208 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 000027776f49d460 RCX: 00007f855682d427
+RDX: 00007f85528542d0 RSI: ffffffffc0445624 RDI: 0000000000000017
+RBP: 00007f8552854480 R08: 0000000000000003 R09: 00000000fffffffd
+R10: 0000000000000004 R11: 0000000000000246 R12: 000027776f53ad58
+R13: 00007f85528542d0 R14: 000027776f53ac00 R15: 00005632ec54bde0
+================================================================================
