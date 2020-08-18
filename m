@@ -2,176 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63AAB247CA2
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 05:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF70A247D14
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 05:49:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726370AbgHRDUw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 23:20:52 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:40361 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726302AbgHRDUv (ORCPT
+        id S1726367AbgHRDtd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 23:49:33 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18650 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726302AbgHRDtc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 23:20:51 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 7sB5kQuOJuuXO7sB6kZj1y; Tue, 18 Aug 2020 05:20:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597720848; bh=5SCrIxXmJ6ziOfa7E9XqQ1p7Zz5VrrPPAME3nLHkoH8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=anSPWDMwo/s04D0AJsgv2qO76HV7FFRCGW2fgcb8Q7Yg51UH0TAB6ivMhW2WCS25P
-         Id51mf3fG5BftrjKC9M8gRbHBYl9okeMih1WeB9sVXuQGhwMqEPOAs5Q+X6yHRL98O
-         BGSNGSrtgUAqlC5/kYwcdTAsiV6G/kAxsnrNa9jTUDXSPOVqQMfDse0Lnoh/MaMlkX
-         IP6UNzVj72lAH+u8L/q9ozmdRiNwogDaFM4mGr7yQd6dLnpYGtY0KLO1yW5HB4Sp13
-         NVf8Oj1rl+Oko7Vi13YMtfgACwmIn/kjC7DAh3EACPmco56fS18q7/Oo1XWjR6UQlO
-         Y4lsCZMbl7Mpw==
-Message-ID: <3e8874d88fdf88c532316db356fe8de8@smtp-cloud9.xs4all.net>
-Date:   Tue, 18 Aug 2020 05:20:47 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfEur0qILbMIofkNojdfF+unZ2nP+547jvNO44oY1w68meDPpJkb7BvNy9jTBcv0uy+To1Vhj5W40Jciks0gY7DREZqcf6SNFKcuJs4LJ4YnWtbY3ioDL
- WlFisGu/yO3r5ti7hbyFa+Kl5WbO+qwlUc4/pPi3cTs4syxE4uepuKWIJ3lmXgAmtl8NDffsLFaqk6T9gLAdWBkGiGI8l/49rbMs+PmG/ZH8ydPNLrHEvZnM
+        Mon, 17 Aug 2020 23:49:32 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f3b4f910000>; Mon, 17 Aug 2020 20:48:33 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 17 Aug 2020 20:49:31 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 17 Aug 2020 20:49:31 -0700
+Received: from [172.20.40.73] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Aug
+ 2020 03:49:25 +0000
+Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
+To:     Brian Starkey <brian.starkey@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+CC:     <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        "Sumit Semwal" <sumit.semwal@linaro.org>,
+        "Andrew F . Davis" <afd@ti.com>,
+        "Benjamin Gaignard" <benjamin.gaignard@st.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        "Laura Abbott" <labbott@kernel.org>,
+        John Stultz <john.stultz@linaro.org>,
+        "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+        Daniel Stone <daniels@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Robert Beckett <bob.beckett@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>, <kernel@collabora.com>,
+        <nd@arm.com>
+References: <20200816172246.69146-1-ezequiel@collabora.com>
+ <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
+From:   James Jones <jajones@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <c2450755-91fd-da72-bf1e-c015ad9d6b25@nvidia.com>
+Date:   Mon, 17 Aug 2020 20:49:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1597722513; bh=E3D1QMN/007xv1q7refetsEcNEdV2V0vO5Foh5kczJQ=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=sGibudKky7RmFrNgE9HMFeyxDAZpURIiDhUdJ4j0HCxJY9hnZKwe6mSQ4gxd4I1RG
+         5CjrR7taPx/0QPc5GE2DU1/W9h6m8ptdjH0WgZtR7F4VhdIbyO1kg9mzzwp6OLENr3
+         y1TN8NF4Z4LUZGawJRVA9eyi3rfidl17g3xYGvsAd7S0DfX9J5IiEc6v577A8eGi0n
+         MB9PRnCSif2AqitC+hgd0I5bvfIWK0O807SWiVtW5YMeMUadsbbACOQ14a1lI4CTl2
+         tPyjXpjgB7ascMHDVs8YFIIvkMZMoZnSMso70tcuLUjpNlDnqBy/j272BNfBF/CX/k
+         0L0TUcivJ4AoQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 8/17/20 8:18 AM, Brian Starkey wrote:
+> Hi Ezequiel,
+> 
+> On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
+>> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
+>> which will allocate memory suitable for the given device.
+>>
+>> The implementation is mostly a port of the Contiguous Videobuf2
+>> memory allocator (see videobuf2/videobuf2-dma-contig.c)
+>> over to the DMA-BUF Heap interface.
+>>
+>> The intention of this allocator is to provide applications
+>> with a more system-agnostic API: the only thing the application
+>> needs to know is which device to get the buffer for.
+>>
+>> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
+>> is unknown to the application.
+>>
+>> I'm not really expecting this patch to be correct or even
+>> a good idea, but just submitting it to start a discussion on DMA-BUF
+>> heap discovery and negotiation.
+>>
+> 
+> My initial reaction is that I thought dmabuf heaps are meant for use
+> to allocate buffers for sharing across devices, which doesn't fit very
+> well with having per-device heaps.
+> 
+> For single-device allocations, would using the buffer allocation
+> functionality of that device's native API be better in most
+> cases? (Some other possibly relevant discussion at [1])
+> 
+> I can see that this can save some boilerplate for devices that want
+> to expose private chunks of memory, but might it also lead to 100
+> aliases for the system's generic coherent memory pool?
+> 
+> I wonder if a set of helpers to allow devices to expose whatever they
+> want with minimal effort would be better.
 
-Results of the daily build of media_tree:
+I'm rather interested on where this goes, as I was toying with using 
+some sort of heap ID as a basis for a "device-local" constraint in the 
+memory constraints proposals Simon and I will be discussing at XDC this 
+year.  It would be rather elegant if there was one type of heap ID used 
+universally throughout the kernel that could provide a unique handle for 
+the shared system memory heap(s), as well as accelerator-local heaps on 
+fancy NICs, GPUs, NN accelerators, capture devices, etc. so apps could 
+negotiate a location among themselves.  This patch seems to be a step 
+towards that in a way, but I agree it would be counterproductive if a 
+bunch of devices that were using the same underlying system memory ended 
+up each getting their own heap ID just because they used some SW 
+framework that worked that way.
 
-date:			Tue Aug 18 05:00:13 CEST 2020
-media-tree git hash:	f45882cfb152f5d3a421fd58f177f227e44843b9
-media_build git hash:	ea2766f182b3a4e03543be2ded0845fca4d4fa80
-v4l-utils git hash:	db3112262c84813e0d2d095be020c5ca0ae32e93
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6381-g344ef612
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 1276c1355abc12c391f3d471acc71d55421b87b6
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Would appreciate it if you could send along a pointer to your BoF if it 
+happens!
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: WARNINGS
-linux-5.3.1-x86_64: WARNINGS
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8.1-i686: ERRORS
-linux-5.8.1-x86_64: ERRORS
-linux-5.9-rc1-i686: ERRORS
-linux-5.9-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: ERRORS
+Thanks,
+-James
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> Cheers,
+> -Brian
+> 
+> 1. https://lore.kernel.org/dri-devel/57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi/
+> 
+>> Given Plumbers is just a couple weeks from now, I've submitted
+>> a BoF proposal to discuss this, as perhaps it would make
+>> sense to discuss this live?
+>>
+>> Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
