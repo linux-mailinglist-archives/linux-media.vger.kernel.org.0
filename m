@@ -2,107 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88DFD2487C4
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C93152487C1
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727902AbgHROhZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 10:37:25 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:58897 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727895AbgHROhX (ORCPT
+        id S1727887AbgHROhU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 10:37:20 -0400
+Received: from mail-io1-f48.google.com ([209.85.166.48]:33634 "EHLO
+        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726145AbgHROhT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 10:37:23 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 82jnkV8V2uuXO82jpkcevx; Tue, 18 Aug 2020 16:37:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597761441; bh=itvpLW26PAwAoKzXIVYdrK7gfIgVYx+7yxm5Sz+P0W8=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=JgIvxn63VHLlHPIUi0vAnHIfu966Ui6G92s8hzmMGopmkqHrLHNovvFOjvdv680Hb
-         o3moYR1Td9CPaxqZMy5YeXWUOAC5aqrPvw+PXBEnZO8O9qe+BNMC10OyWrFH6uHZNq
-         kVwNQLTv11uHTOeRuicTTqpVinjdFp5Yf/iqNzN+zS0jGsDWM1J0hQUPY15DlCVUig
-         zJd2LpDGp72fi0YjteRCtx4LVhTKhLc/TEekBINZnoNuRY39D8NY2Phn6DccPdpiCW
-         PQT5t1I3R+c4ymz0A2scNMwLK2aSGFVe0x1O5fOLI3v86jgW1780vTXKrIaSnirt9C
-         8VAFggKhPnm2Q==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 08/12] vivid: add ro_requests module option
-Date:   Tue, 18 Aug 2020 16:37:15 +0200
-Message-Id: <20200818143719.102128-9-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
-References: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
+        Tue, 18 Aug 2020 10:37:19 -0400
+Received: by mail-io1-f48.google.com with SMTP id g14so21468317iom.0;
+        Tue, 18 Aug 2020 07:37:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KvDiFSHCMP00JRwPpFIepjmdNNs7NQxVpXYCSaohcWE=;
+        b=mFPreDZKV4vHYBF0Yi9lRSvvKBWSlaWYIXQeN6p7mHAZkoKTZwTQNbxhBwUs1ur3G3
+         m5IFCVGubhjDKDl6j1tT1aXsTigDGZevp3iJsxj60Bki8CozHYEHYGsE3nSWZZCoucuo
+         lu5wUL7lDTOrW+zBpRYpO+KcTEi+lE61uPdl75xYbIiHkKwao2fNzCqBdXsy8GL97Rvi
+         16AFS0gHhMMmn4Qqm3ZBsuIGEqYD5sJerj77rE+4CgfjcaIo2IeH4kkhnosyOW7wHSAE
+         kl5VJ5IQDgRaV/1onoeiHfYcHBB5wQCeOBQKMbz+AaoWVABqx4Gr6QcH8dUxTycvJeRw
+         pULA==
+X-Gm-Message-State: AOAM532P/LEI58ErhYaoO5zdTt4bdK47FtXe7FSe+gTIDx4IEGc+NwRD
+        iIdjodZNwhC08FiJDQfDDCk=
+X-Google-Smtp-Source: ABdhPJxnn2B0WzR309SekP4oYLzfek0uIR9zSY77kfpMtT2egbp4JP9sX7OBycX0RREH5J0lgPswRA==
+X-Received: by 2002:a5d:9943:: with SMTP id v3mr16086981ios.51.1597761438176;
+        Tue, 18 Aug 2020 07:37:18 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id y11sm10913813iot.23.2020.08.18.07.37.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2020 07:37:16 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id A04904046C; Tue, 18 Aug 2020 14:37:15 +0000 (UTC)
+Date:   Tue, 18 Aug 2020 14:37:15 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Lukas Middendorf <kernel@tuxforce.de>
+Cc:     Anand Jain <anand.jain@oracle.com>, linux-btrfs@vger.kernel.org,
+        Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: Is request_firmware() really safe to call in resume callback
+ when /usr/lib/firmware is on btrfs?
+Message-ID: <20200818143715.GF4332@42.do-not-panic.com>
+References: <c79e24a5-f808-d1f0-1f09-ee6f135d9679@tuxforce.de>
+ <20200813163749.GV4332@42.do-not-panic.com>
+ <0b1621bf-fc82-1a56-c11f-c5c46677e59e@tuxforce.de>
+ <20200813221348.GB4332@42.do-not-panic.com>
+ <fc887e06-874c-79d8-0607-4e27ae788446@tuxforce.de>
+ <20200814163723.GC4332@42.do-not-panic.com>
+ <a79f1a0c-012d-bebe-c9c7-b505f59079c2@tuxforce.de>
+ <20200817152056.GD4332@42.do-not-panic.com>
+ <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfCuwSrPvT4fumm6uq5Q5WMyOX6OnYFqvqUTKnnAc42oTX5UrWuzWMQXEHZ0Xwab3bjAqBvapkeMtcnah8py0+THUdibAVA3JlkwbJKBA3FfrJVRuZCf9
- MutHBxYoEallZtP/q0OB2XnCJYFdu6h4EqCQrwiCWra8okfqXdZAkac5bbCbmkYM4fe4xJG4EgawT0xEbOL5+hT3oI9SgWjgRVgJ29iPievIqXhZJd6d629a
- vLCVQBuRiPUnJBSOtzjJGfW8g2/2zvya2zTX+mLp3FNEr3SVaCewyR1Wov6ClyHz5BVDVJeeN6e+zXNlMbcW5xoP9uhUmaOfWpjS5OYLoWNoNuaLH/wbAw26
- Wji31XDc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the ro_requests module option to test Read-Only Requests with vivid.
+On Tue, Aug 18, 2020 at 12:04:51AM +0200, Lukas Middendorf wrote:
+> On 17/08/2020 17:20, Luis Chamberlain wrote:
+> A freeze can happen on resume with and without the si2168 firmware files
+> installed. It however is easier to hit the freeze with the firmware files
+> installed. Without the firmware files present the freeze happens only if no
+> other driver uses the firmware loader.
+> 
+> > 
+> > This helps, thanks so much, now we'll have to write a reproducer, thanks
+> > for the report!!
+> 
+> Will you do it yourself or do you expect me to do anything for this?
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- Documentation/admin-guide/media/vivid.rst     | 10 ++++++++++
- drivers/media/test-drivers/vivid/vivid-core.c | 10 ++++++++++
- 2 files changed, 20 insertions(+)
+I meant to imply that we'd do this, now that we understand the problem. Thanks
+for your report!
 
-diff --git a/Documentation/admin-guide/media/vivid.rst b/Documentation/admin-guide/media/vivid.rst
-index 6d7175f96f74..423a61797a1d 100644
---- a/Documentation/admin-guide/media/vivid.rst
-+++ b/Documentation/admin-guide/media/vivid.rst
-@@ -302,6 +302,16 @@ all configurable using the following module options:
- 		- 0: forbid hints
- 		- 1: allow hints
- 
-+- ro_requests:
-+
-+	specifies if the capture device supports the standard Request API (i.e.
-+	userspace can set controls in a request before queueing it), or
-+	the Read-Only Request API (userspace can only read back controls after
-+	the request was completed). Default is 0.
-+
-+		- 0: regular requests
-+		- 1: read-only requests
-+
- Taken together, all these module options allow you to precisely customize
- the driver behavior and test your application with all sorts of permutations.
- It is also very suitable to emulate hardware that is not yet available, e.g.
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index c21bc27bbfeb..cc1510024b68 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -177,6 +177,14 @@ MODULE_PARM_DESC(cache_hints, " user-space cache hints, default is 0.\n"
- 			     "\t\t    0 == forbid\n"
- 			     "\t\t    1 == allow");
- 
-+static unsigned int ro_requests[VIVID_MAX_DEVS] = {
-+	[0 ... (VIVID_MAX_DEVS - 1)] = 0
-+};
-+module_param_array(ro_requests, uint, NULL, 0444);
-+MODULE_PARM_DESC(ro_requests, " use read-only requests instead of regular requests, default is 0.\n"
-+			     "\t\t    0 == regular requests\n"
-+			     "\t\t    1 == read-only requests");
-+
- static struct vivid_dev *vivid_devs[VIVID_MAX_DEVS];
- 
- const struct v4l2_rect vivid_min_rect = {
-@@ -869,6 +877,8 @@ static int vivid_create_queue(struct vivid_dev *dev,
- 	q->lock = &dev->mutex;
- 	q->dev = dev->v4l2_dev.dev;
- 	q->supports_requests = true;
-+	if (V4L2_TYPE_IS_CAPTURE(buf_type))
-+		q->supports_ro_requests = (ro_requests[dev->inst] == 1);
- 	q->allow_cache_hints = (cache_hints[dev->inst] == 1);
- 
- 	return vb2_queue_init(q);
--- 
-2.27.0
+> > > The nouveau driver in use seems to be equivalent to running "ls -R
+> > > /usr/lib/firmware" before suspend.
+> > > 
+> > > All the cases seem to boil down to:
+> > > It freezes if the file system has to be accessed to list the content of
+> > > /usr/lib/firmware or to read the si2168 firmware file
+> > 
+> > Let's confirm first whether or not your system is using other firmware
+> > files too or not.
+> 
+> I confirmed that above. Why is this so important, anyway?
 
+A reproducer is easier to write if the actual file neeed is not needed.
+That's all.
+
+  Luis
