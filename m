@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDCC62487C7
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FBA22487CE
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbgHROh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 10:37:29 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:60459 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726145AbgHROhX (ORCPT
+        id S1727897AbgHROhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 10:37:36 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:43841 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727891AbgHROhX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 18 Aug 2020 10:37:23 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 82jnkV8V2uuXO82jpkcevN; Tue, 18 Aug 2020 16:37:21 +0200
+        id 82jnkV8V2uuXO82jpkcevT; Tue, 18 Aug 2020 16:37:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597761441; bh=irTPz7VAgrPkVcy8x74VB4PbDNhcURoddb11tRSn5bk=;
+        t=1597761441; bh=nXE++WV7vSTYUsAx1anAj5g+i8ZYaSIMkXK58BSLnyk=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=oL8xZ3ukMOngATrBvAtRGAjDTaCy9zpWUofH7TKTuEBNdOMSPD91jJsFwJHZ6KLSH
-         ee11OTGg2+gAU74KdlmeNzXDBjhBSfmWMVM4mG7K96jkw33J9TUB8hwPK1b81VL28/
-         riB38oV8fai/13EyucxF+Ql3Rn5Y+7Lsc/khIQsshdjHV8ETxnvjx1eOQ9nZHeimBO
-         Y59zT+19OX5TTUlRkK60QPuuzxM2//V6PEnNXAa1qKYe2zZpno3rhydJgSWG+lRsUL
-         VJ8l3noDsDFX8aYqhhHAR5toMWFbBAXwUSqui91O7u2OE0AxlI5o5oM9Ceiyd92L65
-         NUqSVYzfV3wNg==
+        b=gvXXdzxt4Q/dqFT6Q+zMQIsM4e+QmrKEHuF6qwhMgipQdJav6mDvFICexBfvXXYuY
+         QT0t1esKEaph1Ey8yvi0zhyzPaFxQlaHmWMymfZxYuLVymVFVD5M5I7xUX7e7u9Q/9
+         q1pEhBssgEo9LymrZKwtYaE2QdjhClyiipjyTvFKs94vLAfIE+kCsrhM0S84Q1pyfy
+         jqJ/FQumhUyLxwKlh7Il7LOS7vale03vFwzcvjLtFdt5op0wvcK8uSwmgolTk3qG/K
+         RzJJ8uG7OvzN1tPJKJhLfFD1PmiEdTJKRxuvsUpfkIRmvBGzIBENdxZFfrsjkwgeFq
+         Jow+lVmWfQIHg==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Dikshita Agarwal <dikshita@codeaurora.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 02/12] vivid: add read-only int32 control
-Date:   Tue, 18 Aug 2020 16:37:09 +0200
-Message-Id: <20200818143719.102128-3-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 03/12] media: document read-only requests
+Date:   Tue, 18 Aug 2020 16:37:10 +0200
+Message-Id: <20200818143719.102128-4-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
 References: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
@@ -46,95 +46,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This read-only int32 control is used to test read-only controls in
-combination with requests. It is set by the driver to the buffer sequence
-counter module 256.
+This patch documents reaed-only requests, including the new
+V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS capability flag.
+
+Based in part on a patch from Yunfei Dong <yunfei.dong@mediatek.com>.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/test-drivers/vivid/vivid-core.h       |  1 +
- drivers/media/test-drivers/vivid/vivid-ctrls.c      | 13 +++++++++++++
- .../media/test-drivers/vivid/vivid-kthread-cap.c    | 10 ++++++----
- 3 files changed, 20 insertions(+), 4 deletions(-)
+ .../media/mediactl/media-request-ioc-queue.rst        |  5 +++++
+ .../userspace-api/media/mediactl/request-api.rst      | 11 +++++++++++
+ .../userspace-api/media/v4l/vidioc-reqbufs.rst        |  6 ++++++
+ 3 files changed, 22 insertions(+)
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
-index 99e69b8f770f..058a12c6890e 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.h
-+++ b/drivers/media/test-drivers/vivid/vivid-core.h
-@@ -230,6 +230,7 @@ struct vivid_dev {
- 	struct v4l2_ctrl		*string;
- 	struct v4l2_ctrl		*bitmask;
- 	struct v4l2_ctrl		*int_menu;
-+	struct v4l2_ctrl		*ro_int32;
- 	struct v4l2_ctrl		*test_pattern;
- 	struct v4l2_ctrl		*colorspace;
- 	struct v4l2_ctrl		*rgb_range_cap;
-diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-index 334130568dcb..f16910ceaa77 100644
---- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-+++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-@@ -33,6 +33,7 @@
- #define VIVID_CID_U16_MATRIX		(VIVID_CID_CUSTOM_BASE + 9)
- #define VIVID_CID_U8_4D_ARRAY		(VIVID_CID_CUSTOM_BASE + 10)
- #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
-+#define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
+diff --git a/Documentation/userspace-api/media/mediactl/media-request-ioc-queue.rst b/Documentation/userspace-api/media/mediactl/media-request-ioc-queue.rst
+index ad55b6b32616..4ed1b3585ce1 100644
+--- a/Documentation/userspace-api/media/mediactl/media-request-ioc-queue.rst
++++ b/Documentation/userspace-api/media/mediactl/media-request-ioc-queue.rst
+@@ -76,6 +76,11 @@ queued directly and you next try to queue a request, or vice versa.
+ A request must contain at least one buffer, otherwise this ioctl will
+ return an ``ENOENT`` error.
  
- #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
- #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
-@@ -280,6 +281,17 @@ static const struct v4l2_ctrl_config vivid_ctrl_area = {
- 	.p_def.p_const = &area,
- };
- 
-+static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
-+	.ops = &vivid_user_gen_ctrl_ops,
-+	.id = VIVID_CID_RO_INTEGER,
-+	.name = "Read-Only Integer 32 Bits",
-+	.type = V4L2_CTRL_TYPE_INTEGER,
-+	.flags = V4L2_CTRL_FLAG_READ_ONLY,
-+	.min = 0,
-+	.max = 255,
-+	.step = 1,
-+};
++If the :ref:`buffer capabilities <v4l2-buf-capabilities>` indicate that
++only read-only requests are supported, then the request can only contain
++buffers. If anything else is present then this ioctl will return an
++``EINVAL`` error.
 +
- /* Framebuffer Controls */
+ Return Value
+ ============
  
- static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
-@@ -1590,6 +1602,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
- 	dev->string = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_string, NULL);
- 	dev->bitmask = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_bitmask, NULL);
- 	dev->int_menu = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int_menu, NULL);
-+	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
- 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
- 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
- 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-index 01a9d671b947..cf7f62bfcf2f 100644
---- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-@@ -426,6 +426,7 @@ static void vivid_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf)
- 		is_loop = true;
+diff --git a/Documentation/userspace-api/media/mediactl/request-api.rst b/Documentation/userspace-api/media/mediactl/request-api.rst
+index 37d9442a541e..88bfe8b735e8 100644
+--- a/Documentation/userspace-api/media/mediactl/request-api.rst
++++ b/Documentation/userspace-api/media/mediactl/request-api.rst
+@@ -53,6 +53,13 @@ with different configurations in advance, knowing that the configuration will be
+ applied when needed to get the expected result. Configuration values at the time
+ of request completion are also available for reading.
  
- 	buf->vb.sequence = dev->vid_cap_seq_count;
-+	v4l2_ctrl_s_ctrl(dev->ro_int32, buf->vb.sequence & 0xff);
- 	if (dev->field_cap == V4L2_FIELD_ALTERNATE) {
- 		/*
- 		 * 60 Hz standards start with the bottom field, 50 Hz standards
-@@ -515,10 +516,11 @@ static void vivid_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf)
- 		mutex_unlock(dev->ctrl_hdl_user_aud.lock);
- 		tpg_gen_text(tpg, basep, line++ * line_height, 16, str);
- 		mutex_lock(dev->ctrl_hdl_user_gen.lock);
--		snprintf(str, sizeof(str), " int32 %d, int64 %lld, bitmask %08x ",
--			dev->int32->cur.val,
--			*dev->int64->p_cur.p_s64,
--			dev->bitmask->cur.val);
-+		snprintf(str, sizeof(str), " int32 %d, ro_int32 %d, int64 %lld, bitmask %08x ",
-+			 dev->int32->cur.val,
-+			 dev->ro_int32->cur.val,
-+			 *dev->int64->p_cur.p_s64,
-+			 dev->bitmask->cur.val);
- 		tpg_gen_text(tpg, basep, line++ * line_height, 16, str);
- 		snprintf(str, sizeof(str), " boolean %d, menu %s, string \"%s\" ",
- 			dev->boolean->cur.val,
++In some cases it does not make sense for user-space to associate configuration
++values with a frame, instead it only makes sense to retrieving configuration
++values at the time of request completion. In that case read-only requests can be
++used that only allow buffers to be queued and not configuration values. Which
++type of requests (regular or read-only) are supported is signalled through
++:ref:`buffer capabilities <v4l2-buf-capabilities>`.
++
+ General Usage
+ -------------
+ 
+@@ -95,6 +102,10 @@ A queued request cannot be modified anymore.
+    output buffers, not for capture buffers. Attempting to add a capture buffer
+    to a request will result in an ``EBADR`` error.
+ 
++If the buffer type supports only read-only requests, and the request contains
++configuration values such as controls, then ``EINVAL`` is returned since no
++configuration values are allowed when submitting a read-only request.
++
+ If the request contains configurations for multiple entities, individual drivers
+ may synchronize so the requested pipeline's topology is applied before the
+ buffers are processed. Media controller drivers do a best effort implementation
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+index 75d894d9c36c..13454146d5fc 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+@@ -134,6 +134,7 @@ aborting or finishing any DMA in progress, an implicit
+ .. _V4L2-BUF-CAP-SUPPORTS-ORPHANED-BUFS:
+ .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
+ .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
++.. _V4L2-BUF-CAP-SUPPORTS-RO-REQUESTS:
+ 
+ .. cssclass:: longtable
+ 
+@@ -154,6 +155,7 @@ aborting or finishing any DMA in progress, an implicit
+     * - ``V4L2_BUF_CAP_SUPPORTS_REQUESTS``
+       - 0x00000008
+       - This buffer type supports :ref:`requests <media-request-api>`.
++        This flag is mutually exclusive with ``V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS``.
+     * - ``V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS``
+       - 0x00000010
+       - The kernel allows calling :ref:`VIDIOC_REQBUFS` while buffers are still
+@@ -172,6 +174,10 @@ aborting or finishing any DMA in progress, an implicit
+         :ref:`V4L2_FLAG_MEMORY_NON_CONSISTENT <V4L2-FLAG-MEMORY-NON-CONSISTENT>`,
+         :ref:`V4L2_BUF_FLAG_NO_CACHE_INVALIDATE <V4L2-BUF-FLAG-NO-CACHE-INVALIDATE>` and
+         :ref:`V4L2_BUF_FLAG_NO_CACHE_CLEAN <V4L2-BUF-FLAG-NO-CACHE-CLEAN>`.
++    * - ``V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS``
++      - 0x00000080
++      - This buffer type supports read-only :ref:`requests <media-request-api>`.
++        This flag is mutually exclusive with ``V4L2_BUF_CAP_SUPPORTS_REQUESTS``.
+ 
+ 
+ Return Value
 -- 
 2.27.0
 
