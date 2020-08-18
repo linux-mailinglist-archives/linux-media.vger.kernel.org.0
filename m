@@ -2,93 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A35C248D54
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 19:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B266248D97
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 19:58:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728543AbgHRRjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 13:39:18 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:42066 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727913AbgHRRjR (ORCPT
+        id S1726675AbgHRR6i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 13:58:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57130 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726552AbgHRR6h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 13:39:17 -0400
-Received: by mail-pl1-f196.google.com with SMTP id f5so9537202plr.9
-        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 10:39:17 -0700 (PDT)
+        Tue, 18 Aug 2020 13:58:37 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AEDBC061389
+        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 10:58:37 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id v15so10668443lfg.6
+        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 10:58:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=z9lrvTo7rq5kgvHiKv2CeK1NwQDAETYZmb1A4KPoksY=;
+        b=ITFYfHbEN+hFb13NdWRIhLOmOJpo2cxqpx9m8ksUj21CwW6h7fLgIRtBanSOJMePyi
+         5RVMjDTMnw/S3mseixXm/vz1GcNrZzN0K7rkxxik1UDONECrsNXp97SYaR7YVi/nAzP3
+         G61EdNbTGahj5AP/xAfeXex00XM6kYeFjFum8DtNmkVGTxSvPst9nJX61pQgrfwFU7La
+         v31XPwedmfkeGG5wLzSi+2CNJLnJ8QAimurFr7xlnSXJFxq3063A8Eo84EBPxeC7gmE2
+         FYPgLwCGWky2XrC4EAxZt9B+3Tp/ZJK3n6DnNUDKW+lZD9mZ9kWKyZDpm51XOH91tRFZ
+         +K+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=QPFwbWZyvdDXMXfROlJGRtoRpatanYNTBruA4q3HKq8=;
-        b=uOkoLOwe7pEdozmziZuAEQlCZkJLF8U3v8OWVqVSsDgUkwR4cl29BjGIZa4ElebOJ3
-         uhigRXzRIzVCKV0hvNYrfcIVVlaMFOdq40fmIDoVHRscg96AAIZgfSF7Fz3MeBiBsv9w
-         HuU6pjySexKaxfGXCtU3wtL37+BeOy4Rr2fSyfob3kovIjDY27Pm/CGpVUkwr3kxPFXF
-         L55i47nhigVFi64BPV8QI1jiXkApf0hzCoX4gezV16ImB5b226CgPpt3faRmVdM6/LfX
-         RE3CpCkQ/oWhEJBUMzL0lKlmClvchObHF3/xewXtEW7uPe48TzhHdVwgJ6ptKhsCf3Ba
-         1M0g==
-X-Gm-Message-State: AOAM530l9NghHaACSSyLMJ5ucAUUy0wzoLgTidFhe/tNwJ1DtQ6qr6mn
-        rEzVfujgLyU4m6NykXCnZFEUrru6gPM=
-X-Google-Smtp-Source: ABdhPJx7qOV6Ur4md/I01rTO+McavYBM/H25SCel5AzpPkzLPKZlgSneNCNz9MBSpp6foiP3iQ+dfw==
-X-Received: by 2002:a17:902:714c:: with SMTP id u12mr16078303plm.290.1597772355958;
-        Tue, 18 Aug 2020 10:39:15 -0700 (PDT)
-Received: from [192.168.50.110] (c-73-241-217-19.hsd1.ca.comcast.net. [73.241.217.19])
-        by smtp.gmail.com with ESMTPSA id o4sm457036pjs.51.2020.08.18.10.39.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Aug 2020 10:39:15 -0700 (PDT)
-From:   Bart Van Assche <bvanassche@acm.org>
-Subject: UBSAN: shift-out-of-bounds in drivers/media/usb/uvc/uvc_ctrl.c:781
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Message-ID: <132c541a-58b7-4f5c-47f3-855ac5818377@acm.org>
-Date:   Tue, 18 Aug 2020 10:39:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=z9lrvTo7rq5kgvHiKv2CeK1NwQDAETYZmb1A4KPoksY=;
+        b=nAXkghoFlP9dRLwDUU5A3hwDWwv2o576tYd7E0oyQEVVAccun7GRXKr5VsvJfzkGFO
+         du+Dkeg6/L9kUnN4BvLEB5Wz9x/BYd4eUMKfw7x+vqbvOfYw/Zqn3vAk2SP0VNXRROIz
+         dBEO3ycFymSvMNLYrjZy8jyceAwwYDh5zEAZPD7eDP+GRMJvwFGTKAwP49q5C8iBJ0SU
+         7Yxqk/pjZ7stnwYeVGX/lF+gcYaDDEagZXtXYSF+8mCHYc7AwnWrUtpaOReftqi9obHc
+         TxrO/LiwIGKDps7J4cZSSd5lxFbH8WhqlHD51O5lgnAXXr7tIxYFHfzrl9abqdUdExGU
+         WqTg==
+X-Gm-Message-State: AOAM532OeQn2egXuYYIXuaLX45wHr7Z8fJ0lONnX5PzMH1667ze7xQUb
+        hzaZ3/p1hohD+fa68XQzy37MbMRRqdzp4GPfBUI=
+X-Google-Smtp-Source: ABdhPJxBtd8Z7VZ3coG7iS6UWB4CfTRQra4+DlGNWfLiZJtFUI0IZICVc+dPXOEJLdLnNj2VORuTnK4ILo03ey3Pe0Y=
+X-Received: by 2002:ac2:5683:: with SMTP id 3mr10117138lfr.69.1597773513830;
+ Tue, 18 Aug 2020 10:58:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <132c541a-58b7-4f5c-47f3-855ac5818377@acm.org>
+In-Reply-To: <132c541a-58b7-4f5c-47f3-855ac5818377@acm.org>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 18 Aug 2020 14:58:22 -0300
+Message-ID: <CAOMZO5BhURkMW9Syw88OzuXGroqWAa+0fhttQqTT6GdRknX+Xg@mail.gmail.com>
+Subject: Re: UBSAN: shift-out-of-bounds in drivers/media/usb/uvc/uvc_ctrl.c:781
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Bart/Laurent,
 
-This morning I installed a debug build of kernel v5.8.1 on my laptop.
-The complaint shown below appeared in the kernel log. Is this a known
-issue?
+On Tue, Aug 18, 2020 at 2:41 PM Bart Van Assche <bvanassche@acm.org> wrote:
+>
+> Hi,
+>
+> This morning I installed a debug build of kernel v5.8.1 on my laptop.
+> The complaint shown below appeared in the kernel log. Is this a known
+> issue?
+>
+> Thanks,
+>
+> Bart.
+>
+> ================================================================================
+> UBSAN: shift-out-of-bounds in drivers/media/usb/uvc/uvc_ctrl.c:781:13
+> shift exponent -7 is negative
 
-Thanks,
+Should we fix it like this?
 
-Bart.
-
-================================================================================
-UBSAN: shift-out-of-bounds in drivers/media/usb/uvc/uvc_ctrl.c:781:13
-shift exponent -7 is negative
-CPU: 5 PID: 8871 Comm: V4L2CaptureThre Tainted: G           O      5.8.1-bva+ #2
-Hardware name: Dell Inc. Precision 5520/0R6JFH, BIOS 1.9.4 04/23/2018
-Call Trace:
-  dump_stack+0xc9/0x11a
-  ubsan_epilogue+0x9/0x45
-  __ubsan_handle_shift_out_of_bounds.cold+0x61/0x10e
-  uvc_get_le_value.cold+0x58/0x9f [uvcvideo]
-  __uvc_query_v4l2_ctrl+0x375/0x570 [uvcvideo]
-  uvc_query_v4l2_ctrl+0x9d/0xe0 [uvcvideo]
-  uvc_ioctl_queryctrl+0x2d/0x40 [uvcvideo]
-  v4l_queryctrl+0xad/0xe0 [videodev]
-  __video_do_ioctl+0x6ff/0x870 [videodev]
-  video_usercopy+0x1eb/0xa20 [videodev]
-  video_ioctl2+0x15/0x20 [videodev]
-  v4l2_ioctl+0x111/0x150 [videodev]
-  ksys_ioctl+0x9f/0xe0
-  __x64_sys_ioctl+0x43/0x50
-  do_syscall_64+0x60/0xf0
-  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x7f855682d427
-Code: 00 00 90 48 8b 05 69 7a 0c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 39 7a 0c 00 f7 d8 64 89 01 48
-RSP: 002b:00007f8552854208 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 000027776f49d460 RCX: 00007f855682d427
-RDX: 00007f85528542d0 RSI: ffffffffc0445624 RDI: 0000000000000017
-RBP: 00007f8552854480 R08: 0000000000000003 R09: 00000000fffffffd
-R10: 0000000000000004 R11: 0000000000000246 R12: 000027776f53ad58
-R13: 00007f85528542d0 R14: 000027776f53ac00 R15: 00005632ec54bde0
-================================================================================
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -778,7 +778,7 @@ static s32 uvc_get_le_value(struct
+uvc_control_mapping *mapping,
+                value |= offset > 0 ? (byte >> offset) : (byte << (-offset));
+                bits -= 8 - (offset > 0 ? offset : 0);
+                offset -= 8;
+-               mask = (1 << bits) - 1;
++               mask = (1LL << bits) - 1;
+        }
