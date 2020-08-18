@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0346B2487C5
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88DFD2487C4
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727903AbgHROh0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 10:37:26 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:56043 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727894AbgHROhX (ORCPT
+        id S1727902AbgHROhZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 10:37:25 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:58897 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727895AbgHROhX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 18 Aug 2020 10:37:23 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 82jnkV8V2uuXO82jpkcevr; Tue, 18 Aug 2020 16:37:21 +0200
+        id 82jnkV8V2uuXO82jpkcevx; Tue, 18 Aug 2020 16:37:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597761441; bh=uNfv94trv5637tace882s+UbS3lhnS9zFszqciFMUSQ=;
+        t=1597761441; bh=itvpLW26PAwAoKzXIVYdrK7gfIgVYx+7yxm5Sz+P0W8=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=RYbl+ph758el8VOusQ2blEG/1+04nmLQwX53gVk2yu5A8++4KoT5My6bed4RtYmxu
-         oHfCbOYAfgyCSDNFtdYyojmFaiUG7zoqzRsvfr+h3B8uviZFP0SS8ZBa8+3WIHRvWc
-         P7e/5vvJ8YazgJS5YVIcbaAp3LNlz6nUQhrBi3MP63LdoKuQce0lbpMKEuTjI9Lt6a
-         rPo4RrlLm52L7JZIi4AyG8j1Hzg+YQNr+WUBc6aqh3rUqGfxT/Jkm3dvWtkOXo1Pnl
-         NUlXtV/1NId8c0I5IZhSXSihUQMjV7fntHN1iwFwU0powZBbgvnHBlDxaijidNSrcA
-         u99zMDcxVVKVw==
+        b=JgIvxn63VHLlHPIUi0vAnHIfu966Ui6G92s8hzmMGopmkqHrLHNovvFOjvdv680Hb
+         o3moYR1Td9CPaxqZMy5YeXWUOAC5aqrPvw+PXBEnZO8O9qe+BNMC10OyWrFH6uHZNq
+         kVwNQLTv11uHTOeRuicTTqpVinjdFp5Yf/iqNzN+zS0jGsDWM1J0hQUPY15DlCVUig
+         zJd2LpDGp72fi0YjteRCtx4LVhTKhLc/TEekBINZnoNuRY39D8NY2Phn6DccPdpiCW
+         PQT5t1I3R+c4ymz0A2scNMwLK2aSGFVe0x1O5fOLI3v86jgW1780vTXKrIaSnirt9C
+         8VAFggKhPnm2Q==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Dikshita Agarwal <dikshita@codeaurora.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 07/12] vivid: call v4l2_ctrl_request_add_handler()
-Date:   Tue, 18 Aug 2020 16:37:14 +0200
-Message-Id: <20200818143719.102128-8-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 08/12] vivid: add ro_requests module option
+Date:   Tue, 18 Aug 2020 16:37:15 +0200
+Message-Id: <20200818143719.102128-9-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
 References: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
@@ -46,70 +46,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Call v4l2_ctrl_request_add_handler() from req_validate() to add the
-control handler request object if needed.
-
-Without this the returned request object would not have a copy of the
-controls used for the captured frame.
+Add the ro_requests module option to test Read-Only Requests with vivid.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/test-drivers/vivid/vivid-core.c | 42 +++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ Documentation/admin-guide/media/vivid.rst     | 10 ++++++++++
+ drivers/media/test-drivers/vivid/vivid-core.c | 10 ++++++++++
+ 2 files changed, 20 insertions(+)
 
+diff --git a/Documentation/admin-guide/media/vivid.rst b/Documentation/admin-guide/media/vivid.rst
+index 6d7175f96f74..423a61797a1d 100644
+--- a/Documentation/admin-guide/media/vivid.rst
++++ b/Documentation/admin-guide/media/vivid.rst
+@@ -302,6 +302,16 @@ all configurable using the following module options:
+ 		- 0: forbid hints
+ 		- 1: allow hints
+ 
++- ro_requests:
++
++	specifies if the capture device supports the standard Request API (i.e.
++	userspace can set controls in a request before queueing it), or
++	the Read-Only Request API (userspace can only read back controls after
++	the request was completed). Default is 0.
++
++		- 0: regular requests
++		- 1: read-only requests
++
+ Taken together, all these module options allow you to precisely customize
+ the driver behavior and test your application with all sorts of permutations.
+ It is also very suitable to emulate hardware that is not yet available, e.g.
 diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index f7ee37e9508d..c21bc27bbfeb 100644
+index c21bc27bbfeb..cc1510024b68 100644
 --- a/drivers/media/test-drivers/vivid/vivid-core.c
 +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -783,6 +783,48 @@ static void vivid_dev_release(struct v4l2_device *v4l2_dev)
- static int vivid_req_validate(struct media_request *req)
- {
- 	struct vivid_dev *dev = container_of(req->mdev, struct vivid_dev, mdev);
-+	struct vb2_buffer *vb = vb2_request_buffer_first(req);
-+	struct v4l2_ctrl_handler *hdl = NULL;
-+	bool ro_req;
-+	int ret;
-+
-+	if (!vb)
-+		return -ENOENT;
-+
-+	switch (vb->vb2_queue->type) {
-+	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-+	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-+		if (vb->vb2_queue == &dev->vb_touch_cap_q)
-+			hdl = &dev->ctrl_hdl_touch_cap;
-+		else
-+			hdl = &dev->ctrl_hdl_vid_cap;
-+		break;
-+	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-+	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-+		hdl = &dev->ctrl_hdl_vid_out;
-+		break;
-+	case V4L2_BUF_TYPE_VBI_CAPTURE:
-+	case V4L2_BUF_TYPE_SLICED_VBI_CAPTURE:
-+		hdl = &dev->ctrl_hdl_vbi_cap;
-+		break;
-+	case V4L2_BUF_TYPE_VBI_OUTPUT:
-+	case V4L2_BUF_TYPE_SLICED_VBI_OUTPUT:
-+		hdl = &dev->ctrl_hdl_vbi_out;
-+		break;
-+	case V4L2_BUF_TYPE_META_CAPTURE:
-+		hdl = &dev->ctrl_hdl_meta_cap;
-+		break;
-+	case V4L2_BUF_TYPE_META_OUTPUT:
-+		hdl = &dev->ctrl_hdl_meta_out;
-+		break;
-+	case V4L2_BUF_TYPE_SDR_CAPTURE:
-+		hdl = &dev->ctrl_hdl_sdr_cap;
-+		break;
-+	}
-+	ro_req = vb->vb2_queue->supports_ro_requests;
-+	ret = v4l2_ctrl_request_add_handler(req, hdl, ro_req);
-+	if (ret)
-+		return ret;
+@@ -177,6 +177,14 @@ MODULE_PARM_DESC(cache_hints, " user-space cache hints, default is 0.\n"
+ 			     "\t\t    0 == forbid\n"
+ 			     "\t\t    1 == allow");
  
- 	if (dev->req_validate_error) {
- 		dev->req_validate_error = false;
++static unsigned int ro_requests[VIVID_MAX_DEVS] = {
++	[0 ... (VIVID_MAX_DEVS - 1)] = 0
++};
++module_param_array(ro_requests, uint, NULL, 0444);
++MODULE_PARM_DESC(ro_requests, " use read-only requests instead of regular requests, default is 0.\n"
++			     "\t\t    0 == regular requests\n"
++			     "\t\t    1 == read-only requests");
++
+ static struct vivid_dev *vivid_devs[VIVID_MAX_DEVS];
+ 
+ const struct v4l2_rect vivid_min_rect = {
+@@ -869,6 +877,8 @@ static int vivid_create_queue(struct vivid_dev *dev,
+ 	q->lock = &dev->mutex;
+ 	q->dev = dev->v4l2_dev.dev;
+ 	q->supports_requests = true;
++	if (V4L2_TYPE_IS_CAPTURE(buf_type))
++		q->supports_ro_requests = (ro_requests[dev->inst] == 1);
+ 	q->allow_cache_hints = (cache_hints[dev->inst] == 1);
+ 
+ 	return vb2_queue_init(q);
 -- 
 2.27.0
 
