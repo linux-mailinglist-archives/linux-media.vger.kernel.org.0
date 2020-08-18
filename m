@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32E032487CC
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 437432487CF
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 16:37:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727892AbgHROhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 10:37:32 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:43599 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727897AbgHROhX (ORCPT
+        id S1726905AbgHROhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 10:37:36 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:38815 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727898AbgHROhX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 18 Aug 2020 10:37:23 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 82jnkV8V2uuXO82jpkcew9; Tue, 18 Aug 2020 16:37:22 +0200
+        id 82jnkV8V2uuXO82jqkcewD; Tue, 18 Aug 2020 16:37:22 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597761442; bh=OLItc/6ATCTjvCKoVPDewrpsgVS2/ejTohaXC+Gu3dQ=;
+        t=1597761442; bh=yowpVdKO5MyYTAx4yrm7Q3hYm6oTujLlFHx2wjf3l2E=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=DqsqoQz4hVBQK/O5XF2BQ99JUJIpa34oHezasDH0LFJLU/A3KRrTx2v9VX7svjAhs
-         11aa4bdt47W3tb/skPFq33w75JHoBhYLbJEXSslfGbYd/vp2F1TZ8x71pbRM2hCRAz
-         qqhdLjkV1o2nccmMWIEb9+mk5O1nly9+WmvQl6hhCog1173WYniGMSngOS47DegbfC
-         U/ZZpr/rmlh+ZbIuUk4P6Tbck2iAl44cequibE9Tej7M/HyDIVuBgACnlCSZXT+TFb
-         NPRzTb8JUF+Y/8EMDiWUWgAq7vBRUYlMoKdZzQonxA3+B2Yf5vcni1PhZyk6hz+Jx/
-         tAUgrN3CKipuw==
+        b=kl9+qFdPeOymJ56dsYFd9U+AJpO/PlIzDEO2r8fehWdTX7/zRv5UbvGbk0n6MGNRg
+         abrP4W9p7dhy37rTA9bbpPLixnCKTtfvrBz/mpPs/+dXZSymOVzMA+mX6AamuItg/i
+         wuhcPM+S0OtkGzmW8+xgH6cnCd9G3s0lnidNv+ySUajk4QMGjxOmcQ2V+IJa0IUrzi
+         rbWhCzsMXDOxwmElDSvcXtv4gutPbetRjXIplIDWyWoop9Ue5nCOCy/nhQmi1RfgCQ
+         wpYLyFri0xj+IGY3NcVLOlk9UhncsA3ZUxp4jNhFUbOGuhZC13B/jpteaQHYywZNYR
+         7kf71lRkiE62g==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Dikshita Agarwal <dikshita@codeaurora.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 10/12] vim2m: use v4l2_m2m_request_validate()
-Date:   Tue, 18 Aug 2020 16:37:17 +0200
-Message-Id: <20200818143719.102128-11-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 11/12] vim2m: support read-only requests on the capture queue
+Date:   Tue, 18 Aug 2020 16:37:18 +0200
+Message-Id: <20200818143719.102128-12-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
 References: <20200818143719.102128-1-hverkuil-cisco@xs4all.nl>
@@ -46,36 +46,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use v4l2_m2m_request_validate() instead of vb2_request_validate.
-The v4l2_m2m_request_validate() ensures that a control handler
-request object is added if it was missing.
+Added support for read-only requests on the capture queue
+in order to test this feature.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/test-drivers/vim2m.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/test-drivers/vim2m.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index a776bb8e0e09..b73de65c0006 100644
+index b73de65c0006..7c738b9fd637 100644
 --- a/drivers/media/test-drivers/vim2m.c
 +++ b/drivers/media/test-drivers/vim2m.c
-@@ -1230,6 +1230,7 @@ static int vim2m_open(struct file *file)
- 		goto open_unlock;
- 	}
+@@ -602,7 +602,11 @@ static void device_run(void *priv)
+ 	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+ 	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
  
-+	ctx->fh.m2m_ctx->req_ctrl_handler = hdl;
- 	v4l2_fh_add(&ctx->fh);
- 	atomic_inc(&dev->num_inst);
+-	/* Apply request controls if any */
++	/*
++	 * Apply request controls if any.
++	 * The dst_buf queue has read-only requests, so no need to
++	 * setup any controls for that buffer.
++	 */
+ 	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+ 				&ctx->hdl);
  
-@@ -1299,7 +1300,7 @@ static const struct v4l2_m2m_ops m2m_ops = {
- };
+@@ -611,6 +615,8 @@ static void device_run(void *priv)
+ 	/* Complete request controls if any */
+ 	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
+ 				   &ctx->hdl);
++	v4l2_ctrl_request_complete(dst_buf->vb2_buf.req_obj.req,
++				   &ctx->hdl);
  
- static const struct media_device_ops m2m_media_ops = {
--	.req_validate = vb2_request_validate,
-+	.req_validate = v4l2_m2m_request_validate,
- 	.req_queue = v4l2_m2m_request_queue,
- };
+ 	/* Run delayed work, which simulates a hardware irq  */
+ 	schedule_delayed_work(&ctx->work_run, msecs_to_jiffies(ctx->transtime));
+@@ -1143,6 +1149,8 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+ 	dst_vq->mem_ops = &vb2_vmalloc_memops;
+ 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+ 	dst_vq->lock = &ctx->vb_mutex;
++	dst_vq->supports_requests = true;
++	dst_vq->supports_ro_requests = true;
  
+ 	return vb2_queue_init(dst_vq);
+ }
 -- 
 2.27.0
 
