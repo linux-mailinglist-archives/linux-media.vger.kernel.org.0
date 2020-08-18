@@ -2,92 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7F0524861B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 15:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D43F3248622
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 15:36:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbgHRNeB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 09:34:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbgHRNdz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 09:33:55 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E6CC061342
-        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 06:33:55 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id 93so16272445otx.2
-        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 06:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dQLyWbIJMiZVSB0b6mZobaJ2GGEre/pwsB3towSn0HQ=;
-        b=TxAO70T/2C0DtmpXFEDzxL6jjQOUfyf3b+vnxO/vcvap4GhPs3tYTrBNAZ+k368wJu
-         I1h8GiU3jsiRrN3yv4gGwDmZMeKALDE9vLuQgGn1MZUKskKLFhOQlMAXgfoI50Jk6CV2
-         iClvoh9t7asFU+qgFcZ1aLkpEpezBF+rf42PugDyFdYKqaJuBLZCk6XaPPaHlF15qVFu
-         bg0aOqPHPGLemrg+rFvRnbvPRcB5r0Xlk9aTUjxwlHuRamHlkTjAWZZ7IoydX5eBvAFh
-         t3kNS/aNM/zaMqGbvU7Wvqp+0alrLRvZjmNMbUTkAJY2fW4LNkkhDyChp8EaPOUCQLbU
-         Lrsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dQLyWbIJMiZVSB0b6mZobaJ2GGEre/pwsB3towSn0HQ=;
-        b=nzzKKeqS6HTfeng2Lka9NluUb8SwFjzqHQyRUKeYGFZALyPXhLSJNjhUNAmEN4pk2r
-         eaQBLXyDhzrpx76QL5mMFD3ogKSkGb19FUXFYjjzqtI2Cc4Lau5VuH/vjlqfHdmEfPSf
-         HBigpqp20UazQhQm1BnZKeafI43yYWy8b3OCCweEN9vSOMMubrdlboI9759Z+TXmzJP4
-         3nkoJPs2W+/PGL8/9rNuTylurUs84sz3HMt1QcSStffq0jO9bhbCck85Ihu0TPB/4P1h
-         hcLWN46uUvTqho+x5yjeHUZcZrcu4pet5e32ooWnZBBdJC4KzMV2ahR8Ot1n1T6CgKlX
-         eOIw==
-X-Gm-Message-State: AOAM533y3KUUSekW/RW0fRoUdfcOZi5D31fC9Uvmg/H9pj4qhHOfyG/p
-        Pl0inVbAGK54SxXJwcKz5VmQGxJpCZRD1EwAusMOSOiDn3xDXg==
-X-Google-Smtp-Source: ABdhPJyPhrWFOwFucKpcNzKyV26qgAIIOsQfewHH1dlhx1GaykINWZX21wkV7VV9ZCkZqgTvNkgSI2b1LMgltLc73QE=
-X-Received: by 2002:a9d:1a3:: with SMTP id e32mr14329566ote.272.1597757634275;
- Tue, 18 Aug 2020 06:33:54 -0700 (PDT)
+        id S1726570AbgHRNgB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 09:36:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45360 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726480AbgHRNfy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 18 Aug 2020 09:35:54 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 219472076D;
+        Tue, 18 Aug 2020 13:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597757753;
+        bh=3RDFnusPuTN/gUIFW524Igr1Ma20iPQgX1vJUa86zcc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YAji/SJ6m5Ii17h8yZsQkWBp16JjwEsppLu6q+XvKPAbDgAM2M1hUTrKQWdHdL7VE
+         s+zIu5JLujEF+LFjSrPR+rfsGipkzKwQL4+5VxyRYENf+u8aYF+Q4nbv0RaMrWnuSI
+         uVLyGF9hN2SwCQIez5mToI7C7U+Fh553z+dZGqb0=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-media@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/7] media: cec: no need to check return value of debugfs_create functions
+Date:   Tue, 18 Aug 2020 15:36:02 +0200
+Message-Id: <20200818133608.462514-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200814205403.27639-1-andrey.konovalov@linaro.org>
-In-Reply-To: <20200814205403.27639-1-andrey.konovalov@linaro.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 18 Aug 2020 15:33:43 +0200
-Message-ID: <CAG3jFytWaWH2TUprQ1dEjKatUEfWWzeuUc18J3g8zk6bE9-cQQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] media: camss: extend VIDIOC_ENUM_* ioctls support
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Peter Griffin <peter.griffin@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Andrey,
+When calling debugfs functions, there is no need to ever check the
+return value.  The function can work or not, but the code logic should
+never do something different based on this.
 
-I've looked through this series, and it all looks good to me.
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/media/cec/core/cec-core.c | 27 ++++++++-------------------
+ include/media/cec.h               |  2 --
+ 2 files changed, 8 insertions(+), 21 deletions(-)
 
-Acked-by: Robert Foss <robert.foss@linaro.org>
+diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
+index c599cd94dd62..562792f545ac 100644
+--- a/drivers/media/cec/core/cec-core.c
++++ b/drivers/media/cec/core/cec-core.c
+@@ -359,27 +359,16 @@ int cec_register_adapter(struct cec_adapter *adap,
+ 	if (!top_cec_dir)
+ 		return 0;
+ 
+-	adap->cec_dir = debugfs_create_dir(dev_name(&adap->devnode.dev), top_cec_dir);
+-	if (IS_ERR_OR_NULL(adap->cec_dir)) {
+-		pr_warn("cec-%s: Failed to create debugfs dir\n", adap->name);
+-		return 0;
+-	}
+-	adap->status_file = debugfs_create_devm_seqfile(&adap->devnode.dev,
+-		"status", adap->cec_dir, cec_adap_status);
+-	if (IS_ERR_OR_NULL(adap->status_file)) {
+-		pr_warn("cec-%s: Failed to create status file\n", adap->name);
+-		debugfs_remove_recursive(adap->cec_dir);
+-		adap->cec_dir = NULL;
+-		return 0;
+-	}
++	adap->cec_dir = debugfs_create_dir(dev_name(&adap->devnode.dev),
++					   top_cec_dir);
++
++	debugfs_create_devm_seqfile(&adap->devnode.dev, "status", adap->cec_dir,
++				    cec_adap_status);
++
+ 	if (!adap->ops->error_inj_show || !adap->ops->error_inj_parse_line)
+ 		return 0;
+-	adap->error_inj_file = debugfs_create_file("error-inj", 0644,
+-						   adap->cec_dir, adap,
+-						   &cec_error_inj_fops);
+-	if (IS_ERR_OR_NULL(adap->error_inj_file))
+-		pr_warn("cec-%s: Failed to create error-inj file\n",
+-			adap->name);
++	debugfs_create_file("error-inj", 0644, adap->cec_dir, adap,
++			    &cec_error_inj_fops);
+ #endif
+ 	return 0;
+ }
+diff --git a/include/media/cec.h b/include/media/cec.h
+index c48b5f2e4b50..cd35ae6b7560 100644
+--- a/include/media/cec.h
++++ b/include/media/cec.h
+@@ -248,8 +248,6 @@ struct cec_adapter {
+ #endif
+ 
+ 	struct dentry *cec_dir;
+-	struct dentry *status_file;
+-	struct dentry *error_inj_file;
+ 
+ 	u32 sequence;
+ 
+-- 
+2.28.0
 
-On Fri, 14 Aug 2020 at 22:54, Andrey Konovalov
-<andrey.konovalov@linaro.org> wrote:
->
-> The first two patches add mbus_code filtering support to VIDIOC_ENUM_FMT
-> implementation, and VIDIOC_ENUM_FRAMESIZES support.
->
-> The minimum and the maximum frame size values are deduced from
-> __video_try_fmt() code.
->
-> The third patch replaces harcoded limits in __video_try_fmt() with
-> the definitions introduced by the second patch.
->
-> Andrey Konovalov (3):
->   media: camss: Make use of V4L2_CAP_IO_MC
->   media: camss: add support for vidioc_enum_framesizes ioctl
->   media: camss: __video_try_fmt(): don't use hardcoded constants
->
->  .../media/platform/qcom/camss/camss-video.c   | 112 +++++++++++++++---
->  1 file changed, 95 insertions(+), 17 deletions(-)
->
-> --
-> 2.17.1
->
