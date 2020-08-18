@@ -2,118 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9DF8248067
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 10:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 929B32482A3
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 12:11:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbgHRITq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 04:19:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726357AbgHRITl (ORCPT
+        id S1726391AbgHRKL1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 06:11:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55259 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726539AbgHRKLX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 04:19:41 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23772C061389
-        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 01:19:41 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id k25so9660914vsm.11
-        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 01:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7qc0PHRmHyAV4s08h+mPSQ2AKSM82PMkMzXSGAIjIyU=;
-        b=DGV+F2+cb52Nj0BMWEB9lOedhoMtfTPFWPkhPnUA07d4XhpQRQncJtBjzy9Qd4fQvO
-         wKMC5NqMbgse/bTlW2J66+51iNFlL5zsDgzZ+IHpo/YO18KOA7/VLYohfqy1geb6Hv2T
-         6AamAPl7j4a62C9ohOa3SKrwZwXb5kf0R/790=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7qc0PHRmHyAV4s08h+mPSQ2AKSM82PMkMzXSGAIjIyU=;
-        b=ELFVwM0lYH94ayFroVdgoNO3KDauVXMSpDv/EpfIDPWxHmTts0twWuxqumKgo2x6vr
-         ckRrMv4SVZMbkLzBAN/wzV7MzYk5OM9ZOysqVMZeOnru/XfvqnDLCkyr8DsK4kz1QuUH
-         csTs6pAtyrWruMxFuCFHU8k0+PhnoZbm7hzBel5Omyezx3J3E9ql+aG0LvgKgVodSVLi
-         s2+3d5lwgaBACrgnf5QVQjd5YokTBXBF9ku1pTOWqifJe6svi1ItS8maap8YAEx3gFgL
-         XI5SzlF9apX11+DDZJHY5Lr/E3OsLFzxKhgifQDOi6mRHcmq8ONZrjZvRRq5OnMhm1qK
-         o3DQ==
-X-Gm-Message-State: AOAM531oYch1/LS3+8COqxHZJoj7vy8X+wpJ7FKQ/CYAiOW8XGDv6vJV
-        zw27molZKVsAOTCTjXqFOMAmktMSrX75kKy4Eces8w==
-X-Google-Smtp-Source: ABdhPJzreYfi0fbtitn2tr3QZ68MpwlV8vAMN6ra3gV3OoMTaqXKSc8vnlwpvhOn3Pco3m2Op2M0MAJHaVOIWKWSBNM=
-X-Received: by 2002:a67:68d2:: with SMTP id d201mr10537283vsc.186.1597738780361;
- Tue, 18 Aug 2020 01:19:40 -0700 (PDT)
+        Tue, 18 Aug 2020 06:11:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1597745481;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=5+LNGe3P77nOid9aGh0wWrFIBhKNtuqgoxOKNAwq2vc=;
+        b=QUaNh2pTc26adkJzEkeVqP5mQLdPPCPPAu8QKAfcM8j3lmrR+BT2SfLdy0pAqAJYDQT+tA
+        uM/JRRQGob0bKOhsjyFQSDxSPqeoY8f8ySGY5VJsMddC/IaXxHpGxoste89fXhLGiaMVOt
+        gHyCdo0/hqh5lBFJODnbUqsNP+ZDkt0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-zT6RmIalO42FbkliyL6ECA-1; Tue, 18 Aug 2020 06:11:17 -0400
+X-MC-Unique: zT6RmIalO42FbkliyL6ECA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F6881DDEE;
+        Tue, 18 Aug 2020 10:11:12 +0000 (UTC)
+Received: from [10.36.113.168] (ovpn-113-168.ams2.redhat.com [10.36.113.168])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4098A5D9D2;
+        Tue, 18 Aug 2020 10:11:04 +0000 (UTC)
+Subject: Re: [PATCH 2/3] dma-buf: heaps: add chunk heap to dmabuf heaps
+To:     Hyesoo Yu <hyesoo.yu@samsung.com>, sumit.semwal@linaro.org
+Cc:     minchan@kernel.org, akpm@linux-foundation.org,
+        iamjoonsoo.kim@lge.com, joaodias@google.com, linux-mm@kvack.org,
+        pullip.cho@samsung.com, surenb@google.com, vbabka@suse.cz,
+        afd@ti.com, benjamin.gaignard@linaro.org, lmark@codeaurora.org,
+        labbott@redhat.com, Brian.Starkey@arm.com, john.stultz@linaro.org,
+        christian.koenig@amd.com, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org
+References: <20200818080415.7531-1-hyesoo.yu@samsung.com>
+ <CGME20200818074553epcas2p240c2129fb8186f53e03abb0a0725461c@epcas2p2.samsung.com>
+ <20200818080415.7531-3-hyesoo.yu@samsung.com>
+From:   David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABtCREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT6JAlgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63W5Ag0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAGJAjwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat GmbH
+Message-ID: <e6a50ebb-3299-77da-757a-3380e9d0ef87@redhat.com>
+Date:   Tue, 18 Aug 2020 12:11:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200710144747.RESEND.1.Ifae7abaacb81af1cdc6475986cc788d71de8a13c@changeid>
-In-Reply-To: <20200710144747.RESEND.1.Ifae7abaacb81af1cdc6475986cc788d71de8a13c@changeid>
-From:   Nicolas Boichat <drinkcat@chromium.org>
-Date:   Tue, 18 Aug 2020 16:19:29 +0800
-Message-ID: <CANMq1KAe5o8oxzTyVMNsoZXBuopVFQqFdKassu67Fssx0xk8Ww@mail.gmail.com>
-Subject: Re: [RESEND PATCH] media: camss: vfe: Use trace_printk for debugging only
-To:     Andy Gross <agross@kernel.org>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        linux-arm-msm@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200818080415.7531-3-hyesoo.yu@samsung.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 10, 2020 at 2:48 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
->
-> trace_printk should not be used in production code. Since
-> tracing interrupts is presumably latency sensitive, pr_dbg is
-> not appropriate, so guard the call with a preprocessor symbol
-> that can be defined for debugging purpose.
->
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+On 18.08.20 10:04, Hyesoo Yu wrote:
+> This patch adds support for a chunk heap that allows for buffers
+> that are made up of a list of fixed size chunks taken from a CMA.
+> Chunk sizes are configuratd when the heaps are created.
+> 
+> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
 > ---
-> Sent this before as part of a series (whose 4th patch was a
-> change that allows to detect such trace_printk), but maybe it's
-> easier to get individual maintainer attention by splitting it.
+>  drivers/dma-buf/heaps/Kconfig      |   9 ++
+>  drivers/dma-buf/heaps/Makefile     |   1 +
+>  drivers/dma-buf/heaps/chunk_heap.c | 222 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 232 insertions(+)
+>  create mode 100644 drivers/dma-buf/heaps/chunk_heap.c
+> 
+> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+> index a5eef06..98552fa 100644
+> --- a/drivers/dma-buf/heaps/Kconfig
+> +++ b/drivers/dma-buf/heaps/Kconfig
+> @@ -12,3 +12,12 @@ config DMABUF_HEAPS_CMA
+>  	  Choose this option to enable dma-buf CMA heap. This heap is backed
+>  	  by the Contiguous Memory Allocator (CMA). If your system has these
+>  	  regions, you should say Y here.
+> +
+> +config DMABUF_HEAPS_CHUNK
+> +	tristate "DMA-BUF CHUNK Heap"
+> +	depends on DMABUF_HEAPS && DMA_CMA
+> +	help
+> +	  Choose this option to enable dma-buf CHUNK heap. This heap is backed
+> +	  by the Contiguous Memory Allocator (CMA) and allocate the buffers that
+> +	  are made up to a list of fixed size chunks tasken from CMA. Chunk sizes
+> +	  are configurated when the heaps are created.
+> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+> index 6e54cde..3b2a0986 100644
+> --- a/drivers/dma-buf/heaps/Makefile
+> +++ b/drivers/dma-buf/heaps/Makefile
+> @@ -2,3 +2,4 @@
+>  obj-y					+= heap-helpers.o
+>  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
+> +obj-$(CONFIG_DMABUF_HEAPS_CHUNK)	+= chunk_heap.o
+> diff --git a/drivers/dma-buf/heaps/chunk_heap.c b/drivers/dma-buf/heaps/chunk_heap.c
+> new file mode 100644
+> index 0000000..1eefaec
+> --- /dev/null
+> +++ b/drivers/dma-buf/heaps/chunk_heap.c
+> @@ -0,0 +1,222 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * ION Memory Allocator chunk heap exporter
+> + *
+> + * Copyright (c) 2020 Samsung Electronics Co., Ltd.
+> + * Author: <hyesoo.yu@samsung.com> for Samsung Electronics.
+> + */
+> +
+> +#include <linux/platform_device.h>
+> +#include <linux/cma.h>
+> +#include <linux/device.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-heap.h>
+> +#include <linux/dma-contiguous.h>
+> +#include <linux/err.h>
+> +#include <linux/errno.h>
+> +#include <linux/highmem.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/scatterlist.h>
+> +#include <linux/sched/signal.h>
+> +#include <linux/of_reserved_mem.h>
+> +#include <linux/of.h>
+> +
+> +#include "heap-helpers.h"
+> +
+> +struct chunk_heap {
+> +	struct dma_heap *heap;
+> +	phys_addr_t base;
+> +	phys_addr_t size;
+> +	atomic_t cur_pageblock_idx;
+> +	unsigned int max_num_pageblocks;
+> +	unsigned int order;
+> +};
+> +
+> +static void chunk_heap_free(struct heap_helper_buffer *buffer)
+> +{
+> +	struct chunk_heap *chunk_heap = dma_heap_get_drvdata(buffer->heap);
+> +	pgoff_t pg;
+> +
+> +	for (pg = 0; pg < buffer->pagecount; pg++)
+> +		__free_pages(buffer->pages[pg], chunk_heap->order);
+> +	kvfree(buffer->pages);
+> +	kfree(buffer);
+> +}
+> +
+> +static inline unsigned long chunk_get_next_pfn(struct chunk_heap *chunk_heap)
+> +{
+> +	unsigned long i = atomic_inc_return(&chunk_heap->cur_pageblock_idx) %
+> +		chunk_heap->max_num_pageblocks;
+> +
+> +	return PHYS_PFN(chunk_heap->base) + i * pageblock_nr_pages;
+> +}
+> +
+> +static int chunk_alloc_pages(struct chunk_heap *chunk_heap, struct page **pages,
+> +			     unsigned int order, unsigned int count)
+> +{
+> +	unsigned long base;
+> +	unsigned int i = 0, nr_block = 0, nr_elem, ret;
+> +
+> +	while (count) {
+> +		/*
+> +		 * If the number of scanned page block is the same as max block,
+> +		 * the tries of allocation fails.
+> +		 */
+> +		if (nr_block++ == chunk_heap->max_num_pageblocks) {
+> +			ret = -ENOMEM;
+> +			goto err_bulk;
+> +		}
+> +		base = chunk_get_next_pfn(chunk_heap);
+> +		nr_elem = min_t(unsigned int, count, pageblock_nr_pages >> order);
+> +		ret = alloc_pages_bulk(base, base + pageblock_nr_pages, MIGRATE_CMA,
+> +				       GFP_KERNEL, order, nr_elem, pages + i);
 
-Mauro, can I get your attention on this patch? This still applies on
-the latest 5.9-rc1/linux-next.
+So you are bypassing the complete cma allocator here. This all smells
+like a complete hack to me. No, I don't think this is the right way to
+support (or rather speed up allocations for) special, weird hardware.
 
-Thanks!
+-- 
+Thanks,
 
+David / dhildenb
 
->
->  drivers/media/platform/qcom/camss/camss-vfe-4-1.c | 2 ++
->  drivers/media/platform/qcom/camss/camss-vfe-4-7.c | 2 ++
->  2 files changed, 4 insertions(+)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> index 174a36be6f5d866..0c57171fae4f9e9 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-> @@ -936,8 +936,10 @@ static irqreturn_t vfe_isr(int irq, void *dev)
->
->         vfe->ops->isr_read(vfe, &value0, &value1);
->
-> +#ifdef CAMSS_VFE_TRACE_IRQ
->         trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
->                      value0, value1);
-> +#endif
->
->         if (value0 & VFE_0_IRQ_STATUS_0_RESET_ACK)
->                 vfe->isr_ops.reset_ack(vfe);
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-> index 0dca8bf9281e774..307675925e5c779 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-> @@ -1058,8 +1058,10 @@ static irqreturn_t vfe_isr(int irq, void *dev)
->
->         vfe->ops->isr_read(vfe, &value0, &value1);
->
-> +#ifdef CAMSS_VFE_TRACE_IRQ
->         trace_printk("VFE: status0 = 0x%08x, status1 = 0x%08x\n",
->                      value0, value1);
-> +#endif
->
->         if (value0 & VFE_0_IRQ_STATUS_0_RESET_ACK)
->                 vfe->isr_ops.reset_ack(vfe);
-> --
-> 2.27.0.383.g050319c2ae-goog
->
