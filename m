@@ -2,97 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA07E247C02
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 03:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63AAB247CA2
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 05:20:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726357AbgHRBwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 21:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46106 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbgHRBwd (ORCPT
+        id S1726370AbgHRDUw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Aug 2020 23:20:52 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:40361 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726302AbgHRDUv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 21:52:33 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3890EC061342
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 18:52:31 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id t23so14061066qto.3
-        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 18:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=szzpFDA9AlK4enccjSiFaUNDWItaYlytHuvona3L4xE=;
-        b=XrifYsF5rKfoCWUjJR56iJTuvGs1mu+hofxMCRYvN1bgU+9hCume8MfdskDYx/GXUi
-         qvEoW0g2PrbsvnXO5CaiZC1mOPUQAVJ9FMbksSCTsWnT24/upbZp/dhWv4hX4hHLZZ+i
-         FLEIIS2aoHuICneFAVnJh2bcK/OldVdEs4CP0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=szzpFDA9AlK4enccjSiFaUNDWItaYlytHuvona3L4xE=;
-        b=Ka6K8uxQKfDmIpucF6EHZroORtNQkl7glW5fspCmttYVAgz30bR3WCxRqSt11E86n2
-         zXoOdhF/sxnSUAocfqWwWYBDtQqZkZH2paNFNq5TG276IE/hk+vTd/brzfoJYImNWiXf
-         Ueml/sGqAKAMRiAqo68JVzL9Ll+J1NchpK4KzRd150YeAnZe3qQp9P3ICPGUfOGWrboj
-         6QSGHYvaVwAl0n2Tm5h4Qkt9Ov3qq0c24uM7pC/9/2El+DNyYz/Kh0MU9ug4b49EAVH5
-         foLqq/sz4WFqV6HArz3sF60eO+5SYPzwUd3rBugftdIV1rNqC773uCMPlLZNgztG5XPF
-         eEVw==
-X-Gm-Message-State: AOAM533Xdjg3kBezowBGVK7+KUUSqCprvZcu9FdgEDUIY2OYffESjV2K
-        +J2lcyUXYpYbrqTXSYvfEr+1lQSrtQ2LT0p36t5N3w==
-X-Google-Smtp-Source: ABdhPJxTMwbSOeJZ+JjlM+dBnOrWPf2Un6ZL7ISpGYM5sJBiPu9rwbZVoK+XvNs2l/kehDF6aM8NBGUpgV8YpoFB/PU=
-X-Received: by 2002:ac8:45c7:: with SMTP id e7mr16254448qto.187.1597715550749;
- Mon, 17 Aug 2020 18:52:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200609012518.198908-1-stevensd@chromium.org>
- <20200609055021-mutt-send-email-mst@kernel.org> <CAD=HUj7wJfoKj_K44Cs9eEmh=OQHZ1+qz7ZHxoscHjYgOMXvZQ@mail.gmail.com>
- <20200817105008.mi3ukh6kxgi37gjs@sirius.home.kraxel.org> <20200817111234.i7pqtnnk2ciw4rqb@sirius.home.kraxel.org>
-In-Reply-To: <20200817111234.i7pqtnnk2ciw4rqb@sirius.home.kraxel.org>
-From:   David Stevens <stevensd@chromium.org>
-Date:   Mon, 17 Aug 2020 18:52:19 -0700
-Message-ID: <CAD=HUj65N3ejzYgUcpHLvPHguXFDC-B4OFeNOfvSML1zdoNRPg@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: [PATCH v5 0/3] Support virtio cross-device resources
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jason Wang <jasowang@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        open list <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, virtio-dev@lists.oasis-open.org,
-        alex.williamson@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 17 Aug 2020 23:20:51 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 7sB5kQuOJuuXO7sB6kZj1y; Tue, 18 Aug 2020 05:20:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597720848; bh=5SCrIxXmJ6ziOfa7E9XqQ1p7Zz5VrrPPAME3nLHkoH8=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=anSPWDMwo/s04D0AJsgv2qO76HV7FFRCGW2fgcb8Q7Yg51UH0TAB6ivMhW2WCS25P
+         Id51mf3fG5BftrjKC9M8gRbHBYl9okeMih1WeB9sVXuQGhwMqEPOAs5Q+X6yHRL98O
+         BGSNGSrtgUAqlC5/kYwcdTAsiV6G/kAxsnrNa9jTUDXSPOVqQMfDse0Lnoh/MaMlkX
+         IP6UNzVj72lAH+u8L/q9ozmdRiNwogDaFM4mGr7yQd6dLnpYGtY0KLO1yW5HB4Sp13
+         NVf8Oj1rl+Oko7Vi13YMtfgACwmIn/kjC7DAh3EACPmco56fS18q7/Oo1XWjR6UQlO
+         Y4lsCZMbl7Mpw==
+Message-ID: <3e8874d88fdf88c532316db356fe8de8@smtp-cloud9.xs4all.net>
+Date:   Tue, 18 Aug 2020 05:20:47 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfEur0qILbMIofkNojdfF+unZ2nP+547jvNO44oY1w68meDPpJkb7BvNy9jTBcv0uy+To1Vhj5W40Jciks0gY7DREZqcf6SNFKcuJs4LJ4YnWtbY3ioDL
+ WlFisGu/yO3r5ti7hbyFa+Kl5WbO+qwlUc4/pPi3cTs4syxE4uepuKWIJ3lmXgAmtl8NDffsLFaqk6T9gLAdWBkGiGI8l/49rbMs+PmG/ZH8ydPNLrHEvZnM
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 4:12 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Mon, Aug 17, 2020 at 12:50:08PM +0200, Gerd Hoffmann wrote:
-> > On Tue, Jun 23, 2020 at 10:31:28AM +0900, David Stevens wrote:
-> > > Unless there are any remaining objections to these patches, what are
-> > > the next steps towards getting these merged? Sorry, I'm not familiar
-> > > with the workflow for contributing patches to Linux.
-> >
-> > Sorry, just have been busy and not paying as much attention to drm
-> > patches as usual.  Playing catch-up now.  Queued for drm-misc-next,
-> > unless something goes wrong in my testing the patches should land
-> > in linux-next soon and be merged upstream in the next merge window.
->
-> Oh, spoke too soon.  scripts/checkpatch.pl has a bunch of codestyle
-> warnings.  Can you fix them and resend?
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Sent a new version to fix the line length warning. There's still a
-MAINTAINER warning, but I think the new virtio_dma_buf file can fall
-under virtio core (and the existing wildcards do match it), rather
-than get its own MAINTAINER entry. I can break it out into its own
-thing if that's better, though.
+Results of the daily build of media_tree:
 
--David
+date:			Tue Aug 18 05:00:13 CEST 2020
+media-tree git hash:	f45882cfb152f5d3a421fd58f177f227e44843b9
+media_build git hash:	ea2766f182b3a4e03543be2ded0845fca4d4fa80
+v4l-utils git hash:	db3112262c84813e0d2d095be020c5ca0ae32e93
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6381-g344ef612
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 1276c1355abc12c391f3d471acc71d55421b87b6
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: WARNINGS
+linux-5.3.1-x86_64: WARNINGS
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: ERRORS
+linux-5.8.1-x86_64: ERRORS
+linux-5.9-rc1-i686: ERRORS
+linux-5.9-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
