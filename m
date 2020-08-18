@@ -2,139 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF70A247D14
-	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 05:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10921247D38
+	for <lists+linux-media@lfdr.de>; Tue, 18 Aug 2020 06:13:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726367AbgHRDtd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Aug 2020 23:49:33 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18650 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbgHRDtc (ORCPT
+        id S1726429AbgHRENm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 00:13:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725800AbgHRENl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Aug 2020 23:49:32 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f3b4f910000>; Mon, 17 Aug 2020 20:48:33 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 17 Aug 2020 20:49:31 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 17 Aug 2020 20:49:31 -0700
-Received: from [172.20.40.73] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Aug
- 2020 03:49:25 +0000
+        Tue, 18 Aug 2020 00:13:41 -0400
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC76CC061389
+        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 21:13:40 -0700 (PDT)
+Received: by mail-oo1-xc44.google.com with SMTP id a6so3880803oog.9
+        for <linux-media@vger.kernel.org>; Mon, 17 Aug 2020 21:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k7iAwBileJ0G1UKlW/P/oYgHIzA/MbhoX0L3kNhgr4Y=;
+        b=MZpTMKJAOi/ZwTMoPnuu79VyaoQ8NV1AomrB5KcKmLuQqw4Gq8Hy5WYphdAqc0hYsY
+         X/Ih8+44QRhGnnuXXocdyME33WJL68lqdQgLunmQlY6sUTRc9wXZRcKCodF9nLO163g/
+         TEuFORBUW6T28dJimhs8o2E+Szdf26zKm1JQcnxPXArxqURVcJXbwsPRTnO892qcwncu
+         totiDS0Yfwwdt4XCvI1vl5LBOFs0denGVEowudiJSbvvAApcIwxMoKm0JdqsXUYnPW0/
+         hjOMgTyMcpgIwrxmwfrPDx0RPRn6UatANoSTArnwBxhuUECLqizhdbyZRmBnUh7bj3YM
+         VQdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k7iAwBileJ0G1UKlW/P/oYgHIzA/MbhoX0L3kNhgr4Y=;
+        b=a5OjHRiCqWnD9uUvyVAVzreBKEU1V4Ae5n88UlRvdVPW4F1rHdqkVjNXI5yDP0o4Kf
+         TBkdQrJHXGYP6Qmlvptd4jp70zbcxkQ06nUwH2kv5N50OpLfiPPQjlV7X779JfL9lkcS
+         hil/KG2CeQGePOLiuPDynjQkbR0161TADs/yvLFnjaszz5wAMcPSiQYIUa04XRA5Ms6T
+         0IYQH1V7dqHQ4AAuo/FqO1iLANpHQ8KIwYNfWms7uO8yFGRQGvfOdCgoK/IaYwwnedtl
+         /VWuEO2p9nCHcS4UhwdruucTZPmMaNLKtSDhiFlFltafX07cQfMTGzoMmJya6WwMKOzo
+         DQvQ==
+X-Gm-Message-State: AOAM532BuCy+QknHYeRfSP074rFWhi9sMH0FOtYMEIwSqD46ew/VmS7+
+        IKi65xH/ZiLds2gxNZw6oeMaJeZ4u2xJ2pyMjqpYrvZ40VE=
+X-Google-Smtp-Source: ABdhPJxrYPAakE/ZtJfH+fAqlGcjEntL4sQ9RdVTLtPqOfEPQ9hnBci10bKEX7nrm5jsBFr2C2NAa4HidGM5i4m/hOU=
+X-Received: by 2002:a4a:924b:: with SMTP id g11mr13689379ooh.9.1597724020264;
+ Mon, 17 Aug 2020 21:13:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200816172246.69146-1-ezequiel@collabora.com>
+In-Reply-To: <20200816172246.69146-1-ezequiel@collabora.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Mon, 17 Aug 2020 21:13:28 -0700
+Message-ID: <CALAqxLV2kOXUjATTn5Xg6-Rj-U7SVUO0t89MzpRzKFU4v8h5Lg@mail.gmail.com>
 Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
-To:     Brian Starkey <brian.starkey@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-CC:     <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        "Sumit Semwal" <sumit.semwal@linaro.org>,
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
         "Andrew F . Davis" <afd@ti.com>,
-        "Benjamin Gaignard" <benjamin.gaignard@st.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>,
         Liam Mark <lmark@codeaurora.org>,
-        "Laura Abbott" <labbott@kernel.org>,
-        John Stultz <john.stultz@linaro.org>,
-        "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         Daniel Stone <daniels@collabora.com>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Robert Beckett <bob.beckett@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>, <kernel@collabora.com>,
-        <nd@arm.com>
-References: <20200816172246.69146-1-ezequiel@collabora.com>
- <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
-From:   James Jones <jajones@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <c2450755-91fd-da72-bf1e-c015ad9d6b25@nvidia.com>
-Date:   Mon, 17 Aug 2020 20:49:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1597722513; bh=E3D1QMN/007xv1q7refetsEcNEdV2V0vO5Foh5kczJQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=sGibudKky7RmFrNgE9HMFeyxDAZpURIiDhUdJ4j0HCxJY9hnZKwe6mSQ4gxd4I1RG
-         5CjrR7taPx/0QPc5GE2DU1/W9h6m8ptdjH0WgZtR7F4VhdIbyO1kg9mzzwp6OLENr3
-         y1TN8NF4Z4LUZGawJRVA9eyi3rfidl17g3xYGvsAd7S0DfX9J5IiEc6v577A8eGi0n
-         MB9PRnCSif2AqitC+hgd0I5bvfIWK0O807SWiVtW5YMeMUadsbbACOQ14a1lI4CTl2
-         tPyjXpjgB7ascMHDVs8YFIIvkMZMoZnSMso70tcuLUjpNlDnqBy/j272BNfBF/CX/k
-         0L0TUcivJ4AoQ==
+        Tomasz Figa <tfiga@chromium.org>,
+        James Jones <jajones@nvidia.com>, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/17/20 8:18 AM, Brian Starkey wrote:
-> Hi Ezequiel,
-> 
-> On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
->> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
->> which will allocate memory suitable for the given device.
->>
->> The implementation is mostly a port of the Contiguous Videobuf2
->> memory allocator (see videobuf2/videobuf2-dma-contig.c)
->> over to the DMA-BUF Heap interface.
->>
->> The intention of this allocator is to provide applications
->> with a more system-agnostic API: the only thing the application
->> needs to know is which device to get the buffer for.
->>
->> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
->> is unknown to the application.
->>
->> I'm not really expecting this patch to be correct or even
->> a good idea, but just submitting it to start a discussion on DMA-BUF
->> heap discovery and negotiation.
->>
-> 
-> My initial reaction is that I thought dmabuf heaps are meant for use
-> to allocate buffers for sharing across devices, which doesn't fit very
-> well with having per-device heaps.
-> 
-> For single-device allocations, would using the buffer allocation
-> functionality of that device's native API be better in most
-> cases? (Some other possibly relevant discussion at [1])
-> 
-> I can see that this can save some boilerplate for devices that want
-> to expose private chunks of memory, but might it also lead to 100
-> aliases for the system's generic coherent memory pool?
-> 
-> I wonder if a set of helpers to allow devices to expose whatever they
-> want with minimal effort would be better.
+On Sun, Aug 16, 2020 at 10:23 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+>
+> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
+> which will allocate memory suitable for the given device.
+>
+> The implementation is mostly a port of the Contiguous Videobuf2
+> memory allocator (see videobuf2/videobuf2-dma-contig.c)
+> over to the DMA-BUF Heap interface.
+>
+> The intention of this allocator is to provide applications
+> with a more system-agnostic API: the only thing the application
+> needs to know is which device to get the buffer for.
+>
+> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
+> is unknown to the application.
 
-I'm rather interested on where this goes, as I was toying with using 
-some sort of heap ID as a basis for a "device-local" constraint in the 
-memory constraints proposals Simon and I will be discussing at XDC this 
-year.  It would be rather elegant if there was one type of heap ID used 
-universally throughout the kernel that could provide a unique handle for 
-the shared system memory heap(s), as well as accelerator-local heaps on 
-fancy NICs, GPUs, NN accelerators, capture devices, etc. so apps could 
-negotiate a location among themselves.  This patch seems to be a step 
-towards that in a way, but I agree it would be counterproductive if a 
-bunch of devices that were using the same underlying system memory ended 
-up each getting their own heap ID just because they used some SW 
-framework that worked that way.
+My hesitancy here is that the main reason we have DMA BUF Heaps, and
+ION before it, was to expose different types of memory allocations to
+userspace. The main premise that often these buffers are shared with
+multiple devices, which have differing constraints and it is userspace
+that best understands the path a buffer will take through a series of
+devices. So userspace is best positioned to determine what type of
+memory should be allocated to satisfy the various devices constraints
+(there were some design attempts to allow DMA BUFs to use multiple
+attach with deferred alloc at map time to handle this constraint
+solving in-kernel, but it was never adopted in practice).
 
-Would appreciate it if you could send along a pointer to your BoF if it 
-happens!
+This however, requires some system specific policy - implemented in
+the Android userspace by gralloc which maps "usage" types (device
+pipeline flows) to heaps. I liken it to fstab, which helps map mount
+points to partitions - it's not going to be the same on every system.
 
-Thanks,
--James
+What you seem to be proposing seems a bit contrary to this premise -
+Userland doesn't know what type of memory it needs, but given a device
+can somehow find the heap it should allocate for? This seems to assume
+the buffer is only to be used with a single device?
 
-> Cheers,
-> -Brian
-> 
-> 1. https://lore.kernel.org/dri-devel/57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi/
-> 
->> Given Plumbers is just a couple weeks from now, I've submitted
->> a BoF proposal to discuss this, as perhaps it would make
->> sense to discuss this live?
->>
->> Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+There was at some point a discussion where folks (maybe it was
+DanielV? I can't remember...) suggested having something like a sysfs
+device node link from a device to a dma-buf heap chardev. This seems
+like it would add a similar behavior as what you're proposing, however
+without adding possibly a ton of new device specific heaps to the
+/dev/dma_heap/ dir. However, we would potentially need any missing
+heap types added first.
+
+> I'm not really expecting this patch to be correct or even
+> a good idea, but just submitting it to start a discussion on DMA-BUF
+> heap discovery and negotiation.
+>
+> Given Plumbers is just a couple weeks from now, I've submitted
+> a BoF proposal to discuss this, as perhaps it would make
+> sense to discuss this live?
+
+I do think it's an interesting idea. I agree that having every driver
+implement a dmabuf exporter is a bit silly, but I also think Brian's
+point that maybe we need some drm helper functions that provide
+similar functionality along with a more standardized device ioctl for
+single device allocations might be better.
+
+thanks
+-john
