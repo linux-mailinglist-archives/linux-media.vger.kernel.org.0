@@ -2,456 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA706249233
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 03:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A3D3249259
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 03:30:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbgHSBQX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 21:16:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40714 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726367AbgHSBQV (ORCPT
+        id S1727116AbgHSBa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 21:30:29 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49386 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727073AbgHSBa1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 21:16:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A140C061389
-        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 18:16:20 -0700 (PDT)
+        Tue, 18 Aug 2020 21:30:27 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 36FFE29E;
-        Wed, 19 Aug 2020 03:16:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2906029E;
+        Wed, 19 Aug 2020 03:30:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597799776;
-        bh=FRFB3lGY9BBJkwOsjIFDgaK/nuOzi6wqWSRm9mB+hOA=;
+        s=mail; t=1597800620;
+        bh=dMBTP3/aUShIIxAPGHT1oBW+ufOzD6gArNzzuucdIzM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LSf/vDCcYSVK2nkX9r+uFHRACsju9r5/qOapVt9y9uMxmGq/Jk1qBiRws6lKJlKhU
-         SH7EAVkSe6HwfqT/n9Kh93pF5/pl8pIARcxHG8gUlsmo/uzfvgHC6cjC27aO6nFat6
-         Bjvuvv94wO+LyL0S0PhUCiqxwVsY3sLh+mZSuSY4=
-Date:   Wed, 19 Aug 2020 04:15:58 +0300
+        b=XPrGD3So8PK82m9zzNn98Ejky+jbLowQRCTEkey8Ft72CT+omvYTD6sp+r3T6gDsz
+         EPnCDox0BkKPy6i9ts5bXV7q+ZLGsazJdc7m4vLL/gHxcrokanKP048/+CefdzA0Pm
+         6sfv0lfbEQEGNpnSY5BYu5jOZVjqWH2lkqlkDyaA=
+Date:   Wed, 19 Aug 2020 04:30:02 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
-Message-ID: <20200819011558.GJ2360@pendragon.ideasonboard.com>
-References: <20200805105721.15445-1-jacopo@jmondi.org>
- <20200805105721.15445-2-jacopo@jmondi.org>
- <184f8787-ebf1-90e3-82b3-44fa66e65a84@xs4all.nl>
- <20200806095038.tc6mmwknqdinaeth@uno.localdomain>
- <f4e50cbb-8b25-1269-d8b9-9c81fa73b7e1@xs4all.nl>
- <20200809171757.GC5981@pendragon.ideasonboard.com>
- <20200810081437.nymrroxmrskapbqg@uno.localdomain>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-media@vger.kernel.org, linux-uvc-devel@lists.sourceforge.net,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: Protecting uvcvideo againt USB device disconnect [Was: Re:
+ Protecting usb_set_interface() against device removal]
+Message-ID: <20200819013002.GL2360@pendragon.ideasonboard.com>
+References: <b0a7247c-bed3-934b-2c73-7f4b0adb5e75@roeck-us.net>
+ <20200815020739.GB52242@rowland.harvard.edu>
+ <20200816003315.GA13826@roeck-us.net>
+ <20200816121816.GC32174@pendragon.ideasonboard.com>
+ <9bb20ed7-b156-f6c2-4d25-6acac1a0021b@roeck-us.net>
+ <20200816235155.GA7729@pendragon.ideasonboard.com>
+ <0684b71c-8ac5-8962-cbd5-c0bcaa8b6881@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200810081437.nymrroxmrskapbqg@uno.localdomain>
+In-Reply-To: <0684b71c-8ac5-8962-cbd5-c0bcaa8b6881@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Hans,
 
-On Mon, Aug 10, 2020 at 10:14:37AM +0200, Jacopo Mondi wrote:
-> On Sun, Aug 09, 2020 at 08:17:57PM +0300, Laurent Pinchart wrote:
-> > On Thu, Aug 06, 2020 at 11:58:31AM +0200, Hans Verkuil wrote:
-> > > On 06/08/2020 11:50, Jacopo Mondi wrote:
-> > > > On Thu, Aug 06, 2020 at 10:05:37AM +0200, Hans Verkuil wrote:
-> > > >> On 05/08/2020 12:57, Jacopo Mondi wrote:
-> > > >>> The V4L2 selection API are also used to access the pixel array
-> > > >>
-> > > >> are -> is
-> > > >>
-> > > >>> properties of an image sensor, such as the size and position of active
-> > > >>> pixels and the cropped area of the pixel matrix used to produce images.
-> > > >>>
-> > > >>> Currently no clear definition of the different areas that compose an
-> > > >>> image sensor pixel array matrix is provided in the specification, and
-> > > >>> the actual meaning of each selection target when applied to an image
-> > > >>> sensor was not provided.
-> > > >>>
-> > > >>> Provide in the sub-device documentation the definition of the pixel
-> > > >>> matrix properties and the selection target associated to each of them.
-> > > >>>
-> > > >>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > >>> ---
-> > > >>>  .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
-> > > >>>  1 file changed, 81 insertions(+)
-> > > >>>
-> > > >>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > >>> index 134d2fb909fa4..c47861dff9b9b 100644
-> > > >>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > >>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > >>> @@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
-> > > >>>  ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
-> > > >>>  the image size either up or down. :ref:`v4l2-selection-flags`
-> > > >>>
-> > > >>> +.. _v4l2-subdev-pixel-array-properties:
-> > > >>> +
-> > > >>> +Selection targets for image sensors properties
-> >
-> > Maybe "Selection targets for image sensors", and renaming the reference
-> > to v4l2-subdev-selections-image-sensors ? This section is about how
-> > selection rectangles are used for sensors, right ?
-> >
-> > > >>> +----------------------------------------------
-> >
-> > I'd move this further down, after "Types of selection targets", as that
-> > section contains generic information that applies to sensors too.
+On Mon, Aug 17, 2020 at 01:00:49PM +0200, Hans Verkuil wrote:
+> On 17/08/2020 01:51, Laurent Pinchart wrote:
+> > On Sun, Aug 16, 2020 at 08:54:18AM -0700, Guenter Roeck wrote:
+> >> On 8/16/20 5:18 AM, Laurent Pinchart wrote:
+> >>> CC'ing Hans Verkuil and Sakari Ailus for the discussion about handling
+> >>> file operations and disconnect in V4L2.
+> >>>
+> >>> On Sat, Aug 15, 2020 at 05:33:15PM -0700, Guenter Roeck wrote:
+> >>>> + linux-uvc-devel@lists.sourceforge.net
+> >>>> + linux-media@vger.kernel.org
+> >>>> + laurent.pinchart@ideasonboard.com
+> >>>>
+> >>>> and changed subject
+> >>>>
+> >>>> On Fri, Aug 14, 2020 at 10:07:39PM -0400, Alan Stern wrote:
+> >>>>> On Fri, Aug 14, 2020 at 04:07:03PM -0700, Guenter Roeck wrote:
+> >>>>>> Hi all,
+> >>>>>>
+> >>>>>> over time, there have been a number of reports of crashes in usb_ifnum_to_if(),
+> >>>>>> called from usb_hcd_alloc_bandwidth, which is in turn called from usb_set_interface().
+> >>>>>> Examples are [1] [2] [3]. A typical backtrace is:
+> >>>>>>
+> >>>>>> <3>[ 3489.445468] intel_sst_acpi 808622A8:00: sst: Busy wait failed, cant send this msg
+> >>>>>> <6>[ 3490.507273] usb 1-4: USB disconnect, device number 3
+> >>>>>> <1>[ 3490.516670] BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> >>>>>> <6>[ 3490.516680] PGD 0 P4D 0
+> >>>>>> <4>[ 3490.516687] Oops: 0000 [#1] PREEMPT SMP PTI
+> >>>>>> <4>[ 3490.516693] CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
+> >>>>>> <4>[ 3490.516696] Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+> >>>>>> <4>[ 3490.516706] RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> >>>>>> <4>[ 3490.516710] Code: ee 0f 1f 44 00 00 55 48 89 e5 48 8b 8f f8 03 00 00 48 85 c9 74 27 44 0f b6 41 04 4d 85 c0 74 1d 31 ff 48 8b 84 f9 98 00 00 00 <48> 8b 10 0f b6 52 02 39 f2 74 0a 48 ff c7 4c 39 c7 72 e5 31 c0 5d
+> >>>>>> <4>[ 3490.516714] RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> >>>>>> <4>[ 3490.516718] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> >>>>>> <4>[ 3490.516721] RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> >>>>>> <4>[ 3490.516724] RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> >>>>>> <4>[ 3490.516727] R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> >>>>>> <4>[ 3490.516731] R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> >>>>>> <4>[ 3490.516735] FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+> >>>>>> <4>[ 3490.516738] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> >>>>>> <4>[ 3490.516742] CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> >>>>>> <4>[ 3490.516745] Call Trace:
+> >>>>>> <4>[ 3490.516756] usb_hcd_alloc_bandwidth+0x1ee/0x30f
+> >>>>>> <4>[ 3490.516762] usb_set_interface+0x1a3/0x2b7
+> >>>>>> <4>[ 3490.516773] uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+> >>>>>> <4>[ 3490.516781] uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+> >>>>>> <4>[ 3490.516787] uvc_start_streaming+0x28/0x5d [uvcvideo]
+> >>>>>> <4>[ 3490.516795] vb2_start_streaming+0x61/0x143 [videobuf2_common]
+> >>>>>> <4>[ 3490.516801] vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+> >>>>>> <4>[ 3490.516807] uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+> >>>>>> <4>[ 3490.516814] uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+> >>>>>> <4>[ 3490.516820] __video_do_ioctl+0x33d/0x42a
+> >>>>>> <4>[ 3490.516826] video_usercopy+0x34e/0x5ff
+> >>>>>> <4>[ 3490.516831] ? video_ioctl2+0x16/0x16
+> >>>>>> <4>[ 3490.516837] v4l2_ioctl+0x46/0x53
+> >>>>>> <4>[ 3490.516843] do_vfs_ioctl+0x50a/0x76f
+> >>>>>> <4>[ 3490.516848] ksys_ioctl+0x58/0x83
+> >>>>>> <4>[ 3490.516853] __x64_sys_ioctl+0x1a/0x1e
+> >>>>>> <4>[ 3490.516858] do_syscall_64+0x54/0xde
+> >>>>>>
+> >>>>>> I have been able to reproduce the problem on a Chromebook by strategically placing
+> >>>>>> msleep() calls into usb_set_interface() and usb_disable_device(). Ultimately, the
+> >>>>>> problem boils down to lack of protection against device removal in usb_set_interface()
+> >>>>>> [and/or possibly other callers of usb_ifnum_to_if()].
+> >>>>>>
+> >>>>>> Sequence of events is roughly as follows:
+> >>>>>>
+> >>>>>> - usb_set_interface() is called and proceeds to some point, possibly to
+> >>>>>>   mutex_lock(hcd->bandwidth_mutex);
+> >>>>>> - Device removal event is detected, and usb_disable_device() is called
+> >>>>>
+> >>>>> At this point all interface drivers get unbound (their disconnect 
+> >>>>> routines are called).
+> >>>>>
+> >>>>>> - usb_disable_device() starts removing actconfig data. It has removed
+> >>>>>>   and cleared dev->actconfig->interface[i], but not dev->actconfig
+> >>>>>> - usb_set_interface() calls usb_hcd_alloc_bandwidth(), which calls
+> >>>>>>   usb_ifnum_to_if()
+> >>>>>> - In usb_ifnum_to_if(), dev->actconfig is not NULL, but
+> >>>>>>   dev->actconfig->interface[i] is NULL
+> >>>>>> - crash
+> >>>>>>
+> >>>>>> Question is what we can do about this. Checking if dev->state != USB_STATE_NOTATTACHED
+> >>>>>> in usb_ifnum_to_if() might be a possible approach, but strictly speaking it would
+> >>>>>> still be racy since there is still no lock against device removal. I have not tried
+> >>>>>> calling usb_lock_device() in usb_set_interface() - would that possibly be an option ?
+> >>>>>
+> >>>>> As far as I know, protecting against these races is the responsibility 
+> >>>>> of the USB interface drivers.  They must make sure that their disconnect 
+> >>>>> routines block until all outstanding calls to usb_set_interface return 
+> >>>>> (in fact, until all outstanding device accesses have finished).
+> >>>>>
+> >>>>> For instance, in the log extract you showed, it's obvious that the 
+> >>>>> uvc_start_streaming routine was running after the disconnect routine had 
+> >>>>> returned, which looks like a bug in itself: Once the disconnect routine 
+> >>>>> returns, the driver is not supposed to try to access the device at all 
+> >>>>> because some other driver may now be bound to it.
+> >>>>>
+> >>>>> We can't just call usb_lock_device from within usb_set_interface, 
+> >>>>> because usb_set_interface is often called with that lock already held.
+> >>>>>
+> >>>> I had a closer look into the uvcvideo driver and compared it to other usb
+> >>>> drivers, including drivers in drivers/media/usb/ which connect to the video
+> >>>> subsystem.
+> >>>>
+> >>>> The usbvideo driver lacks protection against calls to uvc_disconnect() while
+> >>>
+> >>> Are you confusing usbvideo and uvcvideo ? Both exist, and uvcvideo would
+> >>> have been called usbvideo if the former hadn't already been in use.
+> >>
+> >> Yes, sorry :-(. I am not sure how s/uvc/usb/ happened.
+> > 
+> > No worries.
+> > 
+> >>>> calls into file operations are ongoing. This is pretty widespread, and not
+> >>>> even limited to file operations (for example, there is a worker which is only
+> >>>> canceled in uvc_delete, not in ucv_disconnect). The existing protection only
+> >>>> ensures that no file operations are started after the call to ucv_disconnect,
+> >>>> but that is insufficient.
+> >>>>
+> >>>> Other drivers do have that protection and make sure that no usb operations
+> >>>> can happen after the disconnect call.
+> >>>>
+> >>>> The only remedy I can see is to rework the usbvideo driver and add the
+> >>>> necessary protections. At first glance, it looks like this may be a
+> >>>> substantial amount of work. I'd sign up for that, but before I start,
+> >>>> I would like to get input from the usbvideo community. Is such an effort
+> >>>> already going on ? If yes, how can I help ? If not, is the problem
+> >>>> understood and accepted ? Are there any ideas on how to solve it ?
+> >>>
+> >>> This is something that has been discussed before, and needs to be solved
+> >>> in the V4L2 framework itself, not in individual drivers. Not only would
+> >>> this avoid rolling out the same code manually everywhere (in different
+> >>> incorrect ways, as races are difficult to solve and implementations are
+> >>> more often wrong than right), but it will also avoid similar issues for
+> >>> non-USB devices.
+> >>
+> >> You mean code that ensures that no user-space v4l2 operation is in progress
+> >> after video_device_unregister / v4l2_device_unregister return ? I agree,
+> >> that would simplify the necessary changes on the uvc side.
+> > 
+> > I was thinking about adding a new function to be called from the
+> > disconnect handler to implement the wait on end of userspace access, but
+> > video_device_unregister() seems an even better idea.
+> > v4l2_device_unregister() is probably not very useful as v4l2_device
+> > isn't exposed to userspace, only video_device is (and v4l2_subdev and
+> > media_device, but that's a different story, although probably still an
+> > issue for the latter in the UVC driver).
 > 
-> Ack on both points.
-> 
-> > > >>> +
-> > > >>> +The V4L2 selection API can be used on sub-devices that represent an image
-> > > >>> +sensor to retrieve the sensor's pixel array matrix properties by using the
-> > > >>> +:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
-> > > >>> +
-> > > >>> +Sub-device drivers for image sensor usually register a single source pad, but in
-> > > >>> +the case they expose more, the pixel array properties can be accessed from
-> > > >>> +any of them.
-> >
-> > Is this right ? I don't think the V4L2_SEL_TGT_CROP rectangle, for
-> > instance, can be accessed from any source pad indifferently. Do we have
-> > sensor drivers that create multiple source pads in a subdev today ? If
-> > not I'd suggest dropping this, and adding it later if needed (when we'll
-> > have a better idea of how that would work).
-> 
-> Yes, this was meant to cover cases which I still have not a clear idea
-> about but I suspect people might have question about looking at their
-> drivers. I'm totally fine adding it later when required.
-> 
-> > I think what should be explained here, as also mentioned by Sakari, is
-> > that camera sensors can be exposed as multiple subdevs. The text below
-> > is related to the pixel array, which is always the first subdev, with
-> > one source pad and no sink pad. The other subdevs, modelling additional
-> > processing blocks in the sensor, may use the selection API, but that's
-> > out of scope for this patch.
-> >
-> > As we'll also need to document how other subdevs use the selection API,
-> > as well as how sensors are usually handled, would it make sense to move
-> > this to a separate file ? Sakari has proposed in [1] to create a new
-> > Documentation/driver-api/media/camera-sensor.rst file. It would make
-> > sense to centralize all sensor information there. This doesn't mean this
-> > series should depend on Sakari's patch, we can handle merge conflicts
-> > depending on what gets merged first.
-> 
-> I totally missed that one but I equally totally welcome that change. I
-> would be happy to rebase this work on top of Sakari's patch which I
-> will soon give a read to.
-> 
-> >
-> > [1] https://lore.kernel.org/linux-media/20200730162040.15560-1-sakari.ailus@linux.intel.com/
-> >
-> > > >>> +
-> > > >>> +The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
-> > > >>
-> > > >> V4L2_SEL_TGT_NATIVE -> V4L2_SEL_TGT_NATIVE_SIZE
-> > > >>
-> > > >> (same mistake is made elsewhere).
-> > > >
-> > > > Ah ups, I used TGT_NATIVE consistently, seems like I thought that was
-> > > > the right name
-> > > >
-> > > >>> +``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
-> > > >>> +the immutable properties of the several different areas that compose the sensor
-> > > >>> +pixel array matrix. Each area describes a rectangle of logically adjacent pixel
-> >
-> > V4L2_TGT_CROP isn't immutable, is it ?
-> >
-> 
-> Right, I noticed that, but didn't want to be too heavy with createing
-> a special section for CROP. But you're right, it's not immutable so it
-> should not be mentioned here.
-> 
-> > > >>> +units. The logical disposition of pixels is defined by the sensor read-out
-> > > >>> +starting point and direction, and may differ from the physical disposition of
-> > > >>> +the pixel units in the pixel array matrix.
-> > > >>> +
-> > > >>> +Each pixel matrix portion is contained in a larger rectangle, with the most
-> > > >>> +largest being the one that describes the pixel matrix physical size. This
-> > > >>> +defines a hierarchical positional system, where each rectangle is defined
-> > > >>> +relatively to the largest available one among the ones exposed by the
-> > > >>> +sub-device driver. Each selection target and the associated pixel array portion
-> > > >>> +it represents are below presented in order from the largest to the smallest one.
-> >
-> > I find this quite confusing. As Hans suggested, I think each target
-> > should define its boundaries. I'd drop this paragraph completely, as you
-> > already explain below that all rectangles are defined relatively to
-> > V4L2_SEL_TGT_NATIVE_SIZE.
-> 
-> Ack.
-> 
-> > > >>> +
-> > > >>> +Pixel array physical size
-> > > >>> +^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > >>> +
-> > > >>> +The image sensor chip is composed by a number of physical pixels, not all of
-> > > >>> +them readable by the application processor. Invalid or unreadable lines might
-> > > >>> +not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
-> > > >>> +they might be tagged with an invalid data type (DT) so that the receiver
-> > > >>> +automatically discard them.
-> >
-> > "might" is a bit weak for unreadable lines, there's no way they can be
-> > transmitted if they can't be read :-)
-> 
-> This paragraph reflects my confusion on the subject. My interpretation
-> is that for CSI-2 sensors, you cannot crop a black pixels area and
-> capture just them. At the contrary, the black pixels are sent on the
-> bus (maybe that can be optionally enabled/disabled) tagged with a
-> special DT and interleaved with image data and you have to instruct
-> your receiver to discard or accept that DT, and have black pixels
-> captured to a separate memory area, or at buffer end (that depends on
-> the receiver's architecture I guess).
+> Actually, all that is needed is to take the ioctl serialization lock in the disconnect
+> function.
 
-This is all sensor specific I'm afraid :-( It's entirely conceivable
-that a sensor would implement a single crop rectangle that can span the
-black pixels, while another sensor could restrict cropping to the
-effective area, and enable/disable the black pixels output through a
-separate configuration. The black pixels lines will however very likely
-be cropped horizontally the same way as the visible pixels, as
-variable-length lines isn't widely supported on the receiver side, but
-some sensors could implement more options.
+It's not just ioctls though, the other file operations also need to be
+handled (read, write, mmap).
 
-> At the same time, I won't be
-> surprised if some sensor's allow you to explicitly crop on black
-> pixels areas and only put them on the bus. Knowing how the SMIA++
-> standard handles that part might help establishing an expected
-> behaviour (I really, really, wish we had as a community any leverage
-> to influence sensor manufacturer towards a standardized behaviour, it
-> would be time for the industry to do so. </wishful thinking>).
+> See last paragraph in 1.4.1 here:
+> 
+> https://hverkuil.home.xs4all.nl/spec/driver-api/v4l2-dev.html
+> 
+> Since uvc uses its own lock, you need to take that one.
 
-MIPI CCS ? Still, not all vendors will implement that, sometimes for
-good reasons, mostly probably just "because".
+Drivers that use their own lock do so to avoid serializing all ioctls.
+This means that different ioctls may be covered by different locks
+(possibly with part of some ioctls running without locking). I don't
+think we can just dismiss the issue saying those drivers need to
+implement the disconnection manually. It would be much better to
+integrate handling of userspace access with video_device_unregister()
+like proposed above, as that will work for all drivers in a transparent
+way. It would also be fairly simple to implement in the V4L2 core.
 
-> If that's correct, I wonder how would that possibly work with parallel
-> sensors, where you cannot tag data on the bus. I there assume you have
-> to explicitly select the black region to capture.
-
-From a sensor point of view it makes no difference, it's only from a
-receiver point of view that the situation may get more complex as you
-can't filter on the data type.
-
-> I there tried to, confusingly, express that different behaviour and
-> stay as much as possible generic not to rule out any existing case.
+> > We also have a v4l2_device_disconnect() function which is supposed to
+> > handle hot-pluggable device disconnection, but it's fairly useless (I'd
+> > even say harmful as it gives the illusion that hotplugging is correctly
+> > handled, while in reality the media subsystem is plagged by hot-unplug
+> > issues :-S).
 > 
-> > One way to generalize this a bit would be to explain, after the first
-> > sentence, that not all pixels may be read by the sensor, that among the
-> > pixels that are read invalid ones may not be transmitted on the bus, and
-> > that among transmitted pixels not all of them may be possible to capture
-> > on the receiver side. For instance, invalid lines may be transmitted as
-> > part of the vertical blanking on parallel buses, or tagged as blanking
-> > data or null data on CSI-2 buses. Most receivers are not able to capture
-> > either.
-> >
-> > (On a side note, strictly speaking, a CSI-2 receiver that would be able
-> > to capture null or blanking packets wouldn't be compliant with the CSI-2
-> > spec.)
-> >
-> > > >>> The size of the whole pixel matrix area is
-> > > >>> +retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
-> > > >>> +defined as position (0, 0). All the other selection targets are defined
-> > > >>> +relatively to this, larger, rectangle. The rectangle returned by
-> >
-> > s/, larger,/
-> >
-> > > >>> +V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
-> > > >>> +does not change at run-time and cannot be modified from userspace.
-> > > >>
-> > > >> It is a good idea to mention that if there are no invalid or unreadable pixels/lines,
-> > > >> then V4L2_SEL_TGT_NATIVE_SIZE == V4L2_SEL_TGT_CROP_BOUNDS.
-> > > >
-> > > > Yes it is! I'll add it here
-> >
-> > Should it be added below instead, where you define
-> > V4L2_SEL_TGT_CROP_BOUNDS ? It's best to avoid mentioning something that
-> > isn't defined yet when possible.
+> The v4l2_device_disconnect() is there to remove a v4l2_dev reference to
+> the device that is about to be removed when the disconnect() exists.
+> Otherwise v4l2_dev->dev would point to a missing device.
 > 
-> I have a question for Sakari on this target, but I'll deflect it to
-> the reply to your comment  on patch 1/4.
+> However, I wonder if it is still needed: commit 236c5441d703 from 2011 added
+> code to take a reference to v4l2_dev->dev in v4l2_device_register(). This
+> should prevent the device from disappearing until v4l2_device_unregister() is
+> called. I suspect that v4l2_device_disconnect() can be removed completely, and
+> instead v4l2_device_unregister() just calls put_device(v4l2_dev->dev).
 > 
-> > > >>> +
-> > > >>> +Pixel array readable area
-> > > >>> +^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > >>> +
-> > > >>> +The V4L2_SEL_TGT_CROP_BOUNDS targets returns size and position of the readable
-> > > >>> +area of the pixel array matrix, including pixels with valid image data and pixel
-> > > >>> +used for calibration purposes, such as optical black pixels. It is not unlikely
-> >
-> > s/not unlikely/likely ? Or just "common".
-> >
-> > > >>> +that valid pixels and optical black pixels are surrounded by non-readable rows
-> > > >>> +and columns of pixels. Those does not concur in the definition of the
-> >
-> > s/does/do/
-> >
-> > I'm not sure "concur" is the right word. Did you mean "those are not
-> > part of the V4L2_SEL_TGT_CROP_BOUNDS rectangle" ?
+> I don't like v4l2_device_disconnect() either, so if this works, then that would
+> be a nice simplification.
 > 
-> Yes, I meant they should not be counted in the definition of the BOUND
-> rectangle sizes.
-> 
-> > > >>> +V4L2_SEL_TGT_CROP_BOUNDS rectangle. The rectangle returned by
-> > > >>> +V4L2_SEL_TGT_CROP_BOUNDS describes an immutable property of the image sensor, it
-> > > >>> +does not change at run-time and cannot be modified from userspace.
-> > > >>
-> > > >> Mention that BOUNDS is enclosed by NATIVE_SIZE.
-> > > >
-> > > > I tried to express that in the intro section with
-> > > >
-> > > > "Each pixel matrix portion is contained in a larger rectangle, with the most
-> > > > largest being the one that describes the pixel matrix physical size."
-> > > >
-> > > > But I guess it's worth to express that for each target!
-> > > >
-> > > >>> +
-> > > >>> +Pixel array active area
-> > > >>> +^^^^^^^^^^^^^^^^^^^^^^^
-> > > >>> +
-> > > >>> +The portion of the pixel array which contains valid image data is defined as the
-> > > >>> +active area of the pixel matrix. The active pixel array is is accessed by mean
-> > > >>
-> >
-> > s/is is/is/
-> >
-> > > >> mean -> means
-> > > >>
-> > > >>> +of the V4L2_SEL_TGT_CROP_DEFAULT target, and is contained in the larger
-> > > >>> +V4L2_SEL_TGT_CROP_BOUNDS rectangle. It represents the largest possible frame
-> > > >>> +resolution the sensor can produce and defines the dimension of the full
-> > > >>> +field-of-view. The rectangle returned by V4L2_SEL_TGT_CROP_BOUNDS describes an
-> > > >>
-> > > >> BOUNDS -> DEFAULT
-> > > >
-> > > > ups
-> > > >
-> > > >>> +immutable property of the image sensor, it does not change at run-time and
-> > > >>> +cannot be modified from userspace.
-> > > >>
-> > > >> Mention that CROP_DEFAULT is enclosed by CROP_BOUNDS
-> > > >>
-> > > >>> +
-> > > >>> +Analog crop rectangle
-> > > >>
-> > > >> Why analog? It's just the crop rectangle, nothing analog about it.
-> > > >
-> > > > We used the 'analogCrop' term in libcamera to differentiate the
-> > > > cropping which happens on the sensor pixel array matrix to select the
-> > > > region to process and produce image from. Sensor with an on-board
-> > > > scaler can perform other cropping steps to implement, in example digital
-> > > > zoom, so we expect to have a 'digital crop' phase as well. RAW
-> > > > sensors, in example, will only have an analogCrop rectangle.
-> > > >
-> > > > Quoting the libcamera definition of analog crop:
-> > > >
-> > > >  * horizontal and vertical sizes define the portion of the pixel array which
-> > > >  * is read-out and provided to the sensor's internal processing pipeline, before
-> > > >  * any pixel sub-sampling method, such as pixel binning, skipping and averaging
-> > > >  * take place.
-> > > >
-> > > > should I keep it or remove it ?
-> > >
-> > > It's a very confusing term. Especially since this API can also be used with analog
-> > > video capture devices (Composite/S-Video) where the video signal actually is analog.
-> > >
-> > > In the V4L2 API there is no such thing as 'analog crop', so please remove it.
-> >
-> > Jacopo is right, sensors usually perform cropping in the analog domain
-> > (by not reading out all pixels from the pixel array), and also support
-> > cropping in later stages, after binning/skipping, and after further
-> > scaling. Note that all of these crop operations are optional. Although
-> > not common, it's also not unconceivable that a sensor wouldn't support
-> > cropping at all.
-> >
-> > This being said, it only makes sense to talk about analog crop when
-> > multiple crop operations are performed, and thus in the context of the
-> > whole sensor, with multiple subdevs. If we explain this, as proposed
-> > above, and make it clear that the usage of the selection rectangles
-> > defined here applies to the pixel array only, we can drop the "analog"
-> > term, and just talk about cropping in the pixel array.
-> 
-> It's fine as long as it removes any ambiguity.
-> 
-> > > >>> +^^^^^^^^^^^^^^^^^^^^^
-> > > >>> +
-> > > >>> +The sensor driver might decide, in order to adjust the image resolution to best
-> > > >>> +match the one requested by applications, to only process a part of the active
-> > > >>> +pixel array matrix.
-> >
-> > I don't think that's the right approach. With MC-based devices, the
-> > philosophy is to expose all configuration parameters to userspace. It's
-> > not about sensor drivers making decisions, but about userspace deciding
-> > to crop at the pixel array level.
-> >
-> > This being said, I'm aware the decision is made by drivers when they're
-> > mode-based. Please see below for that.
-> 
-> Correct, and I should now be used enough to the 'userspace drives'
-> approach to remember about documenting it :)
-> 
-> > > >>> The selected area is read-out and processed by the image
-> > > >>> +sensor on-board ISP in order to produce images of the desired size and
-> > > >>> +resolution while possible maintaing the largest possible field-of-view. The
-> > > >>
-> > > >> maintaing -> maintaining
-> > > >>
-> > > >> Actually, I'd drop 'while possible maintaing the largest possible field-of-view'
-> > > >> entirely. It doesn't make much sense.
-> > > >
-> > > > Ack
-> >
-> > In general, in this section, as we're documenting the pixel array, let's
-> > not talk about the ISP.
-> >
-> > > >>> +cropped portion of the pixel array which is used to produce images is returned
-> > > >>> +by the V4L2_SEL_TGT_CROP target and represent the only information that can
-> > > >>
-> > > >> represent -> represents
-> > > >>
-> > > >>> +change at runtime as it depends on the currently configured sensor mode and
-> > > >>> +desired image resolution. If the sub-device driver supports that, userspace
-> > > >>> +can set the analog crop rectangle to select which portion of the pixel array
-> > > >>
-> > > >> s/analog//
-> > > >>
-> > > >>> +to read out.
-> >
-> > I think it's better to focus on the best case, and document usage of
-> > crop rectangles in general first, for drivers that expose full
-> > configurability of the sensor. A separate section should then then make
-> > a note of how mode-based drivers differ, which is mostly in the
-> > V4L2_SEL_TGT_CROP target being read-only, and on the single subdev
-> > hiding all the processing steps, with the crop target thus being the
-> > result of all cropping operations, analog and digital.
-> >
-> > Sakari's patch has a bit of information about this, it may be useful to
-> > reuse it or integrate with it somehow.
-> 
-> I'll try to see how the two parts can be piled one on top of the
-> other.
-> 
-> > > >> Mention that CROP is enclosed by CROP_BOUNDS and defaults to CROP_DEFAULT.
-> > > >>
-> > > >> Make a note that CROP can also be used to obtain optical black pixels.
-> > > >
-> > > > What about:
-> > > >
-> > > > +desired image resolution. If the sub-device driver supports that, userspace
-> > > > +can set the analog crop rectangle to select which portion of the pixel array
-> > > > +to read out including, if supported, optical black pixels.
-> > >
-> > > Hmm, that's a bit awkward. How about:
-> > >
-> > > +desired image resolution. If supported by the sub-device driver, userspace
-> > > +can set the crop rectangle to select which portion of the pixel array
-> > > +to read out. This may include optical black pixels if those are part of
-> > > +V4L2_SEL_TGT_CROP_BOUNDS.
-> > >
-> > > >>> +
-> > > >>>
-> > > >>>  Types of selection targets
-> > > >>>  --------------------------
+> >> I actually came from the other side - I assumed that there is a reason
+> >> that is not already the case, and that the problem therefore has to be
+> >> resolved on the driver side.
+> >>
+> >> So I guess the next question is: Is this already being addressed on the
+> >> v4l2 side ?
+> > 
+> > I'm not aware of anyone working on this.
+> > 
+> >>> It shouldn't take more than two flags (to track user-space operations in
+> >>> progress and disconnection), a spinlock and a wait queue entry. I'm not
+> >>> sure if someone has already given it a try, and don't recall why this
+> >>> hasn't been done yet, as it should be fairly straightforward.
+> >>>
+> >>> On the UVC side, the work queue probably has to be flushed in
+> >>> uvc_disconnect(). I'd keep the destroy call in uvc_delete() though.
+> >>> Please make sure to look for potential race conditions between the URB
+> >>> completion handler and the .disconnect() handler (they shouldn't be any,
+> >>> but I haven't checked lately myself).
+> >>
+> >> My current solution for this problem is to call uvc_ctrl_cleanup_device()
+> >> from uvc_disconnect(), after uvc_unregister_video().
+> > 
+> > I'd rather avoid that, as the cleanup functions in the UVC driver are
+> > generally meant to free memory when the last user disappears. While no
+> > new userspace operation will be started after disconnection once the
+> > above fix will be in place, there's one operation we can't avoid: the
+> > file release. This will access some of the memory allocated by the
+> > driver, and while the current implementation probably doesn't access in
+> > .release() any memory freed by uvc_ctrl_cleanup_device(), I think it's a
+> > good practice to only shut down the userspace API in .disconnect(), and
+> > free memory when the last reference is released.
+> > 
+> >> An alternative might
+> >> be to add a uvc_ctrl_stop_device() function which would just cancel the
+> >> worker.
+> > 
+> > I think that would be best. Should stream->async_wq (in uvc_video.c) be
+> > similarly flushed ? The driver does so in stream->async_wq(), called
+> > from uvc_video_stop_transfer(), itself called from
+> > uvc_video_stop_streaming() (among other places, that are either error
+> > paths or system suspend handling). The call stack goes to
+> > uvc_stop_streaming(), and, through the videobuf2 helpers, to
+> > vb2_queue_release() called by uvc_queue_release() itself called by
+> > uvc_v4l2_release() (in the non-disconnect case,
+> > uvc_video_stop_streaming() will be called through videobuf2 by
+> > uvc_queue_streamoff(), in response to a VIDIOC_STREAMOFF ioctl). We thus
+> > flush the workqueue too late, and also access the device in
+> > uvc_video_stop_streaming() long after .disconnect() returns.
+> > 
+> > I think uvc_video_stop_streaming() could be called in uvc_disconnect()
+> > after uvc_unregister_video().
 
 -- 
 Regards,
