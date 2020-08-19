@@ -2,203 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAE1A249E3B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 14:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F08A249E79
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 14:45:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727846AbgHSMjF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 08:39:05 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57756 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727046AbgHSMjB (ORCPT
+        id S1728553AbgHSMpv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 08:45:51 -0400
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:65264 "EHLO
+        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726961AbgHSMpc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 08:39:01 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E87B529E;
-        Wed, 19 Aug 2020 14:38:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597840738;
-        bh=GSxF4Qc+IzH3fH8iUKiDm14HOq/QLgPB/TjTmAa3Q/8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X9t3hXMhDhThSImNS43/UumhedD7gRRI37puchcoLGivSvbANN1btqGUeq1X+zIcE
-         NqRnmhlDoXOYB4TDM92z8eVSb2hnD5CPP1eVOHYQQAXo/jkKwO+VzYivTLwx3XM+3h
-         NNyQXB/fX5ONh3hzCGDuaihWOy1cD76ojqFz2UH8=
-Date:   Wed, 19 Aug 2020 15:38:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
-Message-ID: <20200819123840.GG6049@pendragon.ideasonboard.com>
-References: <20200805105721.15445-1-jacopo@jmondi.org>
- <20200805105721.15445-2-jacopo@jmondi.org>
- <20200809175821.GF5981@pendragon.ideasonboard.com>
- <20200810081757.zeeqiigrlfpxppxs@uno.localdomain>
- <20200818081743.GQ24582@paasikivi.fi.intel.com>
- <20200819010623.GI2360@pendragon.ideasonboard.com>
- <20200819102000.GS24582@paasikivi.fi.intel.com>
+        Wed, 19 Aug 2020 08:45:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1597841133; x=1629377133;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=jwOWa14Iody65DgsA92lOrUhAOSm+sipDGaGbTJmcDI=;
+  b=jUGwK+gUV0lI9/mnkQg+0qgaa0yNkbKcrfeaRKRBEVxWBxxQnKxalSrB
+   FPP+9CEu8GlB5jLYXVSPKlBQoaNJzUc6kB12JssmmOzIwC7NnLxogqTop
+   j2RD0iSMoW0+8Cekp17OIAqN+fbhIyGqmoTkOcZprY0GZENJEa7gKo2lm
+   KA1zMve8vku4Wc5bJziB1Lx2j2aDjk7///x9vXVrAc4Zn46AqBzRYcB2g
+   n3S3VVvs0iM5aIOa4oGboa3sZMrBaGsbUrq7vJRO4CulHUqb7afqzKRiQ
+   A0bviRi1mrdXZJEVxICT0BWo1cLSdNX4LlISRh/ivofsOLsSypj1vTrzD
+   w==;
+IronPort-SDR: ZyPUfYtqsquSbnEuYaT0zy8FJ/pQw2CT9zgN3MwlT9ZWDQzB1Wm4ASxddkPh2yK5uVLmhyZl/k
+ uBhlywCqlYtAa60QBeQ/jDyg7SZwls/F6DwE5uXlBnEhOl9x0AaXaux0J5DlzA1gWxl4Am1EUL
+ D41koLAWOBGGa+iryOTTCMfrCk/zAtDLFrYl09GfXyQOws7jPPkcbSyMBZWMFtZMZ6VTTwxcW8
+ F0Vxl/xIKwxhX8TugwdIOLQ9jOrCS2BNnETQ3UlMcGqJ1JAvUVWmYouEc+h5UQ8aOgXlx7ALh/
+ WY8=
+X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
+   d="scan'208";a="87731660"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 19 Aug 2020 05:45:32 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Wed, 19 Aug 2020 05:44:34 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3 via Frontend
+ Transport; Wed, 19 Aug 2020 05:44:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HjgTClWGPYfOq44PSJkJ1T6YDTrEUQwlmejBO1eUx6VX2KjxOvqGYLxioafDsx9gazfs9I3f+xvob4SfR2vX026wgLLmPADRhGXZIKDhXp3AVIydKwOmPDf1pDVW9YyVzII2IcR/0juTYbsQkSQOoDH4/isGFYtsT0Vs47lkvzkkvoHy3YkPVCjcYuM5xhncRQZxGTW/HmTqd40Yx1KY8YSwYaqs+isX7Iwn6B+w8t6sdftx/frmqHY0WYxXVjWq+vM+Varnu8sAvKC6muSPaie/AdF7fXlgiEWCjAXQF4SdX6Rs6LV7lIqWIVWCJO0cpP1bCkHzZlKzPnsYQo8bmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jwOWa14Iody65DgsA92lOrUhAOSm+sipDGaGbTJmcDI=;
+ b=QR+JZJ8lStUgdbpaKFMfqjuG+xBa0rs9FU/xE0ipFmSa+0Vqcx1PyoLVEdzZ2GmCUlOcSqDqEoEiZxJNH/RfqbVwT3fEmOlU1X2oysrM/uZho45ej0Au0JmS58x7Na4wSBK79oGjGtzEv8rdycMu+0gYcsHNBZij7p/LKQ4kbR0mUNy+WbVNQxYL612IFgIZ2RBykB0fX3w3mKfMPcFio8Mr2aKSvz/ZeHbJOyA6BSY8UubOJAtaN8kCmKR7fsumvdR1wRA1NtTgcESIDDj67wmDiFyTeJwUZXiudwnpygIRj5ghfhF1EVQOX32yw7zqE3qY41JLDq33ZmMwb3K14w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jwOWa14Iody65DgsA92lOrUhAOSm+sipDGaGbTJmcDI=;
+ b=QGQN/+E5BSu1gkmjpuuSBTuaRHPPQHRl477E5oqawxzEWiyvhzFWOhVyD7JBPgB/OJFpE/dQIMFFFJkR+dTaz4USeb90/Ei/eqvMA85TYb+22lG7HEKzUldJaAptRXmkxd88LcOyfNxn5pXNW9ydBADbszASRkwMSJoyNTJp/B0=
+Received: from BYAPR11MB2999.namprd11.prod.outlook.com (2603:10b6:a03:90::17)
+ by BY5PR11MB4166.namprd11.prod.outlook.com (2603:10b6:a03:191::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Wed, 19 Aug
+ 2020 12:45:29 +0000
+Received: from BYAPR11MB2999.namprd11.prod.outlook.com
+ ([fe80::9d17:b603:ad42:a2d4]) by BYAPR11MB2999.namprd11.prod.outlook.com
+ ([fe80::9d17:b603:ad42:a2d4%7]) with mapi id 15.20.3305.024; Wed, 19 Aug 2020
+ 12:45:29 +0000
+From:   <Eugen.Hristev@microchip.com>
+To:     <sakari.ailus@iki.fi>
+CC:     <mchehab@kernel.org>, <hverkuil@xs4all.nl>, <robh+dt@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: csi2dc: add bindings for
+ microchip csi2dc
+Thread-Topic: [PATCH v2 1/4] dt-bindings: media: csi2dc: add bindings for
+ microchip csi2dc
+Thread-Index: AQHWUQ4jEadYX0HypkGv3SAUXQZrmKk25QKAgAjGG4A=
+Date:   Wed, 19 Aug 2020 12:45:29 +0000
+Message-ID: <07583628-1fd0-cb05-dc12-f4a3c76da3de@microchip.com>
+References: <20200703074416.55272-1-eugen.hristev@microchip.com>
+ <20200703074416.55272-2-eugen.hristev@microchip.com>
+ <20200813224619.GN840@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20200813224619.GN840@valkosipuli.retiisi.org.uk>
+Accept-Language: en-US, ro-RO
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: iki.fi; dkim=none (message not signed)
+ header.d=none;iki.fi; dmarc=none action=none header.from=microchip.com;
+x-originating-ip: [86.121.125.215]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8c3cbf8a-4dfc-4e7c-d6d2-08d8443dc0dd
+x-ms-traffictypediagnostic: BY5PR11MB4166:
+x-microsoft-antispam-prvs: <BY5PR11MB4166DD9038CC18A02F5C18FEE85D0@BY5PR11MB4166.namprd11.prod.outlook.com>
+x-bypassexternaltag: True
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3v2udrP9BgLjOtq7GW2MMFU/ewW7p/7lQadKe4W1pF7YijBVjo0lVcaKxbyP+kCU44j8SD4tt6oy5T9/RkumoRF2NLfg4QaWz6sGzSDy+Y4btPeWWXvXbyOYtTC6ytxGRbNl7Y2X6uKMDDqHI/qeGMVMC4V8gwoqLpoULUZa4i90hn3/fXBIeKCvpe1NsT2ABq0dApjpYhgwSblR2fGUamZYC4YEU+nc525HTojw2om6R2A1I+IN0tHA8LSYIrQ0QBrQ/QkGKd1qoY2dHELd0x+m5/iaXjJHd5GabsysgGwqybs/JBeLBVqQx+cXasnMTMZU7tkC6zKpWJsCZFBrwHdJ+QmYqImlpeKlCPbQcOC66dFFcs3kpUvBPXg8jsl4
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2999.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(346002)(366004)(136003)(39860400002)(396003)(66446008)(64756008)(66556008)(66476007)(36756003)(26005)(31686004)(316002)(2906002)(5660300002)(8676002)(6512007)(2616005)(31696002)(478600001)(186003)(91956017)(6486002)(4326008)(54906003)(8936002)(6506007)(53546011)(71200400001)(66946007)(76116006)(6916009)(86362001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 7aHBEm1TwgY4FJKCXL3V9pG+01ufs6zfvbXJEfHTknho++o0gDGLSUifcrCsgzeptCGSqLcGj/Zz86ol1Hbc7ChWDRLBZ9q/9fjxkvUEnnNTccV9keQrblcGNDbF2jUd+aBrcDDHU8wxFLgtvvRifdKR8RzNJWaLuFYaz29n39mQZ/6Awqgm1lzuNGzIU8hvDK8hOGmNeFElCkDtDLCy8TO8Z1yX08fBQWFiGjfreQoSHsK9RiUusB6rFtomIPF1l/19lxizYVWZasPqI6k0BUSHBlnoAduqmUIIELwioBFjexS0BD8vVQwfbTX0RU59sXtQSRp8vPEQiMFVzdr4mFzwfsrZ2oXi4PYyEBjCR8tH7YDCXpPKSie4zV4cqZxVlD1qaXj6fjqfMm+7hFm6ZnVJ8EwdWv8Q1CbyvPWt5ss0lKpa+IEQZTJ/1EYTuG6h/1P0NPdY7OLlce//K5zqN/N67uNR3/oGFEkNCfuvlShjPoi17aS0TtfEBqueufb7s0z/tTRIUniGWzBuaRtveEOyuaXrW2v8Jq4ecm5bW2agLfFz/fQj/q9byUJZzNeGP7vhtjHJUHWrcgV2pHChHmsCFdeKzucAmy3L7ZTA+gufiS9iaAzDbWkp8dy7nMxKBy+EaK4eI56CZFAfl27xZQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <63295B18F5822A4389B4EF4DC50F1900@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200819102000.GS24582@paasikivi.fi.intel.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2999.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c3cbf8a-4dfc-4e7c-d6d2-08d8443dc0dd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2020 12:45:29.1103
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0tKHFL+aMZ/nyJhjpm5c+88DzpmV3uXQ+nCyfignQd9J5XQS5xDScsxTJTw41Gs9eoOiZzUokactvvBOJzP0LhRUOmYgXqjWEybT1RCDl80=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4166
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On Wed, Aug 19, 2020 at 01:20:00PM +0300, Sakari Ailus wrote:
-> On Wed, Aug 19, 2020 at 04:06:23AM +0300, Laurent Pinchart wrote:
-> > On Tue, Aug 18, 2020 at 11:17:43AM +0300, Sakari Ailus wrote:
-> > > On Mon, Aug 10, 2020 at 10:17:57AM +0200, Jacopo Mondi wrote:
-> > > > On Sun, Aug 09, 2020 at 08:58:21PM +0300, Laurent Pinchart wrote:
-> > > > > On Wed, Aug 05, 2020 at 12:57:18PM +0200, Jacopo Mondi wrote:
-> > > > > > The V4L2 selection API are also used to access the pixel array
-> > > > > > properties of an image sensor, such as the size and position of active
-> > > > > > pixels and the cropped area of the pixel matrix used to produce images.
-> > > > > >
-> > > > > > Currently no clear definition of the different areas that compose an
-> > > > > > image sensor pixel array matrix is provided in the specification, and
-> > > > > > the actual meaning of each selection target when applied to an image
-> > > > > > sensor was not provided.
-> > > > > >
-> > > > > > Provide in the sub-device documentation the definition of the pixel
-> > > > > > matrix properties and the selection target associated to each of them.
-> > > > > >
-> > > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > > > ---
-> > > > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
-> > > > > >  1 file changed, 81 insertions(+)
-> > > > > >
-> > > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > index 134d2fb909fa4..c47861dff9b9b 100644
-> > > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > @@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
-> > > > > >  ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
-> > > > > >  the image size either up or down. :ref:`v4l2-selection-flags`
-> > > > > >
-> > > > > > +.. _v4l2-subdev-pixel-array-properties:
-> > > > > > +
-> > > > > > +Selection targets for image sensors properties
-> > > > > > +----------------------------------------------
-> > > > > > +
-> > > > > > +The V4L2 selection API can be used on sub-devices that represent an image
-> > > > > > +sensor to retrieve the sensor's pixel array matrix properties by using the
-> > > > > > +:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
-> > > > > > +
-> > > > > > +Sub-device drivers for image sensor usually register a single source pad, but in
-> > > > > > +the case they expose more, the pixel array properties can be accessed from
-> > > > > > +any of them.
-> > > > > > +
-> > > > > > +The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
-> > > > > > +``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
-> > > > > > +the immutable properties of the several different areas that compose the sensor
-> > > > > > +pixel array matrix. Each area describes a rectangle of logically adjacent pixel
-> > > > > > +units. The logical disposition of pixels is defined by the sensor read-out
-> > > > > > +starting point and direction, and may differ from the physical disposition of
-> > > > > > +the pixel units in the pixel array matrix.
-> > > > > > +
-> > > > > > +Each pixel matrix portion is contained in a larger rectangle, with the most
-> > > > > > +largest being the one that describes the pixel matrix physical size. This
-> > > > > > +defines a hierarchical positional system, where each rectangle is defined
-> > > > > > +relatively to the largest available one among the ones exposed by the
-> > > > > > +sub-device driver. Each selection target and the associated pixel array portion
-> > > > > > +it represents are below presented in order from the largest to the smallest one.
-> > > > > > +
-> > > > > > +Pixel array physical size
-> > > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > > > +
-> > > > > > +The image sensor chip is composed by a number of physical pixels, not all of
-> > > > > > +them readable by the application processor. Invalid or unreadable lines might
-> > > > > > +not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
-> > > > > > +they might be tagged with an invalid data type (DT) so that the receiver
-> > > > > > +automatically discard them. The size of the whole pixel matrix area is
-> > > > > > +retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
-> > > > > > +defined as position (0, 0). All the other selection targets are defined
-> > > > > > +relatively to this, larger, rectangle. The rectangle returned by
-> > > > > > +V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
-> > > > > > +does not change at run-time and cannot be modified from userspace.
-> > > > >
-> > > > > As I think I've mentioned previously (not sure if it was by e-mail or on
-> > > > > IRC), we could also decide to set V4L2_SEL_TGT_NATIVE_SIZE ==
-> > > > > V4L2_SEL_TGT_CROP_BOUNDS by ignoring the non-readable pixels completely.
-> > > > > What's the advantage of exposing them in the API, when the sensors
-> > > > > doesn't provide them to the rest of the pipeline ?
-> > > > 
-> > > > I don't know :) I'm also  bit confused on what's the purpose of
-> > > > NATIVE, this commit seems to suggest it was meant to replace
-> > > > CROP_BOUNDS, but I'm not sure about that.
-> > > > 
-> > > > commit b518d86609cc066b626120fe6ec6fe3a4ccfcd54
-> > > > Author: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > Date:   Thu Nov 6 16:54:33 2014 -0300
-> > > > 
-> > > >     [media] smiapp: Support V4L2_SEL_TGT_NATIVE_SIZE
-> > > > 
-> > > >     Add support for selection target V4L2_SEL_TGT_NATIVE_SIZE. It is equivalent
-> > > >     of what V4L2_SEL_TGT_CROP_BOUNDS used to be. Support for
-> > > >     V4L2_SEL_TGT_CROP_BOUNDS is still supported by the driver as a compatibility
-> > > >     interface.
-> > > > 
-> > > > Sakari, do you recall if that's was the original plan ?
-> > > 
-> > > That was to denote the size of the pixel array indeed. We didn't discuss
-> > > dark or invalid pixels at the time.
-> > > 
-> > > So this was just there to tell that it's the pixel array you're cropping
-> > > from.
-> > > 
-> > > But as long as it's API-wise compatible, I don't think anything prevents
-> > > re-purposing this to include other areas. The documentation (AFAIR) does
-> > > not say this has to be the same as the crop bounds rectangle.
-> > 
-> > What do you think would be best ? Should we include the non-readable
-> > pixels in V4L2_SEL_TGT_NATIVE_SIZE, with V4L2_SEL_TGT_CROP_BOUNDS then
-> > being strictly smaller, or drop them completely from the API, with
-> > V4L2_SEL_TGT_CROP_BOUNDS being equal to V4L2_SEL_TGT_NATIVE_SIZE ? It
-> > may be that we have to allow both to support existing drivers, but we
-> > should pick one of the two options and make it mandatory for new
-> > drivers.
-> 
-> That's a very good question.
-> 
-> What would be the purpose of adding pixels that cannot be read? I assume
-> they would not affect sensor timing either in that case, so there would be
-> no difference whether they are there or not.
-
-Timings is a good point, could there be sensors that read those pixels
-but don't send them out ? Maybe to avoid edge effects ? That would be
-accounted for in the H/V blank though, wouldn't it ?
-
-> The crop bounds should contain
-> everything whereas for the default crop should reflect the area of the
-> visible pixels.
-
-I believe there are sensors that have all pixels visible, but recommend
-not using edge pixels as they are affected by edge effects, even if
-those pixels can be read out and transferred. In that case
-V4L2_SEL_TGT_CROP_BOUNDS should include the edge pixels, but maybe
-V4L2_SEL_TGT_CROP_DEFAULT shouldn't ?
-
-> I guess in theory the visible pixels could not be cropped by the sensor in
-> analogue cropping step, so it might be worth having a separate rectangle
-> for those, too.
-
-I'm not sure to follow you here.
-
-> There could also be sensors that read the dark pixels internally and use
-> them somehow without sending their data out. don't think we should try to
-> model that though as it's likely entirely internal to the sensor in that
-> case.
-
-Agreed.
-
--- 
-Regards,
-
-Laurent Pinchart
+T24gMTQuMDguMjAyMCAwMTo0NiwgU2FrYXJpIEFpbHVzIHdyb3RlOg0KPiBIaSBFdWdlbiwNCj4g
+DQo+IE9uIEZyaSwgSnVsIDAzLCAyMDIwIGF0IDEwOjQ0OjEzQU0gKzAzMDAsIEV1Z2VuIEhyaXN0
+ZXYgd3JvdGU6DQo+PiBBZGQgYmluZGluZ3MgZG9jdW1lbnRhdGlvbiBmb3IgbWljcm9jaGlwIENT
+STIgRGVtdWx0aXBsZXhlciBjb250cm9sbGVyLg0KPiANCj4gLi4uDQo+IA0KPj4gKyAgcG9ydEAx
+Og0KPj4gKyAgICB0eXBlOiBvYmplY3QNCj4+ICsgICAgZGVzY3JpcHRpb246DQo+PiArICAgICAg
+T3V0cHV0IHBvcnQgbm9kZSwgc2luZ2xlIGVuZHBvaW50LCBkZXNjcmliaW5nIHRoZSBvdXRwdXQg
+cGFkLg0KPj4gKw0KPj4gKyAgICBwcm9wZXJ0aWVzOg0KPj4gKyAgICAgICcjYWRkcmVzcy1jZWxs
+cyc6DQo+PiArICAgICAgICBjb25zdDogMQ0KPj4gKw0KPj4gKyAgICAgICcjc2l6ZS1jZWxscyc6
+DQo+PiArICAgICAgICBjb25zdDogMA0KPj4gKw0KPj4gKyAgICAgIHJlZzoNCj4+ICsgICAgICAg
+IGNvbnN0OiAxDQo+PiArDQo+PiArICAgIHBhdHRlcm5Qcm9wZXJ0aWVzOg0KPj4gKyAgICAgICJe
+ZW5kcG9pbnRAWzAtOWEtZl0kIjoNCj4+ICsgICAgICAgIHR5cGU6IG9iamVjdA0KPj4gKw0KPj4g
+KyAgICAgICAgcHJvcGVydGllczoNCj4+ICsgICAgICAgICAgcmVnOg0KPj4gKyAgICAgICAgICAg
+IGVudW06IFswLCAxLCAyLCAzXQ0KPj4gKyAgICAgICAgICAgIGRlc2NyaXB0aW9uOiB2aXJ0dWFs
+IGNoYW5uZWwgZm9yIHRoZSBlbmRwb2ludA0KPiANCj4gVW5sZXNzIHlvdSBuZWVkIHRoaXMgcmln
+aHQgbm93IEknZCBqdXN0IGhhcmQgY29kZSB0aGlzIHRvIHplcm8gaW4gdGhlDQo+IGRyaXZlci4g
+WW91IGNhbid0IGhhdmUgbW9yZSBlbmRwb2ludHMgZm9yIGFjdGl2ZSBkZXZpY2VzIGFueXdheSwg
+Y2FuIHlvdT8NCg0KSGVsbG8gU2FrYXJpLA0KDQpZb3UgYXJlIHJpZ2h0LCBidXQsIHRoZSB2aXJ0
+dWFsIElEIG11c3QgYmUgd3JpdHRlbiBpbiBoYXJkd2FyZSANCnJlZ2lzdGVycy4gU28gSSBjYW4g
+dGFrZSB0aGUgdmlydHVhbCBJRCBmcm9tIHRoaXMgcHJvcGVydHkuDQpPdGhlcndpc2UsIGlmIEkg
+aGFyZGNvZGUgdGhpcyBpbiB0aGUgZHJpdmVyLCBhbm90aGVyIHZpcnR1YWwgSUQgd291bGQgYmUg
+DQppbXBvc3NpYmxlIHRvIHVzZSB3aXRob3V0IGNoYW5naW5nIHRoZSBkcml2ZXIuIEFuZCBpZiB0
+aGUgYmluZGluZyBpcyANCmFjY2VwdGVkIHdpdGhvdXQgdGhpcyBwcm9wZXJ0eSwgaXQgd2lsbCBi
+ZSAnc2V0IGluIHN0b25lJyBhbmQgZGlmZmljdWx0IA0KdG8gY2hhbmdlIGFmdGVyd2FyZHMuDQoN
+CldoYXQgZG8geW91IHRoaW5rID8NCg0KRXVnZW4NCj4gDQo+IC0tDQo+IFNha2FyaSBBaWx1cw0K
+PiANCg0K
