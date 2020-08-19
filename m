@@ -2,192 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70D70249A1E
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 12:20:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1597C249A72
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 12:35:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727019AbgHSKUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 06:20:12 -0400
-Received: from mga05.intel.com ([192.55.52.43]:40204 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726642AbgHSKUI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 06:20:08 -0400
-IronPort-SDR: cMIntmxcY2rfeqtfs4cHSZKt7nosO1Xrh6susWlP9njM4jrzOteE4li0u9k+d2lchVeYxMiL/P
- RZoOrRsNfU2w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="239913209"
-X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
-   d="scan'208";a="239913209"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 03:20:05 -0700
-IronPort-SDR: 0srbmhImVGWsT/Uhkyx/gE+adq8PU56pKTJEFi3ooIIvMxMrCCo43RuawUA4/ZJ9bYJT1fO2zw
- yuytpeq8mcTw==
-X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
-   d="scan'208";a="310729878"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 03:20:03 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id D66DA2064F; Wed, 19 Aug 2020 13:20:00 +0300 (EEST)
-Date:   Wed, 19 Aug 2020 13:20:00 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
-Message-ID: <20200819102000.GS24582@paasikivi.fi.intel.com>
-References: <20200805105721.15445-1-jacopo@jmondi.org>
- <20200805105721.15445-2-jacopo@jmondi.org>
- <20200809175821.GF5981@pendragon.ideasonboard.com>
- <20200810081757.zeeqiigrlfpxppxs@uno.localdomain>
- <20200818081743.GQ24582@paasikivi.fi.intel.com>
- <20200819010623.GI2360@pendragon.ideasonboard.com>
+        id S1726970AbgHSKf3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 06:35:29 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:38353 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726466AbgHSKfY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Aug 2020 06:35:24 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8LRAkbdU3uuXO8LRBkgRDC; Wed, 19 Aug 2020 12:35:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597833322; bh=DZtNip5OqMIsU2EqwyRIZjaVXFCAIvSWtEjWXc2JH1o=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=pYBPibjtAvuwd8kIUhk9GCJq7V/ojQgpnM7hTFB1gmZGc+YaUtiWRPrCz0Fdu+plj
+         6ApautNLp/NMi+fnJe4pIrqS5g/Ur6ZfoVBMbHsBKKVe5sDB2YdMzezBQQ5xJXSp3o
+         AKVbs6RVUW/pLD8gftLWZ3MNHAOMq0sxtrg1rTh1L0CA6EsMmFGi6cu5oaebIkYAr0
+         +mHCwKd/DcpyvzDY+FXyXrOjgF/PXvnN1N5UEQ4FV1MS+dfCcX3EvOw+lZ9ke4B9Rb
+         ZHfXRgTsUKesCnEXCGJFUHXf4aFebn/coF/C6S7Y49jn1a5yOjOpLrlVqFhBeNPi9K
+         6yLIclhwIAQug==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.10] Support for Tegra video capture from external
+ sensor
+Message-ID: <e58bd15a-fb15-efdb-1faa-455f971ab0a8@xs4all.nl>
+Date:   Wed, 19 Aug 2020 12:35:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200819010623.GI2360@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfI4O1nT2kXHa2tbTjufGw31sdajJlWazUVyJKPbcSV9mD0bW8jmgLK5uIlpUufmTbuWw1gXS44Uus0DQgPMjK3b2J7j0zK4/Vf1Cap0FvXdwksmrLva5
+ prL4+Hp//T8dvK+XOb1maAYlU4wqg1OZXzzGoDBaTkpFId/JLmg66fj8HrmEmgIOd+SRCUqHth8h4lpWkgYKXVK7o6zt8xYhWexrEi6gTRY/Weh+B+WxES/Q
+ R5GLSMTccmt7LzItVdxryP4VP9hJW7tMQJ6KEPJ8QbbDRa4m28L1qQW1HDxVLg7qidg/yr6oKFKAHmvLiAgcWQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+This series adds support for external sensors to the Tegra video capture driver.
+Tested on my Jetson TX1 board with the imx219 and imx274 sensors.
 
-On Wed, Aug 19, 2020 at 04:06:23AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Tue, Aug 18, 2020 at 11:17:43AM +0300, Sakari Ailus wrote:
-> > On Mon, Aug 10, 2020 at 10:17:57AM +0200, Jacopo Mondi wrote:
-> > > On Sun, Aug 09, 2020 at 08:58:21PM +0300, Laurent Pinchart wrote:
-> > > > On Wed, Aug 05, 2020 at 12:57:18PM +0200, Jacopo Mondi wrote:
-> > > > > The V4L2 selection API are also used to access the pixel array
-> > > > > properties of an image sensor, such as the size and position of active
-> > > > > pixels and the cropped area of the pixel matrix used to produce images.
-> > > > >
-> > > > > Currently no clear definition of the different areas that compose an
-> > > > > image sensor pixel array matrix is provided in the specification, and
-> > > > > the actual meaning of each selection target when applied to an image
-> > > > > sensor was not provided.
-> > > > >
-> > > > > Provide in the sub-device documentation the definition of the pixel
-> > > > > matrix properties and the selection target associated to each of them.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > > ---
-> > > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
-> > > > >  1 file changed, 81 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > index 134d2fb909fa4..c47861dff9b9b 100644
-> > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > @@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
-> > > > >  ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
-> > > > >  the image size either up or down. :ref:`v4l2-selection-flags`
-> > > > >
-> > > > > +.. _v4l2-subdev-pixel-array-properties:
-> > > > > +
-> > > > > +Selection targets for image sensors properties
-> > > > > +----------------------------------------------
-> > > > > +
-> > > > > +The V4L2 selection API can be used on sub-devices that represent an image
-> > > > > +sensor to retrieve the sensor's pixel array matrix properties by using the
-> > > > > +:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
-> > > > > +
-> > > > > +Sub-device drivers for image sensor usually register a single source pad, but in
-> > > > > +the case they expose more, the pixel array properties can be accessed from
-> > > > > +any of them.
-> > > > > +
-> > > > > +The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
-> > > > > +``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
-> > > > > +the immutable properties of the several different areas that compose the sensor
-> > > > > +pixel array matrix. Each area describes a rectangle of logically adjacent pixel
-> > > > > +units. The logical disposition of pixels is defined by the sensor read-out
-> > > > > +starting point and direction, and may differ from the physical disposition of
-> > > > > +the pixel units in the pixel array matrix.
-> > > > > +
-> > > > > +Each pixel matrix portion is contained in a larger rectangle, with the most
-> > > > > +largest being the one that describes the pixel matrix physical size. This
-> > > > > +defines a hierarchical positional system, where each rectangle is defined
-> > > > > +relatively to the largest available one among the ones exposed by the
-> > > > > +sub-device driver. Each selection target and the associated pixel array portion
-> > > > > +it represents are below presented in order from the largest to the smallest one.
-> > > > > +
-> > > > > +Pixel array physical size
-> > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > > +
-> > > > > +The image sensor chip is composed by a number of physical pixels, not all of
-> > > > > +them readable by the application processor. Invalid or unreadable lines might
-> > > > > +not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
-> > > > > +they might be tagged with an invalid data type (DT) so that the receiver
-> > > > > +automatically discard them. The size of the whole pixel matrix area is
-> > > > > +retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
-> > > > > +defined as position (0, 0). All the other selection targets are defined
-> > > > > +relatively to this, larger, rectangle. The rectangle returned by
-> > > > > +V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
-> > > > > +does not change at run-time and cannot be modified from userspace.
-> > > >
-> > > > As I think I've mentioned previously (not sure if it was by e-mail or on
-> > > > IRC), we could also decide to set V4L2_SEL_TGT_NATIVE_SIZE ==
-> > > > V4L2_SEL_TGT_CROP_BOUNDS by ignoring the non-readable pixels completely.
-> > > > What's the advantage of exposing them in the API, when the sensors
-> > > > doesn't provide them to the rest of the pipeline ?
-> > > 
-> > > I don't know :) I'm also  bit confused on what's the purpose of
-> > > NATIVE, this commit seems to suggest it was meant to replace
-> > > CROP_BOUNDS, but I'm not sure about that.
-> > > 
-> > > commit b518d86609cc066b626120fe6ec6fe3a4ccfcd54
-> > > Author: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Date:   Thu Nov 6 16:54:33 2014 -0300
-> > > 
-> > >     [media] smiapp: Support V4L2_SEL_TGT_NATIVE_SIZE
-> > > 
-> > >     Add support for selection target V4L2_SEL_TGT_NATIVE_SIZE. It is equivalent
-> > >     of what V4L2_SEL_TGT_CROP_BOUNDS used to be. Support for
-> > >     V4L2_SEL_TGT_CROP_BOUNDS is still supported by the driver as a compatibility
-> > >     interface.
-> > > 
-> > > Sakari, do you recall if that's was the original plan ?
-> > 
-> > That was to denote the size of the pixel array indeed. We didn't discuss
-> > dark or invalid pixels at the time.
-> > 
-> > So this was just there to tell that it's the pixel array you're cropping
-> > from.
-> > 
-> > But as long as it's API-wise compatible, I don't think anything prevents
-> > re-purposing this to include other areas. The documentation (AFAIR) does
-> > not say this has to be the same as the crop bounds rectangle.
-> 
-> What do you think would be best ? Should we include the non-readable
-> pixels in V4L2_SEL_TGT_NATIVE_SIZE, with V4L2_SEL_TGT_CROP_BOUNDS then
-> being strictly smaller, or drop them completely from the API, with
-> V4L2_SEL_TGT_CROP_BOUNDS being equal to V4L2_SEL_TGT_NATIVE_SIZE ? It
-> may be that we have to allow both to support existing drivers, but we
-> should pick one of the two options and make it mandatory for new
-> drivers.
+The tegra patches depend on the new vb2_video_unregister_device helper function,
+so the series adding that (plus fixing wrong calls to vb2_queue_release) comes
+first in this PR.
 
-That's a very good question.
+Regards,
 
-What would be the purpose of adding pixels that cannot be read? I assume
-they would not affect sensor timing either in that case, so there would be
-no difference whether they are there or not. The crop bounds should contain
-everything whereas for the default crop should reflect the area of the
-visible pixels.
+	Hans
 
-I guess in theory the visible pixels could not be cropped by the sensor in
-analogue cropping step, so it might be worth having a separate rectangle
-for those, too.
+The following changes since commit 9a538b83612c8b5848bf840c2ddcd86dda1c8c76:
 
-There could also be sensors that read the dark pixels internally and use
-them somehow without sending their data out. don't think we should try to
-model that though as it's likely entirely internal to the sensor in that
-case.
+  media: venus: core: Add support for opp tables/perf voting (2020-08-18 15:55:56 +0200)
 
--- 
-Sakari Ailus
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-tegra
+
+for you to fetch changes up to 65f9140b063a493478d9ed8f5d1c0cf7db111332:
+
+  media: tegra-video: Compute settle times based on the clock rate (2020-08-19 12:34:34 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (7):
+      videobuf2-v4l2.c: add vb2_video_unregister_device helper function
+      qcom/camss: use vb2_video_unregister_device()
+      media/pci: use vb2_video_unregister_device()
+      media/platform: drop vb2_queue_release()
+      media/usb: use vb2_video_unregister_device()
+      media/test-drivers: use vb2_video_unregister_device()
+      staging/media: drop vb2_queue_release()
+
+Sowjanya Komatineni (10):
+      media: tegra-video: Fix channel format alignment
+      media: tegra-video: Enable TPG based on kernel config
+      media: tegra-video: Update format lookup to offset based
+      dt-bindings: tegra: Update VI and CSI bindings with port info
+      media: tegra-video: Separate CSI stream enable and disable implementations
+      media: tegra-video: Add support for external sensor capture
+      media: tegra-video: Add support for selection ioctl ops
+      gpu: host1x: mipi: Keep MIPI clock enabled and mutex locked till calibration done
+      media: tegra-video: Add CSI MIPI pads calibration
+      media: tegra-video: Compute settle times based on the clock rate
+
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt        |  92 +++-
+ drivers/gpu/drm/tegra/dsi.c                                            |   4 +-
+ drivers/gpu/host1x/mipi.c                                              |  22 +-
+ drivers/media/common/videobuf2/videobuf2-v4l2.c                        |  51 +-
+ drivers/media/pci/dt3155/dt3155.c                                      |   3 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c                               |   9 +-
+ drivers/media/pci/saa7134/saa7134-core.c                               |   6 +-
+ drivers/media/pci/saa7134/saa7134-empress.c                            |   3 +-
+ drivers/media/pci/saa7134/saa7134-go7007.c                             |   2 +-
+ drivers/media/pci/saa7134/saa7134-video.c                              |   2 -
+ drivers/media/pci/sta2x11/sta2x11_vip.c                                |   6 +-
+ drivers/media/pci/tw5864/tw5864-video.c                                |   4 +-
+ drivers/media/platform/aspeed-video.c                                  |   5 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c                     |   4 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c                          |   8 -
+ drivers/media/platform/qcom/camss/camss-vfe.h                          |   2 -
+ drivers/media/platform/qcom/camss/camss-video.c                        |  12 +-
+ drivers/media/platform/qcom/camss/camss-video.h                        |   2 -
+ drivers/media/platform/qcom/camss/camss.c                              |   5 -
+ drivers/media/platform/qcom/venus/vdec.c                               |   8 +-
+ drivers/media/platform/qcom/venus/venc.c                               |   8 +-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c                     |   1 +
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c                     |   6 +-
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c                   |   7 +-
+ drivers/media/test-drivers/vimc/vimc-capture.c                         |   7 +-
+ drivers/media/test-drivers/vivid/vivid-core.c                          |  32 +-
+ drivers/media/usb/au0828/au0828-video.c                                |  12 +-
+ drivers/media/usb/dvb-usb/cxusb-analog.c                               |  13 +-
+ drivers/media/usb/usbtv/usbtv-video.c                                  |   4 +-
+ drivers/staging/media/meson/vdec/vdec.c                                |   8 +-
+ drivers/staging/media/rkisp1/rkisp1-capture.c                          |   2 +-
+ drivers/staging/media/rkisp1/rkisp1-params.c                           |   7 +-
+ drivers/staging/media/rkisp1/rkisp1-stats.c                            |   8 +-
+ drivers/staging/media/tegra-video/Kconfig                              |   7 +
+ drivers/staging/media/tegra-video/TODO                                 |   6 -
+ drivers/staging/media/tegra-video/csi.c                                | 314 ++++++++++--
+ drivers/staging/media/tegra-video/csi.h                                |   8 +
+ drivers/staging/media/tegra-video/tegra210.c                           |  25 +-
+ drivers/staging/media/tegra-video/vi.c                                 | 848 ++++++++++++++++++++++++++++++---
+ drivers/staging/media/tegra-video/vi.h                                 |  25 +-
+ drivers/staging/media/tegra-video/video.c                              |  23 +-
+ include/linux/host1x.h                                                 |   4 +-
+ include/media/videobuf2-v4l2.h                                         |  17 +
+ 43 files changed, 1369 insertions(+), 273 deletions(-)
