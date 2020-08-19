@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDEC4249560
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 08:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A60C24958E
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 08:57:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726980AbgHSG42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 02:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36588 "EHLO
+        id S1727882AbgHSG5V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 02:57:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726890AbgHSG4V (ORCPT
+        with ESMTP id S1727824AbgHSG5D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 02:56:21 -0400
+        Wed, 19 Aug 2020 02:57:03 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28807C061389;
-        Tue, 18 Aug 2020 23:56:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65414C061343;
+        Tue, 18 Aug 2020 23:57:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=5I0Wekw7PGkNV3dZaIEsA8c8Eplwzl97xo8vYosQxdI=; b=UdYV4uHpyw9x3F5rwAWsVUPFE0
-        Hqm02Lgcb3b7szXHtRYFh2Q2mQ0XgXJIRXZnNarHY8BTFPY/yfILYo9XBcRi7QMB28ipLhHbeYlLZ
-        mACjmpKK8MPjiLf3dQYi0vBMkZJd/+MdUBQ3P1z7bbLGarn+eG74rMpDjApvZcefIfvlujyIZSqxu
-        wHrDyEJGotoW7dL28Oiu4mTNTADO4SZxq3ID/xa3uKrXpchLC5U0otmEnB0C95mcVGd+TWrgeSorS
-        YoshIRrHigr4PRqKUustXCWc2qvmN6xs6AZEOX38KVFTfpoTISa6SdfuLtcuYFCOYm/EHyRiUeiPJ
-        oIt3VQVw==;
+        bh=X8i7nxueqjYiXXABx6iAbSqyBXetjeuy5DnMYgOTSbg=; b=MIBdEjIoLTHUEBHUGUn2hxEK+5
+        BevUewh66/hAJEodxv37XHol1UkTJvsD7JDl+I4rW2ckgBABThtPp31SAHD8ICQgZg9JKLfxRcH4k
+        kvTpdncuF+HUCxaXssYT/w0O4ikj+Sa+Lyaln7QVFgqhX6bxyjj0pvaSW2wvw4j8/oBw/WQ88dOqN
+        Q3mRJmv4cM/nFVeWy5kNDxSA93Axsk8QBY2jkY9bRnSUGTtFij8Kiwsj0O2Rue4Vw4+6MrVBOLl4l
+        sw31W2/w6nJQFhVEeODf45+zE6F1ZoCoe3LFOUxDAEiAGB56VL+rjQdReZWkrm5RWIPjt6oDiXNpz
+        MmYdslVQ==;
 Received: from [2001:4bb8:198:f3b2:86b6:2277:f429:37a1] (helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k8I0x-0008LJ-Vp; Wed, 19 Aug 2020 06:56:04 +0000
+        id 1k8I18-0008NZ-2u; Wed, 19 Aug 2020 06:56:14 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -48,9 +48,9 @@ Cc:     Tom Lendacky <thomas.lendacky@amd.com>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-nvme@lists.infradead.org,
         linux-scsi@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org
-Subject: [PATCH 04/28] net/au1000-eth: stop using DMA_ATTR_NON_CONSISTENT
-Date:   Wed, 19 Aug 2020 08:55:31 +0200
-Message-Id: <20200819065555.1802761-5-hch@lst.de>
+Subject: [PATCH 09/28] MIPS/jazzdma: remove the unused vdma_remap function
+Date:   Wed, 19 Aug 2020 08:55:36 +0200
+Message-Id: <20200819065555.1802761-10-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200819065555.1802761-1-hch@lst.de>
 References: <20200819065555.1802761-1-hch@lst.de>
@@ -62,57 +62,106 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The au1000-eth driver contains none of the manual cache synchronization
-required for using DMA_ATTR_NON_CONSISTENT.  From what I can tell it
-can be used on both dma coherent and non-coherent DMA platforms, but
-I suspect it has been buggy on the non-coherent platforms all along.
-
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/net/ethernet/amd/au1000_eth.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ arch/mips/include/asm/jazzdma.h |  2 -
+ arch/mips/jazz/jazzdma.c        | 70 ---------------------------------
+ 2 files changed, 72 deletions(-)
 
-diff --git a/drivers/net/ethernet/amd/au1000_eth.c b/drivers/net/ethernet/amd/au1000_eth.c
-index 75dbd221dc594b..19e195420e2434 100644
---- a/drivers/net/ethernet/amd/au1000_eth.c
-+++ b/drivers/net/ethernet/amd/au1000_eth.c
-@@ -1131,10 +1131,9 @@ static int au1000_probe(struct platform_device *pdev)
- 	/* Allocate the data buffers
- 	 * Snooping works fine with eth on all au1xxx
- 	 */
--	aup->vaddr = (u32)dma_alloc_attrs(&pdev->dev, MAX_BUF_SIZE *
-+	aup->vaddr = (u32)dma_alloc_coherent(&pdev->dev, MAX_BUF_SIZE *
- 					  (NUM_TX_BUFFS + NUM_RX_BUFFS),
--					  &aup->dma_addr, 0,
--					  DMA_ATTR_NON_CONSISTENT);
-+					  &aup->dma_addr, 0);
- 	if (!aup->vaddr) {
- 		dev_err(&pdev->dev, "failed to allocate data buffers\n");
- 		err = -ENOMEM;
-@@ -1310,9 +1309,8 @@ static int au1000_probe(struct platform_device *pdev)
- err_remap2:
- 	iounmap(aup->mac);
- err_remap1:
--	dma_free_attrs(&pdev->dev, MAX_BUF_SIZE * (NUM_TX_BUFFS + NUM_RX_BUFFS),
--			(void *)aup->vaddr, aup->dma_addr,
--			DMA_ATTR_NON_CONSISTENT);
-+	dma_free_coherent(&pdev->dev, MAX_BUF_SIZE * (NUM_TX_BUFFS + NUM_RX_BUFFS),
-+			(void *)aup->vaddr, aup->dma_addr);
- err_vaddr:
- 	free_netdev(dev);
- err_alloc:
-@@ -1344,9 +1342,8 @@ static int au1000_remove(struct platform_device *pdev)
- 		if (aup->tx_db_inuse[i])
- 			au1000_ReleaseDB(aup, aup->tx_db_inuse[i]);
+diff --git a/arch/mips/include/asm/jazzdma.h b/arch/mips/include/asm/jazzdma.h
+index d13f940022d5f9..c831da7fa89803 100644
+--- a/arch/mips/include/asm/jazzdma.h
++++ b/arch/mips/include/asm/jazzdma.h
+@@ -10,8 +10,6 @@
+  */
+ extern unsigned long vdma_alloc(unsigned long paddr, unsigned long size);
+ extern int vdma_free(unsigned long laddr);
+-extern int vdma_remap(unsigned long laddr, unsigned long paddr,
+-		      unsigned long size);
+ extern unsigned long vdma_phys2log(unsigned long paddr);
+ extern unsigned long vdma_log2phys(unsigned long laddr);
+ extern void vdma_stats(void);		/* for debugging only */
+diff --git a/arch/mips/jazz/jazzdma.c b/arch/mips/jazz/jazzdma.c
+index 014773f0bfcd74..fe40dbed04c1d6 100644
+--- a/arch/mips/jazz/jazzdma.c
++++ b/arch/mips/jazz/jazzdma.c
+@@ -209,76 +209,6 @@ int vdma_free(unsigned long laddr)
  
--	dma_free_attrs(&pdev->dev, MAX_BUF_SIZE * (NUM_TX_BUFFS + NUM_RX_BUFFS),
--			(void *)aup->vaddr, aup->dma_addr,
--			DMA_ATTR_NON_CONSISTENT);
-+	dma_free_coherent(&pdev->dev, MAX_BUF_SIZE * (NUM_TX_BUFFS + NUM_RX_BUFFS),
-+			(void *)aup->vaddr, aup->dma_addr);
+ EXPORT_SYMBOL(vdma_free);
  
- 	iounmap(aup->macdma);
- 	iounmap(aup->mac);
+-/*
+- * Map certain page(s) to another physical address.
+- * Caller must have allocated the page(s) before.
+- */
+-int vdma_remap(unsigned long laddr, unsigned long paddr, unsigned long size)
+-{
+-	int first, pages;
+-
+-	if (laddr > 0xffffff) {
+-		if (vdma_debug)
+-			printk
+-			    ("vdma_map: Invalid logical address: %08lx\n",
+-			     laddr);
+-		return -EINVAL; /* invalid logical address */
+-	}
+-	if (paddr > 0x1fffffff) {
+-		if (vdma_debug)
+-			printk
+-			    ("vdma_map: Invalid physical address: %08lx\n",
+-			     paddr);
+-		return -EINVAL; /* invalid physical address */
+-	}
+-
+-	pages = (((paddr & (VDMA_PAGESIZE - 1)) + size) >> 12) + 1;
+-	first = laddr >> 12;
+-	if (vdma_debug)
+-		printk("vdma_remap: first=%x, pages=%x\n", first, pages);
+-	if (first + pages > VDMA_PGTBL_ENTRIES) {
+-		if (vdma_debug)
+-			printk("vdma_alloc: Invalid size: %08lx\n", size);
+-		return -EINVAL;
+-	}
+-
+-	paddr &= ~(VDMA_PAGESIZE - 1);
+-	while (pages > 0 && first < VDMA_PGTBL_ENTRIES) {
+-		if (pgtbl[first].owner != laddr) {
+-			if (vdma_debug)
+-				printk("Trying to remap other's pages.\n");
+-			return -EPERM;	/* not owner */
+-		}
+-		pgtbl[first].frame = paddr;
+-		paddr += VDMA_PAGESIZE;
+-		first++;
+-		pages--;
+-	}
+-
+-	/*
+-	 * Update translation table
+-	 */
+-	r4030_write_reg32(JAZZ_R4030_TRSTBL_INV, 0);
+-
+-	if (vdma_debug > 2) {
+-		int i;
+-		pages = (((paddr & (VDMA_PAGESIZE - 1)) + size) >> 12) + 1;
+-		first = laddr >> 12;
+-		printk("LADDR: ");
+-		for (i = first; i < first + pages; i++)
+-			printk("%08x ", i << 12);
+-		printk("\nPADDR: ");
+-		for (i = first; i < first + pages; i++)
+-			printk("%08x ", pgtbl[i].frame);
+-		printk("\nOWNER: ");
+-		for (i = first; i < first + pages; i++)
+-			printk("%08x ", pgtbl[i].owner);
+-		printk("\n");
+-	}
+-
+-	return 0;
+-}
+-
+ /*
+  * Translate a physical address to a logical address.
+  * This will return the logical address of the first
 -- 
 2.28.0
 
