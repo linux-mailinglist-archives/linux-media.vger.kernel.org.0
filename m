@@ -2,210 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1246124A266
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 17:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B24F424A28B
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 17:10:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728480AbgHSPE0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 11:04:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55852 "EHLO
+        id S1728312AbgHSPKW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 11:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728259AbgHSPEQ (ORCPT
+        with ESMTP id S1726951AbgHSPKT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 11:04:16 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26CD4C061344
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 08:04:16 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id m20so18390494eds.2
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 08:04:15 -0700 (PDT)
+        Wed, 19 Aug 2020 11:10:19 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B15C061757
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 08:10:18 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id y206so11806055pfb.10
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 08:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gblnYCzc62i56nCc5LRWss+Qf5wc+kIzyZ60hUww65Y=;
-        b=CmFRV9MF78Io9lyU3ZTHQoxCUWL8rgrVpgpqOj4nEXWpRTCd1+KGSochi2kuoVhtFt
-         PQJJembCFDIORAph3WzrpDoRd2cIGJpwf9VAtP5a9ydpphhRkHDHcmKRPuhZGWASaGfl
-         y6rPrnsIqK2MPfXnYUVbYzJtuDwuiigpqdGRc=
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=010UDpcnAKhhIkGPA8UjpFKiaNx+4vgqSxtXM4Cd1Nk=;
+        b=mz9lTpetldgS0S+fm+6h6FFN3JXfpgg1cyjs3nKb8u/MuiyYDBRO3S7bf8w5jvNgwk
+         i/Vulk6d5JvfeqhHTV5mwCd/58sVhJY2JMHYCmMjKWQRCDd/OnatpdTy4PGCKp6y/EJG
+         qYD2TT2rraiX6rtuu6jJcwInN/02VWQCyfamIrU85Cj6FVrmlzZDygI4b1U9zeGk47xY
+         MQdziJcE5aJdZ+G8k//5JRBIsH+MX8LLqDBmOdLXWX26fhkqc72LkxrSxnDlh/m35KZl
+         m6usXiPJpuIwk/yyAHWxBgAH+2+nWSsM/ueUjD6L4Pu7GO46Wrrj9hVbj8OEwhM2ObE2
+         CmQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gblnYCzc62i56nCc5LRWss+Qf5wc+kIzyZ60hUww65Y=;
-        b=bn9EzPwqACdl1IGTgCA8udLxjpfTM80OFreRcA3i/sl2GzVrYYVv8y7+EEYliMiGqu
-         0WyfpWzTc2IU3iW9+ZZjnTTPW4jtcnzxAYUcksyl5x7j1yBhss7jJsxBfutZ4wygNbfF
-         KFhanXKTDWtZuCq6awQ/5uIix/1NEfVItWJdsCSZWYqFWixnDf+FCGkcK6xaTnDJhNCo
-         zSyCo6orhWmpdABddh+yzCdAHRrAwfPY/p4twuhIz4CYnf+c9NFSdGraPU8pcwyuBY30
-         oyYAwdVOCUtydX3/uW6yvuOwqojepw1xDaOPPYnKuLikJ6B0iVes9UrJWIWjkDAunNLO
-         HQaQ==
-X-Gm-Message-State: AOAM533UWHtvngb53BgoXE7CU1nayVKW4QmvnVIHnw5cZQtMM7k8SnCe
-        QAgfF1aDOCR0XfEz8uHn3dlNNdaCEum6cQ==
-X-Google-Smtp-Source: ABdhPJwQ4p3QHZBTNXaIUVYt/jCCAD4RiAmRk+ZAd0AOiQZm7l2M7bXOwYmx2FDURbYMeBfBRnp0nA==
-X-Received: by 2002:aa7:c382:: with SMTP id k2mr24348163edq.249.1597849454006;
-        Wed, 19 Aug 2020 08:04:14 -0700 (PDT)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id l23sm18751248eje.46.2020.08.19.08.04.10
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2020 08:04:12 -0700 (PDT)
-Received: by mail-wm1-f43.google.com with SMTP id d190so2403429wmd.4
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 08:04:10 -0700 (PDT)
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr5316483wmh.55.1597849448826;
- Wed, 19 Aug 2020 08:04:08 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=010UDpcnAKhhIkGPA8UjpFKiaNx+4vgqSxtXM4Cd1Nk=;
+        b=uSsSzppK9GESBhVZVx/zdQQZeFxgjbZ1Cazk3s+/D5UFj1lzXOklipDOt6blBLXE/Y
+         dgF3nvJdiQzswbaIVIMqvqkqI29O+RsVIIbGO7RVa/CoXHOR0QdIVNay4mmFROKABfqo
+         vwGI4uGo9AOY1O20B/YEp+ZJUQ7NQjW8lNV3eZzJemjB/p6k+kGLmROJjWj1oDEjr2c4
+         gSUydE3QzG5+FA0XA550j6DeRJKF9PrFIyzoPxGdKji+lmtdmuipgFDbstQtwvrxfzwO
+         koa+FPYKyEtgWeV+HbwBtsPNuJuuej98nxj8EHQnaUkQrbS7OFMkUmLo6yFsJamWqokY
+         UfFA==
+X-Gm-Message-State: AOAM5317rg1BuycmPlh0ApHuYqht5NUy2crS4l60eGX2wSd+Pfl3fewD
+        b426q3MnTB0kuo4FrVcWKqjVOFIZoOplU1VQ4B0=
+X-Google-Smtp-Source: ABdhPJyaOdH0yFpYrv413gTP9QAwlZJrGsYVrV79AK1i+J7ihmYd5MLrELbipt8gdagZ7jKFGYG3fDToz9WpBCMMRKw=
+X-Received: by 2002:a62:77d2:: with SMTP id s201mr19301227pfc.213.1597849818395;
+ Wed, 19 Aug 2020 08:10:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-20-hch@lst.de>
-In-Reply-To: <20200819065555.1802761-20-hch@lst.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 19 Aug 2020 17:03:52 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5Bbp-eAVKS1MKS8xtrT4ZoOmBPfZyw9mys=eOmDb6r8Lw@mail.gmail.com>
-Message-ID: <CAAFQd5Bbp-eAVKS1MKS8xtrT4ZoOmBPfZyw9mys=eOmDb6r8Lw@mail.gmail.com>
-Subject: Re: [PATCH 19/28] dma-mapping: replace DMA_ATTR_NON_CONSISTENT with
- dma_{alloc, free}_pages
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        alsa-devel@alsa-project.org,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-ia64@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-parisc@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        nouveau@lists.freedesktop.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-nvme@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, netdev@vger.kernel.org,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
+Received: by 2002:a05:6a10:c58a:0:0:0:0 with HTTP; Wed, 19 Aug 2020 08:10:18
+ -0700 (PDT)
+Reply-To: mis.haleema.zamani1@gmail.com
+From:   Mis Haleema Zamani <mariamabudl123@gmail.com>
+Date:   Wed, 19 Aug 2020 23:10:18 +0800
+Message-ID: <CABPXeb2aJaFUZDgOSfMkDFTVoC4JPX7Ghg-v70-A5==fYBBdxg@mail.gmail.com>
+Subject: =?UTF-8?Q?BITTE_BRAUCHE_ICH_IHRE_UNTERST=C3=9CTZUNG?=
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christoph,
+Gr=C3=BC=C3=9Fe an dich, mein lieber Freund,
 
-On Wed, Aug 19, 2020 at 8:57 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> Add a new API to allocate and free pages that are guaranteed to be
-> addressable by a device, but otherwise behave like pages allocated by
-> alloc_pages.  The intended APIs to sync them for use with the device
-> and cpu are dma_sync_single_for_{device,cpu} that are also used for
-> streaming mappings.
->
-> Switch all drivers over to this new API, but keep the usage of the
-> crufty dma_cache_sync API for now, which will be cleaned up on a driver
-> by driver basis.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  Documentation/core-api/dma-api.rst        | 68 +++++++++++------------
->  Documentation/core-api/dma-attributes.rst |  8 ---
->  arch/alpha/kernel/pci_iommu.c             |  2 +
->  arch/arm/mm/dma-mapping-nommu.c           |  2 +
->  arch/arm/mm/dma-mapping.c                 |  4 ++
->  arch/ia64/hp/common/sba_iommu.c           |  2 +
->  arch/mips/jazz/jazzdma.c                  |  7 +--
->  arch/powerpc/kernel/dma-iommu.c           |  2 +
->  arch/powerpc/platforms/ps3/system-bus.c   |  4 ++
->  arch/powerpc/platforms/pseries/vio.c      |  2 +
->  arch/s390/pci/pci_dma.c                   |  2 +
->  arch/x86/kernel/amd_gart_64.c             |  2 +
->  drivers/iommu/dma-iommu.c                 |  2 +
->  drivers/iommu/intel/iommu.c               |  4 ++
->  drivers/net/ethernet/i825xx/lasi_82596.c  | 13 ++---
->  drivers/net/ethernet/seeq/sgiseeq.c       | 12 ++--
->  drivers/parisc/ccio-dma.c                 |  2 +
->  drivers/parisc/sba_iommu.c                |  2 +
->  drivers/scsi/53c700.c                     |  8 +--
->  drivers/scsi/sgiwd93.c                    | 12 ++--
->  drivers/xen/swiotlb-xen.c                 |  2 +
->  include/linux/dma-direct.h                |  5 ++
->  include/linux/dma-mapping.h               | 29 ++++++++--
->  include/linux/dma-noncoherent.h           |  3 -
->  kernel/dma/direct.c                       | 51 ++++++++++++++++-
->  kernel/dma/mapping.c                      | 43 +++++++++++++-
->  kernel/dma/ops_helpers.c                  | 35 ++++++++++++
->  kernel/dma/virt.c                         |  2 +
->  sound/mips/hal2.c                         | 20 +++----
->  29 files changed, 254 insertions(+), 96 deletions(-)
->
+Mein Name ist Haleema Zamani, ich schreibe Ihnen diese Nachricht mit
+Tr=C3=A4nen in den Augen. Der anhaltende B=C3=BCrgerkrieg in meinem Land Sy=
+rien
+hat mein Leben so sehr beeinflusst. Ich habe meine Familie letztes
+Jahr verloren. Bevor der Tod meines Vaters eine feste Einzahlung von
+(VIER MILLIONEN F=C3=9CNF HUNDERT TAUSEND VEREINIGTE STAATEN DOLLAR) auf
+ein Domizilkonto bei einer Bank in den Vereinigten Arabischen Emiraten
+hat, bin ich der n=C3=A4chste Verwandte.
 
-Thanks for the patch. The general design looks quite nice, but please
-see my comments inline.
+Ich brauche dem=C3=BCtig Ihre Unterst=C3=BCtzung bei der =C3=9Cbertragung d=
+ieses
+Fonds f=C3=BCr Investitionen in Ihrem Land. Ich werde bereit sein, Ihnen
+einen Prozentsatz f=C3=BCr Ihre Unterst=C3=BCtzung anzubieten. Bitte
 
+Lassen Sie mich wissen, ob Sie dies f=C3=BCr mich tun k=C3=B6nnen. Dies ist
+meine wahre Geschichte. Bitte, ich brauche Ihre Hilfe. Sie
+kontaktieren mich per E-Mail
 
-> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-> index 90239348b30f6f..047fcfffa0e5cf 100644
-> --- a/Documentation/core-api/dma-api.rst
-> +++ b/Documentation/core-api/dma-api.rst
-> @@ -516,48 +516,53 @@ routines, e.g.:::
->         }
->
->
-> -Part II - Advanced dma usage
-> -----------------------------
-> +Part II - Non-coherent DMA allocations
-> +--------------------------------------
->
-> -Warning: These pieces of the DMA API should not be used in the
-> -majority of cases, since they cater for unlikely corner cases that
-> -don't belong in usual drivers.
-> +These APIs allow to allocate pages that can be used like normal pages
-> +in the kernel direct mapping, but are guaranteed to be DMA addressable.
+(mis.haleema.zamani@gmail.com)
 
-Could we elaborate a bit more on what "like normal pages in kernel
-direct mapping" mean from the driver perspective?
+Dein,
 
->
->  If you don't understand how cache line coherency works between a
->  processor and an I/O device, you should not be using this part of the
-> -API at all.
-> +API.
->
->  ::
->
->         void *
-> -       dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
-> -                       gfp_t flag, unsigned long attrs)
-> +       dma_alloc_pages(struct device *dev, size_t size, dma_addr_t *dma_handle,
-> +                       enum dma_data_direction dir, gfp_t gfp)
-> +
-> +This routine allocates a region of <size> bytes of consistent memory.  It
-> +returns a pointer to the allocated region (in the processor's virtual address
-> +space) or NULL if the allocation failed. The returned memory is guanteed to
-> +behave like memory allocated using alloc_pages.
-
-There is one aspect that the existing dma_alloc_attrs() handles, but
-this new function doesn't: IOMMU support. The function will always
-allocate a physically-contiguous block memory, which is a costly
-operation and not even guaranteed to succeed, even if enough free
-memory is available.
-
-Modern SoCs employ IOMMUs to avoid the need to allocate
-physically-contiguous memory and those happen to be also the devices
-that could benefit from non-coherent allocations a lot. One of the
-tasks of the DMA API was making it possible to allocate suitable
-memory for a given device, without having the driver know about the
-SoC integration details, such as the presence of an IOMMU.
-
-Today, dma_alloc_attrs() uses the .alloc callback of the dma_ops
-struct and the IOMMU-aware implementations, like the dma-iommu helpers
-[1], would allocate discontiguous pages. Therefore, while I see the
-DMA-aware page allocation functionality as a useful functionality on
-its own for scatter-gather-capable hardware, I believe it is not a
-complete replacement for dma_alloc_attrs() with the
-DMA_ATTR_NON_CONSISTENT attribute.
-
-[1] https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/iommu/dma-iommu.c#L510
-
-Best regards,
-Tomasz
+Mis Haleema Zamani
