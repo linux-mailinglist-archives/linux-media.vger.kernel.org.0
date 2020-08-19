@@ -2,734 +2,407 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 408E5249CEF
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 13:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDBA8249CC6
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 13:54:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728300AbgHSL6F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 07:58:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46736 "EHLO mail.kernel.org"
+        id S1727986AbgHSLxo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 07:53:44 -0400
+Received: from foss.arm.com ([217.140.110.172]:33936 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728270AbgHSLtS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 07:49:18 -0400
-Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3A6032311C;
-        Wed, 19 Aug 2020 11:46:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597837583;
-        bh=OuHrQsTKAQYHSxtKVmSm5TQXrDj+rArWy1OIgkGGZMo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GZuxIGWKRIllcpOBpRvBq282rKvRK6hXuwzZMfL5rgQsfvJoa04oVpqG4B0gRImJw
-         ufOa7bIMlXfuRvXMd/g53zCpfCh2wRH6l4ZYlSNPks/IyZCYxjaKZENPCCaupzheLg
-         WkL5+VB4W8W2V+NNS+qoOc0NftuTFf3QBUa3YLNg=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1k8MXt-00Eubr-43; Wed, 19 Aug 2020 13:46:21 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liwei Cai <cailiwei@hisilicon.com>,
-        Xiubin Zhang <zhangxiubin1@huawei.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Liuyao An <anliuyao@huawei.com>,
-        Wanchun Zheng <zhengwanchun@hisilicon.com>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 40/49] staging: hikey9xx/gpu: get rid of input/output macros
-Date:   Wed, 19 Aug 2020 13:46:08 +0200
-Message-Id: <2fe984add98c7285d5500d45a2bca28569bc40c8.1597833138.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1597833138.git.mchehab+huawei@kernel.org>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+        id S1728258AbgHSLv6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Aug 2020 07:51:58 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 226371FB;
+        Wed, 19 Aug 2020 04:51:56 -0700 (PDT)
+Received: from [10.57.40.122] (unknown [10.57.40.122])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C9C7B3F71F;
+        Wed, 19 Aug 2020 04:51:44 -0700 (PDT)
+Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
+To:     Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@lst.de>
+Cc:     alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        linux-scsi@vger.kernel.org,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-mips@vger.kernel.org,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        iommu@lists.linux-foundation.org
+References: <20200819065555.1802761-1-hch@lst.de>
+ <20200819065555.1802761-6-hch@lst.de>
+ <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com>
+Date:   Wed, 19 Aug 2020 12:51:42 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The DPE headers define several macros for I/O. Get rid of
-them by replacing by the Linux ones.
+Hi Tomasz,
 
-In the specific case of outp32(), I used this small
-coccinelle script to change them to writel():
+On 2020-08-19 12:16, Tomasz Figa wrote:
+> Hi Christoph,
+> 
+> On Wed, Aug 19, 2020 at 8:56 AM Christoph Hellwig <hch@lst.de> wrote:
+>>
+>> The V4L2-FLAG-MEMORY-NON-CONSISTENT flag is entirely unused,
+> 
+> Could you explain what makes you think it's unused? It's a feature of
+> the UAPI generally supported by the videobuf2 framework and relied on
+> by Chromium OS to get any kind of reasonable performance when
+> accessing V4L2 buffers in the userspace.
+> 
+>> and causes
+>> weird gymanstics with the DMA_ATTR_NON_CONSISTENT flag, which is
+>> unimplemented except on PARISC and some MIPS configs, and about to be
+>> removed.
+> 
+> It is implemented by the generic DMA mapping layer [1], which is used
+> by a number of architectures including ARM64 and supposed to be used
+> by new architectures going forward.
 
-	@ rule1 @
-	expression addr, val;
-	@@
-	-outp32(addr, val)
-	+writel(val, addr)
+AFAICS all that V4L2_FLAG_MEMORY_NON_CONSISTENT does is end up 
+controling whether DMA_ATTR_NON_CONSISTENT is added to vb2_queue::dma_attrs.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../staging/hikey9xx/gpu/kirin960_dpe_reg.h   |  15 --
- .../staging/hikey9xx/gpu/kirin970_dpe_reg.h   |  15 --
- .../hikey9xx/gpu/kirin9xx_drm_dpe_utils.c     | 251 ++++++++++--------
- .../staging/hikey9xx/gpu/kirin9xx_drm_dss.c   |  24 +-
- .../hikey9xx/gpu/kirin9xx_drm_overlay_utils.c |  14 +-
- .../hikey9xx/gpu/kirin9xx_dw_drm_dsi.c        |  24 +-
- drivers/staging/hikey9xx/gpu/kirin9xx_pwm.c   |  20 +-
- 7 files changed, 180 insertions(+), 183 deletions(-)
+Please can you point to where DMA_ATTR_NON_CONSISTENT does anything at 
+all on arm64?
 
-diff --git a/drivers/staging/hikey9xx/gpu/kirin960_dpe_reg.h b/drivers/staging/hikey9xx/gpu/kirin960_dpe_reg.h
-index f34d5af189f7..cd248bf15503 100644
---- a/drivers/staging/hikey9xx/gpu/kirin960_dpe_reg.h
-+++ b/drivers/staging/hikey9xx/gpu/kirin960_dpe_reg.h
-@@ -3218,21 +3218,6 @@ struct mipi_ifbc_division {
- 
- /*****************************************************************************/
- 
--#define outp32(addr, val) writel(val, addr)
--#define outp16(addr, val) writew(val, addr)
--#define outp8(addr, val) writeb(val, addr)
--#define outp(addr, val) outp32(addr, val)
--
--#define inp32(addr) readl(addr)
--#define inp16(addr) readw(addr)
--#define inp8(addr) readb(addr)
--#define inp(addr) inp32(addr)
--
--#define inpw(port) readw(port)
--#define outpw(port, val) writew(val, port)
--#define inpdw(port) readl(port)
--#define outpdw(port, val) writel(val, port)
--
- #ifndef ALIGN_DOWN
- #define ALIGN_DOWN(val, al)  ((val) & ~((al) - 1))
- #endif
-diff --git a/drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h b/drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h
-index 4f24322ebc7f..aeae3720c889 100644
---- a/drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h
-+++ b/drivers/staging/hikey9xx/gpu/kirin970_dpe_reg.h
-@@ -4206,21 +4206,6 @@ struct mipi_ifbc_division {
- 
- /*****************************************************************************/
- 
--#define outp32(addr, val) writel(val, addr)
--#define outp16(addr, val) writew(val, addr)
--#define outp8(addr, val) writeb(val, addr)
--#define outp(addr, val) outp32(addr, val)
--
--#define inp32(addr) readl(addr)
--#define inp16(addr) readw(addr)
--#define inp8(addr) readb(addr)
--#define inp(addr) inp32(addr)
--
--#define inpw(port) readw(port)
--#define outpw(port, val) writew(val, port)
--#define inpdw(port) readl(port)
--#define outpdw(port, val) writel(val, port)
--
- #ifndef ALIGN_DOWN
- #define ALIGN_DOWN(val, al)  ((val) & ~((al) - 1))
- #endif
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dpe_utils.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dpe_utils.c
-index 0e3d192c3851..ac7924fd0fc9 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dpe_utils.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dpe_utils.c
-@@ -123,10 +123,10 @@ void set_reg(char __iomem *addr, uint32_t val, uint8_t bw, uint8_t bs)
- 	u32 mask = (1UL << bw) - 1UL;
- 	u32 tmp = 0;
- 
--	tmp = inp32(addr);
-+	tmp = readl(addr);
- 	tmp &= ~(mask << bs);
- 
--	outp32(addr, tmp | ((val & mask) << bs));
-+	writel(tmp | ((val & mask) << bs), addr);
- 
- 	if (g_debug_set_reg_val) {
- 		printk(KERN_INFO "writel: [%p] = 0x%x\n", addr,
-@@ -275,18 +275,16 @@ void init_ldi(struct dss_crtc *acrtc)
- 
- 	init_ldi_pxl_div(acrtc);
- 
--	outp32(ldi_base + LDI_DPI0_HRZ_CTRL0,
--	       hfp | ((hbp + DSS_WIDTH(hsw)) << 16));
--	outp32(ldi_base + LDI_DPI0_HRZ_CTRL1, 0);
--	outp32(ldi_base + LDI_DPI0_HRZ_CTRL2, DSS_WIDTH(rect.w));
--	outp32(ldi_base + LDI_VRT_CTRL0,
--	       vfp | (vbp << 16));
--	outp32(ldi_base + LDI_VRT_CTRL1, DSS_HEIGHT(vsw));
--	outp32(ldi_base + LDI_VRT_CTRL2, DSS_HEIGHT(rect.h));
-+	writel(hfp | ((hbp + DSS_WIDTH(hsw)) << 16),
-+	       ldi_base + LDI_DPI0_HRZ_CTRL0);
-+	writel(0, ldi_base + LDI_DPI0_HRZ_CTRL1);
-+	writel(DSS_WIDTH(rect.w), ldi_base + LDI_DPI0_HRZ_CTRL2);
-+	writel(vfp | (vbp << 16), ldi_base + LDI_VRT_CTRL0);
-+	writel(DSS_HEIGHT(vsw), ldi_base + LDI_VRT_CTRL1);
-+	writel(DSS_HEIGHT(rect.h), ldi_base + LDI_VRT_CTRL2);
- 
--	outp32(ldi_base + LDI_PLR_CTRL,
--	       vsync_plr | (hsync_plr << 1) |
--		(pixelclk_plr << 2) | (data_en_plr << 3));
-+	writel(vsync_plr | (hsync_plr << 1) | (pixelclk_plr << 2) | (data_en_plr << 3),
-+	       ldi_base + LDI_PLR_CTRL);
- 
- 	/* bpp*/
- 	set_reg(ldi_base + LDI_CTRL, acrtc->out_format, 2, 3);
-@@ -294,10 +292,10 @@ void init_ldi(struct dss_crtc *acrtc)
- 	set_reg(ldi_base + LDI_CTRL, acrtc->bgr_fmt, 1, 13);
- 
- 	/* for ddr pmqos*/
--	outp32(ldi_base + LDI_VINACT_MSK_LEN, vfp);
-+	writel(vfp, ldi_base + LDI_VINACT_MSK_LEN);
- 
- 	/*cmd event sel*/
--	outp32(ldi_base + LDI_CMD_EVENT_SEL, 0x1);
-+	writel(0x1, ldi_base + LDI_CMD_EVENT_SEL);
- 
- 	/* for 1Hz LCD and mipi command LCD*/
- 	set_reg(ldi_base + LDI_DSI_CMD_MOD_CTRL, 0x1, 1, 1);
-@@ -470,22 +468,25 @@ void init_dbuf(struct dss_crtc *acrtc)
- 		thd_flux_req_aftdfs_out,
- 		thd_dfs_ok);
- 
--	outp32(dbuf_base + DBUF_FRM_SIZE, mode->hdisplay * mode->vdisplay);
--	outp32(dbuf_base + DBUF_FRM_HSIZE, DSS_WIDTH(mode->hdisplay));
--	outp32(dbuf_base + DBUF_SRAM_VALID_NUM, sram_valid_num);
-+	writel(mode->hdisplay * mode->vdisplay, dbuf_base + DBUF_FRM_SIZE);
-+	writel(DSS_WIDTH(mode->hdisplay), dbuf_base + DBUF_FRM_HSIZE);
-+	writel(sram_valid_num, dbuf_base + DBUF_SRAM_VALID_NUM);
- 
--	outp32(dbuf_base + DBUF_THD_RQOS, (thd_rqos_out << 16) | thd_rqos_in);
--	outp32(dbuf_base + DBUF_THD_WQOS, (thd_wqos_out << 16) | thd_wqos_in);
--	outp32(dbuf_base + DBUF_THD_CG, (thd_cg_out << 16) | thd_cg_in);
--	outp32(dbuf_base + DBUF_THD_OTHER, (thd_cg_hold << 16) | thd_wr_wait);
--	outp32(dbuf_base + DBUF_THD_FLUX_REQ_BEF, (thd_flux_req_befdfs_out << 16) | thd_flux_req_befdfs_in);
--	outp32(dbuf_base + DBUF_THD_FLUX_REQ_AFT, (thd_flux_req_aftdfs_out << 16) | thd_flux_req_aftdfs_in);
--	outp32(dbuf_base + DBUF_THD_DFS_OK, thd_dfs_ok);
--	outp32(dbuf_base + DBUF_FLUX_REQ_CTRL, (dfs_ok_mask << 1) | thd_flux_req_sw_en);
-+	writel((thd_rqos_out << 16) | thd_rqos_in, dbuf_base + DBUF_THD_RQOS);
-+	writel((thd_wqos_out << 16) | thd_wqos_in, dbuf_base + DBUF_THD_WQOS);
-+	writel((thd_cg_out << 16) | thd_cg_in, dbuf_base + DBUF_THD_CG);
-+	writel((thd_cg_hold << 16) | thd_wr_wait, dbuf_base + DBUF_THD_OTHER);
-+	writel((thd_flux_req_befdfs_out << 16) | thd_flux_req_befdfs_in,
-+               dbuf_base + DBUF_THD_FLUX_REQ_BEF);
-+	writel((thd_flux_req_aftdfs_out << 16) | thd_flux_req_aftdfs_in,
-+               dbuf_base + DBUF_THD_FLUX_REQ_AFT);
-+	writel(thd_dfs_ok, dbuf_base + DBUF_THD_DFS_OK);
-+	writel((dfs_ok_mask << 1) | thd_flux_req_sw_en,
-+               dbuf_base + DBUF_FLUX_REQ_CTRL);
- 
--	outp32(dbuf_base + DBUF_DFS_LP_CTRL, 0x1);
-+	writel(0x1, dbuf_base + DBUF_DFS_LP_CTRL);
- 	if (ctx->g_dss_version_tag == FB_ACCEL_KIRIN970)
--		outp32(dbuf_base + DBUF_DFS_RAM_MANAGE, dfs_ram);
-+		writel(dfs_ram, dbuf_base + DBUF_DFS_RAM_MANAGE);
- }
- 
- void init_dpp(struct dss_crtc *acrtc)
-@@ -508,10 +509,10 @@ void init_dpp(struct dss_crtc *acrtc)
- 	dpp_base = ctx->base + DSS_DPP_OFFSET;
- 	mctl_sys_base = ctx->base + DSS_MCTRL_SYS_OFFSET;
- 
--	outp32(dpp_base + DPP_IMG_SIZE_BEF_SR,
--	       (DSS_HEIGHT(mode->vdisplay) << 16) | DSS_WIDTH(mode->hdisplay));
--	outp32(dpp_base + DPP_IMG_SIZE_AFT_SR,
--	       (DSS_HEIGHT(mode->vdisplay) << 16) | DSS_WIDTH(mode->hdisplay));
-+	writel((DSS_HEIGHT(mode->vdisplay) << 16) | DSS_WIDTH(mode->hdisplay),
-+	       dpp_base + DPP_IMG_SIZE_BEF_SR);
-+	writel((DSS_HEIGHT(mode->vdisplay) << 16) | DSS_WIDTH(mode->hdisplay),
-+	       dpp_base + DPP_IMG_SIZE_AFT_SR);
- }
- 
- void enable_ldi(struct dss_crtc *acrtc)
-@@ -563,22 +564,22 @@ void dpe_interrupt_clear(struct dss_crtc *acrtc)
- 	dss_base = ctx->base;
- 
- 	clear = ~0;
--	outp32(dss_base + GLB_CPU_PDP_INTS, clear);
--	outp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INTS, clear);
--	outp32(dss_base + DSS_DPP_OFFSET + DPP_INTS, clear);
-+	writel(clear, dss_base + GLB_CPU_PDP_INTS);
-+	writel(clear, dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INTS);
-+	writel(clear, dss_base + DSS_DPP_OFFSET + DPP_INTS);
- 
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_MCTL_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_WCH0_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_WCH1_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH0_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH1_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH2_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH3_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH4_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH5_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH6_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH7_INTS, clear);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_DSS_GLB_INTS, clear);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_MCTL_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_WCH0_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_WCH1_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_RCH0_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_RCH1_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_RCH2_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_RCH3_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_RCH4_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_RCH5_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_RCH6_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_RCH7_INTS);
-+	writel(clear, dss_base + DSS_DBG_OFFSET + DBG_DSS_GLB_INTS);
- }
- 
- void dpe_interrupt_unmask(struct dss_crtc *acrtc)
-@@ -597,12 +598,12 @@ void dpe_interrupt_unmask(struct dss_crtc *acrtc)
- 
- 	unmask = ~0;
- 	unmask &= ~(BIT_ITF0_INTS | BIT_MMU_IRPT_NS);
--	outp32(dss_base + GLB_CPU_PDP_INT_MSK, unmask);
-+	writel(unmask, dss_base + GLB_CPU_PDP_INT_MSK);
- 
- 	unmask = ~0;
- 	unmask &= ~(BIT_VSYNC | BIT_VACTIVE0_END | BIT_LDI_UNFLOW);
- 
--	outp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK, unmask);
-+	writel(unmask, dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK);
- }
- 
- void dpe_interrupt_mask(struct dss_crtc *acrtc)
-@@ -620,21 +621,21 @@ void dpe_interrupt_mask(struct dss_crtc *acrtc)
- 	dss_base = ctx->base;
- 
- 	mask = ~0;
--	outp32(dss_base + GLB_CPU_PDP_INT_MSK, mask);
--	outp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK, mask);
--	outp32(dss_base + DSS_DPP_OFFSET + DPP_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_DSS_GLB_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_MCTL_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_WCH0_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_WCH1_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH0_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH1_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH2_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH3_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH4_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH5_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH6_INT_MSK, mask);
--	outp32(dss_base + DSS_DBG_OFFSET + DBG_RCH7_INT_MSK, mask);
-+	writel(mask, dss_base + GLB_CPU_PDP_INT_MSK);
-+	writel(mask, dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK);
-+	writel(mask, dss_base + DSS_DPP_OFFSET + DPP_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_DSS_GLB_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_MCTL_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_WCH0_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_WCH1_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_RCH0_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_RCH1_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_RCH2_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_RCH3_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_RCH4_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_RCH5_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_RCH6_INT_MSK);
-+	writel(mask, dss_base + DSS_DBG_OFFSET + DBG_RCH7_INT_MSK);
- }
- 
- int dpe_init(struct dss_crtc *acrtc)
-@@ -692,7 +693,7 @@ void dpe_check_itf_status(struct dss_crtc *acrtc)
- 	mctl_sys_base =  ctx->base + DSS_MCTRL_SYS_OFFSET;
- 
- 	while (1) {
--		tmp = inp32(mctl_sys_base + MCTL_MOD17_STATUS + itf_idx * 0x4);
-+		tmp = readl(mctl_sys_base + MCTL_MOD17_STATUS + itf_idx * 0x4);
- 		if (((tmp & 0x10) == 0x10) || delay_count > 100) {
- 			is_timeout = (delay_count > 100) ? true : false;
- 			delay_count = 0;
-@@ -720,11 +721,11 @@ void dss_inner_clk_pdp_enable(struct dss_hw_ctx *ctx)
- 	}
- 	dss_base = ctx->base;
- 
--	outp32(dss_base + DSS_IFBC_OFFSET + IFBC_MEM_CTRL, 0x00000088);
--	outp32(dss_base + DSS_DSC_OFFSET + DSC_MEM_CTRL, 0x00000888);
--	outp32(dss_base + DSS_LDI0_OFFSET + LDI_MEM_CTRL, 0x00000008);
--	outp32(dss_base + DSS_DBUF0_OFFSET + DBUF_MEM_CTRL, 0x00000008);
--	outp32(dss_base + DSS_DPP_DITHER_OFFSET + DITHER_MEM_CTRL, 0x00000008);
-+	writel(0x00000088, dss_base + DSS_IFBC_OFFSET + IFBC_MEM_CTRL);
-+	writel(0x00000888, dss_base + DSS_DSC_OFFSET + DSC_MEM_CTRL);
-+	writel(0x00000008, dss_base + DSS_LDI0_OFFSET + LDI_MEM_CTRL);
-+	writel(0x00000008, dss_base + DSS_DBUF0_OFFSET + DBUF_MEM_CTRL);
-+	writel(0x00000008, dss_base + DSS_DPP_DITHER_OFFSET + DITHER_MEM_CTRL);
- }
- 
- void dss_inner_clk_common_enable(struct dss_hw_ctx *ctx)
-@@ -739,61 +740,87 @@ void dss_inner_clk_common_enable(struct dss_hw_ctx *ctx)
- 	dss_base = ctx->base;
- 
- 	/*core/axi/mmbuf*/
--	outp32(dss_base + DSS_CMDLIST_OFFSET + CMD_MEM_CTRL, 0x00000008);  /*cmd mem*/
-+	writel(0x00000008, dss_base + DSS_CMDLIST_OFFSET + CMD_MEM_CTRL);  /*cmd mem*/
- 
--	outp32(dss_base + DSS_RCH_VG0_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);/*rch_v0 ,scf mem*/
--	outp32(dss_base + DSS_RCH_VG0_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x00000008);/*rch_v0 ,scf mem*/
--	outp32(dss_base + DSS_RCH_VG0_ARSR_OFFSET + ARSR2P_LB_MEM_CTRL, 0x00000008);/*rch_v0 ,arsr2p mem*/
--	outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + VPP_MEM_CTRL, 0x00000008);/*rch_v0 ,vpp mem*/
--	outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_v0 ,dma_buf mem*/
--	outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);/*rch_v0 ,afbcd mem*/
-+	writel(0x00000088,
-+	       dss_base + DSS_RCH_VG0_SCL_OFFSET + SCF_COEF_MEM_CTRL);/*rch_v0 ,scf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_VG0_SCL_OFFSET + SCF_LB_MEM_CTRL);/*rch_v0 ,scf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_VG0_ARSR_OFFSET + ARSR2P_LB_MEM_CTRL);/*rch_v0 ,arsr2p mem*/
-+	writel(0x00000008, dss_base + DSS_RCH_VG0_DMA_OFFSET + VPP_MEM_CTRL);/*rch_v0 ,vpp mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_VG0_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_v0 ,dma_buf mem*/
-+	writel(0x00008888, dss_base + DSS_RCH_VG0_DMA_OFFSET + AFBCD_MEM_CTRL);/*rch_v0 ,afbcd mem*/
- 
--	outp32(dss_base + DSS_RCH_VG1_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);/*rch_v1 ,scf mem*/
--	outp32(dss_base + DSS_RCH_VG1_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x00000008);/*rch_v1 ,scf mem*/
--	outp32(dss_base + DSS_RCH_VG1_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_v1 ,dma_buf mem*/
--	outp32(dss_base + DSS_RCH_VG1_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);/*rch_v1 ,afbcd mem*/
-+	writel(0x00000088,
-+	       dss_base + DSS_RCH_VG1_SCL_OFFSET + SCF_COEF_MEM_CTRL);/*rch_v1 ,scf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_VG1_SCL_OFFSET + SCF_LB_MEM_CTRL);/*rch_v1 ,scf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_VG1_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_v1 ,dma_buf mem*/
-+	writel(0x00008888, dss_base + DSS_RCH_VG1_DMA_OFFSET + AFBCD_MEM_CTRL);/*rch_v1 ,afbcd mem*/
- 
- 	if (ctx->g_dss_version_tag == FB_ACCEL_KIRIN970) {
--		outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + HFBCD_MEM_CTRL, 0x88888888);
--		outp32(dss_base + DSS_RCH_VG0_DMA_OFFSET + HFBCD_MEM_CTRL_1, 0x00000888);
--		outp32(dss_base + DSS_RCH_VG1_DMA_OFFSET + HFBCD_MEM_CTRL, 0x88888888);
--		outp32(dss_base + DSS_RCH_VG1_DMA_OFFSET + HFBCD_MEM_CTRL_1, 0x00000888);
-+		writel(0x88888888,
-+		       dss_base + DSS_RCH_VG0_DMA_OFFSET + HFBCD_MEM_CTRL);
-+		writel(0x00000888,
-+		       dss_base + DSS_RCH_VG0_DMA_OFFSET + HFBCD_MEM_CTRL_1);
-+		writel(0x88888888,
-+		       dss_base + DSS_RCH_VG1_DMA_OFFSET + HFBCD_MEM_CTRL);
-+		writel(0x00000888,
-+		       dss_base + DSS_RCH_VG1_DMA_OFFSET + HFBCD_MEM_CTRL_1);
- 	} else {
--		outp32(dss_base + DSS_RCH_VG2_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);/*rch_v2 ,scf mem*/
--		outp32(dss_base + DSS_RCH_VG2_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x00000008);/*rch_v2 ,scf mem*/
-+		writel(0x00000088,
-+		       dss_base + DSS_RCH_VG2_SCL_OFFSET + SCF_COEF_MEM_CTRL);/*rch_v2 ,scf mem*/
-+		writel(0x00000008,
-+		       dss_base + DSS_RCH_VG2_SCL_OFFSET + SCF_LB_MEM_CTRL);/*rch_v2 ,scf mem*/
- 	}
- 
--	outp32(dss_base + DSS_RCH_VG2_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_v2 ,dma_buf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_VG2_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_v2 ,dma_buf mem*/
- 
--	outp32(dss_base + DSS_RCH_G0_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);/*rch_g0 ,scf mem*/
--	outp32(dss_base + DSS_RCH_G0_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x0000008);/*rch_g0 ,scf mem*/
--	outp32(dss_base + DSS_RCH_G0_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_g0 ,dma_buf mem*/
--	outp32(dss_base + DSS_RCH_G0_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);/*rch_g0 ,afbcd mem*/
-+	writel(0x00000088,
-+	       dss_base + DSS_RCH_G0_SCL_OFFSET + SCF_COEF_MEM_CTRL);/*rch_g0 ,scf mem*/
-+	writel(0x0000008, dss_base + DSS_RCH_G0_SCL_OFFSET + SCF_LB_MEM_CTRL);/*rch_g0 ,scf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_G0_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_g0 ,dma_buf mem*/
-+	writel(0x00008888, dss_base + DSS_RCH_G0_DMA_OFFSET + AFBCD_MEM_CTRL);/*rch_g0 ,afbcd mem*/
- 
--	outp32(dss_base + DSS_RCH_G1_SCL_OFFSET + SCF_COEF_MEM_CTRL, 0x00000088);/*rch_g1 ,scf mem*/
--	outp32(dss_base + DSS_RCH_G1_SCL_OFFSET + SCF_LB_MEM_CTRL, 0x0000008);/*rch_g1 ,scf mem*/
--	outp32(dss_base + DSS_RCH_G1_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_g1 ,dma_buf mem*/
--	outp32(dss_base + DSS_RCH_G1_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);/*rch_g1 ,afbcd mem*/
-+	writel(0x00000088,
-+	       dss_base + DSS_RCH_G1_SCL_OFFSET + SCF_COEF_MEM_CTRL);/*rch_g1 ,scf mem*/
-+	writel(0x0000008, dss_base + DSS_RCH_G1_SCL_OFFSET + SCF_LB_MEM_CTRL);/*rch_g1 ,scf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_G1_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_g1 ,dma_buf mem*/
-+	writel(0x00008888, dss_base + DSS_RCH_G1_DMA_OFFSET + AFBCD_MEM_CTRL);/*rch_g1 ,afbcd mem*/
- 
--	outp32(dss_base + DSS_RCH_D0_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_d0 ,dma_buf mem*/
--	outp32(dss_base + DSS_RCH_D0_DMA_OFFSET + AFBCD_MEM_CTRL, 0x00008888);/*rch_d0 ,afbcd mem*/
--	outp32(dss_base + DSS_RCH_D1_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_d1 ,dma_buf mem*/
--	outp32(dss_base + DSS_RCH_D2_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_d2 ,dma_buf mem*/
--	outp32(dss_base + DSS_RCH_D3_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*rch_d3 ,dma_buf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_D0_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_d0 ,dma_buf mem*/
-+	writel(0x00008888, dss_base + DSS_RCH_D0_DMA_OFFSET + AFBCD_MEM_CTRL);/*rch_d0 ,afbcd mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_D1_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_d1 ,dma_buf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_D2_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_d2 ,dma_buf mem*/
-+	writel(0x00000008,
-+	       dss_base + DSS_RCH_D3_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*rch_d3 ,dma_buf mem*/
- 
--	outp32(dss_base + DSS_WCH0_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*wch0 DMA/AFBCE mem*/
--	outp32(dss_base + DSS_WCH0_DMA_OFFSET + AFBCE_MEM_CTRL, 0x00000888);/*wch0 DMA/AFBCE mem*/
--	outp32(dss_base + DSS_WCH0_DMA_OFFSET + ROT_MEM_CTRL, 0x00000008);/*wch0 rot mem*/
--	outp32(dss_base + DSS_WCH1_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*wch1 DMA/AFBCE mem*/
--	outp32(dss_base + DSS_WCH1_DMA_OFFSET + AFBCE_MEM_CTRL, 0x00000888);/*wch1 DMA/AFBCE mem*/
--	outp32(dss_base + DSS_WCH1_DMA_OFFSET + ROT_MEM_CTRL, 0x00000008);/*wch1 rot mem*/
-+	writel(0x00000008, dss_base + DSS_WCH0_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*wch0 DMA/AFBCE mem*/
-+	writel(0x00000888, dss_base + DSS_WCH0_DMA_OFFSET + AFBCE_MEM_CTRL);/*wch0 DMA/AFBCE mem*/
-+	writel(0x00000008, dss_base + DSS_WCH0_DMA_OFFSET + ROT_MEM_CTRL);/*wch0 rot mem*/
-+	writel(0x00000008, dss_base + DSS_WCH1_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*wch1 DMA/AFBCE mem*/
-+	writel(0x00000888, dss_base + DSS_WCH1_DMA_OFFSET + AFBCE_MEM_CTRL);/*wch1 DMA/AFBCE mem*/
-+	writel(0x00000008, dss_base + DSS_WCH1_DMA_OFFSET + ROT_MEM_CTRL);/*wch1 rot mem*/
- 	if (ctx->g_dss_version_tag == FB_ACCEL_KIRIN970) {
--		outp32(dss_base + DSS_WCH1_DMA_OFFSET + WCH_SCF_COEF_MEM_CTRL, 0x00000088);
--		outp32(dss_base + DSS_WCH1_DMA_OFFSET + WCH_SCF_LB_MEM_CTRL, 0x00000008);
--		outp32(dss_base + GLB_DSS_MEM_CTRL, 0x02605550);
-+		writel(0x00000088,
-+		       dss_base + DSS_WCH1_DMA_OFFSET + WCH_SCF_COEF_MEM_CTRL);
-+		writel(0x00000008,
-+		       dss_base + DSS_WCH1_DMA_OFFSET + WCH_SCF_LB_MEM_CTRL);
-+		writel(0x02605550, dss_base + GLB_DSS_MEM_CTRL);
- 	} else {
--		outp32(dss_base + DSS_WCH2_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);/*wch2 DMA/AFBCE mem*/
--		outp32(dss_base + DSS_WCH2_DMA_OFFSET + ROT_MEM_CTRL, 0x00000008);/*wch2 rot mem*/
-+		writel(0x00000008,
-+		       dss_base + DSS_WCH2_DMA_OFFSET + DMA_BUF_MEM_CTRL);/*wch2 DMA/AFBCE mem*/
-+		writel(0x00000008,
-+		       dss_base + DSS_WCH2_DMA_OFFSET + ROT_MEM_CTRL);/*wch2 rot mem*/
- 		//outp32(dss_base + DSS_WCH2_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
- 		//outp32(dss_base + DSS_WCH2_DMA_OFFSET + DMA_BUF_MEM_CTRL, 0x00000008);
- 	}
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-index 546da775f2fb..292e14d2edf5 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_dss.c
-@@ -215,7 +215,7 @@ int hdmi_pxl_ppll7_init(struct dss_hw_ctx *ctx, u64 pixel_clock)
- 	frac = (u64)(ceil_temp * vco_freq_output - sys_clock_fref / refdiv * fbdiv) * refdiv * frac_range;
- 	frac = (u64)frac / sys_clock_fref;
- 
--	ppll7ctrl0 = inp32(ctx->pmctrl_base + MIDIA_PPLL7_CTRL0);
-+	ppll7ctrl0 = readl(ctx->pmctrl_base + MIDIA_PPLL7_CTRL0);
- 	ppll7ctrl0 &= ~MIDIA_PPLL7_FREQ_DEVIDER_MASK;
- 
- 	ppll7ctrl0_val = 0x0;
-@@ -223,9 +223,9 @@ int hdmi_pxl_ppll7_init(struct dss_hw_ctx *ctx, u64 pixel_clock)
- 	ppll7ctrl0_val &= MIDIA_PPLL7_FREQ_DEVIDER_MASK;
- 	ppll7ctrl0 |= ppll7ctrl0_val;
- 
--	outp32(ctx->pmctrl_base + MIDIA_PPLL7_CTRL0, ppll7ctrl0);
-+	writel(ppll7ctrl0, ctx->pmctrl_base + MIDIA_PPLL7_CTRL0);
- 
--	ppll7ctrl1 = inp32(ctx->pmctrl_base + MIDIA_PPLL7_CTRL1);
-+	ppll7ctrl1 = readl(ctx->pmctrl_base + MIDIA_PPLL7_CTRL1);
- 	ppll7ctrl1 &= ~MIDIA_PPLL7_FRAC_MODE_MASK;
- 
- 	ppll7ctrl1_val = 0x0;
-@@ -233,7 +233,7 @@ int hdmi_pxl_ppll7_init(struct dss_hw_ctx *ctx, u64 pixel_clock)
- 	ppll7ctrl1_val &= MIDIA_PPLL7_FRAC_MODE_MASK;
- 	ppll7ctrl1 |= ppll7ctrl1_val;
- 
--	outp32(ctx->pmctrl_base + MIDIA_PPLL7_CTRL1, ppll7ctrl1);
-+	writel(ppll7ctrl1, ctx->pmctrl_base + MIDIA_PPLL7_CTRL1);
- 
- 	DRM_INFO("PLL7 set to (0x%0x, 0x%0x)\n", ppll7ctrl0, ppll7ctrl1);
- 
-@@ -438,16 +438,16 @@ static irqreturn_t dss_irq_handler(int irq, void *data)
- 	u32 isr_s2 = 0;
- 	u32 mask = 0;
- 
--	isr_s1 = inp32(dss_base + GLB_CPU_PDP_INTS);
--	isr_s2 = inp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INTS);
-+	isr_s1 = readl(dss_base + GLB_CPU_PDP_INTS);
-+	isr_s2 = readl(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INTS);
- 	DRM_INFO_ONCE("isr_s1 = 0x%x!\n", isr_s1);
- 	DRM_INFO_ONCE("isr_s2 = 0x%x!\n", isr_s2);
- 
--	outp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INTS, isr_s2);
--	outp32(dss_base + GLB_CPU_PDP_INTS, isr_s1);
-+	writel(isr_s2, dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INTS);
-+	writel(isr_s1, dss_base + GLB_CPU_PDP_INTS);
- 
--	isr_s1 &= ~(inp32(dss_base + GLB_CPU_PDP_INT_MSK));
--	isr_s2 &= ~(inp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK));
-+	isr_s1 &= ~(readl(dss_base + GLB_CPU_PDP_INT_MSK));
-+	isr_s2 &= ~(readl(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK));
- 
- 	if (isr_s2 & BIT_VACTIVE0_END) {
- 		ctx->vactive0_end_flag++;
-@@ -460,9 +460,9 @@ static irqreturn_t dss_irq_handler(int irq, void *data)
- 	}
- 
- 	if (isr_s2 & BIT_LDI_UNFLOW) {
--		mask = inp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK);
-+		mask = readl(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK);
- 		mask |= BIT_LDI_UNFLOW;
--		outp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK, mask);
-+		writel(mask, dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK);
- 
- 		DRM_ERROR("ldi underflow!\n");
- 	}
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-index 58cbb1448306..60c43c153829 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-@@ -1298,10 +1298,10 @@ static void hisi_dss_qos_on(struct dss_hw_ctx *ctx)
- 
- 	noc_dss_base = ctx->noc_dss_base;
- 
--	outp32(noc_dss_base + 0xc, 0x2);
--	outp32(noc_dss_base + 0x8c, 0x2);
--	outp32(noc_dss_base + 0x10c, 0x2);
--	outp32(noc_dss_base + 0x18c, 0x2);
-+	writel(0x2, noc_dss_base + 0xc);
-+	writel(0x2, noc_dss_base + 0x8c);
-+	writel(0x2, noc_dss_base + 0x10c);
-+	writel(0x2, noc_dss_base + 0x18c);
- }
- 
- static void hisi_dss_mif_on(struct dss_hw_ctx *ctx)
-@@ -1427,13 +1427,13 @@ void hisi_dss_unflow_handler(struct dss_hw_ctx *ctx, bool unmask)
- 
- 	dss_base = ctx->base;
- 
--	tmp = inp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK);
-+	tmp = readl(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK);
- 	if (unmask)
- 		tmp &= ~BIT_LDI_UNFLOW;
- 	else
- 		tmp |= BIT_LDI_UNFLOW;
- 
--	outp32(dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK, tmp);
-+	writel(tmp, dss_base + DSS_LDI0_OFFSET + LDI_CPU_ITF_INT_MSK);
- }
- 
- void hisifb_mctl_sw_clr(struct dss_crtc *acrtc)
-@@ -1457,7 +1457,7 @@ void hisifb_mctl_sw_clr(struct dss_crtc *acrtc)
- 		set_reg(mctl_base + MCTL_CTL_CLEAR, 0x1, 1, 0);
- 
- 	while (1) {
--		mctl_status = inp32(mctl_base + MCTL_CTL_STATUS);
-+		mctl_status = readl(mctl_base + MCTL_CTL_STATUS);
- 		if (((mctl_status & 0x10) == 0) || (delay_count > 500)) {
- 			is_timeout = (delay_count > 100) ? true : false;
- 			delay_count = 0;
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c b/drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c
-index e7fb556befa1..5c6a9b78a1ec 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_dw_drm_dsi.c
-@@ -279,10 +279,10 @@ static void set_reg(char __iomem *addr, uint32_t val, uint8_t bw,
- 	u32 mask = (1UL << bw) - 1UL;
- 	u32 tmp = 0;
- 
--	tmp = inp32(addr);
-+	tmp = readl(addr);
- 	tmp &= ~(mask << bs);
- 
--	outp32(addr, tmp | ((val & mask) << bs));
-+	writel(tmp | ((val & mask) << bs), addr);
- }
- 
- void dsi_set_output_client(struct drm_device *dev)
-@@ -1078,11 +1078,11 @@ static void dsi_mipi_init(struct dw_dsi *dsi, char __iomem *mipi_dsi_base,
- 	set_reg(mipi_dsi_base + MIPIDSI_CLKMGR_CFG_OFFSET, dsi->phy.clk_division, 8, 0);
- 	set_reg(mipi_dsi_base + MIPIDSI_CLKMGR_CFG_OFFSET, dsi->phy.clk_division, 8, 8);
- 
--	outp32(mipi_dsi_base + MIPIDSI_PHY_RSTZ_OFFSET, 0x00000000);
-+	writel(0x00000000, mipi_dsi_base + MIPIDSI_PHY_RSTZ_OFFSET);
- 
--	outp32(mipi_dsi_base + MIPIDSI_PHY_TST_CTRL0_OFFSET, 0x00000000);
--	outp32(mipi_dsi_base + MIPIDSI_PHY_TST_CTRL0_OFFSET, 0x00000001);
--	outp32(mipi_dsi_base + MIPIDSI_PHY_TST_CTRL0_OFFSET, 0x00000000);
-+	writel(0x00000000, mipi_dsi_base + MIPIDSI_PHY_TST_CTRL0_OFFSET);
-+	writel(0x00000001, mipi_dsi_base + MIPIDSI_PHY_TST_CTRL0_OFFSET);
-+	writel(0x00000000, mipi_dsi_base + MIPIDSI_PHY_TST_CTRL0_OFFSET);
- 
- #if defined(CONFIG_DRM_HISI_KIRIN970)
- 	dsi_phy_tst_set(mipi_dsi_base, 0x0042, 0x21);
-@@ -1194,12 +1194,12 @@ static void dsi_mipi_init(struct dw_dsi *dsi, char __iomem *mipi_dsi_base,
- 	}
- #endif
- 
--	outp32(mipi_dsi_base + MIPIDSI_PHY_RSTZ_OFFSET, 0x00000007);
-+	writel(0x00000007, mipi_dsi_base + MIPIDSI_PHY_RSTZ_OFFSET);
- 
- 	is_ready = false;
- 	dw_jiffies = jiffies + HZ / 2;
- 	do {
--		tmp = inp32(mipi_dsi_base + MIPIDSI_PHY_STATUS_OFFSET);
-+		tmp = readl(mipi_dsi_base + MIPIDSI_PHY_STATUS_OFFSET);
- 		if ((tmp & 0x00000001) == 0x00000001) {
- 			is_ready = true;
- 			break;
-@@ -1223,7 +1223,7 @@ static void dsi_mipi_init(struct dw_dsi *dsi, char __iomem *mipi_dsi_base,
- 	is_ready = false;
- 	dw_jiffies = jiffies + HZ / 2;
- 	do {
--		tmp = inp32(mipi_dsi_base + MIPIDSI_PHY_STATUS_OFFSET);
-+		tmp = readl(mipi_dsi_base + MIPIDSI_PHY_STATUS_OFFSET);
- 		if ((tmp & cmp_stopstate_val) == cmp_stopstate_val) {
- 			is_ready = true;
- 			break;
-@@ -1383,7 +1383,7 @@ static int mipi_dsi_on_sub1(struct dw_dsi *dsi, char __iomem *mipi_dsi_base,
- 
- 	/* dsi memory init */
- #if defined(CONFIG_DRM_HISI_KIRIN970)
--	outp32(mipi_dsi_base + DSI_MEM_CTRL, 0x02600008);
-+	writel(0x02600008, mipi_dsi_base + DSI_MEM_CTRL);
- #endif
- 
- 	/* switch to cmd mode */
-@@ -1422,7 +1422,7 @@ static int mipi_dsi_on_sub2(struct dw_dsi *dsi, char __iomem *mipi_dsi_base)
- 	DRM_DEBUG("pctrl_dphytx_stopcnt = %llu\n", pctrl_dphytx_stopcnt);
- 
- 	//FIXME:
--	outp32(dsi->ctx->pctrl_base + PERI_CTRL29, (u32)pctrl_dphytx_stopcnt);
-+	writel((u32)pctrl_dphytx_stopcnt, dsi->ctx->pctrl_base + PERI_CTRL29);
- #endif
- 
- 	return 0;
-@@ -2015,7 +2015,7 @@ static int dsi_parse_dt(struct platform_device *pdev, struct dw_dsi *dsi)
- 	DRM_INFO("dsi  cur_client is %d  <0->hdmi;1->panel>\n", dsi->cur_client);
- 	/*dis-reset*/
- 	/*ip_reset_dis_dsi0, ip_reset_dis_dsi1*/
--	outp32(ctx->peri_crg_base + PERRSTDIS3, 0x30000000);
-+	writel(0x30000000, ctx->peri_crg_base + PERRSTDIS3);
- 
- 	ctx->dss_dphy0_ref_clk = devm_clk_get(&pdev->dev, "clk_txdphy0_ref");
- 	if (IS_ERR(ctx->dss_dphy0_ref_clk)) {
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_pwm.c b/drivers/staging/hikey9xx/gpu/kirin9xx_pwm.c
-index 519e8f0232de..c920734e6332 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_pwm.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_pwm.c
-@@ -177,14 +177,14 @@ int hisi_pwm_set_backlight(struct backlight_device *bl, uint32_t bl_level)
- 
- 	bl_level = (bl_level * PWM_OUT_PRECISION) / bl_max;
- 
--	outp32(pwm_base + PWM_LOCK_OFFSET, 0x1acce551);
--	outp32(pwm_base + PWM_CTL_OFFSET, 0x0);
--	outp32(pwm_base + PWM_CFG_OFFSET, 0x2);
--	outp32(pwm_base + PWM_PR0_OFFSET, 0x1);
--	outp32(pwm_base + PWM_PR1_OFFSET, 0x2);
--	outp32(pwm_base + PWM_CTL_OFFSET, 0x1);
--	outp32(pwm_base + PWM_C0_MR_OFFSET, (PWM_OUT_PRECISION - 1));
--	outp32(pwm_base + PWM_C0_MR0_OFFSET, bl_level);
-+	writel(0x1acce551, pwm_base + PWM_LOCK_OFFSET);
-+	writel(0x0, pwm_base + PWM_CTL_OFFSET);
-+	writel(0x2, pwm_base + PWM_CFG_OFFSET);
-+	writel(0x1, pwm_base + PWM_PR0_OFFSET);
-+	writel(0x2, pwm_base + PWM_PR1_OFFSET);
-+	writel(0x1, pwm_base + PWM_CTL_OFFSET);
-+	writel((PWM_OUT_PRECISION - 1), pwm_base + PWM_C0_MR_OFFSET);
-+	writel(bl_level, pwm_base + PWM_C0_MR0_OFFSET);
- 
- 	return 0;
- }
-@@ -214,7 +214,7 @@ int hisi_pwm_on(void)
- 		return 0;
- 
- 	// dis-reset pwm
--	outp32(peri_crg_base + PERRSTDIS2, 0x1);
-+	writel(0x1, peri_crg_base + PERRSTDIS2);
- 
- 	clk_tmp = g_pwm_clk;
- 	if (clk_tmp) {
-@@ -276,7 +276,7 @@ int hisi_pwm_off(void)
- 	}
- 
- 	//reset pwm
--	outp32(peri_crg_base + PERRSTEN2, 0x1);
-+	writel(0x1, peri_crg_base + PERRSTEN2);
- 
- 	g_pwm_on = 0;
- 
--- 
-2.26.2
+Also, I posit that videobuf2 is not actually relying on 
+DMA_ATTR_NON_CONSISTENT anyway, since it's clearly not using it properly:
 
+"By using this API, you are guaranteeing to the platform
+that you have all the correct and necessary sync points for this memory
+in the driver should it choose to return non-consistent memory."
+
+$ git grep dma_cache_sync drivers/media
+$
+
+Robin.
+
+> [1] https://elixir.bootlin.com/linux/v5.9-rc1/source/kernel/dma/mapping.c#L341
+> 
+> When removing features from generic kernel code, I'd suggest first
+> providing viable alternatives for its users, rather than killing the
+> users altogether.
+> 
+> Given the above, I'm afraid I have to NAK this.
+> 
+> Best regards,
+> Tomasz
+> 
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>   .../userspace-api/media/v4l/buffer.rst        | 17 ---------
+>>   .../media/v4l/vidioc-reqbufs.rst              |  1 -
+>>   .../media/common/videobuf2/videobuf2-core.c   | 36 +------------------
+>>   .../common/videobuf2/videobuf2-dma-contig.c   | 19 ----------
+>>   .../media/common/videobuf2/videobuf2-dma-sg.c |  3 +-
+>>   .../media/common/videobuf2/videobuf2-v4l2.c   | 12 -------
+>>   include/media/videobuf2-core.h                |  3 +-
+>>   include/uapi/linux/videodev2.h                |  2 --
+>>   8 files changed, 3 insertions(+), 90 deletions(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+>> index 57e752aaf414a7..2044ed13cd9d7d 100644
+>> --- a/Documentation/userspace-api/media/v4l/buffer.rst
+>> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+>> @@ -701,23 +701,6 @@ Memory Consistency Flags
+>>       :stub-columns: 0
+>>       :widths:       3 1 4
+>>
+>> -    * .. _`V4L2-FLAG-MEMORY-NON-CONSISTENT`:
+>> -
+>> -      - ``V4L2_FLAG_MEMORY_NON_CONSISTENT``
+>> -      - 0x00000001
+>> -      - A buffer is allocated either in consistent (it will be automatically
+>> -       coherent between the CPU and the bus) or non-consistent memory. The
+>> -       latter can provide performance gains, for instance the CPU cache
+>> -       sync/flush operations can be avoided if the buffer is accessed by the
+>> -       corresponding device only and the CPU does not read/write to/from that
+>> -       buffer. However, this requires extra care from the driver -- it must
+>> -       guarantee memory consistency by issuing a cache flush/sync when
+>> -       consistency is needed. If this flag is set V4L2 will attempt to
+>> -       allocate the buffer in non-consistent memory. The flag takes effect
+>> -       only if the buffer is used for :ref:`memory mapping <mmap>` I/O and the
+>> -       queue reports the :ref:`V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS
+>> -       <V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS>` capability.
+>> -
+>>   .. c:type:: v4l2_memory
+>>
+>>   enum v4l2_memory
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+>> index 75d894d9c36c42..3180c111d368ee 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+>> @@ -169,7 +169,6 @@ aborting or finishing any DMA in progress, an implicit
+>>         - This capability is set by the driver to indicate that the queue supports
+>>           cache and memory management hints. However, it's only valid when the
+>>           queue is used for :ref:`memory mapping <mmap>` streaming I/O. See
+>> -        :ref:`V4L2_FLAG_MEMORY_NON_CONSISTENT <V4L2-FLAG-MEMORY-NON-CONSISTENT>`,
+>>           :ref:`V4L2_BUF_FLAG_NO_CACHE_INVALIDATE <V4L2-BUF-FLAG-NO-CACHE-INVALIDATE>` and
+>>           :ref:`V4L2_BUF_FLAG_NO_CACHE_CLEAN <V4L2-BUF-FLAG-NO-CACHE-CLEAN>`.
+>>
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>> index f544d3393e9d6b..66a41cef33c1b1 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>> @@ -721,39 +721,14 @@ int vb2_verify_memory_type(struct vb2_queue *q,
+>>   }
+>>   EXPORT_SYMBOL(vb2_verify_memory_type);
+>>
+>> -static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
+>> -{
+>> -       q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
+>> -
+>> -       if (!vb2_queue_allows_cache_hints(q))
+>> -               return;
+>> -       if (!consistent_mem)
+>> -               q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
+>> -}
+>> -
+>> -static bool verify_consistency_attr(struct vb2_queue *q, bool consistent_mem)
+>> -{
+>> -       bool queue_is_consistent = !(q->dma_attrs & DMA_ATTR_NON_CONSISTENT);
+>> -
+>> -       if (consistent_mem != queue_is_consistent) {
+>> -               dprintk(q, 1, "memory consistency model mismatch\n");
+>> -               return false;
+>> -       }
+>> -       return true;
+>> -}
+>> -
+>>   int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>                       unsigned int flags, unsigned int *count)
+>>   {
+>>          unsigned int num_buffers, allocated_buffers, num_planes = 0;
+>>          unsigned plane_sizes[VB2_MAX_PLANES] = { };
+>> -       bool consistent_mem = true;
+>>          unsigned int i;
+>>          int ret;
+>>
+>> -       if (flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
+>> -               consistent_mem = false;
+>> -
+>>          if (q->streaming) {
+>>                  dprintk(q, 1, "streaming active\n");
+>>                  return -EBUSY;
+>> @@ -765,8 +740,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>          }
+>>
+>>          if (*count == 0 || q->num_buffers != 0 ||
+>> -           (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory) ||
+>> -           !verify_consistency_attr(q, consistent_mem)) {
+>> +           (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory)) {
+>>                  /*
+>>                   * We already have buffers allocated, so first check if they
+>>                   * are not in use and can be freed.
+>> @@ -803,7 +777,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>          num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
+>>          memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>>          q->memory = memory;
+>> -       set_queue_consistency(q, consistent_mem);
+>>
+>>          /*
+>>           * Ask the driver how many buffers and planes per buffer it requires.
+>> @@ -894,12 +867,8 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>>   {
+>>          unsigned int num_planes = 0, num_buffers, allocated_buffers;
+>>          unsigned plane_sizes[VB2_MAX_PLANES] = { };
+>> -       bool consistent_mem = true;
+>>          int ret;
+>>
+>> -       if (flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
+>> -               consistent_mem = false;
+>> -
+>>          if (q->num_buffers == VB2_MAX_FRAME) {
+>>                  dprintk(q, 1, "maximum number of buffers already allocated\n");
+>>                  return -ENOBUFS;
+>> @@ -912,15 +881,12 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>>                  }
+>>                  memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>>                  q->memory = memory;
+>> -               set_queue_consistency(q, consistent_mem);
+>>                  q->waiting_for_buffers = !q->is_output;
+>>          } else {
+>>                  if (q->memory != memory) {
+>>                          dprintk(q, 1, "memory model mismatch\n");
+>>                          return -EINVAL;
+>>                  }
+>> -               if (!verify_consistency_attr(q, consistent_mem))
+>> -                       return -EINVAL;
+>>          }
+>>
+>>          num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> index ec3446cc45b8da..7b1b86ec942d7d 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> @@ -42,11 +42,6 @@ struct vb2_dc_buf {
+>>          struct dma_buf_attachment       *db_attach;
+>>   };
+>>
+>> -static inline bool vb2_dc_buffer_consistent(unsigned long attr)
+>> -{
+>> -       return !(attr & DMA_ATTR_NON_CONSISTENT);
+>> -}
+>> -
+>>   /*********************************************/
+>>   /*        scatterlist table functions        */
+>>   /*********************************************/
+>> @@ -341,13 +336,6 @@ static int
+>>   vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
+>>                                     enum dma_data_direction direction)
+>>   {
+>> -       struct vb2_dc_buf *buf = dbuf->priv;
+>> -       struct sg_table *sgt = buf->dma_sgt;
+>> -
+>> -       if (vb2_dc_buffer_consistent(buf->attrs))
+>> -               return 0;
+>> -
+>> -       dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
+>>          return 0;
+>>   }
+>>
+>> @@ -355,13 +343,6 @@ static int
+>>   vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
+>>                                   enum dma_data_direction direction)
+>>   {
+>> -       struct vb2_dc_buf *buf = dbuf->priv;
+>> -       struct sg_table *sgt = buf->dma_sgt;
+>> -
+>> -       if (vb2_dc_buffer_consistent(buf->attrs))
+>> -               return 0;
+>> -
+>> -       dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
+>>          return 0;
+>>   }
+>>
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> index 0a40e00f0d7e5c..a86fce5d8ea8bf 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> @@ -123,8 +123,7 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
+>>          /*
+>>           * NOTE: dma-sg allocates memory using the page allocator directly, so
+>>           * there is no memory consistency guarantee, hence dma-sg ignores DMA
+>> -        * attributes passed from the upper layer. That means that
+>> -        * V4L2_FLAG_MEMORY_NON_CONSISTENT has no effect on dma-sg buffers.
+>> +        * attributes passed from the upper layer.
+>>           */
+>>          buf->pages = kvmalloc_array(buf->num_pages, sizeof(struct page *),
+>>                                      GFP_KERNEL | __GFP_ZERO);
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>> index 30caad27281e1a..de83ad48783821 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>> @@ -722,20 +722,11 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+>>   #endif
+>>   }
+>>
+>> -static void clear_consistency_attr(struct vb2_queue *q,
+>> -                                  int memory,
+>> -                                  unsigned int *flags)
+>> -{
+>> -       if (!q->allow_cache_hints || memory != V4L2_MEMORY_MMAP)
+>> -               *flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT;
+>> -}
+>> -
+>>   int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
+>>   {
+>>          int ret = vb2_verify_memory_type(q, req->memory, req->type);
+>>
+>>          fill_buf_caps(q, &req->capabilities);
+>> -       clear_consistency_attr(q, req->memory, &req->flags);
+>>          return ret ? ret : vb2_core_reqbufs(q, req->memory,
+>>                                              req->flags, &req->count);
+>>   }
+>> @@ -769,7 +760,6 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>>          unsigned i;
+>>
+>>          fill_buf_caps(q, &create->capabilities);
+>> -       clear_consistency_attr(q, create->memory, &create->flags);
+>>          create->index = q->num_buffers;
+>>          if (create->count == 0)
+>>                  return ret != -EBUSY ? ret : 0;
+>> @@ -998,7 +988,6 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
+>>          int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
+>>
+>>          fill_buf_caps(vdev->queue, &p->capabilities);
+>> -       clear_consistency_attr(vdev->queue, p->memory, &p->flags);
+>>          if (res)
+>>                  return res;
+>>          if (vb2_queue_is_busy(vdev, file))
+>> @@ -1021,7 +1010,6 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
+>>
+>>          p->index = vdev->queue->num_buffers;
+>>          fill_buf_caps(vdev->queue, &p->capabilities);
+>> -       clear_consistency_attr(vdev->queue, p->memory, &p->flags);
+>>          /*
+>>           * If count == 0, then just check if memory and type are valid.
+>>           * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
+>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+>> index 52ef92049073e3..4c7f25b07e9375 100644
+>> --- a/include/media/videobuf2-core.h
+>> +++ b/include/media/videobuf2-core.h
+>> @@ -744,8 +744,7 @@ void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb);
+>>    * vb2_core_reqbufs() - Initiate streaming.
+>>    * @q:         pointer to &struct vb2_queue with videobuf2 queue.
+>>    * @memory:    memory type, as defined by &enum vb2_memory.
+>> - * @flags:     auxiliary queue/buffer management flags. Currently, the only
+>> - *             used flag is %V4L2_FLAG_MEMORY_NON_CONSISTENT.
+>> + * @flags:     auxiliary queue/buffer management flags.
+>>    * @count:     requested buffer count.
+>>    *
+>>    * Videobuf2 core helper to implement VIDIOC_REQBUF() operation. It is called
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index c7b70ff53bc1dd..5c00f63d9c1b58 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -191,8 +191,6 @@ enum v4l2_memory {
+>>          V4L2_MEMORY_DMABUF           = 4,
+>>   };
+>>
+>> -#define V4L2_FLAG_MEMORY_NON_CONSISTENT                (1 << 0)
+>> -
+>>   /* see also http://vektor.theorem.ca/graphics/ycbcr/ */
+>>   enum v4l2_colorspace {
+>>          /*
+>> --
+>> 2.28.0
+>>
+>> _______________________________________________
+>> iommu mailing list
+>> iommu@lists.linux-foundation.org
+>> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
