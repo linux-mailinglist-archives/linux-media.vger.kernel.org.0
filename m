@@ -2,335 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DB9D24A58F
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 20:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72BB424A591
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 20:05:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726836AbgHSSF2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 14:05:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55554 "EHLO
+        id S1726886AbgHSSFe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 14:05:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726870AbgHSSFH (ORCPT
+        with ESMTP id S1726923AbgHSSFM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 14:05:07 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563ECC061383
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:07 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id d22so12078194pfn.5
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:07 -0700 (PDT)
+        Wed, 19 Aug 2020 14:05:12 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462DEC061342
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:12 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id d19so11765804pgl.10
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=+Hr38lItu4eVpChslvtYRcigjDMNh3B0lnEZweg9dnU=;
-        b=lQk7Q038l0jssNstKbz+77SuBmA+tpST+f6F8/Np9AW1MszdzTbQ2lDiJYHBRL6JYH
-         vDa790mumNZnckVLgI7yC+WS4M+Kzu4j3w2zfX5qD8xIOUTc80OcIlgrghkve+MT/7ox
-         Z2HrbU8nAHBqUzmKThYHT1K5UrQV2oZla8kc+AKkS1tEFFZdL9GKTX+A173uOPD69EF2
-         nGn9m7GrLqlLBZFi0NCqLYDFRwwBTprHg/fe4Ey6vIqdFi4+r8ovpaBUyeHb1AniVYCK
-         cocQE3z1Abw88Y8+dMS4r6YCdTGRN+3u5JadplNlr+oyv7Qts0FPLguPdaily1IvM8GP
-         sWtA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=VJOwxZD756f4d3HNd4Hpvhldk4W8KSHk0BSTu8cNd+0=;
+        b=Q8MbWudYBHUtf3I/ngwkAVqIdwWbZXLatG/7b18xipE/k+EE9MX36XB+IV6lIDz+Br
+         /GBMGIUAA4x5lZac1T1K9pRddO6E413r/7jUX2v8dMTPwpE26Ng2CBrBrGYDzSwmwmor
+         0sVjhNbFlZKmDjELnl2QpvUkUvBBEgHpTGUij2FQZF9Veuzx2opfvxfKBkkMm+dcK8gw
+         0dKMMeq+H4gqJS7OEXsyk2g5/2dfmwZeVMXRVU+RE27zG20TChgG+dz2GyFq2QKwoDdQ
+         v/fUp8xgejoa264sKzFzTYoz5vQc+SMmgvMkPFy5SPIYorMT9c+YMsYc3PTckgfPYQQF
+         fDJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=+Hr38lItu4eVpChslvtYRcigjDMNh3B0lnEZweg9dnU=;
-        b=ofu/hQbhCMal2VRbSoDyaxvUiYI4/zhcRLo2PmWBi0oEs2JhO61dRJVE1UlZ6+qTpC
-         xdSfu1wyn9b6FoHypdhQHm5/26lBmbcyMJrSgO4i0NCTNk/pTh28kRu6ubvpl6Us50mJ
-         XlnPr4Ciy7+jt2DuUDU4N/DMrIM+WSmKmuluMnspXzHvlvNxx47O0mFoTXa3p0gQd2Lo
-         pWabFp9YIFFaE199UeKZFQBHKYklaczrwhl4oU3unS4CfMIyYjg5OuhCk7+n/gbfjFEn
-         oaPqZ9hkIpyfPY1VSIXriDN08CxQwwSQ5r1rcrvv3OmOCXhVhcepDYrXnV5Zweb1vuJS
-         eS7w==
-X-Gm-Message-State: AOAM532lSJ/xFVQKdqB5jM7i/74XP7t5a/rJwwo0hiQnmHWVj4/Qo6fa
-        kCAC0NNLToXoEvgQfg2pTn0VUw==
-X-Google-Smtp-Source: ABdhPJzrNXPBOT6f36UuHk1yHy/wZKcrDFdhp9P+sNWEBR0eqWdGATwfEX1e0Njxvc0BxFym+f/HJQ==
-X-Received: by 2002:a62:ee06:: with SMTP id e6mr19575083pfi.313.1597860306768;
-        Wed, 19 Aug 2020 11:05:06 -0700 (PDT)
+         :references:mime-version:content-transfer-encoding;
+        bh=VJOwxZD756f4d3HNd4Hpvhldk4W8KSHk0BSTu8cNd+0=;
+        b=GywzY2u9YNeRFJhf9O2URMlrngG5hRHczrjif1n5wjR/LgcdDj0e6//aCBNijBTJ4Z
+         Wf8aAmBxvORw9Sv5aZXbzRyicUQxQ5Dy05z87RBwqH4RxJYmetukUoO5bgCrGiRtLhLl
+         rLqqtn4LqS1mCFN1dsadlTmbYpElgpEEf2DuGNWNZQUYe9rLPabP8LkY9eE9bK3iSddq
+         n67m0C8Qpg6SD8tlujIhjVXwhsetjGPqfegtGgq8SW7myfP3i7h6ZrE3ZWXZJdtPBh89
+         op8DVkGd8QIQBsYjJmbBsQDYO9hPq+LQtnLYTz97OmLMSafqBLVZ/NFkXhqwOcmfrJ7q
+         bw3w==
+X-Gm-Message-State: AOAM531gNQd7ec7Dim61GttW2MSruHzHdCX+wXtSWMEkcY74QLJJd3US
+        RtBCyCw3DueweJMLI23Dh9EdszuVaTV8yQ==
+X-Google-Smtp-Source: ABdhPJzApiHr4zA8SCw8Y5N+Yqufm8PMxKzaoF12gzOBA8/fwujbFHlgOpVoA4yf/K9RAqfrd2W/9Q==
+X-Received: by 2002:a62:cd8f:: with SMTP id o137mr20689091pfg.241.1597860311717;
+        Wed, 19 Aug 2020 11:05:11 -0700 (PDT)
 Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.179])
-        by smtp.gmail.com with ESMTPSA id u65sm29095245pfb.102.2020.08.19.11.05.05
+        by smtp.gmail.com with ESMTPSA id w16sm29100810pfq.13.2020.08.19.11.05.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2020 11:05:06 -0700 (PDT)
+        Wed, 19 Aug 2020 11:05:11 -0700 (PDT)
 From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
 To:     Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
-Subject: [PATCH v3 2/9] media: vimc: Add get_frame callback
-Date:   Wed, 19 Aug 2020 23:34:35 +0530
-Message-Id: <20200819180442.11630-3-kgupta@es.iitr.ac.in>
+Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kaaira Gupta <kgupta@es.iitr.ac.in>
+Subject: [PATCH v3 3/9] media: vimc: Add usage count to subdevices
+Date:   Wed, 19 Aug 2020 23:34:36 +0530
+Message-Id: <20200819180442.11630-4-kgupta@es.iitr.ac.in>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
 References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the process of making vimc compatible for multiple streams, we need
-to create a frame passing process such that two different entities can
-get the frame from a common entity. This isn't possible currently without
-calling process_frame twice for the common entity, as process_frames
-returns the frame which gets passed on.
+From: Niklas Söderlund <niklas.soderlund@ragnatech.se>
 
-So, to take care of this, add a get_frame callback to vimc device and
-use it to get the frames for an entity from previous entity instead of
-returning and passing the frames as an argument in process_frame.
+Prepare for multiple video streams from the same sensor by adding a use
+counter to vimc_ent_device. The counter is increased for every s_stream(1)
+and decremented for every s_stream(0) call.
 
+The subdevice stream is not started or stopped unless the usage count go
+from 0 to 1 (started) or from 1 to 0 (stopped). This allows for multiple
+s_stream() calls to try to either start or stop the device while only
+the first/last call will actually effect the state of the device.
+
+Initialise and increment use_count for capture as well, as use_count
+will be used in subsequent patches for starting process_frame as well.
+
+[Kaaira: moved use_count to vimc entity device instead of declaring it
+for each subdevice, used use_count for capture as well and rebased
+the patch on current HEAD of master to help with the current series]
+
+Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
 Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
 ---
- .../media/test-drivers/vimc/vimc-capture.c    | 18 +++++++++++++++---
- drivers/media/test-drivers/vimc/vimc-common.h |  7 ++++---
- .../media/test-drivers/vimc/vimc-debayer.c    | 19 ++++++++++++++++---
- drivers/media/test-drivers/vimc/vimc-scaler.c | 18 +++++++++++++++---
- drivers/media/test-drivers/vimc/vimc-sensor.c | 11 +++++++++--
- .../media/test-drivers/vimc/vimc-streamer.c   | 10 ++++++----
- 6 files changed, 65 insertions(+), 18 deletions(-)
+ drivers/media/test-drivers/vimc/vimc-capture.c | 3 +++
+ drivers/media/test-drivers/vimc/vimc-common.h  | 2 ++
+ drivers/media/test-drivers/vimc/vimc-debayer.c | 7 +++++++
+ drivers/media/test-drivers/vimc/vimc-scaler.c  | 7 +++++++
+ drivers/media/test-drivers/vimc/vimc-sensor.c  | 6 ++++++
+ 5 files changed, 25 insertions(+)
 
 diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index c63496b17b9a..a8cbb8e4d5ba 100644
+index a8cbb8e4d5ba..93418cb5a139 100644
 --- a/drivers/media/test-drivers/vimc/vimc-capture.c
 +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -355,12 +355,13 @@ static void vimc_cap_unregister(struct vimc_ent_device *ved)
- 	video_unregister_device(&vcap->vdev);
- }
+@@ -243,6 +243,7 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	struct media_entity *entity = &vcap->vdev.entity;
+ 	int ret;
  
--static void *vimc_cap_process_frame(struct vimc_ent_device *ved,
--				    const void *frame)
-+static int vimc_cap_process_frame(struct vimc_ent_device *ved)
++	atomic_inc(&vcap->ved.use_count);
+ 	vcap->sequence = 0;
+ 
+ 	/* Start the media pipeline */
+@@ -270,6 +271,7 @@ static void vimc_cap_stop_streaming(struct vb2_queue *vq)
  {
- 	struct vimc_cap_device *vcap = container_of(ved, struct vimc_cap_device,
- 						    ved);
- 	struct vimc_cap_buffer *vimc_buf;
-+	struct v4l2_subdev *sd;
-+	const void *frame;
- 	void *vbuf;
+ 	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
  
- 	spin_lock(&vcap->qlock);
-@@ -370,7 +371,7 @@ static void *vimc_cap_process_frame(struct vimc_ent_device *ved,
- 					    typeof(*vimc_buf), list);
- 	if (!vimc_buf) {
- 		spin_unlock(&vcap->qlock);
--		return ERR_PTR(-EAGAIN);
-+		return -EAGAIN;
- 	}
++	atomic_dec(&vcap->ved.use_count);
+ 	vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 0);
  
- 	/* Remove this entry from the list */
-@@ -385,12 +386,22 @@ static void *vimc_cap_process_frame(struct vimc_ent_device *ved,
- 
- 	vbuf = vb2_plane_vaddr(&vimc_buf->vb2.vb2_buf, 0);
- 
-+	sd = media_entity_to_v4l2_subdev(vimc_get_source_entity(ved->ent));
-+	ved = v4l2_get_subdevdata(sd);
-+	frame = ved->get_frame(ved);
-+
- 	memcpy(vbuf, frame, vcap->format.sizeimage);
- 
- 	/* Set it as ready */
- 	vb2_set_plane_payload(&vimc_buf->vb2.vb2_buf, 0,
- 			      vcap->format.sizeimage);
- 	vb2_buffer_done(&vimc_buf->vb2.vb2_buf, VB2_BUF_STATE_DONE);
-+
-+	return 0;
-+}
-+
-+static void *vimc_cap_get_frame(struct vimc_ent_device *ved)
-+{
- 	return NULL;
- }
- 
-@@ -455,6 +466,7 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
- 	vcap->ved.ent = &vcap->vdev.entity;
- 	vcap->ved.process_frame = vimc_cap_process_frame;
- 	vcap->ved.vdev_get_format = vimc_cap_get_format;
-+	vcap->ved.get_frame = vimc_cap_get_frame;
- 	vcap->ved.dev = vimc->mdev.dev;
- 
- 	/* Initialize the video_device struct */
+ 	/* Stop the media pipeline */
+@@ -424,6 +426,7 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 	vcap->vdev.entity.name = vcfg_name;
+ 	vcap->vdev.entity.function = MEDIA_ENT_F_IO_V4L;
+ 	vcap->pad.flags = MEDIA_PAD_FL_SINK;
++	atomic_set(&vcap->ved.use_count, 0);
+ 	ret = media_entity_pads_init(&vcap->vdev.entity,
+ 				     1, &vcap->pad);
+ 	if (ret)
 diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-index 4c580d854007..287d66edff49 100644
+index 287d66edff49..c214f5ec7818 100644
 --- a/drivers/media/test-drivers/vimc/vimc-common.h
 +++ b/drivers/media/test-drivers/vimc/vimc-common.h
-@@ -85,7 +85,8 @@ struct vimc_pix_map {
+@@ -85,6 +85,7 @@ struct vimc_pix_map {
   *
   * @dev:		a pointer of the device struct of the driver
   * @ent:		the pointer to struct media_entity for the node
-- * @process_frame:	callback send a frame to that node
-+ * @get_frame:		callback that sends a frame processed by the entity
-+ * @process_frame:	callback that processes a frame
++ * @use_count:		a count to show the number of streams entity is part of
+  * @get_frame:		callback that sends a frame processed by the entity
+  * @process_frame:	callback that processes a frame
   * @vdev_get_format:	callback that returns the current format a pad, used
-  *			only when is_media_entity_v4l2_video_device(ent) returns
-  *			true
-@@ -101,8 +102,8 @@ struct vimc_pix_map {
+@@ -102,6 +103,7 @@ struct vimc_pix_map {
  struct vimc_ent_device {
  	struct device *dev;
  	struct media_entity *ent;
--	void * (*process_frame)(struct vimc_ent_device *ved,
--				const void *frame);
-+	void * (*get_frame)(struct vimc_ent_device *ved);
-+	int (*process_frame)(struct vimc_ent_device *ved);
++	atomic_t use_count;
+ 	void * (*get_frame)(struct vimc_ent_device *ved);
+ 	int (*process_frame)(struct vimc_ent_device *ved);
  	void (*vdev_get_format)(struct vimc_ent_device *ved,
- 			      struct v4l2_pix_format *fmt);
- };
 diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
-index c3f6fef34f68..f61e6e8899ac 100644
+index f61e6e8899ac..60c4c0ec2030 100644
 --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
 +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
-@@ -491,17 +491,22 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_device *vdeb,
- 	}
- }
+@@ -343,6 +343,9 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 		const struct vimc_pix_map *vpix;
+ 		unsigned int frame_size;
  
--static void *vimc_deb_process_frame(struct vimc_ent_device *ved,
--				    const void *sink_frame)
-+static int vimc_deb_process_frame(struct vimc_ent_device *ved)
- {
- 	struct vimc_deb_device *vdeb = container_of(ved, struct vimc_deb_device,
- 						    ved);
- 	unsigned int rgb[3];
- 	unsigned int i, j;
-+	struct v4l2_subdev *sd;
-+	const void *sink_frame;
- 
- 	/* If the stream in this node is not active, just return */
- 	if (!vdeb->src_frame)
--		return ERR_PTR(-EINVAL);
-+		return -EINVAL;
++		if (atomic_inc_return(&vdeb->ved.use_count) != 1)
++			return 0;
 +
-+	sd = media_entity_to_v4l2_subdev(vimc_get_source_entity(ved->ent));
-+	ved = v4l2_get_subdevdata(sd);
-+	sink_frame = ved->get_frame(ved);
+ 		if (vdeb->src_frame)
+ 			return 0;
  
- 	for (i = 0; i < vdeb->sink_fmt.height; i++)
- 		for (j = 0; j < vdeb->sink_fmt.width; j++) {
-@@ -509,6 +514,13 @@ static void *vimc_deb_process_frame(struct vimc_ent_device *ved,
- 			vdeb->set_rgb_src(vdeb, i, j, rgb);
- 		}
+@@ -368,6 +371,9 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 			return -ENOMEM;
  
-+	return 0;
-+}
+ 	} else {
++		if (atomic_dec_return(&vdeb->ved.use_count) != 0)
++			return 0;
 +
-+static void *vimc_deb_get_frame(struct vimc_ent_device *ved)
-+{
-+	struct vimc_deb_device *vdeb = container_of(ved, struct vimc_deb_device,
-+						    ved);
- 	return vdeb->src_frame;
- }
+ 		if (!vdeb->src_frame)
+ 			return 0;
  
-@@ -593,6 +605,7 @@ static struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
- 		goto err_free_hdl;
- 
- 	vdeb->ved.process_frame = vimc_deb_process_frame;
-+	vdeb->ved.get_frame = vimc_deb_get_frame;
+@@ -608,6 +614,7 @@ static struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ 	vdeb->ved.get_frame = vimc_deb_get_frame;
  	vdeb->ved.dev = vimc->mdev.dev;
  	vdeb->mean_win_size = vimc_deb_ctrl_mean_win_size.def;
++	atomic_set(&vdeb->ved.use_count, 0);
  
+ 	/* Initialize the frame format */
+ 	vdeb->sink_fmt = sink_fmt_default;
 diff --git a/drivers/media/test-drivers/vimc/vimc-scaler.c b/drivers/media/test-drivers/vimc/vimc-scaler.c
-index 121fa7d62a2e..347f9cd4a168 100644
+index 347f9cd4a168..d511e1f2152d 100644
 --- a/drivers/media/test-drivers/vimc/vimc-scaler.c
 +++ b/drivers/media/test-drivers/vimc/vimc-scaler.c
-@@ -455,18 +455,29 @@ static void vimc_sca_fill_src_frame(const struct vimc_sca_device *const vsca,
- 			vimc_sca_scale_pix(vsca, i, j, sink_frame);
- }
+@@ -340,6 +340,9 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+ 		const struct vimc_pix_map *vpix;
+ 		unsigned int frame_size;
  
--static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
--				    const void *sink_frame)
-+static int vimc_sca_process_frame(struct vimc_ent_device *ved)
- {
- 	struct vimc_sca_device *vsca = container_of(ved, struct vimc_sca_device,
- 						    ved);
-+	const void *sink_frame;
-+	struct v4l2_subdev *sd;
- 
- 	/* If the stream in this node is not active, just return */
- 	if (!vsca->src_frame)
--		return ERR_PTR(-EINVAL);
-+		return -EINVAL;
- 
-+	sd = media_entity_to_v4l2_subdev(vimc_get_source_entity(ved->ent));
-+	ved = v4l2_get_subdevdata(sd);
-+	sink_frame = ved->get_frame(ved);
- 	vimc_sca_fill_src_frame(vsca, sink_frame);
- 
-+	return 0;
-+};
++		if (atomic_inc_return(&vsca->ved.use_count) != 1)
++			return 0;
 +
-+static void *vimc_sca_get_frame(struct vimc_ent_device *ved)
-+{
-+	struct vimc_sca_device *vsca = container_of(ved, struct vimc_sca_device,
-+						    ved);
- 	return vsca->src_frame;
- };
+ 		if (vsca->src_frame)
+ 			return 0;
  
-@@ -505,6 +516,7 @@ static struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
- 	}
+@@ -363,6 +366,9 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+ 			return -ENOMEM;
  
+ 	} else {
++		if (atomic_dec_return(&vsca->ved.use_count) != 0)
++			return 0;
++
+ 		if (!vsca->src_frame)
+ 			return 0;
+ 
+@@ -518,6 +524,7 @@ static struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
  	vsca->ved.process_frame = vimc_sca_process_frame;
-+	vsca->ved.get_frame = vimc_sca_get_frame;
+ 	vsca->ved.get_frame = vimc_sca_get_frame;
  	vsca->ved.dev = vimc->mdev.dev;
++	atomic_set(&vsca->ved.use_count, 0);
  
  	/* Initialize the frame format */
+ 	vsca->sink_fmt = sink_fmt_default;
 diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
-index ba5db5a150b4..32a2c39de2cd 100644
+index 32a2c39de2cd..ced8ef06b01e 100644
 --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
 +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
-@@ -190,8 +190,7 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
- 	.set_fmt		= vimc_sen_set_fmt,
- };
+@@ -256,6 +256,9 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ 		const struct vimc_pix_map *vpix;
+ 		unsigned int frame_size;
  
--static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
--				    const void *sink_frame)
-+static int vimc_sen_process_frame(struct vimc_ent_device *ved)
- {
- 	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
- 						    ved);
-@@ -238,6 +237,13 @@ static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
- 		break;
- 	}
- 
-+	return 0;
-+}
++		if (atomic_inc_return(&vsen->ved.use_count) != 1)
++			return 0;
 +
-+static void *vimc_sen_get_frame(struct vimc_ent_device *ved)
-+{
-+	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
-+						    ved);
- 	return vsen->frame;
- }
+ 		vsen->start_stream_ts = ktime_get_ns();
  
-@@ -429,6 +435,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
- 		goto err_free_tpg;
+ 		/* Calculate the frame size */
+@@ -275,6 +278,8 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ 		vimc_sen_tpg_s_format(vsen);
  
+ 	} else {
++		if (atomic_dec_return(&vsen->ved.use_count) != 0)
++			return 0;
+ 
+ 		vfree(vsen->frame);
+ 		vsen->frame = NULL;
+@@ -437,6 +442,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
  	vsen->ved.process_frame = vimc_sen_process_frame;
-+	vsen->ved.get_frame = vimc_sen_get_frame;
+ 	vsen->ved.get_frame = vimc_sen_get_frame;
  	vsen->ved.dev = vimc->mdev.dev;
++	atomic_set(&vsen->ved.use_count, 0);
  
  	/* Initialize the frame format */
-diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
-index 4f8384246042..c1644d69686d 100644
---- a/drivers/media/test-drivers/vimc/vimc-streamer.c
-+++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
-@@ -125,7 +125,8 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
- static int vimc_streamer_thread(void *data)
- {
- 	struct vimc_stream *stream = data;
--	u8 *frame = NULL;
-+	struct vimc_ent_device *ved;
-+	int ret;
- 	int i;
- 
- 	set_freezable();
-@@ -136,9 +137,10 @@ static int vimc_streamer_thread(void *data)
- 			break;
- 
- 		for (i = stream->pipe_size - 1; i >= 0; i--) {
--			frame = stream->ved_pipeline[i]->process_frame(
--					stream->ved_pipeline[i], frame);
--			if (!frame || IS_ERR(frame))
-+			ved = stream->ved_pipeline[i];
-+			ret = ved->process_frame(ved);
-+
-+			if (ret)
- 				break;
- 		}
- 		//wait for 60hz
+ 	vsen->mbus_format = fmt_default;
 -- 
 2.17.1
 
