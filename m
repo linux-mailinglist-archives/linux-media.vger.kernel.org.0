@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFD8624A0AB
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:53:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 345AC24A0B3
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:54:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728343AbgHSNxJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 09:53:09 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58410 "EHLO
+        id S1728530AbgHSNyt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 09:54:49 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58444 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728160AbgHSNxF (ORCPT
+        with ESMTP id S1726961AbgHSNys (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:53:05 -0400
+        Wed, 19 Aug 2020 09:54:48 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1178B29E;
-        Wed, 19 Aug 2020 15:52:59 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6440C29E;
+        Wed, 19 Aug 2020 15:54:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597845183;
-        bh=rzNdy0W/e+J1IGsg0mBDBLcHesL5GnTUTk+u93CRXVs=;
+        s=mail; t=1597845281;
+        bh=ZqBfMDMSKa5X/szF7RfnDQDJrt4q2W1U8MQZSEOCOO8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KNkNas23QkZsD1J4DX38kFuuyScITsDQe0hifCUy2tKE7f4V9EEy18kWDkgjRPgwP
-         RKoe8FZt8Eaxsgg8N9JpBo0gSxXHkTR14WVCR+VE9rtG+N862uAP5DRMn1aXlV1Yf4
-         4GJ8dAZpI0qMnlT2cCPvNOWg22yL07ZQwEyL9xH4=
-Date:   Wed, 19 Aug 2020 16:52:42 +0300
+        b=dC8PMbBDd77raytOmFSRlll3+T+zxR5N6Pq4zGBDzetA/3IiC25Sp+59vDmLf9Zcw
+         opdRB8HXOWD6NuxNlmvdCCs8aL7yGClWsJa2Erj7MkCLRkiXyrw60YbC4gVBT2dwP0
+         HdUiJqDMwuSuq16Q6OwPk5AwcLOgs0HQ+QiicfWI=
+Date:   Wed, 19 Aug 2020 16:54:23 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
@@ -30,14 +30,14 @@ Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
         "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: media: ov772x: Make bus-type mandatory
-Message-ID: <20200819135242.GK6049@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/3] dt-bindings: media: ov772x: Document endpoint props
+Message-ID: <20200819135423.GL6049@pendragon.ideasonboard.com>
 References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
- <20200818122012.37956-3-jacopo+renesas@jmondi.org>
+ <20200818122012.37956-4-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200818122012.37956-3-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200818122012.37956-4-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -47,48 +47,88 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Tue, Aug 18, 2020 at 02:20:11PM +0200, Jacopo Mondi wrote:
-> In order to establish required properties based on the selected
-> bus type, make the 'bus-type' property mandatory.
+On Tue, Aug 18, 2020 at 02:20:12PM +0200, Jacopo Mondi wrote:
+> Document endpoint properties for the parallel bus type and
+> add them to the example.
 > 
-> Binary compatibility with existing DTB is kept as the driver does not
-> enforce the property to be present, and shall fall-back to default
-> parallel bus configuration, which was the only supported bus type, if
-> the property is not specified.
+> Specify a few constraints:
+> - If the bus type is BT.656 no hsync or vsycn polarities can be
+>   specified.
+> - If the bus width is 10 bits, not data-shift can be applied.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  Documentation/devicetree/bindings/media/i2c/ov772x.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  .../devicetree/bindings/media/i2c/ov772x.yaml | 43 +++++++++++++++++++
+>  1 file changed, 43 insertions(+)
 > 
 > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> index 2b84fefeb4aa..75dad40f70cc 100644
+> index 75dad40f70cc..3fad5dffd19a 100644
 > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
 > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> @@ -47,9 +47,15 @@ properties:
->        endpoint:
->          type: object
->          properties:
-> +          bus-type:
-> +            enum: [5, 6]
+> @@ -50,9 +50,47 @@ properties:
+>            bus-type:
+>              enum: [5, 6]
+> 
+> +          bus-width:
+> +            enum: [8, 10]
+> +            default: 10
+> +
+> +          data-shift:
+> +            enum: [0, 2]
+> +            default: 0
+> +
+> +          hsync-active:
+> +            enum: [0, 1]
+> +            default: 1
+> +
+> +          vsync-active:
+> +            enum: [0, 1]
+> +            default: 1
+> +
+> +          pclk-sample:
+> +            enum: [0, 1]
+> +            default: 1
 > +
 >            remote-endpoint:
 >              description: A phandle to the bus receiver's endpoint node.
->  
-> +        required:
-> +          - bus-type
+> 
+> +        allOf:
+> +          - if:
+> +              properties:
+> +                bus-type:
+> +                  const: 6
+> +            then:
+> +                properties:
+> +                  hsync-active: false
+> +                  vsync-active: false
 > +
->      additionalProperties: false
->  
->  required:
-> @@ -75,6 +81,7 @@ examples:
->  
+> +          - if:
+> +              properties:
+> +                bus-width:
+> +                  const: 10
+> +            then:
+> +                properties:
+> +                  data-shift:
+> +                    const: 0
+
+I'd add a blank line here.
+
+>          required:
+>            - bus-type
+
+Should some of the properties be required ? Possibly conditioned on
+bus-type ?
+
+> 
+> @@ -82,6 +120,11 @@ examples:
 >              port {
 >                  ov772x_0: endpoint {
-> +                    bus-type = <5>;
+>                      bus-type = <5>;
+> +                    vsync-active = <0>;
+> +                    hsync-active = <0>;
+> +                    pclk-sample = <0>;
+> +                    bus-width = <8>;
+> +                    data-shift = <0>;
 >                      remote-endpoint = <&vcap1_in0>;
 >                  };
 >              };
