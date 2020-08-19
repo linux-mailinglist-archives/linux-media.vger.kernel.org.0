@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 916DA2495D8
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 08:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EFC72496D5
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 09:13:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728141AbgHSG6g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 02:58:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36882 "EHLO
+        id S1726923AbgHSG4V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 02:56:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728089AbgHSG55 (ORCPT
+        with ESMTP id S1726697AbgHSG4U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 02:57:57 -0400
+        Wed, 19 Aug 2020 02:56:20 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8BEC061389;
-        Tue, 18 Aug 2020 23:57:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93972C061389;
+        Tue, 18 Aug 2020 23:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=lNMBC694MGzhD+uJcSmWDHi7UPoDvxCv6DsPxBphUDM=; b=hvsEVEvLhFqVJsYwQI9fVfL5lp
-        KW/X5c84TRVEWiCq+JWY6sNEc2oPPEGv+njCJOloQQfIY5LUVW8trunjunigerqOpw/bNuW3d15Nk
-        KgKieclLAYJPG4mvEkrbXHTLSkS3oIM/sohwRcqd7QHlpj3mv/N3/MXfm3eBRP5C0/LNJ5ouorMBE
-        EFFTa7MVts6kBXsmWo/w+5Hd0w5Fe84gvTgCYwvRXDgUbWV9izyuuyq+19e30v6LdcypJRbfFaF/y
-        BVzr8sMb9JqE5r5zxB/kHyoI/WzgowY0Vk+Xyd6UQArjHPMonvBv0ewspWNMbu/2jhayLSYkMZBFZ
-        7BeuNtag==;
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=z2KvWaZyjho7ndXMH0ORSIBGMLsoLoOlaFmWAQTQuew=; b=uRThKpBVD38wHW4O1Rw+m7ReIB
+        6g8DAFjC8rOV8slo1/sXfbFmSe2ZQ/D8oXBbMOULOMMqWf/LF2YgmRNBRhy6xw/WNcPfIgir5jkfY
+        jMUBZNOtuPrAml+wEbfI5OBf4FZwNLx4AJ6KLMbazwwdxWKTRuJ8t4QvNBD00a4zi7/l8eeZNVCHo
+        TVip/vAV16StqtD9sSi3vWzGnecdc/pw7stv6o2Z7fnoWC5+a2JoL1fYWc4VJinapBZy26rlLUcYn
+        mtr0U1RQYeE7P0ovTcYzaF9TaQqsHNEEbAFwOJIquRs9u5qnSydzfDIu7+tbwzSbcDpvLkPbTkcNu
+        ySmmqGNA==;
 Received: from [2001:4bb8:198:f3b2:86b6:2277:f429:37a1] (helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k8I1v-00007x-Sa; Wed, 19 Aug 2020 06:57:05 +0000
+        id 1k8I0q-0008Kr-1o; Wed, 19 Aug 2020 06:55:57 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -48,12 +48,10 @@ Cc:     Tom Lendacky <thomas.lendacky@amd.com>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-nvme@lists.infradead.org,
         linux-scsi@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org
-Subject: [PATCH 28/28] nvme-pci: use dma_alloc_pages backed dmapools
-Date:   Wed, 19 Aug 2020 08:55:55 +0200
-Message-Id: <20200819065555.1802761-29-hch@lst.de>
+Subject: a saner API for allocating DMA addressable pages
+Date:   Wed, 19 Aug 2020 08:55:27 +0200
+Message-Id: <20200819065555.1802761-1-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200819065555.1802761-1-hch@lst.de>
-References: <20200819065555.1802761-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -62,208 +60,113 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Switch from coherent DMA pools to those backed by dma_alloc_pages.  This
-helps device with non-coherent DMA to avoid host accesses to uncached
-memory for every submission of a larger than single entry I/O.
+Hi all,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c | 80 ++++++++++++++++++++---------------------
- 1 file changed, 40 insertions(+), 40 deletions(-)
+this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
+with a separate new dma_alloc_pages API, which is available on all
+platforms.  In addition to cleaning up the convoluted code path, this
+ensures that other drivers that have asked for better support for
+non-coherent DMA to pages with incurring bounce buffering over can finally
+be properly supported.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a33adab62acbaf..fb34dbcb973673 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -114,8 +114,8 @@ struct nvme_dev {
- 	struct blk_mq_tag_set admin_tagset;
- 	u32 __iomem *dbs;
- 	struct device *dev;
--	struct dma_pool *prp_page_pool;
--	struct dma_pool *prp_small_pool;
-+	struct dma_pool prp_page_pool;
-+	struct dma_pool prp_small_pool;
- 	unsigned online_queues;
- 	unsigned max_qid;
- 	unsigned io_queues[HCTX_MAX_TYPES];
-@@ -536,7 +536,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 
- 
- 	if (iod->npages == 0)
--		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
-+		dma_pool_free(&dev->prp_small_pool, nvme_pci_iod_list(req)[0],
- 			dma_addr);
- 
- 	for (i = 0; i < iod->npages; i++) {
-@@ -553,7 +553,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 			next_dma_addr = le64_to_cpu(prp_list[last_prp]);
- 		}
- 
--		dma_pool_free(dev->prp_page_pool, addr, dma_addr);
-+		dma_pool_free(&dev->prp_page_pool, addr, dma_addr);
- 		dma_addr = next_dma_addr;
- 	}
- 
-@@ -611,10 +611,10 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 
- 	nprps = DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
- 	if (nprps <= (256 / 8)) {
--		pool = dev->prp_small_pool;
-+		pool = &dev->prp_small_pool;
- 		iod->npages = 0;
- 	} else {
--		pool = dev->prp_page_pool;
-+		pool = &dev->prp_page_pool;
- 		iod->npages = 1;
- 	}
- 
-@@ -630,6 +630,11 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 	for (;;) {
- 		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
- 			__le64 *old_prp_list = prp_list;
-+
-+			dma_sync_single_for_device(dev->dev, prp_dma,
-+						   i * sizeof(*prp_list),
-+						   DMA_TO_DEVICE);
-+
- 			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
- 			if (!prp_list)
- 				return BLK_STS_RESOURCE;
-@@ -653,6 +658,8 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 		dma_len = sg_dma_len(sg);
- 	}
- 
-+	dma_sync_single_for_device(dev->dev, prp_dma, i * sizeof(*prp_list),
-+				   DMA_TO_DEVICE);
- done:
- 	cmnd->dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
- 	cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma);
-@@ -706,10 +713,10 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 	}
- 
- 	if (entries <= (256 / sizeof(struct nvme_sgl_desc))) {
--		pool = dev->prp_small_pool;
-+		pool = &dev->prp_small_pool;
- 		iod->npages = 0;
- 	} else {
--		pool = dev->prp_page_pool;
-+		pool = &dev->prp_page_pool;
- 		iod->npages = 1;
- 	}
- 
-@@ -728,6 +735,10 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 		if (i == SGES_PER_PAGE) {
- 			struct nvme_sgl_desc *old_sg_desc = sg_list;
- 			struct nvme_sgl_desc *link = &old_sg_desc[i - 1];
-+	
-+			dma_sync_single_for_device(dev->dev, sgl_dma,
-+						   i * sizeof(*sg_list),
-+						   DMA_TO_DEVICE);
- 
- 			sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
- 			if (!sg_list)
-@@ -743,6 +754,8 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 		sg = sg_next(sg);
- 	} while (--entries > 0);
- 
-+	dma_sync_single_for_device(dev->dev, sgl_dma, i * sizeof(*sg_list),
-+				   DMA_TO_DEVICE);
- 	return BLK_STS_OK;
- }
- 
-@@ -2457,30 +2470,6 @@ static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdown)
- 	return 0;
- }
- 
--static int nvme_setup_prp_pools(struct nvme_dev *dev)
--{
--	dev->prp_page_pool = dma_pool_create("prp list page", dev->dev,
--						NVME_CTRL_PAGE_SIZE,
--						NVME_CTRL_PAGE_SIZE, 0);
--	if (!dev->prp_page_pool)
--		return -ENOMEM;
--
--	/* Optimisation for I/Os between 4k and 128k */
--	dev->prp_small_pool = dma_pool_create("prp list 256", dev->dev,
--						256, 256, 0);
--	if (!dev->prp_small_pool) {
--		dma_pool_destroy(dev->prp_page_pool);
--		return -ENOMEM;
--	}
--	return 0;
--}
--
--static void nvme_release_prp_pools(struct nvme_dev *dev)
--{
--	dma_pool_destroy(dev->prp_page_pool);
--	dma_pool_destroy(dev->prp_small_pool);
--}
--
- static void nvme_free_tagset(struct nvme_dev *dev)
- {
- 	if (dev->tagset.tags)
-@@ -2851,10 +2840,6 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
- 	mutex_init(&dev->shutdown_lock);
- 
--	result = nvme_setup_prp_pools(dev);
--	if (result)
--		goto unmap;
--
- 	quirks |= check_vendor_combination_bug(pdev);
- 
- 	if (!noacpi && nvme_acpi_storage_d3(pdev)) {
-@@ -2867,6 +2852,18 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
- 	}
- 
-+	result = dma_pool_init(dev->dev, &dev->prp_page_pool, "prp list page",
-+			NVME_CTRL_PAGE_SIZE, NVME_CTRL_PAGE_SIZE, 0,
-+			DMA_TO_DEVICE);
-+	if (result)
-+		goto unmap;
-+
-+	/* Optimisation for I/Os between 4k and 128k */
-+	result = dma_pool_init(dev->dev, &dev->prp_small_pool, "prp list 256",
-+			256, 256, 0, DMA_TO_DEVICE);
-+	if (result)
-+		goto release_prp_page_pool;
-+
- 	/*
- 	 * Double check that our mempool alloc size will cover the biggest
- 	 * command we support.
-@@ -2880,7 +2877,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 						GFP_KERNEL, node);
- 	if (!dev->iod_mempool) {
- 		result = -ENOMEM;
--		goto release_pools;
-+		goto release_prp_small_pool;
- 	}
- 
- 	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
-@@ -2897,8 +2894,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
-  release_mempool:
- 	mempool_destroy(dev->iod_mempool);
-- release_pools:
--	nvme_release_prp_pools(dev);
-+ release_prp_small_pool:
-+	dma_pool_exit(&dev->prp_small_pool);
-+ release_prp_page_pool:
-+	dma_pool_exit(&dev->prp_page_pool);
-  unmap:
- 	nvme_dev_unmap(dev);
-  put_pci:
-@@ -2963,7 +2962,8 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
--	nvme_release_prp_pools(dev);
-+	dma_pool_exit(&dev->prp_small_pool);
-+	dma_pool_exit(&dev->prp_page_pool);
- 	nvme_dev_unmap(dev);
- 	nvme_uninit_ctrl(&dev->ctrl);
- }
--- 
-2.28.0
+I'm still a little unsure about the API naming, as alloc_pages sort of
+implies a struct page return value, but we return a kernel virtual
+address.  The other alternative would be to name the API
+dma_alloc_noncoherent, but the whole non-coherent naming seems to put
+people off.  As a follow up I plan to move the implementation of the
+DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
+that is also is a fundamentally non coherent allocation.  The replacement
+for that flag would then return a struct page, as it is allowed to
+actually return pages without a kernel mapping as the name suggested
+(although most of the time they will actually have a kernel mapping..)
 
+In addition to the conversions of the existing non-coherent DMA users
+the last three patches also convert the DMA coherent allocations in
+the NVMe driver to use this new framework through a dmapool addition.
+This was both to give me a good testing vehicle, but also because it
+should speed up the NVMe driver on platforms with non-coherent DMA
+nicely, without a downside on platforms with cache coherent DMA.
+
+
+A git tree is available here:
+
+    git://git.infradead.org/users/hch/misc.git dma_alloc_pages
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
+
+
+Diffstat:
+ Documentation/core-api/dma-api.rst                       |   92 ++----
+ Documentation/core-api/dma-attributes.rst                |    8 
+ Documentation/userspace-api/media/v4l/buffer.rst         |   17 -
+ Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst |    1 
+ arch/alpha/kernel/pci_iommu.c                            |    2 
+ arch/arm/include/asm/dma-direct.h                        |    4 
+ arch/arm/mm/dma-mapping-nommu.c                          |    2 
+ arch/arm/mm/dma-mapping.c                                |    4 
+ arch/ia64/Kconfig                                        |    3 
+ arch/ia64/hp/common/sba_iommu.c                          |    2 
+ arch/ia64/kernel/dma-mapping.c                           |   14 
+ arch/ia64/mm/init.c                                      |    3 
+ arch/mips/Kconfig                                        |    1 
+ arch/mips/bmips/dma.c                                    |    4 
+ arch/mips/cavium-octeon/dma-octeon.c                     |    4 
+ arch/mips/include/asm/dma-direct.h                       |    4 
+ arch/mips/include/asm/jazzdma.h                          |    2 
+ arch/mips/jazz/jazzdma.c                                 |  102 +------
+ arch/mips/loongson2ef/fuloong-2e/dma.c                   |    4 
+ arch/mips/loongson2ef/lemote-2f/dma.c                    |    4 
+ arch/mips/loongson64/dma.c                               |    4 
+ arch/mips/mm/dma-noncoherent.c                           |   48 +--
+ arch/mips/pci/pci-ar2315.c                               |    4 
+ arch/mips/pci/pci-xtalk-bridge.c                         |    4 
+ arch/mips/sgi-ip32/ip32-dma.c                            |    4 
+ arch/parisc/Kconfig                                      |    1 
+ arch/parisc/kernel/pci-dma.c                             |    6 
+ arch/powerpc/include/asm/dma-direct.h                    |    4 
+ arch/powerpc/kernel/dma-iommu.c                          |    2 
+ arch/powerpc/platforms/ps3/system-bus.c                  |    4 
+ arch/powerpc/platforms/pseries/vio.c                     |    2 
+ arch/s390/pci/pci_dma.c                                  |    2 
+ arch/x86/kernel/amd_gart_64.c                            |    8 
+ drivers/gpu/drm/exynos/exynos_drm_gem.c                  |    2 
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c      |    3 
+ drivers/iommu/dma-iommu.c                                |    2 
+ drivers/iommu/intel/iommu.c                              |    6 
+ drivers/media/common/videobuf2/videobuf2-core.c          |   36 --
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c    |   19 -
+ drivers/media/common/videobuf2/videobuf2-dma-sg.c        |    3 
+ drivers/media/common/videobuf2/videobuf2-v4l2.c          |   12 
+ drivers/net/ethernet/amd/au1000_eth.c                    |   15 -
+ drivers/net/ethernet/i825xx/lasi_82596.c                 |   36 +-
+ drivers/net/ethernet/i825xx/lib82596.c                   |  148 +++++-----
+ drivers/net/ethernet/i825xx/sni_82596.c                  |   23 -
+ drivers/net/ethernet/seeq/sgiseeq.c                      |   24 -
+ drivers/nvme/host/pci.c                                  |   79 ++---
+ drivers/parisc/ccio-dma.c                                |    2 
+ drivers/parisc/sba_iommu.c                               |    2 
+ drivers/scsi/53c700.c                                    |  120 ++++----
+ drivers/scsi/53c700.h                                    |    9 
+ drivers/scsi/sgiwd93.c                                   |   14 
+ drivers/xen/swiotlb-xen.c                                |    2 
+ include/linux/dma-direct.h                               |   55 ++-
+ include/linux/dma-mapping.h                              |   32 +-
+ include/linux/dma-noncoherent.h                          |   21 -
+ include/linux/dmapool.h                                  |   23 +
+ include/linux/gfp.h                                      |    6 
+ include/media/videobuf2-core.h                           |    3 
+ include/uapi/linux/videodev2.h                           |    2 
+ kernel/dma/Kconfig                                       |    9 
+ kernel/dma/Makefile                                      |    1 
+ kernel/dma/coherent.c                                    |   17 +
+ kernel/dma/direct.c                                      |  112 +++++--
+ kernel/dma/mapping.c                                     |  104 ++-----
+ kernel/dma/ops_helpers.c                                 |   86 ++++++
+ kernel/dma/pool.c                                        |    2 
+ kernel/dma/swiotlb.c                                     |    4 
+ kernel/dma/virt.c                                        |    2 
+ mm/dmapool.c                                             |  211 +++++++++------
+ sound/mips/hal2.c                                        |   58 +---
+ 71 files changed, 872 insertions(+), 803 deletions(-)
