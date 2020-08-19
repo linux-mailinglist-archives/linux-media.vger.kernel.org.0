@@ -2,306 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC44249FDC
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78D1D24A021
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:35:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbgHSN2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 09:28:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58162 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726641AbgHSN2t (ORCPT
+        id S1728680AbgHSNfv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 09:35:51 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:33137 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728677AbgHSNfd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:28:49 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAF4C29E;
-        Wed, 19 Aug 2020 15:28:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597843720;
-        bh=PWDzJsyk0PwukcLPwDqokKhe2VKPSIPQ9fwFSamq5gI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WrjyiqVYAKfgJuesCDNLI9YaAo3D+vkqrUs9srWfDabP/1eewBgnr6thLFRhQEfFP
-         UvPPTOIKgqu+ORhtRXtZO9GANJt8nNSpXQXRAxNzi2kOr8uUVnW/bwoFCxERhyfz0L
-         CLwhiIitRZsF3Owp8Z25roPVm6Nfcd15Q5Ooq9/Y=
-Date:   Wed, 19 Aug 2020 16:28:23 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@kernel.org>,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: imx214: Convert to json-schema
-Message-ID: <20200819132823.GH6049@pendragon.ideasonboard.com>
-References: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
+        Wed, 19 Aug 2020 09:35:33 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8OFWkczRvuuXO8OFXkhIqg; Wed, 19 Aug 2020 15:35:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597844131; bh=JoJk6PQwKHAww8429MNRXvNAiYmT4d6i0AbGAcqUTo0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=UpV5SS8w5YmzqI0GPyBu/crNVaQs1Du44S5/XfPTPzLdCl9MYOiyxMyR9No1qkX/s
+         bEEgwbMibNzY1kI9OqUkiGLjS9V2qfKi0vubswKQUSmob6sRGDkzDuEXjytQxvLNzc
+         87QQ4FVaRCxSQ52RcUHy+/IS9szaqrd/EF/pwBqQMYgyvt1h2SAiDh6nLfS3uVtynY
+         bPGxRHG6xVTKfoa7gzvV1wR11jeIslyWNIRg8G1Ol1Yzb+soAIRoIbrUUx6JA/x1Vy
+         XhN08wGjYgoSjK/QiEnZlmo2MjhM0p6EkaayZ4Q4xNPPJWGzNCkYmyPoLY0XZ8QwcV
+         xa5lAVtAnnIfw==
+Subject: Re: [PATCH 14/20] media: dvb-frontends: lgdt3306a.c: remove dead code
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     skhan@linuxfoundation.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20200807083548.204360-14-dwlsalmeida@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <378b3a76-1d14-8c69-f9be-3749e6c3c083@xs4all.nl>
+Date:   Wed, 19 Aug 2020 15:35:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200807083548.204360-14-dwlsalmeida@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIqRJmjIWggj6fX3RMF20X9mlA0SwD7WdWUG0v5QjuUeDiYl6yFxbkTSeU88dzzPtmhGCdsrafDeHuGpxOD1fhZjWJvVXd99duHxBS1CC1Uns3Ug271A
+ ohYE0Mrk1jCVGTen/5itAIZCJS7lir220ii+KAt/8hxEMcWOktkuqRd63oFLRg56a98ihJPbOTj6z/kvpukiVu4BN6XM8Z47tnFtEK+POXPwKeW06PY+cMFk
+ GtjO0lUXXxdsPdnZBxwcz8Dhy9nP8SRfTZybgcTY8yBqY3ZrZjU0q9baObtsXQ/iO8PAKJIGui1q9g5SoJWxE+eqnt1ZdaWDA7EZOHeMMXpnJGP4JD8UBRRj
+ wysWefukmTJ+MHErsD10RwpGTnhSqWOsIzhHimdkugG9vVEJOyREr8IPJHlPMYrwYS6on21q
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Tue, Aug 18, 2020 at 02:17:55PM +0200, Jacopo Mondi wrote:
-> Convert the imx214 bindings document to json-schema and update
-> the MAINTAINERS file accordingly.
+On 07/08/2020 10:35, Daniel W. S. Almeida wrote:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Fix the following coccinelle report:
+> 
+> drivers/media/dvb-frontends/lgdt3306a.c:718:5-8:
+> Unneeded variable: "ret". Return "0" on line 744
+> 
+> Code was enclosed with #if 0 and thus this variable was not needed.
+> Remove that code altogether.
+> 
+> Found using - Coccinelle (http://coccinelle.lip6.fr)
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 > ---
->  .../bindings/media/i2c/sony,imx214.txt        |  53 --------
->  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 125 insertions(+), 54 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+>  drivers/media/dvb-frontends/lgdt3306a.c | 27 +------------------------
+>  1 file changed, 1 insertion(+), 26 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> deleted file mode 100644
-> index f11f28a5fda4..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> +++ /dev/null
-> @@ -1,53 +0,0 @@
-> -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
+> diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
+> index d3c330e035c4..0247ef799546 100644
+> --- a/drivers/media/dvb-frontends/lgdt3306a.c
+> +++ b/drivers/media/dvb-frontends/lgdt3306a.c
+> @@ -715,33 +715,8 @@ static int lgdt3306a_spectral_inversion(struct lgdt3306a_state *state,
+>  				       struct dtv_frontend_properties *p,
+>  				       int inversion)
+>  {
+> -	int ret = 0;
 > -
-> -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> -an active array size of 4224H x 3200V. It is programmable through an I2C
-> -interface.
-> -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
-> -throughput of 1.2Gbps/lane.
+>  	dbg_info("(%d)\n", inversion);
+> -#if 0
+> -	/*
+> -	 * FGR - spectral_inversion defaults already set for VSB and QAM;
+> -	 * can enable later if desired
+> -	 */
 > -
+> -	ret = lgdt3306a_set_inversion(state, inversion);
 > -
-> -Required Properties:
-> -- compatible: Shall be "sony,imx214".
-> -- reg: I2C bus address of the device. Depending on how the sensor is wired,
-> -       it shall be <0x10> or <0x1a>;
-> -- enable-gpios: GPIO descriptor for the enable pin.
-> -- vdddo-supply: Chip digital IO regulator (1.8V).
-> -- vdda-supply: Chip analog regulator (2.7V).
-> -- vddd-supply: Chip digital core regulator (1.12V).
-> -- clocks: Reference to the xclk clock.
-> -- clock-frequency: Frequency of the xclk clock.
-> -
-> -Optional Properties:
-> -- flash-leds: See ../video-interfaces.txt
-> -- lens-focus: See ../video-interfaces.txt
-> -
-> -The imx214 device node shall contain one 'port' child node with
-> -an 'endpoint' subnode. For further reading on port node refer to
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -Required Properties on endpoint:
-> -- data-lanes: check ../video-interfaces.txt
-> -- link-frequencies: check ../video-interfaces.txt
-> -- remote-endpoint: check ../video-interfaces.txt
-> -
-> -Example:
-> -
-> -	camera-sensor@1a {
-> -		compatible = "sony,imx214";
-> -		reg = <0x1a>;
-> -		vdddo-supply = <&pm8994_lvs1>;
-> -		vddd-supply = <&camera_vddd_1v12>;
-> -		vdda-supply = <&pm8994_l17>;
-> -		lens-focus = <&ad5820>;
-> -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
-> -		clock-frequency = <24000000>;
-> -		port {
-> -			imx214_ep: endpoint {
-> -				data-lanes = <1 2 3 4>;
-> -				link-frequencies = /bits/ 64 <480000000>;
-> -				remote-endpoint = <&csiphy0_ep>;
-> -			};
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> new file mode 100644
-> index 000000000000..ddd4627214b1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> @@ -0,0 +1,124 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-
-s/Mp/MP/
-
-> +
-> +maintainers:
-> +  - Ricardo Ribalda <ribalda@kernel.org>
-> +
-> +description: -|
-> +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-
-s/imx214/IMX214/
-
-> +  an active array size of 4224H x 3200V. It is programmable through an I2C
-> +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
-
-s/  Image/ Image/
-
-> +  maximum throughput of 1.2Gbps/lane.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx214
-> +
-> +  reg:
-> +    description: -|
-> +      I2C device address. Depends on how the sensor is wired.
-
-I'd drop the description, it's fairly evident as it's an I2C device,
-isn't it ?
-
-> +    enum:
-> +      - 0x10
-> +      - 0x1a
-> +
-> +  clocks:
-> +    description: Reference to the xclk clock.
-> +    maxItems: 1
-> +
-> +  clock-frequency:
-> +    description: Frequency of the xclk clock in Hz.
-> +
-> +  enable-gpios:
-> +    description: GPIO descriptor for the enable pin.
-> +    maxItems: 1
-> +
-> +  vdddo-supply:
-> +    description: Chip digital IO regulator (1.8V).
-> +    maxItems: 1
-> +
-> +  vdda-supply:
-> +    description: Chip analog regulator (2.7V).
-> +    maxItems: 1
-> +
-> +  vddd-supply:
-> +    description: Chip digital core regulator (1.12V).
-> +    maxItems: 1
-> +
-> +  flash-leds:
-> +    description: See ../video-interfaces.txt
-> +
-> +  lens-focus:
-> +    description: See ../video-interfaces.txt
-> +
-> +  port:
-> +    type: object
-> +    description: |
-> +      The device node must contain one 'port' child node for its digital output
-> +      video port, in accordance with the video interface bindings defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-
-I'd drop this, the port node is already described as required below.
-
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        properties:
-> +          remote-endpoint:
-> +            description: See ../video-interfaces.txt
-> +
-> +          data-lanes:
-> +            description: See ../video-interfaces.txt
-
-Shouldn't this also express that only 2 or 4 data lanes are allowed ?
-
-            $ref: /schemas/types.yaml#/definitions/uint32-array
-            description: See ../video-interfaces.txt
-            anyOf:
-              - items:
-                  - const: 1
-                  - const: 2
-              - items:
-                  - const: 1
-                  - const: 2
-                  - const: 3
-                  - const: 4
-
-Maybe someone more experienced with YAML schemas could propose a better
-way to express this ? I initially tried to express it with enum instead
-of anyOf but couldn't get it to work.
-
-> +
-> +          link-frequencies:
-
-            $ref: /schemas/types.yaml#/definitions/uint64-array
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +            description: See ../video-interfaces.txt
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-frequency
-> +  - enable-gpios
-> +  - vdddo-supply
-> +  - vdda-supply
-> +  - vddd-supply
-> +  - port
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera-sensor@1a {
-> +            compatible = "sony,imx214";
-> +            reg = <0x1a>;
-> +            vdddo-supply = <&pm8994_lvs1>;
-> +            vddd-supply = <&camera_vddd_1v12>;
-> +            vdda-supply = <&pm8994_l17>;
-> +            lens-focus = <&ad5820>;
-> +            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> +            clocks = <&camera_clk>;
-> +            clock-frequency = <24000000>;
-> +
-> +            port {
-> +                imx214_ep: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <480000000>;
-> +                    remote-endpoint = <&csiphy0_ep>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6c8e98238a7b..d1a6173d3b64 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15918,7 +15918,7 @@ M:	Ricardo Ribalda <ribalda@kernel.org>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
->  F:	drivers/media/i2c/imx214.c
+> -	switch (p->modulation) {
+> -	case VSB_8:
+> -		/* Manual only for VSB */
+> -		ret = lgdt3306a_set_inversion_auto(state, 0);
+> -		break;
+> -	case QAM_64:
+> -	case QAM_256:
+> -	case QAM_AUTO:
+> -		/* Auto ok for QAM */
+> -		ret = lgdt3306a_set_inversion_auto(state, 1);
+> -		break;
+> -	default:
+> -		ret = -EINVAL;
+> -	}
+> -#endif
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int lgdt3306a_set_if(struct lgdt3306a_state *state,
 > 
->  SONY IMX219 SENSOR DRIVER
 
--- 
+You can drop the lgdt3306a_spectral_inversion function completely
+since the function doesn't do anything. It would be good to replace
+the function call with the comment "spectral_inversion defaults already
+set for VSB and QAM" so that information isn't lost.
+
 Regards,
 
-Laurent Pinchart
+	Hans
