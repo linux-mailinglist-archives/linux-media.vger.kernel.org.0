@@ -2,94 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D761A249F0E
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6186249FAF
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:25:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbgHSNFj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 09:05:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37220 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728499AbgHSNFd (ORCPT
+        id S1728556AbgHSNY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 09:24:59 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:49695 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726961AbgHSNQM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:05:33 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63881C061383
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 06:05:32 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id w14so25293371ljj.4
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 06:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=UOr65DEC+2TW/zt7uOWWliltVKZ89UsSxVAE/jQE1oM=;
-        b=ig0Gowk5bmmRlwDUQnO4y6TgS8TPTr7rVwwcxXCQXtPl9HhW8NkXHIv6B+duOf3lp+
-         gZutF2zFShkzk3CYvXCAeuEulGsoslBHGNBCkbZ0TFRBc/2Ut0qPqg866dt7JyzfnpIJ
-         68MXFvQRcMsKqEVR4y3VTJ8rtpMbgZLWt9J6jDkIWlQW65MyZaERS9MyqVWX9fy2Isez
-         xsZ5vi3MHowaVKhMg33qFIcX7/quCIco+02R77UBUKxvHC/xluOIqC/Lr5qYci7AMVZf
-         PyXAFBj4/F7uT7Y3iuvrL7XB97GjkJ7iLwjZ3dF8czzNndQEsJq65DDKMcngHG6f3kPe
-         i80g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=UOr65DEC+2TW/zt7uOWWliltVKZ89UsSxVAE/jQE1oM=;
-        b=QDejUFoNZeRq0v9iTgUel0zo6OOup8DWAwdXvqQZSWILuVeAX12BNnkdshjztU0Bwe
-         sx0EToyoCPGUocDQlG6YfHwIcUJ0d1aIxipZJz90nyKlKZ9xmOQL8rZ8F3SGWxZzPwjd
-         o5Ao3IAX9DuFUC1sIQnh28m9d9OFoN84EMSyWNoKh2k8OaYZpeyNrEaz1achV79263Xf
-         FqE1MSByqXO69y5fbOi9DlbLILa+W5Y+bsXfHoBBk0v+SXRaaJzM7ZOO8/9paifRdV8G
-         fQsdQDQ+szLZQ+RKTS/JPl0sdTDYtLj5cCda8sVetlrofstxchgXdAZ1WD+iHiDTm6eu
-         2/vQ==
-X-Gm-Message-State: AOAM531RXY6nSmX9WwFADplRjN24nWE+osU2QCuQcQZSww79IZwcFF6G
-        83aqjqiL0h7FWLfRHW3eVniyFZEtbVjbUXjmaeM=
-X-Google-Smtp-Source: ABdhPJzTFitFWyqH5VgBxrEeiqQ4A1POexli1AXmA+RrBIO5haBPhDqi2mygN5Tr7sNOxSaOFMqW2cDUGzlZZDUdK9Y=
-X-Received: by 2002:a2e:9ed4:: with SMTP id h20mr12179547ljk.82.1597842330702;
- Wed, 19 Aug 2020 06:05:30 -0700 (PDT)
+        Wed, 19 Aug 2020 09:16:12 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8NwMkcqI5uuXO8NwNkhD1S; Wed, 19 Aug 2020 15:15:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597842943; bh=XJUjA6GhgJMPcqkxF1vR+8X4AdV6W5Jd5RTMaz80g/k=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=M8aenhv6PjoRzN8MNsDrsM4kWTyImKm6UR7AQXDXpdUVHIN893XH9Uypb7Y1rnp32
+         MB/7dC7Aew9TvapDmY1M5tZAt5A647yXFCVRAD+uGAsVFG6A/42R0uVkkx+1CyGdnv
+         A+Aq+PSz9b2MTWhseyu8GUQJNoDeR/kY9V0sQoge7vqgaYyXP0j1F4xmA/40lzRhzj
+         Treg4CdrpH3DgyIzzkIWpPo5KvU79+YJbO+xDyIclYWUDpXw5e4xCZnTZlsQrKmDC+
+         DLJJQ7uFsa0k6/e0b/FEct+NsuoeOg+aNuRHEpNJMCY5xoTI5Bca3VEZqg5AKQkkVt
+         SjJcRdwwhBZLQ==
+Subject: Re: [PATCH 1/2] media: Revert "media: exynos4-is: Add missed check
+ for pinctrl_lookup_state()"
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-media@vger.kernel.org
+Cc:     hslester96@gmail.com, krzk@kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        b.zolnierkie@samsung.com, m.szyprowski@samsung.com
+References: <CGME20200810153301eucas1p2684476145e627ba124ba4740ef204712@eucas1p2.samsung.com>
+ <20200810153240.23827-1-s.nawrocki@samsung.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <bdcb0a29-8c7e-3736-9936-2b25460f9aef@xs4all.nl>
+Date:   Wed, 19 Aug 2020 15:15:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Reply-To: mrahmedmuzashah@gmail.com
-Received: by 2002:a19:4c57:0:0:0:0:0 with HTTP; Wed, 19 Aug 2020 06:05:29
- -0700 (PDT)
-From:   "Mr.Ahmed Muzashah" <ahmedmuzashah@gmail.com>
-Date:   Wed, 19 Aug 2020 14:05:29 +0100
-X-Google-Sender-Auth: lVrhDL8Mzkfaw7v4sU_7WkA5sWQ
-Message-ID: <CA+ANWpm8x4guuGELAxYevxXhqEEr=BWtq6-82y7LV1LmfG2PzQ@mail.gmail.com>
-Subject: =?UTF-8?B?U2Now7ZuZW4gVGFn?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200810153240.23827-1-s.nawrocki@samsung.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCkIhUtNaVpYFQcL/3qCAdkOvGF9e/YUvgKcHKX3f126eVPkUlcDSp89i09CuIk68hCjtduB4QUQvq3gZP7Meq5HWeof8IRc9ggwqYC++sRA/5kYKzcD
+ b3jz0GFnlFagsbNkMMc8mxw60JKJ9a9pCGOVLOyv0zjcuUy5ujc1zkfyvRPI6dwACSnQSeL0Jm2KTBKsDoaw4/xjqZaEkzb/FhtYklijTYBwUwSovzidJgpE
+ Kf3llJzgxFhED+K/h5tD98Msfnz12C5jooH+yTGOFuQoiEgbVkvmyKN+oU6V4q/iZMTEwwIdqBekk6xOywDZknSARo3aimryTuX0h7yxkdrvoc2Kz8Ck0ewx
+ f7TcxHV/2lIqkbwcWENjVhR0Gik3KjtO2z6cQowUHE/Omn1W1NrtcARu5EI/L4DXn6T+2HDKmtMmDGRvvDjdMv2JJtoTIqwRtiiFW7lzP4k9SRZfjtUpNv2d
+ 9Q2xLfLUmFFtk1lZ3gn6ci8YZtzhiDrzWv2RFOJSloHs1c2LXuDiioYmEq4x64SRcZzuOdygX+YJuUEgJ/jkITfv0WSfl+Z3oVRequUyRRJvubgbY1cppkNR
+ eX0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sch=C3=B6nen Tag,
+Hi Sylwester,
 
-Bitte entschuldigen Sie, dass Sie einen =C3=9Cberraschungsbrief geschrieben
-haben. Ich bin Herr Ahmed Muzashah, Account Manager bei einer
-Investmentbank hier in Burkina Faso. Ich habe ein sehr wichtiges
-Gesch=C3=A4ft, das ich mit Ihnen besprechen m=C3=B6chte. In meinem Konto is=
-t ein
-Kontoentwurf er=C3=B6ffnet Ich habe die M=C3=B6glichkeit, den verbleibenden
-Fonds (15,8 Millionen US-Dollar) von f=C3=BCnfzehn Millionen
-achthunderttausend US-Dollar eines meiner Bankkunden zu =C3=BCbertragen,
-der beim Zusammenbruch der Welt gestorben ist Handelszentrum in den
-Vereinigten Staaten am 11. September 2001.
+Can you rebase this patch series on top of the media_tree master?
 
-Ich m=C3=B6chte diese Mittel investieren und Sie unserer Bank f=C3=BCr dies=
-en
-Deal vorstellen. Alles, was ich ben=C3=B6tige, ist Ihre ehrliche
-Zusammenarbeit und ich garantiere Ihnen, dass dies unter einer
-legitimen Vereinbarung durchgef=C3=BChrt wird, die uns vor
-Gesetzesverst=C3=B6=C3=9Fen sch=C3=BCtzt Ich bin damit einverstanden, dass =
-40% dieses
-Geldes f=C3=BCr Sie als meinen ausl=C3=A4ndischen Partner, 50% f=C3=BCr mic=
-h und 10%
-f=C3=BCr die Schaffung der Grundlage f=C3=BCr die weniger Privilegien in Ih=
-rem
-Land bestimmt sind. Wenn Sie wirklich an meinem Vorschlag interessiert
-sind, werden weitere Einzelheiten der =C3=9Cbertragung ber=C3=BCcksichtigt =
-Sie
-werden an Sie weitergeleitet, sobald ich Ihre Bereitschaftsmail f=C3=BCr
-eine erfolgreiche =C3=9Cberweisung erhalte.
+This series didn't apply anymore.
 
-Dein,
-Mr.Ahmed Muzashah,
+Thanks!
+
+	Hans
+
+On 10/08/2020 17:32, Sylwester Nawrocki wrote:
+> The "idle" pinctrl state is optional as documented in the DT binding.
+> The change introduced by the commit being reverted makes that pinctrl state
+> mandatory and breaks initialization of the whole media driver, since the
+> "idle" state is not specified in any mainline dts.
+> 
+> This reverts commit 18ffec750578f7447c288647d7282c7d12b1d969 to fix
+> the regression.
+> 
+> Signed-off-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+> ---
+>  drivers/media/platform/exynos4-is/media-dev.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+> index 16dd660..9a57523 100644
+> --- a/drivers/media/platform/exynos4-is/media-dev.c
+> +++ b/drivers/media/platform/exynos4-is/media-dev.c
+> @@ -1268,11 +1268,9 @@ static int fimc_md_get_pinctrl(struct fimc_md *fmd)
+>  	if (IS_ERR(pctl->state_default))
+>  		return PTR_ERR(pctl->state_default);
+>  
+> +	/* PINCTRL_STATE_IDLE is optional */
+>  	pctl->state_idle = pinctrl_lookup_state(pctl->pinctrl,
+>  					PINCTRL_STATE_IDLE);
+> -	if (IS_ERR(pctl->state_idle))
+> -		return PTR_ERR(pctl->state_idle);
+> -
+>  	return 0;
+>  }
+>  
+> 
+
