@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDCB424A433
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 18:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 749CB24A484
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 18:57:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbgHSQkn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 12:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42518 "EHLO
+        id S1726947AbgHSQ52 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 12:57:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbgHSQkm (ORCPT
+        with ESMTP id S1726731AbgHSQ5H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 12:40:42 -0400
+        Wed, 19 Aug 2020 12:57:07 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD925C061757;
-        Wed, 19 Aug 2020 09:40:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E7B0C061757;
+        Wed, 19 Aug 2020 09:57:06 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2D0C29E;
-        Wed, 19 Aug 2020 18:40:33 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8175329E;
+        Wed, 19 Aug 2020 18:56:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597855233;
-        bh=UKe/Z/Qlhc90ITwDTB46MFLnASZQbBzPk2FsWhiyMPg=;
+        s=mail; t=1597856219;
+        bh=JSMuV5nAqp9B18iMvO4sKVXd8MjalDF0a0uByYXBzuw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ijYhvFSceCY09J9/QACbnoHlDTv9akB4FDjJAXB+Xrz3hv2XNyR/858eg1s5XtGm5
-         pz53kxDeeOPtbM12MFYk1ILsrTBqWzgLn7gUqIRcPkWwxtjYAv18e0yoUSBHsEvj8s
-         ZoE6d2iHZeHYWXaZWxaDchp+PAZW+NbGsJp94kQU=
-Date:   Wed, 19 Aug 2020 19:40:16 +0300
+        b=GVLkRIrCYOJf1UNRl4LLIVufPjmaatK0mmlWAGyeaFVSQL+fT9Y4xTVY7bO+30Kbp
+         Z6SwSWnw5mdu6D1H5au9CIcWREIVZSs0nFN7euhzh2Cf/NClI8HiwY4hZWppQqaD5U
+         ljH7aYtrkszJRobor9w6E4k1Q8NsXRnNtrn6bsA8=
+Date:   Wed, 19 Aug 2020 19:56:41 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Vishal Sagar <vsagar@xilinx.com>
-Cc:     Rob Herring <robh@kernel.org>, Hyun Kwon <hyunk@xilinx.com>,
-        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+To:     Vishal Sagar <vsagar@xilinx.com>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Hyun Kwon <hyunk@xilinx.com>,
         "mchehab@kernel.org" <mchehab@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
         "mark.rutland@arm.com" <mark.rutland@arm.com>,
         Michal Simek <michals@xilinx.com>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
@@ -41,18 +41,19 @@ Cc:     Rob Herring <robh@kernel.org>, Hyun Kwon <hyunk@xilinx.com>,
         "joe@perches.com" <joe@perches.com>,
         Sandip Kothari <sandipk@xilinx.com>,
         Dinesh Kumar <dineshk@xilinx.com>
-Subject: Re: [PATCH v3 2/3] media: dt-bindings: media: xilinx: Add Xilinx
- UHD-SDI Receiver Subsystem
-Message-ID: <20200819164016.GR6049@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 3/3] media: v4l: xilinx: Add Xilinx UHD-SDI Rx
+ Subsystem driver
+Message-ID: <20200819165641.GS6049@pendragon.ideasonboard.com>
 References: <20200618053304.14551-1-vishal.sagar@xilinx.com>
- <20200618053304.14551-3-vishal.sagar@xilinx.com>
- <20200713185447.GA531731@bogus>
- <20200715162901.GE6144@pendragon.ideasonboard.com>
- <BY5PR02MB686765691549EF38B8F842E1A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
+ <20200618053304.14551-4-vishal.sagar@xilinx.com>
+ <50cc4f4b-e788-c5ad-cd6a-b428b96d5377@xs4all.nl>
+ <20200715213315.GF6144@pendragon.ideasonboard.com>
+ <BY5PR02MB6867211CA1F22DC01D6A8F15A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <BY5PR02MB686765691549EF38B8F842E1A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BY5PR02MB6867211CA1F22DC01D6A8F15A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -60,320 +61,137 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Vishal,
 
-On Wed, Aug 19, 2020 at 01:45:34PM +0000, Vishal Sagar wrote:
-> On Wednesday, July 15, 2020 9:59 PM, Laurent Pinchart wrote:
-> > On Mon, Jul 13, 2020 at 12:54:47PM -0600, Rob Herring wrote:
-> > > On Thu, Jun 18, 2020 at 11:03:03AM +0530, Vishal Sagar wrote:
-> > > > Add bindings documentation for Xilinx UHD-SDI Receiver Subsystem.
+(Hans, there's a question for you below)
+
+On Wed, Aug 19, 2020 at 01:47:49PM +0000, Vishal Sagar wrote:
+> On Thursday, July 16, 2020 3:03 AM Laurent Pinchart wrote:
+> > On Thu, Jun 25, 2020 at 11:43:01AM +0200, Hans Verkuil wrote:
+> > > On 18/06/2020 07:33, Vishal Sagar wrote:
+> > > > The Xilinx UHD-SDI Rx subsystem soft IP is used to capture native SDI
+> > > > streams from SDI sources like SDI broadcast equipment like cameras and
+> > > > mixers. This block outputs either native SDI, native video or
+> > > > AXI4-Stream compliant data stream for further processing. Please refer
+> > > > to PG290 for details.
 > > > >
-> > > > The Xilinx UHD-SDI Receiver Subsystem consists of SMPTE UHD-SDI (RX) IP
-> > > > core, an SDI RX to Video Bridge IP core to convert SDI video to native
-> > > > video and a Video In to AXI4-Stream IP core to convert native video to
-> > > > AXI4-Stream.
+> > > > The driver is used to configure the IP to add framer, search for
+> > > > specific modes, get the detected mode, stream parameters, errors, etc.
+> > > > It also generates events for video lock/unlock, bridge over/under flow.
+> > > >
+> > > > The driver supports 10/12 bpc YUV 422 media bus format currently. It
+> > > > also decodes the stream parameters based on the ST352 packet embedded in the
+> > > > stream. In case the ST352 packet isn't present in the stream, the core's
+> > > > detected properties are used to set stream properties.
+> > > >
+> > > > The driver currently supports only the AXI4-Stream IP configuration.
 > > > >
 > > > > Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
 > > > > ---
 > > > > v3
-> > > > - bpc instead of bpp
-> > > > - removed bpc as required property (default to 10 bpc)
-> > > > - add dt-bindings/media/xilinx-sdi.h
-> > > > - made line-rate as u32 instead of string
-> > > > - fixed reg
-> > > > - fixed s/upto/up to/
+> > > > - fixed KConfig with better description
+> > > > - removed unnecessary header files
+> > > > - converted uppercase to lowercase for all hex values
+> > > > - merged core struct to state struct
+> > > > - removed most one line functions and replaced with direct reg
+> > > >   read/write or macros
+> > > > - dt property bpp to bpc. default 10. not mandatory.
+> > > > - fixed subscribe events, log_status, s_stream
+> > > > - merged overflow/underflow to one event
+> > > > - moved all controls to xilinx-sdirxss.h
+> > > > - max events from 128 to 8
+> > > > - used FIELD_GET() instead of custom macro
+> > > > - updated the controls documentation
+> > > > - added spinlock
+> > > > - removed 3GB control and added mode to detect bitmask
+> > > > - fixed format for (width, height, colorspace, xfer func, etc)
+> > > > - added dv_timings_cap, s/g_dv_timings
+> > > > - fixed set/get_format
+> > > > - fix v4l control registrations
+> > > > - fix order of registration / deregistration in probe() remove()
+> > > > - fixed other comments from Hyun, Laurent and Hans
+> > > > - things yet to close
+> > > >   - adding source port for connector (Laurent's suggestion)
+> > > >   - adding new FIELD type for Transport Stream V4L2_FIELD_ALTERNATE_PROG (Han's suggestion)
+> > > >   - Update / remove EDH or CRC related controls
 > > > >
 > > > > v2
-> > > > - Removed references to xlnx,video*
-> > > > - Fixed as per Sakari Ailus and Rob Herring's comments
-> > > > - Converted to yaml format
+> > > > - Added DV timing support based on Hans Verkuilś feedback
+> > > > - More documentation to custom v4l controls and events
+> > > > - Fixed Hyunś comments
+> > > > - Added macro for masking and shifting as per Joe Perches comments
+> > > > - Updated to latest as per Xilinx github repo driver like
+> > > >   adding new DV timings not in mainline yet uptill 03/21/20
 > > > >
-> > > >  .../bindings/media/xilinx/xlnx,sdirxss.yaml   | 132 ++++++++++++++++++
-> > > >  include/dt-bindings/media/xilinx-sdi.h        |  20 +++
-> > > >  2 files changed, 152 insertions(+)
-> > > >  create mode 100644
-> > Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
-> > > >  create mode 100644 include/dt-bindings/media/xilinx-sdi.h
-> > > >
-> > > > diff --git
-> > a/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
-> > b/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
+> > > >  drivers/media/platform/xilinx/Kconfig         |   11 +
+> > > >  drivers/media/platform/xilinx/Makefile        |    1 +
+> > > >  .../media/platform/xilinx/xilinx-sdirxss.c    | 2121 +++++++++++++++++
+> > > >  include/uapi/linux/v4l2-controls.h            |    6 +
+> > > >  include/uapi/linux/xilinx-sdirxss.h           |  283 +++
+> > > >  5 files changed, 2422 insertions(+)
+> > > >  create mode 100644 drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > > >  create mode 100644 include/uapi/linux/xilinx-sdirxss.h
+
+[snip]
+
+> > > > diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c b/drivers/media/platform/xilinx/xilinx-sdirxss.c
 > > > > new file mode 100644
-> > > > index 000000000000..6cfc18ca435f
+> > > > index 000000000000..e39aab7c656a
 > > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
-> > > > @@ -0,0 +1,132 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/media/xilinx/xlnx,sdirxss.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +
-> > 
-> > I think a single blank line is enough.
-> 
-> Ok I will remove extra empty line in next version.
-> 
-> > > > +title: Xilinx SMPTE UHD-SDI Receiver Subsystem
-> > > > +
-> > > > +maintainers:
-> > > > +  - Vishal Sagar <vishal.sagar@xilinx.com>
-> > > > +
-> > > > +description: |
-> > > > +  The SMPTE UHD-SDI Receiver (RX) Subsystem allows you to quickly create systems
-> > > > +  based on SMPTE SDI protocols. It receives unaligned native SDI streams from
-> > > > +  the SDI GT PHY and outputs an AXI4-Stream video stream, native video, or
-> > > > +  native SDI using Xilinx transceivers as the physical layer.
-> > > > +
-> > > > +  The subsystem consists of
-> > > > +  1 - SMPTE UHD-SDI Rx
-> > > > +  2 - SDI Rx to Native Video Bridge
-> > > > +  3 - Video In to AXI4-Stream Bridge
-> > > > +
-> > > > +  The subsystem can capture SDI streams in up to 12G mode 8 data streams and output
-> > > > +  a dual pixel per clock RGB/YUV444,422/420 10/12 bits per component AXI4-Stream.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    items:
-> > > > +      - enum:
-> > > > +        - xlnx,v-smpte-uhdsdi-rx-ss-2.0
+> > > > +++ b/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > > > @@ -0,0 +1,2121 @@
+
+[snip]
+
+> > > > +	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
+> > > > +		ctrl->val = xsdirxss->ts_is_interlaced;
+> > > > +		break;
 > > >
-> > > Should be indented 2 more spaces.
+> > > I assume this control will disappear once you added support for
+> > > FIELD_ALTERNATE_PROG?
 > > 
-> > Or you could simply use
-> > 
-> > properties:
-> >   compatible:
-> >     const: xlnx,v-smpte-uhdsdi-rx-ss-2.0
+> > I'm not sure FIELD_ALTERNATE_PROG is a good idea. The v4l2_field
+> > specifies today how frames are split into multiple buffers. There's an
+> > implicit assumption that a frame split into two buffers is captured with
+> > interlacing. In the SDI case, the two concepts get decoupled, a
+> > progressive frame can be transmitted (and captured) in two separate
+> > parts. If we add a *_PROG field, we'll need to duplicate most of the
+> > v4l2_field values with a _PROG suffix, as the progressive frame can be
+> > captured in alternate buffers on a video node, but also in separate odd
+> > and even buffers on two video nodes. Tt the hardware level, data is
+> > transmitted with odd lines on one link, and even lines on a second link.
+> > There are then two instances of this IP core, one for each link. One
+> > instance would receive and process the even lines, the other instance
+> > the odd lines. The output of the two instances can then be connected to
+> > two separate DMA engines, or combined in the FPGA fabric, depending on
+> > how the user designs the system.
 > 
-> Ok I will fix this in the next version.
-> 
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clocks:
-> > > > +    description: List of clock specifiers
-> > >
-> > > Drop. That's every 'clocks' property.
-> 
-> Ok I will drop the description in next version.
-> 
-> > > > +    items:
-> > > > +      - description: AXI4-Lite clock
-> > > > +      - description: SMPTE UHD-SDI Rx core clock
-> > > > +      - description: Video clock
-> > > > +
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: s_axi_aclk
-> > > > +      - const: sdi_rx_clk
-> > > > +      - const: video_out_clk
-> > > > +
-> > > > +  xlnx,bpc:
-> > > > +    description: Bits per component supported. Can be 10 or 12 bits per component only.
-> > > > +    allOf:
-> > >
-> > > You can drop the 'allOf' now.
-> 
-> Ok will update this in next version.
-> 
-> > > > +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> > > > +      - enum: [10, 12]
-> > >
-> > > Seems like this should be a standard property?
-> > 
-> > Rob, if my understanding is correct, this tells for how many bits per
-> > component the IP core has been synthesized. I think it qualifies as a
-> > vendor property, as how to express constraints on supported formats (for
-> > IP cores that can be synthesized with different options) is highly
-> > vendor-specific.
-> 
-> Right Laurent. This is specific to Xilinx Video IP cores.
-> 
-> > Vishal, I think the question I asked in the review of v2 fell through
-> > the cracks. Is the documentation for the new IP core version available ?
-> > Should this property only be allowed for the new version, given that in
-> > v2.0 the BPC is fixed to 10 ?
-> 
-> The new IP core is released with Vivado 2020.1 but the documentation isn't yet
-> publicly updated.
-> 
-> This property is optional and the driver defaults to 10bpc in case this property is not specified.
+> My apologies to give incorrect info regarding this.
+> In the progressive segmented frame, a progressive captured frame is sent
+> across to receiver over an interlaced transport. The 2 fields received
+> are similar to how V4L2_FIELD_ALTERNATE is except that the fields weren't
+> captured at 2 different times.
 
-So how about the following ?
+I've now read more about progressive segmented frames, and I was indeed
+wrong about the fact that the two segments are transported over
+different links.
 
-properties:
-  compatible:
-    enum:
-      - xlnx,v-smpte-uhdsdi-rx-ss-1.0
-      - xlnx,v-smpte-uhdsdi-rx-ss-2.0
+I still wonder, however, if a _PROG suffix is the best option. Wouldn't
+we need to also add V4L2_FIELD_TOP_PROG, V4L2_FIELD_BOTTOM_PROG,
+V4L2_FIELD_SEQ_TB_PROG and V4L2_FIELD_SEQ_BT_PROG, not necessarily for
+this driver, but for other devices that would support capturing the
+odd/even segments only, or support capturing both segments in a single
+buffer, one after the other ?
 
-  ...
+Maybe that's unavoidable, as enum v4l2_field combines both the buffer
+layout and the fact that the frame is interlaced or progressive. If we
+had to redesign it we could do better, but having to keep backward
+compatibility, duplicating most values with a _PROG suffix may be the
+best option.
 
-  xlnx,bpc:
-    description: ...
-    $ref: "/schemas/types.yaml#/definitions/uint32"
-    enum: [10, 12]
-    default: 10
+Hans, any opinion ?
 
-  ...
+> So I will add the V4L2_FIELD_ALTERNATE_PROG in next patch version.
 
-allOf:
-  - if:
-      not:
-        properties:
-          compatible:
-            contains:
-              xlnx,v-smpte-uhdsdi-rx-ss-2.0
-    then:
-      properties:
-        xlnx,bpc: false
-
-This indicates that the xlnx,bpc property isn't allowed for v1.0.
-Another option would be
-
-    then:
-      properties:
-        xlnx,bpc:
-	  const: 10
-
-to indicate it must be equal to 10 on v1.0.
-
-> > > > +
-> > > > +  xlnx,line-rate:
-> > > > +    description: |
-> > > > +      The maximum mode supported by the design. Possible values are as below
-> > > > +      0 - XSDI_STD_3G      -  3G mode
-> > > > +      1 - XSDI_STD_6G      -  6G mode
-> > > > +      2 - XSDI_STD_12G_8DS - 12G mode with 8 data streams
-> > > > +    allOf:
-> > > > +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> > > > +      - enum: [0, 1, 2]
-> > >
-> > > Standard?
-> > 
-> > For this one, I'm not sure. There's little support for SDI in the
-> > kernel, and I'm sure we'll get this wrong the first time. I'd rather try
-> > not to over-standardize properties before we have more examples.
-> 
-> Right. These are specific to Xilinx SDI Rx IP configuration.
-
-I'm not sure it's Xilinx-specific, but I think we don't have enough
-examples of other SDI receivers to know if the propery could be made
-generic or not.
-
-> > > > +
-> > > > +  xlnx,include-edh:
-> > > > +    type: boolean
-> > > > +    description: |
-> > > > +      This is present when the Error Detection and Handling processor is
-> > > > +      enabled in design.
-> > > > +
-> > > > +  ports:
-> > > > +    type: object
-> > > > +    description: |
-> > > > +      Generally the SDI port is connected to a device like SDI Broadcast camera
-> > > > +      which is independently controlled. Hence port@0 is a source port which can be
-> > > > +      connected to downstream IP which can work with AXI4 Stream data.
-> > > > +    properties:
-> > > > +      port@0:
-> > > > +        type: object
-> > > > +        description: Source port
-> > > > +        properties:
-> > > > +          reg:
-> > > > +            const: 0
-> > > > +          endpoint:
-> > > > +            type: object
-> > > > +            properties:
-> > > > +              remote-endpoint: true
-> > > > +            required:
-> > > > +              - remote-endpoint
-> > > > +            additionalProperties: false
-> > > > +        additionalProperties: false
-> > 
-> > Same here, I explained in the review of v2 that we should have an input
-> > port.
-> 
-> I will add the input / sink port to this device tree node.
-> 
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - interrupts
-> > > > +  - clocks
-> > > > +  - clock-names
-> > > > +  - xlnx,line-rate
-> > > > +  - ports
-> > > > +
-> > > > +additionalProperties: false
-> > > > +
-> > > > +examples:
-> > > > +  - |
-> > > > +    #include <dt-bindings/media/xilinx-sdi.h>
-> > > > +    uhdsdirxss: v-smpte-uhdsdi-rxss@80000000 {
-> > 
-> > The label is not used, you can drop it.
-> 
-> Ok. I will remove this in the next version.
-> 
-> > > > +      compatible = "xlnx,v-smpte-uhdsdi-rx-ss-2.0";
-> > > > +      interrupt-parent = <&gic>;
-> > > > +      interrupts = <0 89 4>;
-> > > > +      reg = <0x80000000 0x10000>;
-> > > > +      xlnx,include-edh;
-> > > > +      xlnx,line-rate = <XSDI_STD_12G_8DS>;
-> > > > +      clocks = <&clk_1>, <&si570_1>, <&clk_2>;
-> > > > +      clock-names = "s_axi_aclk", "sdi_rx_clk", "video_out_clk";
-> > > > +      xlnx,bpc = <10>;
-> > 
-> > I would group the xlnx,* properties after the standard properties.
-> 
-> Noted. Will update in next version.
-> 
-> > > > +
-> > > > +      ports {
-> > > > +        #address-cells = <1>;
-> > > > +        #size-cells = <0>;
-> > > > +        port@0 {
-> > > > +          reg = <0>;
-> > > > +          sdirx_out: endpoint {
-> > > > +            remote-endpoint = <&vcap_sdirx_in>;
-> > > > +          };
-> > > > +        };
-> > > > +      };
-> > > > +    };
-> > > > +...
-> > > > diff --git a/include/dt-bindings/media/xilinx-sdi.h b/include/dt-bindings/media/xilinx-sdi.h
-> > > > new file mode 100644
-> > > > index 000000000000..11938fade041
-> > > > --- /dev/null
-> > > > +++ b/include/dt-bindings/media/xilinx-sdi.h
-> > > > @@ -0,0 +1,20 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > > +/*
-> > > > + * Xilinx SDI device tree bindings
-> > > > + *
-> > > > + * Copyright (C) 2020 Xilinx, Inc.
-> > > > + *
-> > > > + * Contacts: Vishal Sagar <vishal.sagar@xilinx.com>
-> > > > + */
-> > > > +
-> > > > +#ifndef __DT_BINDINGS_MEDIA_XILINX_SDI_H__
-> > > > +#define __DT_BINDINGS_MEDIA_XILINX_SDI_H__
-> > > > +
-> > > > +/*
-> > > > + * SDI Configurations
-> > > > + */
-> > > > +#define XSDI_STD_3G		0
-> > > > +#define XSDI_STD_6G		1
-> > > > +#define XSDI_STD_12G_8DS	2
-> > > > +
-> > > > +#endif /* __DT_BINDINGS_MEDIA_XILINX_SDI_H__ */
+[snip]
 
 -- 
 Regards,
