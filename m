@@ -2,96 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A3CC249998
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 11:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70D70249A1E
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 12:20:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726905AbgHSJsp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 05:48:45 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60123 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725804AbgHSJsm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 05:48:42 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 8KhzkbGWquuXO8Ki0kgC51; Wed, 19 Aug 2020 11:48:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597830520; bh=rjyXPWRP1g01llTCNBoRc20RbTVne5BReTjfQigN/qE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=aRVi+LKuPvEAGBtVbilrwMVfjfRiLtzdmajEDiu1Wcf8Cq7SZ/MBSBMR+w6OVcjDk
-         UhL1Qi21AUJsJabaE1KSxxbCIbD0Z5oKK/8Ptxow60bjJDawXc8fYi7YNCm5V1ibsC
-         lsEPGSgldRvXIZlLhjpfmp3dD0kvsD4lBYLJbgvTyQNI7JVR4jBc3HgmdYrlrr8vV5
-         vm/Ek0kr1l3NI46NWtkCGP1p4YAsc2F4nkwyBCphdgwGhRcxScH6SGlBleCG49C8K4
-         1qxFoO9oB3jtfmOKr4zYIUnW1NeThgBBON7T1hM/6c43oYuco5LAOSzjdEc4k8U8Uf
-         UN8P9OdvyHxoA==
-Subject: Re: [PATCH v2 6/6] media: docs: Deprecate mfc frame skip control
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Maheshwar Ajja <majja@codeaurora.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-References: <20200721074538.505-1-stanimir.varbanov@linaro.org>
- <20200721074538.505-7-stanimir.varbanov@linaro.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5619ba1a-c9e3-74f9-af21-76b4961d245b@xs4all.nl>
-Date:   Wed, 19 Aug 2020 11:48:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727019AbgHSKUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 06:20:12 -0400
+Received: from mga05.intel.com ([192.55.52.43]:40204 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726642AbgHSKUI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Aug 2020 06:20:08 -0400
+IronPort-SDR: cMIntmxcY2rfeqtfs4cHSZKt7nosO1Xrh6susWlP9njM4jrzOteE4li0u9k+d2lchVeYxMiL/P
+ RZoOrRsNfU2w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="239913209"
+X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
+   d="scan'208";a="239913209"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 03:20:05 -0700
+IronPort-SDR: 0srbmhImVGWsT/Uhkyx/gE+adq8PU56pKTJEFi3ooIIvMxMrCCo43RuawUA4/ZJ9bYJT1fO2zw
+ yuytpeq8mcTw==
+X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
+   d="scan'208";a="310729878"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 03:20:03 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id D66DA2064F; Wed, 19 Aug 2020 13:20:00 +0300 (EEST)
+Date:   Wed, 19 Aug 2020 13:20:00 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
+Message-ID: <20200819102000.GS24582@paasikivi.fi.intel.com>
+References: <20200805105721.15445-1-jacopo@jmondi.org>
+ <20200805105721.15445-2-jacopo@jmondi.org>
+ <20200809175821.GF5981@pendragon.ideasonboard.com>
+ <20200810081757.zeeqiigrlfpxppxs@uno.localdomain>
+ <20200818081743.GQ24582@paasikivi.fi.intel.com>
+ <20200819010623.GI2360@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200721074538.505-7-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOfshgSS/4pnrc0r98ip6Dp7/2WOW9Q9jCnxE/ED9msv5AQOlP+XJ5tWWhVxDHU0mlTIH0FrR+PsE0/EwbZdTLUask/ZDkVFfpZ5Uy80GCygBGP33h7V
- MAgQpLq0KKro9DdC9mn0LVhKYvIa263Y8Vmv9JN5Apk2Jw3LY4NuWis1+2F1QN0F6/m/2Q8CwXL5GBbngkSlLKMAM1kd52Z12VHTnCMMfdMld0S7pNJkFm4k
- rLP6fC/V8yGbbF/Ye/nsnhxypOy3iyBTLcgzN1DKVHcrDmxeIcckxTZp0HiMBYZZ78za+FGaCI191hlOCNlPsoFIoGk7kKaUxM8PIXFO4L1G91QhWeKXmi3y
- EkcxH2/0AeQoOsgJlQrxJOuOjvbe3Gd1Y8I4hdX/M692dtRZkvIb4e6HCuDjs1CNHc/XX9JAOvqIrsywYaJ93Ze84SwLFdYo6z4Ii9zIU/lit5mjUDngBmJi
- mS2XxKqkkz0b8zL8naJC4Hyk8azijsK/DBr48tU+KfSfTtPtUgGVtP0+fMOZ2bY8OSKWawMXYTijBQLxHmS3YcRbKDPHMbOa3hNcZHzJ+q+zP9li9IOsF4rk
- HObnjCxxPisc+u2eAOIhs6nCvzg6/bPRETL/yqAahSPtsICQ4VpyMBXEayuboK9HkIdYdswRdK1iINY+rQZqY6xQB/M1J/oipWXksuJoZrVdHG+EaSwYkBKB
- sl7s5yRg5Jo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819010623.GI2360@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/07/2020 09:45, Stanimir Varbanov wrote:
-> Deprecate mfc private frame skip mode control for new
-> clients and use the standard one instead.
+Hi Laurent,
+
+On Wed, Aug 19, 2020 at 04:06:23AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
-
-> ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 +++++
->  1 file changed, 5 insertions(+)
+> On Tue, Aug 18, 2020 at 11:17:43AM +0300, Sakari Ailus wrote:
+> > On Mon, Aug 10, 2020 at 10:17:57AM +0200, Jacopo Mondi wrote:
+> > > On Sun, Aug 09, 2020 at 08:58:21PM +0300, Laurent Pinchart wrote:
+> > > > On Wed, Aug 05, 2020 at 12:57:18PM +0200, Jacopo Mondi wrote:
+> > > > > The V4L2 selection API are also used to access the pixel array
+> > > > > properties of an image sensor, such as the size and position of active
+> > > > > pixels and the cropped area of the pixel matrix used to produce images.
+> > > > >
+> > > > > Currently no clear definition of the different areas that compose an
+> > > > > image sensor pixel array matrix is provided in the specification, and
+> > > > > the actual meaning of each selection target when applied to an image
+> > > > > sensor was not provided.
+> > > > >
+> > > > > Provide in the sub-device documentation the definition of the pixel
+> > > > > matrix properties and the selection target associated to each of them.
+> > > > >
+> > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > > ---
+> > > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
+> > > > >  1 file changed, 81 insertions(+)
+> > > > >
+> > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > index 134d2fb909fa4..c47861dff9b9b 100644
+> > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > @@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
+> > > > >  ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
+> > > > >  the image size either up or down. :ref:`v4l2-selection-flags`
+> > > > >
+> > > > > +.. _v4l2-subdev-pixel-array-properties:
+> > > > > +
+> > > > > +Selection targets for image sensors properties
+> > > > > +----------------------------------------------
+> > > > > +
+> > > > > +The V4L2 selection API can be used on sub-devices that represent an image
+> > > > > +sensor to retrieve the sensor's pixel array matrix properties by using the
+> > > > > +:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
+> > > > > +
+> > > > > +Sub-device drivers for image sensor usually register a single source pad, but in
+> > > > > +the case they expose more, the pixel array properties can be accessed from
+> > > > > +any of them.
+> > > > > +
+> > > > > +The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
+> > > > > +``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
+> > > > > +the immutable properties of the several different areas that compose the sensor
+> > > > > +pixel array matrix. Each area describes a rectangle of logically adjacent pixel
+> > > > > +units. The logical disposition of pixels is defined by the sensor read-out
+> > > > > +starting point and direction, and may differ from the physical disposition of
+> > > > > +the pixel units in the pixel array matrix.
+> > > > > +
+> > > > > +Each pixel matrix portion is contained in a larger rectangle, with the most
+> > > > > +largest being the one that describes the pixel matrix physical size. This
+> > > > > +defines a hierarchical positional system, where each rectangle is defined
+> > > > > +relatively to the largest available one among the ones exposed by the
+> > > > > +sub-device driver. Each selection target and the associated pixel array portion
+> > > > > +it represents are below presented in order from the largest to the smallest one.
+> > > > > +
+> > > > > +Pixel array physical size
+> > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > > > +
+> > > > > +The image sensor chip is composed by a number of physical pixels, not all of
+> > > > > +them readable by the application processor. Invalid or unreadable lines might
+> > > > > +not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
+> > > > > +they might be tagged with an invalid data type (DT) so that the receiver
+> > > > > +automatically discard them. The size of the whole pixel matrix area is
+> > > > > +retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
+> > > > > +defined as position (0, 0). All the other selection targets are defined
+> > > > > +relatively to this, larger, rectangle. The rectangle returned by
+> > > > > +V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
+> > > > > +does not change at run-time and cannot be modified from userspace.
+> > > >
+> > > > As I think I've mentioned previously (not sure if it was by e-mail or on
+> > > > IRC), we could also decide to set V4L2_SEL_TGT_NATIVE_SIZE ==
+> > > > V4L2_SEL_TGT_CROP_BOUNDS by ignoring the non-readable pixels completely.
+> > > > What's the advantage of exposing them in the API, when the sensors
+> > > > doesn't provide them to the rest of the pipeline ?
+> > > 
+> > > I don't know :) I'm also  bit confused on what's the purpose of
+> > > NATIVE, this commit seems to suggest it was meant to replace
+> > > CROP_BOUNDS, but I'm not sure about that.
+> > > 
+> > > commit b518d86609cc066b626120fe6ec6fe3a4ccfcd54
+> > > Author: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Date:   Thu Nov 6 16:54:33 2014 -0300
+> > > 
+> > >     [media] smiapp: Support V4L2_SEL_TGT_NATIVE_SIZE
+> > > 
+> > >     Add support for selection target V4L2_SEL_TGT_NATIVE_SIZE. It is equivalent
+> > >     of what V4L2_SEL_TGT_CROP_BOUNDS used to be. Support for
+> > >     V4L2_SEL_TGT_CROP_BOUNDS is still supported by the driver as a compatibility
+> > >     interface.
+> > > 
+> > > Sakari, do you recall if that's was the original plan ?
+> > 
+> > That was to denote the size of the pixel array indeed. We didn't discuss
+> > dark or invalid pixels at the time.
+> > 
+> > So this was just there to tell that it's the pixel array you're cropping
+> > from.
+> > 
+> > But as long as it's API-wise compatible, I don't think anything prevents
+> > re-purposing this to include other areas. The documentation (AFAIR) does
+> > not say this has to be the same as the crop bounds rectangle.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 985e4c2d29bf..31d77d1cdcc9 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -2821,6 +2821,11 @@ MFC 5.1 Control IDs
->  ``V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE``
->      (enum)
->  
-> +    .. note::
-> +
-> +       This control is deprecated. Use the standard
-> +       ``V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE`` control instead.
-> +
->  enum v4l2_mpeg_mfc51_video_frame_skip_mode -
->      Indicates in what conditions the encoder should skip frames. If
->      encoding a frame would cause the encoded stream to be larger then a
-> 
+> What do you think would be best ? Should we include the non-readable
+> pixels in V4L2_SEL_TGT_NATIVE_SIZE, with V4L2_SEL_TGT_CROP_BOUNDS then
+> being strictly smaller, or drop them completely from the API, with
+> V4L2_SEL_TGT_CROP_BOUNDS being equal to V4L2_SEL_TGT_NATIVE_SIZE ? It
+> may be that we have to allow both to support existing drivers, but we
+> should pick one of the two options and make it mandatory for new
+> drivers.
 
+That's a very good question.
+
+What would be the purpose of adding pixels that cannot be read? I assume
+they would not affect sensor timing either in that case, so there would be
+no difference whether they are there or not. The crop bounds should contain
+everything whereas for the default crop should reflect the area of the
+visible pixels.
+
+I guess in theory the visible pixels could not be cropped by the sensor in
+analogue cropping step, so it might be worth having a separate rectangle
+for those, too.
+
+There could also be sensors that read the dark pixels internally and use
+them somehow without sending their data out. don't think we should try to
+model that though as it's likely entirely internal to the sensor in that
+case.
+
+-- 
+Sakari Ailus
