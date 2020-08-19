@@ -2,114 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32CC0249FC5
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FC44249FDC
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:28:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728060AbgHSN0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 09:26:36 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:58707 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727996AbgHSN0W (ORCPT
+        id S1727022AbgHSN2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 09:28:50 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58162 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726641AbgHSN2t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:26:22 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 8O6dkcvKSuuXO8O6ekhGDC; Wed, 19 Aug 2020 15:26:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597843580; bh=k4CyG5Qq54vxXk/1xGJbjzzlnEo+v6cUalGVdZ9UNHI=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Oh6qt6EDQ/N1K0Nf0Lvo6MlJRK64on3esya29Q4qiPt8H+JwY7+T/gyqTquq1Lzf6
-         xsTVu8s5zg3BM7PonezxwJjkwji2siPgUgl0cqroCCwrXs9JLxBARiAIsyKXEb0HJs
-         KRrN7O5ThVEuiEAhyMlpPsYiyXcgLaLm0mW0R4AVsNNmF2ilHugsrsQ6viAA4EcJHo
-         YYauw7sCYo3Kq/EL0aLj++Pn0v1XqfOkvLS6z/UhYUdszTRxtO7JUo2x9Ose4BwvjB
-         BPYSZOeBv5Co1vCN0i//3eIkVWsg7zAZ6mgtrEl0Qgt1ss/4psW9q0WV6tmw9hy29O
-         O3E9BetpehQ7g==
-Subject: Re: [PATCH 1/2] media: Revert "media: exynos4-is: Add missed check
- for pinctrl_lookup_state()"
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-media@vger.kernel.org
-Cc:     hslester96@gmail.com, krzk@kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        b.zolnierkie@samsung.com, m.szyprowski@samsung.com
-References: <CGME20200810153301eucas1p2684476145e627ba124ba4740ef204712@eucas1p2.samsung.com>
- <20200810153240.23827-1-s.nawrocki@samsung.com>
- <bdcb0a29-8c7e-3736-9936-2b25460f9aef@xs4all.nl>
-Message-ID: <9b240ddb-0d03-5d51-386d-fce100a70aed@xs4all.nl>
-Date:   Wed, 19 Aug 2020 15:26:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 19 Aug 2020 09:28:49 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAF4C29E;
+        Wed, 19 Aug 2020 15:28:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1597843720;
+        bh=PWDzJsyk0PwukcLPwDqokKhe2VKPSIPQ9fwFSamq5gI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WrjyiqVYAKfgJuesCDNLI9YaAo3D+vkqrUs9srWfDabP/1eewBgnr6thLFRhQEfFP
+         UvPPTOIKgqu+ORhtRXtZO9GANJt8nNSpXQXRAxNzi2kOr8uUVnW/bwoFCxERhyfz0L
+         CLwhiIitRZsF3Owp8Z25roPVm6Nfcd15Q5Ooq9/Y=
+Date:   Wed, 19 Aug 2020 16:28:23 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@kernel.org>,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: imx214: Convert to json-schema
+Message-ID: <20200819132823.GH6049@pendragon.ideasonboard.com>
+References: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-In-Reply-To: <bdcb0a29-8c7e-3736-9936-2b25460f9aef@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfM486MN3QSCAdJcP+Ut+D2oHitKpGHNGxmepL3N9f831HuqqJHNdoXtsQmci8D4T/woHOUOj/Y4tEkXWTThbCrveCo/4lwcmgdXXOtI11Djn9LwQrGnc
- bdg3COFSRvNHRlormPsU1tWbtFA5m8CLqgzkLxnhKp5TRDSPQmPQ+1JuRJZtOnhFiKA4lvMQ4aCL1mi/ZZv64d2x1zKaXY3kThs007JYEE20zlCTXSdKH6k2
- xqMGmUsM1Fbs06fSSjhmkY/wjMIyI+cCOUlJM+dBu8nNxMaPjHCwvShkAdz2bnKZGU2cSPSTmlgr4u+Wc1EWjuU5RHYQ3iaf38h79RnUhbuu/um967hHE1jX
- fw3VlqP/8w4O/V/kFEw6pwq1bZqyRq+wFJt0CF2/FH6tp9Ag7hxyTAMryBEJ8yJxMEriLXYim5Wo3hwwcY28qkWuS0Tq9ZpU6WDvlrWa6VN0N814eY8f6oum
- KD/DFSV6+YeLQFRsHvsYOnk94XjhplQ5w0mOG4K0yZ8vbKXOScm9aNvdJ6vbALhwNms8VhBsFk4diM4iTDvT3125IjBI+SpF/ZLfSDLqbL2JaCmg+0hoNU9m
- 0dE=
+Content-Disposition: inline
+In-Reply-To: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/08/2020 15:15, Hans Verkuil wrote:
-> Hi Sylwester,
+Hi Jacopo,
+
+Thank you for the patch.
+
+On Tue, Aug 18, 2020 at 02:17:55PM +0200, Jacopo Mondi wrote:
+> Convert the imx214 bindings document to json-schema and update
+> the MAINTAINERS file accordingly.
 > 
-> Can you rebase this patch series on top of the media_tree master?
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../bindings/media/i2c/sony,imx214.txt        |  53 --------
+>  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
+>  MAINTAINERS                                   |   2 +-
+>  3 files changed, 125 insertions(+), 54 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
 > 
-> This series didn't apply anymore.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> deleted file mode 100644
+> index f11f28a5fda4..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> +++ /dev/null
+> @@ -1,53 +0,0 @@
+> -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
+> -
+> -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
+> -an active array size of 4224H x 3200V. It is programmable through an I2C
+> -interface.
+> -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
+> -throughput of 1.2Gbps/lane.
+> -
+> -
+> -Required Properties:
+> -- compatible: Shall be "sony,imx214".
+> -- reg: I2C bus address of the device. Depending on how the sensor is wired,
+> -       it shall be <0x10> or <0x1a>;
+> -- enable-gpios: GPIO descriptor for the enable pin.
+> -- vdddo-supply: Chip digital IO regulator (1.8V).
+> -- vdda-supply: Chip analog regulator (2.7V).
+> -- vddd-supply: Chip digital core regulator (1.12V).
+> -- clocks: Reference to the xclk clock.
+> -- clock-frequency: Frequency of the xclk clock.
+> -
+> -Optional Properties:
+> -- flash-leds: See ../video-interfaces.txt
+> -- lens-focus: See ../video-interfaces.txt
+> -
+> -The imx214 device node shall contain one 'port' child node with
+> -an 'endpoint' subnode. For further reading on port node refer to
+> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -
+> -Required Properties on endpoint:
+> -- data-lanes: check ../video-interfaces.txt
+> -- link-frequencies: check ../video-interfaces.txt
+> -- remote-endpoint: check ../video-interfaces.txt
+> -
+> -Example:
+> -
+> -	camera-sensor@1a {
+> -		compatible = "sony,imx214";
+> -		reg = <0x1a>;
+> -		vdddo-supply = <&pm8994_lvs1>;
+> -		vddd-supply = <&camera_vddd_1v12>;
+> -		vdda-supply = <&pm8994_l17>;
+> -		lens-focus = <&ad5820>;
+> -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
+> -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
+> -		clock-frequency = <24000000>;
+> -		port {
+> -			imx214_ep: endpoint {
+> -				data-lanes = <1 2 3 4>;
+> -				link-frequencies = /bits/ 64 <480000000>;
+> -				remote-endpoint = <&csiphy0_ep>;
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> new file mode 100644
+> index 000000000000..ddd4627214b1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> @@ -0,0 +1,124 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
 
-Never mind, it was a conflict between this patch and this one:
+s/Mp/MP/
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20200807083548.204360-2-dwlsalmeida@gmail.com/
+> +
+> +maintainers:
+> +  - Ricardo Ribalda <ribalda@kernel.org>
+> +
+> +description: -|
+> +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
 
-I'll fix this up myself.
+s/imx214/IMX214/
 
+> +  an active array size of 4224H x 3200V. It is programmable through an I2C
+> +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
+
+s/  Image/ Image/
+
+> +  maximum throughput of 1.2Gbps/lane.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx214
+> +
+> +  reg:
+> +    description: -|
+> +      I2C device address. Depends on how the sensor is wired.
+
+I'd drop the description, it's fairly evident as it's an I2C device,
+isn't it ?
+
+> +    enum:
+> +      - 0x10
+> +      - 0x1a
+> +
+> +  clocks:
+> +    description: Reference to the xclk clock.
+> +    maxItems: 1
+> +
+> +  clock-frequency:
+> +    description: Frequency of the xclk clock in Hz.
+> +
+> +  enable-gpios:
+> +    description: GPIO descriptor for the enable pin.
+> +    maxItems: 1
+> +
+> +  vdddo-supply:
+> +    description: Chip digital IO regulator (1.8V).
+> +    maxItems: 1
+> +
+> +  vdda-supply:
+> +    description: Chip analog regulator (2.7V).
+> +    maxItems: 1
+> +
+> +  vddd-supply:
+> +    description: Chip digital core regulator (1.12V).
+> +    maxItems: 1
+> +
+> +  flash-leds:
+> +    description: See ../video-interfaces.txt
+> +
+> +  lens-focus:
+> +    description: See ../video-interfaces.txt
+> +
+> +  port:
+> +    type: object
+> +    description: |
+> +      The device node must contain one 'port' child node for its digital output
+> +      video port, in accordance with the video interface bindings defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+
+I'd drop this, the port node is already described as required below.
+
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+> +          remote-endpoint:
+> +            description: See ../video-interfaces.txt
+> +
+> +          data-lanes:
+> +            description: See ../video-interfaces.txt
+
+Shouldn't this also express that only 2 or 4 data lanes are allowed ?
+
+            $ref: /schemas/types.yaml#/definitions/uint32-array
+            description: See ../video-interfaces.txt
+            anyOf:
+              - items:
+                  - const: 1
+                  - const: 2
+              - items:
+                  - const: 1
+                  - const: 2
+                  - const: 3
+                  - const: 4
+
+Maybe someone more experienced with YAML schemas could propose a better
+way to express this ? I initially tried to express it with enum instead
+of anyOf but couldn't get it to work.
+
+> +
+> +          link-frequencies:
+
+            $ref: /schemas/types.yaml#/definitions/uint64-array
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +            description: See ../video-interfaces.txt
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-frequency
+> +  - enable-gpios
+> +  - vdddo-supply
+> +  - vdda-supply
+> +  - vddd-supply
+> +  - port
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera-sensor@1a {
+> +            compatible = "sony,imx214";
+> +            reg = <0x1a>;
+> +            vdddo-supply = <&pm8994_lvs1>;
+> +            vddd-supply = <&camera_vddd_1v12>;
+> +            vdda-supply = <&pm8994_l17>;
+> +            lens-focus = <&ad5820>;
+> +            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
+> +            clocks = <&camera_clk>;
+> +            clock-frequency = <24000000>;
+> +
+> +            port {
+> +                imx214_ep: endpoint {
+> +                    data-lanes = <1 2 3 4>;
+> +                    link-frequencies = /bits/ 64 <480000000>;
+> +                    remote-endpoint = <&csiphy0_ep>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6c8e98238a7b..d1a6173d3b64 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15918,7 +15918,7 @@ M:	Ricardo Ribalda <ribalda@kernel.org>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+> -F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+>  F:	drivers/media/i2c/imx214.c
+> 
+>  SONY IMX219 SENSOR DRIVER
+
+-- 
 Regards,
 
-	Hans
-
-> 
-> Thanks!
-> 
-> 	Hans
-> 
-> On 10/08/2020 17:32, Sylwester Nawrocki wrote:
->> The "idle" pinctrl state is optional as documented in the DT binding.
->> The change introduced by the commit being reverted makes that pinctrl state
->> mandatory and breaks initialization of the whole media driver, since the
->> "idle" state is not specified in any mainline dts.
->>
->> This reverts commit 18ffec750578f7447c288647d7282c7d12b1d969 to fix
->> the regression.
->>
->> Signed-off-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
->> ---
->>  drivers/media/platform/exynos4-is/media-dev.c | 4 +---
->>  1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
->> index 16dd660..9a57523 100644
->> --- a/drivers/media/platform/exynos4-is/media-dev.c
->> +++ b/drivers/media/platform/exynos4-is/media-dev.c
->> @@ -1268,11 +1268,9 @@ static int fimc_md_get_pinctrl(struct fimc_md *fmd)
->>  	if (IS_ERR(pctl->state_default))
->>  		return PTR_ERR(pctl->state_default);
->>  
->> +	/* PINCTRL_STATE_IDLE is optional */
->>  	pctl->state_idle = pinctrl_lookup_state(pctl->pinctrl,
->>  					PINCTRL_STATE_IDLE);
->> -	if (IS_ERR(pctl->state_idle))
->> -		return PTR_ERR(pctl->state_idle);
->> -
->>  	return 0;
->>  }
->>  
->>
-> 
-
+Laurent Pinchart
