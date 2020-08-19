@@ -2,330 +2,369 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B466724973E
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 09:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 283F6249864
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 10:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727954AbgHSH1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 03:27:49 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:41539 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727787AbgHSH1L (ORCPT
+        id S1726495AbgHSIok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 04:44:40 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:54885 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725903AbgHSIoh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 03:27:11 -0400
+        Wed, 19 Aug 2020 04:44:37 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 8IUzkaCaMuuXO8IV1kfRjt; Wed, 19 Aug 2020 09:27:08 +0200
+        id 8JhukalljuuXO8Jhvkfr0y; Wed, 19 Aug 2020 10:44:32 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597822028; bh=UL8bk56RlZGyorhxUmqJfpva/3frmGhRnIR/a2hQ4ao=;
+        t=1597826672; bh=3lyVh/11kaV64NBnvjYslAa3pikLSfzsR1scQM6p1qM=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=VJSpaUnuGdK+/Ue17cyGISiJN0OU0Yc102tB5NtihPggsftTs3cUSI2HzbyLgxBdL
-         oruG/xNao1NS9FU/AVq7giCTPCUhUUI5vrrUO+jFaNb5whrCzXcoKR3fs1WeCYmAYo
-         n8fUgsQxZC0RdsVgN54P/Py5RHOSAfp0r4WkLXQ0gzsycdTEOq79UT2JByHvwlw9ih
-         +wSC1swoXGnXn7I5oxTVFnXLKsL55mvYFWlJVbeW6NJU4NvhRF/SWiIkaXBxzoEIK2
-         iT+IhjfKgBIGnQCVs4W2iNT+mnyQCSMWhs1dBUm+mag6NN0fphuGAmIyWHyEvWryfy
-         +9pQ+hFJFrNig==
-Subject: Re: Protecting uvcvideo againt USB device disconnect [Was: Re:
- Protecting usb_set_interface() against device removal]
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-media@vger.kernel.org, linux-uvc-devel@lists.sourceforge.net,
-        Sakari Ailus <sakari.ailus@iki.fi>
-References: <b0a7247c-bed3-934b-2c73-7f4b0adb5e75@roeck-us.net>
- <20200815020739.GB52242@rowland.harvard.edu>
- <20200816003315.GA13826@roeck-us.net>
- <20200816121816.GC32174@pendragon.ideasonboard.com>
- <9bb20ed7-b156-f6c2-4d25-6acac1a0021b@roeck-us.net>
- <20200816235155.GA7729@pendragon.ideasonboard.com>
- <0684b71c-8ac5-8962-cbd5-c0bcaa8b6881@xs4all.nl>
- <20200819013002.GL2360@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <96cc3d39-ff23-8def-e199-9c4cb22cc02f@xs4all.nl>
-Date:   Wed, 19 Aug 2020 09:27:05 +0200
+        b=i+HVa6XoFKQcVulSsouXj1R0fK/g7Yj5MTp0CQuemvAlM3VExtY6FF3v/e8tNUasc
+         vKy4T3EG49tm9Tc6o2xlYc8ZNItwnzXmCEBhOi6Zicd7BGgt40igPusaD6bTkb3VO8
+         hh52bZdgEhshehwLZ2H0LCXbCiEFQd8Movgbxre/mQfMJdEuqnpMulM7paNWDD9e0q
+         YHZBG87wBgNYSh3Qg2TwLFRRYrjnpDcZp72Hq/Hjn9FdNkKKehTSuq9cAii8sQeXzp
+         cIjKFU42PW17CsfTAW5dhcG4BfSLPldwNwYfblo8K7hybs8m8+OgH/I8H8UW2z/oOq
+         yv78i0tzK2XkA==
+Subject: Re: [PATCH v4l-utils] utils: v4l2-ctl: support V4L2_CAP_IO_MC in
+ v4l2-ctl '--list-formats-*' commands
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
+        kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        tfiga@chromium.org
+References: <20200721120446.13251-1-dafna.hirschfeld@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2a3399e1-0274-7d77-db79-8961162c9581@xs4all.nl>
+Date:   Wed, 19 Aug 2020 10:44:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200819013002.GL2360@pendragon.ideasonboard.com>
+In-Reply-To: <20200721120446.13251-1-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMcFx3NLxYoFmKaiTHvx4HYR1+Rt30Q0/fya1iW6OamKkvLsQrCyZEWScYM1QujBpYEjOnbCi/TdDLGxGu7QHyYGzawsUc+ziitFiVu/eEKjEUi6SMzn
- gOaIhf1IbNvYQ2vQ0DU6eisee4I/MuM5ENADfIMUd1uU8ojPCwCgCh39+mEReOnbULJ1P6Y8MUizQvmsrqAAmiXi0Pt3h9nktib06OyLoeISzUU0CZ5D47RD
- W3cQ602wD02giPKpMa3ugPs/pt0TNwnuZWRzcxuYFOpPv1SCJvvPZuSZdAFHncri1nSUEUQcnuIXDZH74rnpht3W3p7Vg/kTlH65YfF+JN1zrTettfvaHLba
- AHuqdKsWUCh4C/4rmFgHb+wWCFlFBhDvJgh5lT6Y5YFPQi0Cvmp5kOdKzJLKkVyjbgJM1J82+nTLaHvDcZmZ4zaK7bqHBXm6Gi1pOetmifBGrFs4r2QBaWJs
- HKtBOE6QVY/uujM8JPRFZ2nBMdHYM49JwTeDpnsfwkhciEbk3HgBrQ2peniAomsiej+T08NWHLjROKf9buxP1ZSYjDPPD2rNa3fk1MV8sLKyiTS7xeg9V5bD
- VbOqD365C9Vy187MigKfe8+q
+X-CMAE-Envelope: MS4wfEXeMQBv9FBnpPo1yIaIhRD7cUJQOSt7sfDW6UaYH7uSOH4AESnEBlLZs1+8keG5jOY+bjT80edaYRmTwnPrS1KLorEmaANdvYIA0Y87EVPJHQh42vBJ
+ m35MUxxDIoTxjmGQMwxkj5ylitojQz7y3Na5heM+pCPCCGYfagYe79SQHwnbW1cqJt8sqCONxXW2ssmIaieE8GXf9pZrGwT8DL2i04WDo+nQVMq8yFVarFhW
+ vbZbKc+y2UbZKjc7IrxOJlxyAsW345IRjtyfypZsbpLLIHK/v7EQyi9Cb+27tYlaRfoPVBlqYY/OcrD5BOoCt0tInbtKIihyfFg5QX/iEy8Ff9R2KKCam6is
+ MHUwDmnJDE3awikHK7qoEinTZwV8M/nEi9JQfCpkCK6bHrT8hqruLsw0I2+l8pMrOol6pG0yKZ5NLYJ9Ef9AE4tY94I7wDiw0X0WAbvd+6D1KKnxWI6X9TOH
+ 0aGUMjGN0xlInFY4FBra1u87Eo6A++78fwYMJ5xwaxdaJp7O0NtKSLs8Od2D3b4cxWt85jIsd7pmic1PFC1NQH2j73uYpBA9j1/gx6Ab7Jg+VR7//ffhHDM/
+ 7Oq6oSVM3sJVQ8BxfDDYQ2MR
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/08/2020 03:30, Laurent Pinchart wrote:
-> Hi Hans,
+Hi Dafna,
+
+Thank you for adding support for this. I do have a few comments, however:
+
+On 21/07/2020 14:04, Dafna Hirschfeld wrote:
+> Add optional <mbus_code> arg to all 'v4l2-ctl --list-formats-*'
+> commands. If <mbus_code> is given and the device has capability
+> V4L2_CAP_IO_MC then list only the formats that matches the
+> mbus code.
+> If <mbus_code> is given and the device doesn't have this
+> capability then print an error message.
 > 
-> On Mon, Aug 17, 2020 at 01:00:49PM +0200, Hans Verkuil wrote:
->> On 17/08/2020 01:51, Laurent Pinchart wrote:
->>> On Sun, Aug 16, 2020 at 08:54:18AM -0700, Guenter Roeck wrote:
->>>> On 8/16/20 5:18 AM, Laurent Pinchart wrote:
->>>>> CC'ing Hans Verkuil and Sakari Ailus for the discussion about handling
->>>>> file operations and disconnect in V4L2.
->>>>>
->>>>> On Sat, Aug 15, 2020 at 05:33:15PM -0700, Guenter Roeck wrote:
->>>>>> + linux-uvc-devel@lists.sourceforge.net
->>>>>> + linux-media@vger.kernel.org
->>>>>> + laurent.pinchart@ideasonboard.com
->>>>>>
->>>>>> and changed subject
->>>>>>
->>>>>> On Fri, Aug 14, 2020 at 10:07:39PM -0400, Alan Stern wrote:
->>>>>>> On Fri, Aug 14, 2020 at 04:07:03PM -0700, Guenter Roeck wrote:
->>>>>>>> Hi all,
->>>>>>>>
->>>>>>>> over time, there have been a number of reports of crashes in usb_ifnum_to_if(),
->>>>>>>> called from usb_hcd_alloc_bandwidth, which is in turn called from usb_set_interface().
->>>>>>>> Examples are [1] [2] [3]. A typical backtrace is:
->>>>>>>>
->>>>>>>> <3>[ 3489.445468] intel_sst_acpi 808622A8:00: sst: Busy wait failed, cant send this msg
->>>>>>>> <6>[ 3490.507273] usb 1-4: USB disconnect, device number 3
->>>>>>>> <1>[ 3490.516670] BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
->>>>>>>> <6>[ 3490.516680] PGD 0 P4D 0
->>>>>>>> <4>[ 3490.516687] Oops: 0000 [#1] PREEMPT SMP PTI
->>>>>>>> <4>[ 3490.516693] CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
->>>>>>>> <4>[ 3490.516696] Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
->>>>>>>> <4>[ 3490.516706] RIP: 0010:usb_ifnum_to_if+0x29/0x40
->>>>>>>> <4>[ 3490.516710] Code: ee 0f 1f 44 00 00 55 48 89 e5 48 8b 8f f8 03 00 00 48 85 c9 74 27 44 0f b6 41 04 4d 85 c0 74 1d 31 ff 48 8b 84 f9 98 00 00 00 <48> 8b 10 0f b6 52 02 39 f2 74 0a 48 ff c7 4c 39 c7 72 e5 31 c0 5d
->>>>>>>> <4>[ 3490.516714] RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
->>>>>>>> <4>[ 3490.516718] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
->>>>>>>> <4>[ 3490.516721] RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
->>>>>>>> <4>[ 3490.516724] RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
->>>>>>>> <4>[ 3490.516727] R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
->>>>>>>> <4>[ 3490.516731] R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
->>>>>>>> <4>[ 3490.516735] FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
->>>>>>>> <4>[ 3490.516738] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>>>>> <4>[ 3490.516742] CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
->>>>>>>> <4>[ 3490.516745] Call Trace:
->>>>>>>> <4>[ 3490.516756] usb_hcd_alloc_bandwidth+0x1ee/0x30f
->>>>>>>> <4>[ 3490.516762] usb_set_interface+0x1a3/0x2b7
->>>>>>>> <4>[ 3490.516773] uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
->>>>>>>> <4>[ 3490.516781] uvc_video_start_streaming+0x91/0xdd [uvcvideo]
->>>>>>>> <4>[ 3490.516787] uvc_start_streaming+0x28/0x5d [uvcvideo]
->>>>>>>> <4>[ 3490.516795] vb2_start_streaming+0x61/0x143 [videobuf2_common]
->>>>>>>> <4>[ 3490.516801] vb2_core_streamon+0xf7/0x10f [videobuf2_common]
->>>>>>>> <4>[ 3490.516807] uvc_queue_streamon+0x2e/0x41 [uvcvideo]
->>>>>>>> <4>[ 3490.516814] uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
->>>>>>>> <4>[ 3490.516820] __video_do_ioctl+0x33d/0x42a
->>>>>>>> <4>[ 3490.516826] video_usercopy+0x34e/0x5ff
->>>>>>>> <4>[ 3490.516831] ? video_ioctl2+0x16/0x16
->>>>>>>> <4>[ 3490.516837] v4l2_ioctl+0x46/0x53
->>>>>>>> <4>[ 3490.516843] do_vfs_ioctl+0x50a/0x76f
->>>>>>>> <4>[ 3490.516848] ksys_ioctl+0x58/0x83
->>>>>>>> <4>[ 3490.516853] __x64_sys_ioctl+0x1a/0x1e
->>>>>>>> <4>[ 3490.516858] do_syscall_64+0x54/0xde
->>>>>>>>
->>>>>>>> I have been able to reproduce the problem on a Chromebook by strategically placing
->>>>>>>> msleep() calls into usb_set_interface() and usb_disable_device(). Ultimately, the
->>>>>>>> problem boils down to lack of protection against device removal in usb_set_interface()
->>>>>>>> [and/or possibly other callers of usb_ifnum_to_if()].
->>>>>>>>
->>>>>>>> Sequence of events is roughly as follows:
->>>>>>>>
->>>>>>>> - usb_set_interface() is called and proceeds to some point, possibly to
->>>>>>>>   mutex_lock(hcd->bandwidth_mutex);
->>>>>>>> - Device removal event is detected, and usb_disable_device() is called
->>>>>>>
->>>>>>> At this point all interface drivers get unbound (their disconnect 
->>>>>>> routines are called).
->>>>>>>
->>>>>>>> - usb_disable_device() starts removing actconfig data. It has removed
->>>>>>>>   and cleared dev->actconfig->interface[i], but not dev->actconfig
->>>>>>>> - usb_set_interface() calls usb_hcd_alloc_bandwidth(), which calls
->>>>>>>>   usb_ifnum_to_if()
->>>>>>>> - In usb_ifnum_to_if(), dev->actconfig is not NULL, but
->>>>>>>>   dev->actconfig->interface[i] is NULL
->>>>>>>> - crash
->>>>>>>>
->>>>>>>> Question is what we can do about this. Checking if dev->state != USB_STATE_NOTATTACHED
->>>>>>>> in usb_ifnum_to_if() might be a possible approach, but strictly speaking it would
->>>>>>>> still be racy since there is still no lock against device removal. I have not tried
->>>>>>>> calling usb_lock_device() in usb_set_interface() - would that possibly be an option ?
->>>>>>>
->>>>>>> As far as I know, protecting against these races is the responsibility 
->>>>>>> of the USB interface drivers.  They must make sure that their disconnect 
->>>>>>> routines block until all outstanding calls to usb_set_interface return 
->>>>>>> (in fact, until all outstanding device accesses have finished).
->>>>>>>
->>>>>>> For instance, in the log extract you showed, it's obvious that the 
->>>>>>> uvc_start_streaming routine was running after the disconnect routine had 
->>>>>>> returned, which looks like a bug in itself: Once the disconnect routine 
->>>>>>> returns, the driver is not supposed to try to access the device at all 
->>>>>>> because some other driver may now be bound to it.
->>>>>>>
->>>>>>> We can't just call usb_lock_device from within usb_set_interface, 
->>>>>>> because usb_set_interface is often called with that lock already held.
->>>>>>>
->>>>>> I had a closer look into the uvcvideo driver and compared it to other usb
->>>>>> drivers, including drivers in drivers/media/usb/ which connect to the video
->>>>>> subsystem.
->>>>>>
->>>>>> The usbvideo driver lacks protection against calls to uvc_disconnect() while
->>>>>
->>>>> Are you confusing usbvideo and uvcvideo ? Both exist, and uvcvideo would
->>>>> have been called usbvideo if the former hadn't already been in use.
->>>>
->>>> Yes, sorry :-(. I am not sure how s/uvc/usb/ happened.
->>>
->>> No worries.
->>>
->>>>>> calls into file operations are ongoing. This is pretty widespread, and not
->>>>>> even limited to file operations (for example, there is a worker which is only
->>>>>> canceled in uvc_delete, not in ucv_disconnect). The existing protection only
->>>>>> ensures that no file operations are started after the call to ucv_disconnect,
->>>>>> but that is insufficient.
->>>>>>
->>>>>> Other drivers do have that protection and make sure that no usb operations
->>>>>> can happen after the disconnect call.
->>>>>>
->>>>>> The only remedy I can see is to rework the usbvideo driver and add the
->>>>>> necessary protections. At first glance, it looks like this may be a
->>>>>> substantial amount of work. I'd sign up for that, but before I start,
->>>>>> I would like to get input from the usbvideo community. Is such an effort
->>>>>> already going on ? If yes, how can I help ? If not, is the problem
->>>>>> understood and accepted ? Are there any ideas on how to solve it ?
->>>>>
->>>>> This is something that has been discussed before, and needs to be solved
->>>>> in the V4L2 framework itself, not in individual drivers. Not only would
->>>>> this avoid rolling out the same code manually everywhere (in different
->>>>> incorrect ways, as races are difficult to solve and implementations are
->>>>> more often wrong than right), but it will also avoid similar issues for
->>>>> non-USB devices.
->>>>
->>>> You mean code that ensures that no user-space v4l2 operation is in progress
->>>> after video_device_unregister / v4l2_device_unregister return ? I agree,
->>>> that would simplify the necessary changes on the uvc side.
->>>
->>> I was thinking about adding a new function to be called from the
->>> disconnect handler to implement the wait on end of userspace access, but
->>> video_device_unregister() seems an even better idea.
->>> v4l2_device_unregister() is probably not very useful as v4l2_device
->>> isn't exposed to userspace, only video_device is (and v4l2_subdev and
->>> media_device, but that's a different story, although probably still an
->>> issue for the latter in the UVC driver).
->>
->> Actually, all that is needed is to take the ioctl serialization lock in the disconnect
->> function.
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+> The patch is only tested on the capture devices of vimc driver,
+> and for the error message on vivid driver.
 > 
-> It's not just ioctls though, the other file operations also need to be
-> handled (read, write, mmap).
-
-Correct. And AFAIK all vb2-based drivers do take that serialization lock in
-the file ops.
-
+>  utils/common/cv4l-helpers.h         |  3 +-
+>  utils/v4l2-ctl/v4l2-ctl-meta.cpp    | 10 +++++--
+>  utils/v4l2-ctl/v4l2-ctl-overlay.cpp |  7 +++--
+>  utils/v4l2-ctl/v4l2-ctl-sdr.cpp     | 11 +++++--
+>  utils/v4l2-ctl/v4l2-ctl-vidcap.cpp  | 13 ++++++--
+>  utils/v4l2-ctl/v4l2-ctl-vidout.cpp  | 12 +++++---
+>  utils/v4l2-ctl/v4l2-ctl.cpp         | 46 ++++++++++++++++++++++-------
+>  utils/v4l2-ctl/v4l2-ctl.h           |  1 +
+>  8 files changed, 77 insertions(+), 26 deletions(-)
 > 
->> See last paragraph in 1.4.1 here:
->>
->> https://hverkuil.home.xs4all.nl/spec/driver-api/v4l2-dev.html
->>
->> Since uvc uses its own lock, you need to take that one.
-> 
-> Drivers that use their own lock do so to avoid serializing all ioctls.
+> diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
+> index 9de0cdf0..56c8397f 100644
+> --- a/utils/common/cv4l-helpers.h
+> +++ b/utils/common/cv4l-helpers.h
+> @@ -483,12 +483,13 @@ public:
+>  		return cv4l_ioctl(VIDIOC_ENUM_DV_TIMINGS, &timings);
+>  	}
+>  
+> -	int enum_fmt(v4l2_fmtdesc &fmt, bool init = false, int index = 0, unsigned type = 0)
+> +	int enum_fmt(v4l2_fmtdesc &fmt, bool init = false, int index = 0, unsigned type = 0, __u32 mbus_code = 0)
+>  	{
+>  		if (init) {
+>  			memset(&fmt, 0, sizeof(fmt));
+>  			fmt.type = type ? type : g_type();
+>  			fmt.index = index;
+> +			fmt.mbus_code = mbus_code;
+>  		} else {
+>  			fmt.index++;
+>  		}
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> index 2f745e4f..0c8560f4 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> @@ -22,7 +22,10 @@ static struct v4l2_format vfmt;	/* set_format/get_format */
+>  void meta_usage()
+>  {
+>  	printf("\nMetadata Formats options:\n"
+> -	       "  --list-formats-meta display supported metadata capture formats [VIDIOC_ENUM_FMT]\n"
+> +	       "  --list-formats-meta <mbus_code> display supported metadata capture formats.\n"
 
-Let's agree to disagree :-)
+Optional arguments should be between square brackets:
 
-In my experience it is just too hard to keep track of locking and with
-very little advantages. You are the only developer that I know of that
-insists on doing your own locking. Luckily you are very good at your
-job, but everyone else uses the v4l2/vb2 core locking.
+	       "  --list-formats-meta [<mbus_code>] display supported metadata capture formats.\n"
 
-> This means that different ioctls may be covered by different locks
-> (possibly with part of some ioctls running without locking). I don't
-> think we can just dismiss the issue saying those drivers need to
-> implement the disconnection manually. It would be much better to
-> integrate handling of userspace access with video_device_unregister()
-> like proposed above, as that will work for all drivers in a transparent
-> way. It would also be fairly simple to implement in the V4L2 core.
+> +	       "		      <mbus_code> is an optional media bus code, if the driver has\n"
+> +	       "		      capability V4L2_CAP_IO_MC then only formats that support this\n"
+> +	       "		      media code are listed [VIDIOC_ENUM_FMT]\n"
 
-I'm not really sure what you want. Should video_unregister_device()
-take the core lock (i.e. vdev->lock)?
+media code -> media bus code
+
+(change it elsewhere as well)
+
+>  	       "  --get-fmt-meta      query the metadata capture format [VIDIOC_G_FMT]\n"
+>  	       "  --set-fmt-meta <f>  set the metadata capture format [VIDIOC_S_FMT]\n"
+>  	       "                     parameter is either the format index as reported by\n"
+> @@ -30,7 +33,10 @@ void meta_usage()
+>  	       "  --try-fmt-meta <f>  try the metadata capture format [VIDIOC_TRY_FMT]\n"
+>  	       "                     parameter is either the format index as reported by\n"
+>  	       "                     --list-formats-meta, or the fourcc value as a string\n"
+> -	       "  --list-formats-meta-out display supported metadata output formats [VIDIOC_ENUM_FMT]\n"
+> +	       "  --list-formats-meta-out <mbus_code> display supported metadata output formats.\n"
+
+Ditto, and elsewhere as well.
+
+> +	       "		      <mbus_code> is an optional media bus code, if the driver has\n"
+> +	       "		      capability V4L2_CAP_IO_MC then only formats that support this\n"
+> +	       "		      media code are listed [VIDIOC_ENUM_FMT]\n"
+>  	       "  --get-fmt-meta-out      query the metadata output format [VIDIOC_G_FMT]\n"
+>  	       "  --set-fmt-meta-out <f>  set the metadata output format [VIDIOC_S_FMT]\n"
+>  	       "                          parameter is either the format index as reported by\n"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+> index 16344a15..992824eb 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+> @@ -31,8 +31,11 @@ static std::vector<struct v4l2_rect> bitmap_rects;
+>  void overlay_usage()
+>  {
+>  	printf("\nVideo Overlay options:\n"
+> -	       "  --list-formats-overlay\n"
+> -	       "                     display supported overlay formats [VIDIOC_ENUM_FMT]\n"
+> +	       "  --list-formats-overlay <mbus_code>\n"
+
+Overlays do not use mbus_code, so no need to add support for this.
+
+> +	       "                     display supported overlay formats\n"
+> +	       "		     <mbus_code> is an optional media bus code, if the driver has\n"
+> +	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
+> +	       "		     media code are listed [VIDIOC_ENUM_FMT]\n"
+>  	       "  --find-fb          find the fb device corresponding with the overlay\n"
+>  	       "  --overlay <on>     turn overlay on (1) or off (0) (VIDIOC_OVERLAY)\n"
+>  	       "  --get-fmt-overlay  query the video or video output overlay format [VIDIOC_G_FMT]\n"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-sdr.cpp b/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+> index 7a36341a..bfb10694 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+> @@ -22,7 +22,10 @@ static struct v4l2_format vfmt;	/* set_format/get_format */
+>  void sdr_usage()
+>  {
+>  	printf("\nSDR Formats options:\n"
+> -	       "  --list-formats-sdr display supported SDR capture formats [VIDIOC_ENUM_FMT]\n"
+> +	       "  --list-formats-sdr <mbus_code> display supported SDR capture formats.\n"
+
+Same for SDR capture/output.
+
+> +	       "		     <mbus_code> is an optional media bus code, if the driver has\n"
+> +	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
+> +	       "		     media code are listed [VIDIOC_ENUM_FMT]\n"
+>  	       "  --get-fmt-sdr      query the SDR capture format [VIDIOC_G_FMT]\n"
+>  	       "  --set-fmt-sdr <f>  set the SDR capture format [VIDIOC_S_FMT]\n"
+>  	       "                     parameter is either the format index as reported by\n"
+> @@ -30,8 +33,10 @@ void sdr_usage()
+>  	       "  --try-fmt-sdr <f>  try the SDR capture format [VIDIOC_TRY_FMT]\n"
+>  	       "                     parameter is either the format index as reported by\n"
+>  	       "                     --list-formats-sdr-cap, or the fourcc value as a string\n"
+> -	       "  --list-formats-sdr-out\n"
+> -	       "                     display supported SDR output formats [VIDIOC_ENUM_FMT]\n"
+> +	       "  --list-formats-sdr-out <mbus_code> display supported SDR output formats.\n"
+> +	       "		     <mbus_code> is an optional media bus code, if the driver has\n"
+> +	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
+> +	       "		     media code are listed [VIDIOC_ENUM_FMT]\n"
+>  	       "  --get-fmt-sdr-out  query the SDR output format [VIDIOC_G_FMT]\n"
+>  	       "  --set-fmt-sdr-out <f>\n"
+>  	       "                     set the SDR output format [VIDIOC_S_FMT]\n"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> index 80312b51..cc4af58b 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> @@ -27,9 +27,16 @@ static __u32 sizeimage[VIDEO_MAX_PLANES];
+>  void vidcap_usage()
+>  {
+>  	printf("\nVideo Capture Formats options:\n"
+> -	       "  --list-formats     display supported video formats [VIDIOC_ENUM_FMT]\n"
+> -	       "  --list-formats-ext display supported video formats including frame sizes\n"
+> -	       "                     and intervals\n"
+> +	       "  --list-formats <mbus_code>\n"
+> +	       "		     display supported video formats. <mbus_code> is an optional\n"
+> +	       "		     media bus code, if the driver has capability V4L2_CAP_IO_MC\n"
+> +	       "		     then only formats that support this media code are listed\n"
+> +	       "		     [VIDIOC_ENUM_FMT]\n"
+> +	       "  --list-formats-ext <mbus_code>\n"
+> +	       "		     display supported video formats including frame sizes and intervals\n"
+> +	       "		     <mbus_code> is an optional media bus code, if the driver has\n"
+> +	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
+> +	       "		     media code are listed [VIDIOC_ENUM_FMT]\n"
+>  	       "  --list-framesizes <f>\n"
+>  	       "                     list supported framesizes for pixelformat <f>\n"
+>  	       "                     [VIDIOC_ENUM_FRAMESIZES]\n"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+> index 5f433a17..54d77db2 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+> @@ -25,10 +25,14 @@ static __u32 sizeimage[VIDEO_MAX_PLANES];
+>  void vidout_usage()
+>  {
+>  	printf("\nVideo Output Formats options:\n"
+> -	       "  --list-formats-out display supported video output formats [VIDIOC_ENUM_FMT]\n"
+> -	       "  --list-formats-out-ext\n"
+> -	       "                     display supported video output formats including frame sizes\n"
+> -	       "                     and intervals\n"
+> +	       "  --list-formats-out <mbus_code> display supported video output formats.\n"
+> +	       "		     <mbus_code> is an optional media bus code, if the driver has\n"
+> +	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
+> +	       "		     media code are listed [VIDIOC_ENUM_FMT]\n"
+> +	       "  --list-formats-out-ext <mbus_code> display supported video output formats including\n"
+> +	       "		     frame sizes and intervals. <mbus_code> is an optional media bus code,\n"
+> +	       "		     if the driver has capability V4L2_CAP_IO_MC then only formats that\n"
+> +	       "		     support this media code are listed [VIDIOC_ENUM_FMT]\n"
+>  	       "  --list-fields-out  list supported fields for the current output format\n"
+>  	       "  -X, --get-fmt-video-out\n"
+>  	       "     		     query the video output format [VIDIOC_G_FMT]\n"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+> index 321d2d1c..6c371402 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+> @@ -59,6 +59,8 @@ char options[OptLast];
+>  static int app_result;
+>  int verbose;
+>  
+> +
+
+Spurious newline added.
+
+> +unsigned mbus_code_list_formats;
+>  unsigned capabilities;
+>  unsigned out_capabilities;
+>  unsigned priv_magic;
+> @@ -114,18 +116,18 @@ static struct option long_options[] = {
+>  	{"get-freq", no_argument, 0, OptGetFreq},
+>  	{"set-freq", required_argument, 0, OptSetFreq},
+>  	{"list-standards", no_argument, 0, OptListStandards},
+> -	{"list-formats", no_argument, 0, OptListFormats},
+> -	{"list-formats-ext", no_argument, 0, OptListFormatsExt},
+> +	{"list-formats", optional_argument, 0, OptListFormats},
+> +	{"list-formats-ext", optional_argument, 0, OptListFormatsExt},
+>  	{"list-fields", no_argument, 0, OptListFields},
+>  	{"list-framesizes", required_argument, 0, OptListFrameSizes},
+>  	{"list-frameintervals", required_argument, 0, OptListFrameIntervals},
+> -	{"list-formats-overlay", no_argument, 0, OptListOverlayFormats},
+> -	{"list-formats-sdr", no_argument, 0, OptListSdrFormats},
+> -	{"list-formats-sdr-out", no_argument, 0, OptListSdrOutFormats},
+> -	{"list-formats-out", no_argument, 0, OptListOutFormats},
+> -	{"list-formats-out-ext", no_argument, 0, OptListOutFormatsExt},
+> -	{"list-formats-meta", no_argument, 0, OptListMetaFormats},
+> -	{"list-formats-meta-out", no_argument, 0, OptListMetaOutFormats},
+> +	{"list-formats-overlay", optional_argument, 0, OptListOverlayFormats},
+> +	{"list-formats-sdr", optional_argument, 0, OptListSdrFormats},
+> +	{"list-formats-sdr-out", optional_argument, 0, OptListSdrOutFormats},
+> +	{"list-formats-out", optional_argument, 0, OptListOutFormats},
+> +	{"list-formats-out-ext", optional_argument, 0, OptListOutFormatsExt},
+> +	{"list-formats-meta", optional_argument, 0, OptListMetaFormats},
+> +	{"list-formats-meta-out", optional_argument, 0, OptListMetaOutFormats},
+>  	{"list-subdev-mbus-codes", optional_argument, 0, OptListSubDevMBusCodes},
+>  	{"list-subdev-framesizes", required_argument, 0, OptListSubDevFrameSizes},
+>  	{"list-subdev-frameintervals", required_argument, 0, OptListSubDevFrameIntervals},
+> @@ -617,8 +619,13 @@ void print_video_formats(cv4l_fd &fd, __u32 type)
+>  	cv4l_disable_trace dt(fd);
+>  	struct v4l2_fmtdesc fmt = {};
+>  
+> +	if (mbus_code_list_formats && !(capabilities & V4L2_CAP_IO_MC)) {
+> +		fprintf(stderr, "<mbus_code> is invalid since the device doesn't have capability V4L2_CAP_IO_MC\n");> +		std::exit(EXIT_FAILURE);
+
+I'd just set mbus_code_list_formats to 0 and continue rather than exiting.
+
+> +	}
+> +
+>  	printf("\tType: %s\n\n", buftype2s(type).c_str());
+> -	if (fd.enum_fmt(fmt, true, 0, type))
+> +	if (fd.enum_fmt(fmt, true, 0, type, mbus_code_list_formats))
+>  		return;
+>  	do {
+>  		printf("\t[%d]: '%s' (%s", fmt.index, fcc2s(fmt.pixelformat).c_str(),
+> @@ -636,8 +643,13 @@ void print_video_formats_ext(cv4l_fd &fd, __u32 type)
+>  	struct v4l2_frmsizeenum frmsize;
+>  	struct v4l2_frmivalenum frmival;
+>  
+> +	if (mbus_code_list_formats && !(capabilities & V4L2_CAP_IO_MC)) {
+> +		fprintf(stderr, "<mbus_code> is invalid since the device doesn't have capability V4L2_CAP_IO_MC\n");
+> +		std::exit(EXIT_FAILURE);
+
+Ditto.
+
+> +	}
+> +
+>  	printf("\tType: %s\n\n", buftype2s(type).c_str());
+> -	if (fd.enum_fmt(fmt, true, 0, type))
+> +	if (fd.enum_fmt(fmt, true, 0, type, mbus_code_list_formats))
+>  		return;
+>  	do {
+>  		printf("\t[%d]: '%s' (%s", fmt.index, fcc2s(fmt.pixelformat).c_str(),
+> @@ -1256,6 +1268,18 @@ int main(int argc, char **argv)
+>  		case OptVersion:
+>  			print_version();
+>  			return 0;
+> +		case OptListFormats:
+> +		case OptListFormatsExt:
+> +		case OptListOverlayFormats:
+> +		case OptListSdrFormats:
+> +		case OptListSdrOutFormats:
+> +		case OptListOutFormats:
+> +		case OptListOutFormatsExt:
+> +		case OptListMetaFormats:
+> +		case OptListMetaOutFormats:
+> +			if (optarg)
+> +				mbus_code_list_formats = strtoul(optarg, 0L, 0);
+
+This isn't right. Each format type should have its own mbus_code.
+
+Just move these 'case's to the corresponding source (e.g. OptListFormats
+and OptListFormatsExt go to v4l2-ctl-vidcap.cpp, vidcap_cmd(). There you can
+extract the mbus code and store it in a variable.
+
+Add an mbus_code variable to print_video_formats(_ext) so you can pass that
+along.
 
 Regards,
 
 	Hans
 
-> 
->>> We also have a v4l2_device_disconnect() function which is supposed to
->>> handle hot-pluggable device disconnection, but it's fairly useless (I'd
->>> even say harmful as it gives the illusion that hotplugging is correctly
->>> handled, while in reality the media subsystem is plagged by hot-unplug
->>> issues :-S).
->>
->> The v4l2_device_disconnect() is there to remove a v4l2_dev reference to
->> the device that is about to be removed when the disconnect() exists.
->> Otherwise v4l2_dev->dev would point to a missing device.
->>
->> However, I wonder if it is still needed: commit 236c5441d703 from 2011 added
->> code to take a reference to v4l2_dev->dev in v4l2_device_register(). This
->> should prevent the device from disappearing until v4l2_device_unregister() is
->> called. I suspect that v4l2_device_disconnect() can be removed completely, and
->> instead v4l2_device_unregister() just calls put_device(v4l2_dev->dev).
->>
->> I don't like v4l2_device_disconnect() either, so if this works, then that would
->> be a nice simplification.
->>
->>>> I actually came from the other side - I assumed that there is a reason
->>>> that is not already the case, and that the problem therefore has to be
->>>> resolved on the driver side.
->>>>
->>>> So I guess the next question is: Is this already being addressed on the
->>>> v4l2 side ?
->>>
->>> I'm not aware of anyone working on this.
->>>
->>>>> It shouldn't take more than two flags (to track user-space operations in
->>>>> progress and disconnection), a spinlock and a wait queue entry. I'm not
->>>>> sure if someone has already given it a try, and don't recall why this
->>>>> hasn't been done yet, as it should be fairly straightforward.
->>>>>
->>>>> On the UVC side, the work queue probably has to be flushed in
->>>>> uvc_disconnect(). I'd keep the destroy call in uvc_delete() though.
->>>>> Please make sure to look for potential race conditions between the URB
->>>>> completion handler and the .disconnect() handler (they shouldn't be any,
->>>>> but I haven't checked lately myself).
->>>>
->>>> My current solution for this problem is to call uvc_ctrl_cleanup_device()
->>>> from uvc_disconnect(), after uvc_unregister_video().
->>>
->>> I'd rather avoid that, as the cleanup functions in the UVC driver are
->>> generally meant to free memory when the last user disappears. While no
->>> new userspace operation will be started after disconnection once the
->>> above fix will be in place, there's one operation we can't avoid: the
->>> file release. This will access some of the memory allocated by the
->>> driver, and while the current implementation probably doesn't access in
->>> .release() any memory freed by uvc_ctrl_cleanup_device(), I think it's a
->>> good practice to only shut down the userspace API in .disconnect(), and
->>> free memory when the last reference is released.
->>>
->>>> An alternative might
->>>> be to add a uvc_ctrl_stop_device() function which would just cancel the
->>>> worker.
->>>
->>> I think that would be best. Should stream->async_wq (in uvc_video.c) be
->>> similarly flushed ? The driver does so in stream->async_wq(), called
->>> from uvc_video_stop_transfer(), itself called from
->>> uvc_video_stop_streaming() (among other places, that are either error
->>> paths or system suspend handling). The call stack goes to
->>> uvc_stop_streaming(), and, through the videobuf2 helpers, to
->>> vb2_queue_release() called by uvc_queue_release() itself called by
->>> uvc_v4l2_release() (in the non-disconnect case,
->>> uvc_video_stop_streaming() will be called through videobuf2 by
->>> uvc_queue_streamoff(), in response to a VIDIOC_STREAMOFF ioctl). We thus
->>> flush the workqueue too late, and also access the device in
->>> uvc_video_stop_streaming() long after .disconnect() returns.
->>>
->>> I think uvc_video_stop_streaming() could be called in uvc_disconnect()
->>> after uvc_unregister_video().
+> +			break;
+>  		case ':':
+>  			fprintf(stderr, "Option '%s' requires a value\n",
+>  					argv[optind]);
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+> index 27a3ca35..577037cf 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.h
+> +++ b/utils/v4l2-ctl/v4l2-ctl.h
+> @@ -268,6 +268,7 @@ enum Option {
+>  };
+>  
+>  extern char options[OptLast];
+> +extern unsigned mbus_code_list_formats;
+>  extern unsigned capabilities;
+>  extern unsigned out_capabilities;
+>  extern unsigned priv_magic;
 > 
 
