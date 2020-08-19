@@ -2,157 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F184F24A144
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 16:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4F4724A18E
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 16:18:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727049AbgHSOIG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 10:08:06 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59279 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726858AbgHSOIF (ORCPT
+        id S1727854AbgHSOSu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 10:18:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728462AbgHSOSp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 10:08:05 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 8OkzkdEsDuuXO8Ol0khT7h; Wed, 19 Aug 2020 16:08:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597846082; bh=hy+V1NOblWLH8aYZMPbFZNBcgkQSkIN5hhnQlljKF24=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Twg4BMrxADBXFtJZpbwDlD1J8A7G2iPxKI9JBL5mMd36JD5lztdyR//Cv8EAV0ROC
-         VoPmYKnWOnorAdA20G6bEc4bTcPwEQ79lRuuOt5NrGXLfplAJM6SnQDbaGIsSYk7Qn
-         MtNt86yYVWEvIQpWj+MxO3+808sb/v1WEXRulaOCh3A22HuIIICgX1mIqVBFYcVR4W
-         ++TN8Drb6HuumaFKgL9viNBchlF7Pt1Bj/qPFPUvLkEaumHKL98wi3rzurkVLap1ne
-         CDeOTOv6+x+w4bDeVlYTZ78DnRsA/VzGFNvWAI0R/vDBZqo6shIbrUzQnwavtxSpA7
-         +VvFcfE1AcsHA==
-Subject: Re: [PATCH] media: rcar-vin: Update crop and compose settings for
- every s_fmt call
-To:     Niklas <niklas.soderlund@ragnatech.se>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200801090456.GB1379367@oden.dyn.berto.se>
- <CA+V-a8sOHct_JetCsug8Z2BQpMLH2p39hj2XNw_1N5gkBQp1Gg@mail.gmail.com>
- <20200803192108.GB2297236@oden.dyn.berto.se>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <6d659e56-1e1f-c9c7-2e66-4ddc4e7fad15@xs4all.nl>
-Date:   Wed, 19 Aug 2020 16:08:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 19 Aug 2020 10:18:45 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2BCEC061383
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 07:18:44 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id i26so18250277edv.4
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 07:18:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/Js4y14Ghs6Bq4zdQYDVHKruVAGVzHlKISQN4bMebSg=;
+        b=dV/u8lgzRJf9R13RTyQNVA0z7K0gpop908KdbH7mh1lom7wOwawyDuMH4lJJUnAt3N
+         ER1Hz91rD7vCxhZyzb6LHpsKYbaB2LKK6Ns95j0nfjmJX5hZXauljIjL3//YJqgWaxRv
+         97QHf+SgHVXKKphnPxr8+LnwmzFET6Ce2ARqc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/Js4y14Ghs6Bq4zdQYDVHKruVAGVzHlKISQN4bMebSg=;
+        b=s/2jd/lPR/oirHmIHdlR207TdDVH24vpZmzXT4W+/youzD61FWyDEnH8ATg2RZECvT
+         rEBK1CBZvMLa6OJuJEhoMwm/UVgCwHvFL5pVX2zAP9HutXMP+VPC12NK3sNHgzJvh74w
+         EGpO8pVsSk4uG/gh2MuYzsi7VdhPeoCHJkIQ1an8+1qQhQHFZ16BMYVUiQL7ihXKkabL
+         ixep55/dLR5KZtZI9MdljwQBDuRMwFUv6YbGm2n9AMFuSVN2SwVuIm0J294kgRs2l1ND
+         s7/6HMIYidCHuQKeMTXcVq8uowb8IiEOi1lq2FKZkDJPDwKcEc4ZAdMelTJ/k7GZhdnn
+         ULmQ==
+X-Gm-Message-State: AOAM532sbCpV92HUWmjyRRH0G2pJJtTDGo8aD9PpO5DMY4dxGE0Piw1V
+        N0mZs7UoRWeCaEZgdsdBC8Xf9jSbexWTeQ==
+X-Google-Smtp-Source: ABdhPJzg2wd+gOxMTqs9LUWwhki2iixUcbQcNgP+NoxJ1AMHjkpMwK+jtcRCmqvEc4kQFbT5+zVy6w==
+X-Received: by 2002:aa7:dd94:: with SMTP id g20mr24054330edv.238.1597846723394;
+        Wed, 19 Aug 2020 07:18:43 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id lc18sm18788077ejb.29.2020.08.19.07.18.43
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Aug 2020 07:18:43 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id a15so21687508wrh.10
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 07:18:43 -0700 (PDT)
+X-Received: by 2002:adf:ec4f:: with SMTP id w15mr24104550wrn.385.1597846328915;
+ Wed, 19 Aug 2020 07:12:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200803192108.GB2297236@oden.dyn.berto.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfD66bE590ro+1a2VaasmDx/4aw7E5J1jWU11L5dOfQH30XSzIS3D9iCxmkaatuqhUNKm5YWPBQ0NPpwqNg2qx1SI7so47rsszk6QFcb3dvFgEaCxtShy
- SE/P9VEBaKT/+AJD4b/vNQ8aaGq1QGnNn9iQ5faaME4WH6csqsFg05afHkkyOHELawwTXKCiWijZnPoN1XhfrEQJgnNIYsYiTUhyeQKMa4njRfrtqvy8Uixh
- RvVC0MUqStiyrr8KuQRadAH6Denkl8HVXrjJkt51RbSNDdmQOIKrRkQUdidEMopyyNgq+/0fxNAAYXXpgoW3WEAMUT2xzFyJLCHCrs40vWus3tsDQKEdaG1+
- XHosV4IcAoLOA59vnLWx26sP8Lr5YrsVafJA8QN9HCtvFRtuVSfq1pr/0Bsh0r5I2wg0so8D3q96F71iGwJaz+bFRnmDWNw9c8X85S6tgqDfzzA2ZGqs1Daz
- l9AqdLPt56JjpU2V1bJu4ZnIVjtt3wMdNSd/RN/TxjyFO062S7ICsgSg+HhIFPp8K0p8Z7Z3+MgGT6e/eUkWo8S9pIbh3lQAGWsdHN40K8lU+dC1n/k/Un4P
- g/eWmH+YNgM/JyUT/pt8sCMaDYOIg6Upj5OhhccwnxQ9lGqnVFizGi/6ib5s8Tc6cwAgpuQiyuamgpuDgxjzVkyOjv1posvd6zOxr7GVsn/euQ==
+References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-6-hch@lst.de>
+ <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
+ <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com> <CAAFQd5AcCTDguB2C9KyDiutXWoEvBL8tL7+a==Uo8vj_8CLOJw@mail.gmail.com>
+ <20200819135738.GB17098@lst.de>
+In-Reply-To: <20200819135738.GB17098@lst.de>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 19 Aug 2020 16:11:52 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5BvpzJTycFvjntmX9W_d879hHFX+rJ8W9EK6+6cqFaVMA@mail.gmail.com>
+Message-ID: <CAAFQd5BvpzJTycFvjntmX9W_d879hHFX+rJ8W9EK6+6cqFaVMA@mail.gmail.com>
+Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Robin Murphy <robin.murphy@arm.com>, alsa-devel@alsa-project.org,
+        linux-ia64@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        linux-scsi@vger.kernel.org,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-mips@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/08/2020 21:21, Niklas wrote:
-> Hi Lad, Hans,
-> 
-> On 2020-08-03 19:11:32 +0100, Lad, Prabhakar wrote:
->> Hi Hans,
->>
->> On Sat, Aug 1, 2020 at 10:04 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
->>>
->>> Hi Lad,
->>>
->>> Thanks for your work.
->>>
->>> On 2020-07-31 10:29:05 +0100, Lad Prabhakar wrote:
->>>> The crop and compose settings for VIN in non mc mode werent updated
->>>> in s_fmt call this resulted in captured images being clipped.
->>>>
->>>> With the below sequence on the third capture where size is set to
->>>> 640x480 resulted in clipped image of size 320x240.
->>>>
->>>> high(640x480) -> low (320x240) -> high (640x480)
->>>>
->>>> This patch makes sure the VIN crop and compose settings are updated.
->>>
->>> This is clearly an inconsistency in the VIN driver that should be fixed.
->>> But I think the none-mc mode implements the correct behavior. That is
->>> that S_FMT should not modify the crop/compose rectangles other then make
->>> sure they don't go out of bounds. This is an area we tried to clarify in
->>> the past but I'm still not sure what the correct answer to.
->>>
->> What should be the exact behaviour of the bridge driver  for s_fmt
->> call. Should the crop/compose settings be updated for every s_fmt
->> callback or should they be only updated on s_selection callback.
->> Currently the non-mc rcar-vin doesnt update the crop/compose setting
->> in s_fmt callback due to which I see the above issue as mentioned.
-> 
-> This is not entirely correct. It does update the crop and compose 
-> rectangles on s_fmt, it makes sure they are not out-of-bounds for the 
-> new format if it's accepted by s_fmt. See v4l2_rect_map_inside() calls 
-> in the snippet bellow.
+On Wed, Aug 19, 2020 at 3:57 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Wed, Aug 19, 2020 at 02:49:01PM +0200, Tomasz Figa wrote:
+> > With the default config it doesn't, but with
+> > CONFIG_DMA_NONCOHERENT_CACHE_SYNC enabled it makes dma_pgprot() keep
+> > the pgprot value as is, without enforcing coherence attributes.
+>
+> Which isn't selected on arm64, and that is for a good reason.
+>
+> > AFAIK dma_cache_sync() isn't the only way to perform the cache
+> > synchronization.
+>
+> Yes, it is the only documented way to do it.  And if you read the whole
+> series instead of screaming you'd see that it provides a proper way
+> to deal with non-coherent memory which will also work with arm64.
+> instead of screaming
+>
 
-For non-mc mode s_fmt must update any crop/compose rectangles to ensure that
-they are not out-of-bounds. But for mc mode the validation is done when you
-start streaming, so I think s_fmt won't make any changes in that mode.
+I'm sorry if I have offended you in any way, but would also appreciate
+it if a less aggressive tone was directed towards me as well.
 
-Double-check that with Laurent, though...
+I have valid reasons to object to this patch, as stated in my previous
+emails. The fact that the original feature has problems is of course
+another story and, as I mentioned too, I'm willing to look into fixing
+them.
 
-Regards,
+I'm of course happy to review the rest of the series and even more
+happy to help migrating this code to whatever is added there, as long
+as the functionality is preserved.
 
-	Hans
+> > By the way, as a videobuf2 reviewer, I'd appreciate being CC'd on any
+> > series related to the subsystem-facing DMA API changes, since
+> > videobuf2 is one of the biggest users of it.
+>
+> The cc list is too long - I cc lists and key maintainers.  As a reviewer
+> should should watch your subsystems lists closely.
 
-> 
-> That being said there is a difference how this is handled in the VIN 
-> driver between it's MC and non-MC modes and I would love to learn the 
-> correct mode of operation and seeing VIN being updated to doing it 
-> correct in both cases. Thanks Lad for dealing with this!
-> 
->>
->> Cheers,
->> Prabhakar
->>
->>>>
->>>> Fixes: 104464f573d ("media: rcar-vin: Do not reset the crop and compose rectangles in s_fmt")
->>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->>>> ---
->>>>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 6 ++++++
->>>>  1 file changed, 6 insertions(+)
->>>>
->>>> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>>> index f421e25..a9b13d9 100644
->>>> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>>> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>>> @@ -319,6 +319,12 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
->>>>       fmt_rect.width = vin->format.width;
->>>>       fmt_rect.height = vin->format.height;
->>>>
->>>> +     vin->crop.top = 0;
->>>> +     vin->crop.left = 0;
->>>> +     vin->crop.width = vin->format.width;
->>>> +     vin->crop.height = vin->format.height;
->>>> +     vin->compose = vin->crop;
->>>> +
->>>>       v4l2_rect_map_inside(&vin->crop, &src_rect);
->>>>       v4l2_rect_map_inside(&vin->compose, &fmt_rect);
->>>>       vin->src_rect = src_rect;
->>>> --
->>>> 2.7.4
->>>>
->>>
->>> --
->>> Regards,
->>> Niklas Söderlund
-> 
+Well, I guess we can disagree on this, because there is no clear
+policy. I'm listed in the MAINTAINERS file for the subsystem and I
+believe the purpose of the file is to list the people to CC on
+relevant patches. We're all overloaded with work and having to look
+through the huge volume of mailing lists like linux-media doesn't help
+and thus I'd still appreciate being added on CC.
 
+Best regards,
+Tomasz
