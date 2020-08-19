@@ -2,128 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27D29249EF2
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D761A249F0E
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:06:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728571AbgHSNDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 09:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36602 "EHLO
+        id S1727975AbgHSNFj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 09:05:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728585AbgHSNCC (ORCPT
+        with ESMTP id S1728499AbgHSNFd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:02:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB078C061349
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 06:01:13 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BE5E29E;
-        Wed, 19 Aug 2020 15:01:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597842060;
-        bh=0yMSAKWUDjZWFBXHQ5OFOL7U0hiIkagsuI+5hD9EHQg=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=MU7R+UiuP3Gr8dOVmEc0S1JqEpdR40/lKyt3xmxMT89Qn4AqhKubiF50bw8+xiCLr
-         IrkoLWeOVxHjYnRe8quI5iarD9LzlV3XdCzFMJyObRjCBO3GySX9rrKqZikwnVwu4t
-         MsN3WY4ECNmDWA0obZ5M2r3rtxZ46aMRZXplPe58=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] media: i2c: max9286: Depend on GPIOLIB
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20200819002252.16361-1-laurent.pinchart@ideasonboard.com>
- <12f93522-5ca3-7da8-c819-e1f29429e0b6@ideasonboard.com>
- <20200819115853.GD6049@pendragon.ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <afe64357-5f2e-8e8c-77e6-833f84d4610f@ideasonboard.com>
-Date:   Wed, 19 Aug 2020 14:00:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 19 Aug 2020 09:05:33 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63881C061383
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 06:05:32 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id w14so25293371ljj.4
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 06:05:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=UOr65DEC+2TW/zt7uOWWliltVKZ89UsSxVAE/jQE1oM=;
+        b=ig0Gowk5bmmRlwDUQnO4y6TgS8TPTr7rVwwcxXCQXtPl9HhW8NkXHIv6B+duOf3lp+
+         gZutF2zFShkzk3CYvXCAeuEulGsoslBHGNBCkbZ0TFRBc/2Ut0qPqg866dt7JyzfnpIJ
+         68MXFvQRcMsKqEVR4y3VTJ8rtpMbgZLWt9J6jDkIWlQW65MyZaERS9MyqVWX9fy2Isez
+         xsZ5vi3MHowaVKhMg33qFIcX7/quCIco+02R77UBUKxvHC/xluOIqC/Lr5qYci7AMVZf
+         PyXAFBj4/F7uT7Y3iuvrL7XB97GjkJ7iLwjZ3dF8czzNndQEsJq65DDKMcngHG6f3kPe
+         i80g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=UOr65DEC+2TW/zt7uOWWliltVKZ89UsSxVAE/jQE1oM=;
+        b=QDejUFoNZeRq0v9iTgUel0zo6OOup8DWAwdXvqQZSWILuVeAX12BNnkdshjztU0Bwe
+         sx0EToyoCPGUocDQlG6YfHwIcUJ0d1aIxipZJz90nyKlKZ9xmOQL8rZ8F3SGWxZzPwjd
+         o5Ao3IAX9DuFUC1sIQnh28m9d9OFoN84EMSyWNoKh2k8OaYZpeyNrEaz1achV79263Xf
+         FqE1MSByqXO69y5fbOi9DlbLILa+W5Y+bsXfHoBBk0v+SXRaaJzM7ZOO8/9paifRdV8G
+         fQsdQDQ+szLZQ+RKTS/JPl0sdTDYtLj5cCda8sVetlrofstxchgXdAZ1WD+iHiDTm6eu
+         2/vQ==
+X-Gm-Message-State: AOAM531RXY6nSmX9WwFADplRjN24nWE+osU2QCuQcQZSww79IZwcFF6G
+        83aqjqiL0h7FWLfRHW3eVniyFZEtbVjbUXjmaeM=
+X-Google-Smtp-Source: ABdhPJzTFitFWyqH5VgBxrEeiqQ4A1POexli1AXmA+RrBIO5haBPhDqi2mygN5Tr7sNOxSaOFMqW2cDUGzlZZDUdK9Y=
+X-Received: by 2002:a2e:9ed4:: with SMTP id h20mr12179547ljk.82.1597842330702;
+ Wed, 19 Aug 2020 06:05:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200819115853.GD6049@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Reply-To: mrahmedmuzashah@gmail.com
+Received: by 2002:a19:4c57:0:0:0:0:0 with HTTP; Wed, 19 Aug 2020 06:05:29
+ -0700 (PDT)
+From:   "Mr.Ahmed Muzashah" <ahmedmuzashah@gmail.com>
+Date:   Wed, 19 Aug 2020 14:05:29 +0100
+X-Google-Sender-Auth: lVrhDL8Mzkfaw7v4sU_7WkA5sWQ
+Message-ID: <CA+ANWpm8x4guuGELAxYevxXhqEEr=BWtq6-82y7LV1LmfG2PzQ@mail.gmail.com>
+Subject: =?UTF-8?B?U2Now7ZuZW4gVGFn?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Sch=C3=B6nen Tag,
 
-+Sakari, +Mauro,
+Bitte entschuldigen Sie, dass Sie einen =C3=9Cberraschungsbrief geschrieben
+haben. Ich bin Herr Ahmed Muzashah, Account Manager bei einer
+Investmentbank hier in Burkina Faso. Ich habe ein sehr wichtiges
+Gesch=C3=A4ft, das ich mit Ihnen besprechen m=C3=B6chte. In meinem Konto is=
+t ein
+Kontoentwurf er=C3=B6ffnet Ich habe die M=C3=B6glichkeit, den verbleibenden
+Fonds (15,8 Millionen US-Dollar) von f=C3=BCnfzehn Millionen
+achthunderttausend US-Dollar eines meiner Bankkunden zu =C3=BCbertragen,
+der beim Zusammenbruch der Welt gestorben ist Handelszentrum in den
+Vereinigten Staaten am 11. September 2001.
 
-On 19/08/2020 12:58, Laurent Pinchart wrote:
-> Hi Kieran,
-> 
-> On Wed, Aug 19, 2020 at 09:45:32AM +0100, Kieran Bingham wrote:
->> On 19/08/2020 01:22, Laurent Pinchart wrote:
->>> The max9286 driver depends on the GPIO library, list the dependency in
->>> Kconfig.
->>>
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Fixes: 66d8c9d2422d ("media: i2c: Add MAX9286 driver")
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>
->> Sakari has already posted a fix for this on the 3rd August at:
->>
->> [PATCH 1/1] max9286: Depend on OF_GPIO
->>
->> https://lore.kernel.org/linux-media/20200803090935.23619-1-sakari.ailus@linux.intel.com/
-> 
-> Is that on its way upstream ? I've submitted this patch in response to a
-> 0day bot report, the more we wait with fixes, the more likely effort
-> will be duplicated :-S
+Ich m=C3=B6chte diese Mittel investieren und Sie unserer Bank f=C3=BCr dies=
+en
+Deal vorstellen. Alles, was ich ben=C3=B6tige, ist Ihre ehrliche
+Zusammenarbeit und ich garantiere Ihnen, dass dies unter einer
+legitimen Vereinbarung durchgef=C3=BChrt wird, die uns vor
+Gesetzesverst=C3=B6=C3=9Fen sch=C3=BCtzt Ich bin damit einverstanden, dass =
+40% dieses
+Geldes f=C3=BCr Sie als meinen ausl=C3=A4ndischen Partner, 50% f=C3=BCr mic=
+h und 10%
+f=C3=BCr die Schaffung der Grundlage f=C3=BCr die weniger Privilegien in Ih=
+rem
+Land bestimmt sind. Wenn Sie wirklich an meinem Vorschlag interessiert
+sind, werden weitere Einzelheiten der =C3=9Cbertragung ber=C3=BCcksichtigt =
+Sie
+werden an Sie weitergeleitet, sobald ich Ihre Bereitschaftsmail f=C3=BCr
+eine erfolgreiche =C3=9Cberweisung erhalte.
 
-I don't know - it's out of my hands ;-)
-I've added Sakari and Mauro to this thread.
-
-I was also pinged on this issue on the 13th August, where Randy Dunlap
-had encountered the same build error, at the time Sakari mentioned [0]
-he'll send a pull-request soon ...
-
-[0]
-https://lore.kernel.org/linux-media/20200813215505.GC24582@paasikivi.fi.intel.com/
-
-Is there a way to accelerate the integration of that fix?
-
---
-Kieran
-
-> 
->> However he chose to depend upon OF_GPIO.
->>
->> I think in this instance, his patch is more correct as this particular
->> issue is regarding the setting of the of_node on the GPIO component,
->> which is guarded by CONFIG_OF_GPIO in the headers, thus I believe we can
->> have GPIOLIB && !OF_GPIO, which would still leave compile breakage with
->> your patch.
-> 
-> You can't have GPIOLIB && !OF_GPIO though, as the driver also depends on
-> OF, and OF_GPIO will be automatically selected when GPIOLIB and OF are
-> set. I'm fine with Sakari's patch though.
-> 
->>> ---
->>>  drivers/media/i2c/Kconfig | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
->>> index 48ae60a2c603..70ba6ca1b912 100644
->>> --- a/drivers/media/i2c/Kconfig
->>> +++ b/drivers/media/i2c/Kconfig
->>> @@ -466,6 +466,7 @@ config VIDEO_VPX3220
->>>  
->>>  config VIDEO_MAX9286
->>>  	tristate "Maxim MAX9286 GMSL deserializer support"
->>> +	depends on GPIOLIB
->>>  	depends on I2C && I2C_MUX
->>>  	depends on OF
->>>  	select V4L2_FWNODE
->>>
->>
-> 
-
+Dein,
+Mr.Ahmed Muzashah,
