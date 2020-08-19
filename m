@@ -2,118 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D000F24A0DA
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A22BD24A0D8
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728125AbgHSN6a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 09:58:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45452 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728133AbgHSN6S (ORCPT
+        id S1728259AbgHSN6T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 09:58:19 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:40685 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728124AbgHSN6N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:58:18 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BF5C061343
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 06:58:18 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id g19so26372861ejc.9
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 06:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6xkguvOzsgzZf/2nZcmiUdLktaalZbMKG8kwCTKJnbQ=;
-        b=m4IkKgPlDJh9Ow/m1Q5dtgZrYLnaRCS7od5vd7CevPl4aSkNJcXDYSbofI9IVrnSM1
-         T0Nk8lAEv28vGxYfqJpLVc+ygPg3eNS610ZSiKpYmXTIZXUzbw+fr6qoGPkql89ad0SH
-         sz82upHUpsjkfyqDK6oYGAHuFg3NLWv3KpWnw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6xkguvOzsgzZf/2nZcmiUdLktaalZbMKG8kwCTKJnbQ=;
-        b=JU7hoVT7oF0rR648Bff6TUVUCefg4GuW46VMUrS1lOFEyaCqPVzvMM8KKP8+YaRySp
-         AlzlBsny6sQVIVq3VU2tMyYGIe1v7DIKzMD/SUyBJ3rQi0DLvrE1tB2HAUoCqrXigRfs
-         JY/lWlSsVCO76Q24RIVAC2S1c93Eceh70pRpaESaWM8LgVHaVNcRHsWP0w44heu+m6eY
-         prCXfsjo/LKv+Wl1lkCqhWmSMAaulXX7qMWcFGH8wsILvAAJOhhnMnS4nDQph5lFUVAV
-         j+oLG3rQxOHr7yria4y6EmaWr2xG9qBA92tXGF7PpVC+wk8Rmd4tGoy/s9YzwaNWxX3M
-         L/Jg==
-X-Gm-Message-State: AOAM531clRN1fBcx4Ik9zJm0L/8prXtsWN4O1SpStr/BrKiRRbQdtuTn
-        yy6FbxIEuVG2SCjAOi447Rzr2GGryj4nrw==
-X-Google-Smtp-Source: ABdhPJz6Xlypd47ZkF9b1jkJmCSFdd0AVTf1ZsGdcSYMTwWnW/tFdf2VOTzNW32u5ZuDCP/Mn2f3ZA==
-X-Received: by 2002:a17:906:3756:: with SMTP id e22mr26279059ejc.487.1597845496039;
-        Wed, 19 Aug 2020 06:58:16 -0700 (PDT)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
-        by smtp.gmail.com with ESMTPSA id t6sm18761642ejc.40.2020.08.19.06.58.11
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2020 06:58:11 -0700 (PDT)
-Received: by mail-wm1-f41.google.com with SMTP id 184so2321957wmb.0
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 06:58:11 -0700 (PDT)
-X-Received: by 2002:a1c:5581:: with SMTP id j123mr5137250wmb.11.1597845489930;
- Wed, 19 Aug 2020 06:58:09 -0700 (PDT)
+        Wed, 19 Aug 2020 09:58:13 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8ObRkd9mWuuXO8ObSkhPNe; Wed, 19 Aug 2020 15:58:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597845490; bh=Uuz/6jIZhRnBQON+pYw05hF4KeeuyR1OEYEF2gwxc9w=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ccDKimB72qe9cU6OtkwG9nhN1BLfqjjUBfY8rsETMomk4Xo7eOmVP3P12K+wM49Hk
+         xcmvDkKvLfS/5dHBlRCCypY+N1PT/8oJir2VCovMndsavLn3kjvLqJ7Kx7vGuTsTYd
+         2aWqd03W5gcf4wZrRdDO+VOOjYsFp+p9eaqbpG4oro8Yoj5gQsU6pDpm0HlIq0+Yr7
+         nVWOBcemGRsPQMvQ6drIWXLGfL2/XciM+7QfcxB72E007rXqpFnGxN439+QVJm778X
+         Y+Tu2tTezxdeboEI/uieNVMmC1WL9VGtovJtwr0oOYETlNE51fiVxeYrVMx7bp3OIz
+         Y4tw+v7nfL7dg==
+Subject: Re: [PATCH 2/2] media: stm32-dcmi: fix probe error path & module
+ remove
+To:     Alain Volmat <alain.volmat@st.com>, hugues.fruchet@st.com,
+        mchehab@kernel.org
+Cc:     mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
+        yannick.fertre@st.com, hans.verkuil@cisco.com,
+        linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <1595918278-9724-1-git-send-email-alain.volmat@st.com>
+ <1595918278-9724-3-git-send-email-alain.volmat@st.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <aa93abb9-964a-a9d8-770f-5673142d0d72@xs4all.nl>
+Date:   Wed, 19 Aug 2020 15:58:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-6-hch@lst.de>
- <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com> <20200819135454.GA17098@lst.de>
-In-Reply-To: <20200819135454.GA17098@lst.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 19 Aug 2020 15:57:53 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5BuXP7t3d-Rwft85j=KTyXq7y4s24mQxLr=VoY9krEGZw@mail.gmail.com>
-Message-ID: <CAAFQd5BuXP7t3d-Rwft85j=KTyXq7y4s24mQxLr=VoY9krEGZw@mail.gmail.com>
-Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        alsa-devel@alsa-project.org,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-ia64@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-parisc@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        nouveau@lists.freedesktop.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-nvme@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, netdev@vger.kernel.org,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1595918278-9724-3-git-send-email-alain.volmat@st.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNKjxnVk0gRgu+dHVYskSGtcoIzBVImXGMRrMHCIOlPRrP8TwY2wj7R3lxN+EqyNoefJDNqC+Qme8Q13W9+dzxHkQCE3fuhcKJF88aQqRtE173Tc2GPJ
+ 90bfUxuThq2XAPbugKSous4RLWereIy6H6Ken8cn++TUEcoio9C97VoAIFCnWkbK1fieFE1O07abUk6ZO/ehqaT5kjeVtQ/bRwaLpJ4+eEVO1JRz7Njvy/tv
+ o8CxQBeUTTg+UuvQW+jELWvW2abjnDQfXsgr42aGaz5PFOHUVU5DHZ9DwmmXKCFRQUMD9tJr3fp+lhH/aNVXTAutTInKUIJ/pZuzMB9hbQX2zslmE9sDY3qM
+ UAbVrpcb3R83Qt8SZhFjZI+Kfg3W/zS4Su7TqbNvJEQKrqS5rNbde8qy0CeX+hFmNO/3rcuxKX6bqAvRg4643f90lulFVMoHlbT00dGnUbJ8q8Op4x1S7RDp
+ 330DfX4mKnpYqPXYY5BJI0tXby5VgdJofKg0zRHy7/Ot07/qBnYUnQVyOv9db/TencJVS/W5P9NG3RJrrxlhLKu47unDj+18LqzcVpyiH48xsMsTcJYBbIjd
+ /z7Y8gWezj5F21QHJbTzmoWU93MXOpdUH6poZrUINRpyKnXm4rUIqK9RRyzeveqAQ7lkIYme0d9ZpSbaKMJJ3PRY
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 3:55 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Wed, Aug 19, 2020 at 01:16:51PM +0200, Tomasz Figa wrote:
-> > Hi Christoph,
-> >
-> > On Wed, Aug 19, 2020 at 8:56 AM Christoph Hellwig <hch@lst.de> wrote:
-> > >
-> > > The V4L2-FLAG-MEMORY-NON-CONSISTENT flag is entirely unused,
-> >
-> > Could you explain what makes you think it's unused? It's a feature of
-> > the UAPI generally supported by the videobuf2 framework and relied on
-> > by Chromium OS to get any kind of reasonable performance when
-> > accessing V4L2 buffers in the userspace.
->
-> Because it doesn't do anything except on PARISC and non-coherent MIPS,
-> so by definition it isn't used by any of these media drivers.
+On 28/07/2020 08:37, Alain Volmat wrote:
+> This commit add missing vb2_queue_release calls with the
+> probe error path and module remove.
 
-It's still an UAPI feature, so we can't simply remove the flag, it
-must stay there as a no-op, until the problem is resolved.
+No, vb2_queue_release() should not be called.
 
-Also, it of course might be disputable as an out-of-tree usage, but
-selecting CONFIG_DMA_NONCOHERENT_CACHE_SYNC makes the flag actually do
-something on other platforms, including ARM64.
+See this series for more information:
 
-Best regards,
-Tomasz
+https://patchwork.linuxtv.org/project/linux-media/cover/20200713113048.1150542-1-hverkuil-cisco@xs4all.nl/
+
+I'm made a PR for that patch series, so hopefully it will be merged soon.
+
+From what I can tell you don't need this patch at all for this driver.
+
+Regards,
+
+	Hans
+
+> Missing v4l2_async_notifier_unregister is also added within
+> the probe error path
+> 
+> Fixes: 37404f91ef8b ("[media] stm32-dcmi: STM32 DCMI camera interface driver")
+> Signed-off-by: Alain Volmat <alain.volmat@st.com>
+> ---
+>  drivers/media/platform/stm32/stm32-dcmi.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+> index 5e60d4c6eeeb..57830ee691be 100644
+> --- a/drivers/media/platform/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
+> @@ -2004,7 +2004,7 @@ static int dcmi_probe(struct platform_device *pdev)
+>  
+>  	ret = dcmi_graph_init(dcmi);
+>  	if (ret < 0)
+> -		goto err_media_entity_cleanup;
+> +		goto err_vb2_queue_release;
+>  
+>  	/* Reset device */
+>  	ret = reset_control_assert(dcmi->rstc);
+> @@ -2030,7 +2030,10 @@ static int dcmi_probe(struct platform_device *pdev)
+>  	return 0;
+>  
+>  err_cleanup:
+> +	v4l2_async_notifier_unregister(&dcmi->notifier);
+>  	v4l2_async_notifier_cleanup(&dcmi->notifier);
+> +err_vb2_queue_release:
+> +	vb2_queue_release(q);
+>  err_media_entity_cleanup:
+>  	media_entity_cleanup(&dcmi->vdev->entity);
+>  err_device_release:
+> @@ -2052,6 +2055,7 @@ static int dcmi_remove(struct platform_device *pdev)
+>  
+>  	v4l2_async_notifier_unregister(&dcmi->notifier);
+>  	v4l2_async_notifier_cleanup(&dcmi->notifier);
+> +	vb2_queue_release(&dcmi->queue);
+>  	media_entity_cleanup(&dcmi->vdev->entity);
+>  	v4l2_device_unregister(&dcmi->v4l2_dev);
+>  	media_device_cleanup(&dcmi->mdev);
+> 
+
