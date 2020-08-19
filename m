@@ -2,164 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21200249360
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 05:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F50C249378
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 05:39:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727813AbgHSDTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Aug 2020 23:19:41 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:48073 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726605AbgHSDTk (ORCPT
+        id S1726691AbgHSDjV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Aug 2020 23:39:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726636AbgHSDjR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Aug 2020 23:19:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 8EdUk07vnywL58EdVkW5dh; Wed, 19 Aug 2020 05:19:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597807177; bh=GzY2Hy+Nj7J8je1zxyQne91WBUHfF3Auii2vvLn5Um4=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=ZjEljvYwofPNL5STyH+fi2L7G8pyBIiiyTMoLOcjYrJ+FRCXkXAcLORBfwyGZ+hPI
-         mPHXJ5CdCmy8xDSKLsKezJLiSjOp2OBbJHP968PRejWqMHcVEx1ffEdaYjiPCIhqwv
-         WuIDWEW/KYJ0j4Y5C74FxKgZ+aeE9dJmEC7OtLXrQEvTvS/rwqbUVSPTtK75pUCjgK
-         qZLpM6IaBUWdO6C2ww2CbI86FH0R8+pYb172+WEPd0J7uWF1/YSpZ6aKqxOGOH1vms
-         fgR+lRsfvLSTU+I+qxzt9TkQlPQhZLmg/cdtb0dbuVjhcifQSKxvdjx0EFyGzRVI7J
-         JLTIFCjfLs3HA==
-Message-ID: <f11a05e4e80e218998bad53286b81011@smtp-cloud7.xs4all.net>
-Date:   Wed, 19 Aug 2020 05:19:36 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfPfzlRjXLzhGXaVpd8jsV+ZFQJXyoMJOWToEIOBtItRFAXBAL7SJa89vpHZHZsBxIBX2MoSmJ187P3wd+8hBe1LrSNkmKXOEGQssHZBFvF7EkBH8TyqR
- QOpCuRzRiBriUvXrYTMIFuj9df5W2E7am97LJvDag7l96GwYfX1phqWKdsqYmpdMPGm/SoDkSG6rJp+fOtKQEWDU0zSnyonmRKYsW/ToMdsehc2nIuLRIzPo
+        Tue, 18 Aug 2020 23:39:17 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A65C061344
+        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 20:39:16 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id o5so10733827pgb.2
+        for <linux-media@vger.kernel.org>; Tue, 18 Aug 2020 20:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=LqLEg6Ld5QuLtOzu6BqXxZNLCj7RTFYiQgIAyF8gU70=;
+        b=KmghUthGvojy07h9BZsorKl+jQO7wKGLOev2rzAcomRYp9sMfs6Gjktbt33K26LekA
+         Qxkv14xQTsOxA9Bw0STh5x8cRg2HTa8mDrsoUOptFIhGGhBev4tXpiniG3TiTd2zRraw
+         V/Eoz0F5NCVs1RDrHgfuHBOh77xH2S+T3Pt0k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=LqLEg6Ld5QuLtOzu6BqXxZNLCj7RTFYiQgIAyF8gU70=;
+        b=qfsJPDrlBn6vvMh73YiLlSNB+dvS2Kbs1Ks3jvzgdaCQqXaMS/PBReBON46amioBDE
+         87f3N0CzSTl36+4ZZi7HyH0CttSLng2M18aeDN9KKInq6ATyf4CZkH86Fk/2nS2t0iTx
+         uc54yuIYxtqxOx1qPN55o6Kwu52CvF2wzE3kEsWSRQtGRbf0jr3tCyLNkM0aoYctnATX
+         ZLREvDDap7hWjzx4L9/HGj/0Z2N72jX5xjegom7F8Q7m7GI89Ft7AKl9+StmoJEdwuO3
+         8qK0YtD4LL1sgl/+IomcD2r6MjPfO0yfh3NCIxjthusSZ5StxtqvwKummBDXaJRPMTXN
+         qqMQ==
+X-Gm-Message-State: AOAM531JgOoAtKzaONmLEpcNizV1WjPMUZXNLDxR/PVvW9bw6sCOTRpZ
+        wLwckifubI1tmWS37E7bmBOrFQ==
+X-Google-Smtp-Source: ABdhPJw/fbapbqyEK3EQuuI/goR68Bo71kvM1Fo115OGCAsLxKKL/EFMEBHhZev14vQUxfKm+79SNw==
+X-Received: by 2002:a65:68d6:: with SMTP id k22mr8267707pgt.136.1597808355900;
+        Tue, 18 Aug 2020 20:39:15 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id a193sm26557771pfa.105.2020.08.18.20.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2020 20:39:15 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200814095540.32115-2-rojay@codeaurora.org>
+References: <20200814095540.32115-1-rojay@codeaurora.org> <20200814095540.32115-2-rojay@codeaurora.org>
+Subject: Re: [PATCH 1/2] i2c: i2c-qcom-geni: Add tx_dma, rx_dma and xfer_len to geni_i2c_dev struct
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
+        gregkh@linuxfoundation.org, mka@chromium.org,
+        akashast@codeaurora.org, msavaliy@qti.qualcomm.com,
+        skakit@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Roja Rani Yarubandi <rojay@codeaurora.org>
+To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
+Date:   Tue, 18 Aug 2020 20:39:13 -0700
+Message-ID: <159780835380.334488.10270114810481187992@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Quoting Roja Rani Yarubandi (2020-08-14 02:55:39)
+> Adding tx_dma, rx_dma and xfer length in geni_i2c_dev struct to
+> store DMA mapping data to enhance its scope. For example during
+> shutdown callback to unmap DMA mapping, these new struct members
+> can be used as part of geni_se_tx_dma_unprep and
+> geni_se_rx_dma_unprep calls.
 
-Results of the daily build of media_tree:
+Please read about how to write commit text from kernel docs[1]. Hint,
+use imperative mood.
 
-date:			Wed Aug 19 05:00:14 CEST 2020
-media-tree git hash:	9a538b83612c8b5848bf840c2ddcd86dda1c8c76
-media_build git hash:	ea2766f182b3a4e03543be2ded0845fca4d4fa80
-v4l-utils git hash:	db3112262c84813e0d2d095be020c5ca0ae32e93
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6381-g344ef612
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 1276c1355abc12c391f3d471acc71d55421b87b6
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+>=20
+> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
+> ---
+>  drivers/i2c/busses/i2c-qcom-geni.c | 23 +++++++++++++----------
+>  1 file changed, 13 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-=
+qcom-geni.c
+> index 7f130829bf01..53ca41f76080 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -86,6 +86,9 @@ struct geni_i2c_dev {
+>         u32 clk_freq_out;
+>         const struct geni_i2c_clk_fld *clk_fld;
+>         int suspended;
+> +       dma_addr_t tx_dma;
+> +       dma_addr_t rx_dma;
+> +       u32 xfer_len;
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-linux-5.6.1-i686: ERRORS
-linux-5.6.1-x86_64: ERRORS
-linux-5.7.2-i686: ERRORS
-linux-5.7.2-x86_64: ERRORS
-linux-5.8.1-i686: ERRORS
-linux-5.8.1-x86_64: ERRORS
-linux-5.9-rc1-i686: ERRORS
-linux-5.9-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: ERRORS
-smatch: ERRORS
+Why not size_t?
 
-Logs weren't copied as they are too large (38216 kB)
+>  };
+> =20
+>  struct geni_i2c_err_log {
+> @@ -352,12 +355,11 @@ static void geni_i2c_tx_fsm_rst(struct geni_i2c_dev=
+ *gi2c)
+>  static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg=
+ *msg,
+>                                 u32 m_param)
+>  {
+> -       dma_addr_t rx_dma;
+>         unsigned long time_left;
+>         void *dma_buf =3D NULL;
+>         struct geni_se *se =3D &gi2c->se;
+> -       size_t len =3D msg->len;
+> =20
+> +       gi2c->xfer_len =3D msg->len;
 
-The Media Infrastructure API from this daily build is here:
+I'd prefer to keep the local variable and then have=20
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	len =3D gi2c->xfer_len =3D msg->len;
+
+>         if (!of_machine_is_compatible("lenovo,yoga-c630"))
+>                 dma_buf =3D i2c_get_dma_safe_msg_buf(msg, 32);
+> =20
+> @@ -366,9 +368,10 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *=
+gi2c, struct i2c_msg *msg,
+>         else
+>                 geni_se_select_mode(se, GENI_SE_FIFO);
+> =20
+> -       writel_relaxed(len, se->base + SE_I2C_RX_TRANS_LEN);
+> +       writel_relaxed(gi2c->xfer_len, se->base + SE_I2C_RX_TRANS_LEN);
+
+So that all this doesn't have to change.
+
+> =20
+> -       if (dma_buf && geni_se_rx_dma_prep(se, dma_buf, len, &rx_dma)) {
+> +       if (dma_buf && geni_se_rx_dma_prep(se, dma_buf, gi2c->xfer_len,
+> +                                          &gi2c->rx_dma)) {
+>                 geni_se_select_mode(se, GENI_SE_FIFO);
+>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
+>                 dma_buf =3D NULL;
+> @@ -384,7 +387,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *g=
+i2c, struct i2c_msg *msg,
+>         if (dma_buf) {
+>                 if (gi2c->err)
+>                         geni_i2c_rx_fsm_rst(gi2c);
+> -               geni_se_rx_dma_unprep(se, rx_dma, len);
+> +               geni_se_rx_dma_unprep(se, gi2c->rx_dma, gi2c->xfer_len);
+>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>         }
+> =20
+> @@ -394,12 +397,11 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev =
+*gi2c, struct i2c_msg *msg,
+>  static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg=
+ *msg,
+>                                 u32 m_param)
+>  {
+> -       dma_addr_t tx_dma;
+>         unsigned long time_left;
+>         void *dma_buf =3D NULL;
+>         struct geni_se *se =3D &gi2c->se;
+> -       size_t len =3D msg->len;
+> =20
+> +       gi2c->xfer_len =3D msg->len;
+
+Same comment.
+
+>         if (!of_machine_is_compatible("lenovo,yoga-c630"))
+>                 dma_buf =3D i2c_get_dma_safe_msg_buf(msg, 32);
+> =20
+
+[1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#=
+describe-your-changes
