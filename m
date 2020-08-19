@@ -2,476 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BA6B249ED2
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 14:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4E71249EE9
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 15:01:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728536AbgHSM5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 08:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728382AbgHSM4I (ORCPT
+        id S1728182AbgHSNA1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 09:00:27 -0400
+Received: from esa3.microchip.iphmx.com ([68.232.153.233]:14992 "EHLO
+        esa3.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728502AbgHSM7l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 08:56:08 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D6AC061383
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 05:56:06 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id cq28so18014691edb.10
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 05:56:06 -0700 (PDT)
+        Wed, 19 Aug 2020 08:59:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1597841980; x=1629377980;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=N3LXJBaTkCMXK9mnCvf1n2/x22RZHWQB3iXXYow5htE=;
+  b=m/NbvvOnDEDnudY9kfl4Sa4F++Lgt4du8Ovc4zcpvh/zJVDuhIAfRY1l
+   vhgcA5JON5q8uJuEg8jzk9Ho66csWWSbGm8CkBIQ/HHE06q05SRR0RBhv
+   FAjqwYIkUDTWo/qb/Zjt+ZPZz37GkaWY9J9qzkhEb0MVTvnjEXd+nc7XR
+   MptpbBqqvyMTf6+LrweT4LPotbnKffIKGVdw1zyD8hBdEyvbxDh4FQE/s
+   KVf8ZWn/bd22gXZSziqMdY+m90KnHNnywl0Y7MY2O52kDI42aeMCT/WMd
+   PdY3s8jTjn3ZqEBZDisMj8ZGTAD7AiRe5/ihkIzWFQsEhCKEkW8AtEnCa
+   w==;
+IronPort-SDR: yEEBh9CWVqD0m8J2Oedwh0Htg+mIGVfuJ3kVB79chD+/WlAV4cDuPDzHIaJ1lkZt3gw1vq6RDF
+ jbdGDfzR0EDfIu4ZXPaUGiulA+U1z5N+08hvhUi6wuBY1FtxdvJ+171tbbnMSVKB3Jnw7ZLUDZ
+ AonY4MD5Zgl7ri6KQTrgKOiE1OKhrSDl/GPspcDIEi85ThPB8J7fljOZS+vuCKE4UJV8y28nCA
+ MFH9O+cQMQVL3KTNFGJ9Me0cqgo07PmUrYUtdahGt8TM19Z8TL5RjwkMFTAvvaQrAjkew+6li7
+ Z0I=
+X-IronPort-AV: E=Sophos;i="5.76,331,1592895600"; 
+   d="scan'208";a="88604006"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 19 Aug 2020 05:59:39 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Wed, 19 Aug 2020 05:59:36 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3 via Frontend
+ Transport; Wed, 19 Aug 2020 05:58:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ni1JYvTf0t5topWNcsI3Ou2Cso0+JorlhEL91M8pmaJoVhw8NtEqtqwp6wD5cw7HPXEw01pM4FQ96ik0x5HW8Pd6ijqdt0pYIm1X/hQNQOaMSxT8dQqOBFaLobvkzWloG6EtmY13ea38fi6/lDOuvoUJWDafwQlUFbHjf9qPGhbj8gzFvxDLsTKZNnKauCOhFIIMl5Ipu5z1VuunlXgbt5b0D8TL4ziZs/pCewfnZ1I3U/rTpvtNpTq1igHCOGshH3uOT5z+yg50p/VpQaExg6+rLudvX+EsbuZ3b4ycx0U7y3KLRNr2hqmWw54J612IucWVv04zHF1S5rdgtmpZmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N3LXJBaTkCMXK9mnCvf1n2/x22RZHWQB3iXXYow5htE=;
+ b=cPq0Sbwy9AeKYr6YlY23xFOSjxaTqHHcnR7GSmhD0/3IQQPde1wo9sOnqcA2Msbqvz/59RXTxG3IS6YDe7DvbVJaaTRiFt0DWbZ8hHCoAkWWChfQDh5uP8hAZQKCcEU76i7jKju7r3+16ZnrNTKzE46RA96L+OZnWB9S9c+4wiPHFD3tDlg8AUN9AIt4CcOPx9+/MvguE+6vSUKF7bURNDPqzpVUfeHgsrWHosloG/ny9mkJlM1nNni2cAA/xwfHFBhM2eWNwVOcui4OgGnfAln9vJGPVuyPhuujiCwR7M4/cdBf4S0ANhBfELNHykq1chpQX9hsxuO5j/tr6zqDkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/8mQpJkcnsgnPloItRkRvFOphW3Kj/7Iryr9yxC3INM=;
-        b=feRzGw6jr3XDwlqXwnnZWR0R7rp7gCw+4QtPJu3mXu7LKV4TL7SWhddnfWdoDO3hOw
-         Ja7pClp5u9GpLQUkNmlU2czeEk+oOWM9ssgtrqbWNy7Wn9lxNeuSoYJ4mVi9JnQgW75w
-         r+vfa0tb2z3u/6F3jJluacCoOPwphvFrsSe3Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/8mQpJkcnsgnPloItRkRvFOphW3Kj/7Iryr9yxC3INM=;
-        b=JQXtQsOXid7gRW+ROLYy3S4gFmQu7Mmdk5tUZyh2rMcnPHMwaO40CZnLFoBA5h2YbD
-         lPCRyQTqcs1sikw6lWL0vM98mONCWZ6ENDIQimW+WBY28UBA+LrwKcgJaWMgbh1HikKa
-         SpMb4S5yuMz1sGcUky4O2+hFw2Hzn2F6p7RLFe5xZdC4ZVZmTo0o0olYb1v8za+eJ9P8
-         itBTLtGqtRRYg3NsGMUdOBv2wlqy5d8ebsFPROEAyg2/9Odx4p2E3GTNqgBvxM7DCduM
-         te/LK2Z2X6YGwztE4X3sxWiN70xpVYev7W7Ez3QlxUEwWlfXrYadnevccPc3w9r5tltD
-         5XnA==
-X-Gm-Message-State: AOAM5326uOfsIjtNm+iqyxEXSboRaCKw+eQ8KBjPeDqo/w9ypgXiwb2k
-        aU03qaSdfhTy/m6iZGxlamSzr3n3PFc2ZQ==
-X-Google-Smtp-Source: ABdhPJw+eYnL5+zZa7pGus9wSvYp63PeW+Csv7bsBXv9U4320rGu+Y0MMM/zLr1IYd4uK54UjQobYw==
-X-Received: by 2002:aa7:d155:: with SMTP id r21mr23399047edo.87.1597841763323;
-        Wed, 19 Aug 2020 05:56:03 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id zg6sm18262377ejb.106.2020.08.19.05.56.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2020 05:56:03 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id g75so2094073wme.4
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 05:56:02 -0700 (PDT)
-X-Received: by 2002:a1c:5581:: with SMTP id j123mr4862561wmb.11.1597841357601;
- Wed, 19 Aug 2020 05:49:17 -0700 (PDT)
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N3LXJBaTkCMXK9mnCvf1n2/x22RZHWQB3iXXYow5htE=;
+ b=ErXYe/OtBqrZpwNh2foOemR1ivtcfvQf9wAoawU1qWGvQhSrerjepJlwzZjUgB7Sgn39hSg3+9t9x3NqMPzkxx7E+5oBvp1mPLQH01D8w95+bnc/DNlegFX/6B66Snd6oUEV+65rj2iroLRet81rDkycanoqp/pxrgmvlGVMEaM=
+Received: from BYAPR11MB2999.namprd11.prod.outlook.com (2603:10b6:a03:90::17)
+ by BY5PR11MB3927.namprd11.prod.outlook.com (2603:10b6:a03:186::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25; Wed, 19 Aug
+ 2020 12:59:33 +0000
+Received: from BYAPR11MB2999.namprd11.prod.outlook.com
+ ([fe80::9d17:b603:ad42:a2d4]) by BYAPR11MB2999.namprd11.prod.outlook.com
+ ([fe80::9d17:b603:ad42:a2d4%7]) with mapi id 15.20.3305.024; Wed, 19 Aug 2020
+ 12:59:33 +0000
+From:   <Eugen.Hristev@microchip.com>
+To:     <sakari.ailus@iki.fi>
+CC:     <mchehab@kernel.org>, <hverkuil@xs4all.nl>, <robh+dt@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: csi2dc: add bindings for
+ microchip csi2dc
+Thread-Topic: [PATCH v2 1/4] dt-bindings: media: csi2dc: add bindings for
+ microchip csi2dc
+Thread-Index: AQHWUQ4jEadYX0HypkGv3SAUXQZrmKk/rwuA
+Date:   Wed, 19 Aug 2020 12:59:33 +0000
+Message-ID: <18ed735d-adca-5ce7-3836-4db6f1e0fc4f@microchip.com>
+References: <20200703074416.55272-1-eugen.hristev@microchip.com>
+ <20200703074416.55272-2-eugen.hristev@microchip.com>
+In-Reply-To: <20200703074416.55272-2-eugen.hristev@microchip.com>
+Accept-Language: en-US, ro-RO
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: iki.fi; dkim=none (message not signed)
+ header.d=none;iki.fi; dmarc=none action=none header.from=microchip.com;
+x-originating-ip: [86.121.125.215]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 60509b83-9b45-4cb5-4eaf-08d8443fb843
+x-ms-traffictypediagnostic: BY5PR11MB3927:
+x-microsoft-antispam-prvs: <BY5PR11MB392759917EBF7E27F3475C62E85D0@BY5PR11MB3927.namprd11.prod.outlook.com>
+x-bypassexternaltag: True
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0+RtsdMgBeO24U2S86RsuA8flV7wHBsSnnbR905ZqPh4l/7iyF4K1DpCKyZY3pZ60aew8H3rGS3Pv6NPynSyIMLUa1qdsRJctGRBMILhmGv3PKQHxXPYQ8me4D/hp9t9VxFMvcJjs6W0+Gna4DOxXEN05XPiAYzjct1Xj5iE8gCxjRKwt7gCjjllQ1Ll/RcQMezuaZdQ8jiuidns9H797QE1uJ3K/xaFE2HcpfFab5w7w10ABkNZDOEb3NjkJJYxCfYN3pxzC9Zbx81WgMUqkZXTPdz7RcDaKAWgkrsbDkzMJ5AqRTsJlMSIB5cgIoBuzji5rLMyumLzKvPVyslTiWpgrHQDJuFdqKwqu8j1jLWTb0mJMStgOVeZZK+HXRYx7TqZVYYcdIw3QonZBIjnEQ6EiPu3GSHccAYuadQ8bA2CT/I6PRK4ZdMOlkFmrnRU4sXHfjMqlbmrmdltdNHBtQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2999.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(376002)(39860400002)(366004)(136003)(396003)(186003)(6512007)(4326008)(26005)(8936002)(31696002)(86362001)(478600001)(31686004)(966005)(71200400001)(76116006)(91956017)(8676002)(66946007)(66446008)(64756008)(66556008)(66476007)(5660300002)(2616005)(54906003)(316002)(83380400001)(2906002)(6916009)(6506007)(6486002)(53546011)(36756003)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: agddR6+eKGaYiPLcLAH3RBe/ohsRYhlvuohW1SGmzg/gW5QRjOXdMLAKXUonfWODTsMsp9lxeyT4wxcjKC+MFjw0C/H6nXHrlO5nmWlysb7lLlgs6nzoKZUR/kv40nXViNh8a8dZsaSBGfOmh3eDxUfWJ65hkEl+7xZBNINNitWKWpZKPSoGmudMKOvqRGk8lCuiAISqPB0l4SAuSS+1+XQKs4CFhyBD16jIYpNHsJZ+ck7Qz834jJazYk4adavApSmdVZaereHuX2kYsMF4asFBlMuHZ3fu9AHHbt/F5oC69zQnXMkVsj7mCSMsPJqO3kiWHdo9Wk2BFekhsWAz2FBbzv1mdRxlhFD65HVohHhAUxQKyE9Dqa5CWOEGNku4WcELDRAIyEIDqzcXMXhDD9mdJ3qWm3E81Jni8txGxEr2xfUwXapzlx3KKvA4tyvD3o/akI+ihfJnfFnmzLZZd1GA8bSJ7PPwP9Af5fq9k8BCzIiXcCdINRbhdUc2S4hIUjsza/I4GF6fdIw2V4DfkMPLjGIBMra9hsNebbRzNqFJ7tmsaaVUbvoUh5G+4iKyEB6BLpLr+FPEsAqv+Kd4msQE+AANhIH49b1FNYq9qdXLYdBQvcsO6g268es4nqf5Q8j0c0IwNujNVKi97gNNqg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D71A0A178ECB454B80909D46E56FF37F@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-6-hch@lst.de>
- <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com> <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com>
-In-Reply-To: <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 19 Aug 2020 14:49:01 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5AcCTDguB2C9KyDiutXWoEvBL8tL7+a==Uo8vj_8CLOJw@mail.gmail.com>
-Message-ID: <CAAFQd5AcCTDguB2C9KyDiutXWoEvBL8tL7+a==Uo8vj_8CLOJw@mail.gmail.com>
-Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Christoph Hellwig <hch@lst.de>, alsa-devel@alsa-project.org,
-        linux-ia64@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        linux-scsi@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-mips@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2999.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60509b83-9b45-4cb5-4eaf-08d8443fb843
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2020 12:59:33.6513
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PTLICFBDpriDhq70XPM7JZZopkkDxYJDYUlZazJ9BtTUEEac06mdTx5+/G2UC1FkQGsIxCJAz1uOgEZVJ6XIbZmR2od4JODBFF6u+WtE42E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3927
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 1:51 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> Hi Tomasz,
->
-> On 2020-08-19 12:16, Tomasz Figa wrote:
-> > Hi Christoph,
-> >
-> > On Wed, Aug 19, 2020 at 8:56 AM Christoph Hellwig <hch@lst.de> wrote:
-> >>
-> >> The V4L2-FLAG-MEMORY-NON-CONSISTENT flag is entirely unused,
-> >
-> > Could you explain what makes you think it's unused? It's a feature of
-> > the UAPI generally supported by the videobuf2 framework and relied on
-> > by Chromium OS to get any kind of reasonable performance when
-> > accessing V4L2 buffers in the userspace.
-> >
-> >> and causes
-> >> weird gymanstics with the DMA_ATTR_NON_CONSISTENT flag, which is
-> >> unimplemented except on PARISC and some MIPS configs, and about to be
-> >> removed.
-> >
-> > It is implemented by the generic DMA mapping layer [1], which is used
-> > by a number of architectures including ARM64 and supposed to be used
-> > by new architectures going forward.
->
-> AFAICS all that V4L2_FLAG_MEMORY_NON_CONSISTENT does is end up
-> controling whether DMA_ATTR_NON_CONSISTENT is added to vb2_queue::dma_attrs.
->
-> Please can you point to where DMA_ATTR_NON_CONSISTENT does anything at
-> all on arm64?
->
-
-With the default config it doesn't, but with
-CONFIG_DMA_NONCOHERENT_CACHE_SYNC enabled it makes dma_pgprot() keep
-the pgprot value as is, without enforcing coherence attributes.
-
-
-> Also, I posit that videobuf2 is not actually relying on
-> DMA_ATTR_NON_CONSISTENT anyway, since it's clearly not using it properly:
->
-> "By using this API, you are guaranteeing to the platform
-> that you have all the correct and necessary sync points for this memory
-> in the driver should it choose to return non-consistent memory."
->
-> $ git grep dma_cache_sync drivers/media
-> $
-
-AFAIK dma_cache_sync() isn't the only way to perform the cache
-synchronization. The earlier patch series that I reviewed relied on
-dma_get_sgtable() and then dma_sync_sg_*() (which existed in the
-vb2-dc since forever [1]). However, it looks like with the final code
-the sgtable isn't acquired and the synchronization isn't happening, so
-you have a point.
-
-FWIW, I asked back in time what the plan is for non-coherent
-allocations and it seemed like DMA_ATTR_NON_CONSISTENT and
-dma_sync_*() was supposed to be the right thing to go with. [2] The
-same thread also explains why dma_alloc_pages() isn't suitable for the
-users of dma_alloc_attrs() and DMA_ATTR_NON_CONSISTENT.
-
-I think we could make a deal here. We could revert back the parts
-using DMA_ATTR_NON_CONSISTENT, keeping the UAPI intact, but just
-rendering it no-op, since it's just a hint after all. Then, you would
-propose a proper, functionally equivalent and working for ARM64,
-replacement for dma_alloc_attrs(..., DMA_ATTR_NON_CONSISTENT), which
-we could then use to enable the functionality expected by this UAPI.
-Does it sound like something that could work as a way forward here?
-
-By the way, as a videobuf2 reviewer, I'd appreciate being CC'd on any
-series related to the subsystem-facing DMA API changes, since
-videobuf2 is one of the biggest users of it.
-
-[1] https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/media/common/videobuf2/videobuf2-dma-contig.c#L98
-[2] https://patchwork.kernel.org/comment/23312203/
-
-Best regards,
-Tomasz
-
-
->
-> Robin.
->
-> > [1] https://elixir.bootlin.com/linux/v5.9-rc1/source/kernel/dma/mapping.c#L341
-> >
-> > When removing features from generic kernel code, I'd suggest first
-> > providing viable alternatives for its users, rather than killing the
-> > users altogether.
-> >
-> > Given the above, I'm afraid I have to NAK this.
-> >
-> > Best regards,
-> > Tomasz
-> >
-> >>
-> >> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> >> ---
-> >>   .../userspace-api/media/v4l/buffer.rst        | 17 ---------
-> >>   .../media/v4l/vidioc-reqbufs.rst              |  1 -
-> >>   .../media/common/videobuf2/videobuf2-core.c   | 36 +------------------
-> >>   .../common/videobuf2/videobuf2-dma-contig.c   | 19 ----------
-> >>   .../media/common/videobuf2/videobuf2-dma-sg.c |  3 +-
-> >>   .../media/common/videobuf2/videobuf2-v4l2.c   | 12 -------
-> >>   include/media/videobuf2-core.h                |  3 +-
-> >>   include/uapi/linux/videodev2.h                |  2 --
-> >>   8 files changed, 3 insertions(+), 90 deletions(-)
-> >>
-> >> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-> >> index 57e752aaf414a7..2044ed13cd9d7d 100644
-> >> --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> >> @@ -701,23 +701,6 @@ Memory Consistency Flags
-> >>       :stub-columns: 0
-> >>       :widths:       3 1 4
-> >>
-> >> -    * .. _`V4L2-FLAG-MEMORY-NON-CONSISTENT`:
-> >> -
-> >> -      - ``V4L2_FLAG_MEMORY_NON_CONSISTENT``
-> >> -      - 0x00000001
-> >> -      - A buffer is allocated either in consistent (it will be automatically
-> >> -       coherent between the CPU and the bus) or non-consistent memory. The
-> >> -       latter can provide performance gains, for instance the CPU cache
-> >> -       sync/flush operations can be avoided if the buffer is accessed by the
-> >> -       corresponding device only and the CPU does not read/write to/from that
-> >> -       buffer. However, this requires extra care from the driver -- it must
-> >> -       guarantee memory consistency by issuing a cache flush/sync when
-> >> -       consistency is needed. If this flag is set V4L2 will attempt to
-> >> -       allocate the buffer in non-consistent memory. The flag takes effect
-> >> -       only if the buffer is used for :ref:`memory mapping <mmap>` I/O and the
-> >> -       queue reports the :ref:`V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS
-> >> -       <V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS>` capability.
-> >> -
-> >>   .. c:type:: v4l2_memory
-> >>
-> >>   enum v4l2_memory
-> >> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> >> index 75d894d9c36c42..3180c111d368ee 100644
-> >> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> >> @@ -169,7 +169,6 @@ aborting or finishing any DMA in progress, an implicit
-> >>         - This capability is set by the driver to indicate that the queue supports
-> >>           cache and memory management hints. However, it's only valid when the
-> >>           queue is used for :ref:`memory mapping <mmap>` streaming I/O. See
-> >> -        :ref:`V4L2_FLAG_MEMORY_NON_CONSISTENT <V4L2-FLAG-MEMORY-NON-CONSISTENT>`,
-> >>           :ref:`V4L2_BUF_FLAG_NO_CACHE_INVALIDATE <V4L2-BUF-FLAG-NO-CACHE-INVALIDATE>` and
-> >>           :ref:`V4L2_BUF_FLAG_NO_CACHE_CLEAN <V4L2-BUF-FLAG-NO-CACHE-CLEAN>`.
-> >>
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> >> index f544d3393e9d6b..66a41cef33c1b1 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> >> @@ -721,39 +721,14 @@ int vb2_verify_memory_type(struct vb2_queue *q,
-> >>   }
-> >>   EXPORT_SYMBOL(vb2_verify_memory_type);
-> >>
-> >> -static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
-> >> -{
-> >> -       q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
-> >> -
-> >> -       if (!vb2_queue_allows_cache_hints(q))
-> >> -               return;
-> >> -       if (!consistent_mem)
-> >> -               q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
-> >> -}
-> >> -
-> >> -static bool verify_consistency_attr(struct vb2_queue *q, bool consistent_mem)
-> >> -{
-> >> -       bool queue_is_consistent = !(q->dma_attrs & DMA_ATTR_NON_CONSISTENT);
-> >> -
-> >> -       if (consistent_mem != queue_is_consistent) {
-> >> -               dprintk(q, 1, "memory consistency model mismatch\n");
-> >> -               return false;
-> >> -       }
-> >> -       return true;
-> >> -}
-> >> -
-> >>   int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
-> >>                       unsigned int flags, unsigned int *count)
-> >>   {
-> >>          unsigned int num_buffers, allocated_buffers, num_planes = 0;
-> >>          unsigned plane_sizes[VB2_MAX_PLANES] = { };
-> >> -       bool consistent_mem = true;
-> >>          unsigned int i;
-> >>          int ret;
-> >>
-> >> -       if (flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> >> -               consistent_mem = false;
-> >> -
-> >>          if (q->streaming) {
-> >>                  dprintk(q, 1, "streaming active\n");
-> >>                  return -EBUSY;
-> >> @@ -765,8 +740,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
-> >>          }
-> >>
-> >>          if (*count == 0 || q->num_buffers != 0 ||
-> >> -           (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory) ||
-> >> -           !verify_consistency_attr(q, consistent_mem)) {
-> >> +           (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory)) {
-> >>                  /*
-> >>                   * We already have buffers allocated, so first check if they
-> >>                   * are not in use and can be freed.
-> >> @@ -803,7 +777,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
-> >>          num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
-> >>          memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
-> >>          q->memory = memory;
-> >> -       set_queue_consistency(q, consistent_mem);
-> >>
-> >>          /*
-> >>           * Ask the driver how many buffers and planes per buffer it requires.
-> >> @@ -894,12 +867,8 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
-> >>   {
-> >>          unsigned int num_planes = 0, num_buffers, allocated_buffers;
-> >>          unsigned plane_sizes[VB2_MAX_PLANES] = { };
-> >> -       bool consistent_mem = true;
-> >>          int ret;
-> >>
-> >> -       if (flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> >> -               consistent_mem = false;
-> >> -
-> >>          if (q->num_buffers == VB2_MAX_FRAME) {
-> >>                  dprintk(q, 1, "maximum number of buffers already allocated\n");
-> >>                  return -ENOBUFS;
-> >> @@ -912,15 +881,12 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
-> >>                  }
-> >>                  memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
-> >>                  q->memory = memory;
-> >> -               set_queue_consistency(q, consistent_mem);
-> >>                  q->waiting_for_buffers = !q->is_output;
-> >>          } else {
-> >>                  if (q->memory != memory) {
-> >>                          dprintk(q, 1, "memory model mismatch\n");
-> >>                          return -EINVAL;
-> >>                  }
-> >> -               if (!verify_consistency_attr(q, consistent_mem))
-> >> -                       return -EINVAL;
-> >>          }
-> >>
-> >>          num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> >> index ec3446cc45b8da..7b1b86ec942d7d 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> >> @@ -42,11 +42,6 @@ struct vb2_dc_buf {
-> >>          struct dma_buf_attachment       *db_attach;
-> >>   };
-> >>
-> >> -static inline bool vb2_dc_buffer_consistent(unsigned long attr)
-> >> -{
-> >> -       return !(attr & DMA_ATTR_NON_CONSISTENT);
-> >> -}
-> >> -
-> >>   /*********************************************/
-> >>   /*        scatterlist table functions        */
-> >>   /*********************************************/
-> >> @@ -341,13 +336,6 @@ static int
-> >>   vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
-> >>                                     enum dma_data_direction direction)
-> >>   {
-> >> -       struct vb2_dc_buf *buf = dbuf->priv;
-> >> -       struct sg_table *sgt = buf->dma_sgt;
-> >> -
-> >> -       if (vb2_dc_buffer_consistent(buf->attrs))
-> >> -               return 0;
-> >> -
-> >> -       dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
-> >>          return 0;
-> >>   }
-> >>
-> >> @@ -355,13 +343,6 @@ static int
-> >>   vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
-> >>                                   enum dma_data_direction direction)
-> >>   {
-> >> -       struct vb2_dc_buf *buf = dbuf->priv;
-> >> -       struct sg_table *sgt = buf->dma_sgt;
-> >> -
-> >> -       if (vb2_dc_buffer_consistent(buf->attrs))
-> >> -               return 0;
-> >> -
-> >> -       dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
-> >>          return 0;
-> >>   }
-> >>
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> >> index 0a40e00f0d7e5c..a86fce5d8ea8bf 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> >> @@ -123,8 +123,7 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
-> >>          /*
-> >>           * NOTE: dma-sg allocates memory using the page allocator directly, so
-> >>           * there is no memory consistency guarantee, hence dma-sg ignores DMA
-> >> -        * attributes passed from the upper layer. That means that
-> >> -        * V4L2_FLAG_MEMORY_NON_CONSISTENT has no effect on dma-sg buffers.
-> >> +        * attributes passed from the upper layer.
-> >>           */
-> >>          buf->pages = kvmalloc_array(buf->num_pages, sizeof(struct page *),
-> >>                                      GFP_KERNEL | __GFP_ZERO);
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> >> index 30caad27281e1a..de83ad48783821 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> >> @@ -722,20 +722,11 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
-> >>   #endif
-> >>   }
-> >>
-> >> -static void clear_consistency_attr(struct vb2_queue *q,
-> >> -                                  int memory,
-> >> -                                  unsigned int *flags)
-> >> -{
-> >> -       if (!q->allow_cache_hints || memory != V4L2_MEMORY_MMAP)
-> >> -               *flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT;
-> >> -}
-> >> -
-> >>   int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
-> >>   {
-> >>          int ret = vb2_verify_memory_type(q, req->memory, req->type);
-> >>
-> >>          fill_buf_caps(q, &req->capabilities);
-> >> -       clear_consistency_attr(q, req->memory, &req->flags);
-> >>          return ret ? ret : vb2_core_reqbufs(q, req->memory,
-> >>                                              req->flags, &req->count);
-> >>   }
-> >> @@ -769,7 +760,6 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
-> >>          unsigned i;
-> >>
-> >>          fill_buf_caps(q, &create->capabilities);
-> >> -       clear_consistency_attr(q, create->memory, &create->flags);
-> >>          create->index = q->num_buffers;
-> >>          if (create->count == 0)
-> >>                  return ret != -EBUSY ? ret : 0;
-> >> @@ -998,7 +988,6 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
-> >>          int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
-> >>
-> >>          fill_buf_caps(vdev->queue, &p->capabilities);
-> >> -       clear_consistency_attr(vdev->queue, p->memory, &p->flags);
-> >>          if (res)
-> >>                  return res;
-> >>          if (vb2_queue_is_busy(vdev, file))
-> >> @@ -1021,7 +1010,6 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
-> >>
-> >>          p->index = vdev->queue->num_buffers;
-> >>          fill_buf_caps(vdev->queue, &p->capabilities);
-> >> -       clear_consistency_attr(vdev->queue, p->memory, &p->flags);
-> >>          /*
-> >>           * If count == 0, then just check if memory and type are valid.
-> >>           * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
-> >> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> >> index 52ef92049073e3..4c7f25b07e9375 100644
-> >> --- a/include/media/videobuf2-core.h
-> >> +++ b/include/media/videobuf2-core.h
-> >> @@ -744,8 +744,7 @@ void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb);
-> >>    * vb2_core_reqbufs() - Initiate streaming.
-> >>    * @q:         pointer to &struct vb2_queue with videobuf2 queue.
-> >>    * @memory:    memory type, as defined by &enum vb2_memory.
-> >> - * @flags:     auxiliary queue/buffer management flags. Currently, the only
-> >> - *             used flag is %V4L2_FLAG_MEMORY_NON_CONSISTENT.
-> >> + * @flags:     auxiliary queue/buffer management flags.
-> >>    * @count:     requested buffer count.
-> >>    *
-> >>    * Videobuf2 core helper to implement VIDIOC_REQBUF() operation. It is called
-> >> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> >> index c7b70ff53bc1dd..5c00f63d9c1b58 100644
-> >> --- a/include/uapi/linux/videodev2.h
-> >> +++ b/include/uapi/linux/videodev2.h
-> >> @@ -191,8 +191,6 @@ enum v4l2_memory {
-> >>          V4L2_MEMORY_DMABUF           = 4,
-> >>   };
-> >>
-> >> -#define V4L2_FLAG_MEMORY_NON_CONSISTENT                (1 << 0)
-> >> -
-> >>   /* see also http://vektor.theorem.ca/graphics/ycbcr/ */
-> >>   enum v4l2_colorspace {
-> >>          /*
-> >> --
-> >> 2.28.0
-> >>
-> >> _______________________________________________
-> >> iommu mailing list
-> >> iommu@lists.linux-foundation.org
-> >> https://lists.linuxfoundation.org/mailman/listinfo/iommu
-> >
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> >
+T24gMDMuMDcuMjAyMCAxMDo0NCwgRXVnZW4gSHJpc3RldiB3cm90ZToNCj4gQWRkIGJpbmRpbmdz
+IGRvY3VtZW50YXRpb24gZm9yIG1pY3JvY2hpcCBDU0kyIERlbXVsdGlwbGV4ZXIgY29udHJvbGxl
+ci4NCj4gDQo+IENTSTJEQyBpcyBhIGRlbXVsdGlwbGV4ZXIgZnJvbSBTeW5vcHN5cyBJREkgaW50
+ZXJmYWNlIHNwZWNpZmljYXRpb24gdG8NCj4gcGFyYWxsZWwgaW50ZXJmYWNlIGNvbm5lY3Rpb24g
+b3IgZGlyZWN0IG1lbW9yeSBhY2Nlc3MuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBFdWdlbiBIcmlz
+dGV2IDxldWdlbi5ocmlzdGV2QG1pY3JvY2hpcC5jb20+DQo+IC0tLQ0KPiBDaGFuZ2VzIGluIHYy
+Og0KPiAtIGZpeGVkIHdhcm5pbmdzIHJlcG9ydGVkIGJ5IGR0X2JpbmRpbmdfY2hlY2sNCj4gDQo+
+IA0KPiAgIC4uLi9iaW5kaW5ncy9tZWRpYS9taWNyb2NoaXAsY3NpMmRjLnlhbWwgICAgICB8IDE4
+NSArKysrKysrKysrKysrKysrKysNCj4gICAxIGZpbGUgY2hhbmdlZCwgMTg1IGluc2VydGlvbnMo
+KykNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL21lZGlhL21pY3JvY2hpcCxjc2kyZGMueWFtbA0KPiANCj4gZGlmZiAtLWdpdCBhL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9taWNyb2NoaXAsY3NpMmRjLnlhbWwg
+Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvbWljcm9jaGlwLGNzaTJk
+Yy55YW1sDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAwMC4uYjdj
+NDZmN2FkMmE0DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL21lZGlhL21pY3JvY2hpcCxjc2kyZGMueWFtbA0KPiBAQCAtMCwwICsxLDE4
+NSBAQA0KPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vbmx5DQo+ICslWUFN
+TCAxLjINCj4gKy0tLQ0KPiArJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9tZWRp
+YS9taWNyb2NoaXAsY3NpMmRjLnlhbWwjDQo+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5v
+cmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMNCj4gKw0KPiArdGl0bGU6IE1pY3JvY2hpcCBDU0ky
+IERlbXV4IENvbnRyb2xsZXIgKENTSTJEQykNCj4gKw0KPiArbWFpbnRhaW5lcnM6DQo+ICsgIC0g
+RXVnZW4gSHJpc3RldiA8ZXVnZW4uaHJpc3RldkBtaWNyb2NoaXAuY29tPg0KPiArDQo+ICtkZXNj
+cmlwdGlvbjoNCj4gKyAgQ1NJMkRDIC0gQ2FtZXJhIFNlcmlhbCBJbnRlcmZhY2UgMiBEZW11eCBD
+b250cm9sbGVyDQo+ICsNCj4gKyAgQ1NJMkRDIGlzIGEgaGFyZHdhcmUgYmxvY2sgdGhhdCByZWNl
+aXZlcyBpbmNvbWluZyBkYXRhIGZyb20gYW4gSURJIGludGVyZmFjZQ0KPiArICBhbmQgZmlsdGVy
+cyBwYWNrZXRzIGJhc2VkIG9uIHRoZWlyIGRhdGEgdHlwZSBhbmQgdmlydHVhbCBjaGFubmVsIGlk
+ZW50aWZpZXIsDQo+ICsgIHRoZW4gY29udmVydHMgdGhlIGJ5dGUgc3RyZWFtIGludG8gYSBjcm9z
+cyBjbG9jayBkb21haW4gdG8gYSBwaXhlbCBzdHJlYW0NCj4gKyAgdG8gYSBwYXJhbGxlbCBpbnRl
+cmZhY2UgdGhhdCBjYW4gYmUgcmVhZCBieSBhIHNlbnNvciBjb250cm9sbGVyLg0KPiArDQo+ICsg
+IENTSTJEQyBwcm92aWRlcyB0d28gcGlwZXMsIG9uZSB2aWRlbyBwaXBlIGFuZCBvbmUgZGF0YSBw
+aXBlLiBWaWRlbyBwaXBlDQo+ICsgIGlzIGNvbm5lY3RlZCB0byBhIHNlbnNvciBjb250cm9sbGVy
+IGFuZCB0aGUgZGF0YSBwaXBlIGlzIGFjY2Vzc2libGUNCj4gKyAgYXMgYSBETUEgc2xhdmUgcG9y
+dCB0byBhIERNQSBjb250cm9sbGVyLg0KPiArDQo+ICsgIENTSTJEQyBzdXBwb3J0cyBhIHNpbmds
+ZSAncG9ydCcgbm9kZSBhcyBhIHNvdXJjZSBwYWQgd2l0aCBTeW5vcHN5cyAzMi1iaXQNCj4gKyAg
+SURJIGludGVyZmFjZS4gVGhlIGNvbm5lY3RlZCBlbmRwb2ludCBtdXN0IGJlIGEgSURJIGludGVy
+ZmFjZSBjb21wYXRpYmxlDQo+ICsgIGRldmljZSAobGlrZSBTeW5vcHN5cyBDU0kySE9TVCkgLCB0
+aGF0IGNhbiBwcm92aWRlIDMyLWJpdCBJREkgaW50ZXJmYWNlDQo+ICsgIGNvbm5lY3Rpb24gYXMg
+c2luayBwYWQuDQoNCkhlbGxvIFNha2FyaSwNCg0KQ291bGQgeW91IGhhdmUgYSBsb29rIGF0IG15
+IGJpbmRpbmcsIGVzcGVjaWFsbHkgdGhpcyBwYXJhZ3JhcGggYWJvdmUuIA0KVGhpcyBjb250cm9s
+bGVyIHRoYXQgd2UgaGF2ZSByZXF1aXJlcyB0aGUgU3lub3BzeXMgSURJIGludGVyZmFjZSBhcyAN
+CnNvdXJjZSBwYWQuIEFzIHRoaXMgaW50ZXJmYWNlIGlzIG5vdCB5ZXQgaW4ga2VybmVsLCBkbyB5
+b3UgdGhpbmsgaXQncyANCmZpbmUgdG8gbWVudGlvbiBpdCBoZXJlID8gT3IgaG93IHNob3VsZCBJ
+IHByb2NlZWQgPw0KDQpJbiBteSB0ZXN0cyBhbmQgdGhlIGV4YW1wbGUgYXQgdGhlIGVuZCBvZiB0
+aGlzIGJpbmRpbmcsIEkganVzdCB1c2UgdGhlIA0KcG9ydCBhbmQgZW5kcG9pbnRzIHdpdGhvdXQg
+YW55IHNwZWNpZmljIHByb3BlcnRpZXMuDQpUaGUgQ1NJMkRDIHdpbGwgYWN0dWFsbHkgd2FpdCBh
+biBhc3luYyBjb21wbGV0aW9uICh3aXRoIGEgbm90aWZpZXIpIGZvciANCnRoYXQgZGV2aWNlIHRv
+IGJlIHJlZ2lzdGVyZWQsIGFuZCB0aGVuIHVzZSBpdCBhcyBhIHN1YmRldmljZS4gSW4gdHVybiwg
+DQpDU0kyREMgcmVnaXN0ZXJzIGEgc3ViZGV2IGZvciB0aGUgbmV4dCBwb3J0IGluIHBpcGVsaW5l
+LCB0b3dhcmRzIHRoZSANCnVwcGVyIGxldmVsICggdGhlIGltYWdlIHNlbnNvciBjb250cm9sbGVy
+KQ0KDQpIb3dldmVyLCB0aGUgY29ubmVjdGlvbiB3aXRoIHRoZSBzdWJkZXZpY2UgaW4gdGhpcyBj
+YXNlIHdpbGwgbGlrZWx5IA0KZGVmYXVsdCB0byBwYXJhbGxlbCwgYW5kIG5vdCBiZSBhdCBhbGwg
+aW4gYW55IG9mIHRoZSBjYXNlcyBpbiB0aGUgDQp2aWRlby1pbnRlcmZhY2VzLnR4dCA6DQotIGJ1
+cy10eXBlOiBkYXRhIGJ1cyB0eXBlLiBQb3NzaWJsZSB2YWx1ZXMgYXJlOiANCg0KICAgMSAtIE1J
+UEkgQ1NJLTIgQy1QSFkgDQoNCiAgIDIgLSBNSVBJIENTSTEgDQoNCiAgIDMgLSBDQ1AyIA0KDQog
+ICA0IC0gTUlQSSBDU0ktMiBELVBIWSANCg0KICAgNSAtIFBhcmFsbGVsIA0KDQogICA2IC0gQnQu
+NjU2DQoNCmFzIHRoaXMgaW50ZXJmYWNlIHR5cGUgaXMgYWN0dWFsbHkgU3lub3BzeXMgSURJLg0K
+RG8geW91IHRoaW5rIHRoaXMgaXMgZmluZSA/DQoNClRoYW5rcywNCkV1Z2VuDQoNCj4gKyAgSXQg
+c2hvdWxkIGNvbnRhaW4gb25lICdwb3J0JyBjaGlsZCBub2RlIHdpdGggb25lIGNoaWxkICdlbmRw
+b2ludCcgbm9kZS4NCj4gKyAgVGhpcyBub2RlIHNob3VsZCBhbHdheXMgaGF2ZSB0aGUgJ3JlZycg
+cHJvcGVydHkgYXMgMCwgYmVpbmcgdGhlIGZpcnN0IGNoaWxkDQo+ICsgIG5vZGUuDQo+ICsgIEZv
+ciBtZWRpYSBlbnRpdHkgYW5kIGVuZHBvaW50cyBwbGVhc2UgcmVmZXIgdG8gdGhlIGJpbmRpbmdz
+IGRlZmluZWQgaW4NCj4gKyAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlh
+L3ZpZGVvLWludGVyZmFjZXMudHh0Lg0KPiArICBGb3IgU3lub3BzeXMgSURJIGludGVyZmFjZSBw
+bGVhc2UgcmVmZXIgdG8NCj4gKyAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21l
+ZGlhL3NucHMsZHctY3NpLXBsYXQudHh0DQo+ICsNCj4gKyAgQ1NJMkRDIHN1cHBvcnRzIG9uZSAn
+cG9ydCcgbm9kZSBhcyBzaW5rIHBhZCB3aXRoIHBhcmFsbGVsIGludGVyZmFjZS4gVGhpcyBpcw0K
+PiArICBjYWxsZWQgdmlkZW8gcGlwZS4NCj4gKyAgVGhlIHJlZyBwcm9wZXJ0eSBpbnNpZGUgdGhp
+cyAncG9ydCcgbm9kZSBtdXN0IGhhdmUgdGhlICdyZWcnIHByb3BlcnR5IGFzIDEsDQo+ICsgIGJl
+aW5nIHRoZSBzZWNvbmQgY2hpbGQgbm9kZS4NCj4gKyAgVGhpcyBub2RlIG11c3QgaGF2ZSBvbmUg
+J2VuZHBvaW50JywgYW5kIHRoaXMgJ2VuZHBvaW50JyBpcyByZWxhdGVkIHRvIHRoZQ0KPiArICB2
+aXJ0dWFsIGNoYW5uZWwgaWRlbnRpZmllci4NCj4gKyAgVGhlICdyZWcnIHByb3BlcnR5IGluc2lk
+ZSB0aGlzICdlbmRwb2ludCcgcmVwcmVzZW50cyB0aGUgQ1NJMiB2aXJ0dWFsIGNoYW5uZWwNCj4g
+KyAgaWRlbnRpZmllci4NCj4gKyAgVGhpcyAnZW5kcG9pbnQnIGNhbiB0aGVuIGJlIHVzZWQgYXMg
+YSBzb3VyY2UgcGFkIGZvciBhbm90aGVyIGNvbnRyb2xsZXINCj4gKyAgKG5leHQgaW4gcGlwZWxp
+bmUpLg0KPiArICBQbGVhc2UgcmVmZXIgdG8gdGhlIGJpbmRpbmdzIGRlZmluZWQgaW4NCj4gKyAg
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3ZpZGVvLWludGVyZmFjZXMu
+dHh0Lg0KPiArDQo+ICsgIENTSTJEQyBtdXN0IGhhdmUgdHdvIGNsb2NrcyB0byBmdW5jdGlvbiBj
+b3JyZWN0bHkuIE9uZSBjbG9jayBpcyB0aGUNCj4gKyAgcGVyaXBoZXJhbCBjbG9jayBmb3IgdGhl
+IGluc2lkZSBmdW5jdGlvbmFsaXR5IG9mIHRoZSBoYXJkd2FyZSBibG9jay4NCj4gKyAgVGhpcyBp
+cyBuYW1lZCAncGNsaycuIFRoZSBzZWNvbmQgY2xvY2sgbXVzdCBiZSB0aGUgY3Jvc3MgZG9tYWlu
+IGNsb2NrLA0KPiArICBpbiB3aGljaCBDU0kyREMgd2lsbCBwZXJmb3JtIGNsb2NrIGNyb3NzaW5n
+LiBUaGlzIGNsb2NrIG11c3QgYmUgZmVkDQo+ICsgIGJ5IHRoZSBuZXh0IGNvbnRyb2xsZXIgaW4g
+cGlwZWxpbmUsIHdoaWNoIHVzdWFsbHkgaXMgYSBzZW5zb3IgY29udHJvbGxlci4NCj4gKyAgTm9y
+bWFsbHkgdGhpcyBjbG9jayBzaG91bGQgYmUgZ2l2ZW4gYnkgdGhpcyBzZW5zb3IgY29udHJvbGxl
+ciB3aG8NCj4gKyAgaXMgYWxzbyBhIGNsb2NrIHNvdXJjZS4gVGhpcyBjbG9jayBpcyBuYW1lZCAn
+c2NjaycsIHNlbnNvciBjb250cm9sbGVyIGNsb2NrLg0KPiArDQo+ICsgIENTSTJEQyBhbHNvIHN1
+cHBvcnRzIGRpcmVjdCBhY2Nlc3MgdG8gdGhlIGRhdGEgdGhyb3VnaCBBSEIsIHZpYSBETUEgY2hh
+bm5lbCwNCj4gKyAgY2FsbGVkIGRhdGEgcGlwZS4NCj4gKyAgQmVjYXVzZSBvZiB0aGlzLCB0aGUg
+c2luayAncG9ydCcgY2hpbGQgbm9kZSAoc2Vjb25kKSBpcyBub3QgbWFuZGF0b3J5Lg0KPiArICBJ
+ZiB0aGUgc2luayAncG9ydCcgY2hpbGQgbm9kZSBpcyBtaXNzaW5nLCBvbmx5IGRhdGEgcGlwZSBp
+cyBhdmFpbGFibGUuDQo+ICsNCj4gK3Byb3BlcnRpZXM6DQo+ICsgIGNvbXBhdGlibGU6DQo+ICsg
+ICAgY29uc3Q6IG1pY3JvY2hpcCxzYW1hN2c1LWNzaTJkYw0KPiArDQo+ICsgIHJlZzoNCj4gKyAg
+ICBkZXNjcmlwdGlvbjoNCj4gKyAgICAgIFBoeXNpY2FsIGJhc2UgYWRkcmVzcyBhbmQgbGVuZ3Ro
+IG9mIHRoZSByZWdpc3RlcnMgc2V0IGZvciB0aGUgZGV2aWNlLg0KPiArICAgIG1heEl0ZW1zOiAx
+DQo+ICsNCj4gKyAgY2xvY2tzOg0KPiArICAgIG1heEl0ZW1zOiAyDQo+ICsNCj4gKyAgY2xvY2st
+bmFtZXM6DQo+ICsgICAgaXRlbXM6DQo+ICsgICAgICAtIGNvbnN0OiBwY2xrDQo+ICsgICAgICAt
+IGNvbnN0OiBzY2NrDQo+ICsNCj4gKyAgbWljcm9jaGlwLGNsay1nYXRlZDoNCj4gKyAgICB0eXBl
+OiBib29sZWFuDQo+ICsgICAgZGVzY3JpcHRpb246DQo+ICsgICAgICBJZiBwcmVzZW50LCBpbmRp
+Y2F0ZXMgdGhhdCB0aGUgY2xvY2sgaXMgZ2F0ZWQuDQo+ICsgICAgICBPdGhlcndpc2UsIHRoZSBj
+bG9jayBpcyBmcmVlLXJ1bm5pbmcuDQo+ICsNCj4gKyAgbWljcm9jaGlwLGludGVyLWxpbmUtZGVs
+YXk6DQo+ICsgICAgYWxsT2Y6DQo+ICsgICAgLSAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9k
+ZWZpbml0aW9ucy91aW50MzINCj4gKyAgICAtIG1pbmltdW06IDENCj4gKyAgICAtIG1heGltdW06
+IDE2DQo+ICsgICAgZGVmYXVsdDogMTYNCj4gKyAgICBkZXNjcmlwdGlvbjoNCj4gKyAgICAgIElu
+ZGljYXRlcyBob3cgbWFueSBjbG9jayBjeWNsZXMgc2hvdWxkIGJlIGludHJvZHVjZWQgYmV0d2Vl
+biBlYWNoIGxpbmUuDQo+ICsNCj4gKyAgcG9ydEAwOg0KPiArICAgIHR5cGU6IG9iamVjdA0KPiAr
+ICAgIGRlc2NyaXB0aW9uOg0KPiArICAgICAgSW5wdXQgcG9ydCBub2RlLCBzaW5nbGUgZW5kcG9p
+bnQgZGVzY3JpYmluZyB0aGUgaW5wdXQgcGFkLg0KPiArDQo+ICsgICAgcHJvcGVydGllczoNCj4g
+KyAgICAgIHJlZzoNCj4gKyAgICAgICAgY29uc3Q6IDANCj4gKw0KPiArICAgICAgZW5kcG9pbnQ6
+DQo+ICsgICAgICAgIHR5cGU6IG9iamVjdA0KPiArDQo+ICsgICAgICAgIHByb3BlcnRpZXM6DQo+
+ICsgICAgICAgICAgcmVtb3RlLWVuZHBvaW50OiB0cnVlDQo+ICsNCj4gKyAgICAgICAgcmVxdWly
+ZWQ6DQo+ICsgICAgICAgICAgLSByZW1vdGUtZW5kcG9pbnQNCj4gKw0KPiArICAgICAgICBhZGRp
+dGlvbmFsUHJvcGVydGllczogZmFsc2UNCj4gKw0KPiArICAgIGFkZGl0aW9uYWxQcm9wZXJ0aWVz
+OiBmYWxzZQ0KPiArDQo+ICsgIHBvcnRAMToNCj4gKyAgICB0eXBlOiBvYmplY3QNCj4gKyAgICBk
+ZXNjcmlwdGlvbjoNCj4gKyAgICAgIE91dHB1dCBwb3J0IG5vZGUsIHNpbmdsZSBlbmRwb2ludCwg
+ZGVzY3JpYmluZyB0aGUgb3V0cHV0IHBhZC4NCj4gKw0KPiArICAgIHByb3BlcnRpZXM6DQo+ICsg
+ICAgICAnI2FkZHJlc3MtY2VsbHMnOg0KPiArICAgICAgICBjb25zdDogMQ0KPiArDQo+ICsgICAg
+ICAnI3NpemUtY2VsbHMnOg0KPiArICAgICAgICBjb25zdDogMA0KPiArDQo+ICsgICAgICByZWc6
+DQo+ICsgICAgICAgIGNvbnN0OiAxDQo+ICsNCj4gKyAgICBwYXR0ZXJuUHJvcGVydGllczoNCj4g
+KyAgICAgICJeZW5kcG9pbnRAWzAtOWEtZl0kIjoNCj4gKyAgICAgICAgdHlwZTogb2JqZWN0DQo+
+ICsNCj4gKyAgICAgICAgcHJvcGVydGllczoNCj4gKyAgICAgICAgICByZWc6DQo+ICsgICAgICAg
+ICAgICBlbnVtOiBbMCwgMSwgMiwgM10NCj4gKyAgICAgICAgICAgIGRlc2NyaXB0aW9uOiB2aXJ0
+dWFsIGNoYW5uZWwgZm9yIHRoZSBlbmRwb2ludA0KPiArDQo+ICsgICAgICAgICAgcmVtb3RlLWVu
+ZHBvaW50OiB0cnVlDQo+ICsNCj4gKyAgICAgICAgcmVxdWlyZWQ6DQo+ICsgICAgICAgICAgLSBy
+ZW1vdGUtZW5kcG9pbnQNCj4gKyAgICAgICAgICAtIHJlZw0KPiArDQo+ICsgICAgICAgIGFkZGl0
+aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KPiArDQo+ICsgICAgYWRkaXRpb25hbFByb3BlcnRpZXM6
+IGZhbHNlDQo+ICsNCj4gK3JlcXVpcmVkOg0KPiArICAtIGNvbXBhdGlibGUNCj4gKyAgLSByZWcN
+Cj4gKyAgLSBjbG9ja3MNCj4gKyAgLSBjbG9jay1uYW1lcw0KPiArICAtIHBvcnRAMA0KPiArDQo+
+ICtleGFtcGxlczoNCj4gKyAgLSB8DQo+ICsgICAgY3NpMmRjQGUxNDA0MDAwIHsNCj4gKyAgICAg
+ICAgY29tcGF0aWJsZSA9ICJtaWNyb2NoaXAsc2FtYTdnNS1jc2kyZGMiOw0KPiArICAgICAgICAj
+YWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gKyAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47DQo+ICsg
+ICAgICAgIHJlZyA9IDwweGUxNDA0MDAwIDB4NTAwPjsNCj4gKyAgICAgICAgY2xvY2tzID0gPCZw
+Y2xrPiwgPCZzY2NrPjsNCj4gKyAgICAgICAgY2xvY2stbmFtZXMgPSAicGNsayIsICJzY2NrIjsN
+Cj4gKw0KPiArICAgICAgICBwb3J0QDAgew0KPiArICAgICAgICAgICAgICAgcmVnID0gPDA+OyAv
+KiBtdXN0IGJlIDAsIGZpcnN0IGNoaWxkIHBvcnQgKi8NCj4gKyAgICAgICAgICAgICAgIGNzaTJk
+Y19pbjogZW5kcG9pbnQgeyAvKiBpbnB1dCBmcm9tIElESSBpbnRlcmZhY2UgKi8NCj4gKyAgICAg
+ICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmY3NpMmhvc3Rfb3V0PjsNCj4gKyAg
+ICAgICAgICAgICAgIH07DQo+ICsgICAgICAgIH07DQo+ICsNCj4gKyAgICAgICAgcG9ydEAxIHsN
+Cj4gKyAgICAgICAgICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gKyAgICAgICAgICAg
+ICAgICAjc2l6ZS1jZWxscyA9IDwwPjsNCj4gKyAgICAgICAgICAgICAgICByZWcgPSA8MT47IC8q
+IG11c3QgYmUgMSwgc2Vjb25kIGNoaWxkIHBvcnQgKi8NCj4gKyAgICAgICAgICAgICAgICBjc2ky
+ZGNfb3V0OiBlbmRwb2ludEAyIHsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwy
+PjsgIC8qIHZpcnR1YWwgY2hhbm5lbCBpZGVudGlmaWVyICovDQo+ICsgICAgICAgICAgICAgICAg
+ICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8Jnhpc2NfaW4+OyAvKiBvdXRwdXQgdG8gc2Vuc29y
+IGNvbnRyb2xsZXIgKi8NCj4gKyAgICAgICAgICAgICAgICB9Ow0KPiArICAgICAgICB9Ow0KPiAr
+ICAgIH07DQo+ICsNCj4gKy4uLg0KPiANCg0K
