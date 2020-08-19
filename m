@@ -2,198 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 749CB24A484
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 18:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2830324A4BA
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 19:14:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbgHSQ52 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 12:57:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45068 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbgHSQ5H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 12:57:07 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E7B0C061757;
-        Wed, 19 Aug 2020 09:57:06 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8175329E;
-        Wed, 19 Aug 2020 18:56:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597856219;
-        bh=JSMuV5nAqp9B18iMvO4sKVXd8MjalDF0a0uByYXBzuw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GVLkRIrCYOJf1UNRl4LLIVufPjmaatK0mmlWAGyeaFVSQL+fT9Y4xTVY7bO+30Kbp
-         Z6SwSWnw5mdu6D1H5au9CIcWREIVZSs0nFN7euhzh2Cf/NClI8HiwY4hZWppQqaD5U
-         ljH7aYtrkszJRobor9w6E4k1Q8NsXRnNtrn6bsA8=
-Date:   Wed, 19 Aug 2020 19:56:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Vishal Sagar <vsagar@xilinx.com>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Hyun Kwon <hyunk@xilinx.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Michal Simek <michals@xilinx.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "joe@perches.com" <joe@perches.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Dinesh Kumar <dineshk@xilinx.com>
-Subject: Re: [PATCH v3 3/3] media: v4l: xilinx: Add Xilinx UHD-SDI Rx
- Subsystem driver
-Message-ID: <20200819165641.GS6049@pendragon.ideasonboard.com>
-References: <20200618053304.14551-1-vishal.sagar@xilinx.com>
- <20200618053304.14551-4-vishal.sagar@xilinx.com>
- <50cc4f4b-e788-c5ad-cd6a-b428b96d5377@xs4all.nl>
- <20200715213315.GF6144@pendragon.ideasonboard.com>
- <BY5PR02MB6867211CA1F22DC01D6A8F15A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
+        id S1726795AbgHSROn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 13:14:43 -0400
+Received: from mga18.intel.com ([134.134.136.126]:59322 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726673AbgHSROb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Aug 2020 13:14:31 -0400
+IronPort-SDR: 9d8RIdjTEbL0fQ/CXjh2wAWyIFOe6CVioLW728TE855KnKe+bE5ARHqfhnV67gViIrZgm5cZRw
+ YcIQF+BDDGMg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="142790823"
+X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; 
+   d="gz'50?scan'50,208,50";a="142790823"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 10:14:30 -0700
+IronPort-SDR: ieGdFWC5l60qaNPQAAT+A5czmLipddawxL22tTEfAX9Q7QgPxh0K5qi/wfbB2qj3f9bXxeB0ik
+ owF9eg7htM5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; 
+   d="gz'50?scan'50,208,50";a="334741712"
+Received: from lkp-server01.sh.intel.com (HELO 4cedd236b688) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Aug 2020 10:14:27 -0700
+Received: from kbuild by 4cedd236b688 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1k8RfO-0000O4-FZ; Wed, 19 Aug 2020 17:14:26 +0000
+Date:   Thu, 20 Aug 2020 01:14:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Michal Hocko <mhocko@suse.com>, Colin Cross <ccross@google.com>
+Subject: Re: [PATCH v5 2/2] mm: add a field to store names for private
+ anonymous memory
+Message-ID: <202008200159.CjwHBHM6%lkp@intel.com>
+References: <20200819141650.7462-3-sumit.semwal@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/mixed; boundary="1yeeQ81UyVL57Vl7"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <BY5PR02MB6867211CA1F22DC01D6A8F15A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
+In-Reply-To: <20200819141650.7462-3-sumit.semwal@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vishal,
 
-(Hans, there's a question for you below)
+--1yeeQ81UyVL57Vl7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Aug 19, 2020 at 01:47:49PM +0000, Vishal Sagar wrote:
-> On Thursday, July 16, 2020 3:03 AM Laurent Pinchart wrote:
-> > On Thu, Jun 25, 2020 at 11:43:01AM +0200, Hans Verkuil wrote:
-> > > On 18/06/2020 07:33, Vishal Sagar wrote:
-> > > > The Xilinx UHD-SDI Rx subsystem soft IP is used to capture native SDI
-> > > > streams from SDI sources like SDI broadcast equipment like cameras and
-> > > > mixers. This block outputs either native SDI, native video or
-> > > > AXI4-Stream compliant data stream for further processing. Please refer
-> > > > to PG290 for details.
-> > > >
-> > > > The driver is used to configure the IP to add framer, search for
-> > > > specific modes, get the detected mode, stream parameters, errors, etc.
-> > > > It also generates events for video lock/unlock, bridge over/under flow.
-> > > >
-> > > > The driver supports 10/12 bpc YUV 422 media bus format currently. It
-> > > > also decodes the stream parameters based on the ST352 packet embedded in the
-> > > > stream. In case the ST352 packet isn't present in the stream, the core's
-> > > > detected properties are used to set stream properties.
-> > > >
-> > > > The driver currently supports only the AXI4-Stream IP configuration.
-> > > >
-> > > > Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
-> > > > ---
-> > > > v3
-> > > > - fixed KConfig with better description
-> > > > - removed unnecessary header files
-> > > > - converted uppercase to lowercase for all hex values
-> > > > - merged core struct to state struct
-> > > > - removed most one line functions and replaced with direct reg
-> > > >   read/write or macros
-> > > > - dt property bpp to bpc. default 10. not mandatory.
-> > > > - fixed subscribe events, log_status, s_stream
-> > > > - merged overflow/underflow to one event
-> > > > - moved all controls to xilinx-sdirxss.h
-> > > > - max events from 128 to 8
-> > > > - used FIELD_GET() instead of custom macro
-> > > > - updated the controls documentation
-> > > > - added spinlock
-> > > > - removed 3GB control and added mode to detect bitmask
-> > > > - fixed format for (width, height, colorspace, xfer func, etc)
-> > > > - added dv_timings_cap, s/g_dv_timings
-> > > > - fixed set/get_format
-> > > > - fix v4l control registrations
-> > > > - fix order of registration / deregistration in probe() remove()
-> > > > - fixed other comments from Hyun, Laurent and Hans
-> > > > - things yet to close
-> > > >   - adding source port for connector (Laurent's suggestion)
-> > > >   - adding new FIELD type for Transport Stream V4L2_FIELD_ALTERNATE_PROG (Han's suggestion)
-> > > >   - Update / remove EDH or CRC related controls
-> > > >
-> > > > v2
-> > > > - Added DV timing support based on Hans Verkuilś feedback
-> > > > - More documentation to custom v4l controls and events
-> > > > - Fixed Hyunś comments
-> > > > - Added macro for masking and shifting as per Joe Perches comments
-> > > > - Updated to latest as per Xilinx github repo driver like
-> > > >   adding new DV timings not in mainline yet uptill 03/21/20
-> > > >
-> > > >  drivers/media/platform/xilinx/Kconfig         |   11 +
-> > > >  drivers/media/platform/xilinx/Makefile        |    1 +
-> > > >  .../media/platform/xilinx/xilinx-sdirxss.c    | 2121 +++++++++++++++++
-> > > >  include/uapi/linux/v4l2-controls.h            |    6 +
-> > > >  include/uapi/linux/xilinx-sdirxss.h           |  283 +++
-> > > >  5 files changed, 2422 insertions(+)
-> > > >  create mode 100644 drivers/media/platform/xilinx/xilinx-sdirxss.c
-> > > >  create mode 100644 include/uapi/linux/xilinx-sdirxss.h
+Hi Sumit,
 
-[snip]
+I love your patch! Yet something to improve:
 
-> > > > diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c b/drivers/media/platform/xilinx/xilinx-sdirxss.c
-> > > > new file mode 100644
-> > > > index 000000000000..e39aab7c656a
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/xilinx/xilinx-sdirxss.c
-> > > > @@ -0,0 +1,2121 @@
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.9-rc1]
+[cannot apply to hnaz-linux-mm/master linux/master next-20200819]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-[snip]
+url:    https://github.com/0day-ci/linux/commits/Sumit-Semwal/Anonymous-VMA-naming-patches/20200819-222011
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 18445bf405cb331117bc98427b1ba6f12418ad17
+config: nds32-allnoconfig (attached as .config)
+compiler: nds32le-linux-gcc (GCC) 9.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=nds32 
 
-> > > > +	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
-> > > > +		ctrl->val = xsdirxss->ts_is_interlaced;
-> > > > +		break;
-> > >
-> > > I assume this control will disappear once you added support for
-> > > FIELD_ALTERNATE_PROG?
-> > 
-> > I'm not sure FIELD_ALTERNATE_PROG is a good idea. The v4l2_field
-> > specifies today how frames are split into multiple buffers. There's an
-> > implicit assumption that a frame split into two buffers is captured with
-> > interlacing. In the SDI case, the two concepts get decoupled, a
-> > progressive frame can be transmitted (and captured) in two separate
-> > parts. If we add a *_PROG field, we'll need to duplicate most of the
-> > v4l2_field values with a _PROG suffix, as the progressive frame can be
-> > captured in alternate buffers on a video node, but also in separate odd
-> > and even buffers on two video nodes. Tt the hardware level, data is
-> > transmitted with odd lines on one link, and even lines on a second link.
-> > There are then two instances of this IP core, one for each link. One
-> > instance would receive and process the even lines, the other instance
-> > the odd lines. The output of the two instances can then be connected to
-> > two separate DMA engines, or combined in the FPGA fabric, depending on
-> > how the user designs the system.
-> 
-> My apologies to give incorrect info regarding this.
-> In the progressive segmented frame, a progressive captured frame is sent
-> across to receiver over an interlaced transport. The 2 fields received
-> are similar to how V4L2_FIELD_ALTERNATE is except that the fields weren't
-> captured at 2 different times.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-I've now read more about progressive segmented frames, and I was indeed
-wrong about the fact that the two segments are transported over
-different links.
+All errors (new ones prefixed by >>):
 
-I still wonder, however, if a _PROG suffix is the best option. Wouldn't
-we need to also add V4L2_FIELD_TOP_PROG, V4L2_FIELD_BOTTOM_PROG,
-V4L2_FIELD_SEQ_TB_PROG and V4L2_FIELD_SEQ_BT_PROG, not necessarily for
-this driver, but for other devices that would support capturing the
-odd/even segments only, or support capturing both segments in a single
-buffer, one after the other ?
+   nds32le-linux-ld: kernel/sys.o: in function `__se_sys_prctl':
+>> sys.c:(.text+0x16a6): undefined reference to `madvise_set_anon_name'
+>> nds32le-linux-ld: sys.c:(.text+0x16aa): undefined reference to `madvise_set_anon_name'
 
-Maybe that's unavoidable, as enum v4l2_field combines both the buffer
-layout and the fact that the frame is interlaced or progressive. If we
-had to redesign it we could do better, but having to keep backward
-compatibility, duplicating most values with a _PROG suffix may be the
-best option.
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-Hans, any opinion ?
+--1yeeQ81UyVL57Vl7
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
 
-> So I will add the V4L2_FIELD_ALTERNATE_PROG in next patch version.
+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
 
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+--1yeeQ81UyVL57Vl7--
