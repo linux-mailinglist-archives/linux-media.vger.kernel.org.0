@@ -2,149 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1265724A59C
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 20:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC49E24A599
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 20:06:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727086AbgHSSGQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 14:06:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55624 "EHLO
+        id S1727033AbgHSSGA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 14:06:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726983AbgHSSF3 (ORCPT
+        with ESMTP id S1726923AbgHSSFe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 14:05:29 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53EB4C061383
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:29 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id h2so783842plr.0
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:29 -0700 (PDT)
+        Wed, 19 Aug 2020 14:05:34 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5442AC061757
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:34 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id d22so12078885pfn.5
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PTx1KB4WomfJKMJISUl/NMNKsl0lboyI/6kyDO0ot0Q=;
-        b=pPiEj6mZwpCKBOJjNus5Xgep/xDdXOmefZBNFxUJ0UkuxtFwSb7XiteXDD/RpgGXAr
-         BtDEJWc5AdhX/vXUpOw+12FcNkAKUvzhMlI48wXzWp+WW1UEwmc9o7pM9AWh8dqIBS0w
-         ZrK9bc1pxSOM9KL9OIjHF3orwkNxAaEqG+FnrPfu69Hma4U5VTk1wguOemxqhTIiqm2L
-         upiwLu3nHLFx9jLs31fQ+jKAQiueaxsZBtGMBq/Hjheed++gxnRnuKJWk3AKIZMJ0xQj
-         HNSwbGV4VXv9Yj5CY34Hh2c+Q62B8EZ/RaVBZDw4guBlx/HrhlmobCF3ZfZ7eOVK8UKy
-         t1xQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=8XgVLwUgTD8/U0v8SNRxtxRcYTbKexUokfLjtNYtAU8=;
+        b=A5kqoElaAA/N2CUv0n2oki5dj1mSXiwNtEUgxibghuDJime1icMKoM80k41PgW9KZE
+         yysb6ML4hMU9ddJfC6zoYjL9rVO1OBEIE32klDC++oKCQmqWhfMDRq3BuBsMFiVpNHqd
+         lA0cIV0I7FDYDYS+WELzVv4TSdEFFdXLoKOdgl4wIZQXHUM50pnPqfGLsXcBEb4x9wCB
+         cfFadem/MPCeax+ABbsilwpDd8PthlqMnj+gAB8b54dSikHpPTC2Zv+27G/lHmeBxfTp
+         DjmtkcVIs8de3U4JHE70FAhrWk6R/bUxMgIhXpWu/b4gSOyqiWjZJ9Z7oFX8tGPdgpjm
+         kztQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PTx1KB4WomfJKMJISUl/NMNKsl0lboyI/6kyDO0ot0Q=;
-        b=ogn+agSy3DAd7xc4hr2kejT8+J/CKqdktDM0J0l1y81nU4B/35lBBc0sJgIbb/2VXo
-         nrYXixum9gNkiQZP5rlmIoUeuyDrIyywwFcLgoTqItVxNG8f2k/+Oj6RP1xSuLUXCN8B
-         fda5my9Dh/tgZBuVwGyW81vfkns1Wxrhfqx6Ao6/3kNP8jyc87xDdynr7fhb8pzDsUmI
-         mNdKjVArWbxa1pz+j9oyeCN3P2Y1NT25+ZCycZFCWxtcymg3fQFVJWl8RUOuOnUg8fsq
-         sxIpOs9qtxwg6yBBiIrXiaYgsASRjq9f6EIz2MsneqKtDu7hxfrt4vzfApLXo8/iXOSp
-         Gqog==
-X-Gm-Message-State: AOAM530TedgvbD0BCL1k+v18q5EhDipB1F+4WN+XZJyxJ7e9NoVGUGJj
-        3+tRxMatgu6aeCMmVw7PttTftw==
-X-Google-Smtp-Source: ABdhPJyRHC2LN2rK2JG0ifUjrDVg3XtN1jTRkT7emzbh3uHC7nJPSWrn2om7LswmteBjqkTFI3drSA==
-X-Received: by 2002:a17:90b:23c9:: with SMTP id md9mr5114923pjb.173.1597860328786;
-        Wed, 19 Aug 2020 11:05:28 -0700 (PDT)
+         :references;
+        bh=8XgVLwUgTD8/U0v8SNRxtxRcYTbKexUokfLjtNYtAU8=;
+        b=FkYVhLgBFw8tlKlXst01q8AXMvogN9a4o3+j4xB3yO9j0cDCYIaDrSD5ysoVdx/Ct3
+         2gPV1rXfy/O1pvV0LAF2lTMbd4DZE3GpqGKawWXkHf4T4pbu8JdPRqpw+ZoULCLGfdzu
+         5a/yrwcAKx9P9kuQAglYgZ5OEXLdO0jtJvjRFGfsJ3CUUciHQidxPbPHeNYJIJP4rkIp
+         Jk0N/obXlFrTCdvewm458GhxQyAyFN3UKoqYDeivwAVMC6OO5/iY+EYZ8f5puK1I7kGd
+         TY8eQpoaw+AeKAc1gsuR+BmtaQdtgW7RWO6UFb/0U0mwFMIDhWvAYtEaAan0Na2qOi4+
+         XpIg==
+X-Gm-Message-State: AOAM530eS1vZjhTYCWkJeASVKh6Jx23fxyAQUHrfWBIdt23ocP5N7tHR
+        Pg4WL30EOaUGDrmtHlcXWDmLMQ==
+X-Google-Smtp-Source: ABdhPJxJTvbZSSTkAXqY1VgDueP9cacg5w3JD9QPcJ2pKwNQkCJ18KWjcLNkPoQYa/V+4jA3uJmYdg==
+X-Received: by 2002:a63:705b:: with SMTP id a27mr15324783pgn.405.1597860333821;
+        Wed, 19 Aug 2020 11:05:33 -0700 (PDT)
 Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.179])
-        by smtp.gmail.com with ESMTPSA id u191sm24353638pgu.56.2020.08.19.11.05.27
+        by smtp.gmail.com with ESMTPSA id p9sm24941711pge.39.2020.08.19.11.05.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2020 11:05:28 -0700 (PDT)
+        Wed, 19 Aug 2020 11:05:33 -0700 (PDT)
 From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
 To:     Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kaaira Gupta <kgupta@es.iitr.ac.in>
-Subject: [PATCH v3 6/9] media: vimc: Serialize vimc_streamer_s_stream()
-Date:   Wed, 19 Aug 2020 23:34:39 +0530
-Message-Id: <20200819180442.11630-7-kgupta@es.iitr.ac.in>
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Subject: [PATCH v3 7/9] media: vimc: Dynamically allocate stream struct
+Date:   Wed, 19 Aug 2020 23:34:40 +0530
+Message-Id: <20200819180442.11630-8-kgupta@es.iitr.ac.in>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
 References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+Multiple streams will share same stream struct if we want them to run on
+same thread. So remove it from vimc_cap struct so that it doesn't get
+destroyed when one of the capture does, and allocate it memory
+dynamically. Use kref with it as it will be used by multiple captures.
 
-Prepare for multiple video streams from the same sensor by serializing
-vimc_streamer_s_stream(). Multiple streams will allow for multiple
-concurrent calls to this function that could involve the same
-subdevices.
-
-If that happens the internal state of the involved subdevices could go
-out of sync as they are being started and stopped at the same time,
-prevent this by serializing starting and stopping of the vimc streamer.
-
-[Kaaira: only rebased the patch on current HEAD of media-tree]
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
 Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
 ---
- .../media/test-drivers/vimc/vimc-streamer.c    | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ drivers/media/test-drivers/vimc/vimc-capture.c  | 15 +++++++++++----
+ drivers/media/test-drivers/vimc/vimc-streamer.c | 17 ++++++-----------
+ drivers/media/test-drivers/vimc/vimc-streamer.h |  2 ++
+ 3 files changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
-index 6b5ea1537952..f5c9e2f3bbcb 100644
---- a/drivers/media/test-drivers/vimc/vimc-streamer.c
-+++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
-@@ -269,22 +269,27 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
- 			   struct vimc_ent_device *ved,
- 			   int enable)
+diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+index 93418cb5a139..73e5bdd17c57 100644
+--- a/drivers/media/test-drivers/vimc/vimc-capture.c
++++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+@@ -28,7 +28,6 @@ struct vimc_cap_device {
+ 	spinlock_t qlock;
+ 	struct mutex lock;
+ 	u32 sequence;
+-	struct vimc_stream stream;
+ 	struct media_pad pad;
+ };
+ 
+@@ -241,19 +240,25 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
  {
-+	static DEFINE_MUTEX(vimc_streamer_lock);
+ 	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
+ 	struct media_entity *entity = &vcap->vdev.entity;
++	struct media_pipeline *pipe = NULL;
++	struct vimc_stream *stream;
  	int ret;
  
- 	if (!stream || !ved)
- 		return -EINVAL;
+ 	atomic_inc(&vcap->ved.use_count);
+ 	vcap->sequence = 0;
  
-+	ret = mutex_lock_interruptible(&vimc_streamer_lock);
-+	if (ret)
-+		return ret;
++	stream = kzalloc(sizeof(*stream), GFP_ATOMIC);
++	kref_init(&stream->refcount);
++	pipe = &stream->pipe;
 +
- 	if (enable) {
- 		if (stream->kthread)
- 			return 0;
+ 	/* Start the media pipeline */
+-	ret = media_pipeline_start(entity, &vcap->stream.pipe);
++	ret = media_pipeline_start(entity, pipe);
+ 	if (ret) {
+ 		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+ 		return ret;
+ 	}
  
- 		ret = vimc_streamer_stream_start(ved);
- 		if (ret)
--			return ret;
-+			goto out;
+-	ret = vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 1);
++	ret = vimc_streamer_s_stream(stream, &vcap->ved, 1);
+ 	if (ret) {
+ 		media_pipeline_stop(entity);
+ 		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+@@ -270,9 +275,11 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+ static void vimc_cap_stop_streaming(struct vb2_queue *vq)
+ {
+ 	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
++	struct media_pipeline *pipe = vcap->ved.ent->pipe;
++	struct vimc_stream *stream = container_of(pipe, struct vimc_stream, pipe);
  
- 		ret = vimc_streamer_pipeline_init(stream, ved);
- 		if (ret)
--			return ret;
-+			goto out;
+ 	atomic_dec(&vcap->ved.use_count);
+-	vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 0);
++	vimc_streamer_s_stream(stream, &vcap->ved, 0);
  
- 		stream->kthread = kthread_run(vimc_streamer_thread, stream,
- 					      "vimc-streamer thread");
-@@ -294,17 +299,16 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+ 	/* Stop the media pipeline */
+ 	media_pipeline_stop(&vcap->vdev.entity);
+diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
+index f5c9e2f3bbcb..fade37bee26d 100644
+--- a/drivers/media/test-drivers/vimc/vimc-streamer.c
++++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
+@@ -20,18 +20,13 @@
+  * Erases values of stream struct and terminates the thread
+  *
+  */
+-static void vimc_streamer_pipeline_terminate(struct vimc_stream *stream)
++static void vimc_streamer_pipeline_terminate(struct kref *ref)
+ {
+-	struct vimc_ent_device *ved;
+-
+-	while (stream->pipe_size) {
+-		stream->pipe_size--;
+-		ved = stream->ved_pipeline[stream->pipe_size];
+-		stream->ved_pipeline[stream->pipe_size] = NULL;
+-	}
++	struct vimc_stream *stream = container_of(ref, struct vimc_stream, refcount);
+ 
+ 	kthread_stop(stream->kthread);
+ 	stream->kthread = NULL;
++	kfree(stream);
+ }
+ 
+ /**
+@@ -202,7 +197,7 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+ 	}
+ 
+ 	vimc_streamer_stream_terminate(cved);
+-	vimc_streamer_pipeline_terminate(stream);
++	kref_put(&stream->refcount, vimc_streamer_pipeline_terminate);
+ 	return -EINVAL;
+ }
+ 
+@@ -298,7 +293,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+ 			ret = PTR_ERR(stream->kthread);
  			dev_err(ved->dev, "kthread_run failed with %d\n", ret);
  			vimc_streamer_stream_terminate(ved);
- 			vimc_streamer_pipeline_terminate(stream);
--			stream->kthread = NULL;
--			return ret;
+-			vimc_streamer_pipeline_terminate(stream);
++			kref_put(&stream->refcount, vimc_streamer_pipeline_terminate);
  		}
  
  	} else {
- 		if (!stream->kthread)
--			return 0;
-+			goto out;
+@@ -306,7 +301,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+ 			goto out;
  
  		vimc_streamer_stream_terminate(ved);
- 		vimc_streamer_pipeline_terminate(stream);
+-		vimc_streamer_pipeline_terminate(stream);
++		kref_put(&stream->refcount, vimc_streamer_pipeline_terminate);
  	}
--
--	return 0;
-+out:
-+	mutex_unlock(&vimc_streamer_lock);
-+	return ret;
- }
+ out:
+ 	mutex_unlock(&vimc_streamer_lock);
+diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.h b/drivers/media/test-drivers/vimc/vimc-streamer.h
+index 3bb6731b8d4d..533c88675362 100644
+--- a/drivers/media/test-drivers/vimc/vimc-streamer.h
++++ b/drivers/media/test-drivers/vimc/vimc-streamer.h
+@@ -18,6 +18,7 @@
+ /**
+  * struct vimc_stream - struct that represents a stream in the pipeline
+  *
++ * @refcount:		kref object associated with stream struct
+  * @pipe:		the media pipeline object associated with this stream
+  * @ved_pipeline:	array containing all the entities participating in the
+  * 			stream. The order is from a video device (usually a
+@@ -32,6 +33,7 @@
+  * process frames for the stream.
+  */
+ struct vimc_stream {
++	struct kref refcount;
+ 	struct media_pipeline pipe;
+ 	struct vimc_ent_device *ved_pipeline[VIMC_STREAMER_PIPELINE_MAX_SIZE];
+ 	unsigned int pipe_size;
 -- 
 2.17.1
 
