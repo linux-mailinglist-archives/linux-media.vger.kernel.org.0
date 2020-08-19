@@ -2,100 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A1124A596
-	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 20:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5896024A5B6
+	for <lists+linux-media@lfdr.de>; Wed, 19 Aug 2020 20:14:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726987AbgHSSFr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 14:05:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55668 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727036AbgHSSFn (ORCPT
+        id S1726689AbgHSSOI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 14:14:08 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:42672 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725997AbgHSSOH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 14:05:43 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0727C061383
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:42 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id y10so9639389plr.11
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 11:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=I7Vn+tJdn/z3Gni7/IFrsXgR9xBszu9wFJcFR8d7t7c=;
-        b=DAYZaEy86+xUJSGKApxyGOw1UJsAyjFkzMLM5tSg7n2TcH2yRwDqVl0cjq3+FBqSA1
-         /rnPQh63tAwDge5VU8SR1vv0qKuje10IoqObeSEiAz3siLzce6e+Cv7UL0XNeFhzAEaw
-         dinBxzAhcZlbdv8B+vDAnpD97Oefe7d4exSRz4g9obzEdBPXx7xwCdDFm5KqSZLjNSKv
-         qBAxfA+xiMm4NugXUax/c5nuyBeszPMMostAdQcq0txo9xXH//20g6guUIAUQVqyZjlJ
-         +KW1RCsZyNtyrSF4NnKa9U/sslH+g8I8H9x45oXuBDQCguoObxbsPVhoEwTGpmZ9MrnV
-         q/Cg==
+        Wed, 19 Aug 2020 14:14:07 -0400
+Received: by mail-ed1-f68.google.com with SMTP id df16so18892817edb.9;
+        Wed, 19 Aug 2020 11:14:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=I7Vn+tJdn/z3Gni7/IFrsXgR9xBszu9wFJcFR8d7t7c=;
-        b=lLPLhyK1Z3frUak0RmUuknq40l6DLpKtprt2EeV12tFbFiJXytbbSACe/Exmm7yyv5
-         xNHYGupmYKrBSHqh1Y8U7AZj2vqJTk91BaFmngvckl6GrZYBhfNsNkuy3oLgvwuiPVua
-         X3lXo7mAr1z7gRQemK4vkyKZOFKJ5EZizmJXbqjVreflNmPFFbBhKerp22JAjD39xHkE
-         z8S6GF9TPuTdKBE33czu6NtY/xn/X1YVmy76paahLrCvoBxZnEhkI0XzVVvwXugRA2Eh
-         0HNNgntqx6I28TQqPU4JhcO1N+6c4OrbkiiiZluC/IS+Upkzf77PPMt/WAtOgXM8rsd0
-         o3WQ==
-X-Gm-Message-State: AOAM531xWsQXhkj8uk2obrOVMty3GlKZB9lCdu80rrgxo2LLtJ7CCyzz
-        MVzguAKmE4duiylk7iX1E9hWKg==
-X-Google-Smtp-Source: ABdhPJyFtSuf7vdw1h+onygga6DWqg010sj+RfgrrKxlJCVvaedkEPdzyOYvrUG3H5hWOzC4xQGrMA==
-X-Received: by 2002:a17:902:8504:: with SMTP id bj4mr192134plb.231.1597860342514;
-        Wed, 19 Aug 2020 11:05:42 -0700 (PDT)
-Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.179])
-        by smtp.gmail.com with ESMTPSA id q2sm28843271pff.107.2020.08.19.11.05.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2020 11:05:42 -0700 (PDT)
-From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
-To:     Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TUMql2k18FTxjS/+xzZXm3YL9WZCKUoPkdoTZwrxrK8=;
+        b=Xte9k78t/JlQPcbVz8+Uu3VT/a5SDqF6g7nTtQppEj4Zn+kt7VyIBgGP1J3QRCzhpb
+         8lhfnJ2pAUW9kOtMOYA928zW0rQu0vbRmyRf7CXiCCuWb0BHtB8dVDC2cMH07zzKDifT
+         uOVU89FIgdOvaAs+8E/iIiIuj1rzHm5ap0IFpNtS/Byh35GTdzIL4DrJR9Q48ULRNxjT
+         0XwoOFMoTStaDy4aXu5XTh8PgqJ8uCT7GKQddpLZEP+4kv37GqMVVaVlWuQIxzeztg47
+         Z4lc7MUk7lLhiILbDSp/A/2E4ANHnLI0Kv3zuc1lLMzW0cfu40agwQ0vmvRaFH4ihlDh
+         lNOQ==
+X-Gm-Message-State: AOAM531wuejfYUwH8ienyS/xD44nu9ejHJkXvkagM6ANHrOsCDhXAp0e
+        i5QRL2FUqSZ7Xz3gMOJjuis=
+X-Google-Smtp-Source: ABdhPJzm9IKPaPX6c5msiAAQTSoc8HBbQJ1lELbzrQFuIrCSQOQG4wOpSWFZZFYs6II6k/SaJfvFlg==
+X-Received: by 2002:a50:ee92:: with SMTP id f18mr26020037edr.80.1597860845273;
+        Wed, 19 Aug 2020 11:14:05 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.216])
+        by smtp.googlemail.com with ESMTPSA id qk30sm19144565ejb.125.2020.08.19.11.14.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 19 Aug 2020 11:14:04 -0700 (PDT)
+Date:   Wed, 19 Aug 2020 20:14:02 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
-Subject: [PATCH v3 9/9] media: vimc: Run multiple captures on same thread
-Date:   Wed, 19 Aug 2020 23:34:42 +0530
-Message-Id: <20200819180442.11630-10-kgupta@es.iitr.ac.in>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
-References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v3] ARM: s3c24xx: drop s3c-camif setup platform code
+Message-ID: <20200819181402.GB394@kozik-lap>
+References: <20200817164836.4613-1-krzk@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200817164836.4613-1-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If multiple captures try to enable stream, start their stream but do not
-initialise the pipeline again. Also, don't start the thread separately.
-Starting their streams will update the use count and their frames would
-be processed by the already running thread.
+On Mon, Aug 17, 2020 at 06:48:36PM +0200, Krzysztof Kozlowski wrote:
+> The s3c-camif driver setup platform code does not have any users so it
+> can be safely removed.
+> 
+> Along with the code W=1 compile warnings go away:
+> 
+>     arch/arm/mach-s3c24xx/setup-camif.c:28:5: warning: no previous prototype for 's3c_camif_gpio_get' [-Wmissing-prototypes]
+>     arch/arm/mach-s3c24xx/setup-camif.c:56:6: warning: no previous prototype for 's3c_camif_gpio_put' [-Wmissing-prototypes]
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> 
+> ---
 
-Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
----
- drivers/media/test-drivers/vimc/vimc-streamer.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Applied to samsung-soc for S3C cleanup.
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
-index fade37bee26d..880c31759cc0 100644
---- a/drivers/media/test-drivers/vimc/vimc-streamer.c
-+++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
-@@ -275,13 +275,14 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
- 		return ret;
- 
- 	if (enable) {
--		if (stream->kthread)
--			return 0;
- 
- 		ret = vimc_streamer_stream_start(ved);
- 		if (ret)
- 			goto out;
- 
-+		if (stream->kthread)
-+			goto out;
-+
- 		ret = vimc_streamer_pipeline_init(stream, ved);
- 		if (ret)
- 			goto out;
--- 
-2.17.1
+Best regards,
+Krzysztof
 
