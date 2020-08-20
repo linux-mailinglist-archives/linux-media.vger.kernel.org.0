@@ -2,168 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 166F124AD53
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 05:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A07224AD71
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 05:47:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726948AbgHTD3E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 23:29:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
+        id S1726884AbgHTDq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 23:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726887AbgHTD26 (ORCPT
+        with ESMTP id S1726698AbgHTDq5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 23:28:58 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B604BC061387
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 20:28:57 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id x24so392439otp.3
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 20:28:57 -0700 (PDT)
+        Wed, 19 Aug 2020 23:46:57 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDED8C061384
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 20:46:56 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id i80so236882lfi.13
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 20:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fF+dRt58CyDJkqe2eFqFPurhOlRy+MhyKYgh/jsdn+Q=;
-        b=sba2bQKZNNe3zs7DYGbWWnjDeDgJKgdgFl32qpVY2IcZo+5it6qr30pLargiHNS1VF
-         9N2ljSuI1xb3X3jUO3hdYU4FwW/zbxBKCLHKGFFsylv7KVY9AwKKe/OCHH7ah7bgWAFP
-         0V/R+fYE35vhDbNT1QyHmR93yxMFHFfQuxa+rksura1/kna69BSVHKM97tFjQwmJg6Xu
-         1e73cN9AHHnV7VLtkVZmiIYzq2UYw7luIiq9vXs3LcbNgGTzGCdWCnbhSJyxl00LgsnJ
-         hcclkwsEGFVhEzVEODFZJQ+fBkc8rglEjeeUhLVeARy2aLUwp5EkeZXVFgo5EOUBJLA9
-         mH3Q==
+        bh=MIchUN4tOHyQmoooHagLeI7lJ2WK7JXkWyfuUiGtb4U=;
+        b=cdrzd8DIJ9+V4zbbpYRCDfD/ME6MRUgMWO1v+hngvJLZ6QUHqpxtZhfVChVn0KV1YI
+         L16g+IBo/PcqaRGEJl1cra6LI2AVjcny64WifYbPZns6gz6+gFxxWmxtlYj9HZzTAjzi
+         BLiUryBAwPeKKrJyDbZyYfUZn14Q00tasLilhAt3bb1/JduHvrKlC9mZ8Dy1D7L17NKj
+         J/zdlCU1JZncuPj6GELWF7xGpoLwcnEEUUaZeVMFcp2KDqvBeq5sZJhL66J0DMYEsSH/
+         4USCC9pPciz4YakEK4jaCTAAIs6B1to8yLLUVxaW6MFEgIPb3iymIqt865iHYfT68diA
+         OPqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fF+dRt58CyDJkqe2eFqFPurhOlRy+MhyKYgh/jsdn+Q=;
-        b=B//FupR34D/rGXXal2zN4fE5fVC4c4hbLdvIgvMgbsAsQpv3zI/+idwJTqzufA6wjh
-         3DcjlfYVp4alM5cBW1ztqKCoMK2ZXoUfmUNCjBhhY1Jna2gIu3rwGPKCyOUy8CAiCd4W
-         B6898UTWA5GzY4ORZeTiOpNnEsabMCmC25yzT7lUaVzOxN/oXCCxclsayK0XBBg1bHn8
-         kNXMptt0CYKv6+Jo7UzKk2nsbW+jccET6wlUQf9RqKRkt1J7rTlVsNTUeGFoA7PCF5LT
-         db5sucREJSgMIUqvyaq6xUWAkc6XIunnoABg4xI9y/sWEq+dhDL/Q2aQu6Eue4YIr+H6
-         7Vag==
-X-Gm-Message-State: AOAM532K/Cg8GEVoeGU+ljsxCkdw3yoLQTsA6rTVCXghg2nPdLI48I1r
-        5swASSP7qxyu5d/LlX7aVmVolY9PdLtwwML7u43oFA==
-X-Google-Smtp-Source: ABdhPJxZ7nw2s4Dxik9WLGdcKtJi9XiOGz8t6RoivsF5sQizqu4GALCfVQirCeiffIuh9kOf+5CS/1tORO2ndusgNc4=
-X-Received: by 2002:a05:6830:237b:: with SMTP id r27mr722568oth.352.1597894136679;
- Wed, 19 Aug 2020 20:28:56 -0700 (PDT)
+        bh=MIchUN4tOHyQmoooHagLeI7lJ2WK7JXkWyfuUiGtb4U=;
+        b=n7C4eH63DhR6klNOdmWvcTfFCa43fmF1rG7FXR+ACavAJXO2hAxVyjmdDFeSLv4Rm1
+         nBtVfl1lQyA43m6vXZzZT+04GXDHno1NNyjgNXTQoqd1ag28CYJ8cQT1LVAvMxClwHD/
+         FQAR2IFTdJ58t0AZPzpPvmr/RXBDhm7gXkv2xB+v2MOLmGAagan0IA2Fc9QQjjSrlVX+
+         Z2nQYpKp3ysa7JisnlTH/2ZNW5Tk6VmA0ffySmdo8Ewex7AWEF5pqM4JAL8CtT5AtS22
+         BO7X04tbyULxHnDIICHF42S20bFor/0rKBapPkK6Bdf9RELu+G70fSsZzXC1FyRg3NXM
+         rW2A==
+X-Gm-Message-State: AOAM530YJBHxIFCukMdO2I51VbohuNMlcM+AbNX5tIoBanRlWsRKRCz1
+        n+wpk2sDdab3xFX+wD0mzxDrG2cFQK8THGXy1xeXGAyViOgQiCoY
+X-Google-Smtp-Source: ABdhPJyh8nJHRDA1mfQUy8hmEEmCfXfd0QzynbDBcUhoqQgBHFkqmr86v4MdYm3HWWb1KXvShlGfk8bos1w9MFj/vlw=
+X-Received: by 2002:ac2:5383:: with SMTP id g3mr576386lfh.45.1597895214380;
+ Wed, 19 Aug 2020 20:46:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
- <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com> <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
-In-Reply-To: <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Wed, 19 Aug 2020 20:28:44 -0700
-Message-ID: <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Bogdan Togorean <bogdan.togorean@analog.com>,
-        Liwei Cai <cailiwei@hisilicon.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Wanchun Zheng <zhengwanchun@hisilicon.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        BPF Mailing List <bpf@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
-        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Liuyao An <anliuyao@huawei.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Wei Xu <xuwei5@hisilicon.com>,
-        Rongrong Zou <zourongrong@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Network Development <netdev@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Chen Feng <puck.chen@hisilicon.com>
+References: <20200819175134.19261-1-krzk@kernel.org>
+In-Reply-To: <20200819175134.19261-1-krzk@kernel.org>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Thu, 20 Aug 2020 09:16:40 +0530
+Message-ID: <CAO_48GGjS6rAU1ojTDc9RA6e8nS4PRKOJEBzu-Vpc69x+7ykyg@mail.gmail.com>
+Subject: Re: [RESEND PATCH 1/2] dma-buf: Fix kerneldoc of dma_buf_set_name()
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 7:01 PM John Stultz <john.stultz@linaro.org> wrote:
+Hello Krzystof,
+
+On Wed, 19 Aug 2020 at 23:21, Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >
-> On Wed, Aug 19, 2020 at 2:36 PM John Stultz <john.stultz@linaro.org> wrote:
-> >
-> > On Wed, Aug 19, 2020 at 4:46 AM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
-> > > So, IMO, the best is to keep it on staging for a while, until those
-> > > remaining bugs gets solved.
-> > >
-> > > I added this series, together with the regulator driver and
-> > > a few other patches (including a hack to fix a Kernel 5.8
-> > > regression at WiFi ) at:
-> > >
-> > >         https://gitlab.freedesktop.org/mchehab_kernel/hikey-970/-/commits/master
-> >
-> > Sorry, one more small request: Could you create a branch that only has
-> > the DRM driver changes in it?
-> >
-> > The reason I ask, is that since the HiKey960 isn't affected by the
-> > majority of the problems you listed as motivation for going through
-> > staging. So if we can validate that your tree works fine on HiKey960,
-> > the series can be cleaned up and submitted properly upstream to enable
-> > that SoC, and the outstanding 970 issues can be worked out afterwards
-> > against mainline.
+> Fix W=1 compile warnings (invalid kerneldoc):
 >
-> Just as a heads up, I tried testing your tree with my HiKey960, and
-> after fixing the compat string inconsistency, the drivers seem to load
-> properly. However the drm_hwcomposer seems to have some trouble with
-> the driver:
-> 01-01 00:12:41.456   345   345 E hwc-drm-display-compositor: Commit
-> test failed for display 0, FIXME
-> 01-01 00:12:41.456   345   345 E hwc-drm-two: Failed to apply the
-> frame composition ret=-22
-> 01-01 00:12:41.456   351   351 E HWComposer:
-> presentAndGetReleaseFences: present failed for display 0: BadParameter
-> (4)
+>     drivers/dma-buf/dma-buf.c:328: warning: Function parameter or member 'dmabuf' not described in 'dma_buf_set_name'
+
+Thanks for the patch; I will apply it to drm-misc.
 >
-> I'll dig in a bit further as to why, but wanted to give you a heads up.
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  drivers/dma-buf/dma-buf.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 1699a8e309ef..58564d82a3a2 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -316,9 +316,9 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>   * name of the dma-buf if the same piece of memory is used for multiple
+>   * purpose between different devices.
+>   *
+> - * @dmabuf [in]     dmabuf buffer that will be renamed.
+> - * @buf:   [in]     A piece of userspace memory that contains the name of
+> - *                  the dma-buf.
+> + * @dmabuf: [in]     dmabuf buffer that will be renamed.
+> + * @buf:    [in]     A piece of userspace memory that contains the name of
+> + *                   the dma-buf.
+>   *
+>   * Returns 0 on success. If the dma-buf buffer is already attached to
+>   * devices, return -EBUSY.
+> --
+> 2.17.1
+>
 
-Ok, I've mostly gotten it sorted out:
-  - You're missing a few color formats.
-  - And I re-discovered a crash that was already fixed in my tree.
-
-I'll send those patches in a few here.
-
-That said even with the patches I've got on top of your series, I
-still see a few issues:
-1) I'm seeing red-blue swap with your driver.  I need to dig a bit to
-see what the difference is, I know gralloc has a config option for
-this, and maybe the version of the driver I'm carrying has it wrong?
-2) Performance is noticeably worse. Whereas with my tree, I see close
-to 60fps (that clk issue we mentioned earlier is why it's not exactly
-60) in most tests, but with yours it mostly hovers around 30some fps,
-occasionally speeding up to 40 and then back down.
-
-Obviously with some work I suspect we'll be able to sort these out,
-but I also do feel that the set you're starting with for upstreaming
-is pretty old. The driver I'm carrying was heavily refactored around
-5.0 to share code with the existing kirin driver, in the hopes of
-making usptreaming easier, and it seems a shame to throw that out and
-focus your efforts on the older tree.
-
-But to be fair, I've not had time to upstream the driver myself, and
-it's obviously your choice on how you spend your time.  I am really
-excited to see your efforts here, regardless of which driver you end
-up pushing.
-
-thanks
--john
+Best,
+Sumit
