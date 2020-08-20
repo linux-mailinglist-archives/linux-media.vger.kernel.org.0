@@ -2,366 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B64F124C1E1
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 17:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3391C24C1EB
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 17:16:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729056AbgHTPNn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 11:13:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58218 "EHLO mail.kernel.org"
+        id S1727079AbgHTPQU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 11:16:20 -0400
+Received: from mga11.intel.com ([192.55.52.93]:54036 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728433AbgHTPNd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 11:13:33 -0400
-Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F17F3204EA;
-        Thu, 20 Aug 2020 15:13:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597936412;
-        bh=/zCmwwU3sNcC0M45eP2ex87GldoS8TY7gBwIB4VYX1k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=O4GFm5ixVVaWyhs64lYh5h2H5C06AZWeb4JaJGGG5ZefL9OEBdKDduar/r8aXYNZv
-         gaeKj0O1fvqmxIlIbL11aPqsnRDDqFgSm3pzk8aIty8/L9QYDWAWbrKGhUyD6AdDnm
-         ciVVz9EXHGXzvMby02yPYXLJsmDwRsrYhh+Zr3rQ=
-Date:   Thu, 20 Aug 2020 17:13:22 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Wanchun Zheng <zhengwanchun@hisilicon.com>,
-        linuxarm@huawei.com, dri-devel <dri-devel@lists.freedesktop.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Xiubin Zhang <zhangxiubin1@huawei.com>,
-        Wei Xu <xuwei5@hisilicon.com>, David Airlie <airlied@linux.ie>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Bogdan Togorean <bogdan.togorean@analog.com>,
-        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Liwei Cai <cailiwei@hisilicon.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>, mauro.chehab@huawei.com,
-        Rob Clark <robdclark@chromium.org>,
-        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Liuyao An <anliuyao@huawei.com>,
-        Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-Message-ID: <20200820171322.3b2e94fd@coco.lan>
-In-Reply-To: <20200820144808.GA186324@ravnborg.org>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
-        <20200819152120.GA106437@ravnborg.org>
-        <20200819174027.70b39ee9@coco.lan>
-        <20200819173558.GA3733@ravnborg.org>
-        <20200820160649.54741194@coco.lan>
-        <20200820144808.GA186324@ravnborg.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727823AbgHTPQQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Aug 2020 11:16:16 -0400
+IronPort-SDR: +x7mIjbs/sKG5+tztQxjm/e169jc/VJzWgvEGUa4TkAaYDaZc0YX8be0IiRu44h8ZHRwbonizp
+ EqNoDZ09PqTQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="152911821"
+X-IronPort-AV: E=Sophos;i="5.76,333,1592895600"; 
+   d="scan'208";a="152911821"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2020 08:16:08 -0700
+IronPort-SDR: kDyAF9WNh6MW7wZP47ACWkp7EK9tbnreurZwp1+STsorO/1AOaQnQUjGtKoRpQ1eAJEWfbfJzL
+ s13I2bU4ePRQ==
+X-IronPort-AV: E=Sophos;i="5.76,333,1592895600"; 
+   d="scan'208";a="311143848"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2020 08:16:06 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 32FFD203ED; Thu, 20 Aug 2020 18:16:04 +0300 (EEST)
+Date:   Thu, 20 Aug 2020 18:16:04 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
+Message-ID: <20200820151604.GZ24582@paasikivi.fi.intel.com>
+References: <20200805105721.15445-1-jacopo@jmondi.org>
+ <20200805105721.15445-2-jacopo@jmondi.org>
+ <20200809175821.GF5981@pendragon.ideasonboard.com>
+ <20200810081757.zeeqiigrlfpxppxs@uno.localdomain>
+ <20200818081743.GQ24582@paasikivi.fi.intel.com>
+ <20200819010623.GI2360@pendragon.ideasonboard.com>
+ <20200819102000.GS24582@paasikivi.fi.intel.com>
+ <20200819123840.GG6049@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819123840.GG6049@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 20 Aug 2020 16:48:08 +0200
-Sam Ravnborg <sam@ravnborg.org> escreveu:
+Hi Laurent,
 
-> Hi Mauro.
+On Wed, Aug 19, 2020 at 03:38:40PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> On Thu, Aug 20, 2020 at 04:06:49PM +0200, Mauro Carvalho Chehab wrote:
-> > Em Wed, 19 Aug 2020 19:35:58 +0200
-> > Sam Ravnborg <sam@ravnborg.org> escreveu:
+> On Wed, Aug 19, 2020 at 01:20:00PM +0300, Sakari Ailus wrote:
+> > On Wed, Aug 19, 2020 at 04:06:23AM +0300, Laurent Pinchart wrote:
+> > > On Tue, Aug 18, 2020 at 11:17:43AM +0300, Sakari Ailus wrote:
+> > > > On Mon, Aug 10, 2020 at 10:17:57AM +0200, Jacopo Mondi wrote:
+> > > > > On Sun, Aug 09, 2020 at 08:58:21PM +0300, Laurent Pinchart wrote:
+> > > > > > On Wed, Aug 05, 2020 at 12:57:18PM +0200, Jacopo Mondi wrote:
+> > > > > > > The V4L2 selection API are also used to access the pixel array
+> > > > > > > properties of an image sensor, such as the size and position of active
+> > > > > > > pixels and the cropped area of the pixel matrix used to produce images.
+> > > > > > >
+> > > > > > > Currently no clear definition of the different areas that compose an
+> > > > > > > image sensor pixel array matrix is provided in the specification, and
+> > > > > > > the actual meaning of each selection target when applied to an image
+> > > > > > > sensor was not provided.
+> > > > > > >
+> > > > > > > Provide in the sub-device documentation the definition of the pixel
+> > > > > > > matrix properties and the selection target associated to each of them.
+> > > > > > >
+> > > > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > > > > ---
+> > > > > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
+> > > > > > >  1 file changed, 81 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > > > index 134d2fb909fa4..c47861dff9b9b 100644
+> > > > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > > > @@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
+> > > > > > >  ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
+> > > > > > >  the image size either up or down. :ref:`v4l2-selection-flags`
+> > > > > > >
+> > > > > > > +.. _v4l2-subdev-pixel-array-properties:
+> > > > > > > +
+> > > > > > > +Selection targets for image sensors properties
+> > > > > > > +----------------------------------------------
+> > > > > > > +
+> > > > > > > +The V4L2 selection API can be used on sub-devices that represent an image
+> > > > > > > +sensor to retrieve the sensor's pixel array matrix properties by using the
+> > > > > > > +:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
+> > > > > > > +
+> > > > > > > +Sub-device drivers for image sensor usually register a single source pad, but in
+> > > > > > > +the case they expose more, the pixel array properties can be accessed from
+> > > > > > > +any of them.
+> > > > > > > +
+> > > > > > > +The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
+> > > > > > > +``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
+> > > > > > > +the immutable properties of the several different areas that compose the sensor
+> > > > > > > +pixel array matrix. Each area describes a rectangle of logically adjacent pixel
+> > > > > > > +units. The logical disposition of pixels is defined by the sensor read-out
+> > > > > > > +starting point and direction, and may differ from the physical disposition of
+> > > > > > > +the pixel units in the pixel array matrix.
+> > > > > > > +
+> > > > > > > +Each pixel matrix portion is contained in a larger rectangle, with the most
+> > > > > > > +largest being the one that describes the pixel matrix physical size. This
+> > > > > > > +defines a hierarchical positional system, where each rectangle is defined
+> > > > > > > +relatively to the largest available one among the ones exposed by the
+> > > > > > > +sub-device driver. Each selection target and the associated pixel array portion
+> > > > > > > +it represents are below presented in order from the largest to the smallest one.
+> > > > > > > +
+> > > > > > > +Pixel array physical size
+> > > > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > > > > > +
+> > > > > > > +The image sensor chip is composed by a number of physical pixels, not all of
+> > > > > > > +them readable by the application processor. Invalid or unreadable lines might
+> > > > > > > +not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
+> > > > > > > +they might be tagged with an invalid data type (DT) so that the receiver
+> > > > > > > +automatically discard them. The size of the whole pixel matrix area is
+> > > > > > > +retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
+> > > > > > > +defined as position (0, 0). All the other selection targets are defined
+> > > > > > > +relatively to this, larger, rectangle. The rectangle returned by
+> > > > > > > +V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
+> > > > > > > +does not change at run-time and cannot be modified from userspace.
+> > > > > >
+> > > > > > As I think I've mentioned previously (not sure if it was by e-mail or on
+> > > > > > IRC), we could also decide to set V4L2_SEL_TGT_NATIVE_SIZE ==
+> > > > > > V4L2_SEL_TGT_CROP_BOUNDS by ignoring the non-readable pixels completely.
+> > > > > > What's the advantage of exposing them in the API, when the sensors
+> > > > > > doesn't provide them to the rest of the pipeline ?
+> > > > > 
+> > > > > I don't know :) I'm also  bit confused on what's the purpose of
+> > > > > NATIVE, this commit seems to suggest it was meant to replace
+> > > > > CROP_BOUNDS, but I'm not sure about that.
+> > > > > 
+> > > > > commit b518d86609cc066b626120fe6ec6fe3a4ccfcd54
+> > > > > Author: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > Date:   Thu Nov 6 16:54:33 2014 -0300
+> > > > > 
+> > > > >     [media] smiapp: Support V4L2_SEL_TGT_NATIVE_SIZE
+> > > > > 
+> > > > >     Add support for selection target V4L2_SEL_TGT_NATIVE_SIZE. It is equivalent
+> > > > >     of what V4L2_SEL_TGT_CROP_BOUNDS used to be. Support for
+> > > > >     V4L2_SEL_TGT_CROP_BOUNDS is still supported by the driver as a compatibility
+> > > > >     interface.
+> > > > > 
+> > > > > Sakari, do you recall if that's was the original plan ?
+> > > > 
+> > > > That was to denote the size of the pixel array indeed. We didn't discuss
+> > > > dark or invalid pixels at the time.
+> > > > 
+> > > > So this was just there to tell that it's the pixel array you're cropping
+> > > > from.
+> > > > 
+> > > > But as long as it's API-wise compatible, I don't think anything prevents
+> > > > re-purposing this to include other areas. The documentation (AFAIR) does
+> > > > not say this has to be the same as the crop bounds rectangle.
+> > > 
+> > > What do you think would be best ? Should we include the non-readable
+> > > pixels in V4L2_SEL_TGT_NATIVE_SIZE, with V4L2_SEL_TGT_CROP_BOUNDS then
+> > > being strictly smaller, or drop them completely from the API, with
+> > > V4L2_SEL_TGT_CROP_BOUNDS being equal to V4L2_SEL_TGT_NATIVE_SIZE ? It
+> > > may be that we have to allow both to support existing drivers, but we
+> > > should pick one of the two options and make it mandatory for new
+> > > drivers.
 > > 
-> > I'm already handling the other comments from your review (I'll send a
-> > more complete comment about them after finishing),  
-> If you get back only on things you do not understand or do not agree on
-> that would be fine. The rest should be visible in the changelog on the
-> updated patch - no need to do extra work here.
-> 
-> > but I have a doubt what you meant about this:
-> >   
-> > > +static int kirin_drm_bind(struct device *dev)  
-> > > > +{
-> > > > +	struct drm_driver *driver = &kirin_drm_driver;
-> > > > +	struct drm_device *drm_dev;
-> > > > +	struct kirin_drm_private *priv;
-> > > > +	int ret;
-> > > > +
-> > > > +	drm_dev = drm_dev_alloc(driver, dev);
-> > > > +	if (!drm_dev)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > > +	ret = kirin_drm_kms_init(drm_dev);
-> > > > +	if (ret)
-> > > > +		goto err_drm_dev_unref;
-> > > > +
-> > > > +	ret = drm_dev_register(drm_dev, 0);    
-> > > There is better ways to do this. See drm_drv.c for the code example.  
+> > That's a very good question.
 > > 
-> > Not sure if I understood your comment here. The drm_drv.c example also calls 
-> > drm_dev_register().  
+> > What would be the purpose of adding pixels that cannot be read? I assume
+> > they would not affect sensor timing either in that case, so there would be
+> > no difference whether they are there or not.
 > 
-> This is indeed not obvious from my comments but what I wnated to say is
-> that the driver should embed drm_device in some struct,
-> maybe in "struct kirin_drm_private".
+> Timings is a good point, could there be sensors that read those pixels
+> but don't send them out ? Maybe to avoid edge effects ? That would be
+> accounted for in the H/V blank though, wouldn't it ?
+
+I guess we could ignore it, as it takes place during what is indeed
+considered as blanking.
+
 > 
-> This should also be part of the referenced example.
+> > The crop bounds should contain
+> > everything whereas for the default crop should reflect the area of the
+> > visible pixels.
 > 
-> I hope this clarifies it.
+> I believe there are sensors that have all pixels visible, but recommend
+> not using edge pixels as they are affected by edge effects, even if
+> those pixels can be read out and transferred. In that case
+> V4L2_SEL_TGT_CROP_BOUNDS should include the edge pixels, but maybe
+> V4L2_SEL_TGT_CROP_DEFAULT shouldn't ?
 
-Yeah. I was already doing those changes ;-) 
+I guess so. But in practice I wonder if there are such implementations.
 
-Something like the enclosed patch, right?
+> 
+> > I guess in theory the visible pixels could not be cropped by the sensor in
+> > analogue cropping step, so it might be worth having a separate rectangle
+> > for those, too.
+> 
+> I'm not sure to follow you here.
 
-Btw, I'm not sure if the error handling part is ok, as I didn't check
-what the devm stuff does at the subsystem. 
+I'm saying the sensor hardware could in theory be unable to read only the
+visible pixels.
 
--
+-- 
+Regards,
 
-On a separate question, I was unable to use the helper macros,
-as it sounds that there's no macro with this:
-
-	.dumb_create		= drm_gem_cma_dumb_create_internal,
-
-The existing DRM_GEM_CMA_VMAP_DRIVER_OPS uses, instead
-drm_gem_cma_dumb_create(). I'm not sure if this driver can use
-such function instead.
-
-Thanks,
-Mauro
-
-staging: hikey9xx/gpu: use drm_managed interface
-    
-Use a more modern design for the driver binding logic by
-using drm_managed and getting rid of drm->dev_private.
-    
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.c
-index c7736f4d74b7..600c89605cc0 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.c
-@@ -29,12 +29,13 @@
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_managed.h>
- 
- #include "kirin9xx_drm_drv.h"
- 
- static int kirin_drm_kms_cleanup(struct drm_device *dev)
- {
--	struct kirin_drm_private *priv = dev->dev_private;
-+	struct kirin_drm_private *priv = to_drm_private(dev);
- 	static struct kirin_dc_ops const *dc_ops;
- 
- 	if (priv->fbdev)
-@@ -45,15 +46,13 @@ static int kirin_drm_kms_cleanup(struct drm_device *dev)
- 	drm_kms_helper_poll_fini(dev);
- 	dc_ops->cleanup(dev);
- 	drm_mode_config_cleanup(dev);
--	devm_kfree(dev->dev, priv);
--	dev->dev_private = NULL;
- 
- 	return 0;
- }
- 
- static void kirin_fbdev_output_poll_changed(struct drm_device *dev)
- {
--	struct kirin_drm_private *priv = dev->dev_private;
-+	struct kirin_drm_private *priv = to_drm_private(dev);
- 
- 	dsi_set_output_client(dev);
- 
-@@ -69,18 +68,20 @@ static const struct drm_mode_config_funcs kirin_drm_mode_config_funcs = {
- 
- static int kirin_drm_kms_init(struct drm_device *dev)
- {
--	struct kirin_drm_private *priv = dev->dev_private;
-+	struct kirin_drm_private *priv = to_drm_private(dev);
- 	static struct kirin_dc_ops const *dc_ops;
- 	int ret;
- 
--	priv = devm_kzalloc(dev->dev, sizeof(*priv), GFP_KERNEL);
-+	priv = drmm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
- 
- 	dev->dev_private = priv;
- 	dev_set_drvdata(dev->dev, dev);
- 
--	drm_mode_config_init(dev);
-+	ret = drmm_mode_config_init(dev);
-+	if (ret)
-+		return ret;
- 
- 	dev->mode_config.min_width = 0;
- 	dev->mode_config.min_height = 0;
-@@ -94,20 +95,20 @@ static int kirin_drm_kms_init(struct drm_device *dev)
- 	dc_ops = of_device_get_match_data(dev->dev);
- 	ret = dc_ops->init(dev);
- 	if (ret)
--		goto err_mode_config_cleanup;
-+		return ret;
- 
- 	/* bind and init sub drivers */
- 	ret = component_bind_all(dev->dev, dev);
- 	if (ret) {
- 		DRM_ERROR("failed to bind all component.\n");
--		goto err_dc_cleanup;
-+		return ret;
- 	}
- 
- 	/* vblank init */
- 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
- 	if (ret) {
- 		DRM_ERROR("failed to initialize vblank.\n");
--		goto err_unbind_all;
-+		return ret;
- 	}
- 	/* with irq_enabled = true, we can use the vblank feature. */
- 	dev->irq_enabled = true;
-@@ -119,28 +120,10 @@ static int kirin_drm_kms_init(struct drm_device *dev)
- 	drm_kms_helper_poll_init(dev);
- 
- 	return 0;
--
--err_unbind_all:
--	component_unbind_all(dev->dev, dev);
--err_dc_cleanup:
--	dc_ops->cleanup(dev);
--err_mode_config_cleanup:
--	drm_mode_config_cleanup(dev);
--	devm_kfree(dev->dev, priv);
--	dev->dev_private = NULL;
--
--	return ret;
- }
- 
- DEFINE_DRM_GEM_CMA_FOPS(kirin_drm_fops);
- 
--static int kirin_gem_cma_dumb_create(struct drm_file *file,
--				     struct drm_device *dev,
--				     struct drm_mode_create_dumb *args)
--{
--	return drm_gem_cma_dumb_create_internal(file, dev, args);
--}
--
- static int kirin_drm_connectors_register(struct drm_device *dev)
- {
- 	struct drm_connector_list_iter conn_iter;
-@@ -176,11 +159,11 @@ static int kirin_drm_connectors_register(struct drm_device *dev)
- static struct drm_driver kirin_drm_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET |
- 				  DRIVER_ATOMIC | DRIVER_RENDER,
--	.fops				= &kirin_drm_fops,
-+	.fops			= &kirin_drm_fops,
- 
- 	.gem_free_object	= drm_gem_cma_free_object,
- 	.gem_vm_ops		= &drm_gem_cma_vm_ops,
--	.dumb_create		= kirin_gem_cma_dumb_create,
-+	.dumb_create		= drm_gem_cma_dumb_create_internal,
- 
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-@@ -207,42 +190,48 @@ static int compare_of(struct device *dev, void *data)
- static int kirin_drm_bind(struct device *dev)
- {
- 	struct drm_driver *driver = &kirin_drm_driver;
--	struct drm_device *drm_dev;
- 	struct kirin_drm_private *priv;
-+	struct drm_device *drm;
- 	int ret;
- 
--	drm_dev = drm_dev_alloc(driver, dev);
--	if (!drm_dev)
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
- 		return -ENOMEM;
- 
--	ret = kirin_drm_kms_init(drm_dev);
-+	drm = &priv->drm;
-+
-+	ret = devm_drm_dev_init(dev, drm, driver);
-+	if (ret) {
-+		kfree(priv);
-+		return ret;
-+	}
-+	drmm_add_final_kfree(drm, priv);
-+
-+	ret = kirin_drm_kms_init(drm);
- 	if (ret)
--		goto err_drm_dev_unref;
-+		return ret;
- 
--	ret = drm_dev_register(drm_dev, 0);
-+	ret = drm_dev_register(drm, 0);
- 	if (ret)
--		goto err_kms_cleanup;
-+		return ret;
- 
--	drm_fbdev_generic_setup(drm_dev, 0);
--	priv = drm_dev->dev_private;
-+	drm_fbdev_generic_setup(drm, 0);
- 
- 	/* connectors should be registered after drm device register */
--	ret = kirin_drm_connectors_register(drm_dev);
-+	ret = kirin_drm_connectors_register(drm);
- 	if (ret)
- 		goto err_drm_dev_unregister;
- 
- 	DRM_INFO("Initialized %s %d.%d.%d %s on minor %d\n",
- 		 driver->name, driver->major, driver->minor, driver->patchlevel,
--		 driver->date, drm_dev->primary->index);
-+		 driver->date, drm->primary->index);
- 
- 	return 0;
- 
- err_drm_dev_unregister:
--	drm_dev_unregister(drm_dev);
--err_kms_cleanup:
--	kirin_drm_kms_cleanup(drm_dev);
--err_drm_dev_unref:
--	drm_dev_put(drm_dev);
-+	drm_dev_unregister(drm);
-+	kirin_drm_kms_cleanup(drm);
-+	drm_dev_put(drm);
- 
- 	return ret;
- }
-@@ -252,6 +241,7 @@ static void kirin_drm_unbind(struct device *dev)
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
- 
- 	drm_dev_unregister(drm_dev);
-+	drm_atomic_helper_shutdown(drm_dev);
- 	kirin_drm_kms_cleanup(drm_dev);
- 	drm_dev_put(drm_dev);
- }
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.h b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.h
-index 58f6fc7be347..09255d136c54 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.h
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_drv.h
-@@ -31,6 +31,7 @@ struct kirin_dc_ops {
- };
- 
- struct kirin_drm_private {
-+	struct drm_device drm;
- 	struct drm_fb_helper *fbdev;
- 	struct drm_crtc *crtc[MAX_CRTC];
- };
-@@ -44,4 +45,6 @@ extern const struct kirin_dc_ops kirin960_dss_dc_ops;
- extern const struct kirin_dc_ops kirin970_dss_dc_ops;
- void dsi_set_output_client(struct drm_device *dev);
- 
-+#define to_drm_private(d) container_of(d, struct kirin_drm_private, drm)
-+
- #endif /* __KIRIN_DRM_DRV_H__ */
+Sakari Ailus
