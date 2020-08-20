@@ -2,160 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD0F224B676
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 12:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB61B24B69A
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 12:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731127AbgHTKgP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 06:36:15 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:62150 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731420AbgHTKgL (ORCPT
+        id S1731903AbgHTKiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 06:38:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39206 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731902AbgHTKiF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 06:36:11 -0400
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 20 Aug 2020 03:36:10 -0700
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 20 Aug 2020 03:36:08 -0700
-Received: from c-rojay-linux.qualcomm.com ([10.206.21.80])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 20 Aug 2020 16:05:36 +0530
-Received: by c-rojay-linux.qualcomm.com (Postfix, from userid 88981)
-        id 937791F44; Thu, 20 Aug 2020 16:05:35 +0530 (IST)
-From:   Roja Rani Yarubandi <rojay@codeaurora.org>
-To:     wsa@kernel.org
-Cc:     swboyd@chromium.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, akashast@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        Roja Rani Yarubandi <rojay@codeaurora.org>
-Subject: [PATCH V2 2/2] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-Date:   Thu, 20 Aug 2020 16:05:22 +0530
-Message-Id: <20200820103522.26242-3-rojay@codeaurora.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200820103522.26242-1-rojay@codeaurora.org>
-References: <20200820103522.26242-1-rojay@codeaurora.org>
+        Thu, 20 Aug 2020 06:38:05 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122FCC061757
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 03:38:05 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8242323D;
+        Thu, 20 Aug 2020 12:38:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1597919883;
+        bh=BQNkOma8SsW/FO16mrdQ9tYjEcWbEHtz6mOlFPPGBjI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BFnROfHvAvOLIliOMzWLZUkxhxYusVtnG8RLdZ7bIloBeKnvLbeREzjTxa8eNIyl6
+         Qw2/k4MewMxY0k1FTi1tYkX8vpg51RsXCphKjgAlRjSrwVOlaMLTlsJmJwQxWy+9g+
+         AM/0sM8752ED3ip196JIpgIMlUjn9NlmiRje2P/I=
+Date:   Thu, 20 Aug 2020 13:37:46 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH] media: uvc: Silence shift-out-of-bounds warning
+Message-ID: <20200820103746.GD6593@pendragon.ideasonboard.com>
+References: <20200818235406.GE2360@pendragon.ideasonboard.com>
+ <20200819000340.11616-1-laurent.pinchart@ideasonboard.com>
+ <68984fef-1e18-9394-9e68-becabf83c85f@acm.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <68984fef-1e18-9394-9e68-becabf83c85f@acm.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the hardware is still accessing memory after SMMU translation
-is disabled (as part of smmu shutdown callback), then the
-IOVAs (I/O virtual address) which it was using will go on the bus
-as the physical addresses which will result in unknown crashes
-like NoC/interconnect errors.
+Hi Bart,
 
-So, implement shutdown callback to i2c driver to unmap DMA mappings
-during system "reboot" or "shutdown".
+On Wed, Aug 19, 2020 at 08:25:27PM -0700, Bart Van Assche wrote:
+> On 2020-08-18 17:03, Laurent Pinchart wrote:
+> > UBSAN reports a shift-out-of-bounds warning in uvc_get_le_value(). The
+> > report is correct, but the issue should be harmless as the computed
+> > value isn't used when the shift is negative. This may however cause
+> > incorrect behaviour if a negative shift could generate adverse side
+> > effects (such as a trap on some architectures for instance).
+> > 
+> > Regardless of whether that may happen or not, silence the warning as a
+> > full WARN backtrace isn't nice.
+> > 
+> > Reported-by: Bart Van Assche <bvanassche@acm.org>
+> > Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/usb/uvc/uvc_ctrl.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > index 6c37aa018ad5..b2cdee0f7763 100644
+> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > @@ -773,12 +773,16 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
+> >  	offset &= 7;
+> >  	mask = ((1LL << bits) - 1) << offset;
+> >  
+> > -	for (; bits > 0; data++) {
+> > +	while (1) {
+> >  		u8 byte = *data & mask;
+> >  		value |= offset > 0 ? (byte >> offset) : (byte << (-offset));
+> >  		bits -= 8 - (offset > 0 ? offset : 0);
+> > +		if (bits <= 0)
+> > +			break;
+> > +
+> >  		offset -= 8;
+> >  		mask = (1 << bits) - 1;
+> > +		data++;
+> >  	}
+> >  
+> >  	/* Sign-extend the value if needed. */
+> 
+> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+> 
+> Thanks for having addressed this quickly!
 
-Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
----
-Changes in V2:
- - As per Stephen's comments added seperate function for stop transfer,
-   fixed minor nitpicks.
+You're welcome. Would you be able to test the patch to ensure it fixes
+the issue on your system (and that there are no observable side effects)
+?
 
- drivers/i2c/busses/i2c-qcom-geni.c | 43 ++++++++++++++++++++++++++++++
- include/linux/qcom-geni-se.h       |  5 ++++
- 2 files changed, 48 insertions(+)
-
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index 1fda5c7c2cfc..d07f2f33bb75 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -486,6 +486,28 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
- 	return ret;
- }
- 
-+static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
-+{
-+	u32 val;
-+	struct geni_se *se = &gi2c->se;
-+
-+	val = readl_relaxed(gi2c->se.base + SE_DMA_DEBUG_REG0);
-+	if (val & DMA_TX_ACTIVE) {
-+		geni_i2c_abort_xfer(gi2c);
-+		gi2c->cur_wr = 0;
-+		if (gi2c->err)
-+			geni_i2c_tx_fsm_rst(gi2c);
-+		geni_se_tx_dma_unprep(se, gi2c->tx_dma, gi2c->xfer_len);
-+	}
-+	if (val & DMA_RX_ACTIVE) {
-+		geni_i2c_abort_xfer(gi2c);
-+		gi2c->cur_rd = 0;
-+		if (gi2c->err)
-+			geni_i2c_rx_fsm_rst(gi2c);
-+		geni_se_rx_dma_unprep(se, gi2c->rx_dma, gi2c->xfer_len);
-+	}
-+}
-+
- static u32 geni_i2c_func(struct i2c_adapter *adap)
- {
- 	return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
-@@ -617,6 +639,26 @@ static int geni_i2c_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static void geni_i2c_shutdown(struct platform_device *pdev)
-+{
-+	int ret;
-+	u32 dma;
-+	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
-+	struct geni_se *se = &gi2c->se;
-+
-+	ret = pm_runtime_get_sync(gi2c->se.dev);
-+	if (ret < 0) {
-+		dev_err(gi2c->se.dev, "Failed to resume device: %d\n", ret);
-+		return;
-+	}
-+
-+	dma = readl_relaxed(se->base + SE_GENI_DMA_MODE_EN);
-+	if (dma)
-+		geni_i2c_stop_xfer(gi2c);
-+
-+	pm_runtime_put_sync_suspend(gi2c->se.dev);
-+}
-+
- static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
- {
- 	int ret;
-@@ -677,6 +719,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
- static struct platform_driver geni_i2c_driver = {
- 	.probe  = geni_i2c_probe,
- 	.remove = geni_i2c_remove,
-+	.shutdown = geni_i2c_shutdown,
- 	.driver = {
- 		.name = "geni_i2c",
- 		.pm = &geni_i2c_pm_ops,
-diff --git a/include/linux/qcom-geni-se.h b/include/linux/qcom-geni-se.h
-index dd464943f717..c3c016496d98 100644
---- a/include/linux/qcom-geni-se.h
-+++ b/include/linux/qcom-geni-se.h
-@@ -77,6 +77,7 @@ struct geni_se {
- #define SE_DMA_RX_FSM_RST		0xd58
- #define SE_HW_PARAM_0			0xe24
- #define SE_HW_PARAM_1			0xe28
-+#define SE_DMA_DEBUG_REG0		0xe40
- 
- /* GENI_FORCE_DEFAULT_REG fields */
- #define FORCE_DEFAULT	BIT(0)
-@@ -207,6 +208,10 @@ struct geni_se {
- #define RX_GENI_CANCEL_IRQ		BIT(11)
- #define RX_GENI_GP_IRQ_EXT		GENMASK(13, 12)
- 
-+/* SE_DMA_DEBUG_REG0 Register fields */
-+#define DMA_TX_ACTIVE			BIT(0)
-+#define DMA_RX_ACTIVE			BIT(1)
-+
- /* SE_HW_PARAM_0 fields */
- #define TX_FIFO_WIDTH_MSK		GENMASK(29, 24)
- #define TX_FIFO_WIDTH_SHFT		24
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
-of Code Aurora Forum, hosted by The Linux Foundation
+Regards,
 
+Laurent Pinchart
