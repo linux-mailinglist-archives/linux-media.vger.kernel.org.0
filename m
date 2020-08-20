@@ -2,127 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3722B24AD47
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 05:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 166F124AD53
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 05:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbgHTDZc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 23:25:32 -0400
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:39894 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbgHTDZb (ORCPT
+        id S1726948AbgHTD3E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 23:29:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726887AbgHTD26 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 23:25:31 -0400
-Received: by mail-pj1-f67.google.com with SMTP id j13so371066pjd.4
-        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 20:25:30 -0700 (PDT)
+        Wed, 19 Aug 2020 23:28:58 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B604BC061387
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 20:28:57 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id x24so392439otp.3
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 20:28:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fF+dRt58CyDJkqe2eFqFPurhOlRy+MhyKYgh/jsdn+Q=;
+        b=sba2bQKZNNe3zs7DYGbWWnjDeDgJKgdgFl32qpVY2IcZo+5it6qr30pLargiHNS1VF
+         9N2ljSuI1xb3X3jUO3hdYU4FwW/zbxBKCLHKGFFsylv7KVY9AwKKe/OCHH7ah7bgWAFP
+         0V/R+fYE35vhDbNT1QyHmR93yxMFHFfQuxa+rksura1/kna69BSVHKM97tFjQwmJg6Xu
+         1e73cN9AHHnV7VLtkVZmiIYzq2UYw7luIiq9vXs3LcbNgGTzGCdWCnbhSJyxl00LgsnJ
+         hcclkwsEGFVhEzVEODFZJQ+fBkc8rglEjeeUhLVeARy2aLUwp5EkeZXVFgo5EOUBJLA9
+         mH3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=kIc8Uh16R4A2EJX3F2QTGOppfTWhNiFwAs8oA1hp+Kw=;
-        b=X796DGthqFbIA3Or9XIqJG3cfKLyHQIQ5rk/IpUAUuB7fQdUe5A7PR2WiWWPmfKkn8
-         Hu9XECfZHuHENo/0vypBRbY8s66Rm1TnwaSZpzWaZbvni+c2fpnRZKO66Ik83b7Q4pfG
-         z9/y7PeiRRrd++MkQdekl9sDCJ1hGO+ta0ltzFo642yhIpXHZRsoKfg2nGgz27wWIg+X
-         287GTemIn0BHd62UaGDkc9JUXHRdFNAMGuakTrElaZ1uHC6cG4X0QNhch1dKj/PcQ9+u
-         OLKnxW0wcjC4PtM5Sj1dvV9bk+oRSLks2IferGqp2zm5NeYT+9fGsrw5nIXvLgs/ZZbI
-         J56g==
-X-Gm-Message-State: AOAM531y2VeMC4JdXbDqd5oobbI1+1I/3YIT2bJPQ3fiPDwoN3l3GH03
-        eQVIKrAqarw9v6Fpkc7+d0E=
-X-Google-Smtp-Source: ABdhPJxlVrcANb6StRifTvUKhhmM4G0edcRL1aoXvGu6BnMqXgtr+oY1vjtGYQTEjw0UjHwWaqYx0g==
-X-Received: by 2002:a17:902:4b:: with SMTP id 69mr1114946pla.18.1597893930055;
-        Wed, 19 Aug 2020 20:25:30 -0700 (PDT)
-Received: from [192.168.3.217] (c-73-241-217-19.hsd1.ca.comcast.net. [73.241.217.19])
-        by smtp.gmail.com with ESMTPSA id x4sm704478pff.112.2020.08.19.20.25.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2020 20:25:28 -0700 (PDT)
-Subject: Re: [PATCH] media: uvc: Silence shift-out-of-bounds warning
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Fabio Estevam <festevam@gmail.com>
-References: <20200818235406.GE2360@pendragon.ideasonboard.com>
- <20200819000340.11616-1-laurent.pinchart@ideasonboard.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-Autocrypt: addr=bvanassche@acm.org; prefer-encrypt=mutual; keydata=
- mQENBFSOu4oBCADcRWxVUvkkvRmmwTwIjIJvZOu6wNm+dz5AF4z0FHW2KNZL3oheO3P8UZWr
- LQOrCfRcK8e/sIs2Y2D3Lg/SL7qqbMehGEYcJptu6mKkywBfoYbtBkVoJ/jQsi2H0vBiiCOy
- fmxMHIPcYxaJdXxrOG2UO4B60Y/BzE6OrPDT44w4cZA9DH5xialliWU447Bts8TJNa3lZKS1
- AvW1ZklbvJfAJJAwzDih35LxU2fcWbmhPa7EO2DCv/LM1B10GBB/oQB5kvlq4aA2PSIWkqz4
- 3SI5kCPSsygD6wKnbRsvNn2mIACva6VHdm62A7xel5dJRfpQjXj2snd1F/YNoNc66UUTABEB
- AAG0JEJhcnQgVmFuIEFzc2NoZSA8YnZhbmFzc2NoZUBhY20ub3JnPokBOQQTAQIAIwUCVI67
- igIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFcPTXFzhAJ8QkH/1AdXblKL65M
- Y1Zk1bYKnkAb4a98LxCPm/pJBilvci6boefwlBDZ2NZuuYWYgyrehMB5H+q+Kq4P0IBbTqTa
- jTPAANn62A6jwJ0FnCn6YaM9TZQjM1F7LoDX3v+oAkaoXuq0dQ4hnxQNu792bi6QyVdZUvKc
- macVFVgfK9n04mL7RzjO3f+X4midKt/s+G+IPr4DGlrq+WH27eDbpUR3aYRk8EgbgGKvQFdD
- CEBFJi+5ZKOArmJVBSk21RHDpqyz6Vit3rjep7c1SN8s7NhVi9cjkKmMDM7KYhXkWc10lKx2
- RTkFI30rkDm4U+JpdAd2+tP3tjGf9AyGGinpzE2XY1K5AQ0EVI67igEIAKiSyd0nECrgz+H5
- PcFDGYQpGDMTl8MOPCKw/F3diXPuj2eql4xSbAdbUCJzk2ETif5s3twT2ER8cUTEVOaCEUY3
- eOiaFgQ+nGLx4BXqqGewikPJCe+UBjFnH1m2/IFn4T9jPZkV8xlkKmDUqMK5EV9n3eQLkn5g
- lco+FepTtmbkSCCjd91EfThVbNYpVQ5ZjdBCXN66CKyJDMJ85HVr5rmXG/nqriTh6cv1l1Js
- T7AFvvPjUPknS6d+BETMhTkbGzoyS+sywEsQAgA+BMCxBH4LvUmHYhpS+W6CiZ3ZMxjO8Hgc
- ++w1mLeRUvda3i4/U8wDT3SWuHcB3DWlcppECLkAEQEAAYkBHwQYAQIACQUCVI67igIbDAAK
- CRBxXD01xc4QCZ4dB/0QrnEasxjM0PGeXK5hcZMT9Eo998alUfn5XU0RQDYdwp6/kMEXMdmT
- oH0F0xB3SQ8WVSXA9rrc4EBvZruWQ+5/zjVrhhfUAx12CzL4oQ9Ro2k45daYaonKTANYG22y
- //x8dLe2Fv1By4SKGhmzwH87uXxbTJAUxiWIi1np0z3/RDnoVyfmfbbL1DY7zf2hYXLLzsJR
- mSsED/1nlJ9Oq5fALdNEPgDyPUerqHxcmIub+pF0AzJoYHK5punqpqfGmqPbjxrJLPJfHVKy
- goMj5DlBMoYqEgpbwdUYkH6QdizJJCur4icy8GUNbisFYABeoJ91pnD4IGei3MTdvINSZI5e
-Message-ID: <68984fef-1e18-9394-9e68-becabf83c85f@acm.org>
-Date:   Wed, 19 Aug 2020 20:25:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fF+dRt58CyDJkqe2eFqFPurhOlRy+MhyKYgh/jsdn+Q=;
+        b=B//FupR34D/rGXXal2zN4fE5fVC4c4hbLdvIgvMgbsAsQpv3zI/+idwJTqzufA6wjh
+         3DcjlfYVp4alM5cBW1ztqKCoMK2ZXoUfmUNCjBhhY1Jna2gIu3rwGPKCyOUy8CAiCd4W
+         B6898UTWA5GzY4ORZeTiOpNnEsabMCmC25yzT7lUaVzOxN/oXCCxclsayK0XBBg1bHn8
+         kNXMptt0CYKv6+Jo7UzKk2nsbW+jccET6wlUQf9RqKRkt1J7rTlVsNTUeGFoA7PCF5LT
+         db5sucREJSgMIUqvyaq6xUWAkc6XIunnoABg4xI9y/sWEq+dhDL/Q2aQu6Eue4YIr+H6
+         7Vag==
+X-Gm-Message-State: AOAM532K/Cg8GEVoeGU+ljsxCkdw3yoLQTsA6rTVCXghg2nPdLI48I1r
+        5swASSP7qxyu5d/LlX7aVmVolY9PdLtwwML7u43oFA==
+X-Google-Smtp-Source: ABdhPJxZ7nw2s4Dxik9WLGdcKtJi9XiOGz8t6RoivsF5sQizqu4GALCfVQirCeiffIuh9kOf+5CS/1tORO2ndusgNc4=
+X-Received: by 2002:a05:6830:237b:: with SMTP id r27mr722568oth.352.1597894136679;
+ Wed, 19 Aug 2020 20:28:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200819000340.11616-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com> <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
+In-Reply-To: <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Wed, 19 Aug 2020 20:28:44 -0700
+Message-ID: <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        Liwei Cai <cailiwei@hisilicon.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Wanchun Zheng <zhengwanchun@hisilicon.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        BPF Mailing List <bpf@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Liuyao An <anliuyao@huawei.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Wei Xu <xuwei5@hisilicon.com>,
+        Rongrong Zou <zourongrong@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Network Development <netdev@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Chen Feng <puck.chen@hisilicon.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-08-18 17:03, Laurent Pinchart wrote:
-> UBSAN reports a shift-out-of-bounds warning in uvc_get_le_value(). The
-> report is correct, but the issue should be harmless as the computed
-> value isn't used when the shift is negative. This may however cause
-> incorrect behaviour if a negative shift could generate adverse side
-> effects (such as a trap on some architectures for instance).
-> 
-> Regardless of whether that may happen or not, silence the warning as a
-> full WARN backtrace isn't nice.
-> 
-> Reported-by: Bart Van Assche <bvanassche@acm.org>
-> Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 6c37aa018ad5..b2cdee0f7763 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -773,12 +773,16 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
->  	offset &= 7;
->  	mask = ((1LL << bits) - 1) << offset;
->  
-> -	for (; bits > 0; data++) {
-> +	while (1) {
->  		u8 byte = *data & mask;
->  		value |= offset > 0 ? (byte >> offset) : (byte << (-offset));
->  		bits -= 8 - (offset > 0 ? offset : 0);
-> +		if (bits <= 0)
-> +			break;
-> +
->  		offset -= 8;
->  		mask = (1 << bits) - 1;
-> +		data++;
->  	}
->  
->  	/* Sign-extend the value if needed. */
+On Wed, Aug 19, 2020 at 7:01 PM John Stultz <john.stultz@linaro.org> wrote:
+>
+> On Wed, Aug 19, 2020 at 2:36 PM John Stultz <john.stultz@linaro.org> wrote:
+> >
+> > On Wed, Aug 19, 2020 at 4:46 AM Mauro Carvalho Chehab
+> > <mchehab+huawei@kernel.org> wrote:
+> > > So, IMO, the best is to keep it on staging for a while, until those
+> > > remaining bugs gets solved.
+> > >
+> > > I added this series, together with the regulator driver and
+> > > a few other patches (including a hack to fix a Kernel 5.8
+> > > regression at WiFi ) at:
+> > >
+> > >         https://gitlab.freedesktop.org/mchehab_kernel/hikey-970/-/commits/master
+> >
+> > Sorry, one more small request: Could you create a branch that only has
+> > the DRM driver changes in it?
+> >
+> > The reason I ask, is that since the HiKey960 isn't affected by the
+> > majority of the problems you listed as motivation for going through
+> > staging. So if we can validate that your tree works fine on HiKey960,
+> > the series can be cleaned up and submitted properly upstream to enable
+> > that SoC, and the outstanding 970 issues can be worked out afterwards
+> > against mainline.
+>
+> Just as a heads up, I tried testing your tree with my HiKey960, and
+> after fixing the compat string inconsistency, the drivers seem to load
+> properly. However the drm_hwcomposer seems to have some trouble with
+> the driver:
+> 01-01 00:12:41.456   345   345 E hwc-drm-display-compositor: Commit
+> test failed for display 0, FIXME
+> 01-01 00:12:41.456   345   345 E hwc-drm-two: Failed to apply the
+> frame composition ret=-22
+> 01-01 00:12:41.456   351   351 E HWComposer:
+> presentAndGetReleaseFences: present failed for display 0: BadParameter
+> (4)
+>
+> I'll dig in a bit further as to why, but wanted to give you a heads up.
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Ok, I've mostly gotten it sorted out:
+  - You're missing a few color formats.
+  - And I re-discovered a crash that was already fixed in my tree.
 
-Thanks for having addressed this quickly!
+I'll send those patches in a few here.
 
-Bart.
+That said even with the patches I've got on top of your series, I
+still see a few issues:
+1) I'm seeing red-blue swap with your driver.  I need to dig a bit to
+see what the difference is, I know gralloc has a config option for
+this, and maybe the version of the driver I'm carrying has it wrong?
+2) Performance is noticeably worse. Whereas with my tree, I see close
+to 60fps (that clk issue we mentioned earlier is why it's not exactly
+60) in most tests, but with yours it mostly hovers around 30some fps,
+occasionally speeding up to 40 and then back down.
 
+Obviously with some work I suspect we'll be able to sort these out,
+but I also do feel that the set you're starting with for upstreaming
+is pretty old. The driver I'm carrying was heavily refactored around
+5.0 to share code with the existing kirin driver, in the hopes of
+making usptreaming easier, and it seems a shame to throw that out and
+focus your efforts on the older tree.
 
+But to be fair, I've not had time to upstream the driver myself, and
+it's obviously your choice on how you spend your time.  I am really
+excited to see your efforts here, regardless of which driver you end
+up pushing.
+
+thanks
+-john
