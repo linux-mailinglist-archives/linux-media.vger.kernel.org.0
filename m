@@ -2,217 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3391C24C1EB
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 17:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93BE624C240
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 17:32:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727079AbgHTPQU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 11:16:20 -0400
-Received: from mga11.intel.com ([192.55.52.93]:54036 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727823AbgHTPQQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 11:16:16 -0400
-IronPort-SDR: +x7mIjbs/sKG5+tztQxjm/e169jc/VJzWgvEGUa4TkAaYDaZc0YX8be0IiRu44h8ZHRwbonizp
- EqNoDZ09PqTQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="152911821"
-X-IronPort-AV: E=Sophos;i="5.76,333,1592895600"; 
-   d="scan'208";a="152911821"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2020 08:16:08 -0700
-IronPort-SDR: kDyAF9WNh6MW7wZP47ACWkp7EK9tbnreurZwp1+STsorO/1AOaQnQUjGtKoRpQ1eAJEWfbfJzL
- s13I2bU4ePRQ==
-X-IronPort-AV: E=Sophos;i="5.76,333,1592895600"; 
-   d="scan'208";a="311143848"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2020 08:16:06 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 32FFD203ED; Thu, 20 Aug 2020 18:16:04 +0300 (EEST)
-Date:   Thu, 20 Aug 2020 18:16:04 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 1/4] media: docs: Describe pixel array properties
-Message-ID: <20200820151604.GZ24582@paasikivi.fi.intel.com>
-References: <20200805105721.15445-1-jacopo@jmondi.org>
- <20200805105721.15445-2-jacopo@jmondi.org>
- <20200809175821.GF5981@pendragon.ideasonboard.com>
- <20200810081757.zeeqiigrlfpxppxs@uno.localdomain>
- <20200818081743.GQ24582@paasikivi.fi.intel.com>
- <20200819010623.GI2360@pendragon.ideasonboard.com>
- <20200819102000.GS24582@paasikivi.fi.intel.com>
- <20200819123840.GG6049@pendragon.ideasonboard.com>
+        id S1729210AbgHTPcQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 11:32:16 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52472 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728920AbgHTPcN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Aug 2020 11:32:13 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFD2E23D;
+        Thu, 20 Aug 2020 17:32:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1597937529;
+        bh=60ulVbwO4NBQ6nKBLOoJnVoZBadXZmtd1z1Re1hDuxA=;
+        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
+        b=eHClQ8daoRVOzPsEGP3UHHwkYeOIUlk8bZKiBxbTPJdPePuoIqVg64C8L25qpZV9M
+         mDJf6tg0Ga9jTY5vxajm+uxyWgvihZAr3CxZMg1M5zV2SmOEVnqk0b9oemYBglMRb9
+         yQKwXlQsR4+vQCcgUtANmk226JExz/evQut/6i3E=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v3 1/9] media: vimc: Move get_source_entity to vimc-common
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
+ <20200819180442.11630-2-kgupta@es.iitr.ac.in>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <12e33b5c-d894-a23c-b7a5-9fb3fbd51600@ideasonboard.com>
+Date:   Thu, 20 Aug 2020 16:32:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200819123840.GG6049@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200819180442.11630-2-kgupta@es.iitr.ac.in>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Kaaira,
 
-On Wed, Aug 19, 2020 at 03:38:40PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On 19/08/2020 19:04, Kaaira Gupta wrote:
+> Move the function vimc_get_source_entity() to vimc-common.c to make it
+> reusable.
 > 
-> On Wed, Aug 19, 2020 at 01:20:00PM +0300, Sakari Ailus wrote:
-> > On Wed, Aug 19, 2020 at 04:06:23AM +0300, Laurent Pinchart wrote:
-> > > On Tue, Aug 18, 2020 at 11:17:43AM +0300, Sakari Ailus wrote:
-> > > > On Mon, Aug 10, 2020 at 10:17:57AM +0200, Jacopo Mondi wrote:
-> > > > > On Sun, Aug 09, 2020 at 08:58:21PM +0300, Laurent Pinchart wrote:
-> > > > > > On Wed, Aug 05, 2020 at 12:57:18PM +0200, Jacopo Mondi wrote:
-> > > > > > > The V4L2 selection API are also used to access the pixel array
-> > > > > > > properties of an image sensor, such as the size and position of active
-> > > > > > > pixels and the cropped area of the pixel matrix used to produce images.
-> > > > > > >
-> > > > > > > Currently no clear definition of the different areas that compose an
-> > > > > > > image sensor pixel array matrix is provided in the specification, and
-> > > > > > > the actual meaning of each selection target when applied to an image
-> > > > > > > sensor was not provided.
-> > > > > > >
-> > > > > > > Provide in the sub-device documentation the definition of the pixel
-> > > > > > > matrix properties and the selection target associated to each of them.
-> > > > > > >
-> > > > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > > > > ---
-> > > > > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 81 +++++++++++++++++++
-> > > > > > >  1 file changed, 81 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > > index 134d2fb909fa4..c47861dff9b9b 100644
-> > > > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > > @@ -386,6 +386,87 @@ requests on all selection targets, unless specifically told otherwise.
-> > > > > > >  ``V4L2_SEL_FLAG_GE`` and ``V4L2_SEL_FLAG_LE`` flags may be used to round
-> > > > > > >  the image size either up or down. :ref:`v4l2-selection-flags`
-> > > > > > >
-> > > > > > > +.. _v4l2-subdev-pixel-array-properties:
-> > > > > > > +
-> > > > > > > +Selection targets for image sensors properties
-> > > > > > > +----------------------------------------------
-> > > > > > > +
-> > > > > > > +The V4L2 selection API can be used on sub-devices that represent an image
-> > > > > > > +sensor to retrieve the sensor's pixel array matrix properties by using the
-> > > > > > > +:ref:`selection <VIDIOC_SUBDEV_G_SELECTION>` ioctls.
-> > > > > > > +
-> > > > > > > +Sub-device drivers for image sensor usually register a single source pad, but in
-> > > > > > > +the case they expose more, the pixel array properties can be accessed from
-> > > > > > > +any of them.
-> > > > > > > +
-> > > > > > > +The ``V4L2_SEL_TGT_NATIVE``, ``V4L2_SEL_TGT_CROP_BOUNDS``,
-> > > > > > > +``V4L2_SEL_TGT_CROP_DEFAULT`` and ``V4L2_TGT_CROP`` targets are used to retrieve
-> > > > > > > +the immutable properties of the several different areas that compose the sensor
-> > > > > > > +pixel array matrix. Each area describes a rectangle of logically adjacent pixel
-> > > > > > > +units. The logical disposition of pixels is defined by the sensor read-out
-> > > > > > > +starting point and direction, and may differ from the physical disposition of
-> > > > > > > +the pixel units in the pixel array matrix.
-> > > > > > > +
-> > > > > > > +Each pixel matrix portion is contained in a larger rectangle, with the most
-> > > > > > > +largest being the one that describes the pixel matrix physical size. This
-> > > > > > > +defines a hierarchical positional system, where each rectangle is defined
-> > > > > > > +relatively to the largest available one among the ones exposed by the
-> > > > > > > +sub-device driver. Each selection target and the associated pixel array portion
-> > > > > > > +it represents are below presented in order from the largest to the smallest one.
-> > > > > > > +
-> > > > > > > +Pixel array physical size
-> > > > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > > > > +
-> > > > > > > +The image sensor chip is composed by a number of physical pixels, not all of
-> > > > > > > +them readable by the application processor. Invalid or unreadable lines might
-> > > > > > > +not be transmitted on the data bus at all, or in case on CSI-2 capable sensors
-> > > > > > > +they might be tagged with an invalid data type (DT) so that the receiver
-> > > > > > > +automatically discard them. The size of the whole pixel matrix area is
-> > > > > > > +retrieved using the V4L2_SEL_TGT_NATIVE target, which has its top-left corner
-> > > > > > > +defined as position (0, 0). All the other selection targets are defined
-> > > > > > > +relatively to this, larger, rectangle. The rectangle returned by
-> > > > > > > +V4L2_SEL_TGT_NATIVE describes an immutable property of the image sensor, it
-> > > > > > > +does not change at run-time and cannot be modified from userspace.
-> > > > > >
-> > > > > > As I think I've mentioned previously (not sure if it was by e-mail or on
-> > > > > > IRC), we could also decide to set V4L2_SEL_TGT_NATIVE_SIZE ==
-> > > > > > V4L2_SEL_TGT_CROP_BOUNDS by ignoring the non-readable pixels completely.
-> > > > > > What's the advantage of exposing them in the API, when the sensors
-> > > > > > doesn't provide them to the rest of the pipeline ?
-> > > > > 
-> > > > > I don't know :) I'm also  bit confused on what's the purpose of
-> > > > > NATIVE, this commit seems to suggest it was meant to replace
-> > > > > CROP_BOUNDS, but I'm not sure about that.
-> > > > > 
-> > > > > commit b518d86609cc066b626120fe6ec6fe3a4ccfcd54
-> > > > > Author: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > Date:   Thu Nov 6 16:54:33 2014 -0300
-> > > > > 
-> > > > >     [media] smiapp: Support V4L2_SEL_TGT_NATIVE_SIZE
-> > > > > 
-> > > > >     Add support for selection target V4L2_SEL_TGT_NATIVE_SIZE. It is equivalent
-> > > > >     of what V4L2_SEL_TGT_CROP_BOUNDS used to be. Support for
-> > > > >     V4L2_SEL_TGT_CROP_BOUNDS is still supported by the driver as a compatibility
-> > > > >     interface.
-> > > > > 
-> > > > > Sakari, do you recall if that's was the original plan ?
-> > > > 
-> > > > That was to denote the size of the pixel array indeed. We didn't discuss
-> > > > dark or invalid pixels at the time.
-> > > > 
-> > > > So this was just there to tell that it's the pixel array you're cropping
-> > > > from.
-> > > > 
-> > > > But as long as it's API-wise compatible, I don't think anything prevents
-> > > > re-purposing this to include other areas. The documentation (AFAIR) does
-> > > > not say this has to be the same as the crop bounds rectangle.
-> > > 
-> > > What do you think would be best ? Should we include the non-readable
-> > > pixels in V4L2_SEL_TGT_NATIVE_SIZE, with V4L2_SEL_TGT_CROP_BOUNDS then
-> > > being strictly smaller, or drop them completely from the API, with
-> > > V4L2_SEL_TGT_CROP_BOUNDS being equal to V4L2_SEL_TGT_NATIVE_SIZE ? It
-> > > may be that we have to allow both to support existing drivers, but we
-> > > should pick one of the two options and make it mandatory for new
-> > > drivers.
-> > 
-> > That's a very good question.
-> > 
-> > What would be the purpose of adding pixels that cannot be read? I assume
-> > they would not affect sensor timing either in that case, so there would be
-> > no difference whether they are there or not.
-> 
-> Timings is a good point, could there be sensors that read those pixels
-> but don't send them out ? Maybe to avoid edge effects ? That would be
-> accounted for in the H/V blank though, wouldn't it ?
+> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
 
-I guess we could ignore it, as it takes place during what is indeed
-considered as blanking.
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
+> ---
+>  drivers/media/test-drivers/vimc/vimc-common.c | 14 +++++++++++
+>  drivers/media/test-drivers/vimc/vimc-common.h | 12 ++++++++++
+>  .../media/test-drivers/vimc/vimc-streamer.c   | 24 -------------------
+>  3 files changed, 26 insertions(+), 24 deletions(-)
 > 
-> > The crop bounds should contain
-> > everything whereas for the default crop should reflect the area of the
-> > visible pixels.
+> diff --git a/drivers/media/test-drivers/vimc/vimc-common.c b/drivers/media/test-drivers/vimc/vimc-common.c
+> index 0d97b25ce21e..91c8992bb391 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-common.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-common.c
+> @@ -417,3 +417,17 @@ int vimc_ent_sd_register(struct vimc_ent_device *ved,
+>  	media_entity_cleanup(&sd->entity);
+>  	return ret;
+>  }
+> +
+> +struct media_entity *vimc_get_source_entity(struct media_entity *ent)
+> +{
+> +	struct media_pad *pad;
+> +	int i;
+> +
+> +	for (i = 0; i < ent->num_pads; i++) {
+> +		if (ent->pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> +			continue;
+> +		pad = media_entity_remote_pad(&ent->pads[i]);
+> +		return pad ? pad->entity : NULL;
+> +	}
+> +	return NULL;
+> +}
+> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+> index a289434e75ba..4c580d854007 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> @@ -230,4 +230,16 @@ int vimc_ent_sd_register(struct vimc_ent_device *ved,
+>   */
+>  int vimc_vdev_link_validate(struct media_link *link);
+>  
+> +/**
+> + * vimc_get_source_entity - get the entity connected with the first sink pad
+> + *
+> + * @ent:	reference media_entity
+> + *
+> + * Helper function that returns the media entity containing the source pad
+> + * linked with the first sink pad from the given media entity pad list.
+> + *
+> + * Return: The source pad or NULL, if it wasn't found.
+> + */
+> +struct media_entity *vimc_get_source_entity(struct media_entity *ent);
+> +
+>  #endif
+> diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
+> index 451a32c0d034..4f8384246042 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-streamer.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
+> @@ -12,30 +12,6 @@
+>  
+>  #include "vimc-streamer.h"
+>  
+> -/**
+> - * vimc_get_source_entity - get the entity connected with the first sink pad
+> - *
+> - * @ent:	reference media_entity
+> - *
+> - * Helper function that returns the media entity containing the source pad
+> - * linked with the first sink pad from the given media entity pad list.
+> - *
+> - * Return: The source pad or NULL, if it wasn't found.
+> - */
+> -static struct media_entity *vimc_get_source_entity(struct media_entity *ent)
+> -{
+> -	struct media_pad *pad;
+> -	int i;
+> -
+> -	for (i = 0; i < ent->num_pads; i++) {
+> -		if (ent->pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> -			continue;
+> -		pad = media_entity_remote_pad(&ent->pads[i]);
+> -		return pad ? pad->entity : NULL;
+> -	}
+> -	return NULL;
+> -}
+> -
+>  /**
+>   * vimc_streamer_pipeline_terminate - Disable stream in all ved in stream
+>   *
 > 
-> I believe there are sensors that have all pixels visible, but recommend
-> not using edge pixels as they are affected by edge effects, even if
-> those pixels can be read out and transferred. In that case
-> V4L2_SEL_TGT_CROP_BOUNDS should include the edge pixels, but maybe
-> V4L2_SEL_TGT_CROP_DEFAULT shouldn't ?
-
-I guess so. But in practice I wonder if there are such implementations.
-
-> 
-> > I guess in theory the visible pixels could not be cropped by the sensor in
-> > analogue cropping step, so it might be worth having a separate rectangle
-> > for those, too.
-> 
-> I'm not sure to follow you here.
-
-I'm saying the sensor hardware could in theory be unable to read only the
-visible pixels.
 
 -- 
-Regards,
-
-Sakari Ailus
+Regards
+--
+Kieran
