@@ -2,66 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 522FD24ACA7
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 03:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5D0424ACD2
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 04:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbgHTBbZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 21:31:25 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:38233 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726435AbgHTBbY (ORCPT
+        id S1726799AbgHTCCF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 22:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726735AbgHTCCB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 21:31:24 -0400
-Received: (qmail 202460 invoked by uid 1000); 19 Aug 2020 21:31:22 -0400
-Date:   Wed, 19 Aug 2020 21:31:22 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, linux-uvc-devel@lists.sourceforge.net,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: Protecting uvcvideo againt USB device disconnect [Was: Re:
- Protecting usb_set_interface() against device removal]
-Message-ID: <20200820013122.GA202178@rowland.harvard.edu>
-References: <b0a7247c-bed3-934b-2c73-7f4b0adb5e75@roeck-us.net>
- <20200815020739.GB52242@rowland.harvard.edu>
- <20200816003315.GA13826@roeck-us.net>
- <20200816121816.GC32174@pendragon.ideasonboard.com>
- <9bb20ed7-b156-f6c2-4d25-6acac1a0021b@roeck-us.net>
- <20200816235155.GA7729@pendragon.ideasonboard.com>
- <0684b71c-8ac5-8962-cbd5-c0bcaa8b6881@xs4all.nl>
- <20200819013002.GL2360@pendragon.ideasonboard.com>
- <20200819230851.GA222844@roeck-us.net>
+        Wed, 19 Aug 2020 22:02:01 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072DFC061383
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 19:02:00 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id h16so261729oti.7
+        for <linux-media@vger.kernel.org>; Wed, 19 Aug 2020 19:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a6AI5eeMLSnuHLbo6ZZjQDIfs8rhjaUq4nVIf2nIA4s=;
+        b=YnPCB7GyyenNNj4m6DTSkuaI05qpfHVG/QgzwK6ZW5cfzjXcjHWN5LAYlS6/sxdjkz
+         Q3B6OAL6VkfXwnio6GpcqFThGxYHL16LeanA7XHdVMfn26QoX0g+phi2xhTniJx/oG4b
+         By+2BEurn0lcdeK0Stus91++uccTrtAGABYgjAbl+ipAdepdfWEyi3uEFSsTuQd5UZBx
+         BRrztqVUVKEKekr/BYTkoCsnvAO2Pj7IHdqvtB+4JORdtJ9ivIHukRoFwzuDiHXHnEM+
+         GW1diuJzzXcDmzpqOY7Sm35sNw8MEKZLt3qU+FvbRqjP0SgosGrMRbrNiWiPtlstFAhc
+         xoVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a6AI5eeMLSnuHLbo6ZZjQDIfs8rhjaUq4nVIf2nIA4s=;
+        b=kdrILYxBQMjUFRy7KfQp+lMHNofa9zq8BtRGwUe3Wu3F38ETQYQAUweimia70tiBLc
+         jXKq+tXWlhNVuqZKHPW+8MKCJnH0v9ed0+Mqfc54O82hrH5dpI+NBx5qI+leK4mqnnl2
+         oj0TMJ8EQAE93RdlIfTiCtclQY6uRqCffviI3hgrGn3nC0N2N94yKveeMT9I04WZ2TE1
+         GZxzJzih85D1XdghAz1pk7JPPyFklJHwGhAmdw8F+c8H/B2/kOJmz+8OhhWm/hcwJegZ
+         8HHHs1Q4Kr9P4yeDdhZZWbIy5chAPE5wMG9WGF73WoQM+A8VfAYfcuzEkt9Yjq8QP82P
+         cNDA==
+X-Gm-Message-State: AOAM532Lc8XVlaYn3Jqnki9VDkvgdcDvQ6CSwuVmNzTQQu/QtvM9JQ2b
+        oW9L/mhZQv8tjbP5TQBEgn0IUQN3rfRFAGr5CGuKQw==
+X-Google-Smtp-Source: ABdhPJy4t5xNUInvTbrdNktpIEEwJa9WXJ3VbyfLmNGHa9Tlogcfk1xfE/pD2NZhBS1V2JSKNp49dZbkVm49zRPUArk=
+X-Received: by 2002:a05:6830:237b:: with SMTP id r27mr528934oth.352.1597888918873;
+ Wed, 19 Aug 2020 19:01:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200819230851.GA222844@roeck-us.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1597833138.git.mchehab+huawei@kernel.org> <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
+In-Reply-To: <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Wed, 19 Aug 2020 19:01:46 -0700
+Message-ID: <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        Liwei Cai <cailiwei@hisilicon.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Wanchun Zheng <zhengwanchun@hisilicon.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        BPF Mailing List <bpf@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Liuyao An <anliuyao@huawei.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Wei Xu <xuwei5@hisilicon.com>,
+        Rongrong Zou <zourongrong@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Network Development <netdev@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Chen Feng <puck.chen@hisilicon.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 04:08:51PM -0700, Guenter Roeck wrote:
+On Wed, Aug 19, 2020 at 2:36 PM John Stultz <john.stultz@linaro.org> wrote:
+>
+> On Wed, Aug 19, 2020 at 4:46 AM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> > So, IMO, the best is to keep it on staging for a while, until those
+> > remaining bugs gets solved.
+> >
+> > I added this series, together with the regulator driver and
+> > a few other patches (including a hack to fix a Kernel 5.8
+> > regression at WiFi ) at:
+> >
+> >         https://gitlab.freedesktop.org/mchehab_kernel/hikey-970/-/commits/master
+>
+> Sorry, one more small request: Could you create a branch that only has
+> the DRM driver changes in it?
+>
+> The reason I ask, is that since the HiKey960 isn't affected by the
+> majority of the problems you listed as motivation for going through
+> staging. So if we can validate that your tree works fine on HiKey960,
+> the series can be cleaned up and submitted properly upstream to enable
+> that SoC, and the outstanding 970 issues can be worked out afterwards
+> against mainline.
 
-> usb_set_interface() should not be called anymore after uvc_disconnect(),
-> or at east I think so (is that documented anywhere ?).
+Just as a heads up, I tried testing your tree with my HiKey960, and
+after fixing the compat string inconsistency, the drivers seem to load
+properly. However the drm_hwcomposer seems to have some trouble with
+the driver:
+01-01 00:12:41.456   345   345 E hwc-drm-display-compositor: Commit
+test failed for display 0, FIXME
+01-01 00:12:41.456   345   345 E hwc-drm-two: Failed to apply the
+frame composition ret=-22
+01-01 00:12:41.456   351   351 E HWComposer:
+presentAndGetReleaseFences: present failed for display 0: BadParameter
+(4)
 
-It may be documented somewhere, but basically it goes without saying.  
+I'll dig in a bit further as to why, but wanted to give you a heads up.
 
-A main feature of the device model design is that drivers get bound to 
-devices by having their probe routine called, and they get unbound by 
-having their disconnect routine called.  It should go without saying 
-that once a driver is unbound from a device, it must not communicate 
-with that device any more.
-
-It might be nice if this requirement could be enforced (say in the USB 
-core), but doing so is impractical.  It would require every I/O request 
-to include some sort of cookie proving that the caller is authorized to 
-make the request.  That's not how the kernel works; it trusts drivers 
-to generally do the right thing without constant checking.
-
-Alan Stern
+thanks
+-john
