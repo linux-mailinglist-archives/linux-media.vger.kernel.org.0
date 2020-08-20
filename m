@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 055E124BD1D
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 14:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0871D24BD28
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 15:00:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729269AbgHTM7Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 08:59:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32948 "EHLO
+        id S1729995AbgHTNAP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 09:00:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728857AbgHTM7J (ORCPT
+        with ESMTP id S1730097AbgHTM6f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 08:59:09 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C11C061345
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 05:58:36 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id t14so1504714wmi.3
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 05:58:36 -0700 (PDT)
+        Thu, 20 Aug 2020 08:58:35 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2982AC061387
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 05:58:32 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id 3so1515853wmi.1
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 05:58:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bjjzUyjqxUTgADSqZ4AEGlgmQLd6hH97YwJfRgNRrW4=;
-        b=RRO5W51xetH2hSun5LBxUXBN+1ILaB2b2Woui8OkARAIJOlWdAQPA7dyKZnP5p75IR
-         HtXeQut75Cu1xU071fRPLL2WhuwWTLGPbpEUHf4Nocft9Nn8RF5eXeCU1+s4NMqG1hzF
-         s/MSh2oHQLOWDc2mz55ji2AgsvjxWddxefAUs=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6Iq37qxt4ApCtNPIQEjJk0Rbx9WzjB2AgIUR9gKuVHQ=;
+        b=KDovPjyI1i8eioVe3eJKSfg+aKPguLqoB0+DUyh6iB+vJjv0JVJlMrRxBv4tmlxebL
+         m9S/zM3cy/mnIZ4FzSrs1vzamHLVW7FPeFl4PVADYD1xusO4RHh+/5mvg3/l2p3ZiSqW
+         nCUuz2f0Y3fDQvcR1sLD/ykVUridBCF2Z1qlo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bjjzUyjqxUTgADSqZ4AEGlgmQLd6hH97YwJfRgNRrW4=;
-        b=QkIyny9QFkwvLCEVR5hEk6qhtqI2iC8gzn1tq1vJbKIqWooPDrpeDLtxlpxcOeuxVI
-         kyuqfhpLQl03Sxx9UQqQzktOYb8CDxy9X1ihW/WrQbnanTca+Tk+veYu5ttD+2XyB4TN
-         7wWp64xqdfKJpnDmvW5qqoc20A7GUoEayNMmrjVrRAMKgvLO3ciUUSdpMDR4cKqP+TrW
-         aUTYWOFuGWo2RN1waSK9LWPCtiPhSOWRCsXmW562s2GckIKY+IPnyV0D12Cy1gVjx48a
-         YA9sTwczDrz1ayLsAQjTmJlszuZge/F5kS74HDsZYw7Vl9Y5dVMUG8Wy6kZJxbcvlkV5
-         8MAw==
-X-Gm-Message-State: AOAM5333w98hENMWoZUrxZ5BbYoh0DzxWXDljl4jxRAAksgt83EVCkpG
-        m7KPoFGr7BUnZRn+zl7n43CXtTBPJVCHTTU8
-X-Google-Smtp-Source: ABdhPJxBvtfxib5dNL686AtnsEgnavbEPNHEvjkC1eMzOzqRPR+lmo2H3iHzsR6k2KoeFiZn1iJ/wQ==
-X-Received: by 2002:a05:600c:224e:: with SMTP id a14mr3518439wmm.80.1597928309945;
-        Thu, 20 Aug 2020 05:58:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6Iq37qxt4ApCtNPIQEjJk0Rbx9WzjB2AgIUR9gKuVHQ=;
+        b=li7pF6iobAGj13fRTrFoNwnrZg284rkRNDNRxNb8CtO6njtuuy0nzr6ySC4KAz4PPb
+         0gi/sxjKwVbs0TmGfnCdXBUHeuW9+Ak+HXwUaGddYE6EPw0fAEu2ySlr0xwwUIEL/xFN
+         FSgb5W4juD5q9BGE4FmBR1BEtHNESWqC/QIyA5ZJnUTvwpRWHgggMiJ/eQxbHEjebJMj
+         uguKYBachAEWoJ+AgEl8oF+a1WfVRo28m+DwU76V3+MOo3sMx91FfMb3egHl0Z0Uqboc
+         wMKfLF8JtnX72I3kKR4njILZ4JdqOh39hNAfHPUQrK3z8vLevbdqoFclxjFhPA3pzano
+         wkUw==
+X-Gm-Message-State: AOAM533RGnE/ABc410sUtUfbHHiW+y1UtbyxpQQTYkvPb/gpi8YxGzXc
+        4m+beGERkZVL6J0bwQejVHzFsp5KVeMEaYJX
+X-Google-Smtp-Source: ABdhPJxseh6U+kNgHzIrowaWyWZqFtWENlrz7ury1P/hngomKwWsWutckSMM8O0q1+QqbpHhh+2FGg==
+X-Received: by 2002:a7b:c4ce:: with SMTP id g14mr3574056wmk.51.1597928310544;
+        Thu, 20 Aug 2020 05:58:30 -0700 (PDT)
 Received: from tfiga.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
         by smtp.gmail.com with ESMTPSA id o66sm4517760wmb.27.2020.08.20.05.58.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2020 05:58:29 -0700 (PDT)
+        Thu, 20 Aug 2020 05:58:30 -0700 (PDT)
 From:   Tomasz Figa <tfiga@chromium.org>
 To:     linux-media@vger.kernel.org
 Cc:     Mauro Carvalho hehab <mchehab+huawei@kernel.org>,
@@ -54,10 +54,12 @@ Cc:     Mauro Carvalho hehab <mchehab+huawei@kernel.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Pawel Osciak <pawel@osciak.com>,
         Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH 0/3] Clean the videobuf2 maintainer list
-Date:   Thu, 20 Aug 2020 12:58:22 +0000
-Message-Id: <20200820125825.224788-1-tfiga@chromium.org>
+Subject: [PATCH 1/3] MAINTAINERS: Make Tomasz the main maintainer of videobuf2
+Date:   Thu, 20 Aug 2020 12:58:23 +0000
+Message-Id: <20200820125825.224788-2-tfiga@chromium.org>
 X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
+In-Reply-To: <20200820125825.224788-1-tfiga@chromium.org>
+References: <20200820125825.224788-1-tfiga@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -65,28 +67,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently the MAINTAINERS file lists 3 maintainers and 1 reviewer for
-the VIDEOBUF2 FRAMEWORK entry. From the list, two people have been
-inactive for several years. This series tries to clean the list to
-ensure that the framework has only active maintainers.
+Tomasz is the most active member from the people listed currently in the
+MAINTAINERS file, but is currently listed as a reviewer. Change the
+entry into a maintainer and move to the top of the list.
 
-The series proposes removing Kyungmin Park and Pawel Osciak from the
-maintainers list. I know both of the people in person and am well aware
-of their achievements for the framework in the past. However, the
-framework needs to move forward and thus, it needs active maintainers.
+Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Therefore, I'd like the people in question to comment on their plans
-regarding the maintenance of this framework or lack of thereof (and thus
-being fine with the removal).
-
-Tomasz Figa (3):
-  MAINTAINERS: Make Tomasz the main maintainer of videobuf2
-  MAINTAINERS: Remove Kyungmin from the maintainers list of videobuf2
-  MAINTAINERS: Remove Pawel from the maintainers list of videobuf2
-
- MAINTAINERS | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index deaafb617361..8623365ad0d5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18297,10 +18297,10 @@ S:	Maintained
+ F:	drivers/media/platform/video-mux.c
+ 
+ VIDEOBUF2 FRAMEWORK
++M:	Tomasz Figa <tfiga@chromium.org>
+ M:	Pawel Osciak <pawel@osciak.com>
+ M:	Marek Szyprowski <m.szyprowski@samsung.com>
+ M:	Kyungmin Park <kyungmin.park@samsung.com>
+-R:	Tomasz Figa <tfiga@chromium.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/common/videobuf2/*
 -- 
 2.28.0.220.ged08abb693-goog
 
