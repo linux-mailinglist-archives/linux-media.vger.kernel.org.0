@@ -2,100 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4F5324C3B5
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 18:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15A1C24C3C5
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 18:55:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730352AbgHTQxM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 12:53:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40860 "EHLO
+        id S1730382AbgHTQy7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 12:54:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729881AbgHTQxI (ORCPT
+        with ESMTP id S1729432AbgHTQyy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 12:53:08 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563EBC061385;
-        Thu, 20 Aug 2020 09:53:05 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id w9so1667632qts.6;
-        Thu, 20 Aug 2020 09:53:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Fhzx8KwwpeQJ5G+vL21g25GrjAt+ixzDYHjelVEfNvE=;
-        b=juPlfhg3k0rzoOmVhQGgWNhjP93HI6I6CQQI/nBnJBm8DLwBlxZ8b3M4vdsNv1CxSu
-         86TSooDC11o8h2jjA64w5RkPugRKCxQd7BUMc/TmbXHh5P3sxOjNaOpjmvzSwCClyVI9
-         0xZymLvBQOgyL2ppfj6hvhZEgewM8UWc/bThXY86pAyb45CpDWr7p1bQic5XKq1O4GRS
-         UhxQcOvI8SWoVoGIOh4iZjag1NZmh/5zmCViQv6t5kLa+bMsxBjH6FggazqDm0ldRV+Q
-         uHy3RsBXcow2lApQE5g0LM0+MxUwp90jJvo+q8yjinqJwDViVQFexoq9mRyzV8+2oDBy
-         ChYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Fhzx8KwwpeQJ5G+vL21g25GrjAt+ixzDYHjelVEfNvE=;
-        b=VonLjdHLDpFGhPsgajGETtKTwf2xmYwwtEtQ+GI5OrWDvF/F01ozLFcrySf1nFBI6U
-         xE0zF+o9lItzWD5uVD9u8QuQYByyNOAwi0J0zH8FdAc8SlJnrgXcb9KM9pMb6KV19lhW
-         u9ObucQYpkuVKiUKz3otewL7CZgTuY+wRdIVWzRj5TNFj6Bj66qCtOxrqlvEN7MHtw2/
-         G15yAgEQBrtIunQgtIOfvkLGTBkq0idJ5nqyT+pYUih1/aAkVoioBTwP/GQCFIGJSAze
-         3qOONESf8pJ1+0W/cg/V3P5wbl+Yn6LgJ8br0FJkZ6OzVmWZrt2/SGbLrzNQ/DjRNJRC
-         uuFQ==
-X-Gm-Message-State: AOAM5335gaGIgNGTjzTaREuIsYG9tsf9UBiJfB+vAjDSoQjb2YnEZAoM
-        InWoYtPwTHtSs4DIeadGNJJVAFNMSK+ypg==
-X-Google-Smtp-Source: ABdhPJyvtsnkq3ihC1UTFHnyZkG+qbwgy0v5X/i2yoY+dnV59Q+6G/oMe77e4SapitYg942XJGpWKg==
-X-Received: by 2002:ac8:3a26:: with SMTP id w35mr3617092qte.124.1597942384460;
-        Thu, 20 Aug 2020 09:53:04 -0700 (PDT)
-Received: from tong-desktop.local ([2601:5c0:c100:b9d:a169:4fca:c1d6:b7b4])
-        by smtp.googlemail.com with ESMTPSA id 128sm2706753qkk.101.2020.08.20.09.53.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2020 09:53:04 -0700 (PDT)
-From:   Tong Zhang <ztong0001@gmail.com>
-To:     isely@pobox.com, mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hverkuil@xs4all.nl
-Cc:     ztong0001@gmail.com
-Subject: [PATCH v3] media: pvrusb2: fix parsing error
-Date:   Thu, 20 Aug 2020 12:52:40 -0400
-Message-Id: <20200820165239.8510-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <aed971ed-bd8e-eaed-b2ee-80e9654f24cd@xs4all.nl>
-References: <aed971ed-bd8e-eaed-b2ee-80e9654f24cd@xs4all.nl>
+        Thu, 20 Aug 2020 12:54:54 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A041C061385;
+        Thu, 20 Aug 2020 09:54:53 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id E79D7634C87;
+        Thu, 20 Aug 2020 19:53:39 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1k8nop-0002qv-OM; Thu, 20 Aug 2020 19:53:39 +0300
+Date:   Thu, 20 Aug 2020 19:53:39 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     hch@lst.de, joro@8bytes.org, linux@armlinux.org.uk,
+        will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, m.szyprowski@samsung.com,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, vdumpa@nvidia.com,
+        digetx@gmail.com, matthias.bgg@gmail.com, yong.wu@mediatek.com,
+        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
+        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 17/18] media/omap3isp: Clean up IOMMU workaround
+Message-ID: <20200820165339.GK7145@valkosipuli.retiisi.org.uk>
+References: <cover.1597931875.git.robin.murphy@arm.com>
+ <11d8419744e4e744a9448180801b0c4683328afd.1597931876.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <11d8419744e4e744a9448180801b0c4683328afd.1597931876.git.robin.murphy@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pvr2_std_str_to_id() returns 0 on failure and 1 on success,
-however the caller is checking failure case using <0
+Hi Robin,
 
-Co-developed-by: Hans Verkuil<hverkuil@xs4all.nl>
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
----
+On Thu, Aug 20, 2020 at 04:08:36PM +0100, Robin Murphy wrote:
+> Now that arch/arm is wired up for default domains and iommu-dma, devices
+> behind IOMMUs will get mappings set up automatically as appropriate, so
+> there is no need for drivers to do so manually.
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 
-v2: return -EINVAL as suggested by Hans Verkuil<hverkuil@xs4all.nl>.
-I also rebased the code on v5.9-rc1.
-v3: remove unused variable
+Thanks for the patch.
 
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+I haven't looked at the details but it seems that this causes the buffer
+memory allocation to be physically contiguous, which causes a failure to
+allocate video buffers of entirely normal size. I guess that was not
+intentional?
 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-index 1cfb7cf64131..f4a727918e35 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-@@ -864,10 +864,9 @@ static int ctrl_std_sym_to_val(struct pvr2_ctrl *cptr,
- 			       const char *bufPtr,unsigned int bufSize,
- 			       int *mskp,int *valp)
- {
--	int ret;
- 	v4l2_std_id id;
--	ret = pvr2_std_str_to_id(&id,bufPtr,bufSize);
--	if (ret < 0) return ret;
-+	if (!pvr2_std_str_to_id(&id, bufPtr, bufSize))
-+		return -EINVAL;
- 	if (mskp) *mskp = id;
- 	if (valp) *valp = id;
- 	return 0;
+-----------------8<---------------------------
+[  218.934448] WARNING: CPU: 0 PID: 1994 at mm/page_alloc.c:4859 __alloc_pages_nodemask+0x9c/0xb1c
+[  218.943847] Modules linked in: omap3_isp videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common leds_as3645a smiapp v4l2_flash_led_class led_class_flash v4l2_fwnode smiapp_pll videodev leds_gpio mc led_class
+[  218.964660] CPU: 0 PID: 1994 Comm: yavta Not tainted 5.9.0-rc1-dirty #1818
+[  218.972442] Hardware name: Generic OMAP36xx (Flattened Device Tree)
+[  218.978973] Backtrace: 
+[  218.981842] [<c010bf90>] (dump_backtrace) from [<c010c350>] (show_stack+0x20/0x24)
+[  218.989715]  r7:00000000 r6:00000009 r5:c08f03bc r4:c08f2fef
+[  218.995880] [<c010c330>] (show_stack) from [<c03d3328>] (dump_stack+0x28/0x30)
+[  219.003631] [<c03d3300>] (dump_stack) from [<c012e324>] (__warn+0x100/0x118)
+[  219.010955]  r5:c08f03bc r4:00000000
+[  219.014953] [<c012e224>] (__warn) from [<c012e6f4>] (warn_slowpath_fmt+0x84/0xa8)
+[  219.022949]  r9:c0232090 r8:c08f03bc r7:c0b08a88 r6:00000009 r5:000012fb r4:00000000
+[  219.031036] [<c012e674>] (warn_slowpath_fmt) from [<c0232090>] (__alloc_pages_nodemask+0x9c/0xb1c)
+[  219.040557]  r9:c0185c3c r8:00000000 r7:010ec000 r6:00000000 r5:0000000d r4:00000000
+[  219.048858] [<c0231ff4>] (__alloc_pages_nodemask) from [<c01108f0>] (__dma_alloc_buffer.constprop.14+0x3c/0x90)
+[  219.059570]  r10:00000cc0 r9:c0185c3c r8:00000000 r7:010ec000 r6:0000000d r5:c0b08a88
+[  219.067901]  r4:00000cc0
+[  219.070587] [<c01108b4>] (__dma_alloc_buffer.constprop.14) from [<c0110a6c>] (remap_allocator_alloc+0x34/0x7c)
+[  219.081207]  r9:c0185c3c r8:00000247 r7:e6d7fb84 r6:010ec000 r5:c0b08a88 r4:00000001
+[  219.089263] [<c0110a38>] (remap_allocator_alloc) from [<c010f4f4>] (__dma_alloc+0x124/0x21c)
+[  219.098236]  r9:ed99fc10 r8:e69aa890 r7:00000000 r6:ffffffff r5:c0b08a88 r4:e6fdd680
+[  219.106536] [<c010f3d0>] (__dma_alloc) from [<c010f69c>] (arm_dma_alloc+0x68/0x74)
+[  219.114654]  r10:00000cc0 r9:c0185c3c r8:00000cc0 r7:e69aa890 r6:010ec000 r5:ed99fc10
+[  219.122985]  r4:00000000
+[  219.125671] [<c010f634>] (arm_dma_alloc) from [<c0185c3c>] (dma_alloc_attrs+0xe4/0x120)
+[  219.134216]  r9:00000000 r8:e69aa890 r7:010ec000 r6:c0b08a88 r5:ed99fc10 r4:c010f634
+[  219.142517] [<c0185b58>] (dma_alloc_attrs) from [<bf095c3c>] (vb2_dc_alloc+0xcc/0x108 [videobuf2_dma_contig])
+[  219.153076]  r10:e6885ca8 r9:e6abfc48 r8:00000002 r7:00000000 r6:010ec000 r5:ed99fc10
+[  219.161407]  r4:e69aa880
+[  219.164184] [<bf095b70>] (vb2_dc_alloc [videobuf2_dma_contig]) from [<bf080fd0>] (__vb2_queue_alloc+0x258/0x4a4 [videobuf2_common])
+[  219.176696]  r8:bf095b70 r7:010ec000 r6:00000000 r5:e6885ca8 r4:e6abfc00
+[  219.183959] [<bf080d78>] (__vb2_queue_alloc [videobuf2_common]) from [<bf0833a0>] (vb2_core_reqbufs+0x408/0x498 [videobuf2_common])
+[  219.196533]  r10:e6885ce8 r9:00000000 r8:e6d7fe24 r7:e6d7fcec r6:bf09ced4 r5:bf088580
+[  219.204895]  r4:e6885ca8
+[  219.207672] [<bf082f98>] (vb2_core_reqbufs [videobuf2_common]) from [<bf08e1cc>] (vb2_reqbufs+0x64/0x70 [videobuf2_v4l2])
+[  219.219268]  r10:00000000 r9:bf032bc0 r8:c0145608 r7:bf0ad4a4 r6:e6885ca8 r5:00000000
+[  219.227600]  r4:e6d7fe24
+[  219.230499] [<bf08e168>] (vb2_reqbufs [videobuf2_v4l2]) from [<bf09d7b4>] (isp_video_reqbufs+0x40/0x54 [omap3_isp])
+[  219.241607]  r7:bf0ad4a4 r6:e6d7fe24 r5:e6885c00 r4:e6cca928
+[  219.247924] [<bf09d774>] (isp_video_reqbufs [omap3_isp]) from [<bf01de4c>] (v4l_reqbufs+0x4c/0x50 [videodev])
+[  219.258514]  r7:bf0ad4a4 r6:e6885c00 r5:e6d7fe24 r4:e7efbec0
+[  219.264984] [<bf01de00>] (v4l_reqbufs [videodev]) from [<bf01eeb4>] (__video_do_ioctl+0x2d8/0x414 [videodev])
+[  219.275512]  r7:bf01de00 r6:00000000 r5:00000000 r4:e6cca2e0
+[  219.281982] [<bf01ebdc>] (__video_do_ioctl [videodev]) from [<bf01fa1c>] (video_usercopy+0x144/0x508 [videodev])
+[  219.292816]  r10:e7efbec0 r9:c0145608 r8:e6d7fe24 r7:00000000 r6:00000000 r5:bf01ebdc
+[  219.300933]  r4:c0145608
+[  219.304168] [<bf01f8d8>] (video_usercopy [videodev]) from [<bf01fdfc>] (video_ioctl2+0x1c/0x24 [videodev])
+[  219.314453]  r10:e7fbfda0 r9:e7efbec0 r8:00000003 r7:00000000 r6:bee658f4 r5:c0145608
+[  219.322784]  r4:e7efbec0
+[  219.325775] [<bf01fde0>] (video_ioctl2 [videodev]) from [<bf01814c>] (v4l2_ioctl+0x50/0x64 [videodev])
+[  219.335845] [<bf0180fc>] (v4l2_ioctl [videodev]) from [<c02654a0>] (vfs_ioctl+0x30/0x44)
+[  219.344482]  r7:00000000 r6:e7efbec0 r5:bee658f4 r4:c0145608
+[  219.350402] [<c0265470>] (vfs_ioctl) from [<c0265e9c>] (sys_ioctl+0xdc/0x7ec)
+[  219.358062] [<c0265dc0>] (sys_ioctl) from [<c0100080>] (ret_fast_syscall+0x0/0x28)
+[  219.366149] Exception stack(0xe6d7ffa8 to 0xe6d7fff0)
+[  219.371673] ffa0:                   00000000 bee65c1a 00000003 c0145608 bee658f4 00000001
+[  219.380157] ffc0: 00000000 bee65c1a 00000000 00000036 000009a0 00000000 0000ef30 010eb400
+[  219.388885] ffe0: 0001716c bee65104 0000b588 b6e413ac
+[  219.394409]  r10:00000036 r9:e6d7e000 r8:c0100244 r7:00000036 r6:00000000 r5:bee65c1a
+[  219.402740]  r4:00000000
+[  219.405426] irq event stamp: 5075
+[  219.408905] hardirqs last  enabled at (5083): [<c01778b0>] console_unlock+0x4cc/0x524
+[  219.417297] hardirqs last disabled at (5092): [<c01777ac>] console_unlock+0x3c8/0x524
+[  219.425628] softirqs last  enabled at (4532): [<c01017d8>] __do_softirq+0x1f0/0x490
+[  219.433837] softirqs last disabled at (4493): [<c0132c20>] irq_exit+0xe4/0x160
+[  219.441558] ---[ end trace 8c56810633cf24db ]---
+[  219.446502] omap3isp 480bc000.isp: dma_alloc_coherent of size 17743872 failed
+-----------------8<---------------------------
+
 -- 
-2.25.1
+Kind regards,
 
+Sakari Ailus
