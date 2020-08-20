@@ -2,99 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB61B24B69A
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 12:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A802224B6D4
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 12:43:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731903AbgHTKiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 06:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731902AbgHTKiF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 06:38:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122FCC061757
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 03:38:05 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8242323D;
-        Thu, 20 Aug 2020 12:38:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597919883;
-        bh=BQNkOma8SsW/FO16mrdQ9tYjEcWbEHtz6mOlFPPGBjI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BFnROfHvAvOLIliOMzWLZUkxhxYusVtnG8RLdZ7bIloBeKnvLbeREzjTxa8eNIyl6
-         Qw2/k4MewMxY0k1FTi1tYkX8vpg51RsXCphKjgAlRjSrwVOlaMLTlsJmJwQxWy+9g+
-         AM/0sM8752ED3ip196JIpgIMlUjn9NlmiRje2P/I=
-Date:   Thu, 20 Aug 2020 13:37:46 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH] media: uvc: Silence shift-out-of-bounds warning
-Message-ID: <20200820103746.GD6593@pendragon.ideasonboard.com>
-References: <20200818235406.GE2360@pendragon.ideasonboard.com>
- <20200819000340.11616-1-laurent.pinchart@ideasonboard.com>
- <68984fef-1e18-9394-9e68-becabf83c85f@acm.org>
+        id S1729938AbgHTKmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 06:42:52 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:44936 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730310AbgHTKmg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Aug 2020 06:42:36 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1k8hwE-00A5N6-Da; Thu, 20 Aug 2020 10:36:54 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1k8i4F-00078P-Io; Thu, 20 Aug 2020 10:45:11 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR 5.9] Dependency fixes (#20200820102447)
+Date:   Thu, 20 Aug 2020 10:45:11 +0000
+Message-Id: <20200820104511.27383-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200820102447.GE7145@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <68984fef-1e18-9394-9e68-becabf83c85f@acm.org>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bart,
+From: builder@linuxtv.org
 
-On Wed, Aug 19, 2020 at 08:25:27PM -0700, Bart Van Assche wrote:
-> On 2020-08-18 17:03, Laurent Pinchart wrote:
-> > UBSAN reports a shift-out-of-bounds warning in uvc_get_le_value(). The
-> > report is correct, but the issue should be harmless as the computed
-> > value isn't used when the shift is negative. This may however cause
-> > incorrect behaviour if a negative shift could generate adverse side
-> > effects (such as a trap on some architectures for instance).
-> > 
-> > Regardless of whether that may happen or not, silence the warning as a
-> > full WARN backtrace isn't nice.
-> > 
-> > Reported-by: Bart Van Assche <bvanassche@acm.org>
-> > Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 6c37aa018ad5..b2cdee0f7763 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -773,12 +773,16 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
-> >  	offset &= 7;
-> >  	mask = ((1LL << bits) - 1) << offset;
-> >  
-> > -	for (; bits > 0; data++) {
-> > +	while (1) {
-> >  		u8 byte = *data & mask;
-> >  		value |= offset > 0 ? (byte >> offset) : (byte << (-offset));
-> >  		bits -= 8 - (offset > 0 ? offset : 0);
-> > +		if (bits <= 0)
-> > +			break;
-> > +
-> >  		offset -= 8;
-> >  		mask = (1 << bits) - 1;
-> > +		data++;
-> >  	}
-> >  
-> >  	/* Sign-extend the value if needed. */
-> 
-> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-> 
-> Thanks for having addressed this quickly!
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200820102447.GE7145@valkosipuli.retiisi.org.uk/
+Build log: https://builder.linuxtv.org/job/patchwork/64988/
+Build time: 00:14:57
+Link: https://lore.kernel.org/linux-media/20200820102447.GE7145@valkosipuli.retiisi.org.uk
 
-You're welcome. Would you be able to test the patch to ensure it fixes
-the issue on your system (and that there are no observable side effects)
-?
+gpg: Signature made Thu 20 Aug 2020 10:16:24 AM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
--- 
-Regards,
+Summary: 4 patches and/or PDF generation with issues, being 2 at build time
 
-Laurent Pinchart
+Error/warnings:
+
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #256 when running cat patches/0001-media-i2c-imx214-select-V4L2_FWNODE.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0001-media-i2c-imx214-select-V4L2_FWNODE.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:9: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 32a363d0b0b1 ("media: Kconfig files: use select for V4L2 subdevs and MC")'
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
