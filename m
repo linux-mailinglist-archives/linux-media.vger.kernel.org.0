@@ -2,154 +2,229 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD72B24C2A2
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 17:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 806D524C2E3
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 18:04:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728549AbgHTPzS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 11:55:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbgHTPzQ (ORCPT
+        id S1728549AbgHTQEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 12:04:41 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52934 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729289AbgHTQEi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 11:55:16 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F250C061385;
-        Thu, 20 Aug 2020 08:55:15 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id f18so4058327wmc.0;
-        Thu, 20 Aug 2020 08:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4gsAD01Lu/a6HHuOZz2Js+H3gnol7gh8tJ3zMDutdDc=;
-        b=ebljxtw8UtQQ032VUUuCGK812jroSyyHZHtTYoOMrud/UydGhZ3UMgBUN9qe9aAvk4
-         EHygzdAvntJ9+R/Y3KA0p2V8fSCNXm6RFtsp3+CZNKezVJQ8X2aAKOeBHvVnuXgBzp1O
-         Z4mdnxldoQFQbYRJYgGPkdtLHKlnlIzkaDXqkqTa3laBrCC8GM7uy1HvEv9ndhSWNfl7
-         gtrl6II21EVeL5x1fdWpBOS2x6s/Ea7ce8pWBuPej62eiBTIeFwATx0cPhjPkPFtdmbp
-         cpVIJwigFocq1ZQgZzWrnaG3CAmE48jwTnhO+RO8Uw3CBwiyc46QOxMJqP5MrYAE3v9X
-         TZPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4gsAD01Lu/a6HHuOZz2Js+H3gnol7gh8tJ3zMDutdDc=;
-        b=M2YK8C25wXwiSlREDrwaje+Pc+ecbq1cXWwfA8Fk0e9DOJid8OOBnn1mdwH3HLoous
-         spe0JTBTU3BNH/1lUxcQP12SqaQP8TYy2nFQR2zIJ3JzMtU+1MdVXEvzUuz+ynyXOHiF
-         NNTrAesVGO/237I03JgLbMlQPOIN5jPIWKW4dzmQMu3ka0K3Syc1BFhzgpSjAKYmIIUS
-         Ro13v0tmcQNrOn33wGG5SB10T/CLuBTvcn77p1DsTRl0j6dZ9dv/YDzJlp/D+ELCDXbC
-         G7VxZ0V+V37l9EphncDzikuoaGxD/q+oXognZs/fniQ6Xkup3rk+ZulWtNICnYb73WzT
-         76mQ==
-X-Gm-Message-State: AOAM530phEGQ7c76G/posaBLJMHDsZTTmg628O0OV4MvnhllB/svZFvP
-        zyvsTVBmsgak4Hyt5yvUQEi8fi8A0NvkmP5s33Q=
-X-Google-Smtp-Source: ABdhPJymrLvmSo2mjxf1P+WzawgnYC5TC99FhFkAg2iJ/mZCttmTx/9BBIkjwyymKsU721sVZprDLyZXm16x0EfQzm0=
-X-Received: by 2002:a7b:c257:: with SMTP id b23mr3974646wmj.164.1597938913876;
- Thu, 20 Aug 2020 08:55:13 -0700 (PDT)
+        Thu, 20 Aug 2020 12:04:38 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96C1A23D;
+        Thu, 20 Aug 2020 18:04:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1597939474;
+        bh=F1VgKHw+BMI5X9Ve96ajPLFVLW5J8X9PUB53EKuKqxA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n4kbYVtXeaUIUnJ4ZuVoUMubMqYwPBWTZS2o0RjbzX6Pw5el5VtQgE0MuhIqr8FR4
+         khFv4Lg1vNyN9qKRvxQFY+84adNrDwClsyCqsFBCLRFwFMs9xnt7Er4q31UqZH7qz9
+         rjj0eD/pciCIswASHbUoaAZkP0OGx7Esxhx0Ca6Y=
+Date:   Thu, 20 Aug 2020 19:04:16 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: mt9v111: Convert to json-schema
+Message-ID: <20200820160416.GW6593@pendragon.ideasonboard.com>
+References: <20200817160129.256085-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-References: <cover.1597931875.git.robin.murphy@arm.com> <93d7de3533cfd952aecd6198b9221d7a58c0e521.1597931876.git.robin.murphy@arm.com>
-In-Reply-To: <93d7de3533cfd952aecd6198b9221d7a58c0e521.1597931876.git.robin.murphy@arm.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Thu, 20 Aug 2020 08:55:02 -0700
-Message-ID: <CAF6AEGuKa4P=gfus08CdfT2H5pG6a2PBumGb=Pw3qvD=NWueig@mail.gmail.com>
-Subject: Re: [PATCH 10/18] iommu/msm: Add IOMMU_DOMAIN_DMA support
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <joro@8bytes.org>,
-        Russell King - ARM Linux <linux@armlinux.org.uk>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        digetx@gmail.com, Suman Anna <s-anna@ti.com>,
-        Will Deacon <will@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "moderated list:ARM/S5P EXYNOS AR..." 
-        <linux-samsung-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Andy Gross <agross@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
-        linux-media@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        "moderated list:ARM/Mediatek SoC..." 
-        <linux-mediatek@lists.infradead.org>, linux-tegra@vger.kernel.org,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        t-kristo@ti.com,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200817160129.256085-1-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Side note, I suspect we'll end up needing something like
-0e764a01015dfebff8a8ffd297d74663772e248a .. if someone can dig a 32b
-device out of the closet and dust it off, the fix is easy enough.
-Just wanted to mention that here so anyone with a 32b device could
-find what is needed.
+Hi Jacopo,
 
-BR,
--R
+Thank you for the patch.
 
-On Thu, Aug 20, 2020 at 8:09 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> Now that arch/arm is wired up for default domains and iommu-dma,
-> implement the corresponding driver-side support for DMA domains.
->
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+On Mon, Aug 17, 2020 at 06:01:29PM +0200, Jacopo Mondi wrote:
+> Convert the mt9v111 bindings document to json-schema and update
+> the MAINTAINERS file accordingly.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/iommu/msm_iommu.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
-> index 3615cd6241c4..f34efcbb0b2b 100644
-> --- a/drivers/iommu/msm_iommu.c
-> +++ b/drivers/iommu/msm_iommu.c
-> @@ -8,6 +8,7 @@
->  #include <linux/kernel.h>
->  #include <linux/init.h>
->  #include <linux/platform_device.h>
-> +#include <linux/dma-iommu.h>
->  #include <linux/errno.h>
->  #include <linux/io.h>
->  #include <linux/io-pgtable.h>
-> @@ -314,13 +315,16 @@ static struct iommu_domain *msm_iommu_domain_alloc(unsigned type)
->  {
->         struct msm_priv *priv;
->
-> -       if (type != IOMMU_DOMAIN_UNMANAGED)
-> +       if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
->                 return NULL;
->
->         priv = kzalloc(sizeof(*priv), GFP_KERNEL);
->         if (!priv)
->                 goto fail_nomem;
->
-> +       if (type == IOMMU_DOMAIN_DMA && iommu_get_dma_cookie(&priv->domain))
-> +               goto fail_nomem;
+>  .../bindings/media/i2c/aptina,mt9v111.txt     | 46 ----------
+>  .../bindings/media/i2c/aptina,mt9v111.yaml    | 83 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 84 insertions(+), 47 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+> deleted file mode 100644
+> index bd896e9f67d1..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+> +++ /dev/null
+> @@ -1,46 +0,0 @@
+> -* Aptina MT9V111 CMOS sensor
+> -----------------------------
+> -
+> -The Aptina MT9V111 is a 1/4-Inch VGA-format digital image sensor with a core
+> -based on Aptina MT9V011 sensor and an integrated Image Flow Processor (IFP).
+> -
+> -The sensor has an active pixel array of 640x480 pixels and can output a number
+> -of image resolution and formats controllable through a simple two-wires
+> -interface.
+> -
+> -Required properties:
+> ---------------------
+> -
+> -- compatible: shall be "aptina,mt9v111".
+> -- clocks: reference to the system clock input provider.
+> -
+> -Optional properties:
+> ---------------------
+> -
+> -- enable-gpios: output enable signal, pin name "OE#". Active low.
+> -- standby-gpios: low power state control signal, pin name "STANDBY".
+> -  Active high.
+> -- reset-gpios: chip reset signal, pin name "RESET#". Active low.
+> -
+> -The device node must contain one 'port' child node with one 'endpoint' child
+> -sub-node for its digital output video port, in accordance with the video
+> -interface bindings defined in:
+> -Documentation/devicetree/bindings/media/video-interfaces.txt
+> -
+> -Example:
+> ---------
+> -
+> -        &i2c1 {
+> -                camera@48 {
+> -                        compatible = "aptina,mt9v111";
+> -                        reg = <0x48>;
+> -
+> -                        clocks = <&camera_clk>;
+> -
+> -                        port {
+> -                                mt9v111_out: endpoint {
+> -                                        remote-endpoint = <&ceu_in>;
+> -                                };
+> -                        };
+> -                };
+> -        };
+> diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+> new file mode 100644
+> index 000000000000..54cc136aa239
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/aptina,mt9v111.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->         INIT_LIST_HEAD(&priv->list_attached);
->
->         priv->domain.geometry.aperture_start = 0;
-> @@ -339,6 +343,7 @@ static void msm_iommu_domain_free(struct iommu_domain *domain)
->         struct msm_priv *priv;
->         unsigned long flags;
->
-> +       iommu_put_dma_cookie(domain);
->         spin_lock_irqsave(&msm_iommu_lock, flags);
->         priv = to_msm_priv(domain);
->         kfree(priv);
-> --
-> 2.28.0.dirty
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> +title: Aptina MT9V111 CMOS sensor
+> +
+> +maintainers:
+> +  - Jacopo Mondi <jacopo@jmondi.org>
+> +
+> +description: -|
+> +  The Aptina MT9V111 is a 1/4-Inch VGA-format digital image sensor with a core
+> +  based on Aptina MT9V011 sensor and an integrated Image Flow Processor (IFP).
+> +
+> +  The sensor has an active pixel array of 640x480 pixels and can output a number
+> +  of image resolution and formats controllable through a simple two-wires
+
+s/resolution/resolutions/
+
+> +  interface.
+> +
+> +properties:
+> +  compatible:
+> +    const: aptina,mt9v111
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  enable-gpios:
+> +    description: Enable signal, pin name "OE#". Active low.
+> +    maxItems: 1
+> +
+> +  standby-gpios:
+> +    description: Low power state control signal, pin name "STANBY". Active high.
+
+s/STANBY/STANDBY/
+
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: Chip reset signal, pin name "RESET#". Active low.
+> +    maxItems: 1
+> +
+> +  port:
+> +    type: object
+> +    description: |
+> +      The device node must contain one 'port' child node for its digital output
+> +      video port, in accordance with the video interface bindings defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+
+Just "Output video port. See ../video-interfaces.txt." should be enough.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+> +          remote-endpoint:
+> +            description: A phandle to the bus receiver's endpoint node.
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@48 {
+> +            compatible = "aptina,mt9v111";
+> +            reg = <0x48>;
+> +            clocks = <&camera_clk>;
+> +
+> +            port {
+> +                mt9v111_out: endpoint {
+> +                    remote-endpoint = <&ceu_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5392f00cec46..18bc4427e6b0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11688,7 +11688,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+> -F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+> +F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+>  F:	drivers/media/i2c/mt9v111.c
+> 
+>  MULTIFUNCTION DEVICES (MFD)
+
+-- 
+Regards,
+
+Laurent Pinchart
