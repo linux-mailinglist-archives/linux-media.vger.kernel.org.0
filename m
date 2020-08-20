@@ -2,123 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F7A724C4D1
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 19:48:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD3624C665
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 21:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726786AbgHTRsY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 13:48:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49476 "EHLO
+        id S1727086AbgHTTvO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 15:51:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726723AbgHTRsW (ORCPT
+        with ESMTP id S1726666AbgHTTvH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 13:48:22 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606DDC061385
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 10:48:22 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id jp10so3565720ejb.0
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 10:48:22 -0700 (PDT)
+        Thu, 20 Aug 2020 15:51:07 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA02AC061385;
+        Thu, 20 Aug 2020 12:51:06 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id y2so3465806ljc.1;
+        Thu, 20 Aug 2020 12:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TdWdmS9KmpqRDKTTx4ZFKlZV0sk8Q5cLOhIOkZ1gD+w=;
-        b=cAZtzVYP2n3YvXgVkbJ7dbST+g3SP0UPbXQ9iKKyhX4VXr8jHpSYHqZMaG5ucNVipI
-         bzzpnQCIz78GKzn14VpRAj8Y6mpMr87iyH7UMbPsjr5O6z0niDquexdhhjTmn1y5QjQv
-         l8iJOpqbyOslL4LKhF6zS+g3cTQ+z78POnoVc=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=OniJLvMGszqKdZPfnGGPRm6yrJhAzhpZMeh8ipXlA60=;
+        b=kVInyANVqA86ZsupZ+Pb7ttjo0P8NA3R0p3DEzLgJRsTMKMITZei2G3WfZlSDDDOVo
+         Brozzas6ZvHEMSO6RQ7WwIfPzyZXzZCTaGO6sIRzul2WnVUcIu4qdNYnU6EQ9GWkivhM
+         QTGkeebRJE/pgeW85V9eAFS/VGArzEWQd7WIUDnvijv+JOo1PxZqZIJ3N/OfFTlCMK6Q
+         5lFS3LvaE9s+NfL7N0AZ0y0gja4R9roVmkZSMm/4V7djiYtKW0fMsvRVrfErEqK7D0IF
+         jvYrsgGLLa5tUOsuvyse6KRWT+USoZzaP/vuWqauOYwXsCSrWIwjCcleXTCwmdlO3FOW
+         8Eiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TdWdmS9KmpqRDKTTx4ZFKlZV0sk8Q5cLOhIOkZ1gD+w=;
-        b=t/kPVI1zhvsASZd5YUnLGRmts0SeCCKPbA0VRDt71mBoFTYOndX2VwXVLAbqiLSo7N
-         114PYd0oVXsEIKPj5TWQMvfbeM68PA9hMYOnaHD2QH+FwYPFyM2Cc/Th8iUpgs31NmqL
-         NO3Q4pgaWR5VY8y0C77llC+3ri3MaceFzdlFU/jyWCPZq/tEiSzJjLmF1e8Bno9QOZZA
-         nn8cA36R8JmWySw7ysCitj71MVgSz9eT7zrchQ8outJuexqUmoLn5NgxoPm4tZBAeqXJ
-         0MAiAdYyji7jsmMi1UwpO0zRD1tZKYciI646u/BxSkyCq3hbuypVLwu8Zwbs75d6Zf6R
-         z9yQ==
-X-Gm-Message-State: AOAM5323rrvoK3FxcK6qwIqMJ+0fh64M43os97dodxfWO23RICFKs4Ln
-        P9rckKvuyhrW6xS4N637ANYwwOspn7xxOw==
-X-Google-Smtp-Source: ABdhPJw5iGdAmNaEMQ1SvZNkmIye8Ofdbatw5/3Xqrwt/nwsMW57+0k+bY2ITTp8AnIAZlQQg86/Rg==
-X-Received: by 2002:a17:906:89a:: with SMTP id n26mr4169614eje.363.1597945700829;
-        Thu, 20 Aug 2020 10:48:20 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id kt27sm1790061ejb.15.2020.08.20.10.48.20
-        for <linux-media@vger.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OniJLvMGszqKdZPfnGGPRm6yrJhAzhpZMeh8ipXlA60=;
+        b=CbaGztTd0mL/71vTIHnYxHeUrp2W+gK9NjdnrvC+3sk2WzXbMzoxN6SeCR9bP45lvm
+         qA9O4tvzQ8DRmebxLfVKHIac6H3dmo5hHqoO+2EPoC+yRHyw1y8M2N5P9WGs+24ljc+N
+         uvd3QmR1tHUx8z2jsh/0IaRmMuZc/DrO2NRKTK9Fc+cXm0GU3rZ/1j3pgDCJDuRbVaA0
+         75MdVNzb4rLIW4fj3bXAm4R7WUIG+w5qo2HMEg4aBZitFyZm5w/ckctix+Bb9JJBh78R
+         bgzyvhVjBqH0a01PNxMG03celZNnG2RzzAJOKh2HXDcLdxTSB29aSYxi36ekjo22Lrea
+         yOyw==
+X-Gm-Message-State: AOAM532yd8Z8mVd9I7uYypIyeWe4mMqUnnSIlXys3M0BF2izexaEzp6d
+        tZIbVPoBBKFLW+EbAGsnZDC1BYBUmD4=
+X-Google-Smtp-Source: ABdhPJyvIy9bEn51zd/IbZfZTQR3N2YYlmALsIktwWFi5DNbYZ8x8ytUZs/6wT5ORieeLAv6LpyrBA==
+X-Received: by 2002:a05:651c:231:: with SMTP id z17mr2146637ljn.109.1597953064841;
+        Thu, 20 Aug 2020 12:51:04 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id l26sm690804lfj.22.2020.08.20.12.51.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2020 10:48:20 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id 9so2428514wmj.5
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 10:48:20 -0700 (PDT)
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr4512279wmh.55.1597945276327;
- Thu, 20 Aug 2020 10:41:16 -0700 (PDT)
+        Thu, 20 Aug 2020 12:51:03 -0700 (PDT)
+Subject: Re: [PATCH 16/18] staging/media/tegra-vde: Clean up IOMMU workaround
+To:     Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
+        linux@armlinux.org.uk
+Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, m.szyprowski@samsung.com,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, vdumpa@nvidia.com,
+        matthias.bgg@gmail.com, yong.wu@mediatek.com,
+        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
+        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1597931875.git.robin.murphy@arm.com>
+ <3535c205b9bce52556abbf2f63384fb38e009df9.1597931876.git.robin.murphy@arm.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <07135a55-cbc9-83e5-60dc-731282192554@gmail.com>
+Date:   Thu, 20 Aug 2020 22:51:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-6-hch@lst.de>
- <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
- <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com> <CAAFQd5AcCTDguB2C9KyDiutXWoEvBL8tL7+a==Uo8vj_8CLOJw@mail.gmail.com>
- <2b32f1d8-16f7-3352-40a5-420993d52fb5@arm.com> <20200820050214.GA4815@lst.de>
- <CAAFQd5AknYpP5BamC=wJkEJyO-q47V6Gc+HT65h6B+HyT+-xjQ@mail.gmail.com> <20200820165213.GC12693@lst.de>
-In-Reply-To: <20200820165213.GC12693@lst.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 20 Aug 2020 19:41:03 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5BcH-_S=WDvqYvSPxMvQuN5atO8q=xktbMaPS-DOCAYbw@mail.gmail.com>
-Message-ID: <CAAFQd5BcH-_S=WDvqYvSPxMvQuN5atO8q=xktbMaPS-DOCAYbw@mail.gmail.com>
-Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Robin Murphy <robin.murphy@arm.com>, alsa-devel@alsa-project.org,
-        linux-ia64@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        linux-scsi@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-mips@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <3535c205b9bce52556abbf2f63384fb38e009df9.1597931876.git.robin.murphy@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 20, 2020 at 6:52 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Thu, Aug 20, 2020 at 12:24:31PM +0200, Tomasz Figa wrote:
-> > > Of course this still uses the scatterlist structure with its annoying
-> > > mix of input and output parametes, so I'd rather not expose it as
-> > > an official API at the DMA layer.
-> >
-> > The problem with the above open coded approach is that it requires
-> > explicit handling of the non-IOMMU and IOMMU cases and this is exactly
-> > what we don't want to have in vb2 and what was actually the job of the
-> > DMA API to hide. Is the plan to actually move the IOMMU handling out
-> > of the DMA API?
-> >
-> > Do you think we could instead turn it into a dma_alloc_noncoherent()
-> > helper, which has similar semantics as dma_alloc_attrs() and handles
-> > the various corner cases (e.g. invalidate_kernel_vmap_range and
-> > flush_kernel_vmap_range) to achieve the desired functionality without
-> > delegating the "hell", as you called it, to the users?
->
-> Yes, I guess I could do something in that direction.  At least for
-> dma-iommu, which thanks to Robin should be all you'll need in the
-> foreseeable future.
+20.08.2020 18:08, Robin Murphy пишет:
+> Now that arch/arm is wired up for default domains and iommu-dma, we no
+> longer need to work around the arch-private mapping.
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/staging/media/tegra-vde/iommu.c | 12 ------------
+>  1 file changed, 12 deletions(-)
+> 
+> diff --git a/drivers/staging/media/tegra-vde/iommu.c b/drivers/staging/media/tegra-vde/iommu.c
+> index 6af863d92123..4f770189ed34 100644
+> --- a/drivers/staging/media/tegra-vde/iommu.c
+> +++ b/drivers/staging/media/tegra-vde/iommu.c
+> @@ -10,10 +10,6 @@
+>  #include <linux/kernel.h>
+>  #include <linux/platform_device.h>
+>  
+> -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+> -#include <asm/dma-iommu.h>
+> -#endif
+> -
+>  #include "vde.h"
+>  
+>  int tegra_vde_iommu_map(struct tegra_vde *vde,
+> @@ -70,14 +66,6 @@ int tegra_vde_iommu_init(struct tegra_vde *vde)
+>  	if (!vde->group)
+>  		return 0;
+>  
+> -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+> -	if (dev->archdata.mapping) {
+> -		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
+> -
+> -		arm_iommu_detach_device(dev);
+> -		arm_iommu_release_mapping(mapping);
+> -	}
+> -#endif
+>  	vde->domain = iommu_domain_alloc(&platform_bus_type);
+>  	if (!vde->domain) {
+>  		err = -ENOMEM;
+> 
 
-That would be really great. Let me know if we can help by testing with
-V4L2/vb2 or in any other way.
+Hello, Robin! Thank you for yours work!
 
-Best regards,
-Tomasz
+Some drivers, like this Tegra VDE (Video Decoder Engine) driver for
+example, do not want to use implicit IOMMU domain. Tegra VDE driver
+relies on explicit IOMMU domain in a case of Tegra SMMU because VDE
+hardware can't access last page of the AS and because driver wants to
+reserve some fixed addresses [1].
+
+[1]
+https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/staging/media/tegra-vde/iommu.c#L100
+
+Tegra30 SoC supports up to 4 domains, hence it's not possible to afford
+wasting unused implicit domains. I think this needs to be addressed
+before this patch could be applied.
+
+Would it be possible for IOMMU drivers to gain support for filtering out
+devices in iommu_domain_alloc(dev, type)? Then perhaps Tegra SMMU driver
+could simply return NULL in a case of type=IOMMU_DOMAIN_DMA and
+dev=tegra-vde.
+
+Alternatively, the Tegra SMMU could be changed such that the devices
+will be attached to a domain at the time of a first IOMMU mapping
+invocation instead of attaching at the time of attach_dev() callback
+invocation.
+
+Or maybe even IOMMU core could be changed to attach devices at the time
+of the first IOMMU mapping invocation? This could be a universal
+solution for all drivers.
+
