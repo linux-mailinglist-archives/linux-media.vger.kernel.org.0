@@ -2,98 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04F4824B970
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 13:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0740C24BA2B
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 14:03:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728936AbgHTLqn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 07:46:43 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:60631 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730591AbgHTLpG (ORCPT
+        id S1728715AbgHTMBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 08:01:46 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51093 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728437AbgHTMAn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 07:45:06 -0400
+        Thu, 20 Aug 2020 08:00:43 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 8izskGuNMywL58iztkZUl0; Thu, 20 Aug 2020 13:44:45 +0200
+        id 8jFGkH3QYywL58jFHkZXLU; Thu, 20 Aug 2020 14:00:39 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597923886; bh=IocCpV9atTxbqpgpHngbBHta2la2malhBL6QLL+KbMw=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1597924839; bh=F3dthRD5hsrYdfPv0ndJuqxtQGGHuSa83ZXTRBS3sx4=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=wXZYynsoXGQzHJRmmozOkGf/EqZdtHoUtsr/ExG3gSyNAJPQVlg01223NpYMx/2p0
-         cym8co0f5yoFT/4yOUylgHG2WF9mlmjV4f1w5EQtJ56IhRL12hAaLZS3hG/FQZ3nLa
-         Ee+qFiJHupmdw5mOphHbm9kP7JVFsZAZdcIExqXQfEdHRSfE4Vz1Cl9sKQq6NJh4Gb
-         qdDsQ3Vw92+qjPV3rcN4kiY+1s7L+uysFgsLNUYTteqssRmo8jJLOZTiMplpaCNvlG
-         0x4iPQD65oKwFPRjouCSjJxFl1vDSyHcWq5szCK8Xk7JhLB2OVqIP4aJLcUd4fl/py
-         ORheinfat+Vvw==
-Subject: Re: [PATCH v2] media: pvrusb2: fix parsing error
-To:     Tong Zhang <ztong0001@gmail.com>, isely@pobox.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <75b8354b-362a-0215-8038-45bd68be7de5@xs4all.nl>
- <20200819212523.113973-1-ztong0001@gmail.com>
+        b=Y8V6JgGwEcwtLnzrJYfYmn/2CqnP/7g+OZYhflutBKMGhgl/1CCdDimxhDqPEAQFf
+         WNRI80Jlw59i7xA0jv5CwWOHkDq9jWYDFzCynPiNcCWlU2WLtsZAQrXp+OqxUYYtDZ
+         lg/9VRmt6q4O8jv3R9LkioN/9pD5zogap+jn78hBMPxkcqI8nCtAMCXcjfOMfwUBMz
+         DVHLxfd94CXywonkKqqfL3f8t4RIjFmIlrlz3gC2bUQAMz0XNN7S65K+MnfDw++vNf
+         mHbGeCFT8/lA025mgt5Dm9lIvzYUAClE0xFX/dFEhATOQ7pMqmFA+OKfb63u876/a3
+         2LnzCDAF/jKrw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Jonathan Bakker <xc-racer2@live.ca>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <aed971ed-bd8e-eaed-b2ee-80e9654f24cd@xs4all.nl>
-Date:   Thu, 20 Aug 2020 13:44:44 +0200
+Subject: [GIT PULL FOR v5.10] More fixes and improvements
+Message-ID: <87327e52-44cc-a2b8-c3fe-619bd6022264@xs4all.nl>
+Date:   Thu, 20 Aug 2020 14:00:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200819212523.113973-1-ztong0001@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfEhHaZWDaOurX1cn4LmZC0i1t/di2YlunFK+pliQZuPYrCIYyh5ho6JV7mVCMF7Hwd7EZK32MbBPIliMkHjTo1MIgVGORYFeOeMHXAIMg9Vc7BDXuCDj
- wAKOXUKbVDy9n7GO563eeDiQPU+EMFrd0BmsKGelRh0CZkeseQp/puARcYrNSsAxiGTwNzbyy3izpTpWPpp1SQYfZqH/tO5J5J9ngvKGX4SEOIResnWVu435
- SSUnVdy7alHFz2IqYHaDrgaXLO05Bno4a4Sy8Tibzme7zqSOOMhyb//jLURi5iPy5lXpeCDhH3nR8m7cPX3JkMjQngqcvuAwmZzJwHYGulDC5P9Vohksa84d
- M714J3ygzEM6tgdCHA9MU0cdZLtZWaUL5Lg6FjIE5pp1IcrZF34=
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfHe2uE+m3wtkPwsaBQgvhCa4xerDGgPk0iXdPrujAEHkLXb/6ssLv29cFy9o+fhEw+82LtKAc1+Yzt4IU91vwP11U/Ncnbhw+c+/OQOXwE7Oxck+SKUg
+ ujbDrKDdm8KUDldoPsq1vnM9ZVFtSQjTo7Lx4cJHz/mOb/TBHNurXnEYVHupldX6jgGdYpECYdGhOUFXtwiwfIujZg4Rnrxrmv4J6wvpDgP8z/v6nKPZYlAa
+ fVZjysGArKqSm771HhXDX+PzCiRb7/IQCfNwOnpoLJHTQ9bv9bTj7hp9nsSLNd0iDPNry+j47osbr2T2as8zzWjYpRoiYXbb+ev2FTjb8flb/eMiGdRGGMyz
+ 8YfuIqTC
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/08/2020 23:25, Tong Zhang wrote:
-> pvr2_std_str_to_id() returns 0 on failure and 1 on success,
-> however the caller is checking failure case using <0
-> 
-> Co-developed-by: Hans Verkuil<hverkuil@xs4all.nl>
-> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-> ---
-> 
-> v2: return -EINVAL as suggested by Hans Verkuil<hverkuil@xs4all.nl>.
-> I also rebased the code on v5.9-rc1.
-> 
->  drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> index 1cfb7cf64131..6a444cb27e31 100644
-> --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> @@ -866,8 +866,8 @@ static int ctrl_std_sym_to_val(struct pvr2_ctrl *cptr,
->  {
->  	int ret;
+The following changes since commit 9a538b83612c8b5848bf840c2ddcd86dda1c8c76:
 
-This is no longer used, so can be removed.
+  media: venus: core: Add support for opp tables/perf voting (2020-08-18 15:55:56 +0200)
 
-And if I compile this patch I get this warning:
+are available in the Git repository at:
 
-drivers/media/usb/pvrusb2/pvrusb2-hdw.c: In function ‘ctrl_std_sym_to_val’:
-drivers/media/usb/pvrusb2/pvrusb2-hdw.c:867:6: warning: unused variable ‘ret’ [-Wunused-variable]
-  867 |  int ret;
-      |      ^~~
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.10b
 
-Always compile-test before posting a patch :-)
+for you to fetch changes up to f67362d52b22f1f5eb27dc33fd1e3c0fb12dce6b:
 
-Regards,
+  media: radio: si476x: no need to check return value of debugfs_create functions (2020-08-20 13:58:23 +0200)
 
-	Hans
+----------------------------------------------------------------
+Tag branch
 
->  	v4l2_std_id id;
-> -	ret = pvr2_std_str_to_id(&id,bufPtr,bufSize);
-> -	if (ret < 0) return ret;
-> +	if (!pvr2_std_str_to_id(&id, bufPtr, bufSize))
-> +		return -EINVAL;
->  	if (mskp) *mskp = id;
->  	if (valp) *valp = id;
->  	return 0;
-> 
+----------------------------------------------------------------
+Dafna Hirschfeld (16):
+      media: staging: rkisp1: replace 9 coeff* fields with a 3x3 array
+      media: staging: rkisp1: replace 3 fields 'ct_offset_*' with one array
+      media: staging: rkisp1: rename RKISP1_CIF_ISP_STAT_AFM_FIN to RKISP1_CIF_ISP_STAT_AFM
+      media: staging: rkisp1: improve documentation in file rkisp1-config.h
+      media: staging: rkisp1: don't define vaddr field in rkisp1_buffer as an array
+      media: staging: rkisp1: unify (un)register functions to have the same parameters
+      media: staging: rkisp1: remove declaration of unimplemented function 'rkisp1_params_isr_handler'
+      media: staging: rkisp1: group declaration of similar functions together
+      media: staging: rkisp1: improve documentation of rkisp1-common.h
+      media: Documentation: v4l: move table of v4l2_pix_format(_mplane) flags to pixfmt-v4l2.rst
+      media: staging: rkisp1: set "*_data_tbl" fields in rkisp1_cif_isp_lsc_config as 2D arrays
+      media: staging: rkisp1: replace two identical macros with one
+      media: staging: rkisp1: change type of fields in 'rkisp1_cif_isp_lsc_config' from u32 to u16
+      media: staging: rkisp1: call params isr only upon frame out
+      media: staging: rkisp1: params: use rkisp1_param_set_bits to set reg in isr
+      media: staging: rkisp1: params: don't release lock in isr before buffer is done
 
+Ezequiel Garcia (2):
+      hantro: h264: Get the correct fallback reference buffer
+      hantro: postproc: Fix motion vector space allocation
+
+Greg Kroah-Hartman (6):
+      media: cec: no need to check return value of debugfs_create functions
+      media: coda: no need to check return value of debugfs_create functions
+      media: exynos4-is: no need to check return value of debugfs_create functions
+      media: mtk-vpu: no need to check return value of debugfs_create functions
+      media: sti: no need to check return value of debugfs_create functions
+      media: radio: si476x: no need to check return value of debugfs_create functions
+
+Gustavo A. R. Silva (1):
+      media: Use fallthrough pseudo-keyword
+
+Helen Koike (1):
+      media: staging: rkisp1: uapi: remove __packed
+
+Jonathan Bakker (10):
+      media: exynos4-is: Remove static driver data for S5PV210 FIMC variants
+      media: exynos4-is: Fix nullptr when no CSIS device present
+      media: exynos4-is: Correct missing entity function initialization
+      media: exynos4-is: Properly set JPEG options for parallel ports
+      media: exynos4-is: Use global num_sensors rather than local index
+      media: exynos4-is: Add support for multiple sensors on one port
+      media: exynos4-is: Remove inh_sensor_ctrls
+      media: exynos4-is: Remove unused struct member input_index
+      media: exynos4-is: Handle duplicate calls to vidioc_streamoff
+      dt-bindings: media: Correct samsung-fimc parallel port numbering
+
+Julia Lawall (3):
+      cx231xx: drop unnecessary list_empty
+      saa7134: drop unnecessary list_empty
+      tm6000: drop unnecessary list_empty
+
+Tomasz Figa (1):
+      media: exynos4-is: Request syscon only if ISP writeback is present
+
+ Documentation/devicetree/bindings/media/samsung-fimc.txt     |   6 +-
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst    |  17 ---
+ Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst        |  17 +++
+ Documentation/userspace-api/media/videodev2.h.rst.exceptions |   2 +-
+ drivers/media/cec/core/cec-adap.c                            |   2 +-
+ drivers/media/cec/core/cec-core.c                            |  27 ++---
+ drivers/media/cec/core/cec-pin.c                             |   6 +-
+ drivers/media/cec/usb/pulse8/pulse8-cec.c                    |   2 +-
+ drivers/media/common/videobuf2/videobuf2-v4l2.c              |   2 +-
+ drivers/media/dvb-frontends/af9013.c                         |   2 +-
+ drivers/media/dvb-frontends/lg2160.c                         |   2 +-
+ drivers/media/dvb-frontends/m88ds3103.c                      |   2 +-
+ drivers/media/i2c/adv7180.c                                  |   2 +-
+ drivers/media/i2c/adv7511-v4l2.c                             |   4 +-
+ drivers/media/i2c/msp3400-kthreads.c                         |   2 +-
+ drivers/media/i2c/ov5640.c                                   |   2 +-
+ drivers/media/i2c/ov6650.c                                   |   4 +-
+ drivers/media/i2c/ov9640.c                                   |   2 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c                    |   2 +-
+ drivers/media/i2c/smiapp/smiapp-core.c                       |   6 +-
+ drivers/media/i2c/tda1997x.c                                 |  10 +-
+ drivers/media/i2c/tvp5150.c                                  |   2 +-
+ drivers/media/pci/bt8xx/bttv-driver.c                        |   2 +-
+ drivers/media/pci/cx88/cx88-cards.c                          |   2 +-
+ drivers/media/pci/cx88/cx88-video.c                          |   2 +-
+ drivers/media/pci/saa7134/saa7134-cards.c                    |   4 +-
+ drivers/media/pci/saa7134/saa7134-core.c                     |  14 +--
+ drivers/media/pci/solo6x10/solo6x10-core.c                   |   2 +-
+ drivers/media/pci/solo6x10/solo6x10-i2c.c                    |   2 +-
+ drivers/media/platform/coda/coda-bit.c                       |   4 +-
+ drivers/media/platform/coda/coda-common.c                    |  15 +--
+ drivers/media/platform/exynos4-is/fimc-capture.c             |  27 ++---
+ drivers/media/platform/exynos4-is/fimc-core.c                |  67 +----------
+ drivers/media/platform/exynos4-is/fimc-core.h                |   5 -
+ drivers/media/platform/exynos4-is/fimc-is.c                  |  17 +--
+ drivers/media/platform/exynos4-is/fimc-reg.c                 |   9 +-
+ drivers/media/platform/exynos4-is/media-dev.c                |  56 ++++++---
+ drivers/media/platform/marvell-ccic/mcam-core.c              |   2 +-
+ drivers/media/platform/mtk-vpu/mtk_vpu.c                     |   5 -
+ drivers/media/platform/omap3isp/ispvideo.c                   |   2 +-
+ drivers/media/platform/qcom/venus/vdec.c                     |   2 +-
+ drivers/media/platform/renesas-ceu.c                         |   4 +-
+ drivers/media/platform/sti/bdisp/bdisp-debug.c               |  29 +----
+ drivers/media/platform/sti/bdisp/bdisp-v4l2.c                |   7 +-
+ drivers/media/platform/sti/bdisp/bdisp.h                     |   2 +-
+ drivers/media/platform/sti/hva/hva-debugfs.c                 |  22 +---
+ drivers/media/radio/radio-si476x.c                           |  66 +++--------
+ drivers/media/radio/si4713/si4713.c                          |   2 +-
+ drivers/media/rc/iguanair.c                                  |   2 +-
+ drivers/media/test-drivers/vicodec/vicodec-core.c            |   2 +-
+ drivers/media/test-drivers/vivid/vivid-vbi-gen.c             |   2 +-
+ drivers/media/tuners/fc0011.c                                |   2 +-
+ drivers/media/tuners/tda18271-fe.c                           |   2 +-
+ drivers/media/usb/cx231xx/cx231xx-core.c                     |  16 +--
+ drivers/media/usb/dvb-usb-v2/af9015.c                        |   2 +-
+ drivers/media/usb/dvb-usb-v2/gl861.c                         |   2 +-
+ drivers/media/usb/dvb-usb-v2/lmedm04.c                       |   8 +-
+ drivers/media/usb/dvb-usb-v2/mxl111sf-gpio.c                 |   4 +-
+ drivers/media/usb/em28xx/em28xx-audio.c                      |   8 +-
+ drivers/media/usb/go7007/go7007-driver.c                     |   2 +-
+ drivers/media/usb/gspca/mr97310a.c                           |  10 +-
+ drivers/media/usb/gspca/nw80x.c                              |   2 +-
+ drivers/media/usb/gspca/ov519.c                              |   6 +-
+ drivers/media/usb/gspca/sn9c20x.c                            |   2 +-
+ drivers/media/usb/gspca/sunplus.c                            |   4 +-
+ drivers/media/usb/gspca/xirlink_cit.c                        |   4 +-
+ drivers/media/usb/gspca/zc3xx.c                              |   4 +-
+ drivers/media/usb/pwc/pwc-v4l.c                              |   2 +-
+ drivers/media/usb/siano/smsusb.c                             |   2 +-
+ drivers/media/usb/tm6000/tm6000-alsa.c                       |   8 +-
+ drivers/media/usb/tm6000/tm6000-core.c                       |  24 ++--
+ drivers/media/usb/uvc/uvc_video.c                            |   4 +-
+ drivers/staging/media/hantro/hantro_h264.c                   |   2 +-
+ drivers/staging/media/hantro/hantro_postproc.c               |   4 +-
+ drivers/staging/media/rkisp1/TODO                            |   1 -
+ drivers/staging/media/rkisp1/rkisp1-common.h                 | 267 +++++++++++++++++++++++++++++++++----------
+ drivers/staging/media/rkisp1/rkisp1-dev.c                    |  15 ++-
+ drivers/staging/media/rkisp1/rkisp1-isp.c                    |  17 ++-
+ drivers/staging/media/rkisp1/rkisp1-params.c                 | 100 +++++++---------
+ drivers/staging/media/rkisp1/rkisp1-regs.h                   |   1 -
+ drivers/staging/media/rkisp1/rkisp1-stats.c                  |  16 +--
+ drivers/staging/media/rkisp1/uapi/rkisp1-config.h            | 247 ++++++++++++++++++++++++---------------
+ include/media/cec.h                                          |   2 -
+ 83 files changed, 662 insertions(+), 628 deletions(-)
