@@ -2,131 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F77C24BAB5
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 14:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8361C24BB4D
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 14:26:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730254AbgHTMQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 08:16:21 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58488 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729684AbgHTMQS (ORCPT
+        id S1728003AbgHTM0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 08:26:45 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:58983 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729896AbgHTM0k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 08:16:18 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id EDA2529A779
-Subject: Re: [PATCH v2 05/14] media: staging: rkisp1: params: upon stream
- stop, iterate a local list to return the buffers
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-References: <20200815103734.31153-1-dafna.hirschfeld@collabora.com>
- <20200815103734.31153-6-dafna.hirschfeld@collabora.com>
- <695451da-c7af-a12c-f308-c45675b8f3aa@collabora.com>
- <33ed026c-f014-0fff-2f19-afc1548e80f2@xs4all.nl>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <d0dadf49-d250-19b0-e165-994587b2f03d@collabora.com>
-Date:   Thu, 20 Aug 2020 09:16:09 -0300
+        Thu, 20 Aug 2020 08:26:40 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 8jePkHJ4bywL58jeQkZbaP; Thu, 20 Aug 2020 14:26:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597926398; bh=CEj6MFOXGvaZtLlvzBU64am2B9bN/pNTuUh0g8wbVQc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=HrAM5EHjVk2CTNp5Ut7Bnig4ORBYfo4YPK8Xg6TJQ9k5Bg8UpPOocsbW18U7Zqzu6
+         7Y3UQPMqfY1kCbDCBVHKUaVE1oKFEV0ElhpfkEjkqguN0JLeYJGoir+PBUrmbZQPxB
+         FDmWsNu4EfYqcLDep4q/6XJKZRRwL3NcUXNsKLXX/GPTdFlp9AEj8cdTbs3w0SiWC3
+         osPESMrMmzWEuJAg4TrhL4uYDmGVne/ErlSD2cIoTk2Jv3lMcMGQCEQkV+7syaI4gL
+         b44t4IBQZFbx1rTTFqC24d7AQqCdub+i+/wMj9UujwX2L9N/L0v5cDeNqzWmCZE8D8
+         QgwJl96uLfJfQ==
+Subject: Re: [PATCHv2] fix GCC enum warning
+To:     Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
+References: <20200803213929.34616-1-rosenp@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <992328dc-8ad5-063c-69fc-b01364bf3011@xs4all.nl>
+Date:   Thu, 20 Aug 2020 14:26:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <33ed026c-f014-0fff-2f19-afc1548e80f2@xs4all.nl>
+In-Reply-To: <20200803213929.34616-1-rosenp@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIfGEgnIZw2bU/2LT7sJJZr2omNUBETtULbIlwKuaCZYjPqXD16D/S7gOWYv0oY6tx7ZUUjQAyhqer2ALXz4i0wMM3+wCecGDHdooAZKQR04hiJ2skK8
+ O0yuvw20Y41i4XIH8TNWsI9mjYtKtpIiGJH+wy13PlK1mbhe5EsJlBuw3CBUaylf6ROsfq5kN7VclfdDkowG/7pI6gWHxGsKsoP4W4CChQYnS+zTvn5xG8+e
+ buob9WTLqE0x7squiJX+ydxVFsNrvyTk2BJjtwxVQCqaX5khQYtjR5rL9POToUYBn+tbmvDYUrOiWFklmIqIGQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 8/20/20 6:27 AM, Hans Verkuil wrote:
-> On 17/08/2020 23:47, Helen Koike wrote:
->> Hi Dafna,
->>
->> On 8/15/20 7:37 AM, Dafna Hirschfeld wrote:
->>> The code in '.stop_streaming' callback releases and acquire the lock
->>> at each iteration when returning the buffers.
->>> Holding the lock disables interrupts so it should be minimized.
->>> To make the code cleaner and still minimize holding the lock,
->>> the buffer list is first moved to a local list and
->>> then can be iterated without the lock.
->>>
->>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>
->> lgtm
->>
->> Helen Koike <helen.koike@collabora.com>
+On 03/08/2020 23:39, Rosen Penev wrote:
+> Found with -Wenum-compare
 > 
-> Missing 'Acked-by:' tag?
-
-Ops, yes
-
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
+> ../utils/common/v4l-helpers.h:880:36: warning: enumerated and
+> non-enumerated type in conditional expression [-Wextra]
+>   880 |  return hsv_enc < V4L2_HSV_ENC_180 ? V4L2_HSV_ENC_180 : hsv_enc;
 > 
-> Hans
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>  v2: Added warning message.
+>  utils/common/v4l-helpers.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->>
->> Thanks
->> Helen
->>
->>> ---
->>>  drivers/staging/media/rkisp1/rkisp1-params.c | 31 +++++++-------------
->>>  1 file changed, 11 insertions(+), 20 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
->>> index 0c2bb2eefb22..6a76c586e916 100644
->>> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
->>> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
->>> @@ -1477,32 +1477,23 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
->>>  {
->>>  	struct rkisp1_params *params = vq->drv_priv;
->>>  	struct rkisp1_buffer *buf;
->>> +	struct list_head tmp_list;
->>>  	unsigned long flags;
->>> -	unsigned int i;
->>>  
->>> -	/* stop params input firstly */
->>> +	INIT_LIST_HEAD(&tmp_list);
->>> +
->>> +	/*
->>> +	 * we first move the buffers into a local list 'tmp_list'
->>> +	 * and then we can iterate it and call vb2_buffer_done
->>> +	 * without holding the lock
->>> +	 */
->>>  	spin_lock_irqsave(&params->config_lock, flags);
->>>  	params->is_streaming = false;
->>> +	list_cut_position(&tmp_list, &params->params, params->params.prev);
->>>  	spin_unlock_irqrestore(&params->config_lock, flags);
->>>  
->>> -	for (i = 0; i < RKISP1_ISP_PARAMS_REQ_BUFS_MAX; i++) {
->>> -		spin_lock_irqsave(&params->config_lock, flags);
->>> -		if (!list_empty(&params->params)) {
->>> -			buf = list_first_entry(&params->params,
->>> -					       struct rkisp1_buffer, queue);
->>> -			list_del(&buf->queue);
->>> -			spin_unlock_irqrestore(&params->config_lock,
->>> -					       flags);
->>> -		} else {
->>> -			spin_unlock_irqrestore(&params->config_lock,
->>> -					       flags);
->>> -			break;
->>> -		}
->>> -
->>> -		if (buf)
->>> -			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>> -		buf = NULL;
->>> -	}
->>> +	list_for_each_entry(buf, &tmp_list, queue)
->>> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>>  }
->>>  
->>>  static int
->>>
+> diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
+> index e093e717..edd21c16 100644
+> --- a/utils/common/v4l-helpers.h
+> +++ b/utils/common/v4l-helpers.h
+> @@ -877,7 +877,7 @@ v4l_format_g_hsv_enc(const struct v4l2_format *fmt)
+>  {
+>  	unsigned hsv_enc = v4l_format_g_ycbcr_enc(fmt);
+
+Does the warning go away if you replace 'unsigned' with enum v4l2_hsv_encoding?
+
+I would like that a lot better than casting V4L2_HSV_ENC_180.
+
+Regards,
+
+	Hans
+
+>  
+> -	return hsv_enc < V4L2_HSV_ENC_180 ? V4L2_HSV_ENC_180 : hsv_enc;
+> +	return hsv_enc < V4L2_HSV_ENC_180 ? unsigned(V4L2_HSV_ENC_180) : hsv_enc;
+>  }
+>  
+>  static inline void v4l_format_s_quantization(struct v4l2_format *fmt,
 > 
+
