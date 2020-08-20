@@ -2,214 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75CAA24B031
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 09:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0A0324B058
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 09:48:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725823AbgHTHdA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 03:33:00 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55008 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725778AbgHTHdA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 03:33:00 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 045EA28E289
-Message-ID: <bac2020eabb375a6c9dbc689c0c5a3f6eae16e1e.camel@collabora.com>
-Subject: Re: [PATCH v2 08/14] media: uapi: h264: Drop SLICE_PARAMS 'size'
- field
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        id S1726364AbgHTHsO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 03:48:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57424 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726387AbgHTHsM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Aug 2020 03:48:12 -0400
+Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DF7492076E;
+        Thu, 20 Aug 2020 07:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597909691;
+        bh=g2IqS522aDpDOMRGjJhoBBKmc9vDx5nkutC89s6uJR4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=q9mr5rBKWlaN6yOMGAvpVnslZyDPcwewIL7KGeA4ddSFK2LedtABk2YcfI/a2xWSo
+         vj4XxLKWhcOWpuFnRThSQO8Cn4AnL6tc5Bg7GCM7GCId3AAXYo0vPaJOaK7wHu4CUU
+         CDlaI3bQpIBtNGU4ubSBKKXxRpxl+QeouugEhmNw=
+Date:   Thu, 20 Aug 2020 09:48:00 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        Liwei Cai <cailiwei@hisilicon.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Wanchun Zheng <zhengwanchun@hisilicon.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        BPF Mailing List <bpf@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Liuyao An <anliuyao@huawei.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Wei Xu <xuwei5@hisilicon.com>,
+        Rongrong Zou <zourongrong@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Date:   Thu, 20 Aug 2020 04:32:46 -0300
-In-Reply-To: <20200819135430.GA1566@aptenodytes>
-References: <20200806151310.98624-1-ezequiel@collabora.com>
-         <20200806151310.98624-9-ezequiel@collabora.com>
-         <20200806155028.GB1621078@aptenodytes>
-         <7e0ad157cabb656cbb4f24354146197e6a1d3f36.camel@collabora.com>
-         <20200819135430.GA1566@aptenodytes>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        Sam Ravnborg <sam@ravnborg.org>,
+        Network Development <netdev@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Chen Feng <puck.chen@hisilicon.com>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+Message-ID: <20200820094800.3ede7970@coco.lan>
+In-Reply-To: <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+        <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
+        <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
+        <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Em Wed, 19 Aug 2020 20:28:44 -0700
+John Stultz <john.stultz@linaro.org> escreveu:
 
-On Wed, 2020-08-19 at 15:54 +0200, Paul Kocialkowski wrote:
-> Hi,
+> On Wed, Aug 19, 2020 at 7:01 PM John Stultz <john.stultz@linaro.org> wrote:
+> >
+> > On Wed, Aug 19, 2020 at 2:36 PM John Stultz <john.stultz@linaro.org> wrote:  
+> > >
+> > > On Wed, Aug 19, 2020 at 4:46 AM Mauro Carvalho Chehab
+> > > <mchehab+huawei@kernel.org> wrote:  
+> > > > So, IMO, the best is to keep it on staging for a while, until those
+> > > > remaining bugs gets solved.
+> > > >
+> > > > I added this series, together with the regulator driver and
+> > > > a few other patches (including a hack to fix a Kernel 5.8
+> > > > regression at WiFi ) at:
+> > > >
+> > > >         https://gitlab.freedesktop.org/mchehab_kernel/hikey-970/-/commits/master  
+> > >
+> > > Sorry, one more small request: Could you create a branch that only has
+> > > the DRM driver changes in it?
+> > >
+> > > The reason I ask, is that since the HiKey960 isn't affected by the
+> > > majority of the problems you listed as motivation for going through
+> > > staging. So if we can validate that your tree works fine on HiKey960,
+> > > the series can be cleaned up and submitted properly upstream to enable
+> > > that SoC, and the outstanding 970 issues can be worked out afterwards
+> > > against mainline.  
+> >
+> > Just as a heads up, I tried testing your tree with my HiKey960, and
+> > after fixing the compat string inconsistency, the drivers seem to load
+> > properly. However the drm_hwcomposer seems to have some trouble with
+> > the driver:
+> > 01-01 00:12:41.456   345   345 E hwc-drm-display-compositor: Commit
+> > test failed for display 0, FIXME
+> > 01-01 00:12:41.456   345   345 E hwc-drm-two: Failed to apply the
+> > frame composition ret=-22
+> > 01-01 00:12:41.456   351   351 E HWComposer:
+> > presentAndGetReleaseFences: present failed for display 0: BadParameter
+> > (4)
+> >
+> > I'll dig in a bit further as to why, but wanted to give you a heads up.  
 > 
-> On Fri 07 Aug 20, 11:44, Ezequiel Garcia wrote:
-> > On Thu, 2020-08-06 at 17:50 +0200, Paul Kocialkowski wrote:
-> > > Hi,
-> > > 
-> > > On Thu 06 Aug 20, 12:13, Ezequiel Garcia wrote:
-> > > > The SLICE_PARAMS control is intended for slice-based
-> > > > devices. In this mode, the OUTPUT buffer contains
-> > > > a single slice, and so the buffer's plane payload size
-> > > > can be used to query the slice size.
-> > > 
-> > > If we later extend the API for supporting multiple slices with dynamic array
-> > > controls, I guess we'll need to know the size of each slice in each control
-> > > elements. So I'd rather keep that even if it's indeed redundant with
-> > > vb2_get_plane_payload in single-slice mode.
-> > > 
-> > 
-> > If we later extend the API, another control (possibly
-> > another decoding mode?) shall be introduced.
-> > 
-> > This API covers single-slice-per-request as specified
-> > and documented in patch 9/14 "Clarify SLICE_BASED mode".
-> > 
-> > This is along the lines of the proposal drafted by Nicolas,
-> > see my reply: https://lkml.org/lkml/2020/8/5/791.
-> > 
-> > This applies to num_slices, slice size and slice start offset.
-> > 
-> > There are multiple ways of doing this.
+> Ok, I've mostly gotten it sorted out:
+>   - You're missing a few color formats.
+>   - And I re-discovered a crash that was already fixed in my tree.
 > 
-> If feels a bit problematic to remove these fields without a clear plan yet
-> on how to support multiple slices in the future. These may need to be added
-> again later, except that it will be too late and new controls will need to be
-> introduced.
+> I'll send those patches in a few here.
+
+Thank you for the patches! I'll test them with Hikey 970 in order to
+be sure they're compatible also with such SoC.
+
 > 
+> That said even with the patches I've got on top of your series, I
+> still see a few issues:
 
-As Nicolas and I have repeatedly mentioned we do have a plan :)
+> 1) I'm seeing red-blue swap with your driver.  I need to dig a bit to
+> see what the difference is, I know gralloc has a config option for
+> this, and maybe the version of the driver I'm carrying has it wrong?
 
-Nothing prevents us from implementing this now, but since it seems
-we don't have any need since the 1-slice-per-buffer is working well,
-there is no motivation for it.
+There are some settings at adv7535 with regards to the colormap.
+The 4.9 fork of it has some different settings. Maybe it could
+be somehow related to it.
 
-As you well mention, it does require new controls. This is
-totally expected since new decoding semantics will need new controls.
+I have here a Hikey 960, but didn't test it yet.
 
-Here's my version of the plan:
+> 2) Performance is noticeably worse. Whereas with my tree, I see close
+> to 60fps (that clk issue we mentioned earlier is why it's not exactly
+> 60) in most tests, but with yours it mostly hovers around 30some fps,
+> occasionally speeding up to 40 and then back down.
 
-enum v4l2_mpeg_video_h264_decode_mode {
-        V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED,
-        V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_ARRAY_BASED,
-        V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
-};
+That's weird, but it could be due to some settings related to CMA, IOMMU
+and/or AFBC.
 
-#define V4L2_CID_MPEG_VIDEO_H264_SLICE_ARRAY    (V4L2_CID_MPEG_BASE+1008)
-
-struct v4l2_ctrl_h264_slice_array {
-        __u16 num_slices;
-
-        struct v4l2_ctrl_h264_slice slices[16];
-}
-
-struct v4l2_ctrl_h264_slice {
-        __u32 size;
-        __u32 start_byte_offset;
-        struct v4l2_ctrl_h264_slice_params params;
-}
-
-Now, the _specific_ way this will be done is not under
-discussion at the moment.
-
-> Also, could we consider adding more reserved fields to handle such future needs?
+> Obviously with some work I suspect we'll be able to sort these out,
+> but I also do feel that the set you're starting with for upstreaming
+> is pretty old. The driver I'm carrying was heavily refactored around
+> 5.0 to share code with the existing kirin driver, in the hopes of
+> making usptreaming easier, and it seems a shame to throw that out and
+> focus your efforts on the older tree.
 > 
+> But to be fair, I've not had time to upstream the driver myself, and
+> it's obviously your choice on how you spend your time.  I am really
+> excited to see your efforts here, regardless of which driver you end
+> up pushing.
 
-I have considered that (on each control), but I fail
-to see the reason for it. The same may be said of all controls,
-yet I don't think we bloat each one just in case. 
+On a quick look I've done, besides not having support for Hikey 970,
+the code on your tree seems to have less settings than the original
+one for Hikey 960. Yet, it should take some time to figure out what
+those extra settings are doing.
+
+Once I get this driver merged, and have USB support working fine[1],
+my plan is to compare the version from your tree, and compare
+with the one I have, in order to cleanup some stuff, check performance
+and do some other optimizations.
+
+-
+
+[1] this is a little OOT here: USB has been a challenge. Depending
+on the build, I'm getting an NMI interrupt error when the USB3
+stack is loaded (usually at dwc3). The error is ESR_ELx_AET_UC.
+Unfortunately, it doesn't point to where this error is generated,
+making very hard to debug it.
 
 Thanks,
-Ezequiel
-
-> Cheers,
-> 
-> Paul
-> 
-> > Thanks!
-> > Ezequiel
-> > 
-> > > What do you think?
-> > > 
-> > > Paul
-> > > 
-> > > > To reduce the API surface drop the size from the
-> > > > SLICE_PARAMS control.
-> > > > 
-> > > > A follow-up change will remove other members in SLICE_PARAMS
-> > > > so we don't need to add padding fields here.
-> > > > 
-> > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > ---
-> > > >  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 3 ---
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus_h264.c          | 7 +++----
-> > > >  include/media/h264-ctrls.h                                | 3 ---
-> > > >  3 files changed, 3 insertions(+), 10 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > index 427fc5727ec0..fff74b7bf32a 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > @@ -1760,9 +1760,6 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > > >      :stub-columns: 0
-> > > >      :widths:       1 1 2
-> > > >  
-> > > > -    * - __u32
-> > > > -      - ``size``
-> > > > -      -
-> > > >      * - __u32
-> > > >        - ``start_byte_offset``
-> > > >          Offset (in bytes) from the beginning of the OUTPUT buffer to the start
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > > index a9ba78b15907..8b6f05aadbe8 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > > @@ -324,17 +324,16 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
-> > > >  	struct vb2_buffer *src_buf = &run->src->vb2_buf;
-> > > >  	struct cedrus_dev *dev = ctx->dev;
-> > > >  	dma_addr_t src_buf_addr;
-> > > > -	u32 len = slice->size * 8;
-> > > > +	size_t slice_bytes = vb2_get_plane_payload(src_buf, 0);
-> > > >  	unsigned int pic_width_in_mbs;
-> > > >  	bool mbaff_pic;
-> > > >  	u32 reg;
-> > > >  
-> > > > -	cedrus_write(dev, VE_H264_VLD_LEN, len);
-> > > > +	cedrus_write(dev, VE_H264_VLD_LEN, slice_bytes * 8);
-> > > >  	cedrus_write(dev, VE_H264_VLD_OFFSET, 0);
-> > > >  
-> > > >  	src_buf_addr = vb2_dma_contig_plane_dma_addr(src_buf, 0);
-> > > > -	cedrus_write(dev, VE_H264_VLD_END,
-> > > > -		     src_buf_addr + vb2_get_plane_payload(src_buf, 0));
-> > > > +	cedrus_write(dev, VE_H264_VLD_END, src_buf_addr + slice_bytes);
-> > > >  	cedrus_write(dev, VE_H264_VLD_ADDR,
-> > > >  		     VE_H264_VLD_ADDR_VAL(src_buf_addr) |
-> > > >  		     VE_H264_VLD_ADDR_FIRST | VE_H264_VLD_ADDR_VALID |
-> > > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > > > index 4f05ee265997..f74736fcfa00 100644
-> > > > --- a/include/media/h264-ctrls.h
-> > > > +++ b/include/media/h264-ctrls.h
-> > > > @@ -158,9 +158,6 @@ struct v4l2_h264_reference {
-> > > >  };
-> > > >  
-> > > >  struct v4l2_ctrl_h264_slice_params {
-> > > > -	/* Size in bytes, including header */
-> > > > -	__u32 size;
-> > > > -
-> > > >  	/* Offset in bytes to the start of slice in the OUTPUT buffer. */
-> > > >  	__u32 start_byte_offset;
-> > > >  
-> > > > -- 
-> > > > 2.27.0
-> > > > 
-
-
+Mauro
