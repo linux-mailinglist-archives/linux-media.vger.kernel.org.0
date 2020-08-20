@@ -2,35 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D328924AB22
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 02:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D5D824AB2A
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 02:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728358AbgHTAII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726803AbgHTAII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 19 Aug 2020 20:08:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60734 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:60796 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728211AbgHTADH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 20:03:07 -0400
+        id S1728214AbgHTADK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Aug 2020 20:03:10 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 55848214F1;
-        Thu, 20 Aug 2020 00:03:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 09324208E4;
+        Thu, 20 Aug 2020 00:03:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597881787;
-        bh=7BLz4oHXor+cAmkcYWWb+qAE5oH/+YW+t/smg2v2l1w=;
+        s=default; t=1597881789;
+        bh=vPy/tWkM4rUBuv1/k3puIQlGWExl/XrbhuXOHiQLWEI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Di3OQ9bqSicXx66Uj4eUe525DnrJ11xYv6Tah8gIs1YJFPsVzEf+WSPotYxEfFBBL
-         cSA86/z9FvRjAuIPgUQinecaMu5ry38tol8HvIXdinRD+89h9SVA0rX/4vL6LJuLLb
-         bvWu6Uep35B/nJNcluSBJuwVy9W0YQ+sGnWOSTJg=
+        b=UI68gBQeuZO2we4433CHrZsOTSMiDLZUGUwVuKPySt542BxbUf8dNdXgzAxbZVmW9
+         WxprzXr5s8SojtMTVzIVp/2fxRH90fC9BTTkEkb2zBioavpmvhqTP0fAUnmQPODg2B
+         JEGiB9GtJHe5s62jTez7GIY2mxwcLL84Tn+n5G+w=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chuhong Yuan <hslester96@gmail.com>, Sean Young <sean@mess.org>,
+Cc:     Evgeny Novikov <novikov@ispras.ru>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 03/18] media: budget-core: Improve exception handling in budget_register()
-Date:   Wed, 19 Aug 2020 20:02:46 -0400
-Message-Id: <20200820000302.215560-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 05/18] media: vpss: clean up resources in init
+Date:   Wed, 19 Aug 2020 20:02:48 -0400
+Message-Id: <20200820000302.215560-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200820000302.215560-1-sashal@kernel.org>
 References: <20200820000302.215560-1-sashal@kernel.org>
@@ -43,54 +44,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Chuhong Yuan <hslester96@gmail.com>
+From: Evgeny Novikov <novikov@ispras.ru>
 
-[ Upstream commit fc0456458df8b3421dba2a5508cd817fbc20ea71 ]
+[ Upstream commit 9c487b0b0ea7ff22127fe99a7f67657d8730ff94 ]
 
-budget_register() has no error handling after its failure.
-Add the missed undo functions for error handling to fix it.
+If platform_driver_register() fails within vpss_init() resources are not
+cleaned up. The patch fixes this issue by introducing the corresponding
+error handling.
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
+Found by Linux Driver Verification project (linuxtesting.org).
+
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/ttpci/budget-core.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/media/platform/davinci/vpss.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttpci/budget-core.c
-index b3dc45b91101d..9b545c7431685 100644
---- a/drivers/media/pci/ttpci/budget-core.c
-+++ b/drivers/media/pci/ttpci/budget-core.c
-@@ -383,20 +383,25 @@ static int budget_register(struct budget *budget)
- 	ret = dvbdemux->dmx.add_frontend(&dvbdemux->dmx, &budget->hw_frontend);
+diff --git a/drivers/media/platform/davinci/vpss.c b/drivers/media/platform/davinci/vpss.c
+index 89a86c19579b8..50fc71d0cb9f3 100644
+--- a/drivers/media/platform/davinci/vpss.c
++++ b/drivers/media/platform/davinci/vpss.c
+@@ -514,19 +514,31 @@ static void vpss_exit(void)
  
- 	if (ret < 0)
--		return ret;
-+		goto err_release_dmx;
- 
- 	budget->mem_frontend.source = DMX_MEMORY_FE;
- 	ret = dvbdemux->dmx.add_frontend(&dvbdemux->dmx, &budget->mem_frontend);
- 	if (ret < 0)
--		return ret;
-+		goto err_release_dmx;
- 
- 	ret = dvbdemux->dmx.connect_frontend(&dvbdemux->dmx, &budget->hw_frontend);
- 	if (ret < 0)
--		return ret;
-+		goto err_release_dmx;
- 
- 	dvb_net_init(&budget->dvb_adapter, &budget->dvb_net, &dvbdemux->dmx);
- 
- 	return 0;
+ static int __init vpss_init(void)
+ {
++	int ret;
 +
-+err_release_dmx:
-+	dvb_dmxdev_release(&budget->dmxdev);
-+	dvb_dmx_release(&budget->demux);
+ 	if (!request_mem_region(VPSS_CLK_CTRL, 4, "vpss_clock_control"))
+ 		return -EBUSY;
+ 
+ 	oper_cfg.vpss_regs_base2 = ioremap(VPSS_CLK_CTRL, 4);
+ 	if (unlikely(!oper_cfg.vpss_regs_base2)) {
+-		release_mem_region(VPSS_CLK_CTRL, 4);
+-		return -ENOMEM;
++		ret = -ENOMEM;
++		goto err_ioremap;
+ 	}
+ 
+ 	writel(VPSS_CLK_CTRL_VENCCLKEN |
+-		     VPSS_CLK_CTRL_DACCLKEN, oper_cfg.vpss_regs_base2);
++	       VPSS_CLK_CTRL_DACCLKEN, oper_cfg.vpss_regs_base2);
++
++	ret = platform_driver_register(&vpss_driver);
++	if (ret)
++		goto err_pd_register;
++
++	return 0;
+ 
+-	return platform_driver_register(&vpss_driver);
++err_pd_register:
++	iounmap(oper_cfg.vpss_regs_base2);
++err_ioremap:
++	release_mem_region(VPSS_CLK_CTRL, 4);
 +	return ret;
  }
- 
- static void budget_unregister(struct budget *budget)
+ subsys_initcall(vpss_init);
+ module_exit(vpss_exit);
 -- 
 2.25.1
 
