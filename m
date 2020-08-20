@@ -2,36 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A014224ABC2
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 02:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90A2124AA7B
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 02:02:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726887AbgHTABe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Aug 2020 20:01:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57470 "EHLO mail.kernel.org"
+        id S1727014AbgHTABs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Aug 2020 20:01:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57976 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726854AbgHTAB1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Aug 2020 20:01:27 -0400
+        id S1726987AbgHTABr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Aug 2020 20:01:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A8A62075E;
-        Thu, 20 Aug 2020 00:01:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DE3CF214F1;
+        Thu, 20 Aug 2020 00:01:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597881686;
-        bh=Sg+HY/SjwdFSUsZ8B4+SllnIJRTPqzEqXtxp20azwPE=;
+        s=default; t=1597881706;
+        bh=9eM5rUoj0DJZv2BnhxvvhEMbKv87QePAjTshRCH1THE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Lg46KyNhg2LJow8xoGHNE6qd2fHXfN9OP/JLHb2oeh8EYVrgSZMdjLxAStS0N2El5
-         KJqppDjldLMQ6IYySFLQKTtxbjssGBrh93o+1Cc1+yyCR0/25mLCnYWRppJ5cGOwdA
-         phTQn5UZNn4aayGiBE82zA/L/oO1Z1jAg0pHChhs=
+        b=LL0q7HK3bypbbZAUTlkzLoKtY2OovlUBRAufiaIiEfvrAOphhs2Gg2CLiHflVM5Xe
+         gZe7qAXU+FXR1PXChtcBUXxvZAMvRtYVFWtdXY9UUumqOXN7U4kPzpmnumI43JWx0S
+         qqt4IuI+ncF/nH58SEyWi3HdJq/+t03bpc0nbW9A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Evgeny Novikov <novikov@ispras.ru>,
+        Anton Vasilyev <vasilyev@ispras.ru>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 07/27] media: vpss: clean up resources in init
-Date:   Wed, 19 Aug 2020 20:00:56 -0400
-Message-Id: <20200820000116.214821-7-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.8 22/27] media: camss: fix memory leaks on error handling paths in probe
+Date:   Wed, 19 Aug 2020 20:01:11 -0400
+Message-Id: <20200820000116.214821-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200820000116.214821-1-sashal@kernel.org>
 References: <20200820000116.214821-1-sashal@kernel.org>
@@ -46,62 +48,95 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Evgeny Novikov <novikov@ispras.ru>
 
-[ Upstream commit 9c487b0b0ea7ff22127fe99a7f67657d8730ff94 ]
+[ Upstream commit f45882cfb152f5d3a421fd58f177f227e44843b9 ]
 
-If platform_driver_register() fails within vpss_init() resources are not
-cleaned up. The patch fixes this issue by introducing the corresponding
-error handling.
+camss_probe() does not free camss on error handling paths. The patch
+introduces an additional error label for this purpose. Besides, it
+removes call of v4l2_async_notifier_cleanup() from
+camss_of_parse_ports() since its caller, camss_probe(), cleans up all
+its resources itself.
 
 Found by Linux Driver Verification project (linuxtesting.org).
 
 Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+Co-developed-by: Anton Vasilyev <vasilyev@ispras.ru>
+Signed-off-by: Anton Vasilyev <vasilyev@ispras.ru>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/davinci/vpss.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/camss/camss.c | 30 +++++++++++++++--------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/davinci/vpss.c b/drivers/media/platform/davinci/vpss.c
-index d38d2bbb6f0f8..7000f0bf0b353 100644
---- a/drivers/media/platform/davinci/vpss.c
-+++ b/drivers/media/platform/davinci/vpss.c
-@@ -505,19 +505,31 @@ static void vpss_exit(void)
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 3fdc9f964a3c6..2483641799dfb 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -504,7 +504,6 @@ static int camss_of_parse_ports(struct camss *camss)
+ 	return num_subdevs;
  
- static int __init vpss_init(void)
- {
-+	int ret;
-+
- 	if (!request_mem_region(VPSS_CLK_CTRL, 4, "vpss_clock_control"))
- 		return -EBUSY;
- 
- 	oper_cfg.vpss_regs_base2 = ioremap(VPSS_CLK_CTRL, 4);
- 	if (unlikely(!oper_cfg.vpss_regs_base2)) {
--		release_mem_region(VPSS_CLK_CTRL, 4);
--		return -ENOMEM;
-+		ret = -ENOMEM;
-+		goto err_ioremap;
+ err_cleanup:
+-	v4l2_async_notifier_cleanup(&camss->notifier);
+ 	of_node_put(node);
+ 	return ret;
+ }
+@@ -835,29 +834,38 @@ static int camss_probe(struct platform_device *pdev)
+ 		camss->csid_num = 4;
+ 		camss->vfe_num = 2;
+ 	} else {
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_free;
  	}
  
- 	writel(VPSS_CLK_CTRL_VENCCLKEN |
--		     VPSS_CLK_CTRL_DACCLKEN, oper_cfg.vpss_regs_base2);
-+	       VPSS_CLK_CTRL_DACCLKEN, oper_cfg.vpss_regs_base2);
-+
-+	ret = platform_driver_register(&vpss_driver);
-+	if (ret)
-+		goto err_pd_register;
-+
-+	return 0;
+ 	camss->csiphy = devm_kcalloc(dev, camss->csiphy_num,
+ 				     sizeof(*camss->csiphy), GFP_KERNEL);
+-	if (!camss->csiphy)
+-		return -ENOMEM;
++	if (!camss->csiphy) {
++		ret = -ENOMEM;
++		goto err_free;
++	}
  
--	return platform_driver_register(&vpss_driver);
-+err_pd_register:
-+	iounmap(oper_cfg.vpss_regs_base2);
-+err_ioremap:
-+	release_mem_region(VPSS_CLK_CTRL, 4);
-+	return ret;
+ 	camss->csid = devm_kcalloc(dev, camss->csid_num, sizeof(*camss->csid),
+ 				   GFP_KERNEL);
+-	if (!camss->csid)
+-		return -ENOMEM;
++	if (!camss->csid) {
++		ret = -ENOMEM;
++		goto err_free;
++	}
+ 
+ 	camss->vfe = devm_kcalloc(dev, camss->vfe_num, sizeof(*camss->vfe),
+ 				  GFP_KERNEL);
+-	if (!camss->vfe)
+-		return -ENOMEM;
++	if (!camss->vfe) {
++		ret = -ENOMEM;
++		goto err_free;
++	}
+ 
+ 	v4l2_async_notifier_init(&camss->notifier);
+ 
+ 	num_subdevs = camss_of_parse_ports(camss);
+-	if (num_subdevs < 0)
+-		return num_subdevs;
++	if (num_subdevs < 0) {
++		ret = num_subdevs;
++		goto err_cleanup;
++	}
+ 
+ 	ret = camss_init_subdevices(camss);
+ 	if (ret < 0)
+@@ -936,6 +944,8 @@ static int camss_probe(struct platform_device *pdev)
+ 	v4l2_device_unregister(&camss->v4l2_dev);
+ err_cleanup:
+ 	v4l2_async_notifier_cleanup(&camss->notifier);
++err_free:
++	kfree(camss);
+ 
+ 	return ret;
  }
- subsys_initcall(vpss_init);
- module_exit(vpss_exit);
 -- 
 2.25.1
 
