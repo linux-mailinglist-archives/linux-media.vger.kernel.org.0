@@ -2,123 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 269BB24B829
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 13:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92E0224B7B2
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 13:04:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729324AbgHTLKh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 07:10:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34808 "EHLO
+        id S1730779AbgHTK7H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 06:59:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730849AbgHTKJw (ORCPT
+        with ESMTP id S1731209AbgHTK54 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 06:09:52 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B38DC061386
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 03:09:52 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id f24so1814976ejx.6
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 03:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p7IDsCs3O3XVq6Oo36ltfbQDp/qQH17B8kNCHrYYi58=;
-        b=ehZtgn4/AxsmBi4CkUnsCHo/q6bpQxXO/GGgvrCHjALePJV0mY03gGKLtDpnr62vq7
-         KV3mdnnS1aNkayPfMEd6+kiXUtw5pXZFUZ/dq+zcrKhOGKgl7b3lXQNmHHz0Fv8waUXO
-         bUcyInFMwIZHXpvW8Pcz/o4WwKo7iyfKJp3kg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p7IDsCs3O3XVq6Oo36ltfbQDp/qQH17B8kNCHrYYi58=;
-        b=R+nbgSsQI1WxknK01blN39kppaSheyBOhcEaO1aG7c9lxosBT7XiJhRjuB7zdwxiLk
-         l2HMD4yToDtUkMNKEra0eMBvGwDQ/ZmhFOfwFRjIQquoBh4e4MmTfQ/hpqmbUn73K9gi
-         B8drN9npPEhQ/uhoC8p2rWlZ5SSekWYcDTd0lYdy0bmlD2J81vaSgvoSZE3XIlgz20NP
-         W84Z81hRyTQx7tAEj/r6AZGIijXRXDjodYnSFg+KCcZc0lz35ZK7kDP6ttWdhTpgZPK+
-         D3KoiaM4hjlh0+ZzPeD9JODpbnTg7x55R02zdQog7izUiRYiBEdiwdp3Hvx1mkSVKSq/
-         JUGQ==
-X-Gm-Message-State: AOAM531BJ214WUHa658oaVTNvNiS8B/O+n4Nm+II1YX6R31txNzUazAP
-        BLEC7dEHdwUi9wnzQ6tIwTkSt01sKoT16Ezt
-X-Google-Smtp-Source: ABdhPJyesy2slkGfvJK/ugLWJ9l7TJ5wxKzGzvfpdBpVV5PmTTDg/opA4G2uTcy3PBtwGWtfXdn2zA==
-X-Received: by 2002:a17:906:344a:: with SMTP id d10mr2651943ejb.244.1597918190482;
-        Thu, 20 Aug 2020 03:09:50 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id m4sm357243ejn.31.2020.08.20.03.09.48
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2020 03:09:49 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id c19so3440285wmd.1
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 03:09:48 -0700 (PDT)
-X-Received: by 2002:a1c:5581:: with SMTP id j123mr2797156wmb.11.1597918188072;
- Thu, 20 Aug 2020 03:09:48 -0700 (PDT)
+        Thu, 20 Aug 2020 06:57:56 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32D19C061385
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 03:57:42 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id C38BE634C87
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 13:56:19 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1k8iF1-0002ol-HG
+        for linux-media@vger.kernel.org; Thu, 20 Aug 2020 13:56:19 +0300
+Date:   Thu, 20 Aug 2020 13:56:19 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 5.10] V4L2 fixes, cleanups and documentation
+ improvements
+Message-ID: <20200820105619.GF7145@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-6-hch@lst.de>
- <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
- <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com> <CAAFQd5AcCTDguB2C9KyDiutXWoEvBL8tL7+a==Uo8vj_8CLOJw@mail.gmail.com>
- <20200819135738.GB17098@lst.de> <CAAFQd5BvpzJTycFvjntmX9W_d879hHFX+rJ8W9EK6+6cqFaVMA@mail.gmail.com>
- <20200820044533.GA4570@lst.de>
-In-Reply-To: <20200820044533.GA4570@lst.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 20 Aug 2020 12:09:34 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CEsC2h-oEdZOPTkUQ4WfFL0yyYu9dE5UscEVpLyMLrCg@mail.gmail.com>
-Message-ID: <CAAFQd5CEsC2h-oEdZOPTkUQ4WfFL0yyYu9dE5UscEVpLyMLrCg@mail.gmail.com>
-Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Robin Murphy <robin.murphy@arm.com>, alsa-devel@alsa-project.org,
-        linux-ia64@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        linux-scsi@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-mips@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 20, 2020 at 6:45 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Wed, Aug 19, 2020 at 04:11:52PM +0200, Tomasz Figa wrote:
-> > > > By the way, as a videobuf2 reviewer, I'd appreciate being CC'd on any
-> > > > series related to the subsystem-facing DMA API changes, since
-> > > > videobuf2 is one of the biggest users of it.
-> > >
-> > > The cc list is too long - I cc lists and key maintainers.  As a reviewer
-> > > should should watch your subsystems lists closely.
-> >
-> > Well, I guess we can disagree on this, because there is no clear
-> > policy. I'm listed in the MAINTAINERS file for the subsystem and I
-> > believe the purpose of the file is to list the people to CC on
-> > relevant patches. We're all overloaded with work and having to look
-> > through the huge volume of mailing lists like linux-media doesn't help
-> > and thus I'd still appreciate being added on CC.
->
-> I'm happy to Cc and active participant in the discussion.  I'm not
-> going to add all reviewers because even with the trimmed CC list
-> I'm already hitting the number of receipients limit on various lists.
+Hi Mauro,
 
-Fair enough.
+Here's a pile of patches I dug from the depths of Patchwork. It's mostly
+fixes but also a few cleanups as well as guide on writing camera sensor
+drivers.
 
-We'll make your job easier and just turn my MAINTAINERS entry into a
-maintainer. :)
+Please pull.
 
-Best regards,
-Tomasz
+
+The following changes since commit 9a538b83612c8b5848bf840c2ddcd86dda1c8c76:
+
+  media: venus: core: Add support for opp tables/perf voting (2020-08-18 15:55:56 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.10-1-signed
+
+for you to fetch changes up to e6e6220eba24347919bd238bbb65b9bf3dcc9023:
+
+  media: ov5675: correct the maximum exposure value (2020-08-20 13:14:59 +0300)
+
+----------------------------------------------------------------
+V4L2 camera patches for 5.10
+
+----------------------------------------------------------------
+Alexander A. Klimov (1):
+      media: omap: Replace HTTP links with HTTPS ones
+
+Bingbu Cao (3):
+      media: i2c: ov2740: get OTP data ready before nvmem registration
+      MAINTAINERS: Fix email typo and correct name of Tianshu
+      media: ov5675: correct the maximum exposure value
+
+Colin Ian King (1):
+      media: i2c: fix error check on max9286_read call
+
+Hans Verkuil (1):
+      imx274: fix frame interval handling
+
+Jacopo Mondi (4):
+      dt-bindings: media: ov5647: Convert to json-schema
+      dt-bindings: media: ov5647: Document pwdn-gpios
+      dt-bindings: media: ov5647: Document clock-noncontinuous
+      media: MAINTAINERS: ov5647: Replace maintainer
+
+Jordan Hand (1):
+      media: ipu3.rst: Format media-ctl and yavta commands as code blocks
+
+Kieran Bingham (1):
+      MAINTAINERS: Fix sort order for RDACM20
+
+Paul Kocialkowski (1):
+      media: ov5640: Correct Bit Div register in clock tree diagram
+
+Raag Jadav (1):
+      media: ov7740: use SCCB regmap
+
+Rahul Gottipati (1):
+      media: intel-ipu3: Fix code style issue
+
+Sakari Ailus (1):
+      Documentation: media: Document how to write camera sensor drivers
+
+Tom Rix (1):
+      media: m5mols: Check function pointer in m5mols_sensor_power
+
+ Documentation/admin-guide/media/ipu3.rst           | 104 ++++++++--------
+ .../devicetree/bindings/media/i2c/ov5647.txt       |  35 ------
+ .../devicetree/bindings/media/i2c/ov5647.yaml      |  88 ++++++++++++++
+ Documentation/driver-api/media/camera-sensor.rst   | 134 +++++++++++++++++++++
+ Documentation/driver-api/media/csi2.rst            |   2 +
+ Documentation/driver-api/media/index.rst           |   1 +
+ MAINTAINERS                                        |  12 +-
+ drivers/media/i2c/Kconfig                          |   2 +-
+ drivers/media/i2c/imx274.c                         |   8 +-
+ drivers/media/i2c/m5mols/m5mols_core.c             |   3 +-
+ drivers/media/i2c/max9286.c                        |   3 +-
+ drivers/media/i2c/ov2740.c                         |  24 ++--
+ drivers/media/i2c/ov5640.c                         |   2 +-
+ drivers/media/i2c/ov5675.c                         |   4 +-
+ drivers/media/i2c/ov7740.c                         |  10 +-
+ drivers/media/platform/omap3isp/isp.c              |   2 +-
+ drivers/staging/media/ipu3/include/intel-ipu3.h    |  14 +--
+ drivers/staging/media/omap4iss/iss.c               |   2 +-
+ 18 files changed, 322 insertions(+), 128 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+ create mode 100644 Documentation/driver-api/media/camera-sensor.rst
+
+-- 
+Kind regards,
+
+Sakari Ailus
