@@ -2,113 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F94724BC78
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 14:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 055E124BD1D
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 14:59:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729191AbgHTMrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 08:47:15 -0400
-Received: from grey-smtp-cloud7.xs4all.net ([194.109.24.45]:48629 "EHLO
-        grey-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729024AbgHTMqp (ORCPT
+        id S1729269AbgHTM7Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 08:59:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32948 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728857AbgHTM7J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 08:46:45 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 8jxokHUFgywL58jxpkZelb; Thu, 20 Aug 2020 14:46:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1597927601; bh=ArVEHdPnQIlpY0xbeErCyEhTjixeuBAbXbfO6EPbZKY=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=e3Z90B0u3PNIN2obsqvix0lSwJvaWYMphegQieCr9ebg9PDFPxGvLKSh3r5M0O9Wk
-         Toab4tkwpsAjDAdAw33xgIw+k+p2F2hcW02DU9jyTgomEhrs2h7mWKAVZJjH6VIL6q
-         mJcQq9TG543SrGFmurW7MnDgn6edOfFRHRuJhBqRj/DFoaOxdq8mxCPKIW6IRa/dtN
-         WIje1HwlI16siktdRN/Yap+w8emkVu2Kf9jAJmYSSyFeNGqrVPYrCOrS1Bdt2yoDWq
-         r5EpQ3UmB+sA/Opwi+GAHAZ44E1XXYSIiy1LqDOwjiK0oCTsRjXwonx4QnI0+9qcQb
-         ASjljziooZk1g==
-Subject: Re: [PATCH v4l-utils v3 2/2] Add support for meson building
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
-        linux-media@vger.kernel.org
-Cc:     sean@mess.org, p.zabel@pengutronix.de,
-        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
-        gjasny@googlemail.com, xavier.claessens@collabora.com,
-        nicolas.dufresne@collabora.com, user.vdr@gmail.com
-References: <20200806155519.79748-1-ariel@vanguardiasur.com.ar>
- <20200806155519.79748-3-ariel@vanguardiasur.com.ar>
- <c5c1859a-34b2-bdb2-c3ac-3a0c96d7c019@xs4all.nl>
-Message-ID: <e25c5b95-bfd8-2598-d079-722aac2055ba@xs4all.nl>
-Date:   Thu, 20 Aug 2020 14:46:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 20 Aug 2020 08:59:09 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C11C061345
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 05:58:36 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id t14so1504714wmi.3
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 05:58:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bjjzUyjqxUTgADSqZ4AEGlgmQLd6hH97YwJfRgNRrW4=;
+        b=RRO5W51xetH2hSun5LBxUXBN+1ILaB2b2Woui8OkARAIJOlWdAQPA7dyKZnP5p75IR
+         HtXeQut75Cu1xU071fRPLL2WhuwWTLGPbpEUHf4Nocft9Nn8RF5eXeCU1+s4NMqG1hzF
+         s/MSh2oHQLOWDc2mz55ji2AgsvjxWddxefAUs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bjjzUyjqxUTgADSqZ4AEGlgmQLd6hH97YwJfRgNRrW4=;
+        b=QkIyny9QFkwvLCEVR5hEk6qhtqI2iC8gzn1tq1vJbKIqWooPDrpeDLtxlpxcOeuxVI
+         kyuqfhpLQl03Sxx9UQqQzktOYb8CDxy9X1ihW/WrQbnanTca+Tk+veYu5ttD+2XyB4TN
+         7wWp64xqdfKJpnDmvW5qqoc20A7GUoEayNMmrjVrRAMKgvLO3ciUUSdpMDR4cKqP+TrW
+         aUTYWOFuGWo2RN1waSK9LWPCtiPhSOWRCsXmW562s2GckIKY+IPnyV0D12Cy1gVjx48a
+         YA9sTwczDrz1ayLsAQjTmJlszuZge/F5kS74HDsZYw7Vl9Y5dVMUG8Wy6kZJxbcvlkV5
+         8MAw==
+X-Gm-Message-State: AOAM5333w98hENMWoZUrxZ5BbYoh0DzxWXDljl4jxRAAksgt83EVCkpG
+        m7KPoFGr7BUnZRn+zl7n43CXtTBPJVCHTTU8
+X-Google-Smtp-Source: ABdhPJxBvtfxib5dNL686AtnsEgnavbEPNHEvjkC1eMzOzqRPR+lmo2H3iHzsR6k2KoeFiZn1iJ/wQ==
+X-Received: by 2002:a05:600c:224e:: with SMTP id a14mr3518439wmm.80.1597928309945;
+        Thu, 20 Aug 2020 05:58:29 -0700 (PDT)
+Received: from tfiga.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
+        by smtp.gmail.com with ESMTPSA id o66sm4517760wmb.27.2020.08.20.05.58.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2020 05:58:29 -0700 (PDT)
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho hehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        =?UTF-8?q?Pawe=C5=82=20O=C5=9Bciak?= <posciak@chromium.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH 0/3] Clean the videobuf2 maintainer list
+Date:   Thu, 20 Aug 2020 12:58:22 +0000
+Message-Id: <20200820125825.224788-1-tfiga@chromium.org>
+X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
 MIME-Version: 1.0
-In-Reply-To: <c5c1859a-34b2-bdb2-c3ac-3a0c96d7c019@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfI7ozjXhG4JPsiXp0/ydraGmIfNG8HZEtsbCuc2C1Eu9+Au6QyxqskFbZM5aQqqrUsqebcSjFepvuVveF/+GjRxGtkkzwQ4snMQ1r6DJMhmI1ul4y0Wn
- YZvMFGBqRegNiYyDQWUB/GeK6iKDGPKvK7+4E3mZ57PBjhhTgSSIstpGqaONQLwFUndT41OAp8KY3Iz9cDzohQrDnMklb8Acy8dyqBOD8nh77RO9zasrwzry
- C48vNqOzoSmrtA6SH3uJI2Ijo4taIqQyj5RZy4muaFxhAr6/0Pebzon6eDsBKJtMWBpKCbpK+ZVnYeHsVmr58Sb+fhqSE9BAxoTiib741yawzRY21uRiTwML
- S1syL+3x4f6Ms+GfHQLNRLIdkk9+Ngv50Ep3wTYWre+Y3RQmTgcacxeubXR2ro4rM5JmoK4OtirClA1e+2dYcYAsTv3Oyq94bNbLBJYJN0UrrWDbJJGvyruB
- WNnkLB5LqBpLzR2wNDAOXu+l/sFmpYNuWr4ofi6AQPoLDlkNr1wgwymSnONimwfRthFgvz6/GolS5Xd1OyUC6E8+veqMQTJ2ubFhhYuktB+SkjUB+egwxJtZ
- /OorKyGSu9TbJL4t5Tt12sFNwOKo66MYPIHLVDq+HG8AFY2ED9ZcZTpMgBycRrK44qUYaWLY0DS808AdsAGttdFw7YiOX8rTFGa2FCUjSsgdUg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/08/2020 14:42, Hans Verkuil wrote:
-> On 06/08/2020 17:55, Ariel D'Alessandro wrote:
->> Supports building libraries and tools found in contrib/, lib/ and
->> utils/ directories, along with the implemented gettext translations.
->>
->> Also supports generating plain HTML documentation and manual pages using
->> Doxygen.
->>
->> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Acked-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Acked-by: Gregor Jasny <gjasny@googlemail.com>
->> [Gregor: Control symbol visibility]
->> Signed-off-by: Gregor Jasny <gjasny@googlemail.com>
->> Signed-off-by: Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
->> ---
->>  .gitignore                                    |    1 +
->>  Makefile.am                                   |    3 +-
->>  README.md                                     |   85 +-
->>  contrib/Makefile.am                           |    3 +-
->>  contrib/cobalt-ctl/Makefile.am                |    2 +
+Currently the MAINTAINERS file lists 3 maintainers and 1 reviewer for
+the VIDEOBUF2 FRAMEWORK entry. From the list, two people have been
+inactive for several years. This series tries to clean the list to
+ensure that the framework has only active maintainers.
 
-I would also suggest that all the Makefile.am changes are split off into another
-patch as well. Those make it harder to review as well since most (all?) of those
-changes just add meson.build.
+The series proposes removing Kyungmin Park and Pawel Osciak from the
+maintainers list. I know both of the people in person and am well aware
+of their achievements for the framework in the past. However, the
+framework needs to move forward and thus, it needs active maintainers.
 
-Regards,
+Therefore, I'd like the people in question to comment on their plans
+regarding the maintenance of this framework or lack of thereof (and thus
+being fine with the removal).
 
-	Hans
+Tomasz Figa (3):
+  MAINTAINERS: Make Tomasz the main maintainer of videobuf2
+  MAINTAINERS: Remove Kyungmin from the maintainers list of videobuf2
+  MAINTAINERS: Remove Pawel from the maintainers list of videobuf2
 
->>  contrib/cobalt-ctl/meson.build                |    8 +
->>  contrib/decode_tm6000/Makefile.am             |    2 +
->>  contrib/decode_tm6000/meson.build             |   14 +
->>  contrib/gconv/Makefile.am                     |    2 +-
->>  contrib/gconv/meson.build                     |   44 +
->>  contrib/meson.build                           |   13 +
->>  contrib/rds-saa6588/Makefile.am               |    2 +
->>  contrib/rds-saa6588/meson.build               |    7 +
->>  contrib/test/Makefile.am                      |    3 +-
->>  contrib/test/meson.build                      |  143 +
->>  contrib/xc3028-firmware/Makefile.am           |    2 +-
->>  contrib/xc3028-firmware/meson.build           |   11 +
->>  doc/Doxyfile.in                               | 2351 +++++++++++++++++
-> 
-> 2351 lines to add this file?!
-> 
-> Is this really needed? And if so, please add this in a separate patch in the
-> next version. This huge file pollutes the diff, making it very hard to review.
-> 
-> Regards,
-> 
-> 	Hans
-> 
+ MAINTAINERS | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+-- 
+2.28.0.220.ged08abb693-goog
 
