@@ -2,97 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB20824BD27
-	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 15:00:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C15424BEFF
+	for <lists+linux-media@lfdr.de>; Thu, 20 Aug 2020 15:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729142AbgHTNAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 09:00:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32906 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728446AbgHTM6v (ORCPT
+        id S1728033AbgHTNi4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 09:38:56 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53651 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726723AbgHTJ16 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 08:58:51 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB82DC061344
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 05:58:33 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id l2so1928164wrc.7
-        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 05:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aj+Z+6c4sWqPXmn2a4X9LlmI23g2u9QMeu5vKcHB0Ok=;
-        b=DlSwiqzaShKyoM8UDHW0fhg8XI7Qw+tqpK4BDPdNz7kKdyS0J3yfcZVI5TkL2zAFyO
-         7783fIdFAEqZpgKnqFIeur2FUW4TrchVNKhQFnOOc3acXAMsSIaHHu1QRYaZoZL3rNMR
-         oJG27t7P3L1B3EDStVvyMPLuZ1qUlTRuZJ4hE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aj+Z+6c4sWqPXmn2a4X9LlmI23g2u9QMeu5vKcHB0Ok=;
-        b=fth/s7MDHAIKEhNCFkiLf82TOClLvJYJESmifvXtmJCcX/BZEeQDU176ZoKGnD8nd7
-         xiV2NN5Vnx3AZiamywcjq19QOHdcEZC1C7/jxUwpgpH9Bl+5SvQebDbHnsZv804uGj3w
-         YEL22ghVZjHcaw9Z4e/BunLhKrLs/dmySW5xfafCVuvAAf+ZpXGKr2F52kgo82SdVB9k
-         hOhJ0gcKro0wu8i9xma8VahGCypKGeOK293/Amv4jbhzg8cbnBW1R0b9BPKiuRzRPB+G
-         +lJ0e/tAiW6FbnG+icpJZfKmX8Yxi0Goz8rr6szUA9pWLzJmc5G8noNYLqKJfYB8jJ6L
-         wqYg==
-X-Gm-Message-State: AOAM533H8mabpY0tXxUzT2GZIjEhP1OW4xB+2TKFWhGSGa6Abr1+v9DL
-        eISUYlBsCWWGTSyCi2Yu067P25gD1R5jFeRi
-X-Google-Smtp-Source: ABdhPJwox16oICSW5A0Z8fwVtNtStZjeE7k3tZ3259yxS6Xbgub2PQ0l7680bWlfJkPOnlE5LHbTJg==
-X-Received: by 2002:adf:ab05:: with SMTP id q5mr2991176wrc.46.1597928312235;
-        Thu, 20 Aug 2020 05:58:32 -0700 (PDT)
-Received: from tfiga.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
-        by smtp.gmail.com with ESMTPSA id o66sm4517760wmb.27.2020.08.20.05.58.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2020 05:58:31 -0700 (PDT)
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     linux-media@vger.kernel.org
-Cc:     Mauro Carvalho hehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?q?Pawe=C5=82=20O=C5=9Bciak?= <posciak@chromium.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH 3/3] MAINTAINERS: Remove Pawel from the maintainers list of videobuf2
-Date:   Thu, 20 Aug 2020 12:58:25 +0000
-Message-Id: <20200820125825.224788-4-tfiga@chromium.org>
-X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
-In-Reply-To: <20200820125825.224788-1-tfiga@chromium.org>
-References: <20200820125825.224788-1-tfiga@chromium.org>
+        Thu, 20 Aug 2020 05:27:58 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 8grPkFbsBywL58grRkZ8bJ; Thu, 20 Aug 2020 11:27:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597915675; bh=cNLUtp3j+bxZUs5oMm61luJ8XShEeI/t0jPuqCJFGx8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Oy74UdDgA4wbHGzZmQVtRP4mSlN2EhMn97pEipm7FeIIO2NTZPowsnhBah4se6SgV
+         WdglVV2S62zFk0+5GPKcDA5uPfmNAAnEFoqzoa3X6Xj5aY3tzSF9HwD6ovyMjvK8YE
+         fgxjzIWM3mbZ3P8xrx0vuRm6kt2hPEoouirH3i+RHRwFRvofIGgHQpIE1HNq5cnKZ9
+         Zn8UNb2SDm2KSaFrSDOtYV24Pjlk6QNAGMK0bRrPrvum8oKK4bf/XU/Drh4tzUlPRM
+         rA1UAKgXGfCOsO2VWS1WKtMl1E6ht9RYpq6gr+V+0Wm72I/jD4vZsAlVRUzSvru6fJ
+         1p5lAq2EcygEw==
+Subject: Re: [PATCH v2 05/14] media: staging: rkisp1: params: upon stream
+ stop, iterate a local list to return the buffers
+To:     Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
+        kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org
+References: <20200815103734.31153-1-dafna.hirschfeld@collabora.com>
+ <20200815103734.31153-6-dafna.hirschfeld@collabora.com>
+ <695451da-c7af-a12c-f308-c45675b8f3aa@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <33ed026c-f014-0fff-2f19-afc1548e80f2@xs4all.nl>
+Date:   Thu, 20 Aug 2020 11:27:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <695451da-c7af-a12c-f308-c45675b8f3aa@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFRKzvCCkyJS9Q5rdxze4gulqoKt38zEPt9G9XCo9uvSvJmQH6GZa9qlg4aSjmCj5cGVZVd7L6SKZU94SNwCZOegkbnPo+NvvWFXnm4eT9u9L0EkAJx8
+ /VIWg5YbHC2p1pTSUX8P0vtvVD5M+nj8ayALIq8Xa4w80T0xEKSNJm+RkOG+HyeRBvp9zmjq+ZKPm0ZX9eM1vUS703EordaXp7j29IaE75o/SBUzwBGnKkE3
+ 9sBCm+UfmVY+ItN6MiUsrkzWFKDqPulfmOfDG8El8EvhxJPPCD90PZ+zU02++C8FWUkQIG+mYm3X4VIjkFZLvTW1TaKNl93fBQLy+VlK0v4sAjUrH/rU7xAc
+ Z4165x6fUSdaJm8YaiFIV3wLKMjWhdsJ+UQjTW9858V/ZGkfrD5P1ENKxORG/1yThkOf6cpBLRmrV1LyCpdwZJjUvoJHGDX+bZQdGFNrn4lFiTVa5Slf0moL
+ CKp/UD79D67ZGEvhRa5AwyD01AZsYGPZFKRlN2+zJihIv9rNBdwDS53V7Q/1I4IV4nBRm8UND6VcxbuwEZqanJntLFdvLfFGzeSoZ4ZzIrAMvEst2L76f4tX
+ tekMnfyWaiQse8XbiMuf1fBFUkSS13GiIU4NnSosYTRW3bbGScPqvpsXEPwCTgtfqU8=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to [1], there has been no email related to videobuf2 posted
-from him to the linux-media mailing list since Apr 2015.
+On 17/08/2020 23:47, Helen Koike wrote:
+> Hi Dafna,
+> 
+> On 8/15/20 7:37 AM, Dafna Hirschfeld wrote:
+>> The code in '.stop_streaming' callback releases and acquire the lock
+>> at each iteration when returning the buffers.
+>> Holding the lock disables interrupts so it should be minimized.
+>> To make the code cleaner and still minimize holding the lock,
+>> the buffer list is first moved to a local list and
+>> then can be iterated without the lock.
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> 
+> lgtm
+> 
+> Helen Koike <helen.koike@collabora.com>
 
-Note: The linked archive seems to lack messages newer than the middle of
-2019, but it is the only archive that offers search by name. A manual
-look through the messages after that time confirms the observation.
+Missing 'Acked-by:' tag?
 
-[1] https://www.mail-archive.com/search?a=1&l=linux-media%40vger.kernel.org&haswords=&x=0&y=0&from=Pawel+Osciak&subject=&datewithin=1d&date=&notwords=&o=newest
+Hans
 
-Signed-off-by: Tomasz Figa <tfiga@chromium.org>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e756cd4751ce..2464a1132a13 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18298,7 +18298,6 @@ F:	drivers/media/platform/video-mux.c
- 
- VIDEOBUF2 FRAMEWORK
- M:	Tomasz Figa <tfiga@chromium.org>
--M:	Pawel Osciak <pawel@osciak.com>
- M:	Marek Szyprowski <m.szyprowski@samsung.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
--- 
-2.28.0.220.ged08abb693-goog
+> 
+> Thanks
+> Helen
+> 
+>> ---
+>>  drivers/staging/media/rkisp1/rkisp1-params.c | 31 +++++++-------------
+>>  1 file changed, 11 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
+>> index 0c2bb2eefb22..6a76c586e916 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
+>> @@ -1477,32 +1477,23 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
+>>  {
+>>  	struct rkisp1_params *params = vq->drv_priv;
+>>  	struct rkisp1_buffer *buf;
+>> +	struct list_head tmp_list;
+>>  	unsigned long flags;
+>> -	unsigned int i;
+>>  
+>> -	/* stop params input firstly */
+>> +	INIT_LIST_HEAD(&tmp_list);
+>> +
+>> +	/*
+>> +	 * we first move the buffers into a local list 'tmp_list'
+>> +	 * and then we can iterate it and call vb2_buffer_done
+>> +	 * without holding the lock
+>> +	 */
+>>  	spin_lock_irqsave(&params->config_lock, flags);
+>>  	params->is_streaming = false;
+>> +	list_cut_position(&tmp_list, &params->params, params->params.prev);
+>>  	spin_unlock_irqrestore(&params->config_lock, flags);
+>>  
+>> -	for (i = 0; i < RKISP1_ISP_PARAMS_REQ_BUFS_MAX; i++) {
+>> -		spin_lock_irqsave(&params->config_lock, flags);
+>> -		if (!list_empty(&params->params)) {
+>> -			buf = list_first_entry(&params->params,
+>> -					       struct rkisp1_buffer, queue);
+>> -			list_del(&buf->queue);
+>> -			spin_unlock_irqrestore(&params->config_lock,
+>> -					       flags);
+>> -		} else {
+>> -			spin_unlock_irqrestore(&params->config_lock,
+>> -					       flags);
+>> -			break;
+>> -		}
+>> -
+>> -		if (buf)
+>> -			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>> -		buf = NULL;
+>> -	}
+>> +	list_for_each_entry(buf, &tmp_list, queue)
+>> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>>  }
+>>  
+>>  static int
+>>
 
