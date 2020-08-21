@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4025A24D2AD
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 12:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ACB824D2B3
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 12:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728770AbgHUKh2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 06:37:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36434 "EHLO
+        id S1728764AbgHUKh1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 06:37:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728635AbgHUKhH (ORCPT
+        with ESMTP id S1728679AbgHUKhK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 06:37:07 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7000C061342
-        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 03:37:06 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id t6so648531pjr.0
-        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 03:37:06 -0700 (PDT)
+        Fri, 21 Aug 2020 06:37:10 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19681C061385
+        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 03:37:10 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id 189so794051pgg.13
+        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 03:37:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MDm/JAIM+WvFDRN3OyDY9BUKgF4PZ8nDeNpq4X68CVg=;
-        b=PxPIs3H4BhTvFe8AFlmCxkrcECDo8gUsWKwdS8+LdDdjaku27RyUsQOE0Fo24PZhWF
-         EZCOaOmgLOYvWYgHnf23S7DO4fMM/nDIlHvUJlGg8zKiXn8phn8TmxlgPbAkctZJhexp
-         DapBRyOZqJaxfeEve/ew8PhTTz+oGlqeNHYno=
+        bh=ZBKM3WA3cxwbZdd9vidSjpRU6jIZw5t/CObNuc//DI8=;
+        b=i6Rv+XXnjNjy27SQXI/HnMTwHPPjsN5K9vvKj/YydK3hJUlen91zcGd1BJAGH71wKl
+         9ETzlShNPCuGpWfHgkbCuo3ip124aauRX0kUD+Mmy94bYAQQ/nGc2jW2U41kgwzLU/4p
+         t94XMN4WljNjgGAeyPTqBVlHygh9JVAtZaOGc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MDm/JAIM+WvFDRN3OyDY9BUKgF4PZ8nDeNpq4X68CVg=;
-        b=f8+1qAJaqHZ3ts7Mdl7DR+U2+G0TmCk3T0V5hCxnaZ4S6elJa+eu2ovqqPqI57S6rO
-         g1rDMRUpSpmKxLhOXSeUYgPFlJ8oOiZMxglmEMSFEr93eQI8jT4FoLzrPYMubhgpRHym
-         MbX0Tv0RXVg/5KURRmaaFSZv/BrTCH8CCWBUHkhEhJeO8YC2KnShnpJ7pUTXgC6IZd1m
-         kBtlPnGv7o53QRaUHYDYX9eh1Co+oyZc484iwheOmV2gwuaO7u5ZurXP1vPO+IzJbcMj
-         1uzX+/p/hYq+pNzfFhDuYH9IEvU703Ev3wz4MrijE26ivKVBypYR4dzN8AQY1b0A4r8C
-         GXkg==
-X-Gm-Message-State: AOAM530m6Gc3aYNe4W1Ld+CM3/T8aPDW89lV1y+xNwnMtHelWYU/+8sC
-        gFrOPFx+tfqCRKooODpvkoqDfQ==
-X-Google-Smtp-Source: ABdhPJzTjJvKF5N6fAdWgQQ7/mCca5C+hWBLaTZ8T3X36z0fCFC+4POQ9XFYBQQZVeEt0qff6gwWxw==
-X-Received: by 2002:a17:90a:fa06:: with SMTP id cm6mr2030998pjb.129.1598006226419;
-        Fri, 21 Aug 2020 03:37:06 -0700 (PDT)
+        bh=ZBKM3WA3cxwbZdd9vidSjpRU6jIZw5t/CObNuc//DI8=;
+        b=eE/VKiiT6ZSU1qBUVGIJAFCAR2cYGSYoeucoP1W/miNH/yzQhpLyEnBxK4HUvNZMUx
+         DQjMawyheFydoHTYn7GjFjRXD+/wg1WeVDzZmP7MZdaADAITqDvlFot5DDywi6AE2MxU
+         z41DZGmsGbBLyH/5tW5xluUcA7DUkPJssrQYDikt+jSpkmReCzwXb/xfnUlwPufc1TSd
+         qQRMZ6wcYvndLOHxUzY6+jqlXUDgCp76q7sB6N2puGXksdDCBXZe4VM7tV5IUR7bC4NF
+         hiyHIREpIcmoB1Vw+4f0qWgGMcUUiPDYuj8gVB8Pf1HlWKJl61g+Z6zX6eFrPJlHuaL4
+         8iNw==
+X-Gm-Message-State: AOAM532ibFpSik/+Aypo1FRL05723E/6gp5epU2pUxZ51ImOsOzHQXzH
+        xgdQqYFW0e+KZIOPzx6BwpcJ2Q==
+X-Google-Smtp-Source: ABdhPJy2dZG1ArmjW2HfNTswI284X9+chI109neRtlOF7ZLdH/tGkTT3NlNsQdVnT+PR4Ees3+cN7Q==
+X-Received: by 2002:aa7:8f3a:: with SMTP id y26mr1981877pfr.54.1598006229685;
+        Fri, 21 Aug 2020 03:37:09 -0700 (PDT)
 Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:eeb1:d7ff:fe57:b7e5])
-        by smtp.gmail.com with ESMTPSA id y20sm2081525pfn.183.2020.08.21.03.37.03
+        by smtp.gmail.com with ESMTPSA id y20sm2081525pfn.183.2020.08.21.03.37.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2020 03:37:05 -0700 (PDT)
+        Fri, 21 Aug 2020 03:37:08 -0700 (PDT)
 From:   Alexandre Courbot <acourbot@chromium.org>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -55,9 +55,9 @@ To:     Tiffany Lin <tiffany.lin@mediatek.com>,
 Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alexandre Courbot <acourbot@chromium.org>
-Subject: [PATCH v4 10/17] media: mtk-vcodec: add support for MT8183 encoder
-Date:   Fri, 21 Aug 2020 19:36:01 +0900
-Message-Id: <20200821103608.2310097-11-acourbot@chromium.org>
+Subject: [PATCH v4 11/17] Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
+Date:   Fri, 21 Aug 2020 19:36:02 +0900
+Message-Id: <20200821103608.2310097-12-acourbot@chromium.org>
 X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
 In-Reply-To: <20200821103608.2310097-1-acourbot@chromium.org>
 References: <20200821103608.2310097-1-acourbot@chromium.org>
@@ -68,75 +68,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yunfei Dong <yunfei.dong@mediatek.com>
+This reverts commit 81735ecb62f882853a37a8c157407ec4aed44fd0.
 
-Now that all the supporting blocks are present, enable encoder for
-MT8183.
+The hardware needs data to follow the previous alignment, so this extra
+space was not superfluous after all. Besides, this also made
+v4l2-compliance's G_FMT and S_FMT tests regress.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-[acourbot: refactor, cleanup and split]
-Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
 ---
- .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  1 +
- .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 22 +++++++++++++++++++
- 2 files changed, 23 insertions(+)
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-index ba4045d64212..3dd010cba23e 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-@@ -302,6 +302,7 @@ struct mtk_vcodec_ctx {
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+index 05743a745a11..f2ba19c32400 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+@@ -299,12 +299,14 @@ static int vidioc_try_fmt(struct v4l2_format *f,
  
- enum mtk_chip {
- 	MTK_MT8173,
-+	MTK_MT8183,
- };
+ 		pix_fmt_mp->num_planes = fmt->num_planes;
+ 		pix_fmt_mp->plane_fmt[0].sizeimage =
+-			pix_fmt_mp->width * pix_fmt_mp->height;
++				pix_fmt_mp->width * pix_fmt_mp->height +
++				((ALIGN(pix_fmt_mp->width, 16) * 2) * 16);
+ 		pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
  
- /**
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 569698f63515..d6438cb4eead 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -62,6 +62,14 @@ static const struct mtk_video_fmt mtk_video_formats_capture_mt8173[] =  {
- 	},
- };
- 
-+static const struct mtk_video_fmt mtk_video_formats_capture_mt8183[] =  {
-+	{
-+		.fourcc = V4L2_PIX_FMT_H264,
-+		.type = MTK_FMT_ENC,
-+		.num_planes = 1,
-+	},
-+};
-+
- /* Wake up context wait_queue */
- static void wake_up_ctx(struct mtk_vcodec_ctx *ctx, unsigned int reason)
- {
-@@ -430,8 +438,22 @@ static const struct mtk_vcodec_enc_pdata mt8173_pdata = {
- 	.max_bitrate = 4000000,
- };
- 
-+static const struct mtk_vcodec_enc_pdata mt8183_pdata = {
-+	.chip = MTK_MT8183,
-+	.has_lt_irq = false,
-+	.uses_ext = true,
-+	.capture_formats = mtk_video_formats_capture_mt8183,
-+	.num_capture_formats = ARRAY_SIZE(mtk_video_formats_capture_mt8183),
-+	/* MT8183 supports the same output formats as MT8173 */
-+	.output_formats = mtk_video_formats_output_mt8173,
-+	.num_output_formats = ARRAY_SIZE(mtk_video_formats_output_mt8173),
-+	.min_bitrate = 64,
-+	.max_bitrate = 40000000,
-+};
-+
- static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8173-vcodec-enc", .data = &mt8173_pdata},
-+	{.compatible = "mediatek,mt8183-vcodec-enc", .data = &mt8183_pdata},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
+ 		if (pix_fmt_mp->num_planes == 2) {
+ 			pix_fmt_mp->plane_fmt[1].sizeimage =
+-				(pix_fmt_mp->width * pix_fmt_mp->height) / 2;
++				(pix_fmt_mp->width * pix_fmt_mp->height) / 2 +
++				(ALIGN(pix_fmt_mp->width, 16) * 16);
+ 			pix_fmt_mp->plane_fmt[2].sizeimage = 0;
+ 			pix_fmt_mp->plane_fmt[1].bytesperline =
+ 							pix_fmt_mp->width;
+@@ -312,7 +314,8 @@ static int vidioc_try_fmt(struct v4l2_format *f,
+ 		} else if (pix_fmt_mp->num_planes == 3) {
+ 			pix_fmt_mp->plane_fmt[1].sizeimage =
+ 			pix_fmt_mp->plane_fmt[2].sizeimage =
+-				(pix_fmt_mp->width * pix_fmt_mp->height) / 4;
++				(pix_fmt_mp->width * pix_fmt_mp->height) / 4 +
++				((ALIGN(pix_fmt_mp->width, 16) / 2) * 16);
+ 			pix_fmt_mp->plane_fmt[1].bytesperline =
+ 				pix_fmt_mp->plane_fmt[2].bytesperline =
+ 				pix_fmt_mp->width / 2;
 -- 
 2.28.0.297.g1956fa8f8d-goog
 
