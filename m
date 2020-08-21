@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4214724DD4F
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 19:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9D4924DC8C
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 19:05:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728858AbgHURPJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 13:15:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50114 "EHLO mail.kernel.org"
+        id S1728540AbgHUREX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 13:04:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728107AbgHUQQk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:16:40 -0400
+        id S1727841AbgHUQSy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Aug 2020 12:18:54 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 63BDF22B4D;
-        Fri, 21 Aug 2020 16:16:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C617022CAF;
+        Fri, 21 Aug 2020 16:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026600;
-        bh=kUUMVdgT45uJdGw+zhIXwUip0kwyWnX0AKsICuuCKk4=;
+        s=default; t=1598026697;
+        bh=QWOGaXnMi9tVxvefm+GLsgAaLy1fnmwknssikhptLsE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UapiBpLZFQHbJ3Y4zcGRc1xFQfeG+s/RUQUo2gcr+e+hWS5LzEg4bOcDPRIkfEnvm
-         lspOlB3blV/lrZr2QHUZ5Lv7rmL4r17I+9MSiZJj2Q0PEqV+fyIUkUgu389BDZXGgr
-         FZ2iBlHsUKwydfzricSzKtAgkUNJTihv/8QIZN50=
+        b=HUXaTiSECigHCdMRuPL56DjoOngDRqswACKz8iuDYb7Pmn5zrY6QWZhtwQuz1VXnn
+         Cd8j2NOzHA9f0Cnhh5XiOTs7AGOS61mjAK1yWGKVQiXaU0aXOUxbya2l2v/bIT9q+c
+         TvGgXwn7xcjaMDbH8xRcjffAnWlgwUWMaLYX4O8A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Jia-Ju Bai <baijiaju@tsinghua.edu.cn>, Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 43/61] cec-api: prevent leaking memory through hole in structure
-Date:   Fri, 21 Aug 2020 12:15:27 -0400
-Message-Id: <20200821161545.347622-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 08/38] media: pci: ttpci: av7110: fix possible buffer overflow caused by bad DMA value in debiirq()
+Date:   Fri, 21 Aug 2020 12:17:37 -0400
+Message-Id: <20200821161807.348600-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161545.347622-1-sashal@kernel.org>
-References: <20200821161545.347622-1-sashal@kernel.org>
+In-Reply-To: <20200821161807.348600-1-sashal@kernel.org>
+References: <20200821161807.348600-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,41 +43,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From: Jia-Ju Bai <baijiaju@tsinghua.edu.cn>
 
-[ Upstream commit 6c42227c3467549ddc65efe99c869021d2f4a570 ]
+[ Upstream commit 6499a0db9b0f1e903d52f8244eacc1d4be00eea2 ]
 
-Fix this smatch warning:
+The value av7110->debi_virt is stored in DMA memory, and it is assigned
+to data, and thus data[0] can be modified at any time by malicious
+hardware. In this case, "if (data[0] < 2)" can be passed, but then
+data[0] can be changed into a large number, which may cause buffer
+overflow when the code "av7110->ci_slot[data[0]]" is used.
 
-drivers/media/cec/core/cec-api.c:156 cec_adap_g_log_addrs() warn: check that 'log_addrs' doesn't leak information (struct has a hole after
-'features')
+To fix this possible bug, data[0] is assigned to a local variable, which
+replaces the use of data[0].
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Jia-Ju Bai <baijiaju@tsinghua.edu.cn>
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/cec/cec-api.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/media/pci/ttpci/av7110.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/cec/cec-api.c b/drivers/media/cec/cec-api.c
-index 17d1cb2e5f976..f922a2196b2b7 100644
---- a/drivers/media/cec/cec-api.c
-+++ b/drivers/media/cec/cec-api.c
-@@ -147,7 +147,13 @@ static long cec_adap_g_log_addrs(struct cec_adapter *adap,
- 	struct cec_log_addrs log_addrs;
+diff --git a/drivers/media/pci/ttpci/av7110.c b/drivers/media/pci/ttpci/av7110.c
+index d6816effb8786..d02b5fd940c12 100644
+--- a/drivers/media/pci/ttpci/av7110.c
++++ b/drivers/media/pci/ttpci/av7110.c
+@@ -424,14 +424,15 @@ static void debiirq(unsigned long cookie)
+ 	case DATA_CI_GET:
+ 	{
+ 		u8 *data = av7110->debi_virt;
++		u8 data_0 = data[0];
  
- 	mutex_lock(&adap->lock);
--	log_addrs = adap->log_addrs;
-+	/*
-+	 * We use memcpy here instead of assignment since there is a
-+	 * hole at the end of struct cec_log_addrs that an assignment
-+	 * might ignore. So when we do copy_to_user() we could leak
-+	 * one byte of memory.
-+	 */
-+	memcpy(&log_addrs, &adap->log_addrs, sizeof(log_addrs));
- 	if (!adap->is_configured)
- 		memset(log_addrs.log_addr, CEC_LOG_ADDR_INVALID,
- 		       sizeof(log_addrs.log_addr));
+-		if ((data[0] < 2) && data[2] == 0xff) {
++		if (data_0 < 2 && data[2] == 0xff) {
+ 			int flags = 0;
+ 			if (data[5] > 0)
+ 				flags |= CA_CI_MODULE_PRESENT;
+ 			if (data[5] > 5)
+ 				flags |= CA_CI_MODULE_READY;
+-			av7110->ci_slot[data[0]].flags = flags;
++			av7110->ci_slot[data_0].flags = flags;
+ 		} else
+ 			ci_get_data(&av7110->ci_rbuffer,
+ 				    av7110->debi_virt,
 -- 
 2.25.1
 
