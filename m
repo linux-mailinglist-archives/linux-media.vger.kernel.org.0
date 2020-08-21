@@ -2,44 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE0BD24DD7C
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 19:20:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E09A724DDA7
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 19:21:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728535AbgHURTH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 13:19:07 -0400
-Received: from mga02.intel.com ([134.134.136.20]:38444 "EHLO mga02.intel.com"
+        id S1729098AbgHURVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 13:21:07 -0400
+Received: from mga11.intel.com ([192.55.52.93]:8450 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728172AbgHURTF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 13:19:05 -0400
-IronPort-SDR: j1NN5OpdfhFdC0IMPxMK4lV1SxekGilJZOQRz3N1odZ9xSHKiT0piYp06M6YBbZG0HY7zqQaQM
- 9x6eSBtU3VDg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9720"; a="143370991"
+        id S1728993AbgHURVE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Aug 2020 13:21:04 -0400
+IronPort-SDR: mZvUzcQQ79QCAUG4UxpaapmGANXwFHG5etu9Gb2FMpoXYiFQBx9dUaLhB9gs0q1JrwyFQKKK2/
+ dsurMsWdVsuQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9720"; a="153192107"
 X-IronPort-AV: E=Sophos;i="5.76,338,1592895600"; 
-   d="scan'208";a="143370991"
+   d="scan'208";a="153192107"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2020 10:19:03 -0700
-IronPort-SDR: EhX/O0WDR2aLJPN7Mql9QPZY7hNCE6nW6OL12PkmJasXANnKWW7Z4NddRgXPGGDkq2y+91nT2O
- fNKvWIVwElRA==
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2020 10:21:03 -0700
+IronPort-SDR: LHdu62qyqt0eng3KmoaeVx//hy//ABIL7iweTfJJ/3XMD+/oBtI/2ljW3aSOtsW1I98ymV31T8
+ KjVCvuLN401g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,338,1592895600"; 
-   d="scan'208";a="327818640"
+   d="scan'208";a="498041036"
 Received: from lkp-server01.sh.intel.com (HELO 91ed66e1ca04) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Aug 2020 10:19:00 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 21 Aug 2020 10:21:00 -0700
 Received: from kbuild by 91ed66e1ca04 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1k9Agu-0001GO-6T; Fri, 21 Aug 2020 17:19:00 +0000
-Date:   Sat, 22 Aug 2020 01:18:13 +0800
+        id 1k9Aiq-0001GR-7C; Fri, 21 Aug 2020 17:21:00 +0000
+Date:   Sat, 22 Aug 2020 01:20:16 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     =?iso-8859-1?Q?K=E9vin_L'h=F4pital?= <kevin.lhopital@bootlin.com>,
         linux-media@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, mripard@kernel.org, wens@csie.org,
-        yong.deng@magewell.com, p.zabel@pengutronix.de,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, clang-built-linux@googlegroups.com,
+        mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        mripard@kernel.org, wens@csie.org, yong.deng@magewell.com,
+        p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 3/7] media: i2c: Add support for the OV8865 image sensor
-Message-ID: <202008220119.2HOZCJ4O%lkp@intel.com>
+Message-ID: <202008220159.zlX8y0F3%lkp@intel.com>
 References: <20200821145935.20346-4-kevin.lhopital@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
@@ -64,13 +65,15 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/K-vin-L-h-pital/Support-of-MIPI-CSI-2-for-A83T-and-OV8865-camera/20200821-230356
 base:   git://linuxtv.org/media_tree.git master
-config: xtensa-allyesconfig
-compiler: xtensa-linux-gcc (GCC) 9.3.0
+config: x86_64-randconfig-a002-20200820
+compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project b587ca93be114d07ec3bf654add97d7872325281)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=xtensa  allyesconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=xtensa 
+        # install x86_64 cross compiling tool for clang build
+        # apt-get install binutils-x86-64-linux-gnu
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=x86_64  randconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=x86_64 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
