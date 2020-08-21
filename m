@@ -2,85 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDD7B24CB2B
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 05:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1657424CBA2
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 05:50:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbgHUDNt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 23:13:49 -0400
-Received: from mga09.intel.com ([134.134.136.24]:33893 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726702AbgHUDNt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 23:13:49 -0400
-IronPort-SDR: 8ulKUA/uIixEzSzpaag7tgpuzsnIEUUfY5EH4nw8Z8rCtWUvm/tiwUG4nEAhYTO+ZIYD13l3Wn
- iMuJwttcSk4g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9719"; a="156504566"
-X-IronPort-AV: E=Sophos;i="5.76,335,1592895600"; 
-   d="scan'208";a="156504566"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2020 20:13:48 -0700
-IronPort-SDR: jysDOK7Lor6Zt2Jkvq9UmkZNO6x8Rd7oHpt3yZH9vTvLuaC+T0H6H/kqOueFieMZ8lejx8Dlg6
- Kw329jO5rzdw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,335,1592895600"; 
-   d="scan'208";a="321114103"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.196]) ([10.238.232.196])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Aug 2020 20:13:47 -0700
-Subject: Re: [PATCH] media: ov5675: correct the maximum exposure value
-To:     Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, shawnx.tu@intel.com
-Cc:     senozhatsky@chromium.org, tfiga@chromium.org, hongju.wang@intel.com
-References: <1597913349-24609-1-git-send-email-bingbu.cao@intel.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <14bae2be-baea-5c46-70a5-6df399dd7acb@linux.intel.com>
-Date:   Fri, 21 Aug 2020 11:12:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <1597913349-24609-1-git-send-email-bingbu.cao@intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1727093AbgHUDut (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 23:50:49 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:48599 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727050AbgHUDus (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Aug 2020 23:50:48 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 8y4ikNyCtywL58y4jkat0L; Fri, 21 Aug 2020 05:50:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597981845; bh=SmR2wfH2NxLKgw/9GufLNSn1xAo31HxmT3D4KJT+1ow=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=accoD/29qQoouzaw0NwHrlVmLonmlgGh8qP+aCv/LaK+HgOtijhn/TXgnVWRateRk
+         6Kx5CKW9EwSMzs6u+mlWh2JhR/r2zgTyF15wo+OTDEATJn/KINCXtUdZJZP/mbckCR
+         /DulAeJTyZsLf3fwuTzzSHV21NbtT7GCmqvgEJaUjcbp8hUnpmgatmX4PkUXGX2rMv
+         Q+NcMd2+KdJAjACHXeQnK93pvwctSJgLUuuoP2eESXkycEnsk/Rmgbc5bAfg2CpAqf
+         bW2MnzkPsfI3UVhwKaN3tcXZlnEGGiXbNQPdvgoi5faevWhi1/mfkKCIC3IGikpS1b
+         bdPRVPo5b4CPg==
+Message-ID: <c5b3565537df89c72d2a284d68924ed0@smtp-cloud7.xs4all.net>
+Date:   Fri, 21 Aug 2020 05:50:44 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfBlbjuoJ9grk8aMyMHUtMVd2CCo63nJKsDeUydd8U/IXJlXmKSvToBmwDnCE/cyHxkQB9wnDnUZ25Akc/1uGnFJbk4hrdbqYVj+Usxv3PgP4jSGL+JWp
+ DMau2VrvIu2Ar1SxroxZ9qnll1s7ruELXvt0Ii8xh5x1FEGtE5PBOP5h0YRoThRpFxwyfr6oXxgryvI/EXRARFtnP8t0/zEnIMtQlxvo2OOc4VrOjw7PcTHp
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Got some information from Shawn, that the code before was align with the spec.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Sakari, please ignore this patch and I will try to figure out the actual reason
-of the auto-exposure issue.
+Results of the daily build of media_tree:
 
-Thanks.
+date:			Fri Aug 21 05:00:12 CEST 2020
+media-tree git hash:	9a538b83612c8b5848bf840c2ddcd86dda1c8c76
+media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
+v4l-utils git hash:	89f66ef308e16a51090cf5682e74c6f4130a024d
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-On 8/20/20 4:49 PM, Bingbu Cao wrote:
-> current ov5675 driver did a wrong calculation for the maximum exposure
-> value, it will cause the auto-exposure can not work as expected, this
-> patch correct it.
-> 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  drivers/media/i2c/ov5675.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> index 8537cc4ca108..7592cd50807a 100644
-> --- a/drivers/media/i2c/ov5675.c
-> +++ b/drivers/media/i2c/ov5675.c
-> @@ -666,8 +666,8 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
->  	/* Propagate change of current control to all related controls */
->  	if (ctrl->id == V4L2_CID_VBLANK) {
->  		/* Update max exposure while meeting expected vblanking */
-> -		exposure_max = (ov5675->cur_mode->height + ctrl->val -
-> -			       OV5675_EXPOSURE_MAX_MARGIN) / 2;
-> +		exposure_max = ov5675->cur_mode->height + ctrl->val -
-> +			OV5675_EXPOSURE_MAX_MARGIN;
->  		__v4l2_ctrl_modify_range(ov5675->exposure,
->  					 ov5675->exposure->minimum,
->  					 exposure_max, ov5675->exposure->step,
-> 
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: ERRORS
 
--- 
-Best regards,
-Bingbu Cao
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
