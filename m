@@ -2,168 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D71CE24C902
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 02:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71E0224C909
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 02:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbgHUAMI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 20:12:08 -0400
-Received: from foss.arm.com ([217.140.110.172]:48692 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725859AbgHUAMF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 20:12:05 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF7E230E;
-        Thu, 20 Aug 2020 17:12:04 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 346943F71F;
-        Thu, 20 Aug 2020 17:11:59 -0700 (PDT)
-Subject: Re: [PATCH 16/18] staging/media/tegra-vde: Clean up IOMMU workaround
-To:     Dmitry Osipenko <digetx@gmail.com>, hch@lst.de, joro@8bytes.org,
-        linux@armlinux.org.uk
-Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, m.szyprowski@samsung.com,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, vdumpa@nvidia.com,
-        matthias.bgg@gmail.com, yong.wu@mediatek.com,
-        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
-        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <3535c205b9bce52556abbf2f63384fb38e009df9.1597931876.git.robin.murphy@arm.com>
- <07135a55-cbc9-83e5-60dc-731282192554@gmail.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <cb12808b-7316-19db-7413-b7f852a6f8ae@arm.com>
-Date:   Fri, 21 Aug 2020 01:11:57 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726861AbgHUANP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 20:13:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52654 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725859AbgHUANO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Aug 2020 20:13:14 -0400
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com [IPv6:2607:f8b0:4864:20::a44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF534C061386
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 17:13:12 -0700 (PDT)
+Received: by mail-vk1-xa44.google.com with SMTP id s81so62159vkb.3
+        for <linux-media@vger.kernel.org>; Thu, 20 Aug 2020 17:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3fW1Q087C3iBkzSEJJ8rBhdiCQ75ydi82R0DkuBMVmE=;
+        b=JDnN2KxHICU7mm1H4JMCGP0USSTHF246OD6RakBl6ItMd4XWgsQl6MV9sU+5gVf3BO
+         8OZywIkjqhxHXKZMZvFXtQGB7F3PW4bfjm6AEXTiFSa788v2U17nI54KOdhbxLgeDFXW
+         jAGei6iodA7Qt/UrXwZaRW815eeNe/zl8KMak=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3fW1Q087C3iBkzSEJJ8rBhdiCQ75ydi82R0DkuBMVmE=;
+        b=a0BjCOcZ7ZVUlT2RO/RyxmgtvX0HatFBqiwLH+C6QrVixDY5t/PageyFGRMT70d2Fe
+         V/Lcv+V+jZDIRnWNf0kzMWPBlxIyhavGOz93aUjMhCaDJ3qfT+2vempgSA3U6KJjCZCw
+         fVKZc/umjh99tazmHH2sU+sO74giIu/s6Os0CZt39N86acMYYGlVneL6O467jTDIf7df
+         fBx/BNJpNyygbHpt+G08k9KUlwL7DCesiY5UmFJJk1uJhf046vMV1r0gcESIqmlF9HN7
+         5D2xxSyhYbMejUqNR26/NoTuES1Ur1zuVjS6lUGKL1l5I/YkKVbjowTEyEXdwhrJVIpd
+         L+fw==
+X-Gm-Message-State: AOAM532e7MY+RnpyvNZmWpF/lytydnxMZn10Yx/+fFWI1Ia/3odzIX6x
+        6AdqgDnFTBckdDc3B9iTsMWzju1TW9gBdUPuOjtn8g==
+X-Google-Smtp-Source: ABdhPJwjwRO6/j0Eu+XByE6acrayAh1Yc1q66vPAJYhHEFhWRkl8RXtNj/f4B8RB+n2xuUa1YMS3UI9t7X/0Ns/jHTY=
+X-Received: by 2002:a1f:2444:: with SMTP id k65mr277318vkk.33.1597968791845;
+ Thu, 20 Aug 2020 17:13:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <07135a55-cbc9-83e5-60dc-731282192554@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+References: <20200820170951.v4.1.Ia54fe801f246a0b0aee36fb1f3bfb0922a8842b0@changeid>
+ <20200820170951.v4.3.I066d89f39023956c47fb0a42edf196b3950ffbf7@changeid> <20200820102347.15d2f610@oasis.local.home>
+In-Reply-To: <20200820102347.15d2f610@oasis.local.home>
+From:   Nicolas Boichat <drinkcat@chromium.org>
+Date:   Fri, 21 Aug 2020 08:13:00 +0800
+Message-ID: <CANMq1KCoEZVj=sjxCqBhqLZKBab57+82=Rk_LN7fc3aCuNHMUw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] media: atomisp: Only use trace_printk if allowed
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        devel@driverdev.osuosl.org, lkml <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-08-20 20:51, Dmitry Osipenko wrote:
-> 20.08.2020 18:08, Robin Murphy пишет:
->> Now that arch/arm is wired up for default domains and iommu-dma, we no
->> longer need to work around the arch-private mapping.
->>
->> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->> ---
->>   drivers/staging/media/tegra-vde/iommu.c | 12 ------------
->>   1 file changed, 12 deletions(-)
->>
->> diff --git a/drivers/staging/media/tegra-vde/iommu.c b/drivers/staging/media/tegra-vde/iommu.c
->> index 6af863d92123..4f770189ed34 100644
->> --- a/drivers/staging/media/tegra-vde/iommu.c
->> +++ b/drivers/staging/media/tegra-vde/iommu.c
->> @@ -10,10 +10,6 @@
->>   #include <linux/kernel.h>
->>   #include <linux/platform_device.h>
->>   
->> -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
->> -#include <asm/dma-iommu.h>
->> -#endif
->> -
->>   #include "vde.h"
->>   
->>   int tegra_vde_iommu_map(struct tegra_vde *vde,
->> @@ -70,14 +66,6 @@ int tegra_vde_iommu_init(struct tegra_vde *vde)
->>   	if (!vde->group)
->>   		return 0;
->>   
->> -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
->> -	if (dev->archdata.mapping) {
->> -		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
->> -
->> -		arm_iommu_detach_device(dev);
->> -		arm_iommu_release_mapping(mapping);
->> -	}
->> -#endif
->>   	vde->domain = iommu_domain_alloc(&platform_bus_type);
->>   	if (!vde->domain) {
->>   		err = -ENOMEM;
->>
-> 
-> Hello, Robin! Thank you for yours work!
-> 
-> Some drivers, like this Tegra VDE (Video Decoder Engine) driver for
-> example, do not want to use implicit IOMMU domain.
+On Thu, Aug 20, 2020 at 10:23 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> On Thu, 20 Aug 2020 17:14:12 +0800
+> Nicolas Boichat <drinkcat@chromium.org> wrote:
+>
+> > Technically, we could only initialize the trace_printk buffers
+> > when the print env is switched, to avoid the build error and
+> > unconditional boot-time warning, but I assume this printing
+> > framework will eventually get removed when the driver moves out
+> > of staging?
+>
+> Perhaps this should be converting into a trace event. Look at what bpf
+> did for their bpf_trace_printk().
+>
+> The more I think about it, the less I like this series.
 
-That isn't (intentionally) changing here - the only difference should be 
-that instead of having the ARM-special implicit domain, which you have 
-to kick out of the way with the ARM-specific API before you're able to 
-attach your own domain, the implicit domain is now a proper IOMMU API 
-default domain, which automatically gets bumped by your attach. The 
-default domains should still only be created in the same cases that the 
-ARM dma_iommu_mappings were.
+To make it clear, the primary goal of this series is to get rid of
+trace_printk sprinkled in the kernel by making sure some randconfig
+builds fail. Since my v2, there already has been one more added (the
+one that this patch removes), so I'd like to land 2/3 ASAP to prevent
+even more from being added.
 
-> Tegra VDE driver
-> relies on explicit IOMMU domain in a case of Tegra SMMU because VDE
-> hardware can't access last page of the AS and because driver wants to
-> reserve some fixed addresses [1].
-> 
-> [1]
-> https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/staging/media/tegra-vde/iommu.c#L100
-> 
-> Tegra30 SoC supports up to 4 domains, hence it's not possible to afford
-> wasting unused implicit domains. I think this needs to be addressed
-> before this patch could be applied.
+Looking at your reply on 1/3, I think we are aligned on that goal? Is
+there some other approach you'd recommend?
 
-Yeah, there is one subtle change in behaviour from removing the ARM 
-layer on top of the core API, in that the IOMMU driver will no longer 
-see an explicit detach call. Thus it does stand to benefit from being a 
-bit cleverer about noticing devices being moved from one domain to 
-another by an attach call, either by releasing the hardware context for 
-the inactive domain once the device(s) are moved across to the new one, 
-or by simply reprogramming the hardware context in-place for the new 
-domain's address space without allocating a new one at all (most of the 
-drivers that don't have multiple contexts already handle the latter 
-approach quite well).
+Now, I'm not pretending my fixes are the best possible ones, but I
+would much rather have the burden of converting to trace events on the
+respective driver maintainers. (btw is there a short
+documentation/tutorial that I could link to in these patches, to help
+developers understand what is the recommended way now?)
 
-> Would it be possible for IOMMU drivers to gain support for filtering out
-> devices in iommu_domain_alloc(dev, type)? Then perhaps Tegra SMMU driver
-> could simply return NULL in a case of type=IOMMU_DOMAIN_DMA and
-> dev=tegra-vde.
+Thanks,
 
-If you can implement IOMMU_DOMAIN_IDENTITY by allowing the relevant 
-devices to bypass translation entirely without needing a hardware 
-context (or at worst, can spare one context which all identity-mapped 
-logical domains can share), then you could certainly do that kind of 
-filtering with the .def_domain_type callback if you really wanted to. As 
-above, the intent is that that shouldn't be necessary for this 
-particular case, since only one of a group's default domain and 
-explicitly attached domain can be live at any given time, so the driver 
-should be able to take advantage of that.
-
-If you simply have more active devices (groups) than available contexts 
-then yes, you probably would want to do some filtering to decide who 
-deserves a translation domain and who doesn't, but in that case you 
-should already have had a long-standing problem with the ARM implicit 
-domains.
-
-> Alternatively, the Tegra SMMU could be changed such that the devices
-> will be attached to a domain at the time of a first IOMMU mapping
-> invocation instead of attaching at the time of attach_dev() callback
-> invocation.
-> 
-> Or maybe even IOMMU core could be changed to attach devices at the time
-> of the first IOMMU mapping invocation? This could be a universal
-> solution for all drivers.
-
-I suppose technically you could do that within an IOMMU driver already 
-(similar to how some defer most of setup that logically belongs to 
-->domain_alloc until the first ->attach_dev). It's a bit grim from the 
-caller's PoV though, in terms of the failure mode being non-obvious and 
-having no real way to recover. Again, you'd be better off simply making 
-decisions up-front at domain_alloc or attach time based on the domain type.
-
-Robin.
+>
+> -- Steve
