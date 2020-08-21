@@ -2,39 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82D4524DA87
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 18:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8576824DC30
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 18:57:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728465AbgHUQVg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 12:21:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49882 "EHLO mail.kernel.org"
+        id S1728502AbgHUQ44 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 12:56:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50022 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728146AbgHUQUu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:20:50 -0400
+        id S1728286AbgHUQTa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Aug 2020 12:19:30 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8A95E22D2C;
-        Fri, 21 Aug 2020 16:20:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0FAC421741;
+        Fri, 21 Aug 2020 16:18:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026804;
-        bh=8kd2JWfylGbyX5junfsVFBIFiC5m0s7OyUEiuP3YRFk=;
+        s=default; t=1598026722;
+        bh=CuavRm0CKBzQlhflULSq+Uof+b5mUZFbdVDsHUwhgfE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gZ9jFDVwmCaXZXBb1deWpdSWZD/rmKF3B0u5K+8t27bEnrGEBC/0b7WR02YtYXraX
-         JEqLUQIc9Vl3MZ8XCEEocpfmJLE4rLt6SUT6DGNsEpjBZig3QuROsnky397fnFuVCN
-         p0GSoNUJ3zErU0aKjkBgbdBqvCkDVCL28GZvjCEs=
+        b=YOY/r5pqQ7VRx/Km6e/pqZKqCes4HvMT1tOJBnkAhf6pysE/CTcBIlB2bk/4aJYJm
+         PsZmsp7dYqc98fRoO17PArGUftFLiUAgP0KFN1tXFkTcHnp2q8OEmRA+Rd1YjQJ7l3
+         KVmhjSuaJ5mqT1CGN/mMcu436bT8aLQr0jnl7ldk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH AUTOSEL 4.9 19/26] cec-api: prevent leaking memory through hole in structure
-Date:   Fri, 21 Aug 2020 12:19:30 -0400
-Message-Id: <20200821161938.349246-19-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 27/38] cec-api: prevent leaking memory through hole in structure
+Date:   Fri, 21 Aug 2020 12:17:56 -0400
+Message-Id: <20200821161807.348600-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161938.349246-1-sashal@kernel.org>
-References: <20200821161938.349246-1-sashal@kernel.org>
+In-Reply-To: <20200821161807.348600-1-sashal@kernel.org>
+References: <20200821161807.348600-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,14 +56,14 @@ Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/cec/cec-api.c | 8 +++++++-
+ drivers/media/cec/cec-api.c | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/cec/cec-api.c b/drivers/staging/media/cec/cec-api.c
-index e274e2f223986..264bb7d1efcb8 100644
---- a/drivers/staging/media/cec/cec-api.c
-+++ b/drivers/staging/media/cec/cec-api.c
-@@ -141,7 +141,13 @@ static long cec_adap_g_log_addrs(struct cec_adapter *adap,
+diff --git a/drivers/media/cec/cec-api.c b/drivers/media/cec/cec-api.c
+index 4961573850d54..b2b3f779592fd 100644
+--- a/drivers/media/cec/cec-api.c
++++ b/drivers/media/cec/cec-api.c
+@@ -147,7 +147,13 @@ static long cec_adap_g_log_addrs(struct cec_adapter *adap,
  	struct cec_log_addrs log_addrs;
  
  	mutex_lock(&adap->lock);
