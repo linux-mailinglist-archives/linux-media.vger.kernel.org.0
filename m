@@ -2,174 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 882A624D421
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 13:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57C9424D4A5
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 14:06:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728375AbgHULiS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 07:38:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728284AbgHULiD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 07:38:03 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA2CC061385;
-        Fri, 21 Aug 2020 04:38:03 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id p191so887278ybg.0;
-        Fri, 21 Aug 2020 04:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OkIK/dZ2Mgt//fkmDHOJQ3SHXplluJWee1ZVxzLQD9E=;
-        b=cT/984PPUunLzXowyppHLeT4YU0JjTauMQNZzsugiYeMiLoHw6rZKaH3TbbmKAdJi1
-         ej91Eaq+KcwmvIFhjjFj4SMKoQNE1s0d5eZVF+EoXpUkm+AU+Tjk2zm8d2mmDk3jjAbm
-         fI0wgP8Q4lZBtFhs3lQz0d6WMyvbPoNnQ/n2R1NSxETDX2z2/cxZCmfIgzRxk9PCeAmI
-         i1HeRmJTKG6H9eYCW9y4/9rEuEgOFFjH7CvVofgGcshy6szHurdQ9hn046p/J+ROD9y2
-         A5LBZfLFYhFNxGcYg7N/FTNTW7y8D29myCFN+LU3tD28MPiKKqE9zp8DI26V4kqeO1w+
-         MCDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OkIK/dZ2Mgt//fkmDHOJQ3SHXplluJWee1ZVxzLQD9E=;
-        b=HuBJEzO4rqQaXfLD2WcTX4fibp8j3/W4XvZGQPgPs9U5gj5PfLGZnSG4Z7rlcSANOW
-         RlUIL6B+Ez+J193LSmsGiBcHLulDUSee7iUbf00lD6eL0dYHxKhMh4SIVGG2ZoX0/3PD
-         43LCyl+fjK+g6xE2UTpILvtQzEAgPqXI47HhuEdvoRL7yWjqdXzd4vBidsjB/PiT+6C4
-         YC61T9SM85lO+sXobjV+4jRXS5mU/y1HOKpg4Mj5pYsFSkhD5RApulbrNFjwVJJWZLkY
-         vleFHvYcoUlPEMAH/ZYvVcb6nS8OdekKWMe2Ard977B6ONX9wbwEs6T68lxcw3XSUJoH
-         eE9g==
-X-Gm-Message-State: AOAM532YDb0DmrLRDUKTFjASCm2g+fxl+qDAUm865GwvSFRFxl4wWbOG
-        xBwGXDbUCDWQmKC8MWw+j10GBMSdP5M0WLlTYaY=
-X-Google-Smtp-Source: ABdhPJzOUQ7z+wYHExuvCZTZfc4BvrCPM5gPv8JOYJe952Ot0fbk9SzYIqjPi/4vrcYDl96EqC1S8XBMBg26dzJtdNw=
-X-Received: by 2002:a25:2f4d:: with SMTP id v74mr2868323ybv.401.1598009881871;
- Fri, 21 Aug 2020 04:38:01 -0700 (PDT)
+        id S1728269AbgHUMGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 08:06:05 -0400
+Received: from mail2.skidata.com ([91.230.2.91]:13667 "EHLO mail2.skidata.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728380AbgHUMF7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Aug 2020 08:05:59 -0400
+X-Greylist: delayed 431 seconds by postgrey-1.27 at vger.kernel.org; Fri, 21 Aug 2020 08:05:58 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+  t=1598011558; x=1629547558;
+  h=from:to:cc:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=CtNUV+9wjaZRe+QdvUN4CbCxHU/f+RRPuYnHIY6MUFw=;
+  b=cNF6ZGPWkvwHOwIsdY07gg2koGRCVvgdEiZk/MMsQoko0+9WVHItkSPc
+   O3oZGjVd+hIb25729BIpp9HpLRkziEpxKWTLoSdZk00lKpJnhQdo9O+K1
+   kr6dmRBd9+EdMUXJ2OhKQLozZdouMpzt1pfiMZnGvFJCiuI4UJEicbTj9
+   xH6fSCpf47Klzehm9T51t6J8kXOk1xwQ0o+qJT1okrpNJhgn7S29cG3zL
+   YoLLVean4nPos5toDw3u8EGUaaCo9FjEIn2XQMTPEHrN5Na/nj11lYAzz
+   iY3XNiEPvqWd90bj7QtYxp2Om/7bpK6QdE4Msr1xIv/zgB4C3yuSX1Ujr
+   A==;
+IronPort-SDR: RTzd4QQ6lzhjElaXYZWeeSW9IEiOKMxizCT/a/C3X6v8STbNckRUANGR5KBJpCMLKIKmxp7zs4
+ 1hxc5jL8gBZA0BptT1KuFPnN9veFvBNi/Uvraff4BoIdA4rTCsDvhoStFgjFBZqu4S2cxeCmiG
+ dqIG/z0+pAyJjAAQeYhT17/Yres3n/24sPrp7JVGU1TZnwFNnKSchU7ne9YXxg7S31Kj7PFIqk
+ /nFQargADrxNUmWIOcpLO38HXKSQ9BVTm/scvatWZyThovRJgJuHkjMY00A1itsKg9ze20jy3H
+ Z+s=
+X-IronPort-AV: E=Sophos;i="5.76,335,1592863200"; 
+   d="scan'208";a="2647786"
+From:   Benjamin Bara - SKIDATA <Benjamin.Bara@skidata.com>
+To:     "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "mchehab@kernel.org" <mchehab@kernel.org>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Richard Leitner - SKIDATA" <Richard.Leitner@skidata.com>
+Subject: [PATCH] media: coda: avoid starvation on well-compressed data
+Thread-Topic: [PATCH] media: coda: avoid starvation on well-compressed data
+Thread-Index: AdZ3sFkqxzglukE+Rf6iMENtrYblXQ==
+Date:   Fri, 21 Aug 2020 11:58:45 +0000
+Message-ID: <3b140eaf883b4666985c0be0db8d53e8@skidata.com>
+Accept-Language: en-US, de-AT
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.111.252]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
- <20200818122012.37956-4-jacopo+renesas@jmondi.org> <20200819135423.GL6049@pendragon.ideasonboard.com>
-In-Reply-To: <20200819135423.GL6049@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 21 Aug 2020 12:37:35 +0100
-Message-ID: <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dt-bindings: media: ov772x: Document endpoint props
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent and Jacopo
+The prefetcher requires two 256 byte periods beyond the current one.
+However, currently it is only checked if there are at least 512 bytes
+beyond the current meta available.
+This only works under the assumption that every buffer has a size of
+at least 256 bytes.
 
-On Wed, Aug 19, 2020 at 2:54 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Tue, Aug 18, 2020 at 02:20:12PM +0200, Jacopo Mondi wrote:
-> > Document endpoint properties for the parallel bus type and
-> > add them to the example.
-> >
-> > Specify a few constraints:
-> > - If the bus type is BT.656 no hsync or vsycn polarities can be
-> >   specified.
-> > - If the bus width is 10 bits, not data-shift can be applied.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  .../devicetree/bindings/media/i2c/ov772x.yaml | 43 +++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > index 75dad40f70cc..3fad5dffd19a 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > @@ -50,9 +50,47 @@ properties:
-> >            bus-type:
-> >              enum: [5, 6]
-> >
-> > +          bus-width:
-> > +            enum: [8, 10]
-> > +            default: 10
-> > +
-> > +          data-shift:
-> > +            enum: [0, 2]
-> > +            default: 0
-> > +
-> > +          hsync-active:
-> > +            enum: [0, 1]
-> > +            default: 1
-> > +
-> > +          vsync-active:
-> > +            enum: [0, 1]
-> > +            default: 1
-> > +
-> > +          pclk-sample:
-> > +            enum: [0, 1]
-> > +            default: 1
-> > +
-> >            remote-endpoint:
-> >              description: A phandle to the bus receiver's endpoint node.
-> >
-> > +        allOf:
-> > +          - if:
-> > +              properties:
-> > +                bus-type:
-> > +                  const: 6
-> > +            then:
-> > +                properties:
-> > +                  hsync-active: false
-> > +                  vsync-active: false
-> > +
-> > +          - if:
-> > +              properties:
-> > +                bus-width:
-> > +                  const: 10
-> > +            then:
-> > +                properties:
-> > +                  data-shift:
-> > +                    const: 0
->
-> I'd add a blank line here.
->
-> >          required:
-> >            - bus-type
->
-> Should some of the properties be required ? Possibly conditioned on
-> bus-type ?
->
-Agreed, would be interesting to know how this can be handled (split
-out bus-type and add required properties for each) ?
+To ensure that the requirement is fulfilled with buffers < 256 bytes,
+the queue head and the queue tail must not be below this threshold.
+Otherwise, additional buffers are enqueued to ensure a full window.
 
-Cheers,
-Prabhakar
+Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+---
+ drivers/media/platform/coda/coda-bit.c | 8 ++++++--
+ drivers/media/platform/coda/coda.h     | 1 +
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-> >
-> > @@ -82,6 +120,11 @@ examples:
-> >              port {
-> >                  ov772x_0: endpoint {
-> >                      bus-type = <5>;
-> > +                    vsync-active = <0>;
-> > +                    hsync-active = <0>;
-> > +                    pclk-sample = <0>;
-> > +                    bus-width = <8>;
-> > +                    data-shift = <0>;
-> >                      remote-endpoint = <&vcap1_in0>;
-> >                  };
-> >              };
->
-> --
-> Regards,
->
-> Laurent Pinchart
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platfor=
+m/coda/coda-bit.c
+index b021604eceaa..8158f3b34b36 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -323,7 +323,7 @@ static bool coda_bitstream_try_queue(struct coda_ctx *c=
+tx,
+ void coda_fill_bitstream(struct coda_ctx *ctx, struct list_head *buffer_li=
+st)
+ {
+ 	struct vb2_v4l2_buffer *src_buf;
+-	struct coda_buffer_meta *meta;
++	struct coda_buffer_meta *meta, *last_meta;
+ 	u32 start;
+=20
+ 	if (ctx->bit_stream_param & CODA_BIT_STREAM_END_FLAG)
+@@ -343,6 +343,8 @@ void coda_fill_bitstream(struct coda_ctx *ctx, struct l=
+ist_head *buffer_list)
+ 		    ctx->num_metas >=3D ctx->num_internal_frames) {
+ 			meta =3D list_first_entry(&ctx->buffer_meta_list,
+ 						struct coda_buffer_meta, list);
++			last_meta =3D list_last_entry(&ctx->buffer_meta_list,
++						struct coda_buffer_meta, list);
+=20
+ 			/*
+ 			 * If we managed to fill in at least a full reorder
+@@ -352,7 +354,8 @@ void coda_fill_bitstream(struct coda_ctx *ctx, struct l=
+ist_head *buffer_list)
+ 			 * the first buffer to fetch, we can safely stop queuing
+ 			 * in order to limit the decoder drain latency.
+ 			 */
+-			if (coda_bitstream_can_fetch_past(ctx, meta->end))
++			if (!meta->below_threshold && !last_meta->below_threshold &&
++				coda_bitstream_can_fetch_past(ctx, meta->end))
+ 				break;
+ 		}
+=20
+@@ -403,6 +406,7 @@ void coda_fill_bitstream(struct coda_ctx *ctx, struct l=
+ist_head *buffer_list)
+ 				meta->start =3D start;
+ 				meta->end =3D ctx->bitstream_fifo.kfifo.in;
+ 				meta->last =3D src_buf->flags & V4L2_BUF_FLAG_LAST;
++				meta->below_threshold =3D (meta->end - meta->start) < 256;
+ 				if (meta->last)
+ 					coda_dbg(1, ctx, "marking last meta");
+ 				spin_lock(&ctx->buffer_meta_lock);
+diff --git a/drivers/media/platform/coda/coda.h b/drivers/media/platform/co=
+da/coda.h
+index b81f3aca9209..6f77553e81b8 100644
+--- a/drivers/media/platform/coda/coda.h
++++ b/drivers/media/platform/coda/coda.h
+@@ -160,6 +160,7 @@ struct coda_buffer_meta {
+ 	unsigned int		start;
+ 	unsigned int		end;
+ 	bool			last;
++	bool			below_threshold;
+ };
+=20
+ /* Per-queue, driver-specific private data */
+--=20
+2.25.1
+
