@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B01624DE43
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 19:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B158C24DE00
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 19:25:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728525AbgHUR2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 13:28:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46656 "EHLO mail.kernel.org"
+        id S1728401AbgHURZY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 13:25:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48002 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727013AbgHUQOp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:14:45 -0400
+        id S1726749AbgHUQPW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Aug 2020 12:15:22 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 91945214F1;
-        Fri, 21 Aug 2020 16:14:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id ADBE622B43;
+        Fri, 21 Aug 2020 16:15:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026480;
-        bh=SF7cbSp+8aJt7HKiEK1+h754VI5LCsyUECgtetCo9QU=;
+        s=default; t=1598026520;
+        bh=Oq7KjuIEGAsnarIYTg82Iav+HRMBExE8AuCjNT05MZk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bo4GWk/QqBKtZ88EVx83ahQyFzcIMLnqE6N42mjw75ph4f+fwBaF8XpzrCui4EWMK
-         +Q513xQHA7p9nSl2hzEjOUtmzLmN12rVrsCdfxeOSMtKh1OLpdYwQHdT8J4TDaWIg8
-         yFo4T2tV6KAuq8ehb9KOSjfmt7wCl0DRsoEjxEpQ=
+        b=rVSHuL6Kjgpv+y5tN7wmfq052r5B/ql3ZOXlYpr9w08m7JBAPWcTnPvDLfLQ6wKWH
+         SJKa8fyhoWW9cuTYhMs9fgjUrbRvQN5Oat3LBh+vr8n562eQ8FDgNZ1zxF0n4OYhxm
+         8zNEtnGDy/ohogCnJjAhGAkldyDP6ldAA7RqY0ko=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jia-Ju Bai <baijiaju@tsinghua.edu.cn>, Sean Young <sean@mess.org>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 13/62] media: pci: ttpci: av7110: fix possible buffer overflow caused by bad DMA value in debiirq()
-Date:   Fri, 21 Aug 2020 12:13:34 -0400
-Message-Id: <20200821161423.347071-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 44/62] cec-api: prevent leaking memory through hole in structure
+Date:   Fri, 21 Aug 2020 12:14:05 -0400
+Message-Id: <20200821161423.347071-44-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821161423.347071-1-sashal@kernel.org>
 References: <20200821161423.347071-1-sashal@kernel.org>
@@ -43,49 +43,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jia-Ju Bai <baijiaju@tsinghua.edu.cn>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 6499a0db9b0f1e903d52f8244eacc1d4be00eea2 ]
+[ Upstream commit 6c42227c3467549ddc65efe99c869021d2f4a570 ]
 
-The value av7110->debi_virt is stored in DMA memory, and it is assigned
-to data, and thus data[0] can be modified at any time by malicious
-hardware. In this case, "if (data[0] < 2)" can be passed, but then
-data[0] can be changed into a large number, which may cause buffer
-overflow when the code "av7110->ci_slot[data[0]]" is used.
+Fix this smatch warning:
 
-To fix this possible bug, data[0] is assigned to a local variable, which
-replaces the use of data[0].
+drivers/media/cec/core/cec-api.c:156 cec_adap_g_log_addrs() warn: check that 'log_addrs' doesn't leak information (struct has a hole after
+'features')
 
-Signed-off-by: Jia-Ju Bai <baijiaju@tsinghua.edu.cn>
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/ttpci/av7110.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/cec/core/cec-api.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/ttpci/av7110.c b/drivers/media/pci/ttpci/av7110.c
-index d0cdee1c6eb0b..bf36b1e22b635 100644
---- a/drivers/media/pci/ttpci/av7110.c
-+++ b/drivers/media/pci/ttpci/av7110.c
-@@ -406,14 +406,15 @@ static void debiirq(unsigned long cookie)
- 	case DATA_CI_GET:
- 	{
- 		u8 *data = av7110->debi_virt;
-+		u8 data_0 = data[0];
+diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
+index 17d1cb2e5f976..f922a2196b2b7 100644
+--- a/drivers/media/cec/core/cec-api.c
++++ b/drivers/media/cec/core/cec-api.c
+@@ -147,7 +147,13 @@ static long cec_adap_g_log_addrs(struct cec_adapter *adap,
+ 	struct cec_log_addrs log_addrs;
  
--		if ((data[0] < 2) && data[2] == 0xff) {
-+		if (data_0 < 2 && data[2] == 0xff) {
- 			int flags = 0;
- 			if (data[5] > 0)
- 				flags |= CA_CI_MODULE_PRESENT;
- 			if (data[5] > 5)
- 				flags |= CA_CI_MODULE_READY;
--			av7110->ci_slot[data[0]].flags = flags;
-+			av7110->ci_slot[data_0].flags = flags;
- 		} else
- 			ci_get_data(&av7110->ci_rbuffer,
- 				    av7110->debi_virt,
+ 	mutex_lock(&adap->lock);
+-	log_addrs = adap->log_addrs;
++	/*
++	 * We use memcpy here instead of assignment since there is a
++	 * hole at the end of struct cec_log_addrs that an assignment
++	 * might ignore. So when we do copy_to_user() we could leak
++	 * one byte of memory.
++	 */
++	memcpy(&log_addrs, &adap->log_addrs, sizeof(log_addrs));
+ 	if (!adap->is_configured)
+ 		memset(log_addrs.log_addr, CEC_LOG_ADDR_INVALID,
+ 		       sizeof(log_addrs.log_addr));
 -- 
 2.25.1
 
