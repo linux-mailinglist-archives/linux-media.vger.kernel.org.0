@@ -2,68 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40C8D24D335
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 12:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BC624D364
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 12:59:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728536AbgHUKv3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 06:51:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38634 "EHLO
+        id S1727870AbgHUK7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 06:59:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728469AbgHUKvP (ORCPT
+        with ESMTP id S1727794AbgHUK7V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 06:51:15 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 827CCC061385
-        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 03:51:14 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id y3so1523665wrl.4
-        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 03:51:14 -0700 (PDT)
+        Fri, 21 Aug 2020 06:59:21 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB827C061387
+        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 03:59:19 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id d16so1519219wrq.9
+        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 03:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zHmahM4WlAU5TkrnZ9qUadrG7WkBXC8LyNKGjyFPPtA=;
-        b=JZlV/bMFi3bja47qPW846zX9+5ZcUjXqZEUqi6aDKdZcnXdbDYLeAeEQt/MAPXm/ye
-         /t8CTNSmIJdEkA1GQEHfXVdG1AvitZZtz7yp9N2WRiYFeQV365HDFCP+G4UT+rfOiVLo
-         kJpE3L0T1OH8XvXmMrBPc/6NOlO4N0ENRAbC3FLerLvK6q5J5V/yBYxc/SdK36MeeeYn
-         C0Z7tuEzIcpSZmeIerWrbvrZrzFn9zvHOFEFKUXQCC83mjFLLpILW+/Qe50m+GsrJr5a
-         +8kv4f+wz5/uf3rMTnBOSG2l2+MVT4P5qJ9nM29Ti2uLcVcywA1ZHEjx8SZ24Mso1S7M
-         654A==
+        bh=DWzJKlBqj+ETWply20oeGR0JgeiRlkCiLTUFUHWKjwM=;
+        b=t0xTV4U5Td+eNmIlxf/eYJMwt6PF+n8ubRnrhCalOEdOmfkSGplkjY6rk7G7YMJp9M
+         ttb+fHztHJU8Njmagfi4u0RwDggXF+idcAqS8fFX59ngKxvaHR9ui3rkh2PeC+qsYTe7
+         zOqpqeYUu3K/+5IfwW8Wqy2BmCucDDFNid4wNi2cjW0cNu2b0wmmLcxpVKxkajvmt8SS
+         1DBWF+oGtOV22bFuUjQul4vMlE87WMCDq678RNgjOCS0bmM51QlBijlTDx4h2+8CNS+C
+         2lf8BzGi/iAZG/oU2+rsbDHZtaVmM8bBLwgTIUdhTSR4puGmlQ0kF/7oTJILCylrtLlb
+         PCBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=zHmahM4WlAU5TkrnZ9qUadrG7WkBXC8LyNKGjyFPPtA=;
-        b=FJsnHkAGFf/xE2Nz0/UTDWeMjHxGe9oF1FwlfMGnVgf/7eNzw7VIE8nS0O2eTV1zN+
-         MwL3KQOH9TTriO8wqjh6JWWqMJh3MObuOZojVqSbrmvpOHl1do6kRXjPTtbPipu8TJwM
-         Z3OX0FMQy3PbTKKrKWmAE3MO+FSUVZCeKexl9Q4nSDmsRm9etgGfsnpNTjpxMXgJfOmF
-         ji3IYFV98oUGubfxVEHjEoZuKAz9N874kHHEpEMezoc76Doo6QNtKM6Fh46xnOaSEn4x
-         eLnwDj8lnXiyxRuVQSWt1syS/ER1JsNoV4FLUrrtMuGNVu1aMGTflCeFvx9Mlox3ovxs
-         WItQ==
-X-Gm-Message-State: AOAM532/9dOV58FEM8QN+njTM7K3EcTvkcREiY5+LHNLXNAJTd7jyAqc
-        Uyy+uJVNPc35hHsD0G2pI5QH6w==
-X-Google-Smtp-Source: ABdhPJzmKaDTcZfXCKyhcewuR1bQYiG2AundNu1zlG5E8k4jdRUOni8PGM5/AKGLL6Ql07oNTh7RJg==
-X-Received: by 2002:a5d:688d:: with SMTP id h13mr472373wru.176.1598007073221;
-        Fri, 21 Aug 2020 03:51:13 -0700 (PDT)
+        bh=DWzJKlBqj+ETWply20oeGR0JgeiRlkCiLTUFUHWKjwM=;
+        b=YILLmGHaJLcuWpca6u40tRqy94ZYQvoIql//Oj7Ev+4x9oSj+kAMkc0CRiebq7J4Dh
+         v/R+mmi24guY99TMjxyGtto+bEa+vYjYbE7t3csQVJ3pfk+5dVtYHxIUWwxPdG4Gva93
+         FhL9Iah6ucosDidatzIXPj+edMzQySBFxSFmaYwrA444dEIioCjJbiGxB69yAVAbAzUF
+         lbzcOnDYtKhoFUildhTPg4zzURXQHlIsmLPrKeafj739jSzHaPjvFwXmrQWb5Zi3KmpY
+         iTJZk0z6lavDYxtGLe7uynSkUXCb9zS0YpXy2IbQDnij9i4kxrqdf87UcdoTDQozN/JM
+         mpXA==
+X-Gm-Message-State: AOAM531DM8fKf/SdHu9h3DxxRwYxIPkxUhR8j84sz7/qJkQMRWoADFk4
+        E9bnX50WR2un2yi7sl23R1DoQQ==
+X-Google-Smtp-Source: ABdhPJyY91m5m50oqY/49f1quJLC58SElhlHSiO5ugma7tofFe6F3B2uD1UvxWhhzS5KOCn3NxNLsg==
+X-Received: by 2002:adf:c7ca:: with SMTP id y10mr2332284wrg.255.1598007558028;
+        Fri, 21 Aug 2020 03:59:18 -0700 (PDT)
 Received: from [192.168.1.14] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id d11sm3363460wrw.77.2020.08.21.03.51.09
+        by smtp.googlemail.com with ESMTPSA id z207sm4976739wmc.2.2020.08.21.03.59.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Aug 2020 03:51:12 -0700 (PDT)
-Subject: Re: [PATCH v5 0/3] Venus dynamic debug
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     jim.cromie@gmail.com, Joe Perches <joe@perches.com>,
-        Jason Baron <jbaron@akamai.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20200730095350.13925-1-stanimir.varbanov@linaro.org>
+        Fri, 21 Aug 2020 03:59:17 -0700 (PDT)
+Subject: Re: [RESEND 1/3] venus: core: handle race condititon for core ops
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <eb96ce39-4a2e-aa94-be69-6018f4c7da33@linaro.org>
-Date:   Fri, 21 Aug 2020 13:51:08 +0300
+To:     Mansur Alisha Shaik <mansur@codeaurora.org>,
+        linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org
+References: <1596781478-12216-1-git-send-email-mansur@codeaurora.org>
+ <1596781478-12216-2-git-send-email-mansur@codeaurora.org>
+ <dc1f37ed-3786-5bb2-3763-368b0165478b@linaro.org>
+Message-ID: <ef0d6eb2-1834-f4de-7eb2-aad665fc69e4@linaro.org>
+Date:   Fri, 21 Aug 2020 13:59:15 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200730095350.13925-1-stanimir.varbanov@linaro.org>
+In-Reply-To: <dc1f37ed-3786-5bb2-3763-368b0165478b@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,43 +72,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Hi Mansur,
 
-If no objections I'm going to queue 1/3 and 3/3 for v5.10. 2/3 will be
-postponed because of Stephen's comment.
+On 8/10/20 12:50 PM, Stanimir Varbanov wrote:
+> Hi Mansur,
+> 
+> Thanks for the patches!
+> 
+> On 8/7/20 9:24 AM, Mansur Alisha Shaik wrote:
+>> For core ops we are having only write protect but there
+>> is no read protect, because of this in multthreading
+>> and concurrency, one CPU core is reading without wait
+>> which is causing the NULL pointer dereferece crash.
+>>
+>> one such scenario is as show below, where in one
+>> core core->ops becoming NULL and in another core
+>> calling core->ops->session_init().
+>>
+>> CPU: core-7:
+>> Call trace:
+>>  hfi_session_init+0x180/0x1dc [venus_core]
+>>  vdec_queue_setup+0x9c/0x364 [venus_dec]
+>>  vb2_core_reqbufs+0x1e4/0x368 [videobuf2_common]
+>>  vb2_reqbufs+0x4c/0x64 [videobuf2_v4l2]
+>>  v4l2_m2m_reqbufs+0x50/0x84 [v4l2_mem2mem]
+>>  v4l2_m2m_ioctl_reqbufs+0x2c/0x38 [v4l2_mem2mem]
+>>  v4l_reqbufs+0x4c/0x5c
+>> __video_do_ioctl+0x2b0/0x39c
+>>
+>> CPU: core-0:
+>> Call trace:
+>>  venus_shutdown+0x98/0xfc [venus_core]
+>>  venus_sys_error_handler+0x64/0x148 [venus_core]
+>>  process_one_work+0x210/0x3d0
+>>  worker_thread+0x248/0x3f4
+>>  kthread+0x11c/0x12c
+>>
+>> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+>> ---
+>>  drivers/media/platform/qcom/venus/core.c | 2 +-
+>>  drivers/media/platform/qcom/venus/hfi.c  | 5 ++++-
+>>  2 files changed, 5 insertions(+), 2 deletions(-)
 
-On 7/30/20 12:53 PM, Stanimir Varbanov wrote:
-> Hello,
+See below comment, otherwise:
+
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>> index 203c653..fe99c83 100644
+>> --- a/drivers/media/platform/qcom/venus/core.c
+>> +++ b/drivers/media/platform/qcom/venus/core.c
+>> @@ -64,8 +64,8 @@ static void venus_sys_error_handler(struct work_struct *work)
+>>  	pm_runtime_get_sync(core->dev);
+>>  
+>>  	hfi_core_deinit(core, true);
+>> -	hfi_destroy(core);
+>>  	mutex_lock(&core->lock);
+>> +	hfi_destroy(core);
 > 
-> Changes in v5:
->  * 1/3 - dropped dev_warn when set FW debug level - Greg KH
->  * 3/3 - dropped pr_debug, and now group levels by prefix in dev_dbg
+> As my recovery fixes [1] touches this part also, could you please apply
+> them on top of yours and re-test?
+
+I'll drop above chunk from the patch because it is already taken into
+account in my recovery fixes series and queue up the patch for v5.10.
+
 > 
-> v4 can be fount at [1].
+> Otherwise this patch looks good to me.
 > 
-> regards,
-> Stan
+> [1] https://www.spinics.net/lists/linux-arm-msm/msg70092.html
 > 
-> [1] https://www.spinics.net/lists/kernel/msg3550106.html
-> 
-> Stanimir Varbanov (3):
->   venus: Add debugfs interface to set firmware log level
->   venus: Add a debugfs file for SSR trigger
->   venus: Make debug infrastructure more flexible
-> 
->  drivers/media/platform/qcom/venus/Makefile    |  2 +-
->  drivers/media/platform/qcom/venus/core.c      |  3 ++
->  drivers/media/platform/qcom/venus/core.h      |  8 +++
->  drivers/media/platform/qcom/venus/dbgfs.c     | 51 +++++++++++++++++++
->  drivers/media/platform/qcom/venus/dbgfs.h     | 12 +++++
->  drivers/media/platform/qcom/venus/helpers.c   |  2 +-
->  drivers/media/platform/qcom/venus/hfi_msgs.c  | 18 +++----
->  drivers/media/platform/qcom/venus/hfi_venus.c | 10 ++--
->  .../media/platform/qcom/venus/pm_helpers.c    |  2 +-
->  drivers/media/platform/qcom/venus/vdec.c      |  6 +--
->  10 files changed, 96 insertions(+), 18 deletions(-)
->  create mode 100644 drivers/media/platform/qcom/venus/dbgfs.c
->  create mode 100644 drivers/media/platform/qcom/venus/dbgfs.h
+>>  	venus_shutdown(core);
+>>  
+>>  	pm_runtime_put_sync(core->dev);
+>> diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
+>> index a211eb9..2eeb31f 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi.c
+>> @@ -195,7 +195,7 @@ EXPORT_SYMBOL_GPL(hfi_session_create);
+>>  int hfi_session_init(struct venus_inst *inst, u32 pixfmt)
+>>  {
+>>  	struct venus_core *core = inst->core;
+>> -	const struct hfi_ops *ops = core->ops;
+>> +	const struct hfi_ops *ops;
+>>  	int ret;
+>>  
+>>  	if (inst->state != INST_UNINIT)
+>> @@ -204,10 +204,13 @@ int hfi_session_init(struct venus_inst *inst, u32 pixfmt)
+>>  	inst->hfi_codec = to_codec_type(pixfmt);
+>>  	reinit_completion(&inst->done);
+>>  
+>> +	mutex_lock(&core->lock);
+>> +	ops = core->ops;
+>>  	ret = ops->session_init(inst, inst->session_type, inst->hfi_codec);
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> +	mutex_unlock(&core->lock);
+>>  	ret = wait_session_msg(inst);
+>>  	if (ret)
+>>  		return ret;
+>>
 > 
 
 -- 
