@@ -2,92 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8835B24D780
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 16:42:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D88C724D7C9
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 17:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727877AbgHUOmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 10:42:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44628 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726610AbgHUOmK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 10:42:10 -0400
-Received: from coco.lan (ip5f5ad5bf.dynamic.kabel-deutschland.de [95.90.213.191])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 05D512078B;
-        Fri, 21 Aug 2020 14:42:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598020928;
-        bh=oZnskDyx49feGRU1KivrlcX9Ad2+BpqnA5lPTA64O8U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TM5fK7GvQnAs4QuEft/iwxbpoY78lVyQ499aIFK9Sa67v+FeZFjpsiiZREgfmjpP7
-         F3wg8pER3AL0vqDXvCJz2TcQ0e0v2xkCaUoU0CrC5EmmIP99YKxfqHltzvoTX1ZBz7
-         /XGjEqvRbxj0QEnDxNw/MfGzBLR1d5g80zBFWmO8=
-Date:   Fri, 21 Aug 2020 16:41:58 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Wanchun Zheng <zhengwanchun@hisilicon.com>,
-        linuxarm@huawei.com, dri-devel <dri-devel@lists.freedesktop.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Xiubin Zhang <zhangxiubin1@huawei.com>,
-        Wei Xu <xuwei5@hisilicon.com>, David Airlie <airlied@linux.ie>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Bogdan Togorean <bogdan.togorean@analog.com>,
-        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Liwei Cai <cailiwei@hisilicon.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>, mauro.chehab@huawei.com,
-        Rob Clark <robdclark@chromium.org>,
-        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Liuyao An <anliuyao@huawei.com>,
-        Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-Message-ID: <20200821164158.22777f95@coco.lan>
-In-Reply-To: <20200819173558.GA3733@ravnborg.org>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
-        <20200819152120.GA106437@ravnborg.org>
-        <20200819174027.70b39ee9@coco.lan>
-        <20200819173558.GA3733@ravnborg.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727866AbgHUPAY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 11:00:24 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:41389 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725828AbgHUPAY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Aug 2020 11:00:24 -0400
+Received: from lhopital-XPS-13-9360.home (lfbn-tou-1-1372-bdcst.w90-89.abo.wanadoo.fr [90.89.180.255])
+        (Authenticated sender: kevin.lhopital@bootlin.com)
+        by relay11.mail.gandi.net (Postfix) with ESMTPA id DDDD5100006;
+        Fri, 21 Aug 2020 15:00:17 +0000 (UTC)
+From:   =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
+        <kevin.lhopital@bootlin.com>
+To:     linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        mripard@kernel.org, wens@csie.org, yong.deng@magewell.com,
+        p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        paul.kocialkowski@bootlin.com, thomas.petazzoni@bootlin.com,
+        =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
+        <kevin.lhopital@bootlin.com>
+Subject: [PATCH 0/7] Support of MIPI CSI-2 for A83T and OV8865 camera
+Date:   Fri, 21 Aug 2020 16:59:28 +0200
+Message-Id: <20200821145935.20346-1-kevin.lhopital@bootlin.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Another quick question:
 
-Em Wed, 19 Aug 2020 19:35:58 +0200
-Sam Ravnborg <sam@ravnborg.org> escreveu:
+Kévin L'hôpital (7):
+  media: sun6i-csi: Fix the bpp for 10-bit bayer formats
+  dt-bindings: media: i2c: Add documentation for ov8865
+  media: i2c: Add support for the OV8865 image sensor
+  media: sunxi: sun6i-csi: Move the sun6i_csi_dev structure to the
+    common header
+  media: sunxi: sun6i-csi: Add support of MIPI CSI-2 for A83T
+  ARM: dts: sun8i: a83t: Add support for the MIPI CSI-2 in CSI node
+  [NOT FOR MERGE] ARM: dts: sun8i: a83t: bananapi-m3: Enable OV8865
+    camera
 
-> > +#define DSS_REDUCE(x)	((x) > 0 ? ((x) - 1) : (x))  
-> Use generic macros for this?
+ .../devicetree/bindings/media/i2c/ov8865.txt  |   51 +
+ arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts  |   99 +
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |   11 +-
+ drivers/media/i2c/Kconfig                     |   12 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov8865.c                    | 2540 +++++++++++++++++
+ .../media/platform/sunxi/sun6i-csi/Makefile   |    2 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   94 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |   14 +-
+ .../sunxi/sun6i-csi/sun8i_a83t_dphy.c         |   20 +
+ .../sunxi/sun6i-csi/sun8i_a83t_dphy.h         |   16 +
+ .../sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h     |   15 +
+ .../sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c    |  249 ++
+ .../sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h    |   16 +
+ .../sun6i-csi/sun8i_a83t_mipi_csi2_reg.h      |   42 +
+ 15 files changed, 3148 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8865.txt
+ create mode 100644 drivers/media/i2c/ov8865.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2_reg.h
 
-Do you know a generic macro similar to this? Or do you mean adding
-it to include/kernel.h?
+-- 
+2.17.1
 
-There are the atomic sub ones, but doesn't make sense here.
-
-The closest one I found was min_not_zero(), but this would
-take two args.
-
-Btw, I agree that the name here is a bit odd... I would
-have called such macro as 'dec_not_zero()'.
-
-Thanks,
-Mauro
