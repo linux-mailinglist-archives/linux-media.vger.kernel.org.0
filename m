@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5195524D3E7
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 13:26:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8A0324D3F8
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 13:30:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727846AbgHUL0k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 07:26:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44074 "EHLO
+        id S1727103AbgHULa1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 07:30:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726872AbgHUL0c (ORCPT
+        with ESMTP id S1726803AbgHULaZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 07:26:32 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD20AC061388;
-        Fri, 21 Aug 2020 04:26:31 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id y134so866875yby.2;
-        Fri, 21 Aug 2020 04:26:31 -0700 (PDT)
+        Fri, 21 Aug 2020 07:30:25 -0400
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E81BAC061388;
+        Fri, 21 Aug 2020 04:30:24 -0700 (PDT)
+Received: by mail-yb1-xb43.google.com with SMTP id p191so876892ybg.0;
+        Fri, 21 Aug 2020 04:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=skzxqD/NGUvc/HsTmn3oZ/wYku/kyh5WrekF3HvBqWk=;
-        b=maN2Sm8UNpQ2+YyUUFwdz9eUgQbi1RNvHlRQR7ndfum9z8ZDa1fJOt0NvhoCMuuMqE
-         MSWSdrdgyi036Tjautm7k5OJVbOMbx9bxVbFQ5N3xA3fi3owA+XZhIUOaAPSjg0GFFMf
-         Qu0AKQNdS+jo0ctNdXiULmIQAegFkB5OLbasQyC+AOBrJ4Go5FgHgZRpek4WASiMtINi
-         FbTzg4ZLPuMETG8XTIzZmEPGG2T0HsY/tSshmQpkxewQd31bpQNsN23O8+LCw6YPxCF6
-         D3eJS5uNH2H2WIoIqGnRcvrLqm2U8VLDFNffn5mXHWHeWPfMaPtE2sEz+O4PJiOGBZNs
-         Uc3Q==
+        bh=qGFw5EG8yfKpTojIo2qI2uz1wjsdjmmuZqulpYk3hwg=;
+        b=e6+nI7XjaiG4MvgGon277b13vqct+dEWLwhlXI60baS8THml6ykMt+txx7qZ7ibBZI
+         h00+aCJF6/jKTcj3OgXInqYqf6TzPHjkxZmz3/yLU7z9f2uDxUc/61u9A9vbt+AmQFVk
+         lq/86u5hyYh5xop7HS7QwJkmN0buU6IfUDbj4u+YgcJ+pj3TxymG2lRkyamPU2KW8YIO
+         YmtOQzR0o9RCb7uYlPcTmGcpe4dN6X/gZWG44EbutxSiTzMIGZoJcols17euF0tVCe2q
+         jI1YoRsVGZjxtzh9VdKOz29iWy5xzFMSVgLeeUNqfBor0WQYH+dTlmD5p+wk9k/Ih4B3
+         kJHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=skzxqD/NGUvc/HsTmn3oZ/wYku/kyh5WrekF3HvBqWk=;
-        b=qBGnZaDi0lUHlDxg0JrGpM8Du5OJ9gnm4j0FKtXLwzhcNu3oFFZmWy4CAGq/BUWpoy
-         kkr7RurrF/6FEyJ8WK6VZbJe+0iVQtCbee3h/13ERHPSBBoQtTxJea/XWyC3IYsDYFLv
-         oUZOzAju5ae8yXFe/FQj4RGuKwbq4wFh7OzHQmRXfOTmlueMX/lj3WKC8TBsRD9gpowi
-         PVg+AQJ/JxzdB6xGaSDWZdQXg7iaYivnG7iSEB/3bO2gF+hPrmZp1VbV461F71gv+e1l
-         CRpWkTpDGZdP+eilMmzRL9pFi2wl/acxUtXdY+GLTAR392IQLDy+ycfNes4zvctZ86Y2
-         s+ew==
-X-Gm-Message-State: AOAM530YEz9y4QunXaVvOXPSqUzbQpy0sQhzSSpqRpaqODJN2nY8X5Fl
-        WRNgCIxY0B40bLZTD6FZxKd/ZZWZYFtKMsbzVdc=
-X-Google-Smtp-Source: ABdhPJz6BOVQq+uU27DB2+qhiIgEVSq1rjdKnbRYDgmRKVlriKEHtn2fcEqXV1NjXbmtF65nIdwAiC8GYEr5wwL8D+Q=
-X-Received: by 2002:a25:2f4d:: with SMTP id v74mr2814821ybv.401.1598009190877;
- Fri, 21 Aug 2020 04:26:30 -0700 (PDT)
+        bh=qGFw5EG8yfKpTojIo2qI2uz1wjsdjmmuZqulpYk3hwg=;
+        b=ZGEVodxyxMyyC25JwcCRWAfcEm0SSpW+Z4nsrbcwmQ6jD0N8Kz3dbxCc0Tm0mh5Sqn
+         Gpe4/A2eI4qu9yuLx5p+Cku7xemODMArErkKBPpC39BlzUYV9naJu0gkNzbomEE8MHeX
+         CJDhQMf/IxjSMYReuSnLg77TQcdsqB+YOwx5HUhkFG80sl9kYN993gPAnyDM0LRHHnNZ
+         2JWd7QzYbtfZAqINyQ23WwXORSmj18yKjanypqR7ZqQf2ljdh/6uAJc41HNgoNLOtc/S
+         ah4Rmv8zRWt/eIpy+e8MR6sTro9ysU3jPNQLro9RgeLXrlcnEJi8OjBjzWlxEB1suVBt
+         JEfA==
+X-Gm-Message-State: AOAM532O3CF7Ns7lF7zSb3slhiS6ShNzLQvBaoVC2cPDOLsatZsn2e0u
+        /bv+M1kGCG2EXJYXqAbWR+WV4eT7DA6Y7VP+eAg=
+X-Google-Smtp-Source: ABdhPJzO87RlIZQJVU4eUm/FQb5ee7OcZkNqP4k1YqbHQQF8MLaSEQKjZe8DCGwNt2CyC9uW6EuJbN2kDh3E9QjO6T4=
+X-Received: by 2002:a25:86cf:: with SMTP id y15mr2802916ybm.25.1598009421523;
+ Fri, 21 Aug 2020 04:30:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200818122012.37956-1-jacopo+renesas@jmondi.org> <20200818122012.37956-2-jacopo+renesas@jmondi.org>
-In-Reply-To: <20200818122012.37956-2-jacopo+renesas@jmondi.org>
+References: <20200818122012.37956-1-jacopo+renesas@jmondi.org> <20200818122012.37956-3-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200818122012.37956-3-jacopo+renesas@jmondi.org>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 21 Aug 2020 12:26:04 +0100
-Message-ID: <CA+V-a8vSz0z0Crq+552ZtWcK_KkTJxVEs6xX9m8G8YObiTi=LQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
+Date:   Fri, 21 Aug 2020 12:29:55 +0100
+Message-ID: <CA+V-a8sa8gszi1cF3SB1QO-aaVwGigrp1m-XmC1NycDcN9MU1w@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: media: ov772x: Make bus-type mandatory
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -73,173 +73,52 @@ Thank you for the patch.
 
 On Tue, Aug 18, 2020 at 1:16 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
 >
-> Convert the ov772x binding document to json-schema and update
-> the MAINTAINERS file accordingly.
+> In order to establish required properties based on the selected
+> bus type, make the 'bus-type' property mandatory.
+>
+> Binary compatibility with existing DTB is kept as the driver does not
+> enforce the property to be present, and shall fall-back to default
+> parallel bus configuration, which was the only supported bus type, if
+> the property is not specified.
 >
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
->  .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 85 insertions(+), 41 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+>  Documentation/devicetree/bindings/media/i2c/ov772x.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
-
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Cheers,
-Prabbhakar
+Prabhakar
 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> deleted file mode 100644
-> index 0b3ede5b8e6a..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -* Omnivision OV7720/OV7725 CMOS sensor
-> -
-> -The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
-> -such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
-> -support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
-> -
-> -Required Properties:
-> -- compatible: shall be one of
-> -       "ovti,ov7720"
-> -       "ovti,ov7725"
-> -- clocks: reference to the xclk input clock.
-> -
-> -Optional Properties:
-> -- reset-gpios: reference to the GPIO connected to the RSTB pin which is
-> -  active low, if any.
-> -- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
-> -  active high, if any.
-> -
-> -The device node shall contain one 'port' child node with one child 'endpoint'
-> -subnode for its digital output video port, in accordance with the video
-> -interface bindings defined in Documentation/devicetree/bindings/media/
-> -video-interfaces.txt.
-> -
-> -Example:
-> -
-> -&i2c0 {
-> -       ov772x: camera@21 {
-> -               compatible = "ovti,ov7725";
-> -               reg = <0x21>;
-> -               reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
-> -               powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
-> -               clocks = <&xclk>;
-> -
-> -               port {
-> -                       ov772x_0: endpoint {
-> -                               remote-endpoint = <&vcap1_in0>;
-> -                       };
-> -               };
-> -       };
-> -};
 > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> new file mode 100644
-> index 000000000000..2b84fefeb4aa
-> --- /dev/null
+> index 2b84fefeb4aa..75dad40f70cc 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
 > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> @@ -0,0 +1,84 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> @@ -47,9 +47,15 @@ properties:
+>        endpoint:
+>          type: object
+>          properties:
+> +          bus-type:
+> +            enum: [5, 6]
 > +
-> +title:  Omnivision OV7720/OV7725 CMOS sensor
-> +
-> +maintainers:
-> +  - Jacopo Mondi <jacopo@jmondi.org>
-> +
-> +description: -|
-> +  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
-> +  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
-> +  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ovti,ov7720
-> +      - ovti,ov7725
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: -|
-> +      Reference to the GPIO connected to the RSTB pin which is active low.
-> +    maxItems: 1
-> +
-> +  powerdown-gpios:
-> +    description: -|
-> +      Reference to the GPIO connected to the PWDN pin which is active high.
-> +    maxItems: 1
-> +
-> +  port:
-> +    type: object
-> +    description: |
-> +      The device node must contain one 'port' child node for its digital output
-> +      video port, in accordance with the video interface bindings defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        properties:
-> +          remote-endpoint:
-> +            description: A phandle to the bus receiver's endpoint node.
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - reset-gpios
-> +  - powerdown-gpios
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        ov772x: camera@21 {
-> +            compatible = "ovti,ov7725";
-> +            reg = <0x21>;
-> +            reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
-> +            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
-> +            clocks = <&xclk>;
-> +
-> +            port {
-> +                ov772x_0: endpoint {
-> +                    remote-endpoint = <&vcap1_in0>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d1a6173d3b64..d0a20214eaaf 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12666,7 +12666,7 @@ M:      Jacopo Mondi <jacopo@jmondi.org>
->  L:     linux-media@vger.kernel.org
->  S:     Odd fixes
->  T:     git git://linuxtv.org/media_tree.git
-> -F:     Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> +F:     Documentation/devicetree/bindings/media/i2c/ov772x.yaml
->  F:     drivers/media/i2c/ov772x.c
->  F:     include/media/i2c/ov772x.h
+>            remote-endpoint:
+>              description: A phandle to the bus receiver's endpoint node.
 >
+> +        required:
+> +          - bus-type
+> +
+>      additionalProperties: false
+>
+>  required:
+> @@ -75,6 +81,7 @@ examples:
+>
+>              port {
+>                  ov772x_0: endpoint {
+> +                    bus-type = <5>;
+>                      remote-endpoint = <&vcap1_in0>;
+>                  };
+>              };
 > --
 > 2.27.0
 >
