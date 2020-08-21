@@ -2,179 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 616CA24CFD6
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 09:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88DF424D033
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 10:00:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727986AbgHUHpz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 03:45:55 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:17048 "EHLO
-        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727902AbgHUHpx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 03:45:53 -0400
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20200821074549epoutp02cad7e2e9ef71dc5c012adeaeb5f543b8~tONl4d1Rd0675006750epoutp02A
-        for <linux-media@vger.kernel.org>; Fri, 21 Aug 2020 07:45:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20200821074549epoutp02cad7e2e9ef71dc5c012adeaeb5f543b8~tONl4d1Rd0675006750epoutp02A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1597995949;
-        bh=2+53xcHFCjgELMf4X3YPM+muDniBJtUmbh8iQTB7pl0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jrAahD8wjWkV/l8lbdx7XgvoVowvobpPBGW1+Q4RX9cLnE+sSHye1jq1ijRPy+eZx
-         dVxvGIYJSrZP4O0uFCt2Isx9Lv4cnEN07sR1ue8SgkES+KGO8LdNgBVl1ZdAoBiHoG
-         4sr8gzfFoUYI0u0QiMg1NNNdZ39HZDZlSLppforw=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas2p1.samsung.com (KnoxPortal) with ESMTP id
-        20200821074548epcas2p1327d7d86f491d1e27975c1242758a78b~tONlDT0C83190931909epcas2p1L;
-        Fri, 21 Aug 2020 07:45:48 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.40.191]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4BXtqG3P8PzMqYm0; Fri, 21 Aug
-        2020 07:45:46 +0000 (GMT)
-Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
-        epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        2F.06.19322.9AB7F3F5; Fri, 21 Aug 2020 16:45:45 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200821074545epcas2p23109c52bfe76a58b26ba1f509cb86165~tONhu-RjS0792807928epcas2p2h;
-        Fri, 21 Aug 2020 07:45:45 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200821074544epsmtrp13b02268595ebe56c8b2715fd355c1038~tONht6LLR0929109291epsmtrp1V;
-        Fri, 21 Aug 2020 07:45:44 +0000 (GMT)
-X-AuditID: b6c32a45-797ff70000004b7a-00-5f3f7ba969a2
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        C3.B5.08382.8AB7F3F5; Fri, 21 Aug 2020 16:45:44 +0900 (KST)
-Received: from KEI (unknown [12.36.155.227]) by epsmtip1.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20200821074544epsmtip1e7d25fed313408de35eeeb6dd2b14396~tONheg87B0588805888epsmtip1C;
-        Fri, 21 Aug 2020 07:45:44 +0000 (GMT)
-Date:   Fri, 21 Aug 2020 16:38:13 +0900
-From:   Cho KyongHo <pullip.cho@samsung.com>
-To:     Brian Starkey <brian.starkey@arm.com>
-Cc:     Hyesoo Yu <hyesoo.yu@samsung.com>, sumit.semwal@linaro.org,
-        minchan@kernel.org, akpm@linux-foundation.org,
-        iamjoonsoo.kim@lge.com, joaodias@google.com, linux-mm@kvack.org,
-        surenb@google.com, vbabka@suse.cz, afd@ti.com,
-        benjamin.gaignard@linaro.org, lmark@codeaurora.org,
-        labbott@redhat.com, john.stultz@linaro.org,
-        christian.koenig@amd.com, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, nd@arm.com
-Subject: Re: [PATCH 0/3] Chunk Heap Support on DMA-HEAP
-Message-ID: <20200821073813.GA190335@KEI>
-MIME-Version: 1.0
-In-Reply-To: <20200819132204.2rki3xsczdy2cpsk@DESKTOP-E1NTVVP.localdomain>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTZxTfd9veXsgqlwL6haFiJ1sg41FY4UOEgYq529SxLO6VzdLADRBL
-        aXqpGzgzZPKWIgI63jU8lAKDIAqjAqEwHh0qQQREGBE2DYTHAshgBreWCwn//c45v9/3+845
-        OQRHWMy3J6IUsbRKIZOLcEvu3U5n5Fp1/gOph67FCS0as/moqK4GR4kGI46mjAMAzU/qeai0
-        6wEPDb1cxNFG2gAPVWX8hKN/tFMc1P/KFVXdW8PQytAzDD1qKcLR5fo7PPRHzX88VNA3jKHK
-        l4t81H/zMgcltXbxkXFimY9yBrU4KryoAYF7qKTBDZyqKakB1CNNJkZpG9RUgy4NpxqWrvKp
-        9PkhjBofvodTvT+/4lKTGT0Y9fT1NIdabHuMU5pGHaD6tV18qme0CaOWG/aFkF/LD0fSsnBa
-        5UgrwmLCoxQR/qKPP5MelUq8PcSuYl/kI3JUyKJpf9GxEyGux6PkplmIHM/J5GpTKkTGMCL3
-        gMOqGHUs7RgZw8T6i2hluFwpFivdGFk0o1ZEuIXFRB8Se3h4SkzMUHlk6ugGX7kk/P7WUgU3
-        ATRZpQMLApLvwycvyrB0YEkIyWYAE/Pb+GywBGBt329bwSqAo0n/gm2JRn97q9AK4HxzCZcN
-        ngFYfv8az8zikk6wvGQVN2OcdIHVxT0mNUHYks7wYpHUzOeQxVw4l5KxybEhfWCnLpVr5ghM
-        nF8mBea0gLSGffl/cs3YgvwI6q9l4WaKHXkQznb8aH4Gku0WMDtnjcN+7hgcbqvlsdgGzvY0
-        8llsD2eykvms4DqAC6UGnC3cBnBVb81iL1jwPGWzSw4ZCbsHczCzGSTfhl1jXDa9C6Z2bvDZ
-        tACmJgtZ5UH4a94wd9tK0zq6hSlYcVfDY8dTg8FLZXO8K2B/wY7WCna4sfg9qNUv4QUmCw75
-        Frz5mmChM6xrcdcCng7sppVMdATNeCrFO5fdADbvxCW4GeTM/+1mABgBDAASHJGtILPVTyoU
-        hMvi4mlVjFSlltOMAUhMa8rm2NuFxZgOTRErFUs8vb09fCVI4u2JRHsE0QcGzgjJCFksfZam
-        lbRqW4cRFvYJWJ5dn/xAfmZ9deu3Q76rhu96ix6c2js/E7kiCArYP/fGobjizwPWT/nnVXBp
-        m6npvybL1CXBtX0CqxMOT9sCx9Mmc72CA6Fi+ozFw/Pvjlc16Y8Y1erO5+33dYMLdz4sP854
-        iQNz176qS5OIT3a0/x5lXbnmfiGv4MuxNxPDP/U/qRvsz9/tGecX7l8/rVlxPXphtvt0B1E6
-        F+qdLG3IbbKta6zMtpy4cmu50GNkvXfi9NQnX8zoQquXnfo6LPbm3HhYHyrzexG/z2FlrOwq
-        HmQsW11/pzqeWJgK9u52OCdIuEGctWJw3ohGaW/zjadPzUjKrowsovDxDzmW80F65lLIkyMi
-        LhMpE7twVIzsf1gBG/OwBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf0yMcRzHfZ/nued5OjseyfqqiZ7F1Cpuk75+xabNwzSxWTujc6tHP9xV
-        7oRiU9GorqSUOidno3Idcghd2F1HOs2sYrf8OPnValqUKKn01Iz/Xnt/Xu/3Xx8ad39HeNEJ
-        Sft5dZJCyZJioq6R9QmqPrxWvvRh9nLU5zhNIf11E4mybA4SvXc8B6jXZRGhC/ZnItQ+2Eei
-        0ZznInQl7xiJfhre46hlJAhdaRjC0Pf2Tgy11etJpK29LUJvTeMipGt+iaHKwT4KtVRpcZR9
-        304hx5sBChW3Gkh0LrMArPPksltHSc5UYQJcW0E+xhnMqZzZmENy5v4iisvtbce41y8bSO5J
-        2QjBufKaMO7V2Aec63vwguQKbhkB12KwU1yT8w7GDZh9Ipkd4tWxvDLhAK9eErZbHN/s+Iml
-        mJlDbZmfyQxQKMkFbjRklsECy01KYHfGAmDzucip3AtW5F3Fpng2dB23i3KBeMJxAfijtgMX
-        DgSzEF6q+EEKTDIBsOZ8E8gFNO3B+MNMvVzwceYiAV/oKied2UwobDSeJARHMuFcc0mmNk0Y
-        7LpUM7kpYWbB5vKPhMD4xKZzrBsTfJzxhlVjtBC7MZugpfQUKcRzGD/YYz1aCGbp/ivr/ivr
-        /pUNADeCuXyKRhWn0khTpEn8wWCNQqVJTYoLjklWmcHkEwT43wV3jF+DbQCjgQ1AGmc9JPn3
-        V8ndJbGKtHRenSxXpyp5jQ140wTrKXHuuxjtzsQp9vN7eT6FV/+9YrSbVwZWFvj4fPL23vBR
-        W9uDs7Kz25nH+W+2he/qt2rWKRuz6o64pCt03e07V/scKg9B+YG1T7Xf/EJkUcOvzevrq0+Y
-        ykN9LUGlK6OKD6RFlLutvVd1kx3uN12IXhzztORGooQdkKVGjBTN1cqjcuxWQ7f/2y+JnmHK
-        kMxf4RtfZS1QyddE1E3TF40n7OmZFk/clc0s+VQzf1mOWDTjcuSQXGtM5zNOKaS+Z8KcyfhY
-        ybZs+CiveOvp6MSunobWWKMqyC9t6cnxORmbNwR0BCr1gfX70tlha2EXvjg6y8s3Zjp10KPT
-        uah6xWDHFkoWgd36tL6ya2D8UdmCnpn4PMPVYiv7myU08QppAK7WKP4A2KcPc3MDAAA=
-X-CMS-MailID: 20200821074545epcas2p23109c52bfe76a58b26ba1f509cb86165
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-        boundary="----lWUYs60uNheWdrlwd5Sxb-jVEnyT8vPvqGqUNsoxLEsY2Otg=_4f1bd_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200818074547epcas2p21e0c2442873d03800c7bc2c3e76405d6
-References: <CGME20200818074547epcas2p21e0c2442873d03800c7bc2c3e76405d6@epcas2p2.samsung.com>
-        <20200818080415.7531-1-hyesoo.yu@samsung.com>
-        <20200818105557.svky5c7gdvk6khzu@DESKTOP-E1NTVVP.localdomain>
-        <20200819034626.GB70898@KEI>
-        <20200819132204.2rki3xsczdy2cpsk@DESKTOP-E1NTVVP.localdomain>
+        id S1727973AbgHUIAv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 04:00:51 -0400
+Received: from mga17.intel.com ([192.55.52.151]:59505 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727902AbgHUIAv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Aug 2020 04:00:51 -0400
+IronPort-SDR: IDzsQuNnrU1goaez5JFL8Iy4O/QWaPaid2LTVDLCk0TZjYPpo/Qz0HuRp+BxjBlVSm93pFSU0Y
+ iezForRclSvg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9719"; a="135546116"
+X-IronPort-AV: E=Sophos;i="5.76,335,1592895600"; 
+   d="scan'208";a="135546116"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2020 01:00:51 -0700
+IronPort-SDR: siLAv5mWhxgcx2X/RSyCIBvX6nBMgwWjJXESq6i9qurQ04SkYfQbaVRWF9AVQDeoDcamN8+2w/
+ ctbfW+ExqRQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,335,1592895600"; 
+   d="scan'208";a="311370593"
+Received: from ipu5-build.bj.intel.com ([10.238.232.196])
+  by orsmga002.jf.intel.com with ESMTP; 21 Aug 2020 01:00:48 -0700
+From:   Bingbu Cao <bingbu.cao@intel.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        shawnx.tu@intel.com
+Cc:     senozhatsky@chromium.org, tfiga@chromium.org, bingbu.cao@intel.com,
+        bingbu.cao@linux.intel.com, hongju.wang@intel.com
+Subject: [PATCH v2] media: ov5675: correct the maximum exposure value
+Date:   Fri, 21 Aug 2020 15:59:50 +0800
+Message-Id: <1597996790-21121-1-git-send-email-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-------lWUYs60uNheWdrlwd5Sxb-jVEnyT8vPvqGqUNsoxLEsY2Otg=_4f1bd_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+The unit of exposure value is different from other OmniVision sensors,
+driver will divide by 2 before set register, the exposure range exposed
+by v4l2 ctrl to user should be same as others, so the calculation for
+the maximum exposure value in current driver need be fixed.
 
-Hi Brain,
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+---
+ drivers/media/i2c/ov5675.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-On Wed, Aug 19, 2020 at 02:22:04PM +0100, Brian Starkey wrote:
-> Hi KyongHo,
-> 
-> On Wed, Aug 19, 2020 at 12:46:26PM +0900, Cho KyongHo wrote:
-> > I have seriously considered CPA in our product but we developed our own
-> > because of the pool in CPA.
-> 
-> Oh good, I'm glad you considered it :-)
-> 
-> > The high-order pages are required by some specific users like Netflix
-> > app. Moreover required number of bytes are dramatically increasing
-> > because of high resolution videos and displays in these days.
-> > 
-> > Gathering lots of free high-order pages in the background during
-> > run-time means reserving that amount of pages from the entier available
-> > system memory. Moreover the gathered pages are soon reclaimed whenever
-> > the system is sufferring from memory pressure (i.e. camera recording,
-> > heavy games).
-> 
-> Aren't these two things in contradiction? If they're easily reclaimed
-> then they aren't "reserved" in any detrimental way. And if you don't
-> want them to be reclaimed, then you need them to be reserved...
-> 
-> The approach you have here assigns the chunk of memory as a reserved
-> CMA region which the kernel is going to try not to use too - similar
-> to the CPA pool.
-> 
-> I suppose it's a balance depending on how much you're willing to wait
-> for migration on the allocation path. CPA has the potential to get you
-> faster allocations, but the downside is you need to make it a little
-> more "greedy".
-> 
-I understand why you think it as contradiction. But I don't think so.
-Kernel page allocator now prefers free pages in CMA when allocating
-movable pages by commit
-https://lore.kernel.org/linux-mm/CAAmzW4P6+3O_RLvgy_QOKD4iXw+Hk3HE7Toc4Ky7kvQbCozCeA@mail.gmail.com/
-.
+diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+index 8537cc4ca108..9540ce8918f0 100644
+--- a/drivers/media/i2c/ov5675.c
++++ b/drivers/media/i2c/ov5675.c
+@@ -666,8 +666,8 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	/* Propagate change of current control to all related controls */
+ 	if (ctrl->id == V4L2_CID_VBLANK) {
+ 		/* Update max exposure while meeting expected vblanking */
+-		exposure_max = (ov5675->cur_mode->height + ctrl->val -
+-			       OV5675_EXPOSURE_MAX_MARGIN) / 2;
++		exposure_max = ov5675->cur_mode->height + ctrl->val -
++			OV5675_EXPOSURE_MAX_MARGIN;
+ 		__v4l2_ctrl_modify_range(ov5675->exposure,
+ 					 ov5675->exposure->minimum,
+ 					 exposure_max, ov5675->exposure->step,
+@@ -689,7 +689,13 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		break;
+ 
+ 	case V4L2_CID_EXPOSURE:
+-		/* 3 least significant bits of expsoure are fractional part */
++		/* 4 least significant bits of expsoure are fractional part
++		 * val = val << 4
++		 * for ov5675, the unit of exposure is differnt from other
++		 * OmniVision sensors, its exposure value is twice of the
++		 * register value, the exposure should be divided by 2 before
++		 * set register, e.g. val << 3.
++		 */
+ 		ret = ov5675_write_reg(ov5675, OV5675_REG_EXPOSURE,
+ 				       OV5675_REG_VALUE_24BIT, ctrl->val << 3);
+ 		break;
+@@ -770,8 +776,7 @@ static int ov5675_init_controls(struct ov5675 *ov5675)
+ 	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+ 			  OV5675_DGTL_GAIN_MIN, OV5675_DGTL_GAIN_MAX,
+ 			  OV5675_DGTL_GAIN_STEP, OV5675_DGTL_GAIN_DEFAULT);
+-	exposure_max = (ov5675->cur_mode->vts_def -
+-			OV5675_EXPOSURE_MAX_MARGIN) / 2;
++	exposure_max = (ov5675->cur_mode->vts_def - OV5675_EXPOSURE_MAX_MARGIN);
+ 	ov5675->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
+ 					     V4L2_CID_EXPOSURE,
+ 					     OV5675_EXPOSURE_MIN, exposure_max,
+-- 
+2.7.4
 
-We are trying to reduce unused pages to improve performance. So, unused
-pages in a pool should be easily reclaimed. That is why we does not
-secure free pages in a special pool for a specific usecase. Instead we
-have tried to reduce performance bottle-necks in page migration to
-allocate large amount memory when the memory is needed.
-
-------lWUYs60uNheWdrlwd5Sxb-jVEnyT8vPvqGqUNsoxLEsY2Otg=_4f1bd_
-Content-Type: text/plain; charset="utf-8"
-
-
-------lWUYs60uNheWdrlwd5Sxb-jVEnyT8vPvqGqUNsoxLEsY2Otg=_4f1bd_--
