@@ -2,118 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB25824C92D
-	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 02:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A22924C93A
+	for <lists+linux-media@lfdr.de>; Fri, 21 Aug 2020 02:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgHUA3C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Aug 2020 20:29:02 -0400
-Received: from foss.arm.com ([217.140.110.172]:49090 "EHLO foss.arm.com"
+        id S1726918AbgHUAgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Aug 2020 20:36:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34290 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726735AbgHUA3C (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Aug 2020 20:29:02 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E07930E;
-        Thu, 20 Aug 2020 17:29:01 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09B773F71F;
-        Thu, 20 Aug 2020 17:28:52 -0700 (PDT)
-Subject: Re: [PATCH 12/18] iommu/tegra-gart: Add IOMMU_DOMAIN_DMA support
-To:     Dmitry Osipenko <digetx@gmail.com>, hch@lst.de, joro@8bytes.org,
-        linux@armlinux.org.uk
-Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, m.szyprowski@samsung.com,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, vdumpa@nvidia.com,
-        matthias.bgg@gmail.com, yong.wu@mediatek.com,
-        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
-        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <516b33118d489e56499ff8c64c019709b744110c.1597931876.git.robin.murphy@arm.com>
- <081f7532-9ca0-0af3-35a1-cbaba0782237@gmail.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <3a132bb0-f2e6-6f8d-6d0c-bc925dd23f06@arm.com>
-Date:   Fri, 21 Aug 2020 01:28:49 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726840AbgHUAgF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Aug 2020 20:36:05 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6E07820720;
+        Fri, 21 Aug 2020 00:36:03 +0000 (UTC)
+Date:   Thu, 20 Aug 2020 20:36:01 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Nicolas Boichat <drinkcat@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        devel@driverdev.osuosl.org, lkml <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH v4 3/3] media: atomisp: Only use trace_printk if allowed
+Message-ID: <20200820203601.4f70bf98@oasis.local.home>
+In-Reply-To: <CANMq1KCoEZVj=sjxCqBhqLZKBab57+82=Rk_LN7fc3aCuNHMUw@mail.gmail.com>
+References: <20200820170951.v4.1.Ia54fe801f246a0b0aee36fb1f3bfb0922a8842b0@changeid>
+        <20200820170951.v4.3.I066d89f39023956c47fb0a42edf196b3950ffbf7@changeid>
+        <20200820102347.15d2f610@oasis.local.home>
+        <CANMq1KCoEZVj=sjxCqBhqLZKBab57+82=Rk_LN7fc3aCuNHMUw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <081f7532-9ca0-0af3-35a1-cbaba0782237@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-08-20 21:16, Dmitry Osipenko wrote:
-> 20.08.2020 18:08, Robin Murphy пишет:
->> Now that arch/arm is wired up for default domains and iommu-dma,
->> implement the corresponding driver-side support for DMA domains.
->>
->> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->> ---
->>   drivers/iommu/tegra-gart.c | 17 ++++++++++++-----
->>   1 file changed, 12 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/iommu/tegra-gart.c b/drivers/iommu/tegra-gart.c
->> index fac720273889..e081387080f6 100644
->> --- a/drivers/iommu/tegra-gart.c
->> +++ b/drivers/iommu/tegra-gart.c
->> @@ -9,6 +9,7 @@
->>   
->>   #define dev_fmt(fmt)	"gart: " fmt
->>   
->> +#include <linux/dma-iommu.h>
->>   #include <linux/io.h>
->>   #include <linux/iommu.h>
->>   #include <linux/moduleparam.h>
->> @@ -145,16 +146,22 @@ static struct iommu_domain *gart_iommu_domain_alloc(unsigned type)
->>   {
->>   	struct iommu_domain *domain;
-> 
-> Hello, Robin!
-> 
-> Tegra20 GART isn't a real IOMMU, but a small relocation aperture. We
-> would only want to use it for a temporal mappings (managed by GPU
-> driver) for the time while GPU hardware is busy and working with a
-> sparse DMA buffers, the driver will take care of unmapping the sparse
-> buffers once GPU work is finished [1]. In a case of contiguous DMA
-> buffers, we want to bypass the IOMMU and use buffer's phys address
-> because GART aperture is small and all buffers simply can't fit into
-> GART for a complex GPU operations that involve multiple buffers [2][3].
-> The upstream GPU driver still doesn't support GART, but eventually it
-> needs to be changed.
-> 
-> [1]
-> https://github.com/grate-driver/linux/blob/master/drivers/gpu/drm/tegra/gart.c#L489
-> 
-> [2]
-> https://github.com/grate-driver/linux/blob/master/drivers/gpu/drm/tegra/gart.c#L542
-> 
-> [3]
-> https://github.com/grate-driver/linux/blob/master/drivers/gpu/drm/tegra/uapi/patching.c#L90
-> 
->> -	if (type != IOMMU_DOMAIN_UNMANAGED)
->> +	if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
->>   		return NULL;
-> 
-> Will a returned NULL tell to IOMMU core that implicit domain shouldn't
-> be used? Is it possible to leave this driver as-is?
+On Fri, 21 Aug 2020 08:13:00 +0800
+Nicolas Boichat <drinkcat@chromium.org> wrote:
 
-The aim of this patch was just to make the conversion without functional 
-changes wherever possible, i.e. maintain an equivalent to the existing 
-ARM behaviour of allocating its own implicit domains for everything. It 
-doesn't represent any judgement of whether that was ever appropriate for 
-this driver in the first place ;)
+> On Thu, Aug 20, 2020 at 10:23 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+> >
+> > On Thu, 20 Aug 2020 17:14:12 +0800
+> > Nicolas Boichat <drinkcat@chromium.org> wrote:
+> >  
+> > > Technically, we could only initialize the trace_printk buffers
+> > > when the print env is switched, to avoid the build error and
+> > > unconditional boot-time warning, but I assume this printing
+> > > framework will eventually get removed when the driver moves out
+> > > of staging?  
+> >
+> > Perhaps this should be converting into a trace event. Look at what bpf
+> > did for their bpf_trace_printk().
+> >
+> > The more I think about it, the less I like this series.  
+> 
+> To make it clear, the primary goal of this series is to get rid of
+> trace_printk sprinkled in the kernel by making sure some randconfig
+> builds fail. Since my v2, there already has been one more added (the
+> one that this patch removes), so I'd like to land 2/3 ASAP to prevent
+> even more from being added.
+> 
+> Looking at your reply on 1/3, I think we are aligned on that goal? Is
+> there some other approach you'd recommend?
+> 
+> Now, I'm not pretending my fixes are the best possible ones, but I
+> would much rather have the burden of converting to trace events on the
+> respective driver maintainers. (btw is there a short
+> documentation/tutorial that I could link to in these patches, to help
+> developers understand what is the recommended way now?)
+>
 
-Hopefully my other reply already covered the degree of control drivers 
-can have with proper default domains, but do shout if anything wasn't clear.
+I like the goal, but I guess I never articulated the problem I have
+with the methodology.
 
-Cheers,
-Robin.
+trace_printk() is meant to be a debugging tool. Something that people
+can and do sprinkle all over the kernel to help them find a bug in
+areas that are called quite often (where printk() is way too slow).
+
+The last thing I want them to deal with is adding a trace_printk() with
+their distro's config (or a config from someone that triggered the bug)
+only to have the build to fail, because they also need to add a config
+value.
+
+I add to the Cc a few developers I know that use trace_printk() in this
+fashion. I'd like to hear their view on having to add a config option
+to make trace_printk work before they test a config that is sent to
+them.
+
+-- Steve
