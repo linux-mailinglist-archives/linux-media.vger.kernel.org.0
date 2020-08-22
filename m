@@ -2,151 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA4BF24E481
-	for <lists+linux-media@lfdr.de>; Sat, 22 Aug 2020 03:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B607C24E4EF
+	for <lists+linux-media@lfdr.de>; Sat, 22 Aug 2020 05:39:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbgHVBgY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 21:36:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34504 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbgHVBgX (ORCPT
+        id S1726676AbgHVDjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Aug 2020 23:39:37 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60117 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726588AbgHVDjg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 21:36:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 433D1C061573;
-        Fri, 21 Aug 2020 18:36:22 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55ED629E;
-        Sat, 22 Aug 2020 03:36:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1598060176;
-        bh=QDNGF3NmwLXJQKvrzC4omNcWs6Mrszdv+yYWd/Dv/Dw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p1PQJNuUaGl76WmEz4RoRcK5xhuL8c0rjIQ/kO9DBiEOfN69buNLPhtuDOrKtFbf3
-         JcPaaZs0yVGO6pB5BEbxmcSgyGdY9PjsoQBgVZ/AdXOj6Vd2Q+TCMnDe8iDYRwVZAg
-         ZWmq0sjFObr4sZ6wYQnrEMKBUjjTuWLDo0vj4LfI=
-Date:   Sat, 22 Aug 2020 04:35:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 3/3] dt-bindings: media: ov772x: Document endpoint props
-Message-ID: <20200822013558.GN5967@pendragon.ideasonboard.com>
-References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
- <20200818122012.37956-4-jacopo+renesas@jmondi.org>
- <20200819135423.GL6049@pendragon.ideasonboard.com>
- <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com>
+        Fri, 21 Aug 2020 23:39:36 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 9KNRkUjBBywL59KNSkdUqc; Sat, 22 Aug 2020 05:39:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598067574; bh=IR4Hgz2a7jpal7WjKClrupsPRsU5/7UAxLwkvjX6Txo=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=ZEyH++RYOFxYpSVAsgyBE8vHiOby1YX/IanK/ltpEUEVlSBQrC5vpE+nZPl4YFVNd
+         fb1h3RZBIMIKVj4PdbrUomQ3Jo/LaOirQTnW83BSQHuCsSMm70hjSRV78MhxvT7MWj
+         wG+G5nexfnLbm+sZTy/PivaT6QyDI3kbOCaD1oG9Yty9rcfwVTQHbLl50ZPoNocVzz
+         TVGNQ/E9hq03XcuPSh8nuq3BIdd/669ALrDI6M10YDQdlCYGs2p8mY4CxK31uNrRMh
+         bWDNaSv2m7ldzwgNkB6KRzt1j+EgINlbRljpFRYOg1hrM1KR8i8Qxr7tXLIbY2Xal8
+         TPqgR+Mby1Zsw==
+Message-ID: <77cd6879b4fcf4d75d2be0af88afe4d4@smtp-cloud7.xs4all.net>
+Date:   Sat, 22 Aug 2020 05:39:32 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfKuwLVahzbSLupM5cH0ji52PS9ucOHL08c4pvtN761M3ywpKKyhQkI5UTDeyfNZI82U8/dRbEEUYaERMFHLjqy1silP/CDwrHr9/phKfEIglwZyVvzX/
+ 2/Rm//To0LelXBvJmxRKAtE+KdRTd3oJWDqyz0Ww3e9xjuU+XKV9v5V++/C/kRtEcDZyyu/FjkCrgud6LPzQ+QgK02mBPvs+pXdTiFdxHzr/2nxoDC+m5MB4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Fri, Aug 21, 2020 at 12:37:35PM +0100, Lad, Prabhakar wrote:
-> On Wed, Aug 19, 2020 at 2:54 PM Laurent Pinchart wrote:
-> > On Tue, Aug 18, 2020 at 02:20:12PM +0200, Jacopo Mondi wrote:
-> > > Document endpoint properties for the parallel bus type and
-> > > add them to the example.
-> > >
-> > > Specify a few constraints:
-> > > - If the bus type is BT.656 no hsync or vsycn polarities can be
-> > >   specified.
-> > > - If the bus width is 10 bits, not data-shift can be applied.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 43 +++++++++++++++++++
-> > >  1 file changed, 43 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > index 75dad40f70cc..3fad5dffd19a 100644
-> > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > @@ -50,9 +50,47 @@ properties:
-> > >            bus-type:
-> > >              enum: [5, 6]
-> > >
-> > > +          bus-width:
-> > > +            enum: [8, 10]
-> > > +            default: 10
-> > > +
-> > > +          data-shift:
-> > > +            enum: [0, 2]
-> > > +            default: 0
-> > > +
-> > > +          hsync-active:
-> > > +            enum: [0, 1]
-> > > +            default: 1
-> > > +
-> > > +          vsync-active:
-> > > +            enum: [0, 1]
-> > > +            default: 1
-> > > +
-> > > +          pclk-sample:
-> > > +            enum: [0, 1]
-> > > +            default: 1
-> > > +
-> > >            remote-endpoint:
-> > >              description: A phandle to the bus receiver's endpoint node.
-> > >
-> > > +        allOf:
-> > > +          - if:
-> > > +              properties:
-> > > +                bus-type:
-> > > +                  const: 6
-> > > +            then:
-> > > +                properties:
-> > > +                  hsync-active: false
-> > > +                  vsync-active: false
-> > > +
-> > > +          - if:
-> > > +              properties:
-> > > +                bus-width:
-> > > +                  const: 10
-> > > +            then:
-> > > +                properties:
-> > > +                  data-shift:
-> > > +                    const: 0
-> >
-> > I'd add a blank line here.
-> >
-> > >          required:
-> > >            - bus-type
-> >
-> > Should some of the properties be required ? Possibly conditioned on
-> > bus-type ?
->
-> Agreed, would be interesting to know how this can be handled (split
-> out bus-type and add required properties for each) ?
+Results of the daily build of media_tree:
 
-We can add required: statements to the above if/then/else.
+date:			Sat Aug 22 05:00:12 CEST 2020
+media-tree git hash:	9a538b83612c8b5848bf840c2ddcd86dda1c8c76
+media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
+v4l-utils git hash:	89f66ef308e16a51090cf5682e74c6f4130a024d
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-> > > @@ -82,6 +120,11 @@ examples:
-> > >              port {
-> > >                  ov772x_0: endpoint {
-> > >                      bus-type = <5>;
-> > > +                    vsync-active = <0>;
-> > > +                    hsync-active = <0>;
-> > > +                    pclk-sample = <0>;
-> > > +                    bus-width = <8>;
-> > > +                    data-shift = <0>;
-> > >                      remote-endpoint = <&vcap1_in0>;
-> > >                  };
-> > >              };
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: ERRORS
 
--- 
-Regards,
+Detailed results are available here:
 
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
