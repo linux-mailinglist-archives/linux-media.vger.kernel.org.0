@@ -2,176 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B607C24E4EF
-	for <lists+linux-media@lfdr.de>; Sat, 22 Aug 2020 05:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18BFB24E705
+	for <lists+linux-media@lfdr.de>; Sat, 22 Aug 2020 13:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbgHVDjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Aug 2020 23:39:37 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60117 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726588AbgHVDjg (ORCPT
+        id S1727845AbgHVLMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Aug 2020 07:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726938AbgHVLMf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Aug 2020 23:39:36 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 9KNRkUjBBywL59KNSkdUqc; Sat, 22 Aug 2020 05:39:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1598067574; bh=IR4Hgz2a7jpal7WjKClrupsPRsU5/7UAxLwkvjX6Txo=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=ZEyH++RYOFxYpSVAsgyBE8vHiOby1YX/IanK/ltpEUEVlSBQrC5vpE+nZPl4YFVNd
-         fb1h3RZBIMIKVj4PdbrUomQ3Jo/LaOirQTnW83BSQHuCsSMm70hjSRV78MhxvT7MWj
-         wG+G5nexfnLbm+sZTy/PivaT6QyDI3kbOCaD1oG9Yty9rcfwVTQHbLl50ZPoNocVzz
-         TVGNQ/E9hq03XcuPSh8nuq3BIdd/669ALrDI6M10YDQdlCYGs2p8mY4CxK31uNrRMh
-         bWDNaSv2m7ldzwgNkB6KRzt1j+EgINlbRljpFRYOg1hrM1KR8i8Qxr7tXLIbY2Xal8
-         TPqgR+Mby1Zsw==
-Message-ID: <77cd6879b4fcf4d75d2be0af88afe4d4@smtp-cloud7.xs4all.net>
-Date:   Sat, 22 Aug 2020 05:39:32 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfKuwLVahzbSLupM5cH0ji52PS9ucOHL08c4pvtN761M3ywpKKyhQkI5UTDeyfNZI82U8/dRbEEUYaERMFHLjqy1silP/CDwrHr9/phKfEIglwZyVvzX/
- 2/Rm//To0LelXBvJmxRKAtE+KdRTd3oJWDqyz0Ww3e9xjuU+XKV9v5V++/C/kRtEcDZyyu/FjkCrgud6LPzQ+QgK02mBPvs+pXdTiFdxHzr/2nxoDC+m5MB4
+        Sat, 22 Aug 2020 07:12:35 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16E6C061573
+        for <linux-media@vger.kernel.org>; Sat, 22 Aug 2020 04:12:34 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id c15so2144469lfi.3
+        for <linux-media@vger.kernel.org>; Sat, 22 Aug 2020 04:12:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=5zSnjb9Zspl6g/pM1KANeTl5vYUfq5H+Gyn3XaXjKMg=;
+        b=q8/VAeK8ZzC6P2eudvht7Q0u5Htwz1gQdnyzQBl/+TuRJuIgtWrYwMPQr1JpgRhRzz
+         Z9tdlBX3fO6l51YiT5vxvqDE51wffPxCgIhH/YA3a09bjbgXq0J7wJ1TZHk4vlt721jI
+         ZoKwpPG09A2xaDgg0Pnd90F8iDgRfdq8H6MUEDjBqy6I+5i1gq+rLxuY3uf2u4NxsiWv
+         PIHpWwWtMyI2QHIh+kRlIIUWdSy74+xcjUYHWBUwS4Ym96KT+ysSTCWGVRW46TRjI72z
+         ahjrsdiUuJip8Tg554H86suRhvW67qU7onNDjVRXCX9woMseN1vFcHgeCICGSIQh1KNT
+         Augg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=5zSnjb9Zspl6g/pM1KANeTl5vYUfq5H+Gyn3XaXjKMg=;
+        b=nUmfhRHbV7k0LWOOK5dLw5o30KycUxIH8dHDiWuAbY+ylPhgN41uE9LpvkcklruKCo
+         UMCWacEoW20E6x4FlxPg+IKBFhJpNm3nTkyp63lTIu8rreCabqB5B5iQh2NLd3ib2G0g
+         p5XWZD1tgjbj1R/oY46zr4EKMWnU0vBYKnUuumsMn7Y+8HE+9trMCrPpTKa+qtR4WEXM
+         Nnsfhelz/qiSP62JvrfwYRiM4B3kZ39wCcuABcCQk0SRAQAoaJyN1jrnt1CysV2IHm9b
+         HFnmoYmuOjppZNN4OABtCgmFve1nnE8fexzje3BOuHbKuPTlVdAI5/UcGIas87KSQozC
+         iB9g==
+X-Gm-Message-State: AOAM530BArOIqxbvarUvpn3cjxnV0ZK7IHdjwkJjlbd7r7yOd5hjGcNn
+        Qb2/v3t0o+n1hwg0OiVaTvCSEA4iMCiodN9Eewk=
+X-Google-Smtp-Source: ABdhPJyQFMwkUJu0UweaYOv57K7lPreUQocI/ioS59KE6oyAXxvBpXVmjC0DhN22EsrIjoztcIN1pPl9nPxiwyTyj5I=
+X-Received: by 2002:a05:6512:14d:: with SMTP id m13mr3352391lfo.173.1598094749250;
+ Sat, 22 Aug 2020 04:12:29 -0700 (PDT)
+MIME-Version: 1.0
+Reply-To: mr_mohammadahmed62@yahoo.com
+Received: by 2002:a2e:3005:0:0:0:0:0 with HTTP; Sat, 22 Aug 2020 04:12:28
+ -0700 (PDT)
+From:   Mohamad Ahmed <mohammad.ahmed17177@gmail.com>
+Date:   Sat, 22 Aug 2020 04:12:28 -0700
+X-Google-Sender-Auth: 5q7GHCSEeps82aE6nB86gPAzG4A
+Message-ID: <CA+q4Cch98b54iwySrFS=fFFfZtfVamFTz0rnohtFynmUfEYDjA@mail.gmail.com>
+Subject: GREETINGS FROM MR.MOHAMMAD AHMED / CAN I TRUST YOU?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+My Dear Friend
 
-Results of the daily build of media_tree:
+Greetings.
 
-date:			Sat Aug 22 05:00:12 CEST 2020
-media-tree git hash:	9a538b83612c8b5848bf840c2ddcd86dda1c8c76
-media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
-v4l-utils git hash:	89f66ef308e16a51090cf5682e74c6f4130a024d
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6784-g0b1e8107
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+I know this message will come to you as a surprise; My name is Mr.
+Mohammad Ahmed a banker with Bank of Africa Burkina Faso West Africa,
+Please i want to transfer an abandoned fund in total sum of 13.5
+Million United States Dollars into your account and if you are
+interested do not hesitate to get back to me with your personal
+information for trust and confident to enable me feed you with more
+detail such as to let you know source of the fund and how it will be
+transfer into your account.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8.1-i686: OK
-linux-5.8.1-x86_64: OK
-linux-5.9-rc1-i686: OK
-linux-5.9-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: OK
-smatch: ERRORS
+My dear you will provide account for transfer of the fund in your
+favor by our bank management and once the fund transferred into your
+account 50% is for you and 50% for me and do not entertain any atom
+for fear for the transaction will be done legal and official without
+any problem.
 
-Detailed results are available here:
+The transaction is risk free and there will be no harm, I will like
+you to respond back to me immediately after reading this message to
+enable us proceed ahead for mutual benefit.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+I know the source of the fund and I assure you of receiving it into
+your account without any problem, My dear read this message and if we
+have business urgently get back to me with your personal information
+required bellow for more details on how the transaction will be
+executed.
 
-Detailed regression test results are available here:
+I am looking forward to hear back from you urgently and feel free to
+ask question or whatever you care to know about the business and I
+will not hesitate to clarify you to your own understanding to enable
+us proceed for transfer of the fund into your account.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+I will to have your personal info listed bellow for more trust and confident.
 
-Full logs are available here:
+1. Full name:.........
+2. Home Address:.........
+3. Phone.............
+4. Occupation:.............
+5. Age:............
+6. Country:........
+7. Sex........
+8. Your Passport or ID card or Driving License
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+Thanks.
 
-The Media Infrastructure API from this daily build is here:
+Yours faithfully
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Mr. Mohammad Ahmed.
