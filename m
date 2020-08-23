@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29AB724EFE1
-	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 23:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27E4924EFEC
+	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 23:42:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbgHWVeT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Aug 2020 17:34:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45390 "EHLO
+        id S1726832AbgHWVmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Aug 2020 17:42:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726257AbgHWVeQ (ORCPT
+        with ESMTP id S1725995AbgHWVmI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Aug 2020 17:34:16 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D740C061573;
-        Sun, 23 Aug 2020 14:34:16 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id i10so7441382ljn.2;
-        Sun, 23 Aug 2020 14:34:16 -0700 (PDT)
+        Sun, 23 Aug 2020 17:42:08 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFFE4C061573;
+        Sun, 23 Aug 2020 14:42:07 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id 145so551565lfi.8;
+        Sun, 23 Aug 2020 14:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=n2F2FGRAOF++9VTPEPAqlvQHDhX4O80c4ILV6HoVEkg=;
-        b=nBGUO2+CzS+eIedJYh0adgzGTCDK+DiYn+T1RWXwfVtA2TPyYsqs5oPkwJ5G6odtcA
-         5+zRzZJcb6dh2zSNNYBhTZxQ2YWy8Qb/LmpKPWnd8BRTPrxglvI0lrfrLeUqAMQnF4Lv
-         jUc3pDjYPCyq6k5mHgnYpKhff2MyMHxmWsvf6cLws+OTw+1JIA2CMEHDk2b29JjHp8ek
-         dOriBvpV8Rr0Q71D4TeYyrYtbb0BGJKZ0rLDya+EH5FPsx6rOHVCB3m5SXVxFxIfqDoo
-         A+3QOEhgqi7Gox6wqxUqQ/PGrXaMSN82Z4X89LoCSBJNkOtDhqjPg95Csr2lyf66RTAC
-         xMqg==
+        bh=wc4iGC6lUOkdFB1yl61K549g5r3SOsu5JHxiruFQCrg=;
+        b=Bi3p+Cp3Oib9xYvfFtUZm0Uf4rS7f9RNyKsd3tWxxONpQQc3PTzptgnmmrY8S6kGoN
+         MOvAz8xOUY9ngcOmmuv32FeGCODgI3+OG2C1ZfXRwC80bdmDQFHZhV0g8e/8gqYcSkMK
+         VnOoZTXbShIC6Bch87KRpZNeDTivaN6dRe3bl07uV2weQcOSTlnP8PSnJSpTAz6UwHXh
+         jfkfJtWP6VTM0IVwVX0tTJylC0DIYkRTaV1fnQyEsy7T5f3ySgDBw7pvJhI1XA7xov8H
+         aaOCGtjqie8LdeYqkGUwj5n+Z1y9yL6cENlISNUIdyKKFk/8rZaF0QyYzMRltPEBVOw0
+         WQqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=n2F2FGRAOF++9VTPEPAqlvQHDhX4O80c4ILV6HoVEkg=;
-        b=b6x/YT7njZ9ruqmsIF19K4G5QPjXy0d+fTjt7e8phRp+dPm31by6KVusLQJeXwl8jW
-         vS0QpXjVz/EGqdkFKDHcxu1Exu3aZjrkcmimix62GRLHFf9HHqgTVSxCDbfTwQeElXNl
-         Iab9vO0IZPAGMosJakrim6BvkWra+OOjwa2C4lr4sru5XfkQUIitatgxXqc8hsTMKXkz
-         Deo8HhXWo63/p6LYftXEOqlVir/Z+qV9n1YhxhlRy7gjXmyAbFxM79laabtXy4KDQf7K
-         3AWlSvlyzG1Ddj42bvDCHdVsc5TZVqdUfXzQyA1KKlidS2+uZT8//ITTLM9Y3GM+O5+4
-         Ckhg==
-X-Gm-Message-State: AOAM5339A6LoeHpgPQpLH8w0S+3H4f8oMsDxomXbdLYIgBNz+kUirIAC
-        GmzvLLMsSM6ZoKPC91qbDkqgbmJLmGs=
-X-Google-Smtp-Source: ABdhPJyGaoIhdc9oGCyfDdmoZ4N9IK/jexb/zrdCS7oGtDaEk9ZhXkPkOIEioXN5U2D5nTEitFcv4A==
-X-Received: by 2002:a05:651c:8f:: with SMTP id 15mr1122855ljq.53.1598218454018;
-        Sun, 23 Aug 2020 14:34:14 -0700 (PDT)
+        bh=wc4iGC6lUOkdFB1yl61K549g5r3SOsu5JHxiruFQCrg=;
+        b=jd3Vih/FsjJhqubomzZZG87XosGkGn8YTp7d1WD+lscweSinc4Z8WoPThpQOpxmfdA
+         K2BzfICAhxTFIYxsJ2tMGPN8GSuD2HujHjB0NmnUW6fDJnRwfW5i/GZGyIOllWkMJAZb
+         s5Ae1wiSIYViSv/BG2nuLCe4M0VoARGymNEZ1C14kP64XfX5lWJfvtF/Enhl8zlq61Zr
+         ir4cFp958112iym8s1jgJPzofVgnLl89Fm7qrMzbmOixX5NZx+Ynw/qT4K6ZeO7UExDb
+         QY172l9qGp1W3AcVg8NRUfMyJx61CvsTag1kWG1JjAsCBMy1RAP9aVyi874k8x0wrSN3
+         ufnA==
+X-Gm-Message-State: AOAM531gNIji4+LPCakX2stA4t4QDkyH64iX3mlaamKx/+ksN+jZgdn1
+        fwHGRTr66eG9/Aw1pTVjkfmEEpIJsco=
+X-Google-Smtp-Source: ABdhPJzBkQVyR54HEK+tqk6nv9UaSdmG4fAbLjgLYrMh+ECOQvZhJQPh8Uzu3899cmc9YqmRioxiNg==
+X-Received: by 2002:a19:4ace:: with SMTP id x197mr1185909lfa.70.1598218924740;
+        Sun, 23 Aug 2020 14:42:04 -0700 (PDT)
 Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id f18sm395343lfa.54.2020.08.23.14.34.12
+        by smtp.googlemail.com with ESMTPSA id w8sm1807687ljm.48.2020.08.23.14.42.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Aug 2020 14:34:13 -0700 (PDT)
-Subject: Re: [PATCH 16/18] staging/media/tegra-vde: Clean up IOMMU workaround
+        Sun, 23 Aug 2020 14:42:03 -0700 (PDT)
+Subject: Re: [PATCH 12/18] iommu/tegra-gart: Add IOMMU_DOMAIN_DMA support
 To:     Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
         linux@armlinux.org.uk
 Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
@@ -66,16 +66,16 @@ Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
         dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <cover.1597931875.git.robin.murphy@arm.com>
- <3535c205b9bce52556abbf2f63384fb38e009df9.1597931876.git.robin.murphy@arm.com>
- <07135a55-cbc9-83e5-60dc-731282192554@gmail.com>
- <cb12808b-7316-19db-7413-b7f852a6f8ae@arm.com>
+ <516b33118d489e56499ff8c64c019709b744110c.1597931876.git.robin.murphy@arm.com>
+ <081f7532-9ca0-0af3-35a1-cbaba0782237@gmail.com>
+ <3a132bb0-f2e6-6f8d-6d0c-bc925dd23f06@arm.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <62a72187-442b-2103-46c3-39d3cd999f54@gmail.com>
-Date:   Mon, 24 Aug 2020 00:34:10 +0300
+Message-ID: <ceccd3d1-2510-c289-c063-681ae005da85@gmail.com>
+Date:   Mon, 24 Aug 2020 00:42:02 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <cb12808b-7316-19db-7413-b7f852a6f8ae@arm.com>
+In-Reply-To: <3a132bb0-f2e6-6f8d-6d0c-bc925dd23f06@arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -84,107 +84,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-21.08.2020 03:11, Robin Murphy пишет:
+21.08.2020 03:28, Robin Murphy пишет:
 ...
->> Hello, Robin! Thank you for yours work!
->>
->> Some drivers, like this Tegra VDE (Video Decoder Engine) driver for
->> example, do not want to use implicit IOMMU domain.
+>> Will a returned NULL tell to IOMMU core that implicit domain shouldn't
+>> be used? Is it possible to leave this driver as-is?
 > 
-> That isn't (intentionally) changing here - the only difference should be
-> that instead of having the ARM-special implicit domain, which you have
-> to kick out of the way with the ARM-specific API before you're able to
-> attach your own domain, the implicit domain is now a proper IOMMU API
-> default domain, which automatically gets bumped by your attach. The
-> default domains should still only be created in the same cases that the
-> ARM dma_iommu_mappings were.
+> The aim of this patch was just to make the conversion without functional
+> changes wherever possible, i.e. maintain an equivalent to the existing
+> ARM behaviour of allocating its own implicit domains for everything. It
+> doesn't represent any judgement of whether that was ever appropriate for
+> this driver in the first place ;)
 > 
->> Tegra VDE driver
->> relies on explicit IOMMU domain in a case of Tegra SMMU because VDE
->> hardware can't access last page of the AS and because driver wants to
->> reserve some fixed addresses [1].
->>
->> [1]
->> https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/staging/media/tegra-vde/iommu.c#L100
->>
->>
->> Tegra30 SoC supports up to 4 domains, hence it's not possible to afford
->> wasting unused implicit domains. I think this needs to be addressed
->> before this patch could be applied.
-> 
-> Yeah, there is one subtle change in behaviour from removing the ARM
-> layer on top of the core API, in that the IOMMU driver will no longer
-> see an explicit detach call. Thus it does stand to benefit from being a
-> bit cleverer about noticing devices being moved from one domain to
-> another by an attach call, either by releasing the hardware context for
-> the inactive domain once the device(s) are moved across to the new one,
-> or by simply reprogramming the hardware context in-place for the new
-> domain's address space without allocating a new one at all (most of the
-> drivers that don't have multiple contexts already handle the latter
-> approach quite well).
-> 
->> Would it be possible for IOMMU drivers to gain support for filtering out
->> devices in iommu_domain_alloc(dev, type)? Then perhaps Tegra SMMU driver
->> could simply return NULL in a case of type=IOMMU_DOMAIN_DMA and
->> dev=tegra-vde.
-> 
-> If you can implement IOMMU_DOMAIN_IDENTITY by allowing the relevant
-> devices to bypass translation entirely without needing a hardware
-> context (or at worst, can spare one context which all identity-mapped
-> logical domains can share), then you could certainly do that kind of
-> filtering with the .def_domain_type callback if you really wanted to. As
-> above, the intent is that that shouldn't be necessary for this
-> particular case, since only one of a group's default domain and
-> explicitly attached domain can be live at any given time, so the driver
-> should be able to take advantage of that.
-> 
-> If you simply have more active devices (groups) than available contexts
-> then yes, you probably would want to do some filtering to decide who
-> deserves a translation domain and who doesn't, but in that case you
-> should already have had a long-standing problem with the ARM implicit
-> domains.
-> 
->> Alternatively, the Tegra SMMU could be changed such that the devices
->> will be attached to a domain at the time of a first IOMMU mapping
->> invocation instead of attaching at the time of attach_dev() callback
->> invocation.
->>
->> Or maybe even IOMMU core could be changed to attach devices at the time
->> of the first IOMMU mapping invocation? This could be a universal
->> solution for all drivers.
-> 
-> I suppose technically you could do that within an IOMMU driver already
-> (similar to how some defer most of setup that logically belongs to
-> ->domain_alloc until the first ->attach_dev). It's a bit grim from the
-> caller's PoV though, in terms of the failure mode being non-obvious and
-> having no real way to recover. Again, you'd be better off simply making
-> decisions up-front at domain_alloc or attach time based on the domain type.
+> Hopefully my other reply already covered the degree of control drivers
+> can have with proper default domains, but do shout if anything wasn't
+> clear.
 
-Robin, thank you very much for the clarifications!
+Thank you for the detailed comments! I wasn't watching closely all the
+recent iommu/ changes and yours clarification is very helpful!
 
-In accordance to yours comments, this patch can't be applied until Tegra
-SMMU will support IOMMU_DOMAIN_IDENTITY and implement def_domain_type()
-callback that returns IOMMU_DOMAIN_IDENTITY for the VDE device.
+My current understanding is that the GART driver will need to support
+the IOMMU_DOMAIN_IDENTITY and set def_domain_type to
+IOMMU_DOMAIN_IDENTITY for all devices.
 
-Otherwise you're breaking the VDE driver because
-dma_buf_map_attachment() [1] returns the IOMMU SGT of the implicit
-domain which is then mapped into the VDE's explicit domain [2], and this
-is a nonsense.
-
-[1]
-https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/staging/media/tegra-vde/dmabuf-cache.c#L102
-
-[2]
-https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/staging/media/tegra-vde/dmabuf-cache.c#L122
-
-Hence, either VDE driver should bypass iommu_dma_ops from the start or
-it needs a way to kick out the ops, like it does this using ARM's
-arm_iommu_detach_device().
-
-
-The same applies to the Tegra GPU devices, otherwise you're breaking
-them as well because Tegra DRM is sensible to implicit vs explicit domain.
-
-
-BTW, I tried to apply this series and T30 doesn't boot anymore. I don't
-have more info for now.
+Meanwhile, today's upstream drivers don't use GART, hence this patch
+should be okay. Although, it's a bit unlikely that the IOMMU_DOMAIN_DMA
+type will ever be useful for the GART, and thus, I'm still thinking that
+will be a bit nicer to keep GART driver as-is for now.
