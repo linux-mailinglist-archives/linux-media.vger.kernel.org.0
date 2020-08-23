@@ -2,78 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D99624EF26
-	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 20:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B24A824EFA8
+	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 22:05:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726008AbgHWSNg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Aug 2020 14:13:36 -0400
-Received: from smtprelay0245.hostedemail.com ([216.40.44.245]:37118 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725867AbgHWSNg (ORCPT
+        id S1726737AbgHWUFm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Aug 2020 16:05:42 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6646 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbgHWUFm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Aug 2020 14:13:36 -0400
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave01.hostedemail.com (Postfix) with ESMTP id 5721F18014950;
-        Sun, 23 Aug 2020 18:13:34 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 73430182CED2A;
-        Sun, 23 Aug 2020 18:13:33 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:800:960:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2525:2560:2563:2682:2685:2828:2859:2900:2904:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3865:3866:3867:3868:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:5007:8985:9025:10004:10400:10848:11026:11232:11473:11657:11658:11914:12043:12297:12438:12555:12760:12895:12986:13069:13161:13229:13311:13357:13439:14096:14097:14181:14659:14721:21080:21627:30054:30075,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: idea45_11162582704c
-X-Filterd-Recvd-Size: 1957
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf18.hostedemail.com (Postfix) with ESMTPA;
-        Sun, 23 Aug 2020 18:13:32 +0000 (UTC)
-Message-ID: <e6cd92faf09722fe729a7de03e7bde592f62499c.camel@perches.com>
-Subject: [likely PATCH] media: lmedm04: Fix misuse of comma
-From:   Joe Perches <joe@perches.com>
-To:     Malcolm Priestley <tvboxspy@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Julia Lawall <julia.lawall@lip6.fr>
-Date:   Sun, 23 Aug 2020 11:13:31 -0700
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Sun, 23 Aug 2020 16:05:42 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f42cbd80000>; Sun, 23 Aug 2020 13:04:40 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sun, 23 Aug 2020 13:05:41 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Sun, 23 Aug 2020 13:05:41 -0700
+Received: from [10.2.52.145] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 23 Aug
+ 2020 20:05:34 +0000
+Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Brian Starkey <brian.starkey@arm.com>
+CC:     <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        "Sumit Semwal" <sumit.semwal@linaro.org>,
+        "Andrew F . Davis" <afd@ti.com>,
+        "Benjamin Gaignard" <benjamin.gaignard@st.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        "Laura Abbott" <labbott@kernel.org>,
+        John Stultz <john.stultz@linaro.org>,
+        "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+        Daniel Stone <daniels@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Robert Beckett <bob.beckett@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>, <kernel@collabora.com>,
+        <nd@arm.com>
+References: <20200816172246.69146-1-ezequiel@collabora.com>
+ <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
+ <c2450755-91fd-da72-bf1e-c015ad9d6b25@nvidia.com>
+ <746a0bb75bd8388a30b53a5ddc56fb24aea308a8.camel@collabora.com>
+From:   James Jones <jajones@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <4f987e06-7af1-671b-836a-10d3e9623547@nvidia.com>
+Date:   Sun, 23 Aug 2020 13:04:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <746a0bb75bd8388a30b53a5ddc56fb24aea308a8.camel@collabora.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1598213081; bh=5pEzn13QiMIX8L39EgxTkAwhyB4PlbqROzdyj4lEnDg=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=sBsMEyZRa9yhgcTl58ozTZDo1KR/wFiD5SuigXnn1Xiyecdv4Yu2J/3KFeZTe/hYi
+         dTNN9fwbaHEDK7ezDbZ0FxDaxg7NDCYZc8Uv9qpvYj6FQLgXlMIzLjHE40U2EjRJCB
+         0h4aVSorzDt4+ag2FiPLxc+7vLuZVwyYQ07wzP3756uRQZonEl4DQOIVGESLgeI4qC
+         tU1oDuiWM4cel+IU9oZOzHGgr7UGnjH6qoGWTfp2H/7aFbZC8TPXUvv1mBl1kZtv8I
+         J5G0r81LrKBaJzhl0fMCPOPrRL8il8MOeoQ681KmBmyturTwH1PNecxsOe6umz1wF+
+         mfwVO2Yh/pc0Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's a comma used instead of a semicolon that causes multiple
-statements to be executed after an if instead of just the intended
-single statement.
+On 8/20/20 1:15 AM, Ezequiel Garcia wrote:
+> On Mon, 2020-08-17 at 20:49 -0700, James Jones wrote:
+>> On 8/17/20 8:18 AM, Brian Starkey wrote:
+>>> Hi Ezequiel,
+>>>
+>>> On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
+>>>> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
+>>>> which will allocate memory suitable for the given device.
+>>>>
+>>>> The implementation is mostly a port of the Contiguous Videobuf2
+>>>> memory allocator (see videobuf2/videobuf2-dma-contig.c)
+>>>> over to the DMA-BUF Heap interface.
+>>>>
+>>>> The intention of this allocator is to provide applications
+>>>> with a more system-agnostic API: the only thing the application
+>>>> needs to know is which device to get the buffer for.
+>>>>
+>>>> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
+>>>> is unknown to the application.
+>>>>
+>>>> I'm not really expecting this patch to be correct or even
+>>>> a good idea, but just submitting it to start a discussion on DMA-BUF
+>>>> heap discovery and negotiation.
+>>>>
+>>>
+>>> My initial reaction is that I thought dmabuf heaps are meant for use
+>>> to allocate buffers for sharing across devices, which doesn't fit very
+>>> well with having per-device heaps.
+>>>
+>>> For single-device allocations, would using the buffer allocation
+>>> functionality of that device's native API be better in most
+>>> cases? (Some other possibly relevant discussion at [1])
+>>>
+>>> I can see that this can save some boilerplate for devices that want
+>>> to expose private chunks of memory, but might it also lead to 100
+>>> aliases for the system's generic coherent memory pool?
+>>>
+>>> I wonder if a set of helpers to allow devices to expose whatever they
+>>> want with minimal effort would be better.
+>>
+>> I'm rather interested on where this goes, as I was toying with using
+>> some sort of heap ID as a basis for a "device-local" constraint in the
+>> memory constraints proposals Simon and I will be discussing at XDC this
+>> year.  It would be rather elegant if there was one type of heap ID used
+>> universally throughout the kernel that could provide a unique handle for
+>> the shared system memory heap(s), as well as accelerator-local heaps on
+>> fancy NICs, GPUs, NN accelerators, capture devices, etc. so apps could
+>> negotiate a location among themselves.  This patch seems to be a step
+>> towards that in a way, but I agree it would be counterproductive if a
+>> bunch of devices that were using the same underlying system memory ended
+>> up each getting their own heap ID just because they used some SW
+>> framework that worked that way.
+>>
+>> Would appreciate it if you could send along a pointer to your BoF if it
+>> happens!
+>>
+> 
+> Here is it:
+> 
+> https://linuxplumbersconf.org/event/7/contributions/818/
+> 
+> It would be great to see you there and discuss this,
+> given I was hoping we could talk about how to meet a
+> userspace allocator library expectations as well.
 
-Replace the comma with a semicolon.
+Thanks!  I hadn't registered for LPC and it looks like it's sold out, 
+but I'll try to watch the live stream.
 
-Signed-off-by: Joe Perches <joe@perches.com>
----
+This is very interesting, in that it looks like we're both trying to 
+solve roughly the same set of problems but approaching it from different 
+angles.  From what I gather, your approach is that a "heap" encompasses 
+all the allocation constraints a device may have.
 
-Untested, but really likely to be a defect given the indentation.
+The approach Simon Ser and I are tossing around so far is somewhat 
+different, but may potentially leverage dma-buf heaps a bit as well.
 
-Found using Julia Lawall's (and my) coccinelle script.
+Our approach looks more like what I described at XDC a few years ago, 
+where memory constraints for a given device's usage of an image are 
+exposed up to applications, which can then somehow perform boolean 
+intersection/union operations on them to arrive at a common set of 
+constraints that describe something compatible with all the devices & 
+usages desired (or fail to do so, and fall back to copying things around 
+presumably).  I believe this is more flexible than your initial proposal 
+in that devices often support multiple usages (E.g., different formats, 
+different proprietary layouts represented by format modifiers, etc.), 
+and it avoids adding a combinatorial number of heaps to manage that.
 
-https://lore.kernel.org/lkml/alpine.DEB.2.22.394.2008201856110.2524@hadrien/
+In my view, heaps are more like blobs of memory that can be allocated 
+from in various different ways to satisfy constraints.  I realize heaps 
+mean something specific in the dma-buf heap design (specifically, 
+something closer to an association between an "allocation mechanism" and 
+"physical memory"), but I hope we don't have massive heap/allocator 
+mechanism proliferation due to constraints alone.  Perhaps some 
+constraints, such as contiguous memory or device-local memory, are 
+properly expressed as a specific heap, but consider the proliferation 
+implied by even that simple pair of examples: How do you express 
+contiguous device-local memory?  Do you need to spawn two heaps on the 
+underlying device-local memory, one for contiguous allocations and one 
+for non-contiguous allocations?  Seems excessive.
 
- drivers/media/usb/dvb-usb-v2/lmedm04.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Of course, our approach also has downsides and is still being worked on. 
+  For example, it works best in an ideal world where all the allocators 
+available understand all the constraints that exist.  Dealing with a 
+reality where there are probably a handful of allocators, another 
+handful of userspace libraries and APIs, and still more applications 
+trying to make use of all this is one of the larger remaining challenges 
+of the design.
 
-diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-index 8a3c0eeed959..cce431f34f61 100644
---- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
-+++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-@@ -391,7 +391,7 @@ static int lme2510_int_read(struct dvb_usb_adapter *adap)
- 	ep = usb_pipe_endpoint(d->udev, lme_int->lme_urb->pipe);
- 
- 	if (usb_endpoint_type(&ep->desc) == USB_ENDPOINT_XFER_BULK)
--		lme_int->lme_urb->pipe = usb_rcvbulkpipe(d->udev, 0xa),
-+		lme_int->lme_urb->pipe = usb_rcvbulkpipe(d->udev, 0xa);
- 
- 	usb_submit_urb(lme_int->lme_urb, GFP_ATOMIC);
- 	info("INT Interrupt Service Started");
+We'll present our work at XDC 2020.  Hope you can check that out as well!
 
+Thanks,
+-James
 
+> Thanks,
+> Ezequiel
+> 
+>> Thanks,
+>> -James
+>>
+>>> Cheers,
+>>> -Brian
+>>>
+>>> 1. https://lore.kernel.org/dri-devel/57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi/
+>>>
+>>>> Given Plumbers is just a couple weeks from now, I've submitted
+>>>> a BoF proposal to discuss this, as perhaps it would make
+>>>> sense to discuss this live?
+>>>>
+>>>> Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> 
+> 
