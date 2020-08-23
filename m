@@ -2,111 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27E4924EFEC
-	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 23:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D8E24F04A
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 00:34:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbgHWVmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Aug 2020 17:42:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46602 "EHLO
+        id S1726480AbgHWWeC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Aug 2020 18:34:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbgHWVmI (ORCPT
+        with ESMTP id S1726215AbgHWWeC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Aug 2020 17:42:08 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFFE4C061573;
-        Sun, 23 Aug 2020 14:42:07 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id 145so551565lfi.8;
-        Sun, 23 Aug 2020 14:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wc4iGC6lUOkdFB1yl61K549g5r3SOsu5JHxiruFQCrg=;
-        b=Bi3p+Cp3Oib9xYvfFtUZm0Uf4rS7f9RNyKsd3tWxxONpQQc3PTzptgnmmrY8S6kGoN
-         MOvAz8xOUY9ngcOmmuv32FeGCODgI3+OG2C1ZfXRwC80bdmDQFHZhV0g8e/8gqYcSkMK
-         VnOoZTXbShIC6Bch87KRpZNeDTivaN6dRe3bl07uV2weQcOSTlnP8PSnJSpTAz6UwHXh
-         jfkfJtWP6VTM0IVwVX0tTJylC0DIYkRTaV1fnQyEsy7T5f3ySgDBw7pvJhI1XA7xov8H
-         aaOCGtjqie8LdeYqkGUwj5n+Z1y9yL6cENlISNUIdyKKFk/8rZaF0QyYzMRltPEBVOw0
-         WQqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=wc4iGC6lUOkdFB1yl61K549g5r3SOsu5JHxiruFQCrg=;
-        b=jd3Vih/FsjJhqubomzZZG87XosGkGn8YTp7d1WD+lscweSinc4Z8WoPThpQOpxmfdA
-         K2BzfICAhxTFIYxsJ2tMGPN8GSuD2HujHjB0NmnUW6fDJnRwfW5i/GZGyIOllWkMJAZb
-         s5Ae1wiSIYViSv/BG2nuLCe4M0VoARGymNEZ1C14kP64XfX5lWJfvtF/Enhl8zlq61Zr
-         ir4cFp958112iym8s1jgJPzofVgnLl89Fm7qrMzbmOixX5NZx+Ynw/qT4K6ZeO7UExDb
-         QY172l9qGp1W3AcVg8NRUfMyJx61CvsTag1kWG1JjAsCBMy1RAP9aVyi874k8x0wrSN3
-         ufnA==
-X-Gm-Message-State: AOAM531gNIji4+LPCakX2stA4t4QDkyH64iX3mlaamKx/+ksN+jZgdn1
-        fwHGRTr66eG9/Aw1pTVjkfmEEpIJsco=
-X-Google-Smtp-Source: ABdhPJzBkQVyR54HEK+tqk6nv9UaSdmG4fAbLjgLYrMh+ECOQvZhJQPh8Uzu3899cmc9YqmRioxiNg==
-X-Received: by 2002:a19:4ace:: with SMTP id x197mr1185909lfa.70.1598218924740;
-        Sun, 23 Aug 2020 14:42:04 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id w8sm1807687ljm.48.2020.08.23.14.42.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Aug 2020 14:42:03 -0700 (PDT)
-Subject: Re: [PATCH 12/18] iommu/tegra-gart: Add IOMMU_DOMAIN_DMA support
-To:     Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
-        linux@armlinux.org.uk
-Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, m.szyprowski@samsung.com,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, vdumpa@nvidia.com,
-        matthias.bgg@gmail.com, yong.wu@mediatek.com,
-        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
-        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <516b33118d489e56499ff8c64c019709b744110c.1597931876.git.robin.murphy@arm.com>
- <081f7532-9ca0-0af3-35a1-cbaba0782237@gmail.com>
- <3a132bb0-f2e6-6f8d-6d0c-bc925dd23f06@arm.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ceccd3d1-2510-c289-c063-681ae005da85@gmail.com>
-Date:   Mon, 24 Aug 2020 00:42:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sun, 23 Aug 2020 18:34:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD87C061573
+        for <linux-media@vger.kernel.org>; Sun, 23 Aug 2020 15:34:01 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E24D0279;
+        Mon, 24 Aug 2020 00:33:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1598222038;
+        bh=4deCmcEyxLvyfvj2p05UFCDB9diVY7F23wTOV/xhy/A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GI/UjTeCiFUS5Z1zAB89rAIOAdOKJ4D0iMKZ2fwdss23W5duIP7etaYIYTztCC1Si
+         ux0t3wQ/xJAHIFWULe4VQ/i1pUP8ohp8QZ31DQyLRIqLKOlL4b4pPOraQ34g9GuYAm
+         s1L6VYN4QKbbMwYthmnx3V+hVHtn+UaNwA+676w0=
+Date:   Mon, 24 Aug 2020 01:33:39 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Andrew Murray <amurray@thegoodpenguin.co.uk>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Add bandwidth_cap module param
+Message-ID: <20200823223339.GI6002@pendragon.ideasonboard.com>
+References: <20200821220038.16420-1-amurray@thegoodpenguin.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <3a132bb0-f2e6-6f8d-6d0c-bc925dd23f06@arm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20200821220038.16420-1-amurray@thegoodpenguin.co.uk>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-21.08.2020 03:28, Robin Murphy пишет:
-...
->> Will a returned NULL tell to IOMMU core that implicit domain shouldn't
->> be used? Is it possible to leave this driver as-is?
+Hi Andrew,
+
+Thank you for the patch.
+
+On Fri, Aug 21, 2020 at 11:00:38PM +0100, Andrew Murray wrote:
+> Many UVC devices report larger values for dwMaxPayloadTransferSize than
+> appear to be required. This results in less bandwidth available for
+> other devices.
 > 
-> The aim of this patch was just to make the conversion without functional
-> changes wherever possible, i.e. maintain an equivalent to the existing
-> ARM behaviour of allocating its own implicit domains for everything. It
-> doesn't represent any judgement of whether that was ever appropriate for
-> this driver in the first place ;)
+> This problem is commonly observed when attempting to stream from multiple
+> UVC cameras with the host controller returning -ENOSPC and sometimes a
+> warning (XHCI controllers: "Not enough bandwidth for new device state.").
 > 
-> Hopefully my other reply already covered the degree of control drivers
-> can have with proper default domains, but do shout if anything wasn't
-> clear.
+> For uncompressed video, the UVC_QUIRK_FIX_BANDWIDTH works around this issue
+> by overriding the device provided dwMaxPayloadTransferSize with a
+> calculation of the actual bandwidth requirements from the requested frame
+> size and rate. However for compressed video formats it's not practical to
+> estimate the bandwidth required as the kernel doesn't have enough
+> information.
+> 
+> Let's provide a pragmatic solution by allowing the user to impose an upper
+> threshold to the amount of bandwidth each UVC device can reserve. If the
+> parameter isn't used then no threshold is imposed.
 
-Thank you for the detailed comments! I wasn't watching closely all the
-recent iommu/ changes and yours clarification is very helpful!
+Hmmmm... This is a bit annoying as it will apply equally to all formats
+and all cameras. It may solve a real issue, but it's quite a bit of a
+hack. I'm also concerned that users will be confused regarding how to
+use this parameter properly, as there's no documentation that explains
+its usage, and how to pick a proper value. Is there any way we could do
+better ?
 
-My current understanding is that the GART driver will need to support
-the IOMMU_DOMAIN_IDENTITY and set def_domain_type to
-IOMMU_DOMAIN_IDENTITY for all devices.
+> Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 3 +++
+>  drivers/media/usb/uvc/uvc_video.c  | 8 ++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   | 1 +
+>  3 files changed, 12 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 431d86e1c94b..d5ecac7fc264 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -33,6 +33,7 @@ unsigned int uvc_no_drop_param;
+>  static unsigned int uvc_quirks_param = -1;
+>  unsigned int uvc_trace_param;
+>  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
+> +unsigned int uvc_bandwidth_cap_param;
+>  
+>  /* ------------------------------------------------------------------------
+>   * Video formats
+> @@ -2389,6 +2390,8 @@ module_param_named(trace, uvc_trace_param, uint, S_IRUGO|S_IWUSR);
+>  MODULE_PARM_DESC(trace, "Trace level bitmask");
+>  module_param_named(timeout, uvc_timeout_param, uint, S_IRUGO|S_IWUSR);
+>  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
+> +module_param_named(bandwidth_cap, uvc_bandwidth_cap_param, uint, S_IRUGO|S_IWUSR);
+> +MODULE_PARM_DESC(bandwidth_cap, "Maximum bandwidth per device");
+>  
+>  /* ------------------------------------------------------------------------
+>   * Driver initialization and cleanup
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index a65d5353a441..74a0dc0614cf 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -196,6 +196,14 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>  
+>  		ctrl->dwMaxPayloadTransferSize = bandwidth;
+>  	}
+> +
+> +	if (uvc_bandwidth_cap_param &&
+> +	    ctrl->dwMaxPayloadTransferSize > uvc_bandwidth_cap_param) {
+> +		uvc_trace(UVC_TRACE_VIDEO,
+> +			"Bandwidth capped from %u to %u B/frame.\n",
+> +			ctrl->dwMaxPayloadTransferSize, uvc_bandwidth_cap_param);
+> +		ctrl->dwMaxPayloadTransferSize = uvc_bandwidth_cap_param;
+> +	}
+>  }
+>  
+>  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 6ab972c643e3..c7d9220c9a7a 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -718,6 +718,7 @@ extern unsigned int uvc_no_drop_param;
+>  extern unsigned int uvc_trace_param;
+>  extern unsigned int uvc_timeout_param;
+>  extern unsigned int uvc_hw_timestamps_param;
+> +extern unsigned int uvc_bandwidth_cap_param;
+>  
+>  #define uvc_trace(flag, msg...) \
+>  	do { \
 
-Meanwhile, today's upstream drivers don't use GART, hence this patch
-should be okay. Although, it's a bit unlikely that the IOMMU_DOMAIN_DMA
-type will ever be useful for the GART, and thus, I'm still thinking that
-will be a bit nicer to keep GART driver as-is for now.
+-- 
+Regards,
+
+Laurent Pinchart
