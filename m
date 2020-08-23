@@ -2,188 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06BF424EFBA
-	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 22:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29AB724EFE1
+	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 23:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726753AbgHWUrI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Aug 2020 16:47:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38226 "EHLO
+        id S1726664AbgHWVeT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Aug 2020 17:34:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726483AbgHWUrG (ORCPT
+        with ESMTP id S1726257AbgHWVeQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Aug 2020 16:47:06 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119A5C061573
-        for <linux-media@vger.kernel.org>; Sun, 23 Aug 2020 13:47:06 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38D03279;
-        Sun, 23 Aug 2020 22:46:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1598215616;
-        bh=WvP0yqg0L5kb//Dkw4k/QQmIUOFIq8FpPn0gZ3czNuE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UhxFZiXjrPpXjNuGH0vliUDMWSmgt6Cu/iPnb442CPr3gaRyA97kTxvg7TTvx3eQ3
-         1VTfdnAAf0MNzg5C1zj0row+KWnHjigKlG6V4S+zvQDfS6E1n4K5VyAQjWF+SZepbL
-         7SX7Yji6klz9vf8JNJcx28IEoj+0AK5/gB06bE18=
-Date:   Sun, 23 Aug 2020 23:46:37 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     James Jones <jajones@nvidia.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Brian Starkey <brian.starkey@arm.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Andrew F . Davis" <afd@ti.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Stone <daniels@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        nd@arm.com
-Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
-Message-ID: <20200823204637.GF6002@pendragon.ideasonboard.com>
-References: <20200816172246.69146-1-ezequiel@collabora.com>
- <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
- <c2450755-91fd-da72-bf1e-c015ad9d6b25@nvidia.com>
- <746a0bb75bd8388a30b53a5ddc56fb24aea308a8.camel@collabora.com>
- <4f987e06-7af1-671b-836a-10d3e9623547@nvidia.com>
+        Sun, 23 Aug 2020 17:34:16 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D740C061573;
+        Sun, 23 Aug 2020 14:34:16 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id i10so7441382ljn.2;
+        Sun, 23 Aug 2020 14:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=n2F2FGRAOF++9VTPEPAqlvQHDhX4O80c4ILV6HoVEkg=;
+        b=nBGUO2+CzS+eIedJYh0adgzGTCDK+DiYn+T1RWXwfVtA2TPyYsqs5oPkwJ5G6odtcA
+         5+zRzZJcb6dh2zSNNYBhTZxQ2YWy8Qb/LmpKPWnd8BRTPrxglvI0lrfrLeUqAMQnF4Lv
+         jUc3pDjYPCyq6k5mHgnYpKhff2MyMHxmWsvf6cLws+OTw+1JIA2CMEHDk2b29JjHp8ek
+         dOriBvpV8Rr0Q71D4TeYyrYtbb0BGJKZ0rLDya+EH5FPsx6rOHVCB3m5SXVxFxIfqDoo
+         A+3QOEhgqi7Gox6wqxUqQ/PGrXaMSN82Z4X89LoCSBJNkOtDhqjPg95Csr2lyf66RTAC
+         xMqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=n2F2FGRAOF++9VTPEPAqlvQHDhX4O80c4ILV6HoVEkg=;
+        b=b6x/YT7njZ9ruqmsIF19K4G5QPjXy0d+fTjt7e8phRp+dPm31by6KVusLQJeXwl8jW
+         vS0QpXjVz/EGqdkFKDHcxu1Exu3aZjrkcmimix62GRLHFf9HHqgTVSxCDbfTwQeElXNl
+         Iab9vO0IZPAGMosJakrim6BvkWra+OOjwa2C4lr4sru5XfkQUIitatgxXqc8hsTMKXkz
+         Deo8HhXWo63/p6LYftXEOqlVir/Z+qV9n1YhxhlRy7gjXmyAbFxM79laabtXy4KDQf7K
+         3AWlSvlyzG1Ddj42bvDCHdVsc5TZVqdUfXzQyA1KKlidS2+uZT8//ITTLM9Y3GM+O5+4
+         Ckhg==
+X-Gm-Message-State: AOAM5339A6LoeHpgPQpLH8w0S+3H4f8oMsDxomXbdLYIgBNz+kUirIAC
+        GmzvLLMsSM6ZoKPC91qbDkqgbmJLmGs=
+X-Google-Smtp-Source: ABdhPJyGaoIhdc9oGCyfDdmoZ4N9IK/jexb/zrdCS7oGtDaEk9ZhXkPkOIEioXN5U2D5nTEitFcv4A==
+X-Received: by 2002:a05:651c:8f:: with SMTP id 15mr1122855ljq.53.1598218454018;
+        Sun, 23 Aug 2020 14:34:14 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id f18sm395343lfa.54.2020.08.23.14.34.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Aug 2020 14:34:13 -0700 (PDT)
+Subject: Re: [PATCH 16/18] staging/media/tegra-vde: Clean up IOMMU workaround
+To:     Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
+        linux@armlinux.org.uk
+Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, m.szyprowski@samsung.com,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, vdumpa@nvidia.com,
+        matthias.bgg@gmail.com, yong.wu@mediatek.com,
+        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
+        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1597931875.git.robin.murphy@arm.com>
+ <3535c205b9bce52556abbf2f63384fb38e009df9.1597931876.git.robin.murphy@arm.com>
+ <07135a55-cbc9-83e5-60dc-731282192554@gmail.com>
+ <cb12808b-7316-19db-7413-b7f852a6f8ae@arm.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <62a72187-442b-2103-46c3-39d3cd999f54@gmail.com>
+Date:   Mon, 24 Aug 2020 00:34:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <cb12808b-7316-19db-7413-b7f852a6f8ae@arm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4f987e06-7af1-671b-836a-10d3e9623547@nvidia.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi James,
+21.08.2020 03:11, Robin Murphy пишет:
+...
+>> Hello, Robin! Thank you for yours work!
+>>
+>> Some drivers, like this Tegra VDE (Video Decoder Engine) driver for
+>> example, do not want to use implicit IOMMU domain.
+> 
+> That isn't (intentionally) changing here - the only difference should be
+> that instead of having the ARM-special implicit domain, which you have
+> to kick out of the way with the ARM-specific API before you're able to
+> attach your own domain, the implicit domain is now a proper IOMMU API
+> default domain, which automatically gets bumped by your attach. The
+> default domains should still only be created in the same cases that the
+> ARM dma_iommu_mappings were.
+> 
+>> Tegra VDE driver
+>> relies on explicit IOMMU domain in a case of Tegra SMMU because VDE
+>> hardware can't access last page of the AS and because driver wants to
+>> reserve some fixed addresses [1].
+>>
+>> [1]
+>> https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/staging/media/tegra-vde/iommu.c#L100
+>>
+>>
+>> Tegra30 SoC supports up to 4 domains, hence it's not possible to afford
+>> wasting unused implicit domains. I think this needs to be addressed
+>> before this patch could be applied.
+> 
+> Yeah, there is one subtle change in behaviour from removing the ARM
+> layer on top of the core API, in that the IOMMU driver will no longer
+> see an explicit detach call. Thus it does stand to benefit from being a
+> bit cleverer about noticing devices being moved from one domain to
+> another by an attach call, either by releasing the hardware context for
+> the inactive domain once the device(s) are moved across to the new one,
+> or by simply reprogramming the hardware context in-place for the new
+> domain's address space without allocating a new one at all (most of the
+> drivers that don't have multiple contexts already handle the latter
+> approach quite well).
+> 
+>> Would it be possible for IOMMU drivers to gain support for filtering out
+>> devices in iommu_domain_alloc(dev, type)? Then perhaps Tegra SMMU driver
+>> could simply return NULL in a case of type=IOMMU_DOMAIN_DMA and
+>> dev=tegra-vde.
+> 
+> If you can implement IOMMU_DOMAIN_IDENTITY by allowing the relevant
+> devices to bypass translation entirely without needing a hardware
+> context (or at worst, can spare one context which all identity-mapped
+> logical domains can share), then you could certainly do that kind of
+> filtering with the .def_domain_type callback if you really wanted to. As
+> above, the intent is that that shouldn't be necessary for this
+> particular case, since only one of a group's default domain and
+> explicitly attached domain can be live at any given time, so the driver
+> should be able to take advantage of that.
+> 
+> If you simply have more active devices (groups) than available contexts
+> then yes, you probably would want to do some filtering to decide who
+> deserves a translation domain and who doesn't, but in that case you
+> should already have had a long-standing problem with the ARM implicit
+> domains.
+> 
+>> Alternatively, the Tegra SMMU could be changed such that the devices
+>> will be attached to a domain at the time of a first IOMMU mapping
+>> invocation instead of attaching at the time of attach_dev() callback
+>> invocation.
+>>
+>> Or maybe even IOMMU core could be changed to attach devices at the time
+>> of the first IOMMU mapping invocation? This could be a universal
+>> solution for all drivers.
+> 
+> I suppose technically you could do that within an IOMMU driver already
+> (similar to how some defer most of setup that logically belongs to
+> ->domain_alloc until the first ->attach_dev). It's a bit grim from the
+> caller's PoV though, in terms of the failure mode being non-obvious and
+> having no real way to recover. Again, you'd be better off simply making
+> decisions up-front at domain_alloc or attach time based on the domain type.
 
-On Sun, Aug 23, 2020 at 01:04:43PM -0700, James Jones wrote:
-> On 8/20/20 1:15 AM, Ezequiel Garcia wrote:
-> > On Mon, 2020-08-17 at 20:49 -0700, James Jones wrote:
-> >> On 8/17/20 8:18 AM, Brian Starkey wrote:
-> >>> On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
-> >>>> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
-> >>>> which will allocate memory suitable for the given device.
-> >>>>
-> >>>> The implementation is mostly a port of the Contiguous Videobuf2
-> >>>> memory allocator (see videobuf2/videobuf2-dma-contig.c)
-> >>>> over to the DMA-BUF Heap interface.
-> >>>>
-> >>>> The intention of this allocator is to provide applications
-> >>>> with a more system-agnostic API: the only thing the application
-> >>>> needs to know is which device to get the buffer for.
-> >>>>
-> >>>> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
-> >>>> is unknown to the application.
-> >>>>
-> >>>> I'm not really expecting this patch to be correct or even
-> >>>> a good idea, but just submitting it to start a discussion on DMA-BUF
-> >>>> heap discovery and negotiation.
-> >>>>
-> >>>
-> >>> My initial reaction is that I thought dmabuf heaps are meant for use
-> >>> to allocate buffers for sharing across devices, which doesn't fit very
-> >>> well with having per-device heaps.
-> >>>
-> >>> For single-device allocations, would using the buffer allocation
-> >>> functionality of that device's native API be better in most
-> >>> cases? (Some other possibly relevant discussion at [1])
-> >>>
-> >>> I can see that this can save some boilerplate for devices that want
-> >>> to expose private chunks of memory, but might it also lead to 100
-> >>> aliases for the system's generic coherent memory pool?
-> >>>
-> >>> I wonder if a set of helpers to allow devices to expose whatever they
-> >>> want with minimal effort would be better.
-> >>
-> >> I'm rather interested on where this goes, as I was toying with using
-> >> some sort of heap ID as a basis for a "device-local" constraint in the
-> >> memory constraints proposals Simon and I will be discussing at XDC this
-> >> year.  It would be rather elegant if there was one type of heap ID used
-> >> universally throughout the kernel that could provide a unique handle for
-> >> the shared system memory heap(s), as well as accelerator-local heaps on
-> >> fancy NICs, GPUs, NN accelerators, capture devices, etc. so apps could
-> >> negotiate a location among themselves.  This patch seems to be a step
-> >> towards that in a way, but I agree it would be counterproductive if a
-> >> bunch of devices that were using the same underlying system memory ended
-> >> up each getting their own heap ID just because they used some SW
-> >> framework that worked that way.
-> >>
-> >> Would appreciate it if you could send along a pointer to your BoF if it
-> >> happens!
-> > 
-> > Here is it:
-> > 
-> > https://linuxplumbersconf.org/event/7/contributions/818/
-> > 
-> > It would be great to see you there and discuss this,
-> > given I was hoping we could talk about how to meet a
-> > userspace allocator library expectations as well.
-> 
-> Thanks!  I hadn't registered for LPC and it looks like it's sold out, 
-> but I'll try to watch the live stream.
-> 
-> This is very interesting, in that it looks like we're both trying to 
-> solve roughly the same set of problems but approaching it from different 
-> angles.  From what I gather, your approach is that a "heap" encompasses 
-> all the allocation constraints a device may have.
-> 
-> The approach Simon Ser and I are tossing around so far is somewhat 
-> different, but may potentially leverage dma-buf heaps a bit as well.
-> 
-> Our approach looks more like what I described at XDC a few years ago, 
-> where memory constraints for a given device's usage of an image are 
-> exposed up to applications, which can then somehow perform boolean 
-> intersection/union operations on them to arrive at a common set of 
-> constraints that describe something compatible with all the devices & 
-> usages desired (or fail to do so, and fall back to copying things around 
-> presumably).  I believe this is more flexible than your initial proposal 
-> in that devices often support multiple usages (E.g., different formats, 
-> different proprietary layouts represented by format modifiers, etc.), 
-> and it avoids adding a combinatorial number of heaps to manage that.
-> 
-> In my view, heaps are more like blobs of memory that can be allocated 
-> from in various different ways to satisfy constraints.  I realize heaps 
-> mean something specific in the dma-buf heap design (specifically, 
-> something closer to an association between an "allocation mechanism" and 
-> "physical memory"), but I hope we don't have massive heap/allocator 
-> mechanism proliferation due to constraints alone.  Perhaps some 
-> constraints, such as contiguous memory or device-local memory, are 
-> properly expressed as a specific heap, but consider the proliferation 
-> implied by even that simple pair of examples: How do you express 
-> contiguous device-local memory?  Do you need to spawn two heaps on the 
-> underlying device-local memory, one for contiguous allocations and one 
-> for non-contiguous allocations?  Seems excessive.
-> 
-> Of course, our approach also has downsides and is still being worked on. 
->   For example, it works best in an ideal world where all the allocators 
-> available understand all the constraints that exist.
+Robin, thank you very much for the clarifications!
 
-Shouldn't allocators be decoupled of constraints ? In my imagination I
-see devices exposing constraints, and allocators exposing parameters,
-with a userspace library to reconcile the constraints and produce
-allocator parameters from them.
+In accordance to yours comments, this patch can't be applied until Tegra
+SMMU will support IOMMU_DOMAIN_IDENTITY and implement def_domain_type()
+callback that returns IOMMU_DOMAIN_IDENTITY for the VDE device.
 
-> Dealing with a 
-> reality where there are probably a handful of allocators, another 
-> handful of userspace libraries and APIs, and still more applications 
-> trying to make use of all this is one of the larger remaining challenges 
-> of the design.
-> 
-> We'll present our work at XDC 2020.  Hope you can check that out as well!
-> 
-> >>> 1. https://lore.kernel.org/dri-devel/57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi/
-> >>>
-> >>>> Given Plumbers is just a couple weeks from now, I've submitted
-> >>>> a BoF proposal to discuss this, as perhaps it would make
-> >>>> sense to discuss this live?
-> >>>>
-> >>>> Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Otherwise you're breaking the VDE driver because
+dma_buf_map_attachment() [1] returns the IOMMU SGT of the implicit
+domain which is then mapped into the VDE's explicit domain [2], and this
+is a nonsense.
 
--- 
-Regards,
+[1]
+https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/staging/media/tegra-vde/dmabuf-cache.c#L102
 
-Laurent Pinchart
+[2]
+https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/staging/media/tegra-vde/dmabuf-cache.c#L122
+
+Hence, either VDE driver should bypass iommu_dma_ops from the start or
+it needs a way to kick out the ops, like it does this using ARM's
+arm_iommu_detach_device().
+
+
+The same applies to the Tegra GPU devices, otherwise you're breaking
+them as well because Tegra DRM is sensible to implicit vs explicit domain.
+
+
+BTW, I tried to apply this series and T30 doesn't boot anymore. I don't
+have more info for now.
