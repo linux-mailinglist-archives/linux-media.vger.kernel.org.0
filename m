@@ -2,73 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7943324EBA7
-	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 07:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FE3524EDAD
+	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 16:37:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725830AbgHWFDb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Aug 2020 01:03:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34518 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725139AbgHWFDa (ORCPT
+        id S1727838AbgHWOhq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Aug 2020 10:37:46 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53070 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbgHWOhq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Aug 2020 01:03:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207F3C061573
-        for <linux-media@vger.kernel.org>; Sat, 22 Aug 2020 22:03:29 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2664279;
-        Sun, 23 Aug 2020 07:03:19 +0200 (CEST)
+        Sun, 23 Aug 2020 10:37:46 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C16F0279;
+        Sun, 23 Aug 2020 16:37:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1598158999;
-        bh=pCzlECsGsGlZ009xXDAzUUxxYRXREdIH2Vxcu2J4NoA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wna3R5amAoR1l5Bmtiiw+v3SgMfm4JGvJoymrg8wCxrgljpMw51vRaGS5lfqlBLAx
-         SkDqbTJZUQJjKa0GsXajUzf8ZHpISmrWLNVuWuw66UhpZoZGzNy7aGhZEvT6bHCD8a
-         87cN/DkwIVoRggoROSztWe6nUCcHqFElhdsy6oGA=
+        s=mail; t=1598193458;
+        bh=MqvfJpbE01OYlhK9TL0b32JwcaEFYBfN7ePQOamZ+xA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EuvkCnq5r1PB0+4uDhw/sP6QwEWC3ZUlFyC+kvLFHilYgWxca1iJ2HMYKPOwQb8Fh
+         Ib9ww4ujgbxsZc7xPu6OQ+sU7Yudw7y1hf9H59Eq/5QtrTpOlF7cqTMsBT1+HtKL8u
+         FaSdSAzr8vodoZiQG70PCsgwFrloUEJAL9LUbjwg=
+Date:   Sun, 23 Aug 2020 17:37:19 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH] media: ti-vpe: cal: Fix compilation on 32-bit ARM
-Date:   Sun, 23 Aug 2020 08:02:57 +0300
-Message-Id: <20200823050257.564-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
+To:     Adam Goode <agoode@google.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: uvcvideo: Ensure all probed info is returned
+ to v4l2
+Message-ID: <20200823143719.GB6002@pendragon.ideasonboard.com>
+References: <20200823012134.3813457-1-agoode@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200823012134.3813457-1-agoode@google.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When compiled on 32-bit ARM, the CAL driver fails with the FIELD_PREP()
-macro complaining that the mask is not constant. While all callers of
-the inline cal_write_field() function pass a constant mask, the mask
-parameter itself is a variable, which likely doesn't please the
-compiler.
+Hi Adam,
 
-Fix it by replacing FIELD_PREP() with a manual implementation.
+Thank you for the patch.
 
-Fixes: 50797fb30b95 ("media: ti-vpe: cal: Turn reg_(read|write)_field() into inline functions")
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/platform/ti-vpe/cal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, Aug 22, 2020 at 09:21:33PM -0400, Adam Goode wrote:
+> bFrameIndex and bFormatIndex can be negotiated by the camera during
+> probing, resulting in the camera choosing a different format than
+> expected. v4l2 can already accommodate such changes, but the code was
+> not updating the proper fields.
+> 
+> Without such a change, v4l2 would potentially interpret the payload
+> incorrectly, causing corrupted output. This was happening on the
+> Elgato HD60 S+, which currently always renegotiates to format 1.
+> 
+> As an aside, the Elgato firmware is buggy and should not be renegotating,
+> but it is still a valid thing for the camera to do. Both macOS and Windows
+> will properly probe and read uncorrupted images from this camera.
+> 
+> With this change, both qv4l2 and chromium can now read uncorrupted video
+> from the Elgato HD60 S+.
 
-diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-index e496083715d2..4123405ee0cf 100644
---- a/drivers/media/platform/ti-vpe/cal.h
-+++ b/drivers/media/platform/ti-vpe/cal.h
-@@ -226,7 +226,7 @@ static inline void cal_write_field(struct cal_dev *cal, u32 offset, u32 value,
- 	u32 val = cal_read(cal, offset);
- 
- 	val &= ~mask;
--	val |= FIELD_PREP(mask, value);
-+	val |= (value << __ffs(mask)) & mask;
- 	cal_write(cal, offset, val);
- }
- 
+Good catch. I've seen my share of buggy cameras, just not this
+particular bug I suppose :-)
+
+> Signed-off-by: Adam Goode <agoode@google.com>
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 0335e69b70ab..7f14096cb44d 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -247,11 +247,37 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+>  	if (ret < 0)
+>  		goto done;
+>  
+> +	/* After the probe, update fmt with the values returned from
+> +	 * negotiation with the device.
+> +	 */
+> +	for (i = 0; i < stream->nformats; ++i) {
+> +		if (probe->bFormatIndex == stream->format[i].index) {
+> +			format = &stream->format[i];
+> +			break;
+> +		}
+> +	}
+> +	if (i == stream->nformats) {
+> +		uvc_trace(UVC_TRACE_FORMAT, "Unknown bFormatIndex %u.\n",
+> +			  probe->bFormatIndex);
+> +		return -EINVAL;
+> +	}
+> +	for (i = 0; i < format->nframes; ++i) {
+> +		if (probe->bFrameIndex == format->frame[i].bFrameIndex) {
+> +			frame = &format->frame[i];
+> +			break;
+> +		}
+> +	}
+> +	if (i == format->nframes) {
+> +		uvc_trace(UVC_TRACE_FORMAT, "Unknown bFrameIndex %u.\n",
+> +			  probe->bFrameIndex);
+> +		return -EINVAL;
+> +	}
+
+This looks good to me. Blank lines between the different blocks would be
+good to let the code breathe a little bit :-) Apart from that,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+There's no need to resubmit the patch for such a trivial change, unless
+you object, I'll add the blank lines locally.
+
+I may submit an additional patch on top of this to share the above code
+with the identical implementation in uvc_fixup_video_ctrl().
+
+>  	fmt->fmt.pix.width = frame->wWidth;
+>  	fmt->fmt.pix.height = frame->wHeight;
+>  	fmt->fmt.pix.field = V4L2_FIELD_NONE;
+>  	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(format, frame);
+>  	fmt->fmt.pix.sizeimage = probe->dwMaxVideoFrameSize;
+> +	fmt->fmt.pix.pixelformat = format->fcc;
+>  	fmt->fmt.pix.colorspace = format->colorspace;
+>  
+>  	if (uvc_format != NULL)
+
 -- 
 Regards,
 
 Laurent Pinchart
-
