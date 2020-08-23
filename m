@@ -2,117 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A48324E9F3
-	for <lists+linux-media@lfdr.de>; Sat, 22 Aug 2020 23:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5454C24EAB4
+	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 03:21:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728712AbgHVVP7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Aug 2020 17:15:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22779 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727907AbgHVVP6 (ORCPT
+        id S1726635AbgHWBVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Aug 2020 21:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57016 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726075AbgHWBVr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Aug 2020 17:15:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598130956;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=kCeFAGVjFqJLQdc3o1tYQIxy58jDPQXZfRClMoCDccQ=;
-        b=g+QXDwWGc6q4B7FYeGXtWx3n3PvIglHsEv/37eRAczGNDRlZ4M0BA4lx4qqFniAKT3MmUL
-        WWZ16HoBk2xjvLjjLykOJKaJnYH7dAuQ0WZ5W5R5kmbXGr142Y+EywqqoYAQuYwa0zCe/7
-        k1BIDew9fjnlYVjfzeT30MLno1DguKw=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-HqpdvhCiPROYEzebZuUeAw-1; Sat, 22 Aug 2020 17:15:54 -0400
-X-MC-Unique: HqpdvhCiPROYEzebZuUeAw-1
-Received: by mail-qv1-f71.google.com with SMTP id i4so3649563qvv.4
-        for <linux-media@vger.kernel.org>; Sat, 22 Aug 2020 14:15:54 -0700 (PDT)
+        Sat, 22 Aug 2020 21:21:47 -0400
+Received: from mail-vk1-xa49.google.com (mail-vk1-xa49.google.com [IPv6:2607:f8b0:4864:20::a49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FD59C061573
+        for <linux-media@vger.kernel.org>; Sat, 22 Aug 2020 18:21:47 -0700 (PDT)
+Received: by mail-vk1-xa49.google.com with SMTP id p2so1671753vkp.4
+        for <linux-media@vger.kernel.org>; Sat, 22 Aug 2020 18:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=n3DhyqY375Ipe7NVxdqGFwuYsUhvRETKMRg2jv8ryx8=;
+        b=sxVB+uXNSSKW133zTCYUoY8ofixIZc2YV8vYbEE/M/ki1BlQNYvhOXxetQBykPWRw+
+         nQVljL+tecLVrB8Nuz4ovUVHE8GmSABkI2N3i6nLEpKzkoXxoS0eRnT+zxnb1ccXI3GZ
+         3yRuz0mrGp4NxhPkTxb9rC04cskxn549KGT79VzhRM/K8T6Vt+rSrHi5JBywlONPiBGg
+         SmBO3pplsD+fpgOkKC3e1zpTI1DxHPHzdtDzqagr7NnoypAqyIzU5bJldQBAq0vQhGP1
+         x5RScDzwYfqG4laTRw2hUQb6k/U7GT9RgUxMuoTzYxW1AgK3ljRLMPC81vzlZsjoW5nz
+         YPPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=kCeFAGVjFqJLQdc3o1tYQIxy58jDPQXZfRClMoCDccQ=;
-        b=AU0iayOSM8R40HTFQuosohqmpyWs3RifBf7Rha85Z21XpDOUnR7gvjX8YFti+CsM5V
-         OePUtOQAJThAUP/YjarGATslTIrpjhAnG2n2aiCQ/Qs3wxNuJ3ZO9EC7oOWyiJFs2x0d
-         WxtHJxib1lEVvrV7/KYqUNMed/aaj82d1kz+Vb4qrDCr0GEqsJvJ3SWGiTR4uFdrxv21
-         tOcuud3yT6sn2Wm9rgoGbGo+1VpHgT7ces8H7a9Rk5cD5QFZARLsYviDw4z2dN3Yc2JN
-         0NB7AeYpT55x7/IRXTb/cqizirqgsYlBYuer4HVdXP5j4iZ04hwubG1LJE6FfdSCBOIC
-         dZHw==
-X-Gm-Message-State: AOAM53317jh8d3ndhWGhreg6TcPywda+POQhIVoACTP0KmW7STIQgJ3L
-        cgVBJSAgsqAJyfACXEhCfoSk/F8Crs8exymI08ArYhvA4klnNIIDfBNVhJ0QLHjx64X6Qtgd7Ar
-        UgYOYHXLN+IHF8BkN1AcbefM=
-X-Received: by 2002:ac8:67da:: with SMTP id r26mr8107600qtp.332.1598130954074;
-        Sat, 22 Aug 2020 14:15:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznW20o6pLcfbuLeN9PqYmhQbUbKp5bO7nim+GspqDuutoEBbwdn7aWc4EzVYzUqhSKIzqm3A==
-X-Received: by 2002:ac8:67da:: with SMTP id r26mr8107582qtp.332.1598130953798;
-        Sat, 22 Aug 2020 14:15:53 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id o17sm6416894qtr.13.2020.08.22.14.15.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2020 14:15:53 -0700 (PDT)
-From:   trix@redhat.com
-To:     mchehab@kernel.org, mkrufky@linuxtv.org
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=n3DhyqY375Ipe7NVxdqGFwuYsUhvRETKMRg2jv8ryx8=;
+        b=bpqQsRZN13fu8bXTbpXvmqDROycfDGJB6qXjTyqN9nT9I2dOPJpvsONuoTil5xjviv
+         4RHZ/Gg+nw96JiLHxG8m5QB5YuocBfdKy+V6n/hWQBAphsZas8PmZcVqy3ery6e2cRSc
+         KVGB2OzU0JdJdtyoioW4vGH1t0XAlZINwnoHL6UxCpAexZWRuDWhnCdYQLQBFWlcgPgF
+         nDdrAqBCP+pGwL1DOOm26n9591yrNylP0CNIO2Bpv9QCcj7rRgD3ow7YWE/u//oLTEx4
+         jvdPCn7ovwr9SJ46XjH/yy++6MJ3A1ZKei/RyDD0I81aD77S605CZ/HIGNb1AEWB4Ohj
+         /icw==
+X-Gm-Message-State: AOAM530ki6gCYdbCk3ft13LFTJrqOmm0RyTsa6PIcQ+RsBxigC5MsklJ
+        oMkQc8DZg+6uDTgIzDRQGzq1/pgB5LU=
+X-Google-Smtp-Source: ABdhPJwvffrWmmEbfSl5IOGr6w9hLslpHSpEtF2b1OFHLtPJifLXlCpJTd3IASAy5zlD6pnjClqOzoJEe7E=
+X-Received: from christoph.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:1fe1])
+ (user=agoode job=sendgmr) by 2002:a67:eb91:: with SMTP id e17mr5274045vso.7.1598145705968;
+ Sat, 22 Aug 2020 18:21:45 -0700 (PDT)
+Date:   Sat, 22 Aug 2020 21:21:33 -0400
+Message-Id: <20200823012134.3813457-1-agoode@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
+Subject: [PATCH 1/2] media: uvcvideo: Ensure all probed info is returned to v4l2
+From:   Adam Goode <agoode@google.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] media: tuner-simple: fix regression in simple_set_radio_freq
-Date:   Sat, 22 Aug 2020 14:15:47 -0700
-Message-Id: <20200822211547.4595-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
+        Adam Goode <agoode@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+bFrameIndex and bFormatIndex can be negotiated by the camera during
+probing, resulting in the camera choosing a different format than
+expected. v4l2 can already accommodate such changes, but the code was
+not updating the proper fields.
 
-clang static analysis reports this problem
+Without such a change, v4l2 would potentially interpret the payload
+incorrectly, causing corrupted output. This was happening on the
+Elgato HD60 S+, which currently always renegotiates to format 1.
 
-tuner-simple.c:714:13: warning: Assigned value is
-  garbage or undefined
-        buffer[1] = buffer[3];
-                  ^ ~~~~~~~~~
-In simple_set_radio_freq buffer[3] used to be done
-in-function with a switch of tuner type, now done
-by a call to simple_radio_bandswitch which has this case
+As an aside, the Elgato firmware is buggy and should not be renegotating,
+but it is still a valid thing for the camera to do. Both macOS and Windows
+will properly probe and read uncorrupted images from this camera.
 
-	case TUNER_TENA_9533_DI:
-	case TUNER_YMEC_TVF_5533MF:
-		tuner_dbg("This tuner doesn't ...
-		return 0;
+With this change, both qv4l2 and chromium can now read uncorrupted video
+from the Elgato HD60 S+.
 
-which does not set buffer[3].  In the old logic, this case
-would have returned 0 from simple_set_radio_freq.
-
-Recover this old behavior by returning an error for this
-codition. Since the old simple_set_radio_freq behavior
-returned a 0, do the same.
-
-Fixes: c7a9f3aa1e1b ("V4L/DVB (7129): tuner-simple: move device-specific code into three separate functions")
-Signed-off-by: Tom Rix <trix@redhat.com>
+Signed-off-by: Adam Goode <agoode@google.com>
 ---
- drivers/media/tuners/tuner-simple.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/usb/uvc/uvc_v4l2.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/media/tuners/tuner-simple.c b/drivers/media/tuners/tuner-simple.c
-index b6e70fada3fb..8fb186b25d6a 100644
---- a/drivers/media/tuners/tuner-simple.c
-+++ b/drivers/media/tuners/tuner-simple.c
-@@ -500,7 +500,7 @@ static int simple_radio_bandswitch(struct dvb_frontend *fe, u8 *buffer)
- 	case TUNER_TENA_9533_DI:
- 	case TUNER_YMEC_TVF_5533MF:
- 		tuner_dbg("This tuner doesn't have FM. Most cards have a TEA5767 for FM\n");
--		return 0;
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 0335e69b70ab..7f14096cb44d 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -247,11 +247,37 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+ 	if (ret < 0)
+ 		goto done;
+ 
++	/* After the probe, update fmt with the values returned from
++	 * negotiation with the device.
++	 */
++	for (i = 0; i < stream->nformats; ++i) {
++		if (probe->bFormatIndex == stream->format[i].index) {
++			format = &stream->format[i];
++			break;
++		}
++	}
++	if (i == stream->nformats) {
++		uvc_trace(UVC_TRACE_FORMAT, "Unknown bFormatIndex %u.\n",
++			  probe->bFormatIndex);
 +		return -EINVAL;
- 	case TUNER_PHILIPS_FM1216ME_MK3:
- 	case TUNER_PHILIPS_FM1236_MK3:
- 	case TUNER_PHILIPS_FMD1216ME_MK3:
-@@ -702,7 +702,8 @@ static int simple_set_radio_freq(struct dvb_frontend *fe,
- 		    TUNER_RATIO_SELECT_50; /* 50 kHz step */
++	}
++	for (i = 0; i < format->nframes; ++i) {
++		if (probe->bFrameIndex == format->frame[i].bFrameIndex) {
++			frame = &format->frame[i];
++			break;
++		}
++	}
++	if (i == format->nframes) {
++		uvc_trace(UVC_TRACE_FORMAT, "Unknown bFrameIndex %u.\n",
++			  probe->bFrameIndex);
++		return -EINVAL;
++	}
+ 	fmt->fmt.pix.width = frame->wWidth;
+ 	fmt->fmt.pix.height = frame->wHeight;
+ 	fmt->fmt.pix.field = V4L2_FIELD_NONE;
+ 	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(format, frame);
+ 	fmt->fmt.pix.sizeimage = probe->dwMaxVideoFrameSize;
++	fmt->fmt.pix.pixelformat = format->fcc;
+ 	fmt->fmt.pix.colorspace = format->colorspace;
  
- 	/* Bandswitch byte */
--	simple_radio_bandswitch(fe, &buffer[0]);
-+	if (simple_radio_bandswitch(fe, &buffer[0]))
-+		return 0;
- 
- 	/* Convert from 1/16 kHz V4L steps to 1/20 MHz (=50 kHz) PLL steps
- 	   freq * (1 Mhz / 16000 V4L steps) * (20 PLL steps / 1 MHz) =
+ 	if (uvc_format != NULL)
 -- 
-2.18.1
+2.28.0.297.g1956fa8f8d-goog
 
