@@ -2,210 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1FB924EAB5
-	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 03:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B37CC24EB11
+	for <lists+linux-media@lfdr.de>; Sun, 23 Aug 2020 06:12:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbgHWBVx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Aug 2020 21:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726079AbgHWBVu (ORCPT
+        id S1726075AbgHWDk5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Aug 2020 23:40:57 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:59123 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725834AbgHWDk5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Aug 2020 21:21:50 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C79ABC061573
-        for <linux-media@vger.kernel.org>; Sat, 22 Aug 2020 18:21:49 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id i4so3872984qvv.4
-        for <linux-media@vger.kernel.org>; Sat, 22 Aug 2020 18:21:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=nTnrJooKy7TUDrlViEZNdZhzQD33+RJwNXs86fj+Oi4=;
-        b=LtyJe9zEe4aFdUrbpx5gvtZW8VwWIu1Ey4z+DCRWrNUii4MzPA5CCY7HmdG0sr6yI8
-         0sMJwWMmHhCq+y+J1ajXKcTksprW56KaKwNBlmtwWMS7U1YmYvsH/dbsRAsYsMuG1fVv
-         azm4l8HLdki9X1no5auZrPqKMF9jbRBoqkMBMjy3R2j2hDf0faHoLZVkEiQkTbLGnEeK
-         oIGgOYWLrOEzEC0Ey687VMMjpzAtwOw3hfkbiSRYq+jZsiY8Z2BHcR2GPq2SQRtOhTv+
-         7HImWDJJvsWxPdsNDt2uRH2ZmvxR83aSLueKWoXvopdPP/pJSv7ZJXOj5PoDUf//5+nf
-         8rgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=nTnrJooKy7TUDrlViEZNdZhzQD33+RJwNXs86fj+Oi4=;
-        b=obHP6NL8dLStcMKCagQHMhLoilIiYVul2foCqLwd4z5njVWpEosi5z5F/8FpnLzcnq
-         hPJ+G+e2qMyrQw87zwofqxxik3I+7dwnnzcX/Dhe89mbPoWLrLgRd3wZSQsa0SYNpxDu
-         RD19iNR9wWKaoD9mybfX7WKC2QDQbsaOYZHEnONvcgnm+fHBPqdTPj1KHpT8ytncG2Ei
-         ZuJj0slPWr/t6mQIgHVbx9w39XSK43QBxSajF/fxkKCC2x9Cj6hbi72JjJ5bSBOpfRSb
-         KoJInj59v9wYS24GJmyuP4dxt79vOxzEhmY8jA1FkMUeoGKjwwtsKcZn9G9dXnv6YDgz
-         ZQ3w==
-X-Gm-Message-State: AOAM533IFJl1m7JiQe2BOweDF3RHbXowL3LsuOcI3Vx0tNgNA7129ITe
-        XN58wqBWH59jVZkT3ClR/tEda6UCnZY=
-X-Google-Smtp-Source: ABdhPJw19gDclZo+lqh5NH2S7WusHuyMYZ+1cUd/Ld/pXxR2cDsRCRdlZ5vTILP/qP1XJE+r5zowf234EjI=
-X-Received: from christoph.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:1fe1])
- (user=agoode job=sendgmr) by 2002:ad4:54c6:: with SMTP id j6mr8470868qvx.126.1598145708718;
- Sat, 22 Aug 2020 18:21:48 -0700 (PDT)
-Date:   Sat, 22 Aug 2020 21:21:34 -0400
-In-Reply-To: <20200823012134.3813457-1-agoode@google.com>
-Message-Id: <20200823012134.3813457-2-agoode@google.com>
-Mime-Version: 1.0
-References: <20200823012134.3813457-1-agoode@google.com>
-X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
-Subject: [PATCH 2/2] media: uvcvideo: Convey full ycbcr colorspace information
- to v4l2
-From:   Adam Goode <agoode@google.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Adam Goode <agoode@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Sat, 22 Aug 2020 23:40:57 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 9gsHkapPWywL59gsIkf95s; Sun, 23 Aug 2020 05:40:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598154054; bh=Zdlz0dzxkjZGha69nwHU4n9TBMjB7vaqQIX56joXF2E=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=PFfZ4dVtrSOJWckCEsu6pHJRETlzkim8iNOfY7tVK0+4MeE+jFzq4gWZs9M3OPQyr
+         aIfZA031azQBIqKKYE4+67oYaWpHijeK3szUqKwwkYh1Kg7/bsNTLV63XDiqgLlt3R
+         sQ/DNOkpaJdBHHITBf8vpwIby7pv6wd5OmzWY4JbvN/rHvAUjeUa/paBXEtbK9dzlb
+         vydE0RwpKlVPxsbo+1WcF29vcPUoof2zAAMWln5jtgdFPh5/OKJDAt+ek2a2iVMv0h
+         1+z3tsP2P/32Gz/OKvfPDRLwE368KjPSrivyeXk2MOeLRopcdUqlbZTffzwx7jTQtK
+         ffhgjgun4yIrw==
+Message-ID: <81a7e25a299be357209bfd63cc667640@smtp-cloud7.xs4all.net>
+Date:   Sun, 23 Aug 2020 05:40:53 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfNT62+lSV/fiNq8/qnqT2zzEIwtrpmJoL31UAR1tnuvct5oUH0Hpf93ZTWTxnXBN24HZ6xe+mCx9P8UyPFTqU4cynjkaOhsG3z9rHgrpvSSOPl0/pH24
+ HIJj5uMc4tKAYik7lZ2sjrZVSUhk2dsjNIgMHtSm9zfaaSpf5H0rsgC6Xep1a4KUywZYVPbIDnKG0b7NQItSDQ9kh6dfogGV/yTAcd8Xscp/GDb8CgEILPMS
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Color Matching Descriptor has been present in USB cameras since
-the original version of UVC, but it has never been fully used
-in Linux.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-This change informs V4L2 of all of the critical colorspace parameters:
-colorspace (called "color primaries" in UVC), transfer function
-(called "transfer characteristics" in UVC), ycbcr encoding (called
-"matrix coefficients" in UVC), and quantization, which is always
-LIMITED for UVC, see section 2.26 in USB_Video_FAQ_1.5.pdf.
+Results of the daily build of media_tree:
 
-The quantization is the most important improvement for this patch,
-because V4L2 will otherwise interpret MJPEG as FULL range. Web browsers
-such as Chrome and Firefox already ignore V4L2's quantization for USB
-devices and use the correct LIMITED value, but other programs such
-as qv4l2 will incorrectly interpret the output of MJPEG from USB
-cameras without this change.
+date:			Sun Aug 23 05:00:11 CEST 2020
+media-tree git hash:	9a538b83612c8b5848bf840c2ddcd86dda1c8c76
+media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
+v4l-utils git hash:	89f66ef308e16a51090cf5682e74c6f4130a024d
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Signed-off-by: Adam Goode <agoode@google.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 52 +++++++++++++++++++++++++++---
- drivers/media/usb/uvc/uvc_v4l2.c   |  6 ++++
- drivers/media/usb/uvc/uvcvideo.h   |  5 ++-
- 3 files changed, 58 insertions(+), 5 deletions(-)
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: OK
+smatch: ERRORS
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 431d86e1c94b..c0c81b089b7d 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -248,10 +248,10 @@ static struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
- 	return NULL;
- }
- 
--static u32 uvc_colorspace(const u8 primaries)
-+static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
- {
--	static const u8 colorprimaries[] = {
--		0,
-+	static const enum v4l2_colorspace colorprimaries[] = {
-+		V4L2_COLORSPACE_DEFAULT,  /* Unspecified */
- 		V4L2_COLORSPACE_SRGB,
- 		V4L2_COLORSPACE_470_SYSTEM_M,
- 		V4L2_COLORSPACE_470_SYSTEM_BG,
-@@ -262,7 +262,43 @@ static u32 uvc_colorspace(const u8 primaries)
- 	if (primaries < ARRAY_SIZE(colorprimaries))
- 		return colorprimaries[primaries];
- 
--	return 0;
-+	return V4L2_COLORSPACE_DEFAULT;  /* Reserved */
-+}
-+
-+static enum v4l2_xfer_func uvc_xfer_func(const u8 transfer_characteristics)
-+{
-+	static const enum v4l2_xfer_func xfer_funcs[] = {
-+		V4L2_XFER_FUNC_DEFAULT,  /* Unspecified */
-+		V4L2_XFER_FUNC_709,
-+		V4L2_XFER_FUNC_709,      /* BT.470-2 M */
-+		V4L2_XFER_FUNC_709,      /* BT.470-2 B, G */
-+		V4L2_XFER_FUNC_709,      /* SMPTE 170M */
-+		V4L2_XFER_FUNC_SMPTE240M,
-+		V4L2_XFER_FUNC_NONE,     /* Linear (V = Lc) */
-+		V4L2_XFER_FUNC_SRGB,
-+	};
-+
-+	if (transfer_characteristics < ARRAY_SIZE(xfer_funcs))
-+		return xfer_funcs[transfer_characteristics];
-+
-+	return V4L2_XFER_FUNC_DEFAULT;  /* Reserved */
-+}
-+
-+static enum v4l2_ycbcr_encoding uvc_ycbcr_enc(const u8 matrix_coefficients)
-+{
-+	static const enum v4l2_ycbcr_encoding ycbcr_encs[] = {
-+		V4L2_YCBCR_ENC_DEFAULT,  /* Unspecified */
-+		V4L2_YCBCR_ENC_709,
-+		V4L2_YCBCR_ENC_601,      /* FCC */
-+		V4L2_YCBCR_ENC_601,      /* BT.470-2 B, G */
-+		V4L2_YCBCR_ENC_601,      /* SMPTE 170M */
-+		V4L2_YCBCR_ENC_SMPTE240M,
-+	};
-+
-+	if (matrix_coefficients < ARRAY_SIZE(ycbcr_encs))
-+		return ycbcr_encs[matrix_coefficients];
-+
-+	return V4L2_YCBCR_ENC_DEFAULT;  /* Reserved */
- }
- 
- /* Simplify a fraction using a simple continued fraction decomposition. The
-@@ -704,6 +740,14 @@ static int uvc_parse_format(struct uvc_device *dev,
- 		}
- 
- 		format->colorspace = uvc_colorspace(buffer[3]);
-+		format->xfer_func = uvc_xfer_func(buffer[4]);
-+		format->ycbcr_enc = uvc_ycbcr_enc(buffer[5]);
-+		/* All USB YCbCr encodings use LIMITED range as of UVC 1.5.
-+		 * This is true even for MJPEG, which V4L2 otherwise assumes to
-+		 * be FULL.
-+		 * See section 2.26 in USB_Video_FAQ_1.5.pdf.
-+		 */
-+		format->quantization = V4L2_QUANTIZATION_LIM_RANGE;
- 
- 		buflen -= buffer[0];
- 		buffer += buffer[0];
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 7f14096cb44d..79daf46b3dcd 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -279,6 +279,9 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
- 	fmt->fmt.pix.sizeimage = probe->dwMaxVideoFrameSize;
- 	fmt->fmt.pix.pixelformat = format->fcc;
- 	fmt->fmt.pix.colorspace = format->colorspace;
-+	fmt->fmt.pix.xfer_func = format->xfer_func;
-+	fmt->fmt.pix.ycbcr_enc = format->ycbcr_enc;
-+	fmt->fmt.pix.quantization = format->quantization;
- 
- 	if (uvc_format != NULL)
- 		*uvc_format = format;
-@@ -315,6 +318,9 @@ static int uvc_v4l2_get_format(struct uvc_streaming *stream,
- 	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(format, frame);
- 	fmt->fmt.pix.sizeimage = stream->ctrl.dwMaxVideoFrameSize;
- 	fmt->fmt.pix.colorspace = format->colorspace;
-+	fmt->fmt.pix.xfer_func = format->xfer_func;
-+	fmt->fmt.pix.ycbcr_enc = format->ycbcr_enc;
-+	fmt->fmt.pix.quantization = format->quantization;
- 
- done:
- 	mutex_unlock(&stream->mutex);
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 6ab972c643e3..6508192173dd 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -370,7 +370,10 @@ struct uvc_format {
- 	u8 type;
- 	u8 index;
- 	u8 bpp;
--	u8 colorspace;
-+	enum v4l2_colorspace colorspace;
-+	enum v4l2_xfer_func xfer_func;
-+	enum v4l2_ycbcr_encoding ycbcr_enc;
-+	enum v4l2_quantization quantization;
- 	u32 fcc;
- 	u32 flags;
- 
--- 
-2.28.0.297.g1956fa8f8d-goog
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
