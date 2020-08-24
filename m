@@ -2,127 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E70CD24F2B9
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 08:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE20024F2BF
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 08:54:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725977AbgHXGtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 02:49:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40096 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725730AbgHXGtm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 02:49:42 -0400
-Received: from coco.lan (unknown [95.90.213.182])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BB28A2067C;
-        Mon, 24 Aug 2020 06:49:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598251781;
-        bh=MoR5l415tOqXO7qDvbGK3qkYCXTWIk9BbyxnSBH+NOA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=d8Fa9jnF4RxQAHQUfTQiJnd1/Cv3peOrzUsQ+uvrMSfO9dxpXk5FFmL8qQR+62r2d
-         /5Z+CzrXnWZx+hAETh664fBPlISrF9QHDL0J3KIvyrE+0W2sam4bZO9CkasBh6uuiy
-         Lifm+3q0OlCTMYdbS1UXGwLbhr7/E/XclY5RLP1s=
-Date:   Mon, 24 Aug 2020 08:49:30 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Bogdan Togorean <bogdan.togorean@analog.com>,
-        Liwei Cai <cailiwei@hisilicon.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Wanchun Zheng <zhengwanchun@hisilicon.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        BPF Mailing List <bpf@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
-        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Liuyao An <anliuyao@huawei.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Wei Xu <xuwei5@hisilicon.com>,
-        Rongrong Zou <zourongrong@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Network Development <netdev@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Chen Feng <puck.chen@hisilicon.com>
-Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
-Message-ID: <20200824084853.10560ed1@coco.lan>
-In-Reply-To: <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
-References: <cover.1597833138.git.mchehab+huawei@kernel.org>
-        <CALAqxLU3bt6fT4nGHZFSnzyQq4xJo2On=c_Oa9ONED9-jhaFgw@mail.gmail.com>
-        <CALAqxLW98nVc-=8Q6nx-wRP1z8pzkw1_zNc9M7V3GhnJQqM9rg@mail.gmail.com>
-        <CALAqxLULQvW3UikCHpEzSDnpeYnBy8wDSsWZNbSrmivQTW3_Sg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726336AbgHXGyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 02:54:22 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:44084 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725947AbgHXGyW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Aug 2020 02:54:22 -0400
+Received: from localhost.localdomain (unknown [210.32.144.184])
+        by mail-app3 (Coremail) with SMTP id cC_KCgAnf_UEZENf2tgdAw--.15520S4;
+        Mon, 24 Aug 2020 14:54:01 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tony Lindgren <tony@atomide.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: omap3isp: Fix memleak in isp_probe
+Date:   Mon, 24 Aug 2020 14:53:52 +0800
+Message-Id: <20200824065353.4385-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cC_KCgAnf_UEZENf2tgdAw--.15520S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKr1ftFW7urykJFW8CryrtFb_yoWDZFg_Zw
+        4xKF4xWrZ5Zrn8Kw429rna9r92yrsrur1xWFZYgayIq3yUuFnxGrWq9rZ3Wa4DAr47uFyU
+        G3yUWFW7C3sxJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbIkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r47MxAIw28IcxkI7VAKI48J
+        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+        CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
+        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
+        9x0JU-J5rUUUUU=
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgUCBlZdtPpD7wAKsg
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi John,
+When devm_ioremap_resource() fails, isp should be
+freed just like other error paths in isp_probe.
 
-Em Wed, 19 Aug 2020 20:28:44 -0700
-John Stultz <john.stultz@linaro.org> escreveu:
+Fixes: 8644cdf972dd6 ("[media] omap3isp: Replace many MMIO regions by two")
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/media/platform/omap3isp/isp.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-
-> That said even with the patches I've got on top of your series, I
-> still see a few issues:
-> 1) I'm seeing red-blue swap with your driver.  I need to dig a bit to
-> see what the difference is, I know gralloc has a config option for
-> this, and maybe the version of the driver I'm carrying has it wrong?
-
-Maybe it is due to this:
-
-	drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c:      hal_fmt = HISI_FB_PIXEL_FORMAT_BGRA_8888;/* dss_get_format(fb->pixel_format); */
-
-It sounds to me that someone added a hack hardcoding BGRA_8888 over
-there.
-
-Btw, I removed the hack, with:
-
-
-diff --git a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-index a68db1a27bbf..ba64aae371e4 100644
---- a/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-+++ b/drivers/staging/hikey9xx/gpu/kirin9xx_drm_overlay_utils.c
-@@ -857,7 +857,7 @@ void hisi_fb_pan_display(struct drm_plane *plane)
-        rect.right = src_w - 1;
-        rect.top = 0;
-        rect.bottom = src_h - 1;
--       hal_fmt = HISI_FB_PIXEL_FORMAT_BGRA_8888;/* dss_get_format(fb->pixel_format); */
-+       hal_fmt = dss_get_format(fb->format->format);
+diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
+index b91e472ee764..de066757726d 100644
+--- a/drivers/media/platform/omap3isp/isp.c
++++ b/drivers/media/platform/omap3isp/isp.c
+@@ -2328,8 +2328,10 @@ static int isp_probe(struct platform_device *pdev)
+ 		mem = platform_get_resource(pdev, IORESOURCE_MEM, i);
+ 		isp->mmio_base[map_idx] =
+ 			devm_ioremap_resource(isp->dev, mem);
+-		if (IS_ERR(isp->mmio_base[map_idx]))
+-			return PTR_ERR(isp->mmio_base[map_idx]);
++		if (IS_ERR(isp->mmio_base[map_idx])) {
++			ret = PTR_ERR(isp->mmio_base[map_idx]);
++			goto error;
++		}
+ 	}
  
-        DRM_DEBUG_DRIVER("channel%d: src:(%d,%d, %dx%d) crtc:(%d,%d, %dx%d), rect(%d,%d,%d,%d),fb:%dx%d, pixel_format=%d, stride=%d, paddr=0x%x, bpp=%d.\n",
-                         chn_idx, src_x, src_y, src_w, src_h,
+ 	ret = isp_get_clocks(isp);
+-- 
+2.17.1
 
-
-And now red and blue are swapped on my HDMI screen too.
-
-I'll compare this part with your version, but I guess the bug is
-on this logic.
-
-
-Thanks,
-Mauro
