@@ -2,85 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C41382509B5
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 22:01:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3E5C2509BB
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 22:02:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726241AbgHXUBT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 16:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbgHXUBS (ORCPT
+        id S1726578AbgHXUCb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 16:02:31 -0400
+Received: from smtprelay0247.hostedemail.com ([216.40.44.247]:53332 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726241AbgHXUCa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 16:01:18 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273E7C061573;
-        Mon, 24 Aug 2020 13:01:18 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id i26so9208064edv.4;
-        Mon, 24 Aug 2020 13:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=C8lKf4ORmfqEPGg/u/S9g7wmze0cyqq99uKDJUmoY6g=;
-        b=sxS3hCoqrdvLAzjdfIC3Q8aHGfsiccjZ3yuleXvJF78H8hcuJow6cb7aurAtd59Bni
-         N042Cqv7KgPT+kfvm9k2B3r/1A7SEREtCarU4MNMBilQCerdh+pxWKRz3lQIkfcjZD/N
-         jykow2vv7cUUdA92oQPqrRGhTVOfqKi+BJbIx1cqkrucrr+VFdlcwi1yhzeBXnl5odoU
-         AGBW93GD2WV52VC8JXJlsbFSnIJ9hc5KNbX/F8v0EbYuC4lPRNz4zwcloS+iNcSBSNUh
-         BpaZxm6Dx7ynVdu6B1CFGbfu6u9DAGLn9/F1mtterVW1bRL4OkJMq9U6n8CGMs/W73Q2
-         m4MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=C8lKf4ORmfqEPGg/u/S9g7wmze0cyqq99uKDJUmoY6g=;
-        b=YblAdF2HeoTyHJnWP1XdjpFwoCZmtww4A0/N2V6nFIngMwPCDL54ZZcCr0Btcj7DOY
-         HmxvNnHJ9tJAsDs1vrIYpA4sBaL2g7wtQhz86pehQOM/XQOF3dnuDa9GW7wxuVzgXEDa
-         fw/ggPKNjh1TTedNLndrdWfoZEk56Gn8CwjdDtk1lkxVMnhNBzkAhhQIjetcMHHpNu5F
-         GLZAZc7rkli9lAGRBH8nIQvWYtJ2zEvYeg4MESEO2zowChnnmD6NwjvAZvvdwf/EAa7h
-         08Mr8sI3mCnzSJlana2HbGI5O5IKgxes/mpfAuh5bFbQ+XU+cD0o6kLcDMAuXA+X9QIG
-         LKOg==
-X-Gm-Message-State: AOAM533c+FaqkNzAJdMOoIhkwitH753LoHNAWpfrCQ/v5VgThBqw9frn
-        Trnz+rM6vtOKcNwdYmUPY1/LGyjimso=
-X-Google-Smtp-Source: ABdhPJzxKx6i7dAfqTJsLy20vJypB4N5BuHtTeGENG25gH0Wti7clLH3SrAPkxHd2rd/1uFzO5BTgQ==
-X-Received: by 2002:a50:8f44:: with SMTP id 62mr7338692edy.3.1598299274966;
-        Mon, 24 Aug 2020 13:01:14 -0700 (PDT)
-Received: from [192.168.43.227] ([148.252.128.110])
-        by smtp.gmail.com with ESMTPSA id u10sm10295771edo.14.2020.08.24.13.01.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2020 13:01:14 -0700 (PDT)
+        Mon, 24 Aug 2020 16:02:30 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 801F0180A9F52;
+        Mon, 24 Aug 2020 20:02:28 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1538:1567:1593:1594:1711:1714:1730:1747:1777:1792:2393:2559:2562:2828:2904:3138:3139:3140:3141:3142:3622:3865:3870:3871:3872:3873:3874:4250:4321:5007:10004:10400:10450:10455:10848:11026:11232:11658:11914:12297:12555:12740:12760:12895:13069:13311:13357:13439:14181:14659:14721:19904:19999:21080:21451:21627:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: front11_580342427055
+X-Filterd-Recvd-Size: 1408
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf09.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 24 Aug 2020 20:02:27 +0000 (UTC)
+Message-ID: <e69a12f09a9550320ca9d9ae65a892722bde96fd.camel@perches.com>
 Subject: Re: [likely PATCH] media: lmedm04: Fix misuse of comma
-To:     Joe Perches <joe@perches.com>
+From:   Joe Perches <joe@perches.com>
+To:     Malcolm Priestley <tvboxspy@gmail.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media <linux-media@vger.kernel.org>,
         Julia Lawall <julia.lawall@lip6.fr>
+Date:   Mon, 24 Aug 2020 13:02:26 -0700
+In-Reply-To: <d4b13e5d-6c97-2594-0ca6-346bb2129b88@gmail.com>
 References: <e6cd92faf09722fe729a7de03e7bde592f62499c.camel@perches.com>
-From:   Malcolm Priestley <tvboxspy@gmail.com>
-Message-ID: <d4b13e5d-6c97-2594-0ca6-346bb2129b88@gmail.com>
-Date:   Mon, 24 Aug 2020 21:01:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
+         <d4b13e5d-6c97-2594-0ca6-346bb2129b88@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <e6cd92faf09722fe729a7de03e7bde592f62499c.camel@perches.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good catch the interrupt URB is not running because usb_submit_urb is tangled with it.
+On Mon, 2020-08-24 at 21:01 +0100, Malcolm Priestley wrote:
+> Good catch the interrupt URB is not running because usb_submit_urb is tangled with it.
+> 
+> It only really affects signal strength.
+> 
+> add
+> 
+> Fixes: 15e1ce33182d ("[media] lmedm04: Fix usb_submit_urb BOGUS urb xfer, pipe 1 != type 3 in interrupt urb")
+> Cc: <stable@vger.kernel.org>
 
-It only really affects signal strength.
+If that's a request for me, I won't as I can't test.
 
-add
-
-Fixes: 15e1ce33182d ("[media] lmedm04: Fix usb_submit_urb BOGUS urb xfer, pipe 1 != type 3 in interrupt urb")
-Cc: <stable@vger.kernel.org>
-
-Regards
+As the maintainer, you should do that.
 
 
-Malcolm
