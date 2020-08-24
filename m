@@ -2,173 +2,417 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77DFE250AFE
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 23:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBC7B250B22
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 23:50:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbgHXVk6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 17:40:58 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:49518 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726090AbgHXVk4 (ORCPT
+        id S1726929AbgHXVul (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 17:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726090AbgHXVul (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 17:40:56 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07OLdsPY046027;
-        Mon, 24 Aug 2020 16:39:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1598305194;
-        bh=bf+6mDZifTI9HQJSeivn4me8d5zREYk1XPJ3eAaDXHY=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=tJ6RhK6wvGyEiAhqwOPDwT69Y3+7BoJNjgEuOOW+0PGCMSlzIrjy7T2GrEFwuAAcZ
-         51c8X4oGyc7X5b+1hxYLGjFw1iyT+DGwI6G2Whe/r0fmJRG1pX1zZGWT3yn2053eaa
-         4Szann3xS0X39D0KAerooEYGEMuFIf1zy1xME1pQ=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07OLdr7q044652
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 24 Aug 2020 16:39:53 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 24
- Aug 2020 16:39:53 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 24 Aug 2020 16:39:53 -0500
-Received: from [10.250.32.171] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07OLdqBH090259;
-        Mon, 24 Aug 2020 16:39:52 -0500
-Subject: Re: [PATCH 11/18] iommu/omap: Add IOMMU_DOMAIN_DMA support
-To:     Robin Murphy <robin.murphy@arm.com>, <hch@lst.de>,
-        <joro@8bytes.org>, <linux@armlinux.org.uk>
-CC:     <will@kernel.org>, <inki.dae@samsung.com>,
-        <sw0312.kim@samsung.com>, <kyungmin.park@samsung.com>,
-        <m.szyprowski@samsung.com>, <agross@kernel.org>,
-        <bjorn.andersson@linaro.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <vdumpa@nvidia.com>, <digetx@gmail.com>,
-        <matthias.bgg@gmail.com>, <yong.wu@mediatek.com>,
-        <geert+renesas@glider.be>, <magnus.damm@gmail.com>,
-        <t-kristo@ti.com>, <laurent.pinchart@ideasonboard.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <5ac3788f9f61f7698cfa9c5924d62714e230f678.1597931876.git.robin.murphy@arm.com>
-From:   Suman Anna <s-anna@ti.com>
-Message-ID: <c98765ad-e824-a54c-7cf8-c245dbf960d3@ti.com>
-Date:   Mon, 24 Aug 2020 16:39:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 24 Aug 2020 17:50:41 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C87C061574
+        for <linux-media@vger.kernel.org>; Mon, 24 Aug 2020 14:50:40 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id m20so9451885eds.2
+        for <linux-media@vger.kernel.org>; Mon, 24 Aug 2020 14:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=f68ffg6LydqgVXHOaj3WRWCv1Uv8I3c/pA64u6IOLRI=;
+        b=Imlz6415uzm4dpr0+Mvj/IHSqUsq2B0hoT/z46gaOAEoHIcVb6bTMWdn6zHUANUir5
+         5V3Lp0zMGqoYkxuqNQTWiX47R8bZNquHHC1oVmUITyL6sR+GQLq7C7P+jypZ+6bQaWEV
+         ZgJbrTqI6WsU++94XhTQawTIfom7u/+nO7A5UzyHlkEgZWFD2lHHOn2OKy6sEGyJ+7+o
+         RDsBhGHVNIFprWM7eyNJnTJauJlLxo/4q5R1evH14R18b6Fnk+KzVb+unQAyKYNvbb97
+         swyofhxbiumEwXpGsnasuMPY2isPCyODxpfY6lZdB1Yf6zpiPWJDJIwWx5pobm5CnJqj
+         Dmug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=f68ffg6LydqgVXHOaj3WRWCv1Uv8I3c/pA64u6IOLRI=;
+        b=ddNWz/+7LSvUMSTZDug2wCqLvXh0F4uFE8A5LrTV54PuQPvJGJdqlSbjqtlf0aLM1S
+         XKkMIjvPhbWQsW3dHhMdlsqwmB6X2dPVukCK8ixzSx/yxTfrv8TFitU1FDowXUihuE+I
+         t46t9ReKWX8yxVJu4S7y/PvAASoSQukk+AqgYwV9+Rhd3WEa3q1YY08dfd/yjJD6zJlD
+         kiGcw1gEYpnw+M+3Jj8Bo3fi+EhZNLZXKQBr23kFJkg/UCf6searyk3kQvnfvHA6FbLb
+         atoIzq/GQEpfNkiZiBEMu3NiCOusTcPYSGPrQCxO80seO6bvG6LKeb9zTdaJcj3+dOSN
+         Yu+A==
+X-Gm-Message-State: AOAM532PH4psa2ugYUTwLlkw5wsAE9ZXz8oHFCTCcyqsR3hdsMkUpNSk
+        blwqzAkHzoEGNb396rhjuEZJio0HV3VjpV9HMaZ/CsynfHO+Yw==
+X-Google-Smtp-Source: ABdhPJwHyb3Uu/D+m1KBGcOBx8DGoJr9xmIslcjtuv6E/noI9VnCsXsSSaoAgxWc/QSy5dpfLolSOAjoujOc7G9IFLo=
+X-Received: by 2002:a05:6402:b23:: with SMTP id bo3mr7592105edb.333.1598305838735;
+ Mon, 24 Aug 2020 14:50:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5ac3788f9f61f7698cfa9c5924d62714e230f678.1597931876.git.robin.murphy@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <CALAySuL==xc7W+_m=z_Y9VbnmXffAgdzUZxWyfKZDgFtGPJUng@mail.gmail.com>
+ <362d8b30-67a3-5c5a-80e8-2ed414cc53a7@xs4all.nl>
+In-Reply-To: <362d8b30-67a3-5c5a-80e8-2ed414cc53a7@xs4all.nl>
+From:   Vincent Fortier <th0ma7@gmail.com>
+Date:   Mon, 24 Aug 2020 17:50:27 -0400
+Message-ID: <CALAySuKE7j1E7AxW7bFExqOBy2LZkA24V2UEr2KXSf1b2cXN3Q@mail.gmail.com>
+Subject: Re: 4.4.59 backport issue - build system for media drivers
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robin,
+Thnx Hans, you were right-on!
+The following solved the issue for me.
 
-On 8/20/20 10:08 AM, Robin Murphy wrote:
-> Now that arch/arm is wired up for default domains and iommu-dma,
-> implement the corresponding driver-side support for DMA domains.
-> 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
->  drivers/iommu/omap-iommu.c | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
-> index 71f29c0927fc..ea25c2fe0418 100644
-> --- a/drivers/iommu/omap-iommu.c
-> +++ b/drivers/iommu/omap-iommu.c
-> @@ -9,6 +9,7 @@
->   *		Paul Mundt and Toshihiro Kobayashi
->   */
->  
-> +#include <linux/dma-iommu.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/err.h>
->  #include <linux/slab.h>
-> @@ -1574,13 +1575,19 @@ static struct iommu_domain *omap_iommu_domain_alloc(unsigned type)
->  {
->  	struct omap_iommu_domain *omap_domain;
->  
-> -	if (type != IOMMU_DOMAIN_UNMANAGED)
-> +	if (type != IOMMU_DOMAIN_UNMANAGED && type != IOMMU_DOMAIN_DMA)
->  		return NULL;
->  
->  	omap_domain = kzalloc(sizeof(*omap_domain), GFP_KERNEL);
->  	if (!omap_domain)
->  		return NULL;
->  
-> +	if (type == IOMMU_DOMAIN_DMA &&
-> +	    iommu_get_dma_cookie(&omap_domain->domain)) {
-> +		kfree(omap_domain);
-> +		return NULL;
-> +	}
-> +
->  	spin_lock_init(&omap_domain->lock);
->  
->  	omap_domain->domain.geometry.aperture_start = 0;
-> @@ -1601,6 +1608,7 @@ static void omap_iommu_domain_free(struct iommu_domain *domain)
->  	if (omap_domain->dev)
->  		_omap_iommu_detach_dev(omap_domain, omap_domain->dev);
->  
-> +	iommu_put_dma_cookie(&omap_domain->domain);
->  	kfree(omap_domain);
->  }
->  
-> @@ -1736,6 +1744,17 @@ static struct iommu_group *omap_iommu_device_group(struct device *dev)
->  	return group;
->  }
->  
-> +static int omap_iommu_of_xlate(struct device *dev,
-> +			       struct of_phandle_args *args)
-> +{
-> +	/*
-> +	 * Logically, some of the housekeeping from _omap_iommu_add_device()
-> +	 * should probably move here, but the minimum we *need* is simply to
-> +	 * cooperate with of_iommu at all to let iommu-dma work.
-> +	 */
-> +	return 0;
-> +}
-> +
+- viin
+(sorry for top-posting)
 
-I have tested this series, and it is breaking the OMAP remoteproc functionality.
-We definitely need some more plumbing. I am currently getting MMU faults and
-also the DMA allocated addresses are not coming from the device-specific CMA
-pools (opposite of what Sakari has reported with OMAP3 ISP). Just removing the
-of_xlate gets me back the expected allocations, and no MMU faults, but I don't
-see any valid traces.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-The MMU devices that the OMAP IOMMU driver deals with are not traditional
-bus-level IOMMU devices, but local MMU devices that are present within a remote
-processor sub-system or hardware accelerator (eg: OMAP3 ISP). The usage is also
-slightly different between remoteprocs and OMAP3 ISP. The former uses the CMA
-pools and iommu_map/unmap API (UNMANAGED iommu domain), as the allocated regions
-need to be mapped using specific device addresses adhering to the firmware
-linker map, while OMAP3 ISP uses it like a traditional DMA pool.
+--- backports/backports.txt.old    2020-07-20 08:26:22.000000000 +0000
++++ backports/backports.txt    2020-08-24 20:50:42.676026795 +0000
+@@ -114,6 +114,8 @@ add v4.5_copy_to_user_warning.patch
 
-regards
-Suman
+ [4.4.255]
+ add v4.4_gpio_chip_parent.patch
++
++[4.4.58]
+ add v4.4_user_pages_flag.patch
 
->  static const struct iommu_ops omap_iommu_ops = {
->  	.domain_alloc	= omap_iommu_domain_alloc,
->  	.domain_free	= omap_iommu_domain_free,
-> @@ -1747,6 +1766,7 @@ static const struct iommu_ops omap_iommu_ops = {
->  	.probe_device	= omap_iommu_probe_device,
->  	.release_device	= omap_iommu_release_device,
->  	.device_group	= omap_iommu_device_group,
-> +	.of_xlate	= omap_iommu_of_xlate,
->  	.pgsize_bitmap	= OMAP_IOMMU_PGSIZES,
->  };
->  
-> 
+ [4.3.255]
 
+Le lun. 24 ao=C3=BBt 2020 =C3=A0 05:01, Hans Verkuil <hverkuil@xs4all.nl> a=
+ =C3=A9crit :
+>
+> On 23/08/2020 22:42, Vincent Fortier wrote:
+> > Hi all,
+> >
+> > Not sure if I am at the right place to ask but I have issues using the
+> > experimental build system for media drivers on a 4.4.59 kernel for
+> > Synology NAS (DSM-6.2+ with associate toolchain). Note that it used to
+> > work really well around a year ago but somehow it stopped since.
+> >
+> > Synology's kernel source used is here:
+> > https://sourceforge.net/projects/dsgpl/files/Synology%20NAS%20GPL%20Sou=
+rce/24922branch/apollolake-source/linux-4.4.x.txz/download
+> >
+> > It fails to build on CONFIG_VIDEOBUF2_MEMOPS and
+> > CONFIG_VIDEOBUF_DMA_SG modules, essential for me to get going.
+> >
+> > Thnx a lot in advance!
+> >
+> > - vin
+> >
+> > ---
+> > Automatically applied patches:
+> > Applying patches for kernel 4.4.59
+> > patch -s -f -N -p1 -i ../backports/api_version.patch
+> > patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+> > patch -s -f -N -p1 -i ../backports/debug.patch
+> > patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+> > patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+> > patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+> > patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+> > patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+> > patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+> > patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+> > patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+> > patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+> > patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+> > patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+> > patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+> > patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+> > patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+> > patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+> > patch -s -f -N -p1 -i ../backports/v4.18_fwnode_args_args.patch
+> > patch -s -f -N -p1 -i ../backports/v4.18_smiapp_bitops.patch
+> > patch -s -f -N -p1 -i ../backports/v4.17_i2c_check_num_msgs.patch
+> > patch -s -f -N -p1 -i ../backports/v4.15_pmdown_time.patch
+> > patch -s -f -N -p1 -i ../backports/v4.14_saa7146_timer_cast.patch
+> > patch -s -f -N -p1 -i ../backports/v4.14_module_param_call.patch
+> > patch -s -f -N -p1 -i ../backports/v4.14_fwnode_handle_get.patch
+> > patch -s -f -N -p1 -i ../backports/v4.13_remove_nospec_h.patch
+> > patch -s -f -N -p1 -i ../backports/v4.13_drmP.patch
+> > patch -s -f -N -p1 -i ../backports/v4.13_fwnode_graph_get_port_parent.p=
+atch
+> > patch -s -f -N -p1 -i ../backports/v4.12_revert_solo6x10_copykerneluser=
+.patch
+> > patch -s -f -N -p1 -i ../backports/v4.11_drop_drm_file.patch
+> > patch -s -f -N -p1 -i ../backports/v4.10_sched_signal.patch
+> > patch -s -f -N -p1 -i ../backports/v4.10_fault_page.patch
+> > patch -s -f -N -p1 -i ../backports/v4.10_refcount.patch
+> > patch -s -f -N -p1 -i ../backports/v4.9_mm_address.patch
+> > patch -s -f -N -p1 -i ../backports/v4.9_dvb_net_max_mtu.patch
+> > patch -s -f -N -p1 -i ../backports/v4.9_probe_new.patch
+> > patch -s -f -N -p1 -i ../backports/v4.8_user_pages_flag.patch
+> > patch -s -f -N -p1 -i ../backports/v4.8_em28xx_bitfield.patch
+> > patch -s -f -N -p1 -i ../backports/v4.8_dma_map_resource.patch
+> > patch -s -f -N -p1 -i ../backports/v4.8_drm_crtc.patch
+> > patch -s -f -N -p1 -i ../backports/v4.7_dma_attrs.patch
+> > patch -s -f -N -p1 -i ../backports/v4.7_pci_alloc_irq_vectors.patch
+> > patch -s -f -N -p1 -i ../backports/v4.7_copy_to_user_warning.patch
+> > patch -s -f -N -p1 -i ../backports/v4.7_objtool_warning.patch
+> > patch -s -f -N -p1 -i ../backports/v4.6_i2c_mux.patch
+> > patch -s -f -N -p1 -i ../backports/v4.5_gpiochip_data_pointer.patch
+> > patch -s -f -N -p1 -i ../backports/v4.5_get_user_pages.patch
+> > patch -s -f -N -p1 -i ../backports/v4.5_uvc_super_plus.patch
+> > patch -s -f -N -p1 -i ../backports/v4.5_copy_to_user_warning.patch
+> > patch -s -f -N -p1 -i ../backports/v4.4_gpio_chip_parent.patch
+> > patch -s -f -N -p1 -i ../backports/v4.4_user_pages_flag.patch
+> > Patched drivers/media/dvb-core/dvbdev.c
+> > Patched drivers/media/v4l2-core/v4l2-dev.c
+> > Patched drivers/media/rc/rc-main.c
+> >
+> >
+> > BUILD ERRORS
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Errors for CONFIG_VIDEOBUF2_MEMOPS are:
+> > LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2=
+.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/smsmdtv.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/smsdvb-main.o
+> >   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/smsdvb.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-tpg-core.=
+o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-tpg-color=
+s.o
+> >   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-tpg.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-core=
+.o
+> >   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-comm=
+on.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-v4l2=
+.o
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-v4l2.c:
+> > In function 'vb2_queue_init_name':
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-v4l2.c:939:3:
+> > warning: ignoring return value of 'strscpy', declared with attribute
+> > warn_unused_result [-Wunused-result]
+> >    strscpy(q->name, name, sizeof(q->name));
+> >    ^
+>
+> From v4l/compat.h:
+>
+> #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 16, 0)
+> /* we got a lot of warnings for Kernels older than 4.16 because strscpy h=
+as
+>  * been declared with "__must_check" prior to 4.16. In fact it is really =
+not
+>  * necessary to check the return value of strscpy, so we clear the
+>  * "__must_check" definition.
+>  */
+> #undef __must_check
+> #define __must_check
+> #endif
+>
+> So I'm not sure where this warning comes from, v4l/compat.h should have t=
+aken care of that.
+>
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-v4l2.c:
+> > At top level:
+> > cc1: warning: unrecognized command line option "-Wno-format-truncation"
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memo=
+ps.o
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.c:
+> > In function 'vb2_create_framevec':
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.c:51:8:
+> > error: too few arguments to function 'get_vaddr_frames'
+> >   ret =3D get_vaddr_frames(start & PAGE_MASK, nr, flags, vec);
+> >         ^
+> > In file included from include/linux/scatterlist.h:7:0,
+> >                  from include/linux/dma-mapping.h:10,
+> >                  from include/linux/skbuff.h:34,
+> >                  from include/linux/if_ether.h:23,
+> >                  from
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/compat.h:1735,
+> >                  from <command-line>:0:
+> > include/linux/mm.h:969:5: note: declared here
+> >  int get_vaddr_frames(unsigned long start, unsigned int nr_pfns,
+> >      ^
+>
+> I suspect that backports/v4.4_user_pages_flag.patch may not be necessary =
+here.
+> If memory serves, then some mainline patches were backported to 4.4, requ=
+iring
+> this patch. 4.4.59 probably doesn't contain those backported patches yet.
+>
+> Regards,
+>
+>         Hans
+>
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.c:
+> > At top level:
+> > cc1: warning: unrecognized command line option "-Wno-format-truncation"
+> > make[6]: *** [scripts/Makefile.build:276:
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.o]
+> > Error 1
+> > make[5]: *** [Makefile:1411:
+> > _module_/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2=
+.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l]
+> > Error 2
+> > make[5]: Leaving directory
+> > '/home/spksrc/git-linuxtv/spksrc/kernel/syno-apollolake-6.2.2/work/sour=
+ce/linux'
+> > make[4]: *** [Makefile:53: default] Error 2
+> > make[4]: Leaving directory
+> > '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linu=
+xtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l'
+> > make[3]: *** [Makefile:26: all] Error 2
+> > make[3]: Leaving directory
+> > '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linu=
+xtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80'
+> > make[2]: *** [Makefile:70: linuxtv_compile] Error 2
+> > make[2]: Leaving directory '/home/spksrc/git-linuxtv/spksrc/cross/linux=
+tv'
+> > make[1]: *** [../../mk/spksrc.depend.mk:44: depend_target] Error 2
+> > make[1]: Leaving directory '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv=
+'
+> > make: [../../mk/spksrc.spk.mk:436: arch-apollolake-6.2.2] Error 2 (igno=
+red)
+> >
+> >
+> >
+> > And errors for CONFIG_VIDEOBUF_DMA_SG are:
+> > CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2=
+.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-common.o
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-common.c:
+> > In function 'v4l2_ctrl_query_fill':
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-common.c:84:2:
+> > warning: ignoring return value of 'strscpy', declared with attribute
+> > warn_unused_result [-Wunused-result]
+> >   strscpy(qctrl->name, name, sizeof(qctrl->name));
+> >   ^
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-common.c:
+> > At top level:
+> > cc1: warning: unrecognized command line option "-Wno-format-truncation"
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-compat-io=
+ctl32.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-mc.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-spi.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-i2c.o
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-i2c.c:
+> > In function 'v4l2_i2c_new_subdev':
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-i2c.c:132:2:
+> > warning: ignoring return value of 'strscpy', declared with attribute
+> > warn_unused_result [-Wunused-result]
+> >   strscpy(info.type, client_type, sizeof(info.type));
+> >   ^
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-i2c.c:
+> > At top level:
+> > cc1: warning: unrecognized command line option "-Wno-format-truncation"
+> >   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videodev.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-dv-timing=
+s.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/tuner-core.o
+> >   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/tuner.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-mem2mem.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-jpeg.o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-core.=
+o
+> >   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6=
+.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-s=
+g.o
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.c:
+> > In function 'videobuf_dma_init_user_locked':
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.c:188:16=
+:
+> > warning: passing argument 6 of 'get_user_pages' makes integer from
+> > pointer without a cast
+> >          flags, dma->pages, NULL);
+> >                 ^
+> > In file included from include/linux/scatterlist.h:7:0,
+> >                  from include/linux/dma-mapping.h:10,
+> >                  from include/linux/skbuff.h:34,
+> >                  from include/linux/if_ether.h:23,
+> >                  from
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/compat.h:1735,
+> >                  from <command-line>:0:
+> > include/linux/mm.h:941:6: note: expected 'int' but argument is of type
+> > 'struct page **'
+> >  long get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+> >       ^
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.c:186:8:
+> > error: too few arguments to function 'get_user_pages'
+> >   err =3D get_user_pages(current, current->mm,
+> >         ^
+> > In file included from include/linux/scatterlist.h:7:0,
+> >                  from include/linux/dma-mapping.h:10,
+> >                  from include/linux/skbuff.h:34,
+> >                  from include/linux/if_ether.h:23,
+> >                  from
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/compat.h:1735,
+> >                  from <command-line>:0:
+> > include/linux/mm.h:941:6: note: declared here
+> >  long get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+> >       ^
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.c:
+> > At top level:
+> > cc1: warning: unrecognized command line option "-Wno-format-truncation"
+> > make[6]: *** [scripts/Makefile.build:276:
+> > /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linux=
+tv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.o]
+> > Error 1
+> > make[5]: *** [Makefile:1411:
+> > _module_/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2=
+.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l]
+> > Error 2
+> > make[5]: Leaving directory
+> > '/home/spksrc/git-linuxtv/spksrc/kernel/syno-apollolake-6.2.2/work/sour=
+ce/linux'
+> > make[4]: *** [Makefile:53: default] Error 2
+> > make[4]: Leaving directory
+> > '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linu=
+xtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l'
+> > make[3]: *** [Makefile:26: all] Error 2
+> > make[3]: Leaving directory
+> > '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linu=
+xtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80'
+> > make[2]: *** [Makefile:70: linuxtv_compile] Error 2
+> > make[2]: Leaving directory '/home/spksrc/git-linuxtv/spksrc/cross/linux=
+tv'
+> > make[1]: *** [../../mk/spksrc.depend.mk:44: depend_target] Error 2
+> > make[1]: Leaving directory '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv=
+'
+> > make: [../../mk/spksrc.spk.mk:436: arch-apollolake-6.2.2] Error 2 (igno=
+red)
+> >
+>
