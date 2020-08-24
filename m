@@ -2,137 +2,302 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84CDF24F681
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 11:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EDF924F692
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 11:01:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730256AbgHXJAw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 05:00:52 -0400
-Received: from mga07.intel.com ([134.134.136.100]:19539 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730540AbgHXJAg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 05:00:36 -0400
-IronPort-SDR: 5mTunCxYyfA/TJDtu5PkDnEujgQKVaPQY/0/6smDEo+UBqTwbI7+9LOJxWhyD4dfLcGl/n2XVw
- 34wfTd5zrJ0A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9722"; a="220133837"
-X-IronPort-AV: E=Sophos;i="5.76,347,1592895600"; 
-   d="scan'208";a="220133837"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 02:00:34 -0700
-IronPort-SDR: JuqnD44J1eJdSKI6zzkgpTxrztwan09yZVzhN3w+XuxxZh7yu4t//Y9awDbVyLzdS8ZgUF0u4G
- 6N2GFakP5zHw==
-X-IronPort-AV: E=Sophos;i="5.76,347,1592895600"; 
-   d="scan'208";a="281122830"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 02:00:32 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id AA9112073D; Mon, 24 Aug 2020 12:00:30 +0300 (EEST)
-Date:   Mon, 24 Aug 2020 12:00:30 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        shawnx.tu@intel.com, Sergey Senozhatsky <senozhatsky@chromium.org>,
-        hongju.wang@intel.com
-Subject: Re: [PATCH v2] media: ov5675: correct the maximum exposure value
-Message-ID: <20200824090030.GD24582@paasikivi.fi.intel.com>
-References: <1597996790-21121-1-git-send-email-bingbu.cao@intel.com>
- <CAAFQd5DQR-HmFkgPk5mhTcoODEoAamhP0EO_YQR04SGQnuZp_w@mail.gmail.com>
- <caac1db9-412c-bb92-9670-dbef35d09374@linux.intel.com>
+        id S1730212AbgHXJBk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 05:01:40 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:48367 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728561AbgHXJBb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Aug 2020 05:01:31 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id A8M2kNdcbuuXOA8M4k1eX7; Mon, 24 Aug 2020 11:01:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598259688; bh=OLZf9gHZ72OfXx5n1+UyeePXBFKhoUtsNSd8JMQhtXA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=R1OqbFkw/g3rXd92jBWzQEezXAmmeDidOsaJQvWEj+QIBZ0tKKxdGpqsxysDsZ1Bz
+         QibKDrATWTM3F++N1fCEWtGZo4N9cy71ifKDNvM6DJgREWi75J15GrpWiH1O91gAwo
+         3dalIPBOAL0EytlTq56QkqWHRPYg8sbKjp0TozyWhPNtP5Auy+JjYNjt5fsS9ZLE3r
+         bxjg42fuhGi8Xs3ofAH3LzheiqA1P+Kub2Xy71aTQ0tZd48RadHx4qtYABN85VUZLx
+         qTB+nMs9yrN+nbyqcMON2IvG8Id/CgUR2Si4OpabGLUy4vUVFpVsJwRIwYC3wUS49M
+         Kq6CPrhwi3VuA==
+Subject: Re: 4.4.59 backport issue - build system for media drivers
+To:     Vincent Fortier <th0ma7@gmail.com>, linux-media@vger.kernel.org
+References: <CALAySuL==xc7W+_m=z_Y9VbnmXffAgdzUZxWyfKZDgFtGPJUng@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <362d8b30-67a3-5c5a-80e8-2ed414cc53a7@xs4all.nl>
+Date:   Mon, 24 Aug 2020 11:01:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <caac1db9-412c-bb92-9670-dbef35d09374@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CALAySuL==xc7W+_m=z_Y9VbnmXffAgdzUZxWyfKZDgFtGPJUng@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJiejmPFV7CvROrkGlRnu6/zSU9p4yRKwGeBPSt1HNWXuD4Qzje+mwqc/9PIw6yKVpoVQOYYOod2gMGoAGq4dEnf8dlNKCPHAfiefBd3/MHu8bH9WMAW
+ QbeXKgdOJKzmM4bOJPcq/NwR99ZB+z/lBriC4FzZ0/qMj9iiw8P6BU5a1SHO1wXBaqSyddxhSDoT8KisTnWuCHbSNhJwyCzr0OcGazwAKZGe7LyaoZJ0YI8y
+ 8u5Y15oY0BLT/gewe/HKAfrARJeLK8HCH2aVuf7WbsNWeBWNxJ5qVQK9Yvx8c41/xSvQCwEZjJ5GhjUBsRjoyw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
-
-On Mon, Aug 24, 2020 at 11:13:40AM +0800, Bingbu Cao wrote:
+On 23/08/2020 22:42, Vincent Fortier wrote:
+> Hi all,
+> 
+> Not sure if I am at the right place to ask but I have issues using the
+> experimental build system for media drivers on a 4.4.59 kernel for
+> Synology NAS (DSM-6.2+ with associate toolchain). Note that it used to
+> work really well around a year ago but somehow it stopped since.
+> 
+> Synology's kernel source used is here:
+> https://sourceforge.net/projects/dsgpl/files/Synology%20NAS%20GPL%20Source/24922branch/apollolake-source/linux-4.4.x.txz/download
+> 
+> It fails to build on CONFIG_VIDEOBUF2_MEMOPS and
+> CONFIG_VIDEOBUF_DMA_SG modules, essential for me to get going.
+> 
+> Thnx a lot in advance!
+> 
+> - vin
+> 
+> ---
+> Automatically applied patches:
+> Applying patches for kernel 4.4.59
+> patch -s -f -N -p1 -i ../backports/api_version.patch
+> patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+> patch -s -f -N -p1 -i ../backports/debug.patch
+> patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+> patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+> patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+> patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+> patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+> patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+> patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+> patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+> patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+> patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+> patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+> patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+> patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+> patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+> patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+> patch -s -f -N -p1 -i ../backports/v4.18_fwnode_args_args.patch
+> patch -s -f -N -p1 -i ../backports/v4.18_smiapp_bitops.patch
+> patch -s -f -N -p1 -i ../backports/v4.17_i2c_check_num_msgs.patch
+> patch -s -f -N -p1 -i ../backports/v4.15_pmdown_time.patch
+> patch -s -f -N -p1 -i ../backports/v4.14_saa7146_timer_cast.patch
+> patch -s -f -N -p1 -i ../backports/v4.14_module_param_call.patch
+> patch -s -f -N -p1 -i ../backports/v4.14_fwnode_handle_get.patch
+> patch -s -f -N -p1 -i ../backports/v4.13_remove_nospec_h.patch
+> patch -s -f -N -p1 -i ../backports/v4.13_drmP.patch
+> patch -s -f -N -p1 -i ../backports/v4.13_fwnode_graph_get_port_parent.patch
+> patch -s -f -N -p1 -i ../backports/v4.12_revert_solo6x10_copykerneluser.patch
+> patch -s -f -N -p1 -i ../backports/v4.11_drop_drm_file.patch
+> patch -s -f -N -p1 -i ../backports/v4.10_sched_signal.patch
+> patch -s -f -N -p1 -i ../backports/v4.10_fault_page.patch
+> patch -s -f -N -p1 -i ../backports/v4.10_refcount.patch
+> patch -s -f -N -p1 -i ../backports/v4.9_mm_address.patch
+> patch -s -f -N -p1 -i ../backports/v4.9_dvb_net_max_mtu.patch
+> patch -s -f -N -p1 -i ../backports/v4.9_probe_new.patch
+> patch -s -f -N -p1 -i ../backports/v4.8_user_pages_flag.patch
+> patch -s -f -N -p1 -i ../backports/v4.8_em28xx_bitfield.patch
+> patch -s -f -N -p1 -i ../backports/v4.8_dma_map_resource.patch
+> patch -s -f -N -p1 -i ../backports/v4.8_drm_crtc.patch
+> patch -s -f -N -p1 -i ../backports/v4.7_dma_attrs.patch
+> patch -s -f -N -p1 -i ../backports/v4.7_pci_alloc_irq_vectors.patch
+> patch -s -f -N -p1 -i ../backports/v4.7_copy_to_user_warning.patch
+> patch -s -f -N -p1 -i ../backports/v4.7_objtool_warning.patch
+> patch -s -f -N -p1 -i ../backports/v4.6_i2c_mux.patch
+> patch -s -f -N -p1 -i ../backports/v4.5_gpiochip_data_pointer.patch
+> patch -s -f -N -p1 -i ../backports/v4.5_get_user_pages.patch
+> patch -s -f -N -p1 -i ../backports/v4.5_uvc_super_plus.patch
+> patch -s -f -N -p1 -i ../backports/v4.5_copy_to_user_warning.patch
+> patch -s -f -N -p1 -i ../backports/v4.4_gpio_chip_parent.patch
+> patch -s -f -N -p1 -i ../backports/v4.4_user_pages_flag.patch
+> Patched drivers/media/dvb-core/dvbdev.c
+> Patched drivers/media/v4l2-core/v4l2-dev.c
+> Patched drivers/media/rc/rc-main.c
 > 
 > 
-> On 8/22/20 11:03 PM, Tomasz Figa wrote:
-> > Hi Bingbu,
-> > 
-> > On Fri, Aug 21, 2020 at 10:00 AM Bingbu Cao <bingbu.cao@intel.com> wrote:
-> >>
-> >> The unit of exposure value is different from other OmniVision sensors,
-> >> driver will divide by 2 before set register, the exposure range exposed
-> >> by v4l2 ctrl to user should be same as others, so the calculation for
-> >> the maximum exposure value in current driver need be fixed.
-> >>
-> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> >> ---
-> >>  drivers/media/i2c/ov5675.c | 15 ++++++++++-----
-> >>  1 file changed, 10 insertions(+), 5 deletions(-)
-> >>
-> > 
-> > Thanks for the patch! Please see my comments inline.
-> > 
-> >> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> >> index 8537cc4ca108..9540ce8918f0 100644
-> >> --- a/drivers/media/i2c/ov5675.c
-> >> +++ b/drivers/media/i2c/ov5675.c
-> >> @@ -666,8 +666,8 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
-> >>         /* Propagate change of current control to all related controls */
-> >>         if (ctrl->id == V4L2_CID_VBLANK) {
-> >>                 /* Update max exposure while meeting expected vblanking */
-> >> -               exposure_max = (ov5675->cur_mode->height + ctrl->val -
-> >> -                              OV5675_EXPOSURE_MAX_MARGIN) / 2;
-> >> +               exposure_max = ov5675->cur_mode->height + ctrl->val -
-> >> +                       OV5675_EXPOSURE_MAX_MARGIN;
-> >>                 __v4l2_ctrl_modify_range(ov5675->exposure,
-> >>                                          ov5675->exposure->minimum,
-> >>                                          exposure_max, ov5675->exposure->step,
-> >> @@ -689,7 +689,13 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
-> >>                 break;
-> >>
-> >>         case V4L2_CID_EXPOSURE:
-> >> -               /* 3 least significant bits of expsoure are fractional part */
-> >> +               /* 4 least significant bits of expsoure are fractional part
-> > 
-> > exposure
-> > 
-> >> +                * val = val << 4
-> >> +                * for ov5675, the unit of exposure is differnt from other
-> > 
-> > different
-> > 
-> >> +                * OmniVision sensors, its exposure value is twice of the
-> >> +                * register value, the exposure should be divided by 2 before
-> >> +                * set register, e.g. val << 3.
-> >> +                */
-> >>                 ret = ov5675_write_reg(ov5675, OV5675_REG_EXPOSURE,
-> >>                                        OV5675_REG_VALUE_24BIT, ctrl->val << 3);
-> > 
-> > How about turning this code into (ctrl->val << 4) / 2 ? It will be
-> > compiled into exactly the same code, but will be obvious that we are
-> > handling two different factors in the computation.
-> > 
-> > Another question: Since the V4L2_CID_EXPOSURE control is not specified
-> > to be in a particular unit and hardware supports fractional exposures,
-> > why not expose the exposure exactly as it is in the register?
-> My understanding is that the exposure calculation in userspace is commonly based
-> on the unit of exposure - line, as some sensor did not support fractional
-> exposures, so the common calculation only care the integral part. For ov5675, it
-> is different from others, its register value unit is 2lines instead of lines.
-> 
-> Sakari, do you have some idea?
+> BUILD ERRORS
+> =============
+> Errors for CONFIG_VIDEOBUF2_MEMOPS are:
+> LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/smsmdtv.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/smsdvb-main.o
+>   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/smsdvb.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-tpg-core.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-tpg-colors.o
+>   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-tpg.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-core.o
+>   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-common.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-v4l2.o
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-v4l2.c:
+> In function 'vb2_queue_init_name':
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-v4l2.c:939:3:
+> warning: ignoring return value of 'strscpy', declared with attribute
+> warn_unused_result [-Wunused-result]
+>    strscpy(q->name, name, sizeof(q->name));
+>    ^
 
-I've already sent v2 in a pull request to Mauro. So if changes are needed
-still, please send them on top of v2.
+From v4l/compat.h:
 
-Line is commonly used for devices that natively use it (vast majority of
-raw Bayer camera sensors). So if possible, I'd use the same here. I.e. with
-two line granularity, the exposure value could be in lines and the step
-would be 2.
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 16, 0)
+/* we got a lot of warnings for Kernels older than 4.16 because strscpy has
+ * been declared with "__must_check" prior to 4.16. In fact it is really not
+ * necessary to check the return value of strscpy, so we clear the
+ * "__must_check" definition.
+ */
+#undef __must_check
+#define __must_check
+#endif
 
--- 
+So I'm not sure where this warning comes from, v4l/compat.h should have taken care of that.
+
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-v4l2.c:
+> At top level:
+> cc1: warning: unrecognized command line option "-Wno-format-truncation"
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.o
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.c:
+> In function 'vb2_create_framevec':
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.c:51:8:
+> error: too few arguments to function 'get_vaddr_frames'
+>   ret = get_vaddr_frames(start & PAGE_MASK, nr, flags, vec);
+>         ^
+> In file included from include/linux/scatterlist.h:7:0,
+>                  from include/linux/dma-mapping.h:10,
+>                  from include/linux/skbuff.h:34,
+>                  from include/linux/if_ether.h:23,
+>                  from
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/compat.h:1735,
+>                  from <command-line>:0:
+> include/linux/mm.h:969:5: note: declared here
+>  int get_vaddr_frames(unsigned long start, unsigned int nr_pfns,
+>      ^
+
+I suspect that backports/v4.4_user_pages_flag.patch may not be necessary here.
+If memory serves, then some mainline patches were backported to 4.4, requiring
+this patch. 4.4.59 probably doesn't contain those backported patches yet.
+
 Regards,
 
-Sakari Ailus
+	Hans
+
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.c:
+> At top level:
+> cc1: warning: unrecognized command line option "-Wno-format-truncation"
+> make[6]: *** [scripts/Makefile.build:276:
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf2-memops.o]
+> Error 1
+> make[5]: *** [Makefile:1411:
+> _module_/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l]
+> Error 2
+> make[5]: Leaving directory
+> '/home/spksrc/git-linuxtv/spksrc/kernel/syno-apollolake-6.2.2/work/source/linux'
+> make[4]: *** [Makefile:53: default] Error 2
+> make[4]: Leaving directory
+> '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l'
+> make[3]: *** [Makefile:26: all] Error 2
+> make[3]: Leaving directory
+> '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80'
+> make[2]: *** [Makefile:70: linuxtv_compile] Error 2
+> make[2]: Leaving directory '/home/spksrc/git-linuxtv/spksrc/cross/linuxtv'
+> make[1]: *** [../../mk/spksrc.depend.mk:44: depend_target] Error 2
+> make[1]: Leaving directory '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv'
+> make: [../../mk/spksrc.spk.mk:436: arch-apollolake-6.2.2] Error 2 (ignored)
+> 
+> 
+> 
+> And errors for CONFIG_VIDEOBUF_DMA_SG are:
+> CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-common.o
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-common.c:
+> In function 'v4l2_ctrl_query_fill':
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-common.c:84:2:
+> warning: ignoring return value of 'strscpy', declared with attribute
+> warn_unused_result [-Wunused-result]
+>   strscpy(qctrl->name, name, sizeof(qctrl->name));
+>   ^
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-common.c:
+> At top level:
+> cc1: warning: unrecognized command line option "-Wno-format-truncation"
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-compat-ioctl32.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-mc.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-spi.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-i2c.o
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-i2c.c:
+> In function 'v4l2_i2c_new_subdev':
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-i2c.c:132:2:
+> warning: ignoring return value of 'strscpy', declared with attribute
+> warn_unused_result [-Wunused-result]
+>   strscpy(info.type, client_type, sizeof(info.type));
+>   ^
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-i2c.c:
+> At top level:
+> cc1: warning: unrecognized command line option "-Wno-format-truncation"
+>   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videodev.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-dv-timings.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/tuner-core.o
+>   LD [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/tuner.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-mem2mem.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/v4l2-jpeg.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-core.o
+>   CC [M]  /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.o
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.c:
+> In function 'videobuf_dma_init_user_locked':
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.c:188:16:
+> warning: passing argument 6 of 'get_user_pages' makes integer from
+> pointer without a cast
+>          flags, dma->pages, NULL);
+>                 ^
+> In file included from include/linux/scatterlist.h:7:0,
+>                  from include/linux/dma-mapping.h:10,
+>                  from include/linux/skbuff.h:34,
+>                  from include/linux/if_ether.h:23,
+>                  from
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/compat.h:1735,
+>                  from <command-line>:0:
+> include/linux/mm.h:941:6: note: expected 'int' but argument is of type
+> 'struct page **'
+>  long get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+>       ^
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.c:186:8:
+> error: too few arguments to function 'get_user_pages'
+>   err = get_user_pages(current, current->mm,
+>         ^
+> In file included from include/linux/scatterlist.h:7:0,
+>                  from include/linux/dma-mapping.h:10,
+>                  from include/linux/skbuff.h:34,
+>                  from include/linux/if_ether.h:23,
+>                  from
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/compat.h:1735,
+>                  from <command-line>:0:
+> include/linux/mm.h:941:6: note: declared here
+>  long get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+>       ^
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.c:
+> At top level:
+> cc1: warning: unrecognized command line option "-Wno-format-truncation"
+> make[6]: *** [scripts/Makefile.build:276:
+> /home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l/videobuf-dma-sg.o]
+> Error 1
+> make[5]: *** [Makefile:1411:
+> _module_/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l]
+> Error 2
+> make[5]: Leaving directory
+> '/home/spksrc/git-linuxtv/spksrc/kernel/syno-apollolake-6.2.2/work/source/linux'
+> make[4]: *** [Makefile:53: default] Error 2
+> make[4]: Leaving directory
+> '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80/v4l'
+> make[3]: *** [Makefile:26: all] Error 2
+> make[3]: Leaving directory
+> '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv/work-apollolake-6.2.2/linuxtv-gitea2766f182b3a4e03543be2ded0845fca4d4fa80'
+> make[2]: *** [Makefile:70: linuxtv_compile] Error 2
+> make[2]: Leaving directory '/home/spksrc/git-linuxtv/spksrc/cross/linuxtv'
+> make[1]: *** [../../mk/spksrc.depend.mk:44: depend_target] Error 2
+> make[1]: Leaving directory '/home/spksrc/git-linuxtv/spksrc/spk/linuxtv'
+> make: [../../mk/spksrc.spk.mk:436: arch-apollolake-6.2.2] Error 2 (ignored)
+> 
+
