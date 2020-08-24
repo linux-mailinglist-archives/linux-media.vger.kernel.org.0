@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D315A24F3B9
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 10:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C1EF24F401
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 10:28:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726354AbgHXIOb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 04:14:31 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:57777 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725836AbgHXIOa (ORCPT
+        id S1726189AbgHXI2c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 04:28:32 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:34427 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725926AbgHXI2b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 04:14:30 -0400
-X-Originating-IP: 93.34.118.233
+        Mon, 24 Aug 2020 04:28:31 -0400
 Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 0428AC0005;
-        Mon, 24 Aug 2020 08:14:24 +0000 (UTC)
-Date:   Mon, 24 Aug 2020 10:18:10 +0200
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 74CE324000D;
+        Mon, 24 Aug 2020 08:28:25 +0000 (UTC)
+Date:   Mon, 24 Aug 2020 10:32:11 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
         devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@kernel.org>, mchehab@kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: imx214: Convert to json-schema
-Message-ID: <20200824081810.7xwheje64ps4nbvf@uno.localdomain>
-References: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
- <20200819132823.GH6049@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
+Message-ID: <20200824083211.u2zm4o6f4wrxlu6k@uno.localdomain>
+References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
+ <20200818122012.37956-2-jacopo+renesas@jmondi.org>
+ <20200819135204.GJ6049@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200819132823.GH6049@pendragon.ideasonboard.com>
+In-Reply-To: <20200819135204.GJ6049@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -40,158 +40,116 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Wed, Aug 19, 2020 at 04:28:23PM +0300, Laurent Pinchart wrote:
+On Wed, Aug 19, 2020 at 04:52:04PM +0300, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
 > Thank you for the patch.
 >
-> On Tue, Aug 18, 2020 at 02:17:55PM +0200, Jacopo Mondi wrote:
-> > Convert the imx214 bindings document to json-schema and update
+> On Tue, Aug 18, 2020 at 02:20:10PM +0200, Jacopo Mondi wrote:
+> > Convert the ov772x binding document to json-schema and update
 > > the MAINTAINERS file accordingly.
 > >
 > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > > ---
-> >  .../bindings/media/i2c/sony,imx214.txt        |  53 --------
-> >  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
-> >  MAINTAINERS                                   |   2 +-
-> >  3 files changed, 125 insertions(+), 54 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> >  .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
+> >  .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
+>
+> Could yuo rename this to ovti,ov772x.yaml ?
+>
+> >  MAINTAINERS                                   |  2 +-
+> >  3 files changed, 85 insertions(+), 41 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
 > >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
 > > deleted file mode 100644
-> > index f11f28a5fda4..000000000000
-> > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> > index 0b3ede5b8e6a..000000000000
+> > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
 > > +++ /dev/null
-> > @@ -1,53 +0,0 @@
-> > -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
+> > @@ -1,40 +0,0 @@
+> > -* Omnivision OV7720/OV7725 CMOS sensor
 > > -
-> > -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> > -an active array size of 4224H x 3200V. It is programmable through an I2C
-> > -interface.
-> > -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
-> > -throughput of 1.2Gbps/lane.
-> > -
+> > -The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> > -such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> > -support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
 > > -
 > > -Required Properties:
-> > -- compatible: Shall be "sony,imx214".
-> > -- reg: I2C bus address of the device. Depending on how the sensor is wired,
-> > -       it shall be <0x10> or <0x1a>;
-> > -- enable-gpios: GPIO descriptor for the enable pin.
-> > -- vdddo-supply: Chip digital IO regulator (1.8V).
-> > -- vdda-supply: Chip analog regulator (2.7V).
-> > -- vddd-supply: Chip digital core regulator (1.12V).
-> > -- clocks: Reference to the xclk clock.
-> > -- clock-frequency: Frequency of the xclk clock.
+> > -- compatible: shall be one of
+> > -	"ovti,ov7720"
+> > -	"ovti,ov7725"
+> > -- clocks: reference to the xclk input clock.
 > > -
 > > -Optional Properties:
-> > -- flash-leds: See ../video-interfaces.txt
-> > -- lens-focus: See ../video-interfaces.txt
+> > -- reset-gpios: reference to the GPIO connected to the RSTB pin which is
+> > -  active low, if any.
+> > -- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
+> > -  active high, if any.
 > > -
-> > -The imx214 device node shall contain one 'port' child node with
-> > -an 'endpoint' subnode. For further reading on port node refer to
-> > -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > -
-> > -Required Properties on endpoint:
-> > -- data-lanes: check ../video-interfaces.txt
-> > -- link-frequencies: check ../video-interfaces.txt
-> > -- remote-endpoint: check ../video-interfaces.txt
+> > -The device node shall contain one 'port' child node with one child 'endpoint'
+> > -subnode for its digital output video port, in accordance with the video
+> > -interface bindings defined in Documentation/devicetree/bindings/media/
+> > -video-interfaces.txt.
 > > -
 > > -Example:
 > > -
-> > -	camera-sensor@1a {
-> > -		compatible = "sony,imx214";
-> > -		reg = <0x1a>;
-> > -		vdddo-supply = <&pm8994_lvs1>;
-> > -		vddd-supply = <&camera_vddd_1v12>;
-> > -		vdda-supply = <&pm8994_l17>;
-> > -		lens-focus = <&ad5820>;
-> > -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> > -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
-> > -		clock-frequency = <24000000>;
+> > -&i2c0 {
+> > -	ov772x: camera@21 {
+> > -		compatible = "ovti,ov7725";
+> > -		reg = <0x21>;
+> > -		reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> > -		powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> > -		clocks = <&xclk>;
+> > -
 > > -		port {
-> > -			imx214_ep: endpoint {
-> > -				data-lanes = <1 2 3 4>;
-> > -				link-frequencies = /bits/ 64 <480000000>;
-> > -				remote-endpoint = <&csiphy0_ep>;
+> > -			ov772x_0: endpoint {
+> > -				remote-endpoint = <&vcap1_in0>;
 > > -			};
 > > -		};
 > > -	};
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
 > > new file mode 100644
-> > index 000000000000..ddd4627214b1
+> > index 000000000000..2b84fefeb4aa
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > @@ -0,0 +1,124 @@
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > @@ -0,0 +1,84 @@
 > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > > +%YAML 1.2
 > > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
+> > +$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
 > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
->
-> s/Mp/MP/
->
+> > +title:  Omnivision OV7720/OV7725 CMOS sensor
 > > +
 > > +maintainers:
-> > +  - Ricardo Ribalda <ribalda@kernel.org>
+> > +  - Jacopo Mondi <jacopo@jmondi.org>
 > > +
 > > +description: -|
-> > +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
->
-> s/imx214/IMX214/
->
-> > +  an active array size of 4224H x 3200V. It is programmable through an I2C
-> > +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
->
-> s/  Image/ Image/
->
-> > +  maximum throughput of 1.2Gbps/lane.
+> > +  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> > +  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> > +  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
 > > +
 > > +properties:
 > > +  compatible:
-> > +    const: sony,imx214
+> > +    enum:
+> > +      - ovti,ov7720
+> > +      - ovti,ov7725
 > > +
 > > +  reg:
-> > +    description: -|
-> > +      I2C device address. Depends on how the sensor is wired.
->
-> I'd drop the description, it's fairly evident as it's an I2C device,
-> isn't it ?
->
-> > +    enum:
-> > +      - 0x10
-> > +      - 0x1a
+> > +    maxItems: 1
 > > +
 > > +  clocks:
-> > +    description: Reference to the xclk clock.
 > > +    maxItems: 1
 > > +
-> > +  clock-frequency:
-> > +    description: Frequency of the xclk clock in Hz.
-> > +
-> > +  enable-gpios:
-> > +    description: GPIO descriptor for the enable pin.
+> > +  reset-gpios:
+> > +    description: -|
+> > +      Reference to the GPIO connected to the RSTB pin which is active low.
 > > +    maxItems: 1
 > > +
-> > +  vdddo-supply:
-> > +    description: Chip digital IO regulator (1.8V).
+> > +  powerdown-gpios:
+> > +    description: -|
+> > +      Reference to the GPIO connected to the PWDN pin which is active high.
 > > +    maxItems: 1
-> > +
-> > +  vdda-supply:
-> > +    description: Chip analog regulator (2.7V).
-> > +    maxItems: 1
-> > +
-> > +  vddd-supply:
-> > +    description: Chip digital core regulator (1.12V).
-> > +    maxItems: 1
-> > +
-> > +  flash-leds:
-> > +    description: See ../video-interfaces.txt
-> > +
-> > +  lens-focus:
-> > +    description: See ../video-interfaces.txt
 > > +
 > > +  port:
 > > +    type: object
@@ -200,7 +158,9 @@ On Wed, Aug 19, 2020 at 04:28:23PM +0300, Laurent Pinchart wrote:
 > > +      video port, in accordance with the video interface bindings defined in
 > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
 >
-> I'd drop this, the port node is already described as required below.
+> You can simply write
+>
+>       Digital input video port. See ../video-interfaces.txt.
 >
 > > +
 > > +    properties:
@@ -208,75 +168,25 @@ On Wed, Aug 19, 2020 at 04:28:23PM +0300, Laurent Pinchart wrote:
 > > +        type: object
 > > +        properties:
 > > +          remote-endpoint:
-> > +            description: See ../video-interfaces.txt
-> > +
-> > +          data-lanes:
-> > +            description: See ../video-interfaces.txt
+> > +            description: A phandle to the bus receiver's endpoint node.
 >
-> Shouldn't this also express that only 2 or 4 data lanes are allowed ?
-
-I can't tell. I don't have the device manual, nor I'm the maintainer
-of the driver, so I barely translated the existing bindings into yaml.
-Spelling improvements apart, I won't modify the existing in this
-patch, but possibly on top.
-
-That' said, in this case the device description reports "supports 2 or
-4 lanes" so that's probably the case and this could be done already ?
-
+>            required:
+> 	     - remote-endpoint
 >
->             $ref: /schemas/types.yaml#/definitions/uint32-array
->             description: See ../video-interfaces.txt
->             anyOf:
->               - items:
->                   - const: 1
->                   - const: 2
->               - items:
->                   - const: 1
->                   - const: 2
->                   - const: 3
->                   - const: 4
->
-> Maybe someone more experienced with YAML schemas could propose a better
-> way to express this ? I initially tried to express it with enum instead
-> of anyOf but couldn't get it to work.
+>            additionalProperties: false
 
-FWIW I can trick the validator to work with
+I receveied a reply to you on previous json-schema conversion attempt
+where you suggested to not set remote-endpoint as required, as we
+allow empty ones to be later filled in in, maybe with an overlay.
 
-          data-lanes:
-            description: See ../video-interfaces.txt
-            enum:
-              - [[1, 2]]
-              - [[1, 2, 3, 4]]
-
-If I drop the ugly double [[ ]] I get a complaint for:
-camera-sensor@1a: port:endpoint:data-lanes: [[1, 2, 3, 4]] is not one of [[1, 2], [1, 2, 3, 4]]
-
-which makes me think the way we express the property makes the
-validator parse it as an array of arrays of uint32_t.
-
-If no better suggestions, I'll take your in as a separate patch on
-top.
-
->
-> > +
-> > +          link-frequencies:
->
->             $ref: /schemas/types.yaml#/definitions/uint64-array
-
-Right!
-
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
+Which Laurent should I listen to ? I tend to agree with the one that
+said to drop remote-endpoint from the required properties list.
 
 Thanks
   j
-
-> > +            description: See ../video-interfaces.txt
-> > +
-> > +        required:
-> > +          - data-lanes
-> > +          - link-frequencies
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
 > > +
 > > +    additionalProperties: false
 > > +
@@ -284,12 +194,8 @@ Thanks
 > > +  - compatible
 > > +  - reg
 > > +  - clocks
-> > +  - clock-frequency
-> > +  - enable-gpios
-> > +  - vdddo-supply
-> > +  - vdda-supply
-> > +  - vddd-supply
-> > +  - port
+> > +  - reset-gpios
+> > +  - powerdown-gpios
 > > +
 > > +examples:
 > > +  - |
@@ -298,23 +204,16 @@ Thanks
 > > +    i2c0 {
 > > +        #address-cells = <1>;
 > > +        #size-cells = <0>;
-> > +
-> > +        camera-sensor@1a {
-> > +            compatible = "sony,imx214";
-> > +            reg = <0x1a>;
-> > +            vdddo-supply = <&pm8994_lvs1>;
-> > +            vddd-supply = <&camera_vddd_1v12>;
-> > +            vdda-supply = <&pm8994_l17>;
-> > +            lens-focus = <&ad5820>;
-> > +            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> > +            clocks = <&camera_clk>;
-> > +            clock-frequency = <24000000>;
+> > +        ov772x: camera@21 {
+> > +            compatible = "ovti,ov7725";
+> > +            reg = <0x21>;
+> > +            reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> > +            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> > +            clocks = <&xclk>;
 > > +
 > > +            port {
-> > +                imx214_ep: endpoint {
-> > +                    data-lanes = <1 2 3 4>;
-> > +                    link-frequencies = /bits/ 64 <480000000>;
-> > +                    remote-endpoint = <&csiphy0_ep>;
+> > +                ov772x_0: endpoint {
+> > +                    remote-endpoint = <&vcap1_in0>;
 > > +                };
 > > +            };
 > > +        };
@@ -322,18 +221,18 @@ Thanks
 > > +
 > > +...
 > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 6c8e98238a7b..d1a6173d3b64 100644
+> > index d1a6173d3b64..d0a20214eaaf 100644
 > > --- a/MAINTAINERS
 > > +++ b/MAINTAINERS
-> > @@ -15918,7 +15918,7 @@ M:	Ricardo Ribalda <ribalda@kernel.org>
+> > @@ -12666,7 +12666,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
 > >  L:	linux-media@vger.kernel.org
-> >  S:	Maintained
+> >  S:	Odd fixes
 > >  T:	git git://linuxtv.org/media_tree.git
-> > -F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > +F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> >  F:	drivers/media/i2c/imx214.c
+> > -F:	Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > +F:	Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> >  F:	drivers/media/i2c/ov772x.c
+> >  F:	include/media/i2c/ov772x.h
 > >
-> >  SONY IMX219 SENSOR DRIVER
 >
 > --
 > Regards,
