@@ -2,246 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5AE824FCA9
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 13:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3A3724FCD6
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 13:41:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726885AbgHXLfi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 07:35:38 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53870 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727120AbgHXLfC (ORCPT
+        id S1727902AbgHXLk6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 07:40:58 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:34085 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727878AbgHXLkx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 07:35:02 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A353A279;
-        Mon, 24 Aug 2020 13:34:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1598268899;
-        bh=j9IFQ5KtfzbWaW/qZw+V+hy9bUEWs1YnU0kyW0/IR5U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=P7tvpRnq093E979OM/aXX0qHGU8jj/FCvJ/ZKV6MeGq8IOyw4ry3Oi9iF167zjoI/
-         qK5WA8DLlpvDwXSFVJydeOi7owgg94cOb6yrYPHSxoNZpq59xZTnjvlOgmCDWtLOtj
-         Cgnp/5rqaAwPP9DtQsy1exFaloyzKmNn4Kwhp42M=
-Date:   Mon, 24 Aug 2020 14:34:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
-Message-ID: <20200824113440.GC6002@pendragon.ideasonboard.com>
-References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
- <20200818122012.37956-2-jacopo+renesas@jmondi.org>
- <20200819135204.GJ6049@pendragon.ideasonboard.com>
- <20200824083211.u2zm4o6f4wrxlu6k@uno.localdomain>
+        Mon, 24 Aug 2020 07:40:53 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200824114050euoutp014ebf6f425810a81da2d89b782f03f226~uMWppfsV72191321913euoutp01C
+        for <linux-media@vger.kernel.org>; Mon, 24 Aug 2020 11:40:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200824114050euoutp014ebf6f425810a81da2d89b782f03f226~uMWppfsV72191321913euoutp01C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1598269250;
+        bh=ba4YL16aB6a2EgaaQucW8uhtGVOy2S8TT7bz8yWdugc=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=KLAl8/rj3via+ICyNo0UrZsfOePBv8yAnKLfFFNZkRLpi1AUovjtx1hj+gFec6B+F
+         Uw0S26HFxG8sI6Xskt//PtxLlFnriEo6WuSpR09wfCWN7QsPgwc/brB4gFx9cblYxC
+         4OyoWvO9wtyzaoJmBtjXOxcqRSp+SCHpjVL+Gz/g=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200824114050eucas1p22a241e6d641aab84d27b1ef438e39c3f~uMWpJBJnF2495524955eucas1p2m;
+        Mon, 24 Aug 2020 11:40:50 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 2E.25.05997.247A34F5; Mon, 24
+        Aug 2020 12:40:50 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200824114049eucas1p13aea77bc609874909fed72db8f8b9cc5~uMWok_7LR0700207002eucas1p10;
+        Mon, 24 Aug 2020 11:40:49 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200824114049eusmtrp164506cbb2e6fd6c17cfe4ae606e3d8f6~uMWokBqNW1930519305eusmtrp18;
+        Mon, 24 Aug 2020 11:40:49 +0000 (GMT)
+X-AuditID: cbfec7f4-677ff7000000176d-cd-5f43a742d9db
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 2A.FE.06017.147A34F5; Mon, 24
+        Aug 2020 12:40:49 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200824114048eusmtip189507904f024364f3e302a180a26ef55~uMWnEiCIc2041620416eusmtip1J;
+        Mon, 24 Aug 2020 11:40:48 +0000 (GMT)
+Subject: Re: [PATCH 00/18] Convert arch/arm to use iommu-dma
+To:     Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
+        linux@armlinux.org.uk
+Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, agross@kernel.org,
+        bjorn.andersson@linaro.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, vdumpa@nvidia.com, digetx@gmail.com,
+        matthias.bgg@gmail.com, yong.wu@mediatek.com,
+        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
+        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <bf32cdea-ee5b-1431-3b97-c0889acdacc6@samsung.com>
+Date:   Mon, 24 Aug 2020 13:40:48 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200824083211.u2zm4o6f4wrxlu6k@uno.localdomain>
+In-Reply-To: <cover.1597931875.git.robin.murphy@arm.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUxTZxjNe+/b29u66qVAeOLMTKoucYsyhiaviB+oPy7RH+qyhJgo6+QG
+        DB+aVhT8obVUUwoitBKxxWK0BgdYCSCwDqhUS6OkIKIVFYIKumFERDGRauZorzr+nec557zn
+        OcnL0so+Zj67J2e/oMlRZ6kYOW7umu5dtqF6Y+pPZouC9Ix8wKTb/QqT2skRRO6+m2DIWZsZ
+        kT9qvRQxD5dics69mhis5zEptNVLiV//UkoKyxxS0jASkJAyt19K+l2VDCmuvyoh/QV9iFT0
+        dlCkcMrKEE95OyKPa8cZojfEk87XoxLSHuyQkArLGEMcz4wMmXbZMSlp304MgyvJsLkRr/+O
+        H+20U3ydvQ7x/YE+mi/zL+P/tA5JeZvxjIRvqClk+MFAG8MPF/kovtFxhLcMVCP+rwc6hjfc
+        dGP+RMErhi9pqkG8b6CF2hqxQ56YJmTtOSBoYtf+Js9wX39A7TNE5XlL4nToLGdCMha4FfDO
+        9gabkJxVcpcQ3PB2UOIwhaBg4thn5i2C+/90Ml8srheVEpGoRvB8rOjzMIGg6eEtKqSK5BLB
+        2/c3HcJR3E4Itn6UhkQ01yYBnXkYhwiGiwPTuCn8rIJbC5/8z1AIY24JOI8+DpujuV1w1XeP
+        EjURcPPMaNgr4wgM9kyGMc0thJbxSlrEMfBwtCpcArgqGbx2BGnx7k1Qe2kKizgSXviapCJe
+        AN2WYiwaChA86bksFYdiBP36CiSqVs/EBWdOZWcilsIVV6y4TgLvUFt4DdxcGBiPEI+YC+bm
+        07S4VoDxuFJUfw9Wn/NrbOftO3QpUllnVbPOqmOdVcf6f+45hGtQjJCrzU4XtD/nCAeXa9XZ
+        2tyc9OW792Y3oJmP3v2vb6oVuT7+7kEci1TfKN571qUqJeoD2vxsDwKWVkUpNvi7dykVaer8
+        Q4Jmb6omN0vQetC3LFbFKOLPj+1Ucunq/UKmIOwTNF9YipXN16HE9PpgXnxK5q3mDF1R/uno
+        4Dpn1jxZS8K2wK+O66d+TLavMToXX3iTNNmkwAknUlKuRUeWP5Lnrm9ddfHYo5f2tJOZeQnJ
+        8+oG3UweozPp50QcKTfaPmx2Hr5WarIUbVmUjJPuxfyiPzQZO625/bS08Ulg6GiXxq/+9Pzw
+        wd6uQJIKazPUcT/QGq36P1600WDkAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SW0xTWRSGs8+txdh4bFE3ZKKmBjRGiqdYWTgM6mjIeVBjrHHG8YJHPSlG
+        Sk1PMeporNIHWoWhEA0WrDe04SLpgMKIQIciImIxBENEIaitMRqLOlEjOkGBasLbl/3/315Z
+        yZKTymd0rHxPtkU0ZwtZamYK1TXaMZiw0rMqY/GN0gXQHfxCQZdvmIKqd0EEDz68YeBsaRGC
+        iqp2AoqGCik47/sZbK6LFNhLvTIIHH8tA7uzXAa1wT4anL6ADHobyxg46b1OQ29uD4KS+y0E
+        2N+7GPCfakbwpCrMwHFbErS+DdHQ/LmFhpLilwyUP89jYKTRTUFB8wawDehgqKiOWjGbD7W6
+        Cb7aXY343r4ekncGEvgbrkEZX5p3huZrK+0MP9DXxPBDJzoIvq78KF/80IP4m/1Whrd1+ig+
+        P3eY4QuuVSK+42EDsX76H5pUsynHIs7NNEmWX9RbONBquBTQaJekaLik5G3LtDp1YlrqbjFr
+        z37RnJi2Q5Ppa+sn9tmiD7QXcFZ0lnWgKDlml+DGV2W0A02RK9nLCHv/vkpEgp9w52krHWEV
+        /r/PwURKYYRHa/6lxgMVm4rbe16Q4xzNbsPvPVXMOJNsE40vh2MjwgmEB+/a0HjAsBx2hB0T
+        JQWbhr8Gnk+8U2wcrjn2ZOKjGex2HMz/SkY603HnmdDEsCgW8ED3OyoyYCl21z0lIzwHN4TL
+        vvMs/Ch0jihEStck3TVJcU1SXJOU84iqRNFijmQ0GCWtRhKMUk62QbPLZKxFY/dVf3vk2j/I
+        Maz3I1aO1FMVn/zLM5S0sF86aPQjLCfV0YpfA13blYrdwsFDotmUYc7JEiU/0o0t5yRjZ+wy
+        jV1rtiWD03HJkMIlJyUnLQX1LEUe27pVyRoEi7hXFPeJ5h8eIY+KtaLa0JHC9Hq9p2XTxq3C
+        zPSY4BG9HA7HXInbHN8W415lcspu/rfuBcy7Uxd3UbtW2bawJGGntfrkomfOR4nejyvnT9Ov
+        LjoMHTohX1+/tyX9nuHP1DXF1F+HVPaK0fAFqPH0L172OP63pks74k9fmDliaPJefXmrW1X9
+        e1aFWpXekKumpEyBW0iaJeEbK502LHUDAAA=
+X-CMS-MailID: 20200824114049eucas1p13aea77bc609874909fed72db8f8b9cc5
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200820150857eucas1p18f5f2ad87703a68b6ed20a090f7c1c57
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200820150857eucas1p18f5f2ad87703a68b6ed20a090f7c1c57
+References: <CGME20200820150857eucas1p18f5f2ad87703a68b6ed20a090f7c1c57@eucas1p1.samsung.com>
+        <cover.1597931875.git.robin.murphy@arm.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Robin,
 
-On Mon, Aug 24, 2020 at 10:32:11AM +0200, Jacopo Mondi wrote:
-> On Wed, Aug 19, 2020 at 04:52:04PM +0300, Laurent Pinchart wrote:
-> > On Tue, Aug 18, 2020 at 02:20:10PM +0200, Jacopo Mondi wrote:
-> > > Convert the ov772x binding document to json-schema and update
-> > > the MAINTAINERS file accordingly.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
-> > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
-> >
-> > Could yuo rename this to ovti,ov772x.yaml ?
-> >
-> > >  MAINTAINERS                                   |  2 +-
-> > >  3 files changed, 85 insertions(+), 41 deletions(-)
-> > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > > deleted file mode 100644
-> > > index 0b3ede5b8e6a..000000000000
-> > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > > +++ /dev/null
-> > > @@ -1,40 +0,0 @@
-> > > -* Omnivision OV7720/OV7725 CMOS sensor
-> > > -
-> > > -The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
-> > > -such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
-> > > -support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
-> > > -
-> > > -Required Properties:
-> > > -- compatible: shall be one of
-> > > -	"ovti,ov7720"
-> > > -	"ovti,ov7725"
-> > > -- clocks: reference to the xclk input clock.
-> > > -
-> > > -Optional Properties:
-> > > -- reset-gpios: reference to the GPIO connected to the RSTB pin which is
-> > > -  active low, if any.
-> > > -- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
-> > > -  active high, if any.
-> > > -
-> > > -The device node shall contain one 'port' child node with one child 'endpoint'
-> > > -subnode for its digital output video port, in accordance with the video
-> > > -interface bindings defined in Documentation/devicetree/bindings/media/
-> > > -video-interfaces.txt.
-> > > -
-> > > -Example:
-> > > -
-> > > -&i2c0 {
-> > > -	ov772x: camera@21 {
-> > > -		compatible = "ovti,ov7725";
-> > > -		reg = <0x21>;
-> > > -		reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
-> > > -		powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
-> > > -		clocks = <&xclk>;
-> > > -
-> > > -		port {
-> > > -			ov772x_0: endpoint {
-> > > -				remote-endpoint = <&vcap1_in0>;
-> > > -			};
-> > > -		};
-> > > -	};
-> > > -};
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > new file mode 100644
-> > > index 000000000000..2b84fefeb4aa
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > @@ -0,0 +1,84 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title:  Omnivision OV7720/OV7725 CMOS sensor
-> > > +
-> > > +maintainers:
-> > > +  - Jacopo Mondi <jacopo@jmondi.org>
-> > > +
-> > > +description: -|
-> > > +  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
-> > > +  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
-> > > +  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - ovti,ov7720
-> > > +      - ovti,ov7725
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> > > +
-> > > +  reset-gpios:
-> > > +    description: -|
-> > > +      Reference to the GPIO connected to the RSTB pin which is active low.
-> > > +    maxItems: 1
-> > > +
-> > > +  powerdown-gpios:
-> > > +    description: -|
-> > > +      Reference to the GPIO connected to the PWDN pin which is active high.
-> > > +    maxItems: 1
-> > > +
-> > > +  port:
-> > > +    type: object
-> > > +    description: |
-> > > +      The device node must contain one 'port' child node for its digital output
-> > > +      video port, in accordance with the video interface bindings defined in
-> > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> >
-> > You can simply write
-> >
-> >       Digital input video port. See ../video-interfaces.txt.
-> >
-> > > +
-> > > +    properties:
-> > > +      endpoint:
-> > > +        type: object
-> > > +        properties:
-> > > +          remote-endpoint:
-> > > +            description: A phandle to the bus receiver's endpoint node.
-> >
-> >            required:
-> > 	     - remote-endpoint
-> >
-> >            additionalProperties: false
-> 
-> I receveied a reply to you on previous json-schema conversion attempt
-> where you suggested to not set remote-endpoint as required, as we
-> allow empty ones to be later filled in in, maybe with an overlay.
-> 
-> Which Laurent should I listen to ? I tend to agree with the one that
-> said to drop remote-endpoint from the required properties list.
+On 20.08.2020 17:08, Robin Murphy wrote:
+> Hi all,
+>
+> After 5 years or so of intending to get round to this, finally the
+> time comes! The changes themselves actualy turn out to be relatively
+> mechanical; the bigger concern appears to be how to get everything
+> merged across about 5 diffferent trees given the dependencies.
+>
+> I've lightly boot-tested things on Rockchip RK3288 and Exynos 4412
+> (Odroid-U3), to the degree that their display drivers should be using
+> IOMMU-backed buffers and don't explode (the Odroid doesn't manage to
+> send a working HDMI signal to the one monitor I have that it actually
+> detects, but that's a pre-existing condition...) Confirmation that the
+> Mediatek, OMAP and Tegra changes work will be most welcome.
+>
+> Patches are based on 5.9-rc1, branch available here:
+>
+>    git://linux-arm.org/linux-rm arm/dma
 
-Maybe I recall incorrectly, didn't I say that endpoint shouldn't be
-mandatory ? Ports should be mandatory as they describe the hardware,
-endpoints describe a connection, and within a connection, I'm not sure
-to see a use-case for not setting remote-endpoint. Maybe I need to look
-better ? :-)
+Well, my first proposal for the ARM and ARM64 DMA-mapping unification 
+has been posted long time ago: https://lkml.org/lkml/2016/2/19/79
 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > > +
-> > > +    additionalProperties: false
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - reset-gpios
-> > > +  - powerdown-gpios
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    i2c0 {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +        ov772x: camera@21 {
-> > > +            compatible = "ovti,ov7725";
-> > > +            reg = <0x21>;
-> > > +            reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
-> > > +            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
-> > > +            clocks = <&xclk>;
-> > > +
-> > > +            port {
-> > > +                ov772x_0: endpoint {
-> > > +                    remote-endpoint = <&vcap1_in0>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index d1a6173d3b64..d0a20214eaaf 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -12666,7 +12666,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
-> > >  L:	linux-media@vger.kernel.org
-> > >  S:	Odd fixes
-> > >  T:	git git://linuxtv.org/media_tree.git
-> > > -F:	Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > > +F:	Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > >  F:	drivers/media/i2c/ov772x.c
-> > >  F:	include/media/i2c/ov772x.h
-> > >
+Thanks for resurrecting it! :)
 
+I've tested this patchset on various ARM32bit Exynos based boards (not 
+only Exynos4412) and most of them works fine after your conversion. 
+However there are issues you cannot learn from the code.
+
+Conversion of the Exynos DRM was straightforward (thanks!), but there 
+are other Exynos drivers that depends on the old ARM implementation. The 
+S5P-MFC (only for the v5 hardware) and Exynos4 FIMC-ISP drivers depends 
+on the first-fit IOVA allocation algorithm in the old ARM DMA-mapping. 
+This was the main reason I've didn't continue my initial conversion attempt.
+
+Both drivers allocate a buffer for their firmware and then in the 
+hardware registers address video buffers as an offset from the 
+begginning of the firmware. This doesn't work when underlying 
+DMA-mapping allocates IOVA with the last-fit algorithm, what the 
+drivers/iommu/dma-iommu.c does. So far I didn't find a good solution for 
+that issue.
+
+I'm open for suggestions. One more limitation for the S5P-MFC driver is 
+that the hardware is capable only for addressing 128MiB. They will 
+probably need to call IOMMU API directly, but I would like to keep as 
+much from the IOMMU/DMA-mapping code as possible.
+
+
+Anyway, we need to move ARM 32bit forward, so for the ARM DMA-mapping 
+and Exynos DRM changes, feel free to add:
+
+Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+
+Best regards
 -- 
-Regards,
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-Laurent Pinchart
