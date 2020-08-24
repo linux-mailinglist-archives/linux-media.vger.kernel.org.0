@@ -2,222 +2,423 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F4C924F059
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 00:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8837724F0CF
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 03:01:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726631AbgHWWy4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Aug 2020 18:54:56 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13539 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbgHWWyy (ORCPT
+        id S1727020AbgHXBA4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Aug 2020 21:00:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726851AbgHXBAz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Aug 2020 18:54:54 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f42f37f0000>; Sun, 23 Aug 2020 15:53:52 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 23 Aug 2020 15:54:53 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 23 Aug 2020 15:54:53 -0700
-Received: from [10.2.52.145] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 23 Aug
- 2020 22:54:42 +0000
-Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Brian Starkey <brian.starkey@arm.com>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Andrew F . Davis" <afd@ti.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Stone <daniels@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>, <kernel@collabora.com>,
-        <nd@arm.com>
-References: <20200816172246.69146-1-ezequiel@collabora.com>
- <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
- <c2450755-91fd-da72-bf1e-c015ad9d6b25@nvidia.com>
- <746a0bb75bd8388a30b53a5ddc56fb24aea308a8.camel@collabora.com>
- <4f987e06-7af1-671b-836a-10d3e9623547@nvidia.com>
- <20200823204637.GF6002@pendragon.ideasonboard.com>
-From:   James Jones <jajones@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <5a03e7d8-15cf-1323-31c1-74ae78f4f9c6@nvidia.com>
-Date:   Sun, 23 Aug 2020 15:53:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sun, 23 Aug 2020 21:00:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16EEEC061573;
+        Sun, 23 Aug 2020 18:00:55 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03A39574;
+        Mon, 24 Aug 2020 03:00:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1598230841;
+        bh=5NefTFXB8RnodVHf6/zeY8kdpzDfkc9ue4ovmqls2os=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QmHxPwMqdnNQEnMgduYhguSvnV9pkfgbWH37uYyptPiMSkSSFZLIjLelMv8Vy9Dtc
+         XFe0CsXJX7tXXLfUnhn6hJoHXdxHuMwosbg3ze2/xlw/gzs/AVzquVI3u6hBJyrNM+
+         VibEnmrJ3BBlbsudDNaoJCBJemFZ2ErHWrnrm/2E=
+Date:   Mon, 24 Aug 2020 04:00:22 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Vishal Sagar <vsagar@xilinx.com>
+Cc:     Rob Herring <robh@kernel.org>, Hyun Kwon <hyunk@xilinx.com>,
+        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Michal Simek <michals@xilinx.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "joe@perches.com" <joe@perches.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Dinesh Kumar <dineshk@xilinx.com>
+Subject: Re: [PATCH v3 2/3] media: dt-bindings: media: xilinx: Add Xilinx
+ UHD-SDI Receiver Subsystem
+Message-ID: <20200824010022.GT6002@pendragon.ideasonboard.com>
+References: <20200618053304.14551-1-vishal.sagar@xilinx.com>
+ <20200618053304.14551-3-vishal.sagar@xilinx.com>
+ <20200713185447.GA531731@bogus>
+ <20200715162901.GE6144@pendragon.ideasonboard.com>
+ <BY5PR02MB686765691549EF38B8F842E1A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
+ <20200819164016.GR6049@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200823204637.GF6002@pendragon.ideasonboard.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1598223232; bh=18BF5ulZDZxLpxEQYQspgFSodbV0L1zev1sX0RHs0xo=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=MJ9KBeu+kyvrG2C9Rzk8U/ELt/ft8+Rt0IxTe1dH7faROiRCwD+f0zVYqe8Fl/GrO
-         YLfUeebv8mltWdbdjosyaahodibvy26R7M0rKyGjGOoDPtVCk/GXpoa7S3Mc5sZRLX
-         zNnnaKN45rNtYa7dxnT6IxlgcviUuXD4exM4pJoOqeRWn/vKgBGIK+K5D8EnSQa3zg
-         8D1arD91FZfV1cK95gh0v70fsZKSOGIdwjsUqVvWwAWBAvgOYVTpm6dW4dK4xchRWL
-         DC8cERRrZop7hBO38ns5jkvf/vFjW7SZsNyiMqqMzUm+Fr1oJUVDq29F3fyi28+2LS
-         Nj04UD/6UuFkw==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200819164016.GR6049@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/23/20 1:46 PM, Laurent Pinchart wrote:
-> Hi James,
+Hi Vishal,
+
+On Wed, Aug 19, 2020 at 07:40:16PM +0300, Laurent Pinchart wrote:
+> On Wed, Aug 19, 2020 at 01:45:34PM +0000, Vishal Sagar wrote:
+> > On Wednesday, July 15, 2020 9:59 PM, Laurent Pinchart wrote:
+> >> On Mon, Jul 13, 2020 at 12:54:47PM -0600, Rob Herring wrote:
+> >>> On Thu, Jun 18, 2020 at 11:03:03AM +0530, Vishal Sagar wrote:
+> >>>> Add bindings documentation for Xilinx UHD-SDI Receiver Subsystem.
+> >>>>
+> >>>> The Xilinx UHD-SDI Receiver Subsystem consists of SMPTE UHD-SDI (RX) IP
+> >>>> core, an SDI RX to Video Bridge IP core to convert SDI video to native
+> >>>> video and a Video In to AXI4-Stream IP core to convert native video to
+> >>>> AXI4-Stream.
+> >>>>
+> >>>> Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
+> >>>> ---
+> >>>> v3
+> >>>> - bpc instead of bpp
+> >>>> - removed bpc as required property (default to 10 bpc)
+> >>>> - add dt-bindings/media/xilinx-sdi.h
+> >>>> - made line-rate as u32 instead of string
+> >>>> - fixed reg
+> >>>> - fixed s/upto/up to/
+> >>>>
+> >>>> v2
+> >>>> - Removed references to xlnx,video*
+> >>>> - Fixed as per Sakari Ailus and Rob Herring's comments
+> >>>> - Converted to yaml format
+> >>>>
+> >>>>  .../bindings/media/xilinx/xlnx,sdirxss.yaml   | 132 ++++++++++++++++++
+> >>>>  include/dt-bindings/media/xilinx-sdi.h        |  20 +++
+> >>>>  2 files changed, 152 insertions(+)
+> >>>>  create mode 100644
+> >> Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
+> >>>>  create mode 100644 include/dt-bindings/media/xilinx-sdi.h
+> >>>>
+> >>>> diff --git
+> >> a/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
+> >> b/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
+> >>>> new file mode 100644
+> >>>> index 000000000000..6cfc18ca435f
+> >>>> --- /dev/null
+> >>>> +++ b/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
+> >>>> @@ -0,0 +1,132 @@
+> >>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>>> +%YAML 1.2
+> >>>> +---
+> >>>> +$id: http://devicetree.org/schemas/media/xilinx/xlnx,sdirxss.yaml#
+> >>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>>> +
+> >>>> +
+> >> 
+> >> I think a single blank line is enough.
+> > 
+> > Ok I will remove extra empty line in next version.
+> > 
+> >>>> +title: Xilinx SMPTE UHD-SDI Receiver Subsystem
+> >>>> +
+> >>>> +maintainers:
+> >>>> +  - Vishal Sagar <vishal.sagar@xilinx.com>
+> >>>> +
+> >>>> +description: |
+> >>>> +  The SMPTE UHD-SDI Receiver (RX) Subsystem allows you to quickly create systems
+> >>>> +  based on SMPTE SDI protocols. It receives unaligned native SDI streams from
+> >>>> +  the SDI GT PHY and outputs an AXI4-Stream video stream, native video, or
+> >>>> +  native SDI using Xilinx transceivers as the physical layer.
+> >>>> +
+> >>>> +  The subsystem consists of
+> >>>> +  1 - SMPTE UHD-SDI Rx
+> >>>> +  2 - SDI Rx to Native Video Bridge
+> >>>> +  3 - Video In to AXI4-Stream Bridge
+> >>>> +
+> >>>> +  The subsystem can capture SDI streams in up to 12G mode 8 data streams and output
+> >>>> +  a dual pixel per clock RGB/YUV444,422/420 10/12 bits per component AXI4-Stream.
+> >>>> +
+> >>>> +properties:
+> >>>> +  compatible:
+> >>>> +    items:
+> >>>> +      - enum:
+> >>>> +        - xlnx,v-smpte-uhdsdi-rx-ss-2.0
+> >>>
+> >>> Should be indented 2 more spaces.
+> >> 
+> >> Or you could simply use
+> >> 
+> >> properties:
+> >>   compatible:
+> >>     const: xlnx,v-smpte-uhdsdi-rx-ss-2.0
+> > 
+> > Ok I will fix this in the next version.
+> > 
+> >>>> +
+> >>>> +  reg:
+> >>>> +    maxItems: 1
+> >>>> +
+> >>>> +  interrupts:
+> >>>> +    maxItems: 1
+> >>>> +
+> >>>> +  clocks:
+> >>>> +    description: List of clock specifiers
+> >>>
+> >>> Drop. That's every 'clocks' property.
+> > 
+> > Ok I will drop the description in next version.
+> > 
+> >>>> +    items:
+> >>>> +      - description: AXI4-Lite clock
+> >>>> +      - description: SMPTE UHD-SDI Rx core clock
+> >>>> +      - description: Video clock
+> >>>> +
+> >>>> +  clock-names:
+> >>>> +    items:
+> >>>> +      - const: s_axi_aclk
+> >>>> +      - const: sdi_rx_clk
+> >>>> +      - const: video_out_clk
+> >>>> +
+> >>>> +  xlnx,bpc:
+> >>>> +    description: Bits per component supported. Can be 10 or 12 bits per component only.
+> >>>> +    allOf:
+> >>>
+> >>> You can drop the 'allOf' now.
+> > 
+> > Ok will update this in next version.
+> > 
+> >>>> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> >>>> +      - enum: [10, 12]
+> >>>
+> >>> Seems like this should be a standard property?
+> >> 
+> >> Rob, if my understanding is correct, this tells for how many bits per
+> >> component the IP core has been synthesized. I think it qualifies as a
+> >> vendor property, as how to express constraints on supported formats (for
+> >> IP cores that can be synthesized with different options) is highly
+> >> vendor-specific.
+> > 
+> > Right Laurent. This is specific to Xilinx Video IP cores.
+> > 
+> >> Vishal, I think the question I asked in the review of v2 fell through
+> >> the cracks. Is the documentation for the new IP core version available ?
+> >> Should this property only be allowed for the new version, given that in
+> >> v2.0 the BPC is fixed to 10 ?
+> > 
+> > The new IP core is released with Vivado 2020.1 but the documentation isn't yet
+> > publicly updated.
+> > 
+> > This property is optional and the driver defaults to 10bpc in case this property is not specified.
 > 
-> On Sun, Aug 23, 2020 at 01:04:43PM -0700, James Jones wrote:
->> On 8/20/20 1:15 AM, Ezequiel Garcia wrote:
->>> On Mon, 2020-08-17 at 20:49 -0700, James Jones wrote:
->>>> On 8/17/20 8:18 AM, Brian Starkey wrote:
->>>>> On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
->>>>>> This heap is basically a wrapper around DMA-API dma_alloc_attrs,
->>>>>> which will allocate memory suitable for the given device.
->>>>>>
->>>>>> The implementation is mostly a port of the Contiguous Videobuf2
->>>>>> memory allocator (see videobuf2/videobuf2-dma-contig.c)
->>>>>> over to the DMA-BUF Heap interface.
->>>>>>
->>>>>> The intention of this allocator is to provide applications
->>>>>> with a more system-agnostic API: the only thing the application
->>>>>> needs to know is which device to get the buffer for.
->>>>>>
->>>>>> Whether the buffer is backed by CMA, IOMMU or a DMA Pool
->>>>>> is unknown to the application.
->>>>>>
->>>>>> I'm not really expecting this patch to be correct or even
->>>>>> a good idea, but just submitting it to start a discussion on DMA-BUF
->>>>>> heap discovery and negotiation.
->>>>>>
->>>>>
->>>>> My initial reaction is that I thought dmabuf heaps are meant for use
->>>>> to allocate buffers for sharing across devices, which doesn't fit very
->>>>> well with having per-device heaps.
->>>>>
->>>>> For single-device allocations, would using the buffer allocation
->>>>> functionality of that device's native API be better in most
->>>>> cases? (Some other possibly relevant discussion at [1])
->>>>>
->>>>> I can see that this can save some boilerplate for devices that want
->>>>> to expose private chunks of memory, but might it also lead to 100
->>>>> aliases for the system's generic coherent memory pool?
->>>>>
->>>>> I wonder if a set of helpers to allow devices to expose whatever they
->>>>> want with minimal effort would be better.
->>>>
->>>> I'm rather interested on where this goes, as I was toying with using
->>>> some sort of heap ID as a basis for a "device-local" constraint in the
->>>> memory constraints proposals Simon and I will be discussing at XDC this
->>>> year.  It would be rather elegant if there was one type of heap ID used
->>>> universally throughout the kernel that could provide a unique handle for
->>>> the shared system memory heap(s), as well as accelerator-local heaps on
->>>> fancy NICs, GPUs, NN accelerators, capture devices, etc. so apps could
->>>> negotiate a location among themselves.  This patch seems to be a step
->>>> towards that in a way, but I agree it would be counterproductive if a
->>>> bunch of devices that were using the same underlying system memory ended
->>>> up each getting their own heap ID just because they used some SW
->>>> framework that worked that way.
->>>>
->>>> Would appreciate it if you could send along a pointer to your BoF if it
->>>> happens!
->>>
->>> Here is it:
->>>
->>> https://linuxplumbersconf.org/event/7/contributions/818/
->>>
->>> It would be great to see you there and discuss this,
->>> given I was hoping we could talk about how to meet a
->>> userspace allocator library expectations as well.
->>
->> Thanks!  I hadn't registered for LPC and it looks like it's sold out,
->> but I'll try to watch the live stream.
->>
->> This is very interesting, in that it looks like we're both trying to
->> solve roughly the same set of problems but approaching it from different
->> angles.  From what I gather, your approach is that a "heap" encompasses
->> all the allocation constraints a device may have.
->>
->> The approach Simon Ser and I are tossing around so far is somewhat
->> different, but may potentially leverage dma-buf heaps a bit as well.
->>
->> Our approach looks more like what I described at XDC a few years ago,
->> where memory constraints for a given device's usage of an image are
->> exposed up to applications, which can then somehow perform boolean
->> intersection/union operations on them to arrive at a common set of
->> constraints that describe something compatible with all the devices &
->> usages desired (or fail to do so, and fall back to copying things around
->> presumably).  I believe this is more flexible than your initial proposal
->> in that devices often support multiple usages (E.g., different formats,
->> different proprietary layouts represented by format modifiers, etc.),
->> and it avoids adding a combinatorial number of heaps to manage that.
->>
->> In my view, heaps are more like blobs of memory that can be allocated
->> from in various different ways to satisfy constraints.  I realize heaps
->> mean something specific in the dma-buf heap design (specifically,
->> something closer to an association between an "allocation mechanism" and
->> "physical memory"), but I hope we don't have massive heap/allocator
->> mechanism proliferation due to constraints alone.  Perhaps some
->> constraints, such as contiguous memory or device-local memory, are
->> properly expressed as a specific heap, but consider the proliferation
->> implied by even that simple pair of examples: How do you express
->> contiguous device-local memory?  Do you need to spawn two heaps on the
->> underlying device-local memory, one for contiguous allocations and one
->> for non-contiguous allocations?  Seems excessive.
->>
->> Of course, our approach also has downsides and is still being worked on.
->>    For example, it works best in an ideal world where all the allocators
->> available understand all the constraints that exist.
+> So how about the following ?
 > 
-> Shouldn't allocators be decoupled of constraints ? In my imagination I
-> see devices exposing constraints, and allocators exposing parameters,
-> with a userspace library to reconcile the constraints and produce
-> allocator parameters from them.
-
-Perhaps another level of abstraction would help.  I'll have to think 
-about that.
-
-However, as far as I can tell, it wouldn't remove the need to 
-communicate a lot of constraints from multiple engines/devices/etc. to 
-the allocator (likely a single allocator.  I'd be interested to know if 
-anyone has a design that effectively uses multiple allocators to satisfy 
-a single allocation request, but I haven't come up with a good one) 
-somehow.  Either the constraints are directly used as the parameters, or 
-there's a translation/second level of abstraction, but either way much 
-of the information needs to make it to the allocator, or represent the 
-need to use a particular allocator.  Simple things like pitch and offset 
-alignment can be done without help from a kernel-level allocator, but 
-others such as cache coherency, physical memory bank placement, or 
-device-local memory will need to make it all the way down to the kernel 
-some how I believe.
-
-Thanks,
--James
-
->> Dealing with a
->> reality where there are probably a handful of allocators, another
->> handful of userspace libraries and APIs, and still more applications
->> trying to make use of all this is one of the larger remaining challenges
->> of the design.
->>
->> We'll present our work at XDC 2020.  Hope you can check that out as well!
->>
->>>>> 1. https://lore.kernel.org/dri-devel/57062477-30e7-a3de-6723-a50d03a402c4@kapsi.fi/
->>>>>
->>>>>> Given Plumbers is just a couple weeks from now, I've submitted
->>>>>> a BoF proposal to discuss this, as perhaps it would make
->>>>>> sense to discuss this live?
->>>>>>
->>>>>> Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> properties:
+>   compatible:
+>     enum:
+>       - xlnx,v-smpte-uhdsdi-rx-ss-1.0
+>       - xlnx,v-smpte-uhdsdi-rx-ss-2.0
 > 
+>   ...
+> 
+>   xlnx,bpc:
+>     description: ...
+>     $ref: "/schemas/types.yaml#/definitions/uint32"
+>     enum: [10, 12]
+>     default: 10
+> 
+>   ...
+> 
+> allOf:
+>   - if:
+>       not:
+>         properties:
+>           compatible:
+>             contains:
+>               xlnx,v-smpte-uhdsdi-rx-ss-2.0
+>     then:
+>       properties:
+>         xlnx,bpc: false
+> 
+> This indicates that the xlnx,bpc property isn't allowed for v1.0.
+> Another option would be
+> 
+>     then:
+>       properties:
+>         xlnx,bpc:
+> 	  const: 10
+> 
+> to indicate it must be equal to 10 on v1.0.
+
+Following our offline discussion, I've revisited this review. It turns
+out I have confused IP core versions. The version that only supports 10
+bpc is v2.0, while I assume that the version that will support both 10
+and 12 bpc will be v3.
+
+Would the following make sense ?
+
+properties:
+  compatible:
+    enum:
+      - xlnx,v-smpte-uhdsdi-rx-ss-2.0
+      - xlnx,v-smpte-uhdsdi-rx-ss-3.0
+
+  ...
+
+  xlnx,bpc:
+    description: ...
+    $ref: "/schemas/types.yaml#/definitions/uint32"
+    enum: [10, 12]
+    default: 10
+
+  ...
+
+allOf:
+  - if:
+      not:
+        properties:
+          compatible:
+            contains:
+              xlnx,v-smpte-uhdsdi-rx-ss-3.0
+    then:
+      properties:
+        xlnx,bpc: false
+
+Or, as proposed above,
+
+     then:
+       properties:
+         xlnx,bpc:
+           const: 10
+
+> >>>> +
+> >>>> +  xlnx,line-rate:
+> >>>> +    description: |
+> >>>> +      The maximum mode supported by the design. Possible values are as below
+> >>>> +      0 - XSDI_STD_3G      -  3G mode
+> >>>> +      1 - XSDI_STD_6G      -  6G mode
+> >>>> +      2 - XSDI_STD_12G_8DS - 12G mode with 8 data streams
+> >>>> +    allOf:
+> >>>> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> >>>> +      - enum: [0, 1, 2]
+> >>>
+> >>> Standard?
+> >> 
+> >> For this one, I'm not sure. There's little support for SDI in the
+> >> kernel, and I'm sure we'll get this wrong the first time. I'd rather try
+> >> not to over-standardize properties before we have more examples.
+> > 
+> > Right. These are specific to Xilinx SDI Rx IP configuration.
+> 
+> I'm not sure it's Xilinx-specific, but I think we don't have enough
+> examples of other SDI receivers to know if the propery could be made
+> generic or not.
+> 
+> >>>> +
+> >>>> +  xlnx,include-edh:
+> >>>> +    type: boolean
+> >>>> +    description: |
+> >>>> +      This is present when the Error Detection and Handling processor is
+> >>>> +      enabled in design.
+> >>>> +
+> >>>> +  ports:
+> >>>> +    type: object
+> >>>> +    description: |
+> >>>> +      Generally the SDI port is connected to a device like SDI Broadcast camera
+> >>>> +      which is independently controlled. Hence port@0 is a source port which can be
+> >>>> +      connected to downstream IP which can work with AXI4 Stream data.
+> >>>> +    properties:
+> >>>> +      port@0:
+> >>>> +        type: object
+> >>>> +        description: Source port
+> >>>> +        properties:
+> >>>> +          reg:
+> >>>> +            const: 0
+> >>>> +          endpoint:
+> >>>> +            type: object
+> >>>> +            properties:
+> >>>> +              remote-endpoint: true
+> >>>> +            required:
+> >>>> +              - remote-endpoint
+> >>>> +            additionalProperties: false
+> >>>> +        additionalProperties: false
+> >> 
+> >> Same here, I explained in the review of v2 that we should have an input
+> >> port.
+> > 
+> > I will add the input / sink port to this device tree node.
+> > 
+> >>>> +
+> >>>> +required:
+> >>>> +  - compatible
+> >>>> +  - reg
+> >>>> +  - interrupts
+> >>>> +  - clocks
+> >>>> +  - clock-names
+> >>>> +  - xlnx,line-rate
+> >>>> +  - ports
+> >>>> +
+> >>>> +additionalProperties: false
+> >>>> +
+> >>>> +examples:
+> >>>> +  - |
+> >>>> +    #include <dt-bindings/media/xilinx-sdi.h>
+> >>>> +    uhdsdirxss: v-smpte-uhdsdi-rxss@80000000 {
+> >> 
+> >> The label is not used, you can drop it.
+> > 
+> > Ok. I will remove this in the next version.
+> > 
+> >>>> +      compatible = "xlnx,v-smpte-uhdsdi-rx-ss-2.0";
+> >>>> +      interrupt-parent = <&gic>;
+> >>>> +      interrupts = <0 89 4>;
+> >>>> +      reg = <0x80000000 0x10000>;
+> >>>> +      xlnx,include-edh;
+> >>>> +      xlnx,line-rate = <XSDI_STD_12G_8DS>;
+> >>>> +      clocks = <&clk_1>, <&si570_1>, <&clk_2>;
+> >>>> +      clock-names = "s_axi_aclk", "sdi_rx_clk", "video_out_clk";
+> >>>> +      xlnx,bpc = <10>;
+> >> 
+> >> I would group the xlnx,* properties after the standard properties.
+> > 
+> > Noted. Will update in next version.
+> > 
+> >>>> +
+> >>>> +      ports {
+> >>>> +        #address-cells = <1>;
+> >>>> +        #size-cells = <0>;
+> >>>> +        port@0 {
+> >>>> +          reg = <0>;
+> >>>> +          sdirx_out: endpoint {
+> >>>> +            remote-endpoint = <&vcap_sdirx_in>;
+> >>>> +          };
+> >>>> +        };
+> >>>> +      };
+> >>>> +    };
+> >>>> +...
+> >>>> diff --git a/include/dt-bindings/media/xilinx-sdi.h b/include/dt-bindings/media/xilinx-sdi.h
+> >>>> new file mode 100644
+> >>>> index 000000000000..11938fade041
+> >>>> --- /dev/null
+> >>>> +++ b/include/dt-bindings/media/xilinx-sdi.h
+> >>>> @@ -0,0 +1,20 @@
+> >>>> +/* SPDX-License-Identifier: GPL-2.0 */
+> >>>> +/*
+> >>>> + * Xilinx SDI device tree bindings
+> >>>> + *
+> >>>> + * Copyright (C) 2020 Xilinx, Inc.
+> >>>> + *
+> >>>> + * Contacts: Vishal Sagar <vishal.sagar@xilinx.com>
+> >>>> + */
+> >>>> +
+> >>>> +#ifndef __DT_BINDINGS_MEDIA_XILINX_SDI_H__
+> >>>> +#define __DT_BINDINGS_MEDIA_XILINX_SDI_H__
+> >>>> +
+> >>>> +/*
+> >>>> + * SDI Configurations
+> >>>> + */
+> >>>> +#define XSDI_STD_3G		0
+> >>>> +#define XSDI_STD_6G		1
+> >>>> +#define XSDI_STD_12G_8DS	2
+> >>>> +
+> >>>> +#endif /* __DT_BINDINGS_MEDIA_XILINX_SDI_H__ */
+
+-- 
+Regards,
+
+Laurent Pinchart
