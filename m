@@ -2,79 +2,316 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC9072509C7
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 22:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDFD3250A33
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 22:42:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726627AbgHXUJe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 16:09:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58828 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726519AbgHXUJc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 16:09:32 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37317C061573;
-        Mon, 24 Aug 2020 13:09:32 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id l63so6182212edl.9;
-        Mon, 24 Aug 2020 13:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hMBZvBZOJLbrENeoRcKb58fIimZ/YMVq2v+jskmYMlg=;
-        b=BSfLO70ke2KPoXCGJrPoZfCtSZbYR0UfCiRdx56OBcRu+ATbfCOevpv6TUX6vfQB9W
-         PwBJRbbf3c6CjE31LpkZDGtil+VVlJwGB9df8AXoucwkON5x2W/r8V00t6opn/7oGVVV
-         T8FUrifD5Nsg6Y5i8KcGIy1ZcFq5Ksj+WGLAo3SoPGmE6gDZBqx/KUB7lJYjZBWSMbRT
-         64LBctf222XC8ncAprf5cD+jrgHHJ5uDtsrZuB0e2GKIUc3lRZSeiQc/grBQCa63Zgvq
-         uolCYBEvIONfDIftf1I24jOVK8x8Yjyh5Ehjfp6p4+gEfewdhiAEvjJPBjEY7XekGJH2
-         fpuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hMBZvBZOJLbrENeoRcKb58fIimZ/YMVq2v+jskmYMlg=;
-        b=b4i9ohWoAXbzxKdn8jzJNk14fVsx6PXkfVSezZB8jJwzEM9FToQd4rRiPyHjRzkCji
-         c6KG9HcpseR1QMIAwoh3OO4CWn5+0rXuUenp8CVyEo906bZ+oDnpsfUpiqwOhM/OYZ9d
-         Bg4hM1LFcbOfmfJB3TIddsL8aR8/RRwjYblmGDMJGvkIXT3BJwj+yipSG0twxHYcAs71
-         sCSs433III9uQde++xDQ1I/AzzK20unrrTuTZdMxx1/59yFupgk+bpIe09sbuNTPDGRD
-         yEVqEDS8HMyg8fLyXWN6LD+M+Ab89Wub/ATJmjbqRxcwviMO6FmMdfLeBhrt9yclo6fy
-         79yw==
-X-Gm-Message-State: AOAM533xmt1DUYT52dszEFOYxloEBTSXiFVYcn4bjHJpHR7v0mGoc4Kc
-        t9wq/QPaCpGtBi36HPiweL1/L2foAdE=
-X-Google-Smtp-Source: ABdhPJw6qlBojcrvtlYdOd9r50A7feZE0FG5F3iPeu8PySG2Zab5xjy0H4Phy8arCXAFRa6cY/nLgQ==
-X-Received: by 2002:aa7:ca19:: with SMTP id y25mr1047451eds.211.1598299770996;
-        Mon, 24 Aug 2020 13:09:30 -0700 (PDT)
-Received: from [192.168.43.227] ([148.252.128.110])
-        by smtp.gmail.com with ESMTPSA id 1sm11127993ejn.50.2020.08.24.13.09.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2020 13:09:30 -0700 (PDT)
-Subject: Re: [likely PATCH] media: lmedm04: Fix misuse of comma
-To:     Joe Perches <joe@perches.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Julia Lawall <julia.lawall@lip6.fr>
-References: <e6cd92faf09722fe729a7de03e7bde592f62499c.camel@perches.com>
- <d4b13e5d-6c97-2594-0ca6-346bb2129b88@gmail.com>
- <e69a12f09a9550320ca9d9ae65a892722bde96fd.camel@perches.com>
-From:   Malcolm Priestley <tvboxspy@gmail.com>
-Message-ID: <91dacf1c-6f6f-1733-a2de-f44915a62241@gmail.com>
-Date:   Mon, 24 Aug 2020 21:09:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
+        id S1726189AbgHXUmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 16:42:36 -0400
+Received: from gofer.mess.org ([88.97.38.141]:49577 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726090AbgHXUmg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Aug 2020 16:42:36 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 9A9E3C6416; Mon, 24 Aug 2020 21:42:34 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: rc: rename ir_lirc_* functions to lirc_*
+Date:   Mon, 24 Aug 2020 21:42:34 +0100
+Message-Id: <20200824204234.335-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <e69a12f09a9550320ca9d9ae65a892722bde96fd.camel@perches.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> If that's a request for me, I won't as I can't test.
-> 
-> As the maintainer, you should do that.
+Remove pointless ir_ prefix.
 
-No it is for media maintainer.
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/ir-mce_kbd-decoder.c |  2 +-
+ drivers/media/rc/lirc_dev.c           | 55 +++++++++++++--------------
+ drivers/media/rc/rc-core-priv.h       | 20 +++++-----
+ drivers/media/rc/rc-ir-raw.c          |  2 +-
+ drivers/media/rc/rc-main.c            | 10 ++---
+ 5 files changed, 44 insertions(+), 45 deletions(-)
+
+diff --git a/drivers/media/rc/ir-mce_kbd-decoder.c b/drivers/media/rc/ir-mce_kbd-decoder.c
+index 90350f25d8dd..be8f2756a444 100644
+--- a/drivers/media/rc/ir-mce_kbd-decoder.c
++++ b/drivers/media/rc/ir-mce_kbd-decoder.c
+@@ -344,7 +344,7 @@ static int ir_mce_kbd_decode(struct rc_dev *dev, struct ir_raw_event ev)
+ 		}
+ 
+ 		lsc.scancode = scancode;
+-		ir_lirc_scancode_event(dev, &lsc);
++		lirc_scancode_event(dev, &lsc);
+ 		data->state = STATE_INACTIVE;
+ 		input_event(dev->input_dev, EV_MSC, MSC_SCAN, scancode);
+ 		input_sync(dev->input_dev);
+diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
+index cde817e744b7..e142fb74fcb2 100644
+--- a/drivers/media/rc/lirc_dev.c
++++ b/drivers/media/rc/lirc_dev.c
+@@ -30,12 +30,12 @@ static DEFINE_IDA(lirc_ida);
+ static struct class *lirc_class;
+ 
+ /**
+- * ir_lirc_raw_event() - Send raw IR data to lirc to be relayed to userspace
++ * lirc_raw_event() - Send raw IR data to lirc to be relayed to userspace
+  *
+  * @dev:	the struct rc_dev descriptor of the device
+  * @ev:		the struct ir_raw_event descriptor of the pulse/space
+  */
+-void ir_lirc_raw_event(struct rc_dev *dev, struct ir_raw_event ev)
++void lirc_raw_event(struct rc_dev *dev, struct ir_raw_event ev)
+ {
+ 	unsigned long flags;
+ 	struct lirc_fh *fh;
+@@ -111,12 +111,12 @@ void ir_lirc_raw_event(struct rc_dev *dev, struct ir_raw_event ev)
+ }
+ 
+ /**
+- * ir_lirc_scancode_event() - Send scancode data to lirc to be relayed to
++ * lirc_scancode_event() - Send scancode data to lirc to be relayed to
+  *		userspace. This can be called in atomic context.
+  * @dev:	the struct rc_dev descriptor of the device
+  * @lsc:	the struct lirc_scancode describing the decoded scancode
+  */
+-void ir_lirc_scancode_event(struct rc_dev *dev, struct lirc_scancode *lsc)
++void lirc_scancode_event(struct rc_dev *dev, struct lirc_scancode *lsc)
+ {
+ 	unsigned long flags;
+ 	struct lirc_fh *fh;
+@@ -130,9 +130,9 @@ void ir_lirc_scancode_event(struct rc_dev *dev, struct lirc_scancode *lsc)
+ 	}
+ 	spin_unlock_irqrestore(&dev->lirc_fh_lock, flags);
+ }
+-EXPORT_SYMBOL_GPL(ir_lirc_scancode_event);
++EXPORT_SYMBOL_GPL(lirc_scancode_event);
+ 
+-static int ir_lirc_open(struct inode *inode, struct file *file)
++static int lirc_open(struct inode *inode, struct file *file)
+ {
+ 	struct rc_dev *dev = container_of(inode->i_cdev, struct rc_dev,
+ 					  lirc_cdev);
+@@ -200,7 +200,7 @@ static int ir_lirc_open(struct inode *inode, struct file *file)
+ 	return retval;
+ }
+ 
+-static int ir_lirc_close(struct inode *inode, struct file *file)
++static int lirc_close(struct inode *inode, struct file *file)
+ {
+ 	struct lirc_fh *fh = file->private_data;
+ 	struct rc_dev *dev = fh->rc;
+@@ -222,8 +222,8 @@ static int ir_lirc_close(struct inode *inode, struct file *file)
+ 	return 0;
+ }
+ 
+-static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
+-				   size_t n, loff_t *ppos)
++static ssize_t lirc_transmit_ir(struct file *file, const char __user *buf,
++				size_t n, loff_t *ppos)
+ {
+ 	struct lirc_fh *fh = file->private_data;
+ 	struct rc_dev *dev = fh->rc;
+@@ -363,8 +363,7 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
+ 	return ret;
+ }
+ 
+-static long ir_lirc_ioctl(struct file *file, unsigned int cmd,
+-			  unsigned long arg)
++static long lirc_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ {
+ 	struct lirc_fh *fh = file->private_data;
+ 	struct rc_dev *dev = fh->rc;
+@@ -586,7 +585,7 @@ static long ir_lirc_ioctl(struct file *file, unsigned int cmd,
+ 	return ret;
+ }
+ 
+-static __poll_t ir_lirc_poll(struct file *file, struct poll_table_struct *wait)
++static __poll_t lirc_poll(struct file *file, struct poll_table_struct *wait)
+ {
+ 	struct lirc_fh *fh = file->private_data;
+ 	struct rc_dev *rcdev = fh->rc;
+@@ -609,8 +608,8 @@ static __poll_t ir_lirc_poll(struct file *file, struct poll_table_struct *wait)
+ 	return events;
+ }
+ 
+-static ssize_t ir_lirc_read_mode2(struct file *file, char __user *buffer,
+-				  size_t length)
++static ssize_t lirc_read_mode2(struct file *file, char __user *buffer,
++			       size_t length)
+ {
+ 	struct lirc_fh *fh = file->private_data;
+ 	struct rc_dev *rcdev = fh->rc;
+@@ -647,8 +646,8 @@ static ssize_t ir_lirc_read_mode2(struct file *file, char __user *buffer,
+ 	return copied;
+ }
+ 
+-static ssize_t ir_lirc_read_scancode(struct file *file, char __user *buffer,
+-				     size_t length)
++static ssize_t lirc_read_scancode(struct file *file, char __user *buffer,
++				  size_t length)
+ {
+ 	struct lirc_fh *fh = file->private_data;
+ 	struct rc_dev *rcdev = fh->rc;
+@@ -686,8 +685,8 @@ static ssize_t ir_lirc_read_scancode(struct file *file, char __user *buffer,
+ 	return copied;
+ }
+ 
+-static ssize_t ir_lirc_read(struct file *file, char __user *buffer,
+-			    size_t length, loff_t *ppos)
++static ssize_t lirc_read(struct file *file, char __user *buffer, size_t length,
++			 loff_t *ppos)
+ {
+ 	struct lirc_fh *fh = file->private_data;
+ 	struct rc_dev *rcdev = fh->rc;
+@@ -699,20 +698,20 @@ static ssize_t ir_lirc_read(struct file *file, char __user *buffer,
+ 		return -ENODEV;
+ 
+ 	if (fh->rec_mode == LIRC_MODE_MODE2)
+-		return ir_lirc_read_mode2(file, buffer, length);
++		return lirc_read_mode2(file, buffer, length);
+ 	else /* LIRC_MODE_SCANCODE */
+-		return ir_lirc_read_scancode(file, buffer, length);
++		return lirc_read_scancode(file, buffer, length);
+ }
+ 
+ static const struct file_operations lirc_fops = {
+ 	.owner		= THIS_MODULE,
+-	.write		= ir_lirc_transmit_ir,
+-	.unlocked_ioctl	= ir_lirc_ioctl,
++	.write		= lirc_transmit_ir,
++	.unlocked_ioctl	= lirc_ioctl,
+ 	.compat_ioctl	= compat_ptr_ioctl,
+-	.read		= ir_lirc_read,
+-	.poll		= ir_lirc_poll,
+-	.open		= ir_lirc_open,
+-	.release	= ir_lirc_close,
++	.read		= lirc_read,
++	.poll		= lirc_poll,
++	.open		= lirc_open,
++	.release	= lirc_close,
+ 	.llseek		= no_llseek,
+ };
+ 
+@@ -723,7 +722,7 @@ static void lirc_release_device(struct device *ld)
+ 	put_device(&rcdev->dev);
+ }
+ 
+-int ir_lirc_register(struct rc_dev *dev)
++int lirc_register(struct rc_dev *dev)
+ {
+ 	const char *rx_type, *tx_type;
+ 	int err, minor;
+@@ -777,7 +776,7 @@ int ir_lirc_register(struct rc_dev *dev)
+ 	return err;
+ }
+ 
+-void ir_lirc_unregister(struct rc_dev *dev)
++void lirc_unregister(struct rc_dev *dev)
+ {
+ 	unsigned long flags;
+ 	struct lirc_fh *fh;
+diff --git a/drivers/media/rc/rc-core-priv.h b/drivers/media/rc/rc-core-priv.h
+index a59c6c416a18..62f032dffd33 100644
+--- a/drivers/media/rc/rc-core-priv.h
++++ b/drivers/media/rc/rc-core-priv.h
+@@ -321,20 +321,20 @@ void ir_raw_init(void);
+ #ifdef CONFIG_LIRC
+ int lirc_dev_init(void);
+ void lirc_dev_exit(void);
+-void ir_lirc_raw_event(struct rc_dev *dev, struct ir_raw_event ev);
+-void ir_lirc_scancode_event(struct rc_dev *dev, struct lirc_scancode *lsc);
+-int ir_lirc_register(struct rc_dev *dev);
+-void ir_lirc_unregister(struct rc_dev *dev);
++void lirc_raw_event(struct rc_dev *dev, struct ir_raw_event ev);
++void lirc_scancode_event(struct rc_dev *dev, struct lirc_scancode *lsc);
++int lirc_register(struct rc_dev *dev);
++void lirc_unregister(struct rc_dev *dev);
+ struct rc_dev *rc_dev_get_from_fd(int fd);
+ #else
+ static inline int lirc_dev_init(void) { return 0; }
+ static inline void lirc_dev_exit(void) {}
+-static inline void ir_lirc_raw_event(struct rc_dev *dev,
+-				     struct ir_raw_event ev) { }
+-static inline void ir_lirc_scancode_event(struct rc_dev *dev,
+-					  struct lirc_scancode *lsc) { }
+-static inline int ir_lirc_register(struct rc_dev *dev) { return 0; }
+-static inline void ir_lirc_unregister(struct rc_dev *dev) { }
++static inline void lirc_raw_event(struct rc_dev *dev,
++				  struct ir_raw_event ev) { }
++static inline void lirc_scancode_event(struct rc_dev *dev,
++				       struct lirc_scancode *lsc) { }
++static inline int lirc_register(struct rc_dev *dev) { return 0; }
++static inline void lirc_unregister(struct rc_dev *dev) { }
+ #endif
+ 
+ /*
+diff --git a/drivers/media/rc/rc-ir-raw.c b/drivers/media/rc/rc-ir-raw.c
+index b3c86b98f4f9..d972b5a2774d 100644
+--- a/drivers/media/rc/rc-ir-raw.c
++++ b/drivers/media/rc/rc-ir-raw.c
+@@ -42,7 +42,7 @@ static int ir_raw_event_thread(void *data)
+ 				if (dev->enabled_protocols &
+ 				    handler->protocols || !handler->protocols)
+ 					handler->decode(dev, ev);
+-			ir_lirc_raw_event(dev, ev);
++			lirc_raw_event(dev, ev);
+ 			raw->prev_ev = ev;
+ 		}
+ 		mutex_unlock(&ir_raw_handler_lock);
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index dee8a9f3d80a..1d811e5ffb55 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -747,7 +747,7 @@ void rc_repeat(struct rc_dev *dev)
+ 	};
+ 
+ 	if (dev->allowed_protocols != RC_PROTO_BIT_CEC)
+-		ir_lirc_scancode_event(dev, &sc);
++		lirc_scancode_event(dev, &sc);
+ 
+ 	spin_lock_irqsave(&dev->keylock, flags);
+ 
+@@ -791,7 +791,7 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+ 	};
+ 
+ 	if (dev->allowed_protocols != RC_PROTO_BIT_CEC)
+-		ir_lirc_scancode_event(dev, &sc);
++		lirc_scancode_event(dev, &sc);
+ 
+ 	if (new_event && dev->keypressed)
+ 		ir_do_keyup(dev, false);
+@@ -1946,7 +1946,7 @@ int rc_register_device(struct rc_dev *dev)
+ 	 * keycodes with rc_keydown, so lirc must be registered first.
+ 	 */
+ 	if (dev->allowed_protocols != RC_PROTO_BIT_CEC) {
+-		rc = ir_lirc_register(dev);
++		rc = lirc_register(dev);
+ 		if (rc < 0)
+ 			goto out_dev;
+ 	}
+@@ -1972,7 +1972,7 @@ int rc_register_device(struct rc_dev *dev)
+ 	rc_free_rx_device(dev);
+ out_lirc:
+ 	if (dev->allowed_protocols != RC_PROTO_BIT_CEC)
+-		ir_lirc_unregister(dev);
++		lirc_unregister(dev);
+ out_dev:
+ 	device_del(&dev->dev);
+ out_rx_free:
+@@ -2036,7 +2036,7 @@ void rc_unregister_device(struct rc_dev *dev)
+ 	 * that userspace polling will get notified.
+ 	 */
+ 	if (dev->allowed_protocols != RC_PROTO_BIT_CEC)
+-		ir_lirc_unregister(dev);
++		lirc_unregister(dev);
+ 
+ 	device_del(&dev->dev);
+ 
+-- 
+2.26.2
+
