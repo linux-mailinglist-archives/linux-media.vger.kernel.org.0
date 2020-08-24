@@ -2,163 +2,365 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A8B24FEC1
-	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 15:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C3E924FF57
+	for <lists+linux-media@lfdr.de>; Mon, 24 Aug 2020 15:57:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726086AbgHXNXh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 09:23:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51618 "EHLO
+        id S1726858AbgHXN5k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 09:57:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725921AbgHXNXg (ORCPT
+        with ESMTP id S1726356AbgHXN5j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 09:23:36 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ACC3C061573
-        for <linux-media@vger.kernel.org>; Mon, 24 Aug 2020 06:23:36 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id u21so11219903ejz.0
-        for <linux-media@vger.kernel.org>; Mon, 24 Aug 2020 06:23:36 -0700 (PDT)
+        Mon, 24 Aug 2020 09:57:39 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2AFC061574
+        for <linux-media@vger.kernel.org>; Mon, 24 Aug 2020 06:57:37 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id q16so5208615ybk.6
+        for <linux-media@vger.kernel.org>; Mon, 24 Aug 2020 06:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GhI8sJ5/z0UIz6/L8QhZBRZ4UponYyx7yrZK5KkagFA=;
-        b=AWEwr9bgof2pKHRgXnO7fA7HYqsHVDia676fVG8Zvmq4j1krxXt3hSzQqcgUM2IchO
-         KZwlaD0yTyDfNAXAwxhBjlbc1kB2jUApJ45GxvGR5G6AXfFPE+EDsRIYH9m78xXr9jsK
-         tKUkdTlxPPswKBRLN5x/2xGqVoo+JYJopoRIU=
+         :cc:content-transfer-encoding;
+        bh=Oo7EoEwOiZey2I4RU2qQv+WisYvPVkgt+M+WNJhnTL8=;
+        b=VR39J7E9tFxK+yB+ezFY8PMyDn5TLnBx+Lonea3XzBXf1UQSI8p4U9ZR2KrimEgyuc
+         5UYegxnSxkvgUqQXCxozkV97e/FrgEZ+Y52E2Enw5Qf+aLqp1Vnd/9e9iMM3KBAm8tL/
+         3ASVmLfiuE6c/w/dic7iBCPA7XwfQBDOADADP19Y8N4A6camHjP5QxjD6he2hRN7X6Jn
+         Q0FnfGgOuL6SqTCexzKC4v+qhTw8oYaLoMMFDe7uqIz7Ut0+SKw2cgO4M+L1v1AoUHcd
+         30WnuJHXS3BsvwJieXSdaFsy95ruhUTSLGdLtMHVeUnpIBhcW86NcN4/IykuI+1YaGEB
+         2xDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GhI8sJ5/z0UIz6/L8QhZBRZ4UponYyx7yrZK5KkagFA=;
-        b=ejWkmZNyHp7W75yFGcswMii2XrC4hEXDk/ZWoMmu3VweZBQvCKdfdYJjiG9J/3OFwt
-         2z9WzCxEnaSGtheTqLQRlDHllHj2RSnyhoEegMF5kLT1nxW8vGUjzCLFmGD08sG/GnCE
-         KQuFyWzr9xqBeMzen1zBxAVANbEszGGEEqNEPuYLgVItL7xmazE+xkWLA+BAiCcm+WHr
-         N6B4ODZavlO7wLs7yfqkMxLu1MNunjmvoClsmul25BtOC++7tGcZ1FsHyod8A9+JakYH
-         fgMIqKeYmgpFuVwFImRGc9xdEbHimY5wLjAc0Lnca1orEU1F3ANW5qadU0u/k1N4fuBb
-         ejOg==
-X-Gm-Message-State: AOAM533y/hh9I5zzd5J3OVTAbUPYFZwVD5kqXd/5Z8UYCquohpTHIsUI
-        1QFaqsY5xHhhR2G0e0caafVLlivfpmN/hA==
-X-Google-Smtp-Source: ABdhPJxqwIRSr3dWgXOH7vnN/UY5HOd6rlco29n9fd1J+sLLUy4P9Pg93nN8VT8Lj0qbT+dPCbwl1A==
-X-Received: by 2002:a17:906:fcad:: with SMTP id qw13mr5760965ejb.389.1598275414054;
-        Mon, 24 Aug 2020 06:23:34 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id u8sm5460265ejn.82.2020.08.24.06.23.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2020 06:23:33 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id a15so8662738wrh.10
-        for <linux-media@vger.kernel.org>; Mon, 24 Aug 2020 06:23:33 -0700 (PDT)
-X-Received: by 2002:a5d:638c:: with SMTP id p12mr5720466wru.17.1598275412832;
- Mon, 24 Aug 2020 06:23:32 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Oo7EoEwOiZey2I4RU2qQv+WisYvPVkgt+M+WNJhnTL8=;
+        b=hop6Enc/IgkKWrR2DK2FwI9NKlDrQrZBgIOOZx0hIBkjF8KDTK5KxABG1N8QYcBlhb
+         nte8lovuMekc30w84e0MF58MOB+WCGRYu4xhPsKTqsNNd8MNk5iz67TrgyBt4+guY2js
+         ETBLTKtM2q/g9GT3u0cbDXbNcA227SQuNVEM0Eek1HpZYyEn32X+QOUq5yojG3uU48Mk
+         z/Lq84kJ5mH8me+vgVbzdM/8wtZ6i7l8fVcJ1nCmiWfnQl/azHo44zsiJvO9QdEFJLkd
+         Ry1T+jKZA5eed4FKQXNa7WR7smL4pHgOfmqMuARnd4LC9ahy6tHpYB4qVjY0KA4cxmkT
+         7G9w==
+X-Gm-Message-State: AOAM532ulCXiEbrU8FWKHtWF/HNAMH4yZh01b3hCYrpgOPw9H+Xv0VzY
+        htnNl4LMj36Qmh+WXDIgilXlyBmC0nAz8oagQzb5uz0W2S0mXw==
+X-Google-Smtp-Source: ABdhPJw8s6GiaXKF5L8TlRTLSe0reZhdlDG+9HnMh9dOcWz4zRHL695zACntxCw6DNBUp6B0OXpaqnWOAiDerCfYw1I=
+X-Received: by 2002:a25:854c:: with SMTP id f12mr7927467ybn.130.1598277455386;
+ Mon, 24 Aug 2020 06:57:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <1597996790-21121-1-git-send-email-bingbu.cao@intel.com>
- <CAAFQd5DQR-HmFkgPk5mhTcoODEoAamhP0EO_YQR04SGQnuZp_w@mail.gmail.com>
- <caac1db9-412c-bb92-9670-dbef35d09374@linux.intel.com> <20200824090030.GD24582@paasikivi.fi.intel.com>
-In-Reply-To: <20200824090030.GD24582@paasikivi.fi.intel.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 24 Aug 2020 15:23:21 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CPk7OPM75dC+xWMwUSpuZfrwwfhR6L=639ZQr7=akzjw@mail.gmail.com>
-Message-ID: <CAAFQd5CPk7OPM75dC+xWMwUSpuZfrwwfhR6L=639ZQr7=akzjw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: ov5675: correct the maximum exposure value
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Bingbu Cao <bingbu.cao@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        shawnx.tu@intel.com, Sergey Senozhatsky <senozhatsky@chromium.org>,
-        hongju.wang@intel.com
+References: <20200823012134.3813457-1-agoode@google.com> <20200823012134.3813457-2-agoode@google.com>
+ <20200823145417.GC6002@pendragon.ideasonboard.com> <20200823150822.GD6002@pendragon.ideasonboard.com>
+ <5a2882e5-c029-dde7-c6ff-bd6f57aa7850@xs4all.nl>
+In-Reply-To: <5a2882e5-c029-dde7-c6ff-bd6f57aa7850@xs4all.nl>
+From:   Adam Goode <agoode@google.com>
+Date:   Mon, 24 Aug 2020 09:56:59 -0400
+Message-ID: <CAOf41NnrfW6h++nR42R1OxR0B3DVrKg9RVLTQVJ=nEkn3GW4aw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: uvcvideo: Convey full ycbcr colorspace
+ information to v4l2
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 11:00 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Mon, Aug 24, 2020 at 4:48 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wro=
+te:
 >
-> Hi Bingbu,
->
-> On Mon, Aug 24, 2020 at 11:13:40AM +0800, Bingbu Cao wrote:
+> On 23/08/2020 17:08, Laurent Pinchart wrote:
+> > Hi Adam,
 > >
+> > (CC'ing Hans Verkuil)
 > >
-> > On 8/22/20 11:03 PM, Tomasz Figa wrote:
-> > > Hi Bingbu,
-> > >
-> > > On Fri, Aug 21, 2020 at 10:00 AM Bingbu Cao <bingbu.cao@intel.com> wrote:
-> > >>
-> > >> The unit of exposure value is different from other OmniVision sensors,
-> > >> driver will divide by 2 before set register, the exposure range exposed
-> > >> by v4l2 ctrl to user should be same as others, so the calculation for
-> > >> the maximum exposure value in current driver need be fixed.
-> > >>
-> > >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> > >> ---
-> > >>  drivers/media/i2c/ov5675.c | 15 ++++++++++-----
-> > >>  1 file changed, 10 insertions(+), 5 deletions(-)
-> > >>
-> > >
-> > > Thanks for the patch! Please see my comments inline.
-> > >
-> > >> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> > >> index 8537cc4ca108..9540ce8918f0 100644
-> > >> --- a/drivers/media/i2c/ov5675.c
-> > >> +++ b/drivers/media/i2c/ov5675.c
-> > >> @@ -666,8 +666,8 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
-> > >>         /* Propagate change of current control to all related controls */
-> > >>         if (ctrl->id == V4L2_CID_VBLANK) {
-> > >>                 /* Update max exposure while meeting expected vblanking */
-> > >> -               exposure_max = (ov5675->cur_mode->height + ctrl->val -
-> > >> -                              OV5675_EXPOSURE_MAX_MARGIN) / 2;
-> > >> +               exposure_max = ov5675->cur_mode->height + ctrl->val -
-> > >> +                       OV5675_EXPOSURE_MAX_MARGIN;
-> > >>                 __v4l2_ctrl_modify_range(ov5675->exposure,
-> > >>                                          ov5675->exposure->minimum,
-> > >>                                          exposure_max, ov5675->exposure->step,
-> > >> @@ -689,7 +689,13 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
-> > >>                 break;
-> > >>
-> > >>         case V4L2_CID_EXPOSURE:
-> > >> -               /* 3 least significant bits of expsoure are fractional part */
-> > >> +               /* 4 least significant bits of expsoure are fractional part
-> > >
-> > > exposure
-> > >
-> > >> +                * val = val << 4
-> > >> +                * for ov5675, the unit of exposure is differnt from other
-> > >
-> > > different
-> > >
-> > >> +                * OmniVision sensors, its exposure value is twice of the
-> > >> +                * register value, the exposure should be divided by 2 before
-> > >> +                * set register, e.g. val << 3.
-> > >> +                */
-> > >>                 ret = ov5675_write_reg(ov5675, OV5675_REG_EXPOSURE,
-> > >>                                        OV5675_REG_VALUE_24BIT, ctrl->val << 3);
-> > >
-> > > How about turning this code into (ctrl->val << 4) / 2 ? It will be
-> > > compiled into exactly the same code, but will be obvious that we are
-> > > handling two different factors in the computation.
-> > >
-> > > Another question: Since the V4L2_CID_EXPOSURE control is not specified
-> > > to be in a particular unit and hardware supports fractional exposures,
-> > > why not expose the exposure exactly as it is in the register?
-> > My understanding is that the exposure calculation in userspace is commonly based
-> > on the unit of exposure - line, as some sensor did not support fractional
-> > exposures, so the common calculation only care the integral part. For ov5675, it
-> > is different from others, its register value unit is 2lines instead of lines.
-> >
-> > Sakari, do you have some idea?
->
-> I've already sent v2 in a pull request to Mauro. So if changes are needed
-> still, please send them on top of v2.
->
-> Line is commonly used for devices that natively use it (vast majority of
-> raw Bayer camera sensors). So if possible, I'd use the same here. I.e. with
-> two line granularity, the exposure value could be in lines and the step
-> would be 2.
+> > On Sun, Aug 23, 2020 at 05:54:24PM +0300, Laurent Pinchart wrote:
+> >> Hi Adam,
+> >>
+> >> Thank you for the patch.
+> >>
+> >> On Sat, Aug 22, 2020 at 09:21:34PM -0400, Adam Goode wrote:
+> >>> The Color Matching Descriptor has been present in USB cameras since
+> >>> the original version of UVC, but it has never been fully used
+> >>> in Linux.
+> >>>
+> >>> This change informs V4L2 of all of the critical colorspace parameters=
+:
+> >>> colorspace (called "color primaries" in UVC), transfer function
+> >>> (called "transfer characteristics" in UVC), ycbcr encoding (called
+> >>> "matrix coefficients" in UVC), and quantization, which is always
+> >>> LIMITED for UVC, see section 2.26 in USB_Video_FAQ_1.5.pdf.
+> >>
+> >> Isn't this valid for MJPEG only though ? There's not much else we can =
+do
+> >> though, as UVC cameras don't report quantization information. Shouldn'=
+t
+> >> we however reflect this in the commit message, and in the comment belo=
+w,
+> >> to state that UVC requires limited quantization range for MJPEG, and
+> >> while it doesn't explicitly specify the quantization range for other
+> >> formats, we can only assume it should be limited as well ?
+> >>
 
-The sensor unit seems to be 1/8 of a line, so by exposing it from the
-driver as an integer in the unit of lines, we end up losing some
-precision. I'm not sure how relevant it is for image quality, though.
+Yes, I am happy to improve the comment to be clearer.
 
-Best regards,
-Tomasz
+
+> >> The code otherwise looks good to me.
+> >>
+> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>
+> >> Please let me know if you'd like to address the above issue.
+> >>
+> >>> The quantization is the most important improvement for this patch,
+> >>> because V4L2 will otherwise interpret MJPEG as FULL range. Web browse=
+rs
+> >>> such as Chrome and Firefox already ignore V4L2's quantization for USB
+> >>> devices and use the correct LIMITED value, but other programs such
+> >>> as qv4l2 will incorrectly interpret the output of MJPEG from USB
+> >>> cameras without this change.
+> >>>
+> >>> Signed-off-by: Adam Goode <agoode@google.com>
+> >>> ---
+> >>>  drivers/media/usb/uvc/uvc_driver.c | 52 +++++++++++++++++++++++++++-=
+--
+> >>>  drivers/media/usb/uvc/uvc_v4l2.c   |  6 ++++
+> >>>  drivers/media/usb/uvc/uvcvideo.h   |  5 ++-
+> >>>  3 files changed, 58 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/u=
+vc/uvc_driver.c
+> >>> index 431d86e1c94b..c0c81b089b7d 100644
+> >>> --- a/drivers/media/usb/uvc/uvc_driver.c
+> >>> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> >>> @@ -248,10 +248,10 @@ static struct uvc_format_desc *uvc_format_by_gu=
+id(const u8 guid[16])
+> >>>     return NULL;
+> >>>  }
+> >>>
+> >>> -static u32 uvc_colorspace(const u8 primaries)
+> >>> +static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
+> >>>  {
+> >>> -   static const u8 colorprimaries[] =3D {
+> >>> -           0,
+> >>> +   static const enum v4l2_colorspace colorprimaries[] =3D {
+> >>> +           V4L2_COLORSPACE_DEFAULT,  /* Unspecified */
+> >>>             V4L2_COLORSPACE_SRGB,
+> >>>             V4L2_COLORSPACE_470_SYSTEM_M,
+> >>>             V4L2_COLORSPACE_470_SYSTEM_BG,
+> >>> @@ -262,7 +262,43 @@ static u32 uvc_colorspace(const u8 primaries)
+> >>>     if (primaries < ARRAY_SIZE(colorprimaries))
+> >>>             return colorprimaries[primaries];
+> >>>
+> >>> -   return 0;
+> >>> +   return V4L2_COLORSPACE_DEFAULT;  /* Reserved */
+> >>> +}
+> >>> +
+> >>> +static enum v4l2_xfer_func uvc_xfer_func(const u8 transfer_character=
+istics)
+> >>> +{
+> >>> +   static const enum v4l2_xfer_func xfer_funcs[] =3D {
+> >>> +           V4L2_XFER_FUNC_DEFAULT,  /* Unspecified */
+> >>> +           V4L2_XFER_FUNC_709,
+> >>> +           V4L2_XFER_FUNC_709,      /* BT.470-2 M */
+> >>> +           V4L2_XFER_FUNC_709,      /* BT.470-2 B, G */
+> >>> +           V4L2_XFER_FUNC_709,      /* SMPTE 170M */
+> >>> +           V4L2_XFER_FUNC_SMPTE240M,
+> >>> +           V4L2_XFER_FUNC_NONE,     /* Linear (V =3D Lc) */
+> >>> +           V4L2_XFER_FUNC_SRGB,
+> >>> +   };
+> >>> +
+> >>> +   if (transfer_characteristics < ARRAY_SIZE(xfer_funcs))
+> >>> +           return xfer_funcs[transfer_characteristics];
+> >>> +
+> >>> +   return V4L2_XFER_FUNC_DEFAULT;  /* Reserved */
+> >>> +}
+> >>> +
+> >>> +static enum v4l2_ycbcr_encoding uvc_ycbcr_enc(const u8 matrix_coeffi=
+cients)
+> >>> +{
+> >>> +   static const enum v4l2_ycbcr_encoding ycbcr_encs[] =3D {
+> >>> +           V4L2_YCBCR_ENC_DEFAULT,  /* Unspecified */
+> >>> +           V4L2_YCBCR_ENC_709,
+> >>> +           V4L2_YCBCR_ENC_601,      /* FCC */
+> >
+> > I may have spoken a bit too fast. Doesn't FCC differ from BT.601 ?
+> > According to https://en.wikipedia.org/wiki/Talk%3AYCbCr, the former use=
+s
+> >
+> >  E'Y =3D 0.59 E'G + 0.11 E'B + 0.30 E'R
+> >  E'PB =3D =E2=80=93 0.331 E'G + 0.500 E'B =E2=80=93 0.169 E'R
+> >  E'PR =3D =E2=80=93 0.421 E'G =E2=80=93 0.079 E'B + 0.500 E'R
+> >
+> > while the latter uses
+> >
+> >  E'Y =3D 0.587 E'G + 0.114 E'B + 0.299 E'R
+> >  E'PB =3D =E2=80=93 0.331 E'G + 0.500 E'B =E2=80=93 0.169 E'R
+> >  E'PR =3D =E2=80=93 0.419 E'G =E2=80=93 0.081 E'B + 0.500 E'R
+> >
+> > We seems to be missing FCC in the V4L2 color space definitions.
+>
+> The differences between the two are minuscule. Add to that that NTSC 1953
+> hasn't been in use for many decades. So I have no plans to add another YC=
+C
+> encoding for this. I'll double check this in a few weeks time when I have
+> access to a better book on colorimetry.
+>
+
+I can add a comment directly to clarify, but I am following the
+mappings described in videodev2.h (with the assumption that "FCC" is
+close enough to 601):
+
+/*
+* Mapping of V4L2_XFER_FUNC_DEFAULT to actual transfer functions
+* for the various colorspaces:
+*
+* V4L2_COLORSPACE_SMPTE170M, V4L2_COLORSPACE_470_SYSTEM_M,
+* V4L2_COLORSPACE_470_SYSTEM_BG, V4L2_COLORSPACE_REC709 and
+* V4L2_COLORSPACE_BT2020: V4L2_XFER_FUNC_709
+*
+* V4L2_COLORSPACE_SRGB, V4L2_COLORSPACE_JPEG: V4L2_XFER_FUNC_SRGB
+*
+* V4L2_COLORSPACE_OPRGB: V4L2_XFER_FUNC_OPRGB
+*
+* V4L2_COLORSPACE_SMPTE240M: V4L2_XFER_FUNC_SMPTE240M
+*
+* V4L2_COLORSPACE_RAW: V4L2_XFER_FUNC_NONE
+*
+* V4L2_COLORSPACE_DCI_P3: V4L2_XFER_FUNC_DCI_P3
+*/
+
+/*
+* Mapping of V4L2_YCBCR_ENC_DEFAULT to actual encodings for the
+* various colorspaces:
+*
+* V4L2_COLORSPACE_SMPTE170M, V4L2_COLORSPACE_470_SYSTEM_M,
+* V4L2_COLORSPACE_470_SYSTEM_BG, V4L2_COLORSPACE_SRGB,
+* V4L2_COLORSPACE_OPRGB and V4L2_COLORSPACE_JPEG: V4L2_YCBCR_ENC_601
+*
+* V4L2_COLORSPACE_REC709 and V4L2_COLORSPACE_DCI_P3: V4L2_YCBCR_ENC_709
+*
+* V4L2_COLORSPACE_BT2020: V4L2_YCBCR_ENC_BT2020
+*
+* V4L2_COLORSPACE_SMPTE240M: V4L2_YCBCR_ENC_SMPTE240M
+*/
+
+We could potentially do with some more xfer functions, though.
+
+> >
+> >>> +           V4L2_YCBCR_ENC_601,      /* BT.470-2 B, G */
+> >>> +           V4L2_YCBCR_ENC_601,      /* SMPTE 170M */
+> >>> +           V4L2_YCBCR_ENC_SMPTE240M,
+> >>> +   };
+> >>> +
+> >>> +   if (matrix_coefficients < ARRAY_SIZE(ycbcr_encs))
+> >>> +           return ycbcr_encs[matrix_coefficients];
+> >>> +
+> >>> +   return V4L2_YCBCR_ENC_DEFAULT;  /* Reserved */
+> >>>  }
+> >>>
+> >>>  /* Simplify a fraction using a simple continued fraction decompositi=
+on. The
+> >>> @@ -704,6 +740,14 @@ static int uvc_parse_format(struct uvc_device *d=
+ev,
+> >>>             }
+> >>>
+> >>>             format->colorspace =3D uvc_colorspace(buffer[3]);
+> >>> +           format->xfer_func =3D uvc_xfer_func(buffer[4]);
+> >>> +           format->ycbcr_enc =3D uvc_ycbcr_enc(buffer[5]);
+> >>> +           /* All USB YCbCr encodings use LIMITED range as of UVC 1.=
+5.
+> >>> +            * This is true even for MJPEG, which V4L2 otherwise assu=
+mes to
+> >>> +            * be FULL.
+> >>> +            * See section 2.26 in USB_Video_FAQ_1.5.pdf.
+>
+> Not true. I checked the FAQ: the FAQ describes what happens when a video =
+renderer
+> incorrectly interprets the decoded JPEG color components as limited range=
+ instead
+> of full range (which they are to be JPEG compliant). JPEG always encodes =
+YCbCr as
+> full range.
+>
+
+Here is what the FAQ says:
+
+"If the images are encoded with the luma and chroma units in the 0-255
+range that is used
+for typical JPEG still images, then the saturation and contrast will
+look artificially boosted
+when the video is rendered under the assumption that the levels were
+in the YCbCr color
+space. BT601 specifies eight-bit coding where Y is in the range of 16
+(black) to 235 (white)
+inclusive."
+
+I read this as saying "if you encode MJPEG the same as typical JPEG
+still images, it is wrong because Y must be in the range 16-235". Am I
+reading this incorrectly?
+
+> >>> +            */
+> >>> +           format->quantization =3D V4L2_QUANTIZATION_LIM_RANGE;
+>
+> What about sRGB? That uses full range.
+>
+
+It is a little confusing in the code, but I only set the quantization
+explicitly when we get a Color Matching descriptor from the device. My
+reading of the spec says that this descriptor isn't present for RGB
+formats, only YCrCb. When the spec mentions sRGB in Color Matching, it
+is referring only to primaries or gamma.
+
+> Regards,
+>
+>         Hans
+>
+> >>>
+> >>>             buflen -=3D buffer[0];
+> >>>             buffer +=3D buffer[0];
+> >>> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc=
+/uvc_v4l2.c
+> >>> index 7f14096cb44d..79daf46b3dcd 100644
+> >>> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> >>> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> >>> @@ -279,6 +279,9 @@ static int uvc_v4l2_try_format(struct uvc_streami=
+ng *stream,
+> >>>     fmt->fmt.pix.sizeimage =3D probe->dwMaxVideoFrameSize;
+> >>>     fmt->fmt.pix.pixelformat =3D format->fcc;
+> >>>     fmt->fmt.pix.colorspace =3D format->colorspace;
+> >>> +   fmt->fmt.pix.xfer_func =3D format->xfer_func;
+> >>> +   fmt->fmt.pix.ycbcr_enc =3D format->ycbcr_enc;
+> >>> +   fmt->fmt.pix.quantization =3D format->quantization;
+> >>>
+> >>>     if (uvc_format !=3D NULL)
+> >>>             *uvc_format =3D format;
+> >>> @@ -315,6 +318,9 @@ static int uvc_v4l2_get_format(struct uvc_streami=
+ng *stream,
+> >>>     fmt->fmt.pix.bytesperline =3D uvc_v4l2_get_bytesperline(format, f=
+rame);
+> >>>     fmt->fmt.pix.sizeimage =3D stream->ctrl.dwMaxVideoFrameSize;
+> >>>     fmt->fmt.pix.colorspace =3D format->colorspace;
+> >>> +   fmt->fmt.pix.xfer_func =3D format->xfer_func;
+> >>> +   fmt->fmt.pix.ycbcr_enc =3D format->ycbcr_enc;
+> >>> +   fmt->fmt.pix.quantization =3D format->quantization;
+> >>>
+> >>>  done:
+> >>>     mutex_unlock(&stream->mutex);
+> >>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc=
+/uvcvideo.h
+> >>> index 6ab972c643e3..6508192173dd 100644
+> >>> --- a/drivers/media/usb/uvc/uvcvideo.h
+> >>> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> >>> @@ -370,7 +370,10 @@ struct uvc_format {
+> >>>     u8 type;
+> >>>     u8 index;
+> >>>     u8 bpp;
+> >>> -   u8 colorspace;
+> >>> +   enum v4l2_colorspace colorspace;
+> >>> +   enum v4l2_xfer_func xfer_func;
+> >>> +   enum v4l2_ycbcr_encoding ycbcr_enc;
+> >>> +   enum v4l2_quantization quantization;
+> >>>     u32 fcc;
+> >>>     u32 flags;
+> >>>
+> >
+>
