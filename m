@@ -2,253 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3B682520FF
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 21:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3566B2521E6
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 22:22:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726779AbgHYTu4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 15:50:56 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:46223 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726570AbgHYTuy (ORCPT
+        id S1726610AbgHYUWF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 16:22:05 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:49118 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726149AbgHYUWF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 15:50:54 -0400
-Received: by mail-io1-f65.google.com with SMTP id d18so4453081iop.13;
-        Tue, 25 Aug 2020 12:50:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=A/K9hgoNgX1yqNOPP0vdW/Zwp8hH78Dq/iAwIqDHpJ0=;
-        b=dxmn8lLmoFft64nQiOXMjNV2Addw4ZkZN887DAHHZl6zuCiYQB/jq2PTstv7onWTuq
-         R8ce/85dZdU+nsZaZ5pl3gTcuY37zbgRndKTLYptWCa5RGyXJTvPBI6FbOwQ29lBQh8N
-         /4ucf5j/KBe6SNnAVjrpRaSQcDSe+Qqb/d4OGQtNE0StoCUVD1H0R5iUqAHps11J+34b
-         gcA2naG94n1ic+G4lNujbW9syeQIwMQaxwDEnc/SLEWetDce7zgroUb55EdFxRzuTv02
-         VWYiUxmQRw97ZZQs7XNbmOYstp8JvBHUoeNKNVSBQWcijOm+dWojCLh8/bAOxMGxgKux
-         l6qg==
-X-Gm-Message-State: AOAM531yqYCv64WX+nxdtW7NlmQHK9ZL7v9peXZmshrAGaPn8kZXmdoy
-        iJuKBTT9jFN0FQ9JDKa9mFYN2BCWKNhP
-X-Google-Smtp-Source: ABdhPJzn0LaWc5LtdVi27oS/66l314ee6b3xtm1XvtotF/5uQAPTfONRn55/eTulnpWZAPL56wpLXg==
-X-Received: by 2002:a02:6d0e:: with SMTP id m14mr11998125jac.23.1598385052474;
-        Tue, 25 Aug 2020 12:50:52 -0700 (PDT)
-Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id u17sm8977ilb.44.2020.08.25.12.50.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2020 12:50:51 -0700 (PDT)
-Received: (nullmailer pid 1210818 invoked by uid 1000);
-        Tue, 25 Aug 2020 19:50:49 -0000
-Date:   Tue, 25 Aug 2020 13:50:49 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@kernel.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: imx214: Convert to json-schema
-Message-ID: <20200825195049.GA1199184@bogus>
-References: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
- <20200819132823.GH6049@pendragon.ideasonboard.com>
+        Tue, 25 Aug 2020 16:22:05 -0400
+Received: from ravnborg.org (unknown [188.228.123.71])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 199B620024;
+        Tue, 25 Aug 2020 22:21:54 +0200 (CEST)
+Date:   Tue, 25 Aug 2020 22:21:53 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Wanchun Zheng <zhengwanchun@hisilicon.com>,
+        linuxarm@huawei.com, dri-devel <dri-devel@lists.freedesktop.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        devel@driverdev.osuosl.org, Daniel Borkmann <daniel@iogearbox.net>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Xiubin Zhang <zhangxiubin1@huawei.com>,
+        Wei Xu <xuwei5@hisilicon.com>, David Airlie <airlied@linux.ie>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Liwei Cai <cailiwei@hisilicon.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>, mauro.chehab@huawei.com,
+        Rob Clark <robdclark@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Liuyao An <anliuyao@huawei.com>,
+        Rongrong Zou <zourongrong@gmail.com>, bpf@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH 00/49] DRM driver for Hikey 970
+Message-ID: <20200825202153.GA237836@ravnborg.org>
+References: <cover.1597833138.git.mchehab+huawei@kernel.org>
+ <20200819152120.GA106437@ravnborg.org>
+ <20200819174027.70b39ee9@coco.lan>
+ <20200819173558.GA3733@ravnborg.org>
+ <20200821155801.0b820fc6@coco.lan>
+ <20200821155505.GA300361@ravnborg.org>
+ <20200824180225.1a515b6a@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200819132823.GH6049@pendragon.ideasonboard.com>
+In-Reply-To: <20200824180225.1a515b6a@coco.lan>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+        a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=jmfwfdV-BNFhccFjUE8A:9
+        a=CjuIK1q_8ugA:10 a=pBTelFdiagIA:10 a=Vxmtnl_E_bksehYqCbjh:22
+        a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 04:28:23PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Aug 18, 2020 at 02:17:55PM +0200, Jacopo Mondi wrote:
-> > Convert the imx214 bindings document to json-schema and update
-> > the MAINTAINERS file accordingly.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  .../bindings/media/i2c/sony,imx214.txt        |  53 --------
-> >  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
-> >  MAINTAINERS                                   |   2 +-
-> >  3 files changed, 125 insertions(+), 54 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > deleted file mode 100644
-> > index f11f28a5fda4..000000000000
-> > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > +++ /dev/null
-> > @@ -1,53 +0,0 @@
-> > -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> > -
-> > -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> > -an active array size of 4224H x 3200V. It is programmable through an I2C
-> > -interface.
-> > -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
-> > -throughput of 1.2Gbps/lane.
-> > -
-> > -
-> > -Required Properties:
-> > -- compatible: Shall be "sony,imx214".
-> > -- reg: I2C bus address of the device. Depending on how the sensor is wired,
-> > -       it shall be <0x10> or <0x1a>;
-> > -- enable-gpios: GPIO descriptor for the enable pin.
-> > -- vdddo-supply: Chip digital IO regulator (1.8V).
-> > -- vdda-supply: Chip analog regulator (2.7V).
-> > -- vddd-supply: Chip digital core regulator (1.12V).
-> > -- clocks: Reference to the xclk clock.
-> > -- clock-frequency: Frequency of the xclk clock.
-> > -
-> > -Optional Properties:
-> > -- flash-leds: See ../video-interfaces.txt
-> > -- lens-focus: See ../video-interfaces.txt
-> > -
-> > -The imx214 device node shall contain one 'port' child node with
-> > -an 'endpoint' subnode. For further reading on port node refer to
-> > -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > -
-> > -Required Properties on endpoint:
-> > -- data-lanes: check ../video-interfaces.txt
-> > -- link-frequencies: check ../video-interfaces.txt
-> > -- remote-endpoint: check ../video-interfaces.txt
-> > -
-> > -Example:
-> > -
-> > -	camera-sensor@1a {
-> > -		compatible = "sony,imx214";
-> > -		reg = <0x1a>;
-> > -		vdddo-supply = <&pm8994_lvs1>;
-> > -		vddd-supply = <&camera_vddd_1v12>;
-> > -		vdda-supply = <&pm8994_l17>;
-> > -		lens-focus = <&ad5820>;
-> > -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> > -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
-> > -		clock-frequency = <24000000>;
-> > -		port {
-> > -			imx214_ep: endpoint {
-> > -				data-lanes = <1 2 3 4>;
-> > -				link-frequencies = /bits/ 64 <480000000>;
-> > -				remote-endpoint = <&csiphy0_ep>;
-> > -			};
-> > -		};
-> > -	};
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > new file mode 100644
-> > index 000000000000..ddd4627214b1
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > @@ -0,0 +1,124 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> 
-> s/Mp/MP/
-> 
-> > +
-> > +maintainers:
-> > +  - Ricardo Ribalda <ribalda@kernel.org>
-> > +
-> > +description: -|
-> > +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> 
-> s/imx214/IMX214/
-> 
-> > +  an active array size of 4224H x 3200V. It is programmable through an I2C
-> > +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
-> 
-> s/  Image/ Image/
-> 
-> > +  maximum throughput of 1.2Gbps/lane.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sony,imx214
-> > +
-> > +  reg:
-> > +    description: -|
-> > +      I2C device address. Depends on how the sensor is wired.
-> 
-> I'd drop the description, it's fairly evident as it's an I2C device,
-> isn't it ?
-> 
-> > +    enum:
-> > +      - 0x10
-> > +      - 0x1a
-> > +
-> > +  clocks:
-> > +    description: Reference to the xclk clock.
-> > +    maxItems: 1
-> > +
-> > +  clock-frequency:
-> > +    description: Frequency of the xclk clock in Hz.
-> > +
-> > +  enable-gpios:
-> > +    description: GPIO descriptor for the enable pin.
-> > +    maxItems: 1
-> > +
-> > +  vdddo-supply:
-> > +    description: Chip digital IO regulator (1.8V).
-> > +    maxItems: 1
-> > +
-> > +  vdda-supply:
-> > +    description: Chip analog regulator (2.7V).
-> > +    maxItems: 1
-> > +
-> > +  vddd-supply:
-> > +    description: Chip digital core regulator (1.12V).
-> > +    maxItems: 1
-> > +
-> > +  flash-leds:
-> > +    description: See ../video-interfaces.txt
-> > +
-> > +  lens-focus:
-> > +    description: See ../video-interfaces.txt
-> > +
-> > +  port:
-> > +    type: object
-> > +    description: |
-> > +      The device node must contain one 'port' child node for its digital output
-> > +      video port, in accordance with the video interface bindings defined in
-> > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> 
-> I'd drop this, the port node is already described as required below.
-> 
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +        properties:
-> > +          remote-endpoint:
-> > +            description: See ../video-interfaces.txt
-> > +
-> > +          data-lanes:
-> > +            description: See ../video-interfaces.txt
-> 
-> Shouldn't this also express that only 2 or 4 data lanes are allowed ?
-> 
->             $ref: /schemas/types.yaml#/definitions/uint32-array
->             description: See ../video-interfaces.txt
->             anyOf:
->               - items:
->                   - const: 1
->                   - const: 2
->               - items:
->                   - const: 1
->                   - const: 2
->                   - const: 3
->                   - const: 4
-> 
-> Maybe someone more experienced with YAML schemas could propose a better
-> way to express this ? I initially tried to express it with enum instead
-> of anyOf but couldn't get it to work.
+Hi Mauro.
 
-There's different ways with minItems/maxItems, but that still uses 
-anyOf and doesn't end up being any better.
+Laurent and I discussed this driver a little on irc.
+Some highlights:
 
-Rob
+This parts could use register names:
++       writel(0x2, noc_dss_base + 0xc);
++       writel(0x2, noc_dss_base + 0x8c);
++       writel(0x2, noc_dss_base + 0x10c);
++       writel(0x2, noc_dss_base + 0x18c);
+
+The two nodes in the DT for DPE and DSI uses overlapping range for reg
+entries. It looks like a syscon node or some iommu thing is needed to do
+this properly.
+
+The chain will lok like this:
+
+DPE -> DSI -> video mux -> {adv7533, panel}
+
+But drm_bridge has not yet support for such non-linear setup.
+The recommendation is to focus on the HDMI prat. Then we can later
+come up with support for a video mux.
+
+The video mux should have a dedicated node with one input node and two
+output nodes. Which is also where the gpio should be.
+
+The DSI node references two DPHY instances - should it be PHY driver(s)?
+
+Does the DSI part contain one or two instances. Clocks looks duplicated.
+
+Does the DPE and DSI share a lot of register blocks - or does it just
+look like this from a first point of view?
+
+You can read though the logs here:
+https://people.freedesktop.org/~cbrill/dri-log/index.php
+
+Could you please try to get back on some of the points above so we can
+help you move forward in the right direction.
+
+Thanks,
+	Sam
