@@ -2,222 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FB08251B06
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 16:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA74F251B89
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 16:57:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726703AbgHYOkd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 10:40:33 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:50599 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726617AbgHYOk1 (ORCPT
+        id S1726717AbgHYO4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 10:56:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726788AbgHYO4U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 10:40:27 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 70A0D5805C6;
-        Tue, 25 Aug 2020 10:40:26 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 25 Aug 2020 10:40:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=w
-        MzjRVZ2eQmnRLOWtihVl3tYEELP/S8Nb3EyoLwdO9Q=; b=ZGu+1EFvpMlJgGP/h
-        7q33zmEHNWl1PX8uKISBMLxwVqQwdmrDUwPBbwH8tEfaBbTxRaWqi/QIyAzk4Ap2
-        PlmBLwPBNEE34nqXb3i+8BdD6Ya4sDE2wbOjjtkOjHANE1rtTW89BWbb5xxYCEO7
-        ELX/yCqNSL9wDWUD7e6gtVX38OXPrb6k/ZyKLf/XJAlgUo0i0veHxuSpPc/oZTOy
-        JQGhDMuVTv8eoztbFGgocgx4GO6RlzoOlEF8o3sh5/xCsKMTmFi2AhjylGjV4vZl
-        ggcSuRhEYSQgtR57lr0T/8Jvxp2VlhP6POBYmfhTd+ztFFFprdu8yHrI1BtpIdNW
-        Sk2jA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=wMzjRVZ2eQmnRLOWtihVl3tYEELP/S8Nb3EyoLwdO
-        9Q=; b=VlDRMj6dBtQg08iBd10GaVK5O3M7B+0mCO0wZduK7cIMoVzhn9/pSI3eq
-        0RKJtAlxoF9AX0UbffAxcCf8gXgnJAyLO6hENEQF0WGRa0pxe82x27bsv4d1NFQU
-        oAZ/T91/XTefiJGVa2SNFlRCobjJflJavbAYVcIE97926YRW5vtFFCxN/k7F5kFd
-        RBtsr3pygiGTaCHTLRDcb6w1Y+TgHWKN8U6eQSwHNBM+07wbLlGU0dgK15JkPMT9
-        3BbIuVnnjxxKdK1AWK0AqcJ6U/Iq6zhMIgekyGDQrXrmny8ShWPZ9s/Y/i/GlHB/
-        tu4QX61Oy2ZLXK27K1oDaBRjW5yjg==
-X-ME-Sender: <xms:2CJFX4pX79xgkgrQW1NbaOfBzTAl_u3mzl1LDaB1-upMlEi6KgMdYg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvtddgkedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeehledvhfeklefgveelkeeludevffethfdukedvfffhhfegfeeugfehgeef
-    jeevtdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:2CJFX-pdvMGRNKPeQbmAqGMelw_PWcWrPKji7sz0Z0HqGA55PsUdHQ>
-    <xmx:2CJFX9OQrDCtzePv3h8UXa-XRIx98lP2HeImaFSk-wu_aMRWf-vPsQ>
-    <xmx:2CJFX_6n_oSOO04vY4S1Gd-0BjB2__ZVLvE5_e21FL2DlMYC-aSflw>
-    <xmx:2iJFX0HEJT5ve-0Ac8oI61oKCtRX7NdjBnDwErAMJHMjDJgAWn7t3g>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4B6EF30600B7;
-        Tue, 25 Aug 2020 10:40:24 -0400 (EDT)
-Date:   Tue, 25 Aug 2020 16:40:22 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, wens@csie.org,
-        yong.deng@magewell.com, p.zabel@pengutronix.de,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        paul.kocialkowski@bootlin.com, thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH 7/7] [NOT FOR MERGE] ARM: dts: sun8i: a83t: bananapi-m3:
- Enable OV8865 camera
-Message-ID: <20200825144022.mwkcqaqny7l5bab4@gilmour.lan>
-References: <20200821145935.20346-1-kevin.lhopital@bootlin.com>
- <20200821145935.20346-8-kevin.lhopital@bootlin.com>
+        Tue, 25 Aug 2020 10:56:20 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15C7BC061574;
+        Tue, 25 Aug 2020 07:56:20 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id k18so7544112pfp.7;
+        Tue, 25 Aug 2020 07:56:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DXJMFSxcV9xYWsnVqv7Ps99ZWJR3OqDZVUVZ9L/SWjE=;
+        b=dvJyYk4ABNmrcOuHspQsH8XUQhBTK+lgCnrK2uA5hY7FH3GzUfU8XRPnt6o8h3fTXx
+         q1Nwo7lXPvbQtPK91Hatf5mxEYmoA9MD40QBuBaFGvZEd5E/BifsOZaODyCRAJPR9Hby
+         K6vqurjvNfQiQwJtOy9tzhfNj6r8AAc9jVU+rWAgWpJCGfvDuK/kH00bujhlBb1yNkwb
+         UMTaCHbAiekHf0xc/C5VkQciwLmeJknBGyiheaRY/iEDflIcHgmjJzpYB2fvhQ1deWsS
+         Jd4ODwO7Sn5/sNuU4puUESlmd0S5R+liRk6mGR9pE3Mtat3cv2oE3h0z5Dhy3imFQXbD
+         ltNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DXJMFSxcV9xYWsnVqv7Ps99ZWJR3OqDZVUVZ9L/SWjE=;
+        b=cMD0ulobyvN2AYkGJJw2V2bXxvPRidQ+Uw9lSpXt/O0xE4v/q/6sN01VutGNuMZvqS
+         TgHqOaPrwXV+EfXON6N8JpPAaFilC1KMnCC4KUbXBtiTAiUspdaJ98MVnc6g7m/eZ8k4
+         pYJ9OH1iz15zXXqFD5d67FPASceB7lu2lEEOj/QTZtjBsxBeGlBHaFsWEBXgUNzrbZED
+         IygCd6W8uEKrRQFin4hZU5ZQtovt8G6ASCGTVKdw/8da5zy/1obZ4ODoO1QW/+1mpnm+
+         sFJ7kHbzz/xS99y5yPbAah5YuJjcLHM1UKiRykABLRYCv6314moj6AydUD3+6CYnV5v0
+         ZzEw==
+X-Gm-Message-State: AOAM532+Je4o0PiprUea+BkbBaxSOcDiwGk6BN7Q2TYpUCF55hKnLz5G
+        AvL37GqZkbguwkFvWQsiP0E=
+X-Google-Smtp-Source: ABdhPJw/15iAcP1sYV3sJGlu8PB+9DVdCkBWGhe3FX1Gk4gJE5Gj7X74eI1uCHmH5dcCVGyxuwNEAA==
+X-Received: by 2002:aa7:9556:: with SMTP id w22mr8148808pfq.245.1598367379444;
+        Tue, 25 Aug 2020 07:56:19 -0700 (PDT)
+Received: from localhost.localdomain ([240d:1a:8f0:6c00:89cb:88d1:b6b2:3345])
+        by smtp.gmail.com with ESMTPSA id a1sm4469959pgc.54.2020.08.25.07.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2020 07:56:17 -0700 (PDT)
+From:   Alexandre Courbot <gnurou@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <gnurou@gmail.com>
+Subject: [PATCH 0/2] media: v4l2-mem2mem: fix poll() bug
+Date:   Tue, 25 Aug 2020 23:55:54 +0900
+Message-Id: <20200825145556.637323-1-gnurou@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200821145935.20346-8-kevin.lhopital@bootlin.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This addresses a very corner case that probably nobody ever encounters,
+but I have hit it when playing with vicoded so here is a tentative fix.
 
-On Fri, Aug 21, 2020 at 04:59:35PM +0200, K=E9vin L'h=F4pital wrote:
-> The Bananapi M3 supports a camera module which includes an
-> OV8865 sensor connected via the parallel CSI interface and
-> an OV8865 sensor connected via MIPI CSI-2.
->=20
-> The I2C2 bus is shared by the two sensors as well as active-low
-> reset signal but each sensor has it own shutdown line.
->=20
-> The I2c address for the OV8865 is 0x36.
->=20
-> The bus type is hardcoded to 4 due to the lack of available
-> define usable in the device-tree.
->=20
-> Signed-off-by: K=E9vin L'h=F4pital <kevin.lhopital@bootlin.com>
->
-> ---
->  arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 99 ++++++++++++++++++++
->  1 file changed, 99 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot=
-/dts/sun8i-a83t-bananapi-m3.dts
-> index 9d34eabba121..f7839094695e 100644
-> --- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-> +++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-> @@ -85,6 +85,38 @@
->  		};
->  	};
-> =20
-> +	reg_ov8865_avdd: ov8865-avdd {
-> +		compatible =3D "regulator-fixed";
-> +		regulator-name =3D "ov8865-avdd";
-> +		regulator-min-microvolt =3D <2800000>;
-> +		regulator-max-microvolt =3D <2800000>;
-> +		vin-supply =3D <&reg_dldo4>;
-> +	};
-> +
-> +	reg_ov8865_dovdd: ov8865-dovdd {
-> +		compatible =3D "regulator-fixed";
-> +		regulator-name =3D "ov8865-dovdd";
-> +		regulator-min-microvolt =3D <2800000>;
-> +		regulator-max-microvolt =3D <2800000>;
-> +		vin-supply =3D <&reg_dldo4>;
-> +	};
-> +
-> +	reg_ov8865_afvdd: ov8865-afvdd {
-> +		compatible =3D "regulator-fixed";
-> +		regulator-name =3D "ov8865-afvdd";
-> +		regulator-min-microvolt =3D <2800000>;
-> +		regulator-max-microvolt =3D <2800000>;
-> +		vin-supply =3D <&reg_dldo4>;
-> +	};
-> +
-> +	reg_ov8865_vdd2: ov8865-vdd2 {
-> +		compatible =3D "regulator-fixed";
-> +		regulator-name =3D "ov8865-vdd2";
-> +		regulator-min-microvolt =3D <1200000>;
-> +		regulator-max-microvolt =3D <1200000>;
-> +		vin-supply =3D <&reg_eldo1>;
-> +	};
-> +
->  	reg_usb1_vbus: reg-usb1-vbus {
->  		compatible =3D "regulator-fixed";
->  		regulator-name =3D "usb1-vbus";
-> @@ -115,10 +147,59 @@
->  	cpu-supply =3D <&reg_dcdc3>;
->  };
-> =20
-> +&ccu {
-> +	assigned-clocks =3D <&ccu CLK_CSI_MCLK>;
-> +	assigned-clock-parents =3D <&osc24M>;
-> +	assigned-clock-rates =3D <24000000>;
-> +};
+Patch 1/2 addresses the issue that when the last buffer of a m2m device
+has been dequeued, any attempt to poll with EPOLLOUT will result in only
+EPOLLIN being returned, even if OUTPUT buffers are still pending. The
+issue stems from the fact that the last buffer check if done first, and
+returns immediately if true.
 
-Why do you need to use assigned-clocks here?
+Patch 2/2 builds on the first one to (hopefully) clean up the code a bit
+and make the function flow easier to follow. Functionally speaking it is
+supposed to be a no-op and it can safely be dropped if the former code
+is preferred - the actual fix is in 1/2.
 
-> +&csi {
-> +	pinctrl-names =3D "default";
-> +	status =3D "okay";
-> +};
+Alexandre Courbot (2):
+  media: v4l2-mem2mem: consider OUTPUT queue first when polling
+  media: v4l2-mem2mem: simplify poll logic a bit
 
-pinctrl-names alone is useless
+ drivers/media/v4l2-core/v4l2-mem2mem.c | 42 +++++++++++---------------
+ 1 file changed, 18 insertions(+), 24 deletions(-)
 
-> +
-> +&csi_in {
-> +	mipi_csi2_from_ov8865: endpoint {
-> +		remote-endpoint =3D <&ov8865_to_mipi_csi2>;
-> +		clock-lanes =3D <0>;
-> +		data-lanes =3D <1 2 3 4>;
-> +		bus-type =3D <4>;
-> +	};
-> +};
-> +
->  &de {
->  	status =3D "okay";
->  };
-> =20
-> +&i2c2 {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&i2c2_pe_pins>;
-> +	status =3D "okay";
-> +
-> +	ov8865: camera@36 {
-> +		compatible =3D "ovti,ov8865";
-> +		reg =3D <0x36>;
-> +		clocks =3D <&ccu CLK_CSI_MCLK>;
-> +		clock-names =3D"xclk";
-> +		AVDD-supply =3D <&reg_ov8865_avdd>;
-> +		DOVDD-supply =3D <&reg_ov8865_dovdd>;
-> +		VDD2-supply =3D <&reg_ov8865_vdd2>;
-> +		AFVDD-supply =3D <&reg_ov8865_afvdd>;
-> +		powerdown-gpios =3D <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-> +		reset-gpios =3D <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-> +		rotation =3D <180>;
-> +
-> +		port {
-> +			ov8865_to_mipi_csi2: endpoint {
-> +				remote-endpoint =3D <&mipi_csi2_from_ov8865>;
-> +				data-lanes =3D <1 2 3 4>;
-> +				clock-lanes =3D <0>;
-> +				bus-type =3D <4>; /* V4L2_FWNODE_BUS_TYPE_CSI2_DPHY */
-> +			};
-> +		};
-> +	};
-> +};
-> +
->  &ehci0 {
->  	/* Terminus Tech FE 1.1s 4-port USB 2.0 hub here */
->  	status =3D "okay";
-> @@ -191,6 +272,11 @@
->  	status =3D "okay";
->  };
-> =20
-> +&pio {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&csi_mclk_pin>;
-> +};
+-- 
+2.28.0
 
-I'm not sure why you'd need to use the MCLK pin as a hog, assigning it
-to the camera device should be enough?
-
-Maxime
