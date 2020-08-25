@@ -2,80 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC7B251E6B
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 19:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FCBF251E8B
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 19:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbgHYRft (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 13:35:49 -0400
-Received: from mailoutvs3.siol.net ([185.57.226.194]:60510 "EHLO mail.siol.net"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726803AbgHYRfp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 13:35:45 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 266975247CD;
-        Tue, 25 Aug 2020 19:35:43 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id zA2TNDro-sN3; Tue, 25 Aug 2020 19:35:42 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id D1D435247BB;
-        Tue, 25 Aug 2020 19:35:42 +0200 (CEST)
-Received: from localhost.localdomain (89-212-178-211.dynamic.t-2.net [89.212.178.211])
-        (Authenticated sender: 031275009)
-        by mail.siol.net (Postfix) with ESMTPSA id 89D0D524801;
-        Tue, 25 Aug 2020 19:35:40 +0200 (CEST)
-From:   Jernej Skrabec <jernej.skrabec@siol.net>
-To:     mripard@kernel.org, wens@csie.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com
-Subject: [PATCH 5/5] ARM: dts: sun8i: r40: Add video engine node
-Date:   Tue, 25 Aug 2020 19:35:23 +0200
-Message-Id: <20200825173523.1289379-6-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200825173523.1289379-1-jernej.skrabec@siol.net>
-References: <20200825173523.1289379-1-jernej.skrabec@siol.net>
+        id S1726483AbgHYRke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 13:40:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35086 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725936AbgHYRkc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Aug 2020 13:40:32 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C03BC061574;
+        Tue, 25 Aug 2020 10:40:32 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id nv17so1622242pjb.3;
+        Tue, 25 Aug 2020 10:40:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2CIAlEB0sn0czmBCstmmbk0rRRc0a7Q7Eg5uRFK+DTM=;
+        b=OWtTyCh4mBkSanD+KT2LmsSmys9GdgNPDuMOUrEMBvirSVEpgWaccxzuVDCSUPzr+g
+         UL3d/b/WhkUnWbhm0C+dKAbICczXHeEay6JEghnYPq1AWGXV0OqUHZVzSR0vH40qB4T7
+         CvKheJOKe1bLwlHMjKz6V1TnFYQX/QwQ3zFo3OtKNBualjgvS3McIxk5bZckCXdHUxPn
+         y5cllopsvswApow32o5Hqk8i69l4DMq5zNUIBV31X/TRx3SDq4RkHJpDQFbpdjwtNLEK
+         YafzqTXU3/pyTiKmRDgRCRX9RrujtgeJf8Hbr9VBxTZRL/Jzkqt3LfmQHxV5h/PRKVwB
+         vyvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2CIAlEB0sn0czmBCstmmbk0rRRc0a7Q7Eg5uRFK+DTM=;
+        b=A+n5alUnkz/m6ra9z01JjGdiTqBX2TkMKr+7HXDFTg3kAk/S9CB/sx3PWn5pwDE//w
+         E0udbLC4dIkRkpqP+mP3LpnwsHVbaDtCBYoERoxyfNhqCpkx5qTVIr8VbwfNplNjyUnc
+         TLEe326HQmGKldC5HAUaE2tnNqaUG6YS2NSXuyDWlGmD1+unY73jHrGvtnrsqTLElEEt
+         NOmdun1c9d+56PUgqH52I1tbYpCStzB9W/8RJkln+YQeEBQvxxATtKRjS7mFlITLMVP6
+         QWZGWEjuBd5i9DXMwhCZj7EpzpFWSWEjvPMUIziUy0oz+fkQ6fhh0Y1Unf9eHj8Hz2Kw
+         nTnA==
+X-Gm-Message-State: AOAM530Z0c0qybj+uBNWhb82MQyzUWm8EaxcTLm1K+XFlM2U8K6JRHiE
+        lg1AH3tWBwuRc1JMlJAcl2g=
+X-Google-Smtp-Source: ABdhPJygG/iRoMRtYkc62+6+vovnxiIUBYXGvz6sXIt/PP/MjnVCr6wdHgCpE82t+Egu2LRmdgvskQ==
+X-Received: by 2002:a17:90a:eb17:: with SMTP id j23mr2403499pjz.151.1598377230639;
+        Tue, 25 Aug 2020 10:40:30 -0700 (PDT)
+Received: from [10.69.79.32] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id b6sm3378574pjz.33.2020.08.25.10.40.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2020 10:40:29 -0700 (PDT)
+Subject: Re: [PATCH v11 00/11] PCI: brcmstb: enable PCIe for STB chips
+To:     Jim Quinlan <james.quinlan@broadcom.com>,
+        linux-pci@vger.kernel.org,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        bcm-kernel-feedback-list@broadcom.com
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE" 
+        <devicetree@vger.kernel.org>,
+        "open list:DRM DRIVERS FOR ALLWINNER A10" 
+        <dri-devel@lists.freedesktop.org>, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Julien Grall <julien.grall@arm.com>,
+        "open list:ACPI FOR ARM64 (ACPI/arm64)" <linux-acpi@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
+        <linux-remoteproc@vger.kernel.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "open list:SUPERH" <linux-sh@vger.kernel.org>,
+        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Stefano Stabellini <sstabellini@kernel.org>
+References: <20200824193036.6033-1-james.quinlan@broadcom.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <b19bc982-a0c4-c6ff-d8f5-650f2b3a83c8@gmail.com>
+Date:   Tue, 25 Aug 2020 10:40:27 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200824193036.6033-1-james.quinlan@broadcom.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allwinner R40 SoC has a video engine.
+Hi,
 
-Add a node for it.
+On 8/24/2020 12:30 PM, Jim Quinlan wrote:
+> 
+> Patchset Summary:
+>    Enhance a PCIe host controller driver.  Because of its unusual design
+>    we are foced to change dev->dma_pfn_offset into a more general role
+>    allowing multiple offsets.  See the 'v1' notes below for more info.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
----
- arch/arm/boot/dts/sun8i-r40.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+We are version 11 and counting, and it is not clear to me whether there 
+is any chance of getting these patches reviewed and hopefully merged for 
+the 5.10 merge window.
 
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r=
-40.dtsi
-index 0c7526365896..7907569e7b5c 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -273,6 +273,17 @@ csi0: csi@1c09000 {
- 			status =3D "disabled";
- 		};
-=20
-+		video-codec@1c0e000 {
-+			compatible =3D "allwinner,sun8i-r40-video-engine";
-+			reg =3D <0x01c0e000 0x1000>;
-+			clocks =3D <&ccu CLK_BUS_VE>, <&ccu CLK_VE>,
-+			<&ccu CLK_DRAM_VE>;
-+			clock-names =3D "ahb", "mod", "ram";
-+			resets =3D <&ccu RST_BUS_VE>;
-+			interrupts =3D <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>;
-+			allwinner,sram =3D <&ve_sram 1>;
-+		};
-+
- 		mmc0: mmc@1c0f000 {
- 			compatible =3D "allwinner,sun8i-r40-mmc",
- 				     "allwinner,sun50i-a64-mmc";
---=20
-2.28.0
+There are a lot of different files being touched, so what would be the 
+ideal way of routing those changes towards inclusion?
 
+Thanks!
+-- 
+Florian
