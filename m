@@ -2,70 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EACC725111C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 06:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC00725119E
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 07:39:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729002AbgHYE63 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 00:58:29 -0400
-Received: from smtprelay0089.hostedemail.com ([216.40.44.89]:49330 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728858AbgHYE5X (ORCPT
+        id S1728816AbgHYFjK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 01:39:10 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:35280 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728145AbgHYFjK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 00:57:23 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 079EE18029120;
-        Tue, 25 Aug 2020 04:57:22 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:541:800:960:973:988:989:1260:1311:1314:1345:1359:1437:1515:1534:1541:1711:1714:1730:1747:1777:1792:2393:2559:2562:3138:3139:3140:3141:3142:3350:3867:3868:3871:4250:5007:6119:6261:10004:10848:11026:11657:11658:11914:12043:12297:12438:12555:12895:13069:13311:13357:13894:14181:14384:14394:14721:21080:21433:21627:21774:30054,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: grape42_3f0c59a27059
-X-Filterd-Recvd-Size: 1932
-Received: from joe-laptop.perches.com (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf08.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 25 Aug 2020 04:57:20 +0000 (UTC)
-From:   Joe Perches <joe@perches.com>
-To:     Jiri Kosina <trivial@kernel.org>, linux-kernel@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
-Subject: [PATCH 21/29] media: atomisp: Avoid comma separated statements
-Date:   Mon, 24 Aug 2020 21:56:18 -0700
-Message-Id: <83f22b4ca8b26d301894638c5b8c571ac0004a5e.1598331149.git.joe@perches.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <cover.1598331148.git.joe@perches.com>
-References: <cover.1598331148.git.joe@perches.com>
+        Tue, 25 Aug 2020 01:39:10 -0400
+X-UUID: bd94c9fa368a4a7a80f5ff7bd8c919c9-20200825
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=VRegGJ4jV43Hdy8Pytxo0IKxzzf+VLe4lBHE+Uv90dM=;
+        b=oYDoh1MCKW1tSpK6SqegVMnHSCYkZNOGtgIdYX2Bnb2sAv2cpr/78Lwx8r/Gmse1ZQtP/WRfxmxkFIZb8XsVvT3Ej9chGGipXP/vmdumfSAala4DCiTp4Sieuz8OWjpbNQXySTf3TyOIVdeAgjwPRdJjnWuGTOOgSXoBV3xkaBk=;
+X-UUID: bd94c9fa368a4a7a80f5ff7bd8c919c9-20200825
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <tiffany.lin@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 415149096; Tue, 25 Aug 2020 13:39:06 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 25 Aug 2020 13:39:05 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 25 Aug 2020 13:39:05 +0800
+Message-ID: <1598333944.1969.0.camel@mtksdaap41>
+Subject: Re: [PATCH v4 14/17] media: mtk-vcodec: venc: use platform data for
+ ENUM_FRAMESIZES
+From:   Tiffany Lin <tiffany.lin@mediatek.com>
+To:     Alexandre Courbot <acourbot@chromium.org>
+CC:     Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Date:   Tue, 25 Aug 2020 13:39:04 +0800
+In-Reply-To: <20200821103608.2310097-15-acourbot@chromium.org>
+References: <20200821103608.2310097-1-acourbot@chromium.org>
+         <20200821103608.2310097-15-acourbot@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use semicolons and braces.
-
-Signed-off-by: Joe Perches <joe@perches.com>
----
- drivers/staging/media/atomisp/pci/atomisp_subdev.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 6ba817f15655..52b9fb18c87f 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -410,8 +410,10 @@ int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
- 
- 		if (atomisp_subdev_format_conversion(isp_sd,
- 						     isp_sd->capture_pad)
--		    && crop[pad]->width && crop[pad]->height)
--			crop[pad]->width -= padding_w, crop[pad]->height -= padding_h;
-+		    && crop[pad]->width && crop[pad]->height) {
-+			crop[pad]->width -= padding_w;
-+			crop[pad]->height -= padding_h;
-+		}
- 
- 		/* if subdev type is SOC camera,we do not need to set DVS */
- 		if (isp->inputs[isp_sd->input_curr].type == SOC_CAMERA)
--- 
-2.26.0
+T24gRnJpLCAyMDIwLTA4LTIxIGF0IDE5OjM2ICswOTAwLCBBbGV4YW5kcmUgQ291cmJvdCB3cm90
+ZToNCj4gdmlkaW9jX2VudW1fZnJhbWVzaXplcygpIGFzc3VtZXMgdGhhdCBhbGwgZW5jb2RlcnMg
+c3VwcG9ydCBILjI2NCBhbmQgVlA4LA0KPiB3aGljaCBpcyBub3QgbmVjZXNzYXJpbHkgdHJ1ZSBh
+bmQgcmVxdWlyZXMgdG8gZHVwbGljYXRlIGluZm9ybWF0aW9uIGFib3V0DQo+IHRoZSBzdXBwb3J0
+ZWQgY29kZWNzIHdoaWNoIGlzIGFscmVhZHkgc3RvcmVkIGluIHRoZSBwbGF0Zm9ybSBkYXRhLg0K
+PiANCj4gRml4IHRoaXMgYnkgcmVmZXJyaW5nIHRvIHRoZSBwbGF0Zm9ybSBkYXRhIHRvIGZpbmQg
+b3V0IHdoZXRoZXIgYSBnaXZlbg0KPiBmb3JtYXQgaXMgc3VwcG9ydGVkLiBTaW5jZSB0aGUgc3Vw
+cG9ydGVkIHNpemVzIGFyZSBhbGwgdGhlIHNhbWUNCj4gcmVnYXJkbGVzcyBvZiB0aGUgZm9ybWF0
+LCB3ZSBjYW4gdGhlbiByZXR1cm4gYSBjb3B5IG9mIGEgc3RhdGljIHZhbHVlIGlmDQo+IHRoZSBm
+b3JtYXQgaXMgc3VwcG9ydGVkLg0KPiANCg0KQWNrZWQtYnk6IFRpZmZhbnkgTGluIDx0aWZmYW55
+LmxpbkBtZWRpYXRlay5jb20+DQoNCj4gU2lnbmVkLW9mZi1ieTogQWxleGFuZHJlIENvdXJib3Qg
+PGFjb3VyYm90QGNocm9taXVtLm9yZz4NCj4gLS0tDQo+ICAuLi4vcGxhdGZvcm0vbXRrLXZjb2Rl
+Yy9tdGtfdmNvZGVjX2VuYy5jICAgICAgfCAyNCArKysrKysrKy0tLS0tLS0tLS0tDQo+ICAxIGZp
+bGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZW5j
+LmMgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19lbmMuYw0K
+PiBpbmRleCAxYTk4MWQ4NDJjMTkuLmY4ZDRmYmU5MjdmOSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVy
+cy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZW5jLmMNCj4gKysrIGIvZHJp
+dmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZW5jLmMNCj4gQEAgLTI2
+LDE3ICsyNiw5IEBADQo+ICANCj4gIHN0YXRpYyB2b2lkIG10a192ZW5jX3dvcmtlcihzdHJ1Y3Qg
+d29ya19zdHJ1Y3QgKndvcmspOw0KPiAgDQo+IC1zdGF0aWMgY29uc3Qgc3RydWN0IG10a19jb2Rl
+Y19mcmFtZXNpemVzIG10a192ZW5jX2ZyYW1lc2l6ZXNbXSA9IHsNCj4gLQl7DQo+IC0JCS5mb3Vy
+Y2MJPSBWNEwyX1BJWF9GTVRfSDI2NCwNCj4gLQkJLnN0ZXB3aXNlID0geyBNVEtfVkVOQ19NSU5f
+VywgTVRLX1ZFTkNfTUFYX1csIDE2LA0KPiAtCQkJICAgICAgTVRLX1ZFTkNfTUlOX0gsIE1US19W
+RU5DX01BWF9ILCAxNiB9LA0KPiAtCX0sDQo+IC0Jew0KPiAtCQkuZm91cmNjID0gVjRMMl9QSVhf
+Rk1UX1ZQOCwNCj4gLQkJLnN0ZXB3aXNlID0geyBNVEtfVkVOQ19NSU5fVywgTVRLX1ZFTkNfTUFY
+X1csIDE2LA0KPiAtCQkJICAgICAgTVRLX1ZFTkNfTUlOX0gsIE1US19WRU5DX01BWF9ILCAxNiB9
+LA0KPiAtCX0sDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHY0bDJfZnJtc2l6ZV9zdGVwd2lzZSBt
+dGtfdmVuY19mcmFtZXNpemVzID0gew0KPiArCU1US19WRU5DX01JTl9XLCBNVEtfVkVOQ19NQVhf
+VywgMTYsDQo+ICsJTVRLX1ZFTkNfTUlOX0gsIE1US19WRU5DX01BWF9ILCAxNiwNCj4gIH07DQo+
+ICANCj4gICNkZWZpbmUgTlVNX1NVUFBPUlRFRF9GUkFNRVNJWkUgQVJSQVlfU0laRShtdGtfdmVu
+Y19mcmFtZXNpemVzKQ0KPiBAQCAtMTM0LDE3ICsxMjYsMjEgQEAgc3RhdGljIGludCB2aWRpb2Nf
+ZW51bV9mbXQoc3RydWN0IHY0bDJfZm10ZGVzYyAqZiwNCj4gIHN0YXRpYyBpbnQgdmlkaW9jX2Vu
+dW1fZnJhbWVzaXplcyhzdHJ1Y3QgZmlsZSAqZmlsZSwgdm9pZCAqZmgsDQo+ICAJCQkJICBzdHJ1
+Y3QgdjRsMl9mcm1zaXplZW51bSAqZnNpemUpDQo+ICB7DQo+ICsJY29uc3Qgc3RydWN0IG10a192
+Y29kZWNfZW5jX3BkYXRhICpwZGF0YSA9DQo+ICsJCWZoX3RvX2N0eChmaCktPmRldi0+dmVuY19w
+ZGF0YTsNCj4gIAlpbnQgaSA9IDA7DQo+ICANCj4gIAlpZiAoZnNpemUtPmluZGV4ICE9IDApDQo+
+ICAJCXJldHVybiAtRUlOVkFMOw0KPiAgDQo+IC0JZm9yIChpID0gMDsgaSA8IE5VTV9TVVBQT1JU
+RURfRlJBTUVTSVpFOyArK2kpIHsNCj4gLQkJaWYgKGZzaXplLT5waXhlbF9mb3JtYXQgIT0gbXRr
+X3ZlbmNfZnJhbWVzaXplc1tpXS5mb3VyY2MpDQo+ICsJZm9yIChpID0gMDsgaSA8IHBkYXRhLT5u
+dW1fY2FwdHVyZV9mb3JtYXRzOyArK2kpIHsNCj4gKwkJY29uc3Qgc3RydWN0IG10a192aWRlb19m
+bXQgKmZtdCA9ICZwZGF0YS0+Y2FwdHVyZV9mb3JtYXRzW2ldOw0KPiArDQo+ICsJCWlmIChmc2l6
+ZS0+cGl4ZWxfZm9ybWF0ICE9IGZtdC0+Zm91cmNjKQ0KPiAgCQkJY29udGludWU7DQo+ICANCj4g
+IAkJZnNpemUtPnR5cGUgPSBWNEwyX0ZSTVNJWkVfVFlQRV9TVEVQV0lTRTsNCj4gLQkJZnNpemUt
+PnN0ZXB3aXNlID0gbXRrX3ZlbmNfZnJhbWVzaXplc1tpXS5zdGVwd2lzZTsNCj4gKwkJZnNpemUt
+PnN0ZXB3aXNlID0gbXRrX3ZlbmNfZnJhbWVzaXplczsNCj4gIAkJcmV0dXJuIDA7DQo+ICAJfQ0K
+PiAgDQoNCg==
 
