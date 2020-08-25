@@ -2,74 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C4B4250EBB
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 04:10:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33AEC25100D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 05:43:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727021AbgHYCKb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 22:10:31 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:46532 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725921AbgHYCK2 (ORCPT
+        id S1728272AbgHYDnA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 23:43:00 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40681 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727011AbgHYDnA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 22:10:28 -0400
-Received: by mail-io1-f66.google.com with SMTP id d18so1577765iop.13;
-        Mon, 24 Aug 2020 19:10:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0NCf2jzpvO50ZBYV+xUfgsYo+rTvPJ7p5RL+1hviLCg=;
-        b=QNn0LfxekxzJct63wXMglbIuiyvab85s/3OMKG+Ssq+Y03tHQ1zPK8pW1QnQsPHyKi
-         IjmR6+JaMMFgwm0ew+Lf5Hc6RXaOHewV1ia0wSIGsY0uO54dHZVVk131NP/WYTFU1Du6
-         q4gpqBz5JzQHjdypDi7GlvnYIj9yTjrErWlbnCKEUmf2TFqD95YODyLQmnT9TzZZXtIZ
-         RfjxVsOAfN0SzkEHb9qaBXD/U8RPw66jlmFiz7Ym7ngOD4azRkBM64LbB7pywastwgoG
-         TWyfIPH65qtpchWqVrDhFQ2TZ1qqWuNqk21y3EDD3WSk2jpGvFPhwxYfo4piKJW+05k6
-         jyqg==
-X-Gm-Message-State: AOAM533HSv2J+hy9SfVq/kClJ7Sf6bOqA4dhoHVLdL7TQc04TtyilKWO
-        uzQGNm2WGWmpyEtHwwaRoQ==
-X-Google-Smtp-Source: ABdhPJzwoCXparZ+wj/JNF060uCIEoiWundaqqJqmPyBvhYxGjrIe4CRdUuRkjWfmB6Bed8d2zX+pQ==
-X-Received: by 2002:a02:95ae:: with SMTP id b43mr8253473jai.19.1598321427874;
-        Mon, 24 Aug 2020 19:10:27 -0700 (PDT)
-Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id e1sm8256532ilq.40.2020.08.24.19.10.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 19:10:27 -0700 (PDT)
-Received: (nullmailer pid 3790321 invoked by uid 1000);
-        Tue, 25 Aug 2020 02:10:24 -0000
-Date:   Mon, 24 Aug 2020 20:10:24 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Xingyu Wu <wuxy@bitland.com.cn>
-Cc:     mchehab@kernel.org, devicetree@vger.kernel.org, robh+dt@kernel.org,
-        darfur_liu@gcoreinc.com, linux-kernel@vger.kernel.org,
-        dongchun.zhu@mediatek.com, linux-media@vger.kernel.org,
-        hao.he@bitland.com.cn, bingbu.cao@intel.com, drinkcat@chromium.org,
-        davem@davemloft.net, hao.he7@gmail.com,
-        dave.stevenson@raspberrypi.com, sj.huang@mediatek.com,
-        hverkuil-cisco@xs4all.nl, shawnx.tu@intel.com, tfiga@chromium.org,
-        sakari.ailus@linux.intel.com, manivannan.sadhasivam@linaro.org
-Subject: Re: [PATCH V3 1/3] dt-bindings: vendor-prefixes: Add GalaxyCore
-Message-ID: <20200825021024.GA3790288@bogus>
-References: <1597380295-6297-1-git-send-email-wuxy@bitland.com.cn>
- <1597380295-6297-3-git-send-email-wuxy@bitland.com.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1597380295-6297-3-git-send-email-wuxy@bitland.com.cn>
+        Mon, 24 Aug 2020 23:43:00 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id APrMkoWShywL5APrNklHF9; Tue, 25 Aug 2020 05:42:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598326977; bh=054lwQy+fqGqvjhEetBhkBD73Cazkh7Zx1ffMa1D07A=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Gz6Le1dF9Tboc/M3WVP/Tjy+SSEGhRxZe84MUHPw+dzeMCOSGH+ZR3ft9HxAzQoGF
+         2YJKHmdDvYmx4lRRacESQYl1bYYCqyg4S2Rqh8vsX8Ym2YpdamiVOh0ohWVEurVhqE
+         Fw02jhBpGjsdYfzXMSmIqvu2Ibl2UFKGwnAuiRPASxDjIPjEM0gOK1BQK3R+Usa8zH
+         cyJgYqNcNsiqlh/YDEZQdtAnc+QvOC0ipCBi9k/6G7SCOydnSGIq+9vwDfn7oOwOma
+         D6FaGooFHhVAH1o+glIqVD06uRFJevbAV6Ao4tShy7b76X5wvtARGhd5Z2xA22FT7W
+         lifSK2xPJkTOA==
+Message-ID: <b64ab9497c9081bad32c57e97ad74ba7@smtp-cloud7.xs4all.net>
+Date:   Tue, 25 Aug 2020 05:42:56 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfM2aGU79WyGj2/FW1eRtU+KUq2u2036+wUxi4yyUeNDAZFm5G+8zbQhE6uHh0SfuE/Rq4Iw7OdxsvQWRtT4jQS+JVxbR60dhEUTecU587Sd7GULNeNMr
+ AmcHJUHmLpX86nms2XavVXOusv1E3BwAGV6lpnwwAcCkVEIF11SNvCTnO0zTxtbpFGNEO6Hm1j7y3AagbkbtCJXJlRukZJZtASu05re0ACQI4Htc5sXnzoa1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 14 Aug 2020 12:44:53 +0800, Xingyu Wu wrote:
-> From: Hao He <hao.he@bitland.com.cn>
-> 
-> Add vendor prefix for GalaxyCore, Inc.
-> 
-> Signed-off-by: Hao He <hao.he@bitland.com.cn>
-> Signed-off-by: Xingyu Wu <wuxy@bitland.com.cn>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Results of the daily build of media_tree:
+
+date:			Tue Aug 25 05:00:13 CEST 2020
+media-tree git hash:	9a538b83612c8b5848bf840c2ddcd86dda1c8c76
+media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
+v4l-utils git hash:	89f66ef308e16a51090cf5682e74c6f4130a024d
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
