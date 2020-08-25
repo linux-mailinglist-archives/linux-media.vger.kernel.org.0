@@ -2,102 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6613251CA1
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 17:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F12F251D9B
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 18:54:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726851AbgHYPur convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 25 Aug 2020 11:50:47 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37452 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726610AbgHYPuq (ORCPT
+        id S1726119AbgHYQyN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 12:54:13 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:60803 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbgHYQyM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 11:50:46 -0400
-Received: by mail-lj1-f195.google.com with SMTP id w14so14391751ljj.4;
-        Tue, 25 Aug 2020 08:50:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uxFnQngY1sbC1vkgUVU9ZThc1q84F2BALBF2JF4Hio4=;
-        b=ssM2w+s0v92K52IKPVBHowKRPuW3t1OoO1Xdd6V75ln2hOYz2Mum5KRBkefPa87c5E
-         h42QPyZeRFqNC0NddtnXZcFIKlzyXMW/naS3qx4x6s/CMblHEE1ALW6e3TT5ALwgrXRe
-         Rf/4Prffuu/x8SPy9TfH3pTQW2jXzUAyCmxJvjPP4GBnvcO7kXUGq35K+zfyQY2I+Gjx
-         TOszehTsEvqmSamOuuLlpWcA9XGtapLchIMxFYwPC+lhhXEYWlbfBsqWG4Fo762PEvMT
-         Z85Fas15Uu5rXBIESItBLlI2oVUupywMAN3CR0wLPDk/2N5uXLU/E/j9YIaHidWo0sKP
-         JWqA==
-X-Gm-Message-State: AOAM5300WoFDoIjfCzh5l+G+Wnr7paDsS20HnSQnExeQlkmacJGXSVq6
-        Iu6BHLcoMpHFww715dnAFkY/kRXx19ZFGg==
-X-Google-Smtp-Source: ABdhPJyjWDMcpwz3b8SYuKAHGQLBZsh5DHqtmVD/iOydSwV89V6jKUAJZ9HA2rPQeDpAOxQeQ9TVhA==
-X-Received: by 2002:a2e:a28d:: with SMTP id k13mr5040448lja.11.1598370643927;
-        Tue, 25 Aug 2020 08:50:43 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id e25sm2907268ljj.130.2020.08.25.08.50.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2020 08:50:43 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id v4so14410865ljd.0;
-        Tue, 25 Aug 2020 08:50:43 -0700 (PDT)
-X-Received: by 2002:a2e:9b8e:: with SMTP id z14mr5274009lji.47.1598370643108;
- Tue, 25 Aug 2020 08:50:43 -0700 (PDT)
+        Tue, 25 Aug 2020 12:54:12 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id BC1C924000C;
+        Tue, 25 Aug 2020 16:54:08 +0000 (UTC)
+Date:   Tue, 25 Aug 2020 18:57:53 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        phil@raspberrypi.com
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH v2 26/34] staging: vchiq_arm: Set up dma ranges on child
+ devices
+Message-ID: <20200825165753.rfaisv7mvxf4glg5@uno.localdomain>
+References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
+ <20200504092611.9798-27-laurent.pinchart@ideasonboard.com>
+ <078d57964f47ea29af3b8ab0af65c244a158e9b1.camel@suse.de>
 MIME-Version: 1.0
-References: <20200821145935.20346-1-kevin.lhopital@bootlin.com> <20200821145935.20346-2-kevin.lhopital@bootlin.com>
-In-Reply-To: <20200821145935.20346-2-kevin.lhopital@bootlin.com>
-From:   Chen-Yu Tsai <wens@csie.org>
-Date:   Tue, 25 Aug 2020 23:50:30 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65enzLHdK09-8Nm7=YU9-bRP=0Q+BXjXah6MZR2-y=zrA@mail.gmail.com>
-Message-ID: <CAGb2v65enzLHdK09-8Nm7=YU9-bRP=0Q+BXjXah6MZR2-y=zrA@mail.gmail.com>
-Subject: Re: [PATCH 1/7] media: sun6i-csi: Fix the bpp for 10-bit bayer formats
-To:     =?UTF-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="zsplbynvjr6ai5yr"
+Content-Disposition: inline
+In-Reply-To: <078d57964f47ea29af3b8ab0af65c244a158e9b1.camel@suse.de>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 21, 2020 at 11:00 PM Kévin L'hôpital
-<kevin.lhopital@bootlin.com> wrote:
+
+--zsplbynvjr6ai5yr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Nicolas, Phil,
+    I'm in the process of sending a v2 of this series, trying to
+reduce the patch count by only picking what's required to support
+the ISP.
+
+This patch and [30/34] puzzles me a bit, so I'll ask a few questions.
+
+On Mon, May 04, 2020 at 06:54:32PM +0200, Nicolas Saenz Julienne wrote:
+> On Mon, 2020-05-04 at 12:26 +0300, Laurent Pinchart wrote:
+> > From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> >
+> > The VCHIQ driver now loads the audio, camera, codec, and vc-sm
+> > drivers as platform drivers. However they were not being given
+> > the correct DMA configuration.
+> >
+> > Call of_dma_configure with the parent (VCHIQ) parameters to be
+> > inherited by the child.
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > index c5c7af28c1c8..15ccd624aaab 100644
+> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > @@ -2733,6 +2733,12 @@ vchiq_register_child(struct platform_device *pdev,
+> > const char *name)
+> >  		child = NULL;
+> >  	}
+> >
+> > +	/*
+> > +	 * We want the dma-ranges etc to be copied from the parent VCHIQ device
+> > +	 * to be passed on to the children too.
+> > +	 */
+> > +	of_dma_configure(&new_dev->dev, pdev->dev.of_node, true);
 >
-> 10-bit bayer formats are aligned to 16 bits in memory, so this is what
-> needs to be used as bpp for calculating the size of the buffers to
-> allocate.
+> I think you could use struct platform_device_info's of_node_reused. See patch
+> 908f6fc3a1405 ('usb: musb: sunxi: propagate devicetree node to glue pdev') for
+> an example. AFAIK of_dma_configure() is only to be used in bus code, and there
+> has been a huge effort in the past to make sure it says as such. With a proper
+> fwnode set of_dma_configure() will be called during the device's probe.
+
+I just tried giving to the children devices the parent's fwnode and set
+of_node_reused as done in 908f6fc3a1405 to avoid usage of
+of_dma_configure, and now I have the parent being probed 4 times, one per
+each children :) I guess that was not the expected result...
+
+What is in your opinions the best course of actions for this and patch
+[30/34] ? Can we live with 'of_dma_configure()' ? [1]
+
+I am assuming currently the vchiq children are manually registered as
+there are no entries in the DTS for them, so I'm kind of missing the
+point of having [30/34] in. What am I missing ?
+
+Thanks
+  j
+
+[1] There are a few things that are not clear to me though, possible due
+to my rather poor understanding of this core parts. In particular, as
+the dma-ranges are assigned to the parent 'soc' node, and I assume
+propagated to the children such as the 'vchiq' node, isnt' setting the
+'parent' field of each newly created platform device enough to have
+the property propagated ?
+
 >
-> Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-
-Please add:
-
-Fixes: 5cc7522d8965 ("media: sun6i: Add support for Allwinner CSI V3s")
-
-
-
-> ---
->  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Regards,
+> Nicolas
 >
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> index c626821aaedb..8b83d15de0d0 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> @@ -100,7 +100,7 @@ static inline int sun6i_csi_get_bpp(unsigned int pixformat)
->         case V4L2_PIX_FMT_SGBRG10:
->         case V4L2_PIX_FMT_SGRBG10:
->         case V4L2_PIX_FMT_SRGGB10:
-> -               return 10;
-> +               return 16;
->         case V4L2_PIX_FMT_SBGGR12:
->         case V4L2_PIX_FMT_SGBRG12:
->         case V4L2_PIX_FMT_SGRBG12:
-> --
-> 2.17.1
->
+
+
+
+--zsplbynvjr6ai5yr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl9FQxEACgkQcjQGjxah
+VjyajA/+JL5AMEQ/9HKZ8Wv9Pp4ATt6yoZJ0LxvloobJUc84VPTvYCsb6auVKDoM
+Ery9SfWT9Vmsh0SrKFuiLp0nTffKLMeiYKU+EOa4hJ7laCQI+5om7S3JI+FMpddJ
+IusM+bUsvSYHkMNpPrtZUBr8TCc3In0nHClsqdYSXt69Pe+WZfNlJoS2kBIlF3Ir
+a5VI4AeJVXpo6elxDwKAgbVGG+Oc7D+LiSB4u/eUzQzLDEGJjNobfFF0keggIfJV
+NrJIWzzZfXUiuJBod/3CGsUsmjYZnKGnhSqP1u/gIjOA2hVnK4gnJflA8ozhTL1n
+vHrlsffGOp91MF/U0ne3ijKKXN18/EhGYtjvXjZqfXvyDUO3eqVv2yvA2djdII60
+71/v1Aw3eA8y8Ut4yDmwVwc72lYyyGuh1WqlLhZTXl987iE3XvO/PKJLXJRlvTNn
+tvtsRoVv0QQrr+PQv0M/oy02Z/xNisERCI2IqpNtUE9txX8AM+JctOcOFrZc28hM
+ARvNQ8jFdja/H1cy3GdYQUODZEYTqZVoAgXmnnfsc8oS5pIpptAel/jSeM73OJfr
+/fwrup/5ahB2uSZ8p1DQz+r6qHRkpQwnIaKRRI+CTFSBaqTm+f/Ug6PWuQnTu5HW
+EnwXBUxQTsyLDJzcpseKbtBNtB0X3cFP5oES6xkY1lZE1sLLmHk=
+=c4TU
+-----END PGP SIGNATURE-----
+
+--zsplbynvjr6ai5yr--
