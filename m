@@ -2,93 +2,743 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BACA6251853
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 14:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB4E525186C
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 14:19:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730202AbgHYMMb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 08:12:31 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:35926 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730193AbgHYML7 (ORCPT
+        id S1726090AbgHYMTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 08:19:41 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52088 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726015AbgHYMTk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 08:11:59 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07PCBQmf025168;
-        Tue, 25 Aug 2020 07:11:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1598357486;
-        bh=64WTZ3HRqH6kl7oo8EhgHRIFEmqtSddYbOq3wFaHCvo=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=svoqMLr99vg6gFueXzCOei6VeWNH8u1PU2q2+u7DqLEIfsMsJPqgVcW71OiwVUJG4
-         6j8d9jB8fhYdh3hLK6lNeYT+VSpL65YHU9aBML7cf8wQom+Z3tauo0YbguzLDBR21D
-         28fJnaBJ9bEJpTbqFqLOboxMyWLYi6iSin6qxpro=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07PCBQcP047964;
-        Tue, 25 Aug 2020 07:11:26 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 25
- Aug 2020 07:11:26 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 25 Aug 2020 07:11:26 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07PCBP9x120021;
-        Tue, 25 Aug 2020 07:11:25 -0500
+        Tue, 25 Aug 2020 08:19:40 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFB0E29E;
+        Tue, 25 Aug 2020 14:19:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1598357976;
+        bh=Nek/G5eVhvxqd49TwtIlhL+1AdFCfGAye/0fgCS4Z0w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YBzYo0J3Kb09LEXX+RZRo/GyF65nNeFHGY9+3RrokbnbgYUIiH4jVjuUZsfXIohq2
+         r/Sjpfd+uVsn1Run1TtRcDvAm2B5Tz+aL0OvVHT6S+J6RSzPxNH5/OCIKX4RoMWEpp
+         r/SNjOEYqsUx2EhJmZEfkj9eFWXYkxB84UXrmnnk=
+Date:   Tue, 25 Aug 2020 15:19:16 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
+        Benoit Parrot <bparrot@ti.com>
 Subject: Re: [PATCH] media: ti-vpe: cal: Fix compilation on 32-bit ARM
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-CC:     <linux-media@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
+Message-ID: <20200825121916.GD6767@pendragon.ideasonboard.com>
 References: <20200823050257.564-1-laurent.pinchart@ideasonboard.com>
  <20200824092303.GP7145@valkosipuli.retiisi.org.uk>
  <20200824105422.GB6002@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <0f697317-bbe3-9632-0e56-eb1d0458f43e@ti.com>
-Date:   Tue, 25 Aug 2020 15:11:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <0f697317-bbe3-9632-0e56-eb1d0458f43e@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20200824105422.GB6002@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/mixed; boundary="x+6KMIRAuhnl3hBn"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0f697317-bbe3-9632-0e56-eb1d0458f43e@ti.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/08/2020 13:54, Laurent Pinchart wrote:
-> On Mon, Aug 24, 2020 at 12:23:04PM +0300, Sakari Ailus wrote:
->> On Sun, Aug 23, 2020 at 08:02:57AM +0300, Laurent Pinchart wrote:
->>> When compiled on 32-bit ARM, the CAL driver fails with the FIELD_PREP()
->>> macro complaining that the mask is not constant. While all callers of
->>> the inline cal_write_field() function pass a constant mask, the mask
->>> parameter itself is a variable, which likely doesn't please the
->>> compiler.
->>>
->>> Fix it by replacing FIELD_PREP() with a manual implementation.
->>>
->>> Fixes: 50797fb30b95 ("media: ti-vpe: cal: Turn reg_(read|write)_field() into inline functions")
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>
->> Thanks!
->>
->> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> And I forgot to add
-> 
-> Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Tomi, will you handle this patch ? Could you add the tags ?
 
-I don't see this when compiling. Which compiler version is it? What's the failing call?
+--x+6KMIRAuhnl3hBn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-If FIELD_PREP is broken, isn't FIELD_GET too (used in cal_read_field)?
+Hi Tomi,
 
- Tomi
+On Tue, Aug 25, 2020 at 03:11:24PM +0300, Tomi Valkeinen wrote:
+> On 24/08/2020 13:54, Laurent Pinchart wrote:
+> > On Mon, Aug 24, 2020 at 12:23:04PM +0300, Sakari Ailus wrote:
+> >> On Sun, Aug 23, 2020 at 08:02:57AM +0300, Laurent Pinchart wrote:
+> >>> When compiled on 32-bit ARM, the CAL driver fails with the FIELD_PREP()
+> >>> macro complaining that the mask is not constant. While all callers of
+> >>> the inline cal_write_field() function pass a constant mask, the mask
+> >>> parameter itself is a variable, which likely doesn't please the
+> >>> compiler.
+> >>>
+> >>> Fix it by replacing FIELD_PREP() with a manual implementation.
+> >>>
+> >>> Fixes: 50797fb30b95 ("media: ti-vpe: cal: Turn reg_(read|write)_field() into inline functions")
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>
+> >> Thanks!
+> >>
+> >> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > 
+> > And I forgot to add
+> > 
+> > Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > 
+> > Tomi, will you handle this patch ? Could you add the tags ?
+> 
+> I don't see this when compiling. Which compiler version is it?
+
+arm-buildroot-linux-uclibcgnueabihf-gcc.br_real (Buildroot 2020.05.1) 9.3.0
+
+> What's the failing call?
+
+  CC [M]  drivers/media/platform/ti-vpe/cal-camerarx.o
+In file included from <command-line>:
+/home/laurent/src/iob/ti/linux/drivers/media/platform/ti-vpe/cal.h: In function ‘cal_write_field’:
+/home/laurent/src/iob/ti/linux/include/linux/compiler_types.h:319:38: error: call to ‘__compiletime_assert_240’ declared with attribute error: FIELD_PREP: mask is not constant
+  319 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+      |                                      ^
+/home/laurent/src/iob/ti/linux/include/linux/compiler_types.h:300:4: note: in definition of macro ‘__compiletime_assert’
+  300 |    prefix ## suffix();    \
+      |    ^~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/compiler_types.h:319:2: note: in expansion of macro ‘_compiletime_assert’
+  319 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+      |  ^~~~~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
+   39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+      |                                     ^~~~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/bitfield.h:46:3: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
+   46 |   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),  \
+      |   ^~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/bitfield.h:94:3: note: in expansion of macro ‘__BF_FIELD_CHECK’
+   94 |   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: "); \
+      |   ^~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/drivers/media/platform/ti-vpe/cal.h:229:9: note: in expansion of macro ‘FIELD_PREP’
+  229 |  val |= FIELD_PREP(mask, value);
+      |         ^~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/compiler_types.h:319:38: error: call to ‘__compiletime_assert_244’ declared with attribute error: BUILD_BUG_ON failed: (((mask) + (1ULL << (__builtin_ffsll(mask) - 1))) & (((mask) + (1ULL << (__builtin_ffsll(mask) - 1))) - 1)) != 0
+  319 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+      |                                      ^
+/home/laurent/src/iob/ti/linux/include/linux/compiler_types.h:300:4: note: in definition of macro ‘__compiletime_assert’
+  300 |    prefix ## suffix();    \
+      |    ^~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/compiler_types.h:319:2: note: in expansion of macro ‘_compiletime_assert’
+  319 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+      |  ^~~~~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
+   39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+      |                                     ^~~~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/build_bug.h:50:2: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
+   50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+      |  ^~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/build_bug.h:21:2: note: in expansion of macro ‘BUILD_BUG_ON’
+   21 |  BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+      |  ^~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/bitfield.h:54:3: note: in expansion of macro ‘__BUILD_BUG_ON_NOT_POWER_OF_2’
+   54 |   __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +   \
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/include/linux/bitfield.h:94:3: note: in expansion of macro ‘__BF_FIELD_CHECK’
+   94 |   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: "); \
+      |   ^~~~~~~~~~~~~~~~
+/home/laurent/src/iob/ti/linux/drivers/media/platform/ti-vpe/cal.h:229:9: note: in expansion of macro ‘FIELD_PREP’
+  229 |  val |= FIELD_PREP(mask, value);
+      |         ^~~~~~~~~~
+make[5]: *** [/home/laurent/src/iob/ti/linux/scripts/Makefile.build:283: drivers/media/platform/ti-vpe/cal-camerarx.o] Error 1
+
+Kernel defconfig attached, for v5.9-rc1.
+
+> If FIELD_PREP is broken, isn't FIELD_GET too (used in cal_read_field)?
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Regards,
+
+Laurent Pinchart
+
+--x+6KMIRAuhnl3hBn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment; filename=defconfig
+
+CONFIG_SYSVIPC=y
+CONFIG_POSIX_MQUEUE=y
+CONFIG_USELIB=y
+CONFIG_NO_HZ=y
+CONFIG_HIGH_RES_TIMERS=y
+CONFIG_BSD_PROCESS_ACCT=y
+CONFIG_IKCONFIG=y
+CONFIG_IKCONFIG_PROC=y
+CONFIG_LOG_BUF_SHIFT=16
+CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+CONFIG_EXPERT=y
+# CONFIG_FHANDLE is not set
+# CONFIG_VM_EVENT_COUNTERS is not set
+CONFIG_SLAB=y
+CONFIG_ARCH_MULTI_V6=y
+CONFIG_ARCH_ALPINE=y
+CONFIG_ARCH_ARTPEC=y
+CONFIG_MACH_ARTPEC6=y
+CONFIG_ARCH_AT91=y
+CONFIG_SOC_SAMA5D2=y
+CONFIG_SOC_SAMA5D3=y
+CONFIG_SOC_SAMA5D4=y
+CONFIG_ARCH_BCM=y
+CONFIG_ARCH_BCM_CYGNUS=y
+CONFIG_ARCH_BCM_NSP=y
+CONFIG_ARCH_BCM_5301X=y
+CONFIG_ARCH_BCM_281XX=y
+CONFIG_ARCH_BCM_21664=y
+CONFIG_ARCH_BCM_23550=y
+CONFIG_ARCH_BCM2835=y
+CONFIG_ARCH_BCM_53573=y
+CONFIG_ARCH_BCM_63XX=y
+CONFIG_ARCH_BRCMSTB=y
+CONFIG_ARCH_BERLIN=y
+CONFIG_ARCH_DIGICOLOR=y
+CONFIG_ARCH_EXYNOS=y
+CONFIG_ARCH_HISI=y
+CONFIG_ARCH_HI3xxx=y
+CONFIG_ARCH_HIP01=y
+CONFIG_ARCH_HIP04=y
+CONFIG_ARCH_HIX5HD2=y
+CONFIG_ARCH_MXC=y
+CONFIG_SOC_IMX50=y
+CONFIG_SOC_IMX51=y
+CONFIG_SOC_IMX53=y
+CONFIG_SOC_IMX6Q=y
+CONFIG_SOC_IMX6SL=y
+CONFIG_SOC_IMX6SX=y
+CONFIG_SOC_IMX6UL=y
+CONFIG_SOC_LS1021A=y
+CONFIG_SOC_IMX7D=y
+CONFIG_SOC_IMX7ULP=y
+CONFIG_SOC_VF610=y
+CONFIG_ARCH_KEYSTONE=y
+CONFIG_ARCH_MEDIATEK=y
+CONFIG_ARCH_MESON=y
+CONFIG_ARCH_MMP=y
+CONFIG_MACH_BROWNSTONE=y
+CONFIG_MACH_FLINT=y
+CONFIG_MACH_MARVELL_JASPER=y
+CONFIG_MACH_MMP2_DT=y
+CONFIG_ARCH_MVEBU=y
+CONFIG_MACH_ARMADA_370=y
+CONFIG_MACH_ARMADA_375=y
+CONFIG_MACH_ARMADA_38X=y
+CONFIG_MACH_ARMADA_39X=y
+CONFIG_MACH_ARMADA_XP=y
+CONFIG_MACH_DOVE=y
+CONFIG_OMAP_RESET_CLOCKS=y
+CONFIG_ARCH_OMAP3=y
+CONFIG_ARCH_OMAP4=y
+CONFIG_SOC_OMAP5=y
+CONFIG_SOC_AM33XX=y
+CONFIG_SOC_AM43XX=y
+CONFIG_SOC_DRA7XX=y
+# CONFIG_SOC_TI81XX is not set
+CONFIG_ARCH_SIRF=y
+CONFIG_ARCH_QCOM=y
+CONFIG_ARCH_MSM8X60=y
+CONFIG_ARCH_MSM8960=y
+CONFIG_ARCH_MSM8974=y
+CONFIG_ARCH_MDM9615=y
+CONFIG_ARCH_REALVIEW=y
+CONFIG_MACH_REALVIEW_EB=y
+CONFIG_REALVIEW_EB_A9MP=y
+CONFIG_MACH_REALVIEW_PBA8=y
+CONFIG_MACH_REALVIEW_PBX=y
+CONFIG_ARCH_ROCKCHIP=y
+CONFIG_ARCH_S5PV210=y
+CONFIG_ARCH_SOCFPGA=y
+CONFIG_PLAT_SPEAR=y
+CONFIG_ARCH_SPEAR13XX=y
+CONFIG_ARCH_STI=y
+CONFIG_ARCH_SUNXI=y
+CONFIG_ARCH_TANGO=y
+CONFIG_ARCH_TEGRA=y
+CONFIG_ARCH_UNIPHIER=y
+CONFIG_ARCH_U8500=y
+CONFIG_ARCH_VEXPRESS=y
+CONFIG_ARCH_WM8850=y
+CONFIG_ARCH_ZX=y
+CONFIG_ARCH_ZYNQ=y
+CONFIG_ARM_ERRATA_773022=y
+# CONFIG_HIGHPTE is not set
+# CONFIG_ARM_MODULE_PLTS is not set
+CONFIG_ARM_APPENDED_DTB=y
+CONFIG_CMDLINE="ip=192.168.1.130::192.168.1.129:::usb0:off root=/dev/nfs nfsroot=192.168.1.129:/scratch/rootfs/laiskiainen,v3 rootdelay=5 rw console=tty0 console=ttyS0,115200n8 musb_core.debug=1 musb_hdrc.debug=2 musb.debug=3 loglevel=8"
+CONFIG_CPU_IDLE=y
+CONFIG_CPU_IDLE_GOV_LADDER=y
+CONFIG_PM_DEBUG=y
+CONFIG_TRUSTED_FOUNDATIONS=y
+CONFIG_MODULES=y
+CONFIG_MODULE_FORCE_LOAD=y
+CONFIG_MODULE_UNLOAD=y
+CONFIG_MODULE_FORCE_UNLOAD=y
+CONFIG_MODVERSIONS=y
+CONFIG_MODULE_SRCVERSION_ALL=y
+# CONFIG_BLK_DEV_BSG is not set
+CONFIG_PARTITION_ADVANCED=y
+# CONFIG_EFI_PARTITION is not set
+# CONFIG_COMPACTION is not set
+CONFIG_NET=y
+CONFIG_PACKET=y
+CONFIG_UNIX=y
+CONFIG_XFRM_USER=y
+CONFIG_NET_KEY=y
+CONFIG_NET_KEY_MIGRATE=y
+CONFIG_INET=y
+CONFIG_IP_MULTICAST=y
+CONFIG_IP_PNP=y
+CONFIG_IP_PNP_DHCP=y
+CONFIG_IP_PNP_BOOTP=y
+CONFIG_IP_PNP_RARP=y
+# CONFIG_IPV6 is not set
+CONFIG_NETFILTER=y
+CONFIG_BT=m
+# CONFIG_BT_HS is not set
+# CONFIG_BT_DEBUGFS is not set
+CONFIG_BT_HCIUART=m
+CONFIG_BT_HCIUART_H4=y
+CONFIG_BT_HCIUART_BCSP=y
+CONFIG_BT_HCIBCM203X=m
+CONFIG_BT_HCIBPA10X=m
+CONFIG_CFG80211=m
+CONFIG_MAC80211=m
+CONFIG_PCIE_DW_PLAT_HOST=y
+CONFIG_UEVENT_HELPER=y
+CONFIG_UEVENT_HELPER_PATH="/sbin/hotplug"
+CONFIG_DEVTMPFS=y
+CONFIG_DEVTMPFS_MOUNT=y
+# CONFIG_BRCMSTB_GISB_ARB is not set
+CONFIG_CONNECTOR=y
+# CONFIG_BLK_DEV is not set
+CONFIG_INPUT_MOUSEDEV=y
+CONFIG_INPUT_MOUSEDEV_PSAUX=y
+CONFIG_INPUT_JOYDEV=y
+CONFIG_INPUT_EVDEV=y
+CONFIG_KEYBOARD_GPIO=y
+CONFIG_KEYBOARD_TWL4030=y
+# CONFIG_KEYBOARD_BCM is not set
+CONFIG_INPUT_TOUCHSCREEN=y
+CONFIG_TOUCHSCREEN_ADS7846=y
+CONFIG_INPUT_MISC=y
+CONFIG_INPUT_TWL4030_PWRBUTTON=y
+CONFIG_VT_HW_CONSOLE_BINDING=y
+# CONFIG_LEGACY_PTYS is not set
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_CONSOLE=y
+CONFIG_SERIAL_8250_NR_UARTS=32
+CONFIG_SERIAL_8250_EXTENDED=y
+CONFIG_SERIAL_8250_MANY_PORTS=y
+CONFIG_SERIAL_8250_SHARE_IRQ=y
+CONFIG_SERIAL_8250_DETECT_IRQ=y
+CONFIG_SERIAL_8250_RSA=y
+CONFIG_SERIAL_OMAP=y
+CONFIG_SERIAL_OMAP_CONSOLE=y
+CONFIG_HW_RANDOM=y
+CONFIG_DEVKMEM=y
+CONFIG_I2C_CHARDEV=y
+CONFIG_I2C_MUX=m
+CONFIG_SPI=y
+CONFIG_SPI_OMAP24XX=y
+# CONFIG_PINCTRL_MESON8 is not set
+# CONFIG_PINCTRL_MESON8B is not set
+CONFIG_DEBUG_GPIO=y
+CONFIG_GPIO_SYSFS=y
+CONFIG_GPIO_TWL4030=y
+CONFIG_W1=y
+# CONFIG_POWER_RESET_BRCMKONA is not set
+# CONFIG_POWER_RESET_BRCMSTB is not set
+# CONFIG_HWMON is not set
+# CONFIG_BCM_NS_THERMAL is not set
+CONFIG_WATCHDOG=y
+CONFIG_OMAP_WATCHDOG=y
+CONFIG_MFD_MAX77693=m
+CONFIG_REGULATOR_GPIO=y
+CONFIG_REGULATOR_TPS65023=y
+CONFIG_REGULATOR_TPS6507X=y
+CONFIG_REGULATOR_TWL4030=y
+# CONFIG_REGULATOR_UNIPHIER is not set
+CONFIG_RC_CORE=m
+CONFIG_RC_DECODERS=y
+CONFIG_IR_NEC_DECODER=m
+CONFIG_IR_RC5_DECODER=m
+CONFIG_IR_RC6_DECODER=m
+CONFIG_IR_JVC_DECODER=m
+CONFIG_IR_SONY_DECODER=m
+CONFIG_IR_SANYO_DECODER=m
+CONFIG_IR_SHARP_DECODER=m
+CONFIG_IR_MCE_KBD_DECODER=m
+CONFIG_IR_XMP_DECODER=m
+CONFIG_MEDIA_SUPPORT=m
+CONFIG_VIDEO_ADV_DEBUG=y
+CONFIG_VIDEO_FIXED_MINOR_RANGES=y
+CONFIG_V4L2_FLASH_LED_CLASS=m
+CONFIG_DVB_DEMUX_SECTION_LOSS_LOG=y
+CONFIG_MEDIA_USB_SUPPORT=y
+CONFIG_USB_VIDEO_CLASS=m
+CONFIG_USB_M5602=m
+CONFIG_USB_STV06XX=m
+CONFIG_USB_PWC=m
+CONFIG_USB_PWC_DEBUG=y
+CONFIG_VIDEO_CPIA2=m
+CONFIG_USB_ZR364XX=m
+CONFIG_USB_STKWEBCAM=m
+CONFIG_USB_S2255=m
+CONFIG_VIDEO_PVRUSB2=m
+CONFIG_VIDEO_PVRUSB2_DEBUGIFC=y
+CONFIG_VIDEO_HDPVR=m
+CONFIG_VIDEO_STK1160_COMMON=m
+CONFIG_VIDEO_AU0828=m
+CONFIG_VIDEO_AU0828_RC=y
+CONFIG_VIDEO_CX231XX=m
+CONFIG_VIDEO_CX231XX_DVB=m
+CONFIG_VIDEO_TM6000=m
+CONFIG_VIDEO_TM6000_DVB=m
+CONFIG_DVB_USB=m
+CONFIG_DVB_USB_DEBUG=y
+CONFIG_DVB_USB_A800=m
+CONFIG_DVB_USB_DIBUSB_MB=m
+CONFIG_DVB_USB_DIBUSB_MB_FAULTY=y
+CONFIG_DVB_USB_DIBUSB_MC=m
+CONFIG_DVB_USB_DIB0700=m
+CONFIG_DVB_USB_UMT_010=m
+CONFIG_DVB_USB_CXUSB=m
+CONFIG_DVB_USB_M920X=m
+CONFIG_DVB_USB_DIGITV=m
+CONFIG_DVB_USB_VP7045=m
+CONFIG_DVB_USB_VP702X=m
+CONFIG_DVB_USB_GP8PSK=m
+CONFIG_DVB_USB_NOVA_T_USB2=m
+CONFIG_DVB_USB_TTUSB2=m
+CONFIG_DVB_USB_DTT200U=m
+CONFIG_DVB_USB_OPERA1=m
+CONFIG_DVB_USB_AF9005=m
+CONFIG_DVB_USB_AF9005_REMOTE=m
+CONFIG_DVB_USB_PCTV452E=m
+CONFIG_DVB_USB_DW2102=m
+CONFIG_DVB_USB_CINERGY_T2=m
+CONFIG_DVB_USB_DTV5100=m
+CONFIG_DVB_USB_AZ6027=m
+CONFIG_DVB_USB_TECHNISAT_USB2=m
+CONFIG_DVB_USB_V2=m
+CONFIG_DVB_USB_AF9015=m
+CONFIG_DVB_USB_AF9035=m
+CONFIG_DVB_USB_ANYSEE=m
+CONFIG_DVB_USB_AU6610=m
+CONFIG_DVB_USB_AZ6007=m
+CONFIG_DVB_USB_CE6230=m
+CONFIG_DVB_USB_EC168=m
+CONFIG_DVB_USB_GL861=m
+CONFIG_DVB_USB_LME2510=m
+CONFIG_DVB_USB_MXL111SF=m
+CONFIG_DVB_USB_RTL28XXU=m
+CONFIG_DVB_USB_DVBSKY=m
+CONFIG_DVB_USB_ZD1301=m
+CONFIG_DVB_TTUSB_BUDGET=m
+CONFIG_DVB_TTUSB_DEC=m
+CONFIG_SMS_USB_DRV=m
+CONFIG_DVB_B2C2_FLEXCOP_USB=m
+CONFIG_DVB_AS102=m
+CONFIG_VIDEO_EM28XX=m
+CONFIG_VIDEO_EM28XX_V4L2=m
+CONFIG_VIDEO_EM28XX_DVB=m
+CONFIG_USB_AIRSPY=m
+CONFIG_USB_HACKRF=m
+CONFIG_USB_MSI2500=m
+CONFIG_V4L_PLATFORM_DRIVERS=y
+CONFIG_VIDEO_CAFE_CCIC=m
+CONFIG_VIDEO_MMP_CAMERA=m
+CONFIG_VIDEO_CADENCE=y
+CONFIG_VIDEO_CADENCE_CSI2RX=m
+CONFIG_VIDEO_CADENCE_CSI2TX=m
+CONFIG_VIDEO_ASPEED=m
+CONFIG_VIDEO_MUX=m
+CONFIG_VIDEO_OMAP3=m
+CONFIG_VIDEO_SAMSUNG_EXYNOS4_IS=m
+CONFIG_VIDEO_S5P_FIMC=m
+CONFIG_VIDEO_S5P_MIPI_CSIS=m
+CONFIG_VIDEO_EXYNOS_FIMC_LITE=m
+CONFIG_VIDEO_EXYNOS4_FIMC_IS=m
+CONFIG_VIDEO_AM437X_VPFE=m
+CONFIG_VIDEO_XILINX=m
+CONFIG_VIDEO_XILINX_CSI2RXSS=m
+CONFIG_VIDEO_XILINX_TPG=m
+CONFIG_VIDEO_ATMEL_ISC=m
+CONFIG_VIDEO_ATMEL_ISI=m
+CONFIG_VIDEO_SUN4I_CSI=m
+CONFIG_VIDEO_SUN6I_CSI=m
+CONFIG_VIDEO_TI_CAL=m
+CONFIG_V4L_MEM2MEM_DRIVERS=y
+CONFIG_VIDEO_CODA=m
+CONFIG_VIDEO_IMX_PXP=m
+CONFIG_VIDEO_MEDIATEK_JPEG=m
+CONFIG_VIDEO_MEDIATEK_MDP=m
+CONFIG_VIDEO_MEDIATEK_VCODEC=m
+CONFIG_VIDEO_MEM2MEM_DEINTERLACE=m
+CONFIG_VIDEO_SAMSUNG_S5P_G2D=m
+CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
+CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
+CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
+CONFIG_VIDEO_STI_BDISP=m
+CONFIG_VIDEO_STI_HVA=m
+CONFIG_VIDEO_STI_HVA_DEBUGFS=y
+CONFIG_VIDEO_STI_DELTA=m
+CONFIG_VIDEO_ROCKCHIP_RGA=m
+CONFIG_VIDEO_SUN8I_DEINTERLACE=m
+CONFIG_VIDEO_SUN8I_ROTATE=m
+CONFIG_DVB_PLATFORM_DRIVERS=y
+CONFIG_DVB_C8SECTPFE=m
+CONFIG_SDR_PLATFORM_DRIVERS=y
+CONFIG_SMS_SDIO_DRV=m
+CONFIG_V4L_TEST_DRIVERS=y
+CONFIG_VIDEO_VIMC=m
+CONFIG_VIDEO_VIVID=m
+CONFIG_VIDEO_VIM2M=m
+CONFIG_VIDEO_VICODEC=m
+CONFIG_VIDEO_TVAUDIO=m
+CONFIG_VIDEO_TDA7432=m
+CONFIG_VIDEO_TDA9840=m
+CONFIG_VIDEO_TEA6415C=m
+CONFIG_VIDEO_TEA6420=m
+CONFIG_VIDEO_CS3308=m
+CONFIG_VIDEO_CS5345=m
+CONFIG_VIDEO_TLV320AIC23B=m
+CONFIG_VIDEO_UDA1342=m
+CONFIG_VIDEO_WM8739=m
+CONFIG_VIDEO_VP27SMPX=m
+CONFIG_VIDEO_SONY_BTF_MPX=m
+CONFIG_VIDEO_SAA6588=m
+CONFIG_VIDEO_ADV7180=m
+CONFIG_VIDEO_ADV7183=m
+CONFIG_VIDEO_ADV748X=m
+CONFIG_VIDEO_ADV7604=m
+CONFIG_VIDEO_ADV7604_CEC=y
+CONFIG_VIDEO_ADV7842=m
+CONFIG_VIDEO_ADV7842_CEC=y
+CONFIG_VIDEO_BT819=m
+CONFIG_VIDEO_BT856=m
+CONFIG_VIDEO_BT866=m
+CONFIG_VIDEO_KS0127=m
+CONFIG_VIDEO_ML86V7667=m
+CONFIG_VIDEO_SAA7110=m
+CONFIG_VIDEO_TC358743=m
+CONFIG_VIDEO_TVP514X=m
+CONFIG_VIDEO_TVP5150=m
+CONFIG_VIDEO_TVP7002=m
+CONFIG_VIDEO_TW2804=m
+CONFIG_VIDEO_TW9903=m
+CONFIG_VIDEO_TW9906=m
+CONFIG_VIDEO_TW9910=m
+CONFIG_VIDEO_VPX3220=m
+CONFIG_VIDEO_MAX9286=m
+CONFIG_VIDEO_SAA717X=m
+CONFIG_VIDEO_SAA7127=m
+CONFIG_VIDEO_SAA7185=m
+CONFIG_VIDEO_ADV7170=m
+CONFIG_VIDEO_ADV7175=m
+CONFIG_VIDEO_ADV7343=m
+CONFIG_VIDEO_ADV7393=m
+CONFIG_VIDEO_ADV7511=m
+CONFIG_VIDEO_ADV7511_CEC=y
+CONFIG_VIDEO_AD9389B=m
+CONFIG_VIDEO_AK881X=m
+CONFIG_VIDEO_THS8200=m
+CONFIG_VIDEO_UPD64031A=m
+CONFIG_VIDEO_UPD64083=m
+CONFIG_VIDEO_SAA6752HS=m
+CONFIG_VIDEO_THS7303=m
+CONFIG_VIDEO_M52790=m
+CONFIG_VIDEO_I2C=m
+CONFIG_VIDEO_ST_MIPID02=m
+CONFIG_VIDEO_HI556=m
+CONFIG_VIDEO_IMX214=m
+CONFIG_VIDEO_IMX219=m
+CONFIG_VIDEO_IMX258=m
+CONFIG_VIDEO_IMX274=m
+CONFIG_VIDEO_IMX290=m
+CONFIG_VIDEO_IMX319=m
+CONFIG_VIDEO_IMX355=m
+CONFIG_VIDEO_OV2640=m
+CONFIG_VIDEO_OV2659=m
+CONFIG_VIDEO_OV2680=m
+CONFIG_VIDEO_OV2685=m
+CONFIG_VIDEO_OV5640=m
+CONFIG_VIDEO_OV5645=m
+CONFIG_VIDEO_OV5647=m
+CONFIG_VIDEO_OV6650=m
+CONFIG_VIDEO_OV5670=m
+CONFIG_VIDEO_OV5675=m
+CONFIG_VIDEO_OV5695=m
+CONFIG_VIDEO_OV7251=m
+CONFIG_VIDEO_OV772X=m
+CONFIG_VIDEO_OV7640=m
+CONFIG_VIDEO_OV7740=m
+CONFIG_VIDEO_OV8856=m
+CONFIG_VIDEO_OV9640=m
+CONFIG_VIDEO_OV9650=m
+CONFIG_VIDEO_OV13858=m
+CONFIG_VIDEO_VS6624=m
+CONFIG_VIDEO_MT9M001=m
+CONFIG_VIDEO_MT9M032=m
+CONFIG_VIDEO_MT9M111=m
+CONFIG_VIDEO_MT9P031=m
+CONFIG_VIDEO_MT9T001=m
+CONFIG_VIDEO_MT9T112=m
+CONFIG_VIDEO_MT9V011=m
+CONFIG_VIDEO_MT9V032=m
+CONFIG_VIDEO_MT9V111=m
+CONFIG_VIDEO_SR030PC30=m
+CONFIG_VIDEO_NOON010PC30=m
+CONFIG_VIDEO_M5MOLS=m
+CONFIG_VIDEO_RDACM20=m
+CONFIG_VIDEO_RJ54N1=m
+CONFIG_VIDEO_S5K6AA=m
+CONFIG_VIDEO_S5K6A3=m
+CONFIG_VIDEO_S5K4ECGX=m
+CONFIG_VIDEO_S5K5BAF=m
+CONFIG_VIDEO_SMIAPP=m
+CONFIG_VIDEO_ET8EK8=m
+CONFIG_VIDEO_S5C73M3=m
+CONFIG_VIDEO_AD5820=m
+CONFIG_VIDEO_AK7375=m
+CONFIG_VIDEO_DW9714=m
+CONFIG_VIDEO_DW9768=m
+CONFIG_VIDEO_DW9807_VCM=m
+CONFIG_VIDEO_ADP1653=m
+CONFIG_VIDEO_LM3560=m
+CONFIG_VIDEO_LM3646=m
+CONFIG_VIDEO_GS1662=m
+CONFIG_DVB_DUMMY_FE=m
+CONFIG_IMX_IPUV3_CORE=m
+CONFIG_FB=m
+# CONFIG_USB_HID is not set
+CONFIG_USB=y
+CONFIG_USB_OTG=y
+CONFIG_USB_OTG_FSM=y
+CONFIG_USB_MON=y
+CONFIG_USB_MUSB_HDRC=y
+CONFIG_USB_MUSB_OMAP2PLUS=y
+CONFIG_USB_INVENTRA_DMA=y
+CONFIG_NOP_USB_XCEIV=y
+CONFIG_USB_GPIO_VBUS=y
+CONFIG_USB_ULPI=y
+CONFIG_USB_GADGET=y
+CONFIG_USB_GADGET_DEBUG=y
+# CONFIG_USB_SNP_UDC_PLAT is not set
+# CONFIG_USB_BDC_UDC is not set
+CONFIG_USB_ETH=y
+CONFIG_MMC=y
+CONFIG_MMC_OMAP=y
+CONFIG_MMC_OMAP_HS=y
+CONFIG_NEW_LEDS=y
+CONFIG_LEDS_CLASS=m
+CONFIG_LEDS_CLASS_FLASH=m
+CONFIG_LEDS_BRIGHTNESS_HW_CHANGED=y
+CONFIG_LEDS_AAT1290=m
+CONFIG_LEDS_AS3645A=m
+CONFIG_LEDS_BCM6328=m
+CONFIG_LEDS_BCM6358=m
+CONFIG_LEDS_LM3530=m
+CONFIG_LEDS_LM3642=m
+CONFIG_LEDS_PCA9532=m
+CONFIG_LEDS_PCA9532_GPIO=y
+CONFIG_LEDS_GPIO=m
+CONFIG_LEDS_LP3944=m
+CONFIG_LEDS_LP3952=m
+CONFIG_LEDS_LP55XX_COMMON=m
+CONFIG_LEDS_LP5521=m
+CONFIG_LEDS_LP5523=m
+CONFIG_LEDS_LP5562=m
+CONFIG_LEDS_LP8501=m
+CONFIG_LEDS_LP8860=m
+CONFIG_LEDS_PCA955X=m
+CONFIG_LEDS_PCA963X=m
+CONFIG_LEDS_DAC124S085=m
+CONFIG_LEDS_PWM=m
+CONFIG_LEDS_REGULATOR=m
+CONFIG_LEDS_BD2802=m
+CONFIG_LEDS_LT3593=m
+CONFIG_LEDS_TCA6507=m
+CONFIG_LEDS_TLC591XX=m
+CONFIG_LEDS_MAX77693=m
+CONFIG_LEDS_LM355x=m
+CONFIG_LEDS_KTD2692=m
+CONFIG_LEDS_IS31FL319X=m
+CONFIG_LEDS_IS31FL32XX=m
+CONFIG_LEDS_BLINKM=m
+CONFIG_RTC_CLASS=y
+# CONFIG_RTC_DRV_BRCMSTB is not set
+CONFIG_RTC_DRV_TWL4030=y
+CONFIG_RTC_DRV_OMAP=m
+# CONFIG_VIRTIO_MENU is not set
+CONFIG_GREYBUS=m
+CONFIG_STAGING=y
+CONFIG_STAGING_MEDIA=y
+CONFIG_VIDEO_HANTRO=m
+CONFIG_VIDEO_IMX_MEDIA=m
+CONFIG_VIDEO_MESON_VDEC=m
+CONFIG_VIDEO_OMAP4=m
+CONFIG_VIDEO_ROCKCHIP_VDEC=m
+CONFIG_TEGRA_VDE=m
+CONFIG_VIDEO_ROCKCHIP_ISP1=m
+CONFIG_VIDEO_USBVISION=m
+CONFIG_GS_FPGABOOT=y
+CONFIG_GREYBUS_LIGHT=m
+# CONFIG_CLK_BCM_SR is not set
+# CONFIG_COMMON_CLK_MT7622 is not set
+# CONFIG_SUN8I_DE2_CCU is not set
+CONFIG_OMAP_IOMMU=y
+CONFIG_MTK_IOMMU=y
+# CONFIG_MESON_GX_PM_DOMAINS is not set
+# CONFIG_MESON_MX_SOCINFO is not set
+# CONFIG_BRCMSTB_PM is not set
+CONFIG_PWM=y
+# CONFIG_PWM_BCM_KONA is not set
+# CONFIG_PHY_BRCM_USB is not set
+CONFIG_OMAP_CONTROL_PHY=y
+CONFIG_TWL4030_USB=y
+CONFIG_DAX=y
+CONFIG_FUSE_FS=m
+CONFIG_MSDOS_FS=y
+CONFIG_VFAT_FS=y
+CONFIG_TMPFS=y
+# CONFIG_MISC_FILESYSTEMS is not set
+CONFIG_NFS_FS=y
+# CONFIG_NFS_V2 is not set
+CONFIG_NFS_V3_ACL=y
+CONFIG_NFS_V4=y
+CONFIG_NFS_V4_1=y
+CONFIG_NFS_V4_2=y
+CONFIG_ROOT_NFS=y
+CONFIG_NLS_CODEPAGE_437=y
+CONFIG_NLS_ISO8859_1=y
+CONFIG_SECURITY=y
+CONFIG_CRYPTO_SEQIV=m
+CONFIG_CRYPTO_ECHAINIV=m
+CONFIG_CRYPTO_CBC=y
+CONFIG_CRYPTO_MD5=y
+CONFIG_CRYPTO_MICHAEL_MIC=y
+CONFIG_CRYPTO_AES=y
+CONFIG_CRYPTO_ARC4=m
+CONFIG_CRYPTO_DES=y
+CONFIG_CRYPTO_DEFLATE=y
+CONFIG_CRYPTO_LZO=y
+CONFIG_CRC_CCITT=y
+CONFIG_CRC16=y
+CONFIG_CRC_T10DIF=y
+CONFIG_CRC_ITU_T=y
+CONFIG_CRC64=m
+CONFIG_CRC7=y
+CONFIG_LIBCRC32C=y
+CONFIG_PRINTK_TIME=y
+CONFIG_DYNAMIC_DEBUG=y
+CONFIG_DEBUG_INFO=y
+CONFIG_MAGIC_SYSRQ=y
+CONFIG_PAGE_EXTENSION=y
+CONFIG_DEBUG_PAGEALLOC=y
+CONFIG_DEBUG_PAGEALLOC_ENABLE_DEFAULT=y
+CONFIG_DEBUG_OBJECTS=y
+CONFIG_DEBUG_SLAB=y
+CONFIG_DEBUG_KMEMLEAK=y
+CONFIG_SCHEDSTATS=y
+CONFIG_PROVE_LOCKING=y
+CONFIG_DEBUG_KOBJECT=y
+CONFIG_DEBUG_LIST=y
+CONFIG_FUNCTION_TRACER=y
+CONFIG_SCHED_TRACER=y
+CONFIG_FTRACE_SYSCALLS=y
+CONFIG_BLK_DEV_IO_TRACE=y
+CONFIG_TRACEPOINT_BENCHMARK=y
+# CONFIG_RUNTIME_TESTING_MENU is not set
+
+--x+6KMIRAuhnl3hBn--
