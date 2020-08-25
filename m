@@ -2,291 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 082E7252221
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 22:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC0D7252243
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 22:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726570AbgHYUqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 16:46:21 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:34362 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726429AbgHYUqU (ORCPT
+        id S1726666AbgHYUzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 16:55:37 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:39555 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726149AbgHYUzf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 16:46:20 -0400
-Received: by mail-io1-f66.google.com with SMTP id w20so191207iom.1;
-        Tue, 25 Aug 2020 13:46:18 -0700 (PDT)
+        Tue, 25 Aug 2020 16:55:35 -0400
+Received: by mail-il1-f193.google.com with SMTP id f12so154560ils.6;
+        Tue, 25 Aug 2020 13:55:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=T212ljWm3/La6EYAf+l9ma6CbA8Y77If7HMdW/pDI54=;
-        b=mZqazLc5VNUzyRrDEtbJZ7u+U6lw9WqAIe3H/+OxGOWXzq8QAf7uO/G3COrP86nyzE
-         b6dqm3FxOOJb0nlAplamDHRb0blDvZ7dRCyS3r2a2kjm189PCSCKxCSQDOsxDTKqjCSk
-         kDCTcWTlU9vrdkoZPq8xaIvnQulgMrfdDXE2GgGeobkxVKTRpDq76IkWz/xyg04UIY8i
-         zfRTbpxbc32subHXf3b1oGAZ2jvLXUxc7uV1gvbyJQ9FfsQ8d5AnDUzktUz9Qok7IhhE
-         oYnnWhfqRTksdXk67YbBSpN/SeEnU9Zx+VK8DWDk2DWZqgVVuMI8lO58e9HET2e0ybvX
-         eCpA==
-X-Gm-Message-State: AOAM530UZvkW9ZxrsNjRoZ45mXqacVD5n6EHs++2gxxnZjv0vaMRbmxn
-        PRneC5ZzhLYxUAxzOBTfbQ==
-X-Google-Smtp-Source: ABdhPJzpNgBnQJh4gFgM32Xr4XKkiDTDErx+sKhE1KreYvXhb37mQAndbwhtwbCBn2B0KTcP2+yxiA==
-X-Received: by 2002:a6b:8fc9:: with SMTP id r192mr3433164iod.24.1598388378264;
-        Tue, 25 Aug 2020 13:46:18 -0700 (PDT)
+        bh=AMzJ5VrNV5zeoByACeDAyxwvLUNrlJ6VL0uW0npABTQ=;
+        b=GeR8Tu447GEEOOwzrae+JgEEmz1n8lKMIhnC4XvisRjKsr5jjIgQ9AZjUPImjhfAJL
+         PljwNJ23Ihm3N1zywAlGqPn2aN5CnNVkFjwXsv4jYR0GKV4fD0UyCbOPgORq0oZ2I5Rt
+         U7aIfjsGqoNzy5FrBf9pFKeIyB/wx0aOK03KsRV28tFJRRaf1bqeComiiyaoICcprPBp
+         YuaXUGs9A8T6G1lbPp4SXN4iXQbPdu6+Q+N7/focKLuWYnRl9A56H8g6XVL3QvGkFtCN
+         fzGfsY0+djWvfuh1NbSgn0vaj37PGjFmFGvHMbRjtsk9MjTzASJ7xVkc0cl+mDCX73TJ
+         vFeQ==
+X-Gm-Message-State: AOAM531nkFrGEtDY2k/J7uP1LwX6TMctNSRwax3f3XebyMfoOLzJDEah
+        XsDjgQnJfMQGBCnUtIyOJw==
+X-Google-Smtp-Source: ABdhPJwt7/l7y4tm5z4Iu4rYPaYxo0LoHBI/nc2glvh9tpkd3kOV1tP/4JFN3nMKacKySEA9ujmyFQ==
+X-Received: by 2002:a92:c8cd:: with SMTP id c13mr10570812ilq.162.1598388933655;
+        Tue, 25 Aug 2020 13:55:33 -0700 (PDT)
 Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id i10sm9076747ioo.49.2020.08.25.13.46.16
+        by smtp.gmail.com with ESMTPSA id e68sm9004249iof.36.2020.08.25.13.55.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2020 13:46:17 -0700 (PDT)
-Received: (nullmailer pid 1298021 invoked by uid 1000);
-        Tue, 25 Aug 2020 20:46:14 -0000
-Date:   Tue, 25 Aug 2020 14:46:14 -0600
+        Tue, 25 Aug 2020 13:55:33 -0700 (PDT)
+Received: (nullmailer pid 1312676 invoked by uid 1000);
+        Tue, 25 Aug 2020 20:55:31 -0000
+Date:   Tue, 25 Aug 2020 14:55:31 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@kernel.org>, mchehab@kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: imx214: Convert to json-schema
-Message-ID: <20200825204614.GB1199184@bogus>
-References: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
- <20200819132823.GH6049@pendragon.ideasonboard.com>
- <20200824081810.7xwheje64ps4nbvf@uno.localdomain>
+Subject: Re: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
+Message-ID: <20200825205531.GA1298396@bogus>
+References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
+ <20200818122012.37956-2-jacopo+renesas@jmondi.org>
+ <20200819135204.GJ6049@pendragon.ideasonboard.com>
+ <20200824083211.u2zm4o6f4wrxlu6k@uno.localdomain>
+ <20200824113440.GC6002@pendragon.ideasonboard.com>
+ <20200824121513.gvsr5sdodgpyv4w5@uno.localdomain>
+ <20200824121457.GD6002@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200824081810.7xwheje64ps4nbvf@uno.localdomain>
+In-Reply-To: <20200824121457.GD6002@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 10:18:10AM +0200, Jacopo Mondi wrote:
-> Hi Laurent,
+On Mon, Aug 24, 2020 at 03:14:57PM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
 > 
-> On Wed, Aug 19, 2020 at 04:28:23PM +0300, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Tue, Aug 18, 2020 at 02:17:55PM +0200, Jacopo Mondi wrote:
-> > > Convert the imx214 bindings document to json-schema and update
-> > > the MAINTAINERS file accordingly.
+> On Mon, Aug 24, 2020 at 02:15:13PM +0200, Jacopo Mondi wrote:
+> > On Mon, Aug 24, 2020 at 02:34:40PM +0300, Laurent Pinchart wrote:
+> > > On Mon, Aug 24, 2020 at 10:32:11AM +0200, Jacopo Mondi wrote:
+> > > > On Wed, Aug 19, 2020 at 04:52:04PM +0300, Laurent Pinchart wrote:
+> > > > > On Tue, Aug 18, 2020 at 02:20:10PM +0200, Jacopo Mondi wrote:
+> > > > > > Convert the ov772x binding document to json-schema and update
+> > > > > > the MAINTAINERS file accordingly.
+> > > > > >
+> > > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > > > ---
+> > > > > >  .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
+> > > > > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
+> > > > >
+> > > > > Could yuo rename this to ovti,ov772x.yaml ?
+> > > > >
+> > > > > >  MAINTAINERS                                   |  2 +-
+> > > > > >  3 files changed, 85 insertions(+), 41 deletions(-)
+> > > > > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > > >
+> > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > > > > deleted file mode 100644
+> > > > > > index 0b3ede5b8e6a..000000000000
+> > > > > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > > > > +++ /dev/null
+> > > > > > @@ -1,40 +0,0 @@
+> > > > > > -* Omnivision OV7720/OV7725 CMOS sensor
+> > > > > > -
+> > > > > > -The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> > > > > > -such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> > > > > > -support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
+> > > > > > -
+> > > > > > -Required Properties:
+> > > > > > -- compatible: shall be one of
+> > > > > > -	"ovti,ov7720"
+> > > > > > -	"ovti,ov7725"
+> > > > > > -- clocks: reference to the xclk input clock.
+> > > > > > -
+> > > > > > -Optional Properties:
+> > > > > > -- reset-gpios: reference to the GPIO connected to the RSTB pin which is
+> > > > > > -  active low, if any.
+> > > > > > -- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
+> > > > > > -  active high, if any.
+> > > > > > -
+> > > > > > -The device node shall contain one 'port' child node with one child 'endpoint'
+> > > > > > -subnode for its digital output video port, in accordance with the video
+> > > > > > -interface bindings defined in Documentation/devicetree/bindings/media/
+> > > > > > -video-interfaces.txt.
+> > > > > > -
+> > > > > > -Example:
+> > > > > > -
+> > > > > > -&i2c0 {
+> > > > > > -	ov772x: camera@21 {
+> > > > > > -		compatible = "ovti,ov7725";
+> > > > > > -		reg = <0x21>;
+> > > > > > -		reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> > > > > > -		powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> > > > > > -		clocks = <&xclk>;
+> > > > > > -
+> > > > > > -		port {
+> > > > > > -			ov772x_0: endpoint {
+> > > > > > -				remote-endpoint = <&vcap1_in0>;
+> > > > > > -			};
+> > > > > > -		};
+> > > > > > -	};
+> > > > > > -};
+> > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > > > new file mode 100644
+> > > > > > index 000000000000..2b84fefeb4aa
+> > > > > > --- /dev/null
+> > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > > > @@ -0,0 +1,84 @@
+> > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > > +%YAML 1.2
+> > > > > > +---
+> > > > > > +$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
+> > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > +
+> > > > > > +title:  Omnivision OV7720/OV7725 CMOS sensor
+> > > > > > +
+> > > > > > +maintainers:
+> > > > > > +  - Jacopo Mondi <jacopo@jmondi.org>
+> > > > > > +
+> > > > > > +description: -|
+> > > > > > +  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> > > > > > +  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> > > > > > +  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
+> > > > > > +
+> > > > > > +properties:
+> > > > > > +  compatible:
+> > > > > > +    enum:
+> > > > > > +      - ovti,ov7720
+> > > > > > +      - ovti,ov7725
+> > > > > > +
+> > > > > > +  reg:
+> > > > > > +    maxItems: 1
+> > > > > > +
+> > > > > > +  clocks:
+> > > > > > +    maxItems: 1
+> > > > > > +
+> > > > > > +  reset-gpios:
+> > > > > > +    description: -|
+> > > > > > +      Reference to the GPIO connected to the RSTB pin which is active low.
+> > > > > > +    maxItems: 1
+> > > > > > +
+> > > > > > +  powerdown-gpios:
+> > > > > > +    description: -|
+> > > > > > +      Reference to the GPIO connected to the PWDN pin which is active high.
+> > > > > > +    maxItems: 1
+> > > > > > +
+> > > > > > +  port:
+> > > > > > +    type: object
+> > > > > > +    description: |
+> > > > > > +      The device node must contain one 'port' child node for its digital output
+> > > > > > +      video port, in accordance with the video interface bindings defined in
+> > > > > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > > >
+> > > > > You can simply write
+> > > > >
+> > > > >       Digital input video port. See ../video-interfaces.txt.
+> > > > >
+> > > > > > +
+> > > > > > +    properties:
+> > > > > > +      endpoint:
+> > > > > > +        type: object
+> > > > > > +        properties:
+> > > > > > +          remote-endpoint:
+> > > > > > +            description: A phandle to the bus receiver's endpoint node.
+> > > > >
+> > > > >            required:
+> > > > > 	     - remote-endpoint
+> > > > >
+> > > > >            additionalProperties: false
+> > > >
+> > > > I receveied a reply to you on previous json-schema conversion attempt
+> > > > where you suggested to not set remote-endpoint as required, as we
+> > > > allow empty ones to be later filled in in, maybe with an overlay.
+> > > >
+> > > > Which Laurent should I listen to ? I tend to agree with the one that
+> > > > said to drop remote-endpoint from the required properties list.
 > > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  .../bindings/media/i2c/sony,imx214.txt        |  53 --------
-> > >  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
-> > >  MAINTAINERS                                   |   2 +-
-> > >  3 files changed, 125 insertions(+), 54 deletions(-)
-> > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> > > Maybe I recall incorrectly, didn't I say that endpoint shouldn't be
+> > > mandatory ? Ports should be mandatory as they describe the hardware,
+> > > endpoints describe a connection, and within a connection, I'm not sure
+> > > to see a use-case for not setting remote-endpoint. Maybe I need to look
+> > > better ? :-)
 > > >
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > > deleted file mode 100644
-> > > index f11f28a5fda4..000000000000
-> > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > > +++ /dev/null
-> > > @@ -1,53 +0,0 @@
-> > > -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> > > -
-> > > -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> > > -an active array size of 4224H x 3200V. It is programmable through an I2C
-> > > -interface.
-> > > -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
-> > > -throughput of 1.2Gbps/lane.
-> > > -
-> > > -
-> > > -Required Properties:
-> > > -- compatible: Shall be "sony,imx214".
-> > > -- reg: I2C bus address of the device. Depending on how the sensor is wired,
-> > > -       it shall be <0x10> or <0x1a>;
-> > > -- enable-gpios: GPIO descriptor for the enable pin.
-> > > -- vdddo-supply: Chip digital IO regulator (1.8V).
-> > > -- vdda-supply: Chip analog regulator (2.7V).
-> > > -- vddd-supply: Chip digital core regulator (1.12V).
-> > > -- clocks: Reference to the xclk clock.
-> > > -- clock-frequency: Frequency of the xclk clock.
-> > > -
-> > > -Optional Properties:
-> > > -- flash-leds: See ../video-interfaces.txt
-> > > -- lens-focus: See ../video-interfaces.txt
-> > > -
-> > > -The imx214 device node shall contain one 'port' child node with
-> > > -an 'endpoint' subnode. For further reading on port node refer to
-> > > -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > > -
-> > > -Required Properties on endpoint:
-> > > -- data-lanes: check ../video-interfaces.txt
-> > > -- link-frequencies: check ../video-interfaces.txt
-> > > -- remote-endpoint: check ../video-interfaces.txt
-> > > -
-> > > -Example:
-> > > -
-> > > -	camera-sensor@1a {
-> > > -		compatible = "sony,imx214";
-> > > -		reg = <0x1a>;
-> > > -		vdddo-supply = <&pm8994_lvs1>;
-> > > -		vddd-supply = <&camera_vddd_1v12>;
-> > > -		vdda-supply = <&pm8994_l17>;
-> > > -		lens-focus = <&ad5820>;
-> > > -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> > > -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
-> > > -		clock-frequency = <24000000>;
-> > > -		port {
-> > > -			imx214_ep: endpoint {
-> > > -				data-lanes = <1 2 3 4>;
-> > > -				link-frequencies = /bits/ 64 <480000000>;
-> > > -				remote-endpoint = <&csiphy0_ep>;
-> > > -			};
-> > > -		};
-> > > -	};
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > > new file mode 100644
-> > > index 000000000000..ddd4627214b1
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > > @@ -0,0 +1,124 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> >
-> > s/Mp/MP/
-> >
-> > > +
-> > > +maintainers:
-> > > +  - Ricardo Ribalda <ribalda@kernel.org>
-> > > +
-> > > +description: -|
-> > > +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> >
-> > s/imx214/IMX214/
-> >
-> > > +  an active array size of 4224H x 3200V. It is programmable through an I2C
-> > > +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
-> >
-> > s/  Image/ Image/
-> >
-> > > +  maximum throughput of 1.2Gbps/lane.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: sony,imx214
-> > > +
-> > > +  reg:
-> > > +    description: -|
-> > > +      I2C device address. Depends on how the sensor is wired.
-> >
-> > I'd drop the description, it's fairly evident as it's an I2C device,
-> > isn't it ?
-> >
-> > > +    enum:
-> > > +      - 0x10
-> > > +      - 0x1a
-> > > +
-> > > +  clocks:
-> > > +    description: Reference to the xclk clock.
-> > > +    maxItems: 1
-> > > +
-> > > +  clock-frequency:
-> > > +    description: Frequency of the xclk clock in Hz.
-> > > +
-> > > +  enable-gpios:
-> > > +    description: GPIO descriptor for the enable pin.
-> > > +    maxItems: 1
-> > > +
-> > > +  vdddo-supply:
-> > > +    description: Chip digital IO regulator (1.8V).
-> > > +    maxItems: 1
-> > > +
-> > > +  vdda-supply:
-> > > +    description: Chip analog regulator (2.7V).
-> > > +    maxItems: 1
-> > > +
-> > > +  vddd-supply:
-> > > +    description: Chip digital core regulator (1.12V).
-> > > +    maxItems: 1
-> > > +
-> > > +  flash-leds:
-> > > +    description: See ../video-interfaces.txt
-> > > +
-> > > +  lens-focus:
-> > > +    description: See ../video-interfaces.txt
-> > > +
-> > > +  port:
-> > > +    type: object
-> > > +    description: |
-> > > +      The device node must contain one 'port' child node for its digital output
-> > > +      video port, in accordance with the video interface bindings defined in
-> > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> >
-> > I'd drop this, the port node is already described as required below.
-> >
-> > > +
-> > > +    properties:
-> > > +      endpoint:
-> > > +        type: object
-> > > +        properties:
-> > > +          remote-endpoint:
-> > > +            description: See ../video-interfaces.txt
-> > > +
-> > > +          data-lanes:
-> > > +            description: See ../video-interfaces.txt
-> >
-> > Shouldn't this also express that only 2 or 4 data lanes are allowed ?
+> > 
+> > I might be confused as well, but to me port and endpoint should be
+> > there as they represent the available endpoints of the devices connections.
+> > Connections to external devices that can be established (or overwritten)
+> > by applying an overlay, and such are not mandatory.
+> > 
+> > As I see it:
+> > - port/endpoints: establish the available device connection endpoitns
+> >   and shall be mandatory (also to give a known place where to 'plug'
+> >   the connections)
+> > 
+> > - remote-endpoints: data connections to external devices, which might
+> >   depend on the board assembly or installed 'capes' and expansions. As
+> >   such, they can be modeled as an overlay fragment to be applied on the
+> >   (known layout of the) device.
 > 
-> I can't tell. I don't have the device manual, nor I'm the maintainer
-> of the driver, so I barely translated the existing bindings into yaml.
-> Spelling improvements apart, I won't modify the existing in this
-> patch, but possibly on top.
-> 
-> That' said, in this case the device description reports "supports 2 or
-> 4 lanes" so that's probably the case and this could be done already ?
-> 
-> >
-> >             $ref: /schemas/types.yaml#/definitions/uint32-array
-> >             description: See ../video-interfaces.txt
-> >             anyOf:
-> >               - items:
-> >                   - const: 1
-> >                   - const: 2
-> >               - items:
-> >                   - const: 1
-> >                   - const: 2
-> >                   - const: 3
-> >                   - const: 4
-> >
-> > Maybe someone more experienced with YAML schemas could propose a better
-> > way to express this ? I initially tried to express it with enum instead
-> > of anyOf but couldn't get it to work.
-> 
-> FWIW I can trick the validator to work with
-> 
->           data-lanes:
->             description: See ../video-interfaces.txt
->             enum:
->               - [[1, 2]]
->               - [[1, 2, 3, 4]]
-> 
-> If I drop the ugly double [[ ]] I get a complaint for:
-> camera-sensor@1a: port:endpoint:data-lanes: [[1, 2, 3, 4]] is not one of [[1, 2], [1, 2, 3, 4]]
+> Only the port represents a connection point. The endpoint node is part
+> of the representation of the link, it doesn't map to a particular
+> hardware resource on the port side.
 
-That exposes that the data encoding is an array of an array which I 
-don't really want to do in schemas. To fix this, we would need to 
-rework the fix-ups for this case and they are fairly fragile code 
-(which I've rewritten like 3 times now). 
+I think all of 'endpoint' should be dropped if you only have 
+'remote-endpoint' (and no other properties) and you don't have multiple 
+endpoints (typically only if the h/w has some sort of built-in mux or 
+connection selector). 
 
-I'd stick with Laurent's suggestion for now and put supporting this on 
-my todo.
-
-> which makes me think the way we express the property makes the
-> validator parse it as an array of arrays of uint32_t.
-
-In case you're curious, the reason why everything is an array of arrays 
-is because dtc has no way of knowing if a given property is an array 
-with a single element or always a scalar. And then we treat the 
-bracketing in dts as significant. 
+Once we have a generic graph schema, it can enforce that 'port' has 
+'endpoint' and 'endpoint' has 'remote-endpoint'. Doing this hasn't been 
+too high on my list simply because dtc already does all or most of that.
 
 Rob
