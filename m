@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2A2825103D
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 05:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64DFE25103F
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 05:54:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728396AbgHYDyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 23:54:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728191AbgHYDyk (ORCPT
+        id S1728836AbgHYDyt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 23:54:49 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53186 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727935AbgHYDys (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 23:54:40 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37707C061574;
-        Mon, 24 Aug 2020 20:54:40 -0700 (PDT)
+        Mon, 24 Aug 2020 23:54:48 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id EEFBF298CBD
+        with ESMTPSA id C560F298D44
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
@@ -31,9 +28,9 @@ Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v4 18/19] media: hantro: Use H264_SCALING_MATRIX only when required
-Date:   Tue, 25 Aug 2020 00:52:44 -0300
-Message-Id: <20200825035245.594982-19-ezequiel@collabora.com>
+Subject: [PATCH v4 19/19] media: cedrus: Use H264_SCALING_MATRIX only when required
+Date:   Tue, 25 Aug 2020 00:52:45 -0300
+Message-Id: <20200825035245.594982-20-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200825035245.594982-1-ezequiel@collabora.com>
 References: <20200825035245.594982-1-ezequiel@collabora.com>
@@ -54,54 +51,54 @@ set the V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX control
 and set the V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT
 flag only when a scaling matrix is specified for a picture.
 
-Implement this on hantro, which has hardware support for this
+Implement this on cedrus, which has hardware support for this
 case.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Tested-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- drivers/staging/media/hantro/hantro_g1_h264_dec.c | 5 ++---
- drivers/staging/media/hantro/hantro_h264.c        | 4 ++++
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c      | 2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-index f9839e9c6da5..845bef73d218 100644
---- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-@@ -59,9 +59,8 @@ static void set_params(struct hantro_ctx *ctx)
- 	reg = G1_REG_DEC_CTRL2_CH_QP_OFFSET(pps->chroma_qp_index_offset) |
- 	      G1_REG_DEC_CTRL2_CH_QP_OFFSET2(pps->second_chroma_qp_index_offset);
- 
--	/* always use the matrix sent from userspace */
--	reg |= G1_REG_DEC_CTRL2_TYPE1_QUANT_E;
--
-+	if (pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT)
-+		reg |= G1_REG_DEC_CTRL2_TYPE1_QUANT_E;
- 	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
- 		reg |= G1_REG_DEC_CTRL2_FIELDPIC_FLAG_E;
- 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL2);
-diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
-index 6887318ed4d8..8af399c8d20e 100644
---- a/drivers/staging/media/hantro/hantro_h264.c
-+++ b/drivers/staging/media/hantro/hantro_h264.c
-@@ -197,6 +197,7 @@ assemble_scaling_list(struct hantro_ctx *ctx)
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 826324faad7e..6ebb39e0c0ce 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -76,7 +76,7 @@ static const struct cedrus_control cedrus_controls[] = {
+ 			.id	= V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
+ 		},
+ 		.codec		= CEDRUS_CODEC_H264,
+-		.required	= true,
++		.required	= false,
+ 	},
+ 	{
+ 		.cfg = {
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+index fe041b444385..28319351e909 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+@@ -238,8 +238,12 @@ static void cedrus_write_scaling_lists(struct cedrus_ctx *ctx,
  {
- 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
- 	const struct v4l2_ctrl_h264_scaling_matrix *scaling = ctrls->scaling;
-+	const struct v4l2_ctrl_h264_pps *pps = ctrls->pps;
- 	const size_t num_list_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4);
- 	const size_t list_len_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4[0]);
- 	const size_t list_len_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8[0]);
-@@ -205,6 +206,9 @@ assemble_scaling_list(struct hantro_ctx *ctx)
- 	const u32 *src;
- 	int i, j;
+ 	const struct v4l2_ctrl_h264_scaling_matrix *scaling =
+ 		run->h264.scaling_matrix;
++	const struct v4l2_ctrl_h264_pps *pps = run->h264.pps;
+ 	struct cedrus_dev *dev = ctx->dev;
  
 +	if (!(pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT))
 +		return;
 +
- 	for (i = 0; i < num_list_4x4; i++) {
- 		src = (u32 *)&scaling->scaling_list_4x4[i];
- 		for (j = 0; j < list_len_4x4 / 4; j++)
+ 	cedrus_h264_write_sram(dev, CEDRUS_SRAM_H264_SCALING_LIST_8x8_0,
+ 			       scaling->scaling_list_8x8[0],
+ 			       sizeof(scaling->scaling_list_8x8[0]));
+@@ -442,6 +446,8 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+ 	reg |= (pps->second_chroma_qp_index_offset & 0x3f) << 16;
+ 	reg |= (pps->chroma_qp_index_offset & 0x3f) << 8;
+ 	reg |= (pps->pic_init_qp_minus26 + 26 + slice->slice_qp_delta) & 0x3f;
++	if (pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT)
++		reg |= VE_H264_SHS_QP_SCALING_MATRIX_DEFAULT;
+ 	cedrus_write(dev, VE_H264_SHS_QP, reg);
+ 
+ 	// clear status flags
 -- 
 2.27.0
 
