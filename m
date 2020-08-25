@@ -2,211 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 189B92521F9
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 22:26:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 082E7252221
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 22:46:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726336AbgHYU0O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 16:26:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60792 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726090AbgHYU0M (ORCPT
+        id S1726570AbgHYUqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 16:46:21 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:34362 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726429AbgHYUqU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 16:26:12 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9277DC061574
-        for <linux-media@vger.kernel.org>; Tue, 25 Aug 2020 13:26:11 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id BC7B8292838
-Message-ID: <a1663f6e74eca50f19b44416cdeb346a7b836108.camel@collabora.com>
-Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reply-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Andrew F . Davis" <afd@ti.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Daniel Stone <daniels@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        James Jones <jajones@nvidia.com>, kernel@collabora.com
-Date:   Tue, 25 Aug 2020 16:26:04 -0400
-In-Reply-To: <20200820155427.GV6593@pendragon.ideasonboard.com>
-References: <20200816172246.69146-1-ezequiel@collabora.com>
-         <CALAqxLV2kOXUjATTn5Xg6-Rj-U7SVUO0t89MzpRzKFU4v8h5Lg@mail.gmail.com>
-         <621cd69bdd4af3e5bd5f2c96450c87651620381a.camel@collabora.com>
-         <20200820155427.GV6593@pendragon.ideasonboard.com>
-Organization: Collabora
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-hxmlfzOfGx7K+x0X3RAE"
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+        Tue, 25 Aug 2020 16:46:20 -0400
+Received: by mail-io1-f66.google.com with SMTP id w20so191207iom.1;
+        Tue, 25 Aug 2020 13:46:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=T212ljWm3/La6EYAf+l9ma6CbA8Y77If7HMdW/pDI54=;
+        b=mZqazLc5VNUzyRrDEtbJZ7u+U6lw9WqAIe3H/+OxGOWXzq8QAf7uO/G3COrP86nyzE
+         b6dqm3FxOOJb0nlAplamDHRb0blDvZ7dRCyS3r2a2kjm189PCSCKxCSQDOsxDTKqjCSk
+         kDCTcWTlU9vrdkoZPq8xaIvnQulgMrfdDXE2GgGeobkxVKTRpDq76IkWz/xyg04UIY8i
+         zfRTbpxbc32subHXf3b1oGAZ2jvLXUxc7uV1gvbyJQ9FfsQ8d5AnDUzktUz9Qok7IhhE
+         oYnnWhfqRTksdXk67YbBSpN/SeEnU9Zx+VK8DWDk2DWZqgVVuMI8lO58e9HET2e0ybvX
+         eCpA==
+X-Gm-Message-State: AOAM530UZvkW9ZxrsNjRoZ45mXqacVD5n6EHs++2gxxnZjv0vaMRbmxn
+        PRneC5ZzhLYxUAxzOBTfbQ==
+X-Google-Smtp-Source: ABdhPJzpNgBnQJh4gFgM32Xr4XKkiDTDErx+sKhE1KreYvXhb37mQAndbwhtwbCBn2B0KTcP2+yxiA==
+X-Received: by 2002:a6b:8fc9:: with SMTP id r192mr3433164iod.24.1598388378264;
+        Tue, 25 Aug 2020 13:46:18 -0700 (PDT)
+Received: from xps15 ([64.188.179.249])
+        by smtp.gmail.com with ESMTPSA id i10sm9076747ioo.49.2020.08.25.13.46.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2020 13:46:17 -0700 (PDT)
+Received: (nullmailer pid 1298021 invoked by uid 1000);
+        Tue, 25 Aug 2020 20:46:14 -0000
+Date:   Tue, 25 Aug 2020 14:46:14 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        Ricardo Ribalda <ribalda@kernel.org>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: imx214: Convert to json-schema
+Message-ID: <20200825204614.GB1199184@bogus>
+References: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
+ <20200819132823.GH6049@pendragon.ideasonboard.com>
+ <20200824081810.7xwheje64ps4nbvf@uno.localdomain>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200824081810.7xwheje64ps4nbvf@uno.localdomain>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Aug 24, 2020 at 10:18:10AM +0200, Jacopo Mondi wrote:
+> Hi Laurent,
+> 
+> On Wed, Aug 19, 2020 at 04:28:23PM +0300, Laurent Pinchart wrote:
+> > Hi Jacopo,
+> >
+> > Thank you for the patch.
+> >
+> > On Tue, Aug 18, 2020 at 02:17:55PM +0200, Jacopo Mondi wrote:
+> > > Convert the imx214 bindings document to json-schema and update
+> > > the MAINTAINERS file accordingly.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >  .../bindings/media/i2c/sony,imx214.txt        |  53 --------
+> > >  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
+> > >  MAINTAINERS                                   |   2 +-
+> > >  3 files changed, 125 insertions(+), 54 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> > > deleted file mode 100644
+> > > index f11f28a5fda4..000000000000
+> > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> > > +++ /dev/null
+> > > @@ -1,53 +0,0 @@
+> > > -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
+> > > -
+> > > -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
+> > > -an active array size of 4224H x 3200V. It is programmable through an I2C
+> > > -interface.
+> > > -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
+> > > -throughput of 1.2Gbps/lane.
+> > > -
+> > > -
+> > > -Required Properties:
+> > > -- compatible: Shall be "sony,imx214".
+> > > -- reg: I2C bus address of the device. Depending on how the sensor is wired,
+> > > -       it shall be <0x10> or <0x1a>;
+> > > -- enable-gpios: GPIO descriptor for the enable pin.
+> > > -- vdddo-supply: Chip digital IO regulator (1.8V).
+> > > -- vdda-supply: Chip analog regulator (2.7V).
+> > > -- vddd-supply: Chip digital core regulator (1.12V).
+> > > -- clocks: Reference to the xclk clock.
+> > > -- clock-frequency: Frequency of the xclk clock.
+> > > -
+> > > -Optional Properties:
+> > > -- flash-leds: See ../video-interfaces.txt
+> > > -- lens-focus: See ../video-interfaces.txt
+> > > -
+> > > -The imx214 device node shall contain one 'port' child node with
+> > > -an 'endpoint' subnode. For further reading on port node refer to
+> > > -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > -
+> > > -Required Properties on endpoint:
+> > > -- data-lanes: check ../video-interfaces.txt
+> > > -- link-frequencies: check ../video-interfaces.txt
+> > > -- remote-endpoint: check ../video-interfaces.txt
+> > > -
+> > > -Example:
+> > > -
+> > > -	camera-sensor@1a {
+> > > -		compatible = "sony,imx214";
+> > > -		reg = <0x1a>;
+> > > -		vdddo-supply = <&pm8994_lvs1>;
+> > > -		vddd-supply = <&camera_vddd_1v12>;
+> > > -		vdda-supply = <&pm8994_l17>;
+> > > -		lens-focus = <&ad5820>;
+> > > -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
+> > > -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
+> > > -		clock-frequency = <24000000>;
+> > > -		port {
+> > > -			imx214_ep: endpoint {
+> > > -				data-lanes = <1 2 3 4>;
+> > > -				link-frequencies = /bits/ 64 <480000000>;
+> > > -				remote-endpoint = <&csiphy0_ep>;
+> > > -			};
+> > > -		};
+> > > -	};
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> > > new file mode 100644
+> > > index 000000000000..ddd4627214b1
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> > > @@ -0,0 +1,124 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
+> >
+> > s/Mp/MP/
+> >
+> > > +
+> > > +maintainers:
+> > > +  - Ricardo Ribalda <ribalda@kernel.org>
+> > > +
+> > > +description: -|
+> > > +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
+> >
+> > s/imx214/IMX214/
+> >
+> > > +  an active array size of 4224H x 3200V. It is programmable through an I2C
+> > > +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
+> >
+> > s/  Image/ Image/
+> >
+> > > +  maximum throughput of 1.2Gbps/lane.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: sony,imx214
+> > > +
+> > > +  reg:
+> > > +    description: -|
+> > > +      I2C device address. Depends on how the sensor is wired.
+> >
+> > I'd drop the description, it's fairly evident as it's an I2C device,
+> > isn't it ?
+> >
+> > > +    enum:
+> > > +      - 0x10
+> > > +      - 0x1a
+> > > +
+> > > +  clocks:
+> > > +    description: Reference to the xclk clock.
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-frequency:
+> > > +    description: Frequency of the xclk clock in Hz.
+> > > +
+> > > +  enable-gpios:
+> > > +    description: GPIO descriptor for the enable pin.
+> > > +    maxItems: 1
+> > > +
+> > > +  vdddo-supply:
+> > > +    description: Chip digital IO regulator (1.8V).
+> > > +    maxItems: 1
+> > > +
+> > > +  vdda-supply:
+> > > +    description: Chip analog regulator (2.7V).
+> > > +    maxItems: 1
+> > > +
+> > > +  vddd-supply:
+> > > +    description: Chip digital core regulator (1.12V).
+> > > +    maxItems: 1
+> > > +
+> > > +  flash-leds:
+> > > +    description: See ../video-interfaces.txt
+> > > +
+> > > +  lens-focus:
+> > > +    description: See ../video-interfaces.txt
+> > > +
+> > > +  port:
+> > > +    type: object
+> > > +    description: |
+> > > +      The device node must contain one 'port' child node for its digital output
+> > > +      video port, in accordance with the video interface bindings defined in
+> > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> >
+> > I'd drop this, the port node is already described as required below.
+> >
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        type: object
+> > > +        properties:
+> > > +          remote-endpoint:
+> > > +            description: See ../video-interfaces.txt
+> > > +
+> > > +          data-lanes:
+> > > +            description: See ../video-interfaces.txt
+> >
+> > Shouldn't this also express that only 2 or 4 data lanes are allowed ?
+> 
+> I can't tell. I don't have the device manual, nor I'm the maintainer
+> of the driver, so I barely translated the existing bindings into yaml.
+> Spelling improvements apart, I won't modify the existing in this
+> patch, but possibly on top.
+> 
+> That' said, in this case the device description reports "supports 2 or
+> 4 lanes" so that's probably the case and this could be done already ?
+> 
+> >
+> >             $ref: /schemas/types.yaml#/definitions/uint32-array
+> >             description: See ../video-interfaces.txt
+> >             anyOf:
+> >               - items:
+> >                   - const: 1
+> >                   - const: 2
+> >               - items:
+> >                   - const: 1
+> >                   - const: 2
+> >                   - const: 3
+> >                   - const: 4
+> >
+> > Maybe someone more experienced with YAML schemas could propose a better
+> > way to express this ? I initially tried to express it with enum instead
+> > of anyOf but couldn't get it to work.
+> 
+> FWIW I can trick the validator to work with
+> 
+>           data-lanes:
+>             description: See ../video-interfaces.txt
+>             enum:
+>               - [[1, 2]]
+>               - [[1, 2, 3, 4]]
+> 
+> If I drop the ugly double [[ ]] I get a complaint for:
+> camera-sensor@1a: port:endpoint:data-lanes: [[1, 2, 3, 4]] is not one of [[1, 2], [1, 2, 3, 4]]
 
---=-hxmlfzOfGx7K+x0X3RAE
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+That exposes that the data encoding is an array of an array which I 
+don't really want to do in schemas. To fix this, we would need to 
+rework the fix-ups for this case and they are fairly fragile code 
+(which I've rewritten like 3 times now). 
 
-Le jeudi 20 ao=C3=BBt 2020 =C3=A0 18:54 +0300, Laurent Pinchart a =C3=A9cri=
-t :
-> Hi Ezequiel,
->=20
-> On Thu, Aug 20, 2020 at 05:36:40AM -0300, Ezequiel Garcia wrote:
-> > Hi John,
-> >=20
-> > Thanks a ton for taking the time
-> > to go thru this.
-> >=20
-> > On Mon, 2020-08-17 at 21:13 -0700, John Stultz wrote:
-> > > On Sun, Aug 16, 2020 at 10:23 AM Ezequiel Garcia <ezequiel@collabora.=
-com> wrote:
-> > > > This heap is basically a wrapper around DMA-API dma_alloc_attrs,
-> > > > which will allocate memory suitable for the given device.
-> > > >=20
-> > > > The implementation is mostly a port of the Contiguous Videobuf2
-> > > > memory allocator (see videobuf2/videobuf2-dma-contig.c)
-> > > > over to the DMA-BUF Heap interface.
-> > > >=20
-> > > > The intention of this allocator is to provide applications
-> > > > with a more system-agnostic API: the only thing the application
-> > > > needs to know is which device to get the buffer for.
-> > > >=20
-> > > > Whether the buffer is backed by CMA, IOMMU or a DMA Pool
-> > > > is unknown to the application.
-> > >=20
-> > > My hesitancy here is that the main reason we have DMA BUF Heaps, and
-> > > ION before it, was to expose different types of memory allocations to
-> > > userspace. The main premise that often these buffers are shared with
-> > > multiple devices, which have differing constraints and it is userspac=
-e
-> > > that best understands the path a buffer will take through a series of
-> > > devices. So userspace is best positioned to determine what type of
-> > > memory should be allocated to satisfy the various devices constraints
-> > > (there were some design attempts to allow DMA BUFs to use multiple
-> > > attach with deferred alloc at map time to handle this constraint
-> > > solving in-kernel, but it was never adopted in practice).
-> > >=20
-> > > This however, requires some system specific policy - implemented in
-> > > the Android userspace by gralloc which maps "usage" types (device
-> > > pipeline flows) to heaps. I liken it to fstab, which helps map mount
-> > > points to partitions - it's not going to be the same on every system.
-> > >=20
-> > > What you seem to be proposing seems a bit contrary to this premise -
-> > > Userland doesn't know what type of memory it needs, but given a devic=
-e
-> > > can somehow find the heap it should allocate for? This seems to assum=
-e
-> > > the buffer is only to be used with a single device?
-> >=20
-> > Single-device usage wasn't the intention. I see now that this patch
-> > looks too naive and it's confusing. The idea is of course to get buffer=
-s
-> > that can be shared.
-> >=20
-> > I'm thinking you need to share your picture buffer with a decoder,
-> > a renderer, possibly something else. Each with its own set
-> > of constraints and limitations.=09
-> >=20
-> > Of course, a buffer that works for device A may be unsuitable for
-> > device B and so this per-device heap is surely way too naive.
-> >=20
-> > As you rightly mention, the main intention of this RFC is to
-> > question exactly the current premise: "userspace knows".
-> > I fail to see how will (generic and system-agnostic) applications
-> > know which heap to use.
-> >=20
-> > Just for completion, let me throw a simple example: i.MX 8M
-> > and some Rockchip platforms share the same VPU block, except the
-> > latter have an IOMMU.
-> >=20
-> > So applications would need to query an iommu presence
-> > to get buffer from CMA or not.
->=20
-> I don't think we can do this in a system-agnostic way. What I'd like to
-> see is an API for the kernel to expose opaque constraints for each
+I'd stick with Laurent's suggestion for now and put supporting this on 
+my todo.
 
-Please, take into consideration that constraints can also come from
-userspace. These days, there exist things we may want to do using the
-CPU, but the SIMD instructions and the associated algorithm will
-introduce constraints too. If these constraints comes too opaque, but
-you will also potentially limit some valid CPU interaction with HW in
-term of buffer access. CPU constraints todays are fairly small and one
-should be able to express them I believe. Of course, these are not
-media agnostic, some constraints may depends on the media (like an
-image buffer, a matrix buffer or audio buffer) and the associated
-algorithm to be used.
+> which makes me think the way we express the property makes the
+> validator parse it as an array of arrays of uint32_t.
 
-An example would be an image buffers produced or modified on CPU but
-encoded with HW.
+In case you're curious, the reason why everything is an array of arrays 
+is because dtc has no way of knowing if a given property is an array 
+with a single element or always a scalar. And then we treat the 
+bracketing in dts as significant. 
 
-> device, and a userspace library to reconcile constraints, selecting a
-> suitable heap, and producing heap-specific parameters for the
-> allocation.
->=20
-> The constraints need to be transported in a generic way, but the
-> contents can be opaque for applications. Only the library would need to
-> interpret them. This can be done with platform-specific code inside the
-> library. A separate API for the library to interect with the kernel to
-> further query or negotiate configuration parameters could be part of
-> that picture.
->=20
-> This would offer standardized APIs to applications (to gather
-> constraints, pass them to the constraint resolution library, and receive
-> a heap ID and heap parameters), while still allowing platform-specific
-> code in userspace.
->=20
-> > > There was at some point a discussion where folks (maybe it was
-> > > DanielV? I can't remember...) suggested having something like a sysfs
-> > > device node link from a device to a dma-buf heap chardev. This seems
-> > > like it would add a similar behavior as what you're proposing, howeve=
-r
-> > > without adding possibly a ton of new device specific heaps to the
-> > > /dev/dma_heap/ dir. However, we would potentially need any missing
-> > > heap types added first.
-> > >=20
-> > > > I'm not really expecting this patch to be correct or even
-> > > > a good idea, but just submitting it to start a discussion on DMA-BU=
-F
-> > > > heap discovery and negotiation.
-> > > >=20
-> > > > Given Plumbers is just a couple weeks from now, I've submitted
-> > > > a BoF proposal to discuss this, as perhaps it would make
-> > > > sense to discuss this live?
-> > >=20
-> > > I do think it's an interesting idea. I agree that having every driver
-> > > implement a dmabuf exporter is a bit silly, but I also think Brian's
-> > > point that maybe we need some drm helper functions that provide
-> > > similar functionality along with a more standardized device ioctl for
-> > > single device allocations might be better.
-> >=20
-> > I'm unsure we should treat single device specially.
-> > =20
-> > Exposing device limitations and constraints properly,
-> > allowing some sort of negotation would hopefully solve
-> > single device and shared requirements.
-
---=-hxmlfzOfGx7K+x0X3RAE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCX0Vz3AAKCRBxUwItrAao
-HEdGAJ9ZbPnP7UJWaAxUOqwuGH4HLjGOTACcCm2ffLIId5mvJZCSRk/NLal6tN4=
-=/s49
------END PGP SIGNATURE-----
-
---=-hxmlfzOfGx7K+x0X3RAE--
-
+Rob
