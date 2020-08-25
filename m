@@ -2,57 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21E7E25198A
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 15:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DF1B251992
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 15:27:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726356AbgHYN0T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 09:26:19 -0400
-Received: from verein.lst.de ([213.95.11.211]:58839 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726149AbgHYN0S (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 09:26:18 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 6E33E68BEB; Tue, 25 Aug 2020 15:26:12 +0200 (CEST)
-Date:   Tue, 25 Aug 2020 15:26:12 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        linux-mm@kvack.org, alsa-devel@alsa-project.org
-Subject: Re: a saner API for allocating DMA addressable pages
-Message-ID: <20200825132612.GA22318@lst.de>
-References: <CGME20200819065610eucas1p2fde88e81917071b1888e7cc01ba0f298@eucas1p2.samsung.com> <20200819065555.1802761-1-hch@lst.de> <8fa1ce36-c783-1a02-6890-211eb504a33b@samsung.com>
+        id S1726051AbgHYN1N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 09:27:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51782 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725805AbgHYN1M (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Aug 2020 09:27:12 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86003C061574;
+        Tue, 25 Aug 2020 06:27:11 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 34C76295FCD
+Subject: Re: [PATCH] MAINTAINERS: add Dafna Hirschfeld for rkisp1
+To:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+        kernel@collabora.com, tfiga@chromium.org
+References: <20200825132209.193435-1-helen.koike@collabora.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <ca53cdf2-e82b-9370-86d8-9005b104ca04@collabora.com>
+Date:   Tue, 25 Aug 2020 15:27:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8fa1ce36-c783-1a02-6890-211eb504a33b@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200825132209.193435-1-helen.koike@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 01:30:41PM +0200, Marek Szyprowski wrote:
-> I really wonder what is the difference between this new API and 
-> alloc_pages(GFP_DMA, n). Is this API really needed? I thought that this 
-> is legacy thing to be removed one day...
 
-The difference is that the pages returned are guranteed to be addressable
-by the devie.  This is a very important difference that matters for
-a lot of use cases.
+
+Am 25.08.20 um 15:22 schrieb Helen Koike:
+> Add Dafna Hirschfeld to rkisp1 maintainers list
+> 
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index deaafb617361c..3deb954b2bb5d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14858,6 +14858,7 @@ F:	include/linux/hid-roccat*
+>   
+>   ROCKCHIP ISP V1 DRIVER
+>   M:	Helen Koike <helen.koike@collabora.com>
+> +M:	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>   L:	linux-media@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/staging/media/rkisp1/
+
+Acked-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+> 
