@@ -2,244 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0D7252243
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 22:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC242252249
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 22:57:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbgHYUzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 16:55:37 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:39555 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbgHYUzf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 16:55:35 -0400
-Received: by mail-il1-f193.google.com with SMTP id f12so154560ils.6;
-        Tue, 25 Aug 2020 13:55:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AMzJ5VrNV5zeoByACeDAyxwvLUNrlJ6VL0uW0npABTQ=;
-        b=GeR8Tu447GEEOOwzrae+JgEEmz1n8lKMIhnC4XvisRjKsr5jjIgQ9AZjUPImjhfAJL
-         PljwNJ23Ihm3N1zywAlGqPn2aN5CnNVkFjwXsv4jYR0GKV4fD0UyCbOPgORq0oZ2I5Rt
-         U7aIfjsGqoNzy5FrBf9pFKeIyB/wx0aOK03KsRV28tFJRRaf1bqeComiiyaoICcprPBp
-         YuaXUGs9A8T6G1lbPp4SXN4iXQbPdu6+Q+N7/focKLuWYnRl9A56H8g6XVL3QvGkFtCN
-         fzGfsY0+djWvfuh1NbSgn0vaj37PGjFmFGvHMbRjtsk9MjTzASJ7xVkc0cl+mDCX73TJ
-         vFeQ==
-X-Gm-Message-State: AOAM531nkFrGEtDY2k/J7uP1LwX6TMctNSRwax3f3XebyMfoOLzJDEah
-        XsDjgQnJfMQGBCnUtIyOJw==
-X-Google-Smtp-Source: ABdhPJwt7/l7y4tm5z4Iu4rYPaYxo0LoHBI/nc2glvh9tpkd3kOV1tP/4JFN3nMKacKySEA9ujmyFQ==
-X-Received: by 2002:a92:c8cd:: with SMTP id c13mr10570812ilq.162.1598388933655;
-        Tue, 25 Aug 2020 13:55:33 -0700 (PDT)
-Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id e68sm9004249iof.36.2020.08.25.13.55.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2020 13:55:33 -0700 (PDT)
-Received: (nullmailer pid 1312676 invoked by uid 1000);
-        Tue, 25 Aug 2020 20:55:31 -0000
-Date:   Tue, 25 Aug 2020 14:55:31 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
-Message-ID: <20200825205531.GA1298396@bogus>
-References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
- <20200818122012.37956-2-jacopo+renesas@jmondi.org>
- <20200819135204.GJ6049@pendragon.ideasonboard.com>
- <20200824083211.u2zm4o6f4wrxlu6k@uno.localdomain>
- <20200824113440.GC6002@pendragon.ideasonboard.com>
- <20200824121513.gvsr5sdodgpyv4w5@uno.localdomain>
- <20200824121457.GD6002@pendragon.ideasonboard.com>
+        id S1726578AbgHYU5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 16:57:17 -0400
+Received: from mga14.intel.com ([192.55.52.115]:21876 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726149AbgHYU5Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Aug 2020 16:57:16 -0400
+IronPort-SDR: N0rjohj8AKe5lVu3lmA7nIdPc2To7WyhHDfsNvUEN5wf1kLlhdJjjWB8YjHKccAnSHxxBsW6r8
+ BL9BVd6bV3iA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="155455273"
+X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
+   d="scan'208";a="155455273"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 13:57:15 -0700
+IronPort-SDR: 39nrnf0ku6pou51mNYu5lpNkr+HA5LIMFe+Z5I1Et6muzYCpcgq2S3wFVekVJsEZpSrJeiAgqX
+ 51TSWG90GqfA==
+X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
+   d="scan'208";a="402849538"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 13:57:14 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id E90B42073E; Tue, 25 Aug 2020 23:57:11 +0300 (EEST)
+Date:   Tue, 25 Aug 2020 23:57:11 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        shawnx.tu@intel.com, Sergey Senozhatsky <senozhatsky@chromium.org>,
+        hongju.wang@intel.com
+Subject: Re: [PATCH v2] media: ov5675: correct the maximum exposure value
+Message-ID: <20200825205711.GF24582@paasikivi.fi.intel.com>
+References: <1597996790-21121-1-git-send-email-bingbu.cao@intel.com>
+ <CAAFQd5DQR-HmFkgPk5mhTcoODEoAamhP0EO_YQR04SGQnuZp_w@mail.gmail.com>
+ <caac1db9-412c-bb92-9670-dbef35d09374@linux.intel.com>
+ <20200824090030.GD24582@paasikivi.fi.intel.com>
+ <CAAFQd5CPk7OPM75dC+xWMwUSpuZfrwwfhR6L=639ZQr7=akzjw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200824121457.GD6002@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5CPk7OPM75dC+xWMwUSpuZfrwwfhR6L=639ZQr7=akzjw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 03:14:57PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> On Mon, Aug 24, 2020 at 02:15:13PM +0200, Jacopo Mondi wrote:
-> > On Mon, Aug 24, 2020 at 02:34:40PM +0300, Laurent Pinchart wrote:
-> > > On Mon, Aug 24, 2020 at 10:32:11AM +0200, Jacopo Mondi wrote:
-> > > > On Wed, Aug 19, 2020 at 04:52:04PM +0300, Laurent Pinchart wrote:
-> > > > > On Tue, Aug 18, 2020 at 02:20:10PM +0200, Jacopo Mondi wrote:
-> > > > > > Convert the ov772x binding document to json-schema and update
-> > > > > > the MAINTAINERS file accordingly.
-> > > > > >
-> > > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > > > ---
-> > > > > >  .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
-> > > > > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
-> > > > >
-> > > > > Could yuo rename this to ovti,ov772x.yaml ?
-> > > > >
-> > > > > >  MAINTAINERS                                   |  2 +-
-> > > > > >  3 files changed, 85 insertions(+), 41 deletions(-)
-> > > > > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > > > >
-> > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > > > > > deleted file mode 100644
-> > > > > > index 0b3ede5b8e6a..000000000000
-> > > > > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
-> > > > > > +++ /dev/null
-> > > > > > @@ -1,40 +0,0 @@
-> > > > > > -* Omnivision OV7720/OV7725 CMOS sensor
-> > > > > > -
-> > > > > > -The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
-> > > > > > -such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
-> > > > > > -support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
-> > > > > > -
-> > > > > > -Required Properties:
-> > > > > > -- compatible: shall be one of
-> > > > > > -	"ovti,ov7720"
-> > > > > > -	"ovti,ov7725"
-> > > > > > -- clocks: reference to the xclk input clock.
-> > > > > > -
-> > > > > > -Optional Properties:
-> > > > > > -- reset-gpios: reference to the GPIO connected to the RSTB pin which is
-> > > > > > -  active low, if any.
-> > > > > > -- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
-> > > > > > -  active high, if any.
-> > > > > > -
-> > > > > > -The device node shall contain one 'port' child node with one child 'endpoint'
-> > > > > > -subnode for its digital output video port, in accordance with the video
-> > > > > > -interface bindings defined in Documentation/devicetree/bindings/media/
-> > > > > > -video-interfaces.txt.
-> > > > > > -
-> > > > > > -Example:
-> > > > > > -
-> > > > > > -&i2c0 {
-> > > > > > -	ov772x: camera@21 {
-> > > > > > -		compatible = "ovti,ov7725";
-> > > > > > -		reg = <0x21>;
-> > > > > > -		reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
-> > > > > > -		powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
-> > > > > > -		clocks = <&xclk>;
-> > > > > > -
-> > > > > > -		port {
-> > > > > > -			ov772x_0: endpoint {
-> > > > > > -				remote-endpoint = <&vcap1_in0>;
-> > > > > > -			};
-> > > > > > -		};
-> > > > > > -	};
-> > > > > > -};
-> > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..2b84fefeb4aa
-> > > > > > --- /dev/null
-> > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > > > > @@ -0,0 +1,84 @@
-> > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > > +%YAML 1.2
-> > > > > > +---
-> > > > > > +$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
-> > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > +
-> > > > > > +title:  Omnivision OV7720/OV7725 CMOS sensor
-> > > > > > +
-> > > > > > +maintainers:
-> > > > > > +  - Jacopo Mondi <jacopo@jmondi.org>
-> > > > > > +
-> > > > > > +description: -|
-> > > > > > +  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
-> > > > > > +  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
-> > > > > > +  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
-> > > > > > +
-> > > > > > +properties:
-> > > > > > +  compatible:
-> > > > > > +    enum:
-> > > > > > +      - ovti,ov7720
-> > > > > > +      - ovti,ov7725
-> > > > > > +
-> > > > > > +  reg:
-> > > > > > +    maxItems: 1
-> > > > > > +
-> > > > > > +  clocks:
-> > > > > > +    maxItems: 1
-> > > > > > +
-> > > > > > +  reset-gpios:
-> > > > > > +    description: -|
-> > > > > > +      Reference to the GPIO connected to the RSTB pin which is active low.
-> > > > > > +    maxItems: 1
-> > > > > > +
-> > > > > > +  powerdown-gpios:
-> > > > > > +    description: -|
-> > > > > > +      Reference to the GPIO connected to the PWDN pin which is active high.
-> > > > > > +    maxItems: 1
-> > > > > > +
-> > > > > > +  port:
-> > > > > > +    type: object
-> > > > > > +    description: |
-> > > > > > +      The device node must contain one 'port' child node for its digital output
-> > > > > > +      video port, in accordance with the video interface bindings defined in
-> > > > > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > > > >
-> > > > > You can simply write
-> > > > >
-> > > > >       Digital input video port. See ../video-interfaces.txt.
-> > > > >
-> > > > > > +
-> > > > > > +    properties:
-> > > > > > +      endpoint:
-> > > > > > +        type: object
-> > > > > > +        properties:
-> > > > > > +          remote-endpoint:
-> > > > > > +            description: A phandle to the bus receiver's endpoint node.
-> > > > >
-> > > > >            required:
-> > > > > 	     - remote-endpoint
-> > > > >
-> > > > >            additionalProperties: false
-> > > >
-> > > > I receveied a reply to you on previous json-schema conversion attempt
-> > > > where you suggested to not set remote-endpoint as required, as we
-> > > > allow empty ones to be later filled in in, maybe with an overlay.
-> > > >
-> > > > Which Laurent should I listen to ? I tend to agree with the one that
-> > > > said to drop remote-endpoint from the required properties list.
+On Mon, Aug 24, 2020 at 03:23:21PM +0200, Tomasz Figa wrote:
+> On Mon, Aug 24, 2020 at 11:00 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Bingbu,
+> >
+> > On Mon, Aug 24, 2020 at 11:13:40AM +0800, Bingbu Cao wrote:
 > > >
-> > > Maybe I recall incorrectly, didn't I say that endpoint shouldn't be
-> > > mandatory ? Ports should be mandatory as they describe the hardware,
-> > > endpoints describe a connection, and within a connection, I'm not sure
-> > > to see a use-case for not setting remote-endpoint. Maybe I need to look
-> > > better ? :-)
 > > >
-> > 
-> > I might be confused as well, but to me port and endpoint should be
-> > there as they represent the available endpoints of the devices connections.
-> > Connections to external devices that can be established (or overwritten)
-> > by applying an overlay, and such are not mandatory.
-> > 
-> > As I see it:
-> > - port/endpoints: establish the available device connection endpoitns
-> >   and shall be mandatory (also to give a known place where to 'plug'
-> >   the connections)
-> > 
-> > - remote-endpoints: data connections to external devices, which might
-> >   depend on the board assembly or installed 'capes' and expansions. As
-> >   such, they can be modeled as an overlay fragment to be applied on the
-> >   (known layout of the) device.
+> > > On 8/22/20 11:03 PM, Tomasz Figa wrote:
+> > > > Hi Bingbu,
+> > > >
+> > > > On Fri, Aug 21, 2020 at 10:00 AM Bingbu Cao <bingbu.cao@intel.com> wrote:
+> > > >>
+> > > >> The unit of exposure value is different from other OmniVision sensors,
+> > > >> driver will divide by 2 before set register, the exposure range exposed
+> > > >> by v4l2 ctrl to user should be same as others, so the calculation for
+> > > >> the maximum exposure value in current driver need be fixed.
+> > > >>
+> > > >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> > > >> ---
+> > > >>  drivers/media/i2c/ov5675.c | 15 ++++++++++-----
+> > > >>  1 file changed, 10 insertions(+), 5 deletions(-)
+> > > >>
+> > > >
+> > > > Thanks for the patch! Please see my comments inline.
+> > > >
+> > > >> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+> > > >> index 8537cc4ca108..9540ce8918f0 100644
+> > > >> --- a/drivers/media/i2c/ov5675.c
+> > > >> +++ b/drivers/media/i2c/ov5675.c
+> > > >> @@ -666,8 +666,8 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > >>         /* Propagate change of current control to all related controls */
+> > > >>         if (ctrl->id == V4L2_CID_VBLANK) {
+> > > >>                 /* Update max exposure while meeting expected vblanking */
+> > > >> -               exposure_max = (ov5675->cur_mode->height + ctrl->val -
+> > > >> -                              OV5675_EXPOSURE_MAX_MARGIN) / 2;
+> > > >> +               exposure_max = ov5675->cur_mode->height + ctrl->val -
+> > > >> +                       OV5675_EXPOSURE_MAX_MARGIN;
+> > > >>                 __v4l2_ctrl_modify_range(ov5675->exposure,
+> > > >>                                          ov5675->exposure->minimum,
+> > > >>                                          exposure_max, ov5675->exposure->step,
+> > > >> @@ -689,7 +689,13 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > >>                 break;
+> > > >>
+> > > >>         case V4L2_CID_EXPOSURE:
+> > > >> -               /* 3 least significant bits of expsoure are fractional part */
+> > > >> +               /* 4 least significant bits of expsoure are fractional part
+> > > >
+> > > > exposure
+> > > >
+> > > >> +                * val = val << 4
+> > > >> +                * for ov5675, the unit of exposure is differnt from other
+> > > >
+> > > > different
+> > > >
+> > > >> +                * OmniVision sensors, its exposure value is twice of the
+> > > >> +                * register value, the exposure should be divided by 2 before
+> > > >> +                * set register, e.g. val << 3.
+> > > >> +                */
+> > > >>                 ret = ov5675_write_reg(ov5675, OV5675_REG_EXPOSURE,
+> > > >>                                        OV5675_REG_VALUE_24BIT, ctrl->val << 3);
+> > > >
+> > > > How about turning this code into (ctrl->val << 4) / 2 ? It will be
+> > > > compiled into exactly the same code, but will be obvious that we are
+> > > > handling two different factors in the computation.
+> > > >
+> > > > Another question: Since the V4L2_CID_EXPOSURE control is not specified
+> > > > to be in a particular unit and hardware supports fractional exposures,
+> > > > why not expose the exposure exactly as it is in the register?
+> > > My understanding is that the exposure calculation in userspace is commonly based
+> > > on the unit of exposure - line, as some sensor did not support fractional
+> > > exposures, so the common calculation only care the integral part. For ov5675, it
+> > > is different from others, its register value unit is 2lines instead of lines.
+> > >
+> > > Sakari, do you have some idea?
+> >
+> > I've already sent v2 in a pull request to Mauro. So if changes are needed
+> > still, please send them on top of v2.
+> >
+> > Line is commonly used for devices that natively use it (vast majority of
+> > raw Bayer camera sensors). So if possible, I'd use the same here. I.e. with
+> > two line granularity, the exposure value could be in lines and the step
+> > would be 2.
 > 
-> Only the port represents a connection point. The endpoint node is part
-> of the representation of the link, it doesn't map to a particular
-> hardware resource on the port side.
+> The sensor unit seems to be 1/8 of a line, so by exposing it from the
+> driver as an integer in the unit of lines, we end up losing some
+> precision. I'm not sure how relevant it is for image quality, though.
 
-I think all of 'endpoint' should be dropped if you only have 
-'remote-endpoint' (and no other properties) and you don't have multiple 
-endpoints (typically only if the h/w has some sort of built-in mux or 
-connection selector). 
+Oh well. Generally it's time consuming to update the registers over I²C and
+the more registers you add, the higher the likelihood is to miss doing that
+in time. That's why the common pattern of lines / pixels matches really
+well with this as both exposure (and the supposedly added fine exposure
+control, when needed) match with the registers and control units.
 
-Once we have a generic graph schema, it can enforce that 'port' has 
-'endpoint' and 'endpoint' has 'remote-endpoint'. Doing this hasn't been 
-too high on my list simply because dtc already does all or most of that.
+I don't have a perfect answer for this. You could do either. I think I'd be
+in favour of keeping the exposure in lines so that the frame rate
+calculation works as expected, and adding a fine exposure control if
+needed. Does the sub-line exposure value include horizontal blanking?
 
-Rob
+-- 
+Regards,
+
+Sakari Ailus
