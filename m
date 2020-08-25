@@ -2,151 +2,364 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1B322519BC
-	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 15:36:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D32B251A7F
+	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 16:08:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726294AbgHYNf7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 09:35:59 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:46893 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725926AbgHYNfz (ORCPT
+        id S1726104AbgHYOIV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Aug 2020 10:08:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725947AbgHYOIU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 09:35:55 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 05F3758043B;
-        Tue, 25 Aug 2020 09:35:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 25 Aug 2020 09:35:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=o3DM9q4xD3PlbYRAzhhVCYF3CET
-        415QdokoMlj6SX04=; b=BChT55kFwSw7j8+CIiHPkKM9sRAi+fc6+qsXnTuQnlJ
-        kshksFW+GAAby5xApz6/s8d4qWwkAU1HoEKvej29hmu3P3XNH9LNmBUnswpr6giG
-        IUFvoB7SWDiJXYw4Z+tjuLHD6ozmF0pWwXkV4MnyypEDGLylGsC88vdjjSz0l29d
-        rzaOpFsHeVHCDDfVqylJI/gynC01t2PVRNOdBa6BeupD8hm150mwja48LsuTlyCg
-        DDh5eFhFRPw2Kw0B0FGyKtXFGqDCPW6U/+Alb3fL7+Ev+3B5sb5YThNEn+S4MS3G
-        JEFMYmUmoAnyRtxvuIv36JqdiqR+2UA1+6DBWZZ/EhA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=o3DM9q
-        4xD3PlbYRAzhhVCYF3CET415QdokoMlj6SX04=; b=st6JUplM5OW35O2QwSHbPq
-        jdwJ8L+dwm2FDSRdFOllNt4+1jzxWSX5Ts6jMhtrUYAFJPKZKTb0PgLqR6FirkE7
-        D8R8c5iq6UO1UkQrH92+t7n5O0Seku0IaXLMJXJ6wmnQFxzxbY/83C0Dxeoj/JRn
-        klbY8OswO7WmC2AQWm8tiYzEC8eJtDKM3mGvbbL89cPJiDko5LLNFsl+KkyRk69h
-        zF3M+zL22cEsJ8qJReNhPrSEeB4VUQ8tfW3pfpOcErsqq4jaS0WBD75C9a4ofP5V
-        CXG321p/ryiEkVPZOZf/8KmOC+vos4krZfApa2qVDrOSDWG9RYpR/fCm2rV8ELvQ
-        ==
-X-ME-Sender: <xms:uBNFX5lLYUUEjymn748AxUjjTsY1dxK14zLdUAvzP3GpzYvhdkgHPw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvtddgieelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepieelhfeihedvvdevfefhffettefhledufeevffffleegfedtueehveegtefg
-    teeunecuffhomhgrihhnpehtgihtrdhfrhgvvgenucfkphepledtrdekledrieekrdejie
-    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgig
-    ihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:uBNFX03CWptI3sDoAEzA0DZYahf2n-Koif-idSUBt707w4sY5YaYHw>
-    <xmx:uBNFX_pAkoxUDQAjF6g6NKEVbnwZ0nYL_Mt1LMgXYh3hbVV9X0TUrg>
-    <xmx:uBNFX5myATgrKHEYy88JTlZiONOK5qE5S0nPESFmmkXfXGWGMOb5Xw>
-    <xmx:uRNFX5yrPKaUDdx4FVY-BUB9M2fNVL48NE0PwnRQXM32poU2vlUMqw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 936D0306005F;
-        Tue, 25 Aug 2020 09:35:52 -0400 (EDT)
-Date:   Mon, 24 Aug 2020 18:59:10 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, wens@csie.org,
-        yong.deng@magewell.com, p.zabel@pengutronix.de,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        paul.kocialkowski@bootlin.com, thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH 2/7] dt-bindings: media: i2c: Add documentation for ov8865
-Message-ID: <20200824165910.tnsalyxfuimfx5rd@gilmour.lan>
-References: <20200821145935.20346-1-kevin.lhopital@bootlin.com>
- <20200821145935.20346-3-kevin.lhopital@bootlin.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xtnfj6i3cfctyq4u"
-Content-Disposition: inline
-In-Reply-To: <20200821145935.20346-3-kevin.lhopital@bootlin.com>
+        Tue, 25 Aug 2020 10:08:20 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29EBDC061574
+        for <linux-media@vger.kernel.org>; Tue, 25 Aug 2020 07:08:20 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id C74212948D8
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org
+Subject: [PATCH v2] utils: v4l2-ctl: support V4L2_CAP_IO_MC in v4l2-ctl '--list-formats-*' commands
+Date:   Tue, 25 Aug 2020 16:08:06 +0200
+Message-Id: <20200825140806.13978-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Add optional <mbus_code> arg to 'v4l2-ctl --list-formats-*'
+commands for capture, metadata and output devices.
+If <mbus_code> is given and the device has capability
+V4L2_CAP_IO_MC then list only the formats that matches the
+mbus code.
+The mbus_code is ignored for devices that don't use it
+or don't have the V4L2_CAP_IO_MC capability.
 
---xtnfj6i3cfctyq4u
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+changes since v1: fixes according to comments from Hans
 
-Hi,
+ utils/common/cv4l-helpers.h         |  3 ++-
+ utils/v4l2-ctl/v4l2-ctl-meta.cpp    | 20 ++++++++++++++++----
+ utils/v4l2-ctl/v4l2-ctl-overlay.cpp |  2 +-
+ utils/v4l2-ctl/v4l2-ctl-sdr.cpp     |  4 ++--
+ utils/v4l2-ctl/v4l2-ctl-vidcap.cpp  | 23 ++++++++++++++++++-----
+ utils/v4l2-ctl/v4l2-ctl-vidout.cpp  | 22 ++++++++++++++++------
+ utils/v4l2-ctl/v4l2-ctl.cpp         | 26 ++++++++++++++++----------
+ utils/v4l2-ctl/v4l2-ctl.h           |  4 ++--
+ 8 files changed, 73 insertions(+), 31 deletions(-)
 
-On Fri, Aug 21, 2020 at 04:59:30PM +0200, K=E9vin L'h=F4pital wrote:
-> Add a documentation for the sensor ov8865 from Omnivision.
->=20
-> Signed-off-by: K=E9vin L'h=F4pital <kevin.lhopital@bootlin.com>
+diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
+index 6295054a..3cee372b 100644
+--- a/utils/common/cv4l-helpers.h
++++ b/utils/common/cv4l-helpers.h
+@@ -483,12 +483,13 @@ public:
+ 		return cv4l_ioctl(VIDIOC_ENUM_DV_TIMINGS, &timings);
+ 	}
+ 
+-	int enum_fmt(v4l2_fmtdesc &fmt, bool init = false, int index = 0, unsigned type = 0)
++	int enum_fmt(v4l2_fmtdesc &fmt, bool init = false, int index = 0, unsigned type = 0, __u32 mbus_code = 0)
+ 	{
+ 		if (init) {
+ 			memset(&fmt, 0, sizeof(fmt));
+ 			fmt.type = type ? type : g_type();
+ 			fmt.index = index;
++			fmt.mbus_code = mbus_code;
+ 		} else {
+ 			fmt.index++;
+ 		}
+diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+index b4c7bb89..3382c631 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+@@ -18,11 +18,15 @@
+ #include "v4l2-ctl.h"
+ 
+ static struct v4l2_format vfmt;	/* set_format/get_format */
++static unsigned mbus_code;
+ 
+ void meta_usage()
+ {
+ 	printf("\nMetadata Formats options:\n"
+-	       "  --list-formats-meta display supported metadata capture formats [VIDIOC_ENUM_FMT]\n"
++	       "  --list-formats-meta [<mbus_code>] display supported metadata capture formats.\n"
++	       "		      <mbus_code> is an optional media bus code, if the driver has\n"
++	       "		      capability V4L2_CAP_IO_MC then only formats that support this\n"
++	       "		      media bus code are listed [VIDIOC_ENUM_FMT]\n"
+ 	       "  --get-fmt-meta      query the metadata capture format [VIDIOC_G_FMT]\n"
+ 	       "  --set-fmt-meta <f>  set the metadata capture format [VIDIOC_S_FMT]\n"
+ 	       "                     parameter is either the format index as reported by\n"
+@@ -30,7 +34,10 @@ void meta_usage()
+ 	       "  --try-fmt-meta <f>  try the metadata capture format [VIDIOC_TRY_FMT]\n"
+ 	       "                     parameter is either the format index as reported by\n"
+ 	       "                     --list-formats-meta, or the fourcc value as a string\n"
+-	       "  --list-formats-meta-out display supported metadata output formats [VIDIOC_ENUM_FMT]\n"
++	       "  --list-formats-meta-out [<mbus_code>] display supported metadata output formats.\n"
++	       "		      <mbus_code> is an optional media bus code, if the driver has\n"
++	       "		      capability V4L2_CAP_IO_MC then only formats that support this\n"
++	       "		      media bus code are listed [VIDIOC_ENUM_FMT]\n"
+ 	       "  --get-fmt-meta-out      query the metadata output format [VIDIOC_G_FMT]\n"
+ 	       "  --set-fmt-meta-out <f>  set the metadata output format [VIDIOC_S_FMT]\n"
+ 	       "                          parameter is either the format index as reported by\n"
+@@ -58,6 +65,11 @@ void meta_cmd(int ch, char *optarg)
+ 			vfmt.fmt.meta.dataformat = strtol(optarg, 0L, 0);
+ 		}
+ 		break;
++	case OptListMetaFormats:
++	case OptListMetaOutFormats:
++		if(optarg)
++			mbus_code = strtoul(optarg, 0L, 0);
++		break;
+ 	}
+ }
+ 
+@@ -120,12 +132,12 @@ void meta_list(cv4l_fd &fd)
+ {
+ 	if (options[OptListMetaFormats]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats(fd, V4L2_BUF_TYPE_META_CAPTURE);
++		print_video_formats(fd, V4L2_BUF_TYPE_META_CAPTURE, mbus_code);
+ 	}
+ 
+ 	if (options[OptListMetaOutFormats]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
++		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT, mbus_code);
+ 	}
+ }
+ 
+diff --git a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+index 7809a6db..75681332 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+@@ -539,7 +539,7 @@ void overlay_list(cv4l_fd &fd)
+ {
+ 	if (options[OptListOverlayFormats]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats(fd, V4L2_BUF_TYPE_VIDEO_OVERLAY);
++		print_video_formats(fd, V4L2_BUF_TYPE_VIDEO_OVERLAY, 0);
+ 	}
+ 	if (options[OptFindFb])
+ 		find_fb(fd.g_fd());
+diff --git a/utils/v4l2-ctl/v4l2-ctl-sdr.cpp b/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+index 7a36341a..5b724696 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+@@ -139,10 +139,10 @@ void sdr_list(cv4l_fd &fd)
+ {
+ 	if (options[OptListSdrFormats]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats(fd, V4L2_BUF_TYPE_SDR_CAPTURE);
++		print_video_formats(fd, V4L2_BUF_TYPE_SDR_CAPTURE, 0);
+ 	}
+ 	if (options[OptListSdrOutFormats]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats(fd, V4L2_BUF_TYPE_SDR_OUTPUT);
++		print_video_formats(fd, V4L2_BUF_TYPE_SDR_OUTPUT, 0);
+ 	}
+ }
+diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+index 5abab5e7..d0a0d120 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+@@ -23,13 +23,21 @@ static unsigned set_fmts;
+ static __u32 width, height, pixfmt, field, flags;
+ static __u32 bytesperline[VIDEO_MAX_PLANES];
+ static __u32 sizeimage[VIDEO_MAX_PLANES];
++static unsigned mbus_code;
+ 
+ void vidcap_usage()
+ {
+ 	printf("\nVideo Capture Formats options:\n"
+-	       "  --list-formats     display supported video formats [VIDIOC_ENUM_FMT]\n"
+-	       "  --list-formats-ext display supported video formats including frame sizes\n"
+-	       "                     and intervals\n"
++	       "  --list-formats [<mbus_code>]\n"
++	       "		     display supported video formats. <mbus_code> is an optional\n"
++	       "		     media bus code, if the driver has capability V4L2_CAP_IO_MC\n"
++	       "		     then only formats that support this media bus code are listed\n"
++	       "		     [VIDIOC_ENUM_FMT]\n"
++	       "  --list-formats-ext [<mbus_code>]\n"
++	       "		     display supported video formats including frame sizes and intervals\n"
++	       "		     <mbus_code> is an optional media bus code, if the driver has\n"
++	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
++	       "		     media bus code are listed [VIDIOC_ENUM_FMT]\n"
+ 	       "  --list-framesizes <f>\n"
+ 	       "                     list supported framesizes for pixelformat <f>\n"
+ 	       "                     [VIDIOC_ENUM_FRAMESIZES]\n"
+@@ -117,6 +125,11 @@ void vidcap_cmd(int ch, char *optarg)
+ 			std::exit(EXIT_FAILURE);
+ 		}
+ 		break;
++	case OptListFormats:
++	case OptListFormatsExt:
++		if(optarg)
++			mbus_code = strtoul(optarg, 0L, 0);
++		break;
+ 	case OptListFrameSizes:
+ 		be_pixfmt = strlen(optarg) == 7 && !memcmp(optarg + 4, "-BE", 3);
+ 		if (be_pixfmt || strlen(optarg) == 4) {
+@@ -298,12 +311,12 @@ void vidcap_list(cv4l_fd &fd)
+ {
+ 	if (options[OptListFormats]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats(fd, vidcap_buftype);
++		print_video_formats(fd, vidcap_buftype, mbus_code);
+ 	}
+ 
+ 	if (options[OptListFormatsExt]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats_ext(fd, vidcap_buftype);
++		print_video_formats_ext(fd, vidcap_buftype, mbus_code);
+ 	}
+ 
+ 	if (options[OptListFields]) {
+diff --git a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+index 5f433a17..563aae45 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+@@ -21,14 +21,19 @@ static unsigned set_fmts_out;
+ static __u32 width, height, pixfmt, field, colorspace, xfer_func, ycbcr, quantization, flags;
+ static __u32 bytesperline[VIDEO_MAX_PLANES];
+ static __u32 sizeimage[VIDEO_MAX_PLANES];
++static unsigned mbus_code;
+ 
+ void vidout_usage()
+ {
+ 	printf("\nVideo Output Formats options:\n"
+-	       "  --list-formats-out display supported video output formats [VIDIOC_ENUM_FMT]\n"
+-	       "  --list-formats-out-ext\n"
+-	       "                     display supported video output formats including frame sizes\n"
+-	       "                     and intervals\n"
++	       "  --list-formats-out [<mbus_code>] display supported video output formats.\n"
++	       "		     <mbus_code> is an optional media bus code, if the driver has\n"
++	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
++	       "		     media bus code are listed [VIDIOC_ENUM_FMT]\n"
++	       "  --list-formats-out-ext [<mbus_code>] display supported video output formats including\n"
++	       "		     frame sizes and intervals. <mbus_code> is an optional media bus code,\n"
++	       "		     if the driver has capability V4L2_CAP_IO_MC then only formats that\n"
++	       "		     support this media bus code are listed [VIDIOC_ENUM_FMT]\n"
+ 	       "  --list-fields-out  list supported fields for the current output format\n"
+ 	       "  -X, --get-fmt-video-out\n"
+ 	       "     		     query the video output format [VIDIOC_G_FMT]\n"
+@@ -103,6 +108,11 @@ void vidout_cmd(int ch, char *optarg)
+ 			std::exit(EXIT_FAILURE);
+ 		}
+ 		break;
++	case OptListOutFormats:
++	case OptListOutFormatsExt:
++		if(optarg)
++			mbus_code = strtoul(optarg, 0L, 0);
++		break;
+ 	}
+ }
+ 
+@@ -233,12 +243,12 @@ void vidout_list(cv4l_fd &fd)
+ {
+ 	if (options[OptListOutFormats]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats(fd, vidout_buftype);
++		print_video_formats(fd, vidout_buftype, mbus_code);
+ 	}
+ 
+ 	if (options[OptListOutFormatsExt]) {
+ 		printf("ioctl: VIDIOC_ENUM_FMT\n");
+-		print_video_formats_ext(fd, vidout_buftype);
++		print_video_formats_ext(fd, vidout_buftype, mbus_code);
+ 	}
+ 
+ 	if (options[OptListOutFields]) {
+diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+index a31b29f8..c01ee883 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+@@ -114,18 +114,18 @@ static struct option long_options[] = {
+ 	{"get-freq", no_argument, 0, OptGetFreq},
+ 	{"set-freq", required_argument, 0, OptSetFreq},
+ 	{"list-standards", no_argument, 0, OptListStandards},
+-	{"list-formats", no_argument, 0, OptListFormats},
+-	{"list-formats-ext", no_argument, 0, OptListFormatsExt},
++	{"list-formats", optional_argument, 0, OptListFormats},
++	{"list-formats-ext", optional_argument, 0, OptListFormatsExt},
+ 	{"list-fields", no_argument, 0, OptListFields},
+ 	{"list-framesizes", required_argument, 0, OptListFrameSizes},
+ 	{"list-frameintervals", required_argument, 0, OptListFrameIntervals},
+ 	{"list-formats-overlay", no_argument, 0, OptListOverlayFormats},
+ 	{"list-formats-sdr", no_argument, 0, OptListSdrFormats},
+ 	{"list-formats-sdr-out", no_argument, 0, OptListSdrOutFormats},
+-	{"list-formats-out", no_argument, 0, OptListOutFormats},
+-	{"list-formats-out-ext", no_argument, 0, OptListOutFormatsExt},
+-	{"list-formats-meta", no_argument, 0, OptListMetaFormats},
+-	{"list-formats-meta-out", no_argument, 0, OptListMetaOutFormats},
++	{"list-formats-out", optional_argument, 0, OptListOutFormats},
++	{"list-formats-out-ext", optional_argument, 0, OptListOutFormatsExt},
++	{"list-formats-meta", optional_argument, 0, OptListMetaFormats},
++	{"list-formats-meta-out", optional_argument, 0, OptListMetaOutFormats},
+ 	{"list-subdev-mbus-codes", optional_argument, 0, OptListSubDevMBusCodes},
+ 	{"list-subdev-framesizes", required_argument, 0, OptListSubDevFrameSizes},
+ 	{"list-subdev-frameintervals", required_argument, 0, OptListSubDevFrameIntervals},
+@@ -612,13 +612,16 @@ void print_frmival(const struct v4l2_frmivalenum &frmival, const char *prefix)
+ 	}
+ }
+ 
+-void print_video_formats(cv4l_fd &fd, __u32 type)
++void print_video_formats(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+ {
+ 	cv4l_disable_trace dt(fd);
+ 	struct v4l2_fmtdesc fmt = {};
+ 
++	if (mbus_code && !(capabilities & V4L2_CAP_IO_MC))
++		mbus_code = 0;
++
+ 	printf("\tType: %s\n\n", buftype2s(type).c_str());
+-	if (fd.enum_fmt(fmt, true, 0, type))
++	if (fd.enum_fmt(fmt, true, 0, type, mbus_code))
+ 		return;
+ 	do {
+ 		printf("\t[%d]: '%s' (%s", fmt.index, fcc2s(fmt.pixelformat).c_str(),
+@@ -629,15 +632,18 @@ void print_video_formats(cv4l_fd &fd, __u32 type)
+ 	} while (!fd.enum_fmt(fmt));
+ }
+ 
+-void print_video_formats_ext(cv4l_fd &fd, __u32 type)
++void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+ {
+ 	cv4l_disable_trace dt(fd);
+ 	struct v4l2_fmtdesc fmt = {};
+ 	struct v4l2_frmsizeenum frmsize;
+ 	struct v4l2_frmivalenum frmival;
+ 
++	if (mbus_code && !(capabilities & V4L2_CAP_IO_MC))
++		mbus_code = 0;
++
+ 	printf("\tType: %s\n\n", buftype2s(type).c_str());
+-	if (fd.enum_fmt(fmt, true, 0, type))
++	if (fd.enum_fmt(fmt, true, 0, type, mbus_code))
+ 		return;
+ 	do {
+ 		printf("\t[%d]: '%s' (%s", fmt.index, fcc2s(fmt.pixelformat).c_str(),
+diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+index 4acb4d51..e906dc73 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.h
++++ b/utils/v4l2-ctl/v4l2-ctl.h
+@@ -321,8 +321,8 @@ bool valid_pixel_format(int fd, __u32 pixelformat, bool output, bool mplane);
+ void print_frmsize(const struct v4l2_frmsizeenum &frmsize, const char *prefix);
+ void print_frmival(const struct v4l2_frmivalenum &frmival, const char *prefix);
+ void printfmt(int fd, const struct v4l2_format &vfmt);
+-void print_video_formats(cv4l_fd &fd, __u32 type);
+-void print_video_formats_ext(cv4l_fd &fd, __u32 type);
++void print_video_formats(cv4l_fd &fd, __u32 type, unsigned int mbus_code);
++void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code);
+ 
+ static inline bool subscribe_event(cv4l_fd &fd, __u32 type)
+ {
+-- 
+2.17.1
 
-In order to ease the submission of both drivers, you should probably
-split this series into two, one with the MIPI-CSI driver, and one with
-the ov8865 driver.
-
-> ---
->  .../devicetree/bindings/media/i2c/ov8865.txt  | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8865.txt
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov8865.txt b/Doc=
-umentation/devicetree/bindings/media/i2c/ov8865.txt
-> new file mode 100644
-> index 000000000000..ac5a662288de
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov8865.txt
-> @@ -0,0 +1,51 @@
-> +* Omnivision OV8865 MIPI CSI-2
-> +
-> +Required Properties:
-> +- compatible: should be "ovti,ov8865"
-> +- clocks: reference to the xclk input clock.
-> +- clock-names: should be "xclk".
-> +- DOVDD-supply: Digital I/O voltage supply, 2.8 volts
-> +- AVDD-supply: Analog voltage supply, 2.8 volts
-> +- AFVDD-supply: Analog voltage supply, 2.8 volts
-> +- DVDD-supply: Digital core voltage supply, 1.2 volts
-> +- reset-gpios: reference to the GPIO connected to the reset pin.
-> +	       This is an active low signal to the OV8865.
-> +- powerdown-gpios: reference to the GPIO connected to the powerdown pin.
-> +		   This is an active low signal to the OV8865.
-> +- rotation: as defined in
-> +	    Documentation/devicetree/bindings/media/video-interfaces.txt,
-> +	    valid values are 0 (sensor mounted upright) and 180 (sensor
-> +	    mounted upside down).
-> +- remote-endpoint: a phandle to the bus receiver's endpoint node.
-> +- clock-lanes: should be set to <0> (clock lane on hardware lane 0).
-> +- data-lanes: should be set to <4> (four CSI-2 lanes supported).
-> +
-> +The device node must contain one 'port' child node for its digital outpu=
-t video
-> +port, in accordance with the video interface bindings defined in
-> +Documentation/devicetree/bindings/media/video-interfaces.txt.
-
-Free form DT documentation is deprecated nowadays, you should be doing a
-YAML schema instead (like the ov8856 driver).
-
-Maxime
-
---xtnfj6i3cfctyq4u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX0Px3gAKCRDj7w1vZxhR
-xVh1AQCXN4oPv9EvypG1mqiavakQAN3yVKv1Bxmf8WFmqxncTgD+LX/4kcbBu+/e
-lzYGE1BdHmnYoYTM2IVwfxRIqJryjQM=
-=L8ao
------END PGP SIGNATURE-----
-
---xtnfj6i3cfctyq4u--
