@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7702225103C
+	by mail.lfdr.de (Postfix) with ESMTP id E2A2825103D
 	for <lists+linux-media@lfdr.de>; Tue, 25 Aug 2020 05:54:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728822AbgHYDyg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Aug 2020 23:54:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46530 "EHLO
+        id S1728396AbgHYDyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Aug 2020 23:54:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728197AbgHYDyf (ORCPT
+        with ESMTP id S1728191AbgHYDyk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Aug 2020 23:54:35 -0400
+        Mon, 24 Aug 2020 23:54:40 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A4C5C061574;
-        Mon, 24 Aug 2020 20:54:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37707C061574;
+        Mon, 24 Aug 2020 20:54:40 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 20E6A298CD5
+        with ESMTPSA id EEFBF298CBD
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
@@ -31,9 +31,9 @@ Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v4 17/19] media: rkvdec: Use H264_SCALING_MATRIX only when required
-Date:   Tue, 25 Aug 2020 00:52:43 -0300
-Message-Id: <20200825035245.594982-18-ezequiel@collabora.com>
+Subject: [PATCH v4 18/19] media: hantro: Use H264_SCALING_MATRIX only when required
+Date:   Tue, 25 Aug 2020 00:52:44 -0300
+Message-Id: <20200825035245.594982-19-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200825035245.594982-1-ezequiel@collabora.com>
 References: <20200825035245.594982-1-ezequiel@collabora.com>
@@ -54,59 +54,54 @@ set the V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX control
 and set the V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT
 flag only when a scaling matrix is specified for a picture.
 
-Implement this on rkvdec, which has hardware support for this
+Implement this on hantro, which has hardware support for this
 case.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Tested-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- drivers/staging/media/rkvdec/rkvdec-h264.c | 10 +++++++---
- drivers/staging/media/rkvdec/rkvdec.c      |  1 -
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c | 5 ++---
+ drivers/staging/media/hantro/hantro_h264.c        | 4 ++++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index c45cd1617b3b..7cc3b478a5f4 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -708,9 +708,9 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 	WRITE_PPS(pps->second_chroma_qp_index_offset,
- 		  SECOND_CHROMA_QP_INDEX_OFFSET);
+diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+index f9839e9c6da5..845bef73d218 100644
+--- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+@@ -59,9 +59,8 @@ static void set_params(struct hantro_ctx *ctx)
+ 	reg = G1_REG_DEC_CTRL2_CH_QP_OFFSET(pps->chroma_qp_index_offset) |
+ 	      G1_REG_DEC_CTRL2_CH_QP_OFFSET2(pps->second_chroma_qp_index_offset);
  
 -	/* always use the matrix sent from userspace */
--	WRITE_PPS(1, SCALING_LIST_ENABLE_FLAG);
+-	reg |= G1_REG_DEC_CTRL2_TYPE1_QUANT_E;
 -
-+	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT),
-+		  SCALING_LIST_ENABLE_FLAG);
-+	/* To be on the safe side, program the scaling matrix address */
- 	scaling_distance = offsetof(struct rkvdec_h264_priv_tbl, scaling_list);
- 	scaling_list_address = h264_ctx->priv_tbl.dma + scaling_distance;
- 	WRITE_PPS(scaling_list_address, SCALING_LIST_ADDRESS);
-@@ -792,9 +792,13 @@ static void assemble_hw_scaling_list(struct rkvdec_ctx *ctx,
- 				     struct rkvdec_h264_run *run)
++	if (pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT)
++		reg |= G1_REG_DEC_CTRL2_TYPE1_QUANT_E;
+ 	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+ 		reg |= G1_REG_DEC_CTRL2_FIELDPIC_FLAG_E;
+ 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL2);
+diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+index 6887318ed4d8..8af399c8d20e 100644
+--- a/drivers/staging/media/hantro/hantro_h264.c
++++ b/drivers/staging/media/hantro/hantro_h264.c
+@@ -197,6 +197,7 @@ assemble_scaling_list(struct hantro_ctx *ctx)
  {
- 	const struct v4l2_ctrl_h264_scaling_matrix *scaling = run->scaling_matrix;
-+	const struct v4l2_ctrl_h264_pps *pps = run->pps;
- 	struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
- 	struct rkvdec_h264_priv_tbl *tbl = h264_ctx->priv_tbl.cpu;
+ 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
+ 	const struct v4l2_ctrl_h264_scaling_matrix *scaling = ctrls->scaling;
++	const struct v4l2_ctrl_h264_pps *pps = ctrls->pps;
+ 	const size_t num_list_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4);
+ 	const size_t list_len_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4[0]);
+ 	const size_t list_len_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8[0]);
+@@ -205,6 +206,9 @@ assemble_scaling_list(struct hantro_ctx *ctx)
+ 	const u32 *src;
+ 	int i, j;
  
 +	if (!(pps->flags & V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT))
 +		return;
 +
- 	BUILD_BUG_ON(sizeof(tbl->scaling_list.scaling_list_4x4) !=
- 		     sizeof(scaling->scaling_list_4x4));
- 	BUILD_BUG_ON(sizeof(tbl->scaling_list.scaling_list_8x8) !=
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 9f59dfb62d3f..d25c4a37e2af 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -68,7 +68,6 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
- 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PPS,
- 	},
- 	{
--		.mandatory = true,
- 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
- 	},
- 	{
+ 	for (i = 0; i < num_list_4x4; i++) {
+ 		src = (u32 *)&scaling->scaling_list_4x4[i];
+ 		for (j = 0; j < list_len_4x4 / 4; j++)
 -- 
 2.27.0
 
