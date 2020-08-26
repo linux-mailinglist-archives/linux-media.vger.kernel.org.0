@@ -2,136 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 940FE252ABC
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 11:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4C91252B80
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 12:38:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728247AbgHZJwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 05:52:16 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:37998 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728121AbgHZJwP (ORCPT
+        id S1728583AbgHZKi5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 06:38:57 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33469 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728529AbgHZKi4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 05:52:15 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9malW168699;
-        Wed, 26 Aug 2020 09:52:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=puG6dn/0ZJ/S9eYVShDLSjSPKteNXnTDwq9+go1akjA=;
- b=wz3K0+h++jsK1mSFm80F42A8wKBHb/1KQIqOGgwGSfnKYECH26biQ3pFDGAS55vS4Xf3
- RM7QuvSza1jG41Z7CMlMx8ULnxzPOaZeSQIEjZFdiwvPhf0oSD63jesA2Ponpu5y4NXO
- tFR4CMbj++gRzz8ZhugnxdLtVU+ym/1LJcUXsWRzE0RxF6m1CFIUpRnJlk7e/0Xno4n9
- Nu/2Vt35D+QE4YxjTzlQV+xqTHeq/EE3a5+FzjiX/3IXF5JfODJU2RTuBijkXi4z/NR+
- W4wYdgqXNx9sEERAVC9PBQtrjSAvR/mAxZffqeLel7F7nIEwI+9am4zdeXET1YdQ9x1D Qg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 335gw819ft-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 26 Aug 2020 09:52:10 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9ko6O101234;
-        Wed, 26 Aug 2020 09:50:09 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 333r9kxw1r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 26 Aug 2020 09:50:09 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07Q9o7ql023582;
-        Wed, 26 Aug 2020 09:50:08 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 26 Aug 2020 02:50:07 -0700
-Date:   Wed, 26 Aug 2020 12:50:00 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Cc:     devel@driverdev.osuosl.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: media-atomisp : fix "dubious: !x | !y" sparse
- warning
-Message-ID: <20200826095000.GW1793@kadam>
-References: <20200825220437.11214-1-anant.thazhemadam@gmail.com>
+        Wed, 26 Aug 2020 06:38:56 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id AspQkiMgPuuXOAspSkD1Xj; Wed, 26 Aug 2020 12:38:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598438334; bh=XtGkgUoLVCPWx3PXuq+lfKVoXfsrGQlVwwqUiTM8Ih0=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=rwwH7ITuwKKLvuhVjcoyQy0J0ZstL6u7TmckPjZB6eQoW8S10rvcdU6iK7ThOQNkH
+         SXyrPDad5qPLbPIhKypt6Cx1f0cCP77YUNC9rSDSwQyiDNbva0iPwH8uIksdMi+q6q
+         +EANo84Gs8ydYlyQhsRtFs+d9e6dHQp/pPIxbtjymMmOMuouex8VDq59d3NqnIGdcj
+         ZtmHJau0wyhWGatjIXaXCwjHFcJu0+qxvYdzqrtrN26NNni6f6UIXC9+jiM85ZRKM/
+         RtaXIMkAh3xJjNmH5p7jT6u1k2USdUUU0eO0AYgt3dIJa4idcrZDOpGh4JYFGXT+ig
+         HfGRw9EuoxvwA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.10] Various fixes
+Message-ID: <21d6760d-1ed4-303b-2436-b3c004275d69@xs4all.nl>
+Date:   Wed, 26 Aug 2020 12:38:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200825220437.11214-1-anant.thazhemadam@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 bulkscore=0
- adultscore=0 spamscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008260077
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 lowpriorityscore=0
- mlxscore=0 phishscore=0 bulkscore=0 impostorscore=0 adultscore=0
- malwarescore=0 clxscore=1011 spamscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008260078
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBtfndxGxWZuseNusjkEVgR7p2uHdpREcWLmxp/9JAmxc7jFJpofDuchIzBo/w5XUe8owiaBxamXAMk8KGCbsEdVIwy4e+rDZ4U7X6XGkIVMeMEB9LHD
+ HN50IBvrbAb9l3Q690Oli0+BeeN5eLTGJESbMgRAYuXhU0pCpZ4dX8mQXsWYxmabg7tkflhpWio3AwUpfvWs8DdDUmyJfARCL1whS19DbgiyiFWiLHWfp5vu
+ WP2rfFmVt5Y4Co8TFrbFDI26XnJYB9ngEE991UabOAo=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 03:34:26AM +0530, Anant Thazhemadam wrote:
-> Upon running sparse, "warning: dubious: !x | !y" is brought to notice
-> for this file. This patch fixes that warning.
-> 
-> If there's a specific reason that this change is considered undesirable, 
-> please do let me know why.
-> Thanks.
+The following changes since commit 9a538b83612c8b5848bf840c2ddcd86dda1c8c76:
 
-Please don't put this sort of comments in the commit message.  You can
-put it under the --- cut off
+  media: venus: core: Add support for opp tables/perf voting (2020-08-18 15:55:56 +0200)
 
-> 
-> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-> ---
-  ^^^
-here.  Then it will be removed instead of going into the permanent git
-log.
+are available in the Git repository at:
 
-Please always say int the commit message how the patch will affect the
-runtime behavior of the kernel.  In this case it will not affect it at
-all.  It's just a clean up.  Her is my proposed commit message if you
-want:
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.10c
 
-Subject: [PATCH] staging: media-atomisp : silence "dubious: !x | !y" warning
+for you to fetch changes up to 696c69d9cd00ef9b2b4101c727b1d4580347b56c:
 
-Upon running sparse, "warning: dubious: !x | !y" is brought to notice
-for this file.  Logical and bitwise OR are basically the same in this
-context so it doesn't cause a runtime bug.  But let's change it to
-logical OR to make it cleaner and silence the Sparse warning.
+  MAINTAINERS: add Dafna Hirschfeld for rkisp1 (2020-08-26 10:57:43 +0200)
 
-regards,
-dan carpenter
+----------------------------------------------------------------
+Tag branch
 
+----------------------------------------------------------------
+Alexandre Courbot (1):
+      media: mtk-vcodec: fix Kconfig help text
 
+Christopher Snowhill (1):
+      Implements support for the MyGica iGrabber
 
+Hans Verkuil (2):
+      dev-sliced-vbi.rst: fix wrong type
+      videodev2.h: RGB BT2020 and HSV are always full range
 
+Helen Koike (1):
+      MAINTAINERS: add Dafna Hirschfeld for rkisp1
 
->  .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> index 358cb7d2cd4c..3b850bb2d39d 100644
-> --- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> @@ -58,7 +58,7 @@ sh_css_vf_downscale_log2(
->  	unsigned int ds_log2 = 0;
->  	unsigned int out_width;
->  
-> -	if ((!out_info) | (!vf_info))
-> +	if ((!out_info) || (!vf_info))
->  		return -EINVAL;
->  
->  	out_width = out_info->res.width;
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> devel mailing list
-> devel@linuxdriverproject.org
-> http://driverdev.linuxdriverproject.org/mailman/listinfo/driverdev-devel
+Hsin-Yi Wang (1):
+      media: mtk-vcodec: set dma max segment size
+
+Peilin Ye (2):
+      vivid: Fix global-out-of-bounds read in precalculate_color()
+      v4l2-tpg: Clamp hue in tpg_s_hue()
+
+Tom Rix (1):
+      media: tuner-simple: fix regression in simple_set_radio_freq
+
+Tomasz Figa (3):
+      MAINTAINERS: Make Tomasz the main maintainer of videobuf2
+      MAINTAINERS: Remove Kyungmin from the maintainers list of videobuf2
+      MAINTAINERS: Remove Pawel from the maintainers list of videobuf2
+
+Tong Zhang (1):
+      media: pvrusb2: fix parsing error
+
+ Documentation/userspace-api/media/v4l/colorspaces-defs.rst    |  9 ++++-----
+ Documentation/userspace-api/media/v4l/colorspaces-details.rst |  5 ++---
+ Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst      |  2 +-
+ MAINTAINERS                                                   |  5 ++---
+ drivers/media/platform/Kconfig                                |  4 ++--
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c        |  8 ++++++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c        |  8 ++++++++
+ drivers/media/test-drivers/vivid/vivid-meta-out.c             |  9 +++++----
+ drivers/media/tuners/tuner-simple.c                           |  5 +++--
+ drivers/media/usb/em28xx/em28xx-cards.c                       | 22 ++++++++++++++++++++++
+ drivers/media/usb/em28xx/em28xx.h                             |  1 +
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c                       |  5 ++---
+ include/media/tpg/v4l2-tpg.h                                  |  1 +
+ include/uapi/linux/videodev2.h                                | 17 ++++++++---------
+ 14 files changed, 69 insertions(+), 32 deletions(-)
