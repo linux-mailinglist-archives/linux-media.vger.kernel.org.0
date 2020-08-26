@@ -2,367 +2,262 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD05B252755
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 08:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E3C82527CD
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 08:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727048AbgHZGgx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 02:36:53 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:39945 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727046AbgHZGgc (ORCPT
+        id S1726751AbgHZGwJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 02:52:09 -0400
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:60067 "EHLO
+        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726707AbgHZGwJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 02:36:32 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200826063630euoutp02651342d2d27dc1e6a46403e6294e4cef~uvfgCramo1512715127euoutp025
-        for <linux-media@vger.kernel.org>; Wed, 26 Aug 2020 06:36:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200826063630euoutp02651342d2d27dc1e6a46403e6294e4cef~uvfgCramo1512715127euoutp025
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1598423790;
-        bh=6nzs+//cqnv2gdRh2O3oHyA1orygL5sUpA1hIU76qP4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=p12AyAg6QfZBkshz2a4UF8U/+p+ls+IpPh+kG1agUPw3SVV4NHdFpFXDHBiDh0VvU
-         jc7NRBUZa7nF4kL/WJyYaleobadRT6snWYwuX8jYbK5fe8l+UcqOT9g/sRt/rflC2P
-         rg26SAGO34gGos9Z+mj8stOklgiu6eGrnEBgdPss=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200826063630eucas1p15db3537c013f0a3a42dbef31cb90c2a9~uvffvsXqY2388623886eucas1p1C;
-        Wed, 26 Aug 2020 06:36:30 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 67.DD.05997.EE2064F5; Wed, 26
-        Aug 2020 07:36:30 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4~uvffXj8Jx2518025180eucas1p1f;
-        Wed, 26 Aug 2020 06:36:29 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200826063629eusmtrp2b08e209f1a34f92878bb1ebb1bf81fc2~uvffWwVpJ0466204662eusmtrp2g;
-        Wed, 26 Aug 2020 06:36:29 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-64-5f4602ee98b9
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id C9.73.06017.DE2064F5; Wed, 26
-        Aug 2020 07:36:29 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200826063629eusmtip224caf2afa6c7d96d3a0fb140cf493623~uvfeqzoDj0091500915eusmtip2X;
-        Wed, 26 Aug 2020 06:36:29 +0000 (GMT)
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-To:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Pawel Osciak <pawel@osciak.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v9 32/32] videobuf2: use sgtable-based scatterlist wrappers
-Date:   Wed, 26 Aug 2020 08:33:16 +0200
-Message-Id: <20200826063316.23486-33-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200826063316.23486-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSe1BMURyec19722nNtTTOeFsymEkiOmRCg7lGjf5iGCtLVx7b1uxtezBD
-        ajTaXoRhqlFMkpSttZLehbYmrUol49FjMxXKo7VTMa3dbvjvO9/3/c73/c4cGpeayLn0CVU4
-        p1YplDJKTJTUj790G8F2Bq65UzsDJZsaMVR8Q0ciW8llHLX//Eqhe/efYyi72hs1x34RIUt7
-        L4b05k4SvSrLpFBS0SMSFT57L0K5+t8Yujo8LkK13/pJNHphktrKsAU3CwCbEdNKsJXWbILV
-        5ydQ7GNrD8l2Jxox9mHOOfbtpBlnr3TdBWz5mxiKNU8MUWyKIR+wo/qFAZID4s1BnPJEBKd2
-        9zksPj7wvQaE/dwT1VrVIIoBeb5a4ERDxhNesX7HtEBMS5k8ANsqDZhDkDIWAJsfRwnCKIC6
-        LCPxd6I7UScShLsADqQWTh/sE+UtCcDhohgPqB3WUg48m7kAYEOys8OEMx04TGrLJx3CLGY3
-        zDD/wh2YYFyhbXJ0KlvC+MCxD32kELcI3i+qmfI42XljYiol8EMiaNPKBbwdVqQbcAHPgp+M
-        BpGA50Pbk6yp5SATB2CvSagKmSQAX8XeAILLG74zTdhvpe31VkJdmbtAb4M/PtYTDhoyM2DX
-        8EwHjdthWsl1XKAl8GK8VHAvh+nGB/9ia1vapuuwsPN8AiU86WUAJ8xnL4FF6f+zsgHIB3M4
-        DR8SzPFrVVzkal4RwmtUwauPhobogf2XNU0aLaWg7PeROsDQQOYsyaZ2BEpJRQQfHVIHII3L
-        Zkt8m5sOSSVBiujTnDo0UK1RcnwdmEcTsjmSdbeH5FImWBHOneK4ME79V8Vop7kxIPOzy0bv
-        Uq+9HTVPhxbs42755bh2Lqt4FNdV0bhYXq/ZErTZ1qNO6x6L8wvv92LPSFqr3lgH+TzP3GM+
-        JxuAy4s01LB0sKA/4D29b0XX6z6N1X2/Mr4xa9e1Df468w7nhZ7rq01H4jd5cKmRqW7+KZat
-        S2xilZw4uP35SHnxKipTRvDHFR6rcDWv+AOsEwvIYQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRmVeSWpSXmKPExsVy+t/xe7pvmdziDY5MMLboPXeSyWLjjPWs
-        Fv+3TWS2uPL1PZvFytVHmSwW7Le2ONv0ht3iy5WHTBabHl9jtbi8aw6bRc+GrawWa4/cZbdY
-        tukPk8WUtz/ZLQ5+eMJq8bn1H5uDgMeaeWsYPWY3XGTx2PttAYvHplWdbB7bvz1g9bjffZzJ
-        Y/OSeo/b/x4ze0y+sZzRY/fNBjaPx79esnn0bVnF6PF5k1wAb5SeTVF+aUmqQkZ+cYmtUrSh
-        hZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexvOPBxgLvvpXXNx3gr2BcYVTFyMn
-        h4SAicT97vXsXYxcHEICSxkl2p+dYoFIyEicnNbACmELS/y51sUGUfSJUWJi8yJGkASbgKFE
-        11uIhIhAJ6PEtO6PYKOYBe4zS/xvmM4GUiUs4C0x+/FvZhCbRUBV4v+/z0wgNq+AncSPe4+g
-        VshLrN5wAKyGEyh+vLsfrFdIwFbi9NoZzBMY+RYwMqxiFEktLc5Nzy020itOzC0uzUvXS87P
-        3cQIjK9tx35u2cHY9S74EKMAB6MSD+8CNtd4IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW
-        5ccXleakFh9iNAU6aiKzlGhyPjD280riDU0NzS0sDc2NzY3NLJTEeTsEDsYICaQnlqRmp6YW
-        pBbB9DFxcEo1MAa9S+Toruabsmf67vM3OrOSyw9svrhMTCgmf/vvtysWGLzk7Vul3pD7cNm0
-        gvW3lWVDVQ8b1Yub+b34qn+j0D55e7JPEMNufuVry755/7xj9kY75gLL/uBqxpaJTpsu83wt
-        VLgww9PzwZy7s6v3uQk9MDnQIfR+ddWHJtPkLq/Us7aK6TrN/5VYijMSDbWYi4oTAVbGXErF
-        AgAA
-X-CMS-MailID: 20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4
-References: <20200826063316.23486-1-m.szyprowski@samsung.com>
-        <CGME20200826063629eucas1p194665c749b5a37c74e6445370fd7f7c4@eucas1p1.samsung.com>
+        Wed, 26 Aug 2020 02:52:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1598424730; x=1629960730;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SI8j6m6I3e4k4zKG9EdeKsk+0HOf3F01qwpYDXe2Ni8=;
+  b=JvLFDBMUmqKUWkf4z89/Ilh5tld5H6qt9DdnMKTBIqH7QhImXUKgTTel
+   X6p/LraFfxkVCDCyPridQTlGmLWyWJgNydCQ7c8KmqiAHee2yYrcWaqFu
+   /ImLGXgUI3C95MA9pL8xO3W+StW+t43KQ8RulyojmnkmoNtmnxjknGVk7
+   +cnyKldDMDmOO9UhE6wm+hVKavyTiu1UcuAhNsH4QAAcUBR3o1tow/eaK
+   Ow4c18dro/1zYPtLz/UmE/ibwq2DF0KYqqpd5xxcSqHXbLP+Pm2eMi+oG
+   RV679jj2lcPhnImO2lYKtlAzw+q7kjrj56tGzB7G5Ve68PA+YmOSZQY9U
+   g==;
+IronPort-SDR: +BTtOBHd/Av6g0eiPDp5dgkPCHQaItVSWDbEGQ+TT7pi9LjMsDRQ50bowlH2BrDkwYeh2+2z+6
+ 7YgMqraxOGPeohFzOPWihOYjbeqDcG+evqUeKwn5IPUVhOS3AZzZ9M/9YKkDFQPocc15OoJxto
+ SkwTkPH5I9A3VS7akiQDASYkQyow0jXA2SfxKclcmI5I4HNa3RzOJS+dpjbe4MbEQwWnoGZZlA
+ 0MMSmo+isnknb6r+Y0fa2p2qwFWmVYhsFGyGMqljisDMpRklo2bYlQlmOwi/y+WAQcIqUqkUnj
+ ut0=
+X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
+   d="scan'208";a="88565025"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 25 Aug 2020 23:52:08 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Tue, 25 Aug 2020 23:51:18 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.1979.3 via Frontend Transport; Tue, 25 Aug 2020 23:51:54 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <robh+dt@kernel.org>, <sakari.ailus@iki.fi>,
+        <linux-media@vger.kernel.org>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH v3 1/3] dt-bindings: media: atmel: csi2dc: add bindings for microchip csi2dc
+Date:   Wed, 26 Aug 2020 09:51:40 +0300
+Message-ID: <20200826065142.205000-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use recently introduced common wrappers operating directly on the struct
-sg_table objects and scatterlist page iterators to make the code a bit
-more compact, robust, easier to follow and copy/paste safe.
+Add bindings documentation for Microchip CSI2 Demultiplexer controller.
 
-No functional change, because the code already properly did all the
-scaterlist related calls.
+CSI2DC is a demultiplexer from Synopsys IDI interface specification to
+parallel interface connection or direct memory access.
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
- .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
- .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
- .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
- 3 files changed, 31 insertions(+), 47 deletions(-)
+Changes in v3:
+- Removed some text from description, as it was explained in the schema
+- fixed other things as per Rob's review
+- moved some text inside the schema, like the clock description
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index ec3446cc45b8..1b242d844dde 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -58,10 +58,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
- 	unsigned int i;
- 	unsigned long size = 0;
- 
--	for_each_sg(sgt->sgl, s, sgt->nents, i) {
-+	for_each_sgtable_dma_sg(sgt, s, i) {
- 		if (sg_dma_address(s) != expected)
- 			break;
--		expected = sg_dma_address(s) + sg_dma_len(s);
-+		expected += sg_dma_len(s);
- 		size += sg_dma_len(s);
- 	}
- 	return size;
-@@ -103,8 +103,7 @@ static void vb2_dc_prepare(void *buf_priv)
- 	if (!sgt)
- 		return;
- 
--	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
--			       buf->dma_dir);
-+	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void vb2_dc_finish(void *buf_priv)
-@@ -115,7 +114,7 @@ static void vb2_dc_finish(void *buf_priv)
- 	if (!sgt)
- 		return;
- 
--	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
-+	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
- }
- 
- /*********************************************/
-@@ -275,8 +274,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 		 * memory locations do not require any explicit cache
- 		 * maintenance prior or after being used by the device.
- 		 */
--		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -301,8 +300,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
-@@ -310,9 +309,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 	 * mapping to the client with new direction, no cache sync
- 	 * required see comment in vb2_dc_dmabuf_ops_detach()
- 	 */
--	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
-@@ -455,8 +453,8 @@ static void vb2_dc_put_userptr(void *buf_priv)
- 		 * No need to sync to CPU, it's already synced to the CPU
- 		 * since the finish() memop will have been called before this.
- 		 */
--		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		pages = frame_vector_pages(buf->vec);
- 		/* sgt should exist only if vector contains pages... */
- 		BUG_ON(IS_ERR(pages));
-@@ -553,9 +551,8 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (sgt->nents <= 0) {
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC)) {
- 		pr_err("failed to map scatterlist\n");
- 		ret = -EIO;
- 		goto fail_sgt_init;
-@@ -577,8 +574,7 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
- 	return buf;
- 
- fail_map_sg:
--	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--			   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 
- fail_sgt_init:
- 	sg_free_table(sgt);
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index 0a40e00f0d7e..0dd3b19025e0 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -148,9 +148,8 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents)
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC))
- 		goto fail_map;
- 
- 	buf->handler.refcount = &buf->refcount;
-@@ -186,8 +185,8 @@ static void vb2_dma_sg_put(void *buf_priv)
- 	if (refcount_dec_and_test(&buf->refcount)) {
- 		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
- 			buf->num_pages);
--		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		if (buf->vaddr)
- 			vm_unmap_ram(buf->vaddr, buf->num_pages);
- 		sg_free_table(buf->dma_sgt);
-@@ -204,8 +203,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
- 	struct vb2_dma_sg_buf *buf = buf_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
- 
--	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
--			       buf->dma_dir);
-+	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void vb2_dma_sg_finish(void *buf_priv)
-@@ -213,7 +211,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
- 	struct vb2_dma_sg_buf *buf = buf_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
- 
--	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
-+	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
-@@ -256,9 +254,8 @@ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents)
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC))
- 		goto userptr_fail_map;
- 
- 	return buf;
-@@ -284,8 +281,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
- 
- 	dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
- 	       __func__, buf->num_pages);
--	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir,
--			   DMA_ATTR_SKIP_CPU_SYNC);
-+	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 	if (buf->vaddr)
- 		vm_unmap_ram(buf->vaddr, buf->num_pages);
- 	sg_free_table(buf->dma_sgt);
-@@ -408,8 +404,7 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -434,15 +429,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
- 	/* mapping to the client with new direction */
--	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				dma_dir);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
-diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-index c66fda4a65e4..bf5ac63a5742 100644
---- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-@@ -229,7 +229,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct dma_buf *dbuf,
- 		kfree(attach);
- 		return ret;
- 	}
--	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-+	for_each_sgtable_sg(sgt, sg, i) {
- 		struct page *page = vmalloc_to_page(vaddr);
- 
- 		if (!page) {
-@@ -259,8 +259,7 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -285,15 +284,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
- 	/* mapping to the client with new direction */
--	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				dma_dir);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
+Changes in v2:
+- fixed warnings reported by dt_binding_check
+
+ .../bindings/media/microchip,csi2dc.yaml      | 174 ++++++++++++++++++
+ 1 file changed, 174 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+
+diff --git a/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+new file mode 100644
+index 000000000000..b4c1b8800a3b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+@@ -0,0 +1,174 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/microchip,csi2dc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip CSI2 Demux Controller (CSI2DC)
++
++maintainers:
++  - Eugen Hristev <eugen.hristev@microchip.com>
++
++description:
++  CSI2DC - Camera Serial Interface 2 Demux Controller
++
++  CSI2DC is a hardware block that receives incoming data from an IDI interface
++  and filters packets based on their data type and virtual channel identifier,
++  then converts the byte stream into a cross clock domain to a pixel stream
++  to a parallel interface that can be read by a sensor controller.
++
++  CSI2DC provides two pipes, one video pipe and one data pipe. Video pipe
++  is connected to a sensor controller and the data pipe is accessible
++  as a DMA slave port to a DMA controller.
++
++  CSI2DC supports a single 'port' node as a source pad with Synopsys 32-bit
++  IDI interface. The connected endpoint must be a IDI interface compatible
++  device (like Synopsys CSI2HOST) , that can provide 32-bit IDI interface
++  connection as sink pad.
++  For media entity and endpoints please refer to the bindings defined in
++  Documentation/devicetree/bindings/media/video-interfaces.txt.
++  For Synopsys IDI interface please refer to
++  Documentation/devicetree/bindings/media/snps,dw-csi-plat.txt
++
++  CSI2DC supports one 'port' node as sink pad with parallel interface. This is
++  called video pipe.
++  This port has an 'endpoint' can then be used as a source pad for another
++  controller (next in pipeline).
++  Please refer to the bindings defined in
++  Documentation/devicetree/bindings/media/video-interfaces.txt.
++
++  CSI2DC also supports direct access to the data through AHB, via DMA channel,
++  called data pipe.
++  Because of this, the sink 'port' child node (second) is not mandatory.
++  If the sink 'port' child node is missing, only data pipe is available.
++
++properties:
++  compatible:
++    const: microchip,sama7g5-csi2dc
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    description:
++      CSI2DC must have two clocks to function correctly. One clock is the
++      peripheral clock for the inside functionality of the hardware block.
++      This is named 'pclk'. The second clock must be the cross domain clock,
++      in which CSI2DC will perform clock crossing. This clock must be fed
++      by the next controller in pipeline, which usually is a sensor controller.
++      Normally this clock should be given by this sensor controller who
++      is also a clock source. This clock is named 'scck', sensor controller clock.
++    items:
++      - const: pclk
++      - const: scck
++
++  microchip,clk-gated:
++    type: boolean
++    description:
++      If present, indicates that the clock is gated.
++      Otherwise, the clock is free-running.
++
++  microchip,inter-line-delay:
++    allOf:
++    - $ref: /schemas/types.yaml#/definitions/uint32
++    - minimum: 1
++    - maximum: 16
++    default: 16
++    description:
++      Indicates how many clock cycles should be introduced between each line.
++
++  port@0:
++    type: object
++    description:
++      Input port node, single endpoint describing the input pad.
++
++    properties:
++      reg:
++        const: 0
++
++      endpoint:
++        type: object
++
++        properties:
++          remote-endpoint: true
++
++        required:
++          - remote-endpoint
++
++        additionalProperties: false
++
++    additionalProperties: false
++
++  port@1:
++    type: object
++    description:
++      Output port node, single endpoint, describing the output pad.
++
++    properties:
++      '#address-cells':
++        const: 1
++
++      '#size-cells':
++        const: 0
++
++      reg:
++        const: 1
++
++    patternProperties:
++      "^endpoint@[0-3]$":
++        type: object
++
++        properties:
++          reg:
++            enum: [0, 1, 2, 3]
++            description: virtual channel for the endpoint
++
++          remote-endpoint: true
++
++        required:
++          - remote-endpoint
++          - reg
++
++        additionalProperties: false
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - port@0
++
++examples:
++  - |
++    csi2dc@e1404000 {
++        compatible = "microchip,sama7g5-csi2dc";
++        #address-cells = <1>;
++        #size-cells = <0>;
++        reg = <0xe1404000 0x500>;
++        clocks = <&pclk>, <&scck>;
++        clock-names = "pclk", "scck";
++
++        port@0 {
++               reg = <0>; /* must be 0, first child port */
++               csi2dc_in: endpoint { /* input from IDI interface */
++                     remote-endpoint = <&csi2host_out>;
++               };
++        };
++
++        port@1 {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                reg = <1>; /* must be 1, second child port */
++                csi2dc_out: endpoint@2 {
++                        reg = <2>;  /* virtual channel identifier */
++                        remote-endpoint = <&xisc_in>; /* output to sensor controller */
++                };
++        };
++    };
++
++...
 -- 
-2.17.1
+2.25.1
 
