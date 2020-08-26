@@ -2,47 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4C91252B80
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 12:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14936252B89
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 12:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728583AbgHZKi5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 06:38:57 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33469 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728529AbgHZKi4 (ORCPT
+        id S1728363AbgHZKmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 06:42:40 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:46607 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726104AbgHZKmk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 06:38:56 -0400
+        Wed, 26 Aug 2020 06:42:40 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id AspQkiMgPuuXOAspSkD1Xj; Wed, 26 Aug 2020 12:38:54 +0200
+        id Ast1kiOFhuuXOAst2kD2fR; Wed, 26 Aug 2020 12:42:37 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1598438334; bh=XtGkgUoLVCPWx3PXuq+lfKVoXfsrGQlVwwqUiTM8Ih0=;
+        t=1598438557; bh=dksR9w7eRtSk0SaBteKKXpjruMUYkWHUI5pYBGAD9YU=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=rwwH7ITuwKKLvuhVjcoyQy0J0ZstL6u7TmckPjZB6eQoW8S10rvcdU6iK7ThOQNkH
-         SXyrPDad5qPLbPIhKypt6Cx1f0cCP77YUNC9rSDSwQyiDNbva0iPwH8uIksdMi+q6q
-         +EANo84Gs8ydYlyQhsRtFs+d9e6dHQp/pPIxbtjymMmOMuouex8VDq59d3NqnIGdcj
-         ZtmHJau0wyhWGatjIXaXCwjHFcJu0+qxvYdzqrtrN26NNni6f6UIXC9+jiM85ZRKM/
-         RtaXIMkAh3xJjNmH5p7jT6u1k2USdUUU0eO0AYgt3dIJa4idcrZDOpGh4JYFGXT+ig
-         HfGRw9EuoxvwA==
+        b=VgtJo3vlPqZHmnjsmYZoF36uikfkk8TIMrkP/uA1A1B3lEHd9rDmA9XQydsd0mU/d
+         fR+GVibDYZvLdSSO/WLWgWOjY9QNLdgZbcAJRI6/9MEwkeFi2FRq2BOrbQSsnA86Sq
+         BWhk/ZEtiD4iLwZ51b54giNA5QFw4tIG+LM7lafNIw7wmdUs5OiU3w4TDiFD2vpW7M
+         i22dtVRqtyE+xe9o+dqLgqlIjYLpVym4qKQAEaCW+OyMNt2vGp3BWTSpFmKJyoJu8C
+         6sSVEQFq6uWEAmnhQshLYXJucFWTa1Wlf4vbCwjEm2Vt5K1C8coJlJ+Q1kAZnsrXP4
+         RGySyXo4XEfIQ==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.10] Various fixes
-Message-ID: <21d6760d-1ed4-303b-2436-b3c004275d69@xs4all.nl>
-Date:   Wed, 26 Aug 2020 12:38:52 +0200
+Subject: [GIT PULL FOR v5.10] mtk-vcodec: venc: support for MT8183
+Message-ID: <5b4d766c-eeed-11ed-60c6-fa7ee489992f@xs4all.nl>
+Date:   Wed, 26 Aug 2020 12:42:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBtfndxGxWZuseNusjkEVgR7p2uHdpREcWLmxp/9JAmxc7jFJpofDuchIzBo/w5XUe8owiaBxamXAMk8KGCbsEdVIwy4e+rDZ4U7X6XGkIVMeMEB9LHD
- HN50IBvrbAb9l3Q690Oli0+BeeN5eLTGJESbMgRAYuXhU0pCpZ4dX8mQXsWYxmabg7tkflhpWio3AwUpfvWs8DdDUmyJfARCL1whS19DbgiyiFWiLHWfp5vu
- WP2rfFmVt5Y4Co8TFrbFDI26XnJYB9ngEE991UabOAo=
+X-CMAE-Envelope: MS4wfI/3Y73HNH7M1KUwDUpaenjfPQL+XukfrjR7dNF1z+uwfQ0h64AMQTePIGGzxkOd9xzX9krpetseDXI5HMAW7a+42fyqtNK1ER+qRI0KbU1WoxBOMDOX
+ NgG5BqHPcxUw8xNzRmj/FUfN9hBZe2tI7HlMJMqX8oqhw60AiMZbtZvfraz/3RFONVp/YvkT33LmcV90kP01GKB1fGER25aRU5Uy2jZj4oi0FqQ6D20SrbP7
+ JqQc+3Z8w4YxfsHUT2qAcD9FzjRJCivXHEQYVJM6ot8DTXD/rJTmmP+suzS46wKVeaGPGGrZP93mNUSD2Fji6t7QNcO9EMPgRIScNJUUPiyeS1fkfWGkFfpk
+ fUBsdmn3
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
+
+Note 1: the MTK_SCP config option causes COMPILE_TEST to fail, but a patch for that
+is pending for the remoteproc tree: https://lkml.org/lkml/2020/8/21/489
+I've verified that that patch fixes the COMPILE_TEST failure.
+
+Note 2: the firmware is added to linux-firmware:
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?h=master&id=3c213aa59661c4641f0c2166a315140ac0445230
+
+Regards,
+
+	Hans
 
 The following changes since commit 9a538b83612c8b5848bf840c2ddcd86dda1c8c76:
 
@@ -50,59 +64,63 @@ The following changes since commit 9a538b83612c8b5848bf840c2ddcd86dda1c8c76:
 
 are available in the Git repository at:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.10c
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-mt8183
 
-for you to fetch changes up to 696c69d9cd00ef9b2b4101c727b1d4580347b56c:
+for you to fetch changes up to ddd1da79f616f8d9e97aa2428d6fce526a3081e9:
 
-  MAINTAINERS: add Dafna Hirschfeld for rkisp1 (2020-08-26 10:57:43 +0200)
+  media: mtk-vcodec: make IRQs disabled upon request (2020-08-26 12:37:35 +0200)
 
 ----------------------------------------------------------------
 Tag branch
 
 ----------------------------------------------------------------
-Alexandre Courbot (1):
-      media: mtk-vcodec: fix Kconfig help text
+Alexandre Courbot (13):
+      dt-bindings: media: mtk-vcodec: document SCP node
+      media: mtk-vcodec: venc: handle firmware version field
+      media: mtk-vcodec: venc: specify bitrate range per-chip
+      media: mtk-vcodec: venc: specify supported formats per-chip
+      dt-bindings: media: document mediatek,mt8183-vcodec-enc
+      Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
+      media: mtk-vcodec: venc support MIN_OUTPUT_BUFFERS control
+      media: mtk-vcodec: venc: set OUTPUT buffers field to V4L2_FIELD_NONE
+      media: mtk-vcodec: venc: use platform data for ENUM_FRAMESIZES
+      media: mtk-vcodec: venc: support ENUM_FRAMESIZES on OUTPUT formats
+      media: mtk-vcodec: venc: set default time per frame
+      media: mtk-vcodec: venc: fix invalid time per frame in S_PARM
+      media: mtk-vcodec: make IRQs disabled upon request
 
-Christopher Snowhill (1):
-      Implements support for the MyGica iGrabber
+Yunfei Dong (4):
+      media: mtk-vcodec: abstract firmware interface
+      media: mtk-vcodec: add SCP firmware ops
+      media: mtk-vcodec: venc: support SCP firmware
+      media: mtk-vcodec: add support for MT8183 encoder
 
-Hans Verkuil (2):
-      dev-sliced-vbi.rst: fix wrong type
-      videodev2.h: RGB BT2020 and HSV are always full range
-
-Helen Koike (1):
-      MAINTAINERS: add Dafna Hirschfeld for rkisp1
-
-Hsin-Yi Wang (1):
-      media: mtk-vcodec: set dma max segment size
-
-Peilin Ye (2):
-      vivid: Fix global-out-of-bounds read in precalculate_color()
-      v4l2-tpg: Clamp hue in tpg_s_hue()
-
-Tom Rix (1):
-      media: tuner-simple: fix regression in simple_set_radio_freq
-
-Tomasz Figa (3):
-      MAINTAINERS: Make Tomasz the main maintainer of videobuf2
-      MAINTAINERS: Remove Kyungmin from the maintainers list of videobuf2
-      MAINTAINERS: Remove Pawel from the maintainers list of videobuf2
-
-Tong Zhang (1):
-      media: pvrusb2: fix parsing error
-
- Documentation/userspace-api/media/v4l/colorspaces-defs.rst    |  9 ++++-----
- Documentation/userspace-api/media/v4l/colorspaces-details.rst |  5 ++---
- Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst      |  2 +-
- MAINTAINERS                                                   |  5 ++---
- drivers/media/platform/Kconfig                                |  4 ++--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c        |  8 ++++++++
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c        |  8 ++++++++
- drivers/media/test-drivers/vivid/vivid-meta-out.c             |  9 +++++----
- drivers/media/tuners/tuner-simple.c                           |  5 +++--
- drivers/media/usb/em28xx/em28xx-cards.c                       | 22 ++++++++++++++++++++++
- drivers/media/usb/em28xx/em28xx.h                             |  1 +
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c                       |  5 ++---
- include/media/tpg/v4l2-tpg.h                                  |  1 +
- include/uapi/linux/videodev2.h                                | 17 ++++++++---------
- 14 files changed, 69 insertions(+), 32 deletions(-)
+ Documentation/devicetree/bindings/media/mediatek-vcodec.txt |   9 +-
+ drivers/media/platform/Kconfig                              |   1 +
+ drivers/media/platform/mtk-vcodec/Makefile                  |   6 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c      |  55 +++++------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c       |   1 -
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h          |  40 +++++++-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c          | 211 +++++++++++++++++++---------------------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      | 173 +++++++++++++++++++++++----------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c       |   2 -
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c           | 231 ++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h           |  38 ++++++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c         |   1 -
+ drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c       |   1 -
+ drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c        |   1 -
+ drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c        |   1 -
+ drivers/media/platform/mtk-vcodec/vdec_drv_base.h           |   2 -
+ drivers/media/platform/mtk-vcodec/vdec_drv_if.c             |   1 -
+ drivers/media/platform/mtk-vcodec/vdec_vpu_if.c             |  12 ++-
+ drivers/media/platform/mtk-vcodec/vdec_vpu_if.h             |  11 ++-
+ drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c       |  68 ++++++++++---
+ drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c        |  11 ++-
+ drivers/media/platform/mtk-vcodec/venc_drv_if.c             |   1 -
+ drivers/media/platform/mtk-vcodec/venc_drv_if.h             |  13 +++
+ drivers/media/platform/mtk-vcodec/venc_ipi_msg.h            |  27 +++++-
+ drivers/media/platform/mtk-vcodec/venc_vpu_if.c             | 141 ++++++++++++++++++++-------
+ drivers/media/platform/mtk-vcodec/venc_vpu_if.h             |   8 +-
+ 26 files changed, 782 insertions(+), 284 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
