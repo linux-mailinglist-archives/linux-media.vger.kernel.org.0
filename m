@@ -2,197 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CD07252D22
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 13:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55D01252EE7
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 14:47:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729299AbgHZL5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 07:57:24 -0400
-Received: from mail29.static.mailgun.info ([104.130.122.29]:62620 "EHLO
-        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729301AbgHZL5O (ORCPT
+        id S1729958AbgHZMqH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 08:46:07 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60631 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729785AbgHZMqG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 07:57:14 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1598443033; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=bvU5EuTDMO10h1QPRBMsNtvtAB/4x7+7OgYclbMQP6E=; b=FQJ1eFVOgIDkMD+QxsnvWRj+/1kGLDgEdJNq9LD/YV6Xara82hQq8KnXYgtUCyiJdCVq+B48
- gIjRyM1oUBEcLPmkyUIFlTarwMGcjNA+FprTSqQbGj45WfwOroGYwUCe33dHzfRULbaLHSOd
- tPPVxb/1nr1R+wEqgXpsUkhWojo=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5f464e07a0b245e36f21b139 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 26 Aug 2020 11:56:55
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id BAF53C433CA; Wed, 26 Aug 2020 11:56:54 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.2 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.100] (unknown [47.8.163.47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: akashast)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1428AC433CB;
-        Wed, 26 Aug 2020 11:56:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1428AC433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=akashast@codeaurora.org
-Subject: Re: [PATCH V2 2/2] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
-Cc:     swboyd@chromium.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20200820103522.26242-1-rojay@codeaurora.org>
- <20200820103522.26242-3-rojay@codeaurora.org>
-From:   Akash Asthana <akashast@codeaurora.org>
-Message-ID: <ba1935d2-9fec-cf82-ed19-bc005befcb40@codeaurora.org>
-Date:   Wed, 26 Aug 2020 17:26:30 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Wed, 26 Aug 2020 08:46:06 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id AuoVkjHO7uuXOAuoWkDhum; Wed, 26 Aug 2020 14:46:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598445964; bh=zSxsTcETUhxd94TCm5XIL128nAPmxXf4mD7jE/FpxTc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=hxSkJCfTXSJ5xPBs/g4LRm2q0HKy/djw11pZriAJgXaQEJ0kBoOtziScw3PWh0b82
+         1N1vgBmxqrN7Z9va53pGGudA7JOkxRglqCj7aV8TB2Ve6qgOHqrbwrM/K9FdTJV+Es
+         yYaLYyp7kBwRWxJHgEisjXr3X4/209vyvP2wGEAzFgujOMQU8Vgap0beOujHlpF4NR
+         ax7Ya4zYKLVMA2Q0ulGK+u+qLlnqKO+Ii24i7c6WVZt4gyNpOnERvWgsksISnrj4um
+         CqCcJtB2rYRuewOYrlDFS78zDz1PDeOBO23K0PWVgYCDj1CFbEseLe86/C4nxuYKT8
+         rDVYYrBYaeOiQ==
+Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: simplify poll logic a bit
+To:     Alexandre Courbot <gnurou@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200825145556.637323-1-gnurou@gmail.com>
+ <20200825145556.637323-3-gnurou@gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <c95ef569-1ae2-73a0-7c3c-ddd15c6dddb4@xs4all.nl>
+Date:   Wed, 26 Aug 2020 14:46:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200820103522.26242-3-rojay@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200825145556.637323-3-gnurou@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOfZoS8Q/qeXk6cydAMOyfZ63zLLbylTR8YCYFXm11Onhe31JfZwvfZjggFSx/lIUt1EyOPv6gkv8/QQfug2QuNyMEc312gzspkgnD5GKXJpztsczur6
+ Bq41AjEi4cxOrFD1Tqg9bJxuFmPKNZVuz+f0DX7stAAO5221SMqQ0OSqEa04SYD+D+A+q+CKLFUMoOvro5iFIvvz61h/w8SZzEmDhGoYKbpy8x5YuVW6vYry
+ iYw1wXCOI2SqeVi1qgcXmdCEzQRwJsqB2S90EU5IukZBcjtrCE6JI9KqI5/Q1KNh0YPjeKBqJzm+bcXzMzq6aQzufe2PV7t4/N3y/zLR0KSiL+37zX7ve0Xz
+ b3jo0QoecxJxtCjwlhGEtjGpXIL8xPBV/xGMnn4W2FMgD0X+9amlaUDIhUU3kwNbEsEc2i0T
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Roja,
-
-On 8/20/2020 4:05 PM, Roja Rani Yarubandi wrote:
-> If the hardware is still accessing memory after SMMU translation
-> is disabled (as part of smmu shutdown callback), then the
-> IOVAs (I/O virtual address) which it was using will go on the bus
-> as the physical addresses which will result in unknown crashes
-> like NoC/interconnect errors.
->
-> So, implement shutdown callback to i2c driver to unmap DMA mappings
-> during system "reboot" or "shutdown".
->
-> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
+On 25/08/2020 16:55, Alexandre Courbot wrote:
+> Factorize redundant checks into a single code block, remove the early
+> return, and declare variables in their innermost block. Hopefully this
+> makes this code a little bit easier to follow.
+> 
+> Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
 > ---
-> Changes in V2:
->   - As per Stephen's comments added seperate function for stop transfer,
->     fixed minor nitpicks.
->
->   drivers/i2c/busses/i2c-qcom-geni.c | 43 ++++++++++++++++++++++++++++++
->   include/linux/qcom-geni-se.h       |  5 ++++
->   2 files changed, 48 insertions(+)
->
-> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-> index 1fda5c7c2cfc..d07f2f33bb75 100644
-> --- a/drivers/i2c/busses/i2c-qcom-geni.c
-> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
-> @@ -486,6 +486,28 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
->   	return ret;
->   }
->   
-> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
-> +{
-> +	u32 val;
-> +	struct geni_se *se = &gi2c->se;
-> +
-> +	val = readl_relaxed(gi2c->se.base + SE_DMA_DEBUG_REG0);
-> +	if (val & DMA_TX_ACTIVE) {
-> +		geni_i2c_abort_xfer(gi2c);
-> +		gi2c->cur_wr = 0;
-> +		if (gi2c->err)
-> +			geni_i2c_tx_fsm_rst(gi2c);
-> +		geni_se_tx_dma_unprep(se, gi2c->tx_dma, gi2c->xfer_len);
-> +	}
-should be 'else if', because TX and RX can't happen parallel.
-> +	if (val & DMA_RX_ACTIVE) {
-> +		geni_i2c_abort_xfer(gi2c);
-> +		gi2c->cur_rd = 0;
-> +		if (gi2c->err)
-> +			geni_i2c_rx_fsm_rst(gi2c);
-> +		geni_se_rx_dma_unprep(se, gi2c->rx_dma, gi2c->xfer_len);
-> +	}
-> +}
-> +
->   static u32 geni_i2c_func(struct i2c_adapter *adap)
->   {
->   	return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
-> @@ -617,6 +639,26 @@ static int geni_i2c_remove(struct platform_device *pdev)
->   	return 0;
->   }
->   
-> +static void geni_i2c_shutdown(struct platform_device *pdev)
-> +{
-> +	int ret;
-> +	u32 dma;
-> +	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
-> +	struct geni_se *se = &gi2c->se;
-> +
-> +	ret = pm_runtime_get_sync(gi2c->se.dev);
-> +	if (ret < 0) {
-> +		dev_err(gi2c->se.dev, "Failed to resume device: %d\n", ret);
-> +		return;
-> +	}
-> +
-> +	dma = readl_relaxed(se->base + SE_GENI_DMA_MODE_EN);
+>  drivers/media/v4l2-core/v4l2-mem2mem.c | 35 +++++++++++---------------
+>  1 file changed, 15 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> index 0d0192119af20..aeac9707123d0 100644
+> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> @@ -841,7 +841,6 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
+>  				       struct poll_table_struct *wait)
+>  {
+>  	struct vb2_queue *src_q, *dst_q;
+> -	struct vb2_buffer *src_vb = NULL, *dst_vb = NULL;
+>  	__poll_t rc = 0;
+>  	unsigned long flags;
+>  
+> @@ -863,33 +862,29 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
+>  		return EPOLLERR;
+>  
+>  	spin_lock_irqsave(&src_q->done_lock, flags);
+> -	if (!list_empty(&src_q->done_list))
+> -		src_vb = list_first_entry(&src_q->done_list, struct vb2_buffer,
+> -						done_entry);
+> -	if (src_vb && (src_vb->state == VB2_BUF_STATE_DONE
+> -			|| src_vb->state == VB2_BUF_STATE_ERROR))
+> -		rc |= EPOLLOUT | EPOLLWRNORM;
+> +	if (!list_empty(&src_q->done_list)) {
+> +		struct vb2_buffer *src_vb = list_first_entry(
+> +			&src_q->done_list, struct vb2_buffer, done_entry);
+> +		if (src_vb->state == VB2_BUF_STATE_DONE ||
+> +		    src_vb->state == VB2_BUF_STATE_ERROR)
 
-Wrt to current issue context it may be suffice to stop just DMA mode 
-transfers but why not stop all mode of active transfer during shutdown 
-in a generic way.
+This test is unnecessary: only buffers in state DONE or ERROR can be on the done_list.
+
+> +			rc |= EPOLLOUT | EPOLLWRNORM;
+> +	}
+>  	spin_unlock_irqrestore(&src_q->done_lock, flags);
+>  
+>  	spin_lock_irqsave(&dst_q->done_lock, flags);
+> -	if (list_empty(&dst_q->done_list)) {
+> +	if (!list_empty(&dst_q->done_list)) {
+> +		struct vb2_buffer *dst_vb = list_first_entry(
+> +			&dst_q->done_list, struct vb2_buffer, done_entry);
+> +		if (dst_vb->state == VB2_BUF_STATE_DONE ||
+> +		    dst_vb->state == VB2_BUF_STATE_ERROR)
+
+Ditto.
 
 Regards,
 
-Akash
+	Hans
 
-> +	if (dma)
-> +		geni_i2c_stop_xfer(gi2c);
-> +
-> +	pm_runtime_put_sync_suspend(gi2c->se.dev);
-> +}
-> +
->   static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
->   {
->   	int ret;
-> @@ -677,6 +719,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
->   static struct platform_driver geni_i2c_driver = {
->   	.probe  = geni_i2c_probe,
->   	.remove = geni_i2c_remove,
-> +	.shutdown = geni_i2c_shutdown,
->   	.driver = {
->   		.name = "geni_i2c",
->   		.pm = &geni_i2c_pm_ops,
-> diff --git a/include/linux/qcom-geni-se.h b/include/linux/qcom-geni-se.h
-> index dd464943f717..c3c016496d98 100644
-> --- a/include/linux/qcom-geni-se.h
-> +++ b/include/linux/qcom-geni-se.h
-> @@ -77,6 +77,7 @@ struct geni_se {
->   #define SE_DMA_RX_FSM_RST		0xd58
->   #define SE_HW_PARAM_0			0xe24
->   #define SE_HW_PARAM_1			0xe28
-> +#define SE_DMA_DEBUG_REG0		0xe40
->   
->   /* GENI_FORCE_DEFAULT_REG fields */
->   #define FORCE_DEFAULT	BIT(0)
-> @@ -207,6 +208,10 @@ struct geni_se {
->   #define RX_GENI_CANCEL_IRQ		BIT(11)
->   #define RX_GENI_GP_IRQ_EXT		GENMASK(13, 12)
->   
-> +/* SE_DMA_DEBUG_REG0 Register fields */
-> +#define DMA_TX_ACTIVE			BIT(0)
-> +#define DMA_RX_ACTIVE			BIT(1)
-> +
->   /* SE_HW_PARAM_0 fields */
->   #define TX_FIFO_WIDTH_MSK		GENMASK(29, 24)
->   #define TX_FIFO_WIDTH_SHFT		24
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,\na Linux Foundation Collaborative Project
+> +			rc |= EPOLLIN | EPOLLRDNORM;
+> +	} else if (dst_q->last_buffer_dequeued) {
+>  		/*
+>  		 * If the last buffer was dequeued from the capture queue,
+>  		 * return immediately. DQBUF will return -EPIPE.
+>  		 */
+> -		if (dst_q->last_buffer_dequeued) {
+> -			spin_unlock_irqrestore(&dst_q->done_lock, flags);
+> -			rc |= EPOLLIN | EPOLLRDNORM;
+> -			return rc;
+> -		}
+> -	}
+> -
+> -	if (!list_empty(&dst_q->done_list))
+> -		dst_vb = list_first_entry(&dst_q->done_list, struct vb2_buffer,
+> -						done_entry);
+> -	if (dst_vb && (dst_vb->state == VB2_BUF_STATE_DONE
+> -			|| dst_vb->state == VB2_BUF_STATE_ERROR))
+>  		rc |= EPOLLIN | EPOLLRDNORM;
+> +	}
+>  	spin_unlock_irqrestore(&dst_q->done_lock, flags);
+>  
+>  	return rc;
+> 
 
