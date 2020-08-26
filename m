@@ -2,119 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F15252CE6
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 13:51:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA9B252D1F
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 13:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729208AbgHZLvy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 07:51:54 -0400
-Received: from mga01.intel.com ([192.55.52.88]:45642 "EHLO mga01.intel.com"
+        id S1729238AbgHZL4b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 07:56:31 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:17118 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729139AbgHZLvb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 07:51:31 -0400
-IronPort-SDR: uhORCpgCt4K2QtCJXkYwrK8+AAfHSAWOhO34i0OVSPGtdxOTED7D51nTPSRfYeAzZmHq7cXLrH
- 6VFNurD/xtLg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="174324059"
-X-IronPort-AV: E=Sophos;i="5.76,355,1592895600"; 
-   d="scan'208";a="174324059"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 04:51:31 -0700
-IronPort-SDR: NWN7TnPX9XtMQcf/dtvFTwu+mQMQBbsCSntQBSpupBkvPnyVaLhsK94SEcTf0+r42c/H5S04zH
- 1ceirtnYBRVg==
-X-IronPort-AV: E=Sophos;i="5.76,355,1592895600"; 
-   d="scan'208";a="499691480"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 04:51:28 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 8CEB820E50;
-        Wed, 26 Aug 2020 14:50:51 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1kAu0e-0001bY-Ue; Wed, 26 Aug 2020 14:54:32 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: [PATCH v6 6/6] Documentation: ACPI: Document allow-low-power-probe _DSD property
-Date:   Wed, 26 Aug 2020 14:54:32 +0300
-Message-Id: <20200826115432.6103-7-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200826115432.6103-1-sakari.ailus@linux.intel.com>
-References: <20200826115432.6103-1-sakari.ailus@linux.intel.com>
+        id S1729214AbgHZL4Y (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Aug 2020 07:56:24 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1598442978; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=Bwhuv2Mg8XX7hTVE0N5W+Eqr1RkfhHeyhdfuGEzNN3U=; b=EIBnsYyAzxrs5Kq+3QuKSqrhW5oAbymQdxz9qh6xr2ZwPIkOjdNXw4ZezaNyjBQY5F7bBfJ/
+ EZGLXoFt05vzopiDfDP1QCj2qbzAdCXBa+A94+8rt7yerH9hzur485kt75qqYUgtUUsfwhzY
+ Yi8sc7KDi4YSUbhDlkNB/8jAaQM=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 5f464dd8222038607afe1399 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 26 Aug 2020 11:56:08
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 9F1B3C433B2; Wed, 26 Aug 2020 11:56:06 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.2 required=2.0 tests=ALL_TRUSTED,NICE_REPLY_A,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.100] (unknown [47.8.163.47])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: akashast)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4DC6EC433C6;
+        Wed, 26 Aug 2020 11:55:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4DC6EC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=akashast@codeaurora.org
+Subject: Re: [PATCH V2 1/2] i2c: i2c-qcom-geni: Store DMA mapping data in
+ geni_i2c_dev struct
+To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
+Cc:     swboyd@chromium.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20200820103522.26242-1-rojay@codeaurora.org>
+ <20200820103522.26242-2-rojay@codeaurora.org>
+From:   Akash Asthana <akashast@codeaurora.org>
+Message-ID: <c09a6bb3-6a7d-bcf8-42ad-cc8dc971c705@codeaurora.org>
+Date:   Wed, 26 Aug 2020 17:25:52 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200820103522.26242-2-rojay@codeaurora.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document the probe-low-power _DSD property and how it is used with I²C
-drivers.
+Hi Roja,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../acpi/dsd/allow-low-power-probe.rst        | 28 +++++++++++++++++++
- Documentation/firmware-guide/acpi/index.rst   |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+On 8/20/2020 4:05 PM, Roja Rani Yarubandi wrote:
+> Store DMA mapping data in geni_i2c_dev struct to enhance DMA mapping
+> data scope. For example during shutdown callback to unmap DMA mapping,
+> this stored DMA mapping data can be used to call geni_se_tx_dma_unprep
+> and geni_se_rx_dma_unprep functions.
+>
+> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
+> ---
+> Changes in V2:
+>   - As per Stephen's comments, changed commit text, fixed minor nitpicks.
+>
+>   drivers/i2c/busses/i2c-qcom-geni.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
+> index 7f130829bf01..1fda5c7c2cfc 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -86,6 +86,9 @@ struct geni_i2c_dev {
+>   	u32 clk_freq_out;
+>   	const struct geni_i2c_clk_fld *clk_fld;
+>   	int suspended;
+> +	dma_addr_t tx_dma;
+> +	dma_addr_t rx_dma;
+> +	size_t xfer_len;
+>   };
+>   
+>   struct geni_i2c_err_log {
+> @@ -358,6 +361,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>   	struct geni_se *se = &gi2c->se;
+>   	size_t len = msg->len;
+>   
+> +	gi2c->xfer_len = msg->len;
 
-diff --git a/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
-new file mode 100644
-index 0000000000000..6fcc89162b898
---- /dev/null
-+++ b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
-@@ -0,0 +1,28 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================
-+Probing I²C devices in low power state
-+======================================
-+
-+Introduction
-+============
-+
-+In some cases it may be preferred to leave certain devices powered off for the
-+entire system bootup if powering on these devices has adverse side effects,
-+beyond just powering on the said device. Linux recognizes the _DSD property
-+"allow-low-power-probe" that can be used for this purpose.
-+
-+How it works
-+============
-+
-+The property "allow-low-power-probe" boolean property may be used to tell Linux
-+that the I²C framework should instruct the kernel ACPI framework to leave the
-+device in the low power state. If the driver indicates its support for this by
-+setting the I2C_DRV_FL_ALLOW_LOW_POWER_PROBE flag in struct i2c_driver.flags
-+field and the "allow-low-power-probe" property is present, the device will not
-+be powered on for probe.
-+
-+The downside is that as the device is not powered on, even if there's a problem
-+with the device, the driver likely probes just fine but the first user will
-+find out the device doesn't work, instead of a failure at probe time. This
-+feature should thus be used sparingly.
-diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
-index ad3b5afdae77e..0070fcde9e669 100644
---- a/Documentation/firmware-guide/acpi/index.rst
-+++ b/Documentation/firmware-guide/acpi/index.rst
-@@ -11,6 +11,7 @@ ACPI Support
-    dsd/graph
-    dsd/data-node-references
-    dsd/leds
-+   dsd/allow-low-power-probe
-    enumeration
-    osi
-    method-customizing
+nit: gi2c->xfer = len, for tx_one_msg as well.
+
+Regards,
+
+Akash
+
+>   	if (!of_machine_is_compatible("lenovo,yoga-c630"))
+>   		dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+>   
+> @@ -384,6 +388,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>   	if (dma_buf) {
+>   		if (gi2c->err)
+>   			geni_i2c_rx_fsm_rst(gi2c);
+> +		gi2c->rx_dma = rx_dma;
+>   		geni_se_rx_dma_unprep(se, rx_dma, len);
+>   		i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>   	}
+> @@ -400,6 +405,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>   	struct geni_se *se = &gi2c->se;
+>   	size_t len = msg->len;
+>   
+> +	gi2c->xfer_len = msg->len;
+>   	if (!of_machine_is_compatible("lenovo,yoga-c630"))
+>   		dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+>   
+> @@ -429,6 +435,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>   	if (dma_buf) {
+>   		if (gi2c->err)
+>   			geni_i2c_tx_fsm_rst(gi2c);
+> +		gi2c->tx_dma = tx_dma;
+>   		geni_se_tx_dma_unprep(se, tx_dma, len);
+>   		i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>   	}
+
 -- 
-2.20.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,\na Linux Foundation Collaborative Project
 
