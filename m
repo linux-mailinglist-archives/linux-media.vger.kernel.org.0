@@ -2,55 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E3C82527CD
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 08:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 477E92527D1
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 08:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726751AbgHZGwJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 02:52:09 -0400
-Received: from esa5.microchip.iphmx.com ([216.71.150.166]:60067 "EHLO
+        id S1726766AbgHZGwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 02:52:30 -0400
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:60114 "EHLO
         esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726707AbgHZGwJ (ORCPT
+        with ESMTP id S1726240AbgHZGw3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 02:52:09 -0400
+        Wed, 26 Aug 2020 02:52:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1598424730; x=1629960730;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=SI8j6m6I3e4k4zKG9EdeKsk+0HOf3F01qwpYDXe2Ni8=;
-  b=JvLFDBMUmqKUWkf4z89/Ilh5tld5H6qt9DdnMKTBIqH7QhImXUKgTTel
-   X6p/LraFfxkVCDCyPridQTlGmLWyWJgNydCQ7c8KmqiAHee2yYrcWaqFu
-   /ImLGXgUI3C95MA9pL8xO3W+StW+t43KQ8RulyojmnkmoNtmnxjknGVk7
-   +cnyKldDMDmOO9UhE6wm+hVKavyTiu1UcuAhNsH4QAAcUBR3o1tow/eaK
-   Ow4c18dro/1zYPtLz/UmE/ibwq2DF0KYqqpd5xxcSqHXbLP+Pm2eMi+oG
-   RV679jj2lcPhnImO2lYKtlAzw+q7kjrj56tGzB7G5Ve68PA+YmOSZQY9U
-   g==;
-IronPort-SDR: +BTtOBHd/Av6g0eiPDp5dgkPCHQaItVSWDbEGQ+TT7pi9LjMsDRQ50bowlH2BrDkwYeh2+2z+6
- 7YgMqraxOGPeohFzOPWihOYjbeqDcG+evqUeKwn5IPUVhOS3AZzZ9M/9YKkDFQPocc15OoJxto
- SkwTkPH5I9A3VS7akiQDASYkQyow0jXA2SfxKclcmI5I4HNa3RzOJS+dpjbe4MbEQwWnoGZZlA
- 0MMSmo+isnknb6r+Y0fa2p2qwFWmVYhsFGyGMqljisDMpRklo2bYlQlmOwi/y+WAQcIqUqkUnj
- ut0=
+  t=1598424750; x=1629960750;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HNdEDwrbXRq72IlgBEejQKIGRNd2oI6uLa0vO04QtgA=;
+  b=1JyUu+tWwkw0PosQNsefeO+55lEG+oj92IUEupa73//xff9GLnnHg0bs
+   oTCUsgIupgDJWEIOnVOkrGTaEMm2Lp+kkg+P7fjs4hZmAzI6HJ+2dEwLH
+   JHEqL5Oj1/ylCUfRnWw+5XsMttZWtbXDQO7rAkXwkcM+ypBgAm/xcsM8S
+   ovN+nAlJOJPbB89+xEJQJJPXs1iyctb6l4AmZzdPJ3/iTIhIqt8O54CYo
+   X84BJQDC01u5eX3ttdxgcoTfTyzmxwTZm1RhYsDMlZnBkHStsIU4Tm+U9
+   uKnqVDkW/ls7vdg1bgCehv1FqbSMYO/OYI6pocW/mRdvlfaR4Rdurqc/X
+   Q==;
+IronPort-SDR: v6vigBqav5NaAwL9ss6jFyxnjm2RVZi6QtghKl3sfzd9Yb6L9iqDZGaFndWrc3eZK7v/1Dw1dt
+ DHPJxHaVVgBASaj7kXcSZthUzhA1rPU9LCHf/ndDkHmOqeAfaEJV4Mpe7BqpN0qMe4QxTjdyBi
+ /Adv4Zd99lxOyEJJc/BgvZg93BsXHtPl0ErMzyxZTMrydv3DY9Qd5coQ6wSQAfb40i71YEUlzy
+ CuLKfagtd+CJ0uMM7SSbGgd4MzleADmKfWDLddl34Qy1Y3VQYRNVthvG5uyXn70uWAkWk7uOs+
+ VKQ=
 X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
-   d="scan'208";a="88565025"
+   d="scan'208";a="88565177"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 25 Aug 2020 23:52:08 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 25 Aug 2020 23:52:30 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Tue, 25 Aug 2020 23:51:18 -0700
+ 15.1.1979.3; Tue, 25 Aug 2020 23:51:41 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.1979.3 via Frontend Transport; Tue, 25 Aug 2020 23:51:54 -0700
+ 15.1.1979.3 via Frontend Transport; Tue, 25 Aug 2020 23:52:07 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <robh+dt@kernel.org>, <sakari.ailus@iki.fi>,
         <linux-media@vger.kernel.org>
 CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v3 1/3] dt-bindings: media: atmel: csi2dc: add bindings for microchip csi2dc
-Date:   Wed, 26 Aug 2020 09:51:40 +0300
-Message-ID: <20200826065142.205000-1-eugen.hristev@microchip.com>
+Subject: [PATCH v3 2/3] media: atmel: introduce microchip csi2dc driver
+Date:   Wed, 26 Aug 2020 09:51:41 +0300
+Message-ID: <20200826065142.205000-2-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200826065142.205000-1-eugen.hristev@microchip.com>
+References: <20200826065142.205000-1-eugen.hristev@microchip.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -59,205 +61,759 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add bindings documentation for Microchip CSI2 Demultiplexer controller.
-
-CSI2DC is a demultiplexer from Synopsys IDI interface specification to
-parallel interface connection or direct memory access.
+Microchip CSI2DC (CSI2 Demultiplexer Controller) is a misc bridge device
+that converts a byte stream in IDI Synopsys format (coming from a CSI2HOST)
+to a pixel stream that can be captured by a sensor controller.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
-Changes in v3:
-- Removed some text from description, as it was explained in the schema
-- fixed other things as per Rob's review
-- moved some text inside the schema, like the clock description
-
 Changes in v2:
-- fixed warnings reported by dt_binding_check
+- moved driver to platform/atmel
+- fixed minor things as per Sakari's review
+- still some things from v2 review are not yet addressed, to be followed up
 
- .../bindings/media/microchip,csi2dc.yaml      | 174 ++++++++++++++++++
- 1 file changed, 174 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+ drivers/media/platform/atmel/Kconfig          |  13 +
+ drivers/media/platform/atmel/Makefile         |   1 +
+ .../media/platform/atmel/microchip-csi2dc.c   | 700 ++++++++++++++++++
+ 3 files changed, 714 insertions(+)
+ create mode 100644 drivers/media/platform/atmel/microchip-csi2dc.c
 
-diff --git a/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+diff --git a/drivers/media/platform/atmel/Kconfig b/drivers/media/platform/atmel/Kconfig
+index 1850fe7f9360..80bbddcc2504 100644
+--- a/drivers/media/platform/atmel/Kconfig
++++ b/drivers/media/platform/atmel/Kconfig
+@@ -21,3 +21,16 @@ config VIDEO_ATMEL_ISI
+ 	help
+ 	  This module makes the ATMEL Image Sensor Interface available
+ 	  as a v4l2 device.
++
++config VIDEO_MICROCHIP_CSI2DC
++	tristate "Microchip CSI2 Demux Controller"
++	depends on VIDEO_V4L2 && COMMON_CLK && OF
++	depends on ARCH_AT91 || COMPILE_TEST
++	select MEDIA_CONTROLLER
++	select VIDEO_V4L2_SUBDEV_API
++	select V4L2_FWNODE
++	help
++	  CSI2 Demux Controller driver. CSI2DC is a helper chip
++	  that converts IDI interface byte stream to a parallel pixel stream.
++	  It supports various RAW formats as input.
++	  Performs clock domain crossing between hardware blocks.
+diff --git a/drivers/media/platform/atmel/Makefile b/drivers/media/platform/atmel/Makefile
+index 2dba38994a70..8af7c5b534c3 100644
+--- a/drivers/media/platform/atmel/Makefile
++++ b/drivers/media/platform/atmel/Makefile
+@@ -3,3 +3,4 @@ atmel-isc-objs = atmel-sama5d2-isc.o atmel-isc-base.o
+ 
+ obj-$(CONFIG_VIDEO_ATMEL_ISI) += atmel-isi.o
+ obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
++obj-$(CONFIG_VIDEO_MICROCHIP_CSI2DC) += microchip-csi2dc.o
+diff --git a/drivers/media/platform/atmel/microchip-csi2dc.c b/drivers/media/platform/atmel/microchip-csi2dc.c
 new file mode 100644
-index 000000000000..b4c1b8800a3b
+index 000000000000..97d07a80bbf7
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-@@ -0,0 +1,174 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/microchip,csi2dc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/media/platform/atmel/microchip-csi2dc.c
+@@ -0,0 +1,700 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Microchip CSI2 Demux Controller (CSI2DC) driver
++ *
++ * Copyright (C) 2018-2020 Microchip Technology, Inc.
++ *
++ * Author: Eugen Hristev <eugen.hristev@microchip.com>
++ *
++ */
 +
-+title: Microchip CSI2 Demux Controller (CSI2DC)
++#include <linux/clk.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_graph.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/videodev2.h>
 +
-+maintainers:
-+  - Eugen Hristev <eugen.hristev@microchip.com>
++#include <media/v4l2-device.h>
++#include <media/v4l2-fwnode.h>
++#include <media/v4l2-subdev.h>
++#include <media/videobuf2-dma-contig.h>
 +
-+description:
-+  CSI2DC - Camera Serial Interface 2 Demux Controller
++/* Global configuration register */
++#define CSI2DC_GCFG			0x0
 +
-+  CSI2DC is a hardware block that receives incoming data from an IDI interface
-+  and filters packets based on their data type and virtual channel identifier,
-+  then converts the byte stream into a cross clock domain to a pixel stream
-+  to a parallel interface that can be read by a sensor controller.
++/* MIPI sensor pixel clock is free running */
++#define CSI2DC_GCFG_MIPIFRN		BIT(0)
++/* Output waveform inter-line minimum delay */
++#define CSI2DC_GCFG_HLC(v)		((v) << 4)
++#define CSI2DC_GCFG_HLC_MASK		GENMASK(7, 4)
 +
-+  CSI2DC provides two pipes, one video pipe and one data pipe. Video pipe
-+  is connected to a sensor controller and the data pipe is accessible
-+  as a DMA slave port to a DMA controller.
++/* Global control register */
++#define CSI2DC_GCTLR			0x04
++#define CSI2DC_GCTLR_SWRST		BIT(0)
 +
-+  CSI2DC supports a single 'port' node as a source pad with Synopsys 32-bit
-+  IDI interface. The connected endpoint must be a IDI interface compatible
-+  device (like Synopsys CSI2HOST) , that can provide 32-bit IDI interface
-+  connection as sink pad.
-+  For media entity and endpoints please refer to the bindings defined in
-+  Documentation/devicetree/bindings/media/video-interfaces.txt.
-+  For Synopsys IDI interface please refer to
-+  Documentation/devicetree/bindings/media/snps,dw-csi-plat.txt
++/* Global status register */
++#define CSI2DC_GS			0x08
 +
-+  CSI2DC supports one 'port' node as sink pad with parallel interface. This is
-+  called video pipe.
-+  This port has an 'endpoint' can then be used as a source pad for another
-+  controller (next in pipeline).
-+  Please refer to the bindings defined in
-+  Documentation/devicetree/bindings/media/video-interfaces.txt.
++/* SSP interrupt status register */
++#define CSI2DC_SSPIS			0x28
++/* Pipe update register */
++#define CSI2DC_PU			0xC0
++/* Video pipe attributes update */
++#define CSI2DC_PU_VP			BIT(0)
 +
-+  CSI2DC also supports direct access to the data through AHB, via DMA channel,
-+  called data pipe.
-+  Because of this, the sink 'port' child node (second) is not mandatory.
-+  If the sink 'port' child node is missing, only data pipe is available.
++/* Pipe update status register */
++#define CSI2DC_PUS			0xC4
 +
-+properties:
-+  compatible:
-+    const: microchip,sama7g5-csi2dc
++/* Video pipeline enable register */
++#define CSI2DC_VPE			0xF8
++#define CSI2DC_VPE_ENABLE		BIT(0)
 +
-+  reg:
-+    maxItems: 1
++/* Video pipeline configuration register */
++#define CSI2DC_VPCFG			0xFC
++/* Data type */
++#define CSI2DC_VPCFG_DT(v)		((v) << 0)
++#define CSI2DC_VPCFG_DT_MASK		GENMASK(5, 0)
++/* Virtual channel identifier */
++#define CSI2DC_VPCFG_VC(v)		((v) << 6)
++#define CSI2DC_VPCFG_VC_MASK		GENMASK(7, 6)
++/* Decompression enable */
++#define CSI2DC_VPCFG_DE			BIT(8)
++/* Decoder mode */
++#define CSI2DC_VPCFG_DM(v)		((v) << 9)
++#define CSI2DC_VPCFG_DM_DECODER8TO12	0
++/* Decoder predictor 2 selection */
++#define CSI2DC_VPCFG_DP2		BIT(12)
++/* Recommended memory storage */
++#define CSI2DC_VPCFG_RMS		BIT(13)
++/* Post adjustment */
++#define CSI2DC_VPCFG_PA			BIT(14)
 +
-+  clocks:
-+    maxItems: 2
++/* Video pipeline column register */
++#define CSI2DC_VPCOL			0x100
++/* Column number */
++#define CSI2DC_VPCOL_COL(v)		((v) << 0)
++#define CSI2DC_VPCOL_COL_MASK		GENMASK(15, 0)
 +
-+  clock-names:
-+    description:
-+      CSI2DC must have two clocks to function correctly. One clock is the
-+      peripheral clock for the inside functionality of the hardware block.
-+      This is named 'pclk'. The second clock must be the cross domain clock,
-+      in which CSI2DC will perform clock crossing. This clock must be fed
-+      by the next controller in pipeline, which usually is a sensor controller.
-+      Normally this clock should be given by this sensor controller who
-+      is also a clock source. This clock is named 'scck', sensor controller clock.
-+    items:
-+      - const: pclk
-+      - const: scck
++/* Video pipeline row register */
++#define CSI2DC_VPROW			0x104
++/* Row number */
++#define CSI2DC_VPROW_ROW(v)		((v) << 0)
++#define CSI2DC_VPROW_ROW_MASK		GENMASK(15, 0)
 +
-+  microchip,clk-gated:
-+    type: boolean
-+    description:
-+      If present, indicates that the clock is gated.
-+      Otherwise, the clock is free-running.
++/* Version register */
++#define CSI2DC_VERSION			0x1FC
 +
-+  microchip,inter-line-delay:
-+    allOf:
-+    - $ref: /schemas/types.yaml#/definitions/uint32
-+    - minimum: 1
-+    - maximum: 16
-+    default: 16
-+    description:
-+      Indicates how many clock cycles should be introduced between each line.
++/* register read/write helpers */
++#define csi2dc_readl(st, reg)		readl_relaxed((st)->base + (reg))
++#define csi2dc_writel(st, reg, val)	writel_relaxed((val), (st)->base + (reg))
 +
-+  port@0:
-+    type: object
-+    description:
-+      Input port node, single endpoint describing the input pad.
++/* supported RAW data types */
++#define CSI2DC_DT_RAW6			0x28
++#define CSI2DC_DT_RAW7			0x29
++#define CSI2DC_DT_RAW8			0x2A
++#define CSI2DC_DT_RAW10			0x2B
++#define CSI2DC_DT_RAW12			0x2C
++#define CSI2DC_DT_RAW14			0x2D
 +
-+    properties:
-+      reg:
-+        const: 0
++struct csi2dc_format {
++	u32				mbus_code;
++	u32				dt;
++};
 +
-+      endpoint:
-+        type: object
++static struct csi2dc_format csi2dc_formats_list[] = {
++	{
++		.mbus_code =		MEDIA_BUS_FMT_SRGGB10_1X10,
++		.dt =			CSI2DC_DT_RAW10,
++	},
++};
 +
-+        properties:
-+          remote-endpoint: true
++enum mipi_csi_pads {
++	CSI2DC_PAD_SINK			= 0,
++	CSI2DC_PAD_SOURCE		= 1,
++	CSI2DC_PADS_NUM			= 2,
++};
 +
-+        required:
-+          - remote-endpoint
++struct csi2dc_device {
++	void __iomem			*base;
++	struct v4l2_subdev		csi2dc_sd;
++	struct device			*dev;
++	struct v4l2_device		v4l2_dev;
++	struct clk			*pclk;
++	struct clk			*scck;
 +
-+        additionalProperties: false
++	bool				video_pipe;
 +
-+    additionalProperties: false
++	u32				num_fmts;
++	struct csi2dc_format		**formats;
 +
-+  port@1:
-+    type: object
-+    description:
-+      Output port node, single endpoint, describing the output pad.
++	struct csi2dc_format		*cur_fmt;
++	struct csi2dc_format		*try_fmt;
 +
-+    properties:
-+      '#address-cells':
-+        const: 1
++	struct media_pad		pads[CSI2DC_PADS_NUM];
 +
-+      '#size-cells':
-+        const: 0
++	bool				clk_gated;
++	u32				inter_line_delay;
++	u32				vc;
 +
-+      reg:
-+        const: 1
++	struct v4l2_async_subdev	*asd;
++	struct v4l2_async_notifier	notifier;
 +
-+    patternProperties:
-+      "^endpoint@[0-3]$":
-+        type: object
++	struct v4l2_subdev		*input_sd;
++	bool				completed;
++};
 +
-+        properties:
-+          reg:
-+            enum: [0, 1, 2, 3]
-+            description: virtual channel for the endpoint
++static void csi2dc_vp_update(struct csi2dc_device *csi2dc)
++{
++	u32 vp;
 +
-+          remote-endpoint: true
++	vp = CSI2DC_VPCFG_DT(csi2dc->cur_fmt->dt) & CSI2DC_VPCFG_DT_MASK;
++	vp |= CSI2DC_VPCFG_VC(csi2dc->vc) & CSI2DC_VPCFG_VC_MASK;
++	vp &= ~CSI2DC_VPCFG_DE;
++	vp |= CSI2DC_VPCFG_DM(CSI2DC_VPCFG_DM_DECODER8TO12);
++	vp &= ~CSI2DC_VPCFG_DP2;
++	vp &= ~CSI2DC_VPCFG_RMS;
++	vp |= CSI2DC_VPCFG_PA;
 +
-+        required:
-+          - remote-endpoint
-+          - reg
++	csi2dc_writel(csi2dc, CSI2DC_VPCFG, vp);
++	csi2dc_writel(csi2dc, CSI2DC_VPE, CSI2DC_VPE_ENABLE);
++	csi2dc_writel(csi2dc, CSI2DC_PU, CSI2DC_PU_VP);
++}
 +
-+        additionalProperties: false
++static inline struct csi2dc_device *
++csi2dc_sd_to_csi2dc_device(struct v4l2_subdev *csi2dc_sd)
++{
++	return container_of(csi2dc_sd, struct csi2dc_device, csi2dc_sd);
++}
 +
-+    additionalProperties: false
++static int csi2dc_enum_mbus_code(struct v4l2_subdev *csi2dc_sd,
++				 struct v4l2_subdev_pad_config *cfg,
++				 struct v4l2_subdev_mbus_code_enum *code)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - port@0
++	if (code->index >= csi2dc->num_fmts)
++		return -EINVAL;
 +
-+examples:
-+  - |
-+    csi2dc@e1404000 {
-+        compatible = "microchip,sama7g5-csi2dc";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        reg = <0xe1404000 0x500>;
-+        clocks = <&pclk>, <&scck>;
-+        clock-names = "pclk", "scck";
++	code->code = csi2dc->formats[code->index]->mbus_code;
++	return 0;
++}
 +
-+        port@0 {
-+               reg = <0>; /* must be 0, first child port */
-+               csi2dc_in: endpoint { /* input from IDI interface */
-+                     remote-endpoint = <&csi2host_out>;
-+               };
-+        };
++static int csi2dc_try_fmt(struct v4l2_subdev *csi2dc_sd,
++			  struct v4l2_subdev_pad_config *cfg,
++			  struct v4l2_subdev_format *req_fmt)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++	struct csi2dc_format *fmt;
 +
-+        port@1 {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                reg = <1>; /* must be 1, second child port */
-+                csi2dc_out: endpoint@2 {
-+                        reg = <2>;  /* virtual channel identifier */
-+                        remote-endpoint = <&xisc_in>; /* output to sensor controller */
-+                };
-+        };
-+    };
++	if (!csi2dc->completed) {
++		dev_dbg((csi2dc)->dev, "subdev not registered yet\n");
++		return 0;
++	}
 +
-+...
++	for (fmt = csi2dc->formats[0]; fmt; fmt++)
++		if (req_fmt->format.code == fmt->mbus_code)
++			csi2dc->try_fmt = fmt;
++
++	/* in case we could not find the desired format, default to something */
++	if (!csi2dc->try_fmt  ||
++	    req_fmt->format.code != csi2dc->try_fmt->mbus_code) {
++		csi2dc->try_fmt = csi2dc->formats[0];
++		req_fmt->format.code = csi2dc->formats[0]->mbus_code;
++	}
++
++	return v4l2_subdev_call(csi2dc->input_sd, pad, set_fmt, cfg, req_fmt);
++}
++
++static int csi2dc_set_fmt(struct v4l2_subdev *csi2dc_sd,
++			  struct v4l2_subdev_pad_config *cfg,
++			  struct v4l2_subdev_format *req_fmt)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++	int ret;
++
++	if (!csi2dc->completed) {
++		dev_dbg((csi2dc)->dev, "subdev not registered yet\n");
++		return 0;
++	}
++
++	csi2dc_try_fmt(csi2dc_sd, cfg, req_fmt);
++
++	if (csi2dc->try_fmt->mbus_code != req_fmt->format.code) {
++		dev_dbg(csi2dc->dev, "CSI2DC unsupported format 0x%x\n",
++			req_fmt->format.code);
++		return -EINVAL;
++	}
++
++	ret = v4l2_subdev_call(csi2dc->input_sd, pad, set_fmt, cfg, req_fmt);
++	if (ret) {
++		dev_err(csi2dc->dev, "input subdev failed %d\n", ret);
++		return ret;
++	}
++
++	csi2dc->cur_fmt = csi2dc->try_fmt;
++	/* update video pipe */
++	csi2dc_vp_update(csi2dc);
++
++	dev_dbg(csi2dc->dev, "CSI2DC new format: 0x%x\n", req_fmt->format.code);
++	return 0;
++}
++
++static int csi2dc_formats_init(struct csi2dc_device *csi2dc)
++{
++	int i, j;
++	struct csi2dc_format *fmt = &csi2dc_formats_list[0];
++
++	csi2dc->num_fmts = 1;
++
++	csi2dc->formats = devm_kcalloc(csi2dc->dev, csi2dc->num_fmts,
++				       sizeof(*csi2dc->formats), GFP_KERNEL);
++
++	for (i = 0, j = 0; i < ARRAY_SIZE(csi2dc_formats_list); i++, fmt++)
++		if (fmt->mbus_code == MEDIA_BUS_FMT_SRGGB10_1X10)
++			csi2dc->formats[j++] = fmt;
++	return 0;
++}
++
++static int csi2dc_s_power(struct v4l2_subdev *csi2dc_sd, int on)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++	int ret = 0;
++
++	if (!csi2dc->completed) {
++		dev_dbg((csi2dc)->dev, "subdev not registered yet\n");
++		return 0;
++	}
++
++	if (on)
++		ret = clk_prepare_enable(csi2dc->scck);
++	else
++		clk_disable_unprepare(csi2dc->scck);
++	if (ret)
++		dev_err(csi2dc->dev, "failed to enable scck: %d\n", ret);
++
++	/* if powering up, deassert reset line */
++	if (on)
++		csi2dc_writel(csi2dc, CSI2DC_GCTLR, CSI2DC_GCTLR_SWRST);
++
++	ret = v4l2_subdev_call(csi2dc->input_sd, core, s_power, on);
++
++	/* if powering down, assert reset line */
++	if (!on)
++		csi2dc_writel(csi2dc, CSI2DC_GCTLR, !CSI2DC_GCTLR_SWRST);
++
++	return ret;
++}
++
++static int csi2dc_s_stream(struct v4l2_subdev *csi2dc_sd, int enable)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++
++	if (!csi2dc->completed) {
++		dev_dbg((csi2dc)->dev, "subdev not registered yet\n");
++		return 0;
++	}
++
++	return v4l2_subdev_call(csi2dc->input_sd, video, s_stream, enable);
++}
++
++static int csi2dc_g_frame_interval(struct v4l2_subdev *csi2dc_sd,
++				   struct v4l2_subdev_frame_interval *interval)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++
++	if (!csi2dc->completed) {
++		dev_dbg((csi2dc)->dev, "subdev not registered yet\n");
++		return 0;
++	}
++
++	return v4l2_subdev_call(csi2dc->input_sd, video, g_frame_interval,
++				interval);
++}
++
++static int csi2dc_s_frame_interval(struct v4l2_subdev *csi2dc_sd,
++				   struct v4l2_subdev_frame_interval *interval)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++
++	if (!csi2dc->completed) {
++		dev_dbg((csi2dc)->dev, "subdev not registered yet\n");
++		return 0;
++	}
++
++	return v4l2_subdev_call(csi2dc->input_sd, video, s_frame_interval,
++				interval);
++}
++
++static int csi2dc_enum_frame_size(struct v4l2_subdev *csi2dc_sd,
++				  struct v4l2_subdev_pad_config *cfg,
++				  struct v4l2_subdev_frame_size_enum *fse)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++
++	if (!csi2dc->completed) {
++		dev_dbg((csi2dc)->dev, "subdev not registered yet\n");
++		return 0;
++	}
++
++	return v4l2_subdev_call(csi2dc->input_sd, pad, enum_frame_size, cfg,
++				fse);
++}
++
++static int csi2dc_enum_frame_interval(struct v4l2_subdev *csi2dc_sd,
++				      struct v4l2_subdev_pad_config *cfg,
++				      struct v4l2_subdev_frame_interval_enum *fie)
++{
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++
++	if (!csi2dc->completed) {
++		dev_dbg((csi2dc)->dev, "subdev not registered yet\n");
++		return 0;
++	}
++
++	return v4l2_subdev_call(csi2dc->input_sd, pad, enum_frame_interval, cfg,
++				fie);
++}
++
++static const struct v4l2_subdev_core_ops csi2dc_core_ops = {
++	.s_power = csi2dc_s_power,
++};
++
++static const struct v4l2_subdev_pad_ops csi2dc_pad_ops = {
++	.enum_mbus_code = csi2dc_enum_mbus_code,
++	.set_fmt = csi2dc_set_fmt,
++	.enum_frame_size = csi2dc_enum_frame_size,
++	.enum_frame_interval = csi2dc_enum_frame_interval,
++};
++
++static const struct v4l2_subdev_video_ops csi2dc_video_ops = {
++	.s_stream = csi2dc_s_stream,
++	.g_frame_interval = csi2dc_g_frame_interval,
++	.s_frame_interval = csi2dc_s_frame_interval,
++};
++
++static const struct v4l2_subdev_ops csi2dc_subdev_ops = {
++	.core = &csi2dc_core_ops,
++	.pad = &csi2dc_pad_ops,
++	.video = &csi2dc_video_ops,
++};
++
++static int csi2dc_async_bound(struct v4l2_async_notifier *notifier,
++			      struct v4l2_subdev *subdev,
++			      struct v4l2_async_subdev *asd)
++{
++	struct csi2dc_device *csi2dc = container_of(notifier->v4l2_dev,
++					struct csi2dc_device, v4l2_dev);
++	csi2dc->input_sd = subdev;
++
++	return 0;
++}
++
++static int csi2dc_async_complete(struct v4l2_async_notifier *notifier)
++{
++	struct csi2dc_device *csi2dc =
++		container_of(notifier->v4l2_dev, struct csi2dc_device, v4l2_dev);
++	int ret;
++
++	ret = v4l2_device_register_subdev_nodes(&csi2dc->v4l2_dev);
++	if (ret < 0) {
++		v4l2_err(&csi2dc->v4l2_dev, "failed to register subdev nodes\n");
++		return ret;
++	}
++
++	csi2dc_writel(csi2dc, CSI2DC_GCFG,
++		      (CSI2DC_GCFG_HLC(csi2dc->inter_line_delay) &
++		      CSI2DC_GCFG_HLC_MASK) |
++		      (csi2dc->clk_gated ? 0 : CSI2DC_GCFG_MIPIFRN));
++
++	csi2dc_writel(csi2dc, CSI2DC_VPCOL,
++		      CSI2DC_VPCOL_COL(0xFFF) & CSI2DC_VPCOL_COL_MASK);
++	csi2dc_writel(csi2dc, CSI2DC_VPROW,
++		      CSI2DC_VPROW_ROW(0xFFF) & CSI2DC_VPROW_ROW_MASK);
++
++	csi2dc->completed = true;
++
++	return ret;
++}
++
++static const struct v4l2_async_notifier_operations csi2dc_async_ops = {
++	.bound = csi2dc_async_bound,
++	.complete = csi2dc_async_complete,
++};
++
++static void csi2dc_cleanup_notifier(struct csi2dc_device *csi2dc)
++{
++	v4l2_async_notifier_unregister(&csi2dc->notifier);
++	v4l2_async_notifier_cleanup(&csi2dc->notifier);
++}
++
++static int csi2dc_prepare_notifier(struct csi2dc_device *csi2dc,
++				   struct device_node *input_parent)
++{
++	int ret;
++
++	v4l2_async_notifier_init(&csi2dc->notifier);
++
++	csi2dc->asd = kzalloc(sizeof(*csi2dc->asd), GFP_KERNEL);
++	if (!csi2dc->asd)
++		return -ENOMEM;
++
++	csi2dc->asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
++	csi2dc->asd->match.fwnode = of_fwnode_handle(input_parent);
++
++	ret = v4l2_async_notifier_add_subdev(&csi2dc->notifier, csi2dc->asd);
++	if (ret) {
++		dev_err(csi2dc->dev, "failed to add async notifier.\n");
++		v4l2_async_notifier_cleanup(&csi2dc->notifier);
++		goto csi2dc_prepare_notifier_err;
++	}
++
++	csi2dc->notifier.ops = &csi2dc_async_ops;
++
++	ret = v4l2_async_notifier_register(&csi2dc->v4l2_dev,
++					   &csi2dc->notifier);
++
++	if (ret) {
++		dev_err(csi2dc->dev, "fail to register async notifier.\n");
++		goto csi2dc_prepare_notifier_err;
++	}
++
++csi2dc_prepare_notifier_err:
++	of_node_put(input_parent);
++
++	return ret;
++}
++
++static int csi2dc_of_parse(struct csi2dc_device *csi2dc,
++			   struct device_node *of_node)
++{
++	struct device_node *input_node, *sink_node, *input_parent;
++	struct v4l2_fwnode_endpoint input_endpoint = { 0 }, sink_endpoint = { 0 };
++	int ret;
++
++	input_node = of_graph_get_next_endpoint(of_node, NULL);
++
++	if (!input_node) {
++		dev_err(csi2dc->dev, "missing port node at %s, input node is mandatory.\n",
++			of_node->full_name);
++		return -EINVAL;
++	}
++
++	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(input_node),
++					 &input_endpoint);
++
++	if (ret) {
++		dev_err(csi2dc->dev, "endpoint not defined at %s\n",
++			of_node->full_name);
++		return ret;
++	}
++
++	input_parent = of_graph_get_remote_port_parent(input_node);
++	if (!input_parent) {
++		dev_err(csi2dc->dev, "could not get input node's parent node.\n");
++		return -EINVAL;
++	}
++
++	sink_node = of_graph_get_next_endpoint(of_node, input_node);
++
++	if (sink_node)
++		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(sink_node),
++						 &sink_endpoint);
++
++	if (!sink_node || ret) {
++		dev_info(csi2dc->dev, "missing sink node at %s, data pipe available only.\n",
++			 of_node->full_name);
++	} else {
++		csi2dc->video_pipe = true;
++		csi2dc->vc = sink_endpoint.base.id;
++
++		dev_dbg(csi2dc->dev, "block %s %d.%d->%d.%d video pipe VC %d\n",
++			of_node->full_name, input_endpoint.base.port,
++			input_endpoint.base.id,	sink_endpoint.base.port,
++			sink_endpoint.base.id, csi2dc->vc);
++	}
++
++	csi2dc->clk_gated = of_property_read_bool(of_node,
++						  "microchip,clk-gated");
++
++	dev_dbg(csi2dc->dev, "%s clock\n",
++		csi2dc->clk_gated ? "Gated" : "Free running");
++
++	ret = of_property_read_u32(of_node, "microchip,inter-line-delay",
++				   &csi2dc->inter_line_delay);
++
++	if (ret || csi2dc->inter_line_delay > 16 ||
++	    csi2dc->inter_line_delay == 0) {
++		dev_dbg(csi2dc->dev, "assuming inter line delay = 16 clocks");
++		csi2dc->inter_line_delay = 16;
++		ret = 0;
++	}
++	/* hardware automatically adds 1 */
++	csi2dc->inter_line_delay--;
++
++	/* prepare async notifier for subdevice completion */
++
++	of_node_put(sink_node);
++	of_node_put(input_node);
++
++	return csi2dc_prepare_notifier(csi2dc, input_parent);
++}
++
++static int csi2dc_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct csi2dc_device *csi2dc;
++	struct resource *res = NULL;
++	int ret = 0;
++
++	csi2dc = devm_kzalloc(dev, sizeof(*csi2dc), GFP_KERNEL);
++	if (!csi2dc)
++		return -ENOMEM;
++
++	csi2dc->dev = dev;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -EINVAL;
++
++	csi2dc->base = devm_ioremap_resource(dev, res);
++
++	if (IS_ERR(csi2dc->base)) {
++		dev_err(dev, "base address not set\n");
++		return PTR_ERR(csi2dc->base);
++	}
++
++	csi2dc->pclk = devm_clk_get(dev, "pclk");
++	if (IS_ERR(csi2dc->pclk)) {
++		ret = PTR_ERR(csi2dc->pclk);
++		dev_err(dev, "failed to get pclk: %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(csi2dc->pclk);
++	if (ret) {
++		dev_err(dev, "failed to enable pclk: %d\n", ret);
++		return ret;
++	}
++
++	csi2dc->scck = devm_clk_get(dev, "scck");
++	if (IS_ERR(csi2dc->scck)) {
++		ret = PTR_ERR(csi2dc->scck);
++		dev_err(dev, "failed to get scck: %d\n", ret);
++		goto csi2dc_clk_fail;
++	}
++
++	ret = v4l2_device_register(dev, &csi2dc->v4l2_dev);
++	if (ret) {
++		dev_err(dev, "unable to register v4l2 device.\n");
++		goto csi2dc_clk_fail;
++	}
++
++	v4l2_subdev_init(&csi2dc->csi2dc_sd, &csi2dc_subdev_ops);
++
++	csi2dc->csi2dc_sd.owner = THIS_MODULE;
++	csi2dc->csi2dc_sd.dev = dev;
++	snprintf(csi2dc->csi2dc_sd.name, sizeof(csi2dc->csi2dc_sd.name),
++		 "CSI2DC.0");
++
++	csi2dc->csi2dc_sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	csi2dc->csi2dc_sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
++	csi2dc->pads[CSI2DC_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
++	csi2dc->pads[CSI2DC_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
++
++	ret = media_entity_pads_init(&csi2dc->csi2dc_sd.entity, CSI2DC_PADS_NUM,
++				     csi2dc->pads);
++	if (ret < 0) {
++		dev_err(dev, "media entity init failed\n");
++		goto csi2dc_probe_entity_err;
++	}
++
++	v4l2_set_subdevdata(&csi2dc->csi2dc_sd, pdev);
++
++	platform_set_drvdata(pdev, &csi2dc->csi2dc_sd);
++
++	ret = csi2dc_of_parse(csi2dc, dev->of_node);
++	if (ret)
++		goto csi2dc_probe_entity_err;
++
++	ret = csi2dc_formats_init(csi2dc);
++	if (ret)
++		goto csi2dc_probe_error;
++
++	ret = v4l2_async_register_subdev(&csi2dc->csi2dc_sd);
++	if (ret)
++		goto csi2dc_probe_error;
++
++	pr_info("Microchip CSI2DC version %x\n",
++		csi2dc_readl(csi2dc, CSI2DC_VERSION));
++
++	pm_runtime_set_active(dev);
++	pm_runtime_enable(dev);
++	pm_request_idle(dev);
++
++	return 0;
++
++csi2dc_probe_error:
++	v4l2_async_unregister_subdev(&csi2dc->csi2dc_sd);
++	csi2dc_cleanup_notifier(csi2dc);
++
++csi2dc_probe_entity_err:
++	media_entity_cleanup(&csi2dc->csi2dc_sd.entity);
++	v4l2_device_unregister(&csi2dc->v4l2_dev);
++csi2dc_clk_fail:
++	clk_disable_unprepare(csi2dc->pclk);
++	return ret;
++}
++
++static int csi2dc_remove(struct platform_device *pdev)
++{
++	struct v4l2_subdev *csi2dc_sd = platform_get_drvdata(pdev);
++	struct csi2dc_device *csi2dc = csi2dc_sd_to_csi2dc_device(csi2dc_sd);
++
++	pm_runtime_disable(&pdev->dev);
++	csi2dc_cleanup_notifier(csi2dc);
++	media_entity_cleanup(&csi2dc->csi2dc_sd.entity);
++	v4l2_device_unregister(&csi2dc->v4l2_dev);
++	clk_disable_unprepare(csi2dc->pclk);
++
++	return 0;
++}
++
++static int __maybe_unused csi2dc_runtime_suspend(struct device *dev)
++{
++	return 0;
++}
++
++static int __maybe_unused csi2dc_runtime_resume(struct device *dev)
++{
++	return 0;
++}
++
++static const struct dev_pm_ops csi2dc_dev_pm_ops = {
++	SET_RUNTIME_PM_OPS(csi2dc_runtime_suspend, csi2dc_runtime_resume, NULL)
++};
++
++static const struct of_device_id csi2dc_of_match[] = {
++	{ .compatible = "microchip,sama7g5-csi2dc" },
++	{ }
++};
++
++MODULE_DEVICE_TABLE(of, csi2dc_of_match);
++
++static struct platform_driver csi2dc_driver = {
++	.probe	= csi2dc_probe,
++	.remove	= csi2dc_remove,
++	.driver	= {
++		.name		= "microchip-csi2dc",
++		.pm		= &csi2dc_dev_pm_ops,
++		.of_match_table = of_match_ptr(csi2dc_of_match),
++	},
++};
++
++module_platform_driver(csi2dc_driver);
++
++MODULE_AUTHOR("Eugen Hristev <eugen.hristev@microchip.com>");
++MODULE_DESCRIPTION("Microchip CSI2 Demux Controller driver");
++MODULE_LICENSE("GPL v2");
++MODULE_SUPPORTED_DEVICE("video");
 -- 
 2.25.1
 
