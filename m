@@ -2,135 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55D01252EE7
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 14:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85AF02530F0
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 16:10:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729958AbgHZMqH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 08:46:07 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60631 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729785AbgHZMqG (ORCPT
+        id S1730403AbgHZOKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 10:10:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55492 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727020AbgHZOKW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:46:06 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id AuoVkjHO7uuXOAuoWkDhum; Wed, 26 Aug 2020 14:46:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1598445964; bh=zSxsTcETUhxd94TCm5XIL128nAPmxXf4mD7jE/FpxTc=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=hxSkJCfTXSJ5xPBs/g4LRm2q0HKy/djw11pZriAJgXaQEJ0kBoOtziScw3PWh0b82
-         1N1vgBmxqrN7Z9va53pGGudA7JOkxRglqCj7aV8TB2Ve6qgOHqrbwrM/K9FdTJV+Es
-         yYaLYyp7kBwRWxJHgEisjXr3X4/209vyvP2wGEAzFgujOMQU8Vgap0beOujHlpF4NR
-         ax7Ya4zYKLVMA2Q0ulGK+u+qLlnqKO+Ii24i7c6WVZt4gyNpOnERvWgsksISnrj4um
-         CqCcJtB2rYRuewOYrlDFS78zDz1PDeOBO23K0PWVgYCDj1CFbEseLe86/C4nxuYKT8
-         rDVYYrBYaeOiQ==
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: simplify poll logic a bit
-To:     Alexandre Courbot <gnurou@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200825145556.637323-1-gnurou@gmail.com>
- <20200825145556.637323-3-gnurou@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c95ef569-1ae2-73a0-7c3c-ddd15c6dddb4@xs4all.nl>
-Date:   Wed, 26 Aug 2020 14:46:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 26 Aug 2020 10:10:22 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11B17C061757
+        for <linux-media@vger.kernel.org>; Wed, 26 Aug 2020 07:10:22 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id u3so1918570qkd.9
+        for <linux-media@vger.kernel.org>; Wed, 26 Aug 2020 07:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=4SOxWdwKrVd7Rs8H8CO46YzvqktHGZXPaEWImz9lP9k=;
+        b=c2eno+caDxPjGqUaShOtwkH+Ua48sWEUnbnfaCKsi5NelMzzT/qYhVCKwJksUtcG0p
+         +qSIAsA5H8+4SyTzTnu5hJsx8VVfSnjgDirRhIvT8gk10eiDtPKpmnR+1wkSUUOc7CXd
+         6bK602fned3kG28/v9wFl42h6+nwD0hC67+ugTYdQKuvYo6Je4ikXSbO/wMhe/VbehDG
+         v27jiXWuRCU2tiWEUYQ/TM+mPoIRXJbmT75sLqCK1K8GOL+/UQKEUeVZcsTK80p1EsfW
+         hAGgcm8iFgQIMvY7r0nSQ2DPYPLykTRsLgzqnWcCVtLZ9dEgRnzURMjSl7SCARLxU728
+         8i3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=4SOxWdwKrVd7Rs8H8CO46YzvqktHGZXPaEWImz9lP9k=;
+        b=OREMgH4cNr6dFqcll3ec+Lglp7eUQ/9V7mc2Tk9aY4hVpxtns1PClSSs3h9QP73hFR
+         zRfodoRolFlZUrDKCDbOyBfFeJVMNoJBtNGAxWeH99Z3V2mF/yid9KF5fCiXuvFyCcfa
+         lzpUbUsewbbGEDJs/ur/9HfP6Arrrx63xT4pZ6N3DENrJ7Mz0q0xV8l3ukz2l1bGefCB
+         zj/fN6OLkfpdDO6a8JxbC2zsCluAjJdvzmfUwoB9MNdK6p7g0Eg5oeCnoZ7v32Tk0zzq
+         ncqqby9+WKUohwz1KFalZFYSD5ZgSKS145nzEdMw4CL2ZAqS/nYJUCcfCyWCQ0RpSywZ
+         zS8g==
+X-Gm-Message-State: AOAM532bP/CF8szDf+NK84/8ZuGGE3+AcFp1I8Vssq9uOXZ+w5s9S7LQ
+        mPrEnoiAqd858M/XQDHxlGpxyA==
+X-Google-Smtp-Source: ABdhPJwkSNT72+PEdYl3Nm1abDOh/V+5kPeI+dZtxPtbEPcesP4QqqA85A+ELO0dTvB7bCighuhYFQ==
+X-Received: by 2002:a37:5fc4:: with SMTP id t187mr14697742qkb.224.1598451019676;
+        Wed, 26 Aug 2020 07:10:19 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id r8sm1773767qke.117.2020.08.26.07.10.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2020 07:10:18 -0700 (PDT)
+Message-ID: <ae3814b877ea264b0231321d12d946761941e004.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 3/3] media: v4l: xilinx: Add Xilinx UHD-SDI Rx
+ Subsystem driver
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vishal Sagar <vsagar@xilinx.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Hyun Kwon <hyunk@xilinx.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Michal Simek <michals@xilinx.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "joe@perches.com" <joe@perches.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Dinesh Kumar <dineshk@xilinx.com>
+Date:   Wed, 26 Aug 2020 10:10:17 -0400
+In-Reply-To: <20200819165641.GS6049@pendragon.ideasonboard.com>
+References: <20200618053304.14551-1-vishal.sagar@xilinx.com>
+         <20200618053304.14551-4-vishal.sagar@xilinx.com>
+         <50cc4f4b-e788-c5ad-cd6a-b428b96d5377@xs4all.nl>
+         <20200715213315.GF6144@pendragon.ideasonboard.com>
+         <BY5PR02MB6867211CA1F22DC01D6A8F15A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
+         <20200819165641.GS6049@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-In-Reply-To: <20200825145556.637323-3-gnurou@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOfZoS8Q/qeXk6cydAMOyfZ63zLLbylTR8YCYFXm11Onhe31JfZwvfZjggFSx/lIUt1EyOPv6gkv8/QQfug2QuNyMEc312gzspkgnD5GKXJpztsczur6
- Bq41AjEi4cxOrFD1Tqg9bJxuFmPKNZVuz+f0DX7stAAO5221SMqQ0OSqEa04SYD+D+A+q+CKLFUMoOvro5iFIvvz61h/w8SZzEmDhGoYKbpy8x5YuVW6vYry
- iYw1wXCOI2SqeVi1qgcXmdCEzQRwJsqB2S90EU5IukZBcjtrCE6JI9KqI5/Q1KNh0YPjeKBqJzm+bcXzMzq6aQzufe2PV7t4/N3y/zLR0KSiL+37zX7ve0Xz
- b3jo0QoecxJxtCjwlhGEtjGpXIL8xPBV/xGMnn4W2FMgD0X+9amlaUDIhUU3kwNbEsEc2i0T
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/08/2020 16:55, Alexandre Courbot wrote:
-> Factorize redundant checks into a single code block, remove the early
-> return, and declare variables in their innermost block. Hopefully this
-> makes this code a little bit easier to follow.
+Le mercredi 19 août 2020 à 19:56 +0300, Laurent Pinchart a écrit :
+> Hi Vishal,
 > 
-> Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
-> ---
->  drivers/media/v4l2-core/v4l2-mem2mem.c | 35 +++++++++++---------------
->  1 file changed, 15 insertions(+), 20 deletions(-)
+> (Hans, there's a question for you below)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> index 0d0192119af20..aeac9707123d0 100644
-> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> @@ -841,7 +841,6 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
->  				       struct poll_table_struct *wait)
->  {
->  	struct vb2_queue *src_q, *dst_q;
-> -	struct vb2_buffer *src_vb = NULL, *dst_vb = NULL;
->  	__poll_t rc = 0;
->  	unsigned long flags;
->  
-> @@ -863,33 +862,29 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
->  		return EPOLLERR;
->  
->  	spin_lock_irqsave(&src_q->done_lock, flags);
-> -	if (!list_empty(&src_q->done_list))
-> -		src_vb = list_first_entry(&src_q->done_list, struct vb2_buffer,
-> -						done_entry);
-> -	if (src_vb && (src_vb->state == VB2_BUF_STATE_DONE
-> -			|| src_vb->state == VB2_BUF_STATE_ERROR))
-> -		rc |= EPOLLOUT | EPOLLWRNORM;
-> +	if (!list_empty(&src_q->done_list)) {
-> +		struct vb2_buffer *src_vb = list_first_entry(
-> +			&src_q->done_list, struct vb2_buffer, done_entry);
-> +		if (src_vb->state == VB2_BUF_STATE_DONE ||
-> +		    src_vb->state == VB2_BUF_STATE_ERROR)
+> On Wed, Aug 19, 2020 at 01:47:49PM +0000, Vishal Sagar wrote:
+> > On Thursday, July 16, 2020 3:03 AM Laurent Pinchart wrote:
+> > > On Thu, Jun 25, 2020 at 11:43:01AM +0200, Hans Verkuil wrote:
+> > > > On 18/06/2020 07:33, Vishal Sagar wrote:
+> > > > > The Xilinx UHD-SDI Rx subsystem soft IP is used to capture native SDI
+> > > > > streams from SDI sources like SDI broadcast equipment like cameras and
+> > > > > mixers. This block outputs either native SDI, native video or
+> > > > > AXI4-Stream compliant data stream for further processing. Please refer
+> > > > > to PG290 for details.
+> > > > > 
+> > > > > The driver is used to configure the IP to add framer, search for
+> > > > > specific modes, get the detected mode, stream parameters, errors, etc.
+> > > > > It also generates events for video lock/unlock, bridge over/under flow.
+> > > > > 
+> > > > > The driver supports 10/12 bpc YUV 422 media bus format currently. It
+> > > > > also decodes the stream parameters based on the ST352 packet embedded in the
+> > > > > stream. In case the ST352 packet isn't present in the stream, the core's
+> > > > > detected properties are used to set stream properties.
+> > > > > 
+> > > > > The driver currently supports only the AXI4-Stream IP configuration.
+> > > > > 
+> > > > > Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
+> > > > > ---
+> > > > > v3
+> > > > > - fixed KConfig with better description
+> > > > > - removed unnecessary header files
+> > > > > - converted uppercase to lowercase for all hex values
+> > > > > - merged core struct to state struct
+> > > > > - removed most one line functions and replaced with direct reg
+> > > > >   read/write or macros
+> > > > > - dt property bpp to bpc. default 10. not mandatory.
+> > > > > - fixed subscribe events, log_status, s_stream
+> > > > > - merged overflow/underflow to one event
+> > > > > - moved all controls to xilinx-sdirxss.h
+> > > > > - max events from 128 to 8
+> > > > > - used FIELD_GET() instead of custom macro
+> > > > > - updated the controls documentation
+> > > > > - added spinlock
+> > > > > - removed 3GB control and added mode to detect bitmask
+> > > > > - fixed format for (width, height, colorspace, xfer func, etc)
+> > > > > - added dv_timings_cap, s/g_dv_timings
+> > > > > - fixed set/get_format
+> > > > > - fix v4l control registrations
+> > > > > - fix order of registration / deregistration in probe() remove()
+> > > > > - fixed other comments from Hyun, Laurent and Hans
+> > > > > - things yet to close
+> > > > >   - adding source port for connector (Laurent's suggestion)
+> > > > >   - adding new FIELD type for Transport Stream V4L2_FIELD_ALTERNATE_PROG (Han's suggestion)
+> > > > >   - Update / remove EDH or CRC related controls
+> > > > > 
+> > > > > v2
+> > > > > - Added DV timing support based on Hans Verkuilś feedback
+> > > > > - More documentation to custom v4l controls and events
+> > > > > - Fixed Hyunś comments
+> > > > > - Added macro for masking and shifting as per Joe Perches comments
+> > > > > - Updated to latest as per Xilinx github repo driver like
+> > > > >   adding new DV timings not in mainline yet uptill 03/21/20
+> > > > > 
+> > > > >  drivers/media/platform/xilinx/Kconfig         |   11 +
+> > > > >  drivers/media/platform/xilinx/Makefile        |    1 +
+> > > > >  .../media/platform/xilinx/xilinx-sdirxss.c    | 2121 +++++++++++++++++
+> > > > >  include/uapi/linux/v4l2-controls.h            |    6 +
+> > > > >  include/uapi/linux/xilinx-sdirxss.h           |  283 +++
+> > > > >  5 files changed, 2422 insertions(+)
+> > > > >  create mode 100644 drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > > > >  create mode 100644 include/uapi/linux/xilinx-sdirxss.h
+> 
+> [snip]
+> 
+> > > > > diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c b/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > > > > new file mode 100644
+> > > > > index 000000000000..e39aab7c656a
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > > > > @@ -0,0 +1,2121 @@
+> 
+> [snip]
+> 
+> > > > > +	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
+> > > > > +		ctrl->val = xsdirxss->ts_is_interlaced;
+> > > > > +		break;
+> > > > 
+> > > > I assume this control will disappear once you added support for
+> > > > FIELD_ALTERNATE_PROG?
+> > > 
+> > > I'm not sure FIELD_ALTERNATE_PROG is a good idea. The v4l2_field
+> > > specifies today how frames are split into multiple buffers. There's an
+> > > implicit assumption that a frame split into two buffers is captured with
+> > > interlacing. In the SDI case, the two concepts get decoupled, a
+> > > progressive frame can be transmitted (and captured) in two separate
+> > > parts. If we add a *_PROG field, we'll need to duplicate most of the
+> > > v4l2_field values with a _PROG suffix, as the progressive frame can be
+> > > captured in alternate buffers on a video node, but also in separate odd
+> > > and even buffers on two video nodes. Tt the hardware level, data is
+> > > transmitted with odd lines on one link, and even lines on a second link.
+> > > There are then two instances of this IP core, one for each link. One
+> > > instance would receive and process the even lines, the other instance
+> > > the odd lines. The output of the two instances can then be connected to
+> > > two separate DMA engines, or combined in the FPGA fabric, depending on
+> > > how the user designs the system.
+> > 
+> > My apologies to give incorrect info regarding this.
+> > In the progressive segmented frame, a progressive captured frame is sent
+> > across to receiver over an interlaced transport. The 2 fields received
+> > are similar to how V4L2_FIELD_ALTERNATE is except that the fields weren't
+> > captured at 2 different times.
+> 
+> I've now read more about progressive segmented frames, and I was indeed
+> wrong about the fact that the two segments are transported over
+> different links.
+> 
+> I still wonder, however, if a _PROG suffix is the best option. Wouldn't
+> we need to also add V4L2_FIELD_TOP_PROG, V4L2_FIELD_BOTTOM_PROG,
+> V4L2_FIELD_SEQ_TB_PROG and V4L2_FIELD_SEQ_BT_PROG, not necessarily for
+> this driver, but for other devices that would support capturing the
+> odd/even segments only, or support capturing both segments in a single
+> buffer, one after the other ?
+> 
+> Maybe that's unavoidable, as enum v4l2_field combines both the buffer
+> layout and the fact that the frame is interlaced or progressive. If we
+> had to redesign it we could do better, but having to keep backward
+> compatibility, duplicating most values with a _PROG suffix may be the
+> best option.
+> 
+> Hans, any opinion ?
 
-This test is unnecessary: only buffers in state DONE or ERROR can be on the done_list.
+Can't your receiver store these two fragment directly into a
+progressive buffer instead of leaking this HW specific thing into uAPI
+? All you'd need is support for stride (bytesperline) at the HW
+writeback level, and then you can hide this complexicuty to userspace
+by filling the top/bottom line only. You simply multiply the stride by
+two in this context.
 
-> +			rc |= EPOLLOUT | EPOLLWRNORM;
-> +	}
->  	spin_unlock_irqrestore(&src_q->done_lock, flags);
->  
->  	spin_lock_irqsave(&dst_q->done_lock, flags);
-> -	if (list_empty(&dst_q->done_list)) {
-> +	if (!list_empty(&dst_q->done_list)) {
-> +		struct vb2_buffer *dst_vb = list_first_entry(
-> +			&dst_q->done_list, struct vb2_buffer, done_entry);
-> +		if (dst_vb->state == VB2_BUF_STATE_DONE ||
-> +		    dst_vb->state == VB2_BUF_STATE_ERROR)
-
-Ditto.
-
-Regards,
-
-	Hans
-
-> +			rc |= EPOLLIN | EPOLLRDNORM;
-> +	} else if (dst_q->last_buffer_dequeued) {
->  		/*
->  		 * If the last buffer was dequeued from the capture queue,
->  		 * return immediately. DQBUF will return -EPIPE.
->  		 */
-> -		if (dst_q->last_buffer_dequeued) {
-> -			spin_unlock_irqrestore(&dst_q->done_lock, flags);
-> -			rc |= EPOLLIN | EPOLLRDNORM;
-> -			return rc;
-> -		}
-> -	}
-> -
-> -	if (!list_empty(&dst_q->done_list))
-> -		dst_vb = list_first_entry(&dst_q->done_list, struct vb2_buffer,
-> -						done_entry);
-> -	if (dst_vb && (dst_vb->state == VB2_BUF_STATE_DONE
-> -			|| dst_vb->state == VB2_BUF_STATE_ERROR))
->  		rc |= EPOLLIN | EPOLLRDNORM;
-> +	}
->  	spin_unlock_irqrestore(&dst_q->done_lock, flags);
->  
->  	return rc;
+> 
+> > So I will add the V4L2_FIELD_ALTERNATE_PROG in next patch version.
+> 
+> [snip]
 > 
 
