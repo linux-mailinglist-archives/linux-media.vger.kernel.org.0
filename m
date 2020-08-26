@@ -2,96 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DC49252C3E
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 13:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01D9A252CBF
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 13:47:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728790AbgHZLLJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 07:11:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55862 "EHLO
+        id S1728909AbgHZLWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 07:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728721AbgHZLLB (ORCPT
+        with ESMTP id S1728902AbgHZLVZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 07:11:01 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B26C061574;
-        Wed, 26 Aug 2020 04:11:00 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id i10so881692pgk.1;
-        Wed, 26 Aug 2020 04:11:00 -0700 (PDT)
+        Wed, 26 Aug 2020 07:21:25 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C4A1C061799;
+        Wed, 26 Aug 2020 04:19:46 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id y26so782934lfe.2;
+        Wed, 26 Aug 2020 04:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=OYwGuEb91/Fq7kHgAcheZzGBW4eXw4/zcLyHp4V/iG0=;
-        b=kHrFHnGJJqHIOGuHlNt47+PIV7xjyxVsQGCXDBKvWlCVnlDrIzQm6EMJ2ilqj4vxtR
-         Ea5p9UqDeeEy8aUGQmy7Jg2iXrzk3+f7GARCG/yd94rppYK1u0lp3FDcF1INMV7dBzZu
-         88Sx8IdxaethQB6tSl/yYI2xja24LrVc04r10ejLRKRrdS8mKCWTZPyTmaw3HrNQHi6L
-         /9L2n9XdDytKjSYeVNeUJSPwJHMkrwKqnUmP8LFzlh2gerEGyU19Z15fqwcs8wbTOAvQ
-         mkSg6jHwv/x12y61M23ocu1o6DnSUIhByZVC5fAASWXHamKddzyqNC+GJmw55ugorjCO
-         PYPQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Uu4WskBztKVUoVSil4cy4MR9LWqcw8xk2hr+l0UQ5ho=;
+        b=nLSKDQaBmzQREFSjfYHKCqFSUKm9X0iKZKktP8MRR7TUCwjXuSJJQWe4LWG8yLQR5B
+         6ya721Xer1i/YscNwBz3wTajvo9dCz7ieCkXcXzy4pLGrwOxfu2LJ4wCam9Tacykvw5i
+         RHga6ZekM3QBEWrT0WnzqT3K73yNX+D/45UWy5PUzN3iQeEMNBieoWxxtND4qaSYXy2H
+         O1SMNuSUhs2bbLEusZUxwdWD9wrryrVS9yA34iQ/p/dnOVnRDpuTq2N/erfwBHywv+Wx
+         GO8s99zdB/EYGMwGsdhphInw4RWcHUmk2wNPyfSxs/Pon7KfXSW4mfBiqDnQBE839FX/
+         Z/Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OYwGuEb91/Fq7kHgAcheZzGBW4eXw4/zcLyHp4V/iG0=;
-        b=VbwE8EtmMSO6AeNQgcM80oHbYAJcAYp7gv/cUsSjUz1a/FKltMAIRLMliQzAyt6HqE
-         Pi2QRzU3wuG7WaKw88DkcVK8Yp8giko4LlYND04pf+JoAj6khJOq2D+Am2aJ1bhPO4Sp
-         5RSElsYh6R+/SYRLNO3izmmKJEAkCLwBBnzkF9nDaKw69eO/tw2kuJNm0ZI8xxeOEHAZ
-         eWtcDhN01iHvBf6+aj9xDGwwJtOi3UvGgzzKHUfu23XjpIHnMlAMC01c8wITAAokyt6N
-         3/ozOi9Lk7dKEZFnyfxCkGooXh8Lq7eL/84fYBxNXAPFqbKaS82h0xod6pnrzCWTQH81
-         bkWQ==
-X-Gm-Message-State: AOAM531k1G77ZGjIEnJ3X+C9ZXdNjMa5KBE9ztzlQ5NEWAzfHPXOipXK
-        nodYoPIx5EzM+WmWkOapUdc=
-X-Google-Smtp-Source: ABdhPJwLxmpEUrt0bg/EsSlOKtqGn2tKaPB89b7YhYCQnhKwKyVGv7GIbk3RsGJH1mgpotz1PR/t8A==
-X-Received: by 2002:a63:df01:: with SMTP id u1mr9354157pgg.401.1598440259924;
-        Wed, 26 Aug 2020 04:10:59 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.215.131])
-        by smtp.gmail.com with ESMTPSA id e62sm2793172pfh.144.2020.08.26.04.10.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 04:10:59 -0700 (PDT)
-From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Cc:     anant.thazhemadam@gmail.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: media/atomisp : fix "dubious: !x | !y" sparse warning
-Date:   Wed, 26 Aug 2020 16:39:15 +0530
-Message-Id: <20200826110919.9523-1-anant.thazhemadam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200826095000.GW1793@kadam>
-References: <20200826095000.GW1793@kadam>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Uu4WskBztKVUoVSil4cy4MR9LWqcw8xk2hr+l0UQ5ho=;
+        b=uTuCaSNhOkJwnKb2eS65M5aK7RC+RS1dUb4Cdf0f3t6zh+mdOaaudwy47F1yQA851T
+         qQBBu7GQ+sBn2Bq0Kntbt6CQv6yxq+v7nv4gOnQs4a4uaVzABK9HpO3ufc8nJBiwNzN+
+         G5dSTQA6dYzSdnvKo5kcLoi797MLFByEXzQ8BUObZXhVnLsUS1sD2TT6bUb13FfFFvAZ
+         H9hpvx1CYnBVJDh0fnqfW+sOYstPQ7c7g03/VfMHKzW9Q6JPXV2r+qDsdMaMHlcRfR1d
+         wd4ZWajFZBvRbONMP4GkX2UMozZDNXN9EJVeKAN3MVd4kMxKF10uF1Q1Pq9t27Ngoirn
+         cRwg==
+X-Gm-Message-State: AOAM531e4eOgD/T1SxnaDFp7xAksEAnaBWBvMOm/ZdTzAR5y1otQFgmE
+        /goc6Lg3UCeTuyp40r7cKXzS3ZBheU/eR6Ko+RU=
+X-Google-Smtp-Source: ABdhPJxuVHbetnc2ILjUr/BDvb4NcfasRruvdoGDD4w183KvosLLP3yazMpa2v2J3UgwEYKy/joOCyF1a6VogES9xps=
+X-Received: by 2002:ac2:5a0c:: with SMTP id q12mr2905449lfn.173.1598440784506;
+ Wed, 26 Aug 2020 04:19:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+References: <20200825145556.637323-1-gnurou@gmail.com> <20200825145556.637323-3-gnurou@gmail.com>
+ <CAAEAJfD1kUJODa+-STV6Q+=9qWH8v2=KZzAA4ppgfbQxstO+Mg@mail.gmail.com>
+In-Reply-To: <CAAEAJfD1kUJODa+-STV6Q+=9qWH8v2=KZzAA4ppgfbQxstO+Mg@mail.gmail.com>
+From:   Alexandre Courbot <gnurou@gmail.com>
+Date:   Wed, 26 Aug 2020 20:19:33 +0900
+Message-ID: <CAAVeFuJgBqN7KYhNi=mMNxy6wHTZOn5E1=pHP3q=n8X++b5pmg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: simplify poll logic a bit
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Upon running Sparse, "warning: dubious: !x | !y" is brought to notice
-for this file.  Logical and bitwise OR are basically the same in this
-context, so it doesn't cause a runtime bug.  But let's change it to
-logical OR to make it a little bit cleaner and silence the Sparse
-warning.
+Hi Ezequiel, thanks for the review!
 
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
----
- .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Aug 26, 2020 at 1:15 PM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
+>
+> Hi Alexandre,
+>
+> On Tue, 25 Aug 2020 at 11:56, Alexandre Courbot <gnurou@gmail.com> wrote:
+> >
+> > Factorize redundant checks into a single code block, remove the early
+> > return, and declare variables in their innermost block. Hopefully this
+> > makes this code a little bit easier to follow.
+> >
+>
+> This _definitely_ makes the poll handling more readable.
+>
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+>
+> See below a nitpick.
+>
+> > Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c | 35 +++++++++++---------------
+> >  1 file changed, 15 insertions(+), 20 deletions(-)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > index 0d0192119af20..aeac9707123d0 100644
+> > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > @@ -841,7 +841,6 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
+> >                                        struct poll_table_struct *wait)
+> >  {
+> >         struct vb2_queue *src_q, *dst_q;
+> > -       struct vb2_buffer *src_vb = NULL, *dst_vb = NULL;
+> >         __poll_t rc = 0;
+> >         unsigned long flags;
+> >
+> > @@ -863,33 +862,29 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
+> >                 return EPOLLERR;
+> >
+> >         spin_lock_irqsave(&src_q->done_lock, flags);
+> > -       if (!list_empty(&src_q->done_list))
+> > -               src_vb = list_first_entry(&src_q->done_list, struct vb2_buffer,
+> > -                                               done_entry);
+> > -       if (src_vb && (src_vb->state == VB2_BUF_STATE_DONE
+> > -                       || src_vb->state == VB2_BUF_STATE_ERROR))
+> > -               rc |= EPOLLOUT | EPOLLWRNORM;
+> > +       if (!list_empty(&src_q->done_list)) {
+> > +               struct vb2_buffer *src_vb = list_first_entry(
+> > +                       &src_q->done_list, struct vb2_buffer, done_entry);
+> > +               if (src_vb->state == VB2_BUF_STATE_DONE ||
+> > +                   src_vb->state == VB2_BUF_STATE_ERROR)
+> > +                       rc |= EPOLLOUT | EPOLLWRNORM;
+> > +       }
+> >         spin_unlock_irqrestore(&src_q->done_lock, flags);
+> >
+> >         spin_lock_irqsave(&dst_q->done_lock, flags);
+> > -       if (list_empty(&dst_q->done_list)) {
+> > +       if (!list_empty(&dst_q->done_list)) {
+> > +               struct vb2_buffer *dst_vb = list_first_entry(
+> > +                       &dst_q->done_list, struct vb2_buffer, done_entry);
+> > +               if (dst_vb->state == VB2_BUF_STATE_DONE ||
+> > +                   dst_vb->state == VB2_BUF_STATE_ERROR)
+> > +                       rc |= EPOLLIN | EPOLLRDNORM;
+> > +       } else if (dst_q->last_buffer_dequeued) {
+> >                 /*
+> >                  * If the last buffer was dequeued from the capture queue,
+> >                  * return immediately. DQBUF will return -EPIPE.
+> >                  */
+>
+> The part about "returning immediately" doesn't make
+> much sense now. Could we rephrase this, keeping the -EPIPE
+> comment?
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-index 358cb7d2cd4c..3b850bb2d39d 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-@@ -58,7 +58,7 @@ sh_css_vf_downscale_log2(
- 	unsigned int ds_log2 = 0;
- 	unsigned int out_width;
- 
--	if ((!out_info) | (!vf_info))
-+	if ((!out_info) || (!vf_info))
- 		return -EINVAL;
- 
- 	out_width = out_info->res.width;
--- 
-2.25.1
+I understood this sentence as referring to the system call and not
+just this function, but maybe we can rephrase this as "... make
+user-space wake up immediately"?
+
+>
+> Thanks,
+> Ezequiel
+>
+> > -               if (dst_q->last_buffer_dequeued) {
+> > -                       spin_unlock_irqrestore(&dst_q->done_lock, flags);
+> > -                       rc |= EPOLLIN | EPOLLRDNORM;
+> > -                       return rc;
+> > -               }
+> > -       }
+> > -
+> > -       if (!list_empty(&dst_q->done_list))
+> > -               dst_vb = list_first_entry(&dst_q->done_list, struct vb2_buffer,
+> > -                                               done_entry);
+> > -       if (dst_vb && (dst_vb->state == VB2_BUF_STATE_DONE
+> > -                       || dst_vb->state == VB2_BUF_STATE_ERROR))
+> >                 rc |= EPOLLIN | EPOLLRDNORM;
+> > +       }
+> >         spin_unlock_irqrestore(&dst_q->done_lock, flags);
+> >
+> >         return rc;
+> > --
+> > 2.28.0
+> >
