@@ -2,125 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14936252B89
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 12:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 388B4252C10
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 13:04:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728363AbgHZKmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 06:42:40 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:46607 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726104AbgHZKmk (ORCPT
+        id S1728871AbgHZLEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 07:04:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728660AbgHZLAi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 06:42:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id Ast1kiOFhuuXOAst2kD2fR; Wed, 26 Aug 2020 12:42:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1598438557; bh=dksR9w7eRtSk0SaBteKKXpjruMUYkWHUI5pYBGAD9YU=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=VgtJo3vlPqZHmnjsmYZoF36uikfkk8TIMrkP/uA1A1B3lEHd9rDmA9XQydsd0mU/d
-         fR+GVibDYZvLdSSO/WLWgWOjY9QNLdgZbcAJRI6/9MEwkeFi2FRq2BOrbQSsnA86Sq
-         BWhk/ZEtiD4iLwZ51b54giNA5QFw4tIG+LM7lafNIw7wmdUs5OiU3w4TDiFD2vpW7M
-         i22dtVRqtyE+xe9o+dqLgqlIjYLpVym4qKQAEaCW+OyMNt2vGp3BWTSpFmKJyoJu8C
-         6sSVEQFq6uWEAmnhQshLYXJucFWTa1Wlf4vbCwjEm2Vt5K1C8coJlJ+Q1kAZnsrXP4
-         RGySyXo4XEfIQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.10] mtk-vcodec: venc: support for MT8183
-Message-ID: <5b4d766c-eeed-11ed-60c6-fa7ee489992f@xs4all.nl>
-Date:   Wed, 26 Aug 2020 12:42:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 26 Aug 2020 07:00:38 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6961C061574;
+        Wed, 26 Aug 2020 04:00:37 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id w25so1802186ljo.12;
+        Wed, 26 Aug 2020 04:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IrP6ayckjNJ1DXpVyleRBUcFlQaxWlVGGvYCRU/uzd4=;
+        b=twlNdYtBtcwaVvGPQQqBMGYo+BCqGNAMnQ06scY1fvZsCpKwWZRwSByvNXbYYnRfPu
+         9bHzuP2ndjv2STYV5bjZ0ZArEPuWmY++WTwVe6+fioivo83/P+iA4jK9tENhV4b40Qar
+         YuRhz3Qgr6mWXHMLKdDoV4yUjhv6aAXsVl20wj6VxzH/5KGABewzMz2J+8caqlFiWqMh
+         XhFfcXdRWAvNaBCe+jUzB5jEAABOgKFbixVC6GIwJhflNmvOXylZ9k75sijC6TnL5CMa
+         kfGa/rHeWDHedGF59eqknU2Aupage26bsMENg5mNG9ohiFwl9Q/o8O2WOmNHorNqQ0Un
+         AR0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IrP6ayckjNJ1DXpVyleRBUcFlQaxWlVGGvYCRU/uzd4=;
+        b=caiMLUZm0QvXudMQxYri6GAp2g7KfVoIY5onI3wx/FzcA/MMVe3NIXAujX1lw8o+KP
+         Glw2qICivtJYlQxXtcJKSpQEw7qiUdqFhhhmuItUGitrz8DhWPgwMacg2+OdaS4yKa1t
+         bPFqGS8irAx/GziluopyQM8VG0ZfKbLYXAjJ/p0QU/8G6ISMdJklaX1d4F3e6SW4vM+A
+         Bnm0wbpLXhVkSfpfOCp7Wqta7VxHT0iPXoG9e6TfWURGSwnKx2U3zAfa5KVimqMQn31p
+         ZoYutt/SiZB/c5h2LoUtldcGgi9CdDJd6INbtXRne7kntOcI3IkSGuFCcHLYaj7qAvy1
+         J2GQ==
+X-Gm-Message-State: AOAM532GN/p0KXZBojAnQu+Or3WitpPdos6TTSdTVRs9t39RrWEZrKtj
+        oCfiIBUQJzERi64N5NhobbpKj8U3iXsJ5CTQOVr/IAz4
+X-Google-Smtp-Source: ABdhPJyYPUaNdwhtweLVaLU70yKQWGzSfUwIGGvMtGw/Dd2GWNDaKIongg6kM6TSRpOEJEd3h9eF8RvYzzWvJQt2VgA=
+X-Received: by 2002:a2e:80d3:: with SMTP id r19mr7356055ljg.310.1598439635750;
+ Wed, 26 Aug 2020 04:00:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfI/3Y73HNH7M1KUwDUpaenjfPQL+XukfrjR7dNF1z+uwfQ0h64AMQTePIGGzxkOd9xzX9krpetseDXI5HMAW7a+42fyqtNK1ER+qRI0KbU1WoxBOMDOX
- NgG5BqHPcxUw8xNzRmj/FUfN9hBZe2tI7HlMJMqX8oqhw60AiMZbtZvfraz/3RFONVp/YvkT33LmcV90kP01GKB1fGER25aRU5Uy2jZj4oi0FqQ6D20SrbP7
- JqQc+3Z8w4YxfsHUT2qAcD9FzjRJCivXHEQYVJM6ot8DTXD/rJTmmP+suzS46wKVeaGPGGrZP93mNUSD2Fji6t7QNcO9EMPgRIScNJUUPiyeS1fkfWGkFfpk
- fUBsdmn3
+References: <20200826092606.2910-1-dinghao.liu@zju.edu.cn>
+In-Reply-To: <20200826092606.2910-1-dinghao.liu@zju.edu.cn>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 26 Aug 2020 08:00:24 -0300
+Message-ID: <CAOMZO5BCZYVj-C70XhwiaWVAZ8ViiBcErRP79eu3=m=aCWvZnw@mail.gmail.com>
+Subject: Re: [PATCH] [v2] media: mx2_emmaprp: Fix memleak in emmaprp_probe
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc:     kjlu@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Fabio Estevam <fabio.estevam@nxp.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Note 1: the MTK_SCP config option causes COMPILE_TEST to fail, but a patch for that
-is pending for the remoteproc tree: https://lkml.org/lkml/2020/8/21/489
-I've verified that that patch fixes the COMPILE_TEST failure.
+Hi Dinghao,
 
-Note 2: the firmware is added to linux-firmware:
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?h=master&id=3c213aa59661c4641f0c2166a315140ac0445230
+On Wed, Aug 26, 2020 at 6:31 AM Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
+>
+> When platform_get_irq() fails, we should release
+> vfd and unregister pcdev->v4l2_dev just like the
+> subsequent error paths.
+>
+> Fixes: d4e192cc44914 ("media: mx2_emmaprp: Check for platform_get_irq() error")
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-Regards,
+Thanks for the fix:
 
-	Hans
-
-The following changes since commit 9a538b83612c8b5848bf840c2ddcd86dda1c8c76:
-
-  media: venus: core: Add support for opp tables/perf voting (2020-08-18 15:55:56 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-mt8183
-
-for you to fetch changes up to ddd1da79f616f8d9e97aa2428d6fce526a3081e9:
-
-  media: mtk-vcodec: make IRQs disabled upon request (2020-08-26 12:37:35 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Alexandre Courbot (13):
-      dt-bindings: media: mtk-vcodec: document SCP node
-      media: mtk-vcodec: venc: handle firmware version field
-      media: mtk-vcodec: venc: specify bitrate range per-chip
-      media: mtk-vcodec: venc: specify supported formats per-chip
-      dt-bindings: media: document mediatek,mt8183-vcodec-enc
-      Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
-      media: mtk-vcodec: venc support MIN_OUTPUT_BUFFERS control
-      media: mtk-vcodec: venc: set OUTPUT buffers field to V4L2_FIELD_NONE
-      media: mtk-vcodec: venc: use platform data for ENUM_FRAMESIZES
-      media: mtk-vcodec: venc: support ENUM_FRAMESIZES on OUTPUT formats
-      media: mtk-vcodec: venc: set default time per frame
-      media: mtk-vcodec: venc: fix invalid time per frame in S_PARM
-      media: mtk-vcodec: make IRQs disabled upon request
-
-Yunfei Dong (4):
-      media: mtk-vcodec: abstract firmware interface
-      media: mtk-vcodec: add SCP firmware ops
-      media: mtk-vcodec: venc: support SCP firmware
-      media: mtk-vcodec: add support for MT8183 encoder
-
- Documentation/devicetree/bindings/media/mediatek-vcodec.txt |   9 +-
- drivers/media/platform/Kconfig                              |   1 +
- drivers/media/platform/mtk-vcodec/Makefile                  |   6 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c      |  55 +++++------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c       |   1 -
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h          |  40 +++++++-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c          | 211 +++++++++++++++++++---------------------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      | 173 +++++++++++++++++++++++----------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c       |   2 -
- drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c           | 231 ++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h           |  38 ++++++++
- drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c         |   1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c       |   1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c        |   1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c        |   1 -
- drivers/media/platform/mtk-vcodec/vdec_drv_base.h           |   2 -
- drivers/media/platform/mtk-vcodec/vdec_drv_if.c             |   1 -
- drivers/media/platform/mtk-vcodec/vdec_vpu_if.c             |  12 ++-
- drivers/media/platform/mtk-vcodec/vdec_vpu_if.h             |  11 ++-
- drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c       |  68 ++++++++++---
- drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c        |  11 ++-
- drivers/media/platform/mtk-vcodec/venc_drv_if.c             |   1 -
- drivers/media/platform/mtk-vcodec/venc_drv_if.h             |  13 +++
- drivers/media/platform/mtk-vcodec/venc_ipi_msg.h            |  27 +++++-
- drivers/media/platform/mtk-vcodec/venc_vpu_if.c             | 141 ++++++++++++++++++++-------
- drivers/media/platform/mtk-vcodec/venc_vpu_if.h             |   8 +-
- 26 files changed, 782 insertions(+), 284 deletions(-)
- create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
- create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
+Reviewed-by: Fabio Estevam <festevam@gmail.com>
