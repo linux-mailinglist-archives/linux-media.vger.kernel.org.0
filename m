@@ -2,176 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3962525D1
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 05:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D6AD252600
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 06:08:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbgHZDmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Aug 2020 23:42:00 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60725 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726633AbgHZDl7 (ORCPT
+        id S1725980AbgHZEIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 00:08:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47220 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbgHZEIF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Aug 2020 23:41:59 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id AmJvkvk61ywL5AmJwkoWHl; Wed, 26 Aug 2020 05:41:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1598413316; bh=9ImUFrwLmJY3HsQq1Aw2BHQY8oXfdLbLtHlzPRQiYY4=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=ot0GaUsZoIZHGCilTzDZpUsCXCHKq4TrkBY7H548b1xn09Um8jBWuqH4p/11xDCaU
-         Knbbt7Stm6lc6r6+90YQ2JWa7gKwKEdnXky7J8J/Xhg6m6jXmMHseyKRAFQ5lBRpP6
-         e7doeDAJkJ5BTtMr6UwiEmYoA9iIdKv1ZNUf/iJDql+LMGVKkTcqakvEWk4PH4eLG9
-         M9lAqgjgzA+arHPH13+EBjucKObI6DMErbiwo5YMBuEQxL782458vUx5BjFdapy4O/
-         Qsde+qcHQ5I3EfFydldYwHTfDes48PNQpHAimk0/gt3F8E8/06Wv3S2Jd0mGY8QLGD
-         hoSQxwJJWeC8w==
-Message-ID: <b227bc88a98a11ffeb832365b2b4da9c@smtp-cloud7.xs4all.net>
-Date:   Wed, 26 Aug 2020 05:41:55 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfHjDQ1zxJsB9ZsZ7HxmWjrI+CIxsr8VwW2uNZ+loDEQ+CV7CYk6wVXTpttMnAUY+udEvTWEOOAxD2moc1FfGD2amkOLCXMEK9qoKBjGbPeKSjYvtPlNS
- v4sxnAXjwrZcRipLwanOmRGp+tVZVqXHC5nR0Ik9T+z8oQPoV0CnKGHYO9oP0LaFVdMQRVMLgOQ0YRTsj/nWKkzbLMQ1q3FdKdxApBrCZFhuB3/qU5HLvjlk
+        Wed, 26 Aug 2020 00:08:05 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2CB8C061574
+        for <linux-media@vger.kernel.org>; Tue, 25 Aug 2020 21:08:04 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id si26so917180ejb.12
+        for <linux-media@vger.kernel.org>; Tue, 25 Aug 2020 21:08:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=95OkwIst0BgaPvc79h1qg3LdSl4GbI3ESVZ1x5Cd4z0=;
+        b=w3AavdH0CyRLn2mOVhiA8ofnTFU2tiv0idnEtoYtPz2RJ4kF6Y16v7krJTN6PSVAFI
+         YR1pnuK23K1JhzKFqWreGiH4MtMtarkOxlWLpDr3vMdndO+OG5/lqVb3r5urLv3+46nn
+         YgrMtlYOPz/AxSuSPEpBGYlGH9F2WAGGF8SnQC/rU8xeogtu/Jrlh4Efjnj3Fw9z2dZ6
+         yVkSaZDlIMNQ75L92889n7mCEM4f0TZJkOt5JT1I2lgQIgAc3D293N+xVqJ+7RBLBC6H
+         fzJFjCo72iJ56EM3VKIh/X5dLkztY3hRPylFz5oAJadMaKa3a6g5ryQmWCilInZ+jQ4S
+         KlFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=95OkwIst0BgaPvc79h1qg3LdSl4GbI3ESVZ1x5Cd4z0=;
+        b=eCpg6MFnAgv7IiBFbD0gflQGgqPfRfNX5gwWjkyxnHzmSYd+IHURnrgSuHSsP6UPfo
+         8Hehk8tK4xbwkM97DZ0lZ+QuD/9tw3es3bZEm3LrivT82cCs8rNVMdGI2aFZP0E3rPzH
+         YfHbYpUW6ZEcgu3Jh+q9IHxZcPCAQQHWKNxe8ydgVthnbaG4t+1t0eOoB1tpqilBEyeT
+         WkKEaAiYLF0eFrPsv9wpzF0XS4WaWPuLu8ZginJtKtCR6INSqUPjza1dR2FBINsXddfC
+         DeMNY/l5N8U0Mg957iBipkdtAOzd3KelOSZIwWeaAQBKPh/nXT0kj5LiF5m+t5lWQPu0
+         vltg==
+X-Gm-Message-State: AOAM532tmZPkYhvwtLzRJvoI0VS+l7xlYjPntIDnb2kgoftrmaFkgH56
+        xvTevV46k6rPBurlyh1YykuOXoEevYWKOCYd8QjObQ==
+X-Google-Smtp-Source: ABdhPJyoYnCNOMQ+6QmiXrwUF4MIrr17+WMQ1LxjEMAHIJvLxYUEY4kqmAJBXewcsUxRhC90vZWQkqCVXYFI9C6bvbE=
+X-Received: by 2002:a17:906:c108:: with SMTP id do8mr14361365ejc.88.1598414883304;
+ Tue, 25 Aug 2020 21:08:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200825145556.637323-1-gnurou@gmail.com> <20200825145556.637323-2-gnurou@gmail.com>
+In-Reply-To: <20200825145556.637323-2-gnurou@gmail.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 26 Aug 2020 01:07:52 -0300
+Message-ID: <CAAEAJfBeJnSjqfyhosM_6jP4C+wQ7UVmt=oG_O0w--sAf0=0PQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: v4l2-mem2mem: consider OUTPUT queue first when polling
+To:     Alexandre Courbot <gnurou@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Alexandre,
 
-Results of the daily build of media_tree:
+On Tue, 25 Aug 2020 at 11:56, Alexandre Courbot <gnurou@gmail.com> wrote:
+>
+> If poll() is called on a m2m device with the EPOLLOUT event after the
+> last buffer of the CAPTURE queue is dequeued, any buffer available on
+> OUTPUT queue will never be signaled because v4l2_m2m_poll_for_data()
+> starts by checking whether dst_q->last_buffer_dequeued is set and
+> returns EPOLLIN in this case, without looking at the state of the OUTPUT
+> queue.
+>
+> Fix this by checking the state of the OUTPUT queue before considering
+> that early-return case.
+>
+> This also has the side-effect of bringing the two blocks of code dealing
+> with the CAPTURE queue next to one another, and saves us one spin
+> lock/unlock cycle, for what it's worth.
+>
+> Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
 
-date:			Wed Aug 26 05:00:11 CEST 2020
-media-tree git hash:	9a538b83612c8b5848bf840c2ddcd86dda1c8c76
-media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
-v4l-utils git hash:	49316dc21f806d0c22f231aefd37972caab652e2
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6784-g0b1e8107
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Change looks good to me.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8.1-i686: OK
-linux-5.8.1-x86_64: OK
-linux-5.9-rc1-i686: OK
-linux-5.9-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: ERRORS
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-Detailed results are available here:
+Do you think it qualifies for -stable? The issue has been
+here since the dawn of time.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+Thanks,
+Ezequiel
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> ---
+>  drivers/media/v4l2-core/v4l2-mem2mem.c | 23 +++++++++++------------
+>  1 file changed, 11 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> index 95a8f2dc5341d..0d0192119af20 100644
+> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> @@ -862,6 +862,15 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
+>              list_empty(&dst_q->queued_list)))
+>                 return EPOLLERR;
+>
+> +       spin_lock_irqsave(&src_q->done_lock, flags);
+> +       if (!list_empty(&src_q->done_list))
+> +               src_vb = list_first_entry(&src_q->done_list, struct vb2_buffer,
+> +                                               done_entry);
+> +       if (src_vb && (src_vb->state == VB2_BUF_STATE_DONE
+> +                       || src_vb->state == VB2_BUF_STATE_ERROR))
+> +               rc |= EPOLLOUT | EPOLLWRNORM;
+> +       spin_unlock_irqrestore(&src_q->done_lock, flags);
+> +
+>         spin_lock_irqsave(&dst_q->done_lock, flags);
+>         if (list_empty(&dst_q->done_list)) {
+>                 /*
+> @@ -870,21 +879,11 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
+>                  */
+>                 if (dst_q->last_buffer_dequeued) {
+>                         spin_unlock_irqrestore(&dst_q->done_lock, flags);
+> -                       return EPOLLIN | EPOLLRDNORM;
+> +                       rc |= EPOLLIN | EPOLLRDNORM;
+> +                       return rc;
+>                 }
+>         }
+> -       spin_unlock_irqrestore(&dst_q->done_lock, flags);
+>
+> -       spin_lock_irqsave(&src_q->done_lock, flags);
+> -       if (!list_empty(&src_q->done_list))
+> -               src_vb = list_first_entry(&src_q->done_list, struct vb2_buffer,
+> -                                               done_entry);
+> -       if (src_vb && (src_vb->state == VB2_BUF_STATE_DONE
+> -                       || src_vb->state == VB2_BUF_STATE_ERROR))
+> -               rc |= EPOLLOUT | EPOLLWRNORM;
+> -       spin_unlock_irqrestore(&src_q->done_lock, flags);
+> -
+> -       spin_lock_irqsave(&dst_q->done_lock, flags);
+>         if (!list_empty(&dst_q->done_list))
+>                 dst_vb = list_first_entry(&dst_q->done_list, struct vb2_buffer,
+>                                                 done_entry);
+> --
+> 2.28.0
+>
