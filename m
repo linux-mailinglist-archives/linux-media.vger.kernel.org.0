@@ -2,84 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A16BA2529F8
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 11:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 940FE252ABC
+	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 11:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728116AbgHZJ0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 05:26:52 -0400
-Received: from mail.zju.edu.cn ([61.164.42.155]:36686 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728068AbgHZJ0R (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 05:26:17 -0400
-Received: from localhost.localdomain (unknown [210.32.144.184])
-        by mail-app3 (Coremail) with SMTP id cC_KCgAXb_WuKkZfTOo9Aw--.41828S4;
-        Wed, 26 Aug 2020 17:26:10 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Fabio Estevam <fabio.estevam@nxp.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] media: mx2_emmaprp: Fix memleak in emmaprp_probe
-Date:   Wed, 26 Aug 2020 17:26:04 +0800
-Message-Id: <20200826092606.2910-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgAXb_WuKkZfTOo9Aw--.41828S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF1kGr4rZrWrGrW8CF1rJFb_yoWDWrb_G3
-        yjva9rur4vyFZ0vr109r43Zry2yFZ8WF18Jan7ta42v345Cw1jqrWUZFZrZa1UZa129ry8
-        Ar98WF9a9rn3CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbIkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_
-        JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48J
-        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_
-        Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
-        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
-        9x0JUqLvtUUUUU=
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0EBlZdtPrBDAAFsA
+        id S1728247AbgHZJwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 05:52:16 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:37998 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728121AbgHZJwP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Aug 2020 05:52:15 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9malW168699;
+        Wed, 26 Aug 2020 09:52:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=puG6dn/0ZJ/S9eYVShDLSjSPKteNXnTDwq9+go1akjA=;
+ b=wz3K0+h++jsK1mSFm80F42A8wKBHb/1KQIqOGgwGSfnKYECH26biQ3pFDGAS55vS4Xf3
+ RM7QuvSza1jG41Z7CMlMx8ULnxzPOaZeSQIEjZFdiwvPhf0oSD63jesA2Ponpu5y4NXO
+ tFR4CMbj++gRzz8ZhugnxdLtVU+ym/1LJcUXsWRzE0RxF6m1CFIUpRnJlk7e/0Xno4n9
+ Nu/2Vt35D+QE4YxjTzlQV+xqTHeq/EE3a5+FzjiX/3IXF5JfODJU2RTuBijkXi4z/NR+
+ W4wYdgqXNx9sEERAVC9PBQtrjSAvR/mAxZffqeLel7F7nIEwI+9am4zdeXET1YdQ9x1D Qg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 335gw819ft-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 26 Aug 2020 09:52:10 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9ko6O101234;
+        Wed, 26 Aug 2020 09:50:09 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 333r9kxw1r-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 26 Aug 2020 09:50:09 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07Q9o7ql023582;
+        Wed, 26 Aug 2020 09:50:08 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 26 Aug 2020 02:50:07 -0700
+Date:   Wed, 26 Aug 2020 12:50:00 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Cc:     devel@driverdev.osuosl.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] staging: media-atomisp : fix "dubious: !x | !y" sparse
+ warning
+Message-ID: <20200826095000.GW1793@kadam>
+References: <20200825220437.11214-1-anant.thazhemadam@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200825220437.11214-1-anant.thazhemadam@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 bulkscore=0
+ adultscore=0 spamscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008260077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 lowpriorityscore=0
+ mlxscore=0 phishscore=0 bulkscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 clxscore=1011 spamscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008260078
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When platform_get_irq() fails, we should release
-vfd and unregister pcdev->v4l2_dev just like the
-subsequent error paths.
+On Wed, Aug 26, 2020 at 03:34:26AM +0530, Anant Thazhemadam wrote:
+> Upon running sparse, "warning: dubious: !x | !y" is brought to notice
+> for this file. This patch fixes that warning.
+> 
+> If there's a specific reason that this change is considered undesirable, 
+> please do let me know why.
+> Thanks.
 
-Fixes: d4e192cc44914 ("media: mx2_emmaprp: Check for platform_get_irq() error")
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
+Please don't put this sort of comments in the commit message.  You can
+put it under the --- cut off
 
-Changelog:
+> 
+> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+> ---
+  ^^^
+here.  Then it will be removed instead of going into the permanent git
+log.
 
-v2: - Add 'ret = irq;'.
----
- drivers/media/platform/mx2_emmaprp.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Please always say int the commit message how the patch will affect the
+runtime behavior of the kernel.  In this case it will not affect it at
+all.  It's just a clean up.  Her is my proposed commit message if you
+want:
 
-diff --git a/drivers/media/platform/mx2_emmaprp.c b/drivers/media/platform/mx2_emmaprp.c
-index df78df59da45..08a5473b5610 100644
---- a/drivers/media/platform/mx2_emmaprp.c
-+++ b/drivers/media/platform/mx2_emmaprp.c
-@@ -852,8 +852,11 @@ static int emmaprp_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, pcdev);
- 
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0)
--		return irq;
-+	if (irq < 0) {
-+		ret = irq;
-+		goto rel_vdev;
-+	}
-+
- 	ret = devm_request_irq(&pdev->dev, irq, emmaprp_irq, 0,
- 			       dev_name(&pdev->dev), pcdev);
- 	if (ret)
--- 
-2.17.1
+Subject: [PATCH] staging: media-atomisp : silence "dubious: !x | !y" warning
 
+Upon running sparse, "warning: dubious: !x | !y" is brought to notice
+for this file.  Logical and bitwise OR are basically the same in this
+context so it doesn't cause a runtime bug.  But let's change it to
+logical OR to make it cleaner and silence the Sparse warning.
+
+regards,
+dan carpenter
+
+
+
+
+
+>  .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+> index 358cb7d2cd4c..3b850bb2d39d 100644
+> --- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+> @@ -58,7 +58,7 @@ sh_css_vf_downscale_log2(
+>  	unsigned int ds_log2 = 0;
+>  	unsigned int out_width;
+>  
+> -	if ((!out_info) | (!vf_info))
+> +	if ((!out_info) || (!vf_info))
+>  		return -EINVAL;
+>  
+>  	out_width = out_info->res.width;
+> -- 
+> 2.25.1
+> 
+> _______________________________________________
+> devel mailing list
+> devel@linuxdriverproject.org
+> http://driverdev.linuxdriverproject.org/mailman/listinfo/driverdev-devel
