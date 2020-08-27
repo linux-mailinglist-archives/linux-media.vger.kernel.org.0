@@ -2,109 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B55C253646
-	for <lists+linux-media@lfdr.de>; Wed, 26 Aug 2020 20:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CA31253C2C
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 05:39:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbgHZSGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Aug 2020 14:06:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbgHZSGg (ORCPT
+        id S1726929AbgH0Djk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Aug 2020 23:39:40 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:43643 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726851AbgH0Djf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:06:36 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68EDC061574;
-        Wed, 26 Aug 2020 11:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=Yzdof1CrmZPvQSdWOfnC4TP7kZhRZYrI2aPOvWW4r0c=; b=HCgGTSL+FAaNQNPUZggHMSb/qU
-        IOTBhz+Gg+i0Vgo1UqD00Xd1bY4o0NmLCN8nqXTxmBC9NFAKFsSUyOKarB2Wposx0hpyb+zOmjPQg
-        N1Pj5XE7fwFSollzF5tTgqRkMuu3E7DOs1Hv/6P26G6/qt/ghuswHev9pEistMeEjTY1CssjjxRBc
-        xwh89LItYYWmXe4EzAChp0L/kw46jqk6qV3ytzIhypWPSvzAq+po7+V6OPpo2DNMcRrjU6ANbB9n5
-        m82JxLjOc3XD6u9xeBAE80WxpjiuIGjy+VPGHlMe46+dWX+djVwLoICRL5d606rF0oLtfkH1hq+ld
-        YZ6UJ8rA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kAzoa-0000W1-VS; Wed, 26 Aug 2020 18:06:29 +0000
-Subject: Re: [PATCH v6 6/6] Documentation: ACPI: Document
- allow-low-power-probe _DSD property
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-References: <20200826115432.6103-1-sakari.ailus@linux.intel.com>
- <20200826115432.6103-7-sakari.ailus@linux.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <ac5a7cb9-7fd1-fb73-b872-d5a58846d99f@infradead.org>
-Date:   Wed, 26 Aug 2020 11:06:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200826115432.6103-7-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Wed, 26 Aug 2020 23:39:35 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id B8l9k2st6ywL5B8lAkrWQi; Thu, 27 Aug 2020 05:39:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598499572; bh=OGy67xhN+RfKZ7PruV6a62/ACSQzZjDVDo8CR9gVz98=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=vLB+NddE2zxd5WlsZ5AI0kpcsvXl8oF/EtAw2Pbjmq6QKPdojyBQoie6rwCZNH5+E
+         hsDjGmG553dpZkZnmclKO1WNwBmDM2717fCkK0QPW7SwuRAcIEuWg6kotYR6ybULBj
+         isPtrYpzFVekHOGykgShxuwcbuXxqjSE0xr/cp5F/sT31bun594qa902eOrxwLZPJV
+         iei3Ryf6MxrMSVJny6xVL4WqaDLI9SLlc8z6XVWBfN1ER0Bs823DFhvnDofPK0wyXq
+         /apY+jXapczDbxzZikKNmW3rn2hguoBTbPf4Zuk0Vqmetw5Me65pTeRRMZRZjoMK/N
+         jjBh5tqz0zWuA==
+Message-ID: <955e838f810ca3a9f071b68149b47dd0@smtp-cloud7.xs4all.net>
+Date:   Thu, 27 Aug 2020 05:39:31 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfF3BodsGZgIuQfH2oNMmoL/zEOq+78nUaUU4SmpHZw8RtSl5HdO18oZot315pwS0o1PomnV3g5dCrXyoFu8uoVxARq/NGXwPolyjJwIjvHh1bBMAJmvz
+ fYcmNB0Sdy8QDih/Pt4wkxFtrcbswNqQrCs14d39QfrhUCy0qByjudwSrYV006CHvOsFuDJNuC1kPQ+Dwc5IYgzC7arR0wSHPz4D/8lH8mFUYHc4ydXKicu6
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/26/20 4:54 AM, Sakari Ailus wrote:
-> Document the probe-low-power _DSD property and how it is used with I²C
-> drivers.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../acpi/dsd/allow-low-power-probe.rst        | 28 +++++++++++++++++++
->  Documentation/firmware-guide/acpi/index.rst   |  1 +
->  2 files changed, 29 insertions(+)
->  create mode 100644 Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
-> 
-> diff --git a/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
-> new file mode 100644
-> index 0000000000000..6fcc89162b898
-> --- /dev/null
-> +++ b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
-> @@ -0,0 +1,28 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +======================================
-> +Probing I²C devices in low power state
-> +======================================
-> +
-> +Introduction
-> +============
-> +
-> +In some cases it may be preferred to leave certain devices powered off for the
-> +entire system bootup if powering on these devices has adverse side effects,
-> +beyond just powering on the said device. Linux recognizes the _DSD property
-> +"allow-low-power-probe" that can be used for this purpose.
-> +
-> +How it works
-> +============
-> +
-> +The property "allow-low-power-probe" boolean property may be used to tell Linux
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Drop the first "property".
+Results of the daily build of media_tree:
 
-> +that the I²C framework should instruct the kernel ACPI framework to leave the
-> +device in the low power state. If the driver indicates its support for this by
-> +setting the I2C_DRV_FL_ALLOW_LOW_POWER_PROBE flag in struct i2c_driver.flags
-> +field and the "allow-low-power-probe" property is present, the device will not
-> +be powered on for probe.
+date:			Thu Aug 27 05:00:11 CEST 2020
+media-tree git hash:	9a538b83612c8b5848bf840c2ddcd86dda1c8c76
+media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
+v4l-utils git hash:	49316dc21f806d0c22f231aefd37972caab652e2
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-thanks.
--- 
-~Randy
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: ERRORS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
