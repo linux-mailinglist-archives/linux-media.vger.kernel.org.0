@@ -2,125 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBAB725420E
-	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 11:24:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD4BE254211
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 11:25:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728273AbgH0JYv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 05:24:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38484 "EHLO
+        id S1727996AbgH0JY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 05:24:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728088AbgH0JYv (ORCPT
+        with ESMTP id S1728447AbgH0JYz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:24:51 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92D6C061264
-        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 02:24:50 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id d10so3737244wrw.2
-        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 02:24:50 -0700 (PDT)
+        Thu, 27 Aug 2020 05:24:55 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F9CBC061264
+        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 02:24:54 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id f7so4673675wrw.1
+        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 02:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=8WNu0XydsAAxM+xlTuetSXgq7SQdQWTliyRHRVl7Y4g=;
-        b=UL/vz5KWCm02EuPRAlLKPbb9B6iVLeT9V1c/TeQ3wBfqFfI9ZUoWyds8dhdZgA66le
-         hqwK7ff7FgTVA9epB9WOvwy0qqJJzPom2RvGc9DLDTX/YRi7Y/IzM7PcwMy0k/D9GvOi
-         wHNJKUAgGZ2nnvRI8ZVRaxV+BymIBN8TF7+INK0fgdJvdI7BTqW+La/yNCb0HKZVBQ1J
-         ArRx+aD2BpL9pBOWeZrT4/um5kI6KYDU1okUAC87MPpjdeoxB7usyjWWhRAyvSozP6DU
-         OongPC7b9onBZ9DmibATUNbgQotawMF4lG2yxZMNjoC4GdsRsYasupdcj8Pkm9v84dfe
-         fw3g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=y6eC9FLONwMHdn6Vk0cNJPGbuy8ijaSCojAKxgZZyGI=;
+        b=hnbPjqc5lM+2ivWPWllQVpQjADKutPYchKe3HF5YZEtqdQv5wcsgAsTa4QRucC7KXm
+         Fu0kESFc2qZknb+X0Rv98VLtHjG6hEw9sVXLN0Uhu/Jwf8srK+lEFy1gl0o/PNKM7TSi
+         S/pYjYrB1fZerg/uae81FFQKOdK1/DEKvXyvoNlslFdEHJT7u8RmjKyhzWbP83BqUGpU
+         nixwNth8eI+fGKSYvBKP6+9x55Sgd9bLhcNrJ7Axst+6u2Xl5MPzx1l0Y0Wrvnr8vTSc
+         WHUmuWpHE2OG+j5ZwAH3oOJsFFmzZQJ3VGzYpgUZpDACYU0vdfwOw0JHhQNVY95KCzrq
+         Uxtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=8WNu0XydsAAxM+xlTuetSXgq7SQdQWTliyRHRVl7Y4g=;
-        b=GnQuWAW2Vx6YK1+GMjVe/NOourF2/Q2sFc2jy8+7Hh4xFbXa3SzGEwGozq/oODFsJY
-         yrTvAG7IZYeKUUfx3CF26b+qtGlNcSr8rFB/AtCL/+wDoIoy4ln96N5mS6TWD3TYPMqs
-         z6yW2KnEuMiVSehIOkV8dOYXFcbcHP/W8gtX4FnLeFsnsZbWE9uzQgxSPkxHIipZuaxq
-         O6OVVrLvYtU0KsAIw9STMJYCw7zA1zz6hlUZR30TphrTsVSXHBRUdnE43TsSmgNXVeYr
-         J7CYxxOaL8tbr48N6bY/ok0G5q0/Tqb+DJohnXhihAxJaBFDkZ9EAWdA9TkBl2/HUnyl
-         Ptmw==
-X-Gm-Message-State: AOAM530vFofPjp7aPi5QgMKNSZdu3jD4UCN/IqJ78oZtwNsfuabDaXoI
-        qcH7cdnurX8oTHzRFloZ/TuD7w==
-X-Google-Smtp-Source: ABdhPJx6idO50L1XDN5kcjld944eIACRkX8P547xDnM3cOcZwurffRl2Wmd66tiTvD+xF3nR5bQdWw==
-X-Received: by 2002:adf:ae42:: with SMTP id u2mr18217235wrd.337.1598520289345;
-        Thu, 27 Aug 2020 02:24:49 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=y6eC9FLONwMHdn6Vk0cNJPGbuy8ijaSCojAKxgZZyGI=;
+        b=VIx/GlW/qsv8zFIfTa+09lx0iK4aqz0IzgxsLx6ZAtyrFRZMD5BE4AXhDWGCS4TuGd
+         TftBgnIAwmBDdGNYoqLJLXvItaobd3syQ59fR41BpIdQNv7GzZOP0APvPsHEMDVAYoR/
+         d+3xxY+0RG2TKbiVX/eVS04srCUF4LlLMBn10A4KZfdz9zEl6M5SN/tThphCKBQXMmY1
+         YtXpQNEIq6/yt0Yauu41GrvcAuhGLly6ukwGcGFrSF+vGSmQzOmR9UsXtNsS2hCiTo9O
+         QSpBW9T5qq2Mxybp1LEmwfW9gZjO9XPGt3vO1Mo2xS6FyZ0F9uBDedwFY+9D+JZPv3nr
+         emFA==
+X-Gm-Message-State: AOAM5311o2E8o+rxIwb8GZsSRiwxV8ALIL9/Jl6BXE1cUvGgEwDRJfdO
+        T3rLKxPOxFUiD+Zwj/ci9KL7INa/mTtyu4Md
+X-Google-Smtp-Source: ABdhPJzhjGcMcaab0JBm7YKdkEeQjDzX8SevME+a/8lFxMocA/bRceA4s3D9XxUWxvQN3fyah0kthw==
+X-Received: by 2002:a5d:6944:: with SMTP id r4mr20635784wrw.132.1598520292764;
+        Thu, 27 Aug 2020 02:24:52 -0700 (PDT)
 Received: from localhost.localdomain ([195.24.90.54])
-        by smtp.gmail.com with ESMTPSA id z203sm4357330wmc.31.2020.08.27.02.24.47
+        by smtp.gmail.com with ESMTPSA id z203sm4357330wmc.31.2020.08.27.02.24.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 02:24:48 -0700 (PDT)
+        Thu, 27 Aug 2020 02:24:52 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-msm@vger.kernel.org
 Cc:     Dikshita Agarwal <dikshita@codeaurora.org>,
         Vikash Garodia <vgarodia@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 00/13] Introduce new hfi platform layer
-Date:   Thu, 27 Aug 2020 12:24:04 +0300
-Message-Id: <20200827092417.16040-1-stanimir.varbanov@linaro.org>
+Subject: [PATCH 01/13] venus: Delete not used core caps
+Date:   Thu, 27 Aug 2020 12:24:05 +0300
+Message-Id: <20200827092417.16040-2-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200827092417.16040-1-stanimir.varbanov@linaro.org>
+References: <20200827092417.16040-1-stanimir.varbanov@linaro.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The core caps are filled but not used, delete them. In case we
+need them we can re-introduce.
 
-In this patch series we introduce a new hfi platform layer in the
-Venus driver to cover the differences between hfi versions.
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/core.h      | 6 ------
+ drivers/media/platform/qcom/venus/hfi_venus.c | 3 ---
+ 2 files changed, 9 deletions(-)
 
-The hfi_platform layer contains ops for getting supported codecs,
-capabilities, number of VPP pipes and buffer requirements (the list
-could be extended with more ops if needed). Starting from hfi v6 the
-buffer sizes and buffer counts for particular codec will be calculated
-in the driver.
-
-Here we add hfi platform ops for v4 (sdm845 and sc8170) and v6
-(sm8250) but my plan is to move v1 and v3 too with follow up patches.
-With addition of v6 hfi_platform we aslo start a preparation to support
-Venus v6 found in sm8250.
-
-regards,
-Stan
-
-Stanimir Varbanov (13):
-  venus: Delete not used core caps
-  venus: Add more capabilities and VP9 profile/levels
-  venus: Create hfi platform and move vpp/vsp there
-  venus: Rename venus_caps to hfi_plat_caps
-  venus: hfi_plat: Add codecs and capabilities ops
-  venus: hfi_plat_v4: Populate codecs and capabilities for v4
-  venus: hfi_plat: Add platform ops for getting number of VPP pipes
-  venus: hfi_plat_v6: Populate capabilities for v6
-  venus: hfi_plat: Add hfi platform buffers ops
-  venus: Add platform buffers for v6
-  venus: Get codecs and capabilities from hfi platform
-  venus: vdec,core: Handle picture structure event
-  venus: helpers: Wire up hfi platform buffer requirements
-
- drivers/media/platform/qcom/venus/Makefile    |    4 +-
- drivers/media/platform/qcom/venus/core.c      |   17 -
- drivers/media/platform/qcom/venus/core.h      |   48 +-
- drivers/media/platform/qcom/venus/helpers.c   |  110 +-
- drivers/media/platform/qcom/venus/helpers.h   |    2 +-
- .../media/platform/qcom/venus/hfi_helper.h    |   34 +
- .../media/platform/qcom/venus/hfi_parser.c    |   55 +-
- .../media/platform/qcom/venus/hfi_parser.h    |    7 +-
- .../media/platform/qcom/venus/hfi_plat_bufs.h |   38 +
- .../platform/qcom/venus/hfi_plat_bufs_v6.c    | 1231 +++++++++++++++++
- .../media/platform/qcom/venus/hfi_platform.c  |   65 +
- .../media/platform/qcom/venus/hfi_platform.h  |   66 +
- .../platform/qcom/venus/hfi_platform_v4.c     |  319 +++++
- .../platform/qcom/venus/hfi_platform_v6.c     |  326 +++++
- drivers/media/platform/qcom/venus/hfi_venus.c |    3 -
- .../media/platform/qcom/venus/pm_helpers.c    |    9 +-
- drivers/media/platform/qcom/venus/vdec.c      |   12 +-
- drivers/media/platform/qcom/venus/venc.c      |    6 +-
- 18 files changed, 2229 insertions(+), 123 deletions(-)
- create mode 100644 drivers/media/platform/qcom/venus/hfi_plat_bufs.h
- create mode 100644 drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
- create mode 100644 drivers/media/platform/qcom/venus/hfi_platform.c
- create mode 100644 drivers/media/platform/qcom/venus/hfi_platform.h
- create mode 100644 drivers/media/platform/qcom/venus/hfi_platform_v4.c
- create mode 100644 drivers/media/platform/qcom/venus/hfi_platform_v6.c
-
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index a9a52e29312d..18cf5b329a2b 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -143,7 +143,6 @@ struct venus_caps {
+  * @enc_codecs:	encoders supported by this core
+  * @dec_codecs:	decoders supported by this core
+  * @max_sessions_supported:	holds the maximum number of sessions
+- * @core_caps:	core capabilities
+  * @priv:	a private filed for HFI operations
+  * @ops:		the core HFI operations
+  * @work:	a delayed work for handling system fatal error
+@@ -189,11 +188,6 @@ struct venus_core {
+ 	unsigned long enc_codecs;
+ 	unsigned long dec_codecs;
+ 	unsigned int max_sessions_supported;
+-#define ENC_ROTATION_CAPABILITY		0x1
+-#define ENC_SCALING_CAPABILITY		0x2
+-#define ENC_DEINTERLACE_CAPABILITY	0x4
+-#define DEC_MULTI_STREAM_CAPABILITY	0x8
+-	unsigned int core_caps;
+ 	void *priv;
+ 	const struct hfi_ops *ops;
+ 	struct delayed_work work;
+diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+index 4be4a75ddcb6..cb0e657b7649 100644
+--- a/drivers/media/platform/qcom/venus/hfi_venus.c
++++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+@@ -1591,9 +1591,6 @@ int venus_hfi_create(struct venus_core *core)
+ 	hdev->suspended = true;
+ 	core->priv = hdev;
+ 	core->ops = &venus_hfi_ops;
+-	core->core_caps = ENC_ROTATION_CAPABILITY | ENC_SCALING_CAPABILITY |
+-			  ENC_DEINTERLACE_CAPABILITY |
+-			  DEC_MULTI_STREAM_CAPABILITY;
+ 
+ 	ret = venus_interface_queues_init(hdev);
+ 	if (ret)
 -- 
 2.17.1
 
