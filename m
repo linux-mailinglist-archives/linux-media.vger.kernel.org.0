@@ -2,98 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99A3E254573
-	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 14:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87B492545E9
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 15:29:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728995AbgH0Myv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 08:54:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728973AbgH0Mym (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 08:54:42 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09A0C061264;
-        Thu, 27 Aug 2020 05:54:41 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id a65so5064001wme.5;
-        Thu, 27 Aug 2020 05:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=a5lpHFvSWQoGrjybaXmlV69Axq+442tGTTEhKXzXB/M=;
-        b=FGT1CbGRN8nWIZimQQJFHaFlgGbXUWXcohmF6aYnzTMEIdoXLV8ASHcjH/rftf8dPu
-         05h7ynqky+tK0sVnESIUNMOkwDJXKaIKOOjfk8ZzK2aS6ItFzfPK1RiS8Sgq9gCPkksa
-         s87z1TYPj+YUb/w6uaLEL+ETfgmlzhXCU10ucGJlzNXsBINUdbYoCrfyflOTHYw+cbz4
-         RAdiDof8rxMnyZ5hwply2FrDERb1PY3A2wl1RdJOsOW1zwqi8pXPitwO0zzOFjipVey5
-         oUPQnIgnx+nqlo3zwpUr7dRtVO/mC+2RV5+VHT1jDZZ+PWuU7gSvtmMNjL2CWO/kpKhp
-         IGew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=a5lpHFvSWQoGrjybaXmlV69Axq+442tGTTEhKXzXB/M=;
-        b=MJE0yRwoQzsnxhBdyQfT/5MJsLRMJJNbLzi6l5vW6qxHl5bqRp/XIPtRcshfhf1MXi
-         ylS/yD4UhWjMvhOPZHiOUs34DMwd3ylguODBJMUWyPTfH/BopgBdvZoWr6ulu4PuP+qe
-         PSJg+eQXemuAwlNiNq9hCnsrI3g41k+OsE+klK1Dq0pCO7n6T2gONMN+jQtgwl/Awrag
-         s0leS9JW4OhpgpJev6w9NZUvE1UHPaNEfgwgrXhRRJKJo219VmJNPxwKHorUR+4ardYd
-         5TGqVnuDjEDAObVVoAoW+NexE/QJex7LwaKZbSR5fiz0RZIIYEuHf8Wt4YHYadvfqj/3
-         rNTg==
-X-Gm-Message-State: AOAM530XMfU3U+EJgb0wemg2LzY3pj35cT57QRmYtFb/CbltHCsXBKw3
-        rzSZ80YqV2s8TTs0/YOtSp/HI5Ab9ROw9zwo
-X-Google-Smtp-Source: ABdhPJwqZV7pk1FvOSkguIjKJvFkFK+Tun3miq523wTMnXd9BGquVzYW29lvsrXbzl2PtJrmqLojuA==
-X-Received: by 2002:a1c:7d55:: with SMTP id y82mr3074513wmc.100.1598532878977;
-        Thu, 27 Aug 2020 05:54:38 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.119.187])
-        by smtp.gmail.com with ESMTPSA id m11sm5436719wrn.11.2020.08.27.05.54.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Aug 2020 05:54:38 -0700 (PDT)
-Subject: Re: Aw: [PATCH 00/18] Convert arch/arm to use iommu-dma
-To:     Frank Wunderlich <frank-w@public-files.de>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc:     hch@lst.de, joro@8bytes.org, linux@armlinux.org.uk,
-        geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
-        bjorn.andersson@linaro.org, thierry.reding@gmail.com,
-        laurent.pinchart@ideasonboard.com, digetx@gmail.com, s-anna@ti.com,
-        will@kernel.org, m.szyprowski@samsung.com,
-        linux-samsung-soc@vger.kernel.org, magnus.damm@gmail.com,
-        kyungmin.park@samsung.com, jonathanh@nvidia.com, agross@kernel.org,
-        yong.wu@mediatek.com, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, inki.dae@samsung.com,
-        vdumpa@nvidia.com, linux-mediatek@lists.infradead.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        sw0312.kim@samsung.com, linux-kernel@vger.kernel.org,
-        t-kristo@ti.com, iommu@lists.linux-foundation.org
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <trinity-d6be65d8-9086-42bc-b993-238b731cdf60-1598531519064@3c-app-gmx-bap26>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <d54f5d47-63aa-d07e-3875-6acce69073f3@gmail.com>
-Date:   Thu, 27 Aug 2020 14:54:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1727817AbgH0N3q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 09:29:46 -0400
+Received: from mga09.intel.com ([134.134.136.24]:25597 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728035AbgH0N22 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Aug 2020 09:28:28 -0400
+IronPort-SDR: zA+9aKbt4jHDA2Gj7+B6a7P9oPa3Y3I5+2nlIuGa/BIjYnX4khduS2wUBX8Q4KWpsOKR0V9McP
+ xadUjzfQNhMA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9725"; a="157503047"
+X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; 
+   d="scan'208";a="157503047"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2020 06:28:28 -0700
+IronPort-SDR: ROXbn60uGAEfxQlLWOlgDCyR5qTaP+nvWHDUAHFNKYScuFTf6y15VebIoX9/cDXydcihspvv+D
+ 5o1jDewAc/sg==
+X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; 
+   d="scan'208";a="295723842"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2020 06:28:24 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 3DD3B20722; Thu, 27 Aug 2020 16:28:22 +0300 (EEST)
+Date:   Thu, 27 Aug 2020 16:28:22 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-i2c@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Subject: Re: [PATCH v6 6/6] Documentation: ACPI: Document
+ allow-low-power-probe _DSD property
+Message-ID: <20200827132822.GI24582@paasikivi.fi.intel.com>
+References: <20200826115432.6103-1-sakari.ailus@linux.intel.com>
+ <20200826115432.6103-7-sakari.ailus@linux.intel.com>
+ <ac5a7cb9-7fd1-fb73-b872-d5a58846d99f@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <trinity-d6be65d8-9086-42bc-b993-238b731cdf60-1598531519064@3c-app-gmx-bap26>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ac5a7cb9-7fd1-fb73-b872-d5a58846d99f@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 27/08/2020 14:31, Frank Wunderlich wrote:
-> Tested full series on bananapi r2 (mt7623/mt2701, 5.9-rc1 + hdmi-patches), works so far fbcon+x without issues
+On Wed, Aug 26, 2020 at 11:06:22AM -0700, Randy Dunlap wrote:
+> On 8/26/20 4:54 AM, Sakari Ailus wrote:
+> > Document the probe-low-power _DSD property and how it is used with I²C
+> > drivers.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../acpi/dsd/allow-low-power-probe.rst        | 28 +++++++++++++++++++
+> >  Documentation/firmware-guide/acpi/index.rst   |  1 +
+> >  2 files changed, 29 insertions(+)
+> >  create mode 100644 Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> > 
+> > diff --git a/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> > new file mode 100644
+> > index 0000000000000..6fcc89162b898
+> > --- /dev/null
+> > +++ b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> > @@ -0,0 +1,28 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +======================================
+> > +Probing I²C devices in low power state
+> > +======================================
+> > +
+> > +Introduction
+> > +============
+> > +
+> > +In some cases it may be preferred to leave certain devices powered off for the
+> > +entire system bootup if powering on these devices has adverse side effects,
+> > +beyond just powering on the said device. Linux recognizes the _DSD property
+> > +"allow-low-power-probe" that can be used for this purpose.
+> > +
+> > +How it works
+> > +============
+> > +
+> > +The property "allow-low-power-probe" boolean property may be used to tell Linux
 > 
-> Tested-by: Frank Wunderlich <frank-w@public-files.de>
+> Drop the first "property".
 > 
 
-Thanks for testing.
+Thanks, will fix for v7.
 
-Robin this is especially relevant for:
-[PATCH 09/18] iommu/mediatek-v1: Add IOMMU_DOMAIN_DMA support
+> > +that the I²C framework should instruct the kernel ACPI framework to leave the
+> > +device in the low power state. If the driver indicates its support for this by
+> > +setting the I2C_DRV_FL_ALLOW_LOW_POWER_PROBE flag in struct i2c_driver.flags
 
-Regards,
-Matthias
+This is leftover from v5 actually, I'll change the documentation to mention
+the allow_low_power_probe as well.
+
+> > +field and the "allow-low-power-probe" property is present, the device will not
+> > +be powered on for probe.
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
