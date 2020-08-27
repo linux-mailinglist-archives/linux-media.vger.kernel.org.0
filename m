@@ -2,74 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B912254B42
-	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 18:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15552254B9D
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 19:08:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726093AbgH0Q4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 12:56:16 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:34216 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726147AbgH0Q4Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 12:56:16 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kBL6Z-0041s7-2j; Thu, 27 Aug 2020 16:50:27 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kBLEm-0002Vh-6H; Thu, 27 Aug 2020 16:58:56 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.10] More fixes and improvements (#66441)
-Date:   Thu, 27 Aug 2020 16:58:56 +0000
-Message-Id: <20200827165856.9608-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <87327e52-44cc-a2b8-c3fe-619bd6022264@xs4all.nl>
-References: 
+        id S1726939AbgH0RIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 13:08:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgH0RIv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Aug 2020 13:08:51 -0400
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 340C6C061264;
+        Thu, 27 Aug 2020 10:08:50 -0700 (PDT)
+Received: by mail-yb1-xb44.google.com with SMTP id m200so3346716ybf.10;
+        Thu, 27 Aug 2020 10:08:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mHniHlKDMaeGQOVA7wYMtzU65VERCv+oHJvfRmraXqc=;
+        b=phVYQvV+p1qAm0gsfY1toQgMji8hPquXZHym9pN14Y2rco5aiKlsT1Gx6zVh2XPdIs
+         t2lqa76eF8xs83b9Y54L5hMJo7WCFO2fbUSk+GIfX8iqVvRbExWIpBc7OTj5+vOG4I2P
+         JMlFP6YynzTlq7xlgz3eMXxGGT5QMTkUMER9bFTWUu5AQF/UoGISrTL9tqBcLf6hoJk6
+         37MLl/pmsybfeZDTrQ+3wnhfTSeXIU6+Q51facRmWQ5yyjSZuiQstgngF0UVxzXRP/21
+         X486CABykcDT9yvbgwMMOekgteTdYZM9T9v9hlx2QNelhA/SoEvmBsVsRsEJBl3dLeze
+         +W3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mHniHlKDMaeGQOVA7wYMtzU65VERCv+oHJvfRmraXqc=;
+        b=alMi6JrDldOXZ3waYVZCRbVX+TIlmAaSGPrHojLalKfR934zW216I4mqFloP/oDaAw
+         CVyb/uBXS87QqLLovo1u/LgZJ/LpzrSaoaADqZeAG98QlKLHv0liNPtn0EqpWLWnivt9
+         WIg18GdU0SE4uf/7v24HGHs4mkdypAkp6uAjMYtqQ7ReTmcMOUupuB9W+nLoiDPnVwFc
+         YUBWkQ2IBP9NRDFsvbthaJaWzYd1UmLrfjs1ngNj/bYkijUqLmBUOM3tieq6mU0gmRa3
+         Iud5pvhxqEx3sHG0KQLxUflbQ8ArB4htL4inxkl3egS+GOjRWmFBH6a/OlFi6RCRxI/I
+         CfbA==
+X-Gm-Message-State: AOAM531Vnm4yuLxDzlrZsOhMr0EHfTYVYJjc/0u9ME3rPfTmueBwcTxV
+        tLWhIWd7NBHgezN5GZdIjvJyqMEKa5ZbuanWcsE=
+X-Google-Smtp-Source: ABdhPJynyRKB2vFyMBE3ZSJ4B1YetYq7rZ1URcR+oH1Mlp82FYbmnw++2Z+nCtikyiYgdGx4q742m6zdB4fkuZ+CzIE=
+X-Received: by 2002:a25:8149:: with SMTP id j9mr31275854ybm.214.1598548129529;
+ Thu, 27 Aug 2020 10:08:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-12-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594919915-5225-12-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 27 Aug 2020 18:08:23 +0100
+Message-ID: <CA+V-a8t9p9U5oeTp-QNmp2uGHMOvXpo+VhRvp5hv5oDEWUh5QA@mail.gmail.com>
+Subject: Re: [PATCH 11/20] dt-bindings: usb: renesas,usbhs: Add r8a774e1 support
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        alsa-devel <alsa-devel@alsa-project.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Greg,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/87327e52-44cc-a2b8-c3fe-619bd6022264@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/65989/
-Build time: 00:28:47
-Link: https://lore.kernel.org/linux-media/87327e52-44cc-a2b8-c3fe-619bd6022264@xs4all.nl
+On Thu, Jul 16, 2020 at 6:19 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> Document RZ/G2H (R8A774E1) SoC bindings.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/usb/renesas,usbhs.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+Gentle ping.
 
-gpg: Signature made Thu 20 Aug 2020 11:58:39 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-
-Summary: 5 patches and/or PDF generation with issues, being 0 at build time
-
-Error/warnings:
-
-
-Error #256 when running cat patches/0018-media-Use-fallthrough-pseudo-keyword.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0018-media-Use-fallthrough-pseudo-keyword.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running cat patches/0030-media-exynos4-is-Add-support-for-multiple-sensors-on.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0030-media-exynos4-is-Add-support-for-multiple-sensors-on.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:29: CHECK: Alignment should match open parenthesis
-
-Error #256 when running cat patches/0037-media-exynos4-is-no-need-to-check-return-value-of-de.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0037-media-exynos4-is-no-need-to-check-return-value-of-de.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:41: WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
-
-Error #256 when running cat patches/0040-media-radio-si476x-no-need-to-check-return-value-of-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0040-media-radio-si476x-no-need-to-check-return-value-of-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:46: WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
--:56: WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
--:65: WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
--:74: WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
--:90: WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
-
+Cheers,
+Prabhakar
