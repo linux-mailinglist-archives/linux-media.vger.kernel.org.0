@@ -2,110 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF7C22549B0
-	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 17:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE6A42549A5
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 17:40:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbgH0PlZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 11:41:25 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:53113 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726266AbgH0PlZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 11:41:25 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id E7620580189;
-        Thu, 27 Aug 2020 11:41:23 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 27 Aug 2020 11:41:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=5kjKXc18Mu8gbbHx1ieZ1Dlzopi
-        c4BvIVhQuWyLHDzc=; b=E/SbbEeS7mdWMbtVEiwC7QsoNlhw0jZSbz/5Mql10Lx
-        Q7ukAac1iGuPFOKtcAmqXRQFH6XvNp5YR/3Mh04lTQUQkR+w0KP3qJW09EnF9n8B
-        xlJWjyMwC57Ut5mR01wdlQ5dDyEW5xn4z3af0uZ0jLj8IL3NAGusRwDE+pkZ62aU
-        gCbRj0hezNzGNuqz+eOww2oKuaBn6yRRkKu51pm+zyNf6w8UTUR2RNFiN/QLlaJ2
-        QfH5uULGWNB8kSDZkK1pASj7OwhdoMMNvLh/aG3zQZvHG6DypfsG3BFBF9p8SJCj
-        C/iQgYLL+mivb5BtztlRKxkLuD2IfDDFnsnDQc3P4kw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5kjKXc
-        18Mu8gbbHx1ieZ1Dlzopic4BvIVhQuWyLHDzc=; b=l6+I15GuAxpFB8YtSRbE1s
-        Y8xGYtkcBStDbRyKFUg2ESe+koMvKa+o2zuLuGOg/GU/7w/EnmAMMTvjkCHSs2Ig
-        LjU4+XwSfim3NAmyLeBysI20DgThUcwR9Tm2O/wBUDN+YD6dsiSIZPp6NvLfjOf8
-        h+SyTSKyHrA7SUxIVlqUTujAazp6czMm/q5ljSc3CWfoOPS9J4DeUg8iQJnJ1J0a
-        he0heNeFiupUVM3dsGTy1o3IGAxgBjjCm29w5Sc3iTQ6VCcgTsgWZYLMXAVRPCWd
-        Xe9LyyBcP59VQAf1D3tExhhE6CAf2AZ1wRYCtuj9W6PkQCdeYKh9InkOTBTKSHDw
-        ==
-X-ME-Sender: <xms:IdRHX2hu0jZ6A9mtK_k4EfA-FHZTPF9uEIFZMtDeKHQAyFuAEx7UOA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvgedgkeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
-    gfevnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:IdRHX3COoKZWmhu6z4ZWlBXFW0xuOyeln6lVhkLkBvjk3A5tFIN-yA>
-    <xmx:IdRHX-Gd9ZhZw2KSvA16SUrx1HF-7eVNO3Tkl2hCm0bhxUv2qlnjKw>
-    <xmx:IdRHX_TKu7odB_HGKP-LBqIAYKZPOPqNAPAqKpoqhsMxrBCjS6irLA>
-    <xmx:I9RHX7eQ6XS2mAMtW8CI-LdK9OMLEaXw_uJBApKYgM4x8dLy86hp4w>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 6E044306005F;
-        Thu, 27 Aug 2020 11:41:21 -0400 (EDT)
-Date:   Thu, 27 Aug 2020 17:41:19 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, wens@csie.org,
-        yong.deng@magewell.com, p.zabel@pengutronix.de,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        paul.kocialkowski@bootlin.com, thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH 5/7] media: sunxi: sun6i-csi: Add support of MIPI CSI-2
- for A83T
-Message-ID: <20200827154119.ljxvjb2fe7xeg2xo@gilmour.lan>
-References: <20200821145935.20346-1-kevin.lhopital@bootlin.com>
- <20200821145935.20346-6-kevin.lhopital@bootlin.com>
- <20200825143704.qkg2re5bxm2cufnd@gilmour.lan>
- <20200826111728.21d52c34@lhopital-XPS-13-9360>
+        id S1726234AbgH0PkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 11:40:14 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:51678 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726200AbgH0PkN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Aug 2020 11:40:13 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kBJux-003wx1-Ht; Thu, 27 Aug 2020 15:34:23 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kBK3A-0005gN-IL; Thu, 27 Aug 2020 15:42:52 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.10] Support for Tegra video capture from external (#66411)
+Date:   Thu, 27 Aug 2020 15:42:52 +0000
+Message-Id: <20200827154252.21802-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <e58bd15a-fb15-efdb-1faa-455f971ab0a8@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="frux7y34gyxq2g4n"
-Content-Disposition: inline
-In-Reply-To: <20200826111728.21d52c34@lhopital-XPS-13-9360>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
 
---frux7y34gyxq2g4n
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/e58bd15a-fb15-efdb-1faa-455f971ab0a8@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/65989/
+Build time: 00:21:57
+Link: https://lore.kernel.org/linux-media/e58bd15a-fb15-efdb-1faa-455f971ab0a8@xs4all.nl
 
-On Wed, Aug 26, 2020 at 11:17:28AM +0200, K=E9vin L'h=F4pital wrote:
-> > > +	mdelay(10); =20
-> >=20
-> > Why do you need an mdelay here?
->=20
-> yes a msleep could be more correct here.
+gpg: Signature made Wed 19 Aug 2020 10:34:43 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-My question was more about whether/why you need one in the first place,
-not necessarily how you would implement that delay.
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-Maxime
+Error/warnings:
 
---frux7y34gyxq2g4n
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Error #256 when running cat patches/0013-media-tegra-video-Add-support-for-external-sensor-ca.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0013-media-tegra-video-Add-support-for-external-sensor-ca.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:1029: CHECK: Alignment should match open parenthesis
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX0fUHwAKCRDj7w1vZxhR
-xe20AP9MrwIj1p6+Wb9mEL56E2ynthsYRloqePkJXIFLXvvYKwD/bsjv+odRNGt0
-Wkpfn5tU6gwLEWbuHgviKzUwChkfHA4=
-=ZP4Z
------END PGP SIGNATURE-----
-
---frux7y34gyxq2g4n--
