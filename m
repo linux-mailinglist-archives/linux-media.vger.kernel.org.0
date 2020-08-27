@@ -2,117 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87B492545E9
-	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 15:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C647F2545F1
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 15:31:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727817AbgH0N3q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 09:29:46 -0400
-Received: from mga09.intel.com ([134.134.136.24]:25597 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728035AbgH0N22 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 09:28:28 -0400
-IronPort-SDR: zA+9aKbt4jHDA2Gj7+B6a7P9oPa3Y3I5+2nlIuGa/BIjYnX4khduS2wUBX8Q4KWpsOKR0V9McP
- xadUjzfQNhMA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9725"; a="157503047"
-X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; 
-   d="scan'208";a="157503047"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2020 06:28:28 -0700
-IronPort-SDR: ROXbn60uGAEfxQlLWOlgDCyR5qTaP+nvWHDUAHFNKYScuFTf6y15VebIoX9/cDXydcihspvv+D
- 5o1jDewAc/sg==
-X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; 
-   d="scan'208";a="295723842"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2020 06:28:24 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 3DD3B20722; Thu, 27 Aug 2020 16:28:22 +0300 (EEST)
-Date:   Thu, 27 Aug 2020 16:28:22 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-i2c@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: Re: [PATCH v6 6/6] Documentation: ACPI: Document
- allow-low-power-probe _DSD property
-Message-ID: <20200827132822.GI24582@paasikivi.fi.intel.com>
-References: <20200826115432.6103-1-sakari.ailus@linux.intel.com>
- <20200826115432.6103-7-sakari.ailus@linux.intel.com>
- <ac5a7cb9-7fd1-fb73-b872-d5a58846d99f@infradead.org>
+        id S1728053AbgH0Nax (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 09:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728145AbgH0Naf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Aug 2020 09:30:35 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6030EC061235
+        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 06:30:13 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id o4so5405400wrn.0
+        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 06:30:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=p33Zl85F48xSFFwh9Fvb6fYwVy/Jt4DGVFmz86MHbko=;
+        b=CUujgUZRienGvENy9ZeNSE4OLq/gTozkw9vqhnndn3e+Pp27upZYxzcOy348qWT4x6
+         fZ9HzhrGd6ok0/lpV6XJMXIHbIrfSS3H2kc5d+JTd1lletPZjVOkUQ8WZMoDnSSylgRw
+         zOHH0JLxrQJsHR8v5+SGQOGgwwu7dIE6xp9Po=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p33Zl85F48xSFFwh9Fvb6fYwVy/Jt4DGVFmz86MHbko=;
+        b=GHX0CNp1THw4xJHCx91Ac84XycGXmcfpVqa559O2ItJITtcOxknGhkLyRFQfxbQxda
+         ENpgTN8AbUHCxIdmr1wrhERfiufsXBycg4GKtIjiGYqXP9UuzvpEiyRlUxaZjyKJMoby
+         ip4UQNFAFBTjIXtMFg9HZFQUNNayxiikpN1atCvNI+N6P5RU2NbkFnOLnWLmNkU4thx+
+         29ECWHJAo0pErcxenXoaQ9f8KshXABEZxCRjNRdxpH0pNY9V9qaIxWy1fTtMGF7BzTw6
+         WHXghKDuEYlIuBssNiYEXDBJvW0e7MQRR6ff2J+SBsu81FJL/qeK6KfKzwh63BPQET4H
+         1+xg==
+X-Gm-Message-State: AOAM532rUhfapcug3oW49Hlj1jtoHc1lsph9soDF+7Y2JrX0Y/GFIoNH
+        X/u0Aj0q5z75AefNLA64pyXCkTQVV/zJnfR5i9Vw/Q==
+X-Google-Smtp-Source: ABdhPJyMtaFishcwtzNCj7DHN/faPMoK+tSF7O0vKJaBGS+gpAIRdF6geUez9pCQeleah1w6P5SJ7nzMgTS0KKpMqRI=
+X-Received: by 2002:adf:bb54:: with SMTP id x20mr19609148wrg.413.1598535011238;
+ Thu, 27 Aug 2020 06:30:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ac5a7cb9-7fd1-fb73-b872-d5a58846d99f@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200824193036.6033-1-james.quinlan@broadcom.com>
+ <b19bc982-a0c4-c6ff-d8f5-650f2b3a83c8@gmail.com> <20200827063517.GA4637@lst.de>
+In-Reply-To: <20200827063517.GA4637@lst.de>
+From:   Jim Quinlan <james.quinlan@broadcom.com>
+Date:   Thu, 27 Aug 2020 09:29:59 -0400
+Message-ID: <CA+-6iNy3U9pO0Bykzgvb9n9fcsBi6FiatLdpA1s0HgQNWZ49mg@mail.gmail.com>
+Subject: Re: [PATCH v11 00/11] PCI: brcmstb: enable PCIe for STB chips
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS" 
+        <linux-pci@vger.kernel.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE" 
+        <devicetree@vger.kernel.org>,
+        "open list:DRM DRIVERS FOR ALLWINNER A10" 
+        <dri-devel@lists.freedesktop.org>, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Julien Grall <julien.grall@arm.com>,
+        "open list:ACPI FOR ARM64 (ACPI/arm64)" <linux-acpi@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
+        <linux-remoteproc@vger.kernel.org>,
+        "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "open list:SUPERH" <linux-sh@vger.kernel.org>,
+        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Stefano Stabellini <sstabellini@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 11:06:22AM -0700, Randy Dunlap wrote:
-> On 8/26/20 4:54 AM, Sakari Ailus wrote:
-> > Document the probe-low-power _DSD property and how it is used with I²C
-> > drivers.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../acpi/dsd/allow-low-power-probe.rst        | 28 +++++++++++++++++++
-> >  Documentation/firmware-guide/acpi/index.rst   |  1 +
-> >  2 files changed, 29 insertions(+)
-> >  create mode 100644 Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
-> > 
-> > diff --git a/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
-> > new file mode 100644
-> > index 0000000000000..6fcc89162b898
-> > --- /dev/null
-> > +++ b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
-> > @@ -0,0 +1,28 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +======================================
-> > +Probing I²C devices in low power state
-> > +======================================
-> > +
-> > +Introduction
-> > +============
-> > +
-> > +In some cases it may be preferred to leave certain devices powered off for the
-> > +entire system bootup if powering on these devices has adverse side effects,
-> > +beyond just powering on the said device. Linux recognizes the _DSD property
-> > +"allow-low-power-probe" that can be used for this purpose.
-> > +
-> > +How it works
-> > +============
-> > +
-> > +The property "allow-low-power-probe" boolean property may be used to tell Linux
-> 
-> Drop the first "property".
-> 
-
-Thanks, will fix for v7.
-
-> > +that the I²C framework should instruct the kernel ACPI framework to leave the
-> > +device in the low power state. If the driver indicates its support for this by
-> > +setting the I2C_DRV_FL_ALLOW_LOW_POWER_PROBE flag in struct i2c_driver.flags
-
-This is leftover from v5 actually, I'll change the documentation to mention
-the allow_low_power_probe as well.
-
-> > +field and the "allow-low-power-probe" property is present, the device will not
-> > +be powered on for probe.
-> 
-
--- 
-Kind regards,
-
-Sakari Ailus
+On Thu, Aug 27, 2020 at 2:35 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Tue, Aug 25, 2020 at 10:40:27AM -0700, Florian Fainelli wrote:
+> > Hi,
+> >
+> > On 8/24/2020 12:30 PM, Jim Quinlan wrote:
+> >>
+> >> Patchset Summary:
+> >>    Enhance a PCIe host controller driver.  Because of its unusual design
+> >>    we are foced to change dev->dma_pfn_offset into a more general role
+> >>    allowing multiple offsets.  See the 'v1' notes below for more info.
+> >
+> > We are version 11 and counting, and it is not clear to me whether there is
+> > any chance of getting these patches reviewed and hopefully merged for the
+> > 5.10 merge window.
+> >
+> > There are a lot of different files being touched, so what would be the
+> > ideal way of routing those changes towards inclusion?
+>
+> FYI, I offered to take the dma-mapping bits through the dma-mapping tree.
+> I have a bit of a backlog, but plan to review and if Jim is ok with that
+> apply the current version.
+Sounds good to me.
+Thanks, Jim
