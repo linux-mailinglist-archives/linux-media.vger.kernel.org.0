@@ -2,253 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8517E253E75
-	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 08:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65DB5253E93
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 09:06:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726395AbgH0G7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 02:59:33 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:42598 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726266AbgH0G7c (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 02:59:32 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1598511570; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=TqJw7zVx0yYmXZ8LApzC4RLV+IwHsqsHzaga/yqDV+g=;
- b=dWtHFpEMTI9urOHOmj1tAx2pa/gRqKoQdCclLFjnXquKCfStJfhBAws/KUcNVJFmh1T6uCq1
- 7B70BzxFNb3RE0vvvrhTJLrde9n1yTNBPkezGciyLks8mBFm1ZJFkr4/3RPiQqdMc+mc2RHA
- xind71nQ+PFyG7nnbYe5WktX3j4=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5f4759bff4c0f8ce20e4f8bf (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 27 Aug 2020 06:59:10
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 44C4FC433CB; Thu, 27 Aug 2020 06:59:10 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: dikshita)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 194D3C433CA;
-        Thu, 27 Aug 2020 06:59:09 +0000 (UTC)
+        id S1727895AbgH0HF4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 03:05:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726266AbgH0HFy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Aug 2020 03:05:54 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 433B1C061264;
+        Thu, 27 Aug 2020 00:05:53 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id v12so5194018ljc.10;
+        Thu, 27 Aug 2020 00:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=brG5EoXG8FKt7Fq1ykdF4ABCLTAm7xSy7pDQ9zIqBmM=;
+        b=D+Qfdi8ojtdlFaIaWaofdcOW2dSpHJq/jTsM6dpwBevrFASrN1edAw8teUWVNerpgu
+         63ga9PzLJ1u8xo9GANebl8qwYj4EgB2Lt5+c2FZtDG0o0O+j7oIfdc233tEfNoJKuFe7
+         DUxpMDtEWgsp8LTUtik3F1caZRHo486JrXlztWvaxpavYrnD9ARqY6DH44IQECiMjSIF
+         cpTJQhP3AoFpI2jsFeq3dPzY4jmtYVXO8Sn8JUBkHLcyef3/N2jsvX1pnc2YLoznUsCF
+         HDRVd99ElVGCkW/Ai5VbnxNG4jsJBtsJfFUa7vCIIoL+cOkFeVgwwtrqBHrnRCjQFsrY
+         elFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=brG5EoXG8FKt7Fq1ykdF4ABCLTAm7xSy7pDQ9zIqBmM=;
+        b=lQKuy1WTIMBCmqUg63ksZAe4FLpxfq6BV0mJVT+My9DmuF+uVbXV5yu69nKtuACdAD
+         XAKIl6SPJpVPSaZ7KujG67/lic0wqkRUwjlduKbxAMmpAAO9FFoNfdMTqrwISR+Au2n6
+         48eWOoUENmDYqF/mmJpGjYYnVI2htnSeYg3g+ZOovPoycODeg8is55y/A9yFWJL3qQp0
+         XVr95gKWl/7XXZYeLaD5ZstW/4mRUaAq+bnzZmvRKKzY2RqqCDGLWlsi6SyQf6pz2Y56
+         wT4HN+Ujz4w2W+O9NTSYM6cRHKJmQPLwRO2FNcLr+cnoMFnM3S1fhYGvU5VMO0C/To0w
+         N0Zg==
+X-Gm-Message-State: AOAM5326EnNJ6pXRIYgcahR1QEbSrCQUTvyXH0EiPpXDurdYwH75rAkz
+        YP3biWrL7acvswuzUGUsF55EIFDkh5I=
+X-Google-Smtp-Source: ABdhPJydX9Y9oDAFN3zznJgsiPNaCKcyWdKxS8pHyPJWykfpSUQ7Hoqsd5NtTOYp9/AGdUkscMfEjA==
+X-Received: by 2002:a05:651c:106a:: with SMTP id y10mr9032794ljm.296.1598511951247;
+        Thu, 27 Aug 2020 00:05:51 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id i131sm294684lfd.27.2020.08.27.00.05.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Aug 2020 00:05:50 -0700 (PDT)
+Subject: Re: [PATCH 16/18] staging/media/tegra-vde: Clean up IOMMU workaround
+To:     Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
+        linux@armlinux.org.uk
+Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, m.szyprowski@samsung.com,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, vdumpa@nvidia.com,
+        matthias.bgg@gmail.com, yong.wu@mediatek.com,
+        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
+        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1597931875.git.robin.murphy@arm.com>
+ <3535c205b9bce52556abbf2f63384fb38e009df9.1597931876.git.robin.murphy@arm.com>
+ <07135a55-cbc9-83e5-60dc-731282192554@gmail.com>
+ <cb12808b-7316-19db-7413-b7f852a6f8ae@arm.com>
+ <62a72187-442b-2103-46c3-39d3cd999f54@gmail.com>
+ <affe2cfb-19e8-8e55-acd0-7170e274ab34@arm.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f1923a53-e799-e63c-fd22-4a6cca3b8212@gmail.com>
+Date:   Thu, 27 Aug 2020 10:05:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 27 Aug 2020 12:29:09 +0530
-From:   dikshita@codeaurora.org
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, mchehab@kernel.org,
-        nicolas@ndufresne.ca, majja@codeaurora.org,
-        stanimir.varbanov@linaro.org, vgarodia@codeaurora.org
-Subject: Re: [PATCH v2] media: v4l2-ctrl: add control for long term reference.
-In-Reply-To: <506c9e88-e54b-2534-0df9-f7855456dcd8@xs4all.nl>
-References: <1597382967-32729-1-git-send-email-dikshita@codeaurora.org>
- <506c9e88-e54b-2534-0df9-f7855456dcd8@xs4all.nl>
-Message-ID: <b6c14a61a5a63b68a07a539f39b88477@codeaurora.org>
-X-Sender: dikshita@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <affe2cfb-19e8-8e55-acd0-7170e274ab34@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+24.08.2020 17:01, Robin Murphy пишет:
+...
+>> Robin, thank you very much for the clarifications!
+>>
+>> In accordance to yours comments, this patch can't be applied until Tegra
+>> SMMU will support IOMMU_DOMAIN_IDENTITY and implement def_domain_type()
+>> callback that returns IOMMU_DOMAIN_IDENTITY for the VDE device.
+>>
+>> Otherwise you're breaking the VDE driver because
+>> dma_buf_map_attachment() [1] returns the IOMMU SGT of the implicit
+>> domain which is then mapped into the VDE's explicit domain [2], and this
+>> is a nonsense.
+> 
+> It's true that iommu_dma_ops will do some work in the unattached default
+> domain, but non-coherent cache maintenance will still be performed
+> correctly on the underlying memory, which is really all that you care
+> about for this case. As for tegra_vde_iommu_map(), that seems to do the
+> right thing in only referencing the physical side of the scatterlist
+> (via iommu_map_sg()) and ignoring the DMA side, so things ought to work
+> out OK even if it is a little non-obvious.
 
-Thanks for your comments.
+I'll need to double-check this, it's indeed not clear to me right now.
 
-On 2020-08-25 15:34, Hans Verkuil wrote:
-> On 14/08/2020 07:29, Dikshita Agarwal wrote:
->> LTR (Long Term Reference) frames are the frames that are encoded
->> sometime in the past and stored in the DPB buffer list to be used
->> as reference to encode future frames.
->> This change adds controls to enable this feature.
->> 
->> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
->> ---
->>  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 23 
->> ++++++++++++++++++++++
->>  drivers/media/v4l2-core/v4l2-ctrls.c               |  6 ++++++
->>  include/uapi/linux/v4l2-controls.h                 |  4 ++++
->>  3 files changed, 33 insertions(+)
->> 
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
->> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index d0d506a..6d1b005 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -4272,3 +4272,26 @@ enum v4l2_mpeg_video_hevc_size_of_length_field 
->> -
->>        - Selecting this value specifies that HEVC slices are expected
->>          to be prefixed by Annex B start codes. According to 
->> :ref:`hevc`
->>          valid start codes can be 3-bytes 0x000001 or 4-bytes 
->> 0x00000001.
->> +
->> +``V4L2_CID_MPEG_VIDEO_LTRCOUNT (enum)``
-> 
-> I prefer _LTR_COUNT (same for the other control defines).
-> 
-> I assume 'enum' is a mistake? This should be 'integer', right?
-Right, I will correct it at all the places.
-> 
->> +	Specifies the number of Long Term Reference frames encoder needs to
->> +	generate or keep.
->> +	This control is used to query or configure the number of Long Term
->> +	Reference frames.
-> 
-> Add something like: "Applicable to the H264 and HEVC encoder."
-Sure.
-> 
->> +
->> +``V4L2_CID_MPEG_VIDEO_MARKLTRFRAME (enum)``
->> +	This control is used to mark current frame as Long Term Reference
->> +	frame.
-> 
-> enum -> integer
-> _MARK_LTR_FRAME
-> 
-> How about renaming this to: "_FRAME_LTR_INDEX"?
-You are suggesting to rename it to V4L2_CID_MPEG_VIDEO_MARK_LTR_FRAME or 
-V4L2_CID_MPEG_VIDEO_MARK_FRAME_LTR_INDEX ?
-> 
-> I would also suggest having the range as 0..LTR_COUNT where 0 means 
-> that
-> this is not a LTR frame. An alternative is to have two controls: one 
-> boolean
-> that determines if the frame is a LTR frame or not, and one control 
-> containing
-> the LTR index.
-> 
-> Is the LTR index 0 or 1 based according to the standard? I think that 
-> if it is
-> 1 based you can use 0 to mean 'not an LTR frame'. If it is 0 based in
-> the standard,
-> then having two controls might be better.
-> 
-> A third alternative might be to use -1 as the value to indicate that it 
-> is not
-> an LTR frame, but it feels hackish. I'm not sure yet.
-> 
-Could you please help me to understand how this info will be helpful?
-This control won't be set by client for every frame. So a frame for 
-which this control is not set
-is not a LTR frame and a frame for which this control is set is a LTR 
-frame and will be marked with
-LTR index ranging from 0 to LTR_COUNT-1 (range is according to standard)
->> +	this provides a Long Term Reference index that ranges from 0
->> +	to LTR count-1 and then the particular frame will be marked with 
->> that
->> +	Long Term Reference index.
-> 
-> Add something like: "Applicable to the H264 and HEVC encoder."
-sure, will add.
-> 
-> This only makes sense when used with requests, right? Otherwise you 
-> cannot
-> reliably associate this control with a frame. That should be mentioned 
-> here.
-Sure, will add.
-> 
->> +
->> +``V4L2_CID_MPEG_VIDEO_USELTRFRAME (enum)``
-> 
-> enum -> bitmask
-> _USE_LTR_FRAMES
-Will correct this in next patch.
-> 
->> +	Specifies the Long Term Reference frame(s) to be used for encoding
->> +	the current frame.
->> +	This provides a bitmask which consists of bits [0, 15]. A total of N
->> +	LSB bits of this field are valid, where N is the maximum number of
->> +	Long Term Reference frames supported.
->> +	All the other bits are invalid and should be rejected.
->> +	The LSB corresponds to the Long Term Reference index 0. Bit N-1 from
->> +	the LSB corresponds to the Long Term Reference index max LTR 
->> count-1.
-> 
-> Add something like: "Applicable to the H264 and HEVC encoder."
-> 
-> This too only makes sense when using requests, correct? That should be 
-> mentioned
-> here.
-Sure, will do.
-> 
-> I assume that this must be set to 0 for LTR frames? Or at least this
-> control will
-> be ignored for LTR frames.
-Yes, frames marked as LTR frames will not be encoded by using any other 
-LTR frame as a reference.
-So this control won't be set for LTR frames.
-This will be set only for the frames which needs to be encoded by using 
-an LTR frame as a reference.
-> 
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c 
->> b/drivers/media/v4l2-core/v4l2-ctrls.c
->> index 3f3fbcd..3138c72 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->> @@ -991,6 +991,9 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice 
->> Parameters";
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode 
->> Mode";
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
->> +	case V4L2_CID_MPEG_VIDEO_LTRCOUNT:		return "LTR Count";
->> +	case V4L2_CID_MPEG_VIDEO_MARKLTRFRAME:		return "Mark LTR";
->> +	case V4L2_CID_MPEG_VIDEO_USELTRFRAME:		return "Use LTR";
-> 
-> "Use LTR Frames"
-> 
->> 
->>  	/* CAMERA controls */
->>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
->> @@ -1224,6 +1227,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, 
->> enum v4l2_ctrl_type *type,
->>  		break;
->>  	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:
->>  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
->> +	case V4L2_CID_MPEG_VIDEO_LTRCOUNT:
->> +	case V4L2_CID_MPEG_VIDEO_MARKLTRFRAME:
->> +	case V4L2_CID_MPEG_VIDEO_USELTRFRAME:
->>  		*type = V4L2_CTRL_TYPE_INTEGER;
->>  		break;
->>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
->> diff --git a/include/uapi/linux/v4l2-controls.h 
->> b/include/uapi/linux/v4l2-controls.h
->> index 6227141..f2daa86 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -742,6 +742,10 @@ enum 
->> v4l2_cid_mpeg_video_hevc_size_of_length_field {
->>  #define 
->> V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 642)
->>  #define 
->> V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
->>  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE 
->> + 644)
->> +#define V4L2_CID_MPEG_VIDEO_LTRCOUNT	(V4L2_CID_MPEG_BASE + 645)
->> +#define V4L2_CID_MPEG_VIDEO_MARKLTRFRAME	(V4L2_CID_MPEG_BASE + 646)
->> +#define V4L2_CID_MPEG_VIDEO_USELTRFRAME		(V4L2_CID_MPEG_BASE + 647)
->> +
->> 
->>  /*  MPEG-class control IDs specific to the CX2341x driver as defined 
->> by V4L2 */
->>  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
->> 
-> 
-> Regards,
-> 
-> 	Hans
+I see that if Tegra DRM driver uses implicit IOMMU domain, then when VDE
+driver imports DMA-buf from Terga DRM and the imported buffer will be
+auto-mapped to the implicit VDE IOVA [1].
 
-Thanks,
-Dikshita
+[1]
+https://elixir.bootlin.com/linux/v5.9-rc2/source/drivers/gpu/drm/tegra/gem.c#L574
+
+>> Hence, either VDE driver should bypass iommu_dma_ops from the start or
+>> it needs a way to kick out the ops, like it does this using ARM's
+>> arm_iommu_detach_device().
+>>
+>>
+>> The same applies to the Tegra GPU devices, otherwise you're breaking
+>> them as well because Tegra DRM is sensible to implicit vs explicit
+>> domain.
+> 
+> Note that Tegra DRM will only be as broken as its current state on
+> arm64, and I was under the impression that that was OK now - at least I
+> don't recall seeing any complaints since 43c5bf11a610. Although that
+> commit and the one before it are resolving the scalability issue that
+> they describe, it was very much in my mind at the time that they also
+> have the happy side-effect described above - the default domain isn't
+> *completely* out of the way, but it's far enough that sensible cases
+> should be able to work as expected.
+
+The Tegra DRM has a very special quirk for ARM32 that was added in this
+commit [2] and driver relies on checking of whether explicit or implicit
+IOMMU is used in order to activate the quirk.
+
+[2]
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=273da5a046965ccf0ec79eb63f2d5173467e20fa
+
+Once the implicit IOMMU is used for the DRM driver, the quirk no longer
+works (if I'm not missing something). This problem needs to be resolved
+before implicit IOMMU could be used by the Tegra DRM on ARM32.
+
+>> BTW, I tried to apply this series and T30 doesn't boot anymore. I don't
+>> have more info for now.
+> 
+> Yeah, I'm still trying to get to the bottom of whether it's actually
+> working as intended at all, even on my RK3288. So far my debugging
+> instrumentation has been confusingly inconclusive :/
+
+Surely it will take some time to resolve all the problems and it's great
+that you're pushing this work!
+
+I'll try to help with fixing the ARM32 Tegra side of the problems. I
+added this to my "TODO" list and should be able to take a closer look
+during of this/next weeks!
