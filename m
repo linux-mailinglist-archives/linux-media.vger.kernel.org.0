@@ -2,179 +2,1238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86D05255162
-	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 00:56:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 355292551AF
+	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 01:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728036AbgH0W4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 18:56:16 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2881 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726972AbgH0W4P (ORCPT
+        id S1728001AbgH0Xli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 19:41:38 -0400
+Received: from gateway36.websitewelcome.com ([192.185.186.5]:13901 "EHLO
+        gateway36.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726826AbgH0Xli (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 18:56:15 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f4839e40000>; Thu, 27 Aug 2020 15:55:32 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 27 Aug 2020 15:56:15 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 27 Aug 2020 15:56:15 -0700
-Received: from [10.2.174.186] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 27 Aug
- 2020 22:56:14 +0000
-Subject: Re: [PATCH v3 3/3] media: i2c: imx274: Add IMX274 power on and off
- sequence
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <frankc@nvidia.com>, <hverkuil@xs4all.nl>, <luca@lucaceresoli.net>,
-        <leonl@leopardimaging.com>, <robh+dt@kernel.org>,
-        <lgirdwood@gmail.com>, <broonie@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1595264494-2400-1-git-send-email-skomatineni@nvidia.com>
- <1595264494-2400-3-git-send-email-skomatineni@nvidia.com>
- <20200731162611.GB6401@valkosipuli.retiisi.org.uk>
- <b8819080-6585-c953-e7ad-9b0a10f1d821@nvidia.com>
- <20200813220147.GJ840@valkosipuli.retiisi.org.uk>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <824ced0f-7493-9d2f-10af-5242c7997631@nvidia.com>
-Date:   Thu, 27 Aug 2020 15:55:52 -0700
+        Thu, 27 Aug 2020 19:41:38 -0400
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+        by gateway36.websitewelcome.com (Postfix) with ESMTP id A35D9400E763A
+        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 17:45:51 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id BRCKkh3bWOIGpBRCKkFqHh; Thu, 27 Aug 2020 18:20:48 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=kniVI++Mb/IiZLoZlbazR/VRu2LaCU/YTCWEw+5VAcw=; b=u18PvNzz+A9iCbOSMFE3UzEMzd
+        e9XMhPnMPaZrSLFfmW2E7ASR0QvLb5yDJ0OFYwrFqYYHzeUnHD9xBhzDv7aLft0qSPt+YMrTBxFCV
+        elPBAbNxVOtnPbAmGZvl135op0Wq284xG6gu3ARL7UDEOQ/nAxlgXu10HpnhwkB2vhp/VxLmv3D8M
+        FRaJrPRUX+YqoNGz+Jppq5tXpoR4Ioa+/W5n8y58V/E/lTfeNe5pABtbE9EzIrtJHikWyaWeFNpMi
+        VUmD8nJQrEdhlyrTe7XYmBV63s7LYD6y44+bvtamAjbFP4HVyuaz+taEWJOylU3zTZvsfHbu8p5X/
+        2gIoxCBQ==;
+Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:55916 helo=[192.168.15.8])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1kBRCI-001j6l-Ni; Thu, 27 Aug 2020 18:20:46 -0500
+Subject: Re: [PATCH][next] media: Use fallthrough pseudo-keyword
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Petr Cvek <petrcvekcz@gmail.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
+        Ismael Luceno <ismael@iodev.co.uk>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Sean Young <sean@mess.org>, Michael Buesch <m@bues.ch>,
+        Malcolm Priestley <tvboxspy@gmail.com>,
+        Brian Johnson <brijohn@gmail.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20200724221014.GA24349@embeddedor>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Autocrypt: addr=gustavo@embeddedor.com; keydata=
+ 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
+ AP7RWS474w==
+Message-ID: <952da2a0-1158-e130-4fef-2988db54d6fc@embeddedor.com>
+Date:   Thu, 27 Aug 2020 18:26:46 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200813220147.GJ840@valkosipuli.retiisi.org.uk>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200724221014.GA24349@embeddedor>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1598568932; bh=7y2B9liBdt6/JW2O3wpgrVPduvEhHwTR5pP93AhCNSM=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=feSgNFGDLTmc/qw7jU9BAhKdNnlYMDtsC+GFxZlBIOGnq/mDRBjCDk65KBhX+CSfl
-         dK7TaAtdTTExbYlECn9bP3cGrHuKXvE3YztWWpfXThWcSdM7SdMT2i+V6gwEkhOW/2
-         HCXBUwdQYo/Vo6Cw8toEAcRh2t+wI/AbAgton2j4vSVdmy5dMilj0rqLpNpU+04Njq
-         Z1BlRJmBfF4eCWBYhlnDKFh6eMP6NkcMB7/EPvq13QkqzgHdxzK6ZuLheXZM+qk3kX
-         eKAL7W8fH+x4B+a430DKmB+Hr9DeEov5CvNOqZaHUuruk9jcQH1IVQEsIx2zqFccRt
-         ty6B9RFfJvrpg==
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.31.110
+X-Source-L: No
+X-Exim-ID: 1kBRCI-001j6l-Ni
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8]) [187.162.31.110]:55916
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 35
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi all,
 
-On 8/13/20 3:01 PM, Sakari Ailus wrote:
-> Hi Sowjanya,
->
-> On Fri, Jul 31, 2020 at 09:34:15AM -0700, Sowjanya Komatineni wrote:
->> On 7/31/20 9:26 AM, Sakari Ailus wrote:
->>> Hi Sowjanya,
->>>
->>> Thanks for the patch.
->>>
->>> On Mon, Jul 20, 2020 at 10:01:34AM -0700, Sowjanya Komatineni wrote:
->>>> IMX274 has VANA analog 2.8V supply, VDIG digital core 1.8V supply,
->>>> and VDDL digital io 1.2V supply which are optional based on camera
->>>> module design.
->>>>
->>>> IMX274 also need external 24Mhz clock and is optional based on
->>>> camera module design.
->>> The sensor appears to be able to use other frequencies, too. Could you
->>> check in the driver the frequency is correct? This should be found in DT
->>> bindings, too.
->> External input clock is not in DT. So added it as part of this series.
->>
->> We are mostly using 24Mhz I/P with IMX274 on designs we have and also on
->> leopard module which has onboard XTAL for 24Mhz
-> Yes. This information still should be found in DT as the xtal isn't part of
-> the sensor.
->
->>>> This patch adds support for IMX274 power on and off to enable and
->>>> disable these supplies and external clock.
->>>>
->>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>> ---
->>>>    drivers/media/i2c/imx274.c | 132 +++++++++++++++++++++++++++++++++++++++++++--
->>>>    1 file changed, 129 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
->>>> index 55869ff..7157b1d 100644
->>>> --- a/drivers/media/i2c/imx274.c
->>>> +++ b/drivers/media/i2c/imx274.c
->>>> @@ -19,6 +19,7 @@
->>>>    #include <linux/module.h>
->>>>    #include <linux/of_gpio.h>
->>>>    #include <linux/regmap.h>
->>>> +#include <linux/regulator/consumer.h>
->>>>    #include <linux/slab.h>
->>>>    #include <linux/v4l2-mediabus.h>
->>>>    #include <linux/videodev2.h>
->>>> @@ -131,6 +132,15 @@
->>>>    #define IMX274_TABLE_WAIT_MS			0
->>>>    #define IMX274_TABLE_END			1
->>>> +/* regulator supplies */
->>>> +static const char * const imx274_supply_names[] = {
->>>> +	"VDDL",  /* IF (1.2V) supply */
->>>> +	"VDIG",  /* Digital Core (1.8V) supply */
->>>> +	"VANA",  /* Analog (2.8V) supply */
->>>> +};
->>>> +
->>>> +#define IMX274_NUM_SUPPLIES ARRAY_SIZE(imx274_supply_names)
->>> Please use ARRAY_SIZE() directly.
->>>
->>>> +
->>>>    /*
->>>>     * imx274 I2C operation related structure
->>>>     */
->>>> @@ -501,6 +511,8 @@ struct imx274_ctrls {
->>>>     * @frame_rate: V4L2 frame rate structure
->>>>     * @regmap: Pointer to regmap structure
->>>>     * @reset_gpio: Pointer to reset gpio
->>>> + * @supplies: imx274 analog and digital supplies
->>>> + * @inck: input clock to imx274
->>>>     * @lock: Mutex structure
->>>>     * @mode: Parameters for the selected readout mode
->>>>     */
->>>> @@ -514,6 +526,8 @@ struct stimx274 {
->>>>    	struct v4l2_fract frame_interval;
->>>>    	struct regmap *regmap;
->>>>    	struct gpio_desc *reset_gpio;
->>>> +	struct regulator *supplies[IMX274_NUM_SUPPLIES];
->>>> +	struct clk *inck;
->>>>    	struct mutex lock; /* mutex lock for operations */
->>>>    	const struct imx274_mode *mode;
->>>>    };
->>>> @@ -767,6 +781,99 @@ static void imx274_reset(struct stimx274 *priv, int rst)
->>>>    	usleep_range(IMX274_RESET_DELAY1, IMX274_RESET_DELAY2);
->>>>    }
->>>> +/*
->>>> + * imx274_power_on - Function called to power on the sensor
->>>> + * @imx274: Pointer to device structure
->>>> + */
->>>> +static int imx274_power_on(struct device *dev)
->>>> +{
->>>> +	struct i2c_client *client = to_i2c_client(dev);
->>>> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->>>> +	struct stimx274 *imx274 = to_imx274(sd);
->>>> +	int i, ret;
->>>> +
->>>> +	ret = clk_prepare_enable(imx274->inck);
->>>> +	if (ret) {
->>>> +		dev_err(&imx274->client->dev,
->>>> +			"Failed to enable input clock: %d\n", ret);
->>>> +		return ret;
->>>> +	}
->>>> +
->>> Could you use regulator_bulk_enable() instead? Same for disable.
->> Using regulator_bulk_enable() makes these regulators mandatory.
-> How? regulator_bulk_enable() simply does call regulator_enable() on all the
-> regulators.
->
-regulator_bulk APIs uses regulator_bulk_data and so had to retrieve 
-regulators from DT with devm_regulator_bulk_get() which don't use 
-optional regulator get.
+Friendly ping: who can take this?
 
+Thanks
+--
+Gustavo
+
+On 7/24/20 17:10, Gustavo A. R. Silva wrote:
+> Replace the existing /* fall through */ comments and its variants with
+> the new pseudo-keyword macro fallthrough[1]. Also, remove unnecessary
+> fall-through markings when it is the case.
+> 
+> [1] https://www.kernel.org/doc/html/v5.7/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+>  drivers/media/cec/core/cec-adap.c                 |  2 +-
+>  drivers/media/cec/core/cec-pin.c                  |  6 +++---
+>  drivers/media/cec/usb/pulse8/pulse8-cec.c         |  2 +-
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c   |  2 +-
+>  drivers/media/dvb-frontends/af9013.c              |  2 +-
+>  drivers/media/dvb-frontends/lg2160.c              |  2 +-
+>  drivers/media/dvb-frontends/m88ds3103.c           |  2 +-
+>  drivers/media/i2c/adv7180.c                       |  2 +-
+>  drivers/media/i2c/adv7511-v4l2.c                  |  4 ++--
+>  drivers/media/i2c/msp3400-kthreads.c              |  2 +-
+>  drivers/media/i2c/ov5640.c                        |  2 +-
+>  drivers/media/i2c/ov6650.c                        |  4 ++--
+>  drivers/media/i2c/ov9640.c                        |  2 +-
+>  drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c         |  2 +-
+>  drivers/media/i2c/smiapp/smiapp-core.c            |  6 +++---
+>  drivers/media/i2c/tda1997x.c                      | 10 +++++-----
+>  drivers/media/i2c/tvp5150.c                       |  2 +-
+>  drivers/media/pci/bt8xx/bttv-driver.c             |  2 +-
+>  drivers/media/pci/cx88/cx88-cards.c               |  2 +-
+>  drivers/media/pci/cx88/cx88-video.c               |  2 +-
+>  drivers/media/pci/saa7134/saa7134-cards.c         |  4 ++--
+>  drivers/media/pci/solo6x10/solo6x10-core.c        |  2 +-
+>  drivers/media/pci/solo6x10/solo6x10-i2c.c         |  2 +-
+>  drivers/media/platform/coda/coda-bit.c            |  4 ++--
+>  drivers/media/platform/coda/coda-common.c         | 10 +++++-----
+>  drivers/media/platform/exynos4-is/fimc-capture.c  |  6 +++---
+>  drivers/media/platform/exynos4-is/fimc-reg.c      |  2 +-
+>  drivers/media/platform/exynos4-is/media-dev.c     |  2 +-
+>  drivers/media/platform/marvell-ccic/mcam-core.c   |  2 +-
+>  drivers/media/platform/omap3isp/ispvideo.c        |  2 +-
+>  drivers/media/platform/qcom/venus/vdec.c          |  2 +-
+>  drivers/media/platform/renesas-ceu.c              |  4 ++--
+>  drivers/media/radio/si4713/si4713.c               |  2 +-
+>  drivers/media/rc/iguanair.c                       |  2 +-
+>  drivers/media/test-drivers/vicodec/vicodec-core.c |  2 +-
+>  drivers/media/test-drivers/vivid/vivid-vbi-gen.c  |  2 +-
+>  drivers/media/tuners/fc0011.c                     |  2 +-
+>  drivers/media/tuners/tda18271-fe.c                |  2 +-
+>  drivers/media/usb/dvb-usb-v2/af9015.c             |  2 +-
+>  drivers/media/usb/dvb-usb-v2/gl861.c              |  2 +-
+>  drivers/media/usb/dvb-usb-v2/lmedm04.c            |  8 ++++----
+>  drivers/media/usb/dvb-usb-v2/mxl111sf-gpio.c      |  4 ++--
+>  drivers/media/usb/em28xx/em28xx-audio.c           |  8 ++++----
+>  drivers/media/usb/go7007/go7007-driver.c          |  2 +-
+>  drivers/media/usb/gspca/mr97310a.c                | 10 +++++-----
+>  drivers/media/usb/gspca/nw80x.c                   |  2 +-
+>  drivers/media/usb/gspca/ov519.c                   |  6 +++---
+>  drivers/media/usb/gspca/sn9c20x.c                 |  2 +-
+>  drivers/media/usb/gspca/sunplus.c                 |  4 ++--
+>  drivers/media/usb/gspca/xirlink_cit.c             |  4 ++--
+>  drivers/media/usb/gspca/zc3xx.c                   |  4 ++--
+>  drivers/media/usb/pwc/pwc-v4l.c                   |  2 +-
+>  drivers/media/usb/siano/smsusb.c                  |  2 +-
+>  drivers/media/usb/tm6000/tm6000-alsa.c            |  8 ++++----
+>  drivers/media/usb/uvc/uvc_video.c                 |  4 ++--
+>  55 files changed, 94 insertions(+), 94 deletions(-)
+> 
+> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+> index 4efe8014445e..80fd5165f658 100644
+> --- a/drivers/media/cec/core/cec-adap.c
+> +++ b/drivers/media/cec/core/cec-adap.c
+> @@ -1928,7 +1928,7 @@ static int cec_receive_notify(struct cec_adapter *adap, struct cec_msg *msg,
+>  		 */
+>  		if (!adap->passthrough && from_unregistered)
+>  			return 0;
+> -		/* Fall through */
+> +		fallthrough;
+>  	case CEC_MSG_GIVE_DEVICE_VENDOR_ID:
+>  	case CEC_MSG_GIVE_FEATURES:
+>  	case CEC_MSG_GIVE_PHYSICAL_ADDR:
+> diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
+> index 660fe111f540..f006bd8eec63 100644
+> --- a/drivers/media/cec/core/cec-pin.c
+> +++ b/drivers/media/cec/core/cec-pin.c
+> @@ -417,7 +417,7 @@ static void cec_pin_tx_states(struct cec_pin *pin, ktime_t ts)
+>  			wake_up_interruptible(&pin->kthread_waitq);
+>  			break;
+>  		}
+> -		/* fall through */
+> +		fallthrough;
+>  	case CEC_ST_TX_DATA_BIT_0_HIGH:
+>  	case CEC_ST_TX_DATA_BIT_0_HIGH_SHORT:
+>  	case CEC_ST_TX_DATA_BIT_0_HIGH_LONG:
+> @@ -445,7 +445,7 @@ static void cec_pin_tx_states(struct cec_pin *pin, ktime_t ts)
+>  			wake_up_interruptible(&pin->kthread_waitq);
+>  			break;
+>  		}
+> -		/* fall through */
+> +		fallthrough;
+>  	case CEC_ST_TX_DATA_BIT_HIGH_CUSTOM:
+>  		if (tx_last_bit(pin)) {
+>  			/* Error Injection: just stop sending after this bit */
+> @@ -459,7 +459,7 @@ static void cec_pin_tx_states(struct cec_pin *pin, ktime_t ts)
+>  			break;
+>  		}
+>  		pin->tx_bit++;
+> -		/* fall through */
+> +		fallthrough;
+>  	case CEC_ST_TX_START_BIT_HIGH:
+>  	case CEC_ST_TX_START_BIT_HIGH_SHORT:
+>  	case CEC_ST_TX_START_BIT_HIGH_LONG:
+> diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
+> index beae6aa12638..e4d8446b87da 100644
+> --- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
+> +++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
+> @@ -389,7 +389,7 @@ static irqreturn_t pulse8_interrupt(struct serio *serio, unsigned char data,
+>  				pulse8->new_rx_msg[0] = pulse8->buf[1];
+>  				break;
+>  			}
+> -			/* fall through */
+> +			fallthrough;
+>  		case MSGCODE_FRAME_DATA:
+>  			if (pulse8->new_rx_msg_len < CEC_MAX_MSG_SIZE)
+>  				pulse8->new_rx_msg[pulse8->new_rx_msg_len++] =
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 30caad27281e..0b1a0a1d246b 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -600,7 +600,7 @@ static void __fill_v4l2_buffer(struct vb2_buffer *vb, void *pb)
+>  		break;
+>  	case VB2_BUF_STATE_ERROR:
+>  		b->flags |= V4L2_BUF_FLAG_ERROR;
+> -		/* fall through */
+> +		fallthrough;
+>  	case VB2_BUF_STATE_DONE:
+>  		b->flags |= V4L2_BUF_FLAG_DONE;
+>  		break;
+> diff --git a/drivers/media/dvb-frontends/af9013.c b/drivers/media/dvb-frontends/af9013.c
+> index 7281899bd7ae..7d7c341b2bd8 100644
+> --- a/drivers/media/dvb-frontends/af9013.c
+> +++ b/drivers/media/dvb-frontends/af9013.c
+> @@ -597,7 +597,7 @@ static int af9013_read_status(struct dvb_frontend *fe, enum fe_status *status)
+>  			state->strength_en = 2;
+>  			break;
+>  		}
+> -		/* Fall through */
+> +		fallthrough;
+>  	case 1:
+>  		if (time_is_after_jiffies(state->strength_jiffies + msecs_to_jiffies(2000)))
+>  			break;
+> diff --git a/drivers/media/dvb-frontends/lg2160.c b/drivers/media/dvb-frontends/lg2160.c
+> index 10c152f461dd..f343066c297e 100644
+> --- a/drivers/media/dvb-frontends/lg2160.c
+> +++ b/drivers/media/dvb-frontends/lg2160.c
+> @@ -1408,7 +1408,7 @@ struct dvb_frontend *lg2160_attach(const struct lg2160_config *config,
+>  	switch (config->lg_chip) {
+>  	default:
+>  		lg_warn("invalid chip requested, defaulting to LG2160");
+> -		/* fall-thru */
+> +		fallthrough;
+>  	case LG2160:
+>  		memcpy(&state->frontend.ops, &lg2160_ops,
+>  		       sizeof(struct dvb_frontend_ops));
+> diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
+> index f204e715bc59..ad6d9d564a87 100644
+> --- a/drivers/media/dvb-frontends/m88ds3103.c
+> +++ b/drivers/media/dvb-frontends/m88ds3103.c
+> @@ -906,7 +906,7 @@ static int m88ds3103_set_frontend(struct dvb_frontend *fe)
+>  			if (ret)
+>  				goto err;
+>  		}
+> -		/* fall through */
+> +		fallthrough;
+>  	default:
+>  		u16tmp = DIV_ROUND_UP(target_mclk, dev->cfg->ts_clk);
+>  		u8tmp1 = u16tmp / 2 - 1;
+> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> index 00159daa6fcd..0bc7fccca87b 100644
+> --- a/drivers/media/i2c/adv7180.c
+> +++ b/drivers/media/i2c/adv7180.c
+> @@ -726,7 +726,7 @@ static int adv7180_set_pad_format(struct v4l2_subdev *sd,
+>  	case V4L2_FIELD_NONE:
+>  		if (state->chip_info->flags & ADV7180_FLAG_I2P)
+>  			break;
+> -		/* fall through */
+> +		fallthrough;
+>  	default:
+>  		format->format.field = V4L2_FIELD_ALTERNATE;
+>  		break;
+> diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
+> index 62763ec4cd07..a3161d709015 100644
+> --- a/drivers/media/i2c/adv7511-v4l2.c
+> +++ b/drivers/media/i2c/adv7511-v4l2.c
+> @@ -470,7 +470,7 @@ static int adv7511_g_register(struct v4l2_subdev *sd, struct v4l2_dbg_register *
+>  			reg->val = adv7511_cec_read(sd, reg->reg & 0xff);
+>  			break;
+>  		}
+> -		/* fall through */
+> +		fallthrough;
+>  	default:
+>  		v4l2_info(sd, "Register %03llx not supported\n", reg->reg);
+>  		adv7511_inv_register(sd);
+> @@ -492,7 +492,7 @@ static int adv7511_s_register(struct v4l2_subdev *sd, const struct v4l2_dbg_regi
+>  			adv7511_cec_write(sd, reg->reg & 0xff, reg->val & 0xff);
+>  			break;
+>  		}
+> -		/* fall through */
+> +		fallthrough;
+>  	default:
+>  		v4l2_info(sd, "Register %03llx not supported\n", reg->reg);
+>  		adv7511_inv_register(sd);
+> diff --git a/drivers/media/i2c/msp3400-kthreads.c b/drivers/media/i2c/msp3400-kthreads.c
+> index d3b0d1c18efd..52e506f86de5 100644
+> --- a/drivers/media/i2c/msp3400-kthreads.c
+> +++ b/drivers/media/i2c/msp3400-kthreads.c
+> @@ -646,7 +646,7 @@ int msp3400c_thread(void *data)
+>  			break;
+>  		case 0: /* 4.5 */
+>  			state->detected_std = V4L2_STD_MN;
+> -			/* fall-through */
+> +			fallthrough;
+>  		default:
+>  no_second:
+>  			state->second = msp3400c_carrier_detect_main[max1].cdo;
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 2fe4a7ac0592..ccdabc7948a7 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -3010,7 +3010,7 @@ static int ov5640_probe(struct i2c_client *client)
+>  		switch (rotation) {
+>  		case 180:
+>  			sensor->upside_down = true;
+> -			/* fall through */
+> +			fallthrough;
+>  		case 0:
+>  			break;
+>  		default:
+> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> index 91906b94f978..601c4f2e5205 100644
+> --- a/drivers/media/i2c/ov6650.c
+> +++ b/drivers/media/i2c/ov6650.c
+> @@ -685,7 +685,7 @@ static int ov6650_set_fmt(struct v4l2_subdev *sd,
+>  	switch (mf->code) {
+>  	case MEDIA_BUS_FMT_Y10_1X10:
+>  		mf->code = MEDIA_BUS_FMT_Y8_1X8;
+> -		/* fall through */
+> +		fallthrough;
+>  	case MEDIA_BUS_FMT_Y8_1X8:
+>  	case MEDIA_BUS_FMT_YVYU8_2X8:
+>  	case MEDIA_BUS_FMT_YUYV8_2X8:
+> @@ -694,7 +694,7 @@ static int ov6650_set_fmt(struct v4l2_subdev *sd,
+>  		break;
+>  	default:
+>  		mf->code = MEDIA_BUS_FMT_SBGGR8_1X8;
+> -		/* fall through */
+> +		fallthrough;
+>  	case MEDIA_BUS_FMT_SBGGR8_1X8:
+>  		break;
+>  	}
+> diff --git a/drivers/media/i2c/ov9640.c b/drivers/media/i2c/ov9640.c
+> index 3a21f51d9325..66614e0ee988 100644
+> --- a/drivers/media/i2c/ov9640.c
+> +++ b/drivers/media/i2c/ov9640.c
+> @@ -538,7 +538,7 @@ static int ov9640_set_fmt(struct v4l2_subdev *sd,
+>  		break;
+>  	default:
+>  		mf->code = MEDIA_BUS_FMT_UYVY8_2X8;
+> -		/* fall through */
+> +		fallthrough;
+>  	case MEDIA_BUS_FMT_UYVY8_2X8:
+>  		mf->colorspace = V4L2_COLORSPACE_JPEG;
+>  		break;
+> diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c b/drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c
+> index 71cf68a95bb2..141ad0ba7f5a 100644
+> --- a/drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c
+> +++ b/drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c
+> @@ -46,7 +46,7 @@ static int s5c73m3_get_af_status(struct s5c73m3 *state, struct v4l2_ctrl *ctrl)
+>  		break;
+>  	default:
+>  		v4l2_info(&state->sensor_sd, "Unknown AF status %#x\n", reg);
+> -		/* Fall through */
+> +		fallthrough;
+>  	case REG_CAF_STATUS_UNFOCUSED:
+>  	case REG_AF_STATUS_UNFOCUSED:
+>  	case REG_AF_STATUS_INVALID:
+> diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
+> index 8a9c7de0c056..6fc0680a93d0 100644
+> --- a/drivers/media/i2c/smiapp/smiapp-core.c
+> +++ b/drivers/media/i2c/smiapp/smiapp-core.c
+> @@ -1721,7 +1721,7 @@ static void smiapp_propagate(struct v4l2_subdev *subdev,
+>  				sensor->binning_vertical = 1;
+>  			}
+>  		}
+> -		/* Fall through */
+> +		fallthrough;
+>  	case V4L2_SEL_TGT_COMPOSE:
+>  		*crops[SMIAPP_PAD_SRC] = *comp;
+>  		break;
+> @@ -2120,7 +2120,7 @@ static int __smiapp_sel_supported(struct v4l2_subdev *subdev,
+>  		    && SMIA_LIM(sensor, SCALING_CAPABILITY)
+>  		    != SMIAPP_SCALING_CAPABILITY_NONE)
+>  			return 0;
+> -		/* Fall through */
+> +		fallthrough;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -2795,7 +2795,7 @@ static struct smiapp_hwconfig *smiapp_get_hwconfig(struct device *dev)
+>  		case 180:
+>  			hwcfg->module_board_orient =
+>  				SMIAPP_MODULE_BOARD_ORIENT_180;
+> -			/* Fall through */
+> +			fallthrough;
+>  		case 0:
+>  			break;
+>  		default:
+> diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
+> index 5e68182001ec..f6b57f1220ae 100644
+> --- a/drivers/media/i2c/tda1997x.c
+> +++ b/drivers/media/i2c/tda1997x.c
+> @@ -2588,7 +2588,7 @@ static int tda1997x_probe(struct i2c_client *client,
+>  			case 36:
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+> -				/* fall-through */
+> +				fallthrough;
+>  			case 24:
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+>  				break;
+> @@ -2617,10 +2617,10 @@ static int tda1997x_probe(struct i2c_client *client,
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+> -				/* fall through */
+> +				fallthrough;
+>  			case 20:
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+> -				/* fall through */
+> +				fallthrough;
+>  			case 16:
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+>  				break;
+> @@ -2633,10 +2633,10 @@ static int tda1997x_probe(struct i2c_client *client,
+>  			case 16:
+>  			case 12:
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_UYVY12_2X12;
+> -				/* fall through */
+> +				fallthrough;
+>  			case 10:
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_UYVY10_2X10;
+> -				/* fall through */
+> +				fallthrough;
+>  			case 8:
+>  				mbus_codes[i++] = MEDIA_BUS_FMT_UYVY8_2X8;
+>  				break;
+> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> index 9df575238952..09ecb61e8d03 100644
+> --- a/drivers/media/i2c/tvp5150.c
+> +++ b/drivers/media/i2c/tvp5150.c
+> @@ -293,7 +293,7 @@ static void tvp5150_selmux(struct v4l2_subdev *sd)
+>  	switch (decoder->input) {
+>  	case TVP5150_COMPOSITE1:
+>  		input |= 2;
+> -		/* fall through */
+> +		fallthrough;
+>  	case TVP5150_COMPOSITE0:
+>  		break;
+>  	case TVP5150_SVIDEO:
+> diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+> index 9144f795fb93..8c61d292dec1 100644
+> --- a/drivers/media/pci/bt8xx/bttv-driver.c
+> +++ b/drivers/media/pci/bt8xx/bttv-driver.c
+> @@ -2332,7 +2332,7 @@ static int bttv_try_fmt_vid_cap(struct file *file, void *priv,
+>  			field = V4L2_FIELD_SEQ_TB;
+>  			break;
+>  		}
+> -		/* fall through */
+> +		fallthrough;
+>  	default: /* FIELD_ANY case */
+>  		height2 = btv->crop[!!fh->do_crop].rect.height >> 1;
+>  		field = (f->fmt.pix.height > height2)
+> diff --git a/drivers/media/pci/cx88/cx88-cards.c b/drivers/media/pci/cx88/cx88-cards.c
+> index 9fa388626bae..8e224fc0474d 100644
+> --- a/drivers/media/pci/cx88/cx88-cards.c
+> +++ b/drivers/media/pci/cx88/cx88-cards.c
+> @@ -3499,7 +3499,7 @@ static void cx88_card_setup(struct cx88_core *core)
+>  		cx_clear(MO_GP0_IO, 0x00000040);
+>  		msleep(1000);
+>  		cx_set(MO_GP0_IO, 0x00004040);
+> -		/* FALLTHROUGH */
+> +		fallthrough;
+>  	case CX88_BOARD_DVICO_FUSIONHDTV_DVB_T1:
+>  	case CX88_BOARD_DVICO_FUSIONHDTV_DVB_T_PLUS:
+>  	case CX88_BOARD_DVICO_FUSIONHDTV_DVB_T_HYBRID:
+> diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
+> index e7fd7516787c..8cffdacf6007 100644
+> --- a/drivers/media/pci/cx88/cx88-video.c
+> +++ b/drivers/media/pci/cx88/cx88-video.c
+> @@ -1385,7 +1385,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
+>  		request_module("rtc-isl1208");
+>  		core->i2c_rtc = i2c_new_client_device(&core->i2c_adap, &rtc_info);
+>  	}
+> -		/* fall-through */
+> +		fallthrough;
+>  	case CX88_BOARD_DVICO_FUSIONHDTV_5_PCI_NANO:
+>  		request_module("ir-kbd-i2c");
+>  	}
+> diff --git a/drivers/media/pci/saa7134/saa7134-cards.c b/drivers/media/pci/saa7134/saa7134-cards.c
+> index c1937c33c33d..ce449c941171 100644
+> --- a/drivers/media/pci/saa7134/saa7134-cards.c
+> +++ b/drivers/media/pci/saa7134/saa7134-cards.c
+> @@ -7812,7 +7812,7 @@ int saa7134_board_init2(struct saa7134_dev *dev)
+>  				dev->name, saa7134_boards[dev->board].name);
+>  			break;
+>  		}
+> -		/* fall-through */
+> +		fallthrough;
+>  	case SAA7134_BOARD_VIDEOMATE_DVBT_300:
+>  	case SAA7134_BOARD_ASUS_EUROPA2_HYBRID:
+>  	case SAA7134_BOARD_ASUS_EUROPA_HYBRID:
+> @@ -7870,7 +7870,7 @@ int saa7134_board_init2(struct saa7134_dev *dev)
+>  		break;
+>  	case SAA7134_BOARD_HAUPPAUGE_HVR1110:
+>  		hauppauge_eeprom(dev, dev->eedata+0x80);
+> -		/* fall-through */
+> +		fallthrough;
+>  	case SAA7134_BOARD_PINNACLE_PCTV_310i:
+>  	case SAA7134_BOARD_KWORLD_DVBT_210:
+>  	case SAA7134_BOARD_TEVION_DVBT_220RF:
+> diff --git a/drivers/media/pci/solo6x10/solo6x10-core.c b/drivers/media/pci/solo6x10/solo6x10-core.c
+> index c6e0090f27e8..d497afc7e7b7 100644
+> --- a/drivers/media/pci/solo6x10/solo6x10-core.c
+> +++ b/drivers/media/pci/solo6x10/solo6x10-core.c
+> @@ -503,7 +503,7 @@ static int solo_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	default:
+>  		dev_warn(&pdev->dev, "Invalid chip_id 0x%02x, assuming 4 ch\n",
+>  			 chip_id);
+> -		/* fall through */
+> +		fallthrough;
+>  	case 5:
+>  		solo_dev->nr_chans = 4;
+>  		solo_dev->nr_ext = 1;
+> diff --git a/drivers/media/pci/solo6x10/solo6x10-i2c.c b/drivers/media/pci/solo6x10/solo6x10-i2c.c
+> index f86f12fa6350..7db785e9c997 100644
+> --- a/drivers/media/pci/solo6x10/solo6x10-i2c.c
+> +++ b/drivers/media/pci/solo6x10/solo6x10-i2c.c
+> @@ -183,7 +183,7 @@ int solo_i2c_isr(struct solo_dev *solo_dev)
+>  		}
+>  
+>  		solo_dev->i2c_state = IIC_STATE_WRITE;
+> -		/* fall through */
+> +		fallthrough;
+>  	case IIC_STATE_WRITE:
+>  		ret = solo_i2c_handle_write(solo_dev);
+>  		break;
+> diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
+> index b021604eceaa..bf75927bac4e 100644
+> --- a/drivers/media/platform/coda/coda-bit.c
+> +++ b/drivers/media/platform/coda/coda-bit.c
+> @@ -1101,7 +1101,7 @@ static int coda_start_encoding(struct coda_ctx *ctx)
+>  		break;
+>  	case CODA_960:
+>  		coda_write(dev, 0, CODA9_GDI_WPROT_RGN_EN);
+> -		/* fallthrough */
+> +		fallthrough;
+>  	case CODA_HX4:
+>  	case CODA_7541:
+>  		coda_write(dev, CODA7_STREAM_BUF_DYNALLOC_EN |
+> @@ -1141,7 +1141,7 @@ static int coda_start_encoding(struct coda_ctx *ctx)
+>  				 CODA7_PICHEIGHT_MASK) << CODA_PICHEIGHT_OFFSET;
+>  			break;
+>  		}
+> -		/* fallthrough */
+> +		fallthrough;
+>  	case CODA_960:
+>  		value = (q_data_src->rect.width & CODA7_PICWIDTH_MASK)
+>  			<< CODA7_PICWIDTH_OFFSET;
+> diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+> index 3ab3d976d8ca..823a4d7578d6 100644
+> --- a/drivers/media/platform/coda/coda-common.c
+> +++ b/drivers/media/platform/coda/coda-common.c
+> @@ -808,7 +808,7 @@ static int coda_s_fmt(struct coda_ctx *ctx, struct v4l2_format *f,
+>  			ctx->tiled_map_type = GDI_TILED_FRAME_MB_RASTER_MAP;
+>  			break;
+>  		}
+> -		/* else fall through */
+> +		fallthrough;
+>  	case V4L2_PIX_FMT_YUV420:
+>  	case V4L2_PIX_FMT_YVU420:
+>  	case V4L2_PIX_FMT_YUV422P:
+> @@ -1015,7 +1015,7 @@ static int coda_g_selection(struct file *file, void *fh,
+>  	case V4L2_SEL_TGT_CROP_DEFAULT:
+>  	case V4L2_SEL_TGT_CROP_BOUNDS:
+>  		rsel = &r;
+> -		/* fallthrough */
+> +		fallthrough;
+>  	case V4L2_SEL_TGT_CROP:
+>  		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT ||
+>  		    ctx->inst_type == CODA_INST_DECODER)
+> @@ -1024,7 +1024,7 @@ static int coda_g_selection(struct file *file, void *fh,
+>  	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+>  	case V4L2_SEL_TGT_COMPOSE_PADDED:
+>  		rsel = &r;
+> -		/* fallthrough */
+> +		fallthrough;
+>  	case V4L2_SEL_TGT_COMPOSE:
+>  	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
+>  		if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
+> @@ -1074,7 +1074,7 @@ static int coda_s_selection(struct file *file, void *fh,
+>  
+>  			return 0;
+>  		}
+> -		/* else fall through */
+> +		fallthrough;
+>  	case V4L2_SEL_TGT_NATIVE_SIZE:
+>  	case V4L2_SEL_TGT_COMPOSE:
+>  		return coda_g_selection(file, fh, s);
+> @@ -2628,7 +2628,7 @@ static int coda_open(struct file *file)
+>  		 */
+>  		if (enable_bwb || ctx->inst_type == CODA_INST_ENCODER)
+>  			ctx->frame_mem_ctrl = CODA9_FRAME_ENABLE_BWB;
+> -		/* fallthrough */
+> +		fallthrough;
+>  	case CODA_HX4:
+>  	case CODA_7541:
+>  		ctx->reg_idx = 0;
+> diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
+> index e7a4b06e6dfe..4fbf5506da97 100644
+> --- a/drivers/media/platform/exynos4-is/fimc-capture.c
+> +++ b/drivers/media/platform/exynos4-is/fimc-capture.c
+> @@ -1279,7 +1279,7 @@ static int fimc_cap_g_selection(struct file *file, void *fh,
+>  	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
+>  	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+>  		f = &ctx->d_frame;
+> -		/* fall through */
+> +		fallthrough;
+>  	case V4L2_SEL_TGT_CROP_BOUNDS:
+>  	case V4L2_SEL_TGT_CROP_DEFAULT:
+>  		s->r.left = 0;
+> @@ -1290,7 +1290,7 @@ static int fimc_cap_g_selection(struct file *file, void *fh,
+>  
+>  	case V4L2_SEL_TGT_COMPOSE:
+>  		f = &ctx->d_frame;
+> -		/* fall through */
+> +		fallthrough;
+>  	case V4L2_SEL_TGT_CROP:
+>  		s->r.left = f->offs_h;
+>  		s->r.top = f->offs_v;
+> @@ -1601,7 +1601,7 @@ static int fimc_subdev_get_selection(struct v4l2_subdev *sd,
+>  	switch (sel->target) {
+>  	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+>  		f = &ctx->d_frame;
+> -		/* fall through */
+> +		fallthrough;
+>  	case V4L2_SEL_TGT_CROP_BOUNDS:
+>  		r->width = f->o_width;
+>  		r->height = f->o_height;
+> diff --git a/drivers/media/platform/exynos4-is/fimc-reg.c b/drivers/media/platform/exynos4-is/fimc-reg.c
+> index 5ce2bdebd424..c9e9ed7eb143 100644
+> --- a/drivers/media/platform/exynos4-is/fimc-reg.c
+> +++ b/drivers/media/platform/exynos4-is/fimc-reg.c
+> @@ -710,7 +710,7 @@ int fimc_hw_set_camera_type(struct fimc_dev *fimc,
+>  		break;
+>  	case FIMC_BUS_TYPE_LCD_WRITEBACK_A:
+>  		cfg |= FIMC_REG_CIGCTRL_CAMIF_SELWB;
+> -		/* fall through */
+> +		fallthrough;
+>  	case FIMC_BUS_TYPE_ISP_WRITEBACK:
+>  		if (fimc->variant->has_isp_wb)
+>  			cfg |= FIMC_REG_CIGCTRL_CAMIF_SELWB;
+> diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+> index 16dd660137a8..085b69b458e9 100644
+> --- a/drivers/media/platform/exynos4-is/media-dev.c
+> +++ b/drivers/media/platform/exynos4-is/media-dev.c
+> @@ -92,7 +92,7 @@ static void fimc_pipeline_prepare(struct fimc_pipeline *p,
+>  		switch (sd->grp_id) {
+>  		case GRP_ID_SENSOR:
+>  			sensor = sd;
+> -			/* fall through */
+> +			fallthrough;
+>  		case GRP_ID_FIMC_IS_SENSOR:
+>  			p->subdevs[IDX_SENSOR] = sd;
+>  			break;
+> diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
+> index 326e79b8531c..25fd7863f019 100644
+> --- a/drivers/media/platform/marvell-ccic/mcam-core.c
+> +++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+> @@ -388,7 +388,7 @@ static int mcam_alloc_dma_bufs(struct mcam_camera *cam, int loadtime)
+>  		dma_free_coherent(cam->dev, cam->dma_buf_size,
+>  				cam->dma_bufs[0], cam->dma_handles[0]);
+>  		cam->nbufs = 0;
+> -		/* fall-through */
+> +		fallthrough;
+>  	case 0:
+>  		cam_err(cam, "Insufficient DMA buffers, cannot operate\n");
+>  		return -ENOMEM;
+> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
+> index 1ac9aef70dff..8811d6dd4ee7 100644
+> --- a/drivers/media/platform/omap3isp/ispvideo.c
+> +++ b/drivers/media/platform/omap3isp/ispvideo.c
+> @@ -703,7 +703,7 @@ isp_video_set_format(struct file *file, void *fh, struct v4l2_format *format)
+>  		 * requested.
+>  		 */
+>  		format->fmt.pix.field = V4L2_FIELD_INTERLACED_TB;
+> -		/* Fall-through */
+> +		fallthrough;
+>  	case V4L2_FIELD_INTERLACED_TB:
+>  	case V4L2_FIELD_INTERLACED_BT:
+>  		/* Interlaced orders are only supported at the CCDC output. */
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 7c4c483d5438..a9a74b141904 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -1072,7 +1072,7 @@ static int vdec_stop_capture(struct venus_inst *inst)
+>  	switch (inst->codec_state) {
+>  	case VENUS_DEC_STATE_DECODING:
+>  		ret = hfi_session_flush(inst, HFI_FLUSH_ALL, true);
+> -		/* fallthrough */
+> +		fallthrough;
+>  	case VENUS_DEC_STATE_DRAIN:
+>  		vdec_cancel_dst_buffers(inst);
+>  		inst->codec_state = VENUS_DEC_STATE_STOPPED;
+> diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+> index f7d71a6a7970..4a633ad0e8fa 100644
+> --- a/drivers/media/platform/renesas-ceu.c
+> +++ b/drivers/media/platform/renesas-ceu.c
+> @@ -405,7 +405,7 @@ static int ceu_hw_config(struct ceu_device *ceudev)
+>  	/* Non-swapped planar image capture mode. */
+>  	case V4L2_PIX_FMT_NV16:
+>  		cdocr	|= CEU_CDOCR_NO_DOWSAMPLE;
+> -		/* fall-through */
+> +		fallthrough;
+>  	case V4L2_PIX_FMT_NV12:
+>  		if (mbus_fmt->swapped)
+>  			camcr = mbus_fmt->fmt_order_swap;
+> @@ -419,7 +419,7 @@ static int ceu_hw_config(struct ceu_device *ceudev)
+>  	/* Swapped planar image capture mode. */
+>  	case V4L2_PIX_FMT_NV61:
+>  		cdocr	|= CEU_CDOCR_NO_DOWSAMPLE;
+> -		/* fall-through */
+> +		fallthrough;
+>  	case V4L2_PIX_FMT_NV21:
+>  		if (mbus_fmt->swapped)
+>  			camcr = mbus_fmt->fmt_order;
+> diff --git a/drivers/media/radio/si4713/si4713.c b/drivers/media/radio/si4713/si4713.c
+> index 7f3aee495ed3..6afa7c3464ab 100644
+> --- a/drivers/media/radio/si4713/si4713.c
+> +++ b/drivers/media/radio/si4713/si4713.c
+> @@ -1157,7 +1157,7 @@ static int si4713_s_ctrl(struct v4l2_ctrl *ctrl)
+>  			 * V4L2_CID_TUNE_POWER_LEVEL. */
+>  			if (force)
+>  				break;
+> -			/* fall through */
+> +			fallthrough;
+>  		case V4L2_CID_TUNE_POWER_LEVEL:
+>  			ret = si4713_tx_tune_power(sdev,
+>  				sdev->tune_pwr_level->val, sdev->tune_ant_cap->val);
+> diff --git a/drivers/media/rc/iguanair.c b/drivers/media/rc/iguanair.c
+> index 566c2816d5be..b5b993b33b80 100644
+> --- a/drivers/media/rc/iguanair.c
+> +++ b/drivers/media/rc/iguanair.c
+> @@ -101,7 +101,7 @@ static void process_ir_data(struct iguanair *ir, unsigned len)
+>  			break;
+>  		case CMD_TX_OVERFLOW:
+>  			ir->tx_overflow = true;
+> -			/* fall through */
+> +			fallthrough;
+>  		case CMD_RECEIVER_OFF:
+>  		case CMD_RECEIVER_ON:
+>  		case CMD_SEND:
+> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> index 8941d73f6611..70d2a6edf3f3 100644
+> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
+> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> @@ -1310,7 +1310,7 @@ static int vicodec_subscribe_event(struct v4l2_fh *fh,
+>  	case V4L2_EVENT_SOURCE_CHANGE:
+>  		if (ctx->is_enc)
+>  			return -EINVAL;
+> -		/* fall through */
+> +		fallthrough;
+>  	case V4L2_EVENT_EOS:
+>  		if (ctx->is_stateless)
+>  			return -EINVAL;
+> diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+> index acc98445a1fa..a141369a7a63 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+> @@ -298,7 +298,7 @@ void vivid_vbi_gen_sliced(struct vivid_vbi_gen_data *vbi,
+>  	switch (frame) {
+>  	case 0:
+>  		vivid_vbi_gen_set_time_of_day(vbi->time_of_day_packet);
+> -		/* fall through */
+> +		fallthrough;
+>  	case 1 ... 7:
+>  		data1->data[0] = vbi->time_of_day_packet[frame * 2];
+>  		data1->data[1] = vbi->time_of_day_packet[frame * 2 + 1];
+> diff --git a/drivers/media/tuners/fc0011.c b/drivers/media/tuners/fc0011.c
+> index b7b5b33b11f4..eaa3bbc903d7 100644
+> --- a/drivers/media/tuners/fc0011.c
+> +++ b/drivers/media/tuners/fc0011.c
+> @@ -250,7 +250,7 @@ static int fc0011_set_params(struct dvb_frontend *fe)
+>  		dev_warn(&priv->i2c->dev, "Unsupported bandwidth %u kHz. Using 6000 kHz.\n",
+>  			 bandwidth);
+>  		bandwidth = 6000;
+> -		/* fallthrough */
+> +		fallthrough;
+>  	case 6000:
+>  		regs[FC11_REG_VCOSEL] |= FC11_VCOSEL_BW6M;
+>  		break;
+> diff --git a/drivers/media/tuners/tda18271-fe.c b/drivers/media/tuners/tda18271-fe.c
+> index 471aaf71fdef..f0371d004b36 100644
+> --- a/drivers/media/tuners/tda18271-fe.c
+> +++ b/drivers/media/tuners/tda18271-fe.c
+> @@ -948,7 +948,7 @@ static int tda18271_set_params(struct dvb_frontend *fe)
+>  		break;
+>  	case SYS_DVBC_ANNEX_B:
+>  		bw = 6000000;
+> -		/* fall through */
+> +		fallthrough;
+>  	case SYS_DVBC_ANNEX_A:
+>  	case SYS_DVBC_ANNEX_C:
+>  		if (bw <= 6000000) {
+> diff --git a/drivers/media/usb/dvb-usb-v2/af9015.c b/drivers/media/usb/dvb-usb-v2/af9015.c
+> index c427b9031e42..c70b3cef3176 100644
+> --- a/drivers/media/usb/dvb-usb-v2/af9015.c
+> +++ b/drivers/media/usb/dvb-usb-v2/af9015.c
+> @@ -43,7 +43,7 @@ static int af9015_ctrl_msg(struct dvb_usb_device *d, struct req_t *req)
+>  	case READ_I2C:
+>  		write = 0;
+>  		state->buf[2] |= 0x01; /* set I2C direction */
+> -		/* fall through */
+> +		fallthrough;
+>  	case WRITE_I2C:
+>  		state->buf[0] = READ_WRITE_I2C;
+>  		break;
+> diff --git a/drivers/media/usb/dvb-usb-v2/gl861.c b/drivers/media/usb/dvb-usb-v2/gl861.c
+> index b7ca236174f3..0c434259c36f 100644
+> --- a/drivers/media/usb/dvb-usb-v2/gl861.c
+> +++ b/drivers/media/usb/dvb-usb-v2/gl861.c
+> @@ -41,7 +41,7 @@ static int gl861_ctrl_msg(struct dvb_usb_device *d, u8 request, u16 value,
+>  	switch (request) {
+>  	case CMD_WRITE:
+>  		memcpy(ctx->buf, data, size);
+> -		/* Fall through */
+> +		fallthrough;
+>  	case CMD_WRITE_SHORT:
+>  		pipe = usb_sndctrlpipe(d->udev, 0);
+>  		requesttype = USB_TYPE_VENDOR | USB_DIR_OUT;
+> diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c b/drivers/media/usb/dvb-usb-v2/lmedm04.c
+> index 8a3c0eeed959..5a7a9522d46d 100644
+> --- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
+> +++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
+> @@ -687,7 +687,7 @@ static const char *lme_firmware_switch(struct dvb_usb_device *d, int cold)
+>  				cold = 0;
+>  				break;
+>  			}
+> -			/* fall through */
+> +			fallthrough;
+>  		case TUNER_LG:
+>  			fw_lme = fw_lg;
+>  			ret = request_firmware(&fw, fw_lme, &udev->dev);
+> @@ -710,7 +710,7 @@ static const char *lme_firmware_switch(struct dvb_usb_device *d, int cold)
+>  				cold = 0;
+>  				break;
+>  			}
+> -			/* fall through */
+> +			fallthrough;
+>  		case TUNER_LG:
+>  			fw_lme = fw_c_lg;
+>  			ret = request_firmware(&fw, fw_lme, &udev->dev);
+> @@ -718,7 +718,7 @@ static const char *lme_firmware_switch(struct dvb_usb_device *d, int cold)
+>  				st->dvb_usb_lme2510_firmware = TUNER_LG;
+>  				break;
+>  			}
+> -			/* fall through */
+> +			fallthrough;
+>  		case TUNER_S0194:
+>  			fw_lme = fw_c_s0194;
+>  			ret = request_firmware(&fw, fw_lme, &udev->dev);
+> @@ -1018,7 +1018,7 @@ static int dm04_lme2510_frontend_attach(struct dvb_usb_adapter *adap)
+>  			}
+>  			break;
+>  		}
+> -		/* fall through */
+> +		fallthrough;
+>  	case 0x22f0:
+>  		st->i2c_gate = 5;
+>  		adap->fe[0] = dvb_attach(m88rs2000_attach,
+> diff --git a/drivers/media/usb/dvb-usb-v2/mxl111sf-gpio.c b/drivers/media/usb/dvb-usb-v2/mxl111sf-gpio.c
+> index 0b7dda99e410..ef489c566b75 100644
+> --- a/drivers/media/usb/dvb-usb-v2/mxl111sf-gpio.c
+> +++ b/drivers/media/usb/dvb-usb-v2/mxl111sf-gpio.c
+> @@ -632,7 +632,7 @@ int mxl111sf_set_gpio(struct mxl111sf_state *state, int gpio, int val)
+>  	default:
+>  		mxl_printk(KERN_ERR,
+>  			   "gpio_port_expander undefined, assuming PCA9534");
+> -		/* fall-thru */
+> +		fallthrough;
+>  	case mxl111sf_PCA9534:
+>  		return pca9534_set_gpio(state, gpio, val);
+>  	case mxl111sf_gpio_hw:
+> @@ -693,7 +693,7 @@ int mxl111sf_init_port_expander(struct mxl111sf_state *state)
+>  	default:
+>  		mxl_printk(KERN_ERR,
+>  			   "gpio_port_expander undefined, assuming PCA9534");
+> -		/* fall-thru */
+> +		fallthrough;
+>  	case mxl111sf_PCA9534:
+>  		return pca9534_init_port_expander(state);
+>  	case mxl111sf_gpio_hw:
+> diff --git a/drivers/media/usb/em28xx/em28xx-audio.c b/drivers/media/usb/em28xx/em28xx-audio.c
+> index 6833b5bfe293..dc968fd5ace9 100644
+> --- a/drivers/media/usb/em28xx/em28xx-audio.c
+> +++ b/drivers/media/usb/em28xx/em28xx-audio.c
+> @@ -362,13 +362,13 @@ static int snd_em28xx_capture_trigger(struct snd_pcm_substream *substream,
+>  		return -ENODEV;
+>  
+>  	switch (cmd) {
+> -	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE: /* fall through */
+> -	case SNDRV_PCM_TRIGGER_RESUME: /* fall through */
+> +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+> +	case SNDRV_PCM_TRIGGER_RESUME:
+>  	case SNDRV_PCM_TRIGGER_START:
+>  		atomic_set(&dev->adev.stream_started, 1);
+>  		break;
+> -	case SNDRV_PCM_TRIGGER_PAUSE_PUSH: /* fall through */
+> -	case SNDRV_PCM_TRIGGER_SUSPEND: /* fall through */
+> +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+> +	case SNDRV_PCM_TRIGGER_SUSPEND:
+>  	case SNDRV_PCM_TRIGGER_STOP:
+>  		atomic_set(&dev->adev.stream_started, 0);
+>  		break;
+> diff --git a/drivers/media/usb/go7007/go7007-driver.c b/drivers/media/usb/go7007/go7007-driver.c
+> index 153a0c3e3da6..f1767be9d868 100644
+> --- a/drivers/media/usb/go7007/go7007-driver.c
+> +++ b/drivers/media/usb/go7007/go7007-driver.c
+> @@ -643,7 +643,7 @@ void go7007_parse_video_stream(struct go7007 *go, u8 *buf, int length)
+>  			case 0xD8:
+>  				if (go->format == V4L2_PIX_FMT_MJPEG)
+>  					vb = frame_boundary(go, vb);
+> -				/* fall through */
+> +				fallthrough;
+>  			default:
+>  				store_byte(vb, 0xFF);
+>  				store_byte(vb, buf[i]);
+> diff --git a/drivers/media/usb/gspca/mr97310a.c b/drivers/media/usb/gspca/mr97310a.c
+> index 464aa61cd914..3553788e8542 100644
+> --- a/drivers/media/usb/gspca/mr97310a.c
+> +++ b/drivers/media/usb/gspca/mr97310a.c
+> @@ -510,7 +510,7 @@ static int start_cif_cam(struct gspca_dev *gspca_dev)
+>  	switch (gspca_dev->pixfmt.width) {
+>  	case 160:
+>  		data[9] |= 0x04;  /* reg 8, 2:1 scale down from 320 */
+> -		/* fall through */
+> +		fallthrough;
+>  	case 320:
+>  	default:
+>  		data[3] = 0x28;			   /* reg 2, H size/8 */
+> @@ -520,7 +520,7 @@ static int start_cif_cam(struct gspca_dev *gspca_dev)
+>  		break;
+>  	case 176:
+>  		data[9] |= 0x04;  /* reg 8, 2:1 scale down from 352 */
+> -		/* fall through */
+> +		fallthrough;
+>  	case 352:
+>  		data[3] = 0x2c;			   /* reg 2, H size/8 */
+>  		data[4] = 0x48;			   /* reg 3, V size/4 */
+> @@ -607,10 +607,10 @@ static int start_vga_cam(struct gspca_dev *gspca_dev)
+>  	switch (gspca_dev->pixfmt.width) {
+>  	case 160:
+>  		data[9] |= 0x0c;  /* reg 8, 4:1 scale down */
+> -		/* fall through */
+> +		fallthrough;
+>  	case 320:
+>  		data[9] |= 0x04;  /* reg 8, 2:1 scale down */
+> -		/* fall through */
+> +		fallthrough;
+>  	case 640:
+>  	default:
+>  		data[3] = 0x50;  /* reg 2, H size/8 */
+> @@ -627,7 +627,7 @@ static int start_vga_cam(struct gspca_dev *gspca_dev)
+>  
+>  	case 176:
+>  		data[9] |= 0x04;  /* reg 8, 2:1 scale down */
+> -		/* fall through */
+> +		fallthrough;
+>  	case 352:
+>  		data[3] = 0x2c;  /* reg 2, H size */
+>  		data[4] = 0x48;  /* reg 3, V size */
+> diff --git a/drivers/media/usb/gspca/nw80x.c b/drivers/media/usb/gspca/nw80x.c
+> index 880f569bda30..0f5f2464ac7a 100644
+> --- a/drivers/media/usb/gspca/nw80x.c
+> +++ b/drivers/media/usb/gspca/nw80x.c
+> @@ -2019,7 +2019,7 @@ static int sd_init_controls(struct gspca_dev *gspca_dev)
+>  			V4L2_CID_AUTOGAIN, 0, 1, 1, 1);
+>  		gspca_dev->gain = v4l2_ctrl_new_std(hdl, &sd_ctrl_ops,
+>  			V4L2_CID_GAIN, 0, 253, 1, 128);
+> -		/* fall through */
+> +		fallthrough;
+>  	case Cvideopro:
+>  	case DvcV6:
+>  	case Kritter:
+> diff --git a/drivers/media/usb/gspca/ov519.c b/drivers/media/usb/gspca/ov519.c
+> index 0afe70a3f9a2..cd6776c3163b 100644
+> --- a/drivers/media/usb/gspca/ov519.c
+> +++ b/drivers/media/usb/gspca/ov519.c
+> @@ -2004,7 +2004,7 @@ static void reg_w(struct sd *sd, u16 index, u16 value)
+>  		break;
+>  	case BRIDGE_OVFX2:
+>  		req = 0x0a;
+> -		/* fall through */
+> +		fallthrough;
+>  	case BRIDGE_W9968CF:
+>  		gspca_dbg(gspca_dev, D_USBO, "SET %02x %04x %04x\n",
+>  			  req, value, index);
+> @@ -3528,7 +3528,7 @@ static void ov511_mode_init_regs(struct sd *sd)
+>  	case SEN_OV76BE:
+>  		if (sd->gspca_dev.pixfmt.width == 320)
+>  			interlaced = 1;
+> -		/* Fall through */
+> +		fallthrough;
+>  	case SEN_OV6630:
+>  	case SEN_OV7610:
+>  	case SEN_OV7670:
+> @@ -3541,7 +3541,7 @@ static void ov511_mode_init_regs(struct sd *sd)
+>  				break;
+>  			}
+>  			/* For 640x480 case */
+> -			/* fall through */
+> +			fallthrough;
+>  		default:
+>  /*		case 20: */
+>  /*		case 15: */
+> diff --git a/drivers/media/usb/gspca/sn9c20x.c b/drivers/media/usb/gspca/sn9c20x.c
+> index 2a6d0a1265a7..bfd194c61819 100644
+> --- a/drivers/media/usb/gspca/sn9c20x.c
+> +++ b/drivers/media/usb/gspca/sn9c20x.c
+> @@ -1637,7 +1637,7 @@ static int sd_config(struct gspca_dev *gspca_dev,
+>  		break;
+>  	case SENSOR_HV7131R:
+>  		sd->i2c_intf = 0x81;			/* i2c 400 Kb/s */
+> -		/* fall through */
+> +		fallthrough;
+>  	default:
+>  		cam->cam_mode = vga_mode;
+>  		cam->nmodes = ARRAY_SIZE(vga_mode);
+> diff --git a/drivers/media/usb/gspca/sunplus.c b/drivers/media/usb/gspca/sunplus.c
+> index f4a4222f0d2e..ace3da40006e 100644
+> --- a/drivers/media/usb/gspca/sunplus.c
+> +++ b/drivers/media/usb/gspca/sunplus.c
+> @@ -551,7 +551,7 @@ static void init_ctl_reg(struct gspca_dev *gspca_dev)
+>  	case BRIDGE_SPCA504:
+>  	case BRIDGE_SPCA504C:
+>  		pollreg = 0;
+> -		/* fall through */
+> +		fallthrough;
+>  	default:
+>  /*	case BRIDGE_SPCA533: */
+>  /*	case BRIDGE_SPCA504B: */
+> @@ -634,7 +634,7 @@ static int sd_init(struct gspca_dev *gspca_dev)
+>  		reg_w_riv(gspca_dev, 0x00, 0x2000, 0x00);
+>  		reg_w_riv(gspca_dev, 0x00, 0x2301, 0x13);
+>  		reg_w_riv(gspca_dev, 0x00, 0x2306, 0x00);
+> -		/* fall through */
+> +		fallthrough;
+>  	case BRIDGE_SPCA533:
+>  		spca504B_PollingDataReady(gspca_dev);
+>  		spca50x_GetFirmware(gspca_dev);
+> diff --git a/drivers/media/usb/gspca/xirlink_cit.c b/drivers/media/usb/gspca/xirlink_cit.c
+> index c579b100f066..cc87c24dd24c 100644
+> --- a/drivers/media/usb/gspca/xirlink_cit.c
+> +++ b/drivers/media/usb/gspca/xirlink_cit.c
+> @@ -1409,7 +1409,7 @@ static int cit_restart_stream(struct gspca_dev *gspca_dev)
+>  	case CIT_MODEL0:
+>  	case CIT_MODEL1:
+>  		cit_write_reg(gspca_dev, 0x0001, 0x0114);
+> -		/* Fall through */
+> +		fallthrough;
+>  	case CIT_MODEL2:
+>  	case CIT_MODEL4:
+>  		cit_write_reg(gspca_dev, 0x00c0, 0x010c); /* Go! */
+> @@ -2725,7 +2725,7 @@ static void sd_stop0(struct gspca_dev *gspca_dev)
+>  		break;
+>  	case CIT_MODEL2:
+>  		v4l2_ctrl_grab(sd->lighting, false);
+> -		/* Fall through! */
+> +		fallthrough;
+>  	case CIT_MODEL4:
+>  		cit_model2_Packet1(gspca_dev, 0x0030, 0x0004);
+>  
+> diff --git a/drivers/media/usb/gspca/zc3xx.c b/drivers/media/usb/gspca/zc3xx.c
+> index 15a2449d536f..aa285d5d6c0d 100644
+> --- a/drivers/media/usb/gspca/zc3xx.c
+> +++ b/drivers/media/usb/gspca/zc3xx.c
+> @@ -6766,7 +6766,7 @@ static int sd_start(struct gspca_dev *gspca_dev)
+>  	case SENSOR_HV7131R:
+>  	case SENSOR_TAS5130C:
+>  		reg_r(gspca_dev, 0x0008);
+> -		/* fall through */
+> +		fallthrough;
+>  	case SENSOR_PO2030:
+>  		reg_w(gspca_dev, 0x03, 0x0008);
+>  		break;
+> @@ -6815,7 +6815,7 @@ static int sd_start(struct gspca_dev *gspca_dev)
+>  	case SENSOR_TAS5130C:
+>  		reg_w(gspca_dev, 0x09, 0x01ad);	/* (from win traces) */
+>  		reg_w(gspca_dev, 0x15, 0x01ae);
+> -		/* fall through */
+> +		fallthrough;
+>  	case SENSOR_PAS202B:
+>  	case SENSOR_PO2030:
+>  /*		reg_w(gspca_dev, 0x40, ZC3XX_R117_GGAIN); in win traces */
+> diff --git a/drivers/media/usb/pwc/pwc-v4l.c b/drivers/media/usb/pwc/pwc-v4l.c
+> index 2f135d533af6..71b719d363a5 100644
+> --- a/drivers/media/usb/pwc/pwc-v4l.c
+> +++ b/drivers/media/usb/pwc/pwc-v4l.c
+> @@ -554,7 +554,7 @@ static int pwc_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+>  		if (!DEVICE_USE_CODEC3(pdev->type))
+>  			break;
+>  		/* For CODEC3 where autogain also controls expo */
+> -		/* fall through */
+> +		fallthrough;
+>  	case V4L2_CID_EXPOSURE_AUTO:
+>  		if (pdev->exposure_valid && time_before(jiffies,
+>  				pdev->last_exposure_update + HZ / 4)) {
+> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+> index 9ba3a2ae36e5..df4c5dcba39c 100644
+> --- a/drivers/media/usb/siano/smsusb.c
+> +++ b/drivers/media/usb/siano/smsusb.c
+> @@ -430,7 +430,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+>  		break;
+>  	case SMS_UNKNOWN_TYPE:
+>  		pr_err("Unspecified sms device type!\n");
+> -		/* fall-thru */
+> +		fallthrough;
+>  	default:
+>  		dev->buffer_size = USB2_BUFFER_SIZE;
+>  		dev->response_alignment = align;
+> diff --git a/drivers/media/usb/tm6000/tm6000-alsa.c b/drivers/media/usb/tm6000/tm6000-alsa.c
+> index c26a0ff60a64..3a2df36ef1db 100644
+> --- a/drivers/media/usb/tm6000/tm6000-alsa.c
+> +++ b/drivers/media/usb/tm6000/tm6000-alsa.c
+> @@ -272,13 +272,13 @@ static int snd_tm6000_card_trigger(struct snd_pcm_substream *substream, int cmd)
+>  	int err = 0;
+>  
+>  	switch (cmd) {
+> -	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE: /* fall through */
+> -	case SNDRV_PCM_TRIGGER_RESUME: /* fall through */
+> +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+> +	case SNDRV_PCM_TRIGGER_RESUME:
+>  	case SNDRV_PCM_TRIGGER_START:
+>  		atomic_set(&core->stream_started, 1);
+>  		break;
+> -	case SNDRV_PCM_TRIGGER_PAUSE_PUSH: /* fall through */
+> -	case SNDRV_PCM_TRIGGER_SUSPEND: /* fall through */
+> +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+> +	case SNDRV_PCM_TRIGGER_SUSPEND:
+>  	case SNDRV_PCM_TRIGGER_STOP:
+>  		atomic_set(&core->stream_started, 0);
+>  		break;
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index a65d5353a441..6249e26e8788 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -1509,11 +1509,11 @@ static void uvc_video_complete(struct urb *urb)
+>  	default:
+>  		uvc_printk(KERN_WARNING, "Non-zero status (%d) in video "
+>  			"completion handler.\n", urb->status);
+> -		/* fall through */
+> +		fallthrough;
+>  	case -ENOENT:		/* usb_poison_urb() called. */
+>  		if (stream->frozen)
+>  			return;
+> -		/* fall through */
+> +		fallthrough;
+>  	case -ECONNRESET:	/* usb_unlink_urb() called. */
+>  	case -ESHUTDOWN:	/* The endpoint is being disabled. */
+>  		uvc_queue_cancel(queue, urb->status == -ESHUTDOWN);
+> 
