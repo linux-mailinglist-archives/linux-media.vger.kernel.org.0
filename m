@@ -2,254 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 195112543C1
-	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 12:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D752543CD
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 12:34:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728329AbgH0K3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 06:29:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48724 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728172AbgH0K3v (ORCPT
+        id S1727986AbgH0Keq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 06:34:46 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:59363 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727030AbgH0Keq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 06:29:51 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF49C06121B
-        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 03:29:51 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id j18so4191771oig.5
-        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 03:29:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VqVqosFrIbjcMckf+U3+gM0HZKqC0WuU3mUX+w73JZU=;
-        b=fKkwMSCT3+pj22gsTIywq7R4LB1He2LTSACwbCTdIGXidzMgQfHh+U6FSnM8xecppd
-         QbXBqCxhAsd24Zw+4HglaCDRXu6RFTP2NAQgwkA/Ipe/S4qcfzbCDRpQJMhf3j420AC1
-         7T9kCyCWVet5iClQ592TiqqC6sAFi5/3YYlm8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VqVqosFrIbjcMckf+U3+gM0HZKqC0WuU3mUX+w73JZU=;
-        b=Cz/AaliH8ZGBrd3S0Qz+I2C66aH7/mmjzDS4d8dVeIaK1cv9qzD/VrAN+EdXDMPKGm
-         +VT8ogZXbtAQ2YpNV2ZhE+HUtra9S1EbnJ9J3Y2RxPDTCXRc04Cqx/K+cqfML93tpzZ/
-         YX6g0aTFT7JaiOI73ykni4RVSzUOg5jEDjTYbeXZrSzHfkIMVJjw2No4fMj7nmE8ngqo
-         Xs3KWtHxkdgq6AKV05KoJC1VgxDR5tNcv9lmQ4cfef5N4/5cZ4I0g9XsIlTJ33/0SlL0
-         lFNRabMapDBib9WtptF8FPNUvqB0FSQhd7xlR2yhA2AlDAe0Kc14UOl8S3QDRDyNmsw/
-         ss/Q==
-X-Gm-Message-State: AOAM531HRQqwgYtfVcZCZOXLh5iolWjVYrX/Y0YBQG7wxQIRWrY1nWT5
-        wm2xXk5HO6P/fsszt1KQ1yMAhrDoe21KoA==
-X-Google-Smtp-Source: ABdhPJy+gR+Lh3KRglVoCyL/qw79Mb9/FkFZ94Lzc6HXyQ2PVipoYlO4CEfmK9nog/m07QUbix7hTA==
-X-Received: by 2002:a54:4117:: with SMTP id l23mr6708382oic.177.1598524189606;
-        Thu, 27 Aug 2020 03:29:49 -0700 (PDT)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com. [209.85.210.44])
-        by smtp.gmail.com with ESMTPSA id g34sm367767ooi.31.2020.08.27.03.29.48
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Aug 2020 03:29:48 -0700 (PDT)
-Received: by mail-ot1-f44.google.com with SMTP id k2so3986513ots.4
-        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 03:29:48 -0700 (PDT)
-X-Received: by 2002:a9d:5f0c:: with SMTP id f12mr12086496oti.141.1598524187719;
- Thu, 27 Aug 2020 03:29:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200821103608.2310097-1-acourbot@chromium.org>
- <20200821103608.2310097-10-acourbot@chromium.org> <02eaeace-22dd-02ea-7162-90200fe1cffe@gmail.com>
- <CAPBb6MWZRKpg-rs7X_j3tqqsYHy=NkEMN1NdZwPS9zo-0whTJw@mail.gmail.com> <184d895c-239e-3f23-970e-6a9563235cd9@gmail.com>
-In-Reply-To: <184d895c-239e-3f23-970e-6a9563235cd9@gmail.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Thu, 27 Aug 2020 19:29:35 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MXrUNqWr=3KBPbJkXGmz=gL0aq_QuUQ5u_crR3yyDBvpw@mail.gmail.com>
-Message-ID: <CAPBb6MXrUNqWr=3KBPbJkXGmz=gL0aq_QuUQ5u_crR3yyDBvpw@mail.gmail.com>
-Subject: Re: [PATCH v4 09/17] arm64: dts: mt8183: add encoder node
-To:     Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Thu, 27 Aug 2020 06:34:46 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id B635760008;
+        Thu, 27 Aug 2020 10:34:41 +0000 (UTC)
+Date:   Thu, 27 Aug 2020 12:38:26 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [PATCH v2 06/34] staging: vc04_services: Add new vc-sm-cma driver
+Message-ID: <20200827103826.hm6ezuysgt5wtzj4@uno.localdomain>
+References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
+ <20200504092611.9798-7-laurent.pinchart@ideasonboard.com>
+ <4e42a593f16614e913613150a90e851acbfcaa8c.camel@suse.de>
+ <CAPY8ntB3RCwzCzj+v0QEQp19f-X7tgfhFZ_DK3-LUiWXGK0eNA@mail.gmail.com>
+ <20200824163952.t7hfri4ml4gjnddq@uno.localdomain>
+ <CAPY8ntAmQxC4rTNsmfNb10XWR4bYHsMEPLei3c9Zdu00wr-_JQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntAmQxC4rTNsmfNb10XWR4bYHsMEPLei3c9Zdu00wr-_JQ@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Matthias,
+Hi Dave,
 
-On Thu, Aug 27, 2020 at 7:23 PM Matthias Brugger <matthias.bgg@gmail.com> wrote:
+On Tue, Aug 25, 2020 at 06:52:18PM +0100, Dave Stevenson wrote:
+> Hi Jacopo
 >
-> Hi Alexandre,
->
-> On 27/08/2020 12:10, Alexandre Courbot wrote:
-> > On Thu, Aug 27, 2020 at 7:03 PM Matthias Brugger <matthias.bgg@gmail.com> wrote:
-> >>
-> >>
-> >>
-> >> On 21/08/2020 12:36, Alexandre Courbot wrote:
-> >>> Now that the MT8183 encoder driver is ready, add its DT node. Also pull
-> >>> the iommu and scp ones, which the encoder depends upon.
-> >>
-> >> Please don't do that. Instead of pulling in other DT nodes, it would be handy to
-> >> get a reference of the series this is based on.
-> >>
-> >> Let me try to hunt them down now :)
+> On Mon, 24 Aug 2020 at 17:36, Jacopo Mondi <jacopo@jmondi.org> wrote:
 > >
-> > Sorry, I'm not sure to understand - do you mean each node should come
-> > with its own patch? Or that all the code should be merged before
-> > sending these nodes? The rest of this series should land into the
-> > media tree soon, if you prefer I can resend this patch separately once
-> > that happens.
+> > Hi Dave, Nicolas, Laurent,
 > >
+> > On Wed, May 06, 2020 at 08:24:38PM +0100, Dave Stevenson wrote:
+> > > Hi Nicolas
+> > >
+> > > On Wed, 6 May 2020 at 19:04, Nicolas Saenz Julienne
+> > > <nsaenzjulienne@suse.de> wrote:
+> > > >
+> > > > Hi Laurent, Dave,
+> > > >
+> > > > On Mon, 2020-05-04 at 12:25 +0300, Laurent Pinchart wrote:
+> > > > > From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> > > > >
+> > > > > Add Broadcom VideoCore Shared Memory support.
+> > > > >
+> > > > > This new driver allows contiguous memory blocks to be imported
+> > > > > into the VideoCore VPU memory map, and manages the lifetime of
+> > > > > those objects, only releasing the source dmabuf once the VPU has
+> > > > > confirmed it has finished with it.
+> > > > >
+> > > >
+> > > > I'm still digesting all this, but a question came up, who is using the
+> > > > ioctls?
+> > >
+> > > We have a userspace library that uses it [1].
+> > > It is used by things like MMAL to share buffers between the VPU and
+> > > ARM, rather than having to get VCHI to copy all the data between
+> > > mirrored buffers.
+> > >
+> > > I think what has happened here is that Laurent has picked up the
+> > > version of the driver from the top of our downstream kernel tree.
+> > > For libcamera and the ISP driver, we need a significantly smaller
+> > > feature set, basically import of dmabufs only, no allocations or cache
+> > > management. For the ISP driver it's mainly dmabuf import from
+> > > videobuf2 for the image buffers, but there's also a need to pass in
+> > > lens shading tables which are relatively large. With a small amount of
+> > > rework in libcamera, we can make it so that we use dma-buf heaps to do
+> > > the allocation, and pass in a dmabuf fd to the ISP driver to then map
+> > > onto the VPU. That removes all the ioctls handling from this driver.
+> > >
+> > > Downstream we do have other use cases that want to be able to do other
+> > > functions on shared memory, but that too should be reworkable into
+> > > using dma-buf heaps for allocations, and vcsm only handles importing
+> > > dmabufs via an ioctl. All that can be hidden away in the vcsm library,
+> > > so applications don't care.
+> > > We've also got some legacy code kicking around, as there was
+> > > originally a version of the driver that mapped the VPU's memory blocks
+> > > to the ARM. That's why the vcsm library has two code paths through
+> > > almost every function - one for each driver.
+> > >
+> > > Laurent: What's your view? Halt the review this particular patch for
+> > > now and rework, or try and get this all integrated?
+> > > Mainline obviously already has dma-buf heaps merged, whilst I have a
+> > > PR cherry-picking it back into our downstream 5.4. The main reason it
+> > > hasn't been merged is that I haven't had a test case to prove it
+> > > works. The rework should be relatively simple, but will need small
+> > > updates to both libcamera and ISP driver.
+> >
+> > As months have passed, libcamera moved to allocate lens shading tables
+> > using dma-buf heaps and the only user I can name of the vc-sm-cma
+> > driver is the actual ISP, that needs to import the dmabuf pointing to
+> > the lens shading maps with vc_sm_cma_import_dmabuf().
 >
-> What I'm talking about is the case when you send a series that's based on
-> another one and the latter is not yet accepted in Torvalds tree. In that case it
-> helps to point to the series you expect to be included as well.
->
-> In this case the SCP series was merged long time ago, but I missed the DTS
-> change. It would have been good if you would have added that information in your
-> series, instead of directly pulling in the SCP node.
+> You've also got vc04_services/vchiq-mmal/mmal-vchiq.c importing
+> dmabufs, either from vb2_contig or imported from elsewhere when using
+> VB2_MEMORY_DMABUF.
 
-Sorry about that, actually I was not even aware of this patch (or
-maybe I just forgot about it due to its date).
+Of course. Re-looking at it, the lens-shading tables are allocated on
+dmabuf heaps and the exported dmabuf fd passed with a custom control to the
+ISP, which uses it to set a mmal port parameter. I got lost in the code
+base at mmal-vchiq.c:port_parameter_set(), which receives a
+struct bcm2835_isp_lens_shading which contains the dmabuf fd. I assume
+it then maps it into the VPU memory to access the shading tables.
+
+But of course buffer queueing to the ISP requires dmabuf importing in
+the VPU, and that happens by 'submitting' a buffer to mmal-vchiq
+vchiq_mmal_submit_buffer() which does that by calling
+vc_sm_cma_import_dmabuf().
+
+I hope I have a more clear idea of the two paths now.
 
 >
-> For the iommu node: I understand that there was never a patch adding the node
-> (at least I wasn't able to find one). So I'd prefer to have it send as a
-> separate patch of this series.
+> > Upstreaming the whole vc-sm-cma driver as it is for this single kAPI
+> > seems a bit a no-go. Dave, what would you prefer here ? Should I
+> > provide a minimal vc-sm-cam driver that only performs buffer importing
+> > to support the ISP driver ? Is the buffer importing into VPU there to
+> > stay or is its usage transitional and can be kept out of the next
+> > submission of this series ?
 >
-> Regarding this series now. If you want just resend the two DTS patches (iommu
-> and vcodec_enc) once the rest of this series got accpeted. If for any other
-> reason you have to send a v5, then feel free to include both in v5.
+> Both imports are here to stay as the VPU needs to be able to use those
+> blocks of memory.
+>
 
-Absolutely. I will wait until the patches land into the media tree and
-send you two DT-only patches.
+Of course. I was wondering if a fairly big component like vc-sma-cma
+isn't too much for just importing, and reading further it seems like
+this is a shared concern.
 
-Thanks for the explanation!
+> This first iteration picked up a fair number of extraneous lumps (eg
+> the caching calls).
+> I got a reminder last week that I promised a reworked version of
+> vc-sm-cma to you and I hadn't done it - sorry, juggling too many
+> things. I'll get on it now, so nudge me if I haven't pushed it to you
+> by the end of the week for your review.
+
+Great, so I'll wait for news from your side
 
 >
-> Hope I explained myself now :)
+> We can trim it down significantly now that we have dma-heaps in and
+> working. There's a niggle that the current dma-heaps are always cached
+> on the ARM, but that just means that the user has to be careful to use
+> DMA_BUF_IOCTL_SYNC correctly (which they should be doing anyway).
+
+I am running what was meant to be a v2 of this series and I get a
+complaint:
+vc_sm_cma_import_dmabuf_internal: Expecting an uncached alias for dma_addr
+
+When I read this paragraph from your email yesterday I immediately
+thought "this should be the LSC table".
+
+Debugging it further I found out it's actually a vb2 buffer. I have
+reduced the list of patches in v2 compared to this long one, and I'm
+probably left out something relevant :/
 >
-> Regards,
-> Matthias
+> Whilst waiting for that, the Unicam driver, and the prep work in
+> mmal-vchiq could all be pushed first, and ideally as two independent
+> patchsets as there are no inter-dependencies between them.
+
+I could start sending out the unicam driver, yes.
+
+Currently I'm a bit stuck not being able to receive frames from the
+unicam driver. I see the buffers being returned by the ISR routine,
+but I never get a buffer available notification in libcamera.
+
+There's been a few changes to the downstream unicam driver (ie
+requesting the VPU clock frequency) and I see the RPi mainline support
+has moved forward quite a bit since v5.8. Are you aware of any trivial
+change I might be missing that could cause this ?
+
+Thanks
+  j
+
 >
-> >>
-> >> Regards,
-> >> Matthias
-> >>
-> >>>
-> >>> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> >>> ---
-> >>>    arch/arm64/boot/dts/mediatek/mt8183-evb.dts   | 10 ++++++
-> >>>    .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 12 +++++++
-> >>>    arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 36 +++++++++++++++++++
-> >>>    3 files changed, 58 insertions(+)
-> >>>
-> >>> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-evb.dts b/arch/arm64/boot/dts/mediatek/mt8183-evb.dts
-> >>> index ae405bd8f06b..9e77b420eee8 100644
-> >>> --- a/arch/arm64/boot/dts/mediatek/mt8183-evb.dts
-> >>> +++ b/arch/arm64/boot/dts/mediatek/mt8183-evb.dts
-> >>> @@ -25,6 +25,16 @@ memory@40000000 {
-> >>>        chosen {
-> >>>                stdout-path = "serial0:921600n8";
-> >>>        };
-> >>> +     reserved-memory {
-> >>> +             #address-cells = <2>;
-> >>> +             #size-cells = <2>;
-> >>> +             ranges;
-> >>> +             scp_mem_reserved: scp_mem_region {
-> >>> +                     compatible = "shared-dma-pool";
-> >>> +                     reg = <0 0x50000000 0 0x2900000>;
-> >>> +                     no-map;
-> >>> +             };
-> >>> +     };
-> >>>    };
-> >>>
-> >>>    &auxadc {
-> >>> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> >>> index f0a070535b34..3c763be658da 100644
-> >>> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> >>> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> >>> @@ -90,6 +90,18 @@ pp3300_alw: regulator6 {
-> >>>                regulator-max-microvolt = <3300000>;
-> >>>        };
-> >>>
-> >>> +     reserved_memory: reserved-memory {
-> >>> +             #address-cells = <2>;
-> >>> +             #size-cells = <2>;
-> >>> +             ranges;
-> >>> +
-> >>> +             scp_mem_reserved: scp_mem_region {
-> >>> +                     compatible = "shared-dma-pool";
-> >>> +                     reg = <0 0x50000000 0 0x2900000>;
-> >>> +                     no-map;
-> >>> +             };
-> >>> +     };
-> >>> +
-> >>>        max98357a: codec0 {
-> >>>                compatible = "maxim,max98357a";
-> >>>                sdmode-gpios = <&pio 175 0>;
-> >>> diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> >>> index 102105871db2..8f77eea6df27 100644
-> >>> --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> >>> +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> >>> @@ -8,6 +8,7 @@
-> >>>    #include <dt-bindings/clock/mt8183-clk.h>
-> >>>    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >>>    #include <dt-bindings/interrupt-controller/irq.h>
-> >>> +#include <dt-bindings/memory/mt8183-larb-port.h>
-> >>>    #include <dt-bindings/reset-controller/mt8183-resets.h>
-> >>>    #include <dt-bindings/phy/phy.h>
-> >>>    #include "mt8183-pinfunc.h"
-> >>> @@ -339,6 +340,25 @@ pwrap: pwrap@1000d000 {
-> >>>                        clock-names = "spi", "wrap";
-> >>>                };
-> >>>
-> >>> +             iommu: iommu@10205000 {
-> >>> +                     compatible = "mediatek,mt8183-m4u";
-> >>> +                     reg = <0 0x10205000 0 0x1000>;
-> >>> +                     interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_LOW>;
-> >>> +                     #iommu-cells = <1>;
-> >>> +             };
-> >>> +
-> >>> +             scp: scp@10500000 {
-> >>> +                     compatible = "mediatek,mt8183-scp";
-> >>> +                     reg = <0 0x10500000 0 0x80000>,
-> >>> +                           <0 0x105c0000 0 0x19080>;
-> >>> +                     reg-names = "sram", "cfg";
-> >>> +                     interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-> >>> +                     clocks = <&infracfg CLK_INFRA_SCPSYS>;
-> >>> +                     clock-names = "main";
-> >>> +                     memory-region = <&scp_mem_reserved>;
-> >>> +                     status = "disabled";
-> >>> +             };
-> >>> +
-> >>>                systimer: timer@10017000 {
-> >>>                        compatible = "mediatek,mt8183-timer",
-> >>>                                     "mediatek,mt6765-timer";
-> >>> @@ -772,6 +792,22 @@ vencsys: syscon@17000000 {
-> >>>                        #clock-cells = <1>;
-> >>>                };
-> >>>
-> >>> +             vcodec_enc: vcodec@17020000 {
-> >>> +                     compatible = "mediatek,mt8183-vcodec-enc";
-> >>> +                     reg = <0 0x17020000 0 0x1000>;
-> >>> +                     interrupts = <GIC_SPI 247 IRQ_TYPE_LEVEL_LOW>;
-> >>> +                     iommus = <&iommu M4U_PORT_VENC_REC>,
-> >>> +                              <&iommu M4U_PORT_VENC_BSDMA>,
-> >>> +                              <&iommu M4U_PORT_VENC_RD_COMV>,
-> >>> +                              <&iommu M4U_PORT_VENC_CUR_LUMA>,
-> >>> +                              <&iommu M4U_PORT_VENC_CUR_CHROMA>,
-> >>> +                              <&iommu M4U_PORT_VENC_REF_LUMA>,
-> >>> +                              <&iommu M4U_PORT_VENC_REF_CHROMA>;
-> >>> +                     mediatek,scp = <&scp>;
-> >>> +                     clocks = <&vencsys CLK_VENC_VENC>;
-> >>> +                     clock-names = "MT_CG_VENC";
-> >>> +             };
-> >>> +
-> >>>                ipu_conn: syscon@19000000 {
-> >>>                        compatible = "mediatek,mt8183-ipu_conn", "syscon";
-> >>>                        reg = <0 0x19000000 0 0x1000>;
-> >>>
+>   Dave
+>
+> > Thanks
+> >   j
+> >
+> > >
+> > >   Dave
+> > >
+> > > [1] https://github.com/raspberrypi/userland/tree/master/host_applications/linux/libs/sm
+> > >
+> > > > Regards,
+> > > > Nicolas
+> > > >
