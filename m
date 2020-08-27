@@ -2,166 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07233254221
-	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 11:26:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DDA82542CE
+	for <lists+linux-media@lfdr.de>; Thu, 27 Aug 2020 11:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728228AbgH0JZv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Aug 2020 05:25:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38646 "EHLO
+        id S1727986AbgH0JzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Aug 2020 05:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728620AbgH0JZY (ORCPT
+        with ESMTP id S1726826AbgH0JzK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:25:24 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D98C061234
-        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 02:25:24 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id o4so4668489wrn.0
-        for <linux-media@vger.kernel.org>; Thu, 27 Aug 2020 02:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=IFNMyaH4C8tyb/mJTWrzTTwDqXVQt+oIKxEwk0xfFcs=;
-        b=dolX/Oj/ruvZXAdY9Awn2EFLCyhybVa7noGABscD4AETJE40yPNweFzjsbch+7oNWD
-         E9nAAOpcJUgp9Zeqgha+dssMpvo6RwBkMdKQr1/shKrQb0Y4cHWz0ezv+I0u83obAvvs
-         bxIIDWcO3SxyVq+9yL4RT0eclQmQCeE61H2Le1JzT6LZEjHn8FIOK2vXK5RGTu9VzPcR
-         WlhWpzHcuySlhhcZMMW1BJw56yMBEgmOpH8MrD85+vdLpTWukcT7HwdGUEZDK9qEuGzE
-         EEvUN3FdcV2SjAR3UvcnQyjrQkSL1X9pwPfyfVrHiU1yoYtiTJg8HyGXsdwT/G9xnbHr
-         KRwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=IFNMyaH4C8tyb/mJTWrzTTwDqXVQt+oIKxEwk0xfFcs=;
-        b=kEvFSHMOeVLQyO592ejR+I46Eq1/iDgnNibhJnAxlIm3Fobgf6ron9DzX3L4GyyG89
-         tvV9llOP77ULw4xyJ+pYi42WbhDsQHcz3+wdnNg0v6XGXc9TuVJB9kCAcqwJJkgc2RqB
-         FhUnOQzamXrvbM4duFXC+RauAi//CoRyJjuwXwgJ2LvSa2zSTWPgs0CyzEoRjz+1AJ2r
-         ctyWVVwKJwqpJLT8tIrErFh8LMaaUmtFuWZ6srrcOMEat9wHoWs87SMJ6pGQYfviJZdn
-         ifT3ek0gk363CfJNkfssPQAvVUWY8RfTYgjZ48YCy/UALzYgeJ7CnH9/isgaca9kAnXz
-         vW1w==
-X-Gm-Message-State: AOAM532vtzscw5jpufdvadKWsjjR1bFZ5GIDEBew6JWnqcsP/PJUmZGm
-        jy+iKby3udZA01mp27j2QUkMTQ==
-X-Google-Smtp-Source: ABdhPJwT8tpl+fd43qiB4cxkLEEDXd73CQlEGtZK4m11dQ+acs5TwfsJbOHxWMvs/63SDdvUq4pcBA==
-X-Received: by 2002:a5d:6505:: with SMTP id x5mr18875316wru.336.1598520322734;
-        Thu, 27 Aug 2020 02:25:22 -0700 (PDT)
-Received: from localhost.localdomain ([195.24.90.54])
-        by smtp.gmail.com with ESMTPSA id z203sm4357330wmc.31.2020.08.27.02.25.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 02:25:22 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 13/13] venus: helpers: Wire up hfi platform buffer requirements
-Date:   Thu, 27 Aug 2020 12:24:17 +0300
-Message-Id: <20200827092417.16040-14-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200827092417.16040-1-stanimir.varbanov@linaro.org>
-References: <20200827092417.16040-1-stanimir.varbanov@linaro.org>
+        Thu, 27 Aug 2020 05:55:10 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE70C061264;
+        Thu, 27 Aug 2020 02:55:08 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id DFFEA634C87;
+        Thu, 27 Aug 2020 12:54:56 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kBEcT-0000Wi-9P; Thu, 27 Aug 2020 12:54:57 +0300
+Date:   Thu, 27 Aug 2020 12:54:57 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 1/4] media: open.rst: better document device node
+ naming
+Message-ID: <20200827095457.GB851@valkosipuli.retiisi.org.uk>
+References: <cover.1598512802.git.mchehab+huawei@kernel.org>
+ <b2eec3a6928660ca6a0f18580725026771669787.1598512802.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b2eec3a6928660ca6a0f18580725026771669787.1598512802.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now when everything is in place wire up buffer requirements
-from hfi platform buffers to the buffer requirements helper.
+Hi Mauro,
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/helpers.c   | 50 +++++++++++++++++++
- .../media/platform/qcom/venus/hfi_parser.h    |  5 ++
- 2 files changed, 55 insertions(+)
+Thanks for working on this!
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index cd06a6998f52..a3e59b3791eb 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -15,6 +15,7 @@
- #include "hfi_helper.h"
- #include "pm_helpers.h"
- #include "hfi_platform.h"
-+#include "hfi_parser.h"
- 
- struct intbuf {
- 	struct list_head list;
-@@ -552,6 +553,51 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
- 	return 0;
- }
- 
-+static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
-+			       struct hfi_buffer_requirements *req)
-+{
-+	enum hfi_version version = inst->core->res->hfi_version;
-+	const struct hfi_platform *hfi_plat;
-+	struct hfi_plat_buffers_params params;
-+	bool is_dec = inst->session_type == VIDC_SESSION_TYPE_DEC;
-+	struct venc_controls *enc_ctr = &inst->controls.enc;
-+
-+	hfi_plat = hfi_platform_get(version);
-+
-+	if (!hfi_plat || !hfi_plat->bufreq)
-+		return -EINVAL;
-+
-+	params.version = version;
-+	params.num_vpp_pipes = hfi_platform_num_vpp_pipes(version);
-+
-+	if (is_dec) {
-+		params.width = inst->width;
-+		params.height = inst->height;
-+		params.codec = inst->fmt_out->pixfmt;
-+		params.hfi_color_fmt = to_hfi_raw_fmt(inst->fmt_cap->pixfmt);
-+		params.dec.max_mbs_per_frame = mbs_per_frame_max(inst);
-+		params.dec.buffer_size_limit = 0;
-+		params.dec.is_secondary_output =
-+			inst->opb_buftype == HFI_BUFFER_OUTPUT2;
-+		params.dec.is_interlaced =
-+			inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE ?
-+				true : false;
-+	} else {
-+		params.width = inst->out_width;
-+		params.height = inst->out_height;
-+		params.codec = inst->fmt_cap->pixfmt;
-+		params.hfi_color_fmt = to_hfi_raw_fmt(inst->fmt_out->pixfmt);
-+		params.enc.work_mode = VIDC_WORK_MODE_2;
-+		params.enc.rc_type = HFI_RATE_CONTROL_OFF;
-+		if (enc_ctr->bitrate_mode == V4L2_MPEG_VIDEO_BITRATE_MODE_CQ)
-+			params.enc.rc_type = HFI_RATE_CONTROL_CQ;
-+		params.enc.num_b_frames = enc_ctr->num_b_frames;
-+		params.enc.is_tenbit = inst->bit_depth == VIDC_BITDEPTH_10;
-+	}
-+
-+	return hfi_plat->bufreq(&params, inst->session_type, buftype, req);
-+}
-+
- int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
- 			    struct hfi_buffer_requirements *req)
- {
-@@ -563,6 +609,10 @@ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
- 	if (req)
- 		memset(req, 0, sizeof(*req));
- 
-+	ret = platform_get_bufreq(inst, type, req);
-+	if (!ret)
-+		return 0;
-+
- 	ret = hfi_session_get_property(inst, ptype, &hprop);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/media/platform/qcom/venus/hfi_parser.h b/drivers/media/platform/qcom/venus/hfi_parser.h
-index 7f59d82110f9..5751d0140700 100644
---- a/drivers/media/platform/qcom/venus/hfi_parser.h
-+++ b/drivers/media/platform/qcom/venus/hfi_parser.h
-@@ -112,4 +112,9 @@ static inline u32 core_num_max(struct venus_inst *inst)
- 	return cap_max(inst, HFI_CAPABILITY_MAX_VIDEOCORES);
- }
- 
-+static inline u32 mbs_per_frame_max(struct venus_inst *inst)
-+{
-+	return cap_max(inst, HFI_CAPABILITY_MBS_PER_FRAME);
-+}
-+
- #endif
+On Thu, Aug 27, 2020 at 09:21:45AM +0200, Mauro Carvalho Chehab wrote:
+> Right now, only kAPI documentation describes the device naming.
+> However, such description is needed at the uAPI too. Add it,
+> and describe how to get an unique identifier for a given device.
+> 
+> Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../userspace-api/media/v4l/open.rst          | 43 +++++++++++++++++--
+>  1 file changed, 40 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
+> index 38046ef20141..332763053292 100644
+> --- a/Documentation/userspace-api/media/v4l/open.rst
+> +++ b/Documentation/userspace-api/media/v4l/open.rst
+> @@ -14,12 +14,14 @@ Opening and Closing Devices
+>  ***************************
+>  
+>  
+> -Device Naming
+> -=============
+> +.. _v4l2_device_naming:
+> +
+> +V4L2 Device Node Naming
+> +=======================
+>  
+>  V4L2 drivers are implemented as kernel modules, loaded manually by the
+>  system administrator or automatically when a device is first discovered.
+> -The driver modules plug into the "videodev" kernel module. It provides
+> +The driver modules plug into the ``videodev`` kernel module. It provides
+>  helper functions and a common application interface specified in this
+>  document.
+>  
+> @@ -30,6 +32,41 @@ option CONFIG_VIDEO_FIXED_MINOR_RANGES. In that case minor numbers
+>  are allocated in ranges depending on the device node type (video, radio,
+>  etc.).
+>  
+> +The device nodes supported by the Video4Linux subsystem are:
+> +
+> +======================== ====================================================
+> +Default device node name Usage
+> +======================== ====================================================
+> +``/dev/videoX``		 Video and metadata for capture/output devices
+> +``/dev/vbiX``		 Vertical blank data (i.e. closed captions, teletext)
+> +``/dev/radioX``		 Radio tuners and modulators
+> +``/dev/swradioX``	 Software Defined Radio tuners and modulators
+> +``/dev/v4l-touchX``	 Touch sensors
+> +``/dev/v4l-subdevX``	 Video sub-devices (used by sensors and other
+> +			 components of the hardware peripheral)\ [#]_
+> +======================== ====================================================
+> +
+> +Where ``X`` is a non-negative number.
+
+s/number/integer/
+
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+> +
+> +.. note::
+> +
+> +   1. The actual device node name is system-dependent, as udev rules may apply.
+> +   2. There is no guarantee that ``X`` will remain the same for the same
+> +      device, as the number depends on the device driver's probe order.
+> +      If you need an unique name, udev default rules produce
+> +      ``/dev/v4l/by-id/`` and ``/dev/v4l/by-path/`` directories containing
+> +      links that can be used uniquely to identify a V4L2 device node::
+> +
+> +	$ tree /dev/v4l
+> +	/dev/v4l
+> +	├── by-id
+> +	│   └── usb-OmniVision._USB_Camera-B4.04.27.1-video-index0 -> ../../video0
+> +	└── by-path
+> +	    └── pci-0000:00:14.0-usb-0:2:1.0-video-index0 -> ../../video0
+> +
+> +.. [#] **V4L2 sub-device nodes** (e. g. ``/dev/v4l-subdevX``) use a different
+> +       set of system calls, as covered at :ref:`subdev`.
+> +
+>  Many drivers support "video_nr", "radio_nr" or "vbi_nr" module
+>  options to select specific video/radio/vbi node numbers. This allows the
+>  user to request that the device node is named e.g. /dev/video5 instead
+> 
+
 -- 
-2.17.1
-
+Sakari Ailus
