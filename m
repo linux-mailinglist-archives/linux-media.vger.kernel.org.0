@@ -2,361 +2,260 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59C76255C0A
-	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 16:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F31E6255C44
+	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 16:21:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727793AbgH1OMQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 10:12:16 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:36013 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726236AbgH1OML (ORCPT
+        id S1726804AbgH1OVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Aug 2020 10:21:24 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41366 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726322AbgH1OVW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 10:12:11 -0400
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 186C7240007;
-        Fri, 28 Aug 2020 14:12:03 +0000 (UTC)
-Date:   Fri, 28 Aug 2020 16:12:03 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Cc:     linux-media@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, mripard@kernel.org, wens@csie.org,
-        yong.deng@magewell.com, mchehab+samsung@kernel.org,
-        p.zabel@pengutronix.de, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH v2 0/4] Support of MIPI CSI-2 for A83T
-Message-ID: <20200828141203.GC6858@aptenodytes>
-References: <20200828131737.12483-1-kevin.lhopital@bootlin.com>
+        Fri, 28 Aug 2020 10:21:22 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id F3AA629AEA9
+Message-ID: <acb8d609f1afff6b24210426baaf4fe52dc6f4ee.camel@collabora.com>
+Subject: Re: [PATCH v2 08/14] media: uapi: h264: Drop SLICE_PARAMS 'size'
+ field
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Reply-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Date:   Fri, 28 Aug 2020 10:21:15 -0400
+In-Reply-To: <bac2020eabb375a6c9dbc689c0c5a3f6eae16e1e.camel@collabora.com>
+References: <20200806151310.98624-1-ezequiel@collabora.com>
+         <20200806151310.98624-9-ezequiel@collabora.com>
+         <20200806155028.GB1621078@aptenodytes>
+         <7e0ad157cabb656cbb4f24354146197e6a1d3f36.camel@collabora.com>
+         <20200819135430.GA1566@aptenodytes>
+         <bac2020eabb375a6c9dbc689c0c5a3f6eae16e1e.camel@collabora.com>
+Organization: Collabora
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+        boundary="=-485015CwXDZx+PUjo0EI"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="/dFl7e5Y0zcWrcPL"
-Content-Disposition: inline
-In-Reply-To: <20200828131737.12483-1-kevin.lhopital@bootlin.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---/dFl7e5Y0zcWrcPL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--=-485015CwXDZx+PUjo0EI
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi everyone,
-
-On Fri 28 Aug 20, 15:17, K=C3=A9vin L'h=C3=B4pital wrote:
-> This series adds the support for the MIPI CSI-2 controller for the A83T S=
-oC.
-> The CSI controller is the same as the V3s SoC that's why I put the A83T
-> MIPI CSI-2 driver in sun6i-csi.
-> My work is based on the Allwinner BSP for A83T and also on MIPI CSI-2
-> specification for the A83T given by Allwinner.
-
-To give a bit of context here, Kevin is our intern who worked on MIPI CSI-2
-support on the A83t this summer. As we were approaching the end of the
-internship, we wanted to publish the current state of the work as a working
-reference and base for mainline support.
-
-However, we are well aware that there are significant design issues in this
-series, such as:
-- not supporting the fwnode graph;
-- not working with the DPHY API;
-- adding MIPI CSI-2 support under the same dt compatible as parallel CSI;
-
-and probably other things.
-
-Bootlin is currently working on V3s MIPI CSI-2 support and we intend to res=
-pin
-this series when submitting V3s MIPI CSI-2 support, with fixes to these des=
-ign
-issues.
-
-So we hope you keep this in mind when reviewing the series, which is not me=
-ant
-to be merged in its current state.
-
-Thanks!
-
-Paul
-
-> v4l2-compliance SHA: not available, 32 bits                              =
-                                              =20
->                                                                          =
-                                              =20
-> Compliance test for sun6i-video device /dev/video0:                      =
-                                              =20
->                                                                          =
-                                              =20
-> Driver Info:                                                             =
-                                              =20
->         Driver name      : sun6i-video                                   =
-                                              =20
->         Card type        : sun6i-csi                                     =
-                                              =20
->         Bus info         : platform:camera                               =
-                                              =20
->         Driver version   : 5.5.0                                         =
-                                              =20
->         Capabilities     : 0x84200001                                    =
-                                              =20
->                 Video Capture                                            =
-                                              =20
->                 Streaming                                                =
-                                              =20
->                 Extended Pix Format                                      =
-                                              =20
->                 Device Capabilities                                      =
-                                              =20
->         Device Caps      : 0x04200001                                    =
-                                              =20
->                 Video Capture                                            =
-                                              =20
->                 Streaming                                                =
-                                              =20
->                 Extended Pix Format                                      =
-                                              =20
-> Media Driver Info:                                                       =
-                                              =20
->         Driver name      : sun6i-csi                                     =
-                                              =20
->         Model            : Allwinner Video Capture Device                =
-                                              =20
->         Serial           :                                               =
-                                              =20
->         Bus info         :                                               =
-                                              =20
->         Media version    : 5.5.0                                         =
-                                              =20
->         Hardware revision: 0x00000000 (0)                                =
-                                              =20
->         Driver version   : 5.5.0                                         =
-                                              =20
-> Interface Info:                                                          =
-                                              =20
->         ID               : 0x03000003                                    =
-                                              =20
->         Type             : V4L Video                                     =
-                                              =20
-> Entity Info:                                                             =
-                                              =20
->         ID               : 0x00000001 (1)                                =
-                                              =20
->         Name             : sun6i-csi                                     =
-                                              =20
->         Function         : V4L2 I/O                                      =
-                                              =20
->         Pad 0x01000002   : 0: Sink, Must Connect                         =
-                                              =20
->           Link 0x02000007: from remote pad 0x1000006 of entity 'ov8865 1-=
-0036': Data, Enabled, Immutable               =20
->                                                                          =
-                                              =20
-> Required ioctls:                                                         =
-                                              =20
->         test MC information (see 'Media Driver Info' above): OK          =
-                                              =20
->         test VIDIOC_QUERYCAP: OK                                         =
-                                              =20
->                                                                          =
-                                              =20
-> Allow for multiple opens:                                                =
-                                              =20
->         test second /dev/video0 open: OK                                 =
-                                              =20
->         test VIDIOC_QUERYCAP: OK                                         =
-                                              =20
->         test VIDIOC_G/S_PRIORITY: OK                                     =
-                                              =20
->         test for unlimited opens: OK                                     =
-                                              =20
->                                                                          =
-                                              =20
-> Debug ioctls:                                                            =
-                                              =20
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)                 =
-                                              =20
->         test VIDIOC_LOG_STATUS: OK                                       =
-                                              =20
->                                                                          =
-                                              =20
-> Input ioctls:                                                            =
-                                              =20
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)        =
-                                              =20
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)                    =
-                                              =20
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)                   =
-                                              =20
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)                        =
-                                              =20
->         test VIDIOC_G/S/ENUMINPUT: OK                                    =
-                                              =20
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)                        =
-                                              =20
->         Inputs: 1 Audio Inputs: 0 Tuners: 0                              =
-                                              =20
->                                                                          =
-                                              =20
-> Output ioctls:                                                           =
-                                              =20
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)                    =
-                                              =20
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)                    =
-                                              =20
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)                       =
-                                              =20
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)                   =
-                                              =20
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)                       =
-                                              =20
->         Outputs: 0 Audio Outputs: 0 Modulators: 0                        =
-                                              =20
->                                                                          =
-                                              =20
-> Input/Output configuration ioctls:                                       =
-                                              =20
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)               =
-                                              =20
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)        =
-                                              =20
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)                   =
-                                              =20
->         test VIDIOC_G/S_EDID: OK (Not Supported)                         =
-                                              =20
->                                                                          =
-                                              =20
-> Control ioctls (Input 0):                                                =
-                                              =20
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK                         =
-                                              =20
->         test VIDIOC_QUERYCTRL: OK                                        =
-                                              =20
->         test VIDIOC_G/S_CTRL: OK                                         =
-                                              =20
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK                                =
-                                              =20
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK                      =
-                                              =20
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)                     =
-                                              =20
->         Standard Controls: 7 Private Controls: 0                         =
-                                              =20
->                                                                          =
-                                              =20
-> Format ioctls (Input 0):                                                 =
-                                              =20
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK               =
-                                              =20
->         test VIDIOC_G/S_PARM: OK (Not Supported)                         =
-                                              =20
->         test VIDIOC_G_FBUF: OK (Not Supported)                           =
-                                              =20
->         test VIDIOC_G_FMT: OK                                            =
-                                              =20
->         test VIDIOC_TRY_FMT: OK                                          =
-                                              =20
->         test VIDIOC_S_FMT: OK                                            =
-                                              =20
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)                 =
-                                              =20
->         test Cropping: OK (Not Supported)                                =
-                                              =20
->         test Composing: OK (Not Supported)                               =
-                                              =20
->         test Scaling: OK                                                 =
-                                              =20
->                                                                          =
-                                              =20
-> Codec ioctls (Input 0):                                                  =
-                                              =20
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)                =
-                                              =20
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)                      =
-                                              =20
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)                =
-                                              =20
->                                                                          =
-                                              =20
-> Buffer ioctls (Input 0):                                                 =
-                                              =20
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK                     =
-                                              =20
->         test VIDIOC_EXPBUF: OK                                           =
-                                              =20
->         test Requests: OK (Not Supported)                                =
-                                              =20
->                                                                          =
-                                              =20
-> Total for sun6i-video device /dev/video0: 45, Succeeded: 45, Failed: 0, W=
-arnings: 0
+Le jeudi 20 ao=C3=BBt 2020 =C3=A0 04:32 -0300, Ezequiel Garcia a =C3=A9crit=
+ :
+> Hi Paul,
 >=20
-> Changes since V1:
-> - Add more details in the cover letter.
-> - Add a test to get the clocks to avoid an error for the platform without=
- MIPI
-> CSI-2.
-> - Add more details in the register assignations.
-> - Removed the support of multiple virtual channels because there is only =
-one
-> channel support in the CSI driver.
+> On Wed, 2020-08-19 at 15:54 +0200, Paul Kocialkowski wrote:
+> > Hi,
+> >=20
+> > On Fri 07 Aug 20, 11:44, Ezequiel Garcia wrote:
+> > > On Thu, 2020-08-06 at 17:50 +0200, Paul Kocialkowski wrote:
+> > > > Hi,
+> > > >=20
+> > > > On Thu 06 Aug 20, 12:13, Ezequiel Garcia wrote:
+> > > > > The SLICE_PARAMS control is intended for slice-based
+> > > > > devices. In this mode, the OUTPUT buffer contains
+> > > > > a single slice, and so the buffer's plane payload size
+> > > > > can be used to query the slice size.
+> > > >=20
+> > > > If we later extend the API for supporting multiple slices with dyna=
+mic array
+> > > > controls, I guess we'll need to know the size of each slice in each=
+ control
+> > > > elements. So I'd rather keep that even if it's indeed redundant wit=
+h
+> > > > vb2_get_plane_payload in single-slice mode.
+> > > >=20
+> > >=20
+> > > If we later extend the API, another control (possibly
+> > > another decoding mode?) shall be introduced.
+> > >=20
+> > > This API covers single-slice-per-request as specified
+> > > and documented in patch 9/14 "Clarify SLICE_BASED mode".
+> > >=20
+> > > This is along the lines of the proposal drafted by Nicolas,
+> > > see my reply: https://lkml.org/lkml/2020/8/5/791.
+> > >=20
+> > > This applies to num_slices, slice size and slice start offset.
+> > >=20
+> > > There are multiple ways of doing this.
+> >=20
+> > If feels a bit problematic to remove these fields without a clear plan =
+yet
+> > on how to support multiple slices in the future. These may need to be a=
+dded
+> > again later, except that it will be too late and new controls will need=
+ to be
+> > introduced.
+> >=20
 >=20
-> K=C3=A9vin L'h=C3=B4pital (4):
->   media: sun6i-csi: Fix the bpp for 10-bit bayer formats
->   media: sunxi: sun6i-csi: Move the sun6i_csi_dev structure to the
->     common header
->   media: sunxi: sun6i-csi: Add support of MIPI CSI-2 for A83T
->   ARM: dts: sun8i: a83t: Add support for the MIPI CSI-2 in CSI node
+> As Nicolas and I have repeatedly mentioned we do have a plan :)
 >=20
->  arch/arm/boot/dts/sun8i-a83t.dtsi             |  11 +-
->  .../media/platform/sunxi/sun6i-csi/Makefile   |   2 +-
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  96 +++++---
->  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  14 +-
->  .../sunxi/sun6i-csi/sun8i_a83t_dphy.c         |  39 ++++
->  .../sunxi/sun6i-csi/sun8i_a83t_dphy.h         |  16 ++
->  .../sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h     |  39 ++++
->  .../sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c    | 217 ++++++++++++++++++
->  .../sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h    |  16 ++
->  .../sun6i-csi/sun8i_a83t_mipi_csi2_reg.h      | 179 +++++++++++++++
->  10 files changed, 595 insertions(+), 34 deletions(-)
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dph=
-y.c
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dph=
-y.h
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dph=
-y_reg.h
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mip=
-i_csi2.c
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mip=
-i_csi2.h
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mip=
-i_csi2_reg.h
+> Nothing prevents us from implementing this now, but since it seems
+> we don't have any need since the 1-slice-per-buffer is working well,
+> there is no motivation for it.
 >=20
-> --=20
-> 2.17.1
+> As you well mention, it does require new controls. This is
+> totally expected since new decoding semantics will need new controls.
+>=20
+> Here's my version of the plan:
+>=20
+> enum v4l2_mpeg_video_h264_decode_mode {
+>         V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED,
+>         V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_ARRAY_BASED,
+>         V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
+> };
+>=20
+> #define V4L2_CID_MPEG_VIDEO_H264_SLICE_ARRAY    (V4L2_CID_MPEG_BASE+1008)
+>=20
+> struct v4l2_ctrl_h264_slice_array {
+>         __u16 num_slices;
+>=20
+>         struct v4l2_ctrl_h264_slice slices[16];
+> }
+
+Well, ideally the new dynamic array control format can hold this
+information for us, avoiding the 16 slice limit again, but that is
+inded the plan.
+
+>=20
+> struct v4l2_ctrl_h264_slice {
+>         __u32 size;
+>         __u32 start_byte_offset;
+>         struct v4l2_ctrl_h264_slice_params params;
+> }
+>=20
+> Now, the _specific_ way this will be done is not under
+> discussion at the moment.
+>=20
+> > Also, could we consider adding more reserved fields to handle such futu=
+re needs?
+> >=20
+>=20
+> I have considered that (on each control), but I fail
+> to see the reason for it. The same may be said of all controls,
+> yet I don't think we bloat each one just in case.=20
+>=20
+> Thanks,
+> Ezequiel
+>=20
+> > Cheers,
+> >=20
+> > Paul
+> >=20
+> > > Thanks!
+> > > Ezequiel
+> > >=20
+> > > > What do you think?
+> > > >=20
+> > > > Paul
+> > > >=20
+> > > > > To reduce the API surface drop the size from the
+> > > > > SLICE_PARAMS control.
+> > > > >=20
+> > > > > A follow-up change will remove other members in SLICE_PARAMS
+> > > > > so we don't need to add padding fields here.
+> > > > >=20
+> > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > > > ---
+> > > > >  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 3 --=
+-
+> > > > >  drivers/staging/media/sunxi/cedrus/cedrus_h264.c          | 7 ++=
++----
+> > > > >  include/media/h264-ctrls.h                                | 3 --=
+-
+> > > > >  3 files changed, 3 insertions(+), 10 deletions(-)
+> > > > >=20
+> > > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-code=
+c.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > > > > index 427fc5727ec0..fff74b7bf32a 100644
+> > > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > > > > @@ -1760,9 +1760,6 @@ enum v4l2_mpeg_video_h264_hierarchical_codi=
+ng_type -
+> > > > >      :stub-columns: 0
+> > > > >      :widths:       1 1 2
+> > > > > =20
+> > > > > -    * - __u32
+> > > > > -      - ``size``
+> > > > > -      -
+> > > > >      * - __u32
+> > > > >        - ``start_byte_offset``
+> > > > >          Offset (in bytes) from the beginning of the OUTPUT buffe=
+r to the start
+> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/d=
+rivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > index a9ba78b15907..8b6f05aadbe8 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > @@ -324,17 +324,16 @@ static void cedrus_set_params(struct cedrus=
+_ctx *ctx,
+> > > > >  	struct vb2_buffer *src_buf =3D &run->src->vb2_buf;
+> > > > >  	struct cedrus_dev *dev =3D ctx->dev;
+> > > > >  	dma_addr_t src_buf_addr;
+> > > > > -	u32 len =3D slice->size * 8;
+> > > > > +	size_t slice_bytes =3D vb2_get_plane_payload(src_buf, 0);
+> > > > >  	unsigned int pic_width_in_mbs;
+> > > > >  	bool mbaff_pic;
+> > > > >  	u32 reg;
+> > > > > =20
+> > > > > -	cedrus_write(dev, VE_H264_VLD_LEN, len);
+> > > > > +	cedrus_write(dev, VE_H264_VLD_LEN, slice_bytes * 8);
+> > > > >  	cedrus_write(dev, VE_H264_VLD_OFFSET, 0);
+> > > > > =20
+> > > > >  	src_buf_addr =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
+> > > > > -	cedrus_write(dev, VE_H264_VLD_END,
+> > > > > -		     src_buf_addr + vb2_get_plane_payload(src_buf, 0));
+> > > > > +	cedrus_write(dev, VE_H264_VLD_END, src_buf_addr + slice_bytes);
+> > > > >  	cedrus_write(dev, VE_H264_VLD_ADDR,
+> > > > >  		     VE_H264_VLD_ADDR_VAL(src_buf_addr) |
+> > > > >  		     VE_H264_VLD_ADDR_FIRST | VE_H264_VLD_ADDR_VALID |
+> > > > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrl=
+s.h
+> > > > > index 4f05ee265997..f74736fcfa00 100644
+> > > > > --- a/include/media/h264-ctrls.h
+> > > > > +++ b/include/media/h264-ctrls.h
+> > > > > @@ -158,9 +158,6 @@ struct v4l2_h264_reference {
+> > > > >  };
+> > > > > =20
+> > > > >  struct v4l2_ctrl_h264_slice_params {
+> > > > > -	/* Size in bytes, including header */
+> > > > > -	__u32 size;
+> > > > > -
+> > > > >  	/* Offset in bytes to the start of slice in the OUTPUT buffer. =
+*/
+> > > > >  	__u32 start_byte_offset;
+> > > > > =20
+> > > > > --=20
+> > > > > 2.27.0
+> > > > >=20
+>=20
 >=20
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---/dFl7e5Y0zcWrcPL
+--=-485015CwXDZx+PUjo0EI
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl9JELMACgkQ3cLmz3+f
-v9Fc0Qf/S07c7Hdhnzb41WcEM2OpOc3NsME/sjeAdJhTi0zt9cgyeadSg8B/menR
-OFJFD4M0XVaXhXkqCuzdFj9Rc7+gLWfdSn6PnMNxQ1K4VEhJDNS2ToxTFyLRy2pL
-qUe2KzO8ILWR6Wq5iNfyeikMqxfwEvWN9gtDUndUrlmp/+WRfXWfp9Pby8oOxIXA
-rXJaV/DhPLCd8BXlp4PnaNVsk2dFjckGjCLjcHMygH+NXZUUTocEjjDrSp+7MmvR
-O3NaHu9cvB73XfdBqSQJijkY4ZMPjw+O4+WfzhwN19sNJ2GOSPdaKlgEyg6KV4JU
-ZeyLAheRsKSQJ1r9Hka+iRVgspyhmA==
-=V3H8
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCX0kS2wAKCRBxUwItrAao
+HA+PAJ40zmDEHTQHb5bgzxTtD4phCzBFBwCfff3ISQE0jFzkKpzRMfQsoyD3b70=
+=JV5A
 -----END PGP SIGNATURE-----
 
---/dFl7e5Y0zcWrcPL--
+--=-485015CwXDZx+PUjo0EI--
+
