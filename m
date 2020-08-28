@@ -2,155 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC9C7255763
-	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 11:17:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8B4125581A
+	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 11:57:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728912AbgH1JRK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 05:17:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48546 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728548AbgH1JQy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 05:16:54 -0400
-Received: from mail.kernel.org (unknown [95.90.213.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D68520C56;
-        Fri, 28 Aug 2020 09:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598606213;
-        bh=qf3s74BFMfzPaXEhkWfFmaoIcsmrt/xu5Ve7JjjrqSI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=o/uh8mxaO6aCUHIiw2fwZiZV736BMezCvVZ65ayjQd+uNMxyLAfU1Wnnke7NimkcA
-         JQwQYJ0gDv34xBMFZlJvL3TtZzLXKFS3l0DYmV2BPolWYsMIfobj6knnDaF602uTJS
-         eMwJpIuapVR7lg5zsX0f3IVpajA3zGxemaSiEKvM=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kBaV9-0047AH-Ap; Fri, 28 Aug 2020 11:16:51 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v11 4/4] media: open.rst: document mc-centric and video-node-centric
-Date:   Fri, 28 Aug 2020 11:16:50 +0200
-Message-Id: <99929cf3d951ff9dbe0e70e9380dfb2c13408869.1598606093.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1598606093.git.mchehab+huawei@kernel.org>
-References: <cover.1598606093.git.mchehab+huawei@kernel.org>
+        id S1728820AbgH1J51 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Aug 2020 05:57:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38254 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728016AbgH1J5V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Aug 2020 05:57:21 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C592303;
+        Fri, 28 Aug 2020 11:57:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1598608634;
+        bh=17sggzD4Csunw8iPasN+Bvms9x56ZRZyOQNKzM8BRr8=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=j2cMfp8GlXwb0PFhnvkM8vhOA41r7KWuAlnG3XFhQbvp1O2qUDhhwut7rGpHo+nwe
+         IqoEcUYNN1ytj77YczjGO/mT6wbHgpfvxbYBhV5/9dnkwFGwrw+9Vd058EqgJ+QlKD
+         KdGxuxpZK7nHymhj9dS+MQqG1wOdqEF74CF+zL88=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH] MAINTAINERS: Fix sort order for RDACM20
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        sakari.ailus@iki.fi
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+References: <20200716102552.1390223-1-kieran.bingham+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
+ V/zwz6hiDrZuHUACDB7X8OaQcwhLaVlq6byfoBr25+hbZG7G3+5EUl9cQ7dQEdvNj6V6y/SC
+ rRanWfelwQThCHckbobWiQJfK9n7rYNcPMq9B8e9F020LFH7Kj6YmO95ewJGgLm+idg1Kb3C
+ potzWkXc1xmPzcQ1fvQMOfMwdS+4SNw4rY9f07Xb2K99rjMwZVDgESKIzhsDB5GY465sCsiQ
+ cSAZRxqE49RTBq2+EQsbrQpIc8XiffAB8qexh5/QPzCmR4kJgCGeHIXBtgRj+nIkCJPZvZtf
+ Kr2EAbc6tgg6DkAEHJb+1okosV09+0+TXywYvtEop/WUOWQ+zo+Y/OBd+8Ptgt1pDRyOBzL8
+ RXa8ZqRf0Mwg75D+dKntZeJHzPRJyrlfQokngAAs4PaFt6UfS+ypMAF37T6CeDArQC41V3ko
+ lPn1yMsVD0p+6i3DPvA/GPIksDC4owjnzVX9kM8Zc5Cx+XoAN0w5Eqo4t6qEVbuettxx55gq
+ 8K8FieAjgjMSxngo/HST8TpFeqI5nVeq0/lqtBRQKumuIqDg+Bkr4L1V/PSB6XgQcOdhtd36
+ Oe9X9dXB8YSNt7VjOcO7BTmFn/Z8r92mSAfHXpb07YJWJosQOQARAQABtDBLaWVyYW4gQmlu
+ Z2hhbSA8a2llcmFuLmJpbmdoYW1AaWRlYXNvbmJvYXJkLmNvbT6JAlcEEwEKAEECGwMFCwkI
+ BwIGFQgJCgsCBBYCAwECHgECF4ACGQEWIQSQLdeYP70o/eNy1HqhHkZyEKRh/QUCXWTtygUJ
+ CyJXZAAKCRChHkZyEKRh/f8dEACTDsbLN2nioNZMwyLuQRUAFcXNolDX48xcUXsWS2QjxaPm
+ VsJx8Uy8aYkS85mdPBh0C83OovQR/OVbr8AxhGvYqBs3nQvbWuTl/+4od7DfK2VZOoKBAu5S
+ QK2FYuUcikDqYcFWJ8DQnubxfE8dvzojHEkXw0sA4igINHDDFX3HJGZtLio+WpEFQtCbfTAG
+ YZslasz1YZRbwEdSsmO3/kqy5eMnczlm8a21A3fKUo3g8oAZEFM+f4DUNzqIltg31OAB/kZS
+ enKZQ/SWC8PmLg/ZXBrReYakxXtkP6w3FwMlzOlhGxqhIRNiAJfXJBaRhuUWzPOpEDE9q5YJ
+ BmqQL2WJm1VSNNVxbXJHpaWMH1sA2R00vmvRrPXGwyIO0IPYeUYQa3gsy6k+En/aMQJd27dp
+ aScf9am9PFICPY5T4ppneeJLif2lyLojo0mcHOV+uyrds9XkLpp14GfTkeKPdPMrLLTsHRfH
+ fA4I4OBpRrEPiGIZB/0im98MkGY/Mu6qxeZmYLCcgD6qz4idOvfgVOrNh+aA8HzIVR+RMW8H
+ QGBN9f0E3kfwxuhl3omo6V7lDw8XOdmuWZNC9zPq1UfryVHANYbLGz9KJ4Aw6M+OgBC2JpkD
+ hXMdHUkC+d20dwXrwHTlrJi1YNp6rBc+xald3wsUPOZ5z8moTHUX/uPA/qhGsbkCDQRWBP1m
+ ARAAzijkb+Sau4hAncr1JjOY+KyFEdUNxRy+hqTJdJfaYihxyaj0Ee0P0zEi35CbE6lgU0Uz
+ tih9fiUbSV3wfsWqg1Ut3/5rTKu7kLFp15kF7eqvV4uezXRD3Qu4yjv/rMmEJbbD4cTvGCYI
+ d6MDC417f7vK3hCbCVIZSp3GXxyC1LU+UQr3fFcOyCwmP9vDUR9JV0BSqHHxRDdpUXE26Dk6
+ mhf0V1YkspE5St814ETXpEus2urZE5yJIUROlWPIL+hm3NEWfAP06vsQUyLvr/GtbOT79vXl
+ En1aulcYyu20dRRxhkQ6iILaURcxIAVJJKPi8dsoMnS8pB0QW12AHWuirPF0g6DiuUfPmrA5
+ PKe56IGlpkjc8cO51lIxHkWTpCMWigRdPDexKX+Sb+W9QWK/0JjIc4t3KBaiG8O4yRX8ml2R
+ +rxfAVKM6V769P/hWoRGdgUMgYHFpHGSgEt80OKK5HeUPy2cngDUXzwrqiM5Sz6Od0qw5pCk
+ NlXqI0W/who0iSVM+8+RmyY0OEkxEcci7rRLsGnM15B5PjLJjh1f2ULYkv8s4SnDwMZ/kE04
+ /UqCMK/KnX8pwXEMCjz0h6qWNpGwJ0/tYIgQJZh6bqkvBrDogAvuhf60Sogw+mH8b+PBlx1L
+ oeTK396wc+4c3BfiC6pNtUS5GpsPMMjYMk7kVvEAEQEAAYkCPAQYAQoAJgIbDBYhBJAt15g/
+ vSj943LUeqEeRnIQpGH9BQJdizzIBQkLSKZiAAoJEKEeRnIQpGH9eYgQAJpjaWNgqNOnMTmD
+ MJggbwjIotypzIXfhHNCeTkG7+qCDlSaBPclcPGYrTwCt0YWPU2TgGgJrVhYT20ierN8LUvj
+ 6qOPTd+Uk7NFzL65qkh80ZKNBFddx1AabQpSVQKbdcLb8OFs85kuSvFdgqZwgxA1vl4TFhNz
+ PZ79NAmXLackAx3sOVFhk4WQaKRshCB7cSl+RIng5S/ThOBlwNlcKG7j7W2MC06BlTbdEkUp
+ ECzuuRBv8wX4OQl+hbWbB/VKIx5HKlLu1eypen/5lNVzSqMMIYkkZcjV2SWQyUGxSwq0O/sx
+ S0A8/atCHUXOboUsn54qdxrVDaK+6jIAuo8JiRWctP16KjzUM7MO0/+4zllM8EY57rXrj48j
+ sbEYX0YQnzaj+jO6kJtoZsIaYR7rMMq9aUAjyiaEZpmP1qF/2sYenDx0Fg2BSlLvLvXM0vU8
+ pQk3kgDu7kb/7PRYrZvBsr21EIQoIjXbZxDz/o7z95frkP71EaICttZ6k9q5oxxA5WC6sTXc
+ MW8zs8avFNuA9VpXt0YupJd2ijtZy2mpZNG02fFVXhIn4G807G7+9mhuC4XG5rKlBBUXTvPU
+ AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <bc0882a9-0479-acd9-1a3f-af286b9c8314@ideasonboard.com>
+Date:   Fri, 28 Aug 2020 10:57:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200716102552.1390223-1-kieran.bingham+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When we added support for omap3, back in 2010, we added a new
-type of V4L2 devices that aren't fully controlled via the V4L2
-device node.
+Hi Mauro,
 
-Yet, we have never clearly documented in the V4L2 specification
-the differences between the two types.
+I see the fixes branch is open now ... could you pick this one up
+please? Or do I need to send a pull request?
 
-Let's document them based on the the current implementation.
+--
+Regards
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../userspace-api/media/v4l/open.rst          | 59 +++++++++++++++++--
- 1 file changed, 53 insertions(+), 6 deletions(-)
+Kieran
 
-diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
-index 4928f636c576..d20f98969294 100644
---- a/Documentation/userspace-api/media/v4l/open.rst
-+++ b/Documentation/userspace-api/media/v4l/open.rst
-@@ -13,6 +13,53 @@
- Opening and Closing Devices
- ***************************
- 
-+.. _v4l2_hardware_control:
-+
-+Controlling a hardware peripheral via V4L2
-+==========================================
-+
-+Hardware that is supported using the V4L2 uAPI often consists of multiple
-+devices or peripherals, each of which have their own driver.
-+
-+The bridge driver exposes one or more V4L2 device nodes
-+(see :ref:`v4l2_device_naming`).
-+
-+There are other drivers providing support for other components of
-+the hardware, which may also expose device nodes, called V4L2 sub-devices.
-+
-+When such V4L2 sub-devices are exposed, they allow controlling those
-+other hardware components - usually connected via a serial bus (like
-+I²C, SMBus or SPI). Depending on the bridge driver, those sub-devices
-+can be controlled indirectly via the bridge driver or explicitly via
-+the :ref:`Media Controller <media_controller>` and via the
-+:ref:`V4L2 sub-devices <subdev>`.
-+
-+The devices that require the use of the
-+:ref:`Media Controller <media_controller>` are called **MC-centric**
-+devices. The devices that are fully controlled via V4L2 device nodes
-+are called **video-node-centric**.
-+
-+Userspace can check if a V4L2 hardware peripheral is MC-centric by
-+calling :ref:`VIDIOC_QUERYCAP` and checking the
-+:ref:`device_caps field <device-capabilities>`.
-+
-+If the device returns ``V4L2_CAP_IO_MC`` flag at ``device_caps``,
-+then it is MC-centric, otherwise, it is video-node-centric.
-+
-+It is required for MC-centric drivers to identify the V4L2
-+sub-devices and to configure the pipelines via the
-+:ref:`media controller API <media_controller>` before using the peripheral.
-+Also, the sub-devices' configuration shall be controlled via the
-+:ref:`sub-device API <subdev>`.
-+
-+.. note::
-+
-+   A video-node-centric may still provide media-controller and
-+   sub-device interfaces as well.
-+
-+  However, in that case the media-controller and the sub-device
-+  interfaces are read-only and just provide information about the
-+  device. The actual configuration is done via the video nodes.
- 
- .. _v4l2_device_naming:
- 
-@@ -109,7 +156,7 @@ Related Devices
- Devices can support several functions. For example video capturing, VBI
- capturing and radio support.
- 
--The V4L2 API creates different nodes for each of these functions.
-+The V4L2 API creates different V4L2 device nodes for each of these functions.
- 
- The V4L2 API was designed with the idea that one device node could
- support all functions. However, in practice this never worked: this
-@@ -119,17 +166,17 @@ switching a device node between different functions only works when
- using the streaming I/O API, not with the
- :ref:`read() <func-read>`/\ :ref:`write() <func-write>` API.
- 
--Today each device node supports just one function.
-+Today each V4L2 device node supports just one function.
- 
- Besides video input or output the hardware may also support audio
- sampling or playback. If so, these functions are implemented as ALSA PCM
- devices with optional ALSA audio mixer devices.
- 
- One problem with all these devices is that the V4L2 API makes no
--provisions to find these related devices. Some really complex devices
--use the Media Controller (see :ref:`media_controller`) which can be
--used for this purpose. But most drivers do not use it, and while some
--code exists that uses sysfs to discover related devices (see
-+provisions to find these related V4L2 device nodes. Some really complex
-+hardware use the Media Controller (see :ref:`media_controller`) which can
-+be used for this purpose. But several drivers do not use it, and while some
-+code exists that uses sysfs to discover related V4L2 device nodes (see
- libmedia_dev in the
- `v4l-utils <http://git.linuxtv.org/cgit.cgi/v4l-utils.git/>`__ git
- repository), there is no library yet that can provide a single API
+On 16/07/2020 11:25, Kieran Bingham wrote:
+> The files maintained as part of the RDACM20 were incorrectly sorted
+> while they were added.
+> 
+> Correct the sort-order.
+> 
+> Fixes: 874a93adf972 ("media: i2c: Add RDACM20 driver")
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 373e4198d2b1..8bd8d4ab8b5f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14412,9 +14412,9 @@ M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+> -F:	drivers/media/i2c/rdacm20.c
+>  F:	drivers/media/i2c/max9271.c
+>  F:	drivers/media/i2c/max9271.h
+> +F:	drivers/media/i2c/rdacm20.c
+>  
+>  RDC R-321X SoC
+>  M:	Florian Fainelli <florian@openwrt.org>
+> 
+
 -- 
-2.26.2
-
+Regards
+--
+Kieran
