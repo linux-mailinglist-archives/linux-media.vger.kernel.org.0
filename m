@@ -2,165 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29445255FB1
-	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 19:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33D762560DF
+	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 20:56:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726924AbgH1R0m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 13:26:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55206 "EHLO
+        id S1727951AbgH1S4G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Aug 2020 14:56:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726867AbgH1R0j (ORCPT
+        with ESMTP id S1726010AbgH1S4E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 13:26:39 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69699C06121B;
-        Fri, 28 Aug 2020 10:26:38 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id w13so1997365wrk.5;
-        Fri, 28 Aug 2020 10:26:38 -0700 (PDT)
+        Fri, 28 Aug 2020 14:56:04 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909EDC061264
+        for <linux-media@vger.kernel.org>; Fri, 28 Aug 2020 11:56:03 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id i10so149677ybt.11
+        for <linux-media@vger.kernel.org>; Fri, 28 Aug 2020 11:56:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aI5m0rhpkkZ7NckEYHoD7GvRLNlY5UcLJfSO75qLPWI=;
-        b=nVl5V6UKuaz55MYPnt9XgUMNRyBG/emO+ddzLM/8ChMkYVN4rqBV2/FRmWlwpjSedc
-         SWBgiWdxktsnZ4Y4LvMkhjL87IgdS30n1TTPTpTzmpvSc0sXKMM8mpSnL1NalCujLDw4
-         08LkVQwPzkV0vrgl93a65X+AnQHK5j+y1ROfJ8953kE5tiiIQysF0jKud1fUFnJGyMvu
-         iNHVFIYYWBLs8A8bANum4nmP9o6DDvD91Pvm0yk4GhXbLWrx5xxSQ8hRuScyex4Q3YzY
-         Y4JAmcdfndXlJAnCAB2f/NP1UwczcdjToHNJQiS/vlRl4Y54BupJPoDCFQ6I40eEdDBI
-         g6mg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YnNw5CWzP8lUiH2nZYQGN5jpBc++mmmv4sVoEABnC4g=;
+        b=f8FA52NAkvfzgqADf0WbDOllQdDHETwhwuBzyyZlBAxXm1kSdwykbXKcXETq/UZQh1
+         yl6Qz91C9trg3GmpuSvN/maT+lIQpo+dpWsNeTdjJK4D/Ejk+z5fZxbFl/MuSmoXFvC8
+         DjjNnDcQfBrXsmSe+NoV+uplsoNYOJFvHzTkeUawf0qQRzQeBtwQSXhGUMecAjtN3uXf
+         hNHbUBKd9etS6goe/ZRIfOm4IW9y4/cn/+ZDP5598zY0rJrRXweXrk7+/2cswpx+8jwm
+         WEZzjH6EX8taGoOQ9GmEbdaGKknSHjC0sjvm73zPx/B1nERvh2JV8/svQeRu4EzZsgCD
+         KkIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aI5m0rhpkkZ7NckEYHoD7GvRLNlY5UcLJfSO75qLPWI=;
-        b=XA4KDGRwIR2b0ifxOMbnY6JBDBqi8+MnmnyhDvS7qsfzsWuMCzW0TX+fnKs07E8PWg
-         l3+f7a56SALHsTzkAcQHeXC8EIIhjDfgMA6YPIE3UYuCl+MYtFXjJypk2+N1LZzTUUzO
-         dz9vvYGcwANoAKDymb0LT0Nc5vPNxWy02V+Za4445pmnfHVfcM/evoimh5zoViu1OJsM
-         e3OydTCyJBjDnDtlGB+s8Ec9TmaQDpTl4KHmQPNIavpCbDhn14gvm4nGfLJAT4kCKpFX
-         gPgTJup9ntxYA7AQHAKU8i8Ss5Fd1swcftMvjx5l1LUhsiAOcp8t8YaAkIK26vlTispD
-         2TGQ==
-X-Gm-Message-State: AOAM533kU711uQ8ZIwDBOTAwXe05yzPHX5opI7Q0btdP2JbrAYmB5Kq1
-        nK2jlSdcumAqpcT6dhOqhVtwi+NA4WNHjg==
-X-Google-Smtp-Source: ABdhPJyct+GOi/3IdUQHKBhrr7sOcNwgB76XSh27/cmbtdvmBfEvHdokYtpIKxXmBjMexjde0Rzh3Q==
-X-Received: by 2002:adf:f605:: with SMTP id t5mr80267wrp.144.1598635597020;
-        Fri, 28 Aug 2020 10:26:37 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.119.187])
-        by smtp.gmail.com with ESMTPSA id n124sm78581wmn.29.2020.08.28.10.26.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Aug 2020 10:26:36 -0700 (PDT)
-Subject: Re: [PATCH] media: mtk-mdp: Fix Null pointer dereference when calling
- list_add
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, enric.balletbo@collabora.com
-References: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <90836e4f-c3de-32f7-6a23-2093203e124d@gmail.com>
-Date:   Fri, 28 Aug 2020 19:26:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YnNw5CWzP8lUiH2nZYQGN5jpBc++mmmv4sVoEABnC4g=;
+        b=mkCIwLtqi768tjhBD5pK6yCxi+3SuFj5Tw1JX+E3g22h5NFG1sE4+7DbPhlBxXxY3x
+         baeaBXEKFtARNs0uY4dVqH9FzpMV8Fuc9b7/sZVVs8SXBmTIXY9drM3ROU3pm2hYBe6R
+         5Pu+5FSL+JHkMeSiyCg+M0BrexzHbbFZ44y+F8sL/c6G4t6jIcIdm7Y1eybHNdlx9wZy
+         DV6ih/jSI74+EXykIyK3VjIW/m9QvHKv4nPq5jLN0f1sPomT/mzZOVCJbzk8s3EZXooP
+         hewvQbkrxOB6UDYCONxWeX7kcOGeCHj/wIsMcHte2DdPDBfNddy37UyZoaYb5L0Q1fjd
+         CnRg==
+X-Gm-Message-State: AOAM530e2SSYZ1RhGRHFRwmm0Cnlm0Ftejz7boKcC1hat8OcnEe3haQb
+        eJljQPkcGzAWoViuHpsyefeMXxFZCAMzbm3F/0wR2Q==
+X-Google-Smtp-Source: ABdhPJxPjCSCMQ7LhbKWQ7XUp5huhPtc67UGElcc3VCbR43Fg78gP/RFIm6MqpkF90shYA+0NmVp2l5Q4+Tt5ZQQU/0=
+X-Received: by 2002:a25:ad4e:: with SMTP id l14mr4478460ybe.322.1598640960119;
+ Fri, 28 Aug 2020 11:56:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200823012134.3813457-1-agoode@google.com> <20200823012134.3813457-2-agoode@google.com>
+ <20200823145417.GC6002@pendragon.ideasonboard.com> <20200823150822.GD6002@pendragon.ideasonboard.com>
+ <5a2882e5-c029-dde7-c6ff-bd6f57aa7850@xs4all.nl> <CAOf41NnrfW6h++nR42R1OxR0B3DVrKg9RVLTQVJ=nEkn3GW4aw@mail.gmail.com>
+ <6538b14c-e386-2fab-d178-7bb3e98b3525@xs4all.nl> <CAOf41NmOdb1Y3ZSO7YLxyStbSfUCo8p204TdvkwH91cXdmNq5A@mail.gmail.com>
+In-Reply-To: <CAOf41NmOdb1Y3ZSO7YLxyStbSfUCo8p204TdvkwH91cXdmNq5A@mail.gmail.com>
+From:   Adam Goode <agoode@google.com>
+Date:   Fri, 28 Aug 2020 14:55:24 -0400
+Message-ID: <CAOf41Nk4Fn=-mtZLr_TRp2PRNS+cAc1o9=Y8zw2newCmcHobQQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: uvcvideo: Convey full ycbcr colorspace
+ information to v4l2
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
+
+I sent a v2 patch last night, thanks for all the comments here!
 
 
-On 28/08/2020 15:55, Dafna Hirschfeld wrote:
-> In list_add, the first variable is the new node and the second
-> is the list head. The function is called with a wrong order causing
-> NULL dereference:
-> 
-> [   15.527030] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
-> [   15.542317] Mem abort info:
-> [   15.545152]   ESR = 0x96000044
-> [   15.548248]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [   15.553624]   SET = 0, FnV = 0
-> [   15.556715]   EA = 0, S1PTW = 0
-> [   15.559892] Data abort info:
-> [   15.562799]   ISV = 0, ISS = 0x00000044
-> [   15.566678]   CM = 0, WnR = 1
-> [   15.569683] user pgtable: 4k pages, 48-bit VAs, pgdp=00000001373f0000
-> [   15.576196] [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
-> [   15.583101] Internal error: Oops: 96000044 [#1] PREEMPT SMP
-> [   15.588747] Modules linked in: mtk_mdp(+) cfg80211 v4l2_mem2mem videobuf2_vmalloc videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common vide
-> odev mt8173_rt5650 smsc95xx usbnet ecdh_generic ecc snd_soc_rt5645 mc mt8173_afe_pcm rfkill cros_ec_sensors snd_soc_mtk_common elan_i2c crct10dif_ce cros_ec_se
-> nsors_core snd_soc_rl6231 elants_i2c industrialio_triggered_buffer kfifo_buf mtk_vpu cros_ec_chardev cros_usbpd_charger cros_usbpd_logger sbs_battery display_c
-> onnector pwm_bl ip_tables x_tables ipv6
-> [   15.634295] CPU: 0 PID: 188 Comm: systemd-udevd Not tainted 5.9.0-rc2+ #69
-> [   15.641242] Hardware name: Google Elm (DT)
-> [   15.645381] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
-> [   15.651022] pc : mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
-> [   15.656041] lr : mtk_mdp_probe+0x128/0x3a8 [mtk_mdp]
-> [   15.661055] sp : ffff80001255b910
-> [   15.669548] x29: ffff80001255b910 x28: 0000000000000000
-> [   15.679973] x27: ffff800009089bf8 x26: ffff0000fafde800
-> [   15.690347] x25: ffff0000ff7d2768 x24: ffff800009089010
-> [   15.700670] x23: ffff0000f01a7cd8 x22: ffff0000fafde810
-> [   15.710940] x21: ffff0000f01a7c80 x20: ffff0000f0c3c180
-> [   15.721148] x19: ffff0000ff7f1618 x18: 0000000000000010
-> [   15.731289] x17: 0000000000000000 x16: 0000000000000000
-> [   15.741375] x15: 0000000000aaaaaa x14: 0000000000000020
-> [   15.751399] x13: 00000000ffffffff x12: 0000000000000020
-> [   15.761363] x11: 0000000000000028 x10: 0101010101010101
-> [   15.771279] x9 : 0000000000000004 x8 : 7f7f7f7f7f7f7f7f
-> [   15.781148] x7 : 646bff6171606b2b x6 : 0000000000806d65
-> [   15.790981] x5 : ffff0000ff7f8360 x4 : 0000000000000000
-> [   15.800767] x3 : 0000000000000004 x2 : 0000000000000001
-> [   15.810501] x1 : 0000000000000005 x0 : 0000000000000000
-> [   15.820171] Call trace:
-> [   15.826944]  mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
-> [   15.835908]  platform_drv_probe+0x54/0xa8
-> [   15.844247]  really_probe+0xe4/0x3b0
-> [   15.852104]  driver_probe_device+0x58/0xb8
-> [   15.860457]  device_driver_attach+0x74/0x80
-> [   15.868854]  __driver_attach+0x58/0xe0
-> [   15.876770]  bus_for_each_dev+0x70/0xc0
-> [   15.884726]  driver_attach+0x24/0x30
-> [   15.892374]  bus_add_driver+0x14c/0x1f0
-> [   15.900295]  driver_register+0x64/0x120
-> [   15.908168]  __platform_driver_register+0x48/0x58
-> [   15.916864]  mtk_mdp_driver_init+0x20/0x1000 [mtk_mdp]
-> [   15.925943]  do_one_initcall+0x54/0x1b4
-> [   15.933662]  do_init_module+0x54/0x200
-> [   15.941246]  load_module+0x1cf8/0x22d0
-> [   15.948798]  __do_sys_finit_module+0xd8/0xf0
-> [   15.956829]  __arm64_sys_finit_module+0x20/0x30
-> [   15.965082]  el0_svc_common.constprop.0+0x6c/0x168
-> [   15.973527]  do_el0_svc+0x24/0x90
-> [   15.980403]  el0_sync_handler+0x90/0x198
-> [   15.987867]  el0_sync+0x158/0x180
-> [   15.994653] Code: 9400014b 2a0003fc 35000920 f9400280 (f9000417)
-> [   16.004299] ---[ end trace 76fee0203f9898e5 ]---
-> 
-> Fixes: 86698b9505bbc ("media: mtk-mdp: convert mtk_mdp_dev.comp array to list")
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-> ---
->   drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> index f96c8b3bf861..976aa1f4829b 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> @@ -94,7 +94,7 @@ static void mtk_mdp_reset_handler(void *priv)
->   void mtk_mdp_register_component(struct mtk_mdp_dev *mdp,
->   				struct mtk_mdp_comp *comp)
->   {
-> -	list_add(&mdp->comp_list, &comp->node);
-> +	list_add(&comp->node, &mdp->comp_list);
->   }
->   
->   void mtk_mdp_unregister_component(struct mtk_mdp_dev *mdp,
-> 
+Adam
