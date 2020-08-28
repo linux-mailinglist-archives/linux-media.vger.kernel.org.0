@@ -2,75 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCD892562BD
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 00:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A25D62562D7
+	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 00:12:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726584AbgH1WA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 18:00:26 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:41607 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726033AbgH1WAZ (ORCPT
+        id S1726584AbgH1WMc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Aug 2020 18:12:32 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:42504 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726338AbgH1WMa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 18:00:25 -0400
-Received: by mail-io1-f67.google.com with SMTP id m23so542850iol.8;
-        Fri, 28 Aug 2020 15:00:24 -0700 (PDT)
+        Fri, 28 Aug 2020 18:12:30 -0400
+Received: by mail-il1-f195.google.com with SMTP id t13so1947771ile.9;
+        Fri, 28 Aug 2020 15:12:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wMHVWbiPBLcRjA2cjtQwy6nnc0JRKu1LeCAOKufBp48=;
-        b=UxlcM5Lke9rROq8Sxg2DL11nkcytwZkS5yrTp6q76WR0cZYHVsGTj/BTbdP+7+8ozr
-         nPwIC4noMNJqqdCmZv3m+COqUBhw5KmL+WzauCDqWd3aB86uK3XvPlpjXhQVXJlBixnF
-         z92h64H4syZqG1GohIh0fQSJo+8bKiuYKgpPTiMen1nIeI1TaMDlimkl0mkAwe/74xZ4
-         lVXKexBBAPdkRFS2cWdDAMWRN01zx9gx3rjKGmUS34TxkRsT7sYhByKnm/x41aDQM0T6
-         pNVUpmoTdeW1EG2ib/NVpnQfNNm1EjoJkE5rdTD0HMpiYVLUByfurU0gzobX8tjLsOQD
-         Qn0A==
-X-Gm-Message-State: AOAM532xcPML73cBc2MqJ8Sptb7JDfuA7JTC4rn7ozZEfcuYygBt+Alq
-        hYSshJPYLcb2MofpRfHRgmunkFlz4AXT
-X-Google-Smtp-Source: ABdhPJwCx/OejHv5kikm7x+v+SSME8DKxT8DEC7huiH8h7vtJ20q7dk2WOTs1KGDoOVWNyEPsoNmwA==
-X-Received: by 2002:a05:6602:2293:: with SMTP id d19mr660780iod.45.1598652024037;
-        Fri, 28 Aug 2020 15:00:24 -0700 (PDT)
+        bh=ylfadHnLOduJZ1gh5dpe1oTQmQeW7cK8OrYf257y/Lo=;
+        b=gK3I2/As7AwRBgY/6nDcs0FLgoug5gOtnSBcB/B6Ct8hTkruUjc+nkn90hQBdXXahc
+         Hok/YdVZ0zHksMlwUn1AilgBSqZa+GtL+zZeV2gJmYivGVao7Cqzt77fLm1Dxn0FWgBi
+         optzYhdv1gRbi/cXO/M6WcB1hFxqw1U7aml/d9jvcRxgNkUgp1/8xZ6ZVFOeiaoOgyF8
+         /lhBSfuJZ93jz3h+a5S6A0ThsdbmKQH16uj8/P4JaIS0UQo17nsumceysfgxLkleot2+
+         CUVrgk0QqY92eumJRtFxSCIx+2YT1kYhFE17bhqVAWMrf/BzQT1Tp2esM1m7wS769CiC
+         t63g==
+X-Gm-Message-State: AOAM532srpOQHUXF88iI9GGjBCOvgNYpzUHzYE25DGM2mrZhYH8eo/i3
+        FCZSGG1o+zFR2EipOHfEwA==
+X-Google-Smtp-Source: ABdhPJylZhPuFboE5Oo5gyHVK/VcF58Pw3gdNNBcLyFGBCCeLOf4Eg+F1AEuKsY0XlOnFoGfl3mbNw==
+X-Received: by 2002:a05:6e02:f4e:: with SMTP id y14mr813503ilj.255.1598652748397;
+        Fri, 28 Aug 2020 15:12:28 -0700 (PDT)
 Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id y9sm286427ila.65.2020.08.28.15.00.22
+        by smtp.gmail.com with ESMTPSA id e23sm250977iot.28.2020.08.28.15.12.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2020 15:00:23 -0700 (PDT)
-Received: (nullmailer pid 3479570 invoked by uid 1000);
-        Fri, 28 Aug 2020 22:00:21 -0000
-Date:   Fri, 28 Aug 2020 16:00:21 -0600
+        Fri, 28 Aug 2020 15:12:27 -0700 (PDT)
+Received: (nullmailer pid 3496081 invoked by uid 1000);
+        Fri, 28 Aug 2020 22:12:25 -0000
+Date:   Fri, 28 Aug 2020 16:12:25 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        linux-media@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
-Subject: Re: [PATCH v4 02/17] dt-bindings: media: mtk-vcodec: document SCP
- node
-Message-ID: <20200828220021.GA3479540@bogus>
-References: <20200821103608.2310097-1-acourbot@chromium.org>
- <20200821103608.2310097-3-acourbot@chromium.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        Leon Luo <leonl@leopardimaging.com>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] dt-bindings: media: imx274: Convert to json-schema
+Message-ID: <20200828221225.GA3491712@bogus>
+References: <20200824105850.28002-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200821103608.2310097-3-acourbot@chromium.org>
+In-Reply-To: <20200824105850.28002-1-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 21 Aug 2020 19:35:53 +0900, Alexandre Courbot wrote:
-> The mediatek codecs can use either the VPU or the SCP as their interface
-> to firmware. Reflect this in the DT bindings.
+On Mon, Aug 24, 2020 at 12:58:50PM +0200, Jacopo Mondi wrote:
+> Convert the imx274 bindings document to json-schema and update
+> the MAINTAINERS file accordingly.
 > 
-> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  Documentation/devicetree/bindings/media/mediatek-vcodec.txt | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  .../devicetree/bindings/media/i2c/imx274.txt  | 38 -----------
+>  .../bindings/media/i2c/sony,imx274.yaml       | 68 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 69 insertions(+), 39 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> deleted file mode 100644
+> index 0727079d2410..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -* Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
+> -
+> -The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
+> -an active array size of 3864H x 2202V. It is programmable through I2C
+> -interface. The I2C address is fixed to 0x1a as per sensor data sheet.
+> -Image data is sent through MIPI CSI-2, which is configured as 4 lanes
+> -at 1440 Mbps.
+> -
+> -
+> -Required Properties:
+> -- compatible: value should be "sony,imx274" for imx274 sensor
+> -- reg: I2C bus address of the device
+> -
+> -Optional Properties:
+> -- reset-gpios: Sensor reset GPIO
+> -- clocks: Reference to the input clock.
+> -- clock-names: Should be "inck".
+> -- VANA-supply: Sensor 2.8v analog supply.
+> -- VDIG-supply: Sensor 1.8v digital core supply.
+> -- VDDL-supply: Sensor digital IO 1.2v supply.
+> -
+> -The imx274 device node should contain one 'port' child node with
+> -an 'endpoint' subnode. For further reading on port node refer to
+> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -
+> -Example:
+> -	sensor@1a {
+> -		compatible = "sony,imx274";
+> -		reg = <0x1a>;
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -		reset-gpios = <&gpio_sensor 0 0>;
+> -		port {
+> -			sensor_out: endpoint {
+> -				remote-endpoint = <&csiss_in>;
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> new file mode 100644
+> index 000000000000..7ae47a614d2e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> @@ -0,0 +1,68 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony 1/2.5-Inch 8.51MP CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Leon Luo <leonl@leopardimaging.com>
+> +
+> +description: -|
+> +  The Sony IMX274 is a 1/2.5-inch CMOS active pixel digital image sensor with an
+> +  active array size of 3864H x 2202V. It is programmable through I2C interface.
+> +  Image data is sent through MIPI CSI-2, which is configured as 4 lanes at 1440
+> +  Mbps.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx274
+> +
+> +  reg:
+> +    const: 0x1a
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  port:
+> +    type: object
+> +    description: |
+> +      The device node must contain one 'port' child node for its digital output
+> +      video port, in accordance with the video interface bindings defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+> +          remote-endpoint:
+> +            description: A phandle to the bus receiver's endpoint node.
 
-Acked-by: Rob Herring <robh@kernel.org>
+As discussed, drop 'endpoint'.
+
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - port
+
+additionalProperties: false
+
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imx274: camera-sensor@1a {
+> +            compatible = "sony,imx274";
+> +            reg = <0x1a>;
+> +            reset-gpios = <&gpio_sensor 0 0>;
+> +
+> +            port {
+> +                sensor_out: endpoint {
+> +                    remote-endpoint = <&csiss_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9503ea17aa28..dc7b1ea8e7b3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16125,7 +16125,7 @@ M:	Leon Luo <leonl@leopardimaging.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+> -F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
+> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+>  F:	drivers/media/i2c/imx274.c
+> 
+>  SONY IMX290 SENSOR DRIVER
+> --
+> 2.27.0
+> 
