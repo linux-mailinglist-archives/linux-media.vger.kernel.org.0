@@ -2,79 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39089255B1C
-	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 15:20:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1AE7255BB9
+	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 15:56:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729610AbgH1NTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 09:19:41 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:44063 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729549AbgH1NRy (ORCPT
+        id S1726462AbgH1N4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Aug 2020 09:56:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726436AbgH1N4N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 09:17:54 -0400
-X-Originating-IP: 90.89.180.255
-Received: from lhopital-XPS-13-9360.home (lfbn-tou-1-1372-bdcst.w90-89.abo.wanadoo.fr [90.89.180.255])
-        (Authenticated sender: kevin.lhopital@bootlin.com)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPA id 2AD0CFF80D;
-        Fri, 28 Aug 2020 13:17:51 +0000 (UTC)
-From:   =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
-        <kevin.lhopital@bootlin.com>
-To:     linux-media@vger.kernel.org
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, mripard@kernel.org,
-        wens@csie.org, yong.deng@magewell.com, mchehab+samsung@kernel.org,
-        p.zabel@pengutronix.de, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        paul.kocialkowski@bootlin.com, thomas.petazzoni@bootlin.com,
-        =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
-        <kevin.lhopital@bootlin.com>
-Subject: [PATCH v2 4/4] ARM: dts: sun8i: a83t: Add support for the MIPI CSI-2 in CSI node
-Date:   Fri, 28 Aug 2020 15:17:36 +0200
-Message-Id: <20200828131737.12483-5-kevin.lhopital@bootlin.com>
+        Fri, 28 Aug 2020 09:56:13 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B066C061264;
+        Fri, 28 Aug 2020 06:56:12 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id A3F53290E5E
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-media@vger.kernel.org
+Cc:     matthias.bgg@gmail.com, mchehab@kernel.org, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com,
+        enric.balletbo@collabora.com, dafna.hirschfeld@collabora.com
+Subject: [PATCH] media: mtk-mdp: Fix Null pointer dereference when calling list_add
+Date:   Fri, 28 Aug 2020 15:55:41 +0200
+Message-Id: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200828131737.12483-1-kevin.lhopital@bootlin.com>
-References: <20200828131737.12483-1-kevin.lhopital@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add in the CSI device node the MIPI CSI2 clocks, interrupt and
-increase the memory size in order to add the support of the
-MIPI CSI-2 for A83T
+In list_add, the first variable is the new node and the second
+is the list head. The function is called with a wrong order causing
+NULL dereference:
 
-Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+[   15.527030] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
+[   15.542317] Mem abort info:
+[   15.545152]   ESR = 0x96000044
+[   15.548248]   EC = 0x25: DABT (current EL), IL = 32 bits
+[   15.553624]   SET = 0, FnV = 0
+[   15.556715]   EA = 0, S1PTW = 0
+[   15.559892] Data abort info:
+[   15.562799]   ISV = 0, ISS = 0x00000044
+[   15.566678]   CM = 0, WnR = 1
+[   15.569683] user pgtable: 4k pages, 48-bit VAs, pgdp=00000001373f0000
+[   15.576196] [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
+[   15.583101] Internal error: Oops: 96000044 [#1] PREEMPT SMP
+[   15.588747] Modules linked in: mtk_mdp(+) cfg80211 v4l2_mem2mem videobuf2_vmalloc videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common vide
+odev mt8173_rt5650 smsc95xx usbnet ecdh_generic ecc snd_soc_rt5645 mc mt8173_afe_pcm rfkill cros_ec_sensors snd_soc_mtk_common elan_i2c crct10dif_ce cros_ec_se
+nsors_core snd_soc_rl6231 elants_i2c industrialio_triggered_buffer kfifo_buf mtk_vpu cros_ec_chardev cros_usbpd_charger cros_usbpd_logger sbs_battery display_c
+onnector pwm_bl ip_tables x_tables ipv6
+[   15.634295] CPU: 0 PID: 188 Comm: systemd-udevd Not tainted 5.9.0-rc2+ #69
+[   15.641242] Hardware name: Google Elm (DT)
+[   15.645381] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
+[   15.651022] pc : mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
+[   15.656041] lr : mtk_mdp_probe+0x128/0x3a8 [mtk_mdp]
+[   15.661055] sp : ffff80001255b910
+[   15.669548] x29: ffff80001255b910 x28: 0000000000000000
+[   15.679973] x27: ffff800009089bf8 x26: ffff0000fafde800
+[   15.690347] x25: ffff0000ff7d2768 x24: ffff800009089010
+[   15.700670] x23: ffff0000f01a7cd8 x22: ffff0000fafde810
+[   15.710940] x21: ffff0000f01a7c80 x20: ffff0000f0c3c180
+[   15.721148] x19: ffff0000ff7f1618 x18: 0000000000000010
+[   15.731289] x17: 0000000000000000 x16: 0000000000000000
+[   15.741375] x15: 0000000000aaaaaa x14: 0000000000000020
+[   15.751399] x13: 00000000ffffffff x12: 0000000000000020
+[   15.761363] x11: 0000000000000028 x10: 0101010101010101
+[   15.771279] x9 : 0000000000000004 x8 : 7f7f7f7f7f7f7f7f
+[   15.781148] x7 : 646bff6171606b2b x6 : 0000000000806d65
+[   15.790981] x5 : ffff0000ff7f8360 x4 : 0000000000000000
+[   15.800767] x3 : 0000000000000004 x2 : 0000000000000001
+[   15.810501] x1 : 0000000000000005 x0 : 0000000000000000
+[   15.820171] Call trace:
+[   15.826944]  mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
+[   15.835908]  platform_drv_probe+0x54/0xa8
+[   15.844247]  really_probe+0xe4/0x3b0
+[   15.852104]  driver_probe_device+0x58/0xb8
+[   15.860457]  device_driver_attach+0x74/0x80
+[   15.868854]  __driver_attach+0x58/0xe0
+[   15.876770]  bus_for_each_dev+0x70/0xc0
+[   15.884726]  driver_attach+0x24/0x30
+[   15.892374]  bus_add_driver+0x14c/0x1f0
+[   15.900295]  driver_register+0x64/0x120
+[   15.908168]  __platform_driver_register+0x48/0x58
+[   15.916864]  mtk_mdp_driver_init+0x20/0x1000 [mtk_mdp]
+[   15.925943]  do_one_initcall+0x54/0x1b4
+[   15.933662]  do_init_module+0x54/0x200
+[   15.941246]  load_module+0x1cf8/0x22d0
+[   15.948798]  __do_sys_finit_module+0xd8/0xf0
+[   15.956829]  __arm64_sys_finit_module+0x20/0x30
+[   15.965082]  el0_svc_common.constprop.0+0x6c/0x168
+[   15.973527]  do_el0_svc+0x24/0x90
+[   15.980403]  el0_sync_handler+0x90/0x198
+[   15.987867]  el0_sync+0x158/0x180
+[   15.994653] Code: 9400014b 2a0003fc 35000920 f9400280 (f9000417)
+[   16.004299] ---[ end trace 76fee0203f9898e5 ]---
+
+Fixes: 86698b9505bbc ("media: mtk-mdp: convert mtk_mdp_dev.comp array to list")
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 ---
- arch/arm/boot/dts/sun8i-a83t.dtsi | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
-index 53c38deb8a08..5e6421eb8e28 100644
---- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-@@ -1025,12 +1025,15 @@
+diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+index f96c8b3bf861..976aa1f4829b 100644
+--- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
++++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+@@ -94,7 +94,7 @@ static void mtk_mdp_reset_handler(void *priv)
+ void mtk_mdp_register_component(struct mtk_mdp_dev *mdp,
+ 				struct mtk_mdp_comp *comp)
+ {
+-	list_add(&mdp->comp_list, &comp->node);
++	list_add(&comp->node, &mdp->comp_list);
+ }
  
- 		csi: camera@1cb0000 {
- 			compatible = "allwinner,sun8i-a83t-csi";
--			reg = <0x01cb0000 0x1000>;
--			interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-+			reg = <0x01cb0000 0x2000>;
-+			interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_BUS_CSI>,
- 				 <&ccu CLK_CSI_SCLK>,
--				 <&ccu CLK_DRAM_CSI>;
--			clock-names = "bus", "mod", "ram";
-+				 <&ccu CLK_DRAM_CSI>,
-+				 <&ccu CLK_MIPI_CSI>,
-+				 <&ccu CLK_CSI_MISC>;
-+			clock-names = "bus", "mod", "ram", "mipi", "misc";
- 			resets = <&ccu RST_BUS_CSI>;
- 			status = "disabled";
- 
+ void mtk_mdp_unregister_component(struct mtk_mdp_dev *mdp,
 -- 
 2.17.1
 
