@@ -2,273 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83F72255F62
-	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 19:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29445255FB1
+	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 19:26:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726439AbgH1RHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 13:07:41 -0400
-Received: from mga11.intel.com ([192.55.52.93]:62546 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725814AbgH1RHj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 13:07:39 -0400
-IronPort-SDR: PDO5JN753cORyDZm7/kgul2qUeNSy47avzTIxtW3HvKOKGHF9wQmlUANWWExoqQLfr4wrm1qGj
- 2V7uHXf28i+Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9727"; a="154247922"
-X-IronPort-AV: E=Sophos;i="5.76,364,1592895600"; 
-   d="scan'208";a="154247922"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2020 10:07:31 -0700
-IronPort-SDR: cM930LfOnHDcp8IS9Obrmr2jI1OXyLv3JMPRXF5wKAsk/q/HKNbAr2vbQVs6P1Vi5DlLn3khdM
- OpHbNNz8VFJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,364,1592895600"; 
-   d="scan'208";a="444897324"
-Received: from lkp-server02.sh.intel.com (HELO 301dc1beeb51) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 28 Aug 2020 10:07:30 -0700
-Received: from kbuild by 301dc1beeb51 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kBhqb-00006V-ML; Fri, 28 Aug 2020 17:07:29 +0000
-Date:   Sat, 29 Aug 2020 01:06:56 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- d84eca28c807dbcdb40a2b8e2697118b99fdb2fd
-Message-ID: <5f4939b0.WwcGqtQTlfCscc3t%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726924AbgH1R0m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Aug 2020 13:26:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55206 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726867AbgH1R0j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Aug 2020 13:26:39 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69699C06121B;
+        Fri, 28 Aug 2020 10:26:38 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id w13so1997365wrk.5;
+        Fri, 28 Aug 2020 10:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=aI5m0rhpkkZ7NckEYHoD7GvRLNlY5UcLJfSO75qLPWI=;
+        b=nVl5V6UKuaz55MYPnt9XgUMNRyBG/emO+ddzLM/8ChMkYVN4rqBV2/FRmWlwpjSedc
+         SWBgiWdxktsnZ4Y4LvMkhjL87IgdS30n1TTPTpTzmpvSc0sXKMM8mpSnL1NalCujLDw4
+         08LkVQwPzkV0vrgl93a65X+AnQHK5j+y1ROfJ8953kE5tiiIQysF0jKud1fUFnJGyMvu
+         iNHVFIYYWBLs8A8bANum4nmP9o6DDvD91Pvm0yk4GhXbLWrx5xxSQ8hRuScyex4Q3YzY
+         Y4JAmcdfndXlJAnCAB2f/NP1UwczcdjToHNJQiS/vlRl4Y54BupJPoDCFQ6I40eEdDBI
+         g6mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=aI5m0rhpkkZ7NckEYHoD7GvRLNlY5UcLJfSO75qLPWI=;
+        b=XA4KDGRwIR2b0ifxOMbnY6JBDBqi8+MnmnyhDvS7qsfzsWuMCzW0TX+fnKs07E8PWg
+         l3+f7a56SALHsTzkAcQHeXC8EIIhjDfgMA6YPIE3UYuCl+MYtFXjJypk2+N1LZzTUUzO
+         dz9vvYGcwANoAKDymb0LT0Nc5vPNxWy02V+Za4445pmnfHVfcM/evoimh5zoViu1OJsM
+         e3OydTCyJBjDnDtlGB+s8Ec9TmaQDpTl4KHmQPNIavpCbDhn14gvm4nGfLJAT4kCKpFX
+         gPgTJup9ntxYA7AQHAKU8i8Ss5Fd1swcftMvjx5l1LUhsiAOcp8t8YaAkIK26vlTispD
+         2TGQ==
+X-Gm-Message-State: AOAM533kU711uQ8ZIwDBOTAwXe05yzPHX5opI7Q0btdP2JbrAYmB5Kq1
+        nK2jlSdcumAqpcT6dhOqhVtwi+NA4WNHjg==
+X-Google-Smtp-Source: ABdhPJyct+GOi/3IdUQHKBhrr7sOcNwgB76XSh27/cmbtdvmBfEvHdokYtpIKxXmBjMexjde0Rzh3Q==
+X-Received: by 2002:adf:f605:: with SMTP id t5mr80267wrp.144.1598635597020;
+        Fri, 28 Aug 2020 10:26:37 -0700 (PDT)
+Received: from ziggy.stardust ([213.195.119.187])
+        by smtp.gmail.com with ESMTPSA id n124sm78581wmn.29.2020.08.28.10.26.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Aug 2020 10:26:36 -0700 (PDT)
+Subject: Re: [PATCH] media: mtk-mdp: Fix Null pointer dereference when calling
+ list_add
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, enric.balletbo@collabora.com
+References: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+Message-ID: <90836e4f-c3de-32f7-6a23-2093203e124d@gmail.com>
+Date:   Fri, 28 Aug 2020 19:26:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: d84eca28c807dbcdb40a2b8e2697118b99fdb2fd  media: MAINTAINERS: add Dafna Hirschfeld for rkisp1
 
-elapsed time: 2021m
 
-configs tested: 211
-configs skipped: 25
+On 28/08/2020 15:55, Dafna Hirschfeld wrote:
+> In list_add, the first variable is the new node and the second
+> is the list head. The function is called with a wrong order causing
+> NULL dereference:
+> 
+> [   15.527030] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
+> [   15.542317] Mem abort info:
+> [   15.545152]   ESR = 0x96000044
+> [   15.548248]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [   15.553624]   SET = 0, FnV = 0
+> [   15.556715]   EA = 0, S1PTW = 0
+> [   15.559892] Data abort info:
+> [   15.562799]   ISV = 0, ISS = 0x00000044
+> [   15.566678]   CM = 0, WnR = 1
+> [   15.569683] user pgtable: 4k pages, 48-bit VAs, pgdp=00000001373f0000
+> [   15.576196] [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
+> [   15.583101] Internal error: Oops: 96000044 [#1] PREEMPT SMP
+> [   15.588747] Modules linked in: mtk_mdp(+) cfg80211 v4l2_mem2mem videobuf2_vmalloc videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common vide
+> odev mt8173_rt5650 smsc95xx usbnet ecdh_generic ecc snd_soc_rt5645 mc mt8173_afe_pcm rfkill cros_ec_sensors snd_soc_mtk_common elan_i2c crct10dif_ce cros_ec_se
+> nsors_core snd_soc_rl6231 elants_i2c industrialio_triggered_buffer kfifo_buf mtk_vpu cros_ec_chardev cros_usbpd_charger cros_usbpd_logger sbs_battery display_c
+> onnector pwm_bl ip_tables x_tables ipv6
+> [   15.634295] CPU: 0 PID: 188 Comm: systemd-udevd Not tainted 5.9.0-rc2+ #69
+> [   15.641242] Hardware name: Google Elm (DT)
+> [   15.645381] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
+> [   15.651022] pc : mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
+> [   15.656041] lr : mtk_mdp_probe+0x128/0x3a8 [mtk_mdp]
+> [   15.661055] sp : ffff80001255b910
+> [   15.669548] x29: ffff80001255b910 x28: 0000000000000000
+> [   15.679973] x27: ffff800009089bf8 x26: ffff0000fafde800
+> [   15.690347] x25: ffff0000ff7d2768 x24: ffff800009089010
+> [   15.700670] x23: ffff0000f01a7cd8 x22: ffff0000fafde810
+> [   15.710940] x21: ffff0000f01a7c80 x20: ffff0000f0c3c180
+> [   15.721148] x19: ffff0000ff7f1618 x18: 0000000000000010
+> [   15.731289] x17: 0000000000000000 x16: 0000000000000000
+> [   15.741375] x15: 0000000000aaaaaa x14: 0000000000000020
+> [   15.751399] x13: 00000000ffffffff x12: 0000000000000020
+> [   15.761363] x11: 0000000000000028 x10: 0101010101010101
+> [   15.771279] x9 : 0000000000000004 x8 : 7f7f7f7f7f7f7f7f
+> [   15.781148] x7 : 646bff6171606b2b x6 : 0000000000806d65
+> [   15.790981] x5 : ffff0000ff7f8360 x4 : 0000000000000000
+> [   15.800767] x3 : 0000000000000004 x2 : 0000000000000001
+> [   15.810501] x1 : 0000000000000005 x0 : 0000000000000000
+> [   15.820171] Call trace:
+> [   15.826944]  mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
+> [   15.835908]  platform_drv_probe+0x54/0xa8
+> [   15.844247]  really_probe+0xe4/0x3b0
+> [   15.852104]  driver_probe_device+0x58/0xb8
+> [   15.860457]  device_driver_attach+0x74/0x80
+> [   15.868854]  __driver_attach+0x58/0xe0
+> [   15.876770]  bus_for_each_dev+0x70/0xc0
+> [   15.884726]  driver_attach+0x24/0x30
+> [   15.892374]  bus_add_driver+0x14c/0x1f0
+> [   15.900295]  driver_register+0x64/0x120
+> [   15.908168]  __platform_driver_register+0x48/0x58
+> [   15.916864]  mtk_mdp_driver_init+0x20/0x1000 [mtk_mdp]
+> [   15.925943]  do_one_initcall+0x54/0x1b4
+> [   15.933662]  do_init_module+0x54/0x200
+> [   15.941246]  load_module+0x1cf8/0x22d0
+> [   15.948798]  __do_sys_finit_module+0xd8/0xf0
+> [   15.956829]  __arm64_sys_finit_module+0x20/0x30
+> [   15.965082]  el0_svc_common.constprop.0+0x6c/0x168
+> [   15.973527]  do_el0_svc+0x24/0x90
+> [   15.980403]  el0_sync_handler+0x90/0x198
+> [   15.987867]  el0_sync+0x158/0x180
+> [   15.994653] Code: 9400014b 2a0003fc 35000920 f9400280 (f9000417)
+> [   16.004299] ---[ end trace 76fee0203f9898e5 ]---
+> 
+> Fixes: 86698b9505bbc ("media: mtk-mdp: convert mtk_mdp_dev.comp array to list")
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-riscv                    nommu_k210_defconfig
-mips                     decstation_defconfig
-arm                   milbeaut_m10v_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                              ul2_defconfig
-sparc                               defconfig
-sh                ecovec24-romimage_defconfig
-arm                      pxa255-idp_defconfig
-mips                           ip32_defconfig
-sh                           se7721_defconfig
-arm                         cm_x300_defconfig
-arc                        nsim_700_defconfig
-mips                         rt305x_defconfig
-powerpc                     ep8248e_defconfig
-powerpc                     pseries_defconfig
-arm                        keystone_defconfig
-sh                           se7722_defconfig
-parisc                generic-64bit_defconfig
-m68k                       bvme6000_defconfig
-powerpc                         ps3_defconfig
-arm                             rpc_defconfig
-sh                            shmin_defconfig
-arm                         s3c2410_defconfig
-m68k                        m5272c3_defconfig
-sh                            migor_defconfig
-arm                        multi_v7_defconfig
-sh                          sdk7780_defconfig
-arm                             ezx_defconfig
-mips                            e55_defconfig
-arm                          pxa910_defconfig
-mips                        bcm47xx_defconfig
-c6x                        evmc6474_defconfig
-microblaze                    nommu_defconfig
-arm                            zeus_defconfig
-arm                       aspeed_g4_defconfig
-mips                           xway_defconfig
-mips                     loongson1c_defconfig
-mips                            gpr_defconfig
-powerpc                  mpc866_ads_defconfig
-powerpc                     pq2fads_defconfig
-m68k                         apollo_defconfig
-m68k                             allyesconfig
-sh                        sh7763rdp_defconfig
-arm                         orion5x_defconfig
-arm                            qcom_defconfig
-mips                  maltasmvp_eva_defconfig
-nios2                            allyesconfig
-powerpc                           allnoconfig
-mips                         mpc30x_defconfig
-powerpc                      ppc40x_defconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-mips                          rb532_defconfig
-ia64                             alldefconfig
-mips                        vocore2_defconfig
-powerpc                     mpc5200_defconfig
-mips                           ip22_defconfig
-arc                            hsdk_defconfig
-arc                           tb10x_defconfig
-sparc64                          alldefconfig
-sh                        sh7757lcr_defconfig
-mips                      maltaaprp_defconfig
-arm                         hackkit_defconfig
-arm                          moxart_defconfig
-parisc                           alldefconfig
-arm                        mvebu_v7_defconfig
-arm                    vt8500_v6_v7_defconfig
-arc                              allyesconfig
-sh                             sh03_defconfig
-arm                         mv78xx0_defconfig
-powerpc                    adder875_defconfig
-m68k                       m5208evb_defconfig
-arm                         lpc18xx_defconfig
-mips                        jmr3927_defconfig
-arm                          exynos_defconfig
-arm                          lpd270_defconfig
-nds32                               defconfig
-sh                           se7751_defconfig
-mips                           rs90_defconfig
-arc                     nsimosci_hs_defconfig
-sh                               alldefconfig
-m68k                          amiga_defconfig
-sh                        edosk7705_defconfig
-arm                       mainstone_defconfig
-m68k                             allmodconfig
-c6x                         dsk6455_defconfig
-mips                malta_kvm_guest_defconfig
-mips                  cavium_octeon_defconfig
-arc                             nps_defconfig
-arm                       spear13xx_defconfig
-powerpc                     powernv_defconfig
-ia64                         bigsur_defconfig
-arm                        multi_v5_defconfig
-sh                         ecovec24_defconfig
-powerpc                      ep88xc_defconfig
-mips                         bigsur_defconfig
-arm                         axm55xx_defconfig
-sh                          urquell_defconfig
-arm                         assabet_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                               defconfig
-arc                              alldefconfig
-arm                  colibri_pxa270_defconfig
-mips                       lemote2f_defconfig
-s390                          debug_defconfig
-alpha                            alldefconfig
-arm                           sama5_defconfig
-arm                            mmp2_defconfig
-sh                        edosk7760_defconfig
-sh                           sh2007_defconfig
-sh                         apsh4a3a_defconfig
-sparc64                             defconfig
-mips                      pistachio_defconfig
-h8300                            allyesconfig
-sh                          lboxre2_defconfig
-powerpc                      pasemi_defconfig
-sh                           se7712_defconfig
-arm                           omap1_defconfig
-arm                         at91_dt_defconfig
-sh                          kfr2r09_defconfig
-arm                          pcm027_defconfig
-powerpc                      ppc6xx_defconfig
-nios2                            alldefconfig
-arc                                 defconfig
-c6x                        evmc6678_defconfig
-sh                             shx3_defconfig
-s390                       zfcpdump_defconfig
-arm                           efm32_defconfig
-powerpc                    gamecube_defconfig
-sh                        sh7785lcr_defconfig
-arm                        oxnas_v6_defconfig
-powerpc                    amigaone_defconfig
-powerpc                     skiroot_defconfig
-arm                         bcm2835_defconfig
-mips                     loongson1b_defconfig
-mips                            ar7_defconfig
-alpha                               defconfig
-powerpc                      tqm8xx_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-nios2                               defconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-csky                                defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a003-20200827
-x86_64               randconfig-a002-20200827
-x86_64               randconfig-a001-20200827
-x86_64               randconfig-a005-20200827
-x86_64               randconfig-a006-20200827
-x86_64               randconfig-a004-20200827
-i386                 randconfig-a002-20200827
-i386                 randconfig-a004-20200827
-i386                 randconfig-a003-20200827
-i386                 randconfig-a005-20200827
-i386                 randconfig-a006-20200827
-i386                 randconfig-a001-20200827
-i386                 randconfig-a002-20200828
-i386                 randconfig-a005-20200828
-i386                 randconfig-a003-20200828
-i386                 randconfig-a004-20200828
-i386                 randconfig-a001-20200828
-i386                 randconfig-a006-20200828
-x86_64               randconfig-a015-20200828
-x86_64               randconfig-a012-20200828
-x86_64               randconfig-a016-20200828
-x86_64               randconfig-a014-20200828
-x86_64               randconfig-a011-20200828
-x86_64               randconfig-a013-20200828
-i386                 randconfig-a013-20200827
-i386                 randconfig-a012-20200827
-i386                 randconfig-a011-20200827
-i386                 randconfig-a016-20200827
-i386                 randconfig-a015-20200827
-i386                 randconfig-a014-20200827
-i386                 randconfig-a013-20200828
-i386                 randconfig-a012-20200828
-i386                 randconfig-a011-20200828
-i386                 randconfig-a016-20200828
-i386                 randconfig-a014-20200828
-i386                 randconfig-a015-20200828
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> ---
+>   drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> index f96c8b3bf861..976aa1f4829b 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> @@ -94,7 +94,7 @@ static void mtk_mdp_reset_handler(void *priv)
+>   void mtk_mdp_register_component(struct mtk_mdp_dev *mdp,
+>   				struct mtk_mdp_comp *comp)
+>   {
+> -	list_add(&mdp->comp_list, &comp->node);
+> +	list_add(&comp->node, &mdp->comp_list);
+>   }
+>   
+>   void mtk_mdp_unregister_component(struct mtk_mdp_dev *mdp,
+> 
