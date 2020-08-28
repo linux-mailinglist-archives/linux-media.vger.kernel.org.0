@@ -2,122 +2,361 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1AE7255BB9
-	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 15:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59C76255C0A
+	for <lists+linux-media@lfdr.de>; Fri, 28 Aug 2020 16:12:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbgH1N4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 09:56:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50644 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbgH1N4N (ORCPT
+        id S1727793AbgH1OMQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Aug 2020 10:12:16 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:36013 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726236AbgH1OML (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 09:56:13 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B066C061264;
-        Fri, 28 Aug 2020 06:56:12 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id A3F53290E5E
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-media@vger.kernel.org
-Cc:     matthias.bgg@gmail.com, mchehab@kernel.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com,
-        enric.balletbo@collabora.com, dafna.hirschfeld@collabora.com
-Subject: [PATCH] media: mtk-mdp: Fix Null pointer dereference when calling list_add
-Date:   Fri, 28 Aug 2020 15:55:41 +0200
-Message-Id: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 28 Aug 2020 10:12:11 -0400
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 186C7240007;
+        Fri, 28 Aug 2020 14:12:03 +0000 (UTC)
+Date:   Fri, 28 Aug 2020 16:12:03 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
+Cc:     linux-media@vger.kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, mripard@kernel.org, wens@csie.org,
+        yong.deng@magewell.com, mchehab+samsung@kernel.org,
+        p.zabel@pengutronix.de, sakari.ailus@linux.intel.com,
+        hans.verkuil@cisco.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        thomas.petazzoni@bootlin.com
+Subject: Re: [PATCH v2 0/4] Support of MIPI CSI-2 for A83T
+Message-ID: <20200828141203.GC6858@aptenodytes>
+References: <20200828131737.12483-1-kevin.lhopital@bootlin.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="/dFl7e5Y0zcWrcPL"
+Content-Disposition: inline
+In-Reply-To: <20200828131737.12483-1-kevin.lhopital@bootlin.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In list_add, the first variable is the new node and the second
-is the list head. The function is called with a wrong order causing
-NULL dereference:
 
-[   15.527030] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
-[   15.542317] Mem abort info:
-[   15.545152]   ESR = 0x96000044
-[   15.548248]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   15.553624]   SET = 0, FnV = 0
-[   15.556715]   EA = 0, S1PTW = 0
-[   15.559892] Data abort info:
-[   15.562799]   ISV = 0, ISS = 0x00000044
-[   15.566678]   CM = 0, WnR = 1
-[   15.569683] user pgtable: 4k pages, 48-bit VAs, pgdp=00000001373f0000
-[   15.576196] [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
-[   15.583101] Internal error: Oops: 96000044 [#1] PREEMPT SMP
-[   15.588747] Modules linked in: mtk_mdp(+) cfg80211 v4l2_mem2mem videobuf2_vmalloc videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common vide
-odev mt8173_rt5650 smsc95xx usbnet ecdh_generic ecc snd_soc_rt5645 mc mt8173_afe_pcm rfkill cros_ec_sensors snd_soc_mtk_common elan_i2c crct10dif_ce cros_ec_se
-nsors_core snd_soc_rl6231 elants_i2c industrialio_triggered_buffer kfifo_buf mtk_vpu cros_ec_chardev cros_usbpd_charger cros_usbpd_logger sbs_battery display_c
-onnector pwm_bl ip_tables x_tables ipv6
-[   15.634295] CPU: 0 PID: 188 Comm: systemd-udevd Not tainted 5.9.0-rc2+ #69
-[   15.641242] Hardware name: Google Elm (DT)
-[   15.645381] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
-[   15.651022] pc : mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
-[   15.656041] lr : mtk_mdp_probe+0x128/0x3a8 [mtk_mdp]
-[   15.661055] sp : ffff80001255b910
-[   15.669548] x29: ffff80001255b910 x28: 0000000000000000
-[   15.679973] x27: ffff800009089bf8 x26: ffff0000fafde800
-[   15.690347] x25: ffff0000ff7d2768 x24: ffff800009089010
-[   15.700670] x23: ffff0000f01a7cd8 x22: ffff0000fafde810
-[   15.710940] x21: ffff0000f01a7c80 x20: ffff0000f0c3c180
-[   15.721148] x19: ffff0000ff7f1618 x18: 0000000000000010
-[   15.731289] x17: 0000000000000000 x16: 0000000000000000
-[   15.741375] x15: 0000000000aaaaaa x14: 0000000000000020
-[   15.751399] x13: 00000000ffffffff x12: 0000000000000020
-[   15.761363] x11: 0000000000000028 x10: 0101010101010101
-[   15.771279] x9 : 0000000000000004 x8 : 7f7f7f7f7f7f7f7f
-[   15.781148] x7 : 646bff6171606b2b x6 : 0000000000806d65
-[   15.790981] x5 : ffff0000ff7f8360 x4 : 0000000000000000
-[   15.800767] x3 : 0000000000000004 x2 : 0000000000000001
-[   15.810501] x1 : 0000000000000005 x0 : 0000000000000000
-[   15.820171] Call trace:
-[   15.826944]  mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
-[   15.835908]  platform_drv_probe+0x54/0xa8
-[   15.844247]  really_probe+0xe4/0x3b0
-[   15.852104]  driver_probe_device+0x58/0xb8
-[   15.860457]  device_driver_attach+0x74/0x80
-[   15.868854]  __driver_attach+0x58/0xe0
-[   15.876770]  bus_for_each_dev+0x70/0xc0
-[   15.884726]  driver_attach+0x24/0x30
-[   15.892374]  bus_add_driver+0x14c/0x1f0
-[   15.900295]  driver_register+0x64/0x120
-[   15.908168]  __platform_driver_register+0x48/0x58
-[   15.916864]  mtk_mdp_driver_init+0x20/0x1000 [mtk_mdp]
-[   15.925943]  do_one_initcall+0x54/0x1b4
-[   15.933662]  do_init_module+0x54/0x200
-[   15.941246]  load_module+0x1cf8/0x22d0
-[   15.948798]  __do_sys_finit_module+0xd8/0xf0
-[   15.956829]  __arm64_sys_finit_module+0x20/0x30
-[   15.965082]  el0_svc_common.constprop.0+0x6c/0x168
-[   15.973527]  do_el0_svc+0x24/0x90
-[   15.980403]  el0_sync_handler+0x90/0x198
-[   15.987867]  el0_sync+0x158/0x180
-[   15.994653] Code: 9400014b 2a0003fc 35000920 f9400280 (f9000417)
-[   16.004299] ---[ end trace 76fee0203f9898e5 ]---
+--/dFl7e5Y0zcWrcPL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 86698b9505bbc ("media: mtk-mdp: convert mtk_mdp_dev.comp array to list")
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi everyone,
 
-diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-index f96c8b3bf861..976aa1f4829b 100644
---- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-+++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-@@ -94,7 +94,7 @@ static void mtk_mdp_reset_handler(void *priv)
- void mtk_mdp_register_component(struct mtk_mdp_dev *mdp,
- 				struct mtk_mdp_comp *comp)
- {
--	list_add(&mdp->comp_list, &comp->node);
-+	list_add(&comp->node, &mdp->comp_list);
- }
- 
- void mtk_mdp_unregister_component(struct mtk_mdp_dev *mdp,
--- 
-2.17.1
+On Fri 28 Aug 20, 15:17, K=C3=A9vin L'h=C3=B4pital wrote:
+> This series adds the support for the MIPI CSI-2 controller for the A83T S=
+oC.
+> The CSI controller is the same as the V3s SoC that's why I put the A83T
+> MIPI CSI-2 driver in sun6i-csi.
+> My work is based on the Allwinner BSP for A83T and also on MIPI CSI-2
+> specification for the A83T given by Allwinner.
 
+To give a bit of context here, Kevin is our intern who worked on MIPI CSI-2
+support on the A83t this summer. As we were approaching the end of the
+internship, we wanted to publish the current state of the work as a working
+reference and base for mainline support.
+
+However, we are well aware that there are significant design issues in this
+series, such as:
+- not supporting the fwnode graph;
+- not working with the DPHY API;
+- adding MIPI CSI-2 support under the same dt compatible as parallel CSI;
+
+and probably other things.
+
+Bootlin is currently working on V3s MIPI CSI-2 support and we intend to res=
+pin
+this series when submitting V3s MIPI CSI-2 support, with fixes to these des=
+ign
+issues.
+
+So we hope you keep this in mind when reviewing the series, which is not me=
+ant
+to be merged in its current state.
+
+Thanks!
+
+Paul
+
+> v4l2-compliance SHA: not available, 32 bits                              =
+                                              =20
+>                                                                          =
+                                              =20
+> Compliance test for sun6i-video device /dev/video0:                      =
+                                              =20
+>                                                                          =
+                                              =20
+> Driver Info:                                                             =
+                                              =20
+>         Driver name      : sun6i-video                                   =
+                                              =20
+>         Card type        : sun6i-csi                                     =
+                                              =20
+>         Bus info         : platform:camera                               =
+                                              =20
+>         Driver version   : 5.5.0                                         =
+                                              =20
+>         Capabilities     : 0x84200001                                    =
+                                              =20
+>                 Video Capture                                            =
+                                              =20
+>                 Streaming                                                =
+                                              =20
+>                 Extended Pix Format                                      =
+                                              =20
+>                 Device Capabilities                                      =
+                                              =20
+>         Device Caps      : 0x04200001                                    =
+                                              =20
+>                 Video Capture                                            =
+                                              =20
+>                 Streaming                                                =
+                                              =20
+>                 Extended Pix Format                                      =
+                                              =20
+> Media Driver Info:                                                       =
+                                              =20
+>         Driver name      : sun6i-csi                                     =
+                                              =20
+>         Model            : Allwinner Video Capture Device                =
+                                              =20
+>         Serial           :                                               =
+                                              =20
+>         Bus info         :                                               =
+                                              =20
+>         Media version    : 5.5.0                                         =
+                                              =20
+>         Hardware revision: 0x00000000 (0)                                =
+                                              =20
+>         Driver version   : 5.5.0                                         =
+                                              =20
+> Interface Info:                                                          =
+                                              =20
+>         ID               : 0x03000003                                    =
+                                              =20
+>         Type             : V4L Video                                     =
+                                              =20
+> Entity Info:                                                             =
+                                              =20
+>         ID               : 0x00000001 (1)                                =
+                                              =20
+>         Name             : sun6i-csi                                     =
+                                              =20
+>         Function         : V4L2 I/O                                      =
+                                              =20
+>         Pad 0x01000002   : 0: Sink, Must Connect                         =
+                                              =20
+>           Link 0x02000007: from remote pad 0x1000006 of entity 'ov8865 1-=
+0036': Data, Enabled, Immutable               =20
+>                                                                          =
+                                              =20
+> Required ioctls:                                                         =
+                                              =20
+>         test MC information (see 'Media Driver Info' above): OK          =
+                                              =20
+>         test VIDIOC_QUERYCAP: OK                                         =
+                                              =20
+>                                                                          =
+                                              =20
+> Allow for multiple opens:                                                =
+                                              =20
+>         test second /dev/video0 open: OK                                 =
+                                              =20
+>         test VIDIOC_QUERYCAP: OK                                         =
+                                              =20
+>         test VIDIOC_G/S_PRIORITY: OK                                     =
+                                              =20
+>         test for unlimited opens: OK                                     =
+                                              =20
+>                                                                          =
+                                              =20
+> Debug ioctls:                                                            =
+                                              =20
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)                 =
+                                              =20
+>         test VIDIOC_LOG_STATUS: OK                                       =
+                                              =20
+>                                                                          =
+                                              =20
+> Input ioctls:                                                            =
+                                              =20
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)        =
+                                              =20
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)                    =
+                                              =20
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)                   =
+                                              =20
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)                        =
+                                              =20
+>         test VIDIOC_G/S/ENUMINPUT: OK                                    =
+                                              =20
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)                        =
+                                              =20
+>         Inputs: 1 Audio Inputs: 0 Tuners: 0                              =
+                                              =20
+>                                                                          =
+                                              =20
+> Output ioctls:                                                           =
+                                              =20
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)                    =
+                                              =20
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)                    =
+                                              =20
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)                       =
+                                              =20
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)                   =
+                                              =20
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)                       =
+                                              =20
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0                        =
+                                              =20
+>                                                                          =
+                                              =20
+> Input/Output configuration ioctls:                                       =
+                                              =20
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)               =
+                                              =20
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)        =
+                                              =20
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)                   =
+                                              =20
+>         test VIDIOC_G/S_EDID: OK (Not Supported)                         =
+                                              =20
+>                                                                          =
+                                              =20
+> Control ioctls (Input 0):                                                =
+                                              =20
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK                         =
+                                              =20
+>         test VIDIOC_QUERYCTRL: OK                                        =
+                                              =20
+>         test VIDIOC_G/S_CTRL: OK                                         =
+                                              =20
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK                                =
+                                              =20
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK                      =
+                                              =20
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)                     =
+                                              =20
+>         Standard Controls: 7 Private Controls: 0                         =
+                                              =20
+>                                                                          =
+                                              =20
+> Format ioctls (Input 0):                                                 =
+                                              =20
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK               =
+                                              =20
+>         test VIDIOC_G/S_PARM: OK (Not Supported)                         =
+                                              =20
+>         test VIDIOC_G_FBUF: OK (Not Supported)                           =
+                                              =20
+>         test VIDIOC_G_FMT: OK                                            =
+                                              =20
+>         test VIDIOC_TRY_FMT: OK                                          =
+                                              =20
+>         test VIDIOC_S_FMT: OK                                            =
+                                              =20
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)                 =
+                                              =20
+>         test Cropping: OK (Not Supported)                                =
+                                              =20
+>         test Composing: OK (Not Supported)                               =
+                                              =20
+>         test Scaling: OK                                                 =
+                                              =20
+>                                                                          =
+                                              =20
+> Codec ioctls (Input 0):                                                  =
+                                              =20
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)                =
+                                              =20
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)                      =
+                                              =20
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)                =
+                                              =20
+>                                                                          =
+                                              =20
+> Buffer ioctls (Input 0):                                                 =
+                                              =20
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK                     =
+                                              =20
+>         test VIDIOC_EXPBUF: OK                                           =
+                                              =20
+>         test Requests: OK (Not Supported)                                =
+                                              =20
+>                                                                          =
+                                              =20
+> Total for sun6i-video device /dev/video0: 45, Succeeded: 45, Failed: 0, W=
+arnings: 0
+>=20
+> Changes since V1:
+> - Add more details in the cover letter.
+> - Add a test to get the clocks to avoid an error for the platform without=
+ MIPI
+> CSI-2.
+> - Add more details in the register assignations.
+> - Removed the support of multiple virtual channels because there is only =
+one
+> channel support in the CSI driver.
+>=20
+> K=C3=A9vin L'h=C3=B4pital (4):
+>   media: sun6i-csi: Fix the bpp for 10-bit bayer formats
+>   media: sunxi: sun6i-csi: Move the sun6i_csi_dev structure to the
+>     common header
+>   media: sunxi: sun6i-csi: Add support of MIPI CSI-2 for A83T
+>   ARM: dts: sun8i: a83t: Add support for the MIPI CSI-2 in CSI node
+>=20
+>  arch/arm/boot/dts/sun8i-a83t.dtsi             |  11 +-
+>  .../media/platform/sunxi/sun6i-csi/Makefile   |   2 +-
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  96 +++++---
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  14 +-
+>  .../sunxi/sun6i-csi/sun8i_a83t_dphy.c         |  39 ++++
+>  .../sunxi/sun6i-csi/sun8i_a83t_dphy.h         |  16 ++
+>  .../sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h     |  39 ++++
+>  .../sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c    | 217 ++++++++++++++++++
+>  .../sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h    |  16 ++
+>  .../sun6i-csi/sun8i_a83t_mipi_csi2_reg.h      | 179 +++++++++++++++
+>  10 files changed, 595 insertions(+), 34 deletions(-)
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dph=
+y.c
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dph=
+y.h
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dph=
+y_reg.h
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mip=
+i_csi2.c
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mip=
+i_csi2.h
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mip=
+i_csi2_reg.h
+>=20
+> --=20
+> 2.17.1
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--/dFl7e5Y0zcWrcPL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl9JELMACgkQ3cLmz3+f
+v9Fc0Qf/S07c7Hdhnzb41WcEM2OpOc3NsME/sjeAdJhTi0zt9cgyeadSg8B/menR
+OFJFD4M0XVaXhXkqCuzdFj9Rc7+gLWfdSn6PnMNxQ1K4VEhJDNS2ToxTFyLRy2pL
+qUe2KzO8ILWR6Wq5iNfyeikMqxfwEvWN9gtDUndUrlmp/+WRfXWfp9Pby8oOxIXA
+rXJaV/DhPLCd8BXlp4PnaNVsk2dFjckGjCLjcHMygH+NXZUUTocEjjDrSp+7MmvR
+O3NaHu9cvB73XfdBqSQJijkY4ZMPjw+O4+WfzhwN19sNJ2GOSPdaKlgEyg6KV4JU
+ZeyLAheRsKSQJ1r9Hka+iRVgspyhmA==
+=V3H8
+-----END PGP SIGNATURE-----
+
+--/dFl7e5Y0zcWrcPL--
