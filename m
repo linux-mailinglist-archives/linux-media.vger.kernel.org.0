@@ -2,89 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F02525694D
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 19:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6D8B256951
+	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 19:21:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728273AbgH2RQY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Aug 2020 13:16:24 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34236 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728105AbgH2RQY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Aug 2020 13:16:24 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A007303;
-        Sat, 29 Aug 2020 19:16:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1598721381;
-        bh=CU4taoOmDFFhxm8biPJdqxmXviSj+cJCy+kfWTx+v4Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eatXXiu/xs1ZWxxSvsVMx/+vF87ygwNUAh44oawI9uMl10KFjsicMvZRFIGTwAhpz
-         YtnW5N1YBXXWHfgFMfAiZH6wzmhQlxq0PpN6JMNVNJ4y155f9ed/IzRIXkI8Vebdmt
-         fcRB512voAIbAh6wmXQ1uz6O7a98B/QtmMS0hpcM=
-Date:   Sat, 29 Aug 2020 20:16:00 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, Jia-Ju Bai <baijiaju@tsinghua.edu.cn>,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 4.19 08/38] media: pci: ttpci: av7110: fix
- possible buffer overflow caused by bad DMA value in debiirq()
-Message-ID: <20200829171600.GA7465@pendragon.ideasonboard.com>
-References: <20200821161807.348600-1-sashal@kernel.org>
- <20200821161807.348600-8-sashal@kernel.org>
- <20200829121020.GA20944@duo.ucw.cz>
+        id S1728203AbgH2RVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Aug 2020 13:21:06 -0400
+Received: from mga01.intel.com ([192.55.52.88]:32285 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728105AbgH2RVF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Aug 2020 13:21:05 -0400
+IronPort-SDR: hUHjMBEOwvZWQ9x7nDdiFQx9YPsSrWgMaBFpgqyMMiAgRdG4opuvH6t3zqGOnA/TXQnAsoKLH9
+ KqwXPGuLqHsg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9728"; a="174856917"
+X-IronPort-AV: E=Sophos;i="5.76,368,1592895600"; 
+   d="scan'208";a="174856917"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2020 10:21:01 -0700
+IronPort-SDR: wx4LtOVE3WFTwiCy9aI3sUIau2wIJEUWEIOoLZD/Pb8umr1i6cCRWlAutsQYE+/NmHV30rWPIB
+ UFvHXShTzmjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,368,1592895600"; 
+   d="scan'208";a="300581913"
+Received: from lkp-server02.sh.intel.com (HELO 301dc1beeb51) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 29 Aug 2020 10:20:59 -0700
+Received: from kbuild by 301dc1beeb51 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kC4XD-0000YH-64; Sat, 29 Aug 2020 17:20:59 +0000
+Date:   Sun, 30 Aug 2020 01:20:35 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 45f13a57d8134459f02fbee0b1711eddc3260af7
+Message-ID: <5f4a8e63.9ceJudn3M/ql9kpm%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200829121020.GA20944@duo.ucw.cz>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Aug 29, 2020 at 02:10:20PM +0200, Pavel Machek wrote:
-> Hi!
-> 
-> > The value av7110->debi_virt is stored in DMA memory, and it is assigned
-> > to data, and thus data[0] can be modified at any time by malicious
-> > hardware. In this case, "if (data[0] < 2)" can be passed, but then
-> > data[0] can be changed into a large number, which may cause buffer
-> > overflow when the code "av7110->ci_slot[data[0]]" is used.
-> > 
-> > To fix this possible bug, data[0] is assigned to a local variable, which
-> > replaces the use of data[0].
-> 
-> I'm pretty sure hardware capable of manipulating memory can work
-> around any such checks, but...
-> 
-> > +++ b/drivers/media/pci/ttpci/av7110.c
-> > @@ -424,14 +424,15 @@ static void debiirq(unsigned long cookie)
-> >  	case DATA_CI_GET:
-> >  	{
-> >  		u8 *data = av7110->debi_virt;
-> > +		u8 data_0 = data[0];
-> >  
-> > -		if ((data[0] < 2) && data[2] == 0xff) {
-> > +		if (data_0 < 2 && data[2] == 0xff) {
-> >  			int flags = 0;
-> >  			if (data[5] > 0)
-> >  				flags |= CA_CI_MODULE_PRESENT;
-> >  			if (data[5] > 5)
-> >  				flags |= CA_CI_MODULE_READY;
-> > -			av7110->ci_slot[data[0]].flags = flags;
-> > +			av7110->ci_slot[data_0].flags = flags;
-> 
-> This does not even do what it says. Compiler is still free to access
-> data[0] multiple times. It needs READ_ONCE() to be effective.
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: 45f13a57d8134459f02fbee0b1711eddc3260af7  media: platform: Add jpeg enc feature
 
-Yes, it seems quite dubious to me. If we *really* want to guard against
-rogue hardware here, the whole DMA buffer should be copied. I don't
-think it's worth it, a rogue PCI device can do much more harm.
+elapsed time: 1626m
 
--- 
-Regards,
+configs tested: 136
+configs skipped: 11
 
-Laurent Pinchart
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                         cm_x300_defconfig
+arc                        nsim_700_defconfig
+mips                           gcw0_defconfig
+nios2                         3c120_defconfig
+sh                          sdk7786_defconfig
+arm                        multi_v5_defconfig
+arm                      integrator_defconfig
+mips                        nlm_xlp_defconfig
+m68k                             alldefconfig
+sh                   secureedge5410_defconfig
+mips                        bcm47xx_defconfig
+c6x                        evmc6474_defconfig
+microblaze                    nommu_defconfig
+arm                         s3c6400_defconfig
+arm                        vexpress_defconfig
+mips                   sb1250_swarm_defconfig
+arm                         axm55xx_defconfig
+sh                               alldefconfig
+mips                      fuloong2e_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                       cns3420vb_defconfig
+arm                        clps711x_defconfig
+sh                        sh7763rdp_defconfig
+arm                       versatile_defconfig
+powerpc                mpc7448_hpc2_defconfig
+sh                           se7750_defconfig
+mips                         bigsur_defconfig
+arm                          badge4_defconfig
+arm                        spear3xx_defconfig
+powerpc                      ppc64e_defconfig
+arm                         ebsa110_defconfig
+ia64                      gensparse_defconfig
+arc                     nsimosci_hs_defconfig
+sh                     magicpanelr2_defconfig
+s390                       zfcpdump_defconfig
+arc                     haps_hs_smp_defconfig
+xtensa                    xip_kc705_defconfig
+m68k                       m5275evb_defconfig
+arm                       mainstone_defconfig
+mips                     decstation_defconfig
+sh                   rts7751r2dplus_defconfig
+m68k                        stmark2_defconfig
+powerpc                         wii_defconfig
+arm                            dove_defconfig
+m68k                             allyesconfig
+mips                      malta_kvm_defconfig
+sh                ecovec24-romimage_defconfig
+m68k                          sun3x_defconfig
+powerpc                  mpc866_ads_defconfig
+xtensa                         virt_defconfig
+arm                         s5pv210_defconfig
+arm                           tegra_defconfig
+arm                        multi_v7_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+i386                 randconfig-a002-20200828
+i386                 randconfig-a005-20200828
+i386                 randconfig-a003-20200828
+i386                 randconfig-a004-20200828
+i386                 randconfig-a001-20200828
+i386                 randconfig-a006-20200828
+i386                 randconfig-a002-20200829
+i386                 randconfig-a005-20200829
+i386                 randconfig-a003-20200829
+i386                 randconfig-a004-20200829
+i386                 randconfig-a001-20200829
+i386                 randconfig-a006-20200829
+x86_64               randconfig-a002-20200829
+x86_64               randconfig-a003-20200829
+x86_64               randconfig-a006-20200829
+x86_64               randconfig-a005-20200829
+x86_64               randconfig-a001-20200829
+x86_64               randconfig-a004-20200829
+x86_64               randconfig-a015-20200828
+x86_64               randconfig-a012-20200828
+x86_64               randconfig-a016-20200828
+x86_64               randconfig-a014-20200828
+x86_64               randconfig-a011-20200828
+x86_64               randconfig-a013-20200828
+i386                 randconfig-a013-20200828
+i386                 randconfig-a012-20200828
+i386                 randconfig-a011-20200828
+i386                 randconfig-a016-20200828
+i386                 randconfig-a014-20200828
+i386                 randconfig-a015-20200828
+i386                 randconfig-a013-20200829
+i386                 randconfig-a012-20200829
+i386                 randconfig-a011-20200829
+i386                 randconfig-a016-20200829
+i386                 randconfig-a014-20200829
+i386                 randconfig-a015-20200829
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
