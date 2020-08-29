@@ -2,121 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46BD8256525
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 08:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC8BC2565F4
+	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 10:18:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgH2GoY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Aug 2020 02:44:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38340 "EHLO mail.kernel.org"
+        id S1726748AbgH2IRG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Aug 2020 04:17:06 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:47102 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725886AbgH2GoX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Aug 2020 02:44:23 -0400
-Received: from coco.lan (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2985F207BB;
-        Sat, 29 Aug 2020 06:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598683463;
-        bh=Fa3ytPwbtjOSb9eP8IVzHuFxn+Gz74zrip68UY+4Fxg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=es0I5+/9eLX8edVzmtQgOmM0PI59vy+RLhrSDZRaqoB7vIvcsKNdoUgZ6ZyKYRJmE
-         AbZ3mqNDwHYSrC7goKrjZ1ZRxGv3IUxMPYPfq/mIKvBfbQ8xgcEfLjAI1LNrk8raRH
-         pFnOOnpklrCy/AvJ/0exohxFuwdjfI0b3c90gmL0=
-Date:   Sat, 29 Aug 2020 08:44:14 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 08/20] media: pci: saa7164.c: Replace if(cond) BUG with
- BUG_ON
-Message-ID: <20200829084414.701a02b8@coco.lan>
-In-Reply-To: <20200807083548.204360-8-dwlsalmeida@gmail.com>
-References: <20200807083548.204360-8-dwlsalmeida@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726170AbgH2IRF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Aug 2020 04:17:05 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kBvxB-006Po9-GP; Sat, 29 Aug 2020 08:11:13 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kBw5P-0002hz-2y; Sat, 29 Aug 2020 08:19:43 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.10] mtk-vcodec: venc: support for MT8183 (#66587)
+Date:   Sat, 29 Aug 2020 08:19:42 +0000
+Message-Id: <20200829081942.10368-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <5b4d766c-eeed-11ed-60c6-fa7ee489992f@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+From: builder@linuxtv.org
 
-Em Fri,  7 Aug 2020 05:35:35 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/5b4d766c-eeed-11ed-60c6-fa7ee489992f@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/66211/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/5b4d766c-eeed-11ed-60c6-fa7ee489992f@xs4all.nl
 
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> Fix the following coccinelle reports:
-> 
-> drivers/media/pci/saa7164/saa7164-buffer.c:254:3-6: WARNING: Use BUG_ON
-> instead of if condition followed by BUG.
-> 
-> drivers/media/pci/saa7164/saa7164-buffer.c:261:3-6: WARNING: Use BUG_ON
-> instead of if condition followed by BUG.
-> 
-> Found using - Coccinelle (http://coccinelle.lip6.fr)
-
-I ended accepting those patches, but IMO, this doesn't make
-the code any better.
-
-The thing is that very few parts of the Kernel should panic if
-things go sideways. I don't think that any media driver would
-apply on such cases.
-
-As pointed at:
-
-	https://www.kernel.org/doc/html/v5.7/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
-
-The real fix is to use WARN_ON(), probably with something like:
-
-	if (WARN_ON(something))
-		return;
-
-as probably the code after BUG() would be assuming that the
-condition was asserted.
-
-Regards,
-Mauro
-
-> 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> ---
->  drivers/media/pci/saa7164/saa7164-buffer.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/pci/saa7164/saa7164-buffer.c b/drivers/media/pci/saa7164/saa7164-buffer.c
-> index 289cb901985b..245d9db280aa 100644
-> --- a/drivers/media/pci/saa7164/saa7164-buffer.c
-> +++ b/drivers/media/pci/saa7164/saa7164-buffer.c
-> @@ -250,15 +250,14 @@ int saa7164_buffer_cfg_port(struct saa7164_port *port)
->  	list_for_each_safe(c, n, &port->dmaqueue.list) {
->  		buf = list_entry(c, struct saa7164_buffer, list);
->  
-> -		if (buf->flags != SAA7164_BUFFER_FREE)
-> -			BUG();
-> +		BUG_ON(buf->flags != SAA7164_BUFFER_FREE);
->  
->  		/* Place the buffer in the h/w queue */
->  		saa7164_buffer_activate(buf, i);
->  
->  		/* Don't exceed the device maximum # bufs */
-> -		if (i++ > port->hwcfg.buffercount)
-> -			BUG();
-> +		BUG_ON(i > port->hwcfg.buffercount);
-> +		i++;
->  
->  	}
->  	mutex_unlock(&port->dmaqueue_lock);
-> @@ -302,4 +301,3 @@ void saa7164_buffer_dealloc_user(struct saa7164_user_buffer *buf)
->  
->  	kfree(buf);
->  }
-> -
+gpg: Signature made Wed 26 Aug 2020 10:37:55 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
 
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0001-media-mtk-vcodec-abstract-firmware-interface.patch doesn't apply:
+Applying patch patches/0001-media-mtk-vcodec-abstract-firmware-interface.patch
+patching file drivers/media/platform/mtk-vcodec/Makefile
+patching file drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+Hunk #5 FAILED at 222.
+Hunk #6 succeeded at 345 (offset 8 lines).
+Hunk #7 succeeded at 371 (offset 8 lines).
+1 out of 7 hunks FAILED -- rejects in file drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+patching file drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+patching file drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+patching file drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+Hunk #6 FAILED at 230.
+Hunk #7 succeeded at 371 (offset 8 lines).
+Hunk #8 succeeded at 397 (offset 8 lines).
+1 out of 8 hunks FAILED -- rejects in file drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+patching file drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+patching file drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+patching file drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
+patching file drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c
+patching file drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c
+patching file drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c
+patching file drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
+patching file drivers/media/platform/mtk-vcodec/vdec_drv_base.h
+patching file drivers/media/platform/mtk-vcodec/vdec_drv_if.c
+patching file drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+patching file drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+patching file drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+patching file drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+patching file drivers/media/platform/mtk-vcodec/venc_drv_if.c
+patching file drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+patching file drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+Patch patches/0001-media-mtk-vcodec-abstract-firmware-interface.patch does not apply (enforce with -f)
 
-Thanks,
-Mauro
