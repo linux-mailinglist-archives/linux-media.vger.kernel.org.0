@@ -2,176 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD8825648F
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 05:46:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46BD8256525
+	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 08:44:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbgH2Dqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 23:46:51 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:39773 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726395AbgH2Dqu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 23:46:50 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id BrpGk5N0IooQSBrpHkGQv6; Sat, 29 Aug 2020 05:46:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1598672807; bh=fbrVf1piYq0n2p75xBpK5uCCp8+MoxBNt+7AdtUH4Gw=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Rysy6jSyXUfN7nt3Uu3Rl23gHbw3KxGRQU6OBjRPsBNoM6xc43fRtAN2DyT1YzZ1b
-         vYbsKTCJm8Vld2TmIGc4oyskatu7sPX+0rLjhXrkTrSX1pZluuKXWIG3IGDQikFkF/
-         0IR/WOc0KixWBapziK4F+Id519JrZe+WztlY1T7/LAXCGLSiTtwxUErxp/jnCPInUi
-         va6vcB43pMf7tb/g463afK5SFtSMnB30NMoVjUHj2gRFl/Ctor8uSZG/ncF7qwdqiP
-         3yGQJMiwaRHVLkROSKz7kTVOSYEZtlVRlM0Atr+F7EGRW2I1lNuzHaAz47A9Rjq+3M
-         xuaeokrTp3OUQ==
-Message-ID: <ce78ace1f8b0fc67a3b4700a5d8126f2@smtp-cloud7.xs4all.net>
-Date:   Sat, 29 Aug 2020 05:46:46 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfPGWvJJRM7SiIUTVF0ZU3b8e3ouMwz9LPLNAObF7hNZ6C9/yYQMJZ9W662oJP4OK+N44k6aUjDHFiWlGZ4hA8vNw4yLdyi0PuFxubqywuAqIQqELSfZZ
- hKUyxOfclesdscC4zk20QgX7RqTaJm84+k3SXMEdzUSUtSu/E6yEXpqtUGYeWgMoGBnquq7ovYYSnvigxHYlXXjBnIDQjQfqV7NxGMWR3yjPhjflnwUfGxkk
+        id S1726380AbgH2GoY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Aug 2020 02:44:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38340 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725886AbgH2GoX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Aug 2020 02:44:23 -0400
+Received: from coco.lan (ip5f5ad5bb.dynamic.kabel-deutschland.de [95.90.213.187])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2985F207BB;
+        Sat, 29 Aug 2020 06:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598683463;
+        bh=Fa3ytPwbtjOSb9eP8IVzHuFxn+Gz74zrip68UY+4Fxg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=es0I5+/9eLX8edVzmtQgOmM0PI59vy+RLhrSDZRaqoB7vIvcsKNdoUgZ6ZyKYRJmE
+         AbZ3mqNDwHYSrC7goKrjZ1ZRxGv3IUxMPYPfq/mIKvBfbQ8xgcEfLjAI1LNrk8raRH
+         pFnOOnpklrCy/AvJ/0exohxFuwdjfI0b3c90gmL0=
+Date:   Sat, 29 Aug 2020 08:44:14 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 08/20] media: pci: saa7164.c: Replace if(cond) BUG with
+ BUG_ON
+Message-ID: <20200829084414.701a02b8@coco.lan>
+In-Reply-To: <20200807083548.204360-8-dwlsalmeida@gmail.com>
+References: <20200807083548.204360-8-dwlsalmeida@gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Daniel,
 
-Results of the daily build of media_tree:
+Em Fri,  7 Aug 2020 05:35:35 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-date:			Sat Aug 29 05:00:12 CEST 2020
-media-tree git hash:	45f13a57d8134459f02fbee0b1711eddc3260af7
-media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
-v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6784-g0b1e8107
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Fix the following coccinelle reports:
+> 
+> drivers/media/pci/saa7164/saa7164-buffer.c:254:3-6: WARNING: Use BUG_ON
+> instead of if condition followed by BUG.
+> 
+> drivers/media/pci/saa7164/saa7164-buffer.c:261:3-6: WARNING: Use BUG_ON
+> instead of if condition followed by BUG.
+> 
+> Found using - Coccinelle (http://coccinelle.lip6.fr)
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8.1-i686: OK
-linux-5.8.1-x86_64: OK
-linux-5.9-rc1-i686: OK
-linux-5.9-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: OK
-smatch: ERRORS
+I ended accepting those patches, but IMO, this doesn't make
+the code any better.
 
-Detailed results are available here:
+The thing is that very few parts of the Kernel should panic if
+things go sideways. I don't think that any media driver would
+apply on such cases.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+As pointed at:
 
-Detailed regression test results are available here:
+	https://www.kernel.org/doc/html/v5.7/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+The real fix is to use WARN_ON(), probably with something like:
 
-Full logs are available here:
+	if (WARN_ON(something))
+		return;
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+as probably the code after BUG() would be assuming that the
+condition was asserted.
 
-The Media Infrastructure API from this daily build is here:
+Regards,
+Mauro
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>  drivers/media/pci/saa7164/saa7164-buffer.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/pci/saa7164/saa7164-buffer.c b/drivers/media/pci/saa7164/saa7164-buffer.c
+> index 289cb901985b..245d9db280aa 100644
+> --- a/drivers/media/pci/saa7164/saa7164-buffer.c
+> +++ b/drivers/media/pci/saa7164/saa7164-buffer.c
+> @@ -250,15 +250,14 @@ int saa7164_buffer_cfg_port(struct saa7164_port *port)
+>  	list_for_each_safe(c, n, &port->dmaqueue.list) {
+>  		buf = list_entry(c, struct saa7164_buffer, list);
+>  
+> -		if (buf->flags != SAA7164_BUFFER_FREE)
+> -			BUG();
+> +		BUG_ON(buf->flags != SAA7164_BUFFER_FREE);
+>  
+>  		/* Place the buffer in the h/w queue */
+>  		saa7164_buffer_activate(buf, i);
+>  
+>  		/* Don't exceed the device maximum # bufs */
+> -		if (i++ > port->hwcfg.buffercount)
+> -			BUG();
+> +		BUG_ON(i > port->hwcfg.buffercount);
+> +		i++;
+>  
+>  	}
+>  	mutex_unlock(&port->dmaqueue_lock);
+> @@ -302,4 +301,3 @@ void saa7164_buffer_dealloc_user(struct saa7164_user_buffer *buf)
+>  
+>  	kfree(buf);
+>  }
+> -
+
+
+
+Thanks,
+Mauro
