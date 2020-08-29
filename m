@@ -2,29 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1CCB25663F
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 11:17:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EBD1256640
+	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 11:17:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbgH2JQt convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 29 Aug 2020 05:16:49 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:57198 "EHLO www.linuxtv.org"
+        id S1726798AbgH2JQ4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 29 Aug 2020 05:16:56 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:57224 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726428AbgH2JQs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Aug 2020 05:16:48 -0400
+        id S1726428AbgH2JQz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Aug 2020 05:16:55 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1kBwst-006Tdy-S4; Sat, 29 Aug 2020 09:10:52 +0000
+        id 1kBwt4-006TeO-79; Sat, 29 Aug 2020 09:11:02 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1kBx19-0001ko-RP; Sat, 29 Aug 2020 09:19:23 +0000
-Date:   Sat, 29 Aug 2020 09:19:23 +0000 (UTC)
+        id 1kBx1J-0001mf-PI; Sat, 29 Aug 2020 09:19:33 +0000
+Date:   Sat, 29 Aug 2020 09:19:33 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <156407873.0.1598692763801@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3198
+Message-ID: <421773288.1.1598692773779@builder.linuxtv.org>
+In-Reply-To: <156407873.0.1598692763801@builder.linuxtv.org>
+References: <156407873.0.1598692763801@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3199
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
@@ -37,119 +39,75 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3198/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media-build/3199/display/redirect>
 
 Changes:
 
-[hverkuil-cisco] Add backport patches to revert to old tasklet behavior
-
 
 ------------------------------------------
-[...truncated 7.78 KB...]
-  1900K .......... .......... .......... .......... .......... 28% 1.49M 4s
-  1950K .......... .......... .......... .......... .......... 28%  454K 4s
-  2000K .......... .......... .......... .......... .......... 29% 18.7M 4s
-  2050K .......... .......... .......... .......... .......... 30% 14.6M 4s
-  2100K .......... .......... .......... .......... .......... 30% 22.7M 4s
-  2150K .......... .......... .......... .......... .......... 31% 18.1M 3s
-  2200K .......... .......... .......... .......... .......... 32% 21.0M 3s
-  2250K .......... .......... .......... .......... .......... 33% 1.52M 3s
-  2300K .......... .......... .......... .......... .......... 33%  453K 3s
-  2350K .......... .......... .......... .......... .......... 34% 17.6M 3s
-  2400K .......... .......... .......... .......... .......... 35% 15.7M 3s
-  2450K .......... .......... .......... .......... .......... 35% 10.8M 3s
-  2500K .......... .......... .......... .......... .......... 36% 35.2M 3s
-  2550K .......... .......... .......... .......... .......... 37% 19.8M 3s
-  2600K .......... .......... .......... .......... .......... 38% 1.63M 3s
-  2650K .......... .......... .......... .......... .......... 38% 1.03M 3s
-  2700K .......... .......... .......... .......... .......... 39%  765K 3s
-  2750K .......... .......... .......... .......... .......... 40% 23.0M 3s
-  2800K .......... .......... .......... .......... .......... 40% 14.1M 3s
-  2850K .......... .......... .......... .......... .......... 41% 11.0M 3s
-  2900K .......... .......... .......... .......... .......... 42% 21.8M 3s
-  2950K .......... .......... .......... .......... .......... 43% 22.4M 2s
-  3000K .......... .......... .......... .......... .......... 43% 1.69M 2s
-  3050K .......... .......... .......... .......... .......... 44%  453K 3s
-  3100K .......... .......... .......... .......... .......... 45% 16.1M 2s
-  3150K .......... .......... .......... .......... .......... 46% 20.8M 2s
-  3200K .......... .......... .......... .......... .......... 46% 15.8M 2s
-  3250K .......... .......... .......... .......... .......... 47% 14.6M 2s
-  3300K .......... .......... .......... .......... .......... 48% 21.2M 2s
-  3350K .......... .......... .......... .......... .......... 48% 20.1M 2s
-  3400K .......... .......... .......... .......... .......... 49% 1.73M 2s
-  3450K .......... .......... .......... .......... .......... 50% 23.1M 2s
-  3500K .......... .......... .......... .......... .......... 51%  451K 2s
-  3550K .......... .......... .......... .......... .......... 51% 15.5M 2s
-  3600K .......... .......... .......... .......... .......... 52% 16.2M 2s
-  3650K .......... .......... .......... .......... .......... 53% 20.6M 2s
-  3700K .......... .......... .......... .......... .......... 53% 10.1M 2s
-  3750K .......... .......... .......... .......... .......... 54%  178M 2s
-  3800K .......... .......... .......... .......... .......... 55% 24.2M 2s
-  3850K .......... .......... .......... .......... .......... 56% 1.77M 2s
-  3900K .......... .......... .......... .......... .......... 56%  453K 2s
-  3950K .......... .......... .......... .......... .......... 57% 17.0M 2s
-  4000K .......... .......... .......... .......... .......... 58% 14.8M 2s
-  4050K .......... .......... .......... .......... .......... 58% 20.2M 2s
-  4100K .......... .......... .......... .......... .......... 59% 20.1M 2s
-  4150K .......... .......... .......... .......... .......... 60% 10.3M 2s
-  4200K .......... .......... .......... .......... .......... 61% 23.2M 1s
-  4250K .......... .......... .......... .......... .......... 61% 21.9M 1s
-  4300K .......... .......... .......... .......... .......... 62% 1.95M 1s
-  4350K .......... .......... .......... .......... .......... 63% 1.08M 1s
-  4400K .......... .......... .......... .......... .......... 63%  734K 1s
-  4450K .......... .......... .......... .......... .......... 64% 17.2M 1s
-  4500K .......... .......... .......... .......... .......... 65% 21.4M 1s
-  4550K .......... .......... .......... .......... .......... 66% 22.9M 1s
-  4600K .......... .......... .......... .......... .......... 66% 18.5M 1s
-  4650K .......... .......... .......... .......... .......... 67% 10.1M 1s
-  4700K .......... .......... .......... .......... .......... 68% 21.8M 1s
-  4750K .......... .......... .......... .......... .......... 69% 21.6M 1s
-  4800K .......... .......... .......... .......... .......... 69% 1.96M 1s
-  4850K .......... .......... .......... .......... .......... 70%  455K 1s
-  4900K .......... .......... .......... .......... .......... 71% 20.2M 1s
-  4950K .......... .......... .......... .......... .......... 71% 20.1M 1s
-  5000K .......... .......... .......... .......... .......... 72% 22.9M 1s
-  5050K .......... .......... .......... .......... .......... 73% 20.1M 1s
-  5100K .......... .......... .......... .......... .......... 74% 21.9M 1s
-  5150K .......... .......... .......... .......... .......... 74% 10.5M 1s
-  5200K .......... .......... .......... .......... .......... 75% 15.7M 1s
-  5250K .......... .......... .......... .......... .......... 76% 2.06M 1s
-  5300K .......... .......... .......... .......... .......... 76% 21.0M 1s
-  5350K .......... .......... .......... .......... .......... 77%  456K 1s
-  5400K .......... .......... .......... .......... .......... 78% 9.91M 1s
-  5450K .......... .......... .......... .......... .......... 79%  111M 1s
-  5500K .......... .......... .......... .......... .......... 79% 23.3M 1s
-  5550K .......... .......... .......... .......... .......... 80% 19.2M 1s
-  5600K .......... .......... .......... .......... .......... 81% 11.4M 1s
-  5650K .......... .......... .......... .......... .......... 81% 19.3M 1s
-  5700K .......... .......... .......... .......... .......... 82% 21.4M 1s
-  5750K .......... .......... .......... .......... .......... 83% 23.7M 1s
-  5800K .......... .......... .......... .......... .......... 84% 2.02M 1s
-  5850K .......... .......... .......... .......... .......... 84% 1.10M 1s
-  5900K .......... .......... .......... .......... .......... 85%  744K 1s
-  5950K .......... .......... .......... .......... .......... 86% 9.37M 0s
-  6000K .......... .......... .......... .......... .......... 86% 15.7M 0s
-  6050K .......... .......... .......... .......... .......... 87% 34.5M 0s
-  6100K .......... .......... .......... .......... .......... 88% 27.5M 0s
-  6150K .......... .......... .......... .......... .......... 89% 25.9M 0s
-  6200K .......... .......... .......... .......... .......... 89% 22.8M 0s
-  6250K .......... .......... .......... .......... .......... 90% 21.5M 0s
-  6300K .......... .......... .......... .......... .......... 91% 21.2M 0s
-  6350K .......... .......... .......... .......... .......... 92% 2.09M 0s
-  6400K .......... .......... .......... .......... .......... 92%  453K 0s
-  6450K .......... .......... .......... .......... .......... 93% 8.81M 0s
-  6500K .......... .......... .......... .......... .......... 94% 18.0M 0s
-  6550K .......... .......... .......... .......... .......... 94% 25.4M 0s
-  6600K .......... .......... .......... .......... .......... 95% 23.6M 0s
-  6650K .......... .......... .......... .......... .......... 96% 31.0M 0s
-  6700K .......... .......... .......... .......... .......... 97% 29.6M 0s
-  6750K .......... .......... .......... .......... .......... 97% 29.9M 0s
-  6800K .......... .......... .......... .......... .......... 98% 19.6M 0s
-  6850K .......... .......... .......... .......... .......... 99% 24.9M 0s
-  6900K .......... .......... .......... .......... .......... 99% 2.06M 0s
-  6950K ......                                                100%  132M=3.2s
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision a20bdff25e6827e9f03f2476d4795df1c8ee4913 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f a20bdff25e6827e9f03f2476d4795df1c8ee4913 # timeout=10
+Commit message: "Add backport patches to revert to old tasklet behavior"
+ > git rev-list --no-walk a20bdff25e6827e9f03f2476d4795df1c8ee4913 # timeout=10
+[media-build] $ /bin/sh -xe /tmp/jenkins14060104776492363002.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
-2020-08-29 09:16:55 (2.15 MB/s) - ‘linux-media.tar.bz2’ saved [7123349/7123349]
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2020-08-29 09:17:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2020-08-29 09:17:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  174M=0s
+
+2020-08-29 09:17:10 (174 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
 make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
@@ -159,50 +117,6 @@ make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 **********************************************************
 * Downloading firmwares from linuxtv.org.                *
 **********************************************************
---2020-08-29 09:16:58--  http://www.linuxtv.org/downloads/firmware//dvb-firmwares.tar.bz2
-Resolving www.linuxtv.org (www.linuxtv.org)... 130.149.80.248
-Connecting to www.linuxtv.org (www.linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://www.linuxtv.org/downloads/firmware/dvb-firmwares.tar.bz2 [following]
---2020-08-29 09:16:58--  https://www.linuxtv.org/downloads/firmware/dvb-firmwares.tar.bz2
-Connecting to www.linuxtv.org (www.linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 1519951 (1.4M) [application/x-bzip2]
-Saving to: ‘dvb-firmwares.tar.bz2’
-
-     0K .......... .......... .......... .......... ..........  3%  161K 9s
-    50K .......... .......... .......... .......... ..........  6%  324K 6s
-   100K .......... .......... .......... .......... .......... 10% 23.0M 4s
-   150K .......... .......... .......... .......... .......... 13%  328K 4s
-   200K .......... .......... .......... .......... .......... 16% 16.6M 3s
-   250K .......... .......... .......... .......... .......... 20% 33.8M 2s
-   300K .......... .......... .......... .......... .......... 23% 24.8M 2s
-   350K .......... .......... .......... .......... .......... 26% 11.3M 2s
-   400K .......... .......... .......... .......... .......... 30%  342K 2s
-   450K .......... .......... .......... .......... .......... 33% 16.4M 2s
-   500K .......... .......... .......... .......... .......... 37% 28.4M 1s
-   550K .......... .......... .......... .......... .......... 40% 21.9M 1s
-   600K .......... .......... .......... .......... .......... 43% 19.8M 1s
-   650K .......... .......... .......... .......... .......... 47%  347K 1s
-   700K .......... .......... .......... .......... .......... 50% 13.9M 1s
-   750K .......... .......... .......... .......... .......... 53% 15.5M 1s
-   800K .......... .......... .......... .......... .......... 57% 11.6M 1s
-   850K .......... .......... .......... .......... .......... 60% 16.5M 1s
-   900K .......... .......... .......... .......... .......... 64% 12.9M 1s
-   950K .......... .......... .......... .......... .......... 67%  359K 1s
-  1000K .......... .......... .......... .......... .......... 70% 28.8M 0s
-  1050K .......... .......... .......... .......... .......... 74% 17.9M 0s
-  1100K .......... .......... .......... .......... .......... 77% 18.2M 0s
-  1150K .......... .......... .......... .......... .......... 80% 15.7M 0s
-  1200K .......... .......... .......... .......... .......... 84% 9.80M 0s
-  1250K .......... .......... .......... .......... .......... 87%  357K 0s
-  1300K .......... .......... .......... .......... .......... 90% 18.4M 0s
-  1350K .......... .......... .......... .......... .......... 94% 18.2M 0s
-  1400K .......... .......... .......... .......... .......... 97% 24.3M 0s
-  1450K .......... .......... .......... ....                 100% 21.8M=1.3s
-
-2020-08-29 09:17:00 (1.16 MB/s) - ‘dvb-firmwares.tar.bz2’ saved [1519951/1519951]
-
 firmware/dvb-usb-vp702x-01.fw
 firmware/dvb-usb-vp7045-01.fw
 firmware/dvb-fe-bcm3510-01.fw
@@ -265,7 +179,6 @@ firmware/v4l-cx23885-avcore-01.fw
 ******************
 make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
 make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 4.19.0-6-amd64
 make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 Applying patches for kernel 4.19.0-6-amd64
 patch -s -f -N -p1 -i ../backports/api_version.patch
