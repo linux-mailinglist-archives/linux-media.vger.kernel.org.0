@@ -2,78 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C753925632A
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 00:29:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD8825648F
+	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 05:46:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbgH1W3c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Aug 2020 18:29:32 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:32810 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726649AbgH1W3a (ORCPT
+        id S1726452AbgH2Dqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Aug 2020 23:46:51 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:39773 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726395AbgH2Dqu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Aug 2020 18:29:30 -0400
-Received: by mail-il1-f195.google.com with SMTP id o16so2001146ilq.0;
-        Fri, 28 Aug 2020 15:29:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iQFt0CihdxULy68nCcZYRd5kNaVJz8UvKS1N864J1BU=;
-        b=OKFFFD/IAjuDSWXRbefgts2fsucj+XfO9ReDxaY6ig8vR9APKxYNZ4tkTtun8BCdOP
-         lHX8/Dfy+RFp1eJxAaCW83YdgHQo7cXOJWLyssFa2Beh9rVa4TD/RX9UHcQyXjoaD48o
-         2rBFIJVM5ZmKxmQv4zgG+/rbQdNzpTHZFeC+WaIJkR4Tt8htE55liG7BwXEgLMWfZouk
-         HqcwXO2lOo2FPSyin/J5jEMQ76/NSBe0EZYQX4rGrkNX4KRKkqqqSFyAnhng4GU5DIoL
-         7/YAel5o5Nf+V2RkEiy01pn2djjqLjtfoHpGs/vSPeWjCFGfPSSq0C6z6Rl5FY9VXR/R
-         sNig==
-X-Gm-Message-State: AOAM53151fzs9OLjPeRjsrF0NeG3nsAuByu8MiWh9fb8lbgso/5FQgM+
-        IVizcPPSvS0JprCU+wMAAVyM1ccYtSax
-X-Google-Smtp-Source: ABdhPJyj1oI54kmO0VXet0M6Wnlx/AtnPO4DySgp+eMvr8ExcaO1uBfFrUQ2jyrnEZyhLuZlNMukGQ==
-X-Received: by 2002:a92:c502:: with SMTP id r2mr867409ilg.223.1598653769307;
-        Fri, 28 Aug 2020 15:29:29 -0700 (PDT)
-Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id t16sm353320ili.75.2020.08.28.15.29.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2020 15:29:28 -0700 (PDT)
-Received: (nullmailer pid 3519224 invoked by uid 1000);
-        Fri, 28 Aug 2020 22:29:27 -0000
-Date:   Fri, 28 Aug 2020 16:29:27 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        sakari.ailus@iki.fi, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, robh+dt@kernel.org
-Subject: Re: [PATCH v3 1/3] dt-bindings: media: atmel: csi2dc: add bindings
- for microchip csi2dc
-Message-ID: <20200828222927.GA3519178@bogus>
-References: <20200826065142.205000-1-eugen.hristev@microchip.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200826065142.205000-1-eugen.hristev@microchip.com>
+        Fri, 28 Aug 2020 23:46:50 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id BrpGk5N0IooQSBrpHkGQv6; Sat, 29 Aug 2020 05:46:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598672807; bh=fbrVf1piYq0n2p75xBpK5uCCp8+MoxBNt+7AdtUH4Gw=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Rysy6jSyXUfN7nt3Uu3Rl23gHbw3KxGRQU6OBjRPsBNoM6xc43fRtAN2DyT1YzZ1b
+         vYbsKTCJm8Vld2TmIGc4oyskatu7sPX+0rLjhXrkTrSX1pZluuKXWIG3IGDQikFkF/
+         0IR/WOc0KixWBapziK4F+Id519JrZe+WztlY1T7/LAXCGLSiTtwxUErxp/jnCPInUi
+         va6vcB43pMf7tb/g463afK5SFtSMnB30NMoVjUHj2gRFl/Ctor8uSZG/ncF7qwdqiP
+         3yGQJMiwaRHVLkROSKz7kTVOSYEZtlVRlM0Atr+F7EGRW2I1lNuzHaAz47A9Rjq+3M
+         xuaeokrTp3OUQ==
+Message-ID: <ce78ace1f8b0fc67a3b4700a5d8126f2@smtp-cloud7.xs4all.net>
+Date:   Sat, 29 Aug 2020 05:46:46 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfPGWvJJRM7SiIUTVF0ZU3b8e3ouMwz9LPLNAObF7hNZ6C9/yYQMJZ9W662oJP4OK+N44k6aUjDHFiWlGZ4hA8vNw4yLdyi0PuFxubqywuAqIQqELSfZZ
+ hKUyxOfclesdscC4zk20QgX7RqTaJm84+k3SXMEdzUSUtSu/E6yEXpqtUGYeWgMoGBnquq7ovYYSnvigxHYlXXjBnIDQjQfqV7NxGMWR3yjPhjflnwUfGxkk
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 26 Aug 2020 09:51:40 +0300, Eugen Hristev wrote:
-> Add bindings documentation for Microchip CSI2 Demultiplexer controller.
-> 
-> CSI2DC is a demultiplexer from Synopsys IDI interface specification to
-> parallel interface connection or direct memory access.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
-> Changes in v3:
-> - Removed some text from description, as it was explained in the schema
-> - fixed other things as per Rob's review
-> - moved some text inside the schema, like the clock description
-> 
-> Changes in v2:
-> - fixed warnings reported by dt_binding_check
-> 
->  .../bindings/media/microchip,csi2dc.yaml      | 174 ++++++++++++++++++
->  1 file changed, 174 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Results of the daily build of media_tree:
+
+date:			Sat Aug 29 05:00:12 CEST 2020
+media-tree git hash:	45f13a57d8134459f02fbee0b1711eddc3260af7
+media_build git hash:	61b62a2d779ff205ed5067b84773d03fdb83ed83
+v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0b48805d84eaf0fbb9b2b8bbe8f7cbf7dba4e020
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
