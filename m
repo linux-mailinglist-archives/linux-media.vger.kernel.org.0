@@ -2,198 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6D8B256951
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 19:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7720F256975
+	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 19:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728203AbgH2RVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Aug 2020 13:21:06 -0400
-Received: from mga01.intel.com ([192.55.52.88]:32285 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728105AbgH2RVF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Aug 2020 13:21:05 -0400
-IronPort-SDR: hUHjMBEOwvZWQ9x7nDdiFQx9YPsSrWgMaBFpgqyMMiAgRdG4opuvH6t3zqGOnA/TXQnAsoKLH9
- KqwXPGuLqHsg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9728"; a="174856917"
-X-IronPort-AV: E=Sophos;i="5.76,368,1592895600"; 
-   d="scan'208";a="174856917"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2020 10:21:01 -0700
-IronPort-SDR: wx4LtOVE3WFTwiCy9aI3sUIau2wIJEUWEIOoLZD/Pb8umr1i6cCRWlAutsQYE+/NmHV30rWPIB
- UFvHXShTzmjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,368,1592895600"; 
-   d="scan'208";a="300581913"
-Received: from lkp-server02.sh.intel.com (HELO 301dc1beeb51) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 29 Aug 2020 10:20:59 -0700
-Received: from kbuild by 301dc1beeb51 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kC4XD-0000YH-64; Sat, 29 Aug 2020 17:20:59 +0000
-Date:   Sun, 30 Aug 2020 01:20:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- 45f13a57d8134459f02fbee0b1711eddc3260af7
-Message-ID: <5f4a8e63.9ceJudn3M/ql9kpm%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1728244AbgH2RjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Aug 2020 13:39:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53706 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728238AbgH2RjO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Aug 2020 13:39:14 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EFA0C061236
+        for <linux-media@vger.kernel.org>; Sat, 29 Aug 2020 10:39:14 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 3587D299021
+Subject: Re: [PATCH v3 06/10] media: staging: rkisp1: add a helper function to
+ enumerate supported mbus formats on capture
+To:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        tfiga@chromium.org
+References: <20200723132014.4597-1-dafna.hirschfeld@collabora.com>
+ <20200723132014.4597-7-dafna.hirschfeld@collabora.com>
+ <11983183-54cc-89a7-7fa4-f7a0e362ad7a@collabora.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <ea4ebc9e-c7de-e2b7-7281-82a6507c6d4a@collabora.com>
+Date:   Sat, 29 Aug 2020 19:39:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <11983183-54cc-89a7-7fa4-f7a0e362ad7a@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: 45f13a57d8134459f02fbee0b1711eddc3260af7  media: platform: Add jpeg enc feature
 
-elapsed time: 1626m
 
-configs tested: 136
-configs skipped: 11
+Am 04.08.20 um 01:49 schrieb Helen Koike:
+> Hi Dafna,
+> 
+> Thanks for the patch.
+> 
+> On 7/23/20 10:20 AM, Dafna Hirschfeld wrote:
+>> Add a function 'rkisp1_cap_enum_mbus_codes' that receive
+>> a pointer to 'v4l2_subdev_mbus_code_enum' and returns the
+>> next supported mbus format of the capture. The function
+>> assumes that pixel formats with identical 'mbus' are grouped
+>> together in the hardcoded arrays, therefore the order of the
+>> entries in the array 'rkisp1_sp_fmts' are adjusted.
+>> This function is a helper for the media bus enumeration of
+>> the source pad of the resizer entity.
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>>   drivers/staging/media/rkisp1/rkisp1-capture.c | 77 ++++++++++++-------
+>>   drivers/staging/media/rkisp1/rkisp1-common.h  |  8 ++
+>>   2 files changed, 58 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>> index 5dd91b5f82a4..4dabd07a3da9 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>> @@ -112,6 +112,13 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
+> 
+> I would also add a comment in the beginning of this array saying that mbus
+> should be grouped together for the sake of enum.
+> 
+>>   		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
+>>   		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>>   	},
+>> +	/* yuv400 */
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_GREY,
+>> +		.uv_swap = 0,
+>> +		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
+>> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>> +	},
+>>   	/* yuv420 */
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV21,
+>> @@ -144,13 +151,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
+>>   		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
+>>   		.mbus = MEDIA_BUS_FMT_YUYV8_1_5X8,
+>>   	},
+>> -	/* yuv400 */
+>> -	{
+>> -		.fourcc = V4L2_PIX_FMT_GREY,
+>> -		.uv_swap = 0,
+>> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
+>> -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>> -	},
+>>   	/* raw */
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_SRGGB8,
+>> @@ -236,6 +236,26 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
+>>   		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
+>>   		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>>   	},
+>> +	/* yuv400 */
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_GREY,
+>> +		.uv_swap = 0,
+>> +		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
+>> +		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
+>> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>> +	},
+>> +	/* rgb */
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_XBGR32,
+>> +		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
+>> +		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB888,
+>> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>> +	}, {
+>> +		.fourcc = V4L2_PIX_FMT_RGB565,
+>> +		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
+>> +		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB565,
+>> +		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>> +	},
+>>   	/* yuv420 */
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV21,
+>> @@ -274,26 +294,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
+>>   		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV420,
+>>   		.mbus = MEDIA_BUS_FMT_YUYV8_1_5X8,
+>>   	},
+>> -	/* yuv400 */
+>> -	{
+>> -		.fourcc = V4L2_PIX_FMT_GREY,
+>> -		.uv_swap = 0,
+>> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
+>> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
+>> -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>> -	},
+>> -	/* rgb */
+>> -	{
+>> -		.fourcc = V4L2_PIX_FMT_XBGR32,
+>> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
+>> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB888,
+>> -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>> -	}, {
+>> -		.fourcc = V4L2_PIX_FMT_RGB565,
+>> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
+>> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB565,
+>> -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>> -	},
+>>   };
+>>   
+>>   static const struct rkisp1_capture_config rkisp1_capture_config_mp = {
+>> @@ -334,6 +334,29 @@ rkisp1_vdev_to_node(struct video_device *vdev)
+>>   	return container_of(vdev, struct rkisp1_vdev_node, vdev);
+>>   }
+>>   
+>> +int rkisp1_cap_enum_mbus_codes(struct rkisp1_capture *cap,
+>> +			       struct v4l2_subdev_mbus_code_enum *code)
+>> +{
+>> +	const struct rkisp1_capture_fmt_cfg *fmts = cap->config->fmts;
+>> +	u32 curr_mbus = fmts[0].mbus;
+> 
+> Maybe you could use code->code as the current, since in case of error
+> -EINVAL should be returned and this value should be ignored iirc.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Hi, but code->code is an unknown value. The aim of this function is to fill it
+according to code->index.
 
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                         cm_x300_defconfig
-arc                        nsim_700_defconfig
-mips                           gcw0_defconfig
-nios2                         3c120_defconfig
-sh                          sdk7786_defconfig
-arm                        multi_v5_defconfig
-arm                      integrator_defconfig
-mips                        nlm_xlp_defconfig
-m68k                             alldefconfig
-sh                   secureedge5410_defconfig
-mips                        bcm47xx_defconfig
-c6x                        evmc6474_defconfig
-microblaze                    nommu_defconfig
-arm                         s3c6400_defconfig
-arm                        vexpress_defconfig
-mips                   sb1250_swarm_defconfig
-arm                         axm55xx_defconfig
-sh                               alldefconfig
-mips                      fuloong2e_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                       cns3420vb_defconfig
-arm                        clps711x_defconfig
-sh                        sh7763rdp_defconfig
-arm                       versatile_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                           se7750_defconfig
-mips                         bigsur_defconfig
-arm                          badge4_defconfig
-arm                        spear3xx_defconfig
-powerpc                      ppc64e_defconfig
-arm                         ebsa110_defconfig
-ia64                      gensparse_defconfig
-arc                     nsimosci_hs_defconfig
-sh                     magicpanelr2_defconfig
-s390                       zfcpdump_defconfig
-arc                     haps_hs_smp_defconfig
-xtensa                    xip_kc705_defconfig
-m68k                       m5275evb_defconfig
-arm                       mainstone_defconfig
-mips                     decstation_defconfig
-sh                   rts7751r2dplus_defconfig
-m68k                        stmark2_defconfig
-powerpc                         wii_defconfig
-arm                            dove_defconfig
-m68k                             allyesconfig
-mips                      malta_kvm_defconfig
-sh                ecovec24-romimage_defconfig
-m68k                          sun3x_defconfig
-powerpc                  mpc866_ads_defconfig
-xtensa                         virt_defconfig
-arm                         s5pv210_defconfig
-arm                           tegra_defconfig
-arm                        multi_v7_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-i386                 randconfig-a002-20200828
-i386                 randconfig-a005-20200828
-i386                 randconfig-a003-20200828
-i386                 randconfig-a004-20200828
-i386                 randconfig-a001-20200828
-i386                 randconfig-a006-20200828
-i386                 randconfig-a002-20200829
-i386                 randconfig-a005-20200829
-i386                 randconfig-a003-20200829
-i386                 randconfig-a004-20200829
-i386                 randconfig-a001-20200829
-i386                 randconfig-a006-20200829
-x86_64               randconfig-a002-20200829
-x86_64               randconfig-a003-20200829
-x86_64               randconfig-a006-20200829
-x86_64               randconfig-a005-20200829
-x86_64               randconfig-a001-20200829
-x86_64               randconfig-a004-20200829
-x86_64               randconfig-a015-20200828
-x86_64               randconfig-a012-20200828
-x86_64               randconfig-a016-20200828
-x86_64               randconfig-a014-20200828
-x86_64               randconfig-a011-20200828
-x86_64               randconfig-a013-20200828
-i386                 randconfig-a013-20200828
-i386                 randconfig-a012-20200828
-i386                 randconfig-a011-20200828
-i386                 randconfig-a016-20200828
-i386                 randconfig-a014-20200828
-i386                 randconfig-a015-20200828
-i386                 randconfig-a013-20200829
-i386                 randconfig-a012-20200829
-i386                 randconfig-a011-20200829
-i386                 randconfig-a016-20200829
-i386                 randconfig-a014-20200829
-i386                 randconfig-a015-20200829
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+Thanks,
+Dafna
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> 
+>> +	int i, n = 0;
+> 
+> unsigned
+> 
+>> +
+>> +	if (code->index == 0) {
+> 
+> if (!code->index)
+> 
+>> +		code->code = fmts[0].mbus;
+>> +		return 0;
+>> +	}
+>> +
+>> +	for (i = 1; i < cap->config->fmt_size; i++)
+>> +		if (fmts[i].mbus != curr_mbus) {
+> 
+> You can decrease one indentation level with:
+> 
+> 		if (fmts[i].mbus == curr_mbus)
+> 				continue;
+> 
+> Regards,
+> Helen
+> 
+>> +			curr_mbus = fmts[i].mbus;
+>> +			if (++n == code->index) {
+>> +				code->code = curr_mbus;
+>> +				return 0;
+>> +			}
+>> +		}
+>> +	return -EINVAL;
+>> +}
+>> +
+>>   /* ----------------------------------------------------------------------------
+>>    * Stream operations for self-picture path (sp) and main-picture path (mp)
+>>    */
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+>> index 3dc51d703f73..73e1963cc47a 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+>> @@ -297,6 +297,14 @@ static inline u32 rkisp1_read(struct rkisp1_device *rkisp1, unsigned int addr)
+>>   	return readl(rkisp1->base_addr + addr);
+>>   }
+>>   
+>> +/*
+>> + * rkisp1_cap_enum_mbus_codes - A helper function that return the i'th supported mbus code
+>> + *				of the capture entity. This is used to enumerate the supported
+>> + *				mbus codes on the source pad of the resizer.
+>> + */
+>> +int rkisp1_cap_enum_mbus_codes(struct rkisp1_capture *cap,
+>> +			       struct v4l2_subdev_mbus_code_enum *code);
+>> +
+>>   void rkisp1_sd_adjust_crop_rect(struct v4l2_rect *crop,
+>>   				const struct v4l2_rect *bounds);
+>>   
+>>
