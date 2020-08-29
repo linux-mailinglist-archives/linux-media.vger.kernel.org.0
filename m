@@ -2,126 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA7E625661D
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 10:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 380E2256637
+	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 11:13:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726333AbgH2InQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Aug 2020 04:43:16 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:45471 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726083AbgH2InQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Aug 2020 04:43:16 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id BwS8k7BpwooQSBwS9kHVD5; Sat, 29 Aug 2020 10:43:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1598690593; bh=CiCaKRJ5MPFZiBWoEzsEFO4ffq3CjutVhh/qnsAzC+k=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ndVCdTw0LlgKGtdW7+EZKDkAOIrNFfOGOsEbHbMkWI9w+fSSRZ+fZwU70OlzPvzDr
-         PRcjXcc+5ecMOPk3Bag0YDGP93W+XA5VVTXAzUqrqV9JmnbQl4Ruxho9Io8LILN8TE
-         fDNpJKiq1zmIFekKKvY3LIvNrlqOEDHoaxAXYt4uMIx/npEnLz9UW4cWOIjmB/0DLa
-         rCDWr3G6vRuG6KrXukZXQ07KtIKDkp4lyWGrEuEI8ZVvqguE8vC0Yn/JgpXZRZICwb
-         K07x4n3g1+qAVFHAMWAU7p0OauSfqTW0USbWyhSQ68Z7rZRenUn1x2oiZ+0Mz85JpV
-         5ztMgOXoYQTww==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Alexandre Courbot <acourbot@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.10 (v2)] mtk-vcodec: venc: support for MT8183
-Message-ID: <22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl>
-Date:   Sat, 29 Aug 2020 10:43:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726562AbgH2JN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Aug 2020 05:13:57 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:56840 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726405AbgH2JN5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Aug 2020 05:13:57 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kBwqD-006TXh-Gj; Sat, 29 Aug 2020 09:08:05 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kBwyS-0000mu-VG; Sat, 29 Aug 2020 09:16:37 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.10 (v2)] mtk-vcodec: venc: support for MT8183 (#66648)
+Date:   Sat, 29 Aug 2020 09:16:36 +0000
+Message-Id: <20200829091636.2983-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMukcbH3fLOhNw9xhnuHnkwL8HJChb6SXqfWt6qK2wTv3FkAntkZMxNkRffAYjK0gE9RmHkvYi6gVFiImO1EIjnn5Afjw/8QdUKU8QlxVVgdWSc9w7oD
- 5qG6tNM0X4RgN9KEYnyctq3qho6i7i/CZTg2zknO4tyK8bIJeM579aKzee3XnCvPpPMk2S63vaEDXJbxgkbPPl+PA87PI2Y4wKtbJLpL5cNay9zW3zjanlS+
- HWQtfBcQmlxv+N8K9lh4gXayI+a7Y3WmS6fwIjbt62N47Wz/Z+mj0jSx3B45oypuxvFCaCe5eqR7CK3Es7LlZA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Note 1: the MTK_SCP config option causes COMPILE_TEST to fail, but a patch for that
-is pending for the remoteproc tree: https://lkml.org/lkml/2020/8/21/489
-I've verified that that patch fixes the COMPILE_TEST failure.
+From: builder@linuxtv.org
 
-Note 2: the firmware is added to linux-firmware:
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?h=master&id=3c213aa59661c4641f0c2166a315140ac0445230
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/66212/
+Build time: 00:22:33
+Link: https://lore.kernel.org/linux-media/22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl
 
-Regards,
+gpg: Signature made Sat 29 Aug 2020 08:41:16 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-	Hans
+Summary: 4 patches and/or PDF generation with issues, being 0 at build time
 
-Changes since v1: fixed merge conflicts with patch 1 (media: mtk-vcodec: abstract
-firmware interface)
+Error/warnings:
 
-The following changes since commit a0009a133a2d4c3410682c87c2e2904a1e012f47:
+patches/0017-media-mtk-vcodec-make-IRQs-disabled-upon-request.patch:
 
-  media: venus: Make debug infrastructure more flexible (2020-08-29 10:12:24 +0200)
+	patches/0016-media-mtk-vcodec-venc-fix-invalid-time-per-frame-in-.patch:
 
-are available in the Git repository at:
+	patches/0015-media-mtk-vcodec-venc-set-default-time-per-frame.patch:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-mt8183
+	patches/0014-media-mtk-vcodec-venc-support-ENUM_FRAMESIZES-on-OUT.patch:
 
-for you to fetch changes up to e06368754756c4fedebb04c7561a1e359102e72e:
+	patches/0013-media-mtk-vcodec-venc-use-platform-data-for-ENUM_FRA.patch:
 
-  media: mtk-vcodec: make IRQs disabled upon request (2020-08-29 10:39:34 +0200)
+	patches/0012-media-mtk-vcodec-venc-set-OUTPUT-buffers-field-to-V4.patch:
 
-----------------------------------------------------------------
-Tag branch
+	patches/0011-media-mtk-vcodec-venc-support-MIN_OUTPUT_BUFFERS-con.patch:
 
-----------------------------------------------------------------
-Alexandre Courbot (13):
-      dt-bindings: media: mtk-vcodec: document SCP node
-      media: mtk-vcodec: venc: handle firmware version field
-      media: mtk-vcodec: venc: specify bitrate range per-chip
-      media: mtk-vcodec: venc: specify supported formats per-chip
-      dt-bindings: media: document mediatek,mt8183-vcodec-enc
-      Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
-      media: mtk-vcodec: venc support MIN_OUTPUT_BUFFERS control
-      media: mtk-vcodec: venc: set OUTPUT buffers field to V4L2_FIELD_NONE
-      media: mtk-vcodec: venc: use platform data for ENUM_FRAMESIZES
-      media: mtk-vcodec: venc: support ENUM_FRAMESIZES on OUTPUT formats
-      media: mtk-vcodec: venc: set default time per frame
-      media: mtk-vcodec: venc: fix invalid time per frame in S_PARM
-      media: mtk-vcodec: make IRQs disabled upon request
+	patches/0010-Revert-media-mtk-vcodec-Remove-extra-area-allocation.patch:
 
-Yunfei Dong (4):
-      media: mtk-vcodec: abstract firmware interface
-      media: mtk-vcodec: add SCP firmware ops
-      media: mtk-vcodec: venc: support SCP firmware
-      media: mtk-vcodec: add support for MT8183 encoder
+	patches/0009-media-mtk-vcodec-add-support-for-MT8183-encoder.patch:
 
- Documentation/devicetree/bindings/media/mediatek-vcodec.txt |   9 +-
- drivers/media/platform/Kconfig                              |   1 +
- drivers/media/platform/mtk-vcodec/Makefile                  |   6 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c      |  54 +++++------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c       |   1 -
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h          |  40 +++++++-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c          | 211 +++++++++++++++++++---------------------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      | 172 +++++++++++++++++++++++----------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c       |   2 -
- drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c           | 231 ++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h           |  38 ++++++++
- drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c         |   1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c       |   1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c        |   1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c        |   1 -
- drivers/media/platform/mtk-vcodec/vdec_drv_base.h           |   2 -
- drivers/media/platform/mtk-vcodec/vdec_drv_if.c             |   1 -
- drivers/media/platform/mtk-vcodec/vdec_vpu_if.c             |  12 ++-
- drivers/media/platform/mtk-vcodec/vdec_vpu_if.h             |  11 ++-
- drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c       |  68 ++++++++++---
- drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c        |  11 ++-
- drivers/media/platform/mtk-vcodec/venc_drv_if.c             |   1 -
- drivers/media/platform/mtk-vcodec/venc_drv_if.h             |  13 +++
- drivers/media/platform/mtk-vcodec/venc_ipi_msg.h            |  27 +++++-
- drivers/media/platform/mtk-vcodec/venc_vpu_if.c             | 141 ++++++++++++++++++++-------
- drivers/media/platform/mtk-vcodec/venc_vpu_if.h             |   8 +-
- 26 files changed, 782 insertions(+), 282 deletions(-)
- create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
- create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
+	patches/0008-dt-bindings-media-document-mediatek-mt8183-vcodec-en.patch:
+
+	patches/0007-media-mtk-vcodec-venc-specify-supported-formats-per-.patch:
+
+	patches/0006-media-mtk-vcodec-venc-specify-bitrate-range-per-chip.patch:
+
+	patches/0005-media-mtk-vcodec-venc-handle-firmware-version-field.patch:
+
+	patches/0004-media-mtk-vcodec-venc-support-SCP-firmware.patch:
+
+	patches/0003-media-mtk-vcodec-add-SCP-firmware-ops.patch:
+
+	patches/0002-dt-bindings-media-mtk-vcodec-document-SCP-node.patch:
+
+	
+Error #256 when running cat patches/0001-media-mtk-vcodec-abstract-firmware-interface.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0001-media-mtk-vcodec-abstract-firmware-interface.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:371: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+Error #256 when running cat patches/0004-media-mtk-vcodec-venc-support-SCP-firmware.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0004-media-mtk-vcodec-venc-support-SCP-firmware.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:337: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+-:356: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+-:357: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+Error #256 when running cat patches/0005-media-mtk-vcodec-venc-handle-firmware-version-field.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0005-media-mtk-vcodec-venc-handle-firmware-version-field.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:85: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
