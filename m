@@ -2,176 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A4A3256B47
-	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 05:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 508D5256C9B
+	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 09:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728625AbgH3Dp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Aug 2020 23:45:59 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:44047 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728613AbgH3Dp6 (ORCPT
+        id S1726130AbgH3HbY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Aug 2020 03:31:24 -0400
+Received: from zg8tmtm5lju5ljm3lje2naaa.icoremail.net ([139.59.37.164]:57821
+        "HELO zg8tmtm5lju5ljm3lje2naaa.icoremail.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with SMTP id S1726013AbgH3HbX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Aug 2020 23:45:58 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id CEHykEPawooQSCEHzkLXJX; Sun, 30 Aug 2020 05:45:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1598759155; bh=7IYsmf0TBKefkEiKFuMxWOGg05Xlg0d24Auppi/lygQ=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Ken0DfJR/4EFfUQaBxOJp83G2BmDdSWep4BeRG64Ji+QNVEbCwd5dlCgO0NwCffcf
-         +sT6piQS4ENOOQNMwpHwXW6LHznqphgRwx0sQbKzCUUOulaeJGz3cLEuJ1/oS3THEE
-         NSEm2S31HmJ3S9zhl3zCqvhuRf7+5HI2MeHTivyr7jS4D3L+lTYkt2PObYKA5+zj6y
-         g/a/993XCnouaKq4osvMmbdpWxODCrvOMO9W6nVSjT17gujWzRT/HysyxZxt0oIcGq
-         hGkRmUZKdvaazUF+BAoZYB8wRPeL6HbTmo4ZKWgutLxKTIcsGFT5xKmj89JAkCzU/S
-         sSHyn1GBKIgCQ==
-Message-ID: <ff96e7469503d50c113c52d8b1f27488@smtp-cloud7.xs4all.net>
-Date:   Sun, 30 Aug 2020 05:45:54 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfPdmqyKv8Ez76Q4ikaCA2crEklebz0keYbc/Muun2jgzTqJ4EY5o/wYTnTliOFuqBWL6pwNrTdsVi/Vp397IBG3/XT6UE7upioSwX2sfV++7XORj8Buo
- NE+Y7s88a8ElIPgxouU8M47iMMGDigPEQ12nxm/LcLXwvHoTZ2EgOXmQcX+JQ16vcw4YAw1IrqE56X4FLrLtq6pQBdPhy2imjYdU5ZwNDUz8lW1yRCCw9KCX
+        Sun, 30 Aug 2020 03:31:23 -0400
+X-Greylist: delayed 399 seconds by postgrey-1.27 at vger.kernel.org; Sun, 30 Aug 2020 03:31:21 EDT
+Received: from [166.111.139.123] (unknown [166.111.139.123])
+        by app-3 (Coremail) with SMTP id EQQGZQCHOSYnVEtfzRnPAA--.24490S2;
+        Sun, 30 Aug 2020 15:24:23 +0800 (CST)
+Subject: Re: [PATCH AUTOSEL 4.19 08/38] media: pci: ttpci: av7110: fix
+ possible buffer overflow caused by bad DMA value in debiirq()
+To:     Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20200821161807.348600-1-sashal@kernel.org>
+ <20200821161807.348600-8-sashal@kernel.org>
+ <20200829121020.GA20944@duo.ucw.cz>
+From:   Jia-Ju Bai <baijiaju@tsinghua.edu.cn>
+Message-ID: <a9c96d50-a4d1-29bf-3bb0-68c4f7cd4c10@tsinghua.edu.cn>
+Date:   Sun, 30 Aug 2020 15:24:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200829121020.GA20944@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-CM-TRANSID: EQQGZQCHOSYnVEtfzRnPAA--.24490S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ur4UWryrCFWkJr48tw1rCrg_yoW8Jw13pF
+        WIq3W0qFs5tF9IkrW2vrsFvaykAa4xJryDGwsrA34UArZ0gF1xCFWkJF4ru3ZYkF98ZayI
+        qF4Yq342gryqqaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvFb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+        jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I
+        8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
+        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCY
+        02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
+        6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+        kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVW3JVWrJr1lIxAIcVC2z280aVAF
+        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj
+        xU7LvtDUUUU
+X-CM-SenderInfo: xedlyxhdmxq3pvlqwxlxdovvfxof0/
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Sun Aug 30 05:00:11 CEST 2020
-media-tree git hash:	07d999f0d9463ea0d1f76e0f8921ea363d805767
-media_build git hash:	a20bdff25e6827e9f03f2476d4795df1c8ee4913
-v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6784-g0b1e8107
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+On 2020/8/29 20:10, Pavel Machek wrote:
+> Hi!
+>
+>> The value av7110->debi_virt is stored in DMA memory, and it is assigned
+>> to data, and thus data[0] can be modified at any time by malicious
+>> hardware. In this case, "if (data[0] < 2)" can be passed, but then
+>> data[0] can be changed into a large number, which may cause buffer
+>> overflow when the code "av7110->ci_slot[data[0]]" is used.
+>>
+>> To fix this possible bug, data[0] is assigned to a local variable, which
+>> replaces the use of data[0].
+> I'm pretty sure hardware capable of manipulating memory can work
+> around any such checks, but...
+>
+>> +++ b/drivers/media/pci/ttpci/av7110.c
+>> @@ -424,14 +424,15 @@ static void debiirq(unsigned long cookie)
+>>   	case DATA_CI_GET:
+>>   	{
+>>   		u8 *data = av7110->debi_virt;
+>> +		u8 data_0 = data[0];
+>>   
+>> -		if ((data[0] < 2) && data[2] == 0xff) {
+>> +		if (data_0 < 2 && data[2] == 0xff) {
+>>   			int flags = 0;
+>>   			if (data[5] > 0)
+>>   				flags |= CA_CI_MODULE_PRESENT;
+>>   			if (data[5] > 5)
+>>   				flags |= CA_CI_MODULE_READY;
+>> -			av7110->ci_slot[data[0]].flags = flags;
+>> +			av7110->ci_slot[data_0].flags = flags;
+> This does not even do what it says. Compiler is still free to access
+> data[0] multiple times. It needs READ_ONCE() to be effective.
+>
+>
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8.1-i686: OK
-linux-5.8.1-x86_64: OK
-linux-5.9-rc1-i686: OK
-linux-5.9-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: WARNINGS
-smatch: ERRORS
+Thanks for this advice, I will submit a v2 patch soon.
 
-Detailed results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+Best wishes,
+Jia-Ju Bai
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
