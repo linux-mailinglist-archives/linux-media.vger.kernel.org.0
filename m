@@ -2,91 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D29F256D60
-	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 12:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2149B256D6C
+	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 13:22:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728792AbgH3K4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Aug 2020 06:56:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45772 "EHLO mail.kernel.org"
+        id S1726430AbgH3LWo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Aug 2020 07:22:44 -0400
+Received: from gofer.mess.org ([88.97.38.141]:54361 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726406AbgH3K4P (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Aug 2020 06:56:15 -0400
-Received: from coco.lan (ip5f5ad5b3.dynamic.kabel-deutschland.de [95.90.213.179])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 75EEB207DA;
-        Sun, 30 Aug 2020 10:56:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598784974;
-        bh=sDyP8wiayeZR0DcWXLBDe1i+k6BXoERi+SI05wLU1/E=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Davr/tK53989y0mwAZ9+8YEHKNQCfFEXOMch1W5q6syHRskpVTvSF9LCiH2Z9MkYi
-         pJB0wajFSGa5y6CNN8Uw3yXBzBrLqS5GNSeQu5LST8HBjRfXCY899PbSj2KDViTIZV
-         S89fABLWMwqIQgFnBtIoe8gZTfo/vveR6EkTN/Zw=
-Date:   Sun, 30 Aug 2020 12:56:09 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH] remoteproc: scp: add COMPILE_TEST dependency
-Message-ID: <20200830125601.468a24d8@coco.lan>
-In-Reply-To: <20200821115832.2893484-1-acourbot@chromium.org>
-References: <20200821115832.2893484-1-acourbot@chromium.org>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726406AbgH3LWn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 30 Aug 2020 07:22:43 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 21416C63F6; Sun, 30 Aug 2020 12:22:42 +0100 (BST)
+Date:   Sun, 30 Aug 2020 12:22:41 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.10] DVB & RC fixes
+Message-ID: <20200830112241.GA21060@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 21 Aug 2020 20:58:32 +0900
-Alexandre Courbot <acourbot@chromium.org> escreveu:
+Hi Mauro,
 
-> This will improve this driver's build coverage.
-
-There is a pending pull request for media which seems to depend
-on this patch. Without it, COMPILE_TEST breaks at linux-media
-git tree, if I pick it. See:
-
-	https://lore.kernel.org/linux-media/20200830104650.0dd4d751@coco.lan/T/#t
-
-The best here would be to get an ack from the remoteproc
-maintainers to get this patch merged via the media tree.
-
-Alternatively, this patch could be applied on a stable topic branch
-at remoteproc tree, which would be merged at the media tree, or
-cherry-picked on media after being committed at remoteproc tree.
-
-Regards,
-Mauro
-
-> 
-> Reported-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> ---
->  drivers/remoteproc/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
-> index c6659dfea7c7..d1fcada71017 100644
-> --- a/drivers/remoteproc/Kconfig
-> +++ b/drivers/remoteproc/Kconfig
-> @@ -43,7 +43,7 @@ config INGENIC_VPU_RPROC
->  
->  config MTK_SCP
->  	tristate "Mediatek SCP support"
-> -	depends on ARCH_MEDIATEK
-> +	depends on ARCH_MEDIATEK || COMPILE_TEST
->  	select RPMSG_MTK_SCP
->  	help
->  	  Say y here to support Mediatek's System Companion Processor (SCP) via
-
-
+I've tested most of my IR hardware to make sure this patch set does not
+regress.
 
 Thanks,
-Mauro
+Sean
+
+The following changes since commit 07d999f0d9463ea0d1f76e0f8921ea363d805767:
+
+  media: open.rst: document mc-centric and video-node-centric (2020-08-29 10:41:03 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/syoung/media_tree.git tags/v5.10b
+
+for you to fetch changes up to f294df6a0c5bc3866f9b2cd2e756e665908c669a:
+
+  media: rc: rename ir_lirc_* functions to lirc_* (2020-08-30 09:41:39 +0100)
+
+----------------------------------------------------------------
+v5.10b
+
+----------------------------------------------------------------
+Alex Bee (1):
+      media: dvb_usb_pctv452e: use ISL6423 voltage regulator per default
+
+Jason Yan (1):
+      media: mxl5xx: remove unused including <linux/version.h>
+
+Sean Young (3):
+      media: rc: rename lirc char dev region to "lirc"
+      media: rc: harmonize infrared durations to microseconds
+      media: rc: rename ir_lirc_* functions to lirc_*
+
+Tom Rix (1):
+      media: dvb-frontends/cxd2099: report errors
+
+ drivers/hid/hid-picolcd_cir.c              | 10 ++--
+ drivers/media/cec/core/cec-core.c          |  2 +-
+ drivers/media/cec/platform/seco/seco-cec.c |  2 +-
+ drivers/media/common/siano/smsir.c         |  4 +-
+ drivers/media/dvb-frontends/cxd2099.c      | 14 +++--
+ drivers/media/dvb-frontends/mxl5xx.c       |  1 -
+ drivers/media/i2c/cx25840/cx25840-ir.c     |  2 +-
+ drivers/media/pci/cx23885/cx23888-ir.c     |  2 +-
+ drivers/media/pci/cx88/cx88-input.c        |  4 +-
+ drivers/media/pci/smipcie/smipcie-ir.c     |  7 +--
+ drivers/media/rc/ene_ir.c                  | 18 +++---
+ drivers/media/rc/fintek-cir.c              |  8 +--
+ drivers/media/rc/igorplugusb.c             |  6 +-
+ drivers/media/rc/iguanair.c                |  4 +-
+ drivers/media/rc/imon_raw.c                |  2 +-
+ drivers/media/rc/ir-hix5hd2.c              |  8 +--
+ drivers/media/rc/ir-imon-decoder.c         | 10 ++--
+ drivers/media/rc/ir-jvc-decoder.c          |  6 +-
+ drivers/media/rc/ir-mce_kbd-decoder.c      |  8 +--
+ drivers/media/rc/ir-nec-decoder.c          |  6 +-
+ drivers/media/rc/ir-rc5-decoder.c          |  6 +-
+ drivers/media/rc/ir-rc6-decoder.c          |  6 +-
+ drivers/media/rc/ir-rcmm-decoder.c         | 18 +++---
+ drivers/media/rc/ir-sanyo-decoder.c        |  6 +-
+ drivers/media/rc/ir-sharp-decoder.c        |  6 +-
+ drivers/media/rc/ir-sony-decoder.c         |  6 +-
+ drivers/media/rc/ir-xmp-decoder.c          | 15 ++---
+ drivers/media/rc/ir_toy.c                  | 14 ++---
+ drivers/media/rc/ite-cir.c                 | 10 ++--
+ drivers/media/rc/ite-cir.h                 |  4 +-
+ drivers/media/rc/lirc_dev.c                | 95 ++++++++++++++----------------
+ drivers/media/rc/mceusb.c                  | 12 ++--
+ drivers/media/rc/meson-ir.c                |  4 +-
+ drivers/media/rc/mtk-cir.c                 |  4 +-
+ drivers/media/rc/nuvoton-cir.c             | 10 ++--
+ drivers/media/rc/nuvoton-cir.h             |  2 +-
+ drivers/media/rc/rc-core-priv.h            | 21 ++++---
+ drivers/media/rc/rc-ir-raw.c               | 14 ++---
+ drivers/media/rc/rc-loopback.c             |  8 +--
+ drivers/media/rc/rc-main.c                 | 10 ++--
+ drivers/media/rc/redrat3.c                 | 17 +++---
+ drivers/media/rc/serial_ir.c               | 10 ++--
+ drivers/media/rc/sir_ir.c                  |  2 +-
+ drivers/media/rc/st_rc.c                   |  6 +-
+ drivers/media/rc/streamzap.c               | 10 +---
+ drivers/media/rc/sunxi-cir.c               |  4 +-
+ drivers/media/rc/ttusbir.c                 | 18 +++---
+ drivers/media/rc/winbond-cir.c             | 10 ++--
+ drivers/media/rc/xbox_remote.c             |  2 +-
+ drivers/media/usb/au0828/au0828-input.c    |  8 +--
+ drivers/media/usb/dvb-usb-v2/rtl28xxu.c    |  4 +-
+ drivers/media/usb/dvb-usb/Kconfig          |  1 +
+ drivers/media/usb/dvb-usb/pctv452e.c       | 26 ++++++--
+ drivers/media/usb/dvb-usb/technisat-usb2.c |  4 +-
+ include/media/rc-core.h                    | 11 ++--
+ 55 files changed, 264 insertions(+), 264 deletions(-)
