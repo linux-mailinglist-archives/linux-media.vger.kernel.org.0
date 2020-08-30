@@ -2,90 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6FBA256A5C
-	for <lists+linux-media@lfdr.de>; Sat, 29 Aug 2020 23:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A4A3256B47
+	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 05:46:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728471AbgH2VYo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Aug 2020 17:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728384AbgH2VYn (ORCPT
+        id S1728625AbgH3Dp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Aug 2020 23:45:59 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:44047 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728613AbgH3Dp6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Aug 2020 17:24:43 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47A8EC061573;
-        Sat, 29 Aug 2020 14:24:43 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id AB734C638A; Sat, 29 Aug 2020 22:24:35 +0100 (BST)
-Date:   Sat, 29 Aug 2020 22:24:35 +0100
-From:   Sean Young <sean@mess.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Jia-Ju Bai <baijiaju@tsinghua.edu.cn>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 4.19 08/38] media: pci: ttpci: av7110: fix
- possible buffer overflow caused by bad DMA value in debiirq()
-Message-ID: <20200829212435.GA9195@gofer.mess.org>
-References: <20200821161807.348600-1-sashal@kernel.org>
- <20200821161807.348600-8-sashal@kernel.org>
- <20200829121020.GA20944@duo.ucw.cz>
- <20200829171600.GA7465@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200829171600.GA7465@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Sat, 29 Aug 2020 23:45:58 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id CEHykEPawooQSCEHzkLXJX; Sun, 30 Aug 2020 05:45:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598759155; bh=7IYsmf0TBKefkEiKFuMxWOGg05Xlg0d24Auppi/lygQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Ken0DfJR/4EFfUQaBxOJp83G2BmDdSWep4BeRG64Ji+QNVEbCwd5dlCgO0NwCffcf
+         +sT6piQS4ENOOQNMwpHwXW6LHznqphgRwx0sQbKzCUUOulaeJGz3cLEuJ1/oS3THEE
+         NSEm2S31HmJ3S9zhl3zCqvhuRf7+5HI2MeHTivyr7jS4D3L+lTYkt2PObYKA5+zj6y
+         g/a/993XCnouaKq4osvMmbdpWxODCrvOMO9W6nVSjT17gujWzRT/HysyxZxt0oIcGq
+         hGkRmUZKdvaazUF+BAoZYB8wRPeL6HbTmo4ZKWgutLxKTIcsGFT5xKmj89JAkCzU/S
+         sSHyn1GBKIgCQ==
+Message-ID: <ff96e7469503d50c113c52d8b1f27488@smtp-cloud7.xs4all.net>
+Date:   Sun, 30 Aug 2020 05:45:54 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfPdmqyKv8Ez76Q4ikaCA2crEklebz0keYbc/Muun2jgzTqJ4EY5o/wYTnTliOFuqBWL6pwNrTdsVi/Vp397IBG3/XT6UE7upioSwX2sfV++7XORj8Buo
+ NE+Y7s88a8ElIPgxouU8M47iMMGDigPEQ12nxm/LcLXwvHoTZ2EgOXmQcX+JQ16vcw4YAw1IrqE56X4FLrLtq6pQBdPhy2imjYdU5ZwNDUz8lW1yRCCw9KCX
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Aug 29, 2020 at 08:16:00PM +0300, Laurent Pinchart wrote:
-> On Sat, Aug 29, 2020 at 02:10:20PM +0200, Pavel Machek wrote:
-> > Hi!
-> > 
-> > > The value av7110->debi_virt is stored in DMA memory, and it is assigned
-> > > to data, and thus data[0] can be modified at any time by malicious
-> > > hardware. In this case, "if (data[0] < 2)" can be passed, but then
-> > > data[0] can be changed into a large number, which may cause buffer
-> > > overflow when the code "av7110->ci_slot[data[0]]" is used.
-> > > 
-> > > To fix this possible bug, data[0] is assigned to a local variable, which
-> > > replaces the use of data[0].
-> > 
-> > I'm pretty sure hardware capable of manipulating memory can work
-> > around any such checks, but...
-> > 
-> > > +++ b/drivers/media/pci/ttpci/av7110.c
-> > > @@ -424,14 +424,15 @@ static void debiirq(unsigned long cookie)
-> > >  	case DATA_CI_GET:
-> > >  	{
-> > >  		u8 *data = av7110->debi_virt;
-> > > +		u8 data_0 = data[0];
-> > >  
-> > > -		if ((data[0] < 2) && data[2] == 0xff) {
-> > > +		if (data_0 < 2 && data[2] == 0xff) {
-> > >  			int flags = 0;
-> > >  			if (data[5] > 0)
-> > >  				flags |= CA_CI_MODULE_PRESENT;
-> > >  			if (data[5] > 5)
-> > >  				flags |= CA_CI_MODULE_READY;
-> > > -			av7110->ci_slot[data[0]].flags = flags;
-> > > +			av7110->ci_slot[data_0].flags = flags;
-> > 
-> > This does not even do what it says. Compiler is still free to access
-> > data[0] multiple times. It needs READ_ONCE() to be effective.
-> 
-> Yes, it seems quite dubious to me. If we *really* want to guard against
-> rogue hardware here, the whole DMA buffer should be copied. I don't
-> think it's worth it, a rogue PCI device can do much more harm.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-That is a good point. I'm not sure what the kernel could do to protect
-against a malicious PCI device (that can do dma) so this patch is totally
-pointless.
+Results of the daily build of media_tree:
 
-Thanks
+date:			Sun Aug 30 05:00:11 CEST 2020
+media-tree git hash:	07d999f0d9463ea0d1f76e0f8921ea363d805767
+media_build git hash:	a20bdff25e6827e9f03f2476d4795df1c8ee4913
+v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Sean
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: WARNINGS
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
