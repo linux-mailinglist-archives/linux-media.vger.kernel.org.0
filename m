@@ -2,81 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5501F256CED
-	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 10:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D625256D07
+	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 11:14:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728722AbgH3Iq4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Aug 2020 04:46:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49690 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726130AbgH3Iqz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Aug 2020 04:46:55 -0400
-Received: from coco.lan (ip5f5ad5b3.dynamic.kabel-deutschland.de [95.90.213.179])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EC9942078D;
-        Sun, 30 Aug 2020 08:46:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598777215;
-        bh=u353U1qg0daJPQcN0ugvdw2KcI1/+xrfuDqSvC+SpJk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=gC9yb33TjEr3Tt1EhX54/BDubBeo8pmlKql5U6ujNkxaDzUIBJO0Ek6/wton5ANTc
-         sYt4Df1G15clXEf/FYJhSQVJxQV6JCwdNNOsCt08+9L3b3c1/4yZQbkw2aYifSxgQB
-         13RCAo5be1He+3Pr6JrD7F1Q6Ms8iiV0SirkjUL4=
-Date:   Sun, 30 Aug 2020 10:46:50 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>
-Subject: Re: [GIT PULL FOR v5.10 (v2)] mtk-vcodec: venc: support for MT8183
-Message-ID: <20200830104650.0dd4d751@coco.lan>
-In-Reply-To: <22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl>
-References: <22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726284AbgH3JO4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Aug 2020 05:14:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56432 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725869AbgH3JO4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 30 Aug 2020 05:14:56 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58F6C061573
+        for <linux-media@vger.kernel.org>; Sun, 30 Aug 2020 02:14:55 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 963AFC63F6; Sun, 30 Aug 2020 10:14:53 +0100 (BST)
+Date:   Sun, 30 Aug 2020 10:14:53 +0100
+From:   Sean Young <sean@mess.org>
+To:     Simon Liddicott <simon@liddicott.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        oliver@schinagl.nl
+Subject: Re: dtv-scan-tables maintenance
+Message-ID: <20200830091453.GA18260@gofer.mess.org>
+References: <CALuNSF479bQ0wPZbX_aK_j1JRuuwLhT=96ou420Wwdi2v1zR3Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALuNSF479bQ0wPZbX_aK_j1JRuuwLhT=96ou420Wwdi2v1zR3Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 29 Aug 2020 10:43:12 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+Hi,
 
-> Note 1: the MTK_SCP config option causes COMPILE_TEST to fail, but a patch for that
-> is pending for the remoteproc tree: https://lkml.org/lkml/2020/8/21/489
-> I've verified that that patch fixes the COMPILE_TEST failure.
+On Tue, Aug 04, 2020 at 03:05:48PM +0100, Simon Liddicott wrote:
+> Hi
+> 
+> Who is maintaining the dtv-scan-tables tree?
+> 
+> There are a few outstanding patches.
 
-Breaking COMPILE_TEST is a very bad idea, as it means that the robots
-will stop reporting issues on this driver, including our own Jenkins
-instance. 
-
-We need a solution for it, like:
-
-1. postponing the changes that caused it to break to be added only
-  after the merge window;
-2. ask an ack from remoteproc maintainer for him to send his ack
-  and having the patch applied via our tree;
-3. cherry-pick the fixup patch, applying it before the patch which
-  broke the build;
-4. pull from a permanent branch from the tree where the fixup patch
-  were merged; 
-
-Looking at lore:
-	https://lore.kernel.org/linux-remoteproc/20200821115832.2893484-1-acourbot@chromium.org/
-
-I can't see any reply to this patch. Was it already merged there?
-I guess not:
-	https://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git/log/?h=for-next
-
-I'm not a big fan of (4), as, if something bad happens during the
-merge window with the tree containing the fixup patch, we may have 
-some bad time merging media upstream, specially if such tree would
-contain something that. So, if we would use alternative (4), I'll
-likely place all changes for mtk driver on a topic branch, to be
-merged upstream only after the pull request with the fixup
-patches got merged.
+I've started handling these patches. Let me know if anything is missing.
 
 Thanks,
-Mauro
+
+Sean
