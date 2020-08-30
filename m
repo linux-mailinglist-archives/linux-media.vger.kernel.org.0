@@ -2,432 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48CDF256D90
-	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 14:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6EFA256D9E
+	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 14:26:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728817AbgH3MMU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Aug 2020 08:12:20 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:37890 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728799AbgH3MMP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Aug 2020 08:12:15 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kCM6E-007tIa-16; Sun, 30 Aug 2020 12:06:18 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kCMEV-0005lC-GI; Sun, 30 Aug 2020 12:14:51 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.10 (v2)] mtk-vcodec: venc: support for MT8183 (#66648)
-Date:   Sun, 30 Aug 2020 12:14:51 +0000
-Message-Id: <20200830121451.22101-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl>
-References: 
+        id S1728828AbgH3M0U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Aug 2020 08:26:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58092 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728609AbgH3M0T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 30 Aug 2020 08:26:19 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 686A9C061573
+        for <linux-media@vger.kernel.org>; Sun, 30 Aug 2020 05:26:17 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 35D5BC63F6; Sun, 30 Aug 2020 13:26:10 +0100 (BST)
+Date:   Sun, 30 Aug 2020 13:26:10 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.10] DVB & RC fixes (v2)
+Message-ID: <20200830122609.GA22247@gofer.mess.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/66223/
-Build time: 03:221:09
-Link: https://lore.kernel.org/linux-media/22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl
-
-gpg: Signature made Sat 29 Aug 2020 08:41:16 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-
-Summary: got 17/17 patches with issues, being 15 at build time and one fatal error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-mtk-vcodec-abstract-firmware-interface.patch:
-
-   checkpatch.pl:
-	$ cat patches/0001-media-mtk-vcodec-abstract-firmware-interface.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:371: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0003-media-mtk-vcodec-add-SCP-firmware-ops.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0004-media-mtk-vcodec-venc-support-SCP-firmware.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-   checkpatch.pl:
-	$ cat patches/0004-media-mtk-vcodec-venc-support-SCP-firmware.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:337: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-	-:356: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-	-:357: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-
-patches/0005-media-mtk-vcodec-venc-handle-firmware-version-field.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-   checkpatch.pl:
-	$ cat patches/0005-media-mtk-vcodec-venc-handle-firmware-version-field.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:85: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-
-patches/0006-media-mtk-vcodec-venc-specify-bitrate-range-per-chip.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0007-media-mtk-vcodec-venc-specify-supported-formats-per-.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0008-dt-bindings-media-document-mediatek-mt8183-vcodec-en.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0009-media-mtk-vcodec-add-support-for-MT8183-encoder.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0010-Revert-media-mtk-vcodec-Remove-extra-area-allocation.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0011-media-mtk-vcodec-venc-support-MIN_OUTPUT_BUFFERS-con.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0012-media-mtk-vcodec-venc-set-OUTPUT-buffers-field-to-V4.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0013-media-mtk-vcodec-venc-use-platform-data-for-ENUM_FRA.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0014-media-mtk-vcodec-venc-support-ENUM_FRAMESIZES-on-OUT.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0015-media-mtk-vcodec-venc-set-default-time-per-frame.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0016-media-mtk-vcodec-venc-fix-invalid-time-per-frame-in-.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-patches/0017-media-mtk-vcodec-make-IRQs-disabled-upon-request.patch:
-
-    allyesconfig: error:
-	scripts/kconfig/conf  --allyesconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [y]:
-	  - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-    allmodconfig: error:
-	scripts/kconfig/conf  --allmodconfig Kconfig
-	#
-	# configuration written to .config
-	#
-
-	WARNING: unmet direct dependencies detected for MTK_SCP
-	  Depends on [n]: REMOTEPROC [=y] && ARCH_MEDIATEK
-	  Selected by [m]:
-	  - VIDEO_MEDIATEK_VCODEC [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
-
-
-Error #512 when building PDF docs
-
+Hi Mauro,
+
+I've tested most of my IR hardware to make sure this patch set does not
+regress.
+
+Thanks,
+Sean
+
+The following changes since commit 07d999f0d9463ea0d1f76e0f8921ea363d805767:
+
+  media: open.rst: document mc-centric and video-node-centric (2020-08-29 10:41:03 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/syoung/media_tree.git tags/v5.10b
+
+for you to fetch changes up to ee96e0b01023305386e8e6912c5ef47febce069f:
+
+  media: rc: rename ir_lirc_* functions to lirc_* (2020-08-30 12:30:32 +0100)
+
+----------------------------------------------------------------
+v5.10b
+
+----------------------------------------------------------------
+Alex Bee (1):
+      media: dvb_usb_pctv452e: use ISL6423 voltage regulator per default
+
+Jason Yan (1):
+      media: mxl5xx: remove unused including <linux/version.h>
+
+Sean Young (3):
+      media: rc: rename lirc char dev region to "lirc"
+      media: rc: harmonize infrared durations to microseconds
+      media: rc: rename ir_lirc_* functions to lirc_*
+
+Tom Rix (1):
+      media: dvb-frontends/cxd2099: report errors
+
+ drivers/hid/hid-picolcd_cir.c              | 10 ++--
+ drivers/media/cec/core/cec-core.c          |  2 +-
+ drivers/media/cec/platform/seco/seco-cec.c |  2 +-
+ drivers/media/common/siano/smsir.c         |  4 +-
+ drivers/media/dvb-frontends/cxd2099.c      | 14 +++--
+ drivers/media/dvb-frontends/mxl5xx.c       |  1 -
+ drivers/media/i2c/cx25840/cx25840-ir.c     |  2 +-
+ drivers/media/pci/cx23885/cx23888-ir.c     |  2 +-
+ drivers/media/pci/cx88/cx88-input.c        |  4 +-
+ drivers/media/pci/smipcie/smipcie-ir.c     |  7 +--
+ drivers/media/rc/ene_ir.c                  | 18 +++---
+ drivers/media/rc/fintek-cir.c              |  8 +--
+ drivers/media/rc/igorplugusb.c             |  6 +-
+ drivers/media/rc/iguanair.c                |  4 +-
+ drivers/media/rc/imon_raw.c                |  2 +-
+ drivers/media/rc/ir-hix5hd2.c              |  8 +--
+ drivers/media/rc/ir-imon-decoder.c         | 10 ++--
+ drivers/media/rc/ir-jvc-decoder.c          |  6 +-
+ drivers/media/rc/ir-mce_kbd-decoder.c      |  8 +--
+ drivers/media/rc/ir-nec-decoder.c          |  6 +-
+ drivers/media/rc/ir-rc5-decoder.c          |  6 +-
+ drivers/media/rc/ir-rc6-decoder.c          |  6 +-
+ drivers/media/rc/ir-rcmm-decoder.c         | 18 +++---
+ drivers/media/rc/ir-sanyo-decoder.c        |  6 +-
+ drivers/media/rc/ir-sharp-decoder.c        |  6 +-
+ drivers/media/rc/ir-sony-decoder.c         |  6 +-
+ drivers/media/rc/ir-xmp-decoder.c          | 15 ++---
+ drivers/media/rc/ir_toy.c                  | 14 ++---
+ drivers/media/rc/ite-cir.c                 | 10 ++--
+ drivers/media/rc/ite-cir.h                 |  4 +-
+ drivers/media/rc/lirc_dev.c                | 95 ++++++++++++++----------------
+ drivers/media/rc/mceusb.c                  | 12 ++--
+ drivers/media/rc/meson-ir.c                |  4 +-
+ drivers/media/rc/mtk-cir.c                 |  4 +-
+ drivers/media/rc/nuvoton-cir.c             | 10 ++--
+ drivers/media/rc/nuvoton-cir.h             |  2 +-
+ drivers/media/rc/rc-core-priv.h            | 21 ++++---
+ drivers/media/rc/rc-ir-raw.c               | 16 ++---
+ drivers/media/rc/rc-loopback.c             |  8 +--
+ drivers/media/rc/rc-main.c                 | 10 ++--
+ drivers/media/rc/redrat3.c                 | 17 +++---
+ drivers/media/rc/serial_ir.c               | 10 ++--
+ drivers/media/rc/sir_ir.c                  |  2 +-
+ drivers/media/rc/st_rc.c                   |  6 +-
+ drivers/media/rc/streamzap.c               | 10 +---
+ drivers/media/rc/sunxi-cir.c               |  4 +-
+ drivers/media/rc/ttusbir.c                 | 18 +++---
+ drivers/media/rc/winbond-cir.c             | 10 ++--
+ drivers/media/rc/xbox_remote.c             |  2 +-
+ drivers/media/usb/au0828/au0828-input.c    |  8 +--
+ drivers/media/usb/dvb-usb-v2/rtl28xxu.c    |  4 +-
+ drivers/media/usb/dvb-usb/Kconfig          |  1 +
+ drivers/media/usb/dvb-usb/pctv452e.c       | 26 ++++++--
+ drivers/media/usb/dvb-usb/technisat-usb2.c |  4 +-
+ include/media/rc-core.h                    | 11 ++--
+ 55 files changed, 265 insertions(+), 265 deletions(-)
