@@ -2,51 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D625256D07
-	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 11:14:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CA48256D0F
+	for <lists+linux-media@lfdr.de>; Sun, 30 Aug 2020 11:21:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726284AbgH3JO4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Aug 2020 05:14:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56432 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbgH3JO4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Aug 2020 05:14:56 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58F6C061573
-        for <linux-media@vger.kernel.org>; Sun, 30 Aug 2020 02:14:55 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 963AFC63F6; Sun, 30 Aug 2020 10:14:53 +0100 (BST)
-Date:   Sun, 30 Aug 2020 10:14:53 +0100
-From:   Sean Young <sean@mess.org>
-To:     Simon Liddicott <simon@liddicott.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        oliver@schinagl.nl
-Subject: Re: dtv-scan-tables maintenance
-Message-ID: <20200830091453.GA18260@gofer.mess.org>
-References: <CALuNSF479bQ0wPZbX_aK_j1JRuuwLhT=96ou420Wwdi2v1zR3Q@mail.gmail.com>
+        id S1728757AbgH3JTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Aug 2020 05:19:37 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:57752 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725869AbgH3JTg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 30 Aug 2020 05:19:36 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kCJPE-007k2f-8O; Sun, 30 Aug 2020 09:13:44 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kCJXV-0006gz-5M; Sun, 30 Aug 2020 09:22:17 +0000
+Date:   Sun, 30 Aug 2020 09:22:17 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <372212917.2.1598779337132@builder.linuxtv.org>
+In-Reply-To: <421773288.1.1598692773779@builder.linuxtv.org>
+References: <421773288.1.1598692773779@builder.linuxtv.org>
+Subject: Jenkins build is back to normal : media-build #3200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALuNSF479bQ0wPZbX_aK_j1JRuuwLhT=96ou420Wwdi2v1zR3Q@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: SUCCESS
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+See <https://builder.linuxtv.org/job/media-build/3200/display/redirect>
 
-On Tue, Aug 04, 2020 at 03:05:48PM +0100, Simon Liddicott wrote:
-> Hi
-> 
-> Who is maintaining the dtv-scan-tables tree?
-> 
-> There are a few outstanding patches.
-
-I've started handling these patches. Let me know if anything is missing.
-
-Thanks,
-
-Sean
