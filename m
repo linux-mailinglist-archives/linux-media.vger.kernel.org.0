@@ -2,821 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28DFA257863
-	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 13:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F5CD25789D
+	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 13:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbgHaL2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Aug 2020 07:28:48 -0400
-Received: from mga18.intel.com ([134.134.136.126]:14576 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726948AbgHaL1X (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Aug 2020 07:27:23 -0400
-IronPort-SDR: XViYvO8cktSyX9saqfxmxnPQKy4Jh0o7oat47ZNU2HTNFIewEUD5IAPJlwsecyEGHY5ZXjjuky
- NqpeldO5KvkA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9729"; a="144630442"
-X-IronPort-AV: E=Sophos;i="5.76,375,1592895600"; 
-   d="scan'208";a="144630442"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 04:27:02 -0700
-IronPort-SDR: 1xV2pquFsaGjw3mtZA1MovnlSWITnFm0PqH1G+omTXVLucJpwD/XWyb0J899iV09DiDGyWrlfz
- I+UaPFDXNz4Q==
-X-IronPort-AV: E=Sophos;i="5.76,375,1592895600"; 
-   d="scan'208";a="501299957"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 04:26:59 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 1557620623; Mon, 31 Aug 2020 14:26:57 +0300 (EEST)
-Date:   Mon, 31 Aug 2020 14:26:57 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     =?iso-8859-1?Q?K=E9vin_L'h=F4pital?= <kevin.lhopital@bootlin.com>
-Cc:     linux-media@vger.kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, mripard@kernel.org, wens@csie.org,
-        yong.deng@magewell.com, mchehab+samsung@kernel.org,
-        p.zabel@pengutronix.de, hans.verkuil@cisco.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        paul.kocialkowski@bootlin.com, thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH v2 3/4] media: sunxi: sun6i-csi: Add support of MIPI
- CSI-2 for A83T
-Message-ID: <20200831112656.GK31019@paasikivi.fi.intel.com>
-References: <20200828131737.12483-1-kevin.lhopital@bootlin.com>
- <20200828131737.12483-4-kevin.lhopital@bootlin.com>
+        id S1726249AbgHaLow (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Aug 2020 07:44:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726106AbgHaLov (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 31 Aug 2020 07:44:51 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB28C061573
+        for <linux-media@vger.kernel.org>; Mon, 31 Aug 2020 04:44:50 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id n13so5096431edo.10
+        for <linux-media@vger.kernel.org>; Mon, 31 Aug 2020 04:44:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=efGDe+zcHIa2VsRuM+m7GHMfouf/LYGtTzaBD57lCYU=;
+        b=FaiR145STFKet4ABBn9muz0fH70Iib8OAiaAZFSQWpqeQHq3y/pZH07b/qf/KOfyOJ
+         pl/wrRDqemy8wMDarwdpaqk8VWQka1xilVb4+b92LPoLNxq+dZ3ZWxV941MF8RQ+UCRL
+         gyMOIAp1gr6MMoN3bCNDLeY1q5brBuXhDv/ag=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=efGDe+zcHIa2VsRuM+m7GHMfouf/LYGtTzaBD57lCYU=;
+        b=s2VFa03mBe4D0q5lXxImE6cnbdOltOa6AeObouZNenfyQW3FSO9RbI1UznrG2mA1S+
+         2sxPKWGYOOkH2wVrxFaQblL8mZd0WehJrliRvOT+NSvyMOBherTjIQT0GiUTVkRMFP/b
+         ud1oBFsd11F/DOm3RZwHZE3iV9ScnpMJRZQz8o8Eo0vcxvxyDwNixs+OOE70qCWrLDv5
+         SvxLjAnRgTAD4owD3l9yf8Lt21aelHZlD1QIQv+RCn2vRkURxrKjoVE8xl5weF5VgjkG
+         v3yrOYY2vS9yuEM1bw9EDrcZjA+tGIRItAX2nudQ5GB5u0k5Se4D8JW2LIa9So7NRr/m
+         MqYA==
+X-Gm-Message-State: AOAM530wGGCroknkmOt4xd3y2PLzP9A1YeItZFnVujBcwjoX0v5edNmd
+        rva8V9Uv/olrzpxgcLmouNj4iGyeZCRT8g==
+X-Google-Smtp-Source: ABdhPJzVJddXTKA9SNUAljNRaeuMidcmuM7Ra7jXEhAw4NXlFjP7AVqZ53NfFp5yNhXdB/VIcbgHcw==
+X-Received: by 2002:a05:6402:305a:: with SMTP id bu26mr877826edb.262.1598874289136;
+        Mon, 31 Aug 2020 04:44:49 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
+        by smtp.gmail.com with ESMTPSA id bd13sm7525907edb.38.2020.08.31.04.44.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Aug 2020 04:44:48 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id s13so5071576wmh.4
+        for <linux-media@vger.kernel.org>; Mon, 31 Aug 2020 04:44:47 -0700 (PDT)
+X-Received: by 2002:a7b:c925:: with SMTP id h5mr1009961wml.28.1598874287354;
+ Mon, 31 Aug 2020 04:44:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200828131737.12483-4-kevin.lhopital@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200710101850.4604-1-dongchun.zhu@mediatek.com> <20200710101850.4604-2-dongchun.zhu@mediatek.com>
+In-Reply-To: <20200710101850.4604-2-dongchun.zhu@mediatek.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 31 Aug 2020 13:44:27 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5BB3c9nvruY0jcVbRZtbUyiFj0v8=D6KA7EPtN4rz=+wA@mail.gmail.com>
+Message-ID: <CAAFQd5BB3c9nvruY0jcVbRZtbUyiFj0v8=D6KA7EPtN4rz=+wA@mail.gmail.com>
+Subject: Re: [PATCH v13 1/2] media: dt-bindings: media: i2c: Document OV02A10 bindings
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?= 
+        <shengnan.wang@mediatek.com>, 1095088256@qq.com,
+        matrix.zhu@aliyun.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kévin,
+Hi Dongchun,
 
-On Fri, Aug 28, 2020 at 03:17:35PM +0200, Kévin L'hôpital wrote:
-> This patch add the support only for the Allwinner A83T MIPI CSI-2.
-> Currently, the driver does not support the  V3s MIPI CSI-2 controller.
-> On the A83T, the CSI controller is the same as the other V3s Soc, but
-> the MIPI CSI2 controller is not.
-> 
-> It was tested with the ov8865 image sensor.
-> 
-> Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+On Fri, Jul 10, 2020 at 12:19 PM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+>
+> Add YAML device tree binding for OV02A10 CMOS image sensor,
+> and the relevant MAINTAINERS entries.
+>
+> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
 > ---
->  .../media/platform/sunxi/sun6i-csi/Makefile   |   2 +-
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  84 +++++--
->  .../sunxi/sun6i-csi/sun8i_a83t_dphy.c         |  39 ++++
->  .../sunxi/sun6i-csi/sun8i_a83t_dphy.h         |  16 ++
->  .../sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h     |  39 ++++
->  .../sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c    | 217 ++++++++++++++++++
->  .../sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h    |  16 ++
->  .../sun6i-csi/sun8i_a83t_mipi_csi2_reg.h      | 179 +++++++++++++++
->  8 files changed, 575 insertions(+), 17 deletions(-)
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.c
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.h
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h
->  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2_reg.h
-> 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/Makefile b/drivers/media/platform/sunxi/sun6i-csi/Makefile
-> index e7e315347804..0f3849790463 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/Makefile
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/Makefile
-> @@ -1,4 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> -sun6i-csi-y += sun6i_video.o sun6i_csi.o
-> +sun6i-csi-y += sun6i_video.o sun6i_csi.o sun8i_a83t_mipi_csi2.o sun8i_a83t_dphy.o
->  
->  obj-$(CONFIG_VIDEO_SUN6I_CSI) += sun6i-csi.o
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> index 680fa31f380a..cf346e536959 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -26,6 +26,7 @@
->  
->  #include "sun6i_csi.h"
->  #include "sun6i_csi_reg.h"
-> +#include "sun8i_a83t_mipi_csi2.h"
->  
->  #define MODULE_NAME	"sun6i-csi"
->  
-> @@ -160,10 +161,14 @@ int sun6i_csi_set_power(struct sun6i_csi *csi, bool enable)
->  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
->  
->  		clk_disable_unprepare(sdev->clk_ram);
+>  .../bindings/media/i2c/ovti,ov02a10.yaml           | 172 +++++++++++++++++++++
+>  MAINTAINERS                                        |   7 +
+>  2 files changed, 179 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> new file mode 100644
+> index 0000000..3a916cc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> @@ -0,0 +1,172 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (c) 2020 MediaTek Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  		if (of_device_is_compatible(dev->of_node,
->  					    "allwinner,sun50i-a64-csi"))
->  			clk_rate_exclusive_put(sdev->clk_mod);
->  		clk_disable_unprepare(sdev->clk_mod);
-> +		if (csi->v4l2_ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> +			sun6i_mipi_csi_clk_disable(csi);
+> +title: Omnivision OV02A10 CMOS Sensor Device Tree Bindings
 > +
->  		reset_control_assert(sdev->rstc_bus);
->  		return 0;
->  	}
-> @@ -189,10 +194,18 @@ int sun6i_csi_set_power(struct sun6i_csi *csi, bool enable)
->  		goto clk_ram_disable;
->  	}
->  
-> +	if (csi->v4l2_ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
-> +		ret = sun6i_mipi_csi_clk_enable(csi);
-> +		if (ret)
-> +			goto reset_control_assert;
-> +	}
+> +maintainers:
+> +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
 > +
->  	regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, CSI_EN_CSI_EN);
->  
->  	return 0;
->  
-> +reset_control_assert:
-> +	reset_control_assert(sdev->rstc_bus);
->  clk_ram_disable:
->  	clk_disable_unprepare(sdev->clk_ram);
->  clk_mod_disable:
-> @@ -421,27 +434,34 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
->  		if (flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
->  			cfg |= CSI_IF_CFG_CLK_POL_FALLING_EDGE;
->  		break;
-> +	case V4L2_MBUS_CSI2_DPHY:
-> +		cfg |= CSI_IF_CFG_MIPI_IF_MIPI;
-> +		sun6i_mipi_csi_setup_bus(csi);
-> +		break;
->  	default:
->  		dev_warn(sdev->dev, "Unsupported bus type: %d\n",
->  			 endpoint->bus_type);
->  		break;
->  	}
->  
-> -	switch (bus_width) {
-> -	case 8:
-> -		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
-> -		break;
-> -	case 10:
-> -		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
-> -		break;
-> -	case 12:
-> -		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
-> -		break;
-> -	case 16: /* No need to configure DATA_WIDTH for 16bit */
-> -		break;
-> -	default:
-> -		dev_warn(sdev->dev, "Unsupported bus width: %u\n", bus_width);
-> -		break;
-> +	/* Bus width only applies to parallel bus. */
-> +	if (endpoint->bus_type != V4L2_MBUS_CSI2_DPHY) {
-> +		switch (bus_width) {
-> +		case 8:
-> +			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
-> +			break;
-> +		case 10:
-> +			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
-> +			break;
-> +		case 12:
-> +			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
-> +			break;
-> +		case 16: /* No need to configure DATA_WIDTH for 16bit */
-> +			break;
-> +		default:
-> +			dev_warn(sdev->dev, "Unsupported bus width: %u\n", bus_width);
-> +			break;
-> +		}
->  	}
->  
->  	regmap_write(sdev->regmap, CSI_IF_CFG_REG, cfg);
-> @@ -593,6 +613,9 @@ void sun6i_csi_set_stream(struct sun6i_csi *csi, bool enable)
->  	struct regmap *regmap = sdev->regmap;
->  
->  	if (!enable) {
-> +		if (csi->v4l2_ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> +			sun6i_mipi_csi_set_stream(csi, 0);
+> +description: |-
+> +  The Omnivision OV02A10 is a low-cost, high performance, 1/5-inch, 2 megapixel
+> +  image sensor, which is the latest production derived from Omnivision's CMOS
+> +  image sensor technology. Ihis chip supports high frame rate speeds up to 30fps
+> +  @ 1600x1200 (UXGA) resolution transferred over a 1-lane MIPI interface. The
+> +  sensor output is available via CSI-2 serial data output.
 > +
->  		regmap_update_bits(regmap, CSI_CAP_REG, CSI_CAP_CH0_VCAP_ON, 0);
->  		regmap_write(regmap, CSI_CH_INT_EN_REG, 0);
->  		return;
-> @@ -609,6 +632,9 @@ void sun6i_csi_set_stream(struct sun6i_csi *csi, bool enable)
->  
->  	regmap_update_bits(regmap, CSI_CAP_REG, CSI_CAP_CH0_VCAP_ON,
->  			   CSI_CAP_CH0_VCAP_ON);
+> +properties:
+> +  compatible:
+> +    const: ovti,ov02a10
 > +
-> +	if (csi->v4l2_ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> +		sun6i_mipi_csi_set_stream(csi, 1);
->  }
->  
->  /* -----------------------------------------------------------------------------
-> @@ -685,6 +711,7 @@ static int sun6i_csi_fwnode_parse(struct device *dev,
->  				  struct v4l2_async_subdev *asd)
->  {
->  	struct sun6i_csi *csi = dev_get_drvdata(dev);
-> +	struct sun6i_csi_dev *sdev = sun6i_csi_to_dev(csi);
->  
->  	if (vep->base.port || vep->base.id) {
->  		dev_warn(dev, "Only support a single port with one endpoint\n");
-> @@ -692,6 +719,17 @@ static int sun6i_csi_fwnode_parse(struct device *dev,
->  	}
->  
->  	switch (vep->bus_type) {
-> +	case V4L2_MBUS_CSI2_DPHY:
-> +		if (!sdev->clk_mipi) {
-> +			dev_err(sdev->dev, "Use MIPI-CSI2 device with no MIPI clock\n");
-> +			return -ENOTCONN;
-> +		}
-> +		if (!sdev->clk_misc) {
-> +			dev_err(sdev->dev, "Use MIPI-CSI2 device with no misc clock\n");
-> +			return -ENOTCONN;
-> +		}
-> +		csi->v4l2_ep = *vep;
-> +		return 0;
->  	case V4L2_MBUS_PARALLEL:
->  	case V4L2_MBUS_BT656:
->  		csi->v4l2_ep = *vep;
-> @@ -812,12 +850,13 @@ static const struct regmap_config sun6i_csi_regmap_config = {
->  	.reg_bits       = 32,
->  	.reg_stride     = 4,
->  	.val_bits       = 32,
-> -	.max_register	= 0x9c,
-> +	.max_register	= 0x2000,
->  };
->  
->  static int sun6i_csi_resource_request(struct sun6i_csi_dev *sdev,
->  				      struct platform_device *pdev)
->  {
-> +	struct device *dev = sdev->dev;
->  	struct resource *res;
->  	void __iomem *io_base;
->  	int ret;
-> @@ -847,6 +886,19 @@ static int sun6i_csi_resource_request(struct sun6i_csi_dev *sdev,
->  		return PTR_ERR(sdev->clk_ram);
->  	}
->  
-> +	if (of_device_is_compatible(dev->of_node, "allwinner,sun8i-a83t-csi")) {
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: top mux camtg clock
+> +      - description: divider clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: eclk
+> +      - const: freq_mux
 
-It'd be cleaner to rely on of_device_get_match_data() attached to a
-compatible string instead.
+Why do we have two clocks here? Looking at the example suggests that
+they may be the clocks of the SoC that the integration was done with.
+However, the binding must only define the aspects of the particular
+device, i.e. this sensor.
 
-> +		sdev->clk_mipi = devm_clk_get(&pdev->dev, "mipi");
-> +		if (IS_ERR(sdev->clk_mipi)) {
-> +			sdev->clk_mipi = NULL;
-> +			dev_warn(&pdev->dev, "Unable to acquire mipi clock. No mipi support\n");
-> +		}
-> +
-> +		sdev->clk_misc = devm_clk_get(&pdev->dev, "misc");
-> +		if (IS_ERR(sdev->clk_misc)) {
-> +			sdev->clk_misc = NULL;
-> +			dev_warn(&pdev->dev, "Unable to acquire misc clock. No mipi support\n");
-> +		}
-> +	}
->  	sdev->rstc_bus = devm_reset_control_get_shared(&pdev->dev, NULL);
->  	if (IS_ERR(sdev->rstc_bus)) {
->  		dev_err(&pdev->dev, "Cannot get reset controller\n");
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.c b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.c
-> new file mode 100644
-> index 000000000000..bb9599c3bde9
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.c
-> @@ -0,0 +1,39 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * sun6i_dphy.c
-> + * Copyright Kévin L'hôpital (C) 2020
-> + */
-> +
-> +#include "sun8i_a83t_dphy.h"
-> +#include "sun8i_a83t_dphy_reg.h"
-> +
-> +/* First initialization to turn on the dphy for the MIPI CSI2 controller
-> + * initialization.
-> + */
-> +
-> +void sun6i_dphy_first_init(struct sun6i_csi_dev *sdev)
-> +{
-> +	regmap_update_bits(sdev->regmap, DPHY_CTRL_REG, DPHY_CTRL_REG_DBG,
-> +			   DPHY_CTRL_REG_DBG);
-> +	regmap_update_bits(sdev->regmap, DPHY_CTRL_REG, DPHY_CTRL_REG_SHUT, 0);
-> +	regmap_update_bits(sdev->regmap, DPHY_CTRL_REG, DPHY_CTRL_REG_RSTN,
-> +			   DPHY_CTRL_REG_RSTN);
-> +}
-> +
-> +/* Second initialization to turn off the dphy and do its initialization. */
-> +void sun6i_dphy_second_init(struct sun6i_csi_dev *sdev)
-> +{
-> +	regmap_update_bits(sdev->regmap, DPHY_CTRL_REG, DPHY_CTRL_REG_DBG, 0);
-> +	regmap_update_bits(sdev->regmap, DPHY_CTRL_REG, DPHY_CTRL_REG_SHUT,
-> +			   DPHY_CTRL_REG_SHUT);
-> +	regmap_update_bits(sdev->regmap, DPHY_CTRL_REG, DPHY_CTRL_REG_RSTN,
-> +			   DPHY_CTRL_REG_RSTN);
-> +	regmap_update_bits(sdev->regmap, DPHY_ANA0_REG, DPHY_ANA0_REG_SNK_MASK,
-> +			   DPHY_ANA0_REG_SNK(0x02));
-> +	regmap_update_bits(sdev->regmap, DPHY_ANA0_REG, DPHY_ANA0_REG_RINT_MASK,
-> +			   DPHY_ANA0_REG_RINT(0x02));
-> +	regmap_update_bits(sdev->regmap, DPHY_ANA0_REG, DPHY_ANA0_REG_REXT, 0);
-> +	regmap_update_bits(sdev->regmap, DPHY_ANA0_REG, DPHY_ANA0_REG_ENREXT,
-> +			   DPHY_ANA0_REG_ENREXT);
-> +}
-> +
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.h b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.h
-> new file mode 100644
-> index 000000000000..f776ed098cb3
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * sun6i_dphy.h
-> + * Copyright Kévin L'hôpital (C) 2020
-> + */
-> +
-> +#ifndef __SUN8I_A83T_DPHY_H__
-> +#define __SUN8I_A83T_DPHY_H__
-> +
-> +#include <linux/regmap.h>
-> +#include "sun6i_csi.h"
-> +
-> +void sun6i_dphy_first_init(struct sun6i_csi_dev *sdev);
-> +void sun6i_dphy_second_init(struct sun6i_csi_dev *sdev);
-> +
-> +#endif /* __SUN8I_A83T_DPHY_H__ */
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h
-> new file mode 100644
-> index 000000000000..815692b112d2
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_dphy_reg.h
-> @@ -0,0 +1,39 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Allwinner A83t DPHY register description
-> + * Copyright Kévin L'hôpital (C) 2020
-> + */
-> +
-> +#ifndef __SUN8I_A83T_DPHY_REG_H__
-> +#define __SUN8I_A83T_DPHY_REG_H__
-> +
-> +
-> +#define DPHY_OFFSET			0x1000
-> +
-> +#define DPHY_CTRL_REG			(DPHY_OFFSET + 0x010)
-> +#define DPHY_CTRL_REG_RSTN		BIT(31)
-> +#define DPHY_CTRL_REG_SHUT              BIT(15)
-> +#define DPHY_CTRL_REG_DBG               BIT(8)
-> +
-> +#define DPHY_STATUS_REG			(DPHY_OFFSET + 0x014)
-> +#define DPHY_STATUS_REG_CLK_STOP	BIT(10)
-> +#define DPHY_STATUS_REG_CLK_UPLS        BIT(9)
-> +#define DPHY_STATUS_REG_HSCLK           BIT(8)
-> +#define DPHY_STATUS_REG_D3_STOP         BIT(7)
-> +#define DPHY_STATUS_REG_D2_STOP         BIT(6)
-> +#define DPHY_STATUS_REG_D1_STOP         BIT(5)
-> +#define DPHY_STATUS_REG_D0_STOP         BIT(4)
-> +#define DPHY_STATUS_REG_D3_UPLS         BIT(3)
-> +#define DPHY_STATUS_REG_D2_UPLS         BIT(2)
-> +#define DPHY_STATUS_REG_D1_UPLS         BIT(1)
-> +#define DPHY_STATUS_REG_D0_UPLS         BIT(0)
-> +
-> +#define DPHY_ANA0_REG			(DPHY_OFFSET + 0x030)
-> +#define DPHY_ANA0_REG_ENREXT		BIT(31)
-> +#define DPHY_ANA0_REG_REXT              BIT(30)
-> +#define DPHY_ANA0_REG_RINT_MASK         GENMASK(29, 28)
-> +#define DPHY_ANA0_REG_RINT(v)           ((v) << 28)
-> +#define DPHY_ANA0_REG_SNK_MASK          GENMASK(22, 20)
-> +#define DPHY_ANA0_REG_SNK(v)            ((v) << 20)
-> +
-> +#endif /* __SUN8I_A83T_DPHY_REG_H__ */
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c
-> new file mode 100644
-> index 000000000000..2933238cbc95
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.c
-> @@ -0,0 +1,217 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Allwinner A83t MIPI Camera Sensor Interface 2 driver
-> + * Copyright Kévin L'hôpital (C) 2020
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include "sun8i_a83t_mipi_csi2.h"
-> +#include "sun8i_a83t_mipi_csi2_reg.h"
-> +#include "sun8i_a83t_dphy.h"
-> +#include <linux/delay.h>
-> +
-> +#define IS_FLAG(x, y) (((x) & (y)) == y)
-> +
-> +enum mipi_csi2_pkt_fmt {
-> +	MIPI_FS           = 0X00,
-> +	MIPI_FE           = 0X01,
-> +	MIPI_LS           = 0X02,
-> +	MIPI_LE           = 0X03,
-> +	MIPI_SDAT0          = 0X08,
-> +	MIPI_SDAT1          = 0X09,
-> +	MIPI_SDAT2          = 0X0A,
-> +	MIPI_SDAT3          = 0X0B,
-> +	MIPI_SDAT4          = 0X0C,
-> +	MIPI_SDAT5          = 0X0D,
-> +	MIPI_SDAT6          = 0X0E,
-> +	MIPI_SDAT7          = 0X0F,
-> +	MIPI_BLK            = 0X11,
-> +	MIPI_EMBD         = 0X12,
-> +	MIPI_YUV420       = 0X18,
-> +	MIPI_YUV420_10    = 0X19,
-> +	MIPI_YUV420_CSP   = 0X1C,
-> +	MIPI_YUV420_CSP_10 =  0X1D,
-> +	MIPI_YUV422       = 0X1E,
-> +	MIPI_YUV422_10    = 0X1F,
-> +	MIPI_RGB565       = 0X22,
-> +	MIPI_RGB888       = 0X24,
-> +	MIPI_RAW8         = 0X2A,
-> +	MIPI_RAW10          = 0X2B,
-> +	MIPI_RAW12          = 0X2C,
-> +	MIPI_USR_DAT0     = 0X30,
-> +	MIPI_USR_DAT1     = 0X31,
-> +	MIPI_USR_DAT2     = 0X32,
-> +	MIPI_USR_DAT3     = 0X33,
-> +	MIPI_USR_DAT4     = 0X34,
-> +	MIPI_USR_DAT5     = 0X35,
-> +	MIPI_USR_DAT6     = 0X36,
-> +	MIPI_USR_DAT7     = 0X37,
-> +};
-> +
-> +static inline struct sun6i_csi_dev *sun6i_csi_to_dev(struct sun6i_csi *csi)
-> +{
-> +	return container_of(csi, struct sun6i_csi_dev, csi);
-> +}
-> +
-> +static enum mipi_csi2_pkt_fmt get_pkt_fmt(u16 bus_pix_code)
-> +{
-> +	switch (bus_pix_code) {
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> +		return MIPI_RGB565;
-> +	case MEDIA_BUS_FMT_UYVY8_2X8:
-> +	case MEDIA_BUS_FMT_UYVY8_1X16:
-> +		return MIPI_YUV422;
-> +	case MEDIA_BUS_FMT_UYVY10_2X10:
-> +		return MIPI_YUV422_10;
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +		return MIPI_RGB888;
-> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +		return MIPI_RAW8;
-> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +		return MIPI_RAW10;
-> +	case MEDIA_BUS_FMT_SBGGR12_1X12:
-> +	case MEDIA_BUS_FMT_SGBRG12_1X12:
-> +	case MEDIA_BUS_FMT_SGRBG12_1X12:
-> +	case MEDIA_BUS_FMT_SRGGB12_1X12:
-> +		return MIPI_RAW12;
-> +	default:
-> +		return MIPI_RAW8;
-> +	}
-> +}
-> +
-> +void sun6i_mipi_csi_set_stream(struct sun6i_csi *csi, bool enable)
-> +{
-> +	struct sun6i_csi_dev *sdev = sun6i_csi_to_dev(csi);
-> +
-> +	if (enable)
-> +		regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +				   MIPI_CSI2_CFG_REG_SYNC_EN,
-> +				   MIPI_CSI2_CFG_REG_SYNC_EN);
-> +	else
-> +		regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +				   MIPI_CSI2_CFG_REG_SYNC_EN, 0);
-> +}
-> +
-> +void sun6i_mipi_csi_init(struct sun6i_csi_dev *sdev)
-> +{
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CTRL_REG,
-> +			   MIPI_CSI2_CTRL_REG_RSTN, MIPI_CSI2_CTRL_REG_RSTN);
-> +	regmap_write(sdev->regmap, MIPI_CSI2_RX_PKT_NUM_REG, 0xb8d257f8);
-> +	sun6i_dphy_first_init(sdev);
-> +	regmap_write(sdev->regmap, MIPI_CSI2_RSVD1_REG,
-> +		     HW_LOCK_REGISTER_VALUE_1);
-> +	regmap_write(sdev->regmap, MIPI_CSI2_RSVD2_REG,
-> +		     HW_LOCK_REGISTER_VALUE_2);
-> +	regmap_write(sdev->regmap, MIPI_CSI2_RX_PKT_NUM_REG, 0);
-> +	regmap_write(sdev->regmap, MIPI_CSI2_VCDT0_REG, 0);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_SYNC_DLY_CYCLE_MASK,
-> +			   MIPI_CSI2_CFG_REG_SYNC_DLY_CYCLE(0x11));
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_N_BYTE, 0);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_YC_SWAB, 0);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_NONE_UNPKT_RX_MODE,
-> +			   MIPI_CSI2_CFG_REG_NONE_UNPKT_RX_MODE);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_UNPKT_EN,
-> +			   MIPI_CSI2_CFG_REG_UNPKT_EN);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_BYPASS_ECC_EN,
-> +			   MIPI_CSI2_CFG_REG_BYPASS_ECC_EN);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_SYNC_EN,
-> +			   MIPI_CSI2_CFG_REG_SYNC_EN);
-> +	sun6i_dphy_second_init(sdev);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CTRL_REG,
-> +			   MIPI_CSI2_CTRL_REG_RSTN, MIPI_CSI2_CTRL_REG_RSTN);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_SYNC_DLY_CYCLE_MASK,
-> +			   MIPI_CSI2_CFG_REG_SYNC_DLY_CYCLE(0x08));
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_NONE_UNPKT_RX_MODE, 0);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_BYPASS_ECC_EN, 0);
-> +	regmap_update_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			   MIPI_CSI2_CFG_REG_SYNC_EN, 0);
-> +}
-> +
-> +void sun6i_mipi_csi_setup_bus(struct sun6i_csi *csi)
-> +{
-> +	struct v4l2_fwnode_endpoint *endpoint = &csi->v4l2_ep;
-> +	struct sun6i_csi_dev *sdev = sun6i_csi_to_dev(csi);
-> +	int lane_num = endpoint->bus.mipi_csi2.num_data_lanes;
-> +	int flags = endpoint->bus.mipi_csi2.flags;
-> +	int total_rx_ch = 0;
-> +	int vc;
-> +
-> +	sun6i_mipi_csi_init(sdev);
-> +
-> +	if (IS_FLAG(flags, V4L2_MBUS_CSI2_CHANNEL_0)) {
-> +		vc = 0;
-> +		total_rx_ch++;
-> +	}
-> +
-> +	if (!total_rx_ch) {
-> +		dev_dbg(sdev->dev,
-> +			 "No receive channel assigned, using channel 0.\n");
-> +		vc = 0;
-> +		total_rx_ch++;
-> +	}
-> +	/* Set lane. */
-> +	regmap_write_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			  MIPI_CSI2_CFG_REG_N_LANE_MASK, (lane_num - 1) <<
-> +			  MIPI_CSI2_CFG_REG_N_LANE_SHIFT);
-> +	/* Set total channels. */
-> +	regmap_write_bits(sdev->regmap, MIPI_CSI2_CFG_REG,
-> +			  MIPI_CSI2_CFG_REG_N_CHANNEL_MASK, (total_rx_ch - 1) <<
-> +			  MIPI_CSI2_CFG_REG_N_CHANNEL_SHIFT);
-> +
-> +	regmap_write_bits(sdev->regmap, MIPI_CSI2_VCDT0_REG,
-> +			  MIPI_CSI2_VCDT0_REG_CH0_DT_MASK,
-> +			  get_pkt_fmt(csi->config.code));
-> +	regmap_write_bits(sdev->regmap, MIPI_CSI2_VCDT0_REG,
-> +			  MIPI_CSI2_VCDT0_REG_CH0_VC_MASK,
-> +			  vc << MIPI_CSI2_VCDT0_REG_CH0_VC_SHIFT);
-> +}
-> +
-> +int sun6i_mipi_csi_clk_enable(struct sun6i_csi *csi)
-> +{
-> +	struct sun6i_csi_dev *sdev = sun6i_csi_to_dev(csi);
-> +	int ret;
-> +
-> +	ret = clk_prepare_enable(sdev->clk_mipi);
-> +	if (ret) {
-> +		dev_err(sdev->dev, "Enable clk_mipi clk err %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = clk_prepare_enable(sdev->clk_misc);
-> +	if (ret) {
-> +		dev_err(sdev->dev, "Enable clk_misc clk err %d\n", ret);
-> +		goto clk_mipi_disable;
-> +	}
-> +
-> +	return 0;
-> +
-> +clk_mipi_disable:
-> +	clk_disable_unprepare(sdev->clk_mipi);
-> +	return ret;
-> +}
-> +
-> +void sun6i_mipi_csi_clk_disable(struct sun6i_csi *csi)
-> +{
-> +	struct sun6i_csi_dev *sdev = sun6i_csi_to_dev(csi);
-> +
-> +	clk_disable_unprepare(sdev->clk_misc);
-> +	clk_disable_unprepare(sdev->clk_mipi);
-> +}
-> +
-> +
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h
-> new file mode 100644
-> index 000000000000..a94c69ccee39
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright Kévin L'hôpital (C) 2020
-> + */
-> +
-> +#ifndef __SUN8I_A83T_MIPI_CSI2_H__
-> +#define __SUN8I_A83T_MIPI_CSI2_H__
-> +#include <linux/regmap.h>
-> +#include "sun6i_csi.h"
-> +
-> +void sun6i_mipi_csi_set_stream(struct sun6i_csi *csi, bool enable);
-> +void sun6i_mipi_csi_setup_bus(struct sun6i_csi *csi);
-> +int sun6i_mipi_csi_clk_enable(struct sun6i_csi *csi);
-> +void sun6i_mipi_csi_clk_disable(struct sun6i_csi *csi);
-> +
-> +#endif /* __SUN8I_A83T_MIPI_CSI2_H__ */
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2_reg.h b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2_reg.h
-> new file mode 100644
-> index 000000000000..43cc46ea1aec
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun8i_a83t_mipi_csi2_reg.h
-> @@ -0,0 +1,179 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Allwinner A83t MIPI CSI-2 register description
-> + * Copyright Kévin L'hôpital (C) 2020
-> + */
-> +
-> +#ifndef __SUN8I_A83T_MIPI_CSI2_REG_H__
-> +#define __SUN8I_A83T_MIPI_CSI2_REG_H__
-> +
-> +
-> +#define MIPI_CSI2_OFFSET				0x1000
-> +
-> +#define MIPI_CSI2_VERSION_REG				(MIPI_CSI2_OFFSET + 0x000)
-> +#define MIPI_CSI2_CTRL_REG				(MIPI_CSI2_OFFSET + 0x004)
-> +#define MIPI_CSI2_CTRL_REG_RSTN				BIT(31)
-> +
-> +#define MIPI_CSI2_RX_PKT_NUM_REG			(MIPI_CSI2_OFFSET + 0x008)
-> +#define MIPI_CSI2_RSVD0_REG				(MIPI_CSI2_OFFSET + 0x00c)
-> +
-> +#define MIPI_CSI2_RSVD1_REG				(MIPI_CSI2_OFFSET + 0x018)
-> +/* Value found in the BSP and need to be present but it is not describe in the
-> + * datasheet.
-> + */
-> +#define HW_LOCK_REGISTER_VALUE_1			0xb8c8a30c
-> +#define MIPI_CSI2_RSVD2_REG				(MIPI_CSI2_OFFSET + 0x01c)
-> +/* Value found in the BSP and need to be present but it is not describe in the
-> + * datasheet.
-> + */
-> +#define HW_LOCK_REGISTER_VALUE_2			0xb8df8ad7
-> +
-> +#define MIPI_CSI2_INT_STA0_REG				(MIPI_CSI2_OFFSET + 0x020)
-> +#define MIPI_CSI2_INT_STA0_REG_ECC_ERR_DBL              BIT(28)
-> +#define MIPI_CSI2_INT_STA0_REG_LINE_CKSM_ERR_VC3        BIT(27)
-> +#define MIPI_CSI2_INT_STA0_REG_LINE_CKSM_ERR_VC2        BIT(26)
-> +#define MIPI_CSI2_INT_STA0_REG_LINE_CKSM_ERR_VC1        BIT(25)
-> +#define MIPI_CSI2_INT_STA0_REG_LINE_CKSM_ERR_VC0        BIT(24)
-> +#define MIPI_CSI2_INT_STA0_REG_LINE_SEQ_ERR_DT3         BIT(23)
-> +#define MIPI_CSI2_INT_STA0_REG_LINE_SEQ_ERR_DT2         BIT(22)
-> +#define MIPI_CSI2_INT_STA0_REG_LINE_SEQ_ERR_DT1         BIT(21)
-> +#define MIPI_CSI2_INT_STA0_REG_LINE_SEQ_ERR_DT0         BIT(20)
-> +#define MIPI_CSI2_INT_STA0_REG_LS_LE_ERR_DT3            BIT(19)
-> +#define MIPI_CSI2_INT_STA0_REG_LS_LE_ERR_DT2            BIT(18)
-> +#define MIPI_CSI2_INT_STA0_REG_LS_LE_ERR_DT1            BIT(17)
-> +#define MIPI_CSI2_INT_STA0_REG_LS_LE_ERR_DT0            BIT(16)
-> +#define MIPI_CSI2_INT_STA0_REG_CRC_ERR_VC3              BIT(15)
-> +#define MIPI_CSI2_INT_STA0_REG_CRC_ERR_VC2              BIT(14)
-> +#define MIPI_CSI2_INT_STA0_REG_CRC_ERR_VC1              BIT(13)
-> +#define MIPI_CSI2_INT_STA0_REG_CRC_ERR_VC0              BIT(12)
-> +#define MIPI_CSI2_INT_STA0_REG_FRM_SEQ_ERR_VC3          BIT(11)
-> +#define MIPI_CSI2_INT_STA0_REG_FRM_SEQ_ERR_VC2          BIT(10)
-> +#define MIPI_CSI2_INT_STA0_REG_FRM_SEQ_ERR_VC1          BIT(9)
-> +#define MIPI_CSI2_INT_STA0_REG_FRM_SEQ_ERR_VC0          BIT(8)
-> +#define MIPI_CSI2_INT_STA0_REG_FS_FE_ERR_VC3            BIT(7)
-> +#define MIPI_CSI2_INT_STA0_REG_FS_FE_ERR_VC2            BIT(6)
-> +#define MIPI_CSI2_INT_STA0_REG_FS_FE_ERR_VC1            BIT(5)
-> +#define MIPI_CSI2_INT_STA0_REG_FS_FE_ERR_VC0            BIT(4)
-> +#define MIPI_CSI2_INT_STA0_REG_SOT_SYNC_ERR_3           BIT(3)
-> +#define MIPI_CSI2_INT_STA0_REG_SOT_SYNC_ERR_2           BIT(2)
-> +#define MIPI_CSI2_INT_STA0_REG_SOT_SYNC_ERR_1           BIT(1)
-> +#define MIPI_CSI2_INT_STA0_REG_SOT_SYNC_ERR_0		BIT(0)
-> +
-> +#define MIPI_CSI2_INT_STA1_REG				(MIPI_CSI2_OFFSET + 0x024)
-> +#define MIPI_CSI2_INT_STA1_REG_LINE_SEQ_ERR_DT7         BIT(23)
-> +#define MIPI_CSI2_INT_STA1_REG_LINE_SEQ_ERR_DT6         BIT(22)
-> +#define MIPI_CSI2_INT_STA1_REG_LINE_SEQ_ERR_DT5         BIT(21)
-> +#define MIPI_CSI2_INT_STA1_REG_LINE_SEQ_ERR_DT4         BIT(20)
-> +#define MIPI_CSI2_INT_STA1_REG_LS_LE_ERR_DT7            BIT(19)
-> +#define MIPI_CSI2_INT_STA1_REG_LS_LE_ERR_DT6            BIT(18)
-> +#define MIPI_CSI2_INT_STA1_REG_LS_LE_ERR_DT5            BIT(17)
-> +#define MIPI_CSI2_INT_STA1_REG_LS_LE_ERR_DT4            BIT(16)
-> +#define MIPI_CSI2_INT_STA1_REG_DT_ERR_VC3               BIT(15)
-> +#define MIPI_CSI2_INT_STA1_REG_DT_ERR_VC2               BIT(14)
-> +#define MIPI_CSI2_INT_STA1_REG_DT_ERR_VC1               BIT(13)
-> +#define MIPI_CSI2_INT_STA1_REG_DT_ERR_VC0               BIT(12)
-> +#define MIPI_CSI2_INT_STA1_REG_ECC_ERR1_VC3             BIT(11)
-> +#define MIPI_CSI2_INT_STA1_REG_ECC_ERR1_VC2             BIT(10)
-> +#define MIPI_CSI2_INT_STA1_REG_ECC_ERR1_VC1             BIT(9)
-> +#define MIPI_CSI2_INT_STA1_REG_ECC_ERR1_VC0             BIT(8)
-> +#define MIPI_CSI2_INT_STA1_REG_SOT_ERR_3                BIT(7)
-> +#define MIPI_CSI2_INT_STA1_REG_SOT_ERR_2                BIT(6)
-> +#define MIPI_CSI2_INT_STA1_REG_SOT_ERR_1                BIT(5)
-> +#define MIPI_CSI2_INT_STA1_REG_SOT_ERR_0                BIT(4)
-> +#define MIPI_CSI2_INT_STA1_REG_ESC_ENTRY_ERR_3          BIT(3)
-> +#define MIPI_CSI2_INT_STA1_REG_ESC_ENTRY_ERR_2          BIT(2)
-> +#define MIPI_CSI2_INT_STA1_REG_ESC_ENTRY_ERR_1          BIT(1)
-> +#define MIPI_CSI2_INT_STA1_REG_ESC_ENTRY_ERR_0		BIT(0)
-> +
-> +#define MIPI_CSI2_INT_MSK0_REG				(MIPI_CSI2_OFFSET + 0x028)
-> +#define MIPI_CSI2_INT_MSK0_REG_ECC_ERR_DBL_MSK          BIT(28)
-> +#define MIPI_CSI2_INT_MSK0_REG_CKSM_ERR_VC3_MSK         BIT(27)
-> +#define MIPI_CSI2_INT_MSK0_REG_CKSM_ERR_VC2_MSK         BIT(26)
-> +#define MIPI_CSI2_INT_MSK0_REG_CKSM_ERR_VC1_MSK         BIT(25)
-> +#define MIPI_CSI2_INT_MSK0_REG_CKSM_ERR_VC0_MSK         BIT(24)
-> +#define MIPI_CSI2_INT_MSK0_REG_LINE_SEQ_ERR_DT3_MSK     BIT(23)
-> +#define MIPI_CSI2_INT_MSK0_REG_LINE_SEQ_ERR_DT2_MSK     BIT(22)
-> +#define MIPI_CSI2_INT_MSK0_REG_LINE_SEQ_ERR_DT1_MSK     BIT(21)
-> +#define MIPI_CSI2_INT_MSK0_REG_LINE_SEQ_ERR_DT0_MSK     BIT(20)
-> +#define MIPI_CSI2_INT_MSK0_REG_LS_LE_ERR_DT3_MSK        BIT(19)
-> +#define MIPI_CSI2_INT_MSK0_REG_LS_LE_ERR_DT2_MSK        BIT(18)
-> +#define MIPI_CSI2_INT_MSK0_REG_LS_LE_ERR_DT1_MSK        BIT(17)
-> +#define MIPI_CSI2_INT_MSK0_REG_LS_LE_ERR_DT0_MSK        BIT(16)
-> +#define MIPI_CSI2_INT_MSK0_REG_CRC_ERR_VC3_MSK          BIT(15)
-> +#define MIPI_CSI2_INT_MSK0_REG_CRC_ERR_VC2_MSK          BIT(14)
-> +#define MIPI_CSI2_INT_MSK0_REG_CRC_ERR_VC1_MSK          BIT(13)
-> +#define MIPI_CSI2_INT_MSK0_REG_CRC_ERR_VC0_MSK          BIT(12)
-> +#define MIPI_CSI2_INT_MSK0_REG_FRM_SEQ_ERR_VC3_MSK      BIT(11)
-> +#define MIPI_CSI2_INT_MSK0_REG_FRM_SEQ_ERR_VC2_MSK      BIT(10)
-> +#define MIPI_CSI2_INT_MSK0_REG_FRM_SEQ_ERR_VC1_MSK      BIT(9)
-> +#define MIPI_CSI2_INT_MSK0_REG_FRM_SEQ_ERR_VC0_MSK      BIT(8)
-> +#define MIPI_CSI2_INT_MSK0_REG_FS_FE_ERR_VC3_MSK        BIT(7)
-> +#define MIPI_CSI2_INT_MSK0_REG_FS_FE_ERR_VC2_MSK        BIT(6)
-> +#define MIPI_CSI2_INT_MSK0_REG_FS_FE_ERR_VC1_MSK        BIT(5)
-> +#define MIPI_CSI2_INT_MSK0_REG_FS_FE_ERR_VC0_MSK        BIT(4)
-> +#define MIPI_CSI2_INT_MSK0_REG_SOT_SYNC_ERR_3_MSK       BIT(3)
-> +#define MIPI_CSI2_INT_MSK0_REG_SOT_SYNC_ERR_2_MSK       BIT(2)
-> +#define MIPI_CSI2_INT_MSK0_REG_SOT_SYNC_ERR_1_MSK       BIT(1)
-> +#define MIPI_CSI2_INT_MSK0_REG_SOT_SYNC_ERR_0_MSK	BIT(0)
-> +
-> +#define MIPI_CSI2_INT_MSK1_REG				(MIPI_CSI2_OFFSET + 0x02c)
-> +#define MIPI_CSI2_INT_MSK1_REG_DT_ERR_VC3_MSK           BIT(15)
-> +#define MIPI_CSI2_INT_MSK1_REG_DT_ERR_VC2_MSK           BIT(14)
-> +#define MIPI_CSI2_INT_MSK1_REG_DT_ERR_VC1_MSK           BIT(13)
-> +#define MIPI_CSI2_INT_MSK1_REG_DT_ERR_VC0_MSK           BIT(12)
-> +#define MIPI_CSI2_INT_MSK1_REG_ECC_ERR1_VC3_MSK         BIT(11)
-> +#define MIPI_CSI2_INT_MSK1_REG_ECC_ERR1_VC2_MSK         BIT(10)
-> +#define MIPI_CSI2_INT_MSK1_REG_ECC_ERR1_VC1_MSK         BIT(9)
-> +#define MIPI_CSI2_INT_MSK1_REG_ECC_ERR1_VC0_MSK         BIT(8)
-> +#define MIPI_CSI2_INT_MSK1_REG_SOT_ERR_3_MSK            BIT(7)
-> +#define MIPI_CSI2_INT_MSK1_REG_SOT_ERR_2_MSK            BIT(6)
-> +#define MIPI_CSI2_INT_MSK1_REG_SOT_ERR_1_MSK            BIT(5)
-> +#define MIPI_CSI2_INT_MSK1_REG_SOT_ERR_0_MSK            BIT(4)
-> +#define MIPI_CSI2_INT_MSK1_REG_ESC_ENTRY_ERR_3_MSK      BIT(3)
-> +#define MIPI_CSI2_INT_MSK1_REG_ESC_ENTRY_ERR_2_MSK      BIT(2)
-> +#define MIPI_CSI2_INT_MSK1_REG_ESC_ENTRY_ERR_1_MSK      BIT(1)
-> +#define MIPI_CSI2_INT_MSK1_REG_ESC_ENTRY_ERR_0_MSK	BIT(0)
-> +
-> +#define MIPI_CSI2_CFG_REG				(MIPI_CSI2_OFFSET + 0x100)
-> +#define MIPI_CSI2_CFG_REG_SYNC_EN                       BIT(31)
-> +#define MIPI_CSI2_CFG_REG_BYPASS_ECC_EN                 BIT(29)
-> +#define MIPI_CSI2_CFG_REG_UNPKT_EN                      BIT(28)
-> +#define MIPI_CSI2_CFG_REG_NONE_UNPKT_RX_MODE            BIT(27)
-> +#define MIPI_CSI2_CFG_REG_YC_SWAB                       BIT(26)
-> +#define MIPI_CSI2_CFG_REG_N_BYTE                        BIT(24)
-> +#define MIPI_CSI2_CFG_REG_SYNC_DLY_CYCLE(v)             ((v) << 18)
-> +#define MIPI_CSI2_CFG_REG_SYNC_DLY_CYCLE_MASK           GENMASK(22, 18)
-> +#define MIPI_CSI2_CFG_REG_N_CHANNEL_MASK                GENMASK(17, 16)
-> +#define MIPI_CSI2_CFG_REG_N_CHANNEL_SHIFT               16
-> +#define MIPI_CSI2_CFG_REG_N_LANE_MASK                   GENMASK(5, 4)
-> +#define MIPI_CSI2_CFG_REG_N_LANE_SHIFT			4
-> +
-> +#define MIPI_CSI2_VCDT0_REG				(MIPI_CSI2_OFFSET + 0x104)
-> +#define MIPI_CSI2_VCDT0_REG_DEFAULT                     0xc0804000
-> +#define MIPI_CSI2_VCDT0_REG_CH3_VC_MASK                 GENMASK(31, 30)
-> +#define MIPI_CSI2_VCDT0_REG_CH3_VC_SHIFT                30
-> +#define MIPI_CSI2_VCDT0_REG_CH3_DT_MASK                 GENMASK(29, 24)
-> +#define MIPI_CSI2_VCDT0_REG_CH3_DT_SHIFT                24
-> +#define MIPI_CSI2_VCDT0_REG_CH2_VC_MASK                 GENMASK(23, 22)
-> +#define MIPI_CSI2_VCDT0_REG_CH2_VC_SHIFT                22
-> +#define MIPI_CSI2_VCDT0_REG_CH2_DT_MASK                 GENMASK(21, 16)
-> +#define MIPI_CSI2_VCDT0_REG_CH2_DT_SHIFT                16
-> +#define MIPI_CSI2_VCDT0_REG_CH1_VC_MASK                 GENMASK(15, 14)
-> +#define MIPI_CSI2_VCDT0_REG_CH1_VC_SHIFT                14
-> +#define MIPI_CSI2_VCDT0_REG_CH1_DT_MASK                 GENMASK(13, 8)
-> +#define MIPI_CSI2_VCDT0_REG_CH1_DT_SHIFT                8
-> +#define MIPI_CSI2_VCDT0_REG_CH0_VC_MASK                 GENMASK(7, 6)
-> +#define MIPI_CSI2_VCDT0_REG_CH0_VC_SHIFT                6
-> +#define MIPI_CSI2_VCDT0_REG_CH0_DT_MASK			GENMASK(5, 0)
-> +
-> +#define MIPI_CSI2_VCDT1_REG				(MIPI_CSI2_OFFSET + 0x108)
-> +#define MIPI_CSI2_VCDT1_REG_CH7_VC_MASK                 GENMASK(31, 30)
-> +#define MIPI_CSI2_VCDT1_REG_CH7_DT_MASK                 GENMASK(29, 24)
-> +#define MIPI_CSI2_VCDT1_REG_CH6_VC_MASK                 GENMASK(23, 22)
-> +#define MIPI_CSI2_VCDT1_REG_CH6_DT_MASK                 GENMASK(21, 16)
-> +#define MIPI_CSI2_VCDT1_REG_CH5_VC_MASK                 GENMASK(15, 14)
-> +#define MIPI_CSI2_VCDT1_REG_CH5_DT_MASK                 GENMASK(13, 8)
-> +#define MIPI_CSI2_VCDT1_REG_CH4_VC_MASK                 GENMASK(7, 6)
-> +#define MIPI_CSI2_VCDT1_REG_CH4_DT_MASK			GENMASK(5, 0)
-> +
-> +#endif /* __SUN8I_A83T_MIPI_CSI2_REG_H__ */
+I suppose we should only have "eclk" here and it should be described
+as "external clock for the sensor".
 
--- 
-Kind regards,
+> +
+> +  clock-frequency:
+> +    description:
+> +      Frequency of the eclk clock in Hertz.
 
-Sakari Ailus
+nit: maybe Hz?
+
+> +
+> +  dovdd-supply:
+> +    description:
+> +      Definition of the regulator used as Digital I/O voltage supply.
+> +
+> +  avdd-supply:
+> +    description:
+> +      Definition of the regulator used as Analog voltage supply.
+> +
+> +  dvdd-supply:
+> +    description:
+> +      Definition of the regulator used as Digital core voltage supply.
+> +
+> +  powerdown-gpios:
+> +    description:
+> +      Must be the device tree identifier of the GPIO connected to the
+> +      PD_PAD pin. This pin is used to place the OV02A10 into standby mode
+> +      or shutdown mode. As the line needs to be high for the powerdown mode
+> +      to be active, it should be marked GPIO_ACTIVE_HIGH.
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description:
+> +      Must be the device tree identifier of the GPIO connected to the
+> +      RST_PD pin. If specified, it will be asserted during driver probe.
+> +      As the line needs to be low for the reset to be active, it should be
+> +      marked GPIO_ACTIVE_LOW.
+> +    maxItems: 1
+> +
+> +  rotation:
+> +    description:
+> +      Definition of the sensor's placement.
+> +    allOf:
+> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +      - enum:
+> +          - 0    # Sensor Mounted Upright
+> +          - 180  # Sensor Mounted Upside Down
+> +        default: 0
+> +
+> +  ovti,mipi-tx-speed:
+> +    description:
+> +      Indication of MIPI transmission speed select, which is to control D-PHY
+> +      timing setting by adjusting MIPI clock voltage to improve the clock
+> +      driver capability.
+
+The description says that the value adjusts "MIPI clock voltage".
+Should the property be renamed to "ovti,mipi-clock-voltage"?
+
+> +    allOf:
+> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +      - enum:
+> +          - 0    #  20MHz -  30MHz
+> +          - 1    #  30MHz -  50MHz
+> +          - 2    #  50MHz -  75MHz
+> +          - 3    #  75MHz - 100MHz
+> +          - 4    # 100MHz - 130MHz
+> +        default: 3
+> +
+
+I've discussed this on IRC with Sakari. It sounds like this works as
+is for us because the driver currently only supports 1 mode, always
+running the link at 390 MHz. This won't scale if one intends to add
+more modes, because DT can't be expected to be updated when the driver
+changes. The two are expected to be separate and backwards compatible.
+
+I think we could model this in DT as an array of <link speed, clock
+voltage> pairs. Similarly to the OPP bindings [1]. An example to have
+all link speeds up to 390 MHz use the value 4:
+
+ovti,mipi-clock-voltages = <
+              /* KHz         clock voltage unit */
+                 390000    4
+>;
+
+if one wants to select different voltage for different link, they
+could do so as well. With the example below, the driver should
+configure "3" for link frequencies <= 150 MHz and "4" for > 150 MHz <=
+390 MHz. Link frequencies > 390 MHz should be disallowed.
+
+ovti,mipi-clock-voltages = <
+              /* KHz         clock voltage unit */
+                 150000    3
+                 390000    4
+>;
+
+What do you think?
+
+[1] https://elixir.bootlin.com/linux/v5.9-rc3/source/Documentation/devicetree/bindings/opp/opp.txt
+
+Best regards,
+Tomasz
