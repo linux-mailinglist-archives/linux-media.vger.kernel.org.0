@@ -2,71 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6680258017
-	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 20:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2F9A25807A
+	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 20:12:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729183AbgHaSCj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Aug 2020 14:02:39 -0400
-Received: from mga01.intel.com ([192.55.52.88]:38826 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726117AbgHaSCZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Aug 2020 14:02:25 -0400
-IronPort-SDR: rzlPnvnlq7jGtrPHCA6BOM8SxxxwU3MYkR1ZzxDdDadConURZblh/WJiSIayoQmOyZ6AHuq4Du
- FfuUAXcrh0Ow==
-X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="175078414"
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; 
-   d="scan'208";a="175078414"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 11:02:23 -0700
-IronPort-SDR: asqsnI5DoYu89u4oqVfxs5wCJTx/nIRMKCyUJqY9oQH0nMt/1lZp5dZIMLja8wDB9r796Vf3NA
- q5ImjB9kQZPg==
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; 
-   d="scan'208";a="330777988"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 11:02:14 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 5DB5E20623; Mon, 31 Aug 2020 21:02:11 +0300 (EEST)
-Date:   Mon, 31 Aug 2020 21:02:11 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Xingyu Wu <wuxy@bitland.com.cn>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, davem@davemloft.net,
-        shawnx.tu@intel.com, hverkuil-cisco@xs4all.nl,
-        dave.stevenson@raspberrypi.com, manivannan.sadhasivam@linaro.org,
-        bingbu.cao@intel.com, tfiga@chromium.org, drinkcat@chromium.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dongchun.zhu@mediatek.com,
-        sj.huang@mediatek.com, darfur_liu@gcoreinc.com, hao.he7@gmail.com,
-        hao.he@bitland.com.cn
-Subject: Re: [PATCH V3] Add GalaxyCore image sensor driver
-Message-ID: <20200831180211.GQ31019@paasikivi.fi.intel.com>
-References: <1597380295-6297-1-git-send-email-wuxy@bitland.com.cn>
+        id S1728913AbgHaSMb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Aug 2020 14:12:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29988 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729503AbgHaSMD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 31 Aug 2020 14:12:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1598897521;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=R674/72dzH0s8wu0q77/o8Nko89CHzZBE+f9ohuJkc0=;
+        b=egHM9anVIRRhUxeBtMmAlY+jVs1veaqWvrOi5OL05bw+tPwAz1cQZk8lMKgEMRiXBqIQ6r
+        JKwU0+LsTv8FMZipxplJLuPOX21fvIJgSZSpUzryvwiNzu2KyJKGmEAU5LpQp4C/Pj8M1P
+        He+Z52tv6vdftpDsdc4V/tqv3mUJA5c=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-JP7ekmV8M82-E5yE8DKw5w-1; Mon, 31 Aug 2020 14:11:59 -0400
+X-MC-Unique: JP7ekmV8M82-E5yE8DKw5w-1
+Received: by mail-io1-f69.google.com with SMTP id v10so4663476iot.6
+        for <linux-media@vger.kernel.org>; Mon, 31 Aug 2020 11:11:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=R674/72dzH0s8wu0q77/o8Nko89CHzZBE+f9ohuJkc0=;
+        b=O0lIt1rbB7NbWJGtWfbFlsX2KdmT7tInrD880xtZxAMn6VN3OZ+oUeqyEmWpvsee19
+         f+aE37Cg9SkbU+79nR8SMTRbmIHRU4ddZRB4mZ53HnClMKnz6KkLXMuuy348psTBnqAN
+         5SmJ9NFSZdyvk6PIiD7j/UzYUoNvE0vVQZ81v13+rf1B1chlpIs6sg6IGvYe0J7XqF3I
+         OhcMm7HGIpRf6QG2Sh4SB4KDjTFEABHVytEBThyQLtOSUUTWkfwzdsMhcTfKMYunebeY
+         vS/4RjdJuFvpQg7uwhL7fmOhOQcg1L2W8BnVPuPl9Sb1jY1k8htnk208nWFZ0wB+rj8y
+         hwTQ==
+X-Gm-Message-State: AOAM533SbqDzFvS3EwYaquntoM9FOGI4BaVSySYFf1T8ww0uPEZT5JAd
+        NQF5gov4ewO/FsKyq4XeAvEGih6f7Wl9l+eBFXIEzyjCD8z2AYcozH1Mq/N/KfBMvJQGY6C9HjJ
+        FAu/iCE7Efvbb/ieiexY5yh4=
+X-Received: by 2002:a92:cd0c:: with SMTP id z12mr2310935iln.95.1598897519246;
+        Mon, 31 Aug 2020 11:11:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzQnv2fWHOPseIkHEUWf3rehvfnqBXk0m4BeVGmJn1hPjW7PLrM3iOz+bnxyXwgsl/vzs1PFA==
+X-Received: by 2002:a92:cd0c:: with SMTP id z12mr2310915iln.95.1598897519033;
+        Mon, 31 Aug 2020 11:11:59 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id u4sm4405350iol.17.2020.08.31.11.11.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Aug 2020 11:11:58 -0700 (PDT)
+Subject: Re: [PATCH] media: tc358743: initialize variable
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     matrandg@cisco.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        p.zabel@pengutronix.de, Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+References: <20200830163043.10317-1-trix@redhat.com>
+ <CAKwvOdkvY62xVKQcVHxMTpskO=bB2sxwiOQb+TGF0-oU2Q6unA@mail.gmail.com>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <23bc7c20-f736-a8fb-b89c-c9039380e55b@redhat.com>
+Date:   Mon, 31 Aug 2020 11:11:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1597380295-6297-1-git-send-email-wuxy@bitland.com.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAKwvOdkvY62xVKQcVHxMTpskO=bB2sxwiOQb+TGF0-oU2Q6unA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xingyu,
 
-On Fri, Aug 14, 2020 at 12:44:51PM +0800, Xingyu Wu wrote:
-> This patch series add GalaxyCore GC5035 image sensor driver.
-> 
-> Change in v3:
-> 1.Optimize gc5035 driver.
-> 2.Redescibe reset-gpio in documentation.
+On 8/31/20 10:31 AM, Nick Desaulniers wrote:
+> On Sun, Aug 30, 2020 at 9:30 AM <trix@redhat.com> wrote:
+>> From: Tom Rix <trix@redhat.com>
+>>
+>> clang static analysis flags this error
+>>
+>> tc358743.c:1468:9: warning: Branch condition evaluates
+>>   to a garbage value
+>>         return handled ? IRQ_HANDLED : IRQ_NONE;
+>>                ^~~~~~~
+>> handled should be initialized to false.
+>>
+>> Fixes: d747b806abf4 ("[media] tc358743: add direct interrupt handling")
+>> Signed-off-by: Tom Rix <trix@redhat.com>
+> I'm guessing there was more to the report that says that `handled`
+> isn't necessarily initialized along any of the paths within
+> tc358743_isr()?  But you should fix this for all callers of
+> tc358743_isr(), such as tc358743_work_i2c_poll(), not just
+> tc358743_irq_handler().
 
-It seems the e-mails you're sending do not end up to LMML nor kernel.org
-Patchwork.
+Interesting. The static analyzer did not catch this.
 
-I'm not sure why, but that needs to be fixed.
+I will take another.
 
--- 
-Kind regards,
+Thanks
 
-Sakari Ailus
+Tom
+
+>> ---
+>>  drivers/media/i2c/tc358743.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+>> index a03dcab5ce61..c724bd1591de 100644
+>> --- a/drivers/media/i2c/tc358743.c
+>> +++ b/drivers/media/i2c/tc358743.c
+>> @@ -1461,7 +1461,7 @@ static int tc358743_isr(struct v4l2_subdev *sd, u32 status, bool *handled)
+>>  static irqreturn_t tc358743_irq_handler(int irq, void *dev_id)
+>>  {
+>>         struct tc358743_state *state = dev_id;
+>> -       bool handled;
+>> +       bool handled = false;
+>>
+>>         tc358743_isr(&state->sd, 0, &handled);
+>>
+>> --
+>> 2.18.1
+>>
+>
+
