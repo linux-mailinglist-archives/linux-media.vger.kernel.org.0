@@ -2,111 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC1662570D9
-	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 00:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E725E257124
+	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 02:10:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726396AbgH3W0R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Aug 2020 18:26:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37576 "EHLO
+        id S1726540AbgHaAKO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Aug 2020 20:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgH3W0P (ORCPT
+        with ESMTP id S1726404AbgHaAKN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Aug 2020 18:26:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B7BC061573;
-        Sun, 30 Aug 2020 15:26:14 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02F819E6;
-        Mon, 31 Aug 2020 00:26:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1598826370;
-        bh=Mhfgf3DBnamtwmS/lZnkwRcZ5fDIWm1pmtGC2Ip9qaA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vU3NJY1JELtDJ6xGLfpFe87O7gs1WYZzDFQtkw/NTJuZ8duEKXjVJRosnvegaJpPl
-         sEf+nLm0lieySOXOz3J1HkueYD8RU7rSDMOIi4YYqFK5jF7o9eSk4RgFNlzegVnjha
-         3VdYFAN57MApazjO+RgVnwgWU2YgGrXkEo5gMktY=
-Date:   Mon, 31 Aug 2020 01:25:49 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jia-Ju Bai <baijiaju@tsinghua.edu.cn>
-Cc:     Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 4.19 08/38] media: pci: ttpci: av7110: fix
- possible buffer overflow caused by bad DMA value in debiirq()
-Message-ID: <20200830222549.GD6043@pendragon.ideasonboard.com>
-References: <20200821161807.348600-1-sashal@kernel.org>
- <20200821161807.348600-8-sashal@kernel.org>
- <20200829121020.GA20944@duo.ucw.cz>
- <20200829171600.GA7465@pendragon.ideasonboard.com>
- <9e797c3a-033b-3473-ac03-1566d40e90d2@tsinghua.edu.cn>
+        Sun, 30 Aug 2020 20:10:13 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A06C061573;
+        Sun, 30 Aug 2020 17:10:13 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id g207so3615087pfb.1;
+        Sun, 30 Aug 2020 17:10:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=qLPEfrUi2jCIWCjZKRo6ZLLPjq6acaeWm3ALBWaznXk=;
+        b=F3CnXuCn2pzKt3lquHeMzcnfquvPYqjIIQrtoVQ84O4mtYiNWRWGSKyMzzLuDuhGR4
+         Nssb7lzRM/8lmZn3YJ/SDCYbCK1WuoIDIOLyZIoCfI3iBh0ZaKcgxUz1KdFsHqvFBFhd
+         JFgXycahfNDgPcdZzml0356S32S3kCnUReHH0TM+YcG0DuVLLILPwNtTxc6IzG//KJP5
+         vTDafW5Mg2L7N4q+XmztACw6cYDx5XNBq7kGiriHSjFiivFuSsbngdaP8f2YoCKeaF5z
+         K24hzkPCpJZNT/X3sG6KbmlL/C7QVm79GnceeFKDJz4tJIzhc9ecsuX7QBcJclyJQnDI
+         og+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qLPEfrUi2jCIWCjZKRo6ZLLPjq6acaeWm3ALBWaznXk=;
+        b=X/EWMkQVfuS4gERhDQqbdQYQXCRvkUWTXm+FvxNwZ+vQOj9apiJUlE/d7InOT2ro47
+         yXFlYoMstB83fsoAmPwL3tdyoRqz4ZtyI6Z2sNhShEjqWzE09y+kamXK5PF8EzS4svum
+         EkbHnqEHcgDjXwHBX6mWcpnXhnbdSyxhZI8nP8NsQ/cyY+Ke1F/rYG/dhMeIerN+yHHP
+         Xi26+tpM59Lnd4PKU/+5Lu1Io+XhlKc2v2D7WvLRHhaCw/MBc7uL8yCTY350SHDPBZQK
+         VbZRHfY9hm/zwdPkH+Pl4ptl5AnIbtBiIZ8OiA9KhJDss9kvxk538V6uoDcltBXX1ap9
+         WIGA==
+X-Gm-Message-State: AOAM530SbBufLc4UdCfEc/QyTVcCsUAmHXKhNAwBM3YQdFM+bhaGMz6u
+        FzI1a6j10wc/82QPXrGMbQw=
+X-Google-Smtp-Source: ABdhPJwWpKZRGsCUjZpmp33QErRgjRznzLg4iQdazkktoI5TvtWGJPMJCAhKW2BkvmSCD8WTPNRe2Q==
+X-Received: by 2002:a63:cb0a:: with SMTP id p10mr2440832pgg.314.1598832612609;
+        Sun, 30 Aug 2020 17:10:12 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q5sm5961917pfu.16.2020.08.30.17.10.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 30 Aug 2020 17:10:11 -0700 (PDT)
+Date:   Sun, 30 Aug 2020 17:10:10 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] media: uvcvideo: Fix race conditions
+Message-ID: <20200831001010.GA92208@roeck-us.net>
+References: <20200830150443.167286-1-linux@roeck-us.net>
+ <20200830155833.GA6043@pendragon.ideasonboard.com>
+ <ac2080a1-3b00-ac9e-cd49-d1ee84c6ca25@roeck-us.net>
+ <20200830213621.GC6043@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9e797c3a-033b-3473-ac03-1566d40e90d2@tsinghua.edu.cn>
+In-Reply-To: <20200830213621.GC6043@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jia-Ju,
-
-On Sun, Aug 30, 2020 at 03:33:11PM +0800, Jia-Ju Bai wrote:
-> On 2020/8/30 1:16, Laurent Pinchart wrote:
-> > On Sat, Aug 29, 2020 at 02:10:20PM +0200, Pavel Machek wrote:
-> >> Hi!
-> >>
-> >>> The value av7110->debi_virt is stored in DMA memory, and it is assigned
-> >>> to data, and thus data[0] can be modified at any time by malicious
-> >>> hardware. In this case, "if (data[0] < 2)" can be passed, but then
-> >>> data[0] can be changed into a large number, which may cause buffer
-> >>> overflow when the code "av7110->ci_slot[data[0]]" is used.
-> >>>
-> >>> To fix this possible bug, data[0] is assigned to a local variable, which
-> >>> replaces the use of data[0].
-> >> I'm pretty sure hardware capable of manipulating memory can work
-> >> around any such checks, but...
-> >>
-> >>> +++ b/drivers/media/pci/ttpci/av7110.c
-> >>> @@ -424,14 +424,15 @@ static void debiirq(unsigned long cookie)
-> >>>   	case DATA_CI_GET:
-> >>>   	{
-> >>>   		u8 *data = av7110->debi_virt;
-> >>> +		u8 data_0 = data[0];
-> >>>   
-> >>> -		if ((data[0] < 2) && data[2] == 0xff) {
-> >>> +		if (data_0 < 2 && data[2] == 0xff) {
-> >>>   			int flags = 0;
-> >>>   			if (data[5] > 0)
-> >>>   				flags |= CA_CI_MODULE_PRESENT;
-> >>>   			if (data[5] > 5)
-> >>>   				flags |= CA_CI_MODULE_READY;
-> >>> -			av7110->ci_slot[data[0]].flags = flags;
-> >>> +			av7110->ci_slot[data_0].flags = flags;
-> >>
-> >> This does not even do what it says. Compiler is still free to access
-> >> data[0] multiple times. It needs READ_ONCE() to be effective.
-> >
-> > Yes, it seems quite dubious to me. If we *really* want to guard against
-> > rogue hardware here, the whole DMA buffer should be copied. I don't
-> > think it's worth it, a rogue PCI device can do much more harm.
+On Mon, Aug 31, 2020 at 12:36:21AM +0300, Laurent Pinchart wrote:
+> Hi Guenter,
 > 
-> From the original driver code, data[0] is considered to be bad and thus 
-> it should be checked, because the content of the DMA buffer may be 
-> problematic.
->
-> Based on this consideration, data[0] can be also modified to bypass the 
-> check, and thus its value should be copied to a local variable for the 
-> check and use.
+[ ... ]
 
-What makes you think the hardware would do that ?
+> I'll try to prototype what I envision would be a good solution in the
+> V4L2 core. If stars align, I may even try to push it one level up, to
+> the chardev layer. Would you then be able to test it ?
+> 
 
-> I agree with Pavel that the compiler optimization may drop the copying 
-> operation, and thus READ_ONCE() should be used here.
-> I will submit a v2 patch soon.
+Sure, I'll be happy to do that.
 
--- 
-Regards,
+I ordered a couple of non-UVC webcams (pwc and gspca) from eBay for
+comparison. Both of those use the v4l2 locking mechanism, so we should
+be able to see the difference.
 
-Laurent Pinchart
+Thanks,
+Guenter
