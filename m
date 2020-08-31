@@ -2,146 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 610172571FC
-	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 05:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A9DE257262
+	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 05:41:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726775AbgHaDEZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Aug 2020 23:04:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726573AbgHaDEY (ORCPT
+        id S1726824AbgHaDle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Aug 2020 23:41:34 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51063 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726067AbgHaDlc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Aug 2020 23:04:24 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D729C061573
-        for <linux-media@vger.kernel.org>; Sun, 30 Aug 2020 20:04:23 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 32901292A45
-Message-ID: <16e60d66b036bce7019023a48aa278c9044d87c5.camel@collabora.com>
-Subject: DMA-BUF Heaps BoF notes (Re: [RFC] Experimental DMA-BUF Device
- Heaps)
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>,
-        Brian Starkey <brian.starkey@arm.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        "nd@arm.com" <nd@arm.com>, Tomasz Figa <tfiga@chromium.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        "Andrew F . Davis" <afd@ti.com>,
-        "kernel@collabora.com" <kernel@collabora.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Daniel Stone <daniels@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        John Reitan <John.Reitan@arm.com>
-Date:   Mon, 31 Aug 2020 00:04:10 -0300
-In-Reply-To: <RYac-UwqFncGmZCWk713lK86adAOfMQbeT6CF15dhr1H3o-P-_tXJcwNYxM5LYqddtYe7Y7VEmbSrDe5ixtIqtHmxMkH1FfulkO4VppXGKA=@emersion.fr>
-References: <20200816172246.69146-1-ezequiel@collabora.com>
-         <20200817151813.wet5faqg4fzlfbsh@DESKTOP-E1NTVVP.localdomain>
-         <c2450755-91fd-da72-bf1e-c015ad9d6b25@nvidia.com>
-         <746a0bb75bd8388a30b53a5ddc56fb24aea308a8.camel@collabora.com>
-         <RYac-UwqFncGmZCWk713lK86adAOfMQbeT6CF15dhr1H3o-P-_tXJcwNYxM5LYqddtYe7Y7VEmbSrDe5ixtIqtHmxMkH1FfulkO4VppXGKA=@emersion.fr>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Sun, 30 Aug 2020 23:41:32 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id CahFkNixMooQSCahGkRHN9; Mon, 31 Aug 2020 05:41:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1598845290; bh=gd8+GSTJEy7r0i+sLBLOwPhg3OmEF5KdClD+sMVQknc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=qgZwDm2gy94+TGt/yh68+Q0vAuoIl+s3L5frwQvjdaT46uUBiRJOXPZrhJM9cQswa
+         HSZUnomiUk/QhLZcJSCWAW/UUimFutT6jguPCP3Ik22xFOl6kSkas6uWSG0DrWk45b
+         7pudLNI7vE7wFCDSVTMNW6z8B/I76POQ2n20eCxOta04xFKa4S3MFQyVC9fpw9sDxx
+         Az9eYICHUEoV3siILsX/OEwVYGkdRANYseMBvCfb9byOUEF9APcafAohWwsyks0F7x
+         zAJnW19kCcANJuXAmqaP3MEp5XYY2NOHPhbENW3caBlerheGMo04SwMpnkQjVMfBho
+         vQzTK1C+W2Lgg==
+Message-ID: <38e49eec1db98605ac04facec488b3cc@smtp-cloud7.xs4all.net>
+Date:   Mon, 31 Aug 2020 05:41:29 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfMb/j1cnmC0HdQQz6QE0Xs6S7u/Z4G6QX9seOIzS9QHxibg6zO9bbK35j+f0pQV5SseWzufnRGXuoimFLX8Lob/veC+kBwS3iXYBt4/IowBU7SfGVbTs
+ qav7h+4fTtQ6j4pzdqFDidD4WI/ceg3jSOtkISbpSmtS+g2UHD7uZlG0W4NOlNop2BQeYGDRZrKr04ewsIOUE9FTcdrbK5OeemwaHsvJE+CdtA6fR0Zmhivx
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear all,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Here are the notes we took during the BoF.
+Results of the daily build of media_tree:
 
-I believe the meeting was super interesting.
+date:			Mon Aug 31 05:00:10 CEST 2020
+media-tree git hash:	07d999f0d9463ea0d1f76e0f8921ea363d805767
+media_build git hash:	a20bdff25e6827e9f03f2476d4795df1c8ee4913
+v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Although it felt a bit short for the topic,
-we left with a few interesting ideas.
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 5
+virtme-32: ERRORS: Final Summary: 2779, Succeeded: 2778, Failed: 1, Warnings: 4
+sparse: WARNINGS
+smatch: ERRORS
 
-Thanks everyone!
-Ezequiel
+Detailed results are available here:
 
----
-LPC 2020 BoF: Negotiating DMA-BUF Heaps
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
-Attendees:
-* Brian Starkey
-* Daniel Stone
-* Ezequiel Garcia
-* James Jones
-* John Reitan
-* Laura Abbott
-* Laurent Pinchart
-* Sumit Semwal
-* Robert Beckett
+Detailed regression test results are available here:
 
-# Replacing subsystem memory allocators with dma-buf heaps
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
 
-* Laurent: we should not have subsystem implement their own allocator.
-  Using heaps could be a good idea.
+Full logs are available here:
 
-* Laura: Wary to add too much support to heaps,
-  from the ION experience.
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
 
-* Laurent: V4L2: most drivers use videobuf2,
-  which is a fairly complex piece of code.
-  Three constraints, sg, contig, and vmalloc:
-  these are fairly generic and not video-specific, why can't these just use heaps?
+The Media Infrastructure API from this daily build is here:
 
-* Brian: In-kernel API will most likely just care of dma-buf
-  not necessarily FDs. This was discussed recently, see "Role of DMA Heaps
-  vs GEM in allocation",https://www.spinics.net/lists/dri-devel/msg268103.html
-
-* Do we expect to get a non-file descriptor identifier for a dma-buf? No.
-
-* Laurent proposes a two steps API (similar to existing GEM API),
-  where we have one interface to allocate a buffer, with an identifier
-  local to a process, and then another interface to wrap the buffer
-  on a dma-buf (fd).
-
-* If devices are not meant to be shared, then we might want to avoid
-  the DMA-BUF design entirely. As Sumit mentioned, the fundamental
-  idea behind DMA-BUF is that they are expected to be shared.
-  OTOH, it was mentioned that sometimes we don't know if a buffer
-  will be shared or not, so that's why the ability to wrap a buffer
-over dma-buf is useful.
-
-* New subsytems would possibly want to avoid implementing
-  its own allocator interface. But unfortunately, we don't want
-  to produce a fd per buffer, so that will mean a new subsystem
-  will eventually require its own API (GEM-like).
-  If a subsystem doesn't need many buffers, and the FD semantic is fine,
-  then it would be acceptable to avoid a subsystem-specific API.
-
-* It would be interesting to experiment replacing videobuf2-dma-contig
-  with just dma-buf heap usage, and see what kind of code save we'd save.
-
-* John Stultz has ideas around providing in-kernel accessors
-  for the heaps - the idea is for drivers to not have to implement
-  full exporter functionality for an already existing dma-buf heap type.
-
-* Drawback to this idea of reusing dma-buf heaps to allocate buffers,
-  is that it means marking every buffer that gets exported as shareable.
-
-* The benefits in having a centralized implementation would be in unifying
-  the semantics, reusable concepts that can be used to build future APIs around,
-  rather than trying to created unified APIs around disparate kernel allocation
-  APIs at only the userspace level.
-
-* Robert: Is there an in-kernel user for the in-kernel dma-buf request?
-  A possible answer would be for scratch buffers. The idea would be
-  to avoid getting details wrong. However, doing this would allow every
-  buffer to be exportable. Also, it sounds like this means
-  re-implementing DMA-API?
-
-* DMA-BUF are designed to be shared, not necessarily an allocator.
-
-* Want something to expose device-local memory to rest of kernel.
-Could be a dma-buf heap?
-
+http://www.xs4all.nl/~hverkuil/spec/index.html
