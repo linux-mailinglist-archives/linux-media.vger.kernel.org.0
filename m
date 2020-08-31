@@ -2,242 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D359E257E31
-	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 18:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AEF6257EAD
+	for <lists+linux-media@lfdr.de>; Mon, 31 Aug 2020 18:25:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728324AbgHaQGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Aug 2020 12:06:53 -0400
-Received: from mga11.intel.com ([192.55.52.93]:65335 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727919AbgHaQGx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Aug 2020 12:06:53 -0400
-IronPort-SDR: FPJk1Gr1IQHRxjxedpw4aP25988Y+OmLBxXSah+k+TzMaK1IxEP9KkxCybCyfr7bTF8EbLwpId
- GnDW/sZe48pA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="154530118"
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; 
-   d="scan'208";a="154530118"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 09:06:52 -0700
-IronPort-SDR: 6IY/dpiUSpNNHBjPIMDLOmwwukXVMpmBy7EzW0XaqtS2k+a3zJRGno81ukPA0izBmZihiiYX18
- UT99p1pspPGQ==
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; 
-   d="scan'208";a="314398396"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 09:06:46 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 98A0B20623; Mon, 31 Aug 2020 19:06:44 +0300 (EEST)
-Date:   Mon, 31 Aug 2020 19:06:44 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= 
-        <shengnan.wang@mediatek.com>, 1095088256@qq.com,
-        matrix.zhu@aliyun.com
-Subject: Re: [PATCH v13 1/2] media: dt-bindings: media: i2c: Document OV02A10
- bindings
-Message-ID: <20200831160644.GL31019@paasikivi.fi.intel.com>
-References: <20200710101850.4604-1-dongchun.zhu@mediatek.com>
- <20200710101850.4604-2-dongchun.zhu@mediatek.com>
- <CAAFQd5BB3c9nvruY0jcVbRZtbUyiFj0v8=D6KA7EPtN4rz=+wA@mail.gmail.com>
+        id S1728506AbgHaQZ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Aug 2020 12:25:26 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1678 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727046AbgHaQZX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 31 Aug 2020 12:25:23 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f4d24450003>; Mon, 31 Aug 2020 09:24:37 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 31 Aug 2020 09:25:23 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 31 Aug 2020 09:25:23 -0700
+Received: from [10.2.173.243] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 31 Aug
+ 2020 16:25:22 +0000
+Subject: Re: [PATCH v3 3/3] media: i2c: imx274: Add IMX274 power on and off
+ sequence
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <frankc@nvidia.com>, <hverkuil@xs4all.nl>, <luca@lucaceresoli.net>,
+        <leonl@leopardimaging.com>, <robh+dt@kernel.org>,
+        <lgirdwood@gmail.com>, <broonie@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1595264494-2400-1-git-send-email-skomatineni@nvidia.com>
+ <1595264494-2400-3-git-send-email-skomatineni@nvidia.com>
+ <20200731162611.GB6401@valkosipuli.retiisi.org.uk>
+ <b8819080-6585-c953-e7ad-9b0a10f1d821@nvidia.com>
+ <20200813220147.GJ840@valkosipuli.retiisi.org.uk>
+ <824ced0f-7493-9d2f-10af-5242c7997631@nvidia.com>
+Message-ID: <b4768e7a-7bde-ca39-1eea-155447d6e36d@nvidia.com>
+Date:   Mon, 31 Aug 2020 09:25:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5BB3c9nvruY0jcVbRZtbUyiFj0v8=D6KA7EPtN4rz=+wA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <824ced0f-7493-9d2f-10af-5242c7997631@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1598891077; bh=HVhG/9k6RfZkuiazSjJbuAzH2Op2xhu+jwzeXMpO+zE=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=dpGTDal4hR8lGzCTQ4vaBw1n5kppy/FTesAFBbajLpVA8scH6iL530GaNJspcRM3I
+         mDQgGTj6gX4Sa6fIGwuMRBOtxV0qQcbqdPW6MGRzkXkfvfaE92E/J+CzD8DZ/7FyF9
+         5n9HVTXZQHWgJ1ol3hLOKYViKipm/2R7ckM9iLRRJbktT5d4UMqjJK9ykSlvzVf0eA
+         sXBixjMaxqyU5TkhX9IK2dVH0Dy38Qy3gYGqyDVZqQBuXc7+BNu6hRFEoZ8F146nWL
+         Ojqxbcv9RLnTEYGyZ+ygkt6yvweHprH61S6U6wDegFi++SBwRM4OMRN6UVkDDj9fMp
+         YcBZsBgYIQ4YA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
 
-Thanks for dressing this into words.
-
-On Mon, Aug 31, 2020 at 01:44:27PM +0200, Tomasz Figa wrote:
-> Hi Dongchun,
-> 
-> On Fri, Jul 10, 2020 at 12:19 PM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
-> >
-> > Add YAML device tree binding for OV02A10 CMOS image sensor,
-> > and the relevant MAINTAINERS entries.
-> >
-> > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > ---
-> >  .../bindings/media/i2c/ovti,ov02a10.yaml           | 172 +++++++++++++++++++++
-> >  MAINTAINERS                                        |   7 +
-> >  2 files changed, 179 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> > new file mode 100644
-> > index 0000000..3a916cc
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> > @@ -0,0 +1,172 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +# Copyright (c) 2020 MediaTek Inc.
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Omnivision OV02A10 CMOS Sensor Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > +
-> > +description: |-
-> > +  The Omnivision OV02A10 is a low-cost, high performance, 1/5-inch, 2 megapixel
-> > +  image sensor, which is the latest production derived from Omnivision's CMOS
-> > +  image sensor technology. Ihis chip supports high frame rate speeds up to 30fps
-> > +  @ 1600x1200 (UXGA) resolution transferred over a 1-lane MIPI interface. The
-> > +  sensor output is available via CSI-2 serial data output.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: ovti,ov02a10
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: top mux camtg clock
-> > +      - description: divider clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: eclk
-> > +      - const: freq_mux
-> 
-> Why do we have two clocks here? Looking at the example suggests that
-> they may be the clocks of the SoC that the integration was done with.
-> However, the binding must only define the aspects of the particular
-> device, i.e. this sensor.
-> 
-> I suppose we should only have "eclk" here and it should be described
-> as "external clock for the sensor".
-> 
-> > +
-> > +  clock-frequency:
-> > +    description:
-> > +      Frequency of the eclk clock in Hertz.
-> 
-> nit: maybe Hz?
-> 
-> > +
-> > +  dovdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as Digital I/O voltage supply.
-> > +
-> > +  avdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as Analog voltage supply.
-> > +
-> > +  dvdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as Digital core voltage supply.
-> > +
-> > +  powerdown-gpios:
-> > +    description:
-> > +      Must be the device tree identifier of the GPIO connected to the
-> > +      PD_PAD pin. This pin is used to place the OV02A10 into standby mode
-> > +      or shutdown mode. As the line needs to be high for the powerdown mode
-> > +      to be active, it should be marked GPIO_ACTIVE_HIGH.
-> > +    maxItems: 1
-> > +
-> > +  reset-gpios:
-> > +    description:
-> > +      Must be the device tree identifier of the GPIO connected to the
-> > +      RST_PD pin. If specified, it will be asserted during driver probe.
-> > +      As the line needs to be low for the reset to be active, it should be
-> > +      marked GPIO_ACTIVE_LOW.
-> > +    maxItems: 1
-> > +
-> > +  rotation:
-> > +    description:
-> > +      Definition of the sensor's placement.
-> > +    allOf:
-> > +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> > +      - enum:
-> > +          - 0    # Sensor Mounted Upright
-> > +          - 180  # Sensor Mounted Upside Down
-> > +        default: 0
-> > +
-> > +  ovti,mipi-tx-speed:
-> > +    description:
-> > +      Indication of MIPI transmission speed select, which is to control D-PHY
-> > +      timing setting by adjusting MIPI clock voltage to improve the clock
-> > +      driver capability.
-> 
-> The description says that the value adjusts "MIPI clock voltage".
-> Should the property be renamed to "ovti,mipi-clock-voltage"?
-> 
-> > +    allOf:
-> > +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> > +      - enum:
-> > +          - 0    #  20MHz -  30MHz
-> > +          - 1    #  30MHz -  50MHz
-> > +          - 2    #  50MHz -  75MHz
-> > +          - 3    #  75MHz - 100MHz
-> > +          - 4    # 100MHz - 130MHz
-> > +        default: 3
-> > +
-> 
-> I've discussed this on IRC with Sakari. It sounds like this works as
-> is for us because the driver currently only supports 1 mode, always
-> running the link at 390 MHz. This won't scale if one intends to add
-> more modes, because DT can't be expected to be updated when the driver
-> changes. The two are expected to be separate and backwards compatible.
-> 
-> I think we could model this in DT as an array of <link speed, clock
-> voltage> pairs. Similarly to the OPP bindings [1]. An example to have
-> all link speeds up to 390 MHz use the value 4:
-> 
-> ovti,mipi-clock-voltages = <
->               /* KHz         clock voltage unit */
->                  390000    4
-> >;
-> 
-> if one wants to select different voltage for different link, they
-> could do so as well. With the example below, the driver should
-> configure "3" for link frequencies <= 150 MHz and "4" for > 150 MHz <=
-> 390 MHz. Link frequencies > 390 MHz should be disallowed.
-> 
-> ovti,mipi-clock-voltages = <
->               /* KHz         clock voltage unit */
->                  150000    3
->                  390000    4
-> >;
-> 
-> What do you think?
-
-One more note on my proposal: use the index of the link frequency to access
-the ovti,mipi-clock-voltages array. That should be more simple for the
-driver, as the driver is expected to use only link frequencies listed in DT
-bindings anyway.
-
--- 
-Kind regards,
-
-Sakari Ailus
+On 8/27/20 3:55 PM, Sowjanya Komatineni wrote:
+>
+> On 8/13/20 3:01 PM, Sakari Ailus wrote:
+>> Hi Sowjanya,
+>>
+>> On Fri, Jul 31, 2020 at 09:34:15AM -0700, Sowjanya Komatineni wrote:
+>>> On 7/31/20 9:26 AM, Sakari Ailus wrote:
+>>>> Hi Sowjanya,
+>>>>
+>>>> Thanks for the patch.
+>>>>
+>>>> On Mon, Jul 20, 2020 at 10:01:34AM -0700, Sowjanya Komatineni wrote:
+>>>>> IMX274 has VANA analog 2.8V supply, VDIG digital core 1.8V supply,
+>>>>> and VDDL digital io 1.2V supply which are optional based on camera
+>>>>> module design.
+>>>>>
+>>>>> IMX274 also need external 24Mhz clock and is optional based on
+>>>>> camera module design.
+>>>> The sensor appears to be able to use other frequencies, too. Could you
+>>>> check in the driver the frequency is correct? This should be found=20
+>>>> in DT
+>>>> bindings, too.
+>>> External input clock is not in DT. So added it as part of this series.
+>>>
+>>> We are mostly using 24Mhz I/P with IMX274 on designs we have and=20
+>>> also on
+>>> leopard module which has onboard XTAL for 24Mhz
+>> Yes. This information still should be found in DT as the xtal isn't=20
+>> part of
+>> the sensor.
+>>
+>>>>> This patch adds support for IMX274 power on and off to enable and
+>>>>> disable these supplies and external clock.
+>>>>>
+>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>> ---
+>>>>> =C2=A0=C2=A0 drivers/media/i2c/imx274.c | 132=20
+>>>>> +++++++++++++++++++++++++++++++++++++++++++--
+>>>>> =C2=A0=C2=A0 1 file changed, 129 insertions(+), 3 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+>>>>> index 55869ff..7157b1d 100644
+>>>>> --- a/drivers/media/i2c/imx274.c
+>>>>> +++ b/drivers/media/i2c/imx274.c
+>>>>> @@ -19,6 +19,7 @@
+>>>>> =C2=A0=C2=A0 #include <linux/module.h>
+>>>>> =C2=A0=C2=A0 #include <linux/of_gpio.h>
+>>>>> =C2=A0=C2=A0 #include <linux/regmap.h>
+>>>>> +#include <linux/regulator/consumer.h>
+>>>>> =C2=A0=C2=A0 #include <linux/slab.h>
+>>>>> =C2=A0=C2=A0 #include <linux/v4l2-mediabus.h>
+>>>>> =C2=A0=C2=A0 #include <linux/videodev2.h>
+>>>>> @@ -131,6 +132,15 @@
+>>>>> =C2=A0=C2=A0 #define IMX274_TABLE_WAIT_MS=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0
+>>>>> =C2=A0=C2=A0 #define IMX274_TABLE_END=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1
+>>>>> +/* regulator supplies */
+>>>>> +static const char * const imx274_supply_names[] =3D {
+>>>>> +=C2=A0=C2=A0=C2=A0 "VDDL",=C2=A0 /* IF (1.2V) supply */
+>>>>> +=C2=A0=C2=A0=C2=A0 "VDIG",=C2=A0 /* Digital Core (1.8V) supply */
+>>>>> +=C2=A0=C2=A0=C2=A0 "VANA",=C2=A0 /* Analog (2.8V) supply */
+>>>>> +};
+>>>>> +
+>>>>> +#define IMX274_NUM_SUPPLIES ARRAY_SIZE(imx274_supply_names)
+>>>> Please use ARRAY_SIZE() directly.
+>>>>
+>>>>> +
+>>>>> =C2=A0=C2=A0 /*
+>>>>> =C2=A0=C2=A0=C2=A0 * imx274 I2C operation related structure
+>>>>> =C2=A0=C2=A0=C2=A0 */
+>>>>> @@ -501,6 +511,8 @@ struct imx274_ctrls {
+>>>>> =C2=A0=C2=A0=C2=A0 * @frame_rate: V4L2 frame rate structure
+>>>>> =C2=A0=C2=A0=C2=A0 * @regmap: Pointer to regmap structure
+>>>>> =C2=A0=C2=A0=C2=A0 * @reset_gpio: Pointer to reset gpio
+>>>>> + * @supplies: imx274 analog and digital supplies
+>>>>> + * @inck: input clock to imx274
+>>>>> =C2=A0=C2=A0=C2=A0 * @lock: Mutex structure
+>>>>> =C2=A0=C2=A0=C2=A0 * @mode: Parameters for the selected readout mode
+>>>>> =C2=A0=C2=A0=C2=A0 */
+>>>>> @@ -514,6 +526,8 @@ struct stimx274 {
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_fract frame_interval=
+;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct regmap *regmap;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct gpio_desc *reset_gpio;
+>>>>> +=C2=A0=C2=A0=C2=A0 struct regulator *supplies[IMX274_NUM_SUPPLIES];
+>>>>> +=C2=A0=C2=A0=C2=A0 struct clk *inck;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct mutex lock; /* mutex lock=
+ for operations */
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct imx274_mode *mode;
+>>>>> =C2=A0=C2=A0 };
+>>>>> @@ -767,6 +781,99 @@ static void imx274_reset(struct stimx274=20
+>>>>> *priv, int rst)
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usleep_range(IMX274_RESET_DELAY1=
+, IMX274_RESET_DELAY2);
+>>>>> =C2=A0=C2=A0 }
+>>>>> +/*
+>>>>> + * imx274_power_on - Function called to power on the sensor
+>>>>> + * @imx274: Pointer to device structure
+>>>>> + */
+>>>>> +static int imx274_power_on(struct device *dev)
+>>>>> +{
+>>>>> +=C2=A0=C2=A0=C2=A0 struct i2c_client *client =3D to_i2c_client(dev);
+>>>>> +=C2=A0=C2=A0=C2=A0 struct v4l2_subdev *sd =3D i2c_get_clientdata(cli=
+ent);
+>>>>> +=C2=A0=C2=A0=C2=A0 struct stimx274 *imx274 =3D to_imx274(sd);
+>>>>> +=C2=A0=C2=A0=C2=A0 int i, ret;
+>>>>> +
+>>>>> +=C2=A0=C2=A0=C2=A0 ret =3D clk_prepare_enable(imx274->inck);
+>>>>> +=C2=A0=C2=A0=C2=A0 if (ret) {
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(&imx274->client->=
+dev,
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "=
+Failed to enable input clock: %d\n", ret);
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>>> +
+>>>> Could you use regulator_bulk_enable() instead? Same for disable.
+>>> Using regulator_bulk_enable() makes these regulators mandatory.
+>> How? regulator_bulk_enable() simply does call regulator_enable() on=20
+>> all the
+>> regulators.
+>>
+> regulator_bulk APIs uses regulator_bulk_data and so had to retrieve=20
+> regulators from DT with devm_regulator_bulk_get() which don't use=20
+> optional regulator get.
+>
+Sorry, please ignore my above comment. Yes, will fix in v4 to use=20
+bulk_enable()
