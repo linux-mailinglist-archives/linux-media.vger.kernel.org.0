@@ -2,100 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DF80258D74
-	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 13:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F1A2258F20
+	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 15:32:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726789AbgIALbX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Sep 2020 07:31:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44816 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727032AbgIAL1B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Sep 2020 07:27:01 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D932C061251
-        for <linux-media@vger.kernel.org>; Tue,  1 Sep 2020 04:16:23 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 31A58299038
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-Subject: [PATCH v4 04/10] media: staging: rkisp1: don't support bayer format on selfpath resizer
-Date:   Tue,  1 Sep 2020 13:16:06 +0200
-Message-Id: <20200901111612.10552-5-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200901111612.10552-1-dafna.hirschfeld@collabora.com>
-References: <20200901111612.10552-1-dafna.hirschfeld@collabora.com>
+        id S1728215AbgIANcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Sep 2020 09:32:21 -0400
+Received: from elvis.franken.de ([193.175.24.41]:45627 "EHLO elvis.franken.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728129AbgIANby (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Sep 2020 09:31:54 -0400
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1kD6NY-0001cg-00; Tue, 01 Sep 2020 15:31:16 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id A31F7C0E44; Tue,  1 Sep 2020 15:29:05 +0200 (CEST)
+Date:   Tue, 1 Sep 2020 15:29:05 +0200
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        linux-mm@kvack.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 06/28] lib82596: move DMA allocation into the callers of
+ i82596_probe
+Message-ID: <20200901132905.GA11506@alpha.franken.de>
+References: <20200819065555.1802761-1-hch@lst.de>
+ <20200819065555.1802761-7-hch@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819065555.1802761-7-hch@lst.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The selfpath capture does not support bayer formats.
-Therefore there is no reason to support bayer formats
-on the selfpath resizer. The selfpath resizer should
-support only MEDIA_BUS_FMT_YUYV8_2X8.
+On Wed, Aug 19, 2020 at 08:55:33AM +0200, Christoph Hellwig wrote:
+> This allows us to get rid of the LIB82596_DMA_ATTR defined and prepare
+> for untangling the coherent vs non-coherent DMA allocation API.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/net/ethernet/i825xx/lasi_82596.c | 24 ++++++++++------
+>  drivers/net/ethernet/i825xx/lib82596.c   | 36 ++++++++----------------
+>  drivers/net/ethernet/i825xx/sni_82596.c  | 19 +++++++++----
+>  3 files changed, 40 insertions(+), 39 deletions(-)
+> 
+> [...]
+> diff --git a/drivers/net/ethernet/i825xx/sni_82596.c b/drivers/net/ethernet/i825xx/sni_82596.c
+> index 22f5887578b2bd..e80e790ffbd4d4 100644
+> --- a/drivers/net/ethernet/i825xx/sni_82596.c
+> +++ b/drivers/net/ethernet/i825xx/sni_82596.c
+> @@ -24,8 +24,6 @@
+>  
+>  static const char sni_82596_string[] = "snirm_82596";
+>  
+> -#define LIB82596_DMA_ATTR	0
+> -
+>  #define DMA_WBACK(priv, addr, len)     do { } while (0)
+>  #define DMA_INV(priv, addr, len)       do { } while (0)
+>  #define DMA_WBACK_INV(priv, addr, len) do { } while (0)
+> @@ -134,10 +132,19 @@ static int sni_82596_probe(struct platform_device *dev)
+>  	lp->ca = ca_addr;
+>  	lp->mpu_port = mpu_addr;
+>  
+> +	lp->dma = dma_alloc_coherent(dev->dev.parent, sizeof(struct i596_dma),
+> +				     &lp->dma_addr, GFP_KERNEL);
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Acked-by: Helen Koike <helen.koike@collabora.com>
----
- drivers/staging/media/rkisp1/rkisp1-capture.c |  7 -------
- drivers/staging/media/rkisp1/rkisp1-resizer.c | 13 ++++++++++++-
- 2 files changed, 12 insertions(+), 8 deletions(-)
+this needs to use &dev->dev as device argument otherwise I get a
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-index 022b8eeed426..22da94a9baf1 100644
---- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-@@ -1186,13 +1186,6 @@ static int rkisp1_capture_link_validate(struct media_link *link)
- 	struct v4l2_subdev_format sd_fmt;
- 	int ret;
- 
--	if (cap->id == RKISP1_SELFPATH &&
--	    isp->src_fmt->mbus_code != MEDIA_BUS_FMT_YUYV8_2X8) {
--		dev_err(cap->rkisp1->dev,
--			"selfpath only supports MEDIA_BUS_FMT_YUYV8_2X8\n");
--		return -EPIPE;
--	}
--
- 	if (cap_pix_enc != isp_pix_enc &&
- 	    !(isp_pix_enc == V4L2_PIXEL_ENC_YUV &&
- 	      cap_pix_enc == V4L2_PIXEL_ENC_RGB)) {
-diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-index c66d2a52fd71..066d22096a7d 100644
---- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-@@ -437,6 +437,13 @@ static int rkisp1_rsz_enum_mbus_code(struct v4l2_subdev *sd,
- 	u32 pad = code->pad;
- 	int ret;
- 
-+	if (rsz->id == RKISP1_SELFPATH) {
-+		if (code->index > 0)
-+			return -EINVAL;
-+		code->code = MEDIA_BUS_FMT_YUYV8_2X8;
-+		return 0;
-+	}
-+
- 	/* supported mbus codes are the same in isp video src pad */
- 	code->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
- 	ret = v4l2_subdev_call(&rsz->rkisp1->isp.sd, pad, enum_mbus_code,
-@@ -540,7 +547,11 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
- 	src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
- 	sink_crop = rkisp1_rsz_get_pad_crop(rsz, cfg, RKISP1_RSZ_PAD_SINK,
- 					    which);
--	sink_fmt->code = format->code;
-+	if (rsz->id == RKISP1_SELFPATH)
-+		sink_fmt->code = MEDIA_BUS_FMT_YUYV8_2X8;
-+	else
-+		sink_fmt->code = format->code;
-+
- 	mbus_info = rkisp1_isp_mbus_info_get(sink_fmt->code);
- 	if (!mbus_info || !(mbus_info->direction & RKISP1_ISP_SD_SRC)) {
- 		sink_fmt->code = RKISP1_DEF_FMT;
+WARNING: CPU: 0 PID: 1 at linux/kernel/dma/mapping.c:416 dma_alloc_attrs+0x64/0x98
+
+(coherent_dma_mask is set correctly).
+
+dev->dev.parent was correct when going from netdevice to underlying device,
+but now allocation is done via platform_device probe. I wonder why this works
+for parisc.
+
+Thomas.
+
 -- 
-2.17.1
-
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
