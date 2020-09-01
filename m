@@ -2,195 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7241A258F47
-	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 15:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE66F258F48
+	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 15:38:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728258AbgIANhx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Sep 2020 09:37:53 -0400
-Received: from mout.gmx.net ([212.227.17.22]:55165 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728198AbgIANhi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Sep 2020 09:37:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1598967444;
-        bh=WXN7/cFCfSOAcWuJzDA5jUyAsyoaUbnzBto3FdcPmVg=;
-        h=X-UI-Sender-Class:Subject:From:To:References:Date:In-Reply-To;
-        b=iJvhG92If0wu86SQtCWzpCmYbfGsRNjdsgFF6oqmOHi6zVLU/wlPkB2dpEj9NWcjC
-         vXsRp915F3373IGweO1xUnChkPHRczBCWl+As1+5pjzwsWzJjELsRkfBk+qPOl1OIW
-         W/kB2krPh1UcGN2VQp3Ws98fJFOtFcvCgyrCC8NY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.2.22] ([188.101.118.218]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MV67y-1k2c6s0DsU-00S8Am; Tue, 01
- Sep 2020 15:37:24 +0200
-Subject: Re: Enforcing color profile
-From:   Stefan Witzel <s.witzel@gmx.de>
-To:     linux-media@vger.kernel.org
-References: <7486393e-56b5-e460-b542-02c72525139b@gmx.de>
- <0fa5da29-a058-2678-e616-65c921c6389a@xs4all.nl>
- <72B7F2AA-4FCC-4842-A80B-5C4D856C0A89@gmx.de>
-Autocrypt: addr=s.witzel@gmx.de; keydata=
- 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
-Message-ID: <ede0342b-3975-15e3-a8d8-98886456b489@gmx.de>
-Date:   Tue, 1 Sep 2020 15:37:23 +0200
+        id S1728273AbgIANij (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Sep 2020 09:38:39 -0400
+Received: from mail-bn8nam11on2086.outbound.protection.outlook.com ([40.107.236.86]:56321
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728244AbgIANhp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Sep 2020 09:37:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BMezK79wB7tpzd59BENeXb9r7Th4tWveE5WDhrCWkLobhhPuodsS6k1kgjRX6ljRghKZWJfCkJPJTPYVGsXIeN3fGfg26J8nzmB5uqcUv0Wth/K8tACpyLRllkajKhGFSGFbtQ2Ys9C2S49jipRGMXqWtUivJeJ2/ShaK2bJ1hZ/4wKwst7WhQmh5kk2xFqZPNldofGYp82bVPQQwWdLxlYQp5jeFaZnOblooeAvbkIKVRt4QqZQootFVMwNPD46clQCsyAYqxO8e4gMOUGxZkYPu0GHLrphP1b6vJKjjXt8hgOIeNsgtUCRSjsRjR2r3AzRCMAAHSeEw0Yrkg6WfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3KagnyXdQMN2/Anw0GBWefhKxJdGB26CAdN+TKRRuGg=;
+ b=OWurUi7Ss1To0CpWCvsUs2+5EnfafdfRGSuacsWyQNmHUgbB0h0Sk6KFy/x43KHKsszs2anxpEtYgAWzIWgDukS2XXkQV4UOxgaXYICFGs7kYKOq8LCvw83Y4M0OnXuBmdzjo1lU9axYKoL5uDADrBKqgxxiY0W/wGC+vMEveKsGnX0zAWTi2aiuLrlOm00YaHWDF7Z6mp8RN9nnmn3C1ZX+kR1joKERRW9oIgku3B02baukcoN7IGz2DRtkPtGNUDEk+Hm43L4P640WuX2TwB129Ii1dMoqEvU0LgNvl8egi1S0yYhIs3hTsuKP8vPzdKFvDF3nHbBRBPx14ysKyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3KagnyXdQMN2/Anw0GBWefhKxJdGB26CAdN+TKRRuGg=;
+ b=LmfBjQaCUt0a3BBWv1RmMT1xUuae/TxyZI+u6pnjFgltzouHS6Kz9AjHrSLb5ju8c8/AWVjWrFuV3hmcwOqz3qKjpk001MTlgN7wTRjHfJ6D2EWuvNLRYd/RHluaFOCjsOoG8hI722LHCv1DX3mVgteU8DEEshIyVE1zS1rykjc=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4047.namprd12.prod.outlook.com (2603:10b6:208:1de::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.22; Tue, 1 Sep
+ 2020 13:37:42 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3326.025; Tue, 1 Sep 2020
+ 13:37:42 +0000
+Subject: Re: [PATCH] dma-buf: fix kernel-doc warning in dma-fence.c
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        Gustavo Padovan <gustavo@padovan.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20200831041713.12571-1-rdunlap@infradead.org>
+ <81dc0a34-90f6-401a-f846-924fdff4aaff@amd.com>
+ <20200901133200.GE2352366@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <d057988a-7ba4-7e3b-1c36-e40e9a5a8d9a@amd.com>
+Date:   Tue, 1 Sep 2020 15:37:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <72B7F2AA-4FCC-4842-A80B-5C4D856C0A89@gmx.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200901133200.GE2352366@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Sa+IbVrkpE8FpeYqzNyR/0p5WAdgqupCaLDEDxHLWt6+luaiWmi
- A/OsEcpY1AB4s1G00XHdQ262SDKvl+vpudFA8ZcCmtmeCqrcrHhQLI5ZAIxIACnoLnQfCy+
- PjKEwin8/2eAwQp0rcy5Nso5QQTvOjSjUlpZC5vDQYgONvZRnga52ivPriFP7crBPso7kga
- nVIAx+wHMvFCY85QfMQhw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:K6MqXWV+Fx0=:JEaNs4j2YtkRa38rA/xh4m
- O38t59w+vdQRT2s+EfvJZuZSC+mwIYdtlLJjyYIFduafO/B+qdfxIrzodc+0FxjCRhBTwF5+k
- ZUr91+EddbWTjDOsXjiYz2bTsyP4thcpiYby3HgOk+UwXjznuWnPsAvMLSNr2lqCW10q/qHXc
- A81oxYQe5KRAdDkAM1IDG38bcIvflMsfNJ+4k8Otav5g+QXPzwQYeP2B7GTsVn7ORoSEcFysz
- WLelA8lFQPNWexqkwiblSJKJKqJ8+XiB3sdVA8lSrLl2y0WK31iKAFS8S8OmIvSS118hA4SrE
- 2VDReJzJ16hJGwc9KU01XtOWIJhm625XlyKLVufk4aCx8OyYrtbTxXGR+JJ9O+YvxCLqKprrp
- AsLdBJMExytDEHiY/CGdjrxNizx/bmb+KDpeDnWCSmwsogkBcACJjENl+Oaakei2ARO1SV8kc
- OA7nO5lucSFz8RL7TzQIP58ziUzTmXeh+yGW6GHsoAXe8m3tqv1oqSQfVMozeynX1XbxXeemo
- B0/4OSs5MiXh/3cwJQ3zjnzzF35bnHjN1ZklievsodwErr+VVzraHt22KkaMBz+emHERjBLoH
- 7Iw8Z1a0oiBkGoqMQnld6eefzS/DoARbSXQWa8aFxVjDuzZud7KXSJEFXvtgR4VFZMFu2xBg9
- dAPcBkWr9OcvYeiOrI0DpRYkz8du1dGr3TT0tD5U447xthH6jiMAVziMlOtDquedyNeqlvYko
- ILngR9P+EMncOpfbZS5RqNhSVTXkF28j+K9UJnGPgQn71GymDWkbBBqM3PV+jG5IitS+hKOxR
- Qt9NxxkKEbvL4X1gIqKfxGFeDWJB8BSB4X4n+61zGuvf92qtCYp2Oa1DBF/FafYweNsvJ1Yjj
- 9VODrI5UkPe87rSBK4ritNCSHueMbJypVm5sYQdn4Hx19GtsUpCiUgUSZ2RvqWfH7Z+puCOUu
- nFLMxJ9vuRTQ2da5yzPz6th9H0l1JrmbJ2fGylVRaM/02UL2XpheihfGzDdtU2RH8D53bvKhY
- EqdVVwa38ah+lFiZpuAwrCan2Vgqaga9q9iHg9FJTQXg3IrwvNESKTNRYNsv8zOlTs6lub+0F
- k1FKuwPes8CYL5qATd4rA8TZNWTPwv25x2nTkPrXNbUy7+Duln/dQ6YD9G6yT/4hmXEWORNmN
- m5ykbDl/Kci6KyknSK6Mgrv443lO3g1lb9ppb/h/WwwuiIFnXdL5dk0ZBHesiATaV8AXkDbg6
- VtHJH5eQG0Rb9+BqS
+X-ClientProxiedBy: AM4PR07CA0011.eurprd07.prod.outlook.com
+ (2603:10a6:205:1::24) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by AM4PR07CA0011.eurprd07.prod.outlook.com (2603:10a6:205:1::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.5 via Frontend Transport; Tue, 1 Sep 2020 13:37:38 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b1ec1d14-a131-4294-6133-08d84e7c3224
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4047:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB40470675FBE366BE32188FA0832E0@MN2PR12MB4047.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kTHMrM49Z867gCEjuDGoBrrZcboDoj30UMKuJwpElh0gK/QS9pRaTgKSyQKbTXHXM1urV1XisCflTOvsB3p7GvR3mfX8r8V8QHxZezCgqEXnQJ2VQGCbGhDKLMFJ49/c3t6fUwHsAoeVfTdwMZ6QYuYHJquNpdxRJrbb5OMN2k3IdqB35PIEhADmL/f67nEwvlEjWGQRO9yIIPYiOykkGNaNpSnbjVCr9iUVQZAkB3AvniLXEClj6xbBGVub7TgpYfj67a7twYvYx/5G4+FDSteYV0IMGz07JoFh81QNU9g+SPghDkhA6HidAtoV6JtkcpvAKkjCehk+MAC0T8eotTrFoSGtze5M1wKjzz9ofYnNv4qRjk8Nk7RAO9lkxU2GswjwM+5WaZDiF8fOhQ9RMTCHagGxo67hA/3bkrUr08I=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(346002)(136003)(39860400002)(86362001)(31696002)(2616005)(966005)(956004)(478600001)(6486002)(36756003)(6666004)(316002)(110136005)(66574015)(16576012)(83380400001)(8676002)(66946007)(186003)(52116002)(2906002)(66476007)(45080400002)(5660300002)(31686004)(8936002)(66556008)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: mZRydIosolN29KQyRHWZbwGw3z7WvTVuuk/GxRDYI+U6A4bU/OHt5mJLr8jK1nQC6pvD/A5yxBr00l2pxsc9DI+adQvyTE1Iw7ZmIX2viYHrLQriutYwpFbfRlVCxRLCdmguGZ49VZ/dTIGcDGLM4TjdG6bVsWdLzyCnAh8LxzesX1p/Q4RYFgSRN5dmqiGENcOzzNMKC0rugwi1w4GU2cEo5Sxu6L7IRa52HdvhOFf/UTcZ4Jil+VzmiCVBxVGxPyjgIG0jCXoocZoSdrrrTnHJwZZp0NzTTrdKYF5ixiIMvm6/zT4+JdlqAOsI5IDJjQXJouv9iRnc7/rRa/doFs92w24rwGRF252I/sQLLt75bUx984OfgjjcHtZcIvxMpE3502PGmnhbaoe5dbfsbJruJrtJc3sOFCy9pmCk5/HbhZdxnkU0T6f7L7m81iG+x+alghW1ixB9HBPZ896Acql/NMhkVeyjWUsCQYNvN81rdnbeZ79RoU08A3ImTcVjDBa/ft0p4idSG+upHOBQE02sKzm654zvDyeNc1szUMFt68Vilvo5iGoSZwqebF7r0/KAH1JB87zF0hAGi3DBPC58iaTLGB/fP4OHO9gSqNvJGBveqoXBYlAOM3JZXnE5qfsVCxgmi2gJ0DOkKWXiqTb9xByCip2lQdkiAm4so5Z8bvl6JAfRoIIl91kCzzL3l++1peXCYykpTqqlBmnP0g==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1ec1d14-a131-4294-6133-08d84e7c3224
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2020 13:37:42.5924
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0QR7xaG1AUouuRPXLADhPWS+qImtfoTVNYo5PJUKzIEbwsEwjvc9Frm7kJjXnF6P
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4047
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Am 01.09.20 um 15:32 schrieb Daniel Vetter:
+> On Mon, Aug 31, 2020 at 12:02:03PM +0200, Christian König wrote:
+>> Am 31.08.20 um 06:17 schrieb Randy Dunlap:
+>>> Add @cookie to dma_fence_end_signalling() to prevent kernel-doc
+>>> warning in drivers/dma-buf/dma-fence.c:
+>>>
+>>> ../drivers/dma-buf/dma-fence.c:291: warning: Function parameter or member 'cookie' not described in 'dma_fence_end_signalling'
+>>>
+>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>>> Cc: Gustavo Padovan <gustavo@padovan.org>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: linux-media@vger.kernel.org
+>>> Cc: dri-devel@lists.freedesktop.org
+>> Acked-by: Christian König <christian.koenig@amd.com>
+> Will you merge these two to drm-misc-fixes or should someone else?
 
-Just in case someone should stumble across this thread: An appropriate
-solution is available here:
+I was wondering the same thing and just waiting for Randy to reply with 
+please pick them up or I'm going to push them because I have commit access.
 
-  https://github.com/xkahn/camlink
+Regards,
+Christian.
 
-As pointed out by Hans before the described problem is technically an
-application bug, so one might say it should be fixed on application
-level, which is what the solution above does.
-
-Best,
-Stefan
-
-On 17.08.20 16:50, Stefan Witzel wrote:
-> Hi Hans,
 >
-> I suppose it is ultimately an application bug. I was just hoping that th=
-e v4l driver cold somehow artificially restrict the device's feature list =
-so as to make the buggy application (which seems to be pretty much any exi=
-sting web conference app) work. That would be like the hardware workaround=
- but on driver level.
+> Always a bit confusing when maintainers reply with acks/r-b but not what
+> they'll do with the patch :-)
 >
-> I do not yet have the device myself, so I'm relying on information from =
-the website I quoted. I very much appreciate that you took the time to rep=
-ly! I might come back with more concrete questions once I have the device.
+> Cheers, Daniel
 >
-> Thanks a lot! Best,
-> Stefan
->
-> Am 17. August 2020 15:34:00 MESZ schrieb Hans Verkuil <hverkuil@xs4all.n=
-l>:
->> On 17/08/2020 14:09, Stefan Witzel wrote:
->>> Hello,
+>>> ---
+>>>    drivers/dma-buf/dma-fence.c |    1 +
+>>>    1 file changed, 1 insertion(+)
 >>>
->>> I am not a V4L developer so if this is not the right place to bring
->> up
->>> the issue please tell me who to contact instead.
->>> The page [1] documents a problem with a particular device "Elgato Cam
->>> Link 4K" which provides various format options among which most
->> software
->>> does not consciously pick the one which it implicitly expects leading
->> to
->>> problems. There is a software workaround, transcoding and looping
->>> through a virtual device and a hardware fix flashing the problematic
->>> profiles away.
->>> However it appears to me that the most satisfactory solution is
->> hinted
->>> at in the sentence
->>>
->>>> I couldn't find any option in V4L to force selection of 'YUYV
->> 4:2:2', so instead
->>>
->>> So my question is: what changes would be necessary to allow v4l2-ctl
->> to
->>> enforce a particular format and who would be the right person to ask
->> to
->>> make such changes?
->>
->> It's there already:
->>
->> v4l2-ctl -v pixelformat=3DYUYV
->>
->> That will do the trick.
->>
->> If you plug in the device and run 'v4l2-ctl -V', which pixelformat does
->> it
->> report? I would expect it to be YUYV since that's first in the list.
->>
->> If apps like Discord pick YU12 instead, then that's weird. That's
->> something that
->> the application does, and v4l2-ctl won't help with that. I.e., it
->> appears to be
->> an application bug.
->>
->> One other alternative is that the device has broken 4:2:0 support, i.e.
->> it reports
->> these formats, but they don't actually work. You can use qv4l2 or
->> qvidcap to test
->> if these 4:2:0 formats are working.
->>
->> Regards,
->>
->> 	Hans
->>
->>
->>>
->>> Best regards,
->>> Stefan
->>>
->>>
->>> [1]
->> https://assortedhackery.com/patching-cam-link-to-play-nicer-on-linux/
->>>
+>>> --- lnx-59-rc3.orig/drivers/dma-buf/dma-fence.c
+>>> +++ lnx-59-rc3/drivers/dma-buf/dma-fence.c
+>>> @@ -283,6 +283,7 @@ EXPORT_SYMBOL(dma_fence_begin_signalling
+>>>    /**
+>>>     * dma_fence_end_signalling - end a critical DMA fence signalling section
+>>> + * @cookie: opaque cookie from dma_fence_begin_signalling()
+>>>     *
+>>>     * Closes a critical section annotation opened by dma_fence_begin_signalling().
+>>>     */
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C4d8d43fbbb06475f964308d84e7b6a05%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637345639254630346&amp;sdata=hxraBxca4oxH%2BsvRJaDT44kFp%2BAXlun2GaLYY6L6LdA%3D&amp;reserved=0
+
