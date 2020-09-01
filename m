@@ -2,123 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76210259FEF
-	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 22:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1889B259FF8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 22:29:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727984AbgIAUYu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Sep 2020 16:24:50 -0400
-Received: from foss.arm.com ([217.140.110.172]:49856 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726326AbgIAUYt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Sep 2020 16:24:49 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3BAF91063;
-        Tue,  1 Sep 2020 13:24:49 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5C94E3F66F;
-        Tue,  1 Sep 2020 13:24:47 -0700 (PDT)
-Subject: Re: [PATCH v9 31/32] media: pci: fix common ALSA DMA-mapping related
- codes
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <20200826063316.23486-1-m.szyprowski@samsung.com>
- <CGME20200826063629eucas1p1a3c9c93e281b4c432a6d9940e734e3c4@eucas1p1.samsung.com>
- <20200826063316.23486-32-m.szyprowski@samsung.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <925232f3-7371-c7eb-ad31-4b041cbbca4f@arm.com>
-Date:   Tue, 1 Sep 2020 21:24:46 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1727024AbgIAU3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Sep 2020 16:29:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44054 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726269AbgIAU3U (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Sep 2020 16:29:20 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E200C061244;
+        Tue,  1 Sep 2020 13:29:19 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 28220634C8C;
+        Tue,  1 Sep 2020 23:28:55 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kDCtj-0001BF-2L; Tue, 01 Sep 2020 23:28:55 +0300
+Date:   Tue, 1 Sep 2020 23:28:55 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-i2c@vger.kernel.org,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Subject: Re: [PATCH v6 6/6] Documentation: ACPI: Document
+ allow-low-power-probe _DSD property
+Message-ID: <20200901202854.GA4392@valkosipuli.retiisi.org.uk>
+References: <20200826115432.6103-1-sakari.ailus@linux.intel.com>
+ <20200826115432.6103-7-sakari.ailus@linux.intel.com>
+ <ac5a7cb9-7fd1-fb73-b872-d5a58846d99f@infradead.org>
+ <20200827132822.GI24582@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200826063316.23486-32-m.szyprowski@samsung.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200827132822.GI24582@paasikivi.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-08-26 07:33, Marek Szyprowski wrote:
-> The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
-> numer of the created entries in the DMA address space. However the
-> subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
-> called with the original number of entries passed to dma_map_sg. The
-> sg_table->nents in turn holds the result of the dma_map_sg call as stated
-> in include/linux/scatterlist.h. Adapt the code to obey those rules.
+On Thu, Aug 27, 2020 at 04:28:22PM +0300, Sakari Ailus wrote:
+> On Wed, Aug 26, 2020 at 11:06:22AM -0700, Randy Dunlap wrote:
+> > On 8/26/20 4:54 AM, Sakari Ailus wrote:
+> > > Document the probe-low-power _DSD property and how it is used with I²C
+> > > drivers.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  .../acpi/dsd/allow-low-power-probe.rst        | 28 +++++++++++++++++++
+> > >  Documentation/firmware-guide/acpi/index.rst   |  1 +
+> > >  2 files changed, 29 insertions(+)
+> > >  create mode 100644 Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> > > 
+> > > diff --git a/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> > > new file mode 100644
+> > > index 0000000000000..6fcc89162b898
+> > > --- /dev/null
+> > > +++ b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> > > @@ -0,0 +1,28 @@
+> > > +.. SPDX-License-Identifier: GPL-2.0
+> > > +
+> > > +======================================
+> > > +Probing I²C devices in low power state
+> > > +======================================
+> > > +
+> > > +Introduction
+> > > +============
+> > > +
+> > > +In some cases it may be preferred to leave certain devices powered off for the
+> > > +entire system bootup if powering on these devices has adverse side effects,
+> > > +beyond just powering on the said device. Linux recognizes the _DSD property
+> > > +"allow-low-power-probe" that can be used for this purpose.
+> > > +
+> > > +How it works
+> > > +============
+> > > +
+> > > +The property "allow-low-power-probe" boolean property may be used to tell Linux
+> > 
+> > Drop the first "property".
+> > 
 > 
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->   drivers/media/pci/cx23885/cx23885-alsa.c | 2 +-
->   drivers/media/pci/cx25821/cx25821-alsa.c | 2 +-
->   drivers/media/pci/cx88/cx88-alsa.c       | 2 +-
->   drivers/media/pci/saa7134/saa7134-alsa.c | 2 +-
->   4 files changed, 4 insertions(+), 4 deletions(-)
+> Thanks, will fix for v7.
 > 
-> diff --git a/drivers/media/pci/cx23885/cx23885-alsa.c b/drivers/media/pci/cx23885/cx23885-alsa.c
-> index df44ed7393a0..3f366e4e4685 100644
-> --- a/drivers/media/pci/cx23885/cx23885-alsa.c
-> +++ b/drivers/media/pci/cx23885/cx23885-alsa.c
-> @@ -129,7 +129,7 @@ static int cx23885_alsa_dma_unmap(struct cx23885_audio_dev *dev)
->   	if (!buf->sglen)
->   		return 0;
->   
-> -	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen, PCI_DMA_FROMDEVICE);
-> +	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages, PCI_DMA_FROMDEVICE);
-
-If we're touching these lines anyway, we should update them to use the 
-modern DMA_FROM_DEVICE definitions too.
-
-Robin.
-
->   	buf->sglen = 0;
->   	return 0;
->   }
-> diff --git a/drivers/media/pci/cx25821/cx25821-alsa.c b/drivers/media/pci/cx25821/cx25821-alsa.c
-> index 301616426d8a..c40304d33776 100644
-> --- a/drivers/media/pci/cx25821/cx25821-alsa.c
-> +++ b/drivers/media/pci/cx25821/cx25821-alsa.c
-> @@ -193,7 +193,7 @@ static int cx25821_alsa_dma_unmap(struct cx25821_audio_dev *dev)
->   	if (!buf->sglen)
->   		return 0;
->   
-> -	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen, PCI_DMA_FROMDEVICE);
-> +	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages, PCI_DMA_FROMDEVICE);
->   	buf->sglen = 0;
->   	return 0;
->   }
-> diff --git a/drivers/media/pci/cx88/cx88-alsa.c b/drivers/media/pci/cx88/cx88-alsa.c
-> index 7d7aceecc985..3c6fe6ceb0b7 100644
-> --- a/drivers/media/pci/cx88/cx88-alsa.c
-> +++ b/drivers/media/pci/cx88/cx88-alsa.c
-> @@ -332,7 +332,7 @@ static int cx88_alsa_dma_unmap(struct cx88_audio_dev *dev)
->   	if (!buf->sglen)
->   		return 0;
->   
-> -	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen,
-> +	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages,
->   		     PCI_DMA_FROMDEVICE);
->   	buf->sglen = 0;
->   	return 0;
-> diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
-> index 544ca57eee75..398c47ff473d 100644
-> --- a/drivers/media/pci/saa7134/saa7134-alsa.c
-> +++ b/drivers/media/pci/saa7134/saa7134-alsa.c
-> @@ -313,7 +313,7 @@ static int saa7134_alsa_dma_unmap(struct saa7134_dev *dev)
->   	if (!dma->sglen)
->   		return 0;
->   
-> -	dma_unmap_sg(&dev->pci->dev, dma->sglist, dma->sglen, PCI_DMA_FROMDEVICE);
-> +	dma_unmap_sg(&dev->pci->dev, dma->sglist, dma->nr_pages, PCI_DMA_FROMDEVICE);
->   	dma->sglen = 0;
->   	return 0;
->   }
+> > > +that the I²C framework should instruct the kernel ACPI framework to leave the
+> > > +device in the low power state. If the driver indicates its support for this by
+> > > +setting the I2C_DRV_FL_ALLOW_LOW_POWER_PROBE flag in struct i2c_driver.flags
 > 
+> This is leftover from v5 actually, I'll change the documentation to mention
+> the allow_low_power_probe as well.
+
+Hmm. It seems I ended up sending the set with the flags field.
+
+I'll keep it as-is if that's okay...
+
+-- 
+Sakari Ailus
