@@ -2,109 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87F67259246
-	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 17:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1351125980A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 18:22:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728713AbgIAPGz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Sep 2020 11:06:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50516 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728603AbgIAPGa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Sep 2020 11:06:30 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 028B8C061244;
-        Tue,  1 Sep 2020 08:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=tss5M/CgWtNHrn8kN3neH2rNWYnxcMFrfLkwrH1qZaA=; b=yraft6TribLHwkrXJ7oKDtJRbK
-        cOoSth/ZTysdAmjuNC9rchtYeF0z+4F1RM8ZSndjz2v5LMkusAM9mIEOSPtOBEwb0PrM+xXx7Ea7l
-        /ikF7LoG7gYahgDVNW4fpo5YAAYo7+GSKX3Kj5LrIdLfBohdGxGfIZnJ7e4SMWbdBgoLHEIW8Tgf+
-        njRXFLID+gofXGqnwhgAGdxbeaCAz+DaJh+I7tc9ACsUsCsauw+lX1T/rK1szN+XezzxnPVRwgJmj
-        cElkLQkrY4Cp0YxyEUGpaWUKkF76V0isaghz3YuqDIfij7YJSYYX6sQuqof0yxOOvFOlXTjYKms7X
-        VU1axofA==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kD7rf-0005MS-Oa; Tue, 01 Sep 2020 15:06:28 +0000
-Subject: Re: [PATCH] dma-buf: fix kernel-doc warning in dma-fence.c
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org,
-        Gustavo Padovan <gustavo@padovan.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <20200831041713.12571-1-rdunlap@infradead.org>
- <81dc0a34-90f6-401a-f846-924fdff4aaff@amd.com>
- <20200901133200.GE2352366@phenom.ffwll.local>
- <d057988a-7ba4-7e3b-1c36-e40e9a5a8d9a@amd.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e15d8d9b-3988-191d-f9c0-6e5c3efe7485@infradead.org>
-Date:   Tue, 1 Sep 2020 08:06:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726323AbgIAQWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Sep 2020 12:22:01 -0400
+Received: from elvis.franken.de ([193.175.24.41]:45872 "EHLO elvis.franken.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731021AbgIAPcY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Sep 2020 11:32:24 -0400
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1kD8Gf-0002rq-00; Tue, 01 Sep 2020 17:32:17 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id 92E50C0E4C; Tue,  1 Sep 2020 17:22:09 +0200 (CEST)
+Date:   Tue, 1 Sep 2020 17:22:09 +0200
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        linux-mm@kvack.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 22/28] sgiseeq: convert from dma_cache_sync to
+ dma_sync_single_for_device
+Message-ID: <20200901152209.GA14288@alpha.franken.de>
+References: <20200819065555.1802761-1-hch@lst.de>
+ <20200819065555.1802761-23-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <d057988a-7ba4-7e3b-1c36-e40e9a5a8d9a@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819065555.1802761-23-hch@lst.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/1/20 6:37 AM, Christian König wrote:
-> Am 01.09.20 um 15:32 schrieb Daniel Vetter:
->> On Mon, Aug 31, 2020 at 12:02:03PM +0200, Christian König wrote:
->>> Am 31.08.20 um 06:17 schrieb Randy Dunlap:
->>>> Add @cookie to dma_fence_end_signalling() to prevent kernel-doc
->>>> warning in drivers/dma-buf/dma-fence.c:
->>>>
->>>> ../drivers/dma-buf/dma-fence.c:291: warning: Function parameter or member 'cookie' not described in 'dma_fence_end_signalling'
->>>>
->>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>> Cc: Gustavo Padovan <gustavo@padovan.org>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: linux-media@vger.kernel.org
->>>> Cc: dri-devel@lists.freedesktop.org
->>> Acked-by: Christian König <christian.koenig@amd.com>
->> Will you merge these two to drm-misc-fixes or should someone else?
+On Wed, Aug 19, 2020 at 08:55:49AM +0200, Christoph Hellwig wrote:
+> Use the proper modern API to transfer cache ownership for incoherent DMA.
 > 
-> I was wondering the same thing and just waiting for Randy to reply with please pick them up or I'm going to push them because I have commit access.
-
-I didn't realize that was needed, but anyway, Christian, please apply these 2
-dma-buf kernel-doc patches.
-
-thanks.
-
-> Regards,
-> Christian.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/net/ethernet/seeq/sgiseeq.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 > 
->>
->> Always a bit confusing when maintainers reply with acks/r-b but not what
->> they'll do with the patch :-)
+> diff --git a/drivers/net/ethernet/seeq/sgiseeq.c b/drivers/net/ethernet/seeq/sgiseeq.c
+> index 39599bbb5d45b6..f91dae16d69a19 100644
+> --- a/drivers/net/ethernet/seeq/sgiseeq.c
+> +++ b/drivers/net/ethernet/seeq/sgiseeq.c
+> @@ -112,14 +112,18 @@ struct sgiseeq_private {
+>  
+>  static inline void dma_sync_desc_cpu(struct net_device *dev, void *addr)
+>  {
+> -	dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
+> -		       DMA_FROM_DEVICE);
+> +	struct sgiseeq_private *sp = netdev_priv(dev);
+> +
+> +	dma_sync_single_for_cpu(dev->dev.parent, VIRT_TO_DMA(sp, addr),
+> +			sizeof(struct sgiseeq_rx_desc), DMA_BIDIRECTIONAL);
+>  }
+>  
+>  static inline void dma_sync_desc_dev(struct net_device *dev, void *addr)
+>  {
+> -	dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
+> -		       DMA_TO_DEVICE);
+> +	struct sgiseeq_private *sp = netdev_priv(dev);
+> +
+> +	dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
+> +			sizeof(struct sgiseeq_rx_desc), DMA_BIDIRECTIONAL);
+>  }
 
-Agreed.
+this breaks ethernet on IP22 completely, but I haven't figured out why, yet.
 
->> Cheers, Daniel
->>
->>>> ---
->>>>    drivers/dma-buf/dma-fence.c |    1 +
->>>>    1 file changed, 1 insertion(+)
->>>>
->>>> --- lnx-59-rc3.orig/drivers/dma-buf/dma-fence.c
->>>> +++ lnx-59-rc3/drivers/dma-buf/dma-fence.c
->>>> @@ -283,6 +283,7 @@ EXPORT_SYMBOL(dma_fence_begin_signalling
->>>>    /**
->>>>     * dma_fence_end_signalling - end a critical DMA fence signalling section
->>>> + * @cookie: opaque cookie from dma_fence_begin_signalling()
->>>>     *
->>>>     * Closes a critical section annotation opened by dma_fence_begin_signalling().
->>>>     */
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
-
+Thomas.
 
 -- 
-~Randy
-
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
