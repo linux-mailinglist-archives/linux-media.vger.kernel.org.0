@@ -2,824 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B61DA258C9B
-	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 12:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32628258CFC
+	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 12:46:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726091AbgIAKTP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Sep 2020 06:19:15 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:60439 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbgIAKTN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Sep 2020 06:19:13 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 3DAAB1BF207;
-        Tue,  1 Sep 2020 10:19:05 +0000 (UTC)
-Date:   Tue, 1 Sep 2020 12:22:51 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Naushir Patuck <naush@raspberrypi.com>
-Subject: Re: [PATCH v2 04/34] media: bcm2835-unicam: Driver for CCP2/CSI2
- camera interface
-Message-ID: <20200901102251.khxzjlxnupy5h5cz@uno.localdomain>
-References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
- <20200504092611.9798-5-laurent.pinchart@ideasonboard.com>
- <20200829112028.6sjepiomfudbfkno@uno.localdomain>
- <20200829183237.GB7465@pendragon.ideasonboard.com>
- <20200831073858.ccl2wn6e57hux4fw@uno.localdomain>
- <20200831141704.GE16155@pendragon.ideasonboard.com>
- <20200831144637.b3ac4qwumr3piwm3@uno.localdomain>
- <20200831145654.GH16155@pendragon.ideasonboard.com>
- <CAPY8ntBXqLJM1zm8Ju0kdJtA=a7aDwiGXUV8_QDJFXg_f=+8mw@mail.gmail.com>
+        id S1726107AbgIAKqT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Sep 2020 06:46:19 -0400
+Received: from mail-eopbgr1410128.outbound.protection.outlook.com ([40.107.141.128]:61455
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725848AbgIAKqR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Sep 2020 06:46:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X14qSZhFC3xcLrxrTsJ40DXsObkKOFoMSTkkePxFTNO81VkuNzi3sFSfLrB/XMUAqEWMdFTbsDMn8rXJ4cdLxGa5UJDU/i7pi0lE5lk/4YmXfTGlHiceuKJUclSjhaM69bQuk0lAQFUuaZZqyoZeqmUfwD5uZdyNdeR8o7WkVO9ZE2KkNosnz4ZBpeY5r2ErIcgoqtCvu9/c5tonB3O8ZS2mwyI4Spy64P9zSUxiABV8ZiLqg6Lk73nRsBJSFX0q5WqSQkZeJccBZmF45syYavuPoJdkt5DkdisZHu82n9XSXu3/vZrjq9NyI15Q24IhC9WY1qeNVVrVuf0XcstlzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XnEwbxqUaw5nwEXXXOkDLqx1Jo+sJ4GSEX7VIS21a5U=;
+ b=XIKVjnGnAUKQVwWFfLY73DJ3pm5FFvc9hz+JbDDnJzuR/FLTRXpN+SdyIz/FoAQnfm2ORkKGJISgucpDStNgQHMS8i30tgq0IFtjjygCeHfMqDXqt3SA7CjmruaYsEcC9oBhPA/0DKN2i/Id3e9uVwRD+ktmWazdBl2okCinehss2g2ssCCl4YUQTvT3OLxT2PtEVTLnjxA1QY2L8i6ykf9fccHtgdo0tbmTxr8R6Am9vRkSVMFKNSQ6lN3NOo3bI/XFC4RSenkYFiybr6xboNjYD3GwBkybTILIc38UwJAu61Nd+WfxUZXOzn2I8cYa5o2jrRCsEI2yrrv0OtsBDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XnEwbxqUaw5nwEXXXOkDLqx1Jo+sJ4GSEX7VIS21a5U=;
+ b=nqY1rYhpB9X9hJF4PktNgIltYa3fG8TLgpf3OdxMZIH3wdxZe/tz7ynoqlWdlqNsYfDj8NCnOwBcilobXzHIJHa4akBjclSeeCmBL9P+DOdWy0HfLSxBKCx9kaOaRWUsePVm8oAefA+Ntr4A6D6PQyC/TSbR7lb3DlWiyHPTEm4=
+Received: from OSAPR01MB2385.jpnprd01.prod.outlook.com (2603:1096:603:37::20)
+ by OSAPR01MB5106.jpnprd01.prod.outlook.com (2603:1096:604:6d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Tue, 1 Sep
+ 2020 10:46:10 +0000
+Received: from OSAPR01MB2385.jpnprd01.prod.outlook.com
+ ([fe80::60d8:7724:48c2:acfb]) by OSAPR01MB2385.jpnprd01.prod.outlook.com
+ ([fe80::60d8:7724:48c2:acfb%6]) with mapi id 15.20.3326.025; Tue, 1 Sep 2020
+ 10:46:10 +0000
+From:   Chris Paterson <Chris.Paterson2@renesas.com>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        =?utf-8?B?TmlrbGFzIFPDtmRlcmx1bmQ=?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: RE: [PATCH 0/5] media: Fix asd dynamic allocation
+Thread-Topic: [PATCH 0/5] media: Fix asd dynamic allocation
+Thread-Index: AQHWcCJl/U4lq3/ayUuvTiGTFTVH9alSvhcAgAD7L7A=
+Date:   Tue, 1 Sep 2020 10:46:09 +0000
+Message-ID: <OSAPR01MB2385DABC0957AE1A7B8F6622B72E0@OSAPR01MB2385.jpnprd01.prod.outlook.com>
+References: <20200811205939.19550-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAJWpUEe4VwOL_TQ1WwjG1WT17_GPFpNO+-h92dRfj0jW8pb5wg@mail.gmail.com>
+In-Reply-To: <CAJWpUEe4VwOL_TQ1WwjG1WT17_GPFpNO+-h92dRfj0jW8pb5wg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: renesas.com; dkim=none (message not signed)
+ header.d=none;renesas.com; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [86.185.97.58]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 8aed9387-c1e2-49f2-ab15-08d84e643d17
+x-ms-traffictypediagnostic: OSAPR01MB5106:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSAPR01MB51061E2F565B3BF2A42D3A55B72E0@OSAPR01MB5106.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: smMiSDkbQqCZNkpOiWdB194Frgm1lg8TH+d0e49Kp6LJQWvh3bjlFgMTXRfcqbm7KYUR8rF1WYvAwoNrW60hZZWEhLgxZheWbuSNNK7SYJYtsyhcIe5xiWG/YdMYzhJgknDcx5tzmeGxwJmfkOCDf2SOvTVOK9nX4I+/k5pOocdsydI3iow4wIQhgDRxKV92zYuuSf3nqV6ylu808PvfimwE4o9JFqXA2owz75WaMMejV4LimqYx8qZVsKJB3zOosCaXLRxAFx1t+gNwp0gG9qEkzZl2iJ3feLCQcEx4qCrVoM0Qjmn50PAq0za8TrLwqK4KGxQK8lUcevdkFwvJ9w==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2385.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39860400002)(396003)(346002)(376002)(136003)(4326008)(52536014)(110136005)(2906002)(316002)(55016002)(71200400001)(478600001)(33656002)(83380400001)(9686003)(86362001)(54906003)(186003)(26005)(6506007)(76116006)(5660300002)(7696005)(64756008)(66556008)(66446008)(8676002)(66476007)(66946007)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: /BJfn0694BEtLhzlnjSAnqYIGA7qLwAqD0R9h/TFT3uiTEB9uHiHw2BAVLFoA/aAUWuBWeNcw2bPjO1Db4iKBBuMaC5IYsyLQdfE9N4cXgOohd4SyyJatsx86SE9lr+zZrEuQBsO6AViCVe4y12mU1ZQme9dV4TVN2lctZA0di6Wc1N/obF7gBHObM/esIxd+oVmP9SIg5CVhbajM0DksjQA4w0uWfpMCj+/Fe0L73wmhKM454dFcDBRxQyCQC7DlBA5mYKddP8kC2s9VyNm5dDLfYEx1JB23zNQIsPzm90siDvn/Jc4eFKoJ3fc3B10vgpkEIF+/j780KYhtEi/iKecAeXUiQErmJFtBia79CSvVJds8XvZpnHQcbweWckTaSxEdHpnuIQrdfcFI5YaGp8Eow96rtzWcxL5NMzl2ZFxJAZbppwBN05GEzMt7QnVwATUj6UC9SgDDzxqY7MZV9sZhOMZEpY2ViOJ1/JddaAT93/jonyMiMy5K91qnLHuLT4HKNnUQ2w5+zr1C6eHgFIBZ4G2Hw4Y65SFFup6Ugx9Cgqut+rl2x5c6MuxkWVPLatT76Fw79/m4eObpoaz5DTkRQQpb8maBe32SjchqKOmJYWOzYDgFkZUTWM+Xx+tbu83LRlTcRMHXhlcsClMmw==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntBXqLJM1zm8Ju0kdJtA=a7aDwiGXUV8_QDJFXg_f=+8mw@mail.gmail.com>
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2385.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8aed9387-c1e2-49f2-ab15-08d84e643d17
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2020 10:46:10.0013
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uDKXhrxRgtmbwJFvrZWjY2ENW9rT6BrN3EIIRbjZVs37ukN10dGF4X9YNDmy6NtPUCvyrIiHUcjbNoWQBpptRGILJX3RN5K8LzKQD9X4P6E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB5106
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
-   +Sakari
-
-On Tue, Sep 01, 2020 at 09:41:20AM +0100, Dave Stevenson wrote:
-> Morning Laurent and Jacopo.
->
-> On Mon, 31 Aug 2020 at 15:57, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > Hi Jacopo,
-> >
-> > On Mon, Aug 31, 2020 at 04:46:37PM +0200, Jacopo Mondi wrote:
-> > > On Mon, Aug 31, 2020 at 05:17:04PM +0300, Laurent Pinchart wrote:
-> > > > On Mon, Aug 31, 2020 at 09:38:58AM +0200, Jacopo Mondi wrote:
-> > > > > On Sat, Aug 29, 2020 at 09:32:37PM +0300, Laurent Pinchart wrote:
-> > > > > > On Sat, Aug 29, 2020 at 01:20:28PM +0200, Jacopo Mondi wrote:
-> > > > > > > On Mon, May 04, 2020 at 12:25:41PM +0300, Laurent Pinchart wrote:
-> > > > > > > > From: Naushir Patuck <naush@raspberrypi.com>
-> > > > > > > >
-> > > > > > > > Add a driver for the Unicam camera receiver block on BCM283x processors.
-> > > > > > > > Compared to the bcm2835-camera driver present in staging, this driver
-> > > > > > > > handles the Unicam block only (CSI-2 receiver), and doesn't depend on
-> > > > > > > > the VC4 firmware running on the VPU.
-> > > > > > > >
-> > > > > > > > The commit is made up of a series of changes cherry-picked from the
-> > > > > > > > rpi-5.4.y branch of https://github.com/raspberrypi/linux/ with
-> > > > > > > > additional enhancements, forward-ported to the mainline kernel.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > > > > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > > > ---
-> > > > > > > > Changes since v1:
-> > > > > > > >
-> > > > > > > > - Re-fetch mbus code from subdev on a g_fmt call
-> > > > > > > > - Group all ioctl disabling together
-> > > > > > > > - Fix reference counting in unicam_open
-> > > > > > > > - Add support for VIDIOC_[S|G]_SELECTION
-> > > > > > > > ---
-> > > > > > >
-> > > > > > > [snip]
-> > > > > > >
-> > > > > > > > +
-> > > > > > > > +static int of_unicam_connect_subdevs(struct unicam_device *dev)
-> > > > > > > > +{
-> > > > > > > > +   struct platform_device *pdev = dev->pdev;
-> > > > > > > > +   struct v4l2_fwnode_endpoint ep = { 0 };
-> > > > > > > > +   struct device_node *ep_node;
-> > > > > > > > +   struct device_node *sensor_node;
-> > > > > > > > +   unsigned int lane;
-> > > > > > > > +   int ret = -EINVAL;
-> > > > > > > > +
-> > > > > > > > +   if (of_property_read_u32(pdev->dev.of_node, "brcm,num-data-lanes",
-> > > > > > > > +                            &dev->max_data_lanes) < 0) {
-> > > > > > > > +           unicam_err(dev, "number of data lanes not set\n");
-> > > > > > > > +           return -EINVAL;
-> > > > > > > > +   }
-> > > > > > >
-> > > > > > > mmm, this seems like a good use case for the newly introduced
-> > > > > > > get_mbus_config pad operation, isn't it ?
-> > > > > > >
-> > > > > > > We could drop the custom "brcm,num-data-lanes" property, use the
-> > > > > > > standard "num-lanes" to describe the number of wired data lanes, and
-> > > > > > > get the number of actually used ones at s_stream(1) time with the new pad
-> > > > > > > operation
-> > > > > > >
-> > > > > > > What do you think ? This would require implemeting the operation in
-> > > > > > > each subdev the UNICAM interface has to work with, but this doesn't
-> > > > > > > sound too much of a work.
-> > > > > > >
-> > > > > > > For reference this is how it happens on rcar+adv748x:
-> > > > > > > https://patchwork.linuxtv.org/project/linux-media/patch/20200717145324.292820-11-jacopo+renesas@jmondi.org/
-> > > > > > > https://patchwork.linuxtv.org/project/linux-media/patch/20200717145324.292820-10-jacopo+renesas@jmondi.org/
-> > > > > >
-> > > > > > Don't brcm,num-data-lanes and get_mbus_config serve different purposes ?
-> > > > > > The former tells how many data lanes the unicam IP has (the same IP,
-> > > > > > with the same compatible string, is instantiated in different SoCs with
-> > > > > > different number of lanes), while the latter queries at runtime how many
-> > > > > > data lanes the remote subdev will use for its current configuration. The
-> > > > >
-> > > > > Can't we get the number of available data lanes just by parsing the
-> > > > > endpoint ?
-> > > >
-> > > > We can get the number of data lanes routed on the board, which may not
-> > > > match the number of data lanes available in the IP. I'll let Dave
-> > > > comment on this, I recall we had a lengthy discussion on this topic in
-> > > > the past, but I don't remember the details :-S
->
-> Thread "[PATCH 10/10] media: bcm2835-unicam: Simplify OF parsing"
-> posted to the private libcamera list Sun, 19 Apr. I can forward on if
-> others have deleted it.
->
-
-Thanks. I've now read the thread again.
-
-I think my disagreement is with the fact that data-lanes shall
-represent the number of data lanes connected between the sensor and the
-receiver.
-
-data-lanes, to me, represents the number (and index) of the lanes
-instantiated on the silicon, or even exposed on the connector. In
-plain English: "the number of available data lanes".
-
-The sensor will describe it's own lanes (which might be less than the
-ones available in the receiver) and at streaming time the receiver
-gets how many of them shall be used by using get_mbus_config(). This
-would basically move the notion of "how many lanes are in use" to
-run-time, leaving the HW description of "what's available in the HW"
-to DT. It seems a much neater solution to me, also considering the
-current implementation does not scale if we throw muxes and pluggable
-devices in the mix.
-
-This isn't a discussion on this patch only, and I know Laurent and
-Sakari already had gone through that multiple times. I see if I have
-energies to fight that battle, but for this series let's live with the
-custom property.
-
-> > > I think the max number of number of lanes in the IP should come in DT
-> > > by restricting the number of accepted data-lanes value depending on
-> > > the compatible string.
-> >
-> > Unless I'm mistaken we have a single compatibility string.
->
-> Currently we have a single compatible string.
-> So you want a "brcm,bcm2835-unicam-2-lane" and "brcm,bcm2835-unicam-4-lane"?
-
-No please :) I assumed you had different ones.
-
-> You can't guarantee that unicam0 is always 2 lane and unicam1 is
-> always 4 lane forever more - I know there are Broadcom chips with a
-> unicam2 for a start.
-> I defer to the DT gatekeepers, but that feels ugly.
->
-> > > > > I'm aware of the implication that the 'data-lanes' property
-> > > > > would differ in the bridge and sensor endpoints, but now that we have
-> > > > > a mechanism to get that information wihtout parsing the remote
-> > > > > endpoint it doesn't seem wrong to me.
-> > > >
-> > > > That's not the issue at hand. The data-lanes property need to match on
-> > > > both sides of a link, as it tells how many data lanes are routed on the
-> > > > board. Of course that becomes problematic when we start using overlays
-> > > > for pluggable boards, as the two sides can be designed with a different
-> > > > number of routed lanes.
-> > >
-> > > It actually is. As I read the current implementation, UNICAM has 4
-> > > lanes available, 2 are enabled in the endpoint, and the remote uses 2.
-> >
-> > That's because the board has 2 data lanes routed.
-> >
-> > > If we set the number of lanes in the endpoint to 4 (the actually
-> > > available ones) and use only the two required by querying the remote
-> > > end at s_stream time, we don't need any custom sourcery
-> >
-> > That would be incorrect, as there are two data lanes routed, so you
-> > shouldn't set the data-lanes property to 4 lanes in the endpoint.
-> >
-> > > > > And that's not different from what it's done in R-Car (half-true: we
-> > > > > have the same 'data-lanes' value between rcar-csi2 and adv7482x, and
-> > > > > as you said the number of active data lanes can be downscaled to
-> > > > > transmit low resolution streams).
-> > > > >
-> > > > > I think Dave already had this conversation in the past, I might dig
-> > > > > the archive and search for a reference.
->
-> Referenced above.
->
-> > > > > > DT property serves as a sanity check, to ensure to no more than the
-> > > > > > number of supported data lanes is used, while the subdev operation
-> > > > > > should be used in the unicam driver to support sources that will
-> > > > > > transmit over a different number of data lanes depending on the
-> > > > > > configuration (mostly depending on the resolution). We don't have to
-> > > > >
-> > > > > I think reading the remote's mbus configuration might also help in
-> > > > > support connecting pluggable devices with a different number of wired
-> > > > > data lanes than the bridge's available ones.
-> > > >
-> > > > No, that we shouldn't do. DT properties need to be interpreted within
-> > > > the context of a compatible string, reading properties of a remote node
-> > > > is a no-go in most cases. It's really really something that must not be
-> > > > done without careful consideration, and is never a simple way to work
-> > > > around a problem.
-> > >
-> > > What I mean is that get_mbus_config() allows you to retrieve those
-> > > information -without- having to read the remote endpoint, which has
-> > > always been a blocker for this kind of operations (and I agree it
-> > > shouldn't be done).
->
-> I like get_mbus_config as far as it goes.
-> When it last came up I mentioned that it doesn't convey things like
-> the continuous clock setting, so you have to have the DT endpoints
-> configured identically for that to avoid issues, and if you start to
-> involve CSI2 mux chips then both sources have to have the same
-> requirements.
-
-The merged version of get_mbus_config supports describing
-non-continuous and continuous clock, as we're currently re-using the
-same V4L2_MBUS_ flags the legacy g|s_mbus_config operations used.
-
-> Personally I'd love to see get_mbus_config being the correct way of
-> configuring all receiver parameters as you'd then be guaranteed to
-> have source and receiver matching. Drop back to the receiver's DT
-> endpoint when get_mbus_config isn't supported.
->
-
-As said, I tend to agree, even if it's a bit freagile having receivers
-and sources agree to -what- has to come from get_mbus_config and from
-DT. But moving forward that would be my preference indeed.
-
-> > > > > Am I missing something maybe? The non-connected lanes on the bride
-> > > > > will simply stay unused, can't they ?
-> > > > >
-> > > > > > implement support for get_mbus_config just yet, it can be delayed until
-> > > > > > we have a source that requires it.
-> > > > >
-> > > > > I sketched a few patches yesterday basically appling what's done in
-> > > > > 5cef0785362ed and a61b1b5d41735. Is a custom property better in your
-> > > > > opinion ?
-> > > >
-> > > > Again, the custom property only specifies the number of data lanes
-> > > > implemented in the unicam IP core. It's nothing else than that, and does
-> > > > *not* convey any information about how many data lanes the sensor will
-> > > > use.
-> > >
-> > > It shouldn't, and to me that information should come from DT as we do
-> > > for all other platforms.
-> > >
-> > > Let's see, if feels a bit a waste to use a custom property for
-> > > something we can do without, and usage of get_mbus_config() would
-> > > allow to support switching devices at run-time with a different number
-> > > of data-lanes, as use case I know Dave has downstream.
-> >
-> > This is *still* not what brcm,num-lanes is about... get_mbus_config()
-> > will not tell you how many data lanes the unicam IP supports.
->
-> Use case of a TC358743 HDMI to CSI2 bridge connected to Unicam0 (2 lane).
-> TC358743 supports get_mbus_config and says it wants 4 lanes for 1080p60 RGB888.
-> Unicam calls get_mbus_config and gets told 4.
-> So how do we detect and reject that invalid configuration? It can't
-
-unicam0 will have data-lanes=<1 2> and such it's max number of data
-lanes is 2, and if you get 4 from get_mbus_config() you refuse that.
-
-I now wonder about lane reordering, we can express it in DT but not
-with V4L2_MBUS_* flags. One more reason to supersed these flags with
-more expressive fields, even if lane re-ordering seems to be a corner
-case really.
-
-Anyway, I'm a bit sad of upstreaming this with a custom property, but
-this is a broader discussion and I don't want it to block unicam
-acceptance.
-
-> rely on the Unicam data-lanes as that is supposed to reflect the
-> number of active lanes, but it's not something that can be otherwise
-> detected and blocked. Start streaming and it'll just sit there dumbly
-> doing nothing.
->
-> Yes we did discuss that most of the Pi boards have only 2 of the 4
-> data lanes from Unicam1 wired out to the camera connector, so whilst
-> technically not what the binding says, it is possible to then drop
-> num-data-lanes down to 2 (though the IP has 4 lanes) and get
-> validation of the config in that case as well.
->
->   Dave
->
-> > > > > > > +
-> > > > > > > > +   /* Get the local endpoint and remote device. */
-> > > > > > > > +   ep_node = of_graph_get_next_endpoint(pdev->dev.of_node, NULL);
-> > > > > > > > +   if (!ep_node) {
-> > > > > > > > +           unicam_dbg(3, dev, "can't get next endpoint\n");
-> > > > > > > > +           return -EINVAL;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   unicam_dbg(3, dev, "ep_node is %pOF\n", ep_node);
-> > > > > > > > +
-> > > > > > > > +   sensor_node = of_graph_get_remote_port_parent(ep_node);
-> > > > > > > > +   if (!sensor_node) {
-> > > > > > > > +           unicam_dbg(3, dev, "can't get remote parent\n");
-> > > > > > > > +           goto cleanup_exit;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   unicam_dbg(1, dev, "found subdevice %pOF\n", sensor_node);
-> > > > > > > > +
-> > > > > > > > +   /* Parse the local endpoint and validate its configuration. */
-> > > > > > > > +   v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep_node), &ep);
-> > > > > > > > +
-> > > > > > > > +   unicam_dbg(3, dev, "parsed local endpoint, bus_type %u\n",
-> > > > > > > > +              ep.bus_type);
-> > > > > > > > +
-> > > > > > > > +   dev->bus_type = ep.bus_type;
-> > > > > > > > +
-> > > > > > > > +   switch (ep.bus_type) {
-> > > > > > > > +   case V4L2_MBUS_CSI2_DPHY:
-> > > > > > > > +           switch (ep.bus.mipi_csi2.num_data_lanes) {
-> > > > > > > > +           case 1:
-> > > > > > > > +           case 2:
-> > > > > > > > +           case 4:
-> > > > > > > > +                   break;
-> > > > > > > > +
-> > > > > > > > +           default:
-> > > > > > > > +                   unicam_err(dev, "subdevice %pOF: %u data lanes not supported\n",
-> > > > > > > > +                              sensor_node,
-> > > > > > > > +                              ep.bus.mipi_csi2.num_data_lanes);
-> > > > > > > > +                   goto cleanup_exit;
-> > > > > > > > +           }
-> > > > > > > > +
-> > > > > > > > +           for (lane = 0; lane < ep.bus.mipi_csi2.num_data_lanes; lane++) {
-> > > > > > > > +                   if (ep.bus.mipi_csi2.data_lanes[lane] != lane + 1) {
-> > > > > > > > +                           unicam_err(dev, "subdevice %pOF: data lanes reordering not supported\n",
-> > > > > > > > +                                      sensor_node);
-> > > > > > > > +                           goto cleanup_exit;
-> > > > > > > > +                   }
-> > > > > > > > +           }
-> > > > > > > > +
-> > > > > > > > +           if (ep.bus.mipi_csi2.num_data_lanes > dev->max_data_lanes) {
-> > > > > > > > +                   unicam_err(dev, "subdevice requires %u data lanes when %u are supported\n",
-> > > > > > > > +                              ep.bus.mipi_csi2.num_data_lanes,
-> > > > > > > > +                              dev->max_data_lanes);
-> > > > > > > > +           }
-> > > > > > > > +
-> > > > > > > > +           dev->max_data_lanes = ep.bus.mipi_csi2.num_data_lanes;
-> > > > > > > > +           dev->bus_flags = ep.bus.mipi_csi2.flags;
-> > > > > > > > +
-> > > > > > > > +           break;
-> > > > > > > > +
-> > > > > > > > +   case V4L2_MBUS_CCP2:
-> > > > > > > > +           if (ep.bus.mipi_csi1.clock_lane != 0 ||
-> > > > > > > > +               ep.bus.mipi_csi1.data_lane != 1) {
-> > > > > > > > +                   unicam_err(dev, "subdevice %pOF: unsupported lanes configuration\n",
-> > > > > > > > +                              sensor_node);
-> > > > > > > > +                   goto cleanup_exit;
-> > > > > > > > +           }
-> > > > > > > > +
-> > > > > > > > +           dev->max_data_lanes = 1;
-> > > > > > > > +           dev->bus_flags = ep.bus.mipi_csi1.strobe;
-> > > > > > > > +           break;
-> > > > > > > > +
-> > > > > > > > +   default:
-> > > > > > > > +           /* Unsupported bus type */
-> > > > > > > > +           unicam_err(dev, "subdevice %pOF: unsupported bus type %u\n",
-> > > > > > > > +                      sensor_node, ep.bus_type);
-> > > > > > > > +           goto cleanup_exit;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   unicam_dbg(3, dev, "subdevice %pOF: %s bus, %u data lanes, flags=0x%08x\n",
-> > > > > > > > +              sensor_node,
-> > > > > > > > +              dev->bus_type == V4L2_MBUS_CSI2_DPHY ? "CSI-2" : "CCP2",
-> > > > > > > > +              dev->max_data_lanes, dev->bus_flags);
-> > > > > > > > +
-> > > > > > > > +   /* Initialize and register the async notifier. */
-> > > > > > > > +   v4l2_async_notifier_init(&dev->notifier);
-> > > > > > > > +   dev->notifier.ops = &unicam_async_ops;
-> > > > > > > > +
-> > > > > > > > +   dev->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> > > > > > > > +   dev->asd.match.fwnode = of_fwnode_handle(sensor_node);
-> > > > > > > > +   ret = v4l2_async_notifier_add_subdev(&dev->notifier, &dev->asd);
-> > > > > > > > +   if (ret) {
-> > > > > > > > +           unicam_err(dev, "Error adding subdevice: %d\n", ret);
-> > > > > > > > +           goto cleanup_exit;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   ret = v4l2_async_notifier_register(&dev->v4l2_dev, &dev->notifier);
-> > > > > > > > +   if (ret) {
-> > > > > > > > +           unicam_err(dev, "Error registering async notifier: %d\n", ret);
-> > > > > > > > +           ret = -EINVAL;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +cleanup_exit:
-> > > > > > > > +   of_node_put(sensor_node);
-> > > > > > > > +   of_node_put(ep_node);
-> > > > > > > > +
-> > > > > > > > +   return ret;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static int unicam_probe(struct platform_device *pdev)
-> > > > > > > > +{
-> > > > > > > > +   struct unicam_device *unicam;
-> > > > > > > > +   int ret;
-> > > > > > > > +
-> > > > > > > > +   unicam = kzalloc(sizeof(*unicam), GFP_KERNEL);
-> > > > > > > > +   if (!unicam)
-> > > > > > > > +           return -ENOMEM;
-> > > > > > > > +
-> > > > > > > > +   kref_init(&unicam->kref);
-> > > > > > > > +   unicam->pdev = pdev;
-> > > > > > > > +
-> > > > > > > > +   unicam->base = devm_platform_ioremap_resource(pdev, 0);
-> > > > > > > > +   if (IS_ERR(unicam->base)) {
-> > > > > > > > +           unicam_err(unicam, "Failed to get main io block\n");
-> > > > > > > > +           ret = PTR_ERR(unicam->base);
-> > > > > > > > +           goto err_unicam_put;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   unicam->clk_gate_base = devm_platform_ioremap_resource(pdev, 1);
-> > > > > > > > +   if (IS_ERR(unicam->clk_gate_base)) {
-> > > > > > > > +           unicam_err(unicam, "Failed to get 2nd io block\n");
-> > > > > > > > +           ret = PTR_ERR(unicam->clk_gate_base);
-> > > > > > > > +           goto err_unicam_put;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   unicam->clock = devm_clk_get(&pdev->dev, "lp");
-> > > > > > > > +   if (IS_ERR(unicam->clock)) {
-> > > > > > > > +           unicam_err(unicam, "Failed to get clock\n");
-> > > > > > > > +           ret = PTR_ERR(unicam->clock);
-> > > > > > > > +           goto err_unicam_put;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   ret = platform_get_irq(pdev, 0);
-> > > > > > > > +   if (ret <= 0) {
-> > > > > > > > +           dev_err(&pdev->dev, "No IRQ resource\n");
-> > > > > > > > +           ret = -EINVAL;
-> > > > > > > > +           goto err_unicam_put;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   ret = devm_request_irq(&pdev->dev, ret, unicam_isr, 0,
-> > > > > > > > +                          "unicam_capture0", unicam);
-> > > > > > > > +   if (ret) {
-> > > > > > > > +           dev_err(&pdev->dev, "Unable to request interrupt\n");
-> > > > > > > > +           ret = -EINVAL;
-> > > > > > > > +           goto err_unicam_put;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   unicam->mdev.dev = &pdev->dev;
-> > > > > > > > +   strscpy(unicam->mdev.model, UNICAM_MODULE_NAME,
-> > > > > > > > +           sizeof(unicam->mdev.model));
-> > > > > > > > +   strscpy(unicam->mdev.serial, "", sizeof(unicam->mdev.serial));
-> > > > > > > > +   snprintf(unicam->mdev.bus_info, sizeof(unicam->mdev.bus_info),
-> > > > > > > > +            "platform:%s", dev_name(&pdev->dev));
-> > > > > > > > +   unicam->mdev.hw_revision = 0;
-> > > > > > > > +
-> > > > > > > > +   media_device_init(&unicam->mdev);
-> > > > > > > > +
-> > > > > > > > +   unicam->v4l2_dev.mdev = &unicam->mdev;
-> > > > > > > > +
-> > > > > > > > +   ret = v4l2_device_register(&pdev->dev, &unicam->v4l2_dev);
-> > > > > > > > +   if (ret) {
-> > > > > > > > +           unicam_err(unicam,
-> > > > > > > > +                      "Unable to register v4l2 device.\n");
-> > > > > > > > +           goto err_unicam_put;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   ret = media_device_register(&unicam->mdev);
-> > > > > > > > +   if (ret < 0) {
-> > > > > > > > +           unicam_err(unicam,
-> > > > > > > > +                      "Unable to register media-controller device.\n");
-> > > > > > > > +           goto err_v4l2_unregister;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   /* Reserve space for the controls */
-> > > > > > > > +   ret = v4l2_ctrl_handler_init(&unicam->ctrl_handler, 16);
-> > > > > > > > +   if (ret < 0)
-> > > > > > > > +           goto err_media_unregister;
-> > > > > > > > +
-> > > > > > > > +   /* set the driver data in platform device */
-> > > > > > > > +   platform_set_drvdata(pdev, unicam);
-> > > > > > > > +
-> > > > > > > > +   ret = of_unicam_connect_subdevs(unicam);
-> > > > > > > > +   if (ret) {
-> > > > > > > > +           dev_err(&pdev->dev, "Failed to connect subdevs\n");
-> > > > > > > > +           goto err_media_unregister;
-> > > > > > > > +   }
-> > > > > > > > +
-> > > > > > > > +   /* Enable the block power domain */
-> > > > > > > > +   pm_runtime_enable(&pdev->dev);
-> > > > > > > > +
-> > > > > > > > +   return 0;
-> > > > > > > > +
-> > > > > > > > +err_media_unregister:
-> > > > > > > > +   media_device_unregister(&unicam->mdev);
-> > > > > > > > +err_v4l2_unregister:
-> > > > > > > > +   v4l2_device_unregister(&unicam->v4l2_dev);
-> > > > > > > > +err_unicam_put:
-> > > > > > > > +   unicam_put(unicam);
-> > > > > > > > +
-> > > > > > > > +   return ret;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static int unicam_remove(struct platform_device *pdev)
-> > > > > > > > +{
-> > > > > > > > +   struct unicam_device *unicam = platform_get_drvdata(pdev);
-> > > > > > > > +
-> > > > > > > > +   unicam_dbg(2, unicam, "%s\n", __func__);
-> > > > > > > > +
-> > > > > > > > +   v4l2_async_notifier_unregister(&unicam->notifier);
-> > > > > > > > +   v4l2_device_unregister(&unicam->v4l2_dev);
-> > > > > > > > +   media_device_unregister(&unicam->mdev);
-> > > > > > > > +   unregister_nodes(unicam);
-> > > > > > > > +
-> > > > > > > > +   pm_runtime_disable(&pdev->dev);
-> > > > > > > > +
-> > > > > > > > +   return 0;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static const struct of_device_id unicam_of_match[] = {
-> > > > > > > > +   { .compatible = "brcm,bcm2835-unicam", },
-> > > > > > > > +   { /* sentinel */ },
-> > > > > > > > +};
-> > > > > > > > +MODULE_DEVICE_TABLE(of, unicam_of_match);
-> > > > > > > > +
-> > > > > > > > +static struct platform_driver unicam_driver = {
-> > > > > > > > +   .probe          = unicam_probe,
-> > > > > > > > +   .remove         = unicam_remove,
-> > > > > > > > +   .driver = {
-> > > > > > > > +           .name   = UNICAM_MODULE_NAME,
-> > > > > > > > +           .of_match_table = of_match_ptr(unicam_of_match),
-> > > > > > > > +   },
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +module_platform_driver(unicam_driver);
-> > > > > > > > +
-> > > > > > > > +MODULE_AUTHOR("Dave Stevenson <dave.stevenson@raspberrypi.com>");
-> > > > > > > > +MODULE_DESCRIPTION("BCM2835 Unicam driver");
-> > > > > > > > +MODULE_LICENSE("GPL");
-> > > > > > > > +MODULE_VERSION(UNICAM_VERSION);
-> > > > > > > > diff --git a/drivers/media/platform/bcm2835/vc4-regs-unicam.h b/drivers/media/platform/bcm2835/vc4-regs-unicam.h
-> > > > > > > > new file mode 100644
-> > > > > > > > index 000000000000..ae059a171d0f
-> > > > > > > > --- /dev/null
-> > > > > > > > +++ b/drivers/media/platform/bcm2835/vc4-regs-unicam.h
-> > > > > > > > @@ -0,0 +1,253 @@
-> > > > > > > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > > > > > > +
-> > > > > > > > +/*
-> > > > > > > > + * Copyright (C) 2017-2020 Raspberry Pi Trading.
-> > > > > > > > + * Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > > > > > + */
-> > > > > > > > +
-> > > > > > > > +#ifndef VC4_REGS_UNICAM_H
-> > > > > > > > +#define VC4_REGS_UNICAM_H
-> > > > > > > > +
-> > > > > > > > +/*
-> > > > > > > > + * The following values are taken from files found within the code drop
-> > > > > > > > + * made by Broadcom for the BCM21553 Graphics Driver, predominantly in
-> > > > > > > > + * brcm_usrlib/dag/vmcsx/vcinclude/hardware_vc4.h.
-> > > > > > > > + * They have been modified to be only the register offset.
-> > > > > > > > + */
-> > > > > > > > +#define UNICAM_CTRL        0x000
-> > > > > > > > +#define UNICAM_STA 0x004
-> > > > > > > > +#define UNICAM_ANA 0x008
-> > > > > > > > +#define UNICAM_PRI 0x00c
-> > > > > > > > +#define UNICAM_CLK 0x010
-> > > > > > > > +#define UNICAM_CLT 0x014
-> > > > > > > > +#define UNICAM_DAT0        0x018
-> > > > > > > > +#define UNICAM_DAT1        0x01c
-> > > > > > > > +#define UNICAM_DAT2        0x020
-> > > > > > > > +#define UNICAM_DAT3        0x024
-> > > > > > > > +#define UNICAM_DLT 0x028
-> > > > > > > > +#define UNICAM_CMP0        0x02c
-> > > > > > > > +#define UNICAM_CMP1        0x030
-> > > > > > > > +#define UNICAM_CAP0        0x034
-> > > > > > > > +#define UNICAM_CAP1        0x038
-> > > > > > > > +#define UNICAM_ICTL        0x100
-> > > > > > > > +#define UNICAM_ISTA        0x104
-> > > > > > > > +#define UNICAM_IDI0        0x108
-> > > > > > > > +#define UNICAM_IPIPE       0x10c
-> > > > > > > > +#define UNICAM_IBSA0       0x110
-> > > > > > > > +#define UNICAM_IBEA0       0x114
-> > > > > > > > +#define UNICAM_IBLS        0x118
-> > > > > > > > +#define UNICAM_IBWP        0x11c
-> > > > > > > > +#define UNICAM_IHWIN       0x120
-> > > > > > > > +#define UNICAM_IHSTA       0x124
-> > > > > > > > +#define UNICAM_IVWIN       0x128
-> > > > > > > > +#define UNICAM_IVSTA       0x12c
-> > > > > > > > +#define UNICAM_ICC 0x130
-> > > > > > > > +#define UNICAM_ICS 0x134
-> > > > > > > > +#define UNICAM_IDC 0x138
-> > > > > > > > +#define UNICAM_IDPO        0x13c
-> > > > > > > > +#define UNICAM_IDCA        0x140
-> > > > > > > > +#define UNICAM_IDCD        0x144
-> > > > > > > > +#define UNICAM_IDS 0x148
-> > > > > > > > +#define UNICAM_DCS 0x200
-> > > > > > > > +#define UNICAM_DBSA0       0x204
-> > > > > > > > +#define UNICAM_DBEA0       0x208
-> > > > > > > > +#define UNICAM_DBWP        0x20c
-> > > > > > > > +#define UNICAM_DBCTL       0x300
-> > > > > > > > +#define UNICAM_IBSA1       0x304
-> > > > > > > > +#define UNICAM_IBEA1       0x308
-> > > > > > > > +#define UNICAM_IDI1        0x30c
-> > > > > > > > +#define UNICAM_DBSA1       0x310
-> > > > > > > > +#define UNICAM_DBEA1       0x314
-> > > > > > > > +#define UNICAM_MISC        0x400
-> > > > > > > > +
-> > > > > > > > +/*
-> > > > > > > > + * The following bitmasks are from the kernel released by Broadcom
-> > > > > > > > + * for Android - https://android.googlesource.com/kernel/bcm/
-> > > > > > > > + * The Rhea, Hawaii, and Java chips all contain the same VideoCore4
-> > > > > > > > + * Unicam block as BCM2835, as defined in eg
-> > > > > > > > + * arch/arm/mach-rhea/include/mach/rdb_A0/brcm_rdb_cam.h and similar.
-> > > > > > > > + * Values reworked to use the kernel BIT and GENMASK macros.
-> > > > > > > > + *
-> > > > > > > > + * Some of the bit mnenomics have been amended to match the datasheet.
-> > > > > > > > + */
-> > > > > > > > +/* UNICAM_CTRL Register */
-> > > > > > > > +#define UNICAM_CPE         BIT(0)
-> > > > > > > > +#define UNICAM_MEM         BIT(1)
-> > > > > > > > +#define UNICAM_CPR         BIT(2)
-> > > > > > > > +#define UNICAM_CPM_MASK            GENMASK(3, 3)
-> > > > > > > > +#define UNICAM_CPM_CSI2            0
-> > > > > > > > +#define UNICAM_CPM_CCP2            1
-> > > > > > > > +#define UNICAM_SOE         BIT(4)
-> > > > > > > > +#define UNICAM_DCM_MASK            GENMASK(5, 5)
-> > > > > > > > +#define UNICAM_DCM_STROBE  0
-> > > > > > > > +#define UNICAM_DCM_DATA            1
-> > > > > > > > +#define UNICAM_SLS         BIT(6)
-> > > > > > > > +#define UNICAM_PFT_MASK            GENMASK(11, 8)
-> > > > > > > > +#define UNICAM_OET_MASK            GENMASK(20, 12)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_STA Register */
-> > > > > > > > +#define UNICAM_SYN         BIT(0)
-> > > > > > > > +#define UNICAM_CS          BIT(1)
-> > > > > > > > +#define UNICAM_SBE         BIT(2)
-> > > > > > > > +#define UNICAM_PBE         BIT(3)
-> > > > > > > > +#define UNICAM_HOE         BIT(4)
-> > > > > > > > +#define UNICAM_PLE         BIT(5)
-> > > > > > > > +#define UNICAM_SSC         BIT(6)
-> > > > > > > > +#define UNICAM_CRCE                BIT(7)
-> > > > > > > > +#define UNICAM_OES         BIT(8)
-> > > > > > > > +#define UNICAM_IFO         BIT(9)
-> > > > > > > > +#define UNICAM_OFO         BIT(10)
-> > > > > > > > +#define UNICAM_BFO         BIT(11)
-> > > > > > > > +#define UNICAM_DL          BIT(12)
-> > > > > > > > +#define UNICAM_PS          BIT(13)
-> > > > > > > > +#define UNICAM_IS          BIT(14)
-> > > > > > > > +#define UNICAM_PI0         BIT(15)
-> > > > > > > > +#define UNICAM_PI1         BIT(16)
-> > > > > > > > +#define UNICAM_FSI_S               BIT(17)
-> > > > > > > > +#define UNICAM_FEI_S               BIT(18)
-> > > > > > > > +#define UNICAM_LCI_S               BIT(19)
-> > > > > > > > +#define UNICAM_BUF0_RDY            BIT(20)
-> > > > > > > > +#define UNICAM_BUF0_NO             BIT(21)
-> > > > > > > > +#define UNICAM_BUF1_RDY            BIT(22)
-> > > > > > > > +#define UNICAM_BUF1_NO             BIT(23)
-> > > > > > > > +#define UNICAM_DI          BIT(24)
-> > > > > > > > +
-> > > > > > > > +#define UNICAM_STA_MASK_ALL \
-> > > > > > > > +           (UNICAM_DL + \
-> > > > > > > > +           UNICAM_SBE + \
-> > > > > > > > +           UNICAM_PBE + \
-> > > > > > > > +           UNICAM_HOE + \
-> > > > > > > > +           UNICAM_PLE + \
-> > > > > > > > +           UNICAM_SSC + \
-> > > > > > > > +           UNICAM_CRCE + \
-> > > > > > > > +           UNICAM_IFO + \
-> > > > > > > > +           UNICAM_OFO + \
-> > > > > > > > +           UNICAM_PS + \
-> > > > > > > > +           UNICAM_PI0 + \
-> > > > > > > > +           UNICAM_PI1)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_ANA Register */
-> > > > > > > > +#define UNICAM_APD         BIT(0)
-> > > > > > > > +#define UNICAM_BPD         BIT(1)
-> > > > > > > > +#define UNICAM_AR          BIT(2)
-> > > > > > > > +#define UNICAM_DDL         BIT(3)
-> > > > > > > > +#define UNICAM_CTATADJ_MASK        GENMASK(7, 4)
-> > > > > > > > +#define UNICAM_PTATADJ_MASK        GENMASK(11, 8)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_PRI Register */
-> > > > > > > > +#define UNICAM_PE          BIT(0)
-> > > > > > > > +#define UNICAM_PT_MASK             GENMASK(2, 1)
-> > > > > > > > +#define UNICAM_NP_MASK             GENMASK(7, 4)
-> > > > > > > > +#define UNICAM_PP_MASK             GENMASK(11, 8)
-> > > > > > > > +#define UNICAM_BS_MASK             GENMASK(15, 12)
-> > > > > > > > +#define UNICAM_BL_MASK             GENMASK(17, 16)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_CLK Register */
-> > > > > > > > +#define UNICAM_CLE         BIT(0)
-> > > > > > > > +#define UNICAM_CLPD                BIT(1)
-> > > > > > > > +#define UNICAM_CLLPE               BIT(2)
-> > > > > > > > +#define UNICAM_CLHSE               BIT(3)
-> > > > > > > > +#define UNICAM_CLTRE               BIT(4)
-> > > > > > > > +#define UNICAM_CLAC_MASK   GENMASK(8, 5)
-> > > > > > > > +#define UNICAM_CLSTE               BIT(29)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_CLT Register */
-> > > > > > > > +#define UNICAM_CLT1_MASK   GENMASK(7, 0)
-> > > > > > > > +#define UNICAM_CLT2_MASK   GENMASK(15, 8)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_DATn Registers */
-> > > > > > > > +#define UNICAM_DLE         BIT(0)
-> > > > > > > > +#define UNICAM_DLPD                BIT(1)
-> > > > > > > > +#define UNICAM_DLLPE               BIT(2)
-> > > > > > > > +#define UNICAM_DLHSE               BIT(3)
-> > > > > > > > +#define UNICAM_DLTRE               BIT(4)
-> > > > > > > > +#define UNICAM_DLSM                BIT(5)
-> > > > > > > > +#define UNICAM_DLFO                BIT(28)
-> > > > > > > > +#define UNICAM_DLSTE               BIT(29)
-> > > > > > > > +
-> > > > > > > > +#define UNICAM_DAT_MASK_ALL (UNICAM_DLSTE + UNICAM_DLFO)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_DLT Register */
-> > > > > > > > +#define UNICAM_DLT1_MASK   GENMASK(7, 0)
-> > > > > > > > +#define UNICAM_DLT2_MASK   GENMASK(15, 8)
-> > > > > > > > +#define UNICAM_DLT3_MASK   GENMASK(23, 16)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_ICTL Register */
-> > > > > > > > +#define UNICAM_FSIE                BIT(0)
-> > > > > > > > +#define UNICAM_FEIE                BIT(1)
-> > > > > > > > +#define UNICAM_IBOB                BIT(2)
-> > > > > > > > +#define UNICAM_FCM         BIT(3)
-> > > > > > > > +#define UNICAM_TFC         BIT(4)
-> > > > > > > > +#define UNICAM_LIP_MASK            GENMASK(6, 5)
-> > > > > > > > +#define UNICAM_LCIE_MASK   GENMASK(28, 16)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_IDI0/1 Register */
-> > > > > > > > +#define UNICAM_ID0_MASK            GENMASK(7, 0)
-> > > > > > > > +#define UNICAM_ID1_MASK            GENMASK(15, 8)
-> > > > > > > > +#define UNICAM_ID2_MASK            GENMASK(23, 16)
-> > > > > > > > +#define UNICAM_ID3_MASK            GENMASK(31, 24)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_ISTA Register */
-> > > > > > > > +#define UNICAM_FSI         BIT(0)
-> > > > > > > > +#define UNICAM_FEI         BIT(1)
-> > > > > > > > +#define UNICAM_LCI         BIT(2)
-> > > > > > > > +
-> > > > > > > > +#define UNICAM_ISTA_MASK_ALL (UNICAM_FSI + UNICAM_FEI + UNICAM_LCI)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_IPIPE Register */
-> > > > > > > > +#define UNICAM_PUM_MASK            GENMASK(2, 0)
-> > > > > > > > +           /* Unpacking modes */
-> > > > > > > > +           #define UNICAM_PUM_NONE         0
-> > > > > > > > +           #define UNICAM_PUM_UNPACK6      1
-> > > > > > > > +           #define UNICAM_PUM_UNPACK7      2
-> > > > > > > > +           #define UNICAM_PUM_UNPACK8      3
-> > > > > > > > +           #define UNICAM_PUM_UNPACK10     4
-> > > > > > > > +           #define UNICAM_PUM_UNPACK12     5
-> > > > > > > > +           #define UNICAM_PUM_UNPACK14     6
-> > > > > > > > +           #define UNICAM_PUM_UNPACK16     7
-> > > > > > > > +#define UNICAM_DDM_MASK            GENMASK(6, 3)
-> > > > > > > > +#define UNICAM_PPM_MASK            GENMASK(9, 7)
-> > > > > > > > +           /* Packing modes */
-> > > > > > > > +           #define UNICAM_PPM_NONE         0
-> > > > > > > > +           #define UNICAM_PPM_PACK8        1
-> > > > > > > > +           #define UNICAM_PPM_PACK10       2
-> > > > > > > > +           #define UNICAM_PPM_PACK12       3
-> > > > > > > > +           #define UNICAM_PPM_PACK14       4
-> > > > > > > > +           #define UNICAM_PPM_PACK16       5
-> > > > > > > > +#define UNICAM_DEM_MASK            GENMASK(11, 10)
-> > > > > > > > +#define UNICAM_DEBL_MASK   GENMASK(14, 12)
-> > > > > > > > +#define UNICAM_ICM_MASK            GENMASK(16, 15)
-> > > > > > > > +#define UNICAM_IDM_MASK            GENMASK(17, 17)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_ICC Register */
-> > > > > > > > +#define UNICAM_ICFL_MASK   GENMASK(4, 0)
-> > > > > > > > +#define UNICAM_ICFH_MASK   GENMASK(9, 5)
-> > > > > > > > +#define UNICAM_ICST_MASK   GENMASK(12, 10)
-> > > > > > > > +#define UNICAM_ICLT_MASK   GENMASK(15, 13)
-> > > > > > > > +#define UNICAM_ICLL_MASK   GENMASK(31, 16)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_DCS Register */
-> > > > > > > > +#define UNICAM_DIE         BIT(0)
-> > > > > > > > +#define UNICAM_DIM         BIT(1)
-> > > > > > > > +#define UNICAM_DBOB                BIT(3)
-> > > > > > > > +#define UNICAM_FDE         BIT(4)
-> > > > > > > > +#define UNICAM_LDP         BIT(5)
-> > > > > > > > +#define UNICAM_EDL_MASK            GENMASK(15, 8)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_DBCTL Register */
-> > > > > > > > +#define UNICAM_DBEN                BIT(0)
-> > > > > > > > +#define UNICAM_BUF0_IE             BIT(1)
-> > > > > > > > +#define UNICAM_BUF1_IE             BIT(2)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_CMP[0,1] register */
-> > > > > > > > +#define UNICAM_PCE         BIT(31)
-> > > > > > > > +#define UNICAM_GI          BIT(9)
-> > > > > > > > +#define UNICAM_CPH         BIT(8)
-> > > > > > > > +#define UNICAM_PCVC_MASK   GENMASK(7, 6)
-> > > > > > > > +#define UNICAM_PCDT_MASK   GENMASK(5, 0)
-> > > > > > > > +
-> > > > > > > > +/* UNICAM_MISC register */
-> > > > > > > > +#define UNICAM_FL0         BIT(6)
-> > > > > > > > +#define UNICAM_FL1         BIT(9)
-> > > > > > > > +
-> > > > > > > > +#endif
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+SGVsbG8sDQoNCj4gRnJvbTogUmFtZXNoIFNoYW5tdWdhc3VuZGFyYW0gPHJhc2hhbm11QGdtYWls
+LmNvbT4NCj4gU2VudDogMzEgQXVndXN0IDIwMjAgMjA6NDUNCj4gDQo+IEhpIExhdXJlbnQsDQo+
+IA0KPiBUaGFuayB5b3UgZm9yIHRoZSBmaXguIFNvcnJ5IGFib3V0IHRoZSBsYXRlIHJlcGx5Lg0K
+PiANCj4gPiBUaGlzIHNtYWxsIHBhdGNoIHNlcmllcyBhZGRyZXNzZXMgYSBidWcgcmVsYXRlZCB0
+byB0aGUgdXNhZ2Ugb2YNCj4gPiB2NGwyX2FzeW5jX25vdGlmaWVyX2FkZF9zdWJkZXYoKSB0aGF0
+IGlzIHdpZGVzcHJlYWQgYW1vbmcgZHJpdmVycy4NCj4gPg0KPiA+IFRoZSBpc3N1ZSBpcyBleHBs
+YWluZWQgaW4gMS80LCB3aGljaCBpbXByb3ZlcyB0aGUgZG9jdW1lbnRhdGlvbiBvZiB0aGUNCj4g
+PiB2NGwyX2FzeW5jX25vdGlmaWVyX2FkZF9zdWJkZXYoKSBmdW5jdGlvbiBieSBzdGF0aW5nIGV4
+cGxpY2l0bHkgdGhhdCB0aGUNCj4gPiBhc2QgYXJndW1lbnQgbmVlZHMgdG8gYmUgYWxsb2NhdGVk
+IGR5bmFtaWNhbGx5LiBBbW9uZyB0aGUgMTMgZHJpdmVycw0KPiA+IHRoYXQgdXNlIHRoYXQgZnVu
+Y3Rpb24sIG9ubHkgb25lIGdldHMgaXQgcmlnaHQuDQo+ID4NCj4gPiBUaGUgcmVzdCBvZiB0aGUg
+cGF0Y2hlcyBmaXggdGhlIHByb2JsZW0gaW4gc2V2ZXJhbCBSZW5lc2FzLXJlbGF0ZWQNCj4gPiBk
+cml2ZXJzLCB3aXRoIGFuIHVucmVsYXRlZCBmd25vZGUgcmVmZXJlbmNlIGxlYWsgZml4IGZvciB0
+aGUgcmNhci1kcmlmDQo+ID4gZHJpdmVyIGluIDIvNSB0aGF0IG1hZGUgdGhlIHY0bDJfYXN5bmNf
+bm90aWZpZXJfYWRkX3N1YmRldigpIGZpeCBlYXNpZXINCj4gPiB0byBpbXBsZW1lbnQgaW4gdGhh
+dCBkcml2ZXIuDQo+ID4NCj4gPiBJJ20gbGFja2luZyBoYXJkd2FyZSB0byB0ZXN0IDIvNSBhbmQg
+My81LiBSYW1lc2gsIHdvdWxkIHlvdSBiZSBhYmxlIHRvDQo+ID4gdGVzdCB0aGF0ID8gV2hhdCBk
+ZXZlbG9wbWVudCBib2FyZCBkbyB5b3UgdXNlIHRvIHRlc3QgdGhlIERSSUYgZHJpdmVyID8NCj4g
+PiBJIGRvbid0IHNlZSBhbnkgRFQgaW50ZWdyYXRpb24gdXBzdHJlYW0uDQo+IA0KPiBJJ20gYWZy
+YWlkIEkgbWF5IG5vdCBiZSBhYmxlIHRvIHRlc3QgaXQgYXMgSSBkbyBub3QgaGF2ZSB0aGUgaGFy
+ZHdhcmUuDQo+IEkgaGF2ZSBjb3BpZWQgQ2hyaXMgUCBpZiBoZSBjYW4gaGVscCBvdXQuDQoNClRo
+YW5rcyBSYW1lc2guDQoNCkZhYnJpemlvIHdpbGwgdGFrZSBhIGxvb2sgYXMgaGUncyB3b3JraW5n
+IG9uIERSSUYgY3VycmVudGx5Lg0KV2UnbGwgYWxzbyBnZXQgaGltIGFkZGVkIHRvIHRoZSBtYWlu
+dGFpbmVycyBmaWxlLg0KDQpLaW5kIHJlZ2FyZHMsIENocmlzDQoNCj4gDQo+IEkgaGF2ZSB0ZXN0
+ZWQgRFJJRiBkcml2ZXIgb24gYSBIMy9NMyBTYWx2YXRvci1YL1Mgd2l0aCBhIGFkZC1vbiBib2Fy
+ZA0KPiBmcm9tIE1heGltIGhhdmluZyB0d28gTUFYMjE3NSB0dW5lcnMgKE1BWDIxNzUgZXZhbHVh
+dGlvbiBraXQpLiBUaGlzDQo+IGFkZC1vbiBib2FyZCB3YXMgYSBwcm90b3R5cGUgYXQgdGhhdCB0
+aW1lLiBIZW5jZSwgdGhlIERUIHVwZGF0ZXMgd2VyZQ0KPiBtYWludGFpbmVkIGludGVybmFsbHku
+DQo+IA0KPiBUaGFua3MsDQo+IFJhbWVzaA0KPiANCj4gPiBJIGFsc28gaGF2ZW4ndCBkdWcgdXAg
+bXkgTUFYOTI4NiBkZXZlbG9wbWVudCBraXQgdG8gdGVzdCA1LzUuIEkgd291bGQNCj4gPiB0aHVz
+IGFwcHJlY2lhdGUgaWYgc29tZW9uZSBjb3VsZCB0ZXN0IGl0LCBidXQgd29yc3QgY2FzZSBJIGNh
+biBkbyBzbw0KPiA+IG15c2VsZi4NCj4gPg0KPiA+IExhdXJlbnQgUGluY2hhcnQgKDUpOg0KPiA+
+ICAgbWVkaWE6IHY0bDItYXN5bmM6IERvY3VtZW50IGFzZCBhbGxvY2F0aW9uIHJlcXVpcmVtZW50
+cw0KPiA+ICAgbWVkaWE6IHJjYXJfZHJpZjogRml4IGZ3bm9kZSByZWZlcmVuY2UgbGVhayB3aGVu
+IHBhcnNpbmcgRFQNCj4gPiAgIG1lZGlhOiByY2FyX2RyaWY6IEFsbG9jYXRlIHY0bDJfYXN5bmNf
+c3ViZGV2IGR5bmFtaWNhbGx5DQo+ID4gICBtZWRpYTogcmNhci1jc2kyOiBBbGxvY2F0ZSB2NGwy
+X2FzeW5jX3N1YmRldiBkeW5hbWljYWxseQ0KPiA+ICAgbWVkaWE6IGkyYzogbWF4OTI4NjogQWxs
+b2NhdGUgdjRsMl9hc3luY19zdWJkZXYgZHluYW1pY2FsbHkNCj4gPg0KPiA+ICBkcml2ZXJzL21l
+ZGlhL2kyYy9tYXg5Mjg2LmMgICAgICAgICAgICAgICAgIHwgMzggKysrKysrKysrKystLS0tLS0t
+LS0tDQo+ID4gIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcmNhci12aW4vcmNhci1jc2kyLmMgfCAy
+NCArKysrKystLS0tLS0tDQo+ID4gIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcmNhcl9kcmlmLmMg
+ICAgICAgICAgfCAzMCArKysrKy0tLS0tLS0tLS0tDQo+ID4gIGluY2x1ZGUvbWVkaWEvdjRsMi1h
+c3luYy5oICAgICAgICAgICAgICAgICAgfCAgNSArLS0NCj4gPiAgNCBmaWxlcyBjaGFuZ2VkLCA0
+MiBpbnNlcnRpb25zKCspLCA1NSBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IC0tDQo+ID4gUmVnYXJk
+cywNCj4gPg0KPiA+IExhdXJlbnQgUGluY2hhcnQNCj4gPg0K
