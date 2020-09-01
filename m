@@ -2,129 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3436225903B
-	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 16:22:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C650D2591AB
+	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 16:54:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbgIAOWA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Sep 2020 10:22:00 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:16026 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728365AbgIAOVX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Sep 2020 10:21:23 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1598970082; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=RliZByYxzLz5y1Rz5nCF+AhM3YGfRNYBxdxpZBc+zj4=; b=IW4w5FQHwipQV+J+4GTaPm94r7iLiiytMA8vQgOOh6MJDaiIhy697+L2+9ojg/gpO/9/jYxy
- pxxlpyAmi805AAiifQBtxdix1LWf7pf6iuqnZWdWkVVhjKMzAtpvlVIFN/Qbb67fJk2kYRlK
- FU3P/9DVYKVxpvSqOS5ZZXHO+ls=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5f4e58c932925f96e1ccd721 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 01 Sep 2020 14:20:57
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 12708C43387; Tue,  1 Sep 2020 14:20:57 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from blr-ubuntu-173.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 96CEEC433C9;
-        Tue,  1 Sep 2020 14:20:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 96CEEC433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-To:     stanimir.varbanov@linaro.org, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org, Rajendra Nayak <rnayak@codeaurora.org>
-Subject: [PATCH v6 4/5] arm64: dts: sdm845: Add OPP tables and power-domains for venus
-Date:   Tue,  1 Sep 2020 19:50:25 +0530
-Message-Id: <1598970026-7199-5-git-send-email-rnayak@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1598970026-7199-1-git-send-email-rnayak@codeaurora.org>
-References: <1598970026-7199-1-git-send-email-rnayak@codeaurora.org>
+        id S1728253AbgIAOyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Sep 2020 10:54:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44758 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727009AbgIAL0x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Sep 2020 07:26:53 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 877BAC06125F
+        for <linux-media@vger.kernel.org>; Tue,  1 Sep 2020 04:17:21 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 1B5B9298907
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org
+Subject: [PATCH v4 00/10] media: staging: rkisp1: add support to V4L2_CAP_IO_MC
+Date:   Tue,  1 Sep 2020 13:16:02 +0200
+Message-Id: <20200901111612.10552-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the OPP tables in order to be able to vote on the performance state of
-a power-domain.
+The patchset solves several problems in the rkisp1 driver.
 
-Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 40 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 38 insertions(+), 2 deletions(-)
+1. Currently the resizers output media code MEDIA_BUS_FMT_YUYV8_2X8 when the input is
+MEDIA_BUS_FMT_YUYV8_2X8.
+The patchset adds support to other media codes on the resizer according to
+the chroma subsampling.
+Setting the correct media code on the source pad that matches the
+chroma subsampling reflects userspace  that the resizer has downsampling
+capability and also the resizer entity does not have to check the capture entity's
+configuration to get the scaling ratio, the information of how to scale can be
+obtained from the source media code of the resizer.
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 2884577..86457d9b 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -3639,8 +3639,10 @@
- 			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
- 			power-domains = <&videocc VENUS_GDSC>,
- 					<&videocc VCODEC0_GDSC>,
--					<&videocc VCODEC1_GDSC>;
--			power-domain-names = "venus", "vcodec0", "vcodec1";
-+					<&videocc VCODEC1_GDSC>,
-+					<&rpmhpd SDM845_CX>;
-+			power-domain-names = "venus", "vcodec0", "vcodec1", "cx";
-+			operating-points-v2 = <&venus_opp_table>;
- 			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
- 				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
- 				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
-@@ -3662,6 +3664,40 @@
- 			video-core1 {
- 				compatible = "venus-encoder";
- 			};
-+
-+			venus_opp_table: venus-opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-100000000 {
-+					opp-hz = /bits/ 64 <100000000>;
-+					required-opps = <&rpmhpd_opp_min_svs>;
-+				};
-+
-+				opp-200000000 {
-+					opp-hz = /bits/ 64 <200000000>;
-+					required-opps = <&rpmhpd_opp_low_svs>;
-+				};
-+
-+				opp-320000000 {
-+					opp-hz = /bits/ 64 <320000000>;
-+					required-opps = <&rpmhpd_opp_svs>;
-+				};
-+
-+				opp-380000000 {
-+					opp-hz = /bits/ 64 <380000000>;
-+					required-opps = <&rpmhpd_opp_svs_l1>;
-+				};
-+
-+				opp-444000000 {
-+					opp-hz = /bits/ 64 <444000000>;
-+					required-opps = <&rpmhpd_opp_nom>;
-+				};
-+
-+				opp-533000097 {
-+					opp-hz = /bits/ 64 <533000097>;
-+					required-opps = <&rpmhpd_opp_turbo>;
-+				};
-+			};
- 		};
- 
- 		videocc: clock-controller@ab00000 {
+2. Add support for the V4L2_CAP_IO_MC capability on
+the mainpath and selfpath captures. This helps userspace to know the
+right configuration for streaming. This is especially helpful for the
+RGB and Grey formats that expect media bus MEDIA_BUS_FMT_YUYV8_2X8
+which is not something userspace can 'guess'. Adding a mapping of the
+required mbus code for each pixelformat also makes the link_validation
+code much simpler, it just has to check if the configuration matches the mapping.
+
+3. Removes unsupported packed yuv formats - this patch was already part of a pull request
+and was dropped due to merge conflicts.
+
+4. Remove bayer formats on the selfpath resizer since they are not
+supported on the selfpath capture.
+
+5. Remove support to YUV444 pixel format, I was not able to find a configuration
+that supports this format. I kept getting bad looking frames.
+I tried to add capture yuv444 formats by adding an entry:
+
++       {
++               .mbus_code      = MEDIA_BUS_FMT_YUV8_1X24,
++               .hdiv           = 1,
++               .vdiv           = 1,
++       }
+
+to the list of supported formats: rkisp1_rsz_yuv_src_formats[]
+
+full patch: http://ix.io/2vNJ
+
+On the mainpath I get good images, but on the selfpath I get bad looking images:
+
+https://pasteboard.co/JoWp3U4.png
+
+https://pasteboard.co/Jp1YWLR.png
+
+Interestingly, when changing the sp_input from default RKISP1_MI_CTRL_SP_INPUT_YUV422
+to RKISP1_MI_CTRL_SP_INPUT_YUV444, then the images that are not upscaled look good:
+
+https://pasteboard.co/Jp22u6E.png
+
+but with upscaling (1604x1232 -> 1920x1500) it still looks bad:
+
+https://pasteboard.co/Jp22MBU.png
+
+
+6. Fix the configuration to support Grey format - the 'write_format' field should
+be 'planar'
+
+changes since v3:
+patch 1 - remove '----' line from commit log
+patch 5-7 - refactor code, add documentation
+patch 8 - change function name rkisp1_rsz_yuv_mbus_info and code in function rkisp1_rsz_set_src_fmt
+
+
+Dafna Hirschfeld (10):
+  media: staging: rkisp1: cap: change RGB24 format to XBGR32
+  media: staging: rkisp1: cap: remove unsupported formats
+  media: staging: rkisp1: cap: remove unsupported format YUV444
+  media: staging: rkisp1: don't support bayer format on selfpath resizer
+  media: staging: rkisp1: add capability V4L2_CAP_IO_MC to capture
+    devices
+  media: staging: rkisp1: add a helper function to enumerate supported
+    mbus formats on capture
+  media: staging: rkisp1: rsz: enumerate the formats on the src pad
+    according to the capture
+  media: staging: rkisp1: rsz: Add support to more YUV encoded mbus
+    codes on src pad
+  media: staging: rkisp1: cap: simplify the link validation by compering
+    the media bus code
+  media: staging: rkisp1: fix configuration for GREY pixelformat
+
+ drivers/staging/media/rkisp1/rkisp1-capture.c | 199 +++++++++++-------
+ drivers/staging/media/rkisp1/rkisp1-common.h  |  11 +
+ drivers/staging/media/rkisp1/rkisp1-resizer.c |  93 ++++++--
+ 3 files changed, 203 insertions(+), 100 deletions(-)
+
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+2.17.1
 
