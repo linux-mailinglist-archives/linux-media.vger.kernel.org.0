@@ -2,177 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD2E025908A
-	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 16:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A44A2590BD
+	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 16:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728296AbgIAOec (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Sep 2020 10:34:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46586 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728378AbgIAOeR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Sep 2020 10:34:17 -0400
-Received: from coco.lan (ip5f5ad5cf.dynamic.kabel-deutschland.de [95.90.213.207])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3113D206FA;
-        Tue,  1 Sep 2020 14:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598970808;
-        bh=JNmfQDuYufiFeN1QfagfVFn418QL7S4j46INV2H5Efs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=vfDBP/MfHgwy/KvmIgWHbnStlg3WtNEPyIalsVQa3/blKMqpLPUNReHMoXd9PyDyA
-         QjRCjqqathyipXWmRZHPck3ceOLpGK1ipI8evUwJyTMqIDSXg+HSJueaxgtzZH8o+l
-         +WfQXfux35wICoz7ucTCAbbNWreHA9HRhIsOXIpI=
-Date:   Tue, 1 Sep 2020 16:33:25 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Stefan Witzel <s.witzel@gmx.de>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Enforcing color profile
-Message-ID: <20200901163325.5feb2874@coco.lan>
-In-Reply-To: <ede0342b-3975-15e3-a8d8-98886456b489@gmx.de>
-References: <7486393e-56b5-e460-b542-02c72525139b@gmx.de>
-        <0fa5da29-a058-2678-e616-65c921c6389a@xs4all.nl>
-        <72B7F2AA-4FCC-4842-A80B-5C4D856C0A89@gmx.de>
-        <ede0342b-3975-15e3-a8d8-98886456b489@gmx.de>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728323AbgIAOiQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Sep 2020 10:38:16 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:11263 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728498AbgIAOiK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Sep 2020 10:38:10 -0400
+X-UUID: ea3eaabc06e74213be15d770f4b12098-20200901
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=i/M1pWATEggY6t0efcPJUKkWQXwt7jVFmbATAeUxAOU=;
+        b=WPViX5arQEPmhHroEBtIthd2K8MW5tszJ75w/0TpTcC5ghDvgba9iXViq0YidLleYH5OT+x35VMsfMp+eVrE5B+/6Z8RDp60TZY9xxGjTr4fSZVHHjqUxnEEqiSX6twGwwmxkdaXJ+2dOrkzupSa795x1JE152/6YpThCZnDXH4=;
+X-UUID: ea3eaabc06e74213be15d770f4b12098-20200901
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 2070487602; Tue, 01 Sep 2020 22:37:13 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N2.mediatek.inc
+ (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 1 Sep
+ 2020 22:37:12 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 1 Sep 2020 22:37:11 +0800
+Message-ID: <1598970937.4733.21.camel@mhfsdcap03>
+Subject: Re: [PATCH v13 1/2] media: dt-bindings: media: i2c: Document
+ OV02A10 bindings
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        <matrix.zhu@aliyun.com>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        Shengnan Wang =?UTF-8?Q?=28=E7=8E=8B=E5=9C=A3=E7=94=B7=29?= 
+        <shengnan.wang@mediatek.com>, <matrix.zhu@aliyun.com>,
+        <dongchun.zhu@mediatek.com>
+Date:   Tue, 1 Sep 2020 22:35:37 +0800
+In-Reply-To: <20200831160644.GL31019@paasikivi.fi.intel.com>
+References: <20200710101850.4604-1-dongchun.zhu@mediatek.com>
+         <20200710101850.4604-2-dongchun.zhu@mediatek.com>
+         <CAAFQd5BB3c9nvruY0jcVbRZtbUyiFj0v8=D6KA7EPtN4rz=+wA@mail.gmail.com>
+         <20200831160644.GL31019@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: 445E85A69E8366B468046E9E6B70917AF91F340655DCFA76B1105FB898ACB8272000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 1 Sep 2020 15:37:23 +0200
-Stefan Witzel <s.witzel@gmx.de> escreveu:
+SGkgVG9tYXN6LCBTYWthcmksDQoNClRoYW5rcyBmb3IgZGlnZ2luZyBpbnRvIHRoZSBpbXBlcmZl
+Y3Rpb25zLg0KDQpPbiBNb24sIDIwMjAtMDgtMzEgYXQgMTk6MDYgKzAzMDAsIFNha2FyaSBBaWx1
+cyB3cm90ZToNCj4gSGkgVG9tYXN6LA0KPiANCj4gVGhhbmtzIGZvciBkcmVzc2luZyB0aGlzIGlu
+dG8gd29yZHMuDQo+IA0KPiBPbiBNb24sIEF1ZyAzMSwgMjAyMCBhdCAwMTo0NDoyN1BNICswMjAw
+LCBUb21hc3ogRmlnYSB3cm90ZToNCj4gPiBIaSBEb25nY2h1biwNCj4gPiANCj4gPiBPbiBGcmks
+IEp1bCAxMCwgMjAyMCBhdCAxMjoxOSBQTSBEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpodUBtZWRp
+YXRlay5jb20+IHdyb3RlOg0KPiA+ID4NCj4gPiA+IEFkZCBZQU1MIGRldmljZSB0cmVlIGJpbmRp
+bmcgZm9yIE9WMDJBMTAgQ01PUyBpbWFnZSBzZW5zb3IsDQo+ID4gPiBhbmQgdGhlIHJlbGV2YW50
+IE1BSU5UQUlORVJTIGVudHJpZXMuDQo+ID4gPg0KPiA+ID4gUmV2aWV3ZWQtYnk6IFRvbWFzeiBG
+aWdhIDx0ZmlnYUBjaHJvbWl1bS5vcmc+DQo+ID4gPiBSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcg
+PHJvYmhAa2VybmVsLm9yZz4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IERvbmdjaHVuIFpodSA8ZG9u
+Z2NodW4uemh1QG1lZGlhdGVrLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4gIC4uLi9iaW5kaW5ncy9t
+ZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwgICAgICAgICAgIHwgMTcyICsrKysrKysrKysrKysr
+KysrKysrKw0KPiA+ID4gIE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHwgICA3ICsNCj4gPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDE3OSBpbnNlcnRpb25z
+KCspDQo+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9tZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwNCj4gPiA+DQo+ID4gPiBkaWZmIC0t
+Z2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL2kyYy9vdnRpLG92
+MDJhMTAueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMv
+b3Z0aSxvdjAyYTEwLnlhbWwNCj4gPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gPiBpbmRl
+eCAwMDAwMDAwLi4zYTkxNmNjDQo+ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiArKysgYi9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvaTJjL292dGksb3YwMmExMC55YW1s
+DQo+ID4gPiBAQCAtMCwwICsxLDE3MiBAQA0KPiA+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZp
+ZXI6IChHUEwtMi4wIE9SIEJTRC0yLUNsYXVzZSkNCj4gPiA+ICsjIENvcHlyaWdodCAoYykgMjAy
+MCBNZWRpYVRlayBJbmMuDQo+ID4gPiArJVlBTUwgMS4yDQo+ID4gPiArLS0tDQo+ID4gPiArJGlk
+OiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9tZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlh
+bWwjDQo+ID4gPiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9j
+b3JlLnlhbWwjDQo+ID4gPiArDQo+ID4gPiArdGl0bGU6IE9tbml2aXNpb24gT1YwMkExMCBDTU9T
+IFNlbnNvciBEZXZpY2UgVHJlZSBCaW5kaW5ncw0KPiA+ID4gKw0KPiA+ID4gK21haW50YWluZXJz
+Og0KPiA+ID4gKyAgLSBEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20+DQo+
+ID4gPiArDQo+ID4gPiArZGVzY3JpcHRpb246IHwtDQo+ID4gPiArICBUaGUgT21uaXZpc2lvbiBP
+VjAyQTEwIGlzIGEgbG93LWNvc3QsIGhpZ2ggcGVyZm9ybWFuY2UsIDEvNS1pbmNoLCAyIG1lZ2Fw
+aXhlbA0KPiA+ID4gKyAgaW1hZ2Ugc2Vuc29yLCB3aGljaCBpcyB0aGUgbGF0ZXN0IHByb2R1Y3Rp
+b24gZGVyaXZlZCBmcm9tIE9tbml2aXNpb24ncyBDTU9TDQo+ID4gPiArICBpbWFnZSBzZW5zb3Ig
+dGVjaG5vbG9neS4gSWhpcyBjaGlwIHN1cHBvcnRzIGhpZ2ggZnJhbWUgcmF0ZSBzcGVlZHMgdXAg
+dG8gMzBmcHMNCj4gPiA+ICsgIEAgMTYwMHgxMjAwIChVWEdBKSByZXNvbHV0aW9uIHRyYW5zZmVy
+cmVkIG92ZXIgYSAxLWxhbmUgTUlQSSBpbnRlcmZhY2UuIFRoZQ0KPiA+ID4gKyAgc2Vuc29yIG91
+dHB1dCBpcyBhdmFpbGFibGUgdmlhIENTSS0yIHNlcmlhbCBkYXRhIG91dHB1dC4NCj4gPiA+ICsN
+Cj4gPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ID4gKyAgY29tcGF0aWJsZToNCj4gPiA+ICsgICAgY29u
+c3Q6IG92dGksb3YwMmExMA0KPiA+ID4gKw0KPiA+ID4gKyAgcmVnOg0KPiA+ID4gKyAgICBtYXhJ
+dGVtczogMQ0KPiA+ID4gKw0KPiA+ID4gKyAgY2xvY2tzOg0KPiA+ID4gKyAgICBpdGVtczoNCj4g
+PiA+ICsgICAgICAtIGRlc2NyaXB0aW9uOiB0b3AgbXV4IGNhbXRnIGNsb2NrDQo+ID4gPiArICAg
+ICAgLSBkZXNjcmlwdGlvbjogZGl2aWRlciBjbG9jaw0KPiA+ID4gKw0KPiA+ID4gKyAgY2xvY2st
+bmFtZXM6DQo+ID4gPiArICAgIGl0ZW1zOg0KPiA+ID4gKyAgICAgIC0gY29uc3Q6IGVjbGsNCj4g
+PiA+ICsgICAgICAtIGNvbnN0OiBmcmVxX211eA0KPiA+IA0KPiA+IFdoeSBkbyB3ZSBoYXZlIHR3
+byBjbG9ja3MgaGVyZT8gTG9va2luZyBhdCB0aGUgZXhhbXBsZSBzdWdnZXN0cyB0aGF0DQo+ID4g
+dGhleSBtYXkgYmUgdGhlIGNsb2NrcyBvZiB0aGUgU29DIHRoYXQgdGhlIGludGVncmF0aW9uIHdh
+cyBkb25lIHdpdGguDQo+ID4gSG93ZXZlciwgdGhlIGJpbmRpbmcgbXVzdCBvbmx5IGRlZmluZSB0
+aGUgYXNwZWN0cyBvZiB0aGUgcGFydGljdWxhcg0KPiA+IGRldmljZSwgaS5lLiB0aGlzIHNlbnNv
+ci4NCj4gPiANCj4gPiBJIHN1cHBvc2Ugd2Ugc2hvdWxkIG9ubHkgaGF2ZSAiZWNsayIgaGVyZSBh
+bmQgaXQgc2hvdWxkIGJlIGRlc2NyaWJlZA0KPiA+IGFzICJleHRlcm5hbCBjbG9jayBmb3IgdGhl
+IHNlbnNvciIuDQo+ID4gDQoNCkkgY2Fubm90IGFncmVlIHdpdGggeW91IG1vcmUsIGl0IHdvdWxk
+IGJlIGZpeGVkIGluIG5leHQgcmVsZWFzZS4NCg0KPiA+ID4gKw0KPiA+ID4gKyAgY2xvY2stZnJl
+cXVlbmN5Og0KPiA+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4gPiA+ICsgICAgICBGcmVxdWVuY3kg
+b2YgdGhlIGVjbGsgY2xvY2sgaW4gSGVydHouDQo+ID4gDQo+ID4gbml0OiBtYXliZSBIej8NCj4g
+PiANCg0KQm90aCBzaGFsbCBiZSBva2F5LCBsZXQncyB1c2UgSHogaW5zdGVhZCwgd2hpY2ggc2Vl
+bXMgdG8gYmUgbW9yZSBzaW1wbGUuDQoNCj4gPiA+ICsNCj4gPiA+ICsgIGRvdmRkLXN1cHBseToN
+Cj4gPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gPiArICAgICAgRGVmaW5pdGlvbiBvZiB0aGUg
+cmVndWxhdG9yIHVzZWQgYXMgRGlnaXRhbCBJL08gdm9sdGFnZSBzdXBwbHkuDQo+ID4gPiArDQo+
+ID4gPiArICBhdmRkLXN1cHBseToNCj4gPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gPiArICAg
+ICAgRGVmaW5pdGlvbiBvZiB0aGUgcmVndWxhdG9yIHVzZWQgYXMgQW5hbG9nIHZvbHRhZ2Ugc3Vw
+cGx5Lg0KPiA+ID4gKw0KPiA+ID4gKyAgZHZkZC1zdXBwbHk6DQo+ID4gPiArICAgIGRlc2NyaXB0
+aW9uOg0KPiA+ID4gKyAgICAgIERlZmluaXRpb24gb2YgdGhlIHJlZ3VsYXRvciB1c2VkIGFzIERp
+Z2l0YWwgY29yZSB2b2x0YWdlIHN1cHBseS4NCj4gPiA+ICsNCj4gPiA+ICsgIHBvd2VyZG93bi1n
+cGlvczoNCj4gPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gPiArICAgICAgTXVzdCBiZSB0aGUg
+ZGV2aWNlIHRyZWUgaWRlbnRpZmllciBvZiB0aGUgR1BJTyBjb25uZWN0ZWQgdG8gdGhlDQo+ID4g
+PiArICAgICAgUERfUEFEIHBpbi4gVGhpcyBwaW4gaXMgdXNlZCB0byBwbGFjZSB0aGUgT1YwMkEx
+MCBpbnRvIHN0YW5kYnkgbW9kZQ0KPiA+ID4gKyAgICAgIG9yIHNodXRkb3duIG1vZGUuIEFzIHRo
+ZSBsaW5lIG5lZWRzIHRvIGJlIGhpZ2ggZm9yIHRoZSBwb3dlcmRvd24gbW9kZQ0KPiA+ID4gKyAg
+ICAgIHRvIGJlIGFjdGl2ZSwgaXQgc2hvdWxkIGJlIG1hcmtlZCBHUElPX0FDVElWRV9ISUdILg0K
+PiA+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ID4gKw0KPiA+ID4gKyAgcmVzZXQtZ3Bpb3M6DQo+
+ID4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ID4gKyAgICAgIE11c3QgYmUgdGhlIGRldmljZSB0
+cmVlIGlkZW50aWZpZXIgb2YgdGhlIEdQSU8gY29ubmVjdGVkIHRvIHRoZQ0KPiA+ID4gKyAgICAg
+IFJTVF9QRCBwaW4uIElmIHNwZWNpZmllZCwgaXQgd2lsbCBiZSBhc3NlcnRlZCBkdXJpbmcgZHJp
+dmVyIHByb2JlLg0KPiA+ID4gKyAgICAgIEFzIHRoZSBsaW5lIG5lZWRzIHRvIGJlIGxvdyBmb3Ig
+dGhlIHJlc2V0IHRvIGJlIGFjdGl2ZSwgaXQgc2hvdWxkIGJlDQo+ID4gPiArICAgICAgbWFya2Vk
+IEdQSU9fQUNUSVZFX0xPVy4NCj4gPiA+ICsgICAgbWF4SXRlbXM6IDENCj4gPiA+ICsNCj4gPiA+
+ICsgIHJvdGF0aW9uOg0KPiA+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4gPiA+ICsgICAgICBEZWZp
+bml0aW9uIG9mIHRoZSBzZW5zb3IncyBwbGFjZW1lbnQuDQo+ID4gPiArICAgIGFsbE9mOg0KPiA+
+ID4gKyAgICAgIC0gJHJlZjogIi9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQz
+MiINCj4gPiA+ICsgICAgICAtIGVudW06DQo+ID4gPiArICAgICAgICAgIC0gMCAgICAjIFNlbnNv
+ciBNb3VudGVkIFVwcmlnaHQNCj4gPiA+ICsgICAgICAgICAgLSAxODAgICMgU2Vuc29yIE1vdW50
+ZWQgVXBzaWRlIERvd24NCj4gPiA+ICsgICAgICAgIGRlZmF1bHQ6IDANCj4gPiA+ICsNCj4gPiA+
+ICsgIG92dGksbWlwaS10eC1zcGVlZDoNCj4gPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gPiAr
+ICAgICAgSW5kaWNhdGlvbiBvZiBNSVBJIHRyYW5zbWlzc2lvbiBzcGVlZCBzZWxlY3QsIHdoaWNo
+IGlzIHRvIGNvbnRyb2wgRC1QSFkNCj4gPiA+ICsgICAgICB0aW1pbmcgc2V0dGluZyBieSBhZGp1
+c3RpbmcgTUlQSSBjbG9jayB2b2x0YWdlIHRvIGltcHJvdmUgdGhlIGNsb2NrDQo+ID4gPiArICAg
+ICAgZHJpdmVyIGNhcGFiaWxpdHkuDQo+ID4gDQo+ID4gVGhlIGRlc2NyaXB0aW9uIHNheXMgdGhh
+dCB0aGUgdmFsdWUgYWRqdXN0cyAiTUlQSSBjbG9jayB2b2x0YWdlIi4NCj4gPiBTaG91bGQgdGhl
+IHByb3BlcnR5IGJlIHJlbmFtZWQgdG8gIm92dGksbWlwaS1jbG9jay12b2x0YWdlIj8NCj4gPiAN
+Cg0KU3VyZSwgbWlwaS1jbG9jay12b2x0YWdlIHNlZW1zIG1vcmUgY2xlYXIsIHBlcmZlY3QgbmFt
+aW5nIDotKQ0KDQo+ID4gPiArICAgIGFsbE9mOg0KPiA+ID4gKyAgICAgIC0gJHJlZjogIi9zY2hl
+bWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMiINCj4gPiA+ICsgICAgICAtIGVudW06
+DQo+ID4gPiArICAgICAgICAgIC0gMCAgICAjICAyME1IeiAtICAzME1Ieg0KPiA+ID4gKyAgICAg
+ICAgICAtIDEgICAgIyAgMzBNSHogLSAgNTBNSHoNCj4gPiA+ICsgICAgICAgICAgLSAyICAgICMg
+IDUwTUh6IC0gIDc1TUh6DQo+ID4gPiArICAgICAgICAgIC0gMyAgICAjICA3NU1IeiAtIDEwME1I
+eg0KPiA+ID4gKyAgICAgICAgICAtIDQgICAgIyAxMDBNSHogLSAxMzBNSHoNCj4gPiA+ICsgICAg
+ICAgIGRlZmF1bHQ6IDMNCj4gPiA+ICsNCj4gPiANCj4gPiBJJ3ZlIGRpc2N1c3NlZCB0aGlzIG9u
+IElSQyB3aXRoIFNha2FyaS4gSXQgc291bmRzIGxpa2UgdGhpcyB3b3JrcyBhcw0KPiA+IGlzIGZv
+ciB1cyBiZWNhdXNlIHRoZSBkcml2ZXIgY3VycmVudGx5IG9ubHkgc3VwcG9ydHMgMSBtb2RlLCBh
+bHdheXMNCj4gPiBydW5uaW5nIHRoZSBsaW5rIGF0IDM5MCBNSHouIFRoaXMgd29uJ3Qgc2NhbGUg
+aWYgb25lIGludGVuZHMgdG8gYWRkDQo+ID4gbW9yZSBtb2RlcywgYmVjYXVzZSBEVCBjYW4ndCBi
+ZSBleHBlY3RlZCB0byBiZSB1cGRhdGVkIHdoZW4gdGhlIGRyaXZlcg0KPiA+IGNoYW5nZXMuIFRo
+ZSB0d28gYXJlIGV4cGVjdGVkIHRvIGJlIHNlcGFyYXRlIGFuZCBiYWNrd2FyZHMgY29tcGF0aWJs
+ZS4NCj4gPiANCj4gPiBJIHRoaW5rIHdlIGNvdWxkIG1vZGVsIHRoaXMgaW4gRFQgYXMgYW4gYXJy
+YXkgb2YgPGxpbmsgc3BlZWQsIGNsb2NrDQo+ID4gdm9sdGFnZT4gcGFpcnMuIFNpbWlsYXJseSB0
+byB0aGUgT1BQIGJpbmRpbmdzIFsxXS4gQW4gZXhhbXBsZSB0byBoYXZlDQo+ID4gYWxsIGxpbmsg
+c3BlZWRzIHVwIHRvIDM5MCBNSHogdXNlIHRoZSB2YWx1ZSA0Og0KPiA+IA0KPiA+IG92dGksbWlw
+aS1jbG9jay12b2x0YWdlcyA9IDwNCj4gPiAgICAgICAgICAgICAgIC8qIEtIeiAgICAgICAgIGNs
+b2NrIHZvbHRhZ2UgdW5pdCAqLw0KPiA+ICAgICAgICAgICAgICAgICAgMzkwMDAwICAgIDQNCj4g
+PiA+Ow0KPiA+IA0KPiA+IGlmIG9uZSB3YW50cyB0byBzZWxlY3QgZGlmZmVyZW50IHZvbHRhZ2Ug
+Zm9yIGRpZmZlcmVudCBsaW5rLCB0aGV5DQo+ID4gY291bGQgZG8gc28gYXMgd2VsbC4gV2l0aCB0
+aGUgZXhhbXBsZSBiZWxvdywgdGhlIGRyaXZlciBzaG91bGQNCj4gPiBjb25maWd1cmUgIjMiIGZv
+ciBsaW5rIGZyZXF1ZW5jaWVzIDw9IDE1MCBNSHogYW5kICI0IiBmb3IgPiAxNTAgTUh6IDw9DQo+
+ID4gMzkwIE1Iei4gTGluayBmcmVxdWVuY2llcyA+IDM5MCBNSHogc2hvdWxkIGJlIGRpc2FsbG93
+ZWQuDQo+ID4gDQo+ID4gb3Z0aSxtaXBpLWNsb2NrLXZvbHRhZ2VzID0gPA0KPiA+ICAgICAgICAg
+ICAgICAgLyogS0h6ICAgICAgICAgY2xvY2sgdm9sdGFnZSB1bml0ICovDQo+ID4gICAgICAgICAg
+ICAgICAgICAxNTAwMDAgICAgMw0KPiA+ICAgICAgICAgICAgICAgICAgMzkwMDAwICAgIDQNCj4g
+PiA+Ow0KPiA+IA0KPiA+IFdoYXQgZG8geW91IHRoaW5rPw0KPiANCg0KU28gbm93IHdlIGRlZmlu
+ZSB0aGUgTUlQSSBjbG9jayB2b2x0YWdlICh1bml0KSBhcyBvbmUgZnVuY3Rpb24gb2YgbGluaw0K
+ZnJlcXVlbmN5Pw0KDQpGb3IgY3VycmVudCBzZW5zb3IgbW9kZSAoMTYwMHgxMjAwLCAzOTBNSHog
+bGluayBmcmVxdWVuY3kpLCB3ZSB0aGVuDQpzaGFsbCBhbHdheXMgdXNlIHRoZSB2YWx1ZSA0IHRv
+IGNvbmZpZ3VyZSB0aGUgTUlQSSB0cmFuc21pc3Npb24gc3BlZWQNCnNlbGVjdGlvbiAoUDE6MHhB
+MSkuIEFtIEkgY29ycmVjdCBpbiB0aGlua2luZyB0aGF0Pw0KDQo+IE9uZSBtb3JlIG5vdGUgb24g
+bXkgcHJvcG9zYWw6IHVzZSB0aGUgaW5kZXggb2YgdGhlIGxpbmsgZnJlcXVlbmN5IHRvIGFjY2Vz
+cw0KPiB0aGUgb3Z0aSxtaXBpLWNsb2NrLXZvbHRhZ2VzIGFycmF5LiBUaGF0IHNob3VsZCBiZSBt
+b3JlIHNpbXBsZSBmb3IgdGhlDQo+IGRyaXZlciwgYXMgdGhlIGRyaXZlciBpcyBleHBlY3RlZCB0
+byB1c2Ugb25seSBsaW5rIGZyZXF1ZW5jaWVzIGxpc3RlZCBpbiBEVA0KPiBiaW5kaW5ncyBhbnl3
+YXkuDQo+IA0KDQpHb29kIGlkZWEhIFRoYXQncyBleGFjdGx5IHdoYXQgSSBtZWFuLg0KSnVzdCBz
+dWJtaXR0ZWQgb25lIGRyYWZ0IGNoYW5nZSB0byBoYW5kbGUgdGhlIG5ldyBwcm9wZXJ0eSBpbiBE
+VC4NCkBTYWthcmkgQFRvbWFzeiBwbGVhc2UgaGVscCB0byByZXZpZXcgaXQuDQpodHRwczovL2No
+cm9taXVtLXJldmlldy5nb29nbGVzb3VyY2UuY29tL2MvY2hyb21pdW1vcy90aGlyZF9wYXJ0eS9r
+ZXJuZWwvKy8yMzg3OTgwLzEvZHJpdmVycy9tZWRpYS9pMmMvb3YwMmExMC5jIzg4Mw0KDQo=
 
-> Hello,
-> 
-> Just in case someone should stumble across this thread: An appropriate
-> solution is available here:
-> 
->   https://github.com/xkahn/camlink
-> 
-> As pointed out by Hans before the described problem is technically an
-> application bug, so one might say it should be fixed on application
-> level, which is what the solution above does.
-
-Hmm... let me try to understand something. I don't have this device.
-I'm just curious about what's happening here ;-)
-
-After looking at the patches and at:
-	https://assortedhackery.com/patching-cam-link-to-play-nicer-on-linux/
-
-it sounded to me that the UVC driver reports support for 3 different
-fourccs:
-
-	Pixel Format: 'YUYV' # V4L2_PIX_FMT_YUYV
-	Pixel Format: 'NV12' # V4L2_PIX_FMT_NV12
-	Pixel Format: 'YU12' # V4L2_PIX_FMT_YUV420
-
-all of them at 1080 p resolution. 
-
-It is very common that devices would support multiple video
-formats. So, the above looks fine on my eyes, provided that the
-device has support for those 3 YUV format variants.
-
--
-
-If I understood well, YUYV works fine (with is a variant of 4:2:2). 
-
-The problem is with 4:2:0 formats (NV12 and YU12):
-
-	https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-nv12.html
-	https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-yuv420.html
-
-that don't work properly with Discord. Is that right?
-Btw, are both NV12 and YU12 broken there?
-
-Did you try using those formats with a different application,
-like qv4l2 or qvidcap?
-
-> 
-> Best,
-> Stefan
-> 
-> On 17.08.20 16:50, Stefan Witzel wrote:
-> > Hi Hans,
-
-Please don't top-post!
-
-> >
-> > I suppose it is ultimately an application bug. I was just hoping that the v4l driver cold somehow artificially restrict the device's feature list so as to make the buggy application (which seems to be pretty much any existing web conference app) work. That would be like the hardware workaround but on driver level.
-> >
-> > I do not yet have the device myself, so I'm relying on information from the website I quoted. I very much appreciate that you took the time to reply! I might come back with more concrete questions once I have the device.
-> >
-> > Thanks a lot! Best,
-> > Stefan
-> >
-> > Am 17. August 2020 15:34:00 MESZ schrieb Hans Verkuil <hverkuil@xs4all.nl>:  
-> >> On 17/08/2020 14:09, Stefan Witzel wrote:  
-> >>> Hello,
-> >>>
-> >>> I am not a V4L developer so if this is not the right place to bring  
-> >> up  
-> >>> the issue please tell me who to contact instead.
-> >>> The page [1] documents a problem with a particular device "Elgato Cam
-> >>> Link 4K" which provides various format options among which most  
-> >> software  
-> >>> does not consciously pick the one which it implicitly expects leading  
-> >> to  
-> >>> problems. There is a software workaround, transcoding and looping
-> >>> through a virtual device and a hardware fix flashing the problematic
-> >>> profiles away.
-> >>> However it appears to me that the most satisfactory solution is  
-> >> hinted  
-> >>> at in the sentence
-> >>>  
-> >>>> I couldn't find any option in V4L to force selection of 'YUYV  
-> >> 4:2:2', so instead  
-> >>>
-> >>> So my question is: what changes would be necessary to allow v4l2-ctl  
-> >> to  
-> >>> enforce a particular format and who would be the right person to ask  
-> >> to  
-> >>> make such changes?  
-> >>
-> >> It's there already:
-> >>
-> >> v4l2-ctl -v pixelformat=YUYV
-> >>
-> >> That will do the trick.
-> >>
-> >> If you plug in the device and run 'v4l2-ctl -V', which pixelformat does
-> >> it
-> >> report? I would expect it to be YUYV since that's first in the list.
-> >>
-> >> If apps like Discord pick YU12 instead, then that's weird. That's
-> >> something that
-> >> the application does, and v4l2-ctl won't help with that. I.e., it
-> >> appears to be
-> >> an application bug.
-> >>
-> >> One other alternative is that the device has broken 4:2:0 support, i.e.
-> >> it reports
-> >> these formats, but they don't actually work. You can use qv4l2 or
-> >> qvidcap to test
-> >> if these 4:2:0 formats are working.
-> >>
-> >> Regards,
-> >>
-> >> 	Hans
-> >>
-> >>  
-> >>>
-> >>> Best regards,
-> >>> Stefan
-> >>>
-> >>>
-> >>> [1]  
-> >> https://assortedhackery.com/patching-cam-link-to-play-nicer-on-linux/  
-> >>>  
-
-
-
-Thanks,
-Mauro
