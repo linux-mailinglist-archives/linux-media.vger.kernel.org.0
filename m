@@ -2,97 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D573B25A0DD
-	for <lists+linux-media@lfdr.de>; Tue,  1 Sep 2020 23:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEC8E25A138
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 00:11:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729033AbgIAVi4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 1 Sep 2020 17:38:56 -0400
-Received: from mailoutvs47.siol.net ([185.57.226.238]:38772 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728179AbgIAViy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Sep 2020 17:38:54 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 282055267C4;
-        Tue,  1 Sep 2020 23:38:52 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id JNyKGgweMjQS; Tue,  1 Sep 2020 23:38:51 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id B612452644C;
-        Tue,  1 Sep 2020 23:38:51 +0200 (CEST)
-Received: from kista.localnet (cpe1-5-97.cable.triera.net [213.161.5.97])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id ECFCB5263BF;
-        Tue,  1 Sep 2020 23:38:50 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH v2 00/14] Clean H264 stateless uAPI
-Date:   Tue, 11 Aug 2020 21:16:09 +0200
-Message-ID: <3072394.25LIjdDuC7@kista>
-In-Reply-To: <20200806151310.98624-1-ezequiel@collabora.com>
-References: <20200806151310.98624-1-ezequiel@collabora.com>
+        id S1728280AbgIAWLA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Sep 2020 18:11:00 -0400
+Received: from mga14.intel.com ([192.55.52.115]:36963 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726173AbgIAWK7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Sep 2020 18:10:59 -0400
+IronPort-SDR: 29tRc7fJjOVHzUd8ack7JGSPF1DmLaTcm6HKveXPKPlsNUahTKk3RJdW3PRGEYlWWWLFy2oQxA
+ GQRdwxCjZzxQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="156538207"
+X-IronPort-AV: E=Sophos;i="5.76,380,1592895600"; 
+   d="scan'208";a="156538207"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 15:10:57 -0700
+IronPort-SDR: A0T9++kTmPLrUrUOhCQijxPKPr61TzBHz3aAFIPZicnEDEUK8+VB2pUxqn4s6FP3Mq8L7OGfWa
+ sMT5BY+yyxBA==
+X-IronPort-AV: E=Sophos;i="5.76,380,1592895600"; 
+   d="scan'208";a="333879865"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 15:10:55 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 20D91205F7; Wed,  2 Sep 2020 01:10:53 +0300 (EEST)
+Date:   Wed, 2 Sep 2020 01:10:53 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul <paul.kocialkowski@bootlin.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v3 1/3] media: i2c: ov5640: Enable data pins on poweron
+ for DVP mode
+Message-ID: <20200901221052.GC32646@paasikivi.fi.intel.com>
+References: <20200813171337.5540-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200813171337.5540-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200813171337.5540-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+Hi Prabhakar,
 
-Dne četrtek, 06. avgust 2020 ob 17:12:56 CEST je Ezequiel Garcia napisal(a):
-> Here's a new round for the H.264 uAPI cleanup, which as discussed
-> aims at being stabilized and promoted as a first-class public uAPI soon.
-> 
-> It should be noted that there is already GStreamer native
-> support for this interface, which will be part of 1.18,
-> once it's released.
-> 
-> I have pushed a branch porting GStreamer to
-> support these interface changes:
-> 
-> https://gitlab.freedesktop.org/ezequielgarcia/gst-plugins-bad/-/commits/for_
-> h264_uapi_v3
-> 
-> As was discussed the SLICE_PARAMS control is now clarified
-> to work for one-slice-per-request operation, using CAPTURE
-> buffer holding features. This is how Cedrus driver is implemented.
-> 
-> The other drivers currently supported Hantro and Rockchip VDEC,
-> as well as the MTK stateless decoder posted by Alex Courbot
-> operate in frame-based mode.
-> 
-> These "frame-based" devices parse the slice headers in hardware,
-> and therefore shall not support SLICE_PARAMS. To that extent,
-> the redundant bitstream fields are now part of the DECODE_PARAMS
-> control.
-> 
-> Hopefully now the specification documentation is clear enough.
-> GStreamer, Chromium and FFmpeg (which I'm sure will be implemented
-> as soon as we stabilize the API) should serve as reference examples
-> on how the API is consumed.
-> 
+My apologies for the late reply.
 
-I tested this series using https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-hwaccel-4.3.1 on Cedrus (Allwinner H6) using additional patch 
-contained in discussion around patch 3 and I couldn't find any issue.
+On Thu, Aug 13, 2020 at 06:13:35PM +0100, Lad Prabhakar wrote:
+> During testing this sensor on iW-RainboW-G21D-Qseven platform in 8-bit DVP
+> mode with rcar-vin bridge noticed the capture worked fine for the first run
+> (with yavta), but for subsequent runs the bridge driver waited for the
+> frame to be captured. Debugging further noticed the data lines were
+> enabled/disabled in stream on/off callback and dumping the register
+> contents 0x3017/0x3018 in ov5640_set_stream_dvp() reported the correct
+> values, but yet frame capturing failed.
+> 
+> To get around this issue the following actions are performed for
+> parallel mode (DVP):
+> 1: Keeps the sensor in software power down mode and is woken up only in
+>    ov5640_set_stream_dvp() callback.
 
-You can add to whole series:
-Tested-by: Jernej Skrabec <jernej.skrabec@siol.net>
+I'd suppose with s_power, the main driver would power the device off
+when it's not streaming.
 
-Best regards,
-Jernej
+> 2: Enables data lines in s_power callback
+> 3: Configures HVP lines in s_power callback instead of configuring
+>    everytime in ov5640_set_stream_dvp().
+> 4: Disables MIPI interface.
 
+Could you split this into two (or even more) patches so that the first
+refactors the receiver setup and another one changes how it actually works?
+That way this would be quite a bit easier to review.
 
+While some of the above seem entirely reasonable, the changes are vast and
+testing should be done on different boards to make sure things won't break.
+That said, this depends on others who have the hardware.
+
+-- 
+Kind regards,
+
+Sakari Ailus
