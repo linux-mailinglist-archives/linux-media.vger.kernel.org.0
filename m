@@ -2,151 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 527A225A9B5
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 12:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C740825AAC7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 14:03:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbgIBKwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 06:52:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35354 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726124AbgIBKwJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 06:52:09 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AA35C061244;
-        Wed,  2 Sep 2020 03:52:09 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A01959CC;
-        Wed,  2 Sep 2020 12:52:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599043923;
-        bh=XYceuV8QI/4Ju/kkqL/4cAnmOlswppOcTmbMs+QwOMQ=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=ZdMEqWPCYSa33/K2gXW1u4maxp4nKgJwHOqNS8OJ5S573hm6ENpb7UcfR8gtn+/sh
-         q4GWgej3a+GsIClcqNSCAe+e3EDDkDdY1g3bANQXL3wHUWu9g12ReGuYejvL8/M/Lm
-         92yQKBvLlqeuRmYc+4RgjcWVVNS9rpvB3yDXaMjo=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v3 0/9] media: vimc: Multiple stream support in vimc
-To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <3e374418-0ea1-783a-3943-0a0921d40725@ideasonboard.com>
-Date:   Wed, 2 Sep 2020 11:51:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726678AbgIBMDv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 08:03:51 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:45907 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726177AbgIBMDr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 08:03:47 -0400
+X-UUID: 1b8ccfd47a7c409192883d82bb490922-20200902
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=DMolEQgcko1Hi3JfFgntu1uI44EPYKHXW5wUFW7a+48=;
+        b=SMr3bXOu9PWhs1WeLiZD8aOIYVrLc4096OxzB9UIVGCCONXuOogWRk1fa83SCR4UraUODQgn47tEVMNUFdZOqAauyNBkVFpAPl35okKFwu7msPrjY7pgFbBT4iT3QA0EMJZpT2gr1VbU+QqAo8zpY8JZ9fpW68Zs0wf4hvaGaes=;
+X-UUID: 1b8ccfd47a7c409192883d82bb490922-20200902
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1855598811; Wed, 02 Sep 2020 20:03:41 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 2 Sep 2020 20:03:38 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 2 Sep 2020 20:03:37 +0800
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
+        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
+        <bingbu.cao@intel.com>
+CC:     <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>
+Subject: [PATCH v14 0/2] media: i2c: Add support for OV02A10 sensor
+Date:   Wed, 2 Sep 2020 20:01:20 +0800
+Message-ID: <20200902120122.24456-1-dongchun.zhu@mediatek.com>
+X-Mailer: git-send-email 2.9.2
 MIME-Version: 1.0
-In-Reply-To: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kaaira,
+SGVsbG8sDQoNClRoaXMgc2VyaWVzIGFkZHMgWUFNTCBEVCBiaW5kaW5nIGFuZCBWNEwyIHN1Yi1k
+ZXZpY2UgZHJpdmVyIGZvciBPbW5pdmlzaW9uJ3MNCk9WMDJBMTAgMi1tZWdhcGl4ZWwgMTAtYml0
+IFJBVyBDTU9TIDEvNSIgc2Vuc29yLCB3aGljaCBoYXMgYSBzaW5nbGUgTUlQSSBsYW5lDQppbnRl
+cmZhY2UgYW5kIHVzZXMgdGhlIEkyQyBidXMgZm9yIGNvbnRyb2wgYW5kIHRoZSBDU0ktMiBidXMg
+Zm9yIGRhdGEuDQoNClRoZSBkcml2ZXIgaXMgaW1wbGVtZW50ZWQgd2l0aCBWNEwyIGZyYW1ld29y
+ay4NCiAtIEFzeW5jIHJlZ2lzdGVyZWQgYXMgYSBWNEwyIHN1Yi1kZXZpY2UuDQogLSBBcyB0aGUg
+Zmlyc3QgY29tcG9uZW50IG9mIGNhbWVyYSBzeXN0ZW0gaW5jbHVkaW5nIFNlbmluZiwgSVNQIHBp
+cGVsaW5lLg0KIC0gQSBtZWRpYSBlbnRpdHkgdGhhdCBwcm92aWRlcyBvbmUgc291cmNlIHBhZCBp
+biBjb21tb24gYW5kIHR3byBmb3IgZHVhbC1jYW0uDQoNCkFsc28gdGhpcyBkcml2ZXIgc3VwcG9y
+dHMgZm9sbG93aW5nIGZlYXR1cmVzOg0KIC0gTWFudWFsIGV4cG9zdXJlIGFuZCBhbmFsb2cgZ2Fp
+biBjb250cm9sIHN1cHBvcnQNCiAtIFZlcnRpY2FsIGJsYW5raW5nIGNvbnRyb2wgc3VwcG9ydA0K
+IC0gVGVzdCBwYXR0ZXJuIHN1cHBvcnQNCiAtIE1lZGlhIGNvbnRyb2xsZXIgc3VwcG9ydA0KIC0g
+UnVudGltZSBQTSBzdXBwb3J0DQogLSBTdXBwb3J0IHJlc29sdXRpb246IDE2MDB4MTIwMCBhdCAz
+MEZQUw0KIA0KUHJldmlvdXMgdmVyc2lvbnMgb2YgdGhpcyBwYXRjaC1zZXQgY2FuIGJlIGZvdW5k
+IGhlcmU6DQogdjEzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDIwMDcx
+MDEwMTg1MC40NjA0LTEtZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbS8NCiB2MTI6IGh0dHBzOi8v
+bG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMjAwNzAyMTE1MjIzLjIxNTA3LTEtZG9uZ2No
+dW4uemh1QG1lZGlhdGVrLmNvbS8NCiB2MTE6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4
+LW1lZGlhLzIwMjAwNjMwMDI0OTQyLjIwODkxLTEtZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbS8N
+CiB2MTA6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMjAwNjE1MTIyOTM3
+LjE4OTY1LTMtZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbS8NCiB2MDk6IGh0dHBzOi8vbG9yZS5r
+ZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMjAwNTIzMDg0MTAzLjMxMjc2LTEtZG9uZ2NodW4uemh1
+QG1lZGlhdGVrLmNvbS8NCiB2MDg6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlh
+LzIwMjAwNTA5MDgwNjI3LjIzMjIyLTEtZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbS8NCiB2MDc6
+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMjAwNDMwMDgwOTI0LjExNDAt
+MS1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYwNjogaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvbGludXgtbWVkaWEvMjAxOTEyMTExMTI4NDkuMTY3MDUtMS1kb25nY2h1bi56aHVAbWVkaWF0
+ZWsuY29tLw0KIHYwNTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAxOTEx
+MDQxMDU3MTMuMjQzMTEtMS1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYwNDogaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAxOTA5MDcwOTI3MjguMjM4OTctMS1kb25n
+Y2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYwMzogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGlu
+dXgtbWVkaWEvMjAxOTA4MTkwMzQzMzEuMTMwOTgtMS1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29t
+Lw0KIHYwMjogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAxOTA3MDQwODQ2
+NTEuMzEwNS0xLWRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20vDQogdjAxOiBodHRwczovL2xvcmUu
+a2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDE5MDUyMzEwMjIwNC4yNDExMi0xLWRvbmdjaHVuLnpo
+dUBtZWRpYXRlay5jb20vDQoNCkNoYW5nZXMgb2YgdjE0IG1haW5seSBhZGRyZXNzIGNvbW1lbnRz
+IGZyb20gVG9tYXN6IGFuZCBTYWthcmkuDQpDb21wYXJlZCB0byB2MTM6DQogLSBGaXggaW1wZXJm
+ZWN0aW9ucyBpbiBEVA0KIC0gVXNlIGFuIGFycmF5IHByb3BlcnR5ICJvdnRpLG1pcGktY2xvY2st
+dm9sdGFnZSIgdG8gaW5kaWNhdGUgTUlQSSBUWCBzcGVlZA0KIC0gQWRkIHRoZSBoYW5kbGVyIHRv
+IHRoZSBvcHRpb25hbCBwcm9wZXJ0eSAib3Z0aSxtaXBpLWNsb2NrLXZvbHRhZ2UiIGluIGRyaXZl
+cg0KDQpQbGVhc2UgaGVscCB0byByZXZpZXcgdGhpcyBwYXRjaC4NClRoYW5rcy4NCg0KRG9uZ2No
+dW4gWmh1ICgyKToNCiAgbWVkaWE6IGR0LWJpbmRpbmdzOiBtZWRpYTogaTJjOiBEb2N1bWVudCBP
+VjAyQTEwIGJpbmRpbmdzDQogIG1lZGlhOiBpMmM6IEFkZCBPVjAyQTEwIGltYWdlIHNlbnNvciBk
+cml2ZXINCg0KIC4uLi9iaW5kaW5ncy9tZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwgICAgICAg
+ICAgIHwgIDE2MSArKysNCiBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB8ICAgIDggKw0KIGRyaXZlcnMvbWVkaWEvaTJjL0tjb25maWcgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgICAxMyArDQogZHJpdmVycy9tZWRpYS9pMmMvTWFrZWZpbGUgICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAgICAxICsNCiBkcml2ZXJzL21lZGlhL2kyYy9vdjAyYTEw
+LmMgICAgICAgICAgICAgICAgICAgICAgICB8IDEwODMgKysrKysrKysrKysrKysrKysrKysNCiA1
+IGZpbGVzIGNoYW5nZWQsIDEyNjYgaW5zZXJ0aW9ucygrKQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBE
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvaTJjL292dGksb3YwMmExMC55
+YW1sDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvaTJjL292MDJhMTAuYw0KDQot
+LSANCjIuOS4yDQo=
 
-Thank you for this series.
-
-I have tested it, and indeed it works well, which is great work.
-I know this has been hard to debug some of the code paths!
-
-There are a few bits that are hard for me to understand, with the graph
-walking/initialisation - so I think either some better comments or
-refactoring might help there - and Dafna has suggested that there might
-be a useful helper which will assist too. That needs to be checked
-though, as I think your 'streamer' needs to have full visibility of the
-whole pipeline, rather than just a single stream.
-
-I wonder if it would help to rename it to make that clearer, as
-'vimc_stream' sounds like it deals with only a single stream - but now
-it deals with multiple - so the naming is a bit confusing.
-
---
-Kieran
-
-On 19/08/2020 19:04, Kaaira Gupta wrote:
-> This series adds supoort for two (or more) capture devices to be 
-> connected to the same sensors and run simultaneously.
-> 
-> Changes since v2:
-> 	- This series introduces new patches, namely patch 1, 2, 4, 5,
-> 	  7, and 9 to shift multiple captures to operate at a single
-> 	  thread.
-> 
-> Kaaira Gupta (7):
->   media: vimc: Move get_source_entity to vimc-common
->   media: vimc: Add get_frame callback
->   media: vimc: Separate starting stream from pipeline initialisation
->   media: vimc: Separate closing of stream and thread
->   media: vimc: Dynamically allocate stream struct
->   media: vimc: Join pipeline if one already exists
->   media: vimc: Run multiple captures on same thread
-> 
-> Niklas Söderlund (2):
->   media: vimc: Add usage count to subdevices
->   media: vimc: Serialize vimc_streamer_s_stream()
-> 
->  .../media/test-drivers/vimc/vimc-capture.c    |  42 +++-
->  drivers/media/test-drivers/vimc/vimc-common.c |  14 ++
->  drivers/media/test-drivers/vimc/vimc-common.h |  21 +-
->  .../media/test-drivers/vimc/vimc-debayer.c    |  26 ++-
->  drivers/media/test-drivers/vimc/vimc-scaler.c |  25 +-
->  drivers/media/test-drivers/vimc/vimc-sensor.c |  17 +-
->  .../media/test-drivers/vimc/vimc-streamer.c   | 213 ++++++++++++------
->  .../media/test-drivers/vimc/vimc-streamer.h   |   2 +
->  8 files changed, 271 insertions(+), 89 deletions(-)
-> 
-
--- 
-Regards
---
-Kieran
