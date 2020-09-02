@@ -2,34 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF7D625A9A7
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 12:47:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 527A225A9B5
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 12:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbgIBKq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 06:46:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41394 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726124AbgIBKq5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 06:46:57 -0400
+        id S1726269AbgIBKwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 06:52:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726124AbgIBKwJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 06:52:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AA35C061244;
+        Wed,  2 Sep 2020 03:52:09 -0700 (PDT)
 Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3227C9CC;
-        Wed,  2 Sep 2020 12:46:53 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A01959CC;
+        Wed,  2 Sep 2020 12:52:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599043613;
-        bh=X2tRxp/cP6y8nsPS8QbANTDygpQjQroMsDNNpO6jKpw=;
+        s=mail; t=1599043923;
+        bh=XYceuV8QI/4Ju/kkqL/4cAnmOlswppOcTmbMs+QwOMQ=;
         h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=n5uCi6QvMNj6ksfHU/HoLJUO2pZkv03+VrP7bMqSHK7+aHCsjhX+KvV7w1hLEeLdb
-         wvK8Xcg/ql1Gizrf3F+Wrf2IGzW5lDjC4GPWXobSZ6amJhOjjp5wu8jgc0jjSppCgs
-         w39n3gxvUx2Efg3rPme2ZnSoNdAlrJS9zPIgt/9M=
+        b=ZdMEqWPCYSa33/K2gXW1u4maxp4nKgJwHOqNS8OJ5S573hm6ENpb7UcfR8gtn+/sh
+         q4GWgej3a+GsIClcqNSCAe+e3EDDkDdY1g3bANQXL3wHUWu9g12ReGuYejvL8/M/Lm
+         92yQKBvLlqeuRmYc+4RgjcWVVNS9rpvB3yDXaMjo=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v3 9/9] media: vimc: Run multiple captures on same thread
+Subject: Re: [PATCH v3 0/9] media: vimc: Multiple stream support in vimc
 To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
         Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
- <20200819180442.11630-10-kgupta@es.iitr.ac.in>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
@@ -76,12 +78,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <58df4c43-ab07-0001-f725-9098f18a8e6f@ideasonboard.com>
-Date:   Wed, 2 Sep 2020 11:46:50 +0100
+Message-ID: <3e374418-0ea1-783a-3943-0a0921d40725@ideasonboard.com>
+Date:   Wed, 2 Sep 2020 11:51:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200819180442.11630-10-kgupta@es.iitr.ac.in>
+In-Reply-To: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
@@ -92,53 +94,56 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Kaaira,
 
+Thank you for this series.
+
+I have tested it, and indeed it works well, which is great work.
+I know this has been hard to debug some of the code paths!
+
+There are a few bits that are hard for me to understand, with the graph
+walking/initialisation - so I think either some better comments or
+refactoring might help there - and Dafna has suggested that there might
+be a useful helper which will assist too. That needs to be checked
+though, as I think your 'streamer' needs to have full visibility of the
+whole pipeline, rather than just a single stream.
+
+I wonder if it would help to rename it to make that clearer, as
+'vimc_stream' sounds like it deals with only a single stream - but now
+it deals with multiple - so the naming is a bit confusing.
+
+--
+Kieran
+
 On 19/08/2020 19:04, Kaaira Gupta wrote:
-> If multiple captures try to enable stream, start their stream but do not
-> initialise the pipeline again. Also, don't start the thread separately.
-> Starting their streams will update the use count and their frames would
-> be processed by the already running thread.
+> This series adds supoort for two (or more) capture devices to be 
+> connected to the same sensors and run simultaneously.
 > 
-> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
-> ---
->  drivers/media/test-drivers/vimc/vimc-streamer.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> Changes since v2:
+> 	- This series introduces new patches, namely patch 1, 2, 4, 5,
+> 	  7, and 9 to shift multiple captures to operate at a single
+> 	  thread.
 > 
-> diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
-> index fade37bee26d..880c31759cc0 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-streamer.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
-> @@ -275,13 +275,14 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
->  		return ret;
->  
->  	if (enable) {
-> -		if (stream->kthread)
-> -			return 0;
->  
->  		ret = vimc_streamer_stream_start(ved);
->  		if (ret)
->  			goto out;
->  
-> +		if (stream->kthread)
-> +			goto out;
-> +
-
-This goto out makes it look like it's an error path. So that probably
-warrants a comment along the lines of 'don't reinitialise the pipeline
-if it has already started'. ?
-
-I wonder if it's better to handle the pipeline_init during _stream_start
-'only' in the code path where it's the first stream ?
-
-Then similarly, the pipeline_terminate would happen on stream_stop
-'only' when it's the last stream.
-
-Or I guess that is handled by the refcount ... Hrm it would be nice to
-be able to make/keep it symmetrical somehow.
-
-
->  		ret = vimc_streamer_pipeline_init(stream, ved);
->  		if (ret)
->  			goto out;
+> Kaaira Gupta (7):
+>   media: vimc: Move get_source_entity to vimc-common
+>   media: vimc: Add get_frame callback
+>   media: vimc: Separate starting stream from pipeline initialisation
+>   media: vimc: Separate closing of stream and thread
+>   media: vimc: Dynamically allocate stream struct
+>   media: vimc: Join pipeline if one already exists
+>   media: vimc: Run multiple captures on same thread
+> 
+> Niklas Söderlund (2):
+>   media: vimc: Add usage count to subdevices
+>   media: vimc: Serialize vimc_streamer_s_stream()
+> 
+>  .../media/test-drivers/vimc/vimc-capture.c    |  42 +++-
+>  drivers/media/test-drivers/vimc/vimc-common.c |  14 ++
+>  drivers/media/test-drivers/vimc/vimc-common.h |  21 +-
+>  .../media/test-drivers/vimc/vimc-debayer.c    |  26 ++-
+>  drivers/media/test-drivers/vimc/vimc-scaler.c |  25 +-
+>  drivers/media/test-drivers/vimc/vimc-sensor.c |  17 +-
+>  .../media/test-drivers/vimc/vimc-streamer.c   | 213 ++++++++++++------
+>  .../media/test-drivers/vimc/vimc-streamer.h   |   2 +
+>  8 files changed, 271 insertions(+), 89 deletions(-)
 > 
 
 -- 
