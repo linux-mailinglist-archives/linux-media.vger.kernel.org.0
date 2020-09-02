@@ -2,154 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20F8C25B19B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2EB125B1B7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726979AbgIBQ07 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 12:26:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58822 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728313AbgIBQ0r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 12:26:47 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18F49C061251;
-        Wed,  2 Sep 2020 09:26:47 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23F6A9CC;
-        Wed,  2 Sep 2020 18:26:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599063994;
-        bh=dSqMUpaG7AZd72yHZ7rra4x5/rnP+cdxisE4rS3WLF4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R/H9/zNKRLV1P/im2JUQebtvSib8OJGz2Bah5T8TVlj54JF/xpDAlGXs3WREGe3mV
-         Wrjl/89a8N+W/4v6xcGrOiiBV9eSVUGx9cXsj62t70tPPMbI1THtRBLrTZgSMzcreP
-         qoY6zlud8WJmN/H73ANWh0WIV4eK+qhzGf/KdIOY=
-Date:   Wed, 2 Sep 2020 19:26:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Vandana BN <bnvandana@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/38] media: v4l2-ioctl: avoid memory leaks on some
- time32 compat functions
-Message-ID: <20200902162612.GB16811@pendragon.ideasonboard.com>
-References: <cover.1599062230.git.mchehab+huawei@kernel.org>
- <27254f9780e7ec8502761826c2888dbd51a536a8.1599062230.git.mchehab+huawei@kernel.org>
+        id S1727991AbgIBQbh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 12:31:37 -0400
+Received: from mga14.intel.com ([192.55.52.115]:63503 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726247AbgIBQbg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Sep 2020 12:31:36 -0400
+IronPort-SDR: qYXaaLftrUZI2NfJT6GyCR8UK7pHF4hSiHgcNqGuyVha73YbKuUK5I2IqIxK2Vze/A4S5TNEzx
+ F6eCSomTF9Ig==
+X-IronPort-AV: E=McAfee;i="6000,8403,9732"; a="156690331"
+X-IronPort-AV: E=Sophos;i="5.76,383,1592895600"; 
+   d="scan'208";a="156690331"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2020 09:31:31 -0700
+IronPort-SDR: oKo8s8s3uyIVvMOH0uxsebFxZ0LHUmVVq7s/nKCpDe1twQxZV3ZWWyK0neQTHr3LAP+OCrvEdN
+ 9DaLdvTzMhew==
+X-IronPort-AV: E=Sophos;i="5.76,383,1592895600"; 
+   d="scan'208";a="297727627"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2020 09:31:27 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 1E8192071B; Wed,  2 Sep 2020 19:31:22 +0300 (EEST)
+Date:   Wed, 2 Sep 2020 19:31:22 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v7 6/6] Documentation: ACPI: Document
+ allow-low-power-probe _DSD property
+Message-ID: <20200902163121.GE32646@paasikivi.fi.intel.com>
+References: <20200901210333.8462-1-sakari.ailus@linux.intel.com>
+ <20200901210333.8462-7-sakari.ailus@linux.intel.com>
+ <CAJZ5v0jFceTFRTD55cz3ZHRZpuNRK_z9=_DxWexc8ArsGU3cog@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <27254f9780e7ec8502761826c2888dbd51a536a8.1599062230.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0jFceTFRTD55cz3ZHRZpuNRK_z9=_DxWexc8ArsGU3cog@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Rafael,
 
-Thank you for the patch.
+Thank you for the review.
 
-On Wed, Sep 02, 2020 at 06:10:05PM +0200, Mauro Carvalho Chehab wrote:
-> There are some reports about possible memory leaks:
+On Wed, Sep 02, 2020 at 05:57:01PM +0200, Rafael J. Wysocki wrote:
+> On Tue, Sep 1, 2020 at 11:03 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Document the probe-low-power _DSD property and how it is used with I²C
+> > drivers.
 > 
-> 	drivers/media/v4l2-core//v4l2-ioctl.c:3203 video_put_user() warn: check that 'ev32' doesn't leak information (struct has a hole after 'type')
-> 	drivers/media/v4l2-core//v4l2-ioctl.c:3230 video_put_user() warn: check that 'vb32' doesn't leak information (struct has a hole after 'memory')
+> I would reorder the series to make this go right after the [1/6] or
+> maybe even fold it into that patch.
 > 
-> While smatch seems to be reporting a false positive (line 3203),
-> there's indeed a possible leak with reserved2 at vb32.
-> 
-> We might have fixed just that one, but smatch checks won't
-> be able to check leaks at ev32. So, re-work the code in a way
-> that will ensure that the var contents will be zeroed before
-> filling it.
-> 
-> With that, we don't need anymore to touch reserved fields.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 48 ++++++++++++++--------------
->  1 file changed, 24 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index a556880f225a..6f3fe9c4b64a 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -3189,17 +3189,16 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
->  #ifdef CONFIG_COMPAT_32BIT_TIME
->  	case VIDIOC_DQEVENT_TIME32: {
->  		struct v4l2_event *ev = parg;
-> -		struct v4l2_event_time32 ev32 = {
-> -			.type		= ev->type,
-> -			.pending	= ev->pending,
-> -			.sequence	= ev->sequence,
-> -			.timestamp.tv_sec  = ev->timestamp.tv_sec,
-> -			.timestamp.tv_nsec = ev->timestamp.tv_nsec,
-> -			.id		= ev->id,
-> -		};
-> +		struct v4l2_event_time32 ev32;
->  
-> +		memset(&ev32, 0, sizeof(ev32));
-> +		ev32.type		= ev->type,
+> The point is that the changes in [1/6] clearly depend on the property
+> defined here.
 
-The lines should end with ';', not ','.
+Ack.
 
-With this fixed,
+> 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../acpi/dsd/allow-low-power-probe.rst        | 28 +++++++++++++++++++
+> >  Documentation/firmware-guide/acpi/index.rst   |  1 +
+> >  2 files changed, 29 insertions(+)
+> >  create mode 100644 Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> >
+> > diff --git a/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> > new file mode 100644
+> > index 0000000000000..6fcc89162b898
+> > --- /dev/null
+> > +++ b/Documentation/firmware-guide/acpi/dsd/allow-low-power-probe.rst
+> > @@ -0,0 +1,28 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +======================================
+> > +Probing I²C devices in low power state
+> > +======================================
+> > +
+> > +Introduction
+> > +============
+> > +
+> > +In some cases it may be preferred to leave certain devices powered off for the
+> > +entire system bootup if powering on these devices has adverse side effects,
+> > +beyond just powering on the said device. Linux recognizes the _DSD property
+> > +"allow-low-power-probe" that can be used for this purpose.
+> 
+> It would be good to refer to the document defining the generic _DSD
+> properties mechanism and the GUID used for that from here.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I'll add a reference to the device properties UUID for _DSD spec.
 
-> +		ev32.pending		= ev->pending,
-> +		ev32.sequence		= ev->sequence,
-> +		ev32.timestamp.tv_sec	= ev->timestamp.tv_sec,
-> +		ev32.timestamp.tv_nsec	= ev->timestamp.tv_nsec,
-> +		ev32.id			= ev->id,
->  		memcpy(&ev32.u, &ev->u, sizeof(ev->u));
-> -		memcpy(&ev32.reserved, &ev->reserved, sizeof(ev->reserved));
->  
->  		if (copy_to_user(arg, &ev32, sizeof(ev32)))
->  			return -EFAULT;
-> @@ -3210,21 +3209,22 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
->  	case VIDIOC_DQBUF_TIME32:
->  	case VIDIOC_PREPARE_BUF_TIME32: {
->  		struct v4l2_buffer *vb = parg;
-> -		struct v4l2_buffer_time32 vb32 = {
-> -			.index		= vb->index,
-> -			.type		= vb->type,
-> -			.bytesused	= vb->bytesused,
-> -			.flags		= vb->flags,
-> -			.field		= vb->field,
-> -			.timestamp.tv_sec	= vb->timestamp.tv_sec,
-> -			.timestamp.tv_usec	= vb->timestamp.tv_usec,
-> -			.timecode	= vb->timecode,
-> -			.sequence	= vb->sequence,
-> -			.memory		= vb->memory,
-> -			.m.userptr	= vb->m.userptr,
-> -			.length		= vb->length,
-> -			.request_fd	= vb->request_fd,
-> -		};
-> +		struct v4l2_buffer_time32 vb32;
-> +
-> +		memset(&vb32, 0, sizeof(vb32));
-> +		vb32.index		= vb->index,
-> +		vb32.type		= vb->type,
-> +		vb32.bytesused		= vb->bytesused,
-> +		vb32.flags		= vb->flags,
-> +		vb32.field		= vb->field,
-> +		vb32.timestamp.tv_sec	= vb->timestamp.tv_sec,
-> +		vb32.timestamp.tv_usec	= vb->timestamp.tv_usec,
-> +		vb32.timecode		= vb->timecode,
-> +		vb32.sequence		= vb->sequence,
-> +		vb32.memory		= vb->memory,
-> +		vb32.length		= vb->length,
-> +		vb32.request_fd		= vb->request_fd,
-> +		memcpy(&vb32.m, &vb->m, sizeof(vb->m));
->  
->  		if (copy_to_user(arg, &vb32, sizeof(vb32)))
->  			return -EFAULT;
+> 
+> The meaning of  "_DSD property" may not be entirely clear to the
+> reader as it stands.
+> 
+> And maybe call the property "i2c-allow-low-power-probe" or similar, to
+> indicate that it is specific to i2c.
+
+The bus determines that already, and it's only defined for I²C here. Should
+we need this in the future for e.g. I3C, there would be no need to think of
+renaming it, just changing the documentation and implementation.
+
+I don't have a strong opinion on that though. 
+
+> 
+> > +
+> > +How it works
+> > +============
+> > +
+> > +The property "allow-low-power-probe" boolean property may be used to tell Linux
+> 
+> "boolean device property" ?
+
+Oops. The other "property" was supposed to be removed by now. But yes, I
+agree with the suggestion.
+
+> 
+> > +that the I²C framework should instruct the kernel ACPI framework to leave the
+> > +device in the low power state. If the driver indicates its support for this by
+> > +setting the I2C_DRV_FL_ALLOW_LOW_POWER_PROBE flag in struct i2c_driver.flags
+> > +field and the "allow-low-power-probe" property is present, the device will not
+> > +be powered on for probe.
+> > +
+> > +The downside is that as the device is not powered on, even if there's a problem
+> > +with the device, the driver likely probes just fine but the first user will
+> > +find out the device doesn't work, instead of a failure at probe time. This
+> > +feature should thus be used sparingly.
+> 
+> It would be good to give an ASL example with this property provided.
+
+I'll add that for v8.
+
+> 
+> > diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
+> > index ad3b5afdae77e..0070fcde9e669 100644
+> > --- a/Documentation/firmware-guide/acpi/index.rst
+> > +++ b/Documentation/firmware-guide/acpi/index.rst
+> > @@ -11,6 +11,7 @@ ACPI Support
+> >     dsd/graph
+> >     dsd/data-node-references
+> >     dsd/leds
+> > +   dsd/allow-low-power-probe
+> >     enumeration
+> >     osi
+> >     method-customizing
+> > --
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
