@@ -2,40 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 947CF25B125
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:16:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EBE425B0D2
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:11:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728723AbgIBQNu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 12:13:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53892 "EHLO mail.kernel.org"
+        id S1726678AbgIBQLM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 12:11:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54044 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728337AbgIBQK5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Sep 2020 12:10:57 -0400
+        id S1728332AbgIBQK4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Sep 2020 12:10:56 -0400
 Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 955EA221E9;
+        by mail.kernel.org (Postfix) with ESMTPSA id 9164E221E8;
         Wed,  2 Sep 2020 16:10:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599063046;
-        bh=ygOrs9/TbmE/SLDVqbxZuGdRzrY5tz+l2wQYXOLaHX8=;
+        bh=9dhD+Wjohk46Ke51HQQMWLMkqd0e9PqJih4Q6OfTONc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qcn81GzS9uljGnPISviBx4p4SjOF+payyjuLCy1wTyowFB7aCMFHOqjuxeweKGsiO
-         nXOkOG6H0hgBrP7lqlvedRme68Vp1opIap5GqEIcGCrhdbzp6+6wIGReqIgHMIrKNE
-         O93L+9GzlzfxcfKY/fxb6PFSiFje3vfyppMhQ8mA=
+        b=k0VEbQoNKyc2Yz9vgdO8iQB/m3f1cvgbKN/GG6tSlHCa+1ucLPHyBu7SXJhxPS+ke
+         G2yA/i8zGXE1gKJBhz5n59/tgjpWS8VOyNLEttP07h2JOEXy+cjR1SHV185qjv78+1
+         Niujss0KYm2fmxGeZEDRjEQqhXwa1gYSrLlaYAwg=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kDVLQ-000tBD-OK; Wed, 02 Sep 2020 18:10:44 +0200
+        id 1kDVLQ-000tBH-P7; Wed, 02 Sep 2020 18:10:44 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Colin Ian King <colin.king@canonical.com>,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 33/38] media: atomisp: reorder functions at pixelgen_private.h
-Date:   Wed,  2 Sep 2020 18:10:36 +0200
-Message-Id: <0e922e4d1f89b430585cb774fd92f00d4eb734d8.1599062230.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 34/38] media: atomisp: remove compile-time tests from input_system_global.h
+Date:   Wed,  2 Sep 2020 18:10:37 +0200
+Message-Id: <8154b39cf94a2aca6dfea194a63cc5acc3e0c2d1.1599062230.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599062230.git.mchehab+huawei@kernel.org>
 References: <cover.1599062230.git.mchehab+huawei@kernel.org>
@@ -47,102 +46,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reorder functions in order to declare before usage.
+Now that there's no duplication between ISP2400 and ISP2401
+input system functions, we can include both at the system
+global.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../css_2401_system/host/pixelgen_private.h   | 73 ++++++++++---------
- 1 file changed, 37 insertions(+), 36 deletions(-)
+ drivers/staging/media/atomisp/pci/input_system_global.h | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h b/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
-index 4faa519219ee..1c7938d8ccb5 100644
---- a/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
-+++ b/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
-@@ -20,6 +20,43 @@
- #include "device_access.h"	/* ia_css_device_load_uint32 */
- #include "assert_support.h" /* assert */
+diff --git a/drivers/staging/media/atomisp/pci/input_system_global.h b/drivers/staging/media/atomisp/pci/input_system_global.h
+index 5929d529950b..1450964445f6 100644
+--- a/drivers/staging/media/atomisp/pci/input_system_global.h
++++ b/drivers/staging/media/atomisp/pci/input_system_global.h
+@@ -24,10 +24,7 @@ typedef enum {
+ 	INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED,
+ } input_system_err_t;
  
-+/*****************************************************
-+ *
-+ * Device level interface (DLI).
-+ *
-+ *****************************************************/
-+/**
-+ * @brief Load the register value.
-+ * Refer to "pixelgen_public.h" for details.
-+ */
-+STORAGE_CLASS_PIXELGEN_C hrt_data pixelgen_ctrl_reg_load(
-+    const pixelgen_ID_t ID,
-+    const hrt_address reg)
-+{
-+	assert(ID < N_PIXELGEN_ID);
-+	assert(PIXELGEN_CTRL_BASE[ID] != (hrt_address) - 1);
-+	return ia_css_device_load_uint32(PIXELGEN_CTRL_BASE[ID] + reg * sizeof(
-+					     hrt_data));
-+}
-+
-+/**
-+ * @brief Store a value to the register.
-+ * Refer to "pixelgen_ctrl_public.h" for details.
-+ */
-+STORAGE_CLASS_PIXELGEN_C void pixelgen_ctrl_reg_store(
-+    const pixelgen_ID_t ID,
-+    const hrt_address reg,
-+    const hrt_data value)
-+{
-+	assert(ID < N_PIXELGEN_ID);
-+	assert(PIXELGEN_CTRL_BASE[ID] != (hrt_address)-1);
-+
-+	ia_css_device_store_uint32(PIXELGEN_CTRL_BASE[ID] + reg * sizeof(hrt_data),
-+				   value);
-+}
-+
-+/* end of DLI */
-+
- /*****************************************************
-  *
-  * Native command interface (NCI).
-@@ -144,40 +181,4 @@ STORAGE_CLASS_PIXELGEN_C void pixelgen_ctrl_dump_state(
- }
+-#ifdef ISP2401
+-#  include "isp2401_input_system_global.h"
+-#else
+-#  include "isp2400_input_system_global.h"
+-#endif
++#include "isp2401_input_system_global.h"
++#include "isp2400_input_system_global.h"
  
- /* end of NCI */
--/*****************************************************
-- *
-- * Device level interface (DLI).
-- *
-- *****************************************************/
--/**
-- * @brief Load the register value.
-- * Refer to "pixelgen_public.h" for details.
-- */
--STORAGE_CLASS_PIXELGEN_C hrt_data pixelgen_ctrl_reg_load(
--    const pixelgen_ID_t ID,
--    const hrt_address reg)
--{
--	assert(ID < N_PIXELGEN_ID);
--	assert(PIXELGEN_CTRL_BASE[ID] != (hrt_address) - 1);
--	return ia_css_device_load_uint32(PIXELGEN_CTRL_BASE[ID] + reg * sizeof(
--					     hrt_data));
--}
--
--/**
-- * @brief Store a value to the register.
-- * Refer to "pixelgen_ctrl_public.h" for details.
-- */
--STORAGE_CLASS_PIXELGEN_C void pixelgen_ctrl_reg_store(
--    const pixelgen_ID_t ID,
--    const hrt_address reg,
--    const hrt_data value)
--{
--	assert(ID < N_PIXELGEN_ID);
--	assert(PIXELGEN_CTRL_BASE[ID] != (hrt_address)-1);
--
--	ia_css_device_store_uint32(PIXELGEN_CTRL_BASE[ID] + reg * sizeof(hrt_data),
--				   value);
--}
--
--/* end of DLI */
- #endif /* __PIXELGEN_PRIVATE_H_INCLUDED__ */
+ #endif /* __INPUT_SYSTEM_GLOBAL_H_INCLUDED__ */
 -- 
 2.26.2
 
