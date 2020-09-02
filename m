@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D003F25A99A
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 12:40:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF7D625A9A7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 12:47:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgIBKkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 06:40:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41100 "EHLO
+        id S1726310AbgIBKq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 06:46:59 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41394 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726226AbgIBKkh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 06:40:37 -0400
+        with ESMTP id S1726124AbgIBKq5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 06:46:57 -0400
 Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86C5C9CC;
-        Wed,  2 Sep 2020 12:40:33 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3227C9CC;
+        Wed,  2 Sep 2020 12:46:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599043234;
-        bh=uvmuKs2dTpLnEziI3nwSPPFfIbYH+Pk6fowyMalqy2Q=;
+        s=mail; t=1599043613;
+        bh=X2tRxp/cP6y8nsPS8QbANTDygpQjQroMsDNNpO6jKpw=;
         h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=swE/GhZUBcNnJhixomXZjQtnbAJjm5n8FXWqCdLdh7PZ/0FqNFOH9tvsER3FLxTGU
-         HMzyMms4QPEtRL0ZyzfBr7Q9qEmwfbk+6pyqfopLVTa7d6j62hruSAtxRBwkMIKj5f
-         kZ2ih06vC2Eeio0uLiZ+sfwVgq6M8YMeg/YFoQXM=
+        b=n5uCi6QvMNj6ksfHU/HoLJUO2pZkv03+VrP7bMqSHK7+aHCsjhX+KvV7w1hLEeLdb
+         wvK8Xcg/ql1Gizrf3F+Wrf2IGzW5lDjC4GPWXobSZ6amJhOjjp5wu8jgc0jjSppCgs
+         w39n3gxvUx2Efg3rPme2ZnSoNdAlrJS9zPIgt/9M=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v3 8/9] media: vimc: Join pipeline if one already exists
+Subject: Re: [PATCH v3 9/9] media: vimc: Run multiple captures on same thread
 To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
         Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
- <20200819180442.11630-9-kgupta@es.iitr.ac.in>
+ <20200819180442.11630-10-kgupta@es.iitr.ac.in>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
@@ -76,12 +76,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <36c9bda0-6516-c682-0d7e-c349625e6f16@ideasonboard.com>
-Date:   Wed, 2 Sep 2020 11:40:29 +0100
+Message-ID: <58df4c43-ab07-0001-f725-9098f18a8e6f@ideasonboard.com>
+Date:   Wed, 2 Sep 2020 11:46:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200819180442.11630-9-kgupta@es.iitr.ac.in>
+In-Reply-To: <20200819180442.11630-10-kgupta@es.iitr.ac.in>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
@@ -93,48 +93,52 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Kaaira,
 
 On 19/08/2020 19:04, Kaaira Gupta wrote:
-> Start another capture, if one is already running, by checking for
-> existing pipe. If it exists already, don't fail to start second capture,
-> instead join it to the already running pipeline.
-> Use the same stream struct used by already running capture.
+> If multiple captures try to enable stream, start their stream but do not
+> initialise the pipeline again. Also, don't start the thread separately.
+> Starting their streams will update the use count and their frames would
+> be processed by the already running thread.
 > 
 > Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
 > ---
->  drivers/media/test-drivers/vimc/vimc-capture.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+>  drivers/media/test-drivers/vimc/vimc-streamer.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-> index 73e5bdd17c57..4d20eda9335e 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-> @@ -247,9 +247,15 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	atomic_inc(&vcap->ved.use_count);
->  	vcap->sequence = 0;
+> diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
+> index fade37bee26d..880c31759cc0 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-streamer.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
+> @@ -275,13 +275,14 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+>  		return ret;
 >  
-> -	stream = kzalloc(sizeof(*stream), GFP_ATOMIC);
-> -	kref_init(&stream->refcount);
-> -	pipe = &stream->pipe;
-> +	if (vcap->ved.ent->pipe) {
-> +		pipe = vcap->ved.ent->pipe;
-> +		stream = container_of(pipe, struct vimc_stream, pipe);
-> +		kref_get(&stream->refcount);
-> +	} else {
-> +		stream = kzalloc(sizeof(*stream), GFP_ATOMIC);
-> +		kref_init(&stream->refcount);
-> +		pipe = &stream->pipe;
-> +	}
+>  	if (enable) {
+> -		if (stream->kthread)
+> -			return 0;
 >  
+>  		ret = vimc_streamer_stream_start(ved);
+>  		if (ret)
+>  			goto out;
+>  
+> +		if (stream->kthread)
+> +			goto out;
+> +
 
-Of course if we move the stream to the sensor entity (which I still
-think is a good idea), we'll need a way to easily get from capture
-entity to the sensor entity. We could put a reference pointer directly
-in the capture ? Or have each entity provide a poitner to it's previous
-entity and walk backwards, which would also help on the other code path
-that had to do lots of conversions from video or subdev entities or such...
+This goto out makes it look like it's an error path. So that probably
+warrants a comment along the lines of 'don't reinitialise the pipeline
+if it has already started'. ?
+
+I wonder if it's better to handle the pipeline_init during _stream_start
+'only' in the code path where it's the first stream ?
+
+Then similarly, the pipeline_terminate would happen on stream_stop
+'only' when it's the last stream.
+
+Or I guess that is handled by the refcount ... Hrm it would be nice to
+be able to make/keep it symmetrical somehow.
 
 
->  	/* Start the media pipeline */
->  	ret = media_pipeline_start(entity, pipe);
+>  		ret = vimc_streamer_pipeline_init(stream, ved);
+>  		if (ret)
+>  			goto out;
 > 
 
 -- 
