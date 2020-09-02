@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B385825B148
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B6A725B149
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:18:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728497AbgIBQRa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 12:17:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53892 "EHLO mail.kernel.org"
+        id S1728865AbgIBQRb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 12:17:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53894 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728045AbgIBQKv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Sep 2020 12:10:51 -0400
+        id S1728078AbgIBQKu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Sep 2020 12:10:50 -0400
 Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DAC322145D;
+        by mail.kernel.org (Postfix) with ESMTPSA id DC395214D8;
         Wed,  2 Sep 2020 16:10:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599063046;
-        bh=0Hj7ZIEL0P3+LazNj3oWTUDc18jn9Tcv84+tSkI0Wtg=;
+        bh=zqQVmwBJFUyvG7NUGiAocdFONJNzYAoPsK4CmSnBlQA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VA1GN01hnAbujexln0WXKOHjK5Pa4EMpteFO/qoRPoLo700l4eXmKSgDC8ry2xvJe
-         NbCw3PqKHFOy/OHBHi5tSYUBkXpBmk16gxahSRl3o9FGd0SSMMBP9faddVrPmsk4z1
-         +86S5WrUxcqj1cz+be5EXucse5DHu9lzZ38p3nds=
+        b=PZ8sJlOWtVhPnAEFoqiJYvBe9fsgsyCGzubxafXZQos6UeL9Ja3TpeqF/AOU54zeQ
+         4QyWQZ6HGf9bkRGXDkakUJWhhHWWeBcugUYX3PpP/Y1uknULcDEGdU2gaBk9AEPVZ2
+         bTdr82Qdb4Qcq/q9vvmkyE0tr4r6OCC4fzQhsueQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kDVLP-000t9w-QL; Wed, 02 Sep 2020 18:10:43 +0200
+        id 1kDVLP-000t9y-RD; Wed, 02 Sep 2020 18:10:43 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/38] media: tda10021: avoid casts when using symbol_rate
-Date:   Wed,  2 Sep 2020 18:10:10 +0200
-Message-Id: <316f5e497a02dc245953134f22cfb70aa67ccd26.1599062230.git.mchehab+huawei@kernel.org>
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 08/38] media: serial_ir: use the right type for a dma address
+Date:   Wed,  2 Sep 2020 18:10:11 +0200
+Message-Id: <e5ddb27c93563c7aa903d0c05fae9982c0c20bf9.1599062230.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599062230.git.mchehab+huawei@kernel.org>
 References: <cover.1599062230.git.mchehab+huawei@kernel.org>
@@ -43,83 +44,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The usage of castings and float point when checking for
-the setup based at the symbol_rate cause those warnings
-with smatch:
+As warned by smatch:
+	drivers/media/rc/serial_ir.c:550 serial_ir_probe() warn: should '8 << ioshift' be a 64 bit type?
 
-	drivers/media/dvb-frontends/tda10021.c:153 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
-	drivers/media/dvb-frontends/tda10021.c:155 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
-	drivers/media/dvb-frontends/tda10021.c:157 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
-	drivers/media/dvb-frontends/tda10021.c:159 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
-
-While the code should work with gcc, as it will evaluate the
-values into a constant before compiling, other compilers
-could do otherwise. So, get rid of float pointing math on it,
-avoiding the need of doing typecasts.
-
-While here, cleanup some coding style issues at the related
-code.
+the "8" constant should be unsigned long.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/dvb-frontends/tda10021.c | 38 ++++++++++++++++----------
- 1 file changed, 24 insertions(+), 14 deletions(-)
+ drivers/media/rc/serial_ir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-frontends/tda10021.c b/drivers/media/dvb-frontends/tda10021.c
-index 9fb207b41576..faa6e54b3372 100644
---- a/drivers/media/dvb-frontends/tda10021.c
-+++ b/drivers/media/dvb-frontends/tda10021.c
-@@ -137,26 +137,36 @@ static int tda10021_set_symbolrate (struct tda10021_state* state, u32 symbolrate
- {
- 	s32 BDR;
- 	s32 BDRI;
--	s16 SFIL=0;
-+	s16 SFIL = 0;
- 	u16 NDEC = 0;
- 	u32 tmp, ratio;
+diff --git a/drivers/media/rc/serial_ir.c b/drivers/media/rc/serial_ir.c
+index d77507ba0fb5..5b5b3203f5a0 100644
+--- a/drivers/media/rc/serial_ir.c
++++ b/drivers/media/rc/serial_ir.c
+@@ -547,7 +547,7 @@ static int serial_ir_probe(struct platform_device *dev)
  
--	if (symbolrate > XIN/2)
--		symbolrate = XIN/2;
--	if (symbolrate < 500000)
-+	if (symbolrate > XIN / 2)
-+		symbolrate = XIN / 2;
-+	else if (symbolrate < 500000)
- 		symbolrate = 500000;
- 
--	if (symbolrate < XIN/16) NDEC = 1;
--	if (symbolrate < XIN/32) NDEC = 2;
--	if (symbolrate < XIN/64) NDEC = 3;
-+	if (symbolrate < XIN / 16)
-+		NDEC = 1;
-+	if (symbolrate < XIN / 32)
-+		NDEC = 2;
-+	if (symbolrate < XIN / 64)
-+		NDEC = 3;
- 
--	if (symbolrate < (u32)(XIN/12.3)) SFIL = 1;
--	if (symbolrate < (u32)(XIN/16))	 SFIL = 0;
--	if (symbolrate < (u32)(XIN/24.6)) SFIL = 1;
--	if (symbolrate < (u32)(XIN/32))	 SFIL = 0;
--	if (symbolrate < (u32)(XIN/49.2)) SFIL = 1;
--	if (symbolrate < (u32)(XIN/64))	 SFIL = 0;
--	if (symbolrate < (u32)(XIN/98.4)) SFIL = 1;
-+	if (symbolrate < XIN * 10 / 123)
-+		SFIL = 1;
-+	if (symbolrate < XIN * 10 / 160)
-+		SFIL = 0;
-+	if (symbolrate < XIN * 10 / 246)
-+		SFIL = 1;
-+	if (symbolrate < XIN * 10 / 320)
-+		SFIL = 0;
-+	if (symbolrate < XIN * 10 / 492)
-+		SFIL = 1;
-+	if (symbolrate < XIN * 10 / 640)
-+		SFIL = 0;
-+	if (symbolrate < XIN * 10 / 984)
-+		SFIL = 1;
- 
- 	symbolrate <<= NDEC;
- 	ratio = (symbolrate << 4) / FIN;
+ 	/* Reserve io region. */
+ 	if ((iommap &&
+-	     (devm_request_mem_region(&dev->dev, iommap, 8 << ioshift,
++	     (devm_request_mem_region(&dev->dev, iommap, 8UL << ioshift,
+ 				      KBUILD_MODNAME) == NULL)) ||
+ 	     (!iommap && (devm_request_region(&dev->dev, io, 8,
+ 			  KBUILD_MODNAME) == NULL))) {
 -- 
 2.26.2
 
