@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 433B325B154
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29D5525B15F
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbgIBQSG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 12:18:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53840 "EHLO mail.kernel.org"
+        id S1728904AbgIBQSn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 12:18:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727963AbgIBQKs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Sep 2020 12:10:48 -0400
+        id S1726293AbgIBQKr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Sep 2020 12:10:47 -0400
 Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D59CD20773;
+        by mail.kernel.org (Postfix) with ESMTPSA id D5AAF207EA;
         Wed,  2 Sep 2020 16:10:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599063046;
-        bh=TNOI/VLtApvB6yPQmCUZBBC5lN9M1DLUltQ/CvohjAk=;
+        bh=mAfBaiRJRkp25BV0rN9ichUjyzowk2QtFfeZRpXBqio=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ulejFWlemy/ELe8wIxriEGQ+0t4Le5mwgc8X6SsTuH5DSfSTZx3GZS4LpUjSuPjE+
-         QsPQDUtQyPNDEl72XFYmGWVeEyv9GhUXQdZWYEbv5ic4bpyEgd8hUBGpw0wcViIbaW
-         UiDvY4++Z2Qjmkk9O8RhG/BYzZmxqwbaN+5Gf4uA=
+        b=YrSjrgBqjLvEimNjiscWYcFi/Z9/Adwx0IFgc2usu33c7Pup8nyXZmXKAtw5NML4T
+         Li0vbFaztxpJNQ1Dlti/ZM2IuMf8bs3pQv2HJVEt8APXbCegWINupstRUEiZMdEKnv
+         DO0pCwH8Xi9IJn++lnqNg0RiPUoZ+Gs8qBl9N0tI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kDVLP-000tA4-T2; Wed, 02 Sep 2020 18:10:43 +0200
+        id 1kDVLP-000tA7-U8; Wed, 02 Sep 2020 18:10:43 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 10/38] media: vivid: place the logic which disables ioctl on a separate function
-Date:   Wed,  2 Sep 2020 18:10:13 +0200
-Message-Id: <04bdd5013c20f0a623039d0bb65eb722bfd7f497.1599062230.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 11/38] media: vivid: move set_capabilities logic to a separate function
+Date:   Wed,  2 Sep 2020 18:10:14 +0200
+Message-Id: <38814ad757c215a94c964c85b67b99fb327ad7f4.1599062230.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599062230.git.mchehab+huawei@kernel.org>
 References: <cover.1599062230.git.mchehab+huawei@kernel.org>
@@ -44,213 +44,196 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move this code out of the long vivid_create_instance() function.
+Move such logic from vivid_create_instance(), as otherwise
+smatch takes forever.
+
+The vivid_create_instance() is still a too big for my taste.
+So, further cleanups are still needed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/test-drivers/vivid/vivid-core.c | 182 +++++++++---------
- 1 file changed, 96 insertions(+), 86 deletions(-)
+ drivers/media/test-drivers/vivid/vivid-core.c | 161 +++++++++---------
+ 1 file changed, 83 insertions(+), 78 deletions(-)
 
 diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index d4785da440d9..f8cb4133e1ce 100644
+index f8cb4133e1ce..e3ffc2566623 100644
 --- a/drivers/media/test-drivers/vivid/vivid-core.c
 +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -1001,6 +1001,100 @@ static int vivid_detect_feature_set(struct vivid_dev *dev, int inst,
+@@ -1001,6 +1001,88 @@ static int vivid_detect_feature_set(struct vivid_dev *dev, int inst,
  	return 0;
  }
  
-+static void vivid_disable_unused_ioctls(struct vivid_dev *dev,
-+					bool has_tuner,
-+					bool has_modulator,
-+					unsigned in_type_counter[4],
-+					unsigned out_type_counter[4])
++static void vivid_set_capabilities(struct vivid_dev *dev)
 +{
-+	/* disable invalid ioctls based on the feature set */
-+	if (!dev->has_audio_inputs) {
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_AUDIO);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_AUDIO);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_ENUMAUDIO);
-+		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_AUDIO);
-+		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_AUDIO);
-+		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_ENUMAUDIO);
-+		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_AUDIO);
-+		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_AUDIO);
-+		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_ENUMAUDIO);
++	if (dev->has_vid_cap) {
++		/* set up the capabilities of the video capture device */
++		dev->vid_cap_caps = dev->multiplanar ?
++			V4L2_CAP_VIDEO_CAPTURE_MPLANE :
++			V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OVERLAY;
++		dev->vid_cap_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
++		if (dev->has_audio_inputs)
++			dev->vid_cap_caps |= V4L2_CAP_AUDIO;
++		if (dev->has_tv_tuner)
++			dev->vid_cap_caps |= V4L2_CAP_TUNER;
 +	}
-+	if (!dev->has_audio_outputs) {
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_AUDOUT);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_AUDOUT);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUMAUDOUT);
-+		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_S_AUDOUT);
-+		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_G_AUDOUT);
-+		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_ENUMAUDOUT);
-+		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_S_AUDOUT);
-+		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_G_AUDOUT);
-+		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_ENUMAUDOUT);
++	if (dev->has_vid_out) {
++		/* set up the capabilities of the video output device */
++		dev->vid_out_caps = dev->multiplanar ?
++			V4L2_CAP_VIDEO_OUTPUT_MPLANE :
++			V4L2_CAP_VIDEO_OUTPUT;
++		if (dev->has_fb)
++			dev->vid_out_caps |= V4L2_CAP_VIDEO_OUTPUT_OVERLAY;
++		dev->vid_out_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
++		if (dev->has_audio_outputs)
++			dev->vid_out_caps |= V4L2_CAP_AUDIO;
 +	}
-+	if (!in_type_counter[TV] && !in_type_counter[SVID]) {
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_STD);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_STD);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_ENUMSTD);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_QUERYSTD);
++	if (dev->has_vbi_cap) {
++		/* set up the capabilities of the vbi capture device */
++		dev->vbi_cap_caps = (dev->has_raw_vbi_cap ? V4L2_CAP_VBI_CAPTURE : 0) |
++				    (dev->has_sliced_vbi_cap ? V4L2_CAP_SLICED_VBI_CAPTURE : 0);
++		dev->vbi_cap_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
++		if (dev->has_audio_inputs)
++			dev->vbi_cap_caps |= V4L2_CAP_AUDIO;
++		if (dev->has_tv_tuner)
++			dev->vbi_cap_caps |= V4L2_CAP_TUNER;
 +	}
-+	if (!out_type_counter[SVID]) {
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_STD);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_STD);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUMSTD);
++	if (dev->has_vbi_out) {
++		/* set up the capabilities of the vbi output device */
++		dev->vbi_out_caps = (dev->has_raw_vbi_out ? V4L2_CAP_VBI_OUTPUT : 0) |
++				    (dev->has_sliced_vbi_out ? V4L2_CAP_SLICED_VBI_OUTPUT : 0);
++		dev->vbi_out_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
++		if (dev->has_audio_outputs)
++			dev->vbi_out_caps |= V4L2_CAP_AUDIO;
 +	}
-+	if (!has_tuner && !has_modulator) {
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_FREQUENCY);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_FREQUENCY);
-+		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_FREQUENCY);
-+		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_FREQUENCY);
-+		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_FREQUENCY);
-+		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_FREQUENCY);
++	if (dev->has_sdr_cap) {
++		/* set up the capabilities of the sdr capture device */
++		dev->sdr_cap_caps = V4L2_CAP_SDR_CAPTURE | V4L2_CAP_TUNER;
++		dev->sdr_cap_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
 +	}
-+	if (!has_tuner) {
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_TUNER);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_TUNER);
-+		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_TUNER);
-+		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_TUNER);
-+		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_TUNER);
-+		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_TUNER);
++	/* set up the capabilities of the radio receiver device */
++	if (dev->has_radio_rx)
++		dev->radio_rx_caps = V4L2_CAP_RADIO | V4L2_CAP_RDS_CAPTURE |
++				     V4L2_CAP_HW_FREQ_SEEK | V4L2_CAP_TUNER |
++				     V4L2_CAP_READWRITE;
++	/* set up the capabilities of the radio transmitter device */
++	if (dev->has_radio_tx)
++		dev->radio_tx_caps = V4L2_CAP_RDS_OUTPUT | V4L2_CAP_MODULATOR |
++				     V4L2_CAP_READWRITE;
++
++	/* set up the capabilities of meta capture device */
++	if (dev->has_meta_cap) {
++		dev->meta_cap_caps = V4L2_CAP_META_CAPTURE |
++				     V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
++		if (dev->has_audio_inputs)
++			dev->meta_cap_caps |= V4L2_CAP_AUDIO;
++		if (dev->has_tv_tuner)
++			dev->meta_cap_caps |= V4L2_CAP_TUNER;
 +	}
-+	if (in_type_counter[HDMI] == 0) {
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_EDID);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_EDID);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_DV_TIMINGS_CAP);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_DV_TIMINGS);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_DV_TIMINGS);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_ENUM_DV_TIMINGS);
-+		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_QUERY_DV_TIMINGS);
++	/* set up the capabilities of meta output device */
++	if (dev->has_meta_out) {
++		dev->meta_out_caps = V4L2_CAP_META_OUTPUT |
++				     V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
++		if (dev->has_audio_outputs)
++			dev->meta_out_caps |= V4L2_CAP_AUDIO;
 +	}
-+	if (out_type_counter[HDMI] == 0) {
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_EDID);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_DV_TIMINGS_CAP);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_DV_TIMINGS);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_DV_TIMINGS);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_DV_TIMINGS);
++	/* set up the capabilities of the touch capture device */
++	if (dev->has_touch_cap) {
++		dev->touch_cap_caps = V4L2_CAP_TOUCH | V4L2_CAP_STREAMING |
++				      V4L2_CAP_READWRITE;
++		dev->touch_cap_caps |= dev->multiplanar ?
++			V4L2_CAP_VIDEO_CAPTURE_MPLANE : V4L2_CAP_VIDEO_CAPTURE;
 +	}
-+	if (!dev->has_fb) {
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_FBUF);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_FBUF);
-+		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_OVERLAY);
-+	}
-+	v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
-+	v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
-+	v4l2_disable_ioctl(&dev->sdr_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
-+	v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
-+	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_FREQUENCY);
-+	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_FREQUENCY);
-+	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_FRAMESIZES);
-+	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_FRAMEINTERVALS);
-+	v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_S_FREQUENCY);
-+	v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_G_FREQUENCY);
-+	v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_S_FREQUENCY);
-+	v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_G_FREQUENCY);
-+	v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_S_PARM);
-+	v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_ENUM_FRAMESIZES);
-+	v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_ENUM_FRAMEINTERVALS);
 +}
 +
- static int vivid_create_instance(struct platform_device *pdev, int inst)
- {
- 	static const struct v4l2_dv_timings def_dv_timings =
-@@ -1189,92 +1283,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
- 			(u32)bt->pixelclock / (htot * vtot));
+ static void vivid_disable_unused_ioctls(struct vivid_dev *dev,
+ 					bool has_tuner,
+ 					bool has_modulator,
+@@ -1153,84 +1235,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 		return ret;
  	}
  
--	/* disable invalid ioctls based on the feature set */
--	if (!dev->has_audio_inputs) {
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_AUDIO);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_AUDIO);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_ENUMAUDIO);
--		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_AUDIO);
--		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_AUDIO);
--		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_ENUMAUDIO);
--		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_AUDIO);
--		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_AUDIO);
--		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_ENUMAUDIO);
+-	if (dev->has_vid_cap) {
+-		/* set up the capabilities of the video capture device */
+-		dev->vid_cap_caps = dev->multiplanar ?
+-			V4L2_CAP_VIDEO_CAPTURE_MPLANE :
+-			V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OVERLAY;
+-		dev->vid_cap_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+-		if (dev->has_audio_inputs)
+-			dev->vid_cap_caps |= V4L2_CAP_AUDIO;
+-		if (dev->has_tv_tuner)
+-			dev->vid_cap_caps |= V4L2_CAP_TUNER;
 -	}
--	if (!dev->has_audio_outputs) {
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_AUDOUT);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_AUDOUT);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUMAUDOUT);
--		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_S_AUDOUT);
--		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_G_AUDOUT);
--		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_ENUMAUDOUT);
--		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_S_AUDOUT);
--		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_G_AUDOUT);
--		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_ENUMAUDOUT);
+-	if (dev->has_vid_out) {
+-		/* set up the capabilities of the video output device */
+-		dev->vid_out_caps = dev->multiplanar ?
+-			V4L2_CAP_VIDEO_OUTPUT_MPLANE :
+-			V4L2_CAP_VIDEO_OUTPUT;
+-		if (dev->has_fb)
+-			dev->vid_out_caps |= V4L2_CAP_VIDEO_OUTPUT_OVERLAY;
+-		dev->vid_out_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+-		if (dev->has_audio_outputs)
+-			dev->vid_out_caps |= V4L2_CAP_AUDIO;
 -	}
--	if (!in_type_counter[TV] && !in_type_counter[SVID]) {
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_STD);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_STD);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_ENUMSTD);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_QUERYSTD);
+-	if (dev->has_vbi_cap) {
+-		/* set up the capabilities of the vbi capture device */
+-		dev->vbi_cap_caps = (dev->has_raw_vbi_cap ? V4L2_CAP_VBI_CAPTURE : 0) |
+-				    (dev->has_sliced_vbi_cap ? V4L2_CAP_SLICED_VBI_CAPTURE : 0);
+-		dev->vbi_cap_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+-		if (dev->has_audio_inputs)
+-			dev->vbi_cap_caps |= V4L2_CAP_AUDIO;
+-		if (dev->has_tv_tuner)
+-			dev->vbi_cap_caps |= V4L2_CAP_TUNER;
 -	}
--	if (!out_type_counter[SVID]) {
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_STD);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_STD);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUMSTD);
+-	if (dev->has_vbi_out) {
+-		/* set up the capabilities of the vbi output device */
+-		dev->vbi_out_caps = (dev->has_raw_vbi_out ? V4L2_CAP_VBI_OUTPUT : 0) |
+-				    (dev->has_sliced_vbi_out ? V4L2_CAP_SLICED_VBI_OUTPUT : 0);
+-		dev->vbi_out_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+-		if (dev->has_audio_outputs)
+-			dev->vbi_out_caps |= V4L2_CAP_AUDIO;
 -	}
--	if (!has_tuner && !has_modulator) {
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_FREQUENCY);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_FREQUENCY);
--		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_FREQUENCY);
--		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_FREQUENCY);
--		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_FREQUENCY);
--		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_FREQUENCY);
+-	if (dev->has_sdr_cap) {
+-		/* set up the capabilities of the sdr capture device */
+-		dev->sdr_cap_caps = V4L2_CAP_SDR_CAPTURE | V4L2_CAP_TUNER;
+-		dev->sdr_cap_caps |= V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
 -	}
--	if (!has_tuner) {
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_TUNER);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_TUNER);
--		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_TUNER);
--		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_TUNER);
--		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_TUNER);
--		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_TUNER);
+-	/* set up the capabilities of the radio receiver device */
+-	if (dev->has_radio_rx)
+-		dev->radio_rx_caps = V4L2_CAP_RADIO | V4L2_CAP_RDS_CAPTURE |
+-				     V4L2_CAP_HW_FREQ_SEEK | V4L2_CAP_TUNER |
+-				     V4L2_CAP_READWRITE;
+-	/* set up the capabilities of the radio transmitter device */
+-	if (dev->has_radio_tx)
+-		dev->radio_tx_caps = V4L2_CAP_RDS_OUTPUT | V4L2_CAP_MODULATOR |
+-				     V4L2_CAP_READWRITE;
+-
+-	/* set up the capabilities of meta capture device */
+-	if (dev->has_meta_cap) {
+-		dev->meta_cap_caps = V4L2_CAP_META_CAPTURE |
+-				     V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+-		if (dev->has_audio_inputs)
+-			dev->meta_cap_caps |= V4L2_CAP_AUDIO;
+-		if (dev->has_tv_tuner)
+-			dev->meta_cap_caps |= V4L2_CAP_TUNER;
 -	}
--	if (in_type_counter[HDMI] == 0) {
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_EDID);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_EDID);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_DV_TIMINGS_CAP);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_DV_TIMINGS);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_DV_TIMINGS);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_ENUM_DV_TIMINGS);
--		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_QUERY_DV_TIMINGS);
+-	/* set up the capabilities of meta output device */
+-	if (dev->has_meta_out) {
+-		dev->meta_out_caps = V4L2_CAP_META_OUTPUT |
+-				     V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+-		if (dev->has_audio_outputs)
+-			dev->meta_out_caps |= V4L2_CAP_AUDIO;
 -	}
--	if (out_type_counter[HDMI] == 0) {
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_EDID);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_DV_TIMINGS_CAP);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_DV_TIMINGS);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_DV_TIMINGS);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_DV_TIMINGS);
+-	/* set up the capabilities of the touch capture device */
+-	if (dev->has_touch_cap) {
+-		dev->touch_cap_caps = V4L2_CAP_TOUCH | V4L2_CAP_STREAMING |
+-				      V4L2_CAP_READWRITE;
+-		dev->touch_cap_caps |= dev->multiplanar ?
+-			V4L2_CAP_VIDEO_CAPTURE_MPLANE : V4L2_CAP_VIDEO_CAPTURE;
 -	}
--	if (!dev->has_fb) {
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_FBUF);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_FBUF);
--		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_OVERLAY);
--	}
--	v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
--	v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
--	v4l2_disable_ioctl(&dev->sdr_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
--	v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
--	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_FREQUENCY);
--	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_FREQUENCY);
--	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_FRAMESIZES);
--	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_FRAMEINTERVALS);
--	v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_S_FREQUENCY);
--	v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_G_FREQUENCY);
--	v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_S_FREQUENCY);
--	v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_G_FREQUENCY);
--	v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_S_PARM);
--	v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_ENUM_FRAMESIZES);
--	v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_ENUM_FRAMEINTERVALS);
-+	vivid_disable_unused_ioctls(dev, has_tuner, has_modulator,
-+				    in_type_counter, out_type_counter);
++	vivid_set_capabilities(dev);
  
- 	/* configure internal data */
- 	dev->fmt_cap = &vivid_formats[0];
+ 	ret = -ENOMEM;
+ 	/* initialize the test pattern generator */
 -- 
 2.26.2
 
