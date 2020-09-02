@@ -2,60 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39B1525ACA6
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 16:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C11E925ACA5
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 16:12:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726968AbgIBOMd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 10:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37796 "EHLO
+        id S1726762AbgIBOM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 10:12:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727845AbgIBOLF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 10:11:05 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84703C061245
-        for <linux-media@vger.kernel.org>; Wed,  2 Sep 2020 07:11:04 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id l17so5051338edq.12
-        for <linux-media@vger.kernel.org>; Wed, 02 Sep 2020 07:11:04 -0700 (PDT)
+        with ESMTP id S1727824AbgIBOLG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 10:11:06 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9651BC061247
+        for <linux-media@vger.kernel.org>; Wed,  2 Sep 2020 07:11:05 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id lo4so6845065ejb.8
+        for <linux-media@vger.kernel.org>; Wed, 02 Sep 2020 07:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eFBNEdHaXPnLnMV8eTpWxIWl/gtT3P6hTg6otUGPU+0=;
-        b=Nwh3sTpGCrpep8xBnJtw0wftk8KLVPcvoWUQM/Lu91EqKLEzApROkJ2eCnSXTkNcde
-         gPSVhXwLuo6FFnScrhigyHH9Wbvs9gOQCgy3WJj8gKcz529494oeNyhuMT41OicF+kh7
-         GUJ6EcWc7cmKoYO2beQHB7uxhisNCuvJoSU/nM+adeGVD0/6V48t8rm1fGyIv8eyFGp7
-         oq5UiTclQJ+H3QdPZk82Lclxmy73fh9Ii2XAYp6nwmvpbhP2Jc2AhME+q6Oy4frCLLTR
-         0h5Pr9gkiwdtkd95oKsWGmgyLrYMMSIZ8vhqDzeOZGpoE37+C4LD+r+YttknQbR3LnG1
-         NIpg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=i/HlHFqSuaR6dxYOM/8osOiJcPMDGWG074RIMXEYjHk=;
+        b=F3kwlrhjCN/Vt+MIgtn9IRnB2PGVxgiaj6ruzQ/7Qdd453h/HGdT3wQG8KNFOCCsJA
+         oIn3MYp8dV7OAt2mt6Zu+urV3kKU3+8dqN3eSWxePQtNuoBWVgA73FJR+Wt0KEpOXG7O
+         +OKpPG70xKSU4nq/i4U8CIpaKKFdGuaEorbZhZgmECaY8CIL7fDepzaH4woxXAyBBe0s
+         p/Xpd+NC0PIYaz3Z4i7NBEMVFM1otVpbkbaGYT43x5xJGVwfqCF6uDdAZtDdoDFryzRI
+         ZqRVgwmviTd6LhuyIu/LtfYDC4vkgpZudadSgB7Ub40/xmjsKU9wZPFTXDL+bk2ba4CU
+         DXIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eFBNEdHaXPnLnMV8eTpWxIWl/gtT3P6hTg6otUGPU+0=;
-        b=mTq7PwsP71ECZzYHJ6La18WpEdjhm4Y3IViDC3djmGUToBfe4DVHiQmiXSW63fZhmM
-         f2TpdMrkjK8+s2XD6Qx8MSCY+G382kw4m0tSsjh1hyoUsKsTnbvbjRpgpIrfjwzjj8jT
-         BxriVbwvk8KgoJuZ4226HQoAo5T014vc0P6tv8iJOSOlsDkv4AAma+6OtCkW8naCOosW
-         Zk/pNiuKK1q0GnX1KEkUs8iHfqQi7bYfcym+IyxcS9HVS/bqAPFwdYr/bNW6kVf3Drps
-         oj1mcYGQs9BLECG4Dg/ZKt1X3nCqXtU9GOVvO/1eDT7nddp5Qcqw9nF571OZ7Q0A+fGg
-         jJJA==
-X-Gm-Message-State: AOAM530I2g8tBoISDsk7JSaRC3T5MfdW+jmcPGztMZHQq6dGMrxsJzpm
-        GbHiIDNgm1EwAvr356HBtcmmqg==
-X-Google-Smtp-Source: ABdhPJyeKxUAjckGee1vf3r0PmcLMO5Fw0qIrnsD42YCZY8Cjz3CSQAmIGROhy1XTIFet/63X0j5bA==
-X-Received: by 2002:a50:f687:: with SMTP id d7mr227187edn.353.1599055862787;
-        Wed, 02 Sep 2020 07:11:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=i/HlHFqSuaR6dxYOM/8osOiJcPMDGWG074RIMXEYjHk=;
+        b=J7r1um4rQ4ru4C3fmDBY9atd4SAKp3fTanIIWQIiAYRbafXQRa7MhzVgYXa0rgDihX
+         vWi3oynKXYsjbGKf07AiVySBLdfmj5DxqcPJIjtrl24kws66NN0MlmuNP7lOGHIpqTaa
+         kZWoyhuS2cY6+yfxeMiHMRfubK5zfDdpR7+IJGIpBHUqt7H7+Tbo+6IR+renDfwBvddq
+         iujB9phGPs3JvEN14e8WW+WbBKbSGDYrbW/8DT/GMJeW2Qr7/GCDKN6WwcXQpVdTHf+U
+         vIXfNA7/gQ3062T3Pc0S8qLFkFi0iIxcPz4Q79V8SiJvakqZPzIRYCwBym6PcCgucIzb
+         q1Mg==
+X-Gm-Message-State: AOAM531LBQwOkdxvUHNtUW64+YhaN4ptTDzfUNJUXYcfxTBiIdeg1dCc
+        e+9ahleVJNcKkb0lg82Ya1yK9A==
+X-Google-Smtp-Source: ABdhPJyLVq2gfllz56sKBWfYi0fzh6UvSPeKEaTJ90sakLczVUeaTGEN6NQ4xU3ZMB0xB3nHTqtBTg==
+X-Received: by 2002:a17:906:a43:: with SMTP id x3mr171783ejf.321.1599055864057;
+        Wed, 02 Sep 2020 07:11:04 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:2450:102f:d6a:5cc2:d98c:ab6b:cb16])
-        by smtp.gmail.com with ESMTPSA id h25sm4459336ejq.12.2020.09.02.07.11.01
+        by smtp.gmail.com with ESMTPSA id h25sm4459336ejq.12.2020.09.02.07.11.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 07:11:01 -0700 (PDT)
+        Wed, 02 Sep 2020 07:11:03 -0700 (PDT)
 From:   Robert Foss <robert.foss@linaro.org>
 To:     dongchun.zhu@mediatek.com, mchehab@kernel.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Ben Kao <ben.kao@intel.com>, Sakari Ailus <sakari.ailus@iki.fi>
 Cc:     Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v1 1/2] media: ov8856: Add support for 1632x1224 mode
-Date:   Wed,  2 Sep 2020 16:10:36 +0200
-Message-Id: <20200902141037.240549-1-robert.foss@linaro.org>
+Subject: [PATCH v1 2/2] media: ov8856: Add support for 3264x2448 mode
+Date:   Wed,  2 Sep 2020 16:10:37 +0200
+Message-Id: <20200902141037.240549-2-robert.foss@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200902141037.240549-1-robert.foss@linaro.org>
+References: <20200902141037.240549-1-robert.foss@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -63,7 +65,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-OV8856 supports 1632x1224 @ 60 FPS, which is added
+OV8856 supports 3264x2448 @ 30 FPS, which is added
 in this commit.
 
 Signed-off-by: Robert Foss <robert.foss@linaro.org>
@@ -72,14 +74,14 @@ Signed-off-by: Robert Foss <robert.foss@linaro.org>
  1 file changed, 215 insertions(+)
 
 diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index 4ca27675cc5a..9b99affa90e2 100644
+index 9b99affa90e2..2f4ceaa80593 100644
 --- a/drivers/media/i2c/ov8856.c
 +++ b/drivers/media/i2c/ov8856.c
-@@ -528,6 +528,209 @@ static const struct ov8856_reg mode_1640x1232_regs[] = {
+@@ -338,6 +338,209 @@ static const struct ov8856_reg mode_3280x2464_regs[] = {
  	{0x5e00, 0x00}
  };
  
-+static const struct ov8856_reg mode_1632x1224_regs[] = {
++static const struct ov8856_reg mode_3264x2448_regs[] = {
 +	{0x0103, 0x01},
 +	{0x0302, 0x3c},
 +	{0x0303, 0x01},
@@ -93,8 +95,8 @@ index 4ca27675cc5a..9b99affa90e2 100644
 +	{0x3021, 0x23},
 +	{0x3033, 0x24},
 +	{0x3500, 0x00},
-+	{0x3501, 0x4c},
-+	{0x3502, 0xe0},
++	{0x3501, 0x9a},
++	{0x3502, 0x20},
 +	{0x3503, 0x08},
 +	{0x3505, 0x83},
 +	{0x3508, 0x01},
@@ -124,10 +126,10 @@ index 4ca27675cc5a..9b99affa90e2 100644
 +	{0x3663, 0x08},
 +	{0x3669, 0x34},
 +	{0x366d, 0x00},
-+	{0x366e, 0x08},
++	{0x366e, 0x10},
 +	{0x3706, 0x86},
 +	{0x370b, 0x7e},
-+	{0x3714, 0x27},
++	{0x3714, 0x23},
 +	{0x3730, 0x12},
 +	{0x3733, 0x10},
 +	{0x3764, 0x00},
@@ -143,7 +145,7 @@ index 4ca27675cc5a..9b99affa90e2 100644
 +	{0x37a1, 0x60},
 +	{0x37a8, 0x6a},
 +	{0x37ab, 0x3f},
-+	{0x37c2, 0x14},
++	{0x37c2, 0x04},
 +	{0x37c3, 0xf1},
 +	{0x37c9, 0x80},
 +	{0x37cb, 0x16},
@@ -158,27 +160,27 @@ index 4ca27675cc5a..9b99affa90e2 100644
 +	{0x3805, 0xdf},
 +	{0x3806, 0x09},
 +	{0x3807, 0xa3},
-+	{0x3808, 0x06},
-+	{0x3809, 0x60},
-+	{0x380a, 0x04},
-+	{0x380b, 0xc8},
++	{0x3808, 0x0c},
++	{0x3809, 0xc0},
++	{0x380a, 0x09},
++	{0x380b, 0x90},
 +	{0x380c, 0x07},
 +	{0x380d, 0x8c},
 +	{0x380e, 0x09},
 +	{0x380f, 0xb2},
 +	{0x3810, 0x00},
-+	{0x3811, 0x02},
++	{0x3811, 0x04},
 +	{0x3812, 0x00},
 +	{0x3813, 0x02},
-+	{0x3814, 0x03},
++	{0x3814, 0x01},
 +	{0x3815, 0x01},
 +	{0x3816, 0x00},
 +	{0x3817, 0x00},
 +	{0x3818, 0x00},
 +	{0x3819, 0x10},
 +	{0x3820, 0x80},
-+	{0x3821, 0x47},
-+	{0x382a, 0x03},
++	{0x3821, 0x46},
++	{0x382a, 0x01},
 +	{0x382b, 0x01},
 +	{0x3830, 0x06},
 +	{0x3836, 0x02},
@@ -191,7 +193,7 @@ index 4ca27675cc5a..9b99affa90e2 100644
 +	{0x4001, 0xe0},
 +	{0x4003, 0x40},
 +	{0x4008, 0x00},
-+	{0x4009, 0x05},
++	{0x4009, 0x0b},
 +	{0x400a, 0x00},
 +	{0x400b, 0x84},
 +	{0x400f, 0x80},
@@ -237,19 +239,6 @@ index 4ca27675cc5a..9b99affa90e2 100644
 +	{0x5007, 0x00},
 +	{0x502e, 0x03},
 +	{0x5030, 0x41},
-+	{0x5795, 0x00},
-+	{0x5796, 0x10},
-+	{0x5797, 0x10},
-+	{0x5798, 0x73},
-+	{0x5799, 0x73},
-+	{0x579a, 0x00},
-+	{0x579b, 0x28},
-+	{0x579c, 0x00},
-+	{0x579d, 0x16},
-+	{0x579e, 0x06},
-+	{0x579f, 0x20},
-+	{0x57a0, 0x04},
-+	{0x57a1, 0xa0},
 +	{0x5780, 0x14},
 +	{0x5781, 0x0f},
 +	{0x5782, 0x44},
@@ -271,6 +260,19 @@ index 4ca27675cc5a..9b99affa90e2 100644
 +	{0x5792, 0x00},
 +	{0x5793, 0x52},
 +	{0x5794, 0xa3},
++	{0x5795, 0x02},
++	{0x5796, 0x20},
++	{0x5797, 0x20},
++	{0x5798, 0xd5},
++	{0x5799, 0xd5},
++	{0x579a, 0x00},
++	{0x579b, 0x50},
++	{0x579c, 0x00},
++	{0x579d, 0x2c},
++	{0x579e, 0x0c},
++	{0x579f, 0x40},
++	{0x57a0, 0x09},
++	{0x57a1, 0x40},
 +	{0x59f8, 0x3d},
 +	{0x5a08, 0x02},
 +	{0x5b00, 0x02},
@@ -282,28 +284,28 @@ index 4ca27675cc5a..9b99affa90e2 100644
 +	{0x5e10, 0xfc}
 +};
 +
- static const char * const ov8856_test_pattern_menu[] = {
- 	"Disabled",
- 	"Standard Color Bar",
-@@ -580,6 +783,18 @@ static const struct ov8856_mode supported_modes[] = {
- 			.regs = mode_1640x1232_regs,
+ static const struct ov8856_reg mode_1640x1232_regs[] = {
+ 	{0x3000, 0x20},
+ 	{0x3003, 0x08},
+@@ -772,6 +975,18 @@ static const struct ov8856_mode supported_modes[] = {
  		},
- 		.link_freq_index = OV8856_LINK_FREQ_360MBPS,
-+	},
+ 		.link_freq_index = OV8856_LINK_FREQ_720MBPS,
+ 	},
 +	{
-+		.width = 1632,
-+		.height = 1224,
++		.width = 3264,
++		.height = 2448,
 +		.hts = 1932,
 +		.vts_def = 2482,
 +		.vts_min = 2482,
 +		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_1632x1224_regs),
-+			.regs = mode_1632x1224_regs,
++			.num_of_regs = ARRAY_SIZE(mode_3264x2448_regs),
++			.regs = mode_3264x2448_regs,
 +		},
-+		.link_freq_index = OV8856_LINK_FREQ_360MBPS,
- 	}
- };
- 
++		.link_freq_index = OV8856_LINK_FREQ_720MBPS,
++	},
+ 	{
+ 		.width = 1640,
+ 		.height = 1232,
 -- 
 2.25.1
 
