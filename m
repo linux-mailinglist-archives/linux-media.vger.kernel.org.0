@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5695F25A931
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 12:13:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3260725A970
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 12:29:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726183AbgIBKNQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 06:13:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57680 "EHLO
+        id S1726426AbgIBK3k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 06:29:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726140AbgIBKNP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 06:13:15 -0400
+        with ESMTP id S1726269AbgIBK3j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 06:29:39 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5514C061244;
-        Wed,  2 Sep 2020 03:13:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2639EC061244;
+        Wed,  2 Sep 2020 03:29:39 -0700 (PDT)
 Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32A209CC;
-        Wed,  2 Sep 2020 12:13:12 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5AD019CC;
+        Wed,  2 Sep 2020 12:29:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599041592;
-        bh=ktz25n1HDpTh4QSxQctN3Qhxboucjg/cY9qzXQPk6MA=;
+        s=mail; t=1599042574;
+        bh=K8hSzZzRLU0QDVnoaA6pUJ+GddMonXWGKPjvCZ45nNA=;
         h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=VtztkQyvkCVngriSgBowAjXg8jKIqtm3QN7vqk6lTsZ6N+5WQWGZu1A2i0BX9dNty
-         jpUYr60w+1YPMM1bwvfvC7EzsNjU0Z3Xd/o7jnU9bfSVDiJON1UDKcQ9n6SF7d+YTl
-         4uogtDWAtED6FwGcjiqcued8D4J1vwChSOQS+5gQ=
+        b=CmpVF4NOqzY9WRWs3BrTs6ojEE4wBrwxmzt9+np+bpQ0W+3OOIi4uF+kL1gbm0CGa
+         d9pz2PlepZCC+BKNLyWl28iHZOuEAk08JRliGldmiFePi1SLBOimcMQm92Uu+mP/Oc
+         ALhT6FsXo7pIdoD2e1ymWDmNuy4tLnxeSLfNTxv0=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v3 5/9] media: vimc: Separate closing of stream and thread
+Subject: Re: [PATCH v3 7/9] media: vimc: Dynamically allocate stream struct
 To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
         Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
- <20200819180442.11630-6-kgupta@es.iitr.ac.in>
+ <20200819180442.11630-8-kgupta@es.iitr.ac.in>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
@@ -79,12 +79,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <1614accb-dee5-1c0e-ece3-ecdd56f45253@ideasonboard.com>
-Date:   Wed, 2 Sep 2020 11:13:09 +0100
+Message-ID: <7300d7ab-2be0-a6c6-b506-5af8b4a9b893@ideasonboard.com>
+Date:   Wed, 2 Sep 2020 11:29:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200819180442.11630-6-kgupta@es.iitr.ac.in>
+In-Reply-To: <20200819180442.11630-8-kgupta@es.iitr.ac.in>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
@@ -96,252 +96,196 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Kaaira,
 
 On 19/08/2020 19:04, Kaaira Gupta wrote:
-> Make separate functions for stopping streaming of entities in path of a
-> particular stream and stopping thread. This is needed to ensure that
-> thread doesn't stop when one device stops streaming in case of multiple
-> streams.
+> Multiple streams will share same stream struct if we want them to run on
+> same thread. So remove it from vimc_cap struct so that it doesn't get
+> destroyed when one of the capture does, and allocate it memory
+> dynamically. Use kref with it as it will be used by multiple captures.
 > 
+
+Is the vimc_stream stuct the context of the streamer? or of each 'stream'?
+
+If it's the streamer - then can't we store this (non-dynamically) as
+part of the Sensor node, to avoid kzalloc/freeing it ?
+
+
 > Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
 > ---
->  .../media/test-drivers/vimc/vimc-streamer.c   | 82 ++++++++++++-------
->  1 file changed, 52 insertions(+), 30 deletions(-)
+>  drivers/media/test-drivers/vimc/vimc-capture.c  | 15 +++++++++++----
+>  drivers/media/test-drivers/vimc/vimc-streamer.c | 17 ++++++-----------
+>  drivers/media/test-drivers/vimc/vimc-streamer.h |  2 ++
+>  3 files changed, 19 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
-> index cc40ecabe95a..6b5ea1537952 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-streamer.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
-> @@ -13,29 +13,59 @@
->  #include "vimc-streamer.h"
+> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+> index 93418cb5a139..73e5bdd17c57 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+> @@ -28,7 +28,6 @@ struct vimc_cap_device {
+>  	spinlock_t qlock;
+>  	struct mutex lock;
+>  	u32 sequence;
+> -	struct vimc_stream stream;
+>  	struct media_pad pad;
+>  };
 >  
->  /**
-> - * vimc_streamer_pipeline_terminate - Disable stream in all ved in stream
-> + * vimc_streamer_pipeline_terminate - Terminate the thread
->   *
-> - * @stream: the pointer to the stream structure with the pipeline to be
-> - *	    disabled.
-> + * @stream: the pointer to the stream structure
->   *
-> - * Calls s_stream to disable the stream in each entity of the pipeline
-> + * Erases values of stream struct and terminates the thread
-
-It would help if the function brief described it's purpose rather than
-'what it does'. "Erases values of stream struct" is not helpful here, as
-that's just a direct read of what happens in the code.
-
-I'm guessing here, but how about:
-
-"Tear down all resources belonging to the pipeline when there are no
-longer any active streams being used. This includes stopping the active
-processing thread"
-
-
-But reading my text makes me worry about the ordering that might take
-place. The thread should be stopped as soon as the last stream using it
-is stopped. Presumably as the 'first thing' that happens to make sure
-there is no concurrent processing while the stream is being disabled.
-
-Hopefully there's no race condition ...
-
-
->   *
->   */
->  static void vimc_streamer_pipeline_terminate(struct vimc_stream *stream)
+> @@ -241,19 +240,25 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
 >  {
->  	struct vimc_ent_device *ved;
-> -	struct v4l2_subdev *sd;
->  
->  	while (stream->pipe_size) {
->  		stream->pipe_size--;
->  		ved = stream->ved_pipeline[stream->pipe_size];
->  		stream->ved_pipeline[stream->pipe_size] = NULL;
-> +	}
->  
-> -		if (!is_media_entity_v4l2_subdev(ved->ent))
-> -			continue;
-> +	kthread_stop(stream->kthread);
-> +	stream->kthread = NULL;
-> +}
->  
-> -		sd = media_entity_to_v4l2_subdev(ved->ent);
-> -		v4l2_subdev_call(sd, video, s_stream, 0);
-> +/**
-> + * vimc_streamer_stream_terminate - Disable stream in all ved in stream
-> + *
-> + * @ved: pointer to the ved for which stream needs to be disabled
-> + *
-> + * Calls s_stream to disable the stream in each entity of the stream
-> + *
-> + */
-> +static void vimc_streamer_stream_terminate(struct vimc_ent_device *ved)
-
-I would call this vimc_streamer_stream_stop to match
-vimc_streamer_stream_start() rather than terminate...
-
-> +{
-> +	struct media_entity *entity = ved->ent;
-> +	struct video_device *vdev;
-> +	struct v4l2_subdev *sd;
-> +
-> +	while (entity) {
-> +		if (is_media_entity_v4l2_subdev(ved->ent)) {
-> +			sd = media_entity_to_v4l2_subdev(ved->ent);
-> +			v4l2_subdev_call(sd, video, s_stream, 0);
-> +		}
-> +		entity = vimc_get_source_entity(ved->ent);
-> +		if (!entity)
-> +			break;
-> +
-> +		if (is_media_entity_v4l2_subdev(entity)) {
-> +			sd = media_entity_to_v4l2_subdev(entity);
-> +			ved = v4l2_get_subdevdata(sd);
-> +		} else {
-> +			vdev = container_of(entity,
-> +					    struct video_device,
-> +					    entity);
-> +			ved = video_get_drvdata(vdev);
-> +		}
-
-It looks like this is walking back through the linked graph, calling
-s_stream(0) right?
-
-I wonder if struct vimc_ent_device should have a pointer to the entity
-it's connected to, to simplify this. ... presumably this is done
-elsewhere too?
-
-Although then that's still walking 'backwards' rather than forwards...
-
-
-
-
->  	}
->  }
->  
-> @@ -43,25 +73,25 @@ static void vimc_streamer_pipeline_terminate(struct vimc_stream *stream)
->   * vimc_streamer_stream_start - Starts streaming for all entities
->   * in a stream
->   *
-> - * @ved:    the pointer to the vimc entity initializing the stream
-> + * @cved:    the pointer to the vimc entity initializing the stream
->   *
->   * Walks through the entity graph to call vimc_streamer_s_stream()
->   * to enable stream in all entities in path of a stream.
->   *
->   * Return: 0 if success, error code otherwise.
->   */
-> -static int vimc_streamer_stream_start(struct vimc_stream *stream,
-> -				      struct vimc_ent_device *ved)
-> +static int vimc_streamer_stream_start(struct vimc_ent_device *cved)
->  {
->  	struct media_entity *entity;
->  	struct video_device *vdev;
->  	struct v4l2_subdev *sd;
-> +	struct vimc_ent_device *ved = cved;
->  	int stream_size = 0;
->  	int ret = 0;
->  
->  	while (stream_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
->  		if (!ved) {
-> -			vimc_streamer_pipeline_terminate(stream);
-> +			vimc_streamer_stream_terminate(cved);
->  			return -EINVAL;
->  		}
->  
-> @@ -71,7 +101,7 @@ static int vimc_streamer_stream_start(struct vimc_stream *stream,
->  			if (ret && ret != -ENOIOCTLCMD) {
->  				dev_err(ved->dev, "subdev_call error %s\n",
->  					ved->ent->name);
-> -				vimc_streamer_pipeline_terminate(stream);
-> +				vimc_streamer_stream_terminate(cved);
->  				return ret;
->  			}
->  		}
-> @@ -84,7 +114,7 @@ static int vimc_streamer_stream_start(struct vimc_stream *stream,
->  				dev_err(ved->dev,
->  					"first entity in the pipe '%s' is not a source\n",
->  					ved->ent->name);
-> -				vimc_streamer_pipeline_terminate(stream);
-> +				vimc_streamer_stream_terminate(cved);
->  				pr_info ("first entry not source");
->  				return -EPIPE;
->  			}
-> @@ -104,7 +134,7 @@ static int vimc_streamer_stream_start(struct vimc_stream *stream,
->  		stream_size++;
->  	}
->  
-> -	vimc_streamer_pipeline_terminate(stream);
-> +	vimc_streamer_stream_terminate(cved);
->  	return -EINVAL;
->  }
->  
-> @@ -120,13 +150,14 @@ static int vimc_streamer_stream_start(struct vimc_stream *stream,
->   * Return: 0 if success, error code otherwise.
->   */
->  static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
-> -				       struct vimc_ent_device *ved)
-> +				       struct vimc_ent_device *cved)
->  {
->  	struct media_entity *entity;
->  	struct media_device *mdev;
->  	struct media_graph graph;
->  	struct video_device *vdev;
->  	struct v4l2_subdev *sd;
-> +	struct vimc_ent_device *ved = cved;
+>  	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
+>  	struct media_entity *entity = &vcap->vdev.entity;
+> +	struct media_pipeline *pipe = NULL;
+> +	struct vimc_stream *stream;
 >  	int ret;
 >  
->  	entity = ved->ent;
-> @@ -170,6 +201,7 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->  		}
+>  	atomic_inc(&vcap->ved.use_count);
+>  	vcap->sequence = 0;
+>  
+> +	stream = kzalloc(sizeof(*stream), GFP_ATOMIC);
+> +	kref_init(&stream->refcount);
+> +	pipe = &stream->pipe;
+> +
+>  	/* Start the media pipeline */
+> -	ret = media_pipeline_start(entity, &vcap->stream.pipe);
+> +	ret = media_pipeline_start(entity, pipe);
+>  	if (ret) {
+>  		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+>  		return ret;
 >  	}
 >  
-> +	vimc_streamer_stream_terminate(cved);
->  	vimc_streamer_pipeline_terminate(stream);
+> -	ret = vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 1);
+> +	ret = vimc_streamer_s_stream(stream, &vcap->ved, 1);
+>  	if (ret) {
+>  		media_pipeline_stop(entity);
+>  		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+> @@ -270,9 +275,11 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  static void vimc_cap_stop_streaming(struct vb2_queue *vq)
+>  {
+>  	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
+> +	struct media_pipeline *pipe = vcap->ved.ent->pipe;
+> +	struct vimc_stream *stream = container_of(pipe, struct vimc_stream, pipe);
+
+In fact, I see it's stored as part of the 'pipe' so there is one
+vimc_stream per pipeline ...
+
+So it could just be a structure on the pipe rather than obtaining a
+pointer here.
+
+I think it's probably 'ok' to have one streamer per pipe currently as
+the raw input node is not functional, but I also thought that by having
+the streamer as part of the sensor entity then there is one streamer
+('one thread') per video source ... which would prevent this having to
+be changed if someone later deals with the video node that allows
+re-processing raw frames ?
+
+
+
+>  	atomic_dec(&vcap->ved.use_count);
+> -	vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 0);
+> +	vimc_streamer_s_stream(stream, &vcap->ved, 0);
+>  
+>  	/* Stop the media pipeline */
+>  	media_pipeline_stop(&vcap->vdev.entity);
+> diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
+> index f5c9e2f3bbcb..fade37bee26d 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-streamer.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
+> @@ -20,18 +20,13 @@
+>   * Erases values of stream struct and terminates the thread
+>   *
+>   */
+> -static void vimc_streamer_pipeline_terminate(struct vimc_stream *stream)
+> +static void vimc_streamer_pipeline_terminate(struct kref *ref)
+>  {
+> -	struct vimc_ent_device *ved;
+> -
+> -	while (stream->pipe_size) {
+> -		stream->pipe_size--;
+> -		ved = stream->ved_pipeline[stream->pipe_size];
+> -		stream->ved_pipeline[stream->pipe_size] = NULL;
+> -	}
+> +	struct vimc_stream *stream = container_of(ref, struct vimc_stream, refcount);
+>  
+>  	kthread_stop(stream->kthread);
+>  	stream->kthread = NULL;
+> +	kfree(stream);
+>  }
+>  
+>  /**
+> @@ -202,7 +197,7 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>  	}
+>  
+>  	vimc_streamer_stream_terminate(cved);
+> -	vimc_streamer_pipeline_terminate(stream);
+> +	kref_put(&stream->refcount, vimc_streamer_pipeline_terminate);
 >  	return -EINVAL;
 >  }
-> @@ -246,7 +278,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
->  		if (stream->kthread)
->  			return 0;
 >  
-> -		ret = vimc_streamer_stream_start(stream, ved);
-> +		ret = vimc_streamer_stream_start(ved);
->  		if (ret)
->  			return ret;
->  
-> @@ -260,6 +292,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
->  		if (IS_ERR(stream->kthread)) {
+> @@ -298,7 +293,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
 >  			ret = PTR_ERR(stream->kthread);
 >  			dev_err(ved->dev, "kthread_run failed with %d\n", ret);
-> +			vimc_streamer_stream_terminate(ved);
->  			vimc_streamer_pipeline_terminate(stream);
->  			stream->kthread = NULL;
-
-If vimc_streamer_pipeline_terminate() sets stream->kthread = NULL, it
-doesn't need to be done again here.
-
-
->  			return ret;
-> @@ -269,18 +302,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
->  		if (!stream->kthread)
->  			return 0;
+>  			vimc_streamer_stream_terminate(ved);
+> -			vimc_streamer_pipeline_terminate(stream);
+> +			kref_put(&stream->refcount, vimc_streamer_pipeline_terminate);
+>  		}
 >  
-> -		ret = kthread_stop(stream->kthread);
-> -		/*
-> -		 * kthread_stop returns -EINTR in cases when streamon was
-> -		 * immediately followed by streamoff, and the thread didn't had
-> -		 * a chance to run. Ignore errors to stop the stream in the
-> -		 * pipeline.
-> -		 */
-
-Do we need to retain that comment when stopping the thread?
-
-> -		if (ret)
-> -			dev_dbg(ved->dev, "kthread_stop returned '%d'\n", ret);
-> -
-> -		stream->kthread = NULL;
-> -
-> +		vimc_streamer_stream_terminate(ved);
->  		vimc_streamer_pipeline_terminate(stream);
+>  	} else {
+> @@ -306,7 +301,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+>  			goto out;
+>  
+>  		vimc_streamer_stream_terminate(ved);
+> -		vimc_streamer_pipeline_terminate(stream);
+> +		kref_put(&stream->refcount, vimc_streamer_pipeline_terminate);
 >  	}
->  
+>  out:
+>  	mutex_unlock(&vimc_streamer_lock);
+> diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.h b/drivers/media/test-drivers/vimc/vimc-streamer.h
+> index 3bb6731b8d4d..533c88675362 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-streamer.h
+> +++ b/drivers/media/test-drivers/vimc/vimc-streamer.h
+> @@ -18,6 +18,7 @@
+>  /**
+>   * struct vimc_stream - struct that represents a stream in the pipeline
+>   *
+> + * @refcount:		kref object associated with stream struct
+
+What does it track though?
+
+We know it's associated with the stream struct because it's in the
+vimc_stream struct.
+
+
+
+>   * @pipe:		the media pipeline object associated with this stream
+>   * @ved_pipeline:	array containing all the entities participating in the
+>   * 			stream. The order is from a video device (usually a
+
+The fact that this comment still says "all entities participating in the
+stream" worries me a little, as I think now the Streamer is dealing with
+multiple streams.
+
+I think we need to be really clear with the differences of objects and
+terminology.
+
+For instance I think the current terms are something like this:
+
+Streamer: Responsible for managing processing from a sensor device
+through all entities.
+
+Stream: A flow of frames to a single capture video device node.
+
+Pipeline: All entities used within the vimc streamer ?
+
+(I'm not sure if those are right, I'm writing down what my current
+interpretations are, so if someone wants to/can clarify - please do).
+
+
+
+> @@ -32,6 +33,7 @@
+>   * process frames for the stream.
+>   */
+>  struct vimc_stream {
+> +	struct kref refcount;
+>  	struct media_pipeline pipe;
+>  	struct vimc_ent_device *ved_pipeline[VIMC_STREAMER_PIPELINE_MAX_SIZE];
+>  	unsigned int pipe_size;
 > 
 
 -- 
