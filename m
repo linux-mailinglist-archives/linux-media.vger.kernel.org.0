@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C57925B0C9
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:11:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 790A725B163
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:19:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728344AbgIBQK5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 12:10:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53932 "EHLO mail.kernel.org"
+        id S1728708AbgIBQSm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 12:18:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53510 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728264AbgIBQKw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Sep 2020 12:10:52 -0400
+        id S1727944AbgIBQKr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Sep 2020 12:10:47 -0400
 Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E6EAA21534;
+        by mail.kernel.org (Postfix) with ESMTPSA id D8B2C20BED;
         Wed,  2 Sep 2020 16:10:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599063046;
-        bh=0QtwpM2+k4SGeByY3Ftq2AvC2KycTDYtoRM0Sll0Zyo=;
+        bh=20rwtaupDb1aKHEooDzQl/rU/dgCpdJe5nG7WDKkIQo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O1UuCkxMnSHGR3+e2CxTm1Bscn95rjUO2I/9ujqY8rlD4cy8QWC73JtWyRo8b+V38
-         3vzz9lSPfHDk17cPuPCv7lHJPqy3kFlXOmXNfeFSp0xYEYrV4OxYzPy6N5tpTgGM7a
-         xidpW4EfMziDy0I08qcUd2U6eYtBX/wz/2Pku9p0=
+        b=C7Ydg7tr6cIAabckT8QZ+dQywwCWAHNr54q6yEDZ0ogV5DvrWeCuEL/fTKSPZNE7l
+         dvQddlUG516QXmMdSznl9IbkJAB9a+D3AlMk8bpcJ+Lkg0qYDNg6YNbbZd3UpOJgxz
+         FdqXwEsrpFrojPjmeXXodDfrFizyaFHu8ZeuD084=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kDVLP-000tAB-V6; Wed, 02 Sep 2020 18:10:43 +0200
+        id 1kDVLP-000tAD-Vy; Wed, 02 Sep 2020 18:10:44 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 12/38] media: vivid: place dt timings init code on a separate function
-Date:   Wed,  2 Sep 2020 18:10:15 +0200
-Message-Id: <b41823d40e3b862714ee4c4591649b5a89a5649a.1599062230.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 13/38] media: vivid: move the create queues to a separate function
+Date:   Wed,  2 Sep 2020 18:10:16 +0200
+Message-Id: <42219ecf5014d677d6fb65ae70086b7ae3b36931.1599062230.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599062230.git.mchehab+huawei@kernel.org>
 References: <cover.1599062230.git.mchehab+huawei@kernel.org>
@@ -44,109 +44,215 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move those out of the big vivid_create_instance() function.
+Instead of placing everything inside vivid_create_instance(),
+we can move the part which creates per-type video queues
+into a separate function.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/test-drivers/vivid/vivid-core.c | 76 +++++++++++--------
- 1 file changed, 44 insertions(+), 32 deletions(-)
+ drivers/media/test-drivers/vivid/vivid-core.c | 175 +++++++++---------
+ 1 file changed, 92 insertions(+), 83 deletions(-)
 
 diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index e3ffc2566623..3340b61e68c0 100644
+index 3340b61e68c0..69cc8456a323 100644
 --- a/drivers/media/test-drivers/vivid/vivid-core.c
 +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -1177,6 +1177,48 @@ static void vivid_disable_unused_ioctls(struct vivid_dev *dev,
- 	v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_ENUM_FRAMEINTERVALS);
+@@ -1218,6 +1218,93 @@ static int vivid_init_dv_timings(struct vivid_dev *dev)
+ 	return 0;
  }
  
-+static int vivid_init_dv_timings(struct vivid_dev *dev)
++static int vivid_create_queues(struct vivid_dev *dev)
 +{
-+	int i;
++	int ret;
 +
-+	while (v4l2_dv_timings_presets[dev->query_dv_timings_size].bt.width)
-+		dev->query_dv_timings_size++;
-+
-+	/*
-+	 * Create a char pointer array that points to the names of all the
-+	 * preset timings
-+	 */
-+	dev->query_dv_timings_qmenu = kmalloc_array(dev->query_dv_timings_size,
-+						    sizeof(char *), GFP_KERNEL);
-+	/*
-+	 * Create a string array containing the names of all the preset
-+	 * timings. Each name is max 31 chars long (+ terminating 0).
-+	 */
-+	dev->query_dv_timings_qmenu_strings =
-+		kmalloc_array(dev->query_dv_timings_size, 32, GFP_KERNEL);
-+
-+	if (!dev->query_dv_timings_qmenu ||
-+	    !dev->query_dv_timings_qmenu_strings)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < dev->query_dv_timings_size; i++) {
-+		const struct v4l2_bt_timings *bt = &v4l2_dv_timings_presets[i].bt;
-+		char *p = dev->query_dv_timings_qmenu_strings + i * 32;
-+		u32 htot, vtot;
-+
-+		dev->query_dv_timings_qmenu[i] = p;
-+
-+		htot = V4L2_DV_BT_FRAME_WIDTH(bt);
-+		vtot = V4L2_DV_BT_FRAME_HEIGHT(bt);
-+		snprintf(p, 32, "%ux%u%s%u",
-+			bt->width, bt->height, bt->interlaced ? "i" : "p",
-+			(u32)bt->pixelclock / (htot * vtot));
++	/* start creating the vb2 queues */
++	if (dev->has_vid_cap) {
++		/* initialize vid_cap queue */
++		ret = vivid_create_queue(dev, &dev->vb_vid_cap_q,
++					 V4L2_BUF_TYPE_VIDEO_CAPTURE, 2,
++					 &vivid_vid_cap_qops);
++		if (ret)
++			return ret;
 +	}
 +
++	if (dev->has_vid_out) {
++		/* initialize vid_out queue */
++		ret = vivid_create_queue(dev, &dev->vb_vid_out_q,
++					 V4L2_BUF_TYPE_VIDEO_OUTPUT, 2,
++					 &vivid_vid_out_qops);
++		if (ret)
++			return ret;
++	}
++
++	if (dev->has_vbi_cap) {
++		/* initialize vbi_cap queue */
++		ret = vivid_create_queue(dev, &dev->vb_vbi_cap_q,
++					 V4L2_BUF_TYPE_VBI_CAPTURE, 2,
++					 &vivid_vbi_cap_qops);
++		if (ret)
++			return ret;
++	}
++
++	if (dev->has_vbi_out) {
++		/* initialize vbi_out queue */
++		ret = vivid_create_queue(dev, &dev->vb_vbi_out_q,
++					 V4L2_BUF_TYPE_VBI_OUTPUT, 2,
++					 &vivid_vbi_out_qops);
++		if (ret)
++			return ret;
++	}
++
++	if (dev->has_sdr_cap) {
++		/* initialize sdr_cap queue */
++		ret = vivid_create_queue(dev, &dev->vb_sdr_cap_q,
++					 V4L2_BUF_TYPE_SDR_CAPTURE, 8,
++					 &vivid_sdr_cap_qops);
++		if (ret)
++			return ret;
++	}
++
++	if (dev->has_meta_cap) {
++		/* initialize meta_cap queue */
++		ret = vivid_create_queue(dev, &dev->vb_meta_cap_q,
++					 V4L2_BUF_TYPE_META_CAPTURE, 2,
++					 &vivid_meta_cap_qops);
++		if (ret)
++			return ret;
++	}
++
++	if (dev->has_meta_out) {
++		/* initialize meta_out queue */
++		ret = vivid_create_queue(dev, &dev->vb_meta_out_q,
++					 V4L2_BUF_TYPE_META_OUTPUT, 1,
++					 &vivid_meta_out_qops);
++		if (ret)
++			return ret;
++	}
++
++	if (dev->has_touch_cap) {
++		/* initialize touch_cap queue */
++		ret = vivid_create_queue(dev, &dev->vb_touch_cap_q,
++					 V4L2_BUF_TYPE_VIDEO_CAPTURE, 1,
++					 &vivid_touch_cap_qops);
++		if (ret)
++			return ret;
++	}
++
++	if (dev->has_fb) {
++		/* Create framebuffer for testing capture/output overlay */
++		ret = vivid_fb_init(dev);
++		if (ret)
++			return ret;
++		v4l2_info(&dev->v4l2_dev, "Framebuffer device registered as fb%d\n",
++			  dev->fb_info.node);
++	}
 +	return 0;
 +}
-+
-+
+ 
  static int vivid_create_instance(struct platform_device *pdev, int inst)
  {
- 	static const struct v4l2_dv_timings def_dv_timings =
-@@ -1254,40 +1296,10 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
- 	if (!dev->edid)
- 		goto free_dev;
+@@ -1399,8 +1486,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	 * Same as create_singlethread_workqueue, but now I can use the
+ 	 * string formatting of alloc_ordered_workqueue.
+ 	 */
+-	dev->cec_workqueue =
+-		alloc_ordered_workqueue("vivid-%03d-cec", WQ_MEM_RECLAIM, inst);
++	dev->cec_workqueue = alloc_ordered_workqueue("vivid-%03d-cec",
++						     WQ_MEM_RECLAIM, inst);
+ 	if (!dev->cec_workqueue) {
+ 		ret = -ENOMEM;
+ 		goto unreg_dev;
+@@ -1409,87 +1496,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	if (allocators[inst] == 1)
+ 		dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
  
--	while (v4l2_dv_timings_presets[dev->query_dv_timings_size].bt.width)
--		dev->query_dv_timings_size++;
--
--	/*
--	 * Create a char pointer array that points to the names of all the
--	 * preset timings
--	 */
--	dev->query_dv_timings_qmenu = kmalloc_array(dev->query_dv_timings_size,
--						    sizeof(char *), GFP_KERNEL);
--	/*
--	 * Create a string array containing the names of all the preset
--	 * timings. Each name is max 31 chars long (+ terminating 0).
--	 */
--	dev->query_dv_timings_qmenu_strings =
--		kmalloc_array(dev->query_dv_timings_size, 32, GFP_KERNEL);
--
--	if (!dev->query_dv_timings_qmenu ||
--	    !dev->query_dv_timings_qmenu_strings)
-+	ret = vivid_init_dv_timings(dev);
-+	if (ret < 0)
- 		goto free_dev;
- 
--	for (i = 0; i < dev->query_dv_timings_size; i++) {
--		const struct v4l2_bt_timings *bt = &v4l2_dv_timings_presets[i].bt;
--		char *p = dev->query_dv_timings_qmenu_strings + i * 32;
--		u32 htot, vtot;
--
--		dev->query_dv_timings_qmenu[i] = p;
--
--		htot = V4L2_DV_BT_FRAME_WIDTH(bt);
--		vtot = V4L2_DV_BT_FRAME_HEIGHT(bt);
--		snprintf(p, 32, "%ux%u%s%u",
--			bt->width, bt->height, bt->interlaced ? "i" : "p",
--			(u32)bt->pixelclock / (htot * vtot));
+-	/* start creating the vb2 queues */
+-	if (dev->has_vid_cap) {
+-		/* initialize vid_cap queue */
+-		ret = vivid_create_queue(dev, &dev->vb_vid_cap_q,
+-					 V4L2_BUF_TYPE_VIDEO_CAPTURE, 2,
+-					 &vivid_vid_cap_qops);
+-		if (ret)
+-			goto unreg_dev;
 -	}
 -
- 	vivid_disable_unused_ioctls(dev, has_tuner, has_modulator,
- 				    in_type_counter, out_type_counter);
+-	if (dev->has_vid_out) {
+-		/* initialize vid_out queue */
+-		ret = vivid_create_queue(dev, &dev->vb_vid_out_q,
+-					 V4L2_BUF_TYPE_VIDEO_OUTPUT, 2,
+-					 &vivid_vid_out_qops);
+-		if (ret)
+-			goto unreg_dev;
+-	}
+-
+-	if (dev->has_vbi_cap) {
+-		/* initialize vbi_cap queue */
+-		ret = vivid_create_queue(dev, &dev->vb_vbi_cap_q,
+-					 V4L2_BUF_TYPE_VBI_CAPTURE, 2,
+-					 &vivid_vbi_cap_qops);
+-		if (ret)
+-			goto unreg_dev;
+-	}
+-
+-	if (dev->has_vbi_out) {
+-		/* initialize vbi_out queue */
+-		ret = vivid_create_queue(dev, &dev->vb_vbi_out_q,
+-					 V4L2_BUF_TYPE_VBI_OUTPUT, 2,
+-					 &vivid_vbi_out_qops);
+-		if (ret)
+-			goto unreg_dev;
+-	}
+-
+-	if (dev->has_sdr_cap) {
+-		/* initialize sdr_cap queue */
+-		ret = vivid_create_queue(dev, &dev->vb_sdr_cap_q,
+-					 V4L2_BUF_TYPE_SDR_CAPTURE, 8,
+-					 &vivid_sdr_cap_qops);
+-		if (ret)
+-			goto unreg_dev;
+-	}
+-
+-	if (dev->has_meta_cap) {
+-		/* initialize meta_cap queue */
+-		ret = vivid_create_queue(dev, &dev->vb_meta_cap_q,
+-					 V4L2_BUF_TYPE_META_CAPTURE, 2,
+-					 &vivid_meta_cap_qops);
+-		if (ret)
+-			goto unreg_dev;
+-	}
+-
+-	if (dev->has_meta_out) {
+-		/* initialize meta_out queue */
+-		ret = vivid_create_queue(dev, &dev->vb_meta_out_q,
+-					 V4L2_BUF_TYPE_META_OUTPUT, 1,
+-					 &vivid_meta_out_qops);
+-		if (ret)
+-			goto unreg_dev;
+-	}
+-
+-	if (dev->has_touch_cap) {
+-		/* initialize touch_cap queue */
+-		ret = vivid_create_queue(dev, &dev->vb_touch_cap_q,
+-					 V4L2_BUF_TYPE_VIDEO_CAPTURE, 1,
+-					 &vivid_touch_cap_qops);
+-		if (ret)
+-			goto unreg_dev;
+-	}
+-
+-	if (dev->has_fb) {
+-		/* Create framebuffer for testing capture/output overlay */
+-		ret = vivid_fb_init(dev);
+-		if (ret)
+-			goto unreg_dev;
+-		v4l2_info(&dev->v4l2_dev, "Framebuffer device registered as fb%d\n",
+-			  dev->fb_info.node);
+-	}
++	ret = vivid_create_queues(dev);
++	if (ret)
++		goto unreg_dev;
  
+ #ifdef CONFIG_VIDEO_VIVID_CEC
+ 	if (dev->has_vid_cap && in_type_counter[HDMI]) {
 -- 
 2.26.2
 
