@@ -2,185 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CACE225B40A
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 20:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F1A25B411
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 20:46:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728111AbgIBSn7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 14:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51786 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728047AbgIBSn6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 14:43:58 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5A5C061244;
-        Wed,  2 Sep 2020 11:43:57 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id t10so508698wrv.1;
-        Wed, 02 Sep 2020 11:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UKk0FikPFSnv2wlgEYZiX1TTnSriok/p6lQGPIKn3B8=;
-        b=YU9/MzA5Xfr3hz+eiBR3BSbV89vqkeWvzNr6+qXwIbDW+DS7o4ok2Lpr1oAP3E9Fv2
-         EgRkgvM3ELkiqDu6fREZPNELXRy+JXBZeKK7yCQX16KbDg879r+85zhYgbLB/2CSLOPa
-         T8+pKX0a5pXYKVjmqXoENXclcUdsICKUm10d/EgEZmNOYQDMUewoKhXIG4BZ0Z4xpSP9
-         aDS9xfj7dVocMJARiyawFRZxY307R6RgqiE+mUx86pEQeqQjJwiZ8Uv4lLHhFn92iGdm
-         h9zqEbbzaWh91f6LmopjVwlq073Zx0enuj5vUFIYEOKmZQTedDt90ITXvSoUB5Hsi7wJ
-         xZog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UKk0FikPFSnv2wlgEYZiX1TTnSriok/p6lQGPIKn3B8=;
-        b=ZJwGpMJjUeo6d+6LJVmzN3qG+0zgip37xGqiKgpDQwXTNXNbP4QabiHWbjMDejBV9r
-         iTgts3MuUi2yz1HskcmhOfFDZqTw436trpaehi4nHmRlB2ZCuCFSWSMwkAh4Ab7rTO4j
-         dFxxUHKoKcd4FoQ4O/iQ3gzfwD8V+InicXRIANKGcfESxSLkR7jvPBa3XYgIo0QhMB79
-         VhriKZSThYqmqiHxzvvQZ1TRmJqj0M9/CpLNj7V9oHPm0K/V/CnTrDdLtj9RSx8VpwOW
-         PVmXuQxatKBh2l59D+XZ3WUEg19wHzUk6thZww2Ki05Rksmrl2p1aD3mcLag0nxjpuIL
-         vItw==
-X-Gm-Message-State: AOAM533uDwTtnG3wx5ayXsCpQysCQXWzi5u7jMFjY2nth7R6Rv3PJIJs
-        BF0XyCRJoHLiUBm87UqWjnw=
-X-Google-Smtp-Source: ABdhPJxkaoiLsTUQO7T2dIlHN18eiRrmRwRn8OeMgrU5jihup2RN5cDNezt0rf3blbWyMPHHwKvSYA==
-X-Received: by 2002:adf:fa02:: with SMTP id m2mr1662464wrr.273.1599072236550;
-        Wed, 02 Sep 2020 11:43:56 -0700 (PDT)
-Received: from localhost.localdomain (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
-        by smtp.gmail.com with ESMTPSA id g18sm818276wru.27.2020.09.02.11.43.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 11:43:56 -0700 (PDT)
-From:   Alex Dewar <alex.dewar90@gmail.com>
-Cc:     Alex Dewar <alex.dewar90@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: atomisp: Fix error path in lm3554_probe()
-Date:   Wed,  2 Sep 2020 19:41:50 +0100
-Message-Id: <20200902184207.479525-1-alex.dewar90@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        id S1727984AbgIBSqO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 14:46:14 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:53015 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727944AbgIBSqM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 14:46:12 -0400
+Received: from mail-qk1-f172.google.com ([209.85.222.172]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MofPt-1kxIuB3nT7-00p8R1; Wed, 02 Sep 2020 20:46:11 +0200
+Received: by mail-qk1-f172.google.com with SMTP id o64so656772qkb.10;
+        Wed, 02 Sep 2020 11:46:10 -0700 (PDT)
+X-Gm-Message-State: AOAM533JH9GlQ/APVB0Xmtol8+UA+BMvH1rGnaPTNONzw9JeaPo6LIDG
+        98MZ9mQ2ae1JO3m/yYbZjcXBhuun/4Uf6QRXb1U=
+X-Google-Smtp-Source: ABdhPJxVQgqdchaJT2Opo+XMqoaGbbMuH0ZJgk4vqAAjULj9TiTWTnNB8tk0xUKeJzFpqpGi7WizMZsTBXbhghUgeqk=
+X-Received: by 2002:a37:a04b:: with SMTP id j72mr8558344qke.352.1599072369660;
+ Wed, 02 Sep 2020 11:46:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+References: <cover.1599062230.git.mchehab+huawei@kernel.org> <27254f9780e7ec8502761826c2888dbd51a536a8.1599062230.git.mchehab+huawei@kernel.org>
+In-Reply-To: <27254f9780e7ec8502761826c2888dbd51a536a8.1599062230.git.mchehab+huawei@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 2 Sep 2020 20:45:53 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1MFe4mGMzjdDQURXbWLKCr8uEWgie3EZ1wb7e3EtTQdQ@mail.gmail.com>
+Message-ID: <CAK8P3a1MFe4mGMzjdDQURXbWLKCr8uEWgie3EZ1wb7e3EtTQdQ@mail.gmail.com>
+Subject: Re: [PATCH 02/38] media: v4l2-ioctl: avoid memory leaks on some
+ time32 compat functions
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vandana BN <bnvandana@gmail.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:zQcM9a7YEWYugnoT4czPfnfyP6TXKnPNzhBrcQOU9R9TO7Phk57
+ xkl5u8/ut5GvahdImqQGzI8/BdePRJY3DseHSjD0Ys80Mu2TeJ3a6C3o5NvW0mjFAJL/Diu
+ mfjT41oPAXLlXKxWUD3Nyx2BL5Ll8RBZp1iscaTfDGdcS9ghLwG7C4jk9BMeNJEVdip51vf
+ rvhlzHv5nX35uFsid0hbw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aiJ3Yzbui2k=:TE5a6mYWTfixYSwqH/d3Ot
+ t+BkqfB8NPEeg+SSPmT39ddtdyHguaJnnmtucFLsmcm3wR5Ddja6oweIOBDgYI4B03Q/u0Gnf
+ LH7x+YEw2l6fL2OLrw3gKhPdm1SAYXT7q9do+GiYoBdS3hrrJYIpZfkpLBz1stHdvcvnHy6PB
+ FzRC26TsH+B0rVSM5PmU6fhffEgjIfpa4aOzfBQdZsyPjV5GPuvhfKGlT6yzIDpRLed8FBr13
+ C/H4wlLgOlNfguyT9GvYhzX/hWlUPoB2PzMxT+kqgg6cjmJrh1XiONn/FAU8zXmUQK3UMd6cI
+ 8VqWUobcNXMhFCZ8qeQd+J1gZNDnKJYOoCxI+PIJtc/DRdU1Q2vZVWn3s5ZOpiYoq8Niwv0T8
+ Brv0o2E/A/14V0NP5lfRiqUKtQXVT5KtVRKxh0/wE5jJm2+fGpEYxnUWWT5ZdHFbpvRe6F61C
+ e3CkQFVExQsjOFMoA6YdYDLePACMp5KugOf6ff/WuwNhvo/0eGwoKhO1n4+tG9vY+BIlMTahA
+ SPtq6R5SuqHmA0Pxf8kqiRIwm92sTcCtk7lpXlfHkFBQW4SlD9H8ajxQAYjFe+dXa/bDdd6/f
+ ssCUcW49Px3kbl3SHPk0GTW5YYwSjDx1mK9Adwnevzvc4PpN2Ilfy0UVWwmVvDhTn7sIV2LQZ
+ x8Nf6XqhQrlVlVQcgZMsC8pGujwv0AAF/kf33TfFacI4bSoNotVPCblbcLh6oVVh+Jh2mfE27
+ SGwBTR9kjd3byIQo8uOORvUyDtvwUWXKrawyzwgrRh4+vhM7vFToWptfowsfsAZ0Q/Ljpoew2
+ XbDPhP6YGZIDcavC1uryehZZ2Wh/aH5PERR4WsrL4Kz+mldoU89ETRk6u8gerw8HCKMQuIA
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The error path for lm3554_probe() contains a number of bugs, including:
- * resource leaks
- * jumping to error labels out of sequence
- * not setting the return value appropriately
+On Wed, Sep 2, 2020 at 6:10 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> There are some reports about possible memory leaks:
+>
+>         drivers/media/v4l2-core//v4l2-ioctl.c:3203 video_put_user() warn: check that 'ev32' doesn't leak information (struct has a hole after 'type')
+>         drivers/media/v4l2-core//v4l2-ioctl.c:3230 video_put_user() warn: check that 'vb32' doesn't leak information (struct has a hole after 'memory')
+>
+> While smatch seems to be reporting a false positive (line 3203),
+> there's indeed a possible leak with reserved2 at vb32.
+>
+> We might have fixed just that one, but smatch checks won't
+> be able to check leaks at ev32. So, re-work the code in a way
+> that will ensure that the var contents will be zeroed before
+> filling it.
+>
+> With that, we don't need anymore to touch reserved fields.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Fix it up and give the labels more memorable names.
+Isn't this the same as commit 4ffb879ea648 ("media: media/v4l2-core:
+Fix kernel-infoleak
+in video_put_user()") that you already applied (aside from the issue
+that Laurent
+pointed out)?
 
-This issue has existed since the code was originally contributed in
-commit a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2"),
-although the code was subsequently removed altogether and then
-reinstated with commit ad85094b293e ("Revert "media: staging: atomisp: Remove driver"").
-
-Addresses-Coverity: ("Resource leak")
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
----
- .../media/atomisp/i2c/atomisp-lm3554.c        | 47 ++++++++++---------
- 1 file changed, 25 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-index 7ca7378b1859..9aad6721fc84 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-@@ -833,7 +833,6 @@ static void *lm3554_platform_data_func(struct i2c_client *client)
- 
- static int lm3554_probe(struct i2c_client *client)
- {
--	int err = 0;
- 	struct lm3554 *flash;
- 	unsigned int i;
- 	int ret;
-@@ -843,36 +842,38 @@ static int lm3554_probe(struct i2c_client *client)
- 		return -ENOMEM;
- 
- 	flash->pdata = lm3554_platform_data_func(client);
--	if (IS_ERR(flash->pdata))
--		return PTR_ERR(flash->pdata);
-+	if (IS_ERR(flash->pdata)) {
-+		ret = PTR_ERR(flash->pdata);
-+		goto err_free_flash;
-+	}
- 
- 	v4l2_i2c_subdev_init(&flash->sd, client, &lm3554_ops);
- 	flash->sd.internal_ops = &lm3554_internal_ops;
- 	flash->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	flash->mode = ATOMISP_FLASH_MODE_OFF;
- 	flash->timeout = LM3554_MAX_TIMEOUT / LM3554_TIMEOUT_STEPSIZE - 1;
--	ret =
--	    v4l2_ctrl_handler_init(&flash->ctrl_handler,
--				   ARRAY_SIZE(lm3554_controls));
-+	ret = v4l2_ctrl_handler_init(&flash->ctrl_handler,
-+				     ARRAY_SIZE(lm3554_controls));
- 	if (ret) {
--		dev_err(&client->dev, "error initialize a ctrl_handler.\n");
--		goto fail2;
-+		dev_err(&client->dev, "error initializing ctrl_handler");
-+		goto err_unregister_sd;
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
- 		v4l2_ctrl_new_custom(&flash->ctrl_handler, &lm3554_controls[i],
- 				     NULL);
- 
--	if (flash->ctrl_handler.error) {
--		dev_err(&client->dev, "ctrl_handler error.\n");
--		goto fail2;
-+	ret = flash->ctrl_handler.error;
-+	if (ret) {
-+		dev_err(&client->dev, "ctrl_handler error");
-+		goto err_free_ctrl_handler;
- 	}
- 
- 	flash->sd.ctrl_handler = &flash->ctrl_handler;
--	err = media_entity_pads_init(&flash->sd.entity, 0, NULL);
--	if (err) {
--		dev_err(&client->dev, "error initialize a media entity.\n");
--		goto fail1;
-+	ret = media_entity_pads_init(&flash->sd.entity, 0, NULL);
-+	if (ret) {
-+		dev_err(&client->dev, "error initializing media entity");
-+		goto err_free_ctrl_handler;
- 	}
- 
- 	flash->sd.entity.function = MEDIA_ENT_F_FLASH;
-@@ -881,20 +882,22 @@ static int lm3554_probe(struct i2c_client *client)
- 
- 	timer_setup(&flash->flash_off_delay, lm3554_flash_off_delay, 0);
- 
--	err = lm3554_gpio_init(client);
--	if (err) {
-+	ret = lm3554_gpio_init(client);
-+	if (ret) {
- 		dev_err(&client->dev, "gpio request/direction_output fail");
--		goto fail2;
-+		goto err_cleanup_entity;
- 	}
- 	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
--fail2:
-+
-+err_cleanup_entity:
- 	media_entity_cleanup(&flash->sd.entity);
-+err_free_ctrl_handler:
- 	v4l2_ctrl_handler_free(&flash->ctrl_handler);
--fail1:
-+err_unregister_sd:
- 	v4l2_device_unregister_subdev(&flash->sd);
-+err_free_flash:
- 	kfree(flash);
--
--	return err;
-+	return ret;
- }
- 
- static int lm3554_remove(struct i2c_client *client)
--- 
-2.28.0
-
+       Arnd
