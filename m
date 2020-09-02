@@ -2,41 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A956925B0F4
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2201B25B0F5
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 18:14:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728651AbgIBQNJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1728637AbgIBQNJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 2 Sep 2020 12:13:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53872 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:54060 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728031AbgIBQK7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Sep 2020 12:10:59 -0400
+        id S1728348AbgIBQLA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Sep 2020 12:11:00 -0400
 Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8514B221E5;
+        by mail.kernel.org (Postfix) with ESMTPSA id 8E6C8221E7;
         Wed,  2 Sep 2020 16:10:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599063046;
-        bh=nIwf2Irhblv49+pQhNmKTUAi1wh7eY9UFjQPwAVsjOw=;
+        bh=gll70D6GU5P8UxfSQJbH5W1Oo/6tkhIxKgLxAVOiR3k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eL5MloL/sCMawoCSdjUStXLspXZdtLurNHTZVop/sJM/4FWmp23sHhJ9Y4qU8e+7X
-         OSgdybQsgfhhpe6pjdAEsd1dn5Ths0T4ckayoA8YQntlLHlxWn5WDJSX1Av1wzOe9n
-         1mDhvacnSori5x3ls21NH/Hd8/2FqiOkicgDScjw=
+        b=Qk72ISxc1pOlH7TIicg8byDtrLhGffpeuLMixdWiaAp8z30tYFaC6ZgfQD7cLBgEQ
+         SfUIjAejg8WgKlK53Qa6r4lOeWKm//lLp5VgEvoF6hcwZwchBeYxA7MCqIBtC8OqZH
+         3MQ6/8Va7hJtqNn9lU+MMpuu1JKDrHlR0qH5cZD0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kDVLQ-000tB9-Lt; Wed, 02 Sep 2020 18:10:44 +0200
+        id 1kDVLQ-000tBB-N8; Wed, 02 Sep 2020 18:10:44 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
         Nathan Chancellor <natechancellor@gmail.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 31/38] media: atomisp: unify INPUT error return type
-Date:   Wed,  2 Sep 2020 18:10:34 +0200
-Message-Id: <b83557ffe822ae2cf6c31858c40d61e25d5a6c40.1599062230.git.mchehab+huawei@kernel.org>
+        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 32/38] media: atomisp: de-duplicate names at *_input_system_global.h
+Date:   Wed,  2 Sep 2020 18:10:35 +0200
+Message-Id: <efeee5606927939e59eb0e169a56aec0c0c12375.1599062230.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599062230.git.mchehab+huawei@kernel.org>
 References: <cover.1599062230.git.mchehab+huawei@kernel.org>
@@ -48,537 +47,514 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a typedef for INPUT errors. This is different between
-ISP2401 and ISP2400. Place both at the same struct, at the
-global header file.
+There are some duplicated names between the ISP2401 and ISP2400
+for the input system, with different meanings.
+
+In order to avoid ubiquity, let's prepend those with the
+name of the ISP.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../pci/css_2401_system/ibuf_ctrl_global.h    |  2 +-
- .../hive_isp_css_common/host/input_system.c   | 56 +++++++++----------
- .../media/atomisp/pci/input_system_global.h   | 22 ++++++++
- .../atomisp/pci/isp2400_input_system_global.h |  7 ---
- .../atomisp/pci/isp2400_input_system_local.h  |  9 ---
- .../atomisp/pci/isp2400_input_system_public.h | 22 ++++----
- .../atomisp/pci/isp2401_input_system_global.h | 19 -------
- .../atomisp/pci/isp2401_input_system_local.h  |  2 -
- .../pci/runtime/isys/interface/ia_css_isys.h  |  2 +-
- .../atomisp/pci/runtime/isys/src/isys_init.c  |  6 +-
- 10 files changed, 66 insertions(+), 81 deletions(-)
+ .../pci/css_2401_system/ibuf_ctrl_global.h    |  6 +-
+ .../pci/css_2401_system/pixelgen_global.h     |  8 +--
+ .../hive_isp_css_common/host/input_system.c   | 12 ++--
+ .../atomisp/pci/isp2400_input_system_global.h | 14 ++---
+ .../atomisp/pci/isp2400_input_system_local.h  |  8 +--
+ .../atomisp/pci/isp2401_input_system_global.h |  6 +-
+ .../pci/runtime/isys/interface/ia_css_isys.h  |  4 +-
+ .../media/atomisp/pci/runtime/isys/src/rx.c   |  2 +-
+ .../pci/runtime/isys/src/virtual_isys.c       | 56 +++++++++----------
+ 9 files changed, 58 insertions(+), 58 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/ibuf_ctrl_global.h b/drivers/staging/media/atomisp/pci/css_2401_system/ibuf_ctrl_global.h
-index 1b9f03d57659..ce7b06b3f3c8 100644
+index ce7b06b3f3c8..56c5ed89b3cc 100644
 --- a/drivers/staging/media/atomisp/pci/css_2401_system/ibuf_ctrl_global.h
 +++ b/drivers/staging/media/atomisp/pci/css_2401_system/ibuf_ctrl_global.h
-@@ -33,7 +33,6 @@
+@@ -33,7 +33,7 @@
  #define _IBUF_CNTRL_DMA_SYNC_WAIT_FOR_SYNC		1
  #define _IBUF_CNTRL_DMA_SYNC_FSM_WAIT_FOR_ACK		(0x3 << 1)
  
--typedef struct ib_buffer_s	ib_buffer_t;
- struct	ib_buffer_s {
+-struct	ib_buffer_s {
++struct	isp2401_ib_buffer_s {
  	u32	start_addr;	/* start address of the buffer in the
  					 * "input-buffer hardware block"
-@@ -42,6 +41,7 @@ struct	ib_buffer_s {
+ 					 */
+@@ -41,7 +41,7 @@ struct	ib_buffer_s {
  	u32	stride;		/* stride per buffer line (in bytes) */
  	u32	lines;		/* lines in the buffer */
  };
-+typedef struct ib_buffer_s	ib_buffer_t;
+-typedef struct ib_buffer_s	ib_buffer_t;
++typedef struct isp2401_ib_buffer_s	isp2401_ib_buffer_t;
  
  typedef struct ibuf_ctrl_cfg_s ibuf_ctrl_cfg_t;
  struct ibuf_ctrl_cfg_s {
+@@ -58,7 +58,7 @@ struct ibuf_ctrl_cfg_s {
+ 		u32 elems_per_word_in_dest;
+ 	} dma_cfg;
+ 
+-	ib_buffer_t ib_buffer;
++	isp2401_ib_buffer_t ib_buffer;
+ 
+ 	struct {
+ 		u32 stride;
+diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/pixelgen_global.h b/drivers/staging/media/atomisp/pci/css_2401_system/pixelgen_global.h
+index 75722ef572d0..f131f03cb8fa 100644
+--- a/drivers/staging/media/atomisp/pci/css_2401_system/pixelgen_global.h
++++ b/drivers/staging/media/atomisp/pci/css_2401_system/pixelgen_global.h
+@@ -24,8 +24,8 @@
+ /*
+  * Duplicates "sync_generator_cfg_t" in "input_system_global.h".
+  */
+-typedef struct sync_generator_cfg_s sync_generator_cfg_t;
+-struct sync_generator_cfg_s {
++typedef struct isp2401_sync_generator_cfg_s isp2401_sync_generator_cfg_t;
++struct isp2401_sync_generator_cfg_s {
+ 	u32	hblank_cycles;
+ 	u32	vblank_cycles;
+ 	u32	pixels_per_clock;
+@@ -72,7 +72,7 @@ struct pixelgen_tpg_cfg_s {
+ 		s32	v_delta;	/* vertical delta? */
+ 	} delta_cfg;
+ 
+-	sync_generator_cfg_t	 sync_gen_cfg;
++	isp2401_sync_generator_cfg_t	 sync_gen_cfg;
+ };
+ 
+ /*
+@@ -84,7 +84,7 @@ struct pixelgen_prbs_cfg_s {
+ 	s32	seed0;
+ 	s32	seed1;
+ 
+-	sync_generator_cfg_t	sync_gen_cfg;
++	isp2401_sync_generator_cfg_t	sync_gen_cfg;
+ };
+ 
+ /* end of Pixel-generator: TPG. ("pixelgen_global.h") */
 diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 4f3d75fac3e3..cd516e4554fb 100644
+index cd516e4554fb..0f5a231672a8 100644
 --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
 +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -32,15 +32,15 @@
+@@ -30,7 +30,7 @@
+ #define ZERO (0x0)
+ #define ONE  (1U)
  
- static const ib_buffer_t   IB_BUFFER_NULL = {0, 0, 0 };
+-static const ib_buffer_t   IB_BUFFER_NULL = {0, 0, 0 };
++static const isp2400_ib_buffer_t   IB_BUFFER_NULL = {0, 0, 0 };
  
--static input_system_error_t input_system_configure_channel(
-+static input_system_err_t input_system_configure_channel(
+ static input_system_err_t input_system_configure_channel(
      const channel_cfg_t		channel);
+@@ -48,12 +48,12 @@ static void input_system_network_rst(const input_system_ID_t ID);
+ static void capture_unit_configure(
+     const input_system_ID_t			ID,
+     const sub_system_ID_t			sub_id,
+-    const ib_buffer_t *const cfg);
++    const isp2400_ib_buffer_t *const cfg);
  
--static input_system_error_t input_system_configure_channel_sensor(
-+static input_system_err_t input_system_configure_channel_sensor(
-     const channel_cfg_t		channel);
+ static void acquisition_unit_configure(
+     const input_system_ID_t			ID,
+     const sub_system_ID_t			sub_id,
+-    const ib_buffer_t *const cfg);
++    const isp2400_ib_buffer_t *const cfg);
  
--static input_system_error_t input_buffer_configuration(void);
-+static input_system_err_t input_buffer_configuration(void);
- 
--static input_system_error_t configuration_to_registers(void);
-+static input_system_err_t configuration_to_registers(void);
- 
- static void receiver_rst(const rx_ID_t ID);
- static void input_system_network_rst(const input_system_ID_t ID);
-@@ -65,17 +65,17 @@ static void input_system_network_configure(
-     const input_system_network_cfg_t *const cfg);
- 
- // MW: CSI is previously named as "rx" short for "receiver"
--static input_system_error_t set_csi_cfg(
-+static input_system_err_t set_csi_cfg(
-     csi_cfg_t *const lhs,
-     const csi_cfg_t *const rhs,
-     input_system_config_flags_t *const flags);
- 
--static input_system_error_t set_source_type(
-+static input_system_err_t set_source_type(
-     input_system_source_t *const lhs,
-     const input_system_source_t				rhs,
-     input_system_config_flags_t *const flags);
- 
--static input_system_error_t input_system_multiplexer_cfg(
-+static input_system_err_t input_system_multiplexer_cfg(
-     input_system_multiplex_t *const lhs,
-     const input_system_multiplex_t			rhs,
-     input_system_config_flags_t *const flags);
-@@ -848,7 +848,7 @@ static void input_system_network_rst(const input_system_ID_t ID)
- }
- 
- // Function that resets current configuration.
--input_system_error_t input_system_configuration_reset(void)
-+input_system_err_t input_system_configuration_reset(void)
- {
- 	unsigned int i;
- 
-@@ -890,10 +890,10 @@ input_system_error_t input_system_configuration_reset(void)
- 
- // MW: Comments are good, but doxygen is required, place it at the declaration
- // Function that appends the channel to current configuration.
--static input_system_error_t input_system_configure_channel(
-+static input_system_err_t input_system_configure_channel(
-     const channel_cfg_t		channel)
- {
--	input_system_error_t error = INPUT_SYSTEM_ERR_NO_ERROR;
-+	input_system_err_t error = INPUT_SYSTEM_ERR_NO_ERROR;
- 	// Check if channel is not already configured.
- 	if (config.ch_flags[channel.ch_id] & INPUT_SYSTEM_CFG_FLAG_SET) {
- 		return INPUT_SYSTEM_ERR_CHANNEL_ALREADY_SET;
-@@ -948,7 +948,7 @@ static input_system_error_t input_system_configure_channel(
- }
- 
- // Function that partitions input buffer space with determining addresses.
--static input_system_error_t input_buffer_configuration(void)
-+static input_system_err_t input_buffer_configuration(void)
- {
+ static void ctrl_unit_configure(
+     const input_system_ID_t			ID,
+@@ -953,7 +953,7 @@ static input_system_err_t input_buffer_configuration(void)
  	u32 current_address    = 0;
  	u32 unallocated_memory = IB_CAPACITY_IN_WORDS;
-@@ -1236,7 +1236,7 @@ static void input_system_network_configure(
- 	return;
- }
  
--static input_system_error_t configuration_to_registers(void)
-+static input_system_err_t configuration_to_registers(void)
+-	ib_buffer_t	candidate_buffer_acq  = IB_BUFFER_NULL;
++	isp2400_ib_buffer_t	candidate_buffer_acq  = IB_BUFFER_NULL;
+ 	u32 size_requested;
+ 	input_system_config_flags_t	acq_already_specified = INPUT_SYSTEM_CFG_FLAG_RESET;
+ 	input_system_csi_port_t port;
+@@ -1062,7 +1062,7 @@ static input_system_err_t input_buffer_configuration(void)
+ static void capture_unit_configure(
+     const input_system_ID_t			ID,
+     const sub_system_ID_t			sub_id,
+-    const ib_buffer_t *const cfg)
++    const isp2400_ib_buffer_t *const cfg)
  {
- 	input_system_network_cfg_t input_system_network_cfg;
- 	int i;
-@@ -1335,10 +1335,10 @@ static input_system_error_t configuration_to_registers(void)
- }
- 
- // Function that applies the whole configuration.
--input_system_error_t input_system_configuration_commit(void)
-+input_system_err_t input_system_configuration_commit(void)
+ 	assert(ID < N_INPUT_SYSTEM_ID);
+ 	assert(/*(sub_id >= CAPTURE_UNIT0_ID) &&*/ (sub_id <=
+@@ -1088,7 +1088,7 @@ static void capture_unit_configure(
+ static void acquisition_unit_configure(
+     const input_system_ID_t			ID,
+     const sub_system_ID_t			sub_id,
+-    const ib_buffer_t *const cfg)
++    const isp2400_ib_buffer_t *const cfg)
  {
- 	// The last configuration step is to configure the input buffer.
--	input_system_error_t error = input_buffer_configuration();
-+	input_system_err_t error = input_buffer_configuration();
- 
- 	if (error != INPUT_SYSTEM_ERR_NO_ERROR) {
- 		return error;
-@@ -1357,7 +1357,7 @@ input_system_error_t input_system_configuration_commit(void)
- 
- // FIFO
- 
--input_system_error_t	input_system_csi_fifo_channel_cfg(
-+input_system_err_t	input_system_csi_fifo_channel_cfg(
-     u32		ch_id,
-     input_system_csi_port_t	port,
-     backend_channel_cfg_t	backend_ch,
-@@ -1380,7 +1380,7 @@ input_system_error_t	input_system_csi_fifo_channel_cfg(
- 	return input_system_configure_channel(channel);
- }
- 
--input_system_error_t	input_system_csi_fifo_channel_with_counting_cfg(
-+input_system_err_t	input_system_csi_fifo_channel_with_counting_cfg(
-     u32				ch_id,
-     u32				nof_frames,
-     input_system_csi_port_t			port,
-@@ -1411,7 +1411,7 @@ input_system_error_t	input_system_csi_fifo_channel_with_counting_cfg(
- 
- // SRAM
- 
--input_system_error_t	input_system_csi_sram_channel_cfg(
-+input_system_err_t	input_system_csi_sram_channel_cfg(
-     u32				ch_id,
-     input_system_csi_port_t			port,
-     backend_channel_cfg_t			backend_ch,
-@@ -1443,7 +1443,7 @@ input_system_error_t	input_system_csi_sram_channel_cfg(
- //XMEM
- 
- // Collects all parameters and puts them in channel_cfg_t.
--input_system_error_t	input_system_csi_xmem_channel_cfg(
-+input_system_err_t	input_system_csi_xmem_channel_cfg(
-     u32				ch_id,
-     input_system_csi_port_t			port,
-     backend_channel_cfg_t			backend_ch,
-@@ -1475,7 +1475,7 @@ input_system_error_t	input_system_csi_xmem_channel_cfg(
- 	return input_system_configure_channel(channel);
- }
- 
--input_system_error_t	input_system_csi_xmem_acquire_only_channel_cfg(
-+input_system_err_t	input_system_csi_xmem_acquire_only_channel_cfg(
-     u32				ch_id,
-     u32				nof_frames,
-     input_system_csi_port_t			port,
-@@ -1502,7 +1502,7 @@ input_system_error_t	input_system_csi_xmem_acquire_only_channel_cfg(
- 	return input_system_configure_channel(channel);
- }
- 
--input_system_error_t	input_system_csi_xmem_capture_only_channel_cfg(
-+input_system_err_t	input_system_csi_xmem_capture_only_channel_cfg(
-     u32				ch_id,
-     u32				nof_frames,
-     input_system_csi_port_t			port,
-@@ -1535,7 +1535,7 @@ input_system_error_t	input_system_csi_xmem_capture_only_channel_cfg(
- 
- // Non - CSI
- 
--input_system_error_t	input_system_prbs_channel_cfg(
-+input_system_err_t	input_system_prbs_channel_cfg(
-     u32		ch_id,
-     u32		nof_frames,//not used yet
-     u32		seed,
-@@ -1564,7 +1564,7 @@ input_system_error_t	input_system_prbs_channel_cfg(
- 	return input_system_configure_channel(channel);
- }
- 
--input_system_error_t	input_system_tpg_channel_cfg(
-+input_system_err_t	input_system_tpg_channel_cfg(
-     u32		ch_id,
-     u32		nof_frames,//not used yet
-     u32		x_mask,
-@@ -1601,7 +1601,7 @@ input_system_error_t	input_system_tpg_channel_cfg(
- }
- 
- // MW: Don't use system specific names, (even in system specific files) "cfg2400" -> cfg
--input_system_error_t	input_system_gpfifo_channel_cfg(
-+input_system_err_t	input_system_gpfifo_channel_cfg(
-     u32		ch_id,
-     u32		nof_frames, //not used yet
- 
-@@ -1625,11 +1625,11 @@ input_system_error_t	input_system_gpfifo_channel_cfg(
- ///////////////////////////////////////////////////////////////////////////
- 
- // Fills the parameters to config.csi_value[port]
--static input_system_error_t input_system_configure_channel_sensor(
-+static input_system_err_t input_system_configure_channel_sensor(
-     const channel_cfg_t channel)
- {
- 	const u32 port = channel.source_cfg.csi_cfg.csi_port;
--	input_system_error_t status = INPUT_SYSTEM_ERR_NO_ERROR;
-+	input_system_err_t status = INPUT_SYSTEM_ERR_NO_ERROR;
- 
- 	input_system_multiplex_t mux;
- 
-@@ -1711,7 +1711,7 @@ static input_system_error_t input_system_configure_channel_sensor(
- }
- 
- // Test flags and set structure.
--static input_system_error_t set_source_type(
-+static input_system_err_t set_source_type(
-     input_system_source_t *const lhs,
-     const input_system_source_t			rhs,
-     input_system_config_flags_t *const flags)
-@@ -1747,7 +1747,7 @@ static input_system_error_t set_source_type(
- }
- 
- // Test flags and set structure.
--static input_system_error_t set_csi_cfg(
-+static input_system_err_t set_csi_cfg(
-     csi_cfg_t *const lhs,
-     const csi_cfg_t *const rhs,
-     input_system_config_flags_t *const flags)
-@@ -1814,7 +1814,7 @@ static input_system_error_t set_csi_cfg(
- }
- 
- // Test flags and set structure.
--static input_system_error_t input_system_multiplexer_cfg(
-+static input_system_err_t input_system_multiplexer_cfg(
-     input_system_multiplex_t *const lhs,
-     const input_system_multiplex_t		rhs,
-     input_system_config_flags_t *const flags)
-diff --git a/drivers/staging/media/atomisp/pci/input_system_global.h b/drivers/staging/media/atomisp/pci/input_system_global.h
-index 5ac580ce64ed..5929d529950b 100644
---- a/drivers/staging/media/atomisp/pci/input_system_global.h
-+++ b/drivers/staging/media/atomisp/pci/input_system_global.h
-@@ -4,8 +4,30 @@
-  *    (c) 2020 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-  */
- 
-+
-+#ifndef __INPUT_SYSTEM_GLOBAL_H_INCLUDED__
-+#define __INPUT_SYSTEM_GLOBAL_H_INCLUDED__
-+typedef enum {
-+	INPUT_SYSTEM_ERR_NO_ERROR = 0,
-+	/* ISP2401 */
-+	INPUT_SYSTEM_ERR_CREATE_CHANNEL_FAIL,
-+	INPUT_SYSTEM_ERR_CONFIGURE_CHANNEL_FAIL,
-+	INPUT_SYSTEM_ERR_OPEN_CHANNEL_FAIL,
-+	INPUT_SYSTEM_ERR_TRANSFER_FAIL,
-+	INPUT_SYSTEM_ERR_CREATE_INPUT_PORT_FAIL,
-+	INPUT_SYSTEM_ERR_CONFIGURE_INPUT_PORT_FAIL,
-+	INPUT_SYSTEM_ERR_OPEN_INPUT_PORT_FAIL,
-+	/* ISP2400 */
-+	INPUT_SYSTEM_ERR_GENERIC,
-+	INPUT_SYSTEM_ERR_CHANNEL_ALREADY_SET,
-+	INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE,
-+	INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED,
-+} input_system_err_t;
-+
- #ifdef ISP2401
- #  include "isp2401_input_system_global.h"
- #else
- #  include "isp2400_input_system_global.h"
- #endif
-+
-+#endif /* __INPUT_SYSTEM_GLOBAL_H_INCLUDED__ */
+ 	assert(ID < N_INPUT_SYSTEM_ID);
+ 	assert(sub_id == ACQUISITION_UNIT0_ID);
 diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
-index b4142bdde51b..54dc53cf1528 100644
+index 54dc53cf1528..61f23814e2fd 100644
 --- a/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
 +++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
-@@ -13,11 +13,6 @@
-  * more details.
-  */
+@@ -75,13 +75,13 @@ typedef enum {
+ 	N_INPUT_SYSTEM_BUFFERING_MODE
+ } buffering_mode_t;
  
--#ifndef __INPUT_SYSTEM_GLOBAL_H_INCLUDED__
--#define __INPUT_SYSTEM_GLOBAL_H_INCLUDED__
--
--#define IS_INPUT_SYSTEM_VERSION_2
--
- #include <type_support.h>
+-typedef struct input_system_cfg_s	input_system_cfg_t;
++typedef struct isp2400_input_system_cfg_s	input_system_cfg_t;
+ typedef struct sync_generator_cfg_s	sync_generator_cfg_t;
+ typedef struct tpg_cfg_s			tpg_cfg_t;
+ typedef struct prbs_cfg_s			prbs_cfg_t;
  
- //CSI reveiver has 3 ports.
-@@ -152,5 +147,3 @@ typedef enum {
- } input_system_cfg_flag_t;
+ /* MW: uint16_t should be sufficient */
+-struct input_system_cfg_s {
++struct isp2400_input_system_cfg_s {
+ 	u32	no_side_band;
+ 	u32	fmt_type;
+ 	u32	ch_id;
+@@ -118,7 +118,7 @@ struct gpfifo_cfg_s {
+ typedef struct gpfifo_cfg_s		gpfifo_cfg_t;
+ 
+ //ALX:Commented out to pass the compilation.
+-//typedef struct input_system_cfg_s input_system_cfg_t;
++//typedef struct isp2400_input_system_cfg_s input_system_cfg_t;
+ 
+ struct ib_buffer_s {
+ 	u32	mem_reg_size;
+@@ -126,13 +126,13 @@ struct ib_buffer_s {
+ 	u32	mem_reg_addr;
+ };
+ 
+-typedef struct ib_buffer_s	ib_buffer_t;
++typedef struct ib_buffer_s	isp2400_ib_buffer_t;
+ 
+ struct csi_cfg_s {
+ 	u32			csi_port;
+ 	buffering_mode_t	buffering_mode;
+-	ib_buffer_t			csi_buffer;
+-	ib_buffer_t			acquisition_buffer;
++	isp2400_ib_buffer_t	csi_buffer;
++	isp2400_ib_buffer_t	acquisition_buffer;
+ 	u32			nof_xmem_buffers;
+ };
+ 
+@@ -144,6 +144,6 @@ typedef enum {
+ 	INPUT_SYSTEM_CFG_FLAG_BLOCKED	= 1U << 1,
+ 	INPUT_SYSTEM_CFG_FLAG_REQUIRED	= 1U << 2,
+ 	INPUT_SYSTEM_CFG_FLAG_CONFLICT	= 1U << 3	// To mark a conflicting configuration.
+-} input_system_cfg_flag_t;
++} isp2400_input_system_cfg_flag_t;
  
  typedef u32 input_system_config_flags_t;
--
--#endif /* __INPUT_SYSTEM_GLOBAL_H_INCLUDED__ */
 diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
-index 33ebf89ca053..b26c07478914 100644
+index b26c07478914..072a92199e05 100644
 --- a/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
 +++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
-@@ -33,15 +33,6 @@
- #include "isp_acquisition_defs.h"
- #include "input_system_ctrl_defs.h"
+@@ -52,8 +52,8 @@ typedef struct input_switch_cfg_channel_s	input_switch_cfg_channel_t;
+ typedef struct input_switch_cfg_s		input_switch_cfg_t;
  
--typedef enum {
--	INPUT_SYSTEM_ERR_NO_ERROR = 0,
--	INPUT_SYSTEM_ERR_GENERIC,
--	INPUT_SYSTEM_ERR_CHANNEL_ALREADY_SET,
--	INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE,
--	INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED,
--	N_INPUT_SYSTEM_ERR
--} input_system_error_t;
--
- typedef enum {
- 	INPUT_SYSTEM_PORT_A = 0,
- 	INPUT_SYSTEM_PORT_B,
-diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-index c6e5b17b3c40..85cb61e34192 100644
---- a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-+++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-@@ -251,11 +251,11 @@ STORAGE_CLASS_INPUT_SYSTEM_H hrt_data input_system_sub_system_reg_load(
+ struct ctrl_unit_cfg_s {
+-	ib_buffer_t		buffer_mipi[N_CAPTURE_UNIT_ID];
+-	ib_buffer_t		buffer_acquire[N_ACQUISITION_UNIT_ID];
++	isp2400_ib_buffer_t		buffer_mipi[N_CAPTURE_UNIT_ID];
++	isp2400_ib_buffer_t		buffer_acquire[N_ACQUISITION_UNIT_ID];
+ };
  
- // Function that resets current configuration.
- // remove the argument since it should be private.
--input_system_error_t input_system_configuration_reset(void);
-+input_system_err_t input_system_configuration_reset(void);
+ struct input_system_network_cfg_s {
+@@ -128,9 +128,9 @@ struct input_system_cfg2400_s {
  
- // Function that commits current configuration.
- // remove the argument since it should be private.
--input_system_error_t input_system_configuration_commit(void);
-+input_system_err_t input_system_configuration_commit(void);
- 
- ///////////////////////////////////////////////////////////////////////////
- //
-@@ -269,14 +269,14 @@ input_system_error_t input_system_configuration_commit(void);
- 
- // FIFO channel config function user
- 
--input_system_error_t	input_system_csi_fifo_channel_cfg(
-+input_system_err_t	input_system_csi_fifo_channel_cfg(
-     u32				ch_id,
-     input_system_csi_port_t	port,
-     backend_channel_cfg_t	backend_ch,
-     target_cfg2400_t			target
- );
- 
--input_system_error_t	input_system_csi_fifo_channel_with_counting_cfg(
-+input_system_err_t	input_system_csi_fifo_channel_with_counting_cfg(
-     u32				ch_id,
-     u32				nof_frame,
-     input_system_csi_port_t	port,
-@@ -288,7 +288,7 @@ input_system_error_t	input_system_csi_fifo_channel_with_counting_cfg(
- 
- // SRAM channel config function user
- 
--input_system_error_t	input_system_csi_sram_channel_cfg(
-+input_system_err_t	input_system_csi_sram_channel_cfg(
-     u32				ch_id,
-     input_system_csi_port_t	port,
-     backend_channel_cfg_t	backend_ch,
-@@ -299,7 +299,7 @@ input_system_error_t	input_system_csi_sram_channel_cfg(
- 
- //XMEM channel config function user
- 
--input_system_error_t	input_system_csi_xmem_channel_cfg(
-+input_system_err_t	input_system_csi_xmem_channel_cfg(
-     u32				ch_id,
-     input_system_csi_port_t port,
-     backend_channel_cfg_t	backend_ch,
-@@ -311,7 +311,7 @@ input_system_error_t	input_system_csi_xmem_channel_cfg(
-     uint32_t				nof_xmem_buffers
- );
- 
--input_system_error_t	input_system_csi_xmem_capture_only_channel_cfg(
-+input_system_err_t	input_system_csi_xmem_capture_only_channel_cfg(
-     u32				ch_id,
-     u32				nof_frames,
-     input_system_csi_port_t port,
-@@ -322,7 +322,7 @@ input_system_error_t	input_system_csi_xmem_capture_only_channel_cfg(
-     target_cfg2400_t			target
- );
- 
--input_system_error_t	input_system_csi_xmem_acquire_only_channel_cfg(
-+input_system_err_t	input_system_csi_xmem_acquire_only_channel_cfg(
-     u32				ch_id,
-     u32				nof_frames,
-     input_system_csi_port_t port,
-@@ -334,7 +334,7 @@ input_system_error_t	input_system_csi_xmem_acquire_only_channel_cfg(
- 
- // Non - CSI channel config function user
- 
--input_system_error_t	input_system_prbs_channel_cfg(
-+input_system_err_t	input_system_prbs_channel_cfg(
-     u32		ch_id,
-     u32		nof_frames,
-     u32		seed,
-@@ -345,7 +345,7 @@ input_system_error_t	input_system_prbs_channel_cfg(
-     target_cfg2400_t	target
- );
- 
--input_system_error_t	input_system_tpg_channel_cfg(
-+input_system_err_t	input_system_tpg_channel_cfg(
-     u32		ch_id,
-     u32		nof_frames,//not used yet
-     u32		x_mask,
-@@ -360,7 +360,7 @@ input_system_error_t	input_system_tpg_channel_cfg(
-     target_cfg2400_t	target
- );
- 
--input_system_error_t	input_system_gpfifo_channel_cfg(
-+input_system_err_t	input_system_gpfifo_channel_cfg(
-     u32		ch_id,
-     u32		nof_frames,
-     target_cfg2400_t	target
+ 	// Possible another struct for ib.
+ 	// This buffers set at the end, based on the all configurations.
+-	ib_buffer_t			csi_buffer[N_CSI_PORTS];
++	isp2400_ib_buffer_t			csi_buffer[N_CSI_PORTS];
+ 	input_system_config_flags_t	csi_buffer_flags[N_CSI_PORTS];
+-	ib_buffer_t			acquisition_buffer_unique;
++	isp2400_ib_buffer_t			acquisition_buffer_unique;
+ 	input_system_config_flags_t	acquisition_buffer_unique_flags;
+ 	u32			unallocated_ib_mem_words; // Used for check.DEFAULT = IB_CAPACITY_IN_WORDS.
+ 	//uint32_t			acq_allocated_ib_mem_words;
 diff --git a/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h b/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
-index 362644856a6c..29bffaa07ee8 100644
+index 29bffaa07ee8..f38773842646 100644
 --- a/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
 +++ b/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
-@@ -13,11 +13,6 @@
-  * more details.
-  */
+@@ -55,7 +55,7 @@ struct input_system_channel_s {
+ 	stream2mmio_sid_ID_t	stream2mmio_sid_id;
  
--#ifndef __INPUT_SYSTEM_GLOBAL_H_INCLUDED__
--#define __INPUT_SYSTEM_GLOBAL_H_INCLUDED__
--
--#define IS_INPUT_SYSTEM_VERSION_VERSION_2401
--
- /* CSI reveiver has 3 ports. */
- #define		N_CSI_PORTS (3)
+ 	ibuf_ctrl_ID_t		ibuf_ctrl_id;
+-	ib_buffer_t		ib_buffer;
++	isp2401_ib_buffer_t	ib_buffer;
  
-@@ -41,18 +36,6 @@
- #define INPUT_SYSTEM_N_STREAM_ID  6	/* maximum number of simultaneous
- 					virtual channels supported*/
+ 	isys2401_dma_ID_t	dma_id;
+ 	isys2401_dma_channel	dma_channel;
+@@ -105,8 +105,8 @@ struct input_system_input_port_cfg_s {
+ 	} pixelgen_cfg;
+ };
  
--typedef enum {
--	INPUT_SYSTEM_ERR_NO_ERROR = 0,
--	INPUT_SYSTEM_ERR_CREATE_CHANNEL_FAIL,
--	INPUT_SYSTEM_ERR_CONFIGURE_CHANNEL_FAIL,
--	INPUT_SYSTEM_ERR_OPEN_CHANNEL_FAIL,
--	INPUT_SYSTEM_ERR_TRANSFER_FAIL,
--	INPUT_SYSTEM_ERR_CREATE_INPUT_PORT_FAIL,
--	INPUT_SYSTEM_ERR_CONFIGURE_INPUT_PORT_FAIL,
--	INPUT_SYSTEM_ERR_OPEN_INPUT_PORT_FAIL,
--	N_INPUT_SYSTEM_ERR
--} input_system_err_t;
--
- typedef enum {
- 	INPUT_SYSTEM_SOURCE_TYPE_UNDEFINED = 0,
- 	INPUT_SYSTEM_SOURCE_TYPE_SENSOR,
-@@ -203,5 +186,3 @@ struct virtual_input_system_stream_cfg_s {
- #define NUM_OF_LINES_PER_BUF		2
- #define LINES_OF_ISP_INPUT_BUF		(NUM_OF_INPUT_BUF * NUM_OF_LINES_PER_BUF)
- #define ISP_INPUT_BUF_STRIDE		SH_CSS_MAX_SENSOR_WIDTH
--
--#endif /* __INPUT_SYSTEM_GLOBAL_H_INCLUDED__ */
-diff --git a/drivers/staging/media/atomisp/pci/isp2401_input_system_local.h b/drivers/staging/media/atomisp/pci/isp2401_input_system_local.h
-index c33b0341ce16..24026090cd35 100644
---- a/drivers/staging/media/atomisp/pci/isp2401_input_system_local.h
-+++ b/drivers/staging/media/atomisp/pci/isp2401_input_system_local.h
-@@ -24,8 +24,6 @@
- #include "isys_stream2mmio.h"
- #include "isys_irq.h"
+-typedef struct input_system_cfg_s input_system_cfg_t;
+-struct input_system_cfg_s {
++typedef struct isp2401_input_system_cfg_s isp2401_input_system_cfg_t;
++struct isp2401_input_system_cfg_s {
+ 	input_system_input_port_ID_t	input_port_id;
  
--typedef input_system_err_t input_system_error_t;
--
- typedef enum {
- 	MIPI_FORMAT_SHORT1 = 0x08,
- 	MIPI_FORMAT_SHORT2,
+ 	input_system_source_type_t	mode;
 diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/interface/ia_css_isys.h b/drivers/staging/media/atomisp/pci/runtime/isys/interface/ia_css_isys.h
-index bd972d966fe2..ea0b518e80c6 100644
+index ea0b518e80c6..711a321e9a3f 100644
 --- a/drivers/staging/media/atomisp/pci/runtime/isys/interface/ia_css_isys.h
 +++ b/drivers/staging/media/atomisp/pci/runtime/isys/interface/ia_css_isys.h
-@@ -32,7 +32,7 @@ typedef input_system_cfg_t	ia_css_isys_descr_t;
+@@ -28,7 +28,7 @@
+ /**
+  * Virtual Input System. (Input System 2401)
+  */
+-typedef input_system_cfg_t	ia_css_isys_descr_t;
++typedef isp2401_input_system_cfg_t	ia_css_isys_descr_t;
  /* end of Virtual Input System */
  #endif
  
--input_system_error_t ia_css_isys_init(void);
-+input_system_err_t ia_css_isys_init(void);
- void ia_css_isys_uninit(void);
- enum mipi_port_id ia_css_isys_port_to_mipi_port(
-     enum mipi_port_id api_port);
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
-index 484c5967ad1c..d0a43c44963c 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
-@@ -24,7 +24,7 @@
+@@ -71,7 +71,7 @@ int ia_css_isys_csi_rx_unregister_stream(
+ 
+ int ia_css_isys_convert_compressed_format(
+     struct ia_css_csi2_compression *comp,
+-    struct input_system_cfg_s *cfg);
++    struct isp2401_input_system_cfg_s *cfg);
+ unsigned int ia_css_csi2_calculate_input_system_alignment(
+     enum atomisp_input_format fmt_type);
  #endif
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+index c4bb9fd9ce20..b4813cd50daa 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+@@ -376,7 +376,7 @@ static mipi_predictor_t sh_css_csi2_compression_type_2_mipi_predictor(
  
- #if !defined(ISP2401)
--input_system_error_t ia_css_isys_init(void)
-+input_system_err_t ia_css_isys_init(void)
+ int ia_css_isys_convert_compressed_format(
+     struct ia_css_csi2_compression *comp,
+-    struct input_system_cfg_s *cfg)
++    struct isp2401_input_system_cfg_s *cfg)
  {
- 	backend_channel_cfg_t backend_ch0;
- 	backend_channel_cfg_t backend_ch1;
-@@ -32,7 +32,7 @@ input_system_error_t ia_css_isys_init(void)
- 	target_cfg2400_t targetC;
- 	u32 acq_mem_region_size = 24;
- 	u32 acq_nof_mem_regions = 2;
--	input_system_error_t error = INPUT_SYSTEM_ERR_NO_ERROR;
-+	input_system_err_t error = INPUT_SYSTEM_ERR_NO_ERROR;
+ 	int err = 0;
  
- 	memset(&backend_ch0, 0, sizeof(backend_channel_cfg_t));
- 	memset(&backend_ch1, 0, sizeof(backend_channel_cfg_t));
-@@ -87,7 +87,7 @@ input_system_error_t ia_css_isys_init(void)
- 	return error;
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+index 037b9e71a655..317ea30ede7a 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+@@ -33,7 +33,7 @@
+  *************************************************/
+ 
+ static bool create_input_system_channel(
+-    input_system_cfg_t	*cfg,
++    isp2401_input_system_cfg_t	*cfg,
+     bool			metadata,
+     input_system_channel_t	*channel);
+ 
+@@ -41,7 +41,7 @@ static void destroy_input_system_channel(
+     input_system_channel_t	*channel);
+ 
+ static bool create_input_system_input_port(
+-    input_system_cfg_t		*cfg,
++    isp2401_input_system_cfg_t		*cfg,
+     input_system_input_port_t	*input_port);
+ 
+ static void destroy_input_system_input_port(
+@@ -50,14 +50,14 @@ static void destroy_input_system_input_port(
+ static bool calculate_input_system_channel_cfg(
+     input_system_channel_t		*channel,
+     input_system_input_port_t	*input_port,
+-    input_system_cfg_t		*isys_cfg,
++    isp2401_input_system_cfg_t		*isys_cfg,
+     input_system_channel_cfg_t	*channel_cfg,
+     bool metadata);
+ 
+ static bool calculate_input_system_input_port_cfg(
+     input_system_channel_t		*channel,
+     input_system_input_port_t	*input_port,
+-    input_system_cfg_t		*isys_cfg,
++    isp2401_input_system_cfg_t		*isys_cfg,
+     input_system_input_port_cfg_t	*input_port_cfg);
+ 
+ static bool acquire_sid(
+@@ -74,10 +74,10 @@ static bool acquire_ib_buffer(
+     s32 lines_per_frame,
+     s32 align_in_bytes,
+     bool online,
+-    ib_buffer_t *buf);
++    isp2401_ib_buffer_t *buf);
+ 
+ static void release_ib_buffer(
+-    ib_buffer_t *buf);
++    isp2401_ib_buffer_t *buf);
+ 
+ static bool acquire_dma_channel(
+     isys2401_dma_ID_t	dma_id,
+@@ -100,43 +100,43 @@ static void release_be_lut_entry(
+ static bool calculate_tpg_cfg(
+     input_system_channel_t		*channel,
+     input_system_input_port_t	*input_port,
+-    input_system_cfg_t		*isys_cfg,
++    isp2401_input_system_cfg_t		*isys_cfg,
+     pixelgen_tpg_cfg_t		*cfg);
+ 
+ static bool calculate_prbs_cfg(
+     input_system_channel_t		*channel,
+     input_system_input_port_t	*input_port,
+-    input_system_cfg_t		*isys_cfg,
++    isp2401_input_system_cfg_t		*isys_cfg,
+     pixelgen_prbs_cfg_t		*cfg);
+ 
+ static bool calculate_fe_cfg(
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     csi_rx_frontend_cfg_t		*cfg);
+ 
+ static bool calculate_be_cfg(
+     const input_system_input_port_t	*input_port,
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     bool				metadata,
+     csi_rx_backend_cfg_t		*cfg);
+ 
+ static bool calculate_stream2mmio_cfg(
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     bool				metadata,
+     stream2mmio_cfg_t		*cfg);
+ 
+ static bool calculate_ibuf_ctrl_cfg(
+     const input_system_channel_t	*channel,
+     const input_system_input_port_t	*input_port,
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     ibuf_ctrl_cfg_t			*cfg);
+ 
+ static bool calculate_isys2401_dma_cfg(
+     const input_system_channel_t	*channel,
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     isys2401_dma_cfg_t		*cfg);
+ 
+ static bool calculate_isys2401_dma_port_cfg(
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     bool				raw_packed,
+     bool				metadata,
+     isys2401_dma_port_cfg_t		*cfg);
+@@ -287,7 +287,7 @@ ia_css_isys_error_t ia_css_isys_stream_calculate_cfg(
+  *
+  **************************************************/
+ static bool create_input_system_channel(
+-    input_system_cfg_t	*cfg,
++    isp2401_input_system_cfg_t	*cfg,
+     bool			metadata,
+     input_system_channel_t	*me)
+ {
+@@ -361,7 +361,7 @@ static void destroy_input_system_channel(
  }
- #elif defined(ISP2401)
--input_system_error_t ia_css_isys_init(void)
-+input_system_err_t ia_css_isys_init(void)
+ 
+ static bool create_input_system_input_port(
+-    input_system_cfg_t		*cfg,
++    isp2401_input_system_cfg_t		*cfg,
+     input_system_input_port_t	*me)
  {
- 	ia_css_isys_csi_rx_lut_rmgr_init();
- 	ia_css_isys_ibuf_rmgr_init();
+ 	csi_mipi_packet_type_t packet_type;
+@@ -457,7 +457,7 @@ static void destroy_input_system_input_port(
+ static bool calculate_input_system_channel_cfg(
+     input_system_channel_t		*channel,
+     input_system_input_port_t	*input_port,
+-    input_system_cfg_t		*isys_cfg,
++    isp2401_input_system_cfg_t		*isys_cfg,
+     input_system_channel_cfg_t	*channel_cfg,
+     bool metadata)
+ {
+@@ -508,7 +508,7 @@ static bool calculate_input_system_channel_cfg(
+ static bool calculate_input_system_input_port_cfg(
+     input_system_channel_t		*channel,
+     input_system_input_port_t	*input_port,
+-    input_system_cfg_t		*isys_cfg,
++    isp2401_input_system_cfg_t		*isys_cfg,
+     input_system_input_port_cfg_t	*input_port_cfg)
+ {
+ 	bool rc;
+@@ -595,7 +595,7 @@ static bool acquire_ib_buffer(
+     s32 lines_per_frame,
+     s32 align_in_bytes,
+     bool online,
+-    ib_buffer_t *buf)
++    isp2401_ib_buffer_t *buf)
+ {
+ 	buf->stride = calculate_stride(bits_per_pixel, pixels_per_line, false,
+ 				       align_in_bytes);
+@@ -610,7 +610,7 @@ static bool acquire_ib_buffer(
+ }
+ 
+ static void release_ib_buffer(
+-    ib_buffer_t *buf)
++    isp2401_ib_buffer_t *buf)
+ {
+ 	ia_css_isys_ibuf_rmgr_release(&buf->start_addr);
+ }
+@@ -648,7 +648,7 @@ static void release_be_lut_entry(
+ static bool calculate_tpg_cfg(
+     input_system_channel_t		*channel,
+     input_system_input_port_t	*input_port,
+-    input_system_cfg_t		*isys_cfg,
++    isp2401_input_system_cfg_t		*isys_cfg,
+     pixelgen_tpg_cfg_t		*cfg)
+ {
+ 	memcpy(cfg, &isys_cfg->tpg_port_attr, sizeof(pixelgen_tpg_cfg_t));
+@@ -659,7 +659,7 @@ static bool calculate_tpg_cfg(
+ static bool calculate_prbs_cfg(
+     input_system_channel_t		*channel,
+     input_system_input_port_t	*input_port,
+-    input_system_cfg_t		*isys_cfg,
++    isp2401_input_system_cfg_t		*isys_cfg,
+     pixelgen_prbs_cfg_t		*cfg)
+ {
+ 	memcpy(cfg, &isys_cfg->prbs_port_attr, sizeof(pixelgen_prbs_cfg_t));
+@@ -668,7 +668,7 @@ static bool calculate_prbs_cfg(
+ }
+ 
+ static bool calculate_fe_cfg(
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     csi_rx_frontend_cfg_t		*cfg)
+ {
+ 	cfg->active_lanes = isys_cfg->csi_port_attr.active_lanes;
+@@ -677,7 +677,7 @@ static bool calculate_fe_cfg(
+ 
+ static bool calculate_be_cfg(
+     const input_system_input_port_t	*input_port,
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     bool				metadata,
+     csi_rx_backend_cfg_t		*cfg)
+ {
+@@ -707,7 +707,7 @@ static bool calculate_be_cfg(
+ }
+ 
+ static bool calculate_stream2mmio_cfg(
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     bool				metadata,
+     stream2mmio_cfg_t		*cfg
+ )
+@@ -725,7 +725,7 @@ static bool calculate_stream2mmio_cfg(
+ static bool calculate_ibuf_ctrl_cfg(
+     const input_system_channel_t	*channel,
+     const input_system_input_port_t	*input_port,
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     ibuf_ctrl_cfg_t			*cfg)
+ {
+ 	const s32 bits_per_byte = 8;
+@@ -807,7 +807,7 @@ static bool calculate_ibuf_ctrl_cfg(
+ 
+ static bool calculate_isys2401_dma_cfg(
+     const input_system_channel_t	*channel,
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     isys2401_dma_cfg_t		*cfg)
+ {
+ 	cfg->channel	= channel->dma_channel;
+@@ -827,7 +827,7 @@ static bool calculate_isys2401_dma_cfg(
+ 
+ /* See also: ia_css_dma_configure_from_info() */
+ static bool calculate_isys2401_dma_port_cfg(
+-    const input_system_cfg_t	*isys_cfg,
++    const isp2401_input_system_cfg_t	*isys_cfg,
+     bool				raw_packed,
+     bool				metadata,
+     isys2401_dma_port_cfg_t		*cfg)
 -- 
 2.26.2
 
