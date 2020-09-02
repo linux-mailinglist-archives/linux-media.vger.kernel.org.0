@@ -2,141 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1E1925ADF5
-	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 16:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 673E625AF6B
+	for <lists+linux-media@lfdr.de>; Wed,  2 Sep 2020 17:38:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727030AbgIBOxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 10:53:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727852AbgIBOx2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 10:53:28 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA185C061245
-        for <linux-media@vger.kernel.org>; Wed,  2 Sep 2020 07:53:27 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id x2so5233554ilm.0
-        for <linux-media@vger.kernel.org>; Wed, 02 Sep 2020 07:53:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EsQpeI7D1H5k/d2ldZ6dL5UBletkvcQ405Mqk41kvtA=;
-        b=OFHTYHEqJUI+FtLrE6PAi2aZwioFNMDfiqJjDZVXi/KHUzL54VOMwMkSZ/Na4d4Ogw
-         OflZqUSOYEI/YWnGu7gZBbi63l+atE12YXmZ0ywQPPRb7gqc6b+FVmj0taaL11erEQnH
-         0mPWDuTQEQy4kc7PVUtsjcTMS4PkoSyJxV4Yo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EsQpeI7D1H5k/d2ldZ6dL5UBletkvcQ405Mqk41kvtA=;
-        b=pZnYdG/ReQdmfxl0yUCHoOj02vcahWaBzuAhyknrmhbuKmRQnVy4iBzpW2eddBRM36
-         Zid+tLWviiKhQaoCdTal0onsesSxYAaPa3FWIr1hTj9KYOjmDfI/lbzvGUCee11Q5u4T
-         yEfouZv1/vITzRjzNCMx3vgKGnLKf9nUFfAMRhG4MMlcajzgLxh/IptjCfAT2o3P6LWJ
-         NYAbDX4eJZWb/mNonIucKi7VKj3fhK5I8ua3fWFH9urXd4CeM3CrG4t5D7LyXGi3Glcg
-         fl+WcL5ufD/Ja60xW6ocd6sb9ScrtXdFyJN6Wi1BUBZifzzdhxNtnEgBjtsy04ZAVUBI
-         EmMw==
-X-Gm-Message-State: AOAM5300N98+Lfb+6JTaxCFi4h0NQAh47tY3NMJoUkgZItF2TW/j4fAC
-        xiUE+nJ9XlbxFTYoARwjuL5Ux1ay3+3MW5W1/BW57Q==
-X-Google-Smtp-Source: ABdhPJwfWW+4DdbIXIThrd4HJdbvX+osez09zDgESRDix7dRhl57slXevJAI1SafQdAFByT88optw/yw5bUXiIOhQDE=
-X-Received: by 2002:a92:c008:: with SMTP id q8mr4094957ild.106.1599058406623;
- Wed, 02 Sep 2020 07:53:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200821041414.1560707-1-hsinyi@chromium.org> <f8c5b7e0-66a2-7ec6-041f-82679a863758@arm.com>
-In-Reply-To: <f8c5b7e0-66a2-7ec6-041f-82679a863758@arm.com>
-From:   Hsin-Yi Wang <hsinyi@chromium.org>
-Date:   Wed, 2 Sep 2020 22:53:00 +0800
-Message-ID: <CAJMQK-huFDrEKGcwPO4XkzZ0Dvc5OF22uDothKczu9NoQxsx3g@mail.gmail.com>
-Subject: Re: [PATCH] media: mtk-vcodec: set dma max segment size
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Anand K Mistry <amistry@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        id S1728302AbgIBPiy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 11:38:54 -0400
+Received: from mout.gmx.net ([212.227.17.20]:50663 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728107AbgIBPC6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Sep 2020 11:02:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1599058860;
+        bh=9mONAPviboKjYh84a+hy1GCQTwP3D+gQs9CslXOAS7A=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=L8sV5DSyxZUjMdCJhBHYorScxg6Z4vf+qm5xzt+bAm4G4iOhKeQORYS34kwE/JbdB
+         rSg/pnYjdeGX/vczI3Au4GC/AISEAjmvpla+YBUSsn1+9ZZIThR1CZxpTTFl/pWKKE
+         2JYJbWOBPJPv1+9uzRxIQ/Bk/261ZOsS/Kx0dlF8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.155.63]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZTmY-1k7SOI0Ure-00WV2u; Wed, 02
+ Sep 2020 17:01:00 +0200
+Subject: Re: [PATCH 07/28] 53c700: improve non-coherent DMA handling
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Christoph Hellwig <hch@lst.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        linux-mm@kvack.org, alsa-devel@alsa-project.org
+References: <20200819065555.1802761-1-hch@lst.de>
+ <20200819065555.1802761-8-hch@lst.de>
+ <1598971960.4238.5.camel@HansenPartnership.com>
+ <20200901150554.GN14765@casper.infradead.org>
+ <1598973776.4238.11.camel@HansenPartnership.com>
+ <3369218e-eea4-14e9-15f1-870269e4649d@gmx.de>
+ <77c9b2b6-bedc-d090-8b23-6ac664df1d1f@gmx.de>
+ <20200901165311.GS14765@casper.infradead.org>
+From:   Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+ c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
+Message-ID: <30bfa844-00ea-1abe-9022-d73cf309e580@gmx.de>
+Date:   Wed, 2 Sep 2020 17:00:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200901165311.GS14765@casper.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ylKgDqFU+gFaPC2d+WzSCQXxiLQIXKySkLqivXa28qMeQ0h5Pxr
+ tXM5x2Bo4S8TIKWGUWrbkkNuyKUME2NUvg3jtsmf8vkXFe4smPhe14q2DVLmoJE/VrrUvC8
+ 63TbKzPDS66vjFhBhFr+EMjQN0laqJgo2Hk+foHitxLhjyTxAJGMdprDPYH1wX4OBUsoyKp
+ QMsIM54OSGNwhG+Lr3XfQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aS28Gzfeplo=:J9k98LfUdjGOuaDrD12GXy
+ mzSgOO4XwP9o4WwUrfevHPZft60XRYzaydJg0seTLUP9PUMe4SCR8wnt+FqJb2KmNErTSF3Yz
+ mlEuV2ypNQhyeT8Zb7TFH9gIDYr63Tn/49r4uWCsv7KGts2XskLUKRIcTRjTyZ3fFf2AfYibs
+ BzDfzF9v3j4/idusDth0av+x88Bd3jXvRuZ7oJJF2HqnBG4SkKXa0NLw7UkTYhhf//eGiBY6L
+ Tz4eqwGRg7UwwOHV8G+kLUYax69snHYMWRmONRp+4GHeEto3D1SVN2jF+XEdTo8EG6GK7mVkf
+ REE4YOujtqDjHiR6Ot35dAEtJQsFsZG4uNaEY+BHAPdoB2Df8TOc3SqjwTa1Ieccn9gGFcI0v
+ HHi8UTCZoevjnXCWVau4Y/zHGSN/AvvivjSjDJh7E2zIcG2RsvnL1QRgMV2O5i8o0o0mkywRA
+ 7f7mDxGgqyo/OXeuv19tt2n2HqKCUEns1YJ87JOE/tZhZzKHulZvXXB66rnFRt+wNw/tRV1ft
+ 9Hv0ciJkPH32Jjmj3fbLVbhytxvULtITMmRk6+0rf0MLbgyAu89Ax6nNGds65lCXxgsshpdaw
+ 73NW8eCpFbuCSovlK4TWz1l58mYvKCfFcm7x2NeJ0dOieetl4mzs3HcI5qq6WHdSH4o4WvPww
+ lGbsyrOodVY3EiL6Dvj0o+RCTbWMiZaG9cwrWeQzIsjYAFnZ0YNI7k5IOxf8FqZ3FZilscmm4
+ 1aHFf1DqijKWy8YrPe5SLLGm7jipNlbM97JdT8Rky3LFIzh6n4cS92aBdLFDSMG5m8JFPzZyV
+ nSDYrKeU19FFhsekzwqljpEW2mIFGl9Wl07u9Sip7k6aoMhwb74pJUjrtd4RazX00tgfI3Jv5
+ cbyBhn+XCUXDCMbBCHZGsG23/3V32rVakAqts6bEfUkqclD0zAytopG2cvnwsLqpYdubwTIN3
+ kUmpUTgLkIzzdNSz9uF58RQPOyRSV2yH/L/klzgKzaIZC8LHyq6i1S7e2N4ZD+jcidq45xXM7
+ dxde84/84J6CvL4H+9k93kdrMM+as6D+M+klxCE/E51ydob240bTvF6xRBq0aTd9xSQcRJTBm
+ Kb4lpYVFKQfTy9KqWPa1ZEWaqLY8gC2E/gIYnnMq+m49vVWvY/xMJdiGLExTZ7lfIdx9XsKQZ
+ bj3+thm3qGCfuP6o6d33ewaGx84nW8EaWKaRAZZqHK0i4qKqTW7aR2AL4dtU4tMIrbzNV/2DK
+ 7fOan6bBrutQ8vuLD
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 2, 2020 at 10:25 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2020-08-21 05:14, Hsin-Yi Wang wrote:
-> > Set dma max segment size for encoder and decoder driver.
-> >
-> > Fix following warning with CONFIG_DMA_API_DEBUG_SG=y
-> >
-> > [   75.147825] ------------[ cut here ]------------
-> > [   75.147844] mtk-vcodec-enc 19002000.vcodec: DMA-API: mapping sg segment longer than device claims to support [len=983040] [max=65536]
-> > [   75.147876] WARNING: CPU: 2 PID: 4069 at kernel/dma/debug.c:1302 debug_dma_map_sg+0x1a8/0x2c4
-> > ...
-> > [   75.148139] Call trace:
-> > [   75.148149]  debug_dma_map_sg+0x1a8/0x2c4
-> > [   75.148165]  vb2_dc_get_userptr+0x228/0x364 [videobuf2_dma_contig]
-> > [   75.148178]  __buf_prepare+0x3ac/0x8c0 [videobuf2_common]
-> > [   75.148188]  vb2_core_qbuf+0xa4/0x58c [videobuf2_common]
-> > [   75.148199]  vb2_qbuf+0x88/0xe4 [videobuf2_v4l2]
-> > [   75.148211]  v4l2_m2m_qbuf+0x80/0xf8 [v4l2_mem2mem]
-> > [   75.148221]  vidioc_venc_qbuf+0x3c/0x70 [mtk_vcodec_enc]
-> > [   75.148234]  v4l_qbuf+0x48/0x58
-> > [   75.148242]  __video_do_ioctl+0x200/0x37c
-> > [   75.148250]  video_usercopy+0x360/0x834
-> > [   75.148259]  video_ioctl2+0x38/0x48
-> > [   75.148267]  v4l2_ioctl+0x6c/0x80
-> > [   75.148276]  do_video_ioctl+0xefc/0x4b70
-> > [   75.148284]  v4l2_compat_ioctl32+0x5c/0xcc
-> > [   75.148294]  __arm64_compat_sys_ioctl+0xf4/0x240
-> > [   75.148304]  el0_svc_common+0xac/0x198
-> > [   75.148312]  el0_svc_compat_handler+0x2c/0x40
-> > [   75.148321]  el0_svc_compat+0x8/0x18
-> > [   75.148328] irq event stamp: 0
-> > [   75.148337] hardirqs last  enabled at (0): [<0000000000000000>]           (null)
-> > [   75.148347] hardirqs last disabled at (0): [<ffffff90080e65c0>] copy_process+0x380/0x115c
-> > [   75.148356] softirqs last  enabled at (0): [<ffffff90080e65d8>] copy_process+0x398/0x115c
-> > [   75.148364] softirqs last disabled at (0): [<0000000000000000>]           (null)
-> > [   75.148372] ---[ end trace 588bf529451e3531 ]---
-> >
-> > Reported-by: Anand K Mistry <amistry@chromium.org>
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > ---
-> >   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 8 ++++++++
-> >   drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 8 ++++++++
-> >   2 files changed, 16 insertions(+)
-> >
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > index 97a1b6664c20..3bbd0bac56d6 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > @@ -242,6 +242,14 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
-> >               mtk_v4l2_err("[VPU] vpu device in not ready");
-> >               return -EPROBE_DEFER;
-> >       }
-> > +     if (!pdev->dev.dma_parms) {
-> > +             pdev->dev.dma_parms = devm_kzalloc(&pdev->dev,
-> > +                                             sizeof(*pdev->dev.dma_parms),
-> > +                                             GFP_KERNEL);
-> > +             if (!pdev->dev.dma_parms)
-> > +                     return -ENOMEM;
-> > +     }
->
-> Since 9495b7e92f71, dma_parms is included in the platform_device itself
-> and always set, so you can drop these allocation paths.
->
-> > +     dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
->
-> The segment size is simply a size, not a bitmask, so UINT_MAX would be
-> more semantically appropriate.
->
-> Robin.
->
+Hi Willy,
 
-Thanks. since this patch is already in media tree:
-https://git.linuxtv.org/media_tree.git/commit/?id=13483fc2f20f0e2db7ba9c39b095ac7ea46f8de8,
-I'll send a patch to modify this.
+On 01.09.20 18:53, Matthew Wilcox wrote:
+> On Tue, Sep 01, 2020 at 06:41:12PM +0200, Helge Deller wrote:
+>>> I still have a zoo of machines running for such testing, including a
+>>> 715/64 and two 730.
+>>> I'm going to test this git tree on the 715/64:
+>
+> The 715/64 is a 7100LC machine though.  I think you need to boot on
+> the 730 to test the non-coherent path.
+
+Just tested the 730, and it works as well.
+
+Helge
