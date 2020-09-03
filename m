@@ -2,40 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1B625C451
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 17:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2931525C45B
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 17:09:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729215AbgICPIi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 11:08:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47870 "EHLO mail.kernel.org"
+        id S1728844AbgICPJg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 11:09:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47860 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728950AbgICN6P (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1728938AbgICN6P (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Thu, 3 Sep 2020 09:58:15 -0400
 Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A8022098B;
+        by mail.kernel.org (Postfix) with ESMTPSA id 15723208CA;
         Thu,  3 Sep 2020 13:57:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599141456;
-        bh=0yVg4VB9wLo7/HcSqfX02PS0qyjpPXXI+/tghmjqUsw=;
+        bh=68DNqEok2XhXHOmQ4/OhRUUJNNkVRuXHV71v+f39NZM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eiHTsGhtSrD4YW+TVgEhxy20fyB9O40sXdCq83+iJZ5OqFJFUtSF2LTZVgGCGGcPb
-         AdDPDkTTeF6INrEOOBBvmvuVcoX6bv8qPFj8bB1IQn6IX2QXAFiFnJyOcYdSz4bREr
-         aB17Wr4DPXm/ofqlgjURq4iPLWnZEg5qVO5W3rb8=
+        b=rEZLA3kledQKylisBtEd5Hn2NlCom0PPkl9HQlukK8uR7gs15pLUmnJaULD7xNNwn
+         OEfc68462reeaHv2UsNQJmoNwbq+f+1TA2IpzcGOKvLq+zQHjwoyLqYL8PVZ4O2p8V
+         5ZHIrQRcac1DUnzSkVcVszp5btpwcGpTcz+J6ZmY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kDpk6-004T6n-4b; Thu, 03 Sep 2020 15:57:34 +0200
+        id 1kDpk6-004T6r-6d; Thu, 03 Sep 2020 15:57:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Anant Thazhemadam <anant.thazhemadam@gmail.com>,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/5] media: atomisp: print a warning if error while setting downscaler
-Date:   Thu,  3 Sep 2020 15:57:29 +0200
-Message-Id: <20d420b6ccec9c8013336437781da0f0c7ffabac.1599141140.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 4/5] media: atomisp: move a static constant out of a header file
+Date:   Thu,  3 Sep 2020 15:57:31 +0200
+Message-Id: <a3280622dd3c85360c789e156f7b9d03bc8b2de3.1599141140.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599141140.git.mchehab+huawei@kernel.org>
 References: <cover.1599141140.git.mchehab+huawei@kernel.org>
@@ -48,43 +47,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As warned by gcc:
+Gcc reports that input_formatter_alignment is not used:
 
-    drivers/staging/media/atomisp//pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c:237:31: warning: variable ‘isp_data_ptr’ set but not used [-Wunused-but-set-variable]
+	In file included from ./drivers/staging/media/atomisp//pci/hive_isp_css_include/input_formatter.h:34,
+	                 from drivers/staging/media/atomisp//pci/runtime/debug/src/ia_css_debug.c:55:
+	./drivers/staging/media/atomisp//pci/hive_isp_css_common/host/input_formatter_local.h:118:27: warning: ‘input_formatter_alignment’ defined but not used [-Wunused-const-variable=]
 
-ia_css_vf_configure() logic has an error var that detects troubles
-when setting the kernel for downscaling. The driver just ignores
-it, without producing any warning. Add at least a warning message
-on such cases.
+However, it is, but only inside input_formatter.c.
+
+So, move it out of the header file.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../atomisp/pci/hive_isp_css_common/host/input_formatter.c    | 4 ++++
+ .../pci/hive_isp_css_common/host/input_formatter_local.h      | 4 ----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-index 3b850bb2d39d..dd3670972936 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-@@ -13,6 +13,8 @@
-  * more details.
-  */
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
+index 1b196cd265b9..5cd6136f21a2 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
+@@ -27,6 +27,10 @@
+ #include "input_formatter_private.h"
+ #endif /* __INLINE_INPUT_FORMATTER__ */
  
-+#include "atomisp_internal.h"
++static const unsigned int input_formatter_alignment[N_INPUT_FORMATTER_ID] = {
++	ISP_VEC_ALIGN, ISP_VEC_ALIGN, HIVE_ISP_CTRL_DATA_BYTES
++};
 +
- #include "ia_css_vf.host.h"
- #include <assert_support.h>
- #include <ia_css_err.h>
-@@ -129,6 +131,9 @@ ia_css_vf_configure(
- 	const struct ia_css_binary_info *info = &binary->info->sp;
+ const hrt_address HIVE_IF_SRST_ADDRESS[N_INPUT_FORMATTER_ID] = {
+ 	INPUT_FORMATTER0_SRST_OFFSET,
+ 	INPUT_FORMATTER1_SRST_OFFSET,
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_local.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_local.h
+index 94fff77584f7..dfb593c109af 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_local.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_local.h
+@@ -115,8 +115,4 @@ struct input_formatter_bin_state_s {
+ 	u32	en_status_update;
+ };
  
- 	err = configure_kernel(info, out_info, vf_info, downscale_log2, &config);
-+	if (err)
-+		dev_warn(atomisp_dev, "Couldn't setup downscale\n");
-+
- 	configure_dma(&config, vf_info);
- 
- 	if (vf_info)
+-static const unsigned int input_formatter_alignment[N_INPUT_FORMATTER_ID] = {
+-	ISP_VEC_ALIGN, ISP_VEC_ALIGN, HIVE_ISP_CTRL_DATA_BYTES
+-};
+-
+ #endif /* __INPUT_FORMATTER_LOCAL_H_INCLUDED__ */
 -- 
 2.26.2
 
