@@ -2,112 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D207725BB23
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 08:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABF7825BBF2
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 09:49:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726528AbgICGie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 02:38:34 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:44814 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725919AbgICGie (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Sep 2020 02:38:34 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kDinT-00Cc0x-2b; Thu, 03 Sep 2020 06:32:35 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kDivp-0007WH-Jk; Thu, 03 Sep 2020 06:41:13 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v5.9-rc4] media fixes (#66764)
-Date:   Thu,  3 Sep 2020 06:41:13 +0000
-Message-Id: <20200903064113.28864-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200903081057.78407ab4@coco.lan>
-References: 
+        id S1727931AbgICHtt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 03:49:49 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:9777 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726814AbgICHts (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 03:49:48 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f509fec0000>; Thu, 03 Sep 2020 00:49:00 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 03 Sep 2020 00:49:47 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 03 Sep 2020 00:49:47 -0700
+Received: from [10.2.53.12] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Sep
+ 2020 07:49:47 +0000
+Subject: Re: [PATCH 16/38] media: videobuf-dma-sg: number of pages should be
+ unsigned long
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Michel Lespinasse <walken@google.com>,
+        Mike Rapoport <rppt@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <cover.1599062230.git.mchehab+huawei@kernel.org>
+ <a57a3584ccc16f33b2e6e8a850b7cb7cf029dfb6.1599062230.git.mchehab+huawei@kernel.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <29cbe38a-4094-5d60-9f85-050bb44febcc@nvidia.com>
+Date:   Thu, 3 Sep 2020 00:49:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <a57a3584ccc16f33b2e6e8a850b7cb7cf029dfb6.1599062230.git.mchehab+huawei@kernel.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1599119340; bh=h2YtYK7X/8q5C0J8GcJkvpLDMTqz+dYhXOto+gkI9M0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=StoEJz9iReMvZwUWoJPzLDURYq36XjxdX0hehx0H3TQYOUtozau3fLiE24n5XClNA
+         ewK9DL8Nr3NSo5qkdaRNBJq+nGrCeHq8N7jPvSUezeqX+WXTq9cohG+FcBzRYgNgQR
+         T5wzmgZGEIuk48fyBbNS9tPt4flECSVn1+xaV2OcpZ+jXivNfdJidtnfuxylTC+soy
+         L84gmlGpqVVlALWKfC1tn3jY0u7P7cwxj2FNP3N1WCEtQnGEs/Kw4GGb0iq41OY/th
+         eDtzPslAdNwT8+I+bKdycacU0PEfbcmIHw/maCPnOLKSDLcWKKsyJ+DnoZyE2ZyR/T
+         70hp5hBYErUvw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200903081057.78407ab4@coco.lan/
-Build log: https://builder.linuxtv.org/job/patchwork/66699/
-Build time: 00:19:08
-Link: https://lore.kernel.org/linux-media/20200903081057.78407ab4@coco.lan
-
-gpg: Signature made Thu 03 Sep 2020 06:04:27 AM UTC
-gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
-gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
-gpg:                 aka "[jpeg image of size 3594]" [ultimate]
-
-Summary: got 3/10 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-ti-vpe-cal-Fix-compilation-on-32-bit-ARM.patch:
-
-    allyesconfig: return code #0:
-	  struct gdc_warp_param_mem_s *isp_data_ptr;
-
-    allyesconfig: return code #0:
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:3204 video_put_user() warn: check that 'ev32' doesn't leak information (struct has a hole after 'type')
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:3229 video_put_user() warn: check that 'vb32' doesn't leak information (struct has a hole after 'memory')
-	../drivers/media/tuners/qt1010.c: ../drivers/media/tuners/qt1010.c:239 qt1010_init_meas1() error: uninitialized symbol 'val2'.
-	../drivers/media/tuners/qt1010.c: ../drivers/media/tuners/qt1010.c:273 qt1010_init_meas2() error: uninitialized symbol 'val'.
-	../drivers/media/pci/ttpci/av7110_v4l.c: ../drivers/media/pci/ttpci/av7110_v4l.c:163 ves1820_set_tv_freq() warn: unsigned 'freq' is never less than zero.
-	../drivers/media/pci/ttpci/av7110_v4l.c: ../drivers/media/pci/ttpci/av7110_v4l.c:165 ves1820_set_tv_freq() warn: unsigned 'freq' is never less than zero.
-	../drivers/media/v4l2-core/videobuf-dma-sg.c: ../drivers/media/v4l2-core/videobuf-dma-sg.c:245 videobuf_dma_init_kernel() warn: should 'nr_pages << 12' be a 64 bit type?
-	../drivers/media/dvb-frontends/tda10021.c: ../drivers/media/dvb-frontends/tda10021.c:153 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10021.c: ../drivers/media/dvb-frontends/tda10021.c:155 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10021.c: ../drivers/media/dvb-frontends/tda10021.c:157 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10021.c: ../drivers/media/dvb-frontends/tda10021.c:159 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:300 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:303 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:306 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:309 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:312 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:315 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:318 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:321 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:324 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:327 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
-	../drivers/media/rc/serial_ir.c: ../drivers/media/rc/serial_ir.c:550 serial_ir_probe() warn: should '8 << ioshift' be a 64 bit type?
-	../drivers/media/radio/wl128x/fmdrv_common.c: ../drivers/media/radio/wl128x/fmdrv_common.c:736 fm_irq_handle_rdsdata_getcmd_resp() warn: potential spectre issue 'rds_fmt.data.groupdatabuff.buff' [w]
-	../drivers/media/pci/cx25821/cx25821-alsa.c: ../drivers/media/pci/cx25821/cx25821-alsa.c:146 cx25821_alsa_dma_init() warn: should 'nr_pages << 12' be a 64 bit type?
-	../drivers/media/pci/cx88/cx88-alsa.c: ../drivers/media/pci/cx88/cx88-alsa.c:286 cx88_alsa_dma_init() warn: should 'nr_pages << 12' be a 64 bit type?
-	../drivers/media/pci/cx23885/cx23885-alsa.c: ../drivers/media/pci/cx23885/cx23885-alsa.c:83 cx23885_alsa_dma_init() warn: should 'nr_pages << 12' be a 64 bit type?
-	../drivers/media/pci/saa7134/saa7134-tvaudio.c: ../drivers/media/pci/saa7134/saa7134-tvaudio.c:686 saa_dsp_writel() warn: should 'reg << 2' be a 64 bit type?
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1200 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1341 vivid_create_instance() parse error: __split_smt: function too hairy.  Giving up after 301 seconds
-	../drivers/media/pci/saa7134/saa7134-alsa.c: ../drivers/media/pci/saa7134/saa7134-alsa.c:267 saa7134_alsa_dma_init() warn: should 'nr_pages << 12' be a 64 bit type?
-	SPARSE:../drivers/media/platform/qcom/venus/hfi_venus.c ../drivers/media/platform/qcom/venus/hfi_venus.c:133:5:  warning: symbol 'venus_fw_debug' was not declared. Should it be static?
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0002-media-media-v4l2-core-Fix-kernel-infoleak-in-video_p.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-media-v4l2-core-Fix-kernel-infoleak-in-video_p.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0005-media-i2c-imx214-select-V4L2_FWNODE.patch:
-
-   checkpatch.pl:
-	$ cat patches/0005-media-i2c-imx214-select-V4L2_FWNODE.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 32a363d0b0b1 ("media: Kconfig files: use select for V4L2 subdevs and MC")'
+On 9/2/20 9:10 AM, Mauro Carvalho Chehab wrote:
+> As reported by smatch:
+> 
+> 	drivers/media/v4l2-core/videobuf-dma-sg.c:245 videobuf_dma_init_kernel() warn: should 'nr_pages << 12' be a 64 bit type?
+> 
+> The printk should not be using %d for the number of pages.
+> 
+> After looking better, the real problem here is that the
+> number of pages should be long int.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>   drivers/media/v4l2-core/videobuf-dma-sg.c | 22 ++++++++++++----------
+>   include/media/videobuf-dma-sg.h           |  2 +-
+>   2 files changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/videobuf-dma-sg.c b/drivers/media/v4l2-core/videobuf-dma-sg.c
+> index 46ff19df9f53..8dd0562de287 100644
+> --- a/drivers/media/v4l2-core/videobuf-dma-sg.c
+> +++ b/drivers/media/v4l2-core/videobuf-dma-sg.c
+> @@ -180,7 +180,7 @@ static int videobuf_dma_init_user_locked(struct videobuf_dmabuf *dma,
+>   	if (rw == READ)
+>   		flags |= FOLL_WRITE;
+>   
+> -	dprintk(1, "init user [0x%lx+0x%lx => %d pages]\n",
+> +	dprintk(1, "init user [0x%lx+0x%lx => %lu pages]\n",
+>   		data, size, dma->nr_pages);
+>   
+>   	err = pin_user_pages(data & PAGE_MASK, dma->nr_pages,
 
 
-Error #512 when building PDF docs
+One pre-existing detail to remember is that the gup/pup routines,
+specifically pin_user_pages() in this case, use an "int" for the
+incoming nr_pages. (I wonder if that should be changed? It's now
+becoming a pitfall.) So it's now possible to overflow.
 
+In other situations like this (see xsdfec_table_write() in
+drivers/misc/xilinx_sdfec.c), we've added checks such as:
+
+	u32 n;
+	...
+
+	if (WARN_ON_ONCE(n > INT_MAX))
+		return -EINVAL;
+
+	nr_pages = n;
+
+	res = pin_user_pages_fast((unsigned long)src_ptr, nr_pages, 0, pages);
+
+...in other words, check the value while it's stored in a 64-bit type,
+before sending it down into a 32-bit API.
+
+...other than that, everything else looks fine.
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
