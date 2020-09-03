@@ -2,152 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E5A225BCE6
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 10:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF6E625BD88
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 10:42:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728944AbgICIQJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 04:16:09 -0400
-Received: from mga11.intel.com ([192.55.52.93]:55058 "EHLO mga11.intel.com"
+        id S1728185AbgICImf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 04:42:35 -0400
+Received: from verein.lst.de ([213.95.11.211]:37001 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727989AbgICIPy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Sep 2020 04:15:54 -0400
-IronPort-SDR: 5oOH+ZPZztPFdDLTCqdSZEq5r0kEg8nkslTQcE+ndc2slE5NqhMcdo+fiVUoSO/PhwpdwyUXrt
- NB5KFWx+CGAA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9732"; a="155042691"
-X-IronPort-AV: E=Sophos;i="5.76,385,1592895600"; 
-   d="scan'208";a="155042691"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 01:15:48 -0700
-IronPort-SDR: qpH7qqIgiU/Xm+EZ7oh4dQJ88rJpY2Qm0IQQJbfwmXfmKyLeCmgLxGo+R7qUHFe79vxuaC/gvf
- mnxy6hW2NYQg==
-X-IronPort-AV: E=Sophos;i="5.76,385,1592895600"; 
-   d="scan'208";a="477963191"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 01:15:45 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id A722121485;
-        Thu,  3 Sep 2020 11:15:38 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1kDkPO-0001cU-PE; Thu, 03 Sep 2020 11:15:50 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v8 6/6] at24: Support probing while off
-Date:   Thu,  3 Sep 2020 11:15:50 +0300
-Message-Id: <20200903081550.6012-7-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
-References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+        id S1726025AbgICImd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Sep 2020 04:42:33 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 2B13F68BEB; Thu,  3 Sep 2020 10:42:27 +0200 (CEST)
+Date:   Thu, 3 Sep 2020 10:42:26 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc:     Christoph Hellwig <hch@lst.de>, alsa-devel@alsa-project.org,
+        linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        linux-scsi@vger.kernel.org,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        linux-media@vger.kernel.org,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+        netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org
+Subject: Re: [PATCH 22/28] sgiseeq: convert from dma_cache_sync to
+ dma_sync_single_for_device
+Message-ID: <20200903084226.GA24410@lst.de>
+References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-23-hch@lst.de> <20200901152209.GA14288@alpha.franken.de> <20200901171241.GA20685@alpha.franken.de> <20200901171627.GA8255@lst.de> <20200901173810.GA25282@alpha.franken.de> <20200902213809.GA7998@alpha.franken.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200902213809.GA7998@alpha.franken.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In certain use cases (where the chip is part of a camera module, and the
-camera module is wired together with a camera privacy LED), powering on
-the device during probe is undesirable. Add support for the at24 to
-execute probe while being powered off. For this to happen, a hint in form
-of a device property is required from the firmware.
+On Wed, Sep 02, 2020 at 11:38:09PM +0200, Thomas Bogendoerfer wrote:
+> the patch below fixes the problem.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/misc/eeprom/at24.c | 43 +++++++++++++++++++++++---------------
- 1 file changed, 26 insertions(+), 17 deletions(-)
+But is very wrong unfortunately.
 
-diff --git a/drivers/misc/eeprom/at24.c b/drivers/misc/eeprom/at24.c
-index 8f5de5f10bbea..2d24e33788d7d 100644
---- a/drivers/misc/eeprom/at24.c
-+++ b/drivers/misc/eeprom/at24.c
-@@ -595,6 +595,7 @@ static int at24_probe(struct i2c_client *client)
- 	bool i2c_fn_i2c, i2c_fn_block;
- 	unsigned int i, num_addresses;
- 	struct at24_data *at24;
-+	bool low_power;
- 	struct regmap *regmap;
- 	bool writable;
- 	u8 test_byte;
-@@ -733,25 +734,30 @@ static int at24_probe(struct i2c_client *client)
- 
- 	i2c_set_clientdata(client, at24);
- 
--	err = regulator_enable(at24->vcc_reg);
--	if (err) {
--		dev_err(dev, "Failed to enable vcc regulator\n");
--		return err;
--	}
-+	low_power = acpi_dev_state_low_power(&client->dev);
-+	if (!low_power) {
-+		err = regulator_enable(at24->vcc_reg);
-+		if (err) {
-+			dev_err(dev, "Failed to enable vcc regulator\n");
-+			return err;
-+		}
- 
--	/* enable runtime pm */
--	pm_runtime_set_active(dev);
-+		pm_runtime_set_active(dev);
-+	}
- 	pm_runtime_enable(dev);
- 
- 	/*
--	 * Perform a one-byte test read to verify that the
--	 * chip is functional.
-+	 * Perform a one-byte test read to verify that the chip is functional,
-+	 * unless powering on the device is to be avoided during probe (i.e.
-+	 * it's powered off right now).
- 	 */
--	err = at24_read(at24, 0, &test_byte, 1);
--	if (err) {
--		pm_runtime_disable(dev);
--		regulator_disable(at24->vcc_reg);
--		return -ENODEV;
-+	if (!low_power) {
-+		err = at24_read(at24, 0, &test_byte, 1);
-+		if (err) {
-+			pm_runtime_disable(dev);
-+			regulator_disable(at24->vcc_reg);
-+			return -ENODEV;
-+		}
- 	}
- 
- 	pm_runtime_idle(dev);
-@@ -771,9 +777,11 @@ static int at24_remove(struct i2c_client *client)
- 	struct at24_data *at24 = i2c_get_clientdata(client);
- 
- 	pm_runtime_disable(&client->dev);
--	if (!pm_runtime_status_suspended(&client->dev))
--		regulator_disable(at24->vcc_reg);
--	pm_runtime_set_suspended(&client->dev);
-+	if (!acpi_dev_state_low_power(&client->dev)) {
-+		if (!pm_runtime_status_suspended(&client->dev))
-+			regulator_disable(at24->vcc_reg);
-+		pm_runtime_set_suspended(&client->dev);
-+	}
- 
- 	return 0;
- }
-@@ -810,6 +818,7 @@ static struct i2c_driver at24_driver = {
- 	.probe_new = at24_probe,
- 	.remove = at24_remove,
- 	.id_table = at24_ids,
-+	.flags = I2C_DRV_FL_ALLOW_LOW_POWER_PROBE,
- };
- 
- static int __init at24_init(void)
--- 
-2.20.1
+>  static inline void dma_sync_desc_cpu(struct net_device *dev, void *addr)
+>  {
+> -       dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
+> -                      DMA_FROM_DEVICE);
+> +       struct sgiseeq_private *sp = netdev_priv(dev);
+> +
+> +       dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
+> +                       sizeof(struct sgiseeq_rx_desc), DMA_FROM_DEVICE);
+>  }
+>  
+>  static inline void dma_sync_desc_dev(struct net_device *dev, void *addr)
+>  {
+> -       dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
+> -                      DMA_TO_DEVICE);
+> +       struct sgiseeq_private *sp = netdev_priv(dev);
+> +
+> +       dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
+> +                       sizeof(struct sgiseeq_rx_desc), DMA_TO_DEVICE);
 
+This is not how the DMA API works.  You can only call
+dma_sync_single_for_{device,cpu} with the direction that the memory
+was mapped.  It then transfer ownership to the device or the cpu,
+and the ownership of the memory is a fundamental concept that allows
+for reasoning about the caching interaction.
+
+>  }
+>  
+> -- 
+> Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+> good idea.                                                [ RFC1925, 2.3 ]
+---end quoted text---
