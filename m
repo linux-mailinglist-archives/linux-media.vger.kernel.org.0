@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85A8225C095
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 13:50:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEA6725C098
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 13:50:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728735AbgICLti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 07:49:38 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:58409 "EHLO
+        id S1728676AbgICLuA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 07:50:00 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:57907 "EHLO
         relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728676AbgICLsq (ORCPT
+        with ESMTP id S1728718AbgICLsq (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 07:48:46 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 42FD01BF212;
-        Thu,  3 Sep 2020 11:48:06 +0000 (UTC)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id D6DC41BF204;
+        Thu,  3 Sep 2020 11:48:11 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
+        linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@kernel.org>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
         laurent.pinchart@ideasonboard.com,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 1/3] dt-bindings: media: mt9v111: Convert to json-schema
-Date:   Thu,  3 Sep 2020 13:51:41 +0200
-Message-Id: <20200903115143.13717-2-jacopo+renesas@jmondi.org>
+Subject: [PATCH v4 3/3] dt-bindings: media: imx214: Convert to json-schema
+Date:   Thu,  3 Sep 2020 13:51:43 +0200
+Message-Id: <20200903115143.13717-4-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200903115143.13717-1-jacopo+renesas@jmondi.org>
 References: <20200903115143.13717-1-jacopo+renesas@jmondi.org>
@@ -36,146 +36,215 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the mt9v111 bindings document to json-schema and update
+Convert the imx214 bindings document to json-schema and update
 the MAINTAINERS file accordingly.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- .../bindings/media/i2c/aptina,mt9v111.txt     | 46 ------------
- .../bindings/media/i2c/aptina,mt9v111.yaml    | 75 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 76 insertions(+), 47 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+ .../bindings/media/i2c/sony,imx214.txt        |  53 -------
+ .../bindings/media/i2c/sony,imx214.yaml       | 137 ++++++++++++++++++
+ MAINTAINERS                                   |   2 +-
+ 3 files changed, 138 insertions(+), 54 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
 deleted file mode 100644
-index bd896e9f67d1..000000000000
---- a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+index f11f28a5fda4..000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
 +++ /dev/null
-@@ -1,46 +0,0 @@
--* Aptina MT9V111 CMOS sensor
------------------------------
+@@ -1,53 +0,0 @@
+-* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
 -
--The Aptina MT9V111 is a 1/4-Inch VGA-format digital image sensor with a core
--based on Aptina MT9V011 sensor and an integrated Image Flow Processor (IFP).
--
--The sensor has an active pixel array of 640x480 pixels and can output a number
--of image resolution and formats controllable through a simple two-wires
+-The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
+-an active array size of 4224H x 3200V. It is programmable through an I2C
 -interface.
+-Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
+-throughput of 1.2Gbps/lane.
 -
--Required properties:
----------------------
 -
--- compatible: shall be "aptina,mt9v111".
--- clocks: reference to the system clock input provider.
+-Required Properties:
+-- compatible: Shall be "sony,imx214".
+-- reg: I2C bus address of the device. Depending on how the sensor is wired,
+-       it shall be <0x10> or <0x1a>;
+-- enable-gpios: GPIO descriptor for the enable pin.
+-- vdddo-supply: Chip digital IO regulator (1.8V).
+-- vdda-supply: Chip analog regulator (2.7V).
+-- vddd-supply: Chip digital core regulator (1.12V).
+-- clocks: Reference to the xclk clock.
+-- clock-frequency: Frequency of the xclk clock.
 -
--Optional properties:
----------------------
+-Optional Properties:
+-- flash-leds: See ../video-interfaces.txt
+-- lens-focus: See ../video-interfaces.txt
 -
--- enable-gpios: output enable signal, pin name "OE#". Active low.
--- standby-gpios: low power state control signal, pin name "STANDBY".
--  Active high.
--- reset-gpios: chip reset signal, pin name "RESET#". Active low.
+-The imx214 device node shall contain one 'port' child node with
+-an 'endpoint' subnode. For further reading on port node refer to
+-Documentation/devicetree/bindings/media/video-interfaces.txt.
 -
--The device node must contain one 'port' child node with one 'endpoint' child
--sub-node for its digital output video port, in accordance with the video
--interface bindings defined in:
--Documentation/devicetree/bindings/media/video-interfaces.txt
+-Required Properties on endpoint:
+-- data-lanes: check ../video-interfaces.txt
+-- link-frequencies: check ../video-interfaces.txt
+-- remote-endpoint: check ../video-interfaces.txt
 -
 -Example:
----------
 -
--        &i2c1 {
--                camera@48 {
--                        compatible = "aptina,mt9v111";
--                        reg = <0x48>;
--
--                        clocks = <&camera_clk>;
--
--                        port {
--                                mt9v111_out: endpoint {
--                                        remote-endpoint = <&ceu_in>;
--                                };
--                        };
--                };
--        };
-diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+-	camera-sensor@1a {
+-		compatible = "sony,imx214";
+-		reg = <0x1a>;
+-		vdddo-supply = <&pm8994_lvs1>;
+-		vddd-supply = <&camera_vddd_1v12>;
+-		vdda-supply = <&pm8994_l17>;
+-		lens-focus = <&ad5820>;
+-		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
+-		clocks = <&mmcc CAMSS_MCLK0_CLK>;
+-		clock-frequency = <24000000>;
+-		port {
+-			imx214_ep: endpoint {
+-				data-lanes = <1 2 3 4>;
+-				link-frequencies = /bits/ 64 <480000000>;
+-				remote-endpoint = <&csiphy0_ep>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
 new file mode 100644
-index 000000000000..ff9546e95d05
+index 000000000000..21e581472911
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
-@@ -0,0 +1,75 @@
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+@@ -0,0 +1,137 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/i2c/aptina,mt9v111.yaml#
++$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Aptina MT9V111 CMOS sensor
++title: Sony 1/3.06-Inch 13.13MP CMOS Digital Image Sensor
 +
 +maintainers:
-+  - Jacopo Mondi <jacopo@jmondi.org>
++  - Ricardo Ribalda <ribalda@kernel.org>
 +
 +description: |
-+  The Aptina MT9V111 is a 1/4-Inch VGA-format digital image sensor with a core
-+  based on Aptina MT9V011 sensor and an integrated Image Flow Processor (IFP).
-+
-+  The sensor has an active pixel array of 640x480 pixels and can output a number
-+  of image resolutions and formats controllable through a simple two-wires
-+  interface.
++  The Sony IMX214 is a 1/3.06-inch CMOS active pixel digital image sensor with
++  an active array size of 4224H x 3200V. It is programmable through an I2C
++  interface. Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
++  maximum throughput of 1.2Gbps/lane.
 +
 +properties:
 +  compatible:
-+    const: aptina,mt9v111
++    const: sony,imx214
 +
 +  reg:
-+    maxItems: 1
++    enum:
++      - 0x10
++      - 0x1a
 +
 +  clocks:
++    description: Reference to the xclk clock.
 +    maxItems: 1
++
++  clock-frequency:
++    description: Frequency of the xclk clock in Hz.
 +
 +  enable-gpios:
-+    description: Enable signal, pin name "OE#". Active low.
++    description: GPIO descriptor for the enable pin.
 +    maxItems: 1
 +
-+  standby-gpios:
-+    description: |
-+      Low power state control signal, pin name "STANDBY". Active high.
++  vdddo-supply:
++    description: Chip digital IO regulator (1.8V).
 +    maxItems: 1
 +
-+  reset-gpios:
-+    description: Chip reset signal, pin name "RESET#". Active low.
++  vdda-supply:
++    description: Chip analog regulator (2.7V).
 +    maxItems: 1
++
++  vddd-supply:
++    description: Chip digital core regulator (1.12V).
++    maxItems: 1
++
++  flash-leds:
++    description: See ../video-interfaces.txt
++
++  lens-focus:
++    description: See ../video-interfaces.txt
 +
 +  port:
 +    type: object
 +    description: |
-+      Output video port. See ../video-interfaces.txt.
++      Video output port. See ../video-interfaces.txt.
++
++    properties:
++      endpoint:
++        type: object
++
++        properties:
++          remote-endpoint:
++            description: See ../video-interfaces.txt
++
++          data-lanes:
++            $ref: /schemas/types.yaml#/definitions/uint32-array
++            description: See ../video-interfaces.txt
++            anyOf:
++              - items:
++                - const: 1
++                - const: 2
++              - items:
++                - const: 1
++                - const: 2
++                - const: 3
++                - const: 4
++
++          link-frequencies:
++            $ref: /schemas/types.yaml#/definitions/uint64-array
++            description: See ../video-interfaces.txt
++
++        required:
++          - remote-endpoint
++          - data-lanes
++          - link-frequencies
++
++        additionalProperties: false
++
++    additionalProperties: false
 +
 +required:
 +  - compatible
 +  - reg
 +  - clocks
++  - clock-frequency
++  - enable-gpios
++  - vdddo-supply
++  - vdda-supply
++  - vddd-supply
 +  - port
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
++    #include <dt-bindings/gpio/gpio.h>
++
 +    i2c0 {
 +        #address-cells = <1>;
 +        #size-cells = <0>;
 +
-+        camera@48 {
-+            compatible = "aptina,mt9v111";
-+            reg = <0x48>;
++        camera-sensor@1a {
++            compatible = "sony,imx214";
++            reg = <0x1a>;
++            vdddo-supply = <&pm8994_lvs1>;
++            vddd-supply = <&camera_vddd_1v12>;
++            vdda-supply = <&pm8994_l17>;
++            lens-focus = <&ad5820>;
++            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
 +            clocks = <&camera_clk>;
++            clock-frequency = <24000000>;
 +
 +            port {
-+                mt9v111_out: endpoint {
-+                    remote-endpoint = <&ceu_in>;
++                imx214_ep: endpoint {
++                    data-lanes = <1 2 3 4>;
++                    link-frequencies = /bits/ 64 <480000000>;
++                    remote-endpoint = <&csiphy0_ep>;
 +                };
 +            };
 +        };
@@ -183,18 +252,18 @@ index 000000000000..ff9546e95d05
 +
 +...
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4f786d18e16e..3f8f093268b7 100644
+index 093a54ae1527..b706598d764b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -11806,7 +11806,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
+@@ -16104,7 +16104,7 @@ M:	Ricardo Ribalda <ribalda@kernel.org>
  L:	linux-media@vger.kernel.org
  S:	Maintained
  T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
-+F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
- F:	drivers/media/i2c/mt9v111.c
- 
- MULTIFUNCTION DEVICES (MFD)
--- 
+-F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+ F:	drivers/media/i2c/imx214.c
+
+ SONY IMX219 SENSOR DRIVER
+--
 2.28.0
 
