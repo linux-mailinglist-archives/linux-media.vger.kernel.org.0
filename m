@@ -2,120 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F3A325C5B0
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 17:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FEA625C5CE
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 17:55:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728494AbgICPsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 11:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48378 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726025AbgICPsp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 11:48:45 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20549C061244;
-        Thu,  3 Sep 2020 08:48:45 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id w5so3761098wrp.8;
-        Thu, 03 Sep 2020 08:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=OPj9d30CAARqGx+bikPSsEnUWXOcRX7Mxe5aMa8ahCE=;
-        b=Fv+ELy+K8p1TzkuFzHURU8ULrabjLy/GA+gzrVslyT9VOYD/zzcxlCRarBUx24WKrr
-         j5Zr67a5zMLy7bfYFOfwlVMhz0E9e2ZT1vbriU7KZwnmIfrI+Vvgk/eBjxqJ5U60a7n8
-         8qXKrhUyNu+W5a3GLvwkqwPEcZoFmGBsfTsLAVqsgZS0j4L2k9ovbYqObZHMpPMoDAYG
-         bxUfk47jrPQJXDXj//x4zgv++hYgtm05jEFuPueuVK4kNvaM8ywNZyeWHHhRnP7ji5oW
-         Gy4tjKcYBr1v93ZJTIKinzVU8XXLMKlP2jGlJ2JLd3wPZMjg1lyL3vvEmGRB9/0ZM7C2
-         5w3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OPj9d30CAARqGx+bikPSsEnUWXOcRX7Mxe5aMa8ahCE=;
-        b=pyMrYsylGaximgyfSuMKHOn0tuQubyOhOTd8Cj+UV1UkMTgqZuNZugeko+v7q7nr7e
-         W0Sehy9DP8gqkZwp1ui9EAI1/OlAMBb++lUqaOGG80sDY62fdo4LNzsLDFZiDY5g58AW
-         OZaR4hA+6xqZQ9qBiYSUam055fQQxPx2Vqhf0gpcoMwO+5aEiHdsj7qJJ1Em7mFOQwDz
-         ujRWKJEw4QiObvFsYh5YhDb9C97ZMtmwc8KN4lQJyvKLG7InRwMYI+cV37nF3OXMeDEM
-         72ZIZ9RMtu0PilRiyx4rCBAkN8i6T3YkOEwnnmaUEpvXBtq+rzM/QFJ/D8wEdY+yePAt
-         o9vQ==
-X-Gm-Message-State: AOAM532IGRibxczIFO6RSQ7JnptE4SP+eSm6DHaaasL2Rzh672/y57CR
-        J6ACyea/j168Qxdvgng6Tc0=
-X-Google-Smtp-Source: ABdhPJzoUWMY/x3nAOJw9Pgg2IVnTKHb2nEiyUuAELHzrPUZ4WLFr/xkMOPobcmcW7xqeTvOZwlHsA==
-X-Received: by 2002:adf:f78c:: with SMTP id q12mr3157273wrp.6.1599148123691;
-        Thu, 03 Sep 2020 08:48:43 -0700 (PDT)
-Received: from medion (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
-        by smtp.gmail.com with ESMTPSA id x24sm5546173wrd.53.2020.09.03.08.48.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2020 08:48:42 -0700 (PDT)
-From:   Alex Dewar <alex.dewar90@gmail.com>
-X-Google-Original-From: Alex Dewar <alex.dewar@gmx.co.uk>
-Date:   Thu, 3 Sep 2020 16:48:41 +0100
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Alex Dewar <alex.dewar90@gmail.com>, devel@driverdev.osuosl.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
+        id S1728555AbgICPzW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 11:55:22 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:64095 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728483AbgICPzW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 11:55:22 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 95975240011;
+        Thu,  3 Sep 2020 15:55:16 +0000 (UTC)
+Date:   Thu, 3 Sep 2020 17:59:02 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alan Cox <alan@linux.intel.com>
-Subject: Re: [PATCH] staging: media: atomisp: Fix error path in lm3554_probe()
-Message-ID: <20200903154841.w5rppm325jobimud@medion>
-References: <20200902184207.479525-1-alex.dewar90@gmail.com>
- <20200903121134.GB8299@kadam>
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v3 1/2] media: i2c: ov772x: Add support for BT656 mode
+Message-ID: <20200903155902.3opuzv52jdpiszuw@uno.localdomain>
+References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200903121134.GB8299@kadam>
+In-Reply-To: <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good point about the timer!
+Hi Prabhakar,
 
-> >  
-> > -	err = lm3554_gpio_init(client);
-> > -	if (err) {
-> > +	ret = lm3554_gpio_init(client);
-> > +	if (ret) {
-> >  		dev_err(&client->dev, "gpio request/direction_output fail");
-> > -		goto fail2;
-> > +		goto err_cleanup_entity;
-> >  	}
-> >  	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
-> 
-> If atomisp_register_i2c_module() fails then we need to call
-> lm3554_gpio_uninit(client) and do other cleanup.
+On Mon, Aug 24, 2020 at 08:04:05PM +0100, Lad Prabhakar wrote:
+> Add support to read the bus-type and enable BT656 mode if needed.
+>
+> Also fail probe if unsupported bus_type is detected.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-I'm probably showing my ignorance here, but I can't see what cleanup we
-need. Inside lm3554_gpio_init we have:
+Looks good to me
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
-	ret = gpiod_direction_output(pdata->gpio_reset, 0);
-	if (ret < 0)
-		return ret;
-	dev_info(&client->dev, "flash led reset successfully\n");
+Thanks
+  j
 
-	if (!pdata->gpio_strobe)
-		return -EINVAL;
-
-	ret = gpiod_direction_output(pdata->gpio_strobe, 0);
-	if (ret < 0)
-		return ret;
-
-I'm not sure how you "undo" a call to gpiod_direction_output, but I'm
-thinking you won't need to do anything because it should be ok to leave
-a gpio to output 0... right?
-
-Alex
-
-> 
-> > -fail2:
-> > +
-> > +err_cleanup_entity:
-> >  	media_entity_cleanup(&flash->sd.entity);
-> > +err_free_ctrl_handler:
-> >  	v4l2_ctrl_handler_free(&flash->ctrl_handler);
-> 
-> regards,
-> dan carpenter
-> 
+> ---
+>  drivers/media/i2c/ov772x.c | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>
+> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> index 2cc6a678069a..67764d647526 100644
+> --- a/drivers/media/i2c/ov772x.c
+> +++ b/drivers/media/i2c/ov772x.c
+> @@ -31,6 +31,7 @@
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-image-sizes.h>
+>  #include <media/v4l2-subdev.h>
+>
+> @@ -434,6 +435,7 @@ struct ov772x_priv {
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  	struct media_pad pad;
+>  #endif
+> +	struct v4l2_fwnode_endpoint ep;
+>  };
+>
+>  /*
+> @@ -581,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
+>  	if (priv->streaming == enable)
+>  		goto done;
+>
+> +	if (priv->ep.bus_type == V4L2_MBUS_BT656) {
+> +		ret = regmap_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
+> +					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
+> +		if (ret)
+> +			goto done;
+> +	}
+> +
+>  	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
+>  				 enable ? 0 : SOFT_SLEEP_MODE);
+>  	if (ret)
+> @@ -1354,6 +1363,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+>
+>  static int ov772x_probe(struct i2c_client *client)
+>  {
+> +	struct fwnode_handle *endpoint;
+>  	struct ov772x_priv	*priv;
+>  	int			ret;
+>  	static const struct regmap_config ov772x_regmap_config = {
+> @@ -1415,6 +1425,28 @@ static int ov772x_probe(struct i2c_client *client)
+>  		goto error_clk_put;
+>  	}
+>
+> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+> +						  NULL);
+> +	if (!endpoint) {
+> +		dev_err(&client->dev, "endpoint node not found\n");
+> +		ret = -EINVAL;
+> +		goto error_clk_put;
+> +	}
+> +
+> +	ret = v4l2_fwnode_endpoint_parse(endpoint, &priv->ep);
+> +	fwnode_handle_put(endpoint);
+> +	if (ret) {
+> +		dev_err(&client->dev, "Could not parse endpoint\n");
+> +		goto error_clk_put;
+> +	}
+> +
+> +	if (priv->ep.bus_type != V4L2_MBUS_PARALLEL &&
+> +	    priv->ep.bus_type != V4L2_MBUS_BT656) {
+> +		dev_err(&client->dev, "Unsupported bus type %d\n",
+> +			priv->ep.bus_type);
+> +		goto error_clk_put;
+> +	}
+> +
+>  	ret = ov772x_video_probe(priv);
+>  	if (ret < 0)
+>  		goto error_gpio_put;
+> --
+> 2.17.1
+>
