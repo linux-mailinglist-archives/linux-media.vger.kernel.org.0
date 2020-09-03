@@ -2,176 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B1525B94F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 05:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E38F125BA9F
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 07:48:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbgICDk5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 23:40:57 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44375 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726654AbgICDk4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Sep 2020 23:40:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Dg7Ikw9U8MeQuDg7Jk6oku; Thu, 03 Sep 2020 05:40:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1599104454; bh=tcgEwem/1uViAp670RprDu+zLzVaf6kOXs1Raa+MPFE=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=MJ5vcl7sVPFXBKOQiLjcCCLvp8RRdk8F/uVKmIfCgB/7/pA6MXhssKBvbjgSz1M3g
-         nK79yKjmJXpmfGqQkYZKYeuR1d9SJO+6cFol06qSIrmaJkTp/8is2QTY36I8u1eVPR
-         Mvxi5ykB+Jq5MuOtHbcubGFxd2c8HR0PaS5kENqwI81V7Fca4oh3UXq9ZQH/RmP3jD
-         75/wVbBtJXqjFn6L13MbkGTp4ajLfNBTtH/mEuwiDNwquD2XyGYmbkLC71BV29RLFD
-         3iOqbSt9mbeHYH/5LgBOUuGWGZ+lg3ie8hjmIVbPTpfnH7uvSklBA4jEwgm++D+Lb5
-         181GFI6LoZuoQ==
-Message-ID: <4a1444103810c2abc3734c74e84c5ba4@smtp-cloud7.xs4all.net>
-Date:   Thu, 03 Sep 2020 05:40:52 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        id S1726221AbgICFsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 01:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726047AbgICFsq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 01:48:46 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D5BC061245
+        for <linux-media@vger.kernel.org>; Wed,  2 Sep 2020 22:48:45 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id m5so1200687pgj.9
+        for <linux-media@vger.kernel.org>; Wed, 02 Sep 2020 22:48:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uxOUTu3Fn6s5agkJSuaeoytoVx0NNmaxRXLXydxOq+w=;
+        b=htj3lRqkIgsh4c7IEbd0OmII1g4rHRRPYOwizSELlMizgLq1bPkB8rImlcFCoZKJVE
+         03NUrgzKBL4KZEocOdzwfK5zpgqAqBsBI2zDsMWwNcYGgiybhcIlQur0qV0U6/0z5Tc9
+         PJyJN3Ae9HfFWMc+5cOBsivktgGMh/wYlw2Ak=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uxOUTu3Fn6s5agkJSuaeoytoVx0NNmaxRXLXydxOq+w=;
+        b=WfQMJZUloTQhL7aVxKB86ORnUgkxQo9vyvUd73ES7HtM6DcLC4akorz6h2fxGWBhiR
+         adKlrzew6br6M9ttPuteP+vCWTusf17laov+Rlni5pZ5uKXufvHXfQPuj3/81Xy9azi7
+         n6IalLHmTYFMg9ySW4iLvzrIox8pK/qVTd3fYG3JtDqfgmZODSZBCns4lA+Z3WaR0jyJ
+         MHi+xh2xZfR5RZARThbb/hjhVhgmmFzin2fIhi/yWhT8PBjnqY0uiBVIxZtiC9pVsrqs
+         R1djUYmp8O8PjlQhlE3OQIOoK2tp+klN1r5ylCHBxb6vr9rsbuK0NCt/dFOE4yrNlt/9
+         og5w==
+X-Gm-Message-State: AOAM531hq9b70KL/CFZta6ETDwrFImRj95oJAj+EiCWJlh2uUrRles+Y
+        uPjVk4E6XDtiX/xGa507zClAHlKOy9wr9A==
+X-Google-Smtp-Source: ABdhPJxnvTUo3AQzDD/vyNULzOUhHkXHWGLFFwWLxxcbIpy/btsmC/T3RiZIgNFj//B5dc6sqis6/A==
+X-Received: by 2002:a63:1052:: with SMTP id 18mr1525513pgq.311.1599112124849;
+        Wed, 02 Sep 2020 22:48:44 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com ([2401:fa00:1:10:1a60:24ff:fe89:3e93])
+        by smtp.gmail.com with ESMTPSA id r2sm1099218pga.94.2020.09.02.22.48.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2020 22:48:44 -0700 (PDT)
+From:   Hsin-Yi Wang <hsinyi@chromium.org>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfLdJQUgaCY/8XzM2e4SLJM+1zXBl03nxH4Y3ALbdAVVcdmjFNMHA+O05NLXqWnNwRvfKM/my+haheYAHNM9N3sstVqlbgqQCvtEsLn+glNO0JX99izWE
- T9EBeNfHFfR243rfnXRCythZX6NlPhdfgnp0srsawuGbP6ExF7q+S+Up206fPCLwXIPqvtiOi3CcPU4RgRg0l/aixs6nqDd+WCgNbJJfHt1Pw6SMKTiYk0hO
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH] media: mtk-vcodec: remove allocated dma_parms
+Date:   Thu,  3 Sep 2020 13:48:33 +0800
+Message-Id: <20200903054832.3743698-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+9495b7e92f71 ("driver core: platform: Initialize dma_parms for platform
+devices") included dma_parms in platform_device. There's no need to
+allocate again.
 
-Results of the daily build of media_tree:
+Fixes: 13483fc2f20f0e2db7ba9c39b095ac7ea46f8de8 ("media: mtk-vcodec: set dma max segment size")
+Suggested-by: Robin Murphy <robin.murphy@arm.com>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 9 +--------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 9 +--------
+ 2 files changed, 2 insertions(+), 16 deletions(-)
 
-date:			Thu Sep  3 05:00:08 CEST 2020
-media-tree git hash:	cfe9e707c5640c28ab168cabe91aea5d0b3f9195
-media_build git hash:	a20bdff25e6827e9f03f2476d4795df1c8ee4913
-v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6784-g0b1e8107
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+index 3bbd0bac56d69..76ee0cb5a7094 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+@@ -242,14 +242,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 		mtk_v4l2_err("[VPU] vpu device in not ready");
+ 		return -EPROBE_DEFER;
+ 	}
+-	if (!pdev->dev.dma_parms) {
+-		pdev->dev.dma_parms = devm_kzalloc(&pdev->dev,
+-						sizeof(*pdev->dev.dma_parms),
+-						GFP_KERNEL);
+-		if (!pdev->dev.dma_parms)
+-			return -ENOMEM;
+-	}
+-	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
++	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+ 
+ 	vpu_wdt_reg_handler(dev->vpu_plat_dev, mtk_vcodec_dec_reset_handler,
+ 			dev, VPU_RST_DEC);
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+index ff4a87485d690..c18e58c71d4a4 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+@@ -249,14 +249,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 		mtk_v4l2_err("[VPU] vpu device in not ready");
+ 		return -EPROBE_DEFER;
+ 	}
+-	if (!pdev->dev.dma_parms) {
+-		pdev->dev.dma_parms = devm_kzalloc(&pdev->dev,
+-						sizeof(*pdev->dev.dma_parms),
+-						GFP_KERNEL);
+-		if (!pdev->dev.dma_parms)
+-			return -ENOMEM;
+-	}
+-	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
++	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+ 
+ 	vpu_wdt_reg_handler(dev->vpu_plat_dev, mtk_vcodec_enc_reset_handler,
+ 				dev, VPU_RST_ENC);
+-- 
+2.28.0.402.g5ffc5be6b7-goog
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8.1-i686: OK
-linux-5.8.1-x86_64: OK
-linux-5.9-rc1-i686: OK
-linux-5.9-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: WARNINGS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
