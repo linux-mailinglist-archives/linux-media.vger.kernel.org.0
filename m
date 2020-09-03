@@ -2,81 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1325D25BDAD
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 10:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B35BB25BE0F
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 11:05:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728185AbgICIqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 04:46:49 -0400
-Received: from verein.lst.de ([213.95.11.211]:37058 "EHLO verein.lst.de"
+        id S1728089AbgICJFO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 05:05:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55294 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726493AbgICIqt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Sep 2020 04:46:49 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id F0C1868CEE; Thu,  3 Sep 2020 10:46:43 +0200 (CEST)
-Date:   Thu, 3 Sep 2020 10:46:43 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc:     Christoph Hellwig <hch@lst.de>, alsa-devel@alsa-project.org,
-        linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        linux-scsi@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        linux-media@vger.kernel.org,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-        netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org
-Subject: Re: [PATCH 22/28] sgiseeq: convert from dma_cache_sync to
- dma_sync_single_for_device
-Message-ID: <20200903084643.GA25111@lst.de>
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-23-hch@lst.de> <20200901152209.GA14288@alpha.franken.de> <20200901171241.GA20685@alpha.franken.de> <20200901171627.GA8255@lst.de> <20200901173810.GA25282@alpha.franken.de> <20200903084302.GB24410@lst.de>
+        id S1726448AbgICJFO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Sep 2020 05:05:14 -0400
+Received: from coco.lan (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A9A420709;
+        Thu,  3 Sep 2020 09:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599123913;
+        bh=5msA1CmDUNZg69tLz8pFJJct70UtAz65Z8gc9Hz522Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=vARd3doWYponZSo39/iKi+4VNVuDBqVDqZHKfZxm5KnfH9q2yzQouuWtjDwBwv3Mo
+         5R6Uf76TdoB+PDWYTLMsEShH6G2r5QTgBUIE7ozJoZfJjQl16Uz4gsg/MTWv8fsdfa
+         2N6X43s9q5DFrh91F3VVW/0Nmlw0ADX1eTcVu9Ao=
+Date:   Thu, 3 Sep 2020 11:05:09 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Colin King <colin.king@canonical.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        kernel-janitors@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH][next] staging: media: atomisp: fix memory leak of
+ object flash
+Message-ID: <20200903110509.4542cdad@coco.lan>
+In-Reply-To: <CAHp75Vda5jRqmgsCV=Z5e5NdwHiebBy_Xdb6dq2D7L-mqqsC_g@mail.gmail.com>
+References: <20200902165852.201155-1-colin.king@canonical.com>
+        <CAHp75Vda5jRqmgsCV=Z5e5NdwHiebBy_Xdb6dq2D7L-mqqsC_g@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200903084302.GB24410@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 03, 2020 at 10:43:02AM +0200, Christoph Hellwig wrote:
-> On Tue, Sep 01, 2020 at 07:38:10PM +0200, Thomas Bogendoerfer wrote:
-> > this is the problem:
-> > 
-> >        /* Always check for received packets. */
-> >         sgiseeq_rx(dev, sp, hregs, sregs);
-> > 
-> > so the driver will look at the rx descriptor on every interrupt, so
-> > we cache the rx descriptor on the first interrupt and if there was
-> > $no rx packet, we will only see it, if cache line gets flushed for
-> > some other reason.
+Em Wed, 2 Sep 2020 21:15:31 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+
+> On Wed, Sep 2, 2020 at 8:02 PM Colin King <colin.king@canonical.com> wrote:
+> >
+> > From: Colin Ian King <colin.king@canonical.com>
+> >
+> > In the case where the call to lm3554_platform_data_func returns an
+> > error there is a memory leak on the error return path of object
+> > flash.  Fix this by adding an error return path that will free
+> > flash and rename labels fail2 to fail3 and fail1 to fail2.
+> >  
 > 
-> That means a transfer back to device ownership is missing after a
-> (negative) check.
+> Wouldn't be proper fix to move to devm_kmalloc() and return
+> dev_err_probe() where appropriate?
 
-E.g. something like this for the particular problem, although there
-might be other hiding elsewhere:
+Actually, we prefer not using devm_*() at media subsystem.
 
-diff --git a/drivers/net/ethernet/seeq/sgiseeq.c b/drivers/net/ethernet/seeq/sgiseeq.c
-index 8507ff2420143a..a1c7be8a0d1e5d 100644
---- a/drivers/net/ethernet/seeq/sgiseeq.c
-+++ b/drivers/net/ethernet/seeq/sgiseeq.c
-@@ -403,6 +403,8 @@ static inline void sgiseeq_rx(struct net_device *dev, struct sgiseeq_private *sp
- 		rd = &sp->rx_desc[sp->rx_new];
- 		dma_sync_desc_cpu(dev, rd);
- 	}
-+	dma_sync_desc_dev(dev, rd);
-+
- 	dma_sync_desc_cpu(dev, &sp->rx_desc[orig_end]);
- 	sp->rx_desc[orig_end].rdma.cntinfo &= ~(HPCDMA_EOR);
- 	dma_sync_desc_dev(dev, &sp->rx_desc[orig_end]);
+Once we started migrating alloc stuff to use it. We end needing
+to revert those, as it caused side effects related to lifecycle
+management: some object were de-allocating too late. Others
+with multiple interfaces (USB, pci) had even worse troubles.
+
+Thanks,
+Mauro
