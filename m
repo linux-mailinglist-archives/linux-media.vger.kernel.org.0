@@ -2,135 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7025225C425
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 17:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F3A325C5B0
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 17:48:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729115AbgICPEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 11:04:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47876 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728957AbgICN6Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Sep 2020 09:58:16 -0400
-Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2583E20BED;
-        Thu,  3 Sep 2020 13:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599141456;
-        bh=VuGxZvo9yHiaoeDqVaq0mRPlaYO1KqH47p+IwFf+LRE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Fy53apnwKmHpwQAGNA6YkJVTMCvxnAVZXNIuSqARvtd3YfpRGC090ZengijZ5zkcG
-         IXsOrqPIya7+Ucd6UOsMKQsI/y3R36FSDyU3uC6ciluIUcfowbSUoXgoFVaD8toqaM
-         q9yRNrMOKXv/Md9mDgVgy4okBPGKOWQgnLJyYI5s=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kDpk6-004T6t-7O; Thu, 03 Sep 2020 15:57:34 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        id S1728494AbgICPsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 11:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726025AbgICPsp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 11:48:45 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20549C061244;
+        Thu,  3 Sep 2020 08:48:45 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id w5so3761098wrp.8;
+        Thu, 03 Sep 2020 08:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OPj9d30CAARqGx+bikPSsEnUWXOcRX7Mxe5aMa8ahCE=;
+        b=Fv+ELy+K8p1TzkuFzHURU8ULrabjLy/GA+gzrVslyT9VOYD/zzcxlCRarBUx24WKrr
+         j5Zr67a5zMLy7bfYFOfwlVMhz0E9e2ZT1vbriU7KZwnmIfrI+Vvgk/eBjxqJ5U60a7n8
+         8qXKrhUyNu+W5a3GLvwkqwPEcZoFmGBsfTsLAVqsgZS0j4L2k9ovbYqObZHMpPMoDAYG
+         bxUfk47jrPQJXDXj//x4zgv++hYgtm05jEFuPueuVK4kNvaM8ywNZyeWHHhRnP7ji5oW
+         Gy4tjKcYBr1v93ZJTIKinzVU8XXLMKlP2jGlJ2JLd3wPZMjg1lyL3vvEmGRB9/0ZM7C2
+         5w3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OPj9d30CAARqGx+bikPSsEnUWXOcRX7Mxe5aMa8ahCE=;
+        b=pyMrYsylGaximgyfSuMKHOn0tuQubyOhOTd8Cj+UV1UkMTgqZuNZugeko+v7q7nr7e
+         W0Sehy9DP8gqkZwp1ui9EAI1/OlAMBb++lUqaOGG80sDY62fdo4LNzsLDFZiDY5g58AW
+         OZaR4hA+6xqZQ9qBiYSUam055fQQxPx2Vqhf0gpcoMwO+5aEiHdsj7qJJ1Em7mFOQwDz
+         ujRWKJEw4QiObvFsYh5YhDb9C97ZMtmwc8KN4lQJyvKLG7InRwMYI+cV37nF3OXMeDEM
+         72ZIZ9RMtu0PilRiyx4rCBAkN8i6T3YkOEwnnmaUEpvXBtq+rzM/QFJ/D8wEdY+yePAt
+         o9vQ==
+X-Gm-Message-State: AOAM532IGRibxczIFO6RSQ7JnptE4SP+eSm6DHaaasL2Rzh672/y57CR
+        J6ACyea/j168Qxdvgng6Tc0=
+X-Google-Smtp-Source: ABdhPJzoUWMY/x3nAOJw9Pgg2IVnTKHb2nEiyUuAELHzrPUZ4WLFr/xkMOPobcmcW7xqeTvOZwlHsA==
+X-Received: by 2002:adf:f78c:: with SMTP id q12mr3157273wrp.6.1599148123691;
+        Thu, 03 Sep 2020 08:48:43 -0700 (PDT)
+Received: from medion (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
+        by smtp.gmail.com with ESMTPSA id x24sm5546173wrd.53.2020.09.03.08.48.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2020 08:48:42 -0700 (PDT)
+From:   Alex Dewar <alex.dewar90@gmail.com>
+X-Google-Original-From: Alex Dewar <alex.dewar@gmx.co.uk>
+Date:   Thu, 3 Sep 2020 16:48:41 +0100
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Alex Dewar <alex.dewar90@gmail.com>, devel@driverdev.osuosl.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] media: atomisp: get rid of -Wsuggest-attribute=format warnings
-Date:   Thu,  3 Sep 2020 15:57:32 +0200
-Message-Id: <6c77d765707b1e6b2901fd23d85b4d032f1a1799.1599141140.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1599141140.git.mchehab+huawei@kernel.org>
-References: <cover.1599141140.git.mchehab+huawei@kernel.org>
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alan Cox <alan@linux.intel.com>
+Subject: Re: [PATCH] staging: media: atomisp: Fix error path in lm3554_probe()
+Message-ID: <20200903154841.w5rppm325jobimud@medion>
+References: <20200902184207.479525-1-alex.dewar90@gmail.com>
+ <20200903121134.GB8299@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200903121134.GB8299@kadam>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are some warnings reported by gcc:
-	drivers/staging/media/atomisp//pci/atomisp_compat_css20.c:164:2: warning: function ‘atomisp_css2_dbg_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
-	drivers/staging/media/atomisp//pci/atomisp_compat_css20.c:170:2: warning: function ‘atomisp_css2_dbg_ftrace_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
-	drivers/staging/media/atomisp//pci/atomisp_compat_css20.c:170:2: warning: function ‘atomisp_css2_dbg_ftrace_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
-	drivers/staging/media/atomisp//pci/atomisp_compat_css20.c:176:2: warning: function ‘atomisp_css2_err_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+Good point about the timer!
 
-That are due to the usage of printf-like messages without
-enabling the error checking logic.
+> >  
+> > -	err = lm3554_gpio_init(client);
+> > -	if (err) {
+> > +	ret = lm3554_gpio_init(client);
+> > +	if (ret) {
+> >  		dev_err(&client->dev, "gpio request/direction_output fail");
+> > -		goto fail2;
+> > +		goto err_cleanup_entity;
+> >  	}
+> >  	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
+> 
+> If atomisp_register_i2c_module() fails then we need to call
+> lm3554_gpio_uninit(client) and do other cleanup.
 
-Add the proper attributes in order to shut up such warnings.
+I'm probably showing my ignorance here, but I can't see what cleanup we
+need. Inside lm3554_gpio_init we have:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../media/atomisp/pci/atomisp_compat_css20.c  | 20 ++++---------------
- .../staging/media/atomisp/pci/ia_css_env.h    |  4 ++--
- 2 files changed, 6 insertions(+), 18 deletions(-)
+	ret = gpiod_direction_output(pdata->gpio_reset, 0);
+	if (ret < 0)
+		return ret;
+	dev_info(&client->dev, "flash led reset successfully\n");
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index e54242dc0888..5a730e17cc6e 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -159,24 +159,13 @@ static void atomisp_css2_hw_load(hrt_address addr, void *to, uint32_t n)
- 	spin_unlock_irqrestore(&mmio_lock, flags);
- }
- 
--static int atomisp_css2_dbg_print(const char *fmt, va_list args)
--{
--	vprintk(fmt, args);
--	return 0;
--}
--
--static int atomisp_css2_dbg_ftrace_print(const char *fmt, va_list args)
-+static int  __attribute__((format (printf, 1, 0)))
-+atomisp_css2_dbg_ftrace_print(const char *fmt, va_list args)
- {
- 	ftrace_vprintk(fmt, args);
- 	return 0;
- }
- 
--static int atomisp_css2_err_print(const char *fmt, va_list args)
--{
--	vprintk(fmt, args);
--	return 0;
--}
--
- void atomisp_load_uint32(hrt_address addr, uint32_t *data)
- {
- 	*data = atomisp_css2_hw_load_32(addr);
-@@ -869,8 +858,7 @@ static inline int __set_css_print_env(struct atomisp_device *isp, int opt)
- 		isp->css_env.isp_css_env.print_env.debug_print =
- 		    atomisp_css2_dbg_ftrace_print;
- 	else if (opt == 2)
--		isp->css_env.isp_css_env.print_env.debug_print =
--		    atomisp_css2_dbg_print;
-+		isp->css_env.isp_css_env.print_env.debug_print = vprintk;
- 	else
- 		ret = -EINVAL;
- 
-@@ -903,7 +891,7 @@ int atomisp_css_load_firmware(struct atomisp_device *isp)
- 
- 	__set_css_print_env(isp, dbg_func);
- 
--	isp->css_env.isp_css_env.print_env.error_print = atomisp_css2_err_print;
-+	isp->css_env.isp_css_env.print_env.error_print = vprintk;
- 
- 	/* load isp fw into ISP memory */
- 	err = ia_css_load_firmware(isp->dev, &isp->css_env.isp_css_env,
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_env.h b/drivers/staging/media/atomisp/pci/ia_css_env.h
-index 8debf334c15c..9808ff9e0492 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_env.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_env.h
-@@ -75,9 +75,9 @@ struct ia_css_hw_access_env {
- /* Environment with function pointers to print error and debug messages.
-  */
- struct ia_css_print_env {
--	int (*debug_print)(const char *fmt, va_list args);
-+	int (*debug_print)(const char *fmt, va_list args) __attribute__((format (printf, 1, 0)));
- 	/** Print a debug message. */
--	int (*error_print)(const char *fmt, va_list args);
-+	int (*error_print)(const char *fmt, va_list args) __attribute__((format (printf, 1, 0)));
- 	/** Print an error message.*/
- };
- 
--- 
-2.26.2
+	if (!pdata->gpio_strobe)
+		return -EINVAL;
 
+	ret = gpiod_direction_output(pdata->gpio_strobe, 0);
+	if (ret < 0)
+		return ret;
+
+I'm not sure how you "undo" a call to gpiod_direction_output, but I'm
+thinking you won't need to do anything because it should be ok to leave
+a gpio to output 0... right?
+
+Alex
+
+> 
+> > -fail2:
+> > +
+> > +err_cleanup_entity:
+> >  	media_entity_cleanup(&flash->sd.entity);
+> > +err_free_ctrl_handler:
+> >  	v4l2_ctrl_handler_free(&flash->ctrl_handler);
+> 
+> regards,
+> dan carpenter
+> 
