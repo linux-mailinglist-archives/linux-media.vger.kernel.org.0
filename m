@@ -2,141 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B66C525C74C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 18:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66F9425C784
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 18:54:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728490AbgICQpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 12:45:19 -0400
-Received: from smtprelay0252.hostedemail.com ([216.40.44.252]:47136 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728145AbgICQpS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Sep 2020 12:45:18 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 76A551802926E;
-        Thu,  3 Sep 2020 16:45:15 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:408:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1381:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3865:3866:3867:3868:3872:3874:4037:4321:4362:5007:7754:7901:8957:10004:10226:10400:10466:10848:11026:11232:11473:11658:11914:12043:12048:12296:12297:12438:12740:12760:12895:13161:13229:13255:13439:14096:14097:14181:14346:14659:14721:21080:21627:21966:21990:30012:30014:30034:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
-X-HE-Tag: tree80_350539c270ab
-X-Filterd-Recvd-Size: 3682
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf15.hostedemail.com (Postfix) with ESMTPA;
-        Thu,  3 Sep 2020 16:45:13 +0000 (UTC)
-Message-ID: <6b225c10b6c71ffbc79c236b64dcc83fc33cc21b.camel@perches.com>
-Subject: Re: [PATCH 2/3] media: Add support for the AM/FM radio chip KT0913
- from KT Micro.
-From:   Joe Perches <joe@perches.com>
-To:     Santiago Hormazabal <santiagohssl@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 03 Sep 2020 09:45:12 -0700
-In-Reply-To: <20200831220601.20794-3-santiagohssl@gmail.com>
-References: <20200831220601.20794-1-santiagohssl@gmail.com>
-         <20200831220601.20794-3-santiagohssl@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S1728529AbgICQyk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 12:54:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbgICQyh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 12:54:37 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D17C1C061244;
+        Thu,  3 Sep 2020 09:54:33 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id cy2so1666660qvb.0;
+        Thu, 03 Sep 2020 09:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pPIlhO83NbYR2Iu+Rl8jTDV2i9P/pTQITMRP/d/Npl0=;
+        b=KBYeEkkp0TEeFaAEk1ZWyi7diJBOK/4w6YDtZgSGPOHt7d4eSbVFwu6F6rIMZNGi5a
+         gpjZjq3jZyc591WDnlHS3zhP5eOBU47TngzMoH3VPkIuNknhJ+7js5OVT+p3YFmCA5se
+         f6b5ax39xhGDYUTLMG9ncVS2OtTl4lRmfOute+2DzW+6Cjra33uSMaMY6b73/oZa+qT6
+         bZEmtUEMqeM1tSSzPcslSGRn+cFxgYMx28OIyxLswVcpxFBadke9moW8zcWd3nJ7HY+s
+         F0QRHJ5cO6yOtFRXv4djncDEO5x6MeamRexUPO9JFcnacC8edXbLj1VKad8MEluxrg11
+         U0YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pPIlhO83NbYR2Iu+Rl8jTDV2i9P/pTQITMRP/d/Npl0=;
+        b=m/VRFT1t8Ve5WJ9zPSiGGIe22Wx50FA/jX1VAsjTsnj1DccBKbpaHlAt1uJ7CW30Lg
+         FZaTU/ACqiGWYza5dAvNgjE0ZcZ7lD6v2sLEWfvVrlBU0qHRv/BmJ7C081QIg3+rmZza
+         ddgUJf0OeMuIlpybmvBvxB6ZFTdf5iqU0N7q9vEg9zsh2RDXhgwJhScTRrPEKLIOtJ1g
+         JNybtEZkPIIoUthf9yNmLL5GvRHsePdcnuu39NtPV7FC0eu4c+y0F4ifwpRNrZt9KfEy
+         rjZR5+ylpeud8jSiTQadWbsEzQqvDFcD9Xad3g8pSaNZwXkfIDdL5FOZe9Q6qD3wbG+2
+         KcLA==
+X-Gm-Message-State: AOAM533iNlXSmO/JASgjIEvyUaup5uut3kpzWTE4sHAUu5KIR6+AoR7r
+        +2OgJuAugJumZ246F99jQbiKWMw++kD6Vw==
+X-Google-Smtp-Source: ABdhPJzdd994L+nG9ApQYSAdmgBm3zD6Bqb7CSuby1zx34NP5CXqz3juJ0lRLXUZs/Ig+lHFQhDckw==
+X-Received: by 2002:a0c:c988:: with SMTP id b8mr2989741qvk.192.1599152072939;
+        Thu, 03 Sep 2020 09:54:32 -0700 (PDT)
+Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
+        by smtp.gmail.com with ESMTPSA id i1sm2531306qkd.58.2020.09.03.09.54.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2020 09:54:31 -0700 (PDT)
+Date:   Thu, 3 Sep 2020 09:54:30 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     trix@redhat.com
+Cc:     mchehab@kernel.org, ndesaulniers@google.com, brad@nextdimension.cc,
+        mkrufky@linuxtv.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH] media: em28xx: fix function pointer check
+Message-ID: <20200903165430.GA894500@ubuntu-n2-xlarge-x86>
+References: <20200903145038.20076-1-trix@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200903145038.20076-1-trix@redhat.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2020-08-31 at 19:06 -0300, Santiago Hormazabal wrote:
-> This chip requires almost no support components and can used over I2C.
-> The driver uses the I2C bus and exposes the controls as a V4L2 radio.
-> Tested with a module that contains this chip (from SZZSJDZ.com,
-> part number ZJ-801B, even tho the company seems defunct now), and an H2+
-> AllWinner SoC running a kernel built off 07d999f of the media_tree.
+On Thu, Sep 03, 2020 at 07:50:38AM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
+> 
+> clang static analyzer reports this problem
+> 
+> em28xx-core.c:1162:4: warning: Called function pointer
+>   is null (null dereference)
+>         ops->suspend(dev->dev_next);
+>         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> This is the problem block
+> 
+> 	if (ops->suspend)
+> 		ops->suspend(dev);
+> 	if (dev->dev_next)
+> 		ops->suspend(dev->dev_next);
+> 
+> The check for ops->suspend only covers one statement.
+> So fix the check consistent with other similar in
+> the file.
+> 
+> Change a similar check in em28xx_resume_extension()
+> to use consistent logic as its siblings.
+> 
+> Fixes: be7fd3c3a8c5 ("media: em28xx: Hauppauge DualHD second tuner functionality")
+> Signed-off-by: Tom Rix <trix@redhat.com>
 
-Thanks.
+Seems reasonable.
 
-style trivia:
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 
-[]
-> diff --git a/drivers/media/radio/radio-kt0913.c b/drivers/media/radio/radio-kt0913.c
-[]
-> +static const struct reg_sequence kt0913_init_regs_to_defaults[] = {
-> +	/* Standby disabled, volume 0dB */
-> +	{ KT0913_REG_RXCFG, 0x881f },
-
-These might be more legible on single lines,
-ignoring the 80 column limits.
-
-> +	/* FM Channel spacing = 50kHz, Right & Left unmuted */
-> +	{ KT0913_REG_SEEK, 0x000b },
-
-etc...
-
-[]
-
-> +static int __kt0913_set_fm_frequency(struct kt0913_device *radio,
-> +				     unsigned int frequency)
-> +{
-> +	return regmap_write(radio->regmap, KT0913_REG_TUNE,
-> +		KT0913_TUNE_FMTUNE_ON | (frequency / KT0913_FMCHAN_MUL));
-
-It might be nicer to align multi-line statements to the
-open parenthesis.
-
-[]
-
-> +static int __kt0913_set_au_gain(struct kt0913_device *radio, s32 gain)
-> +{
-> +	switch (gain) {
-> +	case 6:
-> +		return regmap_update_bits(radio->regmap,
-> +			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
-> +			KT0913_AMSYSCFG_AU_GAIN_6DB);
-> +	case 3:
-> +		return regmap_update_bits(radio->regmap,
-> +			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
-> +			KT0913_AMSYSCFG_AU_GAIN_3DB);
-> +	case 0:
-> +		return regmap_update_bits(radio->regmap,
-> +			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
-> +			KT0913_AMSYSCFG_AU_GAIN_0DB);
-> +	case -3:
-> +		return regmap_update_bits(radio->regmap,
-> +			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
-> +			KT0913_AMSYSCFG_AU_GAIN_MIN_3DB);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-
-It's generally more legible to write this with an intermediate
-variable holding the changed value.  It's also most commonly
-smaller object code.
-
-static int __kt0913_set_au_gain(struct kt0913_device *radio, s32 gain)
-{
-	int val;
-
-	switch (gain) {
-	case 6:
-		val = KT0913_AMSYSCFG_AU_GAIN_6DB;
-		break;
-	case 3:
-		val = KT0913_AMSYSCFG_AU_GAIN_3DB;
-		break;
-	case 0:
-		val = KT0913_AMSYSCFG_AU_GAIN_0DB;
-		break;
-	case -3:
-		val = KT0913_AMSYSCFG_AU_GAIN_MIN_3DB;
-		break;
-	default:
-		return -EINVAL;
-	}
-
-	return regmap_update_bits(radio->regmap, KT0913_REG_AMSYSCFG,
-				  KT0913_AMSYSCFG_AU_GAIN_MASK, val);
-}
-
-
+> ---
+>  drivers/media/usb/em28xx/em28xx-core.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
+> index e6088b5d1b80..d60f4c2a661d 100644
+> --- a/drivers/media/usb/em28xx/em28xx-core.c
+> +++ b/drivers/media/usb/em28xx/em28xx-core.c
+> @@ -1156,10 +1156,11 @@ int em28xx_suspend_extension(struct em28xx *dev)
+>  	dev_info(&dev->intf->dev, "Suspending extensions\n");
+>  	mutex_lock(&em28xx_devlist_mutex);
+>  	list_for_each_entry(ops, &em28xx_extension_devlist, next) {
+> -		if (ops->suspend)
+> +		if (ops->suspend) {
+>  			ops->suspend(dev);
+> -		if (dev->dev_next)
+> -			ops->suspend(dev->dev_next);
+> +			if (dev->dev_next)
+> +				ops->suspend(dev->dev_next);
+> +		}
+>  	}
+>  	mutex_unlock(&em28xx_devlist_mutex);
+>  	return 0;
+> @@ -1172,11 +1173,11 @@ int em28xx_resume_extension(struct em28xx *dev)
+>  	dev_info(&dev->intf->dev, "Resuming extensions\n");
+>  	mutex_lock(&em28xx_devlist_mutex);
+>  	list_for_each_entry(ops, &em28xx_extension_devlist, next) {
+> -		if (!ops->resume)
+> -			continue;
+> -		ops->resume(dev);
+> -		if (dev->dev_next)
+> -			ops->resume(dev->dev_next);
+> +		if (ops->resume) {
+> +			ops->resume(dev);
+> +			if (dev->dev_next)
+> +				ops->resume(dev->dev_next);
+> +		}
+>  	}
+>  	mutex_unlock(&em28xx_devlist_mutex);
+>  	return 0;
+> -- 
+> 2.18.1
+> 
