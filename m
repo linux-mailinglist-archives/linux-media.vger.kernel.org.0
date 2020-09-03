@@ -2,146 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1A6125C624
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 18:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8640225C62C
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 18:07:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728711AbgICQGV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 12:06:21 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14666 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728454AbgICQGU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 12:06:20 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f51146d0000>; Thu, 03 Sep 2020 09:06:05 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 03 Sep 2020 09:06:19 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 03 Sep 2020 09:06:19 -0700
-Received: from [10.2.173.243] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Sep
- 2020 16:06:18 +0000
-Subject: Re: [PATCH v5 2/3] dt-bindings: media: imx274: Add optional input
- clock and supplies
-To:     Jacopo Mondi <jacopo@jmondi.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <sakari.ailus@iki.fi>, <hverkuil@xs4all.nl>,
-        <jacopo+renesas@jmondi.org>, <luca@lucaceresoli.net>,
-        <leonl@leopardimaging.com>, <robh+dt@kernel.org>,
-        <lgirdwood@gmail.com>, <broonie@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1599012278-10203-1-git-send-email-skomatineni@nvidia.com>
- <1599012278-10203-3-git-send-email-skomatineni@nvidia.com>
- <20200903125542.nxiafnysatoexken@uno.localdomain>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <d3a1843c-5d73-cfa6-9611-405b905ddcd1@nvidia.com>
-Date:   Thu, 3 Sep 2020 09:05:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728419AbgICQHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 12:07:32 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:57375 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727786AbgICQH3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 12:07:29 -0400
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 191AE240016;
+        Thu,  3 Sep 2020 16:07:22 +0000 (UTC)
+Date:   Thu, 3 Sep 2020 18:11:08 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v3 2/2] media: i2c: ov772x: Add test pattern control
+Message-ID: <20200903161108.aqlgicfhwgyccwou@uno.localdomain>
+References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200824190406.27478-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20200903125542.nxiafnysatoexken@uno.localdomain>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1599149165; bh=bxXTsuZ7FZDcM2mjf0tGRKm9GbyC5hRsiKLW8EcqMBs=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=CDq+fjcmsDn7/zTxc+bjGS/Qqr7CyvtVyyCgcPbD9gc46SJBcuGH0I+sK2LrB5wzT
-         3wV/j4FQrKlNv9tmXyfaJ/Hrg2ExW+bZGMwSdn2TpumCiHtvh9eu49jAqVEsCF2Wtk
-         6KRzVdDHUYc4axK1Ew6zszGtItYp/aOrktlIJAAQxfFhtiHMMCOBpcM2l916M3CVJN
-         S/TMceh950Dd5hrJ+omQe8/i6tVaRxbOpI70dOvOQXsHQkFcL3eC99El20xsaVsllJ
-         owz+a7Vw7NdD9NUZAsl1K8xiEc+p++5nfUGzG0vXR/tzCiwr6doElHia8Z95JRxvIA
-         4K5rrGDOcgTsw==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200824190406.27478-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 9/3/20 5:55 AM, Jacopo Mondi wrote:
-> Hello Sowjanya,
+On Mon, Aug 24, 2020 at 08:04:06PM +0100, Lad Prabhakar wrote:
+> Add support for test pattern control supported by the sensor.
 >
-> On Tue, Sep 01, 2020 at 07:04:37PM -0700, Sowjanya Komatineni wrote:
->> This patch adds IMX274 optional external clock input and voltage
->> supplies to device tree bindings.
->>
->> Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   .../devicetree/bindings/media/i2c/sony,imx274.yaml  | 21 +++++++++++++=
-++++++++
->>   1 file changed, 21 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yam=
-l b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
->> index 7ae47a6..57e7176 100644
->> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
->> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
->> @@ -25,6 +25,27 @@ properties:
->>     reset-gpios:
->>       maxItems: 1
->>
-> I just sent an update to my json-schema conversion of this bindings
-> document (not yet on patchwork, sorry) and Sakari pointed me to the
-> fact in between my v2 and my v4 this patch from you went in:
-> 4ea3273d24b ("dt-bindings: media: imx274: Add optional input clock and su=
-pplies")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/media/i2c/ov772x.c | 25 ++++++++++++++++++++++++-
+>  include/media/i2c/ov772x.h |  1 +
+>  2 files changed, 25 insertions(+), 1 deletion(-)
 >
-> I should probably now update my bindings conversion patch, basically
-> taking in what you've done here, but I would have one question.
+> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> index 67764d647526..f267d8abd742 100644
+> --- a/drivers/media/i2c/ov772x.c
+> +++ b/drivers/media/i2c/ov772x.c
+> @@ -227,7 +227,7 @@
 >
->> +  clocks:
->> +    maxItems: 1
->> +    description: Reference to the sensor input clock
->> +
->> +  clock-names:
->> +    maxItems: 1
->> +    items:
->> +      - const: inck
->> +
->> +  vana-supply:
->> +    description:
->> +      Analog voltage supply, 2.8 volts
->> +
->> +  vdig-supply:
->> +    description:
->> +      Digital IO voltage supply, 1.8 volts
->> +
->> +  vddl-supply:
->> +    description:
->> +      Digital core voltage supply, 1.2 volts
-> 4ea3273d24b introduced these regulators as VANA-supply, VDIG-supply
-> and VDDL-supply (please note the upper-case names). This version uses
-> lower-case ones instead. Is this intentional ? The driver currently
-> does not parse any of these if I'm not mistaken, but as the bindings
-> in textual form defines an ABI which should be preserved during the
-> conversion to json-schema, should these be kept in upper-case ?
+>  /* COM3 */
+>  #define SWAP_MASK       (SWAP_RGB | SWAP_YUV | SWAP_ML)
+> -#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG)
+> +#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG | SCOLOR_TEST)
 >
-> Thanks
->     j
+>  #define VFLIP_IMG       0x80	/* Vertical flip image ON/OFF selection */
+>  #define HFLIP_IMG       0x40	/* Horizontal mirror image ON/OFF selection */
+> @@ -425,6 +425,7 @@ struct ov772x_priv {
+>  	const struct ov772x_win_size     *win;
+>  	struct v4l2_ctrl		 *vflip_ctrl;
+>  	struct v4l2_ctrl		 *hflip_ctrl;
+> +	unsigned int			  test_pattern;
+>  	/* band_filter = COM8[5] ? 256 - BDBASE : 0 */
+>  	struct v4l2_ctrl		 *band_filter_ctrl;
+>  	unsigned int			  fps;
+> @@ -540,6 +541,11 @@ static const struct ov772x_win_size ov772x_win_sizes[] = {
+>  	},
+>  };
+>
+> +static const char * const ov772x_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Vertical Color Bar Type 1",
+> +};
+> +
+>  /*
+>   * frame rate settings lists
+>   */
+> @@ -762,6 +768,13 @@ static int ov772x_s_frame_interval(struct v4l2_subdev *sd,
+>  	return ret;
+>  }
+>
+> +static int ov772x_enable_test_pattern(struct ov772x_priv *priv, u32 pattern)
+> +{
+> +	priv->test_pattern = pattern;
+> +	return regmap_update_bits(priv->regmap, COM3, SCOLOR_TEST,
+> +				  pattern ? SCOLOR_TEST : 0x00);
+> +}
+> +
+>  static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct ov772x_priv *priv = container_of(ctrl->handler,
+> @@ -809,6 +822,8 @@ static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		}
+>
+>  		return ret;
+> +	case V4L2_CID_TEST_PATTERN:
+> +		return ov772x_enable_test_pattern(priv, ctrl->val);
 
-Yes, based on feedback lower case was recommended. So, changed to use=20
-lower-case names.
+I think you should rather save ctrl->val in priv->test_patter here,
+and then apply it at set_params() time (which is called at power on).
+But I see the driver refusing to s_ctrl() and not calling
+__v4l2_ctrl_handler_setup() at power up time, so I think the idea is
+just to ignore controls set when the sensor is powered down..
 
-These properties were not used by driver currently and from my prior=20
-series only dt-binding got merged as=C2=A0 no feedback was received on it f=
-or=20
-all prior versions.
+>  	}
+>
+>  	return -EINVAL;
+> @@ -1103,10 +1118,14 @@ static int ov772x_set_params(struct ov772x_priv *priv,
+>  		val |= VFLIP_IMG;
+>  	if (priv->info && (priv->info->flags & OV772X_FLAG_HFLIP))
+>  		val |= HFLIP_IMG;
+> +	if (priv->info && (priv->info->flags & OV772X_FLAG_TEST_PATTERN))
+> +		val |= SCOLOR_TEST;
+>  	if (priv->vflip_ctrl->val)
+>  		val ^= VFLIP_IMG;
+>  	if (priv->hflip_ctrl->val)
+>  		val ^= HFLIP_IMG;
+> +	if (priv->test_pattern)
+> +		val ^= SCOLOR_TEST;
 
-So, should be ok to change to lower-case as there properties are=20
-introduced now and driver update using these properties is under review
+I'm not sure this is required to be honest.
 
->> +
->>     port:
->>       type: object
->>       description: |
->> --
->> 2.7.4
->>
+For hflip/vflip the =^ serves to invert the v4l2-control meaning, as
+the image is said to be already H/V flipped by the platform data (if I
+got this part right).
+
+For test pattern, do we want the same behaviour ? If enabled by
+platform data then selecting "Vertical Color Bar Type 1" then disables
+it ? I don't think so...
+
+Anyway, minor issue. With this addressed
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+  j
+
+>
+>  	ret = regmap_update_bits(priv->regmap, COM3, SWAP_MASK | IMG_MASK, val);
+>  	if (ret < 0)
+> @@ -1404,6 +1423,10 @@ static int ov772x_probe(struct i2c_client *client)
+>  	priv->band_filter_ctrl = v4l2_ctrl_new_std(&priv->hdl, &ov772x_ctrl_ops,
+>  						   V4L2_CID_BAND_STOP_FILTER,
+>  						   0, 256, 1, 0);
+> +	v4l2_ctrl_new_std_menu_items(&priv->hdl, &ov772x_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(ov772x_test_pattern_menu) - 1,
+> +				     0, 0, ov772x_test_pattern_menu);
+>  	priv->subdev.ctrl_handler = &priv->hdl;
+>  	if (priv->hdl.error) {
+>  		ret = priv->hdl.error;
+> diff --git a/include/media/i2c/ov772x.h b/include/media/i2c/ov772x.h
+> index a1702d420087..65e6f8d2f4bb 100644
+> --- a/include/media/i2c/ov772x.h
+> +++ b/include/media/i2c/ov772x.h
+> @@ -12,6 +12,7 @@
+>  /* for flags */
+>  #define OV772X_FLAG_VFLIP	(1 << 0) /* Vertical flip image */
+>  #define OV772X_FLAG_HFLIP	(1 << 1) /* Horizontal flip image */
+> +#define OV772X_FLAG_TEST_PATTERN	(1 << 2) /* Test pattern */
+>
+>  /*
+>   * for Edge ctrl
+> --
+> 2.17.1
+>
