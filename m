@@ -2,200 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E12D25C72C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 18:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B66C525C74C
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 18:45:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728965AbgICQlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 12:41:52 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:1455 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728344AbgICQlu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 12:41:50 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f511cc00004>; Thu, 03 Sep 2020 09:41:36 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 03 Sep 2020 09:41:50 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 03 Sep 2020 09:41:50 -0700
-Received: from [10.2.173.243] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Sep
- 2020 16:41:48 +0000
-Subject: Re: [PATCH v5 2/3] dt-bindings: media: imx274: Add optional input
- clock and supplies
-To:     Jacopo Mondi <jacopo@jmondi.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <sakari.ailus@iki.fi>, <hverkuil@xs4all.nl>,
-        <jacopo+renesas@jmondi.org>, <luca@lucaceresoli.net>,
-        <leonl@leopardimaging.com>, <robh+dt@kernel.org>,
-        <lgirdwood@gmail.com>, <broonie@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1599012278-10203-1-git-send-email-skomatineni@nvidia.com>
- <1599012278-10203-3-git-send-email-skomatineni@nvidia.com>
- <20200903125542.nxiafnysatoexken@uno.localdomain>
- <d3a1843c-5d73-cfa6-9611-405b905ddcd1@nvidia.com>
- <20200903163525.p5z2adhp4wq453bs@uno.localdomain>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <f38bb328-b282-783b-3ac5-5441001d10b6@nvidia.com>
-Date:   Thu, 3 Sep 2020 09:40:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728490AbgICQpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 12:45:19 -0400
+Received: from smtprelay0252.hostedemail.com ([216.40.44.252]:47136 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728145AbgICQpS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Sep 2020 12:45:18 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 76A551802926E;
+        Thu,  3 Sep 2020 16:45:15 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:408:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1381:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3865:3866:3867:3868:3872:3874:4037:4321:4362:5007:7754:7901:8957:10004:10226:10400:10466:10848:11026:11232:11473:11658:11914:12043:12048:12296:12297:12438:12740:12760:12895:13161:13229:13255:13439:14096:14097:14181:14346:14659:14721:21080:21627:21966:21990:30012:30014:30034:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
+X-HE-Tag: tree80_350539c270ab
+X-Filterd-Recvd-Size: 3682
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf15.hostedemail.com (Postfix) with ESMTPA;
+        Thu,  3 Sep 2020 16:45:13 +0000 (UTC)
+Message-ID: <6b225c10b6c71ffbc79c236b64dcc83fc33cc21b.camel@perches.com>
+Subject: Re: [PATCH 2/3] media: Add support for the AM/FM radio chip KT0913
+ from KT Micro.
+From:   Joe Perches <joe@perches.com>
+To:     Santiago Hormazabal <santiagohssl@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 03 Sep 2020 09:45:12 -0700
+In-Reply-To: <20200831220601.20794-3-santiagohssl@gmail.com>
+References: <20200831220601.20794-1-santiagohssl@gmail.com>
+         <20200831220601.20794-3-santiagohssl@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <20200903163525.p5z2adhp4wq453bs@uno.localdomain>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1599151296; bh=CnYJnTb5gUW/km6HHe78zwtqcAzkqtsBbu0if592DP0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=VOJgr0NfpC8kqZGSqQEtRhIfXoxqzQLgwysBhjlDnLkyWeSH5URQRp1ISYIm3Rwv9
-         dHL+pdjT6/or/qW9BGE1KDClgl/hEnfPQ9Kv3stxMJXV7vdms1EjwDnDkhnOQAMTss
-         zt0SemTvgLdnHvMnfU9ciVxsrbaSCNJQaMX2dkQp31HRzUcvG8cg23SIfZGV18+JGa
-         inMVSg7fRYCRiqLaYu87F3nzZSPy7C+e7cUfzh6bADG0T7Yh7NMi4Kd6By16tCST/B
-         izSfBj+Ck+xs8G+wb4tipO5UBugFLnVieOtre7JCO+lLacAXbpokSEv6S7qfFwWbrE
-         51x4onW0s1dpQ==
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, 2020-08-31 at 19:06 -0300, Santiago Hormazabal wrote:
+> This chip requires almost no support components and can used over I2C.
+> The driver uses the I2C bus and exposes the controls as a V4L2 radio.
+> Tested with a module that contains this chip (from SZZSJDZ.com,
+> part number ZJ-801B, even tho the company seems defunct now), and an H2+
+> AllWinner SoC running a kernel built off 07d999f of the media_tree.
 
-On 9/3/20 9:35 AM, Jacopo Mondi wrote:
-> Hi Sowjanya,
->
-> On Thu, Sep 03, 2020 at 09:05:27AM -0700, Sowjanya Komatineni wrote:
->> On 9/3/20 5:55 AM, Jacopo Mondi wrote:
->>> Hello Sowjanya,
->>>
->>> On Tue, Sep 01, 2020 at 07:04:37PM -0700, Sowjanya Komatineni wrote:
->>>> This patch adds IMX274 optional external clock input and voltage
->>>> supplies to device tree bindings.
->>>>
->>>> Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
->>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>> ---
->>>>    .../devicetree/bindings/media/i2c/sony,imx274.yaml  | 21 ++++++++++=
-+++++++++++
->>>>    1 file changed, 21 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.y=
-aml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
->>>> index 7ae47a6..57e7176 100644
->>>> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
->>>> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
->>>> @@ -25,6 +25,27 @@ properties:
->>>>      reset-gpios:
->>>>        maxItems: 1
->>>>
->>> I just sent an update to my json-schema conversion of this bindings
->>> document (not yet on patchwork, sorry) and Sakari pointed me to the
->>> fact in between my v2 and my v4 this patch from you went in:
->>> 4ea3273d24b ("dt-bindings: media: imx274: Add optional input clock and =
-supplies")
->>>
->>> I should probably now update my bindings conversion patch, basically
->>> taking in what you've done here, but I would have one question.
->>>
->>>> +  clocks:
->>>> +    maxItems: 1
->>>> +    description: Reference to the sensor input clock
->>>> +
->>>> +  clock-names:
->>>> +    maxItems: 1
->>>> +    items:
->>>> +      - const: inck
->>>> +
->>>> +  vana-supply:
->>>> +    description:
->>>> +      Analog voltage supply, 2.8 volts
->>>> +
->>>> +  vdig-supply:
->>>> +    description:
->>>> +      Digital IO voltage supply, 1.8 volts
->>>> +
->>>> +  vddl-supply:
->>>> +    description:
->>>> +      Digital core voltage supply, 1.2 volts
->>> 4ea3273d24b introduced these regulators as VANA-supply, VDIG-supply
->>> and VDDL-supply (please note the upper-case names). This version uses
->>> lower-case ones instead. Is this intentional ? The driver currently
->>> does not parse any of these if I'm not mistaken, but as the bindings
->>> in textual form defines an ABI which should be preserved during the
->>> conversion to json-schema, should these be kept in upper-case ?
->>>
->>> Thanks
->>>      j
->> Yes, based on feedback lower case was recommended. So, changed to use
->> lower-case names.
->>
->> These properties were not used by driver currently and from my prior ser=
-ies
->> only dt-binding got merged as=C2=A0 no feedback was received on it for a=
-ll prior
->> versions.
->>
->> So, should be ok to change to lower-case as there properties are introdu=
-ced
->> now and driver update using these properties is under review
->>
-> Well, I see that patch went in v5.9-rc1, so it will be part of v5.9.
->
-> If the bindings update goes in in v5.10 (or whatever comes after v5.9)
-> then we have a problem, as the DTB created for v5.9 won't work anymore
-> on any later version, and that should not happen. Alternatively, a fix
-> for the next -rc release could be fast-tracked, but you would
-> need to synchronize with the dt maintainers for that and make a patch
-> for the existing .txt bindings file.
->
-> If the name change happens in the yaml file and one release is made
-> with the old names, then we're stuck with those forever and ever, if I
-> got the situation right.
->
-> Please check with the dt and media maintainers, or they can comment
-> here if they glance through these lines.
->
-> Thanks
->    j
+Thanks.
 
-Hi Leon Luo,
+style trivia:
 
-I used upper case for regulator supply names in all prior 4 versions of=20
-IMX274 patch series as I see some other media i2c drivers doing it and=20
-dt-binding patch from v3 got merged in 5.9-rc1 which was using upper-case.
+[]
+> diff --git a/drivers/media/radio/radio-kt0913.c b/drivers/media/radio/radio-kt0913.c
+[]
+> +static const struct reg_sequence kt0913_init_regs_to_defaults[] = {
+> +	/* Standby disabled, volume 0dB */
+> +	{ KT0913_REG_RXCFG, 0x881f },
 
-Later received feedback from Sakari requesting to use lower-case names=20
-so updated to use lower case name now in v5.
+These might be more legible on single lines,
+ignoring the 80 column limits.
 
-Not sure if we have timeline to squeeze in patch to change names to=20
-lower-case before they get into 5.10.
+> +	/* FM Channel spacing = 50kHz, Right & Left unmuted */
+> +	{ KT0913_REG_SEEK, 0x000b },
 
-Can you please comment?
+etc...
 
-Sakari,
+[]
 
-Can you also help understand why can't we keep upper case for regulator=20
-supplies?
+> +static int __kt0913_set_fm_frequency(struct kt0913_device *radio,
+> +				     unsigned int frequency)
+> +{
+> +	return regmap_write(radio->regmap, KT0913_REG_TUNE,
+> +		KT0913_TUNE_FMTUNE_ON | (frequency / KT0913_FMCHAN_MUL));
 
-I see some other media i2c drivers using upper case as well.
+It might be nicer to align multi-line statements to the
+open parenthesis.
 
-Thanks
+[]
 
-Sowjanya
+> +static int __kt0913_set_au_gain(struct kt0913_device *radio, s32 gain)
+> +{
+> +	switch (gain) {
+> +	case 6:
+> +		return regmap_update_bits(radio->regmap,
+> +			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
+> +			KT0913_AMSYSCFG_AU_GAIN_6DB);
+> +	case 3:
+> +		return regmap_update_bits(radio->regmap,
+> +			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
+> +			KT0913_AMSYSCFG_AU_GAIN_3DB);
+> +	case 0:
+> +		return regmap_update_bits(radio->regmap,
+> +			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
+> +			KT0913_AMSYSCFG_AU_GAIN_0DB);
+> +	case -3:
+> +		return regmap_update_bits(radio->regmap,
+> +			KT0913_REG_AMSYSCFG, KT0913_AMSYSCFG_AU_GAIN_MASK,
+> +			KT0913_AMSYSCFG_AU_GAIN_MIN_3DB);
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
+It's generally more legible to write this with an intermediate
+variable holding the changed value.  It's also most commonly
+smaller object code.
+
+static int __kt0913_set_au_gain(struct kt0913_device *radio, s32 gain)
+{
+	int val;
+
+	switch (gain) {
+	case 6:
+		val = KT0913_AMSYSCFG_AU_GAIN_6DB;
+		break;
+	case 3:
+		val = KT0913_AMSYSCFG_AU_GAIN_3DB;
+		break;
+	case 0:
+		val = KT0913_AMSYSCFG_AU_GAIN_0DB;
+		break;
+	case -3:
+		val = KT0913_AMSYSCFG_AU_GAIN_MIN_3DB;
+		break;
+	default:
+		return -EINVAL;
+	}
+
+	return regmap_update_bits(radio->regmap, KT0913_REG_AMSYSCFG,
+				  KT0913_AMSYSCFG_AU_GAIN_MASK, val);
+}
 
 
-
-
->>>> +
->>>>      port:
->>>>        type: object
->>>>        description: |
->>>> --
->>>> 2.7.4
->>>>
