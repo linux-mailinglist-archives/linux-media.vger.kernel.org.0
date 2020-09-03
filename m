@@ -2,122 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E38F125BA9F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 07:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB57925BABC
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 08:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726221AbgICFsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 01:48:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40672 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726047AbgICFsq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 01:48:46 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D5BC061245
-        for <linux-media@vger.kernel.org>; Wed,  2 Sep 2020 22:48:45 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id m5so1200687pgj.9
-        for <linux-media@vger.kernel.org>; Wed, 02 Sep 2020 22:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uxOUTu3Fn6s5agkJSuaeoytoVx0NNmaxRXLXydxOq+w=;
-        b=htj3lRqkIgsh4c7IEbd0OmII1g4rHRRPYOwizSELlMizgLq1bPkB8rImlcFCoZKJVE
-         03NUrgzKBL4KZEocOdzwfK5zpgqAqBsBI2zDsMWwNcYGgiybhcIlQur0qV0U6/0z5Tc9
-         PJyJN3Ae9HfFWMc+5cOBsivktgGMh/wYlw2Ak=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uxOUTu3Fn6s5agkJSuaeoytoVx0NNmaxRXLXydxOq+w=;
-        b=WfQMJZUloTQhL7aVxKB86ORnUgkxQo9vyvUd73ES7HtM6DcLC4akorz6h2fxGWBhiR
-         adKlrzew6br6M9ttPuteP+vCWTusf17laov+Rlni5pZ5uKXufvHXfQPuj3/81Xy9azi7
-         n6IalLHmTYFMg9ySW4iLvzrIox8pK/qVTd3fYG3JtDqfgmZODSZBCns4lA+Z3WaR0jyJ
-         MHi+xh2xZfR5RZARThbb/hjhVhgmmFzin2fIhi/yWhT8PBjnqY0uiBVIxZtiC9pVsrqs
-         R1djUYmp8O8PjlQhlE3OQIOoK2tp+klN1r5ylCHBxb6vr9rsbuK0NCt/dFOE4yrNlt/9
-         og5w==
-X-Gm-Message-State: AOAM531hq9b70KL/CFZta6ETDwrFImRj95oJAj+EiCWJlh2uUrRles+Y
-        uPjVk4E6XDtiX/xGa507zClAHlKOy9wr9A==
-X-Google-Smtp-Source: ABdhPJxnvTUo3AQzDD/vyNULzOUhHkXHWGLFFwWLxxcbIpy/btsmC/T3RiZIgNFj//B5dc6sqis6/A==
-X-Received: by 2002:a63:1052:: with SMTP id 18mr1525513pgq.311.1599112124849;
-        Wed, 02 Sep 2020 22:48:44 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com ([2401:fa00:1:10:1a60:24ff:fe89:3e93])
-        by smtp.gmail.com with ESMTPSA id r2sm1099218pga.94.2020.09.02.22.48.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 22:48:44 -0700 (PDT)
-From:   Hsin-Yi Wang <hsinyi@chromium.org>
-To:     linux-media@vger.kernel.org
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH] media: mtk-vcodec: remove allocated dma_parms
-Date:   Thu,  3 Sep 2020 13:48:33 +0800
-Message-Id: <20200903054832.3743698-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
+        id S1726526AbgICGCC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 02:02:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55228 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725851AbgICGCB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Sep 2020 02:02:01 -0400
+Received: from coco.lan (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 09A9E2071B;
+        Thu,  3 Sep 2020 06:01:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599112921;
+        bh=Ls7GUSqMV1Lls5C+YOMpZmiW/jNMpkQl3lAVRfA6qYg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=YgJu8tvKoE6Z7L1oqd8DHVrunCg7fekTrPVU1VTsgzJGxm39E7fVwc3/KkHMGBs8x
+         ScSUCIMRAa/TH3+idSKG1dywAY6ZY95NYyBa2Q5jWEk/zAwO+kW1wHA6qIzVqmxPz3
+         BArnSWOhsG8GeZOZKXHYR0VSTsgz84dn7Hy19Dg8=
+Date:   Thu, 3 Sep 2020 08:01:56 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vandana BN <bnvandana@gmail.com>,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 02/38] media: v4l2-ioctl: avoid memory leaks on some
+ time32 compat functions
+Message-ID: <20200903080156.1ae119b8@coco.lan>
+In-Reply-To: <CAK8P3a1MFe4mGMzjdDQURXbWLKCr8uEWgie3EZ1wb7e3EtTQdQ@mail.gmail.com>
+References: <cover.1599062230.git.mchehab+huawei@kernel.org>
+        <27254f9780e7ec8502761826c2888dbd51a536a8.1599062230.git.mchehab+huawei@kernel.org>
+        <CAK8P3a1MFe4mGMzjdDQURXbWLKCr8uEWgie3EZ1wb7e3EtTQdQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-9495b7e92f71 ("driver core: platform: Initialize dma_parms for platform
-devices") included dma_parms in platform_device. There's no need to
-allocate again.
+Em Wed, 2 Sep 2020 20:45:53 +0200
+Arnd Bergmann <arnd@arndb.de> escreveu:
 
-Fixes: 13483fc2f20f0e2db7ba9c39b095ac7ea46f8de8 ("media: mtk-vcodec: set dma max segment size")
-Suggested-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 9 +--------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 9 +--------
- 2 files changed, 2 insertions(+), 16 deletions(-)
+> On Wed, Sep 2, 2020 at 6:10 PM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> >
+> > There are some reports about possible memory leaks:
+> >
+> >         drivers/media/v4l2-core//v4l2-ioctl.c:3203 video_put_user() warn: check that 'ev32' doesn't leak information (struct has a hole after 'type')
+> >         drivers/media/v4l2-core//v4l2-ioctl.c:3230 video_put_user() warn: check that 'vb32' doesn't leak information (struct has a hole after 'memory')
+> >
+> > While smatch seems to be reporting a false positive (line 3203),
+> > there's indeed a possible leak with reserved2 at vb32.
+> >
+> > We might have fixed just that one, but smatch checks won't
+> > be able to check leaks at ev32. So, re-work the code in a way
+> > that will ensure that the var contents will be zeroed before
+> > filling it.
+> >
+> > With that, we don't need anymore to touch reserved fields.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> 
+> Isn't this the same as commit 4ffb879ea648 ("media: media/v4l2-core:
+> Fix kernel-infoleak
+> in video_put_user()") that you already applied (aside from the issue
+> that Laurent
+> pointed out)?
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index 3bbd0bac56d69..76ee0cb5a7094 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -242,14 +242,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		mtk_v4l2_err("[VPU] vpu device in not ready");
- 		return -EPROBE_DEFER;
- 	}
--	if (!pdev->dev.dma_parms) {
--		pdev->dev.dma_parms = devm_kzalloc(&pdev->dev,
--						sizeof(*pdev->dev.dma_parms),
--						GFP_KERNEL);
--		if (!pdev->dev.dma_parms)
--			return -ENOMEM;
--	}
--	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-+	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
- 
- 	vpu_wdt_reg_handler(dev->vpu_plat_dev, mtk_vcodec_dec_reset_handler,
- 			dev, VPU_RST_DEC);
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index ff4a87485d690..c18e58c71d4a4 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -249,14 +249,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		mtk_v4l2_err("[VPU] vpu device in not ready");
- 		return -EPROBE_DEFER;
- 	}
--	if (!pdev->dev.dma_parms) {
--		pdev->dev.dma_parms = devm_kzalloc(&pdev->dev,
--						sizeof(*pdev->dev.dma_parms),
--						GFP_KERNEL);
--		if (!pdev->dev.dma_parms)
--			return -ENOMEM;
--	}
--	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-+	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
- 
- 	vpu_wdt_reg_handler(dev->vpu_plat_dev, mtk_vcodec_enc_reset_handler,
- 				dev, VPU_RST_ENC);
--- 
-2.28.0.402.g5ffc5be6b7-goog
+Oh! I completely forgot about that one which is at the fixes branch.
 
+Yeah, you're right! I'll drop this one from the series.
+
+Thanks!
+
+Mauro
