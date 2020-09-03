@@ -2,155 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51D0425BB08
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 08:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D207725BB23
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 08:38:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbgICGau (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 02:30:50 -0400
-Received: from mga17.intel.com ([192.55.52.151]:12741 "EHLO mga17.intel.com"
+        id S1726528AbgICGie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 02:38:34 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:44814 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725919AbgICGau (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Sep 2020 02:30:50 -0400
-IronPort-SDR: i1oxDGt4k5KE9EG3KCUfj5UcEp+iHG78eExBNHZx4QZppcawUfD/r0AcZZm4CXt7VmcODRdUtA
- k7mfJLBw9chg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9732"; a="137578471"
-X-IronPort-AV: E=Sophos;i="5.76,385,1592895600"; 
-   d="scan'208";a="137578471"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2020 23:30:49 -0700
-IronPort-SDR: pjZ7tQiDH/pCeyrz+Pdq6Kot+MmMA25BcyAf0ohtVbNOLyFSScDOLezfgHo03oP1a9txzijsuT
- nIOW6kZKD3QQ==
-X-IronPort-AV: E=Sophos;i="5.76,385,1592895600"; 
-   d="scan'208";a="477934111"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2020 23:30:45 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 08AB72034D; Thu,  3 Sep 2020 09:30:43 +0300 (EEST)
-Date:   Thu, 3 Sep 2020 09:30:42 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Xingyu Wu <wuxy@bitland.com.cn>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "shawnx.tu" <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "dave.stevenson" <dave.stevenson@raspberrypi.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Sj Huang <sj.huang@mediatek.com>,
-        darfur_liu <darfur_liu@gcoreinc.com>,
-        "hao.he7" <hao.he7@gmail.com>,
-        =?utf-8?B?5L2V5rWpQjAzMjA1?= <hao.he@bitland.com.cn>
-Subject: Re: [PATCH V3 3/3] media: i2c: gc5035: Add GC5035 image sensor driver
-Message-ID: <20200903063042.GH32646@paasikivi.fi.intel.com>
-References: <1597380295-6297-1-git-send-email-wuxy@bitland.com.cn>
- <1597380295-6297-5-git-send-email-wuxy@bitland.com.cn>
- <20200831174057.GO31019@paasikivi.fi.intel.com>
- <CAAFQd5ARYNVMjScuk5-w_z5Pt6jD=CPkCYG+rM2Znvt9j1Od6g@mail.gmail.com>
+        id S1725919AbgICGie (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Sep 2020 02:38:34 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kDinT-00Cc0x-2b; Thu, 03 Sep 2020 06:32:35 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kDivp-0007WH-Jk; Thu, 03 Sep 2020 06:41:13 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for v5.9-rc4] media fixes (#66764)
+Date:   Thu,  3 Sep 2020 06:41:13 +0000
+Message-Id: <20200903064113.28864-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200903081057.78407ab4@coco.lan>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5ARYNVMjScuk5-w_z5Pt6jD=CPkCYG+rM2Znvt9j1Od6g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+From: builder@linuxtv.org
 
-On Thu, Sep 03, 2020 at 12:59:20AM +0200, Tomasz Figa wrote:
-> Hi Sakari,
-> 
-> On Mon, Aug 31, 2020 at 7:41 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Xingyu,
-> >
-> > Thanks for the update. I've got a few more comments below.
-> >
-> > Do you happen to have some insight on what the OTP data contains and what
-> > does the driver do with it?
-> >
-> > At least in principle the OTP data may be programmed for the customer so
-> > the same sensor could contain something else what the driver expects to
-> > find there.
-> >
-> 
-> Thanks for the review. For anything without my reply, assume fixed. :)
-> 
-> As far as I can see, the data is being read from an area that is
-> supposed to be reserved for Galaxycore, so I'd assume it doesn't
-> depend on the customer.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200903081057.78407ab4@coco.lan/
+Build log: https://builder.linuxtv.org/job/patchwork/66699/
+Build time: 00:19:08
+Link: https://lore.kernel.org/linux-media/20200903081057.78407ab4@coco.lan
 
-Sounds good.
+gpg: Signature made Thu 03 Sep 2020 06:04:27 AM UTC
+gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
+gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [unknown]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
+gpg:                 aka "[jpeg image of size 3594]" [ultimate]
 
-> 
-> [snip]
-> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > index da11036..aeaf594 100644
-> > > --- a/drivers/media/i2c/Kconfig
-> > > +++ b/drivers/media/i2c/Kconfig
-> > > @@ -712,6 +712,18 @@ config VIDEO_APTINA_PLL
-> > >  config VIDEO_SMIAPP_PLL
-> > >       tristate
-> > >
-> > > +config VIDEO_GC5035
-> > > +     tristate "Galaxycore GC5035 sensor support"
-> > > +     depends on I2C && VIDEO_V4L2
-> > > +     select MEDIA_CONTROLLER
-> > > +     select VIDEO_V4L2_SUBDEV_API
-> >
-> > Add:
-> >
-> >         V4L2_FWNODE
-> >         OF
-> 
-> This driver doesn't depend on OF. It uses the firmware-independent
-> property access API. (v4 I sent actually uses device_property_*()).
+Summary: got 3/10 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-Yes, this is even better.
+Error/warnings:
 
-> 
-> [snip]
-> > > +static int __gc5035_power_on(struct gc5035 *gc5035)
-> > > +{
-> > > +     struct device *dev = &gc5035->client->dev;
-> > > +     int i, ret;
-> > > +
-> > > +     ret = clk_prepare_enable(gc5035->xvclk);
-> > > +     if (ret < 0) {
-> > > +             dev_err(dev, "Failed to enable xvclk\n");
-> > > +             return ret;
-> > > +     }
-> > > +
-> > > +     gpiod_set_value_cansleep(gc5035->reset_gpio, 1);
-> > > +
-> > > +     for (i = 0; i < GC5035_NUM_SUPPLIES; i++) {
-> > > +             ret = regulator_enable(gc5035->supplies[i].consumer);
-> > > +             if (ret) {
-> > > +                     dev_err(dev, "Failed to enable %s: %d\n",
-> > > +                             gc5035->supplies[i].supply, ret);
-> > > +                     goto disable_reg_clk;
-> >
-> > Please use regulator_bulk_enable() here, and regulator_bulk_disable()
-> > below.
-> >
-> 
-> This actually needs to have one of the regulators (iovdd) enabled
-> before the other ones, but regulator_bulk_enable() is async. In v4 I
-> used regulator_enable() for iovdd and regulator_bulk_enable() for the
-> other two for optimal sequencing.
+patches/0001-media-ti-vpe-cal-Fix-compilation-on-32-bit-ARM.patch:
 
-Ack.
+    allyesconfig: return code #0:
+	  struct gdc_warp_param_mem_s *isp_data_ptr;
 
--- 
-Sakari Ailus
+    allyesconfig: return code #0:
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:3204 video_put_user() warn: check that 'ev32' doesn't leak information (struct has a hole after 'type')
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:3229 video_put_user() warn: check that 'vb32' doesn't leak information (struct has a hole after 'memory')
+	../drivers/media/tuners/qt1010.c: ../drivers/media/tuners/qt1010.c:239 qt1010_init_meas1() error: uninitialized symbol 'val2'.
+	../drivers/media/tuners/qt1010.c: ../drivers/media/tuners/qt1010.c:273 qt1010_init_meas2() error: uninitialized symbol 'val'.
+	../drivers/media/pci/ttpci/av7110_v4l.c: ../drivers/media/pci/ttpci/av7110_v4l.c:163 ves1820_set_tv_freq() warn: unsigned 'freq' is never less than zero.
+	../drivers/media/pci/ttpci/av7110_v4l.c: ../drivers/media/pci/ttpci/av7110_v4l.c:165 ves1820_set_tv_freq() warn: unsigned 'freq' is never less than zero.
+	../drivers/media/v4l2-core/videobuf-dma-sg.c: ../drivers/media/v4l2-core/videobuf-dma-sg.c:245 videobuf_dma_init_kernel() warn: should 'nr_pages << 12' be a 64 bit type?
+	../drivers/media/dvb-frontends/tda10021.c: ../drivers/media/dvb-frontends/tda10021.c:153 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10021.c: ../drivers/media/dvb-frontends/tda10021.c:155 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10021.c: ../drivers/media/dvb-frontends/tda10021.c:157 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10021.c: ../drivers/media/dvb-frontends/tda10021.c:159 tda10021_set_symbolrate() warn: unsigned 'symbolrate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:300 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:303 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:306 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:309 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:312 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:315 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:318 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:321 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:324 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/dvb-frontends/tda10086.c: ../drivers/media/dvb-frontends/tda10086.c:327 tda10086_set_symbol_rate() warn: unsigned 'symbol_rate' is never less than zero.
+	../drivers/media/rc/serial_ir.c: ../drivers/media/rc/serial_ir.c:550 serial_ir_probe() warn: should '8 << ioshift' be a 64 bit type?
+	../drivers/media/radio/wl128x/fmdrv_common.c: ../drivers/media/radio/wl128x/fmdrv_common.c:736 fm_irq_handle_rdsdata_getcmd_resp() warn: potential spectre issue 'rds_fmt.data.groupdatabuff.buff' [w]
+	../drivers/media/pci/cx25821/cx25821-alsa.c: ../drivers/media/pci/cx25821/cx25821-alsa.c:146 cx25821_alsa_dma_init() warn: should 'nr_pages << 12' be a 64 bit type?
+	../drivers/media/pci/cx88/cx88-alsa.c: ../drivers/media/pci/cx88/cx88-alsa.c:286 cx88_alsa_dma_init() warn: should 'nr_pages << 12' be a 64 bit type?
+	../drivers/media/pci/cx23885/cx23885-alsa.c: ../drivers/media/pci/cx23885/cx23885-alsa.c:83 cx23885_alsa_dma_init() warn: should 'nr_pages << 12' be a 64 bit type?
+	../drivers/media/pci/saa7134/saa7134-tvaudio.c: ../drivers/media/pci/saa7134/saa7134-tvaudio.c:686 saa_dsp_writel() warn: should 'reg << 2' be a 64 bit type?
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1200 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1341 vivid_create_instance() parse error: __split_smt: function too hairy.  Giving up after 301 seconds
+	../drivers/media/pci/saa7134/saa7134-alsa.c: ../drivers/media/pci/saa7134/saa7134-alsa.c:267 saa7134_alsa_dma_init() warn: should 'nr_pages << 12' be a 64 bit type?
+	SPARSE:../drivers/media/platform/qcom/venus/hfi_venus.c ../drivers/media/platform/qcom/venus/hfi_venus.c:133:5:  warning: symbol 'venus_fw_debug' was not declared. Should it be static?
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0002-media-media-v4l2-core-Fix-kernel-infoleak-in-video_p.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-media-media-v4l2-core-Fix-kernel-infoleak-in-video_p.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0005-media-i2c-imx214-select-V4L2_FWNODE.patch:
+
+   checkpatch.pl:
+	$ cat patches/0005-media-i2c-imx214-select-V4L2_FWNODE.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 32a363d0b0b1 ("media: Kconfig files: use select for V4L2 subdevs and MC")'
+
+
+Error #512 when building PDF docs
+
