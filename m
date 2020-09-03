@@ -2,103 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C86CD25B919
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 05:19:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6B1525B94F
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 05:40:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbgICDTO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Sep 2020 23:19:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726526AbgICDTM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Sep 2020 23:19:12 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89382C061244;
-        Wed,  2 Sep 2020 20:19:11 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id h12so932219pgm.7;
-        Wed, 02 Sep 2020 20:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NybMT57+LqComuPCH5w4ICM4pB0an3OV0/NxCqZvdQ4=;
-        b=OTReT3xy09LAvQqw3J5r88uZhYemMZRJILPZfkUolo7+YtDKHYCeiSzguKt/eXhxMX
-         GXjSoHvOEaWjitkIneYVQc3aTR6c+qUnvh/SN5DNBfcrHqQewl8EAaJxvv3nx9pKlcnD
-         vdpnVWNPeah+FMbeN9k69j3J72qNd/aiXe9z/qpiEuuZTEDymoSvrjrljcljOi/YWCIf
-         3IgojqR2mpucNIb7kX8u3GUI9m28tHWYuwJSpLjY6NN2L6OaetR7wbpVqBkTWs/aeGXV
-         sD1BaIvjnLIxnPkMvHbVgNK+j28xCtUeJPqgqpHw75NmA2jubpcDAK1hB15gXe3mpTV4
-         Mcbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NybMT57+LqComuPCH5w4ICM4pB0an3OV0/NxCqZvdQ4=;
-        b=aPKu7YgK54G2zD3Ok3ewQrh8NChe/zT2AQXOOdRYCgJ6yeSv9DQxwbdqUjG2eoXdbB
-         OsreHLYVr0mBWs84jZ28RbKSWbkEPkiwR+kKo12KhAa+tW/EnSckof4Zc5mkWCsAbiri
-         iy4BqIeMR5QZqeM8PejfUw49uDn2et0XZUD0dRF0ld2sg+gsA0JS0uB1+vIBqU2EXWo4
-         /2sMppYjKT8lPhvGk1brzJoQe6HA4qo0TbrCT41o8kv065RnEPlbbjagA2kuz5W7hKIa
-         xsMJe7Ois9BLPKc+2G+gjm5lrHBDuMQUjdYkAXVJgTlrGt5FSVl989BzmbQiHtzeYYNS
-         L+dQ==
-X-Gm-Message-State: AOAM532ikMrVdebFwxKnS3+fHeLZf9kbXPVT9HHOmGvueBwN1fL81zxx
-        OVBWoSjfA6uybGQp0fjFDLX7/4K3+kg=
-X-Google-Smtp-Source: ABdhPJxFvmAcO+NEPAiW/SfP3uzv4RdE9NWt6eVkmB6vyO4C/HemrVN4IYXYzPeOtjrgPmv1iAyWAw==
-X-Received: by 2002:a63:fc18:: with SMTP id j24mr1023744pgi.452.1599103149294;
-        Wed, 02 Sep 2020 20:19:09 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t11sm726057pjy.40.2020.09.02.20.19.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 02 Sep 2020 20:19:08 -0700 (PDT)
-Date:   Wed, 2 Sep 2020 20:19:07 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] media: uvcvideo: Fix race conditions
-Message-ID: <20200903031907.GA103631@roeck-us.net>
-References: <20200830150443.167286-1-linux@roeck-us.net>
- <20200830155833.GA6043@pendragon.ideasonboard.com>
- <ac2080a1-3b00-ac9e-cd49-d1ee84c6ca25@roeck-us.net>
- <20200830213621.GC6043@pendragon.ideasonboard.com>
- <20200831001010.GA92208@roeck-us.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200831001010.GA92208@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S1726821AbgICDk5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Sep 2020 23:40:57 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44375 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726654AbgICDk4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Sep 2020 23:40:56 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Dg7Ikw9U8MeQuDg7Jk6oku; Thu, 03 Sep 2020 05:40:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1599104454; bh=tcgEwem/1uViAp670RprDu+zLzVaf6kOXs1Raa+MPFE=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=MJ5vcl7sVPFXBKOQiLjcCCLvp8RRdk8F/uVKmIfCgB/7/pA6MXhssKBvbjgSz1M3g
+         nK79yKjmJXpmfGqQkYZKYeuR1d9SJO+6cFol06qSIrmaJkTp/8is2QTY36I8u1eVPR
+         Mvxi5ykB+Jq5MuOtHbcubGFxd2c8HR0PaS5kENqwI81V7Fca4oh3UXq9ZQH/RmP3jD
+         75/wVbBtJXqjFn6L13MbkGTp4ajLfNBTtH/mEuwiDNwquD2XyGYmbkLC71BV29RLFD
+         3iOqbSt9mbeHYH/5LgBOUuGWGZ+lg3ie8hjmIVbPTpfnH7uvSklBA4jEwgm++D+Lb5
+         181GFI6LoZuoQ==
+Message-ID: <4a1444103810c2abc3734c74e84c5ba4@smtp-cloud7.xs4all.net>
+Date:   Thu, 03 Sep 2020 05:40:52 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfLdJQUgaCY/8XzM2e4SLJM+1zXBl03nxH4Y3ALbdAVVcdmjFNMHA+O05NLXqWnNwRvfKM/my+haheYAHNM9N3sstVqlbgqQCvtEsLn+glNO0JX99izWE
+ T9EBeNfHFfR243rfnXRCythZX6NlPhdfgnp0srsawuGbP6ExF7q+S+Up206fPCLwXIPqvtiOi3CcPU4RgRg0l/aixs6nqDd+WCgNbJJfHt1Pw6SMKTiYk0hO
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Aug 30, 2020 at 05:10:10PM -0700, Guenter Roeck wrote:
-> On Mon, Aug 31, 2020 at 12:36:21AM +0300, Laurent Pinchart wrote:
-> > Hi Guenter,
-> > 
-> [ ... ]
-> 
-> > I'll try to prototype what I envision would be a good solution in the
-> > V4L2 core. If stars align, I may even try to push it one level up, to
-> > the chardev layer. Would you then be able to test it ?
-> > 
-> 
-> Sure, I'll be happy to do that.
-> 
-> I ordered a couple of non-UVC webcams (pwc and gspca) from eBay for
-> comparison. Both of those use the v4l2 locking mechanism, so we should
-> be able to see the difference.
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Turns out gspca webcams (or at least the one I got - Logitech QuickCam for
-Notebooks Deluxe) don't have a problem. As mentioned before, the gspca
-driver uses the locking mechanism provided by the v4l2/vb2 code. Unlike
-uvcvideo, its open function doesn't trigger sending send usb packets.
-Its usb disconnect function acquires the lock, and the rest of the code
-holds that lock where needed. I''ll keep trying, but so far I can't
-get it to do anything wrong.
+Results of the daily build of media_tree:
 
-I am still waiting for the pwc webcam, but that also uses the v4l2/vb2
-locking mechanism, and it seems unlikely that I'll get it to fail.
-I'll try anyway.
+date:			Thu Sep  3 05:00:08 CEST 2020
+media-tree git hash:	cfe9e707c5640c28ab168cabe91aea5d0b3f9195
+media_build git hash:	a20bdff25e6827e9f03f2476d4795df1c8ee4913
+v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Guenter
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: WARNINGS
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
