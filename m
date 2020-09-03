@@ -2,129 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0B2725C36C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 16:51:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B95A25C396
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 16:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729261AbgICOvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 10:51:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40549 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729131AbgICOu6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 10:50:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599144652;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=1FPRhJoWjqG8+gQHE9bU9UzjjoLvgSrA9NVzRzJ0CRg=;
-        b=bwZHjocMavLi9635e/4H2ZjfWApHbYtQf11fLMJFXBO3Y9pNHihcq1wPxdRp5lQfUjsjXs
-        VjH+RQMSjGkL6sx7IcJFh2rA3bWl4LfIbiV+3ah67WBDGldlv5ssxgcnoliYkK2aT2rcSB
-        sxD733l5Vbym583cJJ/V6LLOOnruFPE=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-tbXuqrVFMWiFsiMe__mW7g-1; Thu, 03 Sep 2020 10:50:48 -0400
-X-MC-Unique: tbXuqrVFMWiFsiMe__mW7g-1
-Received: by mail-il1-f197.google.com with SMTP id p16so2504550ilp.2
-        for <linux-media@vger.kernel.org>; Thu, 03 Sep 2020 07:50:48 -0700 (PDT)
+        id S1729247AbgICOyQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 10:54:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729272AbgICOxq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 10:53:46 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26492C061244;
+        Thu,  3 Sep 2020 07:53:46 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id q3so2387534ybp.7;
+        Thu, 03 Sep 2020 07:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BUTCAz6NpTHnYSy41tDHUPK10I/ooWiW5ynjjM0xqGo=;
+        b=OhQ8s42iE3dDc5kXXKOjtj3ByKV7HNPHcTT/8BS+MTRq93ngVIXKHbgdetcF1nYstS
+         WzLJ9n1oGPeeSyqUKe9Ascrsc/Z0DKH6wDG1xw1T5ewzXHUzI6zTas600zMEUKUuPeov
+         urB/YG7EOEeEJ6MhTZhgLyDpanOwbbwsCPMx4eORDVW9pMiCanKW9uL//CprvQ6yi9PG
+         pZaLrX2BGXoND12Dw5gcq/XGR0FY9JoYFg3qhBr1pkkix/UZJJ6xid8IncCCB26XORL9
+         u/bDKaBnPpbcNDGc2WYwuOVqyvu4/fFfc5XfN1N9vr4/Cq3N8fSzgQEafkz2vFwZQSAO
+         ao7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=1FPRhJoWjqG8+gQHE9bU9UzjjoLvgSrA9NVzRzJ0CRg=;
-        b=guwKtc/f93aV/Fv5avrvgS5sWb7WOQ+ASrxqfdZ3xTKB1vz/YQ6HkjJOVYvbc4WWgh
-         eDzRAYoBiP35IL4h8BaC3qIlUA7w5vNMS1Pa7XEj1sQPY/vLiG5wzbWnrqUqy1EWl/ar
-         gqgqxWq1WIpORlEHzPJWIrrYR6m+qVZhuyC9N7wgRi/f1Vq2g54PqeQJ5naL3REm3e3T
-         EbA6/OMw0BalQ3nmH3hl4YTUUrDguyRHZ5YH3jZoENZj2uVB9oPPRu7BaIDDlE4pczXg
-         S9n8iam02PH0cGSUt1eExaLBFzSPip42sg+iB3ebDEETlDAHtlSKFc8RTV4yyC8B1Ojj
-         6M3A==
-X-Gm-Message-State: AOAM5323A/YCoRCvQAUEKtH0nA4STZfFmSv119qzSaPp7DUZs62ZGphn
-        OoERb/z2N0k1wtvSPoLgcL1d9SCJFbn7IxL/OohIwrf5+3EKFDEe+1Iz4Rz6a+a8omPfMJGX20L
-        /FutsVYQCrbPcF6u6X1uQGDI=
-X-Received: by 2002:a5d:8042:: with SMTP id b2mr3475468ior.60.1599144648122;
-        Thu, 03 Sep 2020 07:50:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+uZWD7pr5mF1kBXgGw1mBpqel5ly9hQlNTFP+qQtdH6x+qIPuwZN8Jg8WqaLHCyom8VtKoQ==
-X-Received: by 2002:a5d:8042:: with SMTP id b2mr3475460ior.60.1599144647939;
-        Thu, 03 Sep 2020 07:50:47 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id c7sm1515541ilk.49.2020.09.03.07.50.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2020 07:50:47 -0700 (PDT)
-From:   trix@redhat.com
-To:     mchehab@kernel.org, natechancellor@gmail.com,
-        ndesaulniers@google.com, brad@nextdimension.cc, mkrufky@linuxtv.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com, Tom Rix <trix@redhat.com>
-Subject: [PATCH] media: em28xx: fix function pointer check
-Date:   Thu,  3 Sep 2020 07:50:38 -0700
-Message-Id: <20200903145038.20076-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BUTCAz6NpTHnYSy41tDHUPK10I/ooWiW5ynjjM0xqGo=;
+        b=gStFiw8gUpQAkm3YECZss+788ZzJUgX5DRGV9xKIe2ZEfiJJbyRfclkX0hIRN9lC00
+         /ASBGKiXkEIFmeQis4KY7PucsuTdubtQmZKu7kT/Mt543zSAbfZmkk9R/5jYFKbC1Ui7
+         sVd8WHAMjURNMDePxlfaMtyJoTUcR5SC8LDc066yGhYJoC+QP/K9/dOTsomY6lpH798m
+         XTKZGZqxn1Q7bP09C8wAf72gNAw2MuOrevH2HZcbtbvKy396Iv33XKhGEDEplbQyfnv2
+         fplm3yVff+ORXZpmB5OIhG1BNITwArlbis4PQzHMsdLhkCU68QMazd3JV+TAv9RL1J8M
+         L55A==
+X-Gm-Message-State: AOAM5315xAJ3bDwWbAMAJp8ComXlJrlK523xggDuY/lz3pVv7CUHFsJJ
+        y1UTbhX6WoPFKPsvTMys76aQparmo0PQHzS7FSk=
+X-Google-Smtp-Source: ABdhPJzbm+ZT1PvppuhUQJcxzBdWcarzRL8lEAPC8ShJTmlv8eKrLSJ9hvyeIWhnAF79PlsOC+1g4btwsGdYP7cA4pU=
+X-Received: by 2002:a25:86cf:: with SMTP id y15mr2953409ybm.25.1599144825202;
+ Thu, 03 Sep 2020 07:53:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200801090456.GB1379367@oden.dyn.berto.se> <CA+V-a8sOHct_JetCsug8Z2BQpMLH2p39hj2XNw_1N5gkBQp1Gg@mail.gmail.com>
+ <20200803192108.GB2297236@oden.dyn.berto.se> <6d659e56-1e1f-c9c7-2e66-4ddc4e7fad15@xs4all.nl>
+In-Reply-To: <6d659e56-1e1f-c9c7-2e66-4ddc4e7fad15@xs4all.nl>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 3 Sep 2020 15:53:18 +0100
+Message-ID: <CA+V-a8uzznUvzGgZ5A4B8ASEDbmMCrQPSAcEjO7v45zmAkdGDQ@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar-vin: Update crop and compose settings for
+ every s_fmt call
+To:     Niklas <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+On Wed, Aug 19, 2020 at 3:08 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 03/08/2020 21:21, Niklas wrote:
+> > Hi Lad, Hans,
+> >
+> > On 2020-08-03 19:11:32 +0100, Lad, Prabhakar wrote:
+> >> Hi Hans,
+> >>
+> >> On Sat, Aug 1, 2020 at 10:04 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
+> >>>
+> >>> Hi Lad,
+> >>>
+> >>> Thanks for your work.
+> >>>
+> >>> On 2020-07-31 10:29:05 +0100, Lad Prabhakar wrote:
+> >>>> The crop and compose settings for VIN in non mc mode werent updated
+> >>>> in s_fmt call this resulted in captured images being clipped.
+> >>>>
+> >>>> With the below sequence on the third capture where size is set to
+> >>>> 640x480 resulted in clipped image of size 320x240.
+> >>>>
+> >>>> high(640x480) -> low (320x240) -> high (640x480)
+> >>>>
+> >>>> This patch makes sure the VIN crop and compose settings are updated.
+> >>>
+> >>> This is clearly an inconsistency in the VIN driver that should be fixed.
+> >>> But I think the none-mc mode implements the correct behavior. That is
+> >>> that S_FMT should not modify the crop/compose rectangles other then make
+> >>> sure they don't go out of bounds. This is an area we tried to clarify in
+> >>> the past but I'm still not sure what the correct answer to.
+> >>>
+> >> What should be the exact behaviour of the bridge driver  for s_fmt
+> >> call. Should the crop/compose settings be updated for every s_fmt
+> >> callback or should they be only updated on s_selection callback.
+> >> Currently the non-mc rcar-vin doesnt update the crop/compose setting
+> >> in s_fmt callback due to which I see the above issue as mentioned.
+> >
+> > This is not entirely correct. It does update the crop and compose
+> > rectangles on s_fmt, it makes sure they are not out-of-bounds for the
+> > new format if it's accepted by s_fmt. See v4l2_rect_map_inside() calls
+> > in the snippet bellow.
+>
+> For non-mc mode s_fmt must update any crop/compose rectangles to ensure that
+> they are not out-of-bounds. But for mc mode the validation is done when you
+> start streaming, so I think s_fmt won't make any changes in that mode.
+>
+Thank you Hans.
 
-clang static analyzer reports this problem
+> Double-check that with Laurent, though...
+>
+Niklas/Laurent - How do we proceed on this ?
 
-em28xx-core.c:1162:4: warning: Called function pointer
-  is null (null dereference)
-        ops->suspend(dev->dev_next);
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This is the problem block
-
-	if (ops->suspend)
-		ops->suspend(dev);
-	if (dev->dev_next)
-		ops->suspend(dev->dev_next);
-
-The check for ops->suspend only covers one statement.
-So fix the check consistent with other similar in
-the file.
-
-Change a similar check in em28xx_resume_extension()
-to use consistent logic as its siblings.
-
-Fixes: be7fd3c3a8c5 ("media: em28xx: Hauppauge DualHD second tuner functionality")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/media/usb/em28xx/em28xx-core.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
-index e6088b5d1b80..d60f4c2a661d 100644
---- a/drivers/media/usb/em28xx/em28xx-core.c
-+++ b/drivers/media/usb/em28xx/em28xx-core.c
-@@ -1156,10 +1156,11 @@ int em28xx_suspend_extension(struct em28xx *dev)
- 	dev_info(&dev->intf->dev, "Suspending extensions\n");
- 	mutex_lock(&em28xx_devlist_mutex);
- 	list_for_each_entry(ops, &em28xx_extension_devlist, next) {
--		if (ops->suspend)
-+		if (ops->suspend) {
- 			ops->suspend(dev);
--		if (dev->dev_next)
--			ops->suspend(dev->dev_next);
-+			if (dev->dev_next)
-+				ops->suspend(dev->dev_next);
-+		}
- 	}
- 	mutex_unlock(&em28xx_devlist_mutex);
- 	return 0;
-@@ -1172,11 +1173,11 @@ int em28xx_resume_extension(struct em28xx *dev)
- 	dev_info(&dev->intf->dev, "Resuming extensions\n");
- 	mutex_lock(&em28xx_devlist_mutex);
- 	list_for_each_entry(ops, &em28xx_extension_devlist, next) {
--		if (!ops->resume)
--			continue;
--		ops->resume(dev);
--		if (dev->dev_next)
--			ops->resume(dev->dev_next);
-+		if (ops->resume) {
-+			ops->resume(dev);
-+			if (dev->dev_next)
-+				ops->resume(dev->dev_next);
-+		}
- 	}
- 	mutex_unlock(&em28xx_devlist_mutex);
- 	return 0;
--- 
-2.18.1
-
+Cheers,
+Prabhakar
