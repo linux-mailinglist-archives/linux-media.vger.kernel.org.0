@@ -2,92 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4E3925C8C1
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 20:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB8F325C902
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 20:55:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729145AbgICScP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 14:32:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45374 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726990AbgICScM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 14:32:12 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 749F0C061244;
-        Thu,  3 Sep 2020 11:32:10 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id z4so4284963wrr.4;
-        Thu, 03 Sep 2020 11:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nZlFaUQfaJJWMFCcYk05F0yvxG2u/t/yre5shVIK7KI=;
-        b=gHIVbJ9oSriqlHoFWjPkTanbtqPBByFRcKhKU7auhizwrXjLqPYZNCx8CYzN0YtlCM
-         KgymGB5DkBACD2njVMbQAM5pRQJK8IlwESyCWXD6uB4SzeW7GQZmsEKWnql/Q8b176zO
-         8UkPY8xcCx79PVsSRc9WwLwX0hPisqiQOYcQa4uaGMheM05PTEsmwFkOAiF/yYau+5HN
-         Eora7TL3yzFmQpjUyuJmy+nUQtQAeqNLGsjn/37K8nzh6I4XvjCtu5xlK1n79s228mJl
-         Q04K4kYteu4ArKjrl+wyiaNoIaAzdvg8qvqedy3Z5bC5wVbJbXRVZrGIW8/2wdms0YFT
-         XOlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nZlFaUQfaJJWMFCcYk05F0yvxG2u/t/yre5shVIK7KI=;
-        b=kULym0h+eEzo9rZGelnEAxuCCYSpJ2QP+oanbk8OE5Du9oZZtA7yvmaFjJbpBhzPzq
-         Ol3TfTwPrKm6zSAKazrqbFSlkRqmGYqbQ8QQlh6JyC/aX3WU0Yq+PuCKacb1Y5fSae3X
-         spfccyNru7O/UrEFqlGTyK27na5I+lRarCD6szba21+m70EKILAcj5N+VtQKe6rNi7Sk
-         IaYEibSuZjRejFnJMOpMaphn2yz6Km576BaDKZCppytswNL/myLIbnmB2dXbn0k2GhgI
-         elZBM0/vweRLfYxbN+zBv96mtE0DJ/jqiT7VvVDJzxVcF9tvBsUULMraMf03Te/7/FWt
-         GBcg==
-X-Gm-Message-State: AOAM531pHigV/FYZL4W3JVzWXhu29rZYEmRXQ0hPtyIfDO3S6HH4VTV9
-        +PudCmYss8D+9pPBfrIGYJ8=
-X-Google-Smtp-Source: ABdhPJwH1D9z5Su4/YaDQmrHE/SrdVgmIm5oEcQPysCfCqeDKRnP1O8ku5IIaSbKciAfSfFkiunUMA==
-X-Received: by 2002:adf:c983:: with SMTP id f3mr3770266wrh.348.1599157928427;
-        Thu, 03 Sep 2020 11:32:08 -0700 (PDT)
-Received: from localhost.localdomain (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
-        by smtp.gmail.com with ESMTPSA id v12sm5812241wri.47.2020.09.03.11.32.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2020 11:32:08 -0700 (PDT)
-From:   Alex Dewar <alex.dewar90@gmail.com>
-Cc:     Alex Dewar <alex.dewar90@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: media: atomisp: Remove unhelpful info message
-Date:   Thu,  3 Sep 2020 19:31:35 +0100
-Message-Id: <20200903183145.720727-2-alex.dewar90@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200903183145.720727-1-alex.dewar90@gmail.com>
-References: <20200903183145.720727-1-alex.dewar90@gmail.com>
+        id S1729165AbgICSzQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 14:55:16 -0400
+Received: from gofer.mess.org ([88.97.38.141]:50417 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728312AbgICSzP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Sep 2020 14:55:15 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 9E485C6429; Thu,  3 Sep 2020 19:55:13 +0100 (BST)
+Date:   Thu, 3 Sep 2020 19:55:13 +0100
+From:   Sean Young <sean@mess.org>
+To:     Joakim Zhang <qiangqing.zhang@nxp.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Andy Duan <fugang.duan@nxp.com>
+Subject: Re: SONY IR issue
+Message-ID: <20200903185513.GA31286@gofer.mess.org>
+References: <DB8PR04MB679580C7C8E6888B56C8BDACE62C0@DB8PR04MB6795.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <DB8PR04MB679580C7C8E6888B56C8BDACE62C0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We don't really need to know that the LED pin reset successfully.
 
-Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-lm3554.c | 1 -
- 1 file changed, 1 deletion(-)
+Hi Joakim,
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-index 621555b0cf6b..77b7f59e62d7 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-@@ -771,7 +771,6 @@ static int lm3554_gpio_init(struct i2c_client *client)
- 	ret = gpiod_direction_output(pdata->gpio_reset, 0);
- 	if (ret < 0)
- 		return ret;
--	dev_info(&client->dev, "flash led reset successfully\n");
- 
- 	if (!pdata->gpio_strobe)
- 		return -EINVAL;
--- 
-2.28.0
+On Thu, Sep 03, 2020 at 11:55:30AM +0000, Joakim Zhang wrote:
+> 
+> Hi Sean,
+> 
+> Thanks a lot for pointing me to use “ir-ctl -r”, really easy to capture the raw data. 😊
+> 
+> The scancode from my RC is 0x130002, the scancode decoded by SONY decoder is 0x110002. So I capture the waveform generated by IR and raw data sampled by GPIO. All attached, please have a check.
 
+So you captured it with a logic analyzer?
+
+> As you can see, the RC transmit repeatedly 6 times. After checking them carefully, all of them satisfied SONY 12bit protocols. SONY decoder decode the 5th signal and report the scancode 0x110002.
+> According to raw data, it really should be 0x110002. So I check the waveform and raw data further, the raw data sampled by GPIO seems not correct.
+> 
+> e.g. for the 5th signal
+> [cid:image001.jpg@01D6822C.2AD54480]
+> pulse 2408
+> space 549
+> pulse 579
+> space 581
+> pulse 1188
+> space 579
+> pulse 579
+> space 579
+> pulse 579
+> space 581
+> pulse 577
+> space 579
+> pulse 579
+> space 549
+> pulse 610
+> space 548
+> pulse 1222
+> space 547
+> pulse 690 // this should be ~1200
+> space 567
+> pulse 587
+> space 569
+> pulse 588
+> space 570
+> pulse 1192
+> timeout 17877
+> 
+> For other signals, they all have an exception value in raw data, as below, so decoder failed at these values. Strange enough, why only one value is incorrect.
+> 1st: space 54
+> 2nd: pulse 76
+> 3rd: space 61
+> 4th: space 51
+> 6th: space 53
+> But looking into the waveform, they are all normal, could you tell me how to look into it? Is there any specific configuration for GPIO PAD? I might have to grab some analog signals.
+> One more add is that, it can improve decode correctness if I add milliseconds delay in ir_sony_decode() function.
+
+Right, so changing the dev_dbg() to dev_info() did work, although that is
+not the correct fix.
+
+It would be interesting to know if the problem is in the gpio device, or
+if there is a problem with further processing in the IR layers.
+
+What is the device you are using?
+
+I think it would be interesting to add a debug printk in gpio_ir_recv_irq
+with the ktime and the val. We can see then if correct data is being
+generated here, or if things go wrong in the IR layers.
+
+I wouldn't be surprised if the gpio device generates two interrupts for the
+broken pulse (one after 690us and another at 1200us), and if decoding happens
+before the second then the wrong pulse length is used.
+
+> I also have a question, if RC transmit repeatedly 6 times, and SONY decodes decode all raw data successfully, it will report to input subsystem 6 times, does input subsystem will still report to userspace 6 times?
+
+If the sony decodes the same values 6 times, then scancode will reported 6
+imes, but there will be only one key down event, and a key up event about
+100ms after the the last decode (plus a few other milliseconds for various
+timeouts).
+
+Thanks,
+
+Sean
