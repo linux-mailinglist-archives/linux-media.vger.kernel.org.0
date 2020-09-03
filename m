@@ -2,143 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA1C925CC52
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 23:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC5E725CCDA
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 23:54:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728622AbgICVeA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 17:34:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45118 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726323AbgICVd5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 17:33:57 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C83DC061244;
-        Thu,  3 Sep 2020 14:33:56 -0700 (PDT)
+        id S1729371AbgICVyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 17:54:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40230 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726679AbgICVyB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 17:54:01 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 899A456E;
-        Thu,  3 Sep 2020 23:33:52 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1CBEE56E;
+        Thu,  3 Sep 2020 23:53:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599168832;
-        bh=c5PHZQTxFN2DfGIKhuJIfs1J02Rl5lH57MCUm+zIwdI=;
+        s=mail; t=1599170039;
+        bh=wxgcEJq64ndET3rkAHyd4k6piPSr10OZBG5En/4DvwM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YrH64JwSixNNpJ9C/lFysuvisHp1Reh8U2ad1rIxRc+yYl1zrzKTNafSzAi/wkbXt
-         d8rQGMpvceeKFMNBUO+PnMm2sTj2Zc0rkLhecVb/mqvf8ioU2EnnD5y+0jcTRLR9vl
-         rT19WDxxYUnb30iQPpOebXuOmxzn8Vyge7XUxGYQ=
-Date:   Fri, 4 Sep 2020 00:33:29 +0300
+        b=tERTeQlmNpPg6kIMg9XO/inetCQs4ROT+hoj5518Ij3GLBzTVbaXMBSrGa8oNmYrI
+         czinNUbw+0ce5DA6ZdasavjW3ciM09bQMKjNsMAqTdd4stLDfPQIq6PVk0USgH6COf
+         aLI15otN8KjmVwz4Yeap4+ymaKgOH8mA55nN+JiA=
+Date:   Fri, 4 Sep 2020 00:53:35 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 3/3] dt-bindings: media: ov772x: Document endpoint
- props
-Message-ID: <20200903213329.GG6492@pendragon.ideasonboard.com>
-References: <20200903131029.18334-1-jacopo+renesas@jmondi.org>
- <20200903131029.18334-4-jacopo+renesas@jmondi.org>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-fcp: Drop local dma_parms
+Message-ID: <20200903215335.GH6492@pendragon.ideasonboard.com>
+References: <20426a75cba769372c2f3f12f44a477e6fc8e979.1599167414.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200903131029.18334-4-jacopo+renesas@jmondi.org>
+In-Reply-To: <20426a75cba769372c2f3f12f44a477e6fc8e979.1599167414.git.robin.murphy@arm.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Robin,
 
 Thank you for the patch.
 
-On Thu, Sep 03, 2020 at 03:10:29PM +0200, Jacopo Mondi wrote:
-> Document endpoint properties for the parallel bus type and
-> add them to the example.
+On Thu, Sep 03, 2020 at 10:12:27PM +0100, Robin Murphy wrote:
+> Since commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms
+> for platform devices"), struct platform_device already provides a
+> dma_parms structure, so we can save allocating another one.
 > 
-> Specify a few constraints:
-> - If the bus type is BT.656 no hsync or vsycn polarities can be
-
-s/vsycn/vsync/
-
->   specified.
-> - If the bus width is 10 bits, not data-shift can be applied.
+> Also the DMA segment size is simply a size, not a bitmask.
 > 
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+
+Looks good to me, I like the simplification.
+
+Should I get this upstream, or do you have other similar patches
+tree-wide that you plan to get merged in one go ?
+
 > ---
->  .../bindings/media/i2c/ovti,ov772x.yaml       | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
+>  drivers/media/platform/rcar-fcp.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-> index 406e9cd463a2..c596cbd1e92d 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-> @@ -52,6 +52,45 @@ properties:
->            bus-type:
->              enum: [5, 6]
+> diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+> index 5c6b00737fe7..13a84c7e3586 100644
+> --- a/drivers/media/platform/rcar-fcp.c
+> +++ b/drivers/media/platform/rcar-fcp.c
+> @@ -22,7 +22,6 @@
+>  struct rcar_fcp_device {
+>  	struct list_head list;
+>  	struct device *dev;
+> -	struct device_dma_parameters dma_parms;
+>  };
 >  
-> +          bus-width:
-> +            enum: [8, 10]
-> +            default: 10
-> +
-> +          data-shift:
-> +            enum: [0, 2]
-> +            default: 0
-> +
-> +          hsync-active:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +          vsync-active:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +          pclk-sample:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +        allOf:
-> +          - if:
-> +              properties:
-> +                bus-type:
-> +                  const: 6
-> +            then:
-> +                properties:
-> +                  hsync-active: false
-> +                  vsync-active: false
-> +
-
-This should eventually end up in video-interfaces.yaml. I don't mind
-keeping it here in the meantime. Same for the hsync-active, vsync-active
-and pclk-sample enum, they should end up in video-interfaces.yaml.
-
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +          - if:
-> +              properties:
-> +                bus-width:
-> +                  const: 10
-> +            then:
-> +                properties:
-> +                  data-shift:
-> +                    const: 0
-> +
->          required:
->            - remote-endpoint
->            - bus-type
-> @@ -85,6 +124,11 @@ examples:
->              port {
->                  ov772x_0: endpoint {
->                      bus-type = <5>;
-> +                    vsync-active = <0>;
-> +                    hsync-active = <0>;
-> +                    pclk-sample = <0>;
-> +                    bus-width = <8>;
-> +                    data-shift = <0>;
->                      remote-endpoint = <&vcap1_in0>;
->                  };
->              };
+>  static LIST_HEAD(fcp_devices);
+> @@ -138,8 +137,7 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+>  
+>  	fcp->dev = &pdev->dev;
+>  
+> -	fcp->dev->dma_parms = &fcp->dma_parms;
+> -	dma_set_max_seg_size(fcp->dev, DMA_BIT_MASK(32));
+> +	dma_set_max_seg_size(fcp->dev, UINT_MAX);
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
 
 -- 
 Regards,
