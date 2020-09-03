@@ -2,107 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68FF725C482
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 17:12:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4F4C25C428
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 17:05:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729197AbgICPLy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 11:11:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45180 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728849AbgICM1b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 08:27:31 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17ADAC061251
-        for <linux-media@vger.kernel.org>; Thu,  3 Sep 2020 05:22:13 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id s205so3425694lja.7
-        for <linux-media@vger.kernel.org>; Thu, 03 Sep 2020 05:22:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=AmASOpjxirKUPe5KF2kTy+958y5fGEm2GLzYZrAWmY0=;
-        b=i0y2uYMmTvexrD5BT2Rg+2fR0wxA2Yuw2kq4ZFSIPgBWPk+zTIRox7tLo/V7J1IDcg
-         /zGL+yZo0kczuHH1lpR6RfLpnpsjbK1Xp0ad2DHuWiTiwIFLLDyXSUCe+EHEXlAi3p/e
-         pUr+iDCt5+xuvOEFlzj81oBsxg91JWPrhoQrh/NEf6k/eN5Qg/a80myuftRM/DW9XmNC
-         ipV330QqlNcjkmijfbJW8+o9rHOfLN3FmFatTgkTg9EzG5KQ3wG5MwH0rOaFzRGEbvkH
-         hEhTtGPWREF3ecaEB8e8krjUDxI3vOI+oVG2I+4TqSvovZEv6c27pjXJC4dege2SgzxD
-         u2CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AmASOpjxirKUPe5KF2kTy+958y5fGEm2GLzYZrAWmY0=;
-        b=udT06ikKWcUWra9z5MD4dj1p2tfPdz1XJjUMYGiWSbXHxVYXei3hEeGQ36dN4RYybq
-         oBzbAPKISD8GnkZVhdya2tHFu84c5DuEBc32QcNFGfmAWlrHHucxZ+LxAqXFXn3hA5i0
-         zAVFvJeYfUJ7IE09tUVMQtkD/7O1fIjNEu+3rY5sThectM9JBcxvWQlvoLWlPby+p/sf
-         SYEVp6RblhHX+ohYGxHzHTb/EGLe8wwPD5vT6RLGrDPaL4BSpkPY35BwdaXy2xl+H02x
-         wBx3kKtIqOTAJJobbleoH4Rm46jeSCSN5sUTexDzS8IYbfxNm4/mtpKZaPPqAcsaE5c2
-         UvLQ==
-X-Gm-Message-State: AOAM531a2Dalqc9OwsGyaxzpMhnGk/8p4QaZI9i68eLApUbE3a+u15SP
-        B8LbrYkn1Zb9GNj/6jJlTxnSU0qoydxvndSKMFJaQg==
-X-Google-Smtp-Source: ABdhPJwQ0KpxtLPZAseSnphNEoFuICKHObdYRxY2PW9uBsaYw3EIqCfxJnx9Lxv1GfE40giqNWLH6sOOChl2QA2RQ2I=
-X-Received: by 2002:a2e:b892:: with SMTP id r18mr1073176ljp.249.1599135731427;
- Thu, 03 Sep 2020 05:22:11 -0700 (PDT)
+        id S1729390AbgICPEh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 11:04:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47836 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728903AbgICN6Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Sep 2020 09:58:16 -0400
+Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0FC3A208C7;
+        Thu,  3 Sep 2020 13:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599141456;
+        bh=JRCHmfWSpGS/adPTYfUKHsn7RfTWRGVyO5P/nq3YOkc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Idg4Rja7N7FMEZFZwiBpLmqRTEqC0YdAOZONfuamJvwWBO8Z0sOoQji7u1KPsJhaF
+         9LOk9B0Bqur1HyDPEZ8LGJVUGECpYDswhlp4vHva94hQQghMXG3FhKNsA0a97Kxj0c
+         rRoAlIZmJNBXYHh3WQBG4iBjdVALGd6YvFNEEMjc=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kDpk6-004T6i-2b; Thu, 03 Sep 2020 15:57:34 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        devel@driverdev.osuosl.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] address W=1 warnings at staging/media/atomisp
+Date:   Thu,  3 Sep 2020 15:57:27 +0200
+Message-Id: <cover.1599141140.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <cover.1598331148.git.joe@perches.com> <990bf6f33ccaf73ad56eb4bea8bd2c0db5e90a31.1598331148.git.joe@perches.com>
- <d5ea3bc7-bff2-c702-51ed-cb85767824a7@amd.com>
-In-Reply-To: <d5ea3bc7-bff2-c702-51ed-cb85767824a7@amd.com>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Thu, 3 Sep 2020 17:51:59 +0530
-Message-ID: <CAO_48GGeXrDe9F1S64pf4qeF-2vMMiwOTZXOXDctAdPO5Pn04w@mail.gmail.com>
-Subject: Re: [PATCH 08/29] dma-buf: Avoid comma separated statements
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Joe Perches <joe@perches.com>, Jiri Kosina <trivial@kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Joe,
+The linux-media policy is to have zero warnings with W=1. However, when
+I started using a Jenkins instance at https://builder.linuxtv.org to automate
+such tests, I didn't notice that a bug at the scripts were just ignoring
+warnings.
 
-On Wed, 26 Aug 2020 at 20:38, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
->
-> Am 25.08.20 um 06:56 schrieb Joe Perches:
-> > Use semicolons and braces.
-> >
-> > Signed-off-by: Joe Perches <joe@perches.com>
->
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-FWIW,
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+Now that this is fixed, we need to get rid of the warnings that got
+re-introduced when the atomisp driver was reverted, as otherwise,
+every time a common header is touched, we'll see messages like
+those:
 
->
-> > ---
-> >   drivers/dma-buf/st-dma-fence.c | 7 +++++--
-> >   1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fe=
-nce.c
-> > index e593064341c8..c8a12d7ad71a 100644
-> > --- a/drivers/dma-buf/st-dma-fence.c
-> > +++ b/drivers/dma-buf/st-dma-fence.c
-> > @@ -471,8 +471,11 @@ static int thread_signal_callback(void *arg)
-> >                       dma_fence_signal(f1);
-> >
-> >               smp_store_mb(cb.seen, false);
-> > -             if (!f2 || dma_fence_add_callback(f2, &cb.cb, simple_call=
-back))
-> > -                     miss++, cb.seen =3D true;
-> > +             if (!f2 ||
-> > +                 dma_fence_add_callback(f2, &cb.cb, simple_callback)) =
-{
-> > +                     miss++;
-> > +                     cb.seen =3D true;
-> > +             }
-> >
-> >               if (!t->before)
-> >                       dma_fence_signal(f1);
->
+  Error/warnings:
+
+  patches/0001-media-mxl5xx-remove-unused-including-linux-version.h.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:164:2: warning: function ‘atomisp_css2_dbg_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:170:2: warning: function ‘atomisp_css2_dbg_ftrace_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:170:2: warning: function ‘atomisp_css2_dbg_ftrace_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:176:2: warning: function ‘atomisp_css2_err_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2814:31: warning: variable ‘stream_config’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2893:31: warning: variable ‘stream_config’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/atomisp_v4l2.c:1432:15: warning: variable ‘a0_max_id’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css_mipi.c:410:27: warning: variable ‘mipi_intermediate_info’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:1366:24: warning: variable ‘stream’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:2702:22: warning: variable ‘capture_pipe’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:2831:7: warning: variable ‘continuous’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:3534:15: warning: variable ‘num_output_pins’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:3937:55: warning: variable ‘vf_pp_binary’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:3937:38: warning: variable ‘preview_binary’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:3937:24: warning: variable ‘copy_binary’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:3936:26: warning: variable ‘me’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:5749:24: warning: variable ‘copy_binary’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:6013:7: warning: variable ‘continuous’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:6012:7: warning: variable ‘memory’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:7329:24: warning: variable ‘copy_binary’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:7459:26: warning: variable ‘num_vf_pp_stage’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css.c:10420:22: warning: variable ‘pipe_id’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css_param_shading.c:239:4: warning: variable ‘padded_width’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/sh_css_params.c:1099:36: warning: variable ‘row_padding’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c:237:31: warning: variable ‘isp_data_ptr’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c:119:28: warning: variable ‘ver_num_isp’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c:119:15: warning: variable ‘hor_num_isp’ set but not used [-Wunused-but-set-variable]
+	../drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c:127:6: warning: variable ‘err’ set but not used [-Wunused-but-set-variable]
+	In file included from ../drivers/staging/media/atomisp//pci/hive_isp_css_include/input_formatter.h:34,
+	                 from ../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:55:
+	../drivers/staging/media/atomisp//pci/hive_isp_css_common/host/input_formatter_local.h:118:27: warning: ‘input_formatter_alignment’ defined but not used [-Wunused-const-variable=]
+	../drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c:244:7: warning: variable ‘succes’ set but not used [-Wunused-but-set-variable]
+
+    allyesconfig: return code #0:
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:3204 video_put_user() warn: check that 'ev32' doesn't leak information (struct has a hole after 'type')
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:3229 video_put_user() warn: check that 'vb32' doesn't leak information (struct has a hole after 'memory')
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1200 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1531 vivid_create_instance() parse error: __split_smt: function too hairy.  Giving up after 301 seconds
+
+This series solve all atomisp W=1 warnings.
+
+Mauro Carvalho Chehab (5):
+  media: atomisp: get rid of some cleanup leftovers
+  media: atomisp: print a warning if error while setting downscaler
+  media: atomisp: get rid of unused vars
+  media: atomisp: move a static constant out of a header file
+  media: atomisp: get rid of -Wsuggest-attribute=format warnings
+
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  6 ---
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 20 ++------
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |  3 --
+ .../host/input_formatter.c                    |  4 ++
+ .../host/input_formatter_local.h              |  4 --
+ .../staging/media/atomisp/pci/ia_css_env.h    |  4 +-
+ .../isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c |  3 --
+ .../kernels/sdis/sdis_2/ia_css_sdis2.host.c   |  3 --
+ .../isp/kernels/vf/vf_1.0/ia_css_vf.host.c    |  5 ++
+ .../atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c  |  4 +-
+ drivers/staging/media/atomisp/pci/sh_css.c    | 47 ++-----------------
+ .../staging/media/atomisp/pci/sh_css_mipi.c   | 12 -----
+ .../media/atomisp/pci/sh_css_param_shading.c  | 25 +++-------
+ .../staging/media/atomisp/pci/sh_css_params.c |  3 +-
+ 14 files changed, 29 insertions(+), 114 deletions(-)
+
+-- 
+2.26.2
+
+
