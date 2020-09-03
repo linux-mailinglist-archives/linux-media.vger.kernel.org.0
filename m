@@ -2,128 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2B5925C0CD
-	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 14:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4282425C0F1
+	for <lists+linux-media@lfdr.de>; Thu,  3 Sep 2020 14:26:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728663AbgICMNS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 08:13:18 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:45300 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728796AbgICMMR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Sep 2020 08:12:17 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 083CAB0v011875;
-        Thu, 3 Sep 2020 12:11:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=QKEHKvfNrVYWGJWh0y6aRDbNrtxVaKEZU0F14eu8Z0k=;
- b=kOcgfqaSl0hDx5LBnVbz53kyHYtyUvtciIoZcagADbyFyowLTm8ZXJgX1kVUYiDykirV
- 0lEBg/ProzlzFUpyZQlV40uMpOoJyVSvtOsaDQzR7LyfSXDVz6TYj33kQ9CnaE718J2r
- K6aM7EzO9vLcgz97RC8+Tz6To3OmvBv0bS4hLkoq9+Ai+EYo/FBkpQR3zhNP6D8nU+cS
- Rpw65R+VtOT2pIFA0SroSSNz09GHNTMDMoemyhWpHb0I9MYDg1QmnH28HmHd0Oi+V+2z
- qykUNN+o2URswcxRep5C7rubSfO+IHBBTIKVxdoFqVlGH131UQJ50cGQEjlmBCgzFIJx ew== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 337eymg8sr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 03 Sep 2020 12:11:44 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 083CAjU8102349;
-        Thu, 3 Sep 2020 12:11:43 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 3380x9sr94-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 03 Sep 2020 12:11:43 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 083CBgpd030107;
-        Thu, 3 Sep 2020 12:11:42 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 03 Sep 2020 05:11:42 -0700
-Date:   Thu, 3 Sep 2020 15:11:34 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Alex Dewar <alex.dewar90@gmail.com>
-Cc:     devel@driverdev.osuosl.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alan Cox <alan@linux.intel.com>
-Subject: Re: [PATCH] staging: media: atomisp: Fix error path in lm3554_probe()
-Message-ID: <20200903121134.GB8299@kadam>
-References: <20200902184207.479525-1-alex.dewar90@gmail.com>
+        id S1728826AbgICMZc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Sep 2020 08:25:32 -0400
+Received: from mga11.intel.com ([192.55.52.93]:7920 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728731AbgICMYR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Sep 2020 08:24:17 -0400
+IronPort-SDR: dqBmYJBpGeo7JdeHND5NUKrCIw0cexb5txHj93ZPZXLfw4OzPXu2gajWte2u3Llvo7O2hW4JLg
+ I+rmTd/S2Jzg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9732"; a="155067646"
+X-IronPort-AV: E=Sophos;i="5.76,386,1592895600"; 
+   d="scan'208";a="155067646"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 05:23:36 -0700
+IronPort-SDR: aiUb6nTgHIKXIB8OKWkpdonU9gPrR9gO8i0pGZvRcWuP5ogDPkbOSOozaBE8vHCx/ahlCGukzs
+ HnRBoWXD59Fw==
+X-IronPort-AV: E=Sophos;i="5.76,386,1592895600"; 
+   d="scan'208";a="375859338"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 05:23:33 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 95E89203ED; Thu,  3 Sep 2020 15:23:31 +0300 (EEST)
+Date:   Thu, 3 Sep 2020 15:23:31 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, Leon Luo <leonl@leopardimaging.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] dt-bindings: media: imx274: Convert to json-schema
+Message-ID: <20200903122331.GJ32646@paasikivi.fi.intel.com>
+References: <20200903115143.13717-1-jacopo+renesas@jmondi.org>
+ <20200903115143.13717-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200902184207.479525-1-alex.dewar90@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=2 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009030115
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 adultscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 clxscore=1011 spamscore=0 bulkscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009030114
+In-Reply-To: <20200903115143.13717-3-jacopo+renesas@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 02, 2020 at 07:41:50PM +0100, Alex Dewar wrote:
-> The error path for lm3554_probe() contains a number of bugs, including:
->  * resource leaks
->  * jumping to error labels out of sequence
->  * not setting the return value appropriately
+Hi Jacopo,
+
+Thanks for the update.
+
+On Thu, Sep 03, 2020 at 01:51:42PM +0200, Jacopo Mondi wrote:
+> Convert the imx274 bindings document to json-schema and update
+> the MAINTAINERS file accordingly.
 > 
-> Fix it up and give the labels more memorable names.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../devicetree/bindings/media/i2c/imx274.txt  | 38 ------------
+>  .../bindings/media/i2c/sony,imx274.yaml       | 59 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 60 insertions(+), 39 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
 > 
-> This issue has existed since the code was originally contributed in
-> commit a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2"),
-> although the code was subsequently removed altogether and then
-> reinstated with commit ad85094b293e ("Revert "media: staging: atomisp: Remove driver"").
-> 
-
-Almost perfect!  Just a couple other leaks we should fix as well.
-
-> +	ret = media_entity_pads_init(&flash->sd.entity, 0, NULL);
-> +	if (ret) {
-> +		dev_err(&client->dev, "error initializing media entity");
-> +		goto err_free_ctrl_handler;
->  	}
->  
->  	flash->sd.entity.function = MEDIA_ENT_F_FLASH;
-> @@ -881,20 +882,22 @@ static int lm3554_probe(struct i2c_client *client)
->  
->  	timer_setup(&flash->flash_off_delay, lm3554_flash_off_delay, 0);
-
-We need to delete this timer.
-
->  
-> -	err = lm3554_gpio_init(client);
-> -	if (err) {
-> +	ret = lm3554_gpio_init(client);
-> +	if (ret) {
->  		dev_err(&client->dev, "gpio request/direction_output fail");
-> -		goto fail2;
-> +		goto err_cleanup_entity;
->  	}
->  	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
-
-If atomisp_register_i2c_module() fails then we need to call
-lm3554_gpio_uninit(client) and do other cleanup.
-
-> -fail2:
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> deleted file mode 100644
+> index 0727079d2410..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -* Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
+> -
+> -The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
+> -an active array size of 3864H x 2202V. It is programmable through I2C
+> -interface. The I2C address is fixed to 0x1a as per sensor data sheet.
+> -Image data is sent through MIPI CSI-2, which is configured as 4 lanes
+> -at 1440 Mbps.
+> -
+> -
+> -Required Properties:
+> -- compatible: value should be "sony,imx274" for imx274 sensor
+> -- reg: I2C bus address of the device
+> -
+> -Optional Properties:
+> -- reset-gpios: Sensor reset GPIO
+> -- clocks: Reference to the input clock.
+> -- clock-names: Should be "inck".
+> -- VANA-supply: Sensor 2.8v analog supply.
+> -- VDIG-supply: Sensor 1.8v digital core supply.
+> -- VDDL-supply: Sensor digital IO 1.2v supply.
+> -
+> -The imx274 device node should contain one 'port' child node with
+> -an 'endpoint' subnode. For further reading on port node refer to
+> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -
+> -Example:
+> -	sensor@1a {
+> -		compatible = "sony,imx274";
+> -		reg = <0x1a>;
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -		reset-gpios = <&gpio_sensor 0 0>;
+> -		port {
+> -			sensor_out: endpoint {
+> -				remote-endpoint = <&csiss_in>;
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> new file mode 100644
+> index 000000000000..f757ce380cb2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> @@ -0,0 +1,59 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +err_cleanup_entity:
->  	media_entity_cleanup(&flash->sd.entity);
-> +err_free_ctrl_handler:
->  	v4l2_ctrl_handler_free(&flash->ctrl_handler);
+> +title: Sony 1/2.5-Inch 8.51MP CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Leon Luo <leonl@leopardimaging.com>
+> +
+> +description: |
+> +  The Sony IMX274 is a 1/2.5-inch CMOS active pixel digital image sensor with an
+> +  active array size of 3864H x 2202V. It is programmable through I2C interface.
+> +  Image data is sent through MIPI CSI-2, which is configured as 4 lanes at 1440
+> +  Mbps.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx274
+> +
+> +  reg:
+> +    const: 0x1a
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  port:
+> +    type: object
+> +    description: |
+> +      Output video port. See ../video-interfaces.txt.
+> +
 
-regards,
-dan carpenter
+What happened to the supplies and the clocks?
 
+> +required:
+> +  - compatible
+> +  - reg
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imx274: camera-sensor@1a {
+> +            compatible = "sony,imx274";
+> +            reg = <0x1a>;
+> +            reset-gpios = <&gpio_sensor 0 0>;
+> +
+> +            port {
+> +                sensor_out: endpoint {
+> +                    remote-endpoint = <&csiss_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3f8f093268b7..093a54ae1527 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16127,7 +16127,7 @@ M:	Leon Luo <leonl@leopardimaging.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+> -F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
+> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+>  F:	drivers/media/i2c/imx274.c
+> 
+>  SONY IMX290 SENSOR DRIVER
+
+-- 
+Regards,
+
+Sakari Ailus
