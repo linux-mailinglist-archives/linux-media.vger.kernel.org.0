@@ -2,137 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 693F325D31B
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 09:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2204725D315
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 09:59:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729751AbgIDH7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 03:59:47 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34508 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729698AbgIDH7r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 03:59:47 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 2D56729AFE0
-Subject: Re: [PATCH] media: mtk-mdp: Fix Null pointer dereference when calling
- list_add
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-media@vger.kernel.org
-Cc:     matthias.bgg@gmail.com, mchehab@kernel.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com
-References: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <d61eb22b-f3b7-50bb-f44f-629928d5e8c8@collabora.com>
-Date:   Fri, 4 Sep 2020 09:59:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1729659AbgIDH7h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 03:59:37 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:49601 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728118AbgIDH7Y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 03:59:24 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 144031BF206;
+        Fri,  4 Sep 2020 07:59:15 +0000 (UTC)
+Date:   Fri, 4 Sep 2020 10:03:02 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] dt-bindings: media: i2c: Convert 3 sensor bindings
+Message-ID: <20200904080302.47yshw6z6n33xh7k@uno.localdomain>
+References: <20200903115143.13717-1-jacopo+renesas@jmondi.org>
+ <20200903211420.GF6492@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200903211420.GF6492@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hi Laurent,
 
-Thank you to work on this fix.
+On Fri, Sep 04, 2020 at 12:14:20AM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Thu, Sep 03, 2020 at 01:51:40PM +0200, Jacopo Mondi wrote:
+> > I know I've sent the previous version first as part of a longer list of patches,
+> > later individually, and now grouped together again. Sorry for the fuss, hope
+> > it's not too confusing.
+> >
+> > These three sensor bindings conversions go together as they all happen in a
+> > single patch, so I deemed it was easier to just group them.
+> >
+> > In v4 after finalizing the discussion with Laurent and Rob on how to handle
+> > of-graph endpoint, I have dropped them from mt9v111 and imx274. For imx214 as I
+> > have endpoint properties to document I have also documented 'endpoint' (not
+> > mandatory) and 'remote-endpoint' (mandatory). Hope I got the outcome of the
+> > discussion right. For imx214 I also took in Laurent's suggestion on how to
+> > document the 'data-lanes' supported values.
+>
+> I think you can drop remote-endpoint, it will be defined in
+> of-graph.yaml. Apart from that, it sounds good to me.
+>
 
-On 28/8/20 15:55, Dafna Hirschfeld wrote:
-> In list_add, the first variable is the new node and the second
-> is the list head. The function is called with a wrong order causing
-> NULL dereference:
-> 
-> [   15.527030] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
-> [   15.542317] Mem abort info:
-> [   15.545152]   ESR = 0x96000044
-> [   15.548248]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [   15.553624]   SET = 0, FnV = 0
-> [   15.556715]   EA = 0, S1PTW = 0
-> [   15.559892] Data abort info:
-> [   15.562799]   ISV = 0, ISS = 0x00000044
-> [   15.566678]   CM = 0, WnR = 1
-> [   15.569683] user pgtable: 4k pages, 48-bit VAs, pgdp=00000001373f0000
-> [   15.576196] [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
-> [   15.583101] Internal error: Oops: 96000044 [#1] PREEMPT SMP
-> [   15.588747] Modules linked in: mtk_mdp(+) cfg80211 v4l2_mem2mem videobuf2_vmalloc videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common vide
-> odev mt8173_rt5650 smsc95xx usbnet ecdh_generic ecc snd_soc_rt5645 mc mt8173_afe_pcm rfkill cros_ec_sensors snd_soc_mtk_common elan_i2c crct10dif_ce cros_ec_se
-> nsors_core snd_soc_rl6231 elants_i2c industrialio_triggered_buffer kfifo_buf mtk_vpu cros_ec_chardev cros_usbpd_charger cros_usbpd_logger sbs_battery display_c
-> onnector pwm_bl ip_tables x_tables ipv6
-> [   15.634295] CPU: 0 PID: 188 Comm: systemd-udevd Not tainted 5.9.0-rc2+ #69
-> [   15.641242] Hardware name: Google Elm (DT)
-> [   15.645381] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
-> [   15.651022] pc : mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
-> [   15.656041] lr : mtk_mdp_probe+0x128/0x3a8 [mtk_mdp]
-> [   15.661055] sp : ffff80001255b910
-> [   15.669548] x29: ffff80001255b910 x28: 0000000000000000
-> [   15.679973] x27: ffff800009089bf8 x26: ffff0000fafde800
-> [   15.690347] x25: ffff0000ff7d2768 x24: ffff800009089010
-> [   15.700670] x23: ffff0000f01a7cd8 x22: ffff0000fafde810
-> [   15.710940] x21: ffff0000f01a7c80 x20: ffff0000f0c3c180
-> [   15.721148] x19: ffff0000ff7f1618 x18: 0000000000000010
-> [   15.731289] x17: 0000000000000000 x16: 0000000000000000
-> [   15.741375] x15: 0000000000aaaaaa x14: 0000000000000020
-> [   15.751399] x13: 00000000ffffffff x12: 0000000000000020
-> [   15.761363] x11: 0000000000000028 x10: 0101010101010101
-> [   15.771279] x9 : 0000000000000004 x8 : 7f7f7f7f7f7f7f7f
-> [   15.781148] x7 : 646bff6171606b2b x6 : 0000000000806d65
-> [   15.790981] x5 : ffff0000ff7f8360 x4 : 0000000000000000
-> [   15.800767] x3 : 0000000000000004 x2 : 0000000000000001
-> [   15.810501] x1 : 0000000000000005 x0 : 0000000000000000
-> [   15.820171] Call trace:
-> [   15.826944]  mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
-> [   15.835908]  platform_drv_probe+0x54/0xa8
-> [   15.844247]  really_probe+0xe4/0x3b0
-> [   15.852104]  driver_probe_device+0x58/0xb8
-> [   15.860457]  device_driver_attach+0x74/0x80
-> [   15.868854]  __driver_attach+0x58/0xe0
-> [   15.876770]  bus_for_each_dev+0x70/0xc0
-> [   15.884726]  driver_attach+0x24/0x30
-> [   15.892374]  bus_add_driver+0x14c/0x1f0
-> [   15.900295]  driver_register+0x64/0x120
-> [   15.908168]  __platform_driver_register+0x48/0x58
-> [   15.916864]  mtk_mdp_driver_init+0x20/0x1000 [mtk_mdp]
-> [   15.925943]  do_one_initcall+0x54/0x1b4
-> [   15.933662]  do_init_module+0x54/0x200
-> [   15.941246]  load_module+0x1cf8/0x22d0
-> [   15.948798]  __do_sys_finit_module+0xd8/0xf0
-> [   15.956829]  __arm64_sys_finit_module+0x20/0x30
-> [   15.965082]  el0_svc_common.constprop.0+0x6c/0x168
-> [   15.973527]  do_el0_svc+0x24/0x90
-> [   15.980403]  el0_sync_handler+0x90/0x198
-> [   15.987867]  el0_sync+0x158/0x180
-> [   15.994653] Code: 9400014b 2a0003fc 35000920 f9400280 (f9000417)
-> [   16.004299] ---[ end trace 76fee0203f9898e5 ]---
-> 
-> Fixes: 86698b9505bbc ("media: mtk-mdp: convert mtk_mdp_dev.comp array to list")
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> index f96c8b3bf861..976aa1f4829b 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> @@ -94,7 +94,7 @@ static void mtk_mdp_reset_handler(void *priv)
->  void mtk_mdp_register_component(struct mtk_mdp_dev *mdp,
->  				struct mtk_mdp_comp *comp)
->  {
-> -	list_add(&mdp->comp_list, &comp->node);
-> +	list_add(&comp->node, &mdp->comp_list);
->  }
->  
->  void mtk_mdp_unregister_component(struct mtk_mdp_dev *mdp,
-> 
+Will I ever get this right ? Should we record the policy to document
+endpoints until we don't have an of-graph.yaml to avoid other to have
+go through 5 iterations to do it right ?
 
-FWIW this also fixes my problems with suspend/resume on my Acer Chromebook R13, so:
+On this patch:
+I owe an updated to the imx274 patch but I'm waiting for this
+discussion to get somewhere (you're welcome to step-in :)
+https://patchwork.linuxtv.org/project/linux-media/patch/1599012278-10203-3-git-send-email-skomatineni@nvidia.com/
 
-Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Then I'll re-send a v5
 
-
-
-
+> > Individual maintainers cc-ed per-patch.
+> >
+> > Jacopo Mondi (3):
+> >   dt-bindings: media: mt9v111: Convert to json-schema
+> >   dt-bindings: media: imx274: Convert to json-schema
+> >   dt-bindings: media: imx214: Convert to json-schema
+> >
+> >  .../bindings/media/i2c/aptina,mt9v111.txt     |  46 ------
+> >  .../bindings/media/i2c/aptina,mt9v111.yaml    |  75 ++++++++++
+> >  .../devicetree/bindings/media/i2c/imx274.txt  |  38 -----
+> >  .../bindings/media/i2c/sony,imx214.txt        |  53 -------
+> >  .../bindings/media/i2c/sony,imx214.yaml       | 137 ++++++++++++++++++
+> >  .../bindings/media/i2c/sony,imx274.yaml       |  59 ++++++++
+> >  MAINTAINERS                                   |   6 +-
+> >  7 files changed, 274 insertions(+), 140 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
