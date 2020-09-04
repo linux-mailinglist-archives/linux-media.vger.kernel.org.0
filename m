@@ -2,171 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A68C25D2F4
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 09:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 693F325D31B
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 09:59:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729936AbgIDHxA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 03:53:00 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:45107 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729909AbgIDHwV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 03:52:21 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 8D1DDE0003;
-        Fri,  4 Sep 2020 07:52:06 +0000 (UTC)
-Date:   Fri, 4 Sep 2020 09:55:53 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v3 1/2] media: i2c: ov772x: Add support for BT656 mode
-Message-ID: <20200904075553.qjdyskcpext7fxcy@uno.localdomain>
-References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200904012000.GA9369@pendragon.ideasonboard.com>
+        id S1729751AbgIDH7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 03:59:47 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34508 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729698AbgIDH7r (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 03:59:47 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 2D56729AFE0
+Subject: Re: [PATCH] media: mtk-mdp: Fix Null pointer dereference when calling
+ list_add
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-media@vger.kernel.org
+Cc:     matthias.bgg@gmail.com, mchehab@kernel.org, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com
+References: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <d61eb22b-f3b7-50bb-f44f-629928d5e8c8@collabora.com>
+Date:   Fri, 4 Sep 2020 09:59:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20200828135541.8282-1-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200904012000.GA9369@pendragon.ideasonboard.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Dafna,
 
-On Fri, Sep 04, 2020 at 04:20:00AM +0300, Laurent Pinchart wrote:
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Mon, Aug 24, 2020 at 08:04:05PM +0100, Lad Prabhakar wrote:
-> > Add support to read the bus-type and enable BT656 mode if needed.
-> >
-> > Also fail probe if unsupported bus_type is detected.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  drivers/media/i2c/ov772x.c | 32 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> > index 2cc6a678069a..67764d647526 100644
-> > --- a/drivers/media/i2c/ov772x.c
-> > +++ b/drivers/media/i2c/ov772x.c
-> > @@ -31,6 +31,7 @@
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-event.h>
-> > +#include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-image-sizes.h>
-> >  #include <media/v4l2-subdev.h>
-> >
-> > @@ -434,6 +435,7 @@ struct ov772x_priv {
-> >  #ifdef CONFIG_MEDIA_CONTROLLER
-> >  	struct media_pad pad;
-> >  #endif
-> > +	struct v4l2_fwnode_endpoint ep;
-> >  };
-> >
-> >  /*
-> > @@ -581,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
-> >  	if (priv->streaming == enable)
-> >  		goto done;
-> >
-> > +	if (priv->ep.bus_type == V4L2_MBUS_BT656) {
-> > +		ret = regmap_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
-> > +					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
-> > +		if (ret)
-> > +			goto done;
-> > +	}
-> > +
-> >  	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
-> >  				 enable ? 0 : SOFT_SLEEP_MODE);
-> >  	if (ret)
-> > @@ -1354,6 +1363,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
-> >
-> >  static int ov772x_probe(struct i2c_client *client)
-> >  {
-> > +	struct fwnode_handle *endpoint;
-> >  	struct ov772x_priv	*priv;
-> >  	int			ret;
-> >  	static const struct regmap_config ov772x_regmap_config = {
-> > @@ -1415,6 +1425,28 @@ static int ov772x_probe(struct i2c_client *client)
-> >  		goto error_clk_put;
-> >  	}
-> >
-> > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> > +						  NULL);
-> > +	if (!endpoint) {
-> > +		dev_err(&client->dev, "endpoint node not found\n");
-> > +		ret = -EINVAL;
-> > +		goto error_clk_put;
-> > +	}
-> > +
-> > +	ret = v4l2_fwnode_endpoint_parse(endpoint, &priv->ep);
->
-> v4l2_fwnode_endpoint_parse() is deprecated for new drivers,
-> v4l2_fwnode_endpoint_alloc_parse() is recommended instead. Please note
-> that v4l2_fwnode_endpoint_free() then needs to be called in the error
-> path and in remove().
+Thank you to work on this fix.
 
-Doesn't alloc_parse() differ from just _parse() as it reserve space
-for the 'link-frequencies' array ? As this device does not support
-CSI-2 and the 'link-frequencies' property is not allows in bindings,
-isn't using endpoint_parse() better as it saves a call to _free() ?
+On 28/8/20 15:55, Dafna Hirschfeld wrote:
+> In list_add, the first variable is the new node and the second
+> is the list head. The function is called with a wrong order causing
+> NULL dereference:
+> 
+> [   15.527030] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
+> [   15.542317] Mem abort info:
+> [   15.545152]   ESR = 0x96000044
+> [   15.548248]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [   15.553624]   SET = 0, FnV = 0
+> [   15.556715]   EA = 0, S1PTW = 0
+> [   15.559892] Data abort info:
+> [   15.562799]   ISV = 0, ISS = 0x00000044
+> [   15.566678]   CM = 0, WnR = 1
+> [   15.569683] user pgtable: 4k pages, 48-bit VAs, pgdp=00000001373f0000
+> [   15.576196] [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
+> [   15.583101] Internal error: Oops: 96000044 [#1] PREEMPT SMP
+> [   15.588747] Modules linked in: mtk_mdp(+) cfg80211 v4l2_mem2mem videobuf2_vmalloc videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common vide
+> odev mt8173_rt5650 smsc95xx usbnet ecdh_generic ecc snd_soc_rt5645 mc mt8173_afe_pcm rfkill cros_ec_sensors snd_soc_mtk_common elan_i2c crct10dif_ce cros_ec_se
+> nsors_core snd_soc_rl6231 elants_i2c industrialio_triggered_buffer kfifo_buf mtk_vpu cros_ec_chardev cros_usbpd_charger cros_usbpd_logger sbs_battery display_c
+> onnector pwm_bl ip_tables x_tables ipv6
+> [   15.634295] CPU: 0 PID: 188 Comm: systemd-udevd Not tainted 5.9.0-rc2+ #69
+> [   15.641242] Hardware name: Google Elm (DT)
+> [   15.645381] pstate: 20000005 (nzCv daif -PAN -UAO BTYPE=--)
+> [   15.651022] pc : mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
+> [   15.656041] lr : mtk_mdp_probe+0x128/0x3a8 [mtk_mdp]
+> [   15.661055] sp : ffff80001255b910
+> [   15.669548] x29: ffff80001255b910 x28: 0000000000000000
+> [   15.679973] x27: ffff800009089bf8 x26: ffff0000fafde800
+> [   15.690347] x25: ffff0000ff7d2768 x24: ffff800009089010
+> [   15.700670] x23: ffff0000f01a7cd8 x22: ffff0000fafde810
+> [   15.710940] x21: ffff0000f01a7c80 x20: ffff0000f0c3c180
+> [   15.721148] x19: ffff0000ff7f1618 x18: 0000000000000010
+> [   15.731289] x17: 0000000000000000 x16: 0000000000000000
+> [   15.741375] x15: 0000000000aaaaaa x14: 0000000000000020
+> [   15.751399] x13: 00000000ffffffff x12: 0000000000000020
+> [   15.761363] x11: 0000000000000028 x10: 0101010101010101
+> [   15.771279] x9 : 0000000000000004 x8 : 7f7f7f7f7f7f7f7f
+> [   15.781148] x7 : 646bff6171606b2b x6 : 0000000000806d65
+> [   15.790981] x5 : ffff0000ff7f8360 x4 : 0000000000000000
+> [   15.800767] x3 : 0000000000000004 x2 : 0000000000000001
+> [   15.810501] x1 : 0000000000000005 x0 : 0000000000000000
+> [   15.820171] Call trace:
+> [   15.826944]  mtk_mdp_probe+0x134/0x3a8 [mtk_mdp]
+> [   15.835908]  platform_drv_probe+0x54/0xa8
+> [   15.844247]  really_probe+0xe4/0x3b0
+> [   15.852104]  driver_probe_device+0x58/0xb8
+> [   15.860457]  device_driver_attach+0x74/0x80
+> [   15.868854]  __driver_attach+0x58/0xe0
+> [   15.876770]  bus_for_each_dev+0x70/0xc0
+> [   15.884726]  driver_attach+0x24/0x30
+> [   15.892374]  bus_add_driver+0x14c/0x1f0
+> [   15.900295]  driver_register+0x64/0x120
+> [   15.908168]  __platform_driver_register+0x48/0x58
+> [   15.916864]  mtk_mdp_driver_init+0x20/0x1000 [mtk_mdp]
+> [   15.925943]  do_one_initcall+0x54/0x1b4
+> [   15.933662]  do_init_module+0x54/0x200
+> [   15.941246]  load_module+0x1cf8/0x22d0
+> [   15.948798]  __do_sys_finit_module+0xd8/0xf0
+> [   15.956829]  __arm64_sys_finit_module+0x20/0x30
+> [   15.965082]  el0_svc_common.constprop.0+0x6c/0x168
+> [   15.973527]  do_el0_svc+0x24/0x90
+> [   15.980403]  el0_sync_handler+0x90/0x198
+> [   15.987867]  el0_sync+0x158/0x180
+> [   15.994653] Code: 9400014b 2a0003fc 35000920 f9400280 (f9000417)
+> [   16.004299] ---[ end trace 76fee0203f9898e5 ]---
+> 
+> Fixes: 86698b9505bbc ("media: mtk-mdp: convert mtk_mdp_dev.comp array to list")
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> index f96c8b3bf861..976aa1f4829b 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> @@ -94,7 +94,7 @@ static void mtk_mdp_reset_handler(void *priv)
+>  void mtk_mdp_register_component(struct mtk_mdp_dev *mdp,
+>  				struct mtk_mdp_comp *comp)
+>  {
+> -	list_add(&mdp->comp_list, &comp->node);
+> +	list_add(&comp->node, &mdp->comp_list);
+>  }
+>  
+>  void mtk_mdp_unregister_component(struct mtk_mdp_dev *mdp,
+> 
 
-Or are we deprecating that function unconditionally ? The
-documentation suggests "please use v4l2_fwnode_endpoint_alloc_parse()
-in new drivers" but here it doesn't seem required..
+FWIW this also fixes my problems with suspend/resume on my Acer Chromebook R13, so:
 
->
-> On the other hand, not setting .bus_type and letting the parse()
-> function determine the but type automatically is also deprecated, and I
-> don't think forcing drivers to call v4l2_fwnode_endpoint_alloc_parse()
-> once for each bus type until one succeeds is a good API. As change will
-> be needed in that API, you can ignore v4l2_fwnode_endpoint_alloc_parse()
-> for the time being if you want.
-
-But indeed relying on auto-guessing of the bus type is deprecated since
-some time now (and the API could be improved, yes). Sorry I missed
-that yesterday.
-
-As we support parallel and bt.656 only I must be honest I don't mind
-it here as otherwise the code would be more complex for no real gain,
-but I defer this to Sakari which has been fighting the battle against
-auto-guessing since a long time now  :)
+Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
 
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> > +	fwnode_handle_put(endpoint);
-> > +	if (ret) {
-> > +		dev_err(&client->dev, "Could not parse endpoint\n");
-> > +		goto error_clk_put;
-> > +	}
-> > +
-> > +	if (priv->ep.bus_type != V4L2_MBUS_PARALLEL &&
-> > +	    priv->ep.bus_type != V4L2_MBUS_BT656) {
-> > +		dev_err(&client->dev, "Unsupported bus type %d\n",
-> > +			priv->ep.bus_type);
-> > +		goto error_clk_put;
-> > +	}
-> > +
-> >  	ret = ov772x_video_probe(priv);
-> >  	if (ret < 0)
-> >  		goto error_gpio_put;
->
-> --
-> Regards,
->
-> Laurent Pinchart
+
+
