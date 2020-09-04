@@ -2,81 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C861F25D7B9
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 13:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0ED725D8A6
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 14:31:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729942AbgIDLqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 07:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35138 "EHLO
+        id S1730010AbgIDMbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 08:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729753AbgIDLqi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 07:46:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7B36C061244;
-        Fri,  4 Sep 2020 04:46:37 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 64833540;
-        Fri,  4 Sep 2020 13:46:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599219988;
-        bh=mEpk9Az9O3QF+f6NJBCNg2yqlaHjwzn2twitUxjNONk=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=Vv/b8CwgfPST9pZ9orei8wTUSHV7GyfG/LkVsB3V7WbvKN01OsR0A7Fc1TpDrJpVk
-         bMQx2BHNAshtmwQLLz4L5c86kO5srlpIzLLRuxMMYHi0XaEtAnGvFRGQhiE0vMVg4A
-         zsdgYmEceMubPezYO+jacgX6PNieE59UhxGrxFew=
-Subject: Re: [PATCH 21/29] media: atomisp: Avoid comma separated statements
-To:     Joe Perches <joe@perches.com>, Jiri Kosina <trivial@kernel.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
-References: <cover.1598331148.git.joe@perches.com>
- <83f22b4ca8b26d301894638c5b8c571ac0004a5e.1598331149.git.joe@perches.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <4d48fbf2-e38d-64da-f91f-5b5618506e43@ideasonboard.com>
-Date:   Fri, 4 Sep 2020 12:46:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        with ESMTP id S1728588AbgIDMbC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 08:31:02 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9ACAC061244
+        for <linux-media@vger.kernel.org>; Fri,  4 Sep 2020 05:31:01 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 7B286C6429; Fri,  4 Sep 2020 13:30:50 +0100 (BST)
+Date:   Fri, 4 Sep 2020 13:30:50 +0100
+From:   Sean Young <sean@mess.org>
+To:     Joakim Zhang <qiangqing.zhang@nxp.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Andy Duan <fugang.duan@nxp.com>, linux-gpio@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: SONY IR issue
+Message-ID: <20200904123050.GA11675@gofer.mess.org>
+References: <DB8PR04MB679580C7C8E6888B56C8BDACE62C0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+ <20200903185513.GA31286@gofer.mess.org>
+ <DB8PR04MB67950837E2355EA81FBAADD1E62D0@DB8PR04MB6795.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <83f22b4ca8b26d301894638c5b8c571ac0004a5e.1598331149.git.joe@perches.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DB8PR04MB67950837E2355EA81FBAADD1E62D0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/08/2020 05:56, Joe Perches wrote:
-> Use semicolons and braces.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
+Hi Joakim,
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Fri, Sep 04, 2020 at 10:43:23AM +0000, Joakim Zhang wrote:
+> > On Thu, Sep 03, 2020 at 11:55:30AM +0000, Joakim Zhang wrote:
+> > > Thanks a lot for pointing me to use “ir-ctl -r”, really easy to
+> > > capture the raw data. 😊
+> > >
+> > > The scancode from my RC is 0x130002, the scancode decoded by SONY
+> > decoder is 0x110002. So I capture the waveform generated by IR and raw data
+> > sampled by GPIO. All attached, please have a check.
+> > 
+> > So you captured it with a logic analyzer?
+> Yes, with a logic analyzer yesterday. Today, change to use a analog analyzer, the signal is perfect, seems not the issue of signal generated by IR device. IR device I used is IRM-V538/TR1.
 
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_subdev.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+Ok, makes sense.
+ 
+> > > As you can see, the RC transmit repeatedly 6 times. After checking them
+> > carefully, all of them satisfied SONY 12bit protocols. SONY decoder decode the
+> > 5th signal and report the scancode 0x110002.
+> > > According to raw data, it really should be 0x110002. So I check the waveform
+> > and raw data further, the raw data sampled by GPIO seems not correct.
+> > >
+> > > e.g. for the 5th signal
+> > > [cid:image001.jpg@01D6822C.2AD54480]
+> > > pulse 2408
+> > > space 549
+> > > pulse 579
+> > > space 581
+> > > pulse 1188
+> > > space 579
+> > > pulse 579
+> > > space 579
+> > > pulse 579
+> > > space 581
+> > > pulse 577
+> > > space 579
+> > > pulse 579
+> > > space 549
+> > > pulse 610
+> > > space 548
+> > > pulse 1222
+> > > space 547
+> > > pulse 690 // this should be ~1200
+> > > space 567
+> > > pulse 587
+> > > space 569
+> > > pulse 588
+> > > space 570
+> > > pulse 1192
+> > > timeout 17877
+> > >
+> > > For other signals, they all have an exception value in raw data, as below, so
+> > decoder failed at these values. Strange enough, why only one value is incorrect.
+> > > 1st: space 54
+> > > 2nd: pulse 76
+> > > 3rd: space 61
+> > > 4th: space 51
+> > > 6th: space 53
+> > > But looking into the waveform, they are all normal, could you tell me how to
+> > look into it? Is there any specific configuration for GPIO PAD? I might have to
+> > grab some analog signals.
+> > > One more add is that, it can improve decode correctness if I add milliseconds
+> > delay in ir_sony_decode() function.
+> > 
+> > Right, so changing the dev_dbg() to dev_info() did work, although that is not
+> > the correct fix.
+> > 
+> > It would be interesting to know if the problem is in the gpio device, or if there is
+> > a problem with further processing in the IR layers.
+> > 
+> > What is the device you are using?
+> >
+> > I think it would be interesting to add a debug printk in gpio_ir_recv_irq with the
+> > ktime and the val. We can see then if correct data is being generated here, or if
+> > things go wrong in the IR layers.
+> I did below code change to print raw data generated in gpio interrupt handler. After checking the data, it is consistent to the raw data dump by the ir-ctl.
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> index 6ba817f15655..52b9fb18c87f 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> @@ -410,8 +410,10 @@ int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
->  
->  		if (atomisp_subdev_format_conversion(isp_sd,
->  						     isp_sd->capture_pad)
-> -		    && crop[pad]->width && crop[pad]->height)
-> -			crop[pad]->width -= padding_w, crop[pad]->height -= padding_h;
-> +		    && crop[pad]->width && crop[pad]->height) {
-> +			crop[pad]->width -= padding_w;
-> +			crop[pad]->height -= padding_h;
-> +		}
->  
->  		/* if subdev type is SOC camera,we do not need to set DVS */
->  		if (isp->inputs[isp_sd->input_curr].type == SOC_CAMERA)
+> --- a/drivers/media/rc/rc-ir-raw.c
+> +++ b/drivers/media/rc/rc-ir-raw.c
+> @@ -76,7 +76,7 @@ int ir_raw_event_store(struct rc_dev *dev, struct ir_raw_event *ev)
+>         if (!dev->raw)
+>                 return -EINVAL;
 > 
+> -       dev_dbg(&dev->dev, "sample: (%05dus %s)\n",
+> +       trace_printk("sample: (%05dus %s)\n",
+>                 TO_US(ev->duration), TO_STR(ev->pulse));
+> 
+>         if (!kfifo_put(&dev->raw->kfifo, *ev)) {
+> 
+> 
+> > I wouldn't be surprised if the gpio device generates two interrupts for the
+> > broken pulse (one after 690us and another at 1200us), and if decoding happens
+> > before the second then the wrong pulse length is used.
+> I also check the number of interrupt generated by gpio. After I press the key, RC transmits 7 frames, it should contain 182 falling/rising edges.
+> It indeed reports 182 interrupts and go through ir_raw_event_store function 182 times. Since the number of interrupt is accurate, just a few falling/rising interrupt
+> comes much quickly than others, but the analog signal is perfect. It is really out of my understanding. It should not an issue in IR layer.
 
+I think the next step would be to put dev_dbg/printk in gpio-ir-recv.c,
+and see if the results are the same there. I suspect they will be.
+
+> > > I also have a question, if RC transmit repeatedly 6 times, and SONY decodes
+> > decode all raw data successfully, it will report to input subsystem 6 times, does
+> > input subsystem will still report to userspace 6 times?
+> > 
+> > If the sony decodes the same values 6 times, then scancode will reported 6
+> > imes, but there will be only one key down event, and a key up event about
+> > 100ms after the the last decode (plus a few other milliseconds for various
+> > timeouts).
+> Thanks for your details. Does this mean input subsystem will still report scancode 6 times, but only report keycode once if it is matched?
+
+Exactly. The keycode is only reported once, so that if the user press e.g.
+"1" they will get just get one "1". 
+
+> Sean, based on your experience, where else do you suggest me to look into this further? Have you came across such case, a few interrupt responded so quickly so that front pulse/space is much shorten?
+
+To be honest I've never seen this before.
+
+I'm not sure what the cause could be. On the raspberry pi it is known that
+lots usb traffic causes delays in the gpio interrupt handlers due to
+some hardware issue, but this causes some interrupts to arrive late. This
+causes some of the pulse/space timings to be longer, and then later ones
+are shorter again as it catches up.
+
+Similarly if the kernel is running with interrupts off for too long, some
+of the timings will be longer and others shorter.
+
+Is there anything you can tell us about the gpio hardware?
+
+Thanks,
+
+Sean
