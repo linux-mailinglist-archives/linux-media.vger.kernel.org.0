@@ -2,170 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0ED725D8A6
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 14:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2733825DA4B
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 15:46:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730010AbgIDMbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 08:31:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728588AbgIDMbC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 08:31:02 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9ACAC061244
-        for <linux-media@vger.kernel.org>; Fri,  4 Sep 2020 05:31:01 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 7B286C6429; Fri,  4 Sep 2020 13:30:50 +0100 (BST)
-Date:   Fri, 4 Sep 2020 13:30:50 +0100
-From:   Sean Young <sean@mess.org>
-To:     Joakim Zhang <qiangqing.zhang@nxp.com>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Andy Duan <fugang.duan@nxp.com>, linux-gpio@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: SONY IR issue
-Message-ID: <20200904123050.GA11675@gofer.mess.org>
-References: <DB8PR04MB679580C7C8E6888B56C8BDACE62C0@DB8PR04MB6795.eurprd04.prod.outlook.com>
- <20200903185513.GA31286@gofer.mess.org>
- <DB8PR04MB67950837E2355EA81FBAADD1E62D0@DB8PR04MB6795.eurprd04.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DB8PR04MB67950837E2355EA81FBAADD1E62D0@DB8PR04MB6795.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1730641AbgIDNqZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 09:46:25 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:44856 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730463AbgIDNp5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 09:45:57 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200904133509euoutp016c6d4c937fdd913b516ef26dd013966a~xmAmAFdW90722107221euoutp01x
+        for <linux-media@vger.kernel.org>; Fri,  4 Sep 2020 13:35:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200904133509euoutp016c6d4c937fdd913b516ef26dd013966a~xmAmAFdW90722107221euoutp01x
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1599226509;
+        bh=65zQC7AbXs+h4Aa/SkiEZNz20G0ZAx6H0WtGo6ycvZM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Bf2fKFShGlm+pfJSXUQUVICSDo6soEQGaqsqijd6BS3x595gzQh6G3n1AxUNaSZdE
+         gPBTN2wR0xDgGTEqemJTwhpp4nVEXQs26Muj9ip/D0jT/hfO3sEdgeaBFOv9YNn3TI
+         tOjE+yhY8fuIKZpjL613A+pZI/Vr96D5TyllYAOY=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200904133508eucas1p21f933737a416c70575a6bc8994670007~xmAljtcol0781307813eucas1p2-;
+        Fri,  4 Sep 2020 13:35:08 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 39.11.06456.C82425F5; Fri,  4
+        Sep 2020 14:35:08 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6~xmAlI3sXS2307023070eucas1p1W;
+        Fri,  4 Sep 2020 13:35:08 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200904133508eusmtrp18a48b753c6c81394e3d104bf3cf3a8ea~xmAlIKVZ40766507665eusmtrp1K;
+        Fri,  4 Sep 2020 13:35:08 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-5d-5f52428c4fa2
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id CA.BE.06314.C82425F5; Fri,  4
+        Sep 2020 14:35:08 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200904133507eusmtip16507aff28a627187d88af93e208665b5~xmAke9p3K1624216242eusmtip1t;
+        Fri,  4 Sep 2020 13:35:07 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v10 24/30] drm: rcar-du: fix common struct sg_table related
+ issues
+Date:   Fri,  4 Sep 2020 15:17:05 +0200
+Message-Id: <20200904131711.12950-25-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200904131711.12950-1-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSWUwTURiFuZ3OdCiUDIXIDRhIGjUgYVNjroGA4pJRHzTEF00UiwyLQiEt
+        IPCgaFGhgGGJoRRiAAlo2cuiQghLhKIoIlQEBWUTAoLImrDLOKhv3//fc3Lyn1wSE7fj1mSw
+        LIKRy6QhEkLIr21b6XRK9vbxdZ1bsEcpna95qFJdjqOt2jQMGZZmCfSsuJWHchvd0XxvEkCJ
+        aQUCtGgY5iHdaC+OeupyCJRcUYOjmsmfPFT6alCACnXrPNT8aww/StElj0sA3bCcy6ezE7Jw
+        WqdNJOjny0M4/S1Jz6OrCm7TXzZHMTqjrwjQ9f1xBP2wWgvoBZ3tedNLQg9/JiQ4ipG7eF4V
+        BlV//ESEb8FozeI6iAOrlipAkpA6BOPnCRUQkmLqKYDTldl8blgEsD5+UKACxtvDAoCT7ddZ
+        Zg2afC3GiYoANKwpd0Tbjo6JWJYJyg2qZlQEy5bUPQDbU0xZxqh1DGbmeLFsQV2AmSs5f7x8
+        ai8caRv/wyLKE75Xl/K5MDtYXNGEsWy8va9Rj+FsMKS+CqC2cBNwohOweEa/wxZwSl8t4Hg3
+        7MhI5nMGJYDDnaUCbkgGsOeuesfhDgc6Vwm2DIxygOV1Ltz6GPxcXs7jOjKDfTPm3AFmML02
+        E+PWIphwX8yp90GNvuxfbHNXN8YxDRtaR3caTQOwq0wpSAV2mv9huQBogRUTqQgNZBRuMuam
+        s0IaqoiUBTpfCwvVge3/1bGpn38Blrr9WgBFAompyMjLx1eMS6MUMaEtAJKYxFLk/a7jiljk
+        L42JZeRhvvLIEEbRAmxIvsRKdDB/8rKYCpRGMDcYJpyR/33lkcbWcSDQ6bufW8CbW5qRYZMs
+        bb6ywuRt3sjcmothV8Ap/cUHR5KmbGY38ozKhoq9jOfP3uk/be+1x3zgQyPwdrWLafKQbVDT
+        h50nDLZj69Lu/HGmoSth2PCyRHhgdSo65VyqWum7WbrkaIOU6Rs/+oeqhA4h0SczHm0VPXGU
+        NRK1RmeOS/iKIKnbfkyukP4Gp6V1LFsDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsVy+t/xu7o9TkHxBhMeCVr0njvJZLFxxnpW
+        i//bJjJbXPn6ns1i5eqjTBYL9ltbfLrWzWjROXEJu8WXKw+ZLDY9vsZqcXnXHDaLng1bWS22
+        vnzHZLH2yF12i2Wb/jBZHPzwhNVBwGPNvDWMHnu/LWDxmN0xk9Vj06pONo/t3x6wetzvPs7k
+        sXlJvcftf4+ZPSbfWM7osftmA5tH35ZVjB6fN8kF8ETp2RTll5akKmTkF5fYKkUbWhjpGVpa
+        6BmZWOoZGpvHWhmZKunb2aSk5mSWpRbp2yXoZWy5ep2t4L9ExawvfxgbGH+JdDFyckgImEjM
+        WrSKuYuRi0NIYCmjxP3981ggEjISJ6c1sELYwhJ/rnWxQRR9YpQ4MP8yO0iCTcBQoustREJE
+        oJNRYlr3R3YQh1mghUXiw6eHYKOEBYIk5uxaA9bBIqAq8ejYMzCbV8BO4vyMtVDr5CVWbzjA
+        DGJzAsW3zngCtlpIwFbiw5zFLBMY+RYwMqxiFEktLc5Nzy021CtOzC0uzUvXS87P3cQIjKpt
+        x35u3sF4aWPwIUYBDkYlHl4G+6B4IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW5ccXleak
+        Fh9iNAU6aiKzlGhyPjDi80riDU0NzS0sDc2NzY3NLJTEeTsEDsYICaQnlqRmp6YWpBbB9DFx
+        cEo1MNZ2fNoken3nzGv7OBJblzuXN728X7mVo1n3qbRX2noma/v2UyfPH4ifz3nNW1zax+BT
+        KxNP2vzURPMjdpyXJ3YpfIgJO133+0Zg6xKmE4n+ivL5T5hsQuoKe92zb26OPVq3LXNh65nc
+        b6FJ279YLDJmCb0Zrb5PJGu5Sva9tzqXMn7ptT3iVWIpzkg01GIuKk4EAHzI3KjAAgAA
+X-CMS-MailID: 20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6
+References: <20200904131711.12950-1-m.szyprowski@samsung.com>
+        <CGME20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6@eucas1p1.samsung.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joakim,
+The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+returns the number of the created entries in the DMA address space.
+However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+dma_unmap_sg must be called with the original number of the entries
+passed to the dma_map_sg().
 
-On Fri, Sep 04, 2020 at 10:43:23AM +0000, Joakim Zhang wrote:
-> > On Thu, Sep 03, 2020 at 11:55:30AM +0000, Joakim Zhang wrote:
-> > > Thanks a lot for pointing me to use “ir-ctl -r”, really easy to
-> > > capture the raw data. 😊
-> > >
-> > > The scancode from my RC is 0x130002, the scancode decoded by SONY
-> > decoder is 0x110002. So I capture the waveform generated by IR and raw data
-> > sampled by GPIO. All attached, please have a check.
-> > 
-> > So you captured it with a logic analyzer?
-> Yes, with a logic analyzer yesterday. Today, change to use a analog analyzer, the signal is perfect, seems not the issue of signal generated by IR device. IR device I used is IRM-V538/TR1.
+struct sg_table is a common structure used for describing a non-contiguous
+memory buffer, used commonly in the DRM and graphics subsystems. It
+consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+and DMA mapped pages (nents entry).
 
-Ok, makes sense.
+It turned out that it was a common mistake to misuse nents and orig_nents
+entries, calling DMA-mapping functions with a wrong number of entries or
+ignoring the number of mapped entries returned by the dma_map_sg()
+function.
+
+To avoid such issues, lets use a common dma-mapping wrappers operating
+directly on the struct sg_table objects and use scatterlist page
+iterators where possible. This, almost always, hides references to the
+nents and orig_nents entries, making the code robust, easier to follow
+and copy/paste safe.
+
+dma_map_sgtable() function returns zero or an error code, so adjust the
+return value check for the vsp1_du_map_sg() function.
+
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c  | 3 +--
+ drivers/media/platform/vsp1/vsp1_drm.c | 8 ++++----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index f1a81c9b184d..a27bff999649 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -197,9 +197,8 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
+ 			goto fail;
  
-> > > As you can see, the RC transmit repeatedly 6 times. After checking them
-> > carefully, all of them satisfied SONY 12bit protocols. SONY decoder decode the
-> > 5th signal and report the scancode 0x110002.
-> > > According to raw data, it really should be 0x110002. So I check the waveform
-> > and raw data further, the raw data sampled by GPIO seems not correct.
-> > >
-> > > e.g. for the 5th signal
-> > > [cid:image001.jpg@01D6822C.2AD54480]
-> > > pulse 2408
-> > > space 549
-> > > pulse 579
-> > > space 581
-> > > pulse 1188
-> > > space 579
-> > > pulse 579
-> > > space 579
-> > > pulse 579
-> > > space 581
-> > > pulse 577
-> > > space 579
-> > > pulse 579
-> > > space 549
-> > > pulse 610
-> > > space 548
-> > > pulse 1222
-> > > space 547
-> > > pulse 690 // this should be ~1200
-> > > space 567
-> > > pulse 587
-> > > space 569
-> > > pulse 588
-> > > space 570
-> > > pulse 1192
-> > > timeout 17877
-> > >
-> > > For other signals, they all have an exception value in raw data, as below, so
-> > decoder failed at these values. Strange enough, why only one value is incorrect.
-> > > 1st: space 54
-> > > 2nd: pulse 76
-> > > 3rd: space 61
-> > > 4th: space 51
-> > > 6th: space 53
-> > > But looking into the waveform, they are all normal, could you tell me how to
-> > look into it? Is there any specific configuration for GPIO PAD? I might have to
-> > grab some analog signals.
-> > > One more add is that, it can improve decode correctness if I add milliseconds
-> > delay in ir_sony_decode() function.
-> > 
-> > Right, so changing the dev_dbg() to dev_info() did work, although that is not
-> > the correct fix.
-> > 
-> > It would be interesting to know if the problem is in the gpio device, or if there is
-> > a problem with further processing in the IR layers.
-> > 
-> > What is the device you are using?
-> >
-> > I think it would be interesting to add a debug printk in gpio_ir_recv_irq with the
-> > ktime and the val. We can see then if correct data is being generated here, or if
-> > things go wrong in the IR layers.
-> I did below code change to print raw data generated in gpio interrupt handler. After checking the data, it is consistent to the raw data dump by the ir-ctl.
-> 
-> --- a/drivers/media/rc/rc-ir-raw.c
-> +++ b/drivers/media/rc/rc-ir-raw.c
-> @@ -76,7 +76,7 @@ int ir_raw_event_store(struct rc_dev *dev, struct ir_raw_event *ev)
->         if (!dev->raw)
->                 return -EINVAL;
-> 
-> -       dev_dbg(&dev->dev, "sample: (%05dus %s)\n",
-> +       trace_printk("sample: (%05dus %s)\n",
->                 TO_US(ev->duration), TO_STR(ev->pulse));
-> 
->         if (!kfifo_put(&dev->raw->kfifo, *ev)) {
-> 
-> 
-> > I wouldn't be surprised if the gpio device generates two interrupts for the
-> > broken pulse (one after 690us and another at 1200us), and if decoding happens
-> > before the second then the wrong pulse length is used.
-> I also check the number of interrupt generated by gpio. After I press the key, RC transmits 7 frames, it should contain 182 falling/rising edges.
-> It indeed reports 182 interrupts and go through ir_raw_event_store function 182 times. Since the number of interrupt is accurate, just a few falling/rising interrupt
-> comes much quickly than others, but the analog signal is perfect. It is really out of my understanding. It should not an issue in IR layer.
+ 		ret = vsp1_du_map_sg(vsp->vsp, sgt);
+-		if (!ret) {
++		if (ret) {
+ 			sg_free_table(sgt);
+-			ret = -ENOMEM;
+ 			goto fail;
+ 		}
+ 	}
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
+index a4a45d68a6ef..86d5e3f4b1ff 100644
+--- a/drivers/media/platform/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/vsp1/vsp1_drm.c
+@@ -912,8 +912,8 @@ int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt)
+ 	 * skip cache sync. This will need to be revisited when support for
+ 	 * non-coherent buffers will be added to the DU driver.
+ 	 */
+-	return dma_map_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
+-				DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
++	return dma_map_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
++			       DMA_ATTR_SKIP_CPU_SYNC);
+ }
+ EXPORT_SYMBOL_GPL(vsp1_du_map_sg);
+ 
+@@ -921,8 +921,8 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
+ {
+ 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+ 
+-	dma_unmap_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
+-			   DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
++	dma_unmap_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
++			  DMA_ATTR_SKIP_CPU_SYNC);
+ }
+ EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
+ 
+-- 
+2.17.1
 
-I think the next step would be to put dev_dbg/printk in gpio-ir-recv.c,
-and see if the results are the same there. I suspect they will be.
-
-> > > I also have a question, if RC transmit repeatedly 6 times, and SONY decodes
-> > decode all raw data successfully, it will report to input subsystem 6 times, does
-> > input subsystem will still report to userspace 6 times?
-> > 
-> > If the sony decodes the same values 6 times, then scancode will reported 6
-> > imes, but there will be only one key down event, and a key up event about
-> > 100ms after the the last decode (plus a few other milliseconds for various
-> > timeouts).
-> Thanks for your details. Does this mean input subsystem will still report scancode 6 times, but only report keycode once if it is matched?
-
-Exactly. The keycode is only reported once, so that if the user press e.g.
-"1" they will get just get one "1". 
-
-> Sean, based on your experience, where else do you suggest me to look into this further? Have you came across such case, a few interrupt responded so quickly so that front pulse/space is much shorten?
-
-To be honest I've never seen this before.
-
-I'm not sure what the cause could be. On the raspberry pi it is known that
-lots usb traffic causes delays in the gpio interrupt handlers due to
-some hardware issue, but this causes some interrupts to arrive late. This
-causes some of the pulse/space timings to be longer, and then later ones
-are shorter again as it catches up.
-
-Similarly if the kernel is running with interrupts off for too long, some
-of the timings will be longer and others shorter.
-
-Is there anything you can tell us about the gpio hardware?
-
-Thanks,
-
-Sean
