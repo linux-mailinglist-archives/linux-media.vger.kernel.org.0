@@ -2,421 +2,294 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E0C225D3FA
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 10:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A02F25D46B
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 11:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729741AbgIDIwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 04:52:13 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:50665 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726575AbgIDIwM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 04:52:12 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 0A7ED2000F;
-        Fri,  4 Sep 2020 08:52:05 +0000 (UTC)
-Date:   Fri, 4 Sep 2020 10:55:52 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        sakari.ailus@iki.fi, hverkuil@xs4all.nl, jacopo+renesas@jmondi.org,
-        luca@lucaceresoli.net, leonl@leopardimaging.com,
-        robh+dt@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] media: i2c: imx274: Add IMX274 power on and off
- sequence
-Message-ID: <20200904085552.5xddn2kecoktuesg@uno.localdomain>
-References: <1599012278-10203-1-git-send-email-skomatineni@nvidia.com>
- <1599012278-10203-4-git-send-email-skomatineni@nvidia.com>
- <20200903144713.fyhmhs2bfcz5br6d@uno.localdomain>
- <094073f1-ef58-a2fd-bed4-7fa3b99dd120@nvidia.com>
+        id S1729967AbgIDJQf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 4 Sep 2020 05:16:35 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:52800 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729901AbgIDJQe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Sep 2020 05:16:34 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kE7js-00E1Wa-9h; Fri, 04 Sep 2020 09:10:32 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kE7sG-0002Gx-Le; Fri, 04 Sep 2020 09:19:12 +0000
+Date:   Fri, 4 Sep 2020 09:19:12 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <180318982.3.1599211152432@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3205
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <094073f1-ef58-a2fd-bed4-7fa3b99dd120@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Sowjanya,
+See <https://builder.linuxtv.org/job/media-build/3205/display/redirect>
 
-On Thu, Sep 03, 2020 at 09:25:44AM -0700, Sowjanya Komatineni wrote:
->
-> On 9/3/20 8:03 AM, Jacopo Mondi wrote:
-> > Hello,
-> >
-> > On Tue, Sep 01, 2020 at 07:04:38PM -0700, Sowjanya Komatineni wrote:
-> > > IMX274 has VANA analog 2.8V supply, VDIG digital core 1.8V supply,
-> > > and VDDL digital io 1.2V supply which are optional based on camera
-> > > module design.
-> > >
-> > > IMX274 also need external 24Mhz clock and is optional based on
-> > > camera module design.
-> > >
-> > > This patch adds support for IMX274 power on and off to enable and
-> > > disable these supplies and external clock.
-> > >
-> > > Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-> > > Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> > > ---
-> > >   drivers/media/i2c/imx274.c | 134 ++++++++++++++++++++++++++++++++++++++++++++-
-> > >   1 file changed, 131 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
-> > > index a4b9dfd..79bfac3c6 100644
-> > > --- a/drivers/media/i2c/imx274.c
-> > > +++ b/drivers/media/i2c/imx274.c
-> > > @@ -18,7 +18,9 @@
-> > >   #include <linux/kernel.h>
-> > >   #include <linux/module.h>
-> > >   #include <linux/of_gpio.h>
-> > > +#include <linux/pm_runtime.h>
-> > >   #include <linux/regmap.h>
-> > > +#include <linux/regulator/consumer.h>
-> > >   #include <linux/slab.h>
-> > >   #include <linux/v4l2-mediabus.h>
-> > >   #include <linux/videodev2.h>
-> > > @@ -131,6 +133,15 @@
-> > >   #define IMX274_TABLE_WAIT_MS			0
-> > >   #define IMX274_TABLE_END			1
-> > >
-> > > +/* regulator supplies */
-> > > +static const char * const imx274_supply_names[] = {
-> > > +	"vddl",  /* IF (1.2V) supply */
-> > > +	"vdig",  /* Digital Core (1.8V) supply */
-> > > +	"vana",  /* Analog (2.8V) supply */
-> > > +};
-> > > +
-> > > +#define IMX274_NUM_SUPPLIES ARRAY_SIZE(imx274_supply_names)
-> > > +
-> > >   /*
-> > >    * imx274 I2C operation related structure
-> > >    */
-> > > @@ -501,6 +512,8 @@ struct imx274_ctrls {
-> > >    * @frame_rate: V4L2 frame rate structure
-> > >    * @regmap: Pointer to regmap structure
-> > >    * @reset_gpio: Pointer to reset gpio
-> > > + * @supplies: List of analog and digital supply regulators
-> > > + * @inck: Pointer to sensor input clock
-> > >    * @lock: Mutex structure
-> > >    * @mode: Parameters for the selected readout mode
-> > >    */
-> > > @@ -514,6 +527,8 @@ struct stimx274 {
-> > >   	struct v4l2_fract frame_interval;
-> > >   	struct regmap *regmap;
-> > >   	struct gpio_desc *reset_gpio;
-> > > +	struct regulator_bulk_data supplies[IMX274_NUM_SUPPLIES];
-> > > +	struct clk *inck;
-> > >   	struct mutex lock; /* mutex lock for operations */
-> > >   	const struct imx274_mode *mode;
-> > >   };
-> > > @@ -767,6 +782,75 @@ static void imx274_reset(struct stimx274 *priv, int rst)
-> > >   	usleep_range(IMX274_RESET_DELAY1, IMX274_RESET_DELAY2);
-> > >   }
-> > >
-> > > +/*
-> > > + * imx274_power_on - Function called to power on the sensor
-> > > + * @imx274: Pointer to device structure
-> > > + */
-> > Can I say this does not bring much value ? :)
-> > Also the parameter name is wrong
-> >
-> > > +static int imx274_power_on(struct device *dev)
-> > > +{
-> > > +	struct i2c_client *client = to_i2c_client(dev);
-> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > > +	struct stimx274 *imx274 = to_imx274(sd);
-> > > +	int ret;
-> > > +
-> > > +	/* keep sensor in reset before power on */
-> > > +	imx274_reset(imx274, 0);
-> > > +
-> > > +	ret = clk_prepare_enable(imx274->inck);
-> > > +	if (ret) {
-> > > +		dev_err(&imx274->client->dev,
-> > > +			"Failed to enable input clock: %d\n", ret);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	ret = regulator_bulk_enable(IMX274_NUM_SUPPLIES, imx274->supplies);
-> > > +	if (ret) {
-> > > +		dev_err(&imx274->client->dev,
-> > > +			"Failed to enable regulators: %d\n", ret);
-> > > +		goto fail_reg;
-> > > +	}
-> > > +
-> > > +	usleep_range(1, 2);
-> > usleep_range() allows you to provide an interval in which your timeout
-> > can be coalesced with others. Giving a [1usec, 2usec] range kind of
-> > defeat the purpose. And most than everything, does sleeping for 2usec
-> > serve any real purpose ?
->
-> Following delay recommendation from DS for power on sequence.
->
+Changes:
 
-2 useconds ? Seems very short :)
 
-> >
-> >
-> > > +	imx274_reset(imx274, 1);
-> > > +
-> > > +	return 0;
-> > > +
-> > > +fail_reg:
-> > > +	regulator_bulk_disable(IMX274_NUM_SUPPLIES, imx274->supplies);
-> > regulator_bulk_enable() disables all the regulators that were enabled
-> > before the one that failed, so I don't think you need this one here
-> >
-> > > +	clk_disable_unprepare(imx274->inck);
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +/*
-> > > + * imx274_power_off - Function called to power off the sensor
-> > > + * @imx274: Pointer to device structure
-> > > + */
-> > Same as the above one
-> >
-> > > +static int imx274_power_off(struct device *dev)
-> > > +{
-> > > +	struct i2c_client *client = to_i2c_client(dev);
-> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > > +	struct stimx274 *imx274 = to_imx274(sd);
-> > > +
-> > > +	imx274_reset(imx274, 0);
-> > > +
-> > Is reset before power-off necessary ?
->
-> Its recommended power off sequence as per data sheet.
->
-> Safe to keep sensor in reset before powering down one regulator at a time.
->
+------------------------------------------
+[...truncated 3.64 KB...]
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-Fair enough then!
+     0K                                                       100%  103M=0s
 
-> >
-> > > +	regulator_bulk_disable(IMX274_NUM_SUPPLIES, imx274->supplies);
-> > > +
-> > > +	clk_disable_unprepare(imx274->inck);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int imx274_get_regulators(struct device *dev, struct stimx274 *imx274)
-> > For symmetry with the regulators API I would call this
-> > imx274_regulators_get(). Up to you :)
-> >
-> > > +{
-> > > +	unsigned int i;
-> > > +
-> > > +	for (i = 0; i < IMX274_NUM_SUPPLIES; i++)
-> > > +		imx274->supplies[i].supply = imx274_supply_names[i];
-> > > +
-> > > +	return devm_regulator_bulk_get(dev, IMX274_NUM_SUPPLIES,
-> > > +					imx274->supplies);
-> >                                         ^ not sure if it's my email
-> >                                         client but you might have a
-> >                                         wrong indent here
-> >
-> > Also, the regulators are optional in the bindings, how do the
-> > regulators API cope with that ? I had a look around and they seems to
-> > assume regulators are provided. I might be mistaken though
->
-> Yes these are optional regulators and based on feedback from sakari changed
-> to use regulator_bulk_get() here.
->
-> regulator_bulk_get() uses NORMAL_GET and in case if supplies is not found it
-> will use dummy regulator.
->
+2020-09-04 09:17:08 (103 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
-Ah thanks, I had a look at the regulator_get() implementation and
-missed that. So we're safe here!
+--2020-09-04 09:17:08--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2 [following]
+--2020-09-04 09:17:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7113773 (6.8M) [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2’
 
-> > > +}
-> > > +
-> > >   /**
-> > >    * imx274_s_ctrl - This is used to set the imx274 V4L2 controls
-> > >    * @ctrl: V4L2 control to be set
-> > > @@ -781,6 +865,9 @@ static int imx274_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >   	struct stimx274 *imx274 = to_imx274(sd);
-> > >   	int ret = -EINVAL;
-> > >
-> > > +	if (!pm_runtime_get_if_in_use(&imx274->client->dev))
-> > > +		return 0;
-> > > +
-> > Right, but then you should call __v4l2_ctrl_handler_setup() in the
-> > s_stream(1) call path to have controls updated (after
-> > pm_runtime_get_sync() call for power on). I had a look at it seems
-> > only exposure is updated.
->
-> Existing driver does v4l2_ctrl_handler_setup() in probe(). So, sensor power
-> on happens prior to that in probe() and then powers down during idle.
->
+     0K .......... .......... .......... .......... ..........  0%  161K 43s
+    50K .......... .......... .......... .......... ..........  1%  322K 32s
+   100K .......... .......... .......... .......... ..........  2% 16.2M 21s
+   150K .......... .......... .......... .......... ..........  2%  331K 21s
+   200K .......... .......... .......... .......... ..........  3% 19.7M 17s
+   250K .......... .......... .......... .......... ..........  4% 14.4M 14s
+   300K .......... .......... .......... .......... ..........  5% 15.0M 12s
+   350K .......... .......... .......... .......... ..........  5% 1.43M 11s
+   400K .......... .......... .......... .......... ..........  6%  441K 11s
+   450K .......... .......... .......... .......... ..........  7% 20.3M 10s
+   500K .......... .......... .......... .......... ..........  7% 16.8M 9s
+   550K .......... .......... .......... .......... ..........  8% 17.3M 8s
+   600K .......... .......... .......... .......... ..........  9% 16.9M 8s
+   650K .......... .......... .......... .......... .......... 10% 6.41M 7s
+   700K .......... .......... .......... .......... .......... 10% 74.2M 7s
+   750K .......... .......... .......... .......... .......... 11%  111M 6s
+   800K .......... .......... .......... .......... .......... 12%  375K 7s
+   850K .......... .......... .......... .......... .......... 12% 18.5M 6s
+   900K .......... .......... .......... .......... .......... 13% 20.2M 6s
+   950K .......... .......... .......... .......... .......... 14% 19.3M 6s
+  1000K .......... .......... .......... .......... .......... 15% 19.6M 5s
+  1050K .......... .......... .......... .......... .......... 15% 20.0M 5s
+  1100K .......... .......... .......... .......... .......... 16% 21.2M 5s
+  1150K .......... .......... .......... .......... .......... 17% 21.1M 5s
+  1200K .......... .......... .......... .......... .......... 17% 16.1M 4s
+  1250K .......... .......... .......... .......... .......... 18% 21.8M 4s
+  1300K .......... .......... .......... .......... .......... 19% 19.6M 4s
+  1350K .......... .......... .......... .......... .......... 20% 20.7M 4s
+  1400K .......... .......... .......... .......... .......... 20% 20.8M 4s
+  1450K .......... .......... .......... .......... .......... 21% 19.9M 3s
+  1500K .......... .......... .......... .......... .......... 22% 22.9M 3s
+  1550K .......... .......... .......... .......... .......... 23% 21.7M 3s
+  1600K .......... .......... .......... .......... .......... 23% 6.77M 3s
+  1650K .......... .......... .......... .......... .......... 24%  449K 3s
+  1700K .......... .......... .......... .......... .......... 25% 43.6M 3s
+  1750K .......... .......... .......... .......... .......... 25% 44.7M 3s
+  1800K .......... .......... .......... .......... .......... 26% 60.3M 3s
+  1850K .......... .......... .......... .......... .......... 27% 27.8M 3s
+  1900K .......... .......... .......... .......... .......... 28% 52.4M 3s
+  1950K .......... .......... .......... .......... .......... 28% 41.3M 3s
+  2000K .......... .......... .......... .......... .......... 29% 36.3M 3s
+  2050K .......... .......... .......... .......... .......... 30% 40.7M 3s
+  2100K .......... .......... .......... .......... .......... 30% 36.0M 2s
+  2150K .......... .......... .......... .......... .......... 31% 39.8M 2s
+  2200K .......... .......... .......... .......... .......... 32% 38.7M 2s
+  2250K .......... .......... .......... .......... .......... 33% 22.0M 2s
+  2300K .......... .......... .......... .......... .......... 33% 18.2M 2s
+  2350K .......... .......... .......... .......... .......... 34% 22.7M 2s
+  2400K .......... .......... .......... .......... .......... 35% 17.0M 2s
+  2450K .......... .......... .......... .......... .......... 35% 21.7M 2s
+  2500K .......... .......... .......... .......... .......... 36% 20.9M 2s
+  2550K .......... .......... .......... .......... .......... 37% 22.9M 2s
+  2600K .......... .......... .......... .......... .......... 38% 20.1M 2s
+  2650K .......... .......... .......... .......... .......... 38% 21.4M 2s
+  2700K .......... .......... .......... .......... .......... 39% 20.5M 2s
+  2750K .......... .......... .......... .......... .......... 40% 22.1M 2s
+  2800K .......... .......... .......... .......... .......... 41% 17.1M 2s
+  2850K .......... .......... .......... .......... .......... 41% 21.3M 2s
+  2900K .......... .......... .......... .......... .......... 42% 22.2M 2s
+  2950K .......... .......... .......... .......... .......... 43% 21.1M 1s
+  3000K .......... .......... .......... .......... .......... 43% 21.5M 1s
+  3050K .......... .......... .......... .......... .......... 44% 23.0M 1s
+  3100K .......... .......... .......... .......... .......... 45% 22.5M 1s
+  3150K .......... .......... .......... .......... .......... 46% 22.8M 1s
+  3200K .......... .......... .......... .......... .......... 46% 17.3M 1s
+  3250K .......... .......... .......... .......... .......... 47% 22.8M 1s
+  3300K .......... .......... .......... .......... .......... 48% 23.1M 1s
+  3350K .......... .......... .......... .......... .......... 48%  554K 1s
+  3400K .......... .......... .......... .......... .......... 49% 41.7M 1s
+  3450K .......... .......... .......... .......... .......... 50% 52.2M 1s
+  3500K .......... .......... .......... .......... .......... 51% 54.3M 1s
+  3550K .......... .......... .......... .......... .......... 51% 54.5M 1s
+  3600K .......... .......... .......... .......... .......... 52% 39.1M 1s
+  3650K .......... .......... .......... .......... .......... 53% 41.8M 1s
+  3700K .......... .......... .......... .......... .......... 53% 38.8M 1s
+  3750K .......... .......... .......... .......... .......... 54% 50.9M 1s
+  3800K .......... .......... .......... .......... .......... 55% 38.0M 1s
+  3850K .......... .......... .......... .......... .......... 56% 57.5M 1s
+  3900K .......... .......... .......... .......... .......... 56% 46.4M 1s
+  3950K .......... .......... .......... .......... .......... 57% 50.3M 1s
+  4000K .......... .......... .......... .......... .......... 58% 35.2M 1s
+  4050K .......... .......... .......... .......... .......... 59% 37.0M 1s
+  4100K .......... .......... .......... .......... .......... 59% 15.9M 1s
+  4150K .......... .......... .......... .......... .......... 60%  161M 1s
+  4200K .......... .......... .......... .......... .......... 61% 64.9M 1s
+  4250K .......... .......... .......... .......... .......... 61% 45.7M 1s
+  4300K .......... .......... .......... .......... .......... 62% 34.1M 1s
+  4350K .......... .......... .......... .......... .......... 63% 38.9M 1s
+  4400K .......... .......... .......... .......... .......... 64% 32.2M 1s
+  4450K .......... .......... .......... .......... .......... 64% 41.8M 1s
+  4500K .......... .......... .......... .......... .......... 65% 40.0M 1s
+  4550K .......... .......... .......... .......... .......... 66% 34.6M 1s
+  4600K .......... .......... .......... .......... .......... 66% 35.1M 1s
+  4650K .......... .......... .......... .......... .......... 67% 42.8M 1s
+  4700K .......... .......... .......... .......... .......... 68% 39.9M 1s
+  4750K .......... .......... .......... .......... .......... 69% 36.0M 1s
+  4800K .......... .......... .......... .......... .......... 69% 28.6M 1s
+  4850K .......... .......... .......... .......... .......... 70% 40.4M 1s
+  4900K .......... .......... .......... .......... .......... 71% 38.3M 1s
+  4950K .......... .......... .......... .......... .......... 71% 38.5M 0s
+  5000K .......... .......... .......... .......... .......... 72% 34.6M 0s
+  5050K .......... .......... .......... .......... .......... 73% 37.0M 0s
+  5100K .......... .......... .......... .......... .......... 74% 41.5M 0s
+  5150K .......... .......... .......... .......... .......... 74% 41.2M 0s
+  5200K .......... .......... .......... .......... .......... 75% 30.9M 0s
+  5250K .......... .......... .......... .......... .......... 76% 32.7M 0s
+  5300K .......... .......... .......... .......... .......... 77% 35.7M 0s
+  5350K .......... .......... .......... .......... .......... 77% 47.6M 0s
+  5400K .......... .......... .......... .......... .......... 78% 41.0M 0s
+  5450K .......... .......... .......... .......... .......... 79% 13.9M 0s
+  5500K .......... .......... .......... .......... .......... 79%  134M 0s
+  5550K .......... .......... .......... .......... .......... 80%  167M 0s
+  5600K .......... .......... .......... .......... .......... 81% 58.4M 0s
+  5650K .......... .......... .......... .......... .......... 82% 41.8M 0s
+  5700K .......... .......... .......... .......... .......... 82% 50.2M 0s
+  5750K .......... .......... .......... .......... .......... 83% 73.1M 0s
+  5800K .......... .......... .......... .......... .......... 84% 40.0M 0s
+  5850K .......... .......... .......... .......... .......... 84% 50.5M 0s
+  5900K .......... .......... .......... .......... .......... 85% 33.1M 0s
+  5950K .......... .......... .......... .......... .......... 86%  147M 0s
+  6000K .......... .......... .......... .......... .......... 87% 41.8M 0s
+  6050K .......... .......... .......... .......... .......... 87% 53.4M 0s
+  6100K .......... .......... .......... .......... .......... 88% 29.3M 0s
+  6150K .......... .......... .......... .......... .......... 89% 92.1M 0s
+  6200K .......... .......... .......... .......... .......... 89% 73.3M 0s
+  6250K .......... .......... .......... .......... .......... 90% 48.2M 0s
+  6300K .......... .......... .......... .......... .......... 91% 82.2M 0s
+  6350K .......... .......... .......... .......... .......... 92% 39.5M 0s
+  6400K .......... .......... .......... .......... .......... 92% 25.3M 0s
+  6450K .......... .......... .......... .......... .......... 93%  595K 0s
+  6500K .......... .......... .......... .......... .......... 94% 54.8M 0s
+  6550K .......... .......... .......... .......... .......... 95% 39.9M 0s
+  6600K .......... .......... .......... .......... .......... 95% 42.6M 0s
+  6650K .......... .......... .......... .......... .......... 96% 43.4M 0s
+  6700K .......... .......... .......... .......... .......... 97% 60.6M 0s
+  6750K .......... .......... .......... .......... .......... 97% 45.1M 0s
+  6800K .......... .......... .......... .......... .......... 98% 38.1M 0s
+  6850K .......... .......... .......... .......... .......... 99% 4.23M 0s
+  6900K .......... .......... .......... .......... .......   100% 23.7M=1.4s
 
-mmm, my point is that with this patch if a control is set while the
-sensor is powered off it does not get applied, as you return 0 here.
+2020-09-04 09:17:11 (4.79 MB/s) - ‘linux-media.tar.bz2’ saved [7113773/7113773]
 
-This mean the newly set control values have to be applied as soon as
-it possible, or at least before starting to stream. If you have a look
-at the imx219 driver, in the s_stream() call path there's a call to
-v4l2_ctrl_handler_setup() (in imx219_start_streaming()).
-
-I think you should do the same unless I mis-interpreted your reply.
-
-> >
-> > >   	dev_dbg(&imx274->client->dev,
-> > >   		"%s : s_ctrl: %s, value: %d\n", __func__,
-> > >   		ctrl->name, ctrl->val);
-> > > @@ -811,6 +898,8 @@ static int imx274_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >   		break;
-> > >   	}
-> > >
-> > > +	pm_runtime_put(&imx274->client->dev);
-> > > +
-> > >   	return ret;
-> > >   }
-> > >
-> > > @@ -1327,6 +1416,13 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
-> > >   	mutex_lock(&imx274->lock);
-> > >
-> > >   	if (on) {
-> > > +		ret = pm_runtime_get_sync(&imx274->client->dev);
-> > > +		if (ret < 0) {
-> > > +			pm_runtime_put_noidle(&imx274->client->dev);
-> > > +			mutex_unlock(&imx274->lock);
-> > > +			return ret;
-> > > +		}
-> > > +
-> > >   		/* load mode registers */
-> > >   		ret = imx274_mode_regs(imx274);
-> > >   		if (ret)
-> > > @@ -1362,6 +1458,7 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
-> > >   		ret = imx274_write_table(imx274, imx274_stop);
-> > >   		if (ret)
-> > >   			goto fail;
-> > > +		pm_runtime_put(&imx274->client->dev);
-> > >   	}
-> > >
-> > >   	mutex_unlock(&imx274->lock);
-> > > @@ -1369,6 +1466,7 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
-> > >   	return 0;
-> > >
-> > >   fail:
-> > > +	pm_runtime_put(&imx274->client->dev);
-> > >   	mutex_unlock(&imx274->lock);
-> > >   	dev_err(&imx274->client->dev, "s_stream failed\n");
-> > >   	return ret;
-> > > @@ -1834,6 +1932,14 @@ static int imx274_probe(struct i2c_client *client)
-> > >
-> > >   	mutex_init(&imx274->lock);
-> > >
-> > > +	imx274->inck = devm_clk_get_optional(&client->dev, "inck");
-> > clk_get_optional() might return error. I would check this with IS_ERR
-> >
-> > > +	ret = imx274_get_regulators(&client->dev, imx274);
-> > > +	if (ret) {
-> > > +		dev_err(&client->dev,
-> > > +			"Failed to get power regulators, err: %d\n", ret);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > >   	/* initialize format */
-> > >   	imx274->mode = &imx274_modes[IMX274_DEFAULT_BINNING];
-> > >   	imx274->crop.width = IMX274_MAX_WIDTH;
-> > > @@ -1881,15 +1987,23 @@ static int imx274_probe(struct i2c_client *client)
-> > >   		goto err_me;
-> > >   	}
-> > >
-> > > -	/* pull sensor out of reset */
-> > > -	imx274_reset(imx274, 1);
-> > > +	/* power on the sensor */
-> > > +	ret = imx274_power_on(&client->dev);
-> > > +	if (ret < 0) {
-> > > +		dev_err(&client->dev,
-> > > +			"%s : imx274 power on failed\n", __func__);
-> > > +		goto err_me;
-> > > +	}
-> > Doesn't pm_runtime_get calls the poweron function for you ?
-> >
-> > But anyway, I don't see the device being probed for, in example,
-> > querying it's VID/PID for identification during the driver's probe
-> > routine. Do you need to power on ?
->
-> existing driver does v4l2_ctrl handler setup and loads sensor default
-> control values during probe.
-
-Ouch, they're pretty evident and I've missed that. Although I think
-you can call pm_runtime_get_sync() to have resume executed, but this
-makes no difference in practice I guess.
-
-Thanks for the clarifications, there's just a few items left to
-address in my opinion.
-
-Thanks
-  j
-
->
-> So doing sensor power_on here prior to setup. Power off happens during idle.
->
-> >
-> > > +
-> > > +	pm_runtime_set_active(&client->dev);
-> > > +	pm_runtime_enable(&client->dev);
-> > >
-> > >   	/* initialize controls */
-> > >   	ret = v4l2_ctrl_handler_init(&imx274->ctrls.handler, 4);
-> > >   	if (ret < 0) {
-> > >   		dev_err(&client->dev,
-> > >   			"%s : ctrl handler init Failed\n", __func__);
-> > > -		goto err_me;
-> > > +		goto err_disable_rpm;
-> > >   	}
-> > >
-> > >   	imx274->ctrls.handler.lock = &imx274->lock;
-> > > @@ -1951,11 +2065,16 @@ static int imx274_probe(struct i2c_client *client)
-> > >   		goto err_ctrls;
-> > >   	}
-> > >
-> > > +	pm_runtime_idle(&client->dev);
-> > > +
-> > >   	dev_info(&client->dev, "imx274 : imx274 probe success !\n");
-> > >   	return 0;
-> > >
-> > >   err_ctrls:
-> > >   	v4l2_ctrl_handler_free(&imx274->ctrls.handler);
-> > > +err_disable_rpm:
-> > > +	pm_runtime_disable(&client->dev);
-> > > +	pm_runtime_set_suspended(&client->dev);
-> > >   err_me:
-> > >   	media_entity_cleanup(&sd->entity);
-> > >   err_regmap:
-> > > @@ -1973,14 +2092,23 @@ static int imx274_remove(struct i2c_client *client)
-> > >
-> > >   	v4l2_async_unregister_subdev(sd);
-> > >   	v4l2_ctrl_handler_free(&imx274->ctrls.handler);
-> > > +
-> > > +	pm_runtime_disable(&client->dev);
-> > > +	pm_runtime_set_suspended(&client->dev);
-> > > +
-> > >   	media_entity_cleanup(&sd->entity);
-> > >   	mutex_destroy(&imx274->lock);
-> > >   	return 0;
-> > >   }
-> > >
-> > > +static const struct dev_pm_ops imx274_pm_ops = {
-> > > +	SET_RUNTIME_PM_OPS(imx274_power_off, imx274_power_on, NULL)
-> > > +};
-> > > +
-> > >   static struct i2c_driver imx274_i2c_driver = {
-> > >   	.driver = {
-> > >   		.name	= DRIVER_NAME,
-> > > +		.pm = &imx274_pm_ops,
-> > >   		.of_match_table	= imx274_of_id_table,
-> > >   	},
-> > >   	.probe_new	= imx274_probe,
-> > > --
-> > > 2.7.4
-> > >
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-5-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+1 out of 2 hunks FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:378: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
