@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABFD025E29A
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 22:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C301925E2A4
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 22:19:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728141AbgIDUSz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 16:18:55 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:6054 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728116AbgIDUSy (ORCPT
+        id S1728152AbgIDUS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 16:18:59 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:15105 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728145AbgIDUS6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Sep 2020 16:18:54 -0400
+        Fri, 4 Sep 2020 16:18:58 -0400
 X-IronPort-AV: E=Sophos;i="5.76,391,1592838000"; 
-   d="scan'208";a="56410443"
+   d="scan'208";a="56193959"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Sep 2020 05:18:53 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 05 Sep 2020 05:18:56 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 28D4A400C441;
-        Sat,  5 Sep 2020 05:18:50 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 238044007F51;
+        Sat,  5 Sep 2020 05:18:53 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -32,9 +32,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v4 3/6] media: i2c: ov5640: Enable data pins on poweron for DVP mode
-Date:   Fri,  4 Sep 2020 21:18:32 +0100
-Message-Id: <20200904201835.5958-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 4/6] media: i2c: ov5640: Configure HVP lines in s_power callback
+Date:   Fri,  4 Sep 2020 21:18:33 +0100
+Message-Id: <20200904201835.5958-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200904201835.5958-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20200904201835.5958-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -43,132 +43,168 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-During testing this sensor on iW-RainboW-G21D-Qseven platform in 8-bit DVP
-mode with rcar-vin bridge noticed the capture worked fine for the first run
-(with yavta), but for subsequent runs the bridge driver waited for the
-frame to be captured. Debugging further noticed the data lines were
-enabled/disabled in stream on/off callback and dumping the register
-contents 0x3017/0x3018 in ov5640_set_stream_dvp() reported the correct
-values, but yet frame capturing failed.
+Configure HVP lines in s_power callback instead of configuring everytime
+in ov5640_set_stream_dvp().
 
-To get around this issue data lines are enabled in s_power callback.
-(Also the sensor remains in power down mode if not streaming so power
-consumption shouldn't be affected)
+Alongside also disable MIPI in DVP mode.
 
-Fixes: f22996db44e2d ("media: ov5640: add support of DVP parallel interface")
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 Tested-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov5640.c | 73 +++++++++++++++++++++-----------------
- 1 file changed, 40 insertions(+), 33 deletions(-)
+ drivers/media/i2c/ov5640.c | 123 +++++++++++++++++--------------------
+ 1 file changed, 58 insertions(+), 65 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 8af11d532699..8288728d8704 100644
+index 8288728d8704..6834ebc1995f 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -276,8 +276,7 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
- /* YUV422 UYVY VGA@30fps */
- static const struct reg_value ov5640_init_setting_30fps_VGA[] = {
- 	{0x3103, 0x11, 0, 0}, {0x3008, 0x82, 0, 5}, {0x3008, 0x42, 0, 0},
--	{0x3103, 0x03, 0, 0}, {0x3017, 0x00, 0, 0}, {0x3018, 0x00, 0, 0},
--	{0x3630, 0x36, 0, 0},
-+	{0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
- 	{0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
- 	{0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
- 	{0x3715, 0x78, 0, 0}, {0x3717, 0x01, 0, 0}, {0x370b, 0x60, 0, 0},
-@@ -1283,33 +1282,6 @@ static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
- 	if (ret)
- 		return ret;
+@@ -1217,71 +1217,6 @@ static int ov5640_set_autogain(struct ov5640_dev *sensor, bool on)
  
--	/*
--	 * enable VSYNC/HREF/PCLK DVP control lines
--	 * & D[9:6] DVP data lines
--	 *
--	 * PAD OUTPUT ENABLE 01
--	 * - 6:		VSYNC output enable
--	 * - 5:		HREF output enable
--	 * - 4:		PCLK output enable
--	 * - [3:0]:	D[9:6] output enable
--	 */
--	ret = ov5640_write_reg(sensor,
--			       OV5640_REG_PAD_OUTPUT_ENABLE01,
--			       on ? 0x7f : 0);
--	if (ret)
--		return ret;
+ static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
+ {
+-	int ret;
+-	unsigned int flags = sensor->ep.bus.parallel.flags;
+-	u8 pclk_pol = 0;
+-	u8 hsync_pol = 0;
+-	u8 vsync_pol = 0;
 -
 -	/*
--	 * enable D[5:0] DVP data lines
+-	 * Note about parallel port configuration.
 -	 *
--	 * PAD OUTPUT ENABLE 02
--	 * - [7:2]:	D[5:0] output enable
+-	 * When configured in parallel mode, the OV5640 will
+-	 * output 10 bits data on DVP data lines [9:0].
+-	 * If only 8 bits data are wanted, the 8 bits data lines
+-	 * of the camera interface must be physically connected
+-	 * on the DVP data lines [9:2].
+-	 *
+-	 * Control lines polarity can be configured through
+-	 * devicetree endpoint control lines properties.
+-	 * If no endpoint control lines properties are set,
+-	 * polarity will be as below:
+-	 * - VSYNC:	active high
+-	 * - HREF:	active low
+-	 * - PCLK:	active low
 -	 */
--	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE02,
--			       on ? 0xfc : 0);
+-
+-	if (on) {
+-		/*
+-		 * configure parallel port control lines polarity
+-		 *
+-		 * POLARITY CTRL0
+-		 * - [5]:	PCLK polarity (0: active low, 1: active high)
+-		 * - [1]:	HREF polarity (0: active low, 1: active high)
+-		 * - [0]:	VSYNC polarity (mismatch here between
+-		 *		datasheet and hardware, 0 is active high
+-		 *		and 1 is active low...)
+-		 */
+-		if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+-			pclk_pol = 1;
+-		if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+-			hsync_pol = 1;
+-		if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+-			vsync_pol = 1;
+-
+-		ret = ov5640_write_reg(sensor,
+-				       OV5640_REG_POLARITY_CTRL00,
+-				       (pclk_pol << 5) |
+-				       (hsync_pol << 1) |
+-				       vsync_pol);
+-
+-		if (ret)
+-			return ret;
+-	}
+-
+-	/*
+-	 * powerdown MIPI TX/RX PHY & disable MIPI
+-	 *
+-	 * MIPI CONTROL 00
+-	 * 4:	 PWDN PHY TX
+-	 * 3:	 PWDN PHY RX
+-	 * 2:	 MIPI enable
+-	 */
+-	ret = ov5640_write_reg(sensor,
+-			       OV5640_REG_IO_MIPI_CTRL00, on ? 0x18 : 0);
 -	if (ret)
 -		return ret;
 -
  	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
  				OV5640_REG_SYS_CTRL0_SW_PWUP :
  				OV5640_REG_SYS_CTRL0_SW_PWDN);
-@@ -2069,6 +2041,40 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
- 	return 0;
- }
+@@ -2043,15 +1978,73 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
  
-+static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
-+{
-+	int ret;
-+
-+	if (!on) {
-+		/* Reset settings to their default values. */
-+		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x00);
-+		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE02, 0x00);
-+		return 0;
-+	}
-+
+ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+ {
++	unsigned int flags = sensor->ep.bus.parallel.flags;
++	u8 pclk_pol = 0;
++	u8 hsync_pol = 0;
++	u8 vsync_pol = 0;
+ 	int ret;
+ 
+ 	if (!on) {
+ 		/* Reset settings to their default values. */
++		ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
++		ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, 0x20);
+ 		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x00);
+ 		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE02, 0x00);
+ 		return 0;
+ 	}
+ 
 +	/*
-+	 * enable VSYNC/HREF/PCLK DVP control lines
-+	 * & D[9:6] DVP data lines
++	 * Note about parallel port configuration.
 +	 *
-+	 * PAD OUTPUT ENABLE 01
-+	 * - 6:		VSYNC output enable
-+	 * - 5:		HREF output enable
-+	 * - 4:		PCLK output enable
-+	 * - [3:0]:	D[9:6] output enable
++	 * When configured in parallel mode, the OV5640 will
++	 * output 10 bits data on DVP data lines [9:0].
++	 * If only 8 bits data are wanted, the 8 bits data lines
++	 * of the camera interface must be physically connected
++	 * on the DVP data lines [9:2].
++	 *
++	 * Control lines polarity can be configured through
++	 * devicetree endpoint control lines properties.
++	 * If no endpoint control lines properties are set,
++	 * polarity will be as below:
++	 * - VSYNC:	active high
++	 * - HREF:	active low
++	 * - PCLK:	active low
 +	 */
-+	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x7f);
++	/*
++	 * configure parallel port control lines polarity
++	 *
++	 * POLARITY CTRL0
++	 * - [5]:	PCLK polarity (0: active low, 1: active high)
++	 * - [1]:	HREF polarity (0: active low, 1: active high)
++	 * - [0]:	VSYNC polarity (mismatch here between
++	 *		datasheet and hardware, 0 is active high
++	 *		and 1 is active low...)
++	 */
++	if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
++		pclk_pol = 1;
++	if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
++		hsync_pol = 1;
++	if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
++		vsync_pol = 1;
++
++	ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00,
++			       (pclk_pol << 5) | (hsync_pol << 1) | vsync_pol);
++
 +	if (ret)
 +		return ret;
 +
 +	/*
-+	 * enable D[5:0] DVP data lines
++	 * powerdown MIPI TX/RX PHY & disable MIPI
 +	 *
-+	 * PAD OUTPUT ENABLE 02
-+	 * - [7:2]:	D[5:0] output enable
++	 * MIPI CONTROL 00
++	 * 4:	 PWDN PHY TX
++	 * 3:	 PWDN PHY RX
++	 * 2:	 MIPI enable
 +	 */
-+	return ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE02, 0xfc);
-+}
-+
- static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
- {
- 	int ret = 0;
-@@ -2083,11 +2089,12 @@ static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
- 			goto power_off;
- 	}
- 
--	if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
-+	if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
- 		ret = ov5640_set_power_mipi(sensor, on);
--		if (ret)
--			goto power_off;
--	}
-+	else
-+		ret = ov5640_set_power_dvp(sensor, on);
++	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x18);
 +	if (ret)
-+		goto power_off;
- 
- 	if (!on)
- 		ov5640_set_power_off(sensor);
++		return ret;
++
+ 	/*
+ 	 * enable VSYNC/HREF/PCLK DVP control lines
+ 	 * & D[9:6] DVP data lines
 -- 
 2.17.1
 
