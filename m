@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB55325E289
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 22:18:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9559625E28C
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 22:18:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728034AbgIDUSR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 16:18:17 -0400
+        id S1728043AbgIDUSW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 16:18:22 -0400
 Received: from gw.c-home.cz ([89.24.150.100]:41821 "EHLO dmz.c-home.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726441AbgIDUSP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Sep 2020 16:18:15 -0400
+        id S1726441AbgIDUSV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Sep 2020 16:18:21 -0400
 X-Greylist: delayed 967 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Sep 2020 16:18:04 EDT
 Received: from ubuntu1804.c-home.cz (unifi.c-home.cz [192.168.1.239])
-        by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 084K1EdB002405;
-        Fri, 4 Sep 2020 22:01:27 +0200 (CEST)
+        by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 084K1EdC002405;
+        Fri, 4 Sep 2020 22:01:28 +0200 (CEST)
 From:   Martin Cerveny <m.cerveny@computer.org>
 To:     devicetree@vger.kernel.org
 Cc:     Martin Cerveny <m.cerveny@computer.org>,
@@ -26,9 +26,9 @@ Cc:     Martin Cerveny <m.cerveny@computer.org>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 3/6] ARM: dts: sun8i: v3s: Add node for system control
-Date:   Fri,  4 Sep 2020 22:01:09 +0200
-Message-Id: <20200904200112.5563-4-m.cerveny@computer.org>
+Subject: [PATCH 4/6] media: cedrus: Add support for V3s
+Date:   Fri,  4 Sep 2020 22:01:10 +0200
+Message-Id: <20200904200112.5563-5-m.cerveny@computer.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200904200112.5563-1-m.cerveny@computer.org>
 References: <20200904200112.5563-1-m.cerveny@computer.org>
@@ -37,47 +37,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allwinner V3s has system control and SRAM C1 region similar to H3.
+V3s video engine runs at lower speed and support video decoder
+for H.264 and JPEG/MJPEG only.
 
 Signed-off-by: Martin Cerveny <m.cerveny@computer.org>
 ---
- arch/arm/boot/dts/sun8i-v3s.dtsi | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index e5312869c..3f18866fb 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -138,6 +138,29 @@
- 			};
- 		};
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 3fd9fd810..3c4fcef37 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -506,6 +506,12 @@ static const struct cedrus_variant sun8i_h3_cedrus_variant = {
+ 	.mod_rate	= 402000000,
+ };
  
-+		syscon: system-control@1c00000 {
-+			compatible = "allwinner,sun8i-v3s-system-control",
-+				     "allwinner,sun8i-h3-system-control";
-+			reg = <0x01c00000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges;
++static const struct cedrus_variant sun8i_v3s_cedrus_variant = {
++	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
++			  CEDRUS_CAPABILITY_H264_DEC,
++	.mod_rate	= 297000000,
++};
 +
-+			sram_c: sram@1d00000 {
-+				compatible = "mmio-sram";
-+				reg = <0x01d00000 0x80000>;
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x01d00000 0x80000>;
-+
-+				ve_sram: sram-section@0 {
-+					compatible = "allwinner,sun8i-v3s-sram-c1",
-+						     "allwinner,sun4i-a10-sram-c1";
-+					reg = <0x000000 0x80000>;
-+				};
-+			};
-+		};
-+
- 		tcon0: lcd-controller@1c0c000 {
- 			compatible = "allwinner,sun8i-v3s-tcon";
- 			reg = <0x01c0c000 0x1000>;
+ static const struct cedrus_variant sun50i_a64_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
+@@ -552,6 +558,10 @@ static const struct of_device_id cedrus_dt_match[] = {
+ 		.compatible = "allwinner,sun8i-h3-video-engine",
+ 		.data = &sun8i_h3_cedrus_variant,
+ 	},
++	{
++		.compatible = "allwinner,sun8i-v3s-video-engine",
++		.data = &sun8i_v3s_cedrus_variant,
++	},
+ 	{
+ 		.compatible = "allwinner,sun50i-a64-video-engine",
+ 		.data = &sun50i_a64_cedrus_variant,
 -- 
 2.17.1
 
