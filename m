@@ -2,176 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E06DD25CFCD
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 05:30:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 697A525D17C
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 08:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729572AbgIDDar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Sep 2020 23:30:47 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:39229 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729528AbgIDDaq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Sep 2020 23:30:46 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id E2R0k3yN2MeQuE2R1kEInd; Fri, 04 Sep 2020 05:30:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1599190243; bh=04ziIGgJUWbF0oYPPiUz1CwzZ/xlmANrKXJirZp8kfs=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=sdSjkc1Q8/14jc53FWMw4Sop1lXNZjcRBU28EoUna7pyI2fJ/CTg141pYjNurrJDD
-         bOiuKSNTuIamxArScpsFURkz00N4G1uFegd6Q+Y6ARwZBqp1bN3fzgbk2oZ1zmd9Vi
-         l5bOrxO3rcHlL5xG23CdwBoWauOphSfivW7/mMUNy8kKwszvhMwOHDLl3ro8JrKoin
-         Ez1ye1oIREwKWofsN+IjCpqbDsj4UJiMX2JK2EdqQOqJf/YhbzInP8SO2baTMC56lX
-         7yT6Bvh7vlvyfMqJyTfEVJreGGwiJdXVwPN6TX8lDjT7ZyCcUNHHr6UaPs5CKqEF30
-         FdFX5tfL3BWxw==
-Message-ID: <733d1f502f6f79699f896a9d3c901c6f@smtp-cloud7.xs4all.net>
-Date:   Fri, 04 Sep 2020 05:30:42 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfHDBJ9LKIcMgSBzR7VYP1l0up7yItce8AxTE9laQpsat04Zu9OeySH3itivEbBkwY0LeIRcsECoJcWKkfEKfoPT2zmWjaTLeHEXTCtVMsih+nMTd1s+X
- /1nmc74NlMOv+Q+pPGKWj0bxMMeoV9Y0FEZhJ//SUnakzKOvsMVstXGByiDroOm5zTtX31dfS9PCw1CRcAwZwTIcT8rsHlJ7gJ+QwlP44UcUKhSklNovW7T8
+        id S1729297AbgIDGf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 02:35:28 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:56980 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726089AbgIDGf1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 02:35:27 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0846YLib093171;
+        Fri, 4 Sep 2020 06:35:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=/nEvMcYcQDU1SKp7DuIR7lsg8jaYz/VuKkA3WV3EDT8=;
+ b=p4391RoVK+UFuMMBCRTMMxJEX+uWNb1T2I8FsdceBrSbeL/PuwbIruCdw6+XxofjYboS
+ NWOW8KR4EDDSsq3wMNFqZqb4zxY3CvSGDLu7SRuK8PIbR+Ss4zGKVDwaqbKCq852YSE8
+ 23P/jweDHvIyxKC6JUktcjLGxQpJQhRAZNAv5pq1U2kc4H3fXZtMAsx304Hs51TBetUT
+ plmoIlem1MdZ4gIDh6lov39y/XoM6Vtca8t31E5aHDNQJvYTzWbGoAnJhshAc9k7B8bf
+ 6KQ0vsvr3HuABh+/j0TtnbppYhVxeL2S342asqSk6GefliY0Cf4VqorhXPKdUIz+UA73 nQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 337eymmqn7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 04 Sep 2020 06:35:21 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0846ZJgt053408;
+        Fri, 4 Sep 2020 06:35:21 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 3380kt0ay5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 04 Sep 2020 06:35:21 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0846ZEJr007484;
+        Fri, 4 Sep 2020 06:35:16 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 03 Sep 2020 23:35:14 -0700
+Date:   Fri, 4 Sep 2020 09:35:07 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Alex Dewar <alex.dewar90@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: media: atomisp: Fix error path in
+ lm3554_probe()
+Message-ID: <20200904063506.GJ8321@kadam>
+References: <20200903173843.GF8299@kadam>
+ <20200903182502.709300-1-alex.dewar90@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200903182502.709300-1-alex.dewar90@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9733 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 adultscore=0
+ mlxscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009040059
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9733 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009040059
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, Sep 03, 2020 at 07:24:51PM +0100, Alex Dewar wrote:
+> +
+> +	ret = atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
+> +	if (!ret)
+> +		return 0;
 
-Results of the daily build of media_tree:
+Ugh!!!  This is a a special case of the "success handling instead of
+failure handling" anti-pattern where the last condition in the function
+is different.  I just fixed a bug caused by this on Wed.
 
-date:			Fri Sep  4 05:00:11 CEST 2020
-media-tree git hash:	75992a4418b6c51d4da9c99aac7d92ab29148196
-media_build git hash:	a20bdff25e6827e9f03f2476d4795df1c8ee4913
-v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6784-g0b1e8107
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+https://www.spinics.net/lists/netdev/msg680226.html
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-linux-5.6.1-i686: ERRORS
-linux-5.6.1-x86_64: ERRORS
-linux-5.7.2-i686: WARNINGS
-linux-5.7.2-x86_64: WARNINGS
-linux-5.8.1-i686: WARNINGS
-linux-5.8.1-x86_64: WARNINGS
-linux-5.9-rc1-i686: WARNINGS
-linux-5.9-rc1-x86_64: WARNINGS
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2943, Succeeded: 2942, Failed: 1, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: ERRORS
+But it doesn't cause any problems here so whatever...
 
-Detailed results are available here:
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+regards,
+dan carpenter
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
