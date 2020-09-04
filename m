@@ -2,91 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6CB225D57A
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 11:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92B7725D64E
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 12:33:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729950AbgIDJyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 05:54:39 -0400
-Received: from foss.arm.com ([217.140.110.172]:47448 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729824AbgIDJyj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Sep 2020 05:54:39 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF624101E;
-        Fri,  4 Sep 2020 02:54:38 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0C7F3F66F;
-        Fri,  4 Sep 2020 02:54:37 -0700 (PDT)
-Subject: Re: [PATCH] media: rcar-fcp: Drop local dma_parms
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20426a75cba769372c2f3f12f44a477e6fc8e979.1599167414.git.robin.murphy@arm.com>
- <20200903215335.GH6492@pendragon.ideasonboard.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <8217e7ee-7162-e02a-87ba-4b5be30360b6@arm.com>
-Date:   Fri, 4 Sep 2020 10:54:35 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1730188AbgIDKd2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 06:33:28 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:40873 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730124AbgIDKcN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 06:32:13 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 8AAC71C0011;
+        Fri,  4 Sep 2020 10:32:04 +0000 (UTC)
+Date:   Fri, 4 Sep 2020 12:35:50 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v3 1/2] media: i2c: ov772x: Add support for BT656 mode
+Message-ID: <20200904103550.3cdxick4lje34kxv@uno.localdomain>
+References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200904012000.GA9369@pendragon.ideasonboard.com>
+ <20200904075553.qjdyskcpext7fxcy@uno.localdomain>
+ <20200904082104.GE4392@valkosipuli.retiisi.org.uk>
+ <20200904092049.6lokfmln4vulswrn@uno.localdomain>
+ <20200904093626.GF4392@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <20200903215335.GH6492@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200904093626.GF4392@valkosipuli.retiisi.org.uk>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-09-03 22:53, Laurent Pinchart wrote:
-> Hi Robin,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Sep 03, 2020 at 10:12:27PM +0100, Robin Murphy wrote:
->> Since commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms
->> for platform devices"), struct platform_device already provides a
->> dma_parms structure, so we can save allocating another one.
->>
->> Also the DMA segment size is simply a size, not a bitmask.
->>
->> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> 
-> Looks good to me, I like the simplification.
-> 
-> Should I get this upstream, or do you have other similar patches
-> tree-wide that you plan to get merged in one go ?
+Hi Sakari,
 
-No, there's no dependency here - I did these as individual per-driver 
-patches so that they can be applied however, please go ahead :)
+On Fri, Sep 04, 2020 at 12:36:26PM +0300, Sakari Ailus wrote:
+> On Fri, Sep 04, 2020 at 11:20:49AM +0200, Jacopo Mondi wrote:
+> > Hi Sakari,
+> >
+> > On Fri, Sep 04, 2020 at 11:21:04AM +0300, Sakari Ailus wrote:
+> > > Hi Laurent, Jacopo,
+> > >
+> > > On Fri, Sep 04, 2020 at 09:55:53AM +0200, Jacopo Mondi wrote:
+> > > > Hi Laurent,
+> > > >
+> > > > On Fri, Sep 04, 2020 at 04:20:00AM +0300, Laurent Pinchart wrote:
+> > > > > Hi Prabhakar,
+> > > > >
+> > > > > Thank you for the patch.
+> > > > >
+> > > > > On Mon, Aug 24, 2020 at 08:04:05PM +0100, Lad Prabhakar wrote:
+> > > > > > Add support to read the bus-type and enable BT656 mode if needed.
+> > > > > >
+> > > > > > Also fail probe if unsupported bus_type is detected.
+> > > > > >
+> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > ---
+> > > > > >  drivers/media/i2c/ov772x.c | 32 ++++++++++++++++++++++++++++++++
+> > > > > >  1 file changed, 32 insertions(+)
+> > > > > >
+> > > > > > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> > > > > > index 2cc6a678069a..67764d647526 100644
+> > > > > > --- a/drivers/media/i2c/ov772x.c
+> > > > > > +++ b/drivers/media/i2c/ov772x.c
+> > > > > > @@ -31,6 +31,7 @@
+> > > > > >  #include <media/v4l2-ctrls.h>
+> > > > > >  #include <media/v4l2-device.h>
+> > > > > >  #include <media/v4l2-event.h>
+> > > > > > +#include <media/v4l2-fwnode.h>
+> > > > > >  #include <media/v4l2-image-sizes.h>
+> > > > > >  #include <media/v4l2-subdev.h>
+> > > > > >
+> > > > > > @@ -434,6 +435,7 @@ struct ov772x_priv {
+> > > > > >  #ifdef CONFIG_MEDIA_CONTROLLER
+> > > > > >  	struct media_pad pad;
+> > > > > >  #endif
+> > > > > > +	struct v4l2_fwnode_endpoint ep;
+> > > > > >  };
+> > > > > >
+> > > > > >  /*
+> > > > > > @@ -581,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
+> > > > > >  	if (priv->streaming == enable)
+> > > > > >  		goto done;
+> > > > > >
+> > > > > > +	if (priv->ep.bus_type == V4L2_MBUS_BT656) {
+> > > > > > +		ret = regmap_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
+> > > > > > +					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
+> > > > > > +		if (ret)
+> > > > > > +			goto done;
+> > > > > > +	}
+> > > > > > +
+> > > > > >  	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
+> > > > > >  				 enable ? 0 : SOFT_SLEEP_MODE);
+> > > > > >  	if (ret)
+> > > > > > @@ -1354,6 +1363,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+> > > > > >
+> > > > > >  static int ov772x_probe(struct i2c_client *client)
+> > > > > >  {
+> > > > > > +	struct fwnode_handle *endpoint;
+> > > > > >  	struct ov772x_priv	*priv;
+> > > > > >  	int			ret;
+> > > > > >  	static const struct regmap_config ov772x_regmap_config = {
+> > > > > > @@ -1415,6 +1425,28 @@ static int ov772x_probe(struct i2c_client *client)
+> > > > > >  		goto error_clk_put;
+> > > > > >  	}
+> > > > > >
+> > > > > > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+> > > > > > +						  NULL);
+> > > > > > +	if (!endpoint) {
+> > > > > > +		dev_err(&client->dev, "endpoint node not found\n");
+> > > > > > +		ret = -EINVAL;
+> > > > > > +		goto error_clk_put;
+> > > > > > +	}
+> > > > > > +
+> > > > > > +	ret = v4l2_fwnode_endpoint_parse(endpoint, &priv->ep);
+> > > > >
+> > > > > v4l2_fwnode_endpoint_parse() is deprecated for new drivers,
+> > > > > v4l2_fwnode_endpoint_alloc_parse() is recommended instead. Please note
+> > > > > that v4l2_fwnode_endpoint_free() then needs to be called in the error
+> > > > > path and in remove().
+> > > >
+> > > > Doesn't alloc_parse() differ from just _parse() as it reserve space
+> > > > for the 'link-frequencies' array ? As this device does not support
+> > > > CSI-2 and the 'link-frequencies' property is not allows in bindings,
+> > > > isn't using endpoint_parse() better as it saves a call to _free() ?
+> > >
+> > > Yeah. I think the documentation needs to be updated.
+> > >
+> > > The thinking was there would be other variable size properties that drivers
+> > > would need but that didn't happen. So feel free to continue use
+> > > v4l2_fwnode_endpoint_parse() where it does the job.
+> > >
+> > > >
+> > > > Or are we deprecating that function unconditionally ? The
+> > > > documentation suggests "please use v4l2_fwnode_endpoint_alloc_parse()
+> > > > in new drivers" but here it doesn't seem required..
+> > > >
+> > > > >
+> > > > > On the other hand, not setting .bus_type and letting the parse()
+> > > > > function determine the but type automatically is also deprecated, and I
+> > > > > don't think forcing drivers to call v4l2_fwnode_endpoint_alloc_parse()
+> > > > > once for each bus type until one succeeds is a good API. As change will
+> > > > > be needed in that API, you can ignore v4l2_fwnode_endpoint_alloc_parse()
+> > > > > for the time being if you want.
+> > > >
+> > > > But indeed relying on auto-guessing of the bus type is deprecated since
+> > > > some time now (and the API could be improved, yes). Sorry I missed
+> > > > that yesterday.
+> > >
+> > > There's one case where the bus type does not need to be set: when bindings
+> > > require it *and* at the same time you have no default configuration that
+> > > requires something to be set in the bus specific struct. Bindings where
+> > > bus-type is required were added later so I think the documentation should
+> > > be changed there, too.
+> > >
+> > > I can send the patches.
+> > >
+> > > >
+> > > > As we support parallel and bt.656 only I must be honest I don't mind
+> > > > it here as otherwise the code would be more complex for no real gain,
+> > > > but I defer this to Sakari which has been fighting the battle against
+> > > > auto-guessing since a long time now  :)
+> > >
+> > > I think you should require bus-type property in bindings in that case.
+> > >
+> > > But as it's an existing driver, bus-type will be optional. You'll need to
+> > > default to what was supported earlier. This is actually an interesting case
+> > > as bindings do not document it.
+> >
+> > For reference:
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20200903131029.18334-3-jacopo+renesas@jmondi.org/
+> >
+> > But yes, we might have DTBs in the wild without bus-type specified :(
+>
+> Shouldn't that be then that the bus-type is optional and defaults to
+> parallel?
 
-Thanks,
-Robin.
+I think going forward we want to make it mandatory, don't we ? The
+older dts will fail at dt validation time against the new yaml bindings, but
+my understanding is that this is not a problem.
 
->> ---
->>   drivers/media/platform/rcar-fcp.c | 4 +---
->>   1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
->> index 5c6b00737fe7..13a84c7e3586 100644
->> --- a/drivers/media/platform/rcar-fcp.c
->> +++ b/drivers/media/platform/rcar-fcp.c
->> @@ -22,7 +22,6 @@
->>   struct rcar_fcp_device {
->>   	struct list_head list;
->>   	struct device *dev;
->> -	struct device_dma_parameters dma_parms;
->>   };
->>   
->>   static LIST_HEAD(fcp_devices);
->> @@ -138,8 +137,7 @@ static int rcar_fcp_probe(struct platform_device *pdev)
->>   
->>   	fcp->dev = &pdev->dev;
->>   
->> -	fcp->dev->dma_parms = &fcp->dma_parms;
->> -	dma_set_max_seg_size(fcp->dev, DMA_BIT_MASK(32));
->> +	dma_set_max_seg_size(fcp->dev, UINT_MAX);
->>   
->>   	pm_runtime_enable(&pdev->dev);
->>   
-> 
+Binary compatibility, with the introduction of BT.656 support becomes
+more complex instead :/
+
+Before this series parallel was the only supported bus type and no
+endpoint properties were required. The driver picked the default
+settings for signal polarities and that was it.
+
+With the introduction of BT.656 no signal polarity properties means
+BT.656 when autoguess is in use. So going forward the bus-type shall
+be explicitly set, but we might receive old DTBs with no bus-type and
+no endpoint properties which assumes 'parallel' is in use.
+
+One possible way forward could be:
+- verify if bus-type is present in the fwnode
+- if it is, we have a new DTB and we can rely on autoguess
+- if it's not assume we have an old DTB that assumed 'parallel'. Parse
+  the fwnode and if any relevant V4L2_MBUS_ flag is set use it,
+  otherwise use the defaults.
+
+If we make bus-type optional in new bindings, the old DTB with no
+parallel endpoint properties would be identified as BT.656 breaking
+capture operation, am I wrong ?
+
+This might require a bit more work from Prabhakar I'm sorry. The old
+bindings were clearly falling short once BT.656 becomes supported.
