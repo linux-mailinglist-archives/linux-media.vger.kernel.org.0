@@ -2,207 +2,421 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5369C25D36D
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 10:21:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E0C225D3FA
+	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 10:52:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728263AbgIDIVi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 04:21:38 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:57498 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726425AbgIDIVi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Sep 2020 04:21:38 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 1024C634C8C;
-        Fri,  4 Sep 2020 11:21:05 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kE6y0-0001Zg-Vm; Fri, 04 Sep 2020 11:21:04 +0300
-Date:   Fri, 4 Sep 2020 11:21:04 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v3 1/2] media: i2c: ov772x: Add support for BT656 mode
-Message-ID: <20200904082104.GE4392@valkosipuli.retiisi.org.uk>
-References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200904012000.GA9369@pendragon.ideasonboard.com>
- <20200904075553.qjdyskcpext7fxcy@uno.localdomain>
+        id S1729741AbgIDIwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 04:52:13 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:50665 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726575AbgIDIwM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Sep 2020 04:52:12 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 0A7ED2000F;
+        Fri,  4 Sep 2020 08:52:05 +0000 (UTC)
+Date:   Fri, 4 Sep 2020 10:55:52 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        sakari.ailus@iki.fi, hverkuil@xs4all.nl, jacopo+renesas@jmondi.org,
+        luca@lucaceresoli.net, leonl@leopardimaging.com,
+        robh+dt@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] media: i2c: imx274: Add IMX274 power on and off
+ sequence
+Message-ID: <20200904085552.5xddn2kecoktuesg@uno.localdomain>
+References: <1599012278-10203-1-git-send-email-skomatineni@nvidia.com>
+ <1599012278-10203-4-git-send-email-skomatineni@nvidia.com>
+ <20200903144713.fyhmhs2bfcz5br6d@uno.localdomain>
+ <094073f1-ef58-a2fd-bed4-7fa3b99dd120@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200904075553.qjdyskcpext7fxcy@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <094073f1-ef58-a2fd-bed4-7fa3b99dd120@nvidia.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Jacopo,
+Hello Sowjanya,
 
-On Fri, Sep 04, 2020 at 09:55:53AM +0200, Jacopo Mondi wrote:
-> Hi Laurent,
-> 
-> On Fri, Sep 04, 2020 at 04:20:00AM +0300, Laurent Pinchart wrote:
-> > Hi Prabhakar,
+On Thu, Sep 03, 2020 at 09:25:44AM -0700, Sowjanya Komatineni wrote:
+>
+> On 9/3/20 8:03 AM, Jacopo Mondi wrote:
+> > Hello,
 > >
-> > Thank you for the patch.
-> >
-> > On Mon, Aug 24, 2020 at 08:04:05PM +0100, Lad Prabhakar wrote:
-> > > Add support to read the bus-type and enable BT656 mode if needed.
+> > On Tue, Sep 01, 2020 at 07:04:38PM -0700, Sowjanya Komatineni wrote:
+> > > IMX274 has VANA analog 2.8V supply, VDIG digital core 1.8V supply,
+> > > and VDDL digital io 1.2V supply which are optional based on camera
+> > > module design.
 > > >
-> > > Also fail probe if unsupported bus_type is detected.
+> > > IMX274 also need external 24Mhz clock and is optional based on
+> > > camera module design.
 > > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > This patch adds support for IMX274 power on and off to enable and
+> > > disable these supplies and external clock.
+> > >
+> > > Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+> > > Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 > > > ---
-> > >  drivers/media/i2c/ov772x.c | 32 ++++++++++++++++++++++++++++++++
-> > >  1 file changed, 32 insertions(+)
+> > >   drivers/media/i2c/imx274.c | 134 ++++++++++++++++++++++++++++++++++++++++++++-
+> > >   1 file changed, 131 insertions(+), 3 deletions(-)
 > > >
-> > > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> > > index 2cc6a678069a..67764d647526 100644
-> > > --- a/drivers/media/i2c/ov772x.c
-> > > +++ b/drivers/media/i2c/ov772x.c
-> > > @@ -31,6 +31,7 @@
-> > >  #include <media/v4l2-ctrls.h>
-> > >  #include <media/v4l2-device.h>
-> > >  #include <media/v4l2-event.h>
-> > > +#include <media/v4l2-fwnode.h>
-> > >  #include <media/v4l2-image-sizes.h>
-> > >  #include <media/v4l2-subdev.h>
+> > > diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+> > > index a4b9dfd..79bfac3c6 100644
+> > > --- a/drivers/media/i2c/imx274.c
+> > > +++ b/drivers/media/i2c/imx274.c
+> > > @@ -18,7 +18,9 @@
+> > >   #include <linux/kernel.h>
+> > >   #include <linux/module.h>
+> > >   #include <linux/of_gpio.h>
+> > > +#include <linux/pm_runtime.h>
+> > >   #include <linux/regmap.h>
+> > > +#include <linux/regulator/consumer.h>
+> > >   #include <linux/slab.h>
+> > >   #include <linux/v4l2-mediabus.h>
+> > >   #include <linux/videodev2.h>
+> > > @@ -131,6 +133,15 @@
+> > >   #define IMX274_TABLE_WAIT_MS			0
+> > >   #define IMX274_TABLE_END			1
 > > >
-> > > @@ -434,6 +435,7 @@ struct ov772x_priv {
-> > >  #ifdef CONFIG_MEDIA_CONTROLLER
-> > >  	struct media_pad pad;
-> > >  #endif
-> > > +	struct v4l2_fwnode_endpoint ep;
-> > >  };
-> > >
-> > >  /*
-> > > @@ -581,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
-> > >  	if (priv->streaming == enable)
-> > >  		goto done;
-> > >
-> > > +	if (priv->ep.bus_type == V4L2_MBUS_BT656) {
-> > > +		ret = regmap_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
-> > > +					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
-> > > +		if (ret)
-> > > +			goto done;
-> > > +	}
+> > > +/* regulator supplies */
+> > > +static const char * const imx274_supply_names[] = {
+> > > +	"vddl",  /* IF (1.2V) supply */
+> > > +	"vdig",  /* Digital Core (1.8V) supply */
+> > > +	"vana",  /* Analog (2.8V) supply */
+> > > +};
 > > > +
-> > >  	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
-> > >  				 enable ? 0 : SOFT_SLEEP_MODE);
-> > >  	if (ret)
-> > > @@ -1354,6 +1363,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
-> > >
-> > >  static int ov772x_probe(struct i2c_client *client)
-> > >  {
-> > > +	struct fwnode_handle *endpoint;
-> > >  	struct ov772x_priv	*priv;
-> > >  	int			ret;
-> > >  	static const struct regmap_config ov772x_regmap_config = {
-> > > @@ -1415,6 +1425,28 @@ static int ov772x_probe(struct i2c_client *client)
-> > >  		goto error_clk_put;
-> > >  	}
-> > >
-> > > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> > > +						  NULL);
-> > > +	if (!endpoint) {
-> > > +		dev_err(&client->dev, "endpoint node not found\n");
-> > > +		ret = -EINVAL;
-> > > +		goto error_clk_put;
-> > > +	}
+> > > +#define IMX274_NUM_SUPPLIES ARRAY_SIZE(imx274_supply_names)
 > > > +
-> > > +	ret = v4l2_fwnode_endpoint_parse(endpoint, &priv->ep);
+> > >   /*
+> > >    * imx274 I2C operation related structure
+> > >    */
+> > > @@ -501,6 +512,8 @@ struct imx274_ctrls {
+> > >    * @frame_rate: V4L2 frame rate structure
+> > >    * @regmap: Pointer to regmap structure
+> > >    * @reset_gpio: Pointer to reset gpio
+> > > + * @supplies: List of analog and digital supply regulators
+> > > + * @inck: Pointer to sensor input clock
+> > >    * @lock: Mutex structure
+> > >    * @mode: Parameters for the selected readout mode
+> > >    */
+> > > @@ -514,6 +527,8 @@ struct stimx274 {
+> > >   	struct v4l2_fract frame_interval;
+> > >   	struct regmap *regmap;
+> > >   	struct gpio_desc *reset_gpio;
+> > > +	struct regulator_bulk_data supplies[IMX274_NUM_SUPPLIES];
+> > > +	struct clk *inck;
+> > >   	struct mutex lock; /* mutex lock for operations */
+> > >   	const struct imx274_mode *mode;
+> > >   };
+> > > @@ -767,6 +782,75 @@ static void imx274_reset(struct stimx274 *priv, int rst)
+> > >   	usleep_range(IMX274_RESET_DELAY1, IMX274_RESET_DELAY2);
+> > >   }
+> > >
+> > > +/*
+> > > + * imx274_power_on - Function called to power on the sensor
+> > > + * @imx274: Pointer to device structure
+> > > + */
+> > Can I say this does not bring much value ? :)
+> > Also the parameter name is wrong
 > >
-> > v4l2_fwnode_endpoint_parse() is deprecated for new drivers,
-> > v4l2_fwnode_endpoint_alloc_parse() is recommended instead. Please note
-> > that v4l2_fwnode_endpoint_free() then needs to be called in the error
-> > path and in remove().
-> 
-> Doesn't alloc_parse() differ from just _parse() as it reserve space
-> for the 'link-frequencies' array ? As this device does not support
-> CSI-2 and the 'link-frequencies' property is not allows in bindings,
-> isn't using endpoint_parse() better as it saves a call to _free() ?
-
-Yeah. I think the documentation needs to be updated.
-
-The thinking was there would be other variable size properties that drivers
-would need but that didn't happen. So feel free to continue use
-v4l2_fwnode_endpoint_parse() where it does the job.
-
-> 
-> Or are we deprecating that function unconditionally ? The
-> documentation suggests "please use v4l2_fwnode_endpoint_alloc_parse()
-> in new drivers" but here it doesn't seem required..
-> 
-> >
-> > On the other hand, not setting .bus_type and letting the parse()
-> > function determine the but type automatically is also deprecated, and I
-> > don't think forcing drivers to call v4l2_fwnode_endpoint_alloc_parse()
-> > once for each bus type until one succeeds is a good API. As change will
-> > be needed in that API, you can ignore v4l2_fwnode_endpoint_alloc_parse()
-> > for the time being if you want.
-> 
-> But indeed relying on auto-guessing of the bus type is deprecated since
-> some time now (and the API could be improved, yes). Sorry I missed
-> that yesterday.
-
-There's one case where the bus type does not need to be set: when bindings
-require it *and* at the same time you have no default configuration that
-requires something to be set in the bus specific struct. Bindings where
-bus-type is required were added later so I think the documentation should
-be changed there, too.
-
-I can send the patches.
-
-> 
-> As we support parallel and bt.656 only I must be honest I don't mind
-> it here as otherwise the code would be more complex for no real gain,
-> but I defer this to Sakari which has been fighting the battle against
-> auto-guessing since a long time now  :)
-
-I think you should require bus-type property in bindings in that case.
-
-But as it's an existing driver, bus-type will be optional. You'll need to
-default to what was supported earlier. This is actually an interesting case
-as bindings do not document it.
-
-> 
-> 
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > > +	fwnode_handle_put(endpoint);
+> > > +static int imx274_power_on(struct device *dev)
+> > > +{
+> > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > > +	struct stimx274 *imx274 = to_imx274(sd);
+> > > +	int ret;
+> > > +
+> > > +	/* keep sensor in reset before power on */
+> > > +	imx274_reset(imx274, 0);
+> > > +
+> > > +	ret = clk_prepare_enable(imx274->inck);
 > > > +	if (ret) {
-> > > +		dev_err(&client->dev, "Could not parse endpoint\n");
-> > > +		goto error_clk_put;
+> > > +		dev_err(&imx274->client->dev,
+> > > +			"Failed to enable input clock: %d\n", ret);
+> > > +		return ret;
 > > > +	}
 > > > +
-> > > +	if (priv->ep.bus_type != V4L2_MBUS_PARALLEL &&
-> > > +	    priv->ep.bus_type != V4L2_MBUS_BT656) {
-> > > +		dev_err(&client->dev, "Unsupported bus type %d\n",
-> > > +			priv->ep.bus_type);
-> > > +		goto error_clk_put;
+> > > +	ret = regulator_bulk_enable(IMX274_NUM_SUPPLIES, imx274->supplies);
+> > > +	if (ret) {
+> > > +		dev_err(&imx274->client->dev,
+> > > +			"Failed to enable regulators: %d\n", ret);
+> > > +		goto fail_reg;
 > > > +	}
 > > > +
-> > >  	ret = ov772x_video_probe(priv);
-> > >  	if (ret < 0)
-> > >  		goto error_gpio_put;
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+> > > +	usleep_range(1, 2);
+> > usleep_range() allows you to provide an interval in which your timeout
+> > can be coalesced with others. Giving a [1usec, 2usec] range kind of
+> > defeat the purpose. And most than everything, does sleeping for 2usec
+> > serve any real purpose ?
+>
+> Following delay recommendation from DS for power on sequence.
+>
 
--- 
-Sakari Ailus
+2 useconds ? Seems very short :)
+
+> >
+> >
+> > > +	imx274_reset(imx274, 1);
+> > > +
+> > > +	return 0;
+> > > +
+> > > +fail_reg:
+> > > +	regulator_bulk_disable(IMX274_NUM_SUPPLIES, imx274->supplies);
+> > regulator_bulk_enable() disables all the regulators that were enabled
+> > before the one that failed, so I don't think you need this one here
+> >
+> > > +	clk_disable_unprepare(imx274->inck);
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +/*
+> > > + * imx274_power_off - Function called to power off the sensor
+> > > + * @imx274: Pointer to device structure
+> > > + */
+> > Same as the above one
+> >
+> > > +static int imx274_power_off(struct device *dev)
+> > > +{
+> > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > > +	struct stimx274 *imx274 = to_imx274(sd);
+> > > +
+> > > +	imx274_reset(imx274, 0);
+> > > +
+> > Is reset before power-off necessary ?
+>
+> Its recommended power off sequence as per data sheet.
+>
+> Safe to keep sensor in reset before powering down one regulator at a time.
+>
+
+Fair enough then!
+
+> >
+> > > +	regulator_bulk_disable(IMX274_NUM_SUPPLIES, imx274->supplies);
+> > > +
+> > > +	clk_disable_unprepare(imx274->inck);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int imx274_get_regulators(struct device *dev, struct stimx274 *imx274)
+> > For symmetry with the regulators API I would call this
+> > imx274_regulators_get(). Up to you :)
+> >
+> > > +{
+> > > +	unsigned int i;
+> > > +
+> > > +	for (i = 0; i < IMX274_NUM_SUPPLIES; i++)
+> > > +		imx274->supplies[i].supply = imx274_supply_names[i];
+> > > +
+> > > +	return devm_regulator_bulk_get(dev, IMX274_NUM_SUPPLIES,
+> > > +					imx274->supplies);
+> >                                         ^ not sure if it's my email
+> >                                         client but you might have a
+> >                                         wrong indent here
+> >
+> > Also, the regulators are optional in the bindings, how do the
+> > regulators API cope with that ? I had a look around and they seems to
+> > assume regulators are provided. I might be mistaken though
+>
+> Yes these are optional regulators and based on feedback from sakari changed
+> to use regulator_bulk_get() here.
+>
+> regulator_bulk_get() uses NORMAL_GET and in case if supplies is not found it
+> will use dummy regulator.
+>
+
+Ah thanks, I had a look at the regulator_get() implementation and
+missed that. So we're safe here!
+
+> > > +}
+> > > +
+> > >   /**
+> > >    * imx274_s_ctrl - This is used to set the imx274 V4L2 controls
+> > >    * @ctrl: V4L2 control to be set
+> > > @@ -781,6 +865,9 @@ static int imx274_s_ctrl(struct v4l2_ctrl *ctrl)
+> > >   	struct stimx274 *imx274 = to_imx274(sd);
+> > >   	int ret = -EINVAL;
+> > >
+> > > +	if (!pm_runtime_get_if_in_use(&imx274->client->dev))
+> > > +		return 0;
+> > > +
+> > Right, but then you should call __v4l2_ctrl_handler_setup() in the
+> > s_stream(1) call path to have controls updated (after
+> > pm_runtime_get_sync() call for power on). I had a look at it seems
+> > only exposure is updated.
+>
+> Existing driver does v4l2_ctrl_handler_setup() in probe(). So, sensor power
+> on happens prior to that in probe() and then powers down during idle.
+>
+
+mmm, my point is that with this patch if a control is set while the
+sensor is powered off it does not get applied, as you return 0 here.
+
+This mean the newly set control values have to be applied as soon as
+it possible, or at least before starting to stream. If you have a look
+at the imx219 driver, in the s_stream() call path there's a call to
+v4l2_ctrl_handler_setup() (in imx219_start_streaming()).
+
+I think you should do the same unless I mis-interpreted your reply.
+
+> >
+> > >   	dev_dbg(&imx274->client->dev,
+> > >   		"%s : s_ctrl: %s, value: %d\n", __func__,
+> > >   		ctrl->name, ctrl->val);
+> > > @@ -811,6 +898,8 @@ static int imx274_s_ctrl(struct v4l2_ctrl *ctrl)
+> > >   		break;
+> > >   	}
+> > >
+> > > +	pm_runtime_put(&imx274->client->dev);
+> > > +
+> > >   	return ret;
+> > >   }
+> > >
+> > > @@ -1327,6 +1416,13 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
+> > >   	mutex_lock(&imx274->lock);
+> > >
+> > >   	if (on) {
+> > > +		ret = pm_runtime_get_sync(&imx274->client->dev);
+> > > +		if (ret < 0) {
+> > > +			pm_runtime_put_noidle(&imx274->client->dev);
+> > > +			mutex_unlock(&imx274->lock);
+> > > +			return ret;
+> > > +		}
+> > > +
+> > >   		/* load mode registers */
+> > >   		ret = imx274_mode_regs(imx274);
+> > >   		if (ret)
+> > > @@ -1362,6 +1458,7 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
+> > >   		ret = imx274_write_table(imx274, imx274_stop);
+> > >   		if (ret)
+> > >   			goto fail;
+> > > +		pm_runtime_put(&imx274->client->dev);
+> > >   	}
+> > >
+> > >   	mutex_unlock(&imx274->lock);
+> > > @@ -1369,6 +1466,7 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
+> > >   	return 0;
+> > >
+> > >   fail:
+> > > +	pm_runtime_put(&imx274->client->dev);
+> > >   	mutex_unlock(&imx274->lock);
+> > >   	dev_err(&imx274->client->dev, "s_stream failed\n");
+> > >   	return ret;
+> > > @@ -1834,6 +1932,14 @@ static int imx274_probe(struct i2c_client *client)
+> > >
+> > >   	mutex_init(&imx274->lock);
+> > >
+> > > +	imx274->inck = devm_clk_get_optional(&client->dev, "inck");
+> > clk_get_optional() might return error. I would check this with IS_ERR
+> >
+> > > +	ret = imx274_get_regulators(&client->dev, imx274);
+> > > +	if (ret) {
+> > > +		dev_err(&client->dev,
+> > > +			"Failed to get power regulators, err: %d\n", ret);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > >   	/* initialize format */
+> > >   	imx274->mode = &imx274_modes[IMX274_DEFAULT_BINNING];
+> > >   	imx274->crop.width = IMX274_MAX_WIDTH;
+> > > @@ -1881,15 +1987,23 @@ static int imx274_probe(struct i2c_client *client)
+> > >   		goto err_me;
+> > >   	}
+> > >
+> > > -	/* pull sensor out of reset */
+> > > -	imx274_reset(imx274, 1);
+> > > +	/* power on the sensor */
+> > > +	ret = imx274_power_on(&client->dev);
+> > > +	if (ret < 0) {
+> > > +		dev_err(&client->dev,
+> > > +			"%s : imx274 power on failed\n", __func__);
+> > > +		goto err_me;
+> > > +	}
+> > Doesn't pm_runtime_get calls the poweron function for you ?
+> >
+> > But anyway, I don't see the device being probed for, in example,
+> > querying it's VID/PID for identification during the driver's probe
+> > routine. Do you need to power on ?
+>
+> existing driver does v4l2_ctrl handler setup and loads sensor default
+> control values during probe.
+
+Ouch, they're pretty evident and I've missed that. Although I think
+you can call pm_runtime_get_sync() to have resume executed, but this
+makes no difference in practice I guess.
+
+Thanks for the clarifications, there's just a few items left to
+address in my opinion.
+
+Thanks
+  j
+
+>
+> So doing sensor power_on here prior to setup. Power off happens during idle.
+>
+> >
+> > > +
+> > > +	pm_runtime_set_active(&client->dev);
+> > > +	pm_runtime_enable(&client->dev);
+> > >
+> > >   	/* initialize controls */
+> > >   	ret = v4l2_ctrl_handler_init(&imx274->ctrls.handler, 4);
+> > >   	if (ret < 0) {
+> > >   		dev_err(&client->dev,
+> > >   			"%s : ctrl handler init Failed\n", __func__);
+> > > -		goto err_me;
+> > > +		goto err_disable_rpm;
+> > >   	}
+> > >
+> > >   	imx274->ctrls.handler.lock = &imx274->lock;
+> > > @@ -1951,11 +2065,16 @@ static int imx274_probe(struct i2c_client *client)
+> > >   		goto err_ctrls;
+> > >   	}
+> > >
+> > > +	pm_runtime_idle(&client->dev);
+> > > +
+> > >   	dev_info(&client->dev, "imx274 : imx274 probe success !\n");
+> > >   	return 0;
+> > >
+> > >   err_ctrls:
+> > >   	v4l2_ctrl_handler_free(&imx274->ctrls.handler);
+> > > +err_disable_rpm:
+> > > +	pm_runtime_disable(&client->dev);
+> > > +	pm_runtime_set_suspended(&client->dev);
+> > >   err_me:
+> > >   	media_entity_cleanup(&sd->entity);
+> > >   err_regmap:
+> > > @@ -1973,14 +2092,23 @@ static int imx274_remove(struct i2c_client *client)
+> > >
+> > >   	v4l2_async_unregister_subdev(sd);
+> > >   	v4l2_ctrl_handler_free(&imx274->ctrls.handler);
+> > > +
+> > > +	pm_runtime_disable(&client->dev);
+> > > +	pm_runtime_set_suspended(&client->dev);
+> > > +
+> > >   	media_entity_cleanup(&sd->entity);
+> > >   	mutex_destroy(&imx274->lock);
+> > >   	return 0;
+> > >   }
+> > >
+> > > +static const struct dev_pm_ops imx274_pm_ops = {
+> > > +	SET_RUNTIME_PM_OPS(imx274_power_off, imx274_power_on, NULL)
+> > > +};
+> > > +
+> > >   static struct i2c_driver imx274_i2c_driver = {
+> > >   	.driver = {
+> > >   		.name	= DRIVER_NAME,
+> > > +		.pm = &imx274_pm_ops,
+> > >   		.of_match_table	= imx274_of_id_table,
+> > >   	},
+> > >   	.probe_new	= imx274_probe,
+> > > --
+> > > 2.7.4
+> > >
