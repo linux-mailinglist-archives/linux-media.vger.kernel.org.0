@@ -2,176 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB19225E542
-	for <lists+linux-media@lfdr.de>; Sat,  5 Sep 2020 05:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D55725E65D
+	for <lists+linux-media@lfdr.de>; Sat,  5 Sep 2020 10:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726456AbgIEDbU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 23:31:20 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:40995 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726329AbgIEDbU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Sep 2020 23:31:20 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id EOv6kBMDeMeQuEOv7kLuwc; Sat, 05 Sep 2020 05:31:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1599276677; bh=1ed2J18d2/rZ8ZRooSZxvZsLr+auksm/nO5BktcaHYI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=ozdxkcE+M6n6Er+Ts7N4FckBMBrItU0rrp2P+9s0+3w6BgrjgYy6X9rP1Bp+slKSl
-         hiwY78J8PD/rVLzi8mTDqzuPf4hurZs/hfod3RJZojqUnhGQiCim7+zTf8T087AOs8
-         0Ye5RvI5GHkyN6NguBfVsrzOB/dZQvVtpGfzblJkwbzdxBux0csGMBRLjrIX7pcKEK
-         VRXUBcFQdpDVCMKb6593g1EVFUCNLVYx0zoSGWY4WylJByEe/DaaIXFTWV+gqCeCRQ
-         6RAioiopKVH8HPoYVy4cb+fQyHpjHVuEoChTz7Uj9waThvcJdlZpHlRP20pgwaXrA/
-         YM1PUtUKtFQ6Q==
-Message-ID: <9eeb9f9d9f5f21648dfee21572f7a68f@smtp-cloud7.xs4all.net>
-Date:   Sat, 05 Sep 2020 05:31:16 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        id S1726302AbgIEIUH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Sep 2020 04:20:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726065AbgIEIUH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Sep 2020 04:20:07 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F2FAC061244
+        for <linux-media@vger.kernel.org>; Sat,  5 Sep 2020 01:20:05 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id t76so8822709oif.7
+        for <linux-media@vger.kernel.org>; Sat, 05 Sep 2020 01:20:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=Y7/WkCwyzu6DX1XpffFjDUY8YRiYJqGmrsJ/7ZiD4tY=;
+        b=aG98ArGrfnS4Bi8SCqBWMgFEVB6belldtwTsJVutfY7r81/lmAoNcpLqoAV57dY3J9
+         nQM3mJBVtVUmBFL/NNAIeQ4vjzCs/8koqJOeEqzdKll4NFcyMsI+Ij7kB5CaHGtN16sY
+         vEA8QHz8J3h0DecHll7eJnmzRQiuWkdBWP7B8cUTEpW+1RWsolmguivw3uaaKMjYu3o4
+         zPGDiZXd+Ik+IOHNX9sG28S2fDEq/XHiA2/N/auNSYlm1KT4cFqkbpCV+kx9PZQm2VHa
+         UsvmYRuMpelypIQSWm8hoYmmTjMBpBl4jVCiOm48hnGyTYbv7w7elCQUPBXi2gL6Rh/D
+         fVuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=Y7/WkCwyzu6DX1XpffFjDUY8YRiYJqGmrsJ/7ZiD4tY=;
+        b=ri4LljW076mJV+pc5QoaaWIebk8ClpHxuESknhqP/rNygiXtpW5ycxNdQzeABixPwA
+         LxkzI4jqEQ6k66npANgc4xiY7QAvxs1T+udaCEUqo8zF+oW9Ns5yGAXTwmZrRcISig+K
+         8PeSNXBjl7sIEySsmboJvIOO/r5aZokp7vk53/BMRY7tOQTy+2WR+PTpt7+EODjxpM+f
+         OmqBEcYzhNh8r1U5usxrSLUi6YT9h5tFS+/YzjBrXRN+807oQm+zGa2UnxwB0AvOu75o
+         S2r+nt/fbNMmZ1k9o6Xmf3Yd9pkS3/mBkxDgdYpb9pbzh2drFm1fVBUrJ4GbvvIhicyZ
+         CU3w==
+X-Gm-Message-State: AOAM530CiAkqZ0NgLj285xIA9ItGBe+px3L+va2xSomu4gQy6LABL3l/
+        Q5urBz/fInDtzCD5vgGRvovMsdliMZ1nzx++uidVpsj9hBX6qG2p
+X-Google-Smtp-Source: ABdhPJzIQhrji/I2cXpunwI8DFMwFeZAwZdRmIu1kUEl4Lu2kZ1mcNsnch6+yj1gyOtT8pEoeZgK0uQZz4diN2zPBos=
+X-Received: by 2002:aca:7503:: with SMTP id q3mr7735691oic.179.1599294002490;
+ Sat, 05 Sep 2020 01:20:02 -0700 (PDT)
+MIME-Version: 1.0
+From:   Daniel Scally <djrscally@gmail.com>
+Date:   Sat, 5 Sep 2020 09:19:51 +0100
+Message-ID: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
+Subject: cio2 ipu3 module to automatically connect sensors via swnodes
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfLZFWsP18l/v04DeWeik0aet05ZADfmdkUhF+SsXOeL8O+2lrZayuMJy4AxxA2g7Wbx5e1jE78fzFUTcX2dIRRy+mddUPddgpU5JIJQ0erYWK0OQBH4t
- 4JkcR4EYR+CNu+FSu2u+zPTPjVWKtG9fcd07PZmZx0qF6e9oBqDdQhR9wb23xnZ50V/Erw4q2Zrp8o2QSFk/hp61FKSuLpmz4Vs/Vcd3NvVwRqxciBCz7O0y
+Cc:     sakari.ailus@linux.intel.com, heikki.krogerus@linux.intel.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        jorhand@linux.microsoft.com, andriy.shevchenko@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello
 
-Results of the daily build of media_tree:
 
-date:			Sat Sep  5 05:00:10 CEST 2020
-media-tree git hash:	75992a4418b6c51d4da9c99aac7d92ab29148196
-media_build git hash:	a20bdff25e6827e9f03f2476d4795df1c8ee4913
-v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6784-g0b1e8107
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Following on from this thread:
+https://www.spinics.net/lists/linux-driver-devel/msg135122.html -
+apologies, can't see a way to reply to it directly.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-linux-5.6.1-i686: ERRORS
-linux-5.6.1-x86_64: ERRORS
-linux-5.7.2-i686: WARNINGS
-linux-5.7.2-x86_64: WARNINGS
-linux-5.8.1-i686: WARNINGS
-linux-5.8.1-x86_64: WARNINGS
-linux-5.9-rc1-i686: WARNINGS
-linux-5.9-rc1-x86_64: WARNINGS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: ERRORS
 
-Detailed results are available here:
+Myself and others [1] have been trying to get cameras working on
+Microsoft Surface and similar platforms, currently I'm working on
+expanding Jordan's module connecting cameras to the cio2
+infrastructure (which works - we can use it to take images), aiming to
+discover connection information from SSDB in the DSDT, as well as
+connect as many supported sensors as are found on the device. I'm just
+struggling with a problem I've encountered using the swnode patch that
+Heikki linked in that thread; the module's working ok when I only
+attempt to connect a single one of my sensors (by preventing the
+driver for the other sensor from loading, in which case this new
+module ignores the sensor), but when I attempt to connect both cameras
+at the same time I get a kernel oops as part of
+software_node_get_next_child. The module is creating software_nodes
+like this...
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+/sys/kernel/software_node/INT343E/port0/endpoint0
+/sys/kernel/software_node/INT343E/port1/endpoint0
+/sys/kernel/software_node/OVTI2680/port0/endpoint0
+/sys/kernel/software_node/OVTI5648/port0/endpoint0
 
-Detailed regression test results are available here:
+And that's the structure that I expect to see, but it seems like the
+call to list_next_entry in that function is returning something that
+isn't quite a valid swnode. Printing the address of c->fwnode after
+that point returns "3", which isn't a valid address of course, and
+that's causing the oops when it's either returned (in the version of
+the function without the patches) or when the program flow tries to
+call the "get" op against that fwnode (in the patched version). I've
+been trying to track it down for a while now without success, so I
+posted the problem on SO[2] and it was suggested that I mail these
+addressees for advice - hope that that is ok.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
 
-Full logs are available here:
+My copy of Jordan's module is parked in my git repo [3] for now, and
+requires a batch of patches from Jordan's repo [4] (one made by Heikki
+to fill in the missing swnode graph pieces, and some further tweaks) -
+I've been applying those against 5.8.0-rc7. Any other criticism more
+than welcome - I'm new to both c and kernel programming so I'm happy
+to take all the advice people have the time to give.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
 
-The Media Infrastructure API from this daily build is here:
+On a more general note; Kieran from the libcamera project suggested we
+ought to be talking to you guys anyway to get some guidance on design,
+and some more expert eye on the things we don't really understand. In
+particular; we haven't been able to figure out how sensors that are
+intended to work with the cio2 ipu3 stuff have their clock/regulators
+supplied - in fact I can strip all the "usual" clock/regulator
+functionality out of my camera's driver and it still functions fine,
+which seems a bit weird. So far all we're doing as "power management"
+of the camera's is turning on the GPIO pins that DSDT tables assign to
+the tps68470 PMICs the cameras are theoretically hooked up to...but
+given the drivers continue to work without using the PMICs regulator
+and clk drivers (which we found in the intel-lts tree on Github),
+we're a bit confused exactly how these are connected. Given the
+potential for actual hardware damage if we mess something up there
+it'd be great if anyone can shed some light on those elements.
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+
+Regards
+
+Dan
+
+
+[1] https://github.com/linux-surface/linux-surface/issues/91
+
+[2] https://stackoverflow.com/questions/63742967/what-is-causing-this-kernel-oops-when-parsing-firmware?
+
+[3] https://github.com/djrscally/miix-510-cameras/blob/master/surface_camera/surface_camera.c
+
+[4] https://github.com/jhand2/surface-camera/tree/master/patches
