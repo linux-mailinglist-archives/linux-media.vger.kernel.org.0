@@ -2,89 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 626C025E379
-	for <lists+linux-media@lfdr.de>; Fri,  4 Sep 2020 23:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB19225E542
+	for <lists+linux-media@lfdr.de>; Sat,  5 Sep 2020 05:31:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728181AbgIDVv7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Sep 2020 17:51:59 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:50934 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728161AbgIDVv5 (ORCPT
+        id S1726456AbgIEDbU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Sep 2020 23:31:20 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:40995 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726329AbgIEDbU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Sep 2020 17:51:57 -0400
-Received: from [78.134.95.246] (port=33500 helo=melee.fritz.box)
-        by hostingweb31.netsons.net with esmtpa (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1kEJch-0004Q2-3K; Fri, 04 Sep 2020 23:51:55 +0200
-From:   Luca Ceresoli <luca@lucaceresoli.net>
+        Fri, 4 Sep 2020 23:31:20 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id EOv6kBMDeMeQuEOv7kLuwc; Sat, 05 Sep 2020 05:31:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1599276677; bh=1ed2J18d2/rZ8ZRooSZxvZsLr+auksm/nO5BktcaHYI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=ozdxkcE+M6n6Er+Ts7N4FckBMBrItU0rrp2P+9s0+3w6BgrjgYy6X9rP1Bp+slKSl
+         hiwY78J8PD/rVLzi8mTDqzuPf4hurZs/hfod3RJZojqUnhGQiCim7+zTf8T087AOs8
+         0Ye5RvI5GHkyN6NguBfVsrzOB/dZQvVtpGfzblJkwbzdxBux0csGMBRLjrIX7pcKEK
+         VRXUBcFQdpDVCMKb6593g1EVFUCNLVYx0zoSGWY4WylJByEe/DaaIXFTWV+gqCeCRQ
+         6RAioiopKVH8HPoYVy4cb+fQyHpjHVuEoChTz7Uj9waThvcJdlZpHlRP20pgwaXrA/
+         YM1PUtUKtFQ6Q==
+Message-ID: <9eeb9f9d9f5f21648dfee21572f7a68f@smtp-cloud7.xs4all.net>
+Date:   Sat, 05 Sep 2020 05:31:16 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 3/3] media: docs: v4l2-subdev: move generic paragraph to the introduction
-Date:   Fri,  4 Sep 2020 23:51:41 +0200
-Message-Id: <20200904215141.20862-3-luca@lucaceresoli.net>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200904215141.20862-1-luca@lucaceresoli.net>
-References: <20200904215141.20862-1-luca@lucaceresoli.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfLZFWsP18l/v04DeWeik0aet05ZADfmdkUhF+SsXOeL8O+2lrZayuMJy4AxxA2g7Wbx5e1jE78fzFUTcX2dIRRy+mddUPddgpU5JIJQ0erYWK0OQBH4t
+ 4JkcR4EYR+CNu+FSu2u+zPTPjVWKtG9fcd07PZmZx0qF6e9oBqDdQhR9wb23xnZ50V/Erw4q2Zrp8o2QSFk/hp61FKSuLpmz4Vs/Vcd3NvVwRqxciBCz7O0y
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This paragraph provides generic information to explain what v4l2_subdev is
-useful for. Placing it in the middle of paragraphs describing the details
-of subdev registration does not make much sense. Move it near the beginning
-of the section when the v4l2_subdev idea has just been introduced and
-before going into its details.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
----
- Documentation/driver-api/media/v4l2-subdev.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-index fb66163deb38..1c1e3f9da142 100644
---- a/Documentation/driver-api/media/v4l2-subdev.rst
-+++ b/Documentation/driver-api/media/v4l2-subdev.rst
-@@ -12,6 +12,12 @@ Usually these are I2C devices, but not necessarily. In order to provide the
- driver with a consistent interface to these sub-devices the
- :c:type:`v4l2_subdev` struct (v4l2-subdev.h) was created.
- 
-+The advantage of using :c:type:`v4l2_subdev` is that it is a generic struct and
-+does not contain any knowledge about the underlying hardware. So a driver might
-+contain several subdevs that use an I2C bus, but also a subdev that is
-+controlled through GPIO pins. This distinction is only relevant when setting
-+up the device, but once the subdev is registered it is completely transparent.
-+
- Each sub-device driver must have a :c:type:`v4l2_subdev` struct. This struct
- can be stand-alone for simple sub-devices or it might be embedded in a larger
- struct if more state information needs to be stored. Usually there is a
-@@ -235,12 +241,6 @@ it can call ``v4l2_subdev_notify(sd, notification, arg)``. This macro checks
- whether there is a ``notify()`` callback defined and returns ``-ENODEV`` if not.
- Otherwise the result of the ``notify()`` call is returned.
- 
--The advantage of using :c:type:`v4l2_subdev` is that it is a generic struct and
--does not contain any knowledge about the underlying hardware. So a driver might
--contain several subdevs that use an I2C bus, but also a subdev that is
--controlled through GPIO pins. This distinction is only relevant when setting
--up the device, but once the subdev is registered it is completely transparent.
--
- In the **asynchronous** case subdevice probing can be invoked independently of
- the bridge driver availability. The subdevice driver then has to verify whether
- all the requirements for a successful probing are satisfied. This can include a
--- 
-2.28.0
+date:			Sat Sep  5 05:00:10 CEST 2020
+media-tree git hash:	75992a4418b6c51d4da9c99aac7d92ab29148196
+media_build git hash:	a20bdff25e6827e9f03f2476d4795df1c8ee4913
+v4l-utils git hash:	79918a591a9ad362f107795ee4046d39e6dfcb67
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.169-i686: ERRORS
+linux-4.14.169-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.101-i686: ERRORS
+linux-4.19.101-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: ERRORS
+linux-5.1.1-x86_64: ERRORS
+linux-5.2.1-i686: ERRORS
+linux-5.2.1-x86_64: ERRORS
+linux-5.3.1-i686: ERRORS
+linux-5.3.1-x86_64: ERRORS
+linux-5.4.17-i686: ERRORS
+linux-5.4.17-x86_64: ERRORS
+linux-5.5.1-i686: ERRORS
+linux-5.5.1-x86_64: ERRORS
+linux-5.6.1-i686: ERRORS
+linux-5.6.1-x86_64: ERRORS
+linux-5.7.2-i686: WARNINGS
+linux-5.7.2-x86_64: WARNINGS
+linux-5.8.1-i686: WARNINGS
+linux-5.8.1-x86_64: WARNINGS
+linux-5.9-rc1-i686: WARNINGS
+linux-5.9-rc1-x86_64: WARNINGS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
