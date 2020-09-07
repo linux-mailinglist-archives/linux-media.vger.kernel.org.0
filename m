@@ -2,194 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86F9D25F6C9
-	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 11:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F8025F6CB
+	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 11:44:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728349AbgIGJop (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Sep 2020 05:44:45 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:32238 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726301AbgIGJom (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Sep 2020 05:44:42 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0879hMjc018379;
-        Mon, 7 Sep 2020 11:44:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=2aBPmPDGv2gwIudLjsFMYho8srXan5xdW63WpvcSbe0=;
- b=FJTBFfMbOyP92Y8pUDqMFZZkUlmsVj3SaXUQCQc1c+yBV6pkVpg+UMRxRuLOjckguprm
- QDxRRLT8V85lx+S4gb+bGERUcmOewKvNy5w7bqprnanWrpbw26MJ25zfnMuTlxTXmoD+
- NxDwc1KHl1Y8wDXzMKahkrVjOGXW+YwmzGZgvtIQqrBw3Vl0npHErx307E5OLGy2m0JE
- w+k5JiEmY0Dvs0C8LuOwQrpNz7+lykcxJg/oGB5BFM73e/KCGs4VAJTsP5VilfHuCckO
- CnfTdHCtHLckZWEFNcEuBF3/5gWnNImN3kWn0/KdpUFuKzf//85SQUdaY+8guPnUg803 7w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 33byt7ht9s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Sep 2020 11:44:24 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 17730100034;
-        Mon,  7 Sep 2020 11:44:18 +0200 (CEST)
-Received: from Webmail-eu.st.com (gpxdag5node5.st.com [10.75.127.78])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E89CF2ADA12;
-        Mon,  7 Sep 2020 11:44:17 +0200 (CEST)
-Received: from GPXDAG5NODE4.st.com (10.75.127.77) by GPXDAG5NODE5.st.com
- (10.75.127.78) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 7 Sep
- 2020 11:44:17 +0200
-Received: from GPXDAG5NODE4.st.com ([fe80::f1ac:b650:75f9:818a]) by
- GPXDAG5NODE4.st.com ([fe80::f1ac:b650:75f9:818a%19]) with mapi id
- 15.00.1473.003; Mon, 7 Sep 2020 11:44:17 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Paul <paul.kocialkowski@bootlin.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "Biju Das" <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v4 3/6] media: i2c: ov5640: Enable data pins on poweron
- for DVP mode
-Thread-Topic: [PATCH v4 3/6] media: i2c: ov5640: Enable data pins on poweron
- for DVP mode
-Thread-Index: AQHWhPjOmOR5K91yy0yQMTB0FGcxC6lcy3OA
-Date:   Mon, 7 Sep 2020 09:44:17 +0000
-Message-ID: <5fd9865f-4c4d-66c7-1fb4-ec3e65ab0d28@st.com>
-References: <20200904201835.5958-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200904201835.5958-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200904201835.5958-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.49]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D87E633ACAC24F47B38E9EDA5F559B93@st.com>
-Content-Transfer-Encoding: base64
+        id S1728411AbgIGJoy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Sep 2020 05:44:54 -0400
+Received: from mga17.intel.com ([192.55.52.151]:63006 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726301AbgIGJox (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Sep 2020 05:44:53 -0400
+IronPort-SDR: NfV8bAzqUmFxHLhTa2RjSMqHW9ZKzZH7aQzKu3U7JRscsWvsfwL4Ts1gPobTuUcRopF7s34iu2
+ dPDzr4a80SYw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="138029841"
+X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; 
+   d="scan'208";a="138029841"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2020 02:44:53 -0700
+IronPort-SDR: 7zItED0iAsj5DaPtscIu7g4BqbCXycUO8tAPBv+jvXAjZWnjiubQzrBKFpgjDms44IwKl9CUCu
+ pWNhY+nD8xhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; 
+   d="scan'208";a="333114514"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 07 Sep 2020 02:44:50 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kFDhg-00EuZz-A3; Mon, 07 Sep 2020 12:44:48 +0300
+Date:   Mon, 7 Sep 2020 12:44:48 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        heikki.krogerus@linux.intel.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        jorhand@linux.microsoft.com
+Subject: Re: cio2 ipu3 module to automatically connect sensors via swnodes
+Message-ID: <20200907094448.GS1891694@smile.fi.intel.com>
+References: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-07_04:2020-09-07,2020-09-07 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgUHJhYmhha2FyLA0KDQpUaGFua3MgZm9yIHlvdXIgcGF0Y2hlcywgZ29vZCB0byBzZWUgb25l
-IG1vcmUgT1Y1NjQwIHN0YWtlaG9sZGVyIA0KdXBzdHJlYW1pbmcgc29tZSBmaXhlcy9mZWF0dXJl
-cy4NCg0KSSdtIGFsc28gdXNpbmcgYSBwYXJhbGxlbCBzZXR1cCB3aXRoIE9WNTY0MCBjb25uZWN0
-ZWQgb24gU1RNMzIgRENNSSANCmNhbWVyYSBpbnRlcmZhY2UuDQpGaXJzdCBiYXNpYyB0ZXN0cyBo
-YXZlIG5vdCBzaG93biBhbnkgcmVncmVzc2lvbnMgb24gbXkgc2lkZSBidXQgSSB3b3VsZCANCmxp
-a2UgdG8gYmV0dGVyIHVuZGVyc3RhbmQgdGhlIHByb2JsZW0geW91IGVuY291bnRlcmVkIGFuZCB0
-aGUgd2F5IHlvdSANCnNvbHZlIGl0LCBzZWUgYmVsb3cgbXkgY29tbWVudHMuDQoNCg0KT24gOS80
-LzIwIDEwOjE4IFBNLCBMYWQgUHJhYmhha2FyIHdyb3RlOg0KPiBEdXJpbmcgdGVzdGluZyB0aGlz
-IHNlbnNvciBvbiBpVy1SYWluYm9XLUcyMUQtUXNldmVuIHBsYXRmb3JtIGluIDgtYml0IERWUA0K
-PiBtb2RlIHdpdGggcmNhci12aW4gYnJpZGdlIG5vdGljZWQgdGhlIGNhcHR1cmUgd29ya2VkIGZp
-bmUgZm9yIHRoZSBmaXJzdCBydW4NCj4gKHdpdGggeWF2dGEpLCBidXQgZm9yIHN1YnNlcXVlbnQg
-cnVucyB0aGUgYnJpZGdlIGRyaXZlciB3YWl0ZWQgZm9yIHRoZQ0KPiBmcmFtZSB0byBiZSBjYXB0
-dXJlZC4gRGVidWdnaW5nIGZ1cnRoZXIgbm90aWNlZCB0aGUgZGF0YSBsaW5lcyB3ZXJlDQo+IGVu
-YWJsZWQvZGlzYWJsZWQgaW4gc3RyZWFtIG9uL29mZiBjYWxsYmFjayBhbmQgZHVtcGluZyB0aGUg
-cmVnaXN0ZXINCj4gY29udGVudHMgMHgzMDE3LzB4MzAxOCBpbiBvdjU2NDBfc2V0X3N0cmVhbV9k
-dnAoKSByZXBvcnRlZCB0aGUgY29ycmVjdA0KPiB2YWx1ZXMsIGJ1dCB5ZXQgZnJhbWUgY2FwdHVy
-aW5nIGZhaWxlZC4NCg0KQ291bGQgeW91IHNob3cgdGhlIHNlcXVlbmNlIG9mIFY0TDIgY2FsbHMg
-d2hpY2ggbGVhZCB0byBmcmVlemUgPw0KDQpSZWFkaW5nIHRoZSBwYXRjaCB5b3UgcHJvcG9zZWQs
-IG15IGd1ZXNzIGlzIHRoYXQgaXNzdWUgaXMgY29taW5nIHdoZW4gDQptdWx0aXBsZSBTX1NUUkVB
-TShvbikvU19TVFJFQU0ob2ZmKSBhcmUgbWFkZSB3aGlsZSBwb3dlciByZW1haW5zLCBpcyANCnRo
-YXQgdHJ1ZSA/DQpJIGhhdmUgYWRkZWQgc29tZSB0cmFjZXMgaW4gY29kZSBhbmQgdHJpZWQgdG8g
-cmVwcm9kdWNlIHdpdGggeWF2dGEsIA0KdjRsMi1jdGwgYW5kIEdTdHJlYW1lciBidXQgSSdtIG5v
-dCBhYmxlIHRvIGdlbmVyYXRlIHN1Y2ggc2VxdWVuY2UsIGhlcmUgDQppcyB3aGF0IEkgZ290IGV2
-ZXJ5dGltZToNCg0KWyAgODA5LjExMzc5MF0gb3Y1NjQwIDAtMDAzYzogb3Y1NjQwX3NfcG93ZXI+
-DQpbICA4MDkuMTE2NDMxXSBvdjU2NDAgMC0wMDNjOiBvdjU2NDBfc2V0X3Bvd2VyPg0KWyAgODA5
-LjEyMDc4OF0gb3Y1NjQwIDAtMDAzYzogb3Y1NjQwX3NldF9wb3dlcl9vbj4NClsgIDgwOS42MjIw
-NDddIG92NTY0MCAwLTAwM2M6IG92NTY0MF9zZXRfcG93ZXJfZHZwPg0KWyAgODA5Ljg2MjczNF0g
-b3Y1NjQwIDAtMDAzYzogb3Y1NjQwX3Nfc3RyZWFtPg0KWyAgODA5Ljg2NTQ2Ml0gb3Y1NjQwIDAt
-MDAzYzogb3Y1NjQwX3NldF9zdHJlYW1fZHZwIG9uPg0KPGNhcHR1cmluZyBoZXJlPg0KWyAgODI4
-LjU0OTUzMV0gb3Y1NjQwIDAtMDAzYzogb3Y1NjQwX3Nfc3RyZWFtPg0KWyAgODI4LjU1MjI2NV0g
-b3Y1NjQwIDAtMDAzYzogb3Y1NjQwX3NldF9zdHJlYW1fZHZwIG9mZj4NClsgIDgyOC41ODA5NzBd
-IG92NTY0MCAwLTAwM2M6IG92NTY0MF9zX3Bvd2VyPg0KWyAgODI4LjU4MzYxM10gb3Y1NjQwIDAt
-MDAzYzogb3Y1NjQwX3NldF9wb3dlcj4NClsgIDgyOC41ODc5MjFdIG92NTY0MCAwLTAwM2M6IG92
-NTY0MF9zZXRfcG93ZXJfZHZwPg0KWyAgODI4LjYyMDM0Nl0gb3Y1NjQwIDAtMDAzYzogb3Y1NjQw
-X3NldF9wb3dlcl9vZmY+DQoNCldoaWNoIGFwcGxpY2F0aW9uL2NvbW1hbmQgbGluZSBhcmUgeW91
-IHVzaW5nIHRvIHJlcHJvZHVjZSB5b3VyIHByb2JsZW0gPw0KDQoNCj4gDQo+IFRvIGdldCBhcm91
-bmQgdGhpcyBpc3N1ZSBkYXRhIGxpbmVzIGFyZSBlbmFibGVkIGluIHNfcG93ZXIgY2FsbGJhY2su
-DQo+IChBbHNvIHRoZSBzZW5zb3IgcmVtYWlucyBpbiBwb3dlciBkb3duIG1vZGUgaWYgbm90IHN0
-cmVhbWluZyBzbyBwb3dlcg0KPiBjb25zdW1wdGlvbiBzaG91bGRuJ3QgYmUgYWZmZWN0ZWQpDQoN
-CkZvciB0aGUgdGltZSBiZWluZywgSSByZWFsbHkgZG9uJ3QgdW5kZXJzdGFuZCB3aHkgdGhpcyBw
-YXRjaCBpcyBmaXhpbmcgDQpjYXB0dXJlIGZyZWV6ZS4NCg0KPiANCj4gRml4ZXM6IGYyMjk5NmRi
-NDRlMmQgKCJtZWRpYTogb3Y1NjQwOiBhZGQgc3VwcG9ydCBvZiBEVlAgcGFyYWxsZWwgaW50ZXJm
-YWNlIikNCj4gU2lnbmVkLW9mZi1ieTogTGFkIFByYWJoYWthciA8cHJhYmhha2FyLm1haGFkZXYt
-bGFkLnJqQGJwLnJlbmVzYXMuY29tPg0KPiBSZXZpZXdlZC1ieTogQmlqdSBEYXMgPGJpanUuZGFz
-Lmp6QGJwLnJlbmVzYXMuY29tPg0KPiBUZXN0ZWQtYnk6IEphY29wbyBNb25kaSA8amFjb3BvQGpt
-b25kaS5vcmc+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvbWVkaWEvaTJjL292NTY0MC5jIHwgNzMgKysr
-KysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwg
-NDAgaW5zZXJ0aW9ucygrKSwgMzMgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMgYi9kcml2ZXJzL21lZGlhL2kyYy9vdjU2NDAuYw0KPiBp
-bmRleCA4YWYxMWQ1MzI2OTkuLjgyODg3MjhkODcwNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9t
-ZWRpYS9pMmMvb3Y1NjQwLmMNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMNCj4g
-QEAgLTI3Niw4ICsyNzYsNyBAQCBzdGF0aWMgaW5saW5lIHN0cnVjdCB2NGwyX3N1YmRldiAqY3Ry
-bF90b19zZChzdHJ1Y3QgdjRsMl9jdHJsICpjdHJsKQ0KPiAgIC8qIFlVVjQyMiBVWVZZIFZHQUAz
-MGZwcyAqLw0KPiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmVnX3ZhbHVlIG92NTY0MF9pbml0X3Nl
-dHRpbmdfMzBmcHNfVkdBW10gPSB7DQo+ICAgCXsweDMxMDMsIDB4MTEsIDAsIDB9LCB7MHgzMDA4
-LCAweDgyLCAwLCA1fSwgezB4MzAwOCwgMHg0MiwgMCwgMH0sDQo+IC0JezB4MzEwMywgMHgwMywg
-MCwgMH0sIHsweDMwMTcsIDB4MDAsIDAsIDB9LCB7MHgzMDE4LCAweDAwLCAwLCAwfSwNCj4gLQl7
-MHgzNjMwLCAweDM2LCAwLCAwfSwNCj4gKwl7MHgzMTAzLCAweDAzLCAwLCAwfSwgezB4MzYzMCwg
-MHgzNiwgMCwgMH0sDQo+ICAgCXsweDM2MzEsIDB4MGUsIDAsIDB9LCB7MHgzNjMyLCAweGUyLCAw
-LCAwfSwgezB4MzYzMywgMHgxMiwgMCwgMH0sDQo+ICAgCXsweDM2MjEsIDB4ZTAsIDAsIDB9LCB7
-MHgzNzA0LCAweGEwLCAwLCAwfSwgezB4MzcwMywgMHg1YSwgMCwgMH0sDQo+ICAgCXsweDM3MTUs
-IDB4NzgsIDAsIDB9LCB7MHgzNzE3LCAweDAxLCAwLCAwfSwgezB4MzcwYiwgMHg2MCwgMCwgMH0s
-DQo+IEBAIC0xMjgzLDMzICsxMjgyLDYgQEAgc3RhdGljIGludCBvdjU2NDBfc2V0X3N0cmVhbV9k
-dnAoc3RydWN0IG92NTY0MF9kZXYgKnNlbnNvciwgYm9vbCBvbikNCj4gICAJaWYgKHJldCkNCj4g
-ICAJCXJldHVybiByZXQ7DQo+ICAgDQo+IC0JLyoNCj4gLQkgKiBlbmFibGUgVlNZTkMvSFJFRi9Q
-Q0xLIERWUCBjb250cm9sIGxpbmVzDQo+IC0JICogJiBEWzk6Nl0gRFZQIGRhdGEgbGluZXMNCj4g
-LQkgKg0KPiAtCSAqIFBBRCBPVVRQVVQgRU5BQkxFIDAxDQo+IC0JICogLSA2OgkJVlNZTkMgb3V0
-cHV0IGVuYWJsZQ0KPiAtCSAqIC0gNToJCUhSRUYgb3V0cHV0IGVuYWJsZQ0KPiAtCSAqIC0gNDoJ
-CVBDTEsgb3V0cHV0IGVuYWJsZQ0KPiAtCSAqIC0gWzM6MF06CURbOTo2XSBvdXRwdXQgZW5hYmxl
-DQo+IC0JICovDQo+IC0JcmV0ID0gb3Y1NjQwX3dyaXRlX3JlZyhzZW5zb3IsDQo+IC0JCQkgICAg
-ICAgT1Y1NjQwX1JFR19QQURfT1VUUFVUX0VOQUJMRTAxLA0KPiAtCQkJICAgICAgIG9uID8gMHg3
-ZiA6IDApOw0KPiAtCWlmIChyZXQpDQo+IC0JCXJldHVybiByZXQ7DQo+IC0NCj4gLQkvKg0KPiAt
-CSAqIGVuYWJsZSBEWzU6MF0gRFZQIGRhdGEgbGluZXMNCj4gLQkgKg0KPiAtCSAqIFBBRCBPVVRQ
-VVQgRU5BQkxFIDAyDQo+IC0JICogLSBbNzoyXToJRFs1OjBdIG91dHB1dCBlbmFibGUNCj4gLQkg
-Ki8NCj4gLQlyZXQgPSBvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQwX1JFR19QQURfT1VU
-UFVUX0VOQUJMRTAyLA0KPiAtCQkJICAgICAgIG9uID8gMHhmYyA6IDApOw0KPiAtCWlmIChyZXQp
-DQo+IC0JCXJldHVybiByZXQ7DQo+IC0NCj4gICAJcmV0dXJuIG92NTY0MF93cml0ZV9yZWcoc2Vu
-c29yLCBPVjU2NDBfUkVHX1NZU19DVFJMMCwgb24gPw0KPiAgIAkJCQlPVjU2NDBfUkVHX1NZU19D
-VFJMMF9TV19QV1VQIDoNCj4gICAJCQkJT1Y1NjQwX1JFR19TWVNfQ1RSTDBfU1dfUFdETik7DQo+
-IEBAIC0yMDY5LDYgKzIwNDEsNDAgQEAgc3RhdGljIGludCBvdjU2NDBfc2V0X3Bvd2VyX21pcGko
-c3RydWN0IG92NTY0MF9kZXYgKnNlbnNvciwgYm9vbCBvbikNCj4gICAJcmV0dXJuIDA7DQo+ICAg
-fQ0KPiAgIA0KPiArc3RhdGljIGludCBvdjU2NDBfc2V0X3Bvd2VyX2R2cChzdHJ1Y3Qgb3Y1NjQw
-X2RldiAqc2Vuc29yLCBib29sIG9uKQ0KPiArew0KPiArCWludCByZXQ7DQo+ICsNCj4gKwlpZiAo
-IW9uKSB7DQo+ICsJCS8qIFJlc2V0IHNldHRpbmdzIHRvIHRoZWlyIGRlZmF1bHQgdmFsdWVzLiAq
-Lw0KPiArCQlvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQwX1JFR19QQURfT1VUUFVUX0VO
-QUJMRTAxLCAweDAwKTsNCj4gKwkJb3Y1NjQwX3dyaXRlX3JlZyhzZW5zb3IsIE9WNTY0MF9SRUdf
-UEFEX09VVFBVVF9FTkFCTEUwMiwgMHgwMCk7DQo+ICsJCXJldHVybiAwOw0KPiArCX0NCj4gKw0K
-PiArCS8qDQo+ICsJICogZW5hYmxlIFZTWU5DL0hSRUYvUENMSyBEVlAgY29udHJvbCBsaW5lcw0K
-PiArCSAqICYgRFs5OjZdIERWUCBkYXRhIGxpbmVzDQo+ICsJICoNCj4gKwkgKiBQQUQgT1VUUFVU
-IEVOQUJMRSAwMQ0KPiArCSAqIC0gNjoJCVZTWU5DIG91dHB1dCBlbmFibGUNCj4gKwkgKiAtIDU6
-CQlIUkVGIG91dHB1dCBlbmFibGUNCj4gKwkgKiAtIDQ6CQlQQ0xLIG91dHB1dCBlbmFibGUNCj4g
-KwkgKiAtIFszOjBdOglEWzk6Nl0gb3V0cHV0IGVuYWJsZQ0KPiArCSAqLw0KPiArCXJldCA9IG92
-NTY0MF93cml0ZV9yZWcoc2Vuc29yLCBPVjU2NDBfUkVHX1BBRF9PVVRQVVRfRU5BQkxFMDEsIDB4
-N2YpOw0KPiArCWlmIChyZXQpDQo+ICsJCXJldHVybiByZXQ7DQo+ICsNCj4gKwkvKg0KPiArCSAq
-IGVuYWJsZSBEWzU6MF0gRFZQIGRhdGEgbGluZXMNCj4gKwkgKg0KPiArCSAqIFBBRCBPVVRQVVQg
-RU5BQkxFIDAyDQo+ICsJICogLSBbNzoyXToJRFs1OjBdIG91dHB1dCBlbmFibGUNCj4gKwkgKi8N
-Cj4gKwlyZXR1cm4gb3Y1NjQwX3dyaXRlX3JlZyhzZW5zb3IsIE9WNTY0MF9SRUdfUEFEX09VVFBV
-VF9FTkFCTEUwMiwgMHhmYyk7DQo+ICt9DQo+ICsNCj4gICBzdGF0aWMgaW50IG92NTY0MF9zZXRf
-cG93ZXIoc3RydWN0IG92NTY0MF9kZXYgKnNlbnNvciwgYm9vbCBvbikNCj4gICB7DQo+ICAgCWlu
-dCByZXQgPSAwOw0KPiBAQCAtMjA4MywxMSArMjA4OSwxMiBAQCBzdGF0aWMgaW50IG92NTY0MF9z
-ZXRfcG93ZXIoc3RydWN0IG92NTY0MF9kZXYgKnNlbnNvciwgYm9vbCBvbikNCj4gICAJCQlnb3Rv
-IHBvd2VyX29mZjsNCj4gICAJfQ0KPiAgIA0KPiAtCWlmIChzZW5zb3ItPmVwLmJ1c190eXBlID09
-IFY0TDJfTUJVU19DU0kyX0RQSFkpIHsNCj4gKwlpZiAoc2Vuc29yLT5lcC5idXNfdHlwZSA9PSBW
-NEwyX01CVVNfQ1NJMl9EUEhZKQ0KPiAgIAkJcmV0ID0gb3Y1NjQwX3NldF9wb3dlcl9taXBpKHNl
-bnNvciwgb24pOw0KPiAtCQlpZiAocmV0KQ0KPiAtCQkJZ290byBwb3dlcl9vZmY7DQo+IC0JfQ0K
-PiArCWVsc2UNCj4gKwkJcmV0ID0gb3Y1NjQwX3NldF9wb3dlcl9kdnAoc2Vuc29yLCBvbik7DQo+
-ICsJaWYgKHJldCkNCj4gKwkJZ290byBwb3dlcl9vZmY7DQo+ICAgDQo+ICAgCWlmICghb24pDQo+
-ICAgCQlvdjU2NDBfc2V0X3Bvd2VyX29mZihzZW5zb3IpOw0KPiANCg0KQmVzdCByZWdhcmRzLA0K
-SHVndWVzLg==
++Cc: Surface community people.
+
+On Sat, Sep 05, 2020 at 09:19:51AM +0100, Daniel Scally wrote:
+> 
+> Following on from this thread:
+> https://www.spinics.net/lists/linux-driver-devel/msg135122.html -
+> apologies, can't see a way to reply to it directly.
+
+Use lore [5] and its feature of downloading mailbox (or just seeing Message-Id
+which is enough for good MUA to attach reply properly to the thread).
+
+[5]: https://lore.kernel.org/linux-media/12fbe3f5c6a16c5f3447adbc09fe27ceb2b16823.1589625807.git.mchehab+huawei@kernel.org/
+
+> Myself and others [1] have been trying to get cameras working on
+> Microsoft Surface and similar platforms, currently I'm working on
+> expanding Jordan's module connecting cameras to the cio2
+> infrastructure (which works - we can use it to take images), aiming to
+> discover connection information from SSDB in the DSDT, as well as
+> connect as many supported sensors as are found on the device. I'm just
+> struggling with a problem I've encountered using the swnode patch that
+> Heikki linked in that thread; the module's working ok when I only
+> attempt to connect a single one of my sensors (by preventing the
+> driver for the other sensor from loading, in which case this new
+> module ignores the sensor), but when I attempt to connect both cameras
+> at the same time I get a kernel oops as part of
+> software_node_get_next_child. The module is creating software_nodes
+> like this...
+> 
+> /sys/kernel/software_node/INT343E/port0/endpoint0
+> /sys/kernel/software_node/INT343E/port1/endpoint0
+> /sys/kernel/software_node/OVTI2680/port0/endpoint0
+> /sys/kernel/software_node/OVTI5648/port0/endpoint0
+> 
+> And that's the structure that I expect to see, but it seems like the
+> call to list_next_entry in that function is returning something that
+> isn't quite a valid swnode. Printing the address of c->fwnode after
+> that point returns "3", which isn't a valid address of course, and
+> that's causing the oops when it's either returned (in the version of
+> the function without the patches) or when the program flow tries to
+> call the "get" op against that fwnode (in the patched version). I've
+> been trying to track it down for a while now without success, so I
+> posted the problem on SO[2] and it was suggested that I mail these
+> addressees for advice - hope that that is ok.
+> 
+> 
+> My copy of Jordan's module is parked in my git repo [3] for now, and
+> requires a batch of patches from Jordan's repo [4] (one made by Heikki
+> to fill in the missing swnode graph pieces, and some further tweaks) -
+> I've been applying those against 5.8.0-rc7. Any other criticism more
+> than welcome - I'm new to both c and kernel programming so I'm happy
+> to take all the advice people have the time to give.
+> 
+> 
+> On a more general note; Kieran from the libcamera project suggested we
+> ought to be talking to you guys anyway to get some guidance on design,
+> and some more expert eye on the things we don't really understand. In
+> particular; we haven't been able to figure out how sensors that are
+> intended to work with the cio2 ipu3 stuff have their clock/regulators
+> supplied - in fact I can strip all the "usual" clock/regulator
+> functionality out of my camera's driver and it still functions fine,
+> which seems a bit weird. So far all we're doing as "power management"
+> of the camera's is turning on the GPIO pins that DSDT tables assign to
+> the tps68470 PMICs the cameras are theoretically hooked up to...but
+> given the drivers continue to work without using the PMICs regulator
+> and clk drivers (which we found in the intel-lts tree on Github),
+> we're a bit confused exactly how these are connected. Given the
+> potential for actual hardware damage if we mess something up there
+> it'd be great if anyone can shed some light on those elements.
+
+> [1] https://github.com/linux-surface/linux-surface/issues/91
+> [2] https://stackoverflow.com/questions/63742967/what-is-causing-this-kernel-oops-when-parsing-firmware?
+> [3] https://github.com/djrscally/miix-510-cameras/blob/master/surface_camera/surface_camera.c
+> [4] https://github.com/jhand2/surface-camera/tree/master/patches
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
