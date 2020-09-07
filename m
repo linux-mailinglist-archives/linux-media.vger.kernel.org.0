@@ -2,199 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1191D25F618
-	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 11:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 451D425F69E
+	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 11:37:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728108AbgIGJQa convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 7 Sep 2020 05:16:30 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:54522 "EHLO www.linuxtv.org"
+        id S1728300AbgIGJhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Sep 2020 05:37:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40018 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727122AbgIGJQ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Sep 2020 05:16:29 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kFDAO-000220-7M; Mon, 07 Sep 2020 09:10:24 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kFDIr-0007Zl-IK; Mon, 07 Sep 2020 09:19:09 +0000
-Date:   Mon, 7 Sep 2020 09:19:09 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <940953069.6.1599470349558@builder.linuxtv.org>
-In-Reply-To: <1814915921.5.1599383949575@builder.linuxtv.org>
-References: <1814915921.5.1599383949575@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3208
+        id S1727122AbgIGJhD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Sep 2020 05:37:03 -0400
+Received: from coco.lan (ip5f5ad5cf.dynamic.kabel-deutschland.de [95.90.213.207])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2DD532075A;
+        Mon,  7 Sep 2020 09:37:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599471422;
+        bh=zpBNCvKpktzsXfAtPdTlkXa4ZVnK4mEArIDVPQ5xJxc=;
+        h=Date:From:To:Subject:From;
+        b=WyKuoAjoZAhvH+tx0tQq7XYyDI7dtHRzlXG8Abd4qmuYtQT3GWF9Eq7t20cu/MyHK
+         6HfxppYNV3unllyO3OgvyWUIuXiMF3vScVYL/mTF1z+8X9l3UwyrarvlUHSxKyoFZi
+         sCoR0U84P6IJgcVkIgotHcAgZB0lxoLcaM/IOb1M=
+Date:   Mon, 7 Sep 2020 11:36:59 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org
+Subject: [PATCH] ir-keytable: re-add --device option
+Message-ID: <20200907113659.0143dba2@coco.lan>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3208/display/redirect>
+While --device option doesn't work for enumerating and for RC/LIRC
+specific control, it is still useful for testing purposes
+for all kinds of input devices. For example, it can be used to
+test mouse events:
 
-Changes:
+	$ ./utils/keytable/ir-keytable -d /dev/input/event4 -t
+	Testing events. Please, press CTRL-C to abort.
+	1222738.567737: event type EV_REL(0x02): REL_X (0x0000) value=1
+	1222738.567737: event type EV_SYN(0x00).
+	1222738.573742: event type EV_REL(0x02): REL_X (0x0000) value=1
+	1222738.573742: event type EV_SYN(0x00).
+	1222738.581738: event type EV_REL(0x02): REL_X (0x0000) value=2
+	1222738.581738: event type EV_REL(0x02): REL_Y (0x0001) value=1
+
+So, re-add it, but only on test mode.
+
+Partially reverts: 906719e4c573 ("keytable: remove misleading --device argument")
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/utils/keytable/ir-keytable.1.in b/utils/keytable/ir-keytable.1.in
+index 5237f0be2620..e12de34b2b68 100644
+--- a/utils/keytable/ir-keytable.1.in
++++ b/utils/keytable/ir-keytable.1.in
+@@ -22,6 +22,9 @@ Auto\-load keymaps, based on a configuration file. Only works with
+ \fB\-c\fR, \fB\-\-clear\fR
+ Clears the scancode to keycode mappings.
+ .TP
++\fB\-d\fR, \fB\-\-device\fR=\fIDEV\fR
++Use specified input device. Works only on test mode.
++.TP
+ \fB\-D\fR, \fB\-\-delay\fR=\fIDELAY\fR
+ Sets the delay before repeating a keystroke.
+ .TP
+@@ -66,6 +69,8 @@ print the v4l2\-utils version
+ Mandatory or optional arguments to long options are also mandatory or optional
+ for any corresponding short options. Options can be combined together.
+ .SS The options arguments are:
++.IP \fIDEV\fR
++the /dev/input/event* device to control
+ .IP \fISYSDEV\fR
+ the rc device as found at /sys/class/rc
+ .IP \fIKEYMAP\fR
+diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+index 3df5fcf203ed..021479d6c4e0 100644
+--- a/utils/keytable/keytable.c
++++ b/utils/keytable/keytable.c
+@@ -249,6 +249,7 @@ static const char doc[] = N_(
+ 	"You need to have read permissions on /dev/input for the program to work\n"
+ 	"\nOn the options below, the arguments are:\n"
+ 	"  SYSDEV    - the rc device as found at /sys/class/rc\n"
++	"  DEV       - the /dev/input/event* device to control\n"
+ 	"  KEYMAP    - a keymap file with protocols and scancode to keycode mappings\n"
+ 	"  SCANKEY   - a set of scancode1=keycode1,scancode2=keycode2.. value pairs\n"
+ 	"  PROTOCOL  - protocol name (nec, rc-5, rc-6, jvc, sony, sanyo, rc-5-sz, lirc,\n"
+@@ -267,6 +268,7 @@ static const struct argp_option options[] = {
+ 	{"sysdev",	's',	N_("SYSDEV"),	0,	N_("rc device to control, defaults to rc0 if not specified"), 0},
+ 	{"test",	't',	0,		0,	N_("test if IR is generating events"), 0},
+ 	{"read",	'r',	0,		0,	N_("reads the current scancode/keycode mapping"), 0},
++	{"device",	'd',	N_("DEV"),	0,	N_("ir device to control"), 0},
+ 	{"write",	'w',	N_("KEYMAP"),	0,	N_("write (adds) the keymap from the specified file"), 0},
+ 	{"set-key",	'k',	N_("SCANKEY"),	0,	N_("Change scan/key pairs"), 0},
+ 	{"protocol",	'p',	N_("PROTOCOL"),	0,	N_("Protocol to enable (the other ones will be disabled). To enable more than one, use the option more than one time"), 0},
+@@ -285,6 +287,7 @@ static const char args_doc[] = N_("");
+ 
+ /* Static vars to store the parameters */
+ static char *devclass = NULL;
++static char *devicename = NULL;
+ static int readtable = 0;
+ static int clear = 0;
+ int debug = 0;
+@@ -551,6 +554,9 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		if (!p || *p || period < 0)
+ 			argp_error(state, _("Invalid period: %s"), arg);
+ 		break;
++	case 'd':
++		devicename = arg;
++		break;
+ 	case 's':
+ 		devclass = arg;
+ 		break;
+@@ -2033,7 +2039,7 @@ int main(int argc, char *argv[])
+ 	int dev_from_class = 0, write_cnt;
+ 	int fd;
+ 	static struct sysfs_names *names;
+-	struct rc_device	  rc_dev;
++	struct rc_device	  rc_dev = { };
+ 
+ #ifdef ENABLE_NLS
+ 	setlocale (LC_ALL, "");
+@@ -2046,6 +2052,11 @@ int main(int argc, char *argv[])
+ 	if (test_keymap)
+ 		return 0;
+ 
++	if (devicename &&( !test || devclass || clear || readtable || keytable || ch_proto || cfg.next || delay >= 0 || period >= 0 || bpf_protocol)) {
++		fprintf (stderr, _("device option can be used only for test events\n"));
++		return -1;
++	}
++
+ 	/* Just list all devices */
+ 	if (!clear && !readtable && !keytable && !ch_proto && !cfg.next && !test && delay < 0 && period < 0 && !bpf_protocol) {
+ 		if (show_sysfs_attribs(&rc_dev, devclass))
+@@ -2061,19 +2072,21 @@ int main(int argc, char *argv[])
+ 		fprintf (stderr, _("Auto-mode can be used only with --read, --verbose and --sysdev options\n"));
+ 		return -1;
+ 	}
+-
+-	names = find_device(devclass);
+-	if (!names)
+-		return -1;
+-	rc_dev.sysfs_name = names->name;
+-	if (get_attribs(&rc_dev, names->name)) {
++	if (!devicename) {
++		names = find_device(devclass);
++		if (!names)
++			return -1;
++		rc_dev.sysfs_name = names->name;
++		if (get_attribs(&rc_dev, names->name)) {
++			free_names(names);
++			return -1;
++		}
++		names->name = NULL;
+ 		free_names(names);
+-		return -1;
+-	}
+-	names->name = NULL;
+-	free_names(names);
+ 
+-	dev_from_class++;
++		devicename = rc_dev.input_name;
++		dev_from_class++;
++	}
+ 
+ 	if (cfg.next) {
+ 		struct cfgfile *cur;
+@@ -2124,14 +2137,14 @@ int main(int argc, char *argv[])
+ 	}
+ 
+ 	if (debug)
+-		fprintf(stderr, _("Opening %s\n"), rc_dev.input_name);
+-	fd = open(rc_dev.input_name, O_RDONLY | O_NONBLOCK);
++		fprintf(stderr, _("Opening %s\n"), devicename);
++	fd = open(devicename, O_RDONLY | O_NONBLOCK);
+ 	if (fd < 0) {
+-		perror(rc_dev.input_name);
++		perror(devicename);
+ 		return -1;
+ 	}
+ 	if (dev_from_class)
+-		free(rc_dev.input_name);
++		free(devicename);
+ 	if (get_input_protocol_version(fd))
+ 		return -1;
+ 
 
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision a20bdff25e6827e9f03f2476d4795df1c8ee4913 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f a20bdff25e6827e9f03f2476d4795df1c8ee4913 # timeout=10
-Commit message: "Add backport patches to revert to old tasklet behavior"
- > git rev-list --no-walk a20bdff25e6827e9f03f2476d4795df1c8ee4913 # timeout=10
-[media-build] $ /bin/sh -xe /tmp/jenkins16928861775844511665.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
-
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
-
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-09-07 09:17:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-09-07 09:17:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100%  163M=0s
-
-2020-09-07 09:17:07 (163 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-1 out of 2 hunks FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:378: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+Thanks,
+Mauro
