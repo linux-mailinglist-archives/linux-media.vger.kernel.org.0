@@ -2,88 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D79AB25FCB6
-	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 17:11:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBE2025FD8C
+	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 17:52:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730082AbgIGPCh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Sep 2020 11:02:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34402 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729948AbgIGPBK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Sep 2020 11:01:10 -0400
-Received: from coco.lan (ip5f5ad5cf.dynamic.kabel-deutschland.de [95.90.213.207])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4FD892137B;
-        Mon,  7 Sep 2020 15:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599490870;
-        bh=hJJyNQ21kjcWY+ASlqSfoOVv+AJlUeQRn9oi/KouvSI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jVVAVuhjWacV/OvCzMBRBXRulV96RiiaEnt1sjzrwyuRjuTI/PC9bJmOph6G4YKP8
-         q4JcdqHlvZhtwjhKcb1B6n+wCq5/CNNv+sqS9V8zWhJlzP5O4GO/BwGe0OOukC9Bbi
-         mEhtyftexBkH2Ljg3eO6/cemzLHgBA8zpNJ7DDFg=
-Date:   Mon, 7 Sep 2020 17:01:06 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH] ir-keytable: re-add --device option
-Message-ID: <20200907170106.3833d77e@coco.lan>
-In-Reply-To: <20200907165806.3e236f45@coco.lan>
-References: <20200907113659.0143dba2@coco.lan>
-        <20200907144309.GA2767@gofer.mess.org>
-        <20200907165806.3e236f45@coco.lan>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730251AbgIGPwE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Sep 2020 11:52:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730240AbgIGPvm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Sep 2020 11:51:42 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9795EC061573
+        for <linux-media@vger.kernel.org>; Mon,  7 Sep 2020 08:51:41 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id lo4so18776918ejb.8
+        for <linux-media@vger.kernel.org>; Mon, 07 Sep 2020 08:51:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vMIZm3cLWzkFGrMWJF6j0H4AX6C1QhXOuWzVwrWqKpY=;
+        b=HRPbf6EH510r+2KlPVReiUcrftnFS0aP625viCQTJRsfVSmCUeXpX9YLl5oJ/P11C1
+         P/i75fqE+eNcG9e5kUCp2ekc6Rx+s9nM14yqI/WFc9wQAYiF4Kl/0WvXRIaJ2Q77GYQl
+         Gyq3DbMZQO06yCPUXd/n75dvU2QX9PybQVSSA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vMIZm3cLWzkFGrMWJF6j0H4AX6C1QhXOuWzVwrWqKpY=;
+        b=aPdr6DnJteuIfBBKX+pztVIW3cfxeRFXJ2c2Uo7l70dWuYCXyBlAVugEXHsxObenGx
+         AVy6E8OSaRdSaTDyueSQWm/ex3+XR3GTg7QrVfcs4/TozLKHu4d4pboYOf8mll+s2Q5X
+         EOJivfAQJAA2w+JhRwkupHlcEs2HIpwrsrhZ1UhdtGBxJIa5y357l92a3m5pW8xEaWQr
+         7mfr4k+3d0+a3RBytlPtfX1GVLrPtfMz9Ll4igphc2ecDla15NEcVBFbxh9u+Vvw02in
+         QxG2tihpLv4TvNZL3c4Syn3lB/dK/DrlIFMuIEh2NjyO/w7uA0nRGQOG1FUhmvW3f9+u
+         rEzA==
+X-Gm-Message-State: AOAM533BoSK2dNU/1O5a9b4WaYZ6XGlTdeAlVSiGtPShCML7YdyxPGE1
+        8AY+k+7ccDqKmvM6kseCaYacs+l7N79AtA==
+X-Google-Smtp-Source: ABdhPJzJ/qUAOfgoW277gijiOzM6AUlf/G/oTjt0p3XPi5ZWWG+z2CQDyCFps1ctWBWcKJX/YCOA4g==
+X-Received: by 2002:a17:906:9718:: with SMTP id k24mr20235665ejx.365.1599493899875;
+        Mon, 07 Sep 2020 08:51:39 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
+        by smtp.gmail.com with ESMTPSA id z21sm15997099eja.72.2020.09.07.08.51.38
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2020 08:51:39 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id k15so16245771wrn.10
+        for <linux-media@vger.kernel.org>; Mon, 07 Sep 2020 08:51:38 -0700 (PDT)
+X-Received: by 2002:a5d:660f:: with SMTP id n15mr17487462wru.103.1599493898026;
+ Mon, 07 Sep 2020 08:51:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CGME20200904133512eucas1p204efa4e252ceb5fb50715239705f9965@eucas1p2.samsung.com>
+ <20200904131711.12950-1-m.szyprowski@samsung.com> <20200904131711.12950-31-m.szyprowski@samsung.com>
+ <CAAFQd5AZDzG6i00gcAZKM9ZV1tATWufL=+xXUAmgrbTPt8W6Gw@mail.gmail.com> <bdd3503f-d4f1-a1af-d10d-d75a1037ac5a@samsung.com>
+In-Reply-To: <bdd3503f-d4f1-a1af-d10d-d75a1037ac5a@samsung.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 7 Sep 2020 17:51:26 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5Dp4qBVN1H0LfJ8h49pwGe+7MnCKZnmS4-6yxzii_Ct8A@mail.gmail.com>
+Message-ID: <CAAFQd5Dp4qBVN1H0LfJ8h49pwGe+7MnCKZnmS4-6yxzii_Ct8A@mail.gmail.com>
+Subject: Re: [PATCH v10 30/30] videobuf2: use sgtable-based scatterlist wrappers
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>, linaro-mm-sig@lists.linaro.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 7 Sep 2020 16:58:06 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+On Mon, Sep 7, 2020 at 4:02 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Hi Tomasz,
+>
+> On 07.09.2020 15:07, Tomasz Figa wrote:
+> > On Fri, Sep 4, 2020 at 3:35 PM Marek Szyprowski
+> > <m.szyprowski@samsung.com> wrote:
+> >> Use recently introduced common wrappers operating directly on the struct
+> >> sg_table objects and scatterlist page iterators to make the code a bit
+> >> more compact, robust, easier to follow and copy/paste safe.
+> >>
+> >> No functional change, because the code already properly did all the
+> >> scatterlist related calls.
+> >>
+> >> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> >> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+> >> ---
+> >>   .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
+> >>   .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
+> >>   .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
+> >>   3 files changed, 31 insertions(+), 47 deletions(-)
+> >>
+> > Thanks for the patch! Please see my comments inline.
+> >
+> >> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> >> index ec3446cc45b8..1b242d844dde 100644
+> >> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> >> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> >> @@ -58,10 +58,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
+> >>          unsigned int i;
+> >>          unsigned long size = 0;
+> >>
+> >> -       for_each_sg(sgt->sgl, s, sgt->nents, i) {
+> >> +       for_each_sgtable_dma_sg(sgt, s, i) {
+> >>                  if (sg_dma_address(s) != expected)
+> >>                          break;
+> >> -               expected = sg_dma_address(s) + sg_dma_len(s);
+> >> +               expected += sg_dma_len(s);
+> >>                  size += sg_dma_len(s);
+> >>          }
+> >>          return size;
+> >> @@ -103,8 +103,7 @@ static void vb2_dc_prepare(void *buf_priv)
+> >>          if (!sgt)
+> >>                  return;
+> >>
+> >> -       dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+> >> -                              buf->dma_dir);
+> >> +       dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> >>   }
+> >>
+> >>   static void vb2_dc_finish(void *buf_priv)
+> >> @@ -115,7 +114,7 @@ static void vb2_dc_finish(void *buf_priv)
+> >>          if (!sgt)
+> >>                  return;
+> >>
+> >> -       dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
+> >> +       dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> >>   }
+> >>
+> >>   /*********************************************/
+> >> @@ -275,8 +274,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
+> >>                   * memory locations do not require any explicit cache
+> >>                   * maintenance prior or after being used by the device.
+> >>                   */
+> >> -               dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> >> -                                  attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> >> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+> >> +                                 DMA_ATTR_SKIP_CPU_SYNC);
+> >>          sg_free_table(sgt);
+> >>          kfree(attach);
+> >>          db_attach->priv = NULL;
+> >> @@ -301,8 +300,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+> >>
+> >>          /* release any previous cache */
+> >>          if (attach->dma_dir != DMA_NONE) {
+> >> -               dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> >> -                                  attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> >> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+> >> +                                 DMA_ATTR_SKIP_CPU_SYNC);
+> >>                  attach->dma_dir = DMA_NONE;
+> >>          }
+> >>
+> >> @@ -310,9 +309,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+> >>           * mapping to the client with new direction, no cache sync
+> >>           * required see comment in vb2_dc_dmabuf_ops_detach()
+> >>           */
+> >> -       sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> >> -                                     dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> >> -       if (!sgt->nents) {
+> >> +       if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
+> >> +                           DMA_ATTR_SKIP_CPU_SYNC)) {
+> >>                  pr_err("failed to map scatterlist\n");
+> >>                  mutex_unlock(lock);
+> >>                  return ERR_PTR(-EIO);
+> > As opposed to dma_map_sg_attrs(), dma_map_sgtable() now returns an
+> > error code on its own. Is it expected to ignore it and return -EIO?
+>
+> Those errors are more or less propagated to userspace and -EIO has been
+> already widely documented in V4L2 documentation as the error code for
+> the most of the V4L2 ioctls. I don't want to change it. A possible
+> -EINVAL returned from dma_map_sgtable() was just one of the 'generic'
+> error codes, not very descriptive in that case. Probably the main
+> problem here is that dma_map_sg() and friend doesn't return any error
+> codes...
 
-> Em Mon, 7 Sep 2020 15:43:09 +0100
-> Sean Young <sean@mess.org> escreveu:
-> 
-> > On Mon, Sep 07, 2020 at 11:36:59AM +0200, Mauro Carvalho Chehab wrote:  
-> > > While --device option doesn't work for enumerating and for RC/LIRC
-> > > specific control, it is still useful for testing purposes
-> > > for all kinds of input devices. For example, it can be used to
-> > > test mouse events:
-> > > 
-> > > 	$ ./utils/keytable/ir-keytable -d /dev/input/event4 -t
-> > > 	Testing events. Please, press CTRL-C to abort.
-> > > 	1222738.567737: event type EV_REL(0x02): REL_X (0x0000) value=1
-> > > 	1222738.567737: event type EV_SYN(0x00).
-> > > 	1222738.573742: event type EV_REL(0x02): REL_X (0x0000) value=1
-> > > 	1222738.573742: event type EV_SYN(0x00).
-> > > 	1222738.581738: event type EV_REL(0x02): REL_X (0x0000) value=2
-> > > 	1222738.581738: event type EV_REL(0x02): REL_Y (0x0001) value=1
-> > > 
-> > > So, re-add it, but only on test mode.    
-> > 
-> > Isn't this the same functionality as evtest(1), but not as complete?
-> > 
-> > https://cgit.freedesktop.org/evtest/
-> > 
-> > evtest is packaged for Fedora, Debian, and Ubuntu.  
-> 
-> No idea. At least on the device I'm testing (Hikey 970), evtest doesn't
-> produce anything when I move my mouse (checking via ssh):
-> 
-> 	$ sudo evtest 
-> 	No device specified, trying to scan all of /dev/input/event*
-> 	Available devices:
-> 	/dev/input/event0:	PixArt Dell MS116 USB Optical Mouse
-> 	Select the device event number [0-0]: 
-> 
-> While ir-keytable works fine.
+True for the alloc/get_*() callbacks, but the dmabuf_ops_map() ones
+are used for the in-kernel DMA-buf exporter ops, called by DMA-buf
+importers.
 
-Gah! it actually expects a "0" as input, as pressing just <enter>
-does nothing. crap!
+As a side note, returning user-facing error codes from deep internals
+of vb2 and having the userspace rely on particular values sounds quite
+fragile. For example, I see vb2_dc_attach_dmabuf() returning a return
+value coming from dma_buf_attach() directly and __prepare_dmabuf()
+propagating it back to __buf_prepare(), which can just return that
+back to the userspace. I guess we might have to do some follow-up work
+to clean it up.
 
-Thanks,
-Mauro
+Best regards,
+Tomasz
