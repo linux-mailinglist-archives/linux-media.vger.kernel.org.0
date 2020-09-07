@@ -2,552 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C89825FC2E
-	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 16:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DD6D25FC49
+	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 16:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729974AbgIGOjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Sep 2020 10:39:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44142 "EHLO
+        id S1729839AbgIGOwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Sep 2020 10:52:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729890AbgIGOgD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Sep 2020 10:36:03 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8DCC061574;
-        Mon,  7 Sep 2020 07:35:49 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id 189so9482122ybw.3;
-        Mon, 07 Sep 2020 07:35:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fIhQQiZtslyNPYELVVcC02oFefKutsjEPbIfRwrgqkw=;
-        b=frkycR2vuJn+uhM6MSnXrsEGfgnVWRnN9W4cQfI/OO4O3cYFa9sf8+P0SSofYbMs+A
-         eu76qbGPi1pTcvQmG1e1LhHkNeFcW+L11rUdvv/0YR64fQEUtteUopblJJWHkv8ElXkL
-         spG+MpwpK8tvBZVO15IcmamuoP5D4I+W1XodY4HPiacIYNROQRkT32LodiZSMLXJVFkc
-         +aSw8qhZSXAnIoHIpufa0Rap9YoyuR0uExFRT9klQJa7UFS43F5tWzxVXmyBUG97onvg
-         7bGZB+VObMjWS5b3D9wTa/uxi+X+4cHKTHV16zmgb/rhdwDrETsgzLkVMSWlvpVzzLHh
-         8dPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fIhQQiZtslyNPYELVVcC02oFefKutsjEPbIfRwrgqkw=;
-        b=Sy+hWILmoUre6xHyjioNSulxpTFVyTPYeUwi5Jimauy5Q4XSM2DKJy3D2mNYQgcR3g
-         EuAuYAGddn4lgSrUDv4p3iP5dzpwWq5Xg1I64PbXz3Cl2Tdp8QzWQhdq3fFdV/+AhIa5
-         oEjxyW+DUfb1OkUMyCmjSEzDmTMD6notuHO7cZBLzCiNUL4X6/bC4FYszksz7baa/JIW
-         qPR65LsMQonEnzz4RoTOXKb1y1odndjgdj38vJKsFJxpzVXJqlTpg5xxQic/900crVs0
-         e3sRzc+v8hUROcFSx/EcuZitolUpSVrQizhPf8wiiSEAnA5HG6aWMRXlmdPIjD5W7fIO
-         WtOw==
-X-Gm-Message-State: AOAM5300BWu6ZGl6NdmtKQONCHZx9VSuBTHkOyntIhdGokwY3DkKodeb
-        WtNRL/euasEl4N8b2MfIdgJP+yxiYX6c+A9TdB8=
-X-Google-Smtp-Source: ABdhPJwceZYxSYXkMUtkzAeDkXBC5ydcMmpZGOj9r5Pa9j3sABt71hESMnWeoRPO3shf873OvhWYLrnFyPoVs8Sfbt4=
-X-Received: by 2002:a25:ab91:: with SMTP id v17mr27384371ybi.76.1599489348119;
- Mon, 07 Sep 2020 07:35:48 -0700 (PDT)
+        with ESMTP id S1730038AbgIGOwI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Sep 2020 10:52:08 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0B24C061573
+        for <linux-media@vger.kernel.org>; Mon,  7 Sep 2020 07:44:16 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 83A87C63C7; Mon,  7 Sep 2020 15:43:09 +0100 (BST)
+Date:   Mon, 7 Sep 2020 15:43:09 +0100
+From:   Sean Young <sean@mess.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH] ir-keytable: re-add --device option
+Message-ID: <20200907144309.GA2767@gofer.mess.org>
+References: <20200907113659.0143dba2@coco.lan>
 MIME-Version: 1.0
-References: <20200904201835.5958-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200904201835.5958-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <5fd9865f-4c4d-66c7-1fb4-ec3e65ab0d28@st.com>
-In-Reply-To: <5fd9865f-4c4d-66c7-1fb4-ec3e65ab0d28@st.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 7 Sep 2020 15:35:21 +0100
-Message-ID: <CA+V-a8vjG71PyFx7bF7kamFMcBjbu-t5gZsx=xX9+vcwYGmSkg@mail.gmail.com>
-Subject: Re: [PATCH v4 3/6] media: i2c: ov5640: Enable data pins on poweron
- for DVP mode
-To:     Hugues FRUCHET <hugues.fruchet@st.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Paul <paul.kocialkowski@bootlin.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200907113659.0143dba2@coco.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues,
+On Mon, Sep 07, 2020 at 11:36:59AM +0200, Mauro Carvalho Chehab wrote:
+> While --device option doesn't work for enumerating and for RC/LIRC
+> specific control, it is still useful for testing purposes
+> for all kinds of input devices. For example, it can be used to
+> test mouse events:
+> 
+> 	$ ./utils/keytable/ir-keytable -d /dev/input/event4 -t
+> 	Testing events. Please, press CTRL-C to abort.
+> 	1222738.567737: event type EV_REL(0x02): REL_X (0x0000) value=1
+> 	1222738.567737: event type EV_SYN(0x00).
+> 	1222738.573742: event type EV_REL(0x02): REL_X (0x0000) value=1
+> 	1222738.573742: event type EV_SYN(0x00).
+> 	1222738.581738: event type EV_REL(0x02): REL_X (0x0000) value=2
+> 	1222738.581738: event type EV_REL(0x02): REL_Y (0x0001) value=1
+> 
+> So, re-add it, but only on test mode.
 
-Thank you for the review.
+Isn't this the same functionality as evtest(1), but not as complete?
 
-On Mon, Sep 7, 2020 at 10:44 AM Hugues FRUCHET <hugues.fruchet@st.com> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for your patches, good to see one more OV5640 stakeholder
-> upstreaming some fixes/features.
->
-> I'm also using a parallel setup with OV5640 connected on STM32 DCMI
-> camera interface.
-> First basic tests have not shown any regressions on my side but I would
-> like to better understand the problem you encountered and the way you
-> solve it, see below my comments.
->
->
-Thank you for testing the patches.
+https://cgit.freedesktop.org/evtest/
 
-> On 9/4/20 10:18 PM, Lad Prabhakar wrote:
-> > During testing this sensor on iW-RainboW-G21D-Qseven platform in 8-bit DVP
-> > mode with rcar-vin bridge noticed the capture worked fine for the first run
-> > (with yavta), but for subsequent runs the bridge driver waited for the
-> > frame to be captured. Debugging further noticed the data lines were
-> > enabled/disabled in stream on/off callback and dumping the register
-> > contents 0x3017/0x3018 in ov5640_set_stream_dvp() reported the correct
-> > values, but yet frame capturing failed.
->
-> Could you show the sequence of V4L2 calls which lead to freeze ?
->
-> Reading the patch you proposed, my guess is that issue is coming when
-> multiple S_STREAM(on)/S_STREAM(off) are made while power remains, is
-> that true ?
-> I have added some traces in code and tried to reproduce with yavta,
-> v4l2-ctl and GStreamer but I'm not able to generate such sequence, here
-> is what I got everytime:
->
-> [  809.113790] ov5640 0-003c: ov5640_s_power>
-> [  809.116431] ov5640 0-003c: ov5640_set_power>
-> [  809.120788] ov5640 0-003c: ov5640_set_power_on>
-> [  809.622047] ov5640 0-003c: ov5640_set_power_dvp>
-> [  809.862734] ov5640 0-003c: ov5640_s_stream>
-> [  809.865462] ov5640 0-003c: ov5640_set_stream_dvp on>
-> <capturing here>
-> [  828.549531] ov5640 0-003c: ov5640_s_stream>
-> [  828.552265] ov5640 0-003c: ov5640_set_stream_dvp off>
-> [  828.580970] ov5640 0-003c: ov5640_s_power>
-> [  828.583613] ov5640 0-003c: ov5640_set_power>
-> [  828.587921] ov5640 0-003c: ov5640_set_power_dvp>
-> [  828.620346] ov5640 0-003c: ov5640_set_power_off>
->
-> Which application/command line are you using to reproduce your problem ?
->
-yavta.
->
-> >
-> > To get around this issue data lines are enabled in s_power callback.
-> > (Also the sensor remains in power down mode if not streaming so power
-> > consumption shouldn't be affected)
->
-> For the time being, I really don't understand why this patch is fixing
-> capture freeze.
->
-
-Below is the log with this series applied in DVP mode:
-
-root@iwg21m:~#
-root@iwg21m:~# ./yavta /dev/video0 -c1 -n3 -s640x480 -fUYVY -Fov.raw
-[   36.191661] ov5640_s_power>
-[   36.194452] ov5640_set_power>
-[   36.197413] ov5640_set_power_on>
-[   36.200714] ov5640_reset>
-[   36.203328] ov5640_restore_mode>
-[   36.206549] ov5640_load_regs>
-[   36.550255] ov5640_set_timings>
-[   36.554572] ov5640_set_mode>
-[   36.557963] ov5640_calc_pixel_rate>
-[   36.561458] ov5640_set_dvp_pclk>
-[   36.564679] ov5640_calc_pclk>
-[   36.567639] ov5640_calc_sys_clk>
-[   36.572190] ov5640_set_mode_direct>
-[   36.575671] ov5640_load_regs>
-[   36.583205] ov5640_set_timings>
-[   36.591494] ov5640_set_framefmt>
-[   36.595717] ov5640_set_power_dvp>
-[   36.599486] ov5640_s_ctrl>
-[   36.602200] ov5640_set_ctrl_white_balance>
-[   36.606550] ov5640_s_ctrl>
-[   36.609250] ov5640_set_ctrl_exposure>
-[   36.613179] ov5640_s_ctrl>
-[   36.615878] ov5640_set_ctrl_gain>
-[   36.619446] ov5640_s_ctrl>
-[   36.622160] ov5640_set_ctrl_saturation>
-[   36.626476] ov5640_s_ctrl>
-[   36.629177] ov5640_set_ctrl_hue>
-[   36.632670] ov5640_s_ctrl>
-[   36.635370] ov5640_set_ctrl_contrast>
-[   36.639282] ov5640_s_ctrl>
-[   36.642112] ov5640_s_ctrl>
-[   36.644813] ov5640_set_ctrl_hflip>
-[   36.648465] ov5640_s_ctrl>
-[   36.651179] ov5640_set_ctrl_vflip>
-[   36.654833] ov5640_s_ctrl>
-[   36.657533] ov5640_set_ctrl_light_freq>
-Device /dev/video0 opened.
-Device `R_Car_VIN' on `platform:e6ef3[   36.662120] ov5640_set_fmt>
-000.video' (driver 'rcar_vin') supports video, capture, without [
-36.670491] ov5640_try_fmt_internal>
-mplanes.
-[   36.679593] ov5640_find_mode>
-[   36.683428] ov5640_calc_pixel_rate>
-Video format set: UYVY (59565955) 640x480 (stride 1280) field none
-buffer size 614400
-Video format: UYVY (59565955) 640x480 (stride 1280) field none buffer
-siz[   36.696456] ov5640_s_stream>
-e 614400
-4 buffers requested.
-length: 614400 offset: 0 timesta[   36.703716] ov5640_set_stream_dvp>
-mp type/source: mono/EoF
-Buffer 0/0 mapped at address 0xb6b4c000.
-length: 614400 offset: 614400 timestamp type/source: mono/EoF
-Buffer 1/0 mapped at address 0xb6ab6000.
-length: 614400 offset: 1228800 timestamp type/source: mono/EoF
-Buffer 2/0 mapped at address 0xb6a20000.
-length: 614400 offset: 1843200 timestamp type/source: mono/EoF
-Buffer 3/0 mapped at address 0xb698a000.
-0 (0) [-] none 0 614400 B 36.776928 36.776946 15.545 fps ts mono/EoF
-[   36.900255] ov5640_s_stream>
-[   36.903130] ov5640_set_stream_dvp>
-Captured 1 frames in 0.064348 seconds (15.540378 fps, 9548008.11[
-36.907351] ov5640_s_power>
-2077 B/s).
-4 buffers released.
-[   36.915167] ov5640_set_power>
-[   36.920979] ov5640_set_power_dvp>
-[   36.924765] ov5640_set_power_off>
-root@iwg21m:~#
-root@iwg21m:~#
-root@iwg21m:~# dmesg | grep ov5640
-[    2.412247] ov5640_probe>
-[    2.414913] ov5640_get_regulators>
-[    2.418320] ov5640 1-003c: supply DOVDD not found, using dummy regulator
-[    2.425089] ov5640 1-003c: supply AVDD not found, using dummy regulator
-[    2.431758] ov5640 1-003c: supply DVDD not found, using dummy regulator
-[    2.438406] ov5640_check_chip_id>
-[    2.441724] ov5640_set_power_on>
-[    2.444996] ov5640_reset>
-[    2.447664] ov5640 1-003c: ov5640_read_reg: error: reg=300a
-[    2.453241] ov5640 1-003c: ov5640_check_chip_id: failed to read
-chip identifier
-[    2.460548] ov5640_set_power_off>
-[    2.464096] ov5640_probe>
-[    2.466755] ov5640_get_regulators>
-[    2.470159] ov5640 3-003c: supply DOVDD not found, using dummy regulator
-[    2.476917] ov5640 3-003c: supply AVDD not found, using dummy regulator
-[    2.483588] ov5640 3-003c: supply DVDD not found, using dummy regulator
-[    2.490240] ov5640_check_chip_id>
-[    2.493548] ov5640_set_power_on>
-[    2.496805] ov5640_reset>
-[    2.499705] ov5640_set_power_off>
-[    2.503033] ov5640_init_controls>
-[    2.506342] ov5640_calc_pixel_rate>
-[    2.511902] ov5640_enum_mbus_code>
-[    2.515297] ov5640_enum_mbus_code>
-[    2.518826] ov5640_get_fmt>
-[    4.381930] ov5640_s_power>
-[    4.384725] ov5640_set_power>
-[    4.387687] ov5640_set_power_on>
-[    4.391301] ov5640_reset>
-[    4.393920] ov5640_restore_mode>
-[    4.397142] ov5640_load_regs>
-[    4.750263] ov5640_set_timings>
-[    4.754620] ov5640_set_mode>
-[    4.758008] ov5640_calc_pixel_rate>
-[    4.761513] ov5640_set_dvp_pclk>
-[    4.764734] ov5640_calc_pclk>
-[    4.767701] ov5640_calc_sys_clk>
-[    4.772239] ov5640_set_mode_direct>
-[    4.775720] ov5640_load_regs>
-[    4.783195] ov5640_set_timings>
-[    4.791443] ov5640_set_framefmt>
-[    4.795659] ov5640_set_power_dvp>
-[    4.799426] ov5640_s_ctrl>
-[    4.802158] ov5640_set_ctrl_white_balance>
-[    4.806510] ov5640_s_ctrl>
-[    4.809210] ov5640_set_ctrl_exposure>
-[    4.813140] ov5640_s_ctrl>
-[    4.815840] ov5640_set_ctrl_gain>
-[    4.819415] ov5640_s_ctrl>
-[    4.822129] ov5640_set_ctrl_saturation>
-[    4.826449] ov5640_s_ctrl>
-[    4.829149] ov5640_set_ctrl_hue>
-[    4.832646] ov5640_s_ctrl>
-[    4.835352] ov5640_set_ctrl_contrast>
-[    4.839269] ov5640_s_ctrl>
-[    4.842099] ov5640_s_ctrl>
-[    4.844800] ov5640_set_ctrl_hflip>
-[    4.848455] ov5640_s_ctrl>
-[    4.851169] ov5640_set_ctrl_vflip>
-[    4.854831] ov5640_s_ctrl>
-[    4.857531] ov5640_set_ctrl_light_freq>
-[    4.862077] ov5640_s_power>
-[    4.864864] ov5640_set_power>
-[    4.867824] ov5640_set_power_dvp>
-[    4.871625] ov5640_set_power_off>
-[   36.191661] ov5640_s_power>
-[   36.194452] ov5640_set_power>
-[   36.197413] ov5640_set_power_on>
-[   36.200714] ov5640_reset>
-[   36.203328] ov5640_restore_mode>
-[   36.206549] ov5640_load_regs>
-[   36.550255] ov5640_set_timings>
-[   36.554572] ov5640_set_mode>
-[   36.557963] ov5640_calc_pixel_rate>
-[   36.561458] ov5640_set_dvp_pclk>
-[   36.564679] ov5640_calc_pclk>
-[   36.567639] ov5640_calc_sys_clk>
-[   36.572190] ov5640_set_mode_direct>
-[   36.575671] ov5640_load_regs>
-[   36.583205] ov5640_set_timings>
-[   36.591494] ov5640_set_framefmt>
-[   36.595717] ov5640_set_power_dvp>
-[   36.599486] ov5640_s_ctrl>
-[   36.602200] ov5640_set_ctrl_white_balance>
-[   36.606550] ov5640_s_ctrl>
-[   36.609250] ov5640_set_ctrl_exposure>
-[   36.613179] ov5640_s_ctrl>
-[   36.615878] ov5640_set_ctrl_gain>
-[   36.619446] ov5640_s_ctrl>
-[   36.622160] ov5640_set_ctrl_saturation>
-[   36.626476] ov5640_s_ctrl>
-[   36.629177] ov5640_set_ctrl_hue>
-[   36.632670] ov5640_s_ctrl>
-[   36.635370] ov5640_set_ctrl_contrast>
-[   36.639282] ov5640_s_ctrl>
-[   36.642112] ov5640_s_ctrl>
-[   36.644813] ov5640_set_ctrl_hflip>
-[   36.648465] ov5640_s_ctrl>
-[   36.651179] ov5640_set_ctrl_vflip>
-[   36.654833] ov5640_s_ctrl>
-[   36.657533] ov5640_set_ctrl_light_freq>
-[   36.662120] ov5640_set_fmt>
-[   36.670491] ov5640_try_fmt_internal>
-[   36.679593] ov5640_find_mode>
-[   36.683428] ov5640_calc_pixel_rate>
-[   36.696456] ov5640_s_stream>
-[   36.703716] ov5640_set_stream_dvp>
-[   36.900255] ov5640_s_stream>
-[   36.903130] ov5640_set_stream_dvp>
-[   36.907351] ov5640_s_power>
-[   36.915167] ov5640_set_power>
-[   36.920979] ov5640_set_power_dvp>
-[   36.924765] ov5640_set_power_off>
-root@iwg21m:~#
-root@iwg21m:~#
-root@iwg21m:~# dmesg --clear
-root@iwg21m:~#
-root@iwg21m:~# ./yavta /dev/video0 -c1 -n3 -s640x480 -fUYVY -Fov.raw
-[   72.934594] ov5640_s_power>
-[   72.937385] ov5640_set_power>
-[   72.940385] ov5640_set_power_on>
-[   72.943658] ov5640_reset>
-[   72.946273] ov5640_restore_mode>
-[   72.949493] ov5640_load_regs>
-[   73.290250] ov5640_set_timings>
-[   73.294578] ov5640_set_mode>
-[   73.297974] ov5640_calc_pixel_rate>
-[   73.301470] ov5640_set_dvp_pclk>
-[   73.304689] ov5640_calc_pclk>
-[   73.307649] ov5640_calc_sys_clk>
-[   73.312190] ov5640_set_mode_direct>
-[   73.315671] ov5640_load_regs>
-[   73.323202] ov5640_set_timings>
-[   73.331533] ov5640_set_framefmt>
-[   73.335765] ov5640_set_power_dvp>
-[   73.339539] ov5640_s_ctrl>
-[   73.342254] ov5640_set_ctrl_white_balance>
-[   73.346605] ov5640_s_ctrl>
-[   73.349305] ov5640_set_ctrl_exposure>
-[   73.353234] ov5640_s_ctrl>
-[   73.355934] ov5640_set_ctrl_gain>
-[   73.359503] ov5640_s_ctrl>
-[   73.362217] ov5640_set_ctrl_saturation>
-[   73.366537] ov5640_s_ctrl>
-[   73.369237] ov5640_set_ctrl_hue>
-[   73.372733] ov5640_s_ctrl>
-[   73.375434] ov5640_set_ctrl_contrast>
-[   73.379349] ov5640_s_ctrl>
-[   73.382180] ov5640_s_ctrl>
-[   73.384888] ov5640_set_ctrl_hflip>
-[   73.388543] ov5640_s_ctrl>
-[   73.391257] ov5640_set_ctrl_vflip>
-[   73.394914] ov5640_s_ctrl>
-[   73.397615] ov5640_set_ctrl_light_freq>
-Device /dev/video0 opened.
-Device `R_Car_VIN' on `platform:e6ef3[   73.402191] ov5640_set_fmt>
-000.video' (driver 'rcar_vin') supports video, capture, without [
-73.410568] ov5640_try_fmt_internal>
-mplanes.
-[   73.419661] ov5640_find_mode>
-[   73.423489] ov5640_calc_pixel_rate>
-Video format set: UYVY (59565955) 640x480 (stride 1280) field none
-buffer size 614400
-Video for[   73.430741] ov5640_s_stream>
-mat: UYVY (59565955) 640x480 (stride 1280) field none buffer siz[
-73.438227] ov5640_set_stream_dvp>
-e 614400
-4 buffers requested.
-length: 614400 offset: 0 timestamp type/source: mono/EoF
-Buffer 0/0 mapped at address 0xb6b7e000.
-length: 614400 offset: 614400 timestamp type/source: mono/EoF
-Buffer 1/0 mapped at address 0xb6ae8000.
-length: 614400 offset: 1228800 timestamp type/source: mono/EoF
-Buffer 2/0 mapped at address 0xb6a52000.
-length: 614400 offset: 1843200 timestamp type/source: mono/EoF
-Buffer 3/0 mapped at address 0xb69bc000.
-0 (0) [-] none 0 614400 B 73.544608 73.544626 10.257 fps ts mono/EoF
-[   73.670256] ov5640_s_stream>
-[   73.673132] ov5640_set_stream_dvp>
-Captured 1 frames in 0.097510 seconds (10.255285 fps, 6300846.98[
-73.677350] ov5640_s_power>
-3972 B/s).
-4 buffers released.
-[   73.685162] ov5640_set_power>
-[   73.690979] ov5640_set_power_dvp>
-[   73.694757] ov5640_set_power_off>
-root@iwg21m:~#
-root@iwg21m:~#
-root@iwg21m:~#
-
-Below is the log without the series applied in DVP mode:
-
-root@iwg21m:~# ./yavta /dev/video0 -c1 -n3 -s640x480 -fUYVY -Fov.raw
-[   45.262397] ov5640_s_power>
-[   45.265189] ov5640_set_power>
-[   45.268150] ov5640_set_power_on>
-[   45.271455] ov5640_reset>
-[   45.274071] ov5640_restore_mode>
-[   45.621705] ov5640_set_mode>
-[   45.625104] ov5640_calc_pixel_rate>
-[   45.629916] ov5640_set_mode_direct>
-[   45.640983] ov5640_get_sysclk>
-[   45.646295] ov5640_set_framefmt>
-[   45.650537] ov5640_s_ctrl>
-[   45.653237] ov5640_set_ctrl_white_balance>
-[   45.657588] ov5640_s_ctrl>
-[   45.660289] ov5640_set_ctrl_exposure>
-[   45.664217] ov5640_s_ctrl>
-[   45.666918] ov5640_set_ctrl_gain>
-[   45.670483] ov5640_s_ctrl>
-[   45.673201] ov5640_set_ctrl_saturation>
-[   45.677523] ov5640_s_ctrl>
-[   45.680223] ov5640_set_ctrl_hue>
-[   45.683721] ov5640_s_ctrl>
-[   45.686684] ov5640_s_ctrl>
-[   45.689501] ov5640_s_ctrl>
-[   45.692213] ov5640_set_ctrl_hflip>
-[   45.695870] ov5640_s_ctrl>
-[   45.698570] ov5640_set_ctrl_vflip>
-[   45.702240] ov5640_s_ctrl>
-[   45.704940] ov5640_set_ctrl_light_freq>
-Device /dev/video0 opened.
-Device `R_Car_VIN' on `platform:e6ef1[   45.709474] ov5640_set_fmt>
-000.video' (driver 'rcar_vin') supports video, capture, without [
-45.717852] ov5640_try_fmt_internal>
-mplanes.
-[   45.726964] ov5640_find_mode>
-[   45.730785] ov5640_calc_pixel_rate>
-Video format set: UYVY (59565955) 640x480 (stride 1280) field none
-buffer size 614400
-Video format: UYVY (59565955) 640x480 (stride 1280) field none buffer
-siz[   45.743733] ov5640_s_stream>
-e 614400
-4 buffers requested.
-length: 614400 offset: 0 timesta[   45.751076] ov5640_set_stream_dvp>
-mp type/source: mono/EoF
-Buffer 0/0 mapped at address 0xb6b61000.
-length: 614400 offset: 614400 timestamp type/source: mono/EoF
-Buffer 1/0 mapped at address 0xb6acb000.
-length: 614400 offset: 1228800 timestamp type/source: mono/EoF
-Buffer 2/0 mapped at address 0xb6a35000.
-length: 614400 offset: 1843200 timestamp type/source: mono/EoF
-Buffer 3/0 mapped at address 0xb699f000.
-^C[   57.048902] ov5640_s_stream>
-[   57.051800] ov5640_set_stream_dvp>
-[   57.056180] ov5640_s_power>
-[   57.058967] ov5640_set_power>
-[   57.061943] ov5640_set_power_off>
-
-root@iwg21m:~#
+evtest is packaged for Fedora, Debian, and Ubuntu.
 
 
+Sean
 
-
-root@iwg21m:~# dmesg | grep ov564
-[    2.412449] ov5640 1-003c: supply DOVDD not found, using dummy regulator
-[    2.419202] ov5640 1-003c: supply AVDD not found, using dummy regulator
-[    2.425872] ov5640 1-003c: supply DVDD not found, using dummy regulator
-[    2.432527] ov5640_set_power_on>
-[    2.435801] ov5640_reset>
-[    2.438704] ov5640_set_power_off>
-[    2.442037] ov5640_init_controls>
-[    2.445346] ov5640_calc_pixel_rate>
-[    2.450955] ov5640_enum_mbus_code>
-[    2.454350] ov5640_enum_mbus_code>
-[    2.457882] ov5640_get_fmt>
-[    4.222662] ov5640_s_power>
-[    4.225458] ov5640_set_power>
-[    4.228420] ov5640_set_power_on>
-[    4.231737] ov5640_reset>
-[    4.234356] ov5640_restore_mode>
-[    4.591733] ov5640_set_mode>
-[    4.595133] ov5640_calc_pixel_rate>
-[    4.599930] ov5640_set_mode_direct>
-[    4.610913] ov5640_get_sysclk>
-[    4.616195] ov5640_set_framefmt>
-[    4.620424] ov5640_s_ctrl>
-[    4.623136] ov5640_set_ctrl_white_balance>
-[    4.627485] ov5640_s_ctrl>
-[    4.630185] ov5640_set_ctrl_exposure>
-[    4.634115] ov5640_s_ctrl>
-[    4.636815] ov5640_set_ctrl_gain>
-[    4.640382] ov5640_s_ctrl>
-[    4.643095] ov5640_set_ctrl_saturation>
-[    4.647412] ov5640_s_ctrl>
-[    4.650112] ov5640_set_ctrl_hue>
-[    4.653612] ov5640_s_ctrl>
-[    4.656573] ov5640_s_ctrl>
-[    4.659389] ov5640_s_ctrl>
-[    4.662105] ov5640_set_ctrl_hflip>
-[    4.665760] ov5640_s_ctrl>
-[    4.668460] ov5640_set_ctrl_vflip>
-[    4.672126] ov5640_s_ctrl>
-[    4.674826] ov5640_set_ctrl_light_freq>
-[    4.679405] ov5640_s_power>
-[    4.682211] ov5640_set_power>
-[    4.685171] ov5640_set_power_off>
-[   45.262397] ov5640_s_power>
-[   45.265189] ov5640_set_power>
-[   45.268150] ov5640_set_power_on>
-[   45.271455] ov5640_reset>
-[   45.274071] ov5640_restore_mode>
-[   45.621705] ov5640_set_mode>
-[   45.625104] ov5640_calc_pixel_rate>
-[   45.629916] ov5640_set_mode_direct>
-[   45.640983] ov5640_get_sysclk>
-[   45.646295] ov5640_set_framefmt>
-[   45.650537] ov5640_s_ctrl>
-[   45.653237] ov5640_set_ctrl_white_balance>
-[   45.657588] ov5640_s_ctrl>
-[   45.660289] ov5640_set_ctrl_exposure>
-[   45.664217] ov5640_s_ctrl>
-[   45.666918] ov5640_set_ctrl_gain>
-[   45.670483] ov5640_s_ctrl>
-[   45.673201] ov5640_set_ctrl_saturation>
-[   45.677523] ov5640_s_ctrl>
-[   45.680223] ov5640_set_ctrl_hue>
-[   45.683721] ov5640_s_ctrl>
-[   45.686684] ov5640_s_ctrl>
-[   45.689501] ov5640_s_ctrl>
-[   45.692213] ov5640_set_ctrl_hflip>
-[   45.695870] ov5640_s_ctrl>
-[   45.698570] ov5640_set_ctrl_vflip>
-[   45.702240] ov5640_s_ctrl>
-[   45.704940] ov5640_set_ctrl_light_freq>
-[   45.709474] ov5640_set_fmt>
-[   45.717852] ov5640_try_fmt_internal>
-[   45.726964] ov5640_find_mode>
-[   45.730785] ov5640_calc_pixel_rate>
-[   45.743733] ov5640_s_stream>
-[   45.751076] ov5640_set_stream_dvp>
-[   57.048902] ov5640_s_stream>
-[   57.051800] ov5640_set_stream_dvp>
-[   57.056180] ov5640_s_power>
-[   57.058967] ov5640_set_power>
-[   57.061943] ov5640_set_power_off>
-
-Cheers,
-Prabhakar
+> 
+> Partially reverts: 906719e4c573 ("keytable: remove misleading --device argument")
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> diff --git a/utils/keytable/ir-keytable.1.in b/utils/keytable/ir-keytable.1.in
+> index 5237f0be2620..e12de34b2b68 100644
+> --- a/utils/keytable/ir-keytable.1.in
+> +++ b/utils/keytable/ir-keytable.1.in
+> @@ -22,6 +22,9 @@ Auto\-load keymaps, based on a configuration file. Only works with
+>  \fB\-c\fR, \fB\-\-clear\fR
+>  Clears the scancode to keycode mappings.
+>  .TP
+> +\fB\-d\fR, \fB\-\-device\fR=\fIDEV\fR
+> +Use specified input device. Works only on test mode.
+> +.TP
+>  \fB\-D\fR, \fB\-\-delay\fR=\fIDELAY\fR
+>  Sets the delay before repeating a keystroke.
+>  .TP
+> @@ -66,6 +69,8 @@ print the v4l2\-utils version
+>  Mandatory or optional arguments to long options are also mandatory or optional
+>  for any corresponding short options. Options can be combined together.
+>  .SS The options arguments are:
+> +.IP \fIDEV\fR
+> +the /dev/input/event* device to control
+>  .IP \fISYSDEV\fR
+>  the rc device as found at /sys/class/rc
+>  .IP \fIKEYMAP\fR
+> diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+> index 3df5fcf203ed..021479d6c4e0 100644
+> --- a/utils/keytable/keytable.c
+> +++ b/utils/keytable/keytable.c
+> @@ -249,6 +249,7 @@ static const char doc[] = N_(
+>  	"You need to have read permissions on /dev/input for the program to work\n"
+>  	"\nOn the options below, the arguments are:\n"
+>  	"  SYSDEV    - the rc device as found at /sys/class/rc\n"
+> +	"  DEV       - the /dev/input/event* device to control\n"
+>  	"  KEYMAP    - a keymap file with protocols and scancode to keycode mappings\n"
+>  	"  SCANKEY   - a set of scancode1=keycode1,scancode2=keycode2.. value pairs\n"
+>  	"  PROTOCOL  - protocol name (nec, rc-5, rc-6, jvc, sony, sanyo, rc-5-sz, lirc,\n"
+> @@ -267,6 +268,7 @@ static const struct argp_option options[] = {
+>  	{"sysdev",	's',	N_("SYSDEV"),	0,	N_("rc device to control, defaults to rc0 if not specified"), 0},
+>  	{"test",	't',	0,		0,	N_("test if IR is generating events"), 0},
+>  	{"read",	'r',	0,		0,	N_("reads the current scancode/keycode mapping"), 0},
+> +	{"device",	'd',	N_("DEV"),	0,	N_("ir device to control"), 0},
+>  	{"write",	'w',	N_("KEYMAP"),	0,	N_("write (adds) the keymap from the specified file"), 0},
+>  	{"set-key",	'k',	N_("SCANKEY"),	0,	N_("Change scan/key pairs"), 0},
+>  	{"protocol",	'p',	N_("PROTOCOL"),	0,	N_("Protocol to enable (the other ones will be disabled). To enable more than one, use the option more than one time"), 0},
+> @@ -285,6 +287,7 @@ static const char args_doc[] = N_("");
+>  
+>  /* Static vars to store the parameters */
+>  static char *devclass = NULL;
+> +static char *devicename = NULL;
+>  static int readtable = 0;
+>  static int clear = 0;
+>  int debug = 0;
+> @@ -551,6 +554,9 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+>  		if (!p || *p || period < 0)
+>  			argp_error(state, _("Invalid period: %s"), arg);
+>  		break;
+> +	case 'd':
+> +		devicename = arg;
+> +		break;
+>  	case 's':
+>  		devclass = arg;
+>  		break;
+> @@ -2033,7 +2039,7 @@ int main(int argc, char *argv[])
+>  	int dev_from_class = 0, write_cnt;
+>  	int fd;
+>  	static struct sysfs_names *names;
+> -	struct rc_device	  rc_dev;
+> +	struct rc_device	  rc_dev = { };
+>  
+>  #ifdef ENABLE_NLS
+>  	setlocale (LC_ALL, "");
+> @@ -2046,6 +2052,11 @@ int main(int argc, char *argv[])
+>  	if (test_keymap)
+>  		return 0;
+>  
+> +	if (devicename &&( !test || devclass || clear || readtable || keytable || ch_proto || cfg.next || delay >= 0 || period >= 0 || bpf_protocol)) {
+> +		fprintf (stderr, _("device option can be used only for test events\n"));
+> +		return -1;
+> +	}
+> +
+>  	/* Just list all devices */
+>  	if (!clear && !readtable && !keytable && !ch_proto && !cfg.next && !test && delay < 0 && period < 0 && !bpf_protocol) {
+>  		if (show_sysfs_attribs(&rc_dev, devclass))
+> @@ -2061,19 +2072,21 @@ int main(int argc, char *argv[])
+>  		fprintf (stderr, _("Auto-mode can be used only with --read, --verbose and --sysdev options\n"));
+>  		return -1;
+>  	}
+> -
+> -	names = find_device(devclass);
+> -	if (!names)
+> -		return -1;
+> -	rc_dev.sysfs_name = names->name;
+> -	if (get_attribs(&rc_dev, names->name)) {
+> +	if (!devicename) {
+> +		names = find_device(devclass);
+> +		if (!names)
+> +			return -1;
+> +		rc_dev.sysfs_name = names->name;
+> +		if (get_attribs(&rc_dev, names->name)) {
+> +			free_names(names);
+> +			return -1;
+> +		}
+> +		names->name = NULL;
+>  		free_names(names);
+> -		return -1;
+> -	}
+> -	names->name = NULL;
+> -	free_names(names);
+>  
+> -	dev_from_class++;
+> +		devicename = rc_dev.input_name;
+> +		dev_from_class++;
+> +	}
+>  
+>  	if (cfg.next) {
+>  		struct cfgfile *cur;
+> @@ -2124,14 +2137,14 @@ int main(int argc, char *argv[])
+>  	}
+>  
+>  	if (debug)
+> -		fprintf(stderr, _("Opening %s\n"), rc_dev.input_name);
+> -	fd = open(rc_dev.input_name, O_RDONLY | O_NONBLOCK);
+> +		fprintf(stderr, _("Opening %s\n"), devicename);
+> +	fd = open(devicename, O_RDONLY | O_NONBLOCK);
+>  	if (fd < 0) {
+> -		perror(rc_dev.input_name);
+> +		perror(devicename);
+>  		return -1;
+>  	}
+>  	if (dev_from_class)
+> -		free(rc_dev.input_name);
+> +		free(devicename);
+>  	if (get_input_protocol_version(fd))
+>  		return -1;
+>  
+> 
+> 
+> Thanks,
+> Mauro
