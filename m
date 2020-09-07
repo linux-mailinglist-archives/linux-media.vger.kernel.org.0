@@ -2,150 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A7B725FB32
-	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 15:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD4225FBC6
+	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 16:04:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729442AbgIGNRm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Sep 2020 09:17:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59928 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729408AbgIGNPg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Sep 2020 09:15:36 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B3F7C061573
-        for <linux-media@vger.kernel.org>; Mon,  7 Sep 2020 06:15:34 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id e23so18190714eja.3
-        for <linux-media@vger.kernel.org>; Mon, 07 Sep 2020 06:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gw9lL2TvHDntCUhAnmDZSsRD6P570jc9dLDcigHjLqo=;
-        b=Tr/UEPlBz2fsDMLmFd0VCTGHcFQoc3bi3jh3lDW53ENl1TrQGuLEKeEciByE6ZA2WD
-         XSmZEXdGl7UtzQnOv0mi030b/ZpXsd3jp6njzQGgvSUCvjgszzE07oO7iR4juvN86L83
-         BBDqz5v7eDZQXHBAJ4NVL4rmU5c4uIBCozDxg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gw9lL2TvHDntCUhAnmDZSsRD6P570jc9dLDcigHjLqo=;
-        b=Ls8nfKwgyd3/QETojBN43NOyWlpC8R2ko8qzlNVGIjGlG6Mzox1p6DKndLNNcDO93V
-         WuZrmbRkPib6RLCt2B50QI7i3IiPtKO+N7/xTHfup9yqx2QD6Op4sKs/j7W2sDsmcUR2
-         C/Hf0/UwiKJ7Br1V5D5K89O7af0Tt/Keu4DFuAQIe4oaLeipsuC49TD+uUA/EKHFAOrx
-         nZMwwwkuE00eUInusacz4DuOKdQ4fGmJy0dc3cFqhAU86QWt85GjVsycZh14XeH8e6ek
-         8bxYF6sb2WyQDNnuRZ+L6HWfeEoglBMJaeDdxYGMEl554GBiCGnRRoBORwlyTtbWCUxH
-         xJGA==
-X-Gm-Message-State: AOAM533iwJF/iVfdv1pFK1O1J2PeyWPQIf1WmT4cHQau6wpDj/rq4Mrw
-        WMl1O/7IQatohQCn+ouxutZfv3ymCdMJgQ==
-X-Google-Smtp-Source: ABdhPJxAE2Tcw8XvbGzb/StdsjYyKHlcp+TsqTxuOZ5FyXH98ECgRhPmzC1k4pc9Dv0xXuso7hbmMw==
-X-Received: by 2002:a17:906:fccb:: with SMTP id qx11mr21594663ejb.429.1599484530674;
-        Mon, 07 Sep 2020 06:15:30 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id x25sm14778723edv.42.2020.09.07.06.15.29
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Sep 2020 06:15:29 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id s13so14327270wmh.4
-        for <linux-media@vger.kernel.org>; Mon, 07 Sep 2020 06:15:29 -0700 (PDT)
-X-Received: by 2002:a1c:a5c8:: with SMTP id o191mr21337268wme.127.1599484528763;
- Mon, 07 Sep 2020 06:15:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200902120122.24456-1-dongchun.zhu@mediatek.com>
- <20200902120122.24456-3-dongchun.zhu@mediatek.com> <20200902134421.GN1891694@smile.fi.intel.com>
- <1599225767.4733.64.camel@mhfsdcap03> <CAHp75Ve8WNuCuRmFcXaZHLjHMGfsvM=69ii5g4H+NYud6N95eQ@mail.gmail.com>
-In-Reply-To: <CAHp75Ve8WNuCuRmFcXaZHLjHMGfsvM=69ii5g4H+NYud6N95eQ@mail.gmail.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 7 Sep 2020 15:15:17 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5BH4NZrhg=abqc=P9Uzf+t4Davn4SP9i3QktS4Q05WtzA@mail.gmail.com>
-Message-ID: <CAAFQd5BH4NZrhg=abqc=P9Uzf+t4Davn4SP9i3QktS4Q05WtzA@mail.gmail.com>
-Subject: Re: [PATCH v14 2/2] media: i2c: Add OV02A10 image sensor driver
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        id S1729762AbgIGODk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Sep 2020 10:03:40 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:50788 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729752AbgIGODI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Sep 2020 10:03:08 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200907140219euoutp023725e70d7fe8ecd87ad1a96fd5f50c7f~yhULD-8x52992029920euoutp02m
+        for <linux-media@vger.kernel.org>; Mon,  7 Sep 2020 14:02:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200907140219euoutp023725e70d7fe8ecd87ad1a96fd5f50c7f~yhULD-8x52992029920euoutp02m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1599487339;
+        bh=hsmUocPlAFArU+eTpjUpCiULtUWbkkdS2K7yLOcO4o0=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=kp44SE3LnGdiuaT9ibwXGKS/VDECGuewSeUmULEl4Usdnobv9NpsJxzrkJuMYzJOS
+         RWwstWKNaC9N7sRoOz7v75/gBoAdi8+AtRd4mAM00nOi8QkFQED7QZL+qhVf9o1+O0
+         hqxH1SXqcGGMDuTKSz3euMXFGNE3i9NgNnBsQzZI=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200907140219eucas1p1e91dc0788991caa2678cc257343a2625~yhUKo6gle1403314033eucas1p1r;
+        Mon,  7 Sep 2020 14:02:19 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id E9.5F.06456.A6D365F5; Mon,  7
+        Sep 2020 15:02:18 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200907140218eucas1p12759ab0e566e0438b407a2756a73e765~yhUKPoiKM1384513845eucas1p1b;
+        Mon,  7 Sep 2020 14:02:18 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200907140218eusmtrp271ddc7a498a04eb8e6e153b87726cd69~yhUKO2Tgs1436614366eusmtrp2k;
+        Mon,  7 Sep 2020 14:02:18 +0000 (GMT)
+X-AuditID: cbfec7f2-809ff70000001938-b4-5f563d6a40c5
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 95.3C.06314.A6D365F5; Mon,  7
+        Sep 2020 15:02:18 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200907140217eusmtip190e5c30f661ff214b4fb72711fb07e16~yhUJVvwIJ1099210992eusmtip1F;
+        Mon,  7 Sep 2020 14:02:17 +0000 (GMT)
+Subject: Re: [PATCH v10 30/30] videobuf2: use sgtable-based scatterlist
+ wrappers
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        iommu@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?= 
-        <shengnan.wang@mediatek.com>, matrix.zhu@aliyun.com
-Content-Type: text/plain; charset="UTF-8"
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <bdd3503f-d4f1-a1af-d10d-d75a1037ac5a@samsung.com>
+Date:   Mon, 7 Sep 2020 16:02:17 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <CAAFQd5AZDzG6i00gcAZKM9ZV1tATWufL=+xXUAmgrbTPt8W6Gw@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SWUwTURSGvbMxEEuGoukJGjGN0WgUBFwmAUWJy+iDokYfNFirjCyy2QEV
+        eLAuoBTUilGwECSKIosCZVEQFyBQKaFRIApq3KgRjQRiKQFtqLQjytt3zvn/e/6TXBqXWkkv
+        OioukVfFKWPklBtR1zZuWha9Zo9iuf55EHvB1I6xVbkVJGuvu4yzPdYhii0pa8XYwqeBbEZe
+        pQs70vMJY/X9r0i2uyGfYrMqa0n2jt6GsU3DZpK1pE1Q69w5c1MBxpUXlCMuT/2S4B6PFhKc
+        vjSD4h6MfiS5D5kGjKsuOsm9nejHuSu9xYh71KemuIs1pYiz6OeFSva6BYXzMVHHeJXv2gNu
+        kelffqGEhkUnitKKMDV6NleDXGlgVkDVqXpKg9xoKXMXgba24m8xgsCmHcPEwoLgmrWMmrJk
+        tZwjxEExgt5zH0jHQMoMIagZ3+RgT2YnvB4qdhpmMQvgd3uu81mcaSPB+LHPaaAYP9AMapwi
+        CbMWjPffEw4mJg1jY/24g2cz+6HN+JkQNR7Qft3sZFdmB+gsRszBOOMNDwbzcZFl8MZ8wxkb
+        mKs0FKXVkmLsDVBeUoaL7AnfDTUuIs8Fe/2U4QyCT6Z7LmKRhaD7dC4SVYHwzvRrMio9uWIx
+        VDT4iu310GnsQY42MO7QO+ghhnCH7LocXGxL4Hy6VFQvBJ3h/r+1TS+6cC2S66adppt2jm7a
+        Obr/ewsRUYpkfJIQG8ELfnH8cR9BGSskxUX4HIqP1aPJz9gxYfj5EFm7DjYjhkbymZIB2W6F
+        lFQeE5JjmxHQuHyWJKSzY79UEq5MTuFV8QpVUgwvNKM5NCGXSQJufguTMhHKRP4Izyfwqqkp
+        Rrt6qZE22oCC99be6V4pUzU84c42lnMtKcTGWxGDjcGl4buGbSXafT+2y1Zva2xWZG9ITm3K
+        9s681KcSFluidKE3O3mNzWPIHrB0/pWtRv/uVpPZVllvO1rfSN4OM467jKszwVW+ShHon28P
+        GdhsC/+6JT6VmJFtDTh9uDrHnrq1OFROCJFKvyW4SlD+AbP5khyIAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnleLIzCtJLcpLzFFi42I5/e/4Xd0s27B4gz0T5C16z51kstg4Yz2r
+        xf9tE5ktrnx9z2axcvVRJosF+60tOmdvYLf4cuUhk8Wmx9dYLS7vmsNm0bNhK6vFsk1/mCwO
+        fnjCavG59R+bA5/Hk4PzmDzWzFvD6DG74SKLx95vC1g8Nq3qZPPY/u0Bq8f97uNMHpuX1Hvc
+        /veY2WPyjeWMHrtvNrB59G1ZxejxeZNcAG+Unk1RfmlJqkJGfnGJrVK0oYWRnqGlhZ6RiaWe
+        obF5rJWRqZK+nU1Kak5mWWqRvl2CXkbb01+MBbvUK5a0LmFqYDwg08XIySEhYCLRc7idpYuR
+        i0NIYCmjxMmJV5ggEjISJ6c1sELYwhJ/rnWxQRS9ZZR4dLIbrEhYIEji+vvlbCC2iICKxO+T
+        M8BsZoFTrBITfztCNPQySfSdvQM2iU3AUKLrbRdYEa+AncSpdfdYQGwWoOYfPx4zg9iiAnES
+        Z3peQNUISpyc+QSshlMgUGLW51NMEAvMJOZtfsgMYctLbH87B8oWl7j1ZD7TBEahWUjaZyFp
+        mYWkZRaSlgWMLKsYRVJLi3PTc4sN9YoTc4tL89L1kvNzNzECE8G2Yz8372C8tDH4EKMAB6MS
+        D+8L8dB4IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW5ccXleakFh9iNAV6biKzlGhyPjBJ
+        5ZXEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnNTk0tSC2C6WPi4JRqYOR98ancUa3b2nL6
+        pZrYzd8LNA2D/CobZaZWb+1e0jF7z6S7Un13n9oU/nmyf226kpqIo/DfeGeXHM2PjH2rsle4
+        Jx60mRJfxxqzStup6UHPnYPTjcq/i9QefrfnlkGVq/JLpk1u8usyF4UmTD+RUWMiwXdzkcmp
+        G6GzKuLupwQK/V+47/jThUosxRmJhlrMRcWJAEFLwmMaAwAA
+X-CMS-MailID: 20200907140218eucas1p12759ab0e566e0438b407a2756a73e765
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200904133512eucas1p204efa4e252ceb5fb50715239705f9965
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200904133512eucas1p204efa4e252ceb5fb50715239705f9965
+References: <CGME20200904133512eucas1p204efa4e252ceb5fb50715239705f9965@eucas1p2.samsung.com>
+        <20200904131711.12950-1-m.szyprowski@samsung.com>
+        <20200904131711.12950-31-m.szyprowski@samsung.com>
+        <CAAFQd5AZDzG6i00gcAZKM9ZV1tATWufL=+xXUAmgrbTPt8W6Gw@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 4, 2020 at 4:06 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Fri, Sep 4, 2020 at 4:48 PM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
-> > On Wed, 2020-09-02 at 16:44 +0300, Andy Shevchenko wrote:
-> > > On Wed, Sep 02, 2020 at 08:01:22PM +0800, Dongchun Zhu wrote:
->
-> ...
->
-> > > > +   struct i2c_client *client = to_i2c_client(dev);
-> > > > +   struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > >
-> > >       struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > >
-> > > Same for the rest similar cases.
-> >
-> > We've discussed the issue in DW9768 V2.
-> >
-> > For V4L2 sub-device drivers, dev_get_drvdata() shouldn't be used
-> > directly.
-> >
-> > More details please check the Google Issue:
-> > https://partnerissuetracker.corp.google.com/issues/147957975
->
-> This is not a public link. Can you remind me what was the issue?
->
+Hi Tomasz,
 
-v4l2-subdev framework uses dev drvdata for its own purposes. However,
-that problem was about the driver setting its own drvdata and having
-it overridden by the framework. There is nothing wrong in using
-dev_get_drvdata(), assuming the correct type is known and here it's
-guaranteed to be v4l2_subdev for the v4l2-subdev framework.
-
-In fact i2c_get_clientdata() [1] is just a wrapper that calls
-dev_get_drvdata(&client->dev).
-
-[1] https://elixir.bootlin.com/linux/v5.9-rc3/source/include/linux/i2c.h#L351
-
-> ...
+On 07.09.2020 15:07, Tomasz Figa wrote:
+> On Fri, Sep 4, 2020 at 3:35 PM Marek Szyprowski
+> <m.szyprowski@samsung.com> wrote:
+>> Use recently introduced common wrappers operating directly on the struct
+>> sg_table objects and scatterlist page iterators to make the code a bit
+>> more compact, robust, easier to follow and copy/paste safe.
+>>
+>> No functional change, because the code already properly did all the
+>> scatterlist related calls.
+>>
+>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+>> ---
+>>   .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
+>>   .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
+>>   .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
+>>   3 files changed, 31 insertions(+), 47 deletions(-)
+>>
+> Thanks for the patch! Please see my comments inline.
 >
-> > > > +   if (!bus_cfg.nr_of_link_frequencies) {
-> > > > +           dev_err(dev, "no link frequencies defined\n");
-> > > > +           ret = -EINVAL;
-> > > > +           goto check_hwcfg_error;
-> > > > +   }
-> > >
-> > > If it's 0, the below will break on 'if (j == 0)' with slightly different but
-> > > informative enough message. What do you keep above check for?
-> >
-> > I still prefer to the original version.
-> > If 'bus_cfg.nr_of_link_frequencies' is 0, shouldn't we directly return
-> > error?
->
-> But that will happen anyway. I will leave this to Sakari and
-> maintainers to decide.
->
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> index ec3446cc45b8..1b242d844dde 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> @@ -58,10 +58,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
+>>          unsigned int i;
+>>          unsigned long size = 0;
+>>
+>> -       for_each_sg(sgt->sgl, s, sgt->nents, i) {
+>> +       for_each_sgtable_dma_sg(sgt, s, i) {
+>>                  if (sg_dma_address(s) != expected)
+>>                          break;
+>> -               expected = sg_dma_address(s) + sg_dma_len(s);
+>> +               expected += sg_dma_len(s);
+>>                  size += sg_dma_len(s);
+>>          }
+>>          return size;
+>> @@ -103,8 +103,7 @@ static void vb2_dc_prepare(void *buf_priv)
+>>          if (!sgt)
+>>                  return;
+>>
+>> -       dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+>> -                              buf->dma_dir);
+>> +       dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>>   }
+>>
+>>   static void vb2_dc_finish(void *buf_priv)
+>> @@ -115,7 +114,7 @@ static void vb2_dc_finish(void *buf_priv)
+>>          if (!sgt)
+>>                  return;
+>>
+>> -       dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
+>> +       dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>>   }
+>>
+>>   /*********************************************/
+>> @@ -275,8 +274,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
+>>                   * memory locations do not require any explicit cache
+>>                   * maintenance prior or after being used by the device.
+>>                   */
+>> -               dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>> -                                  attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+>> +                                 DMA_ATTR_SKIP_CPU_SYNC);
+>>          sg_free_table(sgt);
+>>          kfree(attach);
+>>          db_attach->priv = NULL;
+>> @@ -301,8 +300,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+>>
+>>          /* release any previous cache */
+>>          if (attach->dma_dir != DMA_NONE) {
+>> -               dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>> -                                  attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>> +               dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+>> +                                 DMA_ATTR_SKIP_CPU_SYNC);
+>>                  attach->dma_dir = DMA_NONE;
+>>          }
+>>
+>> @@ -310,9 +309,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+>>           * mapping to the client with new direction, no cache sync
+>>           * required see comment in vb2_dc_dmabuf_ops_detach()
+>>           */
+>> -       sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>> -                                     dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>> -       if (!sgt->nents) {
+>> +       if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
+>> +                           DMA_ATTR_SKIP_CPU_SYNC)) {
+>>                  pr_err("failed to map scatterlist\n");
+>>                  mutex_unlock(lock);
+>>                  return ERR_PTR(-EIO);
+> As opposed to dma_map_sg_attrs(), dma_map_sgtable() now returns an
+> error code on its own. Is it expected to ignore it and return -EIO?
 
-I agree with Andy on this. The check is redundant. In fact, the later
-error message is more meaningful, because it at least suggests a
-frequency that must be supported, while the earlier one only states
-the fact.
+Those errors are more or less propagated to userspace and -EIO has been 
+already widely documented in V4L2 documentation as the error code for 
+the most of the V4L2 ioctls. I don't want to change it. A possible 
+-EINVAL returned from dma_map_sgtable() was just one of the 'generic' 
+error codes, not very descriptive in that case. Probably the main 
+problem here is that dma_map_sg() and friend doesn't return any error 
+codes...
 
-Best regards,
-Tomasz
+ > ...
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
