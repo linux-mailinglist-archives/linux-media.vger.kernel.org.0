@@ -2,84 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6D0D25F43C
-	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 09:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE67325F582
+	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 10:41:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727081AbgIGHpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Sep 2020 03:45:19 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:44363 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726896AbgIGHpN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Sep 2020 03:45:13 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id E04B1C0014;
-        Mon,  7 Sep 2020 07:45:06 +0000 (UTC)
-Date:   Mon, 7 Sep 2020 09:48:54 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        sakari.ailus@iki.fi, hverkuil@xs4all.nl, jacopo+renesas@jmondi.org,
-        luca@lucaceresoli.net, leonl@leopardimaging.com,
-        robh+dt@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] media: i2c: imx274: Add IMX274 power on and off
- sequence
-Message-ID: <20200907074854.uxq4a76k5amjfopi@uno.localdomain>
-References: <1599012278-10203-1-git-send-email-skomatineni@nvidia.com>
- <1599012278-10203-4-git-send-email-skomatineni@nvidia.com>
- <20200903144713.fyhmhs2bfcz5br6d@uno.localdomain>
- <094073f1-ef58-a2fd-bed4-7fa3b99dd120@nvidia.com>
- <20200904085552.5xddn2kecoktuesg@uno.localdomain>
- <5ebe8d22-86fb-7bf2-ab19-e729caf8d88f@nvidia.com>
+        id S1728298AbgIGIlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Sep 2020 04:41:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45734 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728016AbgIGIlI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Sep 2020 04:41:08 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD68AC061573
+        for <linux-media@vger.kernel.org>; Mon,  7 Sep 2020 01:41:08 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id BAC41C6365; Mon,  7 Sep 2020 09:40:53 +0100 (BST)
+Date:   Mon, 7 Sep 2020 09:40:53 +0100
+From:   Sean Young <sean@mess.org>
+To:     Joakim Zhang <qiangqing.zhang@nxp.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Andy Duan <fugang.duan@nxp.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: SONY IR issue
+Message-ID: <20200907084053.GA32304@gofer.mess.org>
+References: <DB8PR04MB679580C7C8E6888B56C8BDACE62C0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+ <20200903185513.GA31286@gofer.mess.org>
+ <DB8PR04MB67950837E2355EA81FBAADD1E62D0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+ <20200904123050.GA11675@gofer.mess.org>
+ <DB8PR04MB6795F1EA8A865A3CDCC79439E6280@DB8PR04MB6795.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5ebe8d22-86fb-7bf2-ab19-e729caf8d88f@nvidia.com>
+In-Reply-To: <DB8PR04MB6795F1EA8A865A3CDCC79439E6280@DB8PR04MB6795.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Mon, Sep 07, 2020 at 06:58:43AM +0000, Joakim Zhang wrote:
 
-On Fri, Sep 04, 2020 at 10:04:10AM -0700, Sowjanya Komatineni wrote:
->
-> On 9/4/20 1:55 AM, Jacopo Mondi wrote:
-> > > > usleep_range() allows you to provide an interval in which your timeout
-> > > > can be coalesced with others. Giving a [1usec, 2usec] range kind of
-> > > > defeat the purpose. And most than everything, does sleeping for 2usec
-> > > > serve any real purpose ?
-> > > Following delay recommendation from DS for power on sequence.
-> > >
-> > 2 useconds ? Seems very short:)
-> >
-> As per IMX274 datasheet for power on sequence, 100ns is the min wait time
-> after the last power supply of 1v8/1v2/2v8 is ON before releasing RESET
-> high.
+-snip-
 
-ook.. well, it's actually reasonable, it's just the time for the
-regulators to ramp up, I initially thought it was the time for the
-chip to exit reset.
+> > > > I wouldn't be surprised if the gpio device generates two interrupts
+> > > > for the broken pulse (one after 690us and another at 1200us), and if
+> > > > decoding happens before the second then the wrong pulse length is used.
+> > > I also check the number of interrupt generated by gpio. After I press the key,
+> > RC transmits 7 frames, it should contain 182 falling/rising edges.
+> > > It indeed reports 182 interrupts and go through ir_raw_event_store
+> > > function 182 times. Since the number of interrupt is accurate, just a few
+> > falling/rising interrupt comes much quickly than others, but the analog signal is
+> > perfect. It is really out of my understanding. It should not an issue in IR layer.
+> > 
+> > I think the next step would be to put dev_dbg/printk in gpio-ir-recv.c, and see if
+> > the results are the same there. I suspect they will be.
+> Yes, as you suspected, the result is the same there. It seems to be a system or gpio issue.
+> 
+> 
+> > > > > I also have a question, if RC transmit repeatedly 6 times, and
+> > > > > SONY decodes
+> > > > decode all raw data successfully, it will report to input subsystem
+> > > > 6 times, does input subsystem will still report to userspace 6 times?
+> > > >
+> > > > If the sony decodes the same values 6 times, then scancode will
+> > > > reported 6 imes, but there will be only one key down event, and a
+> > > > key up event about 100ms after the the last decode (plus a few other
+> > > > milliseconds for various timeouts).
+> > > Thanks for your details. Does this mean input subsystem will still report
+> > scancode 6 times, but only report keycode once if it is matched?
+> > 
+> > Exactly. The keycode is only reported once, so that if the user press e.g.
+> > "1" they will get just get one "1".
+> > 
+> > > Sean, based on your experience, where else do you suggest me to look into
+> > this further? Have you came across such case, a few interrupt responded so
+> > quickly so that front pulse/space is much shorten?
+> > 
+> > To be honest I've never seen this before.
+> > 
+> > I'm not sure what the cause could be. On the raspberry pi it is known that lots
+> > usb traffic causes delays in the gpio interrupt handlers due to some hardware
+> > issue, but this causes some interrupts to arrive late. This causes some of the
+> > pulse/space timings to be longer, and then later ones are shorter again as it
+> > catches up.
+> > 
+> > Similarly if the kernel is running with interrupts off for too long, some of the
+> > timings will be longer and others shorter.
+> Yes, we can understand the interrupt arrives late and cause the timings incorrect. At my side, a few interrupt arrives too faster.
 
-Let me be a bit more picky and ask if you have considered busy waiting
-on such a small sleep interval by using udelay. Again, as this happens
-at chip power on only, the impact on the system of mis-using
-usleep_range() is negligible, but according to documentation:
+I'm wondering where you captured the IR signal. If you captured the IR signal
+on the transmitter led, make sure the resolution is high enough so you can
+see the carrier. Then you can make sure there are no errors in there.
 
-	SLEEPING FOR "A FEW" USECS ( < ~10us? ):
-		* Use udelay
+It might be better to capture the IR signal on the gpio signal going into
+the SoC.
 
-		- Why not usleep?
-			On slower systems, (embedded, OR perhaps a speed-
-			stepped PC!) the overhead of setting up the hrtimers
-			for usleep *may* not be worth it. Such an evaluation
-			will obviously depend on your specific situation, but
-			it is something to be aware of.
-
-Up to you, really!
+> > Is there anything you can tell us about the gpio hardware?
+> GPIO is from our SoC, power supply with extern 3.3V, and I configured it internal pull-up. 
 
 Thanks
-  j
+Sean
