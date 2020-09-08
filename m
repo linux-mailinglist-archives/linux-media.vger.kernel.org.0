@@ -2,165 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C4DF261F26
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 22:00:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFA00261D0C
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 21:31:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730809AbgIHT7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 15:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50670 "EHLO
+        id S1732129AbgIHTaj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 15:30:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730485AbgIHPfh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 11:35:37 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF419C061368
-        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 08:35:06 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id n25so9706499ljj.4
-        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 08:35:06 -0700 (PDT)
+        with ESMTP id S1731004AbgIHTaW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 15:30:22 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0083C061573
+        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 12:30:21 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id 34so237135pgo.13
+        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 12:30:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=tGrF/vntbxcaJrg5poH7gCu+VWyo9L1BGQaIoIoS0bQ=;
-        b=n5qGCXo1v/X8PSEimLNceYfoLFK43B7g0eyI3jYR3uW14XAA4IE07X48ZKE7YJ70UB
-         JEcRKUHQT4cygg8gCURGdeBaerT9Borb6Apcl4jO+AitKEYcyKR+v/V0SsZeW1b9KTKZ
-         T4u/4yQeetA+aH1V5kXiKSA9NeqInShUo9Jj/fF24oDmWL98A/DUSelSqCmPdxjADtXt
-         5egM5+0P5ils3V8bietOEkG7u8rodrCT2oQDTRr94vaFewKmE9Oka8lHZDq/Jryg7P64
-         fBY0QMSrFBHO0ym10Uy5IR1zGhIxxftr1aETdSpB11o9cbC3wy6bK/RXkPmDvIKhlbcJ
-         cRqw==
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=SsOjzOVIq97WOAc6WZeXaOq483i3DuOEILRijMKc8+c=;
+        b=I2A6OrWWp9ZhN3tycDzSBFzxFhAVc4uVVlf6QeuGM+05TNovmH2B+uVYHRSjh8Tfa4
+         3rbgHqE43zixo0WWMEH/uPn6zQ+k8rp6mukpfWZWv8M5OQw4plGz5nLDUFU8TKhOG76x
+         kbIHeGgSSQCfV0ICNIztWj0FF4yY6nAq3J+2c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=tGrF/vntbxcaJrg5poH7gCu+VWyo9L1BGQaIoIoS0bQ=;
-        b=doyz+/MQVYJyvAvQR2us8tg/LKKEgFMlm7qhrq3BrwOXctIoCoZgN86Vht0ryPkWAe
-         C9j3/js23fHPTgg4B5hpvwZJp9hN+WyO/LsBoIInu4VaFPqMtNx+HQZ1/DObZ9uRiS/2
-         EJREj1tzpTk927faY9POWn3VHRt98vymYS6R6gKg82639A8K9OCEobuHUn6kPZOpp9gG
-         3C4SFqeKzyunL1s/4RGkcS99mKLHeGKlud979tXNLVBTzqzYGctA6UBS79+9zWfezuhY
-         IWatx3XFDcsVyLoZAhvHyzP+0bjQzVdeJ/4pNbLBshZ15KqrfiduvituEJS/bkxnv7qu
-         t3aw==
-X-Gm-Message-State: AOAM533/o/b3kaDilydbtSadwDVsFY+mF/OhDBO6fM0tTXsJjoHsRO2y
-        LLw58zwopFI+bA8gvhAi3rtEkA==
-X-Google-Smtp-Source: ABdhPJy1r23FBDpD0AieNv6pKwgAOMIvS4RqWasIIr61zMeo/9UcX+kJabzQIpPXrPEHYKTDEOtgpA==
-X-Received: by 2002:a2e:9110:: with SMTP id m16mr13370093ljg.173.1599579304860;
-        Tue, 08 Sep 2020 08:35:04 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id y4sm10537582ljk.61.2020.09.08.08.35.04
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=SsOjzOVIq97WOAc6WZeXaOq483i3DuOEILRijMKc8+c=;
+        b=RG+a0HhPa5BS62epsH85ZrXLFmXDgSjIFEUTtzCGpyVHhktVEwErz5ltckrRiukL5G
+         Iddo2/1babqug3U4jC0hfavP+keN/zdHVTP7YnC4mOuYByc2IAZ5jiC7a8KzDzbWcLOe
+         q9ieEMiKLq7bbeHRxF4aGAkiEGJe4J2mrFIbxKbKxUyCMY864W/9fmiidTQOSlGGf5W0
+         nbY891u3mQNE1QbhjVVDcfsJIDtp6JbCGRsXXYIypJyx/1CrPMy3y+ya3FO94904E5jp
+         eO2d5JwHXqlv7L9a+NOZWZ3tq+xgCYMP8YNKeKEf/thdZQAMeq9oY2yLWWeb1dDpDFSa
+         VFtQ==
+X-Gm-Message-State: AOAM532GqqUv2WQtrQAIUqz8a4L3TEoLz1wUrvRnbdVOmkVyR4tc4jP/
+        YNY3kId2q/R4ocim+xBIMBLspg==
+X-Google-Smtp-Source: ABdhPJxHIdKSrBuYxJO9MpvlN9pOkwSjhGrSBHPFd2611Mm9W5IYS0c3yvOL6x5Xbpknc67grJnfiw==
+X-Received: by 2002:a62:6003:: with SMTP id u3mr279604pfb.55.1599593421304;
+        Tue, 08 Sep 2020 12:30:21 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id r3sm208389pfh.88.2020.09.08.12.30.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 08:35:04 -0700 (PDT)
-Date:   Tue, 8 Sep 2020 17:35:03 +0200
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] media: rcar-vin: Update crop and compose settings for
- every s_fmt call
-Message-ID: <20200908153503.GA3399240@oden.dyn.berto.se>
-References: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200801090456.GB1379367@oden.dyn.berto.se>
- <CA+V-a8sOHct_JetCsug8Z2BQpMLH2p39hj2XNw_1N5gkBQp1Gg@mail.gmail.com>
- <20200803192108.GB2297236@oden.dyn.berto.se>
- <6d659e56-1e1f-c9c7-2e66-4ddc4e7fad15@xs4all.nl>
- <CA+V-a8uzznUvzGgZ5A4B8ASEDbmMCrQPSAcEjO7v45zmAkdGDQ@mail.gmail.com>
- <20200904022522.GD9369@pendragon.ideasonboard.com>
- <CA+V-a8tTKu5FeEs+Hi2AwXy-i5OFufeyhTKGC6D4C5fK81895g@mail.gmail.com>
+        Tue, 08 Sep 2020 12:30:20 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8tTKu5FeEs+Hi2AwXy-i5OFufeyhTKGC6D4C5fK81895g@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200907130731.2607-1-rojay@codeaurora.org>
+References: <20200907130731.2607-1-rojay@codeaurora.org>
+Subject: Re: [PATCH V3] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
+        gregkh@linuxfoundation.org, mka@chromium.org,
+        akashast@codeaurora.org, msavaliy@qti.qualcomm.com,
+        skakit@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Roja Rani Yarubandi <rojay@codeaurora.org>
+To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
+Date:   Tue, 08 Sep 2020 12:30:18 -0700
+Message-ID: <159959341894.454335.3250696075143737399@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad,
+Why is dri-devel on here? And linaro-mm-sig?
 
-On 2020-09-06 20:12:35 +0100, Lad, Prabhakar wrote:
-> Hi Laurent,
-> 
-> On Fri, Sep 4, 2020 at 3:25 AM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > On Thu, Sep 03, 2020 at 03:53:18PM +0100, Lad, Prabhakar wrote:
-> > > On Wed, Aug 19, 2020 at 3:08 PM Hans Verkuil wrote:
-> > > > On 03/08/2020 21:21, Niklas wrote:
-> > > > > On 2020-08-03 19:11:32 +0100, Lad, Prabhakar wrote:
-> > > > >> On Sat, Aug 1, 2020 at 10:04 AM Niklas wrote:
-> > > > >>> On 2020-07-31 10:29:05 +0100, Lad Prabhakar wrote:
-> > > > >>>> The crop and compose settings for VIN in non mc mode werent updated
-> > > > >>>> in s_fmt call this resulted in captured images being clipped.
-> > > > >>>>
-> > > > >>>> With the below sequence on the third capture where size is set to
-> > > > >>>> 640x480 resulted in clipped image of size 320x240.
-> > > > >>>>
-> > > > >>>> high(640x480) -> low (320x240) -> high (640x480)
-> > > > >>>>
-> > > > >>>> This patch makes sure the VIN crop and compose settings are updated.
-> > > > >>>
-> > > > >>> This is clearly an inconsistency in the VIN driver that should be fixed.
-> > > > >>> But I think the none-mc mode implements the correct behavior. That is
-> > > > >>> that S_FMT should not modify the crop/compose rectangles other then make
-> > > > >>> sure they don't go out of bounds. This is an area we tried to clarify in
-> > > > >>> the past but I'm still not sure what the correct answer to.
-> > > > >>>
-> > > > >> What should be the exact behaviour of the bridge driver  for s_fmt
-> > > > >> call. Should the crop/compose settings be updated for every s_fmt
-> > > > >> callback or should they be only updated on s_selection callback.
-> > > > >> Currently the non-mc rcar-vin doesnt update the crop/compose setting
-> > > > >> in s_fmt callback due to which I see the above issue as mentioned.
-> > > > >
-> > > > > This is not entirely correct. It does update the crop and compose
-> > > > > rectangles on s_fmt, it makes sure they are not out-of-bounds for the
-> > > > > new format if it's accepted by s_fmt. See v4l2_rect_map_inside() calls
-> > > > > in the snippet bellow.
-> > > >
-> > > > For non-mc mode s_fmt must update any crop/compose rectangles to ensure that
-> > > > they are not out-of-bounds. But for mc mode the validation is done when you
-> > > > start streaming, so I think s_fmt won't make any changes in that mode.
-> > >
-> > > Thank you Hans.
-> > >
-> > > > Double-check that with Laurent, though...
-> > >
-> > > Niklas/Laurent - How do we proceed on this ?
-> >
-> > MC devices rely on userspace to propagate formats between entities, and
-> > on kernelspace to propagate formats within entities. This is documented
-> > in https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/dev-subdev.html.
-> > The configuration of an entity (formats and selection rectangles) must
-> > be valid at all times. Subdev drivers should thus either adjust or reset
-> > the crop and selection rectangles. The specification isn't clear on
-> > which behaviour should be implemented, the only related text is
-> >
-> > "Sub-devices that scale frames using variable scaling factors should
-> > reset the scale factors to default values when sink pads formats are
-> > modified. If the 1:1 scaling ratio is supported, this means that source
-> > pads formats should be reset to the sink pads formats."
-> >
-> > I would recommend resetting as the default behaviour. In any case,
-> > adjustements are needed to ensure that the configuration remains valid.
-> >
-> In that case can I have your Ack to the patch please.
+Quoting Roja Rani Yarubandi (2020-09-07 06:07:31)
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-=
+qcom-geni.c
+> index dead5db3315a..b3609760909f 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+>  struct geni_i2c_err_log {
+> @@ -384,7 +387,8 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *g=
+i2c, struct i2c_msg *msg,
+>         if (dma_buf) {
+>                 if (gi2c->err)
+>                         geni_i2c_rx_fsm_rst(gi2c);
+> -               geni_se_rx_dma_unprep(se, rx_dma, len);
+> +               geni_se_rx_dma_unprep(se, gi2c->rx_dma, len);
+> +               gi2c->rx_dma =3D (dma_addr_t)NULL;
+>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>         }
+> =20
+> @@ -394,12 +398,12 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev =
+*gi2c, struct i2c_msg *msg,
+>  static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg=
+ *msg,
+>                                 u32 m_param)
+>  {
+> -       dma_addr_t tx_dma;
+>         unsigned long time_left;
+>         void *dma_buf =3D NULL;
+>         struct geni_se *se =3D &gi2c->se;
+>         size_t len =3D msg->len;
+> =20
+> +       gi2c->xfer_len =3D len;
+>         if (!of_machine_is_compatible("lenovo,yoga-c630"))
+>                 dma_buf =3D i2c_get_dma_safe_msg_buf(msg, 32);
+> =20
+> @@ -410,7 +414,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *g=
+i2c, struct i2c_msg *msg,
+> =20
+>         writel_relaxed(len, se->base + SE_I2C_TX_TRANS_LEN);
+> =20
+> -       if (dma_buf && geni_se_tx_dma_prep(se, dma_buf, len, &tx_dma)) {
+> +       if (dma_buf && geni_se_tx_dma_prep(se, dma_buf, len, &gi2c->tx_dm=
+a)) {
+>                 geni_se_select_mode(se, GENI_SE_FIFO);
+>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
+>                 dma_buf =3D NULL;
+> @@ -429,7 +433,8 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *g=
+i2c, struct i2c_msg *msg,
+>         if (dma_buf) {
+>                 if (gi2c->err)
+>                         geni_i2c_tx_fsm_rst(gi2c);
+> -               geni_se_tx_dma_unprep(se, tx_dma, len);
+> +               geni_se_tx_dma_unprep(se, gi2c->tx_dma, len);
+> +               gi2c->tx_dma =3D (dma_addr_t)NULL;
+>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>         }
+> =20
+> @@ -479,6 +484,51 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
+>         return ret;
+>  }
+> =20
+> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
+> +{
+> +       int ret;
+> +       u32 dma;
+> +       u32 val;
+> +       u32 geni_status;
+> +       struct geni_se *se =3D &gi2c->se;
+> +
+> +       ret =3D pm_runtime_get_sync(gi2c->se.dev);
+> +       if (ret < 0) {
+> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n", re=
+t);
 
-If this is the approach we wish to take here you should remove the code 
-above and bellow the added block as it becomes redundant whit this 
-change.
+Is this print really necessary? Doesn't PM core already print this sort
+of information?
 
-> 
-> Cheers,
-> Prabhakar
+> +               return;
+> +       }
+> +
+> +       geni_status =3D readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
+> +       if (geni_status & M_GENI_CMD_ACTIVE) {
 
--- 
-Regards,
-Niklas Söderlund
+Please try to de-indent all this.
+
+	if (!(geni_status & M_GENI_CMD_ACTIVE))
+		goto out;
+
+> +               geni_i2c_abort_xfer(gi2c);
+> +               dma =3D readl_relaxed(se->base + SE_GENI_DMA_MODE_EN);
+> +               if (dma) {
+
+	if (!dma)
+		goto out;
+
+> +                       val =3D readl_relaxed(gi2c->se.base + SE_DMA_DEBU=
+G_REG0);
+> +                       if (val & DMA_TX_ACTIVE) {
+> +                               gi2c->cur_wr =3D 0;
+> +                               if (gi2c->err)
+> +                                       geni_i2c_tx_fsm_rst(gi2c);
+> +                               if (gi2c->tx_dma) {
+> +                                       geni_se_tx_dma_unprep(se,
+> +                                                gi2c->tx_dma, gi2c->xfer=
+_len);
+> +                                       gi2c->tx_dma =3D (dma_addr_t)NULL;
+
+Almost nobody does this. In fact, grep shows me one hit in the kernel.
+If nobody else is doing it something is probably wrong. When would dma
+mode be active and tx_dma not be set to something that should be
+stopped? If it really is necessary I suppose we should assign this to
+DMA_MAPPING_ERROR instead of casting NULL. Then the check above for
+tx_dma being valid can be dropped because geni_se_tx_dma_unprep()
+already checks for a valid mapping before doing anything. But really, we
+should probably be tracking the dma buffer mapped to the CPU as well as
+the dma address that was used for the mapping. Not storing both is a
+problem, see below.
+
+> +                               }
+> +                       } else if (val & DMA_RX_ACTIVE) {
+> +                               gi2c->cur_rd =3D 0;
+> +                               if (gi2c->err)
+> +                                       geni_i2c_rx_fsm_rst(gi2c);
+> +                               if (gi2c->rx_dma) {
+> +                                       geni_se_rx_dma_unprep(se,
+> +                                               gi2c->rx_dma, gi2c->xfer_=
+len);
+
+Looking closely it seems that the geni dma wrappers shouldn't even be
+checking for an iova being non-zero. Instead they should make sure that
+it just isn't invalid with !dma_mapping_error().
+
+> +                                       gi2c->rx_dma =3D (dma_addr_t)NULL;
+
+If we're stopping some dma transaction doesn't that mean the=20
+
+                 i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+
+code needs to run also? I fail to see where we free the buffer that has
+been mapped for DMA.
+
+> +                               }
+> +                       }
+> +               }
+> +       }
+> +
+
+out:
+
+> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
+> +}
+> +
