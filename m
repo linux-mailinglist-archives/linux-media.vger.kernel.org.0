@@ -2,105 +2,605 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 586D4260EE3
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 11:40:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A178260EE9
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 11:43:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728886AbgIHJkQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 05:40:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728798AbgIHJkP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 05:40:15 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD63EC061573
-        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 02:40:14 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id z9so16474625wmk.1
-        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 02:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=zRCxWpcI0mZIwCPZ4RCKhu2QK+Tf1G8AWOmFOM9iPro=;
-        b=JKkkamlkJQwdcSYmvC7ArQt5gWC19BaBK3bc7z338KtEK2573v7QCclO2z5gy6DX0N
-         i55mhEXmRAgRti1QqgQMHr3G63D4X6j0mei+5yjFaNEIRmlJP/NFBl2HG1YuC8Q+vJ4z
-         T2Dii++QAxgwVKVav10xJDZfK1Oo7XsZU/I4CJCZBfd1aew9WW6jdu9fYLBnahTLQt0n
-         YLzzcsB750fk3NHAHG7vXz99EzLZZSywjxD93nyWj/b1zQm2x9QrBo0+5XAPfiM7VXG/
-         vWSBDlMwXz1SI+S1WbQ5d7GC743X/j68/8cCh7eZeVSFnjPmkNr4UIT03VUzBX7osAQJ
-         aCjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=zRCxWpcI0mZIwCPZ4RCKhu2QK+Tf1G8AWOmFOM9iPro=;
-        b=C8Xe2xuuhxLNR4RbxGYoIq0uKGpY3hz+aqKp8I8yy26NeKusNczhjhH2eZZv5I7cA+
-         1NoRxmvMfjEdbhZf2I0NgbBqNq+8poMcLFZpXWng4hlp83hA89gWjVPhSodeyNTFMGzS
-         8awUpVIoA30FbiJcARKsaiKn6GAhujnJQL4XAzP/DzW/B2BCoErp58Juy8Fx6Xuir+oS
-         Zoosmh5IhSUGEjwtGC1kzTWeb+FTtJHh1a0/UtM4SEY7dwZTwXh35o0xGZ23ypICes6b
-         5bpEUqEQiONaRCU81FdDdHk60gaWNbJfBasK9nCQDdjbz/aysGAEmgI+GuZnfPgYCdGP
-         C1dg==
-X-Gm-Message-State: AOAM533YcEb7eyMLXl8mc1RQHw5rTJgzk6+xXXdmiY7N3E5man4DqfdD
-        QYZ0YAuZHgIu3ParD2gWXw4=
-X-Google-Smtp-Source: ABdhPJzSf9zI0rFEjPmhWjgiPZA6CfeUTK2g9Udbi/ImIqJWKul/1eTl9kPQ72QpWjy0srFRbFq6BQ==
-X-Received: by 2002:a1c:a9c2:: with SMTP id s185mr3607508wme.100.1599558010545;
-        Tue, 08 Sep 2020 02:40:10 -0700 (PDT)
-Received: from [192.168.1.211] ([2.29.208.34])
-        by smtp.gmail.com with ESMTPSA id b194sm34318156wmd.42.2020.09.08.02.40.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2020 02:40:10 -0700 (PDT)
-Subject: Re: cio2 ipu3 module to automatically connect sensors via swnodes
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, heikki.krogerus@linux.intel.com,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        kitakar@gmail.com, jorhand@linux.microsoft.com,
-        andriy.shevchenko@linux.intel.com
-References: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
- <20200908080326.GB27352@paasikivi.fi.intel.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <5614b37e-c263-c9e7-fe5b-a523401c58e2@gmail.com>
-Date:   Tue, 8 Sep 2020 10:40:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728739AbgIHJm6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 05:42:58 -0400
+Received: from mga07.intel.com ([134.134.136.100]:4229 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728676AbgIHJm5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Sep 2020 05:42:57 -0400
+IronPort-SDR: BCuf1oimURVgbGh9ICdWzR37KHXO4uzH7Y8zGRJZPa/ouXrTfKx7H3yNz+PDCj59qYiizS8jka
+ VMW3Cd52Y4bQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9737"; a="222311160"
+X-IronPort-AV: E=Sophos;i="5.76,405,1592895600"; 
+   d="scan'208";a="222311160"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 02:42:56 -0700
+IronPort-SDR: QyaKoQtNkwVDjwQwMvZEd2mG0ayfMJjGIVvHGgarWtgqXvPkXkAwaOJjo24HAMUckb0iHfFEk8
+ 6WrjCpuFBYbA==
+X-IronPort-AV: E=Sophos;i="5.76,405,1592895600"; 
+   d="scan'208";a="333415026"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 02:42:53 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 428E020765; Tue,  8 Sep 2020 12:42:51 +0300 (EEST)
+Date:   Tue, 8 Sep 2020 12:42:51 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Hao He <hao.he@bitland.com.cn>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, drinkcat@chromium.org,
+        Xingyu Wu <wuxy@bitland.com.cn>, dongchun.zhu@mediatek.com,
+        sj.huang@mediatek.com, darfur_liu@gcoreinc.com, hao.he7@gmail.com
+Subject: Re: [PATCH v4 4/4] media: i2c: gc5035: Add OTP configuration handling
+Message-ID: <20200908094251.GD27352@paasikivi.fi.intel.com>
+References: <20200902224813.14283-1-tfiga@chromium.org>
+ <20200902224813.14283-5-tfiga@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200908080326.GB27352@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200902224813.14283-5-tfiga@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari - thanks for the reply
+Hi Tomasz,
 
-On 08/09/2020 09:03, Sakari Ailus wrote:
-> On ACPI systems regulators and clocks as well as GPIOs to some extent are
-> controlled by AML code in the DSDT and SSDT. There are different ways this
-> can be implemented though. It may be that the PMIC in this case is
-> controlled entirely from the AML code without the need for a driver.
->
-> This might be the case here. It should be possible to figure this out from
-> the DSDT and SSDT tables.
+Thanks for the patch.
 
-Ah - that's interesting, thanks. I'll delve into the SSDT and DSDT 
-tables and see if I can spot that happening. Presumably it is the case 
-though, as like I say it seems to be working fine without any 
-intervention by our sensor drivers.
+On Wed, Sep 02, 2020 at 10:48:13PM +0000, Tomasz Figa wrote:
+> From: Hao He <hao.he@bitland.com.cn>
+> 
+> The sensor OTP holds values for various configuration registers
+> deteremined at manufacturing time and dead pixel correction tables. Add
+> code to load both from the OTP and initialize the sensor appropriately.
+> 
+> Signed-off-by: Hao He <hao.he@bitland.com.cn>
+> Signed-off-by: Xingyu Wu <wuxy@bitland.com.cn>
+> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> ---
+>  drivers/media/i2c/gc5035.c | 478 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 478 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/gc5035.c b/drivers/media/i2c/gc5035.c
+> index 12e1b3a430b5..61645cec6948 100644
+> --- a/drivers/media/i2c/gc5035.c
+> +++ b/drivers/media/i2c/gc5035.c
+> @@ -81,6 +81,57 @@
+>  #define GC5035_TEST_PATTERN_ENABLE			0x11
+>  #define GC5035_TEST_PATTERN_DISABLE			0x10
+>  
+> +/* Page 2 registers */
+> +
+> +/* OTP access registers */
+> +#define GC5035_REG_OTP_MODE				0xf3
+> +#define GC5035_OTP_PRE_READ				0x20
+> +#define GC5035_OTP_READ_MODE				0x12
+> +#define GC5035_OTP_READ_DONE				0x00
+> +#define GC5035_REG_OTP_DATA				0x6c
+> +#define GC5035_REG_OTP_ACCESS_ADDR_H			0x69
+> +#define GC5035_REG_OTP_ACCESS_ADDR_L			0x6a
+> +#define GC5035_OTP_ACCESS_ADDR_H_MASK			0x1f
+> +#define GC5035_OTP_ADDR_MASK				0x1fff
+> +#define GC5035_OTP_ADDR_SHIFT				3
+> +#define GC5035_REG_DD_TOTALNUM_H			0x01
+> +#define GC5035_REG_DD_TOTALNUM_L			0x02
+> +#define GC5035_DD_TOTALNUM_H_MASK			0x07
+> +#define GC5035_REG_DD_LOAD_STATUS			0x06
+> +#define GC5035_OTP_BIT_LOAD				BIT(0)
+> +
+> +/* OTP-related definitions */
+> +
+> +#define GC5035_OTP_ID_SIZE				9
+> +#define GC5035_OTP_ID_DATA_OFFSET			0x0020
+> +#define GC5035_OTP_DATA_LENGTH				1024
+> +
+> +/* OTP DPC parameters */
+> +#define GC5035_OTP_DPC_FLAG_OFFSET			0x0068
+> +#define GC5035_OTP_DPC_FLAG_MASK			0x03
+> +#define GC5035_OTP_FLAG_EMPTY				0x00
+> +#define GC5035_OTP_FLAG_VALID				0x01
+> +#define GC5035_OTP_DPC_TOTAL_NUMBER_OFFSET		0x0070
+> +#define GC5035_OTP_DPC_ERROR_NUMBER_OFFSET		0x0078
+> +
+> +/* OTP register parameters */
+> +#define GC5035_OTP_REG_FLAG_OFFSET			0x0880
+> +#define GC5035_OTP_REG_DATA_OFFSET			0x0888
+> +#define GC5035_OTP_REG_ADDR_OFFSET			1
+> +#define GC5035_OTP_REG_VAL_OFFSET			2
+> +#define GC5035_OTP_PAGE_FLAG_OFFSET			3
+> +#define GC5035_OTP_PER_PAGE_SIZE			4
+> +#define GC5035_OTP_REG_PAGE_MASK			0x07
+> +#define GC5035_OTP_REG_MAX_GROUP			5
+> +#define GC5035_OTP_REG_BYTE_PER_GROUP			5
+> +#define GC5035_OTP_REG_PER_GROUP			2
+> +#define GC5035_OTP_REG_BYTE_PER_REG			2
+> +#define GC5035_OTP_REG_DATA_SIZE			25
+> +#define GC5035_OTP_REG_SIZE				10
+> +
+> +#define GC5035_DD_DELAY_US				(10 * 1000)
+> +#define GC5035_DD_TIMEOUT_US				(100 * 1000)
+> +
+>  static const char * const gc5035_supplies[] = {
+>  	/*
+>  	 * Requested separately due to power sequencing needs:
+> @@ -95,6 +146,21 @@ struct gc5035_regval {
+>  	u8 val;
+>  };
+>  
+> +struct gc5035_reg {
+> +	u8 page;
+> +	struct gc5035_regval regval;
+> +};
+> +
+> +struct gc5035_otp_regs {
+> +	unsigned int num_regs;
+> +	struct gc5035_reg regs[GC5035_OTP_REG_SIZE];
+> +};
+> +
+> +struct gc5035_dpc {
+> +	bool valid;
+> +	unsigned int total_num;
+> +};
+> +
+>  struct gc5035_mode {
+>  	u32 width;
+>  	u32 height;
+> @@ -122,6 +188,11 @@ struct gc5035 {
+>  	struct v4l2_ctrl *hblank;
+>  	struct v4l2_ctrl *vblank;
+>  
+> +	bool otp_read;
+> +	u8 otp_id[GC5035_OTP_ID_SIZE];
+> +	struct gc5035_dpc dpc;
+> +	struct gc5035_otp_regs otp_regs;
+> +
+>  	/*
+>  	 * Serialize control access, get/set format, get selection
+>  	 * and start streaming.
+> @@ -136,6 +207,69 @@ static inline struct gc5035 *to_gc5035(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct gc5035, subdev);
+>  }
+>  
+> +static const struct gc5035_regval gc5035_otp_init_regs[] = {
+> +	{0xfc, 0x01},
+> +	{0xf4, 0x40},
+> +	{0xf5, 0xe9},
+> +	{0xf6, 0x14},
+> +	{0xf8, 0x49},
+> +	{0xf9, 0x82},
+> +	{0xfa, 0x00},
+> +	{0xfc, 0x81},
+> +	{0xfe, 0x00},
+> +	{0x36, 0x01},
+> +	{0xd3, 0x87},
+> +	{0x36, 0x00},
+> +	{0x33, 0x00},
+> +	{0xf7, 0x01},
+> +	{0xfc, 0x8e},
+> +	{0xfe, 0x00},
+> +	{0xee, 0x30},
+> +	{0xfa, 0x10},
+> +	{0xf5, 0xe9},
+> +	{0xfe, 0x02},
+> +	{0x67, 0xc0},
+> +	{0x59, 0x3f},
+> +	{0x55, 0x84},
+> +	{0x65, 0x80},
+> +	{0x66, 0x03},
+> +	{0xfe, 0x00},
+> +};
+> +
+> +static const struct gc5035_regval gc5035_otp_exit_regs[] = {
+> +	{0xfe, 0x02},
+> +	{0x67, 0x00},
+> +	{0xfe, 0x00},
+> +	{0xfa, 0x00},
+> +};
+> +
+> +static const struct gc5035_regval gc5035_dd_auto_load_regs[] = {
+> +	{0xfe, 0x02},
+> +	{0xbe, 0x00},
+> +	{0xa9, 0x01},
+> +	{0x09, 0x33},
+> +};
+> +
+> +static const struct gc5035_regval gc5035_otp_dd_regs[] = {
+> +	{0x03, 0x00},
+> +	{0x04, 0x80},
+> +	{0x95, 0x0a},
+> +	{0x96, 0x30},
+> +	{0x97, 0x0a},
+> +	{0x98, 0x32},
+> +	{0x99, 0x07},
+> +	{0x9a, 0xa9},
+> +	{0xf3, 0x80},
+> +};
+> +
+> +static const struct gc5035_regval gc5035_otp_dd_enable_regs[] = {
+> +	{0xbe, 0x01},
+> +	{0x09, 0x00},
+> +	{0xfe, 0x01},
+> +	{0x80, 0x02},
+> +	{0xfe, 0x00},
+> +};
+> +
+>  /*
+>   * Xclk 24Mhz
+>   * Pclk 87.6Mhz
+> @@ -763,6 +897,346 @@ static int gc5035_read_reg(struct gc5035 *gc5035, u8 reg, u8 *val)
+>  	return 0;
+>  }
+>  
+> +static int gc5035_otp_read_data(struct gc5035 *gc5035, u16 bit_addr, u8 *data,
+> +				size_t length)
+> +{
+> +	size_t i;
+> +	int ret;
+> +
+> +	if (WARN_ON(bit_addr % 8))
+> +		return -EINVAL;
+> +
+> +	if (WARN_ON(bit_addr / 8 + length > GC5035_OTP_DATA_LENGTH))
+> +		return -EINVAL;
+> +
+> +	ret = gc5035_write_reg(gc5035, GC5035_PAGE_REG, 2);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = gc5035_write_reg(gc5035, GC5035_REG_OTP_ACCESS_ADDR_H,
+> +			       (bit_addr >> 8) &
+> +			       GC5035_OTP_ACCESS_ADDR_H_MASK);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = gc5035_write_reg(gc5035, GC5035_REG_OTP_ACCESS_ADDR_L,
+> +			       bit_addr & 0xff);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = gc5035_write_reg(gc5035, GC5035_REG_OTP_MODE,
+> +			       GC5035_OTP_PRE_READ);
+> +	if (ret)
+> +		goto out_read_done;
+> +
+> +	ret = gc5035_write_reg(gc5035, GC5035_REG_OTP_MODE,
+> +			       GC5035_OTP_READ_MODE);
+> +	if (ret)
+> +		goto out_read_done;
+> +
+> +	for (i = 0; i < length; i++) {
+> +		ret = gc5035_read_reg(gc5035, GC5035_REG_OTP_DATA, &data[i]);
+> +		if (ret)
+> +			goto out_read_done;
+> +	}
+> +
+> +out_read_done:
+> +	gc5035_write_reg(gc5035, GC5035_REG_OTP_MODE, GC5035_OTP_READ_DONE);
+> +
+> +	return ret;
+> +}
+> +
+> +static int gc5035_read_otp_regs(struct gc5035 *gc5035)
+> +{
+> +	struct device *dev = &gc5035->client->dev;
+> +	struct gc5035_otp_regs *otp_regs = &gc5035->otp_regs;
+> +	u8 regs[GC5035_OTP_REG_DATA_SIZE] = {0};
+> +	unsigned int i, j;
+> +	u8 flag;
+> +	int ret;
+> +
+> +	ret = gc5035_otp_read_data(gc5035, GC5035_OTP_REG_FLAG_OFFSET,
+> +				   &flag, 1);
+> +	if (ret) {
+> +		dev_err(dev, "failed to read otp reg flag\n");
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(dev, "register update flag = 0x%x\n", flag);
+> +
+> +	gc5035->otp_regs.num_regs = 0;
+> +	if (flag != GC5035_OTP_FLAG_VALID)
+> +		return 0;
+> +
+> +	ret = gc5035_otp_read_data(gc5035, GC5035_OTP_REG_DATA_OFFSET,
+> +				   regs, sizeof(regs));
+> +	if (ret) {
+> +		dev_err(dev, "failed to read otp reg data\n");
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < GC5035_OTP_REG_MAX_GROUP; i++) {
+> +		unsigned int base_group = i * GC5035_OTP_REG_BYTE_PER_GROUP;
+> +
+> +		for (j = 0; j < GC5035_OTP_REG_PER_GROUP; j++) {
+> +			struct gc5035_reg *reg;
+> +
+> +			if (!(regs[base_group] &
+> +			      BIT((GC5035_OTP_PER_PAGE_SIZE * j +
+> +				  GC5035_OTP_PAGE_FLAG_OFFSET))))
+> +				continue;
+> +
+> +			reg = &otp_regs->regs[otp_regs->num_regs++];
+> +			reg->page = (regs[base_group] >>
+> +					(GC5035_OTP_PER_PAGE_SIZE * j)) &
+> +					GC5035_OTP_REG_PAGE_MASK;
+> +			reg->regval.addr = regs[base_group + j *
+> +					GC5035_OTP_REG_BYTE_PER_REG +
+> +					GC5035_OTP_REG_ADDR_OFFSET];
+> +			reg->regval.val = regs[base_group + j *
+> +					GC5035_OTP_REG_BYTE_PER_REG +
+> +					GC5035_OTP_REG_VAL_OFFSET];
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int gc5035_read_dpc(struct gc5035 *gc5035)
+> +{
+> +	struct device *dev = &gc5035->client->dev;
+> +	struct gc5035_dpc *dpc = &gc5035->dpc;
+> +	u8 dpc_flag = 0;
+> +	u8 error_number = 0;
+> +	u8 total_number = 0;
+> +	int ret;
+> +
+> +	ret = gc5035_otp_read_data(gc5035, GC5035_OTP_DPC_FLAG_OFFSET,
+> +				   &dpc_flag, 1);
+> +	if (ret) {
+> +		dev_err(dev, "failed to read dpc flag\n");
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(dev, "dpc flag = 0x%x\n", dpc_flag);
+> +
+> +	dpc->valid = false;
+> +
+> +	switch (dpc_flag & GC5035_OTP_DPC_FLAG_MASK) {
+> +	case GC5035_OTP_FLAG_EMPTY:
+> +		dev_dbg(dev, "dpc info is empty!!\n");
+> +		break;
+> +
+> +	case GC5035_OTP_FLAG_VALID:
+> +		dev_dbg(dev, "dpc info is valid!\n");
+> +		ret = gc5035_otp_read_data(gc5035,
+> +					   GC5035_OTP_DPC_TOTAL_NUMBER_OFFSET,
+> +					   &total_number, 1);
+> +		if (ret) {
+> +			dev_err(dev, "failed to read dpc total number\n");
+> +			return ret;
+> +		}
+> +
+> +		ret = gc5035_otp_read_data(gc5035,
+> +					   GC5035_OTP_DPC_ERROR_NUMBER_OFFSET,
+> +					   &error_number, 1);
+> +		if (ret) {
+> +			dev_err(dev, "failed to read dpc error number\n");
+> +			return ret;
+> +		}
+> +
+> +		dpc->total_num = total_number + error_number;
+> +		dpc->valid = true;
+> +		dev_dbg(dev, "total_num = %d\n", dpc->total_num);
+> +		break;
+> +
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int gc5035_otp_read_sensor_info(struct gc5035 *gc5035)
+> +{
+> +	int ret;
+> +
+> +	ret = gc5035_read_dpc(gc5035);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return gc5035_read_otp_regs(gc5035);
+> +}
+> +
+> +static int gc5035_check_dd_load_status(struct gc5035 *gc5035)
+> +{
+> +	u8 status;
+> +	int ret;
+> +
+> +	ret = gc5035_read_reg(gc5035, GC5035_REG_DD_LOAD_STATUS, &status);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (status & GC5035_OTP_BIT_LOAD)
+> +		return status;
+> +	else
+> +		return 0;
+> +}
+> +
+> +static int gc5035_otp_update_dd(struct gc5035 *gc5035)
+> +{
+> +	struct device *dev = &gc5035->client->dev;
+> +	struct gc5035_dpc *dpc = &gc5035->dpc;
+> +	int val, ret;
+> +
+> +	if (!dpc->valid) {
+> +		dev_dbg(dev, "DPC table invalid, not updating DD.\n");
+> +		return 0;
+> +	}
+> +
+> +	dev_dbg(dev, "DD auto load start\n");
+> +
+> +	ret = gc5035_write_array(gc5035, gc5035_dd_auto_load_regs,
+> +				 ARRAY_SIZE(gc5035_dd_auto_load_regs));
+> +	if (ret) {
+> +		dev_err(dev, "failed to write dd auto load reg\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = gc5035_write_reg(gc5035, GC5035_REG_DD_TOTALNUM_H,
+> +			       (dpc->total_num >> 8) &
+> +			       GC5035_DD_TOTALNUM_H_MASK);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = gc5035_write_reg(gc5035, GC5035_REG_DD_TOTALNUM_L,
+> +			       dpc->total_num & 0xff);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = gc5035_write_array(gc5035, gc5035_otp_dd_regs,
+> +				 ARRAY_SIZE(gc5035_otp_dd_regs));
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Wait for DD to finish loading automatically */
+> +	ret = readx_poll_timeout(gc5035_check_dd_load_status, gc5035,
+> +				val, val <= 0, GC5035_DD_DELAY_US,
+> +				GC5035_DD_TIMEOUT_US);
+> +	if (ret < 0) {
+> +		dev_err(dev, "DD load timeout\n");
+> +		return -EFAULT;
+> +	}
+> +	if (val < 0) {
+> +		dev_err(dev, "DD load failure\n");
+> +		return val;
+> +	}
+> +
+> +	ret = gc5035_write_array(gc5035, gc5035_otp_dd_enable_regs,
+> +				 ARRAY_SIZE(gc5035_otp_dd_enable_regs));
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int gc5035_otp_update_regs(struct gc5035 *gc5035)
+> +{
+> +	struct device *dev = &gc5035->client->dev;
+> +	struct gc5035_otp_regs *otp_regs = &gc5035->otp_regs;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	dev_dbg(dev, "reg count = %d\n", otp_regs->num_regs);
+> +
+> +	for (i = 0; i < otp_regs->num_regs; i++) {
+> +		ret = gc5035_write_reg(gc5035, GC5035_PAGE_REG,
+> +				       otp_regs->regs[i].page);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = gc5035_write_reg(gc5035,
+> +				       otp_regs->regs[i].regval.addr,
+> +				       otp_regs->regs[i].regval.val);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int gc5035_otp_update(struct gc5035 *gc5035)
+> +{
+> +	struct device *dev = &gc5035->client->dev;
+> +	int ret;
+> +
+> +	ret = gc5035_otp_update_dd(gc5035);
+> +	if (ret) {
+> +		dev_err(dev, "failed to update otp dd\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = gc5035_otp_update_regs(gc5035);
+> +	if (ret) {
+> +		dev_err(dev, "failed to update otp regs\n");
+> +		return ret;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int gc5035_set_otp_config(struct gc5035 *gc5035)
+> +{
+> +	struct device *dev = &gc5035->client->dev;
+> +	u8 otp_id[GC5035_OTP_ID_SIZE];
+> +	int ret;
+> +
+> +	ret = gc5035_write_array(gc5035, gc5035_otp_init_regs,
+> +				 ARRAY_SIZE(gc5035_otp_init_regs));
+> +	if (ret) {
+> +		dev_err(dev, "failed to write otp init reg\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = gc5035_otp_read_data(gc5035, GC5035_OTP_ID_DATA_OFFSET,
+> +				   &otp_id[0], GC5035_OTP_ID_SIZE);
 
-> If you do not change how the regulators in the PMIC are controlled I'd
-> think it's very, very unlikely you'd be able to fry the sensors.
-Very reassuring!
-> The GPIOs there I'd expect to be reset GPIOs, one for each sensor.
-> Interesting that they are not handled by ACPI in this case. FWIW, the
-> tps68470 driver is present also in the upstream kernel.
-Yeah we found the tps68470 gpio driver (actually andriy pointed it out I 
-think) - it seems that the pins _provided_ by that driver don't actually 
-have any affect when toggled though, only the ones allocated to the PMIC 
-in its _CRM seem to turn the sensors on/off when toggled (at least, 
-switching those off is the only thing that stops the sensor from 
-appearing in i2cdetect). The pins from the PMIC's _CRM seem to just be 
-system GPIO pins, controllable with `gpioset gpiochip0` for example. For 
-the most part we've been controlling them in the sensor drivers by 
-evaluating the sensor's _DEP entry in ACPI to get to the PMIC's 
-acpi_device. That does seem a little hackish though, and it's definitely 
-pretty ugly.
+Is this read needed every time when streaming is about to start?
+
+I guess it's not wrong but it seems unnecessary on subsequent times.
+
+> +	if (ret) {
+> +		dev_err(dev, "failed to read otp id\n");
+> +		goto out_otp_exit;
+> +	}
+> +
+> +	if (!gc5035->otp_read || memcmp(gc5035->otp_id, otp_id, sizeof(otp_id))) {
+> +		dev_dbg(dev, "reading OTP configuration\n");
+> +
+> +		memset(&gc5035->otp_regs, 0, sizeof(gc5035->otp_regs));
+> +		memset(&gc5035->dpc, 0, sizeof(gc5035->dpc));
+> +
+> +		memcpy(gc5035->otp_id, otp_id, sizeof(gc5035->otp_id));
+> +
+> +		ret = gc5035_otp_read_sensor_info(gc5035);
+> +		if (ret < 0) {
+> +			dev_err(dev, "failed to read otp info\n");
+> +			goto out_otp_exit;
+> +		}
+> +
+> +		gc5035->otp_read = true;
+> +	}
+> +
+> +	ret = gc5035_otp_update(gc5035);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +out_otp_exit:
+> +	ret = gc5035_write_array(gc5035, gc5035_otp_exit_regs,
+> +				 ARRAY_SIZE(gc5035_otp_exit_regs));
+> +	if (ret) {
+> +		dev_err(dev, "failed to write otp exit reg\n");
+> +		return ret;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int gc5035_set_fmt(struct v4l2_subdev *sd,
+>  			  struct v4l2_subdev_pad_config *cfg,
+>  			  struct v4l2_subdev_format *fmt)
+> @@ -859,6 +1333,10 @@ static int __gc5035_start_stream(struct gc5035 *gc5035)
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = gc5035_set_otp_config(gc5035);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret = gc5035_write_array(gc5035, gc5035->cur_mode->reg_list,
+>  				 gc5035->cur_mode->num_regs);
+>  	if (ret)
+
+-- 
+Kind regards,
+
+Sakari Ailus
