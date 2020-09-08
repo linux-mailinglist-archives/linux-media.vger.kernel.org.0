@@ -2,66 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF8E260AF3
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 08:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C150D260B12
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 08:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728917AbgIHG1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 02:27:39 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:45420 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728115AbgIHG1j (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 8 Sep 2020 02:27:39 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kFX0Y-001BD9-WF; Tue, 08 Sep 2020 06:21:35 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kFX94-0004rr-O6; Tue, 08 Sep 2020 06:30:22 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.10] R-Car miscellaneous V4L2 patches (#66827)
-Date:   Tue,  8 Sep 2020 06:30:22 +0000
-Message-Id: <20200908063022.18670-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200908055016.GK6047@pendragon.ideasonboard.com>
-References: 
+        id S1728676AbgIHGlB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 02:41:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52786 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728137AbgIHGlA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 02:41:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A97C061573
+        for <linux-media@vger.kernel.org>; Mon,  7 Sep 2020 23:41:00 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B226635;
+        Tue,  8 Sep 2020 08:40:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1599547259;
+        bh=li/lSqELN5fJrItXrMvNLCKi0qx0hPXYGOIXCBGzhA8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DkrMD+0d9f/F/aMub59fNA0z2C7B3CUsQ1rhK4eBN5BbJU+4DZWrkKEupZRZhgsNf
+         QYzKSJnDFOHHXTGkCRk0pFqpTExw6nDAEQCG0qRSJH23CqC1U5pNG6NogKzSe33Dpb
+         PQLMsQLrcoGUKeUxxLtJuOLVSpcZZywZ08lyysk0=
+Date:   Tue, 8 Sep 2020 09:40:32 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     mchehab@kernel.org
+Cc:     Jenkins Builder Robot <jenkins@linuxtv.org>,
+        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
+Subject: Re: [libcamera-devel] Build failed in Jenkins: libcamera #285
+Message-ID: <20200908064032.GX6047@pendragon.ideasonboard.com>
+References: <1076588385.8.1599495496997@builder.linuxtv.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1076588385.8.1599495496997@builder.linuxtv.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Mauro,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200908055016.GK6047@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/67391/
-Build time: 00:22:39
-Link: https://lore.kernel.org/linux-media/20200908055016.GK6047@pendragon.ideasonboard.com
+On Mon, Sep 07, 2020 at 04:18:16PM +0000, Jenkins Builder Robot wrote:
+> See <https://builder.linuxtv.org/job/libcamera/285/display/redirect?page=changes>
+> 
+> Changes:
+> 
+> [kieran.bingham] meson: Provide build configuration summary
+> 
+> 
+> ------------------------------------------
+> Started by an SCM change
+> Running as SYSTEM
+> Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+> No credentials specified
+> Cloning the remote Git repository
+> Cloning repository git://linuxtv.org/libcamera.git
+>  > git init <https://builder.linuxtv.org/job/libcamera/ws/> # timeout=10
+> Fetching upstream changes from git://linuxtv.org/libcamera.git
+>  > git --version # timeout=10
+>  > git --version # 'git version 2.20.1'
+>  > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+>  > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+>  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+>  > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+> Fetching upstream changes from git://linuxtv.org/libcamera.git
+>  > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+>  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+>  > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+> Checking out Revision 094b3001fd7dc755f3a2804f7de73c09ea27dc8b (refs/remotes/origin/master)
+>  > git config core.sparsecheckout # timeout=10
+>  > git checkout -f 094b3001fd7dc755f3a2804f7de73c09ea27dc8b # timeout=10
+> Commit message: "meson: Provide build configuration summary"
+>  > git rev-list --no-walk 8117ab0a320029f97540aed2a9eebf3c759b8879 # timeout=10
+> [libcamera] $ /bin/sh -xe /tmp/jenkins3670769587014002804.sh
+> + rm -rf build
+> + meson setup build
+> The Meson build system
+> Version: 0.49.2
+> Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
+> Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
+> Build type: native build
+> Project name: libcamera
+> Project version: 0.0.0
+> Native C compiler: ccache cc (gcc 8.3.0 "cc (Debian 8.3.0-6) 8.3.0")
+> Native C++ compiler: ccache c++ (gcc 8.3.0 "c++ (Debian 8.3.0-6) 8.3.0")
+> Build machine cpu family: x86_64
+> Build machine cpu: x86_64
+> Header <execinfo.h> has symbol "backtrace" : YES
+> Header <stdlib.h> has symbol "secure_getenv" : YES
+> Compiler for C supports arguments -Wno-c99-designator -Wc99-designator: NO
+> Configuring version.h using configuration
+> Program openssl found: YES (/usr/bin/openssl)
+> Library atomic found: YES
+> Library dl found: YES
+> Library gnutls found: YES
+> Found pkg-config: /usr/bin/pkg-config (0.29)
+> Dependency libudev found: YES 241
+> Dependency threads found: YES 
+> Dependency Boost found: NO 
+> 
+> src/ipa/raspberrypi/meson.build:5:0: ERROR:  Dependency "boost" not found
 
-gpg: Signature made Tue 08 Sep 2020 05:28:58 AM UTC
-gpg:                using RSA key BD94648A8E47ECEDBF199B1862255D299E280B24
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Good signature from "Laurent Pinchart <laurent.pinchart@ideasonboard.com>" [full]
+This isn't a new issue, it has been reported previously as a failure in
+build #172 and then got resolved. Has anything changed on the build
+server ?
 
-Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
+> A full log can be found at <https://builder.linuxtv.org/job/libcamera/ws/build/meson-logs/meson-log.txt>
+> Build step 'Execute shell' marked build as failure
 
-Error/warnings:
+-- 
+Regards,
 
-patches/0001-media-rcar-fcp-Drop-local-dma_parms.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: ../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:703 is_pipe_valid_to_current_run_mode() warn: ignoring unreachable code.
-	../drivers/staging/media/atomisp/pci/sh_css.c:1685:16: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1908 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-
-Error #512 when building PDF docs
-
+Laurent Pinchart
