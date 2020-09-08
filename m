@@ -2,89 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AB2E261883
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 19:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31C5C261872
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 19:55:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731634AbgIHRxr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 13:53:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731603AbgIHQNo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 12:13:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 965F3C061378
-        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 05:49:47 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A92C91234;
-        Tue,  8 Sep 2020 14:47:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599569252;
-        bh=PgGVSy9lrwrjcYPWs2aXswJoh6hHPywFByyBn9i48po=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fnVfwrhryZBuMe8Gql19CUnLplWZ+FZZl4lS6DAfslO52lZ4REGAauSUFIaJrpaKn
-         h7tNPzsipRF3PjQQATa5A1i1ZZBGcCGcokHHsnXKXkaj3RoCpMo2RfF37q2kUIK1C/
-         GxZ08qiPf5PUTKlSodNGTB8F1fV3CXbHhUWY0e5c=
-Date:   Tue, 8 Sep 2020 15:47:06 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, kieran.bingham@ideasonboard.com,
-        niklas.soderlund@ragnatech.se, jacopo@jmondi.org
-Subject: Re: [PATCH 2/3] v4l2-fwnode: Make bus configuration a struct
-Message-ID: <20200908124706.GJ6047@pendragon.ideasonboard.com>
-References: <20200908085121.864-1-sakari.ailus@linux.intel.com>
- <20200908085121.864-3-sakari.ailus@linux.intel.com>
+        id S1732077AbgIHRxy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 13:53:54 -0400
+Received: from mga03.intel.com ([134.134.136.65]:2303 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731576AbgIHQMs (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Sep 2020 12:12:48 -0400
+IronPort-SDR: nWu89b0LER2ABoifsUQjA0sgfPIOdKflvnsvlGqMs7hgHVVZRa+1c0meo49VBY9IXf+6ZLe1OV
+ 0KPjWb82uZVA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9737"; a="158155211"
+X-IronPort-AV: E=Sophos;i="5.76,405,1592895600"; 
+   d="scan'208";a="158155211"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 06:56:12 -0700
+IronPort-SDR: wFyJre8V0XJXORP2iyf11CCrKYU1fCIKfq1w4mElivku5RfC9HxbySalF6u3SuJwM0fJRyLisz
+ U2fpYmwEjQ1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,405,1592895600"; 
+   d="scan'208";a="333480191"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 08 Sep 2020 06:56:10 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kFe6R-00FDeC-Em; Tue, 08 Sep 2020 16:56:07 +0300
+Date:   Tue, 8 Sep 2020 16:56:07 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dan Scally <djrscally@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, heikki.krogerus@linux.intel.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        kitakar@gmail.com, jorhand@linux.microsoft.com
+Subject: Re: cio2 ipu3 module to automatically connect sensors via swnodes
+Message-ID: <20200908135607.GD1891694@smile.fi.intel.com>
+References: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
+ <20200908080326.GB27352@paasikivi.fi.intel.com>
+ <5614b37e-c263-c9e7-fe5b-a523401c58e2@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200908085121.864-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <5614b37e-c263-c9e7-fe5b-a523401c58e2@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Tue, Sep 08, 2020 at 11:51:20AM +0300, Sakari Ailus wrote:
-> The bus specific parameters were an union. This made providing bus
-> specific defaults impossible as the memory used to store the defaults for
-> multiple different busses was the same.
+On Tue, Sep 08, 2020 at 10:40:09AM +0100, Dan Scally wrote:
+> On 08/09/2020 09:03, Sakari Ailus wrote:
+> > On ACPI systems regulators and clocks as well as GPIOs to some extent are
+> > controlled by AML code in the DSDT and SSDT. There are different ways this
+> > can be implemented though. It may be that the PMIC in this case is
+> > controlled entirely from the AML code without the need for a driver.
+> > 
+> > This might be the case here. It should be possible to figure this out from
+> > the DSDT and SSDT tables.
 > 
-> Make it struct instead. It's not large so the size isn't really an issue.
+> Ah - that's interesting, thanks. I'll delve into the SSDT and DSDT tables
+> and see if I can spot that happening. Presumably it is the case though, as
+> like I say it seems to be working fine without any intervention by our
+> sensor drivers.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > If you do not change how the regulators in the PMIC are controlled I'd
+> > think it's very, very unlikely you'd be able to fry the sensors.
+> Very reassuring!
+> > The GPIOs there I'd expect to be reset GPIOs, one for each sensor.
+> > Interesting that they are not handled by ACPI in this case. FWIW, the
+> > tps68470 driver is present also in the upstream kernel.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+There are 3 GPIOs (per PMIC, AFAIR) that are controlled via AML. But I dunno
+what is going on in those methods and what the purpose is.
 
-> ---
->  include/media/v4l2-fwnode.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index 81e7eb123294..d04f39b60096 100644
-> --- a/include/media/v4l2-fwnode.h
-> +++ b/include/media/v4l2-fwnode.h
-> @@ -78,7 +78,7 @@ struct v4l2_fwnode_bus_mipi_csi1 {
->   * struct v4l2_fwnode_endpoint - the endpoint data structure
->   * @base: fwnode endpoint of the v4l2_fwnode
->   * @bus_type: bus type
-> - * @bus: union with bus configuration data structure
-> + * @bus: bus configuration data structure
->   * @bus.parallel: embedded &struct v4l2_fwnode_bus_parallel.
->   *		  Used if the bus is parallel.
->   * @bus.mipi_csi1: embedded &struct v4l2_fwnode_bus_mipi_csi1.
-> @@ -99,7 +99,7 @@ struct v4l2_fwnode_endpoint {
->  	 * v4l2_fwnode_endpoint_parse()
->  	 */
->  	enum v4l2_mbus_type bus_type;
-> -	union {
-> +	struct {
->  		struct v4l2_fwnode_bus_parallel parallel;
->  		struct v4l2_fwnode_bus_mipi_csi1 mipi_csi1;
->  		struct v4l2_fwnode_bus_mipi_csi2 mipi_csi2;
+> Yeah we found the tps68470 gpio driver (actually andriy pointed it out I
+> think) - it seems that the pins _provided_ by that driver don't actually
+> have any affect when toggled though, only the ones allocated to the PMIC in
+> its _CRM seem to turn the sensors on/off when toggled (at least, switching
+> those off is the only thing that stops the sensor from appearing in
+> i2cdetect). The pins from the PMIC's _CRM seem to just be system GPIO pins,
+> controllable with `gpioset gpiochip0` for example. For the most part we've
+> been controlling them in the sensor drivers by evaluating the sensor's _DEP
+> entry in ACPI to get to the PMIC's acpi_device. That does seem a little
+> hackish though, and it's definitely pretty ugly.
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Laurent Pinchart
+
