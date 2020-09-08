@@ -2,154 +2,473 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EF5B2609D4
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 07:09:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 939F7260A41
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 07:44:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728137AbgIHFJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 01:09:07 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44796 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725938AbgIHFJH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 01:09:07 -0400
+        id S1728565AbgIHFof (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 01:44:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725903AbgIHFob (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 01:44:31 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8181C061573
+        for <linux-media@vger.kernel.org>; Mon,  7 Sep 2020 22:44:30 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0686A35;
-        Tue,  8 Sep 2020 07:09:04 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27E0535;
+        Tue,  8 Sep 2020 07:44:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599541745;
-        bh=ufR2K6TC3Ca2jCqU3nNTQIFzu1rhGApgrIDRfhchEZ4=;
+        s=mail; t=1599543864;
+        bh=9OUHQE1HIm3PdDdaONJrJVF3G4fY6PLo2ZEzzpdibbU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=b3q67mhVDa7LNXezUcOMetIpMvL4TgbVU1ivjzUPyEYmPa/8xiD1xr/UWjfFt49uv
-         1VQSsV/8HNsgBVAVjCPGOxBk2FxFYbF/E8oSvmxHnfOEdsVUZ5ZDpPhQEYB5DCWFez
-         CdBhcjaSuWQiLB1SSvYV5XZbt5xWKwoSAYHrSbuA=
-Date:   Tue, 8 Sep 2020 08:08:40 +0300
+        b=D/DjuneDtzMr8DEJp6n/cCivRLxDFxJHCZMD9KCfkeLnilGzd3IPfxvkmJ9azZbcL
+         +QB1Zz6JnL5tUVu7Y7hjUH3XRwiAQ0O7xWKMDl2fuZd9RgKkGkwoLI4YwIqDZ9m1zX
+         4ynohD6W/Wkm3a3JqL/f7ESfR0PzuJCruWGH5Pis=
+Date:   Tue, 8 Sep 2020 08:43:59 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: Re: [PATCH 5/5] media: i2c: max9286: Allocate v4l2_async_subdev
- dynamically
-Message-ID: <20200908050840.GJ6047@pendragon.ideasonboard.com>
-References: <20200811205939.19550-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200811205939.19550-6-laurent.pinchart+renesas@ideasonboard.com>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Robert Beckett <bob.beckett@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@st.com>,
+        James Jones <jajones@nvidia.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Daniel Stone <daniels@collabora.com>,
+        "Andrew F . Davis" <afd@ti.com>
+Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
+Message-ID: <20200908054359.GA25682@pendragon.ideasonboard.com>
+References: <20200816172246.69146-1-ezequiel@collabora.com>
+ <20200901073222.GR2352366@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200811205939.19550-6-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200901073222.GR2352366@phenom.ffwll.local>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Gentle ping for reviews.
+Hi Daniel,
 
-On Tue, Aug 11, 2020 at 11:59:39PM +0300, Laurent Pinchart wrote:
-> v4l2_async_notifier_add_subdev() requires the asd to be allocated
-> dynamically, but the max9286 driver embeds it in the max9286_source
-> structure. This causes memory corruption when the notifier is destroyed
-> at remove time with v4l2_async_notifier_cleanup().
+On Tue, Sep 01, 2020 at 09:32:22AM +0200, Daniel Vetter wrote:
+> On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
+> > This heap is basically a wrapper around DMA-API dma_alloc_attrs,
+> > which will allocate memory suitable for the given device.
+> > 
+> > The implementation is mostly a port of the Contiguous Videobuf2
+> > memory allocator (see videobuf2/videobuf2-dma-contig.c)
+> > over to the DMA-BUF Heap interface.
+> > 
+> > The intention of this allocator is to provide applications
+> > with a more system-agnostic API: the only thing the application
+> > needs to know is which device to get the buffer for.
+> > 
+> > Whether the buffer is backed by CMA, IOMMU or a DMA Pool
+> > is unknown to the application.
+> > 
+> > I'm not really expecting this patch to be correct or even
+> > a good idea, but just submitting it to start a discussion on DMA-BUF
+> > heap discovery and negotiation.
+> > 
+> > Given Plumbers is just a couple weeks from now, I've submitted
+> > a BoF proposal to discuss this, as perhaps it would make
+> > sense to discuss this live?
+> > 
+> > Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > 
-> Fix this issue by registering the asd with
-> v4l2_async_notifier_add_fwnode_subdev(), which allocates it dynamically
-> internally. A new max9286_asd structure is introduced, to store a
-> pointer to the corresonding max9286_source that needs to be accessed
-> from bound and unbind callbacks. There's no need to take an extra
-> explicit reference to the fwnode anymore as
-> v4l2_async_notifier_add_fwnode_subdev() does so internally.
+> I think on the uapi/constraint solving side there's been already tons of
+> discussions while I enjoyed vacations, so different concern from me
+> entirely on the implementation side:
 > 
-> While at it, use %u instead of %d to print the unsigned index in the
-> error message from the v4l2_async_notifier_add_fwnode_subdev() error
-> path.
+> In the past the only thing we had in upstream was subsystem/driver
+> specific allocators, and dma-buf for sharing. With dma-buf heaps we kinda
+> get a central allocator, which duplicates large chunks of of all these
+> allocators. And since it's a central allocator by design, the reason for
+> having per-subsystem allocators is kinda gone.
 > 
-> Fixes: 66d8c9d2422d ("media: i2c: Add MAX9286 driver")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/i2c/max9286.c | 38 +++++++++++++++++++------------------
->  1 file changed, 20 insertions(+), 18 deletions(-)
+> I think there's two approaches here:
+> - we convert e.g. drm allocator helpers to internally use the right heap
+>   implementation.
+
+We however don't always have a need for a dmabuf, as not all buffers are
+meant to be shared (and we often can't tell beforehand, at allocation
+time, if a given buffer will be shared or not). While the overhead of
+allocating a dmabuf should be file, assigning a file descriptor to each
+buffer would be prohibitely expensive.
+
+We would need to decouple the dma heaps from file descriptors. I think
+that's doable, but it changes the philosophy of dma heaps and needs
+careful consideration. In particular, one may wonder what that would
+bring us, compared to the DMA mapping API for instance.
+
+> That would also give us some fairly direct way to expose
+>   these constraints in sysfs so a userspace allocator knows which dma-buf
+>   heap to pick for shared stuff.
+
+sysfs won't work I'm afraid, as constraints may depend on the format for
+instace. We need subsystem-specific APIs to expose constraints.
+
+> - we require that any heap is just a different uapi for an existing driver
+>   allocator, e.g. by having a dma-buf wrapper for all gem drivers.
 > 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 47f280518fdb..5d890dddb376 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -135,13 +135,19 @@
->  #define MAX9286_SRC_PAD			4
->  
->  struct max9286_source {
-> -	struct v4l2_async_subdev asd;
->  	struct v4l2_subdev *sd;
->  	struct fwnode_handle *fwnode;
->  };
->  
-> -#define asd_to_max9286_source(_asd) \
-> -	container_of(_asd, struct max9286_source, asd)
-> +struct max9286_asd {
-> +	struct v4l2_async_subdev base;
-> +	struct max9286_source *source;
-> +};
-> +
-> +static inline struct max9286_asd *to_max9286_asd(struct v4l2_async_subdev *asd)
-> +{
-> +	return container_of(asd, struct max9286_asd, base);
-> +}
->  
->  struct max9286_priv {
->  	struct i2c_client *client;
-> @@ -480,7 +486,7 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
->  				struct v4l2_async_subdev *asd)
->  {
->  	struct max9286_priv *priv = sd_to_max9286(notifier->sd);
-> -	struct max9286_source *source = asd_to_max9286_source(asd);
-> +	struct max9286_source *source = to_max9286_asd(asd)->source;
->  	unsigned int index = to_index(priv, source);
->  	unsigned int src_pad;
->  	int ret;
-> @@ -544,7 +550,7 @@ static void max9286_notify_unbind(struct v4l2_async_notifier *notifier,
->  				  struct v4l2_async_subdev *asd)
->  {
->  	struct max9286_priv *priv = sd_to_max9286(notifier->sd);
-> -	struct max9286_source *source = asd_to_max9286_source(asd);
-> +	struct max9286_source *source = to_max9286_asd(asd)->source;
->  	unsigned int index = to_index(priv, source);
->  
->  	source->sd = NULL;
-> @@ -569,23 +575,19 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
->  
->  	for_each_source(priv, source) {
->  		unsigned int i = to_index(priv, source);
-> +		struct v4l2_async_subdev *asd;
->  
-> -		source->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> -		source->asd.match.fwnode = source->fwnode;
-> -
-> -		ret = v4l2_async_notifier_add_subdev(&priv->notifier,
-> -						     &source->asd);
-> -		if (ret) {
-> -			dev_err(dev, "Failed to add subdev for source %d", i);
-> +		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
-> +							    source->fwnode,
-> +							    sizeof(*asd));
-> +		if (IS_ERR(asd)) {
-> +			dev_err(dev, "Failed to add subdev for source %u: %ld",
-> +				i, PTR_ERR(asd));
->  			v4l2_async_notifier_cleanup(&priv->notifier);
-> -			return ret;
-> +			return PTR_ERR(asd);
->  		}
->  
-> -		/*
-> -		 * Balance the reference counting handled through
-> -		 * v4l2_async_notifier_cleanup()
-> -		 */
-> -		fwnode_handle_get(source->fwnode);
-> +		to_max9286_asd(asd)->source = source;
->  	}
->  
->  	priv->notifier.ops = &max9286_notify_ops;
+> Otherwise I think what we end up with is a pile of dma-buf heaps for
+> android's blob gpu driver world, and not used anywhere else. Not something
+> even remotely interesting for upstream :-)
+> 
+> tldr; I'd like to see how dma-buf heaps closely integrate with all the
+> existing buffer management code we have. Both kernel (and throuhg some
+> allocator library effort) in userspace.
+> 
+> > ---
+> >  drivers/dma-buf/heaps/Kconfig       |   9 +
+> >  drivers/dma-buf/heaps/Makefile      |   1 +
+> >  drivers/dma-buf/heaps/device_heap.c | 268 ++++++++++++++++++++++++++++
+> >  include/linux/device.h              |   5 +
+> >  include/linux/dma-heap.h            |   6 +
+> >  5 files changed, 289 insertions(+)
+> >  create mode 100644 drivers/dma-buf/heaps/device_heap.c
+> > 
+> > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+> > index a5eef06c4226..2bb3604184bd 100644
+> > --- a/drivers/dma-buf/heaps/Kconfig
+> > +++ b/drivers/dma-buf/heaps/Kconfig
+> > @@ -12,3 +12,12 @@ config DMABUF_HEAPS_CMA
+> >  	  Choose this option to enable dma-buf CMA heap. This heap is backed
+> >  	  by the Contiguous Memory Allocator (CMA). If your system has these
+> >  	  regions, you should say Y here.
+> > +
+> > +config DMABUF_HEAPS_DEVICES
+> > +	bool "DMA-BUF Device DMA Heap (Experimental)"
+> > +	depends on DMABUF_HEAPS
+> > +	help
+> > +	  Choose this option to enable dma-buf per-device heap. This heap is backed
+> > +	  by the DMA-API and it's an Experimental feature, meant mostly for testing
+> > +	  and experimentation.
+> > +	  Just say N here.
+> > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+> > index 6e54cdec3da0..c691d85b3044 100644
+> > --- a/drivers/dma-buf/heaps/Makefile
+> > +++ b/drivers/dma-buf/heaps/Makefile
+> > @@ -2,3 +2,4 @@
+> >  obj-y					+= heap-helpers.o
+> >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+> >  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
+> > +obj-$(CONFIG_DMABUF_HEAPS_DEVICES)	+= device_heap.o
+> > diff --git a/drivers/dma-buf/heaps/device_heap.c b/drivers/dma-buf/heaps/device_heap.c
+> > new file mode 100644
+> > index 000000000000..1803dc622dd8
+> > --- /dev/null
+> > +++ b/drivers/dma-buf/heaps/device_heap.c
+> > @@ -0,0 +1,268 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * DMABUF Device DMA heap exporter
+> > + *
+> > + * Copyright (C) 2020, Collabora Ltd.
+> > + *
+> > + * Based on:
+> > + *   videobuf2-dma-contig.c - DMA contig memory allocator for videobuf2
+> > + *   Copyright (C) 2010 Samsung Electronics
+> > + */
+> > +
+> > +#include <linux/device.h>
+> > +#include <linux/dma-buf.h>
+> > +#include <linux/dma-heap.h>
+> > +#include <linux/dma-mapping.h>
+> > +#include <linux/scatterlist.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/module.h>
+> > +
+> > +struct dev_dmabuf_attachment {
+> > +	struct sg_table sgt;
+> > +	enum dma_data_direction dma_dir;
+> > +};
+> > +
+> > +struct dev_dmabuf {
+> > +	struct dma_heap *heap;
+> > +	struct dma_buf *dmabuf;
+> > +	struct device *dev;
+> > +	size_t size;
+> > +	void *vaddr;
+> > +	dma_addr_t dma_addr;
+> > +	unsigned long attrs;
+> > +
+> > +	struct sg_table sgt;
+> > +};
+> > +
+> > +static struct sg_table *dev_dmabuf_ops_map(struct dma_buf_attachment *db_attach,
+> > +					   enum dma_data_direction dma_dir)
+> > +{
+> > +	struct dev_dmabuf_attachment *attach = db_attach->priv;
+> > +	/* stealing dmabuf mutex to serialize map/unmap operations */
+> > +	struct mutex *lock = &db_attach->dmabuf->lock;
+> > +	struct sg_table *sgt;
+> > +
+> > +	mutex_lock(lock);
+> > +
+> > +	sgt = &attach->sgt;
+> > +	/* return previously mapped sg table */
+> > +	if (attach->dma_dir == dma_dir) {
+> > +		mutex_unlock(lock);
+> > +		return sgt;
+> > +	}
+> > +
+> > +	/* release any previous cache */
+> > +	if (attach->dma_dir != DMA_NONE) {
+> > +		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> > +				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > +		attach->dma_dir = DMA_NONE;
+> > +	}
+> > +
+> > +	/*
+> > +	 * mapping to the client with new direction, no cache sync
+> > +	 * required see comment in .dmabuf_ops_detach()
+> > +	 */
+> > +	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> > +				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > +	if (!sgt->nents) {
+> > +		dev_err(db_attach->dev, "failed to map scatterlist\n");
+> > +		mutex_unlock(lock);
+> > +		return ERR_PTR(-EIO);
+> > +	}
+> > +
+> > +	attach->dma_dir = dma_dir;
+> > +
+> > +	mutex_unlock(lock);
+> > +
+> > +	return sgt;
+> > +}
+> > +
+> > +static void dev_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
+> > +				 struct sg_table *sgt,
+> > +				 enum dma_data_direction dma_dir)
+> > +{
+> > +	/* nothing to be done here */
+> > +}
+> > +
+> > +static int dev_dmabuf_ops_attach(struct dma_buf *dmabuf,
+> > +				 struct dma_buf_attachment *dbuf_attach)
+> > +{
+> > +	struct dev_dmabuf_attachment *attach;
+> > +	unsigned int i;
+> > +	struct scatterlist *rd, *wr;
+> > +	struct sg_table *sgt;
+> > +	struct dev_dmabuf *buf = dmabuf->priv;
+> > +	int ret;
+> > +
+> > +	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
+> > +	if (!attach)
+> > +		return -ENOMEM;
+> > +	sgt = &attach->sgt;
+> > +
+> > +	/*
+> > +	 * Copy the buf->sgt scatter list to the attachment, as we can't
+> > +	 * map the same scatter list to multiple attachments at the same time.
+> > +	 */
+> > +	ret = sg_alloc_table(sgt, buf->sgt.orig_nents, GFP_KERNEL);
+> > +	if (ret) {
+> > +		kfree(attach);
+> > +		return -ENOMEM;
+> > +	}
+> > +
+> > +	rd = buf->sgt.sgl;
+> > +	wr = sgt->sgl;
+> > +	for (i = 0; i < sgt->orig_nents; ++i) {
+> > +		sg_set_page(wr, sg_page(rd), rd->length, rd->offset);
+> > +		rd = sg_next(rd);
+> > +		wr = sg_next(wr);
+> > +	}
+> > +
+> > +	attach->dma_dir = DMA_NONE;
+> > +	dbuf_attach->priv = attach;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void dev_dmabuf_ops_detach(struct dma_buf *dmabuf,
+> > +				  struct dma_buf_attachment *db_attach)
+> > +{
+> > +	struct dev_dmabuf_attachment *attach = db_attach->priv;
+> > +	struct sg_table *sgt;
+> > +
+> > +	if (!attach)
+> > +		return;
+> > +	sgt = &attach->sgt;
+> > +
+> > +	/* release the scatterlist cache */
+> > +	if (attach->dma_dir != DMA_NONE)
+> > +		/*
+> > +		 * Cache sync can be skipped here, as the memory is
+> > +		 * allocated from device coherent memory, which means the
+> > +		 * memory locations do not require any explicit cache
+> > +		 * maintenance prior or after being used by the device.
+> > +		 *
+> > +		 * XXX: This needs a revisit.
+> > +		 */
+> > +		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
+> > +				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > +	sg_free_table(sgt);
+> > +	kfree(attach);
+> > +	db_attach->priv = NULL;
+> > +}
+> > +
+> > +
+> > +static void *dev_dmabuf_ops_vmap(struct dma_buf *dmabuf)
+> > +{
+> > +	struct dev_dmabuf *buf = dmabuf->priv;
+> > +
+> > +	return buf->vaddr;
+> > +}
+> > +
+> > +static void dev_dmabuf_ops_release(struct dma_buf *dmabuf)
+> > +{
+> > +	struct dev_dmabuf *buf = dmabuf->priv;
+> > +
+> > +	sg_free_table(&buf->sgt);
+> > +	dma_free_attrs(buf->dev, buf->size, buf->vaddr,
+> > +		       buf->dma_addr, buf->attrs);
+> > +	put_device(buf->dev);
+> > +	kfree(buf);
+> > +}
+> > +
+> > +static int dev_dmabuf_ops_mmap(struct dma_buf *dmabuf,
+> > +			       struct vm_area_struct *vma)
+> > +{
+> > +	struct dev_dmabuf *buf = dmabuf->priv;
+> > +	int ret;
+> > +
+> > +	ret = dma_mmap_attrs(buf->dev, vma, buf->vaddr,
+> > +			     buf->dma_addr, buf->size,
+> > +			     buf->attrs);
+> > +	if (ret) {
+> > +		dev_err(buf->dev, "remapping memory failed, error: %d\n", ret);
+> > +		return ret;
+> > +	}
+> > +	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct dma_buf_ops dev_dmabuf_ops = {
+> > +	.attach = dev_dmabuf_ops_attach,
+> > +	.detach = dev_dmabuf_ops_detach,
+> > +	.map_dma_buf = dev_dmabuf_ops_map,
+> > +	.unmap_dma_buf = dev_dmabuf_ops_unmap,
+> > +	.vmap = dev_dmabuf_ops_vmap,
+> > +	.mmap = dev_dmabuf_ops_mmap,
+> > +	.release = dev_dmabuf_ops_release,
+> > +};
+> > +
+> > +static int dev_heap_allocate(struct dma_heap *heap,
+> > +			unsigned long size,
+> > +			unsigned long fd_flags,
+> > +			unsigned long heap_flags)
+> > +{
+> > +	struct device *dev = dma_heap_get_drvdata(heap);
+> > +	struct dev_dmabuf *buf;
+> > +	struct dma_buf_export_info exp_info = {};
+> > +	unsigned long attrs = 0;
+> > +	int ret = -ENOMEM;
+> > +
+> > +	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+> > +	if (!buf)
+> > +		return -ENOMEM;
+> > +
+> > +	buf->vaddr = dma_alloc_attrs(dev, size, &buf->dma_addr,
+> > +				     GFP_KERNEL, attrs);
+> > +	/* Prevent the device from being released while the buffer is used */
+> > +	buf->dev = get_device(dev);
+> > +	buf->heap = heap;
+> > +	buf->size = size;
+> > +	buf->attrs = attrs;
+> > +
+> > +	/* XXX: This call is documented as unsafe. See dma_get_sgtable_attrs(). */
+> > +	ret = dma_get_sgtable_attrs(buf->dev, &buf->sgt,
+> > +				    buf->vaddr, buf->dma_addr,
+> > +				    buf->size, buf->attrs);
+> > +	if (ret < 0) {
+> > +		dev_err(buf->dev, "failed to get scatterlist from DMA API\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	exp_info.exp_name = dev_name(dev);
+> > +	exp_info.owner = THIS_MODULE;
+> > +	exp_info.ops = &dev_dmabuf_ops;
+> > +	exp_info.size = size;
+> > +	exp_info.flags = fd_flags;
+> > +	exp_info.priv = buf;
+> > +
+> > +	buf->dmabuf = dma_buf_export(&exp_info);
+> > +	if (IS_ERR(buf->dmabuf)) {
+> > +		dev_err(buf->dev, "failed to export dmabuf\n");
+> > +		return PTR_ERR(buf->dmabuf);
+> > +	}
+> > +
+> > +	ret = dma_buf_fd(buf->dmabuf, fd_flags);
+> > +	if (ret < 0) {
+> > +		dev_err(buf->dev, "failed to get dmabuf fd: %d\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static const struct dma_heap_ops dev_heap_ops = {
+> > +	.allocate = dev_heap_allocate,
+> > +};
+> > +
+> > +void dev_dma_heap_add(struct device *dev)
+> > +{
+> > +	struct dma_heap_export_info exp_info;
+> > +
+> > +	exp_info.name = dev_name(dev);
+> > +	exp_info.ops = &dev_heap_ops;
+> > +	exp_info.priv = dev;
+> > +
+> > +	dev->heap = dma_heap_add(&exp_info);
+> > +}
+> > +EXPORT_SYMBOL(dev_dma_heap_add);
+> > diff --git a/include/linux/device.h b/include/linux/device.h
+> > index ca18da4768e3..1fae95d55ea1 100644
+> > --- a/include/linux/device.h
+> > +++ b/include/linux/device.h
+> > @@ -45,6 +45,7 @@ struct iommu_ops;
+> >  struct iommu_group;
+> >  struct dev_pin_info;
+> >  struct dev_iommu;
+> > +struct dma_heap;
+> >  
+> >  /**
+> >   * struct subsys_interface - interfaces to device functions
+> > @@ -597,6 +598,10 @@ struct device {
+> >  	struct iommu_group	*iommu_group;
+> >  	struct dev_iommu	*iommu;
+> >  
+> > +#ifdef CONFIG_DMABUF_HEAPS_DEVICES
+> > +	struct dma_heap		*heap;
+> > +#endif
+> > +
+> >  	bool			offline_disabled:1;
+> >  	bool			offline:1;
+> >  	bool			of_node_reused:1;
+> > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+> > index 454e354d1ffb..dcf7cca2f487 100644
+> > --- a/include/linux/dma-heap.h
+> > +++ b/include/linux/dma-heap.h
+> > @@ -56,4 +56,10 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
+> >   */
+> >  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
+> >  
+> > +#ifdef CONFIG_DMABUF_HEAPS_DEVICES
+> > +void dev_dma_heap_add(struct device *dev);
+> > +#else
+> > +static inline void dev_dma_heap_add(struct device *dev) {}
+> > +#endif
+> > +
+> >  #endif /* _DMA_HEAPS_H */
 
 -- 
 Regards,
