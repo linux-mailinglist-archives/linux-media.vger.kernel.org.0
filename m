@@ -2,64 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7107C260FB3
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 12:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79517261013
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 12:39:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729746AbgIHK1X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 06:27:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37162 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729228AbgIHK1W (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 8 Sep 2020 06:27:22 -0400
-Received: from coco.lan (ip5f5ad5ce.dynamic.kabel-deutschland.de [95.90.213.206])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8BC9D2177B;
-        Tue,  8 Sep 2020 10:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599560841;
-        bh=98uqJvpNFRRmztCSHPipazrlYRl/HX3TWgGmXTvF4iU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=U66DiOtCOmRyrxx1i/2Sq9Q3zt+MIZQEckcbSH3hXI68XJipOrOJd8BnhSlrxYz0W
-         NMyVQUztG2J9rNZeC/b7EVRUxy8RaDB5xy+My8XQhYHoYcFCeoeT9DoW1h6L3267vw
-         VOPjzaQQ8AAGsu9QXF6HkRk+5+ZYEKkWti7pCZgA=
-Date:   Tue, 8 Sep 2020 12:27:16 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        devel@driverdev.osuosl.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Anant Thazhemadam <anant.thazhemadam@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] address W=1 warnings at staging/media/atomisp
-Message-ID: <20200908122716.09562b43@coco.lan>
-In-Reply-To: <cover.1599141140.git.mchehab+huawei@kernel.org>
-References: <cover.1599141140.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729922AbgIHKdl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 06:33:41 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35255 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729545AbgIHK0d (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Sep 2020 06:26:33 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id FapHkWzhXMeQuFapIkfd92; Tue, 08 Sep 2020 12:26:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1599560772; bh=y3q/NFkms4C+IPVuEDwnLsuTWDd/l8XnKEWol9a4bUo=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=ijVsILa3nGi7n06PLgOwKjgMGPaARnsMIjR83cV2d+lYYf24zzvuQuWEIyFWWrM0u
+         dUYcaQfJrubUqs8Owln9djyzjaX+lojI/Y/VhD1OckYE23lTLv9cCEuyfhh8wCve3/
+         VaZmT3+vmohmNCV4Xs6LgDkvv0F8fZrzg2OXYalTScXfWqYPBiPJuIjhpqiybxXwh/
+         3KKZ1JkG8ZMVw3b5OP5Nu/u+Uk1+9Wpj07LeWTTBSO6i+mb0592jTOds4MjdU8N99P
+         S9PYgMQUcbu0up5UXWznm8bJLZ2FdZ4ieuYVNHZKN7luARmQAscjkHT3lGwFH6UG+j
+         efPKadRgBwu9Q==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 0/2] cec: improve robustness of the framework
+Date:   Tue,  8 Sep 2020 12:26:09 +0200
+Message-Id: <20200908102611.471265-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfBN2Q8OdUTxNwwXZKp4mIW5k45gcUuld5aOh0wpvINrX/ZgTkWJw2/5rJe28JxnzNFzzD/qZ30AO02STTnm91z/poRB+6GsCItnNEfd08WIu1oS/LRZz
+ V1uNcGd33Mxcg7OAbokpSI+jvNQyVPPvF12hEoKhF2aXOHNr/GTyLpMj4UGnmVURT2sjaPN9yYJNWxYAtDTZ64P8rq5Fz4Rlvl5W+4aCsPoE9o4uHcYQ+nve
+ WY57kTo1wrGgfSMcenqNjQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Greg,
+Add two patches that make the framework a bit more robust.
 
-Em Tue,  8 Sep 2020 12:12:21 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Regards,
 
-> The linux-media policy is to have zero warnings with W=1. However, when
-> I started using a Jenkins instance at https://builder.linuxtv.org to automate
-> such tests, I didn't notice that a bug at the scripts were just ignoring
-> warnings.
+	Hans
 
-Please ignore this patch series. It was sent by mistake instead
-of a completely unrelated one.
+Hans Verkuil (2):
+  cec-core.c: stop kthread_config before kthread
+  cec-adap.c: add 'unregistered' checks
 
-This was already merged via the media tree.
+ drivers/media/cec/core/cec-adap.c | 6 ++++++
+ drivers/media/cec/core/cec-core.c | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-Thanks,
-Mauro
+-- 
+2.27.0
+
