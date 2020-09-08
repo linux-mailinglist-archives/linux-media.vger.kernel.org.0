@@ -2,50 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29FBE260E29
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 10:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2A4F260E44
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 11:03:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729548AbgIHIz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 04:55:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728957AbgIHIzz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 04:55:55 -0400
-Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67941C061757
-        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 01:55:54 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id CB40E634C8C;
-        Tue,  8 Sep 2020 11:55:45 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kFZPm-0000V5-0k; Tue, 08 Sep 2020 11:55:46 +0300
-Date:   Tue, 8 Sep 2020 11:55:45 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
-        jacopo@jmondi.org
-Subject: Re: [PATCH 3/3] v4l2-fwnode: Document changes usage patterns of
- v4l2_fwnode_endpoint_parse
-Message-ID: <20200908085545.GA834@valkosipuli.retiisi.org.uk>
-References: <20200908085121.864-1-sakari.ailus@linux.intel.com>
- <20200908085121.864-4-sakari.ailus@linux.intel.com>
+        id S1728501AbgIHJDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 05:03:08 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:55555 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728137AbgIHJDH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Sep 2020 05:03:07 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id FZWqkWUrTMeQuFZWrkfJT5; Tue, 08 Sep 2020 11:03:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1599555785; bh=NaCJMyt/cs+yWjM3gIBL4xJchJ2A1P8TRzbiFOvqa6I=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=hAd/OwaWHtRHWVO5wLhsPyKi8LNnlxeznEd0LiNT1x80Bc7tGq3C2su2cJkKYksLs
+         Go4xrhnSi4PWA1HIeiTVKLBExdDy6afhoh2optFhaw5ah5Icxth4lGwYa2d+fH+ocr
+         /0GqI1xCpvmXKFs24GoV4SzKe8POvvoVjEhUekkwtoUttrdQYtg63lG5qYmZw2ljwE
+         ZwvlHiyaeGEvXSsLwUd6AgQVR5A+Bm2hvnGdZpyOdtOzt0/0fJmnxDLSI5zt47Fsnc
+         UfFUqwBK3d06THaCEVdOnMJdAuv9oP+gaFWG77WYwT+dyy+OFeBbLK4GU7Yf5PrFXa
+         /4IGrw2Vue1Kw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] vivid: fix compile warning/error
+Message-ID: <231b3439-4128-311b-f265-25987cfb3955@xs4all.nl>
+Date:   Tue, 8 Sep 2020 11:03:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200908085121.864-4-sakari.ailus@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGxyysnlWa4alVSF7GCp94lZl0NuZUk0w6XPHDYqk3sSzLso751cBr4/fD1DeseBGh3l03BlskDzALJcATfhVQeYZB5dQOaLWBROGbL0JrtEZam9Tpy+
+ yBXnki1kRg32aReIv4vcmeu078SrNk8+7wrq6hGcpib/iXisqFXeHd5HdxmxJbtp7jZOlENQ3YNi60/0MQp4OYEbgxaQ/ulvAO1z2K+yRhMxWS5M6CzkbXgG
+ 3PkVTLYPv7sA1nmt+jNr9FsRG9dDTr31PLwWE3XI4Eg=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The subject should have been: "[PATCH 3/3] v4l2-fwnode: Document new usage
-patterns of v4l2_fwnode_endpoint_parse".
+Fix this warning:
 
--- 
-Sakari Ailus
+vivid-core.c: In function 'vivid_create_devnodes':
+vivid-core.c:1318:11: warning: unused variable 'i' [-Wunused-variable]
+ 1318 |  int ret, i;
+      |           ^
+
+and this error:
+
+vivid-core.c: In function 'vivid_create_instance':
+vivid-core.c:1885:47: error: 'cec_tx_bus_cnt' undeclared (first use in this function)
+ 1885 |  ret = vivid_create_devnodes(pdev, dev, inst, cec_tx_bus_cnt,
+      |                                               ^~~~~~~~~~~~~~
+vivid-core.c:1885:47: note: each undeclared identifier is reported only once for each function it appears in
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index 48809991f037..aa8d350fd682 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -1315,7 +1315,7 @@ static int vivid_create_devnodes(struct platform_device *pdev,
+ 				 unsigned out_type_counter[4])
+ {
+ 	struct video_device *vfd;
+-	int ret, i;
++	int ret;
+
+ 	if (dev->has_vid_cap) {
+ 		vfd = &dev->vid_cap_dev;
+@@ -1365,6 +1365,9 @@ static int vivid_create_devnodes(struct platform_device *pdev,
+ 	}
+
+ 	if (dev->has_vid_out) {
++#ifdef CONFIG_VIDEO_VIVID_CEC
++		int i;
++#endif
+ 		vfd = &dev->vid_out_dev;
+ 		snprintf(vfd->name, sizeof(vfd->name),
+ 			 "vivid-%03d-vid-out", inst);
+@@ -1659,11 +1662,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	struct vivid_dev *dev;
+ 	unsigned node_type = node_types[inst];
+ 	v4l2_std_id tvnorms_cap = 0, tvnorms_out = 0;
++	unsigned int cec_tx_bus_cnt = 0;
+ 	int ret;
+ 	int i;
+-#ifdef CONFIG_VIDEO_VIVID_CEC
+-	unsigned int cec_tx_bus_cnt = 0;
+-#endif
+
+ 	/* allocate main vivid state structure */
+ 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+
