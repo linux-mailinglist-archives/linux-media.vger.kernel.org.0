@@ -2,70 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EF38262335
-	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 00:48:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC7802623AE
+	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 01:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729529AbgIHWr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 18:47:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34190 "EHLO
+        id S1729457AbgIHXlk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 19:41:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726708AbgIHWrw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 18:47:52 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 666EFC061573
-        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 15:47:50 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id q21so731027edv.1
-        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 15:47:50 -0700 (PDT)
+        with ESMTP id S1726340AbgIHXlj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 19:41:39 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF7AEC061573
+        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 16:41:38 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id m6so979525wrn.0
+        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 16:41:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=VRxAb4sSeTWgSZoJEmEpicMjsCQqRWVgihxxxfCY+8k=;
-        b=AInFNOYLEiGa8ZYHJ+PrI8RgfzTLqmCerGMHATQhjM8e/J8sMTkvFzyrpxNquoa9Lm
-         BtkcXxcrdo/xq6R7ez41eLN7hF6bOEA6IXaJI0PY3tD/4k2hSOzXqrwpjaYOcD6NiHHz
-         6hVOnNIeALhlI8tW7qUq86krZzamNKA7IZOTAzv6l0j+o/iuApEteq7Je8bQvyZwQQj/
-         xakUoBpSJYS//M5r0zf7kfEh9vXrK2Y2kKDvtXPV3m4zrYClHg7U3/HJJ2ZzNH0i3o13
-         /T1Ptq6FcTT8LLgHI3iMCzBo7HIm9lgRmgwrVZDahwrAJcQ1KYhC8TlVaa1J67Z4kvDJ
-         GgOw==
+        bh=rzApPXn2JqQGNuGQ+osVtnaQFzgNYcS+CWlBAxxdKiI=;
+        b=jcY4vXJzDsd0Tmt2w3ifh8MACMwPObBKhqotLxVXDR4k3AyL2jCMF4UHegFl8Mjp67
+         y1DY/8CzmX5ShSRvLzJSq1UFcyVLN/eaFpcsfB0C1kpR0ZWGBdI9mKc6WJbQrdJK4hT5
+         vAAzMCTyHglTK4f3k+fm3JWOd4I7002g6U67uA4LtK3PNt0mptIjN2mIaR1ZJhhoSSIb
+         9XYuScI6F3JO3/6tmHZUHJ+UdYsU/4YUyzpkel+PSDjWueK5qyLp6DgxCvGKdpKS7m68
+         8izMu4A0Ykhx/ysJGOGHttMJpyWOL/alVRsTTIG0wtzyE1hgGvQsnrWSFT7v3r780mUF
+         JJrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=VRxAb4sSeTWgSZoJEmEpicMjsCQqRWVgihxxxfCY+8k=;
-        b=apY08Ubx35dtcQ4Z1uOC0lg2bW2dBq+AaUeKHL9ZuoksQYo8Zhp1cpg+ZrbvOW5Fzw
-         LkU5W3gOJjXe84pqj9T0HPvrNOMpmPhQQzmVun5mp38nD0F428v5FJpk0iTc94SQpLT9
-         mGKyXrTJfqZ6zzMrGojvTc6C41xiEi20K7THlMTidEUa4l0DUWXDXkcPX7kv1jTuEt6f
-         VGLuASR9hHDiMFnn59/VIiHOkcQrHX3vOi+fDHYlTnFt7tzHdXva2ERj3TKqdj1hIY5N
-         IgOpNHdH9IbFKQOIGNtIzlhiotHy/aqMly3TYpuSMxlc5uI22RjbtTUH9qZkQrLyjVSo
-         psiw==
-X-Gm-Message-State: AOAM53234YsYUyhq0zORGtfR1Jcpo0QWIOTBAUQGY6JND7FVbF88hQx2
-        RCi5lq+4fJYoHrmpNWmXY7Kr6hunzlaXLfI1
-X-Google-Smtp-Source: ABdhPJyBVcQuoFsZ0wvTWVT1hoz1fMF/ozEdUm0gl1e7OpLSLPkXfxN3ZE8OKYkSifBDes5JCPP8NQ==
-X-Received: by 2002:a05:6402:1d05:: with SMTP id dg5mr1262004edb.67.1599605267971;
-        Tue, 08 Sep 2020 15:47:47 -0700 (PDT)
-Received: from [192.168.1.6] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id lo25sm404818ejb.53.2020.09.08.15.47.46
+        bh=rzApPXn2JqQGNuGQ+osVtnaQFzgNYcS+CWlBAxxdKiI=;
+        b=uH9nwt8F6F59JpgDrV+DAwxXet1ilZcluwB7UNdG2i/+KybT9JlsznfEx6N+abJusz
+         HrWF+aBR5HHyjGoqYNAIo/vV3ZtzvvY4M/r1MrUTmWVq6ug+BmcmO1XVKrfje6O5fbU3
+         4idYLuJR03yTtx7bOq7XU1bopS/ZIIrvzBsEib5aqulqOAW+kpBPw5AG4Yx3jdvcndN/
+         D1Z7QlZCLjupXyK0bxb4DyqQLgvYkDKrgV4X2PNyKXj2NselhstqwCuMSwo0bUMTJwtc
+         am/K3Mw+5UBy9HYzpBJ4PIkbttx3rqXxbQFigTU5LGhvQWE150cNgmjVZ97F94Yl5XxD
+         KPuQ==
+X-Gm-Message-State: AOAM532hd+i2RZ85Iptm6rcemYOCtN1TcNkcv2KEAQs7JRcq/lJmsFpk
+        o8cvyFASGjHoBVmtIUkpzhQ=
+X-Google-Smtp-Source: ABdhPJyPIodWGbI6TVDLWiAaLVxfwiOiIMM5rzgBA4Hpvu9UCs2unU4dI0247I/LVN55mH9e+JP9pQ==
+X-Received: by 2002:a5d:55c8:: with SMTP id i8mr667556wrw.331.1599608497437;
+        Tue, 08 Sep 2020 16:41:37 -0700 (PDT)
+Received: from [192.168.1.211] ([2.29.208.34])
+        by smtp.gmail.com with ESMTPSA id n4sm1199208wmd.26.2020.09.08.16.41.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2020 15:47:47 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] venus: firmware: Set virtual address ranges
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Elliot Berman <eberman@codeaurora.org>,
-        Andy Gross <agross@kernel.org>
-References: <20200817082723.17458-1-stanimir.varbanov@linaro.org>
- <20200817082723.17458-3-stanimir.varbanov@linaro.org>
- <20200908143954.GK3715@yoga>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <83573727-3cf1-27bc-f13e-d81657d16327@linaro.org>
-Date:   Wed, 9 Sep 2020 01:47:43 +0300
+        Tue, 08 Sep 2020 16:41:36 -0700 (PDT)
+Subject: Re: [PATCH] media: ipu3: add a module to probe sensors via ACPI
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        Jordan Hand <jorhand@linux.microsoft.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>
+References: <12fbe3f5c6a16c5f3447adbc09fe27ceb2b16823.1589625807.git.mchehab+huawei@kernel.org>
+ <20200517103659.GS17578@paasikivi.fi.intel.com>
+ <20200520094400.5137e7f2@coco.lan>
+ <20200520082608.GV20066@paasikivi.fi.intel.com>
+ <20200520131830.3ff45919@coco.lan>
+ <CAHp75VduEGyzobm0hkXzWmFfZb-uMAEWG-wc89b7M7zVzZ_4LA@mail.gmail.com>
+ <20200522115736.10cca8eb@coco.lan>
+ <20200526143110.GC3284396@kuha.fi.intel.com>
+From:   Dan Scally <djrscally@gmail.com>
+Message-ID: <2d4f1abb-c617-476a-1005-0ed91906a5f5@gmail.com>
+Date:   Wed, 9 Sep 2020 00:41:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200908143954.GK3715@yoga>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200526143110.GC3284396@kuha.fi.intel.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
@@ -73,90 +84,118 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Heikki
 
-
-On 9/8/20 5:39 PM, Bjorn Andersson wrote:
-> On Mon 17 Aug 03:27 CDT 2020, Stanimir Varbanov wrote:
-> 
->> In order to boot some of the new Venus firmware versions TZ call to set
->> virtual address ranges is needed. Add virtual address ranges for CP and
->> CP_NONPIX in resource structure and use them when loading and booting
->> the firmware on remote processor.
+On 26/05/2020 15:31, Heikki Krogerus wrote:
+> On Fri, May 22, 2020 at 11:57:36AM +0200, Mauro Carvalho Chehab wrote:
+>> Em Thu, 21 May 2020 11:00:19 +0300
+>> Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
 >>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/platform/qcom/venus/core.c     |  4 ++++
->>  drivers/media/platform/qcom/venus/core.h     |  4 ++++
->>  drivers/media/platform/qcom/venus/firmware.c | 18 +++++++++++++++++-
->>  3 files changed, 25 insertions(+), 1 deletion(-)
+>>> +Cc: Heikki (swnode expert)
+>>>
+>>> On Wed, May 20, 2020 at 2:19 PM Mauro Carvalho Chehab
+>>> <mchehab+huawei@kernel.org> wrote:
+>>>> Em Wed, 20 May 2020 11:26:08 +0300
+>>>> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+>>>
+>>> ...
+>>>
+>>>> As I said, the problem is not probing the sensor via ACPI, but, instead,
+>>>> to be able receive platform-specific data.
+>>>
+>>> There is no problem with swnodes, except missing parts (*).
+>>> I have Skylake laptop with IPU3 and with half-baked ACPI tables, but
+>>> since we have drivers in place with fwnode support, we only need to
+>>> recreate fwnode graph in some board file to compensate the gap in
+>>> ACPI.
+>>>
+>>> *) Missing part is graph support for swnodes. With that done it will
+>>> be feasible to achieve the rest.
+>>> I forgot if we have anything for this already done. Heikki?
 >>
->> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
->> index 203c6538044f..5f8f7b72731c 100644
->> --- a/drivers/media/platform/qcom/venus/core.c
->> +++ b/drivers/media/platform/qcom/venus/core.c
->> @@ -527,6 +527,10 @@ static const struct venus_resources sdm845_res_v2 = {
->>  	.vmem_size = 0,
->>  	.vmem_addr = 0,
->>  	.dma_mask = 0xe0000000 - 1,
->> +	.cp_start = 0,
->> +	.cp_size = 0x70800000,
->> +	.cp_nonpixel_start = 0x1000000,
->> +	.cp_nonpixel_size = 0x24800000,
->>  	.fwname = "qcom/venus-5.2/venus.mdt",
->>  };
->>  
->> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->> index 7118612673c9..8c88516e4694 100644
->> --- a/drivers/media/platform/qcom/venus/core.h
->> +++ b/drivers/media/platform/qcom/venus/core.h
->> @@ -68,6 +68,10 @@ struct venus_resources {
->>  	unsigned int vmem_id;
->>  	u32 vmem_size;
->>  	u32 vmem_addr;
->> +	u32 cp_start;
->> +	u32 cp_size;
->> +	u32 cp_nonpixel_start;
->> +	u32 cp_nonpixel_size;
->>  	const char *fwname;
->>  };
->>  
->> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
->> index 8801a6a7543d..ac906ffc608f 100644
->> --- a/drivers/media/platform/qcom/venus/firmware.c
->> +++ b/drivers/media/platform/qcom/venus/firmware.c
->> @@ -181,6 +181,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
->>  int venus_boot(struct venus_core *core)
->>  {
->>  	struct device *dev = core->dev;
->> +	const struct venus_resources *res = core->res;
->>  	phys_addr_t mem_phys;
->>  	size_t mem_size;
->>  	int ret;
->> @@ -200,7 +201,22 @@ int venus_boot(struct venus_core *core)
->>  	else
->>  		ret = venus_boot_no_tz(core, mem_phys, mem_size);
->>  
->> -	return ret;
->> +	if (ret)
->> +		return ret;
->> +
->> +	if (core->use_tz && res->cp_size) {
->> +		ret = qcom_scm_mem_protect_video_var(res->cp_start,
->> +						     res->cp_size,
->> +						     res->cp_nonpixel_start,
->> +						     res->cp_nonpixel_size);
->> +		if (ret) {
->> +			dev_err(dev, "set virtual address ranges fail (%d)\n",
->> +				ret);
->> +			return ret;
+>> Hmm... I guess I should try this approach. I never heard about swnodes
+>> before. Do you have already some patch with the needed swnodes setup,
+>> and the missing parts to recreate the fwnode graph?
 > 
-> Afaict venus_probe() will tear down clocks and power of the now running
-> Venus core when you return an error here. Isn't it necessary to stop the
-> core here as well?
+> Here you go. I tested it with this code:
+> 
+>          static const struct software_node nodes[];
+> 
+>          static const struct property_entry ep0_props[] = {
+>                 PROPERTY_ENTRY_REF("remote-endpoint", &nodes[5]),
+>                 { }
+>          };
+> 
+>          static const struct property_entry ep1_props[] = {
+>                 PROPERTY_ENTRY_REF("remote-endpoint", &nodes[2]),
+>                 { }
+>          };
+> 
+>          static const struct software_node nodes[] = {
+>                 { "dev0" },
+>                 { "port0", &nodes[0] },
+>                 { "endpoint", &nodes[1], ep0_props },
+>                 { "dev1" },
+>                 { "port0", &nodes[3] },
+>                 { "endpoint", &nodes[4], ep1_props },
+>                 { }
+>          };
+> 
+>          void test(void)
+>          {
+>                  const struct software_node *swnode;
+>                  struct fwnode_handle *fwnode;
+> 
+>                  software_node_register_nodes(nodes);
+> 
+>                  fwnode = fwnode_graph_get_remote_port_parent(software_node_fwnode(&nodes[5]));
+>                  swnode = to_software_node(fwnode);
+>                  printk("first parent: %s\n", swnode->name);
+> 
+>                  fwnode = fwnode_graph_get_remote_port_parent(software_node_fwnode(&nodes[2]));
+>                  swnode = to_software_node(fwnode);
+>                  printk("second parent: %s\n", swnode->name);
+> 
+>                  software_node_unregister_nodes(nodes);
+>          }
+> 
+> thanks,
+> 
 
-I guess by "stop the core" you mean a call to qcom_scm_pas_shutdown() ?
-If so, I think it makes sense.
+One of the problems we're having trying to build (using the changes you 
+attached here) a module to connect sensors to the cio2 infrastructure is 
+that we can't unload it cleanly. There seems to be a couple of reasons 
+for that; but one of them is that cio2_parse_firmware() in ipu3-cio2.c 
+ticks up the refcount for fwnode_handles of the ports for the CIO2 
+device by calling software_node_graph_get_next_endpoint() once per 
+_possible_ cio2 port; each time that happens it gets a reference to the 
+port's fwnode_handle but doesn't release it.
 
--- 
-regards,
-Stan
+This isn't really a patch as such, since I don't think the changes you 
+attached are actually applied either upstream or in the media_tree git 
+(what are the plans in that regard, by the way? Will that patch be sent 
+upstream at some point?) so there's nowhere to apply it to, but I think 
+something like the below fixes it.
+
+What do you think?
+
+Regards,
+Dan
+
+---
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index 3667467196f0..62a1e3de8cb3 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -584,7 +584,9 @@ software_node_graph_get_next_endpoint(const struct 
+fwnode_handle *fwnode,
+                 endpoint = software_node_get_next_child(port, old);
+                 fwnode_handle_put(old);
+                 if (endpoint)
+-                       break;
++                       break;
++               else
++                       fwnode_handle_put(port);
+         }
+
+         fwnode_handle_put(port);
