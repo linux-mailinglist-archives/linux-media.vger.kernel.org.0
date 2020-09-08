@@ -2,40 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74189260F76
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 12:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 688CC260F71
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 12:15:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729479AbgIHKPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 06:15:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59746 "EHLO mail.kernel.org"
+        id S1729062AbgIHKOt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 06:14:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59862 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728828AbgIHKMc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 8 Sep 2020 06:12:32 -0400
+        id S1729104AbgIHKMf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Sep 2020 06:12:35 -0400
 Received: from mail.kernel.org (ip5f5ad5ce.dynamic.kabel-deutschland.de [95.90.213.206])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AD899216C4;
-        Tue,  8 Sep 2020 10:12:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7FEAD21D79;
+        Tue,  8 Sep 2020 10:12:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599559951;
-        bh=68DNqEok2XhXHOmQ4/OhRUUJNNkVRuXHV71v+f39NZM=;
+        s=default; t=1599559952;
+        bh=VuGxZvo9yHiaoeDqVaq0mRPlaYO1KqH47p+IwFf+LRE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gvLSkwfAcQ8V+/WodB5dkaMyFIcNgQ0c4wdSL3yhrGFVXRe5cofRHaIdQUSO9Pyvo
-         22LHFHkAi+tqdaOSBaLBqRm0HEf3OmJUsWx/Mwlq5tZ5/pVkZLdzjW1ge2Y2lp7kzR
-         fdQPz8NWeAdP4f1t4VTa+wDsS1nprFL483diKtFE=
+        b=qzFJPKrMSr98zhIOKH91ICQ4+dUN9MrDjIB/ZpEjGHbUcxSKgLKJWASEVBm/49Lf/
+         orclnub6zmuCD25OU1d74vpEhrZu+b+o/EFvWYj6mpnRE26K8k7lbpsvfx6n01vTvS
+         zEoa6Wn7M/+rFAJ1GRB8eJvzsVUKZqdRU8K6wQwc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kFac1-00B3qh-4u; Tue, 08 Sep 2020 12:12:29 +0200
+        id 1kFac1-00B3qj-5f; Tue, 08 Sep 2020 12:12:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] media: atomisp: move a static constant out of a header file
-Date:   Tue,  8 Sep 2020 12:12:25 +0200
-Message-Id: <a3280622dd3c85360c789e156f7b9d03bc8b2de3.1599141140.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 5/5] media: atomisp: get rid of -Wsuggest-attribute=format warnings
+Date:   Tue,  8 Sep 2020 12:12:26 +0200
+Message-Id: <6c77d765707b1e6b2901fd23d85b4d032f1a1799.1599141140.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599141140.git.mchehab+huawei@kernel.org>
 References: <cover.1599141140.git.mchehab+huawei@kernel.org>
@@ -47,50 +48,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Gcc reports that input_formatter_alignment is not used:
+There are some warnings reported by gcc:
+	drivers/staging/media/atomisp//pci/atomisp_compat_css20.c:164:2: warning: function ‘atomisp_css2_dbg_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+	drivers/staging/media/atomisp//pci/atomisp_compat_css20.c:170:2: warning: function ‘atomisp_css2_dbg_ftrace_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+	drivers/staging/media/atomisp//pci/atomisp_compat_css20.c:170:2: warning: function ‘atomisp_css2_dbg_ftrace_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+	drivers/staging/media/atomisp//pci/atomisp_compat_css20.c:176:2: warning: function ‘atomisp_css2_err_print’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
 
-	In file included from ./drivers/staging/media/atomisp//pci/hive_isp_css_include/input_formatter.h:34,
-	                 from drivers/staging/media/atomisp//pci/runtime/debug/src/ia_css_debug.c:55:
-	./drivers/staging/media/atomisp//pci/hive_isp_css_common/host/input_formatter_local.h:118:27: warning: ‘input_formatter_alignment’ defined but not used [-Wunused-const-variable=]
+That are due to the usage of printf-like messages without
+enabling the error checking logic.
 
-However, it is, but only inside input_formatter.c.
-
-So, move it out of the header file.
+Add the proper attributes in order to shut up such warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../atomisp/pci/hive_isp_css_common/host/input_formatter.c    | 4 ++++
- .../pci/hive_isp_css_common/host/input_formatter_local.h      | 4 ----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 20 ++++---------------
+ .../staging/media/atomisp/pci/ia_css_env.h    |  4 ++--
+ 2 files changed, 6 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-index 1b196cd265b9..5cd6136f21a2 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-@@ -27,6 +27,10 @@
- #include "input_formatter_private.h"
- #endif /* __INLINE_INPUT_FORMATTER__ */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index e54242dc0888..5a730e17cc6e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -159,24 +159,13 @@ static void atomisp_css2_hw_load(hrt_address addr, void *to, uint32_t n)
+ 	spin_unlock_irqrestore(&mmio_lock, flags);
+ }
  
-+static const unsigned int input_formatter_alignment[N_INPUT_FORMATTER_ID] = {
-+	ISP_VEC_ALIGN, ISP_VEC_ALIGN, HIVE_ISP_CTRL_DATA_BYTES
-+};
-+
- const hrt_address HIVE_IF_SRST_ADDRESS[N_INPUT_FORMATTER_ID] = {
- 	INPUT_FORMATTER0_SRST_OFFSET,
- 	INPUT_FORMATTER1_SRST_OFFSET,
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_local.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_local.h
-index 94fff77584f7..dfb593c109af 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_local.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_local.h
-@@ -115,8 +115,4 @@ struct input_formatter_bin_state_s {
- 	u32	en_status_update;
+-static int atomisp_css2_dbg_print(const char *fmt, va_list args)
+-{
+-	vprintk(fmt, args);
+-	return 0;
+-}
+-
+-static int atomisp_css2_dbg_ftrace_print(const char *fmt, va_list args)
++static int  __attribute__((format (printf, 1, 0)))
++atomisp_css2_dbg_ftrace_print(const char *fmt, va_list args)
+ {
+ 	ftrace_vprintk(fmt, args);
+ 	return 0;
+ }
+ 
+-static int atomisp_css2_err_print(const char *fmt, va_list args)
+-{
+-	vprintk(fmt, args);
+-	return 0;
+-}
+-
+ void atomisp_load_uint32(hrt_address addr, uint32_t *data)
+ {
+ 	*data = atomisp_css2_hw_load_32(addr);
+@@ -869,8 +858,7 @@ static inline int __set_css_print_env(struct atomisp_device *isp, int opt)
+ 		isp->css_env.isp_css_env.print_env.debug_print =
+ 		    atomisp_css2_dbg_ftrace_print;
+ 	else if (opt == 2)
+-		isp->css_env.isp_css_env.print_env.debug_print =
+-		    atomisp_css2_dbg_print;
++		isp->css_env.isp_css_env.print_env.debug_print = vprintk;
+ 	else
+ 		ret = -EINVAL;
+ 
+@@ -903,7 +891,7 @@ int atomisp_css_load_firmware(struct atomisp_device *isp)
+ 
+ 	__set_css_print_env(isp, dbg_func);
+ 
+-	isp->css_env.isp_css_env.print_env.error_print = atomisp_css2_err_print;
++	isp->css_env.isp_css_env.print_env.error_print = vprintk;
+ 
+ 	/* load isp fw into ISP memory */
+ 	err = ia_css_load_firmware(isp->dev, &isp->css_env.isp_css_env,
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_env.h b/drivers/staging/media/atomisp/pci/ia_css_env.h
+index 8debf334c15c..9808ff9e0492 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_env.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_env.h
+@@ -75,9 +75,9 @@ struct ia_css_hw_access_env {
+ /* Environment with function pointers to print error and debug messages.
+  */
+ struct ia_css_print_env {
+-	int (*debug_print)(const char *fmt, va_list args);
++	int (*debug_print)(const char *fmt, va_list args) __attribute__((format (printf, 1, 0)));
+ 	/** Print a debug message. */
+-	int (*error_print)(const char *fmt, va_list args);
++	int (*error_print)(const char *fmt, va_list args) __attribute__((format (printf, 1, 0)));
+ 	/** Print an error message.*/
  };
  
--static const unsigned int input_formatter_alignment[N_INPUT_FORMATTER_ID] = {
--	ISP_VEC_ALIGN, ISP_VEC_ALIGN, HIVE_ISP_CTRL_DATA_BYTES
--};
--
- #endif /* __INPUT_FORMATTER_LOCAL_H_INCLUDED__ */
 -- 
 2.26.2
 
