@@ -2,54 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA36C26055C
-	for <lists+linux-media@lfdr.de>; Mon,  7 Sep 2020 22:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 171D5260811
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 03:30:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729075AbgIGUFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Sep 2020 16:05:21 -0400
-Received: from fgw20-4.mail.saunalahti.fi ([62.142.5.107]:60211 "EHLO
-        fgw20-4.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729049AbgIGUFV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Sep 2020 16:05:21 -0400
-X-Greylist: delayed 962 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Sep 2020 16:05:21 EDT
-Received: from sinitiainen (85-156-156-197.elisa-laajakaista.fi [85.156.156.197])
-        by fgw20.mail.saunalahti.fi (Halon) with ESMTP
-        id 35f6946b-f143-11ea-ba22-005056bd6ce9;
-        Mon, 07 Sep 2020 22:49:15 +0300 (EEST)
-Received: from kuusitiainen.riihineva.no-ip.org ([192.168.1.40])
-        by sinitiainen with esmtp (Exim 4.71)
-        (envelope-from <timo@riihineva.no-ip.org>)
-        id 1kFN8d-0002AP-M4
-        for linux-media@vger.kernel.org; Mon, 07 Sep 2020 22:49:15 +0300
-To:     linux-media@vger.kernel.org
-From:   Timo Ketola <timo@riihineva.no-ip.org>
-Subject: Asus PN50 CEC
-Message-ID: <e56fb2cd-5e40-b83e-f702-0dced9df86fb@riihineva.no-ip.org>
-Date:   Mon, 7 Sep 2020 22:49:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728339AbgIHBa2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Sep 2020 21:30:28 -0400
+Received: from bilbo3.cbmm.lodz.pl ([212.51.204.40]:42937 "EHLO
+        bilbo3.cbmm.lodz.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728088AbgIHBa2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Sep 2020 21:30:28 -0400
+X-Greylist: delayed 411 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Sep 2020 21:30:27 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by bilbo3.cbmm.lodz.pl (Postfix) with ESMTP id 82B4C51E0;
+        Tue,  8 Sep 2020 03:23:35 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bilbo3.cbmm.lodz.pl
+Received: from bilbo3.cbmm.lodz.pl ([127.0.0.1])
+        by localhost (bilbo3.cbmm.lodz.pl [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id igCMDAGEPAd3; Tue,  8 Sep 2020 03:23:34 +0200 (CEST)
+Received: from poczta.cbmm.lodz.pl (bilbo3.cbmm.lodz.pl [212.51.204.40])
+        (Authenticated sender: amwrobel@cbmm.lodz.pl)
+        by bilbo3.cbmm.lodz.pl (Postfix) with ESMTPSA id CCFE84EE5;
+        Tue,  8 Sep 2020 03:14:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cbmm.lodz.pl; s=mail;
+        t=1599527649; bh=GSRrrlKUiRyefsg7VNTfUVmtzHNAugeDu9DtUiZGItI=;
+        h=Date:From:To:Subject:Reply-To:From;
+        b=qhbdez4wUuHdgIZuqUgbuTySP0op2cxGbIxHpjWAS6bSjUBsOmdHMotUuOFnznMfv
+         DBZLd7jzWroYiCRkv1jZupixRZbaTUEFijduEpK7uixUqGHvl0XAC2iL6F21UcQXrX
+         M0OQ+vY3HCHyIViZMntDXs0slizvVGTfdWE1uPVA=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Tue, 08 Sep 2020 04:14:04 +0300
+From:   MR WILLIAM YUN <amwrobel@cbmm.lodz.pl>
+To:     undisclosed-recipients:;
+Subject: =?UTF-8?Q?GESCH=C3=84FTSVORSCHLAGSDATUM_=2808-09-2020=29?=
+Reply-To: williamyun891@gmail.com
+Mail-Reply-To: williamyun891@gmail.com
+Message-ID: <aec841a7bc0334890e810e4711b57872@cbmm.lodz.pl>
+X-Sender: amwrobel@cbmm.lodz.pl
+User-Agent: Roundcube Webmail/1.1.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
 
-I'm not sure  weather this is the right place to ask but one has to 
-start somewhere. Here we go:
 
-I bought an Asus PN50 mini PC (Ryzen 3 4300U). It should have HDMI-CEC 
-and there indeed are some related settings in the BIOS. But there seems 
-to be no support for it in Linux and I can't find any hints how it might 
-have been implemented on the hardware side.
+-- 
+Hallo,
+Ich bin William Yun aus Hongkong. Ich habe ein Geschäft für Sie im Wert 
+von 24,5 Mio. USD für Sie. Bei Interesse antworten Sie bitte für weitere 
+Details. williamyun891@gmail.com
 
-Any ideas what to do now?
-
---
-
-Timo
+Grüße,
+William Yun
+Geschäftsführer,
+& Leiter Personal Banking,
+Hang Seng Bank,
+Hongkong.
+E-Mail: williamyun891@gmail.com
