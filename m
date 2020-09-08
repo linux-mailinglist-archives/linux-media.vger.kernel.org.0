@@ -2,513 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE8F260DAF
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 10:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 638A2260DC8
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 10:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729869AbgIHIgr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 04:36:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729564AbgIHIgq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 04:36:46 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F76DC061573
-        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 01:36:45 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id o5so18122720wrn.13
-        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 01:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qISAXO+68EXHqBU8VQh1M47t0rgk2bgtgEXfZ4OySC4=;
-        b=a8fDlFPNZErZTHfMvmdH4tiRqZFb9SO99Z34/eTbeiaW9BXottsGEtaUxuwHc06kre
-         ZszJK7Z1U/ibZtz58jsFFAJJRJmLKBcOCTSoHyzsa4sjkjLA2finFX2icBedfZ915bMX
-         /pfPSCsiX5cuwQhdrfRyPWgJJQZ8XOPdQDz3M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qISAXO+68EXHqBU8VQh1M47t0rgk2bgtgEXfZ4OySC4=;
-        b=oJltMT292JFDYCjHlqS9ec20upgCGiikBnTu3lIl86lePqcBoo9cIX7/7ptv5qmTfY
-         JZ5g47hK6sXvNfcggfxh457uO0pD/CwcdJ2u8rAOz+Tbcn5spS9tHo+TCErV7vLyut9k
-         6PotHTm72ByDLM8cIppR5Z2obz63AqXJ/KmAJ+CC6S9p5XSnranlWBM008LtPU+Gq+EI
-         KXM5ZSUgYxxTxiImxhY7YtnlnRaZ9WETja3anR4ue8grVVd2pcw49U2uxb4ulBX6AK+p
-         U9vTUgQD1FCHn4WZIuV93x8O6C3OcOBTWIn0X/lsrgRjWDGWOMJPZ/rEqr0QBvuUL1rB
-         Urhw==
-X-Gm-Message-State: AOAM533sf6k8fXosjlKTv++YfBWdt9EwM701BvFpdGM8GOrn5JJvWHA2
-        NbZnLP10z6+sCB6pjZYRvOpz3g==
-X-Google-Smtp-Source: ABdhPJyuQIRuQW79Yf70mhAf5i9+ifV3jy2dmzDQM77rIsXipuY1EoHbKb7k0GYxxemZIHw8Q+VzIA==
-X-Received: by 2002:a5d:4104:: with SMTP id l4mr25455322wrp.396.1599554203379;
-        Tue, 08 Sep 2020 01:36:43 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id c205sm31211975wmd.33.2020.09.08.01.36.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 01:36:42 -0700 (PDT)
-Date:   Tue, 8 Sep 2020 10:36:40 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@st.com>,
-        James Jones <jajones@nvidia.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Daniel Stone <daniels@collabora.com>,
-        "Andrew F . Davis" <afd@ti.com>
-Subject: Re: [RFC] Experimental DMA-BUF Device Heaps
-Message-ID: <20200908083640.GF2352366@phenom.ffwll.local>
-References: <20200816172246.69146-1-ezequiel@collabora.com>
- <20200901073222.GR2352366@phenom.ffwll.local>
- <20200908054359.GA25682@pendragon.ideasonboard.com>
+        id S1730114AbgIHIlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 04:41:04 -0400
+Received: from mail-am6eur05on2042.outbound.protection.outlook.com ([40.107.22.42]:34880
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729993AbgIHIlC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Sep 2020 04:41:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kykrkzNuPh3OvM6LCwK7/Q8upp54n7OKzfbqASflDdL6Iz9hTW4r7aD1WVCR6k48wpGrXqCcYwVFfuq1tKiLLzacQyZe3eqbA3EvCsKoA8ciO+a5L20xyS4U8flLzclfP9fpXQ3QOXej61SxmqkzV5WC+CO2a+9RF2OouQzBfShr2V93O4EhxNDc8Db7ACnRux9cD4a+i4Yi1Bdh4oy6iFBtqZVN/QkyBz04RJbeGLi4q4Oytq3OouFf8sHQI6k7/A2tQl2pY7uXvzH4IYOPon+utX5bGAPUo82qcn3+TSyhOEIPCRZ1/EO7aSR4mcgwa58nEqXur5M19YJ9X8738Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SScHgv4y1hxwsfeO4ydUq2lYYNDtN24FDraJGwO3pwQ=;
+ b=BpCxEiTWTXSGbUqLvjzkzPwIzLVQVHXpJ9r3pZVAvJbfN1lPu3KdoXW4ErIovpHaOYuN9HwiMipTvNTWo8layenyyn4Lkki2FDbyKWdzm/nO4VeeafzZGGDSVm+EienfJCHboNRtZVNwCjb6E7h09oZrLNh4rdrrMhHn2s/cj5N75HoiSEI8mlCpeImpd2lm2TVgmCMAJn7RchhFV1wBsmtlTIesYDA70kWlPyF3jQCUfZrGLydz98/T3uaDwrVjzUULIbJUcwKE9yKCeEa5byVT/kevNSddZi8C3mgATdDxOH47j0fpnUW5aDlo5P9mhAIq45a2erCl7lBVcTzYvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SScHgv4y1hxwsfeO4ydUq2lYYNDtN24FDraJGwO3pwQ=;
+ b=gDrhesztXgMynpFGFw9fwhqkQ/oHUhFLcZqwHuKI4/uZFW5ZzFImwzo97SCMhPpLmEVAuGK2Su2wU/xsvmP9oaxdzfsKPk/A+Db9J1rBKUB26Jk3D94qL8rldX8YpFIIoTcm1wuMJyt4DCEOdfjpJgo/5eIk4UPlRt1vqhrXmtE=
+Received: from DB8PR04MB6795.eurprd04.prod.outlook.com (2603:10a6:10:fa::15)
+ by DB7PR04MB4282.eurprd04.prod.outlook.com (2603:10a6:5:19::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Tue, 8 Sep
+ 2020 08:40:58 +0000
+Received: from DB8PR04MB6795.eurprd04.prod.outlook.com
+ ([fe80::d12e:689a:169:fd68]) by DB8PR04MB6795.eurprd04.prod.outlook.com
+ ([fe80::d12e:689a:169:fd68%8]) with mapi id 15.20.3370.016; Tue, 8 Sep 2020
+ 08:40:58 +0000
+From:   Joakim Zhang <qiangqing.zhang@nxp.com>
+To:     Sean Young <sean@mess.org>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Andy Duan <fugang.duan@nxp.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: RE: SONY IR issue
+Thread-Topic: SONY IR issue
+Thread-Index: AdaB1p1pGnCw2M4KThCyranS73PKeAATSO+AABVEJGAAD5nPAACKfohQAARZXYAAAEERUAAx0uZA
+Date:   Tue, 8 Sep 2020 08:40:58 +0000
+Message-ID: <DB8PR04MB6795A60FBD4FBB3409C103E4E6290@DB8PR04MB6795.eurprd04.prod.outlook.com>
+References: <DB8PR04MB679580C7C8E6888B56C8BDACE62C0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+ <20200903185513.GA31286@gofer.mess.org>
+ <DB8PR04MB67950837E2355EA81FBAADD1E62D0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+ <20200904123050.GA11675@gofer.mess.org>
+ <DB8PR04MB6795F1EA8A865A3CDCC79439E6280@DB8PR04MB6795.eurprd04.prod.outlook.com>
+ <20200907084053.GA32304@gofer.mess.org>
+ <DB8PR04MB679515C3490C5087B29A6DA8E6280@DB8PR04MB6795.eurprd04.prod.outlook.com>
+In-Reply-To: <DB8PR04MB679515C3490C5087B29A6DA8E6280@DB8PR04MB6795.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: mess.org; dkim=none (message not signed)
+ header.d=none;mess.org; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.71]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: b67a557d-522d-4567-2c95-08d853d2e8bb
+x-ms-traffictypediagnostic: DB7PR04MB4282:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB7PR04MB428252ED9959B893F82566C2E6290@DB7PR04MB4282.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cr9M6ARkGLXBGrml46hsh5KJvoWxcXwFO2QKo269bOj+p3jJEnpD3o3xx7PEXb87GLYBfa8uCqwzQt/u4HDfS4KEeo3Cb/emu6NPiHD864zb0/FpB+AvryFWGev60D2TQNzgl1Yt+DodhdOYWiE+ABsPZWNStRemmrWeXuM9UrKI93iOw+6WLYkwpBArRHngCLDxAb+WrRlSmvlN01HxmHgrPel0f94g3xhPmyxVdVQgimNSvtfNkjw3tdKRzU1dWwn15XUutxRTHC9z4TFcAyZtyygbJA0RpEhMefysNUmgvpNHlnheKrc51ApzICL6
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6795.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(39860400002)(346002)(136003)(396003)(53546011)(64756008)(66446008)(8936002)(4326008)(6916009)(66556008)(66946007)(66476007)(76116006)(54906003)(55016002)(83380400001)(8676002)(33656002)(52536014)(86362001)(9686003)(71200400001)(6506007)(26005)(478600001)(7696005)(3480700007)(2906002)(186003)(7116003)(316002)(5660300002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: U7T6C0xKZfDpyirpzGWsu9YxQZglMrtMA6drJV9fnouq8hPkVwm3hJXpQmnOeOBvhuWFKRG7yxPgXdyzn2/IJDU5AIsV+EZt4FXNDQ1UMCv30l8wDE/HXeNyLVXwVk5L4R7BeKb677rvKD0kJU3nJqk/eTxYoSlYSFvb5nsqFj0SMaTDvPkaGj91RTcDqQJCNUqFdFmtQTLT350a4KfV9bcPgcOMsVO0qLef6Xy/UOOF6gXzvj44LEIAqHI488wrnfUmNLTsTGdIC+7lLucfWhdgh1he7Ov1SKUsI8J20gvu5E+WTeW8FiuhL2dgImW0YWVuYDDQasJ9HuSEgebXx0QTmtndJwJ8fDMqccha33LrudO4nJPCiBemUGD2PwA2MdRs5FUPC0/xQUPZVWdqQ3PFVYW07pivsalTBm7IwcA/tn6qq8BfhKXW6UrImsPXfoYoiPuQ8K3gvrqwvJk0q+r3pfUmDxGkQpzRbEdt6lr18uSQHXGutQ/WHYjxX98GsSr8HLFdx9Mlgq1dKwzgcCcsJn5vRWk3xv5OG7G2NJVvzeH0NfI8nrdKAMgU8QrYKW9tWKchY0pCAEKAKxh4iqInJRyD/XeNXO8UkuUM9HhSApC/z+Aq+3FPsul6hzMU1ZB40vAJLzN+G+JiIo9qIg==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200908054359.GA25682@pendragon.ideasonboard.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR04MB6795.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b67a557d-522d-4567-2c95-08d853d2e8bb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2020 08:40:58.4847
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FPr/pKKeP6a8/g9IWISoV2tXytinDgIADnhn/OjTG6PrCgYyWBZCQYSg6SDwjJPNGoLjwoTKc3HGwdbPh7JdhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4282
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 08, 2020 at 08:43:59AM +0300, Laurent Pinchart wrote:
-> Hi Daniel,
-> 
-> On Tue, Sep 01, 2020 at 09:32:22AM +0200, Daniel Vetter wrote:
-> > On Sun, Aug 16, 2020 at 02:22:46PM -0300, Ezequiel Garcia wrote:
-> > > This heap is basically a wrapper around DMA-API dma_alloc_attrs,
-> > > which will allocate memory suitable for the given device.
-> > > 
-> > > The implementation is mostly a port of the Contiguous Videobuf2
-> > > memory allocator (see videobuf2/videobuf2-dma-contig.c)
-> > > over to the DMA-BUF Heap interface.
-> > > 
-> > > The intention of this allocator is to provide applications
-> > > with a more system-agnostic API: the only thing the application
-> > > needs to know is which device to get the buffer for.
-> > > 
-> > > Whether the buffer is backed by CMA, IOMMU or a DMA Pool
-> > > is unknown to the application.
-> > > 
-> > > I'm not really expecting this patch to be correct or even
-> > > a good idea, but just submitting it to start a discussion on DMA-BUF
-> > > heap discovery and negotiation.
-> > > 
-> > > Given Plumbers is just a couple weeks from now, I've submitted
-> > > a BoF proposal to discuss this, as perhaps it would make
-> > > sense to discuss this live?
-> > > 
-> > > Not-signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > 
-> > I think on the uapi/constraint solving side there's been already tons of
-> > discussions while I enjoyed vacations, so different concern from me
-> > entirely on the implementation side:
-> > 
-> > In the past the only thing we had in upstream was subsystem/driver
-> > specific allocators, and dma-buf for sharing. With dma-buf heaps we kinda
-> > get a central allocator, which duplicates large chunks of of all these
-> > allocators. And since it's a central allocator by design, the reason for
-> > having per-subsystem allocators is kinda gone.
-> > 
-> > I think there's two approaches here:
-> > - we convert e.g. drm allocator helpers to internally use the right heap
-> >   implementation.
-> 
-> We however don't always have a need for a dmabuf, as not all buffers are
-> meant to be shared (and we often can't tell beforehand, at allocation
-> time, if a given buffer will be shared or not). While the overhead of
-> allocating a dmabuf should be file, assigning a file descriptor to each
-> buffer would be prohibitely expensive.
-> 
-> We would need to decouple the dma heaps from file descriptors. I think
-> that's doable, but it changes the philosophy of dma heaps and needs
-> careful consideration. In particular, one may wonder what that would
-> bring us, compared to the DMA mapping API for instance.
-
-Oh I don't mean that we use the dma-buf heaps interfaces, but the backend.
-Underneath it's all a struct dma_buf, that's where I figured we should
-intercept the code sharing. Definitely not file descriptor handles.
-
-> > That would also give us some fairly direct way to expose
-> >   these constraints in sysfs so a userspace allocator knows which dma-buf
-> >   heap to pick for shared stuff.
-> 
-> sysfs won't work I'm afraid, as constraints may depend on the format for
-> instace. We need subsystem-specific APIs to expose constraints.
-
-Yeah sysfs would be the default, and maybe a list of useable heaps that
-the subsystem api then tells you which to use when.
--Daniel
-
-> 
-> > - we require that any heap is just a different uapi for an existing driver
-> >   allocator, e.g. by having a dma-buf wrapper for all gem drivers.
-> > 
-> > Otherwise I think what we end up with is a pile of dma-buf heaps for
-> > android's blob gpu driver world, and not used anywhere else. Not something
-> > even remotely interesting for upstream :-)
-> > 
-> > tldr; I'd like to see how dma-buf heaps closely integrate with all the
-> > existing buffer management code we have. Both kernel (and throuhg some
-> > allocator library effort) in userspace.
-> > 
-> > > ---
-> > >  drivers/dma-buf/heaps/Kconfig       |   9 +
-> > >  drivers/dma-buf/heaps/Makefile      |   1 +
-> > >  drivers/dma-buf/heaps/device_heap.c | 268 ++++++++++++++++++++++++++++
-> > >  include/linux/device.h              |   5 +
-> > >  include/linux/dma-heap.h            |   6 +
-> > >  5 files changed, 289 insertions(+)
-> > >  create mode 100644 drivers/dma-buf/heaps/device_heap.c
-> > > 
-> > > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-> > > index a5eef06c4226..2bb3604184bd 100644
-> > > --- a/drivers/dma-buf/heaps/Kconfig
-> > > +++ b/drivers/dma-buf/heaps/Kconfig
-> > > @@ -12,3 +12,12 @@ config DMABUF_HEAPS_CMA
-> > >  	  Choose this option to enable dma-buf CMA heap. This heap is backed
-> > >  	  by the Contiguous Memory Allocator (CMA). If your system has these
-> > >  	  regions, you should say Y here.
-> > > +
-> > > +config DMABUF_HEAPS_DEVICES
-> > > +	bool "DMA-BUF Device DMA Heap (Experimental)"
-> > > +	depends on DMABUF_HEAPS
-> > > +	help
-> > > +	  Choose this option to enable dma-buf per-device heap. This heap is backed
-> > > +	  by the DMA-API and it's an Experimental feature, meant mostly for testing
-> > > +	  and experimentation.
-> > > +	  Just say N here.
-> > > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-> > > index 6e54cdec3da0..c691d85b3044 100644
-> > > --- a/drivers/dma-buf/heaps/Makefile
-> > > +++ b/drivers/dma-buf/heaps/Makefile
-> > > @@ -2,3 +2,4 @@
-> > >  obj-y					+= heap-helpers.o
-> > >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
-> > >  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-> > > +obj-$(CONFIG_DMABUF_HEAPS_DEVICES)	+= device_heap.o
-> > > diff --git a/drivers/dma-buf/heaps/device_heap.c b/drivers/dma-buf/heaps/device_heap.c
-> > > new file mode 100644
-> > > index 000000000000..1803dc622dd8
-> > > --- /dev/null
-> > > +++ b/drivers/dma-buf/heaps/device_heap.c
-> > > @@ -0,0 +1,268 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * DMABUF Device DMA heap exporter
-> > > + *
-> > > + * Copyright (C) 2020, Collabora Ltd.
-> > > + *
-> > > + * Based on:
-> > > + *   videobuf2-dma-contig.c - DMA contig memory allocator for videobuf2
-> > > + *   Copyright (C) 2010 Samsung Electronics
-> > > + */
-> > > +
-> > > +#include <linux/device.h>
-> > > +#include <linux/dma-buf.h>
-> > > +#include <linux/dma-heap.h>
-> > > +#include <linux/dma-mapping.h>
-> > > +#include <linux/scatterlist.h>
-> > > +#include <linux/slab.h>
-> > > +#include <linux/module.h>
-> > > +
-> > > +struct dev_dmabuf_attachment {
-> > > +	struct sg_table sgt;
-> > > +	enum dma_data_direction dma_dir;
-> > > +};
-> > > +
-> > > +struct dev_dmabuf {
-> > > +	struct dma_heap *heap;
-> > > +	struct dma_buf *dmabuf;
-> > > +	struct device *dev;
-> > > +	size_t size;
-> > > +	void *vaddr;
-> > > +	dma_addr_t dma_addr;
-> > > +	unsigned long attrs;
-> > > +
-> > > +	struct sg_table sgt;
-> > > +};
-> > > +
-> > > +static struct sg_table *dev_dmabuf_ops_map(struct dma_buf_attachment *db_attach,
-> > > +					   enum dma_data_direction dma_dir)
-> > > +{
-> > > +	struct dev_dmabuf_attachment *attach = db_attach->priv;
-> > > +	/* stealing dmabuf mutex to serialize map/unmap operations */
-> > > +	struct mutex *lock = &db_attach->dmabuf->lock;
-> > > +	struct sg_table *sgt;
-> > > +
-> > > +	mutex_lock(lock);
-> > > +
-> > > +	sgt = &attach->sgt;
-> > > +	/* return previously mapped sg table */
-> > > +	if (attach->dma_dir == dma_dir) {
-> > > +		mutex_unlock(lock);
-> > > +		return sgt;
-> > > +	}
-> > > +
-> > > +	/* release any previous cache */
-> > > +	if (attach->dma_dir != DMA_NONE) {
-> > > +		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > > +				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > > +		attach->dma_dir = DMA_NONE;
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * mapping to the client with new direction, no cache sync
-> > > +	 * required see comment in .dmabuf_ops_detach()
-> > > +	 */
-> > > +	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > > +				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > > +	if (!sgt->nents) {
-> > > +		dev_err(db_attach->dev, "failed to map scatterlist\n");
-> > > +		mutex_unlock(lock);
-> > > +		return ERR_PTR(-EIO);
-> > > +	}
-> > > +
-> > > +	attach->dma_dir = dma_dir;
-> > > +
-> > > +	mutex_unlock(lock);
-> > > +
-> > > +	return sgt;
-> > > +}
-> > > +
-> > > +static void dev_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
-> > > +				 struct sg_table *sgt,
-> > > +				 enum dma_data_direction dma_dir)
-> > > +{
-> > > +	/* nothing to be done here */
-> > > +}
-> > > +
-> > > +static int dev_dmabuf_ops_attach(struct dma_buf *dmabuf,
-> > > +				 struct dma_buf_attachment *dbuf_attach)
-> > > +{
-> > > +	struct dev_dmabuf_attachment *attach;
-> > > +	unsigned int i;
-> > > +	struct scatterlist *rd, *wr;
-> > > +	struct sg_table *sgt;
-> > > +	struct dev_dmabuf *buf = dmabuf->priv;
-> > > +	int ret;
-> > > +
-> > > +	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
-> > > +	if (!attach)
-> > > +		return -ENOMEM;
-> > > +	sgt = &attach->sgt;
-> > > +
-> > > +	/*
-> > > +	 * Copy the buf->sgt scatter list to the attachment, as we can't
-> > > +	 * map the same scatter list to multiple attachments at the same time.
-> > > +	 */
-> > > +	ret = sg_alloc_table(sgt, buf->sgt.orig_nents, GFP_KERNEL);
-> > > +	if (ret) {
-> > > +		kfree(attach);
-> > > +		return -ENOMEM;
-> > > +	}
-> > > +
-> > > +	rd = buf->sgt.sgl;
-> > > +	wr = sgt->sgl;
-> > > +	for (i = 0; i < sgt->orig_nents; ++i) {
-> > > +		sg_set_page(wr, sg_page(rd), rd->length, rd->offset);
-> > > +		rd = sg_next(rd);
-> > > +		wr = sg_next(wr);
-> > > +	}
-> > > +
-> > > +	attach->dma_dir = DMA_NONE;
-> > > +	dbuf_attach->priv = attach;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static void dev_dmabuf_ops_detach(struct dma_buf *dmabuf,
-> > > +				  struct dma_buf_attachment *db_attach)
-> > > +{
-> > > +	struct dev_dmabuf_attachment *attach = db_attach->priv;
-> > > +	struct sg_table *sgt;
-> > > +
-> > > +	if (!attach)
-> > > +		return;
-> > > +	sgt = &attach->sgt;
-> > > +
-> > > +	/* release the scatterlist cache */
-> > > +	if (attach->dma_dir != DMA_NONE)
-> > > +		/*
-> > > +		 * Cache sync can be skipped here, as the memory is
-> > > +		 * allocated from device coherent memory, which means the
-> > > +		 * memory locations do not require any explicit cache
-> > > +		 * maintenance prior or after being used by the device.
-> > > +		 *
-> > > +		 * XXX: This needs a revisit.
-> > > +		 */
-> > > +		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > > +				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > > +	sg_free_table(sgt);
-> > > +	kfree(attach);
-> > > +	db_attach->priv = NULL;
-> > > +}
-> > > +
-> > > +
-> > > +static void *dev_dmabuf_ops_vmap(struct dma_buf *dmabuf)
-> > > +{
-> > > +	struct dev_dmabuf *buf = dmabuf->priv;
-> > > +
-> > > +	return buf->vaddr;
-> > > +}
-> > > +
-> > > +static void dev_dmabuf_ops_release(struct dma_buf *dmabuf)
-> > > +{
-> > > +	struct dev_dmabuf *buf = dmabuf->priv;
-> > > +
-> > > +	sg_free_table(&buf->sgt);
-> > > +	dma_free_attrs(buf->dev, buf->size, buf->vaddr,
-> > > +		       buf->dma_addr, buf->attrs);
-> > > +	put_device(buf->dev);
-> > > +	kfree(buf);
-> > > +}
-> > > +
-> > > +static int dev_dmabuf_ops_mmap(struct dma_buf *dmabuf,
-> > > +			       struct vm_area_struct *vma)
-> > > +{
-> > > +	struct dev_dmabuf *buf = dmabuf->priv;
-> > > +	int ret;
-> > > +
-> > > +	ret = dma_mmap_attrs(buf->dev, vma, buf->vaddr,
-> > > +			     buf->dma_addr, buf->size,
-> > > +			     buf->attrs);
-> > > +	if (ret) {
-> > > +		dev_err(buf->dev, "remapping memory failed, error: %d\n", ret);
-> > > +		return ret;
-> > > +	}
-> > > +	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static const struct dma_buf_ops dev_dmabuf_ops = {
-> > > +	.attach = dev_dmabuf_ops_attach,
-> > > +	.detach = dev_dmabuf_ops_detach,
-> > > +	.map_dma_buf = dev_dmabuf_ops_map,
-> > > +	.unmap_dma_buf = dev_dmabuf_ops_unmap,
-> > > +	.vmap = dev_dmabuf_ops_vmap,
-> > > +	.mmap = dev_dmabuf_ops_mmap,
-> > > +	.release = dev_dmabuf_ops_release,
-> > > +};
-> > > +
-> > > +static int dev_heap_allocate(struct dma_heap *heap,
-> > > +			unsigned long size,
-> > > +			unsigned long fd_flags,
-> > > +			unsigned long heap_flags)
-> > > +{
-> > > +	struct device *dev = dma_heap_get_drvdata(heap);
-> > > +	struct dev_dmabuf *buf;
-> > > +	struct dma_buf_export_info exp_info = {};
-> > > +	unsigned long attrs = 0;
-> > > +	int ret = -ENOMEM;
-> > > +
-> > > +	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
-> > > +	if (!buf)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	buf->vaddr = dma_alloc_attrs(dev, size, &buf->dma_addr,
-> > > +				     GFP_KERNEL, attrs);
-> > > +	/* Prevent the device from being released while the buffer is used */
-> > > +	buf->dev = get_device(dev);
-> > > +	buf->heap = heap;
-> > > +	buf->size = size;
-> > > +	buf->attrs = attrs;
-> > > +
-> > > +	/* XXX: This call is documented as unsafe. See dma_get_sgtable_attrs(). */
-> > > +	ret = dma_get_sgtable_attrs(buf->dev, &buf->sgt,
-> > > +				    buf->vaddr, buf->dma_addr,
-> > > +				    buf->size, buf->attrs);
-> > > +	if (ret < 0) {
-> > > +		dev_err(buf->dev, "failed to get scatterlist from DMA API\n");
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	exp_info.exp_name = dev_name(dev);
-> > > +	exp_info.owner = THIS_MODULE;
-> > > +	exp_info.ops = &dev_dmabuf_ops;
-> > > +	exp_info.size = size;
-> > > +	exp_info.flags = fd_flags;
-> > > +	exp_info.priv = buf;
-> > > +
-> > > +	buf->dmabuf = dma_buf_export(&exp_info);
-> > > +	if (IS_ERR(buf->dmabuf)) {
-> > > +		dev_err(buf->dev, "failed to export dmabuf\n");
-> > > +		return PTR_ERR(buf->dmabuf);
-> > > +	}
-> > > +
-> > > +	ret = dma_buf_fd(buf->dmabuf, fd_flags);
-> > > +	if (ret < 0) {
-> > > +		dev_err(buf->dev, "failed to get dmabuf fd: %d\n", ret);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static const struct dma_heap_ops dev_heap_ops = {
-> > > +	.allocate = dev_heap_allocate,
-> > > +};
-> > > +
-> > > +void dev_dma_heap_add(struct device *dev)
-> > > +{
-> > > +	struct dma_heap_export_info exp_info;
-> > > +
-> > > +	exp_info.name = dev_name(dev);
-> > > +	exp_info.ops = &dev_heap_ops;
-> > > +	exp_info.priv = dev;
-> > > +
-> > > +	dev->heap = dma_heap_add(&exp_info);
-> > > +}
-> > > +EXPORT_SYMBOL(dev_dma_heap_add);
-> > > diff --git a/include/linux/device.h b/include/linux/device.h
-> > > index ca18da4768e3..1fae95d55ea1 100644
-> > > --- a/include/linux/device.h
-> > > +++ b/include/linux/device.h
-> > > @@ -45,6 +45,7 @@ struct iommu_ops;
-> > >  struct iommu_group;
-> > >  struct dev_pin_info;
-> > >  struct dev_iommu;
-> > > +struct dma_heap;
-> > >  
-> > >  /**
-> > >   * struct subsys_interface - interfaces to device functions
-> > > @@ -597,6 +598,10 @@ struct device {
-> > >  	struct iommu_group	*iommu_group;
-> > >  	struct dev_iommu	*iommu;
-> > >  
-> > > +#ifdef CONFIG_DMABUF_HEAPS_DEVICES
-> > > +	struct dma_heap		*heap;
-> > > +#endif
-> > > +
-> > >  	bool			offline_disabled:1;
-> > >  	bool			offline:1;
-> > >  	bool			of_node_reused:1;
-> > > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-> > > index 454e354d1ffb..dcf7cca2f487 100644
-> > > --- a/include/linux/dma-heap.h
-> > > +++ b/include/linux/dma-heap.h
-> > > @@ -56,4 +56,10 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
-> > >   */
-> > >  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
-> > >  
-> > > +#ifdef CONFIG_DMABUF_HEAPS_DEVICES
-> > > +void dev_dma_heap_add(struct device *dev);
-> > > +#else
-> > > +static inline void dev_dma_heap_add(struct device *dev) {}
-> > > +#endif
-> > > +
-> > >  #endif /* _DMA_HEAPS_H */
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+DQpIaSBTZWFuLA0KDQpHUElPIElSIFJlY3YgZXh0cmVtZWx5IHJlbHkgb24gdGhlIHJlYWwtdGlt
+ZSBwZXJmb3JtYW5jZSBvZiB0aGUgaW50ZXJydXB0IHJlc3BvbnNlLCBhZnRlciB0dXJuIG9mZiBj
+cHVpZGxlLCBJUiBjYW4gd29yayBzdGVhZGlseSBub3cuDQoNCk11Y2ggdGhhbmtzIGZvciB5b3Vy
+IGtpbmRseSBoZWxwLiDwn5iKDQoNCkJlc3QgUmVnYXJkcywNCkpvYWtpbSBaaGFuZw0KPiAtLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKb2FraW0gWmhhbmcNCj4gU2VudDogMjAy
+MOW5tDnmnIg35pelIDE2OjUyDQo+IFRvOiBTZWFuIFlvdW5nIDxzZWFuQG1lc3Mub3JnPg0KPiBD
+YzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBBbmR5IER1YW4gPGZ1Z2FuZy5kdWFuQG54
+cC5jb20+Ow0KPiBsaW51eC1ncGlvQHZnZXIua2VybmVsLm9yZzsgQmFydG9zeiBHb2xhc3pld3Nr
+aSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4NCj4gU3ViamVjdDogUkU6IFNPTlkgSVIgaXNz
+dWUNCj4gDQo+IA0KPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gRnJvbTogU2Vh
+biBZb3VuZyA8c2VhbkBtZXNzLm9yZz4NCj4gPiBTZW50OiAyMDIw5bm0OeaciDfml6UgMTY6NDEN
+Cj4gPiBUbzogSm9ha2ltIFpoYW5nIDxxaWFuZ3FpbmcuemhhbmdAbnhwLmNvbT4NCj4gPiBDYzog
+bGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBBbmR5IER1YW4gPGZ1Z2FuZy5kdWFuQG54cC5j
+b20+Ow0KPiA+IGxpbnV4LWdwaW9Admdlci5rZXJuZWwub3JnOyBCYXJ0b3N6IEdvbGFzemV3c2tp
+DQo+ID4gPGJnb2xhc3pld3NraUBiYXlsaWJyZS5jb20+DQo+ID4gU3ViamVjdDogUmU6IFNPTlkg
+SVIgaXNzdWUNCj4gPg0KPiA+IE9uIE1vbiwgU2VwIDA3LCAyMDIwIGF0IDA2OjU4OjQzQU0gKzAw
+MDAsIEpvYWtpbSBaaGFuZyB3cm90ZToNCj4gPg0KPiA+IC1zbmlwLQ0KPiA+DQo+ID4gPiA+ID4g
+PiBJIHdvdWxkbid0IGJlIHN1cnByaXNlZCBpZiB0aGUgZ3BpbyBkZXZpY2UgZ2VuZXJhdGVzIHR3
+bw0KPiA+ID4gPiA+ID4gaW50ZXJydXB0cyBmb3IgdGhlIGJyb2tlbiBwdWxzZSAob25lIGFmdGVy
+IDY5MHVzIGFuZCBhbm90aGVyDQo+ID4gPiA+ID4gPiBhdCAxMjAwdXMpLCBhbmQgaWYgZGVjb2Rp
+bmcgaGFwcGVucyBiZWZvcmUgdGhlIHNlY29uZCB0aGVuIHRoZQ0KPiA+ID4gPiA+ID4gd3JvbmcN
+Cj4gPiBwdWxzZSBsZW5ndGggaXMgdXNlZC4NCj4gPiA+ID4gPiBJIGFsc28gY2hlY2sgdGhlIG51
+bWJlciBvZiBpbnRlcnJ1cHQgZ2VuZXJhdGVkIGJ5IGdwaW8uIEFmdGVyIEkNCj4gPiA+ID4gPiBw
+cmVzcyB0aGUga2V5LA0KPiA+ID4gPiBSQyB0cmFuc21pdHMgNyBmcmFtZXMsIGl0IHNob3VsZCBj
+b250YWluIDE4MiBmYWxsaW5nL3Jpc2luZyBlZGdlcy4NCj4gPiA+ID4gPiBJdCBpbmRlZWQgcmVw
+b3J0cyAxODIgaW50ZXJydXB0cyBhbmQgZ28gdGhyb3VnaA0KPiA+ID4gPiA+IGlyX3Jhd19ldmVu
+dF9zdG9yZSBmdW5jdGlvbiAxODIgdGltZXMuIFNpbmNlIHRoZSBudW1iZXIgb2YNCj4gPiA+ID4g
+PiBpbnRlcnJ1cHQgaXMgYWNjdXJhdGUsIGp1c3QgYSBmZXcNCj4gPiA+ID4gZmFsbGluZy9yaXNp
+bmcgaW50ZXJydXB0IGNvbWVzIG11Y2ggcXVpY2tseSB0aGFuIG90aGVycywgYnV0IHRoZQ0KPiA+
+ID4gPiBhbmFsb2cgc2lnbmFsIGlzIHBlcmZlY3QuIEl0IGlzIHJlYWxseSBvdXQgb2YgbXkgdW5k
+ZXJzdGFuZGluZy4gSXQNCj4gPiA+ID4gc2hvdWxkIG5vdCBhbg0KPiA+IGlzc3VlIGluIElSIGxh
+eWVyLg0KPiA+ID4gPg0KPiA+ID4gPiBJIHRoaW5rIHRoZSBuZXh0IHN0ZXAgd291bGQgYmUgdG8g
+cHV0IGRldl9kYmcvcHJpbnRrIGluDQo+ID4gPiA+IGdwaW8taXItcmVjdi5jLCBhbmQgc2VlIGlm
+IHRoZSByZXN1bHRzIGFyZSB0aGUgc2FtZSB0aGVyZS4gSQ0KPiA+ID4gPiBzdXNwZWN0IHRoZXkg
+d2lsbA0KPiA+IGJlLg0KPiA+ID4gWWVzLCBhcyB5b3Ugc3VzcGVjdGVkLCB0aGUgcmVzdWx0IGlz
+IHRoZSBzYW1lIHRoZXJlLiBJdCBzZWVtcyB0byBiZQ0KPiA+ID4gYSBzeXN0ZW0NCj4gPiBvciBn
+cGlvIGlzc3VlLg0KPiA+ID4NCj4gPiA+DQo+ID4gPiA+ID4gPiA+IEkgYWxzbyBoYXZlIGEgcXVl
+c3Rpb24sIGlmIFJDIHRyYW5zbWl0IHJlcGVhdGVkbHkgNiB0aW1lcywNCj4gPiA+ID4gPiA+ID4g
+YW5kIFNPTlkgZGVjb2Rlcw0KPiA+ID4gPiA+ID4gZGVjb2RlIGFsbCByYXcgZGF0YSBzdWNjZXNz
+ZnVsbHksIGl0IHdpbGwgcmVwb3J0IHRvIGlucHV0DQo+ID4gPiA+ID4gPiBzdWJzeXN0ZW0NCj4g
+PiA+ID4gPiA+IDYgdGltZXMsIGRvZXMgaW5wdXQgc3Vic3lzdGVtIHdpbGwgc3RpbGwgcmVwb3J0
+IHRvIHVzZXJzcGFjZSA2IHRpbWVzPw0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IElmIHRoZSBz
+b255IGRlY29kZXMgdGhlIHNhbWUgdmFsdWVzIDYgdGltZXMsIHRoZW4gc2NhbmNvZGUNCj4gPiA+
+ID4gPiA+IHdpbGwgcmVwb3J0ZWQgNiBpbWVzLCBidXQgdGhlcmUgd2lsbCBiZSBvbmx5IG9uZSBr
+ZXkgZG93bg0KPiA+ID4gPiA+ID4gZXZlbnQsIGFuZCBhIGtleSB1cCBldmVudCBhYm91dCAxMDBt
+cyBhZnRlciB0aGUgdGhlIGxhc3QNCj4gPiA+ID4gPiA+IGRlY29kZSAocGx1cyBhIGZldyBvdGhl
+ciBtaWxsaXNlY29uZHMgZm9yIHZhcmlvdXMgdGltZW91dHMpLg0KPiA+ID4gPiA+IFRoYW5rcyBm
+b3IgeW91ciBkZXRhaWxzLiBEb2VzIHRoaXMgbWVhbiBpbnB1dCBzdWJzeXN0ZW0gd2lsbA0KPiA+
+ID4gPiA+IHN0aWxsIHJlcG9ydA0KPiA+ID4gPiBzY2FuY29kZSA2IHRpbWVzLCBidXQgb25seSBy
+ZXBvcnQga2V5Y29kZSBvbmNlIGlmIGl0IGlzIG1hdGNoZWQ/DQo+ID4gPiA+DQo+ID4gPiA+IEV4
+YWN0bHkuIFRoZSBrZXljb2RlIGlzIG9ubHkgcmVwb3J0ZWQgb25jZSwgc28gdGhhdCBpZiB0aGUg
+dXNlciBwcmVzcyBlLmcuDQo+ID4gPiA+ICIxIiB0aGV5IHdpbGwgZ2V0IGp1c3QgZ2V0IG9uZSAi
+MSIuDQo+ID4gPiA+DQo+ID4gPiA+ID4gU2VhbiwgYmFzZWQgb24geW91ciBleHBlcmllbmNlLCB3
+aGVyZSBlbHNlIGRvIHlvdSBzdWdnZXN0IG1lIHRvDQo+ID4gPiA+ID4gbG9vayBpbnRvDQo+ID4g
+PiA+IHRoaXMgZnVydGhlcj8gSGF2ZSB5b3UgY2FtZSBhY3Jvc3Mgc3VjaCBjYXNlLCBhIGZldyBp
+bnRlcnJ1cHQNCj4gPiA+ID4gcmVzcG9uZGVkIHNvIHF1aWNrbHkgc28gdGhhdCBmcm9udCBwdWxz
+ZS9zcGFjZSBpcyBtdWNoIHNob3J0ZW4/DQo+ID4gPiA+DQo+ID4gPiA+IFRvIGJlIGhvbmVzdCBJ
+J3ZlIG5ldmVyIHNlZW4gdGhpcyBiZWZvcmUuDQo+ID4gPiA+DQo+ID4gPiA+IEknbSBub3Qgc3Vy
+ZSB3aGF0IHRoZSBjYXVzZSBjb3VsZCBiZS4gT24gdGhlIHJhc3BiZXJyeSBwaSBpdCBpcw0KPiA+
+ID4gPiBrbm93biB0aGF0IGxvdHMgdXNiIHRyYWZmaWMgY2F1c2VzIGRlbGF5cyBpbiB0aGUgZ3Bp
+byBpbnRlcnJ1cHQNCj4gPiA+ID4gaGFuZGxlcnMgZHVlIHRvIHNvbWUgaGFyZHdhcmUgaXNzdWUs
+IGJ1dCB0aGlzIGNhdXNlcyBzb21lDQo+ID4gPiA+IGludGVycnVwdHMgdG8gYXJyaXZlIGxhdGUu
+IFRoaXMgY2F1c2VzIHNvbWUgb2YgdGhlIHB1bHNlL3NwYWNlDQo+ID4gPiA+IHRpbWluZ3MgdG8g
+YmUgbG9uZ2VyLCBhbmQgdGhlbiBsYXRlciBvbmVzIGFyZSBzaG9ydGVyIGFnYWluIGFzIGl0IGNh
+dGNoZXMNCj4gdXAuDQo+ID4gPiA+DQo+ID4gPiA+IFNpbWlsYXJseSBpZiB0aGUga2VybmVsIGlz
+IHJ1bm5pbmcgd2l0aCBpbnRlcnJ1cHRzIG9mZiBmb3IgdG9vDQo+ID4gPiA+IGxvbmcsIHNvbWUg
+b2YgdGhlIHRpbWluZ3Mgd2lsbCBiZSBsb25nZXIgYW5kIG90aGVycyBzaG9ydGVyLg0KPiA+ID4g
+WWVzLCB3ZSBjYW4gdW5kZXJzdGFuZCB0aGUgaW50ZXJydXB0IGFycml2ZXMgbGF0ZSBhbmQgY2F1
+c2UgdGhlDQo+ID4gPiB0aW1pbmdzDQo+ID4gaW5jb3JyZWN0LiBBdCBteSBzaWRlLCBhIGZldyBp
+bnRlcnJ1cHQgYXJyaXZlcyB0b28gZmFzdGVyLg0KPiA+DQo+ID4gSSdtIHdvbmRlcmluZyB3aGVy
+ZSB5b3UgY2FwdHVyZWQgdGhlIElSIHNpZ25hbC4gSWYgeW91IGNhcHR1cmVkIHRoZSBJUg0KPiA+
+IHNpZ25hbCBvbiB0aGUgdHJhbnNtaXR0ZXIgbGVkLCBtYWtlIHN1cmUgdGhlIHJlc29sdXRpb24g
+aXMgaGlnaCBlbm91Z2gNCj4gPiBzbyB5b3UgY2FuIHNlZSB0aGUgY2Fycmllci4gVGhlbiB5b3Ug
+Y2FuIG1ha2Ugc3VyZSB0aGVyZSBhcmUgbm8gZXJyb3JzIGluDQo+IHRoZXJlLg0KPiA+DQo+ID4g
+SXQgbWlnaHQgYmUgYmV0dGVyIHRvIGNhcHR1cmUgdGhlIElSIHNpZ25hbCBvbiB0aGUgZ3BpbyBz
+aWduYWwgZ29pbmcgaW50byB0aGUNCj4gU29DLg0KPiANCj4gWWVzLCB0aGUgc2lnbmFsIEkgY2Fw
+dHVyZWQgaXMgdGhlIG91dHB1dCBvZiB0aGUgSVIgZGV2aWNlLCBpLmUuIHRoZSBncGlvIHNpZ25h
+bA0KPiBnb2luZyBpbnRvIHRoZSBTb0MuDQo+IA0KPiBCZXN0IFJlZ2FyZHMsDQo+IEpvYWtpbSBa
+aGFuZw0KPiA+ID4gPiBJcyB0aGVyZSBhbnl0aGluZyB5b3UgY2FuIHRlbGwgdXMgYWJvdXQgdGhl
+IGdwaW8gaGFyZHdhcmU/DQo+ID4gPiBHUElPIGlzIGZyb20gb3VyIFNvQywgcG93ZXIgc3VwcGx5
+IHdpdGggZXh0ZXJuIDMuM1YsIGFuZCBJDQo+ID4gPiBjb25maWd1cmVkIGl0DQo+ID4gaW50ZXJu
+YWwgcHVsbC11cC4NCj4gPg0KPiA+IFRoYW5rcw0KPiA+IFNlYW4NCg==
