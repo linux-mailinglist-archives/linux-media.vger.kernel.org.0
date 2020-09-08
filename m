@@ -2,124 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6311261D73
-	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 21:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5355261E29
+	for <lists+linux-media@lfdr.de>; Tue,  8 Sep 2020 21:48:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731887AbgIHTha (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 15:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60376 "EHLO
+        id S1732436AbgIHTqC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 15:46:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731554AbgIHThZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 15:37:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD24C061573;
-        Tue,  8 Sep 2020 12:37:24 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71F203B;
-        Tue,  8 Sep 2020 21:37:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599593837;
-        bh=82ATGqTP1k7q7CkEOnS7WIOrFG4U+P/rbFZ14tbGVHE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rccRf9/s9j0ljs8LEjcF+PGe0WNrTVTOIy84+qE3+z7BpiMDVk8iLwmx0rbFBe6Hz
-         BlX5+SB97SpLHIvwDYNeeCHFcAIusO3Kv7Y+nJV02S6uNl7FRfOrDU+XlkeZLLoItf
-         5FUH/KQMbFLbJvOrJAEheRaYBzjt/Jxz+hk/+Xwc=
-Date:   Tue, 8 Sep 2020 22:36:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
+        with ESMTP id S1732428AbgIHTqA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 15:46:00 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10233C061573;
+        Tue,  8 Sep 2020 12:45:59 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id g96so216469otb.12;
+        Tue, 08 Sep 2020 12:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=STrKbBps3DyxZyvt/4q1Iuhb/wWwFI7ORLwwIxZU2dg=;
+        b=sl0F+ukcpzaeyrX4C0ymA8ZwbmQPE3oGtce3+TXWuHwzZpMDiSxfGH5dxB9AdwaSxC
+         s0qvu2twIM4mz5i3MPvcv/E2L2mKVyq02c6HoeBJ8q2N4a2prtNZudtMcBVLkGsoWoOJ
+         8yJhszXb4l/NWIgcE7WtygdjwG1OLHIgdmwraSaS/xVerRUk/zLU8wJp0yzWJ4e8QQY7
+         Zsm6fcrPCwVO2k5/LvEfSteWPm/h36noISjc4K5dG5KjimC251QWR0JB8rnbnbaol4hL
+         /uwu0VupgYNgpAKYEHgG+keSlPAyB7XsfE6kAEuGReW1frElJ2FcXFY3eWIWzt806MEL
+         IdAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=STrKbBps3DyxZyvt/4q1Iuhb/wWwFI7ORLwwIxZU2dg=;
+        b=HAGfzCZ6S0kO0ZFX04Vrric64Y7bG5AN/ByTJr/Sazf08emXW/Zotz2EyoNsFRyzAZ
+         erHtRELxTTDW5mFfrkdat9Qel6jCbpbyxUi0WO+ILSP+I2QgVyE2uANGUBhq0JONNIib
+         uyHeAPSl5MG3RGSXq/VzvpC1uVbqWgRItP1Tkr46caF7tXEAizU0N2tnmG1ujNVhnR4i
+         J3XLWH1pYlJgKyxnHcGY/MHel/3dpUB1LQrYJwgfdv1geuNxgDp3AnREfXruY1zObfoU
+         owZ9gubrQMgKqwH/PxZWx6Oa2eqWscGStHMm6hr3+a7gJHTyduGOSXTpPTMmT24ks7BA
+         dM8w==
+X-Gm-Message-State: AOAM533eUhuNkP5h1KPw9zmKGztcw3GbvInU6oq5Lhkk7/47SqG6R/VW
+        H/IN+uE8ZGXbWG7Az3OeHD8=
+X-Google-Smtp-Source: ABdhPJyQDQWWSlyN4K8nA51FYJx72ZXKQ6pb2zWYc3v4dNDZCng9zwqDWmEHwYNn0HsrT4vQjdVPWQ==
+X-Received: by 2002:a9d:65ce:: with SMTP id z14mr541320oth.280.1599594359145;
+        Tue, 08 Sep 2020 12:45:59 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j18sm34133otr.12.2020.09.08.12.45.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 08 Sep 2020 12:45:58 -0700 (PDT)
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] media: uvcvideo: Fix uvc_ctrl_fixup_xu_info() not
- having any effect
-Message-ID: <20200908193652.GB9607@pendragon.ideasonboard.com>
-References: <20200728112209.26207-1-hdegoede@redhat.com>
- <20200728195818.GO13753@pendragon.ideasonboard.com>
- <b393a148-12a4-e995-6ff2-a79104097776@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b393a148-12a4-e995-6ff2-a79104097776@redhat.com>
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] media: uvcvideo: Fix race conditions
+Date:   Tue,  8 Sep 2020 12:45:52 -0700
+Message-Id: <20200908194557.198335-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+The uvcvideo code has no lock protection against USB disconnects
+while video operations are ongoing. This has resulted in random
+error reports, typically pointing to a crash in usb_ifnum_to_if(),
+called from usb_hcd_alloc_bandwidth(). A typical traceback is as
+follows.
 
-On Tue, Sep 08, 2020 at 11:32:58AM +0200, Hans de Goede wrote:
-> On 7/28/20 9:58 PM, Laurent Pinchart wrote:
-> > On Tue, Jul 28, 2020 at 01:22:08PM +0200, Hans de Goede wrote:
-> >> uvc_ctrl_add_info() calls uvc_ctrl_get_flags() which will override
-> >> the fixed-up flags set by uvc_ctrl_fixup_xu_info().
-> >>
-> >> uvc_ctrl_init_xu_ctrl() already calls uvc_ctrl_get_flags() before
-> >> calling uvc_ctrl_add_info(), so the uvc_ctrl_get_flags() call in
-> >> uvc_ctrl_add_info() is not necessary for xu ctrls.
-> >>
-> >> This commit moves the uvc_ctrl_get_flags() call for normal controls
-> >> from uvc_ctrl_add_info() to uvc_ctrl_init_ctrl(), so that we no longer
-> >> call uvc_ctrl_get_flags() twice for xu controls and so that we no longer
-> >> override the fixed-up flags set by uvc_ctrl_fixup_xu_info().
-> >>
-> >> This fixes the xu motor controls not working properly on a Logitech
-> >> 046d:08cc, and presumably also on the other Logitech models which have
-> >> a quirk for this in the uvc_ctrl_fixup_xu_info() function.
-> >>
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> The first patch in this series is a bug-fix for a real-world issue,
-> and I'm still not seeing this in -next, let alone in a fixed branch for Linus.
-> 
-> Can we get these 2 patches merged please?
+usb 1-4: USB disconnect, device number 3
+BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+PGD 0 P4D 0
+Oops: 0000 [#1] PREEMPT SMP PTI
+CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
+Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+RIP: 0010:usb_ifnum_to_if+0x29/0x40
+Code: <...>
+RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+Call Trace:
+ usb_hcd_alloc_bandwidth+0x1ee/0x30f
+ usb_set_interface+0x1a3/0x2b7
+ uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+ uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+ uvc_start_streaming+0x28/0x5d [uvcvideo]
+ vb2_start_streaming+0x61/0x143 [videobuf2_common]
+ vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+ uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+ uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+ __video_do_ioctl+0x33d/0x42a
+ video_usercopy+0x34e/0x5ff
+ ? video_ioctl2+0x16/0x16
+ v4l2_ioctl+0x46/0x53
+ do_vfs_ioctl+0x50a/0x76f
+ ksys_ioctl+0x58/0x83
+ __x64_sys_ioctl+0x1a/0x1e
+ do_syscall_64+0x54/0xde
 
-I've just sent the pull request for uvcvideo, it should get merged this
-week or the next one and will make it for v5.10. I apologize for the
-delay.
->
-> >> ---
-> >> Changes in v2:
-> >> - Move the uvc_ctrl_get_flags() call for normal controls to uvc_ctrl_init_ctrl()
-> >> ---
-> >>   drivers/media/usb/uvc/uvc_ctrl.c | 14 +++++++-------
-> >>   1 file changed, 7 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> >> index e399b9fad757..b78aba991212 100644
-> >> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> >> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> >> @@ -2024,13 +2024,6 @@ static int uvc_ctrl_add_info(struct uvc_device *dev, struct uvc_control *ctrl,
-> >>   		goto done;
-> >>   	}
-> >>   
-> >> -	/*
-> >> -	 * Retrieve control flags from the device. Ignore errors and work with
-> >> -	 * default flag values from the uvc_ctrl array when the device doesn't
-> >> -	 * properly implement GET_INFO on standard controls.
-> >> -	 */
-> >> -	uvc_ctrl_get_flags(dev, ctrl, &ctrl->info);
-> >> -
-> >>   	ctrl->initialized = 1;
-> >>   
-> >>   	uvc_trace(UVC_TRACE_CONTROL, "Added control %pUl/%u to device %s "
-> >> @@ -2253,6 +2246,13 @@ static void uvc_ctrl_init_ctrl(struct uvc_device *dev, struct uvc_control *ctrl)
-> >>   		if (uvc_entity_match_guid(ctrl->entity, info->entity) &&
-> >>   		    ctrl->index == info->index) {
-> >>   			uvc_ctrl_add_info(dev, ctrl, info);
-> >> +			/*
-> >> +			 * Retrieve control flags from the device. Ignore errors
-> >> +			 * and work with default flag values from the uvc_ctrl
-> >> +			 * array when the device doesn't properly implement
-> >> +			 * GET_INFO on standard controls.
-> >> +			 */
-> >> +			uvc_ctrl_get_flags(dev, ctrl, &ctrl->info);
-> >>   			break;
-> >>   		 }
-> >>   	}
+While there are not many references to this problem on mailing lists, it is
+reported on a regular basis on various Chromebooks (roughly 300 reports
+per month). The problem is relatively easy to reproduce by adding msleep()
+calls into the code.
 
--- 
-Regards,
+I tried to reproduce the problem with non-uvcvideo webcams, but was
+unsuccessful. I was unable to get Philips (pwc) webcams to work. gspca
+based webcams don't experience the problem, or at least I was unable to
+reproduce it (The gspa driver does not trigger sending USB messages in the
+open function, and otherwise uses the locking mechanism provided by the
+v4l2/vb2 core).
 
-Laurent Pinchart
+I don't presume to claim that I found every issue, but this patch series
+should fix at least the major problems.
+
+The patch series was tested exensively on a Chromebook running chromeos-4.19
+and on a Linux system running a v5.8.y based kernel.
+
+v2:
+- Added details about problem frequency and testing with non-uvc webcams
+  to summary
+- In patch 4/5, return EPOLLERR instead of -ENODEV on poll errors
+- Fix description in patch 5/5
+
+----------------------------------------------------------------
+Guenter Roeck (5):
+      media: uvcvideo: Cancel async worker earlier
+      media: uvcvideo: Lock video streams and queues while unregistering
+      media: uvcvideo: Release stream queue when unregistering video device
+      media: uvcvideo: Protect uvc queue file operations against disconnect
+      media: uvcvideo: Abort uvc_v4l2_open if video device is unregistered
+
+ drivers/media/usb/uvc/uvc_ctrl.c   | 11 ++++++----
+ drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++
+ drivers/media/usb/uvc/uvc_queue.c  | 32 +++++++++++++++++++++++++--
+ drivers/media/usb/uvc/uvc_v4l2.c   | 45 ++++++++++++++++++++++++++++++++++++--
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 5 files changed, 93 insertions(+), 8 deletions(-)
