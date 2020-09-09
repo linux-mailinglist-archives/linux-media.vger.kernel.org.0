@@ -2,142 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 988EA2625E7
-	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 05:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07C342625ED
+	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 05:41:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728463AbgIID33 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 23:29:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49040 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725997AbgIID32 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 23:29:28 -0400
-Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B0DC061573
-        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 20:29:27 -0700 (PDT)
-Received: by mail-oo1-xc44.google.com with SMTP id g26so252427ooa.9
-        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 20:29:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=79+3UGzyvkfull/0xelYhtY5yY6mExctrq9qhKg6vx4=;
-        b=TwaxzrjkeFQBQ5S9iZfl52REqRHmJzGvvYF2B9CfSD9B4j23CtHTQ0KXJT58yhbXY8
-         j+sIb4F7twjdXWrlesuqQFYXRNz5qOf6OnT7tJm6oK+tQV9F9SmLa2WNM5dPnQR8xu7S
-         zXVt8YoHznEoZHqs/7zWdIgP9eZ2DO924HrF0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=79+3UGzyvkfull/0xelYhtY5yY6mExctrq9qhKg6vx4=;
-        b=DgBRq15hz6GRdTcAQLPPUt75S5SRcSTruM2M/QHK6lZhp92PLUUakPX//oZ0iNobQa
-         k2r8imNFM65UbvgIJqkQ2rcu1pWgfc/rl1l6/a3ccN9VLBS2TaSeNTQc0u1JP6fBlXKS
-         Ld1lr0sezQVdPJsxNQxuZRGk00ESpfhM9SlL8wzDrzm0fWD1+EXMOC1JEfC7sMqBEkCE
-         YadDQqZqFuokQ/xMoPcsuYTgIgHe8OF1gZQ9GU7REf8kAmGIc6nMTEIk7u5QDhBw+0oO
-         gNxAp1RSrDW927YyzUIQervKbGDDS1OP3oNbCOFJ+RQsb0nDFYP46638KJW67cF2MM6a
-         A8oQ==
-X-Gm-Message-State: AOAM533H9frN7oHA8tEjAZ6WCJ5bsI9PbIqwGH3BVkEpqpF01lpT/7Jx
-        7GXjOn6M8hFRpH/egGMT93s4vmC6662tdw==
-X-Google-Smtp-Source: ABdhPJxet41847PNGETD9oyfswntefi6hEHTk1Av4Rlx0E6cPffSizboLVEMgG+CpsOpCvJiC1O+gA==
-X-Received: by 2002:a4a:5403:: with SMTP id t3mr1347547ooa.11.1599622166903;
-        Tue, 08 Sep 2020 20:29:26 -0700 (PDT)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com. [209.85.210.49])
-        by smtp.gmail.com with ESMTPSA id n10sm213885ooj.19.2020.09.08.20.29.25
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2020 20:29:26 -0700 (PDT)
-Received: by mail-ot1-f49.google.com with SMTP id u25so1109226otq.6
-        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 20:29:25 -0700 (PDT)
-X-Received: by 2002:a9d:20c1:: with SMTP id x59mr1588734ota.36.1599622165404;
- Tue, 08 Sep 2020 20:29:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <22861790-3ae1-2009-a4db-c124067771b2@xs4all.nl>
- <20200830104650.0dd4d751@coco.lan> <CAPBb6MXoyg7UY57SWR-wOrty0hEmW=VAA-1zTi7q3moruRiZ-Q@mail.gmail.com>
- <20200831081008.2d2c153b@coco.lan>
-In-Reply-To: <20200831081008.2d2c153b@coco.lan>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Wed, 9 Sep 2020 12:29:12 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MXZkXT_0WscZWnBcRjPabskSJnuYo4peDbLx0LyJkevfA@mail.gmail.com>
-Message-ID: <CAPBb6MXZkXT_0WscZWnBcRjPabskSJnuYo4peDbLx0LyJkevfA@mail.gmail.com>
-Subject: Re: [GIT PULL FOR v5.10 (v2)] mtk-vcodec: venc: support for MT8183
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726111AbgIIDlJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 23:41:09 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:54755 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726005AbgIIDlI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Sep 2020 23:41:08 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id FqymkgWstXgwIFqynkYMwo; Wed, 09 Sep 2020 05:41:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1599622865; bh=BhMvbWEd8mV9fNYI4jrOZPYMfPHuhAC8DxE/WGqvvbY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=oMzPpsawRnnQTz8HgUBw9d05SRrldak7x1s/22gIdD8lVEML5yWqBHYJ9PDXhBYK8
+         pYGcfYttLqB+uZ7RS4LtLdvzgLbFDUmBMEKOYeNnOeo72Vpl9r1Ex/2vH/dPX7AlQZ
+         yG8LDdoN1qVG7gJ/fdsyVeSbH7Myrq/NDWm8D+X0NdCcx67jIPCaqM6dnMaXU9fXuZ
+         PO0IrLdrzWFGCFL2GB62TmrpaV5K4OhD5i7ToS/lbuqbff+KlzoqGv2wDW4VmyRjtK
+         r3e7N5S9e+zKsYT4d3WIWqXe9Xl/PUzVLGRBGxvzJ6wANyhbtYxQod/DGTmJmjgHuW
+         drbPM11Vrbvow==
+Message-ID: <7d4abaa27a997ff8bd3ea73f17d308eb@smtp-cloud9.xs4all.net>
+Date:   Wed, 09 Sep 2020 05:41:04 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfHhED3bfPvDuAmkq4YLl0FGMDqVUPRc/cOon+vSE7xcaXTJQi6/u1S3QsB8oficsF2TXoUML5fzkxU4dcZX9yCK2u8LAH7MZdUnlBnx7EgOwuZJjuW9Q
+ BA/qQHZSgVP4n7bSDqueefMurzqBQWDGjEEWYz4QoDmUuGpm23IhiOyo/tTmh/Xo9uUVWRUmwY5LZRpv/KJA+4YYJECHmV4ZusK/inDt/fyDOkRnr5HnJIOp
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Mon, Aug 31, 2020 at 3:10 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Em Mon, 31 Aug 2020 10:33:44 +0900
-> Alexandre Courbot <acourbot@chromium.org> escreveu:
->
-> > Hi Mauro,
-> >
-> > On Sun, Aug 30, 2020 at 5:46 PM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
-> > >
-> > > Em Sat, 29 Aug 2020 10:43:12 +0200
-> > > Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> > >
-> > > > Note 1: the MTK_SCP config option causes COMPILE_TEST to fail, but a patch for that
-> > > > is pending for the remoteproc tree: https://lkml.org/lkml/2020/8/21/489
-> > > > I've verified that that patch fixes the COMPILE_TEST failure.
-> > >
-> > > Breaking COMPILE_TEST is a very bad idea, as it means that the robots
-> > > will stop reporting issues on this driver, including our own Jenkins
-> > > instance.
-> > >
-> > > We need a solution for it, like:
-> > >
-> > > 1. postponing the changes that caused it to break to be added only
-> > >   after the merge window;
-> > > 2. ask an ack from remoteproc maintainer for him to send his ack
-> > >   and having the patch applied via our tree;
-> > > 3. cherry-pick the fixup patch, applying it before the patch which
-> > >   broke the build;
-> > > 4. pull from a permanent branch from the tree where the fixup patch
-> > >   were merged;
-> > >
-> > > Looking at lore:
-> > >         https://lore.kernel.org/linux-remoteproc/20200821115832.2893484-1-acourbot@chromium.org/
-> > >
-> > > I can't see any reply to this patch. Was it already merged there?
-> > > I guess not:
-> > >         https://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git/log/?h=for-next
-> > >
-> > > I'm not a big fan of (4), as, if something bad happens during the
-> > > merge window with the tree containing the fixup patch, we may have
-> > > some bad time merging media upstream, specially if such tree would
-> > > contain something that. So, if we would use alternative (4), I'll
-> > > likely place all changes for mtk driver on a topic branch, to be
-> > > merged upstream only after the pull request with the fixup
-> > > patches got merged.
-> >
-> > It also seems that the series with other mtk-vcodec changes being
-> > merged in between, the series does not apply as-is to the media tree.
-> > The conflict is trivial to resolve, but please let me know if you
-> > would like me to rebase and resend along with the SCP patch once the
-> > remoteproc maintainer acks it.
->
-> Hans did a rebase on this version 2 and all patches apply OK.
-> I guess he also did build test with the remoteproc patch applied,
-> and build fine. Yet, Jenkins were unable to check the build patch
-> per patch, due to the Kconfig issue.
->
-> Once the Kconfig issue has sorted out, feel free to send an updated
-> version, if something else is needed. On such case, please preserve
-> Hans SoB for the patches that won't require non-context changes.
+Results of the daily build of media_tree:
 
-I tried doing a resend of the patch enabling COMPILE_TEST for the SCP
-one week ago (https://lkml.org/lkml/2020/9/2/211, sent to both
-maintainers of remoteproc and their list), but unfortunately still no
-reaction from them.
+date:			Wed Sep  9 05:00:12 CEST 2020
+media-tree git hash:	d034731bb4b4f2bf5f378231a6d99e59c2cb59f6
+media_build git hash:	01087db37b5aa8dc6beeda1696a5f22444ac6c34
+v4l-utils git hash:	dedeb53218d1e6b8da584a3c1aaa404f424c3647
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6784-g0b1e8107
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Would it be acceptable to you if I temporarily disabled COMPILE_TEST
-for mtk-vcodec as a workaround so we can at least merge this series?
-Once the remoteproc patch lands, we can then reenable it.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: ERRORS: Final Summary: 2779, Succeeded: 2778, Failed: 1, Warnings: 2
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
