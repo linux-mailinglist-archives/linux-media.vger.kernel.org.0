@@ -2,67 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EBAB2631A2
-	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 18:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00D5A26330D
+	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 18:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731024AbgIIQV6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Sep 2020 12:21:58 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:51068 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731011AbgIIQVu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Sep 2020 12:21:50 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id B4FE2D48F4A63D882E9F;
-        Wed,  9 Sep 2020 22:24:17 +0800 (CST)
-Received: from localhost (10.174.179.108) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Wed, 9 Sep 2020
- 22:24:11 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     <ezequiel@collabora.com>, <mchehab@kernel.org>,
-        <gregkh@linuxfoundation.org>, <hverkuil-cisco@xs4all.nl>,
-        <boris.brezillon@collabora.com>
-CC:     <linux-media@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>, <devel@driverdev.osuosl.org>,
-        <linux-kernel@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH -next] media: rkvdec: Remove redundant platform_get_irq error message
-Date:   Wed, 9 Sep 2020 22:24:07 +0800
-Message-ID: <20200909142407.31720-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+        id S1730831AbgIIQ4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Sep 2020 12:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730543AbgIIPw2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Sep 2020 11:52:28 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434C3C06179A
+        for <linux-media@vger.kernel.org>; Wed,  9 Sep 2020 04:56:46 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id nw23so3125715ejb.4
+        for <linux-media@vger.kernel.org>; Wed, 09 Sep 2020 04:56:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ogwkQhFvnI4MZlMSYD/QWVKe2D0wYcRnW9BslwF6Qd0=;
+        b=HBjuZLWTbosii7ivJ9Ywlo8ZE/yi+uOqSm+jpG3K3CaNg5EhfDmRwyHOQ+LkqQN5bt
+         r8E9HZ0CmCpqg/EgdrmGDCLKPOyUAc9ZeexJq+vO0q3W1nwuh1hLu9isrW2iuMQ2Z5Mp
+         wpUEZdWa955qmiMBbYZA+9GD7k/1thaZllOGhbKDLuva5LrgIEOuqFPXBjMmPe8vc3vK
+         XsQKnEd31lZOKsyuLRftddoIyY6046V39zwwVyj5TbmwMijQthaBFY4YgPRywh8WzAff
+         1ODAm8vxmT1yWtxFBnD0boY5J+gj+4ot/eICHddgbieS3nKkEl7LgwIjJLFpnV7AI9no
+         Scyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ogwkQhFvnI4MZlMSYD/QWVKe2D0wYcRnW9BslwF6Qd0=;
+        b=ifAaH3DjUdNI7cijDBMJorPyGtBadg69h6FwQz+PsoxCh7eONEXsMy3TDyKg1YX6Tb
+         8hj/RY7DQJJwwOfjlY1pbAzoTDrxDGU9T2uY5ZeEWG1h4RAfEULO0/3Uj5MZWZqGIZeU
+         /B65VerpjQ5pX6cEImwrAZ1XhlArosupX9nbVVTdTtZ0b8mPoLfGxRZm3YDCOqYy41k3
+         bk8qHhYgvxF6RVIo+V581xN21PN70k6AwhoXLcoezOw+FXciWlsalOKDpPkO0E7bcm1T
+         fwFiUObJtqt2zht+dswWtRI0WAgNCqwi9UcBUlrk1tftLNpByPJ/RbqR0mguSgKuY5Bl
+         +cWQ==
+X-Gm-Message-State: AOAM530A7vogbhXR0mn/izlfukSQjgPWMCQDuvMNexpQoy63vGuf638e
+        hz+gg/Ty+czzaJHNC7Z56rm5GSTfBo2yuGat4Vux/g==
+X-Google-Smtp-Source: ABdhPJxwxVcYxxRPx0hopbc/8wKbrEuh526OTa/mrDYz3ssckdGebxt8RtgFJRB+3GTtZQfvkNw7vv+GO+mnfJZRYag=
+X-Received: by 2002:a17:906:3e90:: with SMTP id a16mr3019456ejj.363.1599652604922;
+ Wed, 09 Sep 2020 04:56:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.179.108]
-X-CFilter-Loop: Reflected
+References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+ <20200903081550.6012-7-sakari.ailus@linux.intel.com> <CAMpxmJX40=iYYxL9Uvs1Pjj9c3NvZBGJ9Mh9-87T0c==FKEXRw@mail.gmail.com>
+ <20200909111121.GJ2272@ninjato>
+In-Reply-To: <20200909111121.GJ2272@ninjato>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Wed, 9 Sep 2020 13:56:34 +0200
+Message-ID: <CAMpxmJXDrL92QH_Vb+P4LoQ-WGBMM42GvzXjquW2Lzotm5wggA@mail.gmail.com>
+Subject: Re: [PATCH v8 6/6] at24: Support probing while off
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-platform_get_irq() will call dev_err() itself on failure,
-so there is no need for the driver to also do this.
-This is detected by coccinelle.
+On Wed, Sep 9, 2020 at 1:11 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+>
+>
+> > This currently conflicts with the fix I queued for at24 for v5.9.
+> > Which tree is going to take this series?
+>
+> I recall we agreed on I2C.
+>
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/staging/media/rkvdec/rkvdec.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Sakari,
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index d25c4a37e2af..552e0bd12ecf 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -1038,10 +1038,8 @@ static int rkvdec_probe(struct platform_device *pdev)
- 	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
- 
- 	irq = platform_get_irq(pdev, 0);
--	if (irq <= 0) {
--		dev_err(&pdev->dev, "Could not get vdec IRQ\n");
-+	if (irq <= 0)
- 		return -ENXIO;
--	}
- 
- 	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
- 					rkvdec_irq_handler, IRQF_ONESHOT,
--- 
-2.17.1
+can you rebase the at24 driver patch on top of Wolfram's tree as soon
+as he merges my PR with at24 fixes?
 
-
+Bartosz
