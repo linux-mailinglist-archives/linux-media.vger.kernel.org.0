@@ -2,200 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC7802623AE
-	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 01:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ED2B2624F4
+	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 04:12:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729457AbgIHXlk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Sep 2020 19:41:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42412 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726340AbgIHXlj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 19:41:39 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF7AEC061573
-        for <linux-media@vger.kernel.org>; Tue,  8 Sep 2020 16:41:38 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id m6so979525wrn.0
-        for <linux-media@vger.kernel.org>; Tue, 08 Sep 2020 16:41:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rzApPXn2JqQGNuGQ+osVtnaQFzgNYcS+CWlBAxxdKiI=;
-        b=jcY4vXJzDsd0Tmt2w3ifh8MACMwPObBKhqotLxVXDR4k3AyL2jCMF4UHegFl8Mjp67
-         y1DY/8CzmX5ShSRvLzJSq1UFcyVLN/eaFpcsfB0C1kpR0ZWGBdI9mKc6WJbQrdJK4hT5
-         vAAzMCTyHglTK4f3k+fm3JWOd4I7002g6U67uA4LtK3PNt0mptIjN2mIaR1ZJhhoSSIb
-         9XYuScI6F3JO3/6tmHZUHJ+UdYsU/4YUyzpkel+PSDjWueK5qyLp6DgxCvGKdpKS7m68
-         8izMu4A0Ykhx/ysJGOGHttMJpyWOL/alVRsTTIG0wtzyE1hgGvQsnrWSFT7v3r780mUF
-         JJrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rzApPXn2JqQGNuGQ+osVtnaQFzgNYcS+CWlBAxxdKiI=;
-        b=uH9nwt8F6F59JpgDrV+DAwxXet1ilZcluwB7UNdG2i/+KybT9JlsznfEx6N+abJusz
-         HrWF+aBR5HHyjGoqYNAIo/vV3ZtzvvY4M/r1MrUTmWVq6ug+BmcmO1XVKrfje6O5fbU3
-         4idYLuJR03yTtx7bOq7XU1bopS/ZIIrvzBsEib5aqulqOAW+kpBPw5AG4Yx3jdvcndN/
-         D1Z7QlZCLjupXyK0bxb4DyqQLgvYkDKrgV4X2PNyKXj2NselhstqwCuMSwo0bUMTJwtc
-         am/K3Mw+5UBy9HYzpBJ4PIkbttx3rqXxbQFigTU5LGhvQWE150cNgmjVZ97F94Yl5XxD
-         KPuQ==
-X-Gm-Message-State: AOAM532hd+i2RZ85Iptm6rcemYOCtN1TcNkcv2KEAQs7JRcq/lJmsFpk
-        o8cvyFASGjHoBVmtIUkpzhQ=
-X-Google-Smtp-Source: ABdhPJyPIodWGbI6TVDLWiAaLVxfwiOiIMM5rzgBA4Hpvu9UCs2unU4dI0247I/LVN55mH9e+JP9pQ==
-X-Received: by 2002:a5d:55c8:: with SMTP id i8mr667556wrw.331.1599608497437;
-        Tue, 08 Sep 2020 16:41:37 -0700 (PDT)
-Received: from [192.168.1.211] ([2.29.208.34])
-        by smtp.gmail.com with ESMTPSA id n4sm1199208wmd.26.2020.09.08.16.41.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2020 16:41:36 -0700 (PDT)
-Subject: Re: [PATCH] media: ipu3: add a module to probe sensors via ACPI
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        Jordan Hand <jorhand@linux.microsoft.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>
-References: <12fbe3f5c6a16c5f3447adbc09fe27ceb2b16823.1589625807.git.mchehab+huawei@kernel.org>
- <20200517103659.GS17578@paasikivi.fi.intel.com>
- <20200520094400.5137e7f2@coco.lan>
- <20200520082608.GV20066@paasikivi.fi.intel.com>
- <20200520131830.3ff45919@coco.lan>
- <CAHp75VduEGyzobm0hkXzWmFfZb-uMAEWG-wc89b7M7zVzZ_4LA@mail.gmail.com>
- <20200522115736.10cca8eb@coco.lan>
- <20200526143110.GC3284396@kuha.fi.intel.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <2d4f1abb-c617-476a-1005-0ed91906a5f5@gmail.com>
-Date:   Wed, 9 Sep 2020 00:41:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1730077AbgIICMW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Sep 2020 22:12:22 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:43174 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727804AbgIICMS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Sep 2020 22:12:18 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0892AS5c094075;
+        Wed, 9 Sep 2020 02:11:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=vtum29krzlUsLIvRnyVxjLuvhWBtLTr/qnU9AvnGbCE=;
+ b=xBu1bvtfDZ9503xniraz9muXI2Eg0qhYCYcOf6RobuyNUO3o1Po7XLCiySpH1j3NqLzx
+ 2jgXXHktcetcwXVddyuNr8Y2tEFe3S1Fic84p/c7b/8cWZhzNvssHJn72rt+zNyDQI3g
+ W6nGbDQrnBPjzFv3JHhmeBC2Lng7TyLH4twd3n8hvyY34Y8B6srBiufkC1dha4TbTt8U
+ iYM7VJ+79F4uaHjvVJydS3mD7NcVtBky/+GEZFGwxEWNcRrsg0F0s6PbT0Xh+BU3JioS
+ 8YO2a/M76MlnuYxeGIlhqTuBmwNwX5juOavRg+aCtHeGvwObjWNA43YKkCVKSbI3nWmM bw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 33c2mkxvtd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 09 Sep 2020 02:11:40 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 089252Ah095301;
+        Wed, 9 Sep 2020 02:09:40 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 33cmk53euj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 09 Sep 2020 02:09:40 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08929Zlw022818;
+        Wed, 9 Sep 2020 02:09:35 GMT
+Received: from ca-mkp.ca.oracle.com (/10.156.108.201)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 08 Sep 2020 19:09:35 -0700
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+        Joe Perches <joe@perches.com>, oprofile-list@lists.sf.net,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, drbd-dev@tron.linbit.com,
+        intel-gfx@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+        reiserfs-devel@vger.kernel.org, linux-bcache@vger.kernel.org,
+        Jiri Kosina <trivial@kernel.org>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        sparclinux@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-scsi@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/29] treewide: Convert comma separated statements
+Date:   Tue,  8 Sep 2020 22:09:14 -0400
+Message-Id: <159961731707.5787.13988542229153933257.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1598331148.git.joe@perches.com>
+References: <cover.1598331148.git.joe@perches.com>
 MIME-Version: 1.0
-In-Reply-To: <20200526143110.GC3284396@kuha.fi.intel.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9738 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 adultscore=0 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009090018
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9738 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 clxscore=1011 mlxlogscore=999
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009090018
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heikki
+On Mon, 24 Aug 2020 21:55:57 -0700, Joe Perches wrote:
 
-On 26/05/2020 15:31, Heikki Krogerus wrote:
-> On Fri, May 22, 2020 at 11:57:36AM +0200, Mauro Carvalho Chehab wrote:
->> Em Thu, 21 May 2020 11:00:19 +0300
->> Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
->>
->>> +Cc: Heikki (swnode expert)
->>>
->>> On Wed, May 20, 2020 at 2:19 PM Mauro Carvalho Chehab
->>> <mchehab+huawei@kernel.org> wrote:
->>>> Em Wed, 20 May 2020 11:26:08 +0300
->>>> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
->>>
->>> ...
->>>
->>>> As I said, the problem is not probing the sensor via ACPI, but, instead,
->>>> to be able receive platform-specific data.
->>>
->>> There is no problem with swnodes, except missing parts (*).
->>> I have Skylake laptop with IPU3 and with half-baked ACPI tables, but
->>> since we have drivers in place with fwnode support, we only need to
->>> recreate fwnode graph in some board file to compensate the gap in
->>> ACPI.
->>>
->>> *) Missing part is graph support for swnodes. With that done it will
->>> be feasible to achieve the rest.
->>> I forgot if we have anything for this already done. Heikki?
->>
->> Hmm... I guess I should try this approach. I never heard about swnodes
->> before. Do you have already some patch with the needed swnodes setup,
->> and the missing parts to recreate the fwnode graph?
+> There are many comma separated statements in the kernel.
+> See:https://lore.kernel.org/lkml/alpine.DEB.2.22.394.2008201856110.2524@hadrien/
 > 
-> Here you go. I tested it with this code:
+> Convert the comma separated statements that are in if/do/while blocks
+> to use braces and semicolons.
 > 
->          static const struct software_node nodes[];
+> Many comma separated statements still exist but those are changes for
+> another day.
 > 
->          static const struct property_entry ep0_props[] = {
->                 PROPERTY_ENTRY_REF("remote-endpoint", &nodes[5]),
->                 { }
->          };
-> 
->          static const struct property_entry ep1_props[] = {
->                 PROPERTY_ENTRY_REF("remote-endpoint", &nodes[2]),
->                 { }
->          };
-> 
->          static const struct software_node nodes[] = {
->                 { "dev0" },
->                 { "port0", &nodes[0] },
->                 { "endpoint", &nodes[1], ep0_props },
->                 { "dev1" },
->                 { "port0", &nodes[3] },
->                 { "endpoint", &nodes[4], ep1_props },
->                 { }
->          };
-> 
->          void test(void)
->          {
->                  const struct software_node *swnode;
->                  struct fwnode_handle *fwnode;
-> 
->                  software_node_register_nodes(nodes);
-> 
->                  fwnode = fwnode_graph_get_remote_port_parent(software_node_fwnode(&nodes[5]));
->                  swnode = to_software_node(fwnode);
->                  printk("first parent: %s\n", swnode->name);
-> 
->                  fwnode = fwnode_graph_get_remote_port_parent(software_node_fwnode(&nodes[2]));
->                  swnode = to_software_node(fwnode);
->                  printk("second parent: %s\n", swnode->name);
-> 
->                  software_node_unregister_nodes(nodes);
->          }
-> 
-> thanks,
-> 
+> [...]
 
-One of the problems we're having trying to build (using the changes you 
-attached here) a module to connect sensors to the cio2 infrastructure is 
-that we can't unload it cleanly. There seems to be a couple of reasons 
-for that; but one of them is that cio2_parse_firmware() in ipu3-cio2.c 
-ticks up the refcount for fwnode_handles of the ports for the CIO2 
-device by calling software_node_graph_get_next_endpoint() once per 
-_possible_ cio2 port; each time that happens it gets a reference to the 
-port's fwnode_handle but doesn't release it.
+Applied to 5.10/scsi-queue, thanks!
 
-This isn't really a patch as such, since I don't think the changes you 
-attached are actually applied either upstream or in the media_tree git 
-(what are the plans in that regard, by the way? Will that patch be sent 
-upstream at some point?) so there's nowhere to apply it to, but I think 
-something like the below fixes it.
+[01/29] coding-style.rst: Avoid comma statements
+        (no commit info)
+[02/29] alpha: Avoid comma separated statements
+        (no commit info)
+[03/29] ia64: Avoid comma separated statements
+        (no commit info)
+[04/29] sparc: Avoid comma separated statements
+        (no commit info)
+[05/29] ata: Avoid comma separated statements
+        (no commit info)
+[06/29] drbd: Avoid comma separated statements
+        (no commit info)
+[07/29] lp: Avoid comma separated statements
+        (no commit info)
+[08/29] dma-buf: Avoid comma separated statements
+        (no commit info)
+[09/29] drm/gma500: Avoid comma separated statements
+        (no commit info)
+[10/29] drm/i915: Avoid comma separated statements
+        (no commit info)
+[11/29] hwmon: (scmi-hwmon): Avoid comma separated statements
+        (no commit info)
+[12/29] Input: MT - Avoid comma separated statements
+        (no commit info)
+[13/29] bcache: Avoid comma separated statements
+        (no commit info)
+[14/29] media: Avoid comma separated statements
+        (no commit info)
+[15/29] mtd: Avoid comma separated statements
+        (no commit info)
+[16/29] 8390: Avoid comma separated statements
+        (no commit info)
+[17/29] fs_enet: Avoid comma separated statements
+        (no commit info)
+[18/29] wan: sbni: Avoid comma separated statements
+        (no commit info)
+[19/29] s390/tty3270: Avoid comma separated statements
+        (no commit info)
+[20/29] scsi: arm: Avoid comma separated statements
+        https://git.kernel.org/mkp/scsi/c/a08a07326510
+[21/29] media: atomisp: Avoid comma separated statements
+        (no commit info)
+[22/29] video: fbdev: Avoid comma separated statements
+        (no commit info)
+[23/29] fuse: Avoid comma separated statements
+        (no commit info)
+[24/29] reiserfs: Avoid comma separated statements
+        (no commit info)
+[25/29] lib/zlib: Avoid comma separated statements
+        (no commit info)
+[26/29] lib: zstd: Avoid comma separated statements
+        (no commit info)
+[27/29] ipv6: fib6: Avoid comma separated statements
+        (no commit info)
+[28/29] sunrpc: Avoid comma separated statements
+        (no commit info)
+[29/29] tools: Avoid comma separated statements
+        (no commit info)
 
-What do you think?
-
-Regards,
-Dan
-
----
-diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-index 3667467196f0..62a1e3de8cb3 100644
---- a/drivers/base/swnode.c
-+++ b/drivers/base/swnode.c
-@@ -584,7 +584,9 @@ software_node_graph_get_next_endpoint(const struct 
-fwnode_handle *fwnode,
-                 endpoint = software_node_get_next_child(port, old);
-                 fwnode_handle_put(old);
-                 if (endpoint)
--                       break;
-+                       break;
-+               else
-+                       fwnode_handle_put(port);
-         }
-
-         fwnode_handle_put(port);
+-- 
+Martin K. Petersen	Oracle Linux Engineering
