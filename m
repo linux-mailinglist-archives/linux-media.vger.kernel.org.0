@@ -2,211 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B3D2263472
-	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 19:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4360E263485
+	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 19:21:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730083AbgIIRUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Sep 2020 13:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728954AbgIIP0O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Sep 2020 11:26:14 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB19C0619C2;
-        Wed,  9 Sep 2020 08:13:33 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id 185so2675532oie.11;
-        Wed, 09 Sep 2020 08:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=CdaV3sDds66XXA89qA8qa8FAmNjF4GIYWa4lEyrs0nA=;
-        b=CNGkYrVSh0ClcYmHGxQgDwF7dCr96BWhYxsE6aP8mh20b5vV01X2/lMWGA79bkvGhr
-         wKYyOgldmSK4cb1368I4Rz5KapuKQN0cMeoyXUVj6HtShkBkWqtXqs+BgOmOtZOsKF3C
-         sy0Mbzv7kw79Tdhk83AZkR5ArV4V2dzmAbjXnt0UwieBy1c49V1TDp8LJOqTetBLiLtc
-         4y6VzuCYPCUecBRwa8LBYS0yL/Ayh/vtyX6niqp0ZOZNWVniKXhQ9rpuZk/YKCGdW359
-         +syUwZl0k+mYlI0anKzm/gKoGX6JKYXuHao4wFiKggrOFdFHmDceIV7vGcVasYC4zwGI
-         bYLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=CdaV3sDds66XXA89qA8qa8FAmNjF4GIYWa4lEyrs0nA=;
-        b=GT5XHmYEZgzduU8tTkxdzwRscFP3IgIC57VeevhQ2wQCfsIa2C7ixHUtQZXDoOBOzx
-         IeAKwnKfMqw55Yo5V832UEYbS4mjsAzqNzKt4buo5t7O2mnF3o4OUGR86G0BEej4QDM2
-         snvi72OLOog2nbaC/vgarISXE5xqeQhDE9gMovXpATQfDN5EY8pl98W48GdUd2DGREYs
-         CPC7AzFevLbb+FMCZ7ulAN/p5K83vsUFNOOmB+lSacAmD5dbDlE5z3soBJ+19ZMsbvCR
-         CGrGTvYnWnC/jL8oUkN2KA4dpMi0bpWbotA3HFDbmlSsLgZok8cR5ToagH/OopxyJxSC
-         txvg==
-X-Gm-Message-State: AOAM532WJP+vd8J41wHKTxgL2vgMl6uKRbkK3iIaA3zbSY5p/r0Z7oTu
-        i+9VUY4astI2cRm6mL/l3Ck=
-X-Google-Smtp-Source: ABdhPJznUhCxaV9IJdYf3pJWQqcvHstvsFmPzksNL3TXEXGH0e39wsbjw0gg+Ci1aSTs2gwQ8xJ/+A==
-X-Received: by 2002:a05:6808:287:: with SMTP id z7mr1002509oic.99.1599664412805;
-        Wed, 09 Sep 2020 08:13:32 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j66sm393156otc.74.2020.09.09.08.13.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2020 08:13:32 -0700 (PDT)
-Subject: Re: [kbuild] Re: [PATCH v2 5/5] media: uvcvideo: Abort uvc_v4l2_open
- if video device is unregistered
-To:     Dan Carpenter <dan.carpenter@oracle.com>, kbuild@lists.01.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     lkp@intel.com, kbuild-all@lists.01.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-References: <20200909121941.GY8321@kadam>
-From:   Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <3e5525e5-f403-7e0d-bfb3-e5569d2a8c8d@roeck-us.net>
-Date:   Wed, 9 Sep 2020 08:13:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729960AbgIIRV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Sep 2020 13:21:57 -0400
+Received: from mga07.intel.com ([134.134.136.100]:4303 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727113AbgIIRVz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 9 Sep 2020 13:21:55 -0400
+IronPort-SDR: xwP32fGTk94FlTy8NAV95/eJfr7Y0QsNw1QtFeWCDC2Q84rAVb/GD28652kwqe5OEJ6hz9dueZ
+ 6paz1bppr5LA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="222580275"
+X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
+   d="scan'208";a="222580275"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 10:21:53 -0700
+IronPort-SDR: wm5RKinbd8V1aWbtt2vV54qOeiv/kJi6Sm9NFzh2lJuJw7P25WtnoR55GSfYE6EraIbQt/ANsH
+ fdOPk0gUICCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
+   d="scan'208";a="286290819"
+Received: from lkp-server01.sh.intel.com (HELO 12ff3cf3f2e9) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 09 Sep 2020 10:21:52 -0700
+Received: from kbuild by 12ff3cf3f2e9 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kG3n5-0000XA-Ij; Wed, 09 Sep 2020 17:21:51 +0000
+Date:   Thu, 10 Sep 2020 01:21:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ d034731bb4b4f2bf5f378231a6d99e59c2cb59f6
+Message-ID: <5f590f22.8cqrvsKc1Huwc9w6%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20200909121941.GY8321@kadam>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/9/20 5:19 AM, Dan Carpenter wrote:
-> Hi Guenter,
-> 
-> url:    https://github.com/0day-ci/linux/commits/Guenter-Roeck/media-uvcvideo-Fix-race-conditions/20200909-121927 
-> base:   git://linuxtv.org/media_tree.git master
-> config: x86_64-randconfig-m001-20200909 (attached as .config)
-> compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> smatch warnings:
-> drivers/media/usb/uvc/uvc_v4l2.c:553 uvc_v4l2_open() warn: possible memory leak of 'handle'
-> 
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: d034731bb4b4f2bf5f378231a6d99e59c2cb59f6  media: vivid: fix compile warning/error
 
-Good catch. It is also missing a call to usb_autopm_put_interface().
-I'll fix that in v3.
+elapsed time: 1877m
 
-Thanks,
-Guenter
+configs tested: 241
+configs skipped: 30
 
-> # https://github.com/0day-ci/linux/commit/50911975ff9b21d08ff5408e496683b8ac567b1c 
-> git remote add linux-review https://github.com/0day-ci/linux 
-> git fetch --no-tags linux-review Guenter-Roeck/media-uvcvideo-Fix-race-conditions/20200909-121927
-> git checkout 50911975ff9b21d08ff5408e496683b8ac567b1c
-> vim +/handle +553 drivers/media/usb/uvc/uvc_v4l2.c
-> 
-> bec43661b1dc00 drivers/media/video/uvc/uvc_v4l2.c Hans Verkuil     2008-12-30  530  static int uvc_v4l2_open(struct file *file)
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  531  {
-> 35f02a681b72ec drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-06-28  532  	struct uvc_streaming *stream;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  533  	struct uvc_fh *handle;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  534  	int ret = 0;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  535  
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  536  	uvc_trace(UVC_TRACE_CALLS, "uvc_v4l2_open\n");
-> 35f02a681b72ec drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-06-28  537  	stream = video_drvdata(file);
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  538  
-> 35f02a681b72ec drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-06-28  539  	ret = usb_autopm_get_interface(stream->dev->intf);
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  540  	if (ret < 0)
-> 716fdee110ceb8 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-09-29  541  		return ret;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  542  
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  543  	/* Create the device handle. */
-> f14d4988c28e52 drivers/media/usb/uvc/uvc_v4l2.c   Laurent Pinchart 2018-01-16  544  	handle = kzalloc(sizeof(*handle), GFP_KERNEL);
->                                                                                         ^^^^^^^^^^^^^^^^
-> 
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  545  	if (handle == NULL) {
-> 35f02a681b72ec drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-06-28  546  		usb_autopm_put_interface(stream->dev->intf);
-> 716fdee110ceb8 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-09-29  547  		return -ENOMEM;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  548  	}
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  549  
-> 17706f5653a90f drivers/media/usb/uvc/uvc_v4l2.c   Laurent Pinchart 2013-04-25  550  	mutex_lock(&stream->dev->lock);
-> 50911975ff9b21 drivers/media/usb/uvc/uvc_v4l2.c   Guenter Roeck    2020-09-08  551  	if (!video_is_registered(&stream->vdev)) {
-> 50911975ff9b21 drivers/media/usb/uvc/uvc_v4l2.c   Guenter Roeck    2020-09-08  552  		mutex_unlock(&stream->dev->lock);
-> 50911975ff9b21 drivers/media/usb/uvc/uvc_v4l2.c   Guenter Roeck    2020-09-08 @553  		return -ENODEV;
->                                                                                                 ^^^^^^^^^^^^^^
-> kfree(handle);
-> 
-> 50911975ff9b21 drivers/media/usb/uvc/uvc_v4l2.c   Guenter Roeck    2020-09-08  554  	}
-> 17706f5653a90f drivers/media/usb/uvc/uvc_v4l2.c   Laurent Pinchart 2013-04-25  555  	if (stream->dev->users == 0) {
-> 17706f5653a90f drivers/media/usb/uvc/uvc_v4l2.c   Laurent Pinchart 2013-04-25  556  		ret = uvc_status_start(stream->dev, GFP_KERNEL);
-> 35f02a681b72ec drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-06-28  557  		if (ret < 0) {
-> 17706f5653a90f drivers/media/usb/uvc/uvc_v4l2.c   Laurent Pinchart 2013-04-25  558  			mutex_unlock(&stream->dev->lock);
-> a82a45f65377b0 drivers/media/usb/uvc/uvc_v4l2.c   Oliver Neukum    2013-01-10  559  			usb_autopm_put_interface(stream->dev->intf);
-> 04a37e0f32f988 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-05-19  560  			kfree(handle);
-> 716fdee110ceb8 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-09-29  561  			return ret;
-> 04a37e0f32f988 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-05-19  562  		}
-> 04a37e0f32f988 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-05-19  563  	}
-> 04a37e0f32f988 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-05-19  564  
-> 17706f5653a90f drivers/media/usb/uvc/uvc_v4l2.c   Laurent Pinchart 2013-04-25  565  	stream->dev->users++;
-> 17706f5653a90f drivers/media/usb/uvc/uvc_v4l2.c   Laurent Pinchart 2013-04-25  566  	mutex_unlock(&stream->dev->lock);
-> 17706f5653a90f drivers/media/usb/uvc/uvc_v4l2.c   Laurent Pinchart 2013-04-25  567  
-> d8da7513bcf983 drivers/media/usb/uvc/uvc_v4l2.c   Hans Verkuil     2015-03-09  568  	v4l2_fh_init(&handle->vfh, &stream->vdev);
-> b4012002f3a398 drivers/media/video/uvc/uvc_v4l2.c Hans de Goede    2012-04-08  569  	v4l2_fh_add(&handle->vfh);
-> 8e113595edf074 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-07-01  570  	handle->chain = stream->chain;
-> 35f02a681b72ec drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-06-28  571  	handle->stream = stream;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  572  	handle->state = UVC_HANDLE_PASSIVE;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  573  	file->private_data = handle;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  574  
-> 716fdee110ceb8 drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2009-09-29  575  	return 0;
-> c0efd232929c2c drivers/media/video/uvc/uvc_v4l2.c Laurent Pinchart 2008-06-30  576  }
-> 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org 
-> 
-> 
-> _______________________________________________
-> kbuild mailing list -- kbuild@lists.01.org
-> To unsubscribe send an email to kbuild-leave@lists.01.org
-> 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+xtensa                    xip_kc705_defconfig
+arm                          iop32x_defconfig
+h8300                    h8300h-sim_defconfig
+arm                             mxs_defconfig
+mips                malta_kvm_guest_defconfig
+mips                         db1xxx_defconfig
+mips                          rm200_defconfig
+arm                        vexpress_defconfig
+mips                         tb0226_defconfig
+mips                      maltasmvp_defconfig
+h8300                       h8s-sim_defconfig
+mips                      fuloong2e_defconfig
+sh                         apsh4a3a_defconfig
+arm                      footbridge_defconfig
+sh                         ecovec24_defconfig
+powerpc                      pasemi_defconfig
+sh                   secureedge5410_defconfig
+sh                        sh7757lcr_defconfig
+microblaze                    nommu_defconfig
+i386                             allyesconfig
+c6x                        evmc6678_defconfig
+c6x                        evmc6472_defconfig
+sh                            shmin_defconfig
+powerpc                        cell_defconfig
+mips                      loongson3_defconfig
+arm                          lpd270_defconfig
+mips                         cobalt_defconfig
+sh                     magicpanelr2_defconfig
+mips                           ip28_defconfig
+mips                          malta_defconfig
+powerpc                       holly_defconfig
+arm                        mvebu_v7_defconfig
+arc                     nsimosci_hs_defconfig
+arm                           sama5_defconfig
+arm                       netwinder_defconfig
+microblaze                      mmu_defconfig
+sh                           se7721_defconfig
+sh                        sh7763rdp_defconfig
+sh                          r7785rp_defconfig
+mips                           rs90_defconfig
+m68k                       m5275evb_defconfig
+arm                          exynos_defconfig
+mips                malta_qemu_32r6_defconfig
+powerpc                     ep8248e_defconfig
+xtensa                              defconfig
+arm                          pxa910_defconfig
+arm                        spear3xx_defconfig
+m68k                        m5407c3_defconfig
+c6x                              allyesconfig
+mips                            gpr_defconfig
+sh                           se7780_defconfig
+powerpc                           allnoconfig
+m68k                       m5475evb_defconfig
+mips                     decstation_defconfig
+mips                  cavium_octeon_defconfig
+sh                   sh7724_generic_defconfig
+sh                          lboxre2_defconfig
+powerpc                         wii_defconfig
+arm                           h5000_defconfig
+openrisc                    or1ksim_defconfig
+mips                      maltaaprp_defconfig
+arm                       imx_v4_v5_defconfig
+mips                       lemote2f_defconfig
+um                            kunit_defconfig
+arm                         lpc18xx_defconfig
+mips                           jazz_defconfig
+m68k                       m5249evb_defconfig
+parisc                generic-32bit_defconfig
+arm                         assabet_defconfig
+arm                            dove_defconfig
+sh                                  defconfig
+arm                              zx_defconfig
+arm                  colibri_pxa270_defconfig
+arm                          pxa168_defconfig
+arm                       aspeed_g4_defconfig
+arm                         socfpga_defconfig
+arm                         bcm2835_defconfig
+alpha                            alldefconfig
+mips                         bigsur_defconfig
+mips                     cu1000-neo_defconfig
+arm                      pxa255-idp_defconfig
+nios2                               defconfig
+arm                          moxart_defconfig
+arc                            hsdk_defconfig
+powerpc                          allmodconfig
+s390                                defconfig
+m68k                                defconfig
+arm                         hackkit_defconfig
+powerpc                 linkstation_defconfig
+arm                    vt8500_v6_v7_defconfig
+arm                  colibri_pxa300_defconfig
+xtensa                generic_kc705_defconfig
+arm                         s3c2410_defconfig
+arm                         cm_x300_defconfig
+arm                         lpc32xx_defconfig
+riscv                             allnoconfig
+sh                            hp6xx_defconfig
+nios2                         3c120_defconfig
+arm                       aspeed_g5_defconfig
+sh                         ap325rxa_defconfig
+arm                       spear13xx_defconfig
+openrisc                 simple_smp_defconfig
+arm                          collie_defconfig
+mips                         rt305x_defconfig
+riscv                            allmodconfig
+m68k                        stmark2_defconfig
+arc                        vdk_hs38_defconfig
+sh                               alldefconfig
+powerpc                         ps3_defconfig
+arm                        trizeps4_defconfig
+nds32                               defconfig
+arm                      tct_hammer_defconfig
+powerpc                  mpc885_ads_defconfig
+sh                          landisk_defconfig
+arc                     haps_hs_smp_defconfig
+arm                           tegra_defconfig
+mips                         tb0287_defconfig
+arc                          axs101_defconfig
+sh                        apsh4ad0a_defconfig
+sparc                               defconfig
+arm                         s5pv210_defconfig
+h8300                               defconfig
+s390                       zfcpdump_defconfig
+arm                       mainstone_defconfig
+powerpc                      ppc64e_defconfig
+mips                           ci20_defconfig
+x86_64                           alldefconfig
+arc                        nsim_700_defconfig
+arm                        multi_v7_defconfig
+arm                      jornada720_defconfig
+sh                           se7206_defconfig
+mips                          rb532_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+x86_64               randconfig-a006-20200907
+x86_64               randconfig-a004-20200907
+x86_64               randconfig-a003-20200907
+x86_64               randconfig-a005-20200907
+x86_64               randconfig-a001-20200907
+x86_64               randconfig-a002-20200907
+x86_64               randconfig-a004-20200909
+x86_64               randconfig-a006-20200909
+x86_64               randconfig-a003-20200909
+x86_64               randconfig-a001-20200909
+x86_64               randconfig-a005-20200909
+x86_64               randconfig-a002-20200909
+i386                 randconfig-a004-20200909
+i386                 randconfig-a005-20200909
+i386                 randconfig-a006-20200909
+i386                 randconfig-a002-20200909
+i386                 randconfig-a001-20200909
+i386                 randconfig-a003-20200909
+i386                 randconfig-a004-20200908
+i386                 randconfig-a005-20200908
+i386                 randconfig-a006-20200908
+i386                 randconfig-a002-20200908
+i386                 randconfig-a001-20200908
+i386                 randconfig-a003-20200908
+i386                 randconfig-a004-20200907
+i386                 randconfig-a005-20200907
+i386                 randconfig-a006-20200907
+i386                 randconfig-a002-20200907
+i386                 randconfig-a003-20200907
+i386                 randconfig-a001-20200907
+x86_64               randconfig-a013-20200908
+x86_64               randconfig-a016-20200908
+x86_64               randconfig-a011-20200908
+x86_64               randconfig-a012-20200908
+x86_64               randconfig-a015-20200908
+x86_64               randconfig-a014-20200908
+i386                 randconfig-a016-20200909
+i386                 randconfig-a015-20200909
+i386                 randconfig-a011-20200909
+i386                 randconfig-a013-20200909
+i386                 randconfig-a014-20200909
+i386                 randconfig-a012-20200909
+i386                 randconfig-a016-20200907
+i386                 randconfig-a015-20200907
+i386                 randconfig-a011-20200907
+i386                 randconfig-a013-20200907
+i386                 randconfig-a014-20200907
+i386                 randconfig-a012-20200907
+i386                 randconfig-a016-20200908
+i386                 randconfig-a015-20200908
+i386                 randconfig-a011-20200908
+i386                 randconfig-a013-20200908
+i386                 randconfig-a014-20200908
+i386                 randconfig-a012-20200908
+riscv                            allyesconfig
+riscv                               defconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a004-20200908
+x86_64               randconfig-a006-20200908
+x86_64               randconfig-a003-20200908
+x86_64               randconfig-a001-20200908
+x86_64               randconfig-a005-20200908
+x86_64               randconfig-a002-20200908
+x86_64               randconfig-a013-20200907
+x86_64               randconfig-a011-20200907
+x86_64               randconfig-a016-20200907
+x86_64               randconfig-a012-20200907
+x86_64               randconfig-a015-20200907
+x86_64               randconfig-a014-20200907
+x86_64               randconfig-a013-20200909
+x86_64               randconfig-a016-20200909
+x86_64               randconfig-a011-20200909
+x86_64               randconfig-a012-20200909
+x86_64               randconfig-a015-20200909
+x86_64               randconfig-a014-20200909
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
