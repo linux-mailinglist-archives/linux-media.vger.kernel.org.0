@@ -2,82 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04BAA263026
-	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 17:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 393A22630C3
+	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 17:42:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730092AbgIIPEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Sep 2020 11:04:06 -0400
-Received: from mga06.intel.com ([134.134.136.31]:2359 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726399AbgIIMSo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Sep 2020 08:18:44 -0400
-IronPort-SDR: Uo3eCdVbOKruVKp2lql8FH0+TBQqekgxkSi24YXUWnTEZLGtZbfSWTbBKmlyU+K447Fqc/snu5
- sBA8ZZK6BrLg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="219874839"
-X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
-   d="scan'208";a="219874839"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 05:16:42 -0700
-IronPort-SDR: 700qIIIuvykqXE2gqCdKoiRkvZqgnZfWaFbrA1VXnX36kZp141OQRBjFeTaSAw3mJgI6JTqBQd
- qwfNlpoo2qpg==
-X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
-   d="scan'208";a="480442307"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 05:16:39 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id AAA5C20765; Wed,  9 Sep 2020 15:16:07 +0300 (EEST)
-Date:   Wed, 9 Sep 2020 15:16:07 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>
-Subject: Re: [PATCH v8 6/6] at24: Support probing while off
-Message-ID: <20200909121607.GD6566@paasikivi.fi.intel.com>
-References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
- <20200903081550.6012-7-sakari.ailus@linux.intel.com>
- <CAMpxmJX40=iYYxL9Uvs1Pjj9c3NvZBGJ9Mh9-87T0c==FKEXRw@mail.gmail.com>
- <20200909111121.GJ2272@ninjato>
- <CAMpxmJXDrL92QH_Vb+P4LoQ-WGBMM42GvzXjquW2Lzotm5wggA@mail.gmail.com>
+        id S1728442AbgIIPmG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Sep 2020 11:42:06 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:50114 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730338AbgIIPlS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 9 Sep 2020 11:41:18 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id C12855395AE5A1A21A3C;
+        Wed,  9 Sep 2020 21:39:38 +0800 (CST)
+Received: from localhost (10.174.179.108) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Wed, 9 Sep 2020
+ 21:39:30 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next] media: av7110_v4l: Fix build error
+Date:   Wed, 9 Sep 2020 21:38:44 +0800
+Message-ID: <20200909133844.6812-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMpxmJXDrL92QH_Vb+P4LoQ-WGBMM42GvzXjquW2Lzotm5wggA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.179.108]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 09, 2020 at 01:56:34PM +0200, Bartosz Golaszewski wrote:
-> On Wed, Sep 9, 2020 at 1:11 PM Wolfram Sang <wsa@the-dreams.de> wrote:
-> >
-> >
-> > > This currently conflicts with the fix I queued for at24 for v5.9.
-> > > Which tree is going to take this series?
-> >
-> > I recall we agreed on I2C.
-> >
-> 
-> Sakari,
-> 
-> can you rebase the at24 driver patch on top of Wolfram's tree as soon
-> as he merges my PR with at24 fixes?
+drivers/media/pci/ttpci/av7110_v4l.c: In function ‘vidioc_s_frequency’:
+drivers/media/pci/ttpci/av7110_v4l.c:163:11: error: SSE register return with SSE disabled
+  if (freq < 16U * 168.25)
+      ~~~~~^~~~~~~~~~~~~~
+Get rid of float pointing math to fix this.
 
-Sure! This would be of course better than postponing this patch.
+Fixes: 13c129066845 ("media: av7110_v4l: avoid a typecast")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/media/pci/ttpci/av7110_v4l.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/media/pci/ttpci/av7110_v4l.c b/drivers/media/pci/ttpci/av7110_v4l.c
+index 6d9c908be713..ba745b161cba 100644
+--- a/drivers/media/pci/ttpci/av7110_v4l.c
++++ b/drivers/media/pci/ttpci/av7110_v4l.c
+@@ -160,9 +160,9 @@ static int ves1820_set_tv_freq(struct saa7146_dev *dev, u32 freq)
+ 	buf[1] = div & 0xff;
+ 	buf[2] = 0x8e;
+ 
+-	if (freq < 16U * 168.25)
++	if (freq < (16 * 16825) / 100)
+ 		config = 0xa0;
+-	else if (freq < 16U * 447.25)
++	else if (freq < (16 * 44725) / 100)
+ 		config = 0x90;
+ 	else
+ 		config = 0x30;
 -- 
-Regards,
+2.17.1
 
-Sakari Ailus
+
