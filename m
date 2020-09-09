@@ -2,87 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00D5A26330D
-	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 18:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 178CA26326F
+	for <lists+linux-media@lfdr.de>; Wed,  9 Sep 2020 18:43:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730831AbgIIQ4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Sep 2020 12:56:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730543AbgIIPw2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Sep 2020 11:52:28 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434C3C06179A
-        for <linux-media@vger.kernel.org>; Wed,  9 Sep 2020 04:56:46 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id nw23so3125715ejb.4
-        for <linux-media@vger.kernel.org>; Wed, 09 Sep 2020 04:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ogwkQhFvnI4MZlMSYD/QWVKe2D0wYcRnW9BslwF6Qd0=;
-        b=HBjuZLWTbosii7ivJ9Ywlo8ZE/yi+uOqSm+jpG3K3CaNg5EhfDmRwyHOQ+LkqQN5bt
-         r8E9HZ0CmCpqg/EgdrmGDCLKPOyUAc9ZeexJq+vO0q3W1nwuh1hLu9isrW2iuMQ2Z5Mp
-         wpUEZdWa955qmiMBbYZA+9GD7k/1thaZllOGhbKDLuva5LrgIEOuqFPXBjMmPe8vc3vK
-         XsQKnEd31lZOKsyuLRftddoIyY6046V39zwwVyj5TbmwMijQthaBFY4YgPRywh8WzAff
-         1ODAm8vxmT1yWtxFBnD0boY5J+gj+4ot/eICHddgbieS3nKkEl7LgwIjJLFpnV7AI9no
-         Scyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ogwkQhFvnI4MZlMSYD/QWVKe2D0wYcRnW9BslwF6Qd0=;
-        b=ifAaH3DjUdNI7cijDBMJorPyGtBadg69h6FwQz+PsoxCh7eONEXsMy3TDyKg1YX6Tb
-         8hj/RY7DQJJwwOfjlY1pbAzoTDrxDGU9T2uY5ZeEWG1h4RAfEULO0/3Uj5MZWZqGIZeU
-         /B65VerpjQ5pX6cEImwrAZ1XhlArosupX9nbVVTdTtZ0b8mPoLfGxRZm3YDCOqYy41k3
-         bk8qHhYgvxF6RVIo+V581xN21PN70k6AwhoXLcoezOw+FXciWlsalOKDpPkO0E7bcm1T
-         fwFiUObJtqt2zht+dswWtRI0WAgNCqwi9UcBUlrk1tftLNpByPJ/RbqR0mguSgKuY5Bl
-         +cWQ==
-X-Gm-Message-State: AOAM530A7vogbhXR0mn/izlfukSQjgPWMCQDuvMNexpQoy63vGuf638e
-        hz+gg/Ty+czzaJHNC7Z56rm5GSTfBo2yuGat4Vux/g==
-X-Google-Smtp-Source: ABdhPJxwxVcYxxRPx0hopbc/8wKbrEuh526OTa/mrDYz3ssckdGebxt8RtgFJRB+3GTtZQfvkNw7vv+GO+mnfJZRYag=
-X-Received: by 2002:a17:906:3e90:: with SMTP id a16mr3019456ejj.363.1599652604922;
- Wed, 09 Sep 2020 04:56:44 -0700 (PDT)
+        id S1730821AbgIIQm4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Sep 2020 12:42:56 -0400
+Received: from mga07.intel.com ([134.134.136.100]:60955 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726920AbgIIQQ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 9 Sep 2020 12:16:29 -0400
+IronPort-SDR: I9SZmEcW88/1hZIi+2R22aSJaanAxQ2Gtbiq1HJgxuwVdHy3zWT99az4l2X1db5vwz3XuQhf0+
+ lnUZqgbmOcdQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="222530460"
+X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
+   d="scan'208";a="222530460"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 06:40:57 -0700
+IronPort-SDR: DvtnZxN+ZtRYRQbdWiuebAL5LQfb7IXP855ii1nwp+UuRz3hN0eI0F6IjxiVhIW7ts6Wcvn43X
+ 0BR4MKoUtHAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
+   d="scan'208";a="407451726"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 09 Sep 2020 06:40:54 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 09 Sep 2020 16:40:53 +0300
+Date:   Wed, 9 Sep 2020 16:40:53 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        jorhand@linux.microsoft.com, andriy.shevchenko@linux.intel.com
+Subject: Re: cio2 ipu3 module to automatically connect sensors via swnodes
+Message-ID: <20200909134053.GA3699980@kuha.fi.intel.com>
+References: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
- <20200903081550.6012-7-sakari.ailus@linux.intel.com> <CAMpxmJX40=iYYxL9Uvs1Pjj9c3NvZBGJ9Mh9-87T0c==FKEXRw@mail.gmail.com>
- <20200909111121.GJ2272@ninjato>
-In-Reply-To: <20200909111121.GJ2272@ninjato>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 9 Sep 2020 13:56:34 +0200
-Message-ID: <CAMpxmJXDrL92QH_Vb+P4LoQ-WGBMM42GvzXjquW2Lzotm5wggA@mail.gmail.com>
-Subject: Re: [PATCH v8 6/6] at24: Support probing while off
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 9, 2020 at 1:11 PM Wolfram Sang <wsa@the-dreams.de> wrote:
->
->
-> > This currently conflicts with the fix I queued for at24 for v5.9.
-> > Which tree is going to take this series?
->
-> I recall we agreed on I2C.
->
+Hi,
 
-Sakari,
+On Sat, Sep 05, 2020 at 09:19:51AM +0100, Daniel Scally wrote:
+> Hello
+> 
+> Following on from this thread:
+> https://www.spinics.net/lists/linux-driver-devel/msg135122.html -
+> apologies, can't see a way to reply to it directly.
+> 
+> Myself and others [1] have been trying to get cameras working on
+> Microsoft Surface and similar platforms, currently I'm working on
+> expanding Jordan's module connecting cameras to the cio2
+> infrastructure (which works - we can use it to take images), aiming to
+> discover connection information from SSDB in the DSDT, as well as
+> connect as many supported sensors as are found on the device. I'm just
+> struggling with a problem I've encountered using the swnode patch that
+> Heikki linked in that thread; the module's working ok when I only
+> attempt to connect a single one of my sensors (by preventing the
+> driver for the other sensor from loading, in which case this new
+> module ignores the sensor), but when I attempt to connect both cameras
+> at the same time I get a kernel oops as part of
+> software_node_get_next_child. The module is creating software_nodes
+> like this...
+> 
+> /sys/kernel/software_node/INT343E/port0/endpoint0
+> /sys/kernel/software_node/INT343E/port1/endpoint0
+> /sys/kernel/software_node/OVTI2680/port0/endpoint0
+> /sys/kernel/software_node/OVTI5648/port0/endpoint0
+> 
+> And that's the structure that I expect to see, but it seems like the
+> call to list_next_entry in that function is returning something that
+> isn't quite a valid swnode. Printing the address of c->fwnode after
+> that point returns "3", which isn't a valid address of course, and
+> that's causing the oops when it's either returned (in the version of
+> the function without the patches) or when the program flow tries to
+> call the "get" op against that fwnode (in the patched version). I've
+> been trying to track it down for a while now without success, so I
+> posted the problem on SO[2] and it was suggested that I mail these
+> addressees for advice - hope that that is ok.
+> 
+> My copy of Jordan's module is parked in my git repo [3] for now, and
+> requires a batch of patches from Jordan's repo [4] (one made by Heikki
+> to fill in the missing swnode graph pieces, and some further tweaks) -
+> I've been applying those against 5.8.0-rc7. Any other criticism more
+> than welcome - I'm new to both c and kernel programming so I'm happy
+> to take all the advice people have the time to give.
 
-can you rebase the at24 driver patch on top of Wolfram's tree as soon
-as he merges my PR with at24 fixes?
+I'm almost certain that my graph patch is broken. My tests did not
+cover nearly as much that is needed to properly test the patch. I
+think at least the refcount handling is totally broken in
+software_node_graph_get_next_endpoint(), so that function at least
+needs to be rewritten.
 
-Bartosz
+Unfortunately I do not have time to work on that patch right now.
+
+thanks,
+
+-- 
+heikki
