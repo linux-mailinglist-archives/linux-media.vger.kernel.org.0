@@ -2,115 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6604D263DAB
-	for <lists+linux-media@lfdr.de>; Thu, 10 Sep 2020 08:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1407263F0E
+	for <lists+linux-media@lfdr.de>; Thu, 10 Sep 2020 09:53:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729988AbgIJGxV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Sep 2020 02:53:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33088 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726961AbgIJGxQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Sep 2020 02:53:16 -0400
-Received: from localhost (p5486ceec.dip0.t-ipconnect.de [84.134.206.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 93A222078E;
-        Thu, 10 Sep 2020 06:53:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599720795;
-        bh=/LOePKGDUR83plqAhx1ySvpBeTmOBTt4AYD41Ar10p8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=e3Jk9M7ZKtsnsBd892ykDqq6ldjJyX23IqJ7DyDWgKOR2vkDHWpTUx3L4W3ZSGRl8
-         gbJ25CK/q4T0DRgLEQdFDMLfOBf9AoSauHV2UkWklXje0SfXK1Ub2yM0Bl5ncgFE73
-         tRqSbJwVN+gRudxLpTtOTt3VxbQSMkA19oVYS08w=
-Date:   Thu, 10 Sep 2020 08:53:12 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <trivial@kernel.org>,
-        Kees Cook <kees.cook@canonical.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-rdma@vger.kernel.org,
-        iommu@lists.linux-foundation.org, dm-devel@redhat.com,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
-        oss-drivers@netronome.com, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        storagedev@microchip.com, sparclinux@vger.kernel.org,
-        linux-serial@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-parisc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, bpf@vger.kernel.org,
-        dccp@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, linux-sctp@vger.kernel.org,
-        alsa-devel <alsa-devel@alsa-project.org>
-Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
- break;
-Message-ID: <20200910065312.GH1031@ninjato>
-References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OpLPJvDmhXTZE4Lg"
-Content-Disposition: inline
-In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1730165AbgIJHxQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Sep 2020 03:53:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50568 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726228AbgIJHw6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Sep 2020 03:52:58 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E4BC061756
+        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 00:52:56 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id c10so5307324edk.6
+        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 00:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=vN12iXSe93FrYozqq5r2Omm4hmslv0t/kmDHtlJE9ZI=;
+        b=x4eQRdKfg0RY9zTkFU0gUMOdLG/E5FrZKotRF1B3H2YO5zS27dgHrV84H0WuJ52ZJS
+         +z6ydGAnhu0yTEcvHZtnF2EbCAVJXVfLfzn2W3l4lDdG0OBUVq/HJfyhj2Ga12cWsFQq
+         4I/ernKvfYfl4FMqdtg+W49FHlfvKJgUa9l2GR+Hqe13Ay2L9NMrxI9GhXqDk8LWlPz+
+         J1llg1x270YQuSvcevwyIymxn8ml/k8eN0CLNB6vZA1BWvzKvApyA2AU7HCT2mCuBlP3
+         RgBt2+4jav8Ssawga7FuDt1ZiSuVopUjdMx52pbKLhPAKuVTrRPAhmgTTqcNtdsldpiU
+         hEuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=vN12iXSe93FrYozqq5r2Omm4hmslv0t/kmDHtlJE9ZI=;
+        b=gOrVQo1sCtp5obNuvfYaaDvgHS2oZF0eCgBZHWQfinr46BAUU6lr6NErgiJ+Y19oI9
+         OmYSSwg0zCweD2ZQBAQoJ68ceUTouXbsJp6TOxyVnzszAfVVBrxOyBIDbQtUvml7yZHJ
+         H1A8tQvuIP14+SKJ+wYLOLFCAnA00MOfOFKYWdipof6YTIqMQ0d0HlBgO2caFQvVbPVj
+         uJ+BQrVdEDmUdRx5Flom+6Jy7eP20gLeGhq5WhSHaJpisFFmAO4C7dCSfUcNkwZdGo10
+         4+qHjdQtdpCblF3MP2Y3E1GB2zcJkUnXT8m1Ns4bOol15SXTlievKdNow0w6KzjL3xEI
+         4DNg==
+X-Gm-Message-State: AOAM533kHzUP7YHcRl7LTBTG4EdaCOiygoTGJBPU/fpF+xpsT960yFuq
+        E3l2d2F5shQwE76TbV97eWm+BMlXupWqNoMD
+X-Google-Smtp-Source: ABdhPJw2BPEh1f8NHoqYvWJpzyvcWuUQF5T3Gq/nELgPfY74+EXJhH7ilI+eTdKH4UxgDRteSzze0Q==
+X-Received: by 2002:a50:84a2:: with SMTP id 31mr8187522edq.138.1599724374085;
+        Thu, 10 Sep 2020 00:52:54 -0700 (PDT)
+Received: from localhost.localdomain ([195.24.90.54])
+        by smtp.gmail.com with ESMTPSA id q26sm5742838ejr.97.2020.09.10.00.52.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2020 00:52:53 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Elliot Berman <eberman@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v3 0/2] Venus - fix firmware load failure
+Date:   Thu, 10 Sep 2020 10:52:25 +0300
+Message-Id: <20200910075227.950-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
---OpLPJvDmhXTZE4Lg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Two changes since v2:
+ * 1/2 drop pointless line remove.
+ * 2/2 call qcom_scm_pas_shutdown() in error path - spotted by Bjorn.
 
+v2 can be found at [1].
 
-> diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
-> index e32ef3f01fe8..b13b1cbcac29 100644
-> --- a/drivers/i2c/busses/i2c-i801.c
-> +++ b/drivers/i2c/busses/i2c-i801.c
-> @@ -1785,7 +1785,7 @@ static int i801_probe(struct pci_dev *dev, const struct pci_device_id *id)
->  		fallthrough;
->  	case PCI_DEVICE_ID_INTEL_82801CA_3:
->  		priv->features |= FEATURE_HOST_NOTIFY;
-> -		fallthrough;
-> +		break;
->  	case PCI_DEVICE_ID_INTEL_82801BA_2:
->  	case PCI_DEVICE_ID_INTEL_82801AB_3:
->  	case PCI_DEVICE_ID_INTEL_82801AA_3:
+Regards,
+Stan
 
-I am not the maintainer (Jean is) but I suggest to drop this hunk. The
-code is more complex with multiple 'fallthrough', so this change alone
-actually makes the code inconsistent. A rework would need a seperate
-patch.
+[1] https://lkml.org/lkml/2020/8/17/323
 
+Stanimir Varbanov (2):
+  firmware: qcom_scm: Add memory protect virtual address ranges
+  venus: firmware: Set virtual address ranges
 
---OpLPJvDmhXTZE4Lg
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/firmware/qcom_scm.c                  | 24 ++++++++++++++++++++
+ drivers/firmware/qcom_scm.h                  |  1 +
+ drivers/media/platform/qcom/venus/core.c     |  4 ++++
+ drivers/media/platform/qcom/venus/core.h     |  4 ++++
+ drivers/media/platform/qcom/venus/firmware.c | 19 +++++++++++++++-
+ include/linux/qcom_scm.h                     |  7 ++++++
+ 6 files changed, 58 insertions(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.17.1
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9ZzVQACgkQFA3kzBSg
-KbYNuA//cymFe0KsFqywRHv3eBWJhoqwvWN2Xhwrx5/b6N3kkKGTo61aOo1ZI2gU
-55rQoGusy8OzGXaxlyhNS8Ea9ztPZc/tHEohOHKPYr52ErUMXlbMo3I3q7sZAZEI
-O/bRlnPKUCKqKOpZBin0ri6NE3FNYybTW30HgIk/LFUeCuaup10cUcxCmPfXHlNc
-M/2M2tBVyyBOqlVVsPxIfEZ4jGDaikxt7mBZDj4QMJnivnuMFuuz8U7gYzkXIHfO
-4ahGx+dBLCCInwFNFjEIPr+biq6Bgt/Vl9bbgN/BYbzdgbbJcikEhWHd9FxEoxQ5
-Y4M6/HxLDuCwTLIoFHjVifsFHK4Emk5ECc0xBWjHu3CJDunZSmy6yS5gbD1BrstW
-Djf0Ue1kyqnVPBDKE0EwFmwz1z1V14bhhXVC1fkiJjTpYRA6g3zMwH1oan6XIbGj
-v4OuWFDkQLEfzCCBIASGS849HtQ4rNafKxX3KQ3qxngh7XBrK7X92SLf3qRJurdt
-h5Ozd/zYDzyKQ1nOf/XWAOP5SKZH2ANjTrFKgIZE8MRkTmbzrlZkCnDnFD0pKPlB
-Z9h9uPZ7kifAejwaRPfsTu6/B9XJafMKfLa3hKTg2kgO+p67ItBEQ0W8wrXLE1/1
-c5FW5PqdkjKnx/9yUqosjEsHV2goh1guE4cziLkF1pZXcrElbtk=
-=ZP3J
------END PGP SIGNATURE-----
-
---OpLPJvDmhXTZE4Lg--
