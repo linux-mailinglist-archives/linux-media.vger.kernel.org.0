@@ -2,123 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8087126404E
-	for <lists+linux-media@lfdr.de>; Thu, 10 Sep 2020 10:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFC02264072
+	for <lists+linux-media@lfdr.de>; Thu, 10 Sep 2020 10:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730268AbgIJIqC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Sep 2020 04:46:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730177AbgIJIo3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Sep 2020 04:44:29 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE2B0C061756
-        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 01:44:29 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id k15so4208665pfc.12
-        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 01:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i1FntIzMPK+2F9y+3ZkPe7MPtSfMIy5aobElwvEAHxA=;
-        b=ZwZTS7Vcuzpsr8KgOLQL4KCX2blqHYl1zT3RNpeKvwxETsBALhm87LvBkNNR+hInGo
-         VnCSb+9EbzLIJ+U8exVhU1SSgFL0pwdAniNrbQbPPqYPqLur2bOPfT83ov/7yhOtjsNe
-         i3xY/zCdZ74f+rT/C0vdNvC6Unve60QZNfaGo1qd3aLo+Rg2cMGFguS3dykGsNT57rnC
-         l6JAIqXztWaKebTKXyTgXB5gjjXC0eK6ZJJa3Wj8YpumnfMPXWMw/bgwzWOq/nEcr7Ai
-         5l1VGzNITPIK/PB8A+PIrIN/aeFbOOCtK8J+/pktedSiClFDtnKu5ZdIuoycrtpyfm8w
-         RuFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i1FntIzMPK+2F9y+3ZkPe7MPtSfMIy5aobElwvEAHxA=;
-        b=Zuck2G1R0QpIjm+rpL6nCvmzAyfJzfjcNdbfgNUsddsz8L4OJ62E+lP/kF4fO6FlFq
-         q4QObH0vcnLHIaT1zZc11lT6EP81GW5u3nCi5iYW/vg2WWWzpiluCD+aY5DWm6qcz6Ap
-         g6X7WgDMWHh4v+He7mAXMyN2Coy59OmVg8jSivCIhgPAyRlxQdQTvQa3DcDyqPC5UeLw
-         r0G45eupkdL+xpGAp8r2PKZjR8ZfXHS+mg1lYHZDgF5TjbU/pZrRXsAiV7J+MXZzi3Cd
-         OhjCaiEK2seddSAA7DUivdMNzpiZ9t0FPiGyGFLQB7X25yyFKWzeyazLFck4WJkVb88a
-         Evuw==
-X-Gm-Message-State: AOAM533Fb+YEv6ECzIN4U9XtCxx8TL5mBtlPhMwtBswg7TdOK6aZ+R/d
-        Kncq1tl8SfLww774PjTNf8mPeI625QxbgLVx3ag=
-X-Google-Smtp-Source: ABdhPJxrN6WPJRvxPaUk+Plxm0PGRa1gHj+yEr2nquveSBLvlcuGuZHBOYKjoXs4uycpY0dwYhq3hXNVbvnHeSE9/N8=
-X-Received: by 2002:aa7:88cc:: with SMTP id k12mr4483196pff.69.1599727469295;
- Thu, 10 Sep 2020 01:44:29 -0700 (PDT)
+        id S1730353AbgIJIrw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Sep 2020 04:47:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33962 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726847AbgIJIru (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Sep 2020 04:47:50 -0400
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi [91.155.214.58])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0C4F920770;
+        Thu, 10 Sep 2020 08:47:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599727668;
+        bh=RPokpgxyglYjppmxdwE4ETpgoWb+FLMn8txdhEbALdk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=caMPoUSKexLI6/Cqhtg8fT99cl3GRCJBgwM+b8CDUH4fpndiULhN2ZxxlePCqMtm8
+         o+PPIhKL0Yab4dKBUBJb9PAX9HTFJdHyhq4ZrB98n0hws/gO34J2oo99WhyXQG8LAo
+         ih4L+nIDe5nvGNhsdtsxYZAUrexQb+0pD4TKBRdk=
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>
+Cc:     Kees Cook <kees.cook@canonical.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-rdma@vger.kernel.org,
+        iommu@lists.linux-foundation.org, dm-devel@redhat.com,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
+        oss-drivers@netronome.com, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        storagedev@microchip.com, sparclinux@vger.kernel.org,
+        linux-serial@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-parisc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, bpf@vger.kernel.org,
+        dccp@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+        alsa-devel <alsa-devel@alsa-project.org>
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Date:   Thu, 10 Sep 2020 11:47:27 +0300
+Message-ID: <878sdikogw.fsf@kernel.org>
 MIME-Version: 1.0
-References: <20200803213929.34616-1-rosenp@gmail.com> <992328dc-8ad5-063c-69fc-b01364bf3011@xs4all.nl>
- <CAKxU2N8CjSw+awumPNL_9WfdvXMbSBtmRDtfq9AsL7P2sppJWQ@mail.gmail.com> <c88d0408-63a8-7216-b2c5-2966135a5fcf@xs4all.nl>
-In-Reply-To: <c88d0408-63a8-7216-b2c5-2966135a5fcf@xs4all.nl>
-From:   Rosen Penev <rosenp@gmail.com>
-Date:   Thu, 10 Sep 2020 01:44:17 -0700
-Message-ID: <CAKxU2N8W0fsD6UN1ABNMnQ6cdebn-=cXgy1MSTmnMvYAAxNPNA@mail.gmail.com>
-Subject: Re: [PATCHv2] fix GCC enum warning
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 9, 2020 at 7:01 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 21/08/2020 00:12, Rosen Penev wrote:
-> > On Thu, Aug 20, 2020 at 5:26 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >>
-> >> On 03/08/2020 23:39, Rosen Penev wrote:
-> >>> Found with -Wenum-compare
-> >>>
-> >>> ../utils/common/v4l-helpers.h:880:36: warning: enumerated and
-> >>> non-enumerated type in conditional expression [-Wextra]
-> >>>   880 |  return hsv_enc < V4L2_HSV_ENC_180 ? V4L2_HSV_ENC_180 : hsv_enc;
-> >>>
-> >>> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> >>> ---
-> >>>  v2: Added warning message.
-> >>>  utils/common/v4l-helpers.h | 2 +-
-> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-> >>> index e093e717..edd21c16 100644
-> >>> --- a/utils/common/v4l-helpers.h
-> >>> +++ b/utils/common/v4l-helpers.h
-> >>> @@ -877,7 +877,7 @@ v4l_format_g_hsv_enc(const struct v4l2_format *fmt)
-> >>>  {
-> >>>       unsigned hsv_enc = v4l_format_g_ycbcr_enc(fmt);
-> >>
-> >> Does the warning go away if you replace 'unsigned' with enum v4l2_hsv_encoding?
-> > ../utils/common/v4l-helpers.h:878:25: error: cannot initialize a
-> > variable of type 'enum v4l2_hsv_encoding' with an rvalue of type
-> > 'unsigned int'
-> >         enum v4l2_hsv_encoding hsv_enc = v4l_format_g_ycbcr_enc(fmt);
->
-> Urgh.
->
-> How about this:
->
->         if (hsv_enc < V4L2_HSV_ENC_180)
->                 return V4L2_HSV_ENC_180;
->         return hsv_enc;
-Huh. That seems to have done it.
->
-> Regards,
->
->         Hans
->
-> >
-> >>
-> >> I would like that a lot better than casting V4L2_HSV_ENC_180.
-> >>
-> >> Regards,
-> >>
-> >>         Hans
-> >>
-> >>>
-> >>> -     return hsv_enc < V4L2_HSV_ENC_180 ? V4L2_HSV_ENC_180 : hsv_enc;
-> >>> +     return hsv_enc < V4L2_HSV_ENC_180 ? unsigned(V4L2_HSV_ENC_180) : hsv_enc;
-> >>>  }
-> >>>
-> >>>  static inline void v4l_format_s_quantization(struct v4l2_format *fmt,
-> >>>
-> >>
->
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+Joe Perches <joe@perches.com> writes:
+>  drivers/usb/dwc3/core.c                                   |  2 +-
+>  drivers/usb/gadget/legacy/inode.c                         |  2 +-
+>  drivers/usb/gadget/udc/pxa25x_udc.c                       |  4 ++--
+>  drivers/usb/phy/phy-fsl-usb.c                             |  2 +-
+
+for the drivers above:
+
+Acked-by: Felipe Balbi <balbi@kernel.org>
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl9Z6B8RHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQZSCRAAuTv1hrqhd9iVfnwXFrfx8dYquoCMc3VI
+y1IiULV6avnZvLQTqKviHDvZw05WY6dna714mpLFW1laW3WuhLSD4elIu6cqHaiz
+ZgtvtA4bZ/s7ipV+jlZ86S9oIz4MMBbZYhqSN1ZVk50NsUA/1thpcjS0aLI5SAgX
+j2dV6BEEHBSgMDwcWLPNwr6f5R/ycEBx3i6HYSSdNtBr1SK+UhbSkwNxdCA9IzH8
+1WCugmJdohP26DIYNzFZcssjcSFb5wu2iuHXQXuvOmmAfQmro+gRcnq1SOElae7v
+cas67L69RQ5fxskM/XpIYH2AURFnRUNondcJWViUQXHwXF1U0r+FdwXUr8OeFi19
+sVEI4FNu7ZqgvhfUlKMpldyUZRIrWb+WZZ5toBQAKFee/3tqTs4Tqh9cwfLL9IU4
+ho4tG7J/bd6hASfr0x2dH5Pm7oXKskxmtUpmmSVlNaTpXytiD30+pUvOl9Qg7A+X
+tc9h6N3Z6kdVxkJlm1KpUUccPeUtHox549ukAtzKQL4x6PDCdNqBkNDVSIx04FA4
+dgyt4O7w4HaWT1GPHH322pG5nNT1dsGT0CC9QA/2AJkoXTY03YGR3dgDw89GNUrP
+WPj73gtBbWTwRFuwHQQs8F/E8x2UjBC005aawoKcK2bxBR1fzqz1y8daUaiCftnV
+ocu1QwRIgL8=
+=BFTp
+-----END PGP SIGNATURE-----
+--=-=-=--
