@@ -2,147 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19E62263F16
-	for <lists+linux-media@lfdr.de>; Thu, 10 Sep 2020 09:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C01BD263F62
+	for <lists+linux-media@lfdr.de>; Thu, 10 Sep 2020 10:09:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730181AbgIJHxY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Sep 2020 03:53:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50606 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730140AbgIJHxK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Sep 2020 03:53:10 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC0DC061798
-        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 00:53:00 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id nw23so7324341ejb.4
-        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 00:52:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=QM0o+rVzX3uPzdClaXq4cvOE98Cu7/fWdyVNqeP9dm8=;
-        b=utjF/eg5YPe5nbhcIOF5tQlQtWPCjtGTK8ZA6cyO9peRb1+AsJ9ABldRh7kaDScqAD
-         Jrq6+arYgOeJ5ykRuBsdYrW9VMbCnuHkMuXgSn7EzRzlG5vDidkh9+EuchObnU6qplQR
-         KKXdgISb6vhsH2U3YI04TBqA58ASzbiurG0BdgcMpSxFcWZ9nQX7H6zgXlzfKqyyFzd9
-         dO31+ZF6G99eJLEzefX3/Z6nSFswMWOIv2P4yrvZSCwpFstQEAGHWSY0OAvv/AF7QCm5
-         BntVnDhCKM8uuRUvXPHKvoFPfJ2AMwI8LAnIoPKqiguBFkVtxJWenUusx+wldxWAYoTo
-         pstw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=QM0o+rVzX3uPzdClaXq4cvOE98Cu7/fWdyVNqeP9dm8=;
-        b=Judrqb8ODo4xsbeJmxRdQfPlm3u49AmWJgCOcK1uDcvD3RA5ryM7lFW7VuUHArjXhd
-         asn4ZsNjTHtOLZ4GWz4s06AsOeESnKaWCXAqQOYB2MLCD6dvZIG2xCOlCAVCTY5xBBK9
-         fsec2iPqXGDpH2uI98TdeBrtg8YckGhzZx6BfAVlV6zMMaOdrHdYvjXRnKvYEUMU7TkY
-         vEh9muVpvCR+PW3yd5IodxlmF/nriZN5PdZdv9poY876PN4+SViruqrvZ8O/DC956Go2
-         iAjURjBal75C65VXXyIDYZe1PQ1jb+MaFuiZr78oLbczhNvXlVcVLGW9bbvOBYqHOcUo
-         7IBg==
-X-Gm-Message-State: AOAM530/IgJL4d6D/lo9g//b9DgExHDIIVKnMnsWBZwyIFQe2pM5qDlc
-        xBnjHulCnsUFdt608CXvrZ+Avg==
-X-Google-Smtp-Source: ABdhPJwFgl91HQI5KPYNpoHEEW6Ht3uLFBFfrWNK9m0dn0oQ/6u16x/WKIp7+5p5drchm/+2Az3+qg==
-X-Received: by 2002:a17:906:cb92:: with SMTP id mf18mr7839719ejb.485.1599724378737;
-        Thu, 10 Sep 2020 00:52:58 -0700 (PDT)
-Received: from localhost.localdomain ([195.24.90.54])
-        by smtp.gmail.com with ESMTPSA id q26sm5742838ejr.97.2020.09.10.00.52.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 00:52:58 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Elliot Berman <eberman@codeaurora.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v3 2/2] venus: firmware: Set virtual address ranges
-Date:   Thu, 10 Sep 2020 10:52:27 +0300
-Message-Id: <20200910075227.950-3-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200910075227.950-1-stanimir.varbanov@linaro.org>
-References: <20200910075227.950-1-stanimir.varbanov@linaro.org>
+        id S1730136AbgIJIJx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Sep 2020 04:09:53 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:39658 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726381AbgIJIJr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Sep 2020 04:09:47 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id A747E8E7DDE25C71BF4E;
+        Thu, 10 Sep 2020 16:09:45 +0800 (CST)
+Received: from localhost (10.174.179.108) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Thu, 10 Sep 2020
+ 16:09:39 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <corbet@lwn.net>, <mchehab@kernel.org>, <lkundrak@v3.sk>,
+        <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next] media: marvell-ccic: Fix -Wunused-function warnings
+Date:   Thu, 10 Sep 2020 16:09:33 +0800
+Message-ID: <20200910080933.40684-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.179.108]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to boot some of the new Venus firmware versions TZ call to set
-virtual address ranges is needed. Add virtual address ranges for CP and
-CP_NONPIX in resource structure and use them when loading and booting
-the firmware on remote processor.
+If CONFIG_PM is n, gcc warns:
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+drivers/media/platform/marvell-ccic/mmp-driver.c:347:12: warning: ‘mmpcam_resume’ defined but not used [-Wunused-function]
+ static int mmpcam_resume(struct device *dev)
+            ^~~~~~~~~~~~~
+drivers/media/platform/marvell-ccic/mmp-driver.c:338:12: warning: ‘mmpcam_suspend’ defined but not used [-Wunused-function]
+ static int mmpcam_suspend(struct device *dev)
+            ^~~~~~~~~~~~~~
+drivers/media/platform/marvell-ccic/mmp-driver.c:324:12: warning: ‘mmpcam_runtime_suspend’ defined but not used [-Wunused-function]
+ static int mmpcam_runtime_suspend(struct device *dev)
+            ^~~~~~~~~~~~~~~~~~~~~~
+drivers/media/platform/marvell-ccic/mmp-driver.c:310:12: warning: ‘mmpcam_runtime_resume’ defined but not used [-Wunused-function]
+ static int mmpcam_runtime_resume(struct device *dev)
+            ^~~~~~~~~~~~~~~~~~~~~
+
+Mark them as __maybe_unused to fix this.
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/media/platform/qcom/venus/core.c     |  4 ++++
- drivers/media/platform/qcom/venus/core.h     |  4 ++++
- drivers/media/platform/qcom/venus/firmware.c | 19 ++++++++++++++++++-
- 3 files changed, 26 insertions(+), 1 deletion(-)
+ drivers/media/platform/marvell-ccic/mmp-driver.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index c5af42873aed..3549a094e860 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -540,6 +540,10 @@ static const struct venus_resources sdm845_res_v2 = {
- 	.vmem_size = 0,
- 	.vmem_addr = 0,
- 	.dma_mask = 0xe0000000 - 1,
-+	.cp_start = 0,
-+	.cp_size = 0x70800000,
-+	.cp_nonpixel_start = 0x1000000,
-+	.cp_nonpixel_size = 0x24800000,
- 	.fwname = "qcom/venus-5.2/venus.mdt",
- };
+diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
+index c4b28a00a3a2..032fdddbbecc 100644
+--- a/drivers/media/platform/marvell-ccic/mmp-driver.c
++++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
+@@ -307,7 +307,7 @@ static int mmpcam_platform_remove(struct platform_device *pdev)
+  * Suspend/resume support.
+  */
  
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 1a7aee7ee628..3e3f0138e3c3 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -77,6 +77,10 @@ struct venus_resources {
- 	unsigned int vmem_id;
- 	u32 vmem_size;
- 	u32 vmem_addr;
-+	u32 cp_start;
-+	u32 cp_size;
-+	u32 cp_nonpixel_start;
-+	u32 cp_nonpixel_size;
- 	const char *fwname;
- };
- 
-diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-index 8801a6a7543d..1db64a854b88 100644
---- a/drivers/media/platform/qcom/venus/firmware.c
-+++ b/drivers/media/platform/qcom/venus/firmware.c
-@@ -181,6 +181,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
- int venus_boot(struct venus_core *core)
+-static int mmpcam_runtime_resume(struct device *dev)
++static int __maybe_unused mmpcam_runtime_resume(struct device *dev)
  {
- 	struct device *dev = core->dev;
-+	const struct venus_resources *res = core->res;
- 	phys_addr_t mem_phys;
- 	size_t mem_size;
- 	int ret;
-@@ -200,7 +201,23 @@ int venus_boot(struct venus_core *core)
- 	else
- 		ret = venus_boot_no_tz(core, mem_phys, mem_size);
- 
--	return ret;
-+	if (ret)
-+		return ret;
-+
-+	if (core->use_tz && res->cp_size) {
-+		ret = qcom_scm_mem_protect_video_var(res->cp_start,
-+						     res->cp_size,
-+						     res->cp_nonpixel_start,
-+						     res->cp_nonpixel_size);
-+		if (ret) {
-+			qcom_scm_pas_shutdown(VENUS_PAS_ID);
-+			dev_err(dev, "set virtual address ranges fail (%d)\n",
-+				ret);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
+ 	struct mmp_camera *cam = dev_get_drvdata(dev);
+ 	struct mcam_camera *mcam = &cam->mcam;
+@@ -321,7 +321,7 @@ static int mmpcam_runtime_resume(struct device *dev)
+ 	return 0;
  }
  
- int venus_shutdown(struct venus_core *core)
+-static int mmpcam_runtime_suspend(struct device *dev)
++static int __maybe_unused mmpcam_runtime_suspend(struct device *dev)
+ {
+ 	struct mmp_camera *cam = dev_get_drvdata(dev);
+ 	struct mcam_camera *mcam = &cam->mcam;
+@@ -335,7 +335,7 @@ static int mmpcam_runtime_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int mmpcam_suspend(struct device *dev)
++static int __maybe_unused mmpcam_suspend(struct device *dev)
+ {
+ 	struct mmp_camera *cam = dev_get_drvdata(dev);
+ 
+@@ -344,7 +344,7 @@ static int mmpcam_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int mmpcam_resume(struct device *dev)
++static int __maybe_unused mmpcam_resume(struct device *dev)
+ {
+ 	struct mmp_camera *cam = dev_get_drvdata(dev);
+ 
 -- 
 2.17.1
+
 
