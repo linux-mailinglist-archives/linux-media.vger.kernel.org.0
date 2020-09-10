@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29664263F0B
-	for <lists+linux-media@lfdr.de>; Thu, 10 Sep 2020 09:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19E62263F16
+	for <lists+linux-media@lfdr.de>; Thu, 10 Sep 2020 09:53:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730085AbgIJHxJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Sep 2020 03:53:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50576 "EHLO
+        id S1730181AbgIJHxY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Sep 2020 03:53:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730082AbgIJHw6 (ORCPT
+        with ESMTP id S1730140AbgIJHxK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Sep 2020 03:52:58 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C63DC061786
-        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 00:52:57 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id r7so7274902ejs.11
-        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 00:52:57 -0700 (PDT)
+        Thu, 10 Sep 2020 03:53:10 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC0DC061798
+        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 00:53:00 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id nw23so7324341ejb.4
+        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 00:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=CHubz0brBEwmMQnBM1waB6q/QSDzur+5k9FicpsHZg0=;
-        b=aHsNrbagatWzrrMT0MBF+MbTsTOmc1ArzI9UDkz88DfgcLqmHf6s7zGTOW5A4C7w2i
-         YnYc4KvQar7G4t+dc6b1b1uLf6Go0zwyYE2foDHddnsQbDcOoYeEZgJJarVuhpd+7vfD
-         2jjQTkLlW7SDX37fyMcwmhDixkAz+dXU61b/ZxX0xaVB31hulBFQBV1FOIgwmGKDRMub
-         ix1gf+9WyZmV8f6PMcrgd57D92Bgf8fHCYLZ0tALl6qbYuc6vqNucmqAifDOvDMHmt1N
-         XpVPBHokDRR86Twufzn9/VcOpMe6qvCSquvHLfLOhsjKYM76lefY/MqQU9BnUH4ULEiV
-         DrDg==
+        bh=QM0o+rVzX3uPzdClaXq4cvOE98Cu7/fWdyVNqeP9dm8=;
+        b=utjF/eg5YPe5nbhcIOF5tQlQtWPCjtGTK8ZA6cyO9peRb1+AsJ9ABldRh7kaDScqAD
+         Jrq6+arYgOeJ5ykRuBsdYrW9VMbCnuHkMuXgSn7EzRzlG5vDidkh9+EuchObnU6qplQR
+         KKXdgISb6vhsH2U3YI04TBqA58ASzbiurG0BdgcMpSxFcWZ9nQX7H6zgXlzfKqyyFzd9
+         dO31+ZF6G99eJLEzefX3/Z6nSFswMWOIv2P4yrvZSCwpFstQEAGHWSY0OAvv/AF7QCm5
+         BntVnDhCKM8uuRUvXPHKvoFPfJ2AMwI8LAnIoPKqiguBFkVtxJWenUusx+wldxWAYoTo
+         pstw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=CHubz0brBEwmMQnBM1waB6q/QSDzur+5k9FicpsHZg0=;
-        b=qoYpCwoUL3ZqHLSLvAzE5dmzF4RTr1wZo3wnRc2CaHqaI0VqnxZMBybsVf91Vn4fci
-         1RH5cMk7WOX15MFXz7dOId+dAkNImiUQnK2ntxwTPG3/s7iGl2PVJOHBmke9/3nvUYKH
-         5fgpsZ0E2fKpyDSvFt9xiurPPgJ4f6EcaVjQpH8/yTcOT667urLWwMYoEoMKNDId8IiV
-         OVUNJ7q8YahulBhqw1D3ZhOH4PzFv8c3oykQT23TJLpGYl/AXD2Kv1qftseDe/xs2MLw
-         e7yFWv3yOo0vzTE8/gqV2Ik/V2FOo7lIVklG72D15th9UaAp3vpphKSAenupaOocH+Cs
-         Abfw==
-X-Gm-Message-State: AOAM531oAiWRWNTRgD9DEaXkfZdv7zJ5CNGMlIReTtog/j9CdnDLqI+T
-        90GPPL+VXSWCt6jQk1oAPdJtqA==
-X-Google-Smtp-Source: ABdhPJyTNGdJmZ+F1nuO7GU6l9mvdr10Ys+qkFxvXMKLWrsqoABTLY1BZXS47xdGrG3pqQvzK49NiA==
-X-Received: by 2002:a17:906:bc98:: with SMTP id lv24mr7812319ejb.411.1599724376600;
-        Thu, 10 Sep 2020 00:52:56 -0700 (PDT)
+        bh=QM0o+rVzX3uPzdClaXq4cvOE98Cu7/fWdyVNqeP9dm8=;
+        b=Judrqb8ODo4xsbeJmxRdQfPlm3u49AmWJgCOcK1uDcvD3RA5ryM7lFW7VuUHArjXhd
+         asn4ZsNjTHtOLZ4GWz4s06AsOeESnKaWCXAqQOYB2MLCD6dvZIG2xCOlCAVCTY5xBBK9
+         fsec2iPqXGDpH2uI98TdeBrtg8YckGhzZx6BfAVlV6zMMaOdrHdYvjXRnKvYEUMU7TkY
+         vEh9muVpvCR+PW3yd5IodxlmF/nriZN5PdZdv9poY876PN4+SViruqrvZ8O/DC956Go2
+         iAjURjBal75C65VXXyIDYZe1PQ1jb+MaFuiZr78oLbczhNvXlVcVLGW9bbvOBYqHOcUo
+         7IBg==
+X-Gm-Message-State: AOAM530/IgJL4d6D/lo9g//b9DgExHDIIVKnMnsWBZwyIFQe2pM5qDlc
+        xBnjHulCnsUFdt608CXvrZ+Avg==
+X-Google-Smtp-Source: ABdhPJwFgl91HQI5KPYNpoHEEW6Ht3uLFBFfrWNK9m0dn0oQ/6u16x/WKIp7+5p5drchm/+2Az3+qg==
+X-Received: by 2002:a17:906:cb92:: with SMTP id mf18mr7839719ejb.485.1599724378737;
+        Thu, 10 Sep 2020 00:52:58 -0700 (PDT)
 Received: from localhost.localdomain ([195.24.90.54])
-        by smtp.gmail.com with ESMTPSA id q26sm5742838ejr.97.2020.09.10.00.52.55
+        by smtp.gmail.com with ESMTPSA id q26sm5742838ejr.97.2020.09.10.00.52.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 00:52:56 -0700 (PDT)
+        Thu, 10 Sep 2020 00:52:58 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
 Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
         Elliot Berman <eberman@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v3 1/2] firmware: qcom_scm: Add memory protect virtual address ranges
-Date:   Thu, 10 Sep 2020 10:52:26 +0300
-Message-Id: <20200910075227.950-2-stanimir.varbanov@linaro.org>
+Subject: [PATCH v3 2/2] venus: firmware: Set virtual address ranges
+Date:   Thu, 10 Sep 2020 10:52:27 +0300
+Message-Id: <20200910075227.950-3-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200910075227.950-1-stanimir.varbanov@linaro.org>
 References: <20200910075227.950-1-stanimir.varbanov@linaro.org>
@@ -64,89 +64,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds a new SCM memprotect command to set virtual address ranges.
+In order to boot some of the new Venus firmware versions TZ call to set
+virtual address ranges is needed. Add virtual address ranges for CP and
+CP_NONPIX in resource structure and use them when loading and booting
+the firmware on remote processor.
 
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Reviewed-by: Elliot Berman <eberman@codeaurora.org>
-Acked-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/firmware/qcom_scm.c | 24 ++++++++++++++++++++++++
- drivers/firmware/qcom_scm.h |  1 +
- include/linux/qcom_scm.h    |  7 +++++++
- 3 files changed, 32 insertions(+)
+ drivers/media/platform/qcom/venus/core.c     |  4 ++++
+ drivers/media/platform/qcom/venus/core.h     |  4 ++++
+ drivers/media/platform/qcom/venus/firmware.c | 19 ++++++++++++++++++-
+ 3 files changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/qcom_scm.c b/drivers/firmware/qcom_scm.c
-index e8bbf2d38ae7..7be48c1bec96 100644
---- a/drivers/firmware/qcom_scm.c
-+++ b/drivers/firmware/qcom_scm.c
-@@ -756,6 +756,30 @@ int qcom_scm_iommu_secure_ptbl_init(u64 addr, u32 size, u32 spare)
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index c5af42873aed..3549a094e860 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -540,6 +540,10 @@ static const struct venus_resources sdm845_res_v2 = {
+ 	.vmem_size = 0,
+ 	.vmem_addr = 0,
+ 	.dma_mask = 0xe0000000 - 1,
++	.cp_start = 0,
++	.cp_size = 0x70800000,
++	.cp_nonpixel_start = 0x1000000,
++	.cp_nonpixel_size = 0x24800000,
+ 	.fwname = "qcom/venus-5.2/venus.mdt",
+ };
+ 
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 1a7aee7ee628..3e3f0138e3c3 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -77,6 +77,10 @@ struct venus_resources {
+ 	unsigned int vmem_id;
+ 	u32 vmem_size;
+ 	u32 vmem_addr;
++	u32 cp_start;
++	u32 cp_size;
++	u32 cp_nonpixel_start;
++	u32 cp_nonpixel_size;
+ 	const char *fwname;
+ };
+ 
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index 8801a6a7543d..1db64a854b88 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -181,6 +181,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
+ int venus_boot(struct venus_core *core)
+ {
+ 	struct device *dev = core->dev;
++	const struct venus_resources *res = core->res;
+ 	phys_addr_t mem_phys;
+ 	size_t mem_size;
+ 	int ret;
+@@ -200,7 +201,23 @@ int venus_boot(struct venus_core *core)
+ 	else
+ 		ret = venus_boot_no_tz(core, mem_phys, mem_size);
+ 
+-	return ret;
++	if (ret)
++		return ret;
++
++	if (core->use_tz && res->cp_size) {
++		ret = qcom_scm_mem_protect_video_var(res->cp_start,
++						     res->cp_size,
++						     res->cp_nonpixel_start,
++						     res->cp_nonpixel_size);
++		if (ret) {
++			qcom_scm_pas_shutdown(VENUS_PAS_ID);
++			dev_err(dev, "set virtual address ranges fail (%d)\n",
++				ret);
++			return ret;
++		}
++	}
++
++	return 0;
  }
- EXPORT_SYMBOL(qcom_scm_iommu_secure_ptbl_init);
  
-+int qcom_scm_mem_protect_video_var(u32 cp_start, u32 cp_size,
-+				   u32 cp_nonpixel_start,
-+				   u32 cp_nonpixel_size)
-+{
-+	int ret;
-+	struct qcom_scm_desc desc = {
-+		.svc = QCOM_SCM_SVC_MP,
-+		.cmd = QCOM_SCM_MP_VIDEO_VAR,
-+		.arginfo = QCOM_SCM_ARGS(4, QCOM_SCM_VAL, QCOM_SCM_VAL,
-+					 QCOM_SCM_VAL, QCOM_SCM_VAL),
-+		.args[0] = cp_start,
-+		.args[1] = cp_size,
-+		.args[2] = cp_nonpixel_start,
-+		.args[3] = cp_nonpixel_size,
-+		.owner = ARM_SMCCC_OWNER_SIP,
-+	};
-+	struct qcom_scm_res res;
-+
-+	ret = qcom_scm_call(__scm->dev, &desc, &res);
-+
-+	return ret ? : res.result[0];
-+}
-+EXPORT_SYMBOL(qcom_scm_mem_protect_video_var);
-+
- static int __qcom_scm_assign_mem(struct device *dev, phys_addr_t mem_region,
- 				 size_t mem_sz, phys_addr_t src, size_t src_sz,
- 				 phys_addr_t dest, size_t dest_sz)
-diff --git a/drivers/firmware/qcom_scm.h b/drivers/firmware/qcom_scm.h
-index 38ea614d29fe..95cd1ac30ab0 100644
---- a/drivers/firmware/qcom_scm.h
-+++ b/drivers/firmware/qcom_scm.h
-@@ -97,6 +97,7 @@ extern int scm_legacy_call(struct device *dev, const struct qcom_scm_desc *desc,
- #define QCOM_SCM_MP_RESTORE_SEC_CFG		0x02
- #define QCOM_SCM_MP_IOMMU_SECURE_PTBL_SIZE	0x03
- #define QCOM_SCM_MP_IOMMU_SECURE_PTBL_INIT	0x04
-+#define QCOM_SCM_MP_VIDEO_VAR			0x08
- #define QCOM_SCM_MP_ASSIGN			0x16
- 
- #define QCOM_SCM_SVC_OCMEM		0x0f
-diff --git a/include/linux/qcom_scm.h b/include/linux/qcom_scm.h
-index 2e1193a3fb5f..0165824c5128 100644
---- a/include/linux/qcom_scm.h
-+++ b/include/linux/qcom_scm.h
-@@ -84,6 +84,9 @@ extern bool qcom_scm_restore_sec_cfg_available(void);
- extern int qcom_scm_restore_sec_cfg(u32 device_id, u32 spare);
- extern int qcom_scm_iommu_secure_ptbl_size(u32 spare, size_t *size);
- extern int qcom_scm_iommu_secure_ptbl_init(u64 addr, u32 size, u32 spare);
-+extern int qcom_scm_mem_protect_video_var(u32 cp_start, u32 cp_size,
-+					  u32 cp_nonpixel_start,
-+					  u32 cp_nonpixel_size);
- extern int qcom_scm_assign_mem(phys_addr_t mem_addr, size_t mem_sz,
- 			       unsigned int *src,
- 			       const struct qcom_scm_vmperm *newvm,
-@@ -141,6 +144,10 @@ static inline int qcom_scm_iommu_secure_ptbl_size(u32 spare, size_t *size)
- 		{ return -ENODEV; }
- static inline int qcom_scm_iommu_secure_ptbl_init(u64 addr, u32 size, u32 spare)
- 		{ return -ENODEV; }
-+extern inline int qcom_scm_mem_protect_video_var(u32 cp_start, u32 cp_size,
-+						 u32 cp_nonpixel_start,
-+						 u32 cp_nonpixel_size)
-+		{ return -ENODEV; }
- static inline int qcom_scm_assign_mem(phys_addr_t mem_addr, size_t mem_sz,
- 		unsigned int *src, const struct qcom_scm_vmperm *newvm,
- 		unsigned int dest_cnt) { return -ENODEV; }
+ int venus_shutdown(struct venus_core *core)
 -- 
 2.17.1
 
