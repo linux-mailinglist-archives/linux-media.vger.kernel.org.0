@@ -2,109 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EE7F265ED9
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 13:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 967D0265F56
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 14:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725822AbgIKLeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 07:34:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725710AbgIKLdz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 07:33:55 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A92C061795;
-        Fri, 11 Sep 2020 04:33:31 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id z19so5496415lfr.4;
-        Fri, 11 Sep 2020 04:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/QE4i4/aazEggX3dg7wr3FT355FkQudm+5WO62dn5fc=;
-        b=ZdBz9q2UwkyiJEi8yLgyEcycOqWOQh+/+A9aVi86GSiibZAQFCBlj/zusrsnNfd1/M
-         kXIxwa7mj0oqdG94vSLwToFrvwADr/MCjfq9iIzPsmIiAvkWAGVhdoacywEQadRQXiOb
-         opqgQNTOTQ1fzKRNhcsOih1rksULZy3Uyk2df/nXamhviLMFUNEHWM4ZHCTGJHc2pyri
-         rRUyZSAHxqEJ0AJ0clqXWmOs6jeY7E7UmV3idy1nrlJ2MMuWcB8USaz+fD97zJoxETSx
-         AJMj1tbywhivTv9xRrUCUjKGz8kPfhZZfxqH+YuholrFYr+m73g1ta1H90NoOL/JKQPV
-         t+RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/QE4i4/aazEggX3dg7wr3FT355FkQudm+5WO62dn5fc=;
-        b=a8mR+vpB5P7+qY5fVVWURKNQUyYhmwv7d5wYexMhpoMsaxkV4XLZw2JXXK7NyKoExs
-         W3v/2PZxlFUdn+6xxgDSlWYhv/fGBqZiJgVVDhcTvpDe7TxOqKyTqH1EL1V3Tav5zqs4
-         eIGjPbRWUnVWO5M9QDiT1zploG2wzZiqVq6O5DZ1BxS+vWVHOnmMJS8N9EgrpV3AJp2i
-         fQK/hwkABMwYe6LK7H3K59j0enkZENaeupCLv2usA8SyRQQhqrNDWLHf53VcyJDE1fj8
-         Z9a0BPNG9JSDRLyL046scw/gpUZEtRVzZ4S1BIs8y+rQKis7BSI7mGiCXHZx6rI6ZAfL
-         mHJw==
-X-Gm-Message-State: AOAM5325qUwxMhmRaIgy1FLilZMAmDOsf2OQf6332YPtTudDud2MGO5v
-        zY4D5Si3SFynq4+p+klD6V0=
-X-Google-Smtp-Source: ABdhPJymzuhfD89a6kmG9I634PfKHVSojkHULfjgBdUyziy+UxX2lJToqR/e6LdP8duHsigYt6lD9w==
-X-Received: by 2002:a05:6512:32b1:: with SMTP id q17mr178582lfe.329.1599824009497;
-        Fri, 11 Sep 2020 04:33:29 -0700 (PDT)
-Received: from wasted.omprussia.ru ([2a00:1fa0:4890:6188:b7d9:478f:6876:19ba])
-        by smtp.gmail.com with ESMTPSA id 189sm483756ljj.54.2020.09.11.04.33.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 04:33:29 -0700 (PDT)
-Subject: Re: [PATCH] media: Kconfig: Update help description VIDEO_RENESAS_FCP
- config
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-References: <20200911101046.20200-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <85d326e2-a73b-fa51-a507-eced71346786@gmail.com>
-Date:   Fri, 11 Sep 2020 14:33:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1725841AbgIKMOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 08:14:37 -0400
+Received: from mga06.intel.com ([134.134.136.31]:25316 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725859AbgIKMNi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 08:13:38 -0400
+IronPort-SDR: 52XsU1LdFlkZo11C00j/BA6w8Evv9a3/V1tga02qrIBH411PCAbgMoy8tJjTThpeTLG8be7Ha9
+ 5ehFhfBBB7zQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="220296942"
+X-IronPort-AV: E=Sophos;i="5.76,415,1592895600"; 
+   d="scan'208";a="220296942"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 05:11:14 -0700
+IronPort-SDR: IuXzKhmbK9o4Dul8zRwA1SN5tCnJAoObl17SRVCiaVvQEiTajzqaED83Ha3ZbUMZLcvrNFfzc5
+ QMuTtD5qV7mg==
+X-IronPort-AV: E=Sophos;i="5.76,415,1592895600"; 
+   d="scan'208";a="286879413"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 05:11:11 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 8CAC52079D; Fri, 11 Sep 2020 15:11:09 +0300 (EEST)
+Date:   Fri, 11 Sep 2020 15:11:09 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>
+Subject: Re: [PATCH v8 6/6] at24: Support probing while off
+Message-ID: <20200911121109.GE26842@paasikivi.fi.intel.com>
+References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+ <20200903081550.6012-7-sakari.ailus@linux.intel.com>
+ <CAMpxmJX40=iYYxL9Uvs1Pjj9c3NvZBGJ9Mh9-87T0c==FKEXRw@mail.gmail.com>
+ <20200909111121.GJ2272@ninjato>
+ <CAMpxmJXDrL92QH_Vb+P4LoQ-WGBMM42GvzXjquW2Lzotm5wggA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200911101046.20200-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMpxmJXDrL92QH_Vb+P4LoQ-WGBMM42GvzXjquW2Lzotm5wggA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!
+Bartosz, Wolfram,
 
-On 9/11/20 1:10 PM, Lad Prabhakar wrote:
-
-> rcar-fcp driver is also used on Renesas RZ/G2 SoC's, update the same
-
-    What same, the driver?
-
-> to reflect help description for VIDEO_RENESAS_FCP config.
+On Wed, Sep 09, 2020 at 01:56:34PM +0200, Bartosz Golaszewski wrote:
+> On Wed, Sep 9, 2020 at 1:11 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+> >
+> >
+> > > This currently conflicts with the fix I queued for at24 for v5.9.
+> > > Which tree is going to take this series?
+> >
+> > I recall we agreed on I2C.
+> >
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
-> ---
->  drivers/media/platform/Kconfig | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Sakari,
 > 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index bbf32086b607..a5716e9f463a 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -426,8 +426,8 @@ config VIDEO_RENESAS_FCP
->  	help
->  	  This is a driver for the Renesas Frame Compression Processor (FCP).
->  	  The FCP is a companion module of video processing modules in the
-> -	  Renesas R-Car Gen3 SoCs. It handles memory access for the codec,
-> -	  VSP and FDP modules.
-> +	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
-> +	  the codec, VSP and FDP modules.
->  
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called rcar-fcp.
+> can you rebase the at24 driver patch on top of Wolfram's tree as soon
+> as he merges my PR with at24 fixes?
 
-MBR, Sergei
+I need some additional time with the set, and that may take it beyond
+v5.10. Either way, I'll keep you posted.
+
+Thanks.
+
+-- 
+Kind regards,
+
+Sakari Ailus
