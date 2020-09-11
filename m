@@ -2,79 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC1DF26622F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 17:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88361266291
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 17:53:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbgIKPdW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 11:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34700 "EHLO
+        id S1726214AbgIKPxh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 11:53:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726526AbgIKPdA (ORCPT
+        with ESMTP id S1726479AbgIKPxB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 11:33:00 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A968BC061348;
-        Fri, 11 Sep 2020 07:15:59 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id o68so7581726pfg.2;
-        Fri, 11 Sep 2020 07:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/b9XBDQk1ajrYn0hzkaRXAYS7n96OUtEwCmlwlx4kE0=;
-        b=WVGo0/vh5Ry5H3l7PXexj2/RL9waZahUbKk8WrUfbSNtbrB/RnC6ax2hezjYZ5yI/1
-         zmW0sPUFpT7PJLWBdw+ycGOwlFjQStATATXF1D1N1J3vbCV5kFFnvVjeCmUrrJR0L6gy
-         JU7mes/+p0ScZy0lwMcHqSNdwbeewByrV+H1Z0rmJgZCA5d78o3kBD3LlUQYwv9wq+20
-         O6yumAaHEU+EHhXHfBdRbPR3mfSik+Aa68tTtlVFdr90W9F09QCu16qbaa9W3XdkThGm
-         z7S6OwpDghpG80Y1moDUxX9v4RmtOaSOGjCiOUGhWVEYB6bpA2bqEWWHPR68UrTlSs5E
-         jPwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/b9XBDQk1ajrYn0hzkaRXAYS7n96OUtEwCmlwlx4kE0=;
-        b=Z7fmv+MkrHeuyi6i3HiOPpVt9x6z8gVNgVCX9BmjLABZfK4Bcj8kJlLsORA2i4+OVt
-         pFvi1+rYZIcOv/L0dLUujqaPa1kysrpc6ztx0GF6/moPxQTuIP32QFNb/58iIAEEF8Q8
-         OLGCxA6nTJwk5eIddWLzG7iHJw9aD1ZjTdhVttELBn2sEh19XefBfsukl7tL59GMhK0W
-         2B1q/IrG4SO9gKytvwV+tc7fpd0YfdPNpSlXr6aySXVl3XL2+FvfB1mwjySx549X7Z4g
-         CRQqe1f/5OBOfVCEGovpXvZhtUwZ3vZGRVmshXr1yL0DBBYdQlQnp1IiyH3QZpsY7Nas
-         abMg==
-X-Gm-Message-State: AOAM533hY/eznjIO5WhTHC14DinpEprUkhfv/FNxAn2iC/Q7XmvI8b17
-        c3ThijqOlBX//4dW7n4Nm58=
-X-Google-Smtp-Source: ABdhPJxO8xBMW2b2qAKrC4EW1koJNssG2C6MihNWSugbwe/RG7EeVrT37R8Tt329rdW5Ddk8QeGqqA==
-X-Received: by 2002:a17:902:8d86:b029:d1:9237:6dfd with SMTP id v6-20020a1709028d86b02900d192376dfdmr2515568plo.22.1599833758731;
-        Fri, 11 Sep 2020 07:15:58 -0700 (PDT)
-Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id a74sm2546517pfa.16.2020.09.11.07.15.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2020 07:15:57 -0700 (PDT)
-Date:   Fri, 11 Sep 2020 23:15:55 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT flag
-Message-ID: <20200911141555.GA535@jagdpanzerIV.localdomain>
-References: <20200911030758.73745-1-sergey.senozhatsky@gmail.com>
- <20200911100919.GA1945@lst.de>
- <262a3acd-9070-8992-f13f-1f02bfe18eb8@xs4all.nl>
+        Fri, 11 Sep 2020 11:53:01 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF39C061757;
+        Fri, 11 Sep 2020 08:52:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=yNNKD3aSjbTN0xK7a0jESH4osJEkyi0r7WDad6R8Z4M=; b=VcDcVXayb9NLhgWUiavKsddA66
+        wkKREXL7VNw0LFva8kUzh47lmse2StS7H4y3bO9nh4GX5EvGdK2pNAQTHVXfyxE6lxGumhCd7PNJc
+        l/G8NzyUVTnNAvdWVGhtEa5v6n5dXLLlAkmrDI9FBUoKwa1LG1kg9wCROYJa11pT54EcSCQIuoEAb
+        CNju4Z6fhkTwqptCr4JQPn2LSmXN80dtUFCYiXD6Xlo5DjgmbCfruH8jtUCNC09/NvaOZfzWAouEo
+        vDkb0r2um69/xCxAPyja6a4qm0RKuwDNf3sq8J7z1iFcclj5tkl/BrX7bDorWn22Stggs6ifKNGMu
+        R3uis3Nw==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kGlM1-0001Bq-ST; Fri, 11 Sep 2020 15:52:50 +0000
+Subject: Re: linux-next: Tree for Sep 10 (drivers/media/pci/ttpci/dvb-ttpci)
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>
+References: <20200910174252.0698c743@canb.auug.org.au>
+ <97f03d35-acd3-1c65-0c93-4ca4cabf6613@infradead.org>
+ <20200911093156.15282b69@coco.lan>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <1bf30e26-cd8d-a2dd-aaf3-97c2dbc1875a@infradead.org>
+Date:   Fri, 11 Sep 2020 08:52:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <262a3acd-9070-8992-f13f-1f02bfe18eb8@xs4all.nl>
+In-Reply-To: <20200911093156.15282b69@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/09/11 12:37), Hans Verkuil wrote:
-> I'll take care of that. I also discovered that one call to vb2_core_reqbufs()
-> wasn't updated (in drivers/media/dvb-core/dvb_vb2.c). I've fixed that as well.
+On 9/11/20 12:31 AM, Mauro Carvalho Chehab wrote:
+> Hi Randy,
+> 
+> Em Thu, 10 Sep 2020 09:02:35 -0700
+> Randy Dunlap <rdunlap@infradead.org> escreveu:
+> 
+>> On 9/10/20 12:42 AM, Stephen Rothwell wrote:
+>>> Hi all,
+>>>
+>>> Changes since 20200909:
+>>>   
+>>
+>>
+>> on i386:
+>>
+>> ERROR: modpost: "__floatunsidf" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+>> ERROR: modpost: "__ltdf2" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+>>
+>>
+>> Full randconfig file is attached.
+> 
+> I was unable to reproduce it here with the .config file you sent.
+> 
+> I suspect that the only difference is the compiler version. Here, I'm
+> using:
+> 
+> 	gcc (Ubuntu 9.2.1-9ubuntu2) 9.2.1 20191008
+> 
+> While you're using:
+> 
+> 	gcc (SUSE Linux) 7.5.0
+> 
+> Yet, the only patch that could possibly have affected it is
+> this changeset 13c129066845 ("media: av7110_v4l: avoid a typecast").
+> 
+> It sounds to me that gcc 7.5.0 only does the right math at compile
+> time if there is a typecast. Could you please check if the enclosed
+> patch fixes it?
 
-Oh.. how did I miss drivers/media/dvb-core/dvb_vb2.c?
-Should have grep-ed more.
+Hi Mauro,
+Yes, this fixes the build for me.  Thanks.
 
-	-ss
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+> Thanks,
+> Mauro
+> 
+> [PATCH] media: av7110: don't do float point math
+> 
+> It sounds that earlier versions of GCC have troubles when
+> doing const math at compile time, if no typecast is used:
+> 
+> on i386:
+> 	ERROR: modpost: "__floatunsidf" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+> 	ERROR: modpost: "__ltdf2" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+> 
+> The warning was generated on gcc (SUSE Linux) 7.5.0.
+> Gcc 9.2 compiles it fine.
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> diff --git a/drivers/media/pci/ttpci/av7110_v4l.c b/drivers/media/pci/ttpci/av7110_v4l.c
+> index 6d9c908be713..c89f536f699c 100644
+> --- a/drivers/media/pci/ttpci/av7110_v4l.c
+> +++ b/drivers/media/pci/ttpci/av7110_v4l.c
+> @@ -160,9 +160,9 @@ static int ves1820_set_tv_freq(struct saa7146_dev *dev, u32 freq)
+>  	buf[1] = div & 0xff;
+>  	buf[2] = 0x8e;
+>  
+> -	if (freq < 16U * 168.25)
+> +	if (freq < 16U * 16825 / 100)
+>  		config = 0xa0;
+> -	else if (freq < 16U * 447.25)
+> +	else if (freq < 16U * 44725 / 100)
+>  		config = 0x90;
+>  	else
+>  		config = 0x30;
+> 
+
+
+-- 
+~Randy
