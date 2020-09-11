@@ -2,145 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B711265884
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 06:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6579F2658E0
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 07:38:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725554AbgIKExP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 00:53:15 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:58878 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725446AbgIKExO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 00:53:14 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 5A091C46C49DB6911600;
-        Fri, 11 Sep 2020 12:53:11 +0800 (CST)
-Received: from [127.0.0.1] (10.174.179.108) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Fri, 11 Sep 2020
- 12:53:09 +0800
-Subject: Re: [PATCH -next] media: marvell-ccic: Fix -Wunused-function warnings
-To:     Lubomir Rintel <lkundrak@v3.sk>
-References: <20200910080933.40684-1-yuehaibing@huawei.com>
- <20200910082221.GA1115782@demiurge.local>
- <b7206784-15ea-9790-0c70-eea99bbab34a@huawei.com>
- <20200910145702.GA1118779@demiurge.local>
-CC:     <corbet@lwn.net>, <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-From:   Yuehaibing <yuehaibing@huawei.com>
-Message-ID: <9925ae09-cc5f-8399-fe2f-a4e728a483d6@huawei.com>
-Date:   Fri, 11 Sep 2020 12:53:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1725613AbgIKFiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 01:38:05 -0400
+Received: from mga01.intel.com ([192.55.52.88]:61639 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725446AbgIKFiE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 01:38:04 -0400
+IronPort-SDR: T69mPdDQYAesGPq+bhAz83fRn2VB/zYL5CFOiHsliSoYIWOW3/RvicGXUrSGaIApOj3SF4YeMc
+ q7Grbnye9/bw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="176760657"
+X-IronPort-AV: E=Sophos;i="5.76,414,1592895600"; 
+   d="scan'208";a="176760657"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2020 22:38:03 -0700
+IronPort-SDR: jJ5tJ0klxr3CXIlyPpFiB9RZkK05zVqMSM3a9/yMZBYoAQkUjWFCfnR8gBtL3NmMT86bIQ+AOH
+ 4J2eZ8sOc+dw==
+X-IronPort-AV: E=Sophos;i="5.76,414,1592895600"; 
+   d="scan'208";a="407983723"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2020 22:37:59 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 899832079D; Fri, 11 Sep 2020 08:37:57 +0300 (EEST)
+Date:   Fri, 11 Sep 2020 08:37:57 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 2/3] dt-bindings: media: ov772x: Make bus-type
+ mandatory
+Message-ID: <20200911053757.GF6566@paasikivi.fi.intel.com>
+References: <20200910162055.614089-1-jacopo+renesas@jmondi.org>
+ <20200910162055.614089-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-In-Reply-To: <20200910145702.GA1118779@demiurge.local>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.179.108]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200910162055.614089-3-jacopo+renesas@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020/9/10 22:57, Lubomir Rintel wrote:
-> On Thu, Sep 10, 2020 at 05:18:15PM +0800, Yuehaibing wrote:
->> On 2020/9/10 16:22, Lubomir Rintel wrote:
->>> On Thu, Sep 10, 2020 at 04:09:33PM +0800, YueHaibing wrote:
->>>> If CONFIG_PM is n, gcc warns:
->>>>
->>>> drivers/media/platform/marvell-ccic/mmp-driver.c:347:12: warning: ‘mmpcam_resume’ defined but not used [-Wunused-function]
->>>>  static int mmpcam_resume(struct device *dev)
->>>>             ^~~~~~~~~~~~~
->>>> drivers/media/platform/marvell-ccic/mmp-driver.c:338:12: warning: ‘mmpcam_suspend’ defined but not used [-Wunused-function]
->>>>  static int mmpcam_suspend(struct device *dev)
->>>>             ^~~~~~~~~~~~~~
->>>> drivers/media/platform/marvell-ccic/mmp-driver.c:324:12: warning: ‘mmpcam_runtime_suspend’ defined but not used [-Wunused-function]
->>>>  static int mmpcam_runtime_suspend(struct device *dev)
->>>>             ^~~~~~~~~~~~~~~~~~~~~~
->>>> drivers/media/platform/marvell-ccic/mmp-driver.c:310:12: warning: ‘mmpcam_runtime_resume’ defined but not used [-Wunused-function]
->>>>  static int mmpcam_runtime_resume(struct device *dev)
->>>>             ^~~~~~~~~~~~~~~~~~~~~
->>>>
->>>> Mark them as __maybe_unused to fix this.
->>>>
->>>> Reported-by: Hulk Robot <hulkci@huawei.com>
->>>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
->>>
->>> Your colleague seems to sent out an equivalent patch:
->>> https://lore.kernel.org/lkml/20200910080933.40684-1-yuehaibing@huawei.com/
->>
->> This is my patch, paste an wrong link?
-> 
-> Indeed, sorry for the confusion.
-> 
-> The original mail only went to linux-media, not lkml, which is why I
-> picked the wrong one from the archive. Here's the patch:
-> 
-> https://lore.kernel.org/linux-media/20200909112921.5116-1-weiyongjun1@huawei.com/
+Hi Jacopo,
 
-mmpcam_runtime_suspend/mmpcam_runtime_resume also should be cared, I'll adjust my patch based on it.
+On Thu, Sep 10, 2020 at 06:20:54PM +0200, Jacopo Mondi wrote:
+> In order to establish required properties based on the selected
+> bus type, make the 'bus-type' property mandatory. As this change
+> documents an endpoint property, also document the 'remote-endpoint'
+> one now that the 'endpoint' schema has been expanded.
+> 
+> Binary compatibility with existing DTB is kept as the driver does not
+> enforce the property to be present, and shall fall-back to default
+> parallel bus configuration, which was the only supported bus type, if
+> the property is not specified.
 
-> 
-> Take care
-> Lubo
-> 
->>
->>>
->>> Cheers
->>> Lubo
->>>
->>>> ---
->>>>  drivers/media/platform/marvell-ccic/mmp-driver.c | 8 ++++----
->>>>  1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
->>>> index c4b28a00a3a2..032fdddbbecc 100644
->>>> --- a/drivers/media/platform/marvell-ccic/mmp-driver.c
->>>> +++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
->>>> @@ -307,7 +307,7 @@ static int mmpcam_platform_remove(struct platform_device *pdev)
->>>>   * Suspend/resume support.
->>>>   */
->>>>  
->>>> -static int mmpcam_runtime_resume(struct device *dev)
->>>> +static int __maybe_unused mmpcam_runtime_resume(struct device *dev)
->>>>  {
->>>>  	struct mmp_camera *cam = dev_get_drvdata(dev);
->>>>  	struct mcam_camera *mcam = &cam->mcam;
->>>> @@ -321,7 +321,7 @@ static int mmpcam_runtime_resume(struct device *dev)
->>>>  	return 0;
->>>>  }
->>>>  
->>>> -static int mmpcam_runtime_suspend(struct device *dev)
->>>> +static int __maybe_unused mmpcam_runtime_suspend(struct device *dev)
->>>>  {
->>>>  	struct mmp_camera *cam = dev_get_drvdata(dev);
->>>>  	struct mcam_camera *mcam = &cam->mcam;
->>>> @@ -335,7 +335,7 @@ static int mmpcam_runtime_suspend(struct device *dev)
->>>>  	return 0;
->>>>  }
->>>>  
->>>> -static int mmpcam_suspend(struct device *dev)
->>>> +static int __maybe_unused mmpcam_suspend(struct device *dev)
->>>>  {
->>>>  	struct mmp_camera *cam = dev_get_drvdata(dev);
->>>>  
->>>> @@ -344,7 +344,7 @@ static int mmpcam_suspend(struct device *dev)
->>>>  	return 0;
->>>>  }
->>>>  
->>>> -static int mmpcam_resume(struct device *dev)
->>>> +static int __maybe_unused mmpcam_resume(struct device *dev)
->>>>  {
->>>>  	struct mmp_camera *cam = dev_get_drvdata(dev);
->>>>  
->>>> -- 
->>>> 2.17.1
->>>>
->>>>
->>>
->>> .
->>>
->>
-> 
-> .
-> 
+Could you add a comment on this to the driver, so this feature isn't
+accidentally removed?
 
+-- 
+Regards,
+
+Sakari Ailus
