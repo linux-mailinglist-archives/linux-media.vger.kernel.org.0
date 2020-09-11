@@ -2,128 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42270265810
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 06:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B711265884
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 06:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725816AbgIKETt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 00:19:49 -0400
-Received: from smtprelay0064.hostedemail.com ([216.40.44.64]:51536 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725283AbgIKETs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 00:19:48 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 12942837F24A;
-        Fri, 11 Sep 2020 04:19:43 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2198:2199:2393:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3865:3866:3867:3868:3870:3871:3872:3874:4321:5007:6742:6743:10004:10400:10848:11026:11232:11473:11657:11658:11914:12043:12297:12438:12555:12740:12760:12895:13153:13161:13228:13229:13439:14096:14097:14181:14659:14721:21080:21433:21627:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: seat91_4d0f80d270eb
-X-Filterd-Recvd-Size: 4376
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf19.hostedemail.com (Postfix) with ESMTPA;
-        Fri, 11 Sep 2020 04:19:36 +0000 (UTC)
-Message-ID: <f4ad706519917d493a0af32ea2da8565227cc74a.camel@perches.com>
-Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
- break;
-From:   Joe Perches <joe@perches.com>
-To:     Robin Murphy <robin.murphy@arm.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <trivial@kernel.org>
-Cc:     linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        oss-drivers@netronome.com, nouveau@lists.freedesktop.org,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
-        dm-devel@redhat.com, linux-mtd@lists.infradead.org,
-        linux-i2c@vger.kernel.org, sparclinux@vger.kernel.org,
-        kvmarm@lists.cs.columbia.edu, linux-rtc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-afs@lists.infradead.org, coreteam@netfilter.org,
-        intel-wired-lan@lists.osuosl.org, linux-serial@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
-        Kees Cook <kees.cook@canonical.com>,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
-        storagedev@microchip.com, ceph-devel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        Will Deacon <will@kernel.org>
-Date:   Thu, 10 Sep 2020 21:19:35 -0700
-In-Reply-To: <9372456a-8dcf-2735-57a4-e126aa5df3a6@arm.com>
-References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
-         <9372456a-8dcf-2735-57a4-e126aa5df3a6@arm.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S1725554AbgIKExP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 00:53:15 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:58878 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725446AbgIKExO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 00:53:14 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 5A091C46C49DB6911600;
+        Fri, 11 Sep 2020 12:53:11 +0800 (CST)
+Received: from [127.0.0.1] (10.174.179.108) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Fri, 11 Sep 2020
+ 12:53:09 +0800
+Subject: Re: [PATCH -next] media: marvell-ccic: Fix -Wunused-function warnings
+To:     Lubomir Rintel <lkundrak@v3.sk>
+References: <20200910080933.40684-1-yuehaibing@huawei.com>
+ <20200910082221.GA1115782@demiurge.local>
+ <b7206784-15ea-9790-0c70-eea99bbab34a@huawei.com>
+ <20200910145702.GA1118779@demiurge.local>
+CC:     <corbet@lwn.net>, <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+From:   Yuehaibing <yuehaibing@huawei.com>
+Message-ID: <9925ae09-cc5f-8399-fe2f-a4e728a483d6@huawei.com>
+Date:   Fri, 11 Sep 2020 12:53:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200910145702.GA1118779@demiurge.local>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.179.108]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2020-09-10 at 15:21 +0100, Robin Murphy wrote:
-> On 2020-09-09 21:06, Joe Perches wrote:
-> > fallthrough to a separate case/default label break; isn't very readable.
-> > 
-> > Convert pseudo-keyword fallthrough; statements to a simple break; when
-> > the next label is case or default and the only statement in the next
-> > label block is break;
-> > 
-> > Found using:
-> > 
-> > $ grep-2.5.4 -rP --include=*.[ch] -n "fallthrough;(\s*(case\s+\w+|default)\s*:\s*){1,7}break;" *
-> > 
-> > Miscellanea:
-> > 
-> > o Move or coalesce a couple label blocks above a default: block.
-> > 
-> > Signed-off-by: Joe Perches <joe@perches.com>
-> > ---
-> > 
-> > Compiled allyesconfig x86-64 only.
-> > A few files for other arches were not compiled.
-> > 
+On 2020/9/10 22:57, Lubomir Rintel wrote:
+> On Thu, Sep 10, 2020 at 05:18:15PM +0800, Yuehaibing wrote:
+>> On 2020/9/10 16:22, Lubomir Rintel wrote:
+>>> On Thu, Sep 10, 2020 at 04:09:33PM +0800, YueHaibing wrote:
+>>>> If CONFIG_PM is n, gcc warns:
+>>>>
+>>>> drivers/media/platform/marvell-ccic/mmp-driver.c:347:12: warning: ‘mmpcam_resume’ defined but not used [-Wunused-function]
+>>>>  static int mmpcam_resume(struct device *dev)
+>>>>             ^~~~~~~~~~~~~
+>>>> drivers/media/platform/marvell-ccic/mmp-driver.c:338:12: warning: ‘mmpcam_suspend’ defined but not used [-Wunused-function]
+>>>>  static int mmpcam_suspend(struct device *dev)
+>>>>             ^~~~~~~~~~~~~~
+>>>> drivers/media/platform/marvell-ccic/mmp-driver.c:324:12: warning: ‘mmpcam_runtime_suspend’ defined but not used [-Wunused-function]
+>>>>  static int mmpcam_runtime_suspend(struct device *dev)
+>>>>             ^~~~~~~~~~~~~~~~~~~~~~
+>>>> drivers/media/platform/marvell-ccic/mmp-driver.c:310:12: warning: ‘mmpcam_runtime_resume’ defined but not used [-Wunused-function]
+>>>>  static int mmpcam_runtime_resume(struct device *dev)
+>>>>             ^~~~~~~~~~~~~~~~~~~~~
+>>>>
+>>>> Mark them as __maybe_unused to fix this.
+>>>>
+>>>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>>>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>>>
+>>> Your colleague seems to sent out an equivalent patch:
+>>> https://lore.kernel.org/lkml/20200910080933.40684-1-yuehaibing@huawei.com/
+>>
+>> This is my patch, paste an wrong link?
 > 
-> [...]
-> > diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> > index c192544e874b..743db1abec40 100644
-> > --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> > +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> > @@ -3777,7 +3777,7 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
-> >   	switch (FIELD_GET(IDR0_TTF, reg)) {
-> >   	case IDR0_TTF_AARCH32_64:
-> >   		smmu->ias = 40;
-> > -		fallthrough;
-> > +		break;
-> >   	case IDR0_TTF_AARCH64:
-> >   		break;
-> >   	default:
+> Indeed, sorry for the confusion.
 > 
-> I have to say I don't really agree with the readability argument for 
-> this one - a fallthrough is semantically correct here, since the first 
-> case is a superset of the second. It just happens that anything we would 
-> do for the common subset is implicitly assumed (there are other 
-> potential cases we simply haven't added support for at the moment), thus 
-> the second case is currently empty.
-> This change actively obfuscates that distinction.
+> The original mail only went to linux-media, not lkml, which is why I
+> picked the wrong one from the archive. Here's the patch:
+> 
+> https://lore.kernel.org/linux-media/20200909112921.5116-1-weiyongjun1@huawei.com/
 
-Then perhaps comments should be added to usefully
-describe the mechanisms.
+mmpcam_runtime_suspend/mmpcam_runtime_resume also should be cared, I'll adjust my patch based on it.
 
-	case IDR0_TTF_AARCH32_64:
-		smmu->ias = 40;
-		fallthrough;	/* and still do the 64 bit processing */
-	case IDR0_TTF_AARCH64:
-		/* Nothing specific yet */
-		break;
-
-> Robin.
+> 
+> Take care
+> Lubo
+> 
+>>
+>>>
+>>> Cheers
+>>> Lubo
+>>>
+>>>> ---
+>>>>  drivers/media/platform/marvell-ccic/mmp-driver.c | 8 ++++----
+>>>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
+>>>> index c4b28a00a3a2..032fdddbbecc 100644
+>>>> --- a/drivers/media/platform/marvell-ccic/mmp-driver.c
+>>>> +++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
+>>>> @@ -307,7 +307,7 @@ static int mmpcam_platform_remove(struct platform_device *pdev)
+>>>>   * Suspend/resume support.
+>>>>   */
+>>>>  
+>>>> -static int mmpcam_runtime_resume(struct device *dev)
+>>>> +static int __maybe_unused mmpcam_runtime_resume(struct device *dev)
+>>>>  {
+>>>>  	struct mmp_camera *cam = dev_get_drvdata(dev);
+>>>>  	struct mcam_camera *mcam = &cam->mcam;
+>>>> @@ -321,7 +321,7 @@ static int mmpcam_runtime_resume(struct device *dev)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> -static int mmpcam_runtime_suspend(struct device *dev)
+>>>> +static int __maybe_unused mmpcam_runtime_suspend(struct device *dev)
+>>>>  {
+>>>>  	struct mmp_camera *cam = dev_get_drvdata(dev);
+>>>>  	struct mcam_camera *mcam = &cam->mcam;
+>>>> @@ -335,7 +335,7 @@ static int mmpcam_runtime_suspend(struct device *dev)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> -static int mmpcam_suspend(struct device *dev)
+>>>> +static int __maybe_unused mmpcam_suspend(struct device *dev)
+>>>>  {
+>>>>  	struct mmp_camera *cam = dev_get_drvdata(dev);
+>>>>  
+>>>> @@ -344,7 +344,7 @@ static int mmpcam_suspend(struct device *dev)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> -static int mmpcam_resume(struct device *dev)
+>>>> +static int __maybe_unused mmpcam_resume(struct device *dev)
+>>>>  {
+>>>>  	struct mmp_camera *cam = dev_get_drvdata(dev);
+>>>>  
+>>>> -- 
+>>>> 2.17.1
+>>>>
+>>>>
+>>>
+>>> .
+>>>
+>>
+> 
+> .
+> 
 
