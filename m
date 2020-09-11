@@ -2,128 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5436E266713
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 19:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B184C266704
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 19:36:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbgIKRhO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 11 Sep 2020 13:37:14 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:40010 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725995AbgIKMte (ORCPT
+        id S1726146AbgIKRga (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 13:36:30 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48354 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726301AbgIKRgW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 08:49:34 -0400
-Received: from [78.134.51.148] (port=34610 helo=[192.168.77.62])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1kGiUZ-000Ei9-J2; Fri, 11 Sep 2020 14:49:27 +0200
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH v8 0/6] Support running driver's probe for a device
- powered off
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-media@vger.kernel.org
-References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
-Message-ID: <f4b82baa-66b7-464e-fd39-66d2243a05ef@lucaceresoli.net>
-Date:   Fri, 11 Sep 2020 14:49:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 11 Sep 2020 13:36:22 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6466BA17;
+        Fri, 11 Sep 2020 19:36:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1599845778;
+        bh=ePLcCSWgyD07mW+TFS8Sn50bYfstYmKjYVoCsbtJ6kU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jluLJQcroJiCUniN4dxj7D2Y94RUk0IeHUwZVLCcW28jWLhKyOQfzs9OZcJUYHkZP
+         3PgOc6oOaLsADTkisZ9KD1MkkNmu3MIM7KY1d2evkcTRnSD7PPKtZALO8KfhkKmUyF
+         hYEACvlWMHoKUqZtyAisHaWiUvltaLR75ETGU/M4=
+Date:   Fri, 11 Sep 2020 20:35:50 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5] dt-bindings: media: imx274: Convert to json-schema
+Message-ID: <20200911173550.GE6808@pendragon.ideasonboard.com>
+References: <20200910162009.613976-1-jacopo+renesas@jmondi.org>
+ <f6b43803-1880-c5fe-dba1-fa94d1dbb182@lucaceresoli.net>
+ <20200911085939.3fahuftw3o2hj4vw@uno.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8BIT
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Disposition: inline
+In-Reply-To: <20200911085939.3fahuftw3o2hj4vw@uno.localdomain>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Jacopo,
 
-On 03/09/20 10:15, Sakari Ailus wrote:
+On Fri, Sep 11, 2020 at 10:59:39AM +0200, Jacopo Mondi wrote:
+> On Fri, Sep 11, 2020 at 09:53:23AM +0200, Luca Ceresoli wrote:
+> > On 10/09/20 18:20, Jacopo Mondi wrote:
+> > > Convert the imx274 bindings document to json-schema and update
+> > > the MAINTAINERS file accordingly.
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >
+> > > v4->v5:
+> > > - Add optional properties that were upstreamed in v5.9-rc2 in the textual
+> > >   bindings
+> > > - Move them to be lowercase: this patch should be fast-tracked through the
+> > >   fixes branch to make sure it gets in before v5.9 is released, otherwise the
+> > >   textual bindings will have supplies names in uppercase
+> > >
+> > > ---
+> > >  .../devicetree/bindings/media/i2c/imx274.txt  | 38 ---------
+> > >  .../bindings/media/i2c/sony,imx274.yaml       | 77 +++++++++++++++++++
+> > >  MAINTAINERS                                   |  2 +-
+> > >  3 files changed, 78 insertions(+), 39 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> > > deleted file mode 100644
+> > > index 0727079d2410..000000000000
+> > > --- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> > > +++ /dev/null
+> > > @@ -1,38 +0,0 @@
+> > > -* Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
+> > > -
+> > > -The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
+> > > -an active array size of 3864H x 2202V. It is programmable through I2C
+> > > -interface. The I2C address is fixed to 0x1a as per sensor data sheet.
+> > > -Image data is sent through MIPI CSI-2, which is configured as 4 lanes
+> > > -at 1440 Mbps.
+> > > -
+> > > -
+> > > -Required Properties:
+> > > -- compatible: value should be "sony,imx274" for imx274 sensor
+> > > -- reg: I2C bus address of the device
+> > > -
+> > > -Optional Properties:
+> > > -- reset-gpios: Sensor reset GPIO
+> > > -- clocks: Reference to the input clock.
+> > > -- clock-names: Should be "inck".
+> > > -- VANA-supply: Sensor 2.8v analog supply.
+> > > -- VDIG-supply: Sensor 1.8v digital core supply.
+> > > -- VDDL-supply: Sensor digital IO 1.2v supply.
+> > > -
+> > > -The imx274 device node should contain one 'port' child node with
+> > > -an 'endpoint' subnode. For further reading on port node refer to
+> > > -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > -
+> > > -Example:
+> > > -	sensor@1a {
+> > > -		compatible = "sony,imx274";
+> > > -		reg = <0x1a>;
+> > > -		#address-cells = <1>;
+> > > -		#size-cells = <0>;
+> > > -		reset-gpios = <&gpio_sensor 0 0>;
+> > > -		port {
+> > > -			sensor_out: endpoint {
+> > > -				remote-endpoint = <&csiss_in>;
+> > > -			};
+> > > -		};
+> > > -	};
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> > > new file mode 100644
+> > > index 000000000000..fe81def68466
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> > > @@ -0,0 +1,77 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Sony 1/2.5-Inch 8.51MP CMOS Digital Image Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Leon Luo <leonl@leopardimaging.com>
+> > > +
+> > > +description: |
+> > > +  The Sony IMX274 is a 1/2.5-inch CMOS active pixel digital image sensor with an
+> > > +  active array size of 3864H x 2202V. It is programmable through I2C interface.
+> > > +  Image data is sent through MIPI CSI-2, which is configured as 4 lanes at 1440
+> > > +  Mbps.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: sony,imx274
+> > > +
+> > > +  reg:
+> > > +    const: 0x1a
+> > > +
+> > > +  reset-gpios:
+> > > +    maxItems: 1
+> > > +
+> > > +  port:
+> > > +    type: object
+> > > +    description: |
+> > > +      Output video port. See ../video-interfaces.txt.
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-names:
+> > > +    const: inck
+> > > +
+> > > +  vana-supply:
+> > > +    description: Sensor 2.8v analog supply.
+> > > +    maxItems: 1
+> > > +
+> > > +  vdig-supply:
+> > > +    description: Sensor 2.8v analog supply.
+> >
+> > Copy-paste leftover. Should be "Sensor 1.8v digital core supply."
 > 
-> Hi all,
+> oooo :(
+> I've been so sloppy on this series I'm almost ashamed.
 > 
-> These patches enable calling (and finishing) a driver's probe function
-> without powering on the respective device on busses where the practice is
-> to power on the device for probe. While it generally is a driver's job to
-> check the that the device is there, there are cases where it might be
-> undesirable. (In this case it stems from a combination of hardware design
-> and user expectations; see below.) The downside with this change is that
-> if there is something wrong with the device, it will only be found at the
-> time the device is used. In this case (the camera sensors + EEPROM in a
-> sensor) I don't see any tangible harm from that though.
-> 
-> An indication both from the driver and the firmware is required to allow
-> the device's power state to remain off during probe (see the first patch).
-> 
-> 
-> The use case is such that there is a privacy LED next to an integrated
-> user-facing laptop camera, and this LED is there to signal the user that
-> the camera is recording a video or capturing images. That LED also happens
-> to be wired to one of the power supplies of the camera, so whenever you
-> power on the camera, the LED will be lit, whether images are captured from
-> the camera --- or not. There's no way to implement this differently
-> without additional software control (allowing of which is itself a
-> hardware design decision) on most CSI-2-connected camera sensors as they
-> simply have no pin to signal the camera streaming state.
-> 
-> This is also what happens during driver probe: the camera will be powered
-> on by the I²C subsystem calling dev_pm_domain_attach() and the device is
-> already powered on when the driver's own probe function is called. To the
-> user this visible during the boot process as a blink of the privacy LED,
-> suggesting that the camera is recording without the user having used an
-> application to do that. From the end user's point of view the behaviour is
-> not expected and for someone unfamiliar with internal workings of a
-> computer surely seems quite suspicious --- even if images are not being
-> actually captured.
-> 
-> I've tested these on linux-next master. They also apply to Wolfram's
-> i2c/for-next branch, there's a patch that affects the I²C core changes
-> here (see below). The patches apart from that apply to Bartosz's
-> at24/for-next as well as Mauro's linux-media master branch.
+> I'll send a v6 with your tag in
 
-Apologies for having joined this discussion this late.
+And if you haven't already, s/v/V/ (the voltage symbol is an uppercase
+V).
 
-This patchset seems a good base to cover a different use case, where I
-also cannot access the physical device at probe time.
-
-I'm going to try these patches, but in my case there are a few
-differences that need a better understanding.
-
-First, I'm using device tree, not ACPI. In addition to adding OF support
-similar to the work you've done for ACPI, I think instead of
-acpi_dev_state_low_power() we should have a function that works for both
-ACPI and DT.
-
-Second, even though all the chips I'm interested in are connected via
-I2C, some of them (IIO sensors) can alternatively be connected via SPI
-and it would make perfectly sense to use SPI instead of I2C. The "i2c-"
-prefix added in v8 on the ACPI property looks like a limitation in that
-respect. The same reasoning applies to the implementation in the I2C
-core, but implementation could be generalized later.
-
-I'd love to know your opinion on the above points.
+> > > +    maxItems: 1
+> > > +
+> > > +  vddl-supply:
+> > > +    description: Sensor 2.8v analog supply.
+> >
+> > Same here, should be "Sensor digital IO 1.2v supply."
+> >
+> > With the above fixed you can add to v6:
+> >  Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
 
 -- 
-Luca
+Regards,
 
+Laurent Pinchart
