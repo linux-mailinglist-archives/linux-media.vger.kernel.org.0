@@ -2,75 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AA38266A78
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 23:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A672675C0
+	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 00:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbgIKV5S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 17:57:18 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:53013 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725911AbgIKV4e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 17:56:34 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Gr1xkiMxaTSPzGr1yktTIn; Fri, 11 Sep 2020 23:56:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1599861390; bh=u8Fb9Lnr1VIHhEqDH/wt8Pcw1YI+u4oRhXMGJKDEeiA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=nRr41xfkV8sIMfeJKulFv+gSB9X+PUvHEBj9F9K0za/qtGXEWUicm7PFC1sOwgs8f
-         hgFQNrLQ39e+Pp05FOJTou4iRXZOTab8nSCHy4lYo+/Fd6Y6fEQ5BxU7fI4V/n6iQI
-         3yQS7RTcHZ3csdlFOjl8QwbvvhpPLeVEI3MourQMNWCtRGcxyMrF4SiTtSL8nfmJ9E
-         odTSM0Vz0AR7VI77mfVgV6CsnT8h+9APsCZtHBqtobdW6lX425RzwxZCyqvNMmon5a
-         h2q8ZoMq6xoJFqV4qluv+pJjObu/eRBXxdM7jy3ekpDNjYzgm8tGQp6cNtgvuMPE2L
-         KiUkawjVX9lUg==
-Subject: Re: edid-decode: Incorrect decoding of CTA extension if it does not
- contain padding bytes
-To:     Pavel Kuzmin <kuzkin@gmail.com>, linux-media@vger.kernel.org
-References: <CAG+qv4KcntqO7sxfeF+bv594RbSjVQ9RMG8pLgncgkEXtxjmDg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <228a8021-9ab5-2719-1190-cb1611f1c052@xs4all.nl>
-Date:   Fri, 11 Sep 2020 23:56:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1725889AbgIKWPd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 18:15:33 -0400
+Received: from mga02.intel.com ([134.134.136.20]:45858 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725849AbgIKWPa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 18:15:30 -0400
+IronPort-SDR: WO3fhU+NFCYrq4t4I1ElNFnOH6UtAk2xWwGAUSt9LVrg43/uZP9ai5znkapWAT4NKOPXwg0jaW
+ D2CIDSWY9/vg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9741"; a="146559473"
+X-IronPort-AV: E=Sophos;i="5.76,417,1592895600"; 
+   d="scan'208";a="146559473"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 15:15:25 -0700
+IronPort-SDR: kmFJxvBTb2R6UsMBIacGJvn9dL/oIYsNMI6ZYWtySLw+ezt7gGxaFWVxfbx31EW/XhqQZL/+Ok
+ ZW+9zuQ3DCfg==
+X-IronPort-AV: E=Sophos;i="5.76,417,1592895600"; 
+   d="scan'208";a="342433866"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 15:15:21 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 4CC84206EA; Sat, 12 Sep 2020 01:15:17 +0300 (EEST)
+Date:   Sat, 12 Sep 2020 01:15:17 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5] dt-bindings: media: imx274: Convert to json-schema
+Message-ID: <20200911221517.GJ26842@paasikivi.fi.intel.com>
+References: <20200910162009.613976-1-jacopo+renesas@jmondi.org>
+ <f6b43803-1880-c5fe-dba1-fa94d1dbb182@lucaceresoli.net>
+ <20200911085939.3fahuftw3o2hj4vw@uno.localdomain>
+ <20200911173550.GE6808@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CAG+qv4KcntqO7sxfeF+bv594RbSjVQ9RMG8pLgncgkEXtxjmDg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNzcItWy+mCt8drn7ClC/tdfst7KdUjRwBvA/0KAXa/3ULUZj7jJ0R0JBq7XWZ3c4W6Q/E3ARu7HhK4jbXv3EAFm99BCT++8P8hqI47LGgtngzlzCdzO
- jakDSjnHupuO8TiOrIxGiHOndaqh/fGamicXyBdg4KguCwPmBo4XrtBxKxQeAMunEXFKoaNdWcdCA0i2dp49GoaBQkveco0xRWnBxie+1QKXW7Y2XVtn3Nld
- 18x6sq7AbzKzmuh8YMos3JzfIPijgpAotIykLioRpQ0HvXzWpMGPnywlsP8316Vx1rRuaNBznpXLjFaa2ZZAiQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200911173550.GE6808@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pavel,
-
-On 11/09/2020 20:27, Pavel Kuzmin wrote:
-> Hello
+On Fri, Sep 11, 2020 at 08:35:50PM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
 > 
+> On Fri, Sep 11, 2020 at 10:59:39AM +0200, Jacopo Mondi wrote:
+> > On Fri, Sep 11, 2020 at 09:53:23AM +0200, Luca Ceresoli wrote:
+> > > On 10/09/20 18:20, Jacopo Mondi wrote:
+> > > > Convert the imx274 bindings document to json-schema and update
+> > > > the MAINTAINERS file accordingly.
+> > > >
+> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >
+> > > > v4->v5:
+> > > > - Add optional properties that were upstreamed in v5.9-rc2 in the textual
+> > > >   bindings
+> > > > - Move them to be lowercase: this patch should be fast-tracked through the
+> > > >   fixes branch to make sure it gets in before v5.9 is released, otherwise the
+> > > >   textual bindings will have supplies names in uppercase
+> > > >
+> > > > ---
+> > > >  .../devicetree/bindings/media/i2c/imx274.txt  | 38 ---------
+> > > >  .../bindings/media/i2c/sony,imx274.yaml       | 77 +++++++++++++++++++
+> > > >  MAINTAINERS                                   |  2 +-
+> > > >  3 files changed, 78 insertions(+), 39 deletions(-)
+> > > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+> > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> > > > deleted file mode 100644
+> > > > index 0727079d2410..000000000000
+> > > > --- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> > > > +++ /dev/null
+> > > > @@ -1,38 +0,0 @@
+> > > > -* Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
+> > > > -
+> > > > -The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
+> > > > -an active array size of 3864H x 2202V. It is programmable through I2C
+> > > > -interface. The I2C address is fixed to 0x1a as per sensor data sheet.
+> > > > -Image data is sent through MIPI CSI-2, which is configured as 4 lanes
+> > > > -at 1440 Mbps.
+> > > > -
+> > > > -
+> > > > -Required Properties:
+> > > > -- compatible: value should be "sony,imx274" for imx274 sensor
+> > > > -- reg: I2C bus address of the device
+> > > > -
+> > > > -Optional Properties:
+> > > > -- reset-gpios: Sensor reset GPIO
+> > > > -- clocks: Reference to the input clock.
+> > > > -- clock-names: Should be "inck".
+> > > > -- VANA-supply: Sensor 2.8v analog supply.
+> > > > -- VDIG-supply: Sensor 1.8v digital core supply.
+> > > > -- VDDL-supply: Sensor digital IO 1.2v supply.
+> > > > -
+> > > > -The imx274 device node should contain one 'port' child node with
+> > > > -an 'endpoint' subnode. For further reading on port node refer to
+> > > > -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > > -
+> > > > -Example:
+> > > > -	sensor@1a {
+> > > > -		compatible = "sony,imx274";
+> > > > -		reg = <0x1a>;
+> > > > -		#address-cells = <1>;
+> > > > -		#size-cells = <0>;
+> > > > -		reset-gpios = <&gpio_sensor 0 0>;
+> > > > -		port {
+> > > > -			sensor_out: endpoint {
+> > > > -				remote-endpoint = <&csiss_in>;
+> > > > -			};
+> > > > -		};
+> > > > -	};
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..fe81def68466
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> > > > @@ -0,0 +1,77 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Sony 1/2.5-Inch 8.51MP CMOS Digital Image Sensor
+> > > > +
+> > > > +maintainers:
+> > > > +  - Leon Luo <leonl@leopardimaging.com>
+> > > > +
+> > > > +description: |
+> > > > +  The Sony IMX274 is a 1/2.5-inch CMOS active pixel digital image sensor with an
+> > > > +  active array size of 3864H x 2202V. It is programmable through I2C interface.
+> > > > +  Image data is sent through MIPI CSI-2, which is configured as 4 lanes at 1440
+> > > > +  Mbps.
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    const: sony,imx274
+> > > > +
+> > > > +  reg:
+> > > > +    const: 0x1a
+> > > > +
+> > > > +  reset-gpios:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  port:
+> > > > +    type: object
+> > > > +    description: |
+> > > > +      Output video port. See ../video-interfaces.txt.
+> > > > +
+> > > > +  clocks:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clock-names:
+> > > > +    const: inck
+> > > > +
+> > > > +  vana-supply:
+> > > > +    description: Sensor 2.8v analog supply.
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  vdig-supply:
+> > > > +    description: Sensor 2.8v analog supply.
+> > >
+> > > Copy-paste leftover. Should be "Sensor 1.8v digital core supply."
+> > 
+> > oooo :(
+> > I've been so sloppy on this series I'm almost ashamed.
+> > 
+> > I'll send a v6 with your tag in
 > 
-> If in the EDID CTA extension the last 18 byte DTD block ends
-> immediately before the checksum byte (no padding bytes) then the last
-> DTD block is not processed and a failure is displayed "Padding:
-> CTA-861 padding contains non-zero bytes."
+> And if you haven't already, s/v/V/ (the voltage symbol is an uppercase
+> V).
 
-Thanks for reporting this, nice catch!
+Also a whitespace character before that "V" would be nice. :)
 
-It was caused by an off-by-one check and this is now fixed.
-
-Regards,
-
-	Hans
-
-> 
-> e.g. https://github.com/linuxhw/EDID/blob/master/Digital/Acer/ACR0549/42BFE4422CEF
-> 
-> 
-> Regards,
-> Pavel
-> 
-
+-- 
+Sakari Ailus
