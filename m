@@ -2,291 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71E97265B01
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 10:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D744265C07
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 10:55:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725793AbgIKICO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 04:02:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52070 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725468AbgIKICG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 04:02:06 -0400
-Received: from coco.lan (ip5f5ad5a5.dynamic.kabel-deutschland.de [95.90.213.165])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7864208FE;
-        Fri, 11 Sep 2020 08:02:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599811325;
-        bh=liJmqmE5sfRfjoJRcU2wgDJUNyJI6EOposRIL6uuu4I=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=0sIYIF3bPzLkoVDh65SUp5mC+envroHxE33JIpx00CqHDW5YRVghPDt8uXYRGc+3q
-         q1ZAIpykbzGnZxKiRCymBeQ88zFRVITF4bF39L2Nh+SA8oHWZdTrEYXDIRD8762tY3
-         3XwcUbmqqVCjOsf8RgKcKagRZ5lRWerDUS5BuH6E=
-Date:   Fri, 11 Sep 2020 10:02:00 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     r.verdejo@samsung.com, nicolas@ndufresne.ca,
-        linux-media@vger.kernel.org, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [v10 0/4] media: vidtv: Implement a virtual DVB driver
-Message-ID: <20200911100200.25214c37@coco.lan>
-In-Reply-To: <20200821125848.1092958-1-dwlsalmeida@gmail.com>
-References: <20200821125848.1092958-1-dwlsalmeida@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1725803AbgIKIzq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 04:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725780AbgIKIzd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 04:55:33 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4703AC061756
+        for <linux-media@vger.kernel.org>; Fri, 11 Sep 2020 01:55:31 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id a12so9139480eds.13
+        for <linux-media@vger.kernel.org>; Fri, 11 Sep 2020 01:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
+         :subject:to;
+        bh=LbkVP7ji35e7Vce4zJMPV38JxqpXDCDGGIKr73dfGuc=;
+        b=OB6dzBcdoHsbBEcMwMdl3Gpo9cYSVPxGD3L9orTRcsIwIfLEU0tMVNYX5Ag4AbyUPh
+         4NT7NLil1a0eKoos9tKlPZzOV2M3jhCf/l8GMnVEEQkIHLhuQGB82rtFH2kpdOv45BTD
+         IEQEaRxkBkY0bnc5pu3TQuqrMXkq08tpDH54Z0NRLBzhfGvxEZcfdOrMsgVrM9M4MlYM
+         XCWB33Mc29fqgPyvElJRilbgPiEl71KsJyIy4WHi/EE88toArq+kgAlR0/0rNi5JVIkf
+         GIrG3EtMZnnNbI2ccbfXZv+fuhUX1YHFaNraA6Nut2tlk9PxVPZspmtJ4Xb+BZPcR9vr
+         zcug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
+         :from:date:message-id:subject:to;
+        bh=LbkVP7ji35e7Vce4zJMPV38JxqpXDCDGGIKr73dfGuc=;
+        b=eQTL3gzfdyMUV7I/DjiN0vEcryETW/cryubIO4dMDn6kYZ8n3vc71T7xHABXK9TuRn
+         wiTEIDrNBgtITk5OCV2Kmx9HMN0sn6FAWphtI77oTSGUhLTDagf+wfah0Z1pA/GqxLVs
+         7GfYibNhy62ArqxV42OFgLaHXZfvvtYWkDxkrhTi5kuLRYgoYPH/aFd2F+3B2tVF04Hs
+         1ywBe5DrvHA53E00yfZFPZWOjtS9+D9fwPxiEkDZzpECFHuWRYXXSvLhEp34T3usvTAN
+         /JWqiSLQhnZDKLYVg9mrGdPvFHiKPLqoLaHY3fn0oo01vueZVWVKxFrcRCRdtZ9lu5fC
+         YkUA==
+X-Gm-Message-State: AOAM531blbhHbo+1DOIe/axGZ4d/s22HLir0WbX+CnaxNIoFOmebHFbv
+        En2HqFnfgtgBFOwgvo6buleQaccibuPH2622+B8=
+X-Google-Smtp-Source: ABdhPJyTyz2id3c9dIFm9Mcmf7ibkgK7gU6/bMPilC86g1onVb6O21zcf7XjkCS+C53bwlywIjO6G4x/uhKzkuX2V/Y=
+X-Received: by 2002:aa7:c053:: with SMTP id k19mr900384edo.326.1599814529704;
+ Fri, 11 Sep 2020 01:55:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a50:795c:0:0:0:0:0 with HTTP; Fri, 11 Sep 2020 01:55:28
+ -0700 (PDT)
+Reply-To: kennethhjj51@yahoo.com
+In-Reply-To: <CAA3sF1dE-Be6nyk8PeU_7z50mNVHQ+ibr-VkG9mYOeSt-aJGWA@mail.gmail.com>
+References: <CAA3sF1dJaTwj0qRs8SSjNKPv0g=LmpYduNxEwFvR3=yEQyhxJQ@mail.gmail.com>
+ <CAA3sF1cMWWEYya2bmtzjw-t44pQnpjvkovbMJt1-yaMSdxeGvQ@mail.gmail.com>
+ <CAA3sF1fzN+qfV4LPcBvHGqTdjkRABosk60aptBTSae+m+u=Czg@mail.gmail.com>
+ <CAA3sF1fUDH8uZ4v-jipi5wirU683=R2+7RsBpfDu2MPBHhaXCA@mail.gmail.com>
+ <CAA3sF1eRHsXd5YC8U+vcMK_8SfR93YnLaE8Vu-Y9+iNufcKGHQ@mail.gmail.com>
+ <CAA3sF1c3K=jZ7cYfE1He5fcbAjHH0Y-R0-NOtS7Tjm1jMDWG8g@mail.gmail.com>
+ <CAA3sF1djGjxKwzLMN7OvjNa9_EyD=4pSPH-9+FRhNoRwqqADBw@mail.gmail.com>
+ <CAA3sF1etwoSqAX1eDMbhg6kx_Xr-rWWEq_mybibnsA65Y4H1EA@mail.gmail.com>
+ <CAA3sF1e=_=sommRgto8iXSSgUO=_OFo-LHuEf=AvGAFTn8=WwA@mail.gmail.com>
+ <CAA3sF1fwJHqmKJ1c__8RLHJnmsuZHwUo5zBD6Ta6Q2kXPGaomA@mail.gmail.com>
+ <CAA3sF1fCMOdm4ya5CZX6QT1-nJLhQXmZw4dwQpNnewz_8wA=+g@mail.gmail.com>
+ <CAA3sF1d_q9uSXyXiJxMMaFZfARyCzDm2YeOmCTRHzXdHuo2mvg@mail.gmail.com>
+ <CAA3sF1d2zAFrVBFgyk+aZ5PMW9rddrmoxh3_OyKa00ZcK+-gKw@mail.gmail.com>
+ <CAA3sF1faSqy5GGcPQfLmY=6Ag0vX_PpVR1S85Whh2TRj7SLfog@mail.gmail.com>
+ <CAA3sF1cZXFWBzoEWhoaQp=XR=4Z=SgXmPw4YiJ6JcpHWQtHiYQ@mail.gmail.com>
+ <CAA3sF1e-31bFQixNFoTQkdp8SVxFMdwyBooPzZfc+Q8XCGJQiw@mail.gmail.com>
+ <CAA3sF1eqgfP-rvJHQwoOAxD0LOF0oLkkHGHZN2CoRthfPuu6Ag@mail.gmail.com>
+ <CAA3sF1d+0B2UkXiBwhJe1cAL8fAE8Yez=NdHFouD8SuHqphHmw@mail.gmail.com>
+ <CAA3sF1eY3b=d3s7a8C-z93=r-B12Jm+TKVow9XHOW5B=2MD13g@mail.gmail.com>
+ <CAA3sF1fUYoZCab8Z-p12HD-ynw+Ez3H2jk1TYZrbQPK2T-_A8w@mail.gmail.com>
+ <CAA3sF1fS2+=biX1otvATXuY0ZETSyv-FNOWbm6rLYR29W3YKrQ@mail.gmail.com>
+ <CAA3sF1eJAC=9F4kdpVa59JQpbcUDRq01knObQWsZeoXmqe0MQg@mail.gmail.com>
+ <CAA3sF1eBjkdG3V8rqPev-T4BL9UGUw+sVysTE8C8pAKEePEoKg@mail.gmail.com>
+ <CAA3sF1f96VQVq26aZ8u5Xk3Fka0xJW_0TGGQ5yNrr_fNfnGuqg@mail.gmail.com>
+ <CAA3sF1dQHgOrVTZVwFOU4FcPaSi8Wc-2B+THJHABj5y5+hE5fg@mail.gmail.com>
+ <CAA3sF1cak9Ax7B0ox4EpZkhP+qjKtahMKhDfLxYB0O3=2h8eXQ@mail.gmail.com>
+ <CAA3sF1e393dkPsMh+8jBwjk82kGeEvDr=00jBQdErezHnqP+jA@mail.gmail.com>
+ <CAA3sF1cagu54c8SNcvAjfvwPtos5AUq+6WKndAktixzkC-yELA@mail.gmail.com>
+ <CAA3sF1d9gyHHozqhefGd2+kUs6FyY_YZtN1Lj78rTJdNZSDxTQ@mail.gmail.com>
+ <CAA3sF1eJp=k9Nr3F8hw0g-kJdMuOdQQMP_3gafE5TPrJRNxwYw@mail.gmail.com>
+ <CAA3sF1cP1uAkAazb5g71rQAprqWbdictUz245BjgavkABJGC8g@mail.gmail.com>
+ <CAA3sF1fSW15j_LCKPf6hoqFkC1S+iZF7-kq21ahmThPgyx4xPg@mail.gmail.com>
+ <CAA3sF1cfnWiXHOyNSpE3y83ZhE+WxUz1puPWv9shXBe8jVB3zA@mail.gmail.com>
+ <CAA3sF1dK+JLJqisFusk8fGFFLRiF64kRFoKa0XiEmNoTbqhD3w@mail.gmail.com>
+ <CAA3sF1crKEV-+0wRLqCq+KnNJ51iXKVCx5ayEkedXKs0eGYA4A@mail.gmail.com>
+ <CAA3sF1c6TgTwQcpO0HMgSYeS_TDSf5KveDegKqfaOtYjQNn_yg@mail.gmail.com>
+ <CAA3sF1cgZ4+=dDN4XEVwO138QY25xHrgDGoh2orOFLeMYU=VzQ@mail.gmail.com>
+ <CAA3sF1fqYKZxSsqJQLC4+QakGKZXCpAtdmc63iZittyirpr04w@mail.gmail.com>
+ <CAA3sF1eGufq3HH2DBq3zBj0rvgtDiaXHLz03v2rT=k=pMaL_nw@mail.gmail.com>
+ <CAA3sF1dRnYQpnh=i5RqYBJwkhHDq7nJsHNdrrXX2JoHRm0+s8Q@mail.gmail.com>
+ <CAA3sF1c3_GW-usU+NHjS98sb8LmRzE03gSj+7zkBrJhLQi0fuw@mail.gmail.com>
+ <CAA3sF1cNvh1tfHfzfySF0YR7W7e_JhD5Fq=JrHmWmCZawP6N-A@mail.gmail.com>
+ <CAA3sF1e4iY29m+ztQ+soqqM7UtT6E+HeUCjOEiL7pBAYV97ASQ@mail.gmail.com>
+ <CAA3sF1du6g5kw6_hQxGi9qzmSLHjE_qJgmupfYi3mGe1rBWUGQ@mail.gmail.com>
+ <CAA3sF1csMLBaA0fGrsDQeaObW=1YhO=TkhQAaGqnAorvvcjiCg@mail.gmail.com>
+ <CAA3sF1f2uch4U0B5eqitmQVAquB6dp_2kKEHPxaDwkZLu9hYOQ@mail.gmail.com>
+ <CAA3sF1f6m730NBeudit1GFOSQOgQBi5CVEMhp2+Kbj3AnNE-RQ@mail.gmail.com>
+ <CAA3sF1eaHsUSPp8GzfNcgSrMZNtFmzFfjoDWLW0KfS_F3GCKmw@mail.gmail.com>
+ <CAA3sF1fT3iyEzbH5ZYW0A+O6R6NDkEgwvqBhctQcJOfg2mMEfg@mail.gmail.com>
+ <CAA3sF1fq-2nEAb2QdKn=d2X+Cayo6-X4U0zzb=v95r==10stQg@mail.gmail.com>
+ <CAA3sF1dd19+d+midPDi=nxCGtHwaje=4DtcgGCb_iPWTOFxSXw@mail.gmail.com>
+ <CAA3sF1et2W0wshjs=_C4SrjFfo4eYVH9RajBahwvt8gPz30YPQ@mail.gmail.com>
+ <CAA3sF1fMbPsuBfywBPaQhjD-3m7vn7rxYVM--DpNLuF=pU_vXg@mail.gmail.com>
+ <CAA3sF1fuceXwyru63BQrJQ-tSa-kh1VugWCamf00+Jb7xC-n_g@mail.gmail.com>
+ <CAA3sF1dDseepjqJNgEhN+Hd=8kp6LcvBo9TmybbJHiugK3vsrg@mail.gmail.com>
+ <CAA3sF1dOOajGs928U2EiMMfByMTD_ZsHkDB_o+98cmW1xbjbOQ@mail.gmail.com>
+ <CAA3sF1dF_pxwA=HV=uMAor7nU8_UvHutysKmgnQrgJMQbTHcnQ@mail.gmail.com>
+ <CAA3sF1dh+-1KcpDXky4FpV3sP8V=po+PZbaRyM9AWC8r0yP49A@mail.gmail.com>
+ <CAA3sF1fW-gGb-GGkU785vZXkO7SWLGdEB=RpQmC+r7mbyrNZJQ@mail.gmail.com>
+ <CAA3sF1d-MsSgN_PWFdZvcyVLxtZ1wd0hO5pi=HQJiBnRfE_NDw@mail.gmail.com>
+ <CAA3sF1ehEUPjvr7XgY8dWAHL-E1LS_8-MJ-E6Rg3-keZWnkMZg@mail.gmail.com>
+ <CAA3sF1eLqH8RNYsWf9yM1YVG_VakLdyerYcUDBYoAwSFOySKQw@mail.gmail.com>
+ <CAA3sF1fPXHCbWvszTK_nsPc44-2GpN7EgEEX1PVVES63coc+pg@mail.gmail.com>
+ <CAA3sF1e1mxNJcYKgjEqabcfHep==L441YSd9TEW4TPOiymeQHA@mail.gmail.com>
+ <CAA3sF1dAdLr63KiK4VqkS3yWt7wuSp8dytchJu-kPxFtu-BUvw@mail.gmail.com>
+ <CAA3sF1eHCiZLp1if=WNNRVNGEXv-WFZCxxTLjBV-RGtTNjhO4w@mail.gmail.com>
+ <CAA3sF1f_eMYFNs5jLJH5kkULFkf8OSHszDwPwMrEcW5xR8rekw@mail.gmail.com>
+ <CAA3sF1eNhaECgwthU9M8iY2C-DYeRSWN4wsXt5ZkyShfuJbnzA@mail.gmail.com>
+ <CAA3sF1c8+W1F38SkoKbJLC6YiJ_fTmf_gsFLxTBJtKk_WZz3Jw@mail.gmail.com>
+ <CAA3sF1dscxMmgf+cCsGw8QbpSi5sDUEohBfyTjr7PAv818MprA@mail.gmail.com>
+ <CAA3sF1d6e11Y-DM6k70F316NPhJkOvVqPU2DYfRbW=0sjZLJaA@mail.gmail.com>
+ <CAA3sF1cw6YKUz+NZ5HTL6RD=GCSEd5Wq35wFoZJu=3wsyssJkA@mail.gmail.com>
+ <CAA3sF1cgbYpdq3=rHXd5dsTdZCNEjm7qJkvWucEd8ocr4o51xw@mail.gmail.com>
+ <CAA3sF1eQWaVXmW6x07ZAzvs6dHp9EaKTgCBrvCiLrQmD7Gu_mQ@mail.gmail.com>
+ <CAA3sF1ed-6K0-N_cQd+eA+d_m6NJzBTyzYKZRdzXQco17Wfjqg@mail.gmail.com>
+ <CAA3sF1dp5=xD6+Edv6mYRUeYVHV6ktpz-yXL0KaepcGtA2P0nA@mail.gmail.com>
+ <CAA3sF1cLSAZ3urv+jAcU0iGSu2GEF7dN15U1mgH1b9+1NOFhAQ@mail.gmail.com>
+ <CAA3sF1c=OXHPOdXx75qFUrsB899TsRqqB3uv5aUfS82BrDBT4w@mail.gmail.com>
+ <CAA3sF1d3QSTb82JuZUvf_cbffKxdm0_pHC3sqQLASk+wK3A-nQ@mail.gmail.com>
+ <CAA3sF1fkJ1Pb2rg4WcjXQ4vwg9qDmJH0=Xb3afHtMO=w2+zUaA@mail.gmail.com>
+ <CAA3sF1docGFpxVnDs8MT3rFMvu+Ep9O4=FeJzru1Hkk87EgOGg@mail.gmail.com>
+ <CAA3sF1d4viHPVsaft5acpJV9x16amOe9SaMXpy34T9f8JA1R-g@mail.gmail.com>
+ <CAA3sF1dubPf5AOUzjExgkdXUsYXVbCsLrTa33oM+oCi_d+Azrw@mail.gmail.com>
+ <CAA3sF1fABecF1f9775jAB6_4a9zMyDdC2apWSNS8r4g=t83=zg@mail.gmail.com>
+ <CAA3sF1cWAmEiVgPx9fnZcMRMQbe+eYFS2VYNPMgyVomea9-GEg@mail.gmail.com>
+ <CAA3sF1eTF0duNGXfq2WtEbEnBiGd8dmT4DMzuzrFFm41Lr9o0g@mail.gmail.com>
+ <CAA3sF1fmE2gfJ-_5TvUstsVKL1PQGupb7YtufdKxKtbHhAd3ZQ@mail.gmail.com>
+ <CAA3sF1fpEqC2U6Wb9UqfgupHbSrSXFJ+gSQonQp+aNu7VcFfKA@mail.gmail.com>
+ <CAA3sF1fW5snWimqKFw1PeKxohTmg-SG8fqysoMHagT4YJxqD3w@mail.gmail.com>
+ <CAA3sF1fZy61WU5WxWxML2TuAxGxqmFmktv5_gHmhbH7cAhM=qQ@mail.gmail.com>
+ <CAA3sF1dDGAXLT6HosPC-1Ui9SrnJ=t3Gh_wZo8VjqP8FcT60+Q@mail.gmail.com>
+ <CAA3sF1eU-F12aSujzMXoBSV4dFAUPRcVNvNk6=bk1kpnY6zTVw@mail.gmail.com>
+ <CAA3sF1fRzvuAmX94QtETF5na9+EzueB2Cb3hUZuG8fXO0xctRg@mail.gmail.com>
+ <CAA3sF1dC4Yx+6hBxVYRjV2hk-BiX7VznfC8rYWOU88eHvFD1hg@mail.gmail.com>
+ <CAA3sF1eKke-1+8+KV4EhVDA9Yya7KTjnS0ztcdhE4pvp0oOd7g@mail.gmail.com>
+ <CAA3sF1ejGE2qWOA+EFWajTHGR4QB+sMN3m85DEVoUTEw6Che_A@mail.gmail.com>
+ <CAA3sF1fTxHasWQ8Aos+rPbXZ5PS2GAxmYiVqMWv7u0Pa-COGYA@mail.gmail.com>
+ <CAA3sF1et=fU+rqbFuppobte-rnHjTF43QPu5vk1XnSyyuqCQLw@mail.gmail.com>
+ <CAA3sF1dcaEdc-pL9tbV2TB2vZVSFxcRoRnDX6+ynQjPWRPvOTA@mail.gmail.com> <CAA3sF1dE-Be6nyk8PeU_7z50mNVHQ+ibr-VkG9mYOeSt-aJGWA@mail.gmail.com>
+From:   Kenneth Johnson <deliveryexpss5@gmail.com>
+Date:   Fri, 11 Sep 2020 08:55:28 +0000
+Message-ID: <CAA3sF1dcUrmR+zBo8N_F1T3GanbowDHkfkdQ8yvj--7FxwYGpQ@mail.gmail.com>
+Subject: INVESTMENT MANAGER.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
-
-Em Fri, 21 Aug 2020 09:58:44 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
-
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> This series is work in progress. It represents the current work done on a
-> virtual DVB driver for the Linux media subsystem. I am new to the media
-> subsystem and to kernel development in general.
-> 
-> This driver aims to:
-> 	- Serve as template for new DVB driver writers
-> 	- Help userspace application writers in general
-> 	- Push fake audio/video to userspace for testing
-> 	purposes
-> 	- Push debug information to userspace via debugfs
-> 
-> Current state for this driver:
-> 	- Driver generates PSI information (PAT, PMT, SDT)
-> 	- Driver generates PCR packets
-> 	- Driver generates NULL packets for padding
-> 	- PCM audio stream is decoded by ffmpeg, but no audio is heard yet.
-> 
-> changes in v10:
-> 	s302m encoder got reworked
-
-Thanks for all the hard work on it. Very much appreciated!
-
-I finally found some time to test it. For now, just a quick
-test from my side, without passing any arguments to the
-driver.
-
-See enclosed.
-
-While there are still a few issues there, I'm considering applying
-this series for Kernel 5.10.
-
-My plan is to write some patches on the top of yours, in order to
-address the problems I'll find on it. If not something more critical
-won't be solved in time, we may still add it at staging/media. 
-Let's see.
-
-The problems I noticed so far are:
-
-	1. rmmod doesn't work;
-	2. dvbv5-stats doesn't seem to be working properly, as
-	   it is reporting signal strengh with a percentage
-	   (same for Carrier S/N ratio);
-	3. dvbv5-zap wrote an empty audio file (without -P flag).
-	   Probably there are still some issues at the program
-	   channel descriptor or service;
-	4. The provider service field is null. Perhaps we could
-	   add some string there, like "linuxtv.org".
-	5. Maybe we could also add a simple NIT table, just to
-	   avoid dvbv5-scan to wait for it until timeout.
-
-Also, it probably makes sense to add a debugfs interface in
-order to allow injecting errors at the stream at runtime.
-
+Greeting,
+I am Kenneth Johnson working with a business consultant.
+There is a transaction of $1.4 billion dollars here that own by Arab
+man if you have interest you need to come down to Gambia discuss
+percentage with him.
 Regards,
-Mauro
-
----
-
-	$ dvbv5-scan -v foobar
-	using demux 'dvb0.demux0'
-	Device Dummy demod for DVB-T/T2/C/S/S2 (/dev/dvb/adapter0/frontend0) capabilities:
-	     CAN_FEC_1_2
-	     CAN_FEC_2_3
-	     CAN_FEC_3_4
-	     CAN_FEC_4_5
-	     CAN_FEC_5_6
-	     CAN_FEC_6_7
-	     CAN_FEC_7_8
-	     CAN_FEC_8_9
-	     CAN_FEC_AUTO
-	     CAN_GUARD_INTERVAL_AUTO
-	     CAN_HIERARCHY_AUTO
-	     CAN_INVERSION_AUTO
-	     CAN_QAM_16
-	     CAN_QAM_32
-	     CAN_QAM_64
-	     CAN_QAM_128
-	     CAN_QAM_256
-	     CAN_QAM_AUTO
-	     CAN_QPSK
-	     CAN_TRANSMISSION_MODE_AUTO
-	DVB API Version 5.11, Current v5 delivery system: DVBC/ANNEX_A
-	Supported delivery systems: 
-	     DVBT
-	     DVBT2
-	    [DVBC/ANNEX_A]
-	     DVBS
-	     DVBS2
-	Frequency range for the current standard: 
-	From:            51.0 MHz
-	To:              2.15 GHz
-	Step:            62.5 kHz
-	Tolerance:       29.5 MHz
-	Symbol rate ranges for the current standard: 
-	From:            1.00 MBauds
-	To:              45.0 MBauds
-	Failed to guess country from the current locale setting.
-	
-	ERROR    command BANDWIDTH_HZ (5) not found during retrieve
-	Cannot calc frequency shift. Either bandwidth/symbol-rate is unavailable (yet).
-	Scanning frequency #1 330000000
-	FREQUENCY = 330000000
-	MODULATION = QAM/AUTO
-	INVERSION = AUTO
-	SYMBOL_RATE = 6940000
-	INNER_FEC = AUTO
-	DELIVERY_SYSTEM = DVBC/ANNEX_A
-	Got parameters for DVBC/ANNEX_A:
-	FREQUENCY = 330000000
-	MODULATION = QAM/AUTO
-	INVERSION = AUTO
-	SYMBOL_RATE = 6940000
-	INNER_FEC = AUTO
-	DELIVERY_SYSTEM = DVBC/ANNEX_A
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	dvb_read_sections: waiting for table ID 0x00, program ID 0x00
-	dvb_parse_section: received table 0x00, extension ID 0x0744, section 0/0
-	dvb_parse_section: table 0x00, extension ID 0x0744: done
-	PAT
-	| table_id         0x00
-	| section_length      13
-	| one                 2
-	| zero                0
-	| syntax              1
-	| transport_stream_id 1860
-	| current_next        1
-	| version             1
-	| one2                3
-	| section_number      0
-	| last_section_number 0
-	|\ 1 program pid
-	|  pid 0x0101: service 0x0880
-	Program #0 ID 0x0101, service ID 0x0880
-	dvb_read_sections: waiting for table ID 0x02, program ID 0x101
-	dvb_parse_section: received table 0x02, extension ID 0x0880, section 0/0
-	dvb_parse_section: table 0x02, extension ID 0x0880: done
-	PMT
-	| table_id         0x02
-	| section_length      24
-	| one                 2
-	| zero                0
-	| syntax              1
-	| transport_stream_id 2176
-	| current_next        1
-	| version             1
-	| one2                3
-	| section_number      0
-	| last_section_number 0
-	|- pcr_pid          0200
-	|  reserved2           7
-	|  descriptor length   0
-	|  zero3               0
-	|  reserved3          15
-	|\
-	|- stream 0x0111: ISO/IEC 13818-1 Private Data (6)
-	|    descriptor length   6
-	|        0x05: registration_descriptor
-	|           42 53 53 44                                        BSSD
-	|_  1 streams
-	dvb_read_sections: waiting for table ID 0x40, program ID 0x10
-	ERROR    dvb_read_sections: no data read on section filter
-	ERROR    error while reading the NIT table
-	dvb_read_sections: waiting for table ID 0x42, program ID 0x11
-	dvb_parse_section: received table 0x42, extension ID 0x0744, section 0/0
-	dvb_parse_section: table 0x42, extension ID 0x0744: done
-	SDT
-	| table_id         0x42
-	| section_length      48
-	| one                 2
-	| zero                1
-	| syntax              1
-	| transport_stream_id 1860
-	| current_next        1
-	| version             1
-	| one2                3
-	| section_number      0
-	| last_section_number 0
-	| network_id          1860
-	| reserved            255
-	|\
-	|- service 0x0880
-	|   EIT schedule          0
-	|   EIT present following 0
-	|   free CA mode          0
-	|   running status        4
-	|   descriptor length     31
-	|        0x48: service_descriptor
-	|           service type  1
-	|           provider      '(null)'
-	|           name          'S302m: Sine Wave PCM Audio'
-	|_  1 services
-	Service S302m: Sine Wave PCM Audio, provider (null): digital television
-	Storing as channel S302m: Sine Wave PCM Audio
-	
-	$ dvbv5-zap -c dvb_channel.conf "S302m: Sine Wave PCM Audio" -m
-...
-	 PID           FREQ         SPEED       TOTAL
-	    0     25.07 p/s   36.826 Kbps       55 KB
-	   17     25.07 p/s   36.826 Kbps       55 KB
-	  257     25.07 p/s   36.826 Kbps       55 KB
-	  273   1335.19 p/s    1.915 Mbps     2943 KB
-	  512     25.07 p/s   36.826 Kbps       55 KB
-	 8191  16775.59 p/s   24.062 Mbps    36974 KB
-	TOT    18211.08 p/s   26.121 Mbps    40138 KB
-	
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	
-	
-	$ dvbv5-zap -c dvb_channel.conf "S302m: Sine Wave PCM Audio" -t 30 -o pcm_audio.ts
-	using demux 'dvb0.demux0'
-	reading channels from file 'dvb_channel.conf'
-	service has pid type 06:  273
-	tuning to 330000000 Hz
-	       (0x00) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Record to file 'pcm_audio.ts' started
-	Forcing program stop due to timeout or terminate signal
-	
-	$ ls -l pcm_audio.ts
-	-rw-r--r-- 1 mchehab mchehab 0 Sep 11 09:46 pcm_audio.ts
-
-	$ dvbv5-zap -c dvb_channel.conf "S302m: Sine Wave PCM Audio" -t 30 -o pcm_audio.ts -P
-	using demux 'dvb0.demux0'
-	reading channels from file 'dvb_channel.conf'
-	service has pid type 06:  273
-	tuning to 330000000 Hz
-	pass all PID's to TS
-	  dvb_set_pesfilter 8192
-	dvb_dev_set_bufsize: buffer set to 6160384
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Record to file 'pcm_audio.ts' started
-	received 103809840 bytes (3379 Kbytes/sec)
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-
-	$ ls -lh pcm_audio.ts
-	-rw-r--r-- 1 mchehab mchehab 100M Sep 11 09:54 pcm_audio.ts
-
-
+Kenneth Johnson
