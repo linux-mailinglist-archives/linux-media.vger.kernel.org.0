@@ -2,36 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA6B4265C6A
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 11:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E2FF265CAE
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 11:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725785AbgIKJXT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 05:23:19 -0400
-Received: from mga05.intel.com ([192.55.52.43]:23204 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725764AbgIKJXS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 05:23:18 -0400
-IronPort-SDR: TpwDP/xHxjROwi02V/eBqq3Nz+Bq7IITcnY8pTD6N6O4UMva1wm8CsrM56Iif5BnZgdPLtKkwX
- jIevQhLx68wA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="243545237"
-X-IronPort-AV: E=Sophos;i="5.76,414,1592895600"; 
-   d="scan'208";a="243545237"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 02:23:17 -0700
-IronPort-SDR: C7HG9sa2Vx4WvDEyLxFCHuctA0mzklzfk0PgBaKBKqzfcfStylldgCUdi7FLUzqVzv/waetQ2D
- AXg7AVbYB4sA==
-X-IronPort-AV: E=Sophos;i="5.76,414,1592895600"; 
-   d="scan'208";a="334458287"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 02:23:14 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 2E3B82079D; Fri, 11 Sep 2020 12:23:12 +0300 (EEST)
-Date:   Fri, 11 Sep 2020 12:23:12 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S1725774AbgIKJml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 05:42:41 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:34065 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725710AbgIKJmk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 05:42:40 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 08DF9FF803;
+        Fri, 11 Sep 2020 09:42:34 +0000 (UTC)
+Date:   Fri, 11 Sep 2020 11:46:24 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         "robh+dt@kernel.org" <robh+dt@kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
@@ -45,7 +34,7 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         <linux-renesas-soc@vger.kernel.org>, Rob Herring <robh@kernel.org>
 Subject: Re: [PATCH v5 2/3] dt-bindings: media: ov772x: Make bus-type
  mandatory
-Message-ID: <20200911092312.GA26842@paasikivi.fi.intel.com>
+Message-ID: <20200911094624.5k7aqkyf37zjblwt@uno.localdomain>
 References: <20200910162055.614089-1-jacopo+renesas@jmondi.org>
  <20200910162055.614089-3-jacopo+renesas@jmondi.org>
  <20200911053757.GF6566@paasikivi.fi.intel.com>
@@ -56,15 +45,16 @@ Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <OSBPR01MB5048CACE31FB094F753F4F55AA240@OSBPR01MB5048.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Prabhakar,
+
 On Fri, Sep 11, 2020 at 08:59:13AM +0000, Prabhakar Mahadev Lad wrote:
 > Hi Jacopo,
-> 
+>
 > > -----Original Message-----
 > > From: Jacopo Mondi <jacopo@jmondi.org>
 > > Sent: 11 September 2020 09:59
@@ -96,7 +86,14 @@ On Fri, Sep 11, 2020 at 08:59:13AM +0000, Prabhakar Mahadev Lad wrote:
 > > Sure, can I send a patch in reply to this series to avoid a v6 ?
 > If you don’t mind Ill handle this as part of bt656 additions ?
 
-Both are fine for me.
+It's not an issue for me. From a process perspective it might be
+better if we know that comment and this series gets merged in the same
+release to avoid 'holes', but if you're confident the BT.656 series will
+land at the same time please go ahead!
 
--- 
-Sakari Ailus
+>
+> Cheers,
+> Prabhakar
+>
+>
+> Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, 40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldorf, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WEEE reg. no.: DE 14978647
