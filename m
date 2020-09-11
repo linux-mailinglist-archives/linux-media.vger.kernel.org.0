@@ -2,90 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B82266869
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 20:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9EE1266A00
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 23:23:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725819AbgIKSsb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 14:48:31 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:53450 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725770AbgIKSs0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 14:48:26 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kGnzz-005qGy-RH; Fri, 11 Sep 2020 18:42:15 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kGo8b-0006pR-6D; Fri, 11 Sep 2020 18:51:09 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v5.10] Venus updates - part2 (#66892)
-Date:   Fri, 11 Sep 2020 18:51:09 +0000
-Message-Id: <20200911185109.26208-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200911175629.25918-1-stanimir.varbanov@linaro.org>
-References: 
+        id S1725828AbgIKVX1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 17:23:27 -0400
+Received: from mail4.ezej.site ([162.220.51.81]:36358 "EHLO mail4.ezej.site"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725816AbgIKVX0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 17:23:26 -0400
+X-Greylist: delayed 49160 seconds by postgrey-1.27 at vger.kernel.org; Fri, 11 Sep 2020 17:23:26 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ajnzv.xyz;
+         s=default; h=Message-ID:Subject:To:From:Date:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Sender:Reply-To:Cc:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=6LBIqq4xKmWg6QcqY3mJ328X6weNTorPvJWm6yx1j4U=; b=B2ea5mWyEII/BXzECycvPy5FlP
+        KOhtbEyB2gt1Hlr20hC7XziLLPK2GH9f3yW626nqO6Au5QYLBwwdIOb4aLA8Nr9YOQb0gP+iafYSS
+        apv/nNH+Sd2NSRTuB1CfKz3PfKZNNPZkW5+U+/KCB0WaKWv8GctW4kVdQQQ3xx34rilJslARLP5VA
+        zjUS+WmCbwSMD0aljBdAvGarVhK67HVsjDiDW3EmgIYlk3on0sywiyIkGddEo/EJ15U4xfM1M8I4w
+        w2z503bD0Fk3Y5v8ir/vTGR6FfRZogni/Mq6EcFbq8ZQo2QO1m0L+1nBgiC8oO+GglzHhwWn/q0qh
+        yWAFAAkg==;
+Received: from [127.0.0.1] (port=57652 helo=mail4.ezej.site)
+        by mail4.ezej.site with esmtpa (Exim 4.92)
+        (envelope-from <amirahabbas@fastmail.com>)
+        id 1kGdiQ-0000Gr-7d; Fri, 11 Sep 2020 07:43:26 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 11 Sep 2020 07:43:26 +0000
+From:   "Andrew A. Page" <amirahabbas@fastmail.com>
+To:     undisclosed-recipients:;
+Subject: Re.Dear Friend
+Message-ID: <1490d8d9c7c1b5d2dc314c78f5d53525@fastmail.com>
+X-Sender: amirahabbas@fastmail.com
+User-Agent: Roundcube Webmail/1.3.7
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - mail4.ezej.site
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - fastmail.com
+X-Get-Message-Sender-Via: mail4.ezej.site: authenticated_id: page778@ajnzv.xyz
+X-Authenticated-Sender: mail4.ezej.site: page778@ajnzv.xyz
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200911175629.25918-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/67884/
-Build time: 00:38:44
-Link: https://lore.kernel.org/linux-media/20200911175629.25918-1-stanimir.varbanov@linaro.org
-
-gpg: Signature made Fri 11 Sep 2020 05:46:54 PM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
-
-Summary: got 3/9 patches with issues, being 2 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-venus-core-Drop-local-dma_parms.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: ../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:703 is_pipe_valid_to_current_run_mode() warn: ignoring unreachable code.
-	../drivers/staging/media/atomisp/pci/sh_css.c:1685:16: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1909 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0002-v4l2-ctrl-Add-VP9-codec-levels.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: ../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:703 is_pipe_valid_to_current_run_mode() warn: ignoring unreachable code.
-	../drivers/staging/media/atomisp/pci/sh_css.c:1685:16: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1909 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0002-v4l2-ctrl-Add-VP9-codec-levels.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:139: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:139: CHECK: spaces preferred around that '+' (ctx:VxV)
-
-patches/0008-firmware-qcom_scm-Add-memory-protect-virtual-address.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-firmware-qcom_scm-Add-memory-protect-virtual-address.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:72: CHECK: extern prototypes should be avoided in .h files
 
 
-Error #512 when building PDF docs
+-- 
+Hello,
 
+How are you once again. I have been having difficulty reaching you. I 
+have an important business transaction to discuss with you.  There are 
+funds available and ready for investment which we will need your 
+assistance to invest. Do get back to me as soon as you can for more 
+details.
+
+Regards,
+
+Andrew A. Page
