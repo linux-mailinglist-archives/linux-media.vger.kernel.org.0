@@ -2,65 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B689265EC1
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 13:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4379265EC8
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 13:32:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725785AbgIKLZH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 07:25:07 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:58476 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725710AbgIKLYp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 07:24:45 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kGh3y-005QQS-57; Fri, 11 Sep 2020 11:17:54 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kGhCY-0007kG-VA; Fri, 11 Sep 2020 11:26:47 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT FIXES FOR v5.9] Remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag (#66890)
-Date:   Fri, 11 Sep 2020 11:26:46 +0000
-Message-Id: <20200911112646.29731-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <9347220a-a039-93ff-5dd7-f35613631a29@xs4all.nl>
-References: 
+        id S1725817AbgIKL3v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 07:29:51 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:11819 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725776AbgIKL2v (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 07:28:51 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 99CD1B578675154FD8E9;
+        Fri, 11 Sep 2020 19:27:27 +0800 (CST)
+Received: from localhost (10.174.179.108) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Fri, 11 Sep 2020
+ 19:27:19 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <corbet@lwn.net>, <mchehab@kernel.org>, <lkundrak@v3.sk>,
+        <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH v2 -next] media: marvell-ccic: Fix -Wunused-function warnings
+Date:   Fri, 11 Sep 2020 19:27:07 +0800
+Message-ID: <20200911112707.32232-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
+In-Reply-To: <20200910080933.40684-1-yuehaibing@huawei.com>
+References: <20200910080933.40684-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.179.108]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+If CONFIG_PM is n, gcc warns:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/9347220a-a039-93ff-5dd7-f35613631a29@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/67842/
-Build time: 00:19:57
-Link: https://lore.kernel.org/linux-media/9347220a-a039-93ff-5dd7-f35613631a29@xs4all.nl
+drivers/media/platform/marvell-ccic/mmp-driver.c:324:12: warning: ‘mmpcam_runtime_suspend’ defined but not used [-Wunused-function]
+ static int mmpcam_runtime_suspend(struct device *dev)
+            ^~~~~~~~~~~~~~~~~~~~~~
+drivers/media/platform/marvell-ccic/mmp-driver.c:310:12: warning: ‘mmpcam_runtime_resume’ defined but not used [-Wunused-function]
+ static int mmpcam_runtime_resume(struct device *dev)
+            ^~~~~~~~~~~~~~~~~~~~~
 
-gpg: Signature made Fri 11 Sep 2020 10:38:11 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Mark them as __maybe_unused to fix this.
 
-Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+v2: Adjust based on https://lore.kernel.org/linux-media/20200909112921.5116-1-weiyongjun1@huawei.com/
+---
+ drivers/media/platform/marvell-ccic/mmp-driver.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Error/warnings:
+diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
+index c4b28a00a3a2..c046a0ff3b85 100644
+--- a/drivers/media/platform/marvell-ccic/mmp-driver.c
++++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
+@@ -307,7 +307,7 @@ static int mmpcam_platform_remove(struct platform_device *pdev)
+  * Suspend/resume support.
+  */
+ 
+-static int mmpcam_runtime_resume(struct device *dev)
++static int __maybe_unused mmpcam_runtime_resume(struct device *dev)
+ {
+ 	struct mmp_camera *cam = dev_get_drvdata(dev);
+ 	struct mcam_camera *mcam = &cam->mcam;
+@@ -321,7 +321,7 @@ static int mmpcam_runtime_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int mmpcam_runtime_suspend(struct device *dev)
++static int __maybe_unused mmpcam_runtime_suspend(struct device *dev)
+ {
+ 	struct mmp_camera *cam = dev_get_drvdata(dev);
+ 	struct mcam_camera *mcam = &cam->mcam;
+-- 
+2.17.1
 
-patches/0001-media-v4l2-remove-V4L2_FLAG_MEMORY_NON_CONSISTENT-fl.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: ../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:703 is_pipe_valid_to_current_run_mode() warn: ignoring unreachable code.
-	../drivers/staging/media/atomisp/pci/sh_css.c:1685:16: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
-
-    allyesconfig: return code #0:
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-
-Error #512 when building PDF docs
 
