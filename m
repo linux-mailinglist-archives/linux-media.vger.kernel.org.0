@@ -2,34 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64AF62661BA
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 17:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCCC626620F
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 17:25:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726184AbgIKPAk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 11:00:40 -0400
-Received: from [200.60.55.69] ([200.60.55.69]:57084 "EHLO sis.gob.pe"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725947AbgIKO6X (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 10:58:23 -0400
-Received: from sis.gob.pe ([101.99.66.232])
-        (user=ksebastian@sis.gob.pe mech=LOGIN bits=0)
-        by FTMAIL.sis.gob.pe  with ESMTP id 08BDffUo024835-08BDffUq024835
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NO);
-        Fri, 11 Sep 2020 08:41:47 -0500
-Message-ID: <818019CD.85EBF3FF@sis.gob.pe>
-Date:   Fri, 11 Sep 2020 21:41:53 +0800
-Reply-To: "ksebastian" <ksebastian@sis.gob.pe>
-From:   "ksebastian" <ksebastian@sis.gob.pe>
-X-Accept-Language: en-us
+        id S1726479AbgIKPY4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 11:24:56 -0400
+Received: from mail.inspurworld.com ([203.184.129.130]:37323 "EHLO
+        mail.inspurworld.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbgIKPXf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 11:23:35 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.inspurworld.com (Postfix) with ESMTP id 82F31A5743F3;
+        Fri, 11 Sep 2020 21:41:33 +0800 (HKT)
+Received: from mail.inspurworld.com ([127.0.0.1])
+        by localhost (mail.inspurworld.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1OAHffojxJIa; Fri, 11 Sep 2020 21:41:27 +0800 (HKT)
+Received: from inspurworld.com (unknown [185.252.30.66])
+        by mail.inspurworld.com (Postfix) with ESMTP id 2DB62A574415;
+        Fri, 11 Sep 2020 21:41:24 +0800 (HKT)
+Message-ID: <FFE6EC2B.60C1817B@inspurworld.com>
+Date:   Fri, 11 Sep 2020 06:41:54 -0700
+From:   "isw" <isw@inspurworld.com>
 MIME-Version: 1.0
-To:     <johan@vandenbrande.com>, <hlf@vc.aw>, <daniel@veillard.com>,
-        <vera@veramakina.com.tr>, <linux-media@vger.kernel.org>
+To:     <august.stoegner@at.schunk-group.com>
+Cc:     <rainer.griessmeier@at.schunk-group.com>,
+        <linux-media@vger.kernel.org>, <likwang@vico.com.cn>,
+        <sales@victronenergy.com>
 Subject: PRETTL  files 1 part published
 Content-Type: text/plain;
         charset="us-ascii"
 Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: ksebastian@sis.gob.pe
-X-FEAS-SYSTEM-WL: ksebastian@sis.gob.pe
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
