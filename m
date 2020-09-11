@@ -2,231 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7762B265742
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 05:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15E9A26577D
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 05:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725798AbgIKDKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Sep 2020 23:10:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725300AbgIKDJ7 (ORCPT
+        id S1725601AbgIKDdr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Sep 2020 23:33:47 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:41227 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725300AbgIKDdo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Sep 2020 23:09:59 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6927EC061573
-        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 20:09:59 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id f2so3556825pgd.3
-        for <linux-media@vger.kernel.org>; Thu, 10 Sep 2020 20:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BeeEMInJ8QPxMTw6tscaigX58bQjxfR8Wxlr3TrNC30=;
-        b=jzinIQ5G48/6SngChGOFz1wA2teCbAfN1PjIwBi4zHzkmPFoDd+uUbQuMC4XZmCxl3
-         ZsnRLKIW6REvxR1IaFwQeNO8VQrrACCFil0seLknUa+nzTYv2Rzd9DuEcA7lyNRBy5AU
-         XdbO46V8MvlRyNsSqfIRUrwOe/xAH8Xdwau41a5j1OlC6BZJbpUD/EXFTQBxXhmZl3IN
-         JjW337EoClwwh26+PDVrqrCyBHGy6l8taiofTBa4V95yNUQF/L7/igaCCd1hkSLGpVNR
-         +LZc91hLfx4ppOTFsV9a+2GyvKcPoeJCkLI7hQVnaHWw7RB2B/WyzJA0faj9rfwO4IZr
-         LwgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BeeEMInJ8QPxMTw6tscaigX58bQjxfR8Wxlr3TrNC30=;
-        b=SpwIyhmuW695AHfXVQIfWx5p9ijZBXD53TUV7FRAVDqclTfIy0Mfea1Y6nL+zaDLEF
-         FGOEpl5bDW4EahubgiEAkiwHGLQterXGp/kzRIB6uSt5StLErNhvkHkxDE5iTkB9k5a1
-         6355f/lyExvyqwIwVS4iXboS9GFXR3D4y9aL1I8HsjUdLixA06PBWrKug2LhyoSBZKww
-         GQeOr64/Kj/rBnFU5mowuS922fwSLU4FVtLU7tmO21AkMLIzXjN0EE1KZFT8mby5HVoz
-         04YMS/s2DVV8FFR1K9K0d7iPF1Y8mI5tGz3aAqTDi1758UfkFDFrq2fnpHf0uu6qbqrK
-         pwjQ==
-X-Gm-Message-State: AOAM533vV86pss63/gAm5wvoqLkoj/CtbUwpDTCiMqhu0bPeS1EkkDZq
-        5kv1LOZCaSuua9RA5jWFF7U=
-X-Google-Smtp-Source: ABdhPJztxP2LbpvYUDru+pDfz0DyXtTVNn1H0bBYKRtXeF040Z6AXli3Ui7oBmKipl8AogImie8vRg==
-X-Received: by 2002:a17:902:d88c:: with SMTP id b12mr8117249plz.96.1599793798887;
-        Thu, 10 Sep 2020 20:09:58 -0700 (PDT)
-Received: from localhost.localdomain ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id x3sm496031pfq.49.2020.09.10.20.09.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 20:09:57 -0700 (PDT)
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@lst.de>,
-        linux-media@vger.kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Subject: [PATCH] v4l-compliance: remove NON_CONSISTENT hint test
-Date:   Fri, 11 Sep 2020 12:09:52 +0900
-Message-Id: <20200911030952.74468-1-sergey.senozhatsky@gmail.com>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 10 Sep 2020 23:33:44 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id GZoike44zPTBMGZojkSpSB; Fri, 11 Sep 2020 05:33:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1599795221; bh=Uh2S9KV2vjJ7YMKYeRY82te/1wNwp1gpFu0070kvZ4M=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=dbaySBtczW7HLaE0sVpn4FNuWkmAby7CyPnUoQU5vjL9qJN2t3653e0O9NcGmLawE
+         AKBg6PzbPpHqjQaVt4dS8SudDNRAS01WgrMkvH3hr2wlzd7i/45eipsyJOK9L7AWaX
+         vkBBLcky2nKtcD8SngIaXo474Q3vGXhEb6mpxCj8gK4TvocwWTvMsAXVzNXrdS5ytP
+         uUTujmqjae5OO8kGqLr4Bg3YZBYMr2/Jf3VzkJyJs+KpWc8jFuqzas2ikUvwvb9iAq
+         U4DPhH2NolMYtqohsM7jKqvbsUz7BU4W+zOnPZRB0Z1zlQSTK9yPdg6nFBCni59vE9
+         o9nHmF4GQR30w==
+Message-ID: <973205350a6e026c783b651f60c9133c@smtp-cloud8.xs4all.net>
+Date:   Fri, 11 Sep 2020 05:33:40 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfNnHqQIL7NTPB2MBJXz2xX/Jv/E1PndvwFS59yXmWoz9SY/BBPip4uBim2Ie6V2gjc/KYuRa2KW7qKo8k8kGaUKNKqW3dCiYrIpsx1vGX/x4gVjTkK9h
+ rBv3dTOhn8E74rDqHhtI3dWS36PLRg+4lf1/J34sANeGeoL8znquwz+mRWe95obNhPHhe8xkSX06NBmWWN483WfNKzQJtuuDjfgOCq/yuoCqEmiXktBeNGcu
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Kernel support for V4L2_FLAG_MEMORY_NON_CONSISTENT has been
-reverted, so we need to to remove the memory consistency
-(coherency) tests from the test-buffers code.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Note, the buffer cache management hints support is still there
-and should be tested.
+Results of the daily build of media_tree:
 
-Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
----
- utils/common/cv4l-helpers.h                 |  8 ++---
- utils/common/v4l-helpers.h                  |  8 ++---
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 40 ++-------------------
- 3 files changed, 9 insertions(+), 47 deletions(-)
+date:			Fri Sep 11 05:00:11 CEST 2020
+media-tree git hash:	93c16fabdb74a9c1a427402fc1fe588a45130c5b
+media_build git hash:	01087db37b5aa8dc6beeda1696a5f22444ac6c34
+v4l-utils git hash:	7e8b5ce6318d6ba59a6947d0070d568c90afdf80
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: de6d6159fd08a7f648f619e6bdfb2b2d6aabb555
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
-index 3cee372b..712efde6 100644
---- a/utils/common/cv4l-helpers.h
-+++ b/utils/common/cv4l-helpers.h
-@@ -754,17 +754,17 @@ public:
- 	int g_fd(unsigned index, unsigned plane) const { return v4l_queue_g_fd(this, index, plane); }
- 	void s_fd(unsigned index, unsigned plane, int fd) { v4l_queue_s_fd(this, index, plane, fd); }
- 
--	int reqbufs(cv4l_fd *fd, unsigned count = 0, unsigned int flags = 0)
-+	int reqbufs(cv4l_fd *fd, unsigned count = 0)
- 	{
--		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count, flags);
-+		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count);
- 	}
- 	bool has_create_bufs(cv4l_fd *fd) const
- 	{
- 		return v4l_queue_has_create_bufs(fd->g_v4l_fd(), this);
- 	}
--	int create_bufs(cv4l_fd *fd, unsigned count, const v4l2_format *fmt = NULL, unsigned int flags = 0)
-+	int create_bufs(cv4l_fd *fd, unsigned count, const v4l2_format *fmt = NULL)
- 	{
--		return v4l_queue_create_bufs(fd->g_v4l_fd(), this, count, fmt, flags);
-+		return v4l_queue_create_bufs(fd->g_v4l_fd(), this, count, fmt);
- 	}
- 	int mmap_bufs(cv4l_fd *fd, unsigned from = 0)
- 	{
-diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-index c09cd987..f96b3c38 100644
---- a/utils/common/v4l-helpers.h
-+++ b/utils/common/v4l-helpers.h
-@@ -1515,7 +1515,7 @@ static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, uns
- }
- 
- static inline int v4l_queue_reqbufs(struct v4l_fd *f,
--		struct v4l_queue *q, unsigned count, unsigned int flags = 0)
-+		struct v4l_queue *q, unsigned count)
- {
- 	struct v4l2_requestbuffers reqbufs;
- 	int ret;
-@@ -1523,7 +1523,6 @@ static inline int v4l_queue_reqbufs(struct v4l_fd *f,
- 	reqbufs.type = q->type;
- 	reqbufs.memory = q->memory;
- 	reqbufs.count = count;
--	reqbufs.flags = flags;
- 	/*
- 	 * Problem: if REQBUFS returns an error, did it free any old
- 	 * buffers or not?
-@@ -1548,7 +1547,7 @@ static inline bool v4l_queue_has_create_bufs(struct v4l_fd *f, const struct v4l_
- 
- static inline int v4l_queue_create_bufs(struct v4l_fd *f,
- 		struct v4l_queue *q, unsigned count,
--		const struct v4l2_format *fmt, unsigned int flags = 0)
-+		const struct v4l2_format *fmt)
- {
- 	struct v4l2_create_buffers createbufs;
- 	int ret;
-@@ -1556,7 +1555,6 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
- 	createbufs.format.type = q->type;
- 	createbufs.memory = q->memory;
- 	createbufs.count = count;
--	createbufs.flags = flags;
- 	if (fmt) {
- 		createbufs.format = *fmt;
- 	} else {
-@@ -1735,7 +1733,7 @@ static inline void v4l_queue_free(struct v4l_fd *f, struct v4l_queue *q)
- 	v4l_ioctl(f, VIDIOC_STREAMOFF, &q->type);
- 	v4l_queue_release_bufs(f, q, 0);
- 	v4l_queue_close_exported_fds(q);
--	v4l_queue_reqbufs(f, q, 0, 0);
-+	v4l_queue_reqbufs(f, q, 0);
- }
- 
- static inline void v4l_queue_buffer_update(const struct v4l_queue *q,
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index aca0eb68..1651e95c 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -653,10 +653,6 @@ int testReqBufs(struct node *node)
- 		fail_on_test(q.reqbufs(node, 0));
- 
- 		for (m = V4L2_MEMORY_MMAP; m <= V4L2_MEMORY_DMABUF; m++) {
--			bool cache_hints_cap = false;
--			bool consistent;
--
--			cache_hints_cap = q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
- 			if (!(node->valid_memorytype & (1 << m)))
- 				continue;
- 			cv4l_queue q2(i, m);
-@@ -672,17 +668,8 @@ int testReqBufs(struct node *node)
- 			reqbufs.count = 1;
- 			reqbufs.type = i;
- 			reqbufs.memory = m;
--			reqbufs.flags = V4L2_FLAG_MEMORY_NON_CONSISTENT;
- 			fail_on_test(doioctl(node, VIDIOC_REQBUFS, &reqbufs));
--			consistent = reqbufs.flags & V4L2_FLAG_MEMORY_NON_CONSISTENT;
--			if (!cache_hints_cap) {
--				fail_on_test(consistent);
--			} else {
--				if (m == V4L2_MEMORY_MMAP)
--					fail_on_test(!consistent);
--				else
--					fail_on_test(consistent);
--			}
-+			fail_on_test(check_0(reqbufs.reserved, sizeof(reqbufs.reserved)));
- 			q.reqbufs(node);
- 
- 			ret = q.create_bufs(node, 0);
-@@ -695,32 +682,9 @@ int testReqBufs(struct node *node)
- 			node->g_fmt(crbufs.format, i);
- 			crbufs.count = 1;
- 			crbufs.memory = m;
--			crbufs.flags = V4L2_FLAG_MEMORY_NON_CONSISTENT;
- 			fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
- 			fail_on_test(check_0(crbufs.reserved, sizeof(crbufs.reserved)));
- 			fail_on_test(crbufs.index != q.g_buffers());
--
--			consistent = crbufs.flags & V4L2_FLAG_MEMORY_NON_CONSISTENT;
--			if (!cache_hints_cap) {
--				fail_on_test(consistent);
--			} else {
--				if (m == V4L2_MEMORY_MMAP)
--					fail_on_test(!consistent);
--				else
--					fail_on_test(consistent);
--			}
--
--			if (cache_hints_cap) {
--				/*
--				 * Different memory consistency model. Should fail for MMAP
--				 * queues which support cache hints.
--				 */
--				crbufs.flags = 0;
--				if (m == V4L2_MEMORY_MMAP)
--					fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs) != EINVAL);
--				else
--					fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
--			}
- 			q.reqbufs(node);
- 
- 			fail_on_test(q.create_bufs(node, 1));
-@@ -1352,7 +1316,7 @@ int testMmap(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
- 			have_createbufs = false;
- 		if (have_createbufs) {
- 			q.reqbufs(node);
--			q.create_bufs(node, 2, &cur_fmt, V4L2_FLAG_MEMORY_NON_CONSISTENT);
-+			q.create_bufs(node, 2, &cur_fmt);
- 			fail_on_test(setupMmap(node, q));
- 			q.munmap_bufs(node);
- 			q.reqbufs(node, 2);
--- 
-2.28.0
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.169-i686: ERRORS
+linux-4.14.169-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.101-i686: ERRORS
+linux-4.19.101-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: ERRORS: Final Summary: 2779, Succeeded: 2778, Failed: 1, Warnings: 1
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
