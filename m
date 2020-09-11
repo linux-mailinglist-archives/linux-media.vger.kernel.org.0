@@ -2,35 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3221D26655D
-	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 19:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCDCC2664A6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Sep 2020 18:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725815AbgIKRAY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Sep 2020 13:00:24 -0400
-Received: from mutu-mail-n1.sivit.org ([194.146.224.165]:35572 "EHLO
-        mutu-mail-n1.sivit.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbgIKRAM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Sep 2020 13:00:12 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mutu-mail-n1.sivit.org (Postfix) with ESMTP id B84F1C2C03;
-        Fri, 11 Sep 2020 15:41:49 +0200 (CEST)
-X-Virus-Scanned: by amavis at mutu-mail-n1.sivit.org
-Received: from mutu-mail-n1.sivit.org ([127.0.0.1])
-        by localhost (mutu-mail-n1.sivit.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id lclTOfMhPfJs; Fri, 11 Sep 2020 15:41:49 +0200 (CEST)
-Received: from print-andco.com (unknown [194.5.178.122])
-        (Authenticated sender: alison@print-andco.com)
-        by mutu-mail-n1.sivit.org (Postfix) with ESMTPSA id 3D6BFC2C3E;
-        Fri, 11 Sep 2020 15:41:46 +0200 (CEST)
-Message-ID: <89D81264.85A05AF2@print-andco.com>
-Date:   Fri, 11 Sep 2020 06:41:51 -0700
-From:   "alison" <alison@print-andco.com>
-X-Accept-Language: en-us
+        id S1726147AbgIKQnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Sep 2020 12:43:17 -0400
+Received: from email.plion.it ([213.254.13.124]:56858 "EHLO email.plion.it"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726396AbgIKPJO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Sep 2020 11:09:14 -0400
+DKIM-Signature: a=rsa-sha256; t=1599831756; x=1600436556; s=d1024; d=plion.it; c=relaxed/relaxed; v=1; bh=x2lZ354XDntneIt/KORSBJgFCNlEYLQRSnyDFBdwIF4=; h=From:Reply-To:Subject:Date:Message-ID:To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+   b=zYSN1PYgdtdDRkj5uk4cJWwo6C7uxfVwT1a7AXKMLIA29L0B4MfHJGfFTPgZSeyIfDQMiJiDyr2Yt7FBg6l8NRfZMTWTlUr/xjRo5UEn4xJBvIZKyy6Egu52G4kVpDjEzz63CyACn4eWTR1A4xCwNj1ipjHHtPahUyWDxqOOUH8=
+Received: from plion.it ([185.252.30.66])
+        by email.plion.it (P.LION NET mail server 1 - Connection is logged) with ASMTP (SSL) id 202009111542357239;
+        Fri, 11 Sep 2020 15:42:35 +0200
+Message-ID: <D80B3F2C.317C8708@plion.it>
+Date:   Fri, 11 Sep 2020 06:42:29 -0700
+Reply-To: "beatrice" <beatrice@plion.it>
+From:   "beatrice" <beatrice@plion.it>
 MIME-Version: 1.0
-To:     <linux-media@vger.kernel.org>
-Cc:     <likwang@vico.com.cn>, <sales@victronenergy.com>,
-        <mirko.haardt@vincotech.com>, <estefania.toledano@vishay.com>
+To:     <franziska.krull@mlands.com>, <stefan.heusinger@vde.com>,
+        <cps-requests@verisign.com>, <k@verizon.net>,
+        <linux-media@vger.kernel.org>
 Subject: PRETTL  files 1 part published
 Content-Type: text/plain;
         charset="us-ascii"
