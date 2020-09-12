@@ -2,274 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57D60267915
-	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 11:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0364626791D
+	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 11:23:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725817AbgILJQ2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 12 Sep 2020 05:16:28 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:38684 "EHLO www.linuxtv.org"
+        id S1725833AbgILJW4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Sep 2020 05:22:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56598 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725805AbgILJQ1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Sep 2020 05:16:27 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kH1Xz-006brV-Oc; Sat, 12 Sep 2020 09:10:15 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kH1gc-0002NP-2q; Sat, 12 Sep 2020 09:19:10 +0000
-Date:   Sat, 12 Sep 2020 09:19:10 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <180288453.3.1599902350071@builder.linuxtv.org>
-In-Reply-To: <2080776500.2.1599900557418@builder.linuxtv.org>
-References: <2080776500.2.1599900557418@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3216
+        id S1725809AbgILJWv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 12 Sep 2020 05:22:51 -0400
+Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0A89F20796;
+        Sat, 12 Sep 2020 09:22:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599902571;
+        bh=6Q+AbG3QWiHA3HGr6g8w/t8tM48q/RSUlhmIjzNTm2c=;
+        h=From:To:Cc:Subject:Date:From;
+        b=taXULLzJdemj1hNMoUcfGjFKmY8SoaoJ31nKoJ8mgmCQj8NYfBoYtJeP+0a05pCru
+         j6QT0xU8t/cCQvlRdOrtvIONqvArorto45uojn6zMLnINTYiY0w6DoUPlAR2HSAew0
+         1wqVzt37O7P09wNXFUHt8kFln6gMfNQQPzNH6E+0=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kH1k7-001cEl-Kd; Sat, 12 Sep 2020 11:22:47 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media: vidtv: fix 32-bit warnings
+Date:   Sat, 12 Sep 2020 11:22:46 +0200
+Message-Id: <008267108695f5cdf6744d861b2b6e5084bedfee.1599902564.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3216/display/redirect>
+There are several warnings produced when the driver is built
+for 32-bit archs. Solve them.
 
-Changes:
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/test-drivers/vidtv/vidtv_common.c |  4 ++--
+ drivers/media/test-drivers/vidtv/vidtv_pes.c    | 12 ++++++------
+ drivers/media/test-drivers/vidtv/vidtv_s302m.c  |  2 +-
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.c b/drivers/media/test-drivers/vidtv/vidtv_common.c
+index 9093df32e0ab..63b3055bd715 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_common.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_common.c
+@@ -42,7 +42,7 @@ u32 vidtv_memcpy(void *to,
+ 		 size_t len)
+ {
+ 	if (unlikely(to_offset + len > to_size)) {
+-		pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size. Needed %lu, had %zu\n",
++		pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size. Needed %zu, had %zu\n",
+ 				   to_offset + len,
+ 				   to_size);
+ 		return 0;
+@@ -78,7 +78,7 @@ u32 vidtv_memset(void *to,
+ 		 size_t len)
+ {
+ 	if (unlikely(to_offset + len > to_size)) {
+-		pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size. Needed %lu, had %zu\n",
++		pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size. Needed %zu, had %zu\n",
+ 				   to_offset + len,
+ 				   to_size);
+ 		return 0;
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_pes.c b/drivers/media/test-drivers/vidtv/vidtv_pes.c
+index 8237434f3fc2..4ffc4a1c33ee 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_pes.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_pes.c
+@@ -91,13 +91,13 @@ static u32 vidtv_pes_write_pts_dts(struct pes_header_write_args args)
+ 		return 0;
+ 
+ 	#ifdef __BIG_ENDIAN
+-	mask1 = GENMASK(30, 32);
+-	mask2 = GENMASK(15, 29);
+-	mask3 = GENMASK(0, 14);
++	mask1 = GENMASK_ULL(30, 32);
++	mask2 = GENMASK_ULL(15, 29);
++	mask3 = GENMASK_ULL(0, 14);
+ 	#else
+-	mask1 = GENMASK(32, 30);
+-	mask2 = GENMASK(29, 15);
+-	mask3 = GENMASK(14, 0);
++	mask1 = GENMASK_ULL(32, 30);
++	mask2 = GENMASK_ULL(29, 15);
++	mask3 = GENMASK_ULL(14, 0);
+ 	#endif
+ 
+ 	/* see ISO/IEC 13818-1 : 2000 p. 32 */
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+index 467470295942..7cabc71b26e4 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+@@ -415,7 +415,7 @@ static void vidtv_s302m_write_frames(struct vidtv_encoder *e)
+ 		au->nbytes = nbytes_per_unit;
+ 
+ 		if (au_sz + sizeof(struct vidtv_smpte_s302m_es) != nbytes_per_unit) {
+-			pr_warn_ratelimited("write size was %d, expected %lu\n",
++			pr_warn_ratelimited("write size was %zu, expected %zu\n",
+ 					    nbytes_per_unit,
+ 					    au_sz + sizeof(struct vidtv_smpte_s302m_es));
+ 		}
+-- 
+2.26.2
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision 9cfb94d2c8b2a38add1762b40bc6d94f62311fab (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 9cfb94d2c8b2a38add1762b40bc6d94f62311fab # timeout=10
-Commit message: "Update backports/pr_fmt.patch"
- > git rev-list --no-walk 9cfb94d2c8b2a38add1762b40bc6d94f62311fab # timeout=10
-[Checks API] No suitable checks publisher found.
-[media-build] $ /bin/sh -xe /tmp/jenkins15185154875908429181.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
-
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
-
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-09-12 09:17:05--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-09-12 09:17:06--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100%  181M=0s
-
-2020-09-12 09:17:06 (181 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-|index 82e375048b99..58328e27a92f 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-|index ac4bdf05395e..8f9832ffd4f2 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.c b/drivers/media/test-drivers/vidtv/vidtv_common.c
-|index 9093df32e0ab..dfd88b11a521 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_common.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_common.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-|index 540f404372aa..7a651dc633a3 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_pes.c b/drivers/media/test-drivers/vidtv/vidtv_pes.c
-|index 8237434f3fc2..1ebea195dade 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_pes.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_pes.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-|index 761034d10d9d..2e6370c51178 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-|index 3b20a26d8721..58e342c04c93 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c b/drivers/media/test-drivers/vidtv/vidtv_ts.c
-|index 190b9e4438dc..3e76f229d3a6 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_ts.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-The text leading up to this was:
---------------------------
-|diff --git a/drivers/media/test-drivers/vidtv/vidtv_tuner.c b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-|index c8e64bab0379..fbf778fbc262 100644
-|--- a/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-|+++ b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:378: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
