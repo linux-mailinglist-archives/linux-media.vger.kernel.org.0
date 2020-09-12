@@ -2,61 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE92726782E
-	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 08:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38D2826789A
+	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 09:45:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725836AbgILGTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Sep 2020 02:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58862 "EHLO
+        id S1725843AbgILHpQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Sep 2020 03:45:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbgILGTf (ORCPT
+        with ESMTP id S1725813AbgILHpO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Sep 2020 02:19:35 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F2D8C061573
-        for <linux-media@vger.kernel.org>; Fri, 11 Sep 2020 23:19:35 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id y6so1924126plt.9
-        for <linux-media@vger.kernel.org>; Fri, 11 Sep 2020 23:19:35 -0700 (PDT)
+        Sat, 12 Sep 2020 03:45:14 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B598CC061573
+        for <linux-media@vger.kernel.org>; Sat, 12 Sep 2020 00:45:13 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id a17so13543365wrn.6
+        for <linux-media@vger.kernel.org>; Sat, 12 Sep 2020 00:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=O+jkf/ysAqyDWr/bejv6k/ru/CqrcTIT1ZilhOAcnAM=;
-        b=K3dxI7QZvjIEghHMwYqtUNcwMt0PvN8ZCbjliRGYMBoxb6dBlDYE1TAs+jSMW1FEmE
-         E5qxuM/liGr2WRdid6ij9kdAYZJy22VHaFq476V9CiFCgWs5UggJWdRz4DF5a8QkviOf
-         Dl/PqwdTCBBB5eIFPFXPHCIoDkGHEy87QClgr0N85kR7sOF3hs5Rve0QjoOzwEtOB+dC
-         ddMddnyXs+5++P4/TwHI8En6y90rQwfdMTTP4hA/y7oID28ePI0/aYH0mHyazKAxmycy
-         lRRHyb0eRXSHDxdmqMErYrnvL3z/NgoaElffW3edJv6q0HxbG6FxGnlT33D4oOxg/MqL
-         RhBA==
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=aql8/5pinrKHiuTkRAvMCbHphyM/SR7RYwaYN3vp3fc=;
+        b=oHxJicdCzE7szgNcC+J+LicvlKFBe30osu89Ba/rB2AWJv/5gg5X5sq/zCoiGH6vFi
+         kTUAfXYupMJE941vn9ouCSSqhPgyKHjpAgTRne1vTT93CkJXxuOM2nQGRy2fle3jH4YF
+         Izb4V5xBKDDW5U+GiQihjnuRcUIBAeB9w4fY1I/GYxjwmINhSMohmpYN0FvNQhY69Tfr
+         zzNWpsDEkQ6wPEydt9CJ8gIArR4b+rVz/XTKO8dkELAxlFIrBKI9KSZGUxk83OFKzP9y
+         jxxysHpdtHQjtN6D7q/1MMQEpZMIddsOi2eR/0mkbFj6e3qUN6pkjquuz0r7DeWcOXJB
+         RqIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=O+jkf/ysAqyDWr/bejv6k/ru/CqrcTIT1ZilhOAcnAM=;
-        b=aQZ0sO/qIIlkY9MBXx/XTvmBjDrAJom7crC1u6qv4AurBRRRzBMfzNQ1kFXCNWhV2T
-         Ft+mu08wJ2bXL7qgVgZrDBt2pbeZFRr/LaS1jsjTwTIPKwj5U7tA34ZRN48b1QzLA3iO
-         MEw/4WdLl1gazP65bhdw5aloljdsKRTUG+AJrTpz5JMRpX4k3w78MmIwv7sN1Vg9gt9a
-         wlfhfYExelGC8DAHVECb/p1IEW+9fCU1eO8VaW+eEW7J1/Epj9mssyKfOtFjeWLphwez
-         8IhNkumgEeZPZjiUvSvElrTYhGG0M3HEU/0hZi0RedkrBq8DEWq/idyNN+QXIYmmRlY3
-         JeRg==
-X-Gm-Message-State: AOAM531e6D5WE3yvjjCOvSt2MS9hk9sU/wLdV8f9LrAueGewHaahFscg
-        7j4nGKqcxxTNYE+iAqiOS3rwH7L21QL3pExleLs=
-X-Google-Smtp-Source: ABdhPJzjzmuPplxo2gr37WV61WRBtqVmpuMlGcfNdZjLqoEcSwqDFg+bsokcTSP5Hnv13IEPtPmCIQ==
-X-Received: by 2002:a17:902:b718:b029:d0:92cc:a449 with SMTP id d24-20020a170902b718b02900d092cca449mr5475481pls.9.1599891568219;
-        Fri, 11 Sep 2020 23:19:28 -0700 (PDT)
-Received: from [10.5.18.26] ([103.2.198.70])
-        by smtp.gmail.com with ESMTPSA id m13sm3380917pjl.45.2020.09.11.23.19.26
-        for <linux-media@vger.kernel.org>
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=aql8/5pinrKHiuTkRAvMCbHphyM/SR7RYwaYN3vp3fc=;
+        b=gikO59DY2AcSWOj3YVLPle26AM1aPAuk4xU5GVKnc1HuDxVmRbdTTOUO5h6OSSJKXr
+         oUtQO2H8NNoX/NRGRk9a4RlZvC+zuKvYTs9aDh3O6VtONssTezn13nKBs1MlAktfchGG
+         aA2adg4KlcZ2d2J6zNlNZVVmgrf3+cv3f/htz5eJClEcfpgzhbSSTMyhdn/hQuv7M+4L
+         4hY+kbdfNYQxkBF0e06nvt1ed2ouXjvvVw1dlEweOCCLY5pChi0jy+/JxrY75qYvIrAQ
+         FNg7yPjhaDZ388rghnyowtDW1u/x4CAIAvYZ0f4h7OOm0tdNjIv0mVZhhR5OKmhLe8fS
+         sWPA==
+X-Gm-Message-State: AOAM533h9qwmcFxag/PRv4/1PkLEVvLyhsNU2NqTU0xsZ1NxsMJ26tMY
+        1xGNKW7vtjKXW1nsWS2jxSE=
+X-Google-Smtp-Source: ABdhPJwnNK72KJd/vd/+1afj3vE8VjO0pdK6OabZgmtb+GRnTcaidc2tZIWPA6yEdVrmuti57Sryeg==
+X-Received: by 2002:a5d:4311:: with SMTP id h17mr5863974wrq.398.1599896712059;
+        Sat, 12 Sep 2020 00:45:12 -0700 (PDT)
+Received: from [192.168.1.211] ([2.29.208.34])
+        by smtp.gmail.com with ESMTPSA id b11sm8992777wrt.38.2020.09.12.00.45.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 23:19:27 -0700 (PDT)
-To:     linux-media@vger.kernel.org
-From:   Garry <knobbage58@gmail.com>
-Subject: Startup error message
-Message-ID: <6bcd6d6a-ed7a-f814-d804-3e72f5a8ee61@gmail.com>
-Date:   Sat, 12 Sep 2020 16:19:24 +1000
+        Sat, 12 Sep 2020 00:45:11 -0700 (PDT)
+From:   Dan Scally <djrscally@gmail.com>
+Subject: Re: cio2 ipu3 module to automatically connect sensors via swnodes
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        jorhand@linux.microsoft.com, andriy.shevchenko@linux.intel.com,
+        Tsuchiya Yuto <kitakar@gmail.com>
+References: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
+ <20200909134053.GA3699980@kuha.fi.intel.com>
+Message-ID: <70b214fd-d199-ccb2-2a84-dc1f6f7c759f@gmail.com>
+Date:   Sat, 12 Sep 2020 08:45:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200909134053.GA3699980@kuha.fi.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -65,31 +72,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hello Heikki
 
-Desktop is running Linux Mint 20, Kernel 5.4.0-472009090909 and when 
-starting the computer it shows this error before getting to the login 
-screen.
+On 09/09/2020 14:40, Heikki Krogerus wrote:
+> I'm almost certain that my graph patch is broken. My tests did not
+> cover nearly as much that is needed to properly test the patch. I
+> think at least the refcount handling is totally broken in
+> software_node_graph_get_next_endpoint(), so that function at least
+> needs to be rewritten.
+>
+> Unfortunately I do not have time to work on that patch right now.
+>
+> thanks,
 
-WARNING: You are using an experimental version of the media stack.
-     As the driver is backported to an older kernel, it doesn't offer
-     enough quality for its usage in production.
-     Use it with care.
-Latest git patches (needed if you report a bug to 
-linux-media@vger.kernel.org):
-     6f01dfb760c027d5dd6199d91ee9599f2676b5c6 media: cros-ec-cec: do not 
-bail on device_init_wakeup failure
-     0f879bab72f47e8ba2421a984e7acfa763d3e84e media: rockchip: rga: Only 
-set output CSC mode for RGB input
-     ded874ece29d3fe2abd3775810a06056067eb68c media: rockchip: rga: 
-Introduce color fmt macros and refactor CSC mode logic
+I managed to get to the bottom of the remaining issue (which was the 
+cause of the problem I originally posted here about - that's now all 
+resolved).  In addition to the refcount handling problems, 
+software_node_graph_get_next_endpoint() was occasionally passing an 
+invalid combination of parameters to software_node_get_next_child(); 
+sometimes it would pass an existing endpoint as old in combination with 
+a port which was not the endpoint's parent. Applying this on top of your 
+patch seems to stop both of those errors:
 
-Can you assist by telling me what this relates to and what I can do to 
-fix this.
+---
+  drivers/base/swnode.c | 13 +++++++++++++
+  1 file changed, 13 insertions(+)
 
-Any assistance would be great.
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index 5cf9f1eef96f..80255e0b7739 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -563,6 +563,7 @@ software_node_graph_get_next_endpoint(const struct fwnode_handle *fwnode,
+  {
+  	struct swnode *swnode = to_swnode(fwnode);
+  	struct fwnode_handle *old = endpoint;
++	struct fwnode_handle *parent_of_old;
+  	struct fwnode_handle *parent;
+  	struct fwnode_handle *port;
+  
+@@ -581,10 +582,22 @@ software_node_graph_get_next_endpoint(const struct fwnode_handle *fwnode,
+  	}
+  
+  	for (; port; port = swnode_graph_find_next_port(parent, port)) {
++
++		if (old) {
++			parent_of_old = software_node_get_parent(old);
++
++			if (parent_of_old != port)
++				old = NULL;
++
++			fwnode_handle_put(parent_of_old);
++		}
++
+  		endpoint = software_node_get_next_child(port, old);
+  		fwnode_handle_put(old);
+  		if (endpoint)
+  			break;
++		else
++			fwnode_handle_put(port);
+  	}
+  
+  	fwnode_handle_put(port);
+-- 
+2.25.1
 
-Regards
+Following that change, everything seems to be working ok. The module linking sensors to the cio2 infrastructure can correctly link multiple sensors now, and the reference count issues that prevented that module from unloading are resolved too.
 
-Garry
+Getting those patches and the bridge module upstream would be a good step to getting working cameras on ACPI platforms using ipu3. I'd like to take that on if you haven't the time; would you be ok with me applying my changes on top of your original patch, and submitting the combined result as a v2? And then I'll tackle any changes that come back - might take me a little while but I should be able to manage it.
+
+Thanks
+Dan
 
