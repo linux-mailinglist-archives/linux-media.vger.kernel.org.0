@@ -2,17 +2,17 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7427E267AEC
-	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 16:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E220267AE9
+	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 16:32:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725937AbgILOdB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Sep 2020 10:33:01 -0400
-Received: from gw.c-home.cz ([89.24.150.100]:33045 "EHLO dmz.c-home.cz"
+        id S1725893AbgILObr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Sep 2020 10:31:47 -0400
+Received: from gw.c-home.cz ([89.24.150.100]:33037 "EHLO dmz.c-home.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725881AbgILObe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Sep 2020 10:31:34 -0400
+        id S1725846AbgILObc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 12 Sep 2020 10:31:32 -0400
 Received: from ubuntu1804.c-home.cz (unifi.c-home.cz [192.168.1.239])
-        by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 08CEUtN1007223;
+        by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 08CEUtN2007223;
         Sat, 12 Sep 2020 16:31:01 +0200 (CEST)
 From:   Martin Cerveny <m.cerveny@computer.org>
 To:     Maxime Ripard <mripard@kernel.org>
@@ -25,9 +25,9 @@ Cc:     Martin Cerveny <m.cerveny@computer.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 2/6] dt-bindings: sram: allwinner,sun4i-a10-system-control: Add V3s compatibles
-Date:   Sat, 12 Sep 2020 16:30:48 +0200
-Message-Id: <20200912143052.30952-3-m.cerveny@computer.org>
+Subject: [PATCH v2 3/6] ARM: dts: sun8i: v3s: Add node for system control
+Date:   Sat, 12 Sep 2020 16:30:49 +0200
+Message-Id: <20200912143052.30952-4-m.cerveny@computer.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200912143052.30952-1-m.cerveny@computer.org>
 References: <20200912143052.30952-1-m.cerveny@computer.org>
@@ -36,38 +36,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allwinner V3s has system control similar to that in H3.
-Add compatibles for system control with SRAM C1 region.
+Allwinner V3s has system control and SRAM C1 region similar to H3.
 
 Signed-off-by: Martin Cerveny <m.cerveny@computer.org>
 ---
- .../bindings/sram/allwinner,sun4i-a10-system-control.yaml   | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-index f5825935fd22..9577d6c1494a 100644
---- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-+++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-@@ -33,6 +33,9 @@ properties:
-           - const: allwinner,sun4i-a10-system-control
-       - const: allwinner,sun8i-a23-system-control
-       - const: allwinner,sun8i-h3-system-control
-+      - items:
-+          - const: allwinner,sun8i-v3s-system-control
-+          - const: allwinner,sun8i-h3-system-control
-       - const: allwinner,sun50i-a64-sram-controller
-         deprecated: true
-       - const: allwinner,sun50i-a64-system-control
-@@ -86,6 +89,9 @@ patternProperties:
-               - items:
-                   - const: allwinner,sun8i-h3-sram-c1
-                   - const: allwinner,sun4i-a10-sram-c1
-+              - items:
-+                  - const: allwinner,sun8i-v3s-sram-c1
-+                  - const: allwinner,sun4i-a10-sram-c1
-               - items:
-                   - const: allwinner,sun50i-a64-sram-c1
-                   - const: allwinner,sun4i-a10-sram-c1
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index e5312869c0d2..3f18866fb37b 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -138,6 +138,29 @@
+ 			};
+ 		};
+ 
++		syscon: system-control@1c00000 {
++			compatible = "allwinner,sun8i-v3s-system-control",
++				     "allwinner,sun8i-h3-system-control";
++			reg = <0x01c00000 0x1000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
++
++			sram_c: sram@1d00000 {
++				compatible = "mmio-sram";
++				reg = <0x01d00000 0x80000>;
++				#address-cells = <1>;
++				#size-cells = <1>;
++				ranges = <0 0x01d00000 0x80000>;
++
++				ve_sram: sram-section@0 {
++					compatible = "allwinner,sun8i-v3s-sram-c1",
++						     "allwinner,sun4i-a10-sram-c1";
++					reg = <0x000000 0x80000>;
++				};
++			};
++		};
++
+ 		tcon0: lcd-controller@1c0c000 {
+ 			compatible = "allwinner,sun8i-v3s-tcon";
+ 			reg = <0x01c0c000 0x1000>;
 -- 
 2.17.1
 
