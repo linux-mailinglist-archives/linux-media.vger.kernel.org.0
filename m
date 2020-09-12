@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0364626791D
-	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 11:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 528B8267938
+	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 11:38:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725833AbgILJW4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Sep 2020 05:22:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56598 "EHLO mail.kernel.org"
+        id S1725862AbgILJie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Sep 2020 05:38:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60146 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725809AbgILJWv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Sep 2020 05:22:51 -0400
+        id S1725825AbgILJic (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 12 Sep 2020 05:38:32 -0400
 Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0A89F20796;
-        Sat, 12 Sep 2020 09:22:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C2E0C208B3;
+        Sat, 12 Sep 2020 09:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599902571;
-        bh=6Q+AbG3QWiHA3HGr6g8w/t8tM48q/RSUlhmIjzNTm2c=;
+        s=default; t=1599903512;
+        bh=wtWr/uv4YptSfy3vfLKpz9nXj+q8TtXd2IlsaXU5w28=;
         h=From:To:Cc:Subject:Date:From;
-        b=taXULLzJdemj1hNMoUcfGjFKmY8SoaoJ31nKoJ8mgmCQj8NYfBoYtJeP+0a05pCru
-         j6QT0xU8t/cCQvlRdOrtvIONqvArorto45uojn6zMLnINTYiY0w6DoUPlAR2HSAew0
-         1wqVzt37O7P09wNXFUHt8kFln6gMfNQQPzNH6E+0=
+        b=HTHO8i5+4TJ6K9xaLstbXGV0L5J8PNdlNCmC3H26j1Av2ke9Vag+Pru6JPVbW5RRX
+         OnLg0HMXQP3u3PgmUUCsKmCnxoTyabwSP0z+DHav/+l/zEZfmV1q/RvDeny7YdsgP5
+         mqd4AobuVBGiPg/qNV74FgDvG0qcvmtNSjRNkMVU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kH1k7-001cEl-Kd; Sat, 12 Sep 2020 11:22:47 +0200
+        id 1kH1zJ-001cQi-9k; Sat, 12 Sep 2020 11:38:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: vidtv: fix 32-bit warnings
-Date:   Sat, 12 Sep 2020 11:22:46 +0200
-Message-Id: <008267108695f5cdf6744d861b2b6e5084bedfee.1599902564.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2] media: vidtv: fix 32-bit warnings
+Date:   Sat, 12 Sep 2020 11:38:27 +0200
+Message-Id: <542c6b0339aaf6636d996592763ea3b2c82640b1.1599903505.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -102,7 +102,7 @@ index 8237434f3fc2..4ffc4a1c33ee 100644
  
  	/* see ISO/IEC 13818-1 : 2000 p. 32 */
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-index 467470295942..7cabc71b26e4 100644
+index 467470295942..59e056fb6d33 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
 @@ -415,7 +415,7 @@ static void vidtv_s302m_write_frames(struct vidtv_encoder *e)
@@ -110,7 +110,7 @@ index 467470295942..7cabc71b26e4 100644
  
  		if (au_sz + sizeof(struct vidtv_smpte_s302m_es) != nbytes_per_unit) {
 -			pr_warn_ratelimited("write size was %d, expected %lu\n",
-+			pr_warn_ratelimited("write size was %zu, expected %zu\n",
++			pr_warn_ratelimited("write size was %u, expected %zu\n",
  					    nbytes_per_unit,
  					    au_sz + sizeof(struct vidtv_smpte_s302m_es));
  		}
