@@ -2,93 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D566F267BD2
-	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 20:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44310267BD9
+	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 21:03:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725903AbgILSvj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Sep 2020 14:51:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48382 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725872AbgILSv1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Sep 2020 14:51:27 -0400
-Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D211B21D6C;
-        Sat, 12 Sep 2020 18:51:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599936687;
-        bh=0PU/DNFt4f6Rzyiw/4kbN0uHCEIwJDLqO3MyGp9lp6U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eDKtdCZFwP9vx/7iaks3o/vp6B4r8eFedvgfkyl6G2mti4Bq9FwDdifE/K+Ebni2w
-         WGWHi3OYMIvr2tTFrYax1vGnXU36pL1OVQ0kPWNXDz0VPcSPM91EkaVTzKqPvppy9J
-         wpPmte8tIpmNDaN3+l0RfZp3QPUxeZIjCH1YP110=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kHAcM-001ilB-Ja; Sat, 12 Sep 2020 20:51:22 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        id S1725880AbgILTDh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Sep 2020 15:03:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34674 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725874AbgILTDg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 12 Sep 2020 15:03:36 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C34C061573;
+        Sat, 12 Sep 2020 12:03:36 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id y17so9233992lfa.8;
+        Sat, 12 Sep 2020 12:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=S67JUcIs2dhX6EITOvFKtEd8C5lNSO8UBvbFFL/hUTI=;
+        b=ps8kBjmqgjILz9EHOPbWQGRRuu+zRCqWI1ezXz2kEfng4sxLqvVRI9RVQdRyfRfl6D
+         rKzQpXwWLhzwonA6ZLIpYe7B1dVDYzYQenNIWtLo1ijhtzfkVfKmayqmI4qt74pTWH/h
+         asfqeFkLWbFb5EBzDEISQtuV5eXZZGuumjzYj+/+lIXs2yy88Sj4EhNo932JoX/cRuB+
+         1TunuY9P0cjxh8yXoxSY+k2Th1VL7pJJiAyzGFTw4Fy5ci1RrizV5kyiawUjILcGmv/T
+         Q23nhkwr4aN0yo2MTIHW8sZwnK9Jwxa/KTS57wMRyujDKvLZpChjhVxSrapB9nThBe7D
+         VcXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=S67JUcIs2dhX6EITOvFKtEd8C5lNSO8UBvbFFL/hUTI=;
+        b=svZdw72JXcVY+aiWhnsVo6OGKkD+kCIB1IINsyOx+Pf/z1Oemii9539ClazhcyNSVm
+         c07igo6uka/edzwhf3l5VVqJ13ZujBuhqClZp51I+oypfeFzilkh7V2HxmCvLi+pGYsF
+         RD/Z8kC8TV9+waLHW31A5BtY2h1MaTMg9iQ2wIeoapyR3XFeW6m5Eye9jbIWQRy8LFIg
+         1N2yThUcdXS9dKr7ssq6kvHq3PlaPJjq5btokiopA5OxsNL259rCunmPs8XASUmeEiJo
+         7Z3tM+LKqg9aZNFJ9dZlBU7enbiztLgJLHI+qXtG3M8F43pmureGsj+yUcWhWBdbv0Do
+         PHLg==
+X-Gm-Message-State: AOAM530okbWNSuKl0+FuYEn7H8S7U5TtiJDHb3/a2xx/WfduoavOA3+O
+        fyknAjnHMU6Padb77cEJZ5iWyTilOnyfBw==
+X-Google-Smtp-Source: ABdhPJwQ86NoEJa6w7FhwrSBUjkhaEwtpdIPXrOrTeURJ16n5WBFzhe6/F97F7SiDukSEbkhA1Bz0w==
+X-Received: by 2002:a19:145:: with SMTP id 66mr2397646lfb.61.1599937414525;
+        Sat, 12 Sep 2020 12:03:34 -0700 (PDT)
+Received: from localhost.localdomain (h-82-196-111-59.NA.cust.bahnhof.se. [82.196.111.59])
+        by smtp.gmail.com with ESMTPSA id q22sm1267541lfr.258.2020.09.12.12.03.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Sep 2020 12:03:33 -0700 (PDT)
+From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To:     Aniket Masule <amasule@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 2/2] media: vidtv: add an initial channel frequency
-Date:   Sat, 12 Sep 2020 20:51:21 +0200
-Message-Id: <af3190acd273a5f2dd621f2d74a4b1c34dbd89e2.1599936678.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <34e866e222b9827ecae40ea89a1e6958873fa2db.1599936678.git.mchehab+huawei@kernel.org>
-References: <34e866e222b9827ecae40ea89a1e6958873fa2db.1599936678.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] media: venus: helpers: Fix ALIGN() of non power of two
+Date:   Sat, 12 Sep 2020 21:03:01 +0200
+Message-Id: <20200912190301.490297-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use 474 MHz frequency for DVB-T/DVB-C, as this is the first
-channel that it is valid on most places for DVB-T.
+ALIGN() expects its second argument to be a power of 2, otherwise
+incorrect results are produced for some inputs. The output can be
+both larger or smaller than what is expected.
 
-In the case of DVB-S, let's add Astra 19.2E initial
-frequency at the scan files as the default, e. g. 12.5515 GHz.
+For example, ALIGN(304, 192) equals 320 instead of 384, and
+ALIGN(65, 192) equals 256 instead of 192.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+However, nestling two ALIGN() as is done in this case seem to only
+produce results equal to or bigger than the expected result if ALIGN()
+had handled non powers of two, and that in turn results in framesizes
+that are either the correct size or too large.
+
+Fortunately, since 192 * 4 / 3 equals 256, it turns out that one ALIGN()
+is sufficient.
+
+Fixes: ab1eda449c6e ("media: venus: vdec: handle 10bit bitstreams")
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 ---
- drivers/media/test-drivers/vidtv/vidtv_bridge.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+I'm fairly certain this patch does the right thing, but I have only
+compile-tested it (I don't have the hardware to test on). The only
+reason I spotted it is that I tried implementing compile-time checking
+of arguments to ALIGN (and some other functions) to check that arguments
+that are supposed to be powers of two really are powers of two, and it
+found this.
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-index 270c183b1d67..cb32f82f88f9 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-@@ -47,17 +47,25 @@ static unsigned int mock_tune_delay_msec;
- module_param(mock_tune_delay_msec, uint, 0);
- MODULE_PARM_DESC(mock_tune_delay_msec, "Simulate a tune delay");
+ drivers/media/platform/qcom/venus/helpers.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 7147871d9dc1..194c5dd08803 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -678,8 +678,8 @@ static u32 get_framesize_raw_yuv420_tp10_ubwc(u32 width, u32 height)
+ 	u32 extradata = SZ_16K;
+ 	u32 size;
  
--static unsigned int vidtv_valid_dvb_t_freqs[NUM_VALID_TUNER_FREQS];
-+static unsigned int vidtv_valid_dvb_t_freqs[NUM_VALID_TUNER_FREQS] = {
-+	474000000
-+};
-+
- module_param_array(vidtv_valid_dvb_t_freqs, uint, NULL, 0);
- MODULE_PARM_DESC(vidtv_valid_dvb_t_freqs,
- 		 "Valid DVB-T frequencies to simulate");
+-	y_stride = ALIGN(ALIGN(width, 192) * 4 / 3, 256);
+-	uv_stride = ALIGN(ALIGN(width, 192) * 4 / 3, 256);
++	y_stride = ALIGN(width * 4 / 3, 256);
++	uv_stride = ALIGN(width * 4 / 3, 256);
+ 	y_sclines = ALIGN(height, 16);
+ 	uv_sclines = ALIGN((height + 1) >> 1, 16);
  
--static unsigned int vidtv_valid_dvb_c_freqs[NUM_VALID_TUNER_FREQS];
-+static unsigned int vidtv_valid_dvb_c_freqs[NUM_VALID_TUNER_FREQS] = {
-+	474000000
-+};
-+
- module_param_array(vidtv_valid_dvb_c_freqs, uint, NULL, 0);
- MODULE_PARM_DESC(vidtv_valid_dvb_c_freqs,
- 		 "Valid DVB-C frequencies to simulate");
- 
--static unsigned int vidtv_valid_dvb_s_freqs[NUM_VALID_TUNER_FREQS];
-+static unsigned int vidtv_valid_dvb_s_freqs[NUM_VALID_TUNER_FREQS] = {
-+	12551500
-+};
- module_param_array(vidtv_valid_dvb_s_freqs, uint, NULL, 0);
- MODULE_PARM_DESC(vidtv_valid_dvb_s_freqs,
- 		 "Valid DVB-C frequencies to simulate");
 -- 
-2.26.2
+2.28.0
 
