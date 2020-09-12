@@ -2,173 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 533E12678DE
-	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 10:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EE082678ED
+	for <lists+linux-media@lfdr.de>; Sat, 12 Sep 2020 10:46:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725821AbgILIfp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Sep 2020 04:35:45 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:49427 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725813AbgILIfn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Sep 2020 04:35:43 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id H10Tkm8DoPTBMH10VkWMMx; Sat, 12 Sep 2020 10:35:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1599899739; bh=J8A6qyz3+qtGDeQeyqIVGeh/R46Fs0TvDvxlpF8MkdU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=aw+eqkPzQ3S3/nvT0zFg8WC3xcc83Co7vgAVtoShtEFAkb1fWlRtlHYxZcPBRDt07
-         Mx9apgtAnc8kljptcn53l7T1B8kQWOoHFdpFsjxvz6OAuD1ge7MeTzCmD/r9nhN56p
-         EH5qb2FacXVFAml+vS+mkW0bjL9bTPREllv+dCNsDNOpPTidczfvTf9WDrM746QqN1
-         IG6jxzo/9Yvz8nwM4WFQF6cSBIGaWYyjZC3YQi0d+yuNIVoAS/037JMySVLG/j79xU
-         tR9hOG9JW14U1bh6qCeJdepEdQNCaejPk0E2tKltguh6Db+xIGbwjsmK8rfQp3rFhx
-         RGdXLl7S4+IQg==
-Subject: Re: [v10 0/4] media: vidtv: Implement a virtual DVB driver
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        mchehab+huawei@kernel.org, r.verdejo@samsung.com,
-        nicolas@ndufresne.ca
-Cc:     linux-media@vger.kernel.org, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-References: <20200821125848.1092958-1-dwlsalmeida@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e614351c-215c-c048-52af-7c200b164f41@xs4all.nl>
-Date:   Sat, 12 Sep 2020 10:35:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1725809AbgILIqf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 12 Sep 2020 04:46:35 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:35350 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725800AbgILIqf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 12 Sep 2020 04:46:35 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kH156-006aE3-7U; Sat, 12 Sep 2020 08:40:24 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kH1Dh-0004G0-Lz; Sat, 12 Sep 2020 08:49:18 +0000
+Date:   Sat, 12 Sep 2020 08:49:17 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <2080776500.2.1599900557418@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3215
 MIME-Version: 1.0
-In-Reply-To: <20200821125848.1092958-1-dwlsalmeida@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF5RrNmC8xmYBEV3hdxQ7swnhTxBgTgTf5RUzbCBPahdURmJ/XpdzHelwsuLuImaubt4D3zJ232zRZZL1zQUDK/sK+IwgfuhTOgzULyU7m0s9izapdWA
- xWkN64eOPxopOn1byc6Nba/nTKn/hjA65mqgcjLJikJBqNxjvJ8qTP2FKJgsexUKr6BiNiaRsHUPppB/XZ5LskX2eeuICBVE1fW+BeSIxl6AIAi+oh+r2xVi
- JVXG0kutbmyMC1F9l0GyGpZ5cNcsMvj5uOdFBy2x7g27pZTspJlraOLPXS/zeIsFeufkSsjOFOWwM0Ex3qJwN7mXX95r8WRcynZTYJwoStxK+pr+vosih9Ln
- HuEc8vKjJVdd4dRKmS739YT8Nf6zqapcUNXzJZbzzaG78LWwJXuWcwDqBz8tg7EERMCjY8Kf4DS/mgMjufAV5R9V9fK5eu8oVTKB9RCPPvYK6nbLZL7PgniQ
- qk131g0JutodV8Vg3gzKMRHG7Hx0Jb3AC+e7W+tT1zGJKvZtJLK0LPvZe+g5lWW9v6uFLhjf9aRizmgAzvQATEOIfRYmX5q3pZKryw==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/08/2020 14:58, Daniel W. S. Almeida wrote:
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> This series is work in progress. It represents the current work done on a
-> virtual DVB driver for the Linux media subsystem. I am new to the media
-> subsystem and to kernel development in general.
-> 
-> This driver aims to:
-> 	- Serve as template for new DVB driver writers
-> 	- Help userspace application writers in general
-> 	- Push fake audio/video to userspace for testing
-> 	purposes
-> 	- Push debug information to userspace via debugfs
-> 
-> Current state for this driver:
-> 	- Driver generates PSI information (PAT, PMT, SDT)
-> 	- Driver generates PCR packets
-> 	- Driver generates NULL packets for padding
-> 	- PCM audio stream is decoded by ffmpeg, but no audio is heard yet.
-> 
-> 
-> changes in v10:
-> 	s302m encoder got reworked
+See <https://builder.linuxtv.org/job/media-build/3215/display/redirect?page=changes>
 
-Hi Daniel, Mauro,
+Changes:
 
-When compiling for a 32 bit system I get these warnings:
+[hverkuil-cisco] Update backports/pr_fmt.patch
 
-linux-5.9-rc1-i686: WARNINGS
 
-In file included from ./include/linux/kernel.h:15,
-                 from ./include/asm-generic/bug.h:20,
-                 from ./arch/x86/include/asm/bug.h:93,
-                 from ./include/linux/bug.h:5,
-                 from ./include/linux/mmdebug.h:5,
-                 from /home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/config-compat.h:12,
-                 from /home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/compat.h:10,
-                 from <command-line>:
-/home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/vidtv_common.c: In function 'vidtv_memcpy':
-./include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-      |                  ^~~~~~
-./include/linux/printk.h:508:10: note: in definition of macro 'printk_ratelimited'
-  508 |   printk(fmt, ##__VA_ARGS__);    \
-      |          ^~~
-./include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-   11 | #define KERN_ERR KERN_SOH "3" /* error conditions */
-      |                  ^~~~~~~~
-./include/linux/printk.h:522:21: note: in expansion of macro 'KERN_ERR'
-  522 |  printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-      |                     ^~~~~~~~
-/home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/vidtv_common.c:46:3: note: in expansion of macro 'pr_err_ratelimited'
-   46 |   pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size. Needed %lu, had %zu\n",
-      |   ^~~~~~~~~~~~~~~~~~
-/home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/vidtv_common.c: In function 'vidtv_memset':
-./include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-      |                  ^~~~~~
-./include/linux/printk.h:508:10: note: in definition of macro 'printk_ratelimited'
-  508 |   printk(fmt, ##__VA_ARGS__);    \
-      |          ^~~
-./include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-   11 | #define KERN_ERR KERN_SOH "3" /* error conditions */
-      |                  ^~~~~~~~
-./include/linux/printk.h:522:21: note: in expansion of macro 'KERN_ERR'
-  522 |  printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-      |                     ^~~~~~~~
-/home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/vidtv_common.c:82:3: note: in expansion of macro 'pr_err_ratelimited'
-   82 |   pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size. Needed %lu, had %zu\n",
-      |   ^~~~~~~~~~~~~~~~~~
-In file included from ./include/linux/kernel.h:15,
-                 from ./include/asm-generic/bug.h:20,
-                 from ./arch/x86/include/asm/bug.h:93,
-                 from ./include/linux/bug.h:5,
-                 from ./include/linux/mmdebug.h:5,
-                 from /home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/config-compat.h:12,
-                 from /home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/compat.h:10,
-                 from <command-line>:
-/home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/vidtv_s302m.c: In function 'vidtv_s302m_write_frames':
-./include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'u32' {aka 'unsigned int'} [-Wformat=]
-    5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-      |                  ^~~~~~
-./include/linux/printk.h:508:10: note: in definition of macro 'printk_ratelimited'
-  508 |   printk(fmt, ##__VA_ARGS__);    \
-      |          ^~~
-./include/linux/kern_levels.h:12:22: note: in expansion of macro 'KERN_SOH'
-   12 | #define KERN_WARNING KERN_SOH "4" /* warning conditions */
-      |                      ^~~~~~~~
-./include/linux/printk.h:524:21: note: in expansion of macro 'KERN_WARNING'
-  524 |  printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-      |                     ^~~~~~~~~~~~
-/home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/vidtv_s302m.c:426:4: note: in expansion of macro 'pr_warn_ratelimited'
-  426 |    pr_warn_ratelimited("write size was %d, expected %lu\n",
-      |    ^~~~~~~~~~~~~~~~~~~
-In file included from ./include/linux/bitops.h:5,
-                 from ./include/linux/kernel.h:12,
-                 from ./include/asm-generic/bug.h:20,
-                 from ./arch/x86/include/asm/bug.h:93,
-                 from ./include/linux/bug.h:5,
-                 from ./include/linux/mmdebug.h:5,
-                 from /home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/config-compat.h:12,
-                 from /home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/compat.h:10,
-                 from <command-line>:
-/home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/vidtv_pes.c: In function 'vidtv_pes_write_pts_dts':
-./include/linux/bits.h:36:11: warning: right shift count is negative [-Wshift-count-negative]
-   36 |   (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-      |           ^~
-./include/linux/bits.h:38:31: note: in expansion of macro '__GENMASK'
-   38 |  (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-      |                               ^~~~~~~~~
-/home/hans/work/build/trees/i686/linux-5.9-rc1/media_build/v4l/vidtv_pes.c:99:10: note: in expansion of macro 'GENMASK'
-   99 |  mask1 = GENMASK(32, 30);
-      |          ^~~~~~~
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 9cfb94d2c8b2a38add1762b40bc6d94f62311fab (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 9cfb94d2c8b2a38add1762b40bc6d94f62311fab # timeout=10
+Commit message: "Update backports/pr_fmt.patch"
+ > git rev-list --no-walk 8c6e4499abb8050121dd6afbdc6dfcc546644a99 # timeout=10
+[Checks API] No suitable checks publisher found.
+[media-build] $ /bin/sh -xe /tmp/jenkins11792108837678251499.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
-Please take a look at this.
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
-Regards,
+Not aborted. It means that the licence was agreed. Proceeding...
 
-	Hans
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2020-09-12 08:47:12--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2020-09-12 08:47:13--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  129M=0s
+
+2020-09-12 08:47:13 (129 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-5-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+|index 82e375048b99..58328e27a92f 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
+|index ac4bdf05395e..8f9832ffd4f2 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.c b/drivers/media/test-drivers/vidtv/vidtv_common.c
+|index 9093df32e0ab..dfd88b11a521 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_common.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_common.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
+|index 540f404372aa..7a651dc633a3 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_pes.c b/drivers/media/test-drivers/vidtv/vidtv_pes.c
+|index 8237434f3fc2..1ebea195dade 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_pes.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_pes.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+|index 761034d10d9d..2e6370c51178 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+|index 3b20a26d8721..58e342c04c93 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c b/drivers/media/test-drivers/vidtv/vidtv_ts.c
+|index 190b9e4438dc..3e76f229d3a6 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_ts.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+The text leading up to this was:
+--------------------------
+|diff --git a/drivers/media/test-drivers/vidtv/vidtv_tuner.c b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
+|index c8e64bab0379..fbf778fbc262 100644
+|--- a/drivers/media/test-drivers/vidtv/vidtv_tuner.c
+|+++ b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:378: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
