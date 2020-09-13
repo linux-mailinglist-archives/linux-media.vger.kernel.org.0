@@ -2,176 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C6FF267D7D
-	for <lists+linux-media@lfdr.de>; Sun, 13 Sep 2020 05:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C022267EEA
+	for <lists+linux-media@lfdr.de>; Sun, 13 Sep 2020 11:19:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725913AbgIMDjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Sep 2020 23:39:54 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:58993 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725910AbgIMDjx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Sep 2020 23:39:53 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id HIrlkraswTSPzHIrnk4b9r; Sun, 13 Sep 2020 05:39:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1599968391; bh=f9Rf/mfDcggRizyo8BGVkje/QC4J9c5wCfXhaBPK+Sg=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Qu136mYCrK7UwiFmH3ntaYufIy47ty5f7wkXDFAkuvXdr1fMUGvNzIbi4ODtFrq4T
-         FkN0ReTroNFSWXPXfMn0zNF8vyB6DQFtWVluZVG1vgQjL5SYHhZPJFW6mr4rkMo2He
-         6q4IZZO9cySiUL031rpgIMms6Fuk1FPf/2TlAVhoqbURvmYOuoU9K0lw4R912S07P0
-         3qwaGjBC+mBqmQ7NbtyCUpvPAgXa91PBgAsX+b6NGqxXwmk500aG4ubwFfA7ep+W1U
-         8vo7aBdQ4tr94RqA+3EfH7zKq9KX18OerFR6XXFrua1V1TeniXfNgavuyuFWJ/QDx4
-         SlwCs/Zd68Qmw==
-Message-ID: <eaa28e9641deab1f1be57d4fc771b39d@smtp-cloud7.xs4all.net>
-Date:   Sun, 13 Sep 2020 05:39:49 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfGiI+iDjGXQ2U7mURbvwXFdYV4DT9RtIXgn1n78UW69BpvvWU73M+sOjw7v7iwYkhPM1L6LzYvhM8qViaFqScrWFy+vuLaP3xGJhC5tuXY6/A47enHPB
- lgctzQGDVALmQnt14ohkYd4PtcDpZ2nW7hE8WlYHITClyeTkpQe7ceiZu2R82v+9w/fmOfpWcOrbXtcfxy0uvMT54rDyXU2sLKaW3uxR7FkR0771pj5UG+u6
+        id S1725921AbgIMJTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Sep 2020 05:19:08 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:44318 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725916AbgIMJTH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 13 Sep 2020 05:19:07 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kHO47-007utj-Kx; Sun, 13 Sep 2020 09:12:55 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kHOCj-0002JP-PH; Sun, 13 Sep 2020 09:21:49 +0000
+Date:   Sun, 13 Sep 2020 09:21:49 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1872161257.4.1599988909775@builder.linuxtv.org>
+In-Reply-To: <180288453.3.1599902350071@builder.linuxtv.org>
+References: <180288453.3.1599902350071@builder.linuxtv.org>
+Subject: Jenkins build is back to normal : media-build #3217
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: SUCCESS
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+See <https://builder.linuxtv.org/job/media-build/3217/display/redirect>
 
-Results of the daily build of media_tree:
-
-date:			Sun Sep 13 05:00:10 CEST 2020
-media-tree git hash:	c4176e12a755d0c761736c14bd2656ffc733eb95
-media_build git hash:	9cfb94d2c8b2a38add1762b40bc6d94f62311fab
-v4l-utils git hash:	fcbd7fae7c2208e01a7f670f8ba2f34d62ea6a4d
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 65546dfa86f803ba44e908adc14ff4d8174a0fd2
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
-linux-3.10.108-i686: WARNINGS
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: WARNINGS
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: WARNINGS
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: WARNINGS
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: WARNINGS
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: WARNINGS
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: WARNINGS
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: WARNINGS
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: WARNINGS
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: WARNINGS
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: WARNINGS
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: WARNINGS
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: WARNINGS
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: WARNINGS
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: WARNINGS
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: WARNINGS
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: WARNINGS
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: WARNINGS
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: WARNINGS
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: WARNINGS
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: WARNINGS
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: WARNINGS
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: WARNINGS
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: WARNINGS
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: WARNINGS
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: WARNINGS
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: WARNINGS
-linux-5.7.2-x86_64: OK
-linux-5.8.1-i686: WARNINGS
-linux-5.8.1-x86_64: OK
-linux-5.9-rc1-i686: WARNINGS
-linux-5.9-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 5
-sparse: OK
-smatch: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
