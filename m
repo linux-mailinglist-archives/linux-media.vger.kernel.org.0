@@ -2,42 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C022267EEA
-	for <lists+linux-media@lfdr.de>; Sun, 13 Sep 2020 11:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB507267F74
+	for <lists+linux-media@lfdr.de>; Sun, 13 Sep 2020 14:18:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725921AbgIMJTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Sep 2020 05:19:08 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:44318 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725916AbgIMJTH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Sep 2020 05:19:07 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kHO47-007utj-Kx; Sun, 13 Sep 2020 09:12:55 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kHOCj-0002JP-PH; Sun, 13 Sep 2020 09:21:49 +0000
-Date:   Sun, 13 Sep 2020 09:21:49 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1872161257.4.1599988909775@builder.linuxtv.org>
-In-Reply-To: <180288453.3.1599902350071@builder.linuxtv.org>
-References: <180288453.3.1599902350071@builder.linuxtv.org>
-Subject: Jenkins build is back to normal : media-build #3217
+        id S1725919AbgIMMSJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Sep 2020 08:18:09 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:42555 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725928AbgIMMSF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 13 Sep 2020 08:18:05 -0400
+X-Halon-ID: 295e9f0e-f5bb-11ea-a39b-005056917f90
+Authorized-sender: niklas.soderlund@fsdn.se
+Received: from bismarck.berto.se (p54ac52a8.dip0.t-ipconnect.de [84.172.82.168])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id 295e9f0e-f5bb-11ea-a39b-005056917f90;
+        Sun, 13 Sep 2020 14:18:02 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] rcar-vin: Remove redundant compatible values
+Date:   Sun, 13 Sep 2020 14:17:56 +0200
+Message-Id: <20200913121757.1790644-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: SUCCESS
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3217/display/redirect>
+The mandatory compatible value 'renesas,rcar-gen2-vin' was added to all
+Gen2 DTS files in 2017, remove the redundant device specific values from
+the driver.
+
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/media/platform/rcar-vin/rcar-core.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+index 7440c8965d27e64f..aad8eef2ac9f641b 100644
+--- a/drivers/media/platform/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/rcar-vin/rcar-core.c
+@@ -1228,22 +1228,6 @@ static const struct of_device_id rvin_of_id_table[] = {
+ 		.compatible = "renesas,vin-r8a7779",
+ 		.data = &rcar_info_h1,
+ 	},
+-	{
+-		.compatible = "renesas,vin-r8a7790",
+-		.data = &rcar_info_gen2,
+-	},
+-	{
+-		.compatible = "renesas,vin-r8a7791",
+-		.data = &rcar_info_gen2,
+-	},
+-	{
+-		.compatible = "renesas,vin-r8a7793",
+-		.data = &rcar_info_gen2,
+-	},
+-	{
+-		.compatible = "renesas,vin-r8a7794",
+-		.data = &rcar_info_gen2,
+-	},
+ 	{
+ 		.compatible = "renesas,rcar-gen2-vin",
+ 		.data = &rcar_info_gen2,
+-- 
+2.28.0
 
