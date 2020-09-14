@@ -2,110 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 946EF2699B4
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 01:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B96B52699E7
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 01:46:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgINXat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 19:30:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37100 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725997AbgINXas (ORCPT
+        id S1726031AbgINXqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 19:46:03 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53798 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725994AbgINXqC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 19:30:48 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB1BC06174A;
-        Mon, 14 Sep 2020 16:30:47 -0700 (PDT)
+        Mon, 14 Sep 2020 19:46:02 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E2CF275;
-        Tue, 15 Sep 2020 01:30:35 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A688275;
+        Tue, 15 Sep 2020 01:46:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600126236;
-        bh=8lbUZdd+rlg5rzRakXPlDFd0J7whEsHXno1IFZUb2A0=;
+        s=mail; t=1600127160;
+        bh=t4qTf7PG6A0EOeL3PBXnAqhRIkNkLyzT1bbI9ewDO2c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EBEDg9qCngY9Kz3JEaaaJ4JDBOZ11G4AslbXWADML23u4h4wyOE+elli9IZ377O9W
-         xeYBbJ9Ke6wOKjCIyk2aAX6fHVC8o4lJZD84ezDXr0+zdyoYJc/rUDpWy0HLvL1Eqg
-         fkVvOOZH94weHNUzi/scUGmlp1qayOaIoqvT4Bu8=
-Date:   Tue, 15 Sep 2020 02:30:08 +0300
+        b=gSCTDBP/596Q59jrvpeNNUFinkVchTUIHQhJOkZvC9zgvxuH4sg1r/5Fagv3jER4h
+         RiwiL+XOlswaQ1e75qwa88aYqRDgrlMXicgOKtXto7dCQHeTaafgJ/9vM14Ne3cj0/
+         adMvBOWDYjI/KVMupYCQki5hIS3Ua5dvoOBjgpO8=
+Date:   Tue, 15 Sep 2020 02:45:32 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: max9286: Fix async subdev size
-Message-ID: <20200914233008.GF15543@pendragon.ideasonboard.com>
-References: <20200914155749.183030-1-jacopo+renesas@jmondi.org>
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v3] media: rcar-vin: Enable YDS bit depending on
+ bus_width and data_shift
+Message-ID: <20200914234532.GI15543@pendragon.ideasonboard.com>
+References: <20200913181608.32077-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200914155749.183030-1-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200913181608.32077-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Prabhakar,
 
 Thank you for the patch.
 
-On Mon, Sep 14, 2020 at 05:57:49PM +0200, Jacopo Mondi wrote:
-> Since commit:
-> 86d37bf31af6 ("media: i2c: max9286: Allocate v4l2_async_subdev dynamically")
-> the async subdevice registered to the max9286 notifier is dynamically
-> allocated by the v4l2 framework by using
-> the v4l2_async_notifier_add_fwnode_subdev function. In order to allocate
-> enough space for max9286_asd structure that encloses the async subdevice
-> paired with a pointer to the corresponding source, pass to the framework
-> the size of the whole structure in place of the one of the enclosed async
-> subdev.
+On Sun, Sep 13, 2020 at 07:16:08PM +0100, Lad Prabhakar wrote:
+> Enable YDS bit if bus_width and data_shift is set to 8 in parallel mode
+> for MEDIA_BUS_FMT_UYVY8_2X8 format.
 > 
-> Fixes: 86d37bf31af6 ("media: i2c: max9286: Allocate v4l2_async_subdev dynamically")
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  drivers/media/i2c/max9286.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> Changes for v3:
+> * Dropped BIT macro
+> * Introduced struct v4l2_fwnode_bus_parallel
 > 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index c82c1493e099..746c411b79a0 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -579,8 +579,7 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
->  		struct v4l2_async_subdev *asd;
+> Changes for v2:
+> * Dropped DT binding documentation patch
+> * Select the data pins depending on bus-width and data-shift
 > 
->  		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
-> -							    source->fwnode,
-> -							    sizeof(*asd));
-> +			source->fwnode, sizeof(struct max9286_asd));
+> v1 -
+> https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=323799
+> ---
+>  drivers/media/platform/rcar-vin/rcar-core.c |  9 ++++-----
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 17 ++++++++++++++---
+>  drivers/media/platform/rcar-vin/rcar-vin.h  |  5 +++--
+>  3 files changed, 21 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 7440c8965d27..1149ab76cf5c 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -626,12 +626,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
+>  
+>  	switch (vin->parallel->mbus_type) {
+>  	case V4L2_MBUS_PARALLEL:
+> -		vin_dbg(vin, "Found PARALLEL media bus\n");
+> -		vin->parallel->mbus_flags = vep->bus.parallel.flags;
+> -		break;
+>  	case V4L2_MBUS_BT656:
+> -		vin_dbg(vin, "Found BT656 media bus\n");
+> -		vin->parallel->mbus_flags = 0;
+> +		vin_dbg(vin, "Found %s media bus\n",
+> +			vin->parallel->mbus_type == V4L2_MBUS_PARALLEL ?
+> +			"PARALLEL" : "BT656");
 
-I'd write
+I'd write "parallel" and "BT.656".
 
-		struct v4l2_async_subdev *asd;
-		struct max9286_asd *masd;
+> +		vin->parallel->bus = vep->bus.parallel;
+>  		break;
+>  	default:
+>  		vin_err(vin, "Unknown media bus type\n");
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index a5dbb90c5210..d067439b0b0d 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -125,6 +125,7 @@
+>  #define VNDMR2_VPS		(1 << 30)
+>  #define VNDMR2_HPS		(1 << 29)
+>  #define VNDMR2_CES		(1 << 28)
+> +#define VNDMR2_YDS		(1 << 22)
+>  #define VNDMR2_FTEV		(1 << 17)
+>  #define VNDMR2_VLV(n)		((n & 0xf) << 12)
+>  
+> @@ -698,16 +699,26 @@ static int rvin_setup(struct rvin_dev *vin)
+>  
+>  	if (!vin->is_csi) {
+>  		/* Hsync Signal Polarity Select */
+> -		if (!(vin->parallel->mbus_flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
+> +		if (!(vin->parallel->bus.flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
+>  			dmr2 |= VNDMR2_HPS;
+>  
+>  		/* Vsync Signal Polarity Select */
+> -		if (!(vin->parallel->mbus_flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
+> +		if (!(vin->parallel->bus.flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
+>  			dmr2 |= VNDMR2_VPS;
+>  
+>  		/* Data Enable Polarity Select */
+> -		if (vin->parallel->mbus_flags & V4L2_MBUS_DATA_ENABLE_LOW)
+> +		if (vin->parallel->bus.flags & V4L2_MBUS_DATA_ENABLE_LOW)
+>  			dmr2 |= VNDMR2_CES;
+> +
+> +		switch (vin->mbus_code) {
+> +		case MEDIA_BUS_FMT_UYVY8_2X8:
+> +			if (vin->parallel->bus.bus_width == 8 &&
 
-		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
-							    source->fwnode,
-							    sizeof(*masd));
-		if (IS_ERR(asd)) {
-			dev_err(dev, "Failed to add subdev for source %u: %ld",
-				i, PTR_ERR(asd));
-			v4l2_async_notifier_cleanup(&priv->notifier);
-			return PTR_ERR(asd);
-		}
-
-		masd = to_max9286_asd(asd);
-		masd->source = source;
-
-just to be able to avoid the ugly indentiation, but that's really
-nitpicking :-) With or without that, sorry for breaking the driver in
-the first place, and
+You can possibly drop this check, as UYVY8_2X8 implies a bus_width equal
+to 8. Apart from that,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  		if (IS_ERR(asd)) {
->  			dev_err(dev, "Failed to add subdev for source %u: %ld",
->  				i, PTR_ERR(asd));
+> +			    vin->parallel->bus.data_shift == 8)
+> +				dmr2 |= VNDMR2_YDS;
+> +			break;
+> +		default:
+> +			break;
+> +		}
+>  	}
+>  
+>  	/*
+> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> index c19d077ce1cb..8396e0e45478 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> @@ -19,6 +19,7 @@
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-dev.h>
+>  #include <media/v4l2-device.h>
+> +#include <media/v4l2-fwnode.h>
+>  #include <media/videobuf2-v4l2.h>
+>  
+>  /* Number of HW buffers */
+> @@ -92,7 +93,7 @@ struct rvin_video_format {
+>   * @asd:	sub-device descriptor for async framework
+>   * @subdev:	subdevice matched using async framework
+>   * @mbus_type:	media bus type
+> - * @mbus_flags:	media bus configuration flags
+> + * @bus:	media bus parallel configuration
+>   * @source_pad:	source pad of remote subdevice
+>   * @sink_pad:	sink pad of remote subdevice
+>   *
+> @@ -102,7 +103,7 @@ struct rvin_parallel_entity {
+>  	struct v4l2_subdev *subdev;
+>  
+>  	enum v4l2_mbus_type mbus_type;
+> -	unsigned int mbus_flags;
+> +	struct v4l2_fwnode_bus_parallel bus;
+>  
+>  	unsigned int source_pad;
+>  	unsigned int sink_pad;
 
 -- 
 Regards,
