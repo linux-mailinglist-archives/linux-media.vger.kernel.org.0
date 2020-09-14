@@ -2,153 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AE42268C44
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 15:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82B65268C49
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 15:36:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726105AbgINNeI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 09:34:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56804 "EHLO
+        id S1726752AbgINNgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 09:36:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726722AbgINN3z (ORCPT
+        with ESMTP id S1726529AbgINNbD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 09:29:55 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F13B5C06178B;
-        Mon, 14 Sep 2020 06:29:32 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id g4so17638622edk.0;
-        Mon, 14 Sep 2020 06:29:32 -0700 (PDT)
+        Mon, 14 Sep 2020 09:31:03 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFB2C06174A;
+        Mon, 14 Sep 2020 06:30:50 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id c8so17618037edv.5;
+        Mon, 14 Sep 2020 06:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2sgKFqAzyYTWFS7DpgNkPf7xuqkExWpe0vtA6hya4p8=;
-        b=LNYaV5htN1AoGcRr3qutKAdIAJ9K2NpHJmZnCLnFDlG8+zhSr8pFBVrIVZbK7upLCy
-         XuYIA5pbVz06HyYiXjA0CX8OrBfsP8QYVTX6yJ60VAjafiTzs3Dr1q7h1S6WN1SGAvlY
-         UXlmfxZ5/aBJS18uzwRmNUI3/lYVMDzcdWcPZzIRtlGG2B6QiV90AnQEfAOpca3J5cuM
-         fi/i79PCqkzlb/1pkXfPwtPFhCm+AEfUwe9iWPeCcG3ahwbSU9PfGzYe8A8PulfEuuIe
-         /yCSNERBUwZ4Herw4m2hVxb+aHQ2rdJcpWKX6iPZoqfXgRCIkWGGqsSIIr4ud7pRIc3R
-         2DEg==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=MJZms6QlGOYEjnVyjgzH8924ZUFCbrOAjhB8S+SOw0Q=;
+        b=AZo4Zrph06jSQFMyghqg1VeH/uJOLm2FTxlr/lwLz7LcGc0dGWMtJGTGfIa56pfqRD
+         SfHBHsrbfH2iLoCUhK/MZHqrDpM/JA26F/AGyypmlC8llez2CWnSY5tQ3e2HcDw2L9BQ
+         Idd41N3fpgLMR5/YftegmeplJ+0U4knjuLatzRauZq3iLjrWvmUDIVY8+gM3rBhrXqyO
+         5fAQ4JfxeJMiJ3yLE4UMugQzETfzbzi9LiAlrW8D3PaHaUUg0XX1Gb8R/XnjddNgeN8y
+         hPH3z3PjWYW7jYaLwy++Ij502YqCHABMpErfK7GUyDUDXbvFsj5PDRunJeTmU9KmumUU
+         4vjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2sgKFqAzyYTWFS7DpgNkPf7xuqkExWpe0vtA6hya4p8=;
-        b=AdEobLBxLwsypFTpwwmuXPs3IJYWarxtMVuuDDMehBV0ap8bz/C9eaDqvAMwr5xWhf
-         LatGiZRNvPyJSIceFYo+OdA+zJIqBd6LrkiivACMfRS7fhQGM/jvecHfbrDrudhdF++0
-         u86No2bvYWZg6eEEgRhG9idyxKPidBPqVrgUweEJiu9l9eD6iC9jNxbmD8E8H6ML1xLg
-         IIaXFx30rtFojSumicyAon89mousZPc5zAdywMRmHki4HdKP+AFUs2OueePk8oK6FAFt
-         Ty8vWS4DiVH65NgH/m9RMYoylR4HzCMAtQITx3Hh/6djMEX8Ac0YxL3y1yzPkEQKq7OK
-         6I4g==
-X-Gm-Message-State: AOAM5304ixko22aLBDbL+mKEGgZ08GcSCONvwRgRKzUte8lh9M99aesM
-        U1+HiJ1ThN/R9n/pPxSSPUE=
-X-Google-Smtp-Source: ABdhPJwqz+YzShnzPAVkh+LgWPDH996EZ9R5Asg2qCZETs+L6ijZw4dfeniXkQwebJgtgDxC1+lltA==
-X-Received: by 2002:aa7:cad3:: with SMTP id l19mr16523629edt.352.1600090171724;
-        Mon, 14 Sep 2020 06:29:31 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:6179:d701:8021:da3d])
-        by smtp.gmail.com with ESMTPSA id d6sm9575625edm.31.2020.09.14.06.29.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 06:29:30 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=MJZms6QlGOYEjnVyjgzH8924ZUFCbrOAjhB8S+SOw0Q=;
+        b=tQmopRIchFop1uP8VbwCaVFZ38Ji6uyJg5aChIM+up+wbszWk8dnt+SY4Vc1l82zda
+         MKSpF0bFvC5sFZOSoAnRKEhjLtqKB0ZzgEUyndwMRxsZIefEIN+QgPt6OVdzhnYFtlsD
+         a9+TwJNejZk1/TCcOuzlo8rkGWXi2APaKhKIW7eBCgqCoJ9JknG7NDNov2VLq1WiXdFz
+         PuhHpAtl/yFVi5ytb+3i6l8HP4tx8P7ECSfEiCcAB68cxI5/nehF+HquiZZILzAvHeAW
+         8mm1iQ9Juy9tIuopYVrTZBTibaiC2P598q9OCGrMG29tlY4VNmj5mDppHA/LyvUaw/Oe
+         oXpA==
+X-Gm-Message-State: AOAM530obYZ4wywoWW6KVjRUXb2i4847/L/dNp3H8xoPrpwFlkNo47+T
+        h/EtiiPRi1iTgT827CFU6BNAKs8x3fY=
+X-Google-Smtp-Source: ABdhPJwM5ZL8+pefIM8N8Pp/HAs1Da9AhS9+TCqXwmw1+Bfwc5H4UJw/fibBFv4vSEBRyYvPybunNQ==
+X-Received: by 2002:a50:fb15:: with SMTP id d21mr17942730edq.150.1600090249097;
+        Mon, 14 Sep 2020 06:30:49 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id nh1sm7646664ejb.21.2020.09.14.06.30.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Sep 2020 06:30:48 -0700 (PDT)
+Subject: Re: Changing vma->vm_file in dma_buf_mmap()
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     sumit.semwal@linaro.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH 2/2] mm: introduce vma_set_file function
-Date:   Mon, 14 Sep 2020 15:29:20 +0200
-Message-Id: <20200914132920.59183-3-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200914132920.59183-1-christian.koenig@amd.com>
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
 References: <20200914132920.59183-1-christian.koenig@amd.com>
+Message-ID: <40cd26ae-b855-4627-5a13-4dcea5d622f6@gmail.com>
+Date:   Mon, 14 Sep 2020 15:30:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200914132920.59183-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the new vma_set_file() function to allow changing
-vma->vm_file with the necessary refcount dance.
+Am 14.09.20 um 15:29 schrieb Christian König:
+> Hi Andrew,
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-buf.c | 16 +++++-----------
- include/linux/mm.h        |  2 ++
- mm/mmap.c                 | 16 ++++++++++++++++
- 3 files changed, 23 insertions(+), 11 deletions(-)
+Sorry forgot to add Daniel as well.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 1699a8e309ef..672f3525ba74 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1163,20 +1163,14 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 		return -EINVAL;
- 
- 	/* readjust the vma */
--	get_file(dmabuf->file);
--	oldfile = vma->vm_file;
--	vma->vm_file = dmabuf->file;
-+	oldfile = vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
- 	ret = dmabuf->ops->mmap(dmabuf, vma);
--	if (ret) {
--		/* restore old parameters on failure */
--		vma->vm_file = oldfile;
--		fput(dmabuf->file);
--	} else {
--		if (oldfile)
--			fput(oldfile);
--	}
-+	/* restore old parameters on failure */
-+	if (ret)
-+		vma_set_file(vma, oldfile);
-+
- 	return ret;
- 
- }
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 1983e08f5906..398a6fdaad1e 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2688,6 +2688,8 @@ static inline void vma_set_page_prot(struct vm_area_struct *vma)
- }
- #endif
- 
-+struct file *vma_set_file(struct vm_area_struct *vma, struct file *file);
-+
- #ifdef CONFIG_NUMA_BALANCING
- unsigned long change_prot_numa(struct vm_area_struct *vma,
- 			unsigned long start, unsigned long end);
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 40248d84ad5f..d3c3c510f643 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -136,6 +136,22 @@ void vma_set_page_prot(struct vm_area_struct *vma)
- 	WRITE_ONCE(vma->vm_page_prot, vm_page_prot);
- }
- 
-+/*
-+ * Change backing file, only valid to use during initial VMA setup.
-+ */
-+struct file *vma_set_file(struct vm_area_struct *vma, struct file *file)
-+{
-+	if (file)
-+	        get_file(file);
-+
-+	swap(vma->vm_file, file);
-+
-+	if (file)
-+		fput(file);
-+
-+	return file;
-+}
-+
- /*
-  * Requires inode->i_mapping->i_mmap_rwsem
-  */
--- 
-2.17.1
+>
+> I'm the new DMA-buf maintainer and Daniel and others came up with patches extending the use of the dma_buf_mmap() function.
+>
+> Now this function is doing something a bit odd by changing the vma->vm_file while installing a VMA in the mmap() system call
+>
+> The background here is that DMA-buf allows device drivers to export buffer which are then imported into another device driver. The mmap() handler of the importing device driver then find that the pgoff belongs to the exporting device and so redirects the mmap() call there.
+>
+> In other words user space calls mmap() on one file descriptor, but get a different one mapped into your virtual address space.
+>
+> My question is now: Is that legal or can you think of something which breaks here?
+>
+> If it's not legal we should probably block any new users of the dma_buf_mmap() function and consider what should happen with the two existing ones.
+>
+> If that is legal I would like to document this by adding a new vma_set_file() function which does the necessary reference count dance.
+>
+> Thanks in advance,
+> Christian.
+>
+>
 
