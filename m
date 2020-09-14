@@ -2,85 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74E1C268EC0
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 17:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E18E268ED8
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 17:03:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbgINPAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 11:00:20 -0400
-Received: from mga06.intel.com ([134.134.136.31]:9712 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726855AbgINO6P (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 10:58:15 -0400
-IronPort-SDR: k8GNAjhIxiNr27TfZurNDu986NgNMsg49mzAqG0aX4zizOohE4UU0N1D7h2FFrJDTnrJLpzO3i
- NerFIZicx67w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="220641922"
-X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; 
-   d="scan'208";a="220641922"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 07:58:08 -0700
-IronPort-SDR: LHba+NKWsGD8QuhezQHir6z1HtzV1yqdzMdf29BZCg63zrtRKKiuB7O0v+aA1jT8tXe5qZsmc3
- SiV/+xtZcZJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; 
-   d="scan'208";a="335308104"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 14 Sep 2020 07:58:03 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kHpvc-00GcnE-AE; Mon, 14 Sep 2020 17:58:00 +0300
-Date:   Mon, 14 Sep 2020 17:58:00 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dan Scally <djrscally@gmail.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        jorhand@linux.microsoft.com, Tsuchiya Yuto <kitakar@gmail.com>
-Subject: Re: cio2 ipu3 module to automatically connect sensors via swnodes
-Message-ID: <20200914145800.GF3956970@smile.fi.intel.com>
-References: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
- <20200909134053.GA3699980@kuha.fi.intel.com>
- <70b214fd-d199-ccb2-2a84-dc1f6f7c759f@gmail.com>
+        id S1726033AbgINPCE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 11:02:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726347AbgINPAZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Sep 2020 11:00:25 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB9DC06178B;
+        Mon, 14 Sep 2020 08:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=jNO1brRzt5ng659lhtl+4oBfakGzrKMS1ATQw8TQgTw=; b=HIz6wke9iAtfdEQkH5SQhbb1rq
+        opMCl+x82958lVnA4aljn7W8oe8/QbpwparD4iR6fOZ4E09Lz3gw3Bk23dcQwy/A30gZ/ffXlkvah
+        ZZev3bmBXqnvgch/BNMDycqeM1ZgF3l5e8xXDRnlcCz3zJhv+bWNymmhPAlj/EsYUXA0D+hQB1bjG
+        4nVKJlBloB2GU7OtCGerGV41obO1J/rX7+Eii6eZNuOtmJ8KZ0SlifDHc7kyPnylID6vSSpRqbdnf
+        MHykLbz/arJkucLZ4kMBJiByeb0ep6XpXe6KVUgvXftPdto4HDHQzIbI1R4HjyOhmEGtoBheeQp0D
+        9TXJ2Muw==;
+Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kHpxU-0002Br-IH; Mon, 14 Sep 2020 14:59:56 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org
+Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH 06/17] lib82596: move DMA allocation into the callers of i82596_probe
+Date:   Mon, 14 Sep 2020 16:44:22 +0200
+Message-Id: <20200914144433.1622958-7-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200914144433.1622958-1-hch@lst.de>
+References: <20200914144433.1622958-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <70b214fd-d199-ccb2-2a84-dc1f6f7c759f@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Sep 12, 2020 at 08:45:10AM +0100, Dan Scally wrote:
-> Hello Heikki
-> 
-> On 09/09/2020 14:40, Heikki Krogerus wrote:
-> > I'm almost certain that my graph patch is broken. My tests did not
-> > cover nearly as much that is needed to properly test the patch. I
-> > think at least the refcount handling is totally broken in
-> > software_node_graph_get_next_endpoint(), so that function at least
-> > needs to be rewritten.
-> > 
-> > Unfortunately I do not have time to work on that patch right now.
-> > 
-> > thanks,
-> 
-> I managed to get to the bottom of the remaining issue (which was the cause
-> of the problem I originally posted here about - that's now all resolved). 
-> In addition to the refcount handling problems,
-> software_node_graph_get_next_endpoint() was occasionally passing an invalid
-> combination of parameters to software_node_get_next_child(); sometimes it
-> would pass an existing endpoint as old in combination with a port which was
-> not the endpoint's parent. Applying this on top of your patch seems to stop
-> both of those errors:
+This allows us to get rid of the LIB82596_DMA_ATTR defined and prepare
+for untangling the coherent vs non-coherent DMA allocation API.
 
-Can you send a formal patch where you will be a co-developer to Heikki?
-Though I don't remember if Heikki signed off it.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/net/ethernet/i825xx/lasi_82596.c | 24 ++++++++++------
+ drivers/net/ethernet/i825xx/lib82596.c   | 36 ++++++++----------------
+ drivers/net/ethernet/i825xx/sni_82596.c  | 19 +++++++++----
+ 3 files changed, 40 insertions(+), 39 deletions(-)
 
+diff --git a/drivers/net/ethernet/i825xx/lasi_82596.c b/drivers/net/ethernet/i825xx/lasi_82596.c
+index aec7e98bcc853a..a12218e940a2fa 100644
+--- a/drivers/net/ethernet/i825xx/lasi_82596.c
++++ b/drivers/net/ethernet/i825xx/lasi_82596.c
+@@ -96,8 +96,6 @@
+ 
+ #define OPT_SWAP_PORT	0x0001	/* Need to wordswp on the MPU port */
+ 
+-#define LIB82596_DMA_ATTR	DMA_ATTR_NON_CONSISTENT
+-
+ #define DMA_WBACK(ndev, addr, len) \
+ 	do { dma_cache_sync((ndev)->dev.parent, (void *)addr, len, DMA_TO_DEVICE); } while (0)
+ 
+@@ -155,7 +153,7 @@ lan_init_chip(struct parisc_device *dev)
+ {
+ 	struct	net_device *netdevice;
+ 	struct i596_private *lp;
+-	int	retval;
++	int retval = -ENOMEM;
+ 	int i;
+ 
+ 	if (!dev->irq) {
+@@ -186,12 +184,22 @@ lan_init_chip(struct parisc_device *dev)
+ 
+ 	lp = netdev_priv(netdevice);
+ 	lp->options = dev->id.sversion == 0x72 ? OPT_SWAP_PORT : 0;
++	lp->dma = dma_alloc_attrs(&dev->dev, sizeof(struct i596_dma),
++			      &lp->dma_addr, GFP_KERNEL,
++			      DMA_ATTR_NON_CONSISTENT);
++	if (!lp->dma)
++		goto out_free_netdev;
+ 
+ 	retval = i82596_probe(netdevice);
+-	if (retval) {
+-		free_netdev(netdevice);
+-		return -ENODEV;
+-	}
++	if (retval)
++		goto out_free_dma;
++	return 0;
++
++out_free_dma:
++	dma_free_attrs(&dev->dev, sizeof(struct i596_dma), lp->dma,
++			lp->dma_addr, DMA_ATTR_NON_CONSISTENT);
++out_free_netdev:
++	free_netdev(netdevice);
+ 	return retval;
+ }
+ 
+@@ -202,7 +210,7 @@ static int __exit lan_remove_chip(struct parisc_device *pdev)
+ 
+ 	unregister_netdev (dev);
+ 	dma_free_attrs(&pdev->dev, sizeof(struct i596_private), lp->dma,
+-		       lp->dma_addr, LIB82596_DMA_ATTR);
++		       lp->dma_addr, DMA_ATTR_NON_CONSISTENT);
+ 	free_netdev (dev);
+ 	return 0;
+ }
+diff --git a/drivers/net/ethernet/i825xx/lib82596.c b/drivers/net/ethernet/i825xx/lib82596.c
+index b03757e169e475..b4e4b3eb5758b5 100644
+--- a/drivers/net/ethernet/i825xx/lib82596.c
++++ b/drivers/net/ethernet/i825xx/lib82596.c
+@@ -1047,9 +1047,8 @@ static const struct net_device_ops i596_netdev_ops = {
+ 
+ static int i82596_probe(struct net_device *dev)
+ {
+-	int i;
+ 	struct i596_private *lp = netdev_priv(dev);
+-	struct i596_dma *dma;
++	int ret;
+ 
+ 	/* This lot is ensure things have been cache line aligned. */
+ 	BUILD_BUG_ON(sizeof(struct i596_rfd) != 32);
+@@ -1063,41 +1062,28 @@ static int i82596_probe(struct net_device *dev)
+ 	if (!dev->base_addr || !dev->irq)
+ 		return -ENODEV;
+ 
+-	dma = dma_alloc_attrs(dev->dev.parent, sizeof(struct i596_dma),
+-			      &lp->dma_addr, GFP_KERNEL,
+-			      LIB82596_DMA_ATTR);
+-	if (!dma) {
+-		printk(KERN_ERR "%s: Couldn't get shared memory\n", __FILE__);
+-		return -ENOMEM;
+-	}
+-
+ 	dev->netdev_ops = &i596_netdev_ops;
+ 	dev->watchdog_timeo = TX_TIMEOUT;
+ 
+-	memset(dma, 0, sizeof(struct i596_dma));
+-	lp->dma = dma;
+-
+-	dma->scb.command = 0;
+-	dma->scb.cmd = I596_NULL;
+-	dma->scb.rfd = I596_NULL;
++	memset(lp->dma, 0, sizeof(struct i596_dma));
++	lp->dma->scb.command = 0;
++	lp->dma->scb.cmd = I596_NULL;
++	lp->dma->scb.rfd = I596_NULL;
+ 	spin_lock_init(&lp->lock);
+ 
+-	DMA_WBACK_INV(dev, dma, sizeof(struct i596_dma));
++	DMA_WBACK_INV(dev, lp->dma, sizeof(struct i596_dma));
+ 
+-	i = register_netdev(dev);
+-	if (i) {
+-		dma_free_attrs(dev->dev.parent, sizeof(struct i596_dma),
+-			       dma, lp->dma_addr, LIB82596_DMA_ATTR);
+-		return i;
+-	}
++	ret = register_netdev(dev);
++	if (ret)
++		return ret;
+ 
+ 	DEB(DEB_PROBE, printk(KERN_INFO "%s: 82596 at %#3lx, %pM IRQ %d.\n",
+ 			      dev->name, dev->base_addr, dev->dev_addr,
+ 			      dev->irq));
+ 	DEB(DEB_INIT, printk(KERN_INFO
+ 			     "%s: dma at 0x%p (%d bytes), lp->scb at 0x%p\n",
+-			     dev->name, dma, (int)sizeof(struct i596_dma),
+-			     &dma->scb));
++			     dev->name, lp->dma, (int)sizeof(struct i596_dma),
++			     &lp->dma->scb));
+ 
+ 	return 0;
+ }
+diff --git a/drivers/net/ethernet/i825xx/sni_82596.c b/drivers/net/ethernet/i825xx/sni_82596.c
+index 22f5887578b2bd..4b9ac0c6557731 100644
+--- a/drivers/net/ethernet/i825xx/sni_82596.c
++++ b/drivers/net/ethernet/i825xx/sni_82596.c
+@@ -24,8 +24,6 @@
+ 
+ static const char sni_82596_string[] = "snirm_82596";
+ 
+-#define LIB82596_DMA_ATTR	0
+-
+ #define DMA_WBACK(priv, addr, len)     do { } while (0)
+ #define DMA_INV(priv, addr, len)       do { } while (0)
+ #define DMA_WBACK_INV(priv, addr, len) do { } while (0)
+@@ -134,10 +132,19 @@ static int sni_82596_probe(struct platform_device *dev)
+ 	lp->ca = ca_addr;
+ 	lp->mpu_port = mpu_addr;
+ 
++	lp->dma = dma_alloc_coherent(&dev->dev, sizeof(struct i596_dma),
++				     &lp->dma_addr, GFP_KERNEL);
++	if (!lp->dma)
++		goto probe_failed;
++
+ 	retval = i82596_probe(netdevice);
+-	if (retval == 0)
+-		return 0;
++	if (retval)
++		goto probe_failed_free_dma;
++	return 0;
+ 
++probe_failed_free_dma:
++	dma_free_coherent(&dev->dev, sizeof(struct i596_dma), lp->dma,
++			  lp->dma_addr);
+ probe_failed:
+ 	free_netdev(netdevice);
+ probe_failed_free_ca:
+@@ -153,8 +160,8 @@ static int sni_82596_driver_remove(struct platform_device *pdev)
+ 	struct i596_private *lp = netdev_priv(dev);
+ 
+ 	unregister_netdev(dev);
+-	dma_free_attrs(dev->dev.parent, sizeof(struct i596_private), lp->dma,
+-		       lp->dma_addr, LIB82596_DMA_ATTR);
++	dma_free_coherent(&pdev->dev, sizeof(struct i596_private), lp->dma,
++			  lp->dma_addr);
+ 	iounmap(lp->ca);
+ 	iounmap(lp->mpu_port);
+ 	free_netdev (dev);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.28.0
 
