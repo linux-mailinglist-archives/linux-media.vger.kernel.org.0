@@ -2,166 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFB662687D5
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 11:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E8F62688AE
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 11:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726242AbgINJDj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 05:03:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37752 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726205AbgINJDc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 05:03:32 -0400
-Received: from mail.kernel.org (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D026122204;
-        Mon, 14 Sep 2020 09:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600074212;
-        bh=Zw9W1+amdegwYUXpErBc4E+AxdH3bMvY1OFaDGkbQ00=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WXL9tfmwiy0chbrtPHG0uJ6XcHylhfF0jSwByKqMF936C20EzLEjujlqlMyGODmDL
-         drjFz1az2uNp7OLUkqhbCat6Wsst4PFY3LZd54jlSrvbtDYXA6vWw+CIg1U5wYxFXN
-         ewT6qN4KiV4TsGfBfKdQWPgU6XZvU+njrIvmclVI=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kHkOW-002dzq-8Z; Mon, 14 Sep 2020 11:03:28 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH RFC 11/11] media: vidtv: increment byte and block counters
-Date:   Mon, 14 Sep 2020 11:03:26 +0200
-Message-Id: <20aa6d0916d8475bb57539743963bba97d929eb9.1600073975.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1600073975.git.mchehab+huawei@kernel.org>
-References: <cover.1600073975.git.mchehab+huawei@kernel.org>
+        id S1726366AbgINJm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 05:42:27 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:26329 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726355AbgINJmZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Sep 2020 05:42:25 -0400
+X-UUID: d08c180bc3314fe2974c175af6ce0ff1-20200914
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=bQUXUzbFriOSQ+r1Po0//r4PBP6F9rJZE9cWHJ8VvZM=;
+        b=gJHGt4LaCju5NNB6YbRj+x8Zgc9Pl/jRH6LAfCy+XTy4H1UWTgRoQYyBvE4MdL6ud87oCtn1Bu1Pag8SipaL9yyJH6dbkUmpWO6Twy90DmNdljIy7U1Ia+LQzfsDuk0MG75fetNq+O/cULYehF+3xBbw5eHPUYGXilHxLF+4Awg=;
+X-UUID: d08c180bc3314fe2974c175af6ce0ff1-20200914
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+        (envelope-from <maoguang.meng@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 855825856; Mon, 14 Sep 2020 17:42:19 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 14 Sep 2020 17:42:16 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 14 Sep 2020 17:42:16 +0800
+From:   <maoguang.meng@mediatek.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <tfiga@chromium.org>,
+        <yong.wu@mediatek.com>, <sj.huang@mediatek.com>
+CC:     <linux-media@vger.kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+        <xia.jiang@mediatek.com>, <maoguang.meng@mediatek.com>
+Subject: [PATCH] arm64: dts: add jpeg enc node for mt8183
+Date:   Mon, 14 Sep 2020 17:40:12 +0800
+Message-ID: <20200914094012.5817-1-maoguang.meng@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for incrementing DVBv5 stats for block counters
-and post/pre BER byte counts.
-
-For now, the errors won't be incremented yet.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/test-drivers/vidtv/vidtv_bridge.c |  2 +-
- drivers/media/test-drivers/vidtv/vidtv_bridge.h |  3 +++
- drivers/media/test-drivers/vidtv/vidtv_mux.c    | 16 +++++++++++++++-
- drivers/media/test-drivers/vidtv/vidtv_mux.h    |  6 +++++-
- 4 files changed, 24 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-index cb32f82f88f9..108e7937e9c1 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-@@ -172,7 +172,7 @@ static int vidtv_start_streaming(struct vidtv_dvb *dvb)
- 	mux_args.priv                        = dvb;
- 
- 	dvb->streaming = true;
--	dvb->mux = vidtv_mux_init(dev, mux_args);
-+	dvb->mux = vidtv_mux_init(dvb->fe[0], dev, mux_args);
- 	vidtv_mux_start_thread(dvb->mux);
- 
- 	dev_dbg_ratelimited(dev, "Started streaming\n");
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.h b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
-index fd65f9838b10..78fe8472fa37 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_bridge.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
-@@ -12,6 +12,9 @@
- #ifndef VIDTV_BRIDGE_H
- #define VIDTV_BRIDGE_H
- 
-+/*
-+ * For now, only one frontend is supported. See vidtv_start_streaming()
-+ */
- #define NUM_FE 1
- 
- #include <linux/i2c.h>
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-index d1db9dc6dc89..5d1a275d504b 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-@@ -381,6 +381,7 @@ static void vidtv_mux_tick(struct work_struct *work)
- 	struct vidtv_mux *m = container_of(work,
- 					   struct vidtv_mux,
- 					   mpeg_thread);
-+	struct dtv_frontend_properties *c = &m->fe->dtv_property_cache;
- 	u32 nbytes;
- 	u32 npkts;
- 
-@@ -411,6 +412,17 @@ static void vidtv_mux_tick(struct work_struct *work)
- 
- 		vidtv_mux_clear(m);
- 
-+		/*
-+		 * Update bytes and packet counts at DVBv5 stats
-+		 *
-+		 * For now, both pre and post bit counts are identical,
-+		 * but post BER count can be lower than pre BER, if the error
-+		 * correction logic discards packages.
-+		 */
-+		c->pre_bit_count.stat[0].uvalue = nbytes;
-+		c->post_bit_count.stat[0].uvalue = nbytes;
-+		c->block_count.stat[0].uvalue += npkts;
-+
- 		usleep_range(VIDTV_SLEEP_USECS, VIDTV_MAX_SLEEP_USECS);
- 	}
- }
-@@ -435,12 +447,14 @@ void vidtv_mux_stop_thread(struct vidtv_mux *m)
- 	}
- }
- 
--struct vidtv_mux *vidtv_mux_init(struct device *dev,
-+struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
-+				 struct device *dev,
- 				 struct vidtv_mux_init_args args)
- {
- 	struct vidtv_mux *m = kzalloc(sizeof(*m), GFP_KERNEL);
- 
- 	m->dev = dev;
-+	m->fe = fe;
- 	m->timing.pcr_period_usecs = args.pcr_period_usecs;
- 	m->timing.si_period_usecs  = args.si_period_usecs;
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.h b/drivers/media/test-drivers/vidtv/vidtv_mux.h
-index 67de85fd50aa..2caa60623e97 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_mux.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_mux.h
-@@ -18,6 +18,8 @@
- #include <linux/types.h>
- #include <linux/hashtable.h>
- #include <linux/workqueue.h>
-+#include <media/dvb_frontend.h>
-+
- #include "vidtv_psi.h"
- 
- /**
-@@ -100,6 +102,7 @@ struct vidtv_mux_pid_ctx {
-  * @priv: Private data.
-  */
- struct vidtv_mux {
-+	struct dvb_frontend *fe;
- 	struct device *dev;
- 
- 	struct vidtv_mux_timing timing;
-@@ -153,7 +156,8 @@ struct vidtv_mux_init_args {
- 	void *priv;
- };
- 
--struct vidtv_mux *vidtv_mux_init(struct device *dev,
-+struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
-+				 struct device *dev,
- 				 struct vidtv_mux_init_args args);
- void vidtv_mux_destroy(struct vidtv_mux *m);
- 
--- 
-2.26.2
+RnJvbTogTWFvZ3VhbmcgTWVuZyA8bWFvZ3VhbmcubWVuZ0BtZWRpYXRlay5jb20+DQoNCmFkZCBq
+cGVnIGVuYyBkZXZpY2UgdHJlZSBub2RlDQoNClNpZ25lZC1vZmYtYnk6IE1hb2d1YW5nIE1lbmcg
+PG1hb2d1YW5nLm1lbmdAbWVkaWF0ZWsuY29tPg0KLS0tDQpSZWJhc2Ugb24gdjUuOS1yYzEuDQog
+ICBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvcGF0Y2h3b3JrL3BhdGNoLzExNjQ3NDYvDQog
+ICBbMl0gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMTcwMzI5OS8NCiAgIFsz
+XSBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzExMjgzNzczLw0KLS0tDQoNCiBh
+cmNoL2FybTY0L2Jvb3QvZHRzL21lZGlhdGVrL210ODE4My5kdHNpIHwgMTEgKysrKysrKysrKysN
+CiAxIGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKQ0KDQpkaWZmIC0tZ2l0IGEvYXJjaC9h
+cm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaSBiL2FyY2gvYXJtNjQvYm9vdC9kdHMv
+bWVkaWF0ZWsvbXQ4MTgzLmR0c2kNCmluZGV4IDhkOGY0MjdkYjAzMC4uMWU3MjYyNWYxNjE1IDEw
+MDY0NA0KLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaQ0KKysr
+IGIvYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaQ0KQEAgLTk2MSw2ICs5
+NjEsMTcgQEANCiAJCQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQ4MTgzX1BPV0VSX0RPTUFJ
+Tl9WRU5DPjsNCiAJCX07DQogDQorCQl2ZW5jX2pwZ0AxNzAzMDAwMCB7DQorCQkJY29tcGF0aWJs
+ZSA9ICJtZWRpYXRlayxtdDgxODMtanBnZW5jIiwgIm1lZGlhdGVrLG10ay1qcGdlbmMiOw0KKwkJ
+CXJlZyA9IDwwIDB4MTcwMzAwMDAgMCAweDEwMDA+Ow0KKwkJCWludGVycnVwdHMgPSA8R0lDX1NQ
+SSAyNDkgSVJRX1RZUEVfTEVWRUxfTE9XPjsNCisJCQlpb21tdXMgPSA8JmlvbW11IE00VV9QT1JU
+X0pQR0VOQ19SRE1BPiwNCisJCQkJIDwmaW9tbXUgTTRVX1BPUlRfSlBHRU5DX0JTRE1BPjsNCisJ
+CQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQ4MTgzX1BPV0VSX0RPTUFJTl9WRU5DPjsNCisJ
+CQljbG9ja3MgPSA8JnZlbmNzeXMgQ0xLX1ZFTkNfSlBHRU5DPjsNCisJCQljbG9jay1uYW1lcyA9
+ICJqcGdlbmMiOw0KKwkJfTsNCisNCiAJCWlwdV9jb25uOiBzeXNjb25AMTkwMDAwMDAgew0KIAkJ
+CWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTgzLWlwdV9jb25uIiwgInN5c2NvbiI7DQogCQkJ
+cmVnID0gPDAgMHgxOTAwMDAwMCAwIDB4MTAwMD47DQotLSANCjIuMTguMA0K
 
