@@ -2,100 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D667268E5D
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 16:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74E1C268EC0
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 17:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726570AbgINOwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 10:52:20 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:30015 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726795AbgINOvt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 10:51:49 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 8B1A2240007;
-        Mon, 14 Sep 2020 14:51:46 +0000 (UTC)
-Date:   Mon, 14 Sep 2020 16:55:37 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se
-Subject: Re: [PATCH 3/3] v4l2-fwnode: Document changes usage patterns of
- v4l2_fwnode_endpoint_parse
-Message-ID: <20200914145537.f3vqq7l72rlt32kr@uno.localdomain>
-References: <20200908085121.864-1-sakari.ailus@linux.intel.com>
- <20200908085121.864-4-sakari.ailus@linux.intel.com>
+        id S1726381AbgINPAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 11:00:20 -0400
+Received: from mga06.intel.com ([134.134.136.31]:9712 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726855AbgINO6P (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Sep 2020 10:58:15 -0400
+IronPort-SDR: k8GNAjhIxiNr27TfZurNDu986NgNMsg49mzAqG0aX4zizOohE4UU0N1D7h2FFrJDTnrJLpzO3i
+ NerFIZicx67w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="220641922"
+X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; 
+   d="scan'208";a="220641922"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 07:58:08 -0700
+IronPort-SDR: LHba+NKWsGD8QuhezQHir6z1HtzV1yqdzMdf29BZCg63zrtRKKiuB7O0v+aA1jT8tXe5qZsmc3
+ SiV/+xtZcZJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; 
+   d="scan'208";a="335308104"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 14 Sep 2020 07:58:03 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kHpvc-00GcnE-AE; Mon, 14 Sep 2020 17:58:00 +0300
+Date:   Mon, 14 Sep 2020 17:58:00 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dan Scally <djrscally@gmail.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        jorhand@linux.microsoft.com, Tsuchiya Yuto <kitakar@gmail.com>
+Subject: Re: cio2 ipu3 module to automatically connect sensors via swnodes
+Message-ID: <20200914145800.GF3956970@smile.fi.intel.com>
+References: <CAFLoDVFmeKcgXBe7kORqx0Q=H_wCWze=6G8qZRRXZT3Uqgkx8w@mail.gmail.com>
+ <20200909134053.GA3699980@kuha.fi.intel.com>
+ <70b214fd-d199-ccb2-2a84-dc1f6f7c759f@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200908085121.864-4-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <70b214fd-d199-ccb2-2a84-dc1f6f7c759f@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Sat, Sep 12, 2020 at 08:45:10AM +0100, Dan Scally wrote:
+> Hello Heikki
+> 
+> On 09/09/2020 14:40, Heikki Krogerus wrote:
+> > I'm almost certain that my graph patch is broken. My tests did not
+> > cover nearly as much that is needed to properly test the patch. I
+> > think at least the refcount handling is totally broken in
+> > software_node_graph_get_next_endpoint(), so that function at least
+> > needs to be rewritten.
+> > 
+> > Unfortunately I do not have time to work on that patch right now.
+> > 
+> > thanks,
+> 
+> I managed to get to the bottom of the remaining issue (which was the cause
+> of the problem I originally posted here about - that's now all resolved). 
+> In addition to the refcount handling problems,
+> software_node_graph_get_next_endpoint() was occasionally passing an invalid
+> combination of parameters to software_node_get_next_child(); sometimes it
+> would pass an existing endpoint as old in combination with a port which was
+> not the endpoint's parent. Applying this on top of your patch seems to stop
+> both of those errors:
 
-On Tue, Sep 08, 2020 at 11:51:21AM +0300, Sakari Ailus wrote:
-> Document that it is possible to provide defaults for multiple bus types to
-> v4l2_fwnode_endpoint_parse and v4l2_fwnode_endpoint_alloc_parse. Also
-> underline the fact that detecting the bus type without bus-type property
-> is only for the old drivers.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  include/media/v4l2-fwnode.h | 18 ++++++++----------
->  1 file changed, 8 insertions(+), 10 deletions(-)
->
-> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index d04f39b60096..ccaa5693df14 100644
-> --- a/include/media/v4l2-fwnode.h
-> +++ b/include/media/v4l2-fwnode.h
-> @@ -226,11 +226,10 @@ struct v4l2_fwnode_connector {
->   * call this function once the correct type is found --- with a default
->   * configuration valid for that type.
->   *
-> - * As a compatibility means guessing the bus type is also supported by setting
-> - * @vep.bus_type to V4L2_MBUS_UNKNOWN. The caller may not provide a default
-> - * configuration in this case as the defaults are specific to a given bus type.
-> - * This functionality is deprecated and should not be used in new drivers and it
-> - * is only supported for CSI-2 D-PHY, parallel and Bt.656 buses.
-> + * It is also allowed to set @vep.bus_type to V4L2_MBUS_UNKNOWN. USING THIS
-> + * FEATURE REQUIRES "bus-type" PROPERTY IN DT BINDINGS. For old drivers,
-> + * guessing @vep.bus_type between CSI-2 D-PHY, parallel and Bt.656 busses is
-> + * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
+Can you send a formal patch where you will be a co-developer to Heikki?
+Though I don't remember if Heikki signed off it.
 
-As per the discussion in:
-[PATCH v4 1/3] media: i2c: ov772x: Parse endpoint properties
-this leaves a bit of gray area on how to address cases where older dts
-do not report any "bus-type" property, as in the case of PARALLEL vs
-BT.656 Prabhakar has, it gets impossible to detect mis-configurations.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I have suggested him two different behaviours, depending if 'bus-type'
-is present in the fwnode or not, but I'm not sure that's the best way
-forward. What do you think ?
 
->   *
->   * The function does not change the V4L2 fwnode endpoint state if it fails.
->   *
-> @@ -269,11 +268,10 @@ void v4l2_fwnode_endpoint_free(struct v4l2_fwnode_endpoint *vep);
->   * call this function once the correct type is found --- with a default
->   * configuration valid for that type.
->   *
-> - * As a compatibility means guessing the bus type is also supported by setting
-> - * @vep.bus_type to V4L2_MBUS_UNKNOWN. The caller may not provide a default
-> - * configuration in this case as the defaults are specific to a given bus type.
-> - * This functionality is deprecated and should not be used in new drivers and it
-> - * is only supported for CSI-2 D-PHY, parallel and Bt.656 buses.
-> + * It is also allowed to set @vep.bus_type to V4L2_MBUS_UNKNOWN. USING THIS
-> + * FEATURE REQUIRES "bus-type" PROPERTY IN DT BINDINGS. For old drivers,
-> + * guessing @vep.bus_type between CSI-2 D-PHY, parallel and Bt.656 busses is
-> + * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
->   *
->   * The function does not change the V4L2 fwnode endpoint state if it fails.
->   *
-> --
-> 2.27.0
->
