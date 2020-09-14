@@ -2,154 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 073BF2694CB
+	by mail.lfdr.de (Postfix) with ESMTP id 6E5A12694CD
 	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 20:27:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726058AbgINS04 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 14:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46510 "EHLO
+        id S1726066AbgINS06 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 14:26:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbgINS0r (ORCPT
+        with ESMTP id S1726055AbgINS0v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 14:26:47 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE064C06178A;
-        Mon, 14 Sep 2020 11:26:46 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id p81so560669ybc.12;
-        Mon, 14 Sep 2020 11:26:46 -0700 (PDT)
+        Mon, 14 Sep 2020 14:26:51 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 471DDC06174A;
+        Mon, 14 Sep 2020 11:26:51 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id lo4so1323221ejb.8;
+        Mon, 14 Sep 2020 11:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=orsG+I+8/k9sx4wSScsBpY6FXaWOiunslMG52trpArQ=;
-        b=PsMLBBfsKcpnPHJNGDfWdPwaIPbSmT+6lwaJphJURdI124bvLiEYBfhbGovIVXhfnQ
-         E0zfi357NZVQWAPDChaKEunbAkTXBeasXdE5miKI69BltTA7nj6wGoTEiNGQs82YJ4no
-         BUd+E2CdOzzph6GQnuV1Q5oLnwPA9ZKSlr7X77BhSdxHpK9eKt0AeVKwd3qOjK5Et2f+
-         HN3j+AxREIx00+XCdLgvUncxrdGCHWjdPqDHz2nCnRRUZcIl0TnxtQiBRR118+uM7GJz
-         InYFEKZDJzTxQnhOLj2DZOyEb/syj6PjJcvGVWJ7vpA7YLapaYpOd6munu5vcuoSN5+k
-         ehkw==
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=rRCccI3O7Q3cBqCSADJ9p4p+tEsMBm/uVKtxbUUahJg=;
+        b=AHU/AtiFLbe3+YZTSiSO41xN3EYAURxPkCRh+hyV2jBoPZbsqwzbhpl0akYfJBMPh2
+         GdoV/jU0y46ZvoaNtPW5sVRWLONy7foziuLCeS1APrEX8izp6/it+zrdWHvQUOjPECV8
+         kB7W1+i3+4RQmCjcYSgt8GmVX60YbKXvrYQ935YbMGmcC+Y3RrmejwX9MuUqN/4gxW+w
+         p9wyDOyjmoAnidi0YOCj7SvrMJ4axu2Wgsuk7CwANUckz/Frkghi87fW2cv/ABBYL0YV
+         xb4eWMau1U5Byo4YNt3vlVYn6A8mZH4KW40UkwdZmk/fyI2XhIUesHolLHBTj+uM0sjB
+         W+7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=orsG+I+8/k9sx4wSScsBpY6FXaWOiunslMG52trpArQ=;
-        b=Xc15CZrypad56yOFx04QXETOVSE7UKk1qy6aVYxB/mLVzDFv2R/0G9t65WHem86jXm
-         88wakfdfA+TpXI4R4zhr1JMV1cnr+yz5hGehu5Rc8yinY1/RYn7bAMPYe/bLi2ylLNSw
-         yZGtRPTj9iQHwWVAl2PSCUJJ9n0eTvlfzzVryGtCnQLD4WnlMmzlW+Dt7IvHWXWlLF+Z
-         YmxkWtURyWK/7/OtASejW8U9Mu70K5LqsTZy+EMKnnnWVAFss1x5YJvzNp+rdmQq+vT9
-         1zBY9aJBA61/3Rm6MyYKw6FD5F1/IyjkYv6BV1Lf6QxhcB5xismn8fvuFQwxpiYzPbUG
-         vW2g==
-X-Gm-Message-State: AOAM532H7rX5PE128qvZcZP/wtlmalypKBNPjMDczCn/WWUERxZ4iL6c
-        z0Z/PqZd+aokpIqO9xaXR0esXzzpe6BjhemTQHHTk6tl2ELrBg==
-X-Google-Smtp-Source: ABdhPJyKionoFzIjpDwMOuti0uX2GCz6L8GG13ZsyOqaOWwcu3pgXx9gXkJ5n92H3ltSPoY8hFh9owXdfQZ42A8ihaA=
-X-Received: by 2002:a25:aba1:: with SMTP id v30mr3965574ybi.518.1600108005948;
- Mon, 14 Sep 2020 11:26:45 -0700 (PDT)
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=rRCccI3O7Q3cBqCSADJ9p4p+tEsMBm/uVKtxbUUahJg=;
+        b=aSr6mDncjpypoZ7ldivJ6EpLYm/PQM6LSDKrcCXkfPA2vSk7EPQSCsYIlaExJAVZju
+         IylBuG1kGUpVFjBVPZgnSNJrFPaT8ciAsgG6X6Ita54ZxWjLhJHudtwaLwTTVEsBJ2HH
+         /Jo3bYJ0EgmxwOtYAtemTOvb22JQ70Kvk0V6GBx60dPoHwTldzbFiwoLcIfqOaEt5PRS
+         W+cgneKnfFKgGg3zj6LEI3P4okr7Vqbz/43NlONmgl/LoF3z0Sboc6DZwq2Ix4PRunly
+         0phAtjnFTzETtm3LJ6x3N0EoEQMqPbl4/9yLavSlNB+hn3NAIlkaBgiyM/O+HUC7Htyp
+         Nczw==
+X-Gm-Message-State: AOAM532oKIk8bgiLfmBzJbONumUNUy4mqi3q3t9X0VfNhK4f5v42FvA0
+        YxLhPfU3msrE8JIfiBXepqU=
+X-Google-Smtp-Source: ABdhPJz2+wxT5cFNCOXfBWV9IOT32aJMuEc+G7OyK+aP3oDWfuWU/cXhqKfbYJVkKAeo1FWAagaPJg==
+X-Received: by 2002:a17:906:a101:: with SMTP id t1mr15720702ejy.203.1600108009977;
+        Mon, 14 Sep 2020 11:26:49 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id b6sm9871930eds.46.2020.09.14.11.26.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Sep 2020 11:26:49 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: Changing vma->vm_file in dma_buf_mmap()
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     akpm@linux-foundation.org, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20200914132920.59183-1-christian.koenig@amd.com>
+ <40cd26ae-b855-4627-5a13-4dcea5d622f6@gmail.com>
+ <20200914140632.GD1221970@ziepe.ca>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <9302e4e0-0ff0-8b00-ada1-85feefb49e88@gmail.com>
+Date:   Mon, 14 Sep 2020 20:26:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200913184247.618-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200913184247.618-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200914065415.GK26842@paasikivi.fi.intel.com>
-In-Reply-To: <20200914065415.GK26842@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 14 Sep 2020 19:26:19 +0100
-Message-ID: <CA+V-a8vmJo00vBqFWEnJWKagXm0ievGXW=kwG+w_oNWSmP1vcA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] media: i2c: ov772x: Parse endpoint properties
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200914140632.GD1221970@ziepe.ca>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Am 14.09.20 um 16:06 schrieb Jason Gunthorpe:
+> On Mon, Sep 14, 2020 at 03:30:47PM +0200, Christian König wrote:
+>> Am 14.09.20 um 15:29 schrieb Christian König:
+>>> Hi Andrew,
+>>>
+>>> I'm the new DMA-buf maintainer and Daniel and others came up with
+>>> patches extending the use of the dma_buf_mmap() function.
+>>>
+>>> Now this function is doing something a bit odd by changing the
+>>> vma->vm_file while installing a VMA in the mmap() system call
+> It doesn't look obviously safe as mmap_region() has an interesting mix
+> of file and vma->file
+>
+> Eg it calls mapping_unmap_writable() using both routes
 
-THank you for the review.
+Thanks for the hint, going to take a look at that code tomorrow.
 
-On Mon, Sep 14, 2020 at 7:54 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for the patchset.
->
-> On Sun, Sep 13, 2020 at 07:42:45PM +0100, Lad Prabhakar wrote:
-> > Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
-> > to determine bus-type and store it locally in priv data.
-> >
-> > Also for backward compatibility with the existing DT where bus-type
-> > isnt specified fallback to V4L2_MBUS_PARALLEL.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/media/i2c/ov772x.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> > index 2cc6a678069a..551082aa7026 100644
-> > --- a/drivers/media/i2c/ov772x.c
-> > +++ b/drivers/media/i2c/ov772x.c
-> > @@ -31,6 +31,7 @@
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-event.h>
-> > +#include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-image-sizes.h>
-> >  #include <media/v4l2-subdev.h>
-> >
-> > @@ -434,6 +435,7 @@ struct ov772x_priv {
-> >  #ifdef CONFIG_MEDIA_CONTROLLER
-> >       struct media_pad pad;
-> >  #endif
-> > +     enum v4l2_mbus_type               bus_type;
-> >  };
-> >
-> >  /*
-> > @@ -1354,6 +1356,8 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
-> >
-> >  static int ov772x_probe(struct i2c_client *client)
-> >  {
-> > +     struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
-> > +     struct fwnode_handle    *ep;
-> >       struct ov772x_priv      *priv;
-> >       int                     ret;
-> >       static const struct regmap_config ov772x_regmap_config = {
-> > @@ -1415,6 +1419,26 @@ static int ov772x_probe(struct i2c_client *client)
-> >               goto error_clk_put;
-> >       }
-> >
-> > +     ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> > +                                         NULL);
-> > +     if (!ep) {
-> > +             dev_err(&client->dev, "endpoint node not found\n");
-> > +             ret = -EINVAL;
-> > +             goto error_clk_put;
-> > +     }
-> > +
-> > +     bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
-> > +     ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-> > +     priv->bus_type = bus_cfg.bus_type;
-> > +     v4l2_fwnode_endpoint_free(&bus_cfg);
-> > +     if (ret) {
-> > +             /* For backward compatibility with the existing DT where
-> > +              * bus-type isnt specified fallback to V4L2_MBUS_PARALLEL
->
-> "isn't", "fall back", and a period, please.
->
-Will fix that.
+> What about security? Is it OK that some other random file, maybe in
+> another process, is being linked to this mmap?
 
-> > +              */
-> > +             priv->bus_type = V4L2_MBUS_PARALLEL;
-> > +             dev_notice(&client->dev, "Falling back to V4L2_MBUS_PARALLEL mode\n");
->
-> I'd just use dev_dbg().
->
-OK will switch to dev_dbg()
+Good question, I have no idea. That's why I send out this mail.
 
-Cheers,
-Prabhakar
+>>> The background here is that DMA-buf allows device drivers to
+>>> export buffer which are then imported into another device
+>>> driver. The mmap() handler of the importing device driver then
+>>> find that the pgoff belongs to the exporting device and so
+>>> redirects the mmap() call there.
+> So the pgoff is some virtualized thing?
+
+Yes, absolutely.
+
+Christian.
+
+>
+> Jason
+
