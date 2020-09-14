@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D8DF2687D6
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 11:04:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFB662687D5
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 11:04:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726266AbgINJEB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 05:04:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37860 "EHLO mail.kernel.org"
+        id S1726242AbgINJDj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 05:03:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37752 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726224AbgINJDh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 05:03:37 -0400
+        id S1726205AbgINJDc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Sep 2020 05:03:32 -0400
 Received: from mail.kernel.org (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1CDE122224;
-        Mon, 14 Sep 2020 09:03:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D026122204;
+        Mon, 14 Sep 2020 09:03:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1600074212;
-        bh=yM9N4NLqi4WGMy1CjkjYEiUQeXobHjZl0q9V8IJvvnw=;
+        bh=Zw9W1+amdegwYUXpErBc4E+AxdH3bMvY1OFaDGkbQ00=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W0ixixNjC6rmc3WHHWCUL/qUObi09L5Hk+Et5MpqrtogUcaAPRZkcC64OiWEfSQkF
-         k9mkhFvvQ92LZynMuTCW0v2dbSOnukKel3yCySAS7gOILG1Rim5DBe60NhMlizn90S
-         EezoHaOC+NZ9oXmMfpZbHTzB6QiwEBrkPMCPe0oU=
+        b=WXL9tfmwiy0chbrtPHG0uJ6XcHylhfF0jSwByKqMF936C20EzLEjujlqlMyGODmDL
+         drjFz1az2uNp7OLUkqhbCat6Wsst4PFY3LZd54jlSrvbtDYXA6vWw+CIg1U5wYxFXN
+         ewT6qN4KiV4TsGfBfKdQWPgU6XZvU+njrIvmclVI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kHkOW-002dzn-7X; Mon, 14 Sep 2020 11:03:28 +0200
+        id 1kHkOW-002dzq-8Z; Mon, 14 Sep 2020 11:03:28 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH RFC 10/11] media: vidtv: get rid of the work queue
-Date:   Mon, 14 Sep 2020 11:03:25 +0200
-Message-Id: <faaa816a1dea0b2ce983128a40a9867809e04381.1600073975.git.mchehab+huawei@kernel.org>
+Subject: [PATCH RFC 11/11] media: vidtv: increment byte and block counters
+Date:   Mon, 14 Sep 2020 11:03:26 +0200
+Message-Id: <20aa6d0916d8475bb57539743963bba97d929eb9.1600073975.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1600073975.git.mchehab+huawei@kernel.org>
 References: <cover.1600073975.git.mchehab+huawei@kernel.org>
@@ -45,169 +45,123 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The dvb_frontend will already call status periodically, when
-a channel is tuned. So, no need to have a work queue for
-such purpose.
+Add support for incrementing DVBv5 stats for block counters
+and post/pre BER byte counts.
+
+For now, the errors won't be incremented yet.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/test-drivers/vidtv/vidtv_demod.c    | 77 ++-----------------
- .../media/test-drivers/vidtv/vidtv_demod.h    |  3 -
- 2 files changed, 6 insertions(+), 74 deletions(-)
+ drivers/media/test-drivers/vidtv/vidtv_bridge.c |  2 +-
+ drivers/media/test-drivers/vidtv/vidtv_bridge.h |  3 +++
+ drivers/media/test-drivers/vidtv/vidtv_mux.c    | 16 +++++++++++++++-
+ drivers/media/test-drivers/vidtv/vidtv_mux.h    |  6 +++++-
+ 4 files changed, 24 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_demod.c b/drivers/media/test-drivers/vidtv/vidtv_demod.c
-index bfe63d7160f2..c54c88cac84f 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_demod.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_demod.c
-@@ -190,26 +190,21 @@ static void vidtv_demod_update_stats(struct dvb_frontend *fe)
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+index cb32f82f88f9..108e7937e9c1 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+@@ -172,7 +172,7 @@ static int vidtv_start_streaming(struct vidtv_dvb *dvb)
+ 	mux_args.priv                        = dvb;
  
+ 	dvb->streaming = true;
+-	dvb->mux = vidtv_mux_init(dev, mux_args);
++	dvb->mux = vidtv_mux_init(dvb->fe[0], dev, mux_args);
+ 	vidtv_mux_start_thread(dvb->mux);
+ 
+ 	dev_dbg_ratelimited(dev, "Started streaming\n");
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.h b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
+index fd65f9838b10..78fe8472fa37 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
+@@ -12,6 +12,9 @@
+ #ifndef VIDTV_BRIDGE_H
+ #define VIDTV_BRIDGE_H
+ 
++/*
++ * For now, only one frontend is supported. See vidtv_start_streaming()
++ */
+ #define NUM_FE 1
+ 
+ #include <linux/i2c.h>
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
+index d1db9dc6dc89..5d1a275d504b 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
+@@ -381,6 +381,7 @@ static void vidtv_mux_tick(struct work_struct *work)
+ 	struct vidtv_mux *m = container_of(work,
+ 					   struct vidtv_mux,
+ 					   mpeg_thread);
++	struct dtv_frontend_properties *c = &m->fe->dtv_property_cache;
+ 	u32 nbytes;
+ 	u32 npkts;
+ 
+@@ -411,6 +412,17 @@ static void vidtv_mux_tick(struct work_struct *work)
+ 
+ 		vidtv_mux_clear(m);
+ 
++		/*
++		 * Update bytes and packet counts at DVBv5 stats
++		 *
++		 * For now, both pre and post bit counts are identical,
++		 * but post BER count can be lower than pre BER, if the error
++		 * correction logic discards packages.
++		 */
++		c->pre_bit_count.stat[0].uvalue = nbytes;
++		c->post_bit_count.stat[0].uvalue = nbytes;
++		c->block_count.stat[0].uvalue += npkts;
++
+ 		usleep_range(VIDTV_SLEEP_USECS, VIDTV_MAX_SLEEP_USECS);
+ 	}
+ }
+@@ -435,12 +447,14 @@ void vidtv_mux_stop_thread(struct vidtv_mux *m)
+ 	}
  }
  
--static void vidtv_demod_poll_snr_handler(struct work_struct *work)
-+static int vidtv_demod_read_status(struct dvb_frontend *fe,
-+				   enum fe_status *status)
+-struct vidtv_mux *vidtv_mux_init(struct device *dev,
++struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
++				 struct device *dev,
+ 				 struct vidtv_mux_init_args args)
  {
--	/*
--	 * periodically check the signal quality and eventually
--	 * lose the TS lock if it dips too low
--	 */
--	struct vidtv_demod_state *state;
-+	struct vidtv_demod_state *state = fe->demodulator_priv;
- 	const struct vidtv_demod_cnr_to_qual_s *cnr2qual = NULL;
--	struct vidtv_demod_config *config;
-+	struct vidtv_demod_config *config = &state->config;
- 	u16 snr = 0;
+ 	struct vidtv_mux *m = kzalloc(sizeof(*m), GFP_KERNEL);
  
--	state = container_of(work, struct vidtv_demod_state, poll_snr.work);
--	config = &state->config;
--
- 	/* Simulate random lost of signal due to a bad-tuned channel */
- 	cnr2qual = vidtv_match_cnr_s(&state->frontend);
+ 	m->dev = dev;
++	m->fe = fe;
+ 	m->timing.pcr_period_usecs = args.pcr_period_usecs;
+ 	m->timing.si_period_usecs  = args.si_period_usecs;
  
- 	if (cnr2qual && state->tuner_cnr < cnr2qual->cnr_good &&
- 	    state->frontend.ops.tuner_ops.get_rf_strength) {
--		state->frontend.ops.tuner_ops.get_rf_strength(&state->frontend, &snr);
-+		state->frontend.ops.tuner_ops.get_rf_strength(&state->frontend,
-+							      &snr);
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.h b/drivers/media/test-drivers/vidtv/vidtv_mux.h
+index 67de85fd50aa..2caa60623e97 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_mux.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_mux.h
+@@ -18,6 +18,8 @@
+ #include <linux/types.h>
+ #include <linux/hashtable.h>
+ #include <linux/workqueue.h>
++#include <media/dvb_frontend.h>
++
+ #include "vidtv_psi.h"
  
- 		if (snr < cnr2qual->cnr_ok) {
- 			/* eventually lose the TS lock */
-@@ -229,15 +224,6 @@ static void vidtv_demod_poll_snr_handler(struct work_struct *work)
+ /**
+@@ -100,6 +102,7 @@ struct vidtv_mux_pid_ctx {
+  * @priv: Private data.
+  */
+ struct vidtv_mux {
++	struct dvb_frontend *fe;
+ 	struct device *dev;
  
- 	vidtv_demod_update_stats(&state->frontend);
- 
--	schedule_delayed_work(&state->poll_snr,
--			      msecs_to_jiffies(POLL_THRD_TIME));
--}
--
--static int vidtv_demod_read_status(struct dvb_frontend *fe,
--				   enum fe_status *status)
--{
--	struct vidtv_demod_state *state = fe->demodulator_priv;
--
- 	*status = state->status;
- 
- 	return 0;
-@@ -296,55 +282,12 @@ static int vidtv_demod_set_frontend(struct dvb_frontend *fe)
- 
- 	vidtv_demod_update_stats(fe);
- 
--	if (state->tuner_cnr > 0) {
--		schedule_delayed_work(&state->poll_snr,
--					msecs_to_jiffies(POLL_THRD_TIME));
--
--		state->poll_snr_thread_running = true;
--	}
--
- 	if (fe->ops.i2c_gate_ctrl)
- 		fe->ops.i2c_gate_ctrl(fe, 0);
- 
- 	return 0;
- }
- 
--static int vidtv_demod_sleep(struct dvb_frontend *fe)
--{
--	struct vidtv_demod_state *state = fe->demodulator_priv;
--
--	if (state->poll_snr_thread_running) {
--		cancel_delayed_work_sync(&state->poll_snr);
--		state->poll_snr_thread_running = false;
--		state->poll_snr_thread_restart = true;
--	}
--	return 0;
--}
--
--static int vidtv_demod_init(struct dvb_frontend *fe)
--{
--	struct vidtv_demod_state *state = fe->demodulator_priv;
--	u32    tuner_status             = 0;
--
--	/*
--	 * At resume, start the snr poll thread only if it was suspended with
--	 * the thread running. Extra care should be taken here, as some tuner
--	 * status change might happen at resume time (for example, due to an
--	 * ioctl syscall to set_frontend, or due to a release syscall).
--	 */
--	fe->ops.tuner_ops.get_status(fe, &tuner_status);
--
--	if (tuner_status == TUNER_STATUS_LOCKED &&
--	    state->poll_snr_thread_restart) {
--		schedule_delayed_work(&state->poll_snr,
--				      msecs_to_jiffies(POLL_THRD_TIME));
--
--		state->poll_snr_thread_restart = false;
--	}
--
--	return 0;
--}
--
- /*
-  * NOTE:
-  * This is implemented here just to be used as an example for real
-@@ -375,9 +318,6 @@ static void vidtv_demod_release(struct dvb_frontend *fe)
- {
- 	struct vidtv_demod_state *state = fe->demodulator_priv;
- 
--	if (state->poll_snr_thread_running)
--		cancel_delayed_work_sync(&state->poll_snr);
--
- 	kfree(state);
- }
- 
-@@ -423,9 +363,6 @@ static const struct dvb_frontend_ops vidtv_demod_ops = {
- 
- 	.release = vidtv_demod_release,
- 
--	.init  = vidtv_demod_init,
--	.sleep = vidtv_demod_sleep,
--
- 	.set_frontend = vidtv_demod_set_frontend,
- 	.get_frontend = vidtv_demod_get_frontend,
- 
-@@ -461,8 +398,6 @@ static int vidtv_demod_i2c_probe(struct i2c_client *client,
- 
- 	memcpy(&state->config, config, sizeof(state->config));
- 
--	INIT_DELAYED_WORK(&state->poll_snr, &vidtv_demod_poll_snr_handler);
--
- 	state->frontend.demodulator_priv = state;
- 	i2c_set_clientdata(client, state);
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_demod.h b/drivers/media/test-drivers/vidtv/vidtv_demod.h
-index 7f52a537935b..87651b0193e6 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_demod.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_demod.h
-@@ -63,10 +63,7 @@ struct vidtv_demod_config {
- struct vidtv_demod_state {
- 	struct dvb_frontend frontend;
- 	struct vidtv_demod_config config;
--	struct delayed_work poll_snr;
- 	enum fe_status status;
- 	u16 tuner_cnr;
--	bool poll_snr_thread_running;
--	bool poll_snr_thread_restart;
+ 	struct vidtv_mux_timing timing;
+@@ -153,7 +156,8 @@ struct vidtv_mux_init_args {
+ 	void *priv;
  };
- #endif // VIDTV_DEMOD_H
+ 
+-struct vidtv_mux *vidtv_mux_init(struct device *dev,
++struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
++				 struct device *dev,
+ 				 struct vidtv_mux_init_args args);
+ void vidtv_mux_destroy(struct vidtv_mux *m);
+ 
 -- 
 2.26.2
 
