@@ -2,77 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CA9C269682
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 22:27:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE12E26984F
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 23:51:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726142AbgINU1L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 16:27:11 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:40878 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbgINU0q (ORCPT
+        id S1726056AbgINVva (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 17:51:30 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:34533 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726048AbgINVvI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 16:26:46 -0400
-Received: by mail-io1-f66.google.com with SMTP id j2so1560924ioj.7;
-        Mon, 14 Sep 2020 13:26:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7ipIPJe2L/N1mSae8aZjf9G0XjVWalEqSXPCFWqO68s=;
-        b=lzg/LN2ZULjVBqY23wJmPY03fW5WlEJQNQtOu7zDaJPQFbCF0NIKd1XzgCwNmbDkD/
-         Nmkgny3Z1QuZITtuSjj3SZAYT0hFCWYUWADLprRiLNiUab54F/unuJkft/vT+rOGeZOu
-         HlQUa37D73SCiIAyLLk8DdBuo5R1ToEupJ+4ExPyetcst6RSYniZmDwrlhPglNBkv52B
-         p2qQVdD5Vi/WZe2gL7s6KZ2ijfjcXtYlG4CBq24VS7exMid3w8GQ28ZdLd+wf1Ruih9o
-         GGuEiVBUArTAAo2e8Xqo2S04bEpnQ/c8MXRJ+gxWfm9S5QPatjJBCA9OO5fHhLdvRSwc
-         8ZxQ==
-X-Gm-Message-State: AOAM531a0/RMkASF1viqE8qhFru7PAvx2vSxGv/AlwmtNCdF02wMcPqz
-        ps563SZaYh6IVwl3A/HVXCcTVoBdX02W
-X-Google-Smtp-Source: ABdhPJz3q27/HgUYvYMDzZ9LdXeisjOQqJBGsOR1ICGmVHQRJ1jvhha/ip4X8aXDn9NmBic8aiDUUQ==
-X-Received: by 2002:a05:6602:2a4b:: with SMTP id k11mr12472990iov.85.1600115204493;
-        Mon, 14 Sep 2020 13:26:44 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id y19sm7277736ili.47.2020.09.14.13.26.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 13:26:43 -0700 (PDT)
-Received: (nullmailer pid 184240 invoked by uid 1000);
-        Mon, 14 Sep 2020 20:26:42 -0000
-Date:   Mon, 14 Sep 2020 14:26:42 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, darfur_liu@gcoreinc.com,
-        linux-kernel@vger.kernel.org, sj.huang@mediatek.com,
-        Xingyu Wu <wuxy@bitland.com.cn>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org, hao.he7@gmail.com,
-        drinkcat@chromium.org, linux-media@vger.kernel.org,
-        Hao He <hao.he@bitland.com.cn>, dongchun.zhu@mediatek.com
-Subject: Re: [PATCH v4 1/4] dt-bindings: Add a vendor prefix for Galaxycore
- Inc.
-Message-ID: <20200914202642.GA184185@bogus>
-References: <20200902224813.14283-1-tfiga@chromium.org>
- <20200902224813.14283-2-tfiga@chromium.org>
+        Mon, 14 Sep 2020 17:51:08 -0400
+X-Halon-ID: 5fc6ff5b-f6d4-11ea-a39b-005056917f90
+Authorized-sender: niklas.soderlund@fsdn.se
+Received: from bismarck.berto.se (p54ac52a8.dip0.t-ipconnect.de [84.172.82.168])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id 5fc6ff5b-f6d4-11ea-a39b-005056917f90;
+        Mon, 14 Sep 2020 23:51:04 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/2] rcar-csi2: Update how DT is traversed and parsed
+Date:   Mon, 14 Sep 2020 23:50:09 +0200
+Message-Id: <20200914215011.339387-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200902224813.14283-2-tfiga@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 02 Sep 2020 22:48:10 +0000, Tomasz Figa wrote:
-> From: Hao He <hao.he@bitland.com.cn>
-> 
-> Add a vendor prefix for Galaxycore Inc. as a prerequisite for adding
-> bindings for a new imaging sensor.
-> 
-> Signed-off-by: Hao He <hao.he@bitland.com.cn>
-> Signed-off-by: Xingyu Wu <wuxy@bitland.com.cn>
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+Hi,
 
-Acked-by: Rob Herring <robh@kernel.org>
+This series touches up how the R-Car CSI-2 driver traverse and parse DT 
+device nodes. Patch 1/2  switches to only use the fwnode interface and 
+2/2 specifies the bus type used for parsing.
+
+This is done a preparation to later modify the rcar-vin driver in a 
+similar fashion to be able to drop the use of the 
+v4l2_async_notifier_parse_fwnode_endpoints_by_port() helper which I 
+understand is marked for deprecation. Therefore comments on the over all 
+solution of parsing DT here would be appreciated.
+
+Niklas Söderlund (2):
+  rcar-csi2: Switch to using fwnode instead of OF
+  rcar-csi2: Set bus type when parsing fwnode
+
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+2.28.0
+
