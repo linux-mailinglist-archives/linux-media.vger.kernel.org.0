@@ -2,77 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BA08268989
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 12:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98C60268A00
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 13:27:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbgINKp4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 06:45:56 -0400
-Received: from sonic302-21.consmr.mail.ne1.yahoo.com ([66.163.186.147]:37947
-        "EHLO sonic302-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726497AbgINKpy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 06:45:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1600080353; bh=dGwizWYnZGK91DDxdP+Qz2TpW7F6J5jDYhhs+LKiHMg=; h=Date:From:Reply-To:Subject:References:From:Subject; b=kz/LcmKRGM9/qB0Axk4AVQ8KdLEyHIJ9UTwsl4PXJ3YfPx45P7RXBPCA6O3q/4RUWi/13RwCBN8q/iWEg6/nYJC7o7AvURr3EvbkN5/zRia4oTQ8HsbL7TUoc7y9BqffP9A8O0Adli6skEXQV+PLPrcyXSDLX7Am5cWQOffOFZiAHTaeHIk/tHHUMol4Upd5rCj0Nv1D1jElqwXvCuuVCmIRwKTtBxuU0d4JfLN/sbw/0gCGmqsxxp3CcTfwG2hUjhRBFZ3W5ddZepUsPMHhQ4Xf8NyfHYOAJ3+MUcoqv3bPs7wV4jBn+R40tbXU42s+0Kji+iW9mcpyJgL6QnppBQ==
-X-YMail-OSG: feZQYvQVM1mgYYP6Wu0KiLB7z11yyVU.MBy7eaH0xcIpPpIml0HEGRr_LDq1LAM
- raY9j6CzKLCw2SeuzYjUGXTUUFlpsEd6htYYo7lqcQi5y.rKYqv57cdDSHaqVB1LSm5CTJ_aXUIq
- PqfMkVMouDKZv2m1NVRrdi1L67Nh8Udtm9YH8lJqmhqUeTbCDQymWr_.DjPjIh1CHNNrLD8xEUXf
- IivNNuBPrIZrNZt9X2XbiQ3mN7MxoclTtTnMiR_6NVNn.Q5DL1Xfgh2pavsIDpxYm2vPIQ1Y8lIp
- sKHRgKAKObMEsOMRPd1jEeHGQoXoYsvW.21E.Y4tNK2kfhG3WBumjbSCy_Uvlg0w2HR0qPklPhIt
- 8ReQQ8kC.j_k2yjkELyapvKqlEvy0grjxdnvgij9p0JU5bcbOnrVs65YAJL9s01IJJO5mI0U72EV
- ynDvrGzI2acrOd7mEGhiOXevnNDguC4tik0HN4UYEkM_mBDuqEWgD1HWHmFmtKxVeJypK2WGSSoJ
- jxQ8fg.l0CJJ9QulXggtuLEba___WlCTjeXSqHCQBoB_fD42lrSINDqffIX5nscDmly9ZPxFSQ3r
- jWaWDPOWgY9ijHWM7oBjf3rD.Wf9rUXgh6UlsXdLdb0Ms3NeW3tvcw_kZf3OqFtyLW97Xt0Pw7hs
- QobwJxBSwVhCqwijgIJSxmdWb5YGl9IR96fjom5DxzQ39MRjP.bUAchoeBLaCjnd5GWSSf.p9_Hd
- rAbYfenreDrERcZLQbassNsazqp2PTk83jYcRiTp7UAXkcXnoLPcCzJx.rGdUDzlQCPOHAYiphaM
- K0IUTrXpnsLc2E6N.D0BP7oHjSN199t8LZyVauO34yqHfqC9.yMtrbNEXrLuNKQnmYBXJtydWCe5
- v9J1LiseKo6EjP3iIpMiOyMC2YYUQHfG.l4hdcMuKXdT6AzxBV27oyNCa4H33wAFBzdClnbZAgPc
- nmJv_yhMlMZvqQw7RohEmadQ9uf4WrVa1KDj3Ccy5BFUIuidNT2iT4iZ9sfLExTsjGQVBSbhe6JF
- 6elwXsrVX7hgzN9tsDv4zIWCLawE7BO7Sz4_NPb22lBui6VGcSdDb9cW3m6n.AjJkPGPkYKXof3a
- PDHgC548Ed1KaIEvioBs0KL4WkbKTKZXJjLDLiI3Cz0tpOZMPX.3x.Eb7XzxtRAbp1Eqpjr2SVa0
- JgxbPYmR6u777ysREm3fQsK2fxgs8aUGTSt0RWrkHneRjNH_t62uTXaD8PqU.okyxCE8Iyi0TTKD
- Ut6lYZL8UXWAL2428TX2L3mRYZ5xAV92j4Cwh9CwFpWYugJFucu_hz5kRVSOR9kSbFC2Hcto1Vik
- HRfAjuh.EJXxti0ovMFKnk_sIbO7g4Q4WemGvyem5k2bdGZr4AX7evdLBs1fAbNwX01ZalXfTlr3
- Gu6TZZ1t4ycMsGdiSQDmFBUXBstbjfHxwPVS6x_pHo67BWhuelA--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ne1.yahoo.com with HTTP; Mon, 14 Sep 2020 10:45:53 +0000
-Date:   Mon, 14 Sep 2020 10:45:52 +0000 (UTC)
-From:   "Mr.Ahmed Muzashah" <ahmedmuzashah11@gmail.com>
-Reply-To: mrahmedmuzashah@gmail.com
-Message-ID: <1303475663.1957632.1600080352405@mail.yahoo.com>
-Subject: =?UTF-8?Q?Sch=C3=B6nen_Tag,?=
+        id S1726081AbgINL05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 07:26:57 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43092 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726057AbgINLZ1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Sep 2020 07:25:27 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0E010B0EA;
+        Mon, 14 Sep 2020 11:25:41 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     sumit.semwal@linaro.org, christian.koenig@amd.com, daniel@ffwll.ch,
+        airlied@linux.ie, sam@ravnborg.org, mark.cave-ayland@ilande.co.uk,
+        kraxel@redhat.com, davem@davemloft.net,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+        christian.gmeiner@gmail.com, jani.nikula@linux.intel.com,
+        joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, pawel@osciak.com,
+        m.szyprowski@samsung.com, kyungmin.park@samsung.com,
+        tfiga@chromium.org, mchehab@kernel.org, chris@chris-wilson.co.uk,
+        matthew.auld@intel.com, thomas.hellstrom@intel.com
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, etnaviv@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        sparclinux@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
+Date:   Mon, 14 Sep 2020 13:25:18 +0200
+Message-Id: <20200914112521.1327-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <1303475663.1957632.1600080352405.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16583 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sch=C3=B6nen Tag,
+Dma-buf provides vmap() and vunmap() for retrieving and releasing mappings
+of dma-buf memory in kernel address space. The functions operate with plain
+addresses and the assumption is that the memory can be accessed with load
+and store operations. This is not the case on some architectures (e.g.,
+sparc64) where I/O memory can only be accessed with dedicated instructions.
 
-Bitte entschuldigen Sie, dass Sie einen =C3=9Cberraschungsbrief geschrieben=
- haben. Ich bin Herr Ahmed Muzashah, Account Manager bei einer Investmentba=
-nk hier in Burkina Faso. Ich habe ein sehr wichtiges Gesch=C3=A4ft, das ich=
- mit Ihnen besprechen m=C3=B6chte. In meinem Konto ist ein Kontoentwurf er=
-=C3=B6ffnet Ich habe die M=C3=B6glichkeit, den verbleibenden Fonds (15,8 Mi=
-llionen US-Dollar) von f=C3=BCnfzehn Millionen achthunderttausend US-Dollar=
- eines meiner Bankkunden zu =C3=BCbertragen, der beim Zusammenbruch der Wel=
-t gestorben ist Handelszentrum in den Vereinigten Staaten am 11. September =
-2001.
+This patchset introduces struct dma_buf_map, which contains the address of
+a buffer and a flag that tells whether system- or I/O-memory instructions
+are required.
 
-Ich m=C3=B6chte diese Mittel investieren und Sie unserer Bank f=C3=BCr dies=
-en Deal vorstellen. Alles, was ich ben=C3=B6tige, ist Ihre ehrliche Zusamme=
-narbeit und ich garantiere Ihnen, dass dies unter einer legitimen Vereinbar=
-ung durchgef=C3=BChrt wird, die uns vor Gesetzesverst=C3=B6=C3=9Fen sch=C3=
-=BCtzt Ich bin damit einverstanden, dass 40% dieses Geldes f=C3=BCr Sie als=
- meinen ausl=C3=A4ndischen Partner, 50% f=C3=BCr mich und 10% f=C3=BCr die =
-Schaffung der Grundlage f=C3=BCr die weniger Privilegien in Ihrem Land best=
-immt sind. Wenn Sie wirklich an meinem Vorschlag interessiert sind, werden =
-weitere Einzelheiten der =C3=9Cbertragung ber=C3=BCcksichtigt Sie werden an=
- Sie weitergeleitet, sobald ich Ihre Bereitschaftsmail f=C3=BCr eine erfolg=
-reiche =C3=9Cberweisung erhalte.
+Some background: updating the DRM framebuffer console on sparc64 makes the
+kernel panic. This is because the framebuffer memory cannot be accessed with
+system-memory instructions. We currently employ a workaround in DRM to
+address this specific problem. [1]
 
-Dein,
-Mr.Ahmed Muzashah,
+To resolve the problem, we'd like to address it at the most common point,
+which is the dma-buf framework. The dma-buf mapping ideally knows if I/O
+instructions are required and exports this information to it's users. The
+new structure struct dma_buf_map stores the buffer address and a flag that
+signals I/O memory. Affected users of the buffer (e.g., drivers, frameworks)
+can then access the memory accordingly.
+
+This patchset only introduces struct dma_buf_map, and updates struct dma_buf
+and it's interfaces. Further patches can update dma-buf users. For example,
+there's a prototype patchset for DRM that fixes the framebuffer problem. [2]
+
+Further work: TTM, one of DRM's memory managers, already exports an
+is_iomem flag of its own. It could later be switched over to exporting struct
+dma_buf_map, thus simplifying some code. Several DRM drivers expect their
+fbdev console to operate on I/O memory. These could possibly be switched over
+to the generic fbdev emulation, as soon as the generic code uses struct
+dma_buf_map.
+
+[1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
+[2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmermann@suse.de/
+
+Thomas Zimmermann (3):
+  dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
+  dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
+  dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
+
+ Documentation/driver-api/dma-buf.rst          |   3 +
+ drivers/dma-buf/dma-buf.c                     |  40 +++---
+ drivers/gpu/drm/drm_gem_cma_helper.c          |  16 ++-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 ++-
+ drivers/gpu/drm/drm_prime.c                   |  14 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 ++-
+ drivers/gpu/drm/tegra/gem.c                   |  23 ++--
+ .../common/videobuf2/videobuf2-dma-contig.c   |  17 ++-
+ .../media/common/videobuf2/videobuf2-dma-sg.c |  19 ++-
+ .../common/videobuf2/videobuf2-vmalloc.c      |  21 ++-
+ include/drm/drm_prime.h                       |   5 +-
+ include/linux/dma-buf-map.h                   | 126 ++++++++++++++++++
+ include/linux/dma-buf.h                       |  11 +-
+ 15 files changed, 274 insertions(+), 82 deletions(-)
+ create mode 100644 include/linux/dma-buf-map.h
+
+--
+2.28.0
+
