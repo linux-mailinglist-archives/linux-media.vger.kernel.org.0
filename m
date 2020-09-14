@@ -2,95 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AB352691DD
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 18:41:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64CB7269214
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 18:50:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726020AbgINQls (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 12:41:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44954 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726280AbgINPOn (ORCPT
+        id S1726299AbgINQtv convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 14 Sep 2020 12:49:51 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:35754 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726094AbgINQtt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 11:14:43 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14FA5C061788;
-        Mon, 14 Sep 2020 08:14:43 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id q5so454175qkc.2;
-        Mon, 14 Sep 2020 08:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:message-id:in-reply-to:references:subject
-         :mime-version:content-transfer-encoding:content-disposition;
-        bh=OD2XGGa27niJ7TfndrV66ShmAkg6komZ0A4btIli5fk=;
-        b=P+nQWL2MURjqda1ZVX9DJ8IR0t30mmzUNd4HNxEXyrVN8l+fLbRK2ltS8ggA4172Sd
-         7kOFn1UWubddBYc7hjQ5HXMdXNP+AXSJd9/pG2huzfkohjpqik9rbxG00tLpbgm5n7eg
-         mEOWwpZ/ROC/vClWjwd5l/C3CPWKrut4Ns4MTofEMyDY0b3ZbiMEIhBsQnfpY/uyq7lH
-         S9EZMDfsjmdZfUsUqPeLSAFE3oU1HIchpxRUlkX6lAxEs9ZoZQPeQkzxTK6JqXyR9CfB
-         UdXZUdCJneZ/6FeZFu0GmCF/TjHkVyYpXjxwzOg3utLMQDn017sgCnPKHg8jTjiXKcha
-         5udg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
-         :references:subject:mime-version:content-transfer-encoding
-         :content-disposition;
-        bh=OD2XGGa27niJ7TfndrV66ShmAkg6komZ0A4btIli5fk=;
-        b=b5UZ3vDM74NcU7dEeGw0Sz9pIT3l5yYi9T/p6ZB7CXC9rd2fjjyBmo4c1/CL210Jyv
-         UYXlrsBHEqDVPPGsplTaN/G1JhZo3kqpmtDh+gvqbjsOXQ/61u0sc2AHoADhiPGYcpVt
-         fa/wN/LqSMhBUSMlZpdoiJf5R4O+1Jo1CnfcOJZWMP5mKg+fEdIfIOY9WAewDDMOYOdR
-         oXlAbX3MY4zjetaSexL+tkwPjyWD9q0depG9AyqPIN6gCG65ZYZPelG6tBJK7wZbu9T3
-         2sE8dfWTHjGNBePuSgdJ/YWY4X4nSfAS7ukf6HMOHWNS3WXCmxyNhhy91MBV+qQcxoSc
-         pwgw==
-X-Gm-Message-State: AOAM5326zhKSrAqe6Bx9c82+NS5YqbQbo1M4UTmXYODH2s/oxVUsWQcA
-        RCaukm+VEqVwhzJPYgrXW96/ph+eOqUxgw==
-X-Google-Smtp-Source: ABdhPJwrXM+XaygDRbo/q8a5SAU2SNgQC2MoeRECyx1qlERfPCeS15qH8dENP0qXFobAjBK8J+Btqw==
-X-Received: by 2002:a05:620a:1125:: with SMTP id p5mr13033953qkk.328.1600096482105;
-        Mon, 14 Sep 2020 08:14:42 -0700 (PDT)
-Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id 2sm9293971qtg.20.2020.09.14.08.14.40
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 14 Sep 2020 08:14:41 -0700 (PDT)
-Date:   Mon, 14 Sep 2020 12:14:38 -0300
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     "=?utf-8?Q?linux-kernel=40vger.kernel.org?=" 
-        <linux-kernel@vger.kernel.org>,
-        "=?utf-8?Q?linux-media=40vger.kernel.org?=" 
-        <linux-media@vger.kernel.org>
-Message-ID: <68DDA2DD-4341-45A9-99CF-BF41573C9AED@getmailspring.com>
-In-Reply-To: <47ccbcbd23e44159bbb11274b540d7c2bb66be7c.1600073975.git.mchehab+huawei@kernel.org>
-References: <47ccbcbd23e44159bbb11274b540d7c2bb66be7c.1600073975.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH RFC 06/11] media: vidtv: get rid of some endiannes
- nonsense
-X-Mailer: Mailspring
+        Mon, 14 Sep 2020 12:49:49 -0400
+Received: from [78.134.51.148] (port=46080 helo=[192.168.77.62])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1kHrfX-0002jl-8u; Mon, 14 Sep 2020 18:49:31 +0200
+Subject: Re: [PATCH v8 0/6] Support running driver's probe for a device
+ powered off
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-i2c@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media@vger.kernel.org
+References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+ <f4b82baa-66b7-464e-fd39-66d2243a05ef@lucaceresoli.net>
+ <20200911130104.GF26842@paasikivi.fi.intel.com>
+ <6dea1206-cfaa-bfc5-d57e-4dcddadc03c7@lucaceresoli.net>
+ <20200914094727.GM26842@paasikivi.fi.intel.com>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <de017bfd-8908-f5ba-afa7-469a0059a5a7@lucaceresoli.net>
+Date:   Mon, 14 Sep 2020 18:49:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+In-Reply-To: <20200914094727.GM26842@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8BIT
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Sakari,
 
-> Genmask is always highest order to low order. It doesn't make
-> any sense to make it depends on endiannes.
+On 14/09/20 11:47, Sakari Ailus wrote:
+> Hi Luca,
+> 
+> On Mon, Sep 14, 2020 at 09:58:24AM +0200, Luca Ceresoli wrote:
+>> Hi Sakari,
+>>
+>> On 11/09/20 15:01, Sakari Ailus wrote:
+>>> Hi Luca,
+>>>
+>>> On Fri, Sep 11, 2020 at 02:49:26PM +0200, Luca Ceresoli wrote:
+>>>> Hi Sakari,
+>>>>
+>>>> On 03/09/20 10:15, Sakari Ailus wrote:
+>>>>>
+>>>>> Hi all,
+>>>>>
+>>>>> These patches enable calling (and finishing) a driver's probe function
+>>>>> without powering on the respective device on busses where the practice is
+>>>>> to power on the device for probe. While it generally is a driver's job to
+>>>>> check the that the device is there, there are cases where it might be
+>>>>> undesirable. (In this case it stems from a combination of hardware design
+>>>>> and user expectations; see below.) The downside with this change is that
+>>>>> if there is something wrong with the device, it will only be found at the
+>>>>> time the device is used. In this case (the camera sensors + EEPROM in a
+>>>>> sensor) I don't see any tangible harm from that though.
+>>>>>
+>>>>> An indication both from the driver and the firmware is required to allow
+>>>>> the device's power state to remain off during probe (see the first patch).
+>>>>>
+>>>>>
+>>>>> The use case is such that there is a privacy LED next to an integrated
+>>>>> user-facing laptop camera, and this LED is there to signal the user that
+>>>>> the camera is recording a video or capturing images. That LED also happens
+>>>>> to be wired to one of the power supplies of the camera, so whenever you
+>>>>> power on the camera, the LED will be lit, whether images are captured from
+>>>>> the camera --- or not. There's no way to implement this differently
+>>>>> without additional software control (allowing of which is itself a
+>>>>> hardware design decision) on most CSI-2-connected camera sensors as they
+>>>>> simply have no pin to signal the camera streaming state.
+>>>>>
+>>>>> This is also what happens during driver probe: the camera will be powered
+>>>>> on by the I²C subsystem calling dev_pm_domain_attach() and the device is
+>>>>> already powered on when the driver's own probe function is called. To the
+>>>>> user this visible during the boot process as a blink of the privacy LED,
+>>>>> suggesting that the camera is recording without the user having used an
+>>>>> application to do that. From the end user's point of view the behaviour is
+>>>>> not expected and for someone unfamiliar with internal workings of a
+>>>>> computer surely seems quite suspicious --- even if images are not being
+>>>>> actually captured.
+>>>>>
+>>>>> I've tested these on linux-next master. They also apply to Wolfram's
+>>>>> i2c/for-next branch, there's a patch that affects the I²C core changes
+>>>>> here (see below). The patches apart from that apply to Bartosz's
+>>>>> at24/for-next as well as Mauro's linux-media master branch.
+>>>>
+>>>> Apologies for having joined this discussion this late.
+>>>
+>>> No worries. But thanks for the comments.
+>>>
+>>>>
+>>>> This patchset seems a good base to cover a different use case, where I
+>>>> also cannot access the physical device at probe time.
+>>>>
+>>>> I'm going to try these patches, but in my case there are a few
+>>>> differences that need a better understanding.
+>>>>
+>>>> First, I'm using device tree, not ACPI. In addition to adding OF support
+>>>> similar to the work you've done for ACPI, I think instead of
+>>>> acpi_dev_state_low_power() we should have a function that works for both
+>>>> ACPI and DT.
+>>>
+>>> acpi_dev_state_low_power() is really ACPI specific: it does tell the ACPI
+>>> power state of the device during probe or remove. It is not needed on DT
+>>> since the power state of the device is controlled directly by the driver.
+>>> On I²C ACPI devices, it's the framework that powers them on for probe.
+>>
+>> I see, thanks for clarifying. I'm not used to ACPI so I didn't get that.
+>>
+>>> You could have a helper function on DT to tell a driver what to do in
+>>> probe, but the functionality in that case is unrelated.
+>>
+>> So in case of DT we might think of a function that just tells whether
+>> the device is marked to allow low-power probe, but it's just an info
+>> from DT:
+>>
+>> int mydriver_probe(struct i2c_client *client)
+>> {
+>> 	...
+>> 	low_power = of_dev_state_low_power(&client->dev);
+>> 	if (!low_power) {
+>> 		mydriver_initialize(); /* power+clocks, write regs */
+>>  	}
+>> 	...
+>> }
+>>
+>> ...and, if (low_power), call mydriver_initialize() at first usage.
+>>
+>> I'm wondering whether this might make sense in mainline.
+> 
+> Quite possibly, if there are drivers that would need it.
+> 
+> The function should probably be called differently though as what it does
+> is quite different after all.
+> 
+> Unless... we did the following:
+> 
+> - Redefine the I²C driver flag added by this patchset into what tells the
+>   I²C framework whether the driver does its own power management
+>   independently of the I²C framework. It could be called e.g.
+>   I2C_DRV_FL_FULL_PM, to indicate the driver is responsible for all power
+>   management of the device, and the I²C framework would not power on the
+>   device for probe or remove.
+> 
+> - Add a firmware function to tell whether the device identification should
+>   take place during probe or not. For this is what we're really doing here
+>   from driver's point of view: lazy device probing.
+
+Indeed my needs have nothing to do with power management. What I need is
+lazy device probing as the I2C bus may need time before it can be used.
+From the driver code point of view it looks similar (there's an if()
+around initializations in probe() and init is done later if needed), but
+the usage is different.
+
+Another approach would be to add a new I2C driver operation [say
+init_hw()], then move code for lazy init out of probe() into init_hw().
+probe() would still allocate resources. init_hw() would be called by the
+framework (or the controller driver?) when it knows eveything is ready.
+Just wild thoughts while I'm trying to focus the problem...
+
+> There are no dependencies between the two but they can be used together to
+> implement the same functionality as this patchset currently does. This way
+> also the differences between driver implementations for ACPI and DT can be
+> reduced as the logic is the same.
+> 
+> Further on, with this approach, if other busses happen to need this
+> functionality in the future, it would be straightforward to add support ---
+> it only takes to query whether it's indicated by the DT or ACPI property.
+> 
+> Thoughts, opinions?
 > 
 
-I added these #ifdefs due to this:
-
-https://lwn.net/Articles/741762/
-
-i.e.
-
-Fields to access are specified as GENMASK() values - an N-bit field
-starting at bit #M is encoded as GENMASK(M + N - 1, N).  Note that
-bit numbers refer to endianness of the object we are working with -
-e.g. GENMASK(11, 0) in __be16 refers to the second byte and the lower
-4 bits of the first byte.  In __le16 it would refer to the first byte
-and the lower 4 bits of the second byte, etc.
-
-I am not 100% sure, but maybe we actually need them? 
-
-- Daniel
+-- 
+Luca
 
