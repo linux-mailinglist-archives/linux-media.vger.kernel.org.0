@@ -2,233 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B4B726827A
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 04:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDB5026833A
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 05:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726017AbgINCOT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Sep 2020 22:14:19 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59360 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725974AbgINCOS (ORCPT
+        id S1725986AbgINDka (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Sep 2020 23:40:30 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36027 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725972AbgINDk0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Sep 2020 22:14:18 -0400
-Received: from [IPv6:2804:14c:483:7989::1000] (unknown [IPv6:2804:14c:483:7989::1000])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5D90629601A;
-        Mon, 14 Sep 2020 03:14:11 +0100 (BST)
-Subject: Re: [PATCH v5 1/7] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-To:     Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        linux-media@vger.kernel.org
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
-        tfiga@chromium.org, hiroh@chromium.org, nicolas@ndufresne.ca,
-        Brian.Starkey@arm.com, kernel@collabora.com,
-        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
-        frkoenig@chromium.org, mjourdan@baylibre.com,
-        stanimir.varbanov@linaro.org
-References: <20200804192939.2251988-1-helen.koike@collabora.com>
- <20200804192939.2251988-2-helen.koike@collabora.com>
- <767d6287-bd9c-b342-d14c-124e58c143e6@xs4all.nl>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <9293c7c8-9750-a79c-19ac-954a0629e04d@collabora.com>
-Date:   Sun, 13 Sep 2020 23:14:07 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <767d6287-bd9c-b342-d14c-124e58c143e6@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Sun, 13 Sep 2020 23:40:26 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id HfLpkyyCCTSPzHfLrkE2XQ; Mon, 14 Sep 2020 05:40:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600054823; bh=aLPLoj2caV8pHKWRZqHdUJvu2/JhQB8QK8L8YT1yg18=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=hyaFhkX1RzfwxRjm6awQKkxAl4fTQz5Oe9ZtbY4S2kfGAFHRVwv1O7+x88NXJMTHV
+         pVicPV7e/yLeKiFU7XDlWAsPC+X6xg46HjHYcP5yKmZMhMJwAXhQ7EEquBFbE50KrB
+         PpLuxguNDtp4zUQqYaD7MGKF8ex3P8Yoi9SJ+Mg1xTsslQbre55AcIdbOP8UDNDRg9
+         Kw63bPlsYTlAoMIuY1Wk6v75pm6LlgrziYzp0Rjbe3GHf5zhVRz2SocLoWrFcYnaOA
+         Z+p0vRPFgU7cfCBsdFcb14gKfPt6NOvDlb55yGU1ZP+A/yLcmzuoXfYNZ7yOcppOlf
+         grYBzvhjaBowg==
+Message-ID: <f82264bf21626fbcefe5f727c41704cc@smtp-cloud7.xs4all.net>
+Date:   Mon, 14 Sep 2020 05:40:21 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfPht/tkmY4gB33pm8ntQ+CpG0xmu9Mi7TGkjxaQUtcusGAQ56zxAPPr10LDluYzVuDcbvVDbVPE9rfPHW5QBKVcq+eSQRkrwyUvshG7T2hQnKPOBJRUO
+ YnmxWo5cvGqSCvhkANpE2+oIKc/q3qmhVob4YIxIH+CXOTwfD64txFhWIYTqRV4VOdZRIYc+1LIwGo+8CKxP0CfFt0GufAT//JJgKyItSNt6RM/XjDT2pPuB
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 9/9/20 8:41 AM, Hans Verkuil wrote:
-> Hi Helen,
-> 
-> Some review comments, concentrating on the uAPI.
-> 
-> On 04/08/2020 21:29, Helen Koike wrote:
->> This is part of the multiplanar and singleplanar unification process.
->> v4l2_ext_pix_format is supposed to work for both cases.
->>
->> We also add the concept of modifiers already employed in DRM to expose
->> HW-specific formats (like tiled or compressed formats) and allow
->> exchanging this information with the DRM subsystem in a consistent way.
->>
->> Note that only V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] are accepted in
->> v4l2_ext_format, other types will be rejected if you use the
->> {G,S,TRY}_EXT_PIX_FMT ioctls.
->>
->> New hooks have been added to v4l2_ioctl_ops to support those new ioctls
->> in drivers, but, in the meantime, the core takes care of converting
->> {S,G,TRY}_EXT_PIX_FMT requests into {S,G,TRY}_FMT so that old drivers can
->> still work if the userspace app/lib uses the new ioctls.
->> The conversion is also done the other around to allow userspace
->> apps/libs using {S,G,TRY}_FMT to work with drivers implementing the
->> _ext_ hooks.
->>
->> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->> ---
->> Changes in v5:
->> - change sizes and reorder fields to avoid holes in the struct and make
->>   it the same for 32 and 64 bits
->> - removed __attribute__ ((packed)) from uapi structs
->> - Fix doc warning from make htmldocs
->> - Updated commit message with EXT_PIX prefix for the ioctls.
->>
->> Changes in v4:
->> - Use v4l2_ext_pix_format directly in the ioctl, drop v4l2_ext_format,
->> making V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] the only valid types.
->> - Add reserved fields
->> - Removed num_planes from struct v4l2_ext_pix_format
->> - Removed flag field from struct v4l2_ext_pix_format, since the only
->>   defined value is V4L2_PIX_FMT_FLAG_PREMUL_ALPHA only used by vsp1,
->>   where we can use modifiers, or add it back later through the reserved
->>   bits.
->> - In v4l2_ext_format_to_format(), check if modifier is != MOD_LINEAR &&
->>   != MOD_INVALID
->> - Fix type assignment in v4l_g_fmt_ext_pix()
->> - Rebased on top of media/master (post 5.8-rc1)
->>
->> Changes in v3:
->> - Rebased on top of media/master (post 5.4-rc1)
->>
->> Changes in v2:
->> - Move the modifier in v4l2_ext_format (was formerly placed in
->>   v4l2_ext_plane)
->> - Fix a few bugs in the converters and add a strict parameter to
->>   allow conversion of uninitialized/mis-initialized objects
->> ---
->>  drivers/media/v4l2-core/v4l2-dev.c   |  21 +-
->>  drivers/media/v4l2-core/v4l2-ioctl.c | 585 +++++++++++++++++++++++----
->>  include/media/v4l2-ioctl.h           |  34 ++
->>  include/uapi/linux/videodev2.h       |  56 +++
->>  4 files changed, 615 insertions(+), 81 deletions(-)
->>
-> 
-> <snip>
-> 
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index c7b70ff53bc1d..7123c6a4d9569 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -2254,6 +2254,58 @@ struct v4l2_pix_format_mplane {
->>  	__u8				reserved[7];
->>  } __attribute__ ((packed));
->>  
->> +/**
->> + * struct v4l2_plane_ext_pix_format - additional, per-plane format definition
->> + * @sizeimage:		maximum size in bytes required for data, for which
->> + *			this plane will be used.
->> + *			Should be set to zero for unused planes.
->> + * @bytesperline:	distance in bytes between the leftmost pixels in two
->> + *			adjacent lines
->> + * @reserved:		extra space reserved for future fields, must be set to 0
->> + */
->> +struct v4l2_plane_ext_pix_format {
->> +	__u32 sizeimage;
->> +	__u32 bytesperline;
->> +	__u32 reserved;
-> 
-> I'd use reserved[4] here.
-> 
->> +};
->> +
->> +/**
->> + * struct v4l2_ext_pix_format - extended single/multiplanar format definition
->> + * @type:		type of the data stream; V4L2_BUF_TYPE_VIDEO_CAPTURE or
->> + *			V4L2_BUF_TYPE_VIDEO_OUTPUT
->> + * @width:		image width in pixels
->> + * @height:		image height in pixels
->> + * @field:		enum v4l2_field; field order (for interlaced video)
->> + * @pixelformat:	little endian four character code (fourcc)
->> + * @modifier:		modifier applied to the format (used for tiled formats
->> + *			and other kind of HW-specific formats, like compressed
->> + *			formats)
-> 
-> This should refer to the drm.h header since we're reusing the DRM modifiers.
-> 
->> + * @colorspace:		enum v4l2_colorspace; supplemental to pixelformat
->> + * @plane_fmt:		per-plane information
->> + * @ycbcr_enc:		enum v4l2_ycbcr_encoding, Y'CbCr encoding
->> + * @hsv_enc:		enum v4l2_hsv_encoding, HSV encoding
->> + * @quantization:	enum v4l2_quantization, colorspace quantization
->> + * @xfer_func:		enum v4l2_xfer_func, colorspace transfer function
->> + * @reserved:		extra space reserved for future fields, must be set to 0
->> + */
->> +struct v4l2_ext_pix_format {
->> +	__u32 type;
->> +	__u32 width;
->> +	__u32 height;
->> +	__u32 field;
->> +	__u64 modifier;
->> +	__u32 pixelformat;
->> +	__u32 colorspace;
->> +	struct v4l2_plane_ext_pix_format plane_fmt[VIDEO_MAX_PLANES];
->> +	union {
->> +		__u32 ycbcr_enc;
->> +		__u32 hsv_enc;
->> +	};
->> +	__u32 quantization;
->> +	__u32 xfer_func;
-> 
-> I'd reorder this:
-> 
-> 	struct v4l2_plane_ext_pix_format plane_fmt[VIDEO_MAX_PLANES];
-> 	__u32 pixelformat;
-> 	__u32 colorspace;
-> 	__u32 xfer_func;
-> 	union {
-> 		__u32 ycbcr_enc;
-> 		__u32 hsv_enc;
-> 	};
-> 	__u32 quantization;
-> 
-> The reason for reordering is that I like to keep the colorimetry fields in
-> that order since that is how these fields are processed mathematically: you
-> apply the colorspace matrix first, then the transfer function, then optionally
-> convert to Y'CbCr or HSV and finally you quantize the result.
-> 
-> There is also a __u32 flags; field missing (needed for V4L2_PIX_FMT_FLAG_PREMUL_ALPHA
-> and for the upcoming CSC support).
+Results of the daily build of media_tree:
 
-We discussed this on v4 https://patchwork.linuxtv.org/project/linux-media/cover/20200717115435.2632623-1-helen.koike@collabora.com/
+date:			Mon Sep 14 05:00:12 CEST 2020
+media-tree git hash:	c4176e12a755d0c761736c14bd2656ffc733eb95
+media_build git hash:	9cfb94d2c8b2a38add1762b40bc6d94f62311fab
+v4l-utils git hash:	4833a12e78525e4d1a8c1f5da5f9534b857557be
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 65546dfa86f803ba44e908adc14ff4d8174a0fd2
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-The idea is to replace V4L2_PIX_FMT_FLAG_PREMUL_ALPHA by a modifier, and this API
-won't need CSC, since the colorspace fields are read-write.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: WARNINGS
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: WARNINGS
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: WARNINGS
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: WARNINGS
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: WARNINGS
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: WARNINGS
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: WARNINGS
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: WARNINGS
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: WARNINGS
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: WARNINGS
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: WARNINGS
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: WARNINGS
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: WARNINGS
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: WARNINGS
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: WARNINGS
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: WARNINGS
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: WARNINGS
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: WARNINGS
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: WARNINGS
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: WARNINGS
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: WARNINGS
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: WARNINGS
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: WARNINGS
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: WARNINGS
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: WARNINGS
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: WARNINGS
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: WARNINGS
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: WARNINGS
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: WARNINGS
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: WARNINGS
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: WARNINGS
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: WARNINGS
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: WARNINGS
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: WARNINGS
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: WARNINGS
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: WARNINGS
 
-Regards,
-Helen
+Detailed results are available here:
 
-> 
->> +	__u32 reserved[9];
->> +};
->> +
->>  /**
->>   * struct v4l2_sdr_format - SDR format definition
->>   * @pixelformat:	little endian four character code (fourcc)
->> @@ -2571,6 +2623,10 @@ struct v4l2_create_buffers {
->>  
->>  #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
->>  
->> +#define VIDIOC_G_EXT_PIX_FMT	_IOWR('V', 104, struct v4l2_ext_pix_format)
->> +#define VIDIOC_S_EXT_PIX_FMT	_IOWR('V', 105, struct v4l2_ext_pix_format)
->> +#define VIDIOC_TRY_EXT_PIX_FMT	_IOWR('V', 106, struct v4l2_ext_pix_format)
->> +
->>  /* Reminder: when adding new ioctls please add support for them to
->>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
->>  
->>
-> 
-> Regards,
-> 
-> 	Hans
-> 
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
