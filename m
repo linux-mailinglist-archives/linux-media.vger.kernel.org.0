@@ -2,185 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2940126870F
-	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 10:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C9AE268741
+	for <lists+linux-media@lfdr.de>; Mon, 14 Sep 2020 10:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726194AbgINISw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 04:18:52 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:37353 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726235AbgINIRl (ORCPT
+        id S1726256AbgINIdn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 04:33:43 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33149 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726196AbgINIdk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 04:17:41 -0400
-Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N1g3U-1kg7Dy0gTw-011xYK; Mon, 14 Sep 2020 10:17:10 +0200
-Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
-        by mail.cetitecgmbh.com (Postfix) with ESMTP id A4ACB1E01E7;
-        Mon, 14 Sep 2020 08:17:08 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at cetitec.com
-Received: from mail.cetitecgmbh.com ([127.0.0.1])
-        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id fT1QDICKneYm; Mon, 14 Sep 2020 10:17:08 +0200 (CEST)
-Received: from pflmari.corp.cetitec.com (unknown [10.10.5.94])
-        by mail.cetitecgmbh.com (Postfix) with ESMTPSA id 29C7B1E01E6;
-        Mon, 14 Sep 2020 10:17:08 +0200 (CEST)
-Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
-        id 1802980518; Mon, 14 Sep 2020 10:17:21 +0200 (CEST)
-Date:   Mon, 14 Sep 2020 10:17:21 +0200
-From:   Alex Riesen <alexander.riesen@cetitec.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 9/9] arm64: dts: renesas: salvator: add a connection
- from adv748x codec (HDMI input) to the R-Car SoC
-Message-ID: <20200914081721.GA4705@pflmari>
-Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <cover.1585852001.git.alexander.riesen@cetitec.com>
- <90f2c14fcbe5d06eefdaeadbe8a6efc8c91523f3.1585852001.git.alexander.riesen@cetitec.com>
- <fd19ca3c-e815-499e-0c46-0a4e2684b6b9@ideasonboard.com>
- <c7d93d6c-4893-8bd0-5859-87f30389b5d5@ideasonboard.com>
+        Mon, 14 Sep 2020 04:33:40 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id HjvakANHZXgwIHjvbkiHlg; Mon, 14 Sep 2020 10:33:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600072416; bh=6cBkkDse8EnkRRQ/hU3Yx+Zl6dVYvWZOTnnSJT950bY=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=s0tLnr4fNdm34rCsFKkod1eZ0480CjguoMSroHrjyp8pK34KS1X3DdtgPhH1blAmS
+         kykcz88t+rIwjuwdg40KnZDmmjKaxh4HnjMnsulxBB6vBnrLmFZExSqBtxzt/SQHZw
+         csoBRI3Y7ufjUsxuLHuZC6dlIvF1RPVmHiWS26a6GurLqIe/M3zruWvR0n3867VGsN
+         AF14zo6ow8h5IoKl8FNxMGV8Ygl33XtCsCjMvZgfU9DfcWtM378MUmmPPk9JnCQjfu
+         Z+TtROGUzkZ+yHFM5km96w7FVf5BvBiex5LEsH+FYuUGqWJWYhNnhxnPe8IkyoZSwR
+         kJFDKuf6PDuHQ==
+Subject: Re: [v10 0/4] media: vidtv: Implement a virtual DVB driver
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     "r.verdejo@samsung.com" <r.verdejo@samsung.com>,
+        "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+        "linux-kernel-mentees@lists.linuxfoundation.org" 
+        <linux-kernel-mentees@lists.linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20200912111506.2d2bd512@coco.lan>
+ <15028D87-A496-4CAD-91A6-E4467489C4D0@getmailspring.com>
+ <20200912195702.58f71f8f@coco.lan>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2cbf772e-59e7-36ca-8d39-320fc62d47d8@xs4all.nl>
+Date:   Mon, 14 Sep 2020 10:33:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c7d93d6c-4893-8bd0-5859-87f30389b5d5@ideasonboard.com>
-X-Provags-ID: V03:K1:UHcFLjAKEiiKW4tNPExK/jcV8LIPMVxxdUxhNXRdIikco3TrDmb
- o/cyr2b4x5Mwrrviosr4vfXYTCUCUGPFYLR3Z825Bfv8F5YI8D/7XS7HydSH7VHHR7r/+cQ
- eS9YMhvcQBrAQbEjgGHfU0ZHDoVlUawgEkQLExImqd+ohQ1IRzSIuhk281L4kKQhQpvEhxg
- SwlknkW7VuighC67pb6nA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:q14iHgKArkU=:QQqH5vimPezMIzYeJW/C8J
- 7WQLNV3JpR1JqJiDAQ+tGqJVmrljT7vGLTUQOlwdcMW8lsmrLQAYPUh/yewDE3CN8xfr2Fq0N
- qspPB5DanBCMSexlQvu+5BSkpzHD52S65lovUnStC6rhCWfWe+VtvgUGfxN9GAPaYZcVFQtuh
- fDOPU9KpoNyrYtbPChwHvh66UWHy+FhHC1akqY47TJkBJhEVl2QVB5w3gMqKh7TBNsqXdcbMR
- /5qj7IunfhPB/6v0zg2kam/g9+Sq9YyK1zxPWvsqXJLBccoG8ejeWkV0AhDjy28HJqQby8DND
- Nw1oSfYs9XP8aRHKqREjbm3QRCYQLBHYr1dvw/rqR36fjIFLDnACvDgxWniIrK2RAt4g3D+xY
- OfmlXfN9fZltWwRGSn+zFc96tirkekDLtmFhDa2b+BA0W8f+c/9/4T1JLeR4J7ErMQ0o+lVEY
- 8XdgpCLD4Hn50fhxeBIwU/ENO2pPjf9iw5ZnuG6ToiWWU8COMk8XQg2sCQq1hsIz0BOvHaw9T
- JjoRx9MdEWfeWjj89bWwfr17NoO+dqnt8nwCwrwPZQBWiu9rsXiYXU67xhZZFoeeocfSfLTWx
- JPnNqodHCQtjYyAMnhtUof+CVpLJNDJG9FIXsF1wav4sR0DzlVQKjoj6wZHzOjv+SzhX1s8jU
- 2nnqqof6olRUTZBZkx76UZSezcd8fjVtHq5F49X5i9Di8otbPYHmaTPsC12LDCh9DdSmzZ7op
- RDoLgB6iZmuin7e+Sf3qTgkLPNhCZHasKoJGzqPGKlrlz7SB8Pl3D8CMC4wNvm3D7BPtBp1Jl
- Lnv3zyhcapHS5PWlk4KVhFlJkiThLDLQrTftcvyGhFOXQ96Evb5a9cLCPDQ5xmiDTGux6ny97
- WjE2J0/hdkZiS6e6dsOQ==
+In-Reply-To: <20200912195702.58f71f8f@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPKHkAZdeQCjfnPgss7wjvVcjUHwSU5iEEbYywCPuNhxACJ4n7sXNoZAlo6glpN0NU1gS4c+/tMu3PBThBoM1rz9A04oIarcIfwPyDJZn1H0guZ/yOiR
+ myT/m7FcmVxRJimNEsbEZPL/4iW9LxCE/a2Q8fzulMCEGzd3qAqgtr94ob+kNGkNX8Nq6S7nsq1iZBGeQnAp5loT5a0S07qDfjbIwMCEolWA9In8pmhzeJsZ
+ OWZRVSWly/UDqtCuPFNpatLFzyOPgefB0bPcRLo7zZMaZxMwFWFp9uJd+2pEYSUErzM3jnlEGf41yTXAStrFh/D32YLchBP4f+dlAxxE+O8S+3PxaT37CbgB
+ hApSq/jFlZjJ2VQ2piaCg+DCy124SQfL94dHhiYkDJd8l5qtYPqQlacqsdpGEZhTc3JgeuRz9BcptX2RuwR4h66cvGo5efxiKMfcUe1txOVvkBj0EMVns+fm
+ SdwsaXX3sC24ZiGd5izF2kNznC4iP/aM+qX/Y20JWD/NRWp2ZSNThkazxbkOwQvVkbgSNnmF89p4LwCwZldjtUUYQtl9nR2OnigzYg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
-
-Kieran Bingham, Tue, Aug 25, 2020 16:57:04 +0200:
-> On 18/06/2020 17:32, Kieran Bingham wrote:
-> > On 02/04/2020 19:35, Alex Riesen wrote:
-> >> As all known variants of the Salvator board have the HDMI decoder
-> >> chip (the ADV7482) connected to the SSI4 on R-Car SoC, the ADV7482
-> >> endpoint and the connection definitions are placed in the common board
-> >> file.
-> >>
-> >> For the same reason, the CLK_C clock line and I2C configuration (similar
-> >> to the ak4613, on the same interface) are added into the common file.
-> >> ...
-> >> ---
-> >>  .../boot/dts/renesas/r8a77950-salvator-x.dts  |  3 +-
-> >>  arch/arm64/boot/dts/renesas/r8a77961.dtsi     |  1 +
-> >>  .../boot/dts/renesas/salvator-common.dtsi     | 47 +++++++++++++++++--
+On 12/09/2020 19:57, Mauro Carvalho Chehab wrote:
+> Em Sat, 12 Sep 2020 11:49:01 -0300
+> "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 > 
-> Once again I'm back trying to test this series, and one issue I've had
-> is that the board I have (r8a77951-salvator-xs.dts) isn't included in
-> this DT update.
+>> Hi Hans and Mauro & all
+>>
+>>
+>>> Why the dvb_ prefix? All virtual drivers just start with 'vi'.
+>>>
+>>> And wouldn't it make more sense to call dvb_vidtv_bridge.ko just vidtv.ko?
+>>> Just like the other virtual media drivers?  
+>>
+>> I guess Mauro was the one to come up with the dvb_* prefix for the
+>> kernel modules for the reasons he explicited up in this thread. 
+>>
+>> As far as dvb_vidtv_bridge.ko and vidtv_bridge.c, I just wanted to be
+>> verbose so that people would look at this and see that it is the code
+>> for a bridge driver, since this is also supposed to be a template. 
+>>
+>> Also because I had some trouble myself figuring out what was what when
+>> first browsing through other dvb drivers. That said, I am 100% onboard
+>> with renaming this to vidtv.ko or whatever seems more appropiate :)
 > 
-> For v6, Should we include the relevant changes to all the following?
-
-Ok. I shall add them as a separate patch though, as I have no way to verify
-those boards (and some verification seem to be in order...)
-
-> arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dts
-> arch/arm64/boot/dts/renesas/r8a77951-salvator-x.dts
-> arch/arm64/boot/dts/renesas/r8a77960-salvator-x.dts
-> arch/arm64/boot/dts/renesas/r8a77965-salvator-x.dts
-> arch/arm64/boot/dts/renesas/salvator-x.dtsi
+> Let us think a little bit about that. 
 > 
-> And perhaps handle the salvator-xs in a second (yet very similar) patch?
+>>
+>>
+>>> Yet, I agree with you that at least an alias is needed.
+>>> earlier today, I wrote a patch with such purpose:  
+>>
+>> If you all would like to just leave this at that ^ I am also ok with it.
+>>
+>>> For regression testing of vidtv during the daily build it would be  
+>> great if
+>>> the contrib/test/test-media script can be enhanced to include vidtv.  
+>>
+>> Sure, I can do that if you'd like. Can you provide some tips on how to
+>> get started? :)
 > 
-> arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
-> arch/arm64/boot/dts/renesas/r8a77960-salvator-xs.dts
-> arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts
-> arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
-> arch/arm64/boot/dts/renesas/salvator-xs.dtsi
+> Hans can explain it better, but the hole idea is to have a set of
+> userspace apps that will ensure that drivers will properly implement
+> the DVB API.
 > 
-> I think I've added the relevant entries to my dtb, but I haven't
-> successfully captured audio yet.
-> 
-> I can see the device being listed through arecord:
-> 
-> kbingham@salvator-xs:~$ arecord -l
-> **** List of CAPTURE Hardware Devices ****
-> card 0: rcarsound [rcar-sound], device 0: rsnd-dai.0-ak4613-hifi ak4613-hifi-0 []
->   Subdevices: 0/1
->   Subdevice #0: subdevice #0
-> card 0: rcarsound [rcar-sound], device 3: rsnd-dai.3-adv748x-i2s adv748x.4-0070-3 []
->   Subdevices: 1/1
->   Subdevice #0: subdevice #0
-> 
-> But as yet, everything I try to record fails or is empty silence.
-> 
-> Debugging ...
+> I suspect that, before that (or together with such tooling), we need
+> to properly implement the frontend ioctl, validating the per delivery
+> system parameters, as, right now, it just accepts anything from
+> userspace. 
 
-Does it fail somewhere in the ASoC infrastructure? If so, how'd you find out
-where exactly and what fails?
+Daniel, if you look at the test-media script, then you'll see that it has
+separate sections for each virtual driver. It's probably best to look at
+the vim2m driver tests since that's the easiest.
 
-Asking, because when I was writing this code I ended up adding quite a bit of
-tracing into the SoC core to figure that out, and I just hope there is a
-better way to get at the diagnostics.
+It loads the module, then it starts v4l2-compliance to test the API. This
+utility basically tries all V4L2 APIs and checks that the driver conforms to
+the spec.
 
-> >> diff --git a/arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dts b/arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dts
-> >> index 2438825c9b22..e16c146808b6 100644
-> >> --- a/arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dts
-> >> +++ b/arch/arm64/boot/dts/renesas/r8a77950-salvator-x.dts
-> >> @@ -146,7 +146,8 @@ &sata {
-> >>  &sound_card {
-> >>  	dais = <&rsnd_port0	/* ak4613 */
-> >>  		&rsnd_port1	/* HDMI0  */
-> >> -		&rsnd_port2>;	/* HDMI1  */
-> >> +		&rsnd_port2	/* HDMI1  */
-> >> +		&rsnd_port3>;	/* adv7482 hdmi-in  */
-> > 
-> > Ah - that was confusing at first... but HDMI0 and HDMI1 are *outputs*,
-> > where of course the adv7482 is an input ;-)
+Note that you see options like '-m platform:vim2m' that selects which /dev/media
+device to use based on the name and v4l2-compliance (or v4l2-ctl with the -z option)
+then walks the topology of the media device and tests all interfaces it finds.
 
-I shall add an "output" to HDMI0 and HDMI1.
+Hence my question about media controller support in vidtv: this should be
+supported there as well since it allows you to write these test sequences without
+having to know which /dev/fooX device should be used.
 
-> > Otherwise, I can't spot anything else yet so:
-> > 
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+After the compliance test is run the script tests unbind/bind (always a nasty test)
+and checks for memory leaks (if enabled in the kernel).
 
-Thanks!
+Much of this test sequence can be copied for vidtv, but you need something else for
+the compliance test. It would for now be enough to have some quick check with the
+existing dvb utils from v4l-utils to see that the basics work.
 
-> > But I fear there may have been some churn around here, so it would be
-> > good to see a rebase too.
+IMHO I think a dtv-compliance utility along the lines of v4l2-compliance and
+cec-compliance should be created.
 
-Of course, I shall rebase on top of linux-media/master.
-Should I wait with submission until you get data out of your boards?
+I'm actually wondering whether the dtv compliance tests shouldn't be part of
+v4l2-compliance (which would have to be renamed to media-compliance in that case)
+since there are hybrid drivers supporting both in the same media topology.
+
+This would make compliance tests possible where analog/digital TV mode handling
+is tested (i.e. if analog TV is in use, then trying to use digital TV would return
+EBUSY and vice versa).
+
+It would require some work in v4l2-compliance.cpp to make this possible, but I
+can do that myself.
+
+Compliance tests have proven to be a great method of testing for regressions and
+testing drivers in general.
+
+Note that it takes a lot of time to create good compliance tests, but you just start
+with some simple tests and expand it over time.
 
 Regards,
-Alex
+
+	Hans
