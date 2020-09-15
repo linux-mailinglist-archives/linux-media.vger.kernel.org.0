@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDA7D26B234
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 00:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CF8526B200
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 00:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727532AbgIOWmU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 18:42:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47776 "EHLO
+        id S1727610AbgIOWfM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 18:35:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727453AbgIOP4B (ORCPT
+        with ESMTP id S1727484AbgIOQKm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 11:56:01 -0400
+        Tue, 15 Sep 2020 12:10:42 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0568C06174A;
-        Tue, 15 Sep 2020 08:56:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97EE8C0611BC;
+        Tue, 15 Sep 2020 09:09:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=QYq75oKN1pHEfFgMQBKk+Z1DqQlZdv9G5iCdrU9tQAo=; b=mlqAg2bAJ0GvbQjpchaJogZEvp
-        gSSD81O7pu6PghvxjAOO4LrXfcVTMUaNPYCrE3183e9ZK6xYqRHK+ar903SmLVZtZqi1FCfzI3Wsi
-        +sLABmdilOvRpKaVsr97wEJPeJ849e2nGbJrEo8eK1z+T+lcikzz5iCXqcrKwPEgtQe3ERJnTxOBk
-        HPtQqrLXQ9pdzGY0AjQBQMpke7ebsH5cS7p3eSmqM5LzrCEGnKJQ+LyTxp4n9BpciQHaMvPADsfD/
-        JqAnw+rHVi/M2ljha7Z0nBor7E/4//oHlNcUll/3/mqCDaQYfNzkpwSzehvimTUD3S6f8ncHTCCkA
-        uoHuogvA==;
+        bh=4VyhbiOMgzm0QPHeJGUyTZJJAAD6pLEtbJL5rBmX2KE=; b=EVw+5UvoluZB3eJ6b8C05Ki3r/
+        qmryI7WEF5ab64mHzPbaIatrZ1US9k0tzAxQ54kO3OBb4lqjPH65JQcbJ2Ft0lrQayV2eF7Vg/yGV
+        otOuoODny2dUJDUZr0bVtcG7wkyP8e3TEqK0wp/asnQRaOLwrR+M0z4gdWYBrmcMFEe6h888n7GuL
+        K0NEwaEAiZqm2c4vYRJxAYgQ67ngfmTiD6tZlyRSVdZ6YmOWyJb4iVV/FUEQKoMZ2CW8dhrTnZdTt
+        GQ9oZnmqbteXn8qbck40adE7ZXtD7pQ56tGHtk46yWWYyho6gG5PhOPd/T/Tlz+fTJoU5MbIGp/Dh
+        40SyJU+w==;
 Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIDJ2-0003NV-Vx; Tue, 15 Sep 2020 15:55:45 +0000
+        id 1kIDVj-0004PH-Ca; Tue, 15 Sep 2020 16:08:51 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -46,11 +46,10 @@ Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
         linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
         nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Subject: [PATCH 01/18] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT flag
-Date:   Tue, 15 Sep 2020 17:51:05 +0200
-Message-Id: <20200915155122.1768241-2-hch@lst.de>
+        alsa-devel@alsa-project.org
+Subject: [PATCH 07/18] 53c700: improve non-coherent DMA handling
+Date:   Tue, 15 Sep 2020 17:51:11 +0200
+Message-Id: <20200915155122.1768241-8-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
 References: <20200915155122.1768241-1-hch@lst.de>
@@ -62,511 +61,353 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Switch the 53c700 driver to only use non-coherent descriptor memory if it
+really has to because dma_alloc_coherent fails.  This doesn't matter for
+any of the platforms it runs on currently, but that will change soon.
 
-The patch partially reverts some of the UAPI bits of the buffer
-cache management hints. Namely, the queue consistency (memory
-coherency) user-space hint because, as it turned out, the kernel
-implementation of this feature was misusing DMA_ATTR_NON_CONSISTENT.
+To help with this two new helpers to transfer ownership to and from the
+device are added that abstract the syncing of the non-coherent memory.
+The two current bidirectional cases are mapped to transfers to the
+device, as that appears to what they are used for.  Note that for parisc,
+which is the only architecture this driver needs to use non-coherent
+memory on, the direction argument of dma_cache_sync is ignored, so this
+will not change behavior in any way.
 
-The patch revers both kernel and user space parts: removes the
-DMA consistency attr functions, rollbacks changes to v4l2_requestbuffers,
-v4l2_create_buffers structures and corresponding UAPI functions
-(plus compat32 layer) and cleanups the documentation.
-
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- .../userspace-api/media/v4l/buffer.rst        | 17 -------
- .../media/v4l/vidioc-create-bufs.rst          |  6 +--
- .../media/v4l/vidioc-reqbufs.rst              | 12 +----
- .../media/common/videobuf2/videobuf2-core.c   | 46 +++----------------
- .../common/videobuf2/videobuf2-dma-contig.c   | 19 --------
- .../media/common/videobuf2/videobuf2-dma-sg.c |  3 +-
- .../media/common/videobuf2/videobuf2-v4l2.c   | 18 +-------
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 10 +---
- drivers/media/v4l2-core/v4l2-ioctl.c          |  5 +-
- include/media/videobuf2-core.h                |  7 +--
- include/uapi/linux/videodev2.h                | 13 +-----
- 11 files changed, 22 insertions(+), 134 deletions(-)
+ drivers/scsi/53c700.c | 113 +++++++++++++++++++++++-------------------
+ drivers/scsi/53c700.h |  17 ++++---
+ 2 files changed, 72 insertions(+), 58 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-index 57e752aaf414a7..2044ed13cd9d7d 100644
---- a/Documentation/userspace-api/media/v4l/buffer.rst
-+++ b/Documentation/userspace-api/media/v4l/buffer.rst
-@@ -701,23 +701,6 @@ Memory Consistency Flags
-     :stub-columns: 0
-     :widths:       3 1 4
- 
--    * .. _`V4L2-FLAG-MEMORY-NON-CONSISTENT`:
--
--      - ``V4L2_FLAG_MEMORY_NON_CONSISTENT``
--      - 0x00000001
--      - A buffer is allocated either in consistent (it will be automatically
--	coherent between the CPU and the bus) or non-consistent memory. The
--	latter can provide performance gains, for instance the CPU cache
--	sync/flush operations can be avoided if the buffer is accessed by the
--	corresponding device only and the CPU does not read/write to/from that
--	buffer. However, this requires extra care from the driver -- it must
--	guarantee memory consistency by issuing a cache flush/sync when
--	consistency is needed. If this flag is set V4L2 will attempt to
--	allocate the buffer in non-consistent memory. The flag takes effect
--	only if the buffer is used for :ref:`memory mapping <mmap>` I/O and the
--	queue reports the :ref:`V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS
--	<V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS>` capability.
--
- .. c:type:: v4l2_memory
- 
- enum v4l2_memory
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-index f2a702870fadc1..12cf6b44f414f7 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-@@ -120,13 +120,9 @@ than the number requested.
- 	If you want to just query the capabilities without making any
- 	other changes, then set ``count`` to 0, ``memory`` to
- 	``V4L2_MEMORY_MMAP`` and ``format.type`` to the buffer type.
--    * - __u32
--      - ``flags``
--      - Specifies additional buffer management attributes.
--	See :ref:`memory-flags`.
- 
-     * - __u32
--      - ``reserved``\ [6]
-+      - ``reserved``\ [7]
-       - A place holder for future extensions. Drivers and applications
- 	must set the array to zero.
- 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-index 75d894d9c36c42..0e3e2fde65e850 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-@@ -112,17 +112,10 @@ aborting or finishing any DMA in progress, an implicit
- 	``V4L2_MEMORY_MMAP`` and ``type`` set to the buffer type. This will
- 	free any previously allocated buffers, so this is typically something
- 	that will be done at the start of the application.
--    * - union {
--      - (anonymous)
--    * - __u32
--      - ``flags``
--      - Specifies additional buffer management attributes.
--	See :ref:`memory-flags`.
-     * - __u32
-       - ``reserved``\ [1]
--      - Kept for backwards compatibility. Use ``flags`` instead.
--    * - }
--      -
-+      - A place holder for future extensions. Drivers and applications
-+	must set the array to zero.
- 
- .. tabularcolumns:: |p{6.1cm}|p{2.2cm}|p{8.7cm}|
- 
-@@ -169,7 +162,6 @@ aborting or finishing any DMA in progress, an implicit
-       - This capability is set by the driver to indicate that the queue supports
-         cache and memory management hints. However, it's only valid when the
-         queue is used for :ref:`memory mapping <mmap>` streaming I/O. See
--        :ref:`V4L2_FLAG_MEMORY_NON_CONSISTENT <V4L2-FLAG-MEMORY-NON-CONSISTENT>`,
-         :ref:`V4L2_BUF_FLAG_NO_CACHE_INVALIDATE <V4L2-BUF-FLAG-NO-CACHE-INVALIDATE>` and
-         :ref:`V4L2_BUF_FLAG_NO_CACHE_CLEAN <V4L2-BUF-FLAG-NO-CACHE-CLEAN>`.
- 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index f544d3393e9d6b..4eab6d81cce170 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -721,39 +721,14 @@ int vb2_verify_memory_type(struct vb2_queue *q,
+diff --git a/drivers/scsi/53c700.c b/drivers/scsi/53c700.c
+index 84b57a8f86bfa9..c59226d7e2f6b5 100644
+--- a/drivers/scsi/53c700.c
++++ b/drivers/scsi/53c700.c
+@@ -269,6 +269,20 @@ NCR_700_get_SXFER(struct scsi_device *SDp)
+ 					      spi_period(SDp->sdev_target));
  }
- EXPORT_SYMBOL(vb2_verify_memory_type);
  
--static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
--{
--	q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
--
--	if (!vb2_queue_allows_cache_hints(q))
--		return;
--	if (!consistent_mem)
--		q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
--}
--
--static bool verify_consistency_attr(struct vb2_queue *q, bool consistent_mem)
--{
--	bool queue_is_consistent = !(q->dma_attrs & DMA_ATTR_NON_CONSISTENT);
--
--	if (consistent_mem != queue_is_consistent) {
--		dprintk(q, 1, "memory consistency model mismatch\n");
--		return false;
--	}
--	return true;
--}
--
- int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
--		     unsigned int flags, unsigned int *count)
-+		     unsigned int *count)
- {
- 	unsigned int num_buffers, allocated_buffers, num_planes = 0;
- 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
--	bool consistent_mem = true;
- 	unsigned int i;
- 	int ret;
++static inline void dma_sync_to_dev(struct NCR_700_Host_Parameters *h,
++		void *addr, size_t size)
++{
++	if (h->noncoherent)
++		dma_cache_sync(h->dev, addr, size, DMA_TO_DEVICE);
++}
++
++static inline void dma_sync_from_dev(struct NCR_700_Host_Parameters *h,
++		void *addr, size_t size)
++{
++	if (h->noncoherent)
++		dma_cache_sync(h->dev, addr, size, DMA_FROM_DEVICE);
++}
++
+ struct Scsi_Host *
+ NCR_700_detect(struct scsi_host_template *tpnt,
+ 	       struct NCR_700_Host_Parameters *hostdata, struct device *dev)
+@@ -283,9 +297,13 @@ NCR_700_detect(struct scsi_host_template *tpnt,
+ 	if(tpnt->sdev_attrs == NULL)
+ 		tpnt->sdev_attrs = NCR_700_dev_attrs;
  
--	if (flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
--		consistent_mem = false;
--
- 	if (q->streaming) {
- 		dprintk(q, 1, "streaming active\n");
- 		return -EBUSY;
-@@ -765,8 +740,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+-	memory = dma_alloc_attrs(dev, TOTAL_MEM_SIZE, &pScript,
+-				 GFP_KERNEL, DMA_ATTR_NON_CONSISTENT);
+-	if(memory == NULL) {
++	memory = dma_alloc_coherent(dev, TOTAL_MEM_SIZE, &pScript, GFP_KERNEL);
++	if (!memory) {
++		hostdata->noncoherent = 1;
++		memory = dma_alloc_attrs(dev, TOTAL_MEM_SIZE, &pScript,
++					 GFP_KERNEL, DMA_ATTR_NON_CONSISTENT);
++	}
++	if (!memory) {
+ 		printk(KERN_ERR "53c700: Failed to allocate memory for driver, detaching\n");
+ 		return NULL;
+ 	}
+@@ -339,11 +357,11 @@ NCR_700_detect(struct scsi_host_template *tpnt,
+ 	for (j = 0; j < PATCHES; j++)
+ 		script[LABELPATCHES[j]] = bS_to_host(pScript + SCRIPT[LABELPATCHES[j]]);
+ 	/* now patch up fixed addresses. */
+-	script_patch_32(hostdata->dev, script, MessageLocation,
++	script_patch_32(hostdata, script, MessageLocation,
+ 			pScript + MSGOUT_OFFSET);
+-	script_patch_32(hostdata->dev, script, StatusAddress,
++	script_patch_32(hostdata, script, StatusAddress,
+ 			pScript + STATUS_OFFSET);
+-	script_patch_32(hostdata->dev, script, ReceiveMsgAddress,
++	script_patch_32(hostdata, script, ReceiveMsgAddress,
+ 			pScript + MSGIN_OFFSET);
+ 
+ 	hostdata->script = script;
+@@ -395,8 +413,12 @@ NCR_700_release(struct Scsi_Host *host)
+ 	struct NCR_700_Host_Parameters *hostdata = 
+ 		(struct NCR_700_Host_Parameters *)host->hostdata[0];
+ 
+-	dma_free_attrs(hostdata->dev, TOTAL_MEM_SIZE, hostdata->script,
+-		       hostdata->pScript, DMA_ATTR_NON_CONSISTENT);
++	if (hostdata->noncoherent)
++		dma_free_attrs(hostdata->dev, TOTAL_MEM_SIZE, hostdata->script,
++			       hostdata->pScript, DMA_ATTR_NON_CONSISTENT);
++	else
++		dma_free_coherent(hostdata->dev, TOTAL_MEM_SIZE,
++				  hostdata->script, hostdata->pScript);
+ 	return 1;
+ }
+ 
+@@ -804,8 +826,8 @@ process_extended_message(struct Scsi_Host *host,
+ 			shost_printk(KERN_WARNING, host,
+ 				"Unexpected SDTR msg\n");
+ 			hostdata->msgout[0] = A_REJECT_MSG;
+-			dma_cache_sync(hostdata->dev, hostdata->msgout, 1, DMA_TO_DEVICE);
+-			script_patch_16(hostdata->dev, hostdata->script,
++			dma_sync_to_dev(hostdata, hostdata->msgout, 1);
++			script_patch_16(hostdata, hostdata->script,
+ 			                MessageCount, 1);
+ 			/* SendMsgOut returns, so set up the return
+ 			 * address */
+@@ -817,9 +839,8 @@ process_extended_message(struct Scsi_Host *host,
+ 		printk(KERN_INFO "scsi%d: (%d:%d), Unsolicited WDTR after CMD, Rejecting\n",
+ 		       host->host_no, pun, lun);
+ 		hostdata->msgout[0] = A_REJECT_MSG;
+-		dma_cache_sync(hostdata->dev, hostdata->msgout, 1, DMA_TO_DEVICE);
+-		script_patch_16(hostdata->dev, hostdata->script, MessageCount,
+-		                1);
++		dma_sync_to_dev(hostdata, hostdata->msgout, 1);
++		script_patch_16(hostdata, hostdata->script, MessageCount, 1);
+ 		resume_offset = hostdata->pScript + Ent_SendMessageWithATN;
+ 
+ 		break;
+@@ -832,9 +853,8 @@ process_extended_message(struct Scsi_Host *host,
+ 		printk("\n");
+ 		/* just reject it */
+ 		hostdata->msgout[0] = A_REJECT_MSG;
+-		dma_cache_sync(hostdata->dev, hostdata->msgout, 1, DMA_TO_DEVICE);
+-		script_patch_16(hostdata->dev, hostdata->script, MessageCount,
+-		                1);
++		dma_sync_to_dev(hostdata, hostdata->msgout, 1);
++		script_patch_16(hostdata, hostdata->script, MessageCount, 1);
+ 		/* SendMsgOut returns, so set up the return
+ 		 * address */
+ 		resume_offset = hostdata->pScript + Ent_SendMessageWithATN;
+@@ -917,9 +937,8 @@ process_message(struct Scsi_Host *host,	struct NCR_700_Host_Parameters *hostdata
+ 		printk("\n");
+ 		/* just reject it */
+ 		hostdata->msgout[0] = A_REJECT_MSG;
+-		dma_cache_sync(hostdata->dev, hostdata->msgout, 1, DMA_TO_DEVICE);
+-		script_patch_16(hostdata->dev, hostdata->script, MessageCount,
+-		                1);
++		dma_sync_to_dev(hostdata, hostdata->msgout, 1);
++		script_patch_16(hostdata, hostdata->script, MessageCount, 1);
+ 		/* SendMsgOut returns, so set up the return
+ 		 * address */
+ 		resume_offset = hostdata->pScript + Ent_SendMessageWithATN;
+@@ -928,7 +947,7 @@ process_message(struct Scsi_Host *host,	struct NCR_700_Host_Parameters *hostdata
+ 	}
+ 	NCR_700_writel(temp, host, TEMP_REG);
+ 	/* set us up to receive another message */
+-	dma_cache_sync(hostdata->dev, hostdata->msgin, MSG_ARRAY_SIZE, DMA_FROM_DEVICE);
++	dma_sync_from_dev(hostdata, hostdata->msgin, MSG_ARRAY_SIZE);
+ 	return resume_offset;
+ }
+ 
+@@ -1008,8 +1027,8 @@ process_script_interrupt(__u32 dsps, __u32 dsp, struct scsi_cmnd *SCp,
+ 				slot->SG[1].ins = bS_to_host(SCRIPT_RETURN);
+ 				slot->SG[1].pAddr = 0;
+ 				slot->resume_offset = hostdata->pScript;
+-				dma_cache_sync(hostdata->dev, slot->SG, sizeof(slot->SG[0])*2, DMA_TO_DEVICE);
+-				dma_cache_sync(hostdata->dev, SCp->sense_buffer, SCSI_SENSE_BUFFERSIZE, DMA_FROM_DEVICE);
++				dma_sync_to_dev(hostdata, slot->SG, sizeof(slot->SG[0])*2);
++				dma_sync_from_dev(hostdata, SCp->sense_buffer, SCSI_SENSE_BUFFERSIZE);
+ 
+ 				/* queue the command for reissue */
+ 				slot->state = NCR_700_SLOT_QUEUED;
+@@ -1129,11 +1148,11 @@ process_script_interrupt(__u32 dsps, __u32 dsp, struct scsi_cmnd *SCp,
+ 			hostdata->cmd = slot->cmnd;
+ 
+ 			/* re-patch for this command */
+-			script_patch_32_abs(hostdata->dev, hostdata->script,
++			script_patch_32_abs(hostdata, hostdata->script,
+ 			                    CommandAddress, slot->pCmd);
+-			script_patch_16(hostdata->dev, hostdata->script,
++			script_patch_16(hostdata, hostdata->script,
+ 					CommandCount, slot->cmnd->cmd_len);
+-			script_patch_32_abs(hostdata->dev, hostdata->script,
++			script_patch_32_abs(hostdata, hostdata->script,
+ 			                    SGScriptStartAddress,
+ 					    to32bit(&slot->pSG[0].ins));
+ 
+@@ -1144,14 +1163,14 @@ process_script_interrupt(__u32 dsps, __u32 dsp, struct scsi_cmnd *SCp,
+ 			 * should therefore always clear ACK */
+ 			NCR_700_writeb(NCR_700_get_SXFER(hostdata->cmd->device),
+ 				       host, SXFER_REG);
+-			dma_cache_sync(hostdata->dev, hostdata->msgin,
+-				       MSG_ARRAY_SIZE, DMA_FROM_DEVICE);
+-			dma_cache_sync(hostdata->dev, hostdata->msgout,
+-				       MSG_ARRAY_SIZE, DMA_TO_DEVICE);
++			dma_sync_from_dev(hostdata, hostdata->msgin,
++				       MSG_ARRAY_SIZE);
++			dma_sync_to_dev(hostdata, hostdata->msgout,
++				       MSG_ARRAY_SIZE);
+ 			/* I'm just being paranoid here, the command should
+ 			 * already have been flushed from the cache */
+-			dma_cache_sync(hostdata->dev, slot->cmnd->cmnd,
+-				       slot->cmnd->cmd_len, DMA_TO_DEVICE);
++			dma_sync_to_dev(hostdata, slot->cmnd->cmnd,
++				       slot->cmnd->cmd_len);
+ 
+ 
+ 			
+@@ -1214,8 +1233,7 @@ process_script_interrupt(__u32 dsps, __u32 dsp, struct scsi_cmnd *SCp,
+ 		hostdata->reselection_id = reselection_id;
+ 		/* just in case we have a stale simple tag message, clear it */
+ 		hostdata->msgin[1] = 0;
+-		dma_cache_sync(hostdata->dev, hostdata->msgin,
+-			       MSG_ARRAY_SIZE, DMA_BIDIRECTIONAL);
++		dma_sync_to_dev(hostdata, hostdata->msgin, MSG_ARRAY_SIZE);
+ 		if(hostdata->tag_negotiated & (1<<reselection_id)) {
+ 			resume_offset = hostdata->pScript + Ent_GetReselectionWithTag;
+ 		} else {
+@@ -1329,8 +1347,7 @@ process_selection(struct Scsi_Host *host, __u32 dsp)
+ 	hostdata->cmd = NULL;
+ 	/* clear any stale simple tag message */
+ 	hostdata->msgin[1] = 0;
+-	dma_cache_sync(hostdata->dev, hostdata->msgin, MSG_ARRAY_SIZE,
+-		       DMA_BIDIRECTIONAL);
++	dma_sync_to_dev(hostdata, hostdata->msgin, MSG_ARRAY_SIZE);
+ 
+ 	if(id == 0xff) {
+ 		/* Selected as target, Ignore */
+@@ -1427,30 +1444,26 @@ NCR_700_start_command(struct scsi_cmnd *SCp)
+ 		NCR_700_set_flag(SCp->device, NCR_700_DEV_BEGIN_SYNC_NEGOTIATION);
  	}
  
- 	if (*count == 0 || q->num_buffers != 0 ||
--	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory) ||
--	    !verify_consistency_attr(q, consistent_mem)) {
-+	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory)) {
- 		/*
- 		 * We already have buffers allocated, so first check if they
- 		 * are not in use and can be freed.
-@@ -803,7 +777,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
- 	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
- 	q->memory = memory;
--	set_queue_consistency(q, consistent_mem);
- 
- 	/*
- 	 * Ask the driver how many buffers and planes per buffer it requires.
-@@ -888,18 +861,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
- 
- int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
--			 unsigned int flags, unsigned int *count,
-+			 unsigned int *count,
- 			 unsigned int requested_planes,
- 			 const unsigned int requested_sizes[])
- {
- 	unsigned int num_planes = 0, num_buffers, allocated_buffers;
- 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
--	bool consistent_mem = true;
- 	int ret;
- 
--	if (flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
--		consistent_mem = false;
+-	script_patch_16(hostdata->dev, hostdata->script, MessageCount, count);
 -
- 	if (q->num_buffers == VB2_MAX_FRAME) {
- 		dprintk(q, 1, "maximum number of buffers already allocated\n");
- 		return -ENOBUFS;
-@@ -912,15 +881,12 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
++	script_patch_16(hostdata, hostdata->script, MessageCount, count);
+ 
+-	script_patch_ID(hostdata->dev, hostdata->script,
+-			Device_ID, 1<<scmd_id(SCp));
++	script_patch_ID(hostdata, hostdata->script, Device_ID, 1<<scmd_id(SCp));
+ 
+-	script_patch_32_abs(hostdata->dev, hostdata->script, CommandAddress,
++	script_patch_32_abs(hostdata, hostdata->script, CommandAddress,
+ 			    slot->pCmd);
+-	script_patch_16(hostdata->dev, hostdata->script, CommandCount,
+-	                SCp->cmd_len);
++	script_patch_16(hostdata, hostdata->script, CommandCount, SCp->cmd_len);
+ 	/* finally plumb the beginning of the SG list into the script
+ 	 * */
+-	script_patch_32_abs(hostdata->dev, hostdata->script,
++	script_patch_32_abs(hostdata, hostdata->script,
+ 	                    SGScriptStartAddress, to32bit(&slot->pSG[0].ins));
+ 	NCR_700_clear_fifo(SCp->device->host);
+ 
+ 	if(slot->resume_offset == 0)
+ 		slot->resume_offset = hostdata->pScript;
+ 	/* now perform all the writebacks and invalidates */
+-	dma_cache_sync(hostdata->dev, hostdata->msgout, count, DMA_TO_DEVICE);
+-	dma_cache_sync(hostdata->dev, hostdata->msgin, MSG_ARRAY_SIZE,
+-		       DMA_FROM_DEVICE);
+-	dma_cache_sync(hostdata->dev, SCp->cmnd, SCp->cmd_len, DMA_TO_DEVICE);
+-	dma_cache_sync(hostdata->dev, hostdata->status, 1, DMA_FROM_DEVICE);
++	dma_sync_to_dev(hostdata, hostdata->msgout, count);
++	dma_sync_from_dev(hostdata, hostdata->msgin, MSG_ARRAY_SIZE);
++	dma_sync_to_dev(hostdata, SCp->cmnd, SCp->cmd_len);
++	dma_sync_from_dev(hostdata, hostdata->status, 1);
+ 
+ 	/* set the synchronous period/offset */
+ 	NCR_700_writeb(NCR_700_get_SXFER(SCp->device),
+@@ -1626,7 +1639,7 @@ NCR_700_intr(int irq, void *dev_id)
+ 					slot->SG[i].ins = bS_to_host(SCRIPT_NOP);
+ 					slot->SG[i].pAddr = 0;
+ 				}
+-				dma_cache_sync(hostdata->dev, slot->SG, sizeof(slot->SG), DMA_TO_DEVICE);
++				dma_sync_to_dev(hostdata, slot->SG, sizeof(slot->SG));
+ 				/* and pretend we disconnected after
+ 				 * the command phase */
+ 				resume_offset = hostdata->pScript + Ent_MsgInDuringData;
+@@ -1878,7 +1891,7 @@ NCR_700_queuecommand_lck(struct scsi_cmnd *SCp, void (*done)(struct scsi_cmnd *)
  		}
- 		memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
- 		q->memory = memory;
--		set_queue_consistency(q, consistent_mem);
- 		q->waiting_for_buffers = !q->is_output;
- 	} else {
- 		if (q->memory != memory) {
- 			dprintk(q, 1, "memory model mismatch\n");
- 			return -EINVAL;
- 		}
--		if (!verify_consistency_attr(q, consistent_mem))
--			return -EINVAL;
- 	}
- 
- 	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
-@@ -2581,7 +2547,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
- 	fileio->memory = VB2_MEMORY_MMAP;
- 	fileio->type = q->type;
- 	q->fileio = fileio;
--	ret = vb2_core_reqbufs(q, fileio->memory, 0, &fileio->count);
-+	ret = vb2_core_reqbufs(q, fileio->memory, &fileio->count);
- 	if (ret)
- 		goto err_kfree;
- 
-@@ -2638,7 +2604,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
- 
- err_reqbufs:
- 	fileio->count = 0;
--	vb2_core_reqbufs(q, fileio->memory, 0, &fileio->count);
-+	vb2_core_reqbufs(q, fileio->memory, &fileio->count);
- 
- err_kfree:
- 	q->fileio = NULL;
-@@ -2658,7 +2624,7 @@ static int __vb2_cleanup_fileio(struct vb2_queue *q)
- 		vb2_core_streamoff(q, q->type);
- 		q->fileio = NULL;
- 		fileio->count = 0;
--		vb2_core_reqbufs(q, fileio->memory, 0, &fileio->count);
-+		vb2_core_reqbufs(q, fileio->memory, &fileio->count);
- 		kfree(fileio);
- 		dprintk(q, 3, "file io emulator closed\n");
- 	}
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index ec3446cc45b8da..7b1b86ec942d7d 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -42,11 +42,6 @@ struct vb2_dc_buf {
- 	struct dma_buf_attachment	*db_attach;
- };
- 
--static inline bool vb2_dc_buffer_consistent(unsigned long attr)
--{
--	return !(attr & DMA_ATTR_NON_CONSISTENT);
--}
--
- /*********************************************/
- /*        scatterlist table functions        */
- /*********************************************/
-@@ -341,13 +336,6 @@ static int
- vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
- 				   enum dma_data_direction direction)
- {
--	struct vb2_dc_buf *buf = dbuf->priv;
--	struct sg_table *sgt = buf->dma_sgt;
--
--	if (vb2_dc_buffer_consistent(buf->attrs))
--		return 0;
--
--	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
- 	return 0;
- }
- 
-@@ -355,13 +343,6 @@ static int
- vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
- 				 enum dma_data_direction direction)
- {
--	struct vb2_dc_buf *buf = dbuf->priv;
--	struct sg_table *sgt = buf->dma_sgt;
--
--	if (vb2_dc_buffer_consistent(buf->attrs))
--		return 0;
--
--	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
- 	return 0;
- }
- 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index 0a40e00f0d7e5c..a86fce5d8ea8bf 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -123,8 +123,7 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
- 	/*
- 	 * NOTE: dma-sg allocates memory using the page allocator directly, so
- 	 * there is no memory consistency guarantee, hence dma-sg ignores DMA
--	 * attributes passed from the upper layer. That means that
--	 * V4L2_FLAG_MEMORY_NON_CONSISTENT has no effect on dma-sg buffers.
-+	 * attributes passed from the upper layer.
- 	 */
- 	buf->pages = kvmalloc_array(buf->num_pages, sizeof(struct page *),
- 				    GFP_KERNEL | __GFP_ZERO);
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 30caad27281e1a..cfe197df970df2 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -722,22 +722,12 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+ 		slot->SG[i].ins = bS_to_host(SCRIPT_RETURN);
+ 		slot->SG[i].pAddr = 0;
+-		dma_cache_sync(hostdata->dev, slot->SG, sizeof(slot->SG), DMA_TO_DEVICE);
++		dma_sync_to_dev(hostdata, slot->SG, sizeof(slot->SG));
+ 		DEBUG((" SETTING %p to %x\n",
+ 		       (&slot->pSG[i].ins),
+ 		       slot->SG[i].ins));
+diff --git a/drivers/scsi/53c700.h b/drivers/scsi/53c700.h
+index 05fe439b66afe5..c9f8c497babb3d 100644
+--- a/drivers/scsi/53c700.h
++++ b/drivers/scsi/53c700.h
+@@ -209,6 +209,7 @@ struct NCR_700_Host_Parameters {
  #endif
+ 	__u32	chip710:1;	/* set if really a 710 not 700 */
+ 	__u32	burst_length:4;	/* set to 0 to disable 710 bursting */
++	__u32	noncoherent:1;	/* needs to use non-coherent DMA */
+ 
+ 	/* NOTHING BELOW HERE NEEDS ALTERING */
+ 	__u32	fast:1;		/* if we can alter the SCSI bus clock
+@@ -422,33 +423,33 @@ struct NCR_700_Host_Parameters {
+ #define NCR_710_MIN_XFERP	0
+ #define NCR_700_MIN_PERIOD	25 /* for SDTR message, 100ns */
+ 
+-#define script_patch_32(dev, script, symbol, value) \
++#define script_patch_32(h, script, symbol, value) \
+ { \
+ 	int i; \
+ 	dma_addr_t da = value; \
+ 	for(i=0; i< (sizeof(A_##symbol##_used) / sizeof(__u32)); i++) { \
+ 		__u32 val = bS_to_cpu((script)[A_##symbol##_used[i]]) + da; \
+ 		(script)[A_##symbol##_used[i]] = bS_to_host(val); \
+-		dma_cache_sync((dev), &(script)[A_##symbol##_used[i]], 4, DMA_TO_DEVICE); \
++		dma_sync_to_dev((h), &(script)[A_##symbol##_used[i]], 4); \
+ 		DEBUG((" script, patching %s at %d to %pad\n", \
+ 		       #symbol, A_##symbol##_used[i], &da)); \
+ 	} \
  }
  
--static void clear_consistency_attr(struct vb2_queue *q,
--				   int memory,
--				   unsigned int *flags)
--{
--	if (!q->allow_cache_hints || memory != V4L2_MEMORY_MMAP)
--		*flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT;
--}
--
- int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
- {
- 	int ret = vb2_verify_memory_type(q, req->memory, req->type);
- 
- 	fill_buf_caps(q, &req->capabilities);
--	clear_consistency_attr(q, req->memory, &req->flags);
--	return ret ? ret : vb2_core_reqbufs(q, req->memory,
--					    req->flags, &req->count);
-+	return ret ? ret : vb2_core_reqbufs(q, req->memory, &req->count);
- }
- EXPORT_SYMBOL_GPL(vb2_reqbufs);
- 
-@@ -769,7 +759,6 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
- 	unsigned i;
- 
- 	fill_buf_caps(q, &create->capabilities);
--	clear_consistency_attr(q, create->memory, &create->flags);
- 	create->index = q->num_buffers;
- 	if (create->count == 0)
- 		return ret != -EBUSY ? ret : 0;
-@@ -813,7 +802,6 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
- 		if (requested_sizes[i] == 0)
- 			return -EINVAL;
- 	return ret ? ret : vb2_core_create_bufs(q, create->memory,
--						create->flags,
- 						&create->count,
- 						requested_planes,
- 						requested_sizes);
-@@ -998,12 +986,11 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
- 	int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
- 
- 	fill_buf_caps(vdev->queue, &p->capabilities);
--	clear_consistency_attr(vdev->queue, p->memory, &p->flags);
- 	if (res)
- 		return res;
- 	if (vb2_queue_is_busy(vdev, file))
- 		return -EBUSY;
--	res = vb2_core_reqbufs(vdev->queue, p->memory, p->flags, &p->count);
-+	res = vb2_core_reqbufs(vdev->queue, p->memory, &p->count);
- 	/* If count == 0, then the owner has released all buffers and he
- 	   is no longer owner of the queue. Otherwise we have a new owner. */
- 	if (res == 0)
-@@ -1021,7 +1008,6 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
- 
- 	p->index = vdev->queue->num_buffers;
- 	fill_buf_caps(vdev->queue, &p->capabilities);
--	clear_consistency_attr(vdev->queue, p->memory, &p->flags);
- 	/*
- 	 * If count == 0, then just check if memory and type are valid.
- 	 * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
-diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-index 593bcf6c373502..a99e82ec9ab60d 100644
---- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-+++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-@@ -246,9 +246,6 @@ struct v4l2_format32 {
-  * @memory:	buffer memory type
-  * @format:	frame format, for which buffers are requested
-  * @capabilities: capabilities of this buffer type.
-- * @flags:	additional buffer management attributes (ignored unless the
-- *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability and
-- *		configured for MMAP streaming I/O).
-  * @reserved:	future extensions
-  */
- struct v4l2_create_buffers32 {
-@@ -257,8 +254,7 @@ struct v4l2_create_buffers32 {
- 	__u32			memory;	/* enum v4l2_memory */
- 	struct v4l2_format32	format;
- 	__u32			capabilities;
--	__u32			flags;
--	__u32			reserved[6];
-+	__u32			reserved[7];
- };
- 
- static int __bufsize_v4l2_format(struct v4l2_format32 __user *p32, u32 *size)
-@@ -359,8 +355,7 @@ static int get_v4l2_create32(struct v4l2_create_buffers __user *p64,
- {
- 	if (!access_ok(p32, sizeof(*p32)) ||
- 	    copy_in_user(p64, p32,
--			 offsetof(struct v4l2_create_buffers32, format)) ||
--	    assign_in_user(&p64->flags, &p32->flags))
-+			 offsetof(struct v4l2_create_buffers32, format)))
- 		return -EFAULT;
- 	return __get_v4l2_format32(&p64->format, &p32->format,
- 				   aux_buf, aux_space);
-@@ -422,7 +417,6 @@ static int put_v4l2_create32(struct v4l2_create_buffers __user *p64,
- 	    copy_in_user(p32, p64,
- 			 offsetof(struct v4l2_create_buffers32, format)) ||
- 	    assign_in_user(&p32->capabilities, &p64->capabilities) ||
--	    assign_in_user(&p32->flags, &p64->flags) ||
- 	    copy_in_user(p32->reserved, p64->reserved, sizeof(p64->reserved)))
- 		return -EFAULT;
- 	return __put_v4l2_format32(&p64->format, &p32->format);
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 2a22e13a630346..e0520c85a3b725 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -2042,6 +2042,9 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
- 
- 	if (ret)
- 		return ret;
-+
-+	CLEAR_AFTER_FIELD(p, capabilities);
-+
- 	return ops->vidioc_reqbufs(file, fh, p);
+-#define script_patch_32_abs(dev, script, symbol, value) \
++#define script_patch_32_abs(h, script, symbol, value) \
+ { \
+ 	int i; \
+ 	dma_addr_t da = value; \
+ 	for(i=0; i< (sizeof(A_##symbol##_used) / sizeof(__u32)); i++) { \
+ 		(script)[A_##symbol##_used[i]] = bS_to_host(da); \
+-		dma_cache_sync((dev), &(script)[A_##symbol##_used[i]], 4, DMA_TO_DEVICE); \
++		dma_sync_to_dev((h), &(script)[A_##symbol##_used[i]], 4); \
+ 		DEBUG((" script, patching %s at %d to %pad\n", \
+ 		       #symbol, A_##symbol##_used[i], &da)); \
+ 	} \
  }
  
-@@ -2081,7 +2084,7 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
- 	if (ret)
- 		return ret;
+ /* Used for patching the SCSI ID in the SELECT instruction */
+-#define script_patch_ID(dev, script, symbol, value) \
++#define script_patch_ID(h, script, symbol, value) \
+ { \
+ 	int i; \
+ 	for(i=0; i< (sizeof(A_##symbol##_used) / sizeof(__u32)); i++) { \
+@@ -456,13 +457,13 @@ struct NCR_700_Host_Parameters {
+ 		val &= 0xff00ffff; \
+ 		val |= ((value) & 0xff) << 16; \
+ 		(script)[A_##symbol##_used[i]] = bS_to_host(val); \
+-		dma_cache_sync((dev), &(script)[A_##symbol##_used[i]], 4, DMA_TO_DEVICE); \
++		dma_sync_to_dev((h), &(script)[A_##symbol##_used[i]], 4); \
+ 		DEBUG((" script, patching ID field %s at %d to 0x%x\n", \
+ 		       #symbol, A_##symbol##_used[i], val)); \
+ 	} \
+ }
  
--	CLEAR_AFTER_FIELD(create, flags);
-+	CLEAR_AFTER_FIELD(create, capabilities);
- 
- 	v4l_sanitize_format(&create->format);
- 
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 52ef92049073e3..bbb3f26fbde978 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -744,8 +744,6 @@ void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb);
-  * vb2_core_reqbufs() - Initiate streaming.
-  * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-  * @memory:	memory type, as defined by &enum vb2_memory.
-- * @flags:	auxiliary queue/buffer management flags. Currently, the only
-- *		used flag is %V4L2_FLAG_MEMORY_NON_CONSISTENT.
-  * @count:	requested buffer count.
-  *
-  * Videobuf2 core helper to implement VIDIOC_REQBUF() operation. It is called
-@@ -770,13 +768,12 @@ void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb);
-  * Return: returns zero on success; an error code otherwise.
-  */
- int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
--		    unsigned int flags, unsigned int *count);
-+		    unsigned int *count);
- 
- /**
-  * vb2_core_create_bufs() - Allocate buffers and any required auxiliary structs
-  * @q: pointer to &struct vb2_queue with videobuf2 queue.
-  * @memory: memory type, as defined by &enum vb2_memory.
-- * @flags: auxiliary queue/buffer management flags.
-  * @count: requested buffer count.
-  * @requested_planes: number of planes requested.
-  * @requested_sizes: array with the size of the planes.
-@@ -794,7 +791,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
-  * Return: returns zero on success; an error code otherwise.
-  */
- int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
--			 unsigned int flags, unsigned int *count,
-+			 unsigned int *count,
- 			 unsigned int requested_planes,
- 			 const unsigned int requested_sizes[]);
- 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index c7b70ff53bc1dd..235db7754606d6 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -191,8 +191,6 @@ enum v4l2_memory {
- 	V4L2_MEMORY_DMABUF           = 4,
- };
- 
--#define V4L2_FLAG_MEMORY_NON_CONSISTENT		(1 << 0)
--
- /* see also http://vektor.theorem.ca/graphics/ycbcr/ */
- enum v4l2_colorspace {
- 	/*
-@@ -949,10 +947,7 @@ struct v4l2_requestbuffers {
- 	__u32			type;		/* enum v4l2_buf_type */
- 	__u32			memory;		/* enum v4l2_memory */
- 	__u32			capabilities;
--	union {
--		__u32		flags;
--		__u32		reserved[1];
--	};
-+	__u32			reserved[1];
- };
- 
- /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
-@@ -2456,9 +2451,6 @@ struct v4l2_dbg_chip_info {
-  * @memory:	enum v4l2_memory; buffer memory type
-  * @format:	frame format, for which buffers are requested
-  * @capabilities: capabilities of this buffer type.
-- * @flags:	additional buffer management attributes (ignored unless the
-- *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
-- *		and configured for MMAP streaming I/O).
-  * @reserved:	future extensions
-  */
- struct v4l2_create_buffers {
-@@ -2467,8 +2459,7 @@ struct v4l2_create_buffers {
- 	__u32			memory;
- 	struct v4l2_format	format;
- 	__u32			capabilities;
--	__u32			flags;
--	__u32			reserved[6];
-+	__u32			reserved[7];
- };
- 
- /*
+-#define script_patch_16(dev, script, symbol, value) \
++#define script_patch_16(h, script, symbol, value) \
+ { \
+ 	int i; \
+ 	for(i=0; i< (sizeof(A_##symbol##_used) / sizeof(__u32)); i++) { \
+@@ -470,7 +471,7 @@ struct NCR_700_Host_Parameters {
+ 		val &= 0xffff0000; \
+ 		val |= ((value) & 0xffff); \
+ 		(script)[A_##symbol##_used[i]] = bS_to_host(val); \
+-		dma_cache_sync((dev), &(script)[A_##symbol##_used[i]], 4, DMA_TO_DEVICE); \
++		dma_sync_to_dev((h), &(script)[A_##symbol##_used[i]], 4); \
+ 		DEBUG((" script, patching short field %s at %d to 0x%x\n", \
+ 		       #symbol, A_##symbol##_used[i], val)); \
+ 	} \
 -- 
 2.28.0
 
