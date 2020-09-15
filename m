@@ -2,112 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7491926B805
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA74E26B7EB
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:32:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbgIONiY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 09:38:24 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:50905 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726658AbgIONbd (ORCPT
+        id S1726838AbgIPAby (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 20:31:54 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:34833 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726670AbgIONot (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 09:31:33 -0400
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 3D90324000B;
-        Tue, 15 Sep 2020 13:31:00 +0000 (UTC)
-Date:   Tue, 15 Sep 2020 15:34:51 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 3/3] media: docs: v4l2-subdev: move generic paragraph to
- the introduction
-Message-ID: <20200915133451.jydprottrtskqe7y@uno.localdomain>
-References: <20200904215141.20862-1-luca@lucaceresoli.net>
- <20200904215141.20862-3-luca@lucaceresoli.net>
+        Tue, 15 Sep 2020 09:44:49 -0400
+Received: by mail-oi1-f196.google.com with SMTP id w16so3924781oia.2;
+        Tue, 15 Sep 2020 06:44:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nhx4zaRbvHv02wDkLtCiRzQ+T/cexy7Wy6YPEzIW6L4=;
+        b=l8ocUXUSNwjluy8zzXAOmh7DlAc3Y8KxQQpc0EpewkGcHsYHv/RBLobUuMCTMDRv5n
+         ZFdghksHYNyamFYX2siYsPb+4Op04iaKIvHcWoSuZnX5oxGUDVlIAoCBe8Ldalthr77z
+         7fvxbdORFvmo30iCtr3nKqjC64SpyTHB1RmCyrH9y13bZyDXzrhoGeuXvI0mW5d6mcmL
+         hX2AEq7Kl2rEac65beTg/kJcar/otm3CFGsgd+92KGArbyfF+chYZu9K8qP0hRP5ahDS
+         KgdgVhfvf1R0FJSwPNc0Hy4cCNBnZKqjwm7YVwgqELJ7r08gwnrNRqwsqFqFbJ+NZ0Zo
+         RBmA==
+X-Gm-Message-State: AOAM532K3/GOSYZE5CZ5X16veR4txdht6FzQHVL9aQGvOJ5mPs3z8Vlf
+        SLarfpJjQFDH6yGh6pDHYGlvSE81/P2ZHvrjE4jXHWGZ
+X-Google-Smtp-Source: ABdhPJxjE7IZ1One9Nuag6nu0xEcQ8hWElbOe5QqICw2V/z+/yMb27HXjCabVPJXPjj9Z11F/OFVwDPyo408IPTG/6I=
+X-Received: by 2002:aca:4441:: with SMTP id r62mr3178255oia.153.1600176911589;
+ Tue, 15 Sep 2020 06:35:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200904215141.20862-3-luca@lucaceresoli.net>
+References: <alpine.DEB.2.21.2009151345001.31296@ramsan.of.borg> <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
+In-Reply-To: <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 15 Sep 2020 15:35:00 +0200
+Message-ID: <CAMuHMdVfoQ-vW3VeO8vDVALNREBV1afaSnwnc0jnkoXmvw6xhQ@mail.gmail.com>
+Subject: Re: [v10 3/4] media: vidtv: add a bridge driver
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "r.verdejo@samsung.com" <r.verdejo@samsung.com>,
+        "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+        "linux-kernel-mentees@lists.linuxfoundation.org" 
+        <linux-kernel-mentees@lists.linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+Hi Daniel,
 
-On Fri, Sep 04, 2020 at 11:51:41PM +0200, Luca Ceresoli wrote:
-> This paragraph provides generic information to explain what v4l2_subdev is
-> useful for. Placing it in the middle of paragraphs describing the details
-> of subdev registration does not make much sense. Move it near the beginning
-> of the section when the v4l2_subdev idea has just been introduced and
-> before going into its details.
+On Tue, Sep 15, 2020 at 3:26 PM Daniel W. S. Almeida
+<dwlsalmeida@gmail.com> wrote:
+> >> +    u32 nbytes = 0;  /* the number of bytes written by this function */
+> >> +
+> >> +    u64 nbytes_expected; /* the number of bytes we should have written */
+> >> +    u64 nbytes_streamed; /* the number of bytes we actually wrote */
+> >> +    u32 num_null_pkts; /* number of null packets to bridge the gap */
+> >> +
+> >> +    u64 elapsed_time_msecs = jiffies_to_usecs(m->timing.current_jiffies -
+> >> +                                              m->timing.past_jiffies);
+> >> +
+> >> +    elapsed_time_msecs = min(elapsed_time_msecs,
+> >> (u64)VIDTV_MAX_SLEEP_USECS / 1000);
+> >> +    nbytes_expected = div64_u64(m->mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);
+> >
+> > Seriously?!?
+> >
+> > You multiply by 1000 first, followed by a division by 1000 using an
+> > expensive 64-by-64 division?
 >
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-> ---
->  Documentation/driver-api/media/v4l2-subdev.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> This entire function is broken and needs a do-over :)
 >
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index fb66163deb38..1c1e3f9da142 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -12,6 +12,12 @@ Usually these are I2C devices, but not necessarily. In order to provide the
->  driver with a consistent interface to these sub-devices the
->  :c:type:`v4l2_subdev` struct (v4l2-subdev.h) was created.
+> > using an expensive 64-by-64 division?
 >
-> +The advantage of using :c:type:`v4l2_subdev` is that it is a generic struct and
-> +does not contain any knowledge about the underlying hardware. So a driver might
-> +contain several subdevs that use an I2C bus, but also a subdev that is
-> +controlled through GPIO pins. This distinction is only relevant when setting
-> +up the device, but once the subdev is registered it is completely transparent.
-> +
->  Each sub-device driver must have a :c:type:`v4l2_subdev` struct. This struct
->  can be stand-alone for simple sub-devices or it might be embedded in a larger
->  struct if more state information needs to be stored. Usually there is a
-> @@ -235,12 +241,6 @@ it can call ``v4l2_subdev_notify(sd, notification, arg)``. This macro checks
->  whether there is a ``notify()`` callback defined and returns ``-ENODEV`` if not.
->  Otherwise the result of the ``notify()`` call is returned.
+> I am new to kernel development. I wasn't even aware that this was
+> expensive, to be honest.
+
+All divisions involving 64-bit data are expensive, especially on 32-bit
+platforms.  That's why we have the helpers in <linux/math.h>.  Most
+of them implement simplified variants, which are less expensive.
+
+> >> +    if (nbytes_streamed < nbytes_expected) {
+> >> +            /* can't write half a packet: roundup to a 188 multiple */
+> >> +            nbytes_expected  = roundup(nbytes_expected - nbytes_streamed, TS_PACKET_LEN);
+> >
+> > drivers/media/test-drivers/vidtv/vidtv_mux.o: In function `vidtv_mux_tick':
+> > vidtv_mux.c:(.text+0x788): undefined reference to `__udivdi3'
+> >
+> > This is a 64-by-32 division, hence it should use a helper from
+> > <linux/math64.h>.
+> >
+> > However, I'm wondering if "nbytes_expected - nbytes_streamed" is
+> > guaranteed to be a "small" number, hence a 32-by-32 division would be
+> > sufficient?
 >
-> -The advantage of using :c:type:`v4l2_subdev` is that it is a generic struct and
-> -does not contain any knowledge about the underlying hardware. So a driver might
-> -contain several subdevs that use an I2C bus, but also a subdev that is
-> -controlled through GPIO pins. This distinction is only relevant when setting
-> -up the device, but once the subdev is registered it is completely transparent.
-> -
-
-Have you considered moving the whole part that describes how to call
-operations, which comes after the synchronous registration case to a
-dedicated sub-section ? The above paragraph makes sense in the context
-of describing why v4l2_subdev is advantageous as it abstract the
-underlying details under a unified call interface.
-
-This could become
-
-V4L2 sub-devices
-----------------
-
-Intro
-~~~~~
-
-Registration
-~~~~~~~~~~~~
-
-**synchronous**
-**asynchronous**
-
-Operations call (or a better name :)
-~~~~~~~~~~~~~~~
-
-What do you think ?
-
-Thanks
-  j
-
->  In the **asynchronous** case subdevice probing can be invoked independently of
->  the bridge driver availability. The subdevice driver then has to verify whether
->  all the requirements for a successful probing are satisfied. This can include a
-> --
-> 2.28.0
+> I think so.
 >
+> I will send a patch to address the things you pointed out in this email.
+
+Thanks, looking forward to it!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
