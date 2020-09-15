@@ -2,116 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA74E26B7EB
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91D6126B7FB
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:33:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbgIPAby (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 20:31:54 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:34833 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726670AbgIONot (ORCPT
+        id S1726735AbgIPAdj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 20:33:39 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:57437 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726661AbgIONm3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 09:44:49 -0400
-Received: by mail-oi1-f196.google.com with SMTP id w16so3924781oia.2;
-        Tue, 15 Sep 2020 06:44:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nhx4zaRbvHv02wDkLtCiRzQ+T/cexy7Wy6YPEzIW6L4=;
-        b=l8ocUXUSNwjluy8zzXAOmh7DlAc3Y8KxQQpc0EpewkGcHsYHv/RBLobUuMCTMDRv5n
-         ZFdghksHYNyamFYX2siYsPb+4Op04iaKIvHcWoSuZnX5oxGUDVlIAoCBe8Ldalthr77z
-         7fvxbdORFvmo30iCtr3nKqjC64SpyTHB1RmCyrH9y13bZyDXzrhoGeuXvI0mW5d6mcmL
-         hX2AEq7Kl2rEac65beTg/kJcar/otm3CFGsgd+92KGArbyfF+chYZu9K8qP0hRP5ahDS
-         KgdgVhfvf1R0FJSwPNc0Hy4cCNBnZKqjwm7YVwgqELJ7r08gwnrNRqwsqFqFbJ+NZ0Zo
-         RBmA==
-X-Gm-Message-State: AOAM532K3/GOSYZE5CZ5X16veR4txdht6FzQHVL9aQGvOJ5mPs3z8Vlf
-        SLarfpJjQFDH6yGh6pDHYGlvSE81/P2ZHvrjE4jXHWGZ
-X-Google-Smtp-Source: ABdhPJxjE7IZ1One9Nuag6nu0xEcQ8hWElbOe5QqICw2V/z+/yMb27HXjCabVPJXPjj9Z11F/OFVwDPyo408IPTG/6I=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr3178255oia.153.1600176911589;
- Tue, 15 Sep 2020 06:35:11 -0700 (PDT)
+        Tue, 15 Sep 2020 09:42:29 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 7DAB660004;
+        Tue, 15 Sep 2020 13:41:29 +0000 (UTC)
+Date:   Tue, 15 Sep 2020 15:45:19 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 2/3] media: docs: v4l2-subdev: move "Subdev registration"
+ to a subsection
+Message-ID: <20200915134519.5u3vedcyek5ivvjq@uno.localdomain>
+References: <20200904215141.20862-1-luca@lucaceresoli.net>
+ <20200904215141.20862-2-luca@lucaceresoli.net>
 MIME-Version: 1.0
-References: <alpine.DEB.2.21.2009151345001.31296@ramsan.of.borg> <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
-In-Reply-To: <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Sep 2020 15:35:00 +0200
-Message-ID: <CAMuHMdVfoQ-vW3VeO8vDVALNREBV1afaSnwnc0jnkoXmvw6xhQ@mail.gmail.com>
-Subject: Re: [v10 3/4] media: vidtv: add a bridge driver
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "r.verdejo@samsung.com" <r.verdejo@samsung.com>,
-        "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-        "linux-kernel-mentees@lists.linuxfoundation.org" 
-        <linux-kernel-mentees@lists.linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200904215141.20862-2-luca@lucaceresoli.net>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+Hi Luca,
 
-On Tue, Sep 15, 2020 at 3:26 PM Daniel W. S. Almeida
-<dwlsalmeida@gmail.com> wrote:
-> >> +    u32 nbytes = 0;  /* the number of bytes written by this function */
-> >> +
-> >> +    u64 nbytes_expected; /* the number of bytes we should have written */
-> >> +    u64 nbytes_streamed; /* the number of bytes we actually wrote */
-> >> +    u32 num_null_pkts; /* number of null packets to bridge the gap */
-> >> +
-> >> +    u64 elapsed_time_msecs = jiffies_to_usecs(m->timing.current_jiffies -
-> >> +                                              m->timing.past_jiffies);
-> >> +
-> >> +    elapsed_time_msecs = min(elapsed_time_msecs,
-> >> (u64)VIDTV_MAX_SLEEP_USECS / 1000);
-> >> +    nbytes_expected = div64_u64(m->mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);
-> >
-> > Seriously?!?
-> >
-> > You multiply by 1000 first, followed by a division by 1000 using an
-> > expensive 64-by-64 division?
+On Fri, Sep 04, 2020 at 11:51:40PM +0200, Luca Ceresoli wrote:
+> The subdev registration topic is pretty lengthy, and takes more than
+> half of the "V4L2 sub-devices" section. Help readers in finding their
+> way through the document by dedicating a subsection to
+> "Subdev registration".
 >
-> This entire function is broken and needs a do-over :)
+> Each of the two registration methods takes many paragraphs, but since
+> adding a subsubsection would be overkill, just emphasize them in bold.
+
+I see bold being used mostly for C symbols names, I don't know if
+that's a kind of convention or not.
+
+I would not mind a subsection to be honest...
+I think the patch is good and I'll provide a tag, maybe others can
+provide opinions too!
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+  j
+
 >
-> > using an expensive 64-by-64 division?
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> ---
+>  Documentation/driver-api/media/v4l2-subdev.rst | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 >
-> I am new to kernel development. I wasn't even aware that this was
-> expensive, to be honest.
-
-All divisions involving 64-bit data are expensive, especially on 32-bit
-platforms.  That's why we have the helpers in <linux/math.h>.  Most
-of them implement simplified variants, which are less expensive.
-
-> >> +    if (nbytes_streamed < nbytes_expected) {
-> >> +            /* can't write half a packet: roundup to a 188 multiple */
-> >> +            nbytes_expected  = roundup(nbytes_expected - nbytes_streamed, TS_PACKET_LEN);
-> >
-> > drivers/media/test-drivers/vidtv/vidtv_mux.o: In function `vidtv_mux_tick':
-> > vidtv_mux.c:(.text+0x788): undefined reference to `__udivdi3'
-> >
-> > This is a 64-by-32 division, hence it should use a helper from
-> > <linux/math64.h>.
-> >
-> > However, I'm wondering if "nbytes_expected - nbytes_streamed" is
-> > guaranteed to be a "small" number, hence a 32-by-32 division would be
-> > sufficient?
+> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+> index 9a7dddd97f5a..fb66163deb38 100644
+> --- a/Documentation/driver-api/media/v4l2-subdev.rst
+> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> @@ -138,6 +138,9 @@ ensures that width, height and the media bus pixel code are equal on both source
+>  and sink of the link. Subdev drivers are also free to use this function to
+>  perform the checks mentioned above in addition to their own checks.
 >
-> I think so.
+> +Subdev registration
+> +~~~~~~~~~~~~~~~~~~~
+> +
+>  There are currently two ways to register subdevices with the V4L2 core. The
+>  first (traditional) possibility is to have subdevices registered by bridge
+>  drivers. This can be done when the bridge driver has the complete information
+> @@ -157,7 +160,7 @@ below.
+>  Using one or the other registration method only affects the probing process, the
+>  run-time bridge-subdevice interaction is in both cases the same.
 >
-> I will send a patch to address the things you pointed out in this email.
-
-Thanks, looking forward to it!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> -In the synchronous case a device (bridge) driver needs to register the
+> +In the **synchronous** case a device (bridge) driver needs to register the
+>  :c:type:`v4l2_subdev` with the v4l2_device:
+>
+>  	:c:func:`v4l2_device_register_subdev <v4l2_device_register_subdev>`
+> @@ -238,9 +241,9 @@ contain several subdevs that use an I2C bus, but also a subdev that is
+>  controlled through GPIO pins. This distinction is only relevant when setting
+>  up the device, but once the subdev is registered it is completely transparent.
+>
+> -In the asynchronous case subdevice probing can be invoked independently of the
+> -bridge driver availability. The subdevice driver then has to verify whether all
+> -the requirements for a successful probing are satisfied. This can include a
+> +In the **asynchronous** case subdevice probing can be invoked independently of
+> +the bridge driver availability. The subdevice driver then has to verify whether
+> +all the requirements for a successful probing are satisfied. This can include a
+>  check for a master clock availability. If any of the conditions aren't satisfied
+>  the driver might decide to return ``-EPROBE_DEFER`` to request further reprobing
+>  attempts. Once all conditions are met the subdevice shall be registered using
+> --
+> 2.28.0
+>
