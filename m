@@ -2,84 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 586BD26A417
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 13:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE03426A469
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 13:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbgIOLYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 07:24:32 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:42119 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbgIOLYM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 07:24:12 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id B9A03FF80E;
-        Tue, 15 Sep 2020 11:24:02 +0000 (UTC)
-Date:   Tue, 15 Sep 2020 13:27:52 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] rcar-csi2: Set bus type when parsing fwnode
-Message-ID: <20200915112752.f2vpxnvusson65uz@uno.localdomain>
-References: <20200914215011.339387-1-niklas.soderlund+renesas@ragnatech.se>
- <20200914215011.339387-3-niklas.soderlund+renesas@ragnatech.se>
+        id S1726324AbgIOLvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 07:51:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52570 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726321AbgIOLt2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Sep 2020 07:49:28 -0400
+Received: from coco.lan (ip5f5ad5a5.dynamic.kabel-deutschland.de [95.90.213.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B683120732;
+        Tue, 15 Sep 2020 11:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600170567;
+        bh=iFfL19rgJxrWSGlMzNKS3xGMGw/adMkm9oDIVhpXLh8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Rc8KkBEBeA+6Gw3xlipEwz9GlAgOcjryIcCl4mOPcT34FIhJrlNBeVboZEX7OJhqY
+         aE3T1DzkI5xTRlDh3iEk8J8zRffJZUXu7egy+JD+u1zlqdMBFftIz5Rm+D28csBTK+
+         XsK3u07PDPvd90qt/rIHEojFSVVkYYMRif7vuSh0=
+Date:   Tue, 15 Sep 2020 13:49:23 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH RFC 06/11] media: vidtv: get rid of some endiannes
+ nonsense
+Message-ID: <20200915134923.4794f704@coco.lan>
+In-Reply-To: <68DDA2DD-4341-45A9-99CF-BF41573C9AED@getmailspring.com>
+References: <47ccbcbd23e44159bbb11274b540d7c2bb66be7c.1600073975.git.mchehab+huawei@kernel.org>
+        <68DDA2DD-4341-45A9-99CF-BF41573C9AED@getmailspring.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200914215011.339387-3-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Daniel,
 
-On Mon, Sep 14, 2020 at 11:50:11PM +0200, Niklas Söderlund wrote:
-> The only supported bus for the R-Car CSI-2 driver is CSI-2 DPHY, specify
-> this before parsing the fwnode.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index 23e89ef2429d310a..b2e58f51b94fccd7 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -874,7 +874,9 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  	struct v4l2_async_subdev *asd;
->  	struct fwnode_handle *fwnode;
->  	struct fwnode_handle *ep;
-> -	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
-> +	struct v4l2_fwnode_endpoint v4l2_ep = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY
-> +	};
+Em Mon, 14 Sep 2020 12:14:38 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-I would also take the occasion to make bus-type mandatory in
-bindings as v4l2_fwnode_endpoint_parse() will fail only if it detect a
-mismatch between bus_type and "bus-type".
+> Hi Mauro,
+> 
+> > Genmask is always highest order to low order. It doesn't make
+> > any sense to make it depends on endiannes.
+> >   
+> 
+> I added these #ifdefs due to this:
+> 
+> https://lwn.net/Articles/741762/
+> 
+> i.e.
+> 
+> Fields to access are specified as GENMASK() values - an N-bit field
+> starting at bit #M is encoded as GENMASK(M + N - 1, N).  Note that
+> bit numbers refer to endianness of the object we are working with -
+> e.g. GENMASK(11, 0) in __be16 refers to the second byte and the lower
+> 4 bits of the first byte.  In __le16 it would refer to the first byte
+> and the lower 4 bits of the second byte, etc.
+> 
+> I am not 100% sure, but maybe we actually need them? 
 
-For older DTS we won't detect mismatches, but that's not worse than
-what we have today.
+By looking at the changes you did with regards to bitfields,
+it sounds that you didn't quite get how BE/LE works.
 
-In case you update bindings I would update the error message in the
-v4l2_fwnode_endpoint_parse() failure path to report the mismatch.
+Basically, if the CPU needs to store a value (like 0x8001) on some 
+place, it will store two values: 0x80 and 0x01. Depending on the
+endiannes, either 0x80 or 0x01 will be stored first. See:
 
-The patch itself is good
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+	https://en.wikipedia.org/wiki/Endianness
 
-Thanks
-  j
+In any case, when you do something like:
 
+	mask = GENMASK(11, 0);
+	ret = be16_to_cpu(s->bitfield) & mask;
 
->  	int ret;
->
->  	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(priv->dev), 0, 0, 0);
-> --
-> 2.28.0
->
+The be16_to_cpu() will ensure that the bits will be at the
+position expected by the CPU endiannes. So, no need to check
+for __BIG_ENDIAN or __LITTLE_ENDIAN when be*_to_cpu() macros 
+are used.
+
+Please also notice that, when there's just one byte to be
+stored (e. g. 8 bits), the endiannes won't matter, as the bits 
+will still be stored at the same way. that's why there's no
+be8_to_cpu() or cpu_to_be8() macros.
+
+Thanks,
+Mauro
