@@ -2,180 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB0A926A24A
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 11:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D84E026A34F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 12:40:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726335AbgIOJdp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 05:33:45 -0400
-Received: from gofer.mess.org ([88.97.38.141]:56753 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726208AbgIOJdo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 05:33:44 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 08B51C6366; Tue, 15 Sep 2020 10:33:42 +0100 (BST)
-Date:   Tue, 15 Sep 2020 10:33:42 +0100
-From:   Sean Young <sean@mess.org>
-To:     Joakim Zhang <qiangqing.zhang@nxp.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-imx@nxp.com
-Subject: Re: [PATCH] media: rc: gpio-ir-recv: add QoS support for cpuidle
- system
-Message-ID: <20200915093342.GA24139@gofer.mess.org>
-References: <20200915150202.24165-1-qiangqing.zhang@nxp.com>
+        id S1726322AbgIOKkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 06:40:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726245AbgIOKjx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Sep 2020 06:39:53 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E562C06174A
+        for <linux-media@vger.kernel.org>; Tue, 15 Sep 2020 03:39:51 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id o8so2767967otl.4
+        for <linux-media@vger.kernel.org>; Tue, 15 Sep 2020 03:39:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ulpeSnyY5/ewevGEpTqNXhDdyzWhPxYuGEnSEK0qUFE=;
+        b=ig5tEx0h7bfKi5EybZqA+C68o6gYUIfa+RfL190q/C/6enFMceUUZeuDygc7lBryyo
+         Y39LD8nxmbQQ2ZpJi/7Bu1MrZHh+9AmFkAC82cd1/Ss7084QYOZc1Q6UWRtMFDibGKuJ
+         Yhfx18xPVi60zG4gPhH/H78zP9lEy3I29XQis=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ulpeSnyY5/ewevGEpTqNXhDdyzWhPxYuGEnSEK0qUFE=;
+        b=epfEa5HUytnHS6ih6FPa7fBTt5JyoSMJYEgeTl9oSPEMx9ap7+GXKAaIQWk0ATaZVD
+         shPpqMJXZtV13LBnJYUL2vJH6AqlDmAUNyTorWDT3Bq/3lDJbdu6Xm023Ew+eZ2JPELw
+         igpM5uzyHzK56Kcyvs9DXLBmRoT9icjn8hpd9YGJecZmNOnXVIJt6cwVEejCwpwfVq3l
+         RDDRPK7RBh30rXS0cTCX6D7PA8jewaUc4toiSp8Rtp/stRlYtaYUMUpm4gMk+q8LlKl0
+         4HrQDHsSkFr+0ObtPRTbAr5nEkbNGxE9jmNhG66VZZdThj3VdRu1bEGRpLsOXnHNyJrF
+         1dRA==
+X-Gm-Message-State: AOAM532YpwnBv/5mrAu+G7DyfiyKKrNpRN61VNwxRhpJdmomQaS4gJMA
+        zScREEjt5k3jcwEBn6Lq7M+GiuDRKbG9NOjBC+ulTQ==
+X-Google-Smtp-Source: ABdhPJzbKPKIRS8EfyunRCEi31t2CsfncQrKriVKuMZ+LvqfMKqrLvYa64Bhcsp3AhwdlFX/YDNiySv4RihZaKzNLEU=
+X-Received: by 2002:a05:6830:1e56:: with SMTP id e22mr11974578otj.303.1600166390649;
+ Tue, 15 Sep 2020 03:39:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200915150202.24165-1-qiangqing.zhang@nxp.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200914132920.59183-1-christian.koenig@amd.com> <20200914132920.59183-2-christian.koenig@amd.com>
+In-Reply-To: <20200914132920.59183-2-christian.koenig@amd.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Tue, 15 Sep 2020 12:39:39 +0200
+Message-ID: <CAKMK7uHnZgCBUBQ-5D7gCj1v3Z4wKkeO91tefAoJE1B49JFtww@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/shmem-helpers: revert "Redirect mmap for imported dma-buf"
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Linux MM <linux-mm@kvack.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Sep 14, 2020 at 3:29 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> This reverts commit 26d3ac3cb04d171a861952e89324e347598a347f.
+>
+> We need to figure out if dma_buf_mmap() is valid or not first.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-Hi Joakim,
+The trouble is that doing dma-buf mmap by looking at the struct pages
+behind the sg list and just inserting those into userspace doesn't
+really work any better. You still won't get the unmap_mapping_range
+and hence pte shoot-down. So maybe dma_buf_mmap forwarding doesn't
+work, but this doesn't make it any better.
 
-Thanks for your patch, I think it looks good in principle but needs a
-few small fixes.
+Also commit message should probably explain a bit the context here,
+not a lot of people have been in our private discussion on this.
+-Daniel
 
-On Tue, Sep 15, 2020 at 11:02:02PM +0800, Joakim Zhang wrote:
-> GPIO IR receive is much rely on interrupt response, uneven interrupt
-> latency will lead to incorrect timing, so the decoder fails to decode
-> it. The issue is particularly acute on systems which supports
-> cpuidle, dynamically disable and enable cpuidle can solve this problem
-> to a great extent.
-
-This is the first soc to be affected by this problem, and gpio-ir-recv
-has been used on my systems. For example, the raspberry pi has cpu idle
-enabled and does not suffer from this problem. There are many more; this
-driver has been used on many arm devices, which will have cpuidle enabled.
-
-> 
-> However, there is a downside to this approach, the measurement of header
-> on the first frame may incorrect. Test on i.MX8M serials, when enable
-> cpuidle, interrupt latency could be about 500us.
-> 
-> With this patch:
-> 1. has no side effect on non-cpuidle system.
-> 2. latency is still much longer for the first gpio interrupt on cpuidle
-> system, so the first frame may not be decoded. Generally, RC would transmit
-> multiple frames at once press, we can sacrifice the first frame.
-> 
-> Signed-off-by: Joakim Zhang <qiangqing.zhang@nxp.com>
 > ---
->  drivers/media/rc/gpio-ir-recv.c | 49 ++++++++++++++++++++++++++++++++-
->  1 file changed, 48 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/rc/gpio-ir-recv.c b/drivers/media/rc/gpio-ir-recv.c
-> index a20413008c3c..42c942ce98cd 100644
-> --- a/drivers/media/rc/gpio-ir-recv.c
-> +++ b/drivers/media/rc/gpio-ir-recv.c
-> @@ -11,6 +11,8 @@
->  #include <linux/of.h>
->  #include <linux/of_gpio.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/pm_qos.h>
->  #include <linux/irq.h>
->  #include <media/rc-core.h>
->  
-> @@ -20,17 +22,36 @@ struct gpio_rc_dev {
->  	struct rc_dev *rcdev;
->  	struct gpio_desc *gpiod;
->  	int irq;
-> +	struct pm_qos_request qos;
->  };
->  
->  static irqreturn_t gpio_ir_recv_irq(int irq, void *dev_id)
->  {
-> -	int val;
-> +	int ret, val;
->  	struct gpio_rc_dev *gpio_dev = dev_id;
-> +	struct device *dev = gpio_dev->rcdev->dev.parent;
-> +
-> +	/*
-> +	 * For cpuidle system:
-
-For some cpuidle systems, not all. This is why this feature needs a
-device tree option for enabling. Otherwise, it will negatively affect
-power usage on e.g. raspberry pi.
-
-> +	 * Respond to interrupt taking more latency when cpu in idle.
-> +	 * Invoke asynchronous pm runtime get from interrupt context,
-> +	 * this may introduce a millisecond delay to call resume callback,
-> +	 * where to disable cpuilde.
-> +	 *
-> +	 * Two issues lead to fail to decode first frame, one is latency to
-> +	 * respond interupt, another is delay introduced by async api.
-> +	 */
-> +	ret = pm_runtime_get(dev);
-> +	if (ret < 0)
-> +		return IRQ_NONE;
-
-If we end up here, we also abandon sending the IR to rc-core (below). I
-don't think it should do that. It should call ir_raw_event_store_edge()
-always even if it can't do the pm things.
-
->  
->  	val = gpiod_get_value(gpio_dev->gpiod);
->  	if (val >= 0)
->  		ir_raw_event_store_edge(gpio_dev->rcdev, val == 1);
->  
-> +	pm_runtime_mark_last_busy(dev);
-> +	pm_runtime_put_autosuspend(dev);
-> +
->  	return IRQ_HANDLED;
->  }
->  
-> @@ -92,6 +113,12 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
->  
->  	platform_set_drvdata(pdev, gpio_dev);
->  
-> +
-> +	pm_runtime_set_autosuspend_delay(dev, (rcdev->timeout / 1000 / 1000));
-
-rcdev->timeout is in microseconds (since very recently), so this is wrong.
-Also, the timeout can be changed using the LIRC_SET_REC_TIMEOUT ioctl
-(using ir-ctl -t in userspace). The autosuspend delay should be updated
-when this happens. This can be done by implementing the s_timeout rcdev
-function.
-
-> +	pm_runtime_use_autosuspend(dev);
-> +	pm_runtime_set_suspended(dev);
-> +	pm_runtime_enable(dev);
-> +
->  	return devm_request_irq(dev, gpio_dev->irq, gpio_ir_recv_irq,
->  				IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING,
->  				"gpio-ir-recv-irq", gpio_dev);
-> @@ -122,9 +149,29 @@ static int gpio_ir_recv_resume(struct device *dev)
->  	return 0;
->  }
->  
-> +static int gpio_ir_recv_runtime_suspend(struct device *dev)
-> +{
-> +	struct gpio_rc_dev *gpio_dev = dev_get_drvdata(dev);
-> +
-> +	cpu_latency_qos_remove_request(&gpio_dev->qos);
-> +
-> +	return 0;
-> +}
-> +
-> +static int gpio_ir_recv_runtime_resume(struct device *dev)
-> +{
-> +	struct gpio_rc_dev *gpio_dev = dev_get_drvdata(dev);
-> +
-> +	cpu_latency_qos_add_request(&gpio_dev->qos, 0);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct dev_pm_ops gpio_ir_recv_pm_ops = {
->  	.suspend        = gpio_ir_recv_suspend,
->  	.resume         = gpio_ir_recv_resume,
-> +	.runtime_suspend = gpio_ir_recv_runtime_suspend,
-> +	.runtime_resume  = gpio_ir_recv_runtime_resume,
->  };
->  #endif
->  
-> -- 
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm=
+_gem_shmem_helper.c
+> index 0a952f27c184..cd727343f72b 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -594,9 +594,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, st=
+ruct vm_area_struct *vma)
+>         /* Remove the fake offset */
+>         vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
+>
+> -       if (obj->import_attach)
+> -               return dma_buf_mmap(obj->dma_buf, vma, 0);
+> -
+>         shmem =3D to_drm_gem_shmem_obj(obj);
+>
+>         ret =3D drm_gem_shmem_get_pages(shmem);
+> --
 > 2.17.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
