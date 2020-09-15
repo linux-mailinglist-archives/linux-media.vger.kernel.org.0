@@ -2,108 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF85626B684
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21F2D26B911
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:56:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727262AbgIPAGe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 20:06:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726972AbgIOO2m (ORCPT
+        id S1726106AbgIOLaW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 07:30:22 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:33903 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726202AbgIOLWt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 10:28:42 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2439C06174A;
-        Tue, 15 Sep 2020 07:14:12 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id h20so2743707ybj.8;
-        Tue, 15 Sep 2020 07:14:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yFEswjPEkU42WKhQk4a5lgZHSsu2C+ZFtLptD4MF2bQ=;
-        b=lZ6hi3H/Ni/Rj2qNSQSbJUp1gwv0oUrg8wH/4QfzoVGTjQRN1cgLUGpHpfRrRjqL9d
-         8+/BbZZ0cQg66eCcvKa3AEZ5gNMcmPYu4PSIJumVyzJAd1wNQbIZksQqur54Hah6Q179
-         UJd93wJSoIx7jGhcnAnCunfcTcvDTyn27ppCy7EV71Dt25opvC/zdqqrRKZIT6KvDv6B
-         V8eZxkCs92fpCtt47zfe15Y90OLjGOn1A7yMkkc6Xo37fkOA4a1sqzTargzXQEmpn4C2
-         CfGM00NAbquvHs7retxPQaFlwaaCoLRr8sJfar2QjAMXBnV+NjlOV++8Lyp7WO50wEIf
-         mY3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yFEswjPEkU42WKhQk4a5lgZHSsu2C+ZFtLptD4MF2bQ=;
-        b=lzmN8AZvKvAC/58t694GiB5wjbG0vRdbtEAeE3xUUhi549c1qNA0W6GYsEgTI6Vrhr
-         5cmaopyl6xRHH8U3v+QoGHLQYxZcCUe/T4hySnvExAeOiVQ6hckrT3Gw6IVrLEPgLWsR
-         uRCX4D3PLYT+oTLAHGiFJDPhR1yDFn30NQPVMFIECp9DmNZfEZ284gaFCaW/4OGIrRj9
-         ARovRtgUDJTGK4dsXNpcqMEDdJdMKMr3UFCYOLn2+yM684eXXT+PN8GZy4RmbV3AbGU3
-         yXuYYItUvtPgAjyY4sW3BuBNd7nRmB5zgVvdUSk8sb+UDll0vR/PyFc9dSzUbxWLDAGN
-         3PTg==
-X-Gm-Message-State: AOAM530IDvV4tEacVlPo6hIG7UT7TLnJK8YNARMPneJmuJCkNtjUq3Wi
-        xxtHT0z3mKoLpPX+ZKfBOGbBuyvBFTBbnx5KNgQ=
-X-Google-Smtp-Source: ABdhPJxcaOWZcfw234jowg3P/dhI9NAewu6ytUIkBJ/r5/zNIRqqESPPYfmmdQPZhTf2Bf33axoPb0dCxznPJoefwPc=
-X-Received: by 2002:a25:344c:: with SMTP id b73mr26337425yba.127.1600179252155;
- Tue, 15 Sep 2020 07:14:12 -0700 (PDT)
+        Tue, 15 Sep 2020 07:22:49 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 84C3524000E;
+        Tue, 15 Sep 2020 11:20:52 +0000 (UTC)
+Date:   Tue, 15 Sep 2020 13:24:43 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] rcar-csi2: Switch to using fwnode instead of OF
+Message-ID: <20200915112443.kdvrvhxb75vnel3c@uno.localdomain>
+References: <20200914215011.339387-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200914215011.339387-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20200915131216.21137-1-fabrizio.castro.jz@renesas.com> <20200915131216.21137-4-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20200915131216.21137-4-fabrizio.castro.jz@renesas.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 15 Sep 2020 15:13:46 +0100
-Message-ID: <CA+V-a8u3q=KeNtSZXtwcGEv3Am9m2bSZbcjOxP8ub2SohMeQMA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: dt-bindings: media: renesas,drif: Add r8a77990 support
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200914215011.339387-2-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabrizio,
+Hi Niklas,
 
-Thank you for the patch.
+On Mon, Sep 14, 2020 at 11:50:10PM +0200, Niklas Söderlund wrote:
+> Use the fwnode_graph_get_endpoint_by_id() interface instead of
+> of_graph_get_endpoint_by_regs() to fetch the fwnode. This saves
+> translating between a device_node and fwnode_handle.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-On Tue, Sep 15, 2020 at 2:19 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
->
-> The r8a77990 (a.k.a. R-Car E3) device tree schema is
-> compatible with R-Car H3 and M3-W schema.
->
-> Document r8a77990 support within renesas,drif.yaml.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Looks good
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+  j
+
 > ---
->  Documentation/devicetree/bindings/media/renesas,drif.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 >
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Cheers,
-Prabhakar
-
-> diff --git a/Documentation/devicetree/bindings/media/renesas,drif.yaml b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> index f57fccc159d6..051d515be38d 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> @@ -53,6 +53,7 @@ properties:
->        - enum:
->          - renesas,r8a7795-drif        # R-Car H3
->          - renesas,r8a7796-drif        # R-Car M3-W
-> +        - renesas,r8a77990-drif       # R-Car E3
->        - const: renesas,rcar-gen3-drif # Generic R-Car Gen3 compatible device
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index 511cd4984777ad99..23e89ef2429d310a 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -873,31 +873,31 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+>  {
+>  	struct v4l2_async_subdev *asd;
+>  	struct fwnode_handle *fwnode;
+> -	struct device_node *ep;
+> +	struct fwnode_handle *ep;
+>  	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+>  	int ret;
 >
->    reg:
+> -	ep = of_graph_get_endpoint_by_regs(priv->dev->of_node, 0, 0);
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(priv->dev), 0, 0, 0);
+>  	if (!ep) {
+>  		dev_err(priv->dev, "Not connected to subdevice\n");
+>  		return -EINVAL;
+>  	}
+>
+> -	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
+> +	ret = v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
+>  	if (ret) {
+>  		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
+> -		of_node_put(ep);
+> +		fwnode_handle_put(ep);
+>  		return -EINVAL;
+>  	}
+>
+>  	ret = rcsi2_parse_v4l2(priv, &v4l2_ep);
+>  	if (ret) {
+> -		of_node_put(ep);
+> +		fwnode_handle_put(ep);
+>  		return ret;
+>  	}
+>
+> -	fwnode = fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
+> -	of_node_put(ep);
+> +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> +	fwnode_handle_put(ep);
+>
+>  	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(fwnode));
+>
 > --
-> 2.25.1
+> 2.28.0
 >
