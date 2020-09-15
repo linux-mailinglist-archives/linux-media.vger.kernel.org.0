@@ -2,76 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE80226A992
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 18:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EE2526A98C
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 18:19:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727637AbgIOQTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 12:19:47 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:40431 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727279AbgIOQRf (ORCPT
+        id S1727584AbgIOQRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 12:17:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37152 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727610AbgIOQQO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 12:17:35 -0400
-Received: by mail-pf1-f196.google.com with SMTP id x123so2220057pfc.7;
-        Tue, 15 Sep 2020 09:17:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KSOAyNVWeqUE1eNb5fjGsEEoMGtp4LbwBVr7j3WH4jQ=;
-        b=jvO0O19SkaY44+2hQWCn8iDuq5BTM0bhBPsLpNTtyldIFNFLwEyzet7mXzSqBnrV6Z
-         LweGbEhXfHIN2+xXVsG+A4nxPcD2fyqA4r2yUC1PumNtZ3e3eEZqFwZ/P3JKD+zQO+cA
-         HCzc2G29NVElrLmGFg2bNzwJRdu6guugu+MPqcqsF2Hct7hgkazjg0sT+qyUhllxCWqk
-         aTtJwPhPSpB+DueEFGxgjawxSN2v6VagG5n3l4kilDOEjtZadTy+Mo4iJlsHxyMsgaPU
-         6LUhKE04XaxQiSLwIjVw22gdlzQVu5hf0kII1wUlzqYB9xO+GZVAYK5BkMW/PJY5qlIZ
-         iNVQ==
-X-Gm-Message-State: AOAM533BCggrEnBP4lZMVMrRZK43f4DnRItIcKgHHU87E9rO2v0/qxDT
-        Nb4VXX8UI6v5Ij4TGWPg09MucC3/jyiQ07I=
-X-Google-Smtp-Source: ABdhPJyk0bNPAGNZuwTrEU4SGslz9cnXoPY9yjb2itUeNoFTxzwNacOA+ryWWOc0EJ4QK9zJ7ZuqfA==
-X-Received: by 2002:a92:bad9:: with SMTP id t86mr16275837ill.308.1600185674993;
-        Tue, 15 Sep 2020 09:01:14 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id j62sm7842074iof.53.2020.09.15.09.01.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 09:01:14 -0700 (PDT)
-Received: (nullmailer pid 2029905 invoked by uid 1000);
-        Tue, 15 Sep 2020 16:01:12 -0000
-Date:   Tue, 15 Sep 2020 10:01:12 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Tue, 15 Sep 2020 12:16:14 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BCE3276;
+        Tue, 15 Sep 2020 18:12:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600186327;
+        bh=yWcHzfZaIL+JJoYu6WgRXH1lmt2hAIodJaLy5+l5lQ0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WixtAFmwupVy7MRyDTZqdZRI02yRepxuWJ4yPMNnxeJtBh+AktZupVFYDc6j/uPZv
+         l1VpY8FBzuH0HnIh/pcPbkaK060agSmlL6VBG9R3sca6dF87vJkU+nP2QN7Zg3Jrhk
+         Z6YpX097SeLzHq2RkY1wMphh7PvJZUGsMYtNd14U=
+Date:   Tue, 15 Sep 2020 19:11:38 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Add device tree
- support for r8a7742
-Message-ID: <20200915160112.GA2029821@bogus>
-References: <20200907144509.8861-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200907144509.8861-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Add Fabrizio Castro to Renesas DRIF
+Message-ID: <20200915161138.GB26029@pendragon.ideasonboard.com>
+References: <20200915131216.21137-1-fabrizio.castro.jz@renesas.com>
+ <20200915131216.21137-2-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200907144509.8861-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200915131216.21137-2-fabrizio.castro.jz@renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 07 Sep 2020 15:45:08 +0100, Lad Prabhakar wrote:
-> Add compatible string for r8a7742. No driver change is needed as
-> "renesas,rcar-gen2-vin" will activate the right code.
+Hi Fabrizio,
+
+Thank you for the patch.
+
+On Tue, Sep 15, 2020 at 02:12:14PM +0100, Fabrizio Castro wrote:
+> Renesas are expanding their DRIF support and offering,
+> I'll be the internal maintainer for DRIF.
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+
+Thank you for volunteering :-)
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+>  MAINTAINERS | 1 +
 >  1 file changed, 1 insertion(+)
 > 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 26af84f97353..9f49e5ac90d8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10898,6 +10898,7 @@ F:	include/media/drv-intf/renesas-ceu.h
+>  
+>  MEDIA DRIVERS FOR RENESAS - DRIF
+>  M:	Ramesh Shanmugasundaram <rashanmu@gmail.com>
+> +M:	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+>  L:	linux-media@vger.kernel.org
+>  L:	linux-renesas-soc@vger.kernel.org
+>  S:	Supported
 
-Acked-by: Rob Herring <robh@kernel.org>
+-- 
+Regards,
+
+Laurent Pinchart
