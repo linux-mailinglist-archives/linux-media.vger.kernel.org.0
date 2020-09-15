@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D67A26AB0B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 19:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31A2C26AB48
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 19:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727993AbgIORqr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 13:46:47 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:53823 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727915AbgIORoX (ORCPT
+        id S1727986AbgIORqq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 13:46:46 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:28656 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727958AbgIORoX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 15 Sep 2020 13:44:23 -0400
 X-IronPort-AV: E=Sophos;i="5.76,430,1592838000"; 
-   d="scan'208";a="57345684"
+   d="scan'208";a="57128212"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 16 Sep 2020 02:44:17 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 16 Sep 2020 02:44:19 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3F28A400753C;
-        Wed, 16 Sep 2020 02:44:15 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A1C23400753C;
+        Wed, 16 Sep 2020 02:44:17 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -29,9 +29,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH v5 2/3] media: i2c: ov772x: Add support for BT.656 mode
-Date:   Tue, 15 Sep 2020 18:42:34 +0100
-Message-Id: <20200915174235.1229-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 3/3] media: i2c: ov772x: Add test pattern control
+Date:   Tue, 15 Sep 2020 18:42:35 +0100
+Message-Id: <20200915174235.1229-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200915174235.1229-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20200915174235.1229-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -40,53 +40,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support to read the bus-type for V4L2_MBUS_BT656 and
-enable BT.656 mode in the sensor if needed.
+Add support for test pattern control supported by the sensor.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov772x.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov772x.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-index 4ab4b3c883d0..869f2d94faec 100644
+index 869f2d94faec..3f68801692f4 100644
 --- a/drivers/media/i2c/ov772x.c
 +++ b/drivers/media/i2c/ov772x.c
-@@ -583,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
- 	if (priv->streaming == enable)
- 		goto done;
+@@ -227,7 +227,7 @@
  
-+	if (priv->bus_type == V4L2_MBUS_BT656) {
-+		ret = regmap_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
-+					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
-+		if (ret)
-+			goto done;
-+	}
+ /* COM3 */
+ #define SWAP_MASK       (SWAP_RGB | SWAP_YUV | SWAP_ML)
+-#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG)
++#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG | SCOLOR_TEST)
+ 
+ #define VFLIP_IMG       0x80	/* Vertical flip image ON/OFF selection */
+ #define HFLIP_IMG       0x40	/* Horizontal mirror image ON/OFF selection */
+@@ -425,6 +425,7 @@ struct ov772x_priv {
+ 	const struct ov772x_win_size     *win;
+ 	struct v4l2_ctrl		 *vflip_ctrl;
+ 	struct v4l2_ctrl		 *hflip_ctrl;
++	unsigned int			  test_pattern;
+ 	/* band_filter = COM8[5] ? 256 - BDBASE : 0 */
+ 	struct v4l2_ctrl		 *band_filter_ctrl;
+ 	unsigned int			  fps;
+@@ -540,6 +541,11 @@ static const struct ov772x_win_size ov772x_win_sizes[] = {
+ 	},
+ };
+ 
++static const char * const ov772x_test_pattern_menu[] = {
++	"Disabled",
++	"Vertical Color Bar Type 1",
++};
 +
- 	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
- 				 enable ? 0 : SOFT_SLEEP_MODE);
- 	if (ret)
-@@ -1436,9 +1443,17 @@ static int ov772x_probe(struct i2c_client *client)
- 	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
- 	priv->bus_type = bus_cfg.bus_type;
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
-+	if (ret) {
-+		bus_cfg = (struct v4l2_fwnode_endpoint)
-+			  { .bus_type = V4L2_MBUS_BT656 };
-+		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+		if (ret) {
-+			fwnode_handle_put(ep);
-+			goto error_clk_put;
-+		}
-+		priv->bus_type = bus_cfg.bus_type;
-+	}
- 	fwnode_handle_put(ep);
--	if (ret)
--		goto error_clk_put;
+ /*
+  * frame rate settings lists
+  */
+@@ -809,6 +815,9 @@ static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		}
  
- 	ret = ov772x_video_probe(priv);
+ 		return ret;
++	case V4L2_CID_TEST_PATTERN:
++		priv->test_pattern = ctrl->val;
++		return 0;
+ 	}
+ 
+ 	return -EINVAL;
+@@ -1107,6 +1116,8 @@ static int ov772x_set_params(struct ov772x_priv *priv,
+ 		val ^= VFLIP_IMG;
+ 	if (priv->hflip_ctrl->val)
+ 		val ^= HFLIP_IMG;
++	if (priv->test_pattern)
++		val |= SCOLOR_TEST;
+ 
+ 	ret = regmap_update_bits(priv->regmap, COM3, SWAP_MASK | IMG_MASK, val);
  	if (ret < 0)
+@@ -1405,6 +1416,10 @@ static int ov772x_probe(struct i2c_client *client)
+ 	priv->band_filter_ctrl = v4l2_ctrl_new_std(&priv->hdl, &ov772x_ctrl_ops,
+ 						   V4L2_CID_BAND_STOP_FILTER,
+ 						   0, 256, 1, 0);
++	v4l2_ctrl_new_std_menu_items(&priv->hdl, &ov772x_ctrl_ops,
++				     V4L2_CID_TEST_PATTERN,
++				     ARRAY_SIZE(ov772x_test_pattern_menu) - 1,
++				     0, 0, ov772x_test_pattern_menu);
+ 	priv->subdev.ctrl_handler = &priv->hdl;
+ 	if (priv->hdl.error) {
+ 		ret = priv->hdl.error;
 -- 
 2.17.1
 
