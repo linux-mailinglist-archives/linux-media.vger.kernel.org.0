@@ -2,356 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5A0326A8B9
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 17:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 206AC26A858
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 17:08:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727444AbgIOPYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 11:24:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42582 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727429AbgIOPWw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 11:22:52 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F896C061222
-        for <linux-media@vger.kernel.org>; Tue, 15 Sep 2020 06:28:36 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id a9so3485766wmm.2
-        for <linux-media@vger.kernel.org>; Tue, 15 Sep 2020 06:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rOv5WGVGsgyNn6urbOebccg434eenXBMmtPhsBKwi6M=;
-        b=qPEJL5WK5rgIP50M1Rri2kkuOOi7uJdtddgDg4HjudktmboL7nN/T1P3gsTsgOyH/B
-         B11wuJrMln3gmZ86V76cz0hDmJoS0HBJTcEpnbfgyCVTtGapX7QWTSdSUXzovewq1TH1
-         Fb+b6vgGbKxEOBZotxEekapD6lXM9w+eFxB3eQiUVhfXtDRcfbBOc/PMl7/8PJHm4kug
-         Z8z6LNseyzfS7Gzya2A1CwAylI5x3RYc3yObXTmBXcTDPjYej4KVCRnHClWj19wvjUuv
-         lWwie+kq2aYVgFJ096LbinnXwj6T7WdtiXLZDwGJUYYx//AvVKf3szCY0DGL5bB5Qt7q
-         gQeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rOv5WGVGsgyNn6urbOebccg434eenXBMmtPhsBKwi6M=;
-        b=s7oI0QIoe36uEWe8AJ/d/uiQp9t8Se+DWbLxfszs+UUAZSK6SGnUx5D4rMHvdAULUU
-         mPjV/HwTmTjx1GCPIV21J/FxPx2Gl7Z1NfsjQP0AFfCVRUHtww2Tm7hakJGq628bH8x0
-         h9v6VePVj6c+CEeEFiQKfKgSIsIq1wUR0W/jFQQWDhexKAHyPkzd31e3QCWTYnC2Jzgt
-         XmmSsKdRD8nALClk8frFFSOcHhgSPK8KnkIN2L1Vkm2jLk5qGLrb0wnW5I3rtY4l1MIJ
-         qVeNcAwqQ+HucH98TpPaX8a2p+4bWG3P7DG4eAcbILLkptzGg+91y4KkbdkdjjVJ6nIK
-         6qAA==
-X-Gm-Message-State: AOAM533vSsI865EzR5bjo8SVrKy8OyRnxv52REc7DjM/4hOtoVM5LQt2
-        CiZj+/oZyJKD4oOYJacuQkx6qkheo+jaWzvy9ZylVQ==
-X-Google-Smtp-Source: ABdhPJzptpXzL0JtsYDEv5htyH79Xq0s6UkdwQ6cHX2hOWtyJOhaEqgiJB5h71UVlB5V9YCaSNW39hT/sFN//yFn4As=
-X-Received: by 2002:a1c:1d52:: with SMTP id d79mr5072815wmd.82.1600176514962;
- Tue, 15 Sep 2020 06:28:34 -0700 (PDT)
+        id S1727331AbgIOPIS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 11:08:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33784 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726985AbgIOPF4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Sep 2020 11:05:56 -0400
+Received: from mail.kernel.org (ip5f5ad5a5.dynamic.kabel-deutschland.de [95.90.213.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E7B2E2067C;
+        Tue, 15 Sep 2020 15:05:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600182355;
+        bh=W/u5CunWTOege2SM3N7jcf/kRuv658onEHsDoV7/J7M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=u2Hn17X3pXkLRZi6r/HSP9LrLzxx15VUcjoy0BXLybp8G8d3yu/n4K67HKZhyXamr
+         yG6HiIQYmI9aK7VIqhKuBmmYvHHL0CPHjE5KChXRkl9N2CzUVVB+dfwjUf6hBITv4g
+         B1ctIMUXET63apI3qcjeXISD19tufcOf4eblSusk=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kICWm-004lwM-Hk; Tue, 15 Sep 2020 17:05:52 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH] media: vidtv: Add a music instead of playing a single tone
+Date:   Tue, 15 Sep 2020 17:05:51 +0200
+Message-Id: <597f2f6831dce6af83e9efbb473efd9e789d9f33.1600182349.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
- <20200504092611.9798-5-laurent.pinchart@ideasonboard.com> <20200915070326.GI834@valkosipuli.retiisi.org.uk>
- <20200915093235.GC13260@pendragon.ideasonboard.com>
-In-Reply-To: <20200915093235.GC13260@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 15 Sep 2020 14:28:16 +0100
-Message-ID: <CAPY8ntBpmm6mvqVQeVCfpTZD58LNBs6+EuL8y4ihwmP8vzt5BA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/34] media: bcm2835-unicam: Driver for CCP2/CSI2
- camera interface
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Naushir Patuck <naush@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari & Laurent
+Keep playing a single tone is not too nice, and prevents
+checking some weird things.
 
-On Tue, 15 Sep 2020 at 10:33, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Sakari,
->
-> (With a question for Dave below)
->
-> I'm replying to the two main points of your review. All the other
-> comments look fine at a glance, Jacopo is having a more detailed look
-> and will incorporate them in v3.
->
-> On Tue, Sep 15, 2020 at 10:03:26AM +0300, Sakari Ailus wrote:
-> > Hi Laurent,
-> >
-> > Thanks for the patch, and my apologies for the late review. Please do cc me
-> > for v3.
-> >
-> > After a quick look I can already say this is the cleanest Unicam driver
-> > I've ever seen. But please also see my detailed comments below.
-> >
-> > On Mon, May 04, 2020 at 12:25:41PM +0300, Laurent Pinchart wrote:
-> > > From: Naushir Patuck <naush@raspberrypi.com>
-> > >
-> > > Add a driver for the Unicam camera receiver block on BCM283x processors.
-> > > Compared to the bcm2835-camera driver present in staging, this driver
-> > > handles the Unicam block only (CSI-2 receiver), and doesn't depend on
-> > > the VC4 firmware running on the VPU.
-> > >
-> > > The commit is made up of a series of changes cherry-picked from the
-> > > rpi-5.4.y branch of https://github.com/raspberrypi/linux/ with
-> > > additional enhancements, forward-ported to the mainline kernel.
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > > Changes since v1:
-> > >
-> > > - Re-fetch mbus code from subdev on a g_fmt call
-> > > - Group all ioctl disabling together
-> > > - Fix reference counting in unicam_open
-> > > - Add support for VIDIOC_[S|G]_SELECTION
-> > > ---
-> > >  MAINTAINERS                                   |    7 +
-> > >  drivers/media/platform/Kconfig                |    1 +
-> > >  drivers/media/platform/Makefile               |    2 +
-> > >  drivers/media/platform/bcm2835/Kconfig        |   15 +
-> > >  drivers/media/platform/bcm2835/Makefile       |    3 +
-> > >  .../media/platform/bcm2835/bcm2835-unicam.c   | 2825 +++++++++++++++++
-> > >  .../media/platform/bcm2835/vc4-regs-unicam.h  |  253 ++
-> > >  7 files changed, 3106 insertions(+)
-> > >  create mode 100644 drivers/media/platform/bcm2835/Kconfig
-> > >  create mode 100644 drivers/media/platform/bcm2835/Makefile
-> > >  create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam.c
-> > >  create mode 100644 drivers/media/platform/bcm2835/vc4-regs-unicam.h
->
-> [snip]
->
-> > > diff --git a/drivers/media/platform/bcm2835/bcm2835-unicam.c b/drivers/media/platform/bcm2835/bcm2835-unicam.c
-> > > new file mode 100644
-> > > index 000000000000..2e9387cbc1e0
-> > > --- /dev/null
-> > > +++ b/drivers/media/platform/bcm2835/bcm2835-unicam.c
-> > > @@ -0,0 +1,2825 @@
->
-> [snip]
->
-> > > +static int unicam_enum_frameintervals(struct file *file, void *priv,
-> > > +                                 struct v4l2_frmivalenum *fival)
-> > > +{
-> > > +   struct unicam_node *node = video_drvdata(file);
-> > > +   struct unicam_device *dev = node->dev;
-> > > +   const struct unicam_fmt *fmt;
-> > > +   struct v4l2_subdev_frame_interval_enum fie = {
-> > > +           .index = fival->index,
-> > > +           .width = fival->width,
-> > > +           .height = fival->height,
-> > > +           .which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> > > +   };
-> > > +   int ret;
-> > > +
-> > > +   fmt = find_format_by_pix(dev, fival->pixel_format);
-> > > +   if (!fmt)
-> > > +           return -EINVAL;
-> > > +
-> > > +   fie.code = fmt->code;
-> > > +   ret = v4l2_subdev_call(dev->sensor, pad, enum_frame_interval,
-> > > +                          NULL, &fie);
-> >
-> > You're adding a new CSI-2 receiver driver but your driver appears to be
-> > video node centric and does not use MC / V4L2 subdev uAPIs for pipeline
-> > configuration.
-> >
-> > This is effectively needed if you want to be able to capture embedded data.
-> >
-> > I'd also recommend it since this way the driver will be compliant with all
-> > camera sensor drivers, not just those that expose a single sub-device.
-> > There are no good ways to change this once your driver is in upstream
-> > kernel.
-> >
-> > This is also why e.g. ipu3-cio2 driver is MC-centric.
->
-> I've had lengthy discussions with Dave on this topic. While I agree with
-> you in principle, Dave had good arguments for keeping this
-> video-node-centric. We all agreed it wasn't a perfect solution, but it
-> could still be a pragmatic one.
->
-> If I remember correctly the discussion was in private e-mails though.
-> Dave, I'm pretty sure you're tired of repeating the same thing, but
-> Sakari can't be expected to know all we've talked about. I can try to
-> summarize your points, but I may not do a very good job at defending
-> your point of view given that I wish you would be wrong :-) Would you
-> like to summarize your position, or should I give it a go ?
+So, instead, implement a simple tone generator, changing
+the code to play a public domain song (5th Symphony of
+Beethoven), using sinusoidal waves.
 
-One previous thread was on libcamera-devel -
-https://lists.libcamera.org/pipermail/libcamera-devel/2020-February/006789.html
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../media/test-drivers/vidtv/vidtv_encoder.h  |  70 ++++++++++++
+ .../media/test-drivers/vidtv/vidtv_s302m.c    | 104 ++++++++++++++++--
+ 2 files changed, 165 insertions(+), 9 deletions(-)
 
-The main stumbling point is the lack of userspace support for MC in
-the normal applications like GStreamer and FFmpeg? Or even in simpler
-apps like fswebcam or qv4l2?
-AFACIT None of them can set the resolution via MC. Surely that's one
-of the most fundamental operations.
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_encoder.h b/drivers/media/test-drivers/vidtv/vidtv_encoder.h
+index 6da63abdddea..a7c99cafab4f 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_encoder.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_encoder.h
+@@ -28,6 +28,73 @@ struct vidtv_access_unit {
+ 	struct vidtv_access_unit *next;
+ };
+ 
++/* Some musical notes, used by a tone generator */
++enum musical_notes {
++	NOTE_SILENT = 0,
++
++	NOTE_C_2 = 65,
++	NOTE_CS_2 = 69,
++	NOTE_D_2 = 73,
++	NOTE_DS_2 = 78,
++	NOTE_E_2 = 82,
++	NOTE_F_2 = 87,
++	NOTE_FS_2 = 93,
++	NOTE_G_2 = 98,
++	NOTE_GS_2 = 104,
++	NOTE_A_2 = 110,
++	NOTE_AS_2 = 117,
++	NOTE_B_2 = 123,
++	NOTE_C_3 = 131,
++	NOTE_CS_3 = 139,
++	NOTE_D_3 = 147,
++	NOTE_DS_3 = 156,
++	NOTE_E_3 = 165,
++	NOTE_F_3 = 175,
++	NOTE_FS_3 = 185,
++	NOTE_G_3 = 196,
++	NOTE_GS_3 = 208,
++	NOTE_A_3 = 220,
++	NOTE_AS_3 = 233,
++	NOTE_B_3 = 247,
++	NOTE_C_4 = 262,
++	NOTE_CS_4 = 277,
++	NOTE_D_4 = 294,
++	NOTE_DS_4 = 311,
++	NOTE_E_4 = 330,
++	NOTE_F_4 = 349,
++	NOTE_FS_4 = 370,
++	NOTE_G_4 = 392,
++	NOTE_GS_4 = 415,
++	NOTE_A_4 = 440,
++	NOTE_AS_4 = 466,
++	NOTE_B_4 = 494,
++	NOTE_C_5 = 523,
++	NOTE_CS_5 = 554,
++	NOTE_D_5 = 587,
++	NOTE_DS_5 = 622,
++	NOTE_E_5 = 659,
++	NOTE_F_5 = 698,
++	NOTE_FS_5 = 740,
++	NOTE_G_5 = 784,
++	NOTE_GS_5 = 831,
++	NOTE_A_5 = 880,
++	NOTE_AS_5 = 932,
++	NOTE_B_5 = 988,
++	NOTE_C_6 = 1047,
++	NOTE_CS_6 = 1109,
++	NOTE_D_6 = 1175,
++	NOTE_DS_6 = 1245,
++	NOTE_E_6 = 1319,
++	NOTE_F_6 = 1397,
++	NOTE_FS_6 = 1480,
++	NOTE_G_6 = 1568,
++	NOTE_GS_6 = 1661,
++	NOTE_A_6 = 1760,
++	NOTE_AS_6 = 1865,
++	NOTE_B_6 = 1976,
++	NOTE_C_7 = 2093
++};
++
+ /**
+  * struct vidtv_encoder - A generic encoder type.
+  * @id: So we can cast to a concrete implementation when needed.
+@@ -64,6 +131,9 @@ struct vidtv_encoder {
+ 	u32 encoder_buf_offset;
+ 
+ 	u64 sample_count;
++	int last_duration;
++	int note_offset;
++	enum musical_notes last_tone;
+ 
+ 	struct vidtv_access_unit *access_units;
+ 
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+index 2a40ef15f715..122a450fb27c 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+@@ -40,6 +40,9 @@
+ #define S302M_BLOCK_SZ 192
+ #define S302M_SIN_LUT_NUM_ELEM 1024
+ 
++/* Used by the tone generator: number of samples for PI */
++#define PI		180
++
+ static const u8 reverse[256] = {
+ 	/* from ffmpeg */
+ 	0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0, 0x10, 0x90, 0x50, 0xD0,
+@@ -66,10 +69,74 @@ static const u8 reverse[256] = {
+ 	0x3F, 0xBF, 0x7F, 0xFF,
+ };
+ 
+-/* Used by the tone generator */
+-#define SAMPLE_RATE	48000
+-#define PI		180
+-#define NOTE_A4		440
++struct tone_duration {
++	enum musical_notes note;
++	int duration;
++};
++
++#define COMPASS 120		/* beats per minute (Allegro) */
++const static struct tone_duration beethoven_5th_symphony[] = {
++	{ NOTE_E_6, 128},  { NOTE_DS_6, 128}, { NOTE_E_6, 128},
++	{ NOTE_DS_6, 128}, { NOTE_E_6, 128},  { NOTE_B_5, 128},
++	{ NOTE_D_6, 128},  { NOTE_C_6, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_C_5, 128},
++	{ NOTE_E_5, 128},  { NOTE_A_5, 128},  { NOTE_E_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_GS_4, 128}, { NOTE_E_5, 128},
++	{ NOTE_GS_5, 128}, { NOTE_B_5, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_E_5, 128},
++	{ NOTE_E_6, 128},  { NOTE_DS_6, 128}, { NOTE_E_6, 128},
++	{ NOTE_DS_6, 128}, { NOTE_E_6, 128},  { NOTE_B_5, 128},
++	{ NOTE_D_6, 128},  { NOTE_C_6, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_C_5, 128},
++	{ NOTE_E_5, 128},  { NOTE_A_5, 128},  { NOTE_E_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_GS_4, 128}, { NOTE_E_5, 128},
++	{ NOTE_C_6, 128},  { NOTE_B_5, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_SILENT, 128},
++
++	{ NOTE_E_6, 128},  { NOTE_DS_6, 128}, { NOTE_E_6, 128},
++	{ NOTE_DS_6, 128}, { NOTE_E_6, 128},  { NOTE_B_5, 128},
++	{ NOTE_D_6, 128},  { NOTE_C_6, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_C_5, 128},
++	{ NOTE_E_5, 128},  { NOTE_A_5, 128},  { NOTE_E_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_GS_4, 128}, { NOTE_E_5, 128},
++	{ NOTE_GS_5, 128}, { NOTE_B_5, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_E_5, 128},
++	{ NOTE_E_6, 128},  { NOTE_DS_6, 128}, { NOTE_E_6, 128},
++	{ NOTE_DS_6, 128}, { NOTE_E_6, 128},  { NOTE_B_5, 128},
++	{ NOTE_D_6, 128},  { NOTE_C_6, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_C_5, 128},
++	{ NOTE_E_5, 128},  { NOTE_A_5, 128},  { NOTE_E_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_GS_4, 128}, { NOTE_E_5, 128},
++	{ NOTE_C_6, 128},  { NOTE_B_5, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_B_4, 128},
++	{ NOTE_C_5, 128},  { NOTE_D_5, 128},  { NOTE_C_4, 128},
++	{ NOTE_G_4, 128},  { NOTE_C_5, 128},  { NOTE_G_4, 128},
++	{ NOTE_F_5, 128},  { NOTE_E_5, 128},  { NOTE_G_3, 128},
++	{ NOTE_G_4, 128},  { NOTE_B_3, 128},  { NOTE_F_4, 128},
++	{ NOTE_E_5, 128},  { NOTE_D_5, 128},  { NOTE_A_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_A_4, 128},  { NOTE_E_4, 128},
++	{ NOTE_D_5, 128},  { NOTE_C_5, 128},  { NOTE_E_3, 128},
++	{ NOTE_E_4, 128},  { NOTE_E_5, 255},  { NOTE_E_6, 128},
++	{ NOTE_E_5, 128},  { NOTE_E_6, 128},  { NOTE_E_5, 255},
++	{ NOTE_DS_5, 128}, { NOTE_E_5, 128},  { NOTE_DS_6, 128},
++	{ NOTE_E_6, 128},  { NOTE_DS_5, 128}, { NOTE_E_5, 128},
++	{ NOTE_DS_6, 128}, { NOTE_E_6, 128},  { NOTE_DS_6, 128},
++	{ NOTE_E_6, 128},  { NOTE_DS_6, 128}, { NOTE_E_6, 128},
++	{ NOTE_B_5, 128},  { NOTE_D_6, 128},  { NOTE_C_6, 128},
++	{ NOTE_A_3, 128},  { NOTE_E_4, 128},  { NOTE_A_4, 128},
++	{ NOTE_C_5, 128},  { NOTE_E_5, 128},  { NOTE_A_5, 128},
++	{ NOTE_E_3, 128},  { NOTE_E_4, 128},  { NOTE_GS_4, 128},
++	{ NOTE_E_5, 128},  { NOTE_GS_5, 128}, { NOTE_B_5, 128},
++	{ NOTE_A_3, 128},  { NOTE_E_4, 128},  { NOTE_A_4, 128},
++	{ NOTE_E_5, 128},  { NOTE_E_6, 128},  { NOTE_DS_6, 128},
++	{ NOTE_E_6, 128},  { NOTE_DS_6, 128}, { NOTE_E_6, 128},
++	{ NOTE_B_5, 128},  { NOTE_D_6, 128},  { NOTE_C_6, 128},
++	{ NOTE_A_3, 128},  { NOTE_E_4, 128},  { NOTE_A_4, 128},
++	{ NOTE_C_5, 128},  { NOTE_E_5, 128},  { NOTE_A_5, 128},
++	{ NOTE_E_3, 128},  { NOTE_E_4, 128},  { NOTE_GS_4, 128},
++	{ NOTE_E_5, 128},  { NOTE_C_6, 128},  { NOTE_B_5, 128},
++	{ NOTE_C_5, 255},  { NOTE_C_5, 255},  { NOTE_SILENT, 512},
++};
+ 
+ static struct vidtv_access_unit *vidtv_s302m_access_unit_init(struct vidtv_access_unit *head)
+ {
+@@ -187,15 +254,33 @@ static u16 vidtv_s302m_get_sample(struct vidtv_encoder *e)
+ 
+ 	if (!e->src_buf) {
+ 		/*
+-		 * Simple tone generator. For now, just generates a 440 Hz
+-		 * sinusoidal wave.
++		 * Simple tone generator: play the tones at the
++		 * beethoven_5th_symphony array.
+ 		 */
+-		pos = (2 * PI * e->src_buf_offset * NOTE_A4 / SAMPLE_RATE);
++		if (e->last_duration <= 0) {
++			if (e->src_buf_offset >= ARRAY_SIZE(beethoven_5th_symphony))
++				e->src_buf_offset = 0;
+ 
+-		if (pos == 360)
++			e->last_tone = beethoven_5th_symphony[e->src_buf_offset].note;
++			e->last_duration = beethoven_5th_symphony[e->src_buf_offset].duration * S302M_SAMPLING_RATE_HZ / COMPASS / 5;
++			e->src_buf_offset++;
++			e->note_offset = 0;
++		} else {
++			e->last_duration--;
++		}
++
++		/* Handle silent */
++		if (!e->last_tone) {
+ 			e->src_buf_offset = 0;
++			return 0x8000;
++		}
++
++		pos = (2 * PI * e->note_offset * e->last_tone / S302M_SAMPLING_RATE_HZ);
++
++		if (pos == 360)
++			e->note_offset = 0;
+ 		else
+-			e->src_buf_offset++;
++			e->note_offset++;
+ 
+ 		return (fixp_sin32(pos % (2 * PI)) >> 16) + 0x8000;
+ 	}
+@@ -388,6 +473,7 @@ struct vidtv_encoder
+ 	e->encoder_buf_offset = 0;
+ 
+ 	e->sample_count = 0;
++	e->last_duration = 0;
+ 
+ 	e->src_buf = (args.src_buf) ? args.src_buf : NULL;
+ 	e->src_buf_sz = (args.src_buf) ? args.src_buf_sz : 0;
+-- 
+2.26.2
 
-The main devices I've got working are:
-- ov5647 (5MPix Bayer)
-- imx219 (8MPix Bayer)
-- imx477 (12MPix Bayer)
-- imx290/327 (1080p global shutter Bayer or mono)
-- ov9281 (1MPix global shutter Bayer or mono)
-- ov7251 (0.31MPix global shutter)
-- tc358743 (HDMI to CSI-2 bridge)
-- adv7282m (analogue video to CSI2 bridge)
-
-None need MC for any of their functionality, and I've yet to really
-see a driver that does (perhaps I've just missed them).
-
-tc358743 & adv7282 are slightly odd in that setting the timing or
-standard sets the capture resolution. Conveying that configuration
-path to users is bad enough, and it isn't brilliantly supported by
-apps.
-
-For the sensor modules from a user's perspective having to invoke
-media-ctl to set the resolution before starting GStreamer or FFmpeg
-sucks. Why are we forcing them down that route?
-If video-node-centric then a GStreamer pipeline along the lines of
-gst-launch-1.0 -e v4l2src ! "video/x-raw,width=W,height=H,format=Y10P"
-! v4l2convert ! "video/x-raw,width=W,height=H,format=I420" ! <some
-sink>
-just works and can set everything up. Same with FFmpeg.
-There isn't an equivalent one-line pipeline in an MC-centric world
-that can set the resolution.
-
-libcamera starts to address that restriction, but isn't applicable for
-tc358743 or adv7282, and potentially only limited use for mono sensors
-(eg users want low latency to some machine vision library).
-So, unless I've missed something, if we adopt MC it makes libcamera
-practically mandatory for all Bayer sensors, and we force users of
-those other devices into an additional API with manual configuration
-as none of the apps support it.
-
-Unicam doesn't have any significant processing stages hidden within
-it, only unpacking raw formats to 16bpp which is handled via pixel
-formats. Otherwise it purely takes the data from the CSI2/CCP2 bus and
-writes it to SDRAM.
-MC is there for the complex pipelines, but we have a simple one!
-
-
-Can you be the sales-person for MC here and tell me what problem it
-actually solves for the user in my case? I've had this driver kicking
-around in our tree for a while, so to make the change to MC means I
-need to justify it to users, and provide them the tools to do the same
-as they currently can. At present I can't do that.
-A quick look at the docs says the MC API has been finalised since
-around 4.8 by the looks of it, so nearly 4 years. IMHO For none of the
-main userspace apps to handle it says a huge amount. Sorry.
-
-
-If there was a clear way of implementing sufficient MC support within
-GStreamer and FFmpeg and there was someone willing to take on the
-work, then I could see if I can get my bosses to pay to subcontract
-the work and get it upstreamed (we don't want to be maintaining
-patches to those apps). Of course that still leaves a million and one
-other apps out there which won't work.
-
-(Thinking out loud. If there is only one link in the graph that
-terminates in the appropriate /dev/video node, then try setting the
-resolution on that? Would that cover it? Does it cover it for the
-simple cases on other hardware? Would it be acceptable to GStreamer
-and FFmpeg? Have we just introduced the mapping table between MBUS
-formats and V4L2_PIX_FMT_xxx into both apps? All these questions!)
-
-> > > +   if (ret)
-> > > +           return ret;
-> > > +
-> > > +   fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
-> > > +   fival->discrete = fie.interval;
-> > > +
-> > > +   return 0;
-> > > +}
->
-> [snip]
->
-> > > +static int register_node(struct unicam_device *unicam, struct unicam_node *node,
-> > > +                    enum v4l2_buf_type type, int pad_id)
-> > > +{
->
-> [snip]
->
-> > > +   if (pad_id != METADATA_PAD || unicam->sensor_embedded_data) {
-> > > +           ret = media_create_pad_link(&unicam->sensor->entity, pad_id,
-> > > +                                       &node->video_dev.entity, 0,
-> > > +                                       MEDIA_LNK_FL_ENABLED |
-> > > +                                       MEDIA_LNK_FL_IMMUTABLE);
-> >
-> > This does create two links between the sensor and the CSI-2 receiver,
-> > doesn't it?
-> >
-> > The links in Media controller represent physical links, not logical flows
-> > of data. At the time the API was added, it wasn't thought there would be a
-> > need to separate the two.
-> >
-> > There is an effort to add the concept of data flow to V4L2, but it's been
-> > complicated and we haven't had patches for the CSI-2 receiver driver to
-> > support it. Perhaps Unicam could be the first one to do that?
->
-> I agree that this is the right approach. The V4L2 multiplexed streams
-> support seems to be one of these cursed series, where bad things happen
-> to anyone who touches it. I was about to actively start working on it
-> again back in June for a different project, which then got frozen at the
-> last minute :-S
->
-> Would you like to give it a try ? :-) I'd be more than happy to provide
-> you hardware as a present.
-
-If you want hardware then we can provide it and save Laurent's wallet.
-Email me an address and phone number (our couriers now insist on it)
-and I can get some sorted.
-
-> > Alternatively support for embedded data could be removed in the meantime.
-
-If that's what it takes, then OK, but using embedded data removes the
-guesswork from knowing the gain and exposures actually used, and so
-avoids oscillations. Some sensors don't support embedded data so you
-have to guess, but it's a shame if it is available and it can't be
-used.
-
-I'm between a rock and a hard place:
-- Libcamera wants platforms to be supported on mainline kernels (or at
-least submitted to the list)
-- But there isn't a framework available to let us do what is needed,
-and I don't know enough of the history and use cases to really work on
-it directly.
-How to satisfy everyone? :-/
-
-Alternatively I end up with a driver that has a flag to switch between
-MC-centric and video-device-centric modes (I would say a DT flag, but
-would it get past the DT maintainers as it isn't describing the
-hardware?)
-- If you want libcamera and embedded data then go MC and you have to
-jump through hoops to set up resolution.
-- If you don't want libcamera or embedded data then go video-centric
-and use all the tools you're used to.
-Possible, but there are going to be so many conditionals dotted around
-it would get ugly.
-
-Enough rambling from me. Thanks for your time in reviewing this lot -
-hopefully we can find a way forward.
-
-   Dave
-
-> > The latest patchset is here I believe:
-> >
-> > <URL:https://patchwork.kernel.org/project/linux-media/list/?series=98277>
-> >
-> > > +           if (ret)
-> > > +                   unicam_err(unicam, "Unable to create pad link for %s\n",
-> > > +                              vdev->name);
-> > > +   }
-> > > +
-> > > +   return ret;
-> > > +}
->
-> --
-> Regards,
->
-> Laurent Pinchart
