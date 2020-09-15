@@ -2,83 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EE2526A98C
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 18:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6D7E26AA1D
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 18:54:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727584AbgIOQRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 12:17:18 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37152 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727610AbgIOQQO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 12:16:14 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BCE3276;
-        Tue, 15 Sep 2020 18:12:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600186327;
-        bh=yWcHzfZaIL+JJoYu6WgRXH1lmt2hAIodJaLy5+l5lQ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WixtAFmwupVy7MRyDTZqdZRI02yRepxuWJ4yPMNnxeJtBh+AktZupVFYDc6j/uPZv
-         l1VpY8FBzuH0HnIh/pcPbkaK060agSmlL6VBG9R3sca6dF87vJkU+nP2QN7Zg3Jrhk
-         Z6YpX097SeLzHq2RkY1wMphh7PvJZUGsMYtNd14U=
-Date:   Tue, 15 Sep 2020 19:11:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/3] MAINTAINERS: Add Fabrizio Castro to Renesas DRIF
-Message-ID: <20200915161138.GB26029@pendragon.ideasonboard.com>
-References: <20200915131216.21137-1-fabrizio.castro.jz@renesas.com>
- <20200915131216.21137-2-fabrizio.castro.jz@renesas.com>
+        id S1727729AbgIOQxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 12:53:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42272 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727791AbgIOQtC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Sep 2020 12:49:02 -0400
+Received: from coco.lan (ip5f5ad5a5.dynamic.kabel-deutschland.de [95.90.213.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0C3B620809;
+        Tue, 15 Sep 2020 16:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600188476;
+        bh=oAXHI568oWBa/lKZ9N6fvqRmWCvqMCh6HsYhxn9dX2g=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=P/SE13b6SGRoIOu+jgx5Cdd6URPeUochvQNV0+PgrY9BdqS01jpGP+6DWTB12/DhN
+         4AD5IHPv3Jrvzmje2A9HG+yCXEDwRiINQriZOPxE6dQZO/dgmvPHpgzy27zkq/PPja
+         xynj4vRqPR7iG//LZoSPjFCY6y1rQkBGWkrM3VnM=
+Date:   Tue, 15 Sep 2020 18:47:51 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: linux-next: Tree for Sep 15 (drivers/media/test-drivers/vidtv/)
+Message-ID: <20200915184751.2d680848@coco.lan>
+In-Reply-To: <55ef0376-7809-c875-5dcc-5bb46d6204df@infradead.org>
+References: <20200915174932.3aa7d103@canb.auug.org.au>
+        <55ef0376-7809-c875-5dcc-5bb46d6204df@infradead.org>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200915131216.21137-2-fabrizio.castro.jz@renesas.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabrizio,
+Hi Randy,
 
-Thank you for the patch.
+Em Tue, 15 Sep 2020 09:33:14 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-On Tue, Sep 15, 2020 at 02:12:14PM +0100, Fabrizio Castro wrote:
-> Renesas are expanding their DRIF support and offering,
-> I'll be the internal maintainer for DRIF.
+> On 9/15/20 12:49 AM, Stephen Rothwell wrote:
+> > Hi all,
+> > 
+> > Changes since 20200914:
+> > 
+> > The v4l-dvb tree lost its build failure.
+> >   
 > 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-
-Thank you for volunteering :-)
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+> media driver build problems on i386:
+> gcc (SUSE Linux) 7.5.0
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 26af84f97353..9f49e5ac90d8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10898,6 +10898,7 @@ F:	include/media/drv-intf/renesas-ceu.h
->  
->  MEDIA DRIVERS FOR RENESAS - DRIF
->  M:	Ramesh Shanmugasundaram <rashanmu@gmail.com>
-> +M:	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
->  L:	linux-media@vger.kernel.org
->  L:	linux-renesas-soc@vger.kernel.org
->  S:	Supported
+> build#1:
+> 
+> ERROR: modpost: "__udivdi3" [drivers/media/test-drivers/vidtv/dvb-vidtv-bridge.ko] undefined!
+> 
+> build#2:
+> 
+> ld: drivers/media/test-drivers/vidtv/vidtv_s302m.o: in function `vidtv_s302m_encode':
+> vidtv_s302m.c:(.text+0x1f3): undefined reference to `__udivdi3'
+> ld: drivers/media/test-drivers/vidtv/vidtv_mux.o: in function `vidtv_mux_tick':
+> vidtv_mux.c:(.text+0x3ee): undefined reference to `__udivdi3'
+> ld: vidtv_mux.c:(.text+0x40b): undefined reference to `__udivdi3'
 
--- 
-Regards,
+Geert already pointed those issues.
 
-Laurent Pinchart
+Daniel should be working on a fix. Hopefully we'll have a fixup patch
+tomorrow.
+Thanks,
+Mauro
