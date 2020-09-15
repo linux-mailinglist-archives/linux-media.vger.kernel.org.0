@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 779D726B0C7
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 00:19:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19DF326B14B
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 00:28:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727443AbgIOWT1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 18:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52954 "EHLO
+        id S1727743AbgIOW2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 18:28:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727690AbgIOQ3r (ORCPT
+        with ESMTP id S1727636AbgIOQTx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 12:29:47 -0400
+        Tue, 15 Sep 2020 12:19:53 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543DBC061A10;
-        Tue, 15 Sep 2020 09:11:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0ECC061A32;
+        Tue, 15 Sep 2020 09:18:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=I03vZyMCQXixsKgB+vAi29QqwSDPgVkGV9+ViaS1CMg=; b=DkmB3YTM4x4P/03PR0YpgL495M
-        EfAecJ6/RbGViN36w0QSd/Tr391/7C3qp+8l6E51mioxfYFEf84qweB7rrRnnk+XS4NrRJAxVL9or
-        eM1zmit6nOvg6b55NFhpo114VioVSvnslqOCa1VQJwriMKfnb1O5WFoJuez65V/sByOexHLk1aG12
-        kIJoLn37eUqAXIXtLeRRXw1BLM962vL4dorybD0panUqncIhUNKnleKBHKVtAPesBxrCrYXQozSDG
-        Ht+YUL90n+pvTplQ82CtOCFOCta92rwWzKpTg+cQVDksvP2loDwB8A2oyP92wwnyQJsL9Bj01w7CB
-        wY2hcvmw==;
+        bh=YyUYJJvCAvZ+Ejy09p/bfqb5Ir+B3+nId2ZgsdVDN6s=; b=lTlWz6dY2/M2EtVz4ZyqbMyvxc
+        CO32EPAbfoFEB7TEOcfVHb6ewtzIV93i/6CDOBHysyXd7KnLCBuxRbg1wpCUqS6963tMaP4NLDKIU
+        aqEcM6i+1GSMqZAhZU8hdQodIqDfecSvdFQM3TmuH9ZUZt6R3MQPpatMCAHAnXiocKwXsbpJ0LECq
+        l629t+qjp80PU0ra0t+w/sq5O1BwCWbpktibS3BPRKrC7+4H8BnD71J8TpGlJKRcWPP5TJkgchvzW
+        +51/TGzfRwH+Rc2cvjYRJFbk2vrbsuQ/bvr2SWuB+a7o7pujwDgXe/yi34kTPTsFQBeE8xiqauzvt
+        lfgEH6Ng==;
 Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIDXq-0004bk-Fp; Tue, 15 Sep 2020 16:11:02 +0000
+        id 1kIDeB-00054b-NE; Tue, 15 Sep 2020 16:17:35 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -47,9 +47,9 @@ Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
         nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org
-Subject: [PATCH 08/18] dma-mapping: add a new dma_alloc_noncoherent API
-Date:   Tue, 15 Sep 2020 17:51:12 +0200
-Message-Id: <20200915155122.1768241-9-hch@lst.de>
+Subject: [PATCH 11/18] lib82596: convert to dma_alloc_noncoherent
+Date:   Tue, 15 Sep 2020 17:51:15 +0200
+Message-Id: <20200915155122.1768241-12-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
 References: <20200915155122.1768241-1-hch@lst.de>
@@ -61,155 +61,441 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a new API to allocate and free memory that is guaranteed to be
-addressable by a device, but which potentially is not cache coherent
-for DMA.
-
-To transfer ownership to and from the device, the existing streaming
-DMA API calls dma_sync_single_for_device and dma_sync_single_for_cpu
-must be used.
-
-For now the new calls are implemented on top of dma_alloc_attrs just
-like the old-noncoherent API, but once all drivers are switched to
-the new API it will be replaced with a better working implementation
-that is available on all architectures.
+Use the new non-coherent DMA API including proper ownership transfers.
+This includes moving the DMA helpers to lib82596 based of an ifdef to
+avoid include order problems.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- Documentation/core-api/dma-api.rst | 75 ++++++++++++++----------------
- include/linux/dma-mapping.h        | 12 +++++
- 2 files changed, 48 insertions(+), 39 deletions(-)
+ drivers/net/ethernet/i825xx/lasi_82596.c |  25 ++---
+ drivers/net/ethernet/i825xx/lib82596.c   | 114 ++++++++++++++---------
+ drivers/net/ethernet/i825xx/sni_82596.c  |   4 -
+ 3 files changed, 80 insertions(+), 63 deletions(-)
 
-diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-index 90239348b30f6f..ea0413276ddb70 100644
---- a/Documentation/core-api/dma-api.rst
-+++ b/Documentation/core-api/dma-api.rst
-@@ -516,48 +516,56 @@ routines, e.g.:::
+diff --git a/drivers/net/ethernet/i825xx/lasi_82596.c b/drivers/net/ethernet/i825xx/lasi_82596.c
+index a12218e940a2fa..96c6f4f36904ed 100644
+--- a/drivers/net/ethernet/i825xx/lasi_82596.c
++++ b/drivers/net/ethernet/i825xx/lasi_82596.c
+@@ -96,21 +96,14 @@
+ 
+ #define OPT_SWAP_PORT	0x0001	/* Need to wordswp on the MPU port */
+ 
+-#define DMA_WBACK(ndev, addr, len) \
+-	do { dma_cache_sync((ndev)->dev.parent, (void *)addr, len, DMA_TO_DEVICE); } while (0)
+-
+-#define DMA_INV(ndev, addr, len) \
+-	do { dma_cache_sync((ndev)->dev.parent, (void *)addr, len, DMA_FROM_DEVICE); } while (0)
+-
+-#define DMA_WBACK_INV(ndev, addr, len) \
+-	do { dma_cache_sync((ndev)->dev.parent, (void *)addr, len, DMA_BIDIRECTIONAL); } while (0)
+-
+ #define SYSBUS      0x0000006c
+ 
+ /* big endian CPU, 82596 "big" endian mode */
+ #define SWAP32(x)   (((u32)(x)<<16) | ((((u32)(x)))>>16))
+ #define SWAP16(x)   (x)
+ 
++#define NONCOHERENT_DMA 1
++
+ #include "lib82596.c"
+ 
+ MODULE_AUTHOR("Richard Hirst");
+@@ -184,9 +177,9 @@ lan_init_chip(struct parisc_device *dev)
+ 
+ 	lp = netdev_priv(netdevice);
+ 	lp->options = dev->id.sversion == 0x72 ? OPT_SWAP_PORT : 0;
+-	lp->dma = dma_alloc_attrs(&dev->dev, sizeof(struct i596_dma),
+-			      &lp->dma_addr, GFP_KERNEL,
+-			      DMA_ATTR_NON_CONSISTENT);
++	lp->dma = dma_alloc_noncoherent(&dev->dev,
++			sizeof(struct i596_dma), &lp->dma_addr,
++			DMA_BIDIRECTIONAL, GFP_KERNEL);
+ 	if (!lp->dma)
+ 		goto out_free_netdev;
+ 
+@@ -196,8 +189,8 @@ lan_init_chip(struct parisc_device *dev)
+ 	return 0;
+ 
+ out_free_dma:
+-	dma_free_attrs(&dev->dev, sizeof(struct i596_dma), lp->dma,
+-			lp->dma_addr, DMA_ATTR_NON_CONSISTENT);
++	dma_free_noncoherent(&dev->dev, sizeof(struct i596_dma),
++		       lp->dma, lp->dma_addr, DMA_BIDIRECTIONAL);
+ out_free_netdev:
+ 	free_netdev(netdevice);
+ 	return retval;
+@@ -209,8 +202,8 @@ static int __exit lan_remove_chip(struct parisc_device *pdev)
+ 	struct i596_private *lp = netdev_priv(dev);
+ 
+ 	unregister_netdev (dev);
+-	dma_free_attrs(&pdev->dev, sizeof(struct i596_private), lp->dma,
+-		       lp->dma_addr, DMA_ATTR_NON_CONSISTENT);
++	dma_free_noncoherent(&pdev->dev, sizeof(struct i596_private), lp->dma,
++		       lp->dma_addr, DMA_BIDIRECTIONAL);
+ 	free_netdev (dev);
+ 	return 0;
+ }
+diff --git a/drivers/net/ethernet/i825xx/lib82596.c b/drivers/net/ethernet/i825xx/lib82596.c
+index b4e4b3eb5758b5..ca2fb303fcc6f6 100644
+--- a/drivers/net/ethernet/i825xx/lib82596.c
++++ b/drivers/net/ethernet/i825xx/lib82596.c
+@@ -365,13 +365,44 @@ static int max_cmd_backlog = TX_RING_SIZE-1;
+ static void i596_poll_controller(struct net_device *dev);
+ #endif
+ 
++static inline dma_addr_t virt_to_dma(struct i596_private *lp, volatile void *v)
++{
++	return lp->dma_addr + ((unsigned long)v - (unsigned long)lp->dma);
++}
++
++#ifdef NONCOHERENT_DMA
++static inline void dma_sync_dev(struct net_device *ndev, volatile void *addr,
++		size_t len)
++{
++	dma_sync_single_for_device(ndev->dev.parent,
++			virt_to_dma(netdev_priv(ndev), addr), len,
++			DMA_BIDIRECTIONAL);
++}
++
++static inline void dma_sync_cpu(struct net_device *ndev, volatile void *addr,
++		size_t len)
++{
++	dma_sync_single_for_cpu(ndev->dev.parent,
++			virt_to_dma(netdev_priv(ndev), addr), len,
++			DMA_BIDIRECTIONAL);
++}
++#else
++static inline void dma_sync_dev(struct net_device *ndev, volatile void *addr,
++		size_t len)
++{
++}
++static inline void dma_sync_cpu(struct net_device *ndev, volatile void *addr,
++		size_t len)
++{
++}
++#endif /* NONCOHERENT_DMA */
+ 
+ static inline int wait_istat(struct net_device *dev, struct i596_dma *dma, int delcnt, char *str)
+ {
+-	DMA_INV(dev, &(dma->iscp), sizeof(struct i596_iscp));
++	dma_sync_cpu(dev, &(dma->iscp), sizeof(struct i596_iscp));
+ 	while (--delcnt && dma->iscp.stat) {
+ 		udelay(10);
+-		DMA_INV(dev, &(dma->iscp), sizeof(struct i596_iscp));
++		dma_sync_cpu(dev, &(dma->iscp), sizeof(struct i596_iscp));
+ 	}
+ 	if (!delcnt) {
+ 		printk(KERN_ERR "%s: %s, iscp.stat %04x, didn't clear\n",
+@@ -384,10 +415,10 @@ static inline int wait_istat(struct net_device *dev, struct i596_dma *dma, int d
+ 
+ static inline int wait_cmd(struct net_device *dev, struct i596_dma *dma, int delcnt, char *str)
+ {
+-	DMA_INV(dev, &(dma->scb), sizeof(struct i596_scb));
++	dma_sync_cpu(dev, &(dma->scb), sizeof(struct i596_scb));
+ 	while (--delcnt && dma->scb.command) {
+ 		udelay(10);
+-		DMA_INV(dev, &(dma->scb), sizeof(struct i596_scb));
++		dma_sync_cpu(dev, &(dma->scb), sizeof(struct i596_scb));
+ 	}
+ 	if (!delcnt) {
+ 		printk(KERN_ERR "%s: %s, status %4.4x, cmd %4.4x.\n",
+@@ -451,12 +482,9 @@ static void i596_display_data(struct net_device *dev)
+ 		       SWAP32(rbd->b_data), SWAP16(rbd->size));
+ 		rbd = rbd->v_next;
+ 	} while (rbd != lp->rbd_head);
+-	DMA_INV(dev, dma, sizeof(struct i596_dma));
++	dma_sync_cpu(dev, dma, sizeof(struct i596_dma));
+ }
+ 
+-
+-#define virt_to_dma(lp, v) ((lp)->dma_addr + (dma_addr_t)((unsigned long)(v)-(unsigned long)((lp)->dma)))
+-
+ static inline int init_rx_bufs(struct net_device *dev)
+ {
+ 	struct i596_private *lp = netdev_priv(dev);
+@@ -508,7 +536,7 @@ static inline int init_rx_bufs(struct net_device *dev)
+ 	rfd->b_next = SWAP32(virt_to_dma(lp, dma->rfds));
+ 	rfd->cmd = SWAP16(CMD_EOL|CMD_FLEX);
+ 
+-	DMA_WBACK_INV(dev, dma, sizeof(struct i596_dma));
++	dma_sync_dev(dev, dma, sizeof(struct i596_dma));
+ 	return 0;
+ }
+ 
+@@ -547,7 +575,7 @@ static void rebuild_rx_bufs(struct net_device *dev)
+ 	lp->rbd_head = dma->rbds;
+ 	dma->rfds[0].rbd = SWAP32(virt_to_dma(lp, dma->rbds));
+ 
+-	DMA_WBACK_INV(dev, dma, sizeof(struct i596_dma));
++	dma_sync_dev(dev, dma, sizeof(struct i596_dma));
+ }
+ 
+ 
+@@ -575,9 +603,9 @@ static int init_i596_mem(struct net_device *dev)
+ 
+ 	DEB(DEB_INIT, printk(KERN_DEBUG "%s: starting i82596.\n", dev->name));
+ 
+-	DMA_WBACK(dev, &(dma->scp), sizeof(struct i596_scp));
+-	DMA_WBACK(dev, &(dma->iscp), sizeof(struct i596_iscp));
+-	DMA_WBACK(dev, &(dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(dma->scp), sizeof(struct i596_scp));
++	dma_sync_dev(dev, &(dma->iscp), sizeof(struct i596_iscp));
++	dma_sync_dev(dev, &(dma->scb), sizeof(struct i596_scb));
+ 
+ 	mpu_port(dev, PORT_ALTSCP, virt_to_dma(lp, &dma->scp));
+ 	ca(dev);
+@@ -596,24 +624,24 @@ static int init_i596_mem(struct net_device *dev)
+ 	rebuild_rx_bufs(dev);
+ 
+ 	dma->scb.command = 0;
+-	DMA_WBACK(dev, &(dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(dma->scb), sizeof(struct i596_scb));
+ 
+ 	DEB(DEB_INIT, printk(KERN_DEBUG
+ 			     "%s: queuing CmdConfigure\n", dev->name));
+ 	memcpy(dma->cf_cmd.i596_config, init_setup, 14);
+ 	dma->cf_cmd.cmd.command = SWAP16(CmdConfigure);
+-	DMA_WBACK(dev, &(dma->cf_cmd), sizeof(struct cf_cmd));
++	dma_sync_dev(dev, &(dma->cf_cmd), sizeof(struct cf_cmd));
+ 	i596_add_cmd(dev, &dma->cf_cmd.cmd);
+ 
+ 	DEB(DEB_INIT, printk(KERN_DEBUG "%s: queuing CmdSASetup\n", dev->name));
+ 	memcpy(dma->sa_cmd.eth_addr, dev->dev_addr, ETH_ALEN);
+ 	dma->sa_cmd.cmd.command = SWAP16(CmdSASetup);
+-	DMA_WBACK(dev, &(dma->sa_cmd), sizeof(struct sa_cmd));
++	dma_sync_dev(dev, &(dma->sa_cmd), sizeof(struct sa_cmd));
+ 	i596_add_cmd(dev, &dma->sa_cmd.cmd);
+ 
+ 	DEB(DEB_INIT, printk(KERN_DEBUG "%s: queuing CmdTDR\n", dev->name));
+ 	dma->tdr_cmd.cmd.command = SWAP16(CmdTDR);
+-	DMA_WBACK(dev, &(dma->tdr_cmd), sizeof(struct tdr_cmd));
++	dma_sync_dev(dev, &(dma->tdr_cmd), sizeof(struct tdr_cmd));
+ 	i596_add_cmd(dev, &dma->tdr_cmd.cmd);
+ 
+ 	spin_lock_irqsave (&lp->lock, flags);
+@@ -625,7 +653,7 @@ static int init_i596_mem(struct net_device *dev)
+ 	DEB(DEB_INIT, printk(KERN_DEBUG "%s: Issuing RX_START\n", dev->name));
+ 	dma->scb.command = SWAP16(RX_START);
+ 	dma->scb.rfd = SWAP32(virt_to_dma(lp, dma->rfds));
+-	DMA_WBACK(dev, &(dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(dma->scb), sizeof(struct i596_scb));
+ 
+ 	ca(dev);
+ 
+@@ -659,13 +687,13 @@ static inline int i596_rx(struct net_device *dev)
+ 
+ 	rfd = lp->rfd_head;		/* Ref next frame to check */
+ 
+-	DMA_INV(dev, rfd, sizeof(struct i596_rfd));
++	dma_sync_cpu(dev, rfd, sizeof(struct i596_rfd));
+ 	while (rfd->stat & SWAP16(STAT_C)) {	/* Loop while complete frames */
+ 		if (rfd->rbd == I596_NULL)
+ 			rbd = NULL;
+ 		else if (rfd->rbd == lp->rbd_head->b_addr) {
+ 			rbd = lp->rbd_head;
+-			DMA_INV(dev, rbd, sizeof(struct i596_rbd));
++			dma_sync_cpu(dev, rbd, sizeof(struct i596_rbd));
+ 		} else {
+ 			printk(KERN_ERR "%s: rbd chain broken!\n", dev->name);
+ 			/* XXX Now what? */
+@@ -713,7 +741,7 @@ static inline int i596_rx(struct net_device *dev)
+ 							  DMA_FROM_DEVICE);
+ 				rbd->v_data = newskb->data;
+ 				rbd->b_data = SWAP32(dma_addr);
+-				DMA_WBACK_INV(dev, rbd, sizeof(struct i596_rbd));
++				dma_sync_dev(dev, rbd, sizeof(struct i596_rbd));
+ 			} else {
+ 				skb = netdev_alloc_skb_ip_align(dev, pkt_len);
+ 			}
+@@ -765,7 +793,7 @@ static inline int i596_rx(struct net_device *dev)
+ 		if (rbd != NULL && (rbd->count & SWAP16(0x4000))) {
+ 			rbd->count = 0;
+ 			lp->rbd_head = rbd->v_next;
+-			DMA_WBACK_INV(dev, rbd, sizeof(struct i596_rbd));
++			dma_sync_dev(dev, rbd, sizeof(struct i596_rbd));
+ 		}
+ 
+ 		/* Tidy the frame descriptor, marking it as end of list */
+@@ -779,14 +807,14 @@ static inline int i596_rx(struct net_device *dev)
+ 
+ 		lp->dma->scb.rfd = rfd->b_next;
+ 		lp->rfd_head = rfd->v_next;
+-		DMA_WBACK_INV(dev, rfd, sizeof(struct i596_rfd));
++		dma_sync_dev(dev, rfd, sizeof(struct i596_rfd));
+ 
+ 		/* Remove end-of-list from old end descriptor */
+ 
+ 		rfd->v_prev->cmd = SWAP16(CMD_FLEX);
+-		DMA_WBACK_INV(dev, rfd->v_prev, sizeof(struct i596_rfd));
++		dma_sync_dev(dev, rfd->v_prev, sizeof(struct i596_rfd));
+ 		rfd = lp->rfd_head;
+-		DMA_INV(dev, rfd, sizeof(struct i596_rfd));
++		dma_sync_cpu(dev, rfd, sizeof(struct i596_rfd));
  	}
  
+ 	DEB(DEB_RXFRAME, printk(KERN_DEBUG "frames %d\n", frames));
+@@ -827,12 +855,12 @@ static inline void i596_cleanup_cmd(struct net_device *dev, struct i596_private
+ 			ptr->v_next = NULL;
+ 			ptr->b_next = I596_NULL;
+ 		}
+-		DMA_WBACK_INV(dev, ptr, sizeof(struct i596_cmd));
++		dma_sync_dev(dev, ptr, sizeof(struct i596_cmd));
+ 	}
  
--Part II - Advanced dma usage
------------------------------
-+Part II - Non-coherent DMA allocations
-+--------------------------------------
- 
--Warning: These pieces of the DMA API should not be used in the
--majority of cases, since they cater for unlikely corner cases that
--don't belong in usual drivers.
-+These APIs allow to allocate pages in the kernel direct mapping that are
-+guaranteed to be DMA addressable.  This means that unlike dma_alloc_coherent,
-+virt_to_page can be called on the resulting address, and the resulting
-+struct page can be used for everything a struct page is suitable for.
- 
--If you don't understand how cache line coherency works between a
--processor and an I/O device, you should not be using this part of the
--API at all.
-+If you don't understand how cache line coherency works between a processor and
-+an I/O device, you should not be using this part of the API.
- 
- ::
- 
- 	void *
--	dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
--			gfp_t flag, unsigned long attrs)
-+	dma_alloc_noncoherent(struct device *dev, size_t size,
-+			dma_addr_t *dma_handle, enum dma_data_direction dir,
-+			gfp_t gfp)
- 
--Identical to dma_alloc_coherent() except that when the
--DMA_ATTR_NON_CONSISTENT flags is passed in the attrs argument, the
--platform will choose to return either consistent or non-consistent memory
--as it sees fit.  By using this API, you are guaranteeing to the platform
--that you have all the correct and necessary sync points for this memory
--in the driver should it choose to return non-consistent memory.
-+This routine allocates a region of <size> bytes of consistent memory.  It
-+returns a pointer to the allocated region (in the processor's virtual address
-+space) or NULL if the allocation failed.  The returned memory may or may not
-+be in the kernels direct mapping.  Drivers must not call virt_to_page on
-+the returned memory region.
- 
--Note: where the platform can return consistent memory, it will
--guarantee that the sync points become nops.
-+It also returns a <dma_handle> which may be cast to an unsigned integer the
-+same width as the bus and given to the device as the DMA address base of
-+the region.
- 
--Warning:  Handling non-consistent memory is a real pain.  You should
--only use this API if you positively know your driver will be
--required to work on one of the rare (usually non-PCI) architectures
--that simply cannot make consistent memory.
-+The dir parameter specified if data is read and/or written by the device,
-+see dma_map_single() for details.
-+
-+The gfp parameter allows the caller to specify the ``GFP_`` flags (see
-+kmalloc()) for the allocation, but rejects flags used to specify a memory
-+zone such as GFP_DMA or GFP_HIGHMEM.
-+
-+Before giving the memory to the device, dma_sync_single_for_device() needs
-+to be called, and before reading memory written by the device,
-+dma_sync_single_for_cpu(), just like for streaming DMA mappings that are
-+reused.
- 
- ::
- 
- 	void
--	dma_free_attrs(struct device *dev, size_t size, void *cpu_addr,
--		       dma_addr_t dma_handle, unsigned long attrs)
-+	dma_free_noncoherent(struct device *dev, size_t size, void *cpu_addr,
-+			dma_addr_t dma_handle, enum dma_data_direction dir)
- 
--Free memory allocated by the dma_alloc_attrs().  All common
--parameters must be identical to those otherwise passed to dma_free_coherent,
--and the attrs argument must be identical to the attrs passed to
--dma_alloc_attrs().
-+Free a region of memory previously allocated using dma_alloc_noncoherent().
-+dev, size and dma_handle and dir must all be the same as those passed into
-+dma_alloc_noncoherent().  cpu_addr must be the virtual address returned by
-+the dma_alloc_noncoherent().
- 
- ::
- 
-@@ -575,17 +583,6 @@ memory or doing partial flushes.
- 	into the width returned by this call.  It will also always be a power
- 	of two for easy alignment.
- 
--::
--
--	void
--	dma_cache_sync(struct device *dev, void *vaddr, size_t size,
--		       enum dma_data_direction direction)
--
--Do a partial sync of memory that was allocated by dma_alloc_attrs() with
--the DMA_ATTR_NON_CONSISTENT flag starting at virtual address vaddr and
--continuing on for size.  Again, you *must* observe the cache line
--boundaries when doing this.
--
- 
- Part III - Debug drivers use of the DMA-API
- -------------------------------------------
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index df0bff2ea750e0..4e1de194b45cbf 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -389,6 +389,18 @@ static inline unsigned long dma_get_merge_boundary(struct device *dev)
+ 	wait_cmd(dev, lp->dma, 100, "i596_cleanup_cmd timed out");
+ 	lp->dma->scb.cmd = I596_NULL;
+-	DMA_WBACK(dev, &(lp->dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(lp->dma->scb), sizeof(struct i596_scb));
  }
- #endif /* CONFIG_HAS_DMA */
  
-+static inline void *dma_alloc_noncoherent(struct device *dev, size_t size,
-+		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
-+{
-+	return dma_alloc_attrs(dev, size, dma_handle, gfp,
-+			DMA_ATTR_NON_CONSISTENT);
-+}
-+static inline void dma_free_noncoherent(struct device *dev, size_t size,
-+		void *vaddr, dma_addr_t dma_handle, enum dma_data_direction dir)
-+{
-+	dma_free_attrs(dev, size, vaddr, dma_handle, DMA_ATTR_NON_CONSISTENT);
-+}
-+
- static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
- 		size_t size, enum dma_data_direction dir, unsigned long attrs)
- {
+ 
+@@ -850,7 +878,7 @@ static inline void i596_reset(struct net_device *dev, struct i596_private *lp)
+ 
+ 	/* FIXME: this command might cause an lpmc */
+ 	lp->dma->scb.command = SWAP16(CUC_ABORT | RX_ABORT);
+-	DMA_WBACK(dev, &(lp->dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(lp->dma->scb), sizeof(struct i596_scb));
+ 	ca(dev);
+ 
+ 	/* wait for shutdown */
+@@ -878,20 +906,20 @@ static void i596_add_cmd(struct net_device *dev, struct i596_cmd *cmd)
+ 	cmd->command |= SWAP16(CMD_EOL | CMD_INTR);
+ 	cmd->v_next = NULL;
+ 	cmd->b_next = I596_NULL;
+-	DMA_WBACK(dev, cmd, sizeof(struct i596_cmd));
++	dma_sync_dev(dev, cmd, sizeof(struct i596_cmd));
+ 
+ 	spin_lock_irqsave (&lp->lock, flags);
+ 
+ 	if (lp->cmd_head != NULL) {
+ 		lp->cmd_tail->v_next = cmd;
+ 		lp->cmd_tail->b_next = SWAP32(virt_to_dma(lp, &cmd->status));
+-		DMA_WBACK(dev, lp->cmd_tail, sizeof(struct i596_cmd));
++		dma_sync_dev(dev, lp->cmd_tail, sizeof(struct i596_cmd));
+ 	} else {
+ 		lp->cmd_head = cmd;
+ 		wait_cmd(dev, dma, 100, "i596_add_cmd timed out");
+ 		dma->scb.cmd = SWAP32(virt_to_dma(lp, &cmd->status));
+ 		dma->scb.command = SWAP16(CUC_START);
+-		DMA_WBACK(dev, &(dma->scb), sizeof(struct i596_scb));
++		dma_sync_dev(dev, &(dma->scb), sizeof(struct i596_scb));
+ 		ca(dev);
+ 	}
+ 	lp->cmd_tail = cmd;
+@@ -956,7 +984,7 @@ static void i596_tx_timeout (struct net_device *dev, unsigned int txqueue)
+ 		/* Issue a channel attention signal */
+ 		DEB(DEB_ERRORS, printk(KERN_DEBUG "Kicking board.\n"));
+ 		lp->dma->scb.command = SWAP16(CUC_START | RX_START);
+-		DMA_WBACK_INV(dev, &(lp->dma->scb), sizeof(struct i596_scb));
++		dma_sync_dev(dev, &(lp->dma->scb), sizeof(struct i596_scb));
+ 		ca (dev);
+ 		lp->last_restart = dev->stats.tx_packets;
+ 	}
+@@ -1014,8 +1042,8 @@ static netdev_tx_t i596_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 		tbd->data = SWAP32(tx_cmd->dma_addr);
+ 
+ 		DEB(DEB_TXADDR, print_eth(skb->data, "tx-queued"));
+-		DMA_WBACK_INV(dev, tx_cmd, sizeof(struct tx_cmd));
+-		DMA_WBACK_INV(dev, tbd, sizeof(struct i596_tbd));
++		dma_sync_dev(dev, tx_cmd, sizeof(struct tx_cmd));
++		dma_sync_dev(dev, tbd, sizeof(struct i596_tbd));
+ 		i596_add_cmd(dev, &tx_cmd->cmd);
+ 
+ 		dev->stats.tx_packets++;
+@@ -1071,7 +1099,7 @@ static int i82596_probe(struct net_device *dev)
+ 	lp->dma->scb.rfd = I596_NULL;
+ 	spin_lock_init(&lp->lock);
+ 
+-	DMA_WBACK_INV(dev, lp->dma, sizeof(struct i596_dma));
++	dma_sync_dev(dev, lp->dma, sizeof(struct i596_dma));
+ 
+ 	ret = register_netdev(dev);
+ 	if (ret)
+@@ -1141,7 +1169,7 @@ static irqreturn_t i596_interrupt(int irq, void *dev_id)
+ 				   dev->name, status & 0x0700));
+ 
+ 		while (lp->cmd_head != NULL) {
+-			DMA_INV(dev, lp->cmd_head, sizeof(struct i596_cmd));
++			dma_sync_cpu(dev, lp->cmd_head, sizeof(struct i596_cmd));
+ 			if (!(lp->cmd_head->status & SWAP16(STAT_C)))
+ 				break;
+ 
+@@ -1223,7 +1251,7 @@ static irqreturn_t i596_interrupt(int irq, void *dev_id)
+ 			}
+ 			ptr->v_next = NULL;
+ 			ptr->b_next = I596_NULL;
+-			DMA_WBACK(dev, ptr, sizeof(struct i596_cmd));
++			dma_sync_dev(dev, ptr, sizeof(struct i596_cmd));
+ 			lp->last_cmd = jiffies;
+ 		}
+ 
+@@ -1237,13 +1265,13 @@ static irqreturn_t i596_interrupt(int irq, void *dev_id)
+ 
+ 			ptr->command &= SWAP16(0x1fff);
+ 			ptr = ptr->v_next;
+-			DMA_WBACK_INV(dev, prev, sizeof(struct i596_cmd));
++			dma_sync_dev(dev, prev, sizeof(struct i596_cmd));
+ 		}
+ 
+ 		if (lp->cmd_head != NULL)
+ 			ack_cmd |= CUC_START;
+ 		dma->scb.cmd = SWAP32(virt_to_dma(lp, &lp->cmd_head->status));
+-		DMA_WBACK_INV(dev, &dma->scb, sizeof(struct i596_scb));
++		dma_sync_dev(dev, &dma->scb, sizeof(struct i596_scb));
+ 	}
+ 	if ((status & 0x1000) || (status & 0x4000)) {
+ 		if ((status & 0x4000))
+@@ -1268,7 +1296,7 @@ static irqreturn_t i596_interrupt(int irq, void *dev_id)
+ 	}
+ 	wait_cmd(dev, dma, 100, "i596 interrupt, timeout");
+ 	dma->scb.command = SWAP16(ack_cmd);
+-	DMA_WBACK(dev, &dma->scb, sizeof(struct i596_scb));
++	dma_sync_dev(dev, &dma->scb, sizeof(struct i596_scb));
+ 
+ 	/* DANGER: I suspect that some kind of interrupt
+ 	 acknowledgement aside from acking the 82596 might be needed
+@@ -1299,7 +1327,7 @@ static int i596_close(struct net_device *dev)
+ 
+ 	wait_cmd(dev, lp->dma, 100, "close1 timed out");
+ 	lp->dma->scb.command = SWAP16(CUC_ABORT | RX_ABORT);
+-	DMA_WBACK(dev, &lp->dma->scb, sizeof(struct i596_scb));
++	dma_sync_dev(dev, &lp->dma->scb, sizeof(struct i596_scb));
+ 
+ 	ca(dev);
+ 
+@@ -1358,7 +1386,7 @@ static void set_multicast_list(struct net_device *dev)
+ 			       dev->name);
+ 		else {
+ 			dma->cf_cmd.cmd.command = SWAP16(CmdConfigure);
+-			DMA_WBACK_INV(dev, &dma->cf_cmd, sizeof(struct cf_cmd));
++			dma_sync_dev(dev, &dma->cf_cmd, sizeof(struct cf_cmd));
+ 			i596_add_cmd(dev, &dma->cf_cmd.cmd);
+ 		}
+ 	}
+@@ -1390,7 +1418,7 @@ static void set_multicast_list(struct net_device *dev)
+ 					   dev->name, cp));
+ 			cp += ETH_ALEN;
+ 		}
+-		DMA_WBACK_INV(dev, &dma->mc_cmd, sizeof(struct mc_cmd));
++		dma_sync_dev(dev, &dma->mc_cmd, sizeof(struct mc_cmd));
+ 		i596_add_cmd(dev, &cmd->cmd);
+ 	}
+ }
+diff --git a/drivers/net/ethernet/i825xx/sni_82596.c b/drivers/net/ethernet/i825xx/sni_82596.c
+index 4b9ac0c6557731..27937c5d795673 100644
+--- a/drivers/net/ethernet/i825xx/sni_82596.c
++++ b/drivers/net/ethernet/i825xx/sni_82596.c
+@@ -24,10 +24,6 @@
+ 
+ static const char sni_82596_string[] = "snirm_82596";
+ 
+-#define DMA_WBACK(priv, addr, len)     do { } while (0)
+-#define DMA_INV(priv, addr, len)       do { } while (0)
+-#define DMA_WBACK_INV(priv, addr, len) do { } while (0)
+-
+ #define SYSBUS      0x00004400
+ 
+ /* big endian CPU, 82596 little endian */
 -- 
 2.28.0
 
