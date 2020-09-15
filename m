@@ -2,245 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF20E269BF0
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 04:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D95D1269C88
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 05:29:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726062AbgIOCjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 22:39:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726045AbgIOCjG (ORCPT
+        id S1726035AbgIOD3F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 23:29:05 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:56865 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726019AbgIOD3D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 22:39:06 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776E4C06174A;
-        Mon, 14 Sep 2020 19:39:06 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4A49275;
-        Tue, 15 Sep 2020 04:38:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600137538;
-        bh=ceWb6jetlVmK1+PMT2AVlI5YUi1hnO6JDbvNsbyGh1A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gi7UkDFo1MmLdvpjAPNCuF8guUHpOsMGcJeUtmsmlHYNPmrlMi547DhAkV7pyXB9n
-         6t2V4NYVKhn1IbeMI42FK0avPvMj+sjGDtJlvrqOHzxAVFJnj21ImsIYY7AQGFAi8O
-         l9AH6jIGoGXIaQgrnldofe+GRZvzuPKZVv4WTezE=
-Date:   Tue, 15 Sep 2020 05:38:29 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Vishal Sagar <vsagar@xilinx.com>, Hyun Kwon <hyunk@xilinx.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Michal Simek <michals@xilinx.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "joe@perches.com" <joe@perches.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Dinesh Kumar <dineshk@xilinx.com>
-Subject: Re: [PATCH v3 3/3] media: v4l: xilinx: Add Xilinx UHD-SDI Rx
- Subsystem driver
-Message-ID: <20200915023829.GE15543@pendragon.ideasonboard.com>
-References: <20200618053304.14551-1-vishal.sagar@xilinx.com>
- <20200618053304.14551-4-vishal.sagar@xilinx.com>
- <50cc4f4b-e788-c5ad-cd6a-b428b96d5377@xs4all.nl>
- <20200715213315.GF6144@pendragon.ideasonboard.com>
- <BY5PR02MB6867211CA1F22DC01D6A8F15A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
- <20200819165641.GS6049@pendragon.ideasonboard.com>
- <ae3814b877ea264b0231321d12d946761941e004.camel@ndufresne.ca>
- <f88cc98f-7e0d-cedc-6b27-a7a5fd801ebe@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f88cc98f-7e0d-cedc-6b27-a7a5fd801ebe@xs4all.nl>
+        Mon, 14 Sep 2020 23:29:03 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id I1eKkFDzSXgwII1eLkkMN5; Tue, 15 Sep 2020 05:28:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600140538; bh=s9V1lGkmd3HHVu1Mp0KKUgf1yV40UoYevioO2qhKIrc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Tr5H52Fk6PoMKpajs5R6H3a/N5eStplJSitDjcmuZ9YGozV6P1McYXKuvhQan/T1M
+         AgZXplD4TqCi45NJsYq62zyWZOThPCQf+2svzudt6fV0y4pIFv+SNpY09h/mmCo5G7
+         791HhplCbrzmH+2Ibc/6gxlSy3768f2kf3ZIpCAuqbI3ewF0nyujz/wPrfEtij/29b
+         Ettc4QYWbnU6Xa6dhikkwWFCbMvpRErWudWC+fdzP+sxdqSV5GwN15viqrQva0eCfA
+         nptJkS64svKT371qQ48saoC5Ze5m2RXdTTg0dHEfMSxT4AJno+V5FqjaiuUlN+UO5L
+         +LU8kOcBINGiA==
+Message-ID: <98c10cdf7e0a656029c3139e5f747642@smtp-cloud9.xs4all.net>
+Date:   Tue, 15 Sep 2020 05:28:56 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfOLZKKkgNE4ZrK9BJLryLTyjwke3sHEhFNnFFmFQoDnJS/ein1+XrNmljse99vwor2tUqEvrTLdwUk1zGt1auGJw5p9rCbP47V3NvVn06hePaT/x/0LN
+ AHxLpaqujR3HXQpHhAk/vEiJAdoj+AVFNX2zZksa58zR6oMgPIEeAdGnFq0tgOYG43IXCKrk3Fih6dVcYEapYVlm2wojuNnpJJaPa0i221K+XktjuPODi9qN
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Thu, Sep 10, 2020 at 12:22:28PM +0200, Hans Verkuil wrote:
-> On 26/08/2020 16:10, Nicolas Dufresne wrote:
-> > Le mercredi 19 août 2020 à 19:56 +0300, Laurent Pinchart a écrit :
-> >> Hi Vishal,
-> >>
-> >> (Hans, there's a question for you below)
-> >>
-> >> On Wed, Aug 19, 2020 at 01:47:49PM +0000, Vishal Sagar wrote:
-> >>> On Thursday, July 16, 2020 3:03 AM Laurent Pinchart wrote:
-> >>>> On Thu, Jun 25, 2020 at 11:43:01AM +0200, Hans Verkuil wrote:
-> >>>>> On 18/06/2020 07:33, Vishal Sagar wrote:
-> >>>>>> The Xilinx UHD-SDI Rx subsystem soft IP is used to capture native SDI
-> >>>>>> streams from SDI sources like SDI broadcast equipment like cameras and
-> >>>>>> mixers. This block outputs either native SDI, native video or
-> >>>>>> AXI4-Stream compliant data stream for further processing. Please refer
-> >>>>>> to PG290 for details.
-> >>>>>>
-> >>>>>> The driver is used to configure the IP to add framer, search for
-> >>>>>> specific modes, get the detected mode, stream parameters, errors, etc.
-> >>>>>> It also generates events for video lock/unlock, bridge over/under flow.
-> >>>>>>
-> >>>>>> The driver supports 10/12 bpc YUV 422 media bus format currently. It
-> >>>>>> also decodes the stream parameters based on the ST352 packet embedded in the
-> >>>>>> stream. In case the ST352 packet isn't present in the stream, the core's
-> >>>>>> detected properties are used to set stream properties.
-> >>>>>>
-> >>>>>> The driver currently supports only the AXI4-Stream IP configuration.
-> >>>>>>
-> >>>>>> Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
-> >>>>>> ---
-> >>>>>> v3
-> >>>>>> - fixed KConfig with better description
-> >>>>>> - removed unnecessary header files
-> >>>>>> - converted uppercase to lowercase for all hex values
-> >>>>>> - merged core struct to state struct
-> >>>>>> - removed most one line functions and replaced with direct reg
-> >>>>>>   read/write or macros
-> >>>>>> - dt property bpp to bpc. default 10. not mandatory.
-> >>>>>> - fixed subscribe events, log_status, s_stream
-> >>>>>> - merged overflow/underflow to one event
-> >>>>>> - moved all controls to xilinx-sdirxss.h
-> >>>>>> - max events from 128 to 8
-> >>>>>> - used FIELD_GET() instead of custom macro
-> >>>>>> - updated the controls documentation
-> >>>>>> - added spinlock
-> >>>>>> - removed 3GB control and added mode to detect bitmask
-> >>>>>> - fixed format for (width, height, colorspace, xfer func, etc)
-> >>>>>> - added dv_timings_cap, s/g_dv_timings
-> >>>>>> - fixed set/get_format
-> >>>>>> - fix v4l control registrations
-> >>>>>> - fix order of registration / deregistration in probe() remove()
-> >>>>>> - fixed other comments from Hyun, Laurent and Hans
-> >>>>>> - things yet to close
-> >>>>>>   - adding source port for connector (Laurent's suggestion)
-> >>>>>>   - adding new FIELD type for Transport Stream V4L2_FIELD_ALTERNATE_PROG (Han's suggestion)
-> >>>>>>   - Update / remove EDH or CRC related controls
-> >>>>>>
-> >>>>>> v2
-> >>>>>> - Added DV timing support based on Hans Verkuilś feedback
-> >>>>>> - More documentation to custom v4l controls and events
-> >>>>>> - Fixed Hyunś comments
-> >>>>>> - Added macro for masking and shifting as per Joe Perches comments
-> >>>>>> - Updated to latest as per Xilinx github repo driver like
-> >>>>>>   adding new DV timings not in mainline yet uptill 03/21/20
-> >>>>>>
-> >>>>>>  drivers/media/platform/xilinx/Kconfig         |   11 +
-> >>>>>>  drivers/media/platform/xilinx/Makefile        |    1 +
-> >>>>>>  .../media/platform/xilinx/xilinx-sdirxss.c    | 2121 +++++++++++++++++
-> >>>>>>  include/uapi/linux/v4l2-controls.h            |    6 +
-> >>>>>>  include/uapi/linux/xilinx-sdirxss.h           |  283 +++
-> >>>>>>  5 files changed, 2422 insertions(+)
-> >>>>>>  create mode 100644 drivers/media/platform/xilinx/xilinx-sdirxss.c
-> >>>>>>  create mode 100644 include/uapi/linux/xilinx-sdirxss.h
-> >>
-> >> [snip]
-> >>
-> >>>>>> diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c b/drivers/media/platform/xilinx/xilinx-sdirxss.c
-> >>>>>> new file mode 100644
-> >>>>>> index 000000000000..e39aab7c656a
-> >>>>>> --- /dev/null
-> >>>>>> +++ b/drivers/media/platform/xilinx/xilinx-sdirxss.c
-> >>>>>> @@ -0,0 +1,2121 @@
-> >>
-> >> [snip]
-> >>
-> >>>>>> +	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
-> >>>>>> +		ctrl->val = xsdirxss->ts_is_interlaced;
-> >>>>>> +		break;
-> >>>>>
-> >>>>> I assume this control will disappear once you added support for
-> >>>>> FIELD_ALTERNATE_PROG?
-> >>>>
-> >>>> I'm not sure FIELD_ALTERNATE_PROG is a good idea. The v4l2_field
-> >>>> specifies today how frames are split into multiple buffers. There's an
-> >>>> implicit assumption that a frame split into two buffers is captured with
-> >>>> interlacing. In the SDI case, the two concepts get decoupled, a
-> >>>> progressive frame can be transmitted (and captured) in two separate
-> >>>> parts. If we add a *_PROG field, we'll need to duplicate most of the
-> >>>> v4l2_field values with a _PROG suffix, as the progressive frame can be
-> >>>> captured in alternate buffers on a video node, but also in separate odd
-> >>>> and even buffers on two video nodes. Tt the hardware level, data is
-> >>>> transmitted with odd lines on one link, and even lines on a second link.
-> >>>> There are then two instances of this IP core, one for each link. One
-> >>>> instance would receive and process the even lines, the other instance
-> >>>> the odd lines. The output of the two instances can then be connected to
-> >>>> two separate DMA engines, or combined in the FPGA fabric, depending on
-> >>>> how the user designs the system.
-> >>>
-> >>> My apologies to give incorrect info regarding this.
-> >>> In the progressive segmented frame, a progressive captured frame is sent
-> >>> across to receiver over an interlaced transport. The 2 fields received
-> >>> are similar to how V4L2_FIELD_ALTERNATE is except that the fields weren't
-> >>> captured at 2 different times.
-> >>
-> >> I've now read more about progressive segmented frames, and I was indeed
-> >> wrong about the fact that the two segments are transported over
-> >> different links.
-> >>
-> >> I still wonder, however, if a _PROG suffix is the best option. Wouldn't
-> >> we need to also add V4L2_FIELD_TOP_PROG, V4L2_FIELD_BOTTOM_PROG,
-> >> V4L2_FIELD_SEQ_TB_PROG and V4L2_FIELD_SEQ_BT_PROG, not necessarily for
-> >> this driver, but for other devices that would support capturing the
-> >> odd/even segments only, or support capturing both segments in a single
-> >> buffer, one after the other ?
-> >>
-> >> Maybe that's unavoidable, as enum v4l2_field combines both the buffer
-> >> layout and the fact that the frame is interlaced or progressive. If we
-> >> had to redesign it we could do better, but having to keep backward
-> >> compatibility, duplicating most values with a _PROG suffix may be the
-> >> best option.
-> >>
-> >> Hans, any opinion ?
-> 
-> I don't believe there is any need to create those other V4L2_FIELD_ variants.
-> With V4L2_FIELD_ALTERNATE_PROG each buffer will be set to V4L2_FIELD_TOP (i.e.
-> odd lines) or V4L2_FIELD_BOTTOM (i.e. even lines).
+Results of the daily build of media_tree:
 
-What if an application wants to capture TOP or BOTTOM fields only though
-? The DMA engine would need to be configured with either
-V4L2_FIELD_TOP_PROG or V4L2_FIELD_BOTTOM_PROG, wouldn't it ? Or should
-the _PROG information be reported by this subdev only, and not
-propagated through the pipeline ?
+date:			Tue Sep 15 05:00:12 CEST 2020
+media-tree git hash:	741043b02c2e00c8fea1a0f6f8ce43c6326cd9e8
+media_build git hash:	9cfb94d2c8b2a38add1762b40bc6d94f62311fab
+v4l-utils git hash:	4833a12e78525e4d1a8c1f5da5f9534b857557be
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 65546dfa86f803ba44e908adc14ff4d8174a0fd2
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-> There is nothing else you need here.
-> 
-> A V4L2_FIELD_SEQ_TB_PROG might be needed if we get HW that does something
-> so strange.
-> 
-> > Can't your receiver store these two fragment directly into a
-> > progressive buffer instead of leaking this HW specific thing into uAPI
-> > ? All you'd need is support for stride (bytesperline) at the HW
-> > writeback level, and then you can hide this complexicuty to userspace
-> > by filling the top/bottom line only. You simply multiply the stride by
-> > two in this context.
-> 
-> Vishal, this is a good question from Nicolas.
-> 
-> An alternative solution might be to DMA the odd and even lines to the
-> same buffer, but consecutive. I.e., instead of having to create a
-> V4L2_FIELD_ALTERNATE_PROG, you'd create a V4L2_FIELD_SEQ_TB_PROG, which
-> is identical to V4L2_FIELD_SEQ_TB, except that it is for a progressive
-> frame.
-> 
-> If you can avoid V4L2_FIELD_ALTERNATE_PROG somehow and just return a
-> single buffer per frame, then that would be much better. One field per
-> buffer is a big pain for userspace.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.169-i686: ERRORS
+linux-4.14.169-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.101-i686: ERRORS
+linux-4.19.101-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: ERRORS
+linux-5.1.1-x86_64: ERRORS
+linux-5.2.1-i686: ERRORS
+linux-5.2.1-x86_64: ERRORS
+linux-5.3.1-i686: ERRORS
+linux-5.3.1-x86_64: ERRORS
+linux-5.4.17-i686: ERRORS
+linux-5.4.17-x86_64: ERRORS
+linux-5.5.1-i686: ERRORS
+linux-5.5.1-x86_64: ERRORS
+linux-5.6.1-i686: ERRORS
+linux-5.6.1-x86_64: ERRORS
+linux-5.7.2-i686: ERRORS
+linux-5.7.2-x86_64: ERRORS
+linux-5.8.1-i686: ERRORS
+linux-5.8.1-x86_64: ERRORS
+linux-5.9-rc1-i686: ERRORS
+linux-5.9-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 7
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: WARNINGS
 
-That's out of control of this driver though, it depends on the rest of
-the pipeline. The SDI RX subdev produces alternate frames, it's up to
-the rest of the FPGA to decide how to store that in memory.
+Detailed results are available here:
 
-> >>> So I will add the V4L2_FIELD_ALTERNATE_PROG in next patch version.
-> >>
-> >> [snip]
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
--- 
-Regards,
+Detailed regression test results are available here:
 
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
