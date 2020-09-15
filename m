@@ -2,93 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1509A26AB9D
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 20:15:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CD0526ABB0
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 20:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727986AbgIOSOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 14:14:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41122 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727952AbgIOSNx (ORCPT
+        id S1728019AbgIOSVg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 14:21:36 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:49860 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727801AbgIOSV2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 14:13:53 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D76AC06178A;
-        Tue, 15 Sep 2020 11:13:52 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id t20so3923414qtr.8;
-        Tue, 15 Sep 2020 11:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:message-id:in-reply-to:references:subject
-         :mime-version:content-transfer-encoding:content-disposition;
-        bh=PkfGd1AFuSaun8fDUiryvY9jnrNtkMGkmE9AZRe7yos=;
-        b=IE/Rr4l5Em7F95R7NhtZd7mnz4VVkjx5jC6FNA96lRcHaLW1mxvvLeLWcKzOz6X/f8
-         Lf8Vm4b3gsFHqlBagMXtRdAlODBb25VUmfauKEwBqFFD170/Ku0aSc3t5pRPpqziJJ0D
-         FInveJxq3fhMcCeE3LVJyXXy1RcJDFZ5Hm5Q+F8M3G/Exbi7TL1SKlguUlOIc6/tgNKF
-         aomCwd8WXY0huDUvkz8PBzx2c0gdgyAocu4qIK9axHcu5onwOb52G14s49xvHI/jYf/V
-         yK+oeXBVK9B66oHnbND/ofMAIiddDr5zkzr6cpgkIxFl9/OdPYl6EccWqaGb5nOxiQ5E
-         hK0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
-         :references:subject:mime-version:content-transfer-encoding
-         :content-disposition;
-        bh=PkfGd1AFuSaun8fDUiryvY9jnrNtkMGkmE9AZRe7yos=;
-        b=F3+TtM1/zrSF31ZrRksyG6JAzOUOTjjSeBW2yFdyVJmc0CNtdJqvdXAy+YFx4UxMm9
-         QZ1LRZPYvG27f9VSASy9QokeIvGTqrfafDPA+V8TT0M6Fe6EXxHRSN76+jGxU9wWIRI8
-         H6pyRaZiws15zkN6xil+mIGZF4si3d0+7r4gUrcWi3ygdWLshtQ2SZXQJRTVUjifURoX
-         kDFzai9TOuq3nV62Z3CB5uXMpKQ+qjT+tQ7hWW9tEFRiVc9YR0tXdJBE1uPjlaTZQ2X0
-         pwYUTZ8UBG47+aZDtBcF3gi4v7APF2+DxxBWT9kJqNiW6YWRBlfUP+ho07P3hNKYuKvW
-         7nrQ==
-X-Gm-Message-State: AOAM533CBJSDxOOUjUVBwDiQotQIm8AohtgzLTqbHPOtHN57SFiP+WaU
-        sVl4xWMFfTQ6TG95m4QiiXd5PrRCgj0Gfg==
-X-Google-Smtp-Source: ABdhPJzrzn2PMydfT2DVw16s4CG4h17YOiXLocDodOhJHzPQxvvYoWYpJlhpzstPv+46wSqWaBYm0Q==
-X-Received: by 2002:ac8:44a7:: with SMTP id a7mr7104598qto.173.1600193631564;
-        Tue, 15 Sep 2020 11:13:51 -0700 (PDT)
-Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id r64sm17485003qkf.119.2020.09.15.11.13.48
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Sep 2020 11:13:50 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 15:13:46 -0300
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "=?utf-8?Q?mchehab+huawei=40kernel.org?=" <mchehab+huawei@kernel.org>,
-        "=?utf-8?Q?r.verdejo=40samsung.com?=" <r.verdejo@samsung.com>,
-        "=?utf-8?Q?nicolas=40ndufresne.ca?=" <nicolas@ndufresne.ca>,
-        "=?utf-8?Q?linux-media=40vger.kernel.org?=" 
-        <linux-media@vger.kernel.org>,
-        "=?utf-8?Q?skhan=40linuxfoundation.org?=" <skhan@linuxfoundation.org>,
-        "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org?=" 
-        <linux-kernel-mentees@lists.linuxfoundation.org>,
-        "=?utf-8?Q?linux-kernel=40vger.kernel.org?=" 
-        <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <607EC72C-E8F5-4998-87FF-EABB1FC717EC@getmailspring.com>
-In-Reply-To: <CAMuHMdVfoQ-vW3VeO8vDVALNREBV1afaSnwnc0jnkoXmvw6xhQ@mail.gmail.com>
-References: <CAMuHMdVfoQ-vW3VeO8vDVALNREBV1afaSnwnc0jnkoXmvw6xhQ@mail.gmail.com>
-Subject: Re: [v10 3/4] media: vidtv: add a bridge driver
-X-Mailer: Mailspring
+        Tue, 15 Sep 2020 14:21:28 -0400
+X-Halon-ID: 344f444e-f780-11ea-a39b-005056917f90
+Authorized-sender: niklas.soderlund@fsdn.se
+Received: from bismarck.berto.se (p54ac52a8.dip0.t-ipconnect.de [84.172.82.168])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id 344f444e-f780-11ea-a39b-005056917f90;
+        Tue, 15 Sep 2020 20:21:05 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v4 0/3] dt-bindings: adv7604: Convert bindings to json-schema
+Date:   Tue, 15 Sep 2020 20:19:41 +0200
+Message-Id: <20200915181944.1037620-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi there Geert!
+Hi Hans,
 
-Sorry for breaking stuff :)
+This series converts the ADV7604 bindings to YAML and lists the new file
+under MAINTAINERS. I have used the schema to validate the usage of the
+bindings and no issues are found.
 
-Anyways I just sent in a fix. I decided to drop that entire function
-because as I said, it needs a do-over and that can be done later at a
-slower pace.
+Previous versions of this series referred to issues found when running 
+the validation and patches that fixed them. All those patches have now 
+been picked up.
 
-I'm not sure on how to go about testing this properly. I tried 'make
-ARCH=x86' for example and it built fine, so I assume this is working?
+Niklas Söderlund (3):
+  dt-bindings: adv7604: Fix documentation for hpd-gpios
+  dt-bindings: adv7604: Convert bindings to json-schema
+  MAINTAINERS: Add ADV7604 bindings documentation
 
-Otherwise let me know.
+ .../devicetree/bindings/media/i2c/adv7604.txt |  88 ---------
+ .../bindings/media/i2c/adv7604.yaml           | 178 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 3 files changed, 179 insertions(+), 88 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv7604.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/adv7604.yaml
 
--- thanks
--- Daniel
+-- 
+2.28.0
+
