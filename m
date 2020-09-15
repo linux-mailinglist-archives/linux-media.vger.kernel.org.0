@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F7026B182
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 00:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9B8A26B171
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 00:30:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727607AbgIOWbC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 18:31:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50424 "EHLO
+        id S1727622AbgIOWaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 18:30:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727266AbgIOQRe (ORCPT
+        with ESMTP id S1727562AbgIOQRe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 15 Sep 2020 12:17:34 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A2CC061A2B;
-        Tue, 15 Sep 2020 09:13:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00772C061A31;
+        Tue, 15 Sep 2020 09:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=Guqxj07xwr5MuMGWT2PdBQLUVmSBHz1SxHMxp26SQAM=; b=Itp/Q3JRcH/NoLIHSU3m7qeF67
-        gdhEr5XoAv7CiO4A0JxQ9Ti91ecohZg09mmgvHrQ+qoZ6uxG9jjAF5CYBRkGY4hkrZ8oLusOXawRu
-        itEmIISOfcaM1ZycQkbekQzpocP6mbHhti1ust7wPgdCSXc66m8BGmkDx98nY/j8QwaRK1bMXlU+m
-        bYtvv7XU/3VQJbFpljGBOuuUeAEg3A3Iw5CUCndXJ/8B9we1WY5JyUIiuhTRei/9HurInzcXik9Ju
-        uioPNWsVFBKt3ob9SdqR4jaV4K2ad4/sztjOMkemAO/dxqRpZQjqa6xUWACYYBfwxKEGU2wvZU38V
-        7RUXb+ng==;
+        bh=Hd44flV0rNOoconJIhItgKEmFIKY+u0t7YJsM9KNpfo=; b=i+b+ljMR1A6ObLbOtGAVyydudC
+        hto/8SEYTIbCYCenMcupFPtRyH7ImLDp6gIyHT9pL4NzgFI5182Hcg7Ggm7J+LIkLTVdFa2sp+2PG
+        PqiknmmvK74L8/T/83E7Xj30UtplIhbdP2/9Fxn/BMtux8bFLmv6LGWx97MHmk3GGb4KSzJFRE5vM
+        vAmjOp+wlLeaV84dEL54D5ju5ydcP/XD2cOjf4F8aK5TOUF15+thz3bEfyEej0tQTq2lPph2FP6ap
+        nCckCVZFsansqhCtEIqSzIPAnl7pv6Kj3AGy6JP3svH8kK9NEdRu3bgPD/it2hQbUUuNJrVBioAsR
+        fVRtUXRg==;
 Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIDZx-0004jl-Hl; Tue, 15 Sep 2020 16:13:13 +0000
+        id 1kIDc4-0004wT-LD; Tue, 15 Sep 2020 16:15:24 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -47,9 +47,9 @@ Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
         nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org
-Subject: [PATCH 09/18] sgiwd93: convert to dma_alloc_noncoherent
-Date:   Tue, 15 Sep 2020 17:51:13 +0200
-Message-Id: <20200915155122.1768241-10-hch@lst.de>
+Subject: [PATCH 10/18] hal2: convert to dma_alloc_noncoherent
+Date:   Tue, 15 Sep 2020 17:51:14 +0200
+Message-Id: <20200915155122.1768241-11-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
 References: <20200915155122.1768241-1-hch@lst.de>
@@ -62,60 +62,151 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Use the new non-coherent DMA API including proper ownership transfers.
-This also means we can allocate the memory as DMA_TO_DEVICE instead
-of bidirectional.
+This also means we can allocate the buffer memory with the proper
+direction instead of bidirectional.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/scsi/sgiwd93.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ sound/mips/hal2.c | 58 ++++++++++++++++++++++-------------------------
+ 1 file changed, 27 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/scsi/sgiwd93.c b/drivers/scsi/sgiwd93.c
-index 3bdf0deb8f1529..cf1030c9dda17f 100644
---- a/drivers/scsi/sgiwd93.c
-+++ b/drivers/scsi/sgiwd93.c
-@@ -95,7 +95,7 @@ void fill_hpc_entries(struct ip22_hostdata *hd, struct scsi_cmnd *cmd, int din)
- 	 */
- 	hcp->desc.pbuf = 0;
- 	hcp->desc.cntinfo = HPCDMA_EOX;
--	dma_cache_sync(hd->dev, hd->cpu,
-+	dma_sync_single_for_device(hd->dev, hd->dma,
- 		       (unsigned long)(hcp + 1) - (unsigned long)hd->cpu,
- 		       DMA_TO_DEVICE);
+diff --git a/sound/mips/hal2.c b/sound/mips/hal2.c
+index ec84bc4c3a6e77..9ac9b58d7c8cdd 100644
+--- a/sound/mips/hal2.c
++++ b/sound/mips/hal2.c
+@@ -441,7 +441,8 @@ static inline void hal2_stop_adc(struct snd_hal2 *hal2)
+ 	hal2->adc.pbus.pbus->pbdma_ctrl = HPC3_PDMACTRL_LD;
  }
-@@ -234,8 +234,8 @@ static int sgiwd93_probe(struct platform_device *pdev)
  
- 	hdata = host_to_hostdata(host);
- 	hdata->dev = &pdev->dev;
--	hdata->cpu = dma_alloc_attrs(&pdev->dev, HPC_DMA_SIZE, &hdata->dma,
--				     GFP_KERNEL, DMA_ATTR_NON_CONSISTENT);
-+	hdata->cpu = dma_alloc_noncoherent(&pdev->dev, HPC_DMA_SIZE,
-+				&hdata->dma, DMA_TO_DEVICE, GFP_KERNEL);
- 	if (!hdata->cpu) {
- 		printk(KERN_WARNING "sgiwd93: Could not allocate memory for "
- 		       "host %d buffer.\n", unit);
-@@ -274,8 +274,8 @@ static int sgiwd93_probe(struct platform_device *pdev)
- out_irq:
- 	free_irq(irq, host);
- out_free:
--	dma_free_attrs(&pdev->dev, HPC_DMA_SIZE, hdata->cpu, hdata->dma,
--		       DMA_ATTR_NON_CONSISTENT);
-+	dma_free_noncoherent(&pdev->dev, HPC_DMA_SIZE, hdata->cpu, hdata->dma,
-+			DMA_TO_DEVICE);
- out_put:
- 	scsi_host_put(host);
- out:
-@@ -291,8 +291,8 @@ static int sgiwd93_remove(struct platform_device *pdev)
+-static int hal2_alloc_dmabuf(struct snd_hal2 *hal2, struct hal2_codec *codec)
++static int hal2_alloc_dmabuf(struct snd_hal2 *hal2, struct hal2_codec *codec,
++		enum dma_data_direction buffer_dir)
+ {
+ 	struct device *dev = hal2->card->dev;
+ 	struct hal2_desc *desc;
+@@ -449,15 +450,15 @@ static int hal2_alloc_dmabuf(struct snd_hal2 *hal2, struct hal2_codec *codec)
+ 	int count = H2_BUF_SIZE / H2_BLOCK_SIZE;
+ 	int i;
  
- 	scsi_remove_host(host);
- 	free_irq(pd->irq, host);
--	dma_free_attrs(&pdev->dev, HPC_DMA_SIZE, hdata->cpu, hdata->dma,
--		       DMA_ATTR_NON_CONSISTENT);
-+	dma_free_noncoherent(&pdev->dev, HPC_DMA_SIZE, hdata->cpu, hdata->dma,
-+			DMA_TO_DEVICE);
- 	scsi_host_put(host);
+-	codec->buffer = dma_alloc_attrs(dev, H2_BUF_SIZE, &buffer_dma,
+-					GFP_KERNEL, DMA_ATTR_NON_CONSISTENT);
++	codec->buffer = dma_alloc_noncoherent(dev, H2_BUF_SIZE, &buffer_dma,
++					buffer_dir, GFP_KERNEL);
+ 	if (!codec->buffer)
+ 		return -ENOMEM;
+-	desc = dma_alloc_attrs(dev, count * sizeof(struct hal2_desc),
+-			       &desc_dma, GFP_KERNEL, DMA_ATTR_NON_CONSISTENT);
++	desc = dma_alloc_noncoherent(dev, count * sizeof(struct hal2_desc),
++			&desc_dma, DMA_BIDIRECTIONAL, GFP_KERNEL);
+ 	if (!desc) {
+-		dma_free_attrs(dev, H2_BUF_SIZE, codec->buffer, buffer_dma,
+-			       DMA_ATTR_NON_CONSISTENT);
++		dma_free_noncoherent(dev, H2_BUF_SIZE, codec->buffer, buffer_dma,
++				buffer_dir);
+ 		return -ENOMEM;
+ 	}
+ 	codec->buffer_dma = buffer_dma;
+@@ -470,20 +471,22 @@ static int hal2_alloc_dmabuf(struct snd_hal2 *hal2, struct hal2_codec *codec)
+ 		      desc_dma : desc_dma + (i + 1) * sizeof(struct hal2_desc);
+ 		desc++;
+ 	}
+-	dma_cache_sync(dev, codec->desc, count * sizeof(struct hal2_desc),
+-		       DMA_TO_DEVICE);
++	dma_sync_single_for_device(dev, codec->desc_dma,
++				   count * sizeof(struct hal2_desc),
++				   DMA_BIDIRECTIONAL);
+ 	codec->desc_count = count;
  	return 0;
  }
+ 
+-static void hal2_free_dmabuf(struct snd_hal2 *hal2, struct hal2_codec *codec)
++static void hal2_free_dmabuf(struct snd_hal2 *hal2, struct hal2_codec *codec,
++		enum dma_data_direction buffer_dir)
+ {
+ 	struct device *dev = hal2->card->dev;
+ 
+-	dma_free_attrs(dev, codec->desc_count * sizeof(struct hal2_desc),
+-		       codec->desc, codec->desc_dma, DMA_ATTR_NON_CONSISTENT);
+-	dma_free_attrs(dev, H2_BUF_SIZE, codec->buffer, codec->buffer_dma,
+-		       DMA_ATTR_NON_CONSISTENT);
++	dma_free_noncoherent(dev, codec->desc_count * sizeof(struct hal2_desc),
++		       codec->desc, codec->desc_dma, DMA_BIDIRECTIONAL);
++	dma_free_noncoherent(dev, H2_BUF_SIZE, codec->buffer, codec->buffer_dma,
++			buffer_dir);
+ }
+ 
+ static const struct snd_pcm_hardware hal2_pcm_hw = {
+@@ -509,21 +512,16 @@ static int hal2_playback_open(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_hal2 *hal2 = snd_pcm_substream_chip(substream);
+-	int err;
+ 
+ 	runtime->hw = hal2_pcm_hw;
+-
+-	err = hal2_alloc_dmabuf(hal2, &hal2->dac);
+-	if (err)
+-		return err;
+-	return 0;
++	return hal2_alloc_dmabuf(hal2, &hal2->dac, DMA_TO_DEVICE);
+ }
+ 
+ static int hal2_playback_close(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_hal2 *hal2 = snd_pcm_substream_chip(substream);
+ 
+-	hal2_free_dmabuf(hal2, &hal2->dac);
++	hal2_free_dmabuf(hal2, &hal2->dac, DMA_TO_DEVICE);
+ 	return 0;
+ }
+ 
+@@ -579,7 +577,9 @@ static void hal2_playback_transfer(struct snd_pcm_substream *substream,
+ 	unsigned char *buf = hal2->dac.buffer + rec->hw_data;
+ 
+ 	memcpy(buf, substream->runtime->dma_area + rec->sw_data, bytes);
+-	dma_cache_sync(hal2->card->dev, buf, bytes, DMA_TO_DEVICE);
++	dma_sync_single_for_device(hal2->card->dev,
++			hal2->dac.buffer_dma + rec->hw_data, bytes,
++			DMA_TO_DEVICE);
+ 
+ }
+ 
+@@ -597,22 +597,16 @@ static int hal2_capture_open(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_hal2 *hal2 = snd_pcm_substream_chip(substream);
+-	struct hal2_codec *adc = &hal2->adc;
+-	int err;
+ 
+ 	runtime->hw = hal2_pcm_hw;
+-
+-	err = hal2_alloc_dmabuf(hal2, adc);
+-	if (err)
+-		return err;
+-	return 0;
++	return hal2_alloc_dmabuf(hal2, &hal2->adc, DMA_FROM_DEVICE);
+ }
+ 
+ static int hal2_capture_close(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_hal2 *hal2 = snd_pcm_substream_chip(substream);
+ 
+-	hal2_free_dmabuf(hal2, &hal2->adc);
++	hal2_free_dmabuf(hal2, &hal2->adc, DMA_FROM_DEVICE);
+ 	return 0;
+ }
+ 
+@@ -667,7 +661,9 @@ static void hal2_capture_transfer(struct snd_pcm_substream *substream,
+ 	struct snd_hal2 *hal2 = snd_pcm_substream_chip(substream);
+ 	unsigned char *buf = hal2->adc.buffer + rec->hw_data;
+ 
+-	dma_cache_sync(hal2->card->dev, buf, bytes, DMA_FROM_DEVICE);
++	dma_sync_single_for_cpu(hal2->card->dev,
++			hal2->adc.buffer_dma + rec->hw_data, bytes,
++			DMA_FROM_DEVICE);
+ 	memcpy(substream->runtime->dma_area + rec->sw_data, buf, bytes);
+ }
+ 
 -- 
 2.28.0
 
