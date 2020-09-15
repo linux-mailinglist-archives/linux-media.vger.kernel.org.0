@@ -2,128 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBB5F26B813
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C644426B7F5
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:33:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbgIPAfz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 20:35:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52672 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726634AbgION1R (ORCPT
+        id S1726692AbgIPAdB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 20:33:01 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:47057 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726408AbgIONnK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 09:27:17 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD14DC0611C2;
-        Tue, 15 Sep 2020 06:26:23 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id t138so4195164qka.0;
-        Tue, 15 Sep 2020 06:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:message-id:in-reply-to:references:subject
-         :mime-version:content-transfer-encoding:content-disposition;
-        bh=ECv1tH4dixNsdKxQCqvGJD0xyYRqc/3rORp/BHVcsQ4=;
-        b=rrUc/Nra5A278GUSmFmQgG0+9yiyz/Kp+IF8tT6eTd3T2zNG1ooEzO9ZlSCCOlPi9X
-         hG+YWCMJqq8/nKJTh+UiUyP6E0SMGLppdAPCAjaCaYUxKK9DFJQnilOVBKn6ywicFDW9
-         T/ep8wEpWgIA4CJKCzGviWoNMJFKt7DlgQ9U8gBz4HvwOmAkzWa1iRRXhtlTfNTo8kYK
-         0Hh34hrXFgxJGrpV+bUnZYlVeXVlXR61XN5mr9hcMvIBijH7CUpZH5Ym59hVq3kWILQU
-         DSxDsdz+dODQ0fV5f6teQgCvV8Lb7WfrlqTz0PghqhgX0cWebwp42woWsJ9gpR9iVoNM
-         iUXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
-         :references:subject:mime-version:content-transfer-encoding
-         :content-disposition;
-        bh=ECv1tH4dixNsdKxQCqvGJD0xyYRqc/3rORp/BHVcsQ4=;
-        b=Ju0QQeeXlNAkiUqnCFHgoU3oP5xMqJDNV+1x7BzbtboOmS+M5Z157hxVOS9SAFo7IH
-         iR4gr4W7wVyHOy0jQ71E71c1JRXtdhM3wE5xhoaDr3wx+52Vct7RpqUSbnx1JgSkptap
-         LWxEn/RjRaNz9OLtQEHISvb6V77yOfNcNZOuk9hlSF0XGyZ1BRbEeHomQg6Idho+0LdU
-         EzAFNYvHZaKiBZKnukRDsZQ56bosvd/odS4joSmlmumruqJAADHxpPNvlYeH7mtXv3Vm
-         pwi1x+hS25GPyhKRRpgeXnB+QxNm1L9eyc2heTEey/fAJ/OefUxiL2cumsbE/Eff/ukQ
-         f9Cg==
-X-Gm-Message-State: AOAM531ggIQXjc39GoT9KFwRBaG9DVRfb/5rJXo+xdQ5XoVvLoZehUqK
-        Ff/l5IMh1qgZjDlRtsfRd8g=
-X-Google-Smtp-Source: ABdhPJzuz0o4wLDw+Cjo2IgGvOxLPSDN8JBtV21hG89SBTjGoXxWC7vpcN1/qhgD+HtvnbTR9wKs5w==
-X-Received: by 2002:a05:620a:13e8:: with SMTP id h8mr17496044qkl.322.1600176383031;
-        Tue, 15 Sep 2020 06:26:23 -0700 (PDT)
-Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id g45sm17473139qtb.60.2020.09.15.06.26.20
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Sep 2020 06:26:22 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 10:26:17 -0300
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "=?utf-8?Q?mchehab+huawei=40kernel.org?=" <mchehab+huawei@kernel.org>,
-        "=?utf-8?Q?r.verdejo=40samsung.com?=" <r.verdejo@samsung.com>,
-        "=?utf-8?Q?nicolas=40ndufresne.ca?=" <nicolas@ndufresne.ca>,
-        "=?utf-8?Q?linux-media=40vger.kernel.org?=" 
-        <linux-media@vger.kernel.org>,
-        "=?utf-8?Q?skhan=40linuxfoundation.org?=" <skhan@linuxfoundation.org>,
-        "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org?=" 
-        <linux-kernel-mentees@lists.linuxfoundation.org>,
-        "=?utf-8?Q?linux-kernel=40vger.kernel.org?=" 
-        <linux-kernel@vger.kernel.org>
-Message-ID: <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
-In-Reply-To: <alpine.DEB.2.21.2009151345001.31296@ramsan.of.borg>
-References: <alpine.DEB.2.21.2009151345001.31296@ramsan.of.borg>
-Subject: Re: [v10 3/4] media: vidtv: add a bridge driver
-X-Mailer: Mailspring
-MIME-Version: 1.0
+        Tue, 15 Sep 2020 09:43:10 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200915133308euoutp02adc1398ed3f553c4f584bcb8d43c82c1~0_E_yyNfM1387513875euoutp02N
+        for <linux-media@vger.kernel.org>; Tue, 15 Sep 2020 13:33:08 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200915133308euoutp02adc1398ed3f553c4f584bcb8d43c82c1~0_E_yyNfM1387513875euoutp02N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1600176788;
+        bh=aCmn9Ak4bEbvr1/sdV2tQtGRlMYwWNIVBMKU464Jy4g=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=bggXbn95koPqKmlSb4pd5swQOP38tckH4pfQMBtQRbK/GPEUMAG45wrm9FVm2seEx
+         uGbdjjdKHoa4ZJhEXml7WjObV5IEcU1tiRrIwIcIEMgVccXKHXk6h4V6QpVz1OuYqR
+         5EqORQ8nBbmrywfD4ifddy63dmhVichGXCpiL4Zo=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200915133308eucas1p1152bdf446eb089d21d0cf1f47f1bbae5~0_E_nzvwV0214102141eucas1p1b;
+        Tue, 15 Sep 2020 13:33:08 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 58.11.05997.492C06F5; Tue, 15
+        Sep 2020 14:33:08 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200915133308eucas1p2a9a4354abbe3af95f9978b7e6adbe3a1~0_E_RC9AT1220112201eucas1p2v;
+        Tue, 15 Sep 2020 13:33:08 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200915133308eusmtrp17ffc2f06c7fc963e53c3f244c90cd876~0_E_QV8B70801708017eusmtrp1S;
+        Tue, 15 Sep 2020 13:33:08 +0000 (GMT)
+X-AuditID: cbfec7f4-65dff7000000176d-8d-5f60c29445f6
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 40.EF.06017.492C06F5; Tue, 15
+        Sep 2020 14:33:08 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200915133307eusmtip246487716a187a2d20bb45e049285b3b9~0_E91QGUQ0270202702eusmtip26;
+        Tue, 15 Sep 2020 13:33:07 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sylwester Nawrocki <snawrocki@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 0/2] Exynos4-IS: adapt for the planned ARM IOMMU-DMA changes
+Date:   Tue, 15 Sep 2020 15:32:54 +0200
+Message-Id: <20200915133256.1210-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRmVeSWpSXmKPExsWy7djP87pTDiXEG1zuUrLYOGM9q8X58xvY
+        LXo2bGW1mHF+H5PF2iN32S2WbfrDZHHwwxNWi/anL5kdODzWzFvD6LFpVSebR9+WVYwenzfJ
+        BbBEcdmkpOZklqUW6dslcGXsPbSUpWAFZ8W9dQdZGhifs3cxcnJICJhIbJ61g62LkYtDSGAF
+        o8TqyS9YIZwvjBJTWg+zQzifGSXmr3/OCNPy9dktqKrljBIb9z5ih2vpeDWRBaSKTcBQoutt
+        FxuILSLgJLFw1l+wImaBPiaJK/MWs4IkhAV8JCaeewVmswioSqzdsh6omYODV8BGov9fHcQ2
+        eYnVGw4wg/RKCNxmk/i8ZisLRMJFYs+zVqgvhCVeHd8CZctInJ7cwwLR0Mwo8fDcWnYIp4dR
+        4nLTDKgnrCXunPvFBrKNWUBTYv0ufYiwo8TcA+vZQcISAnwSN94KgoSZgcxJ26YzQ4R5JTra
+        hCCq1SRmHV8Ht/bghUvMELaHRPOhDUwgtpBArMS9nedYJzDKzULYtYCRcRWjeGppcW56arFR
+        Xmq5XnFibnFpXrpecn7uJkZgOjj97/iXHYy7/iQdYhTgYFTi4U0oj48XYk0sK67MPcQowcGs
+        JMLrdPZ0nBBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe40UvY4UE0hNLUrNTUwtSi2CyTBycUg2M
+        wue9xa/q9kvqxKq55L5TW3Rq+wnJRZXm75qzVd7/sDwY53jvV4tWPnfIj+v7ObY98jPgvmy6
+        NbpIm2v+9+q1pp4Tz3x2nDzr6NVfywODNc5MnZA6wUWqR5Ej/U7efYfks7+5yjeu3hVZrm68
+        ZO0yDuYVrtM90neY/9CKVL9ff0507tdsSZM9SizFGYmGWsxFxYkA5OGh0AMDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKLMWRmVeSWpSXmKPExsVy+t/xe7pTDiXEGyz4wmmxccZ6Vovz5zew
+        W/Rs2MpqMeP8PiaLtUfuslss2/SHyeLghyesFu1PXzI7cHismbeG0WPTqk42j74tqxg9Pm+S
+        C2CJ0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0MvY
+        e2gpS8EKzop76w6yNDA+Z+9i5OSQEDCR+PrsFmsXIxeHkMBSRonfd36yQSRkJE5Oa2CFsIUl
+        /lzrYoMo+sQo8WvKcbAiNgFDia63XWC2iICLxP49T5lBipgFJjFJ/O7fzgiSEBbwkZh47hXY
+        JBYBVYm1W9azdDFycPAK2Ej0/6uDWCAvsXrDAeYJjDwLGBlWMYqklhbnpucWG+kVJ+YWl+al
+        6yXn525iBAbhtmM/t+xg7HoXfIhRgINRiYc3oTw+Xog1say4MvcQowQHs5IIr9PZ03FCvCmJ
+        lVWpRfnxRaU5qcWHGE2Bdk9klhJNzgdGSF5JvKGpobmFpaG5sbmxmYWSOG+HwMEYIYH0xJLU
+        7NTUgtQimD4mDk6pBkbVP1Z/Psxw/Z25wYZnjXrsbzZW5g/rlHo2L3l86v9s9yO2iQEf+4Ne
+        5iV2163zspLbs9ZOKfL+yp27bydc+nBE72XBcuV6gx8hr3Zk/+Pv7tv555htphn/rGmB0brZ
+        f/d3i6iJLYzI2LpNg+fN8hkuEuvzzhTP21/FpXly+/Gda2xWL92zvuirEktxRqKhFnNRcSIA
+        Wsg61lgCAAA=
+X-CMS-MailID: 20200915133308eucas1p2a9a4354abbe3af95f9978b7e6adbe3a1
+X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+X-RootMTR: 20200915133308eucas1p2a9a4354abbe3af95f9978b7e6adbe3a1
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200915133308eucas1p2a9a4354abbe3af95f9978b7e6adbe3a1
+References: <CGME20200915133308eucas1p2a9a4354abbe3af95f9978b7e6adbe3a1@eucas1p2.samsung.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+Hi,
 
-Thanks for bringing this to my attention.
+This patchset updates Exynos4-IS driver for the planned kernel changes in
+the area of ARM DMA-mapping and IOMMU integration [1].
 
-
->> +	u32 nbytes = 0;  /* the number of bytes written by this function */
->> +
->> +	u64 nbytes_expected; /* the number of bytes we should have written */
->> +	u64 nbytes_streamed; /* the number of bytes we actually wrote */
->> +	u32 num_null_pkts; /* number of null packets to bridge the gap */
->> +
->> +	u64 elapsed_time_msecs = jiffies_to_usecs(m->timing.current_jiffies -
->> +						  m->timing.past_jiffies);
->> +
->> +	elapsed_time_msecs = min(elapsed_time_msecs,
->> (u64)VIDTV_MAX_SLEEP_USECS / 1000);
->> +	nbytes_expected = div64_u64(m->mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);
-> 
-> Seriously?!?
-> 
-> You multiply by 1000 first, followed by a division by 1000 using an
-> expensive 64-by-64 division?
-
-This entire function is broken and needs a do-over :)
-
-> using an expensive 64-by-64 division?
-
-I am new to kernel development. I wasn't even aware that this was
-expensive, to be honest.
+Best regards,
+Marek Szyprowski
 
 
->> +	if (nbytes_streamed < nbytes_expected) {
->> +		/* can't write half a packet: roundup to a 188 multiple */
->> +		nbytes_expected  = roundup(nbytes_expected - nbytes_streamed, TS_PACKET_LEN);
-> 
-> drivers/media/test-drivers/vidtv/vidtv_mux.o: In function `vidtv_mux_tick':
-> vidtv_mux.c:(.text+0x788): undefined reference to `__udivdi3'
-> 
-> This is a 64-by-32 division, hence it should use a helper from
-> <linux/math64.h>.
-> 
-> However, I'm wondering if "nbytes_expected - nbytes_streamed" is
-> guaranteed to be a "small" number, hence a 32-by-32 division would be
-> sufficient?
+References:
 
-I think so.
+[1] https://lore.kernel.org/lkml/cover.1597931875.git.robin.murphy@arm.com/
 
-I will send a patch to address the things you pointed out in this email.
 
--- thanks
--- Daniel
+Patch summary:
+
+Marek Szyprowski (2):
+  media: platform: exynos4-is: remove all references to physicall
+    addresses
+  media: platform: exynos4-is: add support for generic IOMMU-DMA glue
+    code
+
+ .../media/platform/exynos4-is/fimc-capture.c  |  6 +-
+ drivers/media/platform/exynos4-is/fimc-core.c | 28 +++---
+ drivers/media/platform/exynos4-is/fimc-core.h | 18 ++--
+ drivers/media/platform/exynos4-is/fimc-is.c   | 95 ++++++++++++++++---
+ drivers/media/platform/exynos4-is/fimc-is.h   | 10 +-
+ .../media/platform/exynos4-is/fimc-lite-reg.c |  4 +-
+ drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
+ drivers/media/platform/exynos4-is/fimc-lite.h |  4 +-
+ drivers/media/platform/exynos4-is/fimc-m2m.c  |  8 +-
+ drivers/media/platform/exynos4-is/fimc-reg.c  | 18 ++--
+ drivers/media/platform/exynos4-is/fimc-reg.h  |  4 +-
+ 11 files changed, 135 insertions(+), 62 deletions(-)
+
+-- 
+2.17.1
+
