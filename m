@@ -2,82 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6DC1269EA9
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 08:36:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02721269EFC
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 08:58:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgIOGg3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 02:36:29 -0400
-Received: from verein.lst.de ([213.95.11.211]:46605 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726056AbgIOGgY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 02:36:24 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id CFEFC6736F; Tue, 15 Sep 2020 08:36:18 +0200 (CEST)
-Date:   Tue, 15 Sep 2020 08:36:18 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org
-Subject: Re: a saner API for allocating DMA addressable pages v2
-Message-ID: <20200915063618.GD19113@lst.de>
-References: <20200914144433.1622958-1-hch@lst.de> <20200914152617.GR6583@casper.infradead.org>
+        id S1726085AbgIOG6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 02:58:31 -0400
+Received: from mail-eopbgr60077.outbound.protection.outlook.com ([40.107.6.77]:36743
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726031AbgIOG62 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Sep 2020 02:58:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EJCkhUVgk6fPLDIUEkGohbs1M2BR9W64bWA5mtZZaCUojbGjO40Q7JoG1k/UjwL7iI0gKeQg6qlIbwPuEynR3Oa4WeNIZtA56/CZRMnLP0dsdsVcq49ZrhCHt4l/eb24Xd1U0A6Qfzxh3HOqi05g1QzYXl4az0rcH3UMDUkpvRFMfTsWOskyTgQGUD2ehHDoqAM+J4ItdCyayEFPaklG+lqHFZ2+2V6O/ZauZZenvyCK8xGlX232BCNxQu6mMh3RW9fWhxHS2eXM4K9CCgogJl+ffeFgU6jT8VaB84Z8ZXLJDJ/4BiNPAG+sjb08nLAiLkNNxtVe8m4pkuAuRCrI7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fc7lAaRm6zKqktEQ98LbIyUFKubJ6Dl/RXtlbGuOoSw=;
+ b=k11wTSKXoPMNx67UrdU1jEwFGf21hfa4WCYrSrRtCDEa5J2OEMvHBS/PkLaNPGVRY4q3bvMYKq2ZP/nSyNTgywDdJ224hTmraMlRwQ25yfLZZ0xwfGveQgj9WIp7GnvXeFRRQGn4G+z3Fl+QTQyjNQZ4fdbcpjc87PlgNxrmZ+5ZXWzlNCQUDJ8HSJA0riM7IQ38A6FaNOuhnq7rSOJisJzvE2D0EekiA5B0WoAaGbVtxdyQ1sU0DHxtD5/pqlVqr8O1bV+D+qePbfnpv9cpF8dtTYKewfstP2foPba3NSTPgVyVYk/AhzRYH5hmFxQ8+dIUEhiW4PL49d6n9xDsZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fc7lAaRm6zKqktEQ98LbIyUFKubJ6Dl/RXtlbGuOoSw=;
+ b=sk6aamn3QdWHQt+9kQ4dhjDH/0Qkz+0Mp2ZC8GxUGR3tx2AnSnlrlqu5gSWNJBBdvZ21OwpXUirJSUSVNeZXiRCGFPCnyYTBfWeJrFff8GGTusO922aizqUCqu5iiLRtin1eKnN98KQik5WJyzJv4adWd//WnfkdmSKW3eA6o68=
+Received: from DB8PR04MB6795.eurprd04.prod.outlook.com (2603:10a6:10:fa::15)
+ by DB7PR04MB5498.eurprd04.prod.outlook.com (2603:10a6:10:80::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Tue, 15 Sep
+ 2020 06:58:24 +0000
+Received: from DB8PR04MB6795.eurprd04.prod.outlook.com
+ ([fe80::d12e:689a:169:fd68]) by DB8PR04MB6795.eurprd04.prod.outlook.com
+ ([fe80::d12e:689a:169:fd68%8]) with mapi id 15.20.3370.019; Tue, 15 Sep 2020
+ 06:58:24 +0000
+From:   Joakim Zhang <qiangqing.zhang@nxp.com>
+To:     "sean@mess.org" <sean@mess.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        LnxRevLi <LnxRevLi@nxp.com>
+Subject: Recall: [PATCH] media: rc: gpio-ir-recv: add QoS support for cpuidle
+ system
+Thread-Topic: [PATCH] media: rc: gpio-ir-recv: add QoS support for cpuidle
+ system
+Thread-Index: AQHWiy2bq+eMdBITkk6RhyWwegYPvw==
+X-CallingTelephoneNumber: IPM.Note
+X-VoiceMessageDuration: 35
+X-FaxNumberOfPages: 0
+Date:   Tue, 15 Sep 2020 06:58:24 +0000
+Message-ID: <DB8PR04MB6795DA37297A19D37907701AE6200@DB8PR04MB6795.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: mess.org; dkim=none (message not signed)
+ header.d=none;mess.org; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.71]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 98ab7ef5-8d86-44e6-f64a-08d85944bd92
+x-ms-traffictypediagnostic: DB7PR04MB5498:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB7PR04MB5498021FDDEF5096F2A027BAE6200@DB7PR04MB5498.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tdKRAiXUaQ+zMvqvRwXPqZWur6Ay6zk/c8UJPVAyvDm+lQrBmveChKvvq3YT9pz783zsAgLz2sRs/G/ekoC/kYzomKreMiwRg7Jy8eCt3Im9nmde+PlvrhXMozWhdickCBjqJLHERaW3SZmOkKqjAKDWjuLneEn3TMVl9hZBUz5QmMAC8+Ts/XuJVqw97ViyxreXUP6Bz3ns0GWj35mhbkGKv9dx6qcnQGXPksKaa8TrqxQJL0FnyMDLUkPOaijROfNj2Kb5BhiFjHEC8ie5jE/W5CDNjpca+n+ZAOW/i0hv1SgvOvgApDtzRr0lzSZPHl036qVvQMEdsIq8lSW1XQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6795.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(39860400002)(366004)(346002)(6506007)(2906002)(110136005)(54906003)(7696005)(8676002)(66476007)(66556008)(64756008)(66446008)(76116006)(52536014)(71200400001)(83380400001)(5660300002)(66946007)(478600001)(86362001)(558084003)(316002)(4326008)(26005)(9686003)(186003)(55016002)(33656002)(8936002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 9+yDrQhVYYqsGMVS2z/IsLeiHPFirAKTrLN3u4dTWxx7acOxeNvAOT06fe486ndaCcRN1QxQjNzm5Qelq5hdDX+VXiQQGtIZemSWHPk3XuE7KXdHpHUDVUy3j1pMskG60MF0ft/UF9GJOyNgOFG4pKmzYCzTzYfzilfRaW9/HEoHNcgjKeufRnUv78ryL+vZxCK3PgIhvUtL5jlMAg3vrU6ahfN1x1P5IBMR26GU4HhHTpD4vng4JEKs1QzwEpBuoJBdYbJ+iv0xQsv0vGdmMZ0PzqCk34PTuIyaR80/wCzpg/H7VFXGUP+aw5Ne4SZDcgWPkbPpvS50wCTFcNMGZTieCXJsxDQmTv1cX+s5cytHg8q3qOFQLfGFzjaXbVXYJ1XAH2tclOppRseZ2vms3hx5cy0Qcfj5EwVE2HiKgwn8gmHlDWGQn7ZrGyVMrP0Q6pdUY20XaT+632WzMz8eHMZzuKp6N8uNXLQ1ADoX/VhwTi1qcFFmbJLmgoeKLwTCgc6KYqZNrtNJysC1M+MXdRKH5TApxKwkUC4sRRkNwR3UMHRJDPz5KYd3dalkLJaalanqrth35mucn/1W5/C6QMxwf2ipvIVzxGX2A4bkAeE7ZMqi4FTcwuyXYEqGo+v41uq9y02xoH98YA/KV8yYFw==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200914152617.GR6583@casper.infradead.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR04MB6795.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98ab7ef5-8d86-44e6-f64a-08d85944bd92
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Sep 2020 06:58:24.5431
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: R1X2hD11lgjSAsvoQG4603TIAz0CjaXlDJJfZ9HzjDVLrXTQkoxj4XpwW/GEi497ugsxr1AYvM9Y6toQ4SL00Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB5498
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 14, 2020 at 04:26:17PM +0100, Matthew Wilcox wrote:
-> On Mon, Sep 14, 2020 at 04:44:16PM +0200, Christoph Hellwig wrote:
-> > I'm still a little unsure about the API naming, as alloc_pages sort of
-> > implies a struct page return value, but we return a kernel virtual
-> > address.
-> 
-> Erm ... dma_alloc_pages() returns a struct page, so is this sentence
-> stale?
-
-Yes.
-
-> You say that like it's a bad thing.  I think the problem is more that
-> people don't understand what non-coherent means and think they're
-> supporting it when they're not.
-> 
-> dma_alloc_manual_flushing()?
-
-That sounds pretty awkward..
-
-> 
-> > As a follow up I plan to move the implementation of the
-> > DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
-> > that is also is a fundamentally non coherent allocation.  The replacement
-> > for that flag would then return a struct page, as it is allowed to
-> > actually return pages without a kernel mapping as the name suggested
-> > (although most of the time they will actually have a kernel mapping..)
-> 
-> If the page doesn't have a kernel mapping, shouldn't it return a PFN
-> or a phys_addr?
-
-Most APIs we'll feed it into need a struct page.  The difference is just
-that it can be a highmem page.  And if we want to get fancy we could
-change the kernel mapping to PROT_NONE eventually.
+Joakim Zhang would like to recall the message, "[PATCH] media: rc: gpio-ir-=
+recv: add QoS support for cpuidle system".=
