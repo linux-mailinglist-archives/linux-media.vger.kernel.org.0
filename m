@@ -2,244 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E1B2269A13
-	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 02:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF20E269BF0
+	for <lists+linux-media@lfdr.de>; Tue, 15 Sep 2020 04:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726139AbgIOAEf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Sep 2020 20:04:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42256 "EHLO
+        id S1726062AbgIOCjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Sep 2020 22:39:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726093AbgIOAEd (ORCPT
+        with ESMTP id S1726045AbgIOCjG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Sep 2020 20:04:33 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C438CC06178A
-        for <linux-media@vger.kernel.org>; Mon, 14 Sep 2020 17:04:31 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id y4so1185227ljk.8
-        for <linux-media@vger.kernel.org>; Mon, 14 Sep 2020 17:04:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jgCGWOK0Qefy5Fhi4KKTahno9HKUpTYwmUl0eHwt2L4=;
-        b=gSjbKBzMm+N312I84x+Yj8GcAMzjKnYipMN8Z/bEgnQrQsTs+OmwU4b3LVEPLwC6aK
-         ocIMM+heLgZ3vEwHp0OOlrn+cAx5nyV2M5teZHYHfh3fUcu5feP6Luzod1oRkx8I3457
-         71eZxcygUILlB5ftrtFttXWHouoHT6IlUuBmrFxSyn7h36CJ7rMgXqThgCKjCltPJO7/
-         5dXJ7pcibiBU8q64WFIsHQjS0tmzWulQO9EAq4FIaXKpCbBfpP37anhWWRP5pdiKqNz3
-         xaBkajrABn+SP7BCmkJwqx9zX2i0hh8HFQA0JsfgSSzT2EJGkd7gM9X3l3qsyjxyPBjY
-         QpGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jgCGWOK0Qefy5Fhi4KKTahno9HKUpTYwmUl0eHwt2L4=;
-        b=cHU5rU7sRg7Xo2t2AkfmxUVaVOdod9wZBHNReEQvvxx338m7LA1YiteAh8TOMuGerq
-         pC/ojFOYrOy8qnRamkAmCufJ5YdY6GN8eEWE5F7/pABCsIPuspsilBU7dTzLTc4qouft
-         /J+G28gyGbLb8k2KMm9RR5jU+buISKQE4iOiuYiRCv0WQI1nXABX5RVCxWw3DYB0vn6P
-         T1NAjXG+IqEJ5adrJdloOz6uMTJK9FETUlXmMxnFpzG1zIknjxLhuL386UIsH7zSACsO
-         v7sK95f9DDXGRU7ALhdgYxG0X5cT0IVkAS0gz3yisRnUngfz0XOZm9DNPDMYA5vSPOML
-         xD9w==
-X-Gm-Message-State: AOAM530evxABH5l6wg1a234IientB2OHiARty74cwAqB0B2cgTa8Zmmq
-        ky73igxqAdYx7u4vdCEbq6MS6g==
-X-Google-Smtp-Source: ABdhPJzoz6S0ZlL4vXr8oV8PcsKi+cx6YzmVIaJoGSB90g6XRePDfA1/s4dIcen7byBgEvfkByEpvg==
-X-Received: by 2002:a2e:7a04:: with SMTP id v4mr6189916ljc.128.1600128269031;
-        Mon, 14 Sep 2020 17:04:29 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id 69sm4007618lfm.83.2020.09.14.17.04.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 17:04:28 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 02:04:28 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v2] media: rcar-vin: Update crop and compose settings for
- every s_fmt call
-Message-ID: <20200915000428.GA1695481@oden.dyn.berto.se>
-References: <20200913182140.32466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 14 Sep 2020 22:39:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776E4C06174A;
+        Mon, 14 Sep 2020 19:39:06 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4A49275;
+        Tue, 15 Sep 2020 04:38:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600137538;
+        bh=ceWb6jetlVmK1+PMT2AVlI5YUi1hnO6JDbvNsbyGh1A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gi7UkDFo1MmLdvpjAPNCuF8guUHpOsMGcJeUtmsmlHYNPmrlMi547DhAkV7pyXB9n
+         6t2V4NYVKhn1IbeMI42FK0avPvMj+sjGDtJlvrqOHzxAVFJnj21ImsIYY7AQGFAi8O
+         l9AH6jIGoGXIaQgrnldofe+GRZvzuPKZVv4WTezE=
+Date:   Tue, 15 Sep 2020 05:38:29 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Vishal Sagar <vsagar@xilinx.com>, Hyun Kwon <hyunk@xilinx.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Michal Simek <michals@xilinx.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "joe@perches.com" <joe@perches.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Dinesh Kumar <dineshk@xilinx.com>
+Subject: Re: [PATCH v3 3/3] media: v4l: xilinx: Add Xilinx UHD-SDI Rx
+ Subsystem driver
+Message-ID: <20200915023829.GE15543@pendragon.ideasonboard.com>
+References: <20200618053304.14551-1-vishal.sagar@xilinx.com>
+ <20200618053304.14551-4-vishal.sagar@xilinx.com>
+ <50cc4f4b-e788-c5ad-cd6a-b428b96d5377@xs4all.nl>
+ <20200715213315.GF6144@pendragon.ideasonboard.com>
+ <BY5PR02MB6867211CA1F22DC01D6A8F15A75D0@BY5PR02MB6867.namprd02.prod.outlook.com>
+ <20200819165641.GS6049@pendragon.ideasonboard.com>
+ <ae3814b877ea264b0231321d12d946761941e004.camel@ndufresne.ca>
+ <f88cc98f-7e0d-cedc-6b27-a7a5fd801ebe@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200913182140.32466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <f88cc98f-7e0d-cedc-6b27-a7a5fd801ebe@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad,
+Hi Hans,
 
-Thanks for your work.
-
-On 2020-09-13 19:21:40 +0100, Lad Prabhakar wrote:
-> The crop and compose settings for VIN in non mc mode werent updated
-> in s_fmt call this resulted in captured images being clipped.
+On Thu, Sep 10, 2020 at 12:22:28PM +0200, Hans Verkuil wrote:
+> On 26/08/2020 16:10, Nicolas Dufresne wrote:
+> > Le mercredi 19 août 2020 à 19:56 +0300, Laurent Pinchart a écrit :
+> >> Hi Vishal,
+> >>
+> >> (Hans, there's a question for you below)
+> >>
+> >> On Wed, Aug 19, 2020 at 01:47:49PM +0000, Vishal Sagar wrote:
+> >>> On Thursday, July 16, 2020 3:03 AM Laurent Pinchart wrote:
+> >>>> On Thu, Jun 25, 2020 at 11:43:01AM +0200, Hans Verkuil wrote:
+> >>>>> On 18/06/2020 07:33, Vishal Sagar wrote:
+> >>>>>> The Xilinx UHD-SDI Rx subsystem soft IP is used to capture native SDI
+> >>>>>> streams from SDI sources like SDI broadcast equipment like cameras and
+> >>>>>> mixers. This block outputs either native SDI, native video or
+> >>>>>> AXI4-Stream compliant data stream for further processing. Please refer
+> >>>>>> to PG290 for details.
+> >>>>>>
+> >>>>>> The driver is used to configure the IP to add framer, search for
+> >>>>>> specific modes, get the detected mode, stream parameters, errors, etc.
+> >>>>>> It also generates events for video lock/unlock, bridge over/under flow.
+> >>>>>>
+> >>>>>> The driver supports 10/12 bpc YUV 422 media bus format currently. It
+> >>>>>> also decodes the stream parameters based on the ST352 packet embedded in the
+> >>>>>> stream. In case the ST352 packet isn't present in the stream, the core's
+> >>>>>> detected properties are used to set stream properties.
+> >>>>>>
+> >>>>>> The driver currently supports only the AXI4-Stream IP configuration.
+> >>>>>>
+> >>>>>> Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
+> >>>>>> ---
+> >>>>>> v3
+> >>>>>> - fixed KConfig with better description
+> >>>>>> - removed unnecessary header files
+> >>>>>> - converted uppercase to lowercase for all hex values
+> >>>>>> - merged core struct to state struct
+> >>>>>> - removed most one line functions and replaced with direct reg
+> >>>>>>   read/write or macros
+> >>>>>> - dt property bpp to bpc. default 10. not mandatory.
+> >>>>>> - fixed subscribe events, log_status, s_stream
+> >>>>>> - merged overflow/underflow to one event
+> >>>>>> - moved all controls to xilinx-sdirxss.h
+> >>>>>> - max events from 128 to 8
+> >>>>>> - used FIELD_GET() instead of custom macro
+> >>>>>> - updated the controls documentation
+> >>>>>> - added spinlock
+> >>>>>> - removed 3GB control and added mode to detect bitmask
+> >>>>>> - fixed format for (width, height, colorspace, xfer func, etc)
+> >>>>>> - added dv_timings_cap, s/g_dv_timings
+> >>>>>> - fixed set/get_format
+> >>>>>> - fix v4l control registrations
+> >>>>>> - fix order of registration / deregistration in probe() remove()
+> >>>>>> - fixed other comments from Hyun, Laurent and Hans
+> >>>>>> - things yet to close
+> >>>>>>   - adding source port for connector (Laurent's suggestion)
+> >>>>>>   - adding new FIELD type for Transport Stream V4L2_FIELD_ALTERNATE_PROG (Han's suggestion)
+> >>>>>>   - Update / remove EDH or CRC related controls
+> >>>>>>
+> >>>>>> v2
+> >>>>>> - Added DV timing support based on Hans Verkuilś feedback
+> >>>>>> - More documentation to custom v4l controls and events
+> >>>>>> - Fixed Hyunś comments
+> >>>>>> - Added macro for masking and shifting as per Joe Perches comments
+> >>>>>> - Updated to latest as per Xilinx github repo driver like
+> >>>>>>   adding new DV timings not in mainline yet uptill 03/21/20
+> >>>>>>
+> >>>>>>  drivers/media/platform/xilinx/Kconfig         |   11 +
+> >>>>>>  drivers/media/platform/xilinx/Makefile        |    1 +
+> >>>>>>  .../media/platform/xilinx/xilinx-sdirxss.c    | 2121 +++++++++++++++++
+> >>>>>>  include/uapi/linux/v4l2-controls.h            |    6 +
+> >>>>>>  include/uapi/linux/xilinx-sdirxss.h           |  283 +++
+> >>>>>>  5 files changed, 2422 insertions(+)
+> >>>>>>  create mode 100644 drivers/media/platform/xilinx/xilinx-sdirxss.c
+> >>>>>>  create mode 100644 include/uapi/linux/xilinx-sdirxss.h
+> >>
+> >> [snip]
+> >>
+> >>>>>> diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c b/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> >>>>>> new file mode 100644
+> >>>>>> index 000000000000..e39aab7c656a
+> >>>>>> --- /dev/null
+> >>>>>> +++ b/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> >>>>>> @@ -0,0 +1,2121 @@
+> >>
+> >> [snip]
+> >>
+> >>>>>> +	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
+> >>>>>> +		ctrl->val = xsdirxss->ts_is_interlaced;
+> >>>>>> +		break;
+> >>>>>
+> >>>>> I assume this control will disappear once you added support for
+> >>>>> FIELD_ALTERNATE_PROG?
+> >>>>
+> >>>> I'm not sure FIELD_ALTERNATE_PROG is a good idea. The v4l2_field
+> >>>> specifies today how frames are split into multiple buffers. There's an
+> >>>> implicit assumption that a frame split into two buffers is captured with
+> >>>> interlacing. In the SDI case, the two concepts get decoupled, a
+> >>>> progressive frame can be transmitted (and captured) in two separate
+> >>>> parts. If we add a *_PROG field, we'll need to duplicate most of the
+> >>>> v4l2_field values with a _PROG suffix, as the progressive frame can be
+> >>>> captured in alternate buffers on a video node, but also in separate odd
+> >>>> and even buffers on two video nodes. Tt the hardware level, data is
+> >>>> transmitted with odd lines on one link, and even lines on a second link.
+> >>>> There are then two instances of this IP core, one for each link. One
+> >>>> instance would receive and process the even lines, the other instance
+> >>>> the odd lines. The output of the two instances can then be connected to
+> >>>> two separate DMA engines, or combined in the FPGA fabric, depending on
+> >>>> how the user designs the system.
+> >>>
+> >>> My apologies to give incorrect info regarding this.
+> >>> In the progressive segmented frame, a progressive captured frame is sent
+> >>> across to receiver over an interlaced transport. The 2 fields received
+> >>> are similar to how V4L2_FIELD_ALTERNATE is except that the fields weren't
+> >>> captured at 2 different times.
+> >>
+> >> I've now read more about progressive segmented frames, and I was indeed
+> >> wrong about the fact that the two segments are transported over
+> >> different links.
+> >>
+> >> I still wonder, however, if a _PROG suffix is the best option. Wouldn't
+> >> we need to also add V4L2_FIELD_TOP_PROG, V4L2_FIELD_BOTTOM_PROG,
+> >> V4L2_FIELD_SEQ_TB_PROG and V4L2_FIELD_SEQ_BT_PROG, not necessarily for
+> >> this driver, but for other devices that would support capturing the
+> >> odd/even segments only, or support capturing both segments in a single
+> >> buffer, one after the other ?
+> >>
+> >> Maybe that's unavoidable, as enum v4l2_field combines both the buffer
+> >> layout and the fact that the frame is interlaced or progressive. If we
+> >> had to redesign it we could do better, but having to keep backward
+> >> compatibility, duplicating most values with a _PROG suffix may be the
+> >> best option.
+> >>
+> >> Hans, any opinion ?
 > 
-> With the below sequence on the third capture where size is set to
-> 640x480 resulted in clipped image of size 320x240.
+> I don't believe there is any need to create those other V4L2_FIELD_ variants.
+> With V4L2_FIELD_ALTERNATE_PROG each buffer will be set to V4L2_FIELD_TOP (i.e.
+> odd lines) or V4L2_FIELD_BOTTOM (i.e. even lines).
+
+What if an application wants to capture TOP or BOTTOM fields only though
+? The DMA engine would need to be configured with either
+V4L2_FIELD_TOP_PROG or V4L2_FIELD_BOTTOM_PROG, wouldn't it ? Or should
+the _PROG information be reported by this subdev only, and not
+propagated through the pipeline ?
+
+> There is nothing else you need here.
 > 
-> high(640x480) -> low (320x240) -> high (640x480)
+> A V4L2_FIELD_SEQ_TB_PROG might be needed if we get HW that does something
+> so strange.
 > 
-> This patch makes sure the VIN crop and compose settings are updated.
-
-With this change I get failures with v4l2-compliance I don't have 
-before. I think we need to align this the other way around, copy the 
-non-MC behavior to the MC S_FTM implementation.
-
-# v4l2-compliance -d /dev/video28
-v4l2-compliance SHA: c7f03287bbd64c168975e7ff3192e6fd3b507686, 32 bits, 32-bit time_t
-
-Compliance test for rcar_vin device /dev/video28:
-
-Driver Info:
-	Driver name      : rcar_vin
-	Card type        : R_Car_VIN
-	Bus info         : platform:e6ef1000.video
-	Driver version   : 5.9.0
-	Capabilities     : 0x85200001
-		Video Capture
-		Read/Write
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x05200001
-		Video Capture
-		Read/Write
-		Streaming
-		Extended Pix Format
-
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video28 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 6 Private Controls: 1
-
-Format ioctls (Input 0):
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-		fail: v4l2-test-formats.cpp(1544): !rect_is_inside(&sel_crop.r, &sel_bounds.r)
-		fail: v4l2-test-formats.cpp(1649): testBasicCrop(node, V4L2_BUF_TYPE_VIDEO_CAPTURE)
-	test Cropping: FAIL
-	test Composing: OK
-	test Scaling: OK
-
-Codec ioctls (Input 0):
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Total for rcar_vin device /dev/video28: 45, Succeeded: 44, Failed: 1, Warnings: 0
-
-Without this patch all test pass.
-
+> > Can't your receiver store these two fragment directly into a
+> > progressive buffer instead of leaking this HW specific thing into uAPI
+> > ? All you'd need is support for stride (bytesperline) at the HW
+> > writeback level, and then you can hide this complexicuty to userspace
+> > by filling the top/bottom line only. You simply multiply the stride by
+> > two in this context.
 > 
-> Fixes: 104464f573d ("media: rcar-vin: Do not reset the crop and compose rectangles in s_fmt")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> Changes for v2:
-> * Dropped redundant code mapping crop and compose rects
+> Vishal, this is a good question from Nicolas.
 > 
-> v1 - https://lkml.org/lkml/2020/7/31/364
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
+> An alternative solution might be to DMA the odd and even lines to the
+> same buffer, but consecutive. I.e., instead of having to create a
+> V4L2_FIELD_ALTERNATE_PROG, you'd create a V4L2_FIELD_SEQ_TB_PROG, which
+> is identical to V4L2_FIELD_SEQ_TB, except that it is for a progressive
+> frame.
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 0e066bba747e..1bd59a8453b4 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -305,7 +305,7 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
->  			      struct v4l2_format *f)
->  {
->  	struct rvin_dev *vin = video_drvdata(file);
-> -	struct v4l2_rect fmt_rect, src_rect;
-> +	struct v4l2_rect src_rect;
->  	int ret;
->  
->  	if (vb2_is_busy(&vin->queue))
-> @@ -317,14 +317,11 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
->  		return ret;
->  
->  	vin->format = f->fmt.pix;
-> -
-> -	fmt_rect.top = 0;
-> -	fmt_rect.left = 0;
-> -	fmt_rect.width = vin->format.width;
-> -	fmt_rect.height = vin->format.height;
-> -
-> -	v4l2_rect_map_inside(&vin->crop, &src_rect);
-> -	v4l2_rect_map_inside(&vin->compose, &fmt_rect);
-> +	vin->crop.top = 0;
-> +	vin->crop.left = 0;
-> +	vin->crop.width = vin->format.width;
-> +	vin->crop.height = vin->format.height;
-> +	vin->compose = vin->crop;
->  	vin->src_rect = src_rect;
->  
->  	return 0;
-> -- 
-> 2.17.1
-> 
+> If you can avoid V4L2_FIELD_ALTERNATE_PROG somehow and just return a
+> single buffer per frame, then that would be much better. One field per
+> buffer is a big pain for userspace.
+
+That's out of control of this driver though, it depends on the rest of
+the pipeline. The SDI RX subdev produces alternate frames, it's up to
+the rest of the FPGA to decide how to store that in memory.
+
+> >>> So I will add the V4L2_FIELD_ALTERNATE_PROG in next patch version.
+> >>
+> >> [snip]
 
 -- 
 Regards,
-Niklas S�derlund
+
+Laurent Pinchart
