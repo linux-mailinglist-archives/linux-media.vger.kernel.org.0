@@ -2,105 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91D6126B7FB
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 02:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E48CA26BA27
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 04:29:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbgIPAdj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Sep 2020 20:33:39 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:57437 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726661AbgIONm3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Sep 2020 09:42:29 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 7DAB660004;
-        Tue, 15 Sep 2020 13:41:29 +0000 (UTC)
-Date:   Tue, 15 Sep 2020 15:45:19 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 2/3] media: docs: v4l2-subdev: move "Subdev registration"
- to a subsection
-Message-ID: <20200915134519.5u3vedcyek5ivvjq@uno.localdomain>
-References: <20200904215141.20862-1-luca@lucaceresoli.net>
- <20200904215141.20862-2-luca@lucaceresoli.net>
+        id S1726510AbgIPC27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Sep 2020 22:28:59 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:58318 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726399AbgIPC2A (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Sep 2020 22:28:00 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 92663282DCA4FDA37810;
+        Wed, 16 Sep 2020 10:27:57 +0800 (CST)
+Received: from huawei.com (10.175.113.32) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Wed, 16 Sep 2020
+ 10:27:48 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH -next] media: saa7164: convert to use DEFINE_SEQ_ATTRIBUTE macro
+Date:   Wed, 16 Sep 2020 10:50:24 +0800
+Message-ID: <20200916025024.3992731-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200904215141.20862-2-luca@lucaceresoli.net>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.32]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+Use DEFINE_SEQ_ATTRIBUTE macro to simplify the code.
 
-On Fri, Sep 04, 2020 at 11:51:40PM +0200, Luca Ceresoli wrote:
-> The subdev registration topic is pretty lengthy, and takes more than
-> half of the "V4L2 sub-devices" section. Help readers in finding their
-> way through the document by dedicating a subsection to
-> "Subdev registration".
->
-> Each of the two registration methods takes many paragraphs, but since
-> adding a subsubsection would be overkill, just emphasize them in bold.
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+---
+ drivers/media/pci/saa7164/saa7164-core.c | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
-I see bold being used mostly for C symbols names, I don't know if
-that's a kind of convention or not.
+diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
+index 6c08b77bfd47..f3a4e575a782 100644
+--- a/drivers/media/pci/saa7164/saa7164-core.c
++++ b/drivers/media/pci/saa7164/saa7164-core.c
+@@ -1139,32 +1139,21 @@ static int saa7164_seq_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
+-static const struct seq_operations saa7164_seq_ops = {
++static const struct seq_operations saa7164_sops = {
+ 	.start = saa7164_seq_start,
+ 	.next = saa7164_seq_next,
+ 	.stop = saa7164_seq_stop,
+ 	.show = saa7164_seq_show,
+ };
+ 
+-static int saa7164_open(struct inode *inode, struct file *file)
+-{
+-	return seq_open(file, &saa7164_seq_ops);
+-}
+-
+-static const struct file_operations saa7164_operations = {
+-	.owner          = THIS_MODULE,
+-	.open           = saa7164_open,
+-	.read           = seq_read,
+-	.llseek         = seq_lseek,
+-	.release        = seq_release,
+-};
++DEFINE_SEQ_ATTRIBUTE(saa7164);
+ 
+ static struct dentry *saa7614_dentry;
+ 
+ static void __init saa7164_debugfs_create(void)
+ {
+ 	saa7614_dentry = debugfs_create_file("saa7164", 0444, NULL, NULL,
+-					     &saa7164_operations);
++					     &saa7164_fops);
+ }
+ 
+ static void __exit saa7164_debugfs_remove(void)
+-- 
+2.25.1
 
-I would not mind a subsection to be honest...
-I think the patch is good and I'll provide a tag, maybe others can
-provide opinions too!
-
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
-  j
-
->
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-> ---
->  Documentation/driver-api/media/v4l2-subdev.rst | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index 9a7dddd97f5a..fb66163deb38 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -138,6 +138,9 @@ ensures that width, height and the media bus pixel code are equal on both source
->  and sink of the link. Subdev drivers are also free to use this function to
->  perform the checks mentioned above in addition to their own checks.
->
-> +Subdev registration
-> +~~~~~~~~~~~~~~~~~~~
-> +
->  There are currently two ways to register subdevices with the V4L2 core. The
->  first (traditional) possibility is to have subdevices registered by bridge
->  drivers. This can be done when the bridge driver has the complete information
-> @@ -157,7 +160,7 @@ below.
->  Using one or the other registration method only affects the probing process, the
->  run-time bridge-subdevice interaction is in both cases the same.
->
-> -In the synchronous case a device (bridge) driver needs to register the
-> +In the **synchronous** case a device (bridge) driver needs to register the
->  :c:type:`v4l2_subdev` with the v4l2_device:
->
->  	:c:func:`v4l2_device_register_subdev <v4l2_device_register_subdev>`
-> @@ -238,9 +241,9 @@ contain several subdevs that use an I2C bus, but also a subdev that is
->  controlled through GPIO pins. This distinction is only relevant when setting
->  up the device, but once the subdev is registered it is completely transparent.
->
-> -In the asynchronous case subdevice probing can be invoked independently of the
-> -bridge driver availability. The subdevice driver then has to verify whether all
-> -the requirements for a successful probing are satisfied. This can include a
-> +In the **asynchronous** case subdevice probing can be invoked independently of
-> +the bridge driver availability. The subdevice driver then has to verify whether
-> +all the requirements for a successful probing are satisfied. This can include a
->  check for a master clock availability. If any of the conditions aren't satisfied
->  the driver might decide to return ``-EPROBE_DEFER`` to request further reprobing
->  attempts. Once all conditions are met the subdevice shall be registered using
-> --
-> 2.28.0
->
