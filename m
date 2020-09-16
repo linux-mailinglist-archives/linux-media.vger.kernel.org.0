@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8772B26C62D
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 19:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A636326C650
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 19:45:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727230AbgIPRga (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Sep 2020 13:36:30 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:41956 "EHLO
+        id S1727388AbgIPRpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Sep 2020 13:45:11 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:52634 "EHLO
         mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727210AbgIPRfm (ORCPT
+        with ESMTP id S1727010AbgIPRog (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:35:42 -0400
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 8F2C53AFBDF;
-        Wed, 16 Sep 2020 14:29:02 +0000 (UTC)
-X-Originating-IP: 93.34.118.233
+        Wed, 16 Sep 2020 13:44:36 -0400
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 298A13AB401;
+        Wed, 16 Sep 2020 15:45:18 +0000 (UTC)
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 388571C0015;
-        Wed, 16 Sep 2020 14:23:39 +0000 (UTC)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 8435A24000F;
+        Wed, 16 Sep 2020 15:39:54 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, mchehab@kernel.org
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v3] media: i2c: max9286: Fix async subdev size
-Date:   Wed, 16 Sep 2020 16:27:19 +0200
-Message-Id: <20200916142719.151206-1-jacopo+renesas@jmondi.org>
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 0/2] media: i2c: Add support for RDACM21 camera module
+Date:   Wed, 16 Sep 2020 17:43:36 +0200
+Message-Id: <20200916154338.159747-1-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -40,56 +40,82 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since commit 86d37bf31af6 ("media: i2c: max9286: Allocate
-v4l2_async_subdev dynamically") the async subdevice registered to the
-max9286 notifier is dynamically allocated by the v4l2 framework by using
-the v4l2_async_notifier_add_fwnode_subdev() function, but provides an
-incorrect size, potentially leading to incorrect memory accesses.
+Hello,
+   this series introduces support for the RDACM21 camera module, an automotive
+camera module based on GMSL technology.
 
-Allocate enough space for the driver specific max9286_asd structure
-(which contains the async subdevice) by passing the size of the correct
-structure.
+The camera module integrates a MAX9271 serializer, and OV10640 image sensor
+coupled with an OV490 ISP. The image sensor and the ISP are programmed loading
+the content of an EEPROM chip integrated in the camera module package and
+are configured to produce images in 1280x1080 YUYV8 format.
 
-Fixes: 86d37bf31af6 ("media: i2c: max9286: Allocate v4l2_async_subdev dynamically")
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+The camera module driver uses the max9271 library to control the serializer,
+as the RDACM20 does, to maximize code reuse.
 
----
-v2->v3:
-- Reword commit message as suggested by Kieran.
----
+And that's for patch 2/2: it's all unicorns and rainbows!
 
- drivers/media/i2c/max9286.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Patch 1/2 is the less nice one, and is sent as RFC to trigger discussions.
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index c82c1493e099..6852448284ea 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -577,10 +577,11 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
- 	for_each_source(priv, source) {
- 		unsigned int i = to_index(priv, source);
- 		struct v4l2_async_subdev *asd;
-+		struct max9286_asd *masd;
+The camera module is connected to a MAXIM development board which integrates a
+MAX9286 deserializer. The same expansion board is used with the RDACM20 camera
+module and the max9286 driver is meant to work with both cameras without
+modifications.
 
- 		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
- 							    source->fwnode,
--							    sizeof(*asd));
-+							    sizeof(*masd));
- 		if (IS_ERR(asd)) {
- 			dev_err(dev, "Failed to add subdev for source %u: %ld",
- 				i, PTR_ERR(asd));
-@@ -588,7 +589,8 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
- 			return PTR_ERR(asd);
- 		}
+Unfortunately, each camera module has its own characteristics, in details:
 
--		to_max9286_asd(asd)->source = source;
-+		masd = to_max9286_asd(asd);
-+		masd->source = source;
- 	}
+- the RDACM20 module integrates a micro-controller unit that pre-programs the
+  embedded max9271 serializer at power-up time. The serializer then operates
+  with the GMSL reverse channel towards the de-serializer with electrical
+  noise immunity feature enabled ("high-threshold" as per chip manual), and
+  requires the de-serializer to communicate with the camera module with the
+  reverse channel amplitude compensated to 170mV.
 
- 	priv->notifier.ops = &max9286_notify_ops;
+- the RDACM21 module is not pre-programmed by any micro-controller, and requires
+  the de-serializer to initially maintain the reverse channel amplitude to
+  100mV, then after the remote ends have been probed and have enabled the noise
+  immunity feature on their reverse channels to increase the amplitude to 170mV
+  to guarantee stability of the communications.
+
+For that reason, a mechanism to control the reverse channel amplitude of the
+GMSL channel is required. The channel amplitude is controlled by the
+de-serializer, but depends on the properties of the remote serializer.
+
+We have explored a few solutions in the past:
+1) A dt property that specifies the initial reverse channel amplitude (or simply
+   a boolean property that specifies if any channel pre-compensation is
+   required). Issue is that the property should be set in the de-serializer
+   but depends on the remote side configuration and on which camera module
+   is currently connected.
+
+2) Use get_mbus_config to retrieve the GMSL channel configuration. Hyun has
+   added to get_mbus_config support for GMSL parameters to control the signal
+   polarities[1]. This seems nice, but the channel amplitude has to be set
+   -before- the remote end is probed and no subdev operation can be called
+   until the remote sub-device have registered.
+
+In this initial version, [1/2] simply adjust the reverse channel after all
+remotes have probed, allowing support for RDACM21 but breaking compatibility
+with RDACM20.
+
+Any comment on how this should better be handled ?
+
+Thanks
+  j
+
+[1] https://github.com/xlnx-hyunkwon/linux-xlnx/commits/hyunk/vision-wip-5.4-next
+
+Jacopo Mondi (2):
+  RFC: media: i2c: max9286: Compensate reverse channel
+  media: i2c: Add driver for RDACM21 camera module
+
+ MAINTAINERS                 |  12 +
+ drivers/media/i2c/Kconfig   |  13 +
+ drivers/media/i2c/Makefile  |   2 +
+ drivers/media/i2c/max9286.c |   8 +-
+ drivers/media/i2c/rdacm21.c | 541 ++++++++++++++++++++++++++++++++++++
+ 5 files changed, 574 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/media/i2c/rdacm21.c
+
 --
 2.28.0
 
