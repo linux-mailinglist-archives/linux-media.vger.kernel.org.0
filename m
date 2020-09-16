@@ -2,136 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D04E26C886
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 20:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC02A26C908
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 21:02:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727962AbgIPSvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Sep 2020 14:51:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39064 "EHLO
+        id S1728032AbgIPTCW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Sep 2020 15:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727678AbgIPSJM (ORCPT
+        with ESMTP id S1727514AbgIPRsr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Sep 2020 14:09:12 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10FB8C02C2A3
-        for <linux-media@vger.kernel.org>; Wed, 16 Sep 2020 08:24:18 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id c10so7020037otm.13
-        for <linux-media@vger.kernel.org>; Wed, 16 Sep 2020 08:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8V25O9GYxPP08UjsTrSAXuZaUN2B3+YItzTAVwD6sSg=;
-        b=esGUjUoGlLjSkji8zHSk6CikzTaVw9WkEHVQsTXY8XGY5G0ETObzGADcSR1/+09WH0
-         hF6/mPOLMGiLYfQETJ/ZudzDM17jV3+nhUaIO8GKCyhVG1PeNxTpmeh7CIIK8iLV7hTP
-         v5VNVp+D32yvBdNdVY15b50wKe6sKtHVPV0ZI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8V25O9GYxPP08UjsTrSAXuZaUN2B3+YItzTAVwD6sSg=;
-        b=OkiZ0WjKYlawcoLOhUldb0Akil73ZXRiQoT2lXS0Vkb831Aql8cKbnF2OueLqbtW0T
-         7Mu34jMG7Pkdbqj8di+mIcm6zhVSA+4ox7vwG6cHaG7pEP8eJONa/iIIcLtcNy2XFi38
-         95XKaDKzpxfIJSt6/xZ+MMKx5RBl1v3AcYs7hMylldRLyphvabFUq7SydHY8UaQ1eYQt
-         y1W9ompYDEIoXdAQ7ZamBgl6/t2yRAQwUfrjeImTwuHEKLER490WFizwl3pIJJ1bcouV
-         fYWgpspjo/Pt89jZP3+XUzJnQLUbg4qicctWZC3c3pfFMda5Kdb5VNGJJS+VUfv+yToE
-         4oYA==
-X-Gm-Message-State: AOAM530LPWZuN+GWOsLi14LfexMIcVrEkz8dsz9AwdhIahmU0H+or9EA
-        bgearOi3nC/ITUCEigRL1T/9CEUf6y7lFKsJM9gRKA==
-X-Google-Smtp-Source: ABdhPJzFIEzlayJbc8puDrgbDGaqrIK0mzqobwQtMVJQV/1fuTdhXaLAYKepB1sf6n0KyI9HMzUVHL2sC9vrHl1co8M=
-X-Received: by 2002:a9d:4b99:: with SMTP id k25mr17762932otf.281.1600269857273;
- Wed, 16 Sep 2020 08:24:17 -0700 (PDT)
+        Wed, 16 Sep 2020 13:48:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4034C06178A
+        for <linux-media@vger.kernel.org>; Wed, 16 Sep 2020 03:47:16 -0700 (PDT)
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 473A357F;
+        Wed, 16 Sep 2020 12:46:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600253220;
+        bh=XtUINuLQHklOMV2d9DgAuMtlAOO0EARVXAk3NQJpN1w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jqnZb9lEbDOfU1IDXOlhnTdG2ZI3vrxzPATgISKKpC2aACULfj3Tb7+YIkZfyJlHD
+         wLLt7H5SLgbSbiheGKPXSJlsCsiHmJG3EU7JhRO51pd87hAq/6FlVtKkYXsLvRbJfu
+         UIjOqUP25yGlprVS3N+uS2q4czteQw7ZZo+QVQEI=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Jiri Kosina <trivial@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH] media: v4l2-async: Fix trivial documentation typo
+Date:   Wed, 16 Sep 2020 11:46:45 +0100
+Message-Id: <20200916104645.1460619-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200914132920.59183-1-christian.koenig@amd.com>
- <40cd26ae-b855-4627-5a13-4dcea5d622f6@gmail.com> <20200914140632.GD1221970@ziepe.ca>
- <9302e4e0-0ff0-8b00-ada1-85feefb49e88@gmail.com> <20200916095359.GD438822@phenom.ffwll.local>
- <20200916140710.GA8409@ziepe.ca> <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
-In-Reply-To: <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Wed, 16 Sep 2020 17:24:06 +0200
-Message-ID: <CAKMK7uFdwrT3HACPh3ADAKvhXJ-Hf3dExZmgJVAQ1KKjSai_0w@mail.gmail.com>
-Subject: Re: Changing vma->vm_file in dma_buf_mmap()
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 4:14 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 16.09.20 um 16:07 schrieb Jason Gunthorpe:
-> > On Wed, Sep 16, 2020 at 11:53:59AM +0200, Daniel Vetter wrote:
-> >
-> >> But within the driver, we generally need thousands of these, and that
-> >> tends to bring fd exhaustion problems with it. That's why all the priv=
-ate
-> >> buffer objects which aren't shared with other process or other drivers=
- are
-> >> handles only valid for a specific fd instance of the drm chardev (each
-> >> open gets their own namespace), and only for ioctls done on that chard=
-ev.
-> >> And for mmap we assign fake (but unique across all open fd on it) offs=
-ets
-> >> within the overall chardev. Hence all the pgoff mangling and re-mangli=
-ng.
-> > Are they still unique struct files? Just without a fdno?
->
-> Yes, exactly.
+Fix the incorrect spelling asyncrhronous as asynchronous, which is
+visible in the public documentation of enum v4l2_async_match_type.
 
-Not entirely, since dma-buf happened after drm chardev, so for that
-historical reason the underlying struct file is shared, since it's the
-drm chardev. But since that's per-device we don't have a problem in
-practice with different vm_ops, since those are also per-device. But
-yeah we could fish out some entirely hidden per-object struct file if
-that's required for some mm internal reasons.
--Daniel
+Fixes: ab4f5a4afc2d ("[media] v4l2-async: document the remaining stuff")
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ include/media/v4l2-async.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> >> Hence why we'd like to be able to forward aliasing mappings and adjust=
- the
-> >> file and pgoff, while hopefully everything keeps working. I thought th=
-is
-> >> would work, but Christian noticed it doesn't really.
-> > It seems reasonable to me that the dma buf should be the owner of the
-> > VMA, otherwise like you say, there is a big mess attaching the custom
-> > vma ops and what not to the proper dma buf.
-> >
-> > I don't see anything obviously against this in mmap_region() - why did
-> > Chritian notice it doesn't really work?
->
-> To clarify I think this might work.
->
-> I just had the same "Is that legal?", "What about security?", etc..
-> questions you raised as well.
->
-> It seems like a source of trouble so I thought better ask somebody more
-> familiar with that.
->
-> Christian.
->
-> >
-> > Jason
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+index 8319284c93cb..3b85efc253ec 100644
+--- a/include/media/v4l2-async.h
++++ b/include/media/v4l2-async.h
+@@ -27,7 +27,7 @@ struct v4l2_async_notifier;
+  * @V4L2_ASYNC_MATCH_I2C: Match will check for I2C adapter ID and address
+  * @V4L2_ASYNC_MATCH_FWNODE: Match will use firmware node
+  *
+- * This enum is used by the asyncrhronous sub-device logic to define the
++ * This enum is used by the asynchronous sub-device logic to define the
+  * algorithm that will be used to match an asynchronous device.
+  */
+ enum v4l2_async_match_type {
+-- 
+2.25.1
 
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
