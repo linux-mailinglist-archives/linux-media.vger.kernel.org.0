@@ -2,167 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8F2426BF2D
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 10:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17BA526BFC9
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 10:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726579AbgIPI0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Sep 2020 04:26:50 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:34425 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726161AbgIPI0r (ORCPT
+        id S1726594AbgIPIt4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Sep 2020 04:49:56 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:46257 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgIPItz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Sep 2020 04:26:47 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 38CC5FF806;
-        Wed, 16 Sep 2020 08:26:40 +0000 (UTC)
-Date:   Wed, 16 Sep 2020 10:30:32 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v5 1/3] media: i2c: ov772x: Parse endpoint properties
-Message-ID: <20200916083032.yif4veaf3n44hkpf@uno.localdomain>
-References: <20200915174235.1229-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200915174235.1229-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200916074737.phc6atpsahxowfjt@uno.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200916074737.phc6atpsahxowfjt@uno.localdomain>
+        Wed, 16 Sep 2020 04:49:55 -0400
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 16 Sep 2020 01:49:55 -0700
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 16 Sep 2020 01:49:52 -0700
+Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 16 Sep 2020 14:19:39 +0530
+Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
+        id 26E3F21D3B; Wed, 16 Sep 2020 14:19:38 +0530 (IST)
+From:   Mansur Alisha Shaik <mansur@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org,
+        Mansur Alisha Shaik <mansur@codeaurora.org>
+Subject: [PATCH v4 0/3] venus: core: add shutdown callback for venus
+Date:   Wed, 16 Sep 2020 14:19:31 +0530
+Message-Id: <1600246174-31802-1-git-send-email-mansur@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
-  sorry, two more tiny nits
+Add shutdown callback for venus driver.
+Handle race conditions in concurrency usecases like
+multiple browser YouTube browser tabs(approx 50 tabs)
+graphics_Stress, WiFi ON/OFF, Bluetooth ON/OF,
+and reboot in parallel.
 
-On Wed, Sep 16, 2020 at 09:47:37AM +0200, Jacopo Mondi wrote:
-> Hi Prabhakar,
->
-> On Tue, Sep 15, 2020 at 06:42:33PM +0100, Lad Prabhakar wrote:
-> > Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
-> > to determine bus-type and store it locally in priv data.
-> >
-> > v4l2_fwnode_endpoint_alloc_parse() with bus_type set to
-> > V4L2_MBUS_PARALLEL falls back to V4L2_MBUS_PARALLEL thus handling
-> > backward compatibility with existing DT where bus-type isn't specified.
->
->
-> I don't think this is necessary here. This patch does not need to
-> handle any retrocompatibility, as only PARALLEL is supported.
->
-> The 'right' way to put it to me would be
-> "Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
-> to determine the bus type and store it in the driver structure.
->
-> Set bus_type to V4L2_MBUS_PARALLEL as it's the only supported one"
->
-> See comment in the next patch for retrocompatibility
->
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/media/i2c/ov772x.c | 25 +++++++++++++++++++++++++
-> >  1 file changed, 25 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> > index 2cc6a678069a..4ab4b3c883d0 100644
-> > --- a/drivers/media/i2c/ov772x.c
-> > +++ b/drivers/media/i2c/ov772x.c
-> > @@ -31,6 +31,7 @@
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-event.h>
-> > +#include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-image-sizes.h>
-> >  #include <media/v4l2-subdev.h>
-> >
-> > @@ -434,6 +435,7 @@ struct ov772x_priv {
-> >  #ifdef CONFIG_MEDIA_CONTROLLER
-> >  	struct media_pad pad;
-> >  #endif
-> > +	enum v4l2_mbus_type		  bus_type;
-> >  };
-> >
-> >  /*
-> > @@ -1354,6 +1356,8 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
-> >
-> >  static int ov772x_probe(struct i2c_client *client)
-> >  {
-> > +	struct v4l2_fwnode_endpoint bus_cfg;
-> > +	struct fwnode_handle	*ep;
-> >  	struct ov772x_priv	*priv;
-> >  	int			ret;
-> >  	static const struct regmap_config ov772x_regmap_config = {
-> > @@ -1415,6 +1419,27 @@ static int ov772x_probe(struct i2c_client *client)
-> >  		goto error_clk_put;
-> >  	}
-> >
-> > +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> > +					    NULL);
-> > +	if (!ep) {
-> > +		dev_err(&client->dev, "endpoint node not found\n");
+Mansur Alisha Shaik (3):
+  venus: core: handle race condititon for core ops
+  venus: handle use after free for iommu_map/iommu_unmap
+  venus: core: add shutdown callback for venus
 
-Nit: other error messages in the driver start with a capital letter,
+ drivers/media/platform/qcom/venus/core.c     |  9 +++++++++
+ drivers/media/platform/qcom/venus/firmware.c | 17 +++++++++++++----
+ drivers/media/platform/qcom/venus/hfi.c      | 17 ++++++++++++++++-
+ 3 files changed, 38 insertions(+), 5 deletions(-)
 
-> > +		ret = -EINVAL;
-> > +		goto error_clk_put;
-> > +	}
-> > +
-> > +	/* For backward compatibility with the existing DT where
-> > +	 * bus-type isn't specified v4l2_fwnode_endpoint_alloc_parse()
-> > +	 * with bus_type set to V4L2_MBUS_PARALLEL falls back to
-> > +	 * V4L2_MBUS_PARALLEL
-> > +	 */
->
-> You can drop this comment block
->
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
+of Code Aurora Forum, hosted by The Linux Foundation
 
-Or better move it to the next patch. Two nits in the meantime:
-
-Use
-        /*
-         * This
-
-in place of
-
-        /* This
-
-And I would write it as something like
-
-        /*
-         * For backward compatibility with older DTS where the
-         * bus-type property was not mandatory, assume
-         * V4L2_MBUS_PARALLEL as it was the only supported bus at the
-         * time. v4l2_fwnode_endpoint_alloc_parse() will not fail if
-         * 'bus-type' is not specified.
-         */
-
-Thanks
-   j
-
-> > +	bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
-> > +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-> > +	priv->bus_type = bus_cfg.bus_type;
->
-> Set this after if (ret)
->
-> > +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> > +	fwnode_handle_put(ep);
-> > +	if (ret)
-> > +		goto error_clk_put;
-> > +
-> >  	ret = ov772x_video_probe(priv);
-> >  	if (ret < 0)
-> >  		goto error_gpio_put;
-> > --
-> > 2.17.1
-> >
