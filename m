@@ -2,127 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A75C326C1D4
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 12:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 554CB26C235
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 13:37:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbgIPKmW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Sep 2020 06:42:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbgIPKev (ORCPT
+        id S1727043AbgIPL3k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Sep 2020 07:29:40 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:62750 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726405AbgIPKcy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Sep 2020 06:34:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6358FC061353
-        for <linux-media@vger.kernel.org>; Wed, 16 Sep 2020 03:34:40 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 301FD57F;
-        Wed, 16 Sep 2020 12:30:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600252258;
-        bh=bq8JOgYtfbTgci4Z2CMiRZs2gfY9Fc26Ta11Cn2aIM4=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ZNJPijepkpE3R7yAlC4dR+LiAoxbluksW+bDmSE5gxwFYl/ZAoaFWE5rMHV9XuPWl
-         klyKQoQ+HsD3EuwghLRe4DhjZYdH4hfwYM+EQP7oNxQOJ+0rjKsbW2+dKD20VmrzY4
-         IiyB/l8hLG239NC3N/UWEg2gsqQXOelPNc3jfawo=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] media: i2c: max9286: Fix async subdev size
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-References: <20200914155749.183030-1-jacopo+renesas@jmondi.org>
- <20200914233008.GF15543@pendragon.ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <2cdbe0b5-14fc-c6eb-80df-3adaf19ac844@ideasonboard.com>
-Date:   Wed, 16 Sep 2020 11:30:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200914233008.GF15543@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        Wed, 16 Sep 2020 06:32:54 -0400
+Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com) ([10.47.202.151])
+  by alexa-out.qualcomm.com with ESMTP; 16 Sep 2020 03:28:27 -0700
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA; 16 Sep 2020 03:28:26 -0700
+Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 16 Sep 2020 15:58:13 +0530
+Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
+        id 1E04B21D39; Wed, 16 Sep 2020 15:58:13 +0530 (IST)
+From:   Mansur Alisha Shaik <mansur@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org,
+        Mansur Alisha Shaik <mansur@codeaurora.org>
+Subject: [PATCH v2 3/4] venus: core: vote with average bandwidth and peak bandwidth as zero
+Date:   Wed, 16 Sep 2020 15:58:04 +0530
+Message-Id: <1600252084-30779-4-git-send-email-mansur@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1600252084-30779-1-git-send-email-mansur@codeaurora.org>
+References: <1600252084-30779-1-git-send-email-mansur@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/09/2020 00:30, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Sep 14, 2020 at 05:57:49PM +0200, Jacopo Mondi wrote:
->> Since commit:
->> 86d37bf31af6 ("media: i2c: max9286: Allocate v4l2_async_subdev dynamically")
->> the async subdevice registered to the max9286 notifier is dynamically
->> allocated by the v4l2 framework by using
->> the v4l2_async_notifier_add_fwnode_subdev function. In order to allocate
->> enough space for max9286_asd structure that encloses the async subdevice
->> paired with a pointer to the corresponding source, pass to the framework
->> the size of the whole structure in place of the one of the enclosed async
->> subdev.
->>
->> Fixes: 86d37bf31af6 ("media: i2c: max9286: Allocate v4l2_async_subdev dynamically")
->> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->> ---
->>  drivers/media/i2c/max9286.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
->> index c82c1493e099..746c411b79a0 100644
->> --- a/drivers/media/i2c/max9286.c
->> +++ b/drivers/media/i2c/max9286.c
->> @@ -579,8 +579,7 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
->>  		struct v4l2_async_subdev *asd;
->>
->>  		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
->> -							    source->fwnode,
->> -							    sizeof(*asd));
->> +			source->fwnode, sizeof(struct max9286_asd));
-> 
-> I'd write
-> 
-> 		struct v4l2_async_subdev *asd;
-> 		struct max9286_asd *masd;
-> 
-> 		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
-> 							    source->fwnode,
-> 							    sizeof(*masd));
+As per bandwidth table we are voting with average bandwidth
+for "video-mem" and "cpu-cfg" paths as peak bandwidth is zero
+in bandwidth table.
 
-Ha, at first glance that looks like you're dereferencing an
-uninitialised pointer though.
+Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+---
+ drivers/media/platform/qcom/venus/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-But it's only the sizeof - so the actual pointer doesn't matter at that
-point ;-)
-
---
-Kieran
-
-
-> 		if (IS_ERR(asd)) {
-> 			dev_err(dev, "Failed to add subdev for source %u: %ld",
-> 				i, PTR_ERR(asd));
-> 			v4l2_async_notifier_cleanup(&priv->notifier);
-> 			return PTR_ERR(asd);
-> 		}
-> 
-> 		masd = to_max9286_asd(asd);
-> 		masd->source = source;
-> 
-> just to be able to avoid the ugly indentiation, but that's really
-> nitpicking :-) With or without that, sorry for breaking the driver in
-> the first place, and
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
->>  		if (IS_ERR(asd)) {
->>  			dev_err(dev, "Failed to add subdev for source %u: %ld",
->>  				i, PTR_ERR(asd));
-> 
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 064b6c8..c9669ad 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -382,11 +382,11 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+ 	const struct venus_pm_ops *pm_ops = core->pm_ops;
+ 	int ret;
+ 
+-	ret = icc_set_bw(core->video_path, 0, kbps_to_icc(1000));
++	ret = icc_set_bw(core->video_path, kbps_to_icc(20000), 0);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
++	ret = icc_set_bw(core->cpucfg_path, kbps_to_icc(1000), 0);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
+of Code Aurora Forum, hosted by The Linux Foundation
 
