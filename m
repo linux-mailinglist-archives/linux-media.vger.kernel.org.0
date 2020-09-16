@@ -2,138 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC83B26CE1B
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 23:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60AD626CDD5
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 23:05:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbgIPVJv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Sep 2020 17:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726269AbgIPPzb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Sep 2020 11:55:31 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F09C02C2B6;
-        Wed, 16 Sep 2020 08:53:56 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2355126B;
-        Wed, 16 Sep 2020 17:53:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600271627;
-        bh=/Nvus+PrMrWochMJmORAGkP8PfiOj2DqqXK0WyeZA1M=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=whCRQmtWHn5plp5hngaqk6zNTZOoAlnLK8tyq+PMYoFUivps8HKzfhigKNofvWi5F
-         0MSeNgDl3pixTGZSJ1PEHQgPeZyZjuD1s/2zwc/8lFBm7L1g0Rc+HZwyjnHyyDhMzv
-         TlP/iuYN+RA7FwOIpXW3oD319m75tTsob9zpSWBo=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 3/5] media: rcar_drif: Allocate v4l2_async_subdev
- dynamically
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-References: <20200811205939.19550-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200811205939.19550-4-laurent.pinchart+renesas@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <63e718a6-3ca2-751b-4424-1a6ef311e599@ideasonboard.com>
-Date:   Wed, 16 Sep 2020 16:53:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726460AbgIPVFl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Sep 2020 17:05:41 -0400
+Received: from mga12.intel.com ([192.55.52.136]:47961 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726452AbgIPQOy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Sep 2020 12:14:54 -0400
+IronPort-SDR: YM8xyj2v5IK2PGuPv2Bz6Q1liFC9nQiB3/psqLnl0UXvq1Iwki6oapQYNJ4keIvu/+QmIOtQmA
+ izdEITI/XCow==
+X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="139010505"
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; 
+   d="scan'208";a="139010505"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 09:10:21 -0700
+IronPort-SDR: 3Y50nJV6jyTxRwFVh14qPPfHsdKEpLlg7UV3QSz72B9ow8R8dan/HuwotGEgAeNS1nF1kKi+ys
+ ZWE1O912MAcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; 
+   d="scan'208";a="336075017"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 16 Sep 2020 09:10:19 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kIa0d-00H7Ue-Go; Wed, 16 Sep 2020 19:10:15 +0300
+Date:   Wed, 16 Sep 2020 19:10:15 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Dan Scally <djrscally@gmail.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, gregkh@linuxfoundation.org,
+        rafael@kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, heikki.krogerus@linux.intel.com,
+        jorhand@linux.microsoft.com, kitakar@gmail.com
+Subject: Re: [PATCH v2] software_node: Add support for fwnode_graph*() family
+ of functions
+Message-ID: <20200916161015.GX3956970@smile.fi.intel.com>
+References: <20200915232827.3416-1-djrscally@gmail.com>
+ <20200916091707.GL834@valkosipuli.retiisi.org.uk>
+ <7b81d743-736d-62d1-7072-d08759a0d5d7@gmail.com>
+ <4a355889-6e65-70e0-1646-bb832579fd91@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200811205939.19550-4-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4a355889-6e65-70e0-1646-bb832579fd91@ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Wed, Sep 16, 2020 at 04:06:25PM +0100, Kieran Bingham wrote:
+> On 16/09/2020 14:22, Dan Scally wrote:
+> > On 16/09/2020 10:17, Sakari Ailus wrote:
+> >> On Wed, Sep 16, 2020 at 12:28:27AM +0100, Daniel Scally wrote:
 
-On 11/08/2020 21:59, Laurent Pinchart wrote:
-> v4l2_async_notifier_add_subdev() requires the asd to be allocated
-> dynamically, but the rcar-drif driver embeds it in the
-> rcar_drif_graph_ep structure. This causes memory corruption when the
-> notifier is destroyed at remove time with v4l2_async_notifier_cleanup().
+Thank you, Kieran, for detailed explanation, one small correction below though.
+
+...
+
+> >> This looks like a bugfix that probably should or could be backported. Could
+> >> you make it a separate patch, with a Fixes: tag?
+> > Yes, sure. That does change how some of the other code would need to
+> > work though if this patch were applied but not the separated one. Sorry;
+> > not sure what's the best way to proceed in that case. Should I just note
+> > that this patch depends on the prior application of the separated one?
 > 
-> Fix this issue by registering the asd with
-> v4l2_async_notifier_add_fwnode_subdev(), which allocates it dynamically
-> internally.
+> I think the assumption is that this individual change to
+> software_node_property_present() should be in a patch on it's own
+> preceeding 'this' one.
 > 
-> Fixes: d079f94c9046 ("media: platform: Switch to v4l2_async_notifier_add_subdev")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Running git-blame on drivers/base/swnode.c identifies this line as
+> previously being added by: 59abd83672f70, so you would add the tag:
 
+> Fixes: 59abd83672f7 ("drivers: base: Introducing software nodes to the
+> firmware node framework")
 
-> ---
->  drivers/media/platform/rcar_drif.c | 18 ++++++------------
->  1 file changed, 6 insertions(+), 12 deletions(-)
+Just to point out that this must be on one line.
+
+> to the 'fixing' patch, and that can be backported accordingly.
 > 
-> diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
-> index 3f1e5cb8b197..f318cd4b8086 100644
-> --- a/drivers/media/platform/rcar_drif.c
-> +++ b/drivers/media/platform/rcar_drif.c
-> @@ -185,7 +185,6 @@ struct rcar_drif_frame_buf {
->  /* OF graph endpoint's V4L2 async data */
->  struct rcar_drif_graph_ep {
->  	struct v4l2_subdev *subdev;	/* Async matched subdev */
-> -	struct v4l2_async_subdev asd;	/* Async sub-device descriptor */
->  };
->  
->  /* DMA buffer */
-> @@ -1109,12 +1108,6 @@ static int rcar_drif_notify_bound(struct v4l2_async_notifier *notifier,
->  	struct rcar_drif_sdr *sdr =
->  		container_of(notifier, struct rcar_drif_sdr, notifier);
->  
-> -	if (sdr->ep.asd.match.fwnode !=
-> -	    of_fwnode_handle(subdev->dev->of_node)) {
-> -		rdrif_err(sdr, "subdev %s cannot bind\n", subdev->name);
-> -		return -EINVAL;
-> -	}
-> -
->  	v4l2_set_subdev_hostdata(subdev, sdr);
->  	sdr->ep.subdev = subdev;
->  	rdrif_dbg(sdr, "bound asd %s\n", subdev->name);
-> @@ -1218,7 +1211,7 @@ static int rcar_drif_parse_subdevs(struct rcar_drif_sdr *sdr)
->  {
->  	struct v4l2_async_notifier *notifier = &sdr->notifier;
->  	struct fwnode_handle *fwnode, *ep;
-> -	int ret;
-> +	struct v4l2_async_subdev *asd;
->  
->  	v4l2_async_notifier_init(notifier);
->  
-> @@ -1237,12 +1230,13 @@ static int rcar_drif_parse_subdevs(struct rcar_drif_sdr *sdr)
->  		return -EINVAL;
->  	}
->  
-> -	sdr->ep.asd.match.fwnode = fwnode;
-> -	sdr->ep.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> -	ret = v4l2_async_notifier_add_subdev(notifier, &sdr->ep.asd);
-> +	asd = v4l2_async_notifier_add_fwnode_subdev(notifier, fwnode,
-> +						    sizeof(*asd));
-
-I guess this isn't suffering from the same thing that happened on the
-max9286 as there is no need for any private data to follow here.
-
-So,
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
->  	fwnode_handle_put(fwnode);
-> +	if (IS_ERR(asd))
-> +		return PTR_ERR(asd);
->  
-> -	return ret;
-> +	return 0;
->  }
->  
->  /* Check if the given device is the primary bond */
+> When patches are sent in a series, the dependency becomes implicit.
+> You can do this by specifying a range when you do `git format-patch`
 > 
+> If you want to save off the last '2' patches, you can use a range
+> shorthand of '-2':
+> 
+> for example:
+> 
+>   git format-patch -2 -v3 --cover-letter -o patches/swnode
+> 
+> As it's a 'series' we add a cover letter to group them, and that gives a
+> location to add some free-form text as you wish too.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
