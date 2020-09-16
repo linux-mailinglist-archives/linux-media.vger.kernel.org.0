@@ -2,323 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D52226C61F
-	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 19:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B158126C691
+	for <lists+linux-media@lfdr.de>; Wed, 16 Sep 2020 19:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727205AbgIPReZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Sep 2020 13:34:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36646 "EHLO mx2.suse.de"
+        id S1727376AbgIPRzN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Sep 2020 13:55:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48854 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727086AbgIPRdo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:33:44 -0400
+        id S1727648AbgIPRyY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Sep 2020 13:54:24 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AB2DDAC85;
-        Wed, 16 Sep 2020 13:13:13 +0000 (UTC)
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     airlied@linux.ie, mark.cave-ayland@ilande.co.uk,
-        dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
-        thierry.reding@gmail.com, kraxel@redhat.com,
-        sparclinux@vger.kernel.org, sam@ravnborg.org,
-        m.szyprowski@samsung.com, jonathanh@nvidia.com,
-        matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
-        linux-media@vger.kernel.org, pawel@osciak.com,
-        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
-        rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
-        mchehab@kernel.org, tfiga@chromium.org, kyungmin.park@samsung.com,
-        davem@davemloft.net
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <20200916093756.GC438822@phenom.ffwll.local>
- <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
- <20200916122405.GQ438822@phenom.ffwll.local>
- <53743f37-4142-c076-296f-bfcba0840121@amd.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e5bc20e5-b2ce-27f1-58eb-67512354db7b@suse.de>
-Date:   Wed, 16 Sep 2020 15:12:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <53743f37-4142-c076-296f-bfcba0840121@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0g7aTSPvgSEtomdsbihQVgsVseU9ErIOA"
+        by mx2.suse.de (Postfix) with ESMTP id B766FAD68;
+        Wed, 16 Sep 2020 13:47:47 +0000 (UTC)
+Message-ID: <1600264046.2424.23.camel@suse.de>
+Subject: Re: [PATCH] [Patch v2] usbtv: Fix refcounting mixup
+From:   Oliver Neukum <oneukum@suse.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, ben.hutchings@codethink.co.uk,
+        gregkh@linuxfoundation.org, mchehab@s-opensource.com,
+        linux-media@vger.kernel.org
+Cc:     stable@vger.kernel.org
+Date:   Wed, 16 Sep 2020 15:47:26 +0200
+In-Reply-To: <4550f8e2-38a9-b1f4-0277-25e79fed2e14@xs4all.nl>
+References: <20180515130744.19342-1-oneukum@suse.com>
+         <85dd974b-c251-47a5-600d-77b009e2dfcd@xs4all.nl>
+         <1526399190.31771.2.camel@suse.com>
+         <1ee4b00d-9a55-92cf-e708-1e0c60ca4bfd@xs4all.nl>
+         <1526462623.25281.5.camel@suse.com>
+         <4550f8e2-38a9-b1f4-0277-25e79fed2e14@xs4all.nl>
+Content-Type: multipart/mixed; boundary="=-2IVdwKfkYLtDpcEbGw6p"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0g7aTSPvgSEtomdsbihQVgsVseU9ErIOA
-Content-Type: multipart/mixed; boundary="4dKgBnEqtU7ClYPh4sxp2EbLPUNEl4i1i";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, mark.cave-ayland@ilande.co.uk,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- thierry.reding@gmail.com, kraxel@redhat.com, sparclinux@vger.kernel.org,
- sam@ravnborg.org, m.szyprowski@samsung.com, jonathanh@nvidia.com,
- matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
- linux-media@vger.kernel.org, pawel@osciak.com,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
- rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org, mchehab@kernel.org,
- tfiga@chromium.org, kyungmin.park@samsung.com, davem@davemloft.net
-Message-ID: <e5bc20e5-b2ce-27f1-58eb-67512354db7b@suse.de>
-Subject: Re: [PATCH 0/3] dma-buf: Flag vmap'ed memory as system or I/O memory
-References: <20200914112521.1327-1-tzimmermann@suse.de>
- <20200916093756.GC438822@phenom.ffwll.local>
- <0378c326-28c6-371e-45d2-8b81ccbda84f@suse.de>
- <20200916122405.GQ438822@phenom.ffwll.local>
- <53743f37-4142-c076-296f-bfcba0840121@amd.com>
-In-Reply-To: <53743f37-4142-c076-296f-bfcba0840121@amd.com>
 
---4dKgBnEqtU7ClYPh4sxp2EbLPUNEl4i1i
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+--=-2IVdwKfkYLtDpcEbGw6p
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi
+Am Mittwoch, den 16.05.2018, 12:27 +0200 schrieb Hans Verkuil:
+> On 05/16/18 11:23, Oliver Neukum wrote:
+> > Am Dienstag, den 15.05.2018, 18:01 +0200 schrieb Hans Verkuil:
+> > > On 05/15/2018 05:46 PM, Oliver Neukum wrote:
+> > > > Am Dienstag, den 15.05.2018, 16:28 +0200 schrieb Hans Verkuil:
+> > > > > On 05/15/18 15:07, Oliver Neukum wrote:
 
-Am 16.09.20 um 14:59 schrieb Christian K=C3=B6nig:
-> Am 16.09.20 um 14:24 schrieb Daniel Vetter:
->> On Wed, Sep 16, 2020 at 12:48:20PM +0200, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 16.09.20 um 11:37 schrieb Daniel Vetter:
->>>> On Mon, Sep 14, 2020 at 01:25:18PM +0200, Thomas Zimmermann wrote:
->>>>> Dma-buf provides vmap() and vunmap() for retrieving and releasing
->>>>> mappings
->>>>> of dma-buf memory in kernel address space. The functions operate
->>>>> with plain
->>>>> addresses and the assumption is that the memory can be accessed
->>>>> with load
->>>>> and store operations. This is not the case on some architectures
->>>>> (e.g.,
->>>>> sparc64) where I/O memory can only be accessed with dedicated
->>>>> instructions.
->>>>>
->>>>> This patchset introduces struct dma_buf_map, which contains the
->>>>> address of
->>>>> a buffer and a flag that tells whether system- or I/O-memory
->>>>> instructions
->>>>> are required.
->>>>>
->>>>> Some background: updating the DRM framebuffer console on sparc64
->>>>> makes the
->>>>> kernel panic. This is because the framebuffer memory cannot be
->>>>> accessed with
->>>>> system-memory instructions. We currently employ a workaround in DRM=
- to
->>>>> address this specific problem. [1]
->>>>>
->>>>> To resolve the problem, we'd like to address it at the most common
->>>>> point,
->>>>> which is the dma-buf framework. The dma-buf mapping ideally knows
->>>>> if I/O
->>>>> instructions are required and exports this information to it's
->>>>> users. The
->>>>> new structure struct dma_buf_map stores the buffer address and a
->>>>> flag that
->>>>> signals I/O memory. Affected users of the buffer (e.g., drivers,
->>>>> frameworks)
->>>>> can then access the memory accordingly.
->>>>>
->>>>> This patchset only introduces struct dma_buf_map, and updates
->>>>> struct dma_buf
->>>>> and it's interfaces. Further patches can update dma-buf users. For
->>>>> example,
->>>>> there's a prototype patchset for DRM that fixes the framebuffer
->>>>> problem. [2]
->>>>>
->>>>> Further work: TTM, one of DRM's memory managers, already exports an=
+> > Eh, but we cannot create a V4L device before the first device
+> > is connected and we must certainly create multiple V4L devices if
+> > multiple physical devices are connected.
+> 
+> v4l2_device_register is a terrible name. It does not create devices
+> or register with anything, it just initializes a root data structure. I have
+> proposed renaming this to v4l2_root_init() in the past, but people didn't
+> want a big rename action.
+> 
+> BTW, with 'global data structure' I meant a data structure in struct usbtv.
+> All I meant to say is that v4l2_device_register should be called in probe(),
+> not in usbtv_video_init().
 
->>>>> is_iomem flag of its own. It could later be switched over to
->>>>> exporting struct
->>>>> dma_buf_map, thus simplifying some code. Several DRM drivers expect=
+Hi,
 
->>>>> their
->>>>> fbdev console to operate on I/O memory. These could possibly be
->>>>> switched over
->>>>> to the generic fbdev emulation, as soon as the generic code uses
->>>>> struct
->>>>> dma_buf_map.
->>>>>
->>>>> [1]
->>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-Flore.kernel.org%2Fdri-devel%2F20200725191012.GA434957%40ravnborg.org%2F&=
-amp;data=3D02%7C01%7Cchristian.koenig%40amd.com%7C04e3cc3e03ae40f1fa0f08d=
-85a3b6a68%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637358558524732385=
-&amp;sdata=3DwTmFuB95GhKUU%2F2Q91V0%2BtzAu4%2BEe3VBUcriBy3jx2g%3D&amp;res=
-erved=3D0
->>>>>
->>>>> [2]
->>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-Flore.kernel.org%2Fdri-devel%2F20200806085239.4606-1-tzimmermann%40suse.d=
-e%2F&amp;data=3D02%7C01%7Cchristian.koenig%40amd.com%7C04e3cc3e03ae40f1fa=
-0f08d85a3b6a68%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6373585585247=
-32385&amp;sdata=3DL4rBHmegO63b%2FiTQdTyH158KNxAZwSuJCQOaFszo5L0%3D&amp;re=
-served=3D0
->>>>>
->>>> lgtm, imo ready to convert the follow-up patches over to this. But I=
+Sorry for thread necromancy I am cleaning up electronically.
+This patch has fallen through the cracks. As far as I can see the issue
+is still open. I screwed this up. So do you want me to do a major
+redesign? If not, what is to be done?
 
->>>> think
->>>> would be good to get at least some ack from the ttm side for the
->>>> overall
->>>> plan.
->>> Yup, it would be nice if TTM could had out these types automatically.=
-
->>> Then all TTM-based drivers would automatically support it.
->>>
->>>> Also, I think we should put all the various helpers (writel/readl,
->>>> memset,
->>>> memcpy, whatever else) into the dma-buf-map.h helper, so that most c=
-ode
->>>> using this can just treat it as an abstract pointer type and never l=
-ook
->>>> underneath it.
->>> We have some framebuffer helpers that rely on pointer arithmetic, so
->>> we'd need that too. No big deal wrt code, but I was worried about the=
-
->>> overhead. If a loop goes over framebuffer memory, there's an if/else
->>> branch for each access to the memory buffer.
->> If we make all the helpers static inline, then the compiler should be
->> able
->> to see that dma_buf_map.is_iomem is always the same, and produced real=
-ly
->> optimized code for it by pulling that check out from all the loops.
->>
->> So should only result in somewhat verbose code of having to call
->> dma_buf_map pointer arthimetic helpers, but not in bad generated code.=
-
->> Still worth double-checking I think, since e.g. on x86 the generated c=
-ode
->> should be the same for both cases (but maybe the compiler doesn't see
->> through the inline asm to realize that, so we might end up with 2
->> copies).
->=20
-> Can we have that even independent of DMA-buf? We have essentially the
-> same problem in TTM and the code around that is a complete mess if you
-> ask me.
-
-I already put this into dma-buf because it's at the intersection of all
-the affected modules. For non-dma-buf pointers (say in framebuffer
-damage handling), the idea is to initialize struct dma_buf_map by hand
-and use this.
-
-Where would you want to put it?
-
-Best regards
-Thomas
-
->=20
-> Christian.
->=20
->> -Daniel
->>
->>
->>> Best regards
->>> Thomas
->>>
->>>> -Daniel
->>>>
->>>>> Thomas Zimmermann (3):
->>>>> =C2=A0=C2=A0 dma-buf: Add struct dma-buf-map for storing struct
->>>>> dma_buf.vaddr_ptr
->>>>> =C2=A0=C2=A0 dma-buf: Use struct dma_buf_map in dma_buf_vmap() inte=
-rfaces
->>>>> =C2=A0=C2=A0 dma-buf: Use struct dma_buf_map in dma_buf_vunmap() in=
-terfaces
->>>>>
->>>>> =C2=A0 Documentation/driver-api/dma-buf.rst=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
->>>>> =C2=A0 drivers/dma-buf/dma-buf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 40 +++---
->>>>> =C2=A0 drivers/gpu/drm/drm_gem_cma_helper.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 ++-
->>>>> =C2=A0 drivers/gpu/drm/drm_gem_shmem_helper.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 17 ++-
->>>>> =C2=A0 drivers/gpu/drm/drm_prime.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 14 +-
->>>>> =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c=C2=A0=C2=A0 |=C2=
-=A0 13 +-
->>>>> =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c=C2=A0=C2=A0=C2=A0=
- |=C2=A0 13 +-
->>>>> =C2=A0 .../drm/i915/gem/selftests/i915_gem_dmabuf.c=C2=A0 |=C2=A0 1=
-8 ++-
->>>>> =C2=A0 drivers/gpu/drm/tegra/gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 23 ++--
->>>>> =C2=A0 .../common/videobuf2/videobuf2-dma-contig.c=C2=A0=C2=A0 |=C2=
-=A0 17 ++-
->>>>> =C2=A0 .../media/common/videobuf2/videobuf2-dma-sg.c |=C2=A0 19 ++-=
-
->>>>> =C2=A0 .../common/videobuf2/videobuf2-vmalloc.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 21 ++-
->>>>> =C2=A0 include/drm/drm_prime.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
->>>>> =C2=A0 include/linux/dma-buf-map.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | 126
->>>>> ++++++++++++++++++
->>>>> =C2=A0 include/linux/dma-buf.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 11 +-
->>>>> =C2=A0 15 files changed, 274 insertions(+), 82 deletions(-)
->>>>> =C2=A0 create mode 100644 include/linux/dma-buf-map.h
->>>>>
->>>>> --=20
->>>>> 2.28.0
->>>>>
->>> --=C2=A0
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Software Solutions Germany GmbH
->>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>> (HRB 36809, AG N=C3=BCrnberg)
->>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>
->>
->>
->>
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+	Regards
+		Oliver
 
 
---4dKgBnEqtU7ClYPh4sxp2EbLPUNEl4i1i--
 
---0g7aTSPvgSEtomdsbihQVgsVseU9ErIOA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+--=-2IVdwKfkYLtDpcEbGw6p
+Content-Disposition: attachment; filename="0001-Patch-v2-usbtv-Fix-refcounting-mixup.patch"
+Content-Type: text/x-patch; name="0001-Patch-v2-usbtv-Fix-refcounting-mixup.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 
------BEGIN PGP SIGNATURE-----
+RnJvbSBjNjA0MDYxODY1MWQ2NzBiODk1MTk4MDk2ZTNmYTQ0MmI2Y2Y4YTI2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgpEYXRl
+OiBUdWUsIDE1IE1heSAyMDE4IDEyOjE2OjI2ICswMjAwClN1YmplY3Q6IFtQQVRDSF0gW1BhdGNo
+IHYyXSB1c2J0djogRml4IHJlZmNvdW50aW5nIG1peHVwCgpUaGUgcHJlbWF0dXJlIGZyZWUgaW4g
+dGhlIGVycm9yIHBhdGggaXMgYmxvY2tlZCBieSBWNEwKcmVmY291bnRpbmcsIG5vdCBVU0IgcmVm
+Y291bnRpbmcuIFRoYW5rcyB0bwpCZW4gSHV0Y2hpbmdzIGZvciByZXZpZXcuCgpbdjJdIGNvcnJl
+Y3RlZCBhdHRyaWJ1dGlvbnMKClNpZ25lZC1vZmYtYnk6IE9saXZlciBOZXVrdW0gPG9uZXVrdW1A
+c3VzZS5jb20+CkZpeGVzOiA1MGU3MDQ0NTM1NTMgKCJtZWRpYTogdXNidHY6IHByZXZlbnQgZG91
+YmxlIGZyZWUgaW4gZXJyb3IgY2FzZSIpCkNDOiBzdGFibGVAdmdlci5rZXJuZWwub3JnClJlcG9y
+dGVkLWJ5OiBCZW4gSHV0Y2hpbmdzIDxiZW4uaHV0Y2hpbmdzQGNvZGV0aGluay5jby51az4KLS0t
+CiBkcml2ZXJzL21lZGlhL3VzYi91c2J0di91c2J0di1jb3JlLmMgfCAzICsrLQogMSBmaWxlIGNo
+YW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvbWVkaWEvdXNiL3VzYnR2L3VzYnR2LWNvcmUuYyBiL2RyaXZlcnMvbWVkaWEvdXNiL3VzYnR2
+L3VzYnR2LWNvcmUuYwppbmRleCBlZTljNjU2ZDEyMWYuLjIzMDhjMGI0ZjVlNyAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9tZWRpYS91c2IvdXNidHYvdXNidHYtY29yZS5jCisrKyBiL2RyaXZlcnMvbWVk
+aWEvdXNiL3VzYnR2L3VzYnR2LWNvcmUuYwpAQCAtMTEzLDcgKzExMyw4IEBAIHN0YXRpYyBpbnQg
+dXNidHZfcHJvYmUoc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGYsCiAKIHVzYnR2X2F1ZGlvX2Zh
+aWw6CiAJLyogd2UgbXVzdCBub3QgZnJlZSBhdCB0aGlzIHBvaW50ICovCi0JdXNiX2dldF9kZXYo
+dXNidHYtPnVkZXYpOworCXY0bDJfZGV2aWNlX2dldCgmdXNidHYtPnY0bDJfZGV2KTsKKwkvKiB0
+aGlzIHdpbGwgdW5kbyB0aGUgdjRsMl9kZXZpY2VfZ2V0KCkgKi8KIAl1c2J0dl92aWRlb19mcmVl
+KHVzYnR2KTsKIAogdXNidHZfdmlkZW9fZmFpbDoKLS0gCjIuMTYuNAoK
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9iD1YUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPqdAf/SAg5vR+VFpziVn7zNPHLhG1cH/8g
-0fJB6+sQmlXaZ0yOCGkAhFTiau5wI1x4qwUzU1FTvmWXbYfEjj+i9D02OK4PV0rI
-mKYUY+HDsTwugi1rnu3aBIfTyLd4YaWJfruXiZQ5GWn38rOQ17a2xb4xr7+ZCBqd
-cs+jX+Vy2s3H163IH3b3fBgSbo9PCQXEZZTgD1QH2sbzmJpiH7MBMvqM0gJXS/wQ
-a1b8bGftkjhX1OE0I664OJplM2VOFn8UCZ9Tw0oeXk8pUWWtZN7T6U6pKe4esAo9
-yZ6/ezT5ex0FsFFonJJ2afOXQIJk7NiaXzeOg8HKj53cO4Df6G2fZVcWoQ==
-=Q1x6
------END PGP SIGNATURE-----
 
---0g7aTSPvgSEtomdsbihQVgsVseU9ErIOA--
+--=-2IVdwKfkYLtDpcEbGw6p--
+
