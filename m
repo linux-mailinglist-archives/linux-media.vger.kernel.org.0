@@ -2,99 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 724AF26D9E5
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 13:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C001026DABE
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 13:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbgIQLKy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 07:10:54 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:39598 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726545AbgIQLKj (ORCPT
+        id S1726851AbgIQLux (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 07:50:53 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:60721 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726758AbgIQL1b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 07:10:39 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08HADek6162111;
-        Thu, 17 Sep 2020 10:18:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=3kOIuaOxFmA1usT1/RfXqAK09LFS7TujyVumCl5N4AA=;
- b=QYoG7s2ruCZliRR9mzKOC+bhevipHAZ/AqCoMjOdzh/3Fvv5Ky94wyDgv3SNkYvfvtEB
- ueuKRR3j9OtXF1gtm2cc0FVdpEzGEL06YqyoSRWd/p3OO/1zaWQccybGAeDFyd14tJcV
- nKP6ppq+9OSgNwMFnCMXHSg7Mfu+3iJbYlT1A7LujuIgXzVM60EW1dqXNEmgFUgit/ms
- fUFVZv42ZBzi3QVxODpNicNmtDZu60FVLq4sSgoMY/V2pulBpEz+NksdFgbBMHLA5CiN
- GDqeqWVAE0nF+7L8vEc3R4bbIEDkyI+ACjze/Y1wi9cAJZeT5xooza1N1NatoQh8Pyha yQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 33gnrr8baj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 17 Sep 2020 10:18:03 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08HAG147131702;
-        Thu, 17 Sep 2020 10:16:03 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 33hm34gwyw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 17 Sep 2020 10:16:03 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08HAFlmY017062;
-        Thu, 17 Sep 2020 10:15:47 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 17 Sep 2020 10:15:47 +0000
-Date:   Thu, 17 Sep 2020 13:15:38 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dan Scally <djrscally@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, devel@driverdev.osuosl.org,
-        robh@kernel.org, jorhand@linux.microsoft.com,
-        linux-media@vger.kernel.org, kieran.bingham@ideasonboard.com,
-        linux-kernel@vger.kernel.org, kitakar@gmail.com,
-        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        mchehab@kernel.org, davem@davemloft.net, tian.shu.qiu@intel.com,
-        yong.zhi@intel.com
-Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
- via software nodes on ACPI platforms
-Message-ID: <20200917101538.GO4282@kadam>
-References: <20200916213618.8003-1-djrscally@gmail.com>
- <20200917075356.GA3333802@kroah.com>
- <d97fb93f-5258-b654-3063-863e81ae7298@gmail.com>
+        Thu, 17 Sep 2020 07:27:31 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Is3qkM7BCPTBMIs3tkllRF; Thu, 17 Sep 2020 13:26:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600342013; bh=f4uU11TplcltXscEBKpGneN6cvdGllExJEW1PbYfP6g=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=PO4byAB7mXg96eKklNbeMqFiF+BXBc5YfTTlVc34KfLZHUhHIdhk+2OAnHtkEuX4s
+         udqIK2fjqR9DNscCBDRsOo71erq+iM2tL7gvVtTW8NCrv5kGCuf9cTR+pMaWsydw+P
+         KJa91bdZ/3EfVpo4bIiLV1btI0FDu4z0T6+tkxH2nGgc9rESJqZykSO1ir1U/dXmwd
+         uL1r82b8N+8DnwdYSjtZPvTkaYmW2RRYaPRbgWiucXoZdJhXTmPG9nEkw9Mznd2phR
+         oKLdROxKAKTWaP+OIQk8xd1pnX+qFRyiWFrtFBlzW66cdIEzioobVjz4/nju3D0WHM
+         K2IQNdTZotokw==
+Subject: Re: [PATCH] media: platform: s3c-camif: Fix runtime PM imbalance in
+ s3c_camif_open
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
+Cc:     Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200522082915.4731-1-dinghao.liu@zju.edu.cn>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <611ffe6a-c4ef-d23c-4d3f-a7771ce56bab@xs4all.nl>
+Date:   Thu, 17 Sep 2020 13:26:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d97fb93f-5258-b654-3063-863e81ae7298@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9746 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxlogscore=999
- malwarescore=0 mlxscore=0 phishscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009170077
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9746 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 bulkscore=0 suspectscore=0
- clxscore=1015 mlxlogscore=999 adultscore=0 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009170077
+In-Reply-To: <20200522082915.4731-1-dinghao.liu@zju.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfL73kWQRYSxDnh7SSlpi0XbenrsCQooROgHQTF9H+9opAp/kiXPa03L40yxbRGKjEKAyts40RsDxNxFPgFMbFeOAucSwIlQNk8rABAWrBuF33e87p95c
+ Jj1mPqoof52toqHmpCr81RE5NVbyjq3V5o6Ug4AJ5f+t0rLTcpDsuwpYDv6vbGComj7YuSI5zLtUGH6yDPzYlEL4uI+J1Xi5ViqDM0DuErKgc5O0PCV6lnRA
+ GIXRoJOLpHq5BDgzGISwDNZ2ooNBT4vFVB0hITD/XuvrUPOlAUi0nLPAfoXZY1vsc2VveR//TIgCmhyd6C2urtuzi2p6bosqV7KtXBy/y/wG8MZP2lHCz94l
+ r+0sXa/LTPGq4prFv6W/A6tCPeQ/LeiAShbNKJn/eMrIyq4JNRryFqfyAtaP+oemw9Lhl2HZi0KHG5+dISZWnQUdHvENSTbX+YYLnVjOcM4l4DXAXJ/oGUVj
+ KW+oYee3kH7nbcS27DEWCSDXsZ9QH5us9TmrIg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 10:47:50AM +0100, Dan Scally wrote:
-> Hi Greg - thanks for the comments, appreciate it (sorry there's so many,
-> I'm new to both C and kernel work)
+On 22/05/2020 10:29, Dinghao Liu wrote:
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> when it returns an error code. Thus a pairing decrement is needed on
+> the error handling path to keep the counter balanced.
+> 
+> Also, call pm_runtime_put() and v4l2_fh_release() when sensor_set_power()
+> returns an error code.
+> 
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+>  drivers/media/platform/s3c-camif/camif-capture.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/s3c-camif/camif-capture.c b/drivers/media/platform/s3c-camif/camif-capture.c
+> index 9ca49af29542..d42d9cfaf674 100644
+> --- a/drivers/media/platform/s3c-camif/camif-capture.c
+> +++ b/drivers/media/platform/s3c-camif/camif-capture.c
+> @@ -552,11 +552,9 @@ static int s3c_camif_open(struct file *file)
+>  		goto err_pm;
+>  
+>  	ret = sensor_set_power(camif, 1);
+> -	if (!ret)
+> -		goto unlock;
 
-It's pretty impressive work if you're new to C...
+This is wrong, now this will call v4l2_fh_release() as well on success.
 
-> >
-> >> +			return;
-> > No error value?
-> The prototype for sync_state callbacks is to return void, so my
-> understanding is it can't return an error value.  I guess a better thing
-> to do might be call another function performing cleanup and unloading
-> the driver before the return or something along those lines though.
+This needs to be reworked.
 
-Yeah.  I suspect you should be using a different callback instead of
-->sync_state() but I don't know what... :/
+Regards,
 
-regards,
-dan carpenter
+	Hans
+
+>  
+> -	pm_runtime_put(camif->dev);
+>  err_pm:
+> +	pm_runtime_put(camif->dev);
+>  	v4l2_fh_release(file);
+>  unlock:
+>  	mutex_unlock(&camif->lock);
+> 
 
