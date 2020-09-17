@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E59C626D81F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 11:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67EF126D820
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 11:53:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726549AbgIQJvm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 05:51:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50024 "EHLO mail.kernel.org"
+        id S1726565AbgIQJvn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 05:51:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50030 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726343AbgIQJvk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1726545AbgIQJvk (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Thu, 17 Sep 2020 05:51:40 -0400
 Received: from mail.kernel.org (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C1E7720838;
+        by mail.kernel.org (Postfix) with ESMTPSA id BFB9420770;
         Thu, 17 Sep 2020 09:51:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1600336300;
-        bh=QlHe+U52015mxf4TFIS9GCufQdr91cOPdMVOcyksJ/4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Vwe8vPSXg+JzrX7NmBx/Z4rc4J2su5QZPBA56MAmAHulv3BmhjAEVzrFhaQtkYpZa
-         oJ4ojy25hPtM0/99ISosQBhhlKypJWvIAPk/J0roFMSqAHvvHbbbGwzctp2Z+Bf1Do
-         E2V5xiJHOX4IPQENhKdkbjee76BKq8y/6lJ6XKok=
+        bh=n/YC7eduiIDbX7VkSmjnb6JIV2ngNISfBPKt+AOGhwY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=c/XzRXpGa+5OM2aNLaRb0xZWrWCQVEEPJhkjkdmu9KrB6OU2S/CJJizJO4Jhcpzhx
+         QKnWxuNNVF0UgQhyL5mZ//PhEl3uvvc8bJ62xxUTC+WWHkn6Psubq76a4F04QTKYrm
+         Cai7VWlWNvOGblqfSmcGP03kFumZj0U54hy+2rs8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kIqZl-0055p9-82; Thu, 17 Sep 2020 11:51:37 +0200
+        id 1kIqZl-0055pB-9Q; Thu, 17 Sep 2020 11:51:37 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 1/2] media: vidtv: cleanup the logic which estimates buffer size
-Date:   Thu, 17 Sep 2020 11:51:35 +0200
-Message-Id: <87e2446460f3feed58c89954529151645b959b19.1600336293.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 2/2] media: vidtv: remove an impossible condition
+Date:   Thu, 17 Sep 2020 11:51:36 +0200
+Message-Id: <1f1dffea21b43217658ed11c4b43da2b512ae9f3.1600336293.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <87e2446460f3feed58c89954529151645b959b19.1600336293.git.mchehab+huawei@kernel.org>
+References: <87e2446460f3feed58c89954529151645b959b19.1600336293.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
@@ -42,62 +44,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's no need to use u64 over there. In a matter of fact,
-the div is not even needed, as it is multiplying by 1000 and
-dividing by 1000.
+As warned by smatch:
 
-So, simplify the logic.
+	drivers/media/test-drivers/vidtv/vidtv_psi.c:93 vidtv_psi_update_version_num() warn: impossible condition '(h->version > 32) => (0-31 > 32)'
 
-While here, constrain the buffer size to a certain range
-(between the current value and 10 times it)
+h_version is declared as:
+
+		u8  version:5;
+
+Meaning that its value ranges from 0 to 31. Incrementing 31 on such
+data will overflow to zero, as expected.
+
+So, just drop the uneeded overflow check.
+
+While here, use "foo++" instead of "++foo", as this is a much
+more common pattern.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/test-drivers/vidtv/vidtv_bridge.c   | 20 ++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ drivers/media/test-drivers/vidtv/vidtv_psi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-index fe4e496acc34..74b054947bbe 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-@@ -106,26 +106,28 @@ static unsigned int mux_buf_sz_pkts;
- module_param(mux_buf_sz_pkts, uint, 0);
- MODULE_PARM_DESC(mux_buf_sz_pkts, "Size for the internal mux buffer in multiples of 188 bytes");
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+index b8b638244b1d..8cdf645b4fdd 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+@@ -89,9 +89,7 @@ static inline u32 dvb_crc32(u32 crc, u8 *data, u32 len)
  
-+#define MUX_BUF_MIN_SZ 90164
-+#define MUX_BUF_MAX_SZ (MUX_BUF_MIN_SZ * 10)
-+
- static u32 vidtv_bridge_mux_buf_sz_for_mux_rate(void)
+ static void vidtv_psi_update_version_num(struct vidtv_psi_table_header *h)
  {
--	u64 max_elapsed_time_msecs =  VIDTV_MAX_SLEEP_USECS / 1000;
-+	u32 max_elapsed_time_msecs =  VIDTV_MAX_SLEEP_USECS / USEC_PER_MSEC;
- 	u32 nbytes_expected;
- 	u32 mux_buf_sz = mux_buf_sz_pkts * TS_PACKET_LEN;
--	u32 slack;
- 
--	nbytes_expected = div64_u64(mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);
-+	nbytes_expected = mux_rate_kbytes_sec;
- 	nbytes_expected *= max_elapsed_time_msecs;
- 
- 	mux_buf_sz = roundup(nbytes_expected, TS_PACKET_LEN);
--	slack = mux_buf_sz / 10;
-+	mux_buf_sz += mux_buf_sz / 10;
- 
--	//if (mux_buf_sz < MUX_BUF_MIN_SZ)
--	//	mux_buf_sz = MUX_BUF_MIN_SZ;
-+	if (mux_buf_sz < MUX_BUF_MIN_SZ)
-+		mux_buf_sz = MUX_BUF_MIN_SZ;
- 
--	//if (mux_buf_sz > MUX_BUF_MAX_SZ)
--	//	mux_buf_sz = MUX_BUF_MAX_SZ;
-+	if (mux_buf_sz > MUX_BUF_MAX_SZ)
-+		mux_buf_sz = MUX_BUF_MAX_SZ;
- 
--	return mux_buf_sz + slack;
-+	return mux_buf_sz;
+-	++h->version;
+-	if (h->version > MAX_VERSION_NUM)
+-		h->version = 0;
++	h->version++;
  }
  
- static bool vidtv_bridge_check_demod_lock(struct vidtv_dvb *dvb, u32 n)
+ static inline u16 vidtv_psi_sdt_serv_get_desc_loop_len(struct vidtv_psi_table_sdt_service *s)
 -- 
 2.26.2
 
