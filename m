@@ -2,201 +2,322 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F60026E0F3
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 18:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFD2126E140
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 18:54:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728608AbgIQQld (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 12:41:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51440 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728579AbgIQQlZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 12:41:25 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5015C06174A
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 09:41:19 -0700 (PDT)
-Received: from [IPv6:2003:c7:cf13:ec00:15a4:c2da:98cf:28d0] (p200300c7cf13ec0015a4c2da98cf28d0.dip0.t-ipconnect.de [IPv6:2003:c7:cf13:ec00:15a4:c2da:98cf:28d0])
+        id S1728694AbgIQQyG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 12:54:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58806 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728553AbgIQQyA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 12:54:00 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.191])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2A31828D7BB;
-        Thu, 17 Sep 2020 17:41:13 +0100 (BST)
-Subject: Re: [PATCH v2 09/14] media: staging: rkisp1: remove atomic operations
- for frame sequence
-To:     Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-References: <20200815103734.31153-1-dafna.hirschfeld@collabora.com>
- <20200815103734.31153-10-dafna.hirschfeld@collabora.com>
- <c93cab1c-747c-250d-eb6b-1ed748cc909d@collabora.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <6eb33110-3080-3b1e-0e19-4c2070750d02@collabora.com>
-Date:   Thu, 17 Sep 2020 18:41:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <c93cab1c-747c-250d-eb6b-1ed748cc909d@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        by mail.kernel.org (Postfix) with ESMTPSA id 7E0AE2078D;
+        Thu, 17 Sep 2020 16:53:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600361639;
+        bh=GtFv1bQ2EU3MwleV0JE6I8vR62sturzYAF1oB7cn/SA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YM6mlUDG5hyxYr2PjQI9LyR9rTPvZdnNnIn9xvWCqJYk3nDtgx1zXa2CAXZWc9yob
+         /G/0a0BLDvjNoWd2WFFzBWb3eT/SflJkTQOhMvxAAeOFo6x5eFDXyOkI4psvphsJUd
+         mLsI8+P+uKyKX+cvfUUutZdxrHH+134Z22gFqYwI=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Hoan Tran <hoan@os.amperecomputing.com>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Sungbo Eo <mans0n@gorani.run>, Stefan Agner <stefan@agner.ch>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yash Shah <yash.shah@sifive.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        - <patches@opensource.cirrus.com>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Teng <andy.teng@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Sricharan R <sricharan@codeaurora.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-unisoc@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v2 02/13] dt-bindings: gpio: include common schema in GPIO controllers
+Date:   Thu, 17 Sep 2020 18:52:50 +0200
+Message-Id: <20200917165301.23100-3-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200917165301.23100-1-krzk@kernel.org>
+References: <20200917165301.23100-1-krzk@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Include the common GPIO schema in GPIO controllers to be sure all common
+properties are properly validated.
 
-Am 17.08.20 um 23:48 schrieb Helen Koike:
-> Hi Dafna,
-> 
-> On 8/15/20 7:37 AM, Dafna Hirschfeld wrote:
->> The isp.frame_sequence is now read only from the irq handlers
->> that are all fired from the same interrupt so there is not need
->> for atomic operation.
->> In addition the frame seq incrementation is moved from
->> rkisp1_isp_queue_event_sof to rkisp1_isp_isr to make the code
->> clearer.
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->>   drivers/staging/media/rkisp1/rkisp1-capture.c |  2 +-
->>   drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +-
->>   drivers/staging/media/rkisp1/rkisp1-isp.c     | 20 +++++++++----------
->>   drivers/staging/media/rkisp1/rkisp1-params.c  |  2 +-
->>   drivers/staging/media/rkisp1/rkisp1-stats.c   |  3 +--
->>   5 files changed, 14 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> index c05280950ea0..d7017afc5405 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> @@ -632,7 +632,7 @@ static void rkisp1_handle_buffer(struct rkisp1_capture *cap)
->>   	curr_buf = cap->buf.curr;
->>   
->>   	if (curr_buf) {
->> -		curr_buf->vb.sequence = atomic_read(&isp->frame_sequence);
->> +		curr_buf->vb.sequence = isp->frame_sequence;
->>   		curr_buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
->>   		curr_buf->vb.field = V4L2_FIELD_NONE;
->>   		vb2_buffer_done(&curr_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
->> index 9b41935c6597..79edece6ee77 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
->> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
->> @@ -112,7 +112,7 @@ struct rkisp1_isp {
->>   	const struct rkisp1_isp_mbus_info *src_fmt;
->>   	struct mutex ops_lock;
->>   	bool is_dphy_errctrl_disabled;
->> -	atomic_t frame_sequence;
->> +	__u32 frame_sequence;
->>   };
->>   
->>   struct rkisp1_vdev_node {
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
->> index ad2ece78abbf..1ffe7cc7bb12 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
->> @@ -940,7 +940,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
->>   	if (rkisp1->active_sensor->mbus_type != V4L2_MBUS_CSI2_DPHY)
->>   		return -EINVAL;
->>   
->> -	atomic_set(&rkisp1->isp.frame_sequence, -1);
->> +	rkisp1->isp.frame_sequence = -1;
->>   	mutex_lock(&isp->ops_lock);
->>   	ret = rkisp1_config_cif(rkisp1);
->>   	if (ret)
->> @@ -1093,15 +1093,8 @@ static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
->>   	struct v4l2_event event = {
->>   		.type = V4L2_EVENT_FRAME_SYNC,
->>   	};
->> +	event.u.frame_sync.frame_sequence = isp->frame_sequence;
->>   
->> -	/*
->> -	 * Increment the frame sequence on the vsync signal.
->> -	 * This will allow applications to detect dropped.
->> -	 * Note that there is a debugfs counter for dropped
->> -	 * frames, but using this event is more accurate.
->> -	 */
->> -	event.u.frame_sync.frame_sequence =
->> -		atomic_inc_return(&isp->frame_sequence);
->>   	v4l2_event_queue(isp->sd.devnode, &event);
->>   }
->>   
->> @@ -1116,7 +1109,14 @@ void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
->>   	rkisp1_write(rkisp1, status, RKISP1_CIF_ISP_ICR);
->>   
->>   	/* Vertical sync signal, starting generating new frame */
->> -	if (status & RKISP1_CIF_ISP_V_START)
->> +	if (status & RKISP1_CIF_ISP_V_START) {
->> +		/*
->> +		 * Increment the frame sequence on the vsync signal.
->> +		 * This will allow applications to detect dropped.
-> 
-> I know just moved the comment, but I would like to take this opportunity
-> to fix this text:
-> 
-> s/to detect dropped/to detect dropped frames.
-> 
->> +		 * Note that there is a debugfs counter for dropped
->> +		 * frames, but using this event is more accurate.
-> 
-> I'm not sure if this phrase is accurate :P
-> Since the debugfs counter should be reliable to verify we dropped frames.
-> 
-> I mean, usage is different.
-> 
-> maybe just:
-> 
-> s/, but using this event is more accurate././
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Actually the debugfs counter for dropped frames is incremented
-when there is a frame ready on the capture but there are no buffers in the v4l2 queue.
-It is quit unrelated to the v-start event, so I think the whole comment can be dropped.
+---
 
-Thanks,
-Dafna
+Changes since v1:
+1. Fix gpio-mxs.yaml
+2. Add snps,dw-apb-gpio.yaml
+---
+ .../devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml         | 3 +++
+ Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml      | 3 +++
+ Documentation/devicetree/bindings/gpio/gpio-mxs.yaml          | 4 ++++
+ Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml      | 3 +++
+ Documentation/devicetree/bindings/gpio/gpio-rda.yaml          | 3 +++
+ Documentation/devicetree/bindings/gpio/gpio-vf610.yaml        | 3 +++
+ Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml         | 1 +
+ Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml | 3 +++
+ Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml    | 3 +++
+ Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 3 +++
+ Documentation/devicetree/bindings/gpio/sifive,gpio.yaml       | 3 +++
+ Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml  | 3 +++
+ .../devicetree/bindings/gpio/socionext,uniphier-gpio.yaml     | 3 +++
+ .../devicetree/bindings/gpio/xylon,logicvc-gpio.yaml          | 3 +++
+ 14 files changed, 41 insertions(+)
 
-> 
-> 
-> With or without these changes:
-> 
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> 
-> Regards,
-> Helen
-> 
->> +		 */
->> +		rkisp1->isp.frame_sequence++;
->>   		rkisp1_isp_queue_event_sof(&rkisp1->isp);
->>   
->>   	if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
->> index 4b4391c0a2a0..cc242ad5106e 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
->> @@ -1227,7 +1227,7 @@ void rkisp1_params_isr(struct rkisp1_device *rkisp1)
->>   	 * We want the vb.sequence to be the frame that the params are applied to.
->>   	 * So we set vb.sequence to be the isp's frame_sequence + 1
->>   	 */
->> -	unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence) + 1;
->> +	unsigned int frame_sequence = rkisp1->isp.frame_sequence + 1;
->>   	struct rkisp1_params *params = &rkisp1->params;
->>   
->>   	spin_lock(&params->config_lock);
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-stats.c b/drivers/staging/media/rkisp1/rkisp1-stats.c
->> index 87e4104d20dd..52417b388854 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-stats.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-stats.c
->> @@ -307,8 +307,7 @@ rkisp1_stats_send_measurement(struct rkisp1_stats *stats, u32 isp_ris)
->>   {
->>   	struct rkisp1_stat_buffer *cur_stat_buf;
->>   	struct rkisp1_buffer *cur_buf = NULL;
->> -	unsigned int frame_sequence =
->> -		atomic_read(&stats->rkisp1->isp.frame_sequence);
->> +	unsigned int frame_sequence = stats->rkisp1->isp.frame_sequence;
->>   	u64 timestamp = ktime_get_ns();
->>   
->>   	/* get one empty buffer */
->>
+diff --git a/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml b/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
+index c213cb9ddb9f..1ac69b9c03f9 100644
+--- a/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
+@@ -13,6 +13,9 @@ description: |
+   This controller is the Chip Common A GPIO present on a number of Broadcom
+   switch ASICs with integrated SoCs.
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     const: brcm,iproc-gpio-cca
+diff --git a/Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml b/Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml
+index de0b9b5f6a70..737756e081fb 100644
+--- a/Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml
+@@ -9,6 +9,9 @@ title: Freescale i.MX/MXC GPIO controller
+ maintainers:
+   - Anson Huang <Anson.Huang@nxp.com>
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     oneOf:
+diff --git a/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml b/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
+index dfa1133f8c5e..bd0c4f329625 100644
+--- a/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
++++ b/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
+@@ -34,6 +34,10 @@ properties:
+ patternProperties:
+   "gpio@[0-9]+$":
+     type: object
++
++    allOf:
++      - $ref: gpio-common.yaml#
++
+     properties:
+       compatible:
+         enum:
+diff --git a/Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml b/Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml
+index 338c5312a106..69b12041c893 100644
+--- a/Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml
++++ b/Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml
+@@ -9,6 +9,9 @@ title: PCA9570 I2C GPO expander
+ maintainers:
+   - Sungbo Eo <mans0n@gorani.run>
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     enum:
+diff --git a/Documentation/devicetree/bindings/gpio/gpio-rda.yaml b/Documentation/devicetree/bindings/gpio/gpio-rda.yaml
+index 6ece555f074f..d70c99f463c2 100644
+--- a/Documentation/devicetree/bindings/gpio/gpio-rda.yaml
++++ b/Documentation/devicetree/bindings/gpio/gpio-rda.yaml
+@@ -9,6 +9,9 @@ title: RDA Micro GPIO controller
+ maintainers:
+   - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     const: rda,8810pl-gpio
+diff --git a/Documentation/devicetree/bindings/gpio/gpio-vf610.yaml b/Documentation/devicetree/bindings/gpio/gpio-vf610.yaml
+index 6ac5a78ad3da..82f3e4b407d1 100644
+--- a/Documentation/devicetree/bindings/gpio/gpio-vf610.yaml
++++ b/Documentation/devicetree/bindings/gpio/gpio-vf610.yaml
+@@ -17,6 +17,9 @@ description: |
+   Note: Each GPIO port should have an alias correctly numbered in "aliases"
+   node.
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     enum:
+diff --git a/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml b/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
+index 4db3b8a3332c..e2b7d2d133a8 100644
+--- a/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
+@@ -12,6 +12,7 @@ maintainers:
+   - Rob Herring <robh+dt@kernel.org>
+ 
+ allOf:
++  - $ref: gpio-common.yaml#
+   - if:
+       properties:
+         compatible:
+diff --git a/Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml b/Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml
+index 32a566ec3558..2eee374e8396 100644
+--- a/Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml
+@@ -13,6 +13,9 @@ description: |
+   Qualcomm Technologies Inc WCD9340/WCD9341 Audio Codec has integrated
+   gpio controller to control 5 gpios on the chip.
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     enum:
+diff --git a/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml b/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
+index 8bdef812c87c..845689807678 100644
+--- a/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
++++ b/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
+@@ -9,6 +9,9 @@ title: Renesas EMMA Mobile General Purpose I/O Interface
+ maintainers:
+   - Magnus Damm <magnus.damm@gmail.com>
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     const: renesas,em-gio
+diff --git a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+index 5026662e4508..c116000d579f 100644
+--- a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+@@ -9,6 +9,9 @@ title: Renesas R-Car General-Purpose Input/Output Ports (GPIO)
+ maintainers:
+   - Geert Uytterhoeven <geert+renesas@glider.be>
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     oneOf:
+diff --git a/Documentation/devicetree/bindings/gpio/sifive,gpio.yaml b/Documentation/devicetree/bindings/gpio/sifive,gpio.yaml
+index a0efd8dc2538..f2d93b40fc7e 100644
+--- a/Documentation/devicetree/bindings/gpio/sifive,gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/sifive,gpio.yaml
+@@ -10,6 +10,9 @@ maintainers:
+   - Yash Shah <yash.shah@sifive.com>
+   - Paul Walmsley <paul.walmsley@sifive.com>
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   compatible:
+     items:
+diff --git a/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml b/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
+index b391cc1b4590..459aafe5fd47 100644
+--- a/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
+@@ -49,6 +49,9 @@ properties:
+ patternProperties:
+   "^gpio-(port|controller)@[0-9a-f]+$":
+     type: object
++    allOf:
++      - $ref: gpio-common.yaml#
++
+     properties:
+       compatible:
+         const: snps,dw-apb-gpio-port
+diff --git a/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml b/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
+index c58ff9a94f45..94a911e9c313 100644
+--- a/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
+@@ -9,6 +9,9 @@ title: UniPhier GPIO controller
+ maintainers:
+   - Masahiro Yamada <yamada.masahiro@socionext.com>
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   $nodename:
+     pattern: "^gpio@[0-9a-f]+$"
+diff --git a/Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml b/Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml
+index a36aec27069c..0e4581241b3f 100644
+--- a/Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml
+@@ -23,6 +23,9 @@ description: |
+   - EN_VEE (power control) mapped to index 7
+   - V_EN (power control) mapped to index 8
+ 
++allOf:
++  - $ref: gpio-common.yaml#
++
+ properties:
+   $nodename:
+     pattern: "^gpio@[0-9a-f]+$"
+-- 
+2.17.1
+
