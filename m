@@ -2,87 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91F7526D482
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 09:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE93726D485
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 09:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726311AbgIQHUh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 03:20:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60868 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726279AbgIQHUc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 03:20:32 -0400
-Received: from coco.lan (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C8CE82072E;
-        Thu, 17 Sep 2020 07:20:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600327229;
-        bh=cGR7Ut51zyLqgr7LZIC637tRgQYLhYGs8GRiX0vbHCQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=CeTWPfybY1e5B/MvRn7EcJfdpPsk8tyVGogFoFBp8W8QlpNZ6cvijSC16/GXMsucw
-         ofb0ahkJ+8gipBlCN691ijerT8TjVXnhjz5Vd4dE6fJju1RFp0PpkVTjjS8pHweLPa
-         dj2viqwW25AeTqpDaUmcFSeAeFfll5C0pvgOs0Es=
-Date:   Thu, 17 Sep 2020 09:20:25 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [GIT FIXES FOR v5.9] Remove V4L2_FLAG_MEMORY_NON_CONSISTENT
- flag
-Message-ID: <20200917092025.285f18a5@coco.lan>
-In-Reply-To: <9347220a-a039-93ff-5dd7-f35613631a29@xs4all.nl>
-References: <9347220a-a039-93ff-5dd7-f35613631a29@xs4all.nl>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726332AbgIQHUu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 03:20:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726196AbgIQHUm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 03:20:42 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243A0C061756
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 00:20:41 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id q4so791646pjh.5
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 00:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=qTwre4ZeIJuKy55xpBHaxVBN8pj7CPhlTLeYSSpiSIU=;
+        b=mUK1l+0V3m0aQzgpa7FBva6vX516YzP+V0Ikp9EOOpWanHA6Oqd/eds6F+JWOODp5F
+         lRVkvzD5o394JcSu9xKkcS+1wIY/QVYxmY8V/+1GAwI8vuVSxeRJquEr4tUCdJ7dgwBS
+         JPwCv9bw4jQvsjgSpvgiFXug1bnoUS8X3LQqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=qTwre4ZeIJuKy55xpBHaxVBN8pj7CPhlTLeYSSpiSIU=;
+        b=VADWdfYhzCjHHC2mNaV9l8VJC7CROk8rtCP5A8hAVXYjbx9cJWaOaKjH8M6IU6lxzZ
+         tqDLTqpVHY/xgLy9klQvkYtL3gHsUsEGnMFtOcbep6vMh0ZtLTL1TT6+ez2SOZnF4e9p
+         3/Ve8zakVPtsAb2iSUpYZ9mQZKQwCjp3ZyLmP1Ct2XUlI3P1gHRZ0uSLRQR+Sq4j8FGj
+         q8jXNRp66HlR/CCgFD2vMw555I8HKwvpiHNK2a3mu+I0Y45L7vFaCBEBao1aJHoaZmjE
+         d/rYo7OI1LbqPcimFu6a9DbkHKpFOLdweeRwXdX1j7plsbiXl/C676a5dBs51L1l0SMM
+         xV4g==
+X-Gm-Message-State: AOAM532wLI1kyrNvxucSj89OT/pKcvK0CXuhmKR9Lcr+UL5HMsdNLWXx
+        RsnkEvxvYvcWmcFHWF0kIQrGD5/zKozmyg==
+X-Google-Smtp-Source: ABdhPJwg+azqcg7sWP3zo0LXxIcosCEY+c69pW80exTxTNCPi7oboCX55uPw+dUh9lC85AB99OkYuA==
+X-Received: by 2002:a17:90b:1916:: with SMTP id mp22mr6792303pjb.132.1600327240752;
+        Thu, 17 Sep 2020 00:20:40 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id g23sm19530034pfh.133.2020.09.17.00.20.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 00:20:40 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1600305963-7659-2-git-send-email-mansur@codeaurora.org>
+References: <1600305963-7659-1-git-send-email-mansur@codeaurora.org> <1600305963-7659-2-git-send-email-mansur@codeaurora.org>
+Subject: Re: [RESEND v2 1/4] venus: core: change clk enable and disable order in resume and suspend
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org,
+        Mansur Alisha Shaik <mansur@codeaurora.org>
+To:     Mansur Alisha Shaik <mansur@codeaurora.org>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Date:   Thu, 17 Sep 2020 00:20:39 -0700
+Message-ID: <160032723903.4188128.6871272126838595856@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 11 Sep 2020 12:52:57 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+Quoting Mansur Alisha Shaik (2020-09-16 18:26:00)
+> Currently video driver is voting after clk enable and un voting
+> before clk disable. Basically we should vote before clk enable
+> and un vote after clk disable.
+>=20
+> Corrected this by changing the order of clk enable and clk disable.
+>=20
+> Fixes: 7482a983d ("media: venus: redesign clocks and pm domains control")
+> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> ---
 
-> From the commit log of the patch:
-> 
-> --------------------------------------------------------------------
-> The patch partially reverts some of the UAPI bits of the buffer
-> cache management hints. Namely, the queue consistency (memory
-> coherency) user-space hint because, as it turned out, the kernel
-> implementation of this feature was misusing DMA_ATTR_NON_CONSISTENT.
-> 
-> The patch revers both kernel and user space parts: removes the
-> DMA consistency attr functions, rolls back changes to v4l2_requestbuffers,
-> v4l2_create_buffers structures and corresponding UAPI functions
-> (plus compat32 layer) and cleans up the documentation.
-> --------------------------------------------------------------------
-> 
-> The intention is that this feature will return once proper low-level support
-> for this has been sorted. A patch to revert the v4l-utils changes is ready
-> to be merged once this patch made it's way to our master branch:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20200911030952.74468-1-sergey.senozhatsky@gmail.com/
-> 
-> I've tested this with the test-media script.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> The following changes since commit 93c16fabdb74a9c1a427402fc1fe588a45130c5b:
-> 
->   media: ov8856: Add support for 3264x2448 mode (2020-09-10 14:29:35 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.9-mem
-> 
-> for you to fetch changes up to d36642b40255022dda1cfcaebe82e40a592d4ee8:
-> 
->   media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag (2020-09-11 12:26:54 +0200)
-
-This caused a warning when building the html books. Not sure why the robot
-didn't warn. I'll be posting a fix at the ML.
-
-Thanks,
-Mauro
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
