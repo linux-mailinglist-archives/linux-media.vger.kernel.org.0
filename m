@@ -2,72 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6605426DAF5
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9514A26DB12
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:06:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726939AbgIQMBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 08:01:47 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:60410 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726951AbgIQMBU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 08:01:20 -0400
-X-Greylist: delayed 2057 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 08:01:19 EDT
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kIrxd-00D9Fu-7S; Thu, 17 Sep 2020 11:20:21 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kIs6N-0007Cp-8c; Thu, 17 Sep 2020 11:29:23 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.10] Various fixes (mostly rcar related) (#67062)
-Date:   Thu, 17 Sep 2020 11:29:23 +0000
-Message-Id: <20200917112923.27658-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <0f564827-1eae-1660-95a5-86b910e44b26@xs4all.nl>
-References: 
+        id S1726773AbgIQMGn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 08:06:43 -0400
+Received: from mail29.static.mailgun.info ([104.130.122.29]:23202 "EHLO
+        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726915AbgIQMGM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 08:06:12 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1600344352; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=4UtZeQmJZCTmN33hwmN7PDkDrzAhWXay1mgYEYiQhVU=;
+ b=of382bMyoeFJ4ieQtRR/mNZWhK9IZNctS5uAnaJvnPQml3yG9XZPnQYSiLmY5d1NTdsaAgT4
+ RT40m4Wx+vohKsdbqIDqLjNsF89PrXzdnH0xg6p19L/zwcDeS4+jCB9dDgYBg2L8dVse9+Gk
+ 9Jysw+q4VagsACacSBt0H9u1g6I=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 5f635093c4180d293b3feab9 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 17 Sep 2020 12:03:31
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 8DA0DC433C8; Thu, 17 Sep 2020 12:03:31 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: rojay)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 79557C433CA;
+        Thu, 17 Sep 2020 12:03:30 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 17 Sep 2020 17:33:30 +0530
+From:   rojay@codeaurora.org
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     wsa@kernel.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, akashast@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH V3] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+In-Reply-To: <159959341894.454335.3250696075143737399@swboyd.mtv.corp.google.com>
+References: <20200907130731.2607-1-rojay@codeaurora.org>
+ <159959341894.454335.3250696075143737399@swboyd.mtv.corp.google.com>
+Message-ID: <fdd2919bc0705b4bd54b8be92fbc9fe5@codeaurora.org>
+X-Sender: rojay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Stephen,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/0f564827-1eae-1660-95a5-86b910e44b26@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/68702/
-Build time: 00:21:46
-Link: https://lore.kernel.org/linux-media/0f564827-1eae-1660-95a5-86b910e44b26@xs4all.nl
+On 2020-09-09 01:00, Stephen Boyd wrote:
+> Why is dri-devel on here? And linaro-mm-sig?
+> 
 
-gpg: Signature made Thu 17 Sep 2020 10:46:46 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Ok, I will remove these lists.
 
-Summary: got 2/11 patches with issues, being 1 at build time, plus one error when buinding PDF document
+> Quoting Roja Rani Yarubandi (2020-09-07 06:07:31)
+>> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c 
+>> b/drivers/i2c/busses/i2c-qcom-geni.c
+>> index dead5db3315a..b3609760909f 100644
+>> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+>> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+>>  struct geni_i2c_err_log {
+>> @@ -384,7 +387,8 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev 
+>> *gi2c, struct i2c_msg *msg,
+>>         if (dma_buf) {
+>>                 if (gi2c->err)
+>>                         geni_i2c_rx_fsm_rst(gi2c);
+>> -               geni_se_rx_dma_unprep(se, rx_dma, len);
+>> +               geni_se_rx_dma_unprep(se, gi2c->rx_dma, len);
+>> +               gi2c->rx_dma = (dma_addr_t)NULL;
+>>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>>         }
+>> 
+>> @@ -394,12 +398,12 @@ static int geni_i2c_rx_one_msg(struct 
+>> geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>>  static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct 
+>> i2c_msg *msg,
+>>                                 u32 m_param)
+>>  {
+>> -       dma_addr_t tx_dma;
+>>         unsigned long time_left;
+>>         void *dma_buf = NULL;
+>>         struct geni_se *se = &gi2c->se;
+>>         size_t len = msg->len;
+>> 
+>> +       gi2c->xfer_len = len;
+>>         if (!of_machine_is_compatible("lenovo,yoga-c630"))
+>>                 dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+>> 
+>> @@ -410,7 +414,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev 
+>> *gi2c, struct i2c_msg *msg,
+>> 
+>>         writel_relaxed(len, se->base + SE_I2C_TX_TRANS_LEN);
+>> 
+>> -       if (dma_buf && geni_se_tx_dma_prep(se, dma_buf, len, &tx_dma)) 
+>> {
+>> +       if (dma_buf && geni_se_tx_dma_prep(se, dma_buf, len, 
+>> &gi2c->tx_dma)) {
+>>                 geni_se_select_mode(se, GENI_SE_FIFO);
+>>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
+>>                 dma_buf = NULL;
+>> @@ -429,7 +433,8 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev 
+>> *gi2c, struct i2c_msg *msg,
+>>         if (dma_buf) {
+>>                 if (gi2c->err)
+>>                         geni_i2c_tx_fsm_rst(gi2c);
+>> -               geni_se_tx_dma_unprep(se, tx_dma, len);
+>> +               geni_se_tx_dma_unprep(se, gi2c->tx_dma, len);
+>> +               gi2c->tx_dma = (dma_addr_t)NULL;
+>>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+>>         }
+>> 
+>> @@ -479,6 +484,51 @@ static int geni_i2c_xfer(struct i2c_adapter 
+>> *adap,
+>>         return ret;
+>>  }
+>> 
+>> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
+>> +{
+>> +       int ret;
+>> +       u32 dma;
+>> +       u32 val;
+>> +       u32 geni_status;
+>> +       struct geni_se *se = &gi2c->se;
+>> +
+>> +       ret = pm_runtime_get_sync(gi2c->se.dev);
+>> +       if (ret < 0) {
+>> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n", 
+>> ret);
+> 
+> Is this print really necessary? Doesn't PM core already print this sort
+> of information?
+> 
 
-Error/warnings:
+PM core will not print any such information.
+Here we wanted to know our driver's pm runtime resume is successful.
 
-patches/0001-dt-bindings-media-renesas-vin-Add-device-tree-suppor.patch:
+>> +               return;
+>> +       }
+>> +
+>> +       geni_status = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
+>> +       if (geni_status & M_GENI_CMD_ACTIVE) {
+> 
+> Please try to de-indent all this.
+> 
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: ../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:703 is_pipe_valid_to_current_run_mode() warn: ignoring unreachable code.
-	../drivers/staging/media/atomisp/pci/sh_css.c:1685:16: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
+Okay.
 
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1909 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+> 	if (!(geni_status & M_GENI_CMD_ACTIVE))
+> 		goto out;
+> 
+>> +               geni_i2c_abort_xfer(gi2c);
+>> +               dma = readl_relaxed(se->base + SE_GENI_DMA_MODE_EN);
+>> +               if (dma) {
+> 
+> 	if (!dma)
+> 		goto out;
+> 
+>> +                       val = readl_relaxed(gi2c->se.base + 
+>> SE_DMA_DEBUG_REG0);
+>> +                       if (val & DMA_TX_ACTIVE) {
+>> +                               gi2c->cur_wr = 0;
+>> +                               if (gi2c->err)
+>> +                                       geni_i2c_tx_fsm_rst(gi2c);
+>> +                               if (gi2c->tx_dma) {
+>> +                                       geni_se_tx_dma_unprep(se,
+>> +                                                gi2c->tx_dma, 
+>> gi2c->xfer_len);
+>> +                                       gi2c->tx_dma = 
+>> (dma_addr_t)NULL;
+> 
+> Almost nobody does this. In fact, grep shows me one hit in the kernel.
+> If nobody else is doing it something is probably wrong. When would dma
+> mode be active and tx_dma not be set to something that should be
+> stopped? If it really is necessary I suppose we should assign this to
+> DMA_MAPPING_ERROR instead of casting NULL. Then the check above for
+> tx_dma being valid can be dropped because geni_se_tx_dma_unprep()
+> already checks for a valid mapping before doing anything. But really, 
+> we
+> should probably be tracking the dma buffer mapped to the CPU as well as
+> the dma address that was used for the mapping. Not storing both is a
+> problem, see below.
+> 
 
-patches/0011-media-rcar-vin-Enable-YDS-bit-depending-on-bus_width.patch:
+You are correct, setting gi2c->tx_dma to NULL and check for tx_dma is
+not required. Will correct this.
 
-   checkpatch.pl:
-	$ cat patches/0011-media-rcar-vin-Enable-YDS-bit-depending-on-bus_width.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:48: CHECK: Prefer using the BIT macro
+>> +                               }
+>> +                       } else if (val & DMA_RX_ACTIVE) {
+>> +                               gi2c->cur_rd = 0;
+>> +                               if (gi2c->err)
+>> +                                       geni_i2c_rx_fsm_rst(gi2c);
+>> +                               if (gi2c->rx_dma) {
+>> +                                       geni_se_rx_dma_unprep(se,
+>> +                                               gi2c->rx_dma, 
+>> gi2c->xfer_len);
+> 
+> Looking closely it seems that the geni dma wrappers shouldn't even be
+> checking for an iova being non-zero. Instead they should make sure that
+> it just isn't invalid with !dma_mapping_error().
+> 
 
+Yes. I will remove iova check in geni_se_rx_dma_unprep() function(also 
+in tx_dma_unprep)
 
-Error #512 when building PDF docs
+>> +                                       gi2c->rx_dma = 
+>> (dma_addr_t)NULL;
+> 
+> If we're stopping some dma transaction doesn't that mean the
+> 
+>                  i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+> 
+> code needs to run also? I fail to see where we free the buffer that has
+> been mapped for DMA.
+> 
 
+Yes, this is required. I will do this cleanup.
+
+>> +                               }
+>> +                       }
+>> +               }
+>> +       }
+>> +
+> 
+> out:
+> 
+>> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
+>> +}
+>> +
