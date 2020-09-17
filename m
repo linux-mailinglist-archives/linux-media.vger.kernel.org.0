@@ -2,119 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 724DF26D12B
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 04:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00DF226D1E7
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 05:48:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbgIQCdJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Sep 2020 22:33:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60650 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726064AbgIQCdF (ORCPT
+        id S1726198AbgIQDs3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Sep 2020 23:48:29 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:53445 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726142AbgIQDs0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Sep 2020 22:33:05 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0231DC061797;
-        Wed, 16 Sep 2020 19:26:05 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id a2so481505otr.11;
-        Wed, 16 Sep 2020 19:26:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ljdmjxdKqEuBlgltC6/Q3uw8AjHFikdpknr0TkuRy0A=;
-        b=YHFubGF31fKSw5FJtZqFQQbWWzTmPO4L7HyCUWSEw7HpOARjJfH1pdbHGg3fskJMN9
-         SJXpz7AZBuSkbz56d2pPj+fjmNjm+mi4F5a1ZWqoSvUNsycvxASJid+KEiMQOflzRC6z
-         SHiWlZOp8+NaHPmjDuOAt0yd65ncxNbtmGJFdS2YW23ifhrrTlEBBKgAclwFgVuaXxZx
-         ssGCl/6/74rm05R53imZOke/NCf0sIOCxQ84Ma0cKHE8U30EXYYO3vwcAvx+/Vem+5Qx
-         vsV52yGOF7s8BxZ3HINY8zdRUBHVW9+rIHrYXq1Re2fQ5r87vxMr5NbGi/2OnuIs7xbW
-         q9ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references;
-        bh=ljdmjxdKqEuBlgltC6/Q3uw8AjHFikdpknr0TkuRy0A=;
-        b=cwMRPOzP1kWsjM3OXwWgQmJC5gfEbq5oDiz2ZeC+QUBhMki9Blo2ikaB3Pu8FFWaJf
-         ujvytjYJs3xOdczc95v3IfwjEJ7lQfKas4FpKcAM54gesFW9yqisAuojnC2nZJysMkth
-         YHyl/c9rVDEoLS3fj6Li1nV2X1YIZjdYFtEjQXNZHsiVGuw4Dw7f0jJjPLmRaHfLakfx
-         +TSVOl2uwTdRg5Uy+R1RVMPT/iTPaTFkmnK7Sx6wbWeGx2Xb5jzYExclm1SjQ5EiOmfE
-         6xD3mkWKV9iq6plDg1plGBX74KHncwuYaK1zuqi+8g2ySlWGfnYsF7nvR6pxMqu53ch9
-         KldQ==
-X-Gm-Message-State: AOAM533sT561o4sBLpSDyiZTtUJcBXdRtVm5KAiJ/5MKu95vwF5s4v2O
-        vVjm/oy39jJHByeEAcdrgJ8=
-X-Google-Smtp-Source: ABdhPJzDl9ZZfD8ZSxUVlnOikRRv4WS+mkf73k0l4N5ta56eofyQlT8SAN949r9jTu6TBH6XzUYH2w==
-X-Received: by 2002:a05:6830:20d8:: with SMTP id z24mr18418697otq.3.1600309564443;
-        Wed, 16 Sep 2020 19:26:04 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c25sm12286685oot.42.2020.09.16.19.26.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 16 Sep 2020 19:26:04 -0700 (PDT)
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH RESEND v3 5/5] media: uvcvideo: Abort uvc_v4l2_open if video device is unregistered
-Date:   Wed, 16 Sep 2020 19:25:47 -0700
-Message-Id: <20200917022547.198090-6-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200917022547.198090-1-linux@roeck-us.net>
-References: <20200917022547.198090-1-linux@roeck-us.net>
+        Wed, 16 Sep 2020 23:48:26 -0400
+X-Greylist: delayed 426 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Sep 2020 23:48:25 EDT
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id IknMkOztTTSPzIknNktcPr; Thu, 17 Sep 2020 05:41:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600314077; bh=Or45x9t/V2mV9M8/3Gj6pv6qlFAXh8VZ7D0oXeuEW+A=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=BxMl4JqPxshTbHF6d8XpKnOHZlq/aXACk0nMKiqc0FrIqkDU2wT/zuI54I/ac631z
+         aitod88PTlyLiEYXlhYWmIN8/Gv31hkEM4M+JGJKxWz/v/2tBQrqXFDYOFv1qY6N96
+         Tl8DTOLXD60NjMuJwB1HSfQsg9fRssllk0fM+Bv1XPOeArAhK0pPSwvNVJd5bDu4IZ
+         JWb4S+lNzU6AiKL/5ONBgEM6FbkxW63Gss8QifwmktBoC7Rq+V3Coc69uhSa1wx8tZ
+         /g8F6iLNPsII/OrW+3QsmIsj9YGYeu63OGyMdPYmDFPj7WRLEHyoxxo2jSDS5IeCPo
+         H4rodGuQRVE9A==
+Message-ID: <fb833bb67f007988646e82aca593d65d@smtp-cloud7.xs4all.net>
+Date:   Thu, 17 Sep 2020 05:41:16 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfLOtzPplUlCiy6zAUVOfAJtpJ0ovkAnFd5VGcIT8CZ+KGrPHVyg9LIzyrvCZMUdyo3I8Mxq2zHVyb81zqbnGYk5hkEaz/Q76YZ9vHsFjdxcXBToaR9AP
+ b9oXtnFvGchtlG0lFvurpphkIQKENO8yvn2qDmG1getviF3+sVYDFDeSdXVs9VoEKcjngL22pPfZSh4W73eQBQrCbj04f4cWGd0pdU9tnjfmrkoT9DaxDjy+
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-uvc_v4l2_open() acquires the uvc device mutex. After doing so,
-it does not check if the video device is still registered. This may
-result in race conditions and can result in an attempt to submit an urb
-to a disconnected USB interface (from uvc_status_start).
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-The problem was observed after adding a call to msleep() just before
-acquiring the mutex and disconnecting the camera during the sleep.
+Results of the daily build of media_tree:
 
-Check if the video device is still registered after acquiring the mutex
-to avoid the problem. In the release function, only call uvc_status_stop()
-if the video device is still registered. If the video device has been
-unregistered, the urb associated with uvc status has already been killed
-in uvc_status_unregister(). Trying to kill it again won't do any good
-and might have unexpected side effects.
+date:			Thu Sep 17 05:00:15 CEST 2020
+media-tree git hash:	741043b02c2e00c8fea1a0f6f8ce43c6326cd9e8
+media_build git hash:	21087b03fd494d4e53bebf781b1f187f16cf74e8
+v4l-utils git hash:	4833a12e78525e4d1a8c1f5da5f9534b857557be
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 65546dfa86f803ba44e908adc14ff4d8174a0fd2
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- drivers/media/usb/uvc/uvc_v4l2.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 3 strcpy(), 3 strncpy(), 3 strlcpy()
+linux-3.10.108-i686: WARNINGS
+linux-3.10.108-x86_64: WARNINGS
+linux-3.11.10-i686: WARNINGS
+linux-3.11.10-x86_64: WARNINGS
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: OK
+smatch: WARNINGS
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 7e5e583dae5e..8073eae5d879 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -548,6 +548,12 @@ static int uvc_v4l2_open(struct file *file)
- 	}
- 
- 	mutex_lock(&stream->dev->lock);
-+	if (!video_is_registered(&stream->vdev)) {
-+		mutex_unlock(&stream->dev->lock);
-+		usb_autopm_put_interface(stream->dev->intf);
-+		kfree(handle);
-+		return -ENODEV;
-+	}
- 	if (stream->dev->users == 0) {
- 		ret = uvc_status_start(stream->dev, GFP_KERNEL);
- 		if (ret < 0) {
-@@ -590,7 +596,7 @@ static int uvc_v4l2_release(struct file *file)
- 	file->private_data = NULL;
- 
- 	mutex_lock(&stream->dev->lock);
--	if (--stream->dev->users == 0)
-+	if (--stream->dev->users == 0 && video_is_registered(&stream->vdev))
- 		uvc_status_stop(stream->dev);
- 	mutex_unlock(&stream->dev->lock);
- 
--- 
-2.17.1
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
