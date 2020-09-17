@@ -2,393 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EBC926E020
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 17:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD1DE26E001
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 17:49:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728172AbgIQP60 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 11:58:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:49895 "EHLO
+        id S1728257AbgIQPsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 11:48:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:39421 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728244AbgIQPru (ORCPT
+        with ESMTP id S1728202AbgIQPr2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 11:47:50 -0400
+        Thu, 17 Sep 2020 11:47:28 -0400
 Received: from threadripper.lan ([149.172.98.151]) by mrelayeu.kundenserver.de
  (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1Mum2d-1kZdjl0yJv-00rnX4; Thu, 17 Sep 2020 17:28:26 +0200
+ 1MofLl-1kpZtS1V17-00p6vM; Thu, 17 Sep 2020 17:28:27 +0200
 From:   Arnd Bergmann <arnd@arndb.de>
 To:     linux-media@vger.kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
 Cc:     hch@lst.de, linux-kernel@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH 3/8] media: v4l2: move v4l2_ext_controls conversion
-Date:   Thu, 17 Sep 2020 17:28:18 +0200
-Message-Id: <20200917152823.1241599-4-arnd@arndb.de>
+Subject: [PATCH 8/8] media: v4l2: remove remaining compat_ioctl
+Date:   Thu, 17 Sep 2020 17:28:23 +0200
+Message-Id: <20200917152823.1241599-9-arnd@arndb.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200917152823.1241599-1-arnd@arndb.de>
 References: <20200917152823.1241599-1-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ES95WvyRSQsf97A6EisoNS3E0xJveE8Ka/nUY4xQYEcGI+ckiFY
- hKHaeFAPwIvIrjAnWGB7JkdYR57VMHEH3feKPvO5PWxg+fv8ljzcbCS8BN9ns7ipHPNH/8J
- LG0TdGilFje7xevw4lwTVUQqB01nB2cO0+BrV+n4HYJgVqDO0F3CoAol6SMAEwJXHCykHVt
- 4n9psSMbXpPeUKHrSTRYQ==
+X-Provags-ID: V03:K1:UQpH7xxfSoMMzvGWVdvSYJYU9cfRwA4DwM036Ag1uPjtdysQR+6
+ lUDv/ndkjiR5iamA3bhW2mMdNOiaAvZE6++dDA90Na2xOrhmRQWEE8x/R0ZK9uKcOxNtTec
+ WACZ8MI5/05qJKwjicfrZngoW1lDCmMhen2IhxmTP/Mz1nMr5CKa8yJMQfrvADmuuhaC+sU
+ mpjv+su0XBoYgmAU2C7Aw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oVjGvnPcRuw=:CWwU8Vg4rQ1+UrmfKnI5bp
- kXYu8D6JyTJWu2o0zLiYSqUZBjwMaR8tBCLO21ga4lx+HzLJwtTISykQBuTqXMuAK8SbqCBww
- 9CV6fpKhuDNGEnXY6CU6lCt92neNTJJERAWYxj1nlHzXqQmyebBY6+8z+lwSxINvMT5xHRMon
- +Fzi0B4JjpvpEUEFzXzXYzmZcRf/+MuRn9tDtYZ30OdEewm1W19t7+X8wBHmFvK+HuXnaSm/z
- KQY7G0Juo9aB70RrjHI8zoqGIvkbLccCLgqNdCmJ88rNMq278MYD1PYsx7uCl99zZ0YFwaI/5
- FD9ARWKKgR+HplCXcIXi5wJs/niVhTVL4B0m4QS9Ovx9poOH1q4aeLLD5//W8DpFbp5XYOJxc
- 1yQSCG8hUdbweGLuKzgs3fb9ttbl2JpHGswFNdjZBMjQPvaLdC/lnHGJOY8ZMpqokx9yBVqfW
- RxqeG6bhg13Pcp/8RX7SnwuqLSfnc1pmtAjWlRiU/mVbsEDxZ9e+9NOc3Mix7Mw2QWHuVux4Y
- zLnEJBrtjwF+3Vdy6tAJhStxuHoCVaG5ozTCFDtvwMEaiazoqxGB1FsZkD7prRWef52EHuhmg
- rMk4TPfHsnRYdqs4z/UkRo7DjESwC9brFAshB9U5asQ0XbvBO83lwJc1+5v6eL3RbvK9cgv02
- ivlqbWOzvf/959CAhe8aYbnzkdW1kXawm8+pYayW5pIMNmEv2QUjqoEox1Y961OZkSQBCdmBi
- JxHR47kzEQflRvLkW6WmBHBYzqlomZDpzRWLhprSG4TJJghxqDaqDeh+BsEAap24UOOkt1e/U
- SmQ3/mRRINDfReC8PwUVefpky+EALAK6qR7egKqeU4Rsr4CjCUw7ak2Q4r6fTfQnyFayDJf
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yUGd2r36ygE=:2P76FWdRQus0ot6UjuXD0h
+ wCaLg8Ud0ioyDQJtGKD9/T6klNz38NtPvuagaTPYu7Xugq7GC1uzjGwywUf799uN/PfnRc+d5
+ Ua4gEVs7HadKZt69cWerEewnNbdDwaAZPbyKOGTiUXjIDJ8xCbuUWN7cg0qnAEDFgueiGl8WM
+ WlAqMxXtpFflRKfHV7RrSf0q38p15eXXuMMwTWmJwxmDUCfZdihD+XmZWAXVLEG/SX2Y/FmM9
+ TItvcmIjNmiFt3M0XN1NbV9jrkTPhjSjUCIfG15NJTH2X7fHtv0eokiBeLdpnPMlfmSQ57hnB
+ 8zG/FmuV6gtvRr/HpcYdwPrKKVRmPT3PA0wqzxaEGJ/uRtv++ZmmcLBorWjAPg+AEsoHX8fE9
+ VtG4NPSKTvbx7gHTKrSHjMIqE+jP2YH/ZgT6FWQsZXfT+sSem8LEzHELvC7AWSLlBr1sHBH4A
+ D8xMW25crcAVaiqWwF0wLMpj4RuwCCxTb0ko30BJHYBKXgq4F/JzCIzTiN5IdpEylkveCn2CY
+ 8xbGW1M/wzISCgUY46vnbYqzBi2mrI100dTeJSQifR6hmhUZbQeCmpThzzwGqExUR4coxDgwM
+ LomZMSvFlVfK8qBLY5t3ZoFmc3q6gFcF2NFr2v741fTC4UPHPUErcMYzyXyQom4/+kIiuK7Gx
+ e3pseqYMlzn7bLATWCP+udzQuQGIzYwSHlWbJ0uJsa1jHE2QywYebvEpPJmBeySrAbu0DzVXZ
+ WJR3NQ4k+m76jxW+aYm7zqgWzq2uw0i6diuMmcxLo6ntUlglzgmywVbvbZgaHYEKEpZINZKNG
+ rZgkSnkYuX9FaG0tSNxs0c2VQI/Zt2doXtGst5t6CJv2I9FDPjalI6011IwCu/id7vRfGn8
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The v4l2_ext_controls ioctl handlers use an indirect pointer to an
-incompatible data structure, making the conversion particularly tricky.
-
-Moving the compat implementation to use the new
-v4l2_compat_get_user()/v4l2_compat_put_user() helpers makes it
-noticeably simpler.
-
-In v4l2_compat_get_array_args()/v4l2_compat_put_array_args(),
-the 'file' argument needs to get passed to determine the
-exact format, which is a bit unfortunate, as no other conversion
-needs these.
+There are no remaining conversions in v4l2_compat_ioctl32(),
+so all the infrastructure for it can be removed, with the
+only remaining bit being the compat_ioctl32() callback into
+drivers that implement their own incompatible data structures.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 236 +++++++-----------
- 1 file changed, 90 insertions(+), 146 deletions(-)
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 197 +-----------------
+ 1 file changed, 2 insertions(+), 195 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-index f04e29f3aecc..1471dab71703 100644
+index 1d0315d09f6a..22c4349ff43d 100644
 --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
 +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-@@ -1130,142 +1130,44 @@ static inline bool ctrl_is_pointer(struct file *file, u32 id)
- 		(qec.flags & V4L2_CTRL_FLAG_HAS_PAYLOAD);
- }
+@@ -23,103 +23,6 @@
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-ioctl.h>
  
--static int bufsize_v4l2_ext_controls(struct v4l2_ext_controls32 __user *p32,
--				     u32 *size)
--{
--	u32 count;
+-/**
+- * assign_in_user() - Copy from one __user var to another one
+- *
+- * @to: __user var where data will be stored
+- * @from: __user var where data will be retrieved.
+- *
+- * As this code very often needs to allocate userspace memory, it is easier
+- * to have a macro that will do both get_user() and put_user() at once.
+- *
+- * This function complements the macros defined at asm-generic/uaccess.h.
+- * It uses the same argument order as copy_in_user()
+- */
+-#define assign_in_user(to, from)					\
+-({									\
+-	typeof(*from) __assign_tmp;					\
+-									\
+-	get_user(__assign_tmp, from) || put_user(__assign_tmp, to);	\
+-})
 -
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    get_user(count, &p32->count))
--		return -EFAULT;
--	if (count > V4L2_CID_MAX_CTRLS)
--		return -EINVAL;
--	*size = count * sizeof(struct v4l2_ext_control);
--	return 0;
+-/**
+- * get_user_cast() - Stores at a kernelspace local var the contents from a
+- *		pointer with userspace data that is not tagged with __user.
+- *
+- * @__x: var where data will be stored
+- * @__ptr: var where data will be retrieved.
+- *
+- * Sometimes we need to declare a pointer without __user because it
+- * comes from a pointer struct field that will be retrieved from userspace
+- * by the 64-bit native ioctl handler. This function ensures that the
+- * @__ptr will be cast to __user before calling get_user() in order to
+- * avoid warnings with static code analyzers like smatch.
+- */
+-#define get_user_cast(__x, __ptr)					\
+-({									\
+-	get_user(__x, (typeof(*__ptr) __user *)(__ptr));		\
+-})
+-
+-/**
+- * put_user_force() - Stores the contents of a kernelspace local var
+- *		      into a userspace pointer, removing any __user cast.
+- *
+- * @__x: var where data will be stored
+- * @__ptr: var where data will be retrieved.
+- *
+- * Sometimes we need to remove the __user attribute from some data,
+- * by passing the __force macro. This function ensures that the
+- * @__ptr will be cast with __force before calling put_user(), in order to
+- * avoid warnings with static code analyzers like smatch.
+- */
+-#define put_user_force(__x, __ptr)					\
+-({									\
+-	put_user((typeof(*__x) __force *)(__x), __ptr);			\
+-})
+-
+-/**
+- * assign_in_user_cast() - Copy from one __user var to another one
+- *
+- * @to: __user var where data will be stored
+- * @from: var where data will be retrieved that needs to be cast to __user.
+- *
+- * As this code very often needs to allocate userspace memory, it is easier
+- * to have a macro that will do both get_user_cast() and put_user() at once.
+- *
+- * This function should be used instead of assign_in_user() when the @from
+- * variable was not declared as __user. See get_user_cast() for more details.
+- *
+- * This function complements the macros defined at asm-generic/uaccess.h.
+- * It uses the same argument order as copy_in_user()
+- */
+-#define assign_in_user_cast(to, from)					\
+-({									\
+-	typeof(*from) __assign_tmp;					\
+-									\
+-	get_user_cast(__assign_tmp, from) || put_user(__assign_tmp, to);\
+-})
+-
+-/**
+- * native_ioctl - Ancillary function that calls the native 64 bits ioctl
+- * handler.
+- *
+- * @file: pointer to &struct file with the file handler
+- * @cmd: ioctl to be called
+- * @arg: arguments passed from/to the ioctl handler
+- *
+- * This function calls the native ioctl handler at v4l2-dev, e. g. v4l2_ioctl()
+- */
+-static long native_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+-{
+-	long ret = -ENOIOCTLCMD;
+-
+-	if (file->f_op->unlocked_ioctl)
+-		ret = file->f_op->unlocked_ioctl(file, cmd, arg);
+-
+-	return ret;
 -}
 -
--static int get_v4l2_ext_controls32(struct file *file,
--				   struct v4l2_ext_controls __user *p64,
--				   struct v4l2_ext_controls32 __user *p32,
--				   void __user *aux_buf, u32 aux_space)
-+static int get_v4l2_ext_controls32(struct v4l2_ext_controls *p64,
-+				   struct v4l2_ext_controls32 __user *p32)
- {
--	struct v4l2_ext_control32 __user *ucontrols;
--	struct v4l2_ext_control __user *kcontrols;
--	u32 count;
--	u32 n;
--	compat_caddr_t p;
 -
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    assign_in_user(&p64->which, &p32->which) ||
--	    get_user(count, &p32->count) ||
--	    put_user(count, &p64->count) ||
--	    assign_in_user(&p64->error_idx, &p32->error_idx) ||
--	    assign_in_user(&p64->request_fd, &p32->request_fd) ||
--	    copy_in_user(p64->reserved, p32->reserved, sizeof(p64->reserved)))
--		return -EFAULT;
-+	struct v4l2_ext_controls32 ec32;
- 
--	if (count == 0)
--		return put_user(NULL, &p64->controls);
--	if (count > V4L2_CID_MAX_CTRLS)
--		return -EINVAL;
--	if (get_user(p, &p32->controls))
--		return -EFAULT;
--	ucontrols = compat_ptr(p);
--	if (!access_ok(ucontrols, count * sizeof(*ucontrols)))
--		return -EFAULT;
--	if (aux_space < count * sizeof(*kcontrols))
-+	if (copy_from_user(&ec32, p32, sizeof(ec32)))
- 		return -EFAULT;
--	kcontrols = aux_buf;
--	if (put_user_force(kcontrols, &p64->controls))
--		return -EFAULT;
--
--	for (n = 0; n < count; n++) {
--		u32 id;
--
--		if (copy_in_user(kcontrols, ucontrols, sizeof(*ucontrols)))
--			return -EFAULT;
--
--		if (get_user(id, &kcontrols->id))
--			return -EFAULT;
- 
--		if (ctrl_is_pointer(file, id)) {
--			void __user *s;
-+	*p64 = (struct v4l2_ext_controls) {
-+		.which		= ec32.which,
-+		.count		= ec32.count,
-+		.error_idx	= ec32.error_idx,
-+		.request_fd	= ec32.error_idx,
-+		.reserved[0]	= ec32.reserved[0],
-+		.controls	= (void __force *)compat_ptr(ec32.controls),
-+	};
- 
--			if (get_user(p, &ucontrols->string))
--				return -EFAULT;
--			s = compat_ptr(p);
--			if (put_user(s, &kcontrols->string))
--				return -EFAULT;
--		}
--		ucontrols++;
--		kcontrols++;
--	}
- 	return 0;
- }
- 
--static int put_v4l2_ext_controls32(struct file *file,
--				   struct v4l2_ext_controls __user *p64,
-+static int put_v4l2_ext_controls32(struct v4l2_ext_controls *p64,
- 				   struct v4l2_ext_controls32 __user *p32)
- {
--	struct v4l2_ext_control32 __user *ucontrols;
--	struct v4l2_ext_control *kcontrols;
--	u32 count;
--	u32 n;
--	compat_caddr_t p;
--
--	/*
--	 * We need to define kcontrols without __user, even though it does
--	 * point to data in userspace here. The reason is that v4l2-ioctl.c
--	 * copies it from userspace to kernelspace, so its definition in
--	 * videodev2.h doesn't have a __user markup. Defining kcontrols
--	 * with __user causes smatch warnings, so instead declare it
--	 * without __user and cast it as a userspace pointer where needed.
--	 */
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    assign_in_user(&p32->which, &p64->which) ||
--	    get_user(count, &p64->count) ||
--	    put_user(count, &p32->count) ||
--	    assign_in_user(&p32->error_idx, &p64->error_idx) ||
--	    assign_in_user(&p32->request_fd, &p64->request_fd) ||
--	    copy_in_user(p32->reserved, p64->reserved, sizeof(p32->reserved)) ||
--	    get_user(kcontrols, &p64->controls))
--		return -EFAULT;
-+	struct v4l2_ext_controls32 ec32;
-+
-+	memset(&ec32, 0, sizeof(ec32));
-+	ec32 = (struct v4l2_ext_controls32) {
-+		.which		= p64->which,
-+		.count		= p64->count,
-+		.error_idx	= p64->error_idx,
-+		.request_fd	= p64->error_idx,
-+		.reserved[0]	= p64->reserved[0],
-+		.controls	= (uintptr_t)p64->controls,
-+	};
- 
--	if (!count || count > (U32_MAX/sizeof(*ucontrols)))
--		return 0;
--	if (get_user(p, &p32->controls))
--		return -EFAULT;
--	ucontrols = compat_ptr(p);
--	if (!access_ok(ucontrols, count * sizeof(*ucontrols)))
-+	if (copy_to_user(p32, &ec32, sizeof(ec32)))
- 		return -EFAULT;
- 
--	for (n = 0; n < count; n++) {
--		unsigned int size = sizeof(*ucontrols);
--		u32 id;
--
--		if (get_user_cast(id, &kcontrols->id) ||
--		    put_user(id, &ucontrols->id) ||
--		    assign_in_user_cast(&ucontrols->size, &kcontrols->size) ||
--		    copy_in_user(&ucontrols->reserved2,
--				 (void __user *)&kcontrols->reserved2,
--				 sizeof(ucontrols->reserved2)))
--			return -EFAULT;
--
--		/*
--		 * Do not modify the pointer when copying a pointer control.
--		 * The contents of the pointer was changed, not the pointer
--		 * itself.
--		 */
--		if (ctrl_is_pointer(file, id))
--			size -= sizeof(ucontrols->value64);
--
--		if (copy_in_user(ucontrols,
--				 (void __user *)kcontrols, size))
--			return -EFAULT;
--
--		ucontrols++;
--		kcontrols++;
--	}
- 	return 0;
- }
- 
-@@ -1415,6 +1317,12 @@ static int put_v4l2_edid32(struct v4l2_edid __user *p64,
- unsigned int v4l2_compat_translate_cmd(unsigned int cmd)
- {
- 	switch (cmd) {
-+	case VIDIOC_G_EXT_CTRLS32:
-+		return	VIDIOC_G_EXT_CTRLS;
-+	case VIDIOC_S_EXT_CTRLS32:
-+		return VIDIOC_S_EXT_CTRLS;
-+	case VIDIOC_TRY_EXT_CTRLS32:
-+		return VIDIOC_TRY_EXT_CTRLS;
- 	}
- 	return cmd;
- }
-@@ -1422,6 +1330,10 @@ unsigned int v4l2_compat_translate_cmd(unsigned int cmd)
- int v4l2_compat_get_user(void __user *arg, void *parg, unsigned int cmd)
- {
- 	switch (cmd) {
-+	case VIDIOC_G_EXT_CTRLS32:
-+	case VIDIOC_S_EXT_CTRLS32:
-+	case VIDIOC_TRY_EXT_CTRLS32:
-+		return get_v4l2_ext_controls32(parg, arg);
- 	}
- 	return 0;
- }
-@@ -1429,6 +1341,10 @@ int v4l2_compat_get_user(void __user *arg, void *parg, unsigned int cmd)
- int v4l2_compat_put_user(void __user *arg, void *parg, unsigned int cmd)
- {
- 	switch (cmd) {
-+	case VIDIOC_G_EXT_CTRLS32:
-+	case VIDIOC_S_EXT_CTRLS32:
-+	case VIDIOC_TRY_EXT_CTRLS32:
-+		return put_v4l2_ext_controls32(parg, arg);
- 	}
- 	return 0;
- }
-@@ -1440,6 +1356,29 @@ int v4l2_compat_get_array_args(struct file *file, void *mbuf,
- 	int err = 0;
- 
- 	switch (cmd) {
-+	case VIDIOC_G_EXT_CTRLS32:
-+	case VIDIOC_S_EXT_CTRLS32:
-+	case VIDIOC_TRY_EXT_CTRLS32: {
-+		struct v4l2_ext_controls *ecs64 = arg;
-+		struct v4l2_ext_control *ec64 = mbuf;
-+		struct v4l2_ext_control32 __user *ec32 = user_ptr;
-+		int n;
-+
-+		for (n = 0; n < ecs64->count; n++) {
-+			if (copy_from_user(ec64, ec32, sizeof(*ec32)))
-+				return -EFAULT;
-+
-+			if (ctrl_is_pointer(file, ec64->id)) {
-+				compat_uptr_t p;
-+				if (get_user(p, &ec32->string))
-+					return -EFAULT;
-+				ec64->string = compat_ptr(p);
-+			}
-+			ec32++;
-+			ec64++;
-+		}
-+		break;
-+	}
- 	default:
- 		if (copy_from_user(mbuf, user_ptr, array_size))
- 			err = -EFAULT;
-@@ -1456,6 +1395,33 @@ int v4l2_compat_put_array_args(struct file *file, void __user *user_ptr,
- 	int err = 0;
- 
- 	switch (cmd) {
-+	case VIDIOC_G_EXT_CTRLS32:
-+	case VIDIOC_S_EXT_CTRLS32:
-+	case VIDIOC_TRY_EXT_CTRLS32: {
-+		struct v4l2_ext_controls *ecs64 = arg;
-+		struct v4l2_ext_control *ec64 = mbuf;
-+		struct v4l2_ext_control32 __user *ec32 = user_ptr;
-+		int n;
-+
-+		for (n = 0; n < ecs64->count; n++) {
-+			unsigned int size = sizeof(*ec32);
-+			/*
-+			 * Do not modify the pointer when copying a pointer
-+			 * control.  The contents of the pointer was changed,
-+			 * not the pointer itself.
-+			 * The structures are otherwise compatible.
-+			 */
-+			if (ctrl_is_pointer(file, ec64->id))
-+				size -= sizeof(ec32->value64);
-+
-+			if (copy_to_user(ec32, ec64, size))
-+				return -EFAULT;
-+
-+			ec32++;
-+			ec64++;
-+		}
-+		break;
-+	}
- 	default:
- 		if (copy_to_user(user_ptr, mbuf, array_size))
- 			err = -EFAULT;
-@@ -1465,6 +1431,7 @@ int v4l2_compat_put_array_args(struct file *file, void __user *user_ptr,
+ /*
+  * Per-ioctl data copy handlers.
+  *
+@@ -1310,103 +1213,6 @@ int v4l2_compat_put_array_args(struct file *file, void __user *user_ptr,
  	return err;
  }
  
-+
+-
+-/**
+- * alloc_userspace() - Allocates a 64-bits userspace pointer compatible
+- *	for calling the native 64-bits version of an ioctl.
+- *
+- * @size:	size of the structure itself to be allocated.
+- * @aux_space:	extra size needed to store "extra" data, e.g. space for
+- *		other __user data that is pointed to fields inside the
+- *		structure.
+- * @new_p64:	pointer to a pointer to be filled with the allocated struct.
+- *
+- * Return:
+- *
+- * if it can't allocate memory, either -ENOMEM or -EFAULT will be returned.
+- * Zero otherwise.
+- */
+-static int alloc_userspace(unsigned int size, u32 aux_space,
+-			   void __user **new_p64)
+-{
+-	*new_p64 = compat_alloc_user_space(size + aux_space);
+-	if (!*new_p64)
+-		return -ENOMEM;
+-	if (clear_user(*new_p64, size))
+-		return -EFAULT;
+-	return 0;
+-}
+-
+-/**
+- * do_video_ioctl() - Ancillary function with handles a compat32 ioctl call
+- *
+- * @file: pointer to &struct file with the file handler
+- * @cmd: ioctl to be called
+- * @arg: arguments passed from/to the ioctl handler
+- *
+- * This function is called when a 32 bits application calls a V4L2 ioctl
+- * and the Kernel is compiled with 64 bits.
+- *
+- * This function is called by v4l2_compat_ioctl32() when the function is
+- * not private to some specific driver.
+- *
+- * It converts a 32-bits struct into a 64 bits one, calls the native 64-bits
+- * ioctl handler and fills back the 32-bits struct with the results of the
+- * native call.
+- */
+-static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+-{
+-	void __user *p32 = compat_ptr(arg);
+-	void __user *new_p64 = NULL;
+-	void __user *aux_buf;
+-	u32 aux_space;
+-	int compatible_arg = 1;
+-	long err = 0;
+-	unsigned int ncmd;
+-
+-	/*
+-	 * 1. When struct size is different, converts the command.
+-	 */
+-	switch (cmd) {
+-	default: ncmd = cmd; break;
+-	}
+-
+-	/*
+-	 * 2. Allocates a 64-bits userspace pointer to store the
+-	 * values of the ioctl and copy data from the 32-bits __user
+-	 * argument into it.
+-	 */
+-	switch (cmd) {
+-	}
+-	if (err)
+-		return err;
+-
+-	/*
+-	 * 3. Calls the native 64-bits ioctl handler.
+-	 *
+-	 * For the functions where a conversion was not needed,
+-	 * compatible_arg is true, and it will call it with the arguments
+-	 * provided by userspace and stored at @p32 var.
+-	 *
+-	 * Otherwise, it will pass the newly allocated @new_p64 argument.
+-	 */
+-	if (compatible_arg)
+-		err = native_ioctl(file, ncmd, (unsigned long)p32);
+-	else
+-		err = native_ioctl(file, ncmd, (unsigned long)new_p64);
+-
+-	if (err == -ENOTTY)
+-		return err;
+-
+-	/*
+-	 * 5. Copy the data returned at the 64 bits userspace pointer to
+-	 * the original 32 bits structure.
+-	 */
+-	switch (cmd) {
+-	}
+-	return err;
+-}
+-
  /**
-  * alloc_userspace() - Allocates a 64-bits userspace pointer compatible
-  *	for calling the native 64-bits version of an ioctl.
-@@ -1535,9 +1502,6 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
- 	case VIDIOC_ENUMSTD32: ncmd = VIDIOC_ENUMSTD; break;
- 	case VIDIOC_ENUMINPUT32: ncmd = VIDIOC_ENUMINPUT; break;
- 	case VIDIOC_TRY_FMT32: ncmd = VIDIOC_TRY_FMT; break;
--	case VIDIOC_G_EXT_CTRLS32: ncmd = VIDIOC_G_EXT_CTRLS; break;
--	case VIDIOC_S_EXT_CTRLS32: ncmd = VIDIOC_S_EXT_CTRLS; break;
--	case VIDIOC_TRY_EXT_CTRLS32: ncmd = VIDIOC_TRY_EXT_CTRLS; break;
- #ifdef CONFIG_X86_64
- 	case VIDIOC_DQEVENT32: ncmd = VIDIOC_DQEVENT; break;
- 	case VIDIOC_DQEVENT32_TIME32: ncmd = VIDIOC_DQEVENT_TIME32; break;
-@@ -1653,20 +1617,6 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
- 		compatible_arg = 0;
- 		break;
+  * v4l2_compat_ioctl32() - Handles a compat32 ioctl call
+  *
+@@ -1430,7 +1236,8 @@ long v4l2_compat_ioctl32(struct file *file, unsigned int cmd, unsigned long arg)
+ 		return ret;
  
--	case VIDIOC_G_EXT_CTRLS32:
--	case VIDIOC_S_EXT_CTRLS32:
--	case VIDIOC_TRY_EXT_CTRLS32:
--		err = bufsize_v4l2_ext_controls(p32, &aux_space);
--		if (!err)
--			err = alloc_userspace(sizeof(struct v4l2_ext_controls),
--					      aux_space, &new_p64);
--		if (!err) {
--			aux_buf = new_p64 + sizeof(struct v4l2_ext_controls);
--			err = get_v4l2_ext_controls32(file, new_p64, p32,
--						      aux_buf, aux_space);
--		}
--		compatible_arg = 0;
--		break;
- #ifdef CONFIG_X86_64
- 	case VIDIOC_DQEVENT32:
- 		err = alloc_userspace(sizeof(struct v4l2_event), 0, &new_p64);
-@@ -1709,12 +1659,6 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
- 	 * the blocks to maximum allowed value.
- 	 */
- 	switch (cmd) {
--	case VIDIOC_G_EXT_CTRLS32:
--	case VIDIOC_S_EXT_CTRLS32:
--	case VIDIOC_TRY_EXT_CTRLS32:
--		if (put_v4l2_ext_controls32(file, new_p64, p32))
--			err = -EFAULT;
--		break;
- 	case VIDIOC_S_EDID32:
- 		if (put_v4l2_edid32(new_p64, p32))
- 			err = -EFAULT;
+ 	if (_IOC_TYPE(cmd) == 'V' && _IOC_NR(cmd) < BASE_VIDIOC_PRIVATE)
+-		ret = do_video_ioctl(file, cmd, arg);
++		ret = file->f_op->unlocked_ioctl(file, cmd,
++					(unsigned long)compat_ptr(arg));
+ 	else if (vdev->fops->compat_ioctl32)
+ 		ret = vdev->fops->compat_ioctl32(file, cmd, arg);
+ 
 -- 
 2.27.0
 
