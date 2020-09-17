@@ -2,142 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7095B26DF96
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 17:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBC9F26E005
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 17:50:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728198AbgIQPZu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 11:25:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39520 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728185AbgIQPZG (ORCPT
+        id S1728240AbgIQPt3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 11:49:29 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:40155 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727457AbgIQPsJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 11:25:06 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FF7C061756
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 08:24:58 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id r8so2121481qtp.13
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 08:24:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/MIjfA84FROcmh2Yr+++vHpa0nobfYfMg9k42KNVp2M=;
-        b=KItZq7TLRwXkeSUDV7TVakSYOYYpYVj1lFuOvU0VuV2nyeTZkDl+5SDk5YU6xRfdQb
-         mmJrGXwRgXiqpqZBf8DLOJr/gMeGErqhZkM8rZSmNzY3KpK/NJt55cQb3C29WXfmsp40
-         KJdpWLxQBDyknwAoYt/ULy2EsSn//x6zNDDJW/sQmVP1idUubfNstwrhi9t017rZ3QZJ
-         3sDqFSKs5FzHiMnyyMyLtAnPX0Naf0m0oIbzEeYFHkliee0CZ1/6R0VN7TcyiVwxLFrO
-         JOOOGOMacxM9ezg1v7YEt3scmLEmwNPGkyrd88i/jnPrnz/LvnJkdxDuuHZJUSvAh0TC
-         tmSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=/MIjfA84FROcmh2Yr+++vHpa0nobfYfMg9k42KNVp2M=;
-        b=LwbrqoBsbk5XuTKnCt9BoZFInEM8Pt57mDjtTQW9L1ohiOmFGGIq3il4uIW3klOr4c
-         JaQOaCngyvloRLwN6te65diaTBR8tBsir78TyXwoZNh9yUXbwI6p/Zse/xz7KD3RCn1G
-         CY8sZZf8t2omb7AUSeHZL6X7CMaHvMO29b8sDcOh2tet7oPaiY9Rk5rCA85mtaQRpaCr
-         cadVOO6V6e5bkHugtJPOKxUNCithAJtTGug8wAravyz4lYreJSKYD4VmyOkRsUfOBGJK
-         6Ol6ls9gDkYjc8TJptxv12WNhH1zIU2swNlscwIsM+KlOO6IIOFo9N261JQ3eYR9v46Z
-         nSeQ==
-X-Gm-Message-State: AOAM530gus9shZyXI6mjpuZCIMmTO65J/K1lqzK/Li9xLE8W5Ijs9A2t
-        hlwFUOSMIT53HdIMA7gOiSZOrA==
-X-Google-Smtp-Source: ABdhPJyml2ehbabsQ2p5uBo50b15HPhlS1qE50x7EQpnsGFfmEF+Ym7+K38vhRLvzw2lQSd1AWRM1Q==
-X-Received: by 2002:ac8:5d04:: with SMTP id f4mr16143583qtx.290.1600356297898;
-        Thu, 17 Sep 2020 08:24:57 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id z74sm86638qkb.11.2020.09.17.08.24.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 08:24:57 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kIvmK-000VsL-KF; Thu, 17 Sep 2020 12:24:56 -0300
-Date:   Thu, 17 Sep 2020 12:24:56 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     christian.koenig@amd.com
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Linux MM <linux-mm@kvack.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
-Message-ID: <20200917152456.GH8409@ziepe.ca>
-References: <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
- <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
- <8d8693db-a3f0-4f5f-3e32-57d23ca620f8@amd.com>
- <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
- <20200917113110.GE8409@ziepe.ca>
- <6fd74b84-959c-8b3b-c27b-e9fbf66396c7@gmail.com>
- <20200917121858.GF8409@ziepe.ca>
- <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
- <20200917143551.GG8409@ziepe.ca>
- <5b330920-c789-fac7-e9b1-49f3bc1097a8@gmail.com>
+        Thu, 17 Sep 2020 11:48:09 -0400
+Received: from threadripper.lan ([149.172.98.151]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MOAFl-1k7klU2K4X-00OXa8; Thu, 17 Sep 2020 17:28:25 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     linux-media@vger.kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
+Cc:     hch@lst.de, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH 0/8] media: v4l2: simplify compat ioctl handling
+Date:   Thu, 17 Sep 2020 17:28:15 +0200
+Message-Id: <20200917152823.1241599-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5b330920-c789-fac7-e9b1-49f3bc1097a8@gmail.com>
+X-Provags-ID: V03:K1:FguSgiNJ4aWc+kW5QZOgRIPkQbvvC7vfswN0wtTQW8jWPvxsyNM
+ xnz1BIZWj+1CMSttGTvG9camB3KITe+3S5QMBfqhwZ1Bhyy8IOs4qq6ottkyVpvsvntYwfw
+ Zyq53Z6iApYo/0Y5+ts784x9r4vjRpgm4UgZHEwz5z8S7Rs8wC57/UYc/4jjc9t8KgJvzWh
+ dY9TYc/+OQZ1KqaPXliMA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:C9DuMQ1gut0=:jFtdSP+Yev6L0fqA0Y51iG
+ IJ6Gh8PdJOFp3l4bkZjX5Qqhai2OUMqnb4N7BAUHSwfPToLEb+M17bppxY2SqHW14gYA/1a9k
+ v077vArnF3RG7yt98/aPRmaJUaJN2V46pKNjyaTKfhzqilhc2NZJc01MEIVty/GhZF3MmQxbu
+ fleOpJOHWFPNR/sx7sklCB+PmbnHck/7u/aRRWZtB1X6jPKOMo5n9mDiLLdZhbHn+Vr30B/Hq
+ kq4b/JMTQ9C6uzGZfxOyUC5HVttKaFG1ugbx5r0SZOEWPpeEDF+W3I35Wao1nI9UWeENDs+4K
+ lbhq/ZAGD6wl1J82vbq5Vx+fjWD1FY2sUAzlZ3dCflwZ3JvIIEXmr8f4uK0c75sIBmhgQkydT
+ Wy8mThXA0PW46oK61m9MS2QPDKDlLCD5pGQVDWIm+5ILnR/3tKMZXb6WHgL9g0BVyp2DXMW33
+ EXkdtpwfh0kKuJCznJnKNoy0D05NoxKncML4bvnrdAe8qYuVwxHbonbe5lcu5+ZZNyTLbFVBr
+ oRDZ2uO9YhFVK9NWW2TisoQW225w+Wqrk1KDMeDNCLFl7bkE7WOLjdFMICv06gU3egH0bnfxL
+ ae3gEVI0/mp62Ss77rcYbZpA4NRAe0ZGVHUsE5kB/kz1/QmYXBOSARmy6ilPdYSJID0wIixIl
+ tkWKLHfjYJTr/tPfXKVQYg9NIpL061xTtcY3/qLaRfS2I6mn/3WtdRDzM9ia6Hjxl9eb8l+xE
+ 5eg5Y/zrYJiEYiB+kJbib7n+oMBue79jLTevUu9SpgHDg4fErbumJRQWgCZkS6nyyN5mmH+UW
+ hCKE7Jxsd9TsC8vxx942v5NFuu5ZN/vuT4gt7rKRIcJId+ZXpd2+ka6FPVhInbLz7kS5kgo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 04:54:44PM +0200, Christian König wrote:
-> Am 17.09.20 um 16:35 schrieb Jason Gunthorpe:
-> > On Thu, Sep 17, 2020 at 02:24:29PM +0200, Christian König wrote:
-> > > Am 17.09.20 um 14:18 schrieb Jason Gunthorpe:
-> > > > On Thu, Sep 17, 2020 at 02:03:48PM +0200, Christian König wrote:
-> > > > > Am 17.09.20 um 13:31 schrieb Jason Gunthorpe:
-> > > > > > On Thu, Sep 17, 2020 at 10:09:12AM +0200, Daniel Vetter wrote:
-> > > > > > 
-> > > > > > > Yeah, but it doesn't work when forwarding from the drm chardev to the
-> > > > > > > dma-buf on the importer side, since you'd need a ton of different
-> > > > > > > address spaces. And you still rely on the core code picking up your
-> > > > > > > pgoff mangling, which feels about as risky to me as the vma file
-> > > > > > > pointer wrangling - if it's not consistently applied the reverse map
-> > > > > > > is toast and unmap_mapping_range doesn't work correctly for our needs.
-> > > > > > I would think the pgoff has to be translated at the same time the
-> > > > > > vm->vm_file is changed?
-> > > > > > 
-> > > > > > The owner of the dma_buf should have one virtual address space and FD,
-> > > > > > all its dma bufs should be linked to it, and all pgoffs translated to
-> > > > > > that space.
-> > > > > Yeah, that is exactly like amdgpu is doing it.
-> > > > > 
-> > > > > Going to document that somehow when I'm done with TTM cleanups.
-> > > > BTW, while people are looking at this, is there a way to go from a VMA
-> > > > to a dma_buf that owns it?
-> > > Only a driver specific one.
-> > Sounds OK
-> > 
-> > > For TTM drivers vma->vm_private_data points to the buffer object. Not sure
-> > > about the drivers using GEM only.
-> > Why are drivers in control of the vma? I would think dma_buf should be
-> > the vma owner. IIRC module lifetime correctness essentially hings on
-> > the module owner of the struct file
-> 
-> Because the page fault handling is completely driver specific.
->
-> We could install some DMA-buf vmops, but that would just be another layer of
-> redirection.
+I have a series to remove all uses of compat_alloc_user_space()
+and copy_in_user() from the kernel, this is the part of it that
+involves the v4l2 compat code.
 
-If it is already taking a page fault I'm not sure the extra function
-call indirection is going to be a big deal. Having a uniform VMA
-sounds saner than every driver custom rolling something.
+The resulting code is significantly shorter and arguably more
+readable, but I have not done any testing beyond compilation on
+it, so at the minimum this first needs to pass the test suite
+for both native and compat users space.
 
-When I unwound a similar mess in RDMA all the custom VMA stuff in the
-drivers turned out to be generally buggy, at least.
+Given the complexity of the code, I am fairly sure that there
+are bugs I missed.
 
-Is vma->vm_file->private_data universally a dma_buf pointer at least?
+Please review and test if possible.
 
-> > So, user VA -> find_vma -> dma_buf object -> dma_buf operations on the
-> > memory it represents
-> 
-> Ah, yes we are already doing this in amdgpu as well. But only for DMA-bufs
-> or more generally buffers which are mmaped by this driver instance.
+    Arnd
 
-So there is no general dma_buf service? That is a real bummer
+Arnd Bergmann (8):
+  media: v4l2: prepare compat-ioctl rework
+  media: v4l2: remove unneeded compat ioctl handlers
+  media: v4l2: move v4l2_ext_controls conversion
+  media: v4l2: move compat handling for v4l2_buffer
+  media: v4l2: allocate v4l2_clip objects early
+  media: v4l2: convert v4l2_format compat ioctls
+  media: v4l2: remaining compat handlers
+  media: v4l2: remove remaining compat_ioctl
 
-Jason
+ drivers/media/common/saa7146/saa7146_video.c  |    6 +-
+ drivers/media/pci/bt8xx/bttv-driver.c         |    8 +-
+ drivers/media/pci/saa7134/saa7134-video.c     |   19 +-
+ .../media/test-drivers/vivid/vivid-vid-cap.c  |   18 +-
+ .../media/test-drivers/vivid/vivid-vid-out.c  |   18 +-
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 1774 ++++++-----------
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  120 +-
+ include/media/v4l2-ioctl.h                    |   11 +
+ include/uapi/linux/videodev2.h                |    2 +-
+ 9 files changed, 729 insertions(+), 1247 deletions(-)
+
+-- 
+2.27.0
+
