@@ -2,179 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C53626D455
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 09:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C4626D474
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 09:18:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726199AbgIQHLp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 03:11:45 -0400
-Received: from mail-bn8nam11on2079.outbound.protection.outlook.com ([40.107.236.79]:45697
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726178AbgIQHLo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 03:11:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZVHj8vEsJHBO/qVrtBBHrJum0cbSthCMGWqLh2rxzLPEWrDWfdACtII4HWtFy1FPefFhw+oJ6OaFHosjLYFvzaju5farh5uJcSRHtuOR8ZhEV8cR7OCULh2etZJg3gG0ISVF4ovYygMluCUyQtqX10WLkF/Yard16HFER5lsZ601IhqsFDHsvIN6jWi/B7je6gnuQWWE9GNlftNvaxalBhIeSmdiiuP+cjmfGgpLG+9qyahTD3CjXbBRxLMaQasZt//Wp+l5guvJjagtcRL7UZwiSHuMRM9uHTBRNxdsRSlStbwMf9UvhKETiujXGygXb1OgiX0QVSh/ERLZvCKyMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1oDqHcZy0WFDS771oSIjH7NkcOzAyAYevGyeSRicsOA=;
- b=DsLGNPkJuS6KjhDndG2oT+i4wzLh7NOzujRzPm5viqkl+RvE3IpUjfe4xq9/42tUevW2DYCbqfh/K1ID+8dV/q6UEPmOJgXw0fAZrYlRMo8SCAUGAhQRJ9/Q15/MGGKwI68BdqzrrOkFJoFEaHTKEnGDf54CbLT/8zGGWshsg0zemXk6/Q+rxw4iMLi6EV0Be5CScQUEf8YUNQchahXLhw/xxgdpmtqxBx/uInXlI9pF+G7kXsGzUpFiUlPbVnfRmN7VmHGmiyi8nlA/A0eObhmTEfT/DpoaQzvNjkVlNLYePWLXudhox3gEyGGH1EpLH9NgomTHKO3sx14vaGV61Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+        id S1726321AbgIQHSg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 03:18:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726157AbgIQHSe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 03:18:34 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0D8C061788
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 00:18:34 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id k8so656899pfk.2
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 00:18:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1oDqHcZy0WFDS771oSIjH7NkcOzAyAYevGyeSRicsOA=;
- b=Hhm2x0K98rEkGlCQVmHK1fnitvCUiq5XtdSCNTUjJGXoQwSSeMaS9Ld2blgp9nF6LvDjTUKQWSr6hDq9LIPZ/xQvt2B9kHO9edq8xianbAWlaTMmNeVYnx5/XGX+v+BKnkVo0vmfiEyIDANYVtv4hgtBn+V6ojwWM3Jtq4zhSmc=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2483.namprd12.prod.outlook.com (2603:10b6:207:4c::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Thu, 17 Sep
- 2020 07:11:39 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3391.014; Thu, 17 Sep 2020
- 07:11:38 +0000
-Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20200914132920.59183-1-christian.koenig@amd.com>
- <40cd26ae-b855-4627-5a13-4dcea5d622f6@gmail.com>
- <20200914140632.GD1221970@ziepe.ca>
- <9302e4e0-0ff0-8b00-ada1-85feefb49e88@gmail.com>
- <20200916095359.GD438822@phenom.ffwll.local> <20200916140710.GA8409@ziepe.ca>
- <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
- <CAKMK7uFdwrT3HACPh3ADAKvhXJ-Hf3dExZmgJVAQ1KKjSai_0w@mail.gmail.com>
- <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
- <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <8d8693db-a3f0-4f5f-3e32-57d23ca620f8@amd.com>
-Date:   Thu, 17 Sep 2020 09:11:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR06CA0103.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::44) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=ynLxGjJzusRgxkhmFN/ohIJVj9Ev6KgIVGk/i8e/nNI=;
+        b=Ts0dqlozJIW/qWGqzFOiAbgbC9DRZERqoKpKu3tTpvC7XQlqA/IE+bxLWsvZXGc8f/
+         VEiISqJZ2IYWvw982XeE56Mvf4E3vFCCB3SvvSH/Yapue9VF4MJIZJCdYArcS1/JjlHI
+         SgI6nzy/fcnjGh0prlvpqeaAfKnzD6IDj+37M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=ynLxGjJzusRgxkhmFN/ohIJVj9Ev6KgIVGk/i8e/nNI=;
+        b=IDkYHtvdj1LjcrhX5VxWq5WZYP06Fxe6KPFfxUgKYiEpTUwboxoF4jIZJh/Tm+0qco
+         +fADwu0Xo1fSIXn8Kqb+CFdnkfp38yv4LbaWuUf17OBMLyPiIoo4vDE9mRqM841x7LyU
+         PLg3sIKMTz1LJQ34b0Qb1HJbT06/LKaFOVEKtEWVRwB/I1ta9sjDkMCE2ADH662nGXmy
+         3Ft3QvRsnwzznAjrEu+G8gA/ICECFZsOmF0jo768N7oKia+tf4zbyHlN5Z4PPcZQdy/p
+         94NJUfMMd1ie8sPAnYamp9JXUrYcB6lX1niM5GGbugGUqLK0ctCKGAfWvZ4AQpfFP0qV
+         yo4A==
+X-Gm-Message-State: AOAM533DDIp5KTHTY98asbuklsub2Dre7tR/Akjq5X66Sdrl4Kcn/5rL
+        yXjz9VliQJqxuy0PLYWcJc83blbN3gGcRA==
+X-Google-Smtp-Source: ABdhPJxc0K6qFiNJ4R6QHz+/pHYtkO+ZQGzA01miebp+oqBr2+UjMOF8inhsObCIfPalFzm6tnmDCA==
+X-Received: by 2002:aa7:88c8:0:b029:142:2501:39ef with SMTP id k8-20020aa788c80000b0290142250139efmr10119378pff.62.1600327113499;
+        Thu, 17 Sep 2020 00:18:33 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id y5sm19068248pge.62.2020.09.17.00.18.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 00:18:32 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR06CA0103.eurprd06.prod.outlook.com (2603:10a6:208:fa::44) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13 via Frontend Transport; Thu, 17 Sep 2020 07:11:37 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 75e717d0-6a78-462f-9bf6-08d85ad8eb6e
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2483:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB248313738E1792CBE67061CF833E0@BL0PR12MB2483.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B+upB1Nv1U0ubfNHJkIHBxpCTg3r8ay9Bz4OQZiPloAvulJUFyNGxQsfror+JZdIxd92k0RZNNGiSt8OBt+NOtFRLym4rNq6Oo0xuCSDh5jl7jb98qVJVVGQbzOZvv/Qv9optN0mFlZJ+ZpT4pA+gLOs81OKckl+fDeadoBYtrZPIFVdVwtwbRxrvAMk12LsIj7AXoGUEnrmqrWx2f57sXQRqB3G2fB5U9S7PeAZxkJNNZyaHZleDG4nZkQTMqKOlSFRtEaT2k9TGFRp6TaWZpqdnEQ79GDlx1ST4yBDtVqJaOQQ16Ngacb6hxGAPcejwQMggVQRqnv6lNQrpCwdbrY3wnuJ79ZvTuWlOzmuUvxQUZRPGwL1O90fe3ODxVs6K7PzbwNtwYaA2sW+BtnHvrPEcU01OErV85o5pDOSFbu9EaVM16gugP5ugjMo47SJUM4FprAeRWg13oSQFzfwug==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(39860400002)(366004)(396003)(8676002)(8936002)(36756003)(966005)(4326008)(31686004)(2906002)(5660300002)(66946007)(66556008)(66476007)(86362001)(6486002)(83380400001)(52116002)(31696002)(478600001)(54906003)(186003)(45080400002)(53546011)(2616005)(316002)(6916009)(66574015)(16526019)(6666004)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: +DWDHXmtkgVi8tv9p3COQzpTTvdclLg8LwDJU65pKucAcpkJ2Jt1CR34NdBHLLDtTPszcmtC+xoXRkraEm7VlWx7hIaQ6ynzLM+OToyPra0iH0rE1+pY9ubBUDQkKV4KUWza/YsqP32fT44/kVj3EPofoR9fFIBrg7BRaLRFlgJwncZRfxepj8d/OsMbQWDiHEK5IlxFOc882JCn+GWHLRXMe2RNvMAxtALrUSPUbr9YH8N3NTyf80CaYkD+0PW2ikO2kAZG7/nhwfKeiw15m/Ny6d5tcCLAGWBuj2hFu6f1XvYRfIYQP/phCDtHLuhPSgLz4bbwk30oNgRQxU6YRTNfmoxNR22we06lOePDjflb5g0/vjKixTgO9ytlzJyoUdZ2TBZpTOnQ7Szqu4gKppFBNSwM6SwIj91StukGs/9U+rdnLSxc3N6u4vr94LprsnREQbBusvJwEtjHtvMXOXcebUGwUf30iSR0MkARJKAH8HHpe2otfZixokhai8hCR/HvwkhuN9QDlZUcBmPlvRXhVAFVtuWK8v7YSMdUYADwNE9ugesTNUAXU2mNj0JiRul2nkOUMZdiKydMlR7KVa8Vt9+1yjyOaAqqRpbYnsuduFG+5t6zLH+LsBqTrYNEbAAinWtFP6oCBhI6nXuH6jq2I42xy0IYAE+QA636uBIYsY03ATO0Nsrwi/xE/qSmDHkZCe6TCutXp/dqixGhag==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75e717d0-6a78-462f-9bf6-08d85ad8eb6e
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 07:11:38.5303
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vVYhYOytaVsIknKIg9h2GXa0V6QHI2TN+3/1QjvxqEQYQ5VkuW4XsGGwCaOV8tBG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2483
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <4865efd5e746d2e94cc4680a47a30a0d@codeaurora.org>
+References: <1599536645-4593-1-git-send-email-mansur@codeaurora.org> <159959010893.454335.18221321331314189759@swboyd.mtv.corp.google.com> <4865efd5e746d2e94cc4680a47a30a0d@codeaurora.org>
+Subject: Re: [PATCH 1/2] venus: core: change clk enable and disable order in resume and suspend
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org
+To:     mansur@codeaurora.org
+Date:   Thu, 17 Sep 2020 00:18:31 -0700
+Message-ID: <160032711157.4188128.1711388061841789272@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 17.09.20 um 08:23 schrieb Daniel Vetter:
-> On Wed, Sep 16, 2020 at 5:31 PM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> Am 16.09.20 um 17:24 schrieb Daniel Vetter:
->>> On Wed, Sep 16, 2020 at 4:14 PM Christian König
->>> <christian.koenig@amd.com> wrote:
->>>> Am 16.09.20 um 16:07 schrieb Jason Gunthorpe:
->>>>> On Wed, Sep 16, 2020 at 11:53:59AM +0200, Daniel Vetter wrote:
->>>>>
->>>>>> But within the driver, we generally need thousands of these, and that
->>>>>> tends to bring fd exhaustion problems with it. That's why all the private
->>>>>> buffer objects which aren't shared with other process or other drivers are
->>>>>> handles only valid for a specific fd instance of the drm chardev (each
->>>>>> open gets their own namespace), and only for ioctls done on that chardev.
->>>>>> And for mmap we assign fake (but unique across all open fd on it) offsets
->>>>>> within the overall chardev. Hence all the pgoff mangling and re-mangling.
->>>>> Are they still unique struct files? Just without a fdno?
->>>> Yes, exactly.
->>> Not entirely, since dma-buf happened after drm chardev, so for that
->>> historical reason the underlying struct file is shared, since it's the
->>> drm chardev. But since that's per-device we don't have a problem in
->>> practice with different vm_ops, since those are also per-device. But
->>> yeah we could fish out some entirely hidden per-object struct file if
->>> that's required for some mm internal reasons.
->> Hui? Ok that is just the handling in i915, isn't it?
->>
->> As far as I know we create an unique struct file for each DMA-buf.
-> Yes dma-buf, but that gets forwarded to the original drm chardev which
-> originally exported the buffer. It's only there where the forwarding
-> chain stops. The other thing is that iirc we have a singleton
-> anon_inode behind all the dma-buf, so they'd share all the same
-> address_space and so would all alias for unmap_mapping_range (I think
-> at least).
+Quoting mansur@codeaurora.org (2020-09-16 18:07:44)
+> > On 2020-09-09 00:05, Stephen Boyd wrote:
+> >> Quoting Mansur Alisha Shaik (2020-09-07 20:44:05)
+> >>> Currently video driver is voting after clk enable and un voting
+> >>> before clk disable. Basically we should vote before clk enable
+> >>> and un vote after clk disable.
+> >>>=20
+> >>> Corrected this by changing the order of clk enable and clk disable.
+> >>>=20
+> >>> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> >>> ---
+> >>=20
+> >> Any Fixes: tag?
+> Added Fixes tag
+> >>=20
+> >>>  drivers/media/platform/qcom/venus/core.c | 17 ++++++++++-------
+> >>>  1 file changed, 10 insertions(+), 7 deletions(-)
+> >>>=20
+> >>> diff --git a/drivers/media/platform/qcom/venus/core.c=20
+> >>> b/drivers/media/platform/qcom/venus/core.c
+> >>> index c5af428..4857bbd 100644
+> >>> --- a/drivers/media/platform/qcom/venus/core.c
+> >>> +++ b/drivers/media/platform/qcom/venus/core.c
+> >>> @@ -363,13 +363,16 @@ static __maybe_unused int=20
+> >>> venus_runtime_suspend(struct device *dev)
+> >>>         if (ret)
+> >>>                 return ret;
+> >>>=20
+> >>> +       if (pm_ops->core_power) {
+> >>> +               ret =3D pm_ops->core_power(dev, POWER_OFF);
+> >>> +               if (ret)
+> >>> +                       return ret;
+> >>> +       }
+> >>> +
+> >>>         ret =3D icc_set_bw(core->cpucfg_path, 0, 0);
+> >>>         if (ret)
+> >>>                 return ret;
+> >>=20
+> >> Shouldn't we power it back up if this fails during suspend?
+> On icc_set_bw() failure, we are just power it and return.
+> Addressed these comments and posted new version
+> https://lore.kernel.org/patchwork/project/lkml/list/?series=3D463224
 
-Amdgpu works by using the address_space of the drm chardev into the 
-struct file of DMA-buf instead.
-
-I think that this is cleaner, but only by a little bit :)
-
-Anyway I'm a bit concerned that we have so many different approaches for 
-the same problem.
-
-Christian.
-
-> -Daniel
->
->> Regards,
->> Christian.
->>
->>
->>> -Daniel
->>>
->>>>>> Hence why we'd like to be able to forward aliasing mappings and adjust the
->>>>>> file and pgoff, while hopefully everything keeps working. I thought this
->>>>>> would work, but Christian noticed it doesn't really.
->>>>> It seems reasonable to me that the dma buf should be the owner of the
->>>>> VMA, otherwise like you say, there is a big mess attaching the custom
->>>>> vma ops and what not to the proper dma buf.
->>>>>
->>>>> I don't see anything obviously against this in mmap_region() - why did
->>>>> Chritian notice it doesn't really work?
->>>> To clarify I think this might work.
->>>>
->>>> I just had the same "Is that legal?", "What about security?", etc..
->>>> questions you raised as well.
->>>>
->>>> It seems like a source of trouble so I thought better ask somebody more
->>>> familiar with that.
->>>>
->>>> Christian.
->>>>
->>>>> Jason
->>>> _______________________________________________
->>>> dri-devel mailing list
->>>> dri-devel@lists.freedesktop.org
->>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7Cf725d2eb6a5a49bd533f08d85ad23308%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637359206142262941&amp;sdata=qcLsl9R1gP%2FGY39ctsQkIzI99Bn%2F840YS17F4xudrAE%3D&amp;reserved=0
->>>
->
-
+Thanks. It's customary to Cc reviewers on patches, so please add me on
+the next round of patches.
