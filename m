@@ -2,112 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F4B726DAC3
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 13:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6605426DAF5
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:01:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726897AbgIQLvq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 07:51:46 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:44789 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726874AbgIQLvg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 07:51:36 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id IsRokMGlKPTBMIsRpkls1Y; Thu, 17 Sep 2020 13:51:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1600343493; bh=/O4gS7MSKU8PFxophiWRKJaaVyaXCETFhD6SSQxwQD0=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=CuJU/d6fbPMtsuKyKAjqfT0MyZB4FSe8DdVoFpUKvJm+KYd3SzecDkcyk+LQucYJ5
-         Xu4N5u86tenuLaR8PRBcOdlS7Z6yUE7J3iQoB3MEqGvWUn4SZcY6qxSZJswqf0oM5p
-         wOy/mWyJQ7GDjybcjtuuXTiI+DY6I5MIDhvafzlOnuRMWR0Wubk/kgThhnroH5Mu4e
-         q+Jkuu5KMnyVuyfTUrJ0h0VepdEGG9xQ/iLJc8BaICEoQyO0HvFBTbk+y66WHSNFeA
-         XDey+lsfuGI/DmgWSFlw4hnZQUHt/Y77RP7Qvp7Mbt4uRkOdI4GBzcLsQO6SYRz6HR
-         IVV++zFOunyxA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.10] PM ref count fixes
-Message-ID: <c25be17a-da29-5a82-468a-c6e80c9229ca@xs4all.nl>
-Date:   Thu, 17 Sep 2020 13:51:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726939AbgIQMBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 08:01:47 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:60410 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726951AbgIQMBU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 08:01:20 -0400
+X-Greylist: delayed 2057 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 08:01:19 EDT
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kIrxd-00D9Fu-7S; Thu, 17 Sep 2020 11:20:21 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kIs6N-0007Cp-8c; Thu, 17 Sep 2020 11:29:23 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.10] Various fixes (mostly rcar related) (#67062)
+Date:   Thu, 17 Sep 2020 11:29:23 +0000
+Message-Id: <20200917112923.27658-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <0f564827-1eae-1660-95a5-86b910e44b26@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNUtdEuodRb1+pQSE6MeOONWIhrHLtR+CHmWAl6rd3pTgqEtf97/zK6hGFTP8CvqX+zaxRD9p6A/izD7Ldg3wbnXTNDaV3j1a4r8XFZhlLwojRTwOC+W
- SlH+KK1ALr1VPoQODttqgMHrNNqDMISqhrfpqUrLKvwasufaMzVLbErCmcL2hHwGnHYUc/ojAbn1UonrBzYGa3n66toO7osQTtjVM9y1B7j5uamo/7QrsvPi
- R/T4139DWwk1W4bHK5x1iSJHCFnTQwaj3NJ+PsbZzzE=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I've decided to just take all these fixes. It's kind of ugly the way
-pm_runtime_get_sync works (leaving a refcount on error), but there does
-not appear to be any interest to fix this, and these are still bugs that
-need fixing.
+From: builder@linuxtv.org
 
-Regards,
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/0f564827-1eae-1660-95a5-86b910e44b26@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/68702/
+Build time: 00:21:46
+Link: https://lore.kernel.org/linux-media/0f564827-1eae-1660-95a5-86b910e44b26@xs4all.nl
 
-	Hans
+gpg: Signature made Thu 17 Sep 2020 10:46:46 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-The following changes since commit 741043b02c2e00c8fea1a0f6f8ce43c6326cd9e8:
+Summary: got 2/11 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-  media: vidtv: don't initialize cnr2qual var (2020-09-14 16:10:08 +0200)
+Error/warnings:
 
-are available in the Git repository at:
+patches/0001-dt-bindings-media-renesas-vin-Add-device-tree-suppor.patch:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.10d
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: ../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:703 is_pipe_valid_to_current_run_mode() warn: ignoring unreachable code.
+	../drivers/staging/media/atomisp/pci/sh_css.c:1685:16: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
 
-for you to fetch changes up to f2ddc25a73625596097e0984d8e825885ea62294:
+    allyesconfig: return code #0:
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1909 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-  media: st-delta: Fix reference count leak in delta_run_work (2020-09-17 13:27:45 +0200)
+patches/0011-media-rcar-vin-Enable-YDS-bit-depending-on-bus_width.patch:
 
-----------------------------------------------------------------
-Tag branch
+   checkpatch.pl:
+	$ cat patches/0011-media-rcar-vin-Enable-YDS-bit-depending-on-bus_width.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:48: CHECK: Prefer using the BIT macro
 
-----------------------------------------------------------------
-Aditya Pakki (1):
-      media: st-delta: Fix reference count leak in delta_run_work
 
-Dinghao Liu (5):
-      media: bdisp: Fix runtime PM imbalance on error
-      media: platform: sti: hva: Fix runtime PM imbalance on error
-      media: platform: s3c-camif: Fix runtime PM imbalance on error
-      media: coda: Fix runtime PM imbalance in coda_probe
-      media: vsp1: Fix runtime PM imbalance on error
+Error #512 when building PDF docs
 
-Qiushi Wu (12):
-      media: rcar-vin: Fix a reference count leak.
-      media: rcar-vin: Fix a reference count leak.
-      media: rockchip/rga: Fix a reference count leak.
-      media: platform: fcp: Fix a reference count leak.
-      media: camss: Fix a reference count leak.
-      media: s5p-mfc: Fix a reference count leak
-      media: stm32-dcmi: Fix a reference count leak
-      media: ti-vpe: Fix a missing check and reference count leak
-      media: exynos4-is: Fix a reference count leak
-      media: exynos4-is: Fix a reference count leak due to pm_runtime_get_sync
-      media: exynos4-is: Fix several reference count leaks due to pm_runtime_get_sync
-      media: sti: Fix reference count leaks
-
- drivers/media/platform/coda/coda-common.c        |  2 ++
- drivers/media/platform/exynos4-is/fimc-isp.c     |  4 +++-
- drivers/media/platform/exynos4-is/fimc-lite.c    |  2 +-
- drivers/media/platform/exynos4-is/media-dev.c    |  4 +++-
- drivers/media/platform/exynos4-is/mipi-csis.c    |  4 +++-
- drivers/media/platform/qcom/camss/camss-csiphy.c |  4 +++-
- drivers/media/platform/rcar-fcp.c                |  4 +++-
- drivers/media/platform/rcar-vin/rcar-dma.c       |  4 +++-
- drivers/media/platform/rcar-vin/rcar-v4l2.c      |  4 +++-
- drivers/media/platform/rockchip/rga/rga-buf.c    |  1 +
- drivers/media/platform/s3c-camif/camif-core.c    |  5 ++---
- drivers/media/platform/s5p-mfc/s5p_mfc_pm.c      |  4 +++-
- drivers/media/platform/sti/bdisp/bdisp-v4l2.c    |  3 +--
- drivers/media/platform/sti/delta/delta-v4l2.c    |  4 +++-
- drivers/media/platform/sti/hva/hva-hw.c          |  4 +++-
- drivers/media/platform/stm32/stm32-dcmi.c        |  4 +---
- drivers/media/platform/ti-vpe/vpe.c              |  2 ++
- drivers/media/platform/vsp1/vsp1_drv.c           | 11 ++++++++---
- 18 files changed, 48 insertions(+), 22 deletions(-)
