@@ -2,154 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4AD226DBF9
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44F4B26DC15
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbgIQMsA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 08:48:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42996 "EHLO
+        id S1726945AbgIQMxc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 08:53:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727061AbgIQMrp (ORCPT
+        with ESMTP id S1727107AbgIQMw7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 08:47:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82E96C061756;
-        Thu, 17 Sep 2020 05:47:45 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03A1E2DB;
-        Thu, 17 Sep 2020 14:47:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600346864;
-        bh=OXUeB8VkK9eJ9P/8aiciz5yppKnnWoJoVG0UEnhVgzY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZzXWKepK0Csq6B/wFleNFY926g/afD++QvtPLesJyZXYu2dNhwGkpFN2aH29V9v2U
-         yPR0uGpA9y6NE36tA03V4QU8dhZuZtRdV4cssk/qhNCuZX8ya1UhqRnkI+3aZCvMC/
-         RarMBOLmIhffEP3SFZpSeoH8eHEIjh8NHg57gg4I=
-Date:   Thu, 17 Sep 2020 15:47:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
-Message-ID: <20200917124714.GD3969@pendragon.ideasonboard.com>
-References: <20200917022547.198090-1-linux@roeck-us.net>
+        Thu, 17 Sep 2020 08:52:59 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC586C061756
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 05:52:54 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id i22so3126849eja.5
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 05:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=BdxYdx9XHrwCdr4dzP1oTYv5YWLs/o7KoSb8tPS/nSw=;
+        b=ccM+MAvgoCEG4vttx6xCSHufmhS0PZEIedC4PRllc90ud3FF8xpocJ7v7zm20tcZYk
+         Y48aDJAb/rrKj3Xk9P9KO5CaLGn7plZ1ehW8ylgxUpcRcso5dQy13FdSnUuMHNijRgVu
+         AVICzFSg+9EIXT1tbDVLJQ1WvvZSzYcw1XHl0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=BdxYdx9XHrwCdr4dzP1oTYv5YWLs/o7KoSb8tPS/nSw=;
+        b=hA48vL9RMzFeHywFNfYnLnE7WLB64lczfS2KxL1CBcxNuQryZ+2kKFk75b+m1W7HWk
+         l2OBZ+tMvTs+kzoAxsiUFQ3RsEu+jmIrlFq3nE4RqKdv6yZgbMz0fs8JMlwbZrYcFS9i
+         O08F3Z4zUQZR9pJIoS4m67f7fViqB+XbamybH9pBlTow+Wm2GFJXMawWApRnEDGIQXiu
+         vK/RzvaBOk4iP/IZO8tJplHxEwRThq+5FWqyprXSfW6s4UvVOmzjX0hRRz8/eP2DlFXP
+         f1Wc2M44Q5c7yu3wwlzyCTw9SqfBNnVRorR0XRL4TxrC8IoFvVShVAZ+ukSWHLesXbI3
+         EIwA==
+X-Gm-Message-State: AOAM531N3G0TPMVzt6SqYaasKFUa9so55TqDRokYGuYxTT7w3a/VLc23
+        3Kl0/Ld7UlNy9fDRRs/9pzsdXlvMg6KyYA==
+X-Google-Smtp-Source: ABdhPJzLIYJ+Q9vOYDxX6luEiTOcmPiOKY7CB16F1qhEp4GLc/JolYO0i9YX6Ow8jk+ri7W7fpJHRA==
+X-Received: by 2002:a17:906:bc52:: with SMTP id s18mr28968999ejv.398.1600347172889;
+        Thu, 17 Sep 2020 05:52:52 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com. [209.85.128.53])
+        by smtp.gmail.com with ESMTPSA id a5sm17169789edb.9.2020.09.17.05.52.51
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2020 05:52:51 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id z9so1942283wmk.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 05:52:51 -0700 (PDT)
+X-Received: by 2002:a05:600c:20f:: with SMTP id 15mr9361892wmi.99.1600347171113;
+ Thu, 17 Sep 2020 05:52:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200917022547.198090-1-linux@roeck-us.net>
+References: <20200502194052.485-1-andriy.gelman@gmail.com> <21733d1ad3c2f79a5646b4f1c541dfabda0978be.camel@ndufresne.ca>
+In-Reply-To: <21733d1ad3c2f79a5646b4f1c541dfabda0978be.camel@ndufresne.ca>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 17 Sep 2020 14:52:33 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5B+5Zb7pzyQga+-KjfzUCYpuC1oPRjMXsTKHJzJAcmgdw@mail.gmail.com>
+Message-ID: <CAAFQd5B+5Zb7pzyQga+-KjfzUCYpuC1oPRjMXsTKHJzJAcmgdw@mail.gmail.com>
+Subject: Re: [PATCH] media: s5p-mfc: set V4L2_BUF_FLAG_LAST flag on final buffer
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Andriy Gelman <andriy.gelman@gmail.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Guenter,
+On Tue, Jun 2, 2020 at 5:09 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
+e:
+>
+> Hi Andriy,
+>
+> thanks for you patch.
+>
+> Le samedi 02 mai 2020 =C3=A0 15:40 -0400, Andriy Gelman a =C3=A9crit :
+> > From: Andriy Gelman <andriy.gelman@gmail.com>
+> >
+> > As per V4L2 api, the final buffer should set V4L2_BUF_FLAG_LAST flag.
+> >
+> > Signed-off-by: Andriy Gelman <andriy.gelman@gmail.com>
+> > ---
+> >  drivers/media/platform/s5p-mfc/s5p_mfc.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/p=
+latform/s5p-mfc/s5p_mfc.c
+> > index 5c2a23b953a4..b3d9b3a523fe 100644
+> > --- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
+> > +++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+> > @@ -614,6 +614,7 @@ static void s5p_mfc_handle_stream_complete(struct s=
+5p_mfc_ctx *ctx)
+> >               list_del(&mb_entry->list);
+> >               ctx->dst_queue_cnt--;
+> >               vb2_set_plane_payload(&mb_entry->b->vb2_buf, 0, 0);
+> > +             mb_entry->b->flags |=3D V4L2_BUF_FLAG_LAST;
+> >               vb2_buffer_done(&mb_entry->b->vb2_buf, VB2_BUF_STATE_DONE=
+);
+>
+> The empty buffer is only there for backward compatibility. As the spec
+> says, userspace should completely ignore this buffer. I bet it will
+> still have the effect to set last_buffer_dequeued =3D true in vb2,
+> unblocking poll() operations and allowing for the queue to unblock and
+> return EPIPE on further DQBUF.
+>
+> Perhaps you should make sure the if both the src and dst queues are
+> empty/done by the time cmd_stop is called it will still work. Other
+> drivers seems to handle this, but this one does not seems to have a
+> special case for that, which may hang userspace in a different way.
+>
+> What you should do to verify this patch is correct, and that your
+> userpace does not rely on legacy path is that it should always be able
+> to detect the end of the drain with a EPIPE on DQBUF. LAST_BUF is just
+> an early signalling, but may not occur if there was nothing left to
+> produce (except for MFC which maybe be crafting a buffer in all cases,
+> but that's going a roundtrip through the HW, which is not clear will
+> work if the dst queue was empty).
 
-On Wed, Sep 16, 2020 at 07:25:42PM -0700, Guenter Roeck wrote:
-> Something seems to have gone wrong with v3 of this patch series.
-> I am sure I sent it out, but I don't find it anywhere.
-> Resending. Sorry for any duplicates.
+The spec guarantees that a buffer with the LAST_BUF flag is returned
+to the userspace. In fact, handling entirely by the DQBUF return code
+may be buggy, because the LAST_BUF flag may also be set for other
+reasons, like a resolution change happening after a drain request was
+already initiated. The proper way to handle a drain is to look for the
+LAST_BUF flag and then try to dequeue an event to check what the
+LAST_BUF flag is associated with. It might be worth adding a relevant
+note to the drain sequence documentation in the spec.
 
-I haven't checked the mailing list, but I've found it in my inbox :-)
-I'm not forgetting about you, just been fairly busy recently. I still
-plan to try and provide an alternative implementation in the V4L2 core
-(in a form that I think should even be moved to the cdev core) that
-would fix this for all drivers.
+As for the patch itself, I think it's valid, but it's a bit concerning
+that the code is inside a conditional block executed only when there
+is a buffer in the CAPTURE queue [1]. As I mentioned above, the driver
+needs to signal the LAST_BUF flag, so if there is no buffer to signal
+it on, it should be signaled when a buffer is queued. Of course it's
+well possible that the condition can never happen, e.g. the function
+is called only as a result of a hardware request that can be scheduled
+only when there is at least 1 CAPTURE buffer in the queue. Looking at
+[2], it might be the case indeed, but someone should validate that.
 
-By the way, as you managed to get hold of non-UVC webcams, one thing you
-could try in your tests to make the drivers misbehave is to block on a
-DQBUF call, and unplug the device at that time. When blocking, DQBUF
-releases the driver lock (through the vb2ops .wait_prepare() and
-.wait_finis() operations for drivers based on vb2), so this may allow
-unregistration to proceed without waiting for userspace calls to
-complete.
+[1] https://elixir.bootlin.com/linux/v5.9-rc5/source/drivers/media/platform=
+/s5p-mfc/s5p_mfc.c#L611
+[2] https://elixir.bootlin.com/linux/v5.9-rc5/source/drivers/media/platform=
+/s5p-mfc/s5p_mfc_dec.c#L222
 
-> The uvcvideo code has no lock protection against USB disconnects
-> while video operations are ongoing. This has resulted in random
-> error reports, typically pointing to a crash in usb_ifnum_to_if(),
-> called from usb_hcd_alloc_bandwidth(). A typical traceback is as
-> follows.
-> 
-> usb 1-4: USB disconnect, device number 3
-> BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
-> PGD 0 P4D 0
-> Oops: 0000 [#1] PREEMPT SMP PTI
-> CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
-> Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
-> RIP: 0010:usb_ifnum_to_if+0x29/0x40
-> Code: <...>
-> RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
-> RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
-> RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
-> RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
-> R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
-> R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
-> FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
-> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
-> Call Trace:
->  usb_hcd_alloc_bandwidth+0x1ee/0x30f
->  usb_set_interface+0x1a3/0x2b7
->  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
->  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
->  uvc_start_streaming+0x28/0x5d [uvcvideo]
->  vb2_start_streaming+0x61/0x143 [videobuf2_common]
->  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
->  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
->  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
->  __video_do_ioctl+0x33d/0x42a
->  video_usercopy+0x34e/0x5ff
->  ? video_ioctl2+0x16/0x16
->  v4l2_ioctl+0x46/0x53
->  do_vfs_ioctl+0x50a/0x76f
->  ksys_ioctl+0x58/0x83
->  __x64_sys_ioctl+0x1a/0x1e
->  do_syscall_64+0x54/0xde
-> 
-> While there are not many references to this problem on mailing lists, it is
-> reported on a regular basis on various Chromebooks (roughly 300 reports
-> per month). The problem is relatively easy to reproduce by adding msleep()
-> calls into the code.
-> 
-> I tried to reproduce the problem with non-uvcvideo webcams, but was
-> unsuccessful. I was unable to get Philips (pwc) webcams to work. gspca
-> based webcams don't experience the problem, or at least I was unable to
-> reproduce it (The gspa driver does not trigger sending USB messages in the
-> open function, and otherwise uses the locking mechanism provided by the
-> v4l2/vb2 core).
-> 
-> I don't presume to claim that I found every issue, but this patch series
-> should fix at least the major problems.
-> 
-> The patch series was tested exensively on a Chromebook running chromeos-4.19
-> and on a Linux system running a v5.8.y based kernel.
-> 
-> v3:
-> - In patch 5/5, add missing calls to usb_autopm_put_interface() and kfree()
->   to failure code path
-> 
-> v2:
-> - Added details about problem frequency and testing with non-uvc webcams
->   to summary
-> - In patch 4/5, return EPOLLERR instead of -ENODEV on poll errors
-> - Fix description in patch 5/5
-> 
-> ----------------------------------------------------------------
-> Guenter Roeck (5):
->       media: uvcvideo: Cancel async worker earlier
->       media: uvcvideo: Lock video streams and queues while unregistering
->       media: uvcvideo: Release stream queue when unregistering video device
->       media: uvcvideo: Protect uvc queue file operations against disconnect
->       media: uvcvideo: Abort uvc_v4l2_open if video device is unregistered
-> 
->  drivers/media/usb/uvc/uvc_ctrl.c   | 11 ++++++----
->  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++
->  drivers/media/usb/uvc/uvc_queue.c  | 32 +++++++++++++++++++++++++--
->  drivers/media/usb/uvc/uvc_v4l2.c   | 45 ++++++++++++++++++++++++++++++++++++--
->  drivers/media/usb/uvc/uvcvideo.h   |  1 +
->  5 files changed, 93 insertions(+), 8 deletions(-)
+Best regards,
+Tomasz
 
--- 
-Regards,
-
-Laurent Pinchart
+>
+> As shared on IRC, you have sent these patch to FFMPEG:
+>
+> https://patchwork.ffmpeg.org/project/ffmpeg/patch/20200429212942.28797-2-=
+andriy.gelman@gmail.com/
+>
+> This should have been clarified as supporting legacy drivers / older
+> kernel with Samsung driver. Seems like a fair patch. And you added:
+>
+> https://patchwork.ffmpeg.org/project/ffmpeg/patch/20200429212942.28797-1-=
+andriy.gelman@gmail.com/
+>
+> This one should maybe add the clarification that this is an
+> optimization to skip an extra poll/dqbuf dance, but that end of
+> draining will ultimately be catched by EPIPE on dqbuf for the described
+> cases. Remains valid enhancement to ffmpeg imho.
+>
+> >       }
+> >
+>
