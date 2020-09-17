@@ -2,233 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACF8026D8B6
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 12:20:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 847A126D8EB
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 12:25:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726180AbgIQKUI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 06:20:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48328 "EHLO
+        id S1726611AbgIQKYf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 06:24:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726656AbgIQKT5 (ORCPT
+        with ESMTP id S1726617AbgIQKYF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 06:19:57 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A10FDC061788
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 03:19:45 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id x69so1587883lff.3
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 03:19:45 -0700 (PDT)
+        Thu, 17 Sep 2020 06:24:05 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC692C06174A;
+        Thu, 17 Sep 2020 03:24:04 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id c18so1445938wrm.9;
+        Thu, 17 Sep 2020 03:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=dxsrrpmvH2oMLWq8hD43pmmQstc/lovq2wdgwn2zxAA=;
-        b=P807AanpiSdg0mX7MYwe4seIY3Iw5wpy0n7w73RHrZwIO2fOwbFTmXrWOY27rhSosY
-         w2/H4G5agV/I48iHHAZ1oA6xDOoiXoJ1vAipXI0Wnwzy3u9XHy9IxgIOlzhEvTUpBtzi
-         eI99jqwqpaPB6q3HhCt6o2HY1uJvfs8gVV4/vd3LQbIKK6NMvIGSFGzAeEoHPqQqF9i+
-         urZb4T29sfTEd2NqKDscPKxg8qj3rCnt5LKfeD90jg/M9ITUQ7Nzi2QI03YkEUAIcl8H
-         HGyTN3Uf8k77VTE2qxRsRd6ZTcBlM8mtgyB6ly4I8wNEXxDbKYasxFRvGi/iCcFb6qJR
-         KA8w==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=h2LFimxoyNonSX50+U9lgU4xGUhF6TvhEo2cl22/6to=;
+        b=YkdtHyyrqsnArPN1o1wdZM04OLHAjusxeyiU05bk6yIvyztJndYBnXlLqhaJkmmzI7
+         /HRr0VoNUmuM3dqp0sXUcfRzfac1eYN3KRfsDoDNXnoAkhsHskyCtguu6p8fAsHDIk8r
+         r8tvEcdgM5y8k+TdCPJf3KPtXjUmhPAMoyuemy+TiQG870NfHZRYZpudwP5UrVyy2rnH
+         N4IZbg6ihAylKLrFoG4qTsXumf5hf8WfHh6g+bIzkwoBSEQzfduyF7R2oSs5lu3GePiY
+         nEQzpABeCmyqJ+YgiGdu5yqQ+t9tizSBsQU0xMmK+bFe/jOXQ7fcaZ2R1vf+8W6lyCtP
+         P0Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=dxsrrpmvH2oMLWq8hD43pmmQstc/lovq2wdgwn2zxAA=;
-        b=gE9BEmsz+lFaSaYcncwjdBEjtjvYOFct2wPMoUZptmEYjV8YenLiEw13ya3iUFQbTr
-         KWMlA77d0zcZzAnT5I3StahAKpj4iBNV5CYue9TouqOWTiVrBsbFiEBHc5uKnB6Bixr2
-         WRcTfIdLxFld8/vQ7RwlUwUDdTQO5fXM19MzMfSESN747wb+lIfTv7iB1LdgYnIAo/49
-         IVv6+ltoBdsYchHA3F8NL4Q9oKKvS6WDAKySy9WagRn0H/eZOf4kNQ/4tyDboIS40gko
-         TTHdDcp4X7yTWtfxYMohxb3KMLJZfOMOdV0YJDJS243TEXUATZUs8LfYQ1333Je6W8V8
-         9/Ow==
-X-Gm-Message-State: AOAM530VB9SKU7ePAysEnFrqPiaVn795E9JUdzD7J6FXNwMB01kpXoft
-        Ir33bIIhOap3LN5pa1n7eFZDdQ==
-X-Google-Smtp-Source: ABdhPJxOatQTjlCFGl223jRgX6TWZgEull66SpHe55daMHVCkztKuWuyPDgXwrJ7tFUjn2gDE6XIqg==
-X-Received: by 2002:ac2:419a:: with SMTP id z26mr8699974lfh.523.1600337983556;
-        Thu, 17 Sep 2020 03:19:43 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id 189sm5980478ljj.54.2020.09.17.03.19.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 03:19:43 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 12:19:42 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v3] media: rcar-vin: Enable YDS bit depending on
- bus_width and data_shift
-Message-ID: <20200917101942.GA2382958@oden.dyn.berto.se>
-References: <20200913181608.32077-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <a153e31a-4115-db74-9b21-3e0cbcd8993d@xs4all.nl>
- <be419827-86b4-8aa2-2c82-2c7e328889c3@xs4all.nl>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=h2LFimxoyNonSX50+U9lgU4xGUhF6TvhEo2cl22/6to=;
+        b=aa1VDcoQg6/RU6RCxC9Xf5zjxjHW2suoLto7MRVRWIeQ7IrlO1pLDC9EXDMHCmZUy6
+         l1SneOpjqKGGuFjjx1LOPcjw0XVesiM25RRB8clq54cpZCgSmjysM4VxHuAHxrgdCfKN
+         nxaB/5HUoW7qOzxEASrmYyZeX3S4OIjVsC9YcxropF+qFuXmrqrneQw8LlfZSRCFcm6G
+         sAK364xM3gqitmNkJspEeFbsRCFKUeK7gkNHUUu0C7CLJxRD7aPYvJ48KM5wF8/LRq0C
+         cTR+ySOGD16li+DcHf4UQ9A6JCAUX0ZPDeZ3Uc35mnB5oQ7BJv0q/rUBhSOur3Dx3WQh
+         6qag==
+X-Gm-Message-State: AOAM533zZ5JNTbTEukdjkswjdDtghYI7jPVBS4ODjZ4B0mIVfFgJy8Tl
+        i0PqJoeGUouAUWpZ1HQy5bQ=
+X-Google-Smtp-Source: ABdhPJxk4RL8Vf6mAUx1Otx9e8fG7C/3c0n7sGBIWdI5eI4rHJ+K/A7mw1Ff+ox2J0agrbCPqo54Ig==
+X-Received: by 2002:adf:f14f:: with SMTP id y15mr30377971wro.69.1600338243397;
+        Thu, 17 Sep 2020 03:24:03 -0700 (PDT)
+Received: from [192.168.1.211] ([2.29.208.34])
+        by smtp.gmail.com with ESMTPSA id l4sm10287901wme.43.2020.09.17.03.24.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2020 03:24:02 -0700 (PDT)
+Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
+ via software nodes on ACPI platforms
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, devel@driverdev.osuosl.org,
+        robh@kernel.org, jorhand@linux.microsoft.com,
+        linux-media@vger.kernel.org, kieran.bingham@ideasonboard.com,
+        linux-kernel@vger.kernel.org, kitakar@gmail.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        mchehab@kernel.org, davem@davemloft.net, tian.shu.qiu@intel.com,
+        yong.zhi@intel.com
+References: <20200916213618.8003-1-djrscally@gmail.com>
+ <20200917075356.GA3333802@kroah.com>
+ <d97fb93f-5258-b654-3063-863e81ae7298@gmail.com>
+ <20200917101538.GO4282@kadam>
+From:   Dan Scally <djrscally@gmail.com>
+Message-ID: <36d3322a-3128-83b8-bd14-72da34b71e7c@gmail.com>
+Date:   Thu, 17 Sep 2020 11:24:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20200917101538.GO4282@kadam>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <be419827-86b4-8aa2-2c82-2c7e328889c3@xs4all.nl>
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On 2020-09-17 11:58:16 +0200, Hans Verkuil wrote:
-> On 17/09/2020 10:57, Hans Verkuil wrote:
-> > Hi Prabhakar,
-> > 
-> > Can you rebase this patch? It no longer applies.
-> 
-> Never mind, my mistake. When I was preparing this patch I also had this patch
-> applied: https://patchwork.linuxtv.org/project/linux-media/patch/1595602732-25582-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> 
-> And that caused the conflict with this YDS patch.
-> 
-> However, I backed out the two renesas-vin-ycbcr-8b-g patches since there were a
-> bunch comments for https://patchwork.linuxtv.org/project/linux-media/patch/1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> 
-> So after dropping those two patches this YDS patch now applies fine and will
-> be included in the PR.
-
-Thanks for dropping the renesas-vin-ycbcr-8b-g patches from the PR, they 
-really should not have been picked up as this patch address the issue in 
-a nicer way. To ease your workload would you like me to collect VIN 
-patches and send PR to you for that driver?
-
-> 
-> Sorry for the confusion,
-> 
-> 	Hans
-> 
-> > 
-> > Regards,
-> > 
-> > 	Hans
-> > 
-> > On 13/09/2020 20:16, Lad Prabhakar wrote:
-> >> Enable YDS bit if bus_width and data_shift is set to 8 in parallel mode
-> >> for MEDIA_BUS_FMT_UYVY8_2X8 format.
-> >>
-> >> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >> ---
-> >> Changes for v3:
-> >> * Dropped BIT macro
-> >> * Introduced struct v4l2_fwnode_bus_parallel
-> >>
-> >> Changes for v2:
-> >> * Dropped DT binding documentation patch
-> >> * Select the data pins depending on bus-width and data-shift
-> >>
-> >> v1 -
-> >> https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=323799
-> >> ---
-> >>  drivers/media/platform/rcar-vin/rcar-core.c |  9 ++++-----
-> >>  drivers/media/platform/rcar-vin/rcar-dma.c  | 17 ++++++++++++++---
-> >>  drivers/media/platform/rcar-vin/rcar-vin.h  |  5 +++--
-> >>  3 files changed, 21 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> >> index 7440c8965d27..1149ab76cf5c 100644
-> >> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> >> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> >> @@ -626,12 +626,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
-> >>  
-> >>  	switch (vin->parallel->mbus_type) {
-> >>  	case V4L2_MBUS_PARALLEL:
-> >> -		vin_dbg(vin, "Found PARALLEL media bus\n");
-> >> -		vin->parallel->mbus_flags = vep->bus.parallel.flags;
-> >> -		break;
-> >>  	case V4L2_MBUS_BT656:
-> >> -		vin_dbg(vin, "Found BT656 media bus\n");
-> >> -		vin->parallel->mbus_flags = 0;
-> >> +		vin_dbg(vin, "Found %s media bus\n",
-> >> +			vin->parallel->mbus_type == V4L2_MBUS_PARALLEL ?
-> >> +			"PARALLEL" : "BT656");
-> >> +		vin->parallel->bus = vep->bus.parallel;
-> >>  		break;
-> >>  	default:
-> >>  		vin_err(vin, "Unknown media bus type\n");
-> >> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> >> index a5dbb90c5210..d067439b0b0d 100644
-> >> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> >> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> >> @@ -125,6 +125,7 @@
-> >>  #define VNDMR2_VPS		(1 << 30)
-> >>  #define VNDMR2_HPS		(1 << 29)
-> >>  #define VNDMR2_CES		(1 << 28)
-> >> +#define VNDMR2_YDS		(1 << 22)
-> >>  #define VNDMR2_FTEV		(1 << 17)
-> >>  #define VNDMR2_VLV(n)		((n & 0xf) << 12)
-> >>  
-> >> @@ -698,16 +699,26 @@ static int rvin_setup(struct rvin_dev *vin)
-> >>  
-> >>  	if (!vin->is_csi) {
-> >>  		/* Hsync Signal Polarity Select */
-> >> -		if (!(vin->parallel->mbus_flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
-> >> +		if (!(vin->parallel->bus.flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
-> >>  			dmr2 |= VNDMR2_HPS;
-> >>  
-> >>  		/* Vsync Signal Polarity Select */
-> >> -		if (!(vin->parallel->mbus_flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
-> >> +		if (!(vin->parallel->bus.flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
-> >>  			dmr2 |= VNDMR2_VPS;
-> >>  
-> >>  		/* Data Enable Polarity Select */
-> >> -		if (vin->parallel->mbus_flags & V4L2_MBUS_DATA_ENABLE_LOW)
-> >> +		if (vin->parallel->bus.flags & V4L2_MBUS_DATA_ENABLE_LOW)
-> >>  			dmr2 |= VNDMR2_CES;
-> >> +
-> >> +		switch (vin->mbus_code) {
-> >> +		case MEDIA_BUS_FMT_UYVY8_2X8:
-> >> +			if (vin->parallel->bus.bus_width == 8 &&
-> >> +			    vin->parallel->bus.data_shift == 8)
-> >> +				dmr2 |= VNDMR2_YDS;
-> >> +			break;
-> >> +		default:
-> >> +			break;
-> >> +		}
-> >>  	}
-> >>  
-> >>  	/*
-> >> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> >> index c19d077ce1cb..8396e0e45478 100644
-> >> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> >> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> >> @@ -19,6 +19,7 @@
-> >>  #include <media/v4l2-ctrls.h>
-> >>  #include <media/v4l2-dev.h>
-> >>  #include <media/v4l2-device.h>
-> >> +#include <media/v4l2-fwnode.h>
-> >>  #include <media/videobuf2-v4l2.h>
-> >>  
-> >>  /* Number of HW buffers */
-> >> @@ -92,7 +93,7 @@ struct rvin_video_format {
-> >>   * @asd:	sub-device descriptor for async framework
-> >>   * @subdev:	subdevice matched using async framework
-> >>   * @mbus_type:	media bus type
-> >> - * @mbus_flags:	media bus configuration flags
-> >> + * @bus:	media bus parallel configuration
-> >>   * @source_pad:	source pad of remote subdevice
-> >>   * @sink_pad:	sink pad of remote subdevice
-> >>   *
-> >> @@ -102,7 +103,7 @@ struct rvin_parallel_entity {
-> >>  	struct v4l2_subdev *subdev;
-> >>  
-> >>  	enum v4l2_mbus_type mbus_type;
-> >> -	unsigned int mbus_flags;
-> >> +	struct v4l2_fwnode_bus_parallel bus;
-> >>  
-> >>  	unsigned int source_pad;
-> >>  	unsigned int sink_pad;
-> >>
-> > 
-> 
-
--- 
-Regards,
-Niklas Söderlund
+On 17/09/2020 11:15, Dan Carpenter wrote:
+> On Thu, Sep 17, 2020 at 10:47:50AM +0100, Dan Scally wrote:
+>> Hi Greg - thanks for the comments, appreciate it (sorry there's so many,
+>> I'm new to both C and kernel work)
+> It's pretty impressive work if you're new to C...
+Thanks (and for your other reply too, haven't had time to go through it
+in depth yet). I've been using python for a while, but this is my first
+attempt at anything serious with C.
+>>>> +			return;
+>>> No error value?
+>> The prototype for sync_state callbacks is to return void, so my
+>> understanding is it can't return an error value.Â  I guess a better thing
+>> to do might be call another function performing cleanup and unloading
+>> the driver before the return or something along those lines though.
+> Yeah.  I suspect you should be using a different callback instead of
+> ->sync_state() but I don't know what... :/
+Yeah, this is why I wanted to submit it now really; I too suspect I
+should really be using a different callback but I couldn't find a better
+option.
+> regards,
+> dan carpenter
+>
