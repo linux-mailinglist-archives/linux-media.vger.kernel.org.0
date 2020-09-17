@@ -2,101 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C97726DA40
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 13:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1800826DA82
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 13:41:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726505AbgIQLcP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 07:32:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59354 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726774AbgIQLbO (ORCPT
+        id S1726925AbgIQLk5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 07:40:57 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:43285 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726691AbgIQLkj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 07:31:14 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB85C061756
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 04:31:13 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id o5so1751456qke.12
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 04:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nZ4b46gqz9ZMj0oSIJhPTVW/Re5tOMNlNB8GqNDw+ps=;
-        b=e9KgBjbTETq6hYc5oIxWtFuYQ1SoFGsGWxA4kvhtekqf6V6CMOH9pXjfTbuISASPWo
-         4bZVeYOehOgOJ0u5bY/YPUtEgF4XQ19vKp8V/0m/N+sT6mdaGe9qVo9Gk0v4qi3fFJBN
-         X0VFFFaoBVE1uVC0GdBYcfidqaVtx/8FIVkJLSOxg2eoJAkBgMswVryFqbAy2jhDn0Zm
-         fimV1f+uedJRyrixr5wV3m+byauc/VMYGq6ivkwH0zO3SoZxBRNiWufSKrH3LcQiqEiP
-         33anbnVMCvQ5wFzEuBZcN7VD9OgD57QNEm4Y1vFAatti5FabHopW0XlrAe28+0EdKa45
-         YASQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nZ4b46gqz9ZMj0oSIJhPTVW/Re5tOMNlNB8GqNDw+ps=;
-        b=ieQr2j6xlE66PA27pMVDaeSnhRc2TcrTlAU07bwtrVw8k/keaMcGOrZ+DpIACY9BoQ
-         bmHXKj1ZoteHireaX/fWytDXjy5oNvk4MHLtDYFNnv/IwwMCfE3o2Ltx1uBi/dPtb60U
-         5jhkD1OjdW+3WVB/+938iC7Ba4esN6haN9QLVT6BsKPC9LEYIc1LTQ/wW79VJgH99AVX
-         SHIH6YgjVHlgPZ05URddQmNtJyxel8uByATUwoVJ0/gsBGzJsANl7yyk0bC74ze+UKfU
-         HgcSz1NsFWE9N5l7J+CJS0zEuhdNJJrb9HhMBtnsI5dashYyUeOVwLB/Ib+qm1CeUzR6
-         /Z7g==
-X-Gm-Message-State: AOAM531ngVepzBQzPekIezeeiAV9ZKfyk0e2K9arcfYp1CK2+eFVlrvC
-        G09dlXfAjX4j2CRePHf7w+6Hpg==
-X-Google-Smtp-Source: ABdhPJw56svcIeAcnROGFmKsbmVXol3TtQXkSVG9MOLdgGF5odtIzCjySvHoBe12rG9qsPWph3HcsA==
-X-Received: by 2002:a37:814:: with SMTP id 20mr27843480qki.142.1600342272474;
-        Thu, 17 Sep 2020 04:31:12 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id y73sm21206411qkb.23.2020.09.17.04.31.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 04:31:11 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kIs86-000Q7S-Qt; Thu, 17 Sep 2020 08:31:10 -0300
-Date:   Thu, 17 Sep 2020 08:31:10 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
-Message-ID: <20200917113110.GE8409@ziepe.ca>
-References: <20200914140632.GD1221970@ziepe.ca>
- <9302e4e0-0ff0-8b00-ada1-85feefb49e88@gmail.com>
- <20200916095359.GD438822@phenom.ffwll.local>
- <20200916140710.GA8409@ziepe.ca>
- <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
- <CAKMK7uFdwrT3HACPh3ADAKvhXJ-Hf3dExZmgJVAQ1KKjSai_0w@mail.gmail.com>
- <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
- <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
- <8d8693db-a3f0-4f5f-3e32-57d23ca620f8@amd.com>
- <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
+        Thu, 17 Sep 2020 07:40:39 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id IsH9kMCCGPTBMIsHCkloTy; Thu, 17 Sep 2020 13:40:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600342835; bh=LWVjGac37Swqs1c73RcC4J4x1odUo4b4exvQoq0Xu3M=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=fv6CV1vRszVp/PxPhA4beqW+JrLITuQO/EiomFjGrQ03poakdx6CmtVriuZ+0XUrk
+         u1K+Fcqq+yjylU4ANYd44Ws1PCZzctKWy6rlYhJb2lhUkiIsIaTf4xsIEsex7Ijdxd
+         j06O978+KVdQRj22SiWeolRG5FZRcTFJz6R+HywR7Grhmc719jWfSfVixJftq+j/kL
+         LDzcKv6u8A3+CQk4ov25EWAAvuSKHuFeLvEQPBmQ5dfW0cCJbMiS/ZgPnTdWo3j41J
+         IyN2iN+1sAb3VJCJ4sqHPGd9e4JHfl9qLN/MCnsnaQboIODqz0OzXyFTI1IkYT3tGb
+         vJvGMm09WDILw==
+Subject: Re: [PATCH] media: sti: Fix reference count leaks
+To:     Jean-Christophe Trotin <jean-christophe.trotin@st.com>
+Cc:     wu000273@umn.edu, kjlu@umn.edu,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200614033106.426-1-wu000273@umn.edu>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <013fba3b-2451-855b-08d4-87682464b8bf@xs4all.nl>
+Date:   Thu, 17 Sep 2020 13:40:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
+In-Reply-To: <20200614033106.426-1-wu000273@umn.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfM3bpFqPR+EtTm5o8+/bnRgoYwp8WzcqUshywS4YzCxfkHkvIriLU0YUDZ63lvtBmLSqBNOuPeZl3bzVVW/BY5dWfsGze81Q3PwM9OPLIDqIA/umFOZ5
+ x4kjD1SBMlXwVNfz2mVEC4Wsa2mAkHrra4hMswyGDuGbRe9Dsc2DQlFHKTZvv/AiAx+9+Yx6d/GjwLvfhVTlEm2/2ovQ2NrI28YagBEMIfbRxruBqJTbJCnc
+ nSrFsMLc/WAgJuiMdDZX34SrQAcHaI0v2fl5mreVNjRJ1leYJ0qwhZf1jO5uVAj41RIKF/yPBqGqUAStkzjQ3uVlQ8rnpdOoUb5jHNIt1cJNTLkwc3qvPHKH
+ uFAztBbMo+xejJiyppBi+PRgISDP1QBvh4nmNoR8UGoCulvNY94VlZcwLZAv8wDlXqqOPnIqESCGru+0P+h03ZaPN76wDg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 10:09:12AM +0200, Daniel Vetter wrote:
+Hi Jean-Christophe,
 
-> Yeah, but it doesn't work when forwarding from the drm chardev to the
-> dma-buf on the importer side, since you'd need a ton of different
-> address spaces. And you still rely on the core code picking up your
-> pgoff mangling, which feels about as risky to me as the vma file
-> pointer wrangling - if it's not consistently applied the reverse map
-> is toast and unmap_mapping_range doesn't work correctly for our needs.
+I'll take this patch, but while reviewing it I noticed something else:
 
-I would think the pgoff has to be translated at the same time the
-vm->vm_file is changed?
+On 14/06/2020 05:31, wu000273@umn.edu wrote:
+> From: Qiushi Wu <wu000273@umn.edu>
+> 
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> when it returns an error code, causing incorrect ref count if
+> pm_runtime_put_noidle() is not called in error handling paths.
+> Thus call pm_runtime_put_noidle() if pm_runtime_get_sync() fails.
+> 
+> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+> ---
+>  drivers/media/platform/sti/hva/hva-hw.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/platform/sti/hva/hva-hw.c b/drivers/media/platform/sti/hva/hva-hw.c
+> index 401aaafa1710..bb13348be083 100644
+> --- a/drivers/media/platform/sti/hva/hva-hw.c
+> +++ b/drivers/media/platform/sti/hva/hva-hw.c
+> @@ -272,6 +272,7 @@ static unsigned long int hva_hw_get_ip_version(struct hva_dev *hva)
+>  
+>  	if (pm_runtime_get_sync(dev) < 0) {
+>  		dev_err(dev, "%s     failed to get pm_runtime\n", HVA_PREFIX);
+> +		pm_runtime_put_noidle(dev);
+>  		mutex_unlock(&hva->protect_mutex);
 
-The owner of the dma_buf should have one virtual address space and FD,
-all its dma bufs should be linked to it, and all pgoffs translated to
-that space.
+This appears to be a spurious mutex_unlock() since I don't see a corresponding mutex_lock.
 
-Jason
+Jean-Christophe, can you check this and, if I am right, post a patch fixing this?
+
+Regards,
+
+	Hans
+
+>  		return -EFAULT;
+>  	}
+> @@ -553,6 +554,7 @@ void hva_hw_dump_regs(struct hva_dev *hva, struct seq_file *s)
+>  
+>  	if (pm_runtime_get_sync(dev) < 0) {
+>  		seq_puts(s, "Cannot wake up IP\n");
+> +		pm_runtime_put_noidle(dev);
+>  		mutex_unlock(&hva->protect_mutex);
+>  		return;
+>  	}
+> 
+
