@@ -2,173 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44F4B26DC15
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DCB826DC65
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 15:04:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbgIQMxc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 08:53:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727107AbgIQMw7 (ORCPT
+        id S1726948AbgIQNEu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 09:04:50 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:29274 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726785AbgIQMhH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 08:52:59 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC586C061756
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 05:52:54 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id i22so3126849eja.5
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 05:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=BdxYdx9XHrwCdr4dzP1oTYv5YWLs/o7KoSb8tPS/nSw=;
-        b=ccM+MAvgoCEG4vttx6xCSHufmhS0PZEIedC4PRllc90ud3FF8xpocJ7v7zm20tcZYk
-         Y48aDJAb/rrKj3Xk9P9KO5CaLGn7plZ1ehW8ylgxUpcRcso5dQy13FdSnUuMHNijRgVu
-         AVICzFSg+9EIXT1tbDVLJQ1WvvZSzYcw1XHl0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=BdxYdx9XHrwCdr4dzP1oTYv5YWLs/o7KoSb8tPS/nSw=;
-        b=hA48vL9RMzFeHywFNfYnLnE7WLB64lczfS2KxL1CBcxNuQryZ+2kKFk75b+m1W7HWk
-         l2OBZ+tMvTs+kzoAxsiUFQ3RsEu+jmIrlFq3nE4RqKdv6yZgbMz0fs8JMlwbZrYcFS9i
-         O08F3Z4zUQZR9pJIoS4m67f7fViqB+XbamybH9pBlTow+Wm2GFJXMawWApRnEDGIQXiu
-         vK/RzvaBOk4iP/IZO8tJplHxEwRThq+5FWqyprXSfW6s4UvVOmzjX0hRRz8/eP2DlFXP
-         f1Wc2M44Q5c7yu3wwlzyCTw9SqfBNnVRorR0XRL4TxrC8IoFvVShVAZ+ukSWHLesXbI3
-         EIwA==
-X-Gm-Message-State: AOAM531N3G0TPMVzt6SqYaasKFUa9so55TqDRokYGuYxTT7w3a/VLc23
-        3Kl0/Ld7UlNy9fDRRs/9pzsdXlvMg6KyYA==
-X-Google-Smtp-Source: ABdhPJzLIYJ+Q9vOYDxX6luEiTOcmPiOKY7CB16F1qhEp4GLc/JolYO0i9YX6Ow8jk+ri7W7fpJHRA==
-X-Received: by 2002:a17:906:bc52:: with SMTP id s18mr28968999ejv.398.1600347172889;
-        Thu, 17 Sep 2020 05:52:52 -0700 (PDT)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com. [209.85.128.53])
-        by smtp.gmail.com with ESMTPSA id a5sm17169789edb.9.2020.09.17.05.52.51
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 05:52:51 -0700 (PDT)
-Received: by mail-wm1-f53.google.com with SMTP id z9so1942283wmk.1
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 05:52:51 -0700 (PDT)
-X-Received: by 2002:a05:600c:20f:: with SMTP id 15mr9361892wmi.99.1600347171113;
- Thu, 17 Sep 2020 05:52:51 -0700 (PDT)
+        Thu, 17 Sep 2020 08:37:07 -0400
+X-Greylist: delayed 485 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 08:36:02 EDT
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 17 Sep 2020 05:27:51 -0700
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 17 Sep 2020 05:27:49 -0700
+Received: from c-rojay-linux.qualcomm.com ([10.206.21.80])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 17 Sep 2020 17:57:10 +0530
+Received: by c-rojay-linux.qualcomm.com (Postfix, from userid 88981)
+        id 072351AEA; Thu, 17 Sep 2020 17:57:08 +0530 (IST)
+From:   Roja Rani Yarubandi <rojay@codeaurora.org>
+To:     wsa@kernel.org
+Cc:     swboyd@chromium.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, akashast@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        vkaur@codeaurora.org, pyarlaga@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        Roja Rani Yarubandi <rojay@codeaurora.org>
+Subject: [PATCH V4] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+Date:   Thu, 17 Sep 2020 17:55:58 +0530
+Message-Id: <20200917122558.23110-1-rojay@codeaurora.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200502194052.485-1-andriy.gelman@gmail.com> <21733d1ad3c2f79a5646b4f1c541dfabda0978be.camel@ndufresne.ca>
-In-Reply-To: <21733d1ad3c2f79a5646b4f1c541dfabda0978be.camel@ndufresne.ca>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 17 Sep 2020 14:52:33 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5B+5Zb7pzyQga+-KjfzUCYpuC1oPRjMXsTKHJzJAcmgdw@mail.gmail.com>
-Message-ID: <CAAFQd5B+5Zb7pzyQga+-KjfzUCYpuC1oPRjMXsTKHJzJAcmgdw@mail.gmail.com>
-Subject: Re: [PATCH] media: s5p-mfc: set V4L2_BUF_FLAG_LAST flag on final buffer
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Andriy Gelman <andriy.gelman@gmail.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 2, 2020 at 5:09 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
-e:
->
-> Hi Andriy,
->
-> thanks for you patch.
->
-> Le samedi 02 mai 2020 =C3=A0 15:40 -0400, Andriy Gelman a =C3=A9crit :
-> > From: Andriy Gelman <andriy.gelman@gmail.com>
-> >
-> > As per V4L2 api, the final buffer should set V4L2_BUF_FLAG_LAST flag.
-> >
-> > Signed-off-by: Andriy Gelman <andriy.gelman@gmail.com>
-> > ---
-> >  drivers/media/platform/s5p-mfc/s5p_mfc.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/p=
-latform/s5p-mfc/s5p_mfc.c
-> > index 5c2a23b953a4..b3d9b3a523fe 100644
-> > --- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> > +++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> > @@ -614,6 +614,7 @@ static void s5p_mfc_handle_stream_complete(struct s=
-5p_mfc_ctx *ctx)
-> >               list_del(&mb_entry->list);
-> >               ctx->dst_queue_cnt--;
-> >               vb2_set_plane_payload(&mb_entry->b->vb2_buf, 0, 0);
-> > +             mb_entry->b->flags |=3D V4L2_BUF_FLAG_LAST;
-> >               vb2_buffer_done(&mb_entry->b->vb2_buf, VB2_BUF_STATE_DONE=
-);
->
-> The empty buffer is only there for backward compatibility. As the spec
-> says, userspace should completely ignore this buffer. I bet it will
-> still have the effect to set last_buffer_dequeued =3D true in vb2,
-> unblocking poll() operations and allowing for the queue to unblock and
-> return EPIPE on further DQBUF.
->
-> Perhaps you should make sure the if both the src and dst queues are
-> empty/done by the time cmd_stop is called it will still work. Other
-> drivers seems to handle this, but this one does not seems to have a
-> special case for that, which may hang userspace in a different way.
->
-> What you should do to verify this patch is correct, and that your
-> userpace does not rely on legacy path is that it should always be able
-> to detect the end of the drain with a EPIPE on DQBUF. LAST_BUF is just
-> an early signalling, but may not occur if there was nothing left to
-> produce (except for MFC which maybe be crafting a buffer in all cases,
-> but that's going a roundtrip through the HW, which is not clear will
-> work if the dst queue was empty).
+If the hardware is still accessing memory after SMMU translation
+is disabled (as part of smmu shutdown callback), then the
+IOVAs (I/O virtual address) which it was using will go on the bus
+as the physical addresses which will result in unknown crashes
+like NoC/interconnect errors.
 
-The spec guarantees that a buffer with the LAST_BUF flag is returned
-to the userspace. In fact, handling entirely by the DQBUF return code
-may be buggy, because the LAST_BUF flag may also be set for other
-reasons, like a resolution change happening after a drain request was
-already initiated. The proper way to handle a drain is to look for the
-LAST_BUF flag and then try to dequeue an event to check what the
-LAST_BUF flag is associated with. It might be worth adding a relevant
-note to the drain sequence documentation in the spec.
+So, implement shutdown callback to i2c driver to stop on-going transfer
+and unmap DMA mappings during system "reboot" or "shutdown".
 
-As for the patch itself, I think it's valid, but it's a bit concerning
-that the code is inside a conditional block executed only when there
-is a buffer in the CAPTURE queue [1]. As I mentioned above, the driver
-needs to signal the LAST_BUF flag, so if there is no buffer to signal
-it on, it should be signaled when a buffer is queued. Of course it's
-well possible that the condition can never happen, e.g. the function
-is called only as a result of a hardware request that can be scheduled
-only when there is at least 1 CAPTURE buffer in the queue. Looking at
-[2], it might be the case indeed, but someone should validate that.
+Store DMA mapping data in geni_i2c_dev struct to enhance DMA mapping
+data scope. For example during shutdown callback to unmap DMA mapping,
+this stored DMA mapping data can be used to call geni_se_tx_dma_unprep,
+geni_se_rx_dma_unprep and  i2c_put_dma_safe_msg_buf functions.
 
-[1] https://elixir.bootlin.com/linux/v5.9-rc5/source/drivers/media/platform=
-/s5p-mfc/s5p_mfc.c#L611
-[2] https://elixir.bootlin.com/linux/v5.9-rc5/source/drivers/media/platform=
-/s5p-mfc/s5p_mfc_dec.c#L222
+Add two helper functions geni_i2c_rx_msg_cleanup and
+geni_i2c_tx_msg_cleanup to unwrap the things after rx/tx FIFO/DMA
+transfers, so that the same can be used in geni_i2c_stop_xfer()
+function during shutdown callback.
 
-Best regards,
-Tomasz
+Remove "iova" check from geni_se_tx_dma_unprep and geni_se_rx_dma_unprep
+fucntions as invalidating with dma_mapping_error() is enough.
 
->
-> As shared on IRC, you have sent these patch to FFMPEG:
->
-> https://patchwork.ffmpeg.org/project/ffmpeg/patch/20200429212942.28797-2-=
-andriy.gelman@gmail.com/
->
-> This should have been clarified as supporting legacy drivers / older
-> kernel with Samsung driver. Seems like a fair patch. And you added:
->
-> https://patchwork.ffmpeg.org/project/ffmpeg/patch/20200429212942.28797-1-=
-andriy.gelman@gmail.com/
->
-> This one should maybe add the clarification that this is an
-> optimization to skip an extra poll/dqbuf dance, but that end of
-> draining will ultimately be catched by EPIPE on dqbuf for the described
-> cases. Remains valid enhancement to ffmpeg imho.
->
-> >       }
-> >
->
+Fixes: 37692de5d523 ("i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller")
+Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
+---
+Changes in V2:
+ - As per Stephen's comments added seperate function for stop transfer,
+   fixed minor nitpicks.
+ - As per Stephen's comments, changed commit text.
+
+Changes in V3:
+ - As per Stephen's comments, squashed patch 1 into patch 2, added Fixes tag.
+ - As per Akash's comments, included FIFO case in stop_xfer, fixed minor nitpicks.
+
+Changes in V4:
+ - As per Stephen's comments cleaned up geni_i2c_stop_xfer function,
+   added dma_buf in geni_i2c_dev struct to call i2c_put_dma_safe_msg_buf()
+   from other functions, removed "iova" check in geni_se_rx_dma_unprep()
+   and geni_se_tx_dma_unprep() functions.
+ - Added two helper functions geni_i2c_rx_msg_cleanup() and
+   geni_i2c_tx_msg_cleanup() to unwrap the things after rx/tx FIFO/DMA
+   transfers, so that the same can be used in geni_i2c_stop_xfer() function
+   during shutdown callback. Updated commit text accordingly.
+ - In stop_xfer check whether it is tx/rx transfer using I2C_M_RD which is valid
+   for both FIFO and DMA cases, so dropped DMA_RX_ACTIVE and DMA_TX_ACTIVE bit
+   check of SE_DMA_DEBUG_REG0 register.
+
+ drivers/i2c/busses/i2c-qcom-geni.c | 93 ++++++++++++++++++++++++------
+ drivers/soc/qcom/qcom-geni-se.c    |  4 +-
+ 2 files changed, 78 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
+index dead5db3315a..b0d8043c8cb2 100644
+--- a/drivers/i2c/busses/i2c-qcom-geni.c
++++ b/drivers/i2c/busses/i2c-qcom-geni.c
+@@ -86,6 +86,10 @@ struct geni_i2c_dev {
+ 	u32 clk_freq_out;
+ 	const struct geni_i2c_clk_fld *clk_fld;
+ 	int suspended;
++	void *dma_buf;
++	size_t xfer_len;
++	dma_addr_t tx_dma;
++	dma_addr_t rx_dma;
+ };
+ 
+ struct geni_i2c_err_log {
+@@ -307,7 +311,6 @@ static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c)
+ 
+ 	spin_lock_irqsave(&gi2c->lock, flags);
+ 	geni_i2c_err(gi2c, GENI_TIMEOUT);
+-	gi2c->cur = NULL;
+ 	geni_se_abort_m_cmd(&gi2c->se);
+ 	spin_unlock_irqrestore(&gi2c->lock, flags);
+ 	do {
+@@ -349,10 +352,62 @@ static void geni_i2c_tx_fsm_rst(struct geni_i2c_dev *gi2c)
+ 		dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
+ }
+ 
++static void geni_i2c_rx_msg_cleanup(struct geni_i2c_dev *gi2c)
++{
++	struct geni_se *se = &gi2c->se;
++
++	gi2c->cur_rd = 0;
++	if (gi2c->dma_buf) {
++		if (gi2c->err)
++			geni_i2c_rx_fsm_rst(gi2c);
++		geni_se_rx_dma_unprep(se, gi2c->rx_dma, gi2c->xfer_len);
++		i2c_put_dma_safe_msg_buf(gi2c->dma_buf, gi2c->cur, !gi2c->err);
++	}
++}
++
++static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c)
++{
++	struct geni_se *se = &gi2c->se;
++
++	gi2c->cur_wr = 0;
++	if (gi2c->dma_buf) {
++		if (gi2c->err)
++			geni_i2c_tx_fsm_rst(gi2c);
++		geni_se_tx_dma_unprep(se, gi2c->tx_dma, gi2c->xfer_len);
++		i2c_put_dma_safe_msg_buf(gi2c->dma_buf, gi2c->cur, !gi2c->err);
++	}
++}
++
++static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
++{
++	int ret;
++	u32 geni_status;
++
++	/* Resume device, as runtime suspend can happen anytime during transfer */
++	ret = pm_runtime_get_sync(gi2c->se.dev);
++	if (ret < 0) {
++		dev_err(gi2c->se.dev, "Failed to resume device: %d\n", ret);
++		return;
++	}
++
++	geni_status = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
++	if (!(geni_status & M_GENI_CMD_ACTIVE))
++		goto out;
++
++	geni_i2c_abort_xfer(gi2c);
++	if (gi2c->cur->flags & I2C_M_RD)
++		geni_i2c_rx_msg_cleanup(gi2c);
++	else
++		geni_i2c_tx_msg_cleanup(gi2c);
++	gi2c->cur = NULL;
++out:
++	pm_runtime_put_sync_suspend(gi2c->se.dev);
++}
++
+ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ 				u32 m_param)
+ {
+-	dma_addr_t rx_dma;
++	dma_addr_t rx_dma = 0;
+ 	unsigned long time_left;
+ 	void *dma_buf = NULL;
+ 	struct geni_se *se = &gi2c->se;
+@@ -372,6 +427,10 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ 		geni_se_select_mode(se, GENI_SE_FIFO);
+ 		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
+ 		dma_buf = NULL;
++	} else {
++		gi2c->xfer_len = len;
++		gi2c->rx_dma = rx_dma;
++		gi2c->dma_buf = dma_buf;
+ 	}
+ 
+ 	geni_se_setup_m_cmd(se, I2C_READ, m_param);
+@@ -380,13 +439,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ 	if (!time_left)
+ 		geni_i2c_abort_xfer(gi2c);
+ 
+-	gi2c->cur_rd = 0;
+-	if (dma_buf) {
+-		if (gi2c->err)
+-			geni_i2c_rx_fsm_rst(gi2c);
+-		geni_se_rx_dma_unprep(se, rx_dma, len);
+-		i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+-	}
++	geni_i2c_rx_msg_cleanup(gi2c);
+ 
+ 	return gi2c->err;
+ }
+@@ -394,7 +447,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ 				u32 m_param)
+ {
+-	dma_addr_t tx_dma;
++	dma_addr_t tx_dma = 0;
+ 	unsigned long time_left;
+ 	void *dma_buf = NULL;
+ 	struct geni_se *se = &gi2c->se;
+@@ -414,6 +467,10 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ 		geni_se_select_mode(se, GENI_SE_FIFO);
+ 		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
+ 		dma_buf = NULL;
++	} else {
++		gi2c->xfer_len = len;
++		gi2c->tx_dma = tx_dma;
++		gi2c->dma_buf = dma_buf;
+ 	}
+ 
+ 	geni_se_setup_m_cmd(se, I2C_WRITE, m_param);
+@@ -425,13 +482,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ 	if (!time_left)
+ 		geni_i2c_abort_xfer(gi2c);
+ 
+-	gi2c->cur_wr = 0;
+-	if (dma_buf) {
+-		if (gi2c->err)
+-			geni_i2c_tx_fsm_rst(gi2c);
+-		geni_se_tx_dma_unprep(se, tx_dma, len);
+-		i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+-	}
++	geni_i2c_tx_msg_cleanup(gi2c);
+ 
+ 	return gi2c->err;
+ }
+@@ -630,6 +681,13 @@ static int geni_i2c_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static void geni_i2c_shutdown(struct platform_device *pdev)
++{
++	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
++
++	geni_i2c_stop_xfer(gi2c);
++}
++
+ static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
+ {
+ 	int ret;
+@@ -694,6 +752,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
+ static struct platform_driver geni_i2c_driver = {
+ 	.probe  = geni_i2c_probe,
+ 	.remove = geni_i2c_remove,
++	.shutdown = geni_i2c_shutdown,
+ 	.driver = {
+ 		.name = "geni_i2c",
+ 		.pm = &geni_i2c_pm_ops,
+diff --git a/drivers/soc/qcom/qcom-geni-se.c b/drivers/soc/qcom/qcom-geni-se.c
+index d0e4f520cff8..0216b38c1e9a 100644
+--- a/drivers/soc/qcom/qcom-geni-se.c
++++ b/drivers/soc/qcom/qcom-geni-se.c
+@@ -705,7 +705,7 @@ void geni_se_tx_dma_unprep(struct geni_se *se, dma_addr_t iova, size_t len)
+ {
+ 	struct geni_wrapper *wrapper = se->wrapper;
+ 
+-	if (iova && !dma_mapping_error(wrapper->dev, iova))
++	if (!dma_mapping_error(wrapper->dev, iova))
+ 		dma_unmap_single(wrapper->dev, iova, len, DMA_TO_DEVICE);
+ }
+ EXPORT_SYMBOL(geni_se_tx_dma_unprep);
+@@ -722,7 +722,7 @@ void geni_se_rx_dma_unprep(struct geni_se *se, dma_addr_t iova, size_t len)
+ {
+ 	struct geni_wrapper *wrapper = se->wrapper;
+ 
+-	if (iova && !dma_mapping_error(wrapper->dev, iova))
++	if (!dma_mapping_error(wrapper->dev, iova))
+ 		dma_unmap_single(wrapper->dev, iova, len, DMA_FROM_DEVICE);
+ }
+ EXPORT_SYMBOL(geni_se_rx_dma_unprep);
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
+of Code Aurora Forum, hosted by The Linux Foundation
+
