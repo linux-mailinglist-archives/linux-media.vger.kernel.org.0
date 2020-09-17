@@ -2,142 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78D8A26DB7D
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 373BC26DBAF
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:37:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726785AbgIQM1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 08:27:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39732 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726766AbgIQM1f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 08:27:35 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94A39C06178B
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 05:26:40 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id z1so1866957wrt.3
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 05:26:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=776kE571jxALYsOg06ejCyM2zHb/SfLHRc5/m8v10ss=;
-        b=IVQpQa30jthrbYlgwDGmu0dc3mjMkTqbdMKMaSnRvLnHMKlNvHBoPDQ8r760u+SVPm
-         59vgHhoVxmVxKNvGKFX9QbbbOEpWzNWMXSHfbRt/bDygT1XUo/rI/mTP8lwcUxWU928G
-         cOYIpmnvb7A0tsT+gMKdSIF7Iz7lnU7Ky2wTs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=776kE571jxALYsOg06ejCyM2zHb/SfLHRc5/m8v10ss=;
-        b=rh0bi/fqnEQnFrqpotmMaXT2zEQrH7WLyytSBMs0DTKn4jAladZBYHmXwqbzx+Hd0Q
-         bvOL753qp9mVFVVdYYz3MFFm3KVN89ECxIgZBKaxvy3HcuXn6entByro2+XvvOHY0v/Q
-         pKTjKsUdqKeUlG/5ySoEX/F9fvdzQb5CORRaL3EvWM8/qETcNr3x4QoqLZRGqq4LrIni
-         lK1so+3kDVD3FDOZhoBWyrszAfi7h4qy6x1YLVtx1+Je23sdG2nC2P3mrcGF2jdwX61/
-         FMMyNrtECSb5a6PwcATAAWJLVf2ZCTFJCN52sxFYxequQqIB8zfFXFpKMh4PU+k1S85K
-         zxww==
-X-Gm-Message-State: AOAM5337E2Zb30KySZafsdL/4TJM7tzkhJEfxxNE+7Q1w/PDynhKSXZl
-        idaGkDyPv226WcO86JToURPfjw==
-X-Google-Smtp-Source: ABdhPJxsVUfr3DZLp2Gh7FRSChhAJlPPexeSjbdhob6/sk140ihZIXopzA3J7Zp+4xfpjlTSOU6Fyg==
-X-Received: by 2002:a5d:4a49:: with SMTP id v9mr34943739wrs.153.1600345599608;
-        Thu, 17 Sep 2020 05:26:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id u186sm10458866wmu.34.2020.09.17.05.26.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 05:26:38 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 14:26:36 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     christian.koenig@amd.com
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Linux MM <linux-mm@kvack.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
-Message-ID: <20200917122636.GW438822@phenom.ffwll.local>
-Mail-Followup-To: christian.koenig@amd.com, Jason Gunthorpe <jgg@ziepe.ca>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-References: <8db2474f-ecb7-0e17-5f5b-145708fe44d5@amd.com>
- <CAKMK7uFdwrT3HACPh3ADAKvhXJ-Hf3dExZmgJVAQ1KKjSai_0w@mail.gmail.com>
- <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
- <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
- <8d8693db-a3f0-4f5f-3e32-57d23ca620f8@amd.com>
- <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
- <20200917113110.GE8409@ziepe.ca>
- <6fd74b84-959c-8b3b-c27b-e9fbf66396c7@gmail.com>
- <20200917121858.GF8409@ziepe.ca>
- <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
+        id S1726992AbgIQMgu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 08:36:50 -0400
+Received: from mga12.intel.com ([192.55.52.136]:17406 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726589AbgIQMgH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 08:36:07 -0400
+X-Greylist: delayed 501 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 08:35:56 EDT
+IronPort-SDR: fd79BEHzpQKWVRy46I/7xhpDdyTgT5OGwJGtXBSiHszomggQzvHZLQybBGDqZKdWAOpB8zwKzw
+ w8dTuZWx4O4A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="139188102"
+X-IronPort-AV: E=Sophos;i="5.76,436,1592895600"; 
+   d="scan'208";a="139188102"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 05:25:37 -0700
+IronPort-SDR: jMwGTc1ljHPuFBxuAjHrcoVSsWcREA7H6qljjXAyITclEhlpWZmxmCgo2Qt68QLHzh5nWtxjLw
+ hwXWkcDrbg+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,436,1592895600"; 
+   d="scan'208";a="336395898"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 17 Sep 2020 05:25:33 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kIsyf-00HK03-ST; Thu, 17 Sep 2020 15:25:29 +0300
+Date:   Thu, 17 Sep 2020 15:25:29 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        devel@driverdev.osuosl.org, robh@kernel.org,
+        jorhand@linux.microsoft.com, linux-media@vger.kernel.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        kieran.bingham@ideasonboard.com, kitakar@gmail.com,
+        bingbu.cao@intel.com, mchehab@kernel.org, davem@davemloft.net,
+        tian.shu.qiu@intel.com, yong.zhi@intel.com
+Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
+ via software nodes on ACPI platforms
+Message-ID: <20200917122529.GJ3956970@smile.fi.intel.com>
+References: <20200916213618.8003-1-djrscally@gmail.com>
+ <20200917103343.GW26842@paasikivi.fi.intel.com>
+ <20200917104941.GP4282@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200917104941.GP4282@kadam>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 02:24:29PM +0200, Christian König wrote:
-> Am 17.09.20 um 14:18 schrieb Jason Gunthorpe:
-> > On Thu, Sep 17, 2020 at 02:03:48PM +0200, Christian König wrote:
-> > > Am 17.09.20 um 13:31 schrieb Jason Gunthorpe:
-> > > > On Thu, Sep 17, 2020 at 10:09:12AM +0200, Daniel Vetter wrote:
-> > > > 
-> > > > > Yeah, but it doesn't work when forwarding from the drm chardev to the
-> > > > > dma-buf on the importer side, since you'd need a ton of different
-> > > > > address spaces. And you still rely on the core code picking up your
-> > > > > pgoff mangling, which feels about as risky to me as the vma file
-> > > > > pointer wrangling - if it's not consistently applied the reverse map
-> > > > > is toast and unmap_mapping_range doesn't work correctly for our needs.
-> > > > I would think the pgoff has to be translated at the same time the
-> > > > vm->vm_file is changed?
-> > > > 
-> > > > The owner of the dma_buf should have one virtual address space and FD,
-> > > > all its dma bufs should be linked to it, and all pgoffs translated to
-> > > > that space.
-> > > Yeah, that is exactly like amdgpu is doing it.
-> > > 
-> > > Going to document that somehow when I'm done with TTM cleanups.
-> > BTW, while people are looking at this, is there a way to go from a VMA
-> > to a dma_buf that owns it?
-> 
-> Only a driver specific one.
-> 
-> For TTM drivers vma->vm_private_data points to the buffer object. Not sure
-> about the drivers using GEM only.
+On Thu, Sep 17, 2020 at 01:49:41PM +0300, Dan Carpenter wrote:
+> On Thu, Sep 17, 2020 at 01:33:43PM +0300, Sakari Ailus wrote:
 
-For gem drivers (which includes the ones using vram helpers, which uses
-ttm internally) that points at the drm_gem_object pointer. I guess that
-might be something we can unify a bit on the ttm mmap paths of the
-remaining driver, now that there's a drm_gem_object embedded anyway.
--Daniel
-
-> 
-> Why are you asking?
-> 
-> Regards,
-> Christian.
-> 
+> > > +	int i, ret;
 > > 
-> > Jason
-> > _______________________________________________
-> > Linaro-mm-sig mailing list
-> > Linaro-mm-sig@lists.linaro.org
-> > https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
+> > unsigned int i
+> > 
 > 
+> Why?
+> 
+> For list iterators then "int i;" is best...  For sizes then unsigned is
+> sometimes best.  Or if it's part of the hardware spec or network spec
+> unsigned is best.  Otherwise unsigned variables cause a ton of bugs.
+> They're not as intuitive as signed variables.  Imagine if there is an
+> error in this loop and you want to unwind.  With a signed variable you
+> can do:
+> 
+> 	while (--i >= 0)
+> 		cleanup(&bridge.sensors[i]);
+
+Ha-ha. It's actually a counter argument to your stuff because above is the same as
+
+	while (i--)
+		cleanup(&bridge.sensors[i]);
+
+with pretty much unsigned int i.
+
+> There are very few times where raising the type maximum from 2 billion
+> to 4 billion fixes anything.
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+With Best Regards,
+Andy Shevchenko
+
+
