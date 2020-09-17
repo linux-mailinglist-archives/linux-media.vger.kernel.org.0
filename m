@@ -2,285 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD1DE26E001
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 17:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE78E26E042
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 18:07:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728257AbgIQPsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 11:48:40 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:39421 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728202AbgIQPr2 (ORCPT
+        id S1728170AbgIQQGr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 12:06:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45416 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728289AbgIQQDU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 11:47:28 -0400
-Received: from threadripper.lan ([149.172.98.151]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MofLl-1kpZtS1V17-00p6vM; Thu, 17 Sep 2020 17:28:27 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     linux-media@vger.kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
-Cc:     hch@lst.de, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH 8/8] media: v4l2: remove remaining compat_ioctl
-Date:   Thu, 17 Sep 2020 17:28:23 +0200
-Message-Id: <20200917152823.1241599-9-arnd@arndb.de>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200917152823.1241599-1-arnd@arndb.de>
-References: <20200917152823.1241599-1-arnd@arndb.de>
+        Thu, 17 Sep 2020 12:03:20 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FA3C06178A
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 08:37:14 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id g10so2290738otq.9
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 08:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ZKdwGNTuB7raHchRws1uZpYC5kiBgIgkW7sRbNdes8U=;
+        b=ISCJ5Tw66UvgaeWJoGMvoGpBgdi+Pvh73WzxPCKZycvbr4Kw5zYOwmcCQjHLfF+3da
+         CYy+53x/nyxrzX0KXw6ljYFdDcKO3M9i08qHW5NqtLtlz6ZhbasQ8xieyUjx4qmoUfzZ
+         Zbi23eh19F5Vb4GtV/XcziMcnv0MJy1iuV014=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZKdwGNTuB7raHchRws1uZpYC5kiBgIgkW7sRbNdes8U=;
+        b=gF8xeN8jdLV177AGSQkPCLAg/TuzmTerWT4vUbXK5Wmuv5kRytadQKfBXeYu8mmzqG
+         g6u/24cvdzOXeGGT43ApG0RjMoyZZKQZZWMeOZwnYxqH/MdSY0o66SWdAxfh6ySwKNIU
+         tBgFB+Db7x/kOtrK+Fx0cymz6ujSQ0mtQPYZzMqCZiWWmqJCli+ahnoRg8cwfAvZ1rS+
+         yAy+/LN2WPGRn7GMBxlhx5pmawRAvyWjH1LrI0Plctjo6OxdPMAFWAZPXG/0H/vGtmug
+         dGQgXoH1hPDWlAyG+b/mO78Be2KkppRYdiKnvvs+Dm4EPqdy5lfFEcaXyJjCiM3pvN7i
+         hM5A==
+X-Gm-Message-State: AOAM532TYjjjincGKQskr9vmQEIOoTVRCd45aJ5O29a71p0vShUIfDCz
+        nW/vDhvKyCh8DevftPDQFIplgW/vJiEkI5TloxChbw==
+X-Google-Smtp-Source: ABdhPJzGgOa/Oz2wRUro/hKXS9FrrveYmtnBfxpRy+S4Y7u9DCAavZtFsw1BfFfAu8kbrs7cNgN2/BHLCGrXvdc8BOY=
+X-Received: by 2002:a05:6830:14d9:: with SMTP id t25mr21146655otq.188.1600357033519;
+ Thu, 17 Sep 2020 08:37:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:UQpH7xxfSoMMzvGWVdvSYJYU9cfRwA4DwM036Ag1uPjtdysQR+6
- lUDv/ndkjiR5iamA3bhW2mMdNOiaAvZE6++dDA90Na2xOrhmRQWEE8x/R0ZK9uKcOxNtTec
- WACZ8MI5/05qJKwjicfrZngoW1lDCmMhen2IhxmTP/Mz1nMr5CKa8yJMQfrvADmuuhaC+sU
- mpjv+su0XBoYgmAU2C7Aw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yUGd2r36ygE=:2P76FWdRQus0ot6UjuXD0h
- wCaLg8Ud0ioyDQJtGKD9/T6klNz38NtPvuagaTPYu7Xugq7GC1uzjGwywUf799uN/PfnRc+d5
- Ua4gEVs7HadKZt69cWerEewnNbdDwaAZPbyKOGTiUXjIDJ8xCbuUWN7cg0qnAEDFgueiGl8WM
- WlAqMxXtpFflRKfHV7RrSf0q38p15eXXuMMwTWmJwxmDUCfZdihD+XmZWAXVLEG/SX2Y/FmM9
- TItvcmIjNmiFt3M0XN1NbV9jrkTPhjSjUCIfG15NJTH2X7fHtv0eokiBeLdpnPMlfmSQ57hnB
- 8zG/FmuV6gtvRr/HpcYdwPrKKVRmPT3PA0wqzxaEGJ/uRtv++ZmmcLBorWjAPg+AEsoHX8fE9
- VtG4NPSKTvbx7gHTKrSHjMIqE+jP2YH/ZgT6FWQsZXfT+sSem8LEzHELvC7AWSLlBr1sHBH4A
- D8xMW25crcAVaiqWwF0wLMpj4RuwCCxTb0ko30BJHYBKXgq4F/JzCIzTiN5IdpEylkveCn2CY
- 8xbGW1M/wzISCgUY46vnbYqzBi2mrI100dTeJSQifR6hmhUZbQeCmpThzzwGqExUR4coxDgwM
- LomZMSvFlVfK8qBLY5t3ZoFmc3q6gFcF2NFr2v741fTC4UPHPUErcMYzyXyQom4/+kIiuK7Gx
- e3pseqYMlzn7bLATWCP+udzQuQGIzYwSHlWbJ0uJsa1jHE2QywYebvEpPJmBeySrAbu0DzVXZ
- WJR3NQ4k+m76jxW+aYm7zqgWzq2uw0i6diuMmcxLo6ntUlglzgmywVbvbZgaHYEKEpZINZKNG
- rZgkSnkYuX9FaG0tSNxs0c2VQI/Zt2doXtGst5t6CJv2I9FDPjalI6011IwCu/id7vRfGn8
+References: <aa953b09-53b1-104b-dc4b-156ad8a75e62@gmail.com>
+ <CAKMK7uHJNRzCJfWVSmMrLmGXE0qo+OCXiMd+zPTOkeG2pnVrmQ@mail.gmail.com>
+ <8d8693db-a3f0-4f5f-3e32-57d23ca620f8@amd.com> <CAKMK7uE=UqZD3PVC8XZAXrgGH-VsUF_-YQD3MLV8KK1kpxO4yQ@mail.gmail.com>
+ <20200917113110.GE8409@ziepe.ca> <6fd74b84-959c-8b3b-c27b-e9fbf66396c7@gmail.com>
+ <20200917121858.GF8409@ziepe.ca> <d82f08ee-2dec-18e8-fb06-d26f18ed777a@gmail.com>
+ <20200917143551.GG8409@ziepe.ca> <5b330920-c789-fac7-e9b1-49f3bc1097a8@gmail.com>
+ <20200917152456.GH8409@ziepe.ca>
+In-Reply-To: <20200917152456.GH8409@ziepe.ca>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Thu, 17 Sep 2020 17:37:01 +0200
+Message-ID: <CAKMK7uHQLAHXC_aBZZco0e3tbAqnNuW8QdJk=-V-yM2khw5e=Q@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Changing vma->vm_file in dma_buf_mmap()
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Linux MM <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are no remaining conversions in v4l2_compat_ioctl32(),
-so all the infrastructure for it can be removed, with the
-only remaining bit being the compat_ioctl32() callback into
-drivers that implement their own incompatible data structures.
+On Thu, Sep 17, 2020 at 5:24 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Thu, Sep 17, 2020 at 04:54:44PM +0200, Christian K=C3=B6nig wrote:
+> > Am 17.09.20 um 16:35 schrieb Jason Gunthorpe:
+> > > On Thu, Sep 17, 2020 at 02:24:29PM +0200, Christian K=C3=B6nig wrote:
+> > > > Am 17.09.20 um 14:18 schrieb Jason Gunthorpe:
+> > > > > On Thu, Sep 17, 2020 at 02:03:48PM +0200, Christian K=C3=B6nig wr=
+ote:
+> > > > > > Am 17.09.20 um 13:31 schrieb Jason Gunthorpe:
+> > > > > > > On Thu, Sep 17, 2020 at 10:09:12AM +0200, Daniel Vetter wrote=
+:
+> > > > > > >
+> > > > > > > > Yeah, but it doesn't work when forwarding from the drm char=
+dev to the
+> > > > > > > > dma-buf on the importer side, since you'd need a ton of dif=
+ferent
+> > > > > > > > address spaces. And you still rely on the core code picking=
+ up your
+> > > > > > > > pgoff mangling, which feels about as risky to me as the vma=
+ file
+> > > > > > > > pointer wrangling - if it's not consistently applied the re=
+verse map
+> > > > > > > > is toast and unmap_mapping_range doesn't work correctly for=
+ our needs.
+> > > > > > > I would think the pgoff has to be translated at the same time=
+ the
+> > > > > > > vm->vm_file is changed?
+> > > > > > >
+> > > > > > > The owner of the dma_buf should have one virtual address spac=
+e and FD,
+> > > > > > > all its dma bufs should be linked to it, and all pgoffs trans=
+lated to
+> > > > > > > that space.
+> > > > > > Yeah, that is exactly like amdgpu is doing it.
+> > > > > >
+> > > > > > Going to document that somehow when I'm done with TTM cleanups.
+> > > > > BTW, while people are looking at this, is there a way to go from =
+a VMA
+> > > > > to a dma_buf that owns it?
+> > > > Only a driver specific one.
+> > > Sounds OK
+> > >
+> > > > For TTM drivers vma->vm_private_data points to the buffer object. N=
+ot sure
+> > > > about the drivers using GEM only.
+> > > Why are drivers in control of the vma? I would think dma_buf should b=
+e
+> > > the vma owner. IIRC module lifetime correctness essentially hings on
+> > > the module owner of the struct file
+> >
+> > Because the page fault handling is completely driver specific.
+> >
+> > We could install some DMA-buf vmops, but that would just be another lay=
+er of
+> > redirection.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 197 +-----------------
- 1 file changed, 2 insertions(+), 195 deletions(-)
+Uh geez I didn't know amdgpu was doing that :-/
 
-diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-index 1d0315d09f6a..22c4349ff43d 100644
---- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-+++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-@@ -23,103 +23,6 @@
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-ioctl.h>
- 
--/**
-- * assign_in_user() - Copy from one __user var to another one
-- *
-- * @to: __user var where data will be stored
-- * @from: __user var where data will be retrieved.
-- *
-- * As this code very often needs to allocate userspace memory, it is easier
-- * to have a macro that will do both get_user() and put_user() at once.
-- *
-- * This function complements the macros defined at asm-generic/uaccess.h.
-- * It uses the same argument order as copy_in_user()
-- */
--#define assign_in_user(to, from)					\
--({									\
--	typeof(*from) __assign_tmp;					\
--									\
--	get_user(__assign_tmp, from) || put_user(__assign_tmp, to);	\
--})
--
--/**
-- * get_user_cast() - Stores at a kernelspace local var the contents from a
-- *		pointer with userspace data that is not tagged with __user.
-- *
-- * @__x: var where data will be stored
-- * @__ptr: var where data will be retrieved.
-- *
-- * Sometimes we need to declare a pointer without __user because it
-- * comes from a pointer struct field that will be retrieved from userspace
-- * by the 64-bit native ioctl handler. This function ensures that the
-- * @__ptr will be cast to __user before calling get_user() in order to
-- * avoid warnings with static code analyzers like smatch.
-- */
--#define get_user_cast(__x, __ptr)					\
--({									\
--	get_user(__x, (typeof(*__ptr) __user *)(__ptr));		\
--})
--
--/**
-- * put_user_force() - Stores the contents of a kernelspace local var
-- *		      into a userspace pointer, removing any __user cast.
-- *
-- * @__x: var where data will be stored
-- * @__ptr: var where data will be retrieved.
-- *
-- * Sometimes we need to remove the __user attribute from some data,
-- * by passing the __force macro. This function ensures that the
-- * @__ptr will be cast with __force before calling put_user(), in order to
-- * avoid warnings with static code analyzers like smatch.
-- */
--#define put_user_force(__x, __ptr)					\
--({									\
--	put_user((typeof(*__x) __force *)(__x), __ptr);			\
--})
--
--/**
-- * assign_in_user_cast() - Copy from one __user var to another one
-- *
-- * @to: __user var where data will be stored
-- * @from: var where data will be retrieved that needs to be cast to __user.
-- *
-- * As this code very often needs to allocate userspace memory, it is easier
-- * to have a macro that will do both get_user_cast() and put_user() at once.
-- *
-- * This function should be used instead of assign_in_user() when the @from
-- * variable was not declared as __user. See get_user_cast() for more details.
-- *
-- * This function complements the macros defined at asm-generic/uaccess.h.
-- * It uses the same argument order as copy_in_user()
-- */
--#define assign_in_user_cast(to, from)					\
--({									\
--	typeof(*from) __assign_tmp;					\
--									\
--	get_user_cast(__assign_tmp, from) || put_user(__assign_tmp, to);\
--})
--
--/**
-- * native_ioctl - Ancillary function that calls the native 64 bits ioctl
-- * handler.
-- *
-- * @file: pointer to &struct file with the file handler
-- * @cmd: ioctl to be called
-- * @arg: arguments passed from/to the ioctl handler
-- *
-- * This function calls the native ioctl handler at v4l2-dev, e. g. v4l2_ioctl()
-- */
--static long native_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
--{
--	long ret = -ENOIOCTLCMD;
--
--	if (file->f_op->unlocked_ioctl)
--		ret = file->f_op->unlocked_ioctl(file, cmd, arg);
--
--	return ret;
--}
--
--
- /*
-  * Per-ioctl data copy handlers.
-  *
-@@ -1310,103 +1213,6 @@ int v4l2_compat_put_array_args(struct file *file, void __user *user_ptr,
- 	return err;
- }
- 
--
--/**
-- * alloc_userspace() - Allocates a 64-bits userspace pointer compatible
-- *	for calling the native 64-bits version of an ioctl.
-- *
-- * @size:	size of the structure itself to be allocated.
-- * @aux_space:	extra size needed to store "extra" data, e.g. space for
-- *		other __user data that is pointed to fields inside the
-- *		structure.
-- * @new_p64:	pointer to a pointer to be filled with the allocated struct.
-- *
-- * Return:
-- *
-- * if it can't allocate memory, either -ENOMEM or -EFAULT will be returned.
-- * Zero otherwise.
-- */
--static int alloc_userspace(unsigned int size, u32 aux_space,
--			   void __user **new_p64)
--{
--	*new_p64 = compat_alloc_user_space(size + aux_space);
--	if (!*new_p64)
--		return -ENOMEM;
--	if (clear_user(*new_p64, size))
--		return -EFAULT;
--	return 0;
--}
--
--/**
-- * do_video_ioctl() - Ancillary function with handles a compat32 ioctl call
-- *
-- * @file: pointer to &struct file with the file handler
-- * @cmd: ioctl to be called
-- * @arg: arguments passed from/to the ioctl handler
-- *
-- * This function is called when a 32 bits application calls a V4L2 ioctl
-- * and the Kernel is compiled with 64 bits.
-- *
-- * This function is called by v4l2_compat_ioctl32() when the function is
-- * not private to some specific driver.
-- *
-- * It converts a 32-bits struct into a 64 bits one, calls the native 64-bits
-- * ioctl handler and fills back the 32-bits struct with the results of the
-- * native call.
-- */
--static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
--{
--	void __user *p32 = compat_ptr(arg);
--	void __user *new_p64 = NULL;
--	void __user *aux_buf;
--	u32 aux_space;
--	int compatible_arg = 1;
--	long err = 0;
--	unsigned int ncmd;
--
--	/*
--	 * 1. When struct size is different, converts the command.
--	 */
--	switch (cmd) {
--	default: ncmd = cmd; break;
--	}
--
--	/*
--	 * 2. Allocates a 64-bits userspace pointer to store the
--	 * values of the ioctl and copy data from the 32-bits __user
--	 * argument into it.
--	 */
--	switch (cmd) {
--	}
--	if (err)
--		return err;
--
--	/*
--	 * 3. Calls the native 64-bits ioctl handler.
--	 *
--	 * For the functions where a conversion was not needed,
--	 * compatible_arg is true, and it will call it with the arguments
--	 * provided by userspace and stored at @p32 var.
--	 *
--	 * Otherwise, it will pass the newly allocated @new_p64 argument.
--	 */
--	if (compatible_arg)
--		err = native_ioctl(file, ncmd, (unsigned long)p32);
--	else
--		err = native_ioctl(file, ncmd, (unsigned long)new_p64);
--
--	if (err == -ENOTTY)
--		return err;
--
--	/*
--	 * 5. Copy the data returned at the 64 bits userspace pointer to
--	 * the original 32 bits structure.
--	 */
--	switch (cmd) {
--	}
--	return err;
--}
--
- /**
-  * v4l2_compat_ioctl32() - Handles a compat32 ioctl call
-  *
-@@ -1430,7 +1236,8 @@ long v4l2_compat_ioctl32(struct file *file, unsigned int cmd, unsigned long arg)
- 		return ret;
- 
- 	if (_IOC_TYPE(cmd) == 'V' && _IOC_NR(cmd) < BASE_VIDIOC_PRIVATE)
--		ret = do_video_ioctl(file, cmd, arg);
-+		ret = file->f_op->unlocked_ioctl(file, cmd,
-+					(unsigned long)compat_ptr(arg));
- 	else if (vdev->fops->compat_ioctl32)
- 		ret = vdev->fops->compat_ioctl32(file, cmd, arg);
- 
--- 
-2.27.0
+Since this is on, I guess the inverse of trying to convert a userptr
+into a dma-buf is properly rejected?
 
+> If it is already taking a page fault I'm not sure the extra function
+> call indirection is going to be a big deal. Having a uniform VMA
+> sounds saner than every driver custom rolling something.
+>
+> When I unwound a similar mess in RDMA all the custom VMA stuff in the
+> drivers turned out to be generally buggy, at least.
+>
+> Is vma->vm_file->private_data universally a dma_buf pointer at least?
+
+Nope. I think if you want this without some large scale rewrite of a
+lot of code we'd need a vmops->get_dmabuf or similar. Not pretty, but
+would get the job done.
+
+> > > So, user VA -> find_vma -> dma_buf object -> dma_buf operations on th=
+e
+> > > memory it represents
+> >
+> > Ah, yes we are already doing this in amdgpu as well. But only for DMA-b=
+ufs
+> > or more generally buffers which are mmaped by this driver instance.
+>
+> So there is no general dma_buf service? That is a real bummer
+
+Mostly historical reasons and "it's complicated". One problem is that
+dma-buf isn't a powerful enough interface that drivers could use it
+for all their native objects, e.g. userptr doesn't pass through it,
+and clever cache flushing tricks aren't allowed and a bunch of other
+things. So there's some serious roadblocks before we could have a
+common allocator (or set of allocators) behind dma-buf.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
