@@ -2,29 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4BC226E16B
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 18:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23BBF26E188
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 19:00:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728693AbgIQQ5m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 12:57:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36996 "EHLO mail.kernel.org"
+        id S1728840AbgIQRAB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 13:00:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41938 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727667AbgIQQ5M (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 12:57:12 -0400
-Received: from kozik-lap.mshome.net (unknown [194.230.155.191])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1728836AbgIQQ7v (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 12:59:51 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7E0292220E;
-        Thu, 17 Sep 2020 16:56:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 045672064B;
+        Thu, 17 Sep 2020 16:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600361815;
-        bh=3CcSAgmJymqX4erpPOGNuiR94tStAH1tIhGienjiYwc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ehh/IOcVlyp+UzApCJd2uZjTnmaJ85CG1bFw5Xp5VD6lgKUEw8ObK1OdLXYqAxsAI
-         /FQXYjYHs/evznTntqzPiI+ybw3MYVG6jh3P53c2dKcURoHyEflt5A0qgMIexJ4Coz
-         hWB1F8aIxFFehtu2IMK2+HseBdDD+lc6ZKAlu6is=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        s=default; t=1600361991;
+        bh=GrVLcLTzWbHaOqc8yOe5ZOBLBJsBrKi9IQirWn1MN9c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZeOcTkKfqTfSKxXLPMixk2hmhneSDyakuPt4w8Nampx1mtSc0kRuAHpEFutfAxfY7
+         uIcrH0fSHivfjQgniTmymU64XQGk65j8QkFpmgsST5k8t5jZp0BXNXEQJ8EDfj7rEC
+         uvl3hrkXmj1YC296VtKaBpVAkLsbX1Fr+UuPWAV0=
+Date:   Thu, 17 Sep 2020 17:59:01 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Rob Herring <robh+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
         Scott Branden <sbranden@broadcom.com>,
@@ -45,7 +47,7 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Charles Keepax <ckeepax@opensource.cirrus.com>,
@@ -53,13 +55,12 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
         Lee Jones <lee.jones@linaro.org>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@st.com>,
-        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
         Maxime Ripard <mripard@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
         Chris Packham <chris.packham@alliedtelesis.co.nz>,
         Anson Huang <Anson.Huang@nxp.com>,
         Sungbo Eo <mans0n@gorani.run>, Stefan Agner <stefan@agner.ch>,
@@ -85,37 +86,46 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v2 12/13] arm64: dts: imx8mq-librem5: align GPIO hog names with dtschema
-Date:   Thu, 17 Sep 2020 18:53:00 +0200
-Message-Id: <20200917165301.23100-13-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200917165301.23100-1-krzk@kernel.org>
+Subject: Re: [PATCH v2 10/13] ASoC: dt-bindings: zl38060: include common
+ schema in GPIO controllers
+Message-ID: <20200917165901.GH4755@sirena.org.uk>
 References: <20200917165301.23100-1-krzk@kernel.org>
+ <20200917165301.23100-11-krzk@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="AqCDj3hiknadvR6t"
+Content-Disposition: inline
+In-Reply-To: <20200917165301.23100-11-krzk@kernel.org>
+X-Cookie: If you fail to plan, plan to fail.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dtschema expects GPIO hogs to end with 'hog' suffix.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--AqCDj3hiknadvR6t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-index e4dedcb58f76..6cbcee2fb938 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-@@ -249,7 +249,7 @@
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_pmic_5v>;
- 
--	pmic-5v {
-+	pmic-5v-hog {
- 		gpio-hog;
- 		gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
- 		input;
--- 
-2.17.1
+On Thu, Sep 17, 2020 at 06:52:58PM +0200, Krzysztof Kozlowski wrote:
+> Include the common GPIO schema in GPIO controllers to be sure all common
+> properties are properly validated.
 
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--AqCDj3hiknadvR6t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl9jldQACgkQJNaLcl1U
+h9DvjAf/SUwcEnnEwBpfQ63szoqKB0GpzaO3m5BAaJb0bUIPA2VN3awzEjKnCovc
+fnUtwtxB7sjJgRZ5gqdC1FNzT56AaSO0d+KKyFzSO5scq0339MN8F5OrqPApPq6D
+5872VVvT+IHmDr9xk600vkkUzeHS7IWMLec5m5mgf64tw4D/63P/c+0XsEzFIm70
+wV059r8k53Bv6vk1vXKp1cRIcJwaHgej9et7G/ms3/8qDIvU7hMudfagtpokCskS
+AqN20HMVJ+ba+DZquq3w6ZRuE8ZhUhO6HDER8/irW05k7k2i6eowlzrx7W7mX5xL
+oo7u9xyoVEIXan4nPqjiWMHo+uy81g==
+=PMAQ
+-----END PGP SIGNATURE-----
+
+--AqCDj3hiknadvR6t--
