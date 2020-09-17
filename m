@@ -2,106 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F29FA26D9A3
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 12:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 724AF26D9E5
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 13:10:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbgIQKxB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 06:53:01 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:55371 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726733AbgIQKwl (ORCPT
+        id S1726691AbgIQLKy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 07:10:54 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:39598 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726545AbgIQLKj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 06:52:41 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id IrWhkLvj9PTBMIrWiklf2v; Thu, 17 Sep 2020 12:52:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1600339953; bh=qw/vl8krotYox32Fj8B8RS0ag7zOqtWX5XzkNcOM5Ts=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fsmOp7J6jOEoj1Fp3zlv+mGux7q1InNZm8Fsv5DWoQaEG2DsppxlknguCJ5q5g1+D
-         7JUwj8vUULsdLic34JqqtzaZukMA+j8jlyB6UMPJfuj/ag6b0+gHS4z24Pg8omZgjH
-         MCM4YOAstcDe8DmCSbYRLfPPTc26tEG2Ew6vFgWFrYW/n2hkp+av5mk+QCGEvou0Bw
-         fHSc1/NCCAFXgTTR3e2fiSg5YVCp2rbqXnqlUznGfIxbSHYwaeo6cIzB2NeMSAVDp9
-         GWF5ti5jrX0I9WWqADLKfjj5lZmr9Mpmah8+w07vxbmDCONEiext4L7h+/pfEQ8eGQ
-         ajh7a7Q/1jR/g==
-Subject: Re: [PATCH v2 0/2] media: admin-guide: add documentation for rkisp1
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-References: <20200818102703.30471-1-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f696e967-ce1f-e7c1-a74b-ff944332bd67@xs4all.nl>
-Date:   Thu, 17 Sep 2020 12:52:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 17 Sep 2020 07:10:39 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08HADek6162111;
+        Thu, 17 Sep 2020 10:18:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=3kOIuaOxFmA1usT1/RfXqAK09LFS7TujyVumCl5N4AA=;
+ b=QYoG7s2ruCZliRR9mzKOC+bhevipHAZ/AqCoMjOdzh/3Fvv5Ky94wyDgv3SNkYvfvtEB
+ ueuKRR3j9OtXF1gtm2cc0FVdpEzGEL06YqyoSRWd/p3OO/1zaWQccybGAeDFyd14tJcV
+ nKP6ppq+9OSgNwMFnCMXHSg7Mfu+3iJbYlT1A7LujuIgXzVM60EW1dqXNEmgFUgit/ms
+ fUFVZv42ZBzi3QVxODpNicNmtDZu60FVLq4sSgoMY/V2pulBpEz+NksdFgbBMHLA5CiN
+ GDqeqWVAE0nF+7L8vEc3R4bbIEDkyI+ACjze/Y1wi9cAJZeT5xooza1N1NatoQh8Pyha yQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 33gnrr8baj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 17 Sep 2020 10:18:03 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08HAG147131702;
+        Thu, 17 Sep 2020 10:16:03 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 33hm34gwyw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 17 Sep 2020 10:16:03 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08HAFlmY017062;
+        Thu, 17 Sep 2020 10:15:47 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 17 Sep 2020 10:15:47 +0000
+Date:   Thu, 17 Sep 2020 13:15:38 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Dan Scally <djrscally@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, devel@driverdev.osuosl.org,
+        robh@kernel.org, jorhand@linux.microsoft.com,
+        linux-media@vger.kernel.org, kieran.bingham@ideasonboard.com,
+        linux-kernel@vger.kernel.org, kitakar@gmail.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        mchehab@kernel.org, davem@davemloft.net, tian.shu.qiu@intel.com,
+        yong.zhi@intel.com
+Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
+ via software nodes on ACPI platforms
+Message-ID: <20200917101538.GO4282@kadam>
+References: <20200916213618.8003-1-djrscally@gmail.com>
+ <20200917075356.GA3333802@kroah.com>
+ <d97fb93f-5258-b654-3063-863e81ae7298@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200818102703.30471-1-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCD1jy65PS+kTyhgcDApxcAWIaqzTC3CujAyf+wkJsmV1Dkr1xXrWXZlc/hzJ9mJbxT4mmYcy62qWLrozHjply7yAEuyYn9AXHw3+YvuCq0bjFzA8X7C
- kk22Gfdsw/io3AIvKqLEPpr+hfsmERteyi+aSKdlLFi/+3rMGXFv88N0uT/SWvNKQqpE70kI1kiYgpW6VW4cWqxYTLHMxfW3WejcdAEZOiXMRbMGZmGhWQbX
- ckc+mhUeGfYCKFdAWm7/TJ1ZIlMYqlmSFJWl7aLvnOxfOAk//7qHP86JCDooyAZIuVrLDu4OlaiWCDwSpEiGqCC+FGVz76hH5OMg74qS0Kt1UdGdAsHAW0tH
- dzoaqLPgpZcEpI8mjja2hCIOH2Dn9Ad9WPTIffh8mxow17aCFc1/qxqj3TKj8iBKkp113Z3psxaZNx/sWkpOfrTflJpFqFGE1xYYwAKh2T6SkuzitJvduuZ9
- q8d+n4VZBZpZyLv8KxS4kwxrOhrChzu87FpSeaLDVLYVakOLlhpkLvMRbZsBjjPb3Nq/hJmjvGi3Xqa/6BpAykStbJT4OcXKPmqz4GADPfxLRL2ve7iM9XLk
- qhfHN/FhML7NSD25i15tdRlZHVXqU5/DCmoQw/Vy47n02OI8GHoOy7KHuJi2u3YM8cY=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d97fb93f-5258-b654-3063-863e81ae7298@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9746 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxlogscore=999
+ malwarescore=0 mlxscore=0 phishscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009170077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9746 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ clxscore=1015 mlxlogscore=999 adultscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009170077
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/08/2020 12:27, Dafna Hirschfeld wrote:
-> Two patches that document the rkisp1 driver in the Documentation
-> directory.
-> 
-> patch 1 adds documentation to the specific metadata formats
-> used by the driver.
-> 
-> patch 2 adds a documentation of the driver.
-> 
-> The documentation assumes that the patchsets:
-> 
-> "v4l2: add support for colorspace conversion API (CSC) for video capture and subdevices"
-> https://patchwork.kernel.org/project/linux-media/list/?series=334393
-> 
-> "media: staging: rkisp1: add support to V4L2_CAP_IO_MC"
-> https://patchwork.kernel.org/cover/11680993/
+On Thu, Sep 17, 2020 at 10:47:50AM +0100, Dan Scally wrote:
+> Hi Greg - thanks for the comments, appreciate it (sorry there's so many,
+> I'm new to both C and kernel work)
 
-The MAINTAINERS file needs to be updated for these new doc files. Just post a new patch for
-this, no need for a v3.
+It's pretty impressive work if you're new to C...
 
-Regards,
+> >
+> >> +			return;
+> > No error value?
+> The prototype for sync_state callbacks is to return void, so my
+> understanding is it can't return an error value.  I guess a better thing
+> to do might be call another function performing cleanup and unloading
+> the driver before the return or something along those lines though.
 
-	Hans
+Yeah.  I suspect you should be using a different callback instead of
+->sync_state() but I don't know what... :/
 
-> 
-> were accepted and it documents the features that those patchsets add.
-> 
-> changes from v1:
-> ----------------
-> - limit lines within 80 chars
-> - rephrasing and fixing issues due to comments
-> 
-> Dafna Hirschfeld (2):
->   media: pixfmt-meta-rkisp1.rst: add description of rkisp1 metadata
->     formats in pixfmt-meta-rkisp1.rst
->   media: admin-guide: add documentation file rkisp1.rst
-> 
->  Documentation/admin-guide/media/rkisp1.dot    |  18 ++
->  Documentation/admin-guide/media/rkisp1.rst    | 181 ++++++++++++++++++
->  .../admin-guide/media/v4l-drivers.rst         |   1 +
->  .../userspace-api/media/v4l/meta-formats.rst  |   1 +
->  .../media/v4l/pixfmt-meta-rkisp1.rst          |  49 +++++
->  .../uapi/v4l/pixfmt-meta-rkisp1-params.rst    |  23 ---
->  .../uapi/v4l/pixfmt-meta-rkisp1-stat.rst      |  22 ---
->  7 files changed, 250 insertions(+), 45 deletions(-)
->  create mode 100644 Documentation/admin-guide/media/rkisp1.dot
->  create mode 100644 Documentation/admin-guide/media/rkisp1.rst
->  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
->  delete mode 100644 drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
->  delete mode 100644 drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
-> 
+regards,
+dan carpenter
 
