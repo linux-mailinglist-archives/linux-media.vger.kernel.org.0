@@ -2,98 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1800826DA82
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 13:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4712626DA91
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 13:43:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726925AbgIQLk5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 07:40:57 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:43285 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726691AbgIQLkj (ORCPT
+        id S1726505AbgIQLnK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 07:43:10 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:53727 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726714AbgIQLnH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 07:40:39 -0400
+        Thu, 17 Sep 2020 07:43:07 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id IsH9kMCCGPTBMIsHCkloTy; Thu, 17 Sep 2020 13:40:35 +0200
+        id IsJ8kMCx8PTBMIsJ9klouK; Thu, 17 Sep 2020 13:42:36 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1600342835; bh=LWVjGac37Swqs1c73RcC4J4x1odUo4b4exvQoq0Xu3M=;
+        t=1600342956; bh=7dj1q32JDBgy/nh+pm/ikTPB2+8KPJ8Yve3Qciq8Qpw=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=fv6CV1vRszVp/PxPhA4beqW+JrLITuQO/EiomFjGrQ03poakdx6CmtVriuZ+0XUrk
-         u1K+Fcqq+yjylU4ANYd44Ws1PCZzctKWy6rlYhJb2lhUkiIsIaTf4xsIEsex7Ijdxd
-         j06O978+KVdQRj22SiWeolRG5FZRcTFJz6R+HywR7Grhmc719jWfSfVixJftq+j/kL
-         LDzcKv6u8A3+CQk4ov25EWAAvuSKHuFeLvEQPBmQ5dfW0cCJbMiS/ZgPnTdWo3j41J
-         IyN2iN+1sAb3VJCJ4sqHPGd9e4JHfl9qLN/MCnsnaQboIODqz0OzXyFTI1IkYT3tGb
-         vJvGMm09WDILw==
-Subject: Re: [PATCH] media: sti: Fix reference count leaks
-To:     Jean-Christophe Trotin <jean-christophe.trotin@st.com>
-Cc:     wu000273@umn.edu, kjlu@umn.edu,
+        b=IzrMRhjlHnOYFzhPh1+7thsXuzsW1ts7Cwabv4GDGIARb/X3qhdk1EDtrHi/a+N2L
+         lTixRyzEiOo/b+nuzTnzTKCkj/J93AFnsFgeOeSMrdu+x95Vbi1CzbscDGSfAxnoD0
+         Ycx2QLRPP5mtfGLyJTpKnzWh7rwh3N+y4Rj4J7gwEJ8i6McJw8mc7rkNtS+84MnNyG
+         Svn/16KwUfxRZzVCq0F0vSIahuPwLefz7QJpx/3ghxW3Ggu4KCB8lqeMkdfkXx6xo7
+         Uad/+QFp44mWyf8siMLDJ2JuLeaUdLmuGpCIQtaC4x/wjGJPzCDagpXH+ffcX3RgfK
+         bwmaaZEYT6rOg==
+Subject: Re: [PATCH] media: mtk-jpeg: Fix a reference count leak.
+To:     wu000273@umn.edu, kjlu@umn.edu
+Cc:     Rick Chang <rick.chang@mediatek.com>,
+        Bin Liu <bin.liu@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200614033106.426-1-wu000273@umn.edu>
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Ricky Liang <jcliang@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20200613230843.14109-1-wu000273@umn.edu>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <013fba3b-2451-855b-08d4-87682464b8bf@xs4all.nl>
-Date:   Thu, 17 Sep 2020 13:40:31 +0200
+Message-ID: <19432e4d-dcc4-5056-17ef-a6d2dd7b6fb4@xs4all.nl>
+Date:   Thu, 17 Sep 2020 13:42:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200614033106.426-1-wu000273@umn.edu>
+In-Reply-To: <20200613230843.14109-1-wu000273@umn.edu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfM3bpFqPR+EtTm5o8+/bnRgoYwp8WzcqUshywS4YzCxfkHkvIriLU0YUDZ63lvtBmLSqBNOuPeZl3bzVVW/BY5dWfsGze81Q3PwM9OPLIDqIA/umFOZ5
- x4kjD1SBMlXwVNfz2mVEC4Wsa2mAkHrra4hMswyGDuGbRe9Dsc2DQlFHKTZvv/AiAx+9+Yx6d/GjwLvfhVTlEm2/2ovQ2NrI28YagBEMIfbRxruBqJTbJCnc
- nSrFsMLc/WAgJuiMdDZX34SrQAcHaI0v2fl5mreVNjRJ1leYJ0qwhZf1jO5uVAj41RIKF/yPBqGqUAStkzjQ3uVlQ8rnpdOoUb5jHNIt1cJNTLkwc3qvPHKH
- uFAztBbMo+xejJiyppBi+PRgISDP1QBvh4nmNoR8UGoCulvNY94VlZcwLZAv8wDlXqqOPnIqESCGru+0P+h03ZaPN76wDg==
+X-CMAE-Envelope: MS4wfJuL7t1rHdW84tT2i/rcyP37zN46fhUoL058G4mjDiCpc1dzY5lcoTLXx9HusSgsaifwP6PIjBuISaAZ+ojG1FafXGdRtu7I7e4kXACzagTcWXDdJ3TK
+ 4Tq91XJm52nrrxrUnpYAVmRUuCZy1S7iP4movC8W6Ipv4c4kEcRuwTa0PXuCtogHXkTXjgG+xGbG6aL7fD0BbEFqLtaMn5VnQPipmVRVMCWfrXKAHwEkZQbf
+ coOfLDhU5gFmonJgeunqbZV7ufinrjxoal13MNFk1fCcUnA10wk6dBf8tawQCzdipJH8W1yRyvrn8qIxP7ilxVbCtOhDPPhG/DMuvwxEpF5b8Vo8AwUcuZ/e
+ sjivz4IRI3G8+uGqxTJYCkoGeJRrr+ZhN+jR7XYGkGGzGr/93Vk2AVmboy/5ewvNFLmTZjjXVSzvoNMRN6N7E5a9B2eIEk3WbfPp41pcag+gAEoUI+6Zo8zW
+ NNvvya1RJJj06++rU9b6E4IJbEY8VRjujiT38/P6fRCUlx60reRstYEJm+Xw2JLZbT+yAkiq5G6Jf1HtvhKsTAZQPF1FRLgnaLtneqzda+ib1cYloCIx/IPP
+ PFlUpFT+XQIZBOGF7BKxhvELyd1iQU+XlIOfhNaIvTfh9cv73O2l0fpIccMaXKkKoVsVvLLU4EeYfA4IP7mE88MntmYLZIaW6ignJfhmOy1uzPPOz+txIT8n
+ ltk8AlI7JtQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jean-Christophe,
-
-I'll take this patch, but while reviewing it I noticed something else:
-
-On 14/06/2020 05:31, wu000273@umn.edu wrote:
+On 14/06/2020 01:08, wu000273@umn.edu wrote:
 > From: Qiushi Wu <wu000273@umn.edu>
 > 
 > pm_runtime_get_sync() increments the runtime PM usage counter even
-> when it returns an error code, causing incorrect ref count if
-> pm_runtime_put_noidle() is not called in error handling paths.
-> Thus call pm_runtime_put_noidle() if pm_runtime_get_sync() fails.
+> when it returns an error code. Thus call pm_runtime_put_noidle()
+> if pm_runtime_get_sync() fails.
 > 
+> Fixes: b2f0d2724ba4 ("[media] vcodec: mediatek: Add Mediatek JPEG Decoder Driver")
 > Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 > ---
->  drivers/media/platform/sti/hva/hva-hw.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/sti/hva/hva-hw.c b/drivers/media/platform/sti/hva/hva-hw.c
-> index 401aaafa1710..bb13348be083 100644
-> --- a/drivers/media/platform/sti/hva/hva-hw.c
-> +++ b/drivers/media/platform/sti/hva/hva-hw.c
-> @@ -272,6 +272,7 @@ static unsigned long int hva_hw_get_ip_version(struct hva_dev *hva)
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> index f82a81a3bdee..097f0b050f67 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> @@ -710,8 +710,10 @@ static int mtk_jpeg_start_streaming(struct vb2_queue *q, unsigned int count)
+>  	int ret = 0;
 >  
->  	if (pm_runtime_get_sync(dev) < 0) {
->  		dev_err(dev, "%s     failed to get pm_runtime\n", HVA_PREFIX);
-> +		pm_runtime_put_noidle(dev);
->  		mutex_unlock(&hva->protect_mutex);
+>  	ret = pm_runtime_get_sync(ctx->jpeg->dev);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		pm_runtime_put_noidle(ctx->jpeg->dev);
+>  		goto err;
+> +	}
+>  
+>  	return 0;
+>  err:
+> 
 
-This appears to be a spurious mutex_unlock() since I don't see a corresponding mutex_lock.
-
-Jean-Christophe, can you check this and, if I am right, post a patch fixing this?
+This patch no longer applies, can you rebase this?
 
 Regards,
 
 	Hans
-
->  		return -EFAULT;
->  	}
-> @@ -553,6 +554,7 @@ void hva_hw_dump_regs(struct hva_dev *hva, struct seq_file *s)
->  
->  	if (pm_runtime_get_sync(dev) < 0) {
->  		seq_puts(s, "Cannot wake up IP\n");
-> +		pm_runtime_put_noidle(dev);
->  		mutex_unlock(&hva->protect_mutex);
->  		return;
->  	}
-> 
-
