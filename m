@@ -2,252 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6C7A26DCB5
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 15:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07F3426DCCC
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 15:29:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727047AbgIQNVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 09:21:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47948 "EHLO
+        id S1726877AbgIQN3n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 09:29:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726956AbgIQNTt (ORCPT
+        with ESMTP id S1726861AbgIQN3j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 09:19:49 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA76DC06178A
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 06:19:47 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id t10so2063397wrv.1
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 06:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=OJz3dROXwZ4H9FjplYiHUh7ta1dm2pPiZx++Qm+gMOk=;
-        b=Ol8zdtYKra8OqwKcXQZPTIzAIAjrxl7EnGA/qptW05V0voGayUZTJ1UOmlJx84mWcm
-         0r1ALbQGydxydvFM37pyuB+FPcNQJYGFXrs30Uy4uBKXsTI9vDopq0psqSt8WIVbv/3m
-         SL42by4B46k89IfXDFWI+V95drUdRSPKiXLkY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=OJz3dROXwZ4H9FjplYiHUh7ta1dm2pPiZx++Qm+gMOk=;
-        b=G1uQufwV5e2Ckv3JpAzD6ZKxl4y+N/Q1Lr9pQ81Ox33dKGwN/eQ130UjHj3ZsE1kBY
-         MeEdDYuspDpC8aR0or7a0ZMRkKPVqsEJbhU+5Ze/h4qGEDjFW2e9azYCZAqmf4zkZ/WH
-         0TCbi4UZGxNPl6FNo5gBQaSbiBkQUL23ZFJjhVSF40YKnHhoHMmZArpv+UflMmqbgG4k
-         AkEr3fQwVjcazRbNoNJXXyYtHKZwyedoPYqXoJqTzIYjSgj2G1MDKAO/zxQrGz8nDdBv
-         iESQ+b83o1mDzpbG21Xt4kAXmEa7ScEDCgfOEmUiZ8DxtvK7HEpU3PCtgBTkxh3JEY2A
-         gVdA==
-X-Gm-Message-State: AOAM531pGNsSmgXV+5OBFRUu8e2oEeSedb5rLVqhZxc2dwrJxDI1hsKd
-        Je1mvSrxmyyKON9NMsZXF4EMxg==
-X-Google-Smtp-Source: ABdhPJwWrq6ZejmimL/ybiemi2sN/GPynbFDqZKwAC87Lkhqkhgx8buF3bHZlQuU+GRDRVJVnJpavA==
-X-Received: by 2002:a5d:6b84:: with SMTP id n4mr34531077wrx.55.1600348785370;
-        Thu, 17 Sep 2020 06:19:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id d2sm39644798wro.34.2020.09.17.06.19.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 06:19:44 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 15:19:42 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Dave Chinner <david@fromorbit.com>, Qian Cai <cai@lca.pw>,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@mellanox.com>,
-        Linux MM <linux-mm@kvack.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH] dma-resv: lockdep-prime address_space->i_mmap_rwsem for
- dma-resv
-Message-ID: <20200917131942.GX438822@phenom.ffwll.local>
-Mail-Followup-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        Dave Chinner <david@fromorbit.com>, Qian Cai <cai@lca.pw>,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@mellanox.com>, Linux MM <linux-mm@kvack.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20200728135839.1035515-1-daniel.vetter@ffwll.ch>
- <38cbc4fb-3a88-47c4-2d6c-4d90f9be42e7@shipmail.org>
- <CAKMK7uFe-70DE5qOBJ6FwD8d_A0yZt+h5bCqA=e9QtYE1qwASQ@mail.gmail.com>
- <60f2b14f-8cef-f515-9cf5-bdbc02d9c63c@shipmail.org>
+        Thu, 17 Sep 2020 09:29:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 376DCC06121C;
+        Thu, 17 Sep 2020 06:28:59 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A61082DB;
+        Thu, 17 Sep 2020 15:28:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600349332;
+        bh=g49hkaQs5f9zSOYdludDm/Rp6CqSBfQ/JScZ2TJMKEg=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=a4EHaqCOdWk0yq0RR4Pd2lyYoUpABoGd1pn2AnB/2kypB3McqnYSv+A2C4fF/c7Xi
+         lgqGkDksr2NTiJViUquQ1QqJcd5Ec0Z+Xc+nFAVPls/ex6oXr5seDtGIkrSQq9bhiN
+         EJ1GUedOF2oCC2LzlZMv7C/7PwnGalf8gOLRFzV4=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
+ via software nodes on ACPI platforms
+To:     Dan Scally <djrscally@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        davem@davemloft.net, robh@kernel.org, devel@driverdev.osuosl.org,
+        jorhand@linux.microsoft.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, kitakar@gmail.com
+References: <20200916213618.8003-1-djrscally@gmail.com>
+ <20200917075356.GA3333802@kroah.com>
+ <d97fb93f-5258-b654-3063-863e81ae7298@gmail.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <53787a36-4473-9336-6719-270930db2735@ideasonboard.com>
+Date:   Thu, 17 Sep 2020 14:28:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <60f2b14f-8cef-f515-9cf5-bdbc02d9c63c@shipmail.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <d97fb93f-5258-b654-3063-863e81ae7298@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 30, 2020 at 06:45:14PM +0200, Thomas Hellström (Intel) wrote:
-> 
-> On 7/30/20 3:17 PM, Daniel Vetter wrote:
-> > On Thu, Jul 30, 2020 at 2:17 PM Thomas Hellström (Intel)
-> > <thomas_os@shipmail.org> wrote:
-> > > 
-> > > On 7/28/20 3:58 PM, Daniel Vetter wrote:
-> > > > GPU drivers need this in their shrinkers, to be able to throw out
-> > > > mmap'ed buffers. Note that we also need dma_resv_lock in shrinkers,
-> > > > but that loop is resolved by trylocking in shrinkers.
-> > > > 
-> > > > So full hierarchy is now (ignore some of the other branches we already
-> > > > have primed):
-> > > > 
-> > > > mmap_read_lock -> dma_resv -> shrinkers -> i_mmap_lock_write
-> > > > 
-> > > > I hope that's not inconsistent with anything mm or fs does, adding
-> > > > relevant people.
-> > > > 
-> > > Looks OK to me. The mapping_dirty_helpers run under the i_mmap_lock, but
-> > > don't allocate any memory AFAICT.
-> > > 
-> > > Since huge page-table-entry splitting may happen under the i_mmap_lock
-> > > from unmap_mapping_range() it might be worth figuring out how new page
-> > > directory pages are allocated, though.
-> > ofc I'm not an mm expert at all, but I did try to scroll through all
-> > i_mmap_lock_write/read callers. Found the following:
-> > 
-> > - kernel/events/uprobes.c in build_map_info:
-> > 
-> >              /*
-> >               * Needs GFP_NOWAIT to avoid i_mmap_rwsem recursion through
-> >               * reclaim. This is optimistic, no harm done if it fails.
-> >               */
-> > 
-> > - I got lost in the hugetlb.c code and couldn't convince myself it's
-> > not allocating page directories at various levels with something else
-> > than GFP_KERNEL.
-> > 
-> > So looks like the recursion is clearly there and known, but the
-> > hugepage code is too complex and flying over my head.
-> > -Daniel
-> 
-> OK, so I inverted your annotation and ran a memory hog, and got the below
-> splat. So clearly your proposed reclaim->i_mmap_lock locking order is an
-> already established one.
-> 
-> So
-> 
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@intel.com>
+Hi Dan, Greg,
 
-No one complaining that this is a terrible idea and two reviews from
-people who know stuff, so I went ahead and pushed this to drm-misc-next.
+On 17/09/2020 10:47, Dan Scally wrote:
+> Hi Greg - thanks for the comments, appreciate it (sorry there's so many,
+> I'm new to both C and kernel work)
+> 
+> On 17/09/2020 08:53, Greg KH wrote:
+>> On Wed, Sep 16, 2020 at 10:36:18PM +0100, Daniel Scally wrote:
+>>>  MAINTAINERS                              |   6 +
+>>>  drivers/media/pci/intel/ipu3/ipu3-cio2.c |  67 +++-
+>> staging drivers should be self-contained, and not modify stuff outside
+>> of drivers/staging/
+>>
+>>>  drivers/staging/media/ipu3/Kconfig       |  15 +
+>>>  drivers/staging/media/ipu3/Makefile      |   1 +
+>>>  drivers/staging/media/ipu3/cio2-bridge.c | 448 +++++++++++++++++++++++
+>> Why does this have to be in drivers/staging/ at all?  Why not spend the
+>> time to fix it up properly and get it merged correctly?  It's a very
+>> small driver, and should be smaller, so it should not be a lot of work
+>> to do.  And it would be faster to do that than to take it through
+>> staging...
+> I was just under the impression that that was the process to be honest,
+> if that's not right I'll just move it directly to drivers/media/ipu3
 
-Thanks for taking a look at this.
--Daniel
+The IPU3 driver is still in staging (unless I've missed something), so I
+think this cio2-bridge should stay with it.
 
-> 
-> 8<---------------------------------------------------------------------------------------------
-> 
-> [  308.324654] WARNING: possible circular locking dependency detected
-> [  308.324655] 5.8.0-rc2+ #16 Not tainted
-> [  308.324656] ------------------------------------------------------
-> [  308.324657] kswapd0/98 is trying to acquire lock:
-> [  308.324658] ffff92a16f758428 (&mapping->i_mmap_rwsem){++++}-{3:3}, at:
-> rmap_walk_file+0x1c0/0x2f0
-> [  308.324663]
->                but task is already holding lock:
-> [  308.324664] ffffffffb0960240 (fs_reclaim){+.+.}-{0:0}, at:
-> __fs_reclaim_acquire+0x5/0x30
-> [  308.324666]
->                which lock already depends on the new lock.
-> 
-> [  308.324667]
->                the existing dependency chain (in reverse order) is:
-> [  308.324667]
->                -> #1 (fs_reclaim){+.+.}-{0:0}:
-> [  308.324670]        fs_reclaim_acquire+0x34/0x40
-> [  308.324672]        dma_resv_lockdep+0x186/0x224
-> [  308.324675]        do_one_initcall+0x5d/0x2c0
-> [  308.324676]        kernel_init_freeable+0x222/0x288
-> [  308.324678]        kernel_init+0xa/0x107
-> [  308.324679]        ret_from_fork+0x1f/0x30
-> [  308.324680]
->                -> #0 (&mapping->i_mmap_rwsem){++++}-{3:3}:
-> [  308.324682]        __lock_acquire+0x119f/0x1fc0
-> [  308.324683]        lock_acquire+0xa4/0x3b0
-> [  308.324685]        down_read+0x2d/0x110
-> [  308.324686]        rmap_walk_file+0x1c0/0x2f0
-> [  308.324687]        page_referenced+0x133/0x150
-> [  308.324689]        shrink_active_list+0x142/0x610
-> [  308.324690]        balance_pgdat+0x229/0x620
-> [  308.324691]        kswapd+0x200/0x470
-> [  308.324693]        kthread+0x11f/0x140
-> [  308.324694]        ret_from_fork+0x1f/0x30
-> [  308.324694]
->                other info that might help us debug this:
-> 
-> [  308.324695]  Possible unsafe locking scenario:
-> 
-> [  308.324695]        CPU0                    CPU1
-> [  308.324696]        ----                    ----
-> [  308.324696]   lock(fs_reclaim);
-> [  308.324697] lock(&mapping->i_mmap_rwsem);
-> [  308.324698]                                lock(fs_reclaim);
-> [  308.324699]   lock(&mapping->i_mmap_rwsem);
-> [  308.324699]
->                 *** DEADLOCK ***
-> 
-> [  308.324700] 1 lock held by kswapd0/98:
-> [  308.324701]  #0: ffffffffb0960240 (fs_reclaim){+.+.}-{0:0}, at:
-> __fs_reclaim_acquire+0x5/0x30
-> [  308.324702]
->                stack backtrace:
-> [  308.324704] CPU: 1 PID: 98 Comm: kswapd0 Not tainted 5.8.0-rc2+ #16
-> [  308.324705] Hardware name: VMware, Inc. VMware Virtual Platform/440BX
-> Desktop Reference Platform, BIOS 6.00 07/29/2019
-> [  308.324706] Call Trace:
-> [  308.324710]  dump_stack+0x92/0xc8
-> [  308.324711]  check_noncircular+0x12d/0x150
-> [  308.324713]  __lock_acquire+0x119f/0x1fc0
-> [  308.324715]  lock_acquire+0xa4/0x3b0
-> [  308.324716]  ? rmap_walk_file+0x1c0/0x2f0
-> [  308.324717]  ? __lock_acquire+0x394/0x1fc0
-> [  308.324719]  down_read+0x2d/0x110
-> [  308.324720]  ? rmap_walk_file+0x1c0/0x2f0
-> [  308.324721]  rmap_walk_file+0x1c0/0x2f0
-> [  308.324722]  page_referenced+0x133/0x150
-> [  308.324724]  ? __page_set_anon_rmap+0x70/0x70
-> [  308.324725]  ? page_get_anon_vma+0x190/0x190
-> [  308.324726]  shrink_active_list+0x142/0x610
-> [  308.324728]  balance_pgdat+0x229/0x620
-> [  308.324730]  kswapd+0x200/0x470
-> [  308.324731]  ? lockdep_hardirqs_on_prepare+0xf5/0x170
-> [  308.324733]  ? finish_wait+0x80/0x80
-> [  308.324734]  ? balance_pgdat+0x620/0x620
-> [  308.324736]  kthread+0x11f/0x140
-> [  308.324737]  ? kthread_create_worker_on_cpu+0x40/0x40
-> [  308.324739]  ret_from_fork+0x1f/0x30
-> 
-> 
-> 
-> > > /Thomas
-> > > 
-> > > 
-> > > 
-> > 
+Hopefully with more users of the IPU3 brought in by this cio2-bridge,
+that will help gather momentum to get the IPU3 developments required
+completed and moved into drivers/media.
+
+<snip>
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards
+--
+Kieran
