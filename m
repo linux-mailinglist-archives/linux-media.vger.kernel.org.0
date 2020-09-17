@@ -2,92 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5573C26D97D
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 12:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D226126D99F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 12:55:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726630AbgIQKsS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 06:48:18 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48535 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726610AbgIQKsP (ORCPT
+        id S1726625AbgIQKwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 06:52:16 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:45190 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726655AbgIQKwL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 06:48:15 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id IrSMkLuDlPTBMIrSOkleDD; Thu, 17 Sep 2020 12:48:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1600339684; bh=AzAB49aVVaUND4YnF8uGNEABBUCnkDFtnbe97Pm7FEk=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=T8+dHuXFrVYK/bRuQqNU6MAvn92BjALGa9VfkkC4tf575dYfWEgxEO3VwPOM2k5rm
-         gcN1Lbfj4HAT9E+jo6kJ6QWX5vIHl8ZNTLDj14lr1Ma5PuvVsdM6lexsUyLSe21PpJ
-         tiRbzPrAFmJe8e5Mvs/Sdf9nq36fx4af2Km4/qZnjRyH83OJbZR/Okv2Qyx12fQYKM
-         30orTBO42M5+R3VguZylzIZ9cvtinVf7hfrqzGwlT8MrJoXNZtYwTxwrjCfVv4AEGk
-         T0kdDK5N59kSWd4P9rsTCwzHtVEW0pvM7j50F4TBohpEX3TQf0XPzrB3QRFNBYOMYr
-         Tjnvx+eX6Sxgw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.10] Various fixes (mostly rcar related)
-Message-ID: <0f564827-1eae-1660-95a5-86b910e44b26@xs4all.nl>
-Date:   Thu, 17 Sep 2020 12:48:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 17 Sep 2020 06:52:11 -0400
+X-Greylist: delayed 1995 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 06:52:09 EDT
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08HAmPgZ173583;
+        Thu, 17 Sep 2020 10:51:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=128JYvB1/lmV8xI78ndvYWC8FeCoUJpVcSljx9SrvpM=;
+ b=BgicA9ehoRykkgTkNpjKAwj/XN7TtpnaePV4WmuvWeT2mqC1TRh6WLVaL4T8NkFQQLvt
+ oAhaYrwk4G5HijzeIMZKgAPUwxsa8yEASN/XkHzKjdFoDrFXVdEGBdF8Ka0YjHoDflaV
+ bWGkroDeTkLZHB66X2EjxXxmXIcs7Z4PeGegZMXYUigmZcH7YTmvjSGMdZ0PNHRdzESg
+ DjLdDhR5axaXvG4fM6ZOaiXT6Da5JvJZHvFDVLyM3xqQ9RUfQSnEhiDwxhqdKeHREg89
+ K7Zkac9PX+layGgGUWIlkGmma6sR54e/C46HhAbN9FRdIsvb0rxrba9Xlme32YHUefKg rw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 33j91dt402-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 17 Sep 2020 10:51:53 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08HAinTl095421;
+        Thu, 17 Sep 2020 10:49:53 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3030.oracle.com with ESMTP id 33h893gq3a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 17 Sep 2020 10:49:53 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08HAnp23028997;
+        Thu, 17 Sep 2020 10:49:51 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 17 Sep 2020 10:49:50 +0000
+Date:   Thu, 17 Sep 2020 13:49:41 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Daniel Scally <djrscally@gmail.com>, devel@driverdev.osuosl.org,
+        robh@kernel.org, andriy.shevchenko@linux.intel.com,
+        jorhand@linux.microsoft.com, linux-media@vger.kernel.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        kieran.bingham@ideasonboard.com, kitakar@gmail.com,
+        bingbu.cao@intel.com, mchehab@kernel.org, davem@davemloft.net,
+        tian.shu.qiu@intel.com, yong.zhi@intel.com
+Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
+ via software nodes on ACPI platforms
+Message-ID: <20200917104941.GP4282@kadam>
+References: <20200916213618.8003-1-djrscally@gmail.com>
+ <20200917103343.GW26842@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPZrii2M/2eCy94tdlTQJ9T4qHfRC/jJz/7uL9lVWyguC4oQZX+VYHgPY1qlk9E4Wxpl6GtEf7BdrSZpUbu9dsoQKkC9H6JmCzCzNb4y7E4Ic+VRJTeS
- 84fAGJvuhnn/2kj6cJLX/1+earAM0P/fWx7r4s0b78AI7+OzrrA5r7kEnsYhlUdWNHRR2IMZRvXVvwy+0rYB1fiM3VI03r3C7I2zj9FeqFh3y6pDkhpdO7DD
- vVeLRlRvAUNMCYZElpZjgEupUKwBmF2ohANYBIxsEAdngytSXl+U+40qY1eJE9uVdIHhOxTSBlb2Kvhh1GTwDems0gZ+XD0c6uvkML9x+BRmAwvUwtqAFL0m
- 85EV1EDrwxqUg7mvF62Mo4bA9fjPOg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200917103343.GW26842@paasikivi.fi.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9746 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 adultscore=0
+ suspectscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009170082
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9746 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 impostorscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 mlxlogscore=999
+ clxscore=1015 adultscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009170083
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 741043b02c2e00c8fea1a0f6f8ce43c6326cd9e8:
+On Thu, Sep 17, 2020 at 01:33:43PM +0300, Sakari Ailus wrote:
+> > +static int connect_supported_devices(void)
+> > +{
+> > +	struct acpi_device *adev;
+> > +	struct device *dev;
+> > +	struct sensor_bios_data ssdb;
+> > +	struct sensor *sensor;
+> > +	struct property_entry *sensor_props;
+> > +	struct property_entry *cio2_props;
+> > +	struct fwnode_handle *fwnode;
+> > +	struct software_node *nodes;
+> > +	struct v4l2_subdev *sd;
+> > +	int i, ret;
+> 
+> unsigned int i
+> 
 
-  media: vidtv: don't initialize cnr2qual var (2020-09-14 16:10:08 +0200)
+Why?
 
-are available in the Git repository at:
+For list iterators then "int i;" is best...  For sizes then unsigned is
+sometimes best.  Or if it's part of the hardware spec or network spec
+unsigned is best.  Otherwise unsigned variables cause a ton of bugs.
+They're not as intuitive as signed variables.  Imagine if there is an
+error in this loop and you want to unwind.  With a signed variable you
+can do:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.10b
+	while (--i >= 0)
+		cleanup(&bridge.sensors[i]);
 
-for you to fetch changes up to 9dc9f890aefe01530f6934004aac36f1a6feb44c:
+There are very few times where raising the type maximum from 2 billion
+to 4 billion fixes anything.
 
-  media: rcar-vin: Enable YDS bit depending on bus_width and data_shift (2020-09-17 12:40:05 +0200)
+regards,
+dan carpenter
 
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Lad Prabhakar (9):
-      dt-bindings: media: renesas,vin: Add device tree support for r8a7742
-      media: rcar-fcp: Update description for VIDEO_RENESAS_FCP Kconfig entry
-      media: rcar-vin: Kconfig: Update help description for VIDEO_RCAR_CSI2 config
-      media: rcar-vin: Kconfig: Update help description for VIDEO_RCAR_VIN config
-      dt-bindings: media: renesas,csi2: Add R8A774E1 support
-      dt-bindings: media: renesas,vin: Add R8A774E1 support
-      media: rcar-csi2: Enable support for R8A774E1
-      media: rcar-vin: Enable support for R8A774E1
-      media: rcar-vin: Enable YDS bit depending on bus_width and data_shift
-
-Vaibhav Gupta (1):
-      saa7134: use generic power management
-
-Xiaolong Huang (1):
-      media: media/pci: prevent memory leak in bttv_probe
-
- Documentation/devicetree/bindings/media/renesas,csi2.yaml |  1 +
- Documentation/devicetree/bindings/media/renesas,vin.yaml  |  2 ++
- drivers/media/pci/bt8xx/bttv-driver.c                     | 13 ++++++++++---
- drivers/media/pci/saa7134/saa7134-core.c                  | 27 +++++++++------------------
- drivers/media/platform/Kconfig                            |  4 ++--
- drivers/media/platform/rcar-vin/Kconfig                   |  4 ++--
- drivers/media/platform/rcar-vin/rcar-core.c               | 49 ++++++++++++++++++++++++++++++++++++++++++++-----
- drivers/media/platform/rcar-vin/rcar-csi2.c               |  4 ++++
- drivers/media/platform/rcar-vin/rcar-dma.c                | 17 ++++++++++++++---
- drivers/media/platform/rcar-vin/rcar-vin.h                |  5 +++--
- 10 files changed, 91 insertions(+), 35 deletions(-)
