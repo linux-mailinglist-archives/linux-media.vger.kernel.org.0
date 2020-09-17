@@ -2,128 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E818B26DCA9
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 15:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6C7A26DCB5
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 15:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727052AbgIQNTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 09:19:23 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:44710 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726986AbgIQNQo (ORCPT
+        id S1727047AbgIQNVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 09:21:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47948 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726956AbgIQNTt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 09:16:44 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08HDF94R191683;
-        Thu, 17 Sep 2020 13:15:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=5CbLmgITuVkqkFczc34ggox0p6HVp0zkDBlqxycTwzg=;
- b=y2lyX+h85UIrFjMPlZFK+zvbr7kOVi+d+2Se7Np3DWIxTcOBpQmgK9qcaBM9SJ2yUt/5
- 4/DXHW/niq1G7676El/PJ9QrTpvV2kBv2yUz1sTEmlsOzMO1jv7haDG8U3yV+8ufdgMJ
- V+USwsMGsPYQl11bu4d4eAtdxkh2oYXO/QUctgSU6ah+E85asMERpC/JPuPYaKXDHMwT
- OcNRn884hxXDYm2BLeWNwkBUzvVTTnGl5CgZyGfslQhzHh5xYqAqDxkEHET0c/xJ7cO9
- p9yOngAxcUjAllLG1NafauUKgaNqaz10zMha1zao8RbtNmvm/Ke0VhNVlXX3QRevJAk8 Wg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 33gp9mh71k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 17 Sep 2020 13:15:59 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08HDFvk1002688;
-        Thu, 17 Sep 2020 13:15:58 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 33hm34u9y4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 17 Sep 2020 13:15:58 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08HDFnLD003602;
-        Thu, 17 Sep 2020 13:15:49 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 17 Sep 2020 13:15:48 +0000
-Date:   Thu, 17 Sep 2020 16:15:39 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     devel@driverdev.osuosl.org, robh@kernel.org, mchehab@kernel.org,
-        jorhand@linux.microsoft.com, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
-        Daniel Scally <djrscally@gmail.com>, yong.zhi@intel.com,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        bingbu.cao@intel.com, kitakar@gmail.com, davem@davemloft.net,
-        tian.shu.qiu@intel.com, linux-media@vger.kernel.org
-Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
- via software nodes on ACPI platforms
-Message-ID: <20200917131539.GR4282@kadam>
-References: <20200916213618.8003-1-djrscally@gmail.com>
- <20200917103343.GW26842@paasikivi.fi.intel.com>
- <20200917104941.GP4282@kadam>
- <20200917122529.GJ3956970@smile.fi.intel.com>
+        Thu, 17 Sep 2020 09:19:49 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA76DC06178A
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 06:19:47 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id t10so2063397wrv.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 06:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=OJz3dROXwZ4H9FjplYiHUh7ta1dm2pPiZx++Qm+gMOk=;
+        b=Ol8zdtYKra8OqwKcXQZPTIzAIAjrxl7EnGA/qptW05V0voGayUZTJ1UOmlJx84mWcm
+         0r1ALbQGydxydvFM37pyuB+FPcNQJYGFXrs30Uy4uBKXsTI9vDopq0psqSt8WIVbv/3m
+         SL42by4B46k89IfXDFWI+V95drUdRSPKiXLkY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=OJz3dROXwZ4H9FjplYiHUh7ta1dm2pPiZx++Qm+gMOk=;
+        b=G1uQufwV5e2Ckv3JpAzD6ZKxl4y+N/Q1Lr9pQ81Ox33dKGwN/eQ130UjHj3ZsE1kBY
+         MeEdDYuspDpC8aR0or7a0ZMRkKPVqsEJbhU+5Ze/h4qGEDjFW2e9azYCZAqmf4zkZ/WH
+         0TCbi4UZGxNPl6FNo5gBQaSbiBkQUL23ZFJjhVSF40YKnHhoHMmZArpv+UflMmqbgG4k
+         AkEr3fQwVjcazRbNoNJXXyYtHKZwyedoPYqXoJqTzIYjSgj2G1MDKAO/zxQrGz8nDdBv
+         iESQ+b83o1mDzpbG21Xt4kAXmEa7ScEDCgfOEmUiZ8DxtvK7HEpU3PCtgBTkxh3JEY2A
+         gVdA==
+X-Gm-Message-State: AOAM531pGNsSmgXV+5OBFRUu8e2oEeSedb5rLVqhZxc2dwrJxDI1hsKd
+        Je1mvSrxmyyKON9NMsZXF4EMxg==
+X-Google-Smtp-Source: ABdhPJwWrq6ZejmimL/ybiemi2sN/GPynbFDqZKwAC87Lkhqkhgx8buF3bHZlQuU+GRDRVJVnJpavA==
+X-Received: by 2002:a5d:6b84:: with SMTP id n4mr34531077wrx.55.1600348785370;
+        Thu, 17 Sep 2020 06:19:45 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id d2sm39644798wro.34.2020.09.17.06.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 06:19:44 -0700 (PDT)
+Date:   Thu, 17 Sep 2020 15:19:42 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Dave Chinner <david@fromorbit.com>, Qian Cai <cai@lca.pw>,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@mellanox.com>,
+        Linux MM <linux-mm@kvack.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH] dma-resv: lockdep-prime address_space->i_mmap_rwsem for
+ dma-resv
+Message-ID: <20200917131942.GX438822@phenom.ffwll.local>
+Mail-Followup-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+        Dave Chinner <david@fromorbit.com>, Qian Cai <cai@lca.pw>,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@mellanox.com>, Linux MM <linux-mm@kvack.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20200728135839.1035515-1-daniel.vetter@ffwll.ch>
+ <38cbc4fb-3a88-47c4-2d6c-4d90f9be42e7@shipmail.org>
+ <CAKMK7uFe-70DE5qOBJ6FwD8d_A0yZt+h5bCqA=e9QtYE1qwASQ@mail.gmail.com>
+ <60f2b14f-8cef-f515-9cf5-bdbc02d9c63c@shipmail.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200917122529.GJ3956970@smile.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9746 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxlogscore=999
- malwarescore=0 mlxscore=0 phishscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009170101
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9746 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- spamscore=0 priorityscore=1501 suspectscore=0 impostorscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009170101
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <60f2b14f-8cef-f515-9cf5-bdbc02d9c63c@shipmail.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 03:25:29PM +0300, Andy Shevchenko wrote:
-> On Thu, Sep 17, 2020 at 01:49:41PM +0300, Dan Carpenter wrote:
-> > On Thu, Sep 17, 2020 at 01:33:43PM +0300, Sakari Ailus wrote:
+On Thu, Jul 30, 2020 at 06:45:14PM +0200, Thomas Hellström (Intel) wrote:
 > 
-> > > > +	int i, ret;
+> On 7/30/20 3:17 PM, Daniel Vetter wrote:
+> > On Thu, Jul 30, 2020 at 2:17 PM Thomas Hellström (Intel)
+> > <thomas_os@shipmail.org> wrote:
 > > > 
-> > > unsigned int i
+> > > On 7/28/20 3:58 PM, Daniel Vetter wrote:
+> > > > GPU drivers need this in their shrinkers, to be able to throw out
+> > > > mmap'ed buffers. Note that we also need dma_resv_lock in shrinkers,
+> > > > but that loop is resolved by trylocking in shrinkers.
+> > > > 
+> > > > So full hierarchy is now (ignore some of the other branches we already
+> > > > have primed):
+> > > > 
+> > > > mmap_read_lock -> dma_resv -> shrinkers -> i_mmap_lock_write
+> > > > 
+> > > > I hope that's not inconsistent with anything mm or fs does, adding
+> > > > relevant people.
+> > > > 
+> > > Looks OK to me. The mapping_dirty_helpers run under the i_mmap_lock, but
+> > > don't allocate any memory AFAICT.
+> > > 
+> > > Since huge page-table-entry splitting may happen under the i_mmap_lock
+> > > from unmap_mapping_range() it might be worth figuring out how new page
+> > > directory pages are allocated, though.
+> > ofc I'm not an mm expert at all, but I did try to scroll through all
+> > i_mmap_lock_write/read callers. Found the following:
+> > 
+> > - kernel/events/uprobes.c in build_map_info:
+> > 
+> >              /*
+> >               * Needs GFP_NOWAIT to avoid i_mmap_rwsem recursion through
+> >               * reclaim. This is optimistic, no harm done if it fails.
+> >               */
+> > 
+> > - I got lost in the hugetlb.c code and couldn't convince myself it's
+> > not allocating page directories at various levels with something else
+> > than GFP_KERNEL.
+> > 
+> > So looks like the recursion is clearly there and known, but the
+> > hugepage code is too complex and flying over my head.
+> > -Daniel
+> 
+> OK, so I inverted your annotation and ran a memory hog, and got the below
+> splat. So clearly your proposed reclaim->i_mmap_lock locking order is an
+> already established one.
+> 
+> So
+> 
+> Reviewed-by: Thomas Hellström <thomas.hellstrom@intel.com>
+
+No one complaining that this is a terrible idea and two reviews from
+people who know stuff, so I went ahead and pushed this to drm-misc-next.
+
+Thanks for taking a look at this.
+-Daniel
+
+> 
+> 8<---------------------------------------------------------------------------------------------
+> 
+> [  308.324654] WARNING: possible circular locking dependency detected
+> [  308.324655] 5.8.0-rc2+ #16 Not tainted
+> [  308.324656] ------------------------------------------------------
+> [  308.324657] kswapd0/98 is trying to acquire lock:
+> [  308.324658] ffff92a16f758428 (&mapping->i_mmap_rwsem){++++}-{3:3}, at:
+> rmap_walk_file+0x1c0/0x2f0
+> [  308.324663]
+>                but task is already holding lock:
+> [  308.324664] ffffffffb0960240 (fs_reclaim){+.+.}-{0:0}, at:
+> __fs_reclaim_acquire+0x5/0x30
+> [  308.324666]
+>                which lock already depends on the new lock.
+> 
+> [  308.324667]
+>                the existing dependency chain (in reverse order) is:
+> [  308.324667]
+>                -> #1 (fs_reclaim){+.+.}-{0:0}:
+> [  308.324670]        fs_reclaim_acquire+0x34/0x40
+> [  308.324672]        dma_resv_lockdep+0x186/0x224
+> [  308.324675]        do_one_initcall+0x5d/0x2c0
+> [  308.324676]        kernel_init_freeable+0x222/0x288
+> [  308.324678]        kernel_init+0xa/0x107
+> [  308.324679]        ret_from_fork+0x1f/0x30
+> [  308.324680]
+>                -> #0 (&mapping->i_mmap_rwsem){++++}-{3:3}:
+> [  308.324682]        __lock_acquire+0x119f/0x1fc0
+> [  308.324683]        lock_acquire+0xa4/0x3b0
+> [  308.324685]        down_read+0x2d/0x110
+> [  308.324686]        rmap_walk_file+0x1c0/0x2f0
+> [  308.324687]        page_referenced+0x133/0x150
+> [  308.324689]        shrink_active_list+0x142/0x610
+> [  308.324690]        balance_pgdat+0x229/0x620
+> [  308.324691]        kswapd+0x200/0x470
+> [  308.324693]        kthread+0x11f/0x140
+> [  308.324694]        ret_from_fork+0x1f/0x30
+> [  308.324694]
+>                other info that might help us debug this:
+> 
+> [  308.324695]  Possible unsafe locking scenario:
+> 
+> [  308.324695]        CPU0                    CPU1
+> [  308.324696]        ----                    ----
+> [  308.324696]   lock(fs_reclaim);
+> [  308.324697] lock(&mapping->i_mmap_rwsem);
+> [  308.324698]                                lock(fs_reclaim);
+> [  308.324699]   lock(&mapping->i_mmap_rwsem);
+> [  308.324699]
+>                 *** DEADLOCK ***
+> 
+> [  308.324700] 1 lock held by kswapd0/98:
+> [  308.324701]  #0: ffffffffb0960240 (fs_reclaim){+.+.}-{0:0}, at:
+> __fs_reclaim_acquire+0x5/0x30
+> [  308.324702]
+>                stack backtrace:
+> [  308.324704] CPU: 1 PID: 98 Comm: kswapd0 Not tainted 5.8.0-rc2+ #16
+> [  308.324705] Hardware name: VMware, Inc. VMware Virtual Platform/440BX
+> Desktop Reference Platform, BIOS 6.00 07/29/2019
+> [  308.324706] Call Trace:
+> [  308.324710]  dump_stack+0x92/0xc8
+> [  308.324711]  check_noncircular+0x12d/0x150
+> [  308.324713]  __lock_acquire+0x119f/0x1fc0
+> [  308.324715]  lock_acquire+0xa4/0x3b0
+> [  308.324716]  ? rmap_walk_file+0x1c0/0x2f0
+> [  308.324717]  ? __lock_acquire+0x394/0x1fc0
+> [  308.324719]  down_read+0x2d/0x110
+> [  308.324720]  ? rmap_walk_file+0x1c0/0x2f0
+> [  308.324721]  rmap_walk_file+0x1c0/0x2f0
+> [  308.324722]  page_referenced+0x133/0x150
+> [  308.324724]  ? __page_set_anon_rmap+0x70/0x70
+> [  308.324725]  ? page_get_anon_vma+0x190/0x190
+> [  308.324726]  shrink_active_list+0x142/0x610
+> [  308.324728]  balance_pgdat+0x229/0x620
+> [  308.324730]  kswapd+0x200/0x470
+> [  308.324731]  ? lockdep_hardirqs_on_prepare+0xf5/0x170
+> [  308.324733]  ? finish_wait+0x80/0x80
+> [  308.324734]  ? balance_pgdat+0x620/0x620
+> [  308.324736]  kthread+0x11f/0x140
+> [  308.324737]  ? kthread_create_worker_on_cpu+0x40/0x40
+> [  308.324739]  ret_from_fork+0x1f/0x30
+> 
+> 
+> 
+> > > /Thomas
+> > > 
+> > > 
 > > > 
 > > 
-> > Why?
-> > 
-> > For list iterators then "int i;" is best...  For sizes then unsigned is
-> > sometimes best.  Or if it's part of the hardware spec or network spec
-> > unsigned is best.  Otherwise unsigned variables cause a ton of bugs.
-> > They're not as intuitive as signed variables.  Imagine if there is an
-> > error in this loop and you want to unwind.  With a signed variable you
-> > can do:
-> > 
-> > 	while (--i >= 0)
-> > 		cleanup(&bridge.sensors[i]);
-> 
-> Ha-ha. It's actually a counter argument to your stuff because above is the same as
-> 
-> 	while (i--)
-> 		cleanup(&bridge.sensors[i]);
-> 
-> with pretty much unsigned int i.
 
-With vanilla "int i;" you can't go wrong because both styles work as
-expected.  I was just giving examples of real life bugs that I have seen
-involving unsigned iterators.
-
-54313503f9a3 ("drm/amdgpu: signedness bug in amdgpu_cs_parser_init()")
-
-Here are a couple more bugs involving unsigned iterators...
-
-d72cf01f410a ("drm/mipi-dbi: fix a loop in debugfs code")
-ce6c1cd2c324 ("pinctrl: nsp-gpio: forever loop in nsp_gpio_get_strength()")
-
-I've change a lot of variables unsigned as well.  For min_t() then it
-should *always* be an unsigned type.
-
-It's pretty rare to iterate over 2 billion times in the kernel, but
-there are times when you might want to do that.  Normally you would
-want to declare the iterator as an unsigned ong in that case.  But most
-of the time iterators should just be "int i;" to prevent bugs.
-
-regards,
-dan carpenter
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
