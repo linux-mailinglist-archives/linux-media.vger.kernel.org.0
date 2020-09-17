@@ -2,70 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8394A26E673
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 22:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4C0526E6B6
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 22:23:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726591AbgIQUOP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 16:14:15 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:41600 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726420AbgIQUOP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 16:14:15 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kJ0CF-00Dczx-6t; Thu, 17 Sep 2020 20:07:59 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kJ0L0-00012y-9e; Thu, 17 Sep 2020 20:17:02 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT FIXES FOR 5.9] Imx274 DT binding fix (#67094)
-Date:   Thu, 17 Sep 2020 20:17:02 +0000
-Message-Id: <20200917201702.3982-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200917144416.GN834@valkosipuli.retiisi.org.uk>
-References: 
+        id S1726576AbgIQUXe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 16:23:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726427AbgIQUXd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 16:23:33 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D08F7C061788
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 13:23:33 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id n14so1936554pff.6
+        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 13:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=YNTKdfmB+28CU+5YDgFT2N85sceXAWnBJsBarav4y+M=;
+        b=OdZtCvQoTUU2/0aeiyYVxshd5cH9YBMc46/QsslQPFg6HIoO1W3vPSMnGgfiTjq+hP
+         lZ67JaaqUhGORuBb6aOBcA0X1TKytQoCnwaV/I9z+hnCZicJ70GO3vqG78QBvxtraNQK
+         wgVLp+lE87xR6i3ugguJM0o/4hMfbe7tXbI4k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=YNTKdfmB+28CU+5YDgFT2N85sceXAWnBJsBarav4y+M=;
+        b=CpltzGVOXLxeO2L059WyeKmaf2lYkp066z5dL98cWvFAHZ+pDmpdB4kU39LWUKqab6
+         y7ZuWKX2jcPCrAt2hFH768A0AkZWlx4ufNcni0vQwM3p2rHdsslftBWOLUOyE9Li4pqP
+         LQvjENl4ydnSiXr7NVxhzz35KDeb8otKtnbOIidbKHyoX7snX6aFNh18QCmW0DritBw+
+         rzETzP0qW3VwiGuK0p5JnegthoLqrhlk0LqSmtpsRou0rxdV5NHtXPEZk/NS7l9su6jt
+         zoDFVIV/YaupQduGnt3umgOvkUoq7oKhIsdIXj1DuWPDKkLKKR+lKBxb1U0JZmzFGryP
+         o9xw==
+X-Gm-Message-State: AOAM533nx57Ehyn9TXv0g33htb1ULtfJIXSsT5DIIDz76BsrwH3ScUt2
+        IJgw/vheMEqKrqyq6+4GCoNlMA==
+X-Google-Smtp-Source: ABdhPJwUqBYNZMyzzYNYV2v6k7IsJ0N4NSjmQfacJ/Gq4BJeWFAXgI4j+VtUDY8KYuhwwQR1Vc28lQ==
+X-Received: by 2002:aa7:989c:0:b029:142:2501:3973 with SMTP id r28-20020aa7989c0000b029014225013973mr13132887pfl.56.1600374213043;
+        Thu, 17 Sep 2020 13:23:33 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id 84sm497155pfw.14.2020.09.17.13.23.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 13:23:32 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200917122558.23110-1-rojay@codeaurora.org>
+References: <20200917122558.23110-1-rojay@codeaurora.org>
+Subject: Re: [PATCH V4] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
+        gregkh@linuxfoundation.org, mka@chromium.org,
+        akashast@codeaurora.org, msavaliy@qti.qualcomm.com,
+        skakit@codeaurora.org, vkaur@codeaurora.org,
+        pyarlaga@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        Roja Rani Yarubandi <rojay@codeaurora.org>
+To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
+Date:   Thu, 17 Sep 2020 13:23:30 -0700
+Message-ID: <160037421089.4188128.9425314091585708436@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Quoting Roja Rani Yarubandi (2020-09-17 05:25:58)
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-=
+qcom-geni.c
+> index dead5db3315a..b0d8043c8cb2 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -86,6 +86,10 @@ struct geni_i2c_dev {
+>         u32 clk_freq_out;
+>         const struct geni_i2c_clk_fld *clk_fld;
+>         int suspended;
+> +       void *dma_buf;
+> +       size_t xfer_len;
+> +       dma_addr_t tx_dma;
+> +       dma_addr_t rx_dma;
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200917144416.GN834@valkosipuli.retiisi.org.uk/
-Build log: https://builder.linuxtv.org/job/patchwork/68754/
-Build time: 00:14:48
-Link: https://lore.kernel.org/linux-media/20200917144416.GN834@valkosipuli.retiisi.org.uk
+Do we need both tx_dma and rx_dma? Seems that we use cur->flags to
+figure out if the transfer is tx or rx so we could have juat dma_buf and
+dma_addr here?
 
-gpg: Signature made Thu 17 Sep 2020 02:02:52 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
+>  };
+> =20
+>  struct geni_i2c_err_log {
+> @@ -307,7 +311,6 @@ static void geni_i2c_abort_xfer(struct geni_i2c_dev *=
+gi2c)
+> =20
+>         spin_lock_irqsave(&gi2c->lock, flags);
+>         geni_i2c_err(gi2c, GENI_TIMEOUT);
+> -       gi2c->cur =3D NULL;
 
-Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
+This looks concerning. We're moving this out from under the spinlock.
+The irq handler in this driver seems to hold the spinlock all the time
+while processing and this function grabs it here to keep cur consistent
+when aborting the transfer due to a timeout. Otherwise it looks like the
+irqhandler can race with this and try to complete the transfer while
+it's being torn down here.
 
-Error/warnings:
+>         geni_se_abort_m_cmd(&gi2c->se);
+>         spin_unlock_irqrestore(&gi2c->lock, flags);
+>         do {
+> @@ -349,10 +352,62 @@ static void geni_i2c_tx_fsm_rst(struct geni_i2c_dev=
+ *gi2c)
+>                 dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
+>  }
+> =20
+> +static void geni_i2c_rx_msg_cleanup(struct geni_i2c_dev *gi2c)
 
-patches/0001-dt-bindings-media-imx274-Convert-to-json-schema.patch:
+So maybe pass cur to this function?
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/sh_css.c:1685:16: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
-	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: ../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:703 is_pipe_valid_to_current_run_mode() warn: ignoring unreachable code.
+> +{
+> +       struct geni_se *se =3D &gi2c->se;
+> +
+> +       gi2c->cur_rd =3D 0;
+> +       if (gi2c->dma_buf) {
+> +               if (gi2c->err)
+> +                       geni_i2c_rx_fsm_rst(gi2c);
+> +               geni_se_rx_dma_unprep(se, gi2c->rx_dma, gi2c->xfer_len);
+> +               i2c_put_dma_safe_msg_buf(gi2c->dma_buf, gi2c->cur, !gi2c-=
+>err);
+> +       }
+> +}
+> +
+> +static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c)
 
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1909 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+And this one?
 
-   checkpatch.pl:
-	$ cat patches/0001-dt-bindings-media-imx274-Convert-to-json-schema.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:26: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:66: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+> +{
+> +       struct geni_se *se =3D &gi2c->se;
+> +
+> +       gi2c->cur_wr =3D 0;
+> +       if (gi2c->dma_buf) {
+> +               if (gi2c->err)
+> +                       geni_i2c_tx_fsm_rst(gi2c);
+> +               geni_se_tx_dma_unprep(se, gi2c->tx_dma, gi2c->xfer_len);
+> +               i2c_put_dma_safe_msg_buf(gi2c->dma_buf, gi2c->cur, !gi2c-=
+>err);
+> +       }
+> +}
+> +
+> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
+> +{
+> +       int ret;
+> +       u32 geni_status;
+> +
+> +       /* Resume device, as runtime suspend can happen anytime during tr=
+ansfer */
+> +       ret =3D pm_runtime_get_sync(gi2c->se.dev);
+> +       if (ret < 0) {
+> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n", re=
+t);
+> +               return;
+> +       }
+> +
+> +       geni_status =3D readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
 
+And this probably needs to hold the lock?
 
-Error #512 when building PDF docs
+> +       if (!(geni_status & M_GENI_CMD_ACTIVE))
+> +               goto out;
+> +
+> +       geni_i2c_abort_xfer(gi2c);
+> +       if (gi2c->cur->flags & I2C_M_RD)
+> +               geni_i2c_rx_msg_cleanup(gi2c);
+> +       else
+> +               geni_i2c_tx_msg_cleanup(gi2c);
+> +       gi2c->cur =3D NULL;
 
+until here?
+
+> +out:
+> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
+> +}
+> +
+>  static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg=
+ *msg,
+>                                 u32 m_param)
+>  {
+> -       dma_addr_t rx_dma;
+> +       dma_addr_t rx_dma =3D 0;
+>         unsigned long time_left;
+>         void *dma_buf =3D NULL;
+>         struct geni_se *se =3D &gi2c->se;
+> @@ -372,6 +427,10 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *=
+gi2c, struct i2c_msg *msg,
+>                 geni_se_select_mode(se, GENI_SE_FIFO);
+>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
+>                 dma_buf =3D NULL;
+> +       } else {
+> +               gi2c->xfer_len =3D len;
+> +               gi2c->rx_dma =3D rx_dma;
+> +               gi2c->dma_buf =3D dma_buf;
+>         }
+> =20
+>         geni_se_setup_m_cmd(se, I2C_READ, m_param);
+> @@ -380,13 +439,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *=
+gi2c, struct i2c_msg *msg,
+>         if (!time_left)
+>                 geni_i2c_abort_xfer(gi2c);
+> =20
+> -       gi2c->cur_rd =3D 0;
+> -       if (dma_buf) {
+> -               if (gi2c->err)
+> -                       geni_i2c_rx_fsm_rst(gi2c);
+> -               geni_se_rx_dma_unprep(se, rx_dma, len);
+> -               i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
+> -       }
+> +       geni_i2c_rx_msg_cleanup(gi2c);
+> =20
+>         return gi2c->err;
+>  }
+
+It may make sense to extract the cleanup stuff into another patch. Then
+have a patch after that which does the shutdown hook. So three patches
+total.
+
+> diff --git a/drivers/soc/qcom/qcom-geni-se.c b/drivers/soc/qcom/qcom-geni=
+-se.c
+> index d0e4f520cff8..0216b38c1e9a 100644
+> --- a/drivers/soc/qcom/qcom-geni-se.c
+> +++ b/drivers/soc/qcom/qcom-geni-se.c
+> @@ -705,7 +705,7 @@ void geni_se_tx_dma_unprep(struct geni_se *se, dma_ad=
+dr_t iova, size_t len)
+>  {
+>         struct geni_wrapper *wrapper =3D se->wrapper;
+> =20
+> -       if (iova && !dma_mapping_error(wrapper->dev, iova))
+> +       if (!dma_mapping_error(wrapper->dev, iova))
+>                 dma_unmap_single(wrapper->dev, iova, len, DMA_TO_DEVICE);
+>  }
+>  EXPORT_SYMBOL(geni_se_tx_dma_unprep);
+> @@ -722,7 +722,7 @@ void geni_se_rx_dma_unprep(struct geni_se *se, dma_ad=
+dr_t iova, size_t len)
+>  {
+>         struct geni_wrapper *wrapper =3D se->wrapper;
+> =20
+> -       if (iova && !dma_mapping_error(wrapper->dev, iova))
+> +       if (!dma_mapping_error(wrapper->dev, iova))
+>                 dma_unmap_single(wrapper->dev, iova, len, DMA_FROM_DEVICE=
+);
+>  }
+>  EXPORT_SYMBOL(geni_se_rx_dma_unprep);
+
+I'd make this a different patch. Nothing depends on this change, right?
