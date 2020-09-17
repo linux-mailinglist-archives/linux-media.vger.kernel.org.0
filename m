@@ -2,104 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C7F126DBE8
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4AD226DBF9
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 14:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727009AbgIQMp5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 08:45:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54976 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726959AbgIQMpn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 08:45:43 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 324E72087D;
-        Thu, 17 Sep 2020 12:45:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600346728;
-        bh=yLl/pMSyF/PtsAZYxQBjwirWi3CZMLMrbkZYBbZEXIs=;
+        id S1727090AbgIQMsA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 08:48:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42996 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727061AbgIQMrp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 08:47:45 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82E96C061756;
+        Thu, 17 Sep 2020 05:47:45 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03A1E2DB;
+        Thu, 17 Sep 2020 14:47:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600346864;
+        bh=OXUeB8VkK9eJ9P/8aiciz5yppKnnWoJoVG0UEnhVgzY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=18+JUFclrWM6M198v1BOohp3QPPF9Vw4hmsECSXYFb0pvE43sYYUP39+ABSJ6Z4VN
-         L3nclMUYyjWWoC9DC3NhjYQvvBMEDb2RN8eSnyx8YkPmuAvofNJ0SF8fg37nStTdZY
-         51dm4fDtVV4XT1P7WOMYbDrn4re6yI13vazrjNgw=
-Date:   Thu, 17 Sep 2020 14:46:00 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] media: usb: uvc: no need to check return value of
- debugfs_create functions
-Message-ID: <20200917124600.GA3598432@kroah.com>
-References: <20200818133608.462514-1-gregkh@linuxfoundation.org>
- <20200818133608.462514-7-gregkh@linuxfoundation.org>
- <20200818234719.GD2360@pendragon.ideasonboard.com>
- <20200917122550.GA5053@pendragon.ideasonboard.com>
- <20200917123426.GA3595353@kroah.com>
- <20200917123757.GC3969@pendragon.ideasonboard.com>
+        b=ZzXWKepK0Csq6B/wFleNFY926g/afD++QvtPLesJyZXYu2dNhwGkpFN2aH29V9v2U
+         yPR0uGpA9y6NE36tA03V4QU8dhZuZtRdV4cssk/qhNCuZX8ya1UhqRnkI+3aZCvMC/
+         RarMBOLmIhffEP3SFZpSeoH8eHEIjh8NHg57gg4I=
+Date:   Thu, 17 Sep 2020 15:47:14 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
+Message-ID: <20200917124714.GD3969@pendragon.ideasonboard.com>
+References: <20200917022547.198090-1-linux@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200917123757.GC3969@pendragon.ideasonboard.com>
+In-Reply-To: <20200917022547.198090-1-linux@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 03:37:57PM +0300, Laurent Pinchart wrote:
-> Hi Greg,
+Hi Guenter,
+
+On Wed, Sep 16, 2020 at 07:25:42PM -0700, Guenter Roeck wrote:
+> Something seems to have gone wrong with v3 of this patch series.
+> I am sure I sent it out, but I don't find it anywhere.
+> Resending. Sorry for any duplicates.
+
+I haven't checked the mailing list, but I've found it in my inbox :-)
+I'm not forgetting about you, just been fairly busy recently. I still
+plan to try and provide an alternative implementation in the V4L2 core
+(in a form that I think should even be moved to the cdev core) that
+would fix this for all drivers.
+
+By the way, as you managed to get hold of non-UVC webcams, one thing you
+could try in your tests to make the drivers misbehave is to block on a
+DQBUF call, and unplug the device at that time. When blocking, DQBUF
+releases the driver lock (through the vb2ops .wait_prepare() and
+.wait_finis() operations for drivers based on vb2), so this may allow
+unregistration to proceed without waiting for userspace calls to
+complete.
+
+> The uvcvideo code has no lock protection against USB disconnects
+> while video operations are ongoing. This has resulted in random
+> error reports, typically pointing to a crash in usb_ifnum_to_if(),
+> called from usb_hcd_alloc_bandwidth(). A typical traceback is as
+> follows.
 > 
-> On Thu, Sep 17, 2020 at 02:34:26PM +0200, Greg Kroah-Hartman wrote:
-> > On Thu, Sep 17, 2020 at 03:25:50PM +0300, Laurent Pinchart wrote:
-> > > On Wed, Aug 19, 2020 at 02:47:19AM +0300, Laurent Pinchart wrote:
-> > > > On Tue, Aug 18, 2020 at 03:36:08PM +0200, Greg Kroah-Hartman wrote:
-> > > > > When calling debugfs functions, there is no need to ever check the
-> > > > > return value.  The function can work or not, but the code logic should
-> > > > > never do something different based on this.
-> > > > 
-> > > > Is there no value in warning the user that something went wrong ? Silent
-> > > > failures are harder to debug.
-> > > 
-> > > Could yous share your opinion about this ?
-> > 
-> > For debugfs, this isn't an issue, what can a user do with something like
-> > "debugfs isn't working?  What does that mean???"
-> > 
-> > And if we _really_ want warnings like this, it should go into the
-> > debugfs core, not require this to be done for every debugfs user, right?
-> > 
-> > debugfs is just there for kernel developers to help debug things, it's
-> > not a dependancy on any userspace functionality, so if it works or not
-> > should not be an issue for any user.
-> > 
-> > Unless that user is a kernel developer of course :)
+> usb 1-4: USB disconnect, device number 3
+> BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> PGD 0 P4D 0
+> Oops: 0000 [#1] PREEMPT SMP PTI
+> CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
+> Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+> RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> Code: <...>
+> RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> Call Trace:
+>  usb_hcd_alloc_bandwidth+0x1ee/0x30f
+>  usb_set_interface+0x1a3/0x2b7
+>  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+>  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+>  uvc_start_streaming+0x28/0x5d [uvcvideo]
+>  vb2_start_streaming+0x61/0x143 [videobuf2_common]
+>  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+>  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+>  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+>  __video_do_ioctl+0x33d/0x42a
+>  video_usercopy+0x34e/0x5ff
+>  ? video_ioctl2+0x16/0x16
+>  v4l2_ioctl+0x46/0x53
+>  do_vfs_ioctl+0x50a/0x76f
+>  ksys_ioctl+0x58/0x83
+>  __x64_sys_ioctl+0x1a/0x1e
+>  do_syscall_64+0x54/0xde
 > 
-> Exactly my point :-)
+> While there are not many references to this problem on mailing lists, it is
+> reported on a regular basis on various Chromebooks (roughly 300 reports
+> per month). The problem is relatively easy to reproduce by adding msleep()
+> calls into the code.
 > 
-> I'm fine moving the error message to the debugfs core itself instead of
-> duplicating it in drivers. Maybe it's already there though, I haven't
-> checked. Not printing any message isn't a great idea in my opinion, it
-> makes debugging more difficult. I can't count the number of times where
-> I've had to add printk's and recompile the kernel to debug issues that
-> really should have generated at least a dev_dbg().
+> I tried to reproduce the problem with non-uvcvideo webcams, but was
+> unsuccessful. I was unable to get Philips (pwc) webcams to work. gspca
+> based webcams don't experience the problem, or at least I was unable to
+> reproduce it (The gspa driver does not trigger sending USB messages in the
+> open function, and otherwise uses the locking mechanism provided by the
+> v4l2/vb2 core).
+> 
+> I don't presume to claim that I found every issue, but this patch series
+> should fix at least the major problems.
+> 
+> The patch series was tested exensively on a Chromebook running chromeos-4.19
+> and on a Linux system running a v5.8.y based kernel.
+> 
+> v3:
+> - In patch 5/5, add missing calls to usb_autopm_put_interface() and kfree()
+>   to failure code path
+> 
+> v2:
+> - Added details about problem frequency and testing with non-uvc webcams
+>   to summary
+> - In patch 4/5, return EPOLLERR instead of -ENODEV on poll errors
+> - Fix description in patch 5/5
+> 
+> ----------------------------------------------------------------
+> Guenter Roeck (5):
+>       media: uvcvideo: Cancel async worker earlier
+>       media: uvcvideo: Lock video streams and queues while unregistering
+>       media: uvcvideo: Release stream queue when unregistering video device
+>       media: uvcvideo: Protect uvc queue file operations against disconnect
+>       media: uvcvideo: Abort uvc_v4l2_open if video device is unregistered
+> 
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 11 ++++++----
+>  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++
+>  drivers/media/usb/uvc/uvc_queue.c  | 32 +++++++++++++++++++++++++--
+>  drivers/media/usb/uvc/uvc_v4l2.c   | 45 ++++++++++++++++++++++++++++++++++++--
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+>  5 files changed, 93 insertions(+), 8 deletions(-)
 
-There are a lot of error messages that debugfs will print out if it can
-not create a file:
+-- 
+Regards,
 
-inode.c 329 pr_err("Unable to pin filesystem for file '%s'\n", name);
-inode.c 348 pr_err("Directory '%s' with parent '%s' already present!\n",
-inode.c 351 pr_err("File '%s' in directory '%s' already present!\n",
-inode.c 402 pr_err("out of free dentries, can not create file '%s'\n",
-inode.c 563 pr_err("out of free dentries, can not create directory '%s'\n",
-inode.c 610 pr_err("out of free dentries, can not create automount '%s'\n",
-inode.c 668 pr_err("out of free dentries, can not create symlink '%s'\n",
-
-So I think you are safe here.  If we are missing any, I'll gladly add
-them.
-
-Also given that you've never noticed this being a real error, means it's
-probably not an issue :)
-
-thanks,
-
-greg k-h
+Laurent Pinchart
