@@ -2,253 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4C0526E6B6
-	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 22:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3818F26E6DD
+	for <lists+linux-media@lfdr.de>; Thu, 17 Sep 2020 22:43:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726576AbgIQUXe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 16:23:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57522 "EHLO
+        id S1726466AbgIQUnl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 16:43:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726427AbgIQUXd (ORCPT
+        with ESMTP id S1726180AbgIQUnl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 16:23:33 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D08F7C061788
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 13:23:33 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id n14so1936554pff.6
-        for <linux-media@vger.kernel.org>; Thu, 17 Sep 2020 13:23:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=YNTKdfmB+28CU+5YDgFT2N85sceXAWnBJsBarav4y+M=;
-        b=OdZtCvQoTUU2/0aeiyYVxshd5cH9YBMc46/QsslQPFg6HIoO1W3vPSMnGgfiTjq+hP
-         lZ67JaaqUhGORuBb6aOBcA0X1TKytQoCnwaV/I9z+hnCZicJ70GO3vqG78QBvxtraNQK
-         wgVLp+lE87xR6i3ugguJM0o/4hMfbe7tXbI4k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=YNTKdfmB+28CU+5YDgFT2N85sceXAWnBJsBarav4y+M=;
-        b=CpltzGVOXLxeO2L059WyeKmaf2lYkp066z5dL98cWvFAHZ+pDmpdB4kU39LWUKqab6
-         y7ZuWKX2jcPCrAt2hFH768A0AkZWlx4ufNcni0vQwM3p2rHdsslftBWOLUOyE9Li4pqP
-         LQvjENl4ydnSiXr7NVxhzz35KDeb8otKtnbOIidbKHyoX7snX6aFNh18QCmW0DritBw+
-         rzETzP0qW3VwiGuK0p5JnegthoLqrhlk0LqSmtpsRou0rxdV5NHtXPEZk/NS7l9su6jt
-         zoDFVIV/YaupQduGnt3umgOvkUoq7oKhIsdIXj1DuWPDKkLKKR+lKBxb1U0JZmzFGryP
-         o9xw==
-X-Gm-Message-State: AOAM533nx57Ehyn9TXv0g33htb1ULtfJIXSsT5DIIDz76BsrwH3ScUt2
-        IJgw/vheMEqKrqyq6+4GCoNlMA==
-X-Google-Smtp-Source: ABdhPJwUqBYNZMyzzYNYV2v6k7IsJ0N4NSjmQfacJ/Gq4BJeWFAXgI4j+VtUDY8KYuhwwQR1Vc28lQ==
-X-Received: by 2002:aa7:989c:0:b029:142:2501:3973 with SMTP id r28-20020aa7989c0000b029014225013973mr13132887pfl.56.1600374213043;
-        Thu, 17 Sep 2020 13:23:33 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
-        by smtp.gmail.com with ESMTPSA id 84sm497155pfw.14.2020.09.17.13.23.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 13:23:32 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 17 Sep 2020 16:43:41 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F22C06174A;
+        Thu, 17 Sep 2020 13:43:40 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id BA277C6366; Thu, 17 Sep 2020 21:43:36 +0100 (BST)
+Date:   Thu, 17 Sep 2020 21:43:36 +0100
+From:   Sean Young <sean@mess.org>
+To:     Joakim Zhang <qiangqing.zhang@nxp.com>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH] media: rc: gpio-ir-recv: add QoS support for cpuidle
+ system
+Message-ID: <20200917204336.GA21441@gofer.mess.org>
+References: <20200915150202.24165-1-qiangqing.zhang@nxp.com>
+ <20200915093342.GA24139@gofer.mess.org>
+ <DB8PR04MB6795CB9F519D2BD277654B29E63E0@DB8PR04MB6795.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200917122558.23110-1-rojay@codeaurora.org>
-References: <20200917122558.23110-1-rojay@codeaurora.org>
-Subject: Re: [PATCH V4] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
-        gregkh@linuxfoundation.org, mka@chromium.org,
-        akashast@codeaurora.org, msavaliy@qti.qualcomm.com,
-        skakit@codeaurora.org, vkaur@codeaurora.org,
-        pyarlaga@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        Roja Rani Yarubandi <rojay@codeaurora.org>
-To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
-Date:   Thu, 17 Sep 2020 13:23:30 -0700
-Message-ID: <160037421089.4188128.9425314091585708436@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DB8PR04MB6795CB9F519D2BD277654B29E63E0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Roja Rani Yarubandi (2020-09-17 05:25:58)
-> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-=
-qcom-geni.c
-> index dead5db3315a..b0d8043c8cb2 100644
-> --- a/drivers/i2c/busses/i2c-qcom-geni.c
-> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
-> @@ -86,6 +86,10 @@ struct geni_i2c_dev {
->         u32 clk_freq_out;
->         const struct geni_i2c_clk_fld *clk_fld;
->         int suspended;
-> +       void *dma_buf;
-> +       size_t xfer_len;
-> +       dma_addr_t tx_dma;
-> +       dma_addr_t rx_dma;
+Hi Joakim,
 
-Do we need both tx_dma and rx_dma? Seems that we use cur->flags to
-figure out if the transfer is tx or rx so we could have juat dma_buf and
-dma_addr here?
+On Thu, Sep 17, 2020 at 09:12:32AM +0000, Joakim Zhang wrote:
+> 
+> > -----Original Message-----
+> > From: Sean Young <sean@mess.org>
+> > Sent: 2020年9月15日 17:34
+> > To: Joakim Zhang <qiangqing.zhang@nxp.com>
+> > Cc: mchehab@kernel.org; linux-media@vger.kernel.org;
+> > linux-kernel@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
+> > Subject: Re: [PATCH] media: rc: gpio-ir-recv: add QoS support for cpuidle
+> > system
+> > 
+> > 
+> 
+> [...]
+> > > @@ -92,6 +113,12 @@ static int gpio_ir_recv_probe(struct
+> > > platform_device *pdev)
+> > >
+> > >  	platform_set_drvdata(pdev, gpio_dev);
+> > >
+> > > +
+> > > +	pm_runtime_set_autosuspend_delay(dev, (rcdev->timeout / 1000 /
+> > > +1000));
+> > 
+> > rcdev->timeout is in microseconds (since very recently), so this is wrong.
+> > Also, the timeout can be changed using the LIRC_SET_REC_TIMEOUT ioctl
+> > (using ir-ctl -t in userspace). The autosuspend delay should be updated when
+> > this happens. This can be done by implementing the s_timeout rcdev function.
+> 
+> Hi Sean,
+> 
+> I come across a problem when implementing this feature.
+> 
+> At probe stage, devm_rc_register_device -> change_protocol, then timeout set to 125ms.
+> 
+> When echo sony or nec to protocols, will call change_protocol changing the timeout value, that timeout would change to handler->min_timeout + 10ms. For sony is 16000000ns, for 15625000ns.
 
->  };
-> =20
->  struct geni_i2c_err_log {
-> @@ -307,7 +311,6 @@ static void geni_i2c_abort_xfer(struct geni_i2c_dev *=
-gi2c)
-> =20
->         spin_lock_irqsave(&gi2c->lock, flags);
->         geni_i2c_err(gi2c, GENI_TIMEOUT);
-> -       gi2c->cur =3D NULL;
+The sony protocol decoder wants a 6ms space after the last bit. So, the timeout
+for the IR receiver can be set to 6ms (plus 10ms margin). This has the
+advantage that decoding is happens very quickly. Before this change, there
+as a 125ms delay before the first and last IR frame was decoded. This
+causes decoding to feel laggy and keys also a bit sticky.
 
-This looks concerning. We're moving this out from under the spinlock.
-The irq handler in this driver seems to hold the spinlock all the time
-while processing and this function grabs it here to keep cur consistent
-when aborting the transfer due to a timeout. Otherwise it looks like the
-irqhandler can race with this and try to complete the transfer while
-it's being torn down here.
+> This is not the way I want to take before, this would frequently disable/enable cpuidle. So is it necessary to provide s_timeout, this callback should be used to change protocols' timeout?
+> If implement s_timeout, users need change the timeout value from userspace, this is a mandatory operation and unfriendly. And it will affect protocol's timeout.
+> 
+> Autosuspend delay should be fixed value, should be set to gpio device timeout value, which is 125ms.
 
->         geni_se_abort_m_cmd(&gi2c->se);
->         spin_unlock_irqrestore(&gi2c->lock, flags);
->         do {
-> @@ -349,10 +352,62 @@ static void geni_i2c_tx_fsm_rst(struct geni_i2c_dev=
- *gi2c)
->                 dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
->  }
-> =20
-> +static void geni_i2c_rx_msg_cleanup(struct geni_i2c_dev *gi2c)
+So the idea was that cpuidle is only enabled while IR frames are being
+received, that's why I suggested it.
 
-So maybe pass cur to this function?
+If you set the autosuspend delay to 125ms, then the cpuidle will not be enabled
+between IR frames. Maybe this is what you want, but it does mean cpuidle
+is totally suspended while anyone is pressing buttons on a remote.
 
-> +{
-> +       struct geni_se *se =3D &gi2c->se;
-> +
-> +       gi2c->cur_rd =3D 0;
-> +       if (gi2c->dma_buf) {
-> +               if (gi2c->err)
-> +                       geni_i2c_rx_fsm_rst(gi2c);
-> +               geni_se_rx_dma_unprep(se, gi2c->rx_dma, gi2c->xfer_len);
-> +               i2c_put_dma_safe_msg_buf(gi2c->dma_buf, gi2c->cur, !gi2c-=
->err);
-> +       }
-> +}
-> +
-> +static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c)
+Thanks
+Sean
 
-And this one?
-
-> +{
-> +       struct geni_se *se =3D &gi2c->se;
-> +
-> +       gi2c->cur_wr =3D 0;
-> +       if (gi2c->dma_buf) {
-> +               if (gi2c->err)
-> +                       geni_i2c_tx_fsm_rst(gi2c);
-> +               geni_se_tx_dma_unprep(se, gi2c->tx_dma, gi2c->xfer_len);
-> +               i2c_put_dma_safe_msg_buf(gi2c->dma_buf, gi2c->cur, !gi2c-=
->err);
-> +       }
-> +}
-> +
-> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
-> +{
-> +       int ret;
-> +       u32 geni_status;
-> +
-> +       /* Resume device, as runtime suspend can happen anytime during tr=
-ansfer */
-> +       ret =3D pm_runtime_get_sync(gi2c->se.dev);
-> +       if (ret < 0) {
-> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n", re=
-t);
-> +               return;
-> +       }
-> +
-> +       geni_status =3D readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
-
-And this probably needs to hold the lock?
-
-> +       if (!(geni_status & M_GENI_CMD_ACTIVE))
-> +               goto out;
-> +
-> +       geni_i2c_abort_xfer(gi2c);
-> +       if (gi2c->cur->flags & I2C_M_RD)
-> +               geni_i2c_rx_msg_cleanup(gi2c);
-> +       else
-> +               geni_i2c_tx_msg_cleanup(gi2c);
-> +       gi2c->cur =3D NULL;
-
-until here?
-
-> +out:
-> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
-> +}
-> +
->  static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg=
- *msg,
->                                 u32 m_param)
->  {
-> -       dma_addr_t rx_dma;
-> +       dma_addr_t rx_dma =3D 0;
->         unsigned long time_left;
->         void *dma_buf =3D NULL;
->         struct geni_se *se =3D &gi2c->se;
-> @@ -372,6 +427,10 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *=
-gi2c, struct i2c_msg *msg,
->                 geni_se_select_mode(se, GENI_SE_FIFO);
->                 i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
->                 dma_buf =3D NULL;
-> +       } else {
-> +               gi2c->xfer_len =3D len;
-> +               gi2c->rx_dma =3D rx_dma;
-> +               gi2c->dma_buf =3D dma_buf;
->         }
-> =20
->         geni_se_setup_m_cmd(se, I2C_READ, m_param);
-> @@ -380,13 +439,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *=
-gi2c, struct i2c_msg *msg,
->         if (!time_left)
->                 geni_i2c_abort_xfer(gi2c);
-> =20
-> -       gi2c->cur_rd =3D 0;
-> -       if (dma_buf) {
-> -               if (gi2c->err)
-> -                       geni_i2c_rx_fsm_rst(gi2c);
-> -               geni_se_rx_dma_unprep(se, rx_dma, len);
-> -               i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
-> -       }
-> +       geni_i2c_rx_msg_cleanup(gi2c);
-> =20
->         return gi2c->err;
->  }
-
-It may make sense to extract the cleanup stuff into another patch. Then
-have a patch after that which does the shutdown hook. So three patches
-total.
-
-> diff --git a/drivers/soc/qcom/qcom-geni-se.c b/drivers/soc/qcom/qcom-geni=
--se.c
-> index d0e4f520cff8..0216b38c1e9a 100644
-> --- a/drivers/soc/qcom/qcom-geni-se.c
-> +++ b/drivers/soc/qcom/qcom-geni-se.c
-> @@ -705,7 +705,7 @@ void geni_se_tx_dma_unprep(struct geni_se *se, dma_ad=
-dr_t iova, size_t len)
->  {
->         struct geni_wrapper *wrapper =3D se->wrapper;
-> =20
-> -       if (iova && !dma_mapping_error(wrapper->dev, iova))
-> +       if (!dma_mapping_error(wrapper->dev, iova))
->                 dma_unmap_single(wrapper->dev, iova, len, DMA_TO_DEVICE);
->  }
->  EXPORT_SYMBOL(geni_se_tx_dma_unprep);
-> @@ -722,7 +722,7 @@ void geni_se_rx_dma_unprep(struct geni_se *se, dma_ad=
-dr_t iova, size_t len)
->  {
->         struct geni_wrapper *wrapper =3D se->wrapper;
-> =20
-> -       if (iova && !dma_mapping_error(wrapper->dev, iova))
-> +       if (!dma_mapping_error(wrapper->dev, iova))
->                 dma_unmap_single(wrapper->dev, iova, len, DMA_FROM_DEVICE=
-);
->  }
->  EXPORT_SYMBOL(geni_se_rx_dma_unprep);
-
-I'd make this a different patch. Nothing depends on this change, right?
+> 
+> Best Regards,
+> Joakim Zhang
+> > > +	pm_runtime_use_autosuspend(dev);
+> > > +	pm_runtime_set_suspended(dev);
+> > > +	pm_runtime_enable(dev);
+> > > +
+> > >  	return devm_request_irq(dev, gpio_dev->irq, gpio_ir_recv_irq,
+> > >  				IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING,
+> > >  				"gpio-ir-recv-irq", gpio_dev);
