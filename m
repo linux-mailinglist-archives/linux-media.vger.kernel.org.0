@@ -2,41 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8A0026EE75
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 04:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99A5626EE3F
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 04:27:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgIRC2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 22:28:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44122 "EHLO mail.kernel.org"
+        id S1728180AbgIRC1J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 22:27:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45038 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729217AbgIRCPW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:15:22 -0400
+        id S1728540AbgIRCPu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:15:50 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 54E0123A01;
-        Fri, 18 Sep 2020 02:15:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 78B942396D;
+        Fri, 18 Sep 2020 02:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600395320;
-        bh=coEGVUznuFfa6GSztzmYsJ5ao0RL88SvQOSVc9PE6jw=;
+        s=default; t=1600395349;
+        bh=YTi2DVDTYY9Gzpuq/f0hpUTUJ4WQ85KgDRz9QQ36yCU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sP5OeykcZMgzmAkGfRW+r8KdcB0Jf3eXfpof2axxETUmc2oi4gPtPLJJWHCxEaVx9
-         9Ts3Gz/hrjMIj2misBxlUVuvKdcs1MpsD7O2fFhgVe/sZk7tWlxDbBa3AqbT27RAD/
-         64KlS+fAiw2L35rdUCim1bMP55Ed6eyBIS4ZLBB0=
+        b=Q4HNnefXp9jMrmSdYcdwIdMo8wf5WCIYzDZfd3otGTsFJnkxv1SeOw0daW8ceV/q4
+         d1DEaHcfdqugr35auEDyuCFdAj8MvQpTaEJyhgPMR8Gha0OcTC5dG7HTxQN8fTrNlB
+         of7X1UvRNFkfRNIw+aAiyasUXF1ljXhpZVmT9S/U=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Benoit Parrot <bparrot@ti.com>,
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        =?UTF-8?q?Josef=20M=C3=B6llers?= <josef.moellers@suse.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 21/90] media: ti-vpe: cal: Restrict DMA to avoid memory corruption
-Date:   Thu, 17 Sep 2020 22:13:46 -0400
-Message-Id: <20200918021455.2067301-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 44/90] media: go7007: Fix URB type for interrupt handling
+Date:   Thu, 17 Sep 2020 22:14:09 -0400
+Message-Id: <20200918021455.2067301-44-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918021455.2067301-1-sashal@kernel.org>
 References: <20200918021455.2067301-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -44,56 +45,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Nikhil Devshatwar <nikhil.nd@ti.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 6e72eab2e7b7a157d554b8f9faed7676047be7c1 ]
+[ Upstream commit a3ea410cac41b19a5490aad7fe6d9a9a772e646e ]
 
-When setting DMA for video capture from CSI channel, if the DMA size
-is not given, it ends up writing as much data as sent by the camera.
+Josef reported that his old-and-good Plextor ConvertX M402U video
+converter spews lots of WARNINGs on the recent kernels, and it turned
+out that the device uses a bulk endpoint for interrupt handling just
+like 2250 board.
 
-This may lead to overwriting the buffers causing memory corruption.
-Observed green lines on the default framebuffer.
+For fixing it, generalize the check with the proper verification of
+the endpoint instead of hard-coded board type check.
 
-Restrict the DMA to maximum height as specified in the S_FMT ioctl.
+Fixes: 7e5219d18e93 ("[media] go7007: Fix 2250 urb type")
+Reported-and-tested-by: Josef Möllers <josef.moellers@suse.com>
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1162583
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=206427
 
-Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/ti-vpe/cal.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/usb/go7007/go7007-usb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 563b9636ab63b..803e0794ca131 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -690,12 +690,13 @@ static void pix_proc_config(struct cal_ctx *ctx)
- }
+diff --git a/drivers/media/usb/go7007/go7007-usb.c b/drivers/media/usb/go7007/go7007-usb.c
+index ed9bcaf08d5ec..ddfaabd4c0813 100644
+--- a/drivers/media/usb/go7007/go7007-usb.c
++++ b/drivers/media/usb/go7007/go7007-usb.c
+@@ -1052,6 +1052,7 @@ static int go7007_usb_probe(struct usb_interface *intf,
+ 	struct go7007_usb *usb;
+ 	const struct go7007_usb_board *board;
+ 	struct usb_device *usbdev = interface_to_usbdev(intf);
++	struct usb_host_endpoint *ep;
+ 	unsigned num_i2c_devs;
+ 	char *name;
+ 	int video_pipe, i, v_urb_len;
+@@ -1147,7 +1148,8 @@ static int go7007_usb_probe(struct usb_interface *intf,
+ 	if (usb->intr_urb->transfer_buffer == NULL)
+ 		goto allocfail;
  
- static void cal_wr_dma_config(struct cal_ctx *ctx,
--			      unsigned int width)
-+			      unsigned int width, unsigned int height)
- {
- 	u32 val;
- 
- 	val = reg_read(ctx->dev, CAL_WR_DMA_CTRL(ctx->csi2_port));
- 	set_field(&val, ctx->csi2_port, CAL_WR_DMA_CTRL_CPORT_MASK);
-+	set_field(&val, height, CAL_WR_DMA_CTRL_YSIZE_MASK);
- 	set_field(&val, CAL_WR_DMA_CTRL_DTAG_PIX_DAT,
- 		  CAL_WR_DMA_CTRL_DTAG_MASK);
- 	set_field(&val, CAL_WR_DMA_CTRL_MODE_CONST,
-@@ -1321,7 +1322,8 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	csi2_lane_config(ctx);
- 	csi2_ctx_config(ctx);
- 	pix_proc_config(ctx);
--	cal_wr_dma_config(ctx, ctx->v_fmt.fmt.pix.bytesperline);
-+	cal_wr_dma_config(ctx, ctx->v_fmt.fmt.pix.bytesperline,
-+			  ctx->v_fmt.fmt.pix.height);
- 	cal_wr_dma_addr(ctx, addr);
- 	csi2_ppi_enable(ctx);
- 
+-	if (go->board_id == GO7007_BOARDID_SENSORAY_2250)
++	ep = usb->usbdev->ep_in[4];
++	if (usb_endpoint_type(&ep->desc) == USB_ENDPOINT_XFER_BULK)
+ 		usb_fill_bulk_urb(usb->intr_urb, usb->usbdev,
+ 			usb_rcvbulkpipe(usb->usbdev, 4),
+ 			usb->intr_urb->transfer_buffer, 2*sizeof(u16),
 -- 
 2.25.1
 
