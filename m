@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2990826F198
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 04:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB42426F136
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 04:49:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728372AbgIRCw2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 22:52:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59100 "EHLO mail.kernel.org"
+        id S1727095AbgIRCJA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 22:09:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60628 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728044AbgIRCII (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:08:08 -0400
+        id S1728198AbgIRCI6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:08:58 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 85424238E3;
-        Fri, 18 Sep 2020 02:08:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1B52F235F9;
+        Fri, 18 Sep 2020 02:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600394887;
-        bh=1skrjOFlpg33Li9byXbrIzTcZgSsfVl0JOdN91rhDYc=;
+        s=default; t=1600394938;
+        bh=yUK0HLYKdN07FEPz7f+8FoTS9YClMk7ZefkhznqXA5w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OQWz2lm//o0n2WPmIaRLsj1sHUvQhs7GSGMCrpHAjsnYXsXoqW/JY8TEUWU1slTgk
-         SAgxdtf8P32RLB0rT5ZZpCvtL96i855iTq0yFMiExUOxIfJ/WNDToBD4r2rA8Bhl8u
-         uAj+9IO2Zwqpt44wiLTNphy3W1Pv4krVxtnwnNP8=
+        b=S0iEBykGmilsKOWzCn+SPfKppMjcREqwCVOxzYagZxB5UmBn1y76tk/FSnjvQZ9Q1
+         cv2DJt1n22EzI2BP140xD6FnwBcX0NFzFv0ShwXtFXs59g7PXObHD7ISrm6cyi6cNB
+         K358sfj7XQl1W7xH9tYy9PvCgwUITVeslH8rprk4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chris Wilson <chris@chris-wilson.co.uk>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 4.19 003/206] dma-fence: Serialise signal enabling (dma_fence_enable_sw_signaling)
-Date:   Thu, 17 Sep 2020 22:04:39 -0400
-Message-Id: <20200918020802.2065198-3-sashal@kernel.org>
+Cc:     Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 047/206] media: ti-vpe: cal: Restrict DMA to avoid memory corruption
+Date:   Thu, 17 Sep 2020 22:05:23 -0400
+Message-Id: <20200918020802.2065198-47-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020802.2065198-1-sashal@kernel.org>
 References: <20200918020802.2065198-1-sashal@kernel.org>
@@ -43,162 +44,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+From: Nikhil Devshatwar <nikhil.nd@ti.com>
 
-[ Upstream commit 9c98f021e4e717ffd9948fa65340ea3ef12b7935 ]
+[ Upstream commit 6e72eab2e7b7a157d554b8f9faed7676047be7c1 ]
 
-Make dma_fence_enable_sw_signaling() behave like its
-dma_fence_add_callback() and dma_fence_default_wait() counterparts and
-perform the test to enable signaling under the fence->lock, along with
-the action to do so. This ensure that should an implementation be trying
-to flush the cb_list (by signaling) on retirement before freeing the
-fence, it can do so in a race-free manner.
+When setting DMA for video capture from CSI channel, if the DMA size
+is not given, it ends up writing as much data as sent by the camera.
 
-See also 0fc89b6802ba ("dma-fence: Simply wrap dma_fence_signal_locked
-with dma_fence_signal").
+This may lead to overwriting the buffers causing memory corruption.
+Observed green lines on the default framebuffer.
 
-v2: Refactor all 3 enable_signaling paths to use a common function.
-v3: Don't argue, just keep the tracepoint in the existing spot.
+Restrict the DMA to maximum height as specified in the S_FMT ioctl.
 
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191004101140.32713-1-chris@chris-wilson.co.uk
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/dma-buf/dma-fence.c | 78 +++++++++++++++++--------------------
- 1 file changed, 35 insertions(+), 43 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 1551ca7df3941..8586cc05def17 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -244,6 +244,30 @@ void dma_fence_free(struct dma_fence *fence)
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index be3155275a6ba..d945323fc437d 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -684,12 +684,13 @@ static void pix_proc_config(struct cal_ctx *ctx)
  }
- EXPORT_SYMBOL(dma_fence_free);
  
-+static bool __dma_fence_enable_signaling(struct dma_fence *fence)
-+{
-+	bool was_set;
-+
-+	lockdep_assert_held(fence->lock);
-+
-+	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-+				   &fence->flags);
-+
-+	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+		return false;
-+
-+	if (!was_set && fence->ops->enable_signaling) {
-+		trace_dma_fence_enable_signal(fence);
-+
-+		if (!fence->ops->enable_signaling(fence)) {
-+			dma_fence_signal_locked(fence);
-+			return false;
-+		}
-+	}
-+
-+	return true;
-+}
-+
- /**
-  * dma_fence_enable_sw_signaling - enable signaling on fence
-  * @fence: the fence to enable
-@@ -256,19 +280,12 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence)
+ static void cal_wr_dma_config(struct cal_ctx *ctx,
+-			      unsigned int width)
++			      unsigned int width, unsigned int height)
  {
- 	unsigned long flags;
+ 	u32 val;
  
--	if (!test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
--			      &fence->flags) &&
--	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) &&
--	    fence->ops->enable_signaling) {
--		trace_dma_fence_enable_signal(fence);
--
--		spin_lock_irqsave(fence->lock, flags);
--
--		if (!fence->ops->enable_signaling(fence))
--			dma_fence_signal_locked(fence);
-+	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+		return;
+ 	val = reg_read(ctx->dev, CAL_WR_DMA_CTRL(ctx->csi2_port));
+ 	set_field(&val, ctx->csi2_port, CAL_WR_DMA_CTRL_CPORT_MASK);
++	set_field(&val, height, CAL_WR_DMA_CTRL_YSIZE_MASK);
+ 	set_field(&val, CAL_WR_DMA_CTRL_DTAG_PIX_DAT,
+ 		  CAL_WR_DMA_CTRL_DTAG_MASK);
+ 	set_field(&val, CAL_WR_DMA_CTRL_MODE_CONST,
+@@ -1315,7 +1316,8 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	csi2_lane_config(ctx);
+ 	csi2_ctx_config(ctx);
+ 	pix_proc_config(ctx);
+-	cal_wr_dma_config(ctx, ctx->v_fmt.fmt.pix.bytesperline);
++	cal_wr_dma_config(ctx, ctx->v_fmt.fmt.pix.bytesperline,
++			  ctx->v_fmt.fmt.pix.height);
+ 	cal_wr_dma_addr(ctx, addr);
+ 	csi2_ppi_enable(ctx);
  
--		spin_unlock_irqrestore(fence->lock, flags);
--	}
-+	spin_lock_irqsave(fence->lock, flags);
-+	__dma_fence_enable_signaling(fence);
-+	spin_unlock_irqrestore(fence->lock, flags);
- }
- EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
- 
-@@ -302,7 +319,6 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
- {
- 	unsigned long flags;
- 	int ret = 0;
--	bool was_set;
- 
- 	if (WARN_ON(!fence || !func))
- 		return -EINVAL;
-@@ -314,25 +330,14 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
- 
- 	spin_lock_irqsave(fence->lock, flags);
- 
--	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
--				   &fence->flags);
--
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
--		ret = -ENOENT;
--	else if (!was_set && fence->ops->enable_signaling) {
--		trace_dma_fence_enable_signal(fence);
--
--		if (!fence->ops->enable_signaling(fence)) {
--			dma_fence_signal_locked(fence);
--			ret = -ENOENT;
--		}
--	}
--
--	if (!ret) {
-+	if (__dma_fence_enable_signaling(fence)) {
- 		cb->func = func;
- 		list_add_tail(&cb->node, &fence->cb_list);
--	} else
-+	} else {
- 		INIT_LIST_HEAD(&cb->node);
-+		ret = -ENOENT;
-+	}
-+
- 	spin_unlock_irqrestore(fence->lock, flags);
- 
- 	return ret;
-@@ -432,7 +437,6 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- 	struct default_wait_cb cb;
- 	unsigned long flags;
- 	signed long ret = timeout ? timeout : 1;
--	bool was_set;
- 
- 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
- 		return ret;
-@@ -444,21 +448,9 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- 		goto out;
- 	}
- 
--	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
--				   &fence->flags);
--
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+	if (!__dma_fence_enable_signaling(fence))
- 		goto out;
- 
--	if (!was_set && fence->ops->enable_signaling) {
--		trace_dma_fence_enable_signal(fence);
--
--		if (!fence->ops->enable_signaling(fence)) {
--			dma_fence_signal_locked(fence);
--			goto out;
--		}
--	}
--
- 	if (!timeout) {
- 		ret = 0;
- 		goto out;
 -- 
 2.25.1
 
