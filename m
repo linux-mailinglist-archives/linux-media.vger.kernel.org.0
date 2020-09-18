@@ -2,76 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A36FD26F761
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 09:52:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5523726F771
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 09:53:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726765AbgIRHwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Sep 2020 03:52:05 -0400
-Received: from mga03.intel.com ([134.134.136.65]:47743 "EHLO mga03.intel.com"
+        id S1726883AbgIRHxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Sep 2020 03:53:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726738AbgIRHwE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Sep 2020 03:52:04 -0400
-IronPort-SDR: 1a3eqCzY0mnDMxYhSTzoUMS5ekCYqeuLPcKZLcl4hdPaCIlmPGjadmTQelFak5y0Iny8FfjP1b
- KEyImH78yVxQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="159936005"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
-   d="scan'208";a="159936005"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 00:52:03 -0700
-IronPort-SDR: aGLIl3MOuejeYag5/MQZNdd9G1WZcYWhHIhn1M+ibBYwpU2kvnetFLi7rJn/wOLZSe9oYFqUbF
- 4IZrxTeb95zA==
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
-   d="scan'208";a="287874902"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 00:51:59 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id AB1B320815; Fri, 18 Sep 2020 10:51:57 +0300 (EEST)
-Date:   Fri, 18 Sep 2020 10:51:57 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Dan Scally <djrscally@gmail.com>, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, davem@davemloft.net, robh@kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, jorhand@linux.microsoft.com,
-        kitakar@gmail.com, kieran.bingham@ideasonboard.com
-Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
- via software nodes on ACPI platforms
-Message-ID: <20200918075157.GF26842@paasikivi.fi.intel.com>
-References: <20200916213618.8003-1-djrscally@gmail.com>
- <20200917103343.GW26842@paasikivi.fi.intel.com>
- <8133a57d-ab4c-dccd-4325-9b10e7805648@gmail.com>
- <20200917124514.GK3956970@smile.fi.intel.com>
+        id S1726646AbgIRHxP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Sep 2020 03:53:15 -0400
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 06430235FC;
+        Fri, 18 Sep 2020 07:53:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600415594;
+        bh=zR4pC32CsRwkRMcQjTnnCp339wA8YZYmTzvhc8Ku3wQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=cZJCNtkfkHA0r0FeMIAWY7D+QPapfLaH15sFE1WNYM4PKyUdb33JlOgilSdSSTwM4
+         xGabXi2sfwLjYfFwquhkvjT02UVDctUBVqx+oQlovxOMWqP6oSQxOmeXlwiNQh93Do
+         /Vu58+Vdi5m6dZbWmFufI2IgJXtwo+Id3LfJFLZc=
+Received: by mail-ej1-f49.google.com with SMTP id lo4so6816003ejb.8;
+        Fri, 18 Sep 2020 00:53:13 -0700 (PDT)
+X-Gm-Message-State: AOAM5322x9vk1MhUHFVQGQWeaMtCYoBkJFKPRbrvliNpWhinsBqGAiVC
+        iw55FPvy/pQrybbdppR2VvjMxfww1o4jgfX5YsE=
+X-Google-Smtp-Source: ABdhPJz4h58zSa29o5A1o7MhoFoews9vi+zWZmYhOt2gWbPt5yeBvYS4l1uut8tLvrHP24ftCZlb9SA8h3ZMk81xBpI=
+X-Received: by 2002:a17:906:5008:: with SMTP id s8mr36525529ejj.408.1600415590292;
+ Fri, 18 Sep 2020 00:53:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200917124514.GK3956970@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200917165301.23100-1-krzk@kernel.org> <20200917165301.23100-2-krzk@kernel.org>
+ <20200917200936.GF3969@pendragon.ideasonboard.com>
+In-Reply-To: <20200917200936.GF3969@pendragon.ideasonboard.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Fri, 18 Sep 2020 09:52:57 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPc=o0vtU0VKE5b5Ro3nF=ra-p7UnbFfjj_++onw8MeSKQ@mail.gmail.com>
+Message-ID: <CAJKOXPc=o0vtU0VKE5b5Ro3nF=ra-p7UnbFfjj_++onw8MeSKQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] dt-bindings: gpio: add common schema for GPIO controllers
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Hoan Tran <hoan@os.amperecomputing.com>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Sungbo Eo <mans0n@gorani.run>, Stefan Agner <stefan@agner.ch>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yash Shah <yash.shah@sifive.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        - <patches@opensource.cirrus.com>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Teng <andy.teng@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Sricharan R <sricharan@codeaurora.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-unisoc@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+On Thu, 17 Sep 2020 at 22:10, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Krzysztof,
+>
+> Thank you for the patch.
+>
+> On Thu, Sep 17, 2020 at 06:52:49PM +0200, Krzysztof Kozlowski wrote:
+> > Convert parts of gpio.txt bindings into common dtschema file for GPIO
+> > controllers.
+>
+> How about deleting the part that has been converted from gpio.txt ?
 
-On Thu, Sep 17, 2020 at 03:45:14PM +0300, Andy Shevchenko wrote:
-> On Thu, Sep 17, 2020 at 11:52:28AM +0100, Dan Scally wrote:
-> > On 17/09/2020 11:33, Sakari Ailus wrote:
-> > > a module and not enlarge everyone's kernel, and the initialisation would at
-> > > the same time take place before the rest of what the CIO2 driver does in
-> > > probe.
-> > I thought of that as well, but wasn't sure which was preferable. I can
-> > compress it into the CIO2 driver though sure.
-> 
-> Sakari, I tend to agree with Dan and have the board file separated from the
-> driver and even framework.
+I did not move everything from the gpio.txt and it is really nicely
+explained there. I think to leave it as it works as a overview/guide
+better than YAML.
 
-And it'll be linked to the kernel binary then I suppose?
+>
+> > The schema enforces proper naming of GPIO controller nodes and GPIO
+> > hogs.
+> >
+> > The schema should be included by specific GPIO controllers bindings.
+>
+> Instead of including it manually, could we use a conditional select: to
+> apply the schema automatically when a gpio-controller property is
+> present ?
 
-I don't have a strong opinion either way, just thought that this will
-affect anyone using x86 machines, whether or not they have IPU3. I guess it
-could be compiled in if the ipu3-cio2 driver is enabled?
+You mean the same way as generic schema for GPIO controllers work?
+This could be done but the point is to enforce the GPIO controller
+bindings in GPIO controllers, so also in cases when someone forgets to
+add "gpio-controller" property. Although, if given GPIO controller
+schema requires "gpio-controller" then indeed select would work...
 
--- 
-Sakari Ailus
+Best regards,
+Krzysztof
