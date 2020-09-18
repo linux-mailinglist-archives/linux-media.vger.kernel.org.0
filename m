@@ -2,40 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A4D426EE1B
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 04:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D50226ED8E
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 04:22:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728979AbgIRCQD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 22:16:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45038 "EHLO mail.kernel.org"
+        id S1729411AbgIRCVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 22:21:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48016 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727859AbgIRCQA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:16:00 -0400
+        id S1728268AbgIRCRY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:17:24 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 19295238E6;
-        Fri, 18 Sep 2020 02:15:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A01D23600;
+        Fri, 18 Sep 2020 02:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600395354;
-        bh=8a7aXT5OSsF0of6/MKoiMujwH1U9TObrIyMwM0oswaU=;
+        s=default; t=1600395440;
+        bh=/+F1QM/Q/TqH+kA/raRo3Fdl8Z/B6ZhvPDdmdxbeK14=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ehm4gOpD0Ff8ZHJTrSQWqeeRW84bwXYmgVtUy4SEXy/2KI6qtcbhyK28XZ24WSfnj
-         UKkJcgu9ABNYQEMm2SEw8cyYDfjZ8fpgFiBG1OdPVVCynQPFFi6QFp7DjXURTG5IGq
-         3DJ7zrtLtz/lX87k6MRJNhwQcVc4+lsBcn4l/BAE=
+        b=YzNw86kUvYhjObEDdkKv0i3vrWZEo1frTzypD7GtAxHFazQvacCeyWtrwHHOD4ZiW
+         CiaptswAoIgvE9kpCJaYhf3Hlac0f5niq8+9aMekkSPn76fKSMaK/ozcvkxg9uvae9
+         kwTTUICCmSBjJvBCuipHrQh0dF5vXCEYr7C31xGQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Colin Ian King <colin.king@canonical.com>,
-        Sean Young <sean@mess.org>,
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        =?UTF-8?q?Josef=20M=C3=B6llers?= <josef.moellers@suse.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 49/90] media: tda10071: fix unsigned sign extension overflow
-Date:   Thu, 17 Sep 2020 22:14:14 -0400
-Message-Id: <20200918021455.2067301-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 29/64] media: go7007: Fix URB type for interrupt handling
+Date:   Thu, 17 Sep 2020 22:16:08 -0400
+Message-Id: <20200918021643.2067895-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200918021455.2067301-1-sashal@kernel.org>
-References: <20200918021455.2067301-1-sashal@kernel.org>
+In-Reply-To: <20200918021643.2067895-1-sashal@kernel.org>
+References: <20200918021643.2067895-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -43,50 +45,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit a7463e2dc698075132de9905b89f495df888bb79 ]
+[ Upstream commit a3ea410cac41b19a5490aad7fe6d9a9a772e646e ]
 
-The shifting of buf[3] by 24 bits to the left will be promoted to
-a 32 bit signed int and then sign-extended to an unsigned long. In
-the unlikely event that the the top bit of buf[3] is set then all
-then all the upper bits end up as also being set because of
-the sign-extension and this affect the ev->post_bit_error sum.
-Fix this by using the temporary u32 variable bit_error to avoid
-the sign-extension promotion. This also removes the need to do the
-computation twice.
+Josef reported that his old-and-good Plextor ConvertX M402U video
+converter spews lots of WARNINGs on the recent kernels, and it turned
+out that the device uses a bulk endpoint for interrupt handling just
+like 2250 board.
 
-Addresses-Coverity: ("Unintended sign extension")
+For fixing it, generalize the check with the proper verification of
+the endpoint instead of hard-coded board type check.
 
-Fixes: 267897a4708f ("[media] tda10071: implement DVBv5 statistics")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Signed-off-by: Sean Young <sean@mess.org>
+Fixes: 7e5219d18e93 ("[media] go7007: Fix 2250 urb type")
+Reported-and-tested-by: Josef Möllers <josef.moellers@suse.com>
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1162583
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=206427
+
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/dvb-frontends/tda10071.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/media/usb/go7007/go7007-usb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-frontends/tda10071.c b/drivers/media/dvb-frontends/tda10071.c
-index 37ebeef2bbd0b..43343091ea93e 100644
---- a/drivers/media/dvb-frontends/tda10071.c
-+++ b/drivers/media/dvb-frontends/tda10071.c
-@@ -483,10 +483,11 @@ static int tda10071_read_status(struct dvb_frontend *fe, enum fe_status *status)
- 			goto error;
+diff --git a/drivers/media/usb/go7007/go7007-usb.c b/drivers/media/usb/go7007/go7007-usb.c
+index 4857c467e76cd..4490786936a02 100644
+--- a/drivers/media/usb/go7007/go7007-usb.c
++++ b/drivers/media/usb/go7007/go7007-usb.c
+@@ -1052,6 +1052,7 @@ static int go7007_usb_probe(struct usb_interface *intf,
+ 	struct go7007_usb *usb;
+ 	const struct go7007_usb_board *board;
+ 	struct usb_device *usbdev = interface_to_usbdev(intf);
++	struct usb_host_endpoint *ep;
+ 	unsigned num_i2c_devs;
+ 	char *name;
+ 	int video_pipe, i, v_urb_len;
+@@ -1147,7 +1148,8 @@ static int go7007_usb_probe(struct usb_interface *intf,
+ 	if (usb->intr_urb->transfer_buffer == NULL)
+ 		goto allocfail;
  
- 		if (dev->delivery_system == SYS_DVBS) {
--			dev->dvbv3_ber = buf[0] << 24 | buf[1] << 16 |
--					 buf[2] << 8 | buf[3] << 0;
--			dev->post_bit_error += buf[0] << 24 | buf[1] << 16 |
--					       buf[2] << 8 | buf[3] << 0;
-+			u32 bit_error = buf[0] << 24 | buf[1] << 16 |
-+					buf[2] << 8 | buf[3] << 0;
-+
-+			dev->dvbv3_ber = bit_error;
-+			dev->post_bit_error += bit_error;
- 			c->post_bit_error.stat[0].scale = FE_SCALE_COUNTER;
- 			c->post_bit_error.stat[0].uvalue = dev->post_bit_error;
- 			dev->block_error += buf[4] << 8 | buf[5] << 0;
+-	if (go->board_id == GO7007_BOARDID_SENSORAY_2250)
++	ep = usb->usbdev->ep_in[4];
++	if (usb_endpoint_type(&ep->desc) == USB_ENDPOINT_XFER_BULK)
+ 		usb_fill_bulk_urb(usb->intr_urb, usb->usbdev,
+ 			usb_rcvbulkpipe(usb->usbdev, 4),
+ 			usb->intr_urb->transfer_buffer, 2*sizeof(u16),
 -- 
 2.25.1
 
