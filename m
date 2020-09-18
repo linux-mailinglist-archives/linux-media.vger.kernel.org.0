@@ -2,147 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 416A926F7CF
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 10:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3598926F80E
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 10:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgIRIQi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Sep 2020 04:16:38 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:39958 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726102AbgIRIQi (ORCPT
+        id S1726381AbgIRIX6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Sep 2020 04:23:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55790 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725874AbgIRIXz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Sep 2020 04:16:38 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08I8F2p2070722;
-        Fri, 18 Sep 2020 08:16:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=XZIYm24yndlWZXI5R5Yn+Q8BksLATNq+z3yjFm3AtHA=;
- b=YUz17olhIiyfVpmLPeUEvUXXTHm+DPpH6IRUD1lcgVzol0cilLunRafThRgfumbumdr+
- UiXy6Pi95Gwx1Yi7zv2j0JpOcOEf8NGzOYpgMIw6vBlNVTWMVDJAGi1lvGlHfbJUNz3n
- UAlmcADOI/wYQisZZ6qCEB5GLixnD+KFuxSzCsOdXtPOOe2XM3WNBN/QxL5vCeSn8fmx
- Bby4JNT3jKL4c2RbapJdgyvyPpilx7G17FlXjK3f+a+dSvXO+CfMkaCETdUTJ+O26t0+
- e0o5D8nGnkuApKk6njKVp4FhSD0rQuxG2Z0PnjfutDkIRkimakPLLNcrvdZrTIlfmpGc pQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 33gp9mnn63-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 18 Sep 2020 08:16:24 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08I8G1hN106137;
-        Fri, 18 Sep 2020 08:16:24 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3020.oracle.com with ESMTP id 33hm36dvus-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 18 Sep 2020 08:16:24 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08I8GKxn007685;
-        Fri, 18 Sep 2020 08:16:20 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 18 Sep 2020 08:16:20 +0000
-Date:   Fri, 18 Sep 2020 11:16:09 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     devel@driverdev.osuosl.org, robh@kernel.org, mchehab@kernel.org,
-        jorhand@linux.microsoft.com, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
-        Daniel Scally <djrscally@gmail.com>, kitakar@gmail.com,
-        yong.zhi@intel.com, bingbu.cao@intel.com,
-        andriy.shevchenko@linux.intel.com, davem@davemloft.net,
-        tian.shu.qiu@intel.com, linux-media@vger.kernel.org
-Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
- via software nodes on ACPI platforms
-Message-ID: <20200918081609.GR18329@kadam>
-References: <20200916213618.8003-1-djrscally@gmail.com>
- <20200917103343.GW26842@paasikivi.fi.intel.com>
- <20200917104941.GP4282@kadam>
- <20200918064043.GE26842@paasikivi.fi.intel.com>
+        Fri, 18 Sep 2020 04:23:55 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C529C06174A;
+        Fri, 18 Sep 2020 01:23:55 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 9A728C6366; Fri, 18 Sep 2020 09:23:52 +0100 (BST)
+Date:   Fri, 18 Sep 2020 09:23:52 +0100
+From:   Sean Young <sean@mess.org>
+To:     Joakim Zhang <qiangqing.zhang@nxp.com>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH] media: rc: gpio-ir-recv: add QoS support for cpuidle
+ system
+Message-ID: <20200918082352.GA32346@gofer.mess.org>
+References: <20200915150202.24165-1-qiangqing.zhang@nxp.com>
+ <20200915093342.GA24139@gofer.mess.org>
+ <DB8PR04MB6795CB9F519D2BD277654B29E63E0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+ <20200917204336.GA21441@gofer.mess.org>
+ <DB8PR04MB6795D5228426C7D93AF08081E63F0@DB8PR04MB6795.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200918064043.GE26842@paasikivi.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9747 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxlogscore=999
- malwarescore=0 mlxscore=0 phishscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009180069
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9747 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- spamscore=0 priorityscore=1501 suspectscore=0 impostorscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009180069
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DB8PR04MB6795D5228426C7D93AF08081E63F0@DB8PR04MB6795.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 18, 2020 at 09:40:43AM +0300, Sakari Ailus wrote:
-> Hi Dan,
+Hi Joakim,
+
+On Fri, Sep 18, 2020 at 01:42:15AM +0000, Joakim Zhang wrote:
+> > -----Original Message-----
+> > From: Sean Young <sean@mess.org>
+> > Sent: 2020年9月18日 4:44
+> > To: Joakim Zhang <qiangqing.zhang@nxp.com>
+> > Cc: mchehab@kernel.org; linux-media@vger.kernel.org;
+> > linux-kernel@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
+> > Subject: Re: [PATCH] media: rc: gpio-ir-recv: add QoS support for cpuidle
+> > system
+
+-snip-
+
+> > > Autosuspend delay should be fixed value, should be set to gpio device timeout
+> > value, which is 125ms.
+> > 
+> > So the idea was that cpuidle is only enabled while IR frames are being received,
+> > that's why I suggested it.
 > 
-> On Thu, Sep 17, 2020 at 01:49:41PM +0300, Dan Carpenter wrote:
-> > On Thu, Sep 17, 2020 at 01:33:43PM +0300, Sakari Ailus wrote:
-> > > > +static int connect_supported_devices(void)
-> > > > +{
-> > > > +	struct acpi_device *adev;
-> > > > +	struct device *dev;
-> > > > +	struct sensor_bios_data ssdb;
-> > > > +	struct sensor *sensor;
-> > > > +	struct property_entry *sensor_props;
-> > > > +	struct property_entry *cio2_props;
-> > > > +	struct fwnode_handle *fwnode;
-> > > > +	struct software_node *nodes;
-> > > > +	struct v4l2_subdev *sd;
-> > > > +	int i, ret;
-> > > 
-> > > unsigned int i
-> > > 
-> > 
-> > Why?
-> > 
-> > For list iterators then "int i;" is best...  For sizes then unsigned is
-> > sometimes best.  Or if it's part of the hardware spec or network spec
-> > unsigned is best.  Otherwise unsigned variables cause a ton of bugs.
-> > They're not as intuitive as signed variables.  Imagine if there is an
-> > error in this loop and you want to unwind.  With a signed variable you
-> > can do:
-> > 
-> > 	while (--i >= 0)
-> > 		cleanup(&bridge.sensors[i]);
-> > 
-> > There are very few times where raising the type maximum from 2 billion
-> > to 4 billion fixes anything.
+> May be a typo, "cpuidle is only DISABLED while IR frames are being receive,", this is not I want to implement, experiments have also shown poor results.
+
+Sorry, yes I got this wrong. You are right.
+
+> > If you set the autosuspend delay to 125ms, then the cpuidle will not be enabled
+> > between IR frames. Maybe this is what you want, but it does mean cpuidle is
+> > totally suspended while anyone is pressing buttons on a remote.
 > 
-> There's simply no need for the negative integers here. Sizes (as it's a
-> size here) are unsigned, too, so you'd be comparing signed and unsigned
-> numbers later in the function.
+> Yes, this is what I want, cpuidle is totally disabled while pressing buttons, disable cpuidle at the first frame then keep disabled until there is no activity for a while.
+> So that we only can not decode the first frame, such as, if transmitting 4 frames once, we can correctly decode 3 times.
+> 
+> I also try your suggestion, set autosuspend delay time to protocol's timeout value, but the result is terrible. If transmitting 4 frames once, we can't correctly decode 3 times,
+> even can't decode it sometime. The sequence is, cpu in idle state when the first frame coming, then disable cpu idle until protocols' timeout, cpu in idle state again, the first frame can't be decoded.
+> The second frame coming, it will repeat the behavior of the first frame, may cause the second frame can't be decode......
+> 
+> Can you take account of I have done in the first version, autosuspend delay time is set to 125ms?
 
-I'm not trying to be rude, I'm honestly puzzled by this...
+Yes, in retrospect you are right. Trying to shorten the cpuidle suspended
+period will not work. I am sorry about this.
 
-The "i" variable is not a size, it's an iterator...  Comparing signed
-and unsigned isn't necessarily a problem, but the only comparison in
-this case is here:
+How about setting the autosuspend period in devicetree, and 0 will turn
+this feature off completely?
 
-   253          struct property_entry *cio2_props;
-   254          struct fwnode_handle *fwnode;
-   255          struct software_node *nodes;
-   256          struct v4l2_subdev *sd;
-   257          int i, ret;
-   258  
-   259          for (i = 0; i < ARRAY_SIZE(supported_devices); i++) {
-                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-That's obviously fine.  The compiler knows at compile time the value of
-ARRAY_SIZE().  I feel like there must be a static checker which
-complains about this?  ARRAY_SIZE() is size_t.
+Thanks,
 
-   260                  adev = acpi_dev_get_first_match_dev(supported_devices[i],
-   261                                                      NULL, -1);
-   262  
-   263                  if (!adev)
-   264                          continue;
-   265  
-
-regards,
-dan carpenter
-
+Sean
