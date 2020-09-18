@@ -2,95 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59BC726FA43
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 12:17:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6F5226FA44
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 12:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726472AbgIRKRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Sep 2020 06:17:33 -0400
+        id S1726576AbgIRKRh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Sep 2020 06:17:37 -0400
 Received: from mail-eopbgr20075.outbound.protection.outlook.com ([40.107.2.75]:21221
         "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725882AbgIRKRd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Sep 2020 06:17:33 -0400
+        id S1726064AbgIRKRg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Sep 2020 06:17:36 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IfeRVjYQyu7Lao1h9Gtk5B0tatuoD6RRlc0CqfLS7Evzvj36uBp+n/I69lZjQrJYfEzD+vRevfwkAfOsfg3eFwhVNR6zfN7R/NTPu7/RFx3pPVppddAOT30jp+nPixol7NQdX7AH/wnuhHiSKk90OUzU/6XfnSuGPcmZjh24gCDJwVxsGKEcMEFpLDBcitXgqneJVheyXBvMZDzfwhgKtBIXHLIlyoJtBG5g/on1sleOu1GXTN7mJ5l7/zABCdVI115hii5o0KQS6q6K2RTF9AXWnFA1waXylUgW26qPH1PnPFwh8QP06/JXAqw+Yqyt2pCDT7nZNgTgYuwF0FD7hQ==
+ b=n6G4YsILHozV4Sw1myUoXjSOCdDqtvu6ySyMckBTLhcNX4Lm1GOYmViDAZlMRjlxGAOr9p2CEykzHeemdGeDBtUm588e76MG6f9D6DxxGz3OJsXhd7LDNKph8fnbH88mepZRy8CnXHQVrYa9Zx6v9BwpDZ1rK1b6ugKiVUEjqny+69wei7P/yiWaIF0RD+HjclHgRBJerHvvviKl4+TFnO9JzkgPx9aqTzCV1jjecHagxnBFEVpz3lGtZIHw7ewB26aBSUdXWACm9IEfVox2a9tKxkZEvWzscnrOUaEcHOzg6QD+oPFcRQihBHJvTs0a0auzs6tQT0TJaA8zl7Kojw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/x81aBQNbky9R0P7DOxNBSdIHjueubXbYucT47hSEsg=;
- b=cDwJ626p1N64nU9sNdoCDiq+R/1MdXYkA1rLb9RWQOqSHrJziSOKmQBjCRkiqc7Z0xb9Omit0+0OwBOjF1idz09wQF0DaWGzO/Fovm09L3h4ZdadmLUtqJ15Xve2MrNkSMuFWLxwwnJ1YPwyf7Mq0NUsCTCDqU2EXtGLTIL0VAviRvNUtwcwWXeLA/5J63AMuZWqziklYLtCrE5YTvAl3NQh79xO2KnkaQTJ7Gj3UcY72yU8JnwalfoCiDi2HVXzd6+ArG3zCuwBRXZN443U4C6Ok9naAIOoEswtVwLSOwxHKURqc+hHjYCrF9J6LOCssxTqmqnE6aLD0iiHbbA9MQ==
+ bh=NuP7q81A3DDob16GiY+EOG7lqfLlq4EKxfRUkclRGFs=;
+ b=CziQ8zHjwCcFWPBDxkL5MM8cNji+qOb8+NraO/gBftdaTRQlCOMvGdSi4gQ6BESkpfVft7DNG/ZeQNRDpKVzVghNK1hyjo3wygJ87Mg8BbIEZRn/uILkHScuvw/bYPpquqbH5U6uTETK6Uow76hqDF/8g/NXbPoS9LtQzAHhRq7E8aVNmpTdKAV7iXZdl+Q94ehY/Yqrc/xUmrcDd/B0JDrL7W5Sm+3AbbbFKZ+SuXvFSTVgumbWUOpPEvgDAHJjqswA5mwZsSf9gM5g7po41LPlGTfYdAj9mEJMGnjcujlwCp7jGeoSSV18gqKg2DNOhrvs/Zb4nSpiA7fNLlXozg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/x81aBQNbky9R0P7DOxNBSdIHjueubXbYucT47hSEsg=;
- b=bTPrwM6zEx/p5Qf8u+rwiEo8DZ+qN0qE+KQRCiQaMSV9iQmpHMnjA6wfwrbRD1VTyAgzNXfXOtruDiEDlaKZJ1kdspVmAQhNLDR4SJY05F16mWjd5vJri3O6gZBPKcBNkZYf2Yk+XygOz75lydxuZmwJyGNBTJgIZfq6NKO8s/c=
+ bh=NuP7q81A3DDob16GiY+EOG7lqfLlq4EKxfRUkclRGFs=;
+ b=WxSrUPVvibzibFUY8HQfPgwprF6gnoSl1P/4cZNDwje4yKo+r6q3cWyizmaqpyk5nBdMgyP/+0JK1SbYIXiwL6ll8DXi0+sXm/l2m660g0wna+k6oZMlEYWbypPa+q3JDt6W27k9tTyF6Gszea2eQRKSLZR5CmRoMeRn49R0zZw=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from DB8PR04MB6795.eurprd04.prod.outlook.com (2603:10a6:10:fa::15)
  by DBAPR04MB7432.eurprd04.prod.outlook.com (2603:10a6:10:1a9::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Fri, 18 Sep
- 2020 10:17:27 +0000
+ 2020 10:17:30 +0000
 Received: from DB8PR04MB6795.eurprd04.prod.outlook.com
  ([fe80::d12e:689a:169:fd68]) by DB8PR04MB6795.eurprd04.prod.outlook.com
  ([fe80::d12e:689a:169:fd68%8]) with mapi id 15.20.3391.011; Fri, 18 Sep 2020
- 10:17:27 +0000
+ 10:17:30 +0000
 From:   Joakim Zhang <qiangqing.zhang@nxp.com>
 To:     mchehab@kernel.org, robh+dt@kernel.org, sean@mess.org
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-imx@nxp.com
-Subject: [PATCH V2 0/2] add QoS support for cpuidle system
-Date:   Sat, 19 Sep 2020 02:17:15 +0800
-Message-Id: <20200918181717.24056-1-qiangqing.zhang@nxp.com>
+Subject: [PATCH V2 1/2] bindings: media: gpio-ir-receiver: add linux,autosuspend-period property
+Date:   Sat, 19 Sep 2020 02:17:16 +0800
+Message-Id: <20200918181717.24056-2-qiangqing.zhang@nxp.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200918181717.24056-1-qiangqing.zhang@nxp.com>
+References: <20200918181717.24056-1-qiangqing.zhang@nxp.com>
 Content-Type: text/plain
 X-ClientProxiedBy: SGBP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::32)
  To DB8PR04MB6795.eurprd04.prod.outlook.com (2603:10a6:10:fa::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.71) by SGBP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13 via Frontend Transport; Fri, 18 Sep 2020 10:17:25 +0000
+Received: from localhost.localdomain (119.31.174.71) by SGBP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13 via Frontend Transport; Fri, 18 Sep 2020 10:17:27 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [119.31.174.71]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 21b83955-453b-4045-97a2-08d85bbc0b2d
+X-MS-Office365-Filtering-Correlation-Id: 03e64642-c96e-4e0b-1098-08d85bbc0cdb
 X-MS-TrafficTypeDiagnostic: DBAPR04MB7432:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DBAPR04MB743231B7DB4A09D75EBF455FE63F0@DBAPR04MB7432.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-Microsoft-Antispam-PRVS: <DBAPR04MB7432FD4F1BD88F8CD807CE3FE63F0@DBAPR04MB7432.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eKeQNZ+cj8Q0eMW0uYvqa9beb3DT8Fqs058tDAXuvHmFAzvTcQA/TvuboZhxSFnnEFToa2cn4DzWhz+koDIaw0mg4+qhyUztLx9kkRkXEf+EaA3xcWK4Uycuk4EtzMEYubRl5KjKn/1NcADcsWd+hiMPGITiNzhZJpi9+FqJSonDdt1/6G3B4WyMMAxKBiIe0t63CUsilyD7Ci3mJQR6oPLJqHRflisTvnphzTKet53GgJEs6M8DwS8cYc69gpELEEkwpmhYXyoDPc7xYWLl8QXO7FtUleMFXEsZt/AYlaPQvu3jMhheJnDqsDJk8dnPcx7m/QsJiP2t/9qIlG8E4JHL+hOZhqAJMV6yXNUzapKCn6njS4XARYWpBeUXtXaX1R/+rwvYQ5oWys16KIztS8+KrRKMXCVeJ07H8RE/lJPP/X21g+G5ipze+Yd/Woau
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6795.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(136003)(346002)(376002)(39860400002)(4744005)(2906002)(1076003)(66946007)(4326008)(6666004)(52116002)(6486002)(478600001)(86362001)(316002)(69590400008)(6506007)(26005)(16526019)(83380400001)(186003)(66476007)(2616005)(66556008)(8936002)(8676002)(6512007)(956004)(5660300002)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: oWOWHaCILaUy44QHXLDDax4napnkO79f881AkKbNgaVc/svkpz3Jz64ybgrOHrQ+qvsZQrwHmqSw9Ep9YsSXmSy3Md4ovpp66RwL86faCSLCKZJ59+uErLCDMqzaCEike9HYKAFq498drya0XBiZoAjgGqJa293FYJbUh3C/Ih9JhQasgV1/Rm8A08KgaJJJb3fqJOGwk0jNrqg8YHAAgA5RfYn5AXT7R+/AP1CLtaB481SKN7DsotSrbXsrVKT46c19Z0WV71VxcioLMmuLiIaEUsKxCCCO6OyYyqwN7iC2CQ32z3K3GN0fGF8wS7z52TuSmmdHe3p0LDe7Jc3b8U0ca6nJuG5/N6x22H040EixL/amKXI0F4zbLFkG1aLRu74dgAZ6I1eG3Cmwur1NSxKHePhlJ7irmJRdZLnhsC5HSPo6m5jeLC63wiHxmSTcuHylf2ccEDDWe9/JFevRvbQ88HsTXUdO8tFKkboScK8J6JUkn9k9sTye5s8GhqhPZra2ZBTF2lKXtzR9aEg1eC2pAPpC5ThP+GMcdfG1Fn56D6nG2fWMMhsg2Ja/FfCdhvOwOd+EhxvKn2y0zTA6+hoeMfyzzqMBautbXFayFJ7ZMIQJkeUJcySX4UYyI4UNjlxHeVXoUzuVbsKw5Jc1WA==
+X-Microsoft-Antispam-Message-Info: JT+XKS/8aesFCg0t4WHv9DmlCVoYaB5nNd8jcoAxJ/i9fi3Z0f2UK1dXmx5qOAwn/hsFIEMteURHv6JERACH3NDxCTVzOo2AVZk2McuDXO/qpT/eB933uzfR3hcYOn4ZORnD3lRXD621+qJfshVBg3T1ZUtz1k+ndxms/+Wl8FDYpq61hQ1+dkhCAYkJV2E6Axc0fcnevwRs/yjWd/C+rWjkG0eDJSMuCM6eopPetFGz/D1Jikz3i4qkPhKA9s0yLoGPfXhwbAPst6yZ+5j3iiGFnQrSiemrfsZqFTm6svEw3E/Oh2K4u3ceINnYy1E453WvL2Cmm+sQ5n1zFxTj0shpvhx4uqIb0qoa87/Iwznyx2ckyEy/2Z/6RXAdrdM9n+7i9VVHj0TI/qYgwLpW5EUpNgGGj//TYwysSS5kpXHOOY5+nm1Qjm5YCO0sJP/7WsFuJslgNkaigVXRClZaFg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6795.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(136003)(346002)(376002)(39860400002)(2906002)(1076003)(66946007)(4326008)(6666004)(52116002)(6486002)(478600001)(86362001)(316002)(69590400008)(6506007)(26005)(16526019)(83380400001)(186003)(66476007)(2616005)(66556008)(8936002)(8676002)(6512007)(956004)(5660300002)(36756003)(142933001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: TkaY3MG5YpKYhorEhomdps0dL1L+B3cVGXU7ZODvpqpC5UxOWIlbdCWFBWbooiufEFuzpHvkMg0FOK9R3Jk+0I83JR/0eMJMjfqvDZugEiqBs+qigPT6/Oncuoe6RM+Fe/rKOVvf47hVJQAwy7HwjM2sRF35pbgOxoUlxzDmO1RQqQu1IAAci4Hm0N/ghKjxNOMEykmhkQ+/M/LvalF0rO0hiGKZ6YlMakEc6JjpEWbWMtKUklkcbHFGChjLGHQSdwlWRiMw/jniXP9QYi2aGQHLUL169AhYE4jj2/7jweqXv/eJj3/g58O7cswBWOOW2NBrllqgYb0+uu/wx3UYBWXvi8E6gLeGmF8FdiCmH6Gb6Hd8ppguRo0O5nyIczSGNUZ4NQeAnCZyFnLvNzlacKK/1u70oCDyYq5IAMR/2nH230KqTYx8+n1PCqajea8brwV5PwlJ8E6GrdBff3uV6FIOqVFXjkrbrV+CuBk/6TtEUJO8wyJLsU4id6zRev8sRyERYo4xNE0AIZhIgxTwCZGyoKctMd0dlQVRx9vxkCRedd9JQySPpjbolOH6gD2/6lbhJT5Vm+NtI/gOTq3wh/IfKPHW9+EyMOC3K45lhO2Fm+SJarwEgc0ASrvpW8kaL8BwSQbN54yP4DSeiPP4wA==
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21b83955-453b-4045-97a2-08d85bbc0b2d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03e64642-c96e-4e0b-1098-08d85bbc0cdb
 X-MS-Exchange-CrossTenant-AuthSource: DB8PR04MB6795.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 10:17:27.6025
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 10:17:30.4291
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RoG4FLLphYUbmkhHcBLhxjnKW8prG27zPKRFaUb84VdVlZWdf8iQeCraDyiRS2f8pOcsnCJ7SBHJIPCia7l4iA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HqYRvbvPkgYgmpZtQ9432VDfZb16EG36R6Eoi+PKMYp6H8yWG0Ci89RL73y7Mygdk03ydWuhVnSYY81qtZZaHQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7432
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add QoS support for cpuidle system.
+Add linux,autosuspend-period property for gpio ir receiver. Some cpuidle
+systems wake from idle may take a bit long time, for such case, need
+disable cpuidle temporarily.
 
-Joakim Zhang (2):
-  bindings: media: gpio-ir-receiver: add linux,autosuspend-period
-    property
-  media: rc: gpio-ir-recv: add QoS support for cpuidle system
+Signed-off-by: Joakim Zhang <qiangqing.zhang@nxp.com>
+---
+ChangeLogs:
+V1->V2:
+	* New add.
+---
+ Documentation/devicetree/bindings/media/gpio-ir-receiver.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
- .../bindings/media/gpio-ir-receiver.txt       |  3 ++
- drivers/media/rc/gpio-ir-recv.c               | 50 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/media/gpio-ir-receiver.txt b/Documentation/devicetree/bindings/media/gpio-ir-receiver.txt
+index 58261fb7b408..ef802d5fd1f6 100644
+--- a/Documentation/devicetree/bindings/media/gpio-ir-receiver.txt
++++ b/Documentation/devicetree/bindings/media/gpio-ir-receiver.txt
+@@ -7,6 +7,8 @@ Required properties:
+ Optional properties:
+ 	- linux,rc-map-name: see rc.txt file in the same
+ 	  directory.
++        - linux,autosuspend-period: autosuspend delay time,
++          the unit is milisecond.
+ 
+ Example node:
+ 
+@@ -14,4 +16,5 @@ Example node:
+ 		compatible = "gpio-ir-receiver";
+ 		gpios = <&gpio0 19 1>;
+ 		linux,rc-map-name = "rc-rc6-mce";
++		linux,autosuspend-period = 125;
+ 	};
 -- 
 2.17.1
 
