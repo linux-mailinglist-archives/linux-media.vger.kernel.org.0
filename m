@@ -2,35 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CDD826F478
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 05:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8619826F3DB
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 05:10:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727934AbgIRDOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Sep 2020 23:14:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46050 "EHLO mail.kernel.org"
+        id S1726899AbgIRCC4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Sep 2020 22:02:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48612 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726476AbgIRCBo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:01:44 -0400
+        id S1726837AbgIRCCz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:02:55 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BBF5322211;
-        Fri, 18 Sep 2020 02:01:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E50F421734;
+        Fri, 18 Sep 2020 02:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600394496;
-        bh=D9Mmu44ONv5Ajq1SJwLkYrBw/Ft5CgqnmIC5zOjSj+I=;
+        s=default; t=1600394574;
+        bh=1ASpYRPHJjODGalxRsGGYSOGbUDOxxZ+738NcHxfn1Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oTAac59j1QfDBeM4F3Lz3++DLWk0/nwQ4mqfExjyH6ogIg+KXryIV+GiNfBr9xnZ8
-         3ZEWfWf4E5GVZVCJmgsr4EhLKBYPHLzMk4nuLUi1dKj2J1VlgtUiJ5bwCVKpfIK58X
-         IAOn5K8K6DmCBO8JH8S7s8FGoiEUL3ICwpd1VJMo=
+        b=KHghSHzD+NP7pOQSVgXfq+rS6iv30NGBHatoag3QtiBC0iQ5AYmv8zaeGIlCC8/+H
+         U4lfwt7pDLASSSqjUEcRlsiF4GE45tXgNREDRW42+SsRvb9/Op5LiyAyaxv12/eVtc
+         jnJC3K5j1pMihpN9/nMdY5NOYRRNL/wIdQm9Hg5Y=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+Cc:     Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 021/330] media: smiapp: Fix error handling at NVM reading
-Date:   Thu, 17 Sep 2020 21:56:01 -0400
-Message-Id: <20200918020110.2063155-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 086/330] media: ti-vpe: cal: Restrict DMA to avoid memory corruption
+Date:   Thu, 17 Sep 2020 21:57:06 -0400
+Message-Id: <20200918020110.2063155-86-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
 References: <20200918020110.2063155-1-sashal@kernel.org>
@@ -42,37 +44,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Nikhil Devshatwar <nikhil.nd@ti.com>
 
-[ Upstream commit a5b1d5413534607b05fb34470ff62bf395f5c8d0 ]
+[ Upstream commit 6e72eab2e7b7a157d554b8f9faed7676047be7c1 ]
 
-If NVM reading failed, the device was left powered on. Fix that.
+When setting DMA for video capture from CSI channel, if the DMA size
+is not given, it ends up writing as much data as sent by the camera.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+This may lead to overwriting the buffers causing memory corruption.
+Observed green lines on the default framebuffer.
+
+Restrict the DMA to maximum height as specified in the S_FMT ioctl.
+
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/smiapp/smiapp-core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/platform/ti-vpe/cal.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-index 42805dfbffeb9..06edbe8749c64 100644
---- a/drivers/media/i2c/smiapp/smiapp-core.c
-+++ b/drivers/media/i2c/smiapp/smiapp-core.c
-@@ -2327,11 +2327,12 @@ smiapp_sysfs_nvm_read(struct device *dev, struct device_attribute *attr,
- 		if (rval < 0) {
- 			if (rval != -EBUSY && rval != -EAGAIN)
- 				pm_runtime_set_active(&client->dev);
--			pm_runtime_put(&client->dev);
-+			pm_runtime_put_noidle(&client->dev);
- 			return -ENODEV;
- 		}
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index 955a49b8e9c08..f06408009a9c2 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -678,12 +678,13 @@ static void pix_proc_config(struct cal_ctx *ctx)
+ }
  
- 		if (smiapp_read_nvm(sensor, sensor->nvm)) {
-+			pm_runtime_put(&client->dev);
- 			dev_err(&client->dev, "nvm read failed\n");
- 			return -ENODEV;
- 		}
+ static void cal_wr_dma_config(struct cal_ctx *ctx,
+-			      unsigned int width)
++			      unsigned int width, unsigned int height)
+ {
+ 	u32 val;
+ 
+ 	val = reg_read(ctx->dev, CAL_WR_DMA_CTRL(ctx->csi2_port));
+ 	set_field(&val, ctx->csi2_port, CAL_WR_DMA_CTRL_CPORT_MASK);
++	set_field(&val, height, CAL_WR_DMA_CTRL_YSIZE_MASK);
+ 	set_field(&val, CAL_WR_DMA_CTRL_DTAG_PIX_DAT,
+ 		  CAL_WR_DMA_CTRL_DTAG_MASK);
+ 	set_field(&val, CAL_WR_DMA_CTRL_MODE_CONST,
+@@ -1306,7 +1307,8 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	csi2_lane_config(ctx);
+ 	csi2_ctx_config(ctx);
+ 	pix_proc_config(ctx);
+-	cal_wr_dma_config(ctx, ctx->v_fmt.fmt.pix.bytesperline);
++	cal_wr_dma_config(ctx, ctx->v_fmt.fmt.pix.bytesperline,
++			  ctx->v_fmt.fmt.pix.height);
+ 	cal_wr_dma_addr(ctx, addr);
+ 	csi2_ppi_enable(ctx);
+ 
 -- 
 2.25.1
 
