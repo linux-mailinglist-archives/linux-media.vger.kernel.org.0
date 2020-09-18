@@ -2,100 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE6C226FAB9
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 12:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0236126FACC
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 12:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726298AbgIRKhu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Sep 2020 06:37:50 -0400
-Received: from so254-54.mailgun.net ([198.61.254.54]:23154 "EHLO
-        so254-54.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725882AbgIRKhu (ORCPT
+        id S1726221AbgIRKm0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Sep 2020 06:42:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725882AbgIRKmX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Sep 2020 06:37:50 -0400
-X-Greylist: delayed 304 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Sep 2020 06:37:49 EDT
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1600425470; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=qb2WoD3uf4Yfjw2dRwpjc0+G2WvhyNMin/XBmb+tRQ4=; b=IuHll3edWqs/gCibEznXYpdhZWqHzTk/QKdndMfTNnsFdsOf4FhwoZZ+u1DouSpVz3DhplbH
- NKpahd+tdgOnCz4kNej4hcABwb09gkIfrnlVhp1xadHJNtyl1FvqsAZ2WfuR/c+VpPlVUwK+
- t/S2buIp3b1AouRaGKB9VbujGKE=
-X-Mailgun-Sending-Ip: 198.61.254.54
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5f648ccdea858627d5e3c9dd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 18 Sep 2020 10:32:45
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id EF4A1C43391; Fri, 18 Sep 2020 10:32:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from charante-linux.qualcomm.com (unknown [202.46.22.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 21028C43382;
-        Fri, 18 Sep 2020 10:32:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 21028C43382
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
-From:   Charan Teja Reddy <charante@codeaurora.org>
-To:     sumit.semwal@linaro.org, christian.koenig@amd.com, arnd@arndb.de
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        vinmenon@codeaurora.org,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        <stable@vger.kernel.org>
-Subject: [PATCH] dmabuf: fix NULL pointer dereference in dma_buf_release()
-Date:   Fri, 18 Sep 2020 16:02:31 +0530
-Message-Id: <1600425151-27670-1-git-send-email-charante@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+        Fri, 18 Sep 2020 06:42:23 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2003CC06174A;
+        Fri, 18 Sep 2020 03:42:23 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id u13so3251725pgh.1;
+        Fri, 18 Sep 2020 03:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BFicauIeUOrnsvlqKGsQXozub1xATSeMYMtEaHTT4g0=;
+        b=e0N7ia3fLHfHAR649eYTpypJn7blOCM9GO7orPVtX4EmgoJ/6YjpkWeMy/qKEWECAm
+         0fRLFnhHrZB5dzFkDp7ZQEmmfJrXL3zjd+yv6/3X7SQRMDiL/hVr+YX4Jskk4kupex5I
+         jl6iqE9LF8APZdFtexoFdPB8M99bnRBA/Av4O8h0X/1jCGyW+7CxJ4OxdNQaqWK2WZ34
+         FgiMj88af5Ia7E1mwPln+bLBuEZpsmZweBi11knwlFnyq48APTgQeVNi/l7E+nImmDvp
+         h9Fu42sVf3gSaCedHj+Qeq4ixte0Iq2g02tqvhmh0An8V4FlsdpxN0wCdDHDN9QIz9jN
+         yevg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BFicauIeUOrnsvlqKGsQXozub1xATSeMYMtEaHTT4g0=;
+        b=EHOcfp2yPuKaEsGDQE8/kERDjeJKInNW8W1vp4QwCp14AQqW4M+kZ7QRBxXn/Sn/QD
+         h5/niJLR79gcmbuq1NU2kGbaJQGIVI0mciRWGrzqDgvIbcGQz+v/4t8uybrc2sl7PEtt
+         pcibFb2y+B6xZ5eFrkY9CQO8kSZRIdg35VIFIIf/XGSxrF2BICicn95gwb12AqqcJpkB
+         Ntsd1O2ozjV80CNYgjNPVyTMDf3JPf5Z0s3Vt3N9HIcK3R//E3lPxlnqNLB8YUZSvIbN
+         dpTFxiXi0rt6h2udVgK2XBj2HsOHARDUGVGdUI6XmHpsX9uRj2uc3vD3hhC8SiDkjoTO
+         cWpg==
+X-Gm-Message-State: AOAM532Zeg5Dsr3xDyFi3lMnpOT9RHbw97tijW8AF0WD0zmxWHDtXi3G
+        zDwmUFwcfQMFogu4DugA9k/p+Eb6ZMY=
+X-Google-Smtp-Source: ABdhPJxmkSH2bsqdT6f0XKAxVeedtX4lm17YBE1bMJENRq8W21F6cXNJfF18OFoYIYusjEAAEH7J5Q==
+X-Received: by 2002:a65:42c2:: with SMTP id l2mr5480207pgp.61.1600425742614;
+        Fri, 18 Sep 2020 03:42:22 -0700 (PDT)
+Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id bj2sm2492747pjb.20.2020.09.18.03.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2020 03:42:21 -0700 (PDT)
+Date:   Fri, 18 Sep 2020 19:42:20 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uAPI: buffer.rst: remove a left-over documentation
+Message-ID: <20200918104220.GF3049@jagdpanzerIV.localdomain>
+References: <2fd3e12d82de1e0a1ee2f96dedc4d4cbe771c979.1600327262.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2fd3e12d82de1e0a1ee2f96dedc4d4cbe771c979.1600327262.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-NULL pointer dereference is observed while exporting the dmabuf but
-failed to allocate the 'struct file' which results into the dropping of
-the allocated dentry corresponding to this file in the dmabuf fs, which
-is ending up in dma_buf_release() and accessing the uninitialzed
-dentry->d_fsdata.
+On (20/09/17 09:21), Mauro Carvalho Chehab wrote:
+> Changeset 129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
+> reverted an uAPI flag, but it kept some left-overs at the documentation.
+> 
+> Drop them too. This should solve this warning:
+> 
+> 	Documentation/userspace-api/media/v4l/buffer.rst:692: WARNING: The "flat-table" directive is empty; content required.
+> 
+> 	.. flat-table::
+> 	    :header-rows:  0
+> 	    :stub-columns: 0
+> 	    :widths:       3 1 4
+> 
+> Fixes: 129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Call stack on 5.4 is below:
- dma_buf_release+0x2c/0x254 drivers/dma-buf/dma-buf.c:88
- __dentry_kill+0x294/0x31c fs/dcache.c:584
- dentry_kill fs/dcache.c:673 [inline]
- dput+0x250/0x380 fs/dcache.c:859
- path_put+0x24/0x40 fs/namei.c:485
- alloc_file_pseudo+0x1a4/0x200 fs/file_table.c:235
- dma_buf_getfile drivers/dma-buf/dma-buf.c:473 [inline]
- dma_buf_export+0x25c/0x3ec drivers/dma-buf/dma-buf.c:585
+Thanks for fixing this up.
 
-Fix this by checking for the valid pointer in the dentry->d_fsdata.
+FWIW,
+Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 
-Fixes: 4ab59c3c638c ("dma-buf: Move dma_buf_release() from fops to dentry_ops")
-Cc: <stable@vger.kernel.org> [5.7+]
-Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
----
- drivers/dma-buf/dma-buf.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 58564d82..844967f 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -59,6 +59,8 @@ static void dma_buf_release(struct dentry *dentry)
- 	struct dma_buf *dmabuf;
- 
- 	dmabuf = dentry->d_fsdata;
-+	if (unlikely(!dmabuf))
-+		return;
- 
- 	BUG_ON(dmabuf->vmapping_counter);
- 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
-member of the Code Aurora Forum, hosted by The Linux Foundation
-
+	-ss
