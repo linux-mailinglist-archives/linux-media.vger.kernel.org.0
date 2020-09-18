@@ -2,93 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0236126FACC
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 12:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AC9526FB12
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 13:00:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726221AbgIRKm0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Sep 2020 06:42:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725882AbgIRKmX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Sep 2020 06:42:23 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2003CC06174A;
-        Fri, 18 Sep 2020 03:42:23 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id u13so3251725pgh.1;
-        Fri, 18 Sep 2020 03:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BFicauIeUOrnsvlqKGsQXozub1xATSeMYMtEaHTT4g0=;
-        b=e0N7ia3fLHfHAR649eYTpypJn7blOCM9GO7orPVtX4EmgoJ/6YjpkWeMy/qKEWECAm
-         0fRLFnhHrZB5dzFkDp7ZQEmmfJrXL3zjd+yv6/3X7SQRMDiL/hVr+YX4Jskk4kupex5I
-         jl6iqE9LF8APZdFtexoFdPB8M99bnRBA/Av4O8h0X/1jCGyW+7CxJ4OxdNQaqWK2WZ34
-         FgiMj88af5Ia7E1mwPln+bLBuEZpsmZweBi11knwlFnyq48APTgQeVNi/l7E+nImmDvp
-         h9Fu42sVf3gSaCedHj+Qeq4ixte0Iq2g02tqvhmh0An8V4FlsdpxN0wCdDHDN9QIz9jN
-         yevg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BFicauIeUOrnsvlqKGsQXozub1xATSeMYMtEaHTT4g0=;
-        b=EHOcfp2yPuKaEsGDQE8/kERDjeJKInNW8W1vp4QwCp14AQqW4M+kZ7QRBxXn/Sn/QD
-         h5/niJLR79gcmbuq1NU2kGbaJQGIVI0mciRWGrzqDgvIbcGQz+v/4t8uybrc2sl7PEtt
-         pcibFb2y+B6xZ5eFrkY9CQO8kSZRIdg35VIFIIf/XGSxrF2BICicn95gwb12AqqcJpkB
-         Ntsd1O2ozjV80CNYgjNPVyTMDf3JPf5Z0s3Vt3N9HIcK3R//E3lPxlnqNLB8YUZSvIbN
-         dpTFxiXi0rt6h2udVgK2XBj2HsOHARDUGVGdUI6XmHpsX9uRj2uc3vD3hhC8SiDkjoTO
-         cWpg==
-X-Gm-Message-State: AOAM532Zeg5Dsr3xDyFi3lMnpOT9RHbw97tijW8AF0WD0zmxWHDtXi3G
-        zDwmUFwcfQMFogu4DugA9k/p+Eb6ZMY=
-X-Google-Smtp-Source: ABdhPJxmkSH2bsqdT6f0XKAxVeedtX4lm17YBE1bMJENRq8W21F6cXNJfF18OFoYIYusjEAAEH7J5Q==
-X-Received: by 2002:a65:42c2:: with SMTP id l2mr5480207pgp.61.1600425742614;
-        Fri, 18 Sep 2020 03:42:22 -0700 (PDT)
-Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id bj2sm2492747pjb.20.2020.09.18.03.42.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2020 03:42:21 -0700 (PDT)
-Date:   Fri, 18 Sep 2020 19:42:20 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uAPI: buffer.rst: remove a left-over documentation
-Message-ID: <20200918104220.GF3049@jagdpanzerIV.localdomain>
-References: <2fd3e12d82de1e0a1ee2f96dedc4d4cbe771c979.1600327262.git.mchehab+huawei@kernel.org>
+        id S1726115AbgIRLAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Sep 2020 07:00:30 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:52828 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725882AbgIRLA3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Sep 2020 07:00:29 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kJE1s-00EQoR-3z; Fri, 18 Sep 2020 10:54:12 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kJEAe-0004cQ-7X; Fri, 18 Sep 2020 11:03:16 +0000
+Date:   Fri, 18 Sep 2020 11:03:16 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Message-ID: <1170002497.6.1600426996226@builder.linuxtv.org>
+In-Reply-To: <1870687080.5.1600354103515@builder.linuxtv.org>
+References: <1870687080.5.1600354103515@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #293
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fd3e12d82de1e0a1ee2f96dedc4d4cbe771c979.1600327262.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/09/17 09:21), Mauro Carvalho Chehab wrote:
-> Changeset 129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
-> reverted an uAPI flag, but it kept some left-overs at the documentation.
-> 
-> Drop them too. This should solve this warning:
-> 
-> 	Documentation/userspace-api/media/v4l/buffer.rst:692: WARNING: The "flat-table" directive is empty; content required.
-> 
-> 	.. flat-table::
-> 	    :header-rows:  0
-> 	    :stub-columns: 0
-> 	    :widths:       3 1 4
-> 
-> Fixes: 129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+See <https://builder.linuxtv.org/job/libcamera/293/display/redirect?page=changes>
 
-Thanks for fixing this up.
+Changes:
 
-FWIW,
-Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+[jacopo] android: camera_device: Refuse unsupported formats
 
-	-ss
+[jacopo] android: camera_device: Generate JPEG sizes
+
+[jacopo] android: camera_device: Add debug to stream initialization
+
+[jacopo] android: camera_device: Break out size calculation
+
+[jacopo] android: camera_device: Generate RAW resolutions
+
+[jacopo] android: camera_device: Get rid of stream counter
+
+[jacopo] android: camera_device: Use Android format
+
+[jacopo] android: camera_device: Rework CameraStream handling
+
+[jacopo] android: camera_device: Set Encoder at construction
+
+[jacopo] android: camera_device: Make CameraStream a class
+
+
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/libcamera.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 45fe8e99c83889816df320c6d27f7a2019744693 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 45fe8e99c83889816df320c6d27f7a2019744693 # timeout=10
+Commit message: "android: camera_device: Make CameraStream a class"
+ > git rev-list --no-walk d5ce2679c67877295ce0096afd3d24d28ad34d16 # timeout=10
+[Checks API] No suitable checks publisher found.
+[libcamera] $ /bin/sh -xe /tmp/jenkins11576694003869286712.sh
++ rm -rf build
++ meson setup build
+The Meson build system
+Version: 0.52.1
+Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
+Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
+Build type: native build
+Project name: libcamera
+Project version: 0.0.0
+C compiler for the host machine: ccache cc (gcc 8.3.0 "cc (Debian 8.3.0-6) 8.3.0")
+C linker for the host machine: GNU ld.bfd 2.31.1
+C++ compiler for the host machine: ccache c++ (gcc 8.3.0 "c++ (Debian 8.3.0-6) 8.3.0")
+C++ linker for the host machine: GNU ld.bfd 2.31.1
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Header <execinfo.h> has symbol "backtrace" : YES 
+Header <stdlib.h> has symbol "secure_getenv" : YES 
+Compiler for C supports arguments -Wno-c99-designator -Wc99-designator: NO 
+Configuring version.h using configuration
+Dependency libexif skipped: feature android disabled
+Dependency libjpeg skipped: feature android disabled
+Program openssl found: YES (/usr/bin/openssl)
+Library atomic found: YES
+Library dl found: YES
+Library gnutls found: YES
+Found pkg-config: /usr/bin/pkg-config (0.29)
+Run-time dependency libudev found: YES 241
+Run-time dependency threads found: YES 
+Run-time dependency Boost found: YES 1.67
+Program ipa-sign-install.sh found: YES (<https://builder.linuxtv.org/job/libcamera/ws/src/ipa/ipa-sign-install.sh)>
+WARNING: rcc dependencies will not work reliably until this upstream issue is fixed: https://bugreports.qt.io/browse/QTBUG-45460
+Run-time dependency qt5 (modules: Core, Gui, Widgets) found: YES 5.11.3 (pkg-config)
+Run-time dependency libtiff-4 found: YES 4.1.0
+Header <QOpenGLWidget> has symbol "QOpenGLWidget" with dependency qt5: YES 
+Detecting Qt5 tools
+ moc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/moc, 5.11.3)
+ uic: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/uic, 5.11.3)
+ rcc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/rcc, 5.11.3)
+ lrelease: NO
+Run-time dependency glib-2.0 found: YES 2.58.3
+Did not find CMake 'cmake'
+Found CMake: NO
+Run-time dependency gstreamer-video-1.0 found: NO (tried pkgconfig and cmake)
+Run-time dependency gstreamer-allocators-1.0 found: NO (tried pkgconfig and cmake)
+Program doxygen found: YES (/usr/bin/doxygen)
+Configuring Doxyfile using configuration
+Program sphinx-build-3 found: NO
+Program sphinx-build found: YES (/var/lib/jenkins/.local/bin/sphinx-build)
+meson.build:123: WARNING: The current running kernel version 4.19.0-6-amd64 is too old to run libcamera.
+meson.build:125: WARNING: If you intend to use libcamera on this machine, please upgrade to a kernel >= 5.0.0.
+Configuring config.h using configuration
+Message: Enabled pipelines: ipu3, raspberrypi, rkisp1, simple, uvcvideo, vimc
+Build targets in project: 84
+Found ninja-1.8.2 at /usr/bin/ninja
++ meson configure -Dandroid=true -Dv4l2=true build
+
+ERROR: Value "true" for combo option is not one of the choices. Possible choices are: "enabled", "disabled", "auto".
+Build step 'Execute shell' marked build as failure
