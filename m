@@ -2,99 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 185AE26FEC6
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 15:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33D6326FF71
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 16:03:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726253AbgIRNh5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Sep 2020 09:37:57 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:35577 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726406AbgIRNh5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Sep 2020 09:37:57 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id JGaHkIN0LDdJbJGaIkmO2A; Fri, 18 Sep 2020 15:37:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1600436275; bh=nJ2ChkrEAjRyJGsl4SIUBz+rZ9JG3kiJI7/flZCAcGc=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=MYCjSgMJnfDgUhavTIW8RKOoIFf971Qs9ahNqwmPiREnJ3hXbCkYHKcCds2zBznvB
-         VgtwixF0SJKlPZc3bnrGbYH8DLIhG9pPG7mHyaRq9jSTh4UagW0N9Whv5f8ohAVmoc
-         sDAIP6RqOqmVCqqK84HRh8pGaqDNbFJiLwzA7UBhLjEvDzPq3drqo1Vt0rt9wyIem3
-         vs+/CNgmAuJUTDQPdoWHoz2sKNr4xMa4wgHVFgKEkP3rbkAz34mzrBma6KFzQhI40B
-         luK7fr8r6YsOfejgfQ5MStP9ie5RQk7SxNXP2L1LTo3L8AAz1F97qh//4XFDMfRJXi
-         c9VgSM2X5Fqpg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.10] rkisp1 fixes/enhancements + one cedrus fix
-Message-ID: <2e8cb9cc-c4cc-478d-03eb-4c500d4d63fe@xs4all.nl>
-Date:   Fri, 18 Sep 2020 15:37:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726415AbgIRODF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Sep 2020 10:03:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32778 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726273AbgIRODF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Sep 2020 10:03:05 -0400
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6E8E7235FA;
+        Fri, 18 Sep 2020 14:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600437784;
+        bh=ceMp5e2PEx8+OXFUL08K6kd8nS2HTjT3yL8yWWmw/XY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=aN1L5afhODcB6oZbb3gXe25GiRn6TznrDNDCmMA15uZWO5FXTxYUT2+HApeOJAZJX
+         VRkk+dX1u/ZsU98LrqqKjArYsJ/0g1yO0a4xDO9IWfLu7EgS/m6jCTi1buG9DXSmHY
+         N1vxXeFCCJxB/wvlroPm6j1i1QAPrPUSRfOP8C8M=
+Received: by mail-ot1-f42.google.com with SMTP id n61so5446592ota.10;
+        Fri, 18 Sep 2020 07:03:04 -0700 (PDT)
+X-Gm-Message-State: AOAM533TAFbDPO2iUYBh45neEDqVGPxvbDW5lh566InUrvMg6XyDc0WS
+        FKlMMo05/363oAa+FvelYfIezQthPGmbeOOmew==
+X-Google-Smtp-Source: ABdhPJzFRdqI6xDMxO2WwbAZUoxvL1C2s8llhjhqxIM2uXpb4VM3ABM4S06vvLPwRuD/6HYmbQsubXallQ2te0BX6Og=
+X-Received: by 2002:a9d:6ada:: with SMTP id m26mr9287562otq.192.1600437783776;
+ Fri, 18 Sep 2020 07:03:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAnFO6Qfldlk8idjdZA0M7+FqDHtnl5PFFL4a9UnReeIqwFiFLq9V461DW1VAyf/jxb0sCV9Q3XZ8mI31Z+qbWDSQSUSxYKR4d7a32UdK+GXRApCT0Fm
- MH/DAqzi2zmlfhzv1zJYUwuf98Z/kqmhcbRx5KP+vP4j1O4EoxYE+VbFzOny4qocmO2jPlq4vDTIPjvs+rnEgD5zTN1kOVK3u5LLVS8K1hvf1BLmy47nHPU9
- 9Sy/HQ4UN1jPNPPH+jcZUkcetVuaPy1V7hef+yhnkP7FUOmW7j5+v/9YTWqOnEkoFr+YRO4gSA3yWqbARA//ke8BiYJxfKwBy1Dwi3N8iHfMCx+sdQ61m79i
- 2Scxanxi
+References: <20200722155533.252844-1-helen.koike@collabora.com> <20200722155533.252844-2-helen.koike@collabora.com>
+In-Reply-To: <20200722155533.252844-2-helen.koike@collabora.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 18 Sep 2020 08:02:52 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLB2wJE0VBmonSC_hBETgE-he50HJGbBBKy8RKS6GyjxQ@mail.gmail.com>
+Message-ID: <CAL_JsqLB2wJE0VBmonSC_hBETgE-he50HJGbBBKy8RKS6GyjxQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/9] media: staging: dt-bindings: rkisp1: add missing
+ required nodes
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     devicetree@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        "heiko@sntech.de" <heiko@sntech.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mark Rutland <mark.rutland@arm.com>, karthik.poduval@gmail.com,
+        Johan Jonker <jbx6244@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Eddie Cai <eddie.cai.linux@gmail.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 741043b02c2e00c8fea1a0f6f8ce43c6326cd9e8:
+On Wed, Jul 22, 2020 at 9:55 AM Helen Koike <helen.koike@collabora.com> wrote:
+>
+> Add missing required nodes in json-schema yaml file for
+> Rockchip ISP1 dt-bindings.
+>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+> ---
+>
+> Changes in v2:
+> - New patch in the series
+> ---
+>  .../devicetree/bindings/media/rockchip-isp1.yaml          | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-  media: vidtv: don't initialize cnr2qual var (2020-09-14 16:10:08 +0200)
+Sorry, PW filters patches and this isn't under
+Documentation/devicetree/bindings/.
 
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.10c
-
-for you to fetch changes up to 931315edb538286c62065dba4b7c75b3280e7c2a:
-
-  media: cedrus: Propagate OUTPUT resolution to CAPTURE (2020-09-18 15:12:45 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Dafna Hirschfeld (13):
-      media: staging: rkisp1: cap: change RGB24 format to XBGR32
-      media: staging: rkisp1: cap: remove unsupported formats
-      media: staging: rkisp1: cap: remove unsupported format YUV444
-      media: staging: rkisp1: don't support bayer format on selfpath resizer
-      media: staging: rkisp1: add capability V4L2_CAP_IO_MC to capture devices
-      media: staging: rkisp1: add a helper function to enumerate supported mbus formats on capture
-      media: staging: rkisp1: rsz: enumerate the formats on the src pad according to the capture
-      media: staging: rkisp1: rsz: Add support to more YUV encoded mbus codes on src pad
-      media: staging: rkisp1: cap: simplify the link validation by compering the media bus code
-      media: staging: rkisp1: fix configuration for GREY pixelformat
-      media: pixfmt-meta-rkisp1.rst: add description of rkisp1 metadata formats in pixfmt-meta-rkisp1.rst
-      media: admin-guide: add documentation file rkisp1.rst
-      media: MAINTAINERS: add documentation files for rkisp1
-
-Nicolas Dufresne (1):
-      media: cedrus: Propagate OUTPUT resolution to CAPTURE
-
- Documentation/admin-guide/media/rkisp1.dot                                           |  18 ++++
- Documentation/admin-guide/media/rkisp1.rst                                           | 181 +++++++++++++++++++++++++++++++++++++
- Documentation/admin-guide/media/v4l-drivers.rst                                      |   1 +
- Documentation/userspace-api/media/v4l/meta-formats.rst                               |   1 +
- Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst                         |  49 ++++++++++
- MAINTAINERS                                                                          |   2 +
- .../staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst  |  23 -----
- .../staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst    |  22 -----
- drivers/staging/media/rkisp1/rkisp1-capture.c                                        | 199 ++++++++++++++++++++++++-----------------
- drivers/staging/media/rkisp1/rkisp1-common.h                                         |  11 +++
- drivers/staging/media/rkisp1/rkisp1-resizer.c                                        |  93 ++++++++++++++-----
- drivers/staging/media/sunxi/cedrus/cedrus_video.c                                    |  29 +++++-
- 12 files changed, 482 insertions(+), 147 deletions(-)
- create mode 100644 Documentation/admin-guide/media/rkisp1.dot
- create mode 100644 Documentation/admin-guide/media/rkisp1.rst
- create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
- delete mode 100644 drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
- delete mode 100644 drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+Acked-by: Rob Herring <robh@kernel.org>
