@@ -2,567 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F5E270005
-	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 16:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4B23270023
+	for <lists+linux-media@lfdr.de>; Fri, 18 Sep 2020 16:48:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726392AbgIROh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Sep 2020 10:37:56 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:41027 "EHLO
+        id S1726640AbgIROsz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Sep 2020 10:48:55 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:44479 "EHLO
         mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbgIROh4 (ORCPT
+        with ESMTP id S1726299AbgIROsz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Sep 2020 10:37:56 -0400
-X-Greylist: delayed 428 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Sep 2020 10:37:54 EDT
+        Fri, 18 Sep 2020 10:48:55 -0400
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200918143045euoutp029e63dbf7d2c189689a60d293f1684cec~15zIfpZy11720517205euoutp02_
-        for <linux-media@vger.kernel.org>; Fri, 18 Sep 2020 14:30:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200918143045euoutp029e63dbf7d2c189689a60d293f1684cec~15zIfpZy11720517205euoutp02_
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200918144853euoutp0292e3ba181ea1011c0f7647db85cbb40b~16C926xp12946929469euoutp02f
+        for <linux-media@vger.kernel.org>; Fri, 18 Sep 2020 14:48:53 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200918144853euoutp0292e3ba181ea1011c0f7647db85cbb40b~16C926xp12946929469euoutp02f
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1600439445;
-        bh=hBsrcWrylENiA8CJpWNFRm9tt7ldEyWWLZ99Wa3oth0=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=JswDtITL7tIOLSf9iLRSjoZgTdhSlaYRIgoKuGrsyYyRjHw3WN+gvf7iMaGnrvQZW
-         KVuMLffML9in1wR2Lvkdn/FjkpZkBdEULhu4wDVkw/SPfY6qR5XXlrLrtQc7GNuL5V
-         bANq1PCoGhSAhB6JiTabxQlfSx4xcyYZ1QnmafRU=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        s=mail20170921; t=1600440533;
+        bh=KlhMUIQ5/bwiD7iSzIaRpEIKt/hwlmfb9lev76Lshro=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=FveesKjtcPr/FjhBwZAsY9iOG3qjaUiL2XvH/Tw6g5ENQK6jhdOwBbC2+VV/nwB0M
+         P9/rh6ZtdvweL1aaEoKQbv3GCh6nPRahRG/I1aHCnIXVJ9sw8uzkCnHFwkgUSSxhEQ
+         1zKuHXGQqAFp3/qUJZ7EdZSKQA8g1tIzC1D/KwGQ=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
         eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200918143044eucas1p101a3ad6b5e567d0beab4f394cae4c434~15zIKi1751587415874eucas1p1f;
-        Fri, 18 Sep 2020 14:30:44 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id D0.2C.05997.494C46F5; Fri, 18
-        Sep 2020 15:30:44 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200918143044eucas1p1f4222956eedd5de37fc1b0d414ecf7a3~15zHtxi621598415984eucas1p1W;
-        Fri, 18 Sep 2020 14:30:44 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200918143044eusmtrp157a348edac28e951be0e5ac55b21972b~15zHstcg-0635606356eusmtrp1S;
-        Fri, 18 Sep 2020 14:30:44 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-76-5f64c494f79c
+        20200918144852eucas1p17331733b574bd31b7e36a10a19a77b05~16C9mnJc62770527705eucas1p11;
+        Fri, 18 Sep 2020 14:48:52 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 0E.30.06456.4D8C46F5; Fri, 18
+        Sep 2020 15:48:52 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200918144852eucas1p2cd6ec1d5fb76d5c472a7ff966e0c3e8e~16C9IK_Ze1176911769eucas1p2P;
+        Fri, 18 Sep 2020 14:48:52 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200918144852eusmtrp2ab6d2a34a8907d4836720cee400335a3~16C9He8dj2279922799eusmtrp2p;
+        Fri, 18 Sep 2020 14:48:52 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-10-5f64c8d48053
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id C4.CB.06314.494C46F5; Fri, 18
-        Sep 2020 15:30:44 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 5C.4F.06017.4D8C46F5; Fri, 18
+        Sep 2020 15:48:52 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
         eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200918143042eusmtip10564a3bded8ed69494e7eb26cf282a86~15zGTRKp20404904049eusmtip1I;
-        Fri, 18 Sep 2020 14:30:42 +0000 (GMT)
-Subject: Re: [PATCH 14/18] drm/exynos: Consolidate IOMMU mapping code
-To:     Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
-        linux@armlinux.org.uk
-Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, vdumpa@nvidia.com, digetx@gmail.com,
-        matthias.bgg@gmail.com, yong.wu@mediatek.com,
-        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
-        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        20200918144851eusmtip15c5fbe68eafb4be84d0e675f166b5619~16C8l6l0G1559115591eusmtip1a;
+        Fri, 18 Sep 2020 14:48:51 +0000 (GMT)
 From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <f08cda6b-980f-94da-5f8f-6ba5603bc52d@samsung.com>
-Date:   Fri, 18 Sep 2020 16:30:44 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-        Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <8b4a21e4f1b4d6da086371ee213c654b10fcf946.1597931876.git.robin.murphy@arm.com>
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0xTZxjedy7fOXTWHaqTN865pYm3JcKc2nwLjuyeo+HHov8wit16gghU
-        0wM4zBawMNd2pYGWZVC0OoJBuXipDl0HVOpGo7UgsCAaFBmdzku9QlRslu1wduHf87zP8+Z9
-        ni8fT+su4vl8rrlQspiN+XqsYdp7nvUtr/nZlP2mz7OY9I4/Z0gkeI8hLQ/HEfl18j4m++rd
-        iBxu+YUi7tEqhhwIppMKbwND7PXHOBK13uWIvbqRI/7xIZZUB6McGQzsxcR57AeWDJb3I1Lb
-        10UR+4QXk9C3nYhcb4ljYq1YSbofxFjSOdXFklrPLUwaf7dh8izgY4ircz2pGFlNRt0nmHcX
-        irFuHyW2+lqRODjUT4vV0eXij96rnFhvq2NFf7MdiyNDHVgc/SZMiScaS0XPcBMSf7pchsWK
-        c0FGrCy/h0XXyWYkhodPUZ8kZ2nWmKT83GLJkpaxRbPVd+eDHY8r0eeutt1cGXIVOhDPg7AK
-        bvZlOZCG1wmHEPSHvqZUMoGg4ZqfUcljBIEbbbQDJU1vOA97aFVoQpDomsQquY/AejbCKq45
-        wkcQueCmFDxX2ARTpxOcYqKFDhbK3KOMImBhBTjiDqxgrZABw6EOVgnFCIvgTvlaZfyysBl6
-        zv/GqJZkOFcXm8ZJwkYYOVs5vUoLr8Gp+F5axSlwJbZ/ugMI+5PAVt/DqrE/hMS1EKfiOXA7
-        fPIfvAAiHiejLpQjGOtt41TiRDBorUWqKx1Geqewko4WlsHRQJo6fg8cZ5QyykvOhuF4shpi
-        Nrjbv6PVsRZse3SqezF4w0f+O9t9cYCuQnrvjGreGXW8M+p4/797ADHNKEUqkgtyJPkts7Qz
-        VTYWyEXmnNTPthf40d//PPJneOI0CiQ+DSGBR/pZ2j98pmwdayyWSwpCCHhaP1f7fjSyWac1
-        GUt2SZbt2ZaifEkOoVd4Rp+iXdlwa5NOyDEWSnmStEOy/KtSfNL8MrTryTZbxpnXb39/PLrv
-        LvWlrtf6RQsKJ4JV5O08R/J5V6Zhwn5o2Wr78SP+mi2zntZZ32m2p5eMxQw3DI6sgXZaE3G+
-        MLYh9aWDPQb51XkGfMksPUc1pQPj4YY9afGvhvIWLM1dx2UWl65b+OLNnUvSJrnIw4Tp0dOr
-        Hz8ytK7tNukZeatxxRu0RTb+BToMGt7jAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTdxTH8+t99PLovBQIv8Dmli7+ocS6S3kcfHTLzJJrQnTRf1QEbOgd
-        kNFWey9MCYko/YN20EmZi7ZaiEIQiorg1DGwo3sQVjrC0AYNBBGMOK2PWP8AjLEVlvDfJ+d8
-        P+fkJIchlDNUKlNmlASzUVeuomNJ/9uhqY0//qEv+sw7Fgv/zC6R4Pc+I8HzchbB7dfPaTjn
-        ciDo8PwpA8f0SRJavFvA4jxPgtXVLYfAiadysDa2yqFnNkhBozcgh/G+szTUd/9MwXjtGILT
-        o7dkYA07afCdGkBw3xOi4YRFA4Mv5igYWLxFwemmxzS0PqyjYaHPTYJ9YDdYJrNg2tFLfrGW
-        nxt0y/gudxfix4NjBN8Y2Mj/4pyS8666MxTf02ml+clgP81Pfz8k43tbj/FNE+2I//VuDc1b
-        hr0k31D7jObt1zoRPzRxQ/Z1wn71VrOpQhI+KTWJ0jZVPgcZai4X1BmZuWpOk1OwOSNLtUm7
-        VS+Ul1UK5k3ag+pS95Pth141oCP2S8flNcgu2VAMg9lMXN/RRERZybYhHP7t8+X6h3j4pxpq
-        mRPxm6CNtqHYSCaEcLM1/F5IZL/C/hGHLMpJbAEOt3voKBNsP4XbQqnLwiTCHn8zijZolsO2
-        kO19SMFq8YSvP7KBYUh2HX5SuyNaTmYL8Uj9/EokAQ+fmSOjHMPm48nfG1bmZ2N37wyxzB/j
-        G6GzK5yC7801y04ipXOV7lylOFcpzlVKCyI7UZJQIRpKDCKnFnUGscJYoi42GXpQ5L2u/7XQ
-        exP9e3WPD7EMUsUr5t36IiWlqxSPGnwIM4QqSfFlwF+oVOh1R6sEs6nIXFEuiD6UFbmtkUhN
-        LjZFntUoFXFZXA7kcjmaHE02qFIUdezgASVbopOEbwXhkGD+35MxMak16EjISTwq31ec9983
-        H1XvDWvXHIaYq1rD7N8D1+Pk0oO+p1zid5k3/a8Ld925GF7M7NG3jf5g1+jvGLVxRP6VT8tG
-        uMOXk0/l7wy6dHHNowfzLsSbwvWVDQ5v9fHAlvXpjvTbqg8KvDva2Zmlx3lpS+YESap1FVbF
-        yxdmLG5Gm6YixVIdt4Ewi7p3ERmwXnQDAAA=
-X-CMS-MailID: 20200918143044eucas1p1f4222956eedd5de37fc1b0d414ecf7a3
+To:     linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sylwester Nawrocki <snawrocki@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH v2 0/4] Exynos4 media drivers: adapt for the planned ARM
+ IOMMU-DMA changes
+Date:   Fri, 18 Sep 2020 16:48:29 +0200
+Message-Id: <20200918144833.14618-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOIsWRmVeSWpSXmKPExsWy7djPc7pXTqTEG8zcY2ixccZ6Vovz5zew
+        W/Rs2MpqMeP8PiaLtUfuslss2/SHyeLghyesFu1PXzJbfG79x+bA6bFm3hpGj9kNF1k8Nq3q
+        ZPPo27KK0ePzJrkA1igum5TUnMyy1CJ9uwSujBmnW5kK7vJVdHz3aWBcx9PFyMkhIWAi0Tep
+        ha2LkYtDSGAFo8THBfugnC+MEr/+rWOCcD4zSly8fo25i5EDrOXRsmKI+HJGiUV3r7GAjALr
+        6GngBLHZBAwlut52sYHYIgJOEgtn/WUHaWAW2MQksevNByaQhLBAjMTjrfPYQWwWAVWJjVM3
+        MILYvAK2Ei8uzGKGuE9eYvWGA8wgzRICr9kkjj3awgSRcJFYtHIGG4QtLPHq+BZ2CFtG4v/O
+        +UwQDc2MEg/PrWWHcHoYJS43zWCEqLKWuHPuFxvIP8wCmhLrd+lDhB0lJl07ygLxJp/EjbeC
+        IGFmIHPStulQ3/NKdLQJQVSrScw6vg5u7cELl6Bu9pD4e2g2WLmQQKzEz/ueExjlZiGsWsDI
+        uIpRPLW0ODc9tdgwL7Vcrzgxt7g0L10vOT93EyMwOZz+d/zTDsavl5IOMQpwMCrx8P5YkxIv
+        xJpYVlyZe4hRgoNZSYTX6ezpOCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8xotexgoJpCeWpGan
+        phakFsFkmTg4pRoYFzo23OBVU7S7zrll/1HXnXsrmFjk5pvdrLmlEjdpsVndzHcXD36+3yTN
+        v5xP/SD/kU0nr9r1tp+KfCm+elZzdQvzkzVHjm5h5ld8K8N36fbdnpcXH4swzDfIlApru2i6
+        8H/AgrKYY2cjGPICUlt2qMscW8/8edLesG+t2/LbtjY8ttHcumlnjxJLcUaioRZzUXEiAGuz
+        0SoKAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsVy+t/xu7pXTqTEG1xYJmixccZ6Vovz5zew
+        W/Rs2MpqMeP8PiaLtUfuslss2/SHyeLghyesFu1PXzJbfG79x+bA6bFm3hpGj9kNF1k8Nq3q
+        ZPPo27KK0ePzJrkA1ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TU
+        nMyy1CJ9uwS9jBmnW5kK7vJVdHz3aWBcx9PFyMEhIWAi8WhZcRcjF4eQwFJGienL77J2MXIC
+        xWUkTk5rgLKFJf5c62KDKPrEKPG66xE7SIJNwFCi6y1IgpNDRMBFYv+ep8wgRcwC25gkfm1d
+        xASSEBaIknj+ejJYA4uAqsTGqRsYQWxeAVuJFxdmMUNskJdYveEA8wRGngWMDKsYRVJLi3PT
+        c4uN9IoTc4tL89L1kvNzNzECw3LbsZ9bdjB2vQs+xCjAwajEw/tiXkq8EGtiWXFl7iFGCQ5m
+        JRFep7On44R4UxIrq1KL8uOLSnNSiw8xmgItn8gsJZqcD4yZvJJ4Q1NDcwtLQ3Njc2MzCyVx
+        3g6BgzFCAumJJanZqakFqUUwfUwcnFLAwDrZculO6LtQmXuxK+YGGLkWWF3MtjzIfOYZ4/S2
+        +eGiTdsk9s9zOHTzHteNgIoVyxrNnLd80Era+ffC42un62P8Drx4zL7vo+Smzettnq0oPrZ5
+        4zZmliXuWcLH4o1fT7r1xkTjaleip8WK1QoRCTG3qxv/1ay222Iq3XrpRuvceUu6HVesmqHE
+        UpyRaKjFXFScCADcuVVoYQIAAA==
+X-CMS-MailID: 20200918144852eucas1p2cd6ec1d5fb76d5c472a7ff966e0c3e8e
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200820150951eucas1p1d6fa70c2470cf5ce0d3c52af5fdbb40c
+X-RootMTR: 20200918144852eucas1p2cd6ec1d5fb76d5c472a7ff966e0c3e8e
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200820150951eucas1p1d6fa70c2470cf5ce0d3c52af5fdbb40c
-References: <cover.1597931875.git.robin.murphy@arm.com>
-        <CGME20200820150951eucas1p1d6fa70c2470cf5ce0d3c52af5fdbb40c@eucas1p1.samsung.com>
-        <8b4a21e4f1b4d6da086371ee213c654b10fcf946.1597931876.git.robin.murphy@arm.com>
+X-CMS-RootMailID: 20200918144852eucas1p2cd6ec1d5fb76d5c472a7ff966e0c3e8e
+References: <CGME20200918144852eucas1p2cd6ec1d5fb76d5c472a7ff966e0c3e8e@eucas1p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robin,
+Hi,
 
-On 20.08.2020 17:08, Robin Murphy wrote:
-> Now that arch/arm is wired up for default domains and iommu-dma, we can
-> consolidate the shared mapping code onto the generic IOMMU API version,
-> and retire the arch-specific implementation.
->
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->
-> ---
-> This is a cheeky revert of 07dc3678bacc ("drm/exynos: Fix cleanup of
-> IOMMU related objects"), plus removal of the remaining arm_iommu_*
-> references on top.
+This patchset updates Exynos4-IS and S5P-MFC drivers for the planned
+kernel changes in the area of ARM DMA-mapping and IOMMU integration [1].
+Those patches are intedependent, they can be applied separately from the
+ARM DMA-mapping changes.
 
-I have one more suggestion to this patch. Please rename 
-exynos_drm_private->mapping to exynos_drm_private->domain and change its 
-type from "void *" to "struct iommu_domain *". The "void *" was there to 
-support both old-ARM and ARM64 IOMMU/DMA-mapping frameworks, but now we 
-can use the proper pointer types.
+Best regards,
+Marek Szyprowski
 
-> ---
->   drivers/gpu/drm/exynos/exynos5433_drm_decon.c |  5 +-
->   drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  5 +-
->   drivers/gpu/drm/exynos/exynos_drm_dma.c       | 61 +++----------------
->   drivers/gpu/drm/exynos/exynos_drm_drv.h       |  6 +-
->   drivers/gpu/drm/exynos/exynos_drm_fimc.c      |  5 +-
->   drivers/gpu/drm/exynos/exynos_drm_fimd.c      |  5 +-
->   drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  5 +-
->   drivers/gpu/drm/exynos/exynos_drm_gsc.c       |  5 +-
->   drivers/gpu/drm/exynos/exynos_drm_rotator.c   |  5 +-
->   drivers/gpu/drm/exynos/exynos_drm_scaler.c    |  6 +-
->   drivers/gpu/drm/exynos/exynos_mixer.c         |  7 +--
->   11 files changed, 29 insertions(+), 86 deletions(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-> index 1f79bc2a881e..8428ae12dfa5 100644
-> --- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-> +++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-> @@ -55,7 +55,6 @@ static const char * const decon_clks_name[] = {
->   struct decon_context {
->   	struct device			*dev;
->   	struct drm_device		*drm_dev;
-> -	void				*dma_priv;
->   	struct exynos_drm_crtc		*crtc;
->   	struct exynos_drm_plane		planes[WINDOWS_NR];
->   	struct exynos_drm_plane_config	configs[WINDOWS_NR];
-> @@ -645,7 +644,7 @@ static int decon_bind(struct device *dev, struct device *master, void *data)
->   
->   	decon_clear_channels(ctx->crtc);
->   
-> -	return exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
-> +	return exynos_drm_register_dma(drm_dev, dev);
->   }
->   
->   static void decon_unbind(struct device *dev, struct device *master, void *data)
-> @@ -655,7 +654,7 @@ static void decon_unbind(struct device *dev, struct device *master, void *data)
->   	decon_atomic_disable(ctx->crtc);
->   
->   	/* detach this sub driver from iommu mapping if supported. */
-> -	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev, &ctx->dma_priv);
-> +	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev);
->   }
->   
->   static const struct component_ops decon_component_ops = {
-> diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> index f2d87a7445c7..e7b58097ccdc 100644
-> --- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> +++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> @@ -40,7 +40,6 @@
->   struct decon_context {
->   	struct device			*dev;
->   	struct drm_device		*drm_dev;
-> -	void				*dma_priv;
->   	struct exynos_drm_crtc		*crtc;
->   	struct exynos_drm_plane		planes[WINDOWS_NR];
->   	struct exynos_drm_plane_config	configs[WINDOWS_NR];
-> @@ -128,13 +127,13 @@ static int decon_ctx_initialize(struct decon_context *ctx,
->   
->   	decon_clear_channels(ctx->crtc);
->   
-> -	return exynos_drm_register_dma(drm_dev, ctx->dev, &ctx->dma_priv);
-> +	return exynos_drm_register_dma(drm_dev, ctx->dev);
->   }
->   
->   static void decon_ctx_remove(struct decon_context *ctx)
->   {
->   	/* detach this sub driver from iommu mapping if supported. */
-> -	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev, &ctx->dma_priv);
-> +	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev);
->   }
->   
->   static u32 decon_calc_clkdiv(struct decon_context *ctx,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-> index 58b89ec11b0e..fd5f9bcf1857 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-> @@ -14,19 +14,6 @@
->   
->   #include "exynos_drm_drv.h"
->   
-> -#if defined(CONFIG_ARM_DMA_USE_IOMMU)
-> -#include <asm/dma-iommu.h>
-> -#else
-> -#define arm_iommu_create_mapping(...)	({ NULL; })
-> -#define arm_iommu_attach_device(...)	({ -ENODEV; })
-> -#define arm_iommu_release_mapping(...)	({ })
-> -#define arm_iommu_detach_device(...)	({ })
-> -#define to_dma_iommu_mapping(dev) NULL
-> -#endif
-> -
-> -#if !defined(CONFIG_IOMMU_DMA)
-> -#define iommu_dma_init_domain(...) ({ -EINVAL; })
-> -#endif
->   
->   #define EXYNOS_DEV_ADDR_START	0x20000000
->   #define EXYNOS_DEV_ADDR_SIZE	0x40000000
-> @@ -58,7 +45,7 @@ static inline void clear_dma_max_seg_size(struct device *dev)
->    * mapping.
->    */
->   static int drm_iommu_attach_device(struct drm_device *drm_dev,
-> -				struct device *subdrv_dev, void **dma_priv)
-> +				struct device *subdrv_dev)
->   {
->   	struct exynos_drm_private *priv = drm_dev->dev_private;
->   	int ret = 0;
-> @@ -73,22 +60,7 @@ static int drm_iommu_attach_device(struct drm_device *drm_dev,
->   	if (ret)
->   		return ret;
->   
-> -	if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)) {
-> -		/*
-> -		 * Keep the original DMA mapping of the sub-device and
-> -		 * restore it on Exynos DRM detach, otherwise the DMA
-> -		 * framework considers it as IOMMU-less during the next
-> -		 * probe (in case of deferred probe or modular build)
-> -		 */
-> -		*dma_priv = to_dma_iommu_mapping(subdrv_dev);
-> -		if (*dma_priv)
-> -			arm_iommu_detach_device(subdrv_dev);
-> -
-> -		ret = arm_iommu_attach_device(subdrv_dev, priv->mapping);
-> -	} else if (IS_ENABLED(CONFIG_IOMMU_DMA)) {
-> -		ret = iommu_attach_device(priv->mapping, subdrv_dev);
-> -	}
-> -
-> +	ret = iommu_attach_device(priv->mapping, subdrv_dev);
->   	if (ret)
->   		clear_dma_max_seg_size(subdrv_dev);
->   
-> @@ -105,21 +77,15 @@ static int drm_iommu_attach_device(struct drm_device *drm_dev,
->    * mapping
->    */
->   static void drm_iommu_detach_device(struct drm_device *drm_dev,
-> -				    struct device *subdrv_dev, void **dma_priv)
-> +				struct device *subdrv_dev)
->   {
->   	struct exynos_drm_private *priv = drm_dev->dev_private;
->   
-> -	if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)) {
-> -		arm_iommu_detach_device(subdrv_dev);
-> -		arm_iommu_attach_device(subdrv_dev, *dma_priv);
-> -	} else if (IS_ENABLED(CONFIG_IOMMU_DMA))
-> -		iommu_detach_device(priv->mapping, subdrv_dev);
-> -
-> +	iommu_detach_device(priv->mapping, subdrv_dev);
->   	clear_dma_max_seg_size(subdrv_dev);
->   }
->   
-> -int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
-> -			    void **dma_priv)
-> +int exynos_drm_register_dma(struct drm_device *drm, struct device *dev)
->   {
->   	struct exynos_drm_private *priv = drm->dev_private;
->   
-> @@ -133,27 +99,20 @@ int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
->   		return 0;
->   
->   	if (!priv->mapping) {
-> -		void *mapping;
-> -
-> -		if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
-> -			mapping = arm_iommu_create_mapping(&platform_bus_type,
-> -				EXYNOS_DEV_ADDR_START, EXYNOS_DEV_ADDR_SIZE);
-> -		else if (IS_ENABLED(CONFIG_IOMMU_DMA))
-> -			mapping = iommu_get_domain_for_dev(priv->dma_dev);
-> +		void *mapping = iommu_get_domain_for_dev(priv->dma_dev);
->   
->   		if (IS_ERR(mapping))
->   			return PTR_ERR(mapping);
->   		priv->mapping = mapping;
->   	}
->   
-> -	return drm_iommu_attach_device(drm, dev, dma_priv);
-> +	return drm_iommu_attach_device(drm, dev);
->   }
->   
-> -void exynos_drm_unregister_dma(struct drm_device *drm, struct device *dev,
-> -			       void **dma_priv)
-> +void exynos_drm_unregister_dma(struct drm_device *drm, struct device *dev)
->   {
->   	if (IS_ENABLED(CONFIG_EXYNOS_IOMMU))
-> -		drm_iommu_detach_device(drm, dev, dma_priv);
-> +		drm_iommu_detach_device(drm, dev);
->   }
->   
->   void exynos_drm_cleanup_dma(struct drm_device *drm)
-> @@ -163,7 +122,5 @@ void exynos_drm_cleanup_dma(struct drm_device *drm)
->   	if (!IS_ENABLED(CONFIG_EXYNOS_IOMMU))
->   		return;
->   
-> -	arm_iommu_release_mapping(priv->mapping);
-> -	priv->mapping = NULL;
->   	priv->dma_dev = NULL;
->   }
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.h b/drivers/gpu/drm/exynos/exynos_drm_drv.h
-> index 6ae9056e7a18..d4d21d8cfb90 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.h
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.h
-> @@ -223,10 +223,8 @@ static inline bool is_drm_iommu_supported(struct drm_device *drm_dev)
->   	return priv->mapping ? true : false;
->   }
->   
-> -int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
-> -			    void **dma_priv);
-> -void exynos_drm_unregister_dma(struct drm_device *drm, struct device *dev,
-> -			       void **dma_priv);
-> +int exynos_drm_register_dma(struct drm_device *drm, struct device *dev);
-> +void exynos_drm_unregister_dma(struct drm_device *drm, struct device *dev);
->   void exynos_drm_cleanup_dma(struct drm_device *drm);
->   
->   #ifdef CONFIG_DRM_EXYNOS_DPI
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-> index 29ab8be8604c..8ea2e1d77802 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-> @@ -97,7 +97,6 @@ struct fimc_scaler {
->   struct fimc_context {
->   	struct exynos_drm_ipp ipp;
->   	struct drm_device *drm_dev;
-> -	void		*dma_priv;
->   	struct device	*dev;
->   	struct exynos_drm_ipp_task	*task;
->   	struct exynos_drm_ipp_formats	*formats;
-> @@ -1134,7 +1133,7 @@ static int fimc_bind(struct device *dev, struct device *master, void *data)
->   
->   	ctx->drm_dev = drm_dev;
->   	ipp->drm_dev = drm_dev;
-> -	exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
-> +	exynos_drm_register_dma(drm_dev, dev);
->   
->   	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
->   			DRM_EXYNOS_IPP_CAP_CROP | DRM_EXYNOS_IPP_CAP_ROTATE |
-> @@ -1154,7 +1153,7 @@ static void fimc_unbind(struct device *dev, struct device *master,
->   	struct exynos_drm_ipp *ipp = &ctx->ipp;
->   
->   	exynos_drm_ipp_unregister(dev, ipp);
-> -	exynos_drm_unregister_dma(drm_dev, dev, &ctx->dma_priv);
-> +	exynos_drm_unregister_dma(drm_dev, dev);
->   }
->   
->   static const struct component_ops fimc_component_ops = {
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> index bb67cad8371f..21aec38702fc 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> @@ -167,7 +167,6 @@ static struct fimd_driver_data exynos5420_fimd_driver_data = {
->   struct fimd_context {
->   	struct device			*dev;
->   	struct drm_device		*drm_dev;
-> -	void				*dma_priv;
->   	struct exynos_drm_crtc		*crtc;
->   	struct exynos_drm_plane		planes[WINDOWS_NR];
->   	struct exynos_drm_plane_config	configs[WINDOWS_NR];
-> @@ -1091,7 +1090,7 @@ static int fimd_bind(struct device *dev, struct device *master, void *data)
->   	if (is_drm_iommu_supported(drm_dev))
->   		fimd_clear_channels(ctx->crtc);
->   
-> -	return exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
-> +	return exynos_drm_register_dma(drm_dev, dev);
->   }
->   
->   static void fimd_unbind(struct device *dev, struct device *master,
-> @@ -1101,7 +1100,7 @@ static void fimd_unbind(struct device *dev, struct device *master,
->   
->   	fimd_atomic_disable(ctx->crtc);
->   
-> -	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev, &ctx->dma_priv);
-> +	exynos_drm_unregister_dma(ctx->drm_dev, ctx->dev);
->   
->   	if (ctx->encoder)
->   		exynos_dpi_remove(ctx->encoder);
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> index 03be31427181..256ceafd9945 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> @@ -232,7 +232,6 @@ struct g2d_runqueue_node {
->   
->   struct g2d_data {
->   	struct device			*dev;
-> -	void				*dma_priv;
->   	struct clk			*gate_clk;
->   	void __iomem			*regs;
->   	int				irq;
-> @@ -1410,7 +1409,7 @@ static int g2d_bind(struct device *dev, struct device *master, void *data)
->   		return ret;
->   	}
->   
-> -	ret = exynos_drm_register_dma(drm_dev, dev, &g2d->dma_priv);
-> +	ret = exynos_drm_register_dma(drm_dev, dev);
->   	if (ret < 0) {
->   		dev_err(dev, "failed to enable iommu.\n");
->   		g2d_fini_cmdlist(g2d);
-> @@ -1435,7 +1434,7 @@ static void g2d_unbind(struct device *dev, struct device *master, void *data)
->   	priv->g2d_dev = NULL;
->   
->   	cancel_work_sync(&g2d->runqueue_work);
-> -	exynos_drm_unregister_dma(g2d->drm_dev, dev, &g2d->dma_priv);
-> +	exynos_drm_unregister_dma(g2d->drm_dev, dev);
->   }
->   
->   static const struct component_ops g2d_component_ops = {
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> index 45e9aee8366a..88b6fcaa20be 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> @@ -97,7 +97,6 @@ struct gsc_scaler {
->   struct gsc_context {
->   	struct exynos_drm_ipp ipp;
->   	struct drm_device *drm_dev;
-> -	void		*dma_priv;
->   	struct device	*dev;
->   	struct exynos_drm_ipp_task	*task;
->   	struct exynos_drm_ipp_formats	*formats;
-> @@ -1170,7 +1169,7 @@ static int gsc_bind(struct device *dev, struct device *master, void *data)
->   
->   	ctx->drm_dev = drm_dev;
->   	ctx->drm_dev = drm_dev;
-> -	exynos_drm_register_dma(drm_dev, dev, &ctx->dma_priv);
-> +	exynos_drm_register_dma(drm_dev, dev);
->   
->   	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
->   			DRM_EXYNOS_IPP_CAP_CROP | DRM_EXYNOS_IPP_CAP_ROTATE |
-> @@ -1190,7 +1189,7 @@ static void gsc_unbind(struct device *dev, struct device *master,
->   	struct exynos_drm_ipp *ipp = &ctx->ipp;
->   
->   	exynos_drm_ipp_unregister(dev, ipp);
-> -	exynos_drm_unregister_dma(drm_dev, dev, &ctx->dma_priv);
-> +	exynos_drm_unregister_dma(drm_dev, dev);
->   }
->   
->   static const struct component_ops gsc_component_ops = {
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_rotator.c b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-> index 2d94afba031e..f22fa0d2621a 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-> @@ -56,7 +56,6 @@ struct rot_variant {
->   struct rot_context {
->   	struct exynos_drm_ipp ipp;
->   	struct drm_device *drm_dev;
-> -	void		*dma_priv;
->   	struct device	*dev;
->   	void __iomem	*regs;
->   	struct clk	*clock;
-> @@ -244,7 +243,7 @@ static int rotator_bind(struct device *dev, struct device *master, void *data)
->   
->   	rot->drm_dev = drm_dev;
->   	ipp->drm_dev = drm_dev;
-> -	exynos_drm_register_dma(drm_dev, dev, &rot->dma_priv);
-> +	exynos_drm_register_dma(drm_dev, dev);
->   
->   	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
->   			   DRM_EXYNOS_IPP_CAP_CROP | DRM_EXYNOS_IPP_CAP_ROTATE,
-> @@ -262,7 +261,7 @@ static void rotator_unbind(struct device *dev, struct device *master,
->   	struct exynos_drm_ipp *ipp = &rot->ipp;
->   
->   	exynos_drm_ipp_unregister(dev, ipp);
-> -	exynos_drm_unregister_dma(rot->drm_dev, rot->dev, &rot->dma_priv);
-> +	exynos_drm_unregister_dma(rot->drm_dev, rot->dev);
->   }
->   
->   static const struct component_ops rotator_component_ops = {
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_scaler.c b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-> index ce1857138f89..0c560566bd2e 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-> @@ -39,7 +39,6 @@ struct scaler_data {
->   struct scaler_context {
->   	struct exynos_drm_ipp		ipp;
->   	struct drm_device		*drm_dev;
-> -	void				*dma_priv;
->   	struct device			*dev;
->   	void __iomem			*regs;
->   	struct clk			*clock[SCALER_MAX_CLK];
-> @@ -451,7 +450,7 @@ static int scaler_bind(struct device *dev, struct device *master, void *data)
->   
->   	scaler->drm_dev = drm_dev;
->   	ipp->drm_dev = drm_dev;
-> -	exynos_drm_register_dma(drm_dev, dev, &scaler->dma_priv);
-> +	exynos_drm_register_dma(drm_dev, dev);
->   
->   	exynos_drm_ipp_register(dev, ipp, &ipp_funcs,
->   			DRM_EXYNOS_IPP_CAP_CROP | DRM_EXYNOS_IPP_CAP_ROTATE |
-> @@ -471,8 +470,7 @@ static void scaler_unbind(struct device *dev, struct device *master,
->   	struct exynos_drm_ipp *ipp = &scaler->ipp;
->   
->   	exynos_drm_ipp_unregister(dev, ipp);
-> -	exynos_drm_unregister_dma(scaler->drm_dev, scaler->dev,
-> -				  &scaler->dma_priv);
-> +	exynos_drm_unregister_dma(scaler->drm_dev, scaler->dev);
->   }
->   
->   static const struct component_ops scaler_component_ops = {
-> diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos/exynos_mixer.c
-> index af192e5a16ef..18972e605c5d 100644
-> --- a/drivers/gpu/drm/exynos/exynos_mixer.c
-> +++ b/drivers/gpu/drm/exynos/exynos_mixer.c
-> @@ -94,7 +94,6 @@ struct mixer_context {
->   	struct platform_device *pdev;
->   	struct device		*dev;
->   	struct drm_device	*drm_dev;
-> -	void			*dma_priv;
->   	struct exynos_drm_crtc	*crtc;
->   	struct exynos_drm_plane	planes[MIXER_WIN_NR];
->   	unsigned long		flags;
-> @@ -895,14 +894,12 @@ static int mixer_initialize(struct mixer_context *mixer_ctx,
->   		}
->   	}
->   
-> -	return exynos_drm_register_dma(drm_dev, mixer_ctx->dev,
-> -				       &mixer_ctx->dma_priv);
-> +	return exynos_drm_register_dma(drm_dev, mixer_ctx->dev);
->   }
->   
->   static void mixer_ctx_remove(struct mixer_context *mixer_ctx)
->   {
-> -	exynos_drm_unregister_dma(mixer_ctx->drm_dev, mixer_ctx->dev,
-> -				  &mixer_ctx->dma_priv);
-> +	exynos_drm_unregister_dma(mixer_ctx->drm_dev, mixer_ctx->dev);
->   }
->   
->   static int mixer_enable_vblank(struct exynos_drm_crtc *crtc)
 
-Best regards
+References:
+
+[1] https://lore.kernel.org/lkml/cover.1597931875.git.robin.murphy@arm.com/
+
+
+Changelog:
+
+v2:
+- added patch for S5P-MFC driver
+- simplified code for Exynos4-IS (use the iommu_get_domain_for_dev()
+  instead of creating a separate domain)
+
+v1: https://lore.kernel.org/linux-samsung-soc/20200915133256.1210-1-m.szyprowski@samsung.com/T/#t
+- initial version (only Exynos4-IS patch)
+
+Patch summary:
+
+Marek Szyprowski (4):
+  media: platform: exynos4-is: remove all references to physicall
+    addresses
+  media: platform: exynos4-is: add support for generic IOMMU-DMA glue
+    code
+  media: platform: s5p-mfc: properly assign device to both vb2 queues
+  media: platform: s5p-mfc: add support for generic DMA-IOMMU glue code
+
+ .../media/platform/exynos4-is/fimc-capture.c  |  6 +-
+ drivers/media/platform/exynos4-is/fimc-core.c | 28 ++++----
+ drivers/media/platform/exynos4-is/fimc-core.h | 18 ++---
+ drivers/media/platform/exynos4-is/fimc-is.c   | 72 +++++++++++++++----
+ drivers/media/platform/exynos4-is/fimc-is.h   |  8 ++-
+ .../media/platform/exynos4-is/fimc-lite-reg.c |  4 +-
+ drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
+ drivers/media/platform/exynos4-is/fimc-lite.h |  4 +-
+ drivers/media/platform/exynos4-is/fimc-m2m.c  |  8 +--
+ drivers/media/platform/exynos4-is/fimc-reg.c  | 18 ++---
+ drivers/media/platform/exynos4-is/fimc-reg.h  |  4 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc.c      | 37 +++++++++-
+ .../media/platform/s5p-mfc/s5p_mfc_common.h   |  2 +
+ 13 files changed, 148 insertions(+), 63 deletions(-)
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+2.17.1
 
