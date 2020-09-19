@@ -2,69 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F1AE27103D
-	for <lists+linux-media@lfdr.de>; Sat, 19 Sep 2020 21:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F4D2271044
+	for <lists+linux-media@lfdr.de>; Sat, 19 Sep 2020 21:32:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbgISTb1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Sep 2020 15:31:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42694 "EHLO
+        id S1726651AbgISTc2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Sep 2020 15:32:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgISTb1 (ORCPT
+        with ESMTP id S1726511AbgISTc2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Sep 2020 15:31:27 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459DBC0613CE;
-        Sat, 19 Sep 2020 12:31:27 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id y15so8717718wmi.0;
-        Sat, 19 Sep 2020 12:31:27 -0700 (PDT)
+        Sat, 19 Sep 2020 15:32:28 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD8E2C0613CE;
+        Sat, 19 Sep 2020 12:32:27 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id g4so8841668wrs.5;
+        Sat, 19 Sep 2020 12:32:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:cc:references:from:message-id:date:user-agent:mime-version
          :in-reply-to:content-transfer-encoding:content-language;
-        bh=UOl7aJgZVOco43pM0FR5gPug/eBppWzmQE1Qt2hPsAY=;
-        b=SAR0t0Mj+t6LJOUepzhwcvAdBYiCPJWGjidXih0mxT/g+e3HpjDn+rHLzEtKVjbxW/
-         U3eKWcHtoLlmBxL0VfxZEGGwU6kak1+ICOcHK/ET7oWeNI54c6+j2fMN2r0tkSfZFh1j
-         TrwhSwDu7L7ecAblHecFDbynutj3x1Rhjh7AzcjoAFvurffDnvFqnkjDpJpWQCnozpp2
-         wtJ58uf6U8uH8fyZvud81B3jgbTUU7RX/OHlDfLrxQQCcVU1dERHDuz2Y8twvucivKPL
-         9sq77/VxiElGMOKb4uf5Es3JXwLn3ugDaix0Uo4H7Ry8agI+9dfLEVWnqT+28qlFjvUh
-         mB4w==
+        bh=uRD+jtu4T4w3/IBu3hqNZ8Cd+y8HjY9F+wm5MEjM4SU=;
+        b=j5EXDhRE8pvoMK7JrAAKL0aJ6LlyvxUeutfhUvbvp9x1Dc9T9tBvRfqDZ+nc3tkDfA
+         gV6vWLrHqgq4maYwQUd//5yKxxnjP8BMfwG22frr7OXxmJ3OghfnkAHvBzIy7zjGdSEw
+         XMzq5sx82YWQX8wtsToh792Wx7U2GpT+JHGpWrE0nh1t9sHZqDeMeudmFFa858/fedMR
+         CBy4zdI4QwUehk/Xt66PBoV/5c6j9vsFpdFvwCAujArYAvEVH5adWnqiYn77P06rk5FA
+         hEcvg7/vrCzrwef1nSmGJhMmBFTYvUyBiY9Pcts3qKnAP5UF/NYc7JZmUhS9Cs1c0+8H
+         Qq8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=UOl7aJgZVOco43pM0FR5gPug/eBppWzmQE1Qt2hPsAY=;
-        b=r5j/7goxfy7hz2P/+bbe9dXBgHOo0jXFU4KILnMXPfiGIS6mxvBc02fE0qWaXGyLkN
-         8CUn1EFxYtC8LxKd2t2cc3AXkLWapopMiRev63w3ft97OkX9DpXnHyzUQiu+/P7ls+xg
-         aKnip+fj3jq/wZ0/RmiaeW6ywZEFkDJ4egpVnPV6o9sS9rzS9PsWG/ALEA73WK8q8FYu
-         3PHQZ4XG0DyaDb/cHjHcUxLRbugbkDH6b+BoejUPAaNNXUiBYpY93bCvvmG7mssWTQis
-         rj0GmfmPfYJSM357XNWC/5t9SpXf67SD29utBSPMT/69ZZFcj0HlAqzgAtnymfTcXWfa
-         IfEA==
-X-Gm-Message-State: AOAM533GHC8kVC+TtuJ7dLjleqtoQdJgF1nnX93xxa7Yd6hvIkgBoxLl
-        tJyTVru0bQlKsvHR7IQ904+wNsOkaTPmUw==
-X-Google-Smtp-Source: ABdhPJwJ20Z3JMpNdgnVFQm9slja9W33AF/EopSX3S7Pe3V4UVomGGyQAntmfyCVsKyY+zUqaBXruA==
-X-Received: by 2002:a1c:32c6:: with SMTP id y189mr21360900wmy.51.1600543885768;
-        Sat, 19 Sep 2020 12:31:25 -0700 (PDT)
+        bh=uRD+jtu4T4w3/IBu3hqNZ8Cd+y8HjY9F+wm5MEjM4SU=;
+        b=JuR+wdmLTHtnrP584398bYXPGog6VR7NnO5gEmzVTDbS8fLSoap9cZvqm97SHzTcC1
+         Vlfcd55oppNIUdi8dErOm/1DlDAxwLkFg1eehn9Ke82jaVFDqQfp7wminysAIiV/mCY3
+         xgV+3DaFfSYRC5Dh9cSef96H/9NO+iFdU96jD4ZVtzvTKb65P2LdzQ6xPOaPzn0U3hjT
+         MnPl0tiXMqY1V9icdm6L05ypd8Zp3H4ayG7EWHCShyJBZjsrXaDLEBDIyeVIz46ErbsQ
+         rfjAWb/Cd22v8N1BjTcrMLXT7NEzq3Mnw4f7RMtVyVOxRAuFzQPywjchk5PWeqx3nAHy
+         Xu7A==
+X-Gm-Message-State: AOAM5333qtJFDFimgEEIF661/9+XQamCni+ZwH265aJztTZauiKzfWq7
+        6IokpU99k8pHuaEidkRITVoT3txSlO/+lQ==
+X-Google-Smtp-Source: ABdhPJzrOXv8bcvcOPV2KZZBH0KVfSEQEfKcjfQFzdkmVfez16uArWPgkDhYtbLNjyMUGWSPBk/dqg==
+X-Received: by 2002:a5d:51ce:: with SMTP id n14mr43684419wrv.8.1600543946429;
+        Sat, 19 Sep 2020 12:32:26 -0700 (PDT)
 Received: from [192.168.43.148] (92.40.169.140.threembb.co.uk. [92.40.169.140])
-        by smtp.gmail.com with ESMTPSA id w14sm12516740wrk.95.2020.09.19.12.31.24
+        by smtp.gmail.com with ESMTPSA id b11sm12153428wrt.38.2020.09.19.12.32.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 19 Sep 2020 12:31:24 -0700 (PDT)
-Subject: Re: [PATCH] staging: media: atomisp: Don't do unnecessary zeroing of
- memory
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sat, 19 Sep 2020 12:32:25 -0700 (PDT)
+Subject: Re: [PATCH 2/2] staging: media: atomisp: Remove unhelpful info
+ message
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-References: <20200909204807.36501-1-alex.dewar90@gmail.com>
+References: <20200903183145.720727-1-alex.dewar90@gmail.com>
+ <20200903183145.720727-2-alex.dewar90@gmail.com>
 From:   Alex Dewar <alex.dewar90@gmail.com>
-Message-ID: <6e70df97-808a-6d23-c24e-4b7c905cccda@gmail.com>
-Date:   Sat, 19 Sep 2020 20:31:23 +0100
+Message-ID: <09acb04e-ed83-377c-891e-efbf6b5f101b@gmail.com>
+Date:   Sat, 19 Sep 2020 20:32:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200909204807.36501-1-alex.dewar90@gmail.com>
+In-Reply-To: <20200903183145.720727-2-alex.dewar90@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -73,68 +74,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-09-09 21:48, Alex Dewar wrote:
-> In a few places in pci/sh_css_params.c, memset is used to zero memory
-> immediately before it is freed. As none of these structs appear to
-> contain sensitive information, just remove the calls to memset.
-Friendly ping?
+On 2020-09-03 19:31, Alex Dewar wrote:
+> We don't really need to know that the LED pin reset successfully.
+Ping?
 >
-> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
 > Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
 > ---
->   drivers/staging/media/atomisp/pci/sh_css_params.c | 6 ------
->   1 file changed, 6 deletions(-)
+>   drivers/staging/media/atomisp/i2c/atomisp-lm3554.c | 1 -
+>   1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> index 2c67c23b3700..24fc497bd491 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> @@ -4378,7 +4378,6 @@ ia_css_3a_statistics_free(struct ia_css_3a_statistics *me)
->   	if (me) {
->   		kvfree(me->rgby_data);
->   		kvfree(me->data);
-> -		memset(me, 0, sizeof(struct ia_css_3a_statistics));
->   		kvfree(me);
->   	}
->   }
-> @@ -4417,7 +4416,6 @@ ia_css_dvs_statistics_free(struct ia_css_dvs_statistics *me)
->   	if (me) {
->   		kvfree(me->hor_proj);
->   		kvfree(me->ver_proj);
-> -		memset(me, 0, sizeof(struct ia_css_dvs_statistics));
->   		kvfree(me);
->   	}
->   }
-> @@ -4459,7 +4457,6 @@ ia_css_dvs_coefficients_free(struct ia_css_dvs_coefficients *me)
->   	if (me) {
->   		kvfree(me->hor_coefs);
->   		kvfree(me->ver_coefs);
-> -		memset(me, 0, sizeof(struct ia_css_dvs_coefficients));
->   		kvfree(me);
->   	}
->   }
-> @@ -4551,7 +4548,6 @@ ia_css_dvs2_statistics_free(struct ia_css_dvs2_statistics *me)
->   		kvfree(me->ver_prod.odd_imag);
->   		kvfree(me->ver_prod.even_real);
->   		kvfree(me->ver_prod.even_imag);
-> -		memset(me, 0, sizeof(struct ia_css_dvs2_statistics));
->   		kvfree(me);
->   	}
->   }
-> @@ -4635,7 +4631,6 @@ ia_css_dvs2_coefficients_free(struct ia_css_dvs2_coefficients *me)
->   		kvfree(me->ver_coefs.odd_imag);
->   		kvfree(me->ver_coefs.even_real);
->   		kvfree(me->ver_coefs.even_imag);
-> -		memset(me, 0, sizeof(struct ia_css_dvs2_coefficients));
->   		kvfree(me);
->   	}
->   }
-> @@ -4710,7 +4705,6 @@ ia_css_dvs2_6axis_config_free(struct ia_css_dvs_6axis_config *dvs_6axis_config)
->   		kvfree(dvs_6axis_config->ycoords_y);
->   		kvfree(dvs_6axis_config->xcoords_uv);
->   		kvfree(dvs_6axis_config->ycoords_uv);
-> -		memset(dvs_6axis_config, 0, sizeof(struct ia_css_dvs_6axis_config));
->   		kvfree(dvs_6axis_config);
->   	}
->   }
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
+> index 621555b0cf6b..77b7f59e62d7 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
+> @@ -771,7 +771,6 @@ static int lm3554_gpio_init(struct i2c_client *client)
+>   	ret = gpiod_direction_output(pdata->gpio_reset, 0);
+>   	if (ret < 0)
+>   		return ret;
+> -	dev_info(&client->dev, "flash led reset successfully\n");
+>   
+>   	if (!pdata->gpio_strobe)
+>   		return -EINVAL;
 
