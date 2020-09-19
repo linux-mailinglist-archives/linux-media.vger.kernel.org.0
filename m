@@ -2,186 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04AB0270CED
-	for <lists+linux-media@lfdr.de>; Sat, 19 Sep 2020 12:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D617270CF4
+	for <lists+linux-media@lfdr.de>; Sat, 19 Sep 2020 12:23:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbgISKXS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Sep 2020 06:23:18 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:35161 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726041AbgISKXS (ORCPT
+        id S1726269AbgISKXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Sep 2020 06:23:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726041AbgISKXq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Sep 2020 06:23:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1600510995;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=SKsYkQ8W6CpU/hz9bXXuR7cy0nmrehduqP6/apaIQr0=;
-        b=kvhdUO5tHJ+BAeA7FQSFmHvJloEywcAQoge13gLgWpzTxo5MuvwcYcFtZXIoUGhuXv
-        CPvkuYixFHQ6vd4HR1xJPsjmOxcVvA0rrJ8fkOqHMx4soRRkFjIaHnUgMenECyPahUbr
-        UlAjvuVrYtYxUI9Jg1WCWzwSn8Odv64/OR6wRYCX5K79aMuSHi6WXPf+wN6iNDOnsUIr
-        LSaG/qfAOi7sxHnyaBDqN2HJdG3RSwW2jyI7Y4oX8UFurn7gen5LboUn8zN8p10sqjLg
-        TATIbZkPibCpg4/BjI0khMQvAtt7chJyhcP27nf4i7gXx9sJQznkdvEce/mYpFkFX4mL
-        sSaA==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCs/87J3I0="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp05-03.back.ox.d0m.de
-        by smtp-ox.front (RZmta 46.10.7 AUTH)
-        with ESMTPSA id e0624aw8JAHC6BG
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Sat, 19 Sep 2020 12:17:12 +0200 (CEST)
-Date:   Sat, 19 Sep 2020 12:17:12 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Message-ID: <1218972192.1109884.1600510632282@webmail.strato.com>
-In-Reply-To: <20200915230140.1201187-3-niklas.soderlund+renesas@ragnatech.se>
-References: <20200915230140.1201187-1-niklas.soderlund+renesas@ragnatech.se>
- <20200915230140.1201187-3-niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH 2/2] rcar-vin: Extend RAW8 support to all RGB layouts
+        Sat, 19 Sep 2020 06:23:46 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF754C0613CE;
+        Sat, 19 Sep 2020 03:23:45 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id g96so6283380ybi.12;
+        Sat, 19 Sep 2020 03:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6eCfSV8Ptzwh9vo0B+QF+qFkhZVWBhG7mYqX5yvNY50=;
+        b=UTgudd0w5mQs9vT1TTOv7Ft4rtia6NtVy8EXAdA5Nr3DW6o/m6ioJ/RkkKJJ35ZTz0
+         DIVTYbQO7Nr5qj0sxh/WN85JJEz/Y2xDTPSqhE6myX5le0fDmSK8gfEZn6TjCeKYBIC5
+         cHW5+IjsIjMc7X7nlYgzPOZUoebvuQ7CvXfeproRRaFtXdzaiJUyCENgrMEXKMNUWd65
+         FOScJtIjjzh0IP9lmkvggcgpTu3m0TkTZ30YzjNbDgbaUB1Sr9MYp8eTQiHGL7e0ieQS
+         v2Bgu1n5tLj95nSasFpmYYKfLNsI4CVUzOLbL3O0+OULq763EX5R+Q/20pEPYbR4T+DG
+         klPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6eCfSV8Ptzwh9vo0B+QF+qFkhZVWBhG7mYqX5yvNY50=;
+        b=mTntCYocOTCEQ6elfsGEWcDP5bxGmQPC/rXgMkOcvlLF2OuYHWo+F/XDI+O28UAaqg
+         2mjbeIT1KYs1C1jRrmyflLZw9ghD8lDOsZQVQyZ69GIHRqNeGg2cWxCiY8hJF0UZPefg
+         JznmrkZ7tNKAR9P5VMqHOUVXH3GcrxcQ6+4YqdeNnT8BWK+bkajylUFBJMhFOYdAqhha
+         MT7AyBI/7viWEYIFXdjTEfU1Ey6Xyb3BskD7fl28ZQZ1qY34AU4cWttpbi+4riPea/sE
+         AodAUfieEkTHsdwZKLUDgNglvbgovw9Y+md97F/orx2TGJ+1VKieywgGQWmIblCPmTIz
+         d5dA==
+X-Gm-Message-State: AOAM533kEjEpdGPySnsFhcrAJdqe75igGHl7joNLhOgmnaEFjhz2vs0X
+        U/ZU5nJ77ufCa/DqZJsMbBXUjk+/ph9cuU6L9Z4=
+X-Google-Smtp-Source: ABdhPJxJvGLmkjcwDwl3wap9FpKrFE9YZL6lgmFOz6nspGUWPzIFULr921hybhvvnKUrHrAjjmPYowSLNP5qI7UbVnU=
+X-Received: by 2002:a25:23d6:: with SMTP id j205mr36022995ybj.76.1600511024640;
+ Sat, 19 Sep 2020 03:23:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.3-Rev21
-X-Originating-Client: open-xchange-appsuite
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594919915-5225-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 19 Sep 2020 11:23:18 +0100
+Message-ID: <CA+V-a8uMoCs40RYENPhhpPQGrnoj-S_Zir718nvd94knsphO1Q@mail.gmail.com>
+Subject: Re: [PATCH 03/20] dt-bindings: ata: renesas,rcar-sata: Add r8a774e1 support
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        alsa-devel <alsa-devel@alsa-project.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Jens,
 
-> On 09/16/2020 1:01 AM Niklas S=C3=B6derlund <niklas.soderlund+renesas@rag=
-natech.se> wrote:
->=20
-> =20
-> Extend the list of supported formats to include all RGB layouts of RAW8.
->=20
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+On Thu, Jul 16, 2020 at 6:19 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> Document SATA support for the RZ/G2H, no driver change required.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > ---
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 28 ++++++++++++++++++++-
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 27 ++++++++++++++++++++
->  2 files changed, 54 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/p=
-latform/rcar-vin/rcar-dma.c
-> index a5dbb90c5210bae7..7f8997536aba6f0b 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -598,8 +598,16 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
->  =09/* For RAW8 format bpp is 1, but the hardware process RAW8
->  =09 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
->  =09 */
-> -=09if (vin->format.pixelformat =3D=3D V4L2_PIX_FMT_SRGGB8)
-> +=09switch (vin->format.pixelformat) {
-> +=09case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +=09case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +=09case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +=09case MEDIA_BUS_FMT_SRGGB8_1X8:
->  =09=09stride /=3D 2;
-> +=09=09break;
-> +=09default:
-> +=09=09break;
-> +=09}
-> =20
->  =09rvin_write(vin, stride, VNIS_REG);
->  }
-> @@ -683,6 +691,9 @@ static int rvin_setup(struct rvin_dev *vin)
-> =20
->  =09=09input_is_yuv =3D true;
->  =09=09break;
-> +=09case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +=09case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +=09case MEDIA_BUS_FMT_SGRBG8_1X8:
->  =09case MEDIA_BUS_FMT_SRGGB8_1X8:
->  =09=09vnmc |=3D VNMC_INF_RAW8;
->  =09=09break;
-> @@ -747,6 +758,9 @@ static int rvin_setup(struct rvin_dev *vin)
->  =09case V4L2_PIX_FMT_ABGR32:
->  =09=09dmr =3D VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
->  =09=09break;
-> +=09case V4L2_PIX_FMT_SBGGR8:
-> +=09case V4L2_PIX_FMT_SGBRG8:
-> +=09case V4L2_PIX_FMT_SGRBG8:
->  =09case V4L2_PIX_FMT_SRGGB8:
->  =09=09dmr =3D 0;
->  =09=09break;
-> @@ -1124,6 +1138,18 @@ static int rvin_mc_validate_format(struct rvin_dev=
- *vin, struct v4l2_subdev *sd,
->  =09case MEDIA_BUS_FMT_UYVY10_2X10:
->  =09case MEDIA_BUS_FMT_RGB888_1X24:
->  =09=09break;
-> +=09case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +=09=09if (vin->format.pixelformat !=3D V4L2_PIX_FMT_SBGGR8)
-> +=09=09=09return -EPIPE;
-> +=09=09break;
-> +=09case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +=09=09if (vin->format.pixelformat !=3D V4L2_PIX_FMT_SGBRG8)
-> +=09=09=09return -EPIPE;
-> +=09=09break;
-> +=09case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +=09=09if (vin->format.pixelformat !=3D V4L2_PIX_FMT_SGRBG8)
-> +=09=09=09return -EPIPE;
-> +=09=09break;
->  =09case MEDIA_BUS_FMT_SRGGB8_1X8:
->  =09=09if (vin->format.pixelformat !=3D V4L2_PIX_FMT_SRGGB8)
->  =09=09=09return -EPIPE;
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/=
-platform/rcar-vin/rcar-v4l2.c
-> index 0e066bba747e0b73..4071d9bd554ab88f 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -66,6 +66,18 @@ static const struct rvin_video_format rvin_formats[] =
-=3D {
->  =09=09.fourcc=09=09=09=3D V4L2_PIX_FMT_ABGR32,
->  =09=09.bpp=09=09=09=3D 4,
->  =09},
-> +=09{
-> +=09=09.fourcc=09=09=09=3D V4L2_PIX_FMT_SBGGR8,
-> +=09=09.bpp=09=09=09=3D 1,
-> +=09},
-> +=09{
-> +=09=09.fourcc=09=09=09=3D V4L2_PIX_FMT_SGBRG8,
-> +=09=09.bpp=09=09=09=3D 1,
-> +=09},
-> +=09{
-> +=09=09.fourcc=09=09=09=3D V4L2_PIX_FMT_SGRBG8,
-> +=09=09.bpp=09=09=09=3D 1,
-> +=09},
->  =09{
->  =09=09.fourcc=09=09=09=3D V4L2_PIX_FMT_SRGGB8,
->  =09=09.bpp=09=09=09=3D 1,
-> @@ -366,6 +378,21 @@ static int rvin_enum_fmt_vid_cap(struct file *file, =
-void *priv,
->  =09case MEDIA_BUS_FMT_UYVY10_2X10:
->  =09case MEDIA_BUS_FMT_RGB888_1X24:
->  =09=09break;
-> +=09case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +=09=09if (f->index)
-> +=09=09=09return -EINVAL;
-> +=09=09f->pixelformat =3D V4L2_PIX_FMT_SBGGR8;
-> +=09=09return 0;
-> +=09case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +=09=09if (f->index)
-> +=09=09=09return -EINVAL;
-> +=09=09f->pixelformat =3D V4L2_PIX_FMT_SGBRG8;
-> +=09=09return 0;
-> +=09case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +=09=09if (f->index)
-> +=09=09=09return -EINVAL;
-> +=09=09f->pixelformat =3D V4L2_PIX_FMT_SGRBG8;
-> +=09=09return 0;
->  =09case MEDIA_BUS_FMT_SRGGB8_1X8:
->  =09=09if (f->index)
->  =09=09=09return -EINVAL;
-> --=20
-> 2.28.0
+>  Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+Could you please pick this patch.
 
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Cheers,
+Prabhakar
 
-CU
-Uli
+
+> diff --git a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+> index d06096a7ba4b..2ad2444f1042 100644
+> --- a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+> +++ b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+> @@ -26,6 +26,7 @@ properties:
+>        - items:
+>            - enum:
+>                - renesas,sata-r8a774b1     # RZ/G2N
+> +              - renesas,sata-r8a774e1     # RZ/G2H
+>                - renesas,sata-r8a7795      # R-Car H3
+>                - renesas,sata-r8a77965     # R-Car M3-N
+>            - const: renesas,rcar-gen3-sata # generic R-Car Gen3 or RZ/G2
+> --
+> 2.17.1
+>
