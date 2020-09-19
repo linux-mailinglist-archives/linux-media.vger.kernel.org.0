@@ -2,320 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06122270905
-	for <lists+linux-media@lfdr.de>; Sat, 19 Sep 2020 00:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 621A3270A72
+	for <lists+linux-media@lfdr.de>; Sat, 19 Sep 2020 05:45:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726104AbgIRWuz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Sep 2020 18:50:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48776 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725874AbgIRWuz (ORCPT
+        id S1726222AbgISDpt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Sep 2020 23:45:49 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:38909 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726097AbgISDpt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Sep 2020 18:50:55 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36013C0613CE;
-        Fri, 18 Sep 2020 15:50:55 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id q9so6693218wmj.2;
-        Fri, 18 Sep 2020 15:50:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=idMbHdqE5RSEL1+PYj6diJYT02GB4Z1nCCZPgrHPta8=;
-        b=Vckwe6xI+A2C9eCp+WMph4qWQrfTlLHpa/4Y4LcF58WPWCTf/ZHeH2RfuXQtP7J6C1
-         aiaOaBaC7RR8SZnurM9CSGq9Ik5ovliFaK+fr/Ipcyeg/UMsJ4i3a+2OSTHJFOSTswAS
-         Ejy+wr8tZXZUYLPwo3viLSmcfe0Zn2hSSH7RWuaZa3wTNr0/0cEJC08FTKPxyVXaWN74
-         /XuXaAD/ErGKs1jYCUkO0cYJYR2W/FDvJIAknyNtTo5r0kgD7QVsdeym95tNUccXEMr3
-         vmm+XD1GvGDu+anKwVRMu2p+WN/VbAPSAKJuUMvTDjthRGE+wNmGj7aJR5C+DqshkclM
-         HZIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=idMbHdqE5RSEL1+PYj6diJYT02GB4Z1nCCZPgrHPta8=;
-        b=Z0Qghxgp9Q6UZW+7MfTwur4buV51Kb9gU6K67oSfcD0cn+sQ5GvW8PJmX9OepstaNo
-         mI76NJw/986R7CINvcWi+/vBl5zhbTElgwb6o1ZJFzydJq8gUVZWwO0x+hA7Kz/0doyk
-         lxYNKK88FcbHg/7p/5sz/NX1Ixg6zf4exb25538G47UzSP5BV+UnA6p7vApGdXZl1iWy
-         ntg9MCx2LU68yF24DVnOp+42czRsdLNZ1BLI3br3y/xfPLE47ZJZzI2r8CQpgyosUp62
-         TQqjGl+niqJmzAsrH2aUhyxAK0L+pumzNvFsc0J+J7HpS8iFyXTbFklWXga5mq4P03Pp
-         gn+w==
-X-Gm-Message-State: AOAM533/Ql2ftsafZOTlRH7zMewIQgP2z9bRalJPGY8D8o8tu/MTSuB4
-        r9HA8Uw/BEnXTlu0toKeyHM=
-X-Google-Smtp-Source: ABdhPJwjf4jXNqYTyGVIF3CtQIUJQDErVPkzZsagv3DdXcCRd8jzDPcLVTuvuBWHdOemvSRbNZgvMQ==
-X-Received: by 2002:a1c:9cd3:: with SMTP id f202mr17665842wme.148.1600469453514;
-        Fri, 18 Sep 2020 15:50:53 -0700 (PDT)
-Received: from [192.168.1.211] ([2.29.208.34])
-        by smtp.gmail.com with ESMTPSA id c14sm7462056wrv.12.2020.09.18.15.50.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Sep 2020 15:50:52 -0700 (PDT)
-From:   Dan Scally <djrscally@gmail.com>
-Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
- via software nodes on ACPI platforms
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, davem@davemloft.net, robh@kernel.org,
-        devel@driverdev.osuosl.org, jorhand@linux.microsoft.com,
-        kieran.bingham@ideasonboard.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kitakar@gmail.com
-References: <20200916213618.8003-1-djrscally@gmail.com>
- <20200917093407.GK4282@kadam>
-Message-ID: <8d19e234-2e87-693a-c3e7-a8433ae83d61@gmail.com>
-Date:   Fri, 18 Sep 2020 23:50:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200917093407.GK4282@kadam>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        Fri, 18 Sep 2020 23:45:49 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id JTonkLK9oDdJbJTooknEWz; Sat, 19 Sep 2020 05:45:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600487146; bh=iesZTYtvLqf8rRD/9qofgqKMJwT2wNqjP9vv1TkuMxk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=X3dFwl/n+BlsluQ5CXxlZRyoUKdIjEqM6aaNTtCQMgsxYHD2HwY+Mbn6HSJwfbYnR
+         VhG9zpbajxoKvXtUnAN4IoVM1ZrBW5hU8ZESQhLltRGBMet4E8vB93z5+fnxNrHNw7
+         blLAw5/WGFnuADjI6KMO3/R1xEw+0tOxXmwHAlduZSVAOvVUhXlNSmFIyby/zpZHob
+         SozZ4rNBwJSSjHOkVSYNMNUq7yb/O2Ak+pRpmNsh28kZgWqO8J4PwD7Ka5WEGvl309
+         Hc0sjnwZYo3G6+vpRP9dDY3pcUXNWQH4LgsyJCxBJ9BrZourWXQlPaJqTCy4F/Rjug
+         xpy1dNo+rlPTQ==
+Message-ID: <9b99b4fba93e9a25491f23f054e76c96@smtp-cloud8.xs4all.net>
+Date:   Sat, 19 Sep 2020 05:45:45 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfOOssz6PO7txElvGO7TOempp4LhP7+KcBuqn89bW+zvy7XHswGMiMXSCArORTNR3ltN00iFNADki+1i9QlP9fYDDDlY5fDjRFdv6uBd0cNiMl33MBxkM
+ cGuC2Gmbq0MhdJlTS12zgVvDIeBogURw6bA6DEOBWyAISUa0ppK9TnJn+v08slPKVih+2Z7hW3hnaoM6VuogV/sHXb2MYrQXaVFQugv9C6Qv7px5+OTSdZ+V
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan -  thanks for all your comments. Sorry it took a while to get to
-yours.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 17/09/2020 10:34, Dan Carpenter wrote:
-> On Wed, Sep 16, 2020 at 10:36:18PM +0100, Daniel Scally wrote:
->> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
->> index 92f5eadf2c99..fd941d2c7581 100644
->> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
->> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
->> @@ -1719,6 +1719,59 @@ static void cio2_queues_exit(struct cio2_device *cio2)
->>  		cio2_queue_exit(cio2, &cio2->queue[i]);
->>  }
->>  
->> +static int cio2_probe_can_progress(struct pci_dev *pci_dev)
->> +{
->> +	void *sensor;
->> +
->> +	/*
->> +	 * On ACPI platforms, we need to probe _after_ sensors wishing to connect
->> +	 * to cio2 have added a device link. If there are no consumers yet, then
->> +	 * we need to defer. The .sync_state() callback will then be called after
->> +	 * all linked sensors have probed
->> +	 */
->> +
->> +	if (IS_ENABLED(CONFIG_ACPI)) {
-> Reverse this condition.
->
-> 	if (!IS_ENABLED(CONFIG_ACPI))
-> 		return 0;
->
->
-Yeah, much better.
->> +		sensor = (struct device *)list_first_entry_or_null(
->> +								&pci_dev->dev.links.consumers,
->> +								struct dev_links_info,
->> +								consumers);
->> +
->> +		if (!sensor)
->> +			return -EPROBE_DEFER;
-> Get rid of the cast.
->
-> 	if (list_empty(&pci_dev->dev.links.consumers))
-> 		return -EPROBE_DEFER;
->
-> 	return 0;
->
-Also much better, though I think possibly this whole section will be
-going away now after some of the other pointers...
->> +		cio2 = dev_get_drvdata(dev);
->> +
->> +		if (!cio2) {
-> Delete the blank line between the call and the test.  They're part of
-> the same step.  "cio2" can't be NULL anyway, so delete the test.
-Thanks - I'll skip blank lines in that situation in future
->> +
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to fetch SSDB data\n");
->> +		return ret;
->> +	}
->> +
->> +	sensor->link = sensor_data.link;
->> +	sensor->lanes = sensor_data.lanes;
->> +	sensor->mclkspeed = sensor_data.mclkspeed;
->> +
->> +	return 0;
->> +}
->> +
->> +static int create_endpoint_properties(struct device *dev,
->> +				      struct sensor_bios_data *ssdb,
->> +				      struct property_entry *sensor_props,
->> +				      struct property_entry *cio2_props)
->> +{
->> +		u32 *data_lanes;
->> +		int i;
-> Indented too far.
->
->> +
->> +		data_lanes = devm_kmalloc(dev, sizeof(u32) * (int)ssdb->lanes,
-> No need for the cast.  Use devm_kmalloc_array().
-Ah - TIL that that exists, thanks.
->> +					  GFP_KERNEL);
->> +
->> +		if (!data_lanes) {
->> +			dev_err(dev,
->> +				"Couldn't allocate memory for data lanes array\n");
-> Delete the error message (checkpatch.pl --strict).
-And that too - I wasn't using the --strict flag, I'll do that next time
->> +
->> +		sensor_props[0] = PROPERTY_ENTRY_U32("clock-frequency",
->> +						     ssdb->mclkspeed);
->> +		sensor_props[1] = PROPERTY_ENTRY_U32("bus-type", 5);
->> +		sensor_props[2] = PROPERTY_ENTRY_U32("clock-lanes", 0);
->> +		sensor_props[3] = PROPERTY_ENTRY_U32_ARRAY_LEN("data-lanes",
->> +							       data_lanes,
->> +							       (int)ssdb->lanes);
->> +		sensor_props[4] = remote_endpoints[(bridge.n_sensors * 2) + ENDPOINT_SENSOR];
->> +		sensor_props[5] = PROPERTY_ENTRY_NULL;
->> +
->> +		cio2_props[0] = PROPERTY_ENTRY_U32_ARRAY_LEN("data-lanes",
->> +							     data_lanes,
->> +							     (int)ssdb->lanes);
->> +		cio2_props[1] = remote_endpoints[(bridge.n_sensors * 2) + ENDPOINT_CIO2];
->> +		cio2_props[2] = PROPERTY_ENTRY_NULL;
->> +
->> +		return 0;
->> +}
->> +
->> +static int connect_supported_devices(void)
->> +{
->> +	struct acpi_device *adev;
->> +	struct device *dev;
->> +	struct sensor_bios_data ssdb;
->> +	struct sensor *sensor;
->> +	struct property_entry *sensor_props;
->> +	struct property_entry *cio2_props;
->> +	struct fwnode_handle *fwnode;
->> +	struct software_node *nodes;
->> +	struct v4l2_subdev *sd;
->> +	int i, ret;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(supported_devices); i++) {
->> +		adev = acpi_dev_get_first_match_dev(supported_devices[i],
->> +						    NULL, -1);
->> +
->> +		if (!adev)
->> +			continue;
->> +
->> +		dev = bus_find_device_by_acpi_dev(&i2c_bus_type, adev);
->> +
->> +		if (!dev) {
->> +			pr_info("ACPI match for %s, but it has no i2c device\n",
->> +				supported_devices[i]);
->> +			continue;
->> +		}
->> +
->> +		if (!dev->driver_data) {
->> +			pr_info("ACPI match for %s, but it has no driver\n",
->> +				supported_devices[i]);
-> put_device(dev);
-Good catch, thank you.
->> +	}
->> +
->> +	ret = connect_supported_devices();
->> +
->> +	if ((ret < 0) || (bridge.n_sensors <= 0)) {
->> +		pr_err("cio2_bridge: Failed to connect any devices\n");
->> +		goto out;
-> If (bridge.n_sensors <= 0) is true then we need to set ret = -EINVAL
-> or something.  Really .n_sensors can't be negative.
->
-> The name "out" is a crappy label name because it doesn't say what the
-> goto does.  When I scroll down then it turns out that "goto out;" calls
-> a free_everything() function.  That kind of error handling is always
-> buggy.
->
-> There are several typical bugs.  1) Something leaks because the error
-> handling style is too complicated to be audited.  2)  Dereferencing
-> uninitialized pointers.  3)  Undoing something which hasn't been done.
->
-> I believe that in this case one bug is with the handling of the
-> bridge.cio2_fwnode.  We "restore" it back to the original state
-> as soon as we have a non-NULL bridge.cio2 instead of waiting until we
-> have stored the original state.
->
-> The best way to do error handling is this.
->
-> Every function cleans up after itself.  The connect_supported_devices()
-> function is a bit special because it's a loop.  I would would write it
-> so that if it fails then it cleans up the partial loop iteration and
-> then at the end it cleans up all the failed loop iterations.
->
-> 	for (i = 0; i < ARRAY_SIZE(supported_devices); i++) {
-> 		a = frob();
-> 		if (!a)
-> 			goto unwind;
-> 		b = frob();
-> 		if (!b) {
-> 			free(a);
-> 			goto unwind;
-> 		}
-> 		...
-> 	}
->
-> 	return 0;
->
-> unwind:
-> 	for (i = 0; i < bridge.n_sensors; i++) {
-> 		free(b);
-> 		free(a);
-> 	}
-> 	bridge.n_sensors = 0;
->
-> 	return ret;
->
-> The problem with cio2_bridge_unregister_sensors() is that it doesn't
-> clean up partial iterations through the loop.  (Missing calls to
-> put_device(dev)).
->
-> Loops are complicated but the rest is simple.  1) Every allocation
-> function needs a matching cleanup function.  2) Use good label names
-> which say what the goto does.  3)  The goto should free the most recent
-> successful allocation.
->
-> 	a = frob();
-> 	if (!a)
-> 		return -ENOMEM;
->
-> 	b = frob();
-> 	if (!b) {
-> 		ret = -ENOMEM;
-> 		goto free_a;
-> 	}
->
-> 	c = frob();
-> 	if (!c) {
-> 		ret = -ENOMEM;
-> 		goto free_b;
-> 	}
->
-> 	return 0;
->
-> free_b:
-> 	free(b);
-> free_a:
-> 	free(a);
->
-> 	return ret;
->
-> The free function doesn't have any if statements.
->
-> void free_function()
-> {
-> 	free(c);
-> 	free(b);
-> 	free(a);
-> }
->
-> The reviewer only needs to keep track of the most recent allocation
-> and verify that the goto free_foo matches what should be freed.  This
-> system means the code is auditable (no leaks), you never free anything
-> which wasn't allocated.
->
-This  section and the other comments on error handling was really
-helpful - I appreciate you taking the time to explain so thoroughly.
+Results of the daily build of media_tree:
 
+date:			Sat Sep 19 05:00:13 CEST 2020
+media-tree git hash:	9e76f2cff7a17af92c819ca0489ec5399f8367f7
+media_build git hash:	efbdeecfc21ff8abcabc84c77fe8dfbefa2d657a
+v4l-utils git hash:	cfdaff0fe2f11ede4ac57d600d95b2ff945239ca
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 36eaed7193020584cb96f64ed10d3481a5b84bfa
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 0 strcpy(), 0 strncpy(), 1 strlcpy()
+linux-3.10.108-i686: WARNINGS
+linux-3.10.108-x86_64: WARNINGS
+linux-3.11.10-i686: WARNINGS
+linux-3.11.10-x86_64: WARNINGS
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2943, Succeeded: 2942, Failed: 1, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
