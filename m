@@ -2,197 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DF3127105F
-	for <lists+linux-media@lfdr.de>; Sat, 19 Sep 2020 21:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74C0C2711CE
+	for <lists+linux-media@lfdr.de>; Sun, 20 Sep 2020 04:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgISTus (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Sep 2020 15:50:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
+        id S1726776AbgITCuB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Sep 2020 22:50:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgISTur (ORCPT
+        with ESMTP id S1726760AbgITCuB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Sep 2020 15:50:47 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D4EBC0613CE;
-        Sat, 19 Sep 2020 12:50:47 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id z4so8868845wrr.4;
-        Sat, 19 Sep 2020 12:50:47 -0700 (PDT)
+        Sat, 19 Sep 2020 22:50:01 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F54FC061755
+        for <linux-media@vger.kernel.org>; Sat, 19 Sep 2020 19:50:01 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id u9so5095411plk.4
+        for <linux-media@vger.kernel.org>; Sat, 19 Sep 2020 19:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=JcVDmb1HHV/znVzm4kdq0UX6hTsOZELRii0JoTOZ9ew=;
-        b=iQEgzahuQCccMTCQd7xXrsKyPTXK2pBEdS21cAmowqFOsmMJkkfw9sdU5tZTskWXXM
-         /GqHvIAHM8TX/hz6B0dihWu2ltZMy4ijYtkTE9dTZfomkE4ToqU905VhYTLztoURPYJ/
-         VLkpwAg3ms774LxZcoL0Ph3LqA/dXapmwdSHD2WPvF9Qm+ObxE6u2ls+Ct3Ez+zHTveK
-         aF2paraN+HDaOGp4QMQZT+vtjjb4BUFGYV1x2ajZoxwSmonDBrdvCh0gYxf2NBJ/uOKB
-         vs7ZvUht/N8T8ifg7ZS6or2krg8DJoacW4KWrlH9ZP3btjI3Q0Ca1cvtnbu9ppy5aUWn
-         UP5g==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O5HouA/r0djYPn/dBGNBtvCej+q+mrrwYHmBvsQmNCw=;
+        b=o+C/kzdreelzzI6sXPP9hbg7UYLWZRJzZbwZXlpTG+Bv9txAG4RVJwy3KNcNVaIuK2
+         n+jRh+azGR9c1NgfXR3hcnOznkCsq67Bng9iKsMJoga0vggJXQqfqQwEepo+Lety7MRO
+         h9zbrgTH7l6YsD16G+KCqBKw9yCSYrI4RkqGsWLoHbqRBTLS84rmTVGECHA1tEfeD2JT
+         8N3q/9Kw42Z9o9xd9OmNrpmz4TifWr/RGJOxe+KVjetxTt9YIAPeEBd+Es6avMZg6Uyb
+         yOnXOKgB48eFwtklSMnK+WrhS8sQdkm0J/O7lBbCG1GtJ8tZQWcOdBdWZ69c8pwduxIG
+         hehA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=JcVDmb1HHV/znVzm4kdq0UX6hTsOZELRii0JoTOZ9ew=;
-        b=Gx4eHYhthJ3D6itYwMjbnXQEHiVTA9L80zIEJYz8RNp7l7MA81aK35AmseFxPJy+9C
-         z6W9LrO2wjYDNFbJ+NW40dqj8eiQXn1p1KQk1FyM2QBXyM6+NMSbDH4TsVeQ/ZcyiiNf
-         WtC/FmqhKxaFusCKl8wW9lS+JvM7Hvbn0FYy36X0SsoUlU/pNotusbNonCFxurWZJ2TS
-         Eo3jXtaJSwoXrQsJyUcdsHP8Cz6xUi3sZDO7Z2EvsiFkklBmcTeA0+RjWSXxkoHzj+VW
-         cRl4xGQVcf/ae7UO1AxoTtTNpFbuIAf33OTClakkDFHX8RrTh1yzVCYVAeyEZY4djaC8
-         MXnw==
-X-Gm-Message-State: AOAM533fWZU1qzdvCfSVNiiOHnTp5jnCC2451BjvpPU4yfW17V23bs99
-        IG5M0AP4W3msUyx5ovvwpoPLXkPYYQWa7kQf
-X-Google-Smtp-Source: ABdhPJzMb1RFm1f+lZbN60pF813Rr1opTK3wLHJ6o8cnICAiVwrcfUG8feuzYKTDKSXJHnuL5gvj/w==
-X-Received: by 2002:a5d:608f:: with SMTP id w15mr21313274wrt.244.1600545045891;
-        Sat, 19 Sep 2020 12:50:45 -0700 (PDT)
-Received: from [192.168.0.18] (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
-        by smtp.gmail.com with ESMTPSA id b11sm12196537wrt.38.2020.09.19.12.50.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 19 Sep 2020 12:50:45 -0700 (PDT)
-Subject: Re: [PATCH v2] staging: media: atomisp: Fix error path in
- lm3554_probe()
-To:     dan.carpenter@oracle.com
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-References: <20200903173843.GF8299@kadam>
- <20200903182502.709300-1-alex.dewar90@gmail.com>
-From:   Alex Dewar <alex.dewar90@gmail.com>
-Message-ID: <1109bb4e-ef17-0633-275f-2a279437fdc6@gmail.com>
-Date:   Sat, 19 Sep 2020 20:50:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O5HouA/r0djYPn/dBGNBtvCej+q+mrrwYHmBvsQmNCw=;
+        b=irqcloQgOXiBVfcgw8XFRKPYKZkvivHgPwiPeb3QWGLNHkUMElVfTToFsoV3mNVXvu
+         ukni7j8ckwyxKROY72IjJYuHKHYJjrFPVr8NVmCXFGFDtUV+H/SKaECvWUekeVudDkpH
+         /YZ+Ndzs5Bb8nNJ8FQR1uXleVBL6k8YJYNCcv5/vX3aLz9tAh/DwnMkeEopeqdCUwXM5
+         We2hOqoo9IUWpaoYf9NWwXcnfxZRssgzKnxvnuo57oQ6AK79J4p/CzYlATfyjZwyxlRM
+         zO+NOz5c0VXp8auypp42wwcTK7Agddn3zxTQFAZeODXpppU9mcx5z/viA2kvN+6ebn9L
+         9oKA==
+X-Gm-Message-State: AOAM532laCuimAyt3oDTxrTKgR+ZJyBf6R63wQxtPOc6uNKp4VjYqJ3z
+        6sHEdKX4ZZWY4Ds/t8aOqmOPDeHp0vGFBA==
+X-Google-Smtp-Source: ABdhPJwayz/n4cZlVOUNQXPNIOm/qmla2KlIexkVjJtq6sEADA0+AD2sXFWrP/2ur+GwBP/w9oldnA==
+X-Received: by 2002:a17:902:6bc9:b029:d0:cb2d:f272 with SMTP id m9-20020a1709026bc9b02900d0cb2df272mr39487754plt.11.1600570200615;
+        Sat, 19 Sep 2020 19:50:00 -0700 (PDT)
+Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
+        by smtp.gmail.com with ESMTPSA id bx18sm6814197pjb.6.2020.09.19.19.49.59
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2020 19:49:59 -0700 (PDT)
+From:   Rosen Penev <rosenp@gmail.com>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 1/2] cppcheck: turn several references to const
+Date:   Sat, 19 Sep 2020 19:49:57 -0700
+Message-Id: <20200920024958.8203-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200903182502.709300-1-alex.dewar90@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-09-03 19:24, Alex Dewar wrote:
-> The error path for lm3554_probe() contains a number of bugs, including:
->   * resource leaks
->   * jumping to error labels out of sequence
->   * not setting the return value appropriately
-Ping?
->
-> Fix it up and give the labels more memorable names.
->
-> This issue has existed since the code was originally contributed in
-> commit a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2"),
-> although the code was subsequently removed altogether and then
-> reinstated with commit ad85094b293e ("Revert "media: staging: atomisp: Remove driver"").
->
-> Addresses-Coverity: 1496802 ("Resource leaks")
-> Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-> Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
-> ---
->   .../media/atomisp/i2c/atomisp-lm3554.c        | 53 +++++++++++--------
->   1 file changed, 30 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> index 7ca7378b1859..cca10a4c2db0 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> @@ -833,7 +833,6 @@ static void *lm3554_platform_data_func(struct i2c_client *client)
->   
->   static int lm3554_probe(struct i2c_client *client)
->   {
-> -	int err = 0;
->   	struct lm3554 *flash;
->   	unsigned int i;
->   	int ret;
-> @@ -843,36 +842,38 @@ static int lm3554_probe(struct i2c_client *client)
->   		return -ENOMEM;
->   
->   	flash->pdata = lm3554_platform_data_func(client);
-> -	if (IS_ERR(flash->pdata))
-> -		return PTR_ERR(flash->pdata);
-> +	if (IS_ERR(flash->pdata)) {
-> +		ret = PTR_ERR(flash->pdata);
-> +		goto err_free_flash;
-> +	}
->   
->   	v4l2_i2c_subdev_init(&flash->sd, client, &lm3554_ops);
->   	flash->sd.internal_ops = &lm3554_internal_ops;
->   	flash->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->   	flash->mode = ATOMISP_FLASH_MODE_OFF;
->   	flash->timeout = LM3554_MAX_TIMEOUT / LM3554_TIMEOUT_STEPSIZE - 1;
-> -	ret =
-> -	    v4l2_ctrl_handler_init(&flash->ctrl_handler,
-> -				   ARRAY_SIZE(lm3554_controls));
-> +	ret = v4l2_ctrl_handler_init(&flash->ctrl_handler,
-> +				     ARRAY_SIZE(lm3554_controls));
->   	if (ret) {
-> -		dev_err(&client->dev, "error initialize a ctrl_handler.\n");
-> -		goto fail2;
-> +		dev_err(&client->dev, "error initializing ctrl_handler");
-> +		goto err_unregister_sd;
->   	}
->   
->   	for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
->   		v4l2_ctrl_new_custom(&flash->ctrl_handler, &lm3554_controls[i],
->   				     NULL);
->   
-> -	if (flash->ctrl_handler.error) {
-> -		dev_err(&client->dev, "ctrl_handler error.\n");
-> -		goto fail2;
-> +	ret = flash->ctrl_handler.error;
-> +	if (ret) {
-> +		dev_err(&client->dev, "ctrl_handler error");
-> +		goto err_free_ctrl_handler;
->   	}
->   
->   	flash->sd.ctrl_handler = &flash->ctrl_handler;
-> -	err = media_entity_pads_init(&flash->sd.entity, 0, NULL);
-> -	if (err) {
-> -		dev_err(&client->dev, "error initialize a media entity.\n");
-> -		goto fail1;
-> +	ret = media_entity_pads_init(&flash->sd.entity, 0, NULL);
-> +	if (ret) {
-> +		dev_err(&client->dev, "error initializing media entity");
-> +		goto err_free_ctrl_handler;
->   	}
->   
->   	flash->sd.entity.function = MEDIA_ENT_F_FLASH;
-> @@ -881,20 +882,26 @@ static int lm3554_probe(struct i2c_client *client)
->   
->   	timer_setup(&flash->flash_off_delay, lm3554_flash_off_delay, 0);
->   
-> -	err = lm3554_gpio_init(client);
-> -	if (err) {
-> +	ret = lm3554_gpio_init(client);
-> +	if (ret) {
->   		dev_err(&client->dev, "gpio request/direction_output fail");
-> -		goto fail2;
-> +		goto err_del_timer;
->   	}
-> -	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
-> -fail2:
-> +
-> +	ret = atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
-> +	if (!ret)
-> +		return 0;
-> +
-> +err_del_timer:
-> +	del_timer_sync(&flash->flash_off_delay);
->   	media_entity_cleanup(&flash->sd.entity);
-> +err_free_ctrl_handler:
->   	v4l2_ctrl_handler_free(&flash->ctrl_handler);
-> -fail1:
-> +err_unregister_sd:
->   	v4l2_device_unregister_subdev(&flash->sd);
-> +err_free_flash:
->   	kfree(flash);
-> -
-> -	return err;
-> +	return ret;
->   }
->   
->   static int lm3554_remove(struct i2c_client *client)
+Found with constParameter
+
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ utils/cec-ctl/cec-ctl.cpp                    | 18 +++++++++---------
+ utils/qvidcap/capture.cpp                    |  4 ++--
+ utils/v4l2-compliance/v4l2-test-controls.cpp |  4 ++--
+ utils/v4l2-ctl/v4l2-ctl-selection.cpp        |  4 ++--
+ utils/v4l2-ctl/v4l2-ctl-streaming.cpp        |  4 ++--
+ 5 files changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
+index 8fe1c5284..2ee88ec9e 100644
+--- a/utils/cec-ctl/cec-ctl.cpp
++++ b/utils/cec-ctl/cec-ctl.cpp
+@@ -791,7 +791,7 @@ static void show_msg(const cec_msg &msg)
+ 		       status.c_str());
+ }
+ 
+-static void wait_for_msgs(struct node &node, __u32 monitor_time)
++static void wait_for_msgs(const struct node &node, __u32 monitor_time)
+ {
+ 	fd_set rd_fds;
+ 	fd_set ex_fds;
+@@ -836,7 +836,7 @@ static void wait_for_msgs(struct node &node, __u32 monitor_time)
+ 
+ #define MONITOR_FL_DROPPED_EVENTS     (1 << 16)
+ 
+-static void monitor(struct node &node, __u32 monitor_time, const char *store_pin)
++static void monitor(const struct node &node, __u32 monitor_time, const char *store_pin)
+ {
+ 	__u32 monitor = CEC_MODE_MONITOR;
+ 	fd_set rd_fds;
+@@ -1057,7 +1057,7 @@ err:
+ 	std::exit(EXIT_FAILURE);
+ }
+ 
+-static bool wait_for_pwr_state(struct node &node, unsigned from,
++static bool wait_for_pwr_state(const struct node &node, unsigned from,
+ 			       unsigned &hpd_is_low_cnt, bool on)
+ {
+ 	struct cec_msg msg;
+@@ -1116,18 +1116,18 @@ static bool wait_for_pwr_state(struct node &node, unsigned from,
+ 	return pwr == (on ? CEC_OP_POWER_STATUS_ON : CEC_OP_POWER_STATUS_STANDBY);
+ }
+ 
+-static bool wait_for_power_on(struct node &node, unsigned from)
++static bool wait_for_power_on(const struct node &node, unsigned from)
+ {
+ 	unsigned hpd_is_low_cnt = 0;
+ 	return wait_for_pwr_state(node, from, hpd_is_low_cnt, true);
+ }
+ 
+-static bool wait_for_power_off(struct node &node, unsigned from, unsigned &hpd_is_low_cnt)
++static bool wait_for_power_off(const struct node &node, unsigned from, unsigned &hpd_is_low_cnt)
+ {
+ 	return wait_for_pwr_state(node, from, hpd_is_low_cnt, false);
+ }
+ 
+-static int transmit_msg_retry(struct node &node, struct cec_msg &msg)
++static int transmit_msg_retry(const struct node &node, struct cec_msg &msg)
+ {
+ 	bool from_unreg = cec_msg_initiator(&msg) == CEC_LOG_ADDR_UNREGISTERED;
+ 	unsigned cnt = 0;
+@@ -1144,7 +1144,7 @@ static int transmit_msg_retry(struct node &node, struct cec_msg &msg)
+ 	return ret;
+ }
+ 
+-static int init_power_cycle_test(struct node &node, unsigned repeats, unsigned max_tries)
++static int init_power_cycle_test(const struct node &node, unsigned repeats, unsigned max_tries)
+ {
+ 	struct cec_msg msg;
+ 	unsigned from;
+@@ -1261,7 +1261,7 @@ static int init_power_cycle_test(struct node &node, unsigned repeats, unsigned m
+ 	return from;
+ }
+ 
+-static void test_power_cycle(struct node &node, unsigned int max_tries,
++static void test_power_cycle(const struct node &node, unsigned int max_tries,
+ 			     unsigned int retry_sleep)
+ {
+ 	struct cec_log_addrs laddrs = { };
+@@ -1476,7 +1476,7 @@ static void test_power_cycle(struct node &node, unsigned int max_tries,
+ 		printf("Test had %u failure%s\n", failures, failures == 1 ? "" : "s");
+ }
+ 
+-static void stress_test_power_cycle(struct node &node, unsigned cnt,
++static void stress_test_power_cycle(const struct node &node, unsigned cnt,
+ 				    unsigned min_sleep, unsigned max_sleep, unsigned max_tries,
+ 				    bool has_seed, unsigned seed, unsigned repeats,
+ 				    double sleep_before_on, double sleep_before_off)
+diff --git a/utils/qvidcap/capture.cpp b/utils/qvidcap/capture.cpp
+index 556e35e43..3941d6018 100644
+--- a/utils/qvidcap/capture.cpp
++++ b/utils/qvidcap/capture.cpp
+@@ -543,7 +543,7 @@ void CaptureWin::mouseDoubleClickEvent(QMouseEvent * e)
+ 	toggleFullScreen();
+ }
+ 
+-void CaptureWin::cycleMenu(__u32 &overrideVal, __u32 &origVal,
++void CaptureWin::cycleMenu(__u32 &overrideVal, const __u32 &origVal,
+ 			     const __u32 values[], bool hasShift, bool hasCtrl)
+ {
+ 	unsigned i;
+@@ -1106,7 +1106,7 @@ bool CaptureWin::setV4LFormat(cv4l_fmt &fmt)
+ 	return true;
+ }
+ 
+-void CaptureWin::setPixelAspect(v4l2_fract &pixelaspect)
++void CaptureWin::setPixelAspect(const v4l2_fract &pixelaspect)
+ {
+ 	m_pixelaspect = pixelaspect;
+ }
+diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
+index fcc42cdfb..4faa538f5 100644
+--- a/utils/v4l2-compliance/v4l2-test-controls.cpp
++++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+@@ -345,7 +345,7 @@ int testQueryControls(struct node *node)
+ 	return 0;
+ }
+ 
+-static int checkSimpleCtrl(struct v4l2_control &ctrl, struct test_query_ext_ctrl &qctrl)
++static int checkSimpleCtrl(const struct v4l2_control &ctrl, const struct test_query_ext_ctrl &qctrl)
+ {
+ 	if (ctrl.id != qctrl.id)
+ 		return fail("control id mismatch\n");
+@@ -524,7 +524,7 @@ int testSimpleControls(struct node *node)
+ 	return 0;
+ }
+ 
+-static int checkExtendedCtrl(struct v4l2_ext_control &ctrl, struct test_query_ext_ctrl &qctrl)
++static int checkExtendedCtrl(const struct v4l2_ext_control &ctrl, const struct test_query_ext_ctrl &qctrl)
+ {
+ 	int len;
+ 
+diff --git a/utils/v4l2-ctl/v4l2-ctl-selection.cpp b/utils/v4l2-ctl/v4l2-ctl-selection.cpp
+index 1665607e6..c4ede272c 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-selection.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-selection.cpp
+@@ -69,7 +69,7 @@ void selection_usage()
+ 	       );
+ }
+ 
+-static void do_crop(int fd, unsigned int set_crop, struct v4l2_rect &vcrop, v4l2_buf_type type)
++static void do_crop(int fd, unsigned int set_crop, const struct v4l2_rect &vcrop, v4l2_buf_type type)
+ {
+ 	struct v4l2_crop in_crop;
+ 
+@@ -125,7 +125,7 @@ static void parse_crop(char *optarg, unsigned int &set_crop, v4l2_rect &vcrop)
+ 	}
+ }
+ 
+-static void do_selection(int fd, unsigned int set_selection, struct v4l2_selection &vsel,
++static void do_selection(int fd, unsigned int set_selection, const struct v4l2_selection &vsel,
+ 			 v4l2_buf_type type)
+ {
+ 	struct v4l2_selection in_selection;
+diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+index 04af717ea..0f34b3e6e 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+@@ -2211,7 +2211,7 @@ static int capture_setup(cv4l_fd &fd, cv4l_queue &in, cv4l_fd *exp_fd, cv4l_fmt
+ 
+ static void stateful_m2m(cv4l_fd &fd, cv4l_queue &in, cv4l_queue &out,
+ 			 FILE *fin, FILE *fout, cv4l_fmt &fmt_in,
+-			 cv4l_fmt &fmt_out, cv4l_fd *exp_fd_p)
++			 const cv4l_fmt &fmt_out, cv4l_fd *exp_fd_p)
+ {
+ 	int fd_flags = fcntl(fd.g_fd(), F_GETFL);
+ 	fps_timestamps fps_ts[2];
+@@ -2411,7 +2411,7 @@ static void stateful_m2m(cv4l_fd &fd, cv4l_queue &in, cv4l_queue &out,
+ 
+ static void stateless_m2m(cv4l_fd &fd, cv4l_queue &in, cv4l_queue &out,
+ 			  FILE *fin, FILE *fout, cv4l_fmt &fmt_in,
+-			  cv4l_fmt &fmt_out, cv4l_fd *exp_fd_p)
++			  const cv4l_fmt &fmt_out, cv4l_fd *exp_fd_p)
+ {
+ 	fps_timestamps fps_ts[2];
+ 	unsigned count[2] = { 0, 0 };
+-- 
+2.26.2
 
