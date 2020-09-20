@@ -2,85 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D7BB2714D2
-	for <lists+linux-media@lfdr.de>; Sun, 20 Sep 2020 16:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 713972717A1
+	for <lists+linux-media@lfdr.de>; Sun, 20 Sep 2020 21:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbgITOIW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Sep 2020 10:08:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34276 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726290AbgITOIV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Sep 2020 10:08:21 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0AC2621531;
-        Sun, 20 Sep 2020 14:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600610900;
-        bh=lu9h9XynfWiHeNchuTVq0VmpBRgsLcjroJ08RriK6FQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tLu+eCAhLmynwau/OgjdgXITj8Uu3Ajyw7j6L6WMWTBtOCQUoxWo96pINqGo/ITMB
-         iLoj0ieZJon4iv+bsf0rstdavCuZDRNOCuxN4mFQi7hrQT+zsjVJE3jrAAC9dKoSX8
-         Rim6zO4acLR631zEPonMI5FK/X8l5Rf9YUot6uBQ=
-Date:   Sun, 20 Sep 2020 16:08:46 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 11/20] dt-bindings: usb: renesas,usbhs: Add r8a774e1
- support
-Message-ID: <20200920140846.GB2915460@kroah.com>
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-12-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8vuR-7vqxNnrqQ5Ysf3Xjvhp3xRZ33i8+6nEGFLJciT3A@mail.gmail.com>
+        id S1726333AbgITTjW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Sep 2020 15:39:22 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:45048 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726109AbgITTjW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 20 Sep 2020 15:39:22 -0400
+Received: by mail-ed1-f66.google.com with SMTP id b12so10762518edz.11;
+        Sun, 20 Sep 2020 12:39:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EjOn6uRQVdPuymFl16y3sShxeseL+O0M4hlLdZpwFpM=;
+        b=fzV3N2JP7Qn2Un3gsyBkgM9KrmD3SLAd7ErjwLLrv7C0svmYJIw/Su3cN5jzL1n75r
+         zrVBbRp0adJmTob9fvSDvQTeINq0Fe9rGHzxfRP0yd1oHGM5CSes4h1H9lsNN2Af6+NR
+         d0ulDLOpr/hTyADZvhy/M2cTvFeR3SoGBczBJ92jLgWJWYP4aoeh/bgd5MS1ieIJoYVg
+         6ksqwh1EH+VLlfV5bSMH+63fjGtU1MA8xMNeQOL1kPDGpsLiE949brMg2FIGNi48s+UJ
+         hRtgtzzp0Oyof5RPfv/PXU0EB+6wtwI2PdzADE7pvJ1dNlnFiXqjYGjwyU5Dq6cYL3ef
+         fBbw==
+X-Gm-Message-State: AOAM531mhHln8/YoTRQVgbf2mjMhbyiq8/5NMP0j+70D/dQvnqboSPB4
+        aA6R66kZyihQ8588LXmKHUA=
+X-Google-Smtp-Source: ABdhPJxm64DrxO2BCAhB/Z2FKAFGkrjja3e7GI7Mop9Y1YiJS/Mzx02Jc3rgIeVCd0fm8AibxTyTyA==
+X-Received: by 2002:a05:6402:326:: with SMTP id q6mr48977643edw.216.1600630759279;
+        Sun, 20 Sep 2020 12:39:19 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.191])
+        by smtp.googlemail.com with ESMTPSA id bf25sm6956900edb.95.2020.09.20.12.39.16
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 20 Sep 2020 12:39:18 -0700 (PDT)
+Date:   Sun, 20 Sep 2020 21:39:15 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-unisoc@lists.infradead.org,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-ALSA <alsa-devel@alsa-project.org>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 01/13] dt-bindings: gpio: add common schema for GPIO
+ controllers
+Message-ID: <20200920193915.GA31074@kozik-lap>
+References: <20200917165301.23100-1-krzk@kernel.org>
+ <20200917165301.23100-2-krzk@kernel.org>
+ <CAL_JsqJCLgf6syqV=jNPHPyu02ygwWCDDV+U9VCm0qRpLkirSQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8vuR-7vqxNnrqQ5Ysf3Xjvhp3xRZ33i8+6nEGFLJciT3A@mail.gmail.com>
+In-Reply-To: <CAL_JsqJCLgf6syqV=jNPHPyu02ygwWCDDV+U9VCm0qRpLkirSQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Sep 19, 2020 at 11:54:05AM +0100, Lad, Prabhakar wrote:
-> Hi Greg,
+On Fri, Sep 18, 2020 at 08:30:02AM -0600, Rob Herring wrote:
+> On Thu, Sep 17, 2020 at 10:53 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >
+> > Convert parts of gpio.txt bindings into common dtschema file for GPIO
+> > controllers.  The schema enforces proper naming of GPIO controller nodes
+> > and GPIO hogs.
 > 
-> On Thu, Jul 16, 2020 at 6:19 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >
-> > Document RZ/G2H (R8A774E1) SoC bindings.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/usb/renesas,usbhs.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> Could you please pick this patch.
+> Did you not see my previous reply about a common schema? We already
+> have a common GPIO and hog schema in dtschema. Please add to it
+> whatever is missing.
 
-Same here, doesn't a DT maintainer have to ack this?
+Indeed, I'll enhance the dt-schema.
 
-thanks,
+The trouble is that each in-kernel YAML file still has to mention
+possible gpio-hogs nodes. Is the proper solution to put them in common
+YAML inside kernel sources?
 
-greg k-h
+> 
+> My goal is all common schema end up in dtschema, but I haven't pushed
+> folks to do that yet. Ones I've done are there though. One issue is
+> what's in dtschema should be GPL/BSD and the existing text bindings
+> are default GPL, so there's a relicensing exercise. In some cases, the
+> schema is there but I haven't copied over the descriptions.
+
+Right, I'll skip the descriptions when posting to dt-schema.
+
+Best regards,
+Krzysztof
+
