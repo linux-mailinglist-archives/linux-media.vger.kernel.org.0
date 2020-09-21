@@ -2,131 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA23B271F8E
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BFD6271FA8
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:05:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726343AbgIUKCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 06:02:36 -0400
-Received: from mail-io1-f78.google.com ([209.85.166.78]:51713 "EHLO
-        mail-io1-f78.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726366AbgIUKCW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 06:02:22 -0400
-Received: by mail-io1-f78.google.com with SMTP id q12so9419313iob.18
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:02:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=8At/pGVVkTvpu/mp8Xc1NUUCOQaO1LHGiWdU5OkrovU=;
-        b=IzeAHaM8VY7DFB6hagvukdxXFRmG+V5O1mLYJj6Hfmpt6C4MdkjinbyV2bprRS2doZ
-         REpkPqckFoWrFeY1xiQHDP08KR2+moPY5mdAOvgJH6qIYpO2N1MBra9WoK9YV4SoExNw
-         tY8VBpRwhH+NEr/a6m6WVgkpWnE/fS828G/ueTYTs5Lch1oOGCzf7DI67Cgdekm2zUUK
-         AeTPc9teAy4G/WPoy8FPQwlEAO5M9CM89qML45hDpXdc5SpvPhLDt10HMkCQvXbyHsQe
-         bbOr/JS1fd7vteQ6QskPDXHZYcMmn+QxBTov3FXjobE0v64XbZY8MWJHzieGnvHlu7HZ
-         8Jdw==
-X-Gm-Message-State: AOAM531vKHvNuWqHnhGx5WZUrGlnaiM+b3O9FRckCoPaXcHjdRzGpLq2
-        0QCXTxP6LDDdZH6yWQB+NuRS+24JEWs70OXlSiCXUJz1h05O
-X-Google-Smtp-Source: ABdhPJxPUybSAP4Njtc33THXv/FIAL+YAdszuiOczoJOLnIlLdsyLDL4g4fKHLTRtNpCNgn4E9o9Ol9mX2203FoqPwF5SL6quLgc
-MIME-Version: 1.0
-X-Received: by 2002:a92:d07:: with SMTP id 7mr39101806iln.243.1600682541373;
- Mon, 21 Sep 2020 03:02:21 -0700 (PDT)
-Date:   Mon, 21 Sep 2020 03:02:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000046e0e905afcff205@google.com>
-Subject: KASAN: vmalloc-out-of-bounds Read in bpf_trace_run2
-From:   syzbot <syzbot+845923d2172947529b58@syzkaller.appspotmail.com>
-To:     andriin@fb.com, ast@kernel.org, bpf@vger.kernel.org,
-        coreteam@netfilter.org, daniel@iogearbox.net, davem@davemloft.net,
-        hawk@kernel.org, john.fastabend@gmail.com, kaber@trash.net,
-        kadlec@blackhole.kfki.hu, kafai@fb.com, kpsingh@chromium.org,
-        kuba@kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        mchehab@s-opensource.com, mingo@redhat.com, netdev@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, pablo@netfilter.org,
-        rostedt@goodmis.org, songliubraving@fb.com,
-        syzkaller-bugs@googlegroups.com, yhs@fb.com
+        id S1726353AbgIUKFc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 06:05:32 -0400
+Received: from mail-eopbgr90081.outbound.protection.outlook.com ([40.107.9.81]:30240
+        "EHLO FRA01-MR2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726341AbgIUKFc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 06:05:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C7U1MIqzA6II4UTb2/lvpyD67P2KunszuXZMsIKzvPdnl7dwDmYTpNXpGcSoDWeLzq71/hlXdxnQw6c+szFvLqvCzSrQGeLPgP0c/HkbhK8jhlTn3PCFBvFh4jtP+BMoXtRe6UkFmHr9v4zF/A/MNrAx6EFlep4KC6puxjuFqus3inX1Mz1nHks/M/ajD0QaquU6kc/oPaF8UmL3LFBSw+ipJeWPLnHTlpXtDO4uBn7nJ2ZR5ULmzCKrxNV1InVmYEw0RZOUF4I+6v/O+XY7Tmf6LdPPM2oEBgA+lAbFByJPKacRoTi9uda4ZKsiabVPx8kh4UwjdEXlPvuiIpk4pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kz+N3+dmU5Weq/s6O8/4AoB56CshQuNrTgspCsMtRuQ=;
+ b=CqANr8betc9unqzuZ0aQfEnhcfH5uyRK+fnAOfj2SXUlUWaBW/RWuCjaQsTqzoLd9IgMY44lOaRPypgnHsXiVZlDGfgKkWQYE7oGfFdAjFHc5NBaCgl8FMbd7Npk2Z6cbcYmczR1nPW+GGPJ9pnaLs+xa0hXkNWfp7OkoxF2v4p+DF/uDFCwqHCki9TcuftSp7tKEnZhdi/3mu/seNgsZb7oYEXAVOnWyLIzvpVz4QWmdZMIofS6prJd4YUfWlwy9AfMSdsMFISYlaF/YUN87v58+1qTJM0eOa6RTT8MnoNd6JKRmk9V4WNsgGnyunTJg8NCNo0CH2sg1o914CdWOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=lamsade.dauphine.fr; dmarc=pass action=none
+ header.from=dauphine.fr; dkim=pass header.d=dauphine.fr; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dauphine.fr;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kz+N3+dmU5Weq/s6O8/4AoB56CshQuNrTgspCsMtRuQ=;
+ b=bGetfJGqTYb27yIatojra5w9TC+opigrd/JAMAt5vxrF4u+KWivNnYv5iN5zHBNqdS8DCJzpnse/1GofIR+uVUT+yY/DE/2Tcs7Dwv6fFxONnLUHWR39li0fzzV/3sqIVoulUNlN3V1uJubLkiCfFtoBoP5N80V1ECKd9BgM3ug=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none
+ header.from=dauphine.fr;
+Received: from MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500:9::16) by
+ MR2P264MB0706.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500:10::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.19; Mon, 21 Sep 2020 10:05:28 +0000
+Received: from MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::91c4:b3f7:59a8:f55d]) by MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::91c4:b3f7:59a8:f55d%7]) with mapi id 15.20.3391.011; Mon, 21 Sep 2020
+ 10:05:28 +0000
+Message-ID: <de7894e8574231082ea64d1be317ed5a2faeba99.camel@dauphine.fr>
+Subject: Consider updating www.ideasonboard.org
+From:   Olivier Cailloux <olivier.cailloux@dauphine.fr>
+To:     linux-media@vger.kernel.org
+Date:   Mon, 21 Sep 2020 12:05:24 +0200
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO2P265CA0207.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9e::27) To MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:9::16)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from saucisson (2a01:e35:2e49:2720:18e2:21d:6da8:c492) by LO2P265CA0207.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:9e::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13 via Frontend Transport; Mon, 21 Sep 2020 10:05:27 +0000
+X-Originating-IP: [2a01:e35:2e49:2720:18e2:21d:6da8:c492]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 545c5349-d730-4776-6510-08d85e15ddbf
+X-MS-TrafficTypeDiagnostic: MR2P264MB0706:
+X-Microsoft-Antispam-PRVS: <MR2P264MB07062EC10C387E3C8CF06E4BD23A0@MR2P264MB0706.FRAP264.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5pVWps9X42Fw/lyxCwA1e4FnQmSG2OkKAZZkFAIlyjL8YJB28+N45N390i4SC2vMsuuQZkITfC3TMK6aayfE5tpPi0u2w0KlOhhGhuOA7+d9eEVbj4Rs6vZQf9HPudvekFWRqG/GbkNPbU14REjSk9BN4q4hD5nQHuTidSkDgnhF5NW6Lkxr9CFOVqhOc9x/4lFQZjyPe3wtuBtcWxnu/3gTIAfOzGXt9t2le8Q2qRcAGmwJbadyDPn+ykYQVIBIjQSh1MGUr9Eezs0Oa6DlAzb25XgIZ+5Q5gJ0kCmTVEGrQhuacavpEGLBKgELFqhztAXmnZrPJNNDIbhYNPt6CfGgL9qRY6oNFZ7cjiml5kiFVDiN0at5DPB1il9jCLfLOWzDa336fW4LJBq8kD/d06thskWwKRf+ivxHJ8YL5Xbxy3Dcpx6eTqnK6YXrCfeDTkM96NSoLqikBveFfyUXCQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(366004)(136003)(376002)(39860400002)(66556008)(2906002)(83170400001)(6916009)(66946007)(36756003)(66476007)(186003)(16526019)(6666004)(2616005)(6496006)(52116002)(4744005)(8676002)(478600001)(316002)(786003)(44832011)(966005)(83380400001)(6486002)(5660300002)(8936002)(15974865002)(163123001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 4cA4t2bnGfpGzUK2yCxWQVdBR506/mcC4nzUENjzx9r4WSgjgdVQ5EBHsbopNhJ1P1rRe9ncg1xX9hAi16Vk+TFyXbOzHGRypTqm4wlfTgViJnpiHEXdKi1i41JdisiqY18DUuGTUHKckPxpsTsoKksk1Aadie9K81HTvrYr0tgdPqaBrXKCcBNTiURF8dGc9kpfwp2/7PIAyNBQDRvUEmJLSlLQMxmqxpVgK6ukF2WofmNpryJDemTSglbMXz4HSkMiwF9r/7QT34TkoHjADhKWzlUmV+CEqHhc1eNuB9th2Ur0/PBoL0IbRe+qZCEUx1NhOXSnWn/7EcS07skrTkX47HYbom2ovhcKpAzVzMMJ4LNHqXqXGzWh2XWhsC85xiaFyFkidzX5Sukijk6WYyp/WPnUrszy1Q3fE8g2L+LQ88rtpJWrHymi1DHbWpWcVH4XU1q+oHrpMTpD6+HqKSe+ImA5vU4ERez6lPxzaZ5QrxyYBvL6yet8VrCyqJwbFj8NVTZnVxKjTxmD/eiyd7SR3leqFnfntVSjlljcARHcOPUbj7nWM4GxQfs/KG4tfocVoi8s1QmuacTLoBVESgHrNxt9XzGndj1f2uVRBC+fwfXwl3gK0/m+WFTR32gqI0gl22BLzZgSYB1eqRFOJKLQvF2kZ395Ddgqu9DpLCT3BSmgNpLj0RRHV+J91RLbh3kSjP8fM7wcVBfSv3JhMw==
+X-OriginatorOrg: dauphine.fr
+X-MS-Exchange-CrossTenant-Network-Message-Id: 545c5349-d730-4776-6510-08d85e15ddbf
+X-MS-Exchange-CrossTenant-AuthSource: MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2020 10:05:28.2106
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 81e7c4de-26c9-4531-b076-b70e2d75966e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MnwHiyRBIZYt4nXOlSTVk3z3jJIEGwYab0bKoVy75B5cbIZXyuA+nm5DBMv6mZ7SYTu3uZViPtr8VWUB6JAnWSvMRwmcm6R6l9t7eMkUNlx2sOFw9E2msUDOSEvahcPQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR2P264MB0706
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+A lot of search engine queries send users to www.ideasonboard.org (for 
+example, https://www.startpage.com/do/dsearch?query=linux+uvc).
 
-syzbot found the following issue on:
+AFAIU, information there is mostly oudated. In particular, it indicates
+that “Support requests are handled through the Linux UVC development
+mailing list [linux-uvc-devel@lists.sourceforge.net]”, whereas it seems
+to me that related development now happens at the linux-media mailing
+list. It is not easy to realize this and visitors might be misled by
+this oudated information. (I have taken quite some time to realize this
+myself and I am still unsure of my conclusions.)
 
-HEAD commit:    70b97111 bpf: Use hlist_add_head_rcu when linking to local..
-git tree:       bpf-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=15c624ad900000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7e0ca96a9b6ee858
-dashboard link: https://syzkaller.appspot.com/bug?extid=845923d2172947529b58
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10193f3b900000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=168c729b900000
+Could anyone confirm that linux-media is indeed the recommended list
+for problems related to the uvcvideo driver? If so, does anyone have a
+possibility of updating the website at ideasonboard.org, if only to
+warn the visitors that its information is outdated?
 
-The issue was bisected to:
+Thanks for your consideration.
+-- 
+Olivier
 
-commit 0a93dc1c18fd86f936bcb44f72dc044c0ea826a8
-Author: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-Date:   Wed Oct 12 11:11:16 2016 +0000
-
-    [media] dvb-core: don't break long lines
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=170e18d3900000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=148e18d3900000
-console output: https://syzkaller.appspot.com/x/log.txt?x=108e18d3900000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+845923d2172947529b58@syzkaller.appspotmail.com
-Fixes: 0a93dc1c18fd ("[media] dvb-core: don't break long lines")
-
-==================================================================
-BUG: KASAN: vmalloc-out-of-bounds in __bpf_trace_run kernel/trace/bpf_trace.c:1937 [inline]
-BUG: KASAN: vmalloc-out-of-bounds in bpf_trace_run2+0x397/0x3d0 kernel/trace/bpf_trace.c:1974
-Read of size 8 at addr ffffc90000e76030 by task syz-executor514/6838
-
-CPU: 0 PID: 6838 Comm: syz-executor514 Not tainted 5.9.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x18f/0x20d lib/dump_stack.c:118
- print_address_description.constprop.0.cold+0x5/0x497 mm/kasan/report.c:383
- __kasan_report mm/kasan/report.c:513 [inline]
- kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
- __bpf_trace_run kernel/trace/bpf_trace.c:1937 [inline]
- bpf_trace_run2+0x397/0x3d0 kernel/trace/bpf_trace.c:1974
- trace_sys_enter include/trace/events/syscalls.h:18 [inline]
- syscall_trace_enter kernel/entry/common.c:64 [inline]
- syscall_enter_from_user_mode+0x22c/0x290 kernel/entry/common.c:82
- do_syscall_64+0xf/0x70 arch/x86/entry/common.c:41
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x4441ba
-Code: 25 18 00 00 00 00 74 01 f0 48 0f b1 3d ef f9 28 00 48 39 c2 75 da f3 c3 0f 1f 84 00 00 00 00 00 48 63 ff b8 e4 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 06 f3 c3 0f 1f 40 00 48 c7 c2 d0 ff ff ff f7
-RSP: 002b:00007ffeec2fd9d8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e4
-RAX: ffffffffffffffda RBX: 0000000000001ac2 RCX: 00000000004441ba
-RDX: 0000000000000000 RSI: 00007ffeec2fd9e0 RDI: 0000000000000001
-RBP: 000000000000e4f7 R08: 0000000000001ab6 R09: 00000000022b5880
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000004022d0
-R13: 0000000000402360 R14: 0000000000000000 R15: 0000000000000000
-
-
-Memory state around the buggy address:
- ffffc90000e75f00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
- ffffc90000e75f80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
->ffffc90000e76000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-                                     ^
- ffffc90000e76080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
- ffffc90000e76100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
