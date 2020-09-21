@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C987D27201A
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C83DC272047
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:23:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726768AbgIUKUi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 06:20:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58982 "EHLO
+        id S1726778AbgIUKUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 06:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726756AbgIUKUg (ORCPT
+        with ESMTP id S1726764AbgIUKUi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 06:20:36 -0400
+        Mon, 21 Sep 2020 06:20:38 -0400
 Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F05C0613D2
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:36 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id k15so12115007wrn.10
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ABEBC0613D4
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:37 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id t10so12132566wrv.1
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Z5xy1HmEK3Cb2cGuOZNBEue37qSrHj+Vnq/OwfaPORg=;
-        b=I5VTjG3a3ViBXraLZbIZjAF4w3IjxazcKPBR8RM9zZISWgHD9OAAW/k6SSohJYhPNG
-         A5YpvNK36e4G+9BFnfqnxMw1ClkJlY0mfrV41zlhv06gFtYecYAE+trrq+eIDf77q/X6
-         yJ9A8CxIZkIE7MofTCSiuH14CNxFd1GOFLd0QPPHX1l5Pz9e9RJSOfW1EZPYdHwFYh3n
-         /85ZsSW7M2mpjF8Yzi14whkUIf8DbmA6nOCwjNK9GhrXL+3c8xwcyiWIXyZxS1B26ilp
-         /1uB7h0HAi7DX/gQsZce7RHc+1uONcDNT/4FfiDSZ1HxaKtJR1mEhMWmguiXrcYTJARi
-         o/UA==
+        bh=0BzTczQmHpS8t1I+BEXhbnRvatw/mGTEVui5t5Npsm8=;
+        b=MaGfrgp7PHlwm0A3ZkZ8h7GGR0RRi37Yiy+yOd5x5uXY0+HcDxdjSml1+xef0vvkdj
+         tS3sXina++U+mHFVDNOpo4FxR+MKEuxMpMHJCiPfbi1M9UFYsGR2tGbxTmGawX8YfVhT
+         nKo7z8pNaOdCKG8B5Pn2VUl1tuxJoxxgNGxHZwnWbKtFj7m98v8TJRBs8RYcvOAKLS4p
+         ZnFF3w70EHp62lTH+unebW+knQa6DFB/0HfzeJgPprU7N5ZJ4dLwia0vADFLPrzISADS
+         v+H8iUci900i8d5403aBVru8s47NLPmFzKenxG9h0uSNpOTIPTAGXRKSOvcH4eFpMICM
+         bhmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Z5xy1HmEK3Cb2cGuOZNBEue37qSrHj+Vnq/OwfaPORg=;
-        b=o3q5uvunfPK2F90J/Ym5dw7hBrnJ2RXOclE85IuwO9oU34x5e9wr7whY8i7/t6wIvX
-         dNYA1DmG29q7GHQZtHxdj6ahvkhlElEp3rGlOAXzeMwhcj/2rOcq5Q2hpxc+LvaF50VH
-         9wCiF+hmyE+A//acTr7AsOPJY3HM+KA7+63fLyK8dbaMpVKyUfVZghokgPyGIvJBW3zO
-         km6meRTHoe+l3cwPV51uxXGcXpCQA4+ZTpeJJbUxoElCR4a6ZS3DzjhmUUjl3oTssfax
-         cMoNzB9ZV5P+DWYCYj+ffUMTXL+mmyZWapkUHGwMNif+i6xB8Esy+Y5beQDf3hcMCI6L
-         +VBg==
-X-Gm-Message-State: AOAM533mm1rTPT7NFxGHnyswiCpL2l5Tq4mXERA4mirgZ8mFPsz7tKuT
-        XdPcDgmORvpWEr+39XhEBHX7JQ==
-X-Google-Smtp-Source: ABdhPJxN1Spb10RxJRxY4y67Y7+C7S5d68x0Ru3WpjlUuQNHdi07Ix7g79gisaT5NE8Ke2Dq5/yb2Q==
-X-Received: by 2002:adf:f78f:: with SMTP id q15mr43195277wrp.206.1600683635053;
+        bh=0BzTczQmHpS8t1I+BEXhbnRvatw/mGTEVui5t5Npsm8=;
+        b=oTWS6RLL7s1GQsZsm8ptvoEHkifjgafUuPUemvrxAUa7kte/KYHeq+Kok3GKhAvjRl
+         vx0kxxhqANmIsizJEFR7S9eW7vdUutxs4k4DNBApBNNfv9vLWC9gllLcTrKWMyxQi7Yk
+         9AubopYT6Dq8paDOeWFSa7LL3eaRQsmir0Y1LftdhdjaDHJmxplkNbnA18BB3+njWhJj
+         JQPqFSLqDXmnqCIISHxFAxogrkShHBKXRzX2+GgB7d0bfFOKLn7pIu3J4+h0XobrjFEp
+         qv/Soq1/WG1AZ19/KrUv4ztJX9guMyRrkIQm4sTf/LIxRaNmzUT8wnTn/qOGWAai9B9n
+         rvvg==
+X-Gm-Message-State: AOAM531zSauNFvCYPW+TZB/G5QrvJ+x5uKD/GTQ8vBg0r0xfhnpW/7JK
+        th2eGXlpgTgxRN84qDv1A5m+Sg==
+X-Google-Smtp-Source: ABdhPJxO38VZN2Eb0UXu4Mfek/wdnnRWiA/oi1U24WVDHA8DvtyjmmeYlDpoZllXQtDhZEg5Bs/1qQ==
+X-Received: by 2002:adf:f508:: with SMTP id q8mr49455553wro.233.1600683635970;
         Mon, 21 Sep 2020 03:20:35 -0700 (PDT)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.20.34
+        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.20.35
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 21 Sep 2020 03:20:34 -0700 (PDT)
+        Mon, 21 Sep 2020 03:20:35 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, laurent.pinchart@skynet.be,
         mchehab@kernel.org
 Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH RFT/RFC 03/49] staging: media: zoran: datasheet is no longer available from zoran.com
-Date:   Mon, 21 Sep 2020 10:19:38 +0000
-Message-Id: <1600683624-5863-4-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC 04/49] staging: media: zoran: Documentation: fix typo
+Date:   Mon, 21 Sep 2020 10:19:39 +0000
+Message-Id: <1600683624-5863-5-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
 References: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
@@ -62,27 +62,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Simply remove this broken reference
+Fix some typo in doc.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/zoran_device.c | 3 ---
- 1 file changed, 3 deletions(-)
+ Documentation/media/v4l-drivers/zoran.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
-index 04162be80420..79da964c678b 100644
---- a/drivers/staging/media/zoran/zoran_device.c
-+++ b/drivers/staging/media/zoran/zoran_device.c
-@@ -265,9 +265,6 @@ jpeg_codec_reset (struct zoran *zr)
-  *   Set the registers for the size we have specified. Don't bother
-  *   trying to understand this without the ZR36057 manual in front of
-  *   you [AC].
-- *
-- *   PS: The manual is free for download in .pdf format from
-- *   www.zoran.com - nicely done those folks.
-  */
+diff --git a/Documentation/media/v4l-drivers/zoran.rst b/Documentation/media/v4l-drivers/zoran.rst
+index a0586514cd8a..2b82b9a47a71 100644
+--- a/Documentation/media/v4l-drivers/zoran.rst
++++ b/Documentation/media/v4l-drivers/zoran.rst
+@@ -119,7 +119,7 @@ Pinnacle/Miro DC10+
+ * Analog Devices adv7176 TV encoder
  
- static void
+ Drivers to use: videodev, i2c-core, i2c-algo-bit,
+-videocodec, sa7110, adv7175, zr36060, zr36067
++videocodec, saa7110, adv7175, zr36060, zr36067
+ 
+ Inputs/outputs: Composite, S-video and Internal
+ 
+@@ -280,7 +280,7 @@ Samsung ks0127 TV decoder
+ What the TV encoder can do an what not
+ --------------------------------------
+ 
+-The TV encoder are doing the "same" as the decoder, but in the oder direction.
++The TV encoder are doing the "same" as the decoder, but in the other direction.
+ You feed them digital data and the generate a Composite or SVHS signal.
+ For information about the colorsystems and TV norm take a look in the
+ TV decoder section.
 -- 
 2.26.2
 
