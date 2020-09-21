@@ -2,75 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB842271A46
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 07:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A76DC271AF7
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 08:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726244AbgIUFCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 01:02:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33852 "EHLO mail.kernel.org"
+        id S1726417AbgIUGgf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 02:36:35 -0400
+Received: from verein.lst.de ([213.95.11.211]:38634 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726186AbgIUFCz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 01:02:55 -0400
-Received: from coco.lan (ip5f5ad5b1.dynamic.kabel-deutschland.de [95.90.213.177])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 015EC2084C;
-        Mon, 21 Sep 2020 05:02:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600664574;
-        bh=a505D1kBjZumg+CJScAbd3YgGO2ghyLanOA34IE58ak=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=rJEZ9lgIBdmyfi+kMyERIORg2e7Xcwq465Ac7PnNAUs/aVxigGHGyZ9xRwbRTKxUM
-         L+/dLDQ7eBYk0Yd/l8/3aiMEJKa6N5+y2XzHFDr0tA6gjpNWFH3C11ApPynTs4lEiC
-         KhgmGF4OtJ7Z5eqdV0a+Fz0Jd0bb9LY6WxKS0YxU=
-Date:   Mon, 21 Sep 2020 07:02:50 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jordi Coma Garcia <jordicoma22@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Error saa7134 Avermedia Hibrid 16AR
-Message-ID: <20200921070250.18d823aa@coco.lan>
-In-Reply-To: <CAOcvHs6Te1N3Vv_KcWEGpCy6uajfjs2-DUJi_JzZ6n2znMOHBw@mail.gmail.com>
-References: <CAOcvHs6Te1N3Vv_KcWEGpCy6uajfjs2-DUJi_JzZ6n2znMOHBw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726011AbgIUGge (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 02:36:34 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id B25CE68AFE; Mon, 21 Sep 2020 08:36:28 +0200 (CEST)
+Date:   Mon, 21 Sep 2020 08:36:28 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org
+Cc:     alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        netdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: a saner API for allocating DMA addressable pages v3
+Message-ID: <20200921063628.GB18349@lst.de>
+References: <20200915155122.1768241-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sun, 20 Sep 2020 14:14:39 +0200
-Jordi Coma Garcia <jordicoma22@gmail.com> escreveu:
+Any comments?
 
-> Hello,
+Thomas: this should be identical to the git tree I gave you for mips
+testing, and you add your tested-by (and reviewd-by tags where
+applicable)?
+
+Helge: for parisc this should effectively be the same as the first
+version, but I've dropped the tested-by tags due to the reshuffle,
+and chance you could retest it?
+
+On Tue, Sep 15, 2020 at 05:51:04PM +0200, Christoph Hellwig wrote:
+> Hi all,
 > 
-> I'm trying to run the tv dvb-t card Avermedia hybrid 16ar on the linux
-> 5.8.10 an arch linux. I can sintonize but I'm getting errors with kaffeine.
+> this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
+> with a separate new dma_alloc_pages API, which is available on all
+> platforms.  In addition to cleaning up the convoluted code path, this
+> ensures that other drivers that have asked for better support for
+> non-coherent DMA to pages with incurring bounce buffering over can finally
+> be properly supported.
+> 
+> As a follow up I plan to move the implementation of the
+> DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
+> that is also is a fundamentally non coherent allocation.  The replacement
+> for that flag would then return a struct page, as it is allowed to
+> actually return pages without a kernel mapping as the name suggested
+> (although most of the time they will actually have a kernel mapping..)
+> 
+> In addition to the conversions of the existing non-coherent DMA users,
+> I've also added a patch to convert the firewire ohci driver to use
+> the new dma_alloc_pages API.
+> 
+> The first patch is queued up for 5.9 in the media tree, but included here
+> for completeness.
 > 
 > 
-> [image: imatge.png]
-> When running the lts kernel of arch ( 5.4.66-1) I have no errors and it
-> works fine.
+> A git tree is available here:
 > 
-> Hope you can help
-
-Based on the Kaffeine logs, I suspect that the sqlite database got
-somehow corrupted (perhaps because some distro upgrade?).
-
-Kaffeine stores its configuration, plus the channels found by scan 
-and the EPG data on some files:
-
-
-	$ file ~/.local/share/kaffeine/*
-	~/.local/share/kaffeine/config.dvb:   ASCII text
-	~/.local/share/kaffeine/epgdata.dvb:  data
-	~/.local/share/kaffeine/playlistsK4:  data
-	~/.local/share/kaffeine/scanfile.dvb: ASCII text
-	~/.local/share/kaffeine/sqlite.db:    SQLite 3.x database, last written using SQLite version 3033000
-
-You could try to backup those files to some different place and then
-remove the sqlite ones (epgdata.dvb and sqlite.db) and re-run the
-Kaffeine's channel scan.
-
-Thanks,
-Mauro
+>     git://git.infradead.org/users/hch/misc.git dma_alloc_pages
+> 
+> Gitweb:
+> 
+>     http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
+> 
+> 
+> Changes since v2:
+>  - fix up the patch reshuffle which wasn't quite correct
+>  - fix up a few commit messages
+> 
+> Changes since v1:
+>  - rebased on the latests dma-mapping tree, which merged many of the
+>    cleanups
+>  - fix an argument passing typo in 53c700, caught by sparse
+>  - rename a few macro arguments in 53c700
+>  - pass the right device to the DMA API in the lib82596 drivers
+>  - fix memory ownershiptransfers in sgiseeq
+>  - better document what a page in the direct kernel mapping means
+>  - split into dma_alloc_pages that returns a struct page and is in the
+>    direct mapping vs dma_alloc_noncoherent that can be vmapped
+>  - conver the firewire ohci driver to dma_alloc_pages
+> 
+> Diffstat:
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+---end quoted text---
