@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE2B8272BD3
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 18:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AADD272BD9
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 18:24:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727914AbgIUQYN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 12:24:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50966 "EHLO mail.kernel.org"
+        id S1728270AbgIUQYW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 12:24:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51114 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726810AbgIUQYM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 12:24:12 -0400
+        id S1728103AbgIUQYV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 12:24:21 -0400
 Received: from localhost.localdomain (unknown [194.230.155.191])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 67DAE22574;
-        Mon, 21 Sep 2020 16:24:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3552820758;
+        Mon, 21 Sep 2020 16:24:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600705451;
-        bh=k7zLMCQ9i2/JBhUqe/oTadHZU3FhlPAS2kI1B02f/EI=;
+        s=default; t=1600705460;
+        bh=Dzp5xNtwBz6+Qv1wgAGhP4Qp9+Rd8yVEj3+bqwuvVFk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LQYRXmLAQd7PJwOEEI2XROzbvWO9G5AE8Kg19nhsgMtXEzh4Ys7CCT0Cu6kF4htuY
-         F1uIBgCTAjNqunx6KpXoUK2EduuN9wikzsoUsMFvdEX+2gnXiweETL9Kvb6IRUTDBW
-         0ySOlXclKcYzDA++efAYcIrTUpcDQPBZZvcrDqh0=
+        b=2veJuwfG3HkZql1qJZcA6OmrCZ1FTLWhtSckTMPBNCZwAyooM8b7i4NpdlOnA6IDt
+         6SnNKPm0V3jXuvSEgn+EltAiRjNPf+nzDUQjlAlDP9c3D4/5Pk9PUW54qFjPMM7ZMz
+         zVr/St7XamQJqvJAvikknu8mKZa3pFGpUOtzrIyY=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -44,9 +44,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Marco Felsch <m.felsch@pengutronix.de>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 03/25] media: i2c: imx290: simplify getting state container
-Date:   Mon, 21 Sep 2020 18:23:20 +0200
-Message-Id: <20200921162342.7348-3-krzk@kernel.org>
+Subject: [PATCH 04/25] media: i2c: imx319: simplify getting state container
+Date:   Mon, 21 Sep 2020 18:23:21 +0200
+Message-Id: <20200921162342.7348-4-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200921162342.7348-1-krzk@kernel.org>
 References: <20200921162342.7348-1-krzk@kernel.org>
@@ -61,51 +61,37 @@ v4l2_i2c_subdev_init() so there is no point of a dance like:
     struct v4l2_subdev *sd = i2c_get_clientdata(client);
 
 This allows to remove local variable 'client' and few pointer
-dereferences.  White at it, use 'dev' directly instead of 'imx290->dev'.
+dereferences.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/media/i2c/imx290.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/media/i2c/imx319.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index adcddf3204f7..6319a42057d2 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -842,20 +842,19 @@ static int imx290_set_data_lanes(struct imx290 *imx290)
+diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
+index 17c2e4b41221..8b86fc65364e 100644
+--- a/drivers/media/i2c/imx319.c
++++ b/drivers/media/i2c/imx319.c
+@@ -2179,8 +2179,7 @@ static int imx319_set_stream(struct v4l2_subdev *sd, int enable)
  
- static int imx290_power_on(struct device *dev)
+ static int __maybe_unused imx319_suspend(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx290 *imx290 = to_imx290(sd);
+ 	struct imx319 *imx319 = to_imx319(sd);
+ 
+ 	if (imx319->streaming)
+@@ -2191,8 +2190,7 @@ static int __maybe_unused imx319_suspend(struct device *dev)
+ 
+ static int __maybe_unused imx319_resume(struct device *dev)
+ {
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct imx319 *imx319 = to_imx319(sd);
  	int ret;
  
- 	ret = clk_prepare_enable(imx290->xclk);
- 	if (ret) {
--		dev_err(imx290->dev, "Failed to enable clock\n");
-+		dev_err(dev, "Failed to enable clock\n");
- 		return ret;
- 	}
- 
- 	ret = regulator_bulk_enable(IMX290_NUM_SUPPLIES, imx290->supplies);
- 	if (ret) {
--		dev_err(imx290->dev, "Failed to enable regulators\n");
-+		dev_err(dev, "Failed to enable regulators\n");
- 		clk_disable_unprepare(imx290->xclk);
- 		return ret;
- 	}
-@@ -872,8 +871,7 @@ static int imx290_power_on(struct device *dev)
- 
- static int imx290_power_off(struct device *dev)
- {
--	struct i2c_client *client = to_i2c_client(dev);
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx290 *imx290 = to_imx290(sd);
- 
- 	clk_disable_unprepare(imx290->xclk);
 -- 
 2.17.1
 
