@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC46C2720BE
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C987D27201A
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:20:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbgIUKYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 06:24:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58974 "EHLO
+        id S1726768AbgIUKUi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 06:20:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726755AbgIUKUf (ORCPT
+        with ESMTP id S1726756AbgIUKUg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 06:20:35 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54BC5C061755
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:35 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id t10so12132450wrv.1
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:35 -0700 (PDT)
+        Mon, 21 Sep 2020 06:20:36 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F05C0613D2
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:36 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id k15so12115007wrn.10
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=FAfzGDJNkDiJ14AHNIUhDwhIpLlD543otONzFuTYMfQ=;
-        b=ERaArSVnusIZhh3BpFKhA0YH7Rj3lF6LCWbq+jqxKQnP+9MFEZh1E4yg5l15aO/SH0
-         e5e9FkbM8T+nBXr70hn4TRSMMkyAqrK2EvTVKzFR6BFdaN0pykgjpnAQvlhD3xx7Smjm
-         hHNyTpdVIwexCovVJDNdKDXac0xAD8tfA2ThaDvsIr8VLhW+AyAV/B58n3MG/w0CLP9D
-         hWlyEyXqjFnM8M6wGw9DzDPsAe2pupXq7BeOJ2DJ8T/DnDWEJT7zChK5qPyK0uEcOjGo
-         65DikEPIE+20NVDUZpV0wcsHFQ/WVol4ufFxvbz3uaRjLfnIF/qoKTe3uvuaqssVIQnu
-         o3Gg==
+        bh=Z5xy1HmEK3Cb2cGuOZNBEue37qSrHj+Vnq/OwfaPORg=;
+        b=I5VTjG3a3ViBXraLZbIZjAF4w3IjxazcKPBR8RM9zZISWgHD9OAAW/k6SSohJYhPNG
+         A5YpvNK36e4G+9BFnfqnxMw1ClkJlY0mfrV41zlhv06gFtYecYAE+trrq+eIDf77q/X6
+         yJ9A8CxIZkIE7MofTCSiuH14CNxFd1GOFLd0QPPHX1l5Pz9e9RJSOfW1EZPYdHwFYh3n
+         /85ZsSW7M2mpjF8Yzi14whkUIf8DbmA6nOCwjNK9GhrXL+3c8xwcyiWIXyZxS1B26ilp
+         /1uB7h0HAi7DX/gQsZce7RHc+1uONcDNT/4FfiDSZ1HxaKtJR1mEhMWmguiXrcYTJARi
+         o/UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=FAfzGDJNkDiJ14AHNIUhDwhIpLlD543otONzFuTYMfQ=;
-        b=EdvIaU/9PnZeqzAWQTtGZ8L1lQPZ89IO5GP9qcl1vVCd4AiH1pYXY3ITEJ9ocVeco0
-         5HFDshCpL2nU+5TTHsfdorN3VdCFsltQ8SAYAsUL6CiZDeRHD3BBuwSrcbfVqqQRxtS2
-         Y1hxFMOTB19lj68J/D0koYzxgfMkR1ov6cGSiY6h+PV3vo8xc2AnXVZtDanI6vVTkXak
-         QLFcaTGcSplWyVPrYaxXy9haAgd4ZrsdPFqvhYvQypfocbZhQiJuK++IB5fqEnm8NGeN
-         2gfIRSVUSjQKTLoJwTuGBmW/myEngmUASF0fMTQXjpQW8Cdmw9kEIzGznPCZ59QZrofR
-         c01Q==
-X-Gm-Message-State: AOAM530h1t2PdFDFp2PXb/ds9z64V8ERU5lPnsM3i0RehnwLlv+d3qB8
-        iw5577g4yMalSEFWUIvIRkYoUw==
-X-Google-Smtp-Source: ABdhPJwRp8fa0HmGYgcCS7nKvEdN1zyxKC4UrtLKMKxQZ5icXeLaTxukOPBl8Aw2G4MO2Lu2ST4EHg==
-X-Received: by 2002:adf:f852:: with SMTP id d18mr51733075wrq.245.1600683634013;
-        Mon, 21 Sep 2020 03:20:34 -0700 (PDT)
+        bh=Z5xy1HmEK3Cb2cGuOZNBEue37qSrHj+Vnq/OwfaPORg=;
+        b=o3q5uvunfPK2F90J/Ym5dw7hBrnJ2RXOclE85IuwO9oU34x5e9wr7whY8i7/t6wIvX
+         dNYA1DmG29q7GHQZtHxdj6ahvkhlElEp3rGlOAXzeMwhcj/2rOcq5Q2hpxc+LvaF50VH
+         9wCiF+hmyE+A//acTr7AsOPJY3HM+KA7+63fLyK8dbaMpVKyUfVZghokgPyGIvJBW3zO
+         km6meRTHoe+l3cwPV51uxXGcXpCQA4+ZTpeJJbUxoElCR4a6ZS3DzjhmUUjl3oTssfax
+         cMoNzB9ZV5P+DWYCYj+ffUMTXL+mmyZWapkUHGwMNif+i6xB8Esy+Y5beQDf3hcMCI6L
+         +VBg==
+X-Gm-Message-State: AOAM533mm1rTPT7NFxGHnyswiCpL2l5Tq4mXERA4mirgZ8mFPsz7tKuT
+        XdPcDgmORvpWEr+39XhEBHX7JQ==
+X-Google-Smtp-Source: ABdhPJxN1Spb10RxJRxY4y67Y7+C7S5d68x0Ru3WpjlUuQNHdi07Ix7g79gisaT5NE8Ke2Dq5/yb2Q==
+X-Received: by 2002:adf:f78f:: with SMTP id q15mr43195277wrp.206.1600683635053;
+        Mon, 21 Sep 2020 03:20:35 -0700 (PDT)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.20.33
+        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.20.34
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 21 Sep 2020 03:20:33 -0700 (PDT)
+        Mon, 21 Sep 2020 03:20:34 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, laurent.pinchart@skynet.be,
         mchehab@kernel.org
 Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH RFT/RFC 02/49] MAINTAINERS: change maintainer of the zoran driver
-Date:   Mon, 21 Sep 2020 10:19:37 +0000
-Message-Id: <1600683624-5863-3-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC 03/49] staging: media: zoran: datasheet is no longer available from zoran.com
+Date:   Mon, 21 Sep 2020 10:19:38 +0000
+Message-Id: <1600683624-5863-4-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
 References: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
@@ -62,136 +62,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add myself as maintainer.
+Simply remove this broken reference
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- Documentation/media/v4l-drivers/zoran.rst  | 22 +++++++---------------
- MAINTAINERS                                | 10 ++++++++++
- drivers/staging/media/zoran/zoran_card.c   |  5 -----
- drivers/staging/media/zoran/zoran_card.h   |  5 -----
- drivers/staging/media/zoran/zoran_device.c |  5 -----
- drivers/staging/media/zoran/zoran_device.h |  5 -----
- 6 files changed, 17 insertions(+), 35 deletions(-)
+ drivers/staging/media/zoran/zoran_device.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/Documentation/media/v4l-drivers/zoran.rst b/Documentation/media/v4l-drivers/zoran.rst
-index d2724a863d1d..a0586514cd8a 100644
---- a/Documentation/media/v4l-drivers/zoran.rst
-+++ b/Documentation/media/v4l-drivers/zoran.rst
-@@ -549,21 +549,13 @@ at high verbosity. See 'Contacting' on how to contact the developers.
- Maintainers/Contacting
- ----------------------
- 
--The driver is currently maintained by Laurent Pinchart and Ronald Bultje
--(<laurent.pinchart@skynet.be> and <rbultje@ronald.bitfreak.net>). For bug
--reports or questions, please contact the mailinglist instead of the developers
--individually. For user questions (i.e. bug reports or how-to questions), send
--an email to <mjpeg-users@lists.sf.net>, for developers (i.e. if you want to
--help programming), send an email to <mjpeg-developer@lists.sf.net>. See
--http://www.sf.net/projects/mjpeg/ for subscription information.
--
--For bug reports, be sure to include all the information as described in
--the section 'It hangs/crashes/fails/whatevers! Help!'. Please make sure
--you're using the latest version (http://mjpeg.sf.net/driver-zoran/).
--
--Previous maintainers/developers of this driver include Serguei Miridonov
--<mirsev@cicese.mx>, Wolfgang Scherr <scherr@net4you.net>, Dave Perks
--<dperks@ibm.net> and Rainer Johanni <Rainer@Johanni.de>.
-+Previous maintainers/developers of this driver are
-+- Laurent Pinchart <laurent.pinchart@skynet.be>
-+- Ronald Bultje rbultje@ronald.bitfreak.net
-+- Serguei Miridonov <mirsev@cicese.mx>
-+- Wolfgang Scherr <scherr@net4you.net>
-+- Dave Perks <dperks@ibm.net>
-+- Rainer Johanni <Rainer@Johanni.de>
- 
- Driver's License
- ----------------
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d3126fc2cca2..f2ece9826be3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19233,6 +19233,16 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs.git
- F:	Documentation/filesystems/zonefs.rst
- F:	fs/zonefs/
- 
-+ZR36067 VIDEO FOR LINUX DRIVER
-+M:	Corentin Labbe <clabbe@baylibre.com>
-+L:	mjpeg-users@lists.sourceforge.net
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+W:	http://mjpeg.sourceforge.net/driver-zoran/
-+Q:	https://patchwork.linuxtv.org/project/linux-media/list/
-+F:	drivers/staging/media/zoran/
-+F:	Documentation/media/v4l-drivers/zoran.rst
-+
- ZPOOL COMPRESSED PAGE STORAGE API
- M:	Dan Streetman <ddstreet@ieee.org>
- L:	linux-mm@kvack.org
-diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index ea10523194e8..d2f82894e8ee 100644
---- a/drivers/staging/media/zoran/zoran_card.c
-+++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -7,11 +7,6 @@
-  *
-  * Copyright (C) 2000 Serguei Miridonov <mirsev@cicese.mx>
-  *
-- * Currently maintained by:
-- *   Ronald Bultje    <rbultje@ronald.bitfreak.net>
-- *   Laurent Pinchart <laurent.pinchart@skynet.be>
-- *   Mailinglist      <mjpeg-users@lists.sf.net>
-- *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation; either version 2 of the License, or
-diff --git a/drivers/staging/media/zoran/zoran_card.h b/drivers/staging/media/zoran/zoran_card.h
-index 0cdb7d34926d..53ed511ce546 100644
---- a/drivers/staging/media/zoran/zoran_card.h
-+++ b/drivers/staging/media/zoran/zoran_card.h
-@@ -7,11 +7,6 @@
-  *
-  * Copyright (C) 2000 Serguei Miridonov <mirsev@cicese.mx>
-  *
-- * Currently maintained by:
-- *   Ronald Bultje    <rbultje@ronald.bitfreak.net>
-- *   Laurent Pinchart <laurent.pinchart@skynet.be>
-- *   Mailinglist      <mjpeg-users@lists.sf.net>
-- *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation; either version 2 of the License, or
 diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
-index 22b27632762d..04162be80420 100644
+index 04162be80420..79da964c678b 100644
 --- a/drivers/staging/media/zoran/zoran_device.c
 +++ b/drivers/staging/media/zoran/zoran_device.c
-@@ -7,11 +7,6 @@
-  *
-  * Copyright (C) 2000 Serguei Miridonov <mirsev@cicese.mx>
-  *
-- * Currently maintained by:
-- *   Ronald Bultje    <rbultje@ronald.bitfreak.net>
-- *   Laurent Pinchart <laurent.pinchart@skynet.be>
-- *   Mailinglist      <mjpeg-users@lists.sf.net>
+@@ -265,9 +265,6 @@ jpeg_codec_reset (struct zoran *zr)
+  *   Set the registers for the size we have specified. Don't bother
+  *   trying to understand this without the ZR36057 manual in front of
+  *   you [AC].
 - *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation; either version 2 of the License, or
-diff --git a/drivers/staging/media/zoran/zoran_device.h b/drivers/staging/media/zoran/zoran_device.h
-index a507aaad4ebb..816d48b09be9 100644
---- a/drivers/staging/media/zoran/zoran_device.h
-+++ b/drivers/staging/media/zoran/zoran_device.h
-@@ -7,11 +7,6 @@
-  *
-  * Copyright (C) 2000 Serguei Miridonov <mirsev@cicese.mx>
-  *
-- * Currently maintained by:
-- *   Ronald Bultje    <rbultje@ronald.bitfreak.net>
-- *   Laurent Pinchart <laurent.pinchart@skynet.be>
-- *   Mailinglist      <mjpeg-users@lists.sf.net>
-- *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation; either version 2 of the License, or
+- *   PS: The manual is free for download in .pdf format from
+- *   www.zoran.com - nicely done those folks.
+  */
+ 
+ static void
 -- 
 2.26.2
 
