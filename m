@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C97EA272070
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB082272065
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:23:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgIUKVn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 06:21:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59230 "EHLO
+        id S1727021AbgIUKVR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 06:21:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727013AbgIUKVP (ORCPT
+        with ESMTP id S1727019AbgIUKVQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 06:21:15 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 348CDC0613D6
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:21:15 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id z1so12138979wrt.3
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:21:15 -0700 (PDT)
+        Mon, 21 Sep 2020 06:21:16 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25CBDC061755
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:21:16 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id l15so11153419wmh.1
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:21:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=sOh/fuRlI8qlQg+fgdSuZVy6p6bRoxDpMLJTeOc7Koo=;
-        b=LwiurPKOmEqXhztg9TMFEyI242yu+8OFMUyjAYGsQZPDPImkPtTxgpYAAVr2HBuVJ/
-         UGCshQPhRNLV9rYayy+AX9660EnfMnGMbKOWXSeFfVJJSI0GQCMKZr1b/AyyDWoaqHQo
-         XU3ee+W0R2SuKCu8ocweH4Qd4AZRNxkVtSzEdQ6kK7Mr7u+A5eFIHxl2aOyAVj8Te+RP
-         YYkRQFcFiFniXJRAdbYMbC+5o5Mj0lQBOe/wadRjo9twvQ/RSS9ECstG6RoHdoef+AoD
-         tSd8d929TY08MFValWTPwoDcrIN07zTblp0P2TYx0+ikQyG8w+kmFwKgWD23oisU9rjm
-         6tLg==
+        bh=GuupeKfcO/+rf9Qb6r8f2KQJXgchvtoxnNFe6M9/a1Y=;
+        b=tuGiHopegBqrIUp8HpoCeuXo5y5bglOeDyrrrfZ4Tzuh9U6lqCJj5fXQgy9gzZfIPm
+         Jw4YULN3OQk6sfQjCoMYyu5tVlL2tYnotZQgDONkBlgCqkIb4AhNP3X0AOl7eUv0Z2jl
+         o2z1CC2zmeBOl2meNu+J+6u5Us1CMuzlG9sdM50i75y3fZUHRNnbclBHy+Jg0CeDlEcD
+         5iBiCB8zjIBZ1ORIsNPQ+CrFmBBcfzagv/J1U1g85HIeFeuV9iXHtqKiqoSoTqAj1Rjb
+         idMoqYHxE1jLGDP9DOthGbMEi8+gvkkB/cx/HsgkwS181mW4GGcxEE1mBbCR2jW3U0+h
+         EBbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=sOh/fuRlI8qlQg+fgdSuZVy6p6bRoxDpMLJTeOc7Koo=;
-        b=GffPimlNPizxXYlS5jU/KEBgg/Bpoff8wiz5tkJvb9jHDzwh7TVP4axoQR1RkU6Vyv
-         Rq8V12ZhRoMY3300/CwR7adkUl6R44o5ZXag9qv4C8zo2UtZ4K5z/r3u52kVQ28TOwnb
-         JKiBmlMKAd+Dk8GRZ6zlqMx52Yxua1j1FEOrQqGZQ80CPTR1EyzlVCY1zBfbvlDA+OjV
-         96Aj6o/nLPsNULW4C2eBal0ShoC8NXeeHqa86l/tYfAl0fQ/nUhNaVwJ6uDgvBFKVr6i
-         UGSdtf2weTgQvLDaiKSlmxrcoTvo+EVc2SNYSruseU1xKIDX/hVGBSopX9+uFAscSGM1
-         0oqg==
-X-Gm-Message-State: AOAM532TPHdXfI2qc1MfBMSdt5KEw6bubnr71bkb4QJ6WzB7nM6+u1Jb
-        dx+MSD3msAd2XS/biUHea9+Zbg==
-X-Google-Smtp-Source: ABdhPJymLhcwt/2MaCggWT4sUMlRzaTZDXU6fyW9fB7vZR+MvUkylpjPXPgY+UtH5DO/P4oPhHw2PQ==
-X-Received: by 2002:a5d:4c52:: with SMTP id n18mr50621581wrt.267.1600683673869;
-        Mon, 21 Sep 2020 03:21:13 -0700 (PDT)
+        bh=GuupeKfcO/+rf9Qb6r8f2KQJXgchvtoxnNFe6M9/a1Y=;
+        b=NMveSMhnTKjue/wGat6p05R4wKxeUWz6y10Z7E4Zkh7bjtaODkyvotSVYlqyGPql9U
+         KoA2qTfRSKsfugOVfXMxJUAXUoT2smopY66ddkdbfWvClGzJtTwFp3DuPRBpVgN11/As
+         0lseu9QSEFDl1Rx4QTTNhgYVGQ+JXbrPe7Um9ww2V3IIK9uQfBApnkVG7N5R3R9isSUS
+         RKjT8K0SuH8A4xr+ykxLX1b9CcH4/u+hZA+RdgcEy/ob0Blj2/t5DJS9HfmkvpT5aSZH
+         JGCEY0eJBUZmhYw7JJLVRl7otsS76R3yOdwsoIDcrz16hh2+iYOkwzci2dw1V95F2Cg1
+         ugDw==
+X-Gm-Message-State: AOAM531ZNcAA65hj/GJiXIXTgeMn47/TapNUNsvyp5v+/PEeiwwLsiu5
+        KhZfXgSzGd02u+t6in4RcUYU8w==
+X-Google-Smtp-Source: ABdhPJxwp9O9hoZ+3in9xQ4Y1T0r6FX0PptcT7wQM++3JiwL83ORl7DTznIAAiqeYXT/IUV9yd/l7A==
+X-Received: by 2002:a1c:bdc4:: with SMTP id n187mr29267185wmf.109.1600683674831;
+        Mon, 21 Sep 2020 03:21:14 -0700 (PDT)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.21.12
+        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.21.13
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 21 Sep 2020 03:21:13 -0700 (PDT)
+        Mon, 21 Sep 2020 03:21:14 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, laurent.pinchart@skynet.be,
         mchehab@kernel.org
 Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH RFT/RFC 44/49] staging: media: zoran: remove test_interrupts
-Date:   Mon, 21 Sep 2020 10:20:19 +0000
-Message-Id: <1600683624-5863-45-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC 45/49] staging: media: zoran: fix use of buffer_size and sizeimage
+Date:   Mon, 21 Sep 2020 10:20:20 +0000
+Message-Id: <1600683624-5863-46-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
 References: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
@@ -62,115 +62,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The test_interrupts function is useless, remove it.
+buffer_size was not set when it should be.
+Furthermore, use it instead of recalculate it.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/zoran.h        |  3 ---
- drivers/staging/media/zoran/zoran_card.c   | 27 ----------------------
- drivers/staging/media/zoran/zoran_device.c | 16 -------------
- 3 files changed, 46 deletions(-)
+ drivers/staging/media/zoran/zoran_card.c   | 2 ++
+ drivers/staging/media/zoran/zoran_driver.c | 9 ++++++---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
-index 0246635e0eac..fd27d1968e60 100644
---- a/drivers/staging/media/zoran/zoran.h
-+++ b/drivers/staging/media/zoran/zoran.h
-@@ -345,7 +345,6 @@ struct zoran {
- 	struct zoran_buffer_col jpg_buffers;	/* MJPEG buffers' info */
- 
- 	/* Additional stuff for testing */
--	int testing;
- 	int jpeg_error;
- 	int intr_counter_GIRQ1;
- 	int intr_counter_GIRQ0;
-@@ -372,8 +371,6 @@ struct zoran {
- 	int running;
- 	int buf_in_reserve;
- 
--	wait_queue_head_t test_q;
--
- 	dma_addr_t p_sc;
- 	__le32 *stat_comb;
- 	dma_addr_t p_scb;
 diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index 530dd326ad94..3bfeb1e00563 100644
+index 3bfeb1e00563..e4688891d307 100644
 --- a/drivers/staging/media/zoran/zoran_card.c
 +++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -853,31 +853,6 @@ void zoran_open_init_params(struct zoran *zr)
+@@ -852,6 +852,8 @@ void zoran_open_init_params(struct zoran *zr)
+ 	if (i)
  		pci_err(zr->pci_dev, "%s internal error\n", __func__);
  
++	zr->buffer_size = zr->v4l_settings.bytesperline * zr->v4l_settings.height;
++
  	clear_interrupt_counters(zr);
--	zr->testing = 0;
--}
--
--static void test_interrupts(struct zoran *zr)
--{
--	DEFINE_WAIT(wait);
--	int timeout, icr;
--
--	clear_interrupt_counters(zr);
--
--	zr->testing = 1;
--	icr = btread(ZR36057_ICR);
--	btwrite(0x78000000 | ZR36057_ICR_IntPinEn, ZR36057_ICR);
--	prepare_to_wait(&zr->test_q, &wait, TASK_INTERRUPTIBLE);
--	timeout = schedule_timeout(HZ);
--	finish_wait(&zr->test_q, &wait);
--	btwrite(0, ZR36057_ICR);
--	btwrite(0x78000000, ZR36057_ISR);
--	zr->testing = 0;
--	pci_info(zr->pci_dev, "Testing interrupts...\n");
--	if (timeout)
--		pci_info(zr->pci_dev, ": time spent: %d\n", 1 * HZ - timeout);
--	if (zr36067_debug > 1)
--		print_interrupts(zr);
--	btwrite(icr, ZR36057_ICR);
  }
  
- static int zr36057_init(struct zoran *zr)
-@@ -891,7 +866,6 @@ static int zr36057_init(struct zoran *zr)
+diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
+index 46bf8b32d57a..47f397ff190f 100644
+--- a/drivers/staging/media/zoran/zoran_driver.c
++++ b/drivers/staging/media/zoran/zoran_driver.c
+@@ -407,6 +407,8 @@ static int zoran_v4l_set_format(struct zoran *zr, int width, int height,
  
- 	init_waitqueue_head(&zr->v4l_capq);
- 	init_waitqueue_head(&zr->jpg_capq);
--	init_waitqueue_head(&zr->test_q);
- 	zr->jpg_buffers.allocated = 0;
- 	zr->v4l_buffers.allocated = 0;
+ 	bpp = (format->depth + 7) / 8;
  
-@@ -968,7 +942,6 @@ static int zr36057_init(struct zoran *zr)
- 	zoran_init_hardware(zr);
- 	if (zr36067_debug > 2)
- 		detect_guest_activity(zr);
--	test_interrupts(zr);
- 	if (!pass_through) {
- 		decoder_call(zr, video, s_stream, 0);
- 		encoder_call(zr, video, s_routing, 2, 0, 0);
-diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
-index 7634d94f9359..ae4abf8ffa36 100644
---- a/drivers/staging/media/zoran/zoran_device.c
-+++ b/drivers/staging/media/zoran/zoran_device.c
-@@ -1099,22 +1099,6 @@ irqreturn_t zoran_irq(int irq, void *dev_id)
- 	struct zoran *zr = dev_id;
- 	unsigned long flags;
++	zr->buffer_size = height * width * bpp;
++
+ 	/* Check against available buffer size */
+ 	if (height * width * bpp > zr->buffer_size) {
+ 		pci_err(zr->pci_dev, "%s - video buffer size (%d kB) is too small\n",
+@@ -1090,7 +1092,7 @@ static int zoran_g_fmt_vid_out(struct file *file, void *__fh, struct v4l2_format
+ 	fmt->fmt.pix.width = zr->jpg_settings.img_width / zr->jpg_settings.HorDcm;
+ 	fmt->fmt.pix.height = zr->jpg_settings.img_height * 2 /
+ 		(zr->jpg_settings.VerDcm * zr->jpg_settings.TmpDcm);
+-	fmt->fmt.pix.sizeimage = zoran_v4l2_calc_bufsize(&zr->jpg_settings);
++	fmt->fmt.pix.sizeimage = zr->buffer_size;
+ 	fmt->fmt.pix.pixelformat = V4L2_PIX_FMT_MJPEG;
+ 	if (zr->jpg_settings.TmpDcm == 1)
+ 		fmt->fmt.pix.field = (zr->jpg_settings.odd_even ?
+@@ -1114,7 +1116,7 @@ static int zoran_g_fmt_vid_cap(struct file *file, void *__fh, struct v4l2_format
  
--	if (zr->testing) {
--		/* Testing interrupts */
--		spin_lock_irqsave(&zr->spinlock, flags);
--		while ((stat = count_reset_interrupt(zr))) {
--			if (count++ > 100) {
--				btand(~ZR36057_ICR_IntPinEn, ZR36057_ICR);
--				pci_err(zr->pci_dev, "IRQ lockup while testing, isr=0x%08x, cleared int mask\n",
--					stat);
--				wake_up_interruptible(&zr->test_q);
--			}
--		}
--		zr->last_isr = stat;
--		spin_unlock_irqrestore(&zr->spinlock, flags);
--		return IRQ_HANDLED;
--	}
--
- 	spin_lock_irqsave(&zr->spinlock, flags);
- 	while (1) {
- 		/* get/clear interrupt status bits */
+ 	fmt->fmt.pix.width = zr->v4l_settings.width;
+ 	fmt->fmt.pix.height = zr->v4l_settings.height;
+-	fmt->fmt.pix.sizeimage = zr->v4l_settings.bytesperline * zr->v4l_settings.height;
++	fmt->fmt.pix.sizeimage = zr->buffer_size;
+ 	fmt->fmt.pix.pixelformat = zr->v4l_settings.format->fourcc;
+ 	fmt->fmt.pix.colorspace = zr->v4l_settings.format->colorspace;
+ 	fmt->fmt.pix.bytesperline = zr->v4l_settings.bytesperline;
+@@ -1183,6 +1185,7 @@ static int zoran_try_fmt_vid_out(struct file *file, void *__fh,
+ 				V4L2_FIELD_TOP : V4L2_FIELD_BOTTOM);
+ 
+ 	fmt->fmt.pix.sizeimage = zoran_v4l2_calc_bufsize(&settings);
++	zr->buffer_size = fmt->fmt.pix.sizeimage;
+ 	fmt->fmt.pix.bytesperline = 0;
+ 	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
+ 	return res;
+@@ -1337,7 +1340,7 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh, struct v4l2_format
+ 
+ 	/* tell the user the results/missing stuff */
+ 	fmt->fmt.pix.bytesperline = zr->v4l_settings.bytesperline;
+-	fmt->fmt.pix.sizeimage = zr->v4l_settings.height * zr->v4l_settings.bytesperline;
++	fmt->fmt.pix.sizeimage = zr->buffer_size;
+ 	fmt->fmt.pix.colorspace = zr->v4l_settings.format->colorspace;
+ 	if (BUZ_MAX_HEIGHT < (zr->v4l_settings.height * 2))
+ 		fmt->fmt.pix.field = V4L2_FIELD_INTERLACED;
 -- 
 2.26.2
 
