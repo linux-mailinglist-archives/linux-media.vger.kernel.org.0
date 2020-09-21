@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA19E272BEF
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 18:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0382272BF3
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 18:25:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728376AbgIUQZL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 12:25:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51982 "EHLO mail.kernel.org"
+        id S1728386AbgIUQZV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 12:25:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52152 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728362AbgIUQZI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 12:25:08 -0400
+        id S1728196AbgIUQZS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 12:25:18 -0400
 Received: from localhost.localdomain (unknown [194.230.155.191])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F7B2235FC;
-        Mon, 21 Sep 2020 16:25:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 71873235FA;
+        Mon, 21 Sep 2020 16:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600705507;
-        bh=zJyC7F+Uj8Uq0XpyB7p7aoEI9kX1cy6FdunKuufh9N4=;
+        s=default; t=1600705517;
+        bh=CHLC75BCi9/WDkWDRXI8ZQwNHC7vWtrWv1SpzAx+qss=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ojYdz4BCvmBshPeRWFJ7DrS62o+s9LHLf3YBuIcs1eAIeweHn+KkH9pMdfNIwc+Zx
-         yc9GoTD+LQpsn+tkskpYBxZ2wkX2mQYZi4H87aOCnpk/YvGD3z0EwglBdGxywaZVTz
-         ylAnVbcrqBSFDSBLtXnTbKOFOz/G/2lUbhhKb59I=
+        b=ZzB6MxuixlbtU1WFKqFk8X/YvExTPEGKwKGEk0GimD6+tZ9vvw7DSxAksh1CjFCE5
+         d42InYQ+4mq588RhREDUdagJQh3KyAwT3q9sG+w600IkpiZPG11uYPtIhCrpMqGDNr
+         Hclz5Xa8xD70zi25c5PRdRYHGI+X2eLVJgmQCquk=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -44,9 +44,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Marco Felsch <m.felsch@pengutronix.de>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 10/25] media: i2c: adv7180: simplify getting state container
-Date:   Mon, 21 Sep 2020 18:23:27 +0200
-Message-Id: <20200921162342.7348-10-krzk@kernel.org>
+Subject: [PATCH 11/25] media: i2c: ak7375: simplify getting state container
+Date:   Mon, 21 Sep 2020 18:23:28 +0200
+Message-Id: <20200921162342.7348-11-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200921162342.7348-1-krzk@kernel.org>
 References: <20200921162342.7348-1-krzk@kernel.org>
@@ -65,32 +65,33 @@ dereferences.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/media/i2c/adv7180.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/i2c/ak7375.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 4498d14d3429..44bb6fe85644 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -1454,8 +1454,7 @@ MODULE_DEVICE_TABLE(i2c, adv7180_id);
- #ifdef CONFIG_PM_SLEEP
- static int adv7180_suspend(struct device *dev)
+diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
+index 7b14b11605ca..e1f94ee0f48f 100644
+--- a/drivers/media/i2c/ak7375.c
++++ b/drivers/media/i2c/ak7375.c
+@@ -196,9 +196,7 @@ static int ak7375_remove(struct i2c_client *client)
+  */
+ static int __maybe_unused ak7375_vcm_suspend(struct device *dev)
+ {
+-
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct ak7375_device *ak7375_dev = sd_to_ak7375_vcm(sd);
+ 	int ret, val;
+ 
+@@ -233,8 +231,7 @@ static int __maybe_unused ak7375_vcm_suspend(struct device *dev)
+  */
+ static int __maybe_unused ak7375_vcm_resume(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct adv7180_state *state = to_state(sd);
- 
- 	return adv7180_set_power(state, false);
-@@ -1463,8 +1462,7 @@ static int adv7180_suspend(struct device *dev)
- 
- static int adv7180_resume(struct device *dev)
- {
--	struct i2c_client *client = to_i2c_client(dev);
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct adv7180_state *state = to_state(sd);
- 	int ret;
+ 	struct ak7375_device *ak7375_dev = sd_to_ak7375_vcm(sd);
+ 	int ret, val;
  
 -- 
 2.17.1
