@@ -2,280 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31BE02732FD
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 21:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8D5D273387
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 22:13:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728083AbgIUTjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 15:39:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32886 "EHLO
+        id S1726468AbgIUUNA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 16:13:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726395AbgIUTjG (ORCPT
+        with ESMTP id S1726437AbgIUUM7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 15:39:06 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04553C061755;
-        Mon, 21 Sep 2020 12:39:06 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 4F4E22948A3
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH] media: uapi: h264: Add documentation to the interface header
-Date:   Mon, 21 Sep 2020 16:38:51 -0300
-Message-Id: <20200921193851.50752-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.27.0
+        Mon, 21 Sep 2020 16:12:59 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66BE0C0613D0
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 13:12:59 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id fa1so358787pjb.0
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 13:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=W/Kxd3ZsTJKzJEkeZeLlo7BrMx4l7UcmMdHw88y51RQ=;
+        b=hVYFLWChiCBjVwypKK0nyxvfd37bkITGsEBYxWBdD10OR6NdYz0pzW1BJbHzXslJo0
+         xtK3VvUkMzKZbsQ7aCfvV6ZlkuAvQfTmGBV7ZSh1zyrAUTEkGDeSJAXhqEtbyVOTczYF
+         jER8++ADxIio0/I76KHHvyQQhit8ZCWm8qIE0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=W/Kxd3ZsTJKzJEkeZeLlo7BrMx4l7UcmMdHw88y51RQ=;
+        b=IBKo/navTj7oWxxmapz+bxubDCgZfExMkofWaLvJcm048BQqUPiKzoAaXkOPA0ow9Z
+         kQnY/uysBJs+h5Jb2pZdIFJplKtun9WYfqZ5nbIhI5hctWoYJ6FSXq2M1Mh25vZMS9pz
+         Nlk113T/sBKjI9vd52fGokjWTgxXLo3O7lwXDSHmB7/F8eUeSEzTAogGkE6VxWIBlf/Z
+         lkJkHgsJqVDlHEYy457UorYqrpyyOpJBfUeb2whetKoldZdfzqkzAO43C8HMSriDzaR4
+         9jzzp/2xyVIOHGTSBdNNz/6AnLyoWLW3PkwfMkZZkZNRZsy6eEEaH36893sAvBYmteSh
+         gHKQ==
+X-Gm-Message-State: AOAM5331Wvnw9fChJTTqSMf2R88mlbLPSKveTtPixBw6cCBQNjDObTH2
+        MBr+DXzlMMf4j+uyuRo72kHBaA==
+X-Google-Smtp-Source: ABdhPJyehtYtEUeW5/Zkf7avMtNZ6qZZdA9mko0zR33iKWVQ2TSolZX0a+lsDR+hlvIgP+9qaZ5HRg==
+X-Received: by 2002:a17:90b:3cb:: with SMTP id go11mr802317pjb.152.1600719178625;
+        Mon, 21 Sep 2020 13:12:58 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id l188sm12643094pfl.200.2020.09.21.13.12.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2020 13:12:57 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f6cb2d7bc02dab409030ec42bf1d17c9@codeaurora.org>
+References: <20200917122558.23110-1-rojay@codeaurora.org> <160037421089.4188128.9425314091585708436@swboyd.mtv.corp.google.com> <f6cb2d7bc02dab409030ec42bf1d17c9@codeaurora.org>
+Subject: Re: [PATCH V4] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     wsa@kernel.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, akashast@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        vkaur@codeaurora.org, pyarlaga@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+To:     rojay@codeaurora.org
+Date:   Mon, 21 Sep 2020 13:12:56 -0700
+Message-ID: <160071917655.4188128.4175000228517858211@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In preparation for making the interface public,
-document all the structures. Special care is taken to
-annotate those fields that depart from the H264 syntax.
+Quoting rojay@codeaurora.org (2020-09-21 04:21:04)
+> Hi Stephen,
+>=20
+> On 2020-09-18 01:53, Stephen Boyd wrote:
+> > Quoting Roja Rani Yarubandi (2020-09-17 05:25:58)
+> >> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c=20
+> >> b/drivers/i2c/busses/i2c-qcom-geni.c
+> >> index dead5db3315a..b0d8043c8cb2 100644
+> >> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> >> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> >>  };
+> >>=20
+> >>  struct geni_i2c_err_log {
+> >> @@ -307,7 +311,6 @@ static void geni_i2c_abort_xfer(struct=20
+> >> geni_i2c_dev *gi2c)
+> >>=20
+> >>         spin_lock_irqsave(&gi2c->lock, flags);
+> >>         geni_i2c_err(gi2c, GENI_TIMEOUT);
+> >> -       gi2c->cur =3D NULL;
+> >=20
+> > This looks concerning. We're moving this out from under the spinlock.
+> > The irq handler in this driver seems to hold the spinlock all the time
+> > while processing and this function grabs it here to keep cur consistent
+> > when aborting the transfer due to a timeout. Otherwise it looks like=20
+> > the
+> > irqhandler can race with this and try to complete the transfer while
+> > it's being torn down here.
+> >=20
+> >>         geni_se_abort_m_cmd(&gi2c->se);
+> >>         spin_unlock_irqrestore(&gi2c->lock, flags);
+> >>         do {
+> >> @@ -349,10 +352,62 @@ static void geni_i2c_tx_fsm_rst(struct=20
+> >> geni_i2c_dev *gi2c)
+> >>                 dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
+> >>  }
+> >>=20
+> >> +static void geni_i2c_rx_msg_cleanup(struct geni_i2c_dev *gi2c)
+> >=20
+> > So maybe pass cur to this function?
+> >=20
+>=20
+> Sorry, i did not understand why to pass cur to this function?
 
-This commit only adds documentation and doesn't affect
-functionality in any way.
-
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- include/media/h264-ctrls.h | 138 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 128 insertions(+), 10 deletions(-)
-
-diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-index ec4799154438..afc8e7c05c18 100644
---- a/include/media/h264-ctrls.h
-+++ b/include/media/h264-ctrls.h
-@@ -46,11 +46,38 @@
- #define V4L2_CTRL_TYPE_H264_DECODE_PARAMS	0x0114
- #define V4L2_CTRL_TYPE_H264_PRED_WEIGHTS	0x0115
- 
-+/**
-+ * enum v4l2_mpeg_video_h264_decode_mode - Decoding mode
-+ *
-+ * @V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED: indicates that decoding
-+ * is performed one slice at a time. In this mode,
-+ * V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS must contain the parsed slice
-+ * parameters and the OUTPUT buffer must contain a single slice.
-+ * V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF feature is used
-+ * in order to support multislice frames.
-+ * @V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED: indicates that
-+ * decoding is performed per frame. The OUTPUT buffer must contain
-+ * all slices and also both fields. This mode is typically supported
-+ * by device drivers that are able to parse the slice(s) header(s)
-+ * in hardware. When this mode is selected,
-+ * V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS is not used.
-+ */
- enum v4l2_mpeg_video_h264_decode_mode {
- 	V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED,
- 	V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
- };
- 
-+/**
-+ * enum v4l2_mpeg_video_h264_start_code - Start code
-+ *
-+ * @V4L2_MPEG_VIDEO_H264_START_CODE_NONE: slices are passed
-+ * to the driver without any start code.
-+ * @V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B: slices are passed
-+ * to the driver with an Annex B start code prefix
-+ * (legal start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001).
-+ * This mode is typically supported by device drivers that parse
-+ * the start code in hardware.
-+ */
- enum v4l2_mpeg_video_h264_start_code {
- 	V4L2_MPEG_VIDEO_H264_START_CODE_NONE,
- 	V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
-@@ -71,6 +98,12 @@ enum v4l2_mpeg_video_h264_start_code {
- #define V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD		0x20
- #define V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE			0x40
- 
-+/**
-+ * struct v4l2_ctrl_h264_sps - H264 sequence parameter set
-+ *
-+ * All the members on this sequence parameter set structure match the
-+ * sequence parameter set syntax as specified by the H264 specification.
-+ */
- struct v4l2_ctrl_h264_sps {
- 	__u8 profile_idc;
- 	__u8 constraint_set_flags;
-@@ -101,6 +134,20 @@ struct v4l2_ctrl_h264_sps {
- #define V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE				0x0040
- #define V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT			0x0080
- 
-+/**
-+ * struct v4l2_ctrl_h264_pps - H264 picture parameter set
-+ *
-+ * Except where noted, all the members on this picture parameter set
-+ * structure match the sequence parameter set syntax as specified
-+ * by the H264 specification.
-+ *
-+ * In particular, V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT flag
-+ * has a specific meaning. This flag should be set if a non-flat
-+ * scaling matrix applies to the picture. In this case, applications
-+ * are expected to use V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX.
-+ * This will be the case if SPS scaling_matrix_present_flag or
-+ * PPS pic_scaling_matrix_present_flag syntax elements are set.
-+ */
- struct v4l2_ctrl_h264_pps {
- 	__u8 pic_parameter_set_id;
- 	__u8 seq_parameter_set_id;
-@@ -115,6 +162,18 @@ struct v4l2_ctrl_h264_pps {
- 	__u16 flags;
- };
- 
-+/**
-+ * struct v4l2_ctrl_h264_scaling_matrix - H264 scaling matrices
-+ *
-+ * @scaling_list_4x4: scaling matrix after applying the inverse
-+ * scanning process. Expected list order is Intra Y, Intra Cb,
-+ * Intra Cr, Inter Y, Inter Cb, Inter Cr. The values on each
-+ * scaling list are expected in raster scan order.
-+ * @scaling_list_8x8: scaling matrix after applying the inverse
-+ * scanning process. Expected list order is Intra Y, Inter Y,
-+ * Intra Cb, Inter Cb, Intra Cr, Inter Cr. The values on each
-+ * scaling list are expected in raster scan order.
-+ */
- struct v4l2_ctrl_h264_scaling_matrix {
- 	__u8 scaling_list_4x4[6][16];
- 	__u8 scaling_list_8x8[6][64];
-@@ -134,6 +193,12 @@ struct v4l2_h264_weight_factors {
- 	 ((pps)->weighted_bipred_idc == 1 && \
- 	  (slice)->slice_type == V4L2_H264_SLICE_TYPE_B))
- 
-+/**
-+ * struct v4l2_ctrl_h264_pred_weights - Prediction weight table
-+ *
-+ * Prediction weight table, which matches the syntax specified
-+ * by the H264 specification.
-+ */
- struct v4l2_ctrl_h264_pred_weights {
- 	__u16 luma_log2_weight_denom;
- 	__u16 chroma_log2_weight_denom;
-@@ -153,19 +218,41 @@ struct v4l2_ctrl_h264_pred_weights {
- #define V4L2_H264_BOTTOM_FIELD_REF			0x2
- #define V4L2_H264_FRAME_REF				0x3
- 
-+/**
-+ * struct v4l2_h264_reference - H264 picture reference
-+ *
-+ * @fields: indicates how the picture is referenced.
-+ * Valid values are V4L2_H264_{}_REF.
-+ * @index: index into v4l2_ctrl_h264_decode_params.dpb[].
-+ */
- struct v4l2_h264_reference {
- 	__u8 fields;
--
--	/* Index into v4l2_ctrl_h264_decode_params.dpb[] */
- 	__u8 index;
- };
- 
-+/**
-+ * struct v4l2_ctrl_h264_slice_params - H264 slice parameters
-+ *
-+ * This structure holds the H264 syntax elements that are specified
-+ * as non-invariant for the slices in a given frame.
-+ *
-+ * Slice invariant syntax elements are contained in struct
-+ * v4l2_ctrl_h264_decode_params. This is done to reduce the API surface
-+ * on frame-based decoders, where slice header parsing is done by the
-+ * hardware.
-+ *
-+ * Slice invariant syntax elements are specified in specification section
-+ * "7.4.3 Slice header semantics".
-+ *
-+ * Except where noted, the members on this struct match the slice header syntax.
-+ *
-+ * @header_bit_size: offset in bits to slice_data() from the beginning of this slice.
-+ * @ref_pic_list0: reference picture list 0 after applying the per-slice modifications.
-+ * @ref_pic_list1: reference picture list 1 after applying the per-slice modifications.
-+ */
- struct v4l2_ctrl_h264_slice_params {
--	/* Offset in bits to slice_data() from the beginning of this slice. */
- 	__u32 header_bit_size;
--
- 	__u32 first_mb_in_slice;
--
- 	__u8 slice_type;
- 	__u8 colour_plane_id;
- 	__u8 redundant_pic_cnt;
-@@ -191,22 +278,55 @@ struct v4l2_ctrl_h264_slice_params {
- #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
- #define V4L2_H264_DPB_ENTRY_FLAG_FIELD		0x08
- 
-+/**
-+ * struct v4l2_h264_dpb_entry - H264 decoded picture buffer entry
-+ *
-+ * @reference_ts: timestamp of the V4L2 capture buffer to use as reference.
-+ * The timestamp refers to the timestamp field in struct v4l2_buffer.
-+ * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
-+ * @pic_num: matches PicNum variable assigned during the reference
-+ * picture lists construction process.
-+ * @frame_num: frame identifier which matches frame_num syntax element.
-+ * @fields: indicates how the DPB entry is referenced. Valid values are
-+ * V4L2_H264_{}_REF.
-+ * @top_field_order_cnt: matches TopFieldOrderCnt picture value.
-+ * @bottom_field_order_cnt: matches BottomFieldOrderCnt picture value.
-+ * Note that picture field is indicated by v4l2_buffer.field.
-+ */
- struct v4l2_h264_dpb_entry {
- 	__u64 reference_ts;
- 	__u32 pic_num;
- 	__u16 frame_num;
- 	__u8 fields;
- 	__u8 reserved[5];
--	/* Note that field is indicated by v4l2_buffer.field */
- 	__s32 top_field_order_cnt;
- 	__s32 bottom_field_order_cnt;
--	__u32 flags; /* V4L2_H264_DPB_ENTRY_FLAG_* */
-+	__u32 flags;
- };
- 
- #define V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC		0x01
- #define V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC		0x02
- #define V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD	0x04
- 
-+/**
-+ * struct v4l2_ctrl_h264_decode_params - H264 decoding parameters
-+ *
-+ * @dpb: decoded picture buffer.
-+ * @nal_ref_idc: slice header syntax element.
-+ * @frame_num: slice header syntax element.
-+ * @top_field_order_cnt: matches TopFieldOrderCnt picture value.
-+ * @bottom_field_order_cnt: matches BottomFieldOrderCnt picture value.
-+ * Note that picture field is indicated by v4l2_buffer.field.
-+ * @idr_pic_id: slice header syntax element.
-+ * @pic_order_cnt_lsb: slice header syntax element.
-+ * @delta_pic_order_cnt_bottom: slice header syntax element.
-+ * @delta_pic_order_cnt0: slice header syntax element.
-+ * @delta_pic_order_cnt1: slice header syntax element.
-+ * @dec_ref_pic_marking_bit_size: size in bits of dec_ref_pic_marking()
-+ * syntax element.
-+ * @pic_order_cnt_bit_size: size in bits of pic order count syntax.
-+ * @slice_group_change_cycle: slice header syntax element.
-+ */
- struct v4l2_ctrl_h264_decode_params {
- 	struct v4l2_h264_dpb_entry dpb[V4L2_H264_NUM_DPB_ENTRIES];
- 	__u16 nal_ref_idc;
-@@ -218,14 +338,12 @@ struct v4l2_ctrl_h264_decode_params {
- 	__s32 delta_pic_order_cnt_bottom;
- 	__s32 delta_pic_order_cnt0;
- 	__s32 delta_pic_order_cnt1;
--	/* Size in bits of dec_ref_pic_marking() syntax element. */
- 	__u32 dec_ref_pic_marking_bit_size;
--	/* Size in bits of pic order count syntax. */
- 	__u32 pic_order_cnt_bit_size;
- 	__u32 slice_group_change_cycle;
- 
- 	__u32 reserved;
--	__u32 flags; /* V4L2_H264_DECODE_PARAM_FLAG_* */
-+	__u32 flags;
- };
- 
- #endif
--- 
-2.27.0
-
+I'm suggesting to copy the cur data out of the gi2c pointer and then
+pass it to these functions so that it can't race with another transfer.
+Something like an atomic exchange may work. I haven't thought about it
+deeply, but we need to make sure the irq handler can't race with the
+cleanup functions.
