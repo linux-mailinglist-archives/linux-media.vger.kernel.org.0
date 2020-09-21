@@ -2,111 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A76DC271AF7
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 08:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5002271BC9
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 09:29:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726417AbgIUGgf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 02:36:35 -0400
-Received: from verein.lst.de ([213.95.11.211]:38634 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726011AbgIUGge (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 02:36:34 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id B25CE68AFE; Mon, 21 Sep 2020 08:36:28 +0200 (CEST)
-Date:   Mon, 21 Sep 2020 08:36:28 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org
-Cc:     alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        netdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: a saner API for allocating DMA addressable pages v3
-Message-ID: <20200921063628.GB18349@lst.de>
-References: <20200915155122.1768241-1-hch@lst.de>
+        id S1726477AbgIUH3x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 03:29:53 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:34007 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726211AbgIUH3t (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 03:29:49 -0400
+Received: by mail-oi1-f196.google.com with SMTP id n2so15912143oij.1;
+        Mon, 21 Sep 2020 00:29:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=90EhcBzbpe2vvxa0ohP9B+Dh75rNdKfJSEph9k8z+pM=;
+        b=oDxmAMrxklOt/M1PIBJ5wlCKOryJNHL6AbIYPH+ts2Lf+weJo36Jgt+bVQOExMcli/
+         jiWAN8cEm7riKMtO6toa0Hx0xWPSloclKNkFI9FKjLVvO3WYBCq+Fcx0aWltBb3wyf4H
+         q6fmmWF6uwQUuaRw08Wqxk3LY9f4yFJav2NhRK7RyUo6Ic4yedLOXAI2TmnJUuVe7UGW
+         JR1pV6KTHJoP4l89nLJ28eCmiR0RmeCgM97DWOGh6phfp22P1Ya9VGn7X2FsSWz5i4Zi
+         6UxOnQK+nUVQd1gOcf4ZD8LZ3drWt9JzHGpzSqVlbYYaLUUKhm4QeSNWwx6BuumBUZ58
+         sXjg==
+X-Gm-Message-State: AOAM532QkC0NnNgDqUqt5rxvuMWnDVian6HtUJnXijdAfqkSTVlv4aVN
+        IHydqKWornGVvoiZsvST52amKfF+RKojBPiJ3Ao=
+X-Google-Smtp-Source: ABdhPJyf/sKRes03lyRebHMYTTNhwUI3iObyZWkgpxFfbC1QJaXNYOyLYBpf0EYemOiZ0DhKCpWF7uMdeYorWHg/2u4=
+X-Received: by 2002:aca:52d6:: with SMTP id g205mr16832418oib.54.1600673388389;
+ Mon, 21 Sep 2020 00:29:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-12-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8vuR-7vqxNnrqQ5Ysf3Xjvhp3xRZ33i8+6nEGFLJciT3A@mail.gmail.com> <20200920140846.GB2915460@kroah.com>
+In-Reply-To: <20200920140846.GB2915460@kroah.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 21 Sep 2020 09:29:36 +0200
+Message-ID: <CAMuHMdUNvODmaJDaLi45Q8wpCaZaTA4HnmW_Y0BLwkXw8UxgEQ@mail.gmail.com>
+Subject: Re: [PATCH 11/20] dt-bindings: usb: renesas,usbhs: Add r8a774e1 support
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        alsa-devel <alsa-devel@alsa-project.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Any comments?
+Hi Greg,
 
-Thomas: this should be identical to the git tree I gave you for mips
-testing, and you add your tested-by (and reviewd-by tags where
-applicable)?
+On Sun, Sep 20, 2020 at 4:08 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Sat, Sep 19, 2020 at 11:54:05AM +0100, Lad, Prabhakar wrote:
+> > On Thu, Jul 16, 2020 at 6:19 PM Lad Prabhakar
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > >
+> > > Document RZ/G2H (R8A774E1) SoC bindings.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/usb/renesas,usbhs.yaml | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > Could you please pick this patch.
+>
+> Same here, doesn't a DT maintainer have to ack this?
 
-Helge: for parisc this should effectively be the same as the first
-version, but I've dropped the tested-by tags due to the reshuffle,
-and chance you could retest it?
+And so *he did:
+https://lore.kernel.org/r/20200721033544.GA3505976@bogus
 
-On Tue, Sep 15, 2020 at 05:51:04PM +0200, Christoph Hellwig wrote:
-> Hi all,
-> 
-> this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
-> with a separate new dma_alloc_pages API, which is available on all
-> platforms.  In addition to cleaning up the convoluted code path, this
-> ensures that other drivers that have asked for better support for
-> non-coherent DMA to pages with incurring bounce buffering over can finally
-> be properly supported.
-> 
-> As a follow up I plan to move the implementation of the
-> DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
-> that is also is a fundamentally non coherent allocation.  The replacement
-> for that flag would then return a struct page, as it is allowed to
-> actually return pages without a kernel mapping as the name suggested
-> (although most of the time they will actually have a kernel mapping..)
-> 
-> In addition to the conversions of the existing non-coherent DMA users,
-> I've also added a patch to convert the firewire ohci driver to use
-> the new dma_alloc_pages API.
-> 
-> The first patch is queued up for 5.9 in the media tree, but included here
-> for completeness.
-> 
-> 
-> A git tree is available here:
-> 
->     git://git.infradead.org/users/hch/misc.git dma_alloc_pages
-> 
-> Gitweb:
-> 
->     http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
-> 
-> 
-> Changes since v2:
->  - fix up the patch reshuffle which wasn't quite correct
->  - fix up a few commit messages
-> 
-> Changes since v1:
->  - rebased on the latests dma-mapping tree, which merged many of the
->    cleanups
->  - fix an argument passing typo in 53c700, caught by sparse
->  - rename a few macro arguments in 53c700
->  - pass the right device to the DMA API in the lib82596 drivers
->  - fix memory ownershiptransfers in sgiseeq
->  - better document what a page in the direct kernel mapping means
->  - split into dma_alloc_pages that returns a struct page and is in the
->    direct mapping vs dma_alloc_noncoherent that can be vmapped
->  - conver the firewire ohci driver to dma_alloc_pages
-> 
-> Diffstat:
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
----end quoted text---
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
