@@ -2,277 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FF02272260
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 13:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 254ED272267
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 13:27:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726367AbgIUL0N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 07:26:13 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:61979 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726427AbgIUL0N (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 07:26:13 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1600687571; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=PVIsUxy0Uf9L3hCn1GrabY9F83kqfBklo/5mHcDueKE=;
- b=uNJoKqMVbP+V/fI6DnNNz75WH/dS7Z24S7UwsyRyTMCGA67aosR2gfEPkIfdjd6jA2lRIA7F
- SHH+D9KziRfEtAHdl9Yx3bqk83BnD8sm5xZAXhUQpFKdTFftPsPAaJem0kvTJ0Kw0M7K8Sr+
- YtCUzK+xXLLJ7RwQktxY2Lc3kx0=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5f688ca14a8a578ddcf1104f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 21 Sep 2020 11:21:05
- GMT
-Sender: rojay=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 85625C433C8; Mon, 21 Sep 2020 11:21:05 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: rojay)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id BA465C433CB;
-        Mon, 21 Sep 2020 11:21:04 +0000 (UTC)
+        id S1726694AbgIUL1Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 07:27:16 -0400
+Received: from mail-ej1-f68.google.com ([209.85.218.68]:38558 "EHLO
+        mail-ej1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726430AbgIUL1P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 07:27:15 -0400
+Received: by mail-ej1-f68.google.com with SMTP id gx22so8127047ejb.5;
+        Mon, 21 Sep 2020 04:27:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TklpADd3IHxb6z2of1IfW1yIIhmPXuPXH+f9NSI1fhs=;
+        b=WCTopBcK+Sd0dUJtuJWj5cH8F7KWpWtyznsLb5KWH+RdgVsCnky3ioj5/5A9sENcHL
+         +3TUNlOJe8XR91YE0d2VdpbITPCSof7rcxVcCNjqERZQs/VoyBbiD2C3UJads7//95ht
+         Su1EfXPI5cbhnA02rO3wuz2Y+DuKWt36tbBt58s0P3gjH8M7aHeuGmzVkGrd2wpwpHJk
+         Z1r4KqXVLgJs404pwlbng9kVyo2zx+D8Imd0J0l8GSyb1knWFug7BId/06NV5kevqCuW
+         LMU2CP9il1sABb1B3llnJ6J/qfW5mbdboL0rJkj5N4UnDLqNYgDs/KNq7m4jS86h5nJQ
+         zoGw==
+X-Gm-Message-State: AOAM533yfe40M5nFYr3rOzAEWTFWoM3Rt2Ao9FJFJFOSAY8T8yjE7qoF
+        INr2Szq/ZxeivK2WZv3IbqM=
+X-Google-Smtp-Source: ABdhPJwD2dkaD3vci3J10BEc2dBbE2JojebgK4ZMrXwRGuPek2cZCWlF8pueaGRM3ASW48A72otQnQ==
+X-Received: by 2002:a17:906:f9d8:: with SMTP id lj24mr50631653ejb.379.1600687633079;
+        Mon, 21 Sep 2020 04:27:13 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.191])
+        by smtp.googlemail.com with ESMTPSA id cf7sm8470136edb.78.2020.09.21.04.26.39
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 21 Sep 2020 04:27:12 -0700 (PDT)
+Date:   Mon, 21 Sep 2020 13:26:35 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: imx258: Add bindings for
+ IMX258 sensor
+Message-ID: <20200921112635.GA1233@kozik-lap>
+References: <1599031090-21608-1-git-send-email-krzk@kernel.org>
+ <20200914201310.GA154873@bogus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 21 Sep 2020 16:51:04 +0530
-From:   rojay@codeaurora.org
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     wsa@kernel.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, akashast@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        vkaur@codeaurora.org, pyarlaga@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH V4] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-In-Reply-To: <160037421089.4188128.9425314091585708436@swboyd.mtv.corp.google.com>
-References: <20200917122558.23110-1-rojay@codeaurora.org>
- <160037421089.4188128.9425314091585708436@swboyd.mtv.corp.google.com>
-Message-ID: <f6cb2d7bc02dab409030ec42bf1d17c9@codeaurora.org>
-X-Sender: rojay@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200914201310.GA154873@bogus>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stephen,
+On Mon, Sep 14, 2020 at 02:13:10PM -0600, Rob Herring wrote:
+> On Wed, Sep 02, 2020 at 09:18:08AM +0200, Krzysztof Kozlowski wrote:
+> > Add bindings for the IMX258 camera sensor.  The bindings, just like the
+> > driver, are quite limited, e.g. do not support regulator supplies.
+> 
+> Bindings should be complete, not what a driver happens to currently 
+> support.
 
-On 2020-09-18 01:53, Stephen Boyd wrote:
-> Quoting Roja Rani Yarubandi (2020-09-17 05:25:58)
->> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c 
->> b/drivers/i2c/busses/i2c-qcom-geni.c
->> index dead5db3315a..b0d8043c8cb2 100644
->> --- a/drivers/i2c/busses/i2c-qcom-geni.c
->> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
->> @@ -86,6 +86,10 @@ struct geni_i2c_dev {
->>         u32 clk_freq_out;
->>         const struct geni_i2c_clk_fld *clk_fld;
->>         int suspended;
->> +       void *dma_buf;
->> +       size_t xfer_len;
->> +       dma_addr_t tx_dma;
->> +       dma_addr_t rx_dma;
-> 
-> Do we need both tx_dma and rx_dma? Seems that we use cur->flags to
-> figure out if the transfer is tx or rx so we could have juat dma_buf 
-> and
-> dma_addr here?
-> 
+I'll add then more complete picture.
 
-Okay.
+> 
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > 
+> > ---
+> > 
+> > Changes since v1:
+> > 1. None
+> > ---
+> >  .../devicetree/bindings/media/i2c/imx258.yaml      | 92 ++++++++++++++++++++++
+> >  MAINTAINERS                                        |  1 +
+> >  2 files changed, 93 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> > new file mode 100644
+> > index 000000000000..ef789ad31143
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> > @@ -0,0 +1,92 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
+> > +
+> > +maintainers:
+> > +  - Krzysztof Kozlowski <krzk@kernel.org>
+> > +
+> > +description: |-
+> > +  IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active pixel
+> > +  type stacked image sensor with a square pixel array of size 4208 x 3120. It
+> > +  is programmable through I2C interface.  Image data is sent through MIPI
+> > +  CSI-2.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sony,imx258
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  clock-frequency:
+> > +    description: Frequency of input clock if clock is not provided
+> > +    deprecated: true
+> 
+> Why are we adding something deprecated on a new binding?
 
->>  };
->> 
->>  struct geni_i2c_err_log {
->> @@ -307,7 +311,6 @@ static void geni_i2c_abort_xfer(struct 
->> geni_i2c_dev *gi2c)
->> 
->>         spin_lock_irqsave(&gi2c->lock, flags);
->>         geni_i2c_err(gi2c, GENI_TIMEOUT);
->> -       gi2c->cur = NULL;
-> 
-> This looks concerning. We're moving this out from under the spinlock.
-> The irq handler in this driver seems to hold the spinlock all the time
-> while processing and this function grabs it here to keep cur consistent
-> when aborting the transfer due to a timeout. Otherwise it looks like 
-> the
-> irqhandler can race with this and try to complete the transfer while
-> it's being torn down here.
-> 
->>         geni_se_abort_m_cmd(&gi2c->se);
->>         spin_unlock_irqrestore(&gi2c->lock, flags);
->>         do {
->> @@ -349,10 +352,62 @@ static void geni_i2c_tx_fsm_rst(struct 
->> geni_i2c_dev *gi2c)
->>                 dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
->>  }
->> 
->> +static void geni_i2c_rx_msg_cleanup(struct geni_i2c_dev *gi2c)
-> 
-> So maybe pass cur to this function?
-> 
+My intention was also to document it but indeed easier to skip it.
 
-Sorry, i did not understand why to pass cur to this function?
+> 
+> > +    const: 19200000
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  # See ../video-interfaces.txt for more details
+> > +  port:
+> > +    type: object
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +        properties:
+> > +          data-lanes:
+> > +            items:
+> > +              - const: 1
+> > +              - const: 2
+> > +              - const: 3
+> > +              - const: 4
+> 
+> If this is the only config, why does it need to be in DT?
 
->> +{
->> +       struct geni_se *se = &gi2c->se;
->> +
->> +       gi2c->cur_rd = 0;
->> +       if (gi2c->dma_buf) {
->> +               if (gi2c->err)
->> +                       geni_i2c_rx_fsm_rst(gi2c);
->> +               geni_se_rx_dma_unprep(se, gi2c->rx_dma, 
->> gi2c->xfer_len);
->> +               i2c_put_dma_safe_msg_buf(gi2c->dma_buf, gi2c->cur, 
->> !gi2c->err);
->> +       }
->> +}
->> +
->> +static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c)
-> 
-> And this one?
-> 
->> +{
->> +       struct geni_se *se = &gi2c->se;
->> +
->> +       gi2c->cur_wr = 0;
->> +       if (gi2c->dma_buf) {
->> +               if (gi2c->err)
->> +                       geni_i2c_tx_fsm_rst(gi2c);
->> +               geni_se_tx_dma_unprep(se, gi2c->tx_dma, 
->> gi2c->xfer_len);
->> +               i2c_put_dma_safe_msg_buf(gi2c->dma_buf, gi2c->cur, 
->> !gi2c->err);
->> +       }
->> +}
->> +
->> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
->> +{
->> +       int ret;
->> +       u32 geni_status;
->> +
->> +       /* Resume device, as runtime suspend can happen anytime during 
->> transfer */
->> +       ret = pm_runtime_get_sync(gi2c->se.dev);
->> +       if (ret < 0) {
->> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n", 
->> ret);
->> +               return;
->> +       }
->> +
->> +       geni_status = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
-> 
-> And this probably needs to hold the lock?
-> 
->> +       if (!(geni_status & M_GENI_CMD_ACTIVE))
->> +               goto out;
->> +
->> +       geni_i2c_abort_xfer(gi2c);
->> +       if (gi2c->cur->flags & I2C_M_RD)
->> +               geni_i2c_rx_msg_cleanup(gi2c);
->> +       else
->> +               geni_i2c_tx_msg_cleanup(gi2c);
->> +       gi2c->cur = NULL;
-> 
-> until here?
-> 
+The sensor is capable of two settings: two lanes (1 and 2) and four
+lanes described above.  However Linux driver requires the latter (four
+lanes, 1+2+3+4).
 
-Okay.
+If I were to describe the bindings for HW, someone would really be
+confused and try to use two lanes setup, which won't work. Driver won't
+allow it.
 
->> +out:
->> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
->> +}
->> +
->>  static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct 
->> i2c_msg *msg,
->>                                 u32 m_param)
->>  {
->> -       dma_addr_t rx_dma;
->> +       dma_addr_t rx_dma = 0;
->>         unsigned long time_left;
->>         void *dma_buf = NULL;
->>         struct geni_se *se = &gi2c->se;
->> @@ -372,6 +427,10 @@ static int geni_i2c_rx_one_msg(struct 
->> geni_i2c_dev *gi2c, struct i2c_msg *msg,
->>                 geni_se_select_mode(se, GENI_SE_FIFO);
->>                 i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
->>                 dma_buf = NULL;
->> +       } else {
->> +               gi2c->xfer_len = len;
->> +               gi2c->rx_dma = rx_dma;
->> +               gi2c->dma_buf = dma_buf;
->>         }
->> 
->>         geni_se_setup_m_cmd(se, I2C_READ, m_param);
->> @@ -380,13 +439,7 @@ static int geni_i2c_rx_one_msg(struct 
->> geni_i2c_dev *gi2c, struct i2c_msg *msg,
->>         if (!time_left)
->>                 geni_i2c_abort_xfer(gi2c);
->> 
->> -       gi2c->cur_rd = 0;
->> -       if (dma_buf) {
->> -               if (gi2c->err)
->> -                       geni_i2c_rx_fsm_rst(gi2c);
->> -               geni_se_rx_dma_unprep(se, rx_dma, len);
->> -               i2c_put_dma_safe_msg_buf(dma_buf, msg, !gi2c->err);
->> -       }
->> +       geni_i2c_rx_msg_cleanup(gi2c);
->> 
->>         return gi2c->err;
->>  }
+I understand that bindings document the HW and describe its interface
+but do we really want to put "theoretical" bindings which cannot be used
+in practice with Linux kernel?
+
+If yes, how to nicely document this that only one setting is currently
+working?
+
 > 
-> It may make sense to extract the cleanup stuff into another patch. Then
-> have a patch after that which does the shutdown hook. So three patches
-> total.
+> > +
+> > +          link-frequencies:
+> > +            allOf:
+> > +              - $ref: /schemas/types.yaml#/definitions/uint64-array
+> > +            description:
+> > +              Allowed data bus frequencies.
+> > +
+> > +        required:
+> > +          - data-lanes
+> > +          - link-frequencies
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - port
+> > +
+> > +
+> > +if:
+> > +  not:
+> > +    required:
+> > +      - clocks
+> > +then:
+> > +  required:
+> > +    - clock-frequency
+> > +
+> > +unevaluatedProperties: false
 > 
+> additionalProperties
 
-Okay, I will make separate patches, one for cleanup and another for 
-shutdown hook.
+Right.
 
->> diff --git a/drivers/soc/qcom/qcom-geni-se.c 
->> b/drivers/soc/qcom/qcom-geni-se.c
->> index d0e4f520cff8..0216b38c1e9a 100644
->> --- a/drivers/soc/qcom/qcom-geni-se.c
->> +++ b/drivers/soc/qcom/qcom-geni-se.c
->> @@ -705,7 +705,7 @@ void geni_se_tx_dma_unprep(struct geni_se *se, 
->> dma_addr_t iova, size_t len)
->>  {
->>         struct geni_wrapper *wrapper = se->wrapper;
->> 
->> -       if (iova && !dma_mapping_error(wrapper->dev, iova))
->> +       if (!dma_mapping_error(wrapper->dev, iova))
->>                 dma_unmap_single(wrapper->dev, iova, len, 
->> DMA_TO_DEVICE);
->>  }
->>  EXPORT_SYMBOL(geni_se_tx_dma_unprep);
->> @@ -722,7 +722,7 @@ void geni_se_rx_dma_unprep(struct geni_se *se, 
->> dma_addr_t iova, size_t len)
->>  {
->>         struct geni_wrapper *wrapper = se->wrapper;
->> 
->> -       if (iova && !dma_mapping_error(wrapper->dev, iova))
->> +       if (!dma_mapping_error(wrapper->dev, iova))
->>                 dma_unmap_single(wrapper->dev, iova, len, 
->> DMA_FROM_DEVICE);
->>  }
->>  EXPORT_SYMBOL(geni_se_rx_dma_unprep);
-> 
-> I'd make this a different patch. Nothing depends on this change, right?
-
-Yes this is independent patch. I will make this as separate patch which 
-will be the third one.
-
-Thanks,
-Roja
+Best regards,
+Krzysztof
