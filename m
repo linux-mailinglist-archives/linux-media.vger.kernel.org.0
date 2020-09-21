@@ -2,232 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A3DA271EFF
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 11:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 628D9271F9E
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:04:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726417AbgIUJhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 05:37:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbgIUJhF (ORCPT
+        id S1726473AbgIUKEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 06:04:06 -0400
+Received: from mx0b-001ae601.pphosted.com ([67.231.152.168]:36690 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726406AbgIUKEG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 05:37:05 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEDB4C061755
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 02:37:00 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id w1so12135104edr.3
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 02:37:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lylPpVE/OJThn8Y+rLFsEiipKXUI5RqcUgh3h88X8KA=;
-        b=GrWqVeohXijayLrMdVQI1Nk0EE+/uLik1yuQwYvE31xAMWlVuQOJmgDnc4M2FODtVx
-         m55QRzCh8/NFLy6hvMJpXaOzuCZb8rGTMzLFOnKvwKLTqh3PN+0WPdZjoS3dAnykH4z9
-         AKcS5rPqf/PCr2s2ih7Cv+Rc8K4R9y1fhBiF0uYP0u2DvdvdzOG4tfn14t5DBFocS6h0
-         0X4cHvD63nbl1H79J/mt2PoF0GY/kCTgNiZhastdMKOXCZRq9KOeKr44EAVOwXMOMx5M
-         oPB8kvHkRnyDXMKDXTk/uP4PyiDbYAl9XEHAYZ9qllyByKulym5wvZVFR0S3UGb0ecUy
-         UW9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lylPpVE/OJThn8Y+rLFsEiipKXUI5RqcUgh3h88X8KA=;
-        b=sheYB1MppKVUIYHhZ76ntoEUUtTAne+Jvosu4g6VWw/fOunMYmHtK/ATggRCZSIJnl
-         nqEGZ4rI6M/qHbJGFMjbPJmAX9YKou4+kam7MynsXWFSP0gu2pXgeJxbbte8LKfqCY6f
-         jLQx329O1QgndM3HRejzyb7dVjB6jG3PCJDMm7yWZYktfw+O11IQ3OtoCzNUw0OkkTrT
-         pqgpaVmq0CZPX78o5LMGnHkQCYBQbBMPVsidH0nGeRuGoudLyj58uQx7dH/isJwjd4Kt
-         FH+vIQ1IDCRJxFR15slgTRsNdDreR+d7LrXL4fciFX1r2Jq5XvJxHAXAyby1r2GL7Kds
-         LYmQ==
-X-Gm-Message-State: AOAM530hzSNN/mJlLAU//mp8EGore7jLaH3fwfwgoJPE2E7MzAOnkPHa
-        FDNMogoro1L8DiiIjxklkyekWxUB5ZPcp8t+1/y6jQ==
-X-Google-Smtp-Source: ABdhPJxvdAH2kZVH6rXrU43CvmIGk+J0s6lfZ4c9fgrw7VD6T5Q4h7+rQLjRX20znchkiNXde3QUzx4B+Xre86DvnnU=
-X-Received: by 2002:a50:fd83:: with SMTP id o3mr50353677edt.176.1600681019430;
- Mon, 21 Sep 2020 02:36:59 -0700 (PDT)
+        Mon, 21 Sep 2020 06:04:06 -0400
+X-Greylist: delayed 547 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 06:04:04 EDT
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 08L9qUoj015053;
+        Mon, 21 Sep 2020 04:54:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=GjWrxUGigUXopaPLhY4SiGmUNZT9wlcWnfHb+PSgNrc=;
+ b=cQQzdoN8o8SRQr8ipdF6z+1mmGEoN7NuYtxxPNvLbstLwMZCLYlqz3etvqI7pi0cctqo
+ gVGQgo21Y0pirllnqxTMDhMWPS3i9pvbRE61wd6PEZbQQZsse2TCLFWwiotT4k+oCs+6
+ UPZxzVU0QdKQYfRQUcEx2HxpwwH6Gtz5Jdkm4j8miomiElVTHowG0shhJJUvmI7iNziH
+ v7xNNsVRm91TDEqJR7Heu1WnLIOrzThFa5jaoyGi5Thv8HSxq79Hyf/UyK6p1TwlRLMF
+ 9OeRT7vJZ/fSku5iQfwoaw57f77fsqFfNgavz6+aw8CLj9arI6C8Zj9SBHRe2CguHbKT jg== 
+Received: from ediex01.ad.cirrus.com ([87.246.76.36])
+        by mx0b-001ae601.pphosted.com with ESMTP id 33nedn1x79-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Mon, 21 Sep 2020 04:54:40 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Mon, 21 Sep
+ 2020 10:54:39 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.1913.5 via Frontend
+ Transport; Mon, 21 Sep 2020 10:54:39 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id BACD52C3;
+        Mon, 21 Sep 2020 09:54:38 +0000 (UTC)
+Date:   Mon, 21 Sep 2020 09:54:38 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Hoan Tran <hoan@os.amperecomputing.com>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Sungbo Eo <mans0n@gorani.run>, Stefan Agner <stefan@agner.ch>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yash Shah <yash.shah@sifive.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        - <patches@opensource.cirrus.com>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Teng <andy.teng@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Sricharan R <sricharan@codeaurora.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, <linux-gpio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-unisoc@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 08/13] dt-bindings: mfd: include common schema in GPIO
+ controllers
+Message-ID: <20200921095438.GP10899@ediswmail.ad.cirrus.com>
+References: <20200917165301.23100-1-krzk@kernel.org>
+ <20200917165301.23100-9-krzk@kernel.org>
 MIME-Version: 1.0
-References: <20200821220038.16420-1-amurray@thegoodpenguin.co.uk>
- <20200823223339.GI6002@pendragon.ideasonboard.com> <CALqELGy_mwGQDn=bumogLf4H7ZVS4F+axpEyGSwEL4dYYWDKvA@mail.gmail.com>
-In-Reply-To: <CALqELGy_mwGQDn=bumogLf4H7ZVS4F+axpEyGSwEL4dYYWDKvA@mail.gmail.com>
-From:   Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date:   Mon, 21 Sep 2020 10:36:48 +0100
-Message-ID: <CALqELGwFi+36kx6vEtbqchovaZ8222kJZpt_5sRgA-arq_VZGw@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Add bandwidth_cap module param
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200917165301.23100-9-krzk@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 spamscore=0
+ adultscore=0 mlxlogscore=807 suspectscore=0 bulkscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009210071
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 24 Aug 2020 at 10:13, Andrew Murray
-<amurray@thegoodpenguin.co.uk> wrote:
->
-> Hi Laurent,
->
-> On Sun, 23 Aug 2020 at 23:34, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > Hi Andrew,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, Aug 21, 2020 at 11:00:38PM +0100, Andrew Murray wrote:
-> > > Many UVC devices report larger values for dwMaxPayloadTransferSize than
-> > > appear to be required. This results in less bandwidth available for
-> > > other devices.
-> > >
-> > > This problem is commonly observed when attempting to stream from multiple
-> > > UVC cameras with the host controller returning -ENOSPC and sometimes a
-> > > warning (XHCI controllers: "Not enough bandwidth for new device state.").
-> > >
-> > > For uncompressed video, the UVC_QUIRK_FIX_BANDWIDTH works around this issue
-> > > by overriding the device provided dwMaxPayloadTransferSize with a
-> > > calculation of the actual bandwidth requirements from the requested frame
-> > > size and rate. However for compressed video formats it's not practical to
-> > > estimate the bandwidth required as the kernel doesn't have enough
-> > > information.
-> > >
-> > > Let's provide a pragmatic solution by allowing the user to impose an upper
-> > > threshold to the amount of bandwidth each UVC device can reserve. If the
-> > > parameter isn't used then no threshold is imposed.
-> >
-> > Hmmmm... This is a bit annoying as it will apply equally to all formats
-> > and all cameras. It may solve a real issue, but it's quite a bit of a
-> > hack.
->
-> Yes you're right. There is certainly a real issue here though, if you google
-> 'usb web cam no space left on device' or similar, you'll find plenty
-> of people having
-> issues. Many of those which could be resolved with a patch like this.
-> Part of the
-> motivation for sharing this patch was so that those people may come across this
-> patch rather than hack their own or give up - though I'd prefer to
-> make this less of a
-> hack.
->
-> I could respin this to only apply for UVC_FMT_FLAG_COMPRESSED formats, as
-> if there is a problem with compressed video then a better solution is to use the
-> existing UVC_QUIRK_FIX_BANDWIDTH.
->
-> I didn't add this as a quirk that is only applied to specific
-> idVendor/idProducts, as I
-> felt the list might get large, and in any case my assumption is that
-> most of the people
-> that suffer from this issue will likely have a specific camera setup
-> and a bandwidth cap
-> wouldn't cause any issues - for example if you have 4 cameras on a
-> EHCI (perhaps with
-> one camera with a bandwidth issue) platform - then you could cap all
-> cameras high at
-> 90Mbps - that would resolve the camera with the bandwidth issue but
-> not likely affect the
-> other cameras.  (Many cameras that I've played with seem to request 195 Mbps).
->
-> > I'm also concerned that users will be confused regarding how to
-> > use this parameter properly, as there's no documentation that explains
-> > its usage, and how to pick a proper value. Is there any way we could do
-> > better ?
->
-> I'm happy to write some, though I couldn't find any (in-tree) for the
-> existing parameters
-> (uvc_no_drop_param, uvc_trace_param, etc) so I wasn't sure the best
-> place for this.
-> Any suggestions?
->
-> Just as per the UVC_QUIRK_FIX_BANDWIDTH quirk, this works by adjusting
-> dwMaxPayloadTransferSize, which results in the kernel selecting a different USB
-> alternate configuration from those made available by the device. It selects a
-> configuration that matches or provides more bandwidth than that
-> requested. I'm not
-> sure what happens if you stream at a high resolution but select an
-> alternate configuration
-> that has a (too) low bandwidth, perhaps it depends on the camera. It
-> also requires
-> knowledge of the camera to determine how much bandwidth it genuinely
-> needs. Without
-> such knowledge - the best approach is to come up with a reasonable
-> estimate of bandwidth
-> based on compression codec, framesize, rate, etc, look at the
-> available alternate configs
-> (e.g. from lsusb), and then set a value of bandwidth_cap larger than
-> that required. And then
-> of course test to see if it meets your needs.
+On Thu, Sep 17, 2020 at 06:52:56PM +0200, Krzysztof Kozlowski wrote:
+> Include the common GPIO schema in GPIO controllers to be sure all common
+> properties are properly validated.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> 
+> ---
 
-Hello,
+For the Cirrus/Wolfson bits:
 
-Is there any feedback on this?
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
 Thanks,
-
-Andrew Murray
-
->
-> Thanks,
->
-> Andrew Murray
->
-> >
-> > > Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_driver.c | 3 +++
-> > >  drivers/media/usb/uvc/uvc_video.c  | 8 ++++++++
-> > >  drivers/media/usb/uvc/uvcvideo.h   | 1 +
-> > >  3 files changed, 12 insertions(+)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > index 431d86e1c94b..d5ecac7fc264 100644
-> > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > @@ -33,6 +33,7 @@ unsigned int uvc_no_drop_param;
-> > >  static unsigned int uvc_quirks_param = -1;
-> > >  unsigned int uvc_trace_param;
-> > >  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
-> > > +unsigned int uvc_bandwidth_cap_param;
-> > >
-> > >  /* ------------------------------------------------------------------------
-> > >   * Video formats
-> > > @@ -2389,6 +2390,8 @@ module_param_named(trace, uvc_trace_param, uint, S_IRUGO|S_IWUSR);
-> > >  MODULE_PARM_DESC(trace, "Trace level bitmask");
-> > >  module_param_named(timeout, uvc_timeout_param, uint, S_IRUGO|S_IWUSR);
-> > >  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
-> > > +module_param_named(bandwidth_cap, uvc_bandwidth_cap_param, uint, S_IRUGO|S_IWUSR);
-> > > +MODULE_PARM_DESC(bandwidth_cap, "Maximum bandwidth per device");
-> > >
-> > >  /* ------------------------------------------------------------------------
-> > >   * Driver initialization and cleanup
-> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > index a65d5353a441..74a0dc0614cf 100644
-> > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > @@ -196,6 +196,14 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
-> > >
-> > >               ctrl->dwMaxPayloadTransferSize = bandwidth;
-> > >       }
-> > > +
-> > > +     if (uvc_bandwidth_cap_param &&
-> > > +         ctrl->dwMaxPayloadTransferSize > uvc_bandwidth_cap_param) {
-> > > +             uvc_trace(UVC_TRACE_VIDEO,
-> > > +                     "Bandwidth capped from %u to %u B/frame.\n",
-> > > +                     ctrl->dwMaxPayloadTransferSize, uvc_bandwidth_cap_param);
-> > > +             ctrl->dwMaxPayloadTransferSize = uvc_bandwidth_cap_param;
-> > > +     }
-> > >  }
-> > >
-> > >  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
-> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > index 6ab972c643e3..c7d9220c9a7a 100644
-> > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > @@ -718,6 +718,7 @@ extern unsigned int uvc_no_drop_param;
-> > >  extern unsigned int uvc_trace_param;
-> > >  extern unsigned int uvc_timeout_param;
-> > >  extern unsigned int uvc_hw_timestamps_param;
-> > > +extern unsigned int uvc_bandwidth_cap_param;
-> > >
-> > >  #define uvc_trace(flag, msg...) \
-> > >       do { \
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+Charles
