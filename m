@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4026A27207F
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 572BB27207D
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:23:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727119AbgIUKWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 06:22:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59174 "EHLO
+        id S1726631AbgIUKWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 06:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbgIUKVH (ORCPT
+        with ESMTP id S1726945AbgIUKVI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 06:21:07 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32B3C0613D1
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:21:06 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id l9so12024674wme.3
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:21:06 -0700 (PDT)
+        Mon, 21 Sep 2020 06:21:08 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CC6C0613D2
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:21:07 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id w2so11566128wmi.1
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=dGPy5ojL0a12oJizSoTZbHP5FGaftfAgkoEVHs65l4s=;
-        b=H6312PE+010ywJeFOg4lNE3sW8va0OwgWJcvpBLNSV2n4oQ/q8IOwKVpE4MsPUnCeQ
-         3lpyvqzzokBMxsB7SmGe6P7LXw7OeHq5WbZxslzvA9P2yo0fJ0pTvlMWXOzRQzKv5LJn
-         qREcus9oypZcllMr4npr7tiYPVtXo8D4b/UiQDXlaqafrU8hDph/dIUwP1h0id/08Tut
-         nUn/Tp0o6OCDVI6BX+DecGAk9Tm39IxMfe171qbtAJ/dmDpitBnqim6npCnJjDUAFKSK
-         CjHDaVPZuxwdAuBXj+rNfxl9txyLroSy6dhuekiskmcVACAtl8XF5cgwVLhIWBxO1Pp3
-         58Bw==
+        bh=jZ72PUAOAY/v7UQdoKSs5wvFASOODli3K4iY5mQPSSc=;
+        b=JzNiLwHcQymY9+D/8+E4uv3VRe59dhgHJ1I8p9xqMKjrsJVLWChfAftBdMYaX/YAz1
+         fkM9a1DXMC7+keldbhrkRFeGSLWb/FiMr2vpJvweYAJJuH5EZbY4nFU1KtcmCP/S7CDW
+         hVzfBX9rGmO43vL6nDTmBwTZTQHkQ3DhdgWQQ6KadYIZT/ohDGARClZ2tTmWJdeei9Gf
+         tfXsZ1XmRQC6gMZPu2dDt6vUBPc6DwLSSr2G9PHReMknSJmiXBPScSsmdaJWUhUcREjv
+         yNEHAFFLVSuYW6OJDbwxxEfcqIlmtwRZEiFE1+jX19/NpTzXCsrFi+7X8k4QCKa6ZC8K
+         aiDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=dGPy5ojL0a12oJizSoTZbHP5FGaftfAgkoEVHs65l4s=;
-        b=Z1WKqLp8M+y8ijKt/v6NLYoFsP5qXoqW6rzCC/3IlgjRvPGwTBSjtDHunw3GnlWVcJ
-         PRTXmHyP9M4wWbNV5nmay/RnMFVJ3+HvA+x/gLfciEb6aIgSgtwDSA4xt5axasvlytdh
-         A1fMRNeFp+wRwG9ziHDl8FEoHFUdZt7Yx8PtRQmd/SIsF9/v+zcyq84lJ+q45yP4NFBy
-         E5WRX6yjx8cP3AExXffAhDDZXXtavcaP7tThuXhYqDxTllIDwTCfevYOq7Od6DRrpHHL
-         xmNpAeHrvvuKddMge2jzNO0ycbMRkepWDNOXzM0mxKb5I5/HXNIczklU7mIt4qLfYKsx
-         8qtQ==
-X-Gm-Message-State: AOAM531O9KYp6fvKsNw5mtn90dIGImAWqY3lYJFE7AkyLLBNDEi6KyLe
-        AFBuwxojcXA0dGdbZDS8lwV2dNMTIfe3Rg==
-X-Google-Smtp-Source: ABdhPJzNjyNJHKBehOtbtsaCLPkzNr95oSX2JPP9UpbfgavliKvqivJ0H/6ycjsOjh8/p3Iea3rfVg==
-X-Received: by 2002:a7b:c0ca:: with SMTP id s10mr29336977wmh.103.1600683665592;
-        Mon, 21 Sep 2020 03:21:05 -0700 (PDT)
+        bh=jZ72PUAOAY/v7UQdoKSs5wvFASOODli3K4iY5mQPSSc=;
+        b=Q3PkjzdgzYpj9AFMnioGZpARf+7L5UQmm29NFqzZR1m2RZLC6PlBNAWtu8EtHP4n9n
+         iDWp0ur9g/Ep3JV4Ki+Lj1FV7ucBJvXGVcCcYxrPcHzinN5ptPs0rfcobFE6g9mm1CU8
+         DH9pOW5GcKFTba71g+pGQsDMhGI6+Ki16oOdEZoSkVaJtK9e9N5xHOOl7zvbf6recOHp
+         3FjwZ1gJUa5/S0oUYQ4QGuF252EMBCRtrOlDX8kN5w6JeBZoEncByeKdABZhSzKEHzCQ
+         0c+Rf6JoNtJ+aWiLscsxFne5PfiftzLbTXuJWZXbeaNTcac2oXgCAIBIQbG9qQSqoYS9
+         rCmQ==
+X-Gm-Message-State: AOAM532H8vkNvNpONr48tszOBETOQur/5IhRu1YfJ9iHTFywxlK8hOE1
+        +8b7GUtCfa1H792WcytzvqsvmQ==
+X-Google-Smtp-Source: ABdhPJz/WEM6jR4u7NBZYYpTXL198YeibOBpadp1+XxIqsxq7O0M1Pi8POlysByw9qPiVubnv0OaMw==
+X-Received: by 2002:a1c:7d55:: with SMTP id y82mr29496041wmc.100.1600683666523;
+        Mon, 21 Sep 2020 03:21:06 -0700 (PDT)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.21.04
+        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.21.05
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 21 Sep 2020 03:21:04 -0700 (PDT)
+        Mon, 21 Sep 2020 03:21:05 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, laurent.pinchart@skynet.be,
         mchehab@kernel.org
 Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH RFT/RFC 35/49] staging: media: zoran: constify codec_name
-Date:   Mon, 21 Sep 2020 10:20:10 +0000
-Message-Id: <1600683624-5863-36-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC 36/49] staging: media: zoran: Add more check for compliance
+Date:   Mon, 21 Sep 2020 10:20:11 +0000
+Message-Id: <1600683624-5863-37-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
 References: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
@@ -62,38 +62,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The codec_name could be const.
+The zoran driver miss some sanity checks, and this made v4l compliance
+happy.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/zoran_card.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/media/zoran/zoran_driver.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index 176ce8a355ba..d956bd45194f 100644
---- a/drivers/staging/media/zoran/zoran_card.c
-+++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -254,9 +254,9 @@ static void avs6eyes_init(struct zoran *zr)
- 	GPIO(zr, 7, mux & 4);   /* MUX S2 */
- }
- 
--static char *codecid_to_modulename(u16 codecid)
-+static const char *codecid_to_modulename(u16 codecid)
+diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
+index 6e95fbf5c7ea..a326c0a16e0c 100644
+--- a/drivers/staging/media/zoran/zoran_driver.c
++++ b/drivers/staging/media/zoran/zoran_driver.c
+@@ -1092,6 +1092,11 @@ static int zoran_enum_fmt(struct zoran *zr, struct v4l2_fmtdesc *fmt, int flag)
  {
--	char *name = NULL;
-+	const char *name = NULL;
+ 	unsigned int num, i;
  
- 	switch (codecid) {
- 	case CODEC_TYPE_ZR36060:
-@@ -1092,7 +1092,7 @@ static int zoran_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	struct videocodec_master *master_vfe = NULL;
- 	struct videocodec_master *master_codec = NULL;
- 	int card_num;
--	char *codec_name, *vfe_name;
-+	const char *codec_name, *vfe_name;
- 	unsigned int nr;
++	if (fmt->index >= ARRAY_SIZE(zoran_formats))
++		return -EINVAL;
++	if (fmt->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		return -EINVAL;
++
+ 	for (num = i = 0; i < NUM_FORMATS; i++) {
+ 		if (zoran_formats[i].flags & flag && num++ == fmt->index) {
+ 			strscpy(fmt->description, zoran_formats[i].name, sizeof(fmt->description));
+@@ -1244,6 +1249,12 @@ static int zoran_try_fmt_vid_cap(struct file *file, void *__fh,
+ 	if (i == NUM_FORMATS)
+ 		return -EINVAL;
  
- 	nr = zoran_num++;
++	fmt->fmt.pix.colorspace = zoran_formats[i].colorspace;
++	if (BUZ_MAX_HEIGHT < (fmt->fmt.pix.height * 2))
++		fmt->fmt.pix.field = V4L2_FIELD_INTERLACED;
++	else
++		fmt->fmt.pix.field = V4L2_FIELD_TOP;
++
+ 	bpp = DIV_ROUND_UP(zoran_formats[i].depth, 8);
+ 	v4l_bound_align_image(&fmt->fmt.pix.width, BUZ_MIN_WIDTH, BUZ_MAX_WIDTH, bpp == 2 ? 1 : 2,
+ 		&fmt->fmt.pix.height, BUZ_MIN_HEIGHT, BUZ_MAX_HEIGHT, 0, 0);
+@@ -1271,6 +1282,9 @@ static int zoran_s_fmt_vid_out(struct file *file, void *__fh, struct v4l2_format
+ 		return res;
+ 	}
+ 
++	if (!fmt->fmt.pix.height || !fmt->fmt.pix.width)
++		return -EINVAL;
++
+ 	settings = zr->jpg_settings;
+ 
+ 	/* we actually need to set 'real' parameters now */
+@@ -1856,6 +1870,9 @@ static int zoran_s_selection(struct file *file, void *__fh, struct v4l2_selectio
+ 	    sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+ 
++	if (!sel->r.width || !sel->r.height)
++		return -EINVAL;
++
+ 	if (sel->target != V4L2_SEL_TGT_CROP)
+ 		return -EINVAL;
+ 
 -- 
 2.26.2
 
