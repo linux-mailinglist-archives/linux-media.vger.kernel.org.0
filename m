@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AADD272BD9
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 18:24:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C4A272BE0
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 18:25:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728270AbgIUQYW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 12:24:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51114 "EHLO mail.kernel.org"
+        id S1728300AbgIUQYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 12:24:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51310 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728103AbgIUQYV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 12:24:21 -0400
+        id S1728282AbgIUQYb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 12:24:31 -0400
 Received: from localhost.localdomain (unknown [194.230.155.191])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3552820758;
-        Mon, 21 Sep 2020 16:24:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8509B2073A;
+        Mon, 21 Sep 2020 16:24:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600705460;
-        bh=Dzp5xNtwBz6+Qv1wgAGhP4Qp9+Rd8yVEj3+bqwuvVFk=;
+        s=default; t=1600705471;
+        bh=6HHVhDkjrM3wVW+4jlEI6dRJPDO0oJggIEbA03wBmL0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2veJuwfG3HkZql1qJZcA6OmrCZ1FTLWhtSckTMPBNCZwAyooM8b7i4NpdlOnA6IDt
-         6SnNKPm0V3jXuvSEgn+EltAiRjNPf+nzDUQjlAlDP9c3D4/5Pk9PUW54qFjPMM7ZMz
-         zVr/St7XamQJqvJAvikknu8mKZa3pFGpUOtzrIyY=
+        b=yP30CiWdXhiAOEWibaerhVKk0N2ePDxvjLTVg+qX6cLXzLmdIW0lUqTvfH8YDbtNp
+         F1g+RP/FewG67tQQ72veLJ55mNZdvetsI5jeSYCe9h7P+hbw2mW4t0s+hvWM/FC/13
+         hwRTBQhlw8N/ruMYWKSGpAN6cBudu7xe/CjFpwSY=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -44,9 +44,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Marco Felsch <m.felsch@pengutronix.de>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 04/25] media: i2c: imx319: simplify getting state container
-Date:   Mon, 21 Sep 2020 18:23:21 +0200
-Message-Id: <20200921162342.7348-4-krzk@kernel.org>
+Subject: [PATCH 05/25] media: i2c: imx319: silence unused acpi_device_id warning
+Date:   Mon, 21 Sep 2020 18:23:22 +0200
+Message-Id: <20200921162342.7348-5-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200921162342.7348-1-krzk@kernel.org>
 References: <20200921162342.7348-1-krzk@kernel.org>
@@ -54,44 +54,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pointer to 'struct v4l2_subdev' is stored in drvdata via
-v4l2_i2c_subdev_init() so there is no point of a dance like:
+If driver is built without ACPI, the struct acpi_device_id won't be
+used:
 
-    struct i2c_client *client = to_i2c_client(struct device *dev)
-    struct v4l2_subdev *sd = i2c_get_clientdata(client);
-
-This allows to remove local variable 'client' and few pointer
-dereferences.
+  drivers/media/i2c/imx319.c:2536:36: warning:
+    'imx319_acpi_ids' defined but not used [-Wunused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/media/i2c/imx319.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/i2c/imx319.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-index 17c2e4b41221..8b86fc65364e 100644
+index 8b86fc65364e..8473c0bbb35d 100644
 --- a/drivers/media/i2c/imx319.c
 +++ b/drivers/media/i2c/imx319.c
-@@ -2179,8 +2179,7 @@ static int imx319_set_stream(struct v4l2_subdev *sd, int enable)
+@@ -2533,7 +2533,7 @@ static const struct dev_pm_ops imx319_pm_ops = {
+ 	SET_SYSTEM_SLEEP_PM_OPS(imx319_suspend, imx319_resume)
+ };
  
- static int __maybe_unused imx319_suspend(struct device *dev)
- {
--	struct i2c_client *client = to_i2c_client(dev);
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx319 *imx319 = to_imx319(sd);
- 
- 	if (imx319->streaming)
-@@ -2191,8 +2190,7 @@ static int __maybe_unused imx319_suspend(struct device *dev)
- 
- static int __maybe_unused imx319_resume(struct device *dev)
- {
--	struct i2c_client *client = to_i2c_client(dev);
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx319 *imx319 = to_imx319(sd);
- 	int ret;
- 
+-static const struct acpi_device_id imx319_acpi_ids[] = {
++static const struct acpi_device_id imx319_acpi_ids[] __maybe_unused = {
+ 	{ "SONY319A" },
+ 	{ /* sentinel */ }
+ };
 -- 
 2.17.1
 
