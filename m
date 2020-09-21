@@ -2,113 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C95A271E95
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 11:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A3DA271EFF
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 11:37:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726471AbgIUJKb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 05:10:31 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51542 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726366AbgIUJKb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 05:10:31 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600679428;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=k4aBzKLf83FphbFoSfruU9Nn+4qpdItMXvRpp/xUVks=;
-        b=OxosJFYRwr9WxHZcW6cdnc1Zi99hmASZEtnYYVPZeAXQJ0xRBd1CaL0ZVk7Fopzs+9VYFa
-        66Gfu2UN52ymIVr9BDTk24tGFfWLkHUJrNDJq2o33Tb5tTGDWSmViGrBE2e5bAcFJY9EbD
-        V5WddnBt+zTW/qL607TltTN7KLHd/lU=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 9AC44AC2B;
-        Mon, 21 Sep 2020 09:11:04 +0000 (UTC)
-Message-ID: <1600679414.2424.62.camel@suse.com>
-Subject: Re: [PATCH] [Patch v2] usbtv: Fix refcounting mixup
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, ben.hutchings@codethink.co.uk,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org
-Cc:     stable@vger.kernel.org
-Date:   Mon, 21 Sep 2020 11:10:14 +0200
-In-Reply-To: <4550f8e2-38a9-b1f4-0277-25e79fed2e14@xs4all.nl>
-References: <20180515130744.19342-1-oneukum@suse.com>
-         <85dd974b-c251-47a5-600d-77b009e2dfcd@xs4all.nl>
-         <1526399190.31771.2.camel@suse.com>
-         <1ee4b00d-9a55-92cf-e708-1e0c60ca4bfd@xs4all.nl>
-         <1526462623.25281.5.camel@suse.com>
-         <4550f8e2-38a9-b1f4-0277-25e79fed2e14@xs4all.nl>
-Content-Type: multipart/mixed; boundary="=-kk7jchXK1/63f2PKt/n3"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
+        id S1726417AbgIUJhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 05:37:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbgIUJhF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 05:37:05 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEDB4C061755
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 02:37:00 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id w1so12135104edr.3
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 02:37:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thegoodpenguin-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lylPpVE/OJThn8Y+rLFsEiipKXUI5RqcUgh3h88X8KA=;
+        b=GrWqVeohXijayLrMdVQI1Nk0EE+/uLik1yuQwYvE31xAMWlVuQOJmgDnc4M2FODtVx
+         m55QRzCh8/NFLy6hvMJpXaOzuCZb8rGTMzLFOnKvwKLTqh3PN+0WPdZjoS3dAnykH4z9
+         AKcS5rPqf/PCr2s2ih7Cv+Rc8K4R9y1fhBiF0uYP0u2DvdvdzOG4tfn14t5DBFocS6h0
+         0X4cHvD63nbl1H79J/mt2PoF0GY/kCTgNiZhastdMKOXCZRq9KOeKr44EAVOwXMOMx5M
+         oPB8kvHkRnyDXMKDXTk/uP4PyiDbYAl9XEHAYZ9qllyByKulym5wvZVFR0S3UGb0ecUy
+         UW9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lylPpVE/OJThn8Y+rLFsEiipKXUI5RqcUgh3h88X8KA=;
+        b=sheYB1MppKVUIYHhZ76ntoEUUtTAne+Jvosu4g6VWw/fOunMYmHtK/ATggRCZSIJnl
+         nqEGZ4rI6M/qHbJGFMjbPJmAX9YKou4+kam7MynsXWFSP0gu2pXgeJxbbte8LKfqCY6f
+         jLQx329O1QgndM3HRejzyb7dVjB6jG3PCJDMm7yWZYktfw+O11IQ3OtoCzNUw0OkkTrT
+         pqgpaVmq0CZPX78o5LMGnHkQCYBQbBMPVsidH0nGeRuGoudLyj58uQx7dH/isJwjd4Kt
+         FH+vIQ1IDCRJxFR15slgTRsNdDreR+d7LrXL4fciFX1r2Jq5XvJxHAXAyby1r2GL7Kds
+         LYmQ==
+X-Gm-Message-State: AOAM530hzSNN/mJlLAU//mp8EGore7jLaH3fwfwgoJPE2E7MzAOnkPHa
+        FDNMogoro1L8DiiIjxklkyekWxUB5ZPcp8t+1/y6jQ==
+X-Google-Smtp-Source: ABdhPJxvdAH2kZVH6rXrU43CvmIGk+J0s6lfZ4c9fgrw7VD6T5Q4h7+rQLjRX20znchkiNXde3QUzx4B+Xre86DvnnU=
+X-Received: by 2002:a50:fd83:: with SMTP id o3mr50353677edt.176.1600681019430;
+ Mon, 21 Sep 2020 02:36:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200821220038.16420-1-amurray@thegoodpenguin.co.uk>
+ <20200823223339.GI6002@pendragon.ideasonboard.com> <CALqELGy_mwGQDn=bumogLf4H7ZVS4F+axpEyGSwEL4dYYWDKvA@mail.gmail.com>
+In-Reply-To: <CALqELGy_mwGQDn=bumogLf4H7ZVS4F+axpEyGSwEL4dYYWDKvA@mail.gmail.com>
+From:   Andrew Murray <amurray@thegoodpenguin.co.uk>
+Date:   Mon, 21 Sep 2020 10:36:48 +0100
+Message-ID: <CALqELGwFi+36kx6vEtbqchovaZ8222kJZpt_5sRgA-arq_VZGw@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Add bandwidth_cap module param
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, 24 Aug 2020 at 10:13, Andrew Murray
+<amurray@thegoodpenguin.co.uk> wrote:
+>
+> Hi Laurent,
+>
+> On Sun, 23 Aug 2020 at 23:34, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Andrew,
+> >
+> > Thank you for the patch.
+> >
+> > On Fri, Aug 21, 2020 at 11:00:38PM +0100, Andrew Murray wrote:
+> > > Many UVC devices report larger values for dwMaxPayloadTransferSize than
+> > > appear to be required. This results in less bandwidth available for
+> > > other devices.
+> > >
+> > > This problem is commonly observed when attempting to stream from multiple
+> > > UVC cameras with the host controller returning -ENOSPC and sometimes a
+> > > warning (XHCI controllers: "Not enough bandwidth for new device state.").
+> > >
+> > > For uncompressed video, the UVC_QUIRK_FIX_BANDWIDTH works around this issue
+> > > by overriding the device provided dwMaxPayloadTransferSize with a
+> > > calculation of the actual bandwidth requirements from the requested frame
+> > > size and rate. However for compressed video formats it's not practical to
+> > > estimate the bandwidth required as the kernel doesn't have enough
+> > > information.
+> > >
+> > > Let's provide a pragmatic solution by allowing the user to impose an upper
+> > > threshold to the amount of bandwidth each UVC device can reserve. If the
+> > > parameter isn't used then no threshold is imposed.
+> >
+> > Hmmmm... This is a bit annoying as it will apply equally to all formats
+> > and all cameras. It may solve a real issue, but it's quite a bit of a
+> > hack.
+>
+> Yes you're right. There is certainly a real issue here though, if you google
+> 'usb web cam no space left on device' or similar, you'll find plenty
+> of people having
+> issues. Many of those which could be resolved with a patch like this.
+> Part of the
+> motivation for sharing this patch was so that those people may come across this
+> patch rather than hack their own or give up - though I'd prefer to
+> make this less of a
+> hack.
+>
+> I could respin this to only apply for UVC_FMT_FLAG_COMPRESSED formats, as
+> if there is a problem with compressed video then a better solution is to use the
+> existing UVC_QUIRK_FIX_BANDWIDTH.
+>
+> I didn't add this as a quirk that is only applied to specific
+> idVendor/idProducts, as I
+> felt the list might get large, and in any case my assumption is that
+> most of the people
+> that suffer from this issue will likely have a specific camera setup
+> and a bandwidth cap
+> wouldn't cause any issues - for example if you have 4 cameras on a
+> EHCI (perhaps with
+> one camera with a bandwidth issue) platform - then you could cap all
+> cameras high at
+> 90Mbps - that would resolve the camera with the bandwidth issue but
+> not likely affect the
+> other cameras.  (Many cameras that I've played with seem to request 195 Mbps).
+>
+> > I'm also concerned that users will be confused regarding how to
+> > use this parameter properly, as there's no documentation that explains
+> > its usage, and how to pick a proper value. Is there any way we could do
+> > better ?
+>
+> I'm happy to write some, though I couldn't find any (in-tree) for the
+> existing parameters
+> (uvc_no_drop_param, uvc_trace_param, etc) so I wasn't sure the best
+> place for this.
+> Any suggestions?
+>
+> Just as per the UVC_QUIRK_FIX_BANDWIDTH quirk, this works by adjusting
+> dwMaxPayloadTransferSize, which results in the kernel selecting a different USB
+> alternate configuration from those made available by the device. It selects a
+> configuration that matches or provides more bandwidth than that
+> requested. I'm not
+> sure what happens if you stream at a high resolution but select an
+> alternate configuration
+> that has a (too) low bandwidth, perhaps it depends on the camera. It
+> also requires
+> knowledge of the camera to determine how much bandwidth it genuinely
+> needs. Without
+> such knowledge - the best approach is to come up with a reasonable
+> estimate of bandwidth
+> based on compression codec, framesize, rate, etc, look at the
+> available alternate configs
+> (e.g. from lsusb), and then set a value of bandwidth_cap larger than
+> that required. And then
+> of course test to see if it meets your needs.
 
---=-kk7jchXK1/63f2PKt/n3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Hello,
 
-Am Mittwoch, den 16.05.2018, 12:27 +0200 schrieb Hans Verkuil:
-> On 05/16/18 11:23, Oliver Neukum wrote:
-> > Am Dienstag, den 15.05.2018, 18:01 +0200 schrieb Hans Verkuil:
-> > > On 05/15/2018 05:46 PM, Oliver Neukum wrote:
-> > > > Am Dienstag, den 15.05.2018, 16:28 +0200 schrieb Hans Verkuil:
-> > > > > On 05/15/18 15:07, Oliver Neukum wrote:
-> > Eh, but we cannot create a V4L device before the first device
-> > is connected and we must certainly create multiple V4L devices if
-> > multiple physical devices are connected.
-> 
-> v4l2_device_register is a terrible name. It does not create devices
-> or register with anything, it just initializes a root data structure. I have
-> proposed renaming this to v4l2_root_init() in the past, but people didn't
-> want a big rename action.
-> 
-> BTW, with 'global data structure' I meant a data structure in struct usbtv.
-> All I meant to say is that v4l2_device_register should be called in probe(),
-> not in usbtv_video_init().
+Is there any feedback on this?
 
-Hi,
+Thanks,
 
-Sorry for thread necromancy I am cleaning up electronically.
-This patch has fallen through the cracks. As far as I can see the issue
-is still open. I screwed this up. So do you want me to do a major
-redesign? If not, what is to be done?
+Andrew Murray
 
-	Regards
-		Oliver
-
-
-
---=-kk7jchXK1/63f2PKt/n3
-Content-Disposition: attachment; filename="0001-Patch-v2-usbtv-Fix-refcounting-mixup.patch"
-Content-Type: text/x-patch; name="0001-Patch-v2-usbtv-Fix-refcounting-mixup.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-RnJvbSBjNjA0MDYxODY1MWQ2NzBiODk1MTk4MDk2ZTNmYTQ0MmI2Y2Y4YTI2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgpEYXRl
-OiBUdWUsIDE1IE1heSAyMDE4IDEyOjE2OjI2ICswMjAwClN1YmplY3Q6IFtQQVRDSF0gW1BhdGNo
-IHYyXSB1c2J0djogRml4IHJlZmNvdW50aW5nIG1peHVwCgpUaGUgcHJlbWF0dXJlIGZyZWUgaW4g
-dGhlIGVycm9yIHBhdGggaXMgYmxvY2tlZCBieSBWNEwKcmVmY291bnRpbmcsIG5vdCBVU0IgcmVm
-Y291bnRpbmcuIFRoYW5rcyB0bwpCZW4gSHV0Y2hpbmdzIGZvciByZXZpZXcuCgpbdjJdIGNvcnJl
-Y3RlZCBhdHRyaWJ1dGlvbnMKClNpZ25lZC1vZmYtYnk6IE9saXZlciBOZXVrdW0gPG9uZXVrdW1A
-c3VzZS5jb20+CkZpeGVzOiA1MGU3MDQ0NTM1NTMgKCJtZWRpYTogdXNidHY6IHByZXZlbnQgZG91
-YmxlIGZyZWUgaW4gZXJyb3IgY2FzZSIpCkNDOiBzdGFibGVAdmdlci5rZXJuZWwub3JnClJlcG9y
-dGVkLWJ5OiBCZW4gSHV0Y2hpbmdzIDxiZW4uaHV0Y2hpbmdzQGNvZGV0aGluay5jby51az4KLS0t
-CiBkcml2ZXJzL21lZGlhL3VzYi91c2J0di91c2J0di1jb3JlLmMgfCAzICsrLQogMSBmaWxlIGNo
-YW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvbWVkaWEvdXNiL3VzYnR2L3VzYnR2LWNvcmUuYyBiL2RyaXZlcnMvbWVkaWEvdXNiL3VzYnR2
-L3VzYnR2LWNvcmUuYwppbmRleCBlZTljNjU2ZDEyMWYuLjIzMDhjMGI0ZjVlNyAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9tZWRpYS91c2IvdXNidHYvdXNidHYtY29yZS5jCisrKyBiL2RyaXZlcnMvbWVk
-aWEvdXNiL3VzYnR2L3VzYnR2LWNvcmUuYwpAQCAtMTEzLDcgKzExMyw4IEBAIHN0YXRpYyBpbnQg
-dXNidHZfcHJvYmUoc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGYsCiAKIHVzYnR2X2F1ZGlvX2Zh
-aWw6CiAJLyogd2UgbXVzdCBub3QgZnJlZSBhdCB0aGlzIHBvaW50ICovCi0JdXNiX2dldF9kZXYo
-dXNidHYtPnVkZXYpOworCXY0bDJfZGV2aWNlX2dldCgmdXNidHYtPnY0bDJfZGV2KTsKKwkvKiB0
-aGlzIHdpbGwgdW5kbyB0aGUgdjRsMl9kZXZpY2VfZ2V0KCkgKi8KIAl1c2J0dl92aWRlb19mcmVl
-KHVzYnR2KTsKIAogdXNidHZfdmlkZW9fZmFpbDoKLS0gCjIuMTYuNAoK
-
-
---=-kk7jchXK1/63f2PKt/n3--
-
+>
+> Thanks,
+>
+> Andrew Murray
+>
+> >
+> > > Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_driver.c | 3 +++
+> > >  drivers/media/usb/uvc/uvc_video.c  | 8 ++++++++
+> > >  drivers/media/usb/uvc/uvcvideo.h   | 1 +
+> > >  3 files changed, 12 insertions(+)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > index 431d86e1c94b..d5ecac7fc264 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -33,6 +33,7 @@ unsigned int uvc_no_drop_param;
+> > >  static unsigned int uvc_quirks_param = -1;
+> > >  unsigned int uvc_trace_param;
+> > >  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
+> > > +unsigned int uvc_bandwidth_cap_param;
+> > >
+> > >  /* ------------------------------------------------------------------------
+> > >   * Video formats
+> > > @@ -2389,6 +2390,8 @@ module_param_named(trace, uvc_trace_param, uint, S_IRUGO|S_IWUSR);
+> > >  MODULE_PARM_DESC(trace, "Trace level bitmask");
+> > >  module_param_named(timeout, uvc_timeout_param, uint, S_IRUGO|S_IWUSR);
+> > >  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
+> > > +module_param_named(bandwidth_cap, uvc_bandwidth_cap_param, uint, S_IRUGO|S_IWUSR);
+> > > +MODULE_PARM_DESC(bandwidth_cap, "Maximum bandwidth per device");
+> > >
+> > >  /* ------------------------------------------------------------------------
+> > >   * Driver initialization and cleanup
+> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > index a65d5353a441..74a0dc0614cf 100644
+> > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > @@ -196,6 +196,14 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+> > >
+> > >               ctrl->dwMaxPayloadTransferSize = bandwidth;
+> > >       }
+> > > +
+> > > +     if (uvc_bandwidth_cap_param &&
+> > > +         ctrl->dwMaxPayloadTransferSize > uvc_bandwidth_cap_param) {
+> > > +             uvc_trace(UVC_TRACE_VIDEO,
+> > > +                     "Bandwidth capped from %u to %u B/frame.\n",
+> > > +                     ctrl->dwMaxPayloadTransferSize, uvc_bandwidth_cap_param);
+> > > +             ctrl->dwMaxPayloadTransferSize = uvc_bandwidth_cap_param;
+> > > +     }
+> > >  }
+> > >
+> > >  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > index 6ab972c643e3..c7d9220c9a7a 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -718,6 +718,7 @@ extern unsigned int uvc_no_drop_param;
+> > >  extern unsigned int uvc_trace_param;
+> > >  extern unsigned int uvc_timeout_param;
+> > >  extern unsigned int uvc_hw_timestamps_param;
+> > > +extern unsigned int uvc_bandwidth_cap_param;
+> > >
+> > >  #define uvc_trace(flag, msg...) \
+> > >       do { \
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
