@@ -2,119 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D5D273387
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 22:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A9652733A7
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 22:38:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726468AbgIUUNA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 16:13:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726437AbgIUUM7 (ORCPT
+        id S1727011AbgIUUio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 16:38:44 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:52128 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726451AbgIUUio (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 16:12:59 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66BE0C0613D0
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 13:12:59 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id fa1so358787pjb.0
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 13:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=W/Kxd3ZsTJKzJEkeZeLlo7BrMx4l7UcmMdHw88y51RQ=;
-        b=hVYFLWChiCBjVwypKK0nyxvfd37bkITGsEBYxWBdD10OR6NdYz0pzW1BJbHzXslJo0
-         xtK3VvUkMzKZbsQ7aCfvV6ZlkuAvQfTmGBV7ZSh1zyrAUTEkGDeSJAXhqEtbyVOTczYF
-         jER8++ADxIio0/I76KHHvyQQhit8ZCWm8qIE0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=W/Kxd3ZsTJKzJEkeZeLlo7BrMx4l7UcmMdHw88y51RQ=;
-        b=IBKo/navTj7oWxxmapz+bxubDCgZfExMkofWaLvJcm048BQqUPiKzoAaXkOPA0ow9Z
-         kQnY/uysBJs+h5Jb2pZdIFJplKtun9WYfqZ5nbIhI5hctWoYJ6FSXq2M1Mh25vZMS9pz
-         Nlk113T/sBKjI9vd52fGokjWTgxXLo3O7lwXDSHmB7/F8eUeSEzTAogGkE6VxWIBlf/Z
-         lkJkHgsJqVDlHEYy457UorYqrpyyOpJBfUeb2whetKoldZdfzqkzAO43C8HMSriDzaR4
-         9jzzp/2xyVIOHGTSBdNNz/6AnLyoWLW3PkwfMkZZkZNRZsy6eEEaH36893sAvBYmteSh
-         gHKQ==
-X-Gm-Message-State: AOAM5331Wvnw9fChJTTqSMf2R88mlbLPSKveTtPixBw6cCBQNjDObTH2
-        MBr+DXzlMMf4j+uyuRo72kHBaA==
-X-Google-Smtp-Source: ABdhPJyehtYtEUeW5/Zkf7avMtNZ6qZZdA9mko0zR33iKWVQ2TSolZX0a+lsDR+hlvIgP+9qaZ5HRg==
-X-Received: by 2002:a17:90b:3cb:: with SMTP id go11mr802317pjb.152.1600719178625;
-        Mon, 21 Sep 2020 13:12:58 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
-        by smtp.gmail.com with ESMTPSA id l188sm12643094pfl.200.2020.09.21.13.12.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 13:12:57 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 21 Sep 2020 16:38:44 -0400
+X-Greylist: delayed 1114 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 16:38:43 EDT
+Received: from [78.134.51.148] (port=43940 helo=[192.168.77.62])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1kKSIA-0008Sc-U6; Mon, 21 Sep 2020 22:20:07 +0200
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH 2/3] media: docs: v4l2-subdev: move "Subdev registration"
+ to a subsection
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20200904215141.20862-1-luca@lucaceresoli.net>
+ <20200904215141.20862-2-luca@lucaceresoli.net>
+ <20200915134519.5u3vedcyek5ivvjq@uno.localdomain>
+Message-ID: <7aac5e6c-b925-c878-3a24-c2715a814476@lucaceresoli.net>
+Date:   Mon, 21 Sep 2020 22:20:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <f6cb2d7bc02dab409030ec42bf1d17c9@codeaurora.org>
-References: <20200917122558.23110-1-rojay@codeaurora.org> <160037421089.4188128.9425314091585708436@swboyd.mtv.corp.google.com> <f6cb2d7bc02dab409030ec42bf1d17c9@codeaurora.org>
-Subject: Re: [PATCH V4] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     wsa@kernel.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, akashast@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        vkaur@codeaurora.org, pyarlaga@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
-To:     rojay@codeaurora.org
-Date:   Mon, 21 Sep 2020 13:12:56 -0700
-Message-ID: <160071917655.4188128.4175000228517858211@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+In-Reply-To: <20200915134519.5u3vedcyek5ivvjq@uno.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting rojay@codeaurora.org (2020-09-21 04:21:04)
-> Hi Stephen,
->=20
-> On 2020-09-18 01:53, Stephen Boyd wrote:
-> > Quoting Roja Rani Yarubandi (2020-09-17 05:25:58)
-> >> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c=20
-> >> b/drivers/i2c/busses/i2c-qcom-geni.c
-> >> index dead5db3315a..b0d8043c8cb2 100644
-> >> --- a/drivers/i2c/busses/i2c-qcom-geni.c
-> >> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
-> >>  };
-> >>=20
-> >>  struct geni_i2c_err_log {
-> >> @@ -307,7 +311,6 @@ static void geni_i2c_abort_xfer(struct=20
-> >> geni_i2c_dev *gi2c)
-> >>=20
-> >>         spin_lock_irqsave(&gi2c->lock, flags);
-> >>         geni_i2c_err(gi2c, GENI_TIMEOUT);
-> >> -       gi2c->cur =3D NULL;
-> >=20
-> > This looks concerning. We're moving this out from under the spinlock.
-> > The irq handler in this driver seems to hold the spinlock all the time
-> > while processing and this function grabs it here to keep cur consistent
-> > when aborting the transfer due to a timeout. Otherwise it looks like=20
-> > the
-> > irqhandler can race with this and try to complete the transfer while
-> > it's being torn down here.
-> >=20
-> >>         geni_se_abort_m_cmd(&gi2c->se);
-> >>         spin_unlock_irqrestore(&gi2c->lock, flags);
-> >>         do {
-> >> @@ -349,10 +352,62 @@ static void geni_i2c_tx_fsm_rst(struct=20
-> >> geni_i2c_dev *gi2c)
-> >>                 dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
-> >>  }
-> >>=20
-> >> +static void geni_i2c_rx_msg_cleanup(struct geni_i2c_dev *gi2c)
-> >=20
-> > So maybe pass cur to this function?
-> >=20
->=20
-> Sorry, i did not understand why to pass cur to this function?
+Hi Jacopo,
 
-I'm suggesting to copy the cur data out of the gi2c pointer and then
-pass it to these functions so that it can't race with another transfer.
-Something like an atomic exchange may work. I haven't thought about it
-deeply, but we need to make sure the irq handler can't race with the
-cleanup functions.
+On 15/09/20 15:45, Jacopo Mondi wrote:
+> Hi Luca,
+> 
+> On Fri, Sep 04, 2020 at 11:51:40PM +0200, Luca Ceresoli wrote:
+>> The subdev registration topic is pretty lengthy, and takes more than
+>> half of the "V4L2 sub-devices" section. Help readers in finding their
+>> way through the document by dedicating a subsection to
+>> "Subdev registration".
+>>
+>> Each of the two registration methods takes many paragraphs, but since
+>> adding a subsubsection would be overkill, just emphasize them in bold.
+> 
+> I see bold being used mostly for C symbols names, I don't know if
+> that's a kind of convention or not.
+> 
+> I would not mind a subsection to be honest...
+> I think the patch is good and I'll provide a tag, maybe others can
+> provide opinions too!
+
+I'd say it's a matter of taste, so I'll keep the patch as is unless
+there are more votes for changing it.
+
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks,
+-- 
+Luca
