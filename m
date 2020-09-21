@@ -2,190 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B369272348
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 14:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D904272381
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 14:15:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726606AbgIUMCk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 08:02:40 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41654 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726413AbgIUMCk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 08:02:40 -0400
-Received: by mail-ed1-f68.google.com with SMTP id ay8so12465614edb.8;
-        Mon, 21 Sep 2020 05:02:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ooMeOqFsTMGGMTe6eBLr2JMOUkuXwIh/FFAOaUcM2v0=;
-        b=k5jlfVQLt8OsxXqlfL9ltdQ4o7rAz+QrGvHWYb9Fqbocc3POYufWgVdz4rrVFMln1q
-         y+2j/jqSN8IbiMi96sHjdYhtJNu9GS+HU5FV5p8hHnThAyi9KXaINFCICnLdy4Rnv8KP
-         09b29gt21bURtg+P6N0tHwvqmquEhpA1IJblnAB4QjpaUpV4g/ImQ1kML2wFHW2wfwYZ
-         1elHm5AVxZXw9rt5ITKj292XGfLlo4yfFL3AmisPp6asCMG0eOJmOSx1fW2zcvhfwpNg
-         lbiby1jiuxb6tIxZuBV5pOJN3/YQj/HnGd03Bpef0xnxZQeByR89mDtHEL9IoiUcbBK7
-         SXXg==
-X-Gm-Message-State: AOAM530+JN1veaIdurvkWWLWjDZTq/3ccvi0rDN8G+ZYCmR1/f2tOkig
-        +1zTJxuGwFD4V3HVJqedYFY=
-X-Google-Smtp-Source: ABdhPJxt7v8AvSUBkvJ6qkwYaOh3b7yjN1eWTtOk3ANPGVwOskaBIoo2jvk2Zg9Tvz2Dpnkz6P6KoA==
-X-Received: by 2002:aa7:d4d2:: with SMTP id t18mr50829445edr.55.1600689757765;
-        Mon, 21 Sep 2020 05:02:37 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.191])
-        by smtp.googlemail.com with ESMTPSA id c8sm8771235ejp.30.2020.09.21.05.02.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 21 Sep 2020 05:02:36 -0700 (PDT)
-Date:   Mon, 21 Sep 2020 14:02:34 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] media: imx258: Get clock from device properties
- and enable it via runtime PM
-Message-ID: <20200921120234.GB1233@kozik-lap>
-References: <1599031090-21608-1-git-send-email-krzk@kernel.org>
- <1599031090-21608-3-git-send-email-krzk@kernel.org>
- <20200902073935.GD32646@paasikivi.fi.intel.com>
+        id S1726413AbgIUMPZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 08:15:25 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:43708 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726341AbgIUMPY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 08:15:24 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kKKcy-000sgd-8d; Mon, 21 Sep 2020 12:09:04 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kKKlo-0007wW-Q6; Mon, 21 Sep 2020 12:18:12 +0000
+Date:   Mon, 21 Sep 2020 12:18:12 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Message-ID: <772924952.14.1600690692800@builder.linuxtv.org>
+In-Reply-To: <365472805.13.1600687094010@builder.linuxtv.org>
+References: <365472805.13.1600687094010@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #297
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200902073935.GD32646@paasikivi.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 02, 2020 at 10:39:35AM +0300, Sakari Ailus wrote:
-> Hi Krzysztof,
-> 
-> Thanks for the update.
-> 
-> On Wed, Sep 02, 2020 at 09:18:10AM +0200, Krzysztof Kozlowski wrote:
-> > The IMX258 sensor driver checked in device properties for a
-> > clock-frequency property which actually does not mean that the clock is
-> > really running such frequency or is it even enabled.
-> > 
-> > Get the provided clock and check it frequency.  If none is provided,
-> > fall back to old property.
-> > 
-> > Enable the clock when accessing the IMX258 registers and when streaming
-> > starts with runtime PM.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > 
-> > ---
-> > 
-> > Changes since v1:
-> > 1. Use runtime PM for clock toggling
-> > ---
-> >  drivers/media/i2c/imx258.c | 68 ++++++++++++++++++++++++++++++++++++++++------
-> >  1 file changed, 59 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> > index c20bac9b00ec..ee38dafb8450 100644
-> > --- a/drivers/media/i2c/imx258.c
-> > +++ b/drivers/media/i2c/imx258.c
-> > @@ -2,6 +2,7 @@
-> >  // Copyright (C) 2018 Intel Corporation
-> >  
-> >  #include <linux/acpi.h>
-> > +#include <linux/clk.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/module.h>
-> > @@ -68,6 +69,9 @@
-> >  #define REG_CONFIG_MIRROR_FLIP		0x03
-> >  #define REG_CONFIG_FLIP_TEST_PATTERN	0x02
-> >  
-> > +/* Input clock frequency in Hz */
-> > +#define IMX258_INPUT_CLOCK_FREQ		19200000
-> > +
-> >  struct imx258_reg {
-> >  	u16 address;
-> >  	u8 val;
-> > @@ -610,6 +614,8 @@ struct imx258 {
-> >  
-> >  	/* Streaming on/off */
-> >  	bool streaming;
-> > +
-> > +	struct clk *clk;
-> >  };
-> >  
-> >  static inline struct imx258 *to_imx258(struct v4l2_subdev *_sd)
-> > @@ -972,6 +978,27 @@ static int imx258_stop_streaming(struct imx258 *imx258)
-> >  	return 0;
-> >  }
-> >  
-> > +static int imx258_power_on(struct device *dev)
-> > +{
-> > +	struct imx258 *imx258 = dev_get_drvdata(dev);
-> > +	int ret;
-> > +
-> > +	ret = clk_prepare_enable(imx258->clk);
-> > +	if (ret)
-> > +		dev_err(dev, "failed to enable clock\n");
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int imx258_power_off(struct device *dev)
-> > +{
-> > +	struct imx258 *imx258 = dev_get_drvdata(dev);
-> > +
-> > +	clk_disable_unprepare(imx258->clk);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int imx258_set_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >  	struct imx258 *imx258 = to_imx258(sd);
-> > @@ -1201,9 +1228,27 @@ static int imx258_probe(struct i2c_client *client)
-> >  	int ret;
-> >  	u32 val = 0;
-> >  
-> > -	device_property_read_u32(&client->dev, "clock-frequency", &val);
-> > -	if (val != 19200000)
-> > -		return -EINVAL;
-> > +	imx258 = devm_kzalloc(&client->dev, sizeof(*imx258), GFP_KERNEL);
-> > +	if (!imx258)
-> > +		return -ENOMEM;
-> > +
-> > +	dev_set_drvdata(&client->dev, imx258);
-> 
-> This you cannot do --- it'll be overwritten by v4l2_i2c_subdev_init().
+See <https://builder.linuxtv.org/job/libcamera/297/display/redirect?page=changes>
 
-Right, thanks.
+Changes:
 
-> 
-> > +
-> > +	imx258->clk = devm_clk_get_optional(&client->dev, NULL);
-> > +	if (!imx258->clk) {
-> 
-> You can move declaration of val here (I think).
+[niklas.soderlund] libcamera: pipeline: raspberrypi: Move RPiStream into a separate file
 
-No, the val is used later in further device_property_read* calls.
+[niklas.soderlund] libcamera: pipeline: ipa: raspberrypi: Rework drop frame signalling
 
-> 
-> > +		dev_info(&client->dev, "no clock provided, using clock-frequency property\n");
-> 
-> As this is showing up on all ACPI based systems, I guess dev_dbg() would be
-> more appropriate.
+[niklas.soderlund] libcamera: pipeline: raspberrypi: Add some debug logging
 
-Sure, I'll make it debug.
+[niklas.soderlund] libcamera: pipeline: raspberrypi: Increase the number of RAW buffers
 
-> 
-> Please also wrap lines over 80 if they reasonably can be.
+[niklas.soderlund] libcamera: pipeline: raspberrypi: Remove const qualifier from RPiStream
 
-OK
+[niklas.soderlund] libcamera: pipeline: raspberrypi: Rework stream buffer logic for zero-copy
 
-Thanks for the review.
+[niklas.soderlund] libcamera: pipeline: raspberrypi: Fix bug in passing configuration to IPA
 
-Best regards,
-Krzysztof
+[niklas.soderlund] libcamera: pipeline: raspberrypi: Add more robust stream buffer logic
+
+[niklas.soderlund] libcamera: pipeline: ipa: raspberrypi: Remove use of FrameBuffer cookie
+
+[niklas.soderlund] pipeline: raspberrypi: Use an unordered_map for the stream buffer list
+
+[niklas.soderlund] pipeline: raspberrypi: Use an unordered_set to store IPA buffer ids
+
+[niklas.soderlund] pipeline: ipa: raspberrypi: Handle any externally allocated FrameBuffer
+
+
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/libcamera.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 39798e8777b553ed9ae9863da02e16e417d8307e (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 39798e8777b553ed9ae9863da02e16e417d8307e # timeout=10
+Commit message: "pipeline: ipa: raspberrypi: Handle any externally allocated FrameBuffer"
+ > git rev-list --no-walk e390f9f618ec694e5327ebe93cdfc0ba89ab5a86 # timeout=10
+[Checks API] No suitable checks publisher found.
+[libcamera] $ /bin/sh -xe /tmp/jenkins3819754941356252969.sh
++ rm -rf build
++ meson setup build
+The Meson build system
+Version: 0.52.1
+Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
+Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
+Build type: native build
+Project name: libcamera
+Project version: 0.0.0
+C compiler for the host machine: ccache cc (gcc 8.3.0 "cc (Debian 8.3.0-6) 8.3.0")
+C linker for the host machine: GNU ld.bfd 2.31.1
+C++ compiler for the host machine: ccache c++ (gcc 8.3.0 "c++ (Debian 8.3.0-6) 8.3.0")
+C++ linker for the host machine: GNU ld.bfd 2.31.1
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Header <execinfo.h> has symbol "backtrace" : YES 
+Header <stdlib.h> has symbol "secure_getenv" : YES 
+Compiler for C supports arguments -Wno-c99-designator -Wc99-designator: NO 
+Configuring version.h using configuration
+Dependency libexif skipped: feature android disabled
+Dependency libjpeg skipped: feature android disabled
+Program openssl found: YES (/usr/bin/openssl)
+Library atomic found: YES
+Library dl found: YES
+Library gnutls found: YES
+Found pkg-config: /usr/bin/pkg-config (0.29)
+Run-time dependency libudev found: YES 241
+Run-time dependency threads found: YES 
+Run-time dependency Boost found: YES 1.67
+Program ipa-sign-install.sh found: YES (<https://builder.linuxtv.org/job/libcamera/ws/src/ipa/ipa-sign-install.sh)>
+WARNING: rcc dependencies will not work reliably until this upstream issue is fixed: https://bugreports.qt.io/browse/QTBUG-45460
+Run-time dependency qt5 (modules: Core, Gui, Widgets) found: YES 5.11.3 (pkg-config)
+Run-time dependency libtiff-4 found: YES 4.1.0
+Header <QOpenGLWidget> has symbol "QOpenGLWidget" with dependency qt5: YES 
+Detecting Qt5 tools
+ moc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/moc, 5.11.3)
+ uic: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/uic, 5.11.3)
+ rcc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/rcc, 5.11.3)
+ lrelease: NO
+Run-time dependency glib-2.0 found: YES 2.58.3
+Did not find CMake 'cmake'
+Found CMake: NO
+Run-time dependency gstreamer-video-1.0 found: NO (tried pkgconfig and cmake)
+Run-time dependency gstreamer-allocators-1.0 found: NO (tried pkgconfig and cmake)
+Program doxygen found: YES (/usr/bin/doxygen)
+Configuring Doxyfile using configuration
+Program sphinx-build-3 found: NO
+Program sphinx-build found: YES (/var/lib/jenkins/.local/bin/sphinx-build)
+meson.build:123: WARNING: The current running kernel version 4.19.0-6-amd64 is too old to run libcamera.
+meson.build:125: WARNING: If you intend to use libcamera on this machine, please upgrade to a kernel >= 5.0.0.
+Configuring config.h using configuration
+Message: Enabled pipelines: ipu3, raspberrypi, rkisp1, simple, uvcvideo, vimc
+Build targets in project: 84
+Found ninja-1.8.2 at /usr/bin/ninja
++ meson configure -Dandroid=true -Dv4l2=true build
+
+ERROR: Value "true" for combo option is not one of the choices. Possible choices are: "enabled", "disabled", "auto".
+Build step 'Execute shell' marked build as failure
