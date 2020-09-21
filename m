@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1EAB272093
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:23:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3B6C272095
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:24:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727211AbgIUKXZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 06:23:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59068 "EHLO
+        id S1726601AbgIUKXY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 06:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726844AbgIUKUu (ORCPT
+        with ESMTP id S1726334AbgIUKUv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 06:20:50 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73620C061755
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:50 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id q9so11566560wmj.2
-        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:50 -0700 (PDT)
+        Mon, 21 Sep 2020 06:20:51 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 242E4C0613D0
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:51 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id s13so11552144wmh.4
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=XUCRDH6iHP/B7aPgUO/p342/Ws8bKasBR0X3UR3PF+I=;
-        b=COEGfMiFZniPYReKLoWfHR9tS+laqXb9erzlYjDHLUnLrwz0wv6itTpod8UALUjn9i
-         CckJCm4NK0/nwWiIdp21MpKvskhvcuxTfpzCeaKWybxDA1xUfz4ogGR2IHS9lVpJzsLu
-         wBsBnWZjkJ4tuUcprvJ1RNy4PtuDMMX3uKdOUvJ4M27IFjBUWxXgFfI+QJHCayQsJO3s
-         SMwlXUIXP9bViMENlKKWaLnfb4Nk4fPJ5/hbXU3gjfB8jXH0vg5sYs3WPIRDchrcKWsc
-         dAYMUnZbfBg3bbLcVxi++zEhfwgUNOWHxxjDF/IQ25Q6twqzEJjQ6C7ULa6IGDtzOZqr
-         0/ZQ==
+        bh=vl6OTebBvkB4fdbT234fIR/40NpEOt314dUuABCDll4=;
+        b=WFgjWee5tAmAd1qRQcGAeSltT4caQXzjsAIKam+mcOztmDIR83/XyI3xW+hXWmc6H0
+         ztufoQ/FW87bsXe5I6eEUk1UBdzW9NNXvu88hj2PAD0A910DzQRTUL/YH6pf0dpFJ69H
+         T/KUelScDdiGNe5f7t1pMOUXoFiKeLOYsh2xyadC2FRSol4vbOSdF8EBNy0uKGDprvOB
+         ous2BtfSAcG8bFn2fNBVMbFAweBvfuwxeLBTgE5qs+hlGVovIhwnsxwN2ZK4CQ0OLIYP
+         jvNgSM5S1JIMOA9pjBOjLl1rbZlbtun2DfWZxl+DlBzCuSgRZVz2Sc/Q5IQTvdVhZXXL
+         49Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=XUCRDH6iHP/B7aPgUO/p342/Ws8bKasBR0X3UR3PF+I=;
-        b=LToZ06Dy8/+DYrXKd34h0EkhPKi6PNyqzbbJ9yzxJqLd3fsPlmicdHx8VgVCm/J+6A
-         kCVfblsXUul8+31RDTdgMUYba/fisvXdNK40WPN0FogOZiSeiE8c+vctG+b+H5ibnTsi
-         XL/uH1oAbEuOhBc24KKmPNljvG4UznSWg19TlACrBNpPdEp/B7FshNVuH9JG6k432ZR1
-         3jDPoQmU++aXKUi6L19ufGMJenb81XnjFF9/WrQoYu3P9NGUApUWhhTV71sL4Mm9Hbih
-         BIXpQxgSEvewTUkJfSTImc698PnyHmkwXdN7YxnctVK8eWG01MpQGos9zFAfJY2nrMTl
-         CCYg==
-X-Gm-Message-State: AOAM5330PaCavDRMTHzMV4/uY3aIeSP65TIh4fBE0GWND94nb62HZNJE
-        63UvnPrRKDblVb1oaRa+XkB7ZQ==
-X-Google-Smtp-Source: ABdhPJww3+HOO9uP4NbpSoCHegjIzTUgjpnk7lEmGXSWSZ+qbnX+IR0Tn9nDi7Xvljaj39CspqSQgw==
-X-Received: by 2002:a7b:c1d4:: with SMTP id a20mr29620554wmj.30.1600683649047;
+        bh=vl6OTebBvkB4fdbT234fIR/40NpEOt314dUuABCDll4=;
+        b=b3dFfSkmf/wE4EC3707y9xg3mpZkIQRoUZx8AVslqWKuBst/2KfZG2egAQz3bqT8Pj
+         iwES5kbCvcn2JU341jQg98uSseSdEFbasV5tJPfFs9VNF2hTdH97BiBf1bjAIxEQ02lB
+         2Gr+XR3lxZy9uPAgfJh7mYOOZjrrxnxvnGcU05hmm433RLwbt5lNe/4qjpXesg5DAFyU
+         XIzG04+/RlIBpiOtUgZp/HBojmnMseJNkMySDNWzQe6iCZMyhFob+URIlc2W5Hnrycxz
+         tjOHlIrmReBuGe808inqezSaNXRBXhYBlEIVCCKh/o6f2YdT/420nCZGRz9RDDzekLjo
+         iOyw==
+X-Gm-Message-State: AOAM533B8El5u7EINHrSS3yZQOuICfMc6WceF+FvZtxNtveKVbHSOHZr
+        w6qaTNllLpiPy5Zq5OzLul9mZg==
+X-Google-Smtp-Source: ABdhPJxEoI9cVv901ZdVCjiPjzQzjnNTltkT1xg7WUelID5zgl2gGP6kyipgnMsU1MRU7KUyfpLjFA==
+X-Received: by 2002:a05:600c:220f:: with SMTP id z15mr16338168wml.87.1600683649861;
         Mon, 21 Sep 2020 03:20:49 -0700 (PDT)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.20.48
+        by smtp.googlemail.com with ESMTPSA id l17sm18804629wme.11.2020.09.21.03.20.49
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 21 Sep 2020 03:20:48 -0700 (PDT)
+        Mon, 21 Sep 2020 03:20:49 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, laurent.pinchart@skynet.be,
         mchehab@kernel.org
 Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH RFT/RFC 17/49] staging: media: zoran: move buffer_size out of zoran_fh
-Date:   Mon, 21 Sep 2020 10:19:52 +0000
-Message-Id: <1600683624-5863-18-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC 18/49] staging: media: zoran: move v4l_settings out of zoran_fh
+Date:   Mon, 21 Sep 2020 10:19:53 +0000
+Message-Id: <1600683624-5863-19-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
 References: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
@@ -62,263 +62,117 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We need to get rid of zoran_fh, so move the buffer_size directly in the
+We need to get rid of zoran_fh, so move the v4l_settings directly in the
 zoran structure.
-
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/zoran.h        |  3 +-
- drivers/staging/media/zoran/zoran_device.c |  3 +-
- drivers/staging/media/zoran/zoran_driver.c | 62 +++++++++++-----------
- 3 files changed, 35 insertions(+), 33 deletions(-)
+ drivers/staging/media/zoran/zoran.h        |  1 -
+ drivers/staging/media/zoran/zoran_driver.c | 38 ++++++++++------------
+ 2 files changed, 17 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
-index 1b3eceaead5a..97933c550113 100644
+index 97933c550113..a529b49888c6 100644
 --- a/drivers/staging/media/zoran/zoran.h
 +++ b/drivers/staging/media/zoran/zoran.h
-@@ -195,7 +195,7 @@ enum zoran_lock_activity {
- /* buffer collections */
- struct zoran_buffer_col {
- 	enum zoran_lock_activity active;	/* feature currently in use? */
--	unsigned int num_buffers, buffer_size;
-+	unsigned int num_buffers;
- 	struct zoran_buffer buffer[MAX_FRAME];	/* buffers */
- 	u8 allocated;		/* Flag if buffers are allocated */
- 	u8 need_contiguous;	/* Flag if contiguous buffers are needed */
-@@ -292,6 +292,7 @@ struct zoran {
- 	v4l2_std_id norm;
+@@ -217,7 +217,6 @@ struct zoran_fh {
  
- 	/* Current buffer params */
-+	unsigned int buffer_size;
- 	void *vbuf_base;
- 	int vbuf_height, vbuf_width;
- 	int vbuf_depth;
-diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
-index a33de61a5e9b..4f9b28e63ac0 100644
---- a/drivers/staging/media/zoran/zoran_device.c
-+++ b/drivers/staging/media/zoran/zoran_device.c
-@@ -882,8 +882,7 @@ void jpeg_start(struct zoran *zr)
- void zr36057_enable_jpg(struct zoran *zr, enum zoran_codec_mode mode)
- {
- 	struct vfe_settings cap;
--	int field_size =
--	    zr->jpg_buffers.buffer_size / zr->jpg_settings.field_per_buff;
-+	int field_size = zr->buffer_size / zr->jpg_settings.field_per_buff;
+ 	struct zoran_buffer_col buffers;	/* buffers' info */
  
- 	zr->codec_mode = mode;
+-	struct zoran_v4l_settings v4l_settings;	/* structure with a lot of things to play with */
+ 	struct zoran_jpg_settings jpg_settings;	/* structure with a lot of things to play with */
+ };
  
 diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-index a996161cb276..a97faf54e19d 100644
+index a97faf54e19d..984f1dde99d2 100644
 --- a/drivers/staging/media/zoran/zoran_driver.c
 +++ b/drivers/staging/media/zoran/zoran_driver.c
-@@ -178,15 +178,18 @@ static void jpg_fbuffer_free(struct zoran_fh *fh);
- /* Set mapping mode */
- static void map_mode_raw(struct zoran_fh *fh)
- {
-+	struct zoran *zr = fh->zr;
- 	fh->map_mode = ZORAN_MAP_MODE_RAW;
--	fh->buffers.buffer_size = v4l_bufsize;
-+	zr->buffer_size = v4l_bufsize;
- 	fh->buffers.num_buffers = v4l_nbufs;
- }
- 
- static void map_mode_jpg(struct zoran_fh *fh, int play)
- {
-+	struct zoran *zr = fh->zr;
-+
- 	fh->map_mode = play ? ZORAN_MAP_MODE_JPG_PLAY : ZORAN_MAP_MODE_JPG_REC;
--	fh->buffers.buffer_size = jpg_bufsize;
-+	zr->buffer_size = jpg_bufsize;
- 	fh->buffers.num_buffers = jpg_nbufs;
- }
- 
-@@ -212,7 +215,7 @@ static int v4l_fbuffer_alloc(struct zoran_fh *fh)
- 			pci_warn(zr->pci_dev, "%s - buffer %d already allocated!?\n", __func__, i);
- 
- 		//udelay(20);
--		mem = kmalloc(fh->buffers.buffer_size, GFP_KERNEL | __GFP_NOWARN);
-+		mem = kmalloc(zr->buffer_size, GFP_KERNEL | __GFP_NOWARN);
- 		if (!mem) {
- 			pci_err(zr->pci_dev, "%s - kmalloc for V4L buf %d failed\n", __func__, i);
- 			v4l_fbuffer_free(fh);
-@@ -221,7 +224,7 @@ static int v4l_fbuffer_alloc(struct zoran_fh *fh)
- 		fh->buffers.buffer[i].v4l.fbuffer = mem;
- 		fh->buffers.buffer[i].v4l.fbuffer_phys = virt_to_phys(mem);
- 		fh->buffers.buffer[i].v4l.fbuffer_bus = virt_to_bus(mem);
--		for (off = 0; off < fh->buffers.buffer_size;
-+		for (off = 0; off < zr->buffer_size;
- 		     off += PAGE_SIZE)
- 			SetPageReserved(virt_to_page(mem + off));
- 		pci_info(zr->pci_dev, "%s - V4L frame %d mem %p (bus: 0x%llx)\n", __func__, i, mem,
-@@ -247,7 +250,7 @@ static void v4l_fbuffer_free(struct zoran_fh *fh)
- 			continue;
- 
- 		mem = fh->buffers.buffer[i].v4l.fbuffer;
--		for (off = 0; off < fh->buffers.buffer_size;
-+		for (off = 0; off < zr->buffer_size;
- 		     off += PAGE_SIZE)
- 			ClearPageReserved(virt_to_page(mem + off));
- 		kfree(fh->buffers.buffer[i].v4l.fbuffer);
-@@ -307,7 +310,7 @@ static int jpg_fbuffer_alloc(struct zoran_fh *fh)
- 		fh->buffers.buffer[i].jpg.frag_tab_bus = virt_to_bus(mem);
- 
- 		if (fh->buffers.need_contiguous) {
--			mem = kmalloc(fh->buffers.buffer_size, GFP_KERNEL);
-+			mem = kmalloc(zr->buffer_size, GFP_KERNEL);
- 			if (!mem) {
- 				pci_err(zr->pci_dev, "%s - kmalloc failed for buffer %d\n", __func__, i);
- 				jpg_fbuffer_free(fh);
-@@ -316,12 +319,12 @@ static int jpg_fbuffer_alloc(struct zoran_fh *fh)
- 			fh->buffers.buffer[i].jpg.frag_tab[0] =
- 				cpu_to_le32(virt_to_bus(mem));
- 			fh->buffers.buffer[i].jpg.frag_tab[1] =
--				cpu_to_le32((fh->buffers.buffer_size >> 1) | 1);
--			for (off = 0; off < fh->buffers.buffer_size; off += PAGE_SIZE)
-+				cpu_to_le32((zr->buffer_size >> 1) | 1);
-+			for (off = 0; off < zr->buffer_size; off += PAGE_SIZE)
- 				SetPageReserved(virt_to_page(mem + off));
- 		} else {
- 			/* jpg_bufsize is already page aligned */
--			for (j = 0; j < fh->buffers.buffer_size / PAGE_SIZE; j++) {
-+			for (j = 0; j < zr->buffer_size / PAGE_SIZE; j++) {
- 				mem = (void *)get_zeroed_page(GFP_KERNEL);
- 				if (!mem) {
- 					pci_err(zr->pci_dev, "%s - get_zeroed_page failed for buffer %d\n", __func__, i);
-@@ -341,7 +344,7 @@ static int jpg_fbuffer_alloc(struct zoran_fh *fh)
- 	}
- 
- 	pci_dbg(zr->pci_dev, "%s - %d KB allocated\n", __func__,
--		(fh->buffers.num_buffers * fh->buffers.buffer_size) >> 10);
-+		(fh->buffers.num_buffers * zr->buffer_size) >> 10);
- 
- 	fh->buffers.allocated = 1;
- 
-@@ -369,14 +372,14 @@ static void jpg_fbuffer_free(struct zoran_fh *fh)
- 
- 			if (frag_tab) {
- 				mem = bus_to_virt(le32_to_cpu(frag_tab));
--				for (off = 0; off < fh->buffers.buffer_size; off += PAGE_SIZE)
-+				for (off = 0; off < zr->buffer_size; off += PAGE_SIZE)
- 					ClearPageReserved(virt_to_page(mem + off));
- 				kfree(mem);
- 				buffer->jpg.frag_tab[0] = 0;
- 				buffer->jpg.frag_tab[1] = 0;
- 			}
- 		} else {
--			for (j = 0; j < fh->buffers.buffer_size / PAGE_SIZE; j++) {
-+			for (j = 0; j < zr->buffer_size / PAGE_SIZE; j++) {
- 				frag_tab = buffer->jpg.frag_tab[2 * j];
- 
- 				if (!frag_tab)
-@@ -416,9 +419,9 @@ static int zoran_v4l_set_format(struct zoran_fh *fh, int width, int height,
- 	bpp = (format->depth + 7) / 8;
- 
- 	/* Check against available buffer size */
--	if (height * width * bpp > fh->buffers.buffer_size) {
-+	if (height * width * bpp > zr->buffer_size) {
- 		pci_err(zr->pci_dev, "%s - video buffer size (%d kB) is too small\n",
--			__func__, fh->buffers.buffer_size >> 10);
-+			__func__, zr->buffer_size >> 10);
+@@ -432,10 +432,10 @@ static int zoran_v4l_set_format(struct zoran_fh *fh, int width, int height,
  		return -EINVAL;
  	}
  
-@@ -1189,7 +1192,7 @@ static int zoran_v4l2_buffer_status(struct zoran_fh *fh,
- 		spin_unlock_irqrestore(&zr->spinlock, flags);
+-	fh->v4l_settings.width = width;
+-	fh->v4l_settings.height = height;
+-	fh->v4l_settings.format = format;
+-	fh->v4l_settings.bytesperline = bpp * fh->v4l_settings.width;
++	zr->v4l_settings.width = width;
++	zr->v4l_settings.height = height;
++	zr->v4l_settings.format = format;
++	zr->v4l_settings.bytesperline = bpp * zr->v4l_settings.width;
  
- 		buf->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--		buf->length = fh->buffers.buffer_size;
-+		buf->length = zr->buffer_size;
- 
- 		/* get buffer */
- 		buf->bytesused = fh->buffers.buffer[num].bs.length;
-@@ -1222,7 +1225,7 @@ static int zoran_v4l2_buffer_status(struct zoran_fh *fh,
- 		buf->type = (fh->map_mode == ZORAN_MAP_MODE_JPG_REC) ?
- 			      V4L2_BUF_TYPE_VIDEO_CAPTURE :
- 			      V4L2_BUF_TYPE_VIDEO_OUTPUT;
--		buf->length = fh->buffers.buffer_size;
-+		buf->length = zr->buffer_size;
- 
- 		/* these variables are only written after frame has been captured */
- 		if (fh->buffers.buffer[num].state == BUZ_STATE_DONE ||
-@@ -1634,7 +1637,7 @@ static int zoran_s_fmt_vid_out(struct file *file, void *__fh, struct v4l2_format
- 	fh->jpg_settings = settings;
- 
- 	map_mode_jpg(fh, fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT);
--	fh->buffers.buffer_size = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
-+	zr->buffer_size = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
- 
- 	/* tell the user what we actually did */
- 	fmt->fmt.pix.width = settings.img_width / settings.HorDcm;
-@@ -1646,7 +1649,7 @@ static int zoran_s_fmt_vid_out(struct file *file, void *__fh, struct v4l2_format
- 		fmt->fmt.pix.field = (fh->jpg_settings.odd_even ?
- 				V4L2_FIELD_TOP : V4L2_FIELD_BOTTOM);
- 	fmt->fmt.pix.bytesperline = 0;
--	fmt->fmt.pix.sizeimage = fh->buffers.buffer_size;
-+	fmt->fmt.pix.sizeimage = zr->buffer_size;
- 	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
- 	return res;
+ 	return 0;
  }
-@@ -1798,7 +1801,7 @@ static int zoran_reqbufs(struct file *file, void *__fh, struct v4l2_requestbuffe
- 		/* The next mmap will map the MJPEG buffers */
- 		map_mode_jpg(fh, req->type == V4L2_BUF_TYPE_VIDEO_OUTPUT);
- 		fh->buffers.num_buffers = req->count;
--		fh->buffers.buffer_size = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
-+		zr->buffer_size = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
+@@ -489,7 +489,7 @@ static int zoran_v4l_queue_frame(struct zoran_fh *fh, int num)
+ 			zr->v4l_pend[zr->v4l_pend_head++ & V4L_MASK_FRAME] = num;
+ 			zr->v4l_buffers.buffer[num].state = BUZ_STATE_PEND;
+ 			zr->v4l_buffers.buffer[num].bs.length =
+-			    fh->v4l_settings.bytesperline *
++			    zr->v4l_settings.bytesperline *
+ 			    zr->v4l_settings.height;
+ 			fh->buffers.buffer[num] = zr->v4l_buffers.buffer[num];
+ 			break;
+@@ -751,8 +751,6 @@ static void zoran_open_init_session(struct zoran_fh *fh)
+ 	fh->overlay_settings.format = zr->overlay_settings.format;
+ 	fh->overlay_active = ZORAN_FREE;
  
- 		if (jpg_fbuffer_alloc(fh)) {
- 			res = -ENOMEM;
-@@ -2270,8 +2273,7 @@ static int zoran_s_jpegcomp(struct file *file, void *__fh,
- 	if (res)
- 		return res;
- 	if (!fh->buffers.allocated)
--		fh->buffers.buffer_size =
--			zoran_v4l2_calc_bufsize(&fh->jpg_settings);
-+		zr->buffer_size = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
- 	fh->jpg_settings.jpg_comp = settings.jpg_comp;
- 	return res;
- }
-@@ -2437,15 +2439,15 @@ static int zoran_mmap(struct file *file, struct vm_area_struct *vma)
- 		return res;
- 	}
+-	/* v4l settings */
+-	fh->v4l_settings = zr->v4l_settings;
+ 	/* jpg settings */
+ 	fh->jpg_settings = zr->jpg_settings;
  
--	first = offset / fh->buffers.buffer_size;
--	last = first - 1 + size / fh->buffers.buffer_size;
--	if (offset % fh->buffers.buffer_size != 0 ||
--	    size % fh->buffers.buffer_size != 0 || first < 0 ||
-+	first = offset / zr->buffer_size;
-+	last = first - 1 + size / zr->buffer_size;
-+	if (offset % zr->buffer_size != 0 ||
-+	    size % zr->buffer_size != 0 || first < 0 ||
- 	    last < 0 || first >= fh->buffers.num_buffers ||
--	    last >= fh->buffers.buffer_size) {
-+	    last >= zr->buffer_size) {
- 		pci_err(zr->pci_dev, "%s(%s) - offset=%lu or size=%lu invalid for bufsize=%d and numbufs=%d\n",
- 			__func__, mode_name(fh->map_mode), offset, size,
--			fh->buffers.buffer_size,
-+			zr->buffer_size,
- 			fh->buffers.num_buffers);
- 		res = -EINVAL;
+@@ -1205,7 +1203,7 @@ static int zoran_v4l2_buffer_status(struct zoran_fh *fh,
+ 			buf->flags |= V4L2_BUF_FLAG_QUEUED;
+ 		}
+ 
+-		if (fh->v4l_settings.height <= BUZ_MAX_HEIGHT / 2)
++		if (zr->v4l_settings.height <= BUZ_MAX_HEIGHT / 2)
+ 			buf->field = V4L2_FIELD_TOP;
+ 		else
+ 			buf->field = V4L2_FIELD_INTERLACED;
+@@ -1418,14 +1416,13 @@ static int zoran_g_fmt_vid_cap(struct file *file, void *__fh, struct v4l2_format
+ 	if (fh->map_mode != ZORAN_MAP_MODE_RAW)
+ 		return zoran_g_fmt_vid_out(file, fh, fmt);
+ 
+-	fmt->fmt.pix.width = fh->v4l_settings.width;
+-	fmt->fmt.pix.height = fh->v4l_settings.height;
+-	fmt->fmt.pix.sizeimage = fh->v4l_settings.bytesperline *
+-					fh->v4l_settings.height;
+-	fmt->fmt.pix.pixelformat = fh->v4l_settings.format->fourcc;
+-	fmt->fmt.pix.colorspace = fh->v4l_settings.format->colorspace;
+-	fmt->fmt.pix.bytesperline = fh->v4l_settings.bytesperline;
+-	if (BUZ_MAX_HEIGHT < (fh->v4l_settings.height * 2))
++	fmt->fmt.pix.width = zr->v4l_settings.width;
++	fmt->fmt.pix.height = zr->v4l_settings.height;
++	fmt->fmt.pix.sizeimage = zr->v4l_settings.bytesperline * zr->v4l_settings.height;
++	fmt->fmt.pix.pixelformat = zr->v4l_settings.format->fourcc;
++	fmt->fmt.pix.colorspace = zr->v4l_settings.format->colorspace;
++	fmt->fmt.pix.bytesperline = zr->v4l_settings.bytesperline;
++	if (BUZ_MAX_HEIGHT < (zr->v4l_settings.height * 2))
+ 		fmt->fmt.pix.field = V4L2_FIELD_INTERLACED;
+ 	else
+ 		fmt->fmt.pix.field = V4L2_FIELD_TOP;
+@@ -1691,10 +1688,10 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh, struct v4l2_format
  		return res;
-@@ -2476,8 +2478,8 @@ static int zoran_mmap(struct file *file, struct vm_area_struct *vma)
- 	if (fh->map_mode == ZORAN_MAP_MODE_RAW) {
- 		for (i = first; i <= last; i++) {
- 			todo = size;
--			if (todo > fh->buffers.buffer_size)
--				todo = fh->buffers.buffer_size;
-+			if (todo > zr->buffer_size)
-+				todo = zr->buffer_size;
- 			page = fh->buffers.buffer[i].v4l.fbuffer_phys;
- 			if (remap_pfn_range(vma, start, page >> PAGE_SHIFT,
- 					    todo, PAGE_SHARED)) {
-@@ -2494,7 +2496,7 @@ static int zoran_mmap(struct file *file, struct vm_area_struct *vma)
- 	} else {
- 		for (i = first; i <= last; i++) {
- 			for (j = 0;
--			     j < fh->buffers.buffer_size / PAGE_SIZE;
-+			     j < zr->buffer_size / PAGE_SIZE;
- 			     j++) {
- 				fraglen =
- 				    (le32_to_cpu(fh->buffers.buffer[i].jpg.
+ 
+ 	/* tell the user the results/missing stuff */
+-	fmt->fmt.pix.bytesperline = fh->v4l_settings.bytesperline;
+-	fmt->fmt.pix.sizeimage = fh->v4l_settings.height * fh->v4l_settings.bytesperline;
+-	fmt->fmt.pix.colorspace = fh->v4l_settings.format->colorspace;
+-	if (BUZ_MAX_HEIGHT < (fh->v4l_settings.height * 2))
++	fmt->fmt.pix.bytesperline = zr->v4l_settings.bytesperline;
++	fmt->fmt.pix.sizeimage = zr->v4l_settings.height * zr->v4l_settings.bytesperline;
++	fmt->fmt.pix.colorspace = zr->v4l_settings.format->colorspace;
++	if (BUZ_MAX_HEIGHT < (zr->v4l_settings.height * 2))
+ 		fmt->fmt.pix.field = V4L2_FIELD_INTERLACED;
+ 	else
+ 		fmt->fmt.pix.field = V4L2_FIELD_TOP;
+@@ -1961,7 +1958,6 @@ static int zoran_streamon(struct file *file, void *__fh, enum v4l2_buf_type type
+ 		}
+ 
+ 		zr->v4l_buffers.active = fh->buffers.active = ZORAN_LOCKED;
+-		zr->v4l_settings = fh->v4l_settings;
+ 
+ 		zr->v4l_sync_tail = zr->v4l_pend_tail;
+ 		if (!zr->v4l_memgrab_active &&
 -- 
 2.26.2
 
