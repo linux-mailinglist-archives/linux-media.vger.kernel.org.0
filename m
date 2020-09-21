@@ -2,137 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 941DA271FC8
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA23B271F8E
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 12:02:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726413AbgIUKNx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 06:13:53 -0400
-Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:64054 "EHLO
-        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726326AbgIUKNx (ORCPT
+        id S1726343AbgIUKCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 06:02:36 -0400
+Received: from mail-io1-f78.google.com ([209.85.166.78]:51713 "EHLO
+        mail-io1-f78.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726366AbgIUKCW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 06:13:53 -0400
-X-Greylist: delayed 1093 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 06:13:53 EDT
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 08L9pWWt008800;
-        Mon, 21 Sep 2020 04:55:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=WW55bEkB7c/YZlSmO/EfsOHzstbkfstuef6OZNz+13c=;
- b=RAPzGpwEZK3EtSkcJz7IYXubWw2d6vb6Z6COv6mOaxlza+Ftd/N2PHUA2t3OLLhg9MRd
- dxTDwjvSV/TID0foNaLZz3+H9VO8ks5/8xrChPwooO9+ksEz/70TxbI5uYBWyRrU36sq
- Ze9KCk7CYEZkWRqrzvTMiTRivlzUuGb1JvFVsYtmpwUKuG7SzkKExtro+H7XbmuipSmU
- k8r1CiI8Zlx7e8Tsj9mAdmuSctFUgls3OecRoKIuIwYX5KuT41ylOE4qZuquJ4PIdGs4
- yHgXUdbVhSQT27Y9wzfFVRDnPRPEFVTRMBnMxBB4w0623C05G4+qIMNcp5ckp8uAITlz zA== 
-Received: from ediex01.ad.cirrus.com ([87.246.76.36])
-        by mx0a-001ae601.pphosted.com with ESMTP id 33nfd221ju-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Mon, 21 Sep 2020 04:55:21 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Mon, 21 Sep
- 2020 10:55:19 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.1913.5 via Frontend
- Transport; Mon, 21 Sep 2020 10:55:19 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id E4D5A2C3;
-        Mon, 21 Sep 2020 09:55:18 +0000 (UTC)
-Date:   Mon, 21 Sep 2020 09:55:18 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Hoan Tran <hoan@os.amperecomputing.com>,
-        Serge Semin <fancer.lancer@gmail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Sungbo Eo <mans0n@gorani.run>, Stefan Agner <stefan@agner.ch>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yash Shah <yash.shah@sifive.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        - <patches@opensource.cirrus.com>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andy Teng <andy.teng@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Sricharan R <sricharan@codeaurora.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, <linux-gpio@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-unisoc@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 09/13] dt-bindings: pinctrl: include common schema in
- GPIO controllers
-Message-ID: <20200921095518.GQ10899@ediswmail.ad.cirrus.com>
-References: <20200917165301.23100-1-krzk@kernel.org>
- <20200917165301.23100-10-krzk@kernel.org>
+        Mon, 21 Sep 2020 06:02:22 -0400
+Received: by mail-io1-f78.google.com with SMTP id q12so9419313iob.18
+        for <linux-media@vger.kernel.org>; Mon, 21 Sep 2020 03:02:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=8At/pGVVkTvpu/mp8Xc1NUUCOQaO1LHGiWdU5OkrovU=;
+        b=IzeAHaM8VY7DFB6hagvukdxXFRmG+V5O1mLYJj6Hfmpt6C4MdkjinbyV2bprRS2doZ
+         REpkPqckFoWrFeY1xiQHDP08KR2+moPY5mdAOvgJH6qIYpO2N1MBra9WoK9YV4SoExNw
+         tY8VBpRwhH+NEr/a6m6WVgkpWnE/fS828G/ueTYTs5Lch1oOGCzf7DI67Cgdekm2zUUK
+         AeTPc9teAy4G/WPoy8FPQwlEAO5M9CM89qML45hDpXdc5SpvPhLDt10HMkCQvXbyHsQe
+         bbOr/JS1fd7vteQ6QskPDXHZYcMmn+QxBTov3FXjobE0v64XbZY8MWJHzieGnvHlu7HZ
+         8Jdw==
+X-Gm-Message-State: AOAM531vKHvNuWqHnhGx5WZUrGlnaiM+b3O9FRckCoPaXcHjdRzGpLq2
+        0QCXTxP6LDDdZH6yWQB+NuRS+24JEWs70OXlSiCXUJz1h05O
+X-Google-Smtp-Source: ABdhPJxPUybSAP4Njtc33THXv/FIAL+YAdszuiOczoJOLnIlLdsyLDL4g4fKHLTRtNpCNgn4E9o9Ol9mX2203FoqPwF5SL6quLgc
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200917165301.23100-10-krzk@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 suspectscore=0
- mlxlogscore=807 adultscore=0 clxscore=1015 malwarescore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009210071
+X-Received: by 2002:a92:d07:: with SMTP id 7mr39101806iln.243.1600682541373;
+ Mon, 21 Sep 2020 03:02:21 -0700 (PDT)
+Date:   Mon, 21 Sep 2020 03:02:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000046e0e905afcff205@google.com>
+Subject: KASAN: vmalloc-out-of-bounds Read in bpf_trace_run2
+From:   syzbot <syzbot+845923d2172947529b58@syzkaller.appspotmail.com>
+To:     andriin@fb.com, ast@kernel.org, bpf@vger.kernel.org,
+        coreteam@netfilter.org, daniel@iogearbox.net, davem@davemloft.net,
+        hawk@kernel.org, john.fastabend@gmail.com, kaber@trash.net,
+        kadlec@blackhole.kfki.hu, kafai@fb.com, kpsingh@chromium.org,
+        kuba@kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        mchehab@s-opensource.com, mingo@redhat.com, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, pablo@netfilter.org,
+        rostedt@goodmis.org, songliubraving@fb.com,
+        syzkaller-bugs@googlegroups.com, yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 06:52:57PM +0200, Krzysztof Kozlowski wrote:
-> Include the common GPIO schema in GPIO controllers to be sure all common
-> properties are properly validated.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> 
-> ---
+Hello,
 
-For the Cirrus bits:
+syzbot found the following issue on:
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+HEAD commit:    70b97111 bpf: Use hlist_add_head_rcu when linking to local..
+git tree:       bpf-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=15c624ad900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7e0ca96a9b6ee858
+dashboard link: https://syzkaller.appspot.com/bug?extid=845923d2172947529b58
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10193f3b900000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=168c729b900000
 
-Thanks,
-Charles
+The issue was bisected to:
+
+commit 0a93dc1c18fd86f936bcb44f72dc044c0ea826a8
+Author: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Date:   Wed Oct 12 11:11:16 2016 +0000
+
+    [media] dvb-core: don't break long lines
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=170e18d3900000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=148e18d3900000
+console output: https://syzkaller.appspot.com/x/log.txt?x=108e18d3900000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+845923d2172947529b58@syzkaller.appspotmail.com
+Fixes: 0a93dc1c18fd ("[media] dvb-core: don't break long lines")
+
+==================================================================
+BUG: KASAN: vmalloc-out-of-bounds in __bpf_trace_run kernel/trace/bpf_trace.c:1937 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in bpf_trace_run2+0x397/0x3d0 kernel/trace/bpf_trace.c:1974
+Read of size 8 at addr ffffc90000e76030 by task syz-executor514/6838
+
+CPU: 0 PID: 6838 Comm: syz-executor514 Not tainted 5.9.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x18f/0x20d lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0x5/0x497 mm/kasan/report.c:383
+ __kasan_report mm/kasan/report.c:513 [inline]
+ kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
+ __bpf_trace_run kernel/trace/bpf_trace.c:1937 [inline]
+ bpf_trace_run2+0x397/0x3d0 kernel/trace/bpf_trace.c:1974
+ trace_sys_enter include/trace/events/syscalls.h:18 [inline]
+ syscall_trace_enter kernel/entry/common.c:64 [inline]
+ syscall_enter_from_user_mode+0x22c/0x290 kernel/entry/common.c:82
+ do_syscall_64+0xf/0x70 arch/x86/entry/common.c:41
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x4441ba
+Code: 25 18 00 00 00 00 74 01 f0 48 0f b1 3d ef f9 28 00 48 39 c2 75 da f3 c3 0f 1f 84 00 00 00 00 00 48 63 ff b8 e4 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 06 f3 c3 0f 1f 40 00 48 c7 c2 d0 ff ff ff f7
+RSP: 002b:00007ffeec2fd9d8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e4
+RAX: ffffffffffffffda RBX: 0000000000001ac2 RCX: 00000000004441ba
+RDX: 0000000000000000 RSI: 00007ffeec2fd9e0 RDI: 0000000000000001
+RBP: 000000000000e4f7 R08: 0000000000001ab6 R09: 00000000022b5880
+R10: 0000000000000000 R11: 0000000000000246 R12: 00000000004022d0
+R13: 0000000000402360 R14: 0000000000000000 R15: 0000000000000000
+
+
+Memory state around the buggy address:
+ ffffc90000e75f00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+ ffffc90000e75f80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+>ffffc90000e76000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+                                     ^
+ ffffc90000e76080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+ ffffc90000e76100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
