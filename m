@@ -2,28 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DC0C271CF8
-	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 10:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 312F7271CF6
+	for <lists+linux-media@lfdr.de>; Mon, 21 Sep 2020 10:03:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbgIUIDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Sep 2020 04:03:21 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:13741 "EHLO huawei.com"
+        id S1726710AbgIUIDU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Sep 2020 04:03:20 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:48064 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726551AbgIUICZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Sep 2020 04:02:25 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 558CE626DBA23AF9D5D4;
-        Mon, 21 Sep 2020 16:02:23 +0800 (CST)
-Received: from huawei.com (10.175.113.32) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Mon, 21 Sep 2020
- 16:02:15 +0800
+        id S1726893AbgIUIC3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Sep 2020 04:02:29 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id C81C425D22564A5CA31A;
+        Mon, 21 Sep 2020 16:02:26 +0800 (CST)
+Received: from huawei.com (10.175.113.32) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Mon, 21 Sep 2020
+ 16:02:16 +0800
 From:   Liu Shixin <liushixin2@huawei.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Liu Shixin <liushixin2@huawei.com>
-Subject: [PATCH -next] media: media/pci: simplify the return expression of verify_window_lock
-Date:   Mon, 21 Sep 2020 16:24:39 +0800
-Message-ID: <20200921082439.2591565-1-liushixin2@huawei.com>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH -next] media: venus: simplify the return expression of venus_sys_set_* function
+Date:   Mon, 21 Sep 2020 16:24:40 +0800
+Message-ID: <20200921082440.2591617-1-liushixin2@huawei.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
@@ -38,39 +41,90 @@ Simplify the return expression.
 
 Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- drivers/media/pci/bt8xx/bttv-driver.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/media/platform/qcom/venus/hfi_venus.c | 28 +++----------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-index 8c61d292dec1..4f7eaec20dc3 100644
---- a/drivers/media/pci/bt8xx/bttv-driver.c
-+++ b/drivers/media/pci/bt8xx/bttv-driver.c
-@@ -2058,7 +2058,6 @@ verify_window_lock(struct bttv_fh *fh, struct v4l2_window *win,
+diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+index 4be4a75ddcb6..05ddb68023b8 100644
+--- a/drivers/media/platform/qcom/venus/hfi_venus.c
++++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+@@ -772,34 +772,24 @@ static int venus_sys_set_debug(struct venus_hfi_device *hdev, u32 debug)
  {
- 	enum v4l2_field field;
- 	unsigned int width_mask;
--	int rc;
+ 	struct hfi_sys_set_property_pkt *pkt;
+ 	u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
+-	int ret;
  
- 	if (win->w.width < 48)
- 		win->w.width = 48;
-@@ -2111,13 +2110,10 @@ verify_window_lock(struct bttv_fh *fh, struct v4l2_window *win,
- 	win->w.width -= win->w.left & ~width_mask;
- 	win->w.left = (win->w.left - width_mask - 1) & width_mask;
+ 	pkt = (struct hfi_sys_set_property_pkt *)packet;
  
--	rc = limit_scaled_size_lock(fh, &win->w.width, &win->w.height,
--			       field, width_mask,
--			       /* width_bias: round down */ 0,
--			       adjust_size, adjust_crop);
--	if (0 != rc)
--		return rc;
+ 	pkt_sys_debug_config(pkt, HFI_DEBUG_MODE_QUEUE, debug);
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
+-	if (ret)
+-		return ret;
+-
 -	return 0;
-+	return limit_scaled_size_lock(fh, &win->w.width, &win->w.height,
-+				      field, width_mask,
-+				      /* width_bias: round down */ 0,
-+				      adjust_size, adjust_crop);
++	return venus_iface_cmdq_write(hdev, pkt);
  }
  
- static int setup_window_lock(struct bttv_fh *fh, struct bttv *btv,
+ static int venus_sys_set_coverage(struct venus_hfi_device *hdev, u32 mode)
+ {
+ 	struct hfi_sys_set_property_pkt *pkt;
+ 	u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
+-	int ret;
+ 
+ 	pkt = (struct hfi_sys_set_property_pkt *)packet;
+ 
+ 	pkt_sys_coverage_config(pkt, mode);
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
++	return venus_iface_cmdq_write(hdev, pkt);
+ }
+ 
+ static int venus_sys_set_idle_message(struct venus_hfi_device *hdev,
+@@ -807,7 +797,6 @@ static int venus_sys_set_idle_message(struct venus_hfi_device *hdev,
+ {
+ 	struct hfi_sys_set_property_pkt *pkt;
+ 	u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
+-	int ret;
+ 
+ 	if (!enable)
+ 		return 0;
+@@ -816,11 +805,7 @@ static int venus_sys_set_idle_message(struct venus_hfi_device *hdev,
+ 
+ 	pkt_sys_idle_indicator(pkt, enable);
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
++	return venus_iface_cmdq_write(hdev, pkt);
+ }
+ 
+ static int venus_sys_set_power_control(struct venus_hfi_device *hdev,
+@@ -828,17 +813,12 @@ static int venus_sys_set_power_control(struct venus_hfi_device *hdev,
+ {
+ 	struct hfi_sys_set_property_pkt *pkt;
+ 	u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
+-	int ret;
+ 
+ 	pkt = (struct hfi_sys_set_property_pkt *)packet;
+ 
+ 	pkt_sys_power_control(pkt, enable);
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
++	return venus_iface_cmdq_write(hdev, pkt);
+ }
+ 
+ static int venus_get_queue_size(struct venus_hfi_device *hdev,
 -- 
 2.25.1
 
