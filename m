@@ -2,71 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05503273DBE
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 10:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EF4E273E16
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 11:09:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726498AbgIVIuh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 04:50:37 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46549 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726098AbgIVIuh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 04:50:37 -0400
-IronPort-SDR: Eplb0+lYCNDrVqIonlfK2WMQTZ7F+9wQE3hqX023yajvKaeGp5LZm6koAbwAIh0gBjtqifWomm
- xImgJFW4yrgg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="222157064"
-X-IronPort-AV: E=Sophos;i="5.77,290,1596524400"; 
-   d="scan'208";a="222157064"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2020 01:50:37 -0700
-IronPort-SDR: 5tlQeeJUNgDuiFdgc+722aeXREygWiSbKoXehtbSujc/kgVIksT64yARbceRvuua+nSOZBI/JC
- vlNYA68uLdwg==
-X-IronPort-AV: E=Sophos;i="5.77,290,1596524400"; 
-   d="scan'208";a="382242063"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2020 01:50:32 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 8377F207DA; Tue, 22 Sep 2020 11:50:29 +0300 (EEST)
-Date:   Tue, 22 Sep 2020 11:50:29 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6] dt-bindings: media: imx274: Convert to json-schema
-Message-ID: <20200922085029.GM26842@paasikivi.fi.intel.com>
-References: <20200912103045.14375-1-jacopo+renesas@jmondi.org>
- <b730792b-041b-01b9-9d73-c32862a5f760@lucaceresoli.net>
+        id S1726424AbgIVJJZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 05:09:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726341AbgIVJJY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Sep 2020 05:09:24 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE93C061755;
+        Tue, 22 Sep 2020 02:09:24 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id x23so2515943wmi.3;
+        Tue, 22 Sep 2020 02:09:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=yHqTcn2U7RDmnbpDaAxHpk0G7vOoxgOC7hzwW8pqYFw=;
+        b=Ux0a2BqUHcF9EWJZbV6vNhH79TD6U3EZrF7dCG3ywqag7To8X5v4bxCFxRUO0q0yy1
+         /yLfWtyOlue3PhYomr1LSX0/H1rvvsr/GcBxY50gGS3+kTrKiLzCBmIOncji39hbdv+R
+         FvfMjgBWmHW0JFfx6Lt3MY+EEG1sPdsqDGn4hN4vQiEh63BGbDaw9U6LSIX/yIiiGsVY
+         lBgK1lIueeLINs36y9M9LLlxD+A/Fdi6NMF8JQwnRBsySrWLmaadV/4fMNgU2TNyIc4a
+         Vjzi9daPXIWGlvGYNTNbTxgp+D2l2s3cYZLKIPa5TvMRApDKTZ9nAFahx3OLWhjdPdm2
+         k+9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=yHqTcn2U7RDmnbpDaAxHpk0G7vOoxgOC7hzwW8pqYFw=;
+        b=ReYG6Erplzli82Yppz5n6bCEI6hE+m1S8Vwf8kpNXR9wcYckMk2xXRLNYWqxMdCwUP
+         JX+/GIzWUCXtgbztOjJ6l6/zEx1PnESxBvng6tIZLAeaGWXlmLKOx7/4juHtYCU9SYNW
+         dONVci3oClEJOX6yV7JZBZ7FRrTuNsdRyibvSKE9faIP3sGaas1/YOnkZZmEmWn4sOe9
+         TW7cBiJlDmr8a+M/J7nZq3GSYGHx1Prafedz79tDAWHeH9fzs0xyfOCdR+OrZ3wA10iU
+         J9RzhnHKFHeNDqHKzmwdMmyG4y4HrbCz0ipv5XZ5HWmXV9JC8pm9PGXp+qrMbWO/llzN
+         DJhg==
+X-Gm-Message-State: AOAM531UsxSenjFkoHV6LP64+rSZVhCu7limCk/Mo3EaAYdlg/VcR3AA
+        JMWiza0EPJ458PphrIcIn0A=
+X-Google-Smtp-Source: ABdhPJxa508dlVC2F2kdRJSuvrWU3g2/INpgrk2mlg/amgU9SM/ZNb9Iw+22sIrmDRoEnwluRx2AnA==
+X-Received: by 2002:a05:600c:2742:: with SMTP id 2mr3336433wmw.136.1600765763137;
+        Tue, 22 Sep 2020 02:09:23 -0700 (PDT)
+Received: from localhost.localdomain (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
+        by smtp.gmail.com with ESMTPSA id u186sm3659332wmu.34.2020.09.22.02.09.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2020 02:09:22 -0700 (PDT)
+From:   Alex Dewar <alex.dewar90@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH REBASE 0/3] atomisp: Rebased fixes
+Date:   Tue, 22 Sep 2020 10:09:07 +0100
+Message-Id: <20200922090914.20702-1-alex.dewar90@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <21f18dc2-a1bc-0a37-0336-fc35170a40e9@gmail.com>
+References: <21f18dc2-a1bc-0a37-0336-fc35170a40e9@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b730792b-041b-01b9-9d73-c32862a5f760@lucaceresoli.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 22, 2020 at 10:03:14AM +0200, Luca Ceresoli wrote:
-> Hello,
-> 
-> On 12/09/20 12:30, Jacopo Mondi wrote:
-> > Convert the imx274 bindings document to json-schema and update
-> > the MAINTAINERS file accordingly.
-> > 
-> > Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> This patch is also fixing the supply names from uppercase to lowercase.
-> That change should go in 5.9, otherwise we'll have to stick to uppercase
-> names forever, yet I don't see it in current linux-media branches.
+Hi Mauro,
 
-<URL:https://patchwork.linuxtv.org/project/linux-media/patch/20200917144416.GN834@valkosipuli.retiisi.org.uk/>
+I've rebased the patches now, but there is a slight hiccup. For patches 2
+and 3 of this series there will now be a conflict with commit 9289cdf39992
+("staging: media: atomisp: Convert to GPIO descriptors") in Greg's tree.
 
--- 
-Sakari Ailus
+I'm not sure what the best way to handle this is? The merge conflicts
+will be trivial (due to a conversion between the gpio_* and gpiod_*
+APIs), but I could alternatively send these last two patches in via
+Greg's tree if that's easier for people. Let me know what works.
+
+Best,
+Alex
+
+
