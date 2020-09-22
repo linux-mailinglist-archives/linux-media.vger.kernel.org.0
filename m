@@ -2,77 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51C17273D5F
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 10:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA0F2273D66
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 10:39:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726366AbgIVIfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 04:35:46 -0400
-Received: from sonic308-1.consmr.mail.bf2.yahoo.com ([74.6.130.40]:33586 "EHLO
-        sonic308-1.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726341AbgIVIfp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 04:35:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1600763744; bh=2EMRCKNCFf5xTxpxMtNErtUNe3lTdsc9wFZgwmyTwck=; h=Date:From:Reply-To:Subject:References:From:Subject; b=U6DbGp06GzjgI1kXomXXQ8mTk3a1iGQAfWaWxIsL2q6cwInXtA1UcDqjNb/26Jw0UfBBJCI4UmBCOUHfBRtSuYadrFzBSmvn9FFPnbkMg8tKAkeYAN7dRGT5FwaNNW/M/N4Vbe8iOECp5UXcob8GNDL69rMEiYa4lwhSuw/B8m+JLJFomdWDJhndVvr4CRNKSx57A0Saihjy6qSJPkxGfdW5dvWn9TkGpDqpStrfn6kuxRqNvJ/dwYpYSV4Xag8fhqHArXiJKF/F7QVAZpNED3bhBChiISdUC4f+4/Kv4cjm8FjFjyepXxLnWk/pXGqniRGdz9S/Ar+jV+lNB2sfMw==
-X-YMail-OSG: 42NZEp0VM1kWjz6UJbdlhTAuqG59M.oJcNJR_A07g3E6JiASrrVFOhhN0zE.Lxy
- aPBM_nW.t.fD2XgKZFFDkBOqqfBf2A4TzdXNFX3TvkJp9fUyH2PF3ZkEY3UrZcv8VMbnBrqfx1vA
- Uv8NZFB3HBMInW32cXcp0PKNBvWTfj1hR9q0EvKRImziGMDBBc0XAf2OzKQcHRlTzO8h1Zh6eVAF
- qxV9CjcZguNjqSNcao5ULeoxhHaXO5WCsZVBSADgM2lnqnFyjdu_o.aQ.VvlwILMpZIU5mOiSqCZ
- Vp6XVZFa3tEQZh0dTG7s3rBLI_u8PcZVpSwzdzeLl_AWc6Rv1t6OHZS3c71K5YQmV_DjjaDAwMtM
- l9szF8DXzpJesWUhkypXGPVvJkvEXt7MquSPousJ9k4VEwG9TPSNVvm4fRVy_EmvBuc2y9I7695I
- uWfmDJPEYRNA3CN7CbZBSI3Mhov6pe7EtaeNYTjrypoXuL17eBjnXl46xDe8lZb62fRTjMggNuIg
- C0msEhrgtaRh7bax6T0zSpzZSIGEpLtemRfXl98kCxMbEniAdLlowwzN4wAiKHnxVtU7m9BG8tPp
- m0NzD.eFG4upK.RVpntvOGtlIYKfb6LSghMy1RbgzbIVRYr8EGdJQd.bbuTZmInsmbuBwIKM4HMl
- 27l2tVqAaBnLpJDPy9ebOpdauBoXDIYEKVKIOAisl2QYIaHqC2qPMEKbnN5e5GuUEdhG0kOS0Ofy
- 5WN3CxR3FAGnlGm5jlM_eacf4onavjabGBjNfoyvWn675NXU90wTt8_wJKyqSNgeolqIer6ICWwm
- M0ydM_jRezqusLzrm6lWJFgDZuK7q7Fc3QPajM37NZBc2fhYssqdtZj1zwS3Eg.HYdTrXp1EgefC
- m9fnmaaPwUZcXmtxI_zapuf3CUGGAN7hRoidUFPs5UGpo.dQ65XVAR2lXplbjvK5LNZ_Jqf7Fyvt
- 3IV2fpw46pX59zEba7gOBKQGH_3nbJsFNT71EQ6tfeJeCbCdQcvMpKFcoX__c_mddMPSxW.xSeT1
- 8z1c7PofGeiAxP1jQoFVqBxRzfN8wlAKJOFqJRH3EC2mmujE52KuwWr4CN2s3hJvKdCXa5LUGCLG
- nxYZjgdfCKFbBjOtRWCR8y5SgJav8gHQLMms6iF9f50qvoyZ6pIwpEe.Ec.nJ3BMYRk0L8fptpKu
- wgopud2IwidqW_WEpX2UHpXLHIiNuLvukRh3bt4UnKiw.J1MCdwgBZir5KH05CGfHT2Rl03MrsOF
- vE02jELb_7spYxHRLjF363LVpbGVv28MEC1unA3R1UF4fCPUaWN_V.ZKPVAAeBsDBw8bY15wSMQj
- xyrrsGhmWW4mHsF8iUFItIZqsla4i3rNnVhlooOqAgB3tGg04WNVwYyOvtenUtqgpk3egxx80Vdq
- Zn5et21AerCMmOJ8qhTIycywprMPcJIDQQ43Q23g5kVZYmKzOkuTc2C.Bpk2j09yOnTKFOhbGM2r
- 75gRM0c2Ztrs-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.bf2.yahoo.com with HTTP; Tue, 22 Sep 2020 08:35:44 +0000
-Date:   Tue, 22 Sep 2020 08:35:42 +0000 (UTC)
-From:   Sgt Vivian Robert <sgtviianrobert@gmail.com>
-Reply-To: sgtviianrobert@gmail.com
-Message-ID: <696999557.4691013.1600763742062@mail.yahoo.com>
-Subject:  kindly respond to my mail
+        id S1726461AbgIVIiu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 04:38:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726343AbgIVIiu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Sep 2020 04:38:50 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2F3DA23A1E;
+        Tue, 22 Sep 2020 08:38:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600763929;
+        bh=Mm0cw1XMHiTcGFvYZ5YAxmxvfxAfdbEoZVA80me39JE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lJGS3A93Lgq85UkTDgJdes21K55ht2plPLTIViCrhCUCIC3GbnIc5h/FFIvwdAN7y
+         GZhrRI/BtSs3f5OiCBv4YSrBUeSmOmarfFBLok5wtLaSTM8T+VppMPRyZogheOejZ9
+         PC9RJDxQ+/0Q63ijmDGf4+v/jSPWVgbPUXU+FO1g=
+Date:   Tue, 22 Sep 2020 10:39:09 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        alsa-devel <alsa-devel@alsa-project.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 07/20] dt-bindings: usb: renesas,usb3-peri: Document
+ r8a774e1 support
+Message-ID: <20200922083909.GA2092905@kroah.com>
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-8-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8vJ2n3KEL8P+XmVob2zjoWaX+s4a6c1TV_WoPFkwdkZmA@mail.gmail.com>
+ <20200920140824.GA2915460@kroah.com>
+ <CAMuHMdUyXMfZcVKkqaZHJ8tJf-3Kotqg+S2NHMZT0VFO0ZJJww@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <696999557.4691013.1600763742062.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16583 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:80.0) Gecko/20100101 Firefox/80.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUyXMfZcVKkqaZHJ8tJf-3Kotqg+S2NHMZT0VFO0ZJJww@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Sep 21, 2020 at 09:30:39AM +0200, Geert Uytterhoeven wrote:
+> Hi Greg,
+> 
+> On Sun, Sep 20, 2020 at 4:08 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Sat, Sep 19, 2020 at 11:50:07AM +0100, Lad, Prabhakar wrote:
+> > > On Thu, Jul 16, 2020 at 6:19 PM Lad Prabhakar
+> > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > >
+> > > > Document RZ/G2H (R8A774E1) SoC bindings.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > Could you please pick this patch.
+> >
+> > Don't DT patches have to be acked by a DT maintainer first?
+> 
+> https://lore.kernel.org/r/20200721033508.GA3504365@bogus
 
+Ah, missed that, sorry.  This, and patch 11/20, now queued up.
 
-Good Day, I am glad to contact you through this medium I=E2=80=99m Sgt Vivi=
-an Robert am from united state, 28 years old single I am the only surviving=
- child of my late parents, I am America female soldier presently in Afghani=
-stan for the training, advising the Afghan forces and also helping in stabi=
-lizing the country against security challenges, am Actually seeking your as=
-sistance to evacuate the sum of $3.5 million, This money I got it as my rew=
-ard in service by Afghanistan government to support me for my Good job in t=
-heir land. Right now, I want you to stand as my beneficiary and receive the=
- fund my certificate of deposit from the Bank where this fund deposited and=
- my authorization letter is with me now.My contact with you is not by my po=
-wer but it is divinely made for God's purpose to be fulfilled in our lives.=
- I want you to be rest assured that this transaction is legitimate and a 10=
-0% risk free involvement, all you have to do is to keep it secret and confi=
-dential to yourself , this transaction will not take more than 7 working ba=
-nking days for the money to get into your account based on your sincerity a=
-nd cooperation. i want you to take 40% Percent of the total money for your =
-personal use While 20% Percent of the money will go to charity, people in t=
-he street and helping the orphanage the remaining 40% percent of the total =
-money .you will assist me to invest it in a good profitable Venture or you =
-keep it for me until I arrive your country. If you=E2=80=99re willing to as=
-sist me contact me through my email address =E2=80=9Csgtviianrobert@gmail.c=
-om.
-
-Sgt Vivian Robert
+greg k-h
