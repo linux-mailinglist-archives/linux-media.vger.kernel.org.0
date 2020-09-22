@@ -2,110 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 900A7273EA7
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 11:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88C32273EB9
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 11:42:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726533AbgIVJhh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 05:37:37 -0400
-Received: from mga06.intel.com ([134.134.136.31]:50465 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726341AbgIVJhe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 05:37:34 -0400
-IronPort-SDR: VfG8n6HJ4q+Y+FaPEYxgXr2SNci9TTgiHOZZ3VFeKbouMoiw4CrI+orrRaXsCRZ1N+I0beYRx2
- MgFe68Dvv6rw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="222162737"
-X-IronPort-AV: E=Sophos;i="5.77,290,1596524400"; 
-   d="scan'208";a="222162737"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2020 02:37:33 -0700
-IronPort-SDR: 5dTH0aMWWDlqA83WBT5OraY8R0WaqZsG4Ki9+grMis2bnidcLtPQFbBjaTC4m4EFVkw6gpzGH+
- KQuTRWxr6ycw==
-X-IronPort-AV: E=Sophos;i="5.77,290,1596524400"; 
-   d="scan'208";a="346878098"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2020 02:37:28 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 51C9B207DA; Tue, 22 Sep 2020 12:37:26 +0300 (EEST)
-Date:   Tue, 22 Sep 2020 12:37:26 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/25] media: i2c: imx355: silence unused acpi_device_id
- warning
-Message-ID: <20200922093726.GN26842@paasikivi.fi.intel.com>
-References: <20200921162342.7348-1-krzk@kernel.org>
- <20200921162342.7348-7-krzk@kernel.org>
+        id S1726607AbgIVJmG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 05:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726353AbgIVJmG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Sep 2020 05:42:06 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C509C061755;
+        Tue, 22 Sep 2020 02:42:05 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id A0C4B11A001; Tue, 22 Sep 2020 10:41:57 +0100 (BST)
+Date:   Tue, 22 Sep 2020 10:41:57 +0100
+From:   Sean Young <sean@mess.org>
+To:     Joakim Zhang <qiangqing.zhang@nxp.com>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com
+Subject: Re: [PATCH V2 2/2] media: rc: gpio-ir-recv: add QoS support for
+ cpuidle system
+Message-ID: <20200922094157.GA14307@gofer.mess.org>
+References: <20200918181717.24056-1-qiangqing.zhang@nxp.com>
+ <20200918181717.24056-3-qiangqing.zhang@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200921162342.7348-7-krzk@kernel.org>
+In-Reply-To: <20200918181717.24056-3-qiangqing.zhang@nxp.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+Hi Joakim,
 
-Thanks for the patchset!
+Thanks for your updated patch.
 
-I believe the I²C client has been dug up first as we've been dealing with
-I²C devices all the time, and it's been a pattern. I don't see that as a
-reason to reject the patches either though, it definitely cleans up the
-drivers.
-
-On Mon, Sep 21, 2020 at 06:23:24PM +0200, Krzysztof Kozlowski wrote:
-> If driver is built without ACPI, the struct acpi_device_id won't be
-> used:
+On Sat, Sep 19, 2020 at 02:17:17AM +0800, Joakim Zhang wrote:
+> GPIO IR receive is much rely on interrupt response, uneven interrupt
+> latency will lead to incorrect timing, so the decoder fails to decode
+> it. The issue is particularly acute on some systems which support
+> cpuidle, not all, dynamically disable and enable cpuidle can solve this
+> problem to a great extent.
 > 
->   drivers/media/i2c/imx355.c:1836:36: warning:
->     'imx355_acpi_ids' defined but not used [-Wunused-const-variable=]
+> However, there is a downside to this approach, the measurement of header
+> on the first frame may incorrect. Test on i.MX8M serials, when enable
+> cpuidle, interrupt latency could be about 500us.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> With this patch:
+> 1. has no side effect on non-cpuidle system.
+> 2. latency is still much longer for the first gpio interrupt on cpuidle
+> system, so the first frame may not be decoded. Generally, RC would transmit
+> multiple frames at once press, we can sacrifice the first frame.
+> 3. add "linux,autosuspend-period" property in device tree if you also
+> suffer this cpuidle issue.
+> 
+> Signed-off-by: Joakim Zhang <qiangqing.zhang@nxp.com>
 > ---
->  drivers/media/i2c/imx355.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> ChangeLogs:
+> V1->V2:
+> 	* set autosuspend delay time via device tree.
+> ---
+>  drivers/media/rc/gpio-ir-recv.c | 50 +++++++++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-> index 51245e71b411..8db287251f49 100644
-> --- a/drivers/media/i2c/imx355.c
-> +++ b/drivers/media/i2c/imx355.c
-> @@ -1833,7 +1833,7 @@ static const struct dev_pm_ops imx355_pm_ops = {
->  	SET_SYSTEM_SLEEP_PM_OPS(imx355_suspend, imx355_resume)
+> diff --git a/drivers/media/rc/gpio-ir-recv.c b/drivers/media/rc/gpio-ir-recv.c
+> index a20413008c3c..63cf8290eb19 100644
+> --- a/drivers/media/rc/gpio-ir-recv.c
+> +++ b/drivers/media/rc/gpio-ir-recv.c
+> @@ -11,6 +11,8 @@
+>  #include <linux/of.h>
+>  #include <linux/of_gpio.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/pm_qos.h>
+>  #include <linux/irq.h>
+>  #include <media/rc-core.h>
+>  
+> @@ -20,17 +22,35 @@ struct gpio_rc_dev {
+>  	struct rc_dev *rcdev;
+>  	struct gpio_desc *gpiod;
+>  	int irq;
+> +	struct device *dev;
+> +	struct pm_qos_request qos;
 >  };
 >  
-> -static const struct acpi_device_id imx355_acpi_ids[] = {
-> +static const struct acpi_device_id imx355_acpi_ids[]__maybe_unused = {
+>  static irqreturn_t gpio_ir_recv_irq(int irq, void *dev_id)
+>  {
+>  	int val;
+>  	struct gpio_rc_dev *gpio_dev = dev_id;
+> +	struct device *dev = gpio_dev->dev;
+> +
+> +	/*
+> +	 * For some cpuidle systems, not all:
+> +	 * Respond to interrupt taking more latency when cpu in idle.
+> +	 * Invoke asynchronous pm runtime get from interrupt context,
+> +	 * this may introduce a millisecond delay to call resume callback,
+> +	 * where to disable cpuilde.
+> +	 *
+> +	 * Two issues lead to fail to decode first frame, one is latency to
+> +	 * respond to interrupt, another is delay introduced by async api.
+> +	 */
+> +	pm_runtime_get(dev);
+>  
+>  	val = gpiod_get_value(gpio_dev->gpiod);
+>  	if (val >= 0)
+>  		ir_raw_event_store_edge(gpio_dev->rcdev, val == 1);
+>  
+> +	pm_runtime_mark_last_busy(dev);
+> +	pm_runtime_put_autosuspend(dev);
+> +
 
-A space before __ perhaps?
+I've dusted off my rpi and tried to see if it fails with cpuidle enabled.
+As far as I can see, it always works fine. So, my only concern is that
+there is a bunch of pm busy work done here for devices that do not need it,
+including spinlocks, ktime. etc.
 
-Albeit this seems to be all, I can address that while applying if that's
-ok.
+You could rename the dev field of gpio_rc_dev to pmdev and only do this
+work if pm_dev != NULL. Or some other mechanism of doing this work
+conditionally.
 
->  	{ "SONY355A" },
->  	{ /* sentinel */ }
+Having said that I'm not entirely sure this will make much of a difference.
+
+>  	return IRQ_HANDLED;
+>  }
+>  
+> @@ -40,6 +60,7 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
+>  	struct device_node *np = dev->of_node;
+>  	struct gpio_rc_dev *gpio_dev;
+>  	struct rc_dev *rcdev;
+> +	u32 period = 0;
+>  	int rc;
+>  
+>  	if (!np)
+> @@ -83,6 +104,7 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
+>  		rcdev->map_name = RC_MAP_EMPTY;
+>  
+>  	gpio_dev->rcdev = rcdev;
+> +	gpio_dev->dev = dev;
+>  
+>  	rc = devm_rc_register_device(dev, rcdev);
+>  	if (rc < 0) {
+> @@ -90,6 +112,14 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
+>  		return rc;
+>  	}
+>  
+> +	of_property_read_u32(np, "linux,autosuspend-period", &period);
+> +	if (period) {
+> +		pm_runtime_set_autosuspend_delay(dev, period);
+> +		pm_runtime_use_autosuspend(dev);
+> +		pm_runtime_set_suspended(dev);
+> +		pm_runtime_enable(dev);
+> +	}
+> +
+>  	platform_set_drvdata(pdev, gpio_dev);
+>  
+>  	return devm_request_irq(dev, gpio_dev->irq, gpio_ir_recv_irq,
+> @@ -122,9 +152,29 @@ static int gpio_ir_recv_resume(struct device *dev)
+>  	return 0;
+>  }
+>  
+> +static int gpio_ir_recv_runtime_suspend(struct device *dev)
+> +{
+> +	struct gpio_rc_dev *gpio_dev = dev_get_drvdata(dev);
+> +
+> +	cpu_latency_qos_remove_request(&gpio_dev->qos);
+> +
+> +	return 0;
+> +}
+> +
+> +static int gpio_ir_recv_runtime_resume(struct device *dev)
+> +{
+> +	struct gpio_rc_dev *gpio_dev = dev_get_drvdata(dev);
+> +
+> +	cpu_latency_qos_add_request(&gpio_dev->qos, 0);
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct dev_pm_ops gpio_ir_recv_pm_ops = {
+>  	.suspend        = gpio_ir_recv_suspend,
+>  	.resume         = gpio_ir_recv_resume,
+> +	.runtime_suspend = gpio_ir_recv_runtime_suspend,
+> +	.runtime_resume  = gpio_ir_recv_runtime_resume,
 >  };
-
--- 
-Kind regards,
-
-Sakari Ailus
+>  #endif
+>  
+> -- 
+> 2.17.1
