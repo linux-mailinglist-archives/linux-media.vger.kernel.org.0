@@ -2,142 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ED28273E20
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 11:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2015D273E3A
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 11:12:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726567AbgIVJJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 05:09:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44828 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726341AbgIVJJq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 05:09:46 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD7EC061755;
-        Tue, 22 Sep 2020 02:09:46 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id o5so16149535wrn.13;
-        Tue, 22 Sep 2020 02:09:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=9Aesl8jwzB6h2AKl/DvTFdtB5ZWXuEURqgA0oOLGpZk=;
-        b=VDVoXwPdoJzIDGxF1A9mAviiE0oyBHXTdSoaOLdOMRkoDxY/8EjbP/M/hoDlL05FOf
-         iFKH0tIHHDHVnRiat7g7bcA+Hoq0o+i12qc6vh8Knf8/jUbDjMSJkvxWGJH6g6syZpNa
-         YaQ0gxbJt9hsUsnMU7pEiPT/Cnx5LkQmCtXqSrP5mbYBaTJD98ohQ1d4tpvWixkjkLX1
-         ehV98iaRuyhb5MiUaXUokNCajML3S57KeHYcpXzEfmOcg5RVJ6V6KStH7goxfbWjRtFf
-         BnVmZiDA2d+8Uk5zcsrA9Pnn17BqWXFesH/HX/BaB9yggxlSnhSEVVPPr47B0hqC4K+r
-         c1BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9Aesl8jwzB6h2AKl/DvTFdtB5ZWXuEURqgA0oOLGpZk=;
-        b=re5dUTr29xFGpe/HmAncKpxFaFky0VmMjrGRdB7AYNbEA/cItHKXP0RYMo9cRQDD/J
-         OoDkxk+UpOYZWeGOKxNXDOkRv77Q9Y8oSCKP+Rdj4MxD41mE7I/dw9P5uTsaXj+5sH5A
-         vbrPH3WA7qmzamuLGGNf2nlYobHenJwqnxxjufSZKW6LTxetD51846cRBoy09B71/S/G
-         V4sW9SqZkajRy5w2GpyU2GdJs9sbh38vqWJCzfi2fYfHXXxZSJJ/omluFyLPqzgOtsvB
-         pY9j7D9hAtaL2hx/zeTaq0i6GUindXP9JelRA8Qi4Am0bXZdqFdcBwf2Y/r/HWRj+7KL
-         hS9g==
-X-Gm-Message-State: AOAM5306L8wBsgHXlaYQfilbfT3AJFPxPQWioPV/xfLiBqgii82fuKOE
-        7Xryk4BxTBrUqiEwpn5JxI4=
-X-Google-Smtp-Source: ABdhPJwwHB5mrPn87uWKoQZJjdNbWKBVf+VGCOSSjlZlRj5745cpIvJcM1poRmEQGc01rJ3g7/LCRw==
-X-Received: by 2002:adf:e391:: with SMTP id e17mr3947261wrm.289.1600765784834;
-        Tue, 22 Sep 2020 02:09:44 -0700 (PDT)
-Received: from localhost.localdomain (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
-        by smtp.gmail.com with ESMTPSA id u186sm3659332wmu.34.2020.09.22.02.09.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 02:09:44 -0700 (PDT)
-From:   Alex Dewar <alex.dewar90@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH REBASE 3/3] staging: media: atomisp: Don't abort on error in module exit path
-Date:   Tue, 22 Sep 2020 10:09:10 +0100
-Message-Id: <20200922090914.20702-4-alex.dewar90@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200922090914.20702-1-alex.dewar90@gmail.com>
-References: <21f18dc2-a1bc-0a37-0336-fc35170a40e9@gmail.com>
- <20200922090914.20702-1-alex.dewar90@gmail.com>
+        id S1726486AbgIVJMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 05:12:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60554 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726422AbgIVJMC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Sep 2020 05:12:02 -0400
+Received: from mail.kernel.org (ip5f5ad5bc.dynamic.kabel-deutschland.de [95.90.213.188])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4410920715;
+        Tue, 22 Sep 2020 09:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600765921;
+        bh=p7cAdNofsq6jZcGRc61+8kKuN3HoExxl9Kj84k4DlSc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jMiiRDU2bH83mEZr59h8M/+E83qo5gLFsj+dyUDW7F+TXqW3zkdZ+Tuq5qq5HiDyq
+         6LoP2oWOQ+cr4FrgXyLDb8N+OYlVRhd6ingB3nS+2Kb3/i0/NuAfOQy27PU4fa7A+M
+         HOKuvBMzm1n0E/UWwOPjQQ9n3tPOc6BGFVSEOaEQ=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kKeL9-000uV2-0M; Tue, 22 Sep 2020 11:11:59 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 1/2] media: vidtv: avoid data copy when initializing the multiplexer
+Date:   Tue, 22 Sep 2020 11:11:57 +0200
+Message-Id: <e4e165fab8a0f0f4a61ca3f4d35dffc97a238d1e.1600765915.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The function lm3554_remove() checks for the return code for
-lm3554_gpio_uninit() even though this is on the exit path and exits the
-function, leaving the variable flash unfreed. Instead, print a warning and
-free flash unconditionally.
+Initialize the fields of the arguments directly when
+declaring it, and pass the args as a pointer, instead of
+copying them.
 
-Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../staging/media/atomisp/i2c/atomisp-lm3554.c  | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ .../media/test-drivers/vidtv/vidtv_bridge.c   | 24 ++++++++++---------
+ drivers/media/test-drivers/vidtv/vidtv_mux.c  | 24 +++++++++----------
+ drivers/media/test-drivers/vidtv/vidtv_mux.h  |  2 +-
+ 3 files changed, 26 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-index 5e895586e80a..84c47c1f9eb4 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-@@ -794,7 +794,7 @@ static int lm3554_gpio_init(struct i2c_client *client)
- 	return ret;
- }
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+index b76c1c1ff7c0..46655e34a332 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+@@ -159,7 +159,14 @@ vidtv_bridge_on_new_pkts_avail(void *priv, u8 *buf, u32 npkts)
  
--static int lm3554_gpio_uninit(struct i2c_client *client)
-+static void lm3554_gpio_uninit(struct i2c_client *client)
+ static int vidtv_start_streaming(struct vidtv_dvb *dvb)
  {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct lm3554 *flash = to_lm3554(sd);
-@@ -803,15 +803,16 @@ static int lm3554_gpio_uninit(struct i2c_client *client)
+-	struct vidtv_mux_init_args mux_args = {0};
++	struct vidtv_mux_init_args mux_args = {
++		.mux_rate_kbytes_sec         = mux_rate_kbytes_sec,
++		.on_new_packets_available_cb = vidtv_bridge_on_new_pkts_avail,
++		.pcr_period_usecs            = pcr_period_msec * USEC_PER_MSEC,
++		.si_period_usecs             = si_period_msec * USEC_PER_MSEC,
++		.pcr_pid                     = pcr_pid,
++		.transport_stream_id         = VIDTV_DEFAULT_TS_ID,
++	};
+ 	struct device *dev = &dvb->pdev->dev;
+ 	u32 mux_buf_sz;
  
- 	ret = gpio_direction_output(pdata->gpio_strobe, 0);
- 	if (ret < 0)
--		return ret;
-+		dev_err(&client->dev,
-+			"gpio request/direction_output fail for gpio_strobe");
+@@ -168,19 +175,14 @@ static int vidtv_start_streaming(struct vidtv_dvb *dvb)
+ 		return 0;
+ 	}
  
- 	ret = gpio_direction_output(pdata->gpio_reset, 0);
- 	if (ret < 0)
--		return ret;
-+		dev_err(&client->dev,
-+			"gpio request/direction_output fail for gpio_reset");
+-	mux_buf_sz = (mux_buf_sz_pkts) ? mux_buf_sz_pkts : vidtv_bridge_mux_buf_sz_for_mux_rate();
++	mux_buf_sz = (mux_buf_sz_pkts) ? mux_buf_sz_pkts :
++					 vidtv_bridge_mux_buf_sz_for_mux_rate();
  
- 	gpio_free(pdata->gpio_strobe);
- 	gpio_free(pdata->gpio_reset);
--	return 0;
- }
+-	mux_args.mux_rate_kbytes_sec         = mux_rate_kbytes_sec;
+-	mux_args.on_new_packets_available_cb = vidtv_bridge_on_new_pkts_avail;
+-	mux_args.mux_buf_sz                  = mux_buf_sz;
+-	mux_args.pcr_period_usecs            = pcr_period_msec * 1000;
+-	mux_args.si_period_usecs             = si_period_msec * 1000;
+-	mux_args.pcr_pid                     = pcr_pid;
+-	mux_args.transport_stream_id         = VIDTV_DEFAULT_TS_ID;
+-	mux_args.priv                        = dvb;
++	mux_args.mux_buf_sz  = mux_buf_sz;
++	mux_args.priv = dvb;
  
- static void *lm3554_platform_data_func(struct i2c_client *client)
-@@ -918,7 +919,6 @@ static int lm3554_remove(struct i2c_client *client)
+ 	dvb->streaming = true;
+-	dvb->mux = vidtv_mux_init(dvb->fe[0], dev, mux_args);
++	dvb->mux = vidtv_mux_init(dvb->fe[0], dev, &mux_args);
+ 	if (!dvb->mux)
+ 		return -ENOMEM;
+ 	vidtv_mux_start_thread(dvb->mux);
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
+index 9086edd45252..6127e9ff71a1 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
+@@ -434,7 +434,7 @@ void vidtv_mux_stop_thread(struct vidtv_mux *m)
+ 
+ struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
+ 				 struct device *dev,
+-				 struct vidtv_mux_init_args args)
++				 struct vidtv_mux_init_args *args)
  {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct lm3554 *flash = to_lm3554(sd);
--	int ret;
+ 	struct vidtv_mux *m;
  
- 	media_entity_cleanup(&flash->sd.entity);
- 	v4l2_ctrl_handler_free(&flash->ctrl_handler);
-@@ -928,16 +928,11 @@ static int lm3554_remove(struct i2c_client *client)
+@@ -444,26 +444,26 @@ struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
  
- 	del_timer_sync(&flash->flash_off_delay);
+ 	m->dev = dev;
+ 	m->fe = fe;
+-	m->timing.pcr_period_usecs = args.pcr_period_usecs;
+-	m->timing.si_period_usecs  = args.si_period_usecs;
++	m->timing.pcr_period_usecs = args->pcr_period_usecs;
++	m->timing.si_period_usecs  = args->si_period_usecs;
  
--	ret = lm3554_gpio_uninit(client);
--	if (ret < 0)
--		goto fail;
-+	lm3554_gpio_uninit(client);
+-	m->mux_rate_kbytes_sec = args.mux_rate_kbytes_sec;
++	m->mux_rate_kbytes_sec = args->mux_rate_kbytes_sec;
  
- 	kfree(flash);
+-	m->on_new_packets_available_cb = args.on_new_packets_available_cb;
++	m->on_new_packets_available_cb = args->on_new_packets_available_cb;
  
- 	return 0;
--fail:
--	dev_err(&client->dev, "gpio request/direction_output fail");
--	return ret;
- }
+-	m->mux_buf = vzalloc(args.mux_buf_sz);
++	m->mux_buf = vzalloc(args->mux_buf_sz);
+ 	if (!m->mux_buf)
+ 		goto free_mux;
  
- static const struct dev_pm_ops lm3554_pm_ops = {
+-	m->mux_buf_sz = args.mux_buf_sz;
++	m->mux_buf_sz = args->mux_buf_sz;
+ 
+-	m->pcr_pid = args.pcr_pid;
+-	m->transport_stream_id = args.transport_stream_id;
+-	m->priv = args.priv;
++	m->pcr_pid = args->pcr_pid;
++	m->transport_stream_id = args->transport_stream_id;
++	m->priv = args->priv;
+ 	m->timing.current_jiffies = get_jiffies_64();
+ 
+-	if (args.channels)
+-		m->channels = args.channels;
++	if (args->channels)
++		m->channels = args->channels;
+ 	else
+ 		if (vidtv_channels_init(m) < 0)
+ 			goto free_mux_buf;
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.h b/drivers/media/test-drivers/vidtv/vidtv_mux.h
+index 08138c80398a..52d79e3bbc31 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_mux.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_mux.h
+@@ -159,7 +159,7 @@ struct vidtv_mux_init_args {
+ 
+ struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
+ 				 struct device *dev,
+-				 struct vidtv_mux_init_args args);
++				 struct vidtv_mux_init_args *args);
+ void vidtv_mux_destroy(struct vidtv_mux *m);
+ 
+ void vidtv_mux_start_thread(struct vidtv_mux *m);
 -- 
-2.28.0
+2.26.2
 
