@@ -2,67 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7328273CF9
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 10:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36873273D04
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 10:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbgIVIJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 04:09:39 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:55952 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726489AbgIVIJj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 04:09:39 -0400
-X-Greylist: delayed 380 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Sep 2020 04:09:38 EDT
-Received: from [77.244.183.192] (port=61948 helo=[192.168.178.24])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1kKdMl-0005k7-KL; Tue, 22 Sep 2020 10:09:35 +0200
-Subject: Re: [PATCH v6 2/3] media: i2c: imx274: Remove stop stream i2c writes
- during remove
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        sakari.ailus@iki.fi, hverkuil@xs4all.nl, jacopo+renesas@jmondi.org,
-        leonl@leopardimaging.com, robh+dt@kernel.org, lgirdwood@gmail.com,
-        broonie@kernel.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1600724379-7324-1-git-send-email-skomatineni@nvidia.com>
- <1600724379-7324-3-git-send-email-skomatineni@nvidia.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <d6be54a7-76b8-4206-0d76-6f93ec545e72@lucaceresoli.net>
-Date:   Tue, 22 Sep 2020 10:09:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726625AbgIVILt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 04:11:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33480 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726436AbgIVILs (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Sep 2020 04:11:48 -0400
+Received: from coco.lan (ip5f5ad5bc.dynamic.kabel-deutschland.de [95.90.213.188])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 44D81239E5;
+        Tue, 22 Sep 2020 08:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600762308;
+        bh=fWJzGI51JbOQ0EigOk9NkLRd/sd4iHc9gzBCY0IWYJg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=sTwHb0LdUDdaYaz1WEoQs/WX+6fD1qwMMnIQnQ84Ny3q51nKAYYkZRcSCHFrMvPBU
+         ZrwUNYY8j9VTCSbjGowHDps41OOE+BnEmorhYJghPDQJNFvPGDyHlSPQs5dgC9fW1Y
+         7amqAezO/639kVfTGqF8SY/a4plgYXzAEfBgtGb8=
+Date:   Tue, 22 Sep 2020 10:11:43 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Alex Dewar <alex.dewar90@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND 0/5] atomisp: Fixes and cleanups
+Message-ID: <20200922101143.28779711@coco.lan>
+In-Reply-To: <20200921215359.45003-1-alex.dewar90@gmail.com>
+References: <20200921215359.45003-1-alex.dewar90@gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1600724379-7324-3-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Em Mon, 21 Sep 2020 22:53:49 +0100
+Alex Dewar <alex.dewar90@gmail.com> escreveu:
 
-On 21/09/20 23:39, Sowjanya Komatineni wrote:
-> Sensor should already be in standby during remove and there is no
-> need to configure sensor registers for stream stop.
+> Hi Mauro,
+> 
+> Over the last month I've sent a few scattered patches to fix various
+> warnings from static analysers, but they seem to have fallen through the
+> cracks? I'm reposting them here as a series to make them easier to
+> review. If you do have any feedback that'd be great :)
 
-I beg your pardon for the newbie question: does the V4L2 framework
-guarantee that the stream is stopped (.s_stream(..., 0)) before removing
-the driver?
+Usually, there's no need to re-send the patches, as we pick them
+from a patchwork queue.
+
+However, only one of the patches actually applied against the
+linux-media tree.
+
+So, please rebased the remaining patches on the top of it.
 
 Thanks,
--- 
-Luca
+Mauro
