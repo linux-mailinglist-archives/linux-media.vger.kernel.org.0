@@ -2,83 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33C902748E6
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 21:15:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E7EA274904
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 21:23:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbgIVTPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 15:15:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53474 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726603AbgIVTPm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 15:15:42 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856BDC061755
-        for <linux-media@vger.kernel.org>; Tue, 22 Sep 2020 12:15:42 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id y15so4502044wmi.0
-        for <linux-media@vger.kernel.org>; Tue, 22 Sep 2020 12:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8JHPz5MB4op1E/QMo/ofzAV1pf8fpFit4gQe97vjeBo=;
-        b=y0SiXBD6J9NQ3M9xk68ZG4Xy3Vql64rKBE4QlYvaUpTZR4UNaZVB9grChIR0qCoYrF
-         pcwzY9r604nbPKLj+stTs2aQeSBn+yNB1rxixsVa1pezlXX4H8T3Qs6R2G5/QhinA1fg
-         u0pXV6xFNdCwFVZM18ZnPsuJmqfCqlYzXxyZNJq2MuofyiOsZXcg97xpPuGD9BqqQsxD
-         tvBlsQt7k6Q/LYqZ2IRBt4HLGOJQw6Xd0PxxFJjA3heVvnUnL+80mEzMfFurEg8V+zks
-         pFmAuX7DMfiDEyJu0DOIa88CBYThiA4GZIDLkvr6/OTXrqTYJs0rS8npy8rXPkTW/eoo
-         mb8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8JHPz5MB4op1E/QMo/ofzAV1pf8fpFit4gQe97vjeBo=;
-        b=Bs6V3wRcuCr1Lej7/fwpMIdvAuR8xhqW/FCXQ7JLqT8SnvrHAuI6NlshDiHYuogl1j
-         +wuYA9CJrVEwwOBbpOBscr5d5sPHtzWLa9jwnyGhTv/lx14p/QB6sg0iHYKRV/eYXhPQ
-         hgD43+y3X4Lnef714l8lJoGlRq6bwo3AIMTS+RJ/IuvnDaA2nYujip8ZYWm8pJcp2097
-         UGcskDkfnsHeIIyLMTi6PL/0c1RHJ6Aya9EX/xTibSDimC2LKsWkGCPINd7qygctbaul
-         nnxVUQ8YARqrcXFCqHuGncPsTrvwb3N5PCeRqLwnbtHGVI40ece+YiBXYwf5M2glneBC
-         noEA==
-X-Gm-Message-State: AOAM5302yJ9kFEAFXS0Pjq7M1Zw8cO6sIantOVETce0KnR2+voOS/tCl
-        IOx6uEg7YdI0pHXWzPXThlxasA==
-X-Google-Smtp-Source: ABdhPJwED3IQ4OaZXiJzEgrIZmn98ae0TlXWdgza8puSbYb8D8lQDHqM6/GWZ3QBDm+UqK2ygsLX4w==
-X-Received: by 2002:a1c:4b17:: with SMTP id y23mr2536272wma.162.1600802141131;
-        Tue, 22 Sep 2020 12:15:41 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id l5sm5915697wmf.10.2020.09.22.12.15.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 12:15:40 -0700 (PDT)
-Date:   Tue, 22 Sep 2020 21:15:38 +0200
-From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     gregkh@linuxfoundation.org, laurent.pinchart@skynet.be,
-        mchehab@kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH RFT/RFC 01/49] staging: media: Revert "media: zoran:
- remove deprecated driver"
-Message-ID: <20200922191538.GB12261@Red>
-References: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
- <1600683624-5863-2-git-send-email-clabbe@baylibre.com>
- <20200922051601.GC29480@infradead.org>
+        id S1726656AbgIVTXr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 15:23:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34484 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726448AbgIVTXr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Sep 2020 15:23:47 -0400
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8FD6C2376F;
+        Tue, 22 Sep 2020 19:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600802626;
+        bh=YSVRLX+G8HcHE+AlF7XG+URmaQ0sbbZbrL31jfA43QM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=s3kCE2FF2hDZ7ft/3RSjsfWUCkILuu7w+s9Nxs1V3wwKAVIJxV6tzrD8yuEIWfcLZ
+         Ni2wI/4pwj5nmASalnnXMx2UP1cxGuZNomBqb0V9gNWEOXMitNSOLC4mgXeXqlaL2A
+         9aoo3l6HTGKbSXVtcdM+Fx2X380sNdhkKXXwRyGE=
+Received: by mail-oi1-f181.google.com with SMTP id x69so22245899oia.8;
+        Tue, 22 Sep 2020 12:23:46 -0700 (PDT)
+X-Gm-Message-State: AOAM532HYd6r7ul2/YE5G4FX9Se5qnTyXFNoWgPE2q+vCCbM3LRFCmFo
+        RtQGTxyFnRkw4aeRAOHF6cmEUPsEn1g4w/pO3w==
+X-Google-Smtp-Source: ABdhPJxZbyi+iwWALuyGdgsGTDNoTRH1mBaH07ixS1Yrd7pBExCttVsq4BzpKd3h/dT74o++G7oRjXZcDCwWdevm2R0=
+X-Received: by 2002:aca:fc07:: with SMTP id a7mr3619638oii.106.1600802620879;
+ Tue, 22 Sep 2020 12:23:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200922051601.GC29480@infradead.org>
+References: <1599031090-21608-1-git-send-email-krzk@kernel.org>
+ <20200914201310.GA154873@bogus> <20200921112635.GA1233@kozik-lap>
+In-Reply-To: <20200921112635.GA1233@kozik-lap>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 22 Sep 2020 13:23:29 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+gT3WSCAsKTrjZMh+vF4mx-m51rO=Wv+YcNxNhjEoO8A@mail.gmail.com>
+Message-ID: <CAL_Jsq+gT3WSCAsKTrjZMh+vF4mx-m51rO=Wv+YcNxNhjEoO8A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: imx258: Add bindings for
+ IMX258 sensor
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 22, 2020 at 06:16:01AM +0100, Christoph Hellwig wrote:
-> > +		fh->buffers.buffer[i].v4l.fbuffer = mem;
-> > +		fh->buffers.buffer[i].v4l.fbuffer_phys = virt_to_phys(mem);
-> > +		fh->buffers.buffer[i].v4l.fbuffer_bus = virt_to_bus(mem);
-> > +		for (off = 0; off < fh->buffers.buffer_size;
-> > +		     off += PAGE_SIZE)
-> > +			SetPageReserved(virt_to_page(mem + off));
-> 
-> This messing with SetPageReserved needs to go away before we bring
-> back the driver, even for staging.
+On Mon, Sep 21, 2020 at 5:27 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> On Mon, Sep 14, 2020 at 02:13:10PM -0600, Rob Herring wrote:
+> > On Wed, Sep 02, 2020 at 09:18:08AM +0200, Krzysztof Kozlowski wrote:
+> > > Add bindings for the IMX258 camera sensor.  The bindings, just like the
+> > > driver, are quite limited, e.g. do not support regulator supplies.
+> >
+> > Bindings should be complete, not what a driver happens to currently
+> > support.
+>
+> I'll add then more complete picture.
+>
+> >
+> > >
+> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > >
+> > > ---
+> > >
+> > > Changes since v1:
+> > > 1. None
+> > > ---
+> > >  .../devicetree/bindings/media/i2c/imx258.yaml      | 92 ++++++++++++++++++++++
+> > >  MAINTAINERS                                        |  1 +
+> > >  2 files changed, 93 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> > > new file mode 100644
+> > > index 000000000000..ef789ad31143
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> > > @@ -0,0 +1,92 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Krzysztof Kozlowski <krzk@kernel.org>
+> > > +
+> > > +description: |-
+> > > +  IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active pixel
+> > > +  type stacked image sensor with a square pixel array of size 4208 x 3120. It
+> > > +  is programmable through I2C interface.  Image data is sent through MIPI
+> > > +  CSI-2.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: sony,imx258
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-frequency:
+> > > +    description: Frequency of input clock if clock is not provided
+> > > +    deprecated: true
+> >
+> > Why are we adding something deprecated on a new binding?
+>
+> My intention was also to document it but indeed easier to skip it.
+>
+> >
+> > > +    const: 19200000
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  # See ../video-interfaces.txt for more details
+> > > +  port:
+> > > +    type: object
+> > > +    properties:
+> > > +      endpoint:
+> > > +        type: object
+> > > +        properties:
+> > > +          data-lanes:
+> > > +            items:
+> > > +              - const: 1
+> > > +              - const: 2
+> > > +              - const: 3
+> > > +              - const: 4
+> >
+> > If this is the only config, why does it need to be in DT?
+>
+> The sensor is capable of two settings: two lanes (1 and 2) and four
+> lanes described above.  However Linux driver requires the latter (four
+> lanes, 1+2+3+4).
+>
+> If I were to describe the bindings for HW, someone would really be
+> confused and try to use two lanes setup, which won't work. Driver won't
+> allow it.
 
-The whole old buffer management (with some virt_to_phys, virt_to_bus, SetPageReserved, etc...) is removed in "zoran: convert to vb2".
+If someone has h/w with only 2 lanes connected, then they have to go
+add support to the driver whether we've documented 2 lanes in the
+binding or not.
 
-Regards
+> I understand that bindings document the HW and describe its interface
+> but do we really want to put "theoretical" bindings which cannot be used
+> in practice with Linux kernel?
+>
+> If yes, how to nicely document this that only one setting is currently
+> working?
+
+You don't, at least in the binding. That's a driver issue. Bindings
+are separate. They are stored in the kernel tree for convenience, not
+because they are part of the kernel.
+
+Rob
