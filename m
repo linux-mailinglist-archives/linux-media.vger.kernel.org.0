@@ -2,99 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC80427458D
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 17:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66ECB2745C6
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 17:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726757AbgIVPkp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 11:40:45 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:40787 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726632AbgIVPko (ORCPT
+        id S1726667AbgIVPwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 11:52:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726589AbgIVPwW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 11:40:44 -0400
-Received: by mail-il1-f196.google.com with SMTP id x18so15285067ila.7;
-        Tue, 22 Sep 2020 08:40:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CjP3FaqB3xLlWdr6WInpgaxgqbiPdi3G8u/3sWsh5ow=;
-        b=ZG5bj2zJF3+AR3v6Ma8+SFCljc8+kVL+K/DxOUX4tEgVnxaR4jVVQelHGYog0nB7F8
-         SUmxc3s7JZIkPxzxZ4oDre73e9L8FVOke3txjHgAGzXDpiyXaFNiLzAl2aTjFYigpvqy
-         iT7LYMgoLpHoQpbNsi7JhrTeShuK2nRwgOj0EcTNbdtrIdXvxBt67EYogD5d8K2d7gPz
-         YY/O4Aw9DWu51WibKXv11LOVTXdpnxH9Kzg23loXux5zXJIaf2Lr3Enhi5KmCOhaZxNt
-         8JfaF5SEmQHLWGsN/7WJij1PYUavGFHzsF4e0CHempXbi12mdAfKjMlnhr4n9A6fi1hl
-         I9Vg==
-X-Gm-Message-State: AOAM5326HzR3jR1wGVNYm4Id1w+n+QF3xo/4jFsFIaXS2G5E0HGgkA8q
-        30K1Q0nNpdRSBPNbJb3xWg==
-X-Google-Smtp-Source: ABdhPJwQoEwM/M3ijOW1oWfyfZVRyxlGnhJRQmLBrTBNtjoQCGXIHE0IkmbOCWPcPfO5+I2VpOjP9Q==
-X-Received: by 2002:a92:405d:: with SMTP id n90mr4659530ila.58.1600789243916;
-        Tue, 22 Sep 2020 08:40:43 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id l6sm1265375ils.6.2020.09.22.08.40.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 08:40:42 -0700 (PDT)
-Received: (nullmailer pid 2730811 invoked by uid 1000);
-        Tue, 22 Sep 2020 15:40:41 -0000
-Date:   Tue, 22 Sep 2020 09:40:41 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/3] media: dt-bindings: media: i2c: Add bindings for
- TW9900
-Message-ID: <20200922154041.GA2730544@bogus>
-References: <20200918142422.1086555-1-maxime.chevallier@bootlin.com>
- <20200918142422.1086555-3-maxime.chevallier@bootlin.com>
+        Tue, 22 Sep 2020 11:52:22 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DDC0C061755;
+        Tue, 22 Sep 2020 08:52:22 -0700 (PDT)
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3652C555;
+        Tue, 22 Sep 2020 17:52:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600789935;
+        bh=hKt0OopOTNPF1u9iAM4FiL6RWXzzSs/A/FXCb5IoBg0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=s8TJsKTMZTy7F4lku7/LsXI1HPFe8ruT98eops+ZTqXCDPaYxzmp+y9qHVCybDDkG
+         guI+7bfHHIHnWt1NN0VQ9nKiASq+Xth6Te6onR5IVbL9l/6EMH1EQWHR+oG7CUlCGy
+         31qnGTMlOUAS+fR2e1W0x8zvZFRNMn2AD+005ZeY=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     sakari.ailus@iki.fi, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH 0/2] gmsl: Use unsigned constants
+Date:   Tue, 22 Sep 2020 16:52:08 +0100
+Message-Id: <20200922155210.242536-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200918142422.1086555-3-maxime.chevallier@bootlin.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 18 Sep 2020 16:24:21 +0200, Maxime Chevallier wrote:
-> The Techwell TW9900 is a video decoder supporting multiple input
-> standards, such as PAL, NTSC and SECAM, and outputs a BT.656 video
-> signal.
-> 
-> It's designed to be low-power, posesses some features such as a
-> programmable comb-filter, and automatic input standard detection.
-> 
-> Signed-off-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> ---
->  .../devicetree/bindings/media/i2c/tw9900.yaml | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/tw9900.yaml
-> 
+During pre-integration reviews of the GMSL (MAX9286/MAX9271) patches,
+one comment was to mark the constants used in bitfield shifts as
+explicitly unsigned. This ensures that any use of a register write that
+updates bit 31 is operated correctly.
 
+Whilst none of these register shifts affect bit 31 in any of the
+registers, update the values to follow best practices and ensure
+consistency if further additions are made.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Please note, this does not remove or clean up the 'Prefer BIT' check
+patch warnings, as the use of the BIT macro is still not applicable to
+these entries.
 
-Error: Documentation/devicetree/bindings/media/i2c/tw9900.example.dts:28.46-47 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:342: Documentation/devicetree/bindings/media/i2c/tw9900.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1366: dt_binding_check] Error 2
+Kieran Bingham (2):
+  media: i2c: max9286: Use unsigned constants
+  media: i2c: max9271: Use unsigned constants
 
+ drivers/media/i2c/max9271.h | 60 +++++++++++------------
+ drivers/media/i2c/max9286.c | 96 ++++++++++++++++++-------------------
+ 2 files changed, 78 insertions(+), 78 deletions(-)
 
-See https://patchwork.ozlabs.org/patch/1367017
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
+-- 
+2.25.1
 
