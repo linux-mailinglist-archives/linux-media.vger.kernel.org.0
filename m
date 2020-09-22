@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA79327472B
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 19:03:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B394A27471F
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 19:03:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbgIVRDb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 13:03:31 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:33656 "EHLO
+        id S1726674AbgIVRDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 13:03:32 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:33660 "EHLO
         mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726563AbgIVRDb (ORCPT
+        with ESMTP id S1726583AbgIVRDc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 13:03:31 -0400
+        Tue, 22 Sep 2020 13:03:32 -0400
 Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 46E5C3A862C;
-        Tue, 22 Sep 2020 16:56:02 +0000 (UTC)
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 0C1C43AEAE2;
+        Tue, 22 Sep 2020 16:56:03 +0000 (UTC)
 X-Originating-IP: 90.89.95.46
 Received: from pc-2.home (lfbn-tou-1-1532-46.w90-89.abo.wanadoo.fr [90.89.95.46])
         (Authenticated sender: maxime.chevallier@bootlin.com)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id C8AEDC000E;
-        Tue, 22 Sep 2020 16:55:37 +0000 (UTC)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id D6E4FC0006;
+        Tue, 22 Sep 2020 16:55:40 +0000 (UTC)
 From:   Maxime Chevallier <maxime.chevallier@bootlin.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -37,61 +37,139 @@ Cc:     Maxime Chevallier <maxime.chevallier@bootlin.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v3 0/3] media: rockchip: Introduce driver for Rockchip's camera interface
-Date:   Tue, 22 Sep 2020 18:55:32 +0200
-Message-Id: <20200922165535.1356622-1-maxime.chevallier@bootlin.com>
+Subject: [PATCH v3 1/3] media: dt-bindings: media: Document Rockchip VIP bindings
+Date:   Tue, 22 Sep 2020 18:55:33 +0200
+Message-Id: <20200922165535.1356622-2-maxime.chevallier@bootlin.com>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20200922165535.1356622-1-maxime.chevallier@bootlin.com>
+References: <20200922165535.1356622-1-maxime.chevallier@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: yes
-X-Spam-Level: **************************
-X-GND-Spam-Score: 400
-X-GND-Status: SPAM
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi everyone,
+Add a documentation for the Rockchip Camera Interface controller
+binding.
 
-This is the third iteration of the series introducing a driver for the
-PX30 camera interface.
+This controller can be found on platforms such as the PX30 or the
+RK3288, the PX30 being the only platform supported so far.
 
-This was previously known as the "cif" driver in other iterations, but
-was renamed to "vip" following Ezequiel's advices to match the datasheet
-name.
+Signed-off-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+---
+V3 :
+ - renamed the controller
 
-This is based on a BSP driver, and I'm not fully familiar with the media
-and V4L2 frameworks, so I guess some review is still needed.
-
-This new series adds some stability fixes, and introduces the
-double-buffering frame handling, giving better performances.
-
-Thanks to everyone who reviewed the first two iterations,
-
-Maxime
-
-Maxime Chevallier (3):
-  media: dt-bindings: media: Document Rockchip VIP bindings
-  media: rockchip: Introduce driver for Rockhip's camera interface
-  arm64: dts: rockchip: Add the camera interface description of the PX30
-
- .../bindings/media/rockchip-vip.yaml          |  100 ++
- arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
- drivers/media/platform/Kconfig                |   13 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/rockchip/vip/Makefile  |    3 +
- drivers/media/platform/rockchip/vip/capture.c | 1246 +++++++++++++++++
- drivers/media/platform/rockchip/vip/dev.c     |  408 ++++++
- drivers/media/platform/rockchip/vip/dev.h     |  206 +++
- drivers/media/platform/rockchip/vip/regs.h    |  260 ++++
- 9 files changed, 2249 insertions(+)
+ .../bindings/media/rockchip-vip.yaml          | 100 ++++++++++++++++++
+ 1 file changed, 100 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/rockchip-vip.yaml
- create mode 100644 drivers/media/platform/rockchip/vip/Makefile
- create mode 100644 drivers/media/platform/rockchip/vip/capture.c
- create mode 100644 drivers/media/platform/rockchip/vip/dev.c
- create mode 100644 drivers/media/platform/rockchip/vip/dev.h
- create mode 100644 drivers/media/platform/rockchip/vip/regs.h
 
+diff --git a/Documentation/devicetree/bindings/media/rockchip-vip.yaml b/Documentation/devicetree/bindings/media/rockchip-vip.yaml
+new file mode 100644
+index 000000000000..652c46053b29
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/rockchip-vip.yaml
+@@ -0,0 +1,100 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/rockchip-vip.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Rockchip VIP Camera Interface
++
++maintainers:
++  - Maxime Chevallier <maxime.chevallier@bootlin.com>
++
++description: |-
++  Camera Interface for Rockcip platforms
++
++properties:
++  compatible:
++    const: rockchip,px30-vip
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: ACLK
++      - description: HCLK
++      - description: PCLK IN
++
++  clock-names:
++    items:
++      - const: aclk
++      - const: hclkf
++      - const: pclkin
++
++  resets:
++    items:
++      - description: AXI
++      - description: AHB
++      - description: PCLK IN
++
++  reset-names:
++    items:
++      - const: axi
++      - const: ahb
++      - const: pclkin
++
++  power-domains:
++    maxItems: 1
++    description: phandle to the associated power domain
++
++  # See ./video-interfaces.txt for details
++  port:
++    type: object
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        type: object
++
++        properties:
++          remote-endpoint: true
++
++        required:
++          - remote-endpoint
++
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/px30-cru.h>
++    #include <dt-bindings/power/px30-power.h>
++
++    vip: vip@ff490000 {
++    	compatible = "rockchip,px30-vip";
++    	reg = <0x0 0xff490000 0x0 0x200>;
++    	interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
++    	clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>, <&cru SCLK_CIF_OUT>;
++    	clock-names = "aclk", "hclk", "pclkin";
++    	resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
++    	reset-names = "axi", "ahb", "pclkin";
++    	power-domains = <&power PX30_PD_VI>;
++            port {
++                    vip_in: endpoint {
++                            remote-endpoint = <&tw9900_out>;
++                    };
++            };
++    };
++...
 -- 
 2.25.4
 
