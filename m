@@ -2,194 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88C32273EB9
-	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 11:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D782F273F39
+	for <lists+linux-media@lfdr.de>; Tue, 22 Sep 2020 12:07:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726607AbgIVJmG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 05:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726353AbgIVJmG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 05:42:06 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C509C061755;
-        Tue, 22 Sep 2020 02:42:05 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id A0C4B11A001; Tue, 22 Sep 2020 10:41:57 +0100 (BST)
-Date:   Tue, 22 Sep 2020 10:41:57 +0100
-From:   Sean Young <sean@mess.org>
-To:     Joakim Zhang <qiangqing.zhang@nxp.com>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-imx@nxp.com
-Subject: Re: [PATCH V2 2/2] media: rc: gpio-ir-recv: add QoS support for
+        id S1726554AbgIVKHa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 06:07:30 -0400
+Received: from mail-db8eur05on2086.outbound.protection.outlook.com ([40.107.20.86]:58336
+        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726341AbgIVKHa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Sep 2020 06:07:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cRy/7u7GH6y+4mjdQGdVjMaY8ACcbZ49vtzXEWtfTF9srLk2D0q+j1ETBt9+tZ5NLNMLf6rrqGhMnJmvfPh+XTA9HqLuFGqoQxhutd/IaXEk2bieyD6BrObkp5FuTM+OPu+yq1Djs35UYq/SvbhsbXapYJhwx6CeJoRNl1riPF0MlE+OVGpcJ3SlODH2PFPVhMCYo3INU622NfsqDfFOkaXtNLE94GFcW1Phv7uzwNRF6zL65uRYdraONAeBO6Fu9jqZOGN1AywQHtVc5q8K+DUaqCpO5bVqsnHz5OBdvxltBVJzwa+W4jBYGLQL0F/ujvRZa3eiMWJj80nTcfaEIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cQ5WAPdJpvU38cuitYyr8KTnfymhJ7uWSSR+q6lGdNg=;
+ b=cxR1WAWybwy31urjmcciO5uPjTeJCBKySbcKN6tHFprNTNRO8U0eg1qHNEamv5DWD+EZ+61RWds4PFKHkdT8LXYJQNxKK8DWrzlznlU+R5VegEiFSzbBLYgoh0AjE4aZZKinlrfv07AZejsV1dCIpIX9j84xi9ms3kShv6bH8kAWyIyyQ+jt6cqwPn4EdaiffkodKdVIGJ5UvdP8WuzBf7IYzn2hFg2RliEHfbWLRzkd3SBu+YprzyVq0OVTSkDjqLeQJX4OhPR9ZW5WcVapkJYOvmDItVBuTxBE/NIsovyJXQZGWjSf7cyUjD/387P7pfFXj8Hsh5VT00jYRQXvng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cQ5WAPdJpvU38cuitYyr8KTnfymhJ7uWSSR+q6lGdNg=;
+ b=Ko54eEZcz93/vJFHzlpYdS5XLm8+wrdaBS+H3xOmPWk9Wcl84j/X5LfKIzx1gDwfuHw57BZi2qw87PzEqKzvD37vD3d38NxB6Yd1XRjxikrBvj4PSgoH6K6AFUMQlO/C/AvSw5C/ebTJQkPpKQ41OsXDWzjyYajtt6hDQC2dCvk=
+Received: from DB8PR04MB6795.eurprd04.prod.outlook.com (2603:10a6:10:fa::15)
+ by DB3PR0402MB3851.eurprd04.prod.outlook.com (2603:10a6:8:12::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Tue, 22 Sep
+ 2020 10:07:24 +0000
+Received: from DB8PR04MB6795.eurprd04.prod.outlook.com
+ ([fe80::d12e:689a:169:fd68]) by DB8PR04MB6795.eurprd04.prod.outlook.com
+ ([fe80::d12e:689a:169:fd68%8]) with mapi id 15.20.3391.011; Tue, 22 Sep 2020
+ 10:07:23 +0000
+From:   Joakim Zhang <qiangqing.zhang@nxp.com>
+To:     Sean Young <sean@mess.org>
+CC:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>
+Subject: RE: [PATCH V2 2/2] media: rc: gpio-ir-recv: add QoS support for
  cpuidle system
-Message-ID: <20200922094157.GA14307@gofer.mess.org>
+Thread-Topic: [PATCH V2 2/2] media: rc: gpio-ir-recv: add QoS support for
+ cpuidle system
+Thread-Index: AQHWjaTsxPl248PwT0GLsPkAhb6O2Kl0be+AgAAFGzA=
+Date:   Tue, 22 Sep 2020 10:07:23 +0000
+Message-ID: <DB8PR04MB6795B910871CE5B388AD73A9E63B0@DB8PR04MB6795.eurprd04.prod.outlook.com>
 References: <20200918181717.24056-1-qiangqing.zhang@nxp.com>
  <20200918181717.24056-3-qiangqing.zhang@nxp.com>
+ <20200922094157.GA14307@gofer.mess.org>
+In-Reply-To: <20200922094157.GA14307@gofer.mess.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: mess.org; dkim=none (message not signed)
+ header.d=none;mess.org; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.71]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9aca065d-fc29-409b-36c1-08d85edf4d3e
+x-ms-traffictypediagnostic: DB3PR0402MB3851:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB3PR0402MB385155CEFD6509D62D0AE1B8E63B0@DB3PR0402MB3851.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: plNlAS4sJv8zu+65XgCMYEEWnUDC7LI5r11P61T6sJ7O6zvQiCT+i/CQ6reW/WYG0ztBVERDuUFuirSFjTSc4/wUM9DkJQ65+ypQvgnO4yu25I/goqo32vVyuha3fso4VyG0+AiLD7+1MgPu5T1YRimcDpoLKCy4UlJgMeTKX/QQyYWmbqymVO74rIMVLBj1uWKvq/xOesJdQ0u3NFigWO0brEeN3sGV3eqIwTKEIsaIIgNbN84LNkba9uJqvaQJhYoVc6V+hbhgfHzyydDsVPd49olLOVHmyW0u+4yHlrxB5DZ1sx89ZBTrzIFUia02ZdX7zzmbzb6yJcKUJCY5aIyUTGXU+JYIEWyNeWhQm4U2A2sECxDZXjgFHt2omtsC
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6795.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(396003)(39860400002)(346002)(366004)(83380400001)(53546011)(7696005)(186003)(33656002)(8676002)(26005)(8936002)(9686003)(86362001)(55016002)(6506007)(2906002)(52536014)(478600001)(5660300002)(54906003)(4326008)(66946007)(76116006)(316002)(66556008)(64756008)(66476007)(6916009)(71200400001)(66446008)(3714002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: KKk7ur1ktNb2guYehOZxh0WZxPBvpOZZ+L6ZRGk90pr224VK1vlE2RUbV7xqD1XwVlR3jY4w2X1pPoVujsxMscyUybg1w/PEELbxapdOIMCyA1cRBaHRmykDwi/i3ra31fw+derQZFC1d2ObUPaOecafmUzQ8s7fl2N79rrRXMZSkaksFXW23Kb7R924oRsoTOYmyPQMWisg5hxTh4uZ9E7FzZG20N6xd8R1aDRuIizL8L2Jd0CXsrr3Kc8hTro1O2M52/0sCkgBtqkKj3eUo34ao0QD+XRs1KNVP+maUqROz8QXDZeill0cEvIrwGpPqckiTo/kWxgdP9hG0mqWJm8G7RJasWnky5yt7Kr6STBnb8hlp1uX8zcWEwyxEymjf5/kDvO50ys1r6LhyOuxJHl0pd6XsXUQsZchk9R+MxuW6cCkWo+8Ss0XUcdHMQmJIq2qpYXDBfBiXZrDWvJrruX1L2lhxDQ0eMQUdFZM52Om1RbT3BXq9tLNN5Hk7OPZ64QzVqV1AShJoeQdWs7uClaulyfHjkxt3+dGL/Zm5kUukT1D/yqLDJFJSvh1jE/qtex9fymS322DV2dwr9QYirYyZP7WtgAGQBC4cD1dHSDR59zhdbJisXsSqw+NtqNSlkefM3u+iCAbwi0n+TyBaw==
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200918181717.24056-3-qiangqing.zhang@nxp.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR04MB6795.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9aca065d-fc29-409b-36c1-08d85edf4d3e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2020 10:07:23.7584
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: A/OfiJDUvQaD+CxSat1Zzfhv/z81lTDi6X/60LN1JvDC3RTT62IyGcgqG2IPTVu+FjAVq657VbNFdg0Z8dsyRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3851
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joakim,
-
-Thanks for your updated patch.
-
-On Sat, Sep 19, 2020 at 02:17:17AM +0800, Joakim Zhang wrote:
-> GPIO IR receive is much rely on interrupt response, uneven interrupt
-> latency will lead to incorrect timing, so the decoder fails to decode
-> it. The issue is particularly acute on some systems which support
-> cpuidle, not all, dynamically disable and enable cpuidle can solve this
-> problem to a great extent.
-> 
-> However, there is a downside to this approach, the measurement of header
-> on the first frame may incorrect. Test on i.MX8M serials, when enable
-> cpuidle, interrupt latency could be about 500us.
-> 
-> With this patch:
-> 1. has no side effect on non-cpuidle system.
-> 2. latency is still much longer for the first gpio interrupt on cpuidle
-> system, so the first frame may not be decoded. Generally, RC would transmit
-> multiple frames at once press, we can sacrifice the first frame.
-> 3. add "linux,autosuspend-period" property in device tree if you also
-> suffer this cpuidle issue.
-> 
-> Signed-off-by: Joakim Zhang <qiangqing.zhang@nxp.com>
-> ---
-> ChangeLogs:
-> V1->V2:
-> 	* set autosuspend delay time via device tree.
-> ---
->  drivers/media/rc/gpio-ir-recv.c | 50 +++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
-> diff --git a/drivers/media/rc/gpio-ir-recv.c b/drivers/media/rc/gpio-ir-recv.c
-> index a20413008c3c..63cf8290eb19 100644
-> --- a/drivers/media/rc/gpio-ir-recv.c
-> +++ b/drivers/media/rc/gpio-ir-recv.c
-> @@ -11,6 +11,8 @@
->  #include <linux/of.h>
->  #include <linux/of_gpio.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/pm_qos.h>
->  #include <linux/irq.h>
->  #include <media/rc-core.h>
->  
-> @@ -20,17 +22,35 @@ struct gpio_rc_dev {
->  	struct rc_dev *rcdev;
->  	struct gpio_desc *gpiod;
->  	int irq;
-> +	struct device *dev;
-> +	struct pm_qos_request qos;
->  };
->  
->  static irqreturn_t gpio_ir_recv_irq(int irq, void *dev_id)
->  {
->  	int val;
->  	struct gpio_rc_dev *gpio_dev = dev_id;
-> +	struct device *dev = gpio_dev->dev;
-> +
-> +	/*
-> +	 * For some cpuidle systems, not all:
-> +	 * Respond to interrupt taking more latency when cpu in idle.
-> +	 * Invoke asynchronous pm runtime get from interrupt context,
-> +	 * this may introduce a millisecond delay to call resume callback,
-> +	 * where to disable cpuilde.
-> +	 *
-> +	 * Two issues lead to fail to decode first frame, one is latency to
-> +	 * respond to interrupt, another is delay introduced by async api.
-> +	 */
-> +	pm_runtime_get(dev);
->  
->  	val = gpiod_get_value(gpio_dev->gpiod);
->  	if (val >= 0)
->  		ir_raw_event_store_edge(gpio_dev->rcdev, val == 1);
->  
-> +	pm_runtime_mark_last_busy(dev);
-> +	pm_runtime_put_autosuspend(dev);
-> +
-
-I've dusted off my rpi and tried to see if it fails with cpuidle enabled.
-As far as I can see, it always works fine. So, my only concern is that
-there is a bunch of pm busy work done here for devices that do not need it,
-including spinlocks, ktime. etc.
-
-You could rename the dev field of gpio_rc_dev to pmdev and only do this
-work if pm_dev != NULL. Or some other mechanism of doing this work
-conditionally.
-
-Having said that I'm not entirely sure this will make much of a difference.
-
->  	return IRQ_HANDLED;
->  }
->  
-> @@ -40,6 +60,7 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
->  	struct device_node *np = dev->of_node;
->  	struct gpio_rc_dev *gpio_dev;
->  	struct rc_dev *rcdev;
-> +	u32 period = 0;
->  	int rc;
->  
->  	if (!np)
-> @@ -83,6 +104,7 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
->  		rcdev->map_name = RC_MAP_EMPTY;
->  
->  	gpio_dev->rcdev = rcdev;
-> +	gpio_dev->dev = dev;
->  
->  	rc = devm_rc_register_device(dev, rcdev);
->  	if (rc < 0) {
-> @@ -90,6 +112,14 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
->  		return rc;
->  	}
->  
-> +	of_property_read_u32(np, "linux,autosuspend-period", &period);
-> +	if (period) {
-> +		pm_runtime_set_autosuspend_delay(dev, period);
-> +		pm_runtime_use_autosuspend(dev);
-> +		pm_runtime_set_suspended(dev);
-> +		pm_runtime_enable(dev);
-> +	}
-> +
->  	platform_set_drvdata(pdev, gpio_dev);
->  
->  	return devm_request_irq(dev, gpio_dev->irq, gpio_ir_recv_irq,
-> @@ -122,9 +152,29 @@ static int gpio_ir_recv_resume(struct device *dev)
->  	return 0;
->  }
->  
-> +static int gpio_ir_recv_runtime_suspend(struct device *dev)
-> +{
-> +	struct gpio_rc_dev *gpio_dev = dev_get_drvdata(dev);
-> +
-> +	cpu_latency_qos_remove_request(&gpio_dev->qos);
-> +
-> +	return 0;
-> +}
-> +
-> +static int gpio_ir_recv_runtime_resume(struct device *dev)
-> +{
-> +	struct gpio_rc_dev *gpio_dev = dev_get_drvdata(dev);
-> +
-> +	cpu_latency_qos_add_request(&gpio_dev->qos, 0);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct dev_pm_ops gpio_ir_recv_pm_ops = {
->  	.suspend        = gpio_ir_recv_suspend,
->  	.resume         = gpio_ir_recv_resume,
-> +	.runtime_suspend = gpio_ir_recv_runtime_suspend,
-> +	.runtime_resume  = gpio_ir_recv_runtime_resume,
->  };
->  #endif
->  
-> -- 
-> 2.17.1
+DQpIaSBTZWFuLA0KDQpUaGFua3MgZm9yIHlvdSBraW5kbHkgcmV2aWV3Lg0KDQo+IC0tLS0tT3Jp
+Z2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFNlYW4gWW91bmcgPHNlYW5AbWVzcy5vcmc+DQo+
+IFNlbnQ6IDIwMjDE6jnUwjIyyNUgMTc6NDINCj4gVG86IEpvYWtpbSBaaGFuZyA8cWlhbmdxaW5n
+LnpoYW5nQG54cC5jb20+DQo+IENjOiBtY2hlaGFiQGtlcm5lbC5vcmc7IHJvYmgrZHRAa2VybmVs
+Lm9yZzsgbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOw0KPiBkZXZpY2V0cmVlQHZnZXIua2Vy
+bmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgZGwtbGludXgtaW14DQo+IDxs
+aW51eC1pbXhAbnhwLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCBWMiAyLzJdIG1lZGlhOiBy
+YzogZ3Bpby1pci1yZWN2OiBhZGQgUW9TIHN1cHBvcnQgZm9yIGNwdWlkbGUNCj4gc3lzdGVtDQo+
+IA0KPiBIaSBKb2FraW0sDQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgdXBkYXRlZCBwYXRjaC4NCj4g
+DQo+IE9uIFNhdCwgU2VwIDE5LCAyMDIwIGF0IDAyOjE3OjE3QU0gKzA4MDAsIEpvYWtpbSBaaGFu
+ZyB3cm90ZToNCj4gPiBHUElPIElSIHJlY2VpdmUgaXMgbXVjaCByZWx5IG9uIGludGVycnVwdCBy
+ZXNwb25zZSwgdW5ldmVuIGludGVycnVwdA0KPiA+IGxhdGVuY3kgd2lsbCBsZWFkIHRvIGluY29y
+cmVjdCB0aW1pbmcsIHNvIHRoZSBkZWNvZGVyIGZhaWxzIHRvIGRlY29kZQ0KPiA+IGl0LiBUaGUg
+aXNzdWUgaXMgcGFydGljdWxhcmx5IGFjdXRlIG9uIHNvbWUgc3lzdGVtcyB3aGljaCBzdXBwb3J0
+DQo+ID4gY3B1aWRsZSwgbm90IGFsbCwgZHluYW1pY2FsbHkgZGlzYWJsZSBhbmQgZW5hYmxlIGNw
+dWlkbGUgY2FuIHNvbHZlDQo+ID4gdGhpcyBwcm9ibGVtIHRvIGEgZ3JlYXQgZXh0ZW50Lg0KPiA+
+DQo+ID4gSG93ZXZlciwgdGhlcmUgaXMgYSBkb3duc2lkZSB0byB0aGlzIGFwcHJvYWNoLCB0aGUg
+bWVhc3VyZW1lbnQgb2YNCj4gPiBoZWFkZXIgb24gdGhlIGZpcnN0IGZyYW1lIG1heSBpbmNvcnJl
+Y3QuIFRlc3Qgb24gaS5NWDhNIHNlcmlhbHMsIHdoZW4NCj4gPiBlbmFibGUgY3B1aWRsZSwgaW50
+ZXJydXB0IGxhdGVuY3kgY291bGQgYmUgYWJvdXQgNTAwdXMuDQo+ID4NCj4gPiBXaXRoIHRoaXMg
+cGF0Y2g6DQo+ID4gMS4gaGFzIG5vIHNpZGUgZWZmZWN0IG9uIG5vbi1jcHVpZGxlIHN5c3RlbS4N
+Cj4gPiAyLiBsYXRlbmN5IGlzIHN0aWxsIG11Y2ggbG9uZ2VyIGZvciB0aGUgZmlyc3QgZ3BpbyBp
+bnRlcnJ1cHQgb24NCj4gPiBjcHVpZGxlIHN5c3RlbSwgc28gdGhlIGZpcnN0IGZyYW1lIG1heSBu
+b3QgYmUgZGVjb2RlZC4gR2VuZXJhbGx5LCBSQw0KPiA+IHdvdWxkIHRyYW5zbWl0IG11bHRpcGxl
+IGZyYW1lcyBhdCBvbmNlIHByZXNzLCB3ZSBjYW4gc2FjcmlmaWNlIHRoZSBmaXJzdA0KPiBmcmFt
+ZS4NCj4gPiAzLiBhZGQgImxpbnV4LGF1dG9zdXNwZW5kLXBlcmlvZCIgcHJvcGVydHkgaW4gZGV2
+aWNlIHRyZWUgaWYgeW91IGFsc28NCj4gPiBzdWZmZXIgdGhpcyBjcHVpZGxlIGlzc3VlLg0KPiA+
+DQo+ID4gU2lnbmVkLW9mZi1ieTogSm9ha2ltIFpoYW5nIDxxaWFuZ3FpbmcuemhhbmdAbnhwLmNv
+bT4NCj4gPiAtLS0NCj4gPiBDaGFuZ2VMb2dzOg0KPiA+IFYxLT5WMjoNCj4gPiAJKiBzZXQgYXV0
+b3N1c3BlbmQgZGVsYXkgdGltZSB2aWEgZGV2aWNlIHRyZWUuDQo+ID4gLS0tDQo+ID4gIGRyaXZl
+cnMvbWVkaWEvcmMvZ3Bpby1pci1yZWN2LmMgfCA1MA0KPiA+ICsrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNTAgaW5zZXJ0aW9ucygrKQ0KPiA+
+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcmMvZ3Bpby1pci1yZWN2LmMNCj4gPiBi
+L2RyaXZlcnMvbWVkaWEvcmMvZ3Bpby1pci1yZWN2LmMgaW5kZXggYTIwNDEzMDA4YzNjLi42M2Nm
+ODI5MGViMTkNCj4gPiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL3JjL2dwaW8taXIt
+cmVjdi5jDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9yYy9ncGlvLWlyLXJlY3YuYw0KPiA+IEBA
+IC0xMSw2ICsxMSw4IEBADQo+ID4gICNpbmNsdWRlIDxsaW51eC9vZi5oPg0KPiA+ICAjaW5jbHVk
+ZSA8bGludXgvb2ZfZ3Bpby5oPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNl
+Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1lLmg+DQo+ID4gKyNpbmNsdWRlIDxs
+aW51eC9wbV9xb3MuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2lycS5oPg0KPiA+ICAjaW5jbHVk
+ZSA8bWVkaWEvcmMtY29yZS5oPg0KPiA+DQo+ID4gQEAgLTIwLDE3ICsyMiwzNSBAQCBzdHJ1Y3Qg
+Z3Bpb19yY19kZXYgew0KPiA+ICAJc3RydWN0IHJjX2RldiAqcmNkZXY7DQo+ID4gIAlzdHJ1Y3Qg
+Z3Bpb19kZXNjICpncGlvZDsNCj4gPiAgCWludCBpcnE7DQo+ID4gKwlzdHJ1Y3QgZGV2aWNlICpk
+ZXY7DQo+ID4gKwlzdHJ1Y3QgcG1fcW9zX3JlcXVlc3QgcW9zOw0KPiA+ICB9Ow0KPiA+DQo+ID4g
+IHN0YXRpYyBpcnFyZXR1cm5fdCBncGlvX2lyX3JlY3ZfaXJxKGludCBpcnEsIHZvaWQgKmRldl9p
+ZCkgIHsNCj4gPiAgCWludCB2YWw7DQo+ID4gIAlzdHJ1Y3QgZ3Bpb19yY19kZXYgKmdwaW9fZGV2
+ID0gZGV2X2lkOw0KPiA+ICsJc3RydWN0IGRldmljZSAqZGV2ID0gZ3Bpb19kZXYtPmRldjsNCj4g
+PiArDQo+ID4gKwkvKg0KPiA+ICsJICogRm9yIHNvbWUgY3B1aWRsZSBzeXN0ZW1zLCBub3QgYWxs
+Og0KPiA+ICsJICogUmVzcG9uZCB0byBpbnRlcnJ1cHQgdGFraW5nIG1vcmUgbGF0ZW5jeSB3aGVu
+IGNwdSBpbiBpZGxlLg0KPiA+ICsJICogSW52b2tlIGFzeW5jaHJvbm91cyBwbSBydW50aW1lIGdl
+dCBmcm9tIGludGVycnVwdCBjb250ZXh0LA0KPiA+ICsJICogdGhpcyBtYXkgaW50cm9kdWNlIGEg
+bWlsbGlzZWNvbmQgZGVsYXkgdG8gY2FsbCByZXN1bWUgY2FsbGJhY2ssDQo+ID4gKwkgKiB3aGVy
+ZSB0byBkaXNhYmxlIGNwdWlsZGUuDQo+ID4gKwkgKg0KPiA+ICsJICogVHdvIGlzc3VlcyBsZWFk
+IHRvIGZhaWwgdG8gZGVjb2RlIGZpcnN0IGZyYW1lLCBvbmUgaXMgbGF0ZW5jeSB0bw0KPiA+ICsJ
+ICogcmVzcG9uZCB0byBpbnRlcnJ1cHQsIGFub3RoZXIgaXMgZGVsYXkgaW50cm9kdWNlZCBieSBh
+c3luYyBhcGkuDQo+ID4gKwkgKi8NCj4gPiArCXBtX3J1bnRpbWVfZ2V0KGRldik7DQo+ID4NCj4g
+PiAgCXZhbCA9IGdwaW9kX2dldF92YWx1ZShncGlvX2Rldi0+Z3Bpb2QpOw0KPiA+ICAJaWYgKHZh
+bCA+PSAwKQ0KPiA+ICAJCWlyX3Jhd19ldmVudF9zdG9yZV9lZGdlKGdwaW9fZGV2LT5yY2Rldiwg
+dmFsID09IDEpOw0KPiA+DQo+ID4gKwlwbV9ydW50aW1lX21hcmtfbGFzdF9idXN5KGRldik7DQo+
+ID4gKwlwbV9ydW50aW1lX3B1dF9hdXRvc3VzcGVuZChkZXYpOw0KPiA+ICsNCj4gDQo+IEkndmUg
+ZHVzdGVkIG9mZiBteSBycGkgYW5kIHRyaWVkIHRvIHNlZSBpZiBpdCBmYWlscyB3aXRoIGNwdWlk
+bGUgZW5hYmxlZC4NCj4gQXMgZmFyIGFzIEkgY2FuIHNlZSwgaXQgYWx3YXlzIHdvcmtzIGZpbmUu
+IFNvLCBteSBvbmx5IGNvbmNlcm4gaXMgdGhhdCB0aGVyZSBpcyBhDQo+IGJ1bmNoIG9mIHBtIGJ1
+c3kgd29yayBkb25lIGhlcmUgZm9yIGRldmljZXMgdGhhdCBkbyBub3QgbmVlZCBpdCwgaW5jbHVk
+aW5nDQo+IHNwaW5sb2Nrcywga3RpbWUuIGV0Yy4NCj4gDQo+IFlvdSBjb3VsZCByZW5hbWUgdGhl
+IGRldiBmaWVsZCBvZiBncGlvX3JjX2RldiB0byBwbWRldiBhbmQgb25seSBkbyB0aGlzIHdvcmsg
+aWYNCj4gcG1fZGV2ICE9IE5VTEwuIE9yIHNvbWUgb3RoZXIgbWVjaGFuaXNtIG9mIGRvaW5nIHRo
+aXMgd29yayBjb25kaXRpb25hbGx5Lg0KPiANCj4gSGF2aW5nIHNhaWQgdGhhdCBJJ20gbm90IGVu
+dGlyZWx5IHN1cmUgdGhpcyB3aWxsIG1ha2UgbXVjaCBvZiBhIGRpZmZlcmVuY2UuDQoNClBlciBt
+eSB1bmRlcnN0YW5kaW5nLCB0aGlzIHNob3VsZCBub3QgbWFrZSBtdWNoIGRpZmZlcmVuY2UuIEJ1
+dCwgR1BJTyBJUiByZWN2IGlzIHNlbnNpdGl2ZSB0byB0aW1lLCBzbyB3ZSBuZWVkIHRyeSBvdXIg
+YmVzdCBub3QgaW50cm9kdWNlIGV4dHJhIHdvcmsuDQoNClNvLCBJIHdpbGwgaW1wcm92ZSBpdCB0
+aGVuIHNlbmQgYSBWMy4NCg0KQmVzdCBSZWdhcmRzLA0KSm9ha2ltIFpoYW5nDQo+ID4gIAlyZXR1
+cm4gSVJRX0hBTkRMRUQ7DQo+ID4gIH0NCj4gPg0KPiA+IEBAIC00MCw2ICs2MCw3IEBAIHN0YXRp
+YyBpbnQgZ3Bpb19pcl9yZWN2X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UNCj4gKnBkZXYp
+DQo+ID4gIAlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wID0gZGV2LT5vZl9ub2RlOw0KPiA+ICAJc3Ry
+dWN0IGdwaW9fcmNfZGV2ICpncGlvX2RldjsNCj4gPiAgCXN0cnVjdCByY19kZXYgKnJjZGV2Ow0K
+PiA+ICsJdTMyIHBlcmlvZCA9IDA7DQo+ID4gIAlpbnQgcmM7DQo+ID4NCj4gPiAgCWlmICghbnAp
+DQo+ID4gQEAgLTgzLDYgKzEwNCw3IEBAIHN0YXRpYyBpbnQgZ3Bpb19pcl9yZWN2X3Byb2JlKHN0
+cnVjdCBwbGF0Zm9ybV9kZXZpY2UNCj4gKnBkZXYpDQo+ID4gIAkJcmNkZXYtPm1hcF9uYW1lID0g
+UkNfTUFQX0VNUFRZOw0KPiA+DQo+ID4gIAlncGlvX2Rldi0+cmNkZXYgPSByY2RldjsNCj4gPiAr
+CWdwaW9fZGV2LT5kZXYgPSBkZXY7DQo+ID4NCj4gPiAgCXJjID0gZGV2bV9yY19yZWdpc3Rlcl9k
+ZXZpY2UoZGV2LCByY2Rldik7DQo+ID4gIAlpZiAocmMgPCAwKSB7DQo+ID4gQEAgLTkwLDYgKzEx
+MiwxNCBAQCBzdGF0aWMgaW50IGdwaW9faXJfcmVjdl9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2
+aWNlDQo+ICpwZGV2KQ0KPiA+ICAJCXJldHVybiByYzsNCj4gPiAgCX0NCj4gPg0KPiA+ICsJb2Zf
+cHJvcGVydHlfcmVhZF91MzIobnAsICJsaW51eCxhdXRvc3VzcGVuZC1wZXJpb2QiLCAmcGVyaW9k
+KTsNCj4gPiArCWlmIChwZXJpb2QpIHsNCj4gPiArCQlwbV9ydW50aW1lX3NldF9hdXRvc3VzcGVu
+ZF9kZWxheShkZXYsIHBlcmlvZCk7DQo+ID4gKwkJcG1fcnVudGltZV91c2VfYXV0b3N1c3BlbmQo
+ZGV2KTsNCj4gPiArCQlwbV9ydW50aW1lX3NldF9zdXNwZW5kZWQoZGV2KTsNCj4gPiArCQlwbV9y
+dW50aW1lX2VuYWJsZShkZXYpOw0KPiA+ICsJfQ0KPiA+ICsNCj4gPiAgCXBsYXRmb3JtX3NldF9k
+cnZkYXRhKHBkZXYsIGdwaW9fZGV2KTsNCj4gPg0KPiA+ICAJcmV0dXJuIGRldm1fcmVxdWVzdF9p
+cnEoZGV2LCBncGlvX2Rldi0+aXJxLCBncGlvX2lyX3JlY3ZfaXJxLCBAQA0KPiA+IC0xMjIsOSAr
+MTUyLDI5IEBAIHN0YXRpYyBpbnQgZ3Bpb19pcl9yZWN2X3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpk
+ZXYpDQo+ID4gIAlyZXR1cm4gMDsNCj4gPiAgfQ0KPiA+DQo+ID4gK3N0YXRpYyBpbnQgZ3Bpb19p
+cl9yZWN2X3J1bnRpbWVfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpIHsNCj4gPiArCXN0cnVj
+dCBncGlvX3JjX2RldiAqZ3Bpb19kZXYgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gPiArDQo+
+ID4gKwljcHVfbGF0ZW5jeV9xb3NfcmVtb3ZlX3JlcXVlc3QoJmdwaW9fZGV2LT5xb3MpOw0KPiA+
+ICsNCj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IGdwaW9f
+aXJfcmVjdl9ydW50aW1lX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpIHsNCj4gPiArCXN0cnVj
+dCBncGlvX3JjX2RldiAqZ3Bpb19kZXYgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gPiArDQo+
+ID4gKwljcHVfbGF0ZW5jeV9xb3NfYWRkX3JlcXVlc3QoJmdwaW9fZGV2LT5xb3MsIDApOw0KPiA+
+ICsNCj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGRldl9wbV9vcHMgZ3Bpb19pcl9yZWN2X3BtX29wcyA9IHsNCj4gPiAgCS5zdXNwZW5kICAg
+ICAgICA9IGdwaW9faXJfcmVjdl9zdXNwZW5kLA0KPiA+ICAJLnJlc3VtZSAgICAgICAgID0gZ3Bp
+b19pcl9yZWN2X3Jlc3VtZSwNCj4gPiArCS5ydW50aW1lX3N1c3BlbmQgPSBncGlvX2lyX3JlY3Zf
+cnVudGltZV9zdXNwZW5kLA0KPiA+ICsJLnJ1bnRpbWVfcmVzdW1lICA9IGdwaW9faXJfcmVjdl9y
+dW50aW1lX3Jlc3VtZSwNCj4gPiAgfTsNCj4gPiAgI2VuZGlmDQo+ID4NCj4gPiAtLQ0KPiA+IDIu
+MTcuMQ0K
