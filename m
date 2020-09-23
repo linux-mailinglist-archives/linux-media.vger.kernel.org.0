@@ -2,95 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2EEA275CAE
-	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 18:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 647D3275CED
+	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 18:09:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726721AbgIWQC5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Sep 2020 12:02:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47762 "EHLO
+        id S1726647AbgIWQJS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Sep 2020 12:09:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726156AbgIWQC5 (ORCPT
+        with ESMTP id S1726184AbgIWQJS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Sep 2020 12:02:57 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D064C0613CE;
-        Wed, 23 Sep 2020 09:02:56 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40C7A555;
-        Wed, 23 Sep 2020 18:02:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600876972;
-        bh=Y/VHXN6kPaIwNOZNK6qGYstoYWfdVykQEHkaDw7cLVQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V206k/Ur9SWFuWWUG20oryXpVut9gXV4a4iMRKU7eYF3ETg0E9E1rloRhBBU8golh
-         howyHkenhuI0D8yHPyAj6LMSIVehQ/zvEd2jM63K8cGNcevRf5fbcTSXnyS4ZhcAux
-         e/ltwm1/cI+cWFUi7eE+QuinAxQ1wjaIKFyh9OuQ=
-Date:   Wed, 23 Sep 2020 19:02:19 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ramesh Shanmugasundaram <rashanmu@gmail.com>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/3] MAINTAINERS: Add Fabrizio Castro to Renesas DRIF
-Message-ID: <20200923160219.GE3980@pendragon.ideasonboard.com>
-References: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
- <20200916105949.24858-2-fabrizio.castro.jz@renesas.com>
- <CAJWpUEd5_fTUtT_9tuwpgvp=ECmh-NGcU2FH49jmyaJNxKCqmA@mail.gmail.com>
+        Wed, 23 Sep 2020 12:09:18 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 992E5C0613CE
+        for <linux-media@vger.kernel.org>; Wed, 23 Sep 2020 09:09:17 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id t10so678049wrv.1
+        for <linux-media@vger.kernel.org>; Wed, 23 Sep 2020 09:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3P/ZxpNJo4PSk7Ep/fF4Gu3Oz1IinM7von/Sj/dKjYs=;
+        b=Q+a+88KMJKfYyJmtJGcC9p67yACHUBTsddpjNbsAYg17ZlcFjmZBgsM1kpms9i98B4
+         gX6157evJeTYbkQkd+iptaTFKMlByOsDAQlbXJDzGYIP2Y27QcHK6Calx+erxYT3IK0i
+         +y/lRvHxs7Krm6szOxn+4/eMtbKpIHNcH8ba+TJs7xAnzqjtnUgKoRm7r0mQStyUX+vc
+         DI0tVnSCzUtlu6Dd24+QThRIX5OtVImQ/FlUfkwcuVbWkdFhCLPlj1i7WsdhKA8umn/X
+         AZnjE2qh6yjrAGrGdOlESpYn8E857i/1oudG8pz/KUPcKPsakRlyAmOzaU8HfDizuoNJ
+         FxBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3P/ZxpNJo4PSk7Ep/fF4Gu3Oz1IinM7von/Sj/dKjYs=;
+        b=HDCBeQUN5GbCNmflFea/hbx4H+dKbriJttX/MBhYbd6XfmLWi++4Ioyz8sXNxwptS2
+         3JMRI00Gd43rCZfsdMIp+CgwRKi3LoPNX5jvDY42xEMRMxHEAy2ywpoC7fiNPOvjs8Ek
+         WJ/8ACs20j85S/TQQsRnzYr2sJ6rR7H9Ga8Q0kCZFZB/bPZ+8oTcQzA2LHpl1toTkvji
+         /k+UbTEFUDITxxhJqQPcztmjsZvpMBMN3mXK66cVPDyW4LI+grJCmgCFgXY4hSTAExo3
+         aPnbE+oyAf2R6bqP/BHLGlSqnCRfa5GjDw5xRaCYxtE5dqUglxAh97quia9V+6Usy+6y
+         rwxg==
+X-Gm-Message-State: AOAM530IrOkRENRzYk/Wto5aYDYQBzl0mDBN4XAo6LTuQkleZOb0QL2o
+        Ou4QrQqpOcIKu7N1zfy1qzHzVw==
+X-Google-Smtp-Source: ABdhPJxJa9JbXjuoS6k/d1Yja3vveIuq2rji2Ep/SXUrtBlo3aF/ie479LMXzqBqWUPuJ/CEn96+RQ==
+X-Received: by 2002:adf:f14f:: with SMTP id y15mr378893wro.69.1600877356110;
+        Wed, 23 Sep 2020 09:09:16 -0700 (PDT)
+Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:28ac:1772:9398:891a])
+        by smtp.gmail.com with ESMTPSA id c79sm249769wmd.41.2020.09.23.09.09.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2020 09:09:15 -0700 (PDT)
+From:   Neil Armstrong <narmstrong@baylibre.com>
+To:     khilman@baylibre.com, linux-media@vger.kernel.org
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: remove Maxime Jourdan as maintainer of Amlogic VDEC
+Date:   Wed, 23 Sep 2020 18:09:10 +0200
+Message-Id: <20200923160910.31968-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJWpUEd5_fTUtT_9tuwpgvp=ECmh-NGcU2FH49jmyaJNxKCqmA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Sep 20, 2020 at 12:22:14PM +0100, Ramesh Shanmugasundaram wrote:
-> Hi Fabrizio,
-> 
-> >
-> > Renesas are expanding their DRIF support and offering,
-> > I'll be the internal maintainer for DRIF.
-> >
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Thank you for volunteering :-).
-> 
-> Reviewed-by: Ramesh Shanmugasundaram <rashanmu@gmail.com>
-> 
-> Please feel free to take my name off the maintainers list as I am not
-> spending time on this topic for a while now.
+Maxime is no more a BayLibre employee, and his e-mail address is now invalid.
 
-Fabrizio, would you like to send a v2 that removes Ramesh from the
-maintainers list for DRIF ?
+I'll be happy to add him back using another e-mail address if he wants to continue
+maintaining this driver.
 
-> > ---
-> > v1->v2:
-> > * No change
-> >
-> >  MAINTAINERS | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 2575f449139a..d9ebaf0c179b 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -10909,6 +10909,7 @@ F:      include/media/drv-intf/renesas-ceu.h
-> >
-> >  MEDIA DRIVERS FOR RENESAS - DRIF
-> >  M:     Ramesh Shanmugasundaram <rashanmu@gmail.com>
-> > +M:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> >  L:     linux-media@vger.kernel.org
-> >  L:     linux-renesas-soc@vger.kernel.org
-> >  S:     Supported
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3126fc2cca2..7364ac24ad6a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11320,7 +11320,6 @@ F:	Documentation/devicetree/bindings/mtd/amlogic,meson-nand.txt
+ F:	drivers/mtd/nand/raw/meson_*
+ 
+ MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS
+-M:	Maxime Jourdan <mjourdan@baylibre.com>
+ M:	Neil Armstrong <narmstrong@baylibre.com>
+ L:	linux-media@vger.kernel.org
+ L:	linux-amlogic@lists.infradead.org
 -- 
-Regards,
+2.22.0
 
-Laurent Pinchart
