@@ -2,611 +2,448 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9553F274F2A
-	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 04:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34D88274F2B
+	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 04:44:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727315AbgIWCoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1727317AbgIWCoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 22 Sep 2020 22:44:23 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53034 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53064 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727301AbgIWCoW (ORCPT
+        with ESMTP id S1727310AbgIWCoW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 22 Sep 2020 22:44:22 -0400
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A8B0148B;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE39A148C;
         Wed, 23 Sep 2020 04:44:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600829055;
-        bh=ZMZbzk2d+xdgxXjVKcsyoSKGCrklX/Vdo2lon9UkO44=;
+        s=mail; t=1600829056;
+        bh=TqSvDMlXDKmP2RO+DLAUmKuPAIwXRi1aV/vx2T6KUy0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sRc76/PgVmN+KABOaXJmOQLvOsk4KcD9XmdclEE5coco0NJpWlwLjGYwqh8VdHM5S
-         k55MfsjHJ16hL5OpxQHbEv3SfOXkIL8wpIik4y+fClheeZsM7+tHARaWiwyQjJp9Np
-         7RfxtTQqjt/vMdhvjKX6WDTrm5ZBBz0cqHZ62sa4=
+        b=qGs5V1LRLgYHxnT0rQBpECd1kivKmBaVcRf7yznLk35yGrcMRnmDWLcoXY8ApMQpT
+         WyttMrB62Lu7l4durhUphJGw3XJgqlxECRfFVoMUWVBiM461kf6/KgJmWRQrtf6Lw9
+         4xrK+Du89kMNdWRz1uJmP05StEiBIiP/Lm5MlgZI=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Dylan Yip <dylany@xilinx.com>, Vishal Sagar <vsagar@xilinx.com>
-Subject: [PATCH/RFC 07/16] media: doc: pixfmt-yuv: Document subsampling in more details
-Date:   Wed, 23 Sep 2020 05:43:24 +0300
-Message-Id: <20200923024333.920-8-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH/RFC 08/16] media: doc: pixfmt-yuv: Move all packed YUV formats to common file
+Date:   Wed, 23 Sep 2020 05:43:25 +0300
+Message-Id: <20200923024333.920-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200923024333.920-1-laurent.pinchart@ideasonboard.com>
 References: <20200923024333.920-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document YUV subsampling, including chroma spatial siting, and replace
-the siting examples in individual formats by references to the common
-documentation.
+The pixfmt-packed-yuv.rst file documents packed YUV 4:4:4 formats, but
+is titled generically as "Packed YUV formats". 4:2:2 and 4:1:1 packed
+YUV formats are documented in separate files, which can be confusing.
+
+Group all packed YUV formats in pixfmt-packed-yuv.rst, which allows
+documenting the 4:2:2 formats in a more concise way.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../userspace-api/media/v4l/pixfmt-m420.rst   |  59 +----
- .../userspace-api/media/v4l/pixfmt-nv12.rst   |  57 +---
- .../userspace-api/media/v4l/pixfmt-nv12m.rst  |  60 +----
- .../userspace-api/media/v4l/pixfmt-nv16.rst   |  73 +----
- .../userspace-api/media/v4l/pixfmt-nv16m.rst  |  73 +----
- .../userspace-api/media/v4l/pixfmt-uyvy.rst   |  44 +--
- .../userspace-api/media/v4l/pixfmt-vyuy.rst   |  42 +--
- .../userspace-api/media/v4l/pixfmt-y41p.rst   |  62 +----
- .../userspace-api/media/v4l/pixfmt-yuv410.rst |  59 +----
- .../media/v4l/pixfmt-yuv411p.rst              |  39 +--
- .../userspace-api/media/v4l/pixfmt-yuv420.rst |  66 +----
- .../media/v4l/pixfmt-yuv420m.rst              |  66 +----
- .../media/v4l/pixfmt-yuv422m.rst              |  44 +--
- .../media/v4l/pixfmt-yuv422p.rst              |  44 +--
- .../media/v4l/pixfmt-yuv444m.rst              |  33 +--
- .../userspace-api/media/v4l/pixfmt-yuyv.rst   |  49 +---
- .../userspace-api/media/v4l/pixfmt-yvyu.rst   |  42 +--
- .../userspace-api/media/v4l/yuv-formats.rst   | 250 +++++++++++++++++-
- 18 files changed, 278 insertions(+), 884 deletions(-)
+ .../media/v4l/pixfmt-packed-yuv.rst           | 147 +++++++++++++++++-
+ .../userspace-api/media/v4l/pixfmt-uyvy.rst   |  77 ---------
+ .../userspace-api/media/v4l/pixfmt-vyuy.rst   |  77 ---------
+ .../userspace-api/media/v4l/pixfmt-y41p.rst   | 100 ------------
+ .../userspace-api/media/v4l/pixfmt-yuyv.rst   |  80 ----------
+ .../userspace-api/media/v4l/pixfmt-yvyu.rst   |  77 ---------
+ .../userspace-api/media/v4l/yuv-formats.rst   |   5 -
+ 7 files changed, 140 insertions(+), 423 deletions(-)
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-uyvy.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-vyuy.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y41p.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuyv.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yvyu.rst
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-m420.rst b/Documentation/userspace-api/media/v4l/pixfmt-m420.rst
-index 5180bbe16c6e..38c2bde6a87d 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-m420.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-m420.rst
-@@ -74,60 +74,5 @@ Each cell is one byte.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+index bbd4bd094deb..08b4361ba879 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+@@ -13,12 +13,16 @@
+ Packed YUV formats
+ ******************
  
+-Description
+-===========
++Similarly to the packed RGB formats, the packed YUV formats store the Y, Cb and
++Cr components consecutively in memory. They may apply subsampling to the chroma
++components and thus differ in how they interlave the three components.
  
- **Color Sample Location:**
--
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 1
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--    * - 2
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 3
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally and vertically.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv12.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv12.rst
-index 19d47b38e02a..26d7df9e1298 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv12.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-nv12.rst
-@@ -79,58 +79,5 @@ Each cell is one byte.
+-Similar to the packed RGB formats these formats store the Y, Cb and Cr
+-component of each pixel in one 16 or 32 bit word.
  
++4:4:4 Subsampling
++=================
++
++These formats do not subsample the chroma components and store each pixels as a
++full triplet of Y, Cb and Cr values.
  
- **Color Sample Location:**
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 1
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--    * - 2
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 3
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally and vertically.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst
-index 115ea603c13f..752c42a0f52c 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst
-@@ -91,61 +91,5 @@ Each cell is one byte.
+ .. raw:: latex
  
+@@ -26,11 +30,9 @@ component of each pixel in one 16 or 32 bit word.
+     \tiny
+     \setlength{\tabcolsep}{2pt}
  
- **Color Sample Location:**
+-.. _packed-yuv-formats:
 -
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 1
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--    * - 2
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      -
--      - C
--      -
--    * - 3
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally and vertically.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv16.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv16.rst
-index 977636fc98d6..82659557daae 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv16.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-nv16.rst
-@@ -87,74 +87,5 @@ Each cell is one byte.
+ .. tabularcolumns:: |p{2.5cm}|p{0.69cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|p{0.31cm}|
  
+-.. flat-table:: Packed YUV Image Formats
++.. flat-table:: Packed YUV 4:4:4 Image Formats
+     :header-rows:  2
+     :stub-columns: 0
  
- **Color Sample Location:**
--
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 1
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * -
--    * - 2
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 3
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
+@@ -378,3 +380,134 @@ component of each pixel in one 16 or 32 bit word.
+        expected to contain a meaningful value that can be used by drivers
+        and applications. And, the formats XYUV32 and VUYX32 contain undefined
+        alpha values that must be ignored by all applications and drivers.
++
++
++4:2:2 Subsampling
++=================
++
++These formats, commonly referred to as YUYV or YUY2, subsample the chroma
++components horizontally by 2, storing 2 pixels in 4 bytes.
++
++.. flat-table:: Packed YUV 4:2:2 Formats
++    :header-rows: 1
++    :stub-columns: 0
++
++    * - Identifier
++      - Code
++      - Byte 0
++      - Byte 1
++      - Byte 2
++      - Byte 3
++      - Byte 4
++      - Byte 5
++      - Byte 6
++      - Byte 7
++    * .. _V4L2-PIX-FMT-UYVY:
++
++      - ``V4L2_PIX_FMT_UYVY``
++      - 'UYVY'
++
++      - Cb\ :sub:`0`
++      - Y'\ :sub:`0`
++      - Cr\ :sub:`0`
++      - Y'\ :sub:`1`
++      - Cb\ :sub:`2`
++      - Y'\ :sub:`2`
++      - Cr\ :sub:`2`
++      - Y'\ :sub:`3`
++    * .. _V4L2-PIX-FMT-VYUY:
++
++      - ``V4L2_PIX_FMT_VYUY``
++      - 'VYUY'
++
++      - Cr\ :sub:`0`
++      - Y'\ :sub:`0`
++      - Cb\ :sub:`0`
++      - Y'\ :sub:`1`
++      - Cr\ :sub:`2`
++      - Y'\ :sub:`2`
++      - Cb\ :sub:`2`
++      - Y'\ :sub:`3`
++    * .. _V4L2-PIX-FMT-YUYV:
++
++      - ``V4L2_PIX_FMT_YUYV``
++      - 'YUYV'
++
++      - Y'\ :sub:`0`
++      - Cb\ :sub:`0`
++      - Y'\ :sub:`1`
++      - Cr\ :sub:`0`
++      - Y'\ :sub:`2`
++      - Cb\ :sub:`2`
++      - Y'\ :sub:`3`
++      - Cr\ :sub:`2`
++    * .. _V4L2-PIX-FMT-YVYU:
++
++      - ``V4L2_PIX_FMT_YVYU``
++      - 'YVYU'
++
++      - Y'\ :sub:`0`
++      - Cr\ :sub:`0`
++      - Y'\ :sub:`1`
++      - Cb\ :sub:`0`
++      - Y'\ :sub:`2`
++      - Cr\ :sub:`2`
++      - Y'\ :sub:`3`
++      - Cb\ :sub:`2`
++
++**Color Sample Location:**
 +Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
 +horizontally.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst
-index cf33942d942d..3e8ae54c846e 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst
-@@ -91,74 +91,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
--
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 1
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * -
--    * - 2
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
--    * - 3
--      - Y
--      -
--      - Y
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      - C
--      -
++
++
++4:1:1 Subsampling
++=================
++
++This format subsamples the chroma components horizontally by 4, storing 8
++pixels in 12 bytes.
++
++.. flat-table:: Packed YUV 4:1:1 Formats
++    :header-rows: 1
++    :stub-columns: 0
++
++    * - Identifier
++      - Code
++      - Byte 0
++      - Byte 1
++      - Byte 2
++      - Byte 3
++      - Byte 4
++      - Byte 5
++      - Byte 6
++      - Byte 7
++      - Byte 8
++      - Byte 9
++      - Byte 10
++      - Byte 11
++    * .. _V4L2-PIX-FMT-Y41P:
++
++      - ``V4L2_PIX_FMT_Y41P``
++      - 'Y41P'
++
++      - Cb\ :sub:`0`
++      - Y'\ :sub:`0`
++      - Cr\ :sub:`0`
++      - Y'\ :sub:`1`
++      - Cb\ :sub:`4`
++      - Y'\ :sub:`2`
++      - Cr\ :sub:`4`
++      - Y'\ :sub:`3`
++      - Y'\ :sub:`4`
++      - Y'\ :sub:`5`
++      - Y'\ :sub:`6`
++      - Y'\ :sub:`7`
++
++.. note::
++
++    Do not confuse ``V4L2_PIX_FMT_Y41P`` with
++    :ref:`V4L2_PIX_FMT_YUV411P <V4L2-PIX-FMT-YUV411P>`. Y41P is derived from
++    "YUV 4:1:1 *packed*", while YUV411P stands for "YUV 4:1:1 *planar*".
++
++**Color Sample Location:**
 +Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
 +horizontally.
 diff --git a/Documentation/userspace-api/media/v4l/pixfmt-uyvy.rst b/Documentation/userspace-api/media/v4l/pixfmt-uyvy.rst
-index 776cb37f76f1..5571d771af89 100644
+deleted file mode 100644
+index 5571d771af89..000000000000
 --- a/Documentation/userspace-api/media/v4l/pixfmt-uyvy.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-uyvy.rst
-@@ -73,45 +73,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
++++ /dev/null
+@@ -1,77 +0,0 @@
+-.. Permission is granted to copy, distribute and/or modify this
+-.. document under the terms of the GNU Free Documentation License,
+-.. Version 1.1 or any later version published by the Free Software
+-.. Foundation, with no Invariant Sections, no Front-Cover Texts
+-.. and no Back-Cover Texts. A copy of the license is included at
+-.. Documentation/userspace-api/media/fdl-appendix.rst.
+-..
+-.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
 -
+-.. _V4L2-PIX-FMT-UYVY:
+-
+-**************************
+-V4L2_PIX_FMT_UYVY ('UYVY')
+-**************************
+-
+-
+-Variation of ``V4L2_PIX_FMT_YUYV`` with different order of samples in
+-memory
+-
+-
+-Description
+-===========
+-
+-In this format each four bytes is two pixels. Each four bytes is two
+-Y's, a Cb and a Cr. Each Y goes to one of the pixels, and the Cb and Cr
+-belong to both pixels. As you can see, the Cr and Cb components have
+-half the horizontal resolution of the Y component.
+-
+-**Byte Order.**
+-Each cell is one byte.
 -
 -
 -.. flat-table::
 -    :header-rows:  0
 -    :stub-columns: 0
 -
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 1
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 2
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 3
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
+-    * - start + 0:
+-      - Cb\ :sub:`00`
+-      - Y'\ :sub:`00`
+-      - Cr\ :sub:`00`
+-      - Y'\ :sub:`01`
+-      - Cb\ :sub:`01`
+-      - Y'\ :sub:`02`
+-      - Cr\ :sub:`01`
+-      - Y'\ :sub:`03`
+-    * - start + 8:
+-      - Cb\ :sub:`10`
+-      - Y'\ :sub:`10`
+-      - Cr\ :sub:`10`
+-      - Y'\ :sub:`11`
+-      - Cb\ :sub:`11`
+-      - Y'\ :sub:`12`
+-      - Cr\ :sub:`11`
+-      - Y'\ :sub:`13`
+-    * - start + 16:
+-      - Cb\ :sub:`20`
+-      - Y'\ :sub:`20`
+-      - Cr\ :sub:`20`
+-      - Y'\ :sub:`21`
+-      - Cb\ :sub:`21`
+-      - Y'\ :sub:`22`
+-      - Cr\ :sub:`21`
+-      - Y'\ :sub:`23`
+-    * - start + 24:
+-      - Cb\ :sub:`30`
+-      - Y'\ :sub:`30`
+-      - Cr\ :sub:`30`
+-      - Y'\ :sub:`31`
+-      - Cb\ :sub:`31`
+-      - Y'\ :sub:`32`
+-      - Cr\ :sub:`31`
+-      - Y'\ :sub:`33`
+-
+-
+-**Color Sample Location:**
+-Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
+-horizontally.
 diff --git a/Documentation/userspace-api/media/v4l/pixfmt-vyuy.rst b/Documentation/userspace-api/media/v4l/pixfmt-vyuy.rst
-index 6cd574e78e4c..3d0dce59c591 100644
+deleted file mode 100644
+index 3d0dce59c591..000000000000
 --- a/Documentation/userspace-api/media/v4l/pixfmt-vyuy.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-vyuy.rst
-@@ -73,43 +73,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
++++ /dev/null
+@@ -1,77 +0,0 @@
+-.. Permission is granted to copy, distribute and/or modify this
+-.. document under the terms of the GNU Free Documentation License,
+-.. Version 1.1 or any later version published by the Free Software
+-.. Foundation, with no Invariant Sections, no Front-Cover Texts
+-.. and no Back-Cover Texts. A copy of the license is included at
+-.. Documentation/userspace-api/media/fdl-appendix.rst.
+-..
+-.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+-
+-.. _V4L2-PIX-FMT-VYUY:
+-
+-**************************
+-V4L2_PIX_FMT_VYUY ('VYUY')
+-**************************
+-
+-
+-Variation of ``V4L2_PIX_FMT_YUYV`` with different order of samples in
+-memory
+-
+-
+-Description
+-===========
+-
+-In this format each four bytes is two pixels. Each four bytes is two
+-Y's, a Cb and a Cr. Each Y goes to one of the pixels, and the Cb and Cr
+-belong to both pixels. As you can see, the Cr and Cb components have
+-half the horizontal resolution of the Y component.
+-
+-**Byte Order.**
+-Each cell is one byte.
+-
 -
 -.. flat-table::
 -    :header-rows:  0
 -    :stub-columns: 0
 -
--    * -
--      - 0
--      -
--      - 1
--      -
--      - 2
--      - 3
--    * - 0
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 1
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 2
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 3
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
+-    * - start + 0:
+-      - Cr\ :sub:`00`
+-      - Y'\ :sub:`00`
+-      - Cb\ :sub:`00`
+-      - Y'\ :sub:`01`
+-      - Cr\ :sub:`01`
+-      - Y'\ :sub:`02`
+-      - Cb\ :sub:`01`
+-      - Y'\ :sub:`03`
+-    * - start + 8:
+-      - Cr\ :sub:`10`
+-      - Y'\ :sub:`10`
+-      - Cb\ :sub:`10`
+-      - Y'\ :sub:`11`
+-      - Cr\ :sub:`11`
+-      - Y'\ :sub:`12`
+-      - Cb\ :sub:`11`
+-      - Y'\ :sub:`13`
+-    * - start + 16:
+-      - Cr\ :sub:`20`
+-      - Y'\ :sub:`20`
+-      - Cb\ :sub:`20`
+-      - Y'\ :sub:`21`
+-      - Cr\ :sub:`21`
+-      - Y'\ :sub:`22`
+-      - Cb\ :sub:`21`
+-      - Y'\ :sub:`23`
+-    * - start + 24:
+-      - Cr\ :sub:`30`
+-      - Y'\ :sub:`30`
+-      - Cb\ :sub:`30`
+-      - Y'\ :sub:`31`
+-      - Cr\ :sub:`31`
+-      - Y'\ :sub:`32`
+-      - Cb\ :sub:`31`
+-      - Y'\ :sub:`33`
+-
+-
+-**Color Sample Location:**
+-Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
+-horizontally.
 diff --git a/Documentation/userspace-api/media/v4l/pixfmt-y41p.rst b/Documentation/userspace-api/media/v4l/pixfmt-y41p.rst
-index 211afd7593cc..880e87490b25 100644
+deleted file mode 100644
+index 880e87490b25..000000000000
 --- a/Documentation/userspace-api/media/v4l/pixfmt-y41p.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-y41p.rst
-@@ -96,63 +96,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
++++ /dev/null
+@@ -1,100 +0,0 @@
+-.. Permission is granted to copy, distribute and/or modify this
+-.. document under the terms of the GNU Free Documentation License,
+-.. Version 1.1 or any later version published by the Free Software
+-.. Foundation, with no Invariant Sections, no Front-Cover Texts
+-.. and no Back-Cover Texts. A copy of the license is included at
+-.. Documentation/userspace-api/media/fdl-appendix.rst.
+-..
+-.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
 -
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
+-.. _V4L2-PIX-FMT-Y41P:
 -
--    * -
--      - 0
--      - 1
--      -
--      - 2
--      - 3
--      - 4
--      - 5
--      -
--      - 6
--      - 7
--    * - 0
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--    * - 1
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--    * - 2
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--    * - 3
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst
-index 1d20115f2b1d..b4b0bcd96f6e 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst
-@@ -75,60 +75,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
+-**************************
+-V4L2_PIX_FMT_Y41P ('Y41P')
+-**************************
+-
+-
+-Format with ¼ horizontal chroma resolution, also known as YUV 4:1:1
+-
+-
+-Description
+-===========
+-
+-In this format each 12 bytes is eight pixels. In the twelve bytes are
+-two CbCr pairs and eight Y's. The first CbCr pair goes with the first
+-four Y's, and the second CbCr pair goes with the other four Y's. The Cb
+-and Cr components have one fourth the horizontal resolution of the Y
+-component.
+-
+-Do not confuse this format with
+-:ref:`V4L2_PIX_FMT_YUV411P <V4L2-PIX-FMT-YUV411P>`. Y41P is derived
+-from "YUV 4:1:1 *packed*", while YUV411P stands for "YUV 4:1:1
+-*planar*".
+-
+-**Byte Order.**
+-Each cell is one byte.
+-
 -
 -
 -
@@ -614,406 +451,101 @@ index 1d20115f2b1d..b4b0bcd96f6e 100644
 -    :header-rows:  0
 -    :stub-columns: 0
 -
--    * -
--      - 0
--      -
--      - 1
--      -
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--    * - 1
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--      -
--      -
--      -
--      - C
--      -
--      -
--      -
--    * - 2
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--    * - 3
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally and vertically.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst
-index 967ba7ce41a2..65d5a9b54500 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst
-@@ -83,40 +83,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
+-    * - start + 0:
+-      - Cb\ :sub:`00`
+-      - Y'\ :sub:`00`
+-      - Cr\ :sub:`00`
+-      - Y'\ :sub:`01`
+-      - Cb\ :sub:`01`
+-      - Y'\ :sub:`02`
+-      - Cr\ :sub:`01`
+-      - Y'\ :sub:`03`
+-      - Y'\ :sub:`04`
+-      - Y'\ :sub:`05`
+-      - Y'\ :sub:`06`
+-      - Y'\ :sub:`07`
+-    * - start + 12:
+-      - Cb\ :sub:`10`
+-      - Y'\ :sub:`10`
+-      - Cr\ :sub:`10`
+-      - Y'\ :sub:`11`
+-      - Cb\ :sub:`11`
+-      - Y'\ :sub:`12`
+-      - Cr\ :sub:`11`
+-      - Y'\ :sub:`13`
+-      - Y'\ :sub:`14`
+-      - Y'\ :sub:`15`
+-      - Y'\ :sub:`16`
+-      - Y'\ :sub:`17`
+-    * - start + 24:
+-      - Cb\ :sub:`20`
+-      - Y'\ :sub:`20`
+-      - Cr\ :sub:`20`
+-      - Y'\ :sub:`21`
+-      - Cb\ :sub:`21`
+-      - Y'\ :sub:`22`
+-      - Cr\ :sub:`21`
+-      - Y'\ :sub:`23`
+-      - Y'\ :sub:`24`
+-      - Y'\ :sub:`25`
+-      - Y'\ :sub:`26`
+-      - Y'\ :sub:`27`
+-    * - start + 36:
+-      - Cb\ :sub:`30`
+-      - Y'\ :sub:`30`
+-      - Cr\ :sub:`30`
+-      - Y'\ :sub:`31`
+-      - Cb\ :sub:`31`
+-      - Y'\ :sub:`32`
+-      - Cr\ :sub:`31`
+-      - Y'\ :sub:`33`
+-      - Y'\ :sub:`34`
+-      - Y'\ :sub:`35`
+-      - Y'\ :sub:`36`
+-      - Y'\ :sub:`37`
 -
 -
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      - 1
--      -
--      - 2
--      - 3
--    * - 0
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--    * - 1
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--    * - 2
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
--    * - 3
--      - Y
--      - Y
--      - C
--      - Y
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst
-index 7cb685cc8289..cc1a5df03248 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst
-@@ -84,67 +84,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
--
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      -
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      -
--      - C
--      -
--    * - 1
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--    * - 2
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      -
--      - C
--      -
--    * - 3
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally and vertically.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst
-index 80c14d4f5acb..d189903d8ff3 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst
-@@ -93,67 +93,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
--
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      -
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      -
--      - C
--      -
--    * - 1
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--    * - 2
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
--    * -
--      -
--      - C
--      -
--      -
--      -
--      - C
--      -
--    * - 3
--      - Y
--      -
--      - Y
--      -
--      - Y
--      -
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally and vertically.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst
-index 29b78480ccad..5ffea984a160 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst
-@@ -104,45 +104,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
--
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 1
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 2
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 3
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst
-index 73fde222d820..ee4e7badbf4c 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst
-@@ -92,45 +92,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
--
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 1
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 2
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 3
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst
-index 7073ac7f842d..52ebc67d7ebe 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst
-@@ -114,35 +114,4 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
--
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * -
--      - 0
--      - 1
--      - 2
--      - 3
--    * - 0
--      - YC
--      - YC
--      - YC
--      - YC
--    * - 1
--      - YC
--      - YC
--      - YC
--      - YC
--    * - 2
--      - YC
--      - YC
--      - YC
--      - YC
--    * - 3
--      - YC
--      - YC
--      - YC
--      - YC
-+Chroma samples are :ref:`co-sited<yuv-chroma-cosited>`.
+-**Color Sample Location:**
+-Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
+-horizontally.
 diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuyv.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuyv.rst
-index fe70e007787d..0ad1169b221f 100644
+deleted file mode 100644
+index 0ad1169b221f..000000000000
 --- a/Documentation/userspace-api/media/v4l/pixfmt-yuyv.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuyv.rst
-@@ -76,50 +76,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
++++ /dev/null
+@@ -1,80 +0,0 @@
+-.. Permission is granted to copy, distribute and/or modify this
+-.. document under the terms of the GNU Free Documentation License,
+-.. Version 1.1 or any later version published by the Free Software
+-.. Foundation, with no Invariant Sections, no Front-Cover Texts
+-.. and no Back-Cover Texts. A copy of the license is included at
+-.. Documentation/userspace-api/media/fdl-appendix.rst.
+-..
+-.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+-
+-.. _V4L2-PIX-FMT-YUYV:
+-
+-**************************
+-V4L2_PIX_FMT_YUYV ('YUYV')
+-**************************
+-
+-
+-Packed format with ½ horizontal chroma resolution, also known as YUV
+-4:2:2
+-
+-
+-Description
+-===========
+-
+-In this format each four bytes is two pixels. Each four bytes is two
+-Y's, a Cb and a Cr. Each Y goes to one of the pixels, and the Cb and Cr
+-belong to both pixels. As you can see, the Cr and Cb components have
+-half the horizontal resolution of the Y component. ``V4L2_PIX_FMT_YUYV``
+-is known in the Windows environment as YUY2.
+-
+-**Byte Order.**
+-Each cell is one byte.
+-
 -
 -
 -
@@ -1021,359 +553,146 @@ index fe70e007787d..0ad1169b221f 100644
 -    :header-rows:  0
 -    :stub-columns: 0
 -
--    * -
--      - 0
--      -
--      - 1
--      -
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      - C
--      - Y
--      -
--      - Y
--      - C
--      - Y
--    * - 1
--      - Y
--      - C
--      - Y
--      -
--      - Y
--      - C
--      - Y
--    * - 2
--      - Y
--      - C
--      - Y
--      -
--      - Y
--      - C
--      - Y
--    * - 3
--      - Y
--      - C
--      - Y
--      -
--      - Y
--      - C
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
+-    * - start + 0:
+-      - Y'\ :sub:`00`
+-      - Cb\ :sub:`00`
+-      - Y'\ :sub:`01`
+-      - Cr\ :sub:`00`
+-      - Y'\ :sub:`02`
+-      - Cb\ :sub:`01`
+-      - Y'\ :sub:`03`
+-      - Cr\ :sub:`01`
+-    * - start + 8:
+-      - Y'\ :sub:`10`
+-      - Cb\ :sub:`10`
+-      - Y'\ :sub:`11`
+-      - Cr\ :sub:`10`
+-      - Y'\ :sub:`12`
+-      - Cb\ :sub:`11`
+-      - Y'\ :sub:`13`
+-      - Cr\ :sub:`11`
+-    * - start + 16:
+-      - Y'\ :sub:`20`
+-      - Cb\ :sub:`20`
+-      - Y'\ :sub:`21`
+-      - Cr\ :sub:`20`
+-      - Y'\ :sub:`22`
+-      - Cb\ :sub:`21`
+-      - Y'\ :sub:`23`
+-      - Cr\ :sub:`21`
+-    * - start + 24:
+-      - Y'\ :sub:`30`
+-      - Cb\ :sub:`30`
+-      - Y'\ :sub:`31`
+-      - Cr\ :sub:`30`
+-      - Y'\ :sub:`32`
+-      - Cb\ :sub:`31`
+-      - Y'\ :sub:`33`
+-      - Cr\ :sub:`31`
+-
+-
+-**Color Sample Location:**
+-Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
+-horizontally.
 diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yvyu.rst b/Documentation/userspace-api/media/v4l/pixfmt-yvyu.rst
-index 96c1b537d5a0..c9f35d7183c5 100644
+deleted file mode 100644
+index c9f35d7183c5..000000000000
 --- a/Documentation/userspace-api/media/v4l/pixfmt-yvyu.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yvyu.rst
-@@ -73,43 +73,5 @@ Each cell is one byte.
- 
- 
- **Color Sample Location:**
++++ /dev/null
+@@ -1,77 +0,0 @@
+-.. Permission is granted to copy, distribute and/or modify this
+-.. document under the terms of the GNU Free Documentation License,
+-.. Version 1.1 or any later version published by the Free Software
+-.. Foundation, with no Invariant Sections, no Front-Cover Texts
+-.. and no Back-Cover Texts. A copy of the license is included at
+-.. Documentation/userspace-api/media/fdl-appendix.rst.
+-..
+-.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+-
+-.. _V4L2-PIX-FMT-YVYU:
+-
+-**************************
+-V4L2_PIX_FMT_YVYU ('YVYU')
+-**************************
+-
+-
+-Variation of ``V4L2_PIX_FMT_YUYV`` with different order of samples in
+-memory
+-
+-
+-Description
+-===========
+-
+-In this format each four bytes is two pixels. Each four bytes is two
+-Y's, a Cb and a Cr. Each Y goes to one of the pixels, and the Cb and Cr
+-belong to both pixels. As you can see, the Cr and Cb components have
+-half the horizontal resolution of the Y component.
+-
+-**Byte Order.**
+-Each cell is one byte.
+-
 -
 -.. flat-table::
 -    :header-rows:  0
 -    :stub-columns: 0
 -
--    * -
--      - 0
--      -
--      - 1
--      - 2
--      -
--      - 3
--    * - 0
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 1
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 2
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
--    * - 3
--      - Y
--      - C
--      - Y
--      - Y
--      - C
--      - Y
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
+-    * - start + 0:
+-      - Y'\ :sub:`00`
+-      - Cr\ :sub:`00`
+-      - Y'\ :sub:`01`
+-      - Cb\ :sub:`00`
+-      - Y'\ :sub:`02`
+-      - Cr\ :sub:`01`
+-      - Y'\ :sub:`03`
+-      - Cb\ :sub:`01`
+-    * - start + 8:
+-      - Y'\ :sub:`10`
+-      - Cr\ :sub:`10`
+-      - Y'\ :sub:`11`
+-      - Cb\ :sub:`10`
+-      - Y'\ :sub:`12`
+-      - Cr\ :sub:`11`
+-      - Y'\ :sub:`13`
+-      - Cb\ :sub:`11`
+-    * - start + 16:
+-      - Y'\ :sub:`20`
+-      - Cr\ :sub:`20`
+-      - Y'\ :sub:`21`
+-      - Cb\ :sub:`20`
+-      - Y'\ :sub:`22`
+-      - Cr\ :sub:`21`
+-      - Y'\ :sub:`23`
+-      - Cb\ :sub:`21`
+-    * - start + 24:
+-      - Y'\ :sub:`30`
+-      - Cr\ :sub:`30`
+-      - Y'\ :sub:`31`
+-      - Cb\ :sub:`30`
+-      - Y'\ :sub:`32`
+-      - Cr\ :sub:`31`
+-      - Y'\ :sub:`33`
+-      - Cb\ :sub:`31`
+-
+-
+-**Color Sample Location:**
+-Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
+-horizontally.
 diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-index 8ee92d0cd769..77ab71c7d0f5 100644
+index 77ab71c7d0f5..afe4f7956e7f 100644
 --- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
 +++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-@@ -21,11 +21,251 @@ reconstructed by subtracting from the brightness component. See
- :ref:`colorspaces` for conversion examples. YUV was chosen because
- early television would only transmit brightness information. To add
- color in a way compatible with existing receivers a new signal carrier
--was added to transmit the color difference signals. Secondary in the YUV
--format the U and V components usually have lower resolution than the Y
--component. This is an analog video compression technique taking
--advantage of a property of the human visual system, being more sensitive
--to brightness information.
-+was added to transmit the color difference signals.
-+
-+
-+Subsampling
-+===========
-+
-+YUV formats commonly encode images with a lower resolution for the chroma
-+components than for the luma component. This compression technique, taking
-+advantage of the human eye being more sensitive to luminance than color
-+differences, is called chroma subsampling.
-+
-+While many combinations of subsampling factors in the horizontal and vertical
-+direction are possible, common factors are 1 (no subsampling), 2 and 4, with
-+horizontal subsampling always larger than or equal to vertical subsampling.
-+Common combinations are named as follows.
-+
-+- `4:4:4`: No subsampling
-+- `4:2:2`: Horizontal subsampling by 2, no vertical subsampling
-+- `4:2:0`: Horizontal subsampling by 2, vertical subsampling by 2
-+- `4:1:1`: Horizontal subsampling by 4, no vertical subsampling
-+- `4:1:0`: Horizontal subsampling by 4, vertical subsampling by 4
-+
-+Subsampling the chroma component effectively creates chroma values that can be
-+located in different spatial locations:
-+
-+- .. _yuv-chroma-centered:
-+
-+  The subsampled chroma value may be calculated by simply averaging the chroma
-+  value of two consecutive pixels. It effectively models the chroma of a pixel
-+  sited between the two original pixels. This is referred to as centered or
-+  interstitially sited chroma.
-+
-+- .. _yuv-chroma-cosited:
-+
-+  The other option is to subsample chroma values in a way that place them in
-+  the same spatial sites as the pixels. This may be performed by skipping every
-+  other chroma sample (creating aliasing artifacts), or with filters using an
-+  odd number of taps. This is referred to as co-sited chroma.
-+
-+The following examples show different combination of chroma siting in a 4x4
-+image.
-+
-+.. flat-table:: 4:2:2 subsampling, interstitially sited
-+    :header-rows: 1
-+    :stub-columns: 1
-+
-+    * -
-+      - 0
-+      -
-+      - 1
-+      -
-+      - 2
-+      -
-+      - 3
-+    * - 0
-+      - Y
-+      - C
-+      - Y
-+      -
-+      - Y
-+      - C
-+      - Y
-+    * - 1
-+      - Y
-+      - C
-+      - Y
-+      -
-+      - Y
-+      - C
-+      - Y
-+    * - 2
-+      - Y
-+      - C
-+      - Y
-+      -
-+      - Y
-+      - C
-+      - Y
-+    * - 3
-+      - Y
-+      - C
-+      - Y
-+      -
-+      - Y
-+      - C
-+      - Y
-+
-+.. flat-table:: 4:2:2 subsampling, co-sited
-+    :header-rows: 1
-+    :stub-columns: 1
-+
-+    * -
-+      - 0
-+      -
-+      - 1
-+      -
-+      - 2
-+      -
-+      - 3
-+    * - 0
-+      - Y/C
-+      -
-+      - Y
-+      -
-+      - Y/C
-+      -
-+      - Y
-+    * - 1
-+      - Y/C
-+      -
-+      - Y
-+      -
-+      - Y/C
-+      -
-+      - Y
-+    * - 2
-+      - Y/C
-+      -
-+      - Y
-+      -
-+      - Y/C
-+      -
-+      - Y
-+    * - 3
-+      - Y/C
-+      -
-+      - Y
-+      -
-+      - Y/C
-+      -
-+      - Y
-+
-+.. flat-table:: 4:2:0 subsampling, horizontally interstitially sited, vertically co-sited
-+    :header-rows: 1
-+    :stub-columns: 1
-+
-+    * -
-+      - 0
-+      -
-+      - 1
-+      -
-+      - 2
-+      -
-+      - 3
-+    * - 0
-+      - Y
-+      - C
-+      - Y
-+      -
-+      - Y
-+      - C
-+      - Y
-+    * - 1
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+    * - 2
-+      - Y
-+      - C
-+      - Y
-+      -
-+      - Y
-+      - C
-+      - Y
-+    * - 3
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+
-+.. flat-table:: 4:1:0 subsampling, horizontally and vertically interstitially sited
-+    :header-rows: 1
-+    :stub-columns: 1
-+
-+    * -
-+      - 0
-+      -
-+      - 1
-+      -
-+      - 2
-+      -
-+      - 3
-+    * - 0
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+    * -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+    * - 1
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+    * -
-+      -
-+      -
-+      -
-+      - C
-+      -
-+      -
-+      -
-+    * - 2
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+    * -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+    * - 3
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
-+      -
-+      - Y
- 
- 
- .. toctree::
+@@ -283,11 +283,6 @@ image.
+     pixfmt-y8i
+     pixfmt-y12i
+     pixfmt-uv8
+-    pixfmt-yuyv
+-    pixfmt-uyvy
+-    pixfmt-yvyu
+-    pixfmt-vyuy
+-    pixfmt-y41p
+     pixfmt-yuv420
+     pixfmt-yuv420m
+     pixfmt-yuv422m
 -- 
 Regards,
 
