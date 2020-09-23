@@ -2,125 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE8D27536A
-	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 10:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25CF92754A1
+	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 11:39:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbgIWIjx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Sep 2020 04:39:53 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:50812 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726184AbgIWIjw (ORCPT
+        id S1726444AbgIWJjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Sep 2020 05:39:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726253AbgIWJjU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Sep 2020 04:39:52 -0400
-X-Greylist: delayed 367 seconds by postgrey-1.27 at vger.kernel.org; Wed, 23 Sep 2020 04:39:49 EDT
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-214-lGnJMTG5MyWxNYe194BkTw-1; Wed, 23 Sep 2020 09:33:38 +0100
-X-MC-Unique: lGnJMTG5MyWxNYe194BkTw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Wed, 23 Sep 2020 09:33:38 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Wed, 23 Sep 2020 09:33:38 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Mauro Carvalho Chehab' <mchehab+huawei@kernel.org>,
-        "Linux Media Mailing List" <linux-media@vger.kernel.org>
-CC:     "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        "mauro.chehab@huawei.com" <mauro.chehab@huawei.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 1/2] media: atomisp: fix gcc warnings
-Thread-Topic: [PATCH 1/2] media: atomisp: fix gcc warnings
-Thread-Index: AQHWkYKkcL0rMDLAdkSe4RxBoZVCqql15EgQ
-Date:   Wed, 23 Sep 2020 08:33:37 +0000
-Message-ID: <15bec1f27f5e45e6aa3eb9125d973a06@AcuMS.aculab.com>
-References: <8e3d5d4baf0781974a224e284e837665c0d26f92.1600849288.git.mchehab+huawei@kernel.org>
-In-Reply-To: <8e3d5d4baf0781974a224e284e837665c0d26f92.1600849288.git.mchehab+huawei@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Wed, 23 Sep 2020 05:39:20 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A51C0613CE;
+        Wed, 23 Sep 2020 02:39:19 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id z4so20251574wrr.4;
+        Wed, 23 Sep 2020 02:39:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=D1hykoJlnCEeW9Ghu+9NT8UmdNa8KDWJIzw0nB++G+o=;
+        b=aNZZ3zh3dXHZq+DEvmi7EBk7MW0F6CK2wfzsWMJi/8ksphUU3JgVFvXpnudNyt3YSG
+         mVFenqW5r0JRO70qWqa9wmqnlwxBHrH+NqiadFbxeE/lGAhjtpBAAXmzUBs+sCJq+qn1
+         DZbT59o/7j6ma2DJmPzo1nwjUeEWimkKNrYifnXRU03vECyGHTW4b/Ox0VaqAXSj0HGW
+         wmiVetpwyPlDi7l/KCJxBHL6YFLEKUSPikWDm2BBLQ/wa+LE09UxwChRaIyGq5TZqxFm
+         bosvRPYRrRPojzUcd6XrPsDwxGeOayfFDwAy1XF7p4b2iVwLkxQl3m3aTvlHu4l7QGS8
+         IYYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=D1hykoJlnCEeW9Ghu+9NT8UmdNa8KDWJIzw0nB++G+o=;
+        b=W3uAn563S9JHHf9decIHERQdKF/K0XS1OJ7jiNiiuPYSdd9BNpbt2iuHC4Ec1ihtTp
+         qaT+i4rP67uP7tYNN9dsTMWZW2RqZBV3cd1Y8MYrAEAPJL3qFyWFluX+2fRWim5TPLqa
+         iWbBrflmU6HKf7/bAEr4Y6tvZdpTYACS6aFDRUacyIa3CwXKJOqo1eC19nXNU+IU04jd
+         aSWY47xvyDqTi0dHF8ivoJYG/OsOBNysPfsaZYbJnHAQsKgxTLewT0Ua6tIcehN/VewI
+         Bi/5zewMw4wtyIu3duCM4FhO+1FHHhjvTQpc38/myyKqQN1viPTFxAsY2k/sAWJd163j
+         x56g==
+X-Gm-Message-State: AOAM5323h8ofNCApCTIg/X3UAQgb97yFaK6SXTSOjiB+Jqn3dWJpdm0W
+        H09v5jXqwUtXGxgqlQ6G+DI=
+X-Google-Smtp-Source: ABdhPJza60wC4/rfImEEWz0r/cdUr/7aJlKJeSHoy/5KQ0fM/QJ0m+D6tCiwl/7pIL0vXx6Sonergw==
+X-Received: by 2002:a5d:60d0:: with SMTP id x16mr9981993wrt.196.1600853957992;
+        Wed, 23 Sep 2020 02:39:17 -0700 (PDT)
+Received: from [192.168.1.211] ([95.144.134.217])
+        by smtp.gmail.com with ESMTPSA id c205sm7680655wmd.33.2020.09.23.02.39.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2020 02:39:17 -0700 (PDT)
+Subject: Re: [RFC PATCH] Add bridge driver to connect sensors to CIO2 device
+ via software nodes on ACPI platforms
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     yong.zhi@intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        davem@davemloft.net, robh@kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        jorhand@linux.microsoft.com, kitakar@gmail.com,
+        kieran.bingham@ideasonboard.com, andriy.shevchenko@linux.intel.com
+References: <20200916213618.8003-1-djrscally@gmail.com>
+ <20200917103343.GW26842@paasikivi.fi.intel.com>
+From:   Dan Scally <djrscally@gmail.com>
+Message-ID: <c2bb9d22-6914-ed59-6c77-a0020e2faed5@gmail.com>
+Date:   Wed, 23 Sep 2020 10:39:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+In-Reply-To: <20200917103343.GW26842@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiDQo+IFNlbnQ6IDIzIFNlcHRlbWJlciAyMDIwIDA5
-OjIyDQo+IA0KPiBEZXBlbmRpbmcgb24gdGhlIGdjYyB2ZXJzaW9uLCBhZnRlciBjaGFuZ2VzZXQN
-Cj4gNzJhOWZmM2JmN2ZiICgibWVkaWE6IGF0b21pc3A6IGdldCByaWQgb2YgLVdzdWdnZXN0LWF0
-dHJpYnV0ZT1mb3JtYXQgd2FybmluZ3MiKSwNCj4gd2UncmUgbm93IGdldHRpbmcgdHdvIHdhcm5p
-bmdzLCB3aGljaCBhcmUgYnJlYWtpbmcgdGhlIEplbmtpbnMNCj4gQ0kgaW5zdGFuY2UgYXQgaHR0
-cHM6Ly9idWlsZGVyLmxpbnV4dHYub3JnOg0KPiANCj4gCS4uL2RyaXZlcnMvc3RhZ2luZy9tZWRp
-YS9hdG9taXNwL3BjaS9hdG9taXNwX2NvbXBhdF9jc3MyMC5jOiBJbiBmdW5jdGlvbiDigJhfX3Nl
-dF9jc3NfcHJpbnRfZW524oCZOg0KPiAJLi4vZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0b21pc3Av
-cGNpL2F0b21pc3BfY29tcGF0X2NzczIwLmM6ODYwOjUwOiBlcnJvcjogYXNzaWdubWVudCB0byDi
-gJhpbnQNCj4gKCopKGNvbnN0IGNoYXIgKiwgY2hhciAqKeKAmSBmcm9tIGluY29tcGF0aWJsZSBw
-b2ludGVyIHR5cGUg4oCYaW50IChfX2F0dHJpYnV0ZV9fKChyZWdwYXJtKDApKSkgKikoY29uc3QN
-Cj4gY2hhciAqLCBjaGFyICop4oCZIFstV2Vycm9yPWluY29tcGF0aWJsZS1wb2ludGVyLXR5cGVz
-XQ0KPiAJICAgaXNwLT5jc3NfZW52LmlzcF9jc3NfZW52LnByaW50X2Vudi5kZWJ1Z19wcmludCA9
-IHZwcmludGs7DQo+IAkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIF4NCj4gCS4uL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9hdG9taXNwL3BjaS9hdG9taXNw
-X2NvbXBhdF9jc3MyMC5jOiBJbiBmdW5jdGlvbg0KPiDigJhhdG9taXNwX2Nzc19sb2FkX2Zpcm13
-YXJl4oCZOg0KPiAJLi4vZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0b21pc3AvcGNpL2F0b21pc3Bf
-Y29tcGF0X2NzczIwLmM6ODkzOjQ5OiBlcnJvcjogYXNzaWdubWVudCB0byDigJhpbnQNCj4gKCop
-KGNvbnN0IGNoYXIgKiwgY2hhciAqKeKAmSBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVyIHR5cGUg
-4oCYaW50IChfX2F0dHJpYnV0ZV9fKChyZWdwYXJtKDApKSkgKikoY29uc3QNCj4gY2hhciAqLCBj
-aGFyICop4oCZIFstV2Vycm9yPWluY29tcGF0aWJsZS1wb2ludGVyLXR5cGVzXQ0KPiAJICBpc3At
-PmNzc19lbnYuaXNwX2Nzc19lbnYucHJpbnRfZW52LmVycm9yX3ByaW50ID0gdnByaW50azsNCj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4NCj4gCWNj
-MTogc29tZSB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycw0KPiANCj4gU28sIHdlIG5l
-ZWQgdG8gcGFydGlhbGx5IHJldmVydCB0aGUgcGF0Y2guDQoNClRoYXQgbG9va3MgbGlrZSBjb21w
-bGV0ZWx5IHRoZSB3cm9uZyBjb21taXQgbWVzc2FnZS4NCkZyb20gdGhlIGVycm9yIG1lc3NhZ2Ug
-aXQgbG9va3MgbGlrZSB2cHJpbnRrKCkgaXMgdXNpbmcgYSBub24tc3RhbmRhcmQNCmNhbGxpbmcg
-Y29udmVudGlvbiAnX19hdHRyaWJ1dGVfXygocmVncGFybSgwKSkpJyBzbyBjYW4ndCBiZSBhc3Np
-Z25lZA0KdG8gJ2RlYnVnX3ByaW50JyAtIHdoaWNoIGV4cGVjdHMgdGhlIG5vcm1hbCBjb252ZW50
-aW9uLg0KDQpUaGUgZml4IGlzIGNvcnJlY3QgdGhvdWdoLg0KDQoJRGF2aWQNCg0KPiANCj4gRml4
-ZXM6IDcyYTlmZjNiZjdmYiAoIm1lZGlhOiBhdG9taXNwOiBnZXQgcmlkIG9mIC1Xc3VnZ2VzdC1h
-dHRyaWJ1dGU9Zm9ybWF0IHdhcm5pbmdzIikNCj4gU2lnbmVkLW9mZi1ieTogTWF1cm8gQ2FydmFs
-aG8gQ2hlaGFiIDxtY2hlaGFiK2h1YXdlaUBrZXJuZWwub3JnPg0KPiAtLS0NCj4gIC4uLi9zdGFn
-aW5nL21lZGlhL2F0b21pc3AvcGNpL2F0b21pc3BfY29tcGF0X2NzczIwLmMgIHwgMTEgKysrKysr
-KysrLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
-DQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0b21pc3AvcGNpL2F0
-b21pc3BfY29tcGF0X2NzczIwLmMNCj4gYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9w
-Y2kvYXRvbWlzcF9jb21wYXRfY3NzMjAuYw0KPiBpbmRleCAyODc5NmVjMTc3ZTMuLjg1YjM5ZGU3
-YmMyOCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0b21pc3AvcGNpL2F0
-b21pc3BfY29tcGF0X2NzczIwLmMNCj4gKysrIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0b21p
-c3AvcGNpL2F0b21pc3BfY29tcGF0X2NzczIwLmMNCj4gQEAgLTE2Niw2ICsxNjYsMTMgQEAgYXRv
-bWlzcF9jc3MyX2RiZ19mdHJhY2VfcHJpbnQoY29uc3QgY2hhciAqZm10LCB2YV9saXN0IGFyZ3Mp
-DQo+ICAJcmV0dXJuIDA7DQo+ICB9DQo+IA0KPiArc3RhdGljIGludCAgX19hdHRyaWJ1dGVfXygo
-Zm9ybWF0IChwcmludGYsIDEsIDApKSkNCj4gK2F0b21pc3BfdnByaW50ayhjb25zdCBjaGFyICpm
-bXQsIHZhX2xpc3QgYXJncykNCj4gK3sNCj4gKwl2cHJpbnRrKGZtdCwgYXJncyk7DQo+ICsJcmV0
-dXJuIDA7DQo+ICt9DQo+ICsNCj4gIHZvaWQgYXRvbWlzcF9sb2FkX3VpbnQzMihocnRfYWRkcmVz
-cyBhZGRyLCB1aW50MzJfdCAqZGF0YSkNCj4gIHsNCj4gIAkqZGF0YSA9IGF0b21pc3BfY3NzMl9o
-d19sb2FkXzMyKGFkZHIpOw0KPiBAQCAtODU3LDcgKzg2NCw3IEBAIHN0YXRpYyBpbmxpbmUgaW50
-IF9fc2V0X2Nzc19wcmludF9lbnYoc3RydWN0IGF0b21pc3BfZGV2aWNlICppc3AsIGludCBvcHQp
-DQo+ICAJCWlzcC0+Y3NzX2Vudi5pc3BfY3NzX2Vudi5wcmludF9lbnYuZGVidWdfcHJpbnQgPQ0K
-PiAgCQkgICAgYXRvbWlzcF9jc3MyX2RiZ19mdHJhY2VfcHJpbnQ7DQo+ICAJZWxzZSBpZiAob3B0
-ID09IDIpDQo+IC0JCWlzcC0+Y3NzX2Vudi5pc3BfY3NzX2Vudi5wcmludF9lbnYuZGVidWdfcHJp
-bnQgPSB2cHJpbnRrOw0KPiArCQlpc3AtPmNzc19lbnYuaXNwX2Nzc19lbnYucHJpbnRfZW52LmRl
-YnVnX3ByaW50ID0gYXRvbWlzcF92cHJpbnRrOw0KPiAgCWVsc2UNCj4gIAkJcmV0ID0gLUVJTlZB
-TDsNCj4gDQo+IEBAIC04OTAsNyArODk3LDcgQEAgaW50IGF0b21pc3BfY3NzX2xvYWRfZmlybXdh
-cmUoc3RydWN0IGF0b21pc3BfZGV2aWNlICppc3ApDQo+IA0KPiAgCV9fc2V0X2Nzc19wcmludF9l
-bnYoaXNwLCBkYmdfZnVuYyk7DQo+IA0KPiAtCWlzcC0+Y3NzX2Vudi5pc3BfY3NzX2Vudi5wcmlu
-dF9lbnYuZXJyb3JfcHJpbnQgPSB2cHJpbnRrOw0KPiArCWlzcC0+Y3NzX2Vudi5pc3BfY3NzX2Vu
-di5wcmludF9lbnYuZXJyb3JfcHJpbnQgPSBhdG9taXNwX3ZwcmludGs7DQo+IA0KPiAgCS8qIGxv
-YWQgaXNwIGZ3IGludG8gSVNQIG1lbW9yeSAqLw0KPiAgCWVyciA9IGlhX2Nzc19sb2FkX2Zpcm13
-YXJlKGlzcC0+ZGV2LCAmaXNwLT5jc3NfZW52LmlzcF9jc3NfZW52LA0KPiAtLQ0KPiAyLjI2LjIN
-Cg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZh
-cm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYg
-KFdhbGVzKQ0K
+Hi Sakari
+
+On 17/09/2020 11:33, Sakari Ailus wrote:
+>> +		ret = software_node_register_nodes(nodes);
+>> +		if (ret) {
+>> +			dev_err(dev,
+>> +				"Failed to register software nodes for %s\n",
+>> +				supported_devices[i]);
+>> +			return ret;
+>> +		}
+>> +
+>> +		fwnode = software_node_fwnode(&nodes[SWNODE_SENSOR_HID]);
+>> +		if (!fwnode) {
+>> +			dev_err(dev,
+>> +				"Failed to get software node for %s\n",
+>> +				supported_devices[i]);
+>> +			return ret;
+>> +		}
+>> +
+>> +		fwnode->secondary = ERR_PTR(-ENODEV);
+>> +		dev->fwnode = fwnode;
+>> +
+>> +		/*
+>> +		 * The device should by this point has driver_data set to an
+>> +		 * instance of struct v4l2_subdev; set the fwnode for that too.
+>> +		 */
+>> +
+>> +		sd = dev_get_drvdata(dev);
+>> +		sd->fwnode = fwnode;
+> I'm a bit lost here. Isn't it enough to have the sensor device's fwnode,
+> and to use that for V4L2 async fwnode matching (as usual)?
+
+Just working through the changes everyone's suggested for the v2. For
+this one the reason it had to be this way is that
+v4l2_async_register_subdev() just picks up the fwnode from the device.
+If we wanted to just rely on that call as part of the sensor driver's
+probe() then we need to reprobe() the sensor in case it already probed
+before this code has managed to run, and reprobing after assigning the
+software_nodes as fwnode to the sensor no longer works - the long and
+short of that is that the ACPI matching portion of i2c_device_match()
+calls ACPI_COMPANION(dev), and that macro relies on dev->fwnode->ops
+being acpi_device_fwnode_ops which they no longer are. This is also the
+reason I was storing the original fwnode's of the sensor device and cio2
+device in the cio2-bridge; so that they could be restored if the module
+was removed.
+
+
 
