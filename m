@@ -2,116 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E3B9274F33
-	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 04:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F7B274FA1
+	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 05:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727333AbgIWCob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Sep 2020 22:44:31 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53064 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727330AbgIWCob (ORCPT
+        id S1726810AbgIWDmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Sep 2020 23:42:55 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53741 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726448AbgIWDmz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Sep 2020 22:44:31 -0400
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68D7F124E;
-        Wed, 23 Sep 2020 04:44:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600829060;
-        bh=3r1BOoDtAXmhTQITTn6XUFBaY185rTwT6Jre5ZlZlUo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m2kYBhHdMDZKbFr8UAEIV3NMkfgRpdP483hUgjqCJysVbpXrj3edY787r6TfVcjsG
-         kjWssBFKSTjy9kS/ke5cZ30nIMszkdvs0Z9ptotRGPXOxExzntT1WZkRWzeDqcZ+nF
-         E+ObpZEOiBVqYvcNUZTTq7uIixGUNX4cb0Lz+8Gc=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Tue, 22 Sep 2020 23:42:55 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id KvgBkweof4gEjKvgCkXgbg; Wed, 23 Sep 2020 05:42:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600832572; bh=zOgC7jdZc4YObEqEkUXEurezlKcdBnR5abcpr7z0BAg=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=mR6YYGbvsKWYAveHQflvFCnwPHOVqMDf1YpzM6Db/WD6YDDD6PFtt99Yrg+VrVYNx
+         7AimDIjmpb8Lb3H3LdVGNCIQxDAOKiQFg2o944ItaDJ3lctfplx90LDFG0YIu6PyrD
+         Fpl1wTNeOOogal0SzgDwuSdI+47GZ5QObZdxsi/dg7K3glquwDxc9R/rnm+4+k0KXd
+         B85RvTgCF8JcECfDscY7jRjG925HrF/2R7+Q/ZeziPkn3Klouls2xzkDoeUTW5xauw
+         8858KodrHFR/oACddzBu/9soGdDw9ZQh7UFIQpdEwI49hIp+W8ZN697Q8OXaew3Civ
+         54+j5a5iIR93w==
+Message-ID: <a1a9fae7422c0e77b3f9b2bcfcb7afc3@smtp-cloud9.xs4all.net>
+Date:   Wed, 23 Sep 2020 05:42:51 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dylan Yip <dylany@xilinx.com>, Vishal Sagar <vsagar@xilinx.com>
-Subject: [PATCH/RFC 16/16] media: v4l2: Add 10- and 12-bpc luma-only formats with linear packing
-Date:   Wed, 23 Sep 2020 05:43:33 +0300
-Message-Id: <20200923024333.920-17-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200923024333.920-1-laurent.pinchart@ideasonboard.com>
-References: <20200923024333.920-1-laurent.pinchart@ideasonboard.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfHs8tPd3KxCoyf+/QhF3K9otXRHH7j4parQZCLZgLCl9hSSg1nUm3InsGagwxLbGa/jx8vsT8Zorq5/xnFv0FxH7DKRsj+MmmzHj0nKR6eMxbzCPCXk5
+ OgZkSGmTJ49p9Ht7muks2CQ/vJoorWIPzW5aSJoOSkuX09K++lR8eqVPhjECXzsapF8xWCdp22NPFiRHIm0Pi/6fV419bTys6fik3t2XoLEA1q7cQ4zfYiPq
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add two new formats storing luma only in 10- and 12-bpc variants, with
-linear packing. They are used by the Xilinx Video Frame Buffer
-Read/Write IP cores.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- .../media/v4l/pixfmt-yuv-luma.rst             | 23 +++++++++++++++++++
- include/uapi/linux/videodev2.h                |  2 ++
- 2 files changed, 25 insertions(+)
+Results of the daily build of media_tree:
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-index b24947b52cf8..3e2a7af5ed67 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-@@ -24,6 +24,7 @@ are often referred to as greyscale formats.
-    - Y'\ :sub:`x`\ [9:2] denotes bits 9 to 2 of the Y' value for pixel at colum
-      `x`.
-    - `0` denotes padding bits set to 0.
-+   - `-` denotes padding bits with undefined values.
- 
- 
- .. flat-table:: Luma-Only Image Formats
-@@ -82,6 +83,17 @@ are often referred to as greyscale formats.
-       - Y'\ :sub:`3`\ [9:2]
-       - Y'\ :sub:`3`\ [1:0] Y'\ :sub:`2`\ [1:0] Y'\ :sub:`1`\ [1:0] Y'\ :sub:`0`\ [1:0]
- 
-+    * .. _V4L2-PIX-FMT-Y10X:
-+
-+      - ``V4L2_PIX_FMT_Y10X``
-+      - 'Y10X'
-+
-+      - Y'\ :sub:`0`\ [7:0]
-+      - Y'\ :sub:`1`\ [5:0] Y'\ :sub:`0`\ [9:8]
-+      - Y'\ :sub:`2`\ [3:0] Y'\ :sub:`1`\ [9:6]
-+      - `- -` Y'\ :sub:`2`\ [9:4]
-+      - ...
-+
-     * .. _V4L2-PIX-FMT-Y12:
- 
-       - ``V4L2_PIX_FMT_Y12``
-@@ -93,6 +105,17 @@ are often referred to as greyscale formats.
-       - ...
-       - ...
- 
-+    * .. _V4L2-PIX-FMT-Y12X:
-+
-+      - ``V4L2_PIX_FMT_Y12X``
-+      - 'Y12X'
-+
-+      - Y'\ :sub:`0`\ [7:0]
-+      - Y'\ :sub:`1`\ [3:0] Y'\ :sub:`0`\ [11:8]
-+      - Y'\ :sub:`1`\ [11:4]
-+      - Y'\ :sub:`2`\ [7:0]
-+      - `- - - -` Y'\ :sub:`2`\ [11:8]
-+
-     * .. _V4L2-PIX-FMT-Y14:
- 
-       - ``V4L2_PIX_FMT_Y14``
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 9b4cab651df7..3d137a020cdb 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -579,6 +579,8 @@ struct v4l2_pix_format {
- /* Grey bit-packed formats */
- #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
- #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
-+#define V4L2_PIX_FMT_Y10X    v4l2_fourcc('Y', '1', '0', 'X') /* 10  Greyscale, 3 pixels in 4 bytes */
-+#define V4L2_PIX_FMT_Y12X    v4l2_fourcc('Y', '1', '2', 'X') /* 12  Greyscale, 4 pixels in 5 bytes */
- 
- /* Palette formats */
- #define V4L2_PIX_FMT_PAL8    v4l2_fourcc('P', 'A', 'L', '8') /*  8  8-bit palette */
--- 
-Regards,
+date:			Wed Sep 23 05:00:14 CEST 2020
+media-tree git hash:	8d526001bab3eebc0df1095a83e8aacf90e0e6a3
+media_build git hash:	efbdeecfc21ff8abcabc84c77fe8dfbefa2d657a
+v4l-utils git hash:	ea16a7ef13a902793a5c2626b0cefc4d956147f3
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 36eaed7193020584cb96f64ed10d3481a5b84bfa
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Laurent Pinchart
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA VIDEO_TEGRA_TPG
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: WARNINGS
+linux-3.10.108-x86_64: WARNINGS
+linux-3.11.10-i686: WARNINGS
+linux-3.11.10-x86_64: WARNINGS
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
