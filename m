@@ -2,92 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD345275B29
-	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 17:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 246E6275BA2
+	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 17:22:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbgIWPGo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Sep 2020 11:06:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52640 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726156AbgIWPGm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Sep 2020 11:06:42 -0400
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9AE5D23119;
-        Wed, 23 Sep 2020 15:06:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600873601;
-        bh=OvVQCoqK76PnVayVef+eyOe3qVoNcxHgcMGbxGzsbms=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=c8JWlEocwvO1ONAyQcrbBNKereMYLF+HXvsetBwE70zA/8YKWPwhaP3fCYsJYunho
-         AkvwuUInDaSlp1fJsT06+rxZ+Qsc8l0pskNz6994SDs8CbfVwL2Xn2DidODsn8MgLx
-         6JKQppjSNk5zWJvPoacLlNvZw8j+61u+mLrcoJNs=
-Received: by mail-ej1-f42.google.com with SMTP id z23so40320ejr.13;
-        Wed, 23 Sep 2020 08:06:41 -0700 (PDT)
-X-Gm-Message-State: AOAM531SWrq17zinprjGrI6jOSVHQfSZGEU4LjCBELtzyfAIKItGHMHY
-        xL0gwBZr8zR8+bFs9yRdxGVVzsd5yTYSuhwlN3U=
-X-Google-Smtp-Source: ABdhPJw2OR65sE0ouKRBJG8zu9JqRIJtV6E2+4agvXD5tSdjXqiFUk+yeliH8xvrLDUXbKzW19aU6o7AJ+uEzRoHji4=
-X-Received: by 2002:a17:906:4046:: with SMTP id y6mr119390ejj.148.1600873600132;
- Wed, 23 Sep 2020 08:06:40 -0700 (PDT)
+        id S1726802AbgIWPWm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Sep 2020 11:22:42 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.54]:34512 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726687AbgIWPWm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Sep 2020 11:22:42 -0400
+X-Greylist: delayed 713 seconds by postgrey-1.27 at vger.kernel.org; Wed, 23 Sep 2020 11:22:39 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1600874558;
+        s=strato-dkim-0002; d=reintjes.nrw;
+        h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=R7hI6d/NmZuNcg1vUXN4expafaD5dS9k1NOlJgVsfQ0=;
+        b=mKq3yxzIBoK6eXKDjSaCRr3BwBIqpDKeJr75f5YQmPBPRRn9qdkRISKeudlw+eJUaN
+        i9j0YoD7Nd07ieGLh8UqSmYZ1Ccml4PGsZ2Mglopdz9Hz5rLCJkN670J1l7AKyk9w16x
+        a5x5cVcgZWQk6FXpa0G8mlW7WSJEKPFpozzrnE9Mqlay09jPyJDrOXyUKIYtt6nlhpnO
+        Iws66XTKRoaWIH3voDt0xHa2loKeKKkr2KuI9gRfjll43rW7LApn0Q1chdN5eLyO3daW
+        Z1KVrRhdU65Y8/6yfAJtnadI1+vhAkdCKhH0qGquacG5znElBXtRT3qPa76R5ygpIUbq
+        FhJQ==
+X-RZG-AUTH: ":IGUXYVP6Ne1lB7nQNv+YSUx4qaxF0YAcTeeZr8criwvl+4OoAsy1YB7b8FzONHo5ckdw3KGGkZZ/Zu8="
+X-RZG-CLASS-ID: mo00
+Received: from [192.168.0.198]
+        by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
+        with ESMTPSA id Y04b60w8NFAYy22
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Wed, 23 Sep 2020 17:10:34 +0200 (CEST)
+Subject: Re: [PATCH 00/14] drop double zeroing
+To:     Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
+        Julia Lawall <Julia.Lawall@inria.fr>
+Cc:     linux-serial@vger.kernel.org, linux-scsi@vger.kernel.org,
+        target-devel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-block@vger.kernel.org,
+        Yossi Leybovich <sleybo@amazon.com>,
+        linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        dmaengine@vger.kernel.org, linux-pci@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-rdma@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        rds-devel@oss.oracle.com
+References: <1600601186-7420-1-git-send-email-Julia.Lawall@inria.fr>
+ <160070750168.56292.17961674601916397869.b4-ty@kernel.org>
+From:   Rolf Reintjes <lists2.rolf@reintjes.nrw>
+Message-ID: <c3b33526-936d-ffa4-c301-4d0485822be1@reintjes.nrw>
+Date:   Wed, 23 Sep 2020 17:10:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <1599031090-21608-1-git-send-email-krzk@kernel.org>
- <20200914201310.GA154873@bogus> <20200921112635.GA1233@kozik-lap> <CAL_Jsq+gT3WSCAsKTrjZMh+vF4mx-m51rO=Wv+YcNxNhjEoO8A@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+gT3WSCAsKTrjZMh+vF4mx-m51rO=Wv+YcNxNhjEoO8A@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Wed, 23 Sep 2020 17:06:27 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPe7KgRLzrqMrWgmVcimvGO5N3028NPwJgXzZb76gz2MuQ@mail.gmail.com>
-Message-ID: <CAJKOXPe7KgRLzrqMrWgmVcimvGO5N3028NPwJgXzZb76gz2MuQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: imx258: Add bindings for
- IMX258 sensor
-To:     Rob Herring <robh@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <160070750168.56292.17961674601916397869.b4-ty@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 22 Sep 2020 at 21:23, Rob Herring <robh@kernel.org> wrote:
->
-> > > If this is the only config, why does it need to be in DT?
-> >
-> > The sensor is capable of two settings: two lanes (1 and 2) and four
-> > lanes described above.  However Linux driver requires the latter (four
-> > lanes, 1+2+3+4).
-> >
-> > If I were to describe the bindings for HW, someone would really be
-> > confused and try to use two lanes setup, which won't work. Driver won't
-> > allow it.
->
-> If someone has h/w with only 2 lanes connected, then they have to go
-> add support to the driver whether we've documented 2 lanes in the
-> binding or not.
->
-> > I understand that bindings document the HW and describe its interface
-> > but do we really want to put "theoretical" bindings which cannot be used
-> > in practice with Linux kernel?
-> >
-> > If yes, how to nicely document this that only one setting is currently
-> > working?
->
-> You don't, at least in the binding. That's a driver issue. Bindings
-> are separate. They are stored in the kernel tree for convenience, not
-> because they are part of the kernel.
+Hello Mark,
 
-Mhmm... okay. I already sent v3 for this with fixed four lanes so I
-will re-spin with 2 or 4 lanes setup.
+On 21.09.20 18:58, Mark Brown wrote:
+> On Sun, 20 Sep 2020 13:26:12 +0200, Julia Lawall wrote:
+>> sg_init_table zeroes its first argument, so the allocation of that argument
+>> doesn't have to.
+> 
+> Applied to
+> 
+>     https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> 
+> Thanks!
 
-Thanks for the review!
+I do not understand which of the 14 patches you applied. Your mail 
+responds to the 00/14 mail.
 
-Best regards,
-Krzysztof
+Rolf
+
+> 
+> [1/1] spi/topcliff-pch: drop double zeroing
+>        commit: ca03dba30f2b8ff45a2972c6691e4c96d8c52b3b
+> 
+> All being well this means that it will be integrated into the linux-next
+> tree (usually sometime in the next 24 hours) and sent to Linus during
+> the next merge window (or sooner if it is a bug fix), however if
+> problems are discovered then the patch may be dropped or reverted.
+> 
+> You may get further e-mails resulting from automated or manual testing
+> and review of the tree, please engage with people reporting problems and
+> send followup patches addressing any issues that are reported if needed.
+> 
+> If any updates are required or you are submitting further changes they
+> should be sent as incremental updates against current git, existing
+> patches will not be replaced.
+> 
+> Please add any relevant lists and maintainers to the CCs when replying
+> to this mail.
+> 
+> Thanks,
+> Mark
+> 
+
