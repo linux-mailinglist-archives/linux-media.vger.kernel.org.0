@@ -2,220 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D7F1275C0A
-	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 17:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA1EF275C10
+	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 17:38:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbgIWPh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Sep 2020 11:37:59 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:56377 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726184AbgIWPh6 (ORCPT
+        id S1726766AbgIWPix (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Sep 2020 11:38:53 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:33829 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726184AbgIWPix (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Sep 2020 11:37:58 -0400
-Received: from [185.56.157.72] (port=49708 helo=[192.168.101.73])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1kL6qA-000GgA-Ab; Wed, 23 Sep 2020 17:37:54 +0200
-Subject: Re: [PATCH v8 0/6] Support running driver's probe for a device
- powered off
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-i2c@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Wed, 23 Sep 2020 11:38:53 -0400
+Received: by mail-io1-f66.google.com with SMTP id m17so24245341ioo.1;
+        Wed, 23 Sep 2020 08:38:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ysCpx9pUUcz0KZte0FR3aV5ITFXG37+Rp3i9KP/L4TI=;
+        b=ufpX9ZJOd6N8tq1O92vjGkFMhcR4gypPqnAxkDzYpAlrBNfyhqVxdw5oAzlOeTt+Yg
+         oMtVSsbMFAQKAndby2iDOyAYSFyzdHSW8gLtLhgV90Nbv4pYzoC5wetS+xCEG5+XoWij
+         LqyD4HVPJ9H5xxTkp/u4EgBUrFLDBMch8VG2q9kq3QmqsDzKzI5zUbN0rJ86ENnb28yd
+         9A/nbglr9r7uMBNde6s53fTtxnQlqs79ouSJtmtVZYq5MLaigFwh3WRGZShCTPitvZBu
+         2e6yLbmUv3FpdS+K5gXWxcDLvoD7oh4fhsEKxvwmIQ7tzQyVkk4SnT0jrmCp1GT/VplW
+         IGrg==
+X-Gm-Message-State: AOAM532QlHOuseWpe3L2oqOZxVjvcW0IPp1qtdAtMAQ+LD2bfDcFlu5J
+        xwzhoWoVrAJ+qMT+m/Ic9Q==
+X-Google-Smtp-Source: ABdhPJznu/p3EAh6RkBatd0VNA7uYjMa7oLDfzGLVSOz2TUSk3ngY0iNOOAK8ct6BiSO5LB6Fy/w1Q==
+X-Received: by 2002:a05:6602:21cd:: with SMTP id c13mr120017ioc.54.1600875532135;
+        Wed, 23 Sep 2020 08:38:52 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id 64sm5258ilv.0.2020.09.23.08.38.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2020 08:38:51 -0700 (PDT)
+Received: (nullmailer pid 797169 invoked by uid 1000);
+        Wed, 23 Sep 2020 15:38:50 -0000
+Date:   Wed, 23 Sep 2020 09:38:50 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-kernel@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        devicetree@vger.kernel.org,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-media@vger.kernel.org
-References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
- <f4b82baa-66b7-464e-fd39-66d2243a05ef@lucaceresoli.net>
- <20200911130104.GF26842@paasikivi.fi.intel.com>
- <6dea1206-cfaa-bfc5-d57e-4dcddadc03c7@lucaceresoli.net>
- <20200914094727.GM26842@paasikivi.fi.intel.com>
- <de017bfd-8908-f5ba-afa7-469a0059a5a7@lucaceresoli.net>
- <20200923110856.GP26842@paasikivi.fi.intel.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <f08e9ea3-27d6-019c-6571-58f1a3b76045@lucaceresoli.net>
-Date:   Wed, 23 Sep 2020 17:37:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Subject: Re: [PATCH v2 3/3] media: dt-bindings: media: renesas,drif: Add
+ r8a77990 support
+Message-ID: <20200923153850.GA797140@bogus>
+References: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
+ <20200916105949.24858-4-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20200923110856.GP26842@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200916105949.24858-4-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On 23/09/20 13:08, Sakari Ailus wrote:
-> Hi Luca,
+On Wed, 16 Sep 2020 11:59:49 +0100, Fabrizio Castro wrote:
+> The r8a77990 (a.k.a. R-Car E3) device tree schema is
+> compatible with R-Car H3 and M3-W schema.
 > 
-> On Mon, Sep 14, 2020 at 06:49:29PM +0200, Luca Ceresoli wrote:
->> Hi Sakari,
->>
->> On 14/09/20 11:47, Sakari Ailus wrote:
->>> Hi Luca,
->>>
->>> On Mon, Sep 14, 2020 at 09:58:24AM +0200, Luca Ceresoli wrote:
->>>> Hi Sakari,
->>>>
->>>> On 11/09/20 15:01, Sakari Ailus wrote:
->>>>> Hi Luca,
->>>>>
->>>>> On Fri, Sep 11, 2020 at 02:49:26PM +0200, Luca Ceresoli wrote:
->>>>>> Hi Sakari,
->>>>>>
->>>>>> On 03/09/20 10:15, Sakari Ailus wrote:
->>>>>>>
->>>>>>> Hi all,
->>>>>>>
->>>>>>> These patches enable calling (and finishing) a driver's probe function
->>>>>>> without powering on the respective device on busses where the practice is
->>>>>>> to power on the device for probe. While it generally is a driver's job to
->>>>>>> check the that the device is there, there are cases where it might be
->>>>>>> undesirable. (In this case it stems from a combination of hardware design
->>>>>>> and user expectations; see below.) The downside with this change is that
->>>>>>> if there is something wrong with the device, it will only be found at the
->>>>>>> time the device is used. In this case (the camera sensors + EEPROM in a
->>>>>>> sensor) I don't see any tangible harm from that though.
->>>>>>>
->>>>>>> An indication both from the driver and the firmware is required to allow
->>>>>>> the device's power state to remain off during probe (see the first patch).
->>>>>>>
->>>>>>>
->>>>>>> The use case is such that there is a privacy LED next to an integrated
->>>>>>> user-facing laptop camera, and this LED is there to signal the user that
->>>>>>> the camera is recording a video or capturing images. That LED also happens
->>>>>>> to be wired to one of the power supplies of the camera, so whenever you
->>>>>>> power on the camera, the LED will be lit, whether images are captured from
->>>>>>> the camera --- or not. There's no way to implement this differently
->>>>>>> without additional software control (allowing of which is itself a
->>>>>>> hardware design decision) on most CSI-2-connected camera sensors as they
->>>>>>> simply have no pin to signal the camera streaming state.
->>>>>>>
->>>>>>> This is also what happens during driver probe: the camera will be powered
->>>>>>> on by the I²C subsystem calling dev_pm_domain_attach() and the device is
->>>>>>> already powered on when the driver's own probe function is called. To the
->>>>>>> user this visible during the boot process as a blink of the privacy LED,
->>>>>>> suggesting that the camera is recording without the user having used an
->>>>>>> application to do that. From the end user's point of view the behaviour is
->>>>>>> not expected and for someone unfamiliar with internal workings of a
->>>>>>> computer surely seems quite suspicious --- even if images are not being
->>>>>>> actually captured.
->>>>>>>
->>>>>>> I've tested these on linux-next master. They also apply to Wolfram's
->>>>>>> i2c/for-next branch, there's a patch that affects the I²C core changes
->>>>>>> here (see below). The patches apart from that apply to Bartosz's
->>>>>>> at24/for-next as well as Mauro's linux-media master branch.
->>>>>>
->>>>>> Apologies for having joined this discussion this late.
->>>>>
->>>>> No worries. But thanks for the comments.
->>>>>
->>>>>>
->>>>>> This patchset seems a good base to cover a different use case, where I
->>>>>> also cannot access the physical device at probe time.
->>>>>>
->>>>>> I'm going to try these patches, but in my case there are a few
->>>>>> differences that need a better understanding.
->>>>>>
->>>>>> First, I'm using device tree, not ACPI. In addition to adding OF support
->>>>>> similar to the work you've done for ACPI, I think instead of
->>>>>> acpi_dev_state_low_power() we should have a function that works for both
->>>>>> ACPI and DT.
->>>>>
->>>>> acpi_dev_state_low_power() is really ACPI specific: it does tell the ACPI
->>>>> power state of the device during probe or remove. It is not needed on DT
->>>>> since the power state of the device is controlled directly by the driver.
->>>>> On I²C ACPI devices, it's the framework that powers them on for probe.
->>>>
->>>> I see, thanks for clarifying. I'm not used to ACPI so I didn't get that.
->>>>
->>>>> You could have a helper function on DT to tell a driver what to do in
->>>>> probe, but the functionality in that case is unrelated.
->>>>
->>>> So in case of DT we might think of a function that just tells whether
->>>> the device is marked to allow low-power probe, but it's just an info
->>>> from DT:
->>>>
->>>> int mydriver_probe(struct i2c_client *client)
->>>> {
->>>> 	...
->>>> 	low_power = of_dev_state_low_power(&client->dev);
->>>> 	if (!low_power) {
->>>> 		mydriver_initialize(); /* power+clocks, write regs */
->>>>  	}
->>>> 	...
->>>> }
->>>>
->>>> ...and, if (low_power), call mydriver_initialize() at first usage.
->>>>
->>>> I'm wondering whether this might make sense in mainline.
->>>
->>> Quite possibly, if there are drivers that would need it.
->>>
->>> The function should probably be called differently though as what it does
->>> is quite different after all.
->>>
->>> Unless... we did the following:
->>>
->>> - Redefine the I²C driver flag added by this patchset into what tells the
->>>   I²C framework whether the driver does its own power management
->>>   independently of the I²C framework. It could be called e.g.
->>>   I2C_DRV_FL_FULL_PM, to indicate the driver is responsible for all power
->>>   management of the device, and the I²C framework would not power on the
->>>   device for probe or remove.
->>>
->>> - Add a firmware function to tell whether the device identification should
->>>   take place during probe or not. For this is what we're really doing here
->>>   from driver's point of view: lazy device probing.
->>
->> Indeed my needs have nothing to do with power management. What I need is
->> lazy device probing as the I2C bus may need time before it can be used.
->> From the driver code point of view it looks similar (there's an if()
->> around initializations in probe() and init is done later if needed), but
->> the usage is different.
->>
->> Another approach would be to add a new I2C driver operation [say
->> init_hw()], then move code for lazy init out of probe() into init_hw().
->> probe() would still allocate resources. init_hw() would be called by the
->> framework (or the controller driver?) when it knows eveything is ready.
->> Just wild thoughts while I'm trying to focus the problem...
+> Document r8a77990 support within renesas,drif.yaml.
 > 
-> What makes the controller driver not ready to operate the controller when
-> the client devices are probed?
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> v1->v2:
+> * No change
+> 
+>  Documentation/devicetree/bindings/media/renesas,drif.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-I'm working with a camera module connected via a serializer/deserializer
-chip pair, and the link can go away and get back at any moment for
-various reasons: mechanical, electromagnetic, cable not connected etc.
-This scenario is not well handled with current kernel structures, so I'm
-handling it partially with some local hacks but I'm always curious about
-any possible kernel improvement that can improve the situation.
-
-See these links for some info about my troubles:
-https://lucaceresoli.net/plumbers-i2c-bof/
-https://elinux.org/images/f/fc/Ceresoli-elce2019-video-serdes-linux.pdf
-https://youtu.be/7hLv6fYAW-E?list=PLbzoR-pLrL6pamOj4UifcMJf560Ph6mJp
-
-Your patchset looks very similar to something I need: not communicating
-with the device during probe. Another piece would be to trigger a device
-configuration "in some way" when the link is known to be back.
-
--- 
-Luca
+Acked-by: Rob Herring <robh@kernel.org>
