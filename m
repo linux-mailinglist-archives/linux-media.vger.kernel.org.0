@@ -2,248 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8C35275321
-	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 10:21:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BAD9275327
+	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 10:22:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726472AbgIWIVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Sep 2020 04:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33210 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgIWIVV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Sep 2020 04:21:21 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C034C061755
-        for <linux-media@vger.kernel.org>; Wed, 23 Sep 2020 01:21:21 -0700 (PDT)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kL01f-0005Wq-US; Wed, 23 Sep 2020 10:21:19 +0200
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH v2] media: dt-bindings: convert CODA VPU bindings to yaml
-Date:   Wed, 23 Sep 2020 10:21:12 +0200
-Message-Id: <20200923082112.26477-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        id S1726566AbgIWIWG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Sep 2020 04:22:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33744 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726267AbgIWIWG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Sep 2020 04:22:06 -0400
+Received: from mail.kernel.org (ip5f5ad5c8.dynamic.kabel-deutschland.de [95.90.213.200])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C567A238A1;
+        Wed, 23 Sep 2020 08:22:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600849325;
+        bh=DmXoYTsrp+5X+VdcYTdixz0bMYx13NlME21W5hL9F0k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=P5z88MhpNjVgVXiObYz3irhiottc6m/gxZCLppZ9IO1aU3TmCojaGwmOcVEXe+GTS
+         HLKacSOzaqgbHwxfCeK2W32r0Dc0roB+V0a9yLUKL+18JNvpUnkBjfBA4bn3kyzS5P
+         nQ/9A7ZS+ZRIKMqlxdVnksyasjb/yC4GOKkgZGmk=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kL02L-001F20-7o; Wed, 23 Sep 2020 10:22:01 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] media: atomisp: fix gcc warnings
+Date:   Wed, 23 Sep 2020 10:21:59 +0200
+Message-Id: <8e3d5d4baf0781974a224e284e837665c0d26f92.1600849288.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert to YAML and add generic IP core compatibles "cnm,codadx6",
-"cnm,codahx4", "cnm,coda7541", and "cnm,coda960" in addition to the SoC
-specific compatibles. The new generic compatibles are already used in
-the SoC device trees and replace the free form comments. For example:
+Depending on the gcc version, after changeset
+72a9ff3bf7fb ("media: atomisp: get rid of -Wsuggest-attribute=format warnings"),
+we're now getting two warnings, which are breaking the Jenkins
+CI instance at https://builder.linuxtv.org:
 
-- compatible : should be "fsl,<chip>-src" for i.MX SoCs:
-  (a) "fsl,imx27-vpu" for CodaDx6 present in i.MX27
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: In function ‘__set_css_print_env’:
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:860:50: error: assignment to ‘int (*)(const char *, char *)’ from incompatible pointer type ‘int (__attribute__((regparm(0))) *)(const char *, char *)’ [-Werror=incompatible-pointer-types]
+	   isp->css_env.isp_css_env.print_env.debug_print = vprintk;
+	                                                  ^
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: In function ‘atomisp_css_load_firmware’:
+	../drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:893:49: error: assignment to ‘int (*)(const char *, char *)’ from incompatible pointer type ‘int (__attribute__((regparm(0))) *)(const char *, char *)’ [-Werror=incompatible-pointer-types]
+	  isp->css_env.isp_css_env.print_env.error_print = vprintk;
+                                                 ^
+	cc1: some warnings being treated as errors
 
-turns into:
+So, we need to partially revert the patch.
 
-properties:
-  compatible:
-    oneOf:
-      - items:
-          - const: fsl,imx27-vpu
-          - const: cnm,codadx6
-
-This allows to properly specify the secondary JPEG unit interrupt that
-is only present on cnm,coda960.
-
-Also add the missing "fsl,imx6dl-vpu", "cnm,coda960" compatible.
-The AXI bus connection to the internal SRAM is different between i.MX6Q
-and i.MX6DL, which requires the driver to load a different firmware
-depending on the SoC.
-
-Further, specify the power-domain property for i.MX6 and change the
-clock order from "ahb", "per" to "per", "ahb". This order is currently
-used in all SoC device trees.
-
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Fixes: 72a9ff3bf7fb ("media: atomisp: get rid of -Wsuggest-attribute=format warnings")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
-Changes since v1:
- - Improve commit description
- - Fix clock order in example
----
- .../devicetree/bindings/media/coda.txt        |  31 -----
- .../devicetree/bindings/media/coda.yaml       | 109 ++++++++++++++++++
- MAINTAINERS                                   |   2 +-
- 3 files changed, 110 insertions(+), 32 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/coda.txt
- create mode 100644 Documentation/devicetree/bindings/media/coda.yaml
+ .../staging/media/atomisp/pci/atomisp_compat_css20.c  | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/coda.txt b/Documentation/devicetree/bindings/media/coda.txt
-deleted file mode 100644
-index 90eb74cc1993..000000000000
---- a/Documentation/devicetree/bindings/media/coda.txt
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Chips&Media Coda multi-standard codec IP
--========================================
--
--Coda codec IPs are present in i.MX SoCs in various versions,
--called VPU (Video Processing Unit).
--
--Required properties:
--- compatible : should be "fsl,<chip>-src" for i.MX SoCs:
--  (a) "fsl,imx27-vpu" for CodaDx6 present in i.MX27
--  (b) "fsl,imx51-vpu" for CodaHx4 present in i.MX51
--  (c) "fsl,imx53-vpu" for CODA7541 present in i.MX53
--  (d) "fsl,imx6q-vpu" for CODA960 present in i.MX6q
--- reg: should be register base and length as documented in the
--  SoC reference manual
--- interrupts : Should contain the VPU interrupt. For CODA960,
--  a second interrupt is needed for the MJPEG unit.
--- clocks : Should contain the ahb and per clocks, in the order
--  determined by the clock-names property.
--- clock-names : Should be "ahb", "per"
--- iram : phandle pointing to the SRAM device node
--
--Example:
--
--vpu: vpu@63ff4000 {
--	compatible = "fsl,imx53-vpu";
--	reg = <0x63ff4000 0x1000>;
--	interrupts = <9>;
--	clocks = <&clks 63>, <&clks 63>;
--	clock-names = "ahb", "per";
--	iram = <&ocram>;
--};
-diff --git a/Documentation/devicetree/bindings/media/coda.yaml b/Documentation/devicetree/bindings/media/coda.yaml
-new file mode 100644
-index 000000000000..9a850adfd00e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/coda.yaml
-@@ -0,0 +1,109 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/coda.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Chips&Media Coda multi-standard codec IP
-+
-+maintainers:
-+  - Philipp Zabel <p.zabel@pengutronix.de>
-+
-+description: |-
-+  Coda codec IPs are present in i.MX SoCs in various versions,
-+  called VPU (Video Processing Unit).
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - const: fsl,imx27-vpu
-+          - const: cnm,codadx6
-+      - items:
-+          - const: fsl,imx51-vpu
-+          - const: cnm,codahx4
-+      - items:
-+          - const: fsl,imx53-vpu
-+          - const: cnm,coda7541
-+      - items:
-+          - enum:
-+              - fsl,imx6dl-vpu
-+              - fsl,imx6q-vpu
-+          - const: cnm,coda960
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: PER clock
-+      - description: AHB interface clock
-+
-+  clock-names:
-+    items:
-+      - const: per
-+      - const: ahb
-+
-+  resets:
-+    maxItems: 1
-+
-+  iram:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: phandle pointing to the SRAM device node
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: cnm,coda960
-+    then:
-+      properties:
-+        interrupts:
-+          items:
-+            - description: BIT processor interrupt
-+            - description: JPEG unit interrupt
-+
-+        interrupt-names:
-+          items:
-+            - const: bit
-+            - const: jpeg
-+    else:
-+      properties:
-+        interrupts:
-+          items:
-+            - description: BIT processor interrupt
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - fsl,imx6dl-vpu
-+              - fsl,imx6q-vpu
-+    then:
-+      properties:
-+        power-domains:
-+          $ref: /schemas/types.yaml#/definitions/phandle
-+          description: phandle pointing to the PU power domain
-+          maxItems: 1
-+
-+examples:
-+  - |
-+    vpu: video-codec@63ff4000 {
-+        compatible = "fsl,imx53-vpu", "cnm,coda7541";
-+        reg = <0x63ff4000 0x1000>;
-+        interrupts = <9>;
-+        clocks = <&clks 63>, <&clks 63>;
-+        clock-names = "per", "ahb";
-+        iram = <&ocram>;
-+    };
-+
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d3126fc2cca2..01be39a3265e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4332,7 +4332,7 @@ CODA V4L2 MEM2MEM DRIVER
- M:	Philipp Zabel <p.zabel@pengutronix.de>
- L:	linux-media@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/media/coda.txt
-+F:	Documentation/devicetree/bindings/media/coda.yaml
- F:	drivers/media/platform/coda/
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index 28796ec177e3..85b39de7bc28 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -166,6 +166,13 @@ atomisp_css2_dbg_ftrace_print(const char *fmt, va_list args)
+ 	return 0;
+ }
  
- CODE OF CONDUCT
++static int  __attribute__((format (printf, 1, 0)))
++atomisp_vprintk(const char *fmt, va_list args)
++{
++	vprintk(fmt, args);
++	return 0;
++}
++
+ void atomisp_load_uint32(hrt_address addr, uint32_t *data)
+ {
+ 	*data = atomisp_css2_hw_load_32(addr);
+@@ -857,7 +864,7 @@ static inline int __set_css_print_env(struct atomisp_device *isp, int opt)
+ 		isp->css_env.isp_css_env.print_env.debug_print =
+ 		    atomisp_css2_dbg_ftrace_print;
+ 	else if (opt == 2)
+-		isp->css_env.isp_css_env.print_env.debug_print = vprintk;
++		isp->css_env.isp_css_env.print_env.debug_print = atomisp_vprintk;
+ 	else
+ 		ret = -EINVAL;
+ 
+@@ -890,7 +897,7 @@ int atomisp_css_load_firmware(struct atomisp_device *isp)
+ 
+ 	__set_css_print_env(isp, dbg_func);
+ 
+-	isp->css_env.isp_css_env.print_env.error_print = vprintk;
++	isp->css_env.isp_css_env.print_env.error_print = atomisp_vprintk;
+ 
+ 	/* load isp fw into ISP memory */
+ 	err = ia_css_load_firmware(isp->dev, &isp->css_env.isp_css_env,
 -- 
-2.20.1
+2.26.2
 
