@@ -2,86 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6336275B64
-	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 17:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BFD4275B85
+	for <lists+linux-media@lfdr.de>; Wed, 23 Sep 2020 17:21:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbgIWPRP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Sep 2020 11:17:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60766 "EHLO mail.kernel.org"
+        id S1726620AbgIWPVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Sep 2020 11:21:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40700 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726156AbgIWPRP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Sep 2020 11:17:15 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726156AbgIWPVo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Sep 2020 11:21:44 -0400
+Received: from localhost.localdomain (unknown [194.230.155.191])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6077C2075B;
-        Wed, 23 Sep 2020 15:17:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 39ABB21D7D;
+        Wed, 23 Sep 2020 15:21:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600874234;
-        bh=/QQofHRADGAYxOtJIce3d38QkMvme+6u661AK0sTIww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qaL+99AxNSM+PUkApT/4Pupcbe3cWXnIOAQs/ZT35oiBfgpa53MHX/m6TMpBock3a
-         fQSnODIgnUVdnSkWJ0pBplNyHoTqkHuo7hhaFUgOEQ4u+Awe/y3f+CYmaRRBSsJrRv
-         ycipz9I2nQvfISAkNRMDRLNIxu8SAq09SP1ymhKs=
-Date:   Wed, 23 Sep 2020 16:16:20 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Rolf Reintjes <lists2.rolf@reintjes.nrw>
-Cc:     linux-spi@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>,
-        linux-serial@vger.kernel.org, linux-scsi@vger.kernel.org,
-        target-devel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-block@vger.kernel.org,
-        Yossi Leybovich <sleybo@amazon.com>,
-        linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux-pci@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-rdma@vger.kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        rds-devel@oss.oracle.com
-Subject: Re: [PATCH 00/14] drop double zeroing
-Message-ID: <20200923151620.GC5707@sirena.org.uk>
-References: <1600601186-7420-1-git-send-email-Julia.Lawall@inria.fr>
- <160070750168.56292.17961674601916397869.b4-ty@kernel.org>
- <c3b33526-936d-ffa4-c301-4d0485822be1@reintjes.nrw>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NU0Ex4SbNnrxsi6C"
-Content-Disposition: inline
-In-Reply-To: <c3b33526-936d-ffa4-c301-4d0485822be1@reintjes.nrw>
-X-Cookie: This report is filled with omissions.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        s=default; t=1600874503;
+        bh=wvbsKJYoqgNub9wPTqt3MqH7+f/uGfjF05Ctdg6ef8Q=;
+        h=From:To:Subject:Date:From;
+        b=1qswdop5ZbIH3YNuChOfZZPkymeF2rhoCevYoVbzSwnacV5eZZSDwGTp0Bmq8Ys+g
+         NSdjT6dz22C6D3flVrn/cuUk69cn2N7zJyM8WhgRqS9JLgv87RbFH/Uno56gwWDec4
+         ub3na5zpBE8uRfZuRQOqqczKsRmW38g5C7ylkPBI=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/4] dt-bindings: media: imx258: add bindings for IMX258 sensor
+Date:   Wed, 23 Sep 2020 17:21:26 +0200
+Message-Id: <20200923152129.21736-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Add bindings for the IMX258 camera sensor.  The bindings, just like the
+driver, are quite limited, e.g. do not support regulator supplies.
 
---NU0Ex4SbNnrxsi6C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-On Wed, Sep 23, 2020 at 05:10:33PM +0200, Rolf Reintjes wrote:
-> On 21.09.20 18:58, Mark Brown wrote:
+---
 
-> I do not understand which of the 14 patches you applied. Your mail responds
-> to the 00/14 mail.
+Changes since v3:
+1. Document also two lane setup.
 
-As the mail you're replying to says:
+Changes since v2:
+1. Remove clock-frequency, add reset GPIOs, add supplies.
+2. Use additionalProperties.
 
-> > [1/1] spi/topcliff-pch: drop double zeroing
-> >        commit: ca03dba30f2b8ff45a2972c6691e4c96d8c52b3b
+Changes since v1:
+1. None
+---
+ .../devicetree/bindings/media/i2c/imx258.yaml | 100 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 2 files changed, 101 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/imx258.yaml
 
---NU0Ex4SbNnrxsi6C
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+new file mode 100644
+index 000000000000..520e75c7b451
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+@@ -0,0 +1,100 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
++
++maintainers:
++  - Krzysztof Kozlowski <krzk@kernel.org>
++
++description: |-
++  IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active pixel
++  type stacked image sensor with a square pixel array of size 4208 x 3120. It
++  is programmable through I2C interface.  Image data is sent through MIPI
++  CSI-2.
++
++properties:
++  compatible:
++    const: sony,imx258
++
++  clocks:
++    description:
++      Clock frequency from 6 to 27 MHz.
++    maxItems: 1
++
++  reg:
++    maxItems: 1
++
++  reset-gpios:
++    description: |-
++      Reference to the GPIO connected to the XCLR pin, if any.
++
++  vana-supply:
++    description:
++      Analog voltage (VANA) supply, 2.7 V
++
++  vdig-supply:
++    description:
++      Digital I/O voltage (VDIG) supply, 1.2 V
++
++  vif-supply:
++    description:
++      Interface voltage (VIF) supply, 1.8 V
++
++  # See ../video-interfaces.txt for more details
++  port:
++    type: object
++    properties:
++      endpoint:
++        type: object
++        properties:
++          data-lanes:
++            oneOf:
++              - items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
++              - items:
++                  - const: 1
++                  - const: 2
++
++          link-frequencies:
++            allOf:
++              - $ref: /schemas/types.yaml#/definitions/uint64-array
++            description:
++              Allowed data bus frequencies.
++
++        required:
++          - data-lanes
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        sensor@6c {
++            compatible = "sony,imx258";
++            reg = <0x6c>;
++            clocks = <&imx258_clk>;
++
++            port {
++                endpoint {
++                    remote-endpoint = <&csi1_ep>;
++                    data-lanes = <1 2 3 4>;
++                    link-frequencies = /bits/ 64 <320000000>;
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5b9621ca2b31..68f30a283a2c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16262,6 +16262,7 @@ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c/imx258.yaml
+ F:	drivers/media/i2c/imx258.c
+ 
+ SONY IMX274 SENSOR DRIVER
+-- 
+2.17.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl9rZsMACgkQJNaLcl1U
-h9AxAgf/UlZBlBEQmArmMghyqM+HNmgNqZcFWWNnNQSmBBrgl8128+pLwAgIeZLw
-0l6J3hL0JAr1ozAMpm1RGS/xj2CD8a6QFiRw+9wAgL9eY3DAdognRwtwLJlW6zq3
-nj2VF+7+R6LhZGxqub8TnxUZLSdlop3wn9ZuAnTRZjjhPq2iidr4iYPWYsGqo+j5
-svVy+eYILC3/Y6X31PpT2OXujQXkrrCGlONZz2ieOMTLSLNQhL8pZh8tkJB9s/F5
-U60+SPDeI7yrVh6k5/iCldI5JHQyjXAmHza4R6BzKTc6kgSDvUlzrVOZxw1aaGy+
-EFLE4qdwQYEPaeRMZ+XVpSUbf3dGUw==
-=Rrao
------END PGP SIGNATURE-----
-
---NU0Ex4SbNnrxsi6C--
