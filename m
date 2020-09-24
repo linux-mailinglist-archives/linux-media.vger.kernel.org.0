@@ -2,76 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 409D227707B
-	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 14:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06405277089
+	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 14:01:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727480AbgIXMAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Sep 2020 08:00:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53220 "EHLO mx2.suse.de"
+        id S1727629AbgIXMBX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Sep 2020 08:01:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39402 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727437AbgIXMAT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Sep 2020 08:00:19 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600948818;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=7YAo6nKT6+itwlQyBkZk599IkJ9DvBCbffApv9QwI80=;
-        b=A5d1oFXmn7eUTKcg2Pz7XPXCr5u6/5JnDhEOGKEuvnO4iJ3PLgCzGRWBWo4OpWZdvoOMSz
-        vC9POWgIG9yYMFjbiPrap4TJCaRJLLko2/JF4vGgO001H/jTQ5/Q0QEYCPoDVzpAWmj/S4
-        KiwTvA+sCXFvicDO0s66IYbes20bm1A=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 16AF8AEC8;
-        Thu, 24 Sep 2020 12:00:18 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     mchehab@kernel.org, sean@mess.org, linux-media@vger.kernel.org,
-        yangyingliang@huawei.com
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH] flexcop-usb: sanity checking of endpoint type
-Date:   Thu, 24 Sep 2020 13:37:40 +0200
-Message-Id: <20200924113740.23319-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.26.2
+        id S1727437AbgIXMBV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Sep 2020 08:01:21 -0400
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 836822344C;
+        Thu, 24 Sep 2020 12:01:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600948880;
+        bh=HU8qADua3DwTMUM/LSsTZxoTz6rCKqo/o3hbYAopC/s=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WxQWSWqRgzYY8HO+TreB3OuLJ9iakIp3SGNpSEYe/XQgXId1zWXwopHY2n/kEDZ+s
+         i+Wx5AWrR+ZB2EvOkDO/qcgSL7VNQm2Gdp3eN2aR4amKyjnWpd+Au3XAzuYwC6prtQ
+         gduF7L8fm9vxyjmfjYoj+lvhx4iFNcxPcWdkDj2E=
+Received: by mail-ed1-f42.google.com with SMTP id i1so3120324edv.2;
+        Thu, 24 Sep 2020 05:01:20 -0700 (PDT)
+X-Gm-Message-State: AOAM5327wSpgScGo1OLzBKY7vocH9QdGnC6kwG3rgAwuFckU/LFODFVV
+        nwwd8TirpiUIMw/5w+nC6LhhKTEtvbZCZtHkon8=
+X-Google-Smtp-Source: ABdhPJwYWf7S71P6B5TCnILlClq4OhXhKx8rUJ1AR0ObjVZQAvaeYChg1+r/Lt9rkGb65LLiDd6+v4rSNkFn3wrInKY=
+X-Received: by 2002:aa7:da16:: with SMTP id r22mr667038eds.132.1600948879064;
+ Thu, 24 Sep 2020 05:01:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200917193702.31347-1-dmurphy@ti.com>
+In-Reply-To: <20200917193702.31347-1-dmurphy@ti.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Thu, 24 Sep 2020 14:01:06 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPc_K-T95MY84qGX6ERi4OmVVGXSkH3XCKqF84qvak_Eqg@mail.gmail.com>
+Message-ID: <CAJKOXPc_K-T95MY84qGX6ERi4OmVVGXSkH3XCKqF84qvak_Eqg@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Remove Andrew F Davis from list
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     sre@kernel.org, sumit.semwal@linaro.org, linux-pm@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make sure the endpoint is ISOC in and do not hard code USB_DIR_IN.
+On Thu, 17 Sep 2020 at 22:02, Dan Murphy <dmurphy@ti.com> wrote:
+>
+> Andrews TI email is no longer valid and he indicated that it is
+> OK to remove him from the MAINTAINERS file for the DMA HEAPS FRAMEWORK.
+>
+> For the BQ27xxx list I replaced Andrews email with mine.
+>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  MAINTAINERS | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/media/usb/b2c2/flexcop-usb.c | 2 ++
- drivers/media/usb/b2c2/flexcop-usb.h | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
-index e3234d169065..e4da32771379 100644
---- a/drivers/media/usb/b2c2/flexcop-usb.c
-+++ b/drivers/media/usb/b2c2/flexcop-usb.c
-@@ -513,6 +513,8 @@ static int flexcop_usb_init(struct flexcop_usb *fc_usb)
- 
- 	if (fc_usb->uintf->cur_altsetting->desc.bNumEndpoints < 1)
- 		return -ENODEV;
-+	if (!usb_endpoint_is_isoc_in(&fc_usb->uintf->cur_altsetting->endpoint[1].desc))
-+		return -ENODEV;
- 
- 	switch (fc_usb->udev->speed) {
- 	case USB_SPEED_LOW:
-diff --git a/drivers/media/usb/b2c2/flexcop-usb.h b/drivers/media/usb/b2c2/flexcop-usb.h
-index e86faa0e06ca..2f230bf72252 100644
---- a/drivers/media/usb/b2c2/flexcop-usb.h
-+++ b/drivers/media/usb/b2c2/flexcop-usb.h
-@@ -15,7 +15,7 @@
- 
- #define B2C2_USB_CTRL_PIPE_IN usb_rcvctrlpipe(fc_usb->udev, 0)
- #define B2C2_USB_CTRL_PIPE_OUT usb_sndctrlpipe(fc_usb->udev, 0)
--#define B2C2_USB_DATA_PIPE usb_rcvisocpipe(fc_usb->udev, 0x81)
-+#define B2C2_USB_DATA_PIPE usb_rcvisocpipe(fc_usb->udev, 1)
- 
- struct flexcop_usb {
- 	struct usb_device *udev;
--- 
-2.26.2
-
+Best regards,
+Krzysztof
