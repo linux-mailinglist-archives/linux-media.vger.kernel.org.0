@@ -2,90 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04DB82777F7
-	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 19:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFA7A277834
+	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 20:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728626AbgIXRm0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Sep 2020 13:42:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59520 "EHLO
+        id S1728626AbgIXSEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Sep 2020 14:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728621AbgIXRm0 (ORCPT
+        with ESMTP id S1726477AbgIXSEC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Sep 2020 13:42:26 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA0F7C0613D3
-        for <linux-media@vger.kernel.org>; Thu, 24 Sep 2020 10:42:25 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id n133so242269qkn.11
-        for <linux-media@vger.kernel.org>; Thu, 24 Sep 2020 10:42:25 -0700 (PDT)
+        Thu, 24 Sep 2020 14:04:02 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F243C0613CE
+        for <linux-media@vger.kernel.org>; Thu, 24 Sep 2020 11:04:02 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id w2so323065wmi.1
+        for <linux-media@vger.kernel.org>; Thu, 24 Sep 2020 11:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ufQSouJEr6iOhClGNkcFys0+GmEFSbJ326GsTOQ2uLs=;
-        b=nOuIzwWdqsKX//nOnPPcem2yIWA2yfus/bkl7atiAWOGJyts9EJzkywbm3/178bHdP
-         GIu7YfCjro+GjducZXySGvlhKxo41hPz9qqgcCspT6ybspy4HJUpojHUeGNViEOVcXNy
-         fO4CPjviAUOJPD8GxRMJF/DjJv6o/GlXwBkFaw7FJkBLnqMk5te1Fje9KkBzlkM5704K
-         u2h3MKqbKzCIz7wJJPZiCHE15+a7tl6pKs8EgAMJiWPXX2n+81eU4hO3BQ5Ha40yYxla
-         zTxeG4CNde9VZn0X6xyGpVZFPsqxt645OZjRsdX1PUkGvsz7HtBTIrUXZkdOKL1mPt+k
-         BKhA==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NZUqV6Bvzd8cGlLiOqTGcuZ1Yef+3Qfd3N7B6yq5MdA=;
+        b=HB2Z7wdE+cy1f1BINbMce7aOoq/uiu1TMnlcSs9JQDre4pgVVzO6fdURIEYL6hrLNo
+         5/wIatPv3/aPCtjtNm033NNIiRbiqrOnzOENMUWs1pt0zSxlB7K2+EQD3a7BhmZb0/jI
+         SC0/Yv55lCa605Gfww5F6gCt2rf6u6qGyc5WltCIuGLVIloM+iIFih7Znq7Znz0gVNwg
+         9gpmacAJRU7YnapRhXS/qASNua3g9xSm1/LOgoj9CznLwjPNN/duVoIRAWZOWELTwSZU
+         qrw8Mk1WbhDZW3G11MFQo2cq4Xpu0Yj5oaANHWvCZAsLR/YsBGeqtTymAHIApAEUtvqL
+         1ZPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ufQSouJEr6iOhClGNkcFys0+GmEFSbJ326GsTOQ2uLs=;
-        b=jN/wcSslwujLvHWlV2fKIa/VXTlPFzpJtVn+KsbDfFraaTTPrRU+uCm6xXg1omE97L
-         eOGxVQz5bR2c8Uc2EMPh+Crv+X6kR4dzbsMbwyJLCYdEDhtHclcLHKSUzzJDZQIqipLS
-         nWXo1D8slq7ocEE1Dddwu4HKALd96vyOSar72PHD2QkbRXXQ4PMnRXum19KskWEowSNl
-         2rtDstGKzEd0c7Zj1dwoKCShHiMeGWqNpziItnnzFopg3W+zshNynVjt3cSORWWXb+1e
-         SvIwnvn5UmeIoSLlwoTTLfMmCVhpEv1DoepUYKyPbkIuraELfJaHtHfOWYmR9oS1rqgf
-         jQOg==
-X-Gm-Message-State: AOAM530Hl90YFCbbicn+PCHCohdk85q6IaXWhj59xIjodl6VlHmrNY/J
-        KC009KWnWM3wbkCKc3oWHJ1ZcgOtyTV/jlFE
-X-Google-Smtp-Source: ABdhPJy3+e6AffcDB4O9E1FMQxXBkkIU1OHmqDYWUevKy9OJXSv9xTsK0X7FvrcZqGkh92CxjFaiRg==
-X-Received: by 2002:a37:5fc6:: with SMTP id t189mr231569qkb.78.1600969344786;
-        Thu, 24 Sep 2020 10:42:24 -0700 (PDT)
-Received: from skullcanyon (marriott-chateau-champlain-montreal.sites.intello.com. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id a24sm85243qko.82.2020.09.24.10.42.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NZUqV6Bvzd8cGlLiOqTGcuZ1Yef+3Qfd3N7B6yq5MdA=;
+        b=dewgssNfnQRyBe4L4nG3sV7upyta7yFk9x9moj8nHKn6uS4prrRslLDYwMTBKfPSv2
+         uJWgCSB3V/29WVppp3NMJjI1mwTtmw64t7LZVZy/JwHrOdT1PTq5KSNPYbTut921xmDv
+         Aq8b8puSQji8SUfXc07o7QpH+HiZcLftvNHXw7eHdBhngluFTHtFGTWuLMfePtSJsyxq
+         BziwEbKPO812yXntnnoKFQN/WC27g6yywLTSwSv1YPnKDyjOAM+ZGMOIPcO4jC3Il0yz
+         77aJtO0RzVM7kKfnqy1e26aIbfmqEOAW53qAnPTdwg5j1bBJrNpMpQAjKKE21Zw3Iq8i
+         ItNw==
+X-Gm-Message-State: AOAM532Wq22MtYytFtLNfP0a4Srmsm2tERVs43O+KusIAMKQONr7hb7f
+        OleIxolpaO60qmZvnYI1eRs76g==
+X-Google-Smtp-Source: ABdhPJxgdbm5WtFN36J7bm9N5ZXswxOvraqE3+QPtP6NridZqs70Eg1VUO0GwuKYSQ84Q+b1z4edDw==
+X-Received: by 2002:a1c:a987:: with SMTP id s129mr406580wme.38.1600970641058;
+        Thu, 24 Sep 2020 11:04:01 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id n66sm94350wmb.35.2020.09.24.11.03.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2020 10:42:24 -0700 (PDT)
-Message-ID: <871d369fc987ac7cc24bdab9bc9df9fadf939c01.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 0/2] Add new controls for QP and layer bitrate
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@collabora.com, stanimir.varbanov@linaro.org,
-        vgarodia@codeaurora.org, majja@codeaurora.org
-Date:   Thu, 24 Sep 2020 13:42:22 -0400
-In-Reply-To: <1600693440-3015-1-git-send-email-dikshita@codeaurora.org>
-References: <1600693440-3015-1-git-send-email-dikshita@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+        Thu, 24 Sep 2020 11:04:00 -0700 (PDT)
+Date:   Thu, 24 Sep 2020 20:03:58 +0200
+From:   LABBE Corentin <clabbe@baylibre.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     gregkh@linuxfoundation.org, laurent.pinchart@skynet.be,
+        mchehab@kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH RFT/RFC 37/49] staging: media: zoran: add fallthrough
+ keyword
+Message-ID: <20200924180358.GA26916@Red>
+References: <1600683624-5863-1-git-send-email-clabbe@baylibre.com>
+ <1600683624-5863-38-git-send-email-clabbe@baylibre.com>
+ <20200921105945.GC4282@kadam>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200921105945.GC4282@kadam>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 21 septembre 2020 à 18:33 +0530, Dikshita Agarwal a écrit :
-> This series adds frame specific min/max qp controls for hevc and layer
-> wise bitrate control for h264.
+On Mon, Sep 21, 2020 at 01:59:45PM +0300, Dan Carpenter wrote:
+> On Mon, Sep 21, 2020 at 10:20:12AM +0000, Corentin Labbe wrote:
+> > This patch adds fallthrough keyword where appropriate.
+> > 
+> > Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> > ---
+> >  drivers/staging/media/zoran/zoran_device.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
+> > index 9558bafdde7d..7634d94f9359 100644
+> > --- a/drivers/staging/media/zoran/zoran_device.c
+> > +++ b/drivers/staging/media/zoran/zoran_device.c
+> > @@ -268,7 +268,9 @@ static void zr36057_adjust_vfe(struct zoran *zr, enum zoran_codec_mode mode)
+> >  		btwrite(reg, ZR36057_VFEHCR);
+> >  		break;
+> >  	case BUZ_MODE_MOTION_COMPRESS:
+> > +		fallthrough;
+> >  	case BUZ_MODE_IDLE:
+> > +		fallthrough;
+> >  	default:
+> 
+> Hopefully, we don't need fallthrough labels for empty switch statements
+> like this?
+> 
 
-Any chance you could append your driver changes with this set ? I don't
-think new APIs ever make it without a driver using it.
+I have removed this patch and nothing warn about fallthrough missing.
+But this is strange, if I have added them, it is because something (checkpatch ?) complained.
 
-> 
-> Chnage since v1:
->  corrected email.
-> 
-> Dikshita Agarwal (2):
->   media: v4l2-ctrl: Add frame-specific min/max qp controls for hevc
->   media: v4l2-ctrl: Add layer wise bitrate controls for h264
-> 
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 74 +++++++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls.c               | 15 +++++
->  include/uapi/linux/v4l2-controls.h                 | 17 +++++
->  3 files changed, 104 insertions(+), 2 deletions(-)
-> 
+Anyway, nothing complains now, it is cleaner without them.
 
+Thanks
