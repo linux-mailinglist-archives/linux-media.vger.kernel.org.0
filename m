@@ -2,60 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B02C277689
-	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 18:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA972277688
+	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 18:22:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727127AbgIXQVz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Sep 2020 12:21:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45042 "EHLO mail.kernel.org"
+        id S1727213AbgIXQV4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Sep 2020 12:21:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45052 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726820AbgIXQVx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Sep 2020 12:21:53 -0400
+        id S1726920AbgIXQVy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Sep 2020 12:21:54 -0400
 Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 543FA2388A;
+        by mail.kernel.org (Postfix) with ESMTPSA id 65360238E3;
         Thu, 24 Sep 2020 16:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1600964512;
-        bh=Dvw5LR3MifupI5h1qiwngS30RsLM801eZYLlmWV7fiA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=xOlFKdnpn2iE8ufAr8OWdW6HcvAx9ln0T3DTC6dJzpicGrcb+MdP84ZVDDWY/Kyr5
-         HFMBF64jiSEIUONj0sNGNtzhzdoEHe/9azGpzmPomD7SRwMOeSAtZnOUbEN2nXFmDZ
-         iMwKVJ3vPzfzlKUpxa8n3X7KI3KQAsunc/y3nwn0=
+        bh=fZb0WAkhIOJYGMIE0DNiH6HvToS3PalPfw+58BUUPo8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HjPWoo7wCN14VtYNJM7M02uXZRDXhROAOkqOwSVG8fXDbr3DMkwegL+AIKSTOmakB
+         5X+B/ZJwzt/6q1mXS06q8sJR0N1JTjoV/0LXqkbl2A4eFOIuL5I+f5WtNCGrcZJqfx
+         nwhP89e4V/gg3eTXrQA/2nVYTNorB4AoMxoWjsYI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kLU0E-000KGa-3s; Thu, 24 Sep 2020 18:21:50 +0200
+        id 1kLU0E-000KGe-6E; Thu, 24 Sep 2020 18:21:50 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Helen Koike <helen.koike@collabora.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jian-Jia Su <jjsu@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
-Subject: [PATCH v2 0/5] docs: cdomain.py: add support for two new Sphinx  3.1+ tags
-Date:   Thu, 24 Sep 2020 18:21:44 +0200
-Message-Id: <cover.1600963096.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 2/5] media: docs: make CEC documents compatible with Sphinx 3.1+
+Date:   Thu, 24 Sep 2020 18:21:46 +0200
+Message-Id: <4dce88f0cb555c79f71006bf9e62e209144762bb.1600963096.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1600963096.git.mchehab+huawei@kernel.org>
+References: <cover.1600963096.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -63,345 +46,657 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jon,
+Sphinx 3.x broke support for the cdomain.py extension, as the
+c domain code was rewritten. Due to that, the c tags need to
+be re-written, in order to use the new c domain notation.
 
-That's she second version of the patch series fixing stuff
-at media docs with Sphinx 3.1
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../media/cec/cec-func-close.rst              | 10 +++-------
+ .../media/cec/cec-func-ioctl.rst              | 11 ++++------
+ .../userspace-api/media/cec/cec-func-open.rst | 10 +++-------
+ .../userspace-api/media/cec/cec-func-poll.rst | 14 +++++--------
+ .../media/cec/cec-ioc-adap-g-caps.rst         | 10 +++++-----
+ .../media/cec/cec-ioc-adap-g-conn-info.rst    | 11 +++++-----
+ .../media/cec/cec-ioc-adap-g-log-addrs.rst    | 20 ++++++++-----------
+ .../media/cec/cec-ioc-adap-g-phys-addr.rst    | 15 +++++++-------
+ .../media/cec/cec-ioc-dqevent.rst             | 15 +++++---------
+ .../media/cec/cec-ioc-g-mode.rst              | 16 +++++++--------
+ .../media/cec/cec-ioc-receive.rst             | 18 ++++++++---------
+ 11 files changed, 63 insertions(+), 87 deletions(-)
 
-Patch 1 is identical to the first version. As described before,
-it  adds support at cdomain.py for two notations found on
-Sphinx 3.1:
-
-	:c:expr:
-	.. c:namespace::
-
-The remaining patches remove the cdomain.py dependency from
-the userspace-api/media, making them to produce a decent
-result with both Sphinx 1.x/2.x and 3.1+.
-
-While at the first version, I did the CEC conversion manually, for
-this new version, I wrote a perl script that does the conversion
-automatically:
-
-<script>
-#!/bin/perl
-use strict;
-
-my $namespace = shift or die "need a namespace";
-my $file = shift or die "need a file name";
-
-my $header = 1;
-my $check_next;
-my $changes;
-
-my $out;
-
-open IN, $file;
-while (<IN>) {
-	if ($header) {
-		if (!m/^\.\.\s+_\S+:/) {
-			if (m/^\.\./) {
-				$out .= $_;
-				next;
-			}
-		}
-		$out .= "\.\. c:namespace:: $namespace\n\n";
-		$out .=  $_;
-		$header = 0;
-		next;
-	}
-
-	# Replace :c:func
-	if (s/:c:func:`(\S+) \<\S+\>`/:c:func:`$1`/g) {
-		$out .=  $_;
-		$changes = 1;
-		next;
-	}
-	if (s/:ref:`(poll|open|close|select|mmap|munmap|read|write)\s*\(\)\s+\<\S+\>`/:c:func:`$1()`/g) {
-		$out .=  $_;
-		$changes = 1;
-		next;
-	}
-
-	next if ($check_next && m/^\s+:name:\s+\S+$/);
-
-	if (m/\.\. c:function::\s*int\s+(ioctl)\s*\(\s*([^\)]+),\s*([^\,]+),\s*([^\,]+) \)/
-	    || m/\.\. c:function::\s*int\s+(ioctl)\s*\(\s*([^\,]+),\s*([^\,]+),\s*([^\,]+)\)/) {
-		$check_next = 1;
-		my $arg0 = $1;
-		my $arg1 = $2;
-		my $arg2 = $3;
-		my $arg3 = $4;
-
-		$out .=  ".. c:macro:: $arg2\n\n" if ($arg2 =~ m/^[A-Z_]+$/);
-		$out .=  "``int`` :c:expr:`$arg0($arg1, $arg2, $arg3)`\n";
-		$changes = 1;
-		next;
-	}
-
-	if (m/\.\. c:function:: int\s+(ioctl)\s*\(\s*([^\)]+),\s*([^\,]+) \)/
-	    || m/\.\. c:function:: int\s+(ioctl)\s*\(\s*([^\,]+),\s*([^\,]+)\)/) {
-		$check_next = 1;
-		my $arg0 = $1;
-		my $arg1 = $2;
-		my $arg2 = $3;
-
-		$out .=  ".. c:macro:: $arg2\n\n" if ($arg2 =~ m/^[A-Z_]+$/);
-		$out .=  "``int`` :c:expr:`$arg0($arg1, $arg2)`\n";
-		$changes = 1;
-		next;
-	}
-
-	if (m/\.\. c:function:: /) {
-		$out .=  $_;
-		$changes = 1;
-		$check_next = 1;
-		next;
-	}
-
-	$out .=  $_;
-}
-close IN;
-
-$out =~ s/\n\n\n/\n\n/g;
-
-if ($changes) {
-	open OUT, ">$file";
-	print OUT $out;
-	close OUT;
-}
-</script>
-
-And manually adjusted some issues:
-  - there were a \*argp on some CEC functions;
-  - there were some audio C prototypes with bugs. Sphinx 3.2
-    reported the issue and I manually fixed them.
-
-It should be noticed that the DVB namespace has actually several
-sub-namespaces (audio, video, dmx, ca, net and fe), as it contains
-different APIs for each type of device. 
-
-I'll try to address tomorrow the remaing warnings with Sphinx 3.2.
-
-Mauro Carvalho Chehab (5):
-  docs: cdomain.py: add support for two new Sphinx 3.1+ tags
-  media: docs: make CEC documents compatible with Sphinx 3.1+
-  media: docs: make V4L documents more compatible with Sphinx 3.1+
-  media: docs: make DVB documents more compatible with Sphinx 3.1+
-  media: docs: make MC documents more compatible with Sphinx 3.1+
-
- Documentation/sphinx/cdomain.py               | 56 +++++++++++++-
- .../media/cec/cec-func-close.rst              | 10 +--
- .../media/cec/cec-func-ioctl.rst              | 11 +--
- .../userspace-api/media/cec/cec-func-open.rst | 10 +--
- .../userspace-api/media/cec/cec-func-poll.rst | 14 ++--
- .../media/cec/cec-ioc-adap-g-caps.rst         | 10 +--
- .../media/cec/cec-ioc-adap-g-conn-info.rst    | 11 +--
- .../media/cec/cec-ioc-adap-g-log-addrs.rst    | 20 ++---
- .../media/cec/cec-ioc-adap-g-phys-addr.rst    | 15 ++--
- .../media/cec/cec-ioc-dqevent.rst             | 15 ++--
- .../media/cec/cec-ioc-g-mode.rst              | 16 ++--
- .../media/cec/cec-ioc-receive.rst             | 18 ++---
- .../dvb/audio-bilingual-channel-select.rst    |  7 +-
- .../media/dvb/audio-channel-select.rst        |  8 +-
- .../media/dvb/audio-clear-buffer.rst          |  8 +-
- .../media/dvb/audio-continue.rst              |  7 +-
- .../userspace-api/media/dvb/audio-fclose.rst  |  7 +-
- .../userspace-api/media/dvb/audio-fopen.rst   |  7 +-
- .../userspace-api/media/dvb/audio-fwrite.rst  |  7 +-
- .../media/dvb/audio-get-capabilities.rst      |  8 +-
- .../media/dvb/audio-get-status.rst            |  8 +-
- .../userspace-api/media/dvb/audio-pause.rst   |  9 +--
- .../userspace-api/media/dvb/audio-play.rst    |  7 +-
- .../media/dvb/audio-select-source.rst         |  8 +-
- .../media/dvb/audio-set-av-sync.rst           |  8 +-
- .../media/dvb/audio-set-bypass-mode.rst       |  9 +--
- .../userspace-api/media/dvb/audio-set-id.rst  |  9 +--
- .../media/dvb/audio-set-mixer.rst             |  9 +--
- .../media/dvb/audio-set-mute.rst              |  8 +-
- .../media/dvb/audio-set-streamtype.rst        | 10 +--
- .../userspace-api/media/dvb/audio-stop.rst    |  9 +--
- .../userspace-api/media/dvb/ca-fclose.rst     |  7 +-
- .../userspace-api/media/dvb/ca-fopen.rst      |  7 +-
- .../userspace-api/media/dvb/ca-get-cap.rst    |  8 +-
- .../media/dvb/ca-get-descr-info.rst           |  9 ++-
- .../userspace-api/media/dvb/ca-get-msg.rst    | 10 +--
- .../media/dvb/ca-get-slot-info.rst            |  9 +--
- .../userspace-api/media/dvb/ca-reset.rst      |  9 +--
- .../userspace-api/media/dvb/ca-send-msg.rst   |  9 +--
- .../userspace-api/media/dvb/ca-set-descr.rst  |  8 +-
- .../userspace-api/media/dvb/dmx-add-pid.rst   | 10 +--
- .../userspace-api/media/dvb/dmx-expbuf.rst    | 11 +--
- .../userspace-api/media/dvb/dmx-fclose.rst    |  9 +--
- .../userspace-api/media/dvb/dmx-fopen.rst     |  5 +-
- .../userspace-api/media/dvb/dmx-fread.rst     |  7 +-
- .../userspace-api/media/dvb/dmx-fwrite.rst    |  6 +-
- .../media/dvb/dmx-get-pes-pids.rst            | 12 ++-
- .../userspace-api/media/dvb/dmx-get-stc.rst   | 12 ++-
- .../userspace-api/media/dvb/dmx-mmap.rst      | 15 ++--
- .../userspace-api/media/dvb/dmx-munmap.rst    | 14 ++--
- .../userspace-api/media/dvb/dmx-qbuf.rst      | 17 ++---
- .../userspace-api/media/dvb/dmx-querybuf.rst  |  9 +--
- .../media/dvb/dmx-remove-pid.rst              | 10 +--
- .../userspace-api/media/dvb/dmx-reqbufs.rst   |  9 +--
- .../media/dvb/dmx-set-buffer-size.rst         | 10 +--
- .../media/dvb/dmx-set-filter.rst              | 12 ++-
- .../media/dvb/dmx-set-pes-filter.rst          | 13 +---
- .../userspace-api/media/dvb/dmx-start.rst     | 11 +--
- .../userspace-api/media/dvb/dmx-stop.rst      |  9 +--
- .../media/dvb/fe-diseqc-recv-slave-reply.rst  |  9 +--
- .../media/dvb/fe-diseqc-reset-overload.rst    |  9 +--
- .../media/dvb/fe-diseqc-send-burst.rst        | 10 +--
- .../media/dvb/fe-diseqc-send-master-cmd.rst   |  9 +--
- .../dvb/fe-dishnetwork-send-legacy-cmd.rst    | 10 +--
- .../media/dvb/fe-enable-high-lnb-voltage.rst  | 10 +--
- .../userspace-api/media/dvb/fe-get-event.rst  | 12 +--
- .../media/dvb/fe-get-frontend.rst             | 12 +--
- .../userspace-api/media/dvb/fe-get-info.rst   | 11 +--
- .../media/dvb/fe-get-property.rst             | 15 ++--
- .../userspace-api/media/dvb/fe-read-ber.rst   |  9 +--
- .../media/dvb/fe-read-signal-strength.rst     |  9 +--
- .../userspace-api/media/dvb/fe-read-snr.rst   |  9 +--
- .../media/dvb/fe-read-status.rst              | 11 +--
- .../media/dvb/fe-read-uncorrected-blocks.rst  |  9 +--
- .../media/dvb/fe-set-frontend-tune-mode.rst   | 10 +--
- .../media/dvb/fe-set-frontend.rst             | 11 +--
- .../userspace-api/media/dvb/fe-set-tone.rst   | 10 +--
- .../media/dvb/fe-set-voltage.rst              | 10 +--
- .../media/dvb/frontend_f_close.rst            |  8 +-
- .../media/dvb/frontend_f_open.rst             | 10 +--
- .../userspace-api/media/dvb/net-add-if.rst    |  9 +--
- .../userspace-api/media/dvb/net-get-if.rst    | 10 +--
- .../userspace-api/media/dvb/net-remove-if.rst | 10 +--
- .../media/dvb/video-clear-buffer.rst          |  8 +-
- .../userspace-api/media/dvb/video-command.rst | 10 +--
- .../media/dvb/video-continue.rst              |  8 +-
- .../media/dvb/video-fast-forward.rst          | 10 +--
- .../userspace-api/media/dvb/video-fclose.rst  |  6 +-
- .../userspace-api/media/dvb/video-fopen.rst   |  6 +-
- .../userspace-api/media/dvb/video-freeze.rst  |  8 +-
- .../userspace-api/media/dvb/video-fwrite.rst  |  6 +-
- .../media/dvb/video-get-capabilities.rst      |  8 +-
- .../media/dvb/video-get-event.rst             |  8 +-
- .../media/dvb/video-get-frame-count.rst       |  8 +-
- .../userspace-api/media/dvb/video-get-pts.rst |  8 +-
- .../media/dvb/video-get-size.rst              |  8 +-
- .../media/dvb/video-get-status.rst            |  7 +-
- .../userspace-api/media/dvb/video-play.rst    |  8 +-
- .../media/dvb/video-select-source.rst         |  7 +-
- .../media/dvb/video-set-blank.rst             |  8 +-
- .../media/dvb/video-set-display-format.rst    |  8 +-
- .../media/dvb/video-set-format.rst            |  9 +--
- .../media/dvb/video-set-streamtype.rst        |  8 +-
- .../media/dvb/video-slowmotion.rst            | 10 +--
- .../media/dvb/video-stillpicture.rst          |  8 +-
- .../userspace-api/media/dvb/video-stop.rst    |  8 +-
- .../media/dvb/video-try-command.rst           |  8 +-
- .../media/mediactl/media-func-close.rst       | 10 +--
- .../media/mediactl/media-func-ioctl.rst       | 10 +--
- .../media/mediactl/media-func-open.rst        | 10 +--
- .../media/mediactl/media-ioc-device-info.rst  | 13 +---
- .../mediactl/media-ioc-enum-entities.rst      | 11 +--
- .../media/mediactl/media-ioc-enum-links.rst   | 13 +---
- .../media/mediactl/media-ioc-g-topology.rst   | 14 +---
- .../mediactl/media-ioc-request-alloc.rst      | 11 ++-
- .../media/mediactl/media-ioc-setup-link.rst   | 10 +--
- .../mediactl/media-request-ioc-queue.rst      |  7 +-
- .../mediactl/media-request-ioc-reinit.rst     |  8 +-
- .../media/mediactl/request-api.rst            |  5 +-
- .../media/mediactl/request-func-close.rst     |  8 +-
- .../media/mediactl/request-func-ioctl.rst     |  8 +-
- .../media/mediactl/request-func-poll.rst      | 12 +--
- .../userspace-api/media/v4l/buffer.rst        | 14 +---
- .../userspace-api/media/v4l/dev-capture.rst   |  7 +-
- .../userspace-api/media/v4l/dev-output.rst    |  7 +-
- .../userspace-api/media/v4l/dev-raw-vbi.rst   | 19 ++---
- .../userspace-api/media/v4l/dev-rds.rst       | 12 +--
- .../media/v4l/dev-sliced-vbi.rst              | 31 ++------
- .../userspace-api/media/v4l/diff-v4l.rst      | 39 ++--------
- .../userspace-api/media/v4l/dmabuf.rst        |  8 +-
- .../userspace-api/media/v4l/format.rst        |  7 +-
- .../userspace-api/media/v4l/func-close.rst    |  8 +-
- .../userspace-api/media/v4l/func-ioctl.rst    | 10 +--
- .../userspace-api/media/v4l/func-mmap.rst     | 18 ++---
- .../userspace-api/media/v4l/func-munmap.rst   | 14 ++--
- .../userspace-api/media/v4l/func-open.rst     | 14 ++--
- .../userspace-api/media/v4l/func-poll.rst     | 40 +++++-----
- .../userspace-api/media/v4l/func-read.rst     | 39 +++++-----
- .../userspace-api/media/v4l/func-select.rst   | 42 +++++-----
- .../userspace-api/media/v4l/func-write.rst    | 13 ++--
- .../userspace-api/media/v4l/hist-v4l2.rst     | 76 +------------------
- Documentation/userspace-api/media/v4l/io.rst  |  6 +-
- .../media/v4l/libv4l-introduction.rst         | 30 ++++----
- .../userspace-api/media/v4l/mmap.rst          | 26 +++----
- .../userspace-api/media/v4l/open.rst          | 15 ++--
- Documentation/userspace-api/media/v4l/rw.rst  | 18 ++---
- .../userspace-api/media/v4l/streaming-par.rst |  5 +-
- .../userspace-api/media/v4l/userp.rst         | 11 +--
- .../media/v4l/vidioc-create-bufs.rst          | 11 +--
- .../media/v4l/vidioc-cropcap.rst              | 11 +--
- .../media/v4l/vidioc-dbg-g-chip-info.rst      | 13 +---
- .../media/v4l/vidioc-dbg-g-register.rst       | 18 ++---
- .../media/v4l/vidioc-decoder-cmd.rst          | 19 ++---
- .../media/v4l/vidioc-dqevent.rst              | 19 +----
- .../media/v4l/vidioc-dv-timings-cap.rst       | 17 ++---
- .../media/v4l/vidioc-encoder-cmd.rst          | 25 +++---
- .../media/v4l/vidioc-enum-dv-timings.rst      | 16 ++--
- .../media/v4l/vidioc-enum-fmt.rst             | 12 +--
- .../media/v4l/vidioc-enum-frameintervals.rst  | 15 +---
- .../media/v4l/vidioc-enum-framesizes.rst      | 16 +---
- .../media/v4l/vidioc-enum-freq-bands.rst      | 12 +--
- .../media/v4l/vidioc-enumaudio.rst            | 10 +--
- .../media/v4l/vidioc-enumaudioout.rst         | 10 +--
- .../media/v4l/vidioc-enuminput.rst            | 14 +---
- .../media/v4l/vidioc-enumoutput.rst           | 13 +---
- .../media/v4l/vidioc-enumstd.rst              | 23 ++----
- .../userspace-api/media/v4l/vidioc-expbuf.rst | 14 +---
- .../media/v4l/vidioc-g-audio.rst              | 18 ++---
- .../media/v4l/vidioc-g-audioout.rst           | 16 ++--
- .../userspace-api/media/v4l/vidioc-g-crop.rst | 16 ++--
- .../userspace-api/media/v4l/vidioc-g-ctrl.rst | 16 ++--
- .../media/v4l/vidioc-g-dv-timings.rst         | 26 +++----
- .../userspace-api/media/v4l/vidioc-g-edid.rst | 25 +++---
- .../media/v4l/vidioc-g-enc-index.rst          | 13 +---
- .../media/v4l/vidioc-g-ext-ctrls.rst          | 21 ++---
- .../userspace-api/media/v4l/vidioc-g-fbuf.rst | 18 ++---
- .../userspace-api/media/v4l/vidioc-g-fmt.rst  | 22 +++---
- .../media/v4l/vidioc-g-frequency.rst          | 16 ++--
- .../media/v4l/vidioc-g-input.rst              | 15 ++--
- .../media/v4l/vidioc-g-jpegcomp.rst           | 17 ++---
- .../media/v4l/vidioc-g-modulator.rst          | 17 ++---
- .../media/v4l/vidioc-g-output.rst             | 15 ++--
- .../userspace-api/media/v4l/vidioc-g-parm.rst | 30 +++-----
- .../media/v4l/vidioc-g-priority.rst           | 16 ++--
- .../media/v4l/vidioc-g-selection.rst          | 15 ++--
- .../media/v4l/vidioc-g-sliced-vbi-cap.rst     | 12 +--
- .../userspace-api/media/v4l/vidioc-g-std.rst  | 24 +++---
- .../media/v4l/vidioc-g-tuner.rst              | 19 ++---
- .../media/v4l/vidioc-log-status.rst           | 10 +--
- .../media/v4l/vidioc-overlay.rst              | 10 +--
- .../media/v4l/vidioc-prepare-buf.rst          | 10 +--
- .../userspace-api/media/v4l/vidioc-qbuf.rst   | 17 ++---
- .../media/v4l/vidioc-query-dv-timings.rst     | 15 ++--
- .../media/v4l/vidioc-querybuf.rst             | 10 +--
- .../media/v4l/vidioc-querycap.rst             | 16 ++--
- .../media/v4l/vidioc-queryctrl.rst            | 22 ++----
- .../media/v4l/vidioc-querystd.rst             | 15 ++--
- .../media/v4l/vidioc-reqbufs.rst              | 10 +--
- .../media/v4l/vidioc-s-hw-freq-seek.rst       | 11 +--
- .../media/v4l/vidioc-streamon.rst             | 14 ++--
- .../v4l/vidioc-subdev-enum-frame-interval.rst | 10 +--
- .../v4l/vidioc-subdev-enum-frame-size.rst     | 11 +--
- .../v4l/vidioc-subdev-enum-mbus-code.rst      | 11 +--
- .../media/v4l/vidioc-subdev-g-crop.rst        | 16 ++--
- .../media/v4l/vidioc-subdev-g-fmt.rst         | 17 ++---
- .../v4l/vidioc-subdev-g-frame-interval.rst    | 16 ++--
- .../media/v4l/vidioc-subdev-g-selection.rst   | 17 ++---
- .../media/v4l/vidioc-subdev-querycap.rst      |  9 +--
- .../media/v4l/vidioc-subscribe-event.rst      | 17 ++---
- 209 files changed, 1058 insertions(+), 1649 deletions(-)
-
+diff --git a/Documentation/userspace-api/media/cec/cec-func-close.rst b/Documentation/userspace-api/media/cec/cec-func-close.rst
+index 33c563f414a8..409e70a5f80f 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-close.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-close.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _cec-func-close:
+ 
+@@ -11,7 +12,6 @@ Name
+ 
+ cec-close - Close a cec device
+ 
+-
+ Synopsis
+ ========
+ 
+@@ -19,16 +19,13 @@ Synopsis
+ 
+     #include <unistd.h>
+ 
+-
+ .. c:function:: int close( int fd )
+-    :name: cec-close
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
+-
++    File descriptor returned by :c:func:`open()`.
+ 
+ Description
+ ===========
+@@ -36,11 +33,10 @@ Description
+ Closes the cec device. Resources associated with the file descriptor are
+ freed. The device configuration remain unchanged.
+ 
+-
+ Return Value
+ ============
+ 
+-:c:func:`close() <cec-close>` returns 0 on success. On error, -1 is returned, and
++:c:func:`close()` returns 0 on success. On error, -1 is returned, and
+ ``errno`` is set appropriately. Possible error codes are:
+ 
+ ``EBADF``
+diff --git a/Documentation/userspace-api/media/cec/cec-func-ioctl.rst b/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
+index 3b88230fad80..5b805b346026 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-ioctl.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _cec-func-ioctl:
+ 
+@@ -18,15 +19,13 @@ Synopsis
+ 
+     #include <sys/ioctl.h>
+ 
+-
+-.. c:function:: int ioctl( int fd, int request, void *argp )
+-   :name: cec-ioctl
++``int`` :c:expr:`ioctl(int fd, int request, void *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``request``
+     CEC ioctl request code as defined in the cec.h header file, for
+@@ -35,11 +34,10 @@ Arguments
+ ``argp``
+     Pointer to a request-specific structure.
+ 
+-
+ Description
+ ===========
+ 
+-The :c:func:`ioctl() <cec-ioctl>` function manipulates cec device parameters. The
++The :c:func:`ioctl()` function manipulates cec device parameters. The
+ argument ``fd`` must be an open file descriptor.
+ 
+ The ioctl ``request`` code specifies the cec function to be called. It
+@@ -51,7 +49,6 @@ their parameters are located in the cec.h header file. All cec ioctl
+ requests, their respective function and parameters are specified in
+ :ref:`cec-user-func`.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-func-open.rst b/Documentation/userspace-api/media/cec/cec-func-open.rst
+index 887bfd2a755e..d86563a34b9e 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-open.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-open.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _cec-func-open:
+ 
+@@ -18,10 +19,7 @@ Synopsis
+ 
+     #include <fcntl.h>
+ 
+-
+ .. c:function:: int open( const char *device_name, int flags )
+-   :name: cec-open
+-
+ 
+ Arguments
+ =========
+@@ -42,11 +40,10 @@ Arguments
+ 
+     Other flags have no effect.
+ 
+-
+ Description
+ ===========
+ 
+-To open a cec device applications call :c:func:`open() <cec-open>` with the
++To open a cec device applications call :c:func:`open()` with the
+ desired device name. The function has no side effects; the device
+ configuration remain unchanged.
+ 
+@@ -54,11 +51,10 @@ When the device is opened in read-only mode, attempts to modify its
+ configuration will result in an error, and ``errno`` will be set to
+ EBADF.
+ 
+-
+ Return Value
+ ============
+ 
+-:c:func:`open() <cec-open>` returns the new file descriptor on success. On error,
++:c:func:`open()` returns the new file descriptor on success. On error,
+ -1 is returned, and ``errno`` is set appropriately. Possible error codes
+ include:
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-func-poll.rst b/Documentation/userspace-api/media/cec/cec-func-poll.rst
+index 2d87136e9a3f..980bbfc0bcce 100644
+--- a/Documentation/userspace-api/media/cec/cec-func-poll.rst
++++ b/Documentation/userspace-api/media/cec/cec-func-poll.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _cec-func-poll:
+ 
+@@ -11,7 +12,6 @@ Name
+ 
+ cec-poll - Wait for some event on a file descriptor
+ 
+-
+ Synopsis
+ ========
+ 
+@@ -19,9 +19,7 @@ Synopsis
+ 
+     #include <sys/poll.h>
+ 
+-
+ .. c:function:: int poll( struct pollfd *ufds, unsigned int nfds, int timeout )
+-   :name: cec-poll
+ 
+ Arguments
+ =========
+@@ -35,14 +33,13 @@ Arguments
+ ``timeout``
+    Timeout to wait for events
+ 
+-
+ Description
+ ===========
+ 
+-With the :c:func:`poll() <cec-poll>` function applications can wait for CEC
++With the :c:func:`poll()` function applications can wait for CEC
+ events.
+ 
+-On success :c:func:`poll() <cec-poll>` returns the number of file descriptors
++On success :c:func:`poll()` returns the number of file descriptors
+ that have been selected (that is, file descriptors for which the
+ ``revents`` field of the respective struct :c:type:`pollfd`
+ is non-zero). CEC devices set the ``POLLIN`` and ``POLLRDNORM`` flags in
+@@ -53,13 +50,12 @@ then the ``POLLPRI`` flag is set. When the function times out it returns
+ a value of zero, on failure it returns -1 and the ``errno`` variable is
+ set appropriately.
+ 
+-For more details see the :c:func:`poll() <cec-poll>` manual page.
+-
++For more details see the :c:func:`poll()` manual page.
+ 
+ Return Value
+ ============
+ 
+-On success, :c:func:`poll() <cec-poll>` returns the number structures which have
++On success, :c:func:`poll()` returns the number structures which have
+ non-zero ``revents`` fields, or zero if the call timed out. On error -1
+ is returned, and the ``errno`` variable is set appropriately:
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
+index 7f25365ce0fb..4507d05689d4 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-caps.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_ADAP_G_CAPS:
+ 
+@@ -14,18 +15,18 @@ CEC_ADAP_G_CAPS - Query device capabilities
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_CAPS, struct cec_caps *argp )
+-    :name: CEC_ADAP_G_CAPS
++.. c:macro:: CEC_ADAP_G_CAPS
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_G_CAPS, struct cec_caps *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+ 
+-
+ Description
+ ===========
+ 
+@@ -62,7 +63,6 @@ returns the information to the application. The ioctl never fails.
+       - CEC Framework API version, formatted with the ``KERNEL_VERSION()``
+ 	macro.
+ 
+-
+ .. tabularcolumns:: |p{4.4cm}|p{2.5cm}|p{10.6cm}|
+ 
+ .. _cec-capabilities:
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
+index 6818ddf1495c..ae010816a5e3 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-conn-info.rst
+@@ -2,6 +2,8 @@
+ ..
+ .. Copyright 2019 Google LLC
+ ..
++.. c:namespace:: CEC
++
+ .. _CEC_ADAP_G_CONNECTOR_INFO:
+ 
+ *******************************
+@@ -16,18 +18,18 @@ CEC_ADAP_G_CONNECTOR_INFO - Query HDMI connector information
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_CONNECTOR_INFO, struct cec_connector_info *argp )
+-    :name: CEC_ADAP_G_CONNECTOR_INFO
++.. c:macro:: CEC_ADAP_G_CONNECTOR_INFO
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_G_CONNECTOR_INFO, struct cec_connector_info *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+ 
+-
+ Description
+ ===========
+ 
+@@ -57,7 +59,6 @@ is only available if the ``CEC_CAP_CONNECTOR_INFO`` capability is set.
+     * - }
+       -
+ 
+-
+ .. tabularcolumns:: |p{4.4cm}|p{2.5cm}|p{10.6cm}|
+ 
+ .. _connector-type:
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
+index 1ca893270ae9..d6f4faf024f0 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_ADAP_LOG_ADDRS:
+ .. _CEC_ADAP_G_LOG_ADDRS:
+@@ -13,21 +14,22 @@ Name
+ 
+ CEC_ADAP_G_LOG_ADDRS, CEC_ADAP_S_LOG_ADDRS - Get or set the logical addresses
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_LOG_ADDRS, struct cec_log_addrs *argp )
+-   :name: CEC_ADAP_G_LOG_ADDRS
++.. c:macro:: CEC_ADAP_G_LOG_ADDRS
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_S_LOG_ADDRS, struct cec_log_addrs *argp )
+-   :name: CEC_ADAP_S_LOG_ADDRS
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_G_LOG_ADDRS, struct cec_log_addrs *argp)`
++
++.. c:macro:: CEC_ADAP_S_LOG_ADDRS
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_S_LOG_ADDRS, struct cec_log_addrs *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+     Pointer to struct :c:type:`cec_log_addrs`.
+@@ -148,7 +150,6 @@ logical address types are already defined will return with error ``EBUSY``.
+         give the CEC framework more information about the device type, even
+         though the framework won't use it directly in the CEC message.
+ 
+-
+ .. tabularcolumns:: |p{7.8cm}|p{1.0cm}|p{8.7cm}|
+ 
+ .. _cec-log-addrs-flags:
+@@ -185,7 +186,6 @@ logical address types are already defined will return with error ``EBUSY``.
+ 
+ 	All other messages are ignored.
+ 
+-
+ .. tabularcolumns:: |p{7.8cm}|p{1.0cm}|p{8.7cm}|
+ 
+ .. _cec-versions:
+@@ -211,7 +211,6 @@ logical address types are already defined will return with error ``EBUSY``.
+       - 6
+       - CEC version according to the HDMI 2.0 standard.
+ 
+-
+ .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+ 
+ .. _cec-prim-dev-types:
+@@ -257,7 +256,6 @@ logical address types are already defined will return with error ``EBUSY``.
+       - 7
+       - Use for a video processor device.
+ 
+-
+ .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+ 
+ .. _cec-log-addr-types:
+@@ -306,7 +304,6 @@ logical address types are already defined will return with error ``EBUSY``.
+ 	Control).
+ 
+ 
+-
+ .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+ 
+ .. _cec-all-dev-types-flags:
+@@ -348,7 +345,6 @@ logical address types are already defined will return with error ``EBUSY``.
+       - This supports the CEC Switch or Video Processing type.
+ 
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
+index a10443be1b26..cc831f8a4409 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-phys-addr.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_ADAP_PHYS_ADDR:
+ .. _CEC_ADAP_G_PHYS_ADDR:
+@@ -13,21 +14,22 @@ Name
+ 
+ CEC_ADAP_G_PHYS_ADDR, CEC_ADAP_S_PHYS_ADDR - Get or set the physical address
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_G_PHYS_ADDR, __u16 *argp )
+-    :name: CEC_ADAP_G_PHYS_ADDR
++.. c:macro:: CEC_ADAP_G_PHYS_ADDR
+ 
+-.. c:function:: int ioctl( int fd, CEC_ADAP_S_PHYS_ADDR, __u16 *argp )
+-    :name: CEC_ADAP_S_PHYS_ADDR
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_G_PHYS_ADDR, __u16 *argp)`
++
++.. c:macro:: CEC_ADAP_S_PHYS_ADDR
++
++``int`` :c:expr:`ioctl(int fd, CEC_ADAP_S_PHYS_ADDR, __u16 *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+     Pointer to the CEC address.
+@@ -71,7 +73,6 @@ For example, the EDID for each HDMI input of the TV will have a
+ different physical address of the form a.0.0.0 that the sources will
+ read out and use as their physical address.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst b/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
+index 3bc81fc5a73f..be128df01069 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-dqevent.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_DQEVENT:
+ 
+@@ -11,22 +12,21 @@ Name
+ 
+ CEC_DQEVENT - Dequeue a CEC event
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_DQEVENT, struct cec_event *argp )
+-    :name: CEC_DQEVENT
++.. c:macro:: CEC_DQEVENT
++
++``int`` :c:expr:`ioctl(int fd, CEC_DQEVENT, struct cec_event *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+ 
+-
+ Description
+ ===========
+ 
+@@ -72,7 +72,6 @@ it is guaranteed that the state did change in between the two events.
+         the HDMI driver is still configuring the device or because the HDMI
+         device was unbound.
+ 
+-
+ .. c:type:: cec_event_lost_msgs
+ 
+ .. tabularcolumns:: |p{1.0cm}|p{2.0cm}|p{14.5cm}|
+@@ -94,7 +93,6 @@ it is guaranteed that the state did change in between the two events.
+ 	replied to within a second according to the CEC specification,
+ 	this is more than enough.
+ 
+-
+ .. tabularcolumns:: |p{1.0cm}|p{4.4cm}|p{2.5cm}|p{9.6cm}|
+ 
+ .. c:type:: cec_event
+@@ -130,7 +128,6 @@ it is guaranteed that the state did change in between the two events.
+     * - }
+       -
+ 
+-
+ .. tabularcolumns:: |p{5.6cm}|p{0.9cm}|p{11.0cm}|
+ 
+ .. _cec-events:
+@@ -204,7 +201,6 @@ it is guaranteed that the state did change in between the two events.
+ 	if the 5V is high, then an initial event will be generated for that
+ 	filehandle.
+ 
+-
+ .. tabularcolumns:: |p{6.0cm}|p{0.6cm}|p{10.9cm}|
+ 
+ .. _cec-event-flags:
+@@ -230,7 +226,6 @@ it is guaranteed that the state did change in between the two events.
+         This is an indication that the application cannot keep up.
+ 
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst b/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
+index 2093e373c93c..3237bbc2cda7 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-g-mode.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_MODE:
+ .. _CEC_G_MODE:
+@@ -13,17 +14,19 @@ CEC_G_MODE, CEC_S_MODE - Get or set exclusive use of the CEC adapter
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_G_MODE, __u32 *argp )
+-   :name: CEC_G_MODE
++.. c:macro:: CEC_G_MODE
+ 
+-.. c:function:: int ioctl( int fd, CEC_S_MODE, __u32 *argp )
+-   :name: CEC_S_MODE
++``int`` :c:expr:`ioctl(int fd, CEC_G_MODE, __u32 *argp)`
++
++.. c:macro:: CEC_S_MODE
++
++``int`` :c:expr:`ioctl(int fd, CEC_S_MODE, __u32 *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+     Pointer to CEC mode.
+@@ -101,7 +104,6 @@ Available initiator modes are:
+ 	then an attempt to become one will return the ``EBUSY`` error code
+ 	error.
+ 
+-
+ Available follower modes are:
+ 
+ .. tabularcolumns:: |p{6.6cm}|p{0.9cm}|p{10.0cm}|
+@@ -193,7 +195,6 @@ Available follower modes are:
+ 	the process has the ``CAP_NET_ADMIN`` capability. If that is not
+ 	set, then the ``EPERM`` error code is returned.
+ 
+-
+ Core message processing details:
+ 
+ .. tabularcolumns:: |p{6.6cm}|p{10.9cm}|
+@@ -272,7 +273,6 @@ Core message processing details:
+ 	and then just pass the message on to the follower(s).
+ 
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-receive.rst b/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
+index 9d629d46973c..1affab90310c 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-receive.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: CEC
+ 
+ .. _CEC_TRANSMIT:
+ .. _CEC_RECEIVE:
+@@ -12,21 +13,22 @@ Name
+ 
+ CEC_RECEIVE, CEC_TRANSMIT - Receive or transmit a CEC message
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, CEC_RECEIVE, struct cec_msg \*argp )
+-    :name: CEC_RECEIVE
++.. c:macro:: CEC_RECEIVE
+ 
+-.. c:function:: int ioctl( int fd, CEC_TRANSMIT, struct cec_msg \*argp )
+-    :name: CEC_TRANSMIT
++``int`` :c:expr:`ioctl(int fd, CEC_RECEIVE, struct cec_msg *argp)`
++
++.. c:macro:: CEC_TRANSMIT
++
++``int`` :c:expr:`ioctl(int fd, CEC_TRANSMIT, struct cec_msg *argp)`
+ 
+ Arguments
+ =========
+ 
+ ``fd``
+-    File descriptor returned by :c:func:`open() <cec-open>`.
++    File descriptor returned by :c:func:`open()`.
+ 
+ ``argp``
+     Pointer to struct cec_msg.
+@@ -194,7 +196,6 @@ View On' messages from initiator 0xf ('Unregistered') to destination 0 ('TV').
+ 	supports this, otherwise it is always 0. This counter is only
+ 	valid if the :ref:`CEC_TX_STATUS_ERROR <CEC-TX-STATUS-ERROR>` status bit is set.
+ 
+-
+ .. tabularcolumns:: |p{6.2cm}|p{1.0cm}|p{10.3cm}|
+ 
+ .. _cec-msg-flags:
+@@ -228,7 +229,6 @@ View On' messages from initiator 0xf ('Unregistered') to destination 0 ('TV').
+ 	capability. If that is not set, then the ``EPERM`` error code is
+ 	returned.
+ 
+-
+ .. tabularcolumns:: |p{5.6cm}|p{0.9cm}|p{11.0cm}|
+ 
+ .. _cec-tx-status:
+@@ -298,7 +298,6 @@ View On' messages from initiator 0xf ('Unregistered') to destination 0 ('TV').
+       - The transmit timed out. This should not normally happen and this
+ 	indicates a driver problem.
+ 
+-
+ .. tabularcolumns:: |p{5.6cm}|p{0.9cm}|p{11.0cm}|
+ 
+ .. _cec-rx-status:
+@@ -335,7 +334,6 @@ View On' messages from initiator 0xf ('Unregistered') to destination 0 ('TV').
+ 	reply was interrupted.
+ 
+ 
+-
+ Return Value
+ ============
+ 
 -- 
 2.26.2
-
 
