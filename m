@@ -2,71 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9421276E53
-	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 12:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72732276E3D
+	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 12:09:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727418AbgIXKML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Sep 2020 06:12:11 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39210 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727412AbgIXKML (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Sep 2020 06:12:11 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1600942329;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=auC1mwoFEid7upLtnJydziTqy0FChwmfi/F6pqCG2uU=;
-        b=QnFdb2M8akLo8Ogvn/mAujd9uJefOi9WaZqRh34lZKl+PRhlEYWSXhhC8pzTNPYiZhONmg
-        FSfB9ekE5XE63k7eDh+5KEKMOa5zNGA8dxEVgJGC2Gh0xhWYf1L8r9k9At+iylLgCRpWQS
-        OpPnnR92Aa8Gqq3OhGxemoN47WVSB40=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2268BB9A1;
-        Thu, 24 Sep 2020 10:12:47 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>, stable@vger.kernel.org,
-        Ben Hutchings <ben.hutchings@codethink.co.uk>
-Subject: [PATCHv2] usbtv: Fix refcounting mixup
-Date:   Thu, 24 Sep 2020 11:14:10 +0200
-Message-Id: <20200924091410.15693-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.26.2
+        id S1727325AbgIXKJ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Sep 2020 06:09:29 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:39229 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726597AbgIXKJ3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Sep 2020 06:09:29 -0400
+Received: from [77.244.183.192] (port=62008 helo=[192.168.178.24])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1kLOBp-000GrA-Jp; Thu, 24 Sep 2020 12:09:25 +0200
+Subject: Re: [PATCH v6 2/3] media: i2c: imx274: Remove stop stream i2c writes
+ during remove
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, hverkuil@xs4all.nl,
+        jacopo+renesas@jmondi.org, leonl@leopardimaging.com,
+        robh+dt@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1600724379-7324-1-git-send-email-skomatineni@nvidia.com>
+ <1600724379-7324-3-git-send-email-skomatineni@nvidia.com>
+ <d6be54a7-76b8-4206-0d76-6f93ec545e72@lucaceresoli.net>
+ <20200922084746.GA8644@valkosipuli.retiisi.org.uk>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <b243afda-b00f-4c0e-2eea-cc5d03cbebe7@lucaceresoli.net>
+Date:   Thu, 24 Sep 2020 12:09:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200922084746.GA8644@valkosipuli.retiisi.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The premature free in the error path is blocked by V4L
-refcounting, not USB refcounting. Thanks to
-Ben Hutchings for review.
+On 22/09/20 10:47, Sakari Ailus wrote:
+> Hi Luca,
+> 
+> On Tue, Sep 22, 2020 at 10:09:33AM +0200, Luca Ceresoli wrote:
+>> Hi,
+>>
+>> On 21/09/20 23:39, Sowjanya Komatineni wrote:
+>>> Sensor should already be in standby during remove and there is no
+>>> need to configure sensor registers for stream stop.
+>>
+>> I beg your pardon for the newbie question: does the V4L2 framework
+>> guarantee that the stream is stopped (.s_stream(..., 0)) before removing
+>> the driver?
+> 
+> It doesn't. That's however one of the lesser concerns, and I don't think
+> it'd help if drivers tried to prepare for that.
 
-[v2] corrected attributions
+Thanks for the clarification.
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Fixes: 50e704453553 ("media: usbtv: prevent double free in error case")
-CC: stable@vger.kernel.org
-Reported-by: Ben Hutchings <ben.hutchings@codethink.co.uk>
----
- drivers/media/usb/usbtv/usbtv-core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I've been working with hardware where the sensor is always powered. In
+this case, and with this patch applied, the sensor would keep producing
+frames after driver removal. This looks wrong, unless I'm overlooking
+something.
 
-diff --git a/drivers/media/usb/usbtv/usbtv-core.c b/drivers/media/usb/usbtv/usbtv-core.c
-index ee9c656d121f..2308c0b4f5e7 100644
---- a/drivers/media/usb/usbtv/usbtv-core.c
-+++ b/drivers/media/usb/usbtv/usbtv-core.c
-@@ -113,7 +113,8 @@ static int usbtv_probe(struct usb_interface *intf,
- 
- usbtv_audio_fail:
- 	/* we must not free at this point */
--	usb_get_dev(usbtv->udev);
-+	v4l2_device_get(&usbtv->v4l2_dev);
-+	/* this will undo the v4l2_device_get() */
- 	usbtv_video_free(usbtv);
- 
- usbtv_video_fail:
+BTW at first sight it looks like the framework should take care of
+stopping the stream before removal, not the individual drivers, but
+maybe there are good reasons this is not done?
+
 -- 
-2.26.2
-
+Luca
