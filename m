@@ -2,85 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72732276E3D
-	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 12:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D1A0276FC4
+	for <lists+linux-media@lfdr.de>; Thu, 24 Sep 2020 13:22:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727325AbgIXKJ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Sep 2020 06:09:29 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:39229 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726597AbgIXKJ3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Sep 2020 06:09:29 -0400
-Received: from [77.244.183.192] (port=62008 helo=[192.168.178.24])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1kLOBp-000GrA-Jp; Thu, 24 Sep 2020 12:09:25 +0200
-Subject: Re: [PATCH v6 2/3] media: i2c: imx274: Remove stop stream i2c writes
- during remove
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, hverkuil@xs4all.nl,
-        jacopo+renesas@jmondi.org, leonl@leopardimaging.com,
-        robh+dt@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1600724379-7324-1-git-send-email-skomatineni@nvidia.com>
- <1600724379-7324-3-git-send-email-skomatineni@nvidia.com>
- <d6be54a7-76b8-4206-0d76-6f93ec545e72@lucaceresoli.net>
- <20200922084746.GA8644@valkosipuli.retiisi.org.uk>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <b243afda-b00f-4c0e-2eea-cc5d03cbebe7@lucaceresoli.net>
-Date:   Thu, 24 Sep 2020 12:09:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727333AbgIXLWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Sep 2020 07:22:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49456 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726483AbgIXLWM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Sep 2020 07:22:12 -0400
+Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EB78E2396E;
+        Thu, 24 Sep 2020 11:22:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600946532;
+        bh=tSrMjh6Tp12F91iwQGjfztE81iQr93TgUJgtnz2nFkw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bSeH9EaLIUTTpJLk0icANW25BYYnoH9u2e/WtucDsWSrE5G7wiedatFCst+b/UxV6
+         s8AnEtvh0fbHz09JedBhw4QnSquf+sWgOPoH0dODQhEz1yzjGEUSjsZ25rsY0swISB
+         Fkgm6jUCLCDmmiXnQU1bej48tZ6PGjFHhzVtDsTE=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kLPKD-000AES-Fp; Thu, 24 Sep 2020 13:22:09 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 0/2] Start supporting builds with Sphinx 3.1+
+Date:   Thu, 24 Sep 2020 13:22:03 +0200
+Message-Id: <cover.1600945712.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200924090230.6f3b0ca1@coco.lan>
+References: <20200924090230.6f3b0ca1@coco.lan>
 MIME-Version: 1.0
-In-Reply-To: <20200922084746.GA8644@valkosipuli.retiisi.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/09/20 10:47, Sakari Ailus wrote:
-> Hi Luca,
-> 
-> On Tue, Sep 22, 2020 at 10:09:33AM +0200, Luca Ceresoli wrote:
->> Hi,
->>
->> On 21/09/20 23:39, Sowjanya Komatineni wrote:
->>> Sensor should already be in standby during remove and there is no
->>> need to configure sensor registers for stream stop.
->>
->> I beg your pardon for the newbie question: does the V4L2 framework
->> guarantee that the stream is stopped (.s_stream(..., 0)) before removing
->> the driver?
-> 
-> It doesn't. That's however one of the lesser concerns, and I don't think
-> it'd help if drivers tried to prepare for that.
+Hi Jon,
 
-Thanks for the clarification.
+This is a small patch series with just two patches.
 
-I've been working with hardware where the sensor is always powered. In
-this case, and with this patch applied, the sensor would keep producing
-frames after driver removal. This looks wrong, unless I'm overlooking
-something.
+The first one adds support at cdomain.py for two notations found on
+Sphinx 3.1:
 
-BTW at first sight it looks like the framework should take care of
-stopping the stream before removal, not the individual drivers, but
-maybe there are good reasons this is not done?
+	:c:expr:
+	.. c:namespace::
+
+With that, it should now be possible to use those two C domain
+tags at the media documentation, which will make it produce a
+decent result with both Sphinx 1.x/2.x and Sphinx 3.1+.
+
+The second patch manually changes the CEC documentation in
+order for it to use those macros, instead of relying at the original
+cdomain extensions.
+
+I tested building the docs with both Sphinx 2.4.4 and 3.2.1.
+They are identical, except by a minor difference:  the output of
+:c:expr: uses a bold monospaced font with 3.1+, while it uses a
+non-bold monospaced font with older versions.
+
+Yet, the output looks decent on both versions.
+
+I'm planning to use the same approach on all the other documents
+under userspace-api/media. So, I guess it would be easier if
+I could merge both the cdomain.py and the media patches via
+the media tree, if this is ok for you.
+
+-
+
+With regards to patch 1, I tried first to use a hook at 'doctree-resolved',
+just like the automarkup.py, but that is too late for  changing the
+namespace. So, I ended hooking the extra logic at 'source-read'.
+
+I suspect that this could be implemented on some other ways, but
+this can be optimized later on, if needed.
+
+Mauro Carvalho Chehab (2):
+  docs: cdomain.py: add support for two new Sphinx 3.1+ tags
+  media: docs: make CEC documents compatible with Sphinx 3.1+
+
+ Documentation/sphinx/cdomain.py               | 56 ++++++++++++++++++-
+ .../media/cec/cec-func-close.rst              |  7 ++-
+ .../media/cec/cec-func-ioctl.rst              |  7 ++-
+ .../userspace-api/media/cec/cec-func-open.rst |  7 ++-
+ .../userspace-api/media/cec/cec-func-poll.rst | 11 ++--
+ .../media/cec/cec-ioc-adap-g-caps.rst         |  9 ++-
+ .../media/cec/cec-ioc-adap-g-conn-info.rst    | 11 ++--
+ .../media/cec/cec-ioc-adap-g-log-addrs.rst    | 14 +++--
+ .../media/cec/cec-ioc-adap-g-phys-addr.rst    | 14 +++--
+ .../media/cec/cec-ioc-dqevent.rst             |  9 ++-
+ .../media/cec/cec-ioc-g-mode.rst              | 14 +++--
+ .../media/cec/cec-ioc-receive.rst             | 14 +++--
+ 12 files changed, 128 insertions(+), 45 deletions(-)
 
 -- 
-Luca
+2.26.2
+
+
