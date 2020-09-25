@@ -2,144 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF01C277C34
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 01:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EA9D277EA2
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 05:39:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726757AbgIXXLQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Sep 2020 19:11:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53662 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726557AbgIXXLP (ORCPT
+        id S1726758AbgIYDjp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Sep 2020 23:39:45 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59735 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726738AbgIYDjp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Sep 2020 19:11:15 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE77C0613CE
-        for <linux-media@vger.kernel.org>; Thu, 24 Sep 2020 16:11:15 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id w2so1063987wmi.1
-        for <linux-media@vger.kernel.org>; Thu, 24 Sep 2020 16:11:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2W5GfROT2ywvdVHXg3kVe/f8IQ60BJx7ZZO+5tSrV0o=;
-        b=xT0cYXCnnIQOO4dPaV6raNdKraovBxs6izlFewfphndLD9GXgYp2a9mk8I2U+z1vlp
-         ZsJ3qFNTXi72PQyFz7i6Yuu8onhC9rohuhw1tS8DUNHhkefE9u0B3HnWXv1mZNif+aLv
-         AkBt6fjkoErMGG9Fuly7/TOCB/JAtB2vh93MrfnvWzCwXlodmzYXf6W837Iz0j1fHwjy
-         dUhce4/dOv4XrY6kbxPQreDzi4ylLqjLh44AmfIpaz9vxJpdTW8yfwUg3yfkLmsMnsfe
-         t+nE3+aHL3N9KBR1dNcbDHajjNl0YHSktLluY2cm2ZvChkdWWy9/AoxkyITN64S3wsct
-         gwcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2W5GfROT2ywvdVHXg3kVe/f8IQ60BJx7ZZO+5tSrV0o=;
-        b=CYIploIPjyy5j6jEZoTj2ews6/Fxzc8hcV3zpMYaY8fJPHguk3r78tIc89QtBPx2UX
-         OkLs3qB1Kauyw7/ngJHdGNYzL1u+jmBoEEdgWkRik4X1owhQNV7FtkyF9VRmj29AGzkJ
-         uLOx2sJ6NnoVcg+uqKW7YSuCRYjBaTXY+VTbOeDJFjqTW0nYw/MQjgNdC3M4f+fIa5UN
-         RYe/EZD8hRtman3vJRKgg/C6dZeo+2EMlxBqfvo28z7m82HXk4tBcCI3Gr7VvcRAGpBg
-         Kmu9y4cw0axE5D9errZvxaeGUKR+9EDzNuZeh0TZYFWr3Wppw6cqMduVQgqnFID9XNFW
-         irRg==
-X-Gm-Message-State: AOAM533UmZLn2BBNt1YP/EpeIEOEp0eMV8U65ugflt9mocWD6JJZaHAv
-        bfWcTeVb8Jmuz2TjL27rdnQ81Q==
-X-Google-Smtp-Source: ABdhPJzfbymChHh9GTOGEwo12Z0OSMWzK4gS2Gg9nF+35xC/ZV142dMkNHCtIUkP+SemxI2yLaNsTw==
-X-Received: by 2002:a7b:cc09:: with SMTP id f9mr882333wmh.93.1600989074117;
-        Thu, 24 Sep 2020 16:11:14 -0700 (PDT)
-Received: from [192.168.1.7] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id g14sm676116wrv.25.2020.09.24.16.11.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2020 16:11:13 -0700 (PDT)
-Subject: Re: [PATCH v3 1/4] venus: core: change clk enable and disable order
- in resume and suspend
-To:     Mansur Alisha Shaik <mansur@codeaurora.org>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1600930266-9668-1-git-send-email-mansur@codeaurora.org>
- <1600930266-9668-2-git-send-email-mansur@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <afd16a0e-30d9-ecf2-f40b-f85f7500efc6@linaro.org>
-Date:   Fri, 25 Sep 2020 02:11:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <1600930266-9668-2-git-send-email-mansur@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Thu, 24 Sep 2020 23:39:45 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id LeaCk8Gb04gEjLeaEkcOuG; Fri, 25 Sep 2020 05:39:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1601005182; bh=tYQKqoNld3iwCpTaIs9LsyKNduAQkRfxUrhhhZXkTuA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=agbsh2JBdBVBKg4skUDCTIKz2uj26qoDyPoUpU1DBq1vdRK3kDkrFOTmv2p4UgaA8
+         51ANZcb3kBp3Aj0hum/frZaAWkzZmljdBUFGLsN+o1ueE5WLr80pSa9sQo2GuVte4F
+         IZK9xdkwC57+uj4Lkzg3njIwOBEvkeeXsBvEs1yeHdG0A1X1cy8b4VgMKJUmpVTDXo
+         wyq6SNPyesZejcnhCHQMpgIlMk1zvw43L66Elqg/F3PVA70lYbNawIxPrGut3NIqhF
+         tsHJam++eIQa+H13wq5HpmOQLUuxPTPCN0apL1Kv/2vfbVInoS6I3Pvtb7TANLugqw
+         aySbH2GPEWBOQ==
+Message-ID: <45f99b51ede72d6dd928d4ebbffbf353@smtp-cloud9.xs4all.net>
+Date:   Fri, 25 Sep 2020 05:39:40 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfFsmrVHzSTDdbcGucprEidMXcf9YcbPhWNYRU+Q7SJEa7eLV8QYo04jkktNYxYcHL3T092hkaekUhxFBNHIenAcB0DivwuFhK5+fevpJSagvMzHfD8Hb
+ ezL0DzftCPwr3f3B54lLZ1ZnONRBsBSxK6bs0cXQcfF1/UrDgc7dz9l+tiD9BkkDhn+vqckg02HW0aLJgQLd2LDNS33Ycib+zRFJuowH7TRLAJKMqe86tdGB
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mansur,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 9/24/20 9:51 AM, Mansur Alisha Shaik wrote:
-> Currently video driver is voting after clk enable and un voting
-> before clk disable. This is incorrect, video driver should vote
-> before clk enable and unvote after clk disable.
-> 
-> Corrected this by changing the order of clk enable and clk disable.
-> 
-> Fixes: 7482a983d ("media: venus: redesign clocks and pm domains control")
+Results of the daily build of media_tree:
 
-The Fixes tag is incorrect. It should be
+date:			Fri Sep 25 05:00:13 CEST 2020
+media-tree git hash:	01cc2ec6ea044731e939e5e47f7e115b86f49465
+media_build git hash:	efbdeecfc21ff8abcabc84c77fe8dfbefa2d657a
+v4l-utils git hash:	ea16a7ef13a902793a5c2626b0cefc4d956147f3
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b54e01a7f76260649e5d124db86c575c8650c2f9
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-07f8f22a33a9e ("media: venus: core: remove CNOC voting while device
-suspend")
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: WARNINGS
+linux-3.10.108-x86_64: WARNINGS
+linux-3.11.10-i686: WARNINGS
+linux-3.11.10-x86_64: WARNINGS
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: OK
 
-> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/media/platform/qcom/venus/core.c | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 6103aaf..52a3886 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -355,13 +355,16 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
->  	if (ret)
->  		return ret;
->  
-> +	if (pm_ops->core_power) {
-> +		ret = pm_ops->core_power(dev, POWER_OFF);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	ret = icc_set_bw(core->cpucfg_path, 0, 0);
->  	if (ret)
->  		return ret;
->  
-> -	if (pm_ops->core_power)
-> -		ret = pm_ops->core_power(dev, POWER_OFF);
-> -
->  	return ret;
->  }
->  
-> @@ -371,16 +374,16 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
->  	const struct venus_pm_ops *pm_ops = core->pm_ops;
->  	int ret;
->  
-> +	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
-> +	if (ret)
-> +		return ret;
-> +
->  	if (pm_ops->core_power) {
->  		ret = pm_ops->core_power(dev, POWER_ON);
->  		if (ret)
->  			return ret;
->  	}
->  
-> -	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
-> -	if (ret)
-> -		return ret;
-> -
->  	return hfi_core_resume(core, false);
->  }
->  
-> 
+Detailed results are available here:
 
--- 
-regards,
-Stan
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
