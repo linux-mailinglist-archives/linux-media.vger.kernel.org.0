@@ -2,120 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 888742793B4
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 23:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC7B427945F
+	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 00:53:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbgIYVnf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 17:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726409AbgIYVnf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 17:43:35 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 558F8C0613D4
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 12:08:26 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id x14so4782482wrl.12
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 12:08:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=c6zlXlVd+JLiTfma+AWCFjNmBf3A0tjHgrCNLmh+yZc=;
-        b=As86tNB7hrTQ0igU5gdohTQ29hVlKGs0oW04GJsO55JJbRwhAr2VyTExOWYGt/pjNM
-         nH1RMOwXWkdHwlNPeVE0gAMiDY8fLUN6I+UpEi0+TOLUSIeal1mZX/e+ZTlFHDhzqtfF
-         H6RstrVLXEaEujNKqtfqv8P/BGWFZ7KghpRog=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=c6zlXlVd+JLiTfma+AWCFjNmBf3A0tjHgrCNLmh+yZc=;
-        b=TD9sTDZRGZtRh5fem9npLVFIc7nVMKCm3o+dPdUH2MsuKwD1Efqmv45/mMCVDNHuE8
-         gs4z1iKX4926bZ4KQtCGpIxGaBw/SBdVhreUvn0AX3PK8r6efOUHlxoGfl2oLCpsNRBg
-         9p7fqhRU16p2eElbWeJEUsbwMDd3F0dSCRt4AP4kfx9rQsUOVrqTbAZ4i0FCemVcN0NP
-         oQxYpyWz+E2Cz2DPce7KjxL/q57pBLj9CE06IyaH+3rM+FPo3CPaE7QGbgseIRzKeFrG
-         BvqZ18loNW9ZvcXmhozkMGo57iUG8MS3DlL4XrqZVMhbIq70J0jBqVydnZSnYQADOcVS
-         M3Qg==
-X-Gm-Message-State: AOAM530rDO5CPy7JQ7RsijLGwU3lnmb7cZqqwG4R6aAJVb3nnpBuU0IA
-        bucp/6/gBPUvL1QtZt7IQs0HVA==
-X-Google-Smtp-Source: ABdhPJx6R5K6nXWi3K1eRsPvjyn05rKke7YVBSo2EWfQFwf0Z6B8FYXVJunS4hdZvCeiZLI0yzfh6g==
-X-Received: by 2002:adf:8285:: with SMTP id 5mr5742667wrc.97.1601060904995;
-        Fri, 25 Sep 2020 12:08:24 -0700 (PDT)
-Received: from chromium.org (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
-        by smtp.gmail.com with ESMTPSA id h2sm3963091wrp.69.2020.09.25.12.08.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2020 12:08:24 -0700 (PDT)
-Date:   Fri, 25 Sep 2020 19:08:23 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH v3 01/12] media: staging: rkisp1: params: upon stream
- stop, iterate a local list to return the buffers
-Message-ID: <20200925190823.GE3607091@chromium.org>
-References: <20200922113402.12442-1-dafna.hirschfeld@collabora.com>
- <20200922113402.12442-2-dafna.hirschfeld@collabora.com>
+        id S1729057AbgIYWxC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 18:53:02 -0400
+Received: from mga14.intel.com ([192.55.52.115]:7170 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726064AbgIYWxB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 25 Sep 2020 18:53:01 -0400
+IronPort-SDR: QbGlwhVlm//DpH00aQrUDeNtU6+8NNhbwA2N8lxeh+ed2+yYT3Ccvq/sV9tCOSTES0O33YvMnT
+ MCFWft7SXgtw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="160884395"
+X-IronPort-AV: E=Sophos;i="5.77,303,1596524400"; 
+   d="scan'208";a="160884395"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 13:11:29 -0700
+IronPort-SDR: Wv4YOe2jObohQKrRd0YLw2kCB5bLvsVjsTvYWcwb5StO+wGhW9tGM5jEpC3GzIFhEboM66rP8L
+ m+rP7HMdGnMw==
+X-IronPort-AV: E=Sophos;i="5.77,303,1596524400"; 
+   d="scan'208";a="349890400"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 13:11:27 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 2BFC820728; Fri, 25 Sep 2020 23:11:25 +0300 (EEST)
+Date:   Fri, 25 Sep 2020 23:11:25 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Stefan Riedmueller <s.riedmueller@phytec.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Christian Hemp <c.hemp@phytec.de>,
+        Jan Luebbe <jlu@pengutronix.de>
+Subject: Re: [PATCH 1/5] media: mt9p031: Add support for 8 bit and 10 bit
+ formats
+Message-ID: <20200925201125.GX26842@paasikivi.fi.intel.com>
+References: <20200925075029.32181-1-s.riedmueller@phytec.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200922113402.12442-2-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20200925075029.32181-1-s.riedmueller@phytec.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hi Stefan,
 
-On Tue, Sep 22, 2020 at 01:33:51PM +0200, Dafna Hirschfeld wrote:
-> The code in '.stop_streaming' callback releases and acquire the lock
-> at each iteration when returning the buffers.
-> Holding the lock disables interrupts so it should be minimized.
-> To make the code cleaner and still minimize holding the lock,
-> the buffer list is first moved to a local list and
-> then can be iterated without the lock.
+On Fri, Sep 25, 2020 at 09:50:25AM +0200, Stefan Riedmueller wrote:
+> From: Christian Hemp <c.hemp@phytec.de>
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Acked-by: Helen Koike <helen.koike@collabora.com>
+> Aside from 12 bit monochrome or color format the sensor implicitly
+> supports 10 and 8 bit formats as well by simply dropping the
+> corresponding LSBs.
+> 
+> Signed-off-by: Christian Hemp <c.hemp@phytec.de>
+> [jlu@pengutronix.de: simplified by dropping v4l2_colorspace handling]
+> Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
 > ---
->  drivers/staging/media/rkisp1/rkisp1-params.c | 31 +++++++-------------
->  1 file changed, 11 insertions(+), 20 deletions(-)
+>  drivers/media/i2c/mt9p031.c | 50 +++++++++++++++++++++++++++++--------
+>  1 file changed, 40 insertions(+), 10 deletions(-)
 > 
-
-Thank you for the patch. Please see my comments inline.
-
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
-> index 3ca2afc51ead..85f3b340c3bf 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
-> @@ -1469,32 +1469,23 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
->  {
->  	struct rkisp1_params *params = vq->drv_priv;
->  	struct rkisp1_buffer *buf;
-> +	struct list_head tmp_list;
->  	unsigned long flags;
-> -	unsigned int i;
+> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+> index dc23b9ed510a..0002dd299ffa 100644
+> --- a/drivers/media/i2c/mt9p031.c
+> +++ b/drivers/media/i2c/mt9p031.c
+> @@ -116,6 +116,18 @@ enum mt9p031_model {
+>  	MT9P031_MODEL_MONOCHROME,
+>  };
 >  
-> -	/* stop params input firstly */
-> +	INIT_LIST_HEAD(&tmp_list);
+> +static const u32 mt9p031_color_fmts[] = {
+> +	MEDIA_BUS_FMT_SGRBG8_1X8,
+> +	MEDIA_BUS_FMT_SGRBG10_1X10,
+> +	MEDIA_BUS_FMT_SGRBG12_1X12,
+> +};
+> +
+> +static const u32 mt9p031_monochrome_fmts[] = {
+> +	MEDIA_BUS_FMT_Y8_1X8,
+> +	MEDIA_BUS_FMT_Y10_1X10,
+> +	MEDIA_BUS_FMT_Y12_1X12,
+> +};
+> +
+>  struct mt9p031 {
+>  	struct v4l2_subdev subdev;
+>  	struct media_pad pad;
+> @@ -138,6 +150,9 @@ struct mt9p031 {
+>  	struct v4l2_ctrl *blc_auto;
+>  	struct v4l2_ctrl *blc_offset;
+>  
+> +	const u32 *fmts;
+> +	int num_fmts;
 
-nit: This could be done at declaration time by using the LIST_HEAD()
-macro to declare the list head.
+Unsigned int, please.
 
 > +
-> +	/*
-> +	 * we first move the buffers into a local list 'tmp_list'
-> +	 * and then we can iterate it and call vb2_buffer_done
-> +	 * without holding the lock
-> +	 */
->  	spin_lock_irqsave(&params->config_lock, flags);
->  	params->is_streaming = false;
-> +	list_cut_position(&tmp_list, &params->params, params->params.prev);
+>  	/* Registers cache */
+>  	u16 output_control;
+>  	u16 mode2;
+> @@ -148,6 +163,17 @@ static struct mt9p031 *to_mt9p031(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct mt9p031, subdev);
+>  }
+>  
+> +static const u32 mt9p031_find_datafmt(struct mt9p031 *mt9p031, u32 code)
+> +{
+> +	int i;
 
-nit: This is equivalent to list_splice_init(&params->params, &tmp_list);
-with a simpler interface and without the need to dereference
-params->params.prev manually.
+Same here.
 
-Best regards,
-Tomasz
+> +
+> +	for (i = 0; i < mt9p031->num_fmts; i++)
+> +		if (mt9p031->fmts[i] == code)
+> +			return mt9p031->fmts[i];
+> +
+> +	return mt9p031->fmts[mt9p031->num_fmts-1];
+> +}
+> +
+>  static int mt9p031_read(struct i2c_client *client, u8 reg)
+>  {
+>  	return i2c_smbus_read_word_swapped(client, reg);
+> @@ -476,10 +502,11 @@ static int mt9p031_enum_mbus_code(struct v4l2_subdev *subdev,
+>  {
+>  	struct mt9p031 *mt9p031 = to_mt9p031(subdev);
+>  
+> -	if (code->pad || code->index)
+> +	if (code->pad || code->index >= mt9p031->num_fmts)
+>  		return -EINVAL;
+>  
+> -	code->code = mt9p031->format.code;
+> +	code->code = mt9p031->fmts[code->index];
+> +
+>  	return 0;
+>  }
+>  
+> @@ -573,6 +600,8 @@ static int mt9p031_set_format(struct v4l2_subdev *subdev,
+>  	__format->width = __crop->width / hratio;
+>  	__format->height = __crop->height / vratio;
+>  
+> +	__format->code = mt9p031_find_datafmt(mt9p031, format->format.code);
+> +
+>  	format->format = *__format;
+>  
+>  	return 0;
+> @@ -951,10 +980,7 @@ static int mt9p031_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
+>  
+>  	format = v4l2_subdev_get_try_format(subdev, fh->pad, 0);
+>  
+> -	if (mt9p031->model == MT9P031_MODEL_MONOCHROME)
+> -		format->code = MEDIA_BUS_FMT_Y12_1X12;
+> -	else
+> -		format->code = MEDIA_BUS_FMT_SGRBG12_1X12;
+> +	format->code = mt9p031_find_datafmt(mt9p031, 0);
+>  
+>  	format->width = MT9P031_WINDOW_WIDTH_DEF;
+>  	format->height = MT9P031_WINDOW_HEIGHT_DEF;
+> @@ -1121,10 +1147,14 @@ static int mt9p031_probe(struct i2c_client *client,
+>  	mt9p031->crop.left = MT9P031_COLUMN_START_DEF;
+>  	mt9p031->crop.top = MT9P031_ROW_START_DEF;
+>  
+> -	if (mt9p031->model == MT9P031_MODEL_MONOCHROME)
+> -		mt9p031->format.code = MEDIA_BUS_FMT_Y12_1X12;
+> -	else
+> -		mt9p031->format.code = MEDIA_BUS_FMT_SGRBG12_1X12;
+> +	if (mt9p031->model == MT9P031_MODEL_MONOCHROME) {
+> +		mt9p031->fmts = mt9p031_monochrome_fmts;
+> +		mt9p031->num_fmts = ARRAY_SIZE(mt9p031_monochrome_fmts);
+> +	} else {
+> +		mt9p031->fmts = mt9p031_color_fmts;
+> +		mt9p031->num_fmts = ARRAY_SIZE(mt9p031_color_fmts);
+> +	}
+> +	mt9p031->format.code = mt9p031_find_datafmt(mt9p031, 0);
+>  
+>  	mt9p031->format.width = MT9P031_WINDOW_WIDTH_DEF;
+>  	mt9p031->format.height = MT9P031_WINDOW_HEIGHT_DEF;
+
+-- 
+Kind regards,
+
+Sakari Ailus
