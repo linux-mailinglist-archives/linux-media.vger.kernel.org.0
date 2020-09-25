@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9269527908A
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 20:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E36F27908B
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 20:33:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729960AbgIYSdA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 14:33:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35304 "EHLO
+        id S1729968AbgIYSdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 14:33:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729666AbgIYSc6 (ORCPT
+        with ESMTP id S1729614AbgIYSdE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 14:32:58 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C620DC0613D4
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:32:58 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id k133so3299929pgc.7
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:32:58 -0700 (PDT)
+        Fri, 25 Sep 2020 14:33:04 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C90D2C0613D3
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:33:04 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id f18so3994406pfa.10
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:33:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=xUDsyw9R3jJxj15EJT3or+kmYeDPoBgPCSAmh4oHLlM=;
-        b=BBycQb0D91/nmiwyygHNPlNfHifcum4tKV6GorDkw9Z5pbKXoaNDP9Y0Qzgy0NkNoh
-         EbOo1ku2FcsZRu50t55M49heETGvcLCTQnLxL0wEebGPJI1vcumPV7SDgR65M4iTaLDR
-         +vaJKm11ty5A0d3ONsLzc5eWFD9zIOdgW7RvkKRG9u9lGfrZeZxfemUuDatimcAvIDM7
-         PyFA6oOehqvHaRtfx1Hvth9l36O4ysdlHT5owyMCsQSMaraH2arKyaEMIEqjLOtA6k19
-         F36NWnraNDx6HvOr0bGNXnEsW/fq8FQRpqKwUiSOTpiDJC+tH12oGdoouWJBliuVVzkQ
-         m3PQ==
+        bh=pSBYIzgpA+bETdbtW6AcOFn36+wDHbEbFl2j+vGmNqg=;
+        b=im/o9BsSNp7MzrwQf4rIOgv8oiiHJyDkBql0IH/tjNpAnfk5r4SE+yQovvF03AOd0v
+         5ctwxZ+X/8VhSAgdHU/TolQQRc8dhdATism4ncKKsP1Rxn3qRBay3hGH+hB2TLBHEmIc
+         +0CymnTgMCwA0LijiyhSNWC/4VtIQIwC8xcymGomM+JFeoLg45J+mWieDS4Lgd7os5kM
+         HjSw58fsEcdUWQcJN7Pz5NtmSZ1x8J0NzLKK1pecXh7pTPaH/f1dxgOijDTJbKpeZwj5
+         igaAtOWbGmFG6JvnuYTqiG8PHFTkCiWMIWKXbkjmBgJH42cFOGgPselkCYSE97lfRIjC
+         fN7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=xUDsyw9R3jJxj15EJT3or+kmYeDPoBgPCSAmh4oHLlM=;
-        b=dF6zLOHHD9ONrfv9+FSk7sD1JXcR/ECd8kvomCFA6gLxeYIDbXsPcm3rUt0LdVR7jm
-         qVhFMrN7FLGQgbt5/CS0ALdy7jfXPvN1y/iYWkDqCgUOtZTOpFUWJKkOu4d5s4NBXs5r
-         AptHg6/zH3omz0OlKDu/3ITkC0//1h1PU5tHY6nLAiN3natUUoCKYGIpF5Jffwl9u/uJ
-         F0dAr3QRe+wtc9dvJlVkiDV9xItUcWatmW+amUIsTQ1KaMzvV8z8qQHwFER+zDN2P+CR
-         wr4HaRXp0nG9bKRkWZkPXkWTe2RHQ5I08pucVv0JVUds2m+c/jBRIpyXp5nYwzqmFspi
-         223g==
-X-Gm-Message-State: AOAM530a8lsQVbl6Om1ekXeWjzArxNSpY3YoFhbgG2de6UzeaVMkmUxL
-        hZidXkJ+SkPzMs2thRboU5LptA==
-X-Google-Smtp-Source: ABdhPJwJaGFBJ+3ed5U7vIW0ALXG4mNqgNrOLtumDezaWWnOQIKnqKHm/rcmsSOrTyCQJrVG+8pBHQ==
-X-Received: by 2002:a63:c74e:: with SMTP id v14mr241196pgg.186.1601058778335;
-        Fri, 25 Sep 2020 11:32:58 -0700 (PDT)
+        bh=pSBYIzgpA+bETdbtW6AcOFn36+wDHbEbFl2j+vGmNqg=;
+        b=rcMhsCd3eH43k6lwF4s972PeLkAfxXcHEojPcwf2eOK63XvcftCcsBzlvGLSOO22FT
+         74IgESDdZGAfRAF7oSCyFWBAZ6MR/06XcyNE8NCJKpmkd+S8H1GARGiJ+u/4XCB7eFeV
+         yt3iU6r9tHLl7pqXE28Fgmlhb+OtN5XVX41R/+z8BDXgJIf4U9WdKRdPBev0b56zfcQv
+         DTU98FwX/dXBE3xlRC8BFt5IllQlrdp4K6D5cSkiapFuVLFUJm+htpm6daNSu6BZJ4ij
+         aMKSC5fEod14eQGp/kpbukjbLKTorkt5WSMVqKUaRSwdclOImhEpTDSmCL3chkGSvZtI
+         5gHA==
+X-Gm-Message-State: AOAM531dsZiaQMDJQf5y/J+v4gneUYUX4JMip/hukvNhHdOIL3tQHAxS
+        pponoXWzdOoslWm3dd/by5fe2w==
+X-Google-Smtp-Source: ABdhPJyLPDar+m/YiQ0gYJrPLFmR93GzGQO5O7x9egLhxkMGefEFfl1KYTebw9DV9GGgtew6HHgVWQ==
+X-Received: by 2002:a05:6a00:1356:b029:13e:d13d:a084 with SMTP id k22-20020a056a001356b029013ed13da084mr513357pfu.27.1601058784244;
+        Fri, 25 Sep 2020 11:33:04 -0700 (PDT)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id r16sm2554546pjo.19.2020.09.25.11.32.53
+        by smtp.googlemail.com with ESMTPSA id r16sm2554546pjo.19.2020.09.25.11.32.58
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 Sep 2020 11:32:57 -0700 (PDT)
+        Fri, 25 Sep 2020 11:33:03 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, mchehab@kernel.org, hverkuil@xs4all.nl,
         laurent.pinchart@ideasonboard.com
 Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH RFT/RFC v2 17/47] staging: media: zoran: move v4l_settings out of zoran_fh
-Date:   Fri, 25 Sep 2020 18:30:27 +0000
-Message-Id: <1601058657-14042-18-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC v2 18/47] staging: media: zoran: move jpg_settings out of zoran_fh
+Date:   Fri, 25 Sep 2020 18:30:28 +0000
+Message-Id: <1601058657-14042-19-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
 References: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
@@ -62,117 +62,287 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We need to get rid of zoran_fh, so move the v4l_settings directly in the
+We need to get rid of zoran_fh, so move the jpg_settings directly in the
 zoran structure.
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/zoran.h        |  1 -
- drivers/staging/media/zoran/zoran_driver.c | 38 ++++++++++------------
- 2 files changed, 17 insertions(+), 22 deletions(-)
+ drivers/staging/media/zoran/zoran.h        |   2 -
+ drivers/staging/media/zoran/zoran_driver.c | 103 ++++++++++-----------
+ 2 files changed, 47 insertions(+), 58 deletions(-)
 
 diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
-index 97933c550113..a529b49888c6 100644
+index a529b49888c6..7e6e03563a2a 100644
 --- a/drivers/staging/media/zoran/zoran.h
 +++ b/drivers/staging/media/zoran/zoran.h
-@@ -217,7 +217,6 @@ struct zoran_fh {
+@@ -216,8 +216,6 @@ struct zoran_fh {
+ 	enum zoran_lock_activity overlay_active;/* feature currently in use? */
  
  	struct zoran_buffer_col buffers;	/* buffers' info */
- 
--	struct zoran_v4l_settings v4l_settings;	/* structure with a lot of things to play with */
- 	struct zoran_jpg_settings jpg_settings;	/* structure with a lot of things to play with */
+-
+-	struct zoran_jpg_settings jpg_settings;	/* structure with a lot of things to play with */
  };
  
+ struct card_info {
 diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-index 2a00a3a72dad..e60db53c0359 100644
+index e60db53c0359..27dcf899b723 100644
 --- a/drivers/staging/media/zoran/zoran_driver.c
 +++ b/drivers/staging/media/zoran/zoran_driver.c
-@@ -432,10 +432,10 @@ static int zoran_v4l_set_format(struct zoran_fh *fh, int width, int height,
- 		return -EINVAL;
+@@ -587,9 +587,7 @@ static int zoran_jpg_queue_frame(struct zoran_fh *fh, int num,
  	}
  
--	fh->v4l_settings.width = width;
--	fh->v4l_settings.height = height;
--	fh->v4l_settings.format = format;
--	fh->v4l_settings.bytesperline = bpp * fh->v4l_settings.width;
-+	zr->v4l_settings.width = width;
-+	zr->v4l_settings.height = height;
-+	zr->v4l_settings.format = format;
-+	zr->v4l_settings.bytesperline = bpp * zr->v4l_settings.width;
- 
- 	return 0;
- }
-@@ -489,7 +489,7 @@ static int zoran_v4l_queue_frame(struct zoran_fh *fh, int num)
- 			zr->v4l_pend[zr->v4l_pend_head++ & V4L_MASK_FRAME] = num;
- 			zr->v4l_buffers.buffer[num].state = BUZ_STATE_PEND;
- 			zr->v4l_buffers.buffer[num].bs.length =
--			    fh->v4l_settings.bytesperline *
-+			    zr->v4l_settings.bytesperline *
- 			    zr->v4l_settings.height;
- 			fh->buffers.buffer[num] = zr->v4l_buffers.buffer[num];
- 			break;
-@@ -751,8 +751,6 @@ static void zoran_open_init_session(struct zoran_fh *fh)
+ 	/* what is the codec mode right now? */
+-	if (zr->codec_mode == BUZ_MODE_IDLE) {
+-		zr->jpg_settings = fh->jpg_settings;
+-	} else if (zr->codec_mode != mode) {
++	if (zr->codec_mode != BUZ_MODE_IDLE && zr->codec_mode != mode) {
+ 		/* wrong codec mode active - invalid */
+ 		pci_err(zr->pci_dev, "%s - codec in wrong mode\n", __func__);
+ 		return -EINVAL;
+@@ -751,9 +749,6 @@ static void zoran_open_init_session(struct zoran_fh *fh)
  	fh->overlay_settings.format = zr->overlay_settings.format;
  	fh->overlay_active = ZORAN_FREE;
  
--	/* v4l settings */
--	fh->v4l_settings = zr->v4l_settings;
- 	/* jpg settings */
- 	fh->jpg_settings = zr->jpg_settings;
- 
-@@ -1205,7 +1203,7 @@ static int zoran_v4l2_buffer_status(struct zoran_fh *fh,
- 			buf->flags |= V4L2_BUF_FLAG_QUEUED;
+-	/* jpg settings */
+-	fh->jpg_settings = zr->jpg_settings;
+-
+ 	/* buffers */
+ 	memset(&fh->buffers, 0, sizeof(fh->buffers));
+ 	for (i = 0; i < MAX_FRAME; i++) {
+@@ -1237,11 +1232,11 @@ static int zoran_v4l2_buffer_status(struct zoran_fh *fh,
  		}
  
--		if (fh->v4l_settings.height <= BUZ_MAX_HEIGHT / 2)
-+		if (zr->v4l_settings.height <= BUZ_MAX_HEIGHT / 2)
- 			buf->field = V4L2_FIELD_TOP;
+ 		/* which fields are these? */
+-		if (fh->jpg_settings.TmpDcm != 1)
+-			buf->field = fh->jpg_settings.odd_even ?
++		if (zr->jpg_settings.TmpDcm != 1)
++			buf->field = zr->jpg_settings.odd_even ?
+ 				V4L2_FIELD_TOP : V4L2_FIELD_BOTTOM;
  		else
- 			buf->field = V4L2_FIELD_INTERLACED;
-@@ -1421,14 +1419,13 @@ static int zoran_g_fmt_vid_cap(struct file *file, void *__fh,
- 	if (fh->map_mode != ZORAN_MAP_MODE_RAW)
- 		return zoran_g_fmt_vid_out(file, fh, fmt);
+-			buf->field = fh->jpg_settings.odd_even ?
++			buf->field = zr->jpg_settings.odd_even ?
+ 				V4L2_FIELD_SEQ_TB : V4L2_FIELD_SEQ_BT;
  
--	fmt->fmt.pix.width = fh->v4l_settings.width;
--	fmt->fmt.pix.height = fh->v4l_settings.height;
--	fmt->fmt.pix.sizeimage = fh->v4l_settings.bytesperline *
--					fh->v4l_settings.height;
--	fmt->fmt.pix.pixelformat = fh->v4l_settings.format->fourcc;
--	fmt->fmt.pix.colorspace = fh->v4l_settings.format->colorspace;
--	fmt->fmt.pix.bytesperline = fh->v4l_settings.bytesperline;
--	if (BUZ_MAX_HEIGHT < (fh->v4l_settings.height * 2))
-+	fmt->fmt.pix.width = zr->v4l_settings.width;
-+	fmt->fmt.pix.height = zr->v4l_settings.height;
-+	fmt->fmt.pix.sizeimage = zr->v4l_settings.bytesperline * zr->v4l_settings.height;
-+	fmt->fmt.pix.pixelformat = zr->v4l_settings.format->fourcc;
-+	fmt->fmt.pix.colorspace = zr->v4l_settings.format->colorspace;
-+	fmt->fmt.pix.bytesperline = zr->v4l_settings.bytesperline;
-+	if (BUZ_MAX_HEIGHT < (zr->v4l_settings.height * 2))
- 		fmt->fmt.pix.field = V4L2_FIELD_INTERLACED;
+ 		break;
+@@ -1391,18 +1386,18 @@ static int zoran_enum_fmt_vid_overlay(struct file *file, void *__fh,
+ static int zoran_g_fmt_vid_out(struct file *file, void *__fh,
+ 			       struct v4l2_format *fmt)
+ {
+-	struct zoran_fh *fh = __fh;
++	struct zoran *zr = video_drvdata(file);
+ 
+-	fmt->fmt.pix.width = fh->jpg_settings.img_width / fh->jpg_settings.HorDcm;
+-	fmt->fmt.pix.height = fh->jpg_settings.img_height * 2 /
+-		(fh->jpg_settings.VerDcm * fh->jpg_settings.TmpDcm);
+-	fmt->fmt.pix.sizeimage = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
++	fmt->fmt.pix.width = zr->jpg_settings.img_width / zr->jpg_settings.HorDcm;
++	fmt->fmt.pix.height = zr->jpg_settings.img_height * 2 /
++		(zr->jpg_settings.VerDcm * zr->jpg_settings.TmpDcm);
++	fmt->fmt.pix.sizeimage = zoran_v4l2_calc_bufsize(&zr->jpg_settings);
+ 	fmt->fmt.pix.pixelformat = V4L2_PIX_FMT_MJPEG;
+-	if (fh->jpg_settings.TmpDcm == 1)
+-		fmt->fmt.pix.field = (fh->jpg_settings.odd_even ?
++	if (zr->jpg_settings.TmpDcm == 1)
++		fmt->fmt.pix.field = (zr->jpg_settings.odd_even ?
+ 				V4L2_FIELD_SEQ_TB : V4L2_FIELD_SEQ_BT);
  	else
- 		fmt->fmt.pix.field = V4L2_FIELD_TOP;
-@@ -1698,10 +1695,10 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
+-		fmt->fmt.pix.field = (fh->jpg_settings.odd_even ?
++		fmt->fmt.pix.field = (zr->jpg_settings.odd_even ?
+ 				V4L2_FIELD_TOP : V4L2_FIELD_BOTTOM);
+ 	fmt->fmt.pix.bytesperline = 0;
+ 	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
+@@ -1471,15 +1466,14 @@ static int zoran_try_fmt_vid_overlay(struct file *file, void *__fh,
+ static int zoran_try_fmt_vid_out(struct file *file, void *__fh,
+ 				 struct v4l2_format *fmt)
+ {
+-	struct zoran_fh *fh = __fh;
+-	struct zoran *zr = fh->zr;
++	struct zoran *zr = video_drvdata(file);
+ 	struct zoran_jpg_settings settings;
+ 	int res = 0;
+ 
+ 	if (fmt->fmt.pix.pixelformat != V4L2_PIX_FMT_MJPEG)
+ 		return -EINVAL;
+ 
+-	settings = fh->jpg_settings;
++	settings = zr->jpg_settings;
+ 
+ 	/* we actually need to set 'real' parameters now */
+ 	if ((fmt->fmt.pix.height * 2) > BUZ_MAX_HEIGHT)
+@@ -1487,13 +1481,13 @@ static int zoran_try_fmt_vid_out(struct file *file, void *__fh,
+ 	else
+ 		settings.TmpDcm = 2;
+ 	settings.decimation = 0;
+-	if (fmt->fmt.pix.height <= fh->jpg_settings.img_height / 2)
++	if (fmt->fmt.pix.height <= zr->jpg_settings.img_height / 2)
+ 		settings.VerDcm = 2;
+ 	else
+ 		settings.VerDcm = 1;
+-	if (fmt->fmt.pix.width <= fh->jpg_settings.img_width / 4)
++	if (fmt->fmt.pix.width <= zr->jpg_settings.img_width / 4)
+ 		settings.HorDcm = 4;
+-	else if (fmt->fmt.pix.width <= fh->jpg_settings.img_width / 2)
++	else if (fmt->fmt.pix.width <= zr->jpg_settings.img_width / 2)
+ 		settings.HorDcm = 2;
+ 	else
+ 		settings.HorDcm = 1;
+@@ -1520,10 +1514,10 @@ static int zoran_try_fmt_vid_out(struct file *file, void *__fh,
+ 	fmt->fmt.pix.height = settings.img_height * 2 /
+ 		(settings.TmpDcm * settings.VerDcm);
+ 	if (settings.TmpDcm == 1)
+-		fmt->fmt.pix.field = (fh->jpg_settings.odd_even ?
++		fmt->fmt.pix.field = (zr->jpg_settings.odd_even ?
+ 				V4L2_FIELD_SEQ_TB : V4L2_FIELD_SEQ_BT);
+ 	else
+-		fmt->fmt.pix.field = (fh->jpg_settings.odd_even ?
++		fmt->fmt.pix.field = (zr->jpg_settings.odd_even ?
+ 				V4L2_FIELD_TOP : V4L2_FIELD_BOTTOM);
+ 
+ 	fmt->fmt.pix.sizeimage = zoran_v4l2_calc_bufsize(&settings);
+@@ -1598,7 +1592,7 @@ static int zoran_s_fmt_vid_out(struct file *file, void *__fh,
+ 		return res;
+ 	}
+ 
+-	settings = fh->jpg_settings;
++	settings = zr->jpg_settings;
+ 
+ 	/* we actually need to set 'real' parameters now */
+ 	if (fmt->fmt.pix.height * 2 > BUZ_MAX_HEIGHT)
+@@ -1606,13 +1600,13 @@ static int zoran_s_fmt_vid_out(struct file *file, void *__fh,
+ 	else
+ 		settings.TmpDcm = 2;
+ 	settings.decimation = 0;
+-	if (fmt->fmt.pix.height <= fh->jpg_settings.img_height / 2)
++	if (fmt->fmt.pix.height <= zr->jpg_settings.img_height / 2)
+ 		settings.VerDcm = 2;
+ 	else
+ 		settings.VerDcm = 1;
+-	if (fmt->fmt.pix.width <= fh->jpg_settings.img_width / 4)
++	if (fmt->fmt.pix.width <= zr->jpg_settings.img_width / 4)
+ 		settings.HorDcm = 4;
+-	else if (fmt->fmt.pix.width <= fh->jpg_settings.img_width / 2)
++	else if (fmt->fmt.pix.width <= zr->jpg_settings.img_width / 2)
+ 		settings.HorDcm = 2;
+ 	else
+ 		settings.HorDcm = 1;
+@@ -1635,20 +1629,20 @@ static int zoran_s_fmt_vid_out(struct file *file, void *__fh,
  		return res;
  
- 	/* tell the user the results/missing stuff */
--	fmt->fmt.pix.bytesperline = fh->v4l_settings.bytesperline;
--	fmt->fmt.pix.sizeimage = fh->v4l_settings.height * fh->v4l_settings.bytesperline;
--	fmt->fmt.pix.colorspace = fh->v4l_settings.format->colorspace;
--	if (BUZ_MAX_HEIGHT < (fh->v4l_settings.height * 2))
-+	fmt->fmt.pix.bytesperline = zr->v4l_settings.bytesperline;
-+	fmt->fmt.pix.sizeimage = zr->v4l_settings.height * zr->v4l_settings.bytesperline;
-+	fmt->fmt.pix.colorspace = zr->v4l_settings.format->colorspace;
-+	if (BUZ_MAX_HEIGHT < (zr->v4l_settings.height * 2))
- 		fmt->fmt.pix.field = V4L2_FIELD_INTERLACED;
+ 	/* it's ok, so set them */
+-	fh->jpg_settings = settings;
++	zr->jpg_settings = settings;
+ 
+ 	map_mode_jpg(fh, fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT);
+-	zr->buffer_size = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
++	zr->buffer_size = zoran_v4l2_calc_bufsize(&zr->jpg_settings);
+ 
+ 	/* tell the user what we actually did */
+ 	fmt->fmt.pix.width = settings.img_width / settings.HorDcm;
+ 	fmt->fmt.pix.height = settings.img_height * 2 /
+ 		(settings.TmpDcm * settings.VerDcm);
+ 	if (settings.TmpDcm == 1)
+-		fmt->fmt.pix.field = (fh->jpg_settings.odd_even ?
++		fmt->fmt.pix.field = (zr->jpg_settings.odd_even ?
+ 				V4L2_FIELD_SEQ_TB : V4L2_FIELD_SEQ_BT);
  	else
- 		fmt->fmt.pix.field = V4L2_FIELD_TOP;
-@@ -1968,7 +1965,6 @@ static int zoran_streamon(struct file *file, void *__fh, enum v4l2_buf_type type
- 		}
+-		fmt->fmt.pix.field = (fh->jpg_settings.odd_even ?
++		fmt->fmt.pix.field = (zr->jpg_settings.odd_even ?
+ 				V4L2_FIELD_TOP : V4L2_FIELD_BOTTOM);
+ 	fmt->fmt.pix.bytesperline = 0;
+ 	fmt->fmt.pix.sizeimage = zr->buffer_size;
+@@ -1805,7 +1799,7 @@ static int zoran_reqbufs(struct file *file, void *__fh, struct v4l2_requestbuffe
+ 		/* The next mmap will map the MJPEG buffers */
+ 		map_mode_jpg(fh, req->type == V4L2_BUF_TYPE_VIDEO_OUTPUT);
+ 		fh->buffers.num_buffers = req->count;
+-		zr->buffer_size = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
++		zr->buffer_size = zoran_v4l2_calc_bufsize(&zr->jpg_settings);
  
- 		zr->v4l_buffers.active = fh->buffers.active = ZORAN_LOCKED;
--		zr->v4l_settings = fh->v4l_settings;
+ 		if (jpg_fbuffer_alloc(fh)) {
+ 			res = -ENOMEM;
+@@ -2170,10 +2164,10 @@ static int zoran_g_selection(struct file *file, void *__fh, struct v4l2_selectio
  
- 		zr->v4l_sync_tail = zr->v4l_pend_tail;
- 		if (!zr->v4l_memgrab_active &&
+ 	switch (sel->target) {
+ 	case V4L2_SEL_TGT_CROP:
+-		sel->r.top = fh->jpg_settings.img_y;
+-		sel->r.left = fh->jpg_settings.img_x;
+-		sel->r.width = fh->jpg_settings.img_width;
+-		sel->r.height = fh->jpg_settings.img_height;
++		sel->r.top = zr->jpg_settings.img_y;
++		sel->r.left = zr->jpg_settings.img_x;
++		sel->r.width = zr->jpg_settings.img_width;
++		sel->r.height = zr->jpg_settings.img_height;
+ 		break;
+ 	case V4L2_SEL_TGT_CROP_DEFAULT:
+ 		sel->r.top = sel->r.left = 0;
+@@ -2210,7 +2204,7 @@ static int zoran_s_selection(struct file *file, void *__fh, struct v4l2_selectio
+ 		return -EINVAL;
+ 	}
+ 
+-	settings = fh->jpg_settings;
++	settings = zr->jpg_settings;
+ 
+ 	if (fh->buffers.allocated) {
+ 		pci_err(zr->pci_dev, "VIDIOC_S_SELECTION - cannot change settings while active\n");
+@@ -2229,29 +2223,26 @@ static int zoran_s_selection(struct file *file, void *__fh, struct v4l2_selectio
+ 		return res;
+ 
+ 	/* accept */
+-	fh->jpg_settings = settings;
++	zr->jpg_settings = settings;
+ 	return res;
+ }
+ 
+ static int zoran_g_jpegcomp(struct file *file, void *__fh,
+ 			    struct v4l2_jpegcompression *params)
+ {
+-	struct zoran_fh *fh = __fh;
++	struct zoran *zr = video_drvdata(file);
+ 
+ 	memset(params, 0, sizeof(*params));
+ 
+-	params->quality = fh->jpg_settings.jpg_comp.quality;
+-	params->APPn = fh->jpg_settings.jpg_comp.APPn;
+-	memcpy(params->APP_data,
+-	       fh->jpg_settings.jpg_comp.APP_data,
+-	       fh->jpg_settings.jpg_comp.APP_len);
+-	params->APP_len = fh->jpg_settings.jpg_comp.APP_len;
+-	memcpy(params->COM_data,
+-	       fh->jpg_settings.jpg_comp.COM_data,
+-	       fh->jpg_settings.jpg_comp.COM_len);
+-	params->COM_len = fh->jpg_settings.jpg_comp.COM_len;
+-	params->jpeg_markers =
+-	    fh->jpg_settings.jpg_comp.jpeg_markers;
++	params->quality = zr->jpg_settings.jpg_comp.quality;
++	params->APPn = zr->jpg_settings.jpg_comp.APPn;
++	memcpy(params->APP_data, zr->jpg_settings.jpg_comp.APP_data,
++	       zr->jpg_settings.jpg_comp.APP_len);
++	params->APP_len = zr->jpg_settings.jpg_comp.APP_len;
++	memcpy(params->COM_data, zr->jpg_settings.jpg_comp.COM_data,
++	       zr->jpg_settings.jpg_comp.COM_len);
++	params->COM_len = zr->jpg_settings.jpg_comp.COM_len;
++	params->jpeg_markers = zr->jpg_settings.jpg_comp.jpeg_markers;
+ 
+ 	return 0;
+ }
+@@ -2264,7 +2255,7 @@ static int zoran_s_jpegcomp(struct file *file, void *__fh,
+ 	int res = 0;
+ 	struct zoran_jpg_settings settings;
+ 
+-	settings = fh->jpg_settings;
++	settings = zr->jpg_settings;
+ 
+ 	settings.jpg_comp = *params;
+ 
+@@ -2278,8 +2269,8 @@ static int zoran_s_jpegcomp(struct file *file, void *__fh,
+ 	if (res)
+ 		return res;
+ 	if (!fh->buffers.allocated)
+-		zr->buffer_size = zoran_v4l2_calc_bufsize(&fh->jpg_settings);
+-	fh->jpg_settings.jpg_comp = settings.jpg_comp;
++		zr->buffer_size = zoran_v4l2_calc_bufsize(&zr->jpg_settings);
++	zr->jpg_settings.jpg_comp = settings.jpg_comp;
+ 	return res;
+ }
+ 
 -- 
 2.26.2
 
