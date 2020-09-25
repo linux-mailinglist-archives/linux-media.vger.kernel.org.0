@@ -2,84 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B727278D4A
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 17:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20FB3278DEC
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 18:18:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729125AbgIYPzn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 11:55:43 -0400
-Received: from [46.166.185.98] ([46.166.185.98]:58418 "EHLO
-        host.imperialcapgroup.com" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728330AbgIYPzn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 11:55:43 -0400
-X-Greylist: delayed 14024 seconds by postgrey-1.27 at vger.kernel.org; Fri, 25 Sep 2020 11:55:42 EDT
-Received: from imperialcapgroup.com (unknown [185.236.203.204])
-        by host.imperialcapgroup.com (Postfix) with ESMTPA id DFCE2BDDD9
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 05:13:31 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.imperialcapgroup.com DFCE2BDDD9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=imperialcapgroup.com; s=default; t=1601003612;
-        bh=6CXuz3tZVwV0sLbV3HksYvK1Xzbh6nLYCrrWqAmLkHM=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=jCUGn6sWUKwtp6gZ9jF7xF3gJmLNpzIXyZaBR1Zvu+CvAjil82b3I/nTGdW7790oR
-         TxymZ5ee510nq5fGjoP2I+wULA7nyYPg26kvw+0SJoIS7DJcL+CMWd8oea13ByAzz7
-         chN/fxFhJwjr1G2j9s2f1tcJm1WucSLGLGntmVyc=
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.imperialcapgroup.com DFCE2BDDD9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=imperialcapgroup.com; s=default; t=1601003612;
-        bh=6CXuz3tZVwV0sLbV3HksYvK1Xzbh6nLYCrrWqAmLkHM=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=jCUGn6sWUKwtp6gZ9jF7xF3gJmLNpzIXyZaBR1Zvu+CvAjil82b3I/nTGdW7790oR
-         TxymZ5ee510nq5fGjoP2I+wULA7nyYPg26kvw+0SJoIS7DJcL+CMWd8oea13ByAzz7
-         chN/fxFhJwjr1G2j9s2f1tcJm1WucSLGLGntmVyc=
-Reply-To: laghoulli22@secsuremail.com
-From:   L A <laghoulli299@imperialcapgroup.com>
-To:     linux-media@vger.kernel.org
-Subject: Co-Operation Required
-Date:   24 Sep 2020 20:13:33 -0700
-Message-ID: <20200924201333.67038636019914D2@imperialcapgroup.com>
-Mime-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1729114AbgIYQSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 12:18:01 -0400
+Received: from verein.lst.de ([213.95.11.211]:56719 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728524AbgIYQSB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 25 Sep 2020 12:18:01 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 39A7E68AFE; Fri, 25 Sep 2020 18:17:55 +0200 (CEST)
+Date:   Fri, 25 Sep 2020 18:17:54 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org, alsa-devel@alsa-project.org,
+        linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-doc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        netdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 08/18] dma-mapping: add a new dma_alloc_noncoherent API
+Message-ID: <20200925161754.GA18721@lst.de>
+References: <20200915155122.1768241-1-hch@lst.de> <20200915155122.1768241-9-hch@lst.de> <c8ea4023-3e19-d63b-d936-46a04f502a61@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c8ea4023-3e19-d63b-d936-46a04f502a61@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello there,
+On Fri, Sep 25, 2020 at 12:15:37PM +0100, Robin Murphy wrote:
+> On 2020-09-15 16:51, Christoph Hellwig wrote:
+> [...]
+>> +These APIs allow to allocate pages in the kernel direct mapping that are
+>> +guaranteed to be DMA addressable.  This means that unlike dma_alloc_coherent,
+>> +virt_to_page can be called on the resulting address, and the resulting
+>
+> Nit: if we explicitly describe this as if it's a guarantee that can be 
+> relied upon...
+>
+>> +struct page can be used for everything a struct page is suitable for.
+>
+> [...]
+>> +This routine allocates a region of <size> bytes of consistent memory.  It
+>> +returns a pointer to the allocated region (in the processor's virtual address
+>> +space) or NULL if the allocation failed.  The returned memory may or may not
+>> +be in the kernels direct mapping.  Drivers must not call virt_to_page on
+>> +the returned memory region.
+>
+> ...then forbid this document's target audience from relying on it, 
+> something seems off. At the very least it's unhelpfully unclear :/
+>
+> Given patch #17, I suspect that the first paragraph is the one that's no 
+> longer true.
 
-I am Laghouili Abdellatif. I am contacting you because I have a=20
-proposal that I think may be interested in. I represent the=20
-interest of my brother in-law who was a minister in the Syrian=20
-Government. As you probably know, there is a lot of crisis going=20
-on currently in Syria and my brother in-law has fallen out with=20
-the ruling Junta and the president because of his foreign=20
-policies and the senseless war and killings that has been going=20
-on for a while. Everybody in Syria is fed up and want a change=20
-but the president is too powerfull and he simply kills anyone=20
-that tries to oppose him. My brother in-law belives that he is at=20
-risk and he is now very scared for the safety of his family=20
-especially his kids. In order to ensure that his family is taken=20
-care of and protected incase anything happens to him, he has=20
-asked me to help him find a foreign investor who can help him=20
-accommodate and invest 100 MUSD privately that he has secured in=20
-Europe. He wants these funds safely invested so that the future=20
-and safety of his family can be secured.
-
-I am contacting you with the hope that you will be interested in=20
-helping us. We need your help to accommodate the funds in the=20
-banking system in your country and also invest it in lucrative=20
-projects that will yeild good profits. We will handle all the=20
-logistics involved in the movement of the funds to you. The funds=20
-is already in Europe so you have nothing to worry about because=20
-this transaction will be executed in a legal way. My brother in-=20
-law has also promised to compensate you for your help. He wants=20
-this to be done discretely so I will be acting as his eyes and=20
-ears during the course of this transaction.
-
-If this proposal interests you, please kindly respond so that I=20
-can give you more details.
-
-Regards,
-
-Laghouili.
+Yes.  dma_alloc_pages is the replacement for allocations that need the
+direct mapping.  I'll send a patch to document dma_alloc_pages and
+fixes this up
