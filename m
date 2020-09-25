@@ -2,212 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C04E27905D
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 20:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9DB0279063
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 20:32:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729732AbgIYSbQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 14:31:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34952 "EHLO
+        id S1729810AbgIYSbb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 14:31:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727151AbgIYSbQ (ORCPT
+        with ESMTP id S1729801AbgIYSba (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 14:31:16 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2CAEC0613D3
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:31:15 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id fa1so2247213pjb.0
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:31:15 -0700 (PDT)
+        Fri, 25 Sep 2020 14:31:30 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED08BC0613D4
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:31:29 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id jw11so2158069pjb.0
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=YOENFyQOD9R10SzJS7OPPO2Yo0ajdZ/LL2b6t2F3g8g=;
-        b=xxZ4XJxDSH/vaBAwM6FqFTOLWtBHtcBqRvOCRYfcmkdS4j+waJI3OGp/Dl0JUkhhjY
-         yBOoCV177nMlDVI661q/pYE/hEhzN8F+85XfSnStIugsyITFzNqGXndWpfXP6EHCkxLS
-         samtReMN6dfufYnVaTSjsOrtclaK+XqVfk/V3hnhPxelQ6OuNQNSNCeu+maOIKISzcB5
-         Ik5mcEc2R8AthmpBeciizgvUhx9vAf3bEkmiCid2vEL3IeivRrsPcay1H8bm55NVjXaZ
-         WH2w9q4fQ3nK++q1DXPQzp32WybUXrNSDhn2UrOqN+sGOhrBCvKdprXf1YvlNsLgwaD1
-         NptA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=FAfzGDJNkDiJ14AHNIUhDwhIpLlD543otONzFuTYMfQ=;
+        b=a0nLcuL75ChtFYJRhumN1ud76X649BDWTKq7M0Gd+BIpr2RNTd5o4jWo19EmWG1JBm
+         gz3NV6y8tPX4RQzO4bPJXXsX+b9LpGfEY4c9pmEKHWizMlcv+jD2UVZsbQpukekJTgEQ
+         vGCScSxH2phHiGslb5eLX8xG0ZN62WZuMlto6N/RvygkecpgWfCt7t661H9ILknclCjf
+         WC88KZ/qf7gEDn7SwjQGyy9UI6Jpl0hU7LTcQjYp2aZdI1VerBdZlkXZ24rVdtftE35u
+         Vqsop8YbVd1b1XzkSFbApLryX5n1EDosG9uwizKMDf9/xouhSvp7a71yCo8EL4f5/D3F
+         jniQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=YOENFyQOD9R10SzJS7OPPO2Yo0ajdZ/LL2b6t2F3g8g=;
-        b=YIhKap5GCpThn14I3ulYAkJ5aN3irDiqnOyzhr22YeYL0f3G7cGzB7QpcN4YQ9R1Zr
-         +MrOAjn1ir51VLTzf9LE98tl0OLsBc1T20+l63t7cQYT6RO2fQBa7EC3JkSgJkCywYvT
-         sOXkygVxX41dyzL9VbjLlJw0t+ZlLqfXcDO52wfdqCiO1r50chX2yzAV+/1IPZYn8Qtv
-         SDANNc2J2J9hUWXEM8T6mcCjBBng14lWVhyQnvkuWUl/uYblv0VK6Qj667lJ3iUkdGBz
-         otrqMGU9N7+s1Pi35pbX0DRKlpPDTTQ+mjdq6HGKl5bAyrqPDYzuwUX2Ekb7Zlf5yzCp
-         gtJw==
-X-Gm-Message-State: AOAM5302DbmQFFFwAHEGD8c4j0Un61CfK6icX0ikhgRq+fGbTJcC8mWf
-        0bNvwgdXG5Y+4rsft5yqMSFo0Q==
-X-Google-Smtp-Source: ABdhPJzlrCgIsbK7QqEiN4fPrnEFDFyIYIzrLEx8bdXVOVjRCkFUL3CCuixez7tiLjDpxi618QYtmA==
-X-Received: by 2002:a17:90a:ae12:: with SMTP id t18mr818297pjq.147.1601058675384;
-        Fri, 25 Sep 2020 11:31:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=FAfzGDJNkDiJ14AHNIUhDwhIpLlD543otONzFuTYMfQ=;
+        b=ayIs2iIaPJAY8+GFdkHxw+AHnyRgmrOO7FlQ9FO8Oj4R1qHYKSkl0UDNxTQAi92a3s
+         VYCQVSh+idc4R3DZLgpPJnIOyjttQ9QsU+wlqDM8GYBe6JEcw9+1i1o+zhtiLSMKVa+O
+         ws9DeNeruVh5nIglIjqjxksWk9fC8pAYBxqKlRvOz2HjPu2yw9m4DxLrxYTfqx7svL7p
+         8FtyWV1yhtUnHXrwe3kR1mtXyTn16WM5+CWTI7lCXcOblIgJXwbWXroJ/cxTfDLR21Nx
+         Fzp26s2gamijryRbSO2lyiMv2u52vkItMw9Z/vroPtDPyZSKG2VTz0M8f4n0csfG/RF0
+         iyRQ==
+X-Gm-Message-State: AOAM530mnuK+KcotNf3mh37zidwdAZ6UeVSrbD7Zbw/VzfbgHIhmpC01
+        1YjNED+4tZg8u37RH7NUpsTbTA==
+X-Google-Smtp-Source: ABdhPJwkZ34moCQNFBf05TKwjoZbj7U936pTmdEFEjouvN6MxvXP/fKEn3S1UUhCffOvcSLabV7bNA==
+X-Received: by 2002:a17:90b:164e:: with SMTP id il14mr776001pjb.5.1601058689432;
+        Fri, 25 Sep 2020 11:31:29 -0700 (PDT)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id r16sm2554546pjo.19.2020.09.25.11.31.09
+        by smtp.googlemail.com with ESMTPSA id r16sm2554546pjo.19.2020.09.25.11.31.24
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 Sep 2020 11:31:14 -0700 (PDT)
+        Fri, 25 Sep 2020 11:31:28 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, mchehab@kernel.org, hverkuil@xs4all.nl,
         laurent.pinchart@ideasonboard.com
 Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH RFT/RFC v2 00/47] staging: media: bring back zoran driver
-Date:   Fri, 25 Sep 2020 18:30:10 +0000
-Message-Id: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC v2 02/47] MAINTAINERS: change maintainer of the zoran driver
+Date:   Fri, 25 Sep 2020 18:30:12 +0000
+Message-Id: <1601058657-14042-3-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
+References: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
+Add myself as maintainer.
 
-The zoran driver was removed in 5.3
-The main reason of the removing was lack of motivation to convert it to
-VB2
-Since I need it, I worked on bringing it back.
+Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+---
+ Documentation/media/v4l-drivers/zoran.rst  | 22 +++++++---------------
+ MAINTAINERS                                | 10 ++++++++++
+ drivers/staging/media/zoran/zoran_card.c   |  5 -----
+ drivers/staging/media/zoran/zoran_card.h   |  5 -----
+ drivers/staging/media/zoran/zoran_device.c |  5 -----
+ drivers/staging/media/zoran/zoran_device.h |  5 -----
+ 6 files changed, 17 insertions(+), 35 deletions(-)
 
-So the plan to achieve it was:
-- clean up the coding style.
-- convert old usage/API
-- clean unused code
-- convert to VB2
-
-I have tried to split a bit the VB2 patch (by adding/removing code in
-another patch), but the result is unfortunately still a big patch.
-
-The result of this serie is a working zoran driver.
-Furthermore it is now compliant to v4l-compliance.
-
-In the process some old (useless) feature (fbuf, overlay) was removed
-for simplifying maintenance.
-
-The zoran hardware support MJPEG decompression, but this feature is
-temporarily disabled by this serie.
-But basically, this feature was unusable, since the only tool which
-permitted to use it was a mplayer option.
-But this mplayer option no longer compile (probably since a long time)
-and is such a hack (a copy of some private ffmpeg structure) that it is
-unfixable.
-Happily, when I started to work on zoran, a patch was posted on ffmpeg
-ML which permit it to output non-raw video stream (and so MJPEG for
-zoran case).
-But the zoran hw does not like some part of JPEG header it receives, so
-a filter need to be written.
-Anyway, this disabling is not a regression, since this feature was not
-usable since a long time.
-
-Since the driver was in staging, I targeted staging, but probably the
-driver is in a sufficient good shape to target media and bypass staging.
-
-This driver is tested on a DC10+ (on x86). Tests on different hardware
-are welcome.
-
-I would like to thanks all people that helped me to achieve this (mostly
-#v4l)
-
-Regards
-
-PS: this serie is resent a bit soon since linux-media didnt get some patch
-and cover letter
-
-Changes since RFC1
-- removed fallthough patch
-- removed unsplit lines patch
-- fixed line size in "Use DMA coherent for stat_com" patch
-
-Corentin Labbe (47):
-  staging: media: Revert "media: zoran: remove deprecated driver"
-  MAINTAINERS: change maintainer of the zoran driver
-  staging: media: zoran: datasheet is no longer available from zoran.com
-  staging: media: zoran: Documentation: fix typo
-  staging: media: zoran: fix checkpatch issue
-  staging: media: zoran: do not forward declare zr36057_init_vfe
-  staging: media: zoran: convert all error dprintk to pci_err/pr_err
-  staging: media: zoran: convert dprintk warn
-  staging: media: zoran: convert dprintk info to pci_info
-  staging: media: zoran: convert dprintk debug
-  staging: media: zoran: zoran_device.c: convert pr_x to pci_x
-  staging: media: zoran: remove proc_fs
-  staging: media: zoran: use VFL_TYPE_VIDEO
-  staging: media: zoran: use v4l2_buffer_set_timestamp
-  staging: media: zoran: do not print random guest 0
-  staging: media: zoran: move buffer_size out of zoran_fh
-  staging: media: zoran: move v4l_settings out of zoran_fh
-  staging: media: zoran: move jpg_settings out of zoran_fh
-  staging: media: zoran: move overlay_settings out of zoran_fh
-  staging: media: zoran: Use video_drvdata to get struct zoran
-  staging: media: zoran: Change zoran_v4l_set_format parameter from
-    zoran_fh to zoran
-  staging: media: zoran: remove overlay
-  staging: media: zoran: Use DMA coherent for stat_com
-  staging: media: zoran: use ZR_NORM
-  staging: media: zoran: zoran does not support STD_ALL
-  staging: media: zoran: convert irq to pci irq
-  staging: media: zoran: convert zoran alloc to devm
-  staging: media: zoran: convert mdelay to udelay
-  staging: media: zoran: use devm for videocodec_master alloc
-  staging: media: zoran: use pci_request_regions
-  staging: media: zoran: use devm_ioremap
-  staging: media: zoran: add stat_com buffer
-  staging: media: zoran: constify struct tvnorm
-  staging: media: zoran: constify codec_name
-  staging: media: zoran: Add more check for compliance
-  staging: media: zoran: Add vb_queue
-  staging: media: zoran: disable output
-  staging: media: zoran: device support only 32bit DMA address
-  staging: media: zoran: enable makefile
-  staging: media: zoran: remove framebuffer support
-  staging: media: zoran: add vidioc_g_parm
-  staging: media: zoran: remove test_interrupts
-  staging: media: zoran: fix use of buffer_size and sizeimage
-  staging: media: zoran: fix some compliance test
-  staging: media: zoran: remove deprecated .vidioc_g_jpegcomp
-  staging: media: zoran: convert to vb2
-  staging: media: zoran: update TODO
-
- Documentation/media/v4l-drivers/zoran.rst  |  575 +++++++++
- MAINTAINERS                                |   10 +
- drivers/staging/media/Kconfig              |    2 +
- drivers/staging/media/Makefile             |    1 +
- drivers/staging/media/zoran/Kconfig        |   76 ++
- drivers/staging/media/zoran/Makefile       |    7 +
- drivers/staging/media/zoran/TODO           |   19 +
- drivers/staging/media/zoran/videocodec.c   |  330 +++++
- drivers/staging/media/zoran/videocodec.h   |  308 +++++
- drivers/staging/media/zoran/zoran.h        |  320 +++++
- drivers/staging/media/zoran/zoran_card.c   | 1333 ++++++++++++++++++++
- drivers/staging/media/zoran/zoran_card.h   |   30 +
- drivers/staging/media/zoran/zoran_device.c | 1013 +++++++++++++++
- drivers/staging/media/zoran/zoran_device.h |   64 +
- drivers/staging/media/zoran/zoran_driver.c | 1038 +++++++++++++++
- drivers/staging/media/zoran/zr36016.c      |  433 +++++++
- drivers/staging/media/zoran/zr36016.h      |   92 ++
- drivers/staging/media/zoran/zr36050.c      |  842 +++++++++++++
- drivers/staging/media/zoran/zr36050.h      |  163 +++
- drivers/staging/media/zoran/zr36057.h      |  154 +++
- drivers/staging/media/zoran/zr36060.c      |  872 +++++++++++++
- drivers/staging/media/zoran/zr36060.h      |  201 +++
- 22 files changed, 7883 insertions(+)
- create mode 100644 Documentation/media/v4l-drivers/zoran.rst
- create mode 100644 drivers/staging/media/zoran/Kconfig
- create mode 100644 drivers/staging/media/zoran/Makefile
- create mode 100644 drivers/staging/media/zoran/TODO
- create mode 100644 drivers/staging/media/zoran/videocodec.c
- create mode 100644 drivers/staging/media/zoran/videocodec.h
- create mode 100644 drivers/staging/media/zoran/zoran.h
- create mode 100644 drivers/staging/media/zoran/zoran_card.c
- create mode 100644 drivers/staging/media/zoran/zoran_card.h
- create mode 100644 drivers/staging/media/zoran/zoran_device.c
- create mode 100644 drivers/staging/media/zoran/zoran_device.h
- create mode 100644 drivers/staging/media/zoran/zoran_driver.c
- create mode 100644 drivers/staging/media/zoran/zr36016.c
- create mode 100644 drivers/staging/media/zoran/zr36016.h
- create mode 100644 drivers/staging/media/zoran/zr36050.c
- create mode 100644 drivers/staging/media/zoran/zr36050.h
- create mode 100644 drivers/staging/media/zoran/zr36057.h
- create mode 100644 drivers/staging/media/zoran/zr36060.c
- create mode 100644 drivers/staging/media/zoran/zr36060.h
-
+diff --git a/Documentation/media/v4l-drivers/zoran.rst b/Documentation/media/v4l-drivers/zoran.rst
+index d2724a863d1d..a0586514cd8a 100644
+--- a/Documentation/media/v4l-drivers/zoran.rst
++++ b/Documentation/media/v4l-drivers/zoran.rst
+@@ -549,21 +549,13 @@ at high verbosity. See 'Contacting' on how to contact the developers.
+ Maintainers/Contacting
+ ----------------------
+ 
+-The driver is currently maintained by Laurent Pinchart and Ronald Bultje
+-(<laurent.pinchart@skynet.be> and <rbultje@ronald.bitfreak.net>). For bug
+-reports or questions, please contact the mailinglist instead of the developers
+-individually. For user questions (i.e. bug reports or how-to questions), send
+-an email to <mjpeg-users@lists.sf.net>, for developers (i.e. if you want to
+-help programming), send an email to <mjpeg-developer@lists.sf.net>. See
+-http://www.sf.net/projects/mjpeg/ for subscription information.
+-
+-For bug reports, be sure to include all the information as described in
+-the section 'It hangs/crashes/fails/whatevers! Help!'. Please make sure
+-you're using the latest version (http://mjpeg.sf.net/driver-zoran/).
+-
+-Previous maintainers/developers of this driver include Serguei Miridonov
+-<mirsev@cicese.mx>, Wolfgang Scherr <scherr@net4you.net>, Dave Perks
+-<dperks@ibm.net> and Rainer Johanni <Rainer@Johanni.de>.
++Previous maintainers/developers of this driver are
++- Laurent Pinchart <laurent.pinchart@skynet.be>
++- Ronald Bultje rbultje@ronald.bitfreak.net
++- Serguei Miridonov <mirsev@cicese.mx>
++- Wolfgang Scherr <scherr@net4you.net>
++- Dave Perks <dperks@ibm.net>
++- Rainer Johanni <Rainer@Johanni.de>
+ 
+ Driver's License
+ ----------------
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3126fc2cca2..f2ece9826be3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19233,6 +19233,16 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs.git
+ F:	Documentation/filesystems/zonefs.rst
+ F:	fs/zonefs/
+ 
++ZR36067 VIDEO FOR LINUX DRIVER
++M:	Corentin Labbe <clabbe@baylibre.com>
++L:	mjpeg-users@lists.sourceforge.net
++L:	linux-media@vger.kernel.org
++S:	Maintained
++W:	http://mjpeg.sourceforge.net/driver-zoran/
++Q:	https://patchwork.linuxtv.org/project/linux-media/list/
++F:	drivers/staging/media/zoran/
++F:	Documentation/media/v4l-drivers/zoran.rst
++
+ ZPOOL COMPRESSED PAGE STORAGE API
+ M:	Dan Streetman <ddstreet@ieee.org>
+ L:	linux-mm@kvack.org
+diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
+index ea10523194e8..d2f82894e8ee 100644
+--- a/drivers/staging/media/zoran/zoran_card.c
++++ b/drivers/staging/media/zoran/zoran_card.c
+@@ -7,11 +7,6 @@
+  *
+  * Copyright (C) 2000 Serguei Miridonov <mirsev@cicese.mx>
+  *
+- * Currently maintained by:
+- *   Ronald Bultje    <rbultje@ronald.bitfreak.net>
+- *   Laurent Pinchart <laurent.pinchart@skynet.be>
+- *   Mailinglist      <mjpeg-users@lists.sf.net>
+- *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation; either version 2 of the License, or
+diff --git a/drivers/staging/media/zoran/zoran_card.h b/drivers/staging/media/zoran/zoran_card.h
+index 0cdb7d34926d..53ed511ce546 100644
+--- a/drivers/staging/media/zoran/zoran_card.h
++++ b/drivers/staging/media/zoran/zoran_card.h
+@@ -7,11 +7,6 @@
+  *
+  * Copyright (C) 2000 Serguei Miridonov <mirsev@cicese.mx>
+  *
+- * Currently maintained by:
+- *   Ronald Bultje    <rbultje@ronald.bitfreak.net>
+- *   Laurent Pinchart <laurent.pinchart@skynet.be>
+- *   Mailinglist      <mjpeg-users@lists.sf.net>
+- *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation; either version 2 of the License, or
+diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
+index 22b27632762d..04162be80420 100644
+--- a/drivers/staging/media/zoran/zoran_device.c
++++ b/drivers/staging/media/zoran/zoran_device.c
+@@ -7,11 +7,6 @@
+  *
+  * Copyright (C) 2000 Serguei Miridonov <mirsev@cicese.mx>
+  *
+- * Currently maintained by:
+- *   Ronald Bultje    <rbultje@ronald.bitfreak.net>
+- *   Laurent Pinchart <laurent.pinchart@skynet.be>
+- *   Mailinglist      <mjpeg-users@lists.sf.net>
+- *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation; either version 2 of the License, or
+diff --git a/drivers/staging/media/zoran/zoran_device.h b/drivers/staging/media/zoran/zoran_device.h
+index a507aaad4ebb..816d48b09be9 100644
+--- a/drivers/staging/media/zoran/zoran_device.h
++++ b/drivers/staging/media/zoran/zoran_device.h
+@@ -7,11 +7,6 @@
+  *
+  * Copyright (C) 2000 Serguei Miridonov <mirsev@cicese.mx>
+  *
+- * Currently maintained by:
+- *   Ronald Bultje    <rbultje@ronald.bitfreak.net>
+- *   Laurent Pinchart <laurent.pinchart@skynet.be>
+- *   Mailinglist      <mjpeg-users@lists.sf.net>
+- *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation; either version 2 of the License, or
 -- 
 2.26.2
 
