@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0244E278230
+	by mail.lfdr.de (Postfix) with ESMTP id 05B31278231
 	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 10:06:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727454AbgIYIF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1727461AbgIYIF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 25 Sep 2020 04:05:57 -0400
-Received: from mickerik.phytec.de ([195.145.39.210]:61918 "EHLO
+Received: from mickerik.phytec.de ([195.145.39.210]:61920 "EHLO
         mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727324AbgIYIF4 (ORCPT
+        with ESMTP id S1727201AbgIYIF4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 25 Sep 2020 04:05:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1601020243; x=1603612243;
+        q=dns/txt; i=@phytec.de; t=1601020245; x=1603612245;
         h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+eokensvnxwkVbrpUiSFBQcafkBkMrnKdXT6ALQzPsg=;
-        b=M5FmlZwyk10LIDjxl53sc8GUjoi+nc38rG2xkxWJHUaOLdmJnGvdbMcuhSiV/rWL
-        yiW/0X6/Q4ynR3ItBg+5tF9d7+KN/L57z344/PpXbgD/jceFDbP598LXWOrUUeHb
-        afY4dpN0l5WhWrTDjh0J6ZjaEqmFI1OWh/ZWrwZAG94=;
-X-AuditID: c39127d2-253ff70000001c25-f3-5f6da153816b
+        bh=x5Pk/l2MiC1puFAoUsj9YgTJFrLM/W2OzlbBAh4xBcc=;
+        b=aabP0zdtZPlT+FWbirhNwfjksCzPoc91adY+3d35kYVEAdu4FBuBT9JIQ0OI8VqC
+        7wuDU/mGfgKyuWXOWLXrZ/Q43Qw9mvx2UkNL3a7ZUxKlRCupcvQEHxnQZZjk/dOJ
+        KNj1vJAag77POiLvyYETgO/UPGs04f14QGicyxT7DnY=;
+X-AuditID: c39127d2-269ff70000001c25-f4-5f6da1551b95
 Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id DC.A5.07205.351AD6F5; Fri, 25 Sep 2020 09:50:43 +0200 (CEST)
+        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 6D.A5.07205.551AD6F5; Fri, 25 Sep 2020 09:50:45 +0200 (CEST)
 Received: from lws-riedmueller.phytec.de ([172.16.23.108])
           by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2020092509504323-495329 ;
-          Fri, 25 Sep 2020 09:50:43 +0200 
+          with ESMTP id 2020092509504515-495332 ;
+          Fri, 25 Sep 2020 09:50:45 +0200 
 From:   Stefan Riedmueller <s.riedmueller@phytec.de>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -36,87 +36,95 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
         Stefan Riedmueller <s.riedmueller@phytec.de>
-Subject: [PATCH 2/5] media: mt9p031: Read back the real clock rate
-Date:   Fri, 25 Sep 2020 09:50:26 +0200
-Message-Id: <20200925075029.32181-2-s.riedmueller@phytec.de>
+Subject: [PATCH 3/5] media: mt9p031: Implement [gs]_register debug calls
+Date:   Fri, 25 Sep 2020 09:50:27 +0200
+Message-Id: <20200925075029.32181-3-s.riedmueller@phytec.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200925075029.32181-1-s.riedmueller@phytec.de>
 References: <20200925075029.32181-1-s.riedmueller@phytec.de>
 MIME-Version: 1.0
 X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 25.09.2020 09:50:43,
+ 25.09.2020 09:50:45,
         Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 25.09.2020 09:50:43
+ 25.09.2020 09:50:45
 X-TNEFEvaluated: 1
 Content-Transfer-Encoding: quoted-printable
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJLMWRmVeSWpSXmKPExsWyRoCBSzd4YW68wdk5ShZ7j11gseicuITd
-        4vKuOWwWPRu2slos2/SHyeLTlm9MDmwesztmsnpsWtXJ5jHvZKDHipX/mTw+b5ILYI3isklJ
-        zcksSy3St0vgyri5+yhjwX++iilr/zI2MJ7i6WLk5JAQMJGYcu4LSxcjF4eQwDZGib7nb9lA
-        EkIC1xgllvUqg9hsAkYSC6Y1MoHYIgIWEr2LpjOC2MwCXxkl1p3NBrGFBZwkbvZNBYuzCKhK
-        rNi6HmwOr4CNxKVjF9kglslLzLz0nR3E5hSwlTj69jwTxC4biRc7/jJC1AtKnJz5BOwgCYEr
-        jBLbWzewQjQLSZxefJYZYrG2xLKFr5knMArMQtIzC0lqASPTKkah3Mzk7NSizGy9gozKktRk
-        vZTUTYzA4D08Uf3SDsa+OR6HGJk4GA8xSnAwK4nwHt+QEy/Em5JYWZValB9fVJqTWnyIUZqD
-        RUmcdwNvSZiQQHpiSWp2ampBahFMlomDU6qBcbLBpc+RcpmPLivGfGnozf14U1inuVGs/6Df
-        6y07njwXM5+87fHuuOK/t4PW382MbN+sJSuy4C/Di3y7/63ts2R0LRpczQ7K1S3lvXnp+eRT
-        VocD5jFzHb1e5qV/ysmjfmFtzA62B4dXqfukT1mYM8Mk1+YRd8aTXzta2DUOOydJ5Ipa3OUS
-        VmIpzkg01GIuKk4EAEcXl6dMAgAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJLMWRmVeSWpSXmKPExsWyRoCBSzd0YW68wY4+EYu9xy6wWHROXMJu
+        cXnXHDaLng1bWS2WbfrDZPFpyzcmBzaP2R0zWT02repk85h3MtBjxcr/TB6fN8kFsEZx2aSk
+        5mSWpRbp2yVwZbzZc5WpoIO/YtO/VtYGxvs8XYycHBICJhKf701gBLGFBLYxSmw5WNDFyAVk
+        X2OUePZrGztIgk3ASGLBtEYmEFtEwEKid9F0sAZmga+MEuvOZoPYwgIeEo2NK8DqWQRUJZYt
+        6WQFsXkFbCROvf3GCLFMXmLmpe9gNZwCthJH355nglhsI/Fix19GiHpBiZMzn7CAHCEhcIVR
+        ov/UDDaIZiGJ04vPMkMs1pZYtvA18wRGgVlIemYhSS1gZFrFKJSbmZydWpSZrVeQUVmSmqyX
+        krqJERi8hyeqX9rB2DfH4xAjEwfjIUYJDmYlEd7jG3LihXhTEiurUovy44tKc1KLDzFKc7Ao
+        ifNu4C0JExJITyxJzU5NLUgtgskycXBKNTAuvRvCLuG22kauZ6Z8d4Fu35+2Q2Zx7lXrPh0L
+        ThDY2aGs8s989fMbv3fasogqZH1QWmwmeuiY+IxYwZzcL7M6Dcuc3fiX54m4PFawO1ItZ79v
+        m9gXl7YzLY2fPMRVZn/6+EJwve3Kj86Mm2+xHQ3asJCT4Y9PuMaLxuj/ey9zLT17YovCvhIl
+        luKMREMt5qLiRADUtBXmTAIAAA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 
-The real and requested clock can differ and because it is used to
-calculate PLL values, the real clock rate should be read.
+Implement g=5Fregister and s=5Fregister v4l2=5Fsubdev=5Fcore=5Fops to access
+camera register directly from userspace for debug purposes.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
 ---
- drivers/media/i2c/mt9p031.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/media/i2c/mt9p031.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-index 0002dd299ffa..ce192be4531f 100644
+index ce192be4531f..f5d6a7890c47 100644
 --- a/drivers/media/i2c/mt9p031.c
 +++ b/drivers/media/i2c/mt9p031.c
-@@ -255,6 +255,7 @@ static int mt9p031=5Fclk=5Fsetup(struct mt9p031 *mt9p03=
-1)
+@@ -703,6 +703,30 @@ static int mt9p031=5Frestore=5Fblc(struct mt9p031 *mt9=
+p031)
+ 	return 0;
+ }
 =20
- 	struct i2c=5Fclient *client =3D v4l2=5Fget=5Fsubdevdata(&mt9p031->subdev);
- 	struct mt9p031=5Fplatform=5Fdata *pdata =3D mt9p031->pdata;
-+	unsigned long ext=5Ffreq;
- 	int ret;
-=20
- 	mt9p031->clk =3D devm=5Fclk=5Fget(&client->dev, NULL);
-@@ -265,13 +266,15 @@ static int mt9p031=5Fclk=5Fsetup(struct mt9p031 *mt9p=
-031)
- 	if (ret < 0)
- 		return ret;
-=20
-+	ext=5Ffreq =3D clk=5Fget=5Frate(mt9p031->clk);
++#ifdef CONFIG=5FVIDEO=5FADV=5FDEBUG
++static int mt9p031=5Fg=5Fregister(struct v4l2=5Fsubdev *sd,
++			      struct v4l2=5Fdbg=5Fregister *reg)
++{
++	struct i2c=5Fclient *client =3D v4l2=5Fget=5Fsubdevdata(sd);
++	int ret;
 +
- 	/* If the external clock frequency is out of bounds for the PLL use the
- 	 * pixel clock divider only and disable the PLL.
- 	 */
--	if (pdata->ext=5Ffreq > limits.ext=5Fclock=5Fmax) {
-+	if (ext=5Ffreq > limits.ext=5Fclock=5Fmax) {
- 		unsigned int div;
++	ret =3D mt9p031=5Fread(client, reg->reg);
++	if (ret < 0)
++		return ret;
++
++	reg->val =3D ret;
++	return 0;
++}
++
++static int mt9p031=5Fs=5Fregister(struct v4l2=5Fsubdev *sd,
++			      struct v4l2=5Fdbg=5Fregister const *reg)
++{
++	struct i2c=5Fclient *client =3D v4l2=5Fget=5Fsubdevdata(sd);
++
++	return mt9p031=5Fwrite(client, reg->reg, reg->val);
++}
++#endif
++
+ static int mt9p031=5Fs=5Fctrl(struct v4l2=5Fctrl *ctrl)
+ {
+ 	struct mt9p031 *mt9p031 =3D
+@@ -1000,6 +1024,10 @@ static int mt9p031=5Fclose(struct v4l2=5Fsubdev *sub=
+dev, struct v4l2=5Fsubdev=5Ffh *fh)
 =20
--		div =3D DIV=5FROUND=5FUP(pdata->ext=5Ffreq, pdata->target=5Ffreq);
-+		div =3D DIV=5FROUND=5FUP(ext=5Ffreq, pdata->target=5Ffreq);
- 		div =3D roundup=5Fpow=5Fof=5Ftwo(div) / 2;
+ static const struct v4l2=5Fsubdev=5Fcore=5Fops mt9p031=5Fsubdev=5Fcore=5Fo=
+ps =3D {
+ 	.s=5Fpower        =3D mt9p031=5Fset=5Fpower,
++#ifdef CONFIG=5FVIDEO=5FADV=5FDEBUG
++	.s=5Fregister	=3D mt9p031=5Fs=5Fregister,
++	.g=5Fregister	=3D mt9p031=5Fg=5Fregister,
++#endif
+ };
 =20
- 		mt9p031->clk=5Fdiv =3D min=5Ft(unsigned int, div, 64);
-@@ -280,7 +283,7 @@ static int mt9p031=5Fclk=5Fsetup(struct mt9p031 *mt9p03=
-1)
- 		return 0;
- 	}
-=20
--	mt9p031->pll.ext=5Fclock =3D pdata->ext=5Ffreq;
-+	mt9p031->pll.ext=5Fclock =3D ext=5Ffreq;
- 	mt9p031->pll.pix=5Fclock =3D pdata->target=5Ffreq;
- 	mt9p031->use=5Fpll =3D true;
-=20
+ static const struct v4l2=5Fsubdev=5Fvideo=5Fops mt9p031=5Fsubdev=5Fvideo=
+=5Fops =3D {
 --=20
 2.25.1
 
