@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D1A278A8C
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 16:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6029E278AA5
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 16:13:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729035AbgIYOMe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 10:12:34 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:50577 "EHLO
+        id S1728997AbgIYOMd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 10:12:33 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:50583 "EHLO
         mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728958AbgIYOMd (ORCPT
+        with ESMTP id S1728960AbgIYOMd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 25 Sep 2020 10:12:33 -0400
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200925141231euoutp0118c3f5a319cdeb5a300620951c0914c8~4DEOKVPiC1102011020euoutp01k
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 14:12:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200925141231euoutp0118c3f5a319cdeb5a300620951c0914c8~4DEOKVPiC1102011020euoutp01k
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200925141232euoutp011aa9ca7927073af6db964376c58266b4~4DEOg5pCz1102011020euoutp01l
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 14:12:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200925141232euoutp011aa9ca7927073af6db964376c58266b4~4DEOg5pCz1102011020euoutp01l
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1601043151;
-        bh=wGeLbKboFdr/tqZI1Rt5Qegc3ri464oOUQrZYBxud1M=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=KiBRQVTJ6mQFMIF5amxeSuZpZrnOqccS+kD1p5Lpb1lqWaYcPMCQA8NQ+kxeKp7W5
-         yYPU0z9XUpqCRfMMQsHtez26upki+etsRfnVDCDBBKVsK8Blm85EmgL+a+2Gzi7xPr
-         XfzJE/k4HuaS8hB+PlVnQBncF5yfdGee/86nTyjo=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200925141231eucas1p16b578c2724139227149654a5732434db~4DENyDIBX1940019400eucas1p1Y;
+        s=mail20170921; t=1601043152;
+        bh=09pv1gfbrMxHYJO8AD2snW5aXubFJIYR4lyEPqOH5uU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VjaUG617xjpS25xHY+2VFzQl2odlMBm65cz5PGEeXU08wEE9pZ/qW13B0SPqT0kru
+         G+jd1sq7hMKaX1w99LfqXun38Lh1Fnp3A82MAj4qwqJUiGuI63nRzS9JpZHSC3mlW+
+         hNVAyJHqupO6778Su8pTHRaPVGYyTym+/3Zjkq1c=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200925141231eucas1p20d3233eb3232f4d36c19cfa361272ddf~4DEOAP91c3256732567eucas1p2i;
         Fri, 25 Sep 2020 14:12:31 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 65.D3.06318.FCAFD6F5; Fri, 25
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id CB.E4.06456.FCAFD6F5; Fri, 25
         Sep 2020 15:12:31 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7~4DENPSaKn2129921299eucas1p1U;
-        Fri, 25 Sep 2020 14:12:30 +0000 (GMT)
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200925141231eucas1p223c342cc989df23e4fc28d97fe3010c5~4DENtkpoZ3253732537eucas1p2z;
+        Fri, 25 Sep 2020 14:12:31 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
         eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200925141230eusmtrp203f60fb1015cc87490a4e60dc0a5d363~4DENOmj6i2568825688eusmtrp2E;
-        Fri, 25 Sep 2020 14:12:30 +0000 (GMT)
-X-AuditID: cbfec7f5-371ff700000018ae-73-5f6dfacfc028
+        20200925141231eusmtrp2883de88f9ea00225cba96e6eb43335bb~4DENs9Nam2598725987eusmtrp2i;
+        Fri, 25 Sep 2020 14:12:31 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-5b-5f6dfacfef32
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id ED.39.06314.ECAFD6F5; Fri, 25
-        Sep 2020 15:12:30 +0100 (BST)
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id FE.39.06314.FCAFD6F5; Fri, 25
+        Sep 2020 15:12:31 +0100 (BST)
 Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
         eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200925141230eusmtip17224b43806866ba6215d9dde1cfddbe4~4DEMrufQ11697816978eusmtip14;
+        20200925141230eusmtip1b4b74b11e2277e18fef6a5019d2e2f2b~4DENMB_3U1229912299eusmtip1y;
         Fri, 25 Sep 2020 14:12:30 +0000 (GMT)
 From:   Marek Szyprowski <m.szyprowski@samsung.com>
 To:     Linux IOMMU <iommu@lists.linux-foundation.org>,
@@ -56,111 +56,82 @@ Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
         Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/8] IOMMU-DMA - support old allocation algorithm used on
- ARM
-Date:   Fri, 25 Sep 2020 16:12:10 +0200
-Message-Id: <20200925141218.13550-1-m.szyprowski@samsung.com>
+Subject: [PATCH 1/8] dma-mapping: add DMA_ATTR_LOW_ADDRESS attribute
+Date:   Fri, 25 Sep 2020 16:12:11 +0200
+Message-Id: <20200925141218.13550-2-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djPc7rnf+XGGyxayGexccZ6VouVq48y
-        WSzYb23ROXsDu8X580Di8q45bBY9G7ayWsw4v4/JYu2Ru+wWBz88YbVof/qS2eJz6z82Bx6P
-        JwfnMXmsmbeG0WN2w0UWj02rOtk8Jt9Yzuix+2YDm0ffllWMHp83yQVwRHHZpKTmZJalFunb
-        JXBldJz0LvglWrHuZSNjA+MnwS5GTg4JAROJ2fOWsHQxcnEICaxglHh49CiU84VR4u7y00wQ
-        zmdGiQsbvjPCtDybNB8qsZxRounHfka4lisT37CDVLEJGEp0ve1i62Lk4BARKJFYdoIPpIZZ
-        4AmTxJ6/C5lAaoQF/CVeNEwAs1kEVCX6D59nBbF5BWwlLn3aALVNXmL1hgPMEHY3u8TUTnMI
-        20Wi6xFMXFji1fEt7BC2jMT/nRDXSQg0Az10bi07hNPDKHG5aQbUVGuJO+d+gV3HLKApsX6X
-        PkTYUeLT16/MIGEJAT6JG2/BgcQMZE7aNh0qzCvR0SYEUa0mMev4Ori1By9cgjrHQ+LDlb9g
-        bwkJxEq82NHAPIFRbhbCrgWMjKsYxVNLi3PTU4uN81LL9YoTc4tL89L1kvNzNzECE8vpf8e/
-        7mDc9yfpEKMAB6MSD++JR7nxQqyJZcWVuYcYJTiYlUR4nc6ejhPiTUmsrEotyo8vKs1JLT7E
-        KM3BoiTOa7zoZayQQHpiSWp2ampBahFMlomDU6qB0eW61deXS75Hnn57lds/Zm9WSkVS8jGB
-        N4JPL++0+hIvdCU3fs6aHKX4f/1Vq54pRqquDqz9KTxdQeLP4jzNb8m6s25I8J5MfNPnf3vR
-        ZpUlDywSWj2fLLlS1bdIuORSh2jUV5P2U2VtZfsfN33ze8X4s2Hak0MbRXI4d8jsMzq7Vsjo
-        y4m5q5VYijMSDbWYi4oTAaVB8GsoAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNLMWRmVeSWpSXmKPExsVy+t/xu7rnfuXGG2y9pGmxccZ6VouVq48y
-        WSzYb23ROXsDu8X580Di8q45bBY9G7ayWsw4v4/JYu2Ru+wWBz88YbVof/qS2eJz6z82Bx6P
-        JwfnMXmsmbeG0WN2w0UWj02rOtk8Jt9Yzuix+2YDm0ffllWMHp83yQVwROnZFOWXlqQqZOQX
-        l9gqRRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehldJz0LvglWrHuZSNjA+Mn
-        wS5GTg4JAROJZ5PmM3UxcnEICSxllFh8+wk7REJG4uS0BlYIW1jiz7UuNhBbSOATo8SnBmYQ
-        m03AUKLrLURcRKBMouPKVmaQQcwCb5gk7r76ATZIWMBX4uT1VYwgNouAqkT/4fNgQ3kFbCUu
-        fdrACLFAXmL1hgPMExh5FjAyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAgM6G3Hfm7ewXhp
-        Y/AhRgEORiUe3hOPcuOFWBPLiitzDzFKcDArifA6nT0dJ8SbklhZlVqUH19UmpNafIjRFGj5
-        RGYp0eR8YLTllcQbmhqaW1gamhubG5tZKInzdggcjBESSE8sSc1OTS1ILYLpY+LglGpgnNJw
-        dJPr22lxm64ei08rSDO7OrFA7HYlN0vPvLhIZ9HKJ1Ois//vurvhP/PRSPYgG7X++Pys3uk7
-        p7kW2yx3e3peaTPPpZsiJtri+56u/nbaY5aoz/J7T+U/nE210kurYN3HtOnxqau7ahf9ymj1
-        TApjMtokbdX0dIVDtLqUoEVkVvuHBbwvlFiKMxINtZiLihMBp9SQTX4CAAA=
-X-CMS-MailID: 20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7
+In-Reply-To: <20200925141218.13550-1-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSbUhTURjHObu7d3fD2W0KniwTBgUaqbOgC5ZYWtz6EFKSINS85UWtTWXz
+        JQVrJL4NNU2wobZsOa053RLzZVq5ZToyNd9AwUBjFgZaqYGt1Dav2pfD7zzn9/yfw+HgiEiH
+        +uLJKemMIoWWiTEBt73/9/DREadcGqKv9SNfaEwo+bzpHYesexNGFteYeeTIiGsZt9RiZIn5
+        JUpqRl5zyOa+TzzS+sOBkoXzCwi5kr+BRXhQDquWQxm1RkDVqEa5VKuhGKMqpxoB1T2twqiy
+        NgOgVloPRuNxgpMJjCw5k1EEh8cLkkz6ejRtiX970rbIU4FSXA34OCSOw8H3E5gaCHAR8QzA
+        PKuVy25WAeyoesJxWyJiBUBbYehOh7OhgsdKjQC+qp/g7HaYR/sRt4UREqheVLtycdybSIcN
+        dk+3gxAODuxZZ1O9iCj4p8nCdTOXOATtk28xNwuJU7D8wybKTvOHTeberUw+EQ7nRnuBOwgS
+        Bh4sKp3nsVIUtGvyuSx7wW8Dbdv1A3Cz6zGHbcgDcG64mcduSgAcv6cBrBUGZ4adW1dFiABo
+        sgS7ERKnoa4YY9ETTi3udcuICx+0P0TYshAWFYjYjMOweqBld6r14xjCMgWd6+Pb71MBYMHc
+        GFYO/Kv/z6oDwAB8mAylPJFRSlKYrCAlLVdmpCQG3UiVtwLXzxncGFjuBL/GrtsAgQOxh9D+
+        WS4VoXSmMltuAxBHxN7CM0OD10TCBDo7h1GkShUZMkZpA/txrthHeEy3cFVEJNLpzC2GSWMU
+        O6ccnO+rAkVPRbP7JtaIjcrL2khkMPdCeKihz0+fUSMJqTQ6pg3GwLI7X+9Xe6/pogXxjm5H
+        oFoR15JgydXHRlIr9BfZ7KW1mObZPTnxd6d7vms9TvycsbbNS8/ZV88uddou/s3MvlIVYfGi
+        Olrab5pM0V0VsoD1LMOj82hIbMxy5pEhnZirTKIlgYhCSf8DmeqdJDUDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42I5/e/4Xd3zv3LjDbpO8VpsnLGe1WLl6qNM
+        Fgv2W1t0zt7AbnH+PJC4vGsOm0XPhq2sFjPO72OyWHvkLrvFwQ9PWC3an75ktvjc+o/Ngcfj
+        ycF5TB5r5q1h9JjdcJHFY9OqTjaPyTeWM3rsvtnA5tG3ZRWjx+dNcgEcUXo2RfmlJakKGfnF
+        JbZK0YYWRnqGlhZ6RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZ65cuYS14x1lx9dBb9gbG
+        Xo4uRk4OCQETiV/LJrJ3MXJxCAksZZT4eOQcM0RCRuLktAZWCFtY4s+1LjaIok+MEls2HWUD
+        SbAJGEp0ve0Cs0UEyiQ6rmxlBiliFnjDJHH31Q92kISwgIvE79W7WEBsFgFViRNXD4M18ArY
+        Skw48x9qg7zE6g0HwDZzCthJPLx4gLGLkQNom63E/odOExj5FjAyrGIUSS0tzk3PLTbUK07M
+        LS7NS9dLzs/dxAiMgW3Hfm7ewXhpY/AhRgEORiUe3hOPcuOFWBPLiitzDzFKcDArifA6nT0d
+        J8SbklhZlVqUH19UmpNafIjRFOimicxSosn5wPjMK4k3NDU0t7A0NDc2NzazUBLn7RA4GCMk
+        kJ5YkpqdmlqQWgTTx8TBKdXA6PJgjXyaSIa8D9MpcVaDHQzdzz2OflwRwXT5okTF3V/fKqW0
+        6grcMhmeie+crLN49dfZ7DOF/ZaKSbv0PA7Y2ONSY+1fdODhHPsQ+9JME/+5XwQ9Yw5cMNqj
+        eHfaDe64e5tX9CamWEXPdV+pqRoWlDTrftmRxgfmEknsnDfnTFycrxtkZh2mxFKckWioxVxU
+        nAgAEI6bVpcCAAA=
+X-CMS-MailID: 20200925141231eucas1p223c342cc989df23e4fc28d97fe3010c5
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7
+X-RootMTR: 20200925141231eucas1p223c342cc989df23e4fc28d97fe3010c5
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7
-References: <CGME20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20200925141231eucas1p223c342cc989df23e4fc28d97fe3010c5
+References: <20200925141218.13550-1-m.szyprowski@samsung.com>
+        <CGME20200925141231eucas1p223c342cc989df23e4fc28d97fe3010c5@eucas1p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Some devices require to allocate a special buffer (usually for the
+firmware) just at the beginning of the address space to ensure that all
+further allocations can be expressed as a positive offset from that
+special buffer. When IOMMU is used for managing the DMA address space,
+such requirement can be easily fulfilled, simply by enforcing the
+'first-fit' IOVA allocation algorithm.
 
-This patchset is a continuation of the planned rework of the ARM
-IOMMU/DMA-mapping code proposed by Robin Murphy in [1]. However, there
-are drivers (for example S5P-MFC and Exynos4-IS) which depend on the way
-the old ARM IOMMU/DMA-mapping glue code worked (it used 'first-fit' IOVA
-allocation algorithm), so before switching ARM to the generic code, such
-drivers have to be updated.
+This patch adds a DMA attribute for such case.
 
-This patchset provides the needed extensions to the generic IOMMU-DMA
-framework to enable support for the drivers that relied on the old ARM
-IOMMU/DMA-mapping behavior. This patchset is based on the idea proposed
-by Robin Murphy in [2] after the discussion of the workaround implemented
-directly in the mentioned drivers [3].
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ include/linux/dma-mapping.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Here is a git branch with this patchset and [1] patches applied on top of
-linux next-20200925:
-https://github.com/mszyprow/linux/tree/v5.9-next-20200925-arm-dma-iommu-low-address
-
-Best regards,
-Marek Szyprowski
-
-
-References:
-
-[1] https://lore.kernel.org/lkml/cover.1597931875.git.robin.murphy@arm.com/
-[2] https://lore.kernel.org/linux-iommu/bff57cbe-2247-05e1-9059-d9c66d64c407@arm.com/
-[3] https://lore.kernel.org/linux-samsung-soc/20200918144833.14618-1-m.szyprowski@samsung.com/T/
-
-
-Patch summary:
-
-Marek Szyprowski (8):
-  dma-mapping: add DMA_ATTR_LOW_ADDRESS attribute
-  iommu: iova: properly handle 0 as a valid IOVA address
-  iommu: iova: add support for 'first-fit' algorithm
-  iommu: dma-iommu: refactor iommu_dma_alloc_iova()
-  iommu: dma-iommu: add support for DMA_ATTR_LOW_ADDRESS
-  media: platform: exynos4-is: remove all references to physicall
-    addresses
-  media: platform: exynos4-is: use DMA_ATTR_LOW_ADDRESS
-  media: platform: s5p-mfc: use DMA_ATTR_LOW_ADDRESS
-
- drivers/iommu/dma-iommu.c                     | 79 ++++++++++++-----
- drivers/iommu/intel/iommu.c                   | 12 +--
- drivers/iommu/iova.c                          | 88 ++++++++++++++++++-
- .../media/platform/exynos4-is/fimc-capture.c  |  6 +-
- drivers/media/platform/exynos4-is/fimc-core.c | 28 +++---
- drivers/media/platform/exynos4-is/fimc-core.h | 18 ++--
- drivers/media/platform/exynos4-is/fimc-is.c   | 23 ++---
- drivers/media/platform/exynos4-is/fimc-is.h   |  6 +-
- .../media/platform/exynos4-is/fimc-lite-reg.c |  4 +-
- drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
- drivers/media/platform/exynos4-is/fimc-lite.h |  4 +-
- drivers/media/platform/exynos4-is/fimc-m2m.c  |  8 +-
- drivers/media/platform/exynos4-is/fimc-reg.c  | 18 ++--
- drivers/media/platform/exynos4-is/fimc-reg.h  |  4 +-
- drivers/media/platform/s5p-mfc/s5p_mfc.c      |  8 +-
- include/linux/dma-mapping.h                   |  6 ++
- include/linux/iova.h                          |  4 +
- 17 files changed, 221 insertions(+), 97 deletions(-)
-
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index bb138ac6f5e6..c8c568ba375b 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -66,6 +66,12 @@
+  * at least read-only at lesser-privileged levels).
+  */
+ #define DMA_ATTR_PRIVILEGED		(1UL << 9)
++/*
++ * DMA_ATTR_LOW_ADDRESS: used to indicate that the buffer should be allocated
++ * at the lowest possible DMA address, usually just at the beginning of the
++ * DMA/IOVA address space ('first-fit' allocation algorithm).
++ */
++#define DMA_ATTR_LOW_ADDRESS		(1UL << 10)
+ 
+ /*
+  * A dma_addr_t can hold any valid DMA or bus address for the platform.
 -- 
 2.17.1
 
