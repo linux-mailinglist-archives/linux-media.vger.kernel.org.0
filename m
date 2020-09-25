@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C815279096
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 20:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 833BB279098
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 20:33:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730019AbgIYSd3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 14:33:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35400 "EHLO
+        id S1730025AbgIYSde (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 14:33:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728069AbgIYSd2 (ORCPT
+        with ESMTP id S1729686AbgIYSde (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 14:33:28 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E02C0613CE
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:33:28 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id g29so3328092pgl.2
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:33:28 -0700 (PDT)
+        Fri, 25 Sep 2020 14:33:34 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36061C0613CE
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:33:34 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id l126so4006959pfd.5
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=IwxaOlPeFKDZobXHN833eDxzuKN0J7CVLp33zeI2xew=;
-        b=AR8RyfPyOVrFxlllvZt1M8UdZcdMLrLTTgah+svECQbuicsb1+XqDkRJeaE5zcYoey
-         53JSCi+yfLcuWl5m7Y6+bomn+ENXLihWEOib8Qh7g61KgCOcPi6BzsIycKbGWD0svSLP
-         a4KvEwK8/GE+4l62ykhLHwhYs03wNWA0rNvBTr2HXMS/y17esnhyL33zKOgtAWs+RUef
-         k23zBzBYxaeLbo+Qox0ybsGTc8nvP41Ok+NkVKwHOfqAszBiwe/XaYs6mc47cLQ99LVF
-         wLKhXT6a/x4fIddo1c77DRFKVem5mFMb7JPYnZj5t5chCuJL0bVG25mi2CEwasxFtD3P
-         4yiQ==
+        bh=bWoBtuj1a3OWnukIH+6aFRxvQnbnVbFdKWkrBtcBHUs=;
+        b=JtZSThmcnDELzXKqu6dB8Yz51iMzscfQM8Kcdqbzs33Xwssi3YI7oR3KmY8MpVfgj9
+         J0cTBM7SAAIAtSuoJdpW/6VhztVMVo//l3NwOzSYIkd5kkclA8g176Gf2ceZYZNKwTzm
+         wmQeVFvOCLadZ0rIjhKH0LarQXZEEwFbrmMIyvnr1lN7Dznki1qPC+dXdskZhIyeHndH
+         GBSn241rkrBFiYlVwYqdX00Wunmd6J+aGCfV2v4QgDG61y1zTks9Aps1qJiyFxidfhWq
+         6WTxSTrhn/sBLDjV9CjEm6axbEWTphu2ObU7eJ365lvgLtSxI0EOxlKkQQO0Gx+mcQGT
+         S8DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=IwxaOlPeFKDZobXHN833eDxzuKN0J7CVLp33zeI2xew=;
-        b=tB+/lU5YTPVmzS14gYMG0drhraHtLL6zMO0FCLe+DhJhwWjtoy0hKM7H6r8YkLtx8t
-         Gnc1AN3EH21k8UNaJhPFSBE9iXi6HNKIWy+epvlANLXULsCgSsfVt1F18Pt1YcjGDc3G
-         HDOjEJQ+2Akg+ZNqLIsiUeHlsTEBzEhoDwjiOtlW8C5IHlhzIyLSDg8BW+ApPVBQ0MoL
-         ZBvyWynANK/7FjSWkEtbk2AKhPWFlDRIaM1U1zH+QpvrtGZGiIG2KFCoqDVMaxzIcbhI
-         S401LC/1ZcJsi4+lGzr9wyV/1UN7Olgt/zVWmPCotfL05z/aBFrQ4URzB2cRB0HhCLi6
-         fmpw==
-X-Gm-Message-State: AOAM533Z5W9BX36dxMLmIK1M+JN8TLj150a/N0+bYedlCALLxj7So6AP
-        Q0pAPpivxI+J+wuoaeEk2gNqEwKaHwzChQ==
-X-Google-Smtp-Source: ABdhPJzzHmW/0ZHxlr6lVqFkSU0g8rRJ3+5/YoBaVKxN7S6CyaWXFgC1Y7Ha0bi2FVQzk7DqO8wVUA==
-X-Received: by 2002:a17:902:9041:b029:d0:cc02:8540 with SMTP id w1-20020a1709029041b02900d0cc028540mr637644plz.41.1601058807983;
-        Fri, 25 Sep 2020 11:33:27 -0700 (PDT)
+        bh=bWoBtuj1a3OWnukIH+6aFRxvQnbnVbFdKWkrBtcBHUs=;
+        b=OMxY578e1dn4rLAfIQRhEB6k5RLhgeYPr6yTaRYbKwyBFacwPbgp+kN+KT9ElPAobE
+         8bTYINDdtaGBXJWYtAUiNAPhBM0mtKq2QHxGrHD22a7Ne4Hy/EN1Hvy538sqlEf4Laz6
+         Ia+KSHokMOqeutYZNsjxx9EP3dJR5RiPZ9g2vXIh/eAV7BTK1jwBLa714veR83Nxa17A
+         IXzo9po6uL1Uo+5pK795QU24KIo++CqX2U12bpYVdrvaQ4OPnrdJPOF6ewuXgypTfMtp
+         3o6268jUljJ5pCy0/N0GvXsKZMAnoqYGiqGsN2tjdTIKJhUmllTueiLZtpX2j5koIb9R
+         390w==
+X-Gm-Message-State: AOAM5318f0OyefvhI25HMgC0fKaJ4JUhibuXZgOdkQ/0sjWnkfC8IpZQ
+        lMMY1rbsuJs2OvmefGJqGKlJYA==
+X-Google-Smtp-Source: ABdhPJyN302LQLPpJTJCVZY6pg5hfwvc06wPwY4BdZrLWxUbaMx3hxN//HP95gPxpA5WjK4UeWLYew==
+X-Received: by 2002:a63:4703:: with SMTP id u3mr249392pga.322.1601058813796;
+        Fri, 25 Sep 2020 11:33:33 -0700 (PDT)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id r16sm2554546pjo.19.2020.09.25.11.33.22
+        by smtp.googlemail.com with ESMTPSA id r16sm2554546pjo.19.2020.09.25.11.33.28
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 Sep 2020 11:33:27 -0700 (PDT)
+        Fri, 25 Sep 2020 11:33:33 -0700 (PDT)
 From:   Corentin Labbe <clabbe@baylibre.com>
 To:     gregkh@linuxfoundation.org, mchehab@kernel.org, hverkuil@xs4all.nl,
         laurent.pinchart@ideasonboard.com
 Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH RFT/RFC v2 22/47] staging: media: zoran: remove overlay
-Date:   Fri, 25 Sep 2020 18:30:32 +0000
-Message-Id: <1601058657-14042-23-git-send-email-clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC v2 23/47] staging: media: zoran: Use DMA coherent for stat_com
+Date:   Fri, 25 Sep 2020 18:30:33 +0000
+Message-Id: <1601058657-14042-24-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
 References: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
@@ -62,776 +62,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Supporting overlay is not necessary today, so let's reduce the code size
-by removing it.
+Instead of using a fragile virt_to_bus, let's use proper DMA coherent
+for the stat_com entry.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/zoran.h        |  16 -
- drivers/staging/media/zoran/zoran_card.c   |   6 -
- drivers/staging/media/zoran/zoran_device.c | 143 +--------
- drivers/staging/media/zoran/zoran_driver.c | 329 +--------------------
- 4 files changed, 12 insertions(+), 482 deletions(-)
+ drivers/staging/media/zoran/zoran.h        |  2 ++
+ drivers/staging/media/zoran/zoran_card.c   | 22 +++++++++++++++-------
+ drivers/staging/media/zoran/zoran_device.c |  3 +--
+ 3 files changed, 18 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
-index e9fef23a720c..aa2a8f688a01 100644
+index aa2a8f688a01..8f3faa4eb60f 100644
 --- a/drivers/staging/media/zoran/zoran.h
 +++ b/drivers/staging/media/zoran/zoran.h
-@@ -139,14 +139,6 @@ struct zoran_format {
- #define ZORAN_FORMAT_CAPTURE BIT(2)
- #define ZORAN_FORMAT_PLAYBACK BIT(3)
+@@ -351,6 +351,8 @@ struct zoran {
+ 	unsigned long frame_num;
  
--/* overlay-settings */
--struct zoran_overlay_settings {
--	int is_set;
--	int x, y, width, height;	/* position */
--	int clipcount;		/* position and number of clips */
--	const struct zoran_format *format;	/* overlay format */
--};
--
- /* v4l-capture settings */
- struct zoran_v4l_settings {
- 	int width, height, bytesperline;	/* capture size */
-@@ -211,9 +203,6 @@ struct zoran_fh {
- 
- 	enum zoran_map_mode map_mode;		/* Flag which bufferset will map by next mmap() */
- 
--	u32 *overlay_mask;			/* overlay mask */
--	enum zoran_lock_activity overlay_active;/* feature currently in use? */
--
- 	struct zoran_buffer_col buffers;	/* buffers' info */
+ 	wait_queue_head_t test_q;
++
++	dma_addr_t p_sc;
  };
  
-@@ -294,13 +283,8 @@ struct zoran {
- 	int vbuf_depth;
- 	int vbuf_bytesperline;
- 
--	struct zoran_overlay_settings overlay_settings;
--	u32 *overlay_mask;	/* overlay mask */
--	enum zoran_lock_activity overlay_active;	/* feature currently in use? */
--
- 	wait_queue_head_t v4l_capq;
- 
--	int v4l_overlay_active;	/* Overlay grab is activated */
- 	int v4l_memgrab_active;	/* Memory grab is activated */
- 
- 	int v4l_grab_frame;	/* Frame number being currently grabbed */
+ static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
 diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index 55315f67b3b9..5919803a6a5e 100644
+index 5919803a6a5e..9fe2bc2b036a 100644
 --- a/drivers/staging/media/zoran/zoran_card.c
 +++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -814,13 +814,7 @@ void zoran_open_init_params(struct zoran *zr)
- {
- 	int i;
+@@ -936,11 +936,17 @@ static int zr36057_init(struct zoran *zr)
+ 	zoran_open_init_params(zr);
  
--	/* User must explicitly set a window */
--	zr->overlay_settings.is_set = 0;
--	zr->overlay_mask = NULL;
--	zr->overlay_active = ZORAN_FREE;
--
- 	zr->v4l_memgrab_active = 0;
--	zr->v4l_overlay_active = 0;
- 	zr->v4l_grab_frame = NO_GRAB_ACTIVE;
- 	zr->v4l_grab_seq = 0;
- 	zr->v4l_settings.width = 192;
+ 	/* allocate memory *before* doing anything to the hardware in case allocation fails */
+-	zr->stat_com = kzalloc(BUZ_NUM_STAT_COM * 4, GFP_KERNEL);
+ 	zr->video_dev = video_device_alloc();
+-	if (!zr->stat_com || !zr->video_dev) {
++	if (!zr->video_dev) {
+ 		err = -ENOMEM;
+-		goto exit_free;
++		goto exit;
++	}
++	zr->stat_com = dma_alloc_coherent(&zr->pci_dev->dev,
++					  BUZ_NUM_STAT_COM * sizeof(u32),
++					  &zr->p_sc, GFP_KERNEL);
++	if (!zr->stat_com) {
++		err = -ENOMEM;
++		goto exit_video;
+ 	}
+ 	for (j = 0; j < BUZ_NUM_STAT_COM; j++)
+ 		zr->stat_com[j] = cpu_to_le32(1); /* mark as unavailable to zr36057 */
+@@ -958,7 +964,7 @@ static int zr36057_init(struct zoran *zr)
+ 	zr->video_dev->vfl_dir = VFL_DIR_M2M;
+ 	err = video_register_device(zr->video_dev, VFL_TYPE_VIDEO, video_nr[zr->id]);
+ 	if (err < 0)
+-		goto exit_free;
++		goto exit_statcom;
+ 	video_set_drvdata(zr->video_dev, zr);
+ 
+ 	zoran_init_hardware(zr);
+@@ -973,9 +979,11 @@ static int zr36057_init(struct zoran *zr)
+ 	zr->initialized = 1;
+ 	return 0;
+ 
+-exit_free:
+-	kfree(zr->stat_com);
++exit_statcom:
++	dma_free_coherent(&zr->pci_dev->dev, BUZ_NUM_STAT_COM * sizeof(u32), zr->stat_com, zr->p_sc);
++exit_video:
+ 	kfree(zr->video_dev);
++exit:
+ 	return err;
+ }
+ 
+@@ -1009,7 +1017,7 @@ static void zoran_remove(struct pci_dev *pdev)
+ 	btwrite(0, ZR36057_SPGPPCR);
+ 	free_irq(zr->pci_dev->irq, zr);
+ 	/* unmap and free memory */
+-	kfree(zr->stat_com);
++	dma_free_coherent(&zr->pci_dev->dev, BUZ_NUM_STAT_COM * sizeof(u32), zr->stat_com, zr->p_sc);
+ 	iounmap(zr->zr36057_mem);
+ 	pci_disable_device(zr->pci_dev);
+ 	video_unregister_device(zr->video_dev);
 diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
-index 139cfc683b98..627ebda33cc8 100644
+index 627ebda33cc8..0ecb044f8e8f 100644
 --- a/drivers/staging/media/zoran/zoran_device.c
 +++ b/drivers/staging/media/zoran/zoran_device.c
-@@ -300,7 +300,6 @@ static void zr36057_set_vfe(struct zoran *zr, int video_width, int video_height,
- 	unsigned int Wa, We, Ha, He;
- 	unsigned int X, Y, HorDcm, VerDcm;
- 	u32 reg;
--	unsigned int mask_line_size;
+@@ -579,8 +579,7 @@ static void zr36057_set_jpg(struct zoran *zr, enum zoran_codec_mode mode)
+ 	//btor(ZR36057_VFESPFR_VCLKPol, ZR36057_VFESPFR);
  
- 	tvn = zr->timing;
+ 	/* code base address */
+-	reg = virt_to_bus(zr->stat_com);
+-	btwrite(reg, ZR36057_JCBA);
++	btwrite(zr->p_sc, ZR36057_JCBA);
  
-@@ -395,143 +394,9 @@ static void zr36057_set_vfe(struct zoran *zr, int video_width, int video_height,
- 		reg |= ZR36057_VDCR_Triton;
- 	btwrite(reg, ZR36057_VDCR);
- 
--	/* (Ronald) don't write this if overlay_mask = NULL */
--	if (zr->overlay_mask) {
--		/* Write overlay clipping mask data, but don't enable overlay clipping */
--		/* RJ: since this makes only sense on the screen, we use
--		 * zr->overlay_settings.width instead of video_width */
--
--		mask_line_size = (BUZ_MAX_WIDTH + 31) / 32;
--		reg = virt_to_bus(zr->overlay_mask);
--		btwrite(reg, ZR36057_MMTR);
--		reg = virt_to_bus(zr->overlay_mask + mask_line_size);
--		btwrite(reg, ZR36057_MMBR);
--		reg =
--		    mask_line_size - (zr->overlay_settings.width +
--				      31) / 32;
--		if (DispMode == 0)
--			reg += mask_line_size;
--		reg <<= ZR36057_OCR_MaskStride;
--		btwrite(reg, ZR36057_OCR);
--	}
--
- 	zr36057_adjust_vfe(zr, zr->codec_mode);
- }
- 
--/*
-- * Switch overlay on or off
-- */
--
--void zr36057_overlay(struct zoran *zr, int on)
--{
--	u32 reg;
--
--	if (on) {
--		/* do the necessary settings ... */
--		btand(~ZR36057_VDCR_VidEn, ZR36057_VDCR);	/* switch it off first */
--
--		zr36057_set_vfe(zr,
--				zr->overlay_settings.width,
--				zr->overlay_settings.height,
--				zr->overlay_settings.format);
--
--		/* Start and length of each line MUST be 4-byte aligned.
--		 * This should be already checked before the call to this routine.
--		 * All error messages are internal driver checking only! */
--
--		/* video display top and bottom registers */
--		reg = (long)zr->vbuf_base +
--		    zr->overlay_settings.x *
--		    ((zr->overlay_settings.format->depth + 7) / 8) +
--		    zr->overlay_settings.y *
--		    zr->vbuf_bytesperline;
--		btwrite(reg, ZR36057_VDTR);
--		if (reg & 3)
--			pci_err(zr->pci_dev, "zr36057_overlay() - video_address not aligned\n");
--		if (zr->overlay_settings.height > BUZ_MAX_HEIGHT / 2)
--			reg += zr->vbuf_bytesperline;
--		btwrite(reg, ZR36057_VDBR);
--
--		/* video stride, status, and frame grab register */
--		reg = zr->vbuf_bytesperline -
--		    zr->overlay_settings.width *
--		    ((zr->overlay_settings.format->depth + 7) / 8);
--		if (zr->overlay_settings.height > BUZ_MAX_HEIGHT / 2)
--			reg += zr->vbuf_bytesperline;
--		if (reg & 3)
--			pci_err(zr->pci_dev, "zr36057_overlay() - video_stride not aligned\n");
--		reg = (reg << ZR36057_VSSFGR_DispStride);
--		reg |= ZR36057_VSSFGR_VidOvf;	/* clear overflow status */
--		btwrite(reg, ZR36057_VSSFGR);
--
--		/* Set overlay clipping */
--		if (zr->overlay_settings.clipcount > 0)
--			btor(ZR36057_OCR_OvlEnable, ZR36057_OCR);
--
--		/* ... and switch it on */
--		btor(ZR36057_VDCR_VidEn, ZR36057_VDCR);
--	} else {
--		/* Switch it off */
--		btand(~ZR36057_VDCR_VidEn, ZR36057_VDCR);
--	}
--}
--
--/*
-- * The overlay mask has one bit for each pixel on a scan line,
-- *  and the maximum window size is BUZ_MAX_WIDTH * BUZ_MAX_HEIGHT pixels.
-- */
--
--void write_overlay_mask(struct zoran_fh *fh, struct v4l2_clip *vp, int count)
--{
--	struct zoran *zr = fh->zr;
--	unsigned int mask_line_size = (BUZ_MAX_WIDTH + 31) / 32;
--	u32 *mask;
--	int x, y, width, height;
--	unsigned int i, j, k;
--
--	/* fill mask with one bits */
--	memset(fh->overlay_mask, ~0, mask_line_size * 4 * BUZ_MAX_HEIGHT);
--
--	for (i = 0; i < count; ++i) {
--		/* pick up local copy of clip */
--		x = vp[i].c.left;
--		y = vp[i].c.top;
--		width = vp[i].c.width;
--		height = vp[i].c.height;
--
--		/* trim clips that extend beyond the window */
--		if (x < 0) {
--			width += x;
--			x = 0;
--		}
--		if (y < 0) {
--			height += y;
--			y = 0;
--		}
--		if (x + width > zr->overlay_settings.width)
--			width = zr->overlay_settings.width - x;
--		if (y + height > zr->overlay_settings.height)
--			height = zr->overlay_settings.height - y;
--
--		/* ignore degenerate clips */
--		if (height <= 0)
--			continue;
--		if (width <= 0)
--			continue;
--
--		/* apply clip for each scan line */
--		for (j = 0; j < height; ++j) {
--			/* reset bit for each pixel */
--			/* this can be optimized later if need be */
--			mask = fh->overlay_mask + (y + j) * mask_line_size;
--			for (k = 0; k < width; ++k) {
--				mask[(x + k) / 32] &=
--				    ~((u32)1 << (x + k) % 32);
--			}
--		}
--	}
--}
--
- /* Enable/Disable uncompressed memory grabbing of the 36057 */
- void zr36057_set_memgrab(struct zoran *zr, int mode)
- {
-@@ -567,12 +432,8 @@ void zr36057_set_memgrab(struct zoran *zr, int mode)
- 		zr->v4l_grab_frame = NO_GRAB_ACTIVE;
- 
- 		/* re-enable grabbing to screen if it was running */
--		if (zr->v4l_overlay_active) {
--			zr36057_overlay(zr, 1);
--		} else {
--			btand(~ZR36057_VDCR_VidEn, ZR36057_VDCR);
--			btand(~ZR36057_VSSFGR_SnapShot, ZR36057_VSSFGR);
--		}
-+		btand(~ZR36057_VDCR_VidEn, ZR36057_VDCR);
-+		btand(~ZR36057_VSSFGR_SnapShot, ZR36057_VSSFGR);
- 	}
- }
- 
-diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-index db85978a2893..b910ad136b84 100644
---- a/drivers/staging/media/zoran/zoran_driver.c
-+++ b/drivers/staging/media/zoran/zoran_driver.c
-@@ -65,8 +65,7 @@ const struct zoran_format zoran_formats[] = {
- 		.fourcc = V4L2_PIX_FMT_RGB555,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
- 		.depth = 15,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_RGB555 | ZR36057_VFESPFR_ErrDif |
- 			   ZR36057_VFESPFR_LittleEndian,
- 	}, {
-@@ -74,16 +73,14 @@ const struct zoran_format zoran_formats[] = {
- 		.fourcc = V4L2_PIX_FMT_RGB555X,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
- 		.depth = 15,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_RGB555 | ZR36057_VFESPFR_ErrDif,
- 	}, {
- 		.name = "16-bit RGB LE",
- 		.fourcc = V4L2_PIX_FMT_RGB565,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
- 		.depth = 16,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_RGB565 | ZR36057_VFESPFR_ErrDif |
- 			   ZR36057_VFESPFR_LittleEndian,
- 	}, {
-@@ -91,48 +88,42 @@ const struct zoran_format zoran_formats[] = {
- 		.fourcc = V4L2_PIX_FMT_RGB565X,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
- 		.depth = 16,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_RGB565 | ZR36057_VFESPFR_ErrDif,
- 	}, {
- 		.name = "24-bit RGB",
- 		.fourcc = V4L2_PIX_FMT_BGR24,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
- 		.depth = 24,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_RGB888 | ZR36057_VFESPFR_Pack24,
- 	}, {
- 		.name = "32-bit RGB LE",
- 		.fourcc = V4L2_PIX_FMT_BGR32,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
- 		.depth = 32,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_RGB888 | ZR36057_VFESPFR_LittleEndian,
- 	}, {
- 		.name = "32-bit RGB BE",
- 		.fourcc = V4L2_PIX_FMT_RGB32,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
- 		.depth = 32,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_RGB888,
- 	}, {
- 		.name = "4:2:2, packed, YUYV",
- 		.fourcc = V4L2_PIX_FMT_YUYV,
- 		.colorspace = V4L2_COLORSPACE_SMPTE170M,
- 		.depth = 16,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_YUV422,
- 	}, {
- 		.name = "4:2:2, packed, UYVY",
- 		.fourcc = V4L2_PIX_FMT_UYVY,
- 		.colorspace = V4L2_COLORSPACE_SMPTE170M,
- 		.depth = 16,
--		.flags = ZORAN_FORMAT_CAPTURE |
--			 ZORAN_FORMAT_OVERLAY,
-+		.flags = ZORAN_FORMAT_CAPTURE,
- 		.vfespfr = ZR36057_VFESPFR_YUV422 | ZR36057_VFESPFR_LittleEndian,
- 	}, {
- 		.name = "Hardware-encoded Motion-JPEG",
-@@ -736,15 +727,10 @@ static int jpg_sync(struct zoran_fh *fh, struct zoran_sync *bs)
- static void zoran_open_init_session(struct zoran_fh *fh)
- {
- 	int i;
--	struct zoran *zr = fh->zr;
- 
- 	/* Per default, map the V4L Buffers */
- 	map_mode_raw(fh);
- 
--	/* take over the card's current settings */
--	zr->overlay_settings.is_set = 0;
--	fh->overlay_active = ZORAN_FREE;
--
- 	/* buffers */
- 	memset(&fh->buffers, 0, sizeof(fh->buffers));
- 	for (i = 0; i < MAX_FRAME; i++) {
-@@ -759,15 +745,6 @@ static void zoran_close_end_session(struct zoran_fh *fh)
- {
- 	struct zoran *zr = fh->zr;
- 
--	/* overlay */
--	if (fh->overlay_active != ZORAN_FREE) {
--		fh->overlay_active = zr->overlay_active = ZORAN_FREE;
--		zr->v4l_overlay_active = 0;
--		if (!zr->v4l_memgrab_active)
--			zr36057_overlay(zr, 0);
--		zr->overlay_mask = NULL;
--	}
--
- 	if (fh->map_mode == ZORAN_MAP_MODE_RAW) {
- 		/* v4l capture */
- 		if (fh->buffers.active != ZORAN_FREE) {
-@@ -825,16 +802,6 @@ static int zoran_open(struct file *file)
- 	}
- 	v4l2_fh_init(&fh->fh, video_devdata(file));
- 
--	/*
--	 * used to be BUZ_MAX_WIDTH/HEIGHT, but that gives overflows
--	 * on norm-change!
--	 */
--	fh->overlay_mask = kmalloc(array3_size((768 + 31) / 32, 576, 4), GFP_KERNEL);
--	if (!fh->overlay_mask) {
--		res = -ENOMEM;
--		goto fail_fh;
--	}
--
- 	if (zr->user++ == 0)
- 		first_open = 1;
- 
-@@ -856,9 +823,6 @@ static int zoran_open(struct file *file)
- 
- 	return 0;
- 
--fail_fh:
--	v4l2_fh_exit(&fh->fh);
--	kfree(fh);
- fail_unlock:
- 	mutex_unlock(&zr->lock);
- 
-@@ -894,11 +858,6 @@ static int zoran_close(struct file *file)
- 		if (zr36067_debug > 1)
- 			print_interrupts(zr);
- 
--		/* Overlay off */
--		zr->v4l_overlay_active = 0;
--		zr36057_overlay(zr, 0);
--		zr->overlay_mask = NULL;
--
- 		/* capture off */
- 		wake_up_interruptible(&zr->v4l_capq);
- 		zr36057_set_memgrab(zr, 0);
-@@ -915,7 +874,6 @@ static int zoran_close(struct file *file)
- 
- 	v4l2_fh_del(&fh->fh);
- 	v4l2_fh_exit(&fh->fh);
--	kfree(fh->overlay_mask);
- 	kfree(fh);
- 
- 	pci_dbg(zr->pci_dev, "%s done\n", __func__);
-@@ -945,26 +903,6 @@ static int setup_fbuffer(struct zoran_fh *fh, void *base, const struct zoran_for
- 	if (!bytesperline)
- 		bytesperline = width * ((fmt->depth + 7) & ~7) / 8;
- 
--#if 0
--	if (zr->overlay_active) {
--		/* dzjee... stupid users... don't even bother to turn off
--		 * overlay before changing the memory location...
--		 * normally, we would return errors here. However, one of
--		 * the tools that does this is... xawtv! and since xawtv
--		 * is used by +/- 99% of the users, we'd rather be user-
--		 * friendly and silently do as if nothing went wrong */
--		dprintk(3,
--			KERN_ERR
--			"%s: %s - forced overlay turnoff because framebuffer changed\n",
--			ZR_DEVNAME(zr), __func__);
--		zr36057_overlay(zr, 0);
--	}
--#endif
--
--	if (!(fmt->flags & ZORAN_FORMAT_OVERLAY)) {
--		pci_err(zr->pci_dev, "%s - no valid overlay format given\n", __func__);
--		return -EINVAL;
--	}
- 	if (height <= 0 || width <= 0 || bytesperline <= 0) {
- 		pci_err(zr->pci_dev, "%s - invalid height/width/bpl value (%d|%d|%d)\n",
- 			__func__, width, height, bytesperline);
-@@ -980,177 +918,11 @@ static int setup_fbuffer(struct zoran_fh *fh, void *base, const struct zoran_for
- 	zr->vbuf_height = height;
- 	zr->vbuf_width = width;
- 	zr->vbuf_depth = fmt->depth;
--	zr->overlay_settings.format = fmt;
- 	zr->vbuf_bytesperline = bytesperline;
- 
--	/* The user should set new window parameters */
--	zr->overlay_settings.is_set = 0;
--
- 	return 0;
- }
- 
--static int setup_window(struct zoran_fh *fh, int x, int y, int width, int height,
--			struct v4l2_clip __user *clips, unsigned int clipcount, void __user *bitmap)
--{
--	struct zoran *zr = fh->zr;
--	struct v4l2_clip *vcp = NULL;
--	int on, end;
--
--	if (!zr->vbuf_base) {
--		pci_err(zr->pci_dev, "%s - frame buffer has to be set first\n", __func__);
--		return -EINVAL;
--	}
--
--	if (!zr->overlay_settings.format) {
--		pci_err(zr->pci_dev, "%s - no overlay format set\n", __func__);
--		return -EINVAL;
--	}
--
--	if (clipcount > 2048) {
--		pci_err(zr->pci_dev, "%s - invalid clipcount\n", __func__);
--		return -EINVAL;
--	}
--
--	/*
--	 * The video front end needs 4-byte alinged line sizes, we correct that
--	 * silently here if necessary
--	 */
--	if (zr->vbuf_depth == 15 || zr->vbuf_depth == 16) {
--		end = (x + width) & ~1;	/* round down */
--		x = (x + 1) & ~1;	/* round up */
--		width = end - x;
--	}
--
--	if (zr->vbuf_depth == 24) {
--		end = (x + width) & ~3;	/* round down */
--		x = (x + 3) & ~3;	/* round up */
--		width = end - x;
--	}
--
--	if (width > BUZ_MAX_WIDTH)
--		width = BUZ_MAX_WIDTH;
--	if (height > BUZ_MAX_HEIGHT)
--		height = BUZ_MAX_HEIGHT;
--
--	/* Check for invalid parameters */
--	if (width < BUZ_MIN_WIDTH || height < BUZ_MIN_HEIGHT ||
--	    width > BUZ_MAX_WIDTH || height > BUZ_MAX_HEIGHT) {
--		pci_err(zr->pci_dev, "%s - width = %d or height = %d invalid\n", __func__, width, height);
--		return -EINVAL;
--	}
--
--	zr->overlay_settings.x = x;
--	zr->overlay_settings.y = y;
--	zr->overlay_settings.width = width;
--	zr->overlay_settings.height = height;
--	zr->overlay_settings.clipcount = clipcount;
--
--	/*
--	 * If an overlay is running, we have to switch it off
--	 * and switch it on again in order to get the new settings in effect.
--	 *
--	 * We also want to avoid that the overlay mask is written
--	 * when an overlay is running.
--	 */
--
--	on = zr->v4l_overlay_active && !zr->v4l_memgrab_active &&
--	    zr->overlay_active != ZORAN_FREE &&
--	    fh->overlay_active != ZORAN_FREE;
--	if (on)
--		zr36057_overlay(zr, 0);
--
--	/*
--	 *   Write the overlay mask if clips are wanted.
--	 *   We prefer a bitmap.
--	 */
--	if (bitmap) {
--		/* fake value - it just means we want clips */
--		zr->overlay_settings.clipcount = 1;
--
--		if (copy_from_user(fh->overlay_mask, bitmap,
--				   (width * height + 7) / 8)) {
--			return -EFAULT;
--		}
--	} else if (clipcount) {
--		/* write our own bitmap from the clips */
--		vcp = vmalloc(array_size(sizeof(struct v4l2_clip),
--					 clipcount + 4));
--		if (!vcp) {
--			return -ENOMEM;
--		}
--		if (copy_from_user
--		    (vcp, clips, sizeof(struct v4l2_clip) * clipcount)) {
--			vfree(vcp);
--			return -EFAULT;
--		}
--		write_overlay_mask(fh, vcp, clipcount);
--		vfree(vcp);
--	}
--
--	zr->overlay_settings.is_set = 1;
--
--	if (on)
--		zr36057_overlay(zr, 1);
--
--	/* Make sure the changes come into effect */
--	return wait_grab_pending(zr);
--}
--
--static int setup_overlay(struct zoran_fh *fh, int on)
--{
--	struct zoran *zr = fh->zr;
--
--	/* If there is nothing to do, return immediately */
--	if ((on && fh->overlay_active != ZORAN_FREE) ||
--	    (!on && fh->overlay_active == ZORAN_FREE))
--		return 0;
--
--	/* check whether we're touching someone else's overlay */
--	if (on && zr->overlay_active != ZORAN_FREE &&
--	    fh->overlay_active == ZORAN_FREE) {
--		pci_err(zr->pci_dev, "%s - overlay is already active for another session\n", __func__);
--		return -EBUSY;
--	}
--	if (!on && zr->overlay_active != ZORAN_FREE &&
--	    fh->overlay_active == ZORAN_FREE) {
--		pci_err(zr->pci_dev, "%s - you cannot cancel someone else's session\n", __func__);
--		return -EPERM;
--	}
--
--	if (on == 0) {
--		zr->overlay_active = fh->overlay_active = ZORAN_FREE;
--		zr->v4l_overlay_active = 0;
--		/*
--		 * When a grab is running, the video simply
--		 * won't be switched on any more
--		 */
--		if (!zr->v4l_memgrab_active)
--			zr36057_overlay(zr, 0);
--		zr->overlay_mask = NULL;
--	} else {
--		if (!zr->vbuf_base || !zr->overlay_settings.is_set) {
--			pci_err(zr->pci_dev, "%s - buffer or window not set\n", __func__);
--			return -EINVAL;
--		}
--		if (!zr->overlay_settings.format) {
--			pci_err(zr->pci_dev, "%s - no overlay format set\n", __func__);
--			return -EINVAL;
--		}
--		zr->overlay_active = fh->overlay_active = ZORAN_LOCKED;
--		zr->v4l_overlay_active = 1;
--		zr->overlay_mask = fh->overlay_mask;
--		if (!zr->v4l_memgrab_active)
--			zr36057_overlay(zr, 1);
--		/*
--		 * When a grab is running, the video will be
--		 * switched on when grab is finished
--		 */
--	}
--
--	/* Make sure the changes come into effect */
--	return wait_grab_pending(zr);
--}
--
- /* get the status of a buffer in the clients buffer queue */
- static int zoran_v4l2_buffer_status(struct zoran_fh *fh,
- 				    struct v4l2_buffer *buf, int num)
-@@ -1249,8 +1021,6 @@ static int zoran_v4l2_buffer_status(struct zoran_fh *fh,
- 
- static int zoran_set_norm(struct zoran *zr, v4l2_std_id norm)
- {
--	int on;
--
- 	if (zr->v4l_buffers.active != ZORAN_FREE ||
- 	    zr->jpg_buffers.active != ZORAN_FREE) {
- 		pr_warn("%s: %s called while in playback/capture mode\n", ZR_DEVNAME(zr), __func__);
-@@ -1269,20 +1039,9 @@ static int zoran_set_norm(struct zoran *zr, v4l2_std_id norm)
- 	else
- 		zr->timing = zr->card.tvn[0];
- 
--	/*
--	 * We switch overlay off and on since a change in the
--	 * norm needs different VFE settings
--	 */
--	on = zr->overlay_active && !zr->v4l_memgrab_active;
--	if (on)
--		zr36057_overlay(zr, 0);
--
- 	decoder_call(zr, video, s_std, norm);
- 	encoder_call(zr, video, s_std_output, norm);
- 
--	if (on)
--		zr36057_overlay(zr, 1);
--
- 	/* Make sure the changes come into effect */
- 	zr->norm = norm;
- 
-@@ -1324,7 +1083,7 @@ static int zoran_querycap(struct file *file, void *__fh, struct v4l2_capability
- 	strscpy(cap->driver, "zoran", sizeof(cap->driver));
- 	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s", pci_name(zr->pci_dev));
- 	cap->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE |
--			   V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_VIDEO_OVERLAY;
-+			   V4L2_CAP_VIDEO_OUTPUT;
- 	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
- 	return 0;
- }
-@@ -1415,40 +1174,6 @@ static int zoran_g_fmt_vid_cap(struct file *file, void *__fh,
- 	return 0;
- }
- 
--static int zoran_g_fmt_vid_overlay(struct file *file, void *__fh,
--				   struct v4l2_format *fmt)
--{
--	struct zoran *zr = video_drvdata(file);
--
--	fmt->fmt.win.w.left = zr->overlay_settings.x;
--	fmt->fmt.win.w.top = zr->overlay_settings.y;
--	fmt->fmt.win.w.width = zr->overlay_settings.width;
--	fmt->fmt.win.w.height = zr->overlay_settings.height;
--	if (zr->overlay_settings.width * 2 > BUZ_MAX_HEIGHT)
--		fmt->fmt.win.field = V4L2_FIELD_INTERLACED;
--	else
--		fmt->fmt.win.field = V4L2_FIELD_TOP;
--
--	return 0;
--}
--
--static int zoran_try_fmt_vid_overlay(struct file *file, void *__fh,
--				     struct v4l2_format *fmt)
--{
--	struct zoran *zr = video_drvdata(file);
--
--	if (fmt->fmt.win.w.width > BUZ_MAX_WIDTH)
--		fmt->fmt.win.w.width = BUZ_MAX_WIDTH;
--	if (fmt->fmt.win.w.width < BUZ_MIN_WIDTH)
--		fmt->fmt.win.w.width = BUZ_MIN_WIDTH;
--	if (fmt->fmt.win.w.height > BUZ_MAX_HEIGHT)
--		fmt->fmt.win.w.height = BUZ_MAX_HEIGHT;
--	if (fmt->fmt.win.w.height < BUZ_MIN_HEIGHT)
--		fmt->fmt.win.w.height = BUZ_MIN_HEIGHT;
--
--	return 0;
--}
--
- static int zoran_try_fmt_vid_out(struct file *file, void *__fh,
- 				 struct v4l2_format *fmt)
- {
-@@ -1536,26 +1261,6 @@ static int zoran_try_fmt_vid_cap(struct file *file, void *__fh,
- 	return 0;
- }
- 
--static int zoran_s_fmt_vid_overlay(struct file *file, void *__fh,
--				   struct v4l2_format *fmt)
--{
--	struct zoran_fh *fh = __fh;
--	struct zoran *zr = fh->zr;
--	int res;
--
--	pci_dbg(zr->pci_dev, "x=%d, y=%d, w=%d, h=%d, cnt=%d, map=0x%p\n",
--		fmt->fmt.win.w.left, fmt->fmt.win.w.top,
--			fmt->fmt.win.w.width,
--			fmt->fmt.win.w.height,
--			fmt->fmt.win.clipcount,
--			fmt->fmt.win.bitmap);
--	res = setup_window(fh, fmt->fmt.win.w.left, fmt->fmt.win.w.top,
--			   fmt->fmt.win.w.width, fmt->fmt.win.w.height,
--			   (struct v4l2_clip __user *)fmt->fmt.win.clips,
--			   fmt->fmt.win.clipcount, fmt->fmt.win.bitmap);
--	return res;
--}
--
- static int zoran_s_fmt_vid_out(struct file *file, void *__fh,
- 			       struct v4l2_format *fmt)
- {
-@@ -1694,8 +1399,6 @@ static int zoran_g_fbuf(struct file *file, void *__fh,
- 	fb->base = zr->vbuf_base;
- 	fb->fmt.width = zr->vbuf_width;
- 	fb->fmt.height = zr->vbuf_height;
--	if (zr->overlay_settings.format)
--		fb->fmt.pixelformat = zr->overlay_settings.format->fourcc;
- 	fb->fmt.bytesperline = zr->vbuf_bytesperline;
- 	fb->fmt.colorspace = V4L2_COLORSPACE_SRGB;
- 	fb->fmt.field = V4L2_FIELD_INTERLACED;
-@@ -1728,13 +1431,6 @@ static int zoran_s_fbuf(struct file *file, void *__fh,
- 	return res;
- }
- 
--static int zoran_overlay(struct file *file, void *__fh, unsigned int on)
--{
--	struct zoran_fh *fh = __fh;
--
--	return setup_overlay(fh, on);
--}
--
- static int zoran_streamoff(struct file *file, void *__fh, enum v4l2_buf_type type);
- 
- static int zoran_reqbufs(struct file *file, void *__fh, struct v4l2_requestbuffers *req)
-@@ -2524,7 +2220,6 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
- 	.vidioc_s_std			    = zoran_s_std,
- 	.vidioc_g_jpegcomp		    = zoran_g_jpegcomp,
- 	.vidioc_s_jpegcomp		    = zoran_s_jpegcomp,
--	.vidioc_overlay			    = zoran_overlay,
- 	.vidioc_reqbufs			    = zoran_reqbufs,
- 	.vidioc_querybuf		    = zoran_querybuf,
- 	.vidioc_qbuf			    = zoran_qbuf,
-@@ -2533,16 +2228,12 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
- 	.vidioc_streamoff		    = zoran_streamoff,
- 	.vidioc_enum_fmt_vid_cap	    = zoran_enum_fmt_vid_cap,
- 	.vidioc_enum_fmt_vid_out	    = zoran_enum_fmt_vid_out,
--	.vidioc_enum_fmt_vid_overlay	    = zoran_enum_fmt_vid_overlay,
- 	.vidioc_g_fmt_vid_cap		    = zoran_g_fmt_vid_cap,
- 	.vidioc_g_fmt_vid_out               = zoran_g_fmt_vid_out,
--	.vidioc_g_fmt_vid_overlay           = zoran_g_fmt_vid_overlay,
- 	.vidioc_s_fmt_vid_cap		    = zoran_s_fmt_vid_cap,
- 	.vidioc_s_fmt_vid_out               = zoran_s_fmt_vid_out,
--	.vidioc_s_fmt_vid_overlay           = zoran_s_fmt_vid_overlay,
- 	.vidioc_try_fmt_vid_cap		    = zoran_try_fmt_vid_cap,
- 	.vidioc_try_fmt_vid_out		    = zoran_try_fmt_vid_out,
--	.vidioc_try_fmt_vid_overlay	    = zoran_try_fmt_vid_overlay,
- 	.vidioc_subscribe_event             = v4l2_ctrl_subscribe_event,
- 	.vidioc_unsubscribe_event           = v4l2_event_unsubscribe,
- };
+ 	/* FIFO threshold (FIFO is 160. double words) */
+ 	/* NOTE: decimal values here */
 -- 
 2.26.2
 
