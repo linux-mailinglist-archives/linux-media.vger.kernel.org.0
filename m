@@ -2,109 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A8BA278C47
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 17:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9151278C86
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 17:24:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729170AbgIYPNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 11:13:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728527AbgIYPNc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 11:13:32 -0400
-Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04040C0613CE
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 08:13:32 -0700 (PDT)
-Received: by mail-oo1-xc42.google.com with SMTP id c4so827352oou.6
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 08:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=o2Exc0VBzd1ZNlpHVolK8GIrxWSC5fjv/MamEye1CJU=;
-        b=ZU3Z9UgkdkEleoOCD2pAZl7P746k2eSXo1QpjnhEr/LIKvmhtAYVxNwwxdjdGe/8jp
-         yizjFfOFng297w6kW82u/7EK9fl5bdl1XRjTw/ujyJl5Rdew/OOBkOX7Vjv+/vEEG559
-         qe1lQ8yo5qj0smPTw/NSREaaPyYKYrEujCR6r4z28CLPUOpZlixAJpCBF6u8oJ1xGlsL
-         CaSQicVjlrPJ+uqN98DTIzQDj6qYSV3c2Jh+a6LZgZCBo9q5wwQvZ83o1NrowIOQWwzS
-         rzgu47afS7y8NTjp9OX3duZkS2qItbsNxNcrtdHB5UGKEwxdpjw8dd+0HI45FPpCnFUQ
-         ViSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=o2Exc0VBzd1ZNlpHVolK8GIrxWSC5fjv/MamEye1CJU=;
-        b=Mih27CtyVeUOAzVC+Nc9g2xD8x9t7JPg7xLgBfj/gVbi4iWsMzJDGCmXBH+u4cVC6f
-         1UyG2IIL1VfclB/cHUnP/l0gKVAbPCAOZ2I/sxhQ3tlUH1wF5AngC5FNQhWS1t0AC04Z
-         gSf/4f300TS6TRMQ9cs4q22VXHblktCoBqi5t6N6nhnfIyciA+hOXxgqeyOtaN+gLtG8
-         jbp2mZGiCBLXwruxqn1UVyxyizYySf7pacJDrmvJLugHiVNmfkBqpxKsHtDv9TDdZnc8
-         XYuaHgk0hgxo2sFlxThMlv+RwtBmJxWTOi0lPXWW10iSLNTVkL6DwV7rskf5elwRU7KU
-         A8NA==
-X-Gm-Message-State: AOAM532QD7fSnWPG4Vr4sZ7OeE09SiwVaNVC3QLdLtxV1hCUVOvvCB6a
-        UgFEBGAhpF1FKmQhk9XsrEkVqQ==
-X-Google-Smtp-Source: ABdhPJxEWKdnpqf5Z7ph3yamNi6DbElNakvjUXJwVJzGCJsO9xYsMWxm0+GWTqRp12Q29DfPg8KFwA==
-X-Received: by 2002:a4a:e516:: with SMTP id r22mr1182921oot.3.1601046811391;
-        Fri, 25 Sep 2020 08:13:31 -0700 (PDT)
-Received: from yoga (99-135-181-32.lightspeed.austtx.sbcglobal.net. [99.135.181.32])
-        by smtp.gmail.com with ESMTPSA id x15sm746755oor.33.2020.09.25.08.13.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2020 08:13:30 -0700 (PDT)
-Date:   Fri, 25 Sep 2020 10:13:28 -0500
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Qinglang Miao <miaoqinglang@huawei.com>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] media: venus: simplify the return expression of
- session_process_buf()
-Message-ID: <20200925151328.GC2510@yoga>
-References: <20200921131038.92204-1-miaoqinglang@huawei.com>
+        id S1729073AbgIYPYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 11:24:23 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:36194 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728678AbgIYPYX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 25 Sep 2020 11:24:23 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kLpTy-006Mtq-0i; Fri, 25 Sep 2020 15:17:58 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kLpcu-00086y-7J; Fri, 25 Sep 2020 15:27:12 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.10] Various small fixes (#67358)
+Date:   Fri, 25 Sep 2020 15:27:12 +0000
+Message-Id: <20200925152712.31139-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200925145951.GA7907@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200921131038.92204-1-miaoqinglang@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon 21 Sep 08:10 CDT 2020, Qinglang Miao wrote:
+From: builder@linuxtv.org
 
-> Simplify the return expression.
-> 
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20200925145951.GA7907@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/69873/
+Build time: 00:15:38
+Link: https://lore.kernel.org/linux-media/20200925145951.GA7907@gofer.mess.org
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+gpg: Signature made Fri 25 Sep 2020 02:47:39 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
-> ---
->  drivers/media/platform/qcom/venus/helpers.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 50439eb1f..fb3fd3640 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -439,7 +439,6 @@ session_process_buf(struct venus_inst *inst, struct vb2_v4l2_buffer *vbuf)
->  	struct vb2_buffer *vb = &vbuf->vb2_buf;
->  	unsigned int type = vb->type;
->  	struct hfi_frame_data fdata;
-> -	int ret;
->  
->  	memset(&fdata, 0, sizeof(fdata));
->  	fdata.alloc_len = buf->size;
-> @@ -470,11 +469,7 @@ session_process_buf(struct venus_inst *inst, struct vb2_v4l2_buffer *vbuf)
->  		fdata.offset = 0;
->  	}
->  
-> -	ret = hfi_session_process_buf(inst, &fdata);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return 0;
-> +	return hfi_session_process_buf(inst, &fdata);
->  }
->  
->  static bool is_dynamic_bufmode(struct venus_inst *inst)
-> -- 
-> 2.23.0
-> 
+Summary: got 2/8 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-dvb-frontends-rtl2832_sdr-set-error-code-in-pr.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0006-media-dvb-frontends-tda18271c2dd-Constify-static-str.patch:
+
+   checkpatch.pl:
+	$ cat patches/0006-media-dvb-frontends-tda18271c2dd-Constify-static-str.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:14: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	-:118: CHECK: Avoid CamelCase: <m_StandardTable>
+	-:127: CHECK: Avoid CamelCase: <m_BP_Filter_Map>
+	-:136: CHECK: Avoid CamelCase: <m_RF_Cal_Map>
+	-:145: CHECK: Avoid CamelCase: <m_KM_Map>
+	-:154: CHECK: Avoid CamelCase: <m_Main_PLL_Map>
+	-:163: CHECK: Avoid CamelCase: <m_Cal_PLL_Map>
+	-:172: CHECK: Avoid CamelCase: <m_GainTaper_Map>
+	-:181: CHECK: Avoid CamelCase: <m_RF_Cal_DC_Over_DT_Map>
+	-:190: CHECK: Avoid CamelCase: <m_IR_Meas_Map>
+	-:198: CHECK: Avoid CamelCase: <m_CID_Target_Map>
+	-:207: CHECK: Avoid CamelCase: <m_RF_Band_Map>
+
+
+Error #512 when building PDF docs
+
