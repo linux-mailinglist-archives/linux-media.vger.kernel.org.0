@@ -2,167 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B74D7278232
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 10:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F567278233
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 10:06:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727463AbgIYIGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1727464AbgIYIGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 25 Sep 2020 04:06:03 -0400
-Received: from mickerik.phytec.de ([195.145.39.210]:61920 "EHLO
+Received: from mickerik.phytec.de ([195.145.39.210]:61918 "EHLO
         mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727135AbgIYIF5 (ORCPT
+        with ESMTP id S1727450AbgIYIF6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 04:05:57 -0400
+        Fri, 25 Sep 2020 04:05:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1601020247; x=1603612247;
+        q=dns/txt; i=@phytec.de; t=1601020249; x=1603612249;
         h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=m09GuPxODIBi6CsANbjfMfr/YvqAFgMfC3Wj/NunD5c=;
-        b=G5HqRrJmTZI22TXQD/hef/gHRyscv00cnEK5uRaiQ5JXXIEQMxdRTmj5+fWzPhag
-        xwsdlDfCy6SlE+x9yeo970ZkfQLp1W118ukE8+sQHVLeN+r9DqaHQ8y8jpBJhvED
-        zwnDCD5yvLL2jGZTnHOR9r8i44COhkXoU2ce62RbW0k=;
-X-AuditID: c39127d2-253ff70000001c25-f5-5f6da157af91
+        bh=W2ZrFbcxd4kDGmQO+BiozH8E+vz+f2nc13eOaGw19XE=;
+        b=iBv1bbb92r0yTpZ1wcrPTdMU0eDJuIRsNLu1ysrjHn9DIrFDPeSZokfc7RDW19Eu
+        nDpGWm12wQTokuRjBp8UN6hyWcwzhHREOPQ0Hv4m9XgdTtgALJd3hAeuUelAQXXz
+        RUv3Xh2aiodZZkIBv6xbTQfQXqd6p/uiQU/28e4tF3o=;
+X-AuditID: c39127d2-253ff70000001c25-f6-5f6da159bed7
 Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id DD.A5.07205.751AD6F5; Fri, 25 Sep 2020 09:50:47 +0200 (CEST)
+        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 3E.A5.07205.951AD6F5; Fri, 25 Sep 2020 09:50:49 +0200 (CEST)
 Received: from lws-riedmueller.phytec.de ([172.16.23.108])
           by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2020092509504720-495333 ;
-          Fri, 25 Sep 2020 09:50:47 +0200 
+          with ESMTP id 2020092509504915-495334 ;
+          Fri, 25 Sep 2020 09:50:49 +0200 
 From:   Stefan Riedmueller <s.riedmueller@phytec.de>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christian Hemp <c.hemp@phytec.de>,
+        Dirk Bender <d.bender@phytec.de>,
         Stefan Riedmueller <s.riedmueller@phytec.de>
-Subject: [PATCH 4/5] media: mt9p031: Make pixel clock polarity configurable by DT
-Date:   Fri, 25 Sep 2020 09:50:28 +0200
-Message-Id: <20200925075029.32181-4-s.riedmueller@phytec.de>
+Subject: [PATCH 5/5] media: mt9p031: Fix corrupted frame after restarting stream
+Date:   Fri, 25 Sep 2020 09:50:29 +0200
+Message-Id: <20200925075029.32181-5-s.riedmueller@phytec.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200925075029.32181-1-s.riedmueller@phytec.de>
 References: <20200925075029.32181-1-s.riedmueller@phytec.de>
 MIME-Version: 1.0
 X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 25.09.2020 09:50:47,
+ 25.09.2020 09:50:49,
         Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 25.09.2020 09:50:47
+ 25.09.2020 09:50:49
 X-TNEFEvaluated: 1
 Content-Transfer-Encoding: quoted-printable
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrALMWRmVeSWpSXmKPExsWyRoCBSzd8YW68wf7pihadE5ewW1zeNYfN
-        omfDVlaLZZv+MFl82vKNyYHVY3bHTFaPTas62TzmnQz0+LxJLoAlissmJTUnsyy1SN8ugStj
-        zrldrAWtUhXL5ncyNTD2inUxcnJICJhI3G2ezQxiCwlsY5R48Fmgi5ELyL7GKHGqaTkLSIJN
-        wEhiwbRGJhBbRMBConfRdEaQImaB54wSc7bvYgRJCAsESvw7vIwdxGYRUJW48esSG4jNK2Aj
-        8XXTbFaIbfISMy99B6vhFLCVOPr2PBPEZhuJFzv+MkLUC0qcnPmEBWSBhMAVRomZh3qZIZqF
-        JE4vPgtmMwtoSyxb+Jp5AqPALCQ9s5CkFjAyrWIUys1Mzk4tyszWK8ioLElN1ktJ3cQIDNXD
-        E9Uv7WDsm+NxiJGJg/EQowQHs5II7/ENOfFCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeTfwloQJ
-        CaQnlqRmp6YWpBbBZJk4OKUaGA9wTRR0PiC+yMNiyhQdkW2tbqt9mHdqN2xwkP8YvOFHScuk
-        TGFePYXa+w3qimIM63hKynedm9p1eHfu5sbsqjVNHcum1a19n9YQsiyG+e2tL+cCbz/zniyo
-        36n099SaFeHmH28Iyx69vNBxwxVJrs6VaVPC2g0ObVfjeOP9ofaL6ZaOne/dapVYijMSDbWY
-        i4oTAVrdt5xDAgAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPLMWRmVeSWpSXmKPExsWyRoCBSzdyYW68we1vchadE5ewW1zeNYfN
+        omfDVlaLZZv+MFl82vKNyYHVY3bHTFaPTas62TzmnQz0+LxJLoAlissmJTUnsyy1SN8ugSvj
+        zptbTAUnRSquH3rN0sDYJtjFyMkhIWAisX/pB0YQW0hgG6PE1W25EPY1Rom7D8tBbDYBI4kF
+        0xqZQGwRAQuJ3kXTgeq5OJgFnjFKtLe1soEkhAUCJP5Pm8gOYrMIqEqs+3yCBcTmFbCRODDl
+        MBvEMnmJmZe+g9VwCthKHH17nglimY3Eix1/GSHqBSVOznzCArJAQuAKo8TpT7NYIJqFJE4v
+        PssMYjMLaEssW/iaeQKjwCwkPbOQpBYwMq1iFMrNTM5OLcrM1ivIqCxJTdZLSd3ECAzUwxPV
+        L+1g7JvjcYiRiYPxEKMEB7OSCO/xDTnxQrwpiZVVqUX58UWlOanFhxilOViUxHk38JaECQmk
+        J5akZqemFqQWwWSZODilGhgNvl7u+cFwsGfvDN7Z/0z2X1u9n2tH9SqPjyzzcm3OOWb2nkus
+        bSl4mlM0b5Vz9mRBP4/nuxfL/Jv8cIbwvrSgU47TZjp1OLr82mAWGniU+cb9f88UGmy6Y2TM
+        Zj9uNud101635cbUFd7vubLtDM6Xbyn6djVPW6ugV/bTmsOL+M/L+eh3lfxWYinOSDTUYi4q
+        TgQA/2/8F0ICAAA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Christian Hemp <c.hemp@phytec.de>
+From: Dirk Bender <d.bender@phytec.de>
 
-Evaluate the desired pixel clock polarity from the device tree.
+To prevent corrupted frames after starting and stopping the sensor it's
+datasheet specifies a specific pause sequence to follow:
 
-Signed-off-by: Christian Hemp <c.hemp@phytec.de>
+Stopping:
+	Set Pause=5FRestart Bit -> Set Restart Bit -> Set Chip=5FEnable Off
+
+Restarting:
+	Set Chip=5FEnable On -> Clear Pause=5FRestart Bit
+
+The Restart Bit is cleared automatically and must not be cleared
+manually as this would cause undefined behavior.
+
+Signed-off-by: Dirk Bender <d.bender@phytec.de>
 Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
 ---
- drivers/media/i2c/Kconfig   |  1 +
- drivers/media/i2c/mt9p031.c | 19 ++++++++++++++++++-
- include/media/i2c/mt9p031.h |  1 +
- 3 files changed, 20 insertions(+), 1 deletion(-)
+ drivers/media/i2c/mt9p031.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index c7ba76fee599..7c026daeacf0 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -1103,6 +1103,7 @@ config VIDEO=5FMT9P031
- 	select MEDIA=5FCONTROLLER
- 	select VIDEO=5FV4L2=5FSUBDEV=5FAPI
- 	select VIDEO=5FAPTINA=5FPLL
-+	select V4L2=5FFWNODE
- 	help
- 	  This is a Video4Linux2 sensor driver for the Aptina
- 	  (Micron) mt9p031 5 Mpixel camera.
 diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-index f5d6a7890c47..8f8ee37a2dd2 100644
+index 8f8ee37a2dd2..2f2daf95dcd3 100644
 --- a/drivers/media/i2c/mt9p031.c
 +++ b/drivers/media/i2c/mt9p031.c
-@@ -27,6 +27,7 @@
- #include <media/v4l2-async.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
+@@ -80,6 +80,8 @@
+ #define		MT9P031=5FPIXEL=5FCLOCK=5FSHIFT(n)		((n) << 8)
+ #define		MT9P031=5FPIXEL=5FCLOCK=5FDIVIDE(n)		((n) << 0)
+ #define MT9P031=5FFRAME=5FRESTART				0x0b
++#define		MT9P031=5FFRAME=5FRESTART=5FSET		(1 << 0)
++#define		MT9P031=5FFRAME=5FPAUSE=5FRESTART=5FSET		(1 << 1)
+ #define MT9P031=5FSHUTTER=5FDELAY				0x0c
+ #define MT9P031=5FRST					0x0d
+ #define		MT9P031=5FRST=5FENABLE			1
+@@ -483,9 +485,25 @@ static int mt9p031=5Fset=5Fparams(struct mt9p031 *mt9p=
+031)
+ static int mt9p031=5Fs=5Fstream(struct v4l2=5Fsubdev *subdev, int enable)
+ {
+ 	struct mt9p031 *mt9p031 =3D to=5Fmt9p031(subdev);
++	struct i2c=5Fclient *client =3D v4l2=5Fget=5Fsubdevdata(subdev);
++	int val;
+ 	int ret;
 =20
- #include "aptina-pll.h"
-@@ -399,6 +400,14 @@ static int =5F=5Fmt9p031=5Fset=5Fpower(struct mt9p031 =
-*mt9p031, bool on)
- 		return ret;
- 	}
-=20
-+	/* Configure the pixel clock polarity */
-+	if (mt9p031->pdata && mt9p031->pdata->pixclk=5Fpol) {
-+		ret =3D mt9p031=5Fwrite(client, MT9P031=5FPIXEL=5FCLOCK=5FCONTROL,
-+				MT9P031=5FPIXEL=5FCLOCK=5FINVERT);
+ 	if (!enable) {
++		val =3D mt9p031=5Fread(client, MT9P031=5FFRAME=5FRESTART);
++
++		/* enable pause restart */
++		val |=3D MT9P031=5FFRAME=5FPAUSE=5FRESTART=5FSET;
++		ret =3D mt9p031=5Fwrite(client, MT9P031=5FFRAME=5FRESTART, val);
 +		if (ret < 0)
 +			return ret;
-+	}
 +
- 	return v4l2=5Fctrl=5Fhandler=5Fsetup(&mt9p031->ctrls);
++		/* enable restart + keep pause restart set */
++		val |=3D MT9P031=5FFRAME=5FRESTART=5FSET;
++		ret =3D mt9p031=5Fwrite(client, MT9P031=5FFRAME=5FRESTART, val);
++		if (ret < 0)
++			return ret;
++
+ 		/* Stop sensor readout */
+ 		ret =3D mt9p031=5Fset=5Foutput=5Fcontrol(mt9p031,
+ 						 MT9P031=5FOUTPUT=5FCONTROL=5FCEN, 0);
+@@ -505,6 +523,13 @@ static int mt9p031=5Fs=5Fstream(struct v4l2=5Fsubdev *=
+subdev, int enable)
+ 	if (ret < 0)
+ 		return ret;
+=20
++	val =3D mt9p031=5Fread(client, MT9P031=5FFRAME=5FRESTART);
++	/* disable reset + pause restart */
++	val &=3D ~MT9P031=5FFRAME=5FPAUSE=5FRESTART=5FSET;
++	ret =3D mt9p031=5Fwrite(client, MT9P031=5FFRAME=5FRESTART, val);
++	if (ret < 0)
++		return ret;
++
+ 	return mt9p031=5Fpll=5Fenable(mt9p031);
  }
 =20
-@@ -1062,7 +1071,8 @@ static const struct v4l2=5Fsubdev=5Finternal=5Fops mt=
-9p031=5Fsubdev=5Finternal=5Fops =3D {
- static struct mt9p031=5Fplatform=5Fdata *
- mt9p031=5Fget=5Fpdata(struct i2c=5Fclient *client)
- {
--	struct mt9p031=5Fplatform=5Fdata *pdata;
-+	struct mt9p031=5Fplatform=5Fdata *pdata =3D NULL;
-+	struct v4l2=5Ffwnode=5Fendpoint endpoint;
- 	struct device=5Fnode *np;
-=20
- 	if (!IS=5FENABLED(CONFIG=5FOF) || !client->dev.of=5Fnode)
-@@ -1072,6 +1082,10 @@ mt9p031=5Fget=5Fpdata(struct i2c=5Fclient *client)
- 	if (!np)
- 		return NULL;
-=20
-+	endpoint.bus=5Ftype =3D V4L2=5FMBUS=5FUNKNOWN;
-+	if (v4l2=5Ffwnode=5Fendpoint=5Fparse(of=5Ffwnode=5Fhandle(np), &endpoint)=
- < 0)
-+		goto done;
-+
- 	pdata =3D devm=5Fkzalloc(&client->dev, sizeof(*pdata), GFP=5FKERNEL);
- 	if (!pdata)
- 		goto done;
-@@ -1079,6 +1093,9 @@ mt9p031=5Fget=5Fpdata(struct i2c=5Fclient *client)
- 	of=5Fproperty=5Fread=5Fu32(np, "input-clock-frequency", &pdata->ext=5Ffre=
-q);
- 	of=5Fproperty=5Fread=5Fu32(np, "pixel-clock-frequency", &pdata->target=5F=
-freq);
-=20
-+	pdata->pixclk=5Fpol =3D !!(endpoint.bus.parallel.flags &
-+			       V4L2=5FMBUS=5FPCLK=5FSAMPLE=5FRISING);
-+
- done:
- 	of=5Fnode=5Fput(np);
- 	return pdata;
-diff --git a/include/media/i2c/mt9p031.h b/include/media/i2c/mt9p031.h
-index 7c29c53aa988..f933cd0be8e5 100644
---- a/include/media/i2c/mt9p031.h
-+++ b/include/media/i2c/mt9p031.h
-@@ -10,6 +10,7 @@ struct v4l2=5Fsubdev;
-  * @target=5Ffreq: Pixel clock frequency
-  */
- struct mt9p031=5Fplatform=5Fdata {
-+	unsigned int pixclk=5Fpol:1;
- 	int ext=5Ffreq;
- 	int target=5Ffreq;
- };
 --=20
 2.25.1
 
