@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AF33278AA2
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 16:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68C9B278A93
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 16:13:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729135AbgIYONE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 10:13:04 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:50628 "EHLO
+        id S1729067AbgIYOMk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 10:12:40 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:50634 "EHLO
         mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728968AbgIYOMf (ORCPT
+        with ESMTP id S1729065AbgIYOMh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 10:12:35 -0400
+        Fri, 25 Sep 2020 10:12:37 -0400
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200925141234euoutp01ef6faf3e65f2e7aaee3f85c47786b167~4DEQfb9fg1106011060euoutp01l
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200925141234euoutp019d835d328a80f36c1fb4c447357ad29b~4DEQ-U8yW1102011020euoutp01s
         for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 14:12:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200925141234euoutp01ef6faf3e65f2e7aaee3f85c47786b167~4DEQfb9fg1106011060euoutp01l
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200925141234euoutp019d835d328a80f36c1fb4c447357ad29b~4DEQ-U8yW1102011020euoutp01s
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
         s=mail20170921; t=1601043154;
-        bh=ne9u7VvtcKUtNJGd6gpwAnIIX9HybL1toIE7vYsodus=;
+        bh=9CE6iiMKRXDrSc5Ywn3xo3KvMo/QgjPcqFMYHr22ArI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=r4uF/aoxITpAjSLsg7hVtIW/4nmNKTFksX95LoeSEKU1dkHOLLpnzpmqwSPhp+1RW
-         tgQRyWvGivBhxKBcfHp63r08sTn/S6dKUxpOblxp1Zr37Jihpdw4shWVckzIbbupVf
-         wSH18f0De37EsOVLAQ38sl/6cVOJKzTPUv14E4Wg=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200925141233eucas1p2cca36e0b11cc5db9cbda616b70e7a9fe~4DEQAmdTr3045930459eucas1p2x;
-        Fri, 25 Sep 2020 14:12:33 +0000 (GMT)
+        b=nkc7oWKE/tnx9QS3LqwiW6uiLXsIZ62s3nwkWf00PzJNQnN9qKRUftktGWL0KU0i/
+         T6c8aLjJ+n4fiqU0xanyIYZaBUGAVjZceBVHFC88tOEQF7tTttl9yomMIF9Qgf4l0O
+         qpPVcj4KhDSXOwJwSvqX1npd6895+ZR0dcfrI7N8=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200925141234eucas1p115abf7d0d5af792ff10abab0adc70c05~4DEQtKIQa2131721317eucas1p1Z;
+        Fri, 25 Sep 2020 14:12:34 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id C8.D3.06318.1DAFD6F5; Fri, 25
-        Sep 2020 15:12:33 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200925141233eucas1p2148ace93f157bd631edd8db4e8df664b~4DEPw4PUF3139231392eucas1p21;
-        Fri, 25 Sep 2020 14:12:33 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200925141233eusmtrp2ff5345af0a8d80a26e9c2b715254c4ed~4DEPwRptr2568825688eusmtrp2J;
-        Fri, 25 Sep 2020 14:12:33 +0000 (GMT)
-X-AuditID: cbfec7f5-371ff700000018ae-81-5f6dfad1ad2a
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id CF.E4.06456.2DAFD6F5; Fri, 25
+        Sep 2020 15:12:34 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200925141234eucas1p13ab5a15da95185dcc99300772d0d72ce~4DEQVaiXg1940419404eucas1p1d;
+        Fri, 25 Sep 2020 14:12:34 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200925141234eusmtrp121f952957ba05d6361967c7e2ae9dd31~4DEQUsHWJ1676616766eusmtrp1j;
+        Fri, 25 Sep 2020 14:12:34 +0000 (GMT)
+X-AuditID: cbfec7f2-809ff70000001938-68-5f6dfad2453e
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id D2.49.06314.1DAFD6F5; Fri, 25
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 4E.7B.06017.1DAFD6F5; Fri, 25
         Sep 2020 15:12:33 +0100 (BST)
 Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
         eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200925141232eusmtip1a73066b6d091025c6bf9b7bd592e77e2~4DEPNuSm21158111581eusmtip1J;
-        Fri, 25 Sep 2020 14:12:32 +0000 (GMT)
+        20200925141233eusmtip13cef9bafb9f5c4dede41b7b90c27a9c2~4DEPuzSgK1697816978eusmtip16;
+        Fri, 25 Sep 2020 14:12:33 +0000 (GMT)
 From:   Marek Szyprowski <m.szyprowski@samsung.com>
 To:     Linux IOMMU <iommu@lists.linux-foundation.org>,
         linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
@@ -56,190 +56,468 @@ Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
         Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/8] iommu: dma-iommu: add support for DMA_ATTR_LOW_ADDRESS
-Date:   Fri, 25 Sep 2020 16:12:15 +0200
-Message-Id: <20200925141218.13550-6-m.szyprowski@samsung.com>
+Subject: [PATCH 6/8] media: platform: exynos4-is: remove all references to
+ physicall addresses
+Date:   Fri, 25 Sep 2020 16:12:16 +0200
+Message-Id: <20200925141218.13550-7-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200925141218.13550-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSb0hTURzt7m1vb8vJazO8aCkMDMrU/EM9MKWi8EVf+lBEiq6lDxV9U/bU
-        0g8xkpYuFTNiS0MtKm1zOpdKrlJn6oSRa0mlaIpmlJYQTTP/pPl8al8u53d+59xzuFwMkT4S
-        +GHpqhxKrVJmylExv61vcSDEvUQrDpl7g4lmQ5OAeGrq5RG1ndFEcZVFSLhc68eg7T5KlFha
-        BYTB1cEjzD2fhIT955SAuPllGiE8N1bRY17klL2aRzZUNwCySuPmk1ZjMUreGaoD5IthDUqW
-        tRgB6bEGnMXixUdTqMz0PEodFntJnFb9+gOS3RxydfGbAdWAuiAdEGEQj4JW87RQB8SYFK8H
-        cKXehHLDHIDGMg+fGzwAVo/OoFsWzZoN4RZ1AC6PVPC3LY52LZ9VoXg41M3q1h0Y5oPnwCf9
-        3qwGwad48OXfBzxWI8PPwP7vywiL+XgQHG8cE7JYgsfA7o/DCJcWCE2Wrg0swmPhhLsLsBdB
-        3CiEc9Mtm6KTUDtn2awngzOOFiGH98C19hoeZygEcGLALOSGEgAHrxsAp4qGowNLG1URfD9s
-        soVx9HHoqvkNWBri3nBodhdLI+uwok2PcLQEFmmlnHofrHQ0bsfa377brEbCsrXPgHug2wDe
-        m3yMloPAyv9htQAYgS+Vy9CpFBOpoq6EMkqayVWlhiZn0Vaw/necq47556Bj5XI3wDEg95L0
-        T9IKqUCZx+TT3QBiiNxHcuKNM0kqSVHmF1DqLIU6N5NiuoE/xpf7SiIfTidK8VRlDpVBUdmU
-        emvLw0R+GpAc5WwmMsRVCXuLaoNm4idNP4CpVB/7J85X8TW7VBYhn+0sml/TT1081Tvv3B1V
-        spD2foEO1o/GHi4QxchPJ9ATiRfKFa1U3/klLTpyLr5NcI3sOLhjZ7A7z6brifzlsefpjjy7
-        a64p1MaN2YUyZP7WqySPeLxxxekvCIjIl/OZNGX4AUTNKP8B5XKVDzcDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42I5/e/4Xd2Lv3LjDdqmSFpsnLGe1WLl6qNM
-        Fgv2W1t0zt7AbnH+PJC4vGsOm0XPhq2sFjPO72OyWHvkLrvFwQ9PWC3an75ktvjc+o/Ngcfj
-        ycF5TB5r5q1h9JjdcJHFY9OqTjaPyTeWM3rsvtnA5tG3ZRWjx+dNcgEcUXo2RfmlJakKGfnF
-        JbZK0YYWRnqGlhZ6RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZ8w5fYy7YqFvx88UMtgbG
-        5apdjJwcEgImEg3/dzF3MXJxCAksZZSYvP8TG0RCRuLktAZWCFtY4s+1LjaIok+MEt97r7KD
-        JNgEDCW63naBNYgIlEl0XNkKNolZ4A2TxN1XP8CKhAW8JU68/s0MYrMIqErcX3cPLM4rYCtx
-        6PpNZogN8hKrNxwAszkF7CQeXjzA2MXIAbTNVmL/Q6cJjHwLGBlWMYqklhbnpucWG+oVJ+YW
-        l+al6yXn525iBMbAtmM/N+9gvLQx+BCjAAejEg/viUe58UKsiWXFlbmHGCU4mJVEeJ3Ono4T
-        4k1JrKxKLcqPLyrNSS0+xGgKdNNEZinR5HxgfOaVxBuaGppbWBqaG5sbm1koifN2CByMERJI
-        TyxJzU5NLUgtgulj4uCUamBUyvgiIPtlyUv+yw0mXCd8J/nnv7NR9L1W8VVWVPV7d0/1iZ6P
-        Wkwi+tfmftn4ud6G2zN1VwozO9M60QmhmcER5ctNJOJ3z/yeHN0re2eN/7sPLvFaLU1zuf6c
-        j6lddOFpHdNx8UNPThQ9T+la5S0RITzjodnt/G0rfmux2Riv9DrGXMwoa6LEUpyRaKjFXFSc
-        CAAJRGSXlwIAAA==
-X-CMS-MailID: 20200925141233eucas1p2148ace93f157bd631edd8db4e8df664b
+X-Brightmail-Tracker: H4sIAAAAAAAAA0VSa0hTURzn7N7dXYeT67Q8aCSMCjLykQoXNCkJutGXiOqDlDr1oiPvlN3N
+        NBDGzMyxajU0mSUq5GO+ljizpfkonTKc+ci0DPJFKJiiqSimeb1qXw6/83v8f38OB0ekZUJf
+        XKFU0yqlPFWGidHmng3X2aFNJi74y6+j5JuiBiFZXdMtIEvbI8j8YquIHBjYPYbtLzHSYLUJ
+        yaKBDwKy7tMPEdm5NCMk82bnEHIldxu74E7NdJYIqNqSWkAVawdRqtGSj1GmsUpAvR/XYtST
+        JgugVhqPX8NjxJFJdKoig1YFRcWLU0yVwnSzDmSWtpqEWjCaqgduOCTCYN9UsUAPxLiUqAKw
+        pr0fcIKU+ANgQ7+GF1YAnC2oRw8ST7sLRbypcleoVRwGFhq8OYwRIVC/oMf0AMe9CTWs6PXg
+        5iDEjAC2/i0TcB4vIh46RgwYh1HiJOyZcCEclhDn4UbFVwHf5Q9rrB17vBsRBScHOwA3CBIW
+        EVxsqwK86RK0TjYhPPaC844mEY+PQafJgPKBHAAnXXUi/mIAcFhXtJ+OgBOuzb1VEeI0bLAH
+        8fRFWLL1G+VoSHjAsQVPjkZ24fPmFwhPS+Cjh1LefQqaHfWHtZ2fh/bXoaBtJEfEP+IzAE0b
+        5YgR+Jv/l5UCYAE+tIZlkmk2REnfC2TlDKtRJgcmpjGNYPfjOLcdyy1gdSihCxA4kLlLeqeY
+        OKlQnsFmMV0A4ojMWxLd74yVSpLkWfdpVVqcSpNKs13AD0dlPpLQ8rk7UiJZrqbv0nQ6rTpQ
+        BbibrxaUFawZyfFIxvMmK7VX+5Q+yNYtL+m02X62cPVHbduJLS820xyGDuct/hTN3zJevtHW
+        F6DINU7dLhTaibWCq6uvR+nwxp3vWytYh//0eqTzeux61Jlz5XFX3r1lnEdYa2gw8m3blpYw
+        Gt0isSGJ4YjNY9r8eHn2VfBOjLjNU4ayKfKQAETFyv8Bt73jpzQDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42I5/e/4Xd2Lv3LjDR7OtrHYOGM9q8XK1UeZ
+        LBbst7bonL2B3eL8eSBxedccNoueDVtZLWac38dksfbIXXaLgx+esFq0P33JbPG59R+bA4/H
+        k4PzmDzWzFvD6DG74SKLx6ZVnWwek28sZ/TYfbOBzaNvyypGj8+b5AI4ovRsivJLS1IVMvKL
+        S2yVog0tjPQMLS30jEws9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQyJi9nLZjVxFixYM9k1gbG
+        azldjJwcEgImEv1Hp7F3MXJxCAksZZQ49ayJHSIhI3FyWgMrhC0s8edaFxtE0SdGiUObHzOC
+        JNgEDCW63oIkODlEBMokOq5sZQYpYhZ4wyRx99UPsEnCAnESB/vnsYDYLAKqEsfunGMGsXkF
+        bCV+LrvOBLFBXmL1hgNgcU4BO4mHFw8ALeAA2mYrsf+h0wRGvgWMDKsYRVJLi3PTc4uN9IoT
+        c4tL89L1kvNzNzECY2DbsZ9bdjB2vQs+xCjAwajEw6vwNDdeiDWxrLgy9xCjBAezkgiv09nT
+        cUK8KYmVValF+fFFpTmpxYcYTYFumsgsJZqcD4zPvJJ4Q1NDcwtLQ3Njc2MzCyVx3g6BgzFC
+        AumJJanZqakFqUUwfUwcnFINjLpn7mfUm+YLC169VP04+b/vgZN9EeeTwybL7c/hWS9TdG6x
+        9oLIF27n91wTi0u1ZT282NHYWkM56PGB1YVTfppNj1NMuTxBo+FQVn27q2cyd7Dul4oo9lvT
+        95X5iVi2BTBP9hax6b/2PNnAu5FH5pZ+uILFC6kryWt9P2n/DavzUirbvVpZiaU4I9FQi7mo
+        OBEALv7o85cCAAA=
+X-CMS-MailID: 20200925141234eucas1p13ab5a15da95185dcc99300772d0d72ce
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200925141233eucas1p2148ace93f157bd631edd8db4e8df664b
+X-RootMTR: 20200925141234eucas1p13ab5a15da95185dcc99300772d0d72ce
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200925141233eucas1p2148ace93f157bd631edd8db4e8df664b
+X-CMS-RootMailID: 20200925141234eucas1p13ab5a15da95185dcc99300772d0d72ce
 References: <20200925141218.13550-1-m.szyprowski@samsung.com>
-        <CGME20200925141233eucas1p2148ace93f157bd631edd8db4e8df664b@eucas1p2.samsung.com>
+        <CGME20200925141234eucas1p13ab5a15da95185dcc99300772d0d72ce@eucas1p1.samsung.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Implement support for the DMA_ATTR_LOW_ADDRESS DMA attribute. If it has
-been set, call alloc_iova_first_fit() instead of the alloc_iova_fast() to
-allocate the new IOVA from the beginning of the address space.
+This driver always operates on the DMA/IOVA addresses, so calling them
+physicall addresses is misleading, although when no IOMMU is used they
+equal each other. Fix this by renaming all such entries to 'addr' and
+adjusting comments.
 
 Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- drivers/iommu/dma-iommu.c | 50 +++++++++++++++++++++++++++++----------
- 1 file changed, 38 insertions(+), 12 deletions(-)
+ .../media/platform/exynos4-is/fimc-capture.c  |  6 ++--
+ drivers/media/platform/exynos4-is/fimc-core.c | 28 +++++++++----------
+ drivers/media/platform/exynos4-is/fimc-core.h | 18 ++++++------
+ drivers/media/platform/exynos4-is/fimc-is.c   | 20 ++++++-------
+ drivers/media/platform/exynos4-is/fimc-is.h   |  6 ++--
+ .../media/platform/exynos4-is/fimc-lite-reg.c |  4 +--
+ drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
+ drivers/media/platform/exynos4-is/fimc-lite.h |  4 +--
+ drivers/media/platform/exynos4-is/fimc-m2m.c  |  8 +++---
+ drivers/media/platform/exynos4-is/fimc-reg.c  | 18 ++++++------
+ drivers/media/platform/exynos4-is/fimc-reg.h  |  4 +--
+ 11 files changed, 58 insertions(+), 60 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 0ea87023306f..ab39659c727a 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -401,6 +401,18 @@ static int dma_info_to_prot(enum dma_data_direction dir, bool coherent,
- }
+diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
+index 6000a4e789ad..13c838d3f947 100644
+--- a/drivers/media/platform/exynos4-is/fimc-capture.c
++++ b/drivers/media/platform/exynos4-is/fimc-capture.c
+@@ -201,7 +201,7 @@ void fimc_capture_irq_handler(struct fimc_dev *fimc, int deq_buf)
+ 	if (!list_empty(&cap->pending_buf_q)) {
  
- #define DMA_ALLOC_IOVA_COHERENT		BIT(0)
-+#define DMA_ALLOC_IOVA_FIRST_FIT	BIT(1)
-+
-+static unsigned int dma_attrs_to_alloc_flags(unsigned long attrs, bool coherent)
-+{
-+	unsigned int flags = 0;
-+
-+	if (coherent)
-+		flags |= DMA_ALLOC_IOVA_COHERENT;
-+	if (attrs & DMA_ATTR_LOW_ADDRESS)
-+		flags |= DMA_ALLOC_IOVA_FIRST_FIT;
-+	return flags;
-+}
+ 		v_buf = fimc_pending_queue_pop(cap);
+-		fimc_hw_set_output_addr(fimc, &v_buf->paddr, cap->buf_index);
++		fimc_hw_set_output_addr(fimc, &v_buf->addr, cap->buf_index);
+ 		v_buf->index = cap->buf_index;
  
- static dma_addr_t iommu_dma_alloc_iova(struct iommu_domain *domain,
- 		struct device *dev, size_t size, unsigned int flags)
-@@ -433,13 +445,23 @@ static dma_addr_t iommu_dma_alloc_iova(struct iommu_domain *domain,
- 		dma_limit = min(dma_limit, (u64)domain->geometry.aperture_end);
+ 		/* Move the buffer to the capture active queue */
+@@ -410,7 +410,7 @@ static void buffer_queue(struct vb2_buffer *vb)
+ 	int min_bufs;
  
- 	/* Try to get PCI devices a SAC address */
--	if (dma_limit > DMA_BIT_MASK(32) && dev_is_pci(dev))
--		iova = alloc_iova_fast(iovad, iova_len,
--				       DMA_BIT_MASK(32) >> shift, false);
-+	if (dma_limit > DMA_BIT_MASK(32) && dev_is_pci(dev)) {
-+		if (unlikely(flags & DMA_ALLOC_IOVA_FIRST_FIT))
-+			iova = alloc_iova_first_fit(iovad, iova_len,
-+						    DMA_BIT_MASK(32) >> shift);
-+		else
-+			iova = alloc_iova_fast(iovad, iova_len,
-+					      DMA_BIT_MASK(32) >> shift, false);
-+	}
+ 	spin_lock_irqsave(&fimc->slock, flags);
+-	fimc_prepare_addr(ctx, &buf->vb.vb2_buf, &ctx->d_frame, &buf->paddr);
++	fimc_prepare_addr(ctx, &buf->vb.vb2_buf, &ctx->d_frame, &buf->addr);
  
--	if (iova == IOVA_BAD_ADDR)
--		iova = alloc_iova_fast(iovad, iova_len, dma_limit >> shift,
--				       true);
-+	if (iova == IOVA_BAD_ADDR) {
-+		if (unlikely(flags & DMA_ALLOC_IOVA_FIRST_FIT))
-+			iova = alloc_iova_first_fit(iovad, iova_len,
-+						    dma_limit >> shift);
-+		else
-+			iova = alloc_iova_fast(iovad, iova_len,
-+					       dma_limit >> shift, true);
-+	}
+ 	if (!test_bit(ST_CAPT_SUSPENDED, &fimc->state) &&
+ 	    !test_bit(ST_CAPT_STREAM, &fimc->state) &&
+@@ -419,7 +419,7 @@ static void buffer_queue(struct vb2_buffer *vb)
+ 		int buf_id = (vid_cap->reqbufs_count == 1) ? -1 :
+ 				vid_cap->buf_index;
  
- 	if (iova != IOVA_BAD_ADDR)
- 		return (dma_addr_t)iova << shift;
-@@ -593,6 +615,7 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
- 	struct iova_domain *iovad = &cookie->iovad;
- 	bool coherent = dev_is_dma_coherent(dev);
- 	int ioprot = dma_info_to_prot(DMA_BIDIRECTIONAL, coherent, attrs);
-+	unsigned int flags = dma_attrs_to_alloc_flags(attrs, true);
- 	pgprot_t prot = dma_pgprot(dev, PAGE_KERNEL, attrs);
- 	unsigned int count, min_size, alloc_sizes = domain->pgsize_bitmap;
- 	struct page **pages;
-@@ -622,7 +645,7 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
- 		return NULL;
+-		fimc_hw_set_output_addr(fimc, &buf->paddr, buf_id);
++		fimc_hw_set_output_addr(fimc, &buf->addr, buf_id);
+ 		buf->index = vid_cap->buf_index;
+ 		fimc_active_queue_add(vid_cap, buf);
  
- 	size = iova_align(iovad, size);
--	iova = iommu_dma_alloc_iova(domain, dev, size, DMA_ALLOC_IOVA_COHERENT);
-+	iova = iommu_dma_alloc_iova(domain, dev, size, flags);
- 	if (iova == DMA_MAPPING_ERROR)
- 		goto out_free_pages;
+diff --git a/drivers/media/platform/exynos4-is/fimc-core.c b/drivers/media/platform/exynos4-is/fimc-core.c
+index 08d1f39a914c..c989abeb478e 100644
+--- a/drivers/media/platform/exynos4-is/fimc-core.c
++++ b/drivers/media/platform/exynos4-is/fimc-core.c
+@@ -325,7 +325,7 @@ static irqreturn_t fimc_irq_handler(int irq, void *priv)
  
-@@ -732,12 +755,13 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 		unsigned long offset, size_t size, enum dma_data_direction dir,
- 		unsigned long attrs)
+ /* The color format (colplanes, memplanes) must be already configured. */
+ int fimc_prepare_addr(struct fimc_ctx *ctx, struct vb2_buffer *vb,
+-		      struct fimc_frame *frame, struct fimc_addr *paddr)
++		      struct fimc_frame *frame, struct fimc_addr *addr)
  {
-+	unsigned int flags = dma_attrs_to_alloc_flags(attrs, false);
- 	phys_addr_t phys = page_to_phys(page) + offset;
- 	bool coherent = dev_is_dma_coherent(dev);
- 	int prot = dma_info_to_prot(dir, coherent, attrs);
- 	dma_addr_t dma_handle;
+ 	int ret = 0;
+ 	u32 pix_size;
+@@ -338,42 +338,40 @@ int fimc_prepare_addr(struct fimc_ctx *ctx, struct vb2_buffer *vb,
+ 	dbg("memplanes= %d, colplanes= %d, pix_size= %d",
+ 		frame->fmt->memplanes, frame->fmt->colplanes, pix_size);
  
--	dma_handle = __iommu_dma_map(dev, phys, size, prot, 0);
-+	dma_handle = __iommu_dma_map(dev, phys, size, prot, flags);
- 	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
- 	    dma_handle != DMA_MAPPING_ERROR)
- 		arch_sync_dma_for_device(phys, size, dir);
-@@ -842,6 +866,7 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 	struct iova_domain *iovad = &cookie->iovad;
- 	struct scatterlist *s, *prev = NULL;
- 	int prot = dma_info_to_prot(dir, dev_is_dma_coherent(dev), attrs);
-+	unsigned int flags = dma_attrs_to_alloc_flags(attrs, false);
- 	dma_addr_t iova;
- 	size_t iova_len = 0;
- 	unsigned long mask = dma_get_seg_boundary(dev);
-@@ -892,7 +917,7 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 		prev = s;
+-	paddr->y = vb2_dma_contig_plane_dma_addr(vb, 0);
++	addr->y = vb2_dma_contig_plane_dma_addr(vb, 0);
+ 
+ 	if (frame->fmt->memplanes == 1) {
+ 		switch (frame->fmt->colplanes) {
+ 		case 1:
+-			paddr->cb = 0;
+-			paddr->cr = 0;
++			addr->cb = 0;
++			addr->cr = 0;
+ 			break;
+ 		case 2:
+ 			/* decompose Y into Y/Cb */
+-			paddr->cb = (u32)(paddr->y + pix_size);
+-			paddr->cr = 0;
++			addr->cb = (u32)(addr->y + pix_size);
++			addr->cr = 0;
+ 			break;
+ 		case 3:
+-			paddr->cb = (u32)(paddr->y + pix_size);
++			addr->cb = (u32)(addr->y + pix_size);
+ 			/* decompose Y into Y/Cb/Cr */
+ 			if (FIMC_FMT_YCBCR420 == frame->fmt->color)
+-				paddr->cr = (u32)(paddr->cb
+-						+ (pix_size >> 2));
++				addr->cr = (u32)(addr->cb + (pix_size >> 2));
+ 			else /* 422 */
+-				paddr->cr = (u32)(paddr->cb
+-						+ (pix_size >> 1));
++				addr->cr = (u32)(addr->cb + (pix_size >> 1));
+ 			break;
+ 		default:
+ 			return -EINVAL;
+ 		}
+ 	} else if (!frame->fmt->mdataplanes) {
+ 		if (frame->fmt->memplanes >= 2)
+-			paddr->cb = vb2_dma_contig_plane_dma_addr(vb, 1);
++			addr->cb = vb2_dma_contig_plane_dma_addr(vb, 1);
+ 
+ 		if (frame->fmt->memplanes == 3)
+-			paddr->cr = vb2_dma_contig_plane_dma_addr(vb, 2);
++			addr->cr = vb2_dma_contig_plane_dma_addr(vb, 2);
  	}
  
--	iova = iommu_dma_alloc_iova(domain, dev, iova_len, 0);
-+	iova = iommu_dma_alloc_iova(domain, dev, iova_len, flags);
- 	if (iova == DMA_MAPPING_ERROR)
- 		goto out_restore_sg;
+-	dbg("PHYS_ADDR: y= 0x%X  cb= 0x%X cr= 0x%X ret= %d",
+-	    paddr->y, paddr->cb, paddr->cr, ret);
++	dbg("DMA ADDR: y= 0x%X  cb= 0x%X cr= 0x%X ret= %d",
++	    addr->y, addr->cb, addr->cr, ret);
  
-@@ -940,7 +965,8 @@ static dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
- 		size_t size, enum dma_data_direction dir, unsigned long attrs)
- {
- 	return __iommu_dma_map(dev, phys, size,
--			dma_info_to_prot(dir, false, attrs) | IOMMU_MMIO, 0);
-+		       dma_info_to_prot(dir, false, attrs) | IOMMU_MMIO,
-+		       dma_attrs_to_alloc_flags(attrs, false));
+ 	return ret;
+ }
+diff --git a/drivers/media/platform/exynos4-is/fimc-core.h b/drivers/media/platform/exynos4-is/fimc-core.h
+index e4a56232907a..58b72a052cef 100644
+--- a/drivers/media/platform/exynos4-is/fimc-core.h
++++ b/drivers/media/platform/exynos4-is/fimc-core.h
+@@ -202,10 +202,10 @@ struct fimc_scaler {
+ };
+ 
+ /**
+- * struct fimc_addr - the FIMC physical address set for DMA
+- * @y:	 luminance plane physical address
+- * @cb:	 Cb plane physical address
+- * @cr:	 Cr plane physical address
++ * struct fimc_addr - the FIMC address set for DMA
++ * @y:	 luminance plane address
++ * @cb:	 Cb plane address
++ * @cr:	 Cr plane address
+  */
+ struct fimc_addr {
+ 	u32	y;
+@@ -217,13 +217,13 @@ struct fimc_addr {
+  * struct fimc_vid_buffer - the driver's video buffer
+  * @vb:    v4l videobuf buffer
+  * @list:  linked list structure for buffer queue
+- * @paddr: precalculated physical address set
++ * @addr: precalculated DMA address set
+  * @index: buffer index for the output DMA engine
+  */
+ struct fimc_vid_buffer {
+ 	struct vb2_v4l2_buffer vb;
+ 	struct list_head	list;
+-	struct fimc_addr	paddr;
++	struct fimc_addr	addr;
+ 	int			index;
+ };
+ 
+@@ -239,7 +239,7 @@ struct fimc_vid_buffer {
+  * @height:	image pixel weight
+  * @payload:	image size in bytes (w x h x bpp)
+  * @bytesperline: bytesperline value for each plane
+- * @paddr:	image frame buffer physical addresses
++ * @addr:	image frame buffer DMA addresses
+  * @dma_offset:	DMA offset in bytes
+  * @fmt:	fimc color format pointer
+  */
+@@ -254,7 +254,7 @@ struct fimc_frame {
+ 	u32	height;
+ 	unsigned int		payload[VIDEO_MAX_PLANES];
+ 	unsigned int		bytesperline[VIDEO_MAX_PLANES];
+-	struct fimc_addr	paddr;
++	struct fimc_addr	addr;
+ 	struct fimc_dma_offset	dma_offset;
+ 	struct fimc_fmt		*fmt;
+ 	u8			alpha;
+@@ -626,7 +626,7 @@ int fimc_check_scaler_ratio(struct fimc_ctx *ctx, int sw, int sh,
+ int fimc_set_scaler_info(struct fimc_ctx *ctx);
+ int fimc_prepare_config(struct fimc_ctx *ctx, u32 flags);
+ int fimc_prepare_addr(struct fimc_ctx *ctx, struct vb2_buffer *vb,
+-		      struct fimc_frame *frame, struct fimc_addr *paddr);
++		      struct fimc_frame *frame, struct fimc_addr *addr);
+ void fimc_prepare_dma_offset(struct fimc_ctx *ctx, struct fimc_frame *f);
+ void fimc_set_yuv_order(struct fimc_ctx *ctx);
+ void fimc_capture_irq_handler(struct fimc_dev *fimc, int deq_buf);
+diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
+index 019bb47df915..41b841a96338 100644
+--- a/drivers/media/platform/exynos4-is/fimc-is.c
++++ b/drivers/media/platform/exynos4-is/fimc-is.c
+@@ -269,7 +269,7 @@ int fimc_is_cpu_set_power(struct fimc_is *is, int on)
+ 		mcuctl_write(0, is, REG_WDT_ISP);
+ 
+ 		/* Cortex-A5 start address setting */
+-		mcuctl_write(is->memory.paddr, is, MCUCTL_REG_BBOAR);
++		mcuctl_write(is->memory.addr, is, MCUCTL_REG_BBOAR);
+ 
+ 		/* Enable and start Cortex-A5 */
+ 		pmuisp_write(0x18000, is, REG_PMU_ISP_ARM_OPTION);
+@@ -336,26 +336,26 @@ static int fimc_is_alloc_cpu_memory(struct fimc_is *is)
+ 	struct device *dev = &is->pdev->dev;
+ 
+ 	is->memory.vaddr = dma_alloc_coherent(dev, FIMC_IS_CPU_MEM_SIZE,
+-					      &is->memory.paddr, GFP_KERNEL);
++					      &is->memory.addr, GFP_KERNEL);
+ 	if (is->memory.vaddr == NULL)
+ 		return -ENOMEM;
+ 
+ 	is->memory.size = FIMC_IS_CPU_MEM_SIZE;
+ 
+-	dev_info(dev, "FIMC-IS CPU memory base: %#x\n", (u32)is->memory.paddr);
++	dev_info(dev, "FIMC-IS CPU memory base: %pad\n", &is->memory.addr);
+ 
+-	if (((u32)is->memory.paddr) & FIMC_IS_FW_ADDR_MASK) {
++	if (((u32)is->memory.addr) & FIMC_IS_FW_ADDR_MASK) {
+ 		dev_err(dev, "invalid firmware memory alignment: %#x\n",
+-			(u32)is->memory.paddr);
++			(u32)is->memory.addr);
+ 		dma_free_coherent(dev, is->memory.size, is->memory.vaddr,
+-				  is->memory.paddr);
++				  is->memory.addr);
+ 		return -EIO;
+ 	}
+ 
+ 	is->is_p_region = (struct is_region *)(is->memory.vaddr +
+ 				FIMC_IS_CPU_MEM_SIZE - FIMC_IS_REGION_SIZE);
+ 
+-	is->is_dma_p_region = is->memory.paddr +
++	is->is_dma_p_region = is->memory.addr +
+ 				FIMC_IS_CPU_MEM_SIZE - FIMC_IS_REGION_SIZE;
+ 
+ 	is->is_shared_region = (struct is_share_region *)(is->memory.vaddr +
+@@ -371,7 +371,7 @@ static void fimc_is_free_cpu_memory(struct fimc_is *is)
+ 		return;
+ 
+ 	dma_free_coherent(dev, is->memory.size, is->memory.vaddr,
+-			  is->memory.paddr);
++			  is->memory.addr);
  }
  
- static void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
-@@ -1027,6 +1053,7 @@ static void *iommu_dma_alloc_pages(struct device *dev, size_t size,
- static void *iommu_dma_alloc(struct device *dev, size_t size,
- 		dma_addr_t *handle, gfp_t gfp, unsigned long attrs)
- {
-+	unsigned int flags = dma_attrs_to_alloc_flags(attrs, true);
- 	bool coherent = dev_is_dma_coherent(dev);
- 	int ioprot = dma_info_to_prot(DMA_BIDIRECTIONAL, coherent, attrs);
- 	struct page *page = NULL;
-@@ -1047,8 +1074,7 @@ static void *iommu_dma_alloc(struct device *dev, size_t size,
- 	if (!cpu_addr)
- 		return NULL;
+ static void fimc_is_load_firmware(const struct firmware *fw, void *context)
+@@ -416,7 +416,7 @@ static void fimc_is_load_firmware(const struct firmware *fw, void *context)
  
--	*handle = __iommu_dma_map(dev, page_to_phys(page), size, ioprot,
--				  DMA_ALLOC_IOVA_COHERENT);
-+	*handle = __iommu_dma_map(dev, page_to_phys(page), size, ioprot, flags);
- 	if (*handle == DMA_MAPPING_ERROR) {
- 		__iommu_dma_free(dev, size, cpu_addr);
- 		return NULL;
+ 	dev_info(dev, "loaded firmware: %s, rev. %s\n",
+ 		 is->fw.info, is->fw.version);
+-	dev_dbg(dev, "FW size: %zu, paddr: %pad\n", fw->size, &is->memory.paddr);
++	dev_dbg(dev, "FW size: %zu, DMA addr: %pad\n", fw->size, &is->memory.addr);
+ 
+ 	is->is_shared_region->chip_id = 0xe4412;
+ 	is->is_shared_region->chip_rev_no = 1;
+@@ -699,7 +699,7 @@ int fimc_is_hw_initialize(struct fimc_is *is)
+ 	}
+ 
+ 	pr_debug("shared region: %pad, parameter region: %pad\n",
+-		 &is->memory.paddr + FIMC_IS_SHARED_REGION_OFFSET,
++		 &is->memory.addr + FIMC_IS_SHARED_REGION_OFFSET,
+ 		 &is->is_dma_p_region);
+ 
+ 	is->setfile.sub_index = 0;
+diff --git a/drivers/media/platform/exynos4-is/fimc-is.h b/drivers/media/platform/exynos4-is/fimc-is.h
+index 7ee96a058d40..ce30b007bc55 100644
+--- a/drivers/media/platform/exynos4-is/fimc-is.h
++++ b/drivers/media/platform/exynos4-is/fimc-is.h
+@@ -174,7 +174,7 @@ struct is_af_info {
+ struct fimc_is_firmware {
+ 	const struct firmware *f_w;
+ 
+-	dma_addr_t paddr;
++	dma_addr_t addr;
+ 	void *vaddr;
+ 	unsigned int size;
+ 
+@@ -185,8 +185,8 @@ struct fimc_is_firmware {
+ };
+ 
+ struct fimc_is_memory {
+-	/* physical base address */
+-	dma_addr_t paddr;
++	/* DMA base address */
++	dma_addr_t addr;
+ 	/* virtual base address */
+ 	void *vaddr;
+ 	/* total length */
+diff --git a/drivers/media/platform/exynos4-is/fimc-lite-reg.c b/drivers/media/platform/exynos4-is/fimc-lite-reg.c
+index 85f765e0f4e1..57996b4104b4 100644
+--- a/drivers/media/platform/exynos4-is/fimc-lite-reg.c
++++ b/drivers/media/platform/exynos4-is/fimc-lite-reg.c
+@@ -272,9 +272,9 @@ void flite_hw_set_dma_buffer(struct fimc_lite *dev, struct flite_buffer *buf)
+ 		index = buf->index;
+ 
+ 	if (index == 0)
+-		writel(buf->paddr, dev->regs + FLITE_REG_CIOSA);
++		writel(buf->addr, dev->regs + FLITE_REG_CIOSA);
+ 	else
+-		writel(buf->paddr, dev->regs + FLITE_REG_CIOSAN(index - 1));
++		writel(buf->addr, dev->regs + FLITE_REG_CIOSAN(index - 1));
+ 
+ 	cfg = readl(dev->regs + FLITE_REG_CIFCNTSEQ);
+ 	cfg |= BIT(index);
+diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
+index 9c666f663ab4..1576f273761b 100644
+--- a/drivers/media/platform/exynos4-is/fimc-lite.c
++++ b/drivers/media/platform/exynos4-is/fimc-lite.c
+@@ -409,7 +409,7 @@ static void buffer_queue(struct vb2_buffer *vb)
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&fimc->slock, flags);
+-	buf->paddr = vb2_dma_contig_plane_dma_addr(vb, 0);
++	buf->addr = vb2_dma_contig_plane_dma_addr(vb, 0);
+ 
+ 	buf->index = fimc->buf_index++;
+ 	if (fimc->buf_index >= fimc->reqbufs_count)
+diff --git a/drivers/media/platform/exynos4-is/fimc-lite.h b/drivers/media/platform/exynos4-is/fimc-lite.h
+index e6846c5fc9ac..e2d4d628b5aa 100644
+--- a/drivers/media/platform/exynos4-is/fimc-lite.h
++++ b/drivers/media/platform/exynos4-is/fimc-lite.h
+@@ -93,13 +93,13 @@ struct flite_frame {
+  * struct flite_buffer - video buffer structure
+  * @vb:    vb2 buffer
+  * @list:  list head for the buffers queue
+- * @paddr: DMA buffer start address
++ * @addr: DMA buffer start address
+  * @index: DMA start address register's index
+  */
+ struct flite_buffer {
+ 	struct vb2_v4l2_buffer vb;
+ 	struct list_head list;
+-	dma_addr_t paddr;
++	dma_addr_t addr;
+ 	unsigned short index;
+ };
+ 
+diff --git a/drivers/media/platform/exynos4-is/fimc-m2m.c b/drivers/media/platform/exynos4-is/fimc-m2m.c
+index 4acb179556c4..c9704a147e5c 100644
+--- a/drivers/media/platform/exynos4-is/fimc-m2m.c
++++ b/drivers/media/platform/exynos4-is/fimc-m2m.c
+@@ -115,12 +115,12 @@ static void fimc_device_run(void *priv)
+ 	}
+ 
+ 	src_vb = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+-	ret = fimc_prepare_addr(ctx, &src_vb->vb2_buf, sf, &sf->paddr);
++	ret = fimc_prepare_addr(ctx, &src_vb->vb2_buf, sf, &sf->addr);
+ 	if (ret)
+ 		goto dma_unlock;
+ 
+ 	dst_vb = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+-	ret = fimc_prepare_addr(ctx, &dst_vb->vb2_buf, df, &df->paddr);
++	ret = fimc_prepare_addr(ctx, &dst_vb->vb2_buf, df, &df->addr);
+ 	if (ret)
+ 		goto dma_unlock;
+ 
+@@ -152,8 +152,8 @@ static void fimc_device_run(void *priv)
+ 			fimc_hw_set_rgb_alpha(ctx);
+ 		fimc_hw_set_output_path(ctx);
+ 	}
+-	fimc_hw_set_input_addr(fimc, &sf->paddr);
+-	fimc_hw_set_output_addr(fimc, &df->paddr, -1);
++	fimc_hw_set_input_addr(fimc, &sf->addr);
++	fimc_hw_set_output_addr(fimc, &df->addr, -1);
+ 
+ 	fimc_activate_capture(ctx);
+ 	ctx->state &= (FIMC_CTX_M2M | FIMC_CTX_CAP);
+diff --git a/drivers/media/platform/exynos4-is/fimc-reg.c b/drivers/media/platform/exynos4-is/fimc-reg.c
+index 8764999a5fd7..95165a2cc7d1 100644
+--- a/drivers/media/platform/exynos4-is/fimc-reg.c
++++ b/drivers/media/platform/exynos4-is/fimc-reg.c
+@@ -526,30 +526,30 @@ void fimc_hw_set_output_path(struct fimc_ctx *ctx)
+ 	writel(cfg, dev->regs + FIMC_REG_CISCCTRL);
+ }
+ 
+-void fimc_hw_set_input_addr(struct fimc_dev *dev, struct fimc_addr *paddr)
++void fimc_hw_set_input_addr(struct fimc_dev *dev, struct fimc_addr *addr)
+ {
+ 	u32 cfg = readl(dev->regs + FIMC_REG_CIREAL_ISIZE);
+ 	cfg |= FIMC_REG_CIREAL_ISIZE_ADDR_CH_DIS;
+ 	writel(cfg, dev->regs + FIMC_REG_CIREAL_ISIZE);
+ 
+-	writel(paddr->y, dev->regs + FIMC_REG_CIIYSA(0));
+-	writel(paddr->cb, dev->regs + FIMC_REG_CIICBSA(0));
+-	writel(paddr->cr, dev->regs + FIMC_REG_CIICRSA(0));
++	writel(addr->y, dev->regs + FIMC_REG_CIIYSA(0));
++	writel(addr->cb, dev->regs + FIMC_REG_CIICBSA(0));
++	writel(addr->cr, dev->regs + FIMC_REG_CIICRSA(0));
+ 
+ 	cfg &= ~FIMC_REG_CIREAL_ISIZE_ADDR_CH_DIS;
+ 	writel(cfg, dev->regs + FIMC_REG_CIREAL_ISIZE);
+ }
+ 
+ void fimc_hw_set_output_addr(struct fimc_dev *dev,
+-			     struct fimc_addr *paddr, int index)
++			     struct fimc_addr *addr, int index)
+ {
+ 	int i = (index == -1) ? 0 : index;
+ 	do {
+-		writel(paddr->y, dev->regs + FIMC_REG_CIOYSA(i));
+-		writel(paddr->cb, dev->regs + FIMC_REG_CIOCBSA(i));
+-		writel(paddr->cr, dev->regs + FIMC_REG_CIOCRSA(i));
++		writel(addr->y, dev->regs + FIMC_REG_CIOYSA(i));
++		writel(addr->cb, dev->regs + FIMC_REG_CIOCBSA(i));
++		writel(addr->cr, dev->regs + FIMC_REG_CIOCRSA(i));
+ 		dbg("dst_buf[%d]: 0x%X, cb: 0x%X, cr: 0x%X",
+-		    i, paddr->y, paddr->cb, paddr->cr);
++		    i, addr->y, addr->cb, addr->cr);
+ 	} while (index == -1 && ++i < FIMC_MAX_OUT_BUFS);
+ }
+ 
+diff --git a/drivers/media/platform/exynos4-is/fimc-reg.h b/drivers/media/platform/exynos4-is/fimc-reg.h
+index b81826d04936..d7a62465c14e 100644
+--- a/drivers/media/platform/exynos4-is/fimc-reg.h
++++ b/drivers/media/platform/exynos4-is/fimc-reg.h
+@@ -302,8 +302,8 @@ void fimc_hw_set_rgb_alpha(struct fimc_ctx *ctx);
+ void fimc_hw_set_in_dma(struct fimc_ctx *ctx);
+ void fimc_hw_set_input_path(struct fimc_ctx *ctx);
+ void fimc_hw_set_output_path(struct fimc_ctx *ctx);
+-void fimc_hw_set_input_addr(struct fimc_dev *fimc, struct fimc_addr *paddr);
+-void fimc_hw_set_output_addr(struct fimc_dev *fimc, struct fimc_addr *paddr,
++void fimc_hw_set_input_addr(struct fimc_dev *fimc, struct fimc_addr *addr);
++void fimc_hw_set_output_addr(struct fimc_dev *fimc, struct fimc_addr *addr,
+ 			     int index);
+ int fimc_hw_set_camera_source(struct fimc_dev *fimc,
+ 			      struct fimc_source_info *cam);
 -- 
 2.17.1
 
