@@ -2,267 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1842E278FED
-	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 19:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C04E27905D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Sep 2020 20:31:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727751AbgIYR5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 13:57:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57918 "EHLO
+        id S1729732AbgIYSbQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 14:31:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727495AbgIYR5E (ORCPT
+        with ESMTP id S1727151AbgIYSbQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 13:57:04 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC72C0613D3
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 10:57:04 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id k15so4550217wrn.10
-        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 10:57:04 -0700 (PDT)
+        Fri, 25 Sep 2020 14:31:16 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2CAEC0613D3
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:31:15 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id fa1so2247213pjb.0
+        for <linux-media@vger.kernel.org>; Fri, 25 Sep 2020 11:31:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wXX5XN82rdvL6bEh20v+gTPlXlkQDSNYlOsYCjW32/w=;
-        b=SEE5NXvMVZ3oIioawsUQ3FL8hhb0V1ekMCb+hguGxej4nbA1nbpjWVOAr7fc5zUYc7
-         wqpXoLys+zqljC8E4wN7TNikaQjsE4bhmDgjjdLJ1jBrzpiyylbOdixHS7zurwQvYEo2
-         wKpQAS42NxmxUljeEltzMG6fP67Az275jJI8Q=
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=YOENFyQOD9R10SzJS7OPPO2Yo0ajdZ/LL2b6t2F3g8g=;
+        b=xxZ4XJxDSH/vaBAwM6FqFTOLWtBHtcBqRvOCRYfcmkdS4j+waJI3OGp/Dl0JUkhhjY
+         yBOoCV177nMlDVI661q/pYE/hEhzN8F+85XfSnStIugsyITFzNqGXndWpfXP6EHCkxLS
+         samtReMN6dfufYnVaTSjsOrtclaK+XqVfk/V3hnhPxelQ6OuNQNSNCeu+maOIKISzcB5
+         Ik5mcEc2R8AthmpBeciizgvUhx9vAf3bEkmiCid2vEL3IeivRrsPcay1H8bm55NVjXaZ
+         WH2w9q4fQ3nK++q1DXPQzp32WybUXrNSDhn2UrOqN+sGOhrBCvKdprXf1YvlNsLgwaD1
+         NptA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wXX5XN82rdvL6bEh20v+gTPlXlkQDSNYlOsYCjW32/w=;
-        b=CBmGihqNPSq7m4EwKY7TxjjEdCK3+fNN67fb721Wg1kQZLNthq5YdSCE/X2EGVB3c4
-         mZNquEdLrXQN8qn9E54Ar+Zxu/+ca1VvXdRSl0cm3xb9KNFzmwomgx5C5FdXwajb51Cf
-         TsH66oFjvfaImt8WH8ln/hjwJemEu57oWnaMEx2jo+WzLwB3V+Jxwo68KBitU6+f0EUV
-         4VpTpsRjKDIufsnmvdwLEnvHhqIzjHCYpuxiR1EoUeZqSxYGSeVqBEY8KggHcpMdfxmX
-         RFRZE2kv0+CYXQEsDU2ZX0UWamGEIkQPacm7b5a6lBLT6rEBPe2T2K4T7lwtIXmy2Uc+
-         lIEQ==
-X-Gm-Message-State: AOAM532BwBMMGd9eUBeYTlFFuVe0Tm2agWhhheKa4xQlT+aB6q42beNa
-        dO8N4hP9wVkC1qMzAiI6+OTdHA==
-X-Google-Smtp-Source: ABdhPJwj39nbvqcxjQ3qJYf02shutUuLHTShNHQumM0YpHZBmNC9d6fipKt2VcXijVvLuUyKfIK3jQ==
-X-Received: by 2002:a5d:60c6:: with SMTP id x6mr6297523wrt.157.1601056622945;
-        Fri, 25 Sep 2020 10:57:02 -0700 (PDT)
-Received: from chromium.org (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
-        by smtp.gmail.com with ESMTPSA id d19sm3508093wmd.0.2020.09.25.10.57.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2020 10:57:02 -0700 (PDT)
-Date:   Fri, 25 Sep 2020 17:57:00 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Xia Jiang <xia.jiang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        kernel@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Pi-Hsun Shih <pihsun@chromium.org>,
-        Jerry-ch Chen <jerry-ch.chen@mediatek.corp-partner.google.com>
-Subject: Re: [PATCH v12 07/29] media: v4l2-mem2mem: add v4l2_m2m_suspend,
- v4l2_m2m_resume
-Message-ID: <20200925175700.GA3607091@chromium.org>
-References: <20200814071202.25067-1-xia.jiang@mediatek.com>
- <20200814071202.25067-9-xia.jiang@mediatek.com>
- <87lfgx4ube.fsf@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87lfgx4ube.fsf@collabora.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=YOENFyQOD9R10SzJS7OPPO2Yo0ajdZ/LL2b6t2F3g8g=;
+        b=YIhKap5GCpThn14I3ulYAkJ5aN3irDiqnOyzhr22YeYL0f3G7cGzB7QpcN4YQ9R1Zr
+         +MrOAjn1ir51VLTzf9LE98tl0OLsBc1T20+l63t7cQYT6RO2fQBa7EC3JkSgJkCywYvT
+         sOXkygVxX41dyzL9VbjLlJw0t+ZlLqfXcDO52wfdqCiO1r50chX2yzAV+/1IPZYn8Qtv
+         SDANNc2J2J9hUWXEM8T6mcCjBBng14lWVhyQnvkuWUl/uYblv0VK6Qj667lJ3iUkdGBz
+         otrqMGU9N7+s1Pi35pbX0DRKlpPDTTQ+mjdq6HGKl5bAyrqPDYzuwUX2Ekb7Zlf5yzCp
+         gtJw==
+X-Gm-Message-State: AOAM5302DbmQFFFwAHEGD8c4j0Un61CfK6icX0ikhgRq+fGbTJcC8mWf
+        0bNvwgdXG5Y+4rsft5yqMSFo0Q==
+X-Google-Smtp-Source: ABdhPJzlrCgIsbK7QqEiN4fPrnEFDFyIYIzrLEx8bdXVOVjRCkFUL3CCuixez7tiLjDpxi618QYtmA==
+X-Received: by 2002:a17:90a:ae12:: with SMTP id t18mr818297pjq.147.1601058675384;
+        Fri, 25 Sep 2020 11:31:15 -0700 (PDT)
+Received: from localhost.localdomain ([51.15.160.169])
+        by smtp.googlemail.com with ESMTPSA id r16sm2554546pjo.19.2020.09.25.11.31.09
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 25 Sep 2020 11:31:14 -0700 (PDT)
+From:   Corentin Labbe <clabbe@baylibre.com>
+To:     gregkh@linuxfoundation.org, mchehab@kernel.org, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com
+Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH RFT/RFC v2 00/47] staging: media: bring back zoran driver
+Date:   Fri, 25 Sep 2020 18:30:10 +0000
+Message-Id: <1601058657-14042-1-git-send-email-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 25, 2020 at 08:53:09PM +0300, Adrian Ratiu wrote:
-> Hi,
-> 
-> I'm having a problem with this patch which landed in linux-next.
-> 
-> On Fri, 14 Aug 2020, Xia Jiang <xia.jiang@mediatek.com> wrote:
-> > From: Pi-Hsun Shih <pihsun@chromium.org>
-> > 
-> > Add two functions that can be used to stop new jobs from being queued /
-> > continue running queued job. This can be used while a driver using m2m
-> > helper is going to suspend / wake up from resume, and can ensure that
-> > there's no job running in suspend process.
-> > 
-> > BUG=b:143046833 TEST=build
-> > 
-> > Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org> Signed-off-by:
-> > Jerry-ch Chen <jerry-ch.chen@mediatek.corp-partner.google.com>
-> > Reviewed-by: Tomasz Figa <tfiga@chromium.org> --- v12: add this relied
-> > patch to the series ---  drivers/media/v4l2-core/v4l2-mem2mem.c | 41
-> > ++++++++++++++++++++++++++ include/media/v4l2-mem2mem.h  | 22
-> > ++++++++++++++ 2 files changed, 63 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > b/drivers/media/v4l2-core/v4l2-mem2mem.c index
-> > 62ac9424c92a..ddfdb6375064 100644 ---
-> > a/drivers/media/v4l2-core/v4l2-mem2mem.c +++
-> > b/drivers/media/v4l2-core/v4l2-mem2mem.c @@ -43,6 +43,10 @@
-> > module_param(debug, bool, 0644);  #define TRANS_ABORT		(1 << 2)   +/*
-> > The job queue is not running new jobs */ +#define QUEUE_PAUSED		(1 << 0)
-> > + +  /* Offset base for buffers on the destination queue - used to
-> > distinguish   * between source and destination buffers when mmapping -
-> > they   receive the same * offsets but for different queues */ @@ -84,6
-> > +88,7 @@ static const char * const m2m_entity_name[] = {   *
-> > @job_queue:		instances queued to run *   @job_spinlock:	protects
-> > job_queue * @job_work:   worker to run queued jobs. + *
-> > @job_queue_flags:	flags of the queue status, %QUEUE_PAUSED.   *
-> > @m2m_ops:		driver callbacks */  struct v4l2_m2m_dev { @@ -101,6 +106,7
-> > @@ struct v4l2_m2m_dev {  	struct list_head	job_queue; spinlock_t
-> > job_spinlock; struct work_struct	job_work; +	unsigned
-> > long		job_queue_flags;   const struct v4l2_m2m_ops *m2m_ops; }; @@
-> > -263,6 +269,12 @@ static void v4l2_m2m_try_run(struct v4l2_m2m_dev
-> > *m2m_dev)  		return; }  +	if (m2m_dev->job_queue_flags & QUEUE_PAUSED) {
-> > + spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags); +
-> > dprintk("Running new jobs is paused\n"); +		return; + } +
-> > 	m2m_dev->curr_ctx = list_first_entry(&m2m_dev->job_queue,  struct
-> > v4l2_m2m_ctx, queue); m2m_dev->curr_ctx->job_flags |=  TRANS_RUNNING; @@
-> > -504,6 +516,7 @@ void v4l2_m2m_buf_done_and_job_finish(struct
-> > v4l2_m2m_dev *m2m_dev,   if (WARN_ON(!src_buf || !dst_buf)) goto unlock;
-> > +	v4l2_m2m_buf_done(src_buf, state);
-> 
-> This line looks out of place in this commit and is causing a lot of warnings
-> (1 per frame). Any reason in particular why we need this?
+Hello
 
-Right, it shouldn't be there. Looks like a rebase error.
+The zoran driver was removed in 5.3
+The main reason of the removing was lack of motivation to convert it to
+VB2
+Since I need it, I worked on bringing it back.
 
-P.S. Please check your remail client settings as all the lines of your
-message seem to be just mixed together, as if someone removed the line
-breaks.
+So the plan to achieve it was:
+- clean up the coding style.
+- convert old usage/API
+- clean unused code
+- convert to VB2
 
-Hans, is this something you could fix up or we need to revert and
-resend?
+I have tried to split a bit the VB2 patch (by adding/removing code in
+another patch), but the result is unfortunately still a big patch.
 
-Best regards,
-Tomasz
+The result of this serie is a working zoran driver.
+Furthermore it is now compliant to v4l-compliance.
 
-> 
-> [   87.825061] ------------[ cut here ]------------ [   87.829695] WARNING:
-> CPU: 0 PID: 0 at drivers/media/common/videobuf2/videobuf2-core.c:986
-> vb2_buffer_done+0x208/0x2a0 [   87.840302] Modules linked in: [ 87.843364]
-> CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        W 5.9.0-rc6-next-20200924+
-> #472 [   87.852407] Hardware name: NXP i.MX8MQ EVK (DT) [   87.856942]
-> pstate: 20000085 (nzCv daIf -PAN -UAO -TCO BTYPE=--) [   87.862953] pc :
-> vb2_buffer_done+0x208/0x2a0 [   87.867224] lr :
-> v4l2_m2m_buf_done_and_job_finish+0x94/0x140 [   87.872882] sp :
-> ffff80001183bd50 [   87.876195] x29: ffff80001183bd50 x28: ffff8000115d1500
-> [   87.881512] x27: ffff80001128e018 x26: ffff00009fb4a828  [   87.886828]
-> x25: ffff0000a4e13a08 x24: 0000000000000080  [   87.892143] x23:
-> 0000000000000005 x22: ffff0000a253bc00  [   87.897457] x21: ffff00009fb4aa98
-> x20: ffff00009fb4a800  [   87.902772] x19: ffff0000a24f0000 x18:
-> 0000000000000000  [   87.908086] x17: 0000000000000000 x16: 0000000000000000
-> [   87.913400] x15: 0000000000000000 x14: 0000000000000500  [   87.918714]
-> x13: 0000000000000003 x12: 0000000000000000  [   87.924028] x11:
-> 0000000000000040 x10: ffff800011658520  [   87.929340] x9 : ffff800010998464
-> x8 : ffff0000a5800270  [   87.934655] x7 : 0000000000000000 x6 :
-> ffff00009fb4aa20  [   87.939969] x5 : ffff80001183bd10 x4 : 0000000000000000
-> [   87.945285] x3 : 0000000000000000 x2 : 0000000000000000  [   87.950599]
-> x1 : 0000000000000005 x0 : 0000000000000005  [   87.955914] Call trace: [
-> 87.958364] vb2_buffer_done+0x208/0x2a0 [   87.962288]
-> v4l2_m2m_buf_done_and_job_finish+0x94/0x140 [   87.967601]
-> hantro_job_finish+0xa8/0xe0 [   87.971524] hantro_irq_done+0x58/0x90 [
-> 87.975275] imx8m_vpu_g1_irq+0x8c/0x160 [   87.979201]
-> __handle_irq_event_percpu+0x68/0x2a0 [   87.983905]
-> handle_irq_event_percpu+0x3c/0xa0 [   87.988347] handle_irq_event+0x50/0xf0
-> [   87.992185] handle_fasteoi_irq+0xc0/0x180 [   87.996283]
-> generic_handle_irq+0x38/0x50 [   88.000296] __handle_domain_irq+0x6c/0xd0 [
-> 88.004393] gic_handle_irq+0x60/0x12c [   88.008143]  el1_irq+0xbc/0x180 [
-> 88.011287]  arch_cpu_idle+0x1c/0x30 [   88.014864] do_idle+0x220/0x270 [
-> 88.018093]  cpu_startup_entry+0x30/0x70 [ 88.022019]  rest_init+0xe0/0xf0 [
-> 88.025250] arch_call_rest_init+0x18/0x24 [   88.029347]
-> start_kernel+0x7a4/0x7e0 [   88.033013] CPU: 0 PID: 0 Comm: swapper/0
-> Tainted: G        W         5.9.0-rc6-next-20200924+ #472 [   88.042056]
-> Hardware name: NXP i.MX8MQ EVK (DT) [ 88.046585] Call trace: [   88.049034]
-> dump_backtrace+0x0/0x1b0 [ 88.052697]  show_stack+0x20/0x70 [   88.056014]
-> dump_stack+0xd0/0x12c [   88.059418]  __warn+0xfc/0x180 [ 88.062474]
-> report_bug+0xfc/0x170 [   88.065875] bug_handler+0x28/0x70 [   88.069276]
-> brk_handler+0x70/0xe0 [ 88.072681]  do_debug_exception+0xcc/0x1e0 [
-> 88.076776] el1_sync_handler+0xd8/0x140 [   88.080697]  el1_sync+0x80/0x100 [
-> 88.083926]  vb2_buffer_done+0x208/0x2a0 [   88.087852]
-> v4l2_m2m_buf_done_and_job_finish+0x94/0x140 [   88.093162]
-> hantro_job_finish+0xa8/0xe0 [   88.097083] hantro_irq_done+0x58/0x90 [
-> 88.100831] imx8m_vpu_g1_irq+0x8c/0x160 [   88.104753]
-> __handle_irq_event_percpu+0x68/0x2a0 [   88.109456]
-> handle_irq_event_percpu+0x3c/0xa0 [   88.113899] handle_irq_event+0x50/0xf0
-> [   88.117734] handle_fasteoi_irq+0xc0/0x180 [   88.121832]
-> generic_handle_irq+0x38/0x50 [   88.125841] __handle_domain_irq+0x6c/0xd0 [
-> 88.129937] gic_handle_irq+0x60/0x12c [   88.133686]  el1_irq+0xbc/0x180 [
-> 88.136827]  arch_cpu_idle+0x1c/0x30 [   88.140403] do_idle+0x220/0x270 [
-> 88.143630]  cpu_startup_entry+0x30/0x70 [ 88.147553]  rest_init+0xe0/0xf0 [
-> 88.150782] arch_call_rest_init+0x18/0x24 [   88.154879]
-> start_kernel+0x7a4/0x7e0 [   88.158542] ---[ end trace 847145312866dff5 ]---
-> 
-> Regards,
-> Adrian
-> 
-> >  	dst_buf->is_held = src_buf->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-> >  	if (!dst_buf->is_held) {
-> >  		v4l2_m2m_dst_buf_remove(m2m_ctx);
-> > @@ -528,6 +541,34 @@ void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
-> >  }
-> >  EXPORT_SYMBOL(v4l2_m2m_buf_done_and_job_finish);
-> > +void v4l2_m2m_suspend(struct v4l2_m2m_dev *m2m_dev)
-> > +{
-> > +	unsigned long flags;
-> > +	struct v4l2_m2m_ctx *curr_ctx;
-> > +
-> > +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
-> > +	m2m_dev->job_queue_flags |= QUEUE_PAUSED;
-> > +	curr_ctx = m2m_dev->curr_ctx;
-> > +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
-> > +
-> > +	if (curr_ctx)
-> > +		wait_event(curr_ctx->finished,
-> > +			   !(curr_ctx->job_flags & TRANS_RUNNING));
-> > +}
-> > +EXPORT_SYMBOL(v4l2_m2m_suspend);
-> > +
-> > +void v4l2_m2m_resume(struct v4l2_m2m_dev *m2m_dev)
-> > +{
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
-> > +	m2m_dev->job_queue_flags &= ~QUEUE_PAUSED;
-> > +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
-> > +
-> > +	v4l2_m2m_try_run(m2m_dev);
-> > +}
-> > +EXPORT_SYMBOL(v4l2_m2m_resume);
-> > +
-> >  int v4l2_m2m_reqbufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-> >  		     struct v4l2_requestbuffers *reqbufs)
-> >  {
-> > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-> > index 98753f00df7e..5a91b548ecc0 100644
-> > --- a/include/media/v4l2-mem2mem.h
-> > +++ b/include/media/v4l2-mem2mem.h
-> > @@ -304,6 +304,28 @@ v4l2_m2m_is_last_draining_src_buf(struct v4l2_m2m_ctx *m2m_ctx,
-> >  void v4l2_m2m_last_buffer_done(struct v4l2_m2m_ctx *m2m_ctx,
-> >  			       struct vb2_v4l2_buffer *vbuf);
-> > +/**
-> > + * v4l2_m2m_suspend() - stop new jobs from being run and wait for current job
-> > + * to finish
-> > + *
-> > + * @m2m_dev: opaque pointer to the internal data to handle M2M context
-> > + *
-> > + * Called by a driver in the suspend hook. Stop new jobs from being run, and
-> > + * wait for current running job to finish.
-> > + */
-> > +void v4l2_m2m_suspend(struct v4l2_m2m_dev *m2m_dev);
-> > +
-> > +/**
-> > + * v4l2_m2m_resume() - resume job running and try to run a queued job
-> > + *
-> > + * @m2m_dev: opaque pointer to the internal data to handle M2M context
-> > + *
-> > + * Called by a driver in the resume hook. This reverts the operation of
-> > + * v4l2_m2m_suspend() and allows job to be run. Also try to run a queued job if
-> > + * there is any.
-> > + */
-> > +void v4l2_m2m_resume(struct v4l2_m2m_dev *m2m_dev);
-> > +
-> >  /**
-> >   * v4l2_m2m_reqbufs() - multi-queue-aware REQBUFS multiplexer
-> >   *
-> > -- 
-> > 2.18.0
+In the process some old (useless) feature (fbuf, overlay) was removed
+for simplifying maintenance.
+
+The zoran hardware support MJPEG decompression, but this feature is
+temporarily disabled by this serie.
+But basically, this feature was unusable, since the only tool which
+permitted to use it was a mplayer option.
+But this mplayer option no longer compile (probably since a long time)
+and is such a hack (a copy of some private ffmpeg structure) that it is
+unfixable.
+Happily, when I started to work on zoran, a patch was posted on ffmpeg
+ML which permit it to output non-raw video stream (and so MJPEG for
+zoran case).
+But the zoran hw does not like some part of JPEG header it receives, so
+a filter need to be written.
+Anyway, this disabling is not a regression, since this feature was not
+usable since a long time.
+
+Since the driver was in staging, I targeted staging, but probably the
+driver is in a sufficient good shape to target media and bypass staging.
+
+This driver is tested on a DC10+ (on x86). Tests on different hardware
+are welcome.
+
+I would like to thanks all people that helped me to achieve this (mostly
+#v4l)
+
+Regards
+
+PS: this serie is resent a bit soon since linux-media didnt get some patch
+and cover letter
+
+Changes since RFC1
+- removed fallthough patch
+- removed unsplit lines patch
+- fixed line size in "Use DMA coherent for stat_com" patch
+
+Corentin Labbe (47):
+  staging: media: Revert "media: zoran: remove deprecated driver"
+  MAINTAINERS: change maintainer of the zoran driver
+  staging: media: zoran: datasheet is no longer available from zoran.com
+  staging: media: zoran: Documentation: fix typo
+  staging: media: zoran: fix checkpatch issue
+  staging: media: zoran: do not forward declare zr36057_init_vfe
+  staging: media: zoran: convert all error dprintk to pci_err/pr_err
+  staging: media: zoran: convert dprintk warn
+  staging: media: zoran: convert dprintk info to pci_info
+  staging: media: zoran: convert dprintk debug
+  staging: media: zoran: zoran_device.c: convert pr_x to pci_x
+  staging: media: zoran: remove proc_fs
+  staging: media: zoran: use VFL_TYPE_VIDEO
+  staging: media: zoran: use v4l2_buffer_set_timestamp
+  staging: media: zoran: do not print random guest 0
+  staging: media: zoran: move buffer_size out of zoran_fh
+  staging: media: zoran: move v4l_settings out of zoran_fh
+  staging: media: zoran: move jpg_settings out of zoran_fh
+  staging: media: zoran: move overlay_settings out of zoran_fh
+  staging: media: zoran: Use video_drvdata to get struct zoran
+  staging: media: zoran: Change zoran_v4l_set_format parameter from
+    zoran_fh to zoran
+  staging: media: zoran: remove overlay
+  staging: media: zoran: Use DMA coherent for stat_com
+  staging: media: zoran: use ZR_NORM
+  staging: media: zoran: zoran does not support STD_ALL
+  staging: media: zoran: convert irq to pci irq
+  staging: media: zoran: convert zoran alloc to devm
+  staging: media: zoran: convert mdelay to udelay
+  staging: media: zoran: use devm for videocodec_master alloc
+  staging: media: zoran: use pci_request_regions
+  staging: media: zoran: use devm_ioremap
+  staging: media: zoran: add stat_com buffer
+  staging: media: zoran: constify struct tvnorm
+  staging: media: zoran: constify codec_name
+  staging: media: zoran: Add more check for compliance
+  staging: media: zoran: Add vb_queue
+  staging: media: zoran: disable output
+  staging: media: zoran: device support only 32bit DMA address
+  staging: media: zoran: enable makefile
+  staging: media: zoran: remove framebuffer support
+  staging: media: zoran: add vidioc_g_parm
+  staging: media: zoran: remove test_interrupts
+  staging: media: zoran: fix use of buffer_size and sizeimage
+  staging: media: zoran: fix some compliance test
+  staging: media: zoran: remove deprecated .vidioc_g_jpegcomp
+  staging: media: zoran: convert to vb2
+  staging: media: zoran: update TODO
+
+ Documentation/media/v4l-drivers/zoran.rst  |  575 +++++++++
+ MAINTAINERS                                |   10 +
+ drivers/staging/media/Kconfig              |    2 +
+ drivers/staging/media/Makefile             |    1 +
+ drivers/staging/media/zoran/Kconfig        |   76 ++
+ drivers/staging/media/zoran/Makefile       |    7 +
+ drivers/staging/media/zoran/TODO           |   19 +
+ drivers/staging/media/zoran/videocodec.c   |  330 +++++
+ drivers/staging/media/zoran/videocodec.h   |  308 +++++
+ drivers/staging/media/zoran/zoran.h        |  320 +++++
+ drivers/staging/media/zoran/zoran_card.c   | 1333 ++++++++++++++++++++
+ drivers/staging/media/zoran/zoran_card.h   |   30 +
+ drivers/staging/media/zoran/zoran_device.c | 1013 +++++++++++++++
+ drivers/staging/media/zoran/zoran_device.h |   64 +
+ drivers/staging/media/zoran/zoran_driver.c | 1038 +++++++++++++++
+ drivers/staging/media/zoran/zr36016.c      |  433 +++++++
+ drivers/staging/media/zoran/zr36016.h      |   92 ++
+ drivers/staging/media/zoran/zr36050.c      |  842 +++++++++++++
+ drivers/staging/media/zoran/zr36050.h      |  163 +++
+ drivers/staging/media/zoran/zr36057.h      |  154 +++
+ drivers/staging/media/zoran/zr36060.c      |  872 +++++++++++++
+ drivers/staging/media/zoran/zr36060.h      |  201 +++
+ 22 files changed, 7883 insertions(+)
+ create mode 100644 Documentation/media/v4l-drivers/zoran.rst
+ create mode 100644 drivers/staging/media/zoran/Kconfig
+ create mode 100644 drivers/staging/media/zoran/Makefile
+ create mode 100644 drivers/staging/media/zoran/TODO
+ create mode 100644 drivers/staging/media/zoran/videocodec.c
+ create mode 100644 drivers/staging/media/zoran/videocodec.h
+ create mode 100644 drivers/staging/media/zoran/zoran.h
+ create mode 100644 drivers/staging/media/zoran/zoran_card.c
+ create mode 100644 drivers/staging/media/zoran/zoran_card.h
+ create mode 100644 drivers/staging/media/zoran/zoran_device.c
+ create mode 100644 drivers/staging/media/zoran/zoran_device.h
+ create mode 100644 drivers/staging/media/zoran/zoran_driver.c
+ create mode 100644 drivers/staging/media/zoran/zr36016.c
+ create mode 100644 drivers/staging/media/zoran/zr36016.h
+ create mode 100644 drivers/staging/media/zoran/zr36050.c
+ create mode 100644 drivers/staging/media/zoran/zr36050.h
+ create mode 100644 drivers/staging/media/zoran/zr36057.h
+ create mode 100644 drivers/staging/media/zoran/zr36060.c
+ create mode 100644 drivers/staging/media/zoran/zr36060.h
+
+-- 
+2.26.2
+
