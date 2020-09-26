@@ -2,142 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B2A52799B1
-	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 15:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 435422799B5
+	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 15:33:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729291AbgIZN3k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Sep 2020 09:29:40 -0400
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com ([46.30.210.184]:62906
-        "EHLO mailrelay3-1.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725208AbgIZN3k (ORCPT
+        id S1726210AbgIZNdg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Sep 2020 09:33:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41648 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725208AbgIZNdf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Sep 2020 09:29:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wedl.one; s=20191106;
-        h=content-transfer-encoding:content-type:mime-version:date:message-id:subject:
-         from:to:from;
-        bh=L1mmUkgohACO5pHr1t7XhI2QAqOEXcOeJM73aWkNvy8=;
-        b=M8GmVV3bplPxDaoDJFu2q9j9vnQsk7IMXm2QzTLBaEz1bG61S8e/kLn+exDvxITh0OsIBc2jiMSZU
-         yTR4khF4lR/mZc15D+5AIe0G3yvLm1TyrrQRGgDMr/i1yuUm9X4Vkj9J8F2FtnP+ZTQ4Cyokqb+/VD
-         b+Xeg6urpLCI40asbFxtMY2S+MdWxvnLolqNoYCT6RzqAAkD2xqVkTw9fn91tS0Jvd1EpQ+gAG99hD
-         ysxYX7eJGiP7idnaN4BeKFeyePFzwBDgVIoFq3T81X61u+MOaLoaQUTHzLlon617wSCKJF/VdaxfH7
-         cKpWk4Tj8HsIurZhqeHNj+irXcGG3sQ==
-X-HalOne-Cookie: ad699c2d8772009731865c71730e81db09610673
-X-HalOne-ID: 51fcef27-fffc-11ea-a7fd-d0431ea8bb03
-Received: from [172.16.1.8] (dyndsl-091-248-120-146.ewe-ip-backbone.de [91.248.120.146])
-        by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id 51fcef27-fffc-11ea-a7fd-d0431ea8bb03;
-        Sat, 26 Sep 2020 13:29:36 +0000 (UTC)
-To:     linux-media@vger.kernel.org
-From:   Webmaster <webmaster@wedl.one>
-Subject: Terratec CINERGY T/C Stick
-Message-ID: <eddb42fa-889c-6653-3db3-113d05350c28@wedl.one>
-Date:   Sat, 26 Sep 2020 15:29:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sat, 26 Sep 2020 09:33:35 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7095C0613CE
+        for <linux-media@vger.kernel.org>; Sat, 26 Sep 2020 06:33:33 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 1DD5111A001; Sat, 26 Sep 2020 14:33:31 +0100 (BST)
+Date:   Sat, 26 Sep 2020 14:33:30 +0100
+From:   Sean Young <sean@mess.org>
+To:     Michael Zimmermann <sigmaepsilon92@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: ITE8708 on ASUS PN50 uses a 16 byte io region
+Message-ID: <20200926133330.GA25499@gofer.mess.org>
+References: <CAN9vWDL5rK_UCi-dTUG_Si7MbVSB4hVjvhs1-TEgvdGi+ajUvQ@mail.gmail.com>
+ <20200926113038.GA23934@gofer.mess.org>
+ <CAN9vWD+rsg49VzioyGZb7wOiLjmpgM1ku8EEotns2AiQGGTHHg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: de-DE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAN9vWD+rsg49VzioyGZb7wOiLjmpgM1ku8EEotns2AiQGGTHHg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Michael,
 
-https://www.spinics.net/lists/linux-media/msg97580.html
+On Sat, Sep 26, 2020 at 02:32:21PM +0200, Michael Zimmermann wrote:
+> The acpi _HID name of the device is "ITE8708" and the device works
+> with linux's ITE8708 config.
+> 
+> I can't find any datasheet or even product page for that IC so I don't
+> know what footprint to look for when looking at the PCB - none of the
+> bigger ICs near the IR sensor have that name on them and the smaller
+> ones usually don't have any useful information printed on them.
+> Additionally I can only access one side of the PCB because I couldn't
+> figure out how to fully disassemble the device yet.
 
-is there any news for the Terratec CINERGY T/C Stick?
+This is a super i/o device, so this handles stuff like serial ports,
+parallel ports, floppy disks. All the legacy stuff you don't need any more.
 
-Is there a chance it will work on Linux?
+There is a coreboot tool which can identify super i/o devices:
+
+	https://www.coreboot.org/Superiotool
+
+The super io devices I've seen are about 2cm by 3cm.
+
+I could find a datasheet for the IT8712F on google.
 
 
-Linux acer-p256-m 5.4.0-48-generic #52-Ubuntu SMP Thu Sep 10 10:58:49 
-UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+Sean
 
-dmesg
-[ 1997.939659] usb 2-1: new high-speed USB device number 7 using xhci_hcd
-[ 1998.099840] usb 2-1: New USB device found, idVendor=0ccd, 
-idProduct=5103, bcdDevice= 1.00
-[ 1998.099846] usb 2-1: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=3
-[ 1998.099850] usb 2-1: Product: RTL2841UHIDIR
-[ 1998.099853] usb 2-1: Manufacturer: Realtek
-[ 1998.099856] usb 2-1: SerialNumber: 00000173
+PS. Please don't top post.
 
-lsusb -vvv
-Bus 002 Device 007: ID 0ccd:5103 TerraTec Electronic GmbH RTL2841UHIDIR
-Device Descriptor:
-   bLength                18
-   bDescriptorType         1
-   bcdUSB               2.00
-   bDeviceClass            0
-   bDeviceSubClass         0
-   bDeviceProtocol         0
-   bMaxPacketSize0        64
-   idVendor           0x0ccd TerraTec Electronic GmbH
-   idProduct          0x5103
-   bcdDevice            1.00
-   iManufacturer           1 Realtek
-   iProduct                2 RTL2841UHIDIR
-   iSerial                 3 00000173
-   bNumConfigurations      1
-   Configuration Descriptor:
-     bLength                 9
-     bDescriptorType         2
-     wTotalLength       0x0022
-     bNumInterfaces          2
-     bConfigurationValue     1
-     iConfiguration          4 USB2.0-Bulk&Iso
-     bmAttributes         0x80
-       (Bus Powered)
-     MaxPower              500mA
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        0
-       bAlternateSetting       0
-       bNumEndpoints           1
-       bInterfaceClass       255 Vendor Specific Class
-       bInterfaceSubClass    255 Vendor Specific Subclass
-       bInterfaceProtocol    255 Vendor Specific Protocol
-       iInterface              5 Bulk-In, Interface
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0200  1x 512 bytes
-         bInterval               0
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       0
-       bNumEndpoints           0
-       bInterfaceClass       255 Vendor Specific Class
-       bInterfaceSubClass    255 Vendor Specific Subclass
-       bInterfaceProtocol    255 Vendor Specific Protocol
-       iInterface              5 Bulk-In, Interface
-Device Qualifier (for other device speed):
-   bLength                10
-   bDescriptorType         6
-   bcdUSB               2.00
-   bDeviceClass            0
-   bDeviceSubClass         0
-   bDeviceProtocol         0
-   bMaxPacketSize0        64
-   bNumConfigurations      2
-can't get debug descriptor: Resource temporarily unavailable
-Device Status:     0x0000
-   (Bus Powered)
-
-RTL2840 CCH78S1 GC52
-RTL2832P A6G72S1 GA250
-
-What can I do to help
-Thank you
-Ingo
+> 
+> Thanks
+> Michael
+> 
+> On Sat, Sep 26, 2020 at 1:30 PM Sean Young <sean@mess.org> wrote:
+> >
+> > On Sat, Sep 26, 2020 at 10:22:46AM +0200, Michael Zimmermann wrote:
+> > > Hi,
+> > >
+> > > here's the resource descriptor from my DSDT:
+> > > Name (BUF0, ResourceTemplate ()
+> > > {
+> > >     IO (Decode16,
+> > >         0x0000,             // Range Minimum
+> > >         0x0000,             // Range Maximum
+> > >         0x01,               // Alignment
+> > >         0x10,               // Length
+> > >         _Y1A)
+> > >     IRQNoFlags (_Y1B)
+> > >         {}
+> > >     DMA (Compatibility, NotBusMaster, Transfer8, )
+> > >         {}
+> > > })
+> > >
+> > > As you can see it uses 16 bytes for the IO region while the driver
+> > > drivers/media/rc/ite-cir.c expects 8.
+> > > I don't see any obvious reason why they do that since they only seem
+> > > to write two words in there, and if I edit the DSDT to change the
+> > > length from 0x10 to 0x8 the linux driver detects the device properly
+> > > it works just fine.
+> > >
+> > > So is this a bug on ASUS' side or should we just accept longer regions
+> > > for the same device type?
+> >
+> > So looking at the driver, some devices do have an io region of 16 and
+> > others expect 8. See the io_region_size field of ite_dev_descs.
+> >
+> > So for ITE8708 the io_region_size is set to 8. Does your device really
+> > have an ITE8708 or is the DSDT wrong?
+> >
+> >
+> > Sean
