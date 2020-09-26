@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F6D6279944
-	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 15:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58A86279980
+	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 15:04:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728179AbgIZNAJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Sep 2020 09:00:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36410 "EHLO
+        id S1729757AbgIZNDi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Sep 2020 09:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726210AbgIZNAI (ORCPT
+        with ESMTP id S1728466AbgIZNDc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Sep 2020 09:00:08 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E3D6C0613CE
-        for <linux-media@vger.kernel.org>; Sat, 26 Sep 2020 06:00:08 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id g4so6867263wrs.5
-        for <linux-media@vger.kernel.org>; Sat, 26 Sep 2020 06:00:08 -0700 (PDT)
+        Sat, 26 Sep 2020 09:03:32 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79BC2C0613D3
+        for <linux-media@vger.kernel.org>; Sat, 26 Sep 2020 06:03:31 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id w2so1962025wmi.1
+        for <linux-media@vger.kernel.org>; Sat, 26 Sep 2020 06:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=4qdU5lafYi+hcVoRAvstZheKhqCYZ5Ckd1gUvUE1rzc=;
-        b=a8tHbMaqB+v22Lv/kLM3g3AksGk0fdsVfKBnfPt4UWgrcsqPBoVo4ZT1FsDE/lmAi9
-         3jlQWknciPpbAcVrBeSwTGb1NbaKP3b/uqTYcjGSC7r1XEc85wfqNnuoTZUSOK4mer2b
-         JzaniKOXgUp4A1mHhPumcaGqDJqTgyG77h7l0=
+        bh=6UBlp4CWE/HNUMg46vGuXH/W4+PrU2QCjrc8dmoCqx0=;
+        b=PNuFpmwNBdW/TGJSBIP0GAADCkUiJiN3BePu59PEzCMlCXYVv+OLoczXNNVfGW7GAf
+         ZsIIVdoOhY0IsSg1qTLlM46HvznPpDEZgXCebWEEK1ft9+j5c+8EjUwlhkLqmSDP7mpx
+         4n3h5/vGkVdPc1nUSmhrDus0L0N0Yz96r3vpw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=4qdU5lafYi+hcVoRAvstZheKhqCYZ5Ckd1gUvUE1rzc=;
-        b=UHW3YGSI/XYTcmvdOoZ69X531oCQsIHviLb7q9jQTNswq+EkcBqoW3IqjL4D/o8uFo
-         fTqrbWaBxdv9Ng//HTYqgijDZRG/krTqZv2k+Pf3kxqYBgY3aifzv1Tkdl+HQx1r9N+N
-         1O9S224/QuSGyshalh/60CnH63GkxCxdMrD7mlz2Mk43RjOUsylkvaduVy2k65kErpoI
-         cLf9VvzxuUcYRSUYFJismtV7UJR6KyiyKEiALfX508BngoOWEbjGBuf9XTnlyTcyyzHq
-         xR+2LrCzPwlLWxj7/R+xQE4tInz3vtMz8TXhQdkSM4zUWQ5QgUk42JnJQej/mWO1nUfp
-         iezg==
-X-Gm-Message-State: AOAM530p2jH4GxV69IzHoDefDnKgBHeAhpyWFbMjjXb/kKifYfrxjEEk
-        W3TUWwU3hqDBiwBtSfoNgKoDbg==
-X-Google-Smtp-Source: ABdhPJwnQFrsiZDsceVMa/OZGRYeitM4Z0qYBnUmfRNKn4bmhYo6FC4ZmxJTPdc3V0yS8KdYKve8gg==
-X-Received: by 2002:adf:f802:: with SMTP id s2mr9115823wrp.328.1601125207121;
-        Sat, 26 Sep 2020 06:00:07 -0700 (PDT)
+        bh=6UBlp4CWE/HNUMg46vGuXH/W4+PrU2QCjrc8dmoCqx0=;
+        b=ZV/MVRadgojwH4BEj3lrHOFwtVtsgEUTN8Lfw1mpgBbJxkw5W/ImMF8D+wlSDxqdB1
+         vxNJ+6mlCfyygB3PWeRSnfnW02wLoECedsNKOHesyQRXmUuPrgE6oyhN3PSGWPhbLO4t
+         0So2gG4sfRxFkhW/EuBovS3yA6Stf8vr/N5rma7xfi61LN8BNd4DjVqYWg5dJ0zaxM+j
+         +ozAGH4f77xj72gQB1+7GCSUVy8IqtZo12Er5UvV6GrQduWEwqf73+qO3YJe1d6yLSoO
+         nqy4B5ioWyEsp4ARRSuRgQM6GrgqzfFXoupN8cJNSwejFeXoQRRyc2T7UHfmh6OY8GY6
+         ioKg==
+X-Gm-Message-State: AOAM533YIesym47WA5pFqvaHj4Nzzw9Ahl/S2YgrR5xNzgi0lg7lHKDj
+        4lD340NeGaeAstH+ZsUWMbHHbg==
+X-Google-Smtp-Source: ABdhPJynIuaCTOn8KUC4rrc+W/+aEYuVm8XN6ViT/zFkUVty6k8hF7b/mtHx243jPWCjHGHQoYci3Q==
+X-Received: by 2002:a1c:9c8c:: with SMTP id f134mr2541646wme.27.1601125410239;
+        Sat, 26 Sep 2020 06:03:30 -0700 (PDT)
 Received: from chromium.org (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
-        by smtp.gmail.com with ESMTPSA id e1sm6740101wrp.49.2020.09.26.06.00.06
+        by smtp.gmail.com with ESMTPSA id e18sm6533467wrx.50.2020.09.26.06.03.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2020 06:00:06 -0700 (PDT)
-Date:   Sat, 26 Sep 2020 13:00:05 +0000
+        Sat, 26 Sep 2020 06:03:29 -0700 (PDT)
+Date:   Sat, 26 Sep 2020 13:03:27 +0000
 From:   Tomasz Figa <tfiga@chromium.org>
 To:     Helen Koike <helen.koike@collabora.com>
 Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
@@ -56,80 +56,39 @@ Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
         mark.rutland@arm.com, karthik.poduval@gmail.com, jbx6244@gmail.com,
         eddie.cai.linux@gmail.com, zhengsq@rock-chips.com,
         robin.murphy@arm.com
-Subject: Re: [PATCH v5 8/9] arm64: dts: rockchip: add isp0 node for rk3399
-Message-ID: <20200926130005.GC3781977@chromium.org>
+Subject: Re: [PATCH v5 0/9] move Rockchip ISP bindings out of staging / add
+ ISP DT nodes for RK3399
+Message-ID: <20200926130327.GD3781977@chromium.org>
 References: <20200722155533.252844-1-helen.koike@collabora.com>
- <20200722155533.252844-9-helen.koike@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200722155533.252844-9-helen.koike@collabora.com>
+In-Reply-To: <20200722155533.252844-1-helen.koike@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Helen,
 
-On Wed, Jul 22, 2020 at 12:55:32PM -0300, Helen Koike wrote:
-> From: Shunqian Zheng <zhengsq@rock-chips.com>
+On Wed, Jul 22, 2020 at 12:55:24PM -0300, Helen Koike wrote:
+> Move the bindings out of drivers/staging and place them in
+> Documentation/devicetree/bindings instead.
 > 
-> RK3399 has two ISPs, but only isp0 was tested.
-> Add isp0 node in rk3399 dtsi
+> Also, add DT nodes for RK3399 and verify with make ARCH=arm64 dtbs_check
+> and make ARCH=arm64 dt_binding_check.
 > 
-> Verified with:
-> make ARCH=arm64 dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+> Tested by verifying images streamed from Scarlet Chromebook
 > 
-> Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
-> Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> 
-> ---
-> 
-> V4:
-> - update clock names
-> 
-> V3:
-> - clean up clocks
-> 
-> V2:
-> - re-order power-domains property
-> 
-> V1:
-> This patch was originally part of this patchset:
-> 
->     https://patchwork.kernel.org/patch/10267431/
-> 
-> The only difference is:
-> - add phy properties
-> - add ports
-> ---
->  arch/arm64/boot/dts/rockchip/rk3399.dtsi | 25 ++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-> index dba9641947a3a..ed8ba75dbbce8 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-> @@ -1721,6 +1721,31 @@ vopb_mmu: iommu@ff903f00 {
->  		status = "disabled";
->  	};
->  
-> +	isp0: isp0@ff910000 {
-> +		compatible = "rockchip,rk3399-cif-isp";
-> +		reg = <0x0 0xff910000 0x0 0x4000>;
-> +		interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru SCLK_ISP0>,
-> +			 <&cru ACLK_ISP0_WRAPPER>,
-> +			 <&cru HCLK_ISP0_WRAPPER>;
-> +		clock-names = "isp", "aclk", "hclk";
-> +		iommus = <&isp0_mmu>;
-> +		phys = <&mipi_dphy_rx0>;
-> +		phy-names = "dphy";
-> +		power-domains = <&power RK3399_PD_ISP0>;
+> Changes in v5:
+> - Drop unit addresses in dt-bindings example for simplification and fix
+> errors as suggested by Rob Herring in previous version
+> - Fix typos
+> - Re-write clock organization with if/then schema
+>
 
-Should this have status = "disabled" too? The mipi_dphy_rx0 node is
-disabled by default too, so in the default configuration the driver
-would always fail to probe.
+Besides one comment to patch 8/9,
+
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
 Best regards,
 Tomasz
